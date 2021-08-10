@@ -22,7 +22,9 @@ class GraphqlClient {
     if (!this.api) return { kind: 'bad-data' };
 
     const escapeQuotes = (str: string) => str.replaceAll('"', '\\"');
-    const polygonStatisticRequest = JSON.stringify(polygon ? { polygon: escapeQuotes(polygon) } : {});
+    const polygonStatisticRequest = JSON.stringify(
+      polygon ? { polygon: escapeQuotes(polygon) } : {},
+    );
 
     const queryAST = gql`
       fragment AxisFields on Axis {
