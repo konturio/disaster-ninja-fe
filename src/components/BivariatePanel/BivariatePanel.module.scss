@@ -1,0 +1,61 @@
+.sidePanel {
+  background-color: white;
+  box-shadow: 0 2px 10px rgb(31 51 73 / 10%);
+  width: 1118px;
+  height: 810px;
+  border-bottom-left-radius: 5px;
+  margin-right: -20px;
+}
+
+.moveRight {
+  transform: translateX(90%);
+}
+
+.scrollMatrix {
+}
+
+.matrixContainer {
+  transform: scale(0.85);
+  position: fixed;
+  top: 42px;
+  right: 115px;
+}
+
+.collapseButton {
+  position: absolute !important;
+  left: -41px;
+  top: 4px;
+  background: #f5f5f5 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+  border-left: 1px solid #ddd !important;
+  border-top: 1px solid #ddd !important;
+  border-bottom: 1px solid #ddd !important;
+  padding: 8px !important;
+}
+
+.collapseButton:hover {
+  background: #e5e5e5 !important;
+}
+
+.topRightCorner {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 50px;
+  height: 15px;
+  border-right: 2px solid #00d2ff;
+  border-top: 2px solid #00d2ff;
+}
+
+.bottomRightCorner {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 50px;
+  height: 15px;
+  border-right: 2px solid #00d2ff;
+  border-bottom: 2px solid #00d2ff;
+}

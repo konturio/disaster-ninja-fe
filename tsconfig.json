@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "target": "es6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "downlevelIteration": true,
+    "allowJs": true,
+    "skipLibCheck": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react",
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@views/*": ["views/*"],
+      "@config/*": ["config/*"],
+      "@utils/*": ["utils/*"],
+      "@services/*": ["services/*"],
+      "@appModule/*": ["redux-modules/appModule/*"]
+    }
+  },
+  "include": [
+    "src",
+    "node_modules/@k2-packages",
+    "./types/static.d.ts"
+  ],
+  "exclude": [
+    "**/*.test.tsx"
+  ]
+}

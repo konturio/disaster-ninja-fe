@@ -1,0 +1,32 @@
+#ide folders
+/.idea
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+#npm and yarn config
+.npmrc
+.yarnrc
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+dist
+web_modules
+
+npm-debug.log*
+npm-error.log*
+yarn-debug.log*
+yarn-error.log*

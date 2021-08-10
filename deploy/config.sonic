@@ -1,0 +1,5 @@
+{
+  "TILES_API": "https://geocint.kontur.io/tiles/stats/",
+  "GRAPHQL_API": "https://test-apps.konturlabs.com/insights-api/graphql",
+  "BOUNDARIES_API": "https://test-api.konturlabs.com"
+}

@@ -1,0 +1,27 @@
+.overlaysSelector {
+  font-size: 0.85em;
+  padding: 4px 0 0 0;
+  border-top: 1px dashed #ccc;
+}
+
+.selectorCaption {
+  padding: 4px 6px;
+  color: #777;
+}
+
+.overlaysList {
+  list-style: none;
+  margin: 6px 0 0 6px !important;
+  padding: 0;
+}
+
+.overlayItem {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding-bottom: 3px;
+
+  > input {
+    margin-right: 4px;
+  }
+}

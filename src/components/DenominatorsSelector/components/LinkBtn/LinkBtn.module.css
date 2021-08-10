@@ -1,0 +1,12 @@
+.linkButton {
+  border-radius: 50%;
+  border: 1px solid silver;
+  flex-shrink: 0;
+  padding: var(--unit);
+  cursor: pointer;
+  margin: 24px;
+}
+
+.linkButton svg {
+  display: block;
+}

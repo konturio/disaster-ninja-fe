@@ -1,0 +1,7 @@
+{
+  "common": {
+    "Request Timeout": "Request Timeout!",
+    "No administrative boundaries": "No administrative boundaries here!",
+    "Self intersections are not supported": "Self intersections are not supported!"
+  }
+}
