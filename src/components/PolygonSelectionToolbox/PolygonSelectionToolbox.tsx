@@ -7,7 +7,7 @@ import ActionButton from '@components/shared/ActionButton/ActionButton';
 import clsx from 'clsx';
 import { StateWithAppModule } from '@appModule/types';
 import * as selectors from '@appModule/selectors';
-import styles from './PolygonSelectionToolbox.module.scss';
+import styles from './PolygonSelectionToolbox.module.css';
 
 const mapStateToProps = (state: StateWithAppModule) => ({
   activeDrawMode: selectors.activeDrawMode(state),

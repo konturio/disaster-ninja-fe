@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import styles from './Collapse.module.scss';
+import styles from './Collapse.module.css';
 
 interface CollapseProps {
   className?: string;

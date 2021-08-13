@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import MapboxMap, { MapBoxMapProps } from '@k2-packages/mapbox-map';
 import MapDrawTools from '@k2-packages/map-draw-tools';
@@ -10,7 +10,6 @@ import {
   setActiveDrawMode,
   setSelectedPolygon,
 } from '@appModule/actions';
-import { toast } from 'bulma-toast';
 import bbox from '@turf/bbox';
 import { useTranslation } from 'react-i18next';
 import {
@@ -142,13 +141,14 @@ const ConnectedMap = ({
           setPolygonSelection(JSON.stringify(updatedData));
           break;
         case 'skipSelfIntersection':
-          toast({
-            message: t('Self intersections are not supported'),
-            type: 'is-danger',
-            position: 'bottom-center',
-            dismissible: true,
-            animate: { in: 'fadeInRight', out: 'fadeOutLeft' },
-          });
+          // toast({
+          //   message: t('Self intersections are not supported'),
+          //   type: 'is-danger',
+          //   position: 'bottom-center',
+          //   dismissible: true,
+          //   animate: { in: 'fadeInRight', out: 'fadeOutLeft' },
+          // });
+          alert(t('Self intersections are not supported'));
           break;
         case 'selectBoundary':
           if (editContext.position && editContext.position.length > 1) {

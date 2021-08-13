@@ -2,7 +2,7 @@ import React from 'react';
 import { StateWithAppModule } from '@appModule/types';
 import * as selectors from '@appModule/selectors';
 import { connect, ConnectedProps } from 'react-redux';
-import styles from './LoadIndicator.module.scss';
+import styles from './LoadIndicator.module.css';
 
 const mapStateToProps = (state: StateWithAppModule) => ({
   showIndicator: selectors.showLoadingIndicator(state),

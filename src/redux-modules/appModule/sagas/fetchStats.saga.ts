@@ -1,7 +1,6 @@
 import i18n from 'i18next';
 import { put, take, takeLatest } from 'redux-saga/effects';
 import client from '@services/api/client';
-import { toast } from 'bulma-toast';
 import {
   requestStats,
   setSelectedPolygon,
@@ -25,13 +24,7 @@ function* fetchStats({ payload }) {
         yield put(setStats(graphqlData.data));
         break;
       case 'timeout':
-        toast({
-          message: i18n.t('Request Timeout'),
-          type: 'is-danger',
-          position: 'bottom-center',
-          dismissible: true,
-          animate: { in: 'fadeInRight', out: 'fadeOutLeft' },
-        });
+        alert(i18n.t('Request Timeout'));
         break;
       default:
         break;

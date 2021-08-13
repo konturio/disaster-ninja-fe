@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import * as selectors from '@appModule/selectors';
 import { setSelectedOverlayIndex } from '@appModule/actions';
 import { StateWithAppModule } from '@appModule/types';
-import styles from './OverlaySelector.module.scss';
+import styles from './OverlaySelector.module.css';
 
 interface OverlayItemProps {
   overlay: Overlay;

@@ -4,7 +4,7 @@ import OverlaySelector from '@components/LegendPanel/components/OverlaySelector/
 import MapStatusCaption from '@components/LegendPanel/components/MapStatusCaption/MapStatusCaption';
 import clsx from 'clsx';
 import Collapse from '@components/shared/Collapse/Collapse';
-import styles from './LegendPanel.module.scss';
+import styles from './LegendPanel.module.css';
 
 interface CollapsedSideBarProps {
   className?: string;

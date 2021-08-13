@@ -6,7 +6,7 @@ import LinkBtn from '@components/DenominatorsSelector/components/LinkBtn/LinkBtn
 import { setDenominator } from '@appModule/actions';
 import * as selectors from '@appModule/selectors';
 import { DenominatorValues, StateWithAppModule } from '@appModule/types';
-import styles from './DenominatorsSelector.module.scss';
+import styles from './DenominatorsSelector.module.css';
 
 const mapStateToProps = (state: StateWithAppModule) => ({
   currentDenominator: selectors.denominatorsCurrent(state),

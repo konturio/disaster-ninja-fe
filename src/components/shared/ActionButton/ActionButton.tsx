@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, ReactChild } from 'react';
 import clsx from 'clsx';
-import styles from './ActionButton.module.scss';
+import styles from './ActionButton.module.css';
 
 interface ActionButtonProps {
   className?: string;

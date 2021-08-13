@@ -5,12 +5,6 @@ declare module '*.css' {
   const styles: { [className: string]: string };
   export default styles;
 }
-
-declare module '*.styl' {
-  const styles: { [className: string]: string };
-  export default styles;
-}
-
 declare module '*.svg' {
   const ref: string;
   export default ref;

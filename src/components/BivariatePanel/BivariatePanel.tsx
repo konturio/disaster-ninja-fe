@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import clsx from 'clsx';
 import ConnectedAxisControl from '@components/ConnectedAxisControl/ConnectedAxisControl';
 import Collapse from '@components/shared/Collapse/Collapse';
 import { useZoomEvent } from '@utils/events/useZoomEvent';
-import styles from './BivariatePanel.module.scss';
+import styles from './BivariatePanel.module.css';
 
 interface SideBarProps {
   className?: string;

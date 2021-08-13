@@ -1,9 +1,8 @@
-import React from 'react';
 import { createSelector } from 'reselect';
 import * as selectors from '@appModule/selectors';
 import { StateWithAppModule } from '@appModule/types';
 import { connect, ConnectedProps } from 'react-redux';
-import styles from './MapStatusCaption.module.scss';
+import styles from './MapStatusCaption.module.css';
 
 const captionSelector = createSelector(
   [
