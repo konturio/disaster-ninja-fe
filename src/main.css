@@ -1,0 +1,63 @@
+@import 'normalize.css';
+
+html,
+body {
+  box-sizing: border-box;
+  overflow: hidden;
+  line-height: 1;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* ScrollBar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c4d0df;
+}
+
+/* Icons */
+.svgIcon24 {
+  width: 24px;
+  height: 24px;
+}
+
+/*  Map markers */
+.mapboxgl-marker > div {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0;
+  > div {
+    background: rgba(255, 255, 255, 0.5);
+  }
+}
+
+html {
+  text-rendering: geometricPrecision;
+}

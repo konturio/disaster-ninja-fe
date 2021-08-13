@@ -1,5 +1,6 @@
 #ide folders
 /.idea
+/.vscode
 
 # dependencies
 /node_modules
@@ -30,3 +31,4 @@ npm-debug.log*
 npm-error.log*
 yarn-debug.log*
 yarn-error.log*
+.vscode

@@ -5,15 +5,15 @@ module.exports = function babelConfig(api) {
       '.',
     ],
     presets: [
+      ['@babel/react', { 'runtime': 'automatic' }],
       '@babel/env',
       '@babel/typescript',
-      '@babel/react',
     ],
     plugins: [
-      "@babel/plugin-transform-runtime",
-      "@babel/proposal-class-properties",
-      "@babel/proposal-object-rest-spread",
-      // "i18next-extract",
+      '@babel/plugin-transform-runtime',
+      '@babel/proposal-class-properties',
+      '@babel/proposal-object-rest-spread',
+      // 'i18next-extract',
     ]
   };
 };
