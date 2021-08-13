@@ -8,6 +8,10 @@ module.exports = {
   entry: {
     main: './src/index.tsx',
   },
+  stats: {
+    children: true,
+    errorDetails: true
+  },
   mode: process.env.NODE_ENV,
   output: {
     filename: '[name].[contenthash].js',
