@@ -9,7 +9,6 @@
     "build": "cross-env-shell NODE_ENV=production webpack",
     "preupgrade:k2": "node ./updatek2.js",
     "upgrade:k2": "npm update $(node ./updatek2.js)",
-    "postinstall": "ln -s ../tsconfig.json ./node_modules/tsconfig.settings.json",
     "lint-staged": "lint-staged",
     "test": "jest"
   },
@@ -50,6 +49,7 @@
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
+    "@deck.gl/extensions": "^8.5.3",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@k2-packages/bivariate-tools": "^1.8.3",
     "@k2-packages/boundaries": "^1.2.0",
