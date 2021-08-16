@@ -58,9 +58,8 @@ code {
   }
 }
 
-html {
-  text-rendering: geometricPrecision;
-}
+/* html {
+} */
 
 .intercom-launcher-frame,
 .intercom-lightweight-app-launcher {

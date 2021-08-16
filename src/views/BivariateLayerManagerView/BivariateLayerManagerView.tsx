@@ -1,4 +1,9 @@
-import { AppHeader } from '@k2-packages/ui-kit';
+import {
+  AppHeader,
+  ActionsBar,
+  ActionsBarBTN,
+  Logo,
+} from '@k2-packages/ui-kit';
 import AppConfig from '@config/AppConfig';
 import BivariatePanel from '@components/BivariatePanel/BivariatePanel';
 import ConnectedMap from '@components/ConnectedMap/ConnectedMap';
@@ -10,19 +15,36 @@ import styles from './BivariateLayerManagerView.module.css';
 const BivariateLayerManagerView = () => (
   <>
     <AppHeader title="Disater Ninja" />
-    {/* <div className={styles.root}>
-    <LoadIndicator />
-    <ConnectedMap
-      options={AppConfig.mapbox.centerPoint as any}
-      style={AppConfig.mapbox.style || ''}
-      accessToken={AppConfig.mapbox.accessToken || ''}
-      className={styles.Map}
-    />
-
-    <BivariatePanel />
-    <LegendPanel />
-    <PolygonSelectionToolbox />
-  </div> */}
+    <div
+      style={{
+        flex: 1,
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        alignItems: 'stretch',
+      }}
+    >
+      <ActionsBar>
+        <ActionsBarBTN>BTN</ActionsBarBTN>
+      </ActionsBar>
+      <div className={styles.root} style={{ flex: 1, position: 'relative' }}>
+        <LoadIndicator />
+        <ConnectedMap
+          options={
+            Object.assign(AppConfig.mapbox.centerPoint, {
+              logoPosition: 'top-right',
+            }) as any
+          }
+          style={AppConfig.mapbox.style || ''}
+          accessToken={AppConfig.mapbox.accessToken || ''}
+          className={styles.Map}
+        />
+        <BivariatePanel />
+        <LegendPanel /> <PolygonSelectionToolbox />
+        <div style={{ position: 'absolute', left: '8px', bottom: '8px' }}>
+          <Logo height={24} palette={'contrast'} />
+        </div>
+      </div>
+    </div>
   </>
 );
 

@@ -3,6 +3,7 @@ if (process.env.NODE_ENV === undefined) process.env.NODE_ENV = 'production';
 
 require('./build/utils').setRoot(__dirname);
 const { relativePath } = require('./build/utils');
+const package = require('./package.json');
 
 module.exports = {
   entry: {
@@ -18,7 +19,7 @@ module.exports = {
     chunkFilename: '[name].[contenthash].js',
     path: relativePath('./dist'),
     publicPath: process.env.NODE_ENV === 'production'
-      ? '/bivariate-manager/'
+      ? package.homepage + '/'
       : '/',
   },
   devtool: 'inline-source-map',
