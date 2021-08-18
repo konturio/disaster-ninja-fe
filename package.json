@@ -2,7 +2,7 @@
   "name": "disaster-ninja-fe",
   "version": "2.0.0",
   "private": true,
-  "homepage": "/current",
+  "homepage": "/active",
   "scripts": {
     "scripts": "jq .scripts package.json",
     "start": "cross-env-shell NODE_ENV=development webpack-cli serve --open --hot --config webpack.config.js",
