@@ -14,7 +14,7 @@ import styles from './BivariateLayerManagerView.module.css';
 
 const BivariateLayerManagerView = () => (
   <>
-    <AppHeader title="Disater Ninja" />
+    <AppHeader title="Disaster Ninja" />
     <div
       style={{
         flex: 1,
