@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import clsx from 'clsx';
 import ConnectedAxisControl from '@components/ConnectedAxisControl/ConnectedAxisControl';
 import Collapse from '@components/shared/Collapse/Collapse';
@@ -16,13 +16,17 @@ const BivariatePanel = ({ className }: SideBarProps) => {
     null,
   );
 
+  const [scale, setScale] = useState(1);
+
   const onRefChange = useCallback((ref: HTMLDivElement | null) => {
     if (ref) {
       const recalculateDimensions = () => {
         const dim = ref.getClientRects()[0];
+        const dynamicScale = 0.85;
+        setScale(dynamicScale);
         // coeff 0.85 here is because of transform: scale(0.85) applied to matrix
         const baseDim =
-          parseFloat(ref.getAttribute('base-dimension') || '0') * 0.85;
+          parseFloat(ref.getAttribute('base-dimension') || '0') * dynamicScale;
         const newWidth = baseDim + dim.width + 18;
         const newHeight = dim.height + 2;
         if (
@@ -34,7 +38,7 @@ const BivariatePanel = ({ className }: SideBarProps) => {
         }
       };
 
-      const mo = new MutationObserver((mutationsList) => {
+      const observer = new MutationObserver((mutationsList) => {
         mutationsList.forEach((mutation) => {
           if (mutation.type === 'attributes') {
             recalculateDimensions();
@@ -42,7 +46,11 @@ const BivariatePanel = ({ className }: SideBarProps) => {
         });
       });
 
-      mo.observe(ref, { attributes: true, childList: false, subtree: false });
+      observer.observe(ref, {
+        attributes: true,
+        childList: false,
+        subtree: false,
+      });
       recalculateDimensions();
     }
   }, []);
@@ -57,25 +65,46 @@ const BivariatePanel = ({ className }: SideBarProps) => {
 
   useZoomEvent(forceReloading, forceReloading);
 
+  const adaptiveScale = useMemo(() => {
+    if (dimensions) {
+      return Math.min(window.innerHeight / dimensions.h, 1);
+    } else {
+      return 1;
+    }
+  }, [dimensions]);
+
   return (
-    <Collapse location="right">
-      <div
-        className={clsx(styles.sidePanel, className)}
-        style={
-          dimensions ? { width: dimensions.w, height: dimensions.h } : undefined
-        }
-      >
-        {!reloading && (
-          <div className={styles.scrollMatrix}>
-            <div className={styles.matrixContainer}>
-              <ConnectedAxisControl ref={onRefChange} />
+    <>
+      <style>
+        {`.scaled {
+        transform: scale(${adaptiveScale});
+        transform-origin: top right;
+      }`}
+      </style>
+      <Collapse location="right" className="scaled">
+        <div
+          className={clsx(styles.sidePanel, className)}
+          style={
+            dimensions
+              ? { width: dimensions.w, height: dimensions.h }
+              : undefined
+          }
+        >
+          {!reloading && (
+            <div className={styles.scrollMatrix}>
+              <div
+                className={styles.matrixContainer}
+                style={{ transform: `scale(${scale})` }}
+              >
+                <ConnectedAxisControl ref={onRefChange} />
+              </div>
+              <div className={styles.topRightCorner} />
+              <div className={styles.bottomRightCorner} />
             </div>
-            <div className={styles.topRightCorner} />
-            <div className={styles.bottomRightCorner} />
-          </div>
-        )}
-      </div>
-    </Collapse>
+          )}
+        </div>
+      </Collapse>
+    </>
   );
 };
 

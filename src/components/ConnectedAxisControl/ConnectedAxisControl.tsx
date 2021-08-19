@@ -179,4 +179,6 @@ const ConnectedAxisControl = forwardRef<HTMLDivElement | null, any>(
   },
 );
 
+ConnectedAxisControl.displayName = 'ConnectedAxisControl';
+
 export default connector(ConnectedAxisControl);
