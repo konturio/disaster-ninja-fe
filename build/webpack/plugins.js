@@ -24,7 +24,7 @@ const plugins = [
   new HtmlWebPackPlugin({
     template: './src/index.ejs',
     filename: 'index.html',
-    favicon: './public/favicon.png',
+    favicon: './public/favicon.ico',
     templateParameters: {
       NODE_ENV: process.env.NODE_ENV,
       ...env,
