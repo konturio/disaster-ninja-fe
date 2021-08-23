@@ -43,7 +43,7 @@ const PolygonSelectionToolbox = ({
     } else {
       enablePolygonSelection();
     }
-  }, [activeDrawMode]);
+  }, [enablePolygonSelection, disablePolygonSelection, activeDrawMode]);
 
   const onSelectBoundaryClick = useCallback(() => {
     if (activeDrawMode === AppConfig.polygonSelectionModes[1]) {
@@ -51,7 +51,7 @@ const PolygonSelectionToolbox = ({
     } else {
       enableBoundarySelection();
     }
-  }, [activeDrawMode]);
+  }, [enableBoundarySelection, disablePolygonSelection, activeDrawMode]);
 
   const onSelectUploadPolygon = useCallback(() => {
     if (activeDrawMode === AppConfig.polygonSelectionModes[2]) {
@@ -59,7 +59,7 @@ const PolygonSelectionToolbox = ({
     } else {
       enableUploadPolygon();
     }
-  }, [activeDrawMode]);
+  }, [enableUploadPolygon, disablePolygonSelection, activeDrawMode]);
 
   return (
     <div className={styles.polygonSelectionToolbox}>

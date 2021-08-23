@@ -21,10 +21,10 @@ class GraphqlClient {
   async getStatics(polygon: string | null = null): Promise<GetStatisticsType> {
     if (!this.api) return { kind: 'bad-data' };
 
-    const escapeQuotes = (str: string) => str.replaceAll('"', '\\"');
-    const polygonStatisticRequest = JSON.stringify(
-      polygon ? { polygon: escapeQuotes(polygon) } : {},
-    );
+    const escapeQuotes = (str: string) => `"${str.replaceAll('"', '\\"')}"`;
+    const polygonStatisticRequest = polygon
+      ? `{ polygon: ${escapeQuotes(polygon)} }`
+      : '{}';
 
     const queryAST = gql`
       fragment AxisFields on Axis {
