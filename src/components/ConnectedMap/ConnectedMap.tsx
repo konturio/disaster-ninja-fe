@@ -116,7 +116,7 @@ const ConnectedMap = ({
         resetDrawMode();
       }
     },
-    [resetDrawMode],
+    [resetDrawMode, setPolygonSelection],
   );
 
   useEffect(() => {
@@ -125,7 +125,7 @@ const ConnectedMap = ({
       setDrawings(INIT_FEATURES);
       setPolygonSelection(null);
     }
-  }, [activeDrawMode]);
+  }, [activeDrawMode, drawings, setPolygonSelection]);
 
   const onEdit = useCallback(
     ({ updatedData, editType, editContext }) => {
@@ -159,7 +159,7 @@ const ConnectedMap = ({
           break;
       }
     },
-    [setDrawings],
+    [dCheckBoundaries, setPolygonSelection, t],
   );
 
   return (
