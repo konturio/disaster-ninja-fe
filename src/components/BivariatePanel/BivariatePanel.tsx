@@ -65,23 +65,19 @@ const BivariatePanel = ({ className }: SideBarProps) => {
 
   useZoomEvent(forceReloading, forceReloading);
 
-  const adaptiveScale = useMemo(() => {
-    if (dimensions) {
-      return Math.min(window.innerHeight / dimensions.h, 1);
-    } else {
-      return 1;
-    }
-  }, [dimensions]);
+  const initialOpenState = useMemo(() => {
+    const isMobile = document.body.clientWidth <= 600;
+    const isLaptop = document.body.clientHeight <= 1000;
+    return !(isMobile || isLaptop); // Open if not mobile or laptop
+  }, []);
 
   return (
     <>
-      <style>
-        {`.scaled {
-        transform: scale(${adaptiveScale});
-        transform-origin: top right;
-      }`}
-      </style>
-      <Collapse location="right" className="scaled">
+      <Collapse
+        location="right"
+        className="scaled"
+        initialOpen={initialOpenState}
+      >
         <div
           className={clsx(styles.sidePanel, className)}
           style={

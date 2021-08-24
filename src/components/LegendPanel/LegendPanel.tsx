@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import ConnectedLegend from '@components/ConnectedLegend/ConnectedLegend';
 import OverlaySelector from '@components/LegendPanel/components/OverlaySelector/OverlaySelector';
 import MapStatusCaption from '@components/LegendPanel/components/MapStatusCaption/MapStatusCaption';
@@ -10,14 +10,21 @@ interface CollapsedSideBarProps {
   className?: string;
 }
 
-const LegendPanel = ({ className }: CollapsedSideBarProps) => (
-  <Collapse location="left">
-    <div className={clsx(className, styles.sidebarContainer)}>
-      <ConnectedLegend showAxisLabels showOverlayTitle />
-      <MapStatusCaption />
-      <OverlaySelector />
-    </div>
-  </Collapse>
-);
+const LegendPanel = ({ className }: CollapsedSideBarProps) => {
+  const initialOpenState = useMemo(() => {
+    const isMobile = document.body.clientWidth <= 600;
+    return !isMobile;
+  }, []);
+
+  return (
+    <Collapse location="left" initialOpen={initialOpenState}>
+      <div className={clsx(className, styles.sidebarContainer)}>
+        <ConnectedLegend showAxisLabels showOverlayTitle />
+        <MapStatusCaption />
+        <OverlaySelector />
+      </div>
+    </Collapse>
+  );
+};
 
 export default LegendPanel;

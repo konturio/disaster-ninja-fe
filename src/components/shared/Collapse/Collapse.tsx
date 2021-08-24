@@ -6,15 +6,17 @@ interface CollapseProps {
   className?: string;
   location?: 'left' | 'right' | 'bottom';
   children: React.ReactNode;
+  initialOpen?: boolean;
 }
 
 const Collapse = ({
   className,
   location = 'right',
   children,
+  initialOpen = true,
 }: CollapseProps) => {
   const [state, setState] = useState<{ open: boolean; title: string }>({
-    open: document.body.clientWidth > 600,
+    open: initialOpen,
     title: 'Click to collapse panel',
   });
   const onClickHandle = () => {
