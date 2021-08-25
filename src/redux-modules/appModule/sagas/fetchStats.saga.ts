@@ -8,18 +8,20 @@ import {
   setStats,
 } from '../actions';
 
-let allMapStats: any;
+// Remember default response without geometry
+let _worldWideStatsCache: any;
 
 function* fetchStats({ payload }) {
-  if (!payload && allMapStats) {
-    yield put(setStats(allMapStats));
+  const isWorldWideRequest = !payload;
+  if (isWorldWideRequest && _worldWideStatsCache) {
+    yield put(setStats(_worldWideStatsCache));
   } else {
     yield put(setShowLoadingIndicator(true));
     const graphqlData = yield client.getStatics(payload);
     switch (graphqlData.kind) {
       case 'ok':
-        if (!payload) {
-          allMapStats = graphqlData.data;
+        if (isWorldWideRequest) {
+          _worldWideStatsCache = graphqlData.data;
         }
         yield put(setStats(graphqlData.data));
         break;
