@@ -90,7 +90,7 @@ const BivariatePanel = ({ className }: SideBarProps) => {
             <div className={styles.scrollMatrix}>
               <div
                 className={styles.matrixContainer}
-                style={{ transform: `scale(${scale})` }}
+                style={{ transform: `scale(${scale}) translateX(140px)` }}
               >
                 <ConnectedAxisControl ref={onRefChange} />
               </div>

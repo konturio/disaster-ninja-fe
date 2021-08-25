@@ -142,13 +142,6 @@ const ConnectedMap = ({
           setPolygonSelection(JSON.stringify(updatedData));
           break;
         case 'skipSelfIntersection':
-          // toast({
-          //   message: t('Self intersections are not supported'),
-          //   type: 'is-danger',
-          //   position: 'bottom-center',
-          //   dismissible: true,
-          //   animate: { in: 'fadeInRight', out: 'fadeOutLeft' },
-          // });
           alert(t('Self intersections are not supported'));
           break;
         case 'selectBoundary':
