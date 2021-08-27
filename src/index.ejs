@@ -6,13 +6,15 @@
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <!-- Favicons -->
+  <link rel="icon" href="<%= require('./favicon/favicon.ico') %>" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="<%= require('./favicon/favicon.svg') %>">
+  <link rel="apple-touch-icon" href="<%=require('./favicon/180.png') %>">
   <title>Disaster Ninja</title>
   <script>
     window.intercomSettings = {
       app_id: "e59cl64z",
-      custom_launcher_selector:'#kontur_header_chat_btn'
+      custom_launcher_selector: '#kontur_header_chat_btn'
     };
   </script>
 

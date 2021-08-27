@@ -66,5 +66,16 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'graphql-tag/loader',
     },
+    {
+      test: /\.(png|svg)$/i,
+      type: 'asset/resource',
+    },
+    {
+      test: /favicon.ico/i,
+      type: 'asset/resource',
+      generator: {
+        filename: '[name][ext]',
+      },
+    },
   ],
 };
