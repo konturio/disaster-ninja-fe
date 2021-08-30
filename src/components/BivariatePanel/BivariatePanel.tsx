@@ -18,42 +18,46 @@ const BivariatePanel = ({ className }: SideBarProps) => {
 
   const [scale, setScale] = useState(1);
 
-  const onRefChange = useCallback((ref: HTMLDivElement | null) => {
-    if (ref) {
-      const recalculateDimensions = () => {
-        const dim = ref.getClientRects()[0];
-        const dynamicScale = 0.85;
-        setScale(dynamicScale);
-        // coeff 0.85 here is because of transform: scale(0.85) applied to matrix
-        const baseDim =
-          parseFloat(ref.getAttribute('base-dimension') || '0') * dynamicScale;
-        const newWidth = baseDim + dim.width + 18;
-        const newHeight = dim.height + 2;
-        if (
-          !dimensions ||
-          Math.abs(dimensions.w - newWidth) > 3 ||
-          Math.abs(dimensions.h - newHeight) > 3
-        ) {
-          setDimensions({ w: newWidth, h: newHeight });
-        }
-      };
-
-      const observer = new MutationObserver((mutationsList) => {
-        mutationsList.forEach((mutation) => {
-          if (mutation.type === 'attributes') {
-            recalculateDimensions();
+  const onRefChange = useCallback(
+    (ref: HTMLDivElement | null) => {
+      if (ref) {
+        const recalculateDimensions = () => {
+          const dim = ref.getClientRects()[0];
+          const dynamicScale = 1;
+          setScale(dynamicScale);
+          // coeff 0.85 here is because of transform: scale(0.85) applied to matrix
+          const baseDim =
+            parseFloat(ref.getAttribute('base-dimension') || '0') *
+            dynamicScale;
+          const newWidth = baseDim + dim.width + 18;
+          const newHeight = dim.height + 2;
+          if (
+            !dimensions ||
+            Math.abs(dimensions.w - newWidth) > 3 ||
+            Math.abs(dimensions.h - newHeight) > 3
+          ) {
+            setDimensions({ w: newWidth, h: newHeight });
           }
-        });
-      });
+        };
 
-      observer.observe(ref, {
-        attributes: true,
-        childList: false,
-        subtree: false,
-      });
-      recalculateDimensions();
-    }
-  }, []);
+        const observer = new MutationObserver((mutationsList) => {
+          mutationsList.forEach((mutation) => {
+            if (mutation.type === 'attributes') {
+              recalculateDimensions();
+            }
+          });
+        });
+
+        observer.observe(ref, {
+          attributes: true,
+          childList: false,
+          subtree: false,
+        });
+        recalculateDimensions();
+      }
+    },
+    [dimensions],
+  );
 
   // hack to force refresh bivariate panel on browser zoom out
   const forceReloading = () => {

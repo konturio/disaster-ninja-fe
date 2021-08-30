@@ -39,7 +39,8 @@ const BivariateLayerManagerView = () => (
           className={styles.Map}
         />
         <BivariatePanel />
-        <LegendPanel /> <PolygonSelectionToolbox />
+        <LegendPanel />
+        <PolygonSelectionToolbox />
         <div style={{ position: 'absolute', left: '8px', bottom: '8px' }}>
           <Logo height={24} palette={'contrast'} />
         </div>

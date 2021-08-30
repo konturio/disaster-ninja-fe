@@ -1,7 +1,4 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const relativePath = require('../utils').relativePath;
-const Autoprefixer = require('autoprefixer');
-const PostcssNormalize = require('postcss-normalize');
 
 module.exports = {
   rules: [
