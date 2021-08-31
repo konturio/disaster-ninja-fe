@@ -1,5 +1,5 @@
 const AppConfig = {
-  mapbox: {
+  map: {
     accessToken: process.env.KC_MAP_TOKEN,
     style: process.env.KC_MAP_STYLE,
     centerPoint: {

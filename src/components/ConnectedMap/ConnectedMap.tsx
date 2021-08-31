@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import MapboxMap, { MapBoxMapProps } from '@k2-packages/mapbox-map';
+import Map, { MapBoxMapProps } from '@k2-packages/map';
 import MapDrawTools from '@k2-packages/map-draw-tools';
 import DeckGl from '@k2-packages/deck-gl';
 import AppConfig from '@config/AppConfig';
@@ -168,7 +168,7 @@ const ConnectedMap = ({
       {({ editableLayer }) => (
         <DeckGl layers={editableLayer && [editableLayer]}>
           {({ layers }) => (
-            <MapboxMap
+            <Map
               ref={mapRef}
               mapStyle={updatedMapStyle(mapStyle as any, layers, sources)}
               markers={markers}

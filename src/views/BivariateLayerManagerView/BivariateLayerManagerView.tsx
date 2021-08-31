@@ -30,12 +30,12 @@ const BivariateLayerManagerView = () => (
         <LoadIndicator />
         <ConnectedMap
           options={
-            Object.assign(AppConfig.mapbox.centerPoint, {
+            Object.assign(AppConfig.map.centerPoint, {
               logoPosition: 'top-right',
             }) as any
           }
-          style={AppConfig.mapbox.style || ''}
-          accessToken={AppConfig.mapbox.accessToken || ''}
+          style={AppConfig.map.style || ''}
+          accessToken={AppConfig.map.accessToken || ''}
           className={styles.Map}
         />
         <BivariatePanel />
