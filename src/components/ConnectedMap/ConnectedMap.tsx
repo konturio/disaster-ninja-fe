@@ -23,6 +23,7 @@ const mapStateToProps = (state: StateWithAppModule) => ({
   markers: selectors.markers(state),
   sources: selectors.sources(state),
   activeDrawMode: selectors.activeDrawMode(state),
+  uploadedGeometry: selectors.uploadedGeometry(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -92,6 +93,7 @@ const ConnectedMap = ({
   dCheckBoundaries,
   resetDrawMode,
   setPolygonDrawMode,
+  uploadedGeometry,
   ...rest
 }: MapBoxMapProps & ConnectedProps<typeof connector>) => {
   const { t } = useTranslation();
@@ -118,6 +120,12 @@ const ConnectedMap = ({
     },
     [resetDrawMode, setPolygonSelection],
   );
+
+  useEffect(() => {
+    if (uploadedGeometry !== null) {
+      setDrawings(uploadedGeometry);
+    }
+  }, [uploadedGeometry, setDrawings, activeDrawMode]);
 
   const drawingsRef = useRef(drawings);
   useEffect(() => {

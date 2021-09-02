@@ -23,7 +23,8 @@ export type AppModuleState = {
   activeDrawMode: keyof Modes;
   showLoadingIndicator: boolean;
   markers: Marker[];
-  sources: {};
+  sources: Record<string, unknown>;
+  uploadedGeometry: null | GeoJSON.GeoJSON;
 };
 
 //------------------------------------------------------------------------------

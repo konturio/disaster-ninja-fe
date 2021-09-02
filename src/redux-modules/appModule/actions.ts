@@ -21,22 +21,21 @@ export const setStats = createAction<Stat>('setStats');
 
 /* Active draw mode */
 export const setActiveDrawMode = createAction<keyof Modes>('setActiveDrawMode');
+export const setUploadedGeometry = createAction<GeoJSON.GeoJSON>(
+  'setUploadedGeometry',
+);
 
 /* Boundaries  */
-export const checkBoundaries = createAction<[number, number]>(
-  'checkBoundaries',
-);
-export const setBoundaries = createAction<GeoJSON.FeatureCollection[]>(
-  'setBoundaries',
-);
-export const showBoundaries = createAction<GeoJSON.FeatureCollection[]>(
-  'showBoundaries',
-);
+export const checkBoundaries =
+  createAction<[number, number]>('checkBoundaries');
+export const setBoundaries =
+  createAction<GeoJSON.FeatureCollection[]>('setBoundaries');
+export const showBoundaries =
+  createAction<GeoJSON.FeatureCollection[]>('showBoundaries');
 export const setMarker = createAction<Marker | null>('setMarker');
 export const removeMarker = createAction<string>('removeMarker');
-export const setSource = createAction<{ [prop: string]: any; id: string }>(
-  'setSource',
-);
+export const setSource =
+  createAction<{ [prop: string]: any; id: string }>('setSource');
 
 /* Polygon selection */
 export const setSelectedPolygon = createAction<string | null>(
@@ -53,9 +52,9 @@ export const resetSelectedOverlayIndex = createAction(
 
 /* Numerators */
 export const setNumerators = createAction<
-NumeratorWithDenominators[],
-NumeratorWithDenominators[],
-{ numX: NumeratorWithDenominators[]; numY: NumeratorWithDenominators[] }
+  NumeratorWithDenominators[],
+  NumeratorWithDenominators[],
+  { numX: NumeratorWithDenominators[]; numY: NumeratorWithDenominators[] }
 >(
   'setNumerators',
   (numX: NumeratorWithDenominators[], numY: NumeratorWithDenominators[]) => ({
@@ -70,12 +69,12 @@ export const setCorrelationMatrix = createAction<CorrelationMatrix>(
 );
 
 export const setMatrixSelection = createAction<
-string | null,
-string | null,
-{
-  xNumerator: string | null;
-  yNumerator: string | null;
-}
+  string | null,
+  string | null,
+  {
+    xNumerator: string | null;
+    yNumerator: string | null;
+  }
 >(
   'setMatrixSelection',
   (xNumerator: string | null, yNumerator: string | null) => ({
