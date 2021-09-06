@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, ReactChild } from 'react';
+import { MouseEventHandler, ReactChild } from 'react';
 import clsx from 'clsx';
 import styles from './ActionButton.module.css';
 

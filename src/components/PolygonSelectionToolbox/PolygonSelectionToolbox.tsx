@@ -3,7 +3,7 @@ import { icons } from '@k2-packages/map-draw-tools';
 import { setActiveDrawMode } from '~appModule/actions';
 import config from '~config/runtime';
 import { connect, ConnectedProps } from 'react-redux';
-import ActionButton from '~components/shared/ActionButton/ActionButton';
+import ActionButton from '~components/ActionButton/ActionButton';
 import clsx from 'clsx';
 import { StateWithAppModule } from '~appModule/types';
 import * as selectors from '~appModule/selectors';
@@ -33,8 +33,7 @@ const PolygonSelectionToolbox = ({
   disablePolygonSelection,
   enableUploadPolygon,
 }: ConnectedProps<typeof connector>) => {
-  const SelectPolygonIcon =
-    icons[config.polygonSelectionModes.SelectBoundaryMode];
+  const SelectPolygonIcon = icons[config.polygonSelectionModes.DrawPolygonMode];
   const SelectBoundaryIcon =
     icons[config.polygonSelectionModes.SelectBoundaryMode];
   const UploadPolygonIcon = icons[config.polygonSelectionModes.UploadMode];

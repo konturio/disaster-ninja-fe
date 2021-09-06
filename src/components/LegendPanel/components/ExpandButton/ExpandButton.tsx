@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from 'react';
-import ActionButton from '../../../shared/ActionButton/ActionButton';
+import ActionButton from '../../../ActionButton/ActionButton';
 
 interface ExpandButtonProps {
   className?: string;

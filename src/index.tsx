@@ -6,7 +6,7 @@ import '@k2-packages/default-theme/variables.css';
 import '@k2-packages/default-theme/defaults.css';
 import './main.css';
 import getAppModule from '~appModule/module';
-import BivariateLayerManagerView from '~views/BivariateLayerManagerView/BivariateLayerManagerView';
+import MainView from '~views/Main';
 import '@fortawesome/fontawesome-free/js/fontawesome';
 import '@fortawesome/fontawesome-free/js/solid';
 import store from './store';
@@ -16,7 +16,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <DynamicModuleLoader modules={[getAppModule()]}>
-        <BivariateLayerManagerView />
+        <MainView />
       </DynamicModuleLoader>
     </Provider>
   </React.StrictMode>,
