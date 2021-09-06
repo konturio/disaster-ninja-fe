@@ -1,7 +1,7 @@
 import { takeLatest, select, put } from 'redux-saga/effects';
-import { setCorrelationMatrix, setNumerators } from '@appModule/actions';
-import * as selectors from '@appModule/selectors';
-import { CorrelationMatrix } from '@appModule/types';
+import { setCorrelationMatrix, setNumerators } from '~appModule/actions';
+import * as selectors from '~appModule/selectors';
+import { CorrelationMatrix } from '~appModule/types';
 
 function* calculateCorrelationMatrix({ payload }) {
   const { numX: xNumerators, numY: yNumerators } = payload;
@@ -24,10 +24,10 @@ function* calculateCorrelationMatrix({ payload }) {
       for (let k = 0; k < correlationRates.length; k += 1) {
         const cr = correlationRates[k];
         if (
-          cr.x.quotient[0] === xNumerator
-          && cr.x.quotient[1] === xDenominator
-          && cr.y.quotient[0] === yNumerator
-          && cr.y.quotient[1] === yDenominator
+          cr.x.quotient[0] === xNumerator &&
+          cr.x.quotient[1] === xDenominator &&
+          cr.y.quotient[0] === yNumerator &&
+          cr.y.quotient[1] === yDenominator
         ) {
           matrix[i][j] = cr.rate;
           break;

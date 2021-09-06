@@ -1,9 +1,9 @@
 import React from 'react';
 import { Overlay } from '@k2-packages/bivariate-tools/';
 import { connect, ConnectedProps } from 'react-redux';
-import * as selectors from '@appModule/selectors';
-import { setSelectedOverlayIndex } from '@appModule/actions';
-import { StateWithAppModule } from '@appModule/types';
+import * as selectors from '~appModule/selectors';
+import { setSelectedOverlayIndex } from '~appModule/actions';
+import { StateWithAppModule } from '~appModule/types';
 import styles from './OverlaySelector.module.css';
 
 interface OverlayItemProps {

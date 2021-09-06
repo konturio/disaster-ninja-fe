@@ -1,8 +1,8 @@
 import { ApisauceInstance, create } from 'apisauce';
-import { GetStatisticsType } from '@services/api/apiTypes';
-import { getGeneralApiProblem } from '@services/api/apiProblem';
+import { GetStatisticsType } from '~services/api/apiTypes';
+import { getGeneralApiProblem } from '~services/api/apiProblem';
 import { gql } from 'graphql-tag';
-import { getRawQuery } from '@utils/graphql/getRawQuery';
+import { getRawQuery } from '~utils/graphql/getRawQuery';
 
 class GraphqlClient {
   api: ApisauceInstance | undefined;

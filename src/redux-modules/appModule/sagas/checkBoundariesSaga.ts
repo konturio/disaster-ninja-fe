@@ -10,31 +10,24 @@ import {
   setSelectedPolygon,
   setSource,
   showBoundaries,
-} from '@appModule/actions';
+} from '~appModule/actions';
 import Client from '@k2-packages/client';
 import { BoundariesSagaPlugin } from '@k2-packages/boundaries';
-import { createGeoJSONSource } from '@utils/geoJSON/helpers';
-import AppConfig from '@config/AppConfig';
-import * as selectors from '@appModule/selectors';
+import { createGeoJSONSource } from '~utils/geoJSON/helpers';
+import config from '~config/runtime';
+import * as selectors from '~appModule/selectors';
 import store from '../../../store';
 
 type Action<T = any> = { type: string; payload: T };
 
 export default function* checkBoundariesSaga() {
-  const config = yield take(setConfig.getType());
-  if (config.payload && config.payload.BOUNDARIES_API) {
+  const apiConfig = yield take(setConfig.getType());
+  if (apiConfig.payload && apiConfig.payload.BOUNDARIES_API) {
     const ifBoundariesEmpty = () => {
       alert(i18n.t('No administrative boundaries'));
-      // toast({
-      //   message: i18n.t('No administrative boundaries'),
-      //   type: 'is-info',
-      //   position: 'bottom-center',
-      //   dismissible: true,
-      //   animate: { in: 'fadeInRight', out: 'fadeOutLeft' },
-      // });
     };
 
-    const boundariesClient = new Client(config.payload.BOUNDARIES_API);
+    const boundariesClient = new Client(apiConfig.payload.BOUNDARIES_API);
     yield takeLatest(
       checkBoundaries.getType(),
       BoundariesSagaPlugin({
@@ -73,7 +66,7 @@ export default function* checkBoundariesSaga() {
     yield takeLatest(
       setActiveDrawMode.getType(),
       function* ({ payload }: Action) {
-        if (payload !== AppConfig.polygonSelectionModes[1]) {
+        if (payload !== config.polygonSelectionModes[1]) {
           const sources: any = yield select(selectors.sources);
           if (sources['selected-boundaries'].data.features.length) {
             yield put(

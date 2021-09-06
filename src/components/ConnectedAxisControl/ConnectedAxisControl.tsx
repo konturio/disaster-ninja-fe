@@ -3,12 +3,12 @@ import React, { forwardRef, useCallback } from 'react';
 import { createSelector } from 'reselect';
 import { connect, ConnectedProps } from 'react-redux';
 import { Axis, Indicator } from '@k2-packages/bivariate-tools';
-import * as selectors from '@appModule/selectors';
+import * as selectors from '~appModule/selectors';
 import {
   NumeratorWithDenominators,
   StateWithAppModule,
-} from '@appModule/types';
-import { setMatrixSelection, setNumerators } from '@appModule/actions';
+} from '~appModule/types';
+import { setMatrixSelection, setNumerators } from '~appModule/actions';
 
 const qualityFormat = (quality?) =>
   quality ? Math.floor(quality * 100) : undefined;

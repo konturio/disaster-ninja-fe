@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
-import * as selectors from '@appModule/selectors';
-import { StateWithAppModule } from '@appModule/types';
+import * as selectors from '~appModule/selectors';
+import { StateWithAppModule } from '~appModule/types';
 import { connect, ConnectedProps } from 'react-redux';
 import styles from './MapStatusCaption.module.css';
 

@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { icons } from '@k2-packages/map-draw-tools';
-import { setActiveDrawMode } from '@appModule/actions';
-import AppConfig from '@config/AppConfig';
+import { setActiveDrawMode } from '~appModule/actions';
+import config from '~config/runtime';
 import { connect, ConnectedProps } from 'react-redux';
-import ActionButton from '@components/shared/ActionButton/ActionButton';
+import ActionButton from '~components/shared/ActionButton/ActionButton';
 import clsx from 'clsx';
-import { StateWithAppModule } from '@appModule/types';
-import * as selectors from '@appModule/selectors';
+import { StateWithAppModule } from '~appModule/types';
+import * as selectors from '~appModule/selectors';
 import styles from './PolygonSelectionToolbox.module.css';
 
 const mapStateToProps = (state: StateWithAppModule) => ({
@@ -15,13 +15,13 @@ const mapStateToProps = (state: StateWithAppModule) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   enablePolygonSelection: () =>
-    dispatch(setActiveDrawMode(AppConfig.polygonSelectionModes[0] as any)),
+    dispatch(setActiveDrawMode(config.polygonSelectionModes[0] as any)),
   enableBoundarySelection: () =>
-    dispatch(AppConfig.polygonSelectionModes[1] as any),
+    dispatch(config.polygonSelectionModes[1] as any),
   enableUploadPolygon: () =>
-    dispatch(setActiveDrawMode(AppConfig.polygonSelectionModes[2] as any)),
+    dispatch(setActiveDrawMode(config.polygonSelectionModes[2] as any)),
   disablePolygonSelection: () =>
-    dispatch(setActiveDrawMode(AppConfig.defaultPolygonSelectionMode as any)),
+    dispatch(setActiveDrawMode(config.defaultPolygonSelectionMode as any)),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -33,12 +33,12 @@ const PolygonSelectionToolbox = ({
   disablePolygonSelection,
   enableUploadPolygon,
 }: ConnectedProps<typeof connector>) => {
-  const SelectPolygonIcon = icons[AppConfig.polygonSelectionModes[0]];
-  const SelectBoundaryIcon = icons[AppConfig.polygonSelectionModes[1]];
-  const UploadPolygonIcon = icons[AppConfig.polygonSelectionModes[2]];
+  const SelectPolygonIcon = icons[config.polygonSelectionModes[0]];
+  const SelectBoundaryIcon = icons[config.polygonSelectionModes[1]];
+  const UploadPolygonIcon = icons[config.polygonSelectionModes[2]];
 
   const onSelectPolygonClick = useCallback(() => {
-    if (activeDrawMode === AppConfig.polygonSelectionModes[0]) {
+    if (activeDrawMode === config.polygonSelectionModes[0]) {
       disablePolygonSelection();
     } else {
       enablePolygonSelection();
@@ -46,7 +46,7 @@ const PolygonSelectionToolbox = ({
   }, [enablePolygonSelection, disablePolygonSelection, activeDrawMode]);
 
   const onSelectBoundaryClick = useCallback(() => {
-    if (activeDrawMode === AppConfig.polygonSelectionModes[1]) {
+    if (activeDrawMode === config.polygonSelectionModes[1]) {
       disablePolygonSelection();
     } else {
       enableBoundarySelection();
@@ -54,7 +54,7 @@ const PolygonSelectionToolbox = ({
   }, [enableBoundarySelection, disablePolygonSelection, activeDrawMode]);
 
   const onSelectUploadPolygon = useCallback(() => {
-    if (activeDrawMode === AppConfig.polygonSelectionModes[2]) {
+    if (activeDrawMode === config.polygonSelectionModes[2]) {
       disablePolygonSelection();
     } else {
       enableUploadPolygon();
@@ -67,7 +67,7 @@ const PolygonSelectionToolbox = ({
         className={clsx({
           [styles.leftButton]: true,
           [styles.buttonPressed]:
-            activeDrawMode === AppConfig.polygonSelectionModes[0],
+            activeDrawMode === config.polygonSelectionModes[0],
         })}
         onClick={onSelectPolygonClick}
         type="action"
@@ -79,7 +79,7 @@ const PolygonSelectionToolbox = ({
         className={clsx({
           [styles.middleButton]: true,
           [styles.buttonPressed]:
-            activeDrawMode === AppConfig.polygonSelectionModes[1],
+            activeDrawMode === config.polygonSelectionModes[1],
         })}
         onClick={onSelectBoundaryClick}
         type="action"
@@ -91,7 +91,7 @@ const PolygonSelectionToolbox = ({
         className={clsx({
           [styles.rightButton]: true,
           [styles.buttonPressed]:
-            activeDrawMode === AppConfig.polygonSelectionModes[2],
+            activeDrawMode === config.polygonSelectionModes[2],
         })}
         onClick={onSelectUploadPolygon}
         type="action"

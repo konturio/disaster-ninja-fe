@@ -5,11 +5,11 @@ module.exports = {
   extensions: ['.ts', '.tsx', '.js', '.json'],
   symlinks: true,
   alias: {
-    '@components': relativePath('src/components'),
-    '@views': relativePath('src/views'),
-    '@config': relativePath('src/config'),
-    '@utils': relativePath('src/utils'),
-    '@services': relativePath('src/services'),
-    '@appModule': relativePath('src/redux-modules/appModule'),
+    '~components': relativePath('src/components'),
+    '~views': relativePath('src/views'),
+    '~config': relativePath('src/config'),
+    '~utils': relativePath('src/utils'),
+    '~services': relativePath('src/services'),
+    '~appModule': relativePath('src/redux-modules/appModule'),
   },
 };

@@ -23,12 +23,12 @@
     "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "baseUrl": "./src",
     "paths": {
-      "@components/*": ["components/*"],
-      "@views/*": ["views/*"],
-      "@config/*": ["config/*"],
-      "@utils/*": ["utils/*"],
-      "@services/*": ["services/*"],
-      "@appModule/*": ["redux-modules/appModule/*"]
+      "~components/*": ["components/*"],
+      "~views/*": ["views/*"],
+      "~config/*": ["config/*"],
+      "~utils/*": ["utils/*"],
+      "~services/*": ["services/*"],
+      "~appModule/*": ["redux-modules/appModule/*"]
     }
   },
   "include": [

@@ -1,7 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { setNumerators, setStats } from '@appModule/actions';
+import { setNumerators, setStats } from '~appModule/actions';
 import { extractAvailableNumeratorsWithDenominators } from '@k2-packages/bivariate-tools/src/index';
-import { NumeratorWithDenominators } from '@appModule/types';
+import { NumeratorWithDenominators } from '~appModule/types';
 
 function* bivariateWorkflow({ payload }) {
   const stats = payload;

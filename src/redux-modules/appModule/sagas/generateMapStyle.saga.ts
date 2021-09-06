@@ -1,7 +1,5 @@
 /* eslint-disable no-bitwise */
-import {
-  put, select, takeLatest, take,
-} from 'redux-saga/effects';
+import { put, select, takeLatest, take } from 'redux-saga/effects';
 import { generateBivariateStyleForAxis } from '@k2-packages/bivariate-tools';
 import interpolate from 'color-interpolate';
 import {
@@ -73,10 +71,12 @@ export function* styleGeneration({ payload }) {
 
   if (!xNumerators || !yNumerators) return;
 
-  const xDenominator = xNumerators.find((num) => num.numeratorId === xNumerator)
-    ?.selectedDenominator;
-  const yDenominator = yNumerators.find((num) => num.numeratorId === yNumerator)
-    ?.selectedDenominator;
+  const xDenominator = xNumerators.find(
+    (num) => num.numeratorId === xNumerator,
+  )?.selectedDenominator;
+  const yDenominator = yNumerators.find(
+    (num) => num.numeratorId === yNumerator,
+  )?.selectedDenominator;
 
   if (!xDenominator || !yDenominator) return;
 
@@ -92,10 +92,12 @@ export function* styleGeneration({ payload }) {
   // console.log(xAxis, yAxis);
 
   /* Color theme generation */
-  const xAxisDirection = indicators.find((ind) => ind.name === xNumerator)
-    .direction;
-  const yAxisDirection = indicators.find((ind) => ind.name === yNumerator)
-    .direction;
+  const xAxisDirection = indicators.find(
+    (ind) => ind.name === xNumerator,
+  ).direction;
+  const yAxisDirection = indicators.find(
+    (ind) => ind.name === yNumerator,
+  ).direction;
   // console.log(xAxisDirection, yAxisDirection);
   const corner00 = convertColorWithOpacity(
     findColors(colors, [xAxisDirection[0], yAxisDirection[0]]),
@@ -134,7 +136,7 @@ export function* styleGeneration({ payload }) {
   yield take(setLegendCells.getType());
   /* End of color theme generation */
 
-  const config = yield select(selectors.config);
+  const config = yield select(selectors.apiConfig);
   // console.log(config);
 
   const bivariateStyle = generateBivariateStyleForAxis({

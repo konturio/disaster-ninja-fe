@@ -1,8 +1,8 @@
 import { connect, ConnectedProps } from 'react-redux';
 import { Legend } from '@k2-packages/ui-kit/src/index';
 import { createSelector } from 'reselect';
-import * as selectors from '@appModule/selectors';
-import { StateWithAppModule } from '@appModule/types';
+import * as selectors from '~appModule/selectors';
+import { StateWithAppModule } from '~appModule/types';
 import { invertClusters } from '@k2-packages/bivariate-tools';
 import styles from './ConnectedLegend.module.css';
 

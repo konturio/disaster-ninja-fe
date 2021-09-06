@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createReducer } from 'redux-act';
 import produce from 'immer';
-import AppConfig from '@config/AppConfig';
-import { createGeoJSONSource } from '@utils/geoJSON/helpers';
+import config from '~config/runtime';
+import { createGeoJSONSource } from '~utils/geoJSON/helpers';
 import type { AppModuleState } from './types';
 import {
   setConfig,
@@ -25,7 +25,7 @@ import {
 } from './actions';
 
 const initialState: AppModuleState = {
-  config: {
+  apiConfig: {
     TILES_API: null,
     GRAPHQL_API: null,
     BOUNDARIES_API: null,
@@ -43,7 +43,7 @@ const initialState: AppModuleState = {
   legendCells: null,
   colorThemeCurrent: null,
   selectedPolygon: null,
-  activeDrawMode: AppConfig.defaultPolygonSelectionMode as any,
+  activeDrawMode: config.defaultPolygonSelectionMode as any,
   uploadedGeometry: null,
   showLoadingIndicator: false,
   markers: [],
@@ -58,7 +58,7 @@ const reducer = createReducer<AppModuleState>({}, initialState);
 /* Config */
 reducer.on(setConfig, (state, payload) =>
   produce(state, (draft) => {
-    draft.config = payload;
+    draft.apiConfig = payload;
   }),
 );
 

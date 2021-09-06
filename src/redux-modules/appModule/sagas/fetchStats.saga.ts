@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { put, take, takeLatest } from 'redux-saga/effects';
-import client from '@services/api/client';
+import client from '~services/api/client';
 import {
   requestStats,
   setSelectedPolygon,

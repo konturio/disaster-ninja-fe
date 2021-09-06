@@ -9,7 +9,7 @@ export type StateWithAppModule = {
 };
 
 export type AppModuleState = {
-  config: Config;
+  apiConfig: ApiConfig;
   mapStyle: MapStyle;
   stats: null | Stat;
   selectedOverlayIndex: number;
@@ -64,7 +64,7 @@ export type DenominatorValues = {
   y: string | null;
 };
 
-export type Config = {
+export type ApiConfig = {
   TILES_API: null | string;
   GRAPHQL_API: null | string;
   BOUNDARIES_API: null | string;

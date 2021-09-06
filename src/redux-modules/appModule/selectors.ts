@@ -1,6 +1,6 @@
 import { StateWithAppModule } from './types';
 
-export const config = (s: StateWithAppModule) => s.appModule.config;
+export const apiConfig = (s: StateWithAppModule) => s.appModule.apiConfig;
 export const mapStyle = (s: StateWithAppModule) => s.appModule.mapStyle;
 export const stats = (s: StateWithAppModule) => s.appModule.stats;
 export const activeDrawMode = (s: StateWithAppModule) =>

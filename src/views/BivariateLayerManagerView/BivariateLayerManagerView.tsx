@@ -4,16 +4,16 @@ import {
   ActionsBarBTN,
   Logo,
 } from '@k2-packages/ui-kit';
-import AppConfig from '@config/AppConfig';
-import BivariatePanel from '@components/BivariatePanel/BivariatePanel';
-import ConnectedMap from '@components/ConnectedMap/ConnectedMap';
-import LegendPanel from '@components/LegendPanel/LegendPanel';
-import PolygonSelectionToolbox from '@components/PolygonSelectionToolbox/PolygonSelectionToolbox';
-import LoadIndicator from '@components/shared/LoadIndicator/LoadIndicator';
+import config from '~config/runtime';
+import BivariatePanel from '~components/BivariatePanel/BivariatePanel';
+import ConnectedMap from '~components/ConnectedMap/ConnectedMap';
+import LegendPanel from '~components/LegendPanel/LegendPanel';
+import PolygonSelectionToolbox from '~components/PolygonSelectionToolbox/PolygonSelectionToolbox';
+import LoadIndicator from '~components/shared/LoadIndicator/LoadIndicator';
 import styles from './BivariateLayerManagerView.module.css';
 import store from '../../store';
-import { setUploadedGeometry } from '@appModule/actions';
-import { readGeoJSON } from '@utils/geoJSON/helpers';
+import { setUploadedGeometry } from '~appModule/actions';
+import { readGeoJSON } from '~utils/geoJSON/helpers';
 
 /**
  * Why I use so wired way for upload file?
@@ -54,12 +54,12 @@ function BivariateLayerManagerView() {
           <LoadIndicator />
           <ConnectedMap
             options={
-              Object.assign(AppConfig.map.centerPoint, {
+              Object.assign(config.map.centerPoint, {
                 logoPosition: 'top-right',
               }) as any
             }
-            style={AppConfig.map.style || ''}
-            accessToken={AppConfig.map.accessToken || ''}
+            style={config.map.style || ''}
+            accessToken={config.map.accessToken || ''}
             className={styles.Map}
           />
           <BivariatePanel />

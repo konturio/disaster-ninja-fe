@@ -4,12 +4,12 @@ import { connect, ConnectedProps } from 'react-redux';
 import Map, { MapBoxMapProps } from '@k2-packages/map';
 import MapDrawTools from '@k2-packages/map-draw-tools';
 import DeckGl from '@k2-packages/deck-gl';
-import AppConfig from '@config/AppConfig';
+import config from '~config/runtime';
 import {
   checkBoundaries,
   setActiveDrawMode,
   setSelectedPolygon,
-} from '@appModule/actions';
+} from '~appModule/actions';
 import bbox from '@turf/bbox';
 import { useTranslation } from 'react-i18next';
 import {
@@ -32,9 +32,9 @@ const mapDispatchToProps = (dispatch) => ({
   dCheckBoundaries: (coords: [number, number]) =>
     dispatch(checkBoundaries(coords)),
   resetDrawMode: () =>
-    dispatch(setActiveDrawMode(AppConfig.defaultPolygonSelectionMode as any)),
+    dispatch(setActiveDrawMode(config.defaultPolygonSelectionMode as any)),
   setPolygonDrawMode: () =>
-    dispatch(setActiveDrawMode(AppConfig.polygonSelectionModes[0] as any)),
+    dispatch(setActiveDrawMode(config.polygonSelectionModes[0] as any)),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

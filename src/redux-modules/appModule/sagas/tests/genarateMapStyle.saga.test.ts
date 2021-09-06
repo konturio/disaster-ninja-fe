@@ -101,7 +101,7 @@ describe('map and legend colors generation test', () => {
         },
       ],
       [take(setLegendCells.getType()), {}],
-      [select(selectors.config), { TILES_API: '/tiles/stats/' }],
+      [select(selectors.apiConfig), { TILES_API: '/tiles/stats/' }],
     ],
     setMatrixSelection('testXNumerator', 'testYNumerator'),
   );
