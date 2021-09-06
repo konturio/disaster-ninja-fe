@@ -66,7 +66,7 @@ export default function* checkBoundariesSaga() {
     yield takeLatest(
       setActiveDrawMode.getType(),
       function* ({ payload }: Action) {
-        if (payload !== config.polygonSelectionModes[1]) {
+        if (payload !== config.polygonSelectionModes.SelectBoundaryMode) {
           const sources: any = yield select(selectors.sources);
           if (sources['selected-boundaries'].data.features.length) {
             yield put(

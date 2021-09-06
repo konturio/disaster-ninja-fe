@@ -1,4 +1,11 @@
-const AppConfig = {
+const polygonSelectionModes = {
+  DrawPolygonMode: 'DrawPolygonMode',
+  SelectBoundaryMode: 'SelectBoundaryMode',
+  UploadMode: 'UploadMode',
+  ViewMode: 'ViewMode',
+} as const;
+
+export default {
   map: {
     accessToken: process.env.KC_MAP_TOKEN,
     style: process.env.KC_MAP_STYLE,
@@ -7,12 +14,6 @@ const AppConfig = {
       zoom: 1,
     },
   },
-  defaultPolygonSelectionMode: 'ViewMode',
-  polygonSelectionModes: [
-    'DrawPolygonMode',
-    'SelectBoundaryMode',
-    'UploadMode',
-  ],
+  polygonSelectionModes,
+  defaultPolygonSelectionMode: polygonSelectionModes.ViewMode,
 };
-
-export default AppConfig;

@@ -32,9 +32,9 @@ const mapDispatchToProps = (dispatch) => ({
   dCheckBoundaries: (coords: [number, number]) =>
     dispatch(checkBoundaries(coords)),
   resetDrawMode: () =>
-    dispatch(setActiveDrawMode(config.defaultPolygonSelectionMode as any)),
+    dispatch(setActiveDrawMode(config.defaultPolygonSelectionMode)),
   setPolygonDrawMode: () =>
-    dispatch(setActiveDrawMode(config.polygonSelectionModes[0] as any)),
+    dispatch(setActiveDrawMode(config.polygonSelectionModes.DrawPolygonMode)),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
