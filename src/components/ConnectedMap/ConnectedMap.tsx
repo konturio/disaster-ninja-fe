@@ -101,6 +101,9 @@ const ConnectedMap = ({
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.doubleClickZoom.disable();
+      requestAnimationFrame(() => {
+        mapRef.current.resize(); // Fix for webkit
+      });
     }
   }, [mapRef]);
 
@@ -113,7 +116,6 @@ const ConnectedMap = ({
         setPolygonSelection(JSON.stringify(data));
         if (mapRef.current) {
           mapRef.current.fitBounds(bbox(data));
-          mapRef.current.resize(); // Fix for webkit
         }
       } else {
         resetDrawMode();
