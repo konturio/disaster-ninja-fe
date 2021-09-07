@@ -17,7 +17,9 @@ const mapDispatchToProps = (dispatch) => ({
   enablePolygonSelection: () =>
     dispatch(setActiveDrawMode(config.polygonSelectionModes.DrawPolygonMode)),
   enableBoundarySelection: () =>
-    dispatch(config.polygonSelectionModes.SelectBoundaryMode),
+    dispatch(
+      setActiveDrawMode(config.polygonSelectionModes.SelectBoundaryMode),
+    ),
   enableUploadPolygon: () =>
     dispatch(setActiveDrawMode(config.polygonSelectionModes.UploadMode)),
   disablePolygonSelection: () =>
