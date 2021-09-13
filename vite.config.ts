@@ -28,7 +28,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/tiles': 'https://c.kontur.io',
+      '/tiles': 'https://geocint.kontur.io',
       '/graphql': 'https://test-apps02.konturlabs.com/insights-api',
       '/boundaries': 'https://test-api02.konturlabs.com'
     }
