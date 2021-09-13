@@ -13,8 +13,13 @@ interface CollapsedSideBarProps {
 const LegendPanel = ({ className }: CollapsedSideBarProps) => {
   const initialOpenState = useMemo(() => {
     const isMobile = document.body.clientWidth <= 600;
-    return !isMobile;
+    const isLaptop = document.body.clientHeight <= 1000;
+    return !isMobile && !isLaptop;
   }, []);
+  console.log(
+    '🚀 ~ file: LegendPanel.tsx ~ line 20 ~ initialOpenState ~ initialOpenState',
+    initialOpenState,
+  );
 
   return (
     <Collapse location="left" initialOpen={initialOpenState}>
