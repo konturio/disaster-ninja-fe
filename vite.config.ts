@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
+import postcssConfig from './postcss.config';
+
 // import checker from 'vite-plugin-checker';
 import path from 'path';
 
@@ -8,7 +10,7 @@ const relative = (folder: string) => path.resolve(__dirname, folder);
 export default defineConfig({
   plugins: [reactRefresh()],
   css: {
-    postcss: 'postcss.config.js',
+    postcss: postcssConfig,
   },
   esbuild: {
     // Avoid conflicting with "import React"
