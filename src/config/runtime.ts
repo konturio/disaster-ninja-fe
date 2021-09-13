@@ -7,8 +7,8 @@ const polygonSelectionModes = {
 
 export default {
   map: {
-    accessToken: process.env.KC_MAP_TOKEN,
-    style: process.env.KC_MAP_STYLE,
+    accessToken: import.meta.env.KC_MAP_TOKEN,
+    style: import.meta.env.KC_MAP_STYLE,
     centerPoint: {
       center: [41.84, 52.54],
       zoom: 1,

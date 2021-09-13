@@ -1,8 +1,5 @@
-webpack.config.ts
 postcss.config.js
-webpack.config.js
-webpack.plugins.ts
-webpack.modules.ts
+vite.config.ts
 cosmos.decorator.tsx
 template.config.js
 .helpers

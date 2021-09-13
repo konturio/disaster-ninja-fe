@@ -1,5 +1,5 @@
 import { connect, ConnectedProps } from 'react-redux';
-import { Legend } from '@k2-packages/ui-kit/src/index';
+import { Legend } from '@k2-packages/ui-kit';
 import { createSelector } from 'reselect';
 import * as selectors from '~appModule/selectors';
 import { StateWithAppModule } from '~appModule/types';

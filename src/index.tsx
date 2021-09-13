@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { DynamicModuleLoader } from 'redux-dynamic-modules-react';
@@ -13,12 +13,12 @@ import store from './store';
 import './i18n';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={store}>
       <DynamicModuleLoader modules={[getAppModule()]}>
         <MainView />
       </DynamicModuleLoader>
     </Provider>
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById('root'),
 );

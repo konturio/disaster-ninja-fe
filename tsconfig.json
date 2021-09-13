@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "noImplicitAny": false,
+    "useDefineForClassFields": true,
     "target": "es6",
     "lib": [
       "dom",
