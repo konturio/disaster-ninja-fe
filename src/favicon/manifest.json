@@ -1,0 +1,19 @@
+{
+  "icons": [
+    {
+      "src": "/active/icon_512x512.c56596cf6689fecec5b57be2600125a7.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/active/icon_192x192.5888c4a03fcf75492d0f9c7a791a41fc.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "name": "Disaster Ninja",
+  "short_name": "Disaster Ninja",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": "."
+}
