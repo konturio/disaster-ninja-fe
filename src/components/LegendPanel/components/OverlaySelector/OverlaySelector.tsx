@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback } from 'react';
 import { Overlay } from '@k2-packages/bivariate-tools/';
 import { connect, ConnectedProps } from 'react-redux';
 import * as selectors from '~appModule/selectors';
@@ -43,22 +43,22 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-const mergeProps = (stateProps, dispatchProps) => ({
-  ...stateProps,
-  setSelectedOverlay: (selectedOverlay: number) => {
-    if (selectedOverlay !== stateProps.overlayIndex) {
-      dispatchProps.dispatchSelectedOverlay(selectedOverlay);
-    }
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const OverlaySelector = ({
   overlays,
   overlayIndex,
-  setSelectedOverlay,
+  dispatchSelectedOverlay,
 }: ConnectedProps<typeof connector>) => {
+  const setSelectedOverlay = useCallback(
+    (selectedOverlay: number) => {
+      if (selectedOverlay !== overlayIndex) {
+        dispatchSelectedOverlay(selectedOverlay);
+      }
+    },
+    [dispatchSelectedOverlay, overlayIndex],
+  );
+
   if (!overlays || overlays.length === 0) return null;
 
   return (

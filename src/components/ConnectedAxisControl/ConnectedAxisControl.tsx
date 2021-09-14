@@ -148,8 +148,8 @@ const ConnectedAxisControl = forwardRef<HTMLDivElement | null, any>(
 
           // refresh colors
           if (
-            selectedCell.x !== null &&
-            selectedCell.y !== null &&
+            selectedCell.x !== undefined &&
+            selectedCell.y !== undefined &&
             selectedCell.x !== -1 &&
             selectedCell.y !== -1 &&
             ((horizontal && selectedCell.y === index) ||
