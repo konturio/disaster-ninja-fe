@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "preupgrade:k2": "node ./updatek2.js",
-    "upgrade:k2": "npm update $(node ./updatek2.js)",
+    "preupgrade:k2": "node ./updatek2.mjs",
+    "upgrade:k2": "npm cache clean --force && npm update $(node ./updatek2.mjs)",
     "lint-staged": "lint-staged",
     "test:unit": "vite-jest"
   },
