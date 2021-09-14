@@ -7,10 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "preupgrade:k2": "node ./updatek2.mjs",
-    "upgrade:k2": "npm cache clean --force && npm update $(node ./updatek2.mjs)",
+    "preupgrade:k2": "node ./scripts/updatek2.mjs",
+    "upgrade:k2": "npm cache clean --force && npm update $(node ./scripts/updatek2.mjs)",
     "lint-staged": "lint-staged",
-    "test:unit": "vite-jest"
+    "test:unit": "vite-jest",
+    "postinstall": "node ./scripts/fix-deckgl-types.mjs"
   },
   "husky": {
     "hooks": {
@@ -67,6 +68,7 @@
     "clsx": "^1.1.0",
     "color-interpolate": "^1.0.5",
     "core-js": "^3.16.1",
+    "cpr": "^3.0.1",
     "cross-env": "^7.0.3",
     "graphql": "^15.5.1",
     "graphql-tag": "^2.12.5",

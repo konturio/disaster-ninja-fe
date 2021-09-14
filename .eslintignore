@@ -2,8 +2,7 @@ postcss.config.ts
 vite.config.ts
 cosmos.decorator.tsx
 template.config.js
-updatek2.mjs
 .helpers
-build
+scripts
 jest.config.js
 jest.setup.js
