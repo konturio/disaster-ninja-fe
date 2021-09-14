@@ -2,7 +2,7 @@ import { createAction } from 'redux-act';
 import { Stat } from '@k2-packages/bivariate-tools';
 import { Modes } from '@k2-packages/map-draw-tools';
 import {
-  Config,
+  ApiConfig,
   ColorTheme,
   MapStyle,
   LegendCells,
@@ -13,7 +13,7 @@ import {
 
 /* Config */
 export const requestConfig = createAction('requestConfig');
-export const setConfig = createAction<Config>('setConfig');
+export const setConfig = createAction<ApiConfig>('setConfig');
 
 /* Stats */
 export const requestStats = createAction('requestStats');

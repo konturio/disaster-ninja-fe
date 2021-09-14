@@ -1,5 +1,5 @@
 import { Stat } from '@k2-packages/bivariate-tools';
-import { Modes } from '@k2-packages/map-draw-tools/src/index';
+import { Modes } from '@k2-packages/map-draw-tools';
 
 //------------------------------------------------------------------------------
 // State

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Selector } from '@k2-packages/ui-kit';
 import { connect, ConnectedProps } from 'react-redux';
 import clsx from 'clsx';

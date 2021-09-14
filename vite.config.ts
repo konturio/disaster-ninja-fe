@@ -5,10 +5,14 @@ import tsChecker from 'vite-plugin-checker';
 import path from 'path';
 
 const relative = (folder: string) => path.resolve(__dirname, folder);
+const envMode = process.env.NODE_ENV || 'production';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [tsChecker({ typescript: true }), reactRefresh()],
+  plugins: [
+    tsChecker({ typescript: true }),
+    envMode === 'development' && reactRefresh()
+  ].filter(x => x), // Delete false / undefined
   css: {
     postcss: postcssConfig,
   },
