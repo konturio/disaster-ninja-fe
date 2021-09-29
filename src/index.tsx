@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { DynamicModuleLoader } from 'redux-dynamic-modules-react';
 import '@k2-packages/default-theme/variables.css';
 import '@k2-packages/default-theme/defaults.css';
+import '@k2-packages/default-theme/typography.css';
 import './main.css';
 import getAppModule from '~appModule/module';
 import MainView from '~views/Main';

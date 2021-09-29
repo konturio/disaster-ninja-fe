@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import Map, { MapBoxMapProps } from '@k2-packages/map';
@@ -12,11 +11,8 @@ import {
 } from '~appModule/actions';
 import bbox from '@turf/bbox';
 import { useTranslation } from 'react-i18next';
-import {
-  MapStyle,
-  StateWithAppModule,
-} from '../../redux-modules/appModule/types';
-import * as selectors from '../../redux-modules/appModule/selectors';
+import { MapStyle, StateWithAppModule } from '~appModule/types';
+import * as selectors from '~appModule/selectors';
 
 const mapStateToProps = (state: StateWithAppModule) => ({
   mapStyle: selectors.mapStyle(state),

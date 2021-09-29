@@ -1,0 +1,30 @@
+.disasterCard {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: var(--unit);
+  border-bottom: 1px solid var(--primary-faint-border-regular);
+  padding: var(--double-unit);
+  text-align: left;
+  width: 100%;
+  &.active {
+    background-color: var(--primary-surface-hover);
+    box-shadow: 0px 0px 0px 1px var(--primary-border-active);
+  }
+  &:focus {
+    box-shadow: inset 0px 0px 0px 2px var(--primary-border-active);
+  }
+}
+
+.head {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--unit);
+  align-items: center;
+}
+
+.locations {
+}
+
+.footer {
+  color: var(--primary-text-disabled);
+}

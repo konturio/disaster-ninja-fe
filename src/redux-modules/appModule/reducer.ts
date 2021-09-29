@@ -22,6 +22,7 @@ import {
   setMarker,
   removeMarker,
   setUploadedGeometry,
+  setDisastersList,
 } from './actions';
 
 const initialState: AppModuleState = {
@@ -51,6 +52,101 @@ const initialState: AppModuleState = {
     'hovered-boundaries': createGeoJSONSource(),
     'selected-boundaries': createGeoJSONSource(),
   },
+  disastersList: [
+    {
+      affectedPeople: 600000,
+      eventName: 'Test event name',
+      locations: [
+        'Barbados',
+        'Saint Lucia',
+        'Martinique',
+        'Saint Vincent and the Grenadines',
+        'Grenada',
+        'Dominica',
+        'Haiti',
+        'Cuba',
+        'United States',
+        'Jamaica',
+        'Trinidad and Tobago',
+        'Guadeloupe',
+      ],
+      osmGapsPercentage: 0.5,
+      severity: 'MINOR',
+      settledArea: 1456,
+      updatedAt: '2021-09-16T15:23:44Z',
+    },
+    {
+      affectedPeople: 1,
+      eventName: 'Test event name 2',
+      locations: ['location_1', 'locations_2'],
+      osmGapsPercentage: 0.5,
+      severity: 'EXTREME',
+      settledArea: 1456,
+      updatedAt: '2021-09-16T15:23:44Z',
+    },
+    {
+      affectedPeople: 600000,
+      eventName: 'Test event name 3',
+      locations: [
+        'Barbados',
+        'Saint Lucia',
+        'Martinique',
+        'Saint Vincent and the Grenadines',
+        'Grenada',
+        'Dominica',
+        'Haiti',
+        'Cuba',
+        'United States',
+        'Jamaica',
+        'Trinidad and Tobago',
+        'Guadeloupe',
+      ],
+      osmGapsPercentage: 0.5,
+      severity: 'MINOR',
+      settledArea: 1456,
+      updatedAt: '2021-09-16T15:23:44Z',
+    },
+    {
+      affectedPeople: 1,
+      eventName: 'Test event name 4',
+      locations: ['location_1', 'locations_2'],
+      osmGapsPercentage: 0.5,
+      severity: 'EXTREME',
+      settledArea: 1456,
+      updatedAt: '2021-09-16T15:23:44Z',
+    },
+    {
+      affectedPeople: 600000,
+      eventName: 'Test event name 7',
+      locations: [
+        'Barbados',
+        'Saint Lucia',
+        'Martinique',
+        'Saint Vincent and the Grenadines',
+        'Grenada',
+        'Dominica',
+        'Haiti',
+        'Cuba',
+        'United States',
+        'Jamaica',
+        'Trinidad and Tobago',
+        'Guadeloupe',
+      ],
+      osmGapsPercentage: 0.5,
+      severity: 'MINOR',
+      settledArea: 1456,
+      updatedAt: '2021-09-16T15:23:44Z',
+    },
+    {
+      affectedPeople: 1,
+      eventName: 'Test event name 5',
+      locations: ['location_1', 'locations_2'],
+      osmGapsPercentage: 0.5,
+      severity: 'EXTREME',
+      settledArea: 1456,
+      updatedAt: '2021-09-16T15:23:44Z',
+    },
+  ],
 };
 
 const reducer = createReducer<AppModuleState>({}, initialState);
@@ -66,6 +162,13 @@ reducer.on(setConfig, (state, payload) =>
 reducer.on(setStats, (state, payload) =>
   produce(state, (draft) => {
     draft.stats = payload;
+  }),
+);
+
+/* Disasters */
+reducer.on(setDisastersList, (state, payload) =>
+  produce(state, (draft) => {
+    draft.disastersList = payload;
   }),
 );
 

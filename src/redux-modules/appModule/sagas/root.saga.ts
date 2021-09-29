@@ -17,11 +17,13 @@ import fetchStatsSaga from './fetchStats.saga';
 import overlaySaga from './overlay.saga';
 import generateLegendCellsSaga from './generateLegendCells.saga';
 import checkBoundariesSaga from './checkBoundariesSaga';
+import fetchDisastersListSaga from './checkBoundariesSaga';
 
 /**
   Root saga pipeline:
   - Get config
   - Get stats
+  - Get disasters list
   - Set defaults
   - (on every select denominator)
     - Generate matrix
@@ -32,6 +34,7 @@ import checkBoundariesSaga from './checkBoundariesSaga';
 export default function* rootSaga() {
   yield spawn(fetchConfigSaga);
   yield spawn(fetchStatsSaga);
+  yield spawn(fetchDisastersListSaga);
   yield spawn(generateLegendCellsSaga);
   yield spawn(generateMapStyleSaga);
   yield spawn(overlaySaga);

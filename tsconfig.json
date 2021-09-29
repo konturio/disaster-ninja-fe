@@ -2,7 +2,7 @@
   "compilerOptions": {
     "noImplicitAny": false,
     "useDefineForClassFields": true,
-    "target": "es6",
+    "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",

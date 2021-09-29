@@ -3,6 +3,8 @@ import { StateWithAppModule } from './types';
 export const apiConfig = (s: StateWithAppModule) => s.appModule.apiConfig;
 export const mapStyle = (s: StateWithAppModule) => s.appModule.mapStyle;
 export const stats = (s: StateWithAppModule) => s.appModule.stats;
+export const disastersList = (s: StateWithAppModule) =>
+  s.appModule.disastersList;
 export const activeDrawMode = (s: StateWithAppModule) =>
   s.appModule.activeDrawMode;
 export const markers = (s: StateWithAppModule) => s.appModule.markers;

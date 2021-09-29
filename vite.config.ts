@@ -5,14 +5,13 @@ import tsChecker from 'vite-plugin-checker';
 import path from 'path';
 
 const relative = (folder: string) => path.resolve(__dirname, folder);
-const envMode = process.env.NODE_ENV || 'production';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default ({ mode }) => defineConfig({
   plugins: [
     tsChecker({ typescript: true }),
-    envMode === 'development' && reactRefresh()
-  ].filter(x => x), // Delete false / undefined
+    mode === 'development' && reactRefresh()
+  ],
   css: {
     postcss: postcssConfig,
   },
@@ -39,4 +38,4 @@ export default defineConfig({
       '/boundaries': 'https://test-api02.konturlabs.com'
     }
   }
-});
+})
