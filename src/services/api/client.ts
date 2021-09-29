@@ -1,8 +1,9 @@
 import { ApisauceInstance, create } from 'apisauce';
-import { GetStatisticsType } from '~services/api/apiTypes';
+import { GetDisastersList, GetStatisticsType } from '~services/api/apiTypes';
 import { getGeneralApiProblem } from '~services/api/apiProblem';
 import { gql } from 'graphql-tag';
 import { getRawQuery } from '~utils/graphql/getRawQuery';
+import { Disaster } from '~appModule/types';
 
 class GraphqlClient {
   api: ApisauceInstance | undefined;
@@ -17,7 +18,6 @@ class GraphqlClient {
     });
   }
 
-  // get static data
   async getStatics(polygon: string | null = null): Promise<GetStatisticsType> {
     if (!this.api) return { kind: 'bad-data' };
 
@@ -101,6 +101,21 @@ class GraphqlClient {
     return {
       kind: 'ok',
       data: (response.data as any).data.polygonStatistic.bivariateStatistic,
+    };
+  }
+
+  async getDisastersList(): Promise<GetDisastersList> {
+    if (!this.api) return { kind: 'bad-data' };
+    const response = await this.api.get('/disasters');
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
+
+    return {
+      kind: 'ok',
+      data: response.data as Disaster[],
     };
   }
 }

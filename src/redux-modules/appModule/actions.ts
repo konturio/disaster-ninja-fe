@@ -9,6 +9,7 @@ import {
   NumeratorWithDenominators,
   CorrelationMatrix,
   Marker,
+  Disaster,
 } from './types';
 
 /* Config */
@@ -18,6 +19,9 @@ export const setConfig = createAction<ApiConfig>('setConfig');
 /* Stats */
 export const requestStats = createAction('requestStats');
 export const setStats = createAction<Stat>('setStats');
+
+/* Disasters List */
+export const setDisastersList = createAction<Disaster[]>('setDisastersList');
 
 /* Active draw mode */
 export const setActiveDrawMode = createAction<keyof Modes>('setActiveDrawMode');

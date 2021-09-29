@@ -4,7 +4,7 @@ html,
 body {
   box-sizing: border-box;
   overflow: hidden;
-  line-height: 1;
+  line-height: 1.4em;
 }
 
 html,
@@ -17,14 +17,6 @@ body,
 *:before,
 *:after {
   box-sizing: inherit;
-}
-
-body {
-  margin: 0;
-  font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 code {

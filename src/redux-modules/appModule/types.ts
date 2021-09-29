@@ -25,6 +25,7 @@ export type AppModuleState = {
   markers: Marker[];
   sources: Record<string, unknown>;
   uploadedGeometry: null | GeoJSON.GeoJSON;
+  disastersList: Disaster[];
 };
 
 //------------------------------------------------------------------------------
@@ -84,3 +85,26 @@ export type Marker = {
   el: JSX.Element;
   id: string;
 };
+
+export interface Disaster {
+  /** Contain type and optionally name of disaster */
+  eventName: string;
+  /** Countries where event happen */
+  locations: string[];
+  /** How it important */
+  severity:
+    | 'TERMINATION'
+    | 'MINOR'
+    | 'MODERATE'
+    | 'SEVERE'
+    | 'EXTREME'
+    | 'UNKNOWN';
+  /** How many people affected. >= 0 */
+  affectedPeople: number;
+  /** Settled area in km2. >= 0 */
+  settledArea: number;
+  /** Map quality. Float. Lower is better */
+  osmGapsPercentage: number | null;
+  /** Time in UTC (ISO8601) */
+  updatedAt: string;
+}

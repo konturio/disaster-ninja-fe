@@ -1,0 +1,20 @@
+.analytics {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--unit);
+  justify-content: space-between;
+}
+
+.analyticsBadge {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: var(--half-unit);
+}
+
+.analyticsIcon {
+  margin-bottom: -3px; /* align icon with text baseline */
+}
+
+.analyticsValue {
+}
