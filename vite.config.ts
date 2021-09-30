@@ -29,6 +29,8 @@ export default ({ mode }) => defineConfig({
       '~utils': relative('./src/utils'),
       '~services': relative('./src/services'),
       '~appModule': relative('./src/redux-modules/appModule'),
+      '~core': relative('./src/core'),
+      '~features': relative('./src/features'),
     },
   },
   server: {

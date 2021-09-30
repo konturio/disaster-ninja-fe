@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import Map, { MapBoxMapProps } from '@k2-packages/map';
 import MapDrawTools from '@k2-packages/map-draw-tools';
 import DeckGl from '@k2-packages/deck-gl';
-import config from '~config/runtime';
+import config from '~core/app_config/runtime';
 import {
   checkBoundaries,
   setActiveDrawMode,

@@ -29,7 +29,9 @@
       "~config/*": ["config/*"],
       "~utils/*": ["utils/*"],
       "~services/*": ["services/*"],
-      "~appModule/*": ["redux-modules/appModule/*"]
+      "~appModule/*": ["redux-modules/appModule/*"],
+      "~core/*": ["core/*"],
+      "~features/*": ["features/*"],
     }
   },
   "include": [
