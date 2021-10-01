@@ -9,7 +9,7 @@ import ConnectedMap from '~components/ConnectedMap/ConnectedMap';
 import { Row } from '~components/Layout/Layout';
 import PolygonSelectionToolbox from '~components/PolygonSelectionToolbox/PolygonSelectionToolbox';
 import LoadIndicator from '~components/LoadIndicator/LoadIndicator';
-import styles from './style.module.css';
+import styles from './Main.module.css';
 import store from '../../store';
 import { setUploadedGeometry } from '~appModule/actions';
 import { DisastersListPanel } from '~components/DisastersListPanel/DisastersListPanel';
