@@ -8,12 +8,12 @@ const defaultUser: CurrentUser = {
   id: 'public',
 };
 
-export const currentCurrentUserAtom = createAtom(
+export const currentUserAtom = createAtom(
   {
-    setCurrentCurrentUser: (currentUser: CurrentUser) => currentUser,
+    setCurrentUser: (currentUser: CurrentUser) => currentUser,
   },
   ({ onAction }, state: CurrentUser = defaultUser) => {
-    onAction('setCurrentCurrentUser', (currentUser) => (state = currentUser));
+    onAction('setCurrentUser', (currentUser) => (state = currentUser));
     return state;
   },
 );
