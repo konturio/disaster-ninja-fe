@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import postcssConfig from './postcss.config';
-import tsChecker from 'vite-plugin-checker';
 import path from 'path';
 
 const relative = (folder: string) => path.resolve(__dirname, folder);
@@ -9,7 +8,6 @@ const relative = (folder: string) => path.resolve(__dirname, folder);
 // https://vitejs.dev/config/
 export default ({ mode }) => defineConfig({
   plugins: [
-    tsChecker({ typescript: true }),
     mode === 'development' && reactRefresh()
   ],
   css: {
