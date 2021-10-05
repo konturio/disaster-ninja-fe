@@ -28,6 +28,6 @@ export const currentNotificationAtom = createAtom(
     });
 
     onAction('_removeNotification', (id) => delete state[id]);
-    return state;
+    return { ...state };
   },
 );

@@ -11,7 +11,7 @@ export const focusedGeometryAtom = createAtom(
   {
     setFocusedGeometry: (geometry: FocusedGeometry) => geometry,
   },
-  ({ onAction }, state: FocusedGeometry = defaultGeoJSON) => {
+  ({ onAction }, state: FocusedGeometry | null = null) => {
     onAction('setFocusedGeometry', (geoJSON) => (state = geoJSON));
     return state;
   },

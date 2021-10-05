@@ -1,20 +1,27 @@
 import { createAtom } from '@reatom/core';
 
-export interface EnabledLayer {
-  id: string;
-}
-
 export const enabledLayersAtom = createAtom(
   {
-    enableLayer: (layer: EnabledLayer) => layer,
+    enableLayer: (layer: string) => layer,
     disableLayer: (layerId: string) => layerId,
+    setLayers: (layersIds: string[]) => layersIds,
+    disableAllLayers: () => null,
   },
-  ({ onAction }, state: EnabledLayer[] = []) => {
-    onAction('enableLayer', (layer) => state.push(layer));
+  ({ onAction }, state: string[] = []) => {
+    onAction('enableLayer', (layer) => (state = [...state, layer]));
     onAction(
       'disableLayer',
-      (layerId) => (state = state.filter((layer) => layer.id !== layerId)),
+      (layerId) => (state = state.filter((layer) => layer !== layerId)),
     );
+    onAction(
+      'setLayers',
+      (layersIds) => (
+        console.log('[LayersAtom] onAction "setLayers":', layersIds),
+        (state = [...layersIds])
+      ),
+    );
+
+    console.log('[LayersAtom] Current state:', state);
     return state;
   },
 );

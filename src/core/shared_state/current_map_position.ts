@@ -13,10 +13,7 @@ export const currentMapPositionAtom = createAtom(
     setCurrentMapPosition: (mapPosition: MapPosition) => mapPosition,
   },
   ({ onAction }, state: CurrentMapPositionAtomState = null) => {
-    onAction(
-      'setCurrentMapPosition',
-      (mapPositionId) => (state = mapPositionId),
-    );
+    onAction('setCurrentMapPosition', (mapPosition) => (state = mapPosition));
     return state;
   },
 );
