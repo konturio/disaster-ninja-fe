@@ -12,7 +12,7 @@ export const currentNotificationAtom = createAtom(
     showNotification: (
       type: NotificationType,
       message: string,
-      lifetimeSec = 10,
+      lifetimeSec: number,
     ) => ({ type, message, lifetimeSec }),
     _removeNotification: (id: number) => id,
   },
