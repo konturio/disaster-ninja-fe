@@ -7,11 +7,11 @@ type CurrentEventAtomState = {
 export const currentEventAtom = createAtom(
   {
     setCurrentEventId: (eventId: string) => eventId,
-    unsetCurrentEvent: () => null,
+    resetCurrentEvent: () => null,
   },
   ({ onAction }, state: CurrentEventAtomState = null) => {
     onAction('setCurrentEventId', (eventId) => (state = { id: eventId }));
-    onAction('unsetCurrentEvent', () => (state = null));
+    onAction('resetCurrentEvent', () => (state = null));
     return state;
   },
 );

@@ -30,16 +30,16 @@ import { enabledLayersAtom } from '~core/shared_state';
 enabledLayersAtom.subscribe((state) =>
   console.log('[LayersAtom] subscribe:', state),
 );
-// setTimeout(() => {
-//   console.log("LayersAtom.enableLayer.dispatch('q'):")
-//   enabledLayersAtom.enableLayer.dispatch('q')
-// }, 6000)
+setTimeout(() => {
+  console.log("LayersAtom.enableLayer.dispatch('q'):");
+  enabledLayersAtom.enableLayer.dispatch('q');
+}, 6000);
 
 function BivariateLayerManagerView() {
   useEffect(() => {
     /* Lazy load module */
-    import('~features/shared_url').then(
-      ({ initSharedUrl }) => (console.log('Init URL atom'), initSharedUrl()),
+    import('~features/url_store').then(
+      ({ initUrlStore }) => (console.log('Init URL atom'), initUrlStore()),
     );
   });
 

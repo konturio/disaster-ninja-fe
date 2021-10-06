@@ -7,11 +7,11 @@ type CurrentEpisodeAtomState = {
 export const currentEpisodeAtom = createAtom(
   {
     setCurrentEpisodeId: (episodeId: string) => episodeId,
-    unsetCurrentEpisodeId: () => null,
+    resetCurrentEpisodeId: () => null,
   },
   ({ onAction }, state: CurrentEpisodeAtomState = null) => {
     onAction('setCurrentEpisodeId', (episodeId) => (state = { id: episodeId }));
-    onAction('unsetCurrentEpisodeId', () => (state = null));
+    onAction('resetCurrentEpisodeId', () => (state = null));
     return state;
   },
 );

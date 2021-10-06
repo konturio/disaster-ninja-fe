@@ -25,7 +25,7 @@ export class URLDataInSearchEncoder {
         const arrayVal = val
           .slice(this._arrayStart.length)
           .split(this._arraySep);
-        acc[key] = arrayVal;
+        acc[key] = arrayVal.filter((v) => v !== '');
       } else {
         acc[key] = val;
       }

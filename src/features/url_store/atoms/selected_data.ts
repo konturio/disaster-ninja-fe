@@ -8,7 +8,7 @@ import {
 } from '~core/shared_state';
 
 /* Compose shared state values into one atom */
-export const composedDataAtom = createAtom(
+export const selectedDataAtom = createAtom(
   {
     currentMapPositionAtom,
     currentEventAtom,
@@ -34,7 +34,6 @@ export const composedDataAtom = createAtom(
 
     const enabledLayers = get('enabledLayersAtom');
     newState.layers = enabledLayers;
-    console.log('[ComposedDataAtom] state:', newState);
     return newState;
   },
 );
