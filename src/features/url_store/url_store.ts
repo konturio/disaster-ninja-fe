@@ -8,6 +8,7 @@ interface UrlEncoder<
 }
 
 export class URLStore {
+  _init = false;
   _listener: (nesSate: UrlData) => void = () => {
     /* noop */
   };
@@ -31,9 +32,16 @@ export class URLStore {
     });
 
     this._listener(urlState);
+    this._init = true;
   }
 
   updateUrl(data: UrlData) {
+    /**
+     * This check allow to skip state updates until original url not read.
+     * Without this check url will have rewritten instantly by default state values
+     * */
+    if (this._init === false) return;
+
     window.history.pushState(
       data,
       document.title,

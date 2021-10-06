@@ -8,12 +8,18 @@ export const enabledLayersAtom = createAtom(
     disableAllLayers: () => null,
   },
   ({ onAction }, state: string[] = []) => {
-    onAction('enableLayer', (layer) => (state = [...state, layer]));
+    onAction(
+      'enableLayer',
+      (layer) => (state = Array.from(new Set([...state, layer]))),
+    );
     onAction(
       'disableLayer',
       (layerId) => (state = state.filter((layer) => layer !== layerId)),
     );
-    onAction('setLayers', (layersIds) => (state = [...layersIds]));
+    onAction(
+      'setLayers',
+      (layersIds) => (state = Array.from(new Set(layersIds))),
+    );
 
     return state;
   },
