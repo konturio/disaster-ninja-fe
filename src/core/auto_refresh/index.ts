@@ -3,40 +3,40 @@ interface Watcher {
 }
 
 class AutoRefreshService {
-  #watchers: Record<string, Watcher> = {};
-  #inProgress: Set<string> = new Set();
-  #intervalSec = 60;
-  #timer: NodeJS.Timeout | null = null;
+  private watchers: Record<string, Watcher> = {};
+  private inProgress: Set<string> = new Set();
+  private intervalSec = 60;
+  private timer: NodeJS.Timeout | null = null;
 
   constructor(sec = 60) {
-    this.#intervalSec = sec;
+    this.intervalSec = sec;
     this.run();
   }
 
   run() {
-    this.#timer = setInterval(() => {
-      Object.entries(this.#watchers).forEach(([id, watcher]) => {
+    this.timer = setInterval(() => {
+      Object.entries(this.watchers).forEach(([id, watcher]) => {
         const result = watcher.callback();
         if (result && 'finally' in result) {
           // Don't repeat request if previous still in progress
-          if (this.#inProgress.has(id)) return;
-          this.#inProgress.add(id);
-          result.finally(() => this.#inProgress.delete(id));
+          if (this.inProgress.has(id)) return;
+          this.inProgress.add(id);
+          result.finally(() => this.inProgress.delete(id));
         }
       });
-    }, this.#intervalSec * 1000);
+    }, this.intervalSec * 1000);
   }
 
   stop() {
-    if (this.#timer) clearInterval(this.#timer);
+    if (this.timer) clearInterval(this.timer);
   }
 
   addWatcher(id: string, callback: () => void) {
-    this.#watchers[id] = { callback };
+    this.watchers[id] = { callback };
   }
 
   removeWatcher(id: string) {
-    delete this.#watchers[id];
+    delete this.watchers[id];
   }
 }
 
