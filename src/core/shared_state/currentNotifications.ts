@@ -1,9 +1,14 @@
 import { createAtom } from '@reatom/core';
 
 export type NotificationType = 'error' | 'warning' | 'info';
+
+interface NotificationMessage {
+  title: string;
+  text?: string;
+}
 interface Notification {
   type: NotificationType;
-  message: string;
+  message: NotificationMessage;
   lifetimeSec: number;
 }
 
@@ -11,7 +16,7 @@ export const currentNotificationAtom = createAtom(
   {
     showNotification: (
       type: NotificationType,
-      message: string,
+      message: NotificationMessage,
       lifetimeSec: number,
     ) => ({ type, message, lifetimeSec }),
     _removeNotification: (id: number) => id,

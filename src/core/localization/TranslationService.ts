@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import common from './translations/en/common-messages.json';
 
-export const TranslationService = i18n
+i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
@@ -20,3 +20,5 @@ export const TranslationService = i18n
       },
     },
   });
+
+export const TranslationService = i18n;

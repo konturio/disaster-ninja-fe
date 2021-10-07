@@ -16,4 +16,5 @@ export default {
   },
   polygonSelectionModes,
   defaultPolygonSelectionMode: polygonSelectionModes.ViewMode,
+  apiVersion: 'v1',
 };

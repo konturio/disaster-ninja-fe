@@ -1,4 +1,5 @@
 import { currentNotificationAtom } from '~core/shared_state';
+import { NotificationMessage } from '~core/types/notification';
 
 export class NotificationService {
   private static instance: NotificationService;
@@ -17,9 +18,10 @@ export class NotificationService {
 
   public static init() {
     NotificationService.instance = new NotificationService();
+    return NotificationService.instance;
   }
 
-  error(message: string, lifetimeSec?: number) {
+  error(message: NotificationMessage, lifetimeSec?: number) {
     currentNotificationAtom.showNotification(
       'error',
       message,
@@ -27,7 +29,7 @@ export class NotificationService {
     );
   }
 
-  warning(message: string, lifetimeSec?: number) {
+  warning(message: NotificationMessage, lifetimeSec?: number) {
     currentNotificationAtom.showNotification(
       'warning',
       message,
@@ -35,7 +37,7 @@ export class NotificationService {
     );
   }
 
-  info(message: string, lifetimeSec?: number) {
+  info(message: NotificationMessage, lifetimeSec?: number) {
     currentNotificationAtom.showNotification(
       'info',
       message,

@@ -8,11 +8,12 @@ import {
 } from 'apisauce';
 import { GeneralApiProblem, getGeneralApiProblem } from './ApiProblem';
 import { GenericRequestResult, LoginRequestResult } from './ApiTypes';
+import { NotificationMessage } from '~core/types/notification';
 
 const LOCALSTORAGE_AUTH_KEY = 'app_management_auth';
 
 export interface INotificationService {
-  error: (message: string, description?: string) => void;
+  error: (message: NotificationMessage, lifetimeSec?: number) => void;
 }
 
 export interface ITranslationService {
@@ -92,6 +93,7 @@ export class ApiClient {
 
   public static init(config: ApiClientConfig) {
     ApiClient.instance = new ApiClient(config);
+    return ApiClient.instance;
   }
 
   /**
@@ -184,10 +186,10 @@ export class ApiClient {
 
       if (problem) {
         const error = this.parseError(problem);
-        this.notificationService.error(
-          this.translationService.t('Error'),
-          this.translationService.t(error),
-        );
+        this.notificationService.error({
+          title: this.translationService.t('Error'),
+          description: this.translationService.t(error),
+        });
         return problem;
       }
     }

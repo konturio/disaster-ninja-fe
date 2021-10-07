@@ -4,9 +4,9 @@ import {
   currentMapPositionAtom,
   enabledLayersAtom,
 } from '~core/shared_state';
-import { selectedDataAtom } from './atoms/selected_data';
-import { URLStore } from './url_store';
-import { URLDataInSearchEncoder } from './data_in_URL_encoder';
+import { selectedDataAtom } from './atoms/selectedData';
+import { URLStore } from './URLStore';
+import { URLDataInSearchEncoder } from './dataInURLEncoder';
 import { UrlData } from './types';
 
 export const initUrlStore = () => {
