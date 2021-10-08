@@ -1,7 +1,8 @@
+import config from './app_config/runtime';
 import { NotificationService } from './notifications';
 import { TranslationService } from './localization';
-import { ApiClient } from './api_client/ApiClient';
-import config from './app_config/runtime';
+import { ApiClient } from './api_client';
+import { autoRefreshService } from './auto_refresh';
 
 export const boot = () => {
   ApiClient.init({
@@ -10,4 +11,6 @@ export const boot = () => {
     loginApiPath: `/api/${config.apiVersion}/login`,
     translationService: TranslationService,
   });
+
+  autoRefreshService.start(60 /* refresh every sec */);
 };

@@ -403,3 +403,5 @@ export class ApiClient {
     return this.call(ApiMethod.delete, path, undefined, useAuth, axiosConfig);
   }
 }
+
+export const apiClient = ApiClient.getInstance();

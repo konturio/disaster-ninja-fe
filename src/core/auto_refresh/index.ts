@@ -1,28 +1,25 @@
-interface Watcher {
-  callback: () => void | Promise<() => void>;
-}
+import { Unsubscribe } from '@reatom/core';
+import { ResourceAtom } from '~utils/atoms/createResourceAtom';
 
 class AutoRefreshService {
-  private watchers: Record<string, Watcher> = {};
-  private inProgress: Set<string> = new Set();
+  private resources: Record<
+    string,
+    {
+      loading: boolean;
+      unsubscribe: Unsubscribe;
+      refetch: () => void;
+    }
+  > = {};
   private intervalSec = 60;
   private timer: NodeJS.Timeout | null = null;
 
-  constructor(sec = 60) {
-    this.intervalSec = sec;
-    this.run();
-  }
-
-  run() {
+  start(sec: number) {
+    this.intervalSec = sec || this.intervalSec;
     this.timer = setInterval(() => {
-      Object.entries(this.watchers).forEach(([id, watcher]) => {
-        const result = watcher.callback();
-        if (result && 'finally' in result) {
-          // Don't repeat request if previous still in progress
-          if (this.inProgress.has(id)) return;
-          this.inProgress.add(id);
-          result.finally(() => this.inProgress.delete(id));
-        }
+      Object.entries(this.resources).forEach(([id, resource]) => {
+        // Don't repeat request if previous still in progress
+        if (this.resources[id].loading) return;
+        this.resources[id].refetch();
       });
     }, this.intervalSec * 1000);
   }
@@ -31,13 +28,17 @@ class AutoRefreshService {
     if (this.timer) clearInterval(this.timer);
   }
 
-  addWatcher(id: string, callback: () => void) {
-    this.watchers[id] = { callback };
+  addWatcher(id: string, atom: ResourceAtom<any, any>) {
+    const unsubscribe = atom.subscribe(
+      ({ loading }) => (this.resources[id].loading = loading),
+    );
+    this.resources[id].refetch = () => atom.refetch.dispatch();
+    this.resources[id].unsubscribe = unsubscribe;
   }
 
   removeWatcher(id: string) {
-    delete this.watchers[id];
+    delete this.resources[id];
   }
 }
 
-export const autoRefreshService = new AutoRefreshService(60 /* sec */);
+export const autoRefreshService = new AutoRefreshService();
