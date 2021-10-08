@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createReducer } from 'redux-act';
 import produce from 'immer';
-import config from '~config/runtime';
+import config from '~core/app_config/runtime';
 import { createGeoJSONSource } from '~utils/geoJSON/helpers';
 import type { AppModuleState } from './types';
 import {

@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import common from './translations/common-messages.json';
+import common from './translations/en/common-messages.json';
 
 i18n
   .use(LanguageDetector)
@@ -21,4 +21,4 @@ i18n
     },
   });
 
-export default i18n;
+export const TranslationService = i18n;

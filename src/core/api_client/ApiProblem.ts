@@ -1,4 +1,5 @@
 import { ApiResponse } from 'apisauce';
+import { ITranslationService } from './ApiClient';
 
 export type GeneralApiProblem =
   /**
@@ -12,14 +13,11 @@ export type GeneralApiProblem =
   /**
    * The server experienced a problem. Any 5xx error.
    */
-  | { kind: 'server' }
+  | { kind: 'server'; data?: any }
   /**
    * We're not allowed because we haven't identified ourself. This is 401.
    */
-  | {
-    kind: 'unauthorized';
-    message: string;
-  }
+  | { kind: 'unauthorized'; data: string }
   /**
    * We don't have access to perform that request. This is 403.
    */
@@ -27,11 +25,11 @@ export type GeneralApiProblem =
   /**
    * Unable to find that resource.  This is a 404.
    */
-  | { kind: 'not-found' }
+  | { kind: 'not-found'; data?: string }
   /**
    * All other 4xx series errors.
    */
-  | { kind: 'rejected' }
+  | { kind: 'rejected'; data: any }
   /**
    * Something truly unexpected happened. Most likely can try again. This is a catch all.
    */
@@ -57,7 +55,7 @@ export function getGeneralApiProblem(
     case 'TIMEOUT_ERROR':
       return { kind: 'timeout', temporary: true };
     case 'SERVER_ERROR':
-      return { kind: 'server' };
+      return { kind: 'server', data: response.data };
     case 'UNKNOWN_ERROR':
       return { kind: 'unknown', temporary: true };
     case 'CLIENT_ERROR':
@@ -65,15 +63,14 @@ export function getGeneralApiProblem(
         case 401:
           return {
             kind: 'unauthorized',
-            message:
-              'You a not authorized or session has expired. Try to reload the page.',
+            data: 'Not authorized or session has expired.',
           };
         case 403:
           return { kind: 'forbidden' };
         case 404:
-          return { kind: 'not-found' };
+          return { kind: 'not-found', data: response.data };
         default:
-          return { kind: 'rejected' };
+          return { kind: 'rejected', data: response.data };
       }
     case 'CANCEL_ERROR':
       return null;

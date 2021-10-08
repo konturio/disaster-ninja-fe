@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { put, take, takeLatest } from 'redux-saga/effects';
-import client from '~services/api/client';
+// import client from '~services/api/client';
 import {
   requestStats,
   setSelectedPolygon,
@@ -17,20 +17,20 @@ function* fetchStats({ payload }) {
     yield put(setStats(_worldWideStatsCache));
   } else {
     yield put(setShowLoadingIndicator(true));
-    const graphqlData = yield client.getStatics(payload);
-    switch (graphqlData.kind) {
-      case 'ok':
-        if (isWorldWideRequest) {
-          _worldWideStatsCache = graphqlData.data;
-        }
-        yield put(setStats(graphqlData.data));
-        break;
-      case 'timeout':
-        alert(i18n.t('Request Timeout'));
-        break;
-      default:
-        break;
-    }
+    // const graphqlData = yield client.getStatics(payload);
+    // switch (graphqlData.kind) {
+    //   case 'ok':
+    //     if (isWorldWideRequest) {
+    //       _worldWideStatsCache = graphqlData.data;
+    //     }
+    //     yield put(setStats(graphqlData.data));
+    //     break;
+    //   case 'timeout':
+    //     alert(i18n.t('Request Timeout'));
+    //     break;
+    //   default:
+    //     break;
+    // }
     yield put(setShowLoadingIndicator(false));
   }
 }

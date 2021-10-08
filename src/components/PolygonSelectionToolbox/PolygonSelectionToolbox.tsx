@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { icons } from '@k2-packages/map-draw-tools';
 import { setActiveDrawMode } from '~appModule/actions';
-import config from '~config/runtime';
+import config from '~core/app_config/runtime';
 import { connect, ConnectedProps } from 'react-redux';
 import ActionButton from '~components/ActionButton/ActionButton';
 import clsx from 'clsx';

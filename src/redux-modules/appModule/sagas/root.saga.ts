@@ -1,6 +1,6 @@
 import { put, spawn } from 'redux-saga/effects';
 import { putAndTake } from '~utils/saga/helpers';
-import client from '~services/api/client';
+// import client from '~services/api/client';
 import bivariateWorkflowSaga from '~appModule/sagas/bivariateWorkflow.saga';
 import calculateCorrelationMatrixSaga from '~appModule/sagas/calculateCorrelationMatrixSaga';
 import {
@@ -44,7 +44,7 @@ export default function* rootSaga() {
 
   // get config
   const apiConfig = yield putAndTake(requestConfig(), setConfig.getType());
-  client.setup(apiConfig.GRAPHQL_API);
+  // client.setup(apiConfig.GRAPHQL_API);
 
   // get stats
   const stats = yield putAndTake(requestStats(), setStats.getType());

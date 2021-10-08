@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "noImplicitAny": false,
     "useDefineForClassFields": true,
@@ -10,7 +11,7 @@
     ],
     "downlevelIteration": true,
     "allowJs": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -29,7 +30,9 @@
       "~config/*": ["config/*"],
       "~utils/*": ["utils/*"],
       "~services/*": ["services/*"],
-      "~appModule/*": ["redux-modules/appModule/*"]
+      "~appModule/*": ["redux-modules/appModule/*"],
+      "~core/*": ["core/*"],
+      "~features/*": ["features/*"]
     }
   },
   "include": [
@@ -41,7 +44,7 @@
     "jest.setup.js"
   ],
   "exclude": [
-    "**/*.test.tsx",
+    "**/*.test.tsx"
   ],
   "types": [
     "jest",
@@ -49,6 +52,6 @@
     "@types/react"
   ],
   "typeRoots": [
-    "./node_modules/@types",
-  ],
+    "./node_modules/@types"
+  ]
 }
