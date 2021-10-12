@@ -1,10 +1,3 @@
-const polygonSelectionModes = {
-  DrawPolygonMode: 'DrawPolygonMode',
-  SelectBoundaryMode: 'SelectBoundaryMode',
-  UploadMode: 'UploadMode',
-  ViewMode: 'ViewMode',
-} as const;
-
 export default {
   map: {
     accessToken: import.meta.env.KC_MAP_TOKEN as string,
@@ -14,7 +7,5 @@ export default {
       zoom: 1,
     },
   },
-  polygonSelectionModes,
-  defaultPolygonSelectionMode: polygonSelectionModes.ViewMode,
   apiVersion: 'v1',
 };
