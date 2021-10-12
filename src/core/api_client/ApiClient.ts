@@ -1,17 +1,11 @@
-import Axios, { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 import jwt_decode from 'jwt-decode';
-import {
-  ApiResponse,
-  ApiErrorResponse,
-  ApisauceConfig,
-  ApisauceInstance,
-  create,
-} from 'apisauce';
+import { ApiErrorResponse, ApiResponse, ApisauceConfig, ApisauceInstance, create } from 'apisauce';
 import { GeneralApiProblem, getGeneralApiProblem } from './ApiProblem';
 import { AuthResponseData, GenericRequestResult } from './ApiTypes';
 import { NotificationMessage } from '~core/types/notification';
 
-const LOCALSTORAGE_AUTH_KEY = 'app_management_auth';
+const LOCALSTORAGE_AUTH_KEY = 'auth_token';
 
 export interface INotificationService {
   error: (message: NotificationMessage, lifetimeSec?: number) => void;
@@ -30,20 +24,21 @@ export interface ApiClientConfig extends ApisauceConfig {
 }
 
 type ApiMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
+
 export class ApiClient {
   private static instance: ApiClient;
 
-  private apiSauceInstance: ApisauceInstance;
-  private translationService: ITranslationService;
-  private notificationService: INotificationService;
+  private readonly translationService: ITranslationService;
+  private readonly notificationService: INotificationService;
+  private readonly unauthorizedCallback?: () => void;
+  private readonly loginApiPath: string;
+  private readonly refreshTokenApiPath: string;
   private token = '';
   private refreshToken = '';
   private tokenWillExpire: Date | undefined;
   private checkTokenPromise: Promise<boolean> | undefined;
   private expiredTokenCallback?: () => void;
-  private unauthorizedCallback?: () => void;
-  private loginApiPath = '';
-  private refreshTokenApiPath = '';
+  public readonly apiSauceInstance: ApisauceInstance;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -85,14 +80,14 @@ export class ApiClient {
     }
   }
 
-  public static init(config: ApiClientConfig) {
+  public static init(config: ApiClientConfig): ApiClient {
     ApiClient.instance = new ApiClient(config);
     return ApiClient.instance;
   }
 
   /**
-   * Authentication
-   */
+  * Authentication
+  */
   private setAuth(tkn: string, refreshTkn: string): boolean {
     const decodedToken = jwt_decode<{ exp?: number }>(tkn);
     if (decodedToken.exp) {
@@ -167,7 +162,7 @@ export class ApiClient {
 
   private async processResponse<T>(
     response: ApiResponse<T, GeneralApiProblem>,
-  ): Promise<GenericRequestResult<T> | GeneralApiProblem> {
+  ): Promise<GenericRequestResult<T>> {
     if (!response.ok) {
       // call redirection callback if user not authorized
       if (
@@ -177,7 +172,7 @@ export class ApiClient {
         this.unauthorizedCallback();
       }
       const problem = getGeneralApiProblem(response);
-      const error = this.parseError(problem);
+      const error = ApiClient.parseError(problem);
 
       this.notificationService.error({
         title: this.translationService.t('Error'),
@@ -190,7 +185,7 @@ export class ApiClient {
     return { kind: 'ok', data: response.data };
   }
 
-  private parseError(errorResponse: GeneralApiProblem): string {
+  private static parseError(errorResponse: GeneralApiProblem): string {
     if (errorResponse && 'data' in errorResponse) {
       const { data: errorData } = errorResponse;
       if (errorData !== null) {
@@ -258,7 +253,7 @@ export class ApiClient {
     return false;
   }
 
-  public async login(username: string, password: string) {
+  public async login(username: string, password: string): Promise<GenericRequestResult<AuthResponseData>> {
     const response = await this.apiSauceInstance.post<
       AuthResponseData,
       GeneralApiProblem
@@ -271,9 +266,7 @@ export class ApiClient {
       if (response.data) {
         this.setAuth(response.data.accessToken, response.data.refreshToken);
       }
-      {
-        // ? What we do if auth response 204?
-      }
+      // todo: add 204 response processing
     }
 
     return this.processResponse(response);
@@ -302,7 +295,7 @@ export class ApiClient {
         this.setAuth(response.data.accessToken, response.data.refreshToken);
       }
       {
-        // ? What we do if auth response 204?
+        //todo: Add 204 error processing
       }
     }
 
@@ -325,8 +318,7 @@ export class ApiClient {
     if (useAuth) {
       const tokenCheckError = await this.checkToken(axiosConfig);
       if (tokenCheckError) {
-        const proceededError = await this.processResponse<T>(tokenCheckError);
-        return proceededError;
+        return await this.processResponse<T>(tokenCheckError);
       }
 
       if (!axiosConfig.headers || !axiosConfig.headers.Authorization) {
@@ -396,5 +388,3 @@ export class ApiClient {
     return this.call('delete', path, undefined, useAuth, axiosConfig);
   }
 }
-
-export const apiClient = ApiClient.getInstance();

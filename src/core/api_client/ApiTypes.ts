@@ -5,9 +5,4 @@ export interface AuthResponseData {
   refreshToken: string;
 }
 
-export type GenericRequestResult<T> =
-  | {
-      kind: 'ok';
-      data?: T;
-    }
-  | GeneralApiProblem;
+export type GenericRequestResult<T> = { kind: 'ok'; data?: T; } | GeneralApiProblem;
