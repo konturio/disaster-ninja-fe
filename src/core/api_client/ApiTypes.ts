@@ -1,18 +1,13 @@
 import { GeneralApiProblem } from './ApiProblem';
 
-export type LoginRequestResult =
-  | {
-      kind: 'ok';
-      data: {
-        accessToken: string;
-        refreshToken: string;
-      };
-    }
-  | GeneralApiProblem;
+export interface AuthResponseData {
+  accessToken: string;
+  refreshToken: string;
+}
 
-export type GenericRequestResult =
+export type GenericRequestResult<T> =
   | {
       kind: 'ok';
-      data: any;
+      data?: T;
     }
   | GeneralApiProblem;

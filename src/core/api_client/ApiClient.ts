@@ -2,12 +2,13 @@ import Axios, { AxiosRequestConfig } from 'axios';
 import jwt_decode from 'jwt-decode';
 import {
   ApiResponse,
+  ApiErrorResponse,
   ApisauceConfig,
   ApisauceInstance,
   create,
 } from 'apisauce';
 import { GeneralApiProblem, getGeneralApiProblem } from './ApiProblem';
-import { GenericRequestResult, LoginRequestResult } from './ApiTypes';
+import { AuthResponseData, GenericRequestResult } from './ApiTypes';
 import { NotificationMessage } from '~core/types/notification';
 
 const LOCALSTORAGE_AUTH_KEY = 'app_management_auth';
@@ -28,14 +29,7 @@ export interface ApiClientConfig extends ApisauceConfig {
   unauthorizedCallback?: () => void;
 }
 
-export enum ApiMethod {
-  get = 'get',
-  post = 'post',
-  put = 'put',
-  patch = 'patch',
-  delete = 'delete',
-}
-
+type ApiMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
 export class ApiClient {
   private static instance: ApiClient;
 
@@ -100,8 +94,8 @@ export class ApiClient {
    * Authentication
    */
   private setAuth(tkn: string, refreshTkn: string): boolean {
-    const decodedToken: any = jwt_decode(tkn);
-    if (decodedToken) {
+    const decodedToken = jwt_decode<{ exp?: number }>(tkn);
+    if (decodedToken.exp) {
       const expiringDate = new Date(decodedToken.exp * 1000);
       if (expiringDate > new Date()) {
         this.token = tkn;
@@ -171,9 +165,9 @@ export class ApiClient {
     return res;
   }
 
-  private async processResponse(
-    response: ApiResponse<any>,
-  ): Promise<GenericRequestResult> {
+  private async processResponse<T>(
+    response: ApiResponse<T, GeneralApiProblem>,
+  ): Promise<GenericRequestResult<T> | GeneralApiProblem> {
     if (!response.ok) {
       // call redirection callback if user not authorized
       if (
@@ -183,60 +177,43 @@ export class ApiClient {
         this.unauthorizedCallback();
       }
       const problem = getGeneralApiProblem(response);
+      const error = this.parseError(problem);
 
-      if (problem) {
-        const error = this.parseError(problem);
-        this.notificationService.error({
-          title: this.translationService.t('Error'),
-          description: this.translationService.t(error),
-        });
-        return problem;
-      }
+      this.notificationService.error({
+        title: this.translationService.t('Error'),
+        description: this.translationService.t(error),
+      });
+
+      return problem;
     }
 
     return { kind: 'ok', data: response.data };
   }
 
   private parseError(errorResponse: GeneralApiProblem): string {
-    const serverError = errorResponse as { data: any };
-    if (serverError && serverError.data) {
-      if (typeof serverError.data === 'string') {
-        if (typeof serverError.data === 'string') {
-          try {
-            let jsonPart = serverError.data;
-            const ind1 = serverError.data.indexOf('{');
-            const ind2 = serverError.data.indexOf('}');
-            if (ind1 !== -1 && ind1 !== 0 && ind2 !== -1) {
-              jsonPart = serverError.data.slice(ind1, ind2 + 1);
-            }
-            const parsedData = JSON.parse(jsonPart);
-            if (typeof parsedData && parsedData.message) {
-              return parsedData.message;
-            }
-            return parsedData;
-          } catch (e) {
-            return serverError.data;
-          }
+    if (errorResponse && 'data' in errorResponse) {
+      const { data: errorData } = errorResponse;
+      if (errorData !== null) {
+        // Array
+        if (Array.isArray(errorData)) {
+          return errorData
+            .map((errorMsg) =>
+              errorMsg.name && errorMsg.message
+                ? `${errorMsg.name}: ${errorMsg.message}`
+                : errorMsg,
+            )
+            .join('<br/>');
         }
-      }
-      if (serverError.data.error) {
-        return serverError.data.error;
-      }
-      if (Array.isArray(serverError.data)) {
-        return serverError.data
-          .map((errorMsg) =>
-            errorMsg.name && errorMsg.message
-              ? `${errorMsg.name}: ${errorMsg.message}`
-              : errorMsg,
-          )
-          .join('<br/>');
+        // Object
+        if (errorData instanceof Object) {
+          const errorDataRecord: { error?: string } = errorData;
+          if (errorDataRecord.error) return errorDataRecord.error;
+        }
+
+        return String(errorData);
       }
 
-      return serverError.data.name && serverError.data.message
-        ? `${serverError.data.name}: ${serverError.data.message}`
-        : Object.entries(serverError.data)
-            .map(([, errorEntry]) => errorEntry)
-            .join('<br/>');
+      return 'Unknown Error';
     }
 
     switch (errorResponse.kind) {
@@ -244,8 +221,6 @@ export class ApiClient {
         return 'Request Timeout';
       case 'cannot-connect':
         return "Can't connect to server";
-      case 'unauthorized':
-        return 'Not authorized';
       case 'forbidden':
         return 'Forbidden';
       case 'not-found':
@@ -255,35 +230,50 @@ export class ApiClient {
       default:
         return 'Server Error';
     }
-
-    return 'Server Error';
   }
 
-  private async checkToken(): Promise<any> {
+  private async checkToken(
+    axiosConfig: AxiosRequestConfig,
+  ): Promise<ApiErrorResponse<GeneralApiProblem> | false> {
     const tokenCheck = await this.checkTokenIsExpired();
     if (!tokenCheck) {
+      const originalError = {
+        isAxiosError: false,
+        message: 'TOKEN ERROR',
+        name: 'Token error',
+        config: axiosConfig,
+      };
+
       return {
         ok: false,
         problem: 'CLIENT_ERROR',
         status: 401,
-        originalError: null,
+        originalError: {
+          ...originalError,
+          toJSON: () => originalError,
+        },
       };
     }
 
     return false;
   }
 
-  public async login(
-    username: string,
-    password: string,
-  ): Promise<LoginRequestResult> {
-    const response: ApiResponse<any> = await this.apiSauceInstance.post(
-      this.loginApiPath,
-      { username, password },
-    );
+  public async login(username: string, password: string) {
+    const response = await this.apiSauceInstance.post<
+      AuthResponseData,
+      GeneralApiProblem
+    >(this.loginApiPath, {
+      username,
+      password,
+    });
 
     if (response.ok) {
-      this.setAuth(response.data.accessToken, response.data.refreshToken);
+      if (response.data) {
+        this.setAuth(response.data.accessToken, response.data.refreshToken);
+      }
+      {
+        // ? What we do if auth response 204?
+      }
     }
 
     return this.processResponse(response);
@@ -293,8 +283,11 @@ export class ApiClient {
     this.resetAuth();
   }
 
-  public async refreshAuthToken(): Promise<LoginRequestResult> {
-    const response: ApiResponse<any> = await this.apiSauceInstance.post(
+  public async refreshAuthToken() {
+    const response = await this.apiSauceInstance.post<
+      AuthResponseData,
+      GeneralApiProblem
+    >(
       this.refreshTokenApiPath,
       { accessToken: this.token, refreshToken: this.refreshToken },
       {
@@ -305,29 +298,35 @@ export class ApiClient {
     );
 
     if (response.ok) {
-      this.setAuth(response.data.accessToken, response.data.refreshToken);
+      if (response.data) {
+        this.setAuth(response.data.accessToken, response.data.refreshToken);
+      }
+      {
+        // ? What we do if auth response 204?
+      }
     }
 
     return this.processResponse(response);
   }
 
-  public async call(
+  public async call<T>(
     method: ApiMethod,
     path: string,
     requestParams?: Record<string, unknown>,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult> {
-    let response;
+  ): Promise<GenericRequestResult<T>> {
+    let response: ApiResponse<T, GeneralApiProblem>;
+
+    if (!axiosConfig) {
+      axiosConfig = {};
+    }
 
     if (useAuth) {
-      const apiCheck = await this.checkToken();
-      if (apiCheck) {
-        return apiCheck;
-      }
-
-      if (!axiosConfig) {
-        axiosConfig = {};
+      const tokenCheckError = await this.checkToken(axiosConfig);
+      if (tokenCheckError) {
+        const proceededError = await this.processResponse<T>(tokenCheckError);
+        return proceededError;
       }
 
       if (!axiosConfig.headers || !axiosConfig.headers.Authorization) {
@@ -349,58 +348,52 @@ export class ApiClient {
       );
     }
 
-    return this.processResponse(response);
+    return this.processResponse<T>(response);
   }
 
   // method shortcuts
-  public async get(
+  public async get<T>(
     path: string,
     requestParams?: Record<string, unknown>,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult> {
-    return this.call(ApiMethod.get, path, requestParams, useAuth, axiosConfig);
+  ): Promise<GenericRequestResult<T>> {
+    return this.call<T>('get', path, requestParams, useAuth, axiosConfig);
   }
 
-  public async post(
+  public async post<T>(
     path: string,
     requestParams?: Record<string, unknown>,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult> {
-    return this.call(ApiMethod.post, path, requestParams, useAuth, axiosConfig);
+  ): Promise<GenericRequestResult<T>> {
+    return this.call('post', path, requestParams, useAuth, axiosConfig);
   }
 
-  public async put(
+  public async put<T>(
     path: string,
     requestParams?: Record<string, unknown>,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult> {
-    return this.call(ApiMethod.put, path, requestParams, useAuth, axiosConfig);
+  ): Promise<GenericRequestResult<T>> {
+    return this.call('put', path, requestParams, useAuth, axiosConfig);
   }
 
-  public async patch(
+  public async patch<T>(
     path: string,
     requestParams?: Record<string, unknown>,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult> {
-    return this.call(
-      ApiMethod.patch,
-      path,
-      requestParams,
-      useAuth,
-      axiosConfig,
-    );
+  ): Promise<GenericRequestResult<T>> {
+    return this.call('patch', path, requestParams, useAuth, axiosConfig);
   }
 
-  public async delete(
+  public async delete<T>(
     path: string,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult> {
-    return this.call(ApiMethod.delete, path, undefined, useAuth, axiosConfig);
+  ): Promise<GenericRequestResult<T>> {
+    return this.call('delete', path, undefined, useAuth, axiosConfig);
   }
 }
 
