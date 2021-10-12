@@ -20,9 +20,9 @@ export const selectedDataAtom = createAtom(
     const currentMapPosition = get('currentMapPositionAtom');
     newState.map = currentMapPosition
       ? [
-          currentMapPosition.zoom,
-          currentMapPosition.lng,
-          currentMapPosition.lat,
+          Number(currentMapPosition.zoom.toFixed(3)),
+          Number(currentMapPosition.lng.toFixed(3)),
+          Number(currentMapPosition.lat.toFixed(3)),
         ]
       : undefined;
 
