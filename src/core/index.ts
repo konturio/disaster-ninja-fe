@@ -4,13 +4,13 @@ import { TranslationService } from './localization';
 import { ApiClient } from './api_client';
 import { autoRefreshService } from './auto_refresh';
 
-export const boot = () => {
-  ApiClient.init({
-    notificationService: NotificationService.init(),
-    baseURL: `/api/${config.apiVersion}`,
-    loginApiPath: `/api/${config.apiVersion}/login`,
-    translationService: TranslationService,
-  });
+ApiClient.init({
+  notificationService: NotificationService.init(),
+  baseURL: `/api/${config.apiVersion}`,
+  loginApiPath: `/api/${config.apiVersion}/login`,
+  translationService: TranslationService,
+});
 
-  autoRefreshService.start(60 /* refresh every sec */);
-};
+autoRefreshService.start(60 /* refresh every sec */);
+
+export const apiClient = ApiClient.getInstance();

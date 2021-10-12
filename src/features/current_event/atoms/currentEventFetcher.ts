@@ -1,5 +1,5 @@
 import { createResourceAtom } from '~utils/atoms';
-import { apiClient } from '~core/api_client';
+import { apiClient } from '~core/index';
 import { currentEventAtom } from '~core/shared_state';
 import { autoRefreshService } from '~core/auto_refresh';
 
