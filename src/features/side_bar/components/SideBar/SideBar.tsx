@@ -8,11 +8,13 @@ export function SideBar() {
   const [controls] = useAtom(sideControlsBarAtom);
   return (
     <ActionsBar>
-      {sortByPredefinedOrder(controls, controlsOrder).map((control) => (
-        <ActionsBarBTN key={control.id} onClick={control.onClick}>
-          {control.icon}
-        </ActionsBarBTN>
-      ))}
+      {sortByPredefinedOrder(Object.values(controls), controlsOrder).map(
+        (control) => (
+          <ActionsBarBTN key={control.id} onClick={control.onClick}>
+            {control.icon}
+          </ActionsBarBTN>
+        ),
+      )}
     </ActionsBar>
   );
 }

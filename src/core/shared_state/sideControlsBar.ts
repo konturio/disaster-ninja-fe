@@ -15,22 +15,25 @@ export const sideControlsBarAtom = createAtom(
     removeControl: (controlId: string) => controlId,
     toggleActiveState: (controlId: string) => controlId,
   },
-  ({ onAction }, state: SideControl[] = []) => {
-    onAction('addControl', (control) => (state = [...state, control]));
+  ({ onAction }, state: Record<string, SideControl> = {}) => {
     onAction(
-      'removeControl',
-      (controlId) =>
-        (state = state.filter((control) => control.id !== controlId)),
+      'addControl',
+      (control) => (state = { ...state, [control.id]: control }),
     );
-    onAction(
-      'toggleActiveState',
-      (controlId) =>
-        (state = state.map((control) =>
-          control.id !== controlId
-            ? control
-            : { ...control, active: !control.active },
-        )),
-    );
+    onAction('removeControl', (controlId) => {
+      delete state[controlId];
+      state = { ...state };
+    });
+    onAction('toggleActiveState', (controlId) => {
+      if (state[controlId]) {
+        state[controlId].active = !state[controlId].active;
+        state = { ...state };
+      } else {
+        console.error(
+          `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it not exist`,
+        );
+      }
+    });
     return state;
   },
 );

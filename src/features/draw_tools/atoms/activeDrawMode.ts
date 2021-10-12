@@ -9,7 +9,7 @@ export const activeDrawModeAtom = createAtom(
   { sideControlsBarAtom, resetDrawMode: () => null },
   ({ onChange, onAction }, state: DrawModes = defaultPolygonSelectionMode) => {
     onChange('sideControlsBarAtom', (controls) => {
-      const enabledDrawControl = controls.find(
+      const enabledDrawControl = Object.values(controls).find(
         (control) =>
           control.active &&
           DRAW_TOOLS_CONTROLS.includes(control.id as DrawModes),
