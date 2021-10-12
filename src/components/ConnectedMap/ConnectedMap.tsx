@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import Map, { MapBoxMapProps } from '@k2-packages/map';
 import MapDrawTools from '@k2-packages/map-draw-tools';
 import DeckGl from '@k2-packages/deck-gl';
@@ -15,12 +15,17 @@ import {
   DRAW_MODE_CONFIG,
   boundaryLayers,
 } from '~features/draw_tools/constants';
+import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 
-const updatedMapStyle = (mapStyle: MapStyle | undefined, layers, sources) => {
+const updatedMapStyle = (
+  mapStyle: MapStyle | undefined,
+  layers = [],
+  sources = {},
+) => {
   if (mapStyle) {
     return {
       ...mapStyle,
-      layers: mapStyle.layers.concat(layers).concat(boundaryLayers),
+      layers: (mapStyle.layers || []).concat(layers),
       sources: sources || {},
     };
   }
@@ -35,8 +40,11 @@ export function ConnectedMap({
   ...rest
 }: MapBoxMapProps) {
   const mapRef = useRef<any>();
+  useMapPositionSmoothSync(mapRef);
+
   const [focusedGeometry, focusedGeometryAtomActions] =
     useAtom(focusedGeometryAtom);
+
   const [activeDrawMode, drawModeActions] = useAtom(activeDrawModeAtom);
 
   useDisableDoubleClick(mapRef);
@@ -55,19 +63,6 @@ export function ConnectedMap({
     [setDrawings, drawModeActions, focusedGeometryAtomActions],
   );
 
-  const [currentMapPosition] = useAtom(currentMapPositionAtom);
-
-  const mapStyleWithPosition = useMemo(() => {
-    const lng = currentMapPosition?.lng ?? mapStyle?.center?.[0] ?? 0;
-    const lat = currentMapPosition?.lat ?? mapStyle?.center?.[1] ?? 0;
-    const zoom = currentMapPosition?.zoom ?? mapStyle?.zoom ?? 10;
-    return {
-      ...mapStyle,
-      center: [lng, lat],
-      zoom,
-    };
-  }, [currentMapPosition, mapStyle]);
-
   return (
     <MapDrawTools
       geoJSON={drawings}
@@ -82,11 +77,7 @@ export function ConnectedMap({
           {({ layers }) => (
             <Map
               ref={mapRef}
-              mapStyle={updatedMapStyle(
-                mapStyleWithPosition as any,
-                layers,
-                {},
-              )}
+              mapStyle={updatedMapStyle(mapStyle as any, layers, {})}
               markers={markers}
               layersOnTop={[
                 'editable-layer',
