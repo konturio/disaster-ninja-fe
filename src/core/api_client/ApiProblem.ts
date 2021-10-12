@@ -1,5 +1,4 @@
 import { ApiResponse } from 'apisauce';
-import { ITranslationService } from './ApiClient';
 
 export type GeneralApiProblem =
   /**
@@ -13,7 +12,7 @@ export type GeneralApiProblem =
   /**
    * The server experienced a problem. Any 5xx error.
    */
-  | { kind: 'server'; data?: any }
+  | { kind: 'server'; data?: unknown }
   /**
    * We're not allowed because we haven't identified ourself. This is 401.
    */
@@ -25,11 +24,11 @@ export type GeneralApiProblem =
   /**
    * Unable to find that resource.  This is a 404.
    */
-  | { kind: 'not-found'; data?: string }
+  | { kind: 'not-found' }
   /**
    * All other 4xx series errors.
    */
-  | { kind: 'rejected'; data: any }
+  | { kind: 'rejected'; data: unknown }
   /**
    * Something truly unexpected happened. Most likely can try again. This is a catch all.
    */
@@ -37,46 +36,48 @@ export type GeneralApiProblem =
   /**
    * The data we received is not in the expected format.
    */
-  | { kind: 'bad-data' };
+  | { kind: 'bad-data' }
+  /**
+   * Request canceled by using cancel token.
+   */
+  | { kind: 'canceled' };
 
 /**
  * Attempts to get a common cause of problems from an api response.
  *
  * @param response The api response.
  */
-export function getGeneralApiProblem(
-  response: ApiResponse<any>,
-): GeneralApiProblem | null {
+export function getGeneralApiProblem(response: ApiResponse<GeneralApiProblem>) {
   switch (response.problem) {
     case 'CONNECTION_ERROR':
-      return { kind: 'cannot-connect', temporary: true };
+      return { kind: 'cannot-connect', temporary: true } as const;
     case 'NETWORK_ERROR':
-      return { kind: 'cannot-connect', temporary: true };
+      return { kind: 'cannot-connect', temporary: true } as const;
     case 'TIMEOUT_ERROR':
-      return { kind: 'timeout', temporary: true };
+      return { kind: 'timeout', temporary: true } as const;
     case 'SERVER_ERROR':
-      return { kind: 'server', data: response.data };
+      return { kind: 'server', data: response.data } as const;
     case 'UNKNOWN_ERROR':
-      return { kind: 'unknown', temporary: true };
+      return { kind: 'unknown', temporary: true } as const;
     case 'CLIENT_ERROR':
       switch (response.status) {
         case 401:
           return {
             kind: 'unauthorized',
             data: 'Not authorized or session has expired.',
-          };
+          } as const;
         case 403:
-          return { kind: 'forbidden' };
+          return { kind: 'forbidden' } as const;
         case 404:
-          return { kind: 'not-found', data: response.data };
+          return { kind: 'not-found' } as const;
         default:
-          return { kind: 'rejected', data: response.data };
+          return { kind: 'rejected', data: response.data } as const;
       }
-    case 'CANCEL_ERROR':
-      return null;
-    default:
-      return null;
-  }
 
-  return null;
+    case 'CANCEL_ERROR':
+      return { kind: 'canceled' } as const;
+
+    default:
+      return { kind: 'unknown', temporary: true } as const;
+  }
 }
