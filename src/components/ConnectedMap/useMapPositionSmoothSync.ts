@@ -18,12 +18,6 @@ export function useMapPositionSmoothSync(mapRef) {
       const zoom = map.getZoom();
       const { lng, lat } = map.getCenter();
       const changeMapPosition = () => {
-        console.log('easeTo', {
-          center: [newMapPosition.lng, newMapPosition.lat],
-          zoom: newMapPosition.zoom,
-          duration: 3000,
-        });
-
         map.easeTo({
           center: [newMapPosition.lng, newMapPosition.lat],
           zoom: newMapPosition.zoom,

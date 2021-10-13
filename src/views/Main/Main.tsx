@@ -15,6 +15,7 @@ function BivariateLayerManagerView() {
     import('~features/geometry_uploader').then(({ initFileUploader }) =>
       initFileUploader(),
     );
+    import('~features/map_ruler').then(({ initMapRuler }) => initMapRuler());
   }, []);
 
   return (
