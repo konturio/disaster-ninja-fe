@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import Map, { MapBoxMapProps } from '@k2-packages/map';
 import MapDrawTools from '@k2-packages/map-draw-tools';
 import DeckGl from '@k2-packages/deck-gl';

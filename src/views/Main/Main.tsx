@@ -1,13 +1,15 @@
+import { useEffect, Suspense } from 'react';
+import { lazily } from 'react-lazily';
 import { AppHeader, Logo } from '@k2-packages/ui-kit';
 import config from '~core/app_config/runtime';
 import { ConnectedMap } from '~components/ConnectedMap/ConnectedMap';
 import { Row } from '~components/Layout/Layout';
 import styles from './Main.module.css';
-import { DisastersListPanel } from '~components/DisastersListPanel/DisastersListPanel';
-import { useEffect } from 'react';
-import { SideBar } from '~features/side_bar/components/SideBar/SideBar';
 
-function BivariateLayerManagerView() {
+const { SideBar } = lazily(() => import('~features/side_bar'));
+const { EventList } = lazily(() => import('~features/events_list'));
+
+function MainView() {
   useEffect(() => {
     /* Lazy load module */
     // TODO: Add feature flag check
@@ -22,8 +24,10 @@ function BivariateLayerManagerView() {
     <>
       <AppHeader title="Disaster Ninja" />
       <Row>
-        <SideBar />
-        {/* <DisastersListPanel /> */}
+        <Suspense fallback={null}>
+          <SideBar />
+          <EventList />
+        </Suspense>
         <div className={styles.root} style={{ flex: 1, position: 'relative' }}>
           <ConnectedMap
             options={
@@ -35,8 +39,6 @@ function BivariateLayerManagerView() {
             accessToken={config.map.accessToken || ''}
             className={styles.Map}
           />
-          {/* <BivariatePanel />
-          <LegendPanel /> */}
           <div style={{ position: 'absolute', left: '8px', bottom: '8px' }}>
             <Logo height={24} palette={'contrast'} />
           </div>
@@ -46,4 +48,4 @@ function BivariateLayerManagerView() {
   );
 }
 
-export default BivariateLayerManagerView;
+export default MainView;

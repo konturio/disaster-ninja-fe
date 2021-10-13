@@ -29,10 +29,13 @@ class AutoRefreshService {
   }
 
   addWatcher(id: string, atom: ResourceAtom<any, any>) {
-    const unsubscribe = atom.subscribe(
-      ({ loading }) => (this.resources[id].loading = loading),
-    );
-    this.resources[id].refetch = () => atom.refetch.dispatch();
+    const unsubscribe = atom.subscribe(({ loading }) => {
+      this.resources[id] = {
+        refetch: () => atom.refetch.dispatch(),
+        unsubscribe: () => null,
+        loading,
+      };
+    });
     this.resources[id].unsubscribe = unsubscribe;
   }
 
