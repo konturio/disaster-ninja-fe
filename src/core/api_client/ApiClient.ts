@@ -1,8 +1,18 @@
 import { AxiosRequestConfig } from 'axios';
 import jwt_decode from 'jwt-decode';
-import { ApiErrorResponse, ApiResponse, ApisauceConfig, ApisauceInstance, create } from 'apisauce';
-import { GeneralApiProblem, getGeneralApiProblem } from './ApiProblem';
-import { AuthResponseData, GenericRequestResult } from './ApiTypes';
+import {
+  ApiErrorResponse,
+  ApiResponse,
+  ApisauceConfig,
+  ApisauceInstance,
+  create,
+} from 'apisauce';
+import {
+  ApiClientError,
+  GeneralApiProblem,
+  getGeneralApiProblem,
+} from './ApiProblem';
+import { AuthResponseData } from './ApiTypes';
 import { NotificationMessage } from '~core/types/notification';
 
 const LOCALSTORAGE_AUTH_KEY = 'auth_token';
@@ -33,12 +43,12 @@ export class ApiClient {
   private readonly unauthorizedCallback?: () => void;
   private readonly loginApiPath: string;
   private readonly refreshTokenApiPath: string;
+  private readonly apiSauceInstance: ApisauceInstance;
   private token = '';
   private refreshToken = '';
   private tokenWillExpire: Date | undefined;
   private checkTokenPromise: Promise<boolean> | undefined;
   private expiredTokenCallback?: () => void;
-  public readonly apiSauceInstance: ApisauceInstance;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -86,11 +96,18 @@ export class ApiClient {
   }
 
   /**
-  * Authentication
-  */
-  private setAuth(tkn: string, refreshTkn: string): boolean {
-    const decodedToken = jwt_decode<{ exp?: number }>(tkn);
-    if (decodedToken.exp) {
+   * Authentication
+   */
+  private setAuth(tkn: string, refreshTkn: string): string | undefined {
+    let decodedToken: { exp?: number };
+
+    try {
+      decodedToken = jwt_decode<{ exp?: number }>(tkn);
+    } catch (e) {
+      return "Can't decode token!";
+    }
+
+    if (decodedToken && decodedToken.exp) {
       const expiringDate = new Date(decodedToken.exp * 1000);
       if (expiringDate > new Date()) {
         this.token = tkn;
@@ -100,11 +117,13 @@ export class ApiClient {
           LOCALSTORAGE_AUTH_KEY,
           JSON.stringify({ token: tkn, refreshToken: refreshTkn }),
         );
-        return true;
+        return;
+      } else {
+        return 'Wrong token expire time!';
       }
     }
 
-    return false;
+    return 'Wrong data received!';
   }
 
   private resetAuth() {
@@ -114,7 +133,7 @@ export class ApiClient {
     localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
   }
 
-  private async checkTokenIsExpired() {
+  private async checkTokenIsExpired(): Promise<boolean> {
     if (!this.checkTokenPromise) {
       // eslint-disable-next-line no-async-promise-executor
       this.checkTokenPromise = new Promise<boolean>(async (resolve) => {
@@ -133,7 +152,7 @@ export class ApiClient {
           const minutes5 = 1000 * 60 * 5;
           if (diffTime < minutes5) {
             const refreshResult = await this.refreshAuthToken();
-            if (refreshResult.kind === 'ok') {
+            if (refreshResult) {
               resolve(true);
               return true;
             }
@@ -162,27 +181,27 @@ export class ApiClient {
 
   private async processResponse<T>(
     response: ApiResponse<T, GeneralApiProblem>,
-  ): Promise<GenericRequestResult<T>> {
-    if (!response.ok) {
-      // call redirection callback if user not authorized
-      if (
-        this.unauthorizedCallback &&
-        (response.status === 401 || response.status === 403)
-      ) {
-        this.unauthorizedCallback();
-      }
-      const problem = getGeneralApiProblem(response);
-      const error = ApiClient.parseError(problem);
-
-      this.notificationService.error({
-        title: this.translationService.t('Error'),
-        description: this.translationService.t(error),
-      });
-
-      return problem;
+  ): Promise<T | undefined | never> {
+    if (response.ok) {
+      return response.data;
     }
 
-    return { kind: 'ok', data: response.data };
+    // call redirection callback if user not authorized
+    if (
+      this.unauthorizedCallback &&
+      (response.status === 401 || response.status === 403)
+    ) {
+      this.unauthorizedCallback();
+    }
+    const problem = getGeneralApiProblem(response);
+    const errorMessage = ApiClient.parseError(problem);
+
+    this.notificationService.error({
+      title: this.translationService.t('Error'),
+      description: this.translationService.t(errorMessage),
+    });
+
+    throw new ApiClientError(errorMessage, problem);
   }
 
   private static parseError(errorResponse: GeneralApiProblem): string {
@@ -253,7 +272,10 @@ export class ApiClient {
     return false;
   }
 
-  public async login(username: string, password: string): Promise<GenericRequestResult<AuthResponseData>> {
+  public async login(
+    username: string,
+    password: string,
+  ): Promise<AuthResponseData | undefined> {
     const response = await this.apiSauceInstance.post<
       AuthResponseData,
       GeneralApiProblem
@@ -262,21 +284,45 @@ export class ApiClient {
       password,
     });
 
-    if (response.ok) {
-      if (response.data) {
-        this.setAuth(response.data.accessToken, response.data.refreshToken);
-      }
-      // todo: add 204 response processing
-    }
-
+    this.processAuthResponse(response);
     return this.processResponse(response);
+  }
+
+  private processAuthResponse(
+    response: ApiResponse<AuthResponseData, GeneralApiProblem>,
+  ) {
+    if (response.ok) {
+      if (response.data && response.data.accessToken) {
+        const setAuthResult = this.setAuth(
+          response.data.accessToken,
+          response.data.refreshToken,
+        );
+        if (typeof setAuthResult === 'string') {
+          throw new ApiClientError(this.translationService.t(setAuthResult), {
+            kind: 'bad-data',
+          });
+        }
+      } else {
+        if (response.status === 204) {
+          throw new ApiClientError(
+            this.translationService.t('No data received!'),
+            { kind: 'no-data' },
+          );
+        } else {
+          throw new ApiClientError(
+            this.translationService.t('Wrong data received!'),
+            { kind: 'bad-data' },
+          );
+        }
+      }
+    }
   }
 
   async logout() {
     this.resetAuth();
   }
 
-  public async refreshAuthToken() {
+  public async refreshAuthToken(): Promise<AuthResponseData | undefined> {
     const response = await this.apiSauceInstance.post<
       AuthResponseData,
       GeneralApiProblem
@@ -290,15 +336,7 @@ export class ApiClient {
       },
     );
 
-    if (response.ok) {
-      if (response.data) {
-        this.setAuth(response.data.accessToken, response.data.refreshToken);
-      }
-      {
-        //todo: Add 204 error processing
-      }
-    }
-
+    this.processAuthResponse(response);
     return this.processResponse(response);
   }
 
@@ -308,7 +346,7 @@ export class ApiClient {
     requestParams?: Record<string, unknown>,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult<T>> {
+  ): Promise<T | undefined> {
     let response: ApiResponse<T, GeneralApiProblem>;
 
     if (!axiosConfig) {
@@ -349,7 +387,7 @@ export class ApiClient {
     requestParams?: Record<string, unknown>,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult<T>> {
+  ): Promise<T | undefined> {
     return this.call<T>('get', path, requestParams, useAuth, axiosConfig);
   }
 
@@ -358,7 +396,7 @@ export class ApiClient {
     requestParams?: Record<string, unknown>,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult<T>> {
+  ): Promise<T | undefined> {
     return this.call('post', path, requestParams, useAuth, axiosConfig);
   }
 
@@ -367,7 +405,7 @@ export class ApiClient {
     requestParams?: Record<string, unknown>,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult<T>> {
+  ): Promise<T | undefined> {
     return this.call('put', path, requestParams, useAuth, axiosConfig);
   }
 
@@ -376,7 +414,7 @@ export class ApiClient {
     requestParams?: Record<string, unknown>,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult<T>> {
+  ): Promise<T | undefined> {
     return this.call('patch', path, requestParams, useAuth, axiosConfig);
   }
 
@@ -384,7 +422,7 @@ export class ApiClient {
     path: string,
     useAuth = true,
     axiosConfig?: AxiosRequestConfig,
-  ): Promise<GenericRequestResult<T>> {
+  ): Promise<T | undefined> {
     return this.call('delete', path, undefined, useAuth, axiosConfig);
   }
 }
