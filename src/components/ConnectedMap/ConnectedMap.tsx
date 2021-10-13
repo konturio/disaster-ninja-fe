@@ -1,166 +1,66 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import Map, { MapBoxMapProps } from '@k2-packages/map';
 import MapDrawTools from '@k2-packages/map-draw-tools';
 import DeckGl from '@k2-packages/deck-gl';
-import config from '~core/app_config/runtime';
+import { MapStyle } from '~appModule/types';
+import { useDisableDoubleClick } from './useDisableDoubleClick';
+import { useAtom } from '@reatom/react';
 import {
-  checkBoundaries,
-  setActiveDrawMode,
-  setSelectedPolygon,
-} from '~appModule/actions';
-import bbox from '@turf/bbox';
-import { useTranslation } from 'react-i18next';
-import { MapStyle, StateWithAppModule } from '~appModule/types';
-import * as selectors from '~appModule/selectors';
+  currentMapPositionAtom,
+  focusedGeometryAtom,
+} from '~core/shared_state';
+import { useDrawings } from './useDrawings';
+import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
+import {
+  DRAW_MODE_CONFIG,
+  boundaryLayers,
+} from '~features/draw_tools/constants';
+import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 
-const mapStateToProps = (state: StateWithAppModule) => ({
-  mapStyle: selectors.mapStyle(state),
-  markers: selectors.markers(state),
-  sources: selectors.sources(state),
-  activeDrawMode: selectors.activeDrawMode(state),
-  uploadedGeometry: selectors.uploadedGeometry(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setPolygonSelection: (polygonSelection: string | null) =>
-    dispatch(setSelectedPolygon(polygonSelection)),
-  dCheckBoundaries: (coords: [number, number]) =>
-    dispatch(checkBoundaries(coords)),
-  resetDrawMode: () =>
-    dispatch(setActiveDrawMode(config.defaultPolygonSelectionMode)),
-  setPolygonDrawMode: () =>
-    dispatch(setActiveDrawMode(config.polygonSelectionModes.DrawPolygonMode)),
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-const boundaryLayers = [
-  {
-    id: 'hovered-boundaries-layer',
-    type: 'line' as const,
-    source: 'hovered-boundaries',
-    paint: {
-      'line-color': 'black',
-      'line-width': 1,
-      'line-opacity': 0.7,
-    },
-  },
-  {
-    id: 'selected-boundaries-layer',
-    type: 'line' as const,
-    source: 'selected-boundaries',
-    paint: {
-      'line-color': 'black',
-      'line-width': 4,
-      'line-opacity': 0.7,
-    },
-  },
-];
-
-const updatedMapStyle = (mapStyle: MapStyle | undefined, layers, sources) => {
+const updatedMapStyle = (
+  mapStyle: MapStyle | undefined,
+  layers = [],
+  sources = {},
+) => {
   if (mapStyle) {
     return {
       ...mapStyle,
-      layers: mapStyle.layers.concat(layers).concat(boundaryLayers),
+      layers: (mapStyle.layers || []).concat(layers),
       sources: sources || {},
     };
   }
   return mapStyle;
 };
 
-const INIT_FEATURES: GeoJSON.GeoJSON = {
-  type: 'FeatureCollection',
-  features: [],
-};
-
-const DRAW_MODE_CONFIG = {
-  DrawPolygonMode: {
-    disableSelfIntersections: true,
-  },
-};
-
-const ConnectedMap = ({
+export function ConnectedMap({
   mapStyle,
   markers,
-  sources,
-  activeDrawMode,
-  setPolygonSelection,
-  dCheckBoundaries,
-  resetDrawMode,
-  setPolygonDrawMode,
-  uploadedGeometry,
+  // sources,
+  // dCheckBoundaries,
   ...rest
-}: MapBoxMapProps & ConnectedProps<typeof connector>) => {
-  const { t } = useTranslation();
+}: MapBoxMapProps) {
   const mapRef = useRef<any>();
-  useEffect(() => {
-    if (mapRef.current) {
-      mapRef.current.doubleClickZoom.disable();
-      requestAnimationFrame(() => {
-        mapRef.current.resize(); // Fix for webkit
-      });
-    }
-  }, [mapRef]);
+  useMapPositionSmoothSync(mapRef);
 
-  const [drawings, setDrawings] = useState<GeoJSON.GeoJSON>(INIT_FEATURES);
+  const [focusedGeometry, focusedGeometryAtomActions] =
+    useAtom(focusedGeometryAtom);
+
+  const [activeDrawMode, drawModeActions] = useAtom(activeDrawModeAtom);
+
+  useDisableDoubleClick(mapRef);
+  const [drawings, setDrawings, onEdit] = useDrawings();
 
   const onTriggerModeDataChange = useCallback(
     (data) => {
+      // User finished draw some geometry
       if (data && ((data.features && data.features.length) || data.geometry)) {
+        focusedGeometryAtomActions.setFocusedGeometry(data);
         setDrawings(data);
-        setPolygonSelection(JSON.stringify(data));
-        if (mapRef.current) {
-          mapRef.current.fitBounds(bbox(data));
-        }
       } else {
-        resetDrawMode();
+        drawModeActions.resetDrawMode();
       }
     },
-    [resetDrawMode, setPolygonSelection],
-  );
-
-  useEffect(() => {
-    if (uploadedGeometry !== null) {
-      setDrawings(uploadedGeometry);
-    }
-  }, [uploadedGeometry, setDrawings, activeDrawMode]);
-
-  const drawingsRef = useRef(drawings);
-  useEffect(() => {
-    const dr = drawingsRef.current as any;
-    if ((dr.features && dr.features.length) || dr.geometry) {
-      setDrawings(INIT_FEATURES);
-      setPolygonSelection(null);
-    }
-  }, [activeDrawMode, setPolygonSelection]);
-
-  const onEdit = useCallback(
-    ({ updatedData, editType, editContext }) => {
-      switch (editType) {
-        case 'addTentativePosition':
-          // clear previous drawings
-          if (updatedData.features && updatedData.features.length > 0) {
-            setDrawings(INIT_FEATURES);
-          }
-          break;
-        case 'addFeature':
-          setDrawings(updatedData);
-          setPolygonSelection(JSON.stringify(updatedData));
-          break;
-        case 'skipSelfIntersection':
-          alert(t('Self intersections are not supported'));
-          break;
-        case 'selectBoundary':
-          if (editContext.position && editContext.position.length > 1) {
-            dCheckBoundaries(editContext.position);
-          }
-          break;
-        default:
-          break;
-      }
-    },
-    [setDrawings, t, dCheckBoundaries, setPolygonSelection],
+    [setDrawings, drawModeActions, focusedGeometryAtomActions],
   );
 
   return (
@@ -177,7 +77,7 @@ const ConnectedMap = ({
           {({ layers }) => (
             <Map
               ref={mapRef}
-              mapStyle={updatedMapStyle(mapStyle as any, layers, sources)}
+              mapStyle={updatedMapStyle(mapStyle as any, layers, {})}
               markers={markers}
               layersOnTop={[
                 'editable-layer',
@@ -191,6 +91,4 @@ const ConnectedMap = ({
       )}
     </MapDrawTools>
   );
-};
-
-export default connector(ConnectedMap);
+}

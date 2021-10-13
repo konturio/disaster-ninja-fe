@@ -1,6 +1,6 @@
 import { createAtom } from '@reatom/core';
 
-export const enabledLayersAtom = createAtom(
+export const enabledUserLayersAtom = createAtom(
   {
     enableLayer: (layer: string) => layer,
     disableLayer: (layerId: string) => layerId,
