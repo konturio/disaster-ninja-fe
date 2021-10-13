@@ -1,1 +1,1 @@
-export const controlsOrder = ['upload_file'];
+export const controlsOrder = ['UploadFile', 'MeasureDistanceMode'];

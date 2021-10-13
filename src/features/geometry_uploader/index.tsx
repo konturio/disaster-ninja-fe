@@ -1,11 +1,11 @@
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { askGeoJSONFile } from './askGeoJSONFile';
-import { UploadFileIcon } from './UploadFileIcon';
+import { UploadFileIcon } from './components/UploadFileIcon';
 
 export function initFileUploader() {
   sideControlsBarAtom.addControl.dispatch({
-    id: 'upload_file',
+    id: 'UploadFile',
     name: 'Upload File',
     active: false,
     group: 'AOI',

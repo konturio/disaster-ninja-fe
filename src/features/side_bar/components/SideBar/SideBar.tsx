@@ -10,7 +10,11 @@ export function SideBar() {
     <ActionsBar>
       {sortByPredefinedOrder(Object.values(controls), controlsOrder).map(
         (control) => (
-          <ActionsBarBTN key={control.id} onClick={control.onClick}>
+          <ActionsBarBTN
+            key={control.id}
+            onClick={control.onClick}
+            active={control.active}
+          >
             {control.icon}
           </ActionsBarBTN>
         ),
