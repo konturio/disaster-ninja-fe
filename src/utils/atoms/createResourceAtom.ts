@@ -1,18 +1,17 @@
 import { createAtom, Atom, AtomSelfBinded } from '@reatom/core';
 
-interface ResourceAtomState<T> {
-  loading: boolean;
-  error: string | null;
-  data: T | null;
-}
+export type ResourceAtom<P, T> = AtomSelfBinded<
+  ResourceAtomState<T>,
+  {
+    request: (params?: P | undefined) => T | undefined;
+    refetch: () => undefined;
+    done: (data: T) => P;
+    error: (error: string) => string;
+    finally: () => null;
+  }
+>;
 
-type ResourceCtx<P> = {
-  version?: number;
-  lastParams?: P | null;
-  _refetchable?: boolean;
-};
-
-export function createResourceAtom<P, T>(
+function createReactiveResourceAtom<P, T>(
   paramsAtom: Atom<P>,
   fetcher: (params?: P | null) => Promise<T> | null,
 ) {
@@ -82,13 +81,88 @@ export function createResourceAtom<P, T>(
   );
 }
 
-export type ResourceAtom<P, T> = AtomSelfBinded<
-  ResourceAtomState<T>,
-  {
-    request: (params?: P | undefined) => T | undefined;
-    refetch: () => undefined;
-    done: (data: T) => P;
-    error: (error: string) => string;
-    finally: () => null;
-  }
->;
+function createStaticResourceAtom<T>(fetcher: () => Promise<T> | null) {
+  return createAtom(
+    {
+      request: () => undefined,
+      refetch: () => undefined,
+      done: (data: T) => data,
+      error: (error: string) => error,
+      finally: () => null,
+    },
+    (
+      { onAction, onInit, schedule, create },
+      state: ResourceAtomState<T> = {
+        loading: false,
+        data: null,
+        error: null,
+      },
+    ) => {
+      onInit(() => {
+        schedule((dispatch) => {
+          dispatch(create('request'));
+        });
+      });
+
+      onAction('request', () =>
+        schedule((dispatch, ctx: ResourceCtx<unknown>) => {
+          const version = (ctx.version ?? 0) + 1;
+          ctx.version = version;
+          const promise = fetcher();
+          if (promise !== null) {
+            // return from fetcher null, for skip request
+            ctx._refetchable = true;
+            promise
+              .then(
+                (response) =>
+                  ctx.version === version && create('done', response),
+              )
+              .catch(
+                (error) => ctx.version === version && create('error', error),
+              )
+              .then(
+                (action) => action && dispatch([action, create('finally')]),
+              );
+          }
+        }),
+      );
+
+      onAction('refetch', () => {
+        schedule((dispatch, ctx: ResourceCtx<unknown>) => {
+          if (ctx._refetchable === false) {
+            console.error('Do not call refetch before request');
+            return;
+          }
+          dispatch(create('request'));
+        });
+      });
+
+      onAction('error', (error) => (state = { ...state, error }));
+      onAction('done', (data) => (state = { ...state, data }));
+      onAction('finally', () => (state = { ...state, loading: false }));
+
+      return state;
+    },
+  );
+}
+
+interface ResourceAtomState<T> {
+  loading: boolean;
+  error: string | null;
+  data: T | null;
+}
+
+type ResourceCtx<P> = {
+  version?: number;
+  lastParams?: P | null;
+  _refetchable?: boolean;
+};
+
+export function createResourceAtom<P, T>(
+  paramsAtom: Atom<P> | null,
+  fetcher: (params?: P | null) => Promise<T> | null,
+) {
+  return paramsAtom
+    ? createReactiveResourceAtom(paramsAtom, fetcher)
+    : createStaticResourceAtom(fetcher);
+}

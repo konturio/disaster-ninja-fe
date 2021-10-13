@@ -1,4 +1,4 @@
-.disasterCard {
+.eventCard {
   display: flex;
   flex-flow: column nowrap;
   gap: var(--unit);

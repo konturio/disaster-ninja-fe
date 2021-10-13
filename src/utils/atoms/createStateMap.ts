@@ -4,20 +4,20 @@ export interface AtomStatesHandlers<T> {
   ready: (data: T) => JSX.Element | JSX.Element[] | null;
 }
 
-export function createStagesForAtom<T>({
+export function createStateMap<T>({
   loading: LoadingState,
   error: errorMessage,
   data,
 }: {
   loading: boolean;
   error: string | null;
-  data: T;
+  data: T | null;
 }) {
   return ({ loading, error, ready }: AtomStatesHandlers<T>) => {
     if (LoadingState && loading)
       return typeof loading === 'function' ? loading() : loading;
     if (errorMessage && error)
       return typeof error === 'function' ? error(errorMessage) : error;
-    if (data) return ready(data);
+    if (data !== null) return ready(data);
   };
 }

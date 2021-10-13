@@ -1,9 +1,9 @@
 import cn from 'clsx';
 import { parseISO } from 'date-fns';
-import { Disaster } from '~appModule/types';
+import { Event } from '~appModule/types';
 import { Analytics } from './Analytics/Analytics';
 import { SeverityIndicator } from './SeverityIndicator/SeverityIndicator';
-import s from './DisasterCard.module.css';
+import s from './EventCard.module.css';
 import { Text } from '@k2-packages/ui-kit';
 
 const formatTime = (() => {
@@ -18,33 +18,38 @@ const formatTime = (() => {
   return (date: Date) => format(date).replace(',', '');
 })();
 
-export function DisasterCard({
-  disaster,
+export function EventCard({
+  event,
   isActive,
+  onClick,
 }: {
-  disaster: Disaster;
+  event: Event;
   isActive: boolean;
+  onClick: (id: string) => void;
 }) {
   return (
-    <button className={cn(s.disasterCard, { [s.active]: isActive })}>
+    <button
+      className={cn(s.eventCard, { [s.active]: isActive })}
+      onClick={() => onClick(event.id)}
+    >
       <div className={s.head}>
-        <Text type="heading-m">{disaster.eventName}</Text>
-        <SeverityIndicator severity={disaster.severity} />
+        <Text type="heading-m">{event.eventName}</Text>
+        <SeverityIndicator severity={event.severity} />
       </div>
 
       <div className={s.locations}>
-        <Text type="caption">{disaster.locations.join(', ')}</Text>
+        <Text type="caption">{event.locations}</Text>
       </div>
 
       <Analytics
-        settledArea={disaster.settledArea}
-        affectedPeople={disaster.affectedPeople}
-        osmGapsPercentage={disaster.osmGapsPercentage}
+        settledArea={event.settledArea}
+        affectedPeople={event.affectedPeople}
+        osmGapsPercentage={event.osmGaps}
       />
 
       <div className={s.footer}>
         <Text type="caption">
-          Updated {formatTime(parseISO(disaster.updatedAt))}
+          Updated {formatTime(parseISO(event.updatedAt))}
         </Text>
       </div>
     </button>
