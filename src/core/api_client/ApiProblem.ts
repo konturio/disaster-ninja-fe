@@ -38,6 +38,10 @@ export type GeneralApiProblem =
    */
   | { kind: 'bad-data' }
   /**
+   * We expected to receive data but didn't get it
+   */
+  | { kind: 'no-data' }
+  /**
    * Request canceled by using cancel token.
    */
   | { kind: 'canceled' };
@@ -79,5 +83,18 @@ export function getGeneralApiProblem(response: ApiResponse<GeneralApiProblem>) {
 
     default:
       return { kind: 'unknown', temporary: true } as const;
+  }
+}
+
+export class ApiClientError extends Error {
+  public readonly problem: GeneralApiProblem;
+
+  constructor(message: string, problem: GeneralApiProblem) {
+    super(message);
+
+    this.problem = problem;
+
+    // need this to pass checks with "error instanceof ApiClientError"
+    Object.setPrototypeOf(this, ApiClientError.prototype);
   }
 }
