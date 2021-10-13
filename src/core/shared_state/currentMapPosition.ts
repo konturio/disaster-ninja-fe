@@ -13,7 +13,12 @@ export const currentMapPositionAtom = createAtom(
     setCurrentMapPosition: (mapPosition: MapPosition) => mapPosition,
   },
   ({ onAction }, state: CurrentMapPositionAtomState = null) => {
-    onAction('setCurrentMapPosition', (mapPosition) => (state = mapPosition));
+    onAction('setCurrentMapPosition', ({ lat, lng, zoom }) => {
+      if (state === null) state = { lat, lng, zoom };
+      if (state.lat !== lat || state.lng !== lng || state.zoom !== zoom) {
+        state = { lat, lng, zoom };
+      }
+    });
     return state;
   },
 );

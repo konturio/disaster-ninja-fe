@@ -4,7 +4,7 @@ import {
   currentEventAtom,
   currentEpisodeAtom,
   currentMapPositionAtom,
-  enabledLayersAtom,
+  enabledUserLayersAtom,
 } from '~core/shared_state';
 
 /* Compose shared state values into one atom */
@@ -13,16 +13,16 @@ export const selectedDataAtom = createAtom(
     currentMapPositionAtom,
     currentEventAtom,
     currentEpisodeAtom,
-    enabledLayersAtom,
+    enabledUserLayersAtom,
   },
   ({ get }, state: UrlData = {}) => {
     const newState = { ...state };
     const currentMapPosition = get('currentMapPositionAtom');
     newState.map = currentMapPosition
       ? [
-          currentMapPosition.zoom,
-          currentMapPosition.lng,
-          currentMapPosition.lat,
+          Number(currentMapPosition.zoom.toFixed(3)),
+          Number(currentMapPosition.lng.toFixed(3)),
+          Number(currentMapPosition.lat.toFixed(3)),
         ]
       : undefined;
 
@@ -32,7 +32,7 @@ export const selectedDataAtom = createAtom(
     const currentEpisode = get('currentEpisodeAtom');
     newState.episode = currentEpisode ? currentEpisode.id : undefined;
 
-    const enabledLayers = get('enabledLayersAtom');
+    const enabledLayers = get('enabledUserLayersAtom');
     newState.layers = enabledLayers;
     return newState;
   },

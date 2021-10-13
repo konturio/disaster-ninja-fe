@@ -396,5 +396,3 @@ export class ApiClient {
     return this.call('delete', path, undefined, useAuth, axiosConfig);
   }
 }
-
-export const apiClient = ApiClient.getInstance();

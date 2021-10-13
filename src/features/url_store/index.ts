@@ -2,7 +2,7 @@ import {
   currentEventAtom,
   currentEpisodeAtom,
   currentMapPositionAtom,
-  enabledLayersAtom,
+  enabledUserLayersAtom,
 } from '~core/shared_state';
 import { selectedDataAtom } from './atoms/selectedData';
 import { URLStore } from './URLStore';
@@ -33,9 +33,9 @@ export const initUrlStore = () => {
 
       // Update LAYERS from url
       if (updated.layers === undefined) {
-        enabledLayersAtom.disableAllLayers.dispatch();
+        enabledUserLayersAtom.disableAllLayers.dispatch();
       } else if ((current.layers ?? []).join() !== updated.layers.join()) {
-        enabledLayersAtom.setLayers.dispatch(updated.layers);
+        enabledUserLayersAtom.setLayers.dispatch(updated.layers);
       }
 
       // Update MAP from url
