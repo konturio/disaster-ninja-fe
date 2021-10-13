@@ -14,59 +14,60 @@ export function useMapPositionSmoothSync(mapRef) {
   useEffect(() => {
     if (mapRef.current && currentMapPosition !== null) {
       const map = mapRef.current;
-      const maybeChangeMapPosition = () => {
-        const newMapPosition = currentMapPosition;
-        const zoom = map.getZoom();
-        const { lng, lat } = map.getCenter();
-        /**
-         * Compare current map position with update from state -
-         * if map already have this position - ignore this update.
-         * It's allow avoid cycled updates between map and state
-         *  */
-        if (
-          newMapPosition.lng !== lng ||
-          newMapPosition.lat !== lat ||
-          newMapPosition.zoom !== zoom
-        ) {
-          map.easeTo({
-            center: [lng, lat],
-            zoom: newMapPosition.zoom,
-            duration: 3000,
-          });
-        }
-      };
+      const newMapPosition = currentMapPosition;
+      const zoom = map.getZoom();
+      const { lng, lat } = map.getCenter();
+      const changeMapPosition = () => {
+        console.log('easeTo', {
+          center: [newMapPosition.lng, newMapPosition.lat],
+          zoom: newMapPosition.zoom,
+          duration: 3000,
+        });
 
-      /* Allow interrupt map flying */
-      const timeout = setTimeout(maybeChangeMapPosition, 1600);
-      const clear = () => clearTimeout(timeout);
-      map.on('movestart', clear);
-      return () => {
-        map.off('movestart', clear);
-        clear();
+        map.easeTo({
+          center: [newMapPosition.lng, newMapPosition.lat],
+          zoom: newMapPosition.zoom,
+          duration: 3000,
+        });
       };
+      /**
+       * Compare current map position with update from state -
+       * if map already have this position - ignore this update.
+       * It's allow avoid cycled updates between map and state
+       *  */
+      if (
+        newMapPosition.lng !== lng ||
+        newMapPosition.lat !== lat ||
+        newMapPosition.zoom !== zoom
+      ) {
+        /* Allow interrupt map flying */
+        const timeout = setTimeout(changeMapPosition, 1600);
+        const clear = () => clearTimeout(timeout);
+        return () => {
+          clear();
+        };
+      }
     }
   }, [mapRef, currentMapPosition]);
 
   useEffect(() => {
     if (mapRef.current) {
       const map = mapRef.current;
-      const onMapPositionChangedByUser = () => {
-        const zoom = map.getZoom();
-        const { lng, lat } = map.getCenter();
-        currentMapPositionActions.setCurrentMapPosition({ zoom, lat, lng });
+      const onMapPositionChangedByUser = (e) => {
+        if (e.originalEvent) {
+          // only user events hve original event
+          const zoom = map.getZoom();
+          const { lng, lat } = map.getCenter();
+          currentMapPositionActions.setCurrentMapPosition({ zoom, lat, lng });
+        }
       };
 
-      /**
-       * Update state only after *user* made map position changes
-       * ! Avoid to update map position using mapbox api directly because of this
-       * Use map position atom instead
-       **/
-      map.on('dragend', onMapPositionChangedByUser);
-      map.on('zoomend', onMapPositionChangedByUser);
+      map.on('moveend', onMapPositionChangedByUser);
       return () => {
-        map.off('dragend', onMapPositionChangedByUser);
-        map.off('zoomend', onMapPositionChangedByUser);
+        map.off('moveend', onMapPositionChangedByUser);
       };
     }
   }, [mapRef, currentMapPositionActions]);
+
+  // return position;
 }
