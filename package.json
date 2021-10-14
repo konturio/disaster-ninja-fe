@@ -13,6 +13,7 @@
     "upgrade:k2": "npm cache clean --force && npm update $(node ./scripts/updatek2.mjs)",
     "lint-staged": "lint-staged",
     "test:unit": "vite-jest",
+    "test:unit-watch": "vite-jest --watch",
     "postinstall": "node ./scripts/fix-deckgl-types.mjs"
   },
   "husky": {
@@ -130,5 +131,9 @@
   },
   "resolutions": {
     "@turf/difference": "6.0.1"
+  },
+  "majestic": {
+    "jestScriptPath": "./node_modules/vite-jest/bin/vite-jest.js",
+    "args": ["--config=./jest.config.js --debug=false"]
   }
 }
