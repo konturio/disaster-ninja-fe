@@ -37,7 +37,7 @@ export function Analytics({
       },
       {
         tooltip: 'OSM Gaps Percentage (lower is better)',
-        value: osmGapsPercentage ? `${osmGapsPercentage * 100}%` : ' - ',
+        value: osmGapsPercentage ? `${osmGapsPercentage}%` : ' - ',
         icon: mapIcon,
       },
     ];

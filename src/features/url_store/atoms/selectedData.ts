@@ -33,7 +33,9 @@ export const selectedDataAtom = createAtom(
     newState.episode = currentEpisode ? currentEpisode.id : undefined;
 
     const enabledLayers = get('enabledUserLayersAtom');
-    newState.layers = enabledLayers;
+    if (enabledLayers.length > 0) {
+      newState.layers = enabledLayers;
+    }
     return newState;
   },
 );

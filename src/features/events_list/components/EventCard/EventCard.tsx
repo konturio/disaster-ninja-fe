@@ -30,7 +30,7 @@ export function EventCard({
   return (
     <button
       className={cn(s.eventCard, { [s.active]: isActive })}
-      onClick={() => onClick(event.id)}
+      onClick={() => onClick(event.eventId)}
     >
       <div className={s.head}>
         <Text type="heading-m">{event.eventName}</Text>
@@ -43,7 +43,7 @@ export function EventCard({
 
       <Analytics
         settledArea={event.settledArea}
-        affectedPeople={event.affectedPeople}
+        affectedPeople={event.affectedPopulation}
         osmGapsPercentage={event.osmGaps}
       />
 

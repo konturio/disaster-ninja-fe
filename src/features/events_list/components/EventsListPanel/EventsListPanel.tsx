@@ -27,17 +27,20 @@ export function EventsListPanel({
   });
 
   return (
-    <Panel header={<Text type="heading-l">{i18n.t('Ongoing disasters')}</Text>}>
+    <Panel
+      header={<Text type="heading-l">{i18n.t('Ongoing disasters')}</Text>}
+      className={s.sidePannel}
+    >
       <div className={s.scrollable}>
         {statesToComponents({
           loading: <LoadingSpinner />,
-          error: <ErrorMessage />,
+          error: (errorMessage) => <ErrorMessage message={errorMessage} />,
           ready: (eventsList) =>
             eventsList.map((event) => (
               <EventCard
-                key={event.id}
+                key={event.eventId}
                 event={event}
-                isActive={event.id === current}
+                isActive={event.eventId === current}
                 onClick={onCurrentChange}
               />
             )),

@@ -1,5 +1,0 @@
-{
-  "TILES_API": "/tiles/stats/",
-  "GRAPHQL_API": "/graphql",
-  "BOUNDARIES_API": "/boundaries"
-}

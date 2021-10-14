@@ -18,7 +18,6 @@ export class NotificationService {
 
   public static init() {
     NotificationService.instance = new NotificationService();
-    return NotificationService.instance;
   }
 
   error(message: NotificationMessage, lifetimeSec?: number) {

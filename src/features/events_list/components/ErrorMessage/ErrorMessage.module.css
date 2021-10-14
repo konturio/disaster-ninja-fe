@@ -1,0 +1,16 @@
+.spinner {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: auto;
+  align-items: center;
+  margin: 2em;
+  margin-top: 30%;
+  text-align: center;
+}
+
+.icon {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: 1em;
+}
