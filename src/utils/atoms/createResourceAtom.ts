@@ -34,11 +34,12 @@ function createReactiveResourceAtom<P, T>(
     ) => {
       onChange('paramsAtom', (params) => {
         schedule((dispatch) => {
+          state = { ...state, loading: true };
           dispatch(create('request', params));
         });
       });
 
-      onAction('request', (params) =>
+      onAction('request', (params) => {
         schedule((dispatch, ctx: ResourceCtx<P>) => {
           const version = (ctx.version ?? 0) + 1;
           ctx.version = version;
@@ -60,8 +61,8 @@ function createReactiveResourceAtom<P, T>(
                 (action) => action && dispatch([action, create('finally')]),
               );
           }
-        }),
-      );
+        });
+      });
 
       onAction('refetch', () => {
         schedule((dispatch, ctx: ResourceCtx<P>) => {
@@ -103,12 +104,13 @@ function createStaticResourceAtom<T>(fetcher: () => Promise<T> | null) {
       },
     ) => {
       onInit(() => {
+        state = { ...state, loading: true };
         schedule((dispatch) => {
           dispatch(create('request'));
         });
       });
 
-      onAction('request', () =>
+      onAction('request', () => {
         schedule((dispatch, ctx: ResourceCtx<unknown>) => {
           const version = (ctx.version ?? 0) + 1;
           ctx.version = version;
@@ -131,8 +133,8 @@ function createStaticResourceAtom<T>(fetcher: () => Promise<T> | null) {
                 (action) => action && dispatch([action, create('finally')]),
               );
           }
-        }),
-      );
+        });
+      });
 
       onAction('refetch', () => {
         schedule((dispatch, ctx: ResourceCtx<unknown>) => {

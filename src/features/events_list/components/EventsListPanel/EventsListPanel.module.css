@@ -2,3 +2,8 @@
   overflow-y: auto;
   width: 320px;
 }
+
+.sidePannel {
+  z-index: 1; /* Show shadow over map */
+  border-radius: 0;
+}

@@ -4,8 +4,12 @@ import { autoRefreshService } from '~core/auto_refresh';
 import { Event } from '~appModule/types';
 
 export const eventListResourceAtom = createResourceAtom(null, async () => {
-  const responseData = await apiClient.get<Event[]>(`/events/`);
-  if (responseData === undefined) throw 'No data received';
+  const responseData = await apiClient.get<Event[]>(
+    `/events/`,
+    undefined,
+    false,
+  );
+  if (responseData === undefined) throw new Error('No data received');
   return responseData;
 });
 

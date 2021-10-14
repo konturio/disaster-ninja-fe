@@ -95,7 +95,7 @@ type Severity =
   | 'UNKNOWN';
 
 export interface Event {
-  id: string;
+  eventId: string;
   /** Contain type and optionally name of disaster */
   eventName: string;
   /** Countries where event happen */
@@ -103,7 +103,7 @@ export interface Event {
   /** How it important */
   severity: Severity;
   /** How many people affected. >= 0 */
-  affectedPeople: number;
+  affectedPopulation: number;
   /** Settled area in km2. >= 0 */
   settledArea: number;
   /** Map quality. Float. Lower is better */
