@@ -52,9 +52,10 @@ function createReactiveResourceAtom<P, T>(
                 (response) =>
                   ctx.version === version && create('done', response),
               )
-              .catch(
-                (error) => ctx.version === version && create('error', error),
-              )
+              .catch((error: Error) => {
+                console.info('[Create resource atom]', error);
+                ctx.version === version && create('error', error.message);
+              })
               .then(
                 (action) => action && dispatch([action, create('finally')]),
               );
@@ -65,7 +66,10 @@ function createReactiveResourceAtom<P, T>(
       onAction('refetch', () => {
         schedule((dispatch, ctx: ResourceCtx<P>) => {
           if (ctx._refetchable === false) {
-            console.error('Do not call refetch before request');
+            console.error(
+              '[Create resource atom]',
+              'Do not call refetch before request',
+            );
             return;
           }
           dispatch(create('request', ctx.lastParams as P | null));
@@ -117,9 +121,12 @@ function createStaticResourceAtom<T>(fetcher: () => Promise<T> | null) {
                 (response) =>
                   ctx.version === version && create('done', response),
               )
-              .catch(
-                (error) => ctx.version === version && create('error', error),
-              )
+              .catch((error: Error) => {
+                console.info('[Create resource atom]', error);
+                return (
+                  ctx.version === version && create('error', error.message)
+                );
+              })
               .then(
                 (action) => action && dispatch([action, create('finally')]),
               );
@@ -130,7 +137,10 @@ function createStaticResourceAtom<T>(fetcher: () => Promise<T> | null) {
       onAction('refetch', () => {
         schedule((dispatch, ctx: ResourceCtx<unknown>) => {
           if (ctx._refetchable === false) {
-            console.error('Do not call refetch before request');
+            console.error(
+              '[Create resource atom]',
+              'Do not call refetch before request',
+            );
             return;
           }
           dispatch(create('request'));
