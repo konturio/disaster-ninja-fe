@@ -1,7 +1,7 @@
 import { useEffect, Suspense } from 'react';
 import { lazily } from 'react-lazily';
 import { AppHeader, Logo } from '@k2-packages/ui-kit';
-import config from '~core/app_config/runtime';
+import config from '~core/app_config';
 import { ConnectedMap } from '~components/ConnectedMap/ConnectedMap';
 import { Row } from '~components/Layout/Layout';
 import styles from './Main.module.css';
@@ -30,13 +30,11 @@ function MainView() {
         </Suspense>
         <div className={styles.root} style={{ flex: 1, position: 'relative' }}>
           <ConnectedMap
-            options={
-              Object.assign(config.map.centerPoint, {
-                logoPosition: 'top-right',
-              }) as any
-            }
-            style={config.map.style || ''}
-            accessToken={config.map.accessToken || ''}
+            options={{
+              logoPosition: 'top-right',
+            }}
+            style={config.mapBaseStyle || ''}
+            accessToken={config.mapAccessToken || ''}
             className={styles.Map}
           />
           <div style={{ position: 'absolute', left: '8px', bottom: '8px' }}>

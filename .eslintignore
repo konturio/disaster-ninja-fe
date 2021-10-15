@@ -6,3 +6,5 @@ template.config.js
 scripts
 jest.config.js
 jest.setup.js
+appconfig.js
+deploy/*

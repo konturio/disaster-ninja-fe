@@ -1,5 +1,0 @@
-{
-  "TILES_API": "https://disaster.ninja/tiles/stats/",
-  "GRAPHQL_API": "https://apps.kontur.io/insights-api/graphql",
-  "BOUNDARIES_API": "https://api.kontur.io"
-}
