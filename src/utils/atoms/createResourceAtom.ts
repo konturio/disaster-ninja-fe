@@ -78,7 +78,7 @@ function createReactiveResourceAtom<P, T>(
       });
 
       onAction('error', (error) => (state = { ...state, error }));
-      onAction('done', (data) => (state = { ...state, data }));
+      onAction('done', (data) => (state = { ...state, error: null, data }));
       onAction('finally', () => (state = { ...state, loading: false }));
 
       return state;
@@ -150,7 +150,7 @@ function createStaticResourceAtom<T>(fetcher: () => Promise<T> | null) {
       });
 
       onAction('error', (error) => (state = { ...state, error }));
-      onAction('done', (data) => (state = { ...state, data }));
+      onAction('done', (data) => (state = { ...state, error: null, data }));
       onAction('finally', () => (state = { ...state, loading: false }));
 
       return state;
