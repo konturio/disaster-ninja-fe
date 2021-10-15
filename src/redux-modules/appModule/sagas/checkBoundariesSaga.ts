@@ -16,7 +16,6 @@ import { BoundariesSagaPlugin } from '@k2-packages/boundaries';
 import { createGeoJSONSource } from '~utils/geoJSON/helpers';
 import config from '~core/app_config/runtime';
 import * as selectors from '~appModule/selectors';
-import store from '../../../store';
 
 type Action<T = any> = { type: string; payload: T };
 
@@ -32,7 +31,8 @@ export default function* checkBoundariesSaga() {
       checkBoundaries.getType(),
       BoundariesSagaPlugin({
         client: boundariesClient,
-        dispatch: store.dispatch.bind(store),
+        // dispatch: store.dispatch.bind(store),
+        dispatch: () => null,
         setMarker,
         removeMarker,
         showBoundary: showBoundaries,
@@ -66,7 +66,7 @@ export default function* checkBoundariesSaga() {
     yield takeLatest(
       setActiveDrawMode.getType(),
       function* ({ payload }: Action) {
-        if (payload !== config.polygonSelectionModes.SelectBoundaryMode) {
+        if (payload !== 'SelectBoundaryMode') {
           const sources: any = yield select(selectors.sources);
           if (sources['selected-boundaries'].data.features.length) {
             yield put(

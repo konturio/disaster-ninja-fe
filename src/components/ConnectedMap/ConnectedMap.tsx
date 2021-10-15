@@ -19,7 +19,7 @@ import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 
 const updatedMapStyle = (
   mapStyle: MapStyle | undefined,
-  layers = [],
+  layers = [] as unknown,
   sources = {},
 ) => {
   if (mapStyle) {
@@ -54,7 +54,7 @@ export function ConnectedMap({
     (data) => {
       // User finished draw some geometry
       if (data && ((data.features && data.features.length) || data.geometry)) {
-        focusedGeometryAtomActions.setFocusedGeometry(data);
+        focusedGeometryAtomActions.setFocusedGeometry({ type: 'custom' }, data);
         setDrawings(data);
       } else {
         drawModeActions.resetDrawMode();
