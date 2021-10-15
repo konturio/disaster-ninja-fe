@@ -1,5 +1,0 @@
-{
-  "TILES_API": "https://zigzag.kontur.io/tiles/stats/",
-  "GRAPHQL_API": "https://test-apps02.konturlabs.com/insights-api/graphql",
-  "BOUNDARIES_API": "https://test-api02.konturlabs.com"
-}
