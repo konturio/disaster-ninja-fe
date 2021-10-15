@@ -16,7 +16,10 @@ export function initFileUploader() {
        * because it's disable file upload popup.
        */
       askGeoJSONFile((geoJSON) =>
-        focusedGeometryAtom.setFocusedGeometry.dispatch(geoJSON),
+        focusedGeometryAtom.setFocusedGeometry.dispatch(
+          { type: 'uploaded' },
+          geoJSON,
+        ),
       );
     },
   });
