@@ -1,6 +1,5 @@
-# New Project
-
-> ✨ Bootstrapped with Create Snowpack App (CSA).
+# Disaster Ninja 2.0
+[Description](https://www.kontur.io/portfolio/disaster-ninja/)
 
 ## Available Scripts
 
@@ -20,19 +19,38 @@ See the section about running tests for more information.
 ### npm run build
 
 Builds a static copy of your site to the `build/` folder.
-Your app is ready to be deployed!
+
+### npm run serve
+Run static server for builded app
+Use this script after `build`. 
+
+### typecheck and typecheck:watch
+Check types error in project
+
+### postinstall
+Run this script after you run npm install
+This will fix deck-gl types
+
+### upgrade:k2
+Update @k2-packages to last versions
 
 ## Configuration
-This app have few source of configuration:
-- Buildtime env variables
-This mostly internal glue stuff as env 'production' / 'development' variables.
-Must describe variables that rule build process (special build modes, hot reload, minification, mocks, etc.)
-More info: https://vitejs.dev/guide/env-and-mode.html#env-files
+This app have few source of configuration:  
 
-- Runtime variables
-different for every environment, describe global app variables.
+**Buildtime env variables**  
+Need for store data that used in build time. This mostly internal glue stuff as env 'production' / 'development' variables, describe variables that rule build process (special build modes, hot reload, minification, mocks, etc.). Avoid to use it in src/* files.
+- When used: At buildtime (node.js)
+- How to set: use [.env](https://vitejs.dev/guide/env-and-mode.html#env-files) files
+- How to read: `import.meta.env.VARIABLE_NAME`
+
+**Runtime variables**  
+Can be different for every environment.
 Must describe - api endpoints, feature flags, base url, path to s3 with images, etc.)
 Available via AppConfig alias, in runtime in browser environment
 They defined in JSON-per-enviroment files in `./deploy/` folder.
-In CI/CD, before bundled app will be deployed in environment, ansible take json for environment ~~and inject this right into index.html of app using script for qjs~~
-and put in static server with index.html of app
+
+- When used: At runtime (browser)
+- How to set: by configs in `./deploy/` folder or in `public/appconfig` for localhostW
+- How to read: `import appConfig from '~core/app_config'`
+
+> If you want use some build time variables in browser - re-export them from app_config
