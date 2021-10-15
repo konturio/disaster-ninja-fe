@@ -12,7 +12,7 @@ export default ({ mode }) => defineConfig({
   base: mode === 'development' ? '/' : packageJson.homepage,
   plugins: [
     mode === 'development' && reactRefresh(),
-    viteBuildInfoPlugin()
+    mode === 'production' && viteBuildInfoPlugin()
   ],
   css: {
     postcss: postcssConfig,
