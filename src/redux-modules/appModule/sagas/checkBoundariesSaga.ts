@@ -14,7 +14,6 @@ import {
 import Client from '@k2-packages/client';
 import { BoundariesSagaPlugin } from '@k2-packages/boundaries';
 import { createGeoJSONSource } from '~utils/geoJSON/helpers';
-import config from '~core/app_config/runtime';
 import * as selectors from '~appModule/selectors';
 
 type Action<T = any> = { type: string; payload: T };

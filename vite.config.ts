@@ -1,14 +1,18 @@
+import path from 'path';
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
+import viteBuildInfoPlugin from './scripts/build-info-plugin';
 import postcssConfig from './postcss.config';
-import path from 'path';
+import packageJson from './package.json';
 
 const relative = (folder: string) => path.resolve(__dirname, folder);
 
 // https://vitejs.dev/config/
 export default ({ mode }) => defineConfig({
+  base: mode === 'development' ? '/' : packageJson.homepage,
   plugins: [
-    mode === 'development' && reactRefresh()
+    mode === 'development' && reactRefresh(),
+    mode === 'production' && viteBuildInfoPlugin()
   ],
   css: {
     postcss: postcssConfig,
