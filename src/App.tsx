@@ -2,13 +2,19 @@ import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import MainView from '~views/Main/Main';
 import CacheRoute, { CacheSwitch } from 'react-router-cache-route';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
 import { Reports } from '~views/Reports/Reports';
 
 ReactDOM.render(
   <StrictMode>
     <Router>
-      {/* вум */}
+      {/* dev */}
       <ul>
         <li>
           <Link to="/">Map</Link>
@@ -19,11 +25,15 @@ ReactDOM.render(
       </ul>
 
       <CacheSwitch>
-        <Route exact path="/">
+        <CacheRoute exact path="/">
           <MainView />
-        </Route>
+        </CacheRoute>
         <Route path="/reports">
           <Reports />
+        </Route>
+        {/* insted of 404 */}
+        <Route path="/">
+          <Redirect to="/" />
         </Route>
       </CacheSwitch>
     </Router>
