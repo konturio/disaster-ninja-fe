@@ -15,6 +15,9 @@ function MainView() {
     /* Lazy load module */
     // TODO: Add feature flag check
     import('~features/url_store').then(({ initUrlStore }) => initUrlStore());
+    import('~features/current_event').then(({ initCurrentEvent }) =>
+      initCurrentEvent(),
+    );
     import('~features/geometry_uploader').then(({ initFileUploader }) =>
       initFileUploader(),
     );
