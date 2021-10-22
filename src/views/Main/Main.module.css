@@ -8,4 +8,12 @@
   display: flex;
   flex-flow: row nowrap;
   height: 100%;
+  margin: 0;
+}
+
+.mainWrap {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-flow: column nowrap;
 }
