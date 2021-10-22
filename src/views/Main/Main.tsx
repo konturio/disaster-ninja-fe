@@ -8,6 +8,7 @@ import styles from './Main.module.css';
 
 const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
+const { NotificationToast } = lazily(() => import('~features/toasts'));
 
 function MainView() {
   useEffect(() => {
@@ -25,6 +26,7 @@ function MainView() {
       <AppHeader title="Disaster Ninja" />
       <Row>
         <Suspense fallback={null}>
+          <NotificationToast />
           <SideBar />
           <EventList />
         </Suspense>
