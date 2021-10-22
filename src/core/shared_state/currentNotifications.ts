@@ -4,7 +4,7 @@ export type NotificationType = 'error' | 'warning' | 'info';
 
 interface NotificationMessage {
   title: string;
-  text?: string;
+  description?: string;
 }
 export interface Notification {
   id: number;
