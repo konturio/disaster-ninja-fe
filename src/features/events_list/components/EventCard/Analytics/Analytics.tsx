@@ -22,18 +22,19 @@ export function Analytics({
     const formatNumber = new Intl.NumberFormat().format;
     return [
       {
-        tooltip: 'Settled Area',
-        value: formatNumber(settledArea),
-        icon: areaIcon,
+        tooltip: 'Affected People',
+        value: formatNumber(affectedPeople),
+        icon: peopleIcon,
       },
       {
-        tooltip: 'Affected People',
+        tooltip: 'Settled Area',
+
         value: (
           <span>
-            {formatNumber(affectedPeople)} km<Sub>2</Sub>
+            {formatNumber(settledArea)} km<Sub>2</Sub>
           </span>
         ),
-        icon: peopleIcon,
+        icon: areaIcon,
       },
       {
         tooltip: 'OSM Gaps Percentage (lower is better)',
