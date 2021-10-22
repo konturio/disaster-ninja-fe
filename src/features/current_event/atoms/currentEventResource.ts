@@ -10,6 +10,8 @@ export const currentEventResourceAtom = createResourceAtom(
     if (event?.id) {
       const responseData = await apiClient.get<EventWithGeometry>(
         `/events/${event.id}`,
+        undefined,
+        false,
       );
       if (responseData === undefined) throw 'No data received';
       return responseData;
