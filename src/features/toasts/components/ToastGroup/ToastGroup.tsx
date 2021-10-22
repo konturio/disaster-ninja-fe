@@ -15,7 +15,6 @@ export function ToastGroup({ toasts }: { toasts: Notification[] }) {
             enter: styles.enter,
             enterActive: styles.enterActive,
             exit: styles.toastExit,
-            exitActive: styles.exitActive,
           }}
         >
           <Toast notification={t} />
