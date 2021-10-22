@@ -21,7 +21,7 @@ export class NotificationService {
   }
 
   error(message: NotificationMessage, lifetimeSec?: number) {
-    currentNotificationAtom.showNotification(
+    currentNotificationAtom.showNotification.dispatch(
       'error',
       message,
       lifetimeSec || this.defaultLifetimeSec,
@@ -29,7 +29,7 @@ export class NotificationService {
   }
 
   warning(message: NotificationMessage, lifetimeSec?: number) {
-    currentNotificationAtom.showNotification(
+    currentNotificationAtom.showNotification.dispatch(
       'warning',
       message,
       lifetimeSec || this.defaultLifetimeSec,
@@ -37,7 +37,7 @@ export class NotificationService {
   }
 
   info(message: NotificationMessage, lifetimeSec?: number) {
-    currentNotificationAtom.showNotification(
+    currentNotificationAtom.showNotification.dispatch(
       'info',
       message,
       lifetimeSec || this.defaultLifetimeSec,
