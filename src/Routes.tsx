@@ -9,8 +9,8 @@ const { Reports } = lazily(() => import('~views/Reports/Reports'));
 
 export function RoutedApp() {
   return (
-    <Router>
-      <StrictMode>
+    <StrictMode>
+      <Router>
         <CacheSwitch>
           <CacheRoute className={styles.mainWrap} exact path="/">
             <Suspense fallback={null}>
@@ -29,7 +29,7 @@ export function RoutedApp() {
             <Redirect to="/" />
           </Route>
         </CacheSwitch>
-      </StrictMode>
-    </Router>
+      </Router>
+    </StrictMode>
   );
 }
