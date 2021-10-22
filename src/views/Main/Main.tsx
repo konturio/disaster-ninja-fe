@@ -19,7 +19,11 @@ function MainView() {
       initFileUploader(),
     );
     import('~features/map_ruler').then(({ initMapRuler }) => initMapRuler());
+
+    console.log('%c⧭', 'color: #1d5673', 'main view did initial run');
   }, []);
+
+  return <div>Map</div>;
 
   return (
     <>
