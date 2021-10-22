@@ -28,7 +28,7 @@ export function Toast({ notification }: { notification: Notification }) {
           <img src={iconType()} className={clsx(styles.icon)} />
           <Text type="short-l">
             <span className={clsx(styles.text)}>
-              {notification.message.title}
+              {notification.message.description || notification.message.title}
             </span>
           </Text>
           <img
