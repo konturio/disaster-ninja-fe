@@ -6,10 +6,12 @@ interface NotificationMessage {
   title: string;
   text?: string;
 }
-interface Notification {
+export interface Notification {
+  id: number;
   type: NotificationType;
   message: NotificationMessage;
   lifetimeSec: number;
+  onClose: () => void;
 }
 
 export const currentNotificationAtom = createAtom(
@@ -19,20 +21,23 @@ export const currentNotificationAtom = createAtom(
       message: NotificationMessage,
       lifetimeSec: number,
     ) => ({ type, message, lifetimeSec }),
-    _removeNotification: (id: number) => id,
+    removeNotification: (id: number) => id,
   },
   ({ onAction, schedule, create }, state: Notification[] = []) => {
     onAction('showNotification', ({ type, message, lifetimeSec }) => {
       const id = performance.now();
-      state[id] = { type, message, lifetimeSec };
+      const onClose = () =>
+        currentNotificationAtom.removeNotification.dispatch(id);
+      state = [...state, { id, type, message, lifetimeSec, onClose }];
       schedule((dispatch) => {
-        setTimeout(() => {
-          dispatch(create('_removeNotification', id));
-        }, lifetimeSec * 1000);
+        setTimeout(onClose, lifetimeSec * 1000);
       });
     });
 
-    onAction('_removeNotification', (id) => delete state[id]);
-    return { ...state };
+    onAction(
+      'removeNotification',
+      (idToDelete) => (state = state.filter(({ id }) => id !== idToDelete)),
+    );
+    return [...state];
   },
 );
