@@ -1,6 +1,7 @@
 .scrollable {
   overflow-y: auto;
   width: 320px;
+  height: 100%;
 }
 
 .sidePannel {
