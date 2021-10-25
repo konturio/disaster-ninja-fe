@@ -10,7 +10,8 @@ const relative = (folder: string) => path.resolve(__dirname, folder);
 // https://vitejs.dev/config/
 export default ({ mode }) => defineConfig({
   base: mode === 'development' ? '/' : packageJson.homepage,
-    build: {
+  build: {
+    minify: false,
     sourcemap: true,
   },
   plugins: [
