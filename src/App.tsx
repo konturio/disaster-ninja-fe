@@ -1,10 +1,4 @@
-import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import MainView from '~views/Main/Main';
+import { RoutedApp } from './Routes';
 
-ReactDOM.render(
-  <StrictMode>
-    <MainView />
-  </StrictMode>,
-  document.getElementById('root'),
-);
+ReactDOM.render(<RoutedApp />, document.getElementById('root'));

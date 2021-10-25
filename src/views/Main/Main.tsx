@@ -10,7 +10,7 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 
-function MainView() {
+export function MainView() {
   useEffect(() => {
     /* Lazy load module */
     // TODO: Add feature flag check
@@ -50,5 +50,3 @@ function MainView() {
     </>
   );
 }
-
-export default MainView;
