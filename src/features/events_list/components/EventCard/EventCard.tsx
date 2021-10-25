@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import cn from 'clsx';
 import { parseISO } from 'date-fns';
 import { Event } from '~appModule/types';
@@ -27,6 +28,10 @@ export function EventCard({
   isActive: boolean;
   onClick: (id: string) => void;
 }) {
+  const formattedTime = useMemo(
+    () => formatTime(parseISO(event.updatedAt)),
+    [event.updatedAt],
+  );
   return (
     <button
       className={cn(s.eventCard, { [s.active]: isActive })}
@@ -48,9 +53,7 @@ export function EventCard({
       />
 
       <div className={s.footer}>
-        <Text type="caption">
-          Updated {formatTime(parseISO(event.updatedAt))}
-        </Text>
+        <Text type="caption">Updated {formattedTime}</Text>
       </div>
     </button>
   );

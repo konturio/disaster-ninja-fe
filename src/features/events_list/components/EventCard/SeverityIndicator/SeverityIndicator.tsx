@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import s from './SeverityIndicator.module.css';
 
 const COLORS = ['#FFDF35', '#FFB800', '#FF8A00', '#FF3D00', '#EA2A00'];
 
-export function SeverityIndicator({
+function SeverityIndicatorGenerator({
   severity,
 }: {
   severity:
@@ -37,3 +38,5 @@ export function SeverityIndicator({
     </div>
   );
 }
+
+export const SeverityIndicator = memo(SeverityIndicatorGenerator);
