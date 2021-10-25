@@ -1,3 +1,4 @@
+import { Virtuoso } from 'react-virtuoso';
 import { TranslationService as i18n } from '~core/localization';
 import { Event } from '~appModule/types';
 import { Panel, Text } from '@k2-packages/ui-kit';
@@ -35,15 +36,19 @@ export function EventsListPanel({
         {statesToComponents({
           loading: <LoadingSpinner />,
           error: (errorMessage) => <ErrorMessage message={errorMessage} />,
-          ready: (eventsList) =>
-            eventsList.map((event) => (
-              <EventCard
-                key={event.eventId}
-                event={event}
-                isActive={event.eventId === current}
-                onClick={onCurrentChange}
-              />
-            )),
+          ready: (eventsList) => (
+            <Virtuoso
+              data={eventsList}
+              itemContent={(index, event) => (
+                <EventCard
+                  key={event.eventId}
+                  event={event}
+                  isActive={event.eventId === current}
+                  onClick={onCurrentChange}
+                />
+              )}
+            />
+          ),
         })}
       </div>
     </Panel>
