@@ -1,6 +1,6 @@
 import { StrictMode, Suspense } from 'react';
 import { lazily } from 'react-lazily';
-import CacheRoute, { CacheSwitch } from 'react-router-cache-route';
+import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import styles from './views/Main/Main.module.css';
 
