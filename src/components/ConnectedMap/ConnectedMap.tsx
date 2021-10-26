@@ -33,6 +33,7 @@ const updatedMapStyle = (
 // temporary set generic map class to mapbox map
 // todo: change mapbox map declaration to generic map later
 export type ApplicationMap = mapLibre.Map;
+export type ApplicationLayer = mapLibre.AnyLayer;
 
 export function ConnectedMap({
   mapStyle,
