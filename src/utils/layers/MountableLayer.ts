@@ -22,11 +22,9 @@ export class MountableLayer implements IMapLogicalLayer {
   public mount(map: ApplicationMap): void {
     if (map.getLayer(this.id)) {
       throw new Error('Layer with such id is already added to map');
-      return;
     }
 
     map.addLayer(this._layerConfig);
-    console.log(map.getStyle());
   }
 
   public unmount(map: ApplicationMap): void {
