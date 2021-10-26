@@ -34,3 +34,5 @@ yarn-error.log*
 .vscode
 env.yml
 .pnpm-debug.log
+
+stats.json
