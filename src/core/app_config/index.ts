@@ -35,9 +35,6 @@ if (import.meta.env.PROD) {
   - Git Branch: ${import.meta.env.GIT_BRANCH}
   - Git Commit: #${import.meta.env.GIT_COMMIT_HASH}
   - Git Commit Time: ${import.meta.env.GIT_COMMIT_TIME}
-  - Git Commit Author: ${import.meta.env.GIT_COMMIT_AUTHOR}
-  - Git Commit Commiter: ${import.meta.env.GIT_COMMIT_COMMITER}
-  - Git Commit Message: ${import.meta.env.GIT_COMMIT_MESSAGE}
   `,
     'color: #bada55',
   );
