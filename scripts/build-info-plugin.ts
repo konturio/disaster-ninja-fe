@@ -6,9 +6,9 @@ const dataSources = {
   GIT_COMMIT_HASH: () => exec('git show -s --format=%h').toString().trim(),
   GIT_COMMIT_FULLHASH: () => exec('git show -s --format=%H').toString().trim(),
   GIT_COMMIT_TIME: () => exec('git show -s --format=%cI').toString().trim(),
-  GIT_COMMIT_AUTHOR: () => exec('git show -s --format=%an').toString().trim(),
-  GIT_COMMIT_COMMITER: () => exec('git show -s --format=%cn').toString().trim(),
-  GIT_COMMIT_MESSAGE: () => exec('git show -s --format=%b').toString().trim(),
+  // GIT_COMMIT_AUTHOR: () => exec('git show -s --format=%an').toString().trim(),
+  // GIT_COMMIT_COMMITER: () => exec('git show -s --format=%cn').toString().trim(),
+  // GIT_COMMIT_MESSAGE: () => exec('git show -s --format=%b').toString().trim(),
   PACKAGE_VERSION: () => process.env.npm_package_version,
   BUILD_TIME: () => new Date().toISOString(),
 };
