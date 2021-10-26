@@ -2,7 +2,7 @@ import { createAtom } from '@reatom/core';
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
-export interface MapLogicalLayer {
+export interface IMapLogicalLayer {
   id: string;
   name?: string;
   visibleInPanel?: boolean;
@@ -13,13 +13,13 @@ export interface MapLogicalLayer {
 export const mapLogicalLayersAtom = createAtom(
   {
     currentMapAtom,
-    mountLayer: (layer: MapLogicalLayer) => layer,
-    unmountLayer: (layer: MapLogicalLayer | string) => layer,
+    mountLayer: (layer: IMapLogicalLayer) => layer,
+    unmountLayer: (layer: IMapLogicalLayer | string) => layer,
   },
-  ({ get, onAction, onChange }, state: MapLogicalLayer[] = []) => {
+  ({ get, onAction, onChange }, state: IMapLogicalLayer[] = []) => {
     const map = get('currentMapAtom');
 
-    onAction('mountLayer', (layer: MapLogicalLayer) => {
+    onAction('mountLayer', (layer: IMapLogicalLayer) => {
       if (!map) return;
 
       if (state.findIndex((lr) => lr.id === layer.id) !== -1) {
@@ -29,7 +29,7 @@ export const mapLogicalLayersAtom = createAtom(
       layer.mount(map);
     });
 
-    onAction('unmountLayer', (layer: MapLogicalLayer | string) => {
+    onAction('unmountLayer', (layer: IMapLogicalLayer | string) => {
       if (!map) return;
 
       const layerId = typeof layer !== 'string' ? layer.id : layer;
