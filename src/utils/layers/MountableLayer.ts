@@ -10,6 +10,7 @@ export class MountableLayer implements IMapLogicalLayer {
   private readonly _layerConfig: ApplicationLayer;
   public readonly id: string;
   public readonly name?: string;
+  public isMounted: boolean;
 
   public constructor({ name, ...layerConfig }: MountableLayerConfig) {
     this.id = layerConfig.id;
@@ -25,11 +26,13 @@ export class MountableLayer implements IMapLogicalLayer {
     }
 
     map.addLayer(this._layerConfig);
+    this.isMounted = true;
   }
 
   public unmount(map: ApplicationMap): void {
     if (map.getLayer(this.id)) {
       map.removeLayer(this.id);
     }
+    this.isMounted = false;
   }
 }
