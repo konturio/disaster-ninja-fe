@@ -7,16 +7,27 @@ import { autoRefreshService } from './auto_refresh';
 NotificationService.init();
 export const notificationService = NotificationService.getInstance();
 
+// initialize main api client
 ApiClient.init({
   notificationService: notificationService,
   baseURL: config.apiGateway,
   loginApiPath: config.loginApiPath,
   translationService: TranslationService,
 });
+export const apiClient = ApiClient.getInstance();
+
+// initialize boundaries client
+ApiClient.init({
+  instanceId: 'boundaries',
+  notificationService: notificationService,
+  baseURL: config.apiGateway,
+  disableAuth: true,
+  translationService: TranslationService,
+});
+export const boundariesClient = ApiClient.getInstance('boundaries');
 
 autoRefreshService.start(config.refreshIntervalSec);
 
-export const apiClient = ApiClient.getInstance();
 export const translationService = TranslationService;
 export { autoRefreshService } from './auto_refresh';
 export * as sharedState from './shared_state';
