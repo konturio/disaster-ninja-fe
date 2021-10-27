@@ -7,3 +7,4 @@ export { focusedGeometryAtom } from './focusedGeometry';
 export { mapListenersAtom } from './mapListeners';
 export { currentNotificationAtom } from './currentNotifications';
 export { sideControlsBarAtom } from './sideControlsBar';
+export { currentMapAtom } from './currentMap';
