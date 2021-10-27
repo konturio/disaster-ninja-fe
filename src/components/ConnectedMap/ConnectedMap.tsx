@@ -1,14 +1,11 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import Map, { MapBoxMapProps } from '@k2-packages/map';
 import MapDrawTools from '@k2-packages/map-draw-tools';
 import DeckGl from '@k2-packages/deck-gl';
 import { MapStyle } from '~appModule/types';
 import { useDisableDoubleClick } from './useDisableDoubleClick';
 import { useAtom } from '@reatom/react';
-import {
-  currentMapPositionAtom,
-  focusedGeometryAtom,
-} from '~core/shared_state';
+import { focusedGeometryAtom, currentMapAtom } from '~core/shared_state';
 import { useDrawings } from './useDrawings';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import {
@@ -16,6 +13,7 @@ import {
   boundaryLayers,
 } from '~features/draw_tools/constants';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
+import mapLibre from 'maplibre-gl';
 
 const updatedMapStyle = (
   mapStyle: MapStyle | undefined,
@@ -32,6 +30,11 @@ const updatedMapStyle = (
   return mapStyle;
 };
 
+// temporary set generic map class to mapbox map
+// todo: change mapbox map declaration to generic map later
+export type ApplicationMap = mapLibre.Map;
+export type ApplicationLayer = mapLibre.AnyLayer;
+
 export function ConnectedMap({
   mapStyle,
   markers,
@@ -39,11 +42,16 @@ export function ConnectedMap({
   // dCheckBoundaries,
   ...rest
 }: MapBoxMapProps) {
-  const mapRef = useRef<any>();
+  const mapRef = useRef<ApplicationMap>();
   useMapPositionSmoothSync(mapRef);
 
-  const [focusedGeometry, focusedGeometryAtomActions] =
-    useAtom(focusedGeometryAtom);
+  // init current MapRefAtom
+  const [, currentMapAtomActions] = useAtom(currentMapAtom);
+  useEffect(() => {
+    currentMapAtomActions.setMap(mapRef.current);
+  }, [mapRef, currentMapAtomActions]);
+
+  const [, focusedGeometryAtomActions] = useAtom(focusedGeometryAtom);
 
   const [activeDrawMode, drawModeActions] = useAtom(activeDrawModeAtom);
 
