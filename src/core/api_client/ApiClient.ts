@@ -26,24 +26,28 @@ export interface ITranslationService {
 }
 
 export interface ApiClientConfig extends ApisauceConfig {
+  instanceId?: string;
   notificationService: INotificationService;
   translationService: ITranslationService;
-  loginApiPath: string;
+  loginApiPath?: string;
   refreshTokenApiPath?: string;
   unauthorizedCallback?: () => void;
+  disableAuth?: boolean;
 }
 
 type ApiMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
 export class ApiClient {
-  private static instance: ApiClient;
+  private static instances: Record<string, ApiClient> = {};
 
+  private readonly instanceId: string;
   private readonly translationService: ITranslationService;
   private readonly notificationService: INotificationService;
   private readonly unauthorizedCallback?: () => void;
   private readonly loginApiPath: string;
   private readonly refreshTokenApiPath: string;
   private readonly apiSauceInstance: ApisauceInstance;
+  private readonly disableAuth: boolean;
   private token = '';
   private refreshToken = '';
   private tokenWillExpire: Date | undefined;
@@ -55,17 +59,21 @@ export class ApiClient {
    * construction calls with the `new` operator.
    */
   private constructor({
+    instanceId = 'default',
     notificationService,
     translationService,
-    loginApiPath,
-    refreshTokenApiPath,
+    loginApiPath = '',
+    refreshTokenApiPath = '',
     unauthorizedCallback,
+    disableAuth = false,
     ...apiSauceConfig
   }: ApiClientConfig) {
-    this.translationService = translationService;
+    (this.instanceId = instanceId),
+      (this.translationService = translationService);
     this.notificationService = notificationService;
     this.loginApiPath = loginApiPath;
-    this.refreshTokenApiPath = refreshTokenApiPath || '';
+    this.refreshTokenApiPath = refreshTokenApiPath;
+    this.disableAuth = disableAuth;
 
     if (!apiSauceConfig.headers) {
       apiSauceConfig.headers = {};
@@ -82,17 +90,24 @@ export class ApiClient {
     this.apiSauceInstance = create(apiSauceConfig);
   }
 
-  public static getInstance(): ApiClient {
-    if (!ApiClient.instance) {
+  public static getInstance(instanceId = 'default'): ApiClient {
+    if (!ApiClient.instances[instanceId]) {
       throw new Error('You have to initialize api client first!');
     } else {
-      return ApiClient.instance;
+      return ApiClient.instances[instanceId];
     }
   }
 
   public static init(config: ApiClientConfig): ApiClient {
-    ApiClient.instance = new ApiClient(config);
-    return ApiClient.instance;
+    const instanceId = config.instanceId || 'default';
+    if (ApiClient.instances[instanceId]) {
+      throw new Error(
+        `Api client instance with Id: ${instanceId} already initialized`,
+      );
+    }
+
+    ApiClient.instances[instanceId] = new ApiClient(config);
+    return ApiClient.instances[instanceId];
   }
 
   /**
@@ -344,7 +359,7 @@ export class ApiClient {
     method: ApiMethod,
     path: string,
     requestParams?: Record<string, unknown>,
-    useAuth = true,
+    useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
     let response: ApiResponse<T, GeneralApiProblem>;
@@ -353,7 +368,7 @@ export class ApiClient {
       axiosConfig = {};
     }
 
-    if (useAuth) {
+    if (!this.disableAuth && useAuth) {
       const tokenCheckError = await this.checkToken(axiosConfig);
       if (tokenCheckError) {
         return await this.processResponse<T>(tokenCheckError);
@@ -385,7 +400,7 @@ export class ApiClient {
   public async get<T>(
     path: string,
     requestParams?: Record<string, unknown>,
-    useAuth = true,
+    useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
     return this.call<T>('get', path, requestParams, useAuth, axiosConfig);
@@ -394,7 +409,7 @@ export class ApiClient {
   public async post<T>(
     path: string,
     requestParams?: Record<string, unknown>,
-    useAuth = true,
+    useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
     return this.call('post', path, requestParams, useAuth, axiosConfig);
@@ -403,7 +418,7 @@ export class ApiClient {
   public async put<T>(
     path: string,
     requestParams?: Record<string, unknown>,
-    useAuth = true,
+    useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
     return this.call('put', path, requestParams, useAuth, axiosConfig);
@@ -412,7 +427,7 @@ export class ApiClient {
   public async patch<T>(
     path: string,
     requestParams?: Record<string, unknown>,
-    useAuth = true,
+    useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
     return this.call('patch', path, requestParams, useAuth, axiosConfig);
@@ -420,7 +435,7 @@ export class ApiClient {
 
   public async delete<T>(
     path: string,
-    useAuth = true,
+    useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
     return this.call('delete', path, undefined, useAuth, axiosConfig);
