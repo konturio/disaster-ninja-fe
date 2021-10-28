@@ -22,6 +22,9 @@ export function MainView() {
       initFileUploader(),
     );
     import('~features/map_ruler').then(({ initMapRuler }) => initMapRuler());
+    import('~features/boundary_selector').then(({ initBoundarySelector }) =>
+      initBoundarySelector(),
+    );
   }, []);
 
   return (

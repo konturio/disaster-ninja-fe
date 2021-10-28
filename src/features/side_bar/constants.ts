@@ -1,2 +1,6 @@
 // todo: Make mode ids as constants
-export const controlsOrder = ['UploadFile', 'MeasureDistanceMode'];
+export const controlsOrder = [
+  'UploadFile',
+  'MeasureDistanceMode',
+  'BoundarySelector',
+];

@@ -34,6 +34,20 @@ const updatedMapStyle = (
 // todo: change mapbox map declaration to generic map later
 export type ApplicationMap = mapLibre.Map;
 export type ApplicationLayer = mapLibre.AnyLayer;
+export type ApplicationLayerSourceData = mapLibre.AnySourceData;
+
+export class ApplicationMapMarker extends mapLibre.Marker {
+  public readonly id: string;
+
+  public constructor(
+    id: string,
+    element?: HTMLElement,
+    options?: maplibregl.MarkerOptions,
+  ) {
+    super(element, options);
+    this.id = id;
+  }
+}
 
 export function ConnectedMap({
   mapStyle,

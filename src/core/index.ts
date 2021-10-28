@@ -20,7 +20,7 @@ export const apiClient = ApiClient.getInstance();
 ApiClient.init({
   instanceId: 'boundaries',
   notificationService: notificationService,
-  baseURL: config.apiGateway,
+  baseURL: config.boundariesApi,
   disableAuth: true,
   translationService: TranslationService,
 });
