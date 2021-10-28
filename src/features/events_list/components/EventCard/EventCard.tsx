@@ -9,14 +9,14 @@ import { Text } from '@k2-packages/ui-kit';
 
 const formatTime = (() => {
   const format = new Intl.DateTimeFormat('default', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
-    hour12: false,
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZoneName: 'short',
   }).format;
-  return (date: Date) => format(date).replace(',', '');
+  return (date: Date) => format(date);
 })();
 
 export function EventCard({
