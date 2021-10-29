@@ -68,8 +68,8 @@ export class ApiClient {
     disableAuth = false,
     ...apiSauceConfig
   }: ApiClientConfig) {
-    (this.instanceId = instanceId),
-      (this.translationService = translationService);
+    this.instanceId = instanceId;
+    this.translationService = translationService;
     this.notificationService = notificationService;
     this.loginApiPath = loginApiPath;
     this.refreshTokenApiPath = refreshTokenApiPath;
