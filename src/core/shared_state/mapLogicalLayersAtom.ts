@@ -5,16 +5,18 @@ import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 export interface IMapLogicalLayer {
   id: string;
   name?: string;
+  readonly isMounted: boolean;
   visibleInPanel?: boolean;
-  mount: (map: ApplicationMap) => void;
-  unmount?: (map: ApplicationMap) => void;
+  onMount: (map: ApplicationMap) => void;
+  onUnmount?: (map: ApplicationMap) => void;
 }
 
 export const mapLogicalLayersAtom = createAtom(
   {
     currentMapAtom,
     addLayer: (layer: IMapLogicalLayer) => layer,
-    removeLayer: (layer:  IMapLogicalLayer | string) => typeof layer === 'string' ? layer : layer.id,
+    removeLayer: (layer: IMapLogicalLayer | string) =>
+      typeof layer === 'string' ? layer : layer.id,
     mountLayer: (layerId: string) => layerId,
     unmountLayer: (layerId: string) => layerId,
   },
@@ -26,40 +28,34 @@ export const mapLogicalLayersAtom = createAtom(
     });
 
     onAction('removeLayer', (layerId: string) => {
-      state = state.filter(lr => lr.id !== layerId);
+      state = state.filter((lr) => lr.id !== layerId);
     });
-
 
     onAction('mountLayer', (layerId: string) => {
       if (!map) return;
-      const layer = state.find(layer => layer.id === layerId);
+      const layer = state.find((layer) => layer.id === layerId);
       if (!layer) {
-        throw new Error(`Layer with '${layerId}' ID is not added to logical layers`);
+        throw new Error(
+          `Layer with '${layerId}' ID is not added to logical layers`,
+        );
       }
-      layer.mount(map);
+      layer.onMount(map);
     });
 
     onAction('unmountLayer', (layerId: string) => {
       if (!map) return;
 
-      const layer = state.find(layer => layer.id === layerId);
+      const layer = state.find((layer) => layer.id === layerId);
       if (!layer) {
-        throw new Error(`Layer with '${layerId}' ID is not added to logical layers`);
+        throw new Error(
+          `Layer with '${layerId}' ID is not added to logical layers`,
+        );
       }
 
-      if (layer.unmount) {
-        layer.unmount(map);
+      if (layer.onUnmount) {
+        layer.onUnmount(map);
       }
     });
-
-
-        // reset all map layers when map object has been changed
-    onChange('currentMapAtom', (mapState) => {
-      state = [];
-    });
-
-
-
 
     return state;
   },
