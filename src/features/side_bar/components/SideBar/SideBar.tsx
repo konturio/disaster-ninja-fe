@@ -6,13 +6,14 @@ import { controlsOrder } from '../../constants';
 
 export function SideBar() {
   const [controls] = useAtom(sideControlsBarAtom);
+
   return (
     <ActionsBar>
       {sortByPredefinedOrder(Object.values(controls), controlsOrder).map(
         (control) => (
           <ActionsBarBTN
             key={control.id}
-            onClick={control.onClick}
+            onClick={() => control.onClick(!control.active)}
             active={control.active}
           >
             {control.icon}

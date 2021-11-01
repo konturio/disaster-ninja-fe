@@ -3,7 +3,8 @@ import {
   ApplicationMap,
   ApplicationMapMarker,
 } from '~components/ConnectedMap/ConnectedMap';
-import { IMapLogicalLayer } from '~core/shared_state/mapLogicalLayersAtom';
+import { sideControlsBarAtom } from '~core/shared_state';
+import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
 import { createGeoJSONSource } from '~utils/geoJSON/helpers';
 import { boundariesClient } from '~core/index';
 import { getSelectorWithOptions } from '@k2-packages/boundaries/tslib/getSelectorWithOptions';
@@ -13,12 +14,12 @@ import {
   constructOptionsFromBoundaries,
 } from '~utils/map/boundaries';
 
-// todo: move constants to separate file
-export const HOVERED_BOUNDARIES_LAYER_ID = 'hovered-boundaries-layer';
-export const HOVERED_BOUNDARIES_SOURCE = 'hovered-boundaries';
-export const SELECTED_BOUNDARIES_LAYER_ID = 'selected-boundaries-layer';
-export const SELECTED_BOUNDARIES_SOURCE = 'selected-boundaries';
-export const BOUNDARY_MARKER_ID = 'boundary-marker';
+import {
+  HOVERED_BOUNDARIES_LAYER_ID,
+  HOVERED_BOUNDARIES_SOURCE,
+  BOUNDARY_MARKER_ID,
+} from '../constants';
+import { focusedGeometryAtom } from '~core/shared_state';
 
 const LOADING_OPTIONS = [
   { label: 'Loading...', value: 'loading', disabled: true },
@@ -33,23 +34,12 @@ const hoveredLayerConfig: ApplicationLayer = {
   source: HOVERED_BOUNDARIES_SOURCE,
   paint: {
     'line-color': 'black',
-    'line-width': 1,
+    'line-width': 2,
     'line-opacity': 0.7,
   },
 };
 
-const selectedLayerConfig: ApplicationLayer = {
-  id: SELECTED_BOUNDARIES_LAYER_ID,
-  type: 'line' as const,
-  source: SELECTED_BOUNDARIES_SOURCE,
-  paint: {
-    'line-color': 'black',
-    'line-width': 4,
-    'line-opacity': 0.7,
-  },
-};
-
-export class BoundarySelectorLayer implements IMapLogicalLayer {
+export class BoundarySelectorLayer implements LogicalLayer {
   public readonly id: string;
   public readonly name?: string;
   private _isMounted = false;
@@ -71,22 +61,24 @@ export class BoundarySelectorLayer implements IMapLogicalLayer {
     return this._isMounted;
   }
 
-  onMount(map: ApplicationMap) {
+  public onInit() {
+    return { isVisible: true, isLoading: false };
+  }
+
+  public willMount(map: ApplicationMap) {
     this._map = map;
     const emptyGeoJsonSource = createGeoJSONSource();
     map.addSource(HOVERED_BOUNDARIES_SOURCE, emptyGeoJsonSource);
-    map.addSource(SELECTED_BOUNDARIES_SOURCE, emptyGeoJsonSource);
-
     map.addLayer(hoveredLayerConfig);
-    map.addLayer(selectedLayerConfig);
-
     map.on('click', this._clickHandler);
     this._isMounted = true;
   }
 
-  onUnmount(map: ApplicationMap) {
-    map.off('click', this._clickHandler);
+  public willUnmount(map: ApplicationMap) {
     this._map = undefined;
+    map.removeLayer(hoveredLayerConfig.id);
+    map.removeSource(HOVERED_BOUNDARIES_SOURCE);
+    map.off('click', this._clickHandler);
     this.resetCurrentMarker();
     this._isMounted = false;
   }
@@ -128,12 +120,17 @@ export class BoundarySelectorLayer implements IMapLogicalLayer {
       options,
       (boundaryId: string) => {
         const selectedBoundarySource = this._map?.getSource(
-          SELECTED_BOUNDARIES_SOURCE,
+          HOVERED_BOUNDARIES_SOURCE,
         );
         if (selectedBoundarySource && 'setData' in selectedBoundarySource) {
-          selectedBoundarySource.setData(
-            selectBoundary(boundaryId) as GeoJSON.FeatureCollection,
+          const geoJSON: GeoJSON.FeatureCollection = selectBoundary(
+            boundaryId,
+          ) as GeoJSON.FeatureCollection;
+          focusedGeometryAtom.setFocusedGeometry.dispatch(
+            { type: 'boundaries' },
+            geoJSON,
           );
+          sideControlsBarAtom.disable.dispatch('BoundarySelector');
         }
       },
       (boundaryId: string) => {

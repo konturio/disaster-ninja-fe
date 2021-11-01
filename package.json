@@ -85,6 +85,7 @@
     "i18next": "^20.4.0",
     "i18next-browser-languagedetector": "^6.1.2",
     "immer": "^9.0.5",
+    "is-promise": "^4.0.0",
     "jwt-decode": "^3.1.2",
     "maplibre-gl": "^1.15.2",
     "mini-css-extract-plugin": "^2.2.0",

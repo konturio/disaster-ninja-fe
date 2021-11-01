@@ -1,14 +1,10 @@
 import { sideControlsBarAtom } from '~core/shared_state';
+import { logicalLayersRegistryAtom } from '~core/shared_state/logicalLayersRegistry';
 import { BoundarySelectorIcon } from './components/BoundarySelectorIcon';
-import { mapLogicalLayersAtom } from '~core/shared_state/mapLogicalLayersAtom';
-import { BoundarySelectorLayer } from '~features/boundary_selector/layers/BoundarySelectorLayer';
-
-export const BOUNDARY_SELECTOR_LAYER_ID = 'boundary-selector';
+import { boundaryLogicalLayerAtom } from './atoms/boundaryLogicalLayer';
 
 export function initBoundarySelector() {
-  mapLogicalLayersAtom.addLayer.dispatch(
-    new BoundarySelectorLayer(BOUNDARY_SELECTOR_LAYER_ID),
-  );
+  logicalLayersRegistryAtom.registerLayer.dispatch(boundaryLogicalLayerAtom);
 
   sideControlsBarAtom.addControl.dispatch({
     id: 'BoundarySelector',
@@ -16,9 +12,15 @@ export function initBoundarySelector() {
     active: false,
     group: 'tools',
     icon: <BoundarySelectorIcon />,
-    onClick: () => {
+    onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch('BoundarySelector');
-      mapLogicalLayersAtom.mountLayer.dispatch(BOUNDARY_SELECTOR_LAYER_ID);
+    },
+    onChange: (becomesActive) => {
+      if (becomesActive) {
+        boundaryLogicalLayerAtom.mount.dispatch();
+      } else {
+        boundaryLogicalLayerAtom.unmount.dispatch();
+      }
     },
   });
 }
