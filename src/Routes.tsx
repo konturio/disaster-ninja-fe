@@ -10,7 +10,7 @@ const { Reports } = lazily(() => import('~views/Reports/Reports'));
 export function RoutedApp() {
   return (
     <StrictMode>
-      <Router>
+      {/* <Router>
         <CacheSwitch>
           <CacheRoute className={styles.mainWrap} exact path="/">
             <Suspense fallback={null}>
@@ -24,12 +24,16 @@ export function RoutedApp() {
             </Suspense>
           </Route>
 
-          {/* insted of 404 */}
           <Route path="/">
             <Redirect to="/" />
           </Route>
         </CacheSwitch>
-      </Router>
+      </Router> */}
+      <Suspense fallback={null}>
+        <div className={styles.mainWrap}>
+          <MainView />
+        </div>
+      </Suspense>
     </StrictMode>
   );
 }
