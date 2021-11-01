@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
-import { icons } from '@k2-packages/map-draw-tools';
-import { polygonSelectionModes } from '../../constants';
-import ActionButton from '~components/ActionButton/ActionButton';
 import clsx from 'clsx';
-import styles from './PolygonSelectionToolbox.module.css';
 import { useAtom } from '@reatom/react';
+import { icons } from '@k2-packages/map-draw-tools';
+import ActionButton from '~components/ActionButton/ActionButton';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
+import { polygonSelectionModes } from '../../constants';
+import styles from './PolygonSelectionToolbox.module.css';
 
 export const PolygonSelectionToolbox = ({
   enablePolygonSelection,

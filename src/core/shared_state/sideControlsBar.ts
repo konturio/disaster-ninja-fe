@@ -6,7 +6,8 @@ export interface SideControl {
   icon: JSX.Element;
   active: boolean;
   group: string;
-  onClick: () => void;
+  onClick?: (isActive: boolean) => void;
+  onChange?: (isActive: boolean) => void;
 }
 
 export const sideControlsBarAtom = createAtom(
@@ -14,6 +15,8 @@ export const sideControlsBarAtom = createAtom(
     addControl: (control: SideControl) => control,
     removeControl: (controlId: string) => controlId,
     toggleActiveState: (controlId: string) => controlId,
+    enable: (controlId: string) => controlId,
+    disable: (controlId: string) => controlId,
   },
   ({ onAction }, state: Record<string, SideControl> = {}) => {
     onAction(
@@ -24,10 +27,42 @@ export const sideControlsBarAtom = createAtom(
       delete state[controlId];
       state = { ...state };
     });
+
+    onAction('enable', (controlId) => {
+      if (state[controlId]) {
+        const onChange = state[controlId].onChange;
+        onChange && onChange(true);
+        const newControlState = { ...state[controlId], active: true };
+        state = { ...state, [controlId]: newControlState };
+      } else {
+        console.error(
+          `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it not exist`,
+        );
+      }
+    });
+
+    onAction('disable', (controlId) => {
+      if (state[controlId]) {
+        const onChange = state[controlId].onChange;
+        onChange && onChange(false);
+        const newControlState = { ...state[controlId], active: false };
+        state = { ...state, [controlId]: newControlState };
+      } else {
+        console.error(
+          `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it not exist`,
+        );
+      }
+    });
+
     onAction('toggleActiveState', (controlId) => {
       if (state[controlId]) {
-        state[controlId].active = !state[controlId].active;
-        state = { ...state };
+        const onChange = state[controlId].onChange;
+        onChange && onChange(!state[controlId].active);
+        const newControlState = {
+          ...state[controlId],
+          active: !state[controlId].active,
+        };
+        state = { ...state, [controlId]: newControlState };
       } else {
         console.error(
           `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it not exist`,
