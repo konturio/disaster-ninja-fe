@@ -42,15 +42,9 @@ export default ({ mode }) =>
     },
     server: {
       proxy: {
-        [`^${packageJson.homepage}/api/(?:(?!reportsApi).)+`]: {
+        [packageJson.homepage + '/api']: {
           target: 'https://test-apps-ninja02.konturlabs.com',
           changeOrigin: true,
-        },
-        [packageJson.homepage + '/api/reportsApi']: {
-          target: 'https://geocint.kontur.io',
-          changeOrigin: true,
-          rewrite: (path) =>  path.replace(`${packageJson.homepage}/api/reportsApi`, '')
-          
         },
       },
     },
