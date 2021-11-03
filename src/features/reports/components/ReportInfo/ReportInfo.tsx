@@ -1,0 +1,73 @@
+import { Text } from '@k2-packages/ui-kit';
+import clsx from 'clsx';
+import { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+import { TranslationService as i18n } from '~core/localization';
+import ReactMarkdown from 'react-markdown';
+import { notificationService } from '~core/index';
+import { reportsAtom } from '~features/reports/atoms/reportsAtom';
+import { useAtom } from '@reatom/react';
+import { ReportTable } from '../ReportTable/ReportTable';
+import { tableAtom } from '../../atoms/tableAtom';
+import commonStyles from '../ReportsList/ReportsList.module.css';
+import styles from './Report.module.css';
+
+type Params = {
+  reportId: string;
+};
+
+export function ReportInfo() {
+  const { reportId } = useParams<Params>();
+
+  const [reports, { getReports }] = useAtom(reportsAtom);
+  const [report, { setReport }] = useAtom(tableAtom);
+
+  useEffect(() => {
+    if (!reports.length) getReports();
+  }, []);
+
+  useEffect(() => {
+    if (reports.length) {
+      const meta = reports.find((report) => report.id === reportId);
+      if (!meta)
+        notificationService.error({ title: i18n.t('Wrong report ID') });
+      else setReport(meta);
+    }
+  }, [reports]);
+
+  return (
+    <div className={styles.mainWrap}>
+      <Text type="short-l">
+        <Link
+          to={'../reports'}
+          className={clsx(commonStyles.link, styles.seeAllLink)}
+        >
+          {i18n.t('See all reports')}
+        </Link>
+      </Text>
+
+      <Text type="heading-m">
+        <span className={clsx(commonStyles.pageTitle, styles.title)}>
+          {report.meta?.name}
+        </span>
+      </Text>
+
+      <Text type="long-l">
+        <ReactMarkdown className={commonStyles.description}>
+          {report.meta?.description_full!}
+        </ReactMarkdown>
+      </Text>
+
+      {Boolean(report.meta?.last_updated) && (
+        <Text type="caption">
+          <div className={styles.lastUpdated}>
+            {i18n.t('Updated ') + report.meta?.last_updated}
+          </div>
+        </Text>
+      )}
+
+      <ReportTable />
+    </div>
+  );
+}
