@@ -1,0 +1,83 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: auto;
+}
+
+thead {
+  box-shadow: inset 0px 1px 0px #b9b9b9;
+  background: #f0f0f0;
+}
+
+th {
+  top: 0;
+  position: sticky;
+  background: #f0f0f0;
+  padding: 6px 8px;
+  text-align: left;
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20.8px;
+  width: auto;
+  /* white-space: nowrap; */
+}
+
+td {
+  padding: 10px 8px;
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20.8px;
+  width: auto;
+}
+
+.evenRow {
+  background: #f9f9f9;
+}
+
+.headingRow {
+  background: rgba(255, 255, 255, 0.0001);
+  box-shadow: inset 0px -1px 0px #b9b9b9;
+}
+
+.regularRow {
+  background: rgba(255, 255, 255, 0.0001);
+  box-shadow: inset 0px -1px 0px #b9b9b9;
+}
+
+.paddedRow:first-letter {
+  margin-left: 16px;
+}
+
+.columnTitle {
+  margin-right: 8px;
+}
+
+.noSort img {
+  display: none;
+}
+
+.sortIcon img {
+  transition: 300ms;
+  display: inline-block;
+}
+
+.defaultSort img {
+  opacity: 0;
+}
+
+.defaultSort:hover img {
+  opacity: 0.3;
+}
+
+.ascending img {
+  opacity: 1;
+}
+
+.descending img {
+  opacity: 1;
+  transform: rotate(180deg);
+}
