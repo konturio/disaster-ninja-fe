@@ -1,19 +1,25 @@
 import { sideControlsBarAtom } from '~core/shared_state';
 import { logicalLayersRegistryAtom } from '~core/shared_state/logicalLayersRegistry';
-import { BoundarySelectorIcon } from './components/BoundarySelectorIcon';
 import { boundaryLogicalLayerAtom } from './atoms/boundaryLogicalLayer';
+import BoundarySelectorIcon from '@k2-packages/default-icons/tslib/icons/BoundarySelectorIcon';
+import {
+  BOUNDARY_SELECTOR_CONTROL_ID,
+  BOUNDARY_SELECTOR_CONTROL_NAME,
+} from '~features/boundary_selector/constants';
 
 export function initBoundarySelector() {
   logicalLayersRegistryAtom.registerLayer.dispatch(boundaryLogicalLayerAtom);
 
   sideControlsBarAtom.addControl.dispatch({
-    id: 'BoundarySelector',
-    name: 'Boundary Selector',
+    id: BOUNDARY_SELECTOR_CONTROL_ID,
+    name: BOUNDARY_SELECTOR_CONTROL_NAME,
     active: false,
     group: 'tools',
     icon: <BoundarySelectorIcon />,
     onClick: (becomesActive) => {
-      sideControlsBarAtom.toggleActiveState.dispatch('BoundarySelector');
+      sideControlsBarAtom.toggleActiveState.dispatch(
+        BOUNDARY_SELECTOR_CONTROL_ID,
+      );
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
