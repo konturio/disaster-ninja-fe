@@ -44,10 +44,10 @@ export class BoundarySelectorLayer implements LogicalLayer {
   public readonly name?: string;
   private _isMounted = false;
   private _map?: ApplicationMap;
+  private _currentMarker?: ApplicationMapMarker;
   private readonly _clickHandler: (ev: {
     lngLat: { lng: number; lat: number };
   }) => void;
-  private _currentMarker?: ApplicationMapMarker;
 
   public constructor(id: string, name?: string) {
     this.id = id;
