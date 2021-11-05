@@ -1,7 +1,7 @@
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { askGeoJSONFile } from './askGeoJSONFile';
-import { UploadFileIcon } from './components/UploadFileIcon';
+import UploadFileIcon from '@k2-packages/default-icons/tslib/icons/UploadFileIcon';
 
 export function initFileUploader() {
   sideControlsBarAtom.addControl.dispatch({

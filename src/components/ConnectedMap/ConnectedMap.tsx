@@ -5,13 +5,10 @@ import DeckGl from '@k2-packages/deck-gl';
 import { MapStyle } from '~appModule/types';
 import { useDisableDoubleClick } from './useDisableDoubleClick';
 import { useAtom } from '@reatom/react';
-import { focusedGeometryAtom, currentMapAtom } from '~core/shared_state';
+import { currentMapAtom, focusedGeometryAtom } from '~core/shared_state';
 import { useDrawings } from './useDrawings';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
-import {
-  DRAW_MODE_CONFIG,
-  boundaryLayers,
-} from '~features/draw_tools/constants';
+import { DRAW_MODE_CONFIG } from '~features/draw_tools/constants';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 import mapLibre from 'maplibre-gl';
 
