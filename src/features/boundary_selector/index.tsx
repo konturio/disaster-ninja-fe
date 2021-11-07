@@ -1,5 +1,4 @@
 import { sideControlsBarAtom } from '~core/shared_state';
-import { logicalLayersRegistryAtom } from '~core/shared_state/logicalLayersRegistry';
 import { boundaryLogicalLayerAtom } from './atoms/boundaryLogicalLayer';
 import BoundarySelectorIcon from '@k2-packages/default-icons/tslib/icons/BoundarySelectorIcon';
 import {
@@ -8,8 +7,7 @@ import {
 } from '~features/boundary_selector/constants';
 
 export function initBoundarySelector() {
-  logicalLayersRegistryAtom.registerLayer.dispatch(boundaryLogicalLayerAtom);
-
+  boundaryLogicalLayerAtom.init();
   sideControlsBarAtom.addControl.dispatch({
     id: BOUNDARY_SELECTOR_CONTROL_ID,
     name: BOUNDARY_SELECTOR_CONTROL_NAME,

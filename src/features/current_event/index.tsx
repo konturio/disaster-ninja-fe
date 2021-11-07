@@ -1,5 +1,5 @@
-import { currentEventResourceAtom } from './atoms/currentEventResource';
+import { currentEventGeometry } from './atoms/currentEventGeometry';
 
 export function initCurrentEvent() {
-  currentEventResourceAtom.subscribe((val) => null);
+  currentEventGeometry.subscribe((val) => null);
 }

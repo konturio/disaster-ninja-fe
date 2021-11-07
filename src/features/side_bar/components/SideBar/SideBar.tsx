@@ -13,7 +13,7 @@ export function SideBar() {
         (control) => (
           <ActionsBarBTN
             key={control.id}
-            onClick={() => control.onClick(!control.active)}
+            onClick={() => control.onClick && control.onClick(!control.active)}
             active={control.active}
           >
             {control.icon}
