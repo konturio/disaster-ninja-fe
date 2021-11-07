@@ -25,6 +25,9 @@ export function MainView() {
     import('~features/boundary_selector').then(({ initBoundarySelector }) =>
       initBoundarySelector(),
     );
+    import('~features/focused_geometry_layer').then(
+      ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
+    );
   }, []);
 
   return (

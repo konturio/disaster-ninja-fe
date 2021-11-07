@@ -24,7 +24,7 @@ type GeometrySource =
   | GeometrySourceBoundaries
   | GeometrySourceFromFile;
 
-interface FocusedGeometry {
+export interface FocusedGeometry {
   source: GeometrySource;
   geometry: GeoJSON.GeoJSON;
 }

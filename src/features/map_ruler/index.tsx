@@ -1,7 +1,4 @@
-import {
-  logicalLayersRegistryAtom,
-  sideControlsBarAtom,
-} from '~core/shared_state';
+import { sideControlsBarAtom } from '~core/shared_state';
 import MapRulerIcon from '@k2-packages/default-icons/tslib/icons/MapRulerIcon';
 import {
   MAP_RULER_CONTROL_ID,
@@ -10,7 +7,7 @@ import {
 import { mapRulerLogicalLayerAtom } from '~features/map_ruler/atoms/mapRulerLogicalLayer';
 
 export function initMapRuler() {
-  logicalLayersRegistryAtom.registerLayer.dispatch(mapRulerLogicalLayerAtom);
+  mapRulerLogicalLayerAtom.init.dispatch();
 
   sideControlsBarAtom.addControl.dispatch({
     id: MAP_RULER_CONTROL_ID,
