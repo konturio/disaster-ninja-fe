@@ -1,6 +1,6 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 
-export const enabledUserLayersAtom = createAtom(
+export const enabledUserLayersAtom = createBindAtom(
   {
     enableLayer: (layer: string) => layer,
     disableLayer: (layerId: string) => layerId,
@@ -23,4 +23,5 @@ export const enabledUserLayersAtom = createAtom(
 
     return state;
   },
+  'enabledUserLayersAtom',
 );

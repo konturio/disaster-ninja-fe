@@ -1,10 +1,10 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 /**
  * Atom to save current map ref and reuse it in other atoms
  */
-export const currentMapAtom = createAtom(
+export const currentMapAtom = createBindAtom(
   {
     setMap: (map?: ApplicationMap) => map,
   },
@@ -14,4 +14,5 @@ export const currentMapAtom = createAtom(
     });
     return state;
   },
+  'currentMapAtom',
 );

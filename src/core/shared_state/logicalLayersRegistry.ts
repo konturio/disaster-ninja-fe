@@ -1,7 +1,7 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { LogicalLayerAtom } from '~utils/atoms/createLogicalLayerAtom';
 
-export const logicalLayersRegistryAtom = createAtom(
+export const logicalLayersRegistryAtom = createBindAtom(
   {
     registerLayer: (logicalLayer: LogicalLayerAtom) => logicalLayer,
     unregisterLayer: (logicalLayerId: LogicalLayerAtom['id']) => logicalLayerId,
@@ -21,4 +21,5 @@ export const logicalLayersRegistryAtom = createAtom(
     });
     return state;
   },
+  'logicalLayersRegistryAtom',
 );

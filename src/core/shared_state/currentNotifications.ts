@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 
 export type NotificationType = 'error' | 'warning' | 'info';
 
@@ -14,7 +14,7 @@ export interface Notification {
   onClose: () => void;
 }
 
-export const currentNotificationAtom = createAtom(
+export const currentNotificationAtom = createBindAtom(
   {
     showNotification: (
       type: NotificationType,
@@ -40,4 +40,5 @@ export const currentNotificationAtom = createAtom(
     );
     return [...state];
   },
+  'currentNotificationAtom',
 );
