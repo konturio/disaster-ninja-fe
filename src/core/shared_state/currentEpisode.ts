@@ -1,10 +1,10 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 
 type CurrentEpisodeAtomState = {
   id: string;
 } | null;
 
-export const currentEpisodeAtom = createAtom(
+export const currentEpisodeAtom = createBindAtom(
   {
     setCurrentEpisodeId: (episodeId: string) => episodeId,
     resetCurrentEpisodeId: () => null,
@@ -14,4 +14,5 @@ export const currentEpisodeAtom = createAtom(
     onAction('resetCurrentEpisodeId', () => (state = null));
     return state;
   },
+  'currentEpisodeAtom',
 );

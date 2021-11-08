@@ -1,8 +1,8 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { currentEventResourceAtom } from './currentEventResource';
 
-export const currentEventGeometry = createAtom(
+export const currentEventGeometry = createBindAtom(
   {
     currentEventResourceAtom,
     focusedGeometryAtom,
@@ -20,4 +20,5 @@ export const currentEventGeometry = createAtom(
       }
     });
   },
+  'currentEventGeometry',
 );

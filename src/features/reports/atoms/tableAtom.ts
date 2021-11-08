@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { apiClient } from '~core/index';
 import { Report } from '~features/reports/atoms/reportsAtom';
 import papa from 'papaparse';
@@ -25,7 +25,7 @@ async function fetchTable(link: string) {
   return responseData;
 }
 
-export const tableAtom = createAtom(
+export const tableAtom = createBindAtom(
   {
     setReport: (report: Report) => report,
     sortBy: (sorter: string) => sorter,
@@ -115,4 +115,5 @@ export const tableAtom = createAtom(
 
     return state;
   },
+  'tableAtom',
 );

@@ -1,8 +1,8 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { eventListResourceAtom } from './eventListResource';
 import { currentEventAtom, focusedGeometryAtom } from '~core/shared_state';
 
-export const autoSelectEvent = createAtom(
+export const autoSelectEvent = createBindAtom(
   {
     eventListResourceAtom,
     currentEventAtom,
@@ -23,4 +23,5 @@ export const autoSelectEvent = createAtom(
 
     return state;
   },
+  'autoSelectEvent',
 );

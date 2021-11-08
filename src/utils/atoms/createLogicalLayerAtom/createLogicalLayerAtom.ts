@@ -1,4 +1,5 @@
-import { Atom, createAtom } from '@reatom/core';
+import { Atom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import isPromise from 'is-promise';
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
@@ -155,7 +156,7 @@ export function createLogicalLayerAtom<T>(
   atom?: Atom<T>,
 ) {
   return atom
-    ? createAtom(
+    ? createBindAtom(
         {
           data: atom,
           map: currentMapAtom,
@@ -209,7 +210,7 @@ export function createLogicalLayerAtom<T>(
         },
         layer.id,
       )
-    : createAtom(
+    : createBindAtom(
         {
           map: currentMapAtom,
           setData: (data: T) => data,

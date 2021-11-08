@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { UrlData } from '../types';
 import {
   currentEventAtom,
@@ -8,7 +8,7 @@ import {
 } from '~core/shared_state';
 
 /* Compose shared state values into one atom */
-export const selectedDataAtom = createAtom(
+export const selectedDataAtom = createBindAtom(
   {
     currentMapPositionAtom,
     currentEventAtom,
@@ -38,4 +38,5 @@ export const selectedDataAtom = createAtom(
     }
     return newState;
   },
+  'selectedDataAtom',
 );
