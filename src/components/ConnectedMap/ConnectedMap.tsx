@@ -59,6 +59,10 @@ export function ConnectedMap({
   // init current MapRefAtom
   const [, currentMapAtomActions] = useAtom(currentMapAtom);
   useEffect(() => {
+    if (mapRef.current) {
+      // @ts-expect-error Fix for react dev tools
+      mapRef.current.toJSON = () => '[Mapbox Object]';
+    }
     currentMapAtomActions.setMap(mapRef.current);
   }, [mapRef, currentMapAtomActions]);
 

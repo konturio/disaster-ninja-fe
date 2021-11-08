@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { apiClient } from '~core/index';
 
 export type Report = {
@@ -16,7 +16,7 @@ export type Report = {
   ];
 };
 
-export const reportsAtom = createAtom(
+export const reportsAtom = createBindAtom(
   {
     setReports: (reports: Report[]) => reports,
     getReports: () => {
@@ -36,4 +36,5 @@ export const reportsAtom = createAtom(
     });
     return state;
   },
+  'reportsAtom',
 );
