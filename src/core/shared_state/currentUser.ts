@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 
 export interface CurrentUser {
   id: string;
@@ -10,7 +10,7 @@ const defaultUser: CurrentUser = {
   defaultLayers: [],
 };
 
-export const currentUserAtom = createAtom(
+export const currentUserAtom = createBindAtom(
   {
     setCurrentUser: (currentUser: CurrentUser) => currentUser,
   },
@@ -18,4 +18,5 @@ export const currentUserAtom = createAtom(
     onAction('setCurrentUser', (currentUser) => (state = currentUser));
     return state;
   },
+  'currentUserAtom',
 );
