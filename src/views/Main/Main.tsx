@@ -5,6 +5,7 @@ import config from '~core/app_config';
 import { ConnectedMap } from '~components/ConnectedMap/ConnectedMap';
 import { Row } from '~components/Layout/Layout';
 import styles from './Main.module.css';
+import { Analytics } from '~features/analytics_panel';
 
 const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
@@ -38,6 +39,7 @@ export function MainView() {
           <NotificationToast />
           <SideBar />
           <EventList />
+          <Analytics />
         </Suspense>
         <div className={styles.root} style={{ flex: 1, position: 'relative' }}>
           <ConnectedMap

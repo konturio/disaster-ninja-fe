@@ -358,7 +358,7 @@ export class ApiClient {
   public async call<T>(
     method: ApiMethod,
     path: string,
-    requestParams?: Record<string, unknown>,
+    requestParams?: any,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
@@ -408,7 +408,7 @@ export class ApiClient {
 
   public async post<T>(
     path: string,
-    requestParams?: Record<string, unknown>,
+    requestParams?: any,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
