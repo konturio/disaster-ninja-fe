@@ -33,6 +33,8 @@ function createReactiveResourceAtom<P, T>(
       },
     ) => {
       onChange('paramsAtom', (params) => {
+        if (!params) return;
+
         schedule((dispatch) => {
           state = { ...state, loading: true };
           dispatch(create('request', params));
@@ -55,7 +57,9 @@ function createReactiveResourceAtom<P, T>(
               )
               .catch((error: Error) => {
                 console.info('[Create resource atom]', error);
-                ctx.version === version && create('error', error.message);
+                return (
+                  ctx.version === version && create('error', error.message)
+                );
               })
               .then(
                 (action) => action && dispatch([action, create('finally')]),

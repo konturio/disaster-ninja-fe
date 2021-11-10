@@ -9,6 +9,7 @@ import styles from './Main.module.css';
 const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
+const { Analytics } = lazily(() => import('~features/analytics_panel'));
 
 export function MainView() {
   useEffect(() => {
@@ -38,6 +39,7 @@ export function MainView() {
           <NotificationToast />
           <SideBar />
           <EventList />
+          <Analytics />
         </Suspense>
         <div className={styles.root} style={{ flex: 1, position: 'relative' }}>
           <ConnectedMap

@@ -1,0 +1,30 @@
+.stat {
+  color: #051626;
+  margin-top: 12px;
+
+  .statHead {
+    font-weight: bold;
+  }
+
+  .statDesc {
+    font-size: 12px;
+    line-height: 100%;
+    margin-bottom: 2px;
+  }
+
+  .statContent {
+  }
+
+  .statSplitter {
+    display: inline-block;
+    margin: 0 8px;
+  }
+
+  .detailsLink {
+    display: block;
+    color: #0c9bed;
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+}
