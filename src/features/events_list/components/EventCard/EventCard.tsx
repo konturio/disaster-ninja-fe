@@ -3,9 +3,9 @@ import cn from 'clsx';
 import { parseISO } from 'date-fns';
 import { Event } from '~appModule/types';
 import { Analytics } from './Analytics/Analytics';
-import { SeverityIndicator } from './SeverityIndicator/SeverityIndicator';
 import s from './EventCard.module.css';
 import { Text } from '@k2-packages/ui-kit';
+import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 
 const formatTime = (() => {
   const format = new Intl.DateTimeFormat('default', {

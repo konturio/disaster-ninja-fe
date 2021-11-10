@@ -112,6 +112,13 @@ export interface Event {
   updatedAt: string;
 }
 
+export interface AnalyticsData {
+  name: string;
+  description: string;
+  text: string;
+  percentValue?: number;
+}
+
 export type EventWithGeometry = {
   eventId: string;
   eventName: string;
