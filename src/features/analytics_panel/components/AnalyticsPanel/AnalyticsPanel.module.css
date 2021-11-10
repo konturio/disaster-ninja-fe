@@ -5,10 +5,11 @@
 .sidePannel {
   z-index: 1; /* Show shadow over map */
   position: absolute;
-  border-radius: 0;
   margin-left: 8px;
+  margin-top: 8px;
   align-self: flex-start;
   left: -100px;
+  border-radius: 4px;
 
   &.show {
     transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
@@ -30,8 +31,16 @@
 .panelBody {
   width: 320px;
   min-height: 400px;
+  padding: 0 18px 18px 18px;
 }
 
 .header {
   border-bottom: none;
+}
+
+.head {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--unit);
+  align-items: center;
 }
