@@ -5,11 +5,11 @@ import config from '~core/app_config';
 import { ConnectedMap } from '~components/ConnectedMap/ConnectedMap';
 import { Row } from '~components/Layout/Layout';
 import styles from './Main.module.css';
-import { Analytics } from '~features/analytics_panel';
 
 const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
+const { Analytics } = lazily(() => import('~features/analytics_panel'));
 
 export function MainView() {
   useEffect(() => {
