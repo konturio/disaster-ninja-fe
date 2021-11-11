@@ -26,6 +26,16 @@ ApiClient.init({
 });
 export const boundariesClient = ApiClient.getInstance('boundaries');
 
+// initialize reports client
+ApiClient.init({
+  instanceId: 'reports',
+  notificationService: notificationService,
+  baseURL: config.reportsApi,
+  disableAuth: true,
+  translationService: TranslationService,
+});
+export const reportsClient = ApiClient.getInstance('reports');
+
 autoRefreshService.start(config.refreshIntervalSec);
 
 export const translationService = TranslationService;
