@@ -22,5 +22,5 @@ export const currentEventAtom = createBindAtom(
     });
     return state;
   },
-  'currentEventAtom',
+  '[Shared state] currentEventAtom',
 );

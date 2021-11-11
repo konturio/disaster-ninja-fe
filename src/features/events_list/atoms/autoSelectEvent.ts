@@ -8,7 +8,7 @@ export const autoSelectEvent = createBindAtom(
     currentEventAtom,
     focusedGeometryAtom,
   },
-  ({ get }, state = {}) => {
+  ({ get, schedule }, state = {}) => {
     const eventListResource = get('eventListResourceAtom');
     const currentEvent = get('currentEventAtom');
     const focusedGeometry = get('focusedGeometryAtom');
@@ -18,7 +18,9 @@ export const autoSelectEvent = createBindAtom(
       eventListResource.data[0];
 
     if (currentEvent === null && firstEventInList && focusedGeometry === null) {
-      currentEventAtom.setCurrentEventId.dispatch(firstEventInList.eventId);
+      schedule((dispatch) => {
+        dispatch(currentEventAtom.setCurrentEventId(firstEventInList.eventId));
+      });
     }
 
     return state;

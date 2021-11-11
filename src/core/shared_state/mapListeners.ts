@@ -32,5 +32,5 @@ export const mapListenersAtom = createBindAtom(
     );
     return state;
   },
-  'mapListenersAtom',
+  '[Shared state] mapListenersAtom',
 );
