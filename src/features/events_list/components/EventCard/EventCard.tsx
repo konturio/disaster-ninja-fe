@@ -42,8 +42,8 @@ export function EventCard({
         <SeverityIndicator severity={event.severity} />
       </div>
 
-      <div className={s.locations}>
-        <Text type="caption">{event.locations}</Text>
+      <div className={s.location}>
+        <Text type="caption">{event.location}</Text>
       </div>
 
       <Analytics
