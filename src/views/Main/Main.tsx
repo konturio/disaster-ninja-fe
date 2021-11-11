@@ -4,7 +4,8 @@ import { AppHeader, Logo } from '@k2-packages/ui-kit';
 import config from '~core/app_config';
 import { ConnectedMap } from '~components/ConnectedMap/ConnectedMap';
 import { Row } from '~components/Layout/Layout';
-import styles from './Main.module.css';
+import s from './Main.module.css';
+import { MapLayersList } from '~features/map_layers_panel';
 import { useHistory } from 'react-router';
 
 const { SideBar } = lazily(() => import('~features/side_bar'));
