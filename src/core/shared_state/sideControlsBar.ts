@@ -71,5 +71,5 @@ export const sideControlsBarAtom = createBindAtom(
     });
     return state;
   },
-  'sideControlsBarAtom',
+  '[Shared state] sideControlsBarAtom',
 );

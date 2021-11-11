@@ -3,23 +3,39 @@ import { LogicalLayerAtom } from '~utils/atoms/createLogicalLayerAtom';
 
 export const logicalLayersRegistryAtom = createBindAtom(
   {
-    registerLayer: (logicalLayer: LogicalLayerAtom) => logicalLayer,
+    registerLayer: (logicalLayer: LogicalLayerAtom | LogicalLayerAtom[]) =>
+      Array.isArray(logicalLayer) ? logicalLayer : [logicalLayer],
     unregisterLayer: (logicalLayerId: LogicalLayerAtom['id']) => logicalLayerId,
   },
   (
-    { onAction },
+    { onAction, schedule },
     state: Record<LogicalLayerAtom['id'], LogicalLayerAtom> = {},
   ) => {
-    onAction('registerLayer', (logicalLayer) => {
-      logicalLayer.init.dispatch();
-      state = { ...state, [logicalLayer.id]: logicalLayer };
+    onAction('registerLayer', (logicalLayers) => {
+      const willBeReplaced: LogicalLayerAtom[] = [];
+      logicalLayers.forEach((logicalLayer) => {
+        if (state[logicalLayer.id] !== undefined) {
+          willBeReplaced.push(state[logicalLayer.id]);
+        }
+        state = { ...state, [logicalLayer.id]: logicalLayer };
+      });
+      schedule((dispatch) =>
+        dispatch(
+          willBeReplaced
+            .map((logicalLayer) => logicalLayer.unregister())
+            .concat(logicalLayers.map((logicalLayer) => logicalLayer.init())),
+        ),
+      );
     });
+
     onAction('unregisterLayer', (logicalLayerId) => {
+      const layer = state[logicalLayerId];
       const copy = { ...state };
       delete copy[logicalLayerId];
       state = copy;
+      schedule((dispatch) => dispatch(layer.unregister()));
     });
     return state;
   },
-  'logicalLayersRegistryAtom',
+  '[Shared state] logicalLayersRegistryAtom',
 );

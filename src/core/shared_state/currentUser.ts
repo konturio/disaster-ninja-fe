@@ -18,5 +18,5 @@ export const currentUserAtom = createBindAtom(
     onAction('setCurrentUser', (currentUser) => (state = currentUser));
     return state;
   },
-  'currentUserAtom',
+  '[Shared state] currentUserAtom',
 );

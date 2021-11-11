@@ -1,0 +1,9 @@
+.scrollable {
+  overflow-y: auto;
+  width: 284px;
+  height: 100%;
+}
+
+.panel {
+  height: 100%;
+}

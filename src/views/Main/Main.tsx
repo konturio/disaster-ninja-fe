@@ -4,7 +4,8 @@ import { AppHeader, Logo } from '@k2-packages/ui-kit';
 import config from '~core/app_config';
 import { ConnectedMap } from '~components/ConnectedMap/ConnectedMap';
 import { Row } from '~components/Layout/Layout';
-import styles from './Main.module.css';
+import s from './Main.module.css';
+import { MapLayersList } from '~features/map_layers_panel';
 
 const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
@@ -26,6 +27,9 @@ export function MainView() {
     import('~features/boundary_selector').then(({ initBoundarySelector }) =>
       initBoundarySelector(),
     );
+    import('~features/layers_in_area').then(({ initLayersInArea }) =>
+      initLayersInArea(),
+    );
     import('~features/focused_geometry_layer').then(
       ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
     );
@@ -41,18 +45,23 @@ export function MainView() {
           <EventList />
           <Analytics />
         </Suspense>
-        <div className={styles.root} style={{ flex: 1, position: 'relative' }}>
+        <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <ConnectedMap
             options={{
               logoPosition: 'top-right',
             }}
             style={config.mapBaseStyle || ''}
             accessToken={config.mapAccessToken || ''}
-            className={styles.Map}
+            className={s.Map}
           />
-          <div style={{ position: 'absolute', left: '8px', bottom: '8px' }}>
+          <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
           </div>
+          <Suspense fallback={null}>
+            <div className={s.floating}>
+              <MapLayersList />
+            </div>
+          </Suspense>
         </div>
       </Row>
     </>

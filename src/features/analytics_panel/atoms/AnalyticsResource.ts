@@ -14,4 +14,5 @@ export const analyticsResourceAtom = createResourceAtom(
     if (responseData === undefined) throw new Error('No data received');
     return responseData;
   },
+  'analyticsResource',
 );

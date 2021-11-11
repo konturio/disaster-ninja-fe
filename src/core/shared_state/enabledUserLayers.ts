@@ -23,5 +23,5 @@ export const enabledUserLayersAtom = createBindAtom(
 
     return state;
   },
-  'enabledUserLayersAtom',
+  '[Shared state] enabledUserLayersAtom',
 );
