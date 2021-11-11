@@ -4,6 +4,7 @@ declare global {
       API_GATEWAY: string;
       GRAPHQL_API: string;
       BOUNDARIES_API: string;
+      REPORTS_API: string;
       TILES_API: string;
       REFRESH_INTERVAL_SEC: number;
       MAP_ACCESS_TOKEN: string;
@@ -17,6 +18,7 @@ export default {
   apiGateway: window.konturAppConfig.API_GATEWAY,
   graphqlApi: window.konturAppConfig.GRAPHQL_API,
   boundariesApi: window.konturAppConfig.BOUNDARIES_API,
+  reportsApi: window.konturAppConfig.REPORTS_API,
   tilesApi: window.konturAppConfig.TILES_API,
   refreshIntervalSec: window.konturAppConfig.REFRESH_INTERVAL_SEC,
   mapAccessToken: window.konturAppConfig.MAP_ACCESS_TOKEN,
