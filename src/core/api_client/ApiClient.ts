@@ -12,7 +12,7 @@ import {
   GeneralApiProblem,
   getGeneralApiProblem,
 } from './ApiProblem';
-import { AuthResponseData } from './ApiTypes';
+import { AuthResponseData, RequestParams } from './ApiTypes';
 import { NotificationMessage } from '~core/types/notification';
 
 const LOCALSTORAGE_AUTH_KEY = 'auth_token';
@@ -399,7 +399,7 @@ export class ApiClient {
   // method shortcuts
   public async get<T>(
     path: string,
-    requestParams?: Record<string, unknown>,
+    requestParams?: RequestParams,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
@@ -408,7 +408,7 @@ export class ApiClient {
 
   public async post<T>(
     path: string,
-    requestParams?: any,
+    requestParams?: RequestParams,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
@@ -417,7 +417,7 @@ export class ApiClient {
 
   public async put<T>(
     path: string,
-    requestParams?: Record<string, unknown>,
+    requestParams?: RequestParams,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
@@ -426,7 +426,7 @@ export class ApiClient {
 
   public async patch<T>(
     path: string,
-    requestParams?: Record<string, unknown>,
+    requestParams?: RequestParams,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {

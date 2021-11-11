@@ -4,16 +4,7 @@ import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { notificationService } from '~core/index';
 import { GeoJSONSource } from 'maplibre-gl';
 
-const layersConfig = (id: string, sourceId: string) => [
-  {
-    id: id + '-main',
-    source: sourceId,
-    type: 'line' as const,
-    paint: {
-      'line-width': 6,
-      'line-color': '#0C9BED',
-    },
-  },
+const layersConfig = (id: string, sourceId: string): maplibregl.AnyLayer[] => [
   {
     id: id + '-outline',
     source: sourceId,
@@ -22,6 +13,21 @@ const layersConfig = (id: string, sourceId: string) => [
       'line-width': 8,
       'line-color': '#FFF',
       'line-opacity': 0.5,
+    },
+    layout: {
+      'line-join': 'round',
+    },
+  },
+  {
+    id: id + '-main',
+    source: sourceId,
+    type: 'line' as const,
+    paint: {
+      'line-width': 6,
+      'line-color': '#0C9BED',
+    },
+    layout: {
+      'line-join': 'round',
     },
   },
 ];
@@ -50,8 +56,16 @@ export class FocusedGeometryLayer
     return { isLoading: false, isVisible: true };
   }
 
+  wasAddInRegistry() {
+    /* noop */
+  }
+
   willMount(map: ApplicationMap) {
-    console.log(map);
+    if (import.meta.env.DEV) {
+      // HRM fix
+      map.getSource(this._sourceId) && this.willUnmount(map);
+    }
+
     map.addSource(this._sourceId, {
       type: 'geojson',
       data: this._lastGeometryUpdate,
@@ -69,7 +83,7 @@ export class FocusedGeometryLayer
         features: [],
       };
     } else {
-      const geojson = data.geometry;
+      const geojson = { ...data.geometry };
       if (geojson.type === 'Feature' || geojson.type === 'FeatureCollection') {
         this._lastGeometryUpdate = geojson;
       } else {

@@ -1,0 +1,130 @@
+[
+  {
+    "id": "selected_area",
+    "name": "Selected Area",
+    "description": "Some description of selected area",
+    "legend": {
+      "type": "simple",
+      "steps": [
+        {
+          "paramName": "outline",
+          "paramValue": "blue",
+          "stepName": "Outline",
+          "stepShape": "circle",
+          "style": {
+            "outline-color": "blue"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "event_shape",
+    "name": "Event shape",
+    "description": "Some description of event shape",
+    "group": "layers_in_selected_area",
+    "legend": {
+      "name": "Hazard Exposure",
+      "type": "simple",
+      "steps": [
+        {
+          "paramName": "exposure",
+          "paramValue": "moderate",
+          "stepName": "Moderate",
+          "stepShape": "circle",
+          "style": {
+            "outline-color": "yellow"
+          }
+        },
+        {
+          "paramName": "exposure",
+          "paramValue": "severe",
+          "stepName": "Severe",
+          "stepShape": "circle",
+          "style": {
+            "outline-color": "orange"
+          }
+        },
+        {
+          "paramName": "exposure",
+          "paramValue": "extreme",
+          "stepName": "Extreme",
+          "stepShape": "circle",
+          "style": {
+            "outline-color": "red"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "urban_core",
+    "name": "Urban Core",
+    "description": "Some description of urban core",
+    "group": "layers_in_selected_area",
+    "legend": {
+      "type": "simple",
+      "steps": [
+        {
+          "paramName": "outline",
+          "paramValue": "yes",
+          "stepName": "Outline",
+          "stepShape": "hex",
+          "style": {
+            "outline-color": "orange"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "settled_periphery",
+    "name": "Settled Periphery",
+    "description": "Some description of Settled Periphery",
+    "group": "layers_in_selected_area",
+    "legend": {
+      "type": "simple",
+      "steps": [
+        {
+          "paramName": "outline",
+          "paramValue": "yes",
+          "stepName": "Outline",
+          "stepShape": "hex",
+          "style": {
+            "outline-color": "green"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "active_contributors",
+    "name": "Active contributors",
+    "description": "Some description of Active contributors",
+    "category": "overlay",
+    "group": "kontur",
+    "legend": {
+      "type": "simple",
+      "steps": [
+        {
+          "paramName": "local",
+          "paramValue": "yes",
+          "stepName": "Possibly local mappers",
+          "stepShape": "circle",
+          "style": {
+            "fill-color": "green"
+          }
+        },
+        {
+          "paramName": "local",
+          "paramValue": "no",
+          "stepName": "Active mappers",
+          "stepShape": "circle",
+          "style": {
+            "fill-color": "green"
+          }
+        }
+      ]
+    }
+  }
+]
