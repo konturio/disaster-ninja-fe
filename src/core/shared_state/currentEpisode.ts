@@ -14,5 +14,5 @@ export const currentEpisodeAtom = createBindAtom(
     onAction('resetCurrentEpisodeId', () => (state = null));
     return state;
   },
-  'currentEpisodeAtom',
+  '[Shared state] currentEpisodeAtom',
 );
