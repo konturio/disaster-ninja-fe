@@ -5,6 +5,7 @@ import config from '~core/app_config';
 import { ConnectedMap } from '~components/ConnectedMap/ConnectedMap';
 import { Row } from '~components/Layout/Layout';
 import styles from './Main.module.css';
+import { useHistory } from 'react-router';
 
 const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
@@ -12,6 +13,8 @@ const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
 
 export function MainView() {
+  const history = useHistory();
+
   useEffect(() => {
     /* Lazy load module */
     // TODO: Add feature flag check
@@ -28,6 +31,9 @@ export function MainView() {
     );
     import('~features/focused_geometry_layer').then(
       ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
+    );
+    import('~features/reports/').then(({ initReportsIcon }) =>
+      initReportsIcon(history),
     );
   }, []);
 
