@@ -17,3 +17,16 @@
   display: flex;
   flex-flow: column nowrap;
 }
+
+.floating {
+  position: absolute;
+  right: 8px;
+  bottom: 80px;
+  top: 8px;
+}
+
+.logo {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+}

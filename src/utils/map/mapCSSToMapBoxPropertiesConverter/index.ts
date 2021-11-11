@@ -1,0 +1,19 @@
+import { MAP_CSS_MAPBOX } from './config';
+import { getRequirements } from './getRequirements';
+import { generateLayers } from './generateLayers';
+import { createValueConverters } from './valueConverters';
+
+/*
+  Parsing style pipeline
+  We want to support next mapbox layer types: fill, line, symbol.
+  We have mapbox limitation: one type - one layer. So
+  1. Every MapCSS property converted to requirements in context of mapbox (using serializable config) 
+  2. Requirements reduces to few mapBox layers
+  3. Layers attaches to sources
+*/
+export function mapCSSToMapBoxProperties(mapCSSStyle) {
+  const requirements = getRequirements(MAP_CSS_MAPBOX, mapCSSStyle);
+  const valueConverters = createValueConverters(mapCSSStyle);
+  const layers = generateLayers(requirements, valueConverters);
+  return layers;
+}
