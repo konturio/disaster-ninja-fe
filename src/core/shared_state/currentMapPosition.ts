@@ -21,5 +21,5 @@ export const currentMapPositionAtom = createBindAtom(
     });
     return state;
   },
-  'currentMapPositionAtom',
+  '[Shared state] currentMapPositionAtom',
 );

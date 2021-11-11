@@ -29,6 +29,9 @@ export function MainView() {
     import('~features/boundary_selector').then(({ initBoundarySelector }) =>
       initBoundarySelector(),
     );
+    import('~features/layers_in_area').then(({ initLayersInArea }) =>
+      initLayersInArea(),
+    );
     import('~features/focused_geometry_layer').then(
       ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
     );
@@ -47,18 +50,23 @@ export function MainView() {
           <EventList />
           <Analytics />
         </Suspense>
-        <div className={styles.root} style={{ flex: 1, position: 'relative' }}>
+        <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <ConnectedMap
             options={{
               logoPosition: 'top-right',
             }}
             style={config.mapBaseStyle || ''}
             accessToken={config.mapAccessToken || ''}
-            className={styles.Map}
+            className={s.Map}
           />
-          <div style={{ position: 'absolute', left: '8px', bottom: '8px' }}>
+          <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
           </div>
+          <Suspense fallback={null}>
+            <div className={s.floating}>
+              <MapLayersList />
+            </div>
+          </Suspense>
         </div>
       </Row>
     </>

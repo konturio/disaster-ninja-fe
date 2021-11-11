@@ -41,6 +41,7 @@ const defaultReducer = <T>(
     isMounted: boolean;
     isVisible: boolean;
     isLoading: boolean;
+    isError: boolean;
   },
 ) => {
   onAction('init', () => {
@@ -55,9 +56,6 @@ const defaultReducer = <T>(
   onAction('register', () => {
     if (!map) return;
     if (typeof layer.wasAddInRegistry !== 'function') {
-      console.error(
-        `Layer '${state.id}' not implement wasAddInRegistry method`,
-      );
       return;
     }
     layer.wasAddInRegistry(map);
@@ -66,9 +64,6 @@ const defaultReducer = <T>(
   onAction('unregister', () => {
     if (!map) return;
     if (typeof layer.wasRemoveFromInRegistry !== 'function') {
-      console.error(
-        `Layer '${state.id}' not implement wasRemoveFromInRegistry method`,
-      );
       return;
     }
     layer.wasRemoveFromInRegistry(map);
@@ -95,27 +90,32 @@ const defaultReducer = <T>(
   });
 
   onAction('mount', () => {
+    state = { ...state, isLoading: true, isMounted: true, isError: false };
     if (!map) return;
-    const maybePromise = layer.willMount(map);
-    if (isPromise(maybePromise)) {
-      state = { ...state, isLoading: true };
-
-      schedule((dispatch) => {
-        let isSuccess = false;
+    schedule((dispatch) => {
+      const maybePromise = layer.willMount(map);
+      if (isPromise(maybePromise)) {
+        const stateUpdate = {
+          isLoading: false,
+          isError: false,
+          isMounted: true,
+        };
         maybePromise
-          .then(() => (isSuccess = true))
-          .finally(() =>
-            dispatch(
-              create('_updateState', {
-                isLoading: false,
-                isMounted: isSuccess,
-              }),
-            ),
-          );
-      });
-    } else {
-      state = { ...state, isMounted: true };
-    }
+          .catch(() => {
+            stateUpdate.isError = true;
+            stateUpdate.isMounted = false;
+          })
+          .finally(() => {
+            dispatch(create('_updateState', stateUpdate));
+          });
+      } else {
+        dispatch(
+          create('_updateState', {
+            isLoading: false,
+          }),
+        );
+      }
+    });
   });
 
   onAction('unmount', () => {
@@ -132,6 +132,7 @@ const defaultReducer = <T>(
               create('_updateState', {
                 isLoading: false,
                 isMounted: !isSuccess,
+                isError: !isSuccess,
               }),
             ),
           );
@@ -147,10 +148,14 @@ const defaultReducer = <T>(
       isLoading: update.isLoading ?? state.isLoading,
       isMounted: update.isMounted ?? state.isMounted,
       isVisible: update.isVisible ?? state.isVisible,
+      isError: update.isError ?? state.isError,
     };
   });
+
+  return state;
 };
 
+const getId = (layerId: string) => `[Logical layer] ${layerId}`;
 export function createLogicalLayerAtom<T>(
   layer: LogicalLayer<T>,
   atom?: Atom<T>,
@@ -171,11 +176,13 @@ export function createLogicalLayerAtom<T>(
             isLoading,
             isMounted,
             isVisible,
+            isError,
           }: {
             isLoading?: boolean;
             isMounted?: boolean;
             isVisible?: boolean;
-          }) => ({ isLoading, isMounted, isVisible }),
+            isError?: boolean;
+          }) => ({ isLoading, isMounted, isVisible, isError }),
         },
         (
           track,
@@ -185,11 +192,12 @@ export function createLogicalLayerAtom<T>(
             isMounted: false,
             isVisible: true,
             isLoading: false,
+            isError: false,
           },
         ) => {
           const { get, onChange } = track;
           const map = get('map');
-          defaultReducer(map, layer, track, state);
+          state = defaultReducer(map, layer, track, state);
           onChange('data', (data) => {
             if (!map) return;
             if (typeof layer.onDataChange === 'function') {
@@ -208,7 +216,7 @@ export function createLogicalLayerAtom<T>(
           });
           return state;
         },
-        layer.id,
+        getId(layer.id),
       )
     : createBindAtom(
         {
@@ -225,11 +233,13 @@ export function createLogicalLayerAtom<T>(
             isLoading,
             isMounted,
             isVisible,
+            isError,
           }: {
             isLoading?: boolean;
             isMounted?: boolean;
             isVisible?: boolean;
-          }) => ({ isLoading, isMounted, isVisible }),
+            isError?: boolean;
+          }) => ({ isLoading, isMounted, isVisible, isError }),
         },
         (
           track,
@@ -239,11 +249,12 @@ export function createLogicalLayerAtom<T>(
             isMounted: false,
             isVisible: true,
             isLoading: false,
+            isError: false,
           },
         ) => {
           const { get, onAction } = track;
           const map = get('map');
-          defaultReducer(map, layer, track, state);
+          state = defaultReducer(map, layer, track, state);
           onAction('setData', (data) => {
             if (!map) return;
             if (typeof layer.onDataChange === 'function') {
@@ -262,9 +273,11 @@ export function createLogicalLayerAtom<T>(
           });
           return state;
         },
-        layer.id,
+        getId(layer.id),
       );
 }
+
+createLogicalLayerAtom.getId = getId;
 
 // Dirty hack for fixing TS typed infer
 // https://stackoverflow.com/questions/50321419/typescript-returntype-of-generic-function

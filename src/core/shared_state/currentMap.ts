@@ -14,5 +14,5 @@ export const currentMapAtom = createBindAtom(
     });
     return state;
   },
-  'currentMapAtom',
+  '[Shared state] currentMapAtom',
 );

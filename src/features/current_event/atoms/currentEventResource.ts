@@ -18,6 +18,7 @@ export const currentEventResourceAtom = createResourceAtom(
     }
     return null;
   },
+  'currentEventResource',
 );
 
 autoRefreshService.addWatcher('currentEvent', currentEventResourceAtom);

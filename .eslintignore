@@ -8,3 +8,4 @@ jest.config.js
 jest.setup.js
 appconfig.js
 deploy/*
+__test__
