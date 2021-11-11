@@ -10,7 +10,7 @@ thead {
 }
 
 th {
-  top: 0;
+  top: 44px;
   position: sticky;
   background: #f0f0f0;
   padding: 6px 8px;

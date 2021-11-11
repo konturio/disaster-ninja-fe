@@ -72,7 +72,7 @@ export function ReportTable() {
                   <a
                     href={meta?.column_link_templates[1]['Name'].replace(
                       '{{OSM ID}}',
-                      value,
+                      row[0],
                     )}
                   >
                     {value.replace(' -', '')}
@@ -91,7 +91,7 @@ export function ReportTable() {
       <tr key={row[0]} className={clsx(styles.regularRow)}>
         {row.map((value, i) => {
           if (!thead) return null;
-          if (thead[i] === 'OSM ID')
+          if (thead[i].toUpperCase() === 'OSM ID')
             return (
               <td key={row[0] + value + i}>
                 <a
@@ -110,7 +110,7 @@ export function ReportTable() {
                 <a
                   href={meta?.column_link_templates[1]['OSM name'].replace(
                     '{{OSM ID}}',
-                    value,
+                    row[0],
                   )}
                 >
                   {value}
@@ -123,7 +123,7 @@ export function ReportTable() {
                 <a
                   href={meta?.column_link_templates[1]['Name'].replace(
                     '{{OSM ID}}',
-                    value,
+                    row[0],
                   )}
                 >
                   {value}
