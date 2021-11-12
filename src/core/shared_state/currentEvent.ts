@@ -1,11 +1,11 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { focusedGeometryAtom } from './focusedGeometry';
 
 type CurrentEventAtomState = {
   id: string;
 } | null;
 
-export const currentEventAtom = createAtom(
+export const currentEventAtom = createBindAtom(
   {
     setCurrentEventId: (eventId: string) => eventId,
     resetCurrentEvent: () => null,
@@ -22,4 +22,5 @@ export const currentEventAtom = createAtom(
     });
     return state;
   },
+  '[Shared state] currentEventAtom',
 );

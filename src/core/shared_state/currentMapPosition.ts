@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 
 export interface MapPosition {
   lat: number;
@@ -8,7 +8,7 @@ export interface MapPosition {
 
 type CurrentMapPositionAtomState = MapPosition | null;
 
-export const currentMapPositionAtom = createAtom(
+export const currentMapPositionAtom = createBindAtom(
   {
     setCurrentMapPosition: (mapPosition: MapPosition) => mapPosition,
   },
@@ -21,4 +21,5 @@ export const currentMapPositionAtom = createAtom(
     });
     return state;
   },
+  '[Shared state] currentMapPositionAtom',
 );

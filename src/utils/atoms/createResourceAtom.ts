@@ -1,4 +1,5 @@
-import { createAtom, Atom, AtomSelfBinded } from '@reatom/core';
+import { Atom, AtomOptions, AtomSelfBinded } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 
 export type ResourceAtom<P, T> = AtomSelfBinded<
   ResourceAtomState<T>,
@@ -14,8 +15,9 @@ export type ResourceAtom<P, T> = AtomSelfBinded<
 function createReactiveResourceAtom<P, T>(
   paramsAtom: Atom<P>,
   fetcher: (params?: P | null) => Promise<T> | null,
+  options?: AtomOptions,
 ) {
-  return createAtom(
+  return createBindAtom(
     {
       paramsAtom,
       request: (params: P | null) => params,
@@ -81,17 +83,21 @@ function createReactiveResourceAtom<P, T>(
         });
       });
 
-      onAction('error', (error) => (state = { ...state, error }));
+      onAction('error', (error) => (state = { ...state, data: null, error }));
       onAction('done', (data) => (state = { ...state, error: null, data }));
       onAction('finally', () => (state = { ...state, loading: false }));
 
       return state;
     },
+    options,
   );
 }
 
-function createStaticResourceAtom<T>(fetcher: () => Promise<T> | null) {
-  return createAtom(
+function createStaticResourceAtom<T>(
+  fetcher: () => Promise<T> | null,
+  options?: AtomOptions,
+) {
+  return createBindAtom(
     {
       request: () => undefined,
       refetch: () => undefined,
@@ -153,12 +159,16 @@ function createStaticResourceAtom<T>(fetcher: () => Promise<T> | null) {
         });
       });
 
-      onAction('error', (error) => (state = { ...state, error }));
-      onAction('done', (data) => (state = { ...state, error: null, data }));
-      onAction('finally', () => (state = { ...state, loading: false }));
-
+      onAction('error', (error) => (state = { ...state, data: null, error }));
+      onAction('done', (data) => {
+        state = { ...state, error: null, data };
+      });
+      onAction('finally', () => {
+        state = { ...state, loading: false };
+      });
       return state;
     },
+    options,
   );
 }
 
@@ -174,11 +184,29 @@ type ResourceCtx<P> = {
   _refetchable?: boolean;
 };
 
+let n = 0;
+function addIdPrefix(options: AtomOptions, prefix: string): AtomOptions {
+  if (typeof options === 'string') {
+    return {
+      id: `${prefix} ${options}`,
+    };
+  }
+  return {
+    ...options,
+    id: `${prefix} ${options.id || n++}`,
+  };
+}
+
 export function createResourceAtom<P, T>(
   paramsAtom: Atom<P> | null,
   fetcher: (params?: P | null) => Promise<T> | null,
+  options: AtomOptions,
 ) {
   return paramsAtom
-    ? createReactiveResourceAtom(paramsAtom, fetcher)
-    : createStaticResourceAtom(fetcher);
+    ? createReactiveResourceAtom(
+        paramsAtom,
+        fetcher,
+        addIdPrefix(options, '[Resource]'),
+      )
+    : createStaticResourceAtom(fetcher, addIdPrefix(options, '[Resource]'));
 }

@@ -4,6 +4,7 @@ import s from './Analytics.module.css';
 import peopleIcon from './icons/people.svg';
 import areaIcon from './icons/area.svg';
 import mapIcon from './icons/map.svg';
+import { TranslationService as i18n } from '~core/localization';
 
 const Sub = ({ children }) => (
   <span style={{ fontSize: '.7em', verticalAlign: 'super' }}>{children}</span>
@@ -19,15 +20,24 @@ export function Analytics({
   osmGapsPercentage: number | null;
 }) {
   const statistics = useMemo(() => {
+    if (affectedPeople === 0)
+      return [
+        {
+          tooltip: i18n.t('Affected People'),
+          value: i18n.t('No humanitarian impact'),
+          icon: peopleIcon,
+        },
+      ];
+
     const formatNumber = new Intl.NumberFormat().format;
     return [
       {
-        tooltip: 'Affected People',
+        tooltip: i18n.t('Affected People'),
         value: formatNumber(affectedPeople),
         icon: peopleIcon,
       },
       {
-        tooltip: 'Settled Area',
+        tooltip: i18n.t('Settled Area'),
 
         value: (
           <span>
@@ -37,7 +47,7 @@ export function Analytics({
         icon: areaIcon,
       },
       {
-        tooltip: 'OSM Gaps Percentage (lower is better)',
+        tooltip: i18n.t('OSM Gaps Percentage (lower is better)'),
         value: osmGapsPercentage ? `${osmGapsPercentage}%` : ' - ',
         icon: mapIcon,
       },

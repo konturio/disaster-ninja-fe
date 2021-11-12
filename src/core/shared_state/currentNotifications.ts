@@ -1,4 +1,5 @@
-import { createAtom } from '@reatom/core';
+import { nanoid } from 'nanoid';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 
 export type NotificationType = 'error' | 'warning' | 'info';
 
@@ -7,25 +8,25 @@ interface NotificationMessage {
   description?: string;
 }
 export interface Notification {
-  id: number;
+  id: string;
   type: NotificationType;
   message: NotificationMessage;
   lifetimeSec: number;
   onClose: () => void;
 }
 
-export const currentNotificationAtom = createAtom(
+export const currentNotificationAtom = createBindAtom(
   {
     showNotification: (
       type: NotificationType,
       message: NotificationMessage,
       lifetimeSec: number,
     ) => ({ type, message, lifetimeSec }),
-    removeNotification: (id: number) => id,
+    removeNotification: (id: string) => id,
   },
   ({ onAction, schedule, create }, state: Notification[] = []) => {
     onAction('showNotification', ({ type, message, lifetimeSec }) => {
-      const id = performance.now();
+      const id = nanoid(4);
       const onClose = () =>
         currentNotificationAtom.removeNotification.dispatch(id);
       state = [...state, { id, type, message, lifetimeSec, onClose }];
@@ -40,4 +41,5 @@ export const currentNotificationAtom = createAtom(
     );
     return [...state];
   },
+  '[Shared state] currentNotificationAtom',
 );

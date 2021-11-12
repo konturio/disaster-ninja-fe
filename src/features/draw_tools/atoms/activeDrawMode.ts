@@ -1,11 +1,11 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { DRAW_TOOLS_CONTROLS, defaultPolygonSelectionMode } from '../constants';
 
 type Unpacked<T> = T extends (infer U)[] ? U : T;
 type DrawModes = Unpacked<typeof DRAW_TOOLS_CONTROLS>;
 
-export const activeDrawModeAtom = createAtom(
+export const activeDrawModeAtom = createBindAtom(
   { sideControlsBarAtom, resetDrawMode: () => null },
   ({ onChange, onAction }, state: DrawModes = defaultPolygonSelectionMode) => {
     onChange('sideControlsBarAtom', (controls) => {
@@ -28,4 +28,5 @@ export const activeDrawModeAtom = createAtom(
 
     return state;
   },
+  'activeDrawModeAtom',
 );

@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 
 type MapListener = () => void;
 type MapListenersAtomState = {
@@ -10,7 +10,7 @@ const defaultListeners = {
   click: [],
 };
 
-export const mapListenersAtom = createAtom(
+export const mapListenersAtom = createBindAtom(
   {
     addMapListener: (eventType: MapEvent, listener: MapListener) => ({
       eventType,
@@ -32,4 +32,5 @@ export const mapListenersAtom = createAtom(
     );
     return state;
   },
+  '[Shared state] mapListenersAtom',
 );

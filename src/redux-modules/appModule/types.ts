@@ -98,8 +98,8 @@ export interface Event {
   eventId: string;
   /** Contain type and optionally name of disaster */
   eventName: string;
-  /** Countries where event happen */
-  locations: string;
+  /** Country where event happen */
+  location: string;
   /** How it important */
   severity: Severity;
   /** How many people affected. >= 0 */

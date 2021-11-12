@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { EventWithGeometry } from '~appModule/types';
 
 interface GeometrySourceEvent {
@@ -29,7 +29,7 @@ export interface FocusedGeometry {
   geometry: GeoJSON.GeoJSON;
 }
 
-export const focusedGeometryAtom = createAtom(
+export const focusedGeometryAtom = createBindAtom(
   {
     setFocusedGeometry: (
       source: GeometrySource,
@@ -45,4 +45,5 @@ export const focusedGeometryAtom = createAtom(
     });
     return state;
   },
+  '[Shared state] focusedGeometryAtom',
 );
