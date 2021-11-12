@@ -93,27 +93,34 @@ const defaultReducer = <T>(
     state = { ...state, isLoading: true, isMounted: true, isError: false };
     if (!map) return;
     schedule((dispatch) => {
-      const maybePromise = layer.willMount(map);
-      if (isPromise(maybePromise)) {
-        const stateUpdate = {
-          isLoading: false,
-          isError: false,
-          isMounted: true,
-        };
-        maybePromise
-          .catch(() => {
-            stateUpdate.isError = true;
-            stateUpdate.isMounted = false;
-          })
-          .finally(() => {
-            dispatch(create('_updateState', stateUpdate));
-          });
-      } else {
-        dispatch(
-          create('_updateState', {
+      const doMount = () => {
+        const maybePromise = layer.willMount(map);
+        if (isPromise(maybePromise)) {
+          const stateUpdate = {
             isLoading: false,
-          }),
-        );
+            isError: false,
+            isMounted: true,
+          };
+          maybePromise
+            .catch(() => {
+              stateUpdate.isError = true;
+              stateUpdate.isMounted = false;
+            })
+            .finally(() => {
+              dispatch(create('_updateState', stateUpdate));
+            });
+        } else {
+          dispatch(
+            create('_updateState', {
+              isLoading: false,
+            }),
+          );
+        }
+      };
+      if (map.isStyleLoaded()) {
+        doMount();
+      } else {
+        map.once('load', () => doMount());
       }
     });
   });
