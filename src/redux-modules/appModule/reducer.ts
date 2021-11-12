@@ -61,6 +61,7 @@ const initialState: AppModuleState = {
       severity: 'MINOR',
       settledArea: 1456,
       updatedAt: '2021-09-16T15:23:44Z',
+      externalUrls: [],
     },
     {
       eventId: '',
@@ -71,6 +72,7 @@ const initialState: AppModuleState = {
       severity: 'EXTREME',
       settledArea: 1456,
       updatedAt: '2021-09-16T15:23:44Z',
+      externalUrls: [],
     },
   ],
 };
