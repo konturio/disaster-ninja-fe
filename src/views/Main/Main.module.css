@@ -23,6 +23,7 @@
   right: 8px;
   bottom: 80px;
   top: 8px;
+  display: flex;
 }
 
 .logo {
