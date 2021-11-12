@@ -4,12 +4,8 @@
 
   .statHead {
     font-weight: bold;
-  }
-
-  .statDesc {
-    font-size: 12px;
-    line-height: 100%;
-    margin-bottom: 2px;
+    display: inline-block;
+    position: relative;
   }
 
   .statContent {
@@ -27,4 +23,11 @@
     font-size: 13px;
     margin-top: 4px;
   }
+}
+
+.tooltip {
+  position: absolute;
+  right: -18px;
+  top: 2px;
+  cursor: pointer;
 }

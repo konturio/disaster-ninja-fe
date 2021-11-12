@@ -122,9 +122,9 @@ export function AnalyticsPanel({
                   <Tab name="INFO" id="data">
                     <AnalyticsDataList data={analyticsDataList} />
                   </Tab>
-                  <Tab name="COMMUNITIES" id="communities">
-                    <AnalyticsCommunities />
-                  </Tab>
+                  {/*<Tab name="COMMUNITIES" id="communities">*/}
+                  {/*  <AnalyticsCommunities />*/}
+                  {/*</Tab>*/}
                 </Tabs>
               );
             },
