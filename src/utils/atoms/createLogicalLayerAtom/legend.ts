@@ -12,6 +12,7 @@ interface SimpleLegend {
     paramValue: string | number;
     stepName: string;
     stepShape: SimpleLegendStepType;
+    sourceLayer?: string; // Required for vector tile source, unnecessary for other
     style: MapCSSProperties;
   };
 }
