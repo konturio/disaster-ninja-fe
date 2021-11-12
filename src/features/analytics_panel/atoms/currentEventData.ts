@@ -9,6 +9,8 @@ export const currentEventDataAtom = createBindAtom(
   ({ get }, state: Event | null = null) => {
     const focusedGeometry = get('focusedGeometry');
     if (focusedGeometry) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore TODO: fix me
       return focusedGeometry.source?.meta ?? null;
     }
     return null;
