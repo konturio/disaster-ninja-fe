@@ -22,22 +22,22 @@ export interface LayerInArea {
   boundaryRequiredForRetrieval: boolean;
 }
 
-interface LayerGeoJSONSource {
+export interface LayerGeoJSONSource {
   id: string;
   source: {
     type: 'geojson';
-    data: GeoJSON.GeoJSON;
+    data: GeoJSON.FeatureCollection | GeoJSON.Feature;
   };
 }
 
-interface LayerTileSource {
+export interface LayerTileSource {
   id: string;
   maxZoom: number;
   minZoom: number;
   source: {
     type: 'vector' | 'raster';
     tileSize: number;
-    url: string[];
+    urls: string[];
   };
 }
 export type LayerInAreaSource = LayerGeoJSONSource | LayerTileSource;
