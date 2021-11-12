@@ -75,17 +75,22 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
           </div>
         ))}
       {links && (
-        <>
-          {' '}
+        <div className={s.stat}>
           <div className={s.statHead}>{t.t('Details')}</div>
           <div className={s.statContent}>
             {links.map((link) => (
-              <a href={link} key={link} target="_blank" rel="noreferrer">
+              <a
+                className={s.link}
+                href={link}
+                key={link}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {link}
               </a>
             ))}
           </div>
-        </>
+        </div>
       )}
     </>
   );
