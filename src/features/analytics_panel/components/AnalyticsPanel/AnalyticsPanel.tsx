@@ -8,13 +8,11 @@ import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Tab } from '@k2-packages/ui-kit/tslib/Tabs';
-import { AnalyticsCommunities } from '~features/analytics_panel/components/AnalyticsCommunities/AnalyticsCommunities';
 import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsData/AnalyticsDataList';
 import { useAtom } from '@reatom/react';
-import { currentEventAtom } from '~core/shared_state';
-import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
 import { Event } from '~appModule/types';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
+import { currentEventDataAtom } from '../../atoms/currentEventData';
 
 interface PanelHeadingProps {
   event: Event;
@@ -42,20 +40,7 @@ export function AnalyticsPanel({
 }: AnalyticsPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>('data');
-  const [currentEvent] = useAtom(currentEventAtom);
-  const [eventListResource] = useAtom(eventListResourceAtom);
-  let currentEventData: Event | undefined;
-  if (
-    currentEvent &&
-    currentEvent.id &&
-    eventListResource &&
-    eventListResource.data &&
-    eventListResource.data.length
-  ) {
-    currentEventData = eventListResource.data.find(
-      (ev) => ev.eventId === currentEvent.id,
-    );
-  }
+  const [currentEventData]: [Event, unknown] = useAtom(currentEventDataAtom);
 
   let panelHeading: ReactElement;
   if (loading) {
@@ -120,11 +105,14 @@ export function AnalyticsPanel({
               return (
                 <Tabs onTabChange={setTab} current={currentTab}>
                   <Tab name="INFO" id="data">
-                    <AnalyticsDataList data={analyticsDataList} />
+                    <AnalyticsDataList
+                      data={analyticsDataList}
+                      links={currentEventData?.externalUrls ?? undefined}
+                    />
                   </Tab>
-                  <Tab name="COMMUNITIES" id="communities">
-                    <AnalyticsCommunities />
-                  </Tab>
+                  {/*<Tab name="COMMUNITIES" id="communities">*/}
+                  {/*  <AnalyticsCommunities />*/}
+                  {/*</Tab>*/}
                 </Tabs>
               );
             },

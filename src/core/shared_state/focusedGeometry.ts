@@ -37,14 +37,12 @@ export const focusedGeometryAtom = createBindAtom(
     ) => ({ source, geometry }),
   },
   ({ onAction }, state: FocusedGeometry | null = null) => {
-    onAction(
-      'setFocusedGeometry',
-      ({ source, geometry }) =>
-        (state = {
-          source,
-          geometry,
-        }),
-    );
+    onAction('setFocusedGeometry', ({ source, geometry }) => {
+      state = {
+        source,
+        geometry,
+      };
+    });
     return state;
   },
   '[Shared state] focusedGeometryAtom',
