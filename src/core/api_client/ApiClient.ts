@@ -408,7 +408,7 @@ export class ApiClient {
 
   public async post<T>(
     path: string,
-    requestParams?: RequestParams,
+    requestParams?: any,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
