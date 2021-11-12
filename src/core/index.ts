@@ -26,6 +26,16 @@ ApiClient.init({
 });
 export const boundariesClient = ApiClient.getInstance('boundaries');
 
+// initialize graphQl client
+ApiClient.init({
+  instanceId: 'graphql',
+  notificationService: notificationService,
+  baseURL: config.graphqlApi,
+  disableAuth: true,
+  translationService: TranslationService,
+});
+export const graphQlClient = ApiClient.getInstance('graphql');
+
 // initialize reports client
 ApiClient.init({
   instanceId: 'reports',
