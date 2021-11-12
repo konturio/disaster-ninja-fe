@@ -12,6 +12,7 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
+const { Legend } = lazily(() => import('~features/legend_panel'));
 
 export function MainView() {
   const history = useHistory();
@@ -39,6 +40,9 @@ export function MainView() {
     import('~features/reports/').then(({ initReportsIcon }) =>
       initReportsIcon(history),
     );
+    import('~features/bivariate_manager/').then(({ initBivariateManager }) =>
+      initBivariateManager(),
+    );
   }, []);
 
   return (
@@ -65,6 +69,7 @@ export function MainView() {
           </div>
           <Suspense fallback={null}>
             <div className={s.floating}>
+              <Legend />
               <MapLayersList />
             </div>
           </Suspense>
