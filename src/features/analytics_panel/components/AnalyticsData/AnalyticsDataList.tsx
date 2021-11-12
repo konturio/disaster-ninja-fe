@@ -1,8 +1,10 @@
 import s from './AnalyticsData.module.css';
 import { AnalyticsData } from '~appModule/types';
+import { TranslationService as t } from '~core/localization';
 
 interface AnalyticsDataListProps {
   data?: AnalyticsData[] | null;
+  links?: string[];
 }
 
 const Sub = ({ children }) => (
@@ -51,7 +53,7 @@ function textFormatter(txt: string) {
   }
 }
 
-export const AnalyticsDataList = ({ data }: AnalyticsDataListProps) => {
+export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
   return (
     <>
       {data &&
@@ -72,6 +74,19 @@ export const AnalyticsDataList = ({ data }: AnalyticsDataListProps) => {
             </div>
           </div>
         ))}
+      {links && (
+        <>
+          {' '}
+          <div className={s.statHead}>{t.t('Details')}</div>
+          <div className={s.statContent}>
+            {links.map((link) => (
+              <a href={link} key={link} target="_blank" rel="noreferrer">
+                {link}
+              </a>
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 };

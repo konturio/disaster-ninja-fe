@@ -110,6 +110,7 @@ export interface Event {
   osmGaps: number | null;
   /** Time in UTC (ISO8601) */
   updatedAt: string;
+  externalUrls: string[];
 }
 
 export interface AnalyticsData {
