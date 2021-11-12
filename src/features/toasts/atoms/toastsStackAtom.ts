@@ -1,8 +1,8 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { Notification } from '~core/shared_state/currentNotifications';
 import { currentNotificationAtom } from '~core/shared_state';
 
-export const toastsStackAtom = createAtom(
+export const toastsStackAtom = createBindAtom(
   {
     currentNotificationAtom,
   },
@@ -13,4 +13,5 @@ export const toastsStackAtom = createAtom(
     }
     return state;
   },
+  'toastsStackAtom',
 );

@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 
 export interface SideControl {
   id: string;
@@ -10,7 +10,7 @@ export interface SideControl {
   onChange?: (isActive: boolean) => void;
 }
 
-export const sideControlsBarAtom = createAtom(
+export const sideControlsBarAtom = createBindAtom(
   {
     addControl: (control: SideControl) => control,
     removeControl: (controlId: string) => controlId,
@@ -71,4 +71,5 @@ export const sideControlsBarAtom = createAtom(
     });
     return state;
   },
+  '[Shared state] sideControlsBarAtom',
 );

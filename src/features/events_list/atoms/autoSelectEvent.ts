@@ -1,14 +1,14 @@
-import { createAtom } from '@reatom/core';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { eventListResourceAtom } from './eventListResource';
 import { currentEventAtom, focusedGeometryAtom } from '~core/shared_state';
 
-export const autoSelectEvent = createAtom(
+export const autoSelectEvent = createBindAtom(
   {
     eventListResourceAtom,
     currentEventAtom,
     focusedGeometryAtom,
   },
-  ({ get }, state = {}) => {
+  ({ get, schedule }, state = {}) => {
     const eventListResource = get('eventListResourceAtom');
     const currentEvent = get('currentEventAtom');
     const focusedGeometry = get('focusedGeometryAtom');
@@ -18,9 +18,12 @@ export const autoSelectEvent = createAtom(
       eventListResource.data[0];
 
     if (currentEvent === null && firstEventInList && focusedGeometry === null) {
-      currentEventAtom.setCurrentEventId.dispatch(firstEventInList.eventId);
+      schedule((dispatch) => {
+        dispatch(currentEventAtom.setCurrentEventId(firstEventInList.eventId));
+      });
     }
 
     return state;
   },
+  'autoSelectEvent',
 );

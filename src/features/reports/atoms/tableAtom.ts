@@ -1,5 +1,5 @@
-import { createAtom } from '@reatom/core';
-import { apiClient } from '~core/index';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { reportsClient } from '~core/index';
 import { Report } from '~features/reports/atoms/reportsAtom';
 import papa from 'papaparse';
 
@@ -16,16 +16,12 @@ type TableState = {
 };
 
 async function fetchTable(link: string) {
-  const responseData = await apiClient.get<string>(
-    link.replace('https://geocint.kontur.io/', '/reportsApi/'),
-    undefined,
-    false,
-  );
+  const responseData = await reportsClient.get<string>(link, undefined, false);
   if (responseData === undefined) throw new Error('No data received');
   return responseData;
 }
 
-export const tableAtom = createAtom(
+export const tableAtom = createBindAtom(
   {
     setReport: (report: Report) => report,
     sortBy: (sorter: string) => sorter,
@@ -42,25 +38,30 @@ export const tableAtom = createAtom(
     onAction('setReport', async (report) => {
       if (state.meta?.id === report.id) return;
 
-      const csv = await fetchTable(report.link);
-      const parsed = papa.parse<string[]>(csv, {
-        delimiter: ';',
-        fastMode: true,
-      });
+      schedule(async (dispatch) => {
+        const csv = await fetchTable(report.link);
+        const parsed = papa.parse<string[]>(csv, {
+          delimiter: ';',
+          fastMode: true,
+        });
 
-      tableAtom.setState.dispatch({
-        meta: report,
-        sortIndex: 0,
-        thead: parsed.data[0],
-        data: parsed.data.slice(1, state.limit),
-        ascending: null,
-        wholeData: parsed.data,
-        limit,
+        dispatch(
+          tableAtom.setState({
+            meta: report,
+            sortIndex: 0,
+            thead: parsed.data[0],
+            data: parsed.data.slice(0, state.limit),
+            ascending: null,
+            wholeData: parsed.data,
+            limit,
+          }),
+        );
       });
     });
 
     onAction('sortBy', (sorter) => {
-      if (state.meta?.sortable === false || !state.wholeData) return;
+      if (!state.meta || state.meta.sortable === false || !state.wholeData)
+        return;
       const newSortIndex = state.thead?.findIndex((val) => val === sorter);
 
       if (newSortIndex === undefined || newSortIndex < 0)
@@ -110,7 +111,7 @@ export const tableAtom = createAtom(
       })();
       if (!sorted) throw 'error when sorting #2';
 
-      state = { ...state, data: sorted.slice(1, state.limit) };
+      state = { ...state, data: sorted.slice(0, state.limit) };
     });
 
     return state;

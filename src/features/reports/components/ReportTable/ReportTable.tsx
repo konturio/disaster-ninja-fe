@@ -37,6 +37,14 @@ export function ReportTable() {
   if (!data?.length || !thead) return null;
 
   function bodyRow(row: string[], i: number) {
+    function jOSMRedirect(
+      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+      link: string,
+    ) {
+      e.preventDefault();
+      fetch(link, { method: 'GET' });
+    }
+
     if (meta?.id === 'osm_population_inconsistencies') {
       const nameI = thead?.findIndex((val) => val === 'Name')!;
       let padded = false;
@@ -63,22 +71,22 @@ export function ReportTable() {
                   </a>
                 </td>
               );
-            if (thead[i] === 'Name')
+            if (thead[i] === 'Name') {
+              const link = meta?.column_link_templates[1]['Name'].replace(
+                '{{OSM ID}}',
+                row[0],
+              );
               return (
                 <td
                   key={row[0] + value + i + Math.random()}
                   className={clsx(padded && styles.paddedRow)}
                 >
-                  <a
-                    href={meta?.column_link_templates[1]['Name'].replace(
-                      '{{OSM ID}}',
-                      value,
-                    )}
-                  >
+                  <a onClick={(e) => jOSMRedirect(e, link)} href={link}>
                     {value.replace(' -', '')}
                   </a>
                 </td>
               );
+            }
             return (
               <td key={row[0] + value + i + Math.random()}>{value || '-'}</td>
             );
@@ -91,7 +99,7 @@ export function ReportTable() {
       <tr key={row[0]} className={clsx(styles.regularRow)}>
         {row.map((value, i) => {
           if (!thead) return null;
-          if (thead[i] === 'OSM ID')
+          if (thead[i].toUpperCase() === 'OSM ID')
             return (
               <td key={row[0] + value + i}>
                 <a
@@ -104,32 +112,32 @@ export function ReportTable() {
                 </a>
               </td>
             );
-          if (thead[i] === 'OSM name')
+          if (thead[i] === 'OSM name') {
+            const link = meta?.column_link_templates[1]['OSM name'].replace(
+              '{{OSM ID}}',
+              row[0],
+            );
             return (
               <td key={row[0] + value + i}>
-                <a
-                  href={meta?.column_link_templates[1]['OSM name'].replace(
-                    '{{OSM ID}}',
-                    value,
-                  )}
-                >
+                <a onClick={(e) => jOSMRedirect(e, link)} href={link}>
                   {value}
                 </a>
               </td>
             );
-          if (thead[i] === 'Name')
+          }
+          if (thead[i] === 'Name') {
+            const link = meta?.column_link_templates[1]['Name'].replace(
+              '{{OSM ID}}',
+              row[0],
+            );
             return (
               <td key={row[0] + value + i}>
-                <a
-                  href={meta?.column_link_templates[1]['Name'].replace(
-                    '{{OSM ID}}',
-                    value,
-                  )}
-                >
+                <a onClick={(e) => jOSMRedirect(e, link)} href={link}>
                   {value}
                 </a>
               </td>
             );
+          }
           return <td key={row[0] + value + i}>{value || '-'}</td>;
         })}
       </tr>

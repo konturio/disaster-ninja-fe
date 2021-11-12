@@ -1,5 +1,5 @@
-import { createAtom } from '@reatom/core';
-import { apiClient } from '~core/index';
+import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { reportsClient } from '~core/index';
 
 export type Report = {
   id: string;
@@ -16,23 +16,25 @@ export type Report = {
   ];
 };
 
-export const reportsAtom = createAtom(
+export const reportsAtom = createBindAtom(
   {
     setReports: (reports: Report[]) => reports,
     getReports: () => {
       /* noop */
     },
   },
-  ({ onAction }, state: Report[] = []) => {
+  ({ onAction, schedule }, state: Report[] = []) => {
     onAction('setReports', (reports) => (state = reports));
     onAction('getReports', async () => {
-      const responseData = await apiClient.get<Report[]>(
-        `/reportsApi/gis/osm_reports_list.json`,
-        undefined,
-        false,
-      );
-      if (responseData === undefined) throw new Error('No data received');
-      reportsAtom.setReports.dispatch(responseData);
+      schedule(async (dispatch) => {
+        const responseData = await reportsClient.get<Report[]>(
+          `/osm_reports_list.json`,
+          undefined,
+          false,
+        );
+        if (responseData === undefined) throw new Error('No data received');
+        dispatch(reportsAtom.setReports(responseData));
+      });
     });
     return state;
   },
