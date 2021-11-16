@@ -69,13 +69,12 @@ export const bivariateOverlayLayersAtom = createBindAtom(
             }
           }
         }
-
-        if (layers.length) {
-          schedule((dispatch) => {
-            dispatch(logicalLayersRegistryAtom.registerLayer(layers));
-          });
-        }
       });
+      if (layers.length) {
+        schedule((dispatch) => {
+          dispatch(logicalLayersRegistryAtom.registerLayer(layers));
+        });
+      }
     }
   },
   'bivariateOverlayLayers',
