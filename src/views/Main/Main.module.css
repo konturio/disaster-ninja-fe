@@ -24,6 +24,11 @@
   bottom: 80px;
   top: 8px;
   display: flex;
+  pointer-events: none;
+}
+
+.floating > * {
+  pointer-events: auto;
 }
 
 .logo {

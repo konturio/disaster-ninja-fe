@@ -79,10 +79,13 @@ export function ReportTable() {
               return (
                 <td
                   key={row[0] + value + i + Math.random()}
-                  className={clsx(padded && styles.paddedRow)}
+                  className={clsx(
+                    padded && styles.paddedRow,
+                    styles.inconsistencesName,
+                  )}
                 >
                   <a onClick={(e) => jOSMRedirect(e, link)} href={link}>
-                    {value.replace(' -', '')}
+                    {value.replace('-', '')}
                   </a>
                 </td>
               );
