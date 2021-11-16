@@ -6,7 +6,10 @@ import {
   GeoJSONSourceRaw,
 } from 'maplibre-gl';
 import { LogicalLayer, LayerLegend } from '~utils/atoms/createLogicalLayerAtom';
-import { mapCSSToMapBoxProperties } from '~utils/map/mapCSSToMapBoxPropertiesConverter';
+import {
+  mapCSSToMapBoxProperties,
+  applyLegendConditions,
+} from '~utils/map/mapCSSToMapBoxPropertiesConverter';
 import { apiClient } from '~core/index';
 import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '../constants';
 import {
@@ -60,6 +63,37 @@ export class GenericLayer implements LogicalLayer {
     });
   }
 
+  _generateLayersFromLegend(legend: LayerLegend): Omit<AnyLayer, 'id'>[] {
+    if (legend.type === 'simple') {
+      const layers = legend.steps
+        /**
+         * Layer filters method generate extra layers for legend steps, but it simple and reliably.
+         * Find properties diff between steps and put expressions right into property value
+         * if tou need more map performance
+         * */
+        .map((step) =>
+          applyLegendConditions(step, mapCSSToMapBoxProperties(step.style)),
+        );
+
+      return layers.flat();
+    }
+
+    if (legend.type === 'bivariate') {
+      throw new Error('Bivariate legend not supported yet');
+    }
+
+    /* @ts-expect-error - if backend add new legend type */
+    throw new Error(`Unexpected legend type '${legend.type}'`);
+  }
+
+  _setLayersIds(layers: Omit<AnyLayer, 'id'>[]): AnyLayer[] {
+    return layers.map((layer, i) => {
+      const layerId = `${LAYER_IN_AREA_PREFIX + this.id}-${i}`;
+      const mapLayer = { ...layer, id: layerId, source: this._sourceId };
+      return mapLayer as AnyLayer;
+    });
+  }
+
   mountGeoJSONLayer(map: ApplicationMap, layer: LayerGeoJSONSource) {
     /* Create source */
     const mapSource: GeoJSONSourceRaw = {
@@ -70,12 +104,11 @@ export class GenericLayer implements LogicalLayer {
 
     /* Create layer */
     if (this.legend) {
-      const layers = mapCSSToMapBoxProperties(this.legend.steps[0].style);
-      layers.forEach((layer, i) => {
-        const layerId = `${LAYER_IN_AREA_PREFIX + this.id}-${i}`;
-        const mapLayer = { ...layer, id: layerId, source: this._sourceId };
-        this._layerIds.push(layerId);
-        map.addLayer(mapLayer as AnyLayer);
+      const layerStyles = this._generateLayersFromLegend(this.legend);
+      const layers = this._setLayersIds(layerStyles);
+      layers.forEach((layer) => {
+        map.addLayer(layer);
+        this._layerIds.push(layer.id);
       });
     } else {
       const layerId = `${LAYER_IN_AREA_PREFIX + this.id}`;
@@ -152,19 +185,14 @@ export class GenericLayer implements LogicalLayer {
       map.addLayer(mapLayer);
       this._layerIds.push(layerId);
     } else {
+      // Vector tiles
       if (this.legend) {
-        if (this.legend.type === 'simple') {
-          const layers = mapCSSToMapBoxProperties(this.legend.steps[0].style);
-          layers.forEach((layer, i) => {
-            const layerId = `${LAYER_IN_AREA_PREFIX + this.id}-${i}`;
-            const mapLayer = { ...layer, id: layerId, source: this._sourceId };
-            this._layerIds.push(layerId);
-            map.addLayer(mapLayer as AnyLayer);
-            this._layerIds.push(layerId);
-          });
-        } else {
-          console.error('Bivariate legend not implemented yet');
-        }
+        const layerStyles = this._generateLayersFromLegend(this.legend);
+        const layers = this._setLayersIds(layerStyles);
+        layers.forEach((layer) => {
+          map.addLayer(layer as AnyLayer);
+          this._layerIds.push(layer.id);
+        });
       } else {
         // We don't known source-layer id
         throw new Error(
