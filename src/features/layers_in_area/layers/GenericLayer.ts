@@ -6,7 +6,10 @@ import {
   GeoJSONSourceRaw,
 } from 'maplibre-gl';
 import { LogicalLayer, LayerLegend } from '~utils/atoms/createLogicalLayerAtom';
-import { mapCSSToMapBoxProperties } from '~utils/map/mapCSSToMapBoxPropertiesConverter';
+import {
+  mapCSSToMapBoxProperties,
+  applyLegendConditions,
+} from '~utils/map/mapCSSToMapBoxPropertiesConverter';
 import { apiClient } from '~core/index';
 import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '../constants';
 import {
@@ -60,6 +63,37 @@ export class GenericLayer implements LogicalLayer {
     });
   }
 
+  _generateLayersFromLegend(legend: LayerLegend): Omit<AnyLayer, 'id'>[] {
+    if (legend.type === 'simple') {
+      const layers = legend.steps
+        /**
+         * Layer filters method generate extra layers for legend steps, but it simple and reliably.
+         * Find properties diff between steps and put expressions right into property value
+         * if tou need more map performance
+         * */
+        .map((step) =>
+          applyLegendConditions(step, mapCSSToMapBoxProperties(step.style)),
+        );
+
+      return layers.flat();
+    }
+
+    if (legend.type === 'bivariate') {
+      throw new Error('Bivariate legend not supported yet');
+    }
+
+    /* @ts-expect-error - if backend add new legend type */
+    throw new Error(`Unexpected legend type '${legend.type}'`);
+  }
+
+  _setLayersIds(layers: Omit<AnyLayer, 'id'>[]): AnyLayer[] {
+    return layers.map((layer, i) => {
+      const layerId = `${LAYER_IN_AREA_PREFIX + this.id}-${i}`;
+      const mapLayer = { ...layer, id: layerId, source: this._sourceId };
+      return mapLayer as AnyLayer;
+    });
+  }
+
   mountGeoJSONLayer(map: ApplicationMap, layer: LayerGeoJSONSource) {
     /* Create source */
     const mapSource: GeoJSONSourceRaw = {
@@ -70,12 +104,11 @@ export class GenericLayer implements LogicalLayer {
 
     /* Create layer */
     if (this.legend) {
-      const layers = mapCSSToMapBoxProperties(this.legend.steps[0].style);
-      layers.forEach((layer, i) => {
-        const layerId = `${LAYER_IN_AREA_PREFIX + this.id}-${i}`;
-        const mapLayer = { ...layer, id: layerId, source: this._sourceId };
-        this._layerIds.push(layerId);
-        map.addLayer(mapLayer as AnyLayer);
+      const layerStyles = this._generateLayersFromLegend(this.legend);
+      const layers = this._setLayersIds(layerStyles);
+      layers.forEach((layer) => {
+        map.addLayer(layer);
+        this._layerIds.push(layer.id);
       });
     } else {
       const layerId = `${LAYER_IN_AREA_PREFIX + this.id}`;
@@ -91,15 +124,52 @@ export class GenericLayer implements LogicalLayer {
     }
   }
 
+  _adaptUrl(url: string) {
+    /**
+     * Protocol fix
+     * request from https to http failed in browser with "mixed content" error
+     * solution: cut off protocol part - in that case browser will use page protocol
+     */
+    url = url.replace('https:', '').replace('http:', '');
+
+    /**
+     * Some link templates use values that mapbox/maplibre do not understand
+     * solution: convert to equivalents
+     */
+    url = url
+      .replace('{bbox}', '{bbox-epsg-3857}')
+      .replace('{proj}', 'EPSG:3857')
+      .replace('{width}', '256')
+      .replace('{height}', '256')
+      .replace('{zoom}', '{z}')
+      .replace('{-y}', '{y}');
+
+    /* Some magic for remove `switch:` */
+    const domains = (url.match(/{switch:(.*?)}/) || ['', ''])[1].split(',')[0];
+    url = url.replace(/{switch:(.*?)}/, domains);
+
+    return url;
+  }
+
+  /* https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#vector-scheme */
+  _setTileScheme(rawUrl: string, mapSource: VectorSource | RasterSource) {
+    const isTMS = rawUrl.includes('{-y}');
+    if (isTMS) {
+      mapSource.scheme = 'tms';
+    }
+  }
+
   mountTileLayer(map: ApplicationMap, layer: LayerTileSource) {
     /* Create source */
     const mapSource: VectorSource | RasterSource = {
       type: layer.source.type,
-      tiles: layer.source.urls.map((url) =>
-        url.replace('https:', '').replace('http:', ''),
-      ),
+      tiles: layer.source.urls.map((url) => this._adaptUrl(url)),
       tileSize: layer.source.tileSize || 256,
     };
+
+    // I expect that all servers provide url with same scheme
+    this._setTileScheme(layer.source.urls[0], mapSource);
+
     map.addSource(this._sourceId, mapSource);
 
     /* Create layer */
@@ -115,15 +185,13 @@ export class GenericLayer implements LogicalLayer {
       map.addLayer(mapLayer);
       this._layerIds.push(layerId);
     } else {
-      /* Create layer */
+      // Vector tiles
       if (this.legend) {
-        const layers = mapCSSToMapBoxProperties(this.legend.steps[0].style);
-        layers.forEach((layer, i) => {
-          const layerId = `${LAYER_IN_AREA_PREFIX + this.id}-${i}`;
-          const mapLayer = { ...layer, id: layerId, source: this._sourceId };
-          this._layerIds.push(layerId);
-          map.addLayer(mapLayer as AnyLayer);
-          this._layerIds.push(layerId);
+        const layerStyles = this._generateLayersFromLegend(this.legend);
+        const layers = this._setLayersIds(layerStyles);
+        layers.forEach((layer) => {
+          map.addLayer(layer as AnyLayer);
+          this._layerIds.push(layer.id);
         });
       } else {
         // We don't known source-layer id

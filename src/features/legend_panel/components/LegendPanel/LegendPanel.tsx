@@ -41,6 +41,7 @@ export function LegendPanel({ legends }: LegendPanelProps) {
             if (lg.type === 'bivariate')
               return (
                 <BivariateLegend
+                  key={lg.name}
                   showAxisLabels
                   size={3}
                   cells={invertClusters(lg.steps, 'label')}
