@@ -74,7 +74,7 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
             </div>
           </div>
         ))}
-      {links && (
+      {links && links.length ? (
         <div className={s.stat}>
           <div className={s.statHead}>{t.t('Details')}</div>
           <div className={s.statContent}>
@@ -91,7 +91,7 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
             ))}
           </div>
         </div>
-      )}
+      ) : null}
     </>
   );
 };

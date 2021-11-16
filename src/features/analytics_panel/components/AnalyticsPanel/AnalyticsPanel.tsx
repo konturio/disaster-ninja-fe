@@ -1,6 +1,6 @@
 import { TranslationService as i18n } from '~core/localization';
 import { AnalyticsData } from '~appModule/types';
-import { Panel, Tabs, Text } from '@k2-packages/ui-kit';
+import { Panel, PanelIcon, Tabs, Text } from '@k2-packages/ui-kit';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import s from './AnalyticsPanel.module.css';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
@@ -8,11 +8,13 @@ import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Tab } from '@k2-packages/ui-kit/tslib/Tabs';
-import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsData/AnalyticsDataList';
+import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
 import { useAtom } from '@reatom/react';
 import { Event } from '~appModule/types';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 import { currentEventDataAtom } from '../../atoms/currentEventData';
+import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
+import { AnalyticsPanelIcon } from '@k2-packages/default-icons';
 
 interface PanelHeadingProps {
   event: Event;
@@ -38,7 +40,7 @@ export function AnalyticsPanel({
   loading,
   analyticsDataList,
 }: AnalyticsPanelProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const [currentTab, setCurrentTab] = useState<string>('data');
   const [currentEventData]: [Event, unknown] = useAtom(currentEventDataAtom);
 
@@ -56,19 +58,8 @@ export function AnalyticsPanel({
       panelHeading = <Text type="heading-m">{i18n.t('Analytics')}</Text>;
     }
   } else {
-    panelHeading = (
-      <Text type="heading-m">{i18n.t('Loading analytics...')}</Text>
-    );
+    panelHeading = <Text type="heading-m">{i18n.t('Select Geometry')}</Text>;
   }
-
-  useEffect(() => {
-    if (
-      !isOpen &&
-      (loading || error || (analyticsDataList && analyticsDataList.length))
-    ) {
-      setIsOpen(true);
-    }
-  }, [analyticsDataList, loading, error, setIsOpen]);
 
   const statesToComponents = createStateMap({
     error,
@@ -78,6 +69,10 @@ export function AnalyticsPanel({
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
+  }, [setIsOpen]);
+
+  const onPanelOpen = useCallback(() => {
+    setIsOpen(true);
   }, [setIsOpen]);
 
   const setTab = useCallback(
@@ -99,6 +94,7 @@ export function AnalyticsPanel({
       >
         <div className={s.panelBody}>
           {statesToComponents({
+            init: <AnalyticsEmptyState />,
             loading: <LoadingSpinner />,
             error: (errorMessage) => <ErrorMessage message={errorMessage} />,
             ready: (dataList) => {
@@ -119,6 +115,11 @@ export function AnalyticsPanel({
           })}
         </div>
       </Panel>
+      <PanelIcon
+        clickHandler={onPanelOpen}
+        className={clsx(s.paneIcon, isOpen && s.hide, !isOpen && s.show)}
+        icon={<AnalyticsPanelIcon />}
+      />
     </div>
   );
 }
