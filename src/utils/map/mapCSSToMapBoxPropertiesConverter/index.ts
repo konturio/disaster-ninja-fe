@@ -2,6 +2,8 @@ import { MAP_CSS_MAPBOX } from './config';
 import { getRequirements } from './getRequirements';
 import { generateLayers } from './generateLayers';
 import { createValueConverters } from './valueConverters';
+import { SimpleLegendStep } from '~utils/atoms/createLogicalLayerAtom/legend';
+import { AnyLayer } from 'maplibre-gl';
 
 /*
   Parsing style pipeline
@@ -16,4 +18,18 @@ export function mapCSSToMapBoxProperties(mapCSSStyle) {
   const valueConverters = createValueConverters(mapCSSStyle);
   const layers = generateLayers(requirements, valueConverters);
   return layers;
+}
+
+export function applyLegendConditions(
+  legendStep: SimpleLegendStep,
+  /* Layers generated from MapCSS for legend step */
+  mapLayers: Omit<AnyLayer, 'id'>[],
+) {
+  if (!legendStep.paramName) return mapLayers;
+  return mapLayers.map((layer) => {
+    return {
+      ...layer,
+      filter: ['==', legendStep.paramName, legendStep.paramValue],
+    };
+  });
 }
