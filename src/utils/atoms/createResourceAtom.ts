@@ -25,6 +25,7 @@ function createReactiveResourceAtom<P, T>(
       done: (data: T) => data,
       error: (error: string) => error,
       finally: () => null,
+      _update: (st: ResourceAtomState<T>) => st,
     },
     (
       { onAction, onChange, schedule, create },
@@ -38,9 +39,13 @@ function createReactiveResourceAtom<P, T>(
         if (!params) return;
 
         schedule((dispatch) => {
-          state = { ...state, loading: true };
+          dispatch(create('_update', { ...state, loading: true }));
           dispatch(create('request', params));
         });
+      });
+
+      onAction('_update', (st) => {
+        state = st;
       });
 
       onAction('request', (params) => {

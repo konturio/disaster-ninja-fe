@@ -2,6 +2,24 @@
   position: relative;
 }
 
+.paneIcon {
+  position: absolute !important;
+  top: 8px;
+  left: 8px;
+
+  &.show {
+    transition: visibility 0s linear 0s, opacity 0.33s linear 0s;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.hide {
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s;
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
 .sidePannel {
   z-index: 1; /* Show shadow over map */
   position: absolute;
@@ -31,11 +49,12 @@
 .panelBody {
   width: 320px;
   min-height: 320px;
-  padding: 0 18px 18px 18px;
+  padding: 0 16px 16px 16px;
 }
 
 .header {
   border-bottom: none;
+  padding-bottom: 0;
 }
 
 .head {
