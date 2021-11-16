@@ -1,7 +1,9 @@
 .panelContainer {
+  pointer-events: none;
 }
 
 .sidePannel {
+  pointer-events: auto;
   position: relative;
   z-index: 1; /* Show shadow over map */
   margin-right: 8px;
