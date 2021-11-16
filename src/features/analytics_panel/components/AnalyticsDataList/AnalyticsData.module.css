@@ -38,4 +38,10 @@
   overflow: hidden;
   width: 100%;
   display: block;
+  text-decoration: none;
+  color: #0c9bed;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
