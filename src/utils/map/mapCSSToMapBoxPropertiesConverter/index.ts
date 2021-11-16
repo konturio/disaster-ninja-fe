@@ -33,3 +33,16 @@ export function applyLegendConditions(
     };
   });
 }
+
+export function setSourceLayer(
+  legendStep: SimpleLegendStep,
+  mapLayers: Omit<AnyLayer, 'id'>[],
+) {
+  if (!legendStep.sourceLayer) return mapLayers;
+  return mapLayers.map((layer) => {
+    return {
+      ...layer,
+      'source-layer': legendStep.sourceLayer,
+    };
+  });
+}

@@ -50,6 +50,7 @@ export default ({ mode }) =>
           target: 'https://test-apps-ninja02.konturlabs.com',
           changeOrigin: true,
         },
+        '/tiles': 'https://test-apps02.konturlabs.com'
       },
     },
   });
