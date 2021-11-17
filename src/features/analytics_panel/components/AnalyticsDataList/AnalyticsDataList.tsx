@@ -64,12 +64,12 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
               <Tooltip tipText={dataItem.description} />
             </div>
             <div className={s.statContent}>
-              {dataItem.percentValue && (
+              {typeof dataItem.percentValue !== 'undefined' ? (
                 <>
                   {dataItem.percentValue}%
                   <span className={s.statSplitter}>|</span>
                 </>
-              )}
+              ) : null}
               {textFormatter(dataItem.text)}
             </div>
           </div>
