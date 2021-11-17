@@ -9,6 +9,7 @@ import { LogicalLayer, LayerLegend } from '~utils/atoms/createLogicalLayerAtom';
 import {
   mapCSSToMapBoxProperties,
   applyLegendConditions,
+  setSourceLayer,
 } from '~utils/map/mapCSSToMapBoxPropertiesConverter';
 import { apiClient } from '~core/index';
 import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '../constants';
@@ -36,7 +37,7 @@ export class GenericLayer implements LogicalLayer {
   private _layerIds: string[];
   private _sourceId: string;
   private _onClickListener:
-    | ((e: { lngLat: { lng: number; lat: number } }) => void)
+    | ((e: maplibregl.MapMouseEvent & maplibregl.EventData) => void)
     | null = null;
   private _focusedGeometry: FocusedGeometry | null = null;
   private _eventId: string | null = null;
@@ -72,9 +73,11 @@ export class GenericLayer implements LogicalLayer {
          * if tou need more map performance
          * */
         .map((step) =>
-          applyLegendConditions(step, mapCSSToMapBoxProperties(step.style)),
+          setSourceLayer(
+            step,
+            applyLegendConditions(step, mapCSSToMapBoxProperties(step.style)),
+          ),
         );
-
       return layers.flat();
     }
 
@@ -125,12 +128,18 @@ export class GenericLayer implements LogicalLayer {
   }
 
   _adaptUrl(url: string) {
+    /** Fix cors in local development */
+    if (import.meta.env.DEV) {
+      url = url.replace('test-apps02.konturlabs.com', location.host);
+    }
+
     /**
      * Protocol fix
      * request from https to http failed in browser with "mixed content" error
-     * solution: cut off protocol part - in that case browser will use page protocol
+     * solution: cut off protocol part and replace with current page protocol
      */
-    url = url.replace('https:', '').replace('http:', '');
+    url =
+      window.location.protocol + url.replace('https:', '').replace('http:', '');
 
     /**
      * Some link templates use values that mapbox/maplibre do not understand
@@ -229,6 +238,7 @@ export class GenericLayer implements LogicalLayer {
       false,
     );
     if (response) {
+      /* Api allow us fetch bunch of layers, but here we take only one */
       const firstLayer = response[0];
       const isGeoJSONLayer = (
         layer: LayerInAreaSource,
@@ -239,8 +249,14 @@ export class GenericLayer implements LogicalLayer {
         this.mountTileLayer(map, firstLayer);
       }
 
-      this._onClickListener = (e) => this.onMapClick(map, e);
-      map.on('click', this._onClickListener);
+      /* Add event listener */
+      if (this.legend) {
+        const { linkProperty } = this.legend;
+        if (linkProperty) {
+          this._onClickListener = (e) => this.onMapClick(map, e, linkProperty);
+          map.on('click', this._onClickListener);
+        }
+      }
     }
   }
 
@@ -256,9 +272,20 @@ export class GenericLayer implements LogicalLayer {
 
   async onMapClick(
     map: ApplicationMap,
-    ev: { lngLat: { lng: number; lat: number } },
+    ev: maplibregl.MapMouseEvent & maplibregl.EventData,
+    linkProperty: string,
   ) {
     if (!ev || !ev.lngLat) return;
-    // TODO: open link on new tab if feature contain url
+    const thisLayersFeatures = ev.target
+      .queryRenderedFeatures(ev.point)
+      .filter((f) => f.source.includes(this._sourceId));
+
+    if (thisLayersFeatures.length === 0) return;
+    const featureWithLink = thisLayersFeatures.find(
+      (feature) => feature.properties?.[linkProperty] !== undefined,
+    );
+    if (featureWithLink === undefined) return;
+    const link = featureWithLink[linkProperty];
+    window.open(link);
   }
 }
