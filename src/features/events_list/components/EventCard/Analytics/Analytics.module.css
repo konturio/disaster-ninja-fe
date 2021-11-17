@@ -3,6 +3,7 @@
   flex-flow: row nowrap;
   gap: var(--unit);
   justify-content: space-between;
+  align-items: flex-end;
 }
 
 .analyticsBadge {
