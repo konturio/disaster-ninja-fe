@@ -16,6 +16,7 @@ interface GeometrySourceFromFile {
 
 interface GeometrySourceBoundaries {
   type: 'boundaries';
+  meta: string;
 }
 
 type GeometrySource =

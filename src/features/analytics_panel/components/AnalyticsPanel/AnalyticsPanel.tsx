@@ -1,23 +1,26 @@
 import { TranslationService as i18n } from '~core/localization';
-import { AnalyticsData } from '~appModule/types';
+import { AnalyticsData, Severity } from '~appModule/types';
 import { Panel, PanelIcon, Tabs, Text } from '@k2-packages/ui-kit';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import s from './AnalyticsPanel.module.css';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { ReactElement, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { Tab } from '@k2-packages/ui-kit/tslib/Tabs';
 import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
 import { useAtom } from '@reatom/react';
-import { Event } from '~appModule/types';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
-import { currentEventDataAtom } from '../../atoms/currentEventData';
 import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { AnalyticsPanelIcon } from '@k2-packages/default-icons';
+import { focusedGeometryAtom } from '~core/shared_state';
 
 interface PanelHeadingProps {
-  event: Event;
+  event: {
+    eventName: string;
+    severity: Severity;
+    externalUrls: string[];
+  };
 }
 
 function PanelHeading({ event }: PanelHeadingProps) {
@@ -42,7 +45,7 @@ export function AnalyticsPanel({
 }: AnalyticsPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [currentTab, setCurrentTab] = useState<string>('data');
-  const [currentEventData]: [Event, unknown] = useAtom(currentEventDataAtom);
+  const [focusedGeometry] = useAtom(focusedGeometryAtom);
 
   let panelHeading: ReactElement;
   if (loading) {
@@ -52,8 +55,12 @@ export function AnalyticsPanel({
   } else if (error) {
     panelHeading = <Text type="heading-m">{i18n.t('Error')}</Text>;
   } else if (analyticsDataList) {
-    if (currentEventData) {
-      panelHeading = <PanelHeading event={currentEventData} />;
+    if (focusedGeometry?.source.type === 'event') {
+      panelHeading = <PanelHeading event={focusedGeometry.source.meta} />;
+    } else if (focusedGeometry?.source.type === 'boundaries') {
+      panelHeading = (
+        <Text type="heading-m">{focusedGeometry.source.meta}</Text>
+      );
     } else {
       panelHeading = <Text type="heading-m">{i18n.t('Analytics')}</Text>;
     }
@@ -103,7 +110,10 @@ export function AnalyticsPanel({
                   <Tab name="INFO" id="data">
                     <AnalyticsDataList
                       data={analyticsDataList}
-                      links={currentEventData?.externalUrls ?? undefined}
+                      links={
+                        (focusedGeometry?.source as any)?.meta?.externalUrls ??
+                        undefined
+                      }
                     />
                   </Tab>
                   {/*<Tab name="COMMUNITIES" id="communities">*/}
