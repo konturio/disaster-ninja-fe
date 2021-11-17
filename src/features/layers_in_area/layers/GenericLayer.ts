@@ -24,6 +24,7 @@ import {
   focusedGeometryAtom,
 } from '~core/shared_state/focusedGeometry';
 import { currentEventAtom } from '~core/shared_state';
+import { createActiveContributorsLayers } from './activeContributorsLayers';
 
 export class GenericLayer implements LogicalLayer {
   public readonly id: string;
@@ -130,7 +131,7 @@ export class GenericLayer implements LogicalLayer {
   _adaptUrl(url: string) {
     /** Fix cors in local development */
     if (import.meta.env.DEV) {
-      url = url.replace('test-apps02.konturlabs.com', location.host);
+      url = url.replace('zigzag.kontur.io', location.host);
     }
 
     /**
@@ -174,6 +175,8 @@ export class GenericLayer implements LogicalLayer {
       type: layer.source.type,
       tiles: layer.source.urls.map((url) => this._adaptUrl(url)),
       tileSize: layer.source.tileSize || 256,
+      minzoom: layer.minZoom || 0,
+      maxzoom: layer.maxZoom || 22,
     };
 
     // I expect that all servers provide url with same scheme
@@ -188,12 +191,24 @@ export class GenericLayer implements LogicalLayer {
         id: layerId,
         type: 'raster' as const,
         source: this._sourceId,
-        minzoom: layer.minZoom || 0,
-        maxzoom: layer.maxZoom || 22,
+        minzoom: 0,
+        maxzoom: 22,
       };
       map.addLayer(mapLayer);
       this._layerIds.push(layerId);
     } else {
+      if (this.id === 'activeContributors') {
+        const layerStyles = createActiveContributorsLayers(
+          this._sourceId,
+        ) as Omit<AnyLayer, 'id'>[];
+        const layers = this._setLayersIds(layerStyles);
+        layers.forEach((layer) => {
+          map.addLayer(layer as AnyLayer);
+          this._layerIds.push(layer.id);
+        });
+
+        return;
+      }
       // Vector tiles
       if (this.legend) {
         const layerStyles = this._generateLayersFromLegend(this.legend);
