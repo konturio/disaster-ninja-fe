@@ -7,4 +7,22 @@
 .sidePannel {
   z-index: 1; /* Show shadow over map */
   border-radius: 0;
+
+  &.show {
+    transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
+      left 0.1s linear 0s;
+    visibility: visible;
+    opacity: 1;
+    left: 0;
+  }
+
+  &.hide {
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
+      left 0.15s linear 0s;
+    visibility: hidden;
+    width: 0;
+    z-index: -1;
+    opacity: 0.2;
+    left: -150px;
+  }
 }

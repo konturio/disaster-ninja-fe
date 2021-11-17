@@ -48,8 +48,7 @@ export function Analytics({
       },
       {
         tooltip: i18n.t('OSM Gaps Percentage (lower is better)'),
-        value: osmGapsPercentage ? `${osmGapsPercentage}%` : ' - ',
-        icon: mapIcon,
+        value: osmGapsPercentage ? `${osmGapsPercentage}% gaps` : ' - ',
       },
     ];
   }, [settledArea, affectedPeople, osmGapsPercentage]);
@@ -58,7 +57,7 @@ export function Analytics({
     <div className={s.analytics}>
       {statistics.map(({ tooltip, icon, value }) => (
         <div key={tooltip} className={s.analyticsBadge} title={tooltip}>
-          <img className={s.analyticsIcon} src={icon}></img>
+          {icon && <img className={s.analyticsIcon} src={icon}></img>}
           <span className={s.analyticsValue}>
             <Text type="caption">{value}</Text>
           </span>

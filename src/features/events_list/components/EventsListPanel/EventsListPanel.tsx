@@ -7,6 +7,15 @@ import { createStateMap } from '~utils/atoms/createStateMap';
 import s from './EventsListPanel.module.css';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
+import { useCallback, useEffect, useState } from 'react';
+import { useAtom } from '@reatom/react';
+import { sideControlsBarAtom } from '~core/shared_state';
+import clsx from 'clsx';
+import {
+  EVENTLIST_CONROL_ID,
+  EVENTLIST_CONROL_NAME,
+} from '~features/events_list/constants';
+import eventsIcon from '~features/events_list/icons/eventsIcon.svg';
 
 export function EventsListPanel({
   current,
@@ -21,16 +30,45 @@ export function EventsListPanel({
   loading: boolean;
   eventsList: Event[] | null;
 }) {
+  const [, { enable, disable, addControl, toggleActiveState }] =
+    useAtom(sideControlsBarAtom);
+
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const onPanelClose = useCallback(() => {
+    setIsOpen(false);
+    disable(EVENTLIST_CONROL_ID);
+  }, [setIsOpen]);
+
   const statesToComponents = createStateMap({
     error,
     loading,
     data: eventsList,
   });
 
+  useEffect(() => {
+    addControl({
+      id: EVENTLIST_CONROL_ID,
+      name: EVENTLIST_CONROL_NAME,
+      active: false,
+      group: 'tools',
+      icon: <img src={eventsIcon} alt={i18n.t('Event list')} />,
+      onClick: (becomesActive) => {
+        toggleActiveState(EVENTLIST_CONROL_ID);
+        setIsOpen((prev) => !prev);
+      },
+    });
+
+    enable(EVENTLIST_CONROL_ID);
+    return () => {
+      disable(EVENTLIST_CONROL_ID);
+    };
+  }, []);
+
   return (
     <Panel
       header={<Text type="heading-l">{i18n.t('Ongoing disasters')}</Text>}
-      className={s.sidePannel}
+      className={clsx(s.sidePannel, isOpen && s.show, !isOpen && s.hide)}
+      onClose={onPanelClose}
     >
       <div className={s.scrollable}>
         {statesToComponents({
