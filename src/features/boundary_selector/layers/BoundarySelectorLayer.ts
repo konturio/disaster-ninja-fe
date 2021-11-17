@@ -126,8 +126,11 @@ export class BoundarySelectorLayer implements LogicalLayer {
           const geoJSON: GeoJSON.FeatureCollection = selectBoundary(
             boundaryId,
           ) as GeoJSON.FeatureCollection;
+          const selectedFeatureName =
+            responseData.features.find((feat) => feat.id === boundaryId)
+              ?.properties?.name || 'Custom geometry';
           focusedGeometryAtom.setFocusedGeometry.dispatch(
-            { type: 'boundaries' },
+            { type: 'boundaries', meta: selectedFeatureName },
             geoJSON,
           );
           sideControlsBarAtom.disable.dispatch('BoundarySelector');
