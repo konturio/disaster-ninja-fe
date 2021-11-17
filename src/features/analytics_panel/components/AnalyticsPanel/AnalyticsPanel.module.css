@@ -4,6 +4,7 @@
 
 .paneIcon {
   position: absolute !important;
+  z-index: 1000;
   top: 8px;
   left: 8px;
 
@@ -22,7 +23,7 @@
 
 .sidePannel {
   z-index: 1; /* Show shadow over map */
-  position: absolute;
+  position: absolute !important;
   margin-left: 8px;
   margin-top: 8px;
   align-self: flex-start;

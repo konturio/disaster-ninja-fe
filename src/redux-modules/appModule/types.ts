@@ -86,7 +86,7 @@ export type Marker = {
   id: string;
 };
 
-type Severity =
+export type Severity =
   | 'TERMINATION'
   | 'MINOR'
   | 'MODERATE'
