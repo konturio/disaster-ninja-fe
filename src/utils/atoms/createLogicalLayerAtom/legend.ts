@@ -17,6 +17,7 @@ export interface SimpleLegendStep {
 
 export interface SimpleLegend {
   name: string;
+  linkProperty?: string;
   type: 'simple';
   steps: SimpleLegendStep[];
 }
@@ -28,6 +29,7 @@ export interface BivariateLegendStep {
 
 export interface BivariateLegend {
   name: string;
+  linkProperty?: string;
   description: string;
   type: 'bivariate';
   axis: {
