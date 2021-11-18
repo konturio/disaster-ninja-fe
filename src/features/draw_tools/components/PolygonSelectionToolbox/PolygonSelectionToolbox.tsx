@@ -4,7 +4,7 @@ import { useAtom } from '@reatom/react';
 import { icons } from '@k2-packages/map-draw-tools';
 import ActionButton from '~components/ActionButton/ActionButton';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
-import { polygonSelectionModes } from '../../constants';
+import { drawModes } from '../../constants';
 import styles from './PolygonSelectionToolbox.module.css';
 
 export const PolygonSelectionToolbox = ({
@@ -12,10 +12,10 @@ export const PolygonSelectionToolbox = ({
   disablePolygonSelection,
 }) => {
   const [activeDrawMode] = useAtom(activeDrawModeAtom);
-  const SelectPolygonIcon = icons[polygonSelectionModes.DrawPolygonMode];
+  const SelectPolygonIcon = icons[drawModes.DrawPolygonMode];
 
   const onSelectPolygonClick = useCallback(() => {
-    if (activeDrawMode === polygonSelectionModes.SelectBoundaryMode) {
+    if (activeDrawMode === drawModes.SelectBoundaryMode) {
       disablePolygonSelection();
     } else {
       enablePolygonSelection();
@@ -28,7 +28,7 @@ export const PolygonSelectionToolbox = ({
         className={clsx({
           [styles.leftButton]: true,
           [styles.buttonPressed]:
-            activeDrawMode === polygonSelectionModes.SelectBoundaryMode,
+            activeDrawMode === drawModes.SelectBoundaryMode,
         })}
         onClick={onSelectPolygonClick}
         type="action"
