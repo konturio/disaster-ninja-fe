@@ -1,15 +1,17 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { currentEventResourceAtom } from './currentEventResource';
+import { EventWithGeometry } from '~appModule/types';
 
-export const currentEventGeometry = createBindAtom(
+export const currentEventGeometryAtom = createBindAtom(
   {
     currentEventResourceAtom,
     focusedGeometryAtom,
   },
-  ({ onChange, schedule }) => {
+  ({ onChange, schedule }, state: null | EventWithGeometry = null) => {
     onChange('currentEventResourceAtom', ({ error, loading, data }) => {
       if (!loading && !error && data) {
+        state = data;
         schedule((dispatch) => {
           dispatch(
             focusedGeometryAtom.setFocusedGeometry(
@@ -23,6 +25,7 @@ export const currentEventGeometry = createBindAtom(
         });
       }
     });
+    return state;
   },
   'currentEventGeometry',
 );

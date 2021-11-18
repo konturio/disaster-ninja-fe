@@ -46,7 +46,7 @@ export default ({ mode }) =>
     },
     server: {
       proxy: {
-        [packageJson.homepage + '/api']: {
+        [packageJson.homepage + 'api']: {
           target: 'https://test-apps-ninja02.konturlabs.com',
           changeOrigin: true,
         },
