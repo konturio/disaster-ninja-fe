@@ -1,0 +1,55 @@
+.drawToolsContainer {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  margin-left: -200px;
+  z-index: 1001;
+  display: flex;
+  border-radius: 4px;
+  background-color: #32404d;
+  overflow: hidden;
+  box-shadow: var(--elevation-1);
+
+  button {
+    background-color: #32404d;
+    border-radius: 0;
+    &:hover:not(:disabled) {
+      background-color: #55616c;
+    }
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+.btnContainer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  height: 24px;
+  padding-right: 4px;
+  padding-left: 4px;
+  color: #d7dadc;
+}
+
+.modeButton {
+  &[class*='activeBtn'] {
+    button {
+      background-color: #201d25;
+      .btnContainer {
+        color: #26abff;
+        svg * {
+          stroke: #26abff;
+        }
+      }
+      &:hover:not(:disabled) {
+        background-color: #201d25;
+      }
+    }
+  }
+}
+
+.finishBtn {
+  background-color: #0c9bed !important;
+}
