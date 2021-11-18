@@ -2,7 +2,7 @@ import s from './AnalyticsEmptyState.module.css';
 import {
   BoundarySelectorIcon,
   DisastersListIcon,
-  DrawToolslcon,
+  DrawToolsIcon,
   UploadFileIcon,
 } from '@k2-packages/default-icons';
 import { TranslationService as i18n } from '~core/localization';
@@ -30,7 +30,7 @@ export const AnalyticsEmptyState = ({
           <DisastersListIcon /> {i18n.t('Pick disaster from the list')}
         </div>
         <div className={s.iconRow}>
-          <DrawToolslcon /> {i18n.t('Draw polygon on the map')}
+          <DrawToolsIcon /> {i18n.t('Draw polygon on the map')}
         </div>
         <div className={s.iconRow}>
           <BoundarySelectorIcon /> {i18n.t('Select boundary on the map')}
