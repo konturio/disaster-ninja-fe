@@ -36,3 +36,22 @@
 .header {
   border-bottom: none;
 }
+
+.bivariateLegend {
+  [class*='legendTitle'] {
+    font-weight: bold;
+  }
+}
+
+.copyrightsContainer {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.copyright {
+  font-size: 10px;
+  color: #999;
+  line-height: 12px;
+}
