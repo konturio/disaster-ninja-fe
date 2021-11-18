@@ -2,7 +2,7 @@
   "name": "disaster-ninja-fe",
   "version": "2.0.0-alfa",
   "private": true,
-  "homepage": "/active",
+  "homepage": "/active/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
