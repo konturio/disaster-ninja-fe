@@ -20,12 +20,15 @@ export function createBivariateLegend(
 
   if (!xAxis || !yAxis) return;
 
-  const xAxisLabel = stats.indicators.find(
+  const xAxisIndicator = stats.indicators.find(
     (ind) => ind.name === xNumerator,
-  )?.label;
-  const yAxisLabel = stats.indicators.find(
+  );
+  const xAxisLabel = xAxisIndicator?.label;
+
+  const yAxisIndicator = stats.indicators.find(
     (ind) => ind.name === yNumerator,
-  )?.label;
+  );
+  const yAxisLabel = yAxisIndicator?.label;
   const xDenominatorLabel = stats.indicators.find(
     (ind) => ind.name === xDenominator,
   )?.label;
@@ -33,16 +36,33 @@ export function createBivariateLegend(
     (ind) => ind.name === yDenominator,
   )?.label;
 
+  let copyrights: string[] = [];
+  if (
+    xAxisIndicator &&
+    xAxisIndicator.copyrights &&
+    xAxisIndicator.copyrights.length
+  ) {
+    copyrights = copyrights.concat(xAxisIndicator.copyrights);
+  }
+  if (
+    yAxisIndicator &&
+    yAxisIndicator.copyrights &&
+    yAxisIndicator.copyrights.length
+  ) {
+    copyrights = copyrights.concat(yAxisIndicator.copyrights);
+  }
+
   const description = `This map shows relation of ${xAxisLabel} (normalized by ${xDenominatorLabel}) to the base of ${yAxisLabel} (normalized by ${yDenominatorLabel}).`;
 
   return {
     name,
     description,
-    axis: { x: xAxis, y: yAxis },
+    axis: { x: yAxis, y: xAxis },
     type: 'bivariate',
     steps: colorTheme.map(({ id, color }) => ({
       label: id,
       color,
     })),
+    copyrights,
   };
 }

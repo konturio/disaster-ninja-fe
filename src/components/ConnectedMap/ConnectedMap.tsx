@@ -92,7 +92,7 @@ export function ConnectedMap({
         focusedGeometryAtomActions.setFocusedGeometry({ type: 'custom' }, data);
         setDrawings(data);
       } else {
-        drawModeActions.resetDrawMode();
+        drawModeActions.setDrawMode(undefined);
       }
     },
     [setDrawings, drawModeActions, focusedGeometryAtomActions],
