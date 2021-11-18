@@ -7,7 +7,9 @@ import mapIcon from './icons/map.svg';
 import { TranslationService as i18n } from '~core/localization';
 
 const Sub = ({ children }) => (
-  <span style={{ fontSize: '.7em', verticalAlign: 'super' }}>{children}</span>
+  <span style={{ fontSize: '.7em', verticalAlign: 'super', lineHeight: 0 }}>
+    {children}
+  </span>
 );
 
 export function Analytics({
