@@ -1,7 +1,9 @@
-import { currentEventGeometry } from './atoms/currentEventGeometry';
-import { currentEventRefresher } from './atoms/currentEventRefresher';
+import { currentEventGeometryAtom } from './atoms/currentEventGeometry';
+import { currentEventRefresherAtom } from './atoms/currentEventRefresher';
+import { currentEventAutoFocusAtom } from './atoms/currentEventAutoFocus';
 
 export function initCurrentEvent() {
-  currentEventGeometry.subscribe((val) => null);
-  currentEventRefresher.subscribe(() => null);
+  currentEventGeometryAtom.subscribe((val) => null);
+  currentEventRefresherAtom.subscribe(() => null);
+  currentEventAutoFocusAtom.subscribe(() => null);
 }
