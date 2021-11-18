@@ -3,7 +3,7 @@ import { currentEventAtom } from '~core/shared_state';
 import { autoRefreshService } from '~core/auto_refresh';
 import { currentEventResourceAtom } from './currentEventResource';
 
-export const currentEventRefresher = createBindAtom(
+export const currentEventRefresherAtom = createBindAtom(
   {
     currentEventAtom,
   },

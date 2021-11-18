@@ -62,6 +62,18 @@ export function ConnectedMap({
     if (mapRef.current) {
       // @ts-expect-error Fix for react dev tools
       mapRef.current.toJSON = () => '[Mapbox Object]';
+      // Fix - map fitBounds for incorrectly, because have incorrect internal state abut self canvas size
+      // This will force update that state.
+      // TODO: Replace map component with map service from event tinter
+      // were this problem resolved by more elegant way
+      requestAnimationFrame(() => {
+        // @ts-expect-error Fix for react dev tools
+        mapRef.current.resize(); // Fix for webkit
+      });
+      setTimeout(() => {
+        // @ts-expect-error Fix for react dev tools
+        mapRef.current.resize();
+      }, 1000);
     }
     currentMapAtomActions.setMap(mapRef.current);
   }, [mapRef, currentMapAtomActions]);
