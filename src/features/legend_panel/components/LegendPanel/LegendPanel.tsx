@@ -7,6 +7,20 @@ import { LayerLegend } from '~utils/atoms/createLogicalLayerAtom';
 import { Legend as BivariateLegend } from '@k2-packages/ui-kit';
 import { invertClusters } from '@k2-packages/bivariate-tools';
 
+interface CopyrightsProps {
+  copyrights: string[];
+}
+
+const Copyrights = ({ copyrights }: CopyrightsProps) => {
+  return copyrights.length ? (
+    <div className={s.copyrightsContainer}>
+      {copyrights.map((cp) => (
+        <div className={s.copyright}>{cp}</div>
+      ))}
+    </div>
+  ) : null;
+};
+
 interface LegendPanelProps {
   legends: LayerLegend[];
 }
@@ -40,14 +54,16 @@ export function LegendPanel({ legends }: LegendPanelProps) {
           {legends.map((lg) => {
             if (lg.type === 'bivariate')
               return (
-                <BivariateLegend
-                  key={lg.name}
-                  showAxisLabels
-                  size={3}
-                  cells={invertClusters(lg.steps, 'label')}
-                  axis={lg.axis as any}
-                  title={lg.name}
-                />
+                <div key={lg.name} className={s.bivariateLegend}>
+                  <BivariateLegend
+                    showAxisLabels
+                    size={3}
+                    cells={invertClusters(lg.steps, 'label')}
+                    axis={lg.axis as any}
+                    title={lg.name}
+                  />
+                  <Copyrights copyrights={lg.copyrights} />
+                </div>
               );
           })}
         </div>

@@ -37,6 +37,7 @@ export interface BivariateLegend {
     y: Axis;
   };
   steps: BivariateLegendStep[];
+  copyrights: string[];
 }
 
 export type LayerLegend = SimpleLegend | BivariateLegend;
