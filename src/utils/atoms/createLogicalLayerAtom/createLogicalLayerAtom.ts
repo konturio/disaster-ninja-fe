@@ -1,7 +1,7 @@
 import { Atom } from '@reatom/core';
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import isPromise from 'is-promise';
-import { currentMapAtom } from '~core/shared_state/currentMap';
+import { currentMapAtom, mountedLogicalLayersAtom } from '~core/shared_state';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 type LogicalLayerAtomState = {
@@ -107,14 +107,19 @@ const defaultReducer = <T>(
               stateUpdate.isMounted = false;
             })
             .finally(() => {
-              dispatch(create('_updateState', stateUpdate));
+              const actions = [create('_updateState', stateUpdate)];
+              if (stateUpdate.isMounted) {
+                actions.push(mountedLogicalLayersAtom.add(state.id));
+              }
+              dispatch(actions);
             });
         } else {
-          dispatch(
+          dispatch([
             create('_updateState', {
               isLoading: false,
             }),
-          );
+            mountedLogicalLayersAtom.add(state.id),
+          ]);
         }
       };
       if (map.isStyleLoaded()) {
@@ -134,18 +139,25 @@ const defaultReducer = <T>(
         let isSuccess = false;
         maybePromise
           .then(() => (isSuccess = true))
-          .finally(() =>
-            dispatch(
+          .finally(() => {
+            const actions = [
               create('_updateState', {
                 isLoading: false,
                 isMounted: !isSuccess,
                 isError: !isSuccess,
               }),
-            ),
-          );
+            ];
+            if (isSuccess) {
+              actions.push(mountedLogicalLayersAtom.remove(state.id));
+            }
+            dispatch(actions);
+          });
       });
     } else {
       state = { ...state, isMounted: false };
+      schedule((dispatch) => {
+        dispatch(mountedLogicalLayersAtom.remove(state.id));
+      });
     }
   });
 
@@ -162,7 +174,6 @@ const defaultReducer = <T>(
   return state;
 };
 
-const getId = (layerId: string) => `[Logical layer] ${layerId}`;
 export function createLogicalLayerAtom<T>(
   layer: LogicalLayer<T>,
   atom?: Atom<T>,
@@ -223,7 +234,7 @@ export function createLogicalLayerAtom<T>(
           });
           return state;
         },
-        getId(layer.id),
+        layer.id,
       )
     : createBindAtom(
         {
@@ -280,11 +291,9 @@ export function createLogicalLayerAtom<T>(
           });
           return state;
         },
-        getId(layer.id),
+        layer.id,
       );
 }
-
-createLogicalLayerAtom.getId = getId;
 
 // Dirty hack for fixing TS typed infer
 // https://stackoverflow.com/questions/50321419/typescript-returntype-of-generic-function
