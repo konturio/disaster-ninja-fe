@@ -4,7 +4,7 @@ import {
   currentEventAtom,
   currentEpisodeAtom,
   currentMapPositionAtom,
-  enabledUserLayersAtom,
+  mountedLogicalLayersAtom,
 } from '~core/shared_state';
 
 /* Compose shared state values into one atom */
@@ -13,7 +13,7 @@ export const selectedDataAtom = createBindAtom(
     currentMapPositionAtom,
     currentEventAtom,
     currentEpisodeAtom,
-    enabledUserLayersAtom,
+    mountedLogicalLayersAtom,
   },
   ({ get }, state: UrlData = {}) => {
     const newState = { ...state };
@@ -32,9 +32,9 @@ export const selectedDataAtom = createBindAtom(
     const currentEpisode = get('currentEpisodeAtom');
     newState.episode = currentEpisode ? currentEpisode.id : undefined;
 
-    const enabledLayers = get('enabledUserLayersAtom');
-    if (enabledLayers.length > 0) {
-      newState.layers = enabledLayers;
+    const mountedLayers = get('mountedLogicalLayersAtom');
+    if (mountedLayers.length > 0) {
+      newState.layers = mountedLayers;
     }
     return newState;
   },
