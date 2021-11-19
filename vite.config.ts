@@ -1,5 +1,5 @@
 import path from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import { injectHtml } from 'vite-plugin-html';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
@@ -9,8 +9,9 @@ import packageJson from './package.json';
 const relative = (folder: string) => path.resolve(__dirname, folder);
 
 // https://vitejs.dev/config/
-export default ({ mode }) =>
-  defineConfig({
+export default ({ mode }) => {
+  const env = loadEnv(mode, 'env');
+  return defineConfig({
     base: mode === 'development' ? '/' : packageJson.homepage,
     build: {
       minify: true,
@@ -20,8 +21,11 @@ export default ({ mode }) =>
       mode === 'development' && reactRefresh(),
       mode === 'production' && viteBuildInfoPlugin(),
       injectHtml({
-        data: { env: mode }
-      })
+        data: {
+          ...env,
+          mode,
+        },
+      }),
     ],
     css: {
       postcss: postcssConfig,
@@ -50,7 +54,8 @@ export default ({ mode }) =>
           target: 'https://test-apps-ninja02.konturlabs.com',
           changeOrigin: true,
         },
-        '/tiles': 'https://zigzag.kontur.io'
+        '/tiles': 'https://zigzag.kontur.io',
       },
     },
   });
+};
