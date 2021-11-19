@@ -38,9 +38,17 @@
 }
 
 .bivariateLegend {
+  position: relative;
+
   [class*='legendTitle'] {
     font-weight: bold;
+    width: calc(100% - 20px);
   }
+}
+
+.tooltip {
+  right: 4px;
+  top: 2px;
 }
 
 .copyrightsContainer {

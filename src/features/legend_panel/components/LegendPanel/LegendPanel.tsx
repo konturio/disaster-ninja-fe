@@ -6,20 +6,7 @@ import clsx from 'clsx';
 import { LayerLegend } from '~utils/atoms/createLogicalLayerAtom';
 import { Legend as BivariateLegend } from '@k2-packages/ui-kit';
 import { invertClusters } from '@k2-packages/bivariate-tools';
-
-interface CopyrightsProps {
-  copyrights: string[];
-}
-
-const Copyrights = ({ copyrights }: CopyrightsProps) => {
-  return copyrights.length ? (
-    <div className={s.copyrightsContainer}>
-      {copyrights.map((cp) => (
-        <div className={s.copyright}>{cp}</div>
-      ))}
-    </div>
-  ) : null;
-};
+import { Tooltip } from '~components/Tooltip/Tooltip';
 
 interface LegendPanelProps {
   legends: LayerLegend[];
@@ -52,9 +39,25 @@ export function LegendPanel({ legends }: LegendPanelProps) {
       >
         <div className={s.panelBody}>
           {legends.map((lg) => {
-            if (lg.type === 'bivariate')
+            if (lg.type === 'bivariate') {
+              let tipText = '';
+              if (lg.description) {
+                tipText = lg.description;
+              }
+              if (lg.copyrights && lg.copyrights.length) {
+                if (tipText) {
+                  tipText += '\n';
+                }
+                lg.copyrights.forEach((cp, index) => {
+                  if (index) {
+                    tipText += '\n';
+                  }
+                  tipText += cp;
+                });
+              }
               return (
                 <div key={lg.name} className={s.bivariateLegend}>
+                  <Tooltip className={s.tooltip} tipText={tipText} />
                   <BivariateLegend
                     showAxisLabels
                     size={3}
@@ -62,9 +65,9 @@ export function LegendPanel({ legends }: LegendPanelProps) {
                     axis={lg.axis as any}
                     title={lg.name}
                   />
-                  <Copyrights copyrights={lg.copyrights} />
                 </div>
               );
+            }
           })}
         </div>
       </Panel>
