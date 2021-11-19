@@ -25,13 +25,6 @@
   }
 }
 
-.tooltip {
-  position: absolute;
-  right: -18px;
-  top: 2px;
-  cursor: pointer;
-}
-
 .link {
   white-space: nowrap;
   text-overflow: ellipsis;
