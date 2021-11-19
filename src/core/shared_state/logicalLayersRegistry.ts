@@ -6,6 +6,7 @@ export const logicalLayersRegistryAtom = createBindAtom(
     registerLayer: (logicalLayer: LogicalLayerAtom | LogicalLayerAtom[]) =>
       Array.isArray(logicalLayer) ? logicalLayer : [logicalLayer],
     unregisterLayer: (logicalLayerId: LogicalLayerAtom['id']) => logicalLayerId,
+    mountLayers: (layersIds: string[]) => layersIds,
   },
   (
     { onAction, schedule },
@@ -37,6 +38,11 @@ export const logicalLayersRegistryAtom = createBindAtom(
       state = copy;
       schedule((dispatch) => dispatch(layer.unregister()));
     });
+
+    onAction('mountLayers', (layersIds) => {
+      // TODO: implement mount layers by id from registry
+    });
+
     return state;
   },
   '[Shared state] logicalLayersRegistryAtom',

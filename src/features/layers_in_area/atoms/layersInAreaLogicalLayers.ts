@@ -13,9 +13,7 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
     if (layersInArea && !loading) {
       const currentRegistry = getUnlistedState(logicalLayersRegistryAtom);
       const registry = new Set(Object.keys(currentRegistry));
-      const newLayers = layersInArea.filter(
-        (l) => !registry.has(createLogicalLayerAtom.getId(l.id)),
-      );
+      const newLayers = layersInArea.filter((l) => !registry.has(l.id));
       /* Create logical layers and wrap into atoms */
       const logicalLayersAtoms = newLayers.map((layer) =>
         createLogicalLayerAtom(new GenericLayer(layer)),

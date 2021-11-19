@@ -70,7 +70,6 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       }
     }`,
     });
-    console.log('res', responseData);
     if (!responseData || !responseData.data)
       throw new Error('No data received');
     return responseData.data;
