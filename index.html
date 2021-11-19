@@ -26,7 +26,7 @@
   <% if (VITE_SPACING_JS === true) { %>
     <script src="https://unpkg.com/spacingjs" async></script>
   <% } %>
-    <% if (mode==='production' ) { %>
+    <% if (mode === 'production' ) { %>
       <!-- Google Tag Manager -->
       <script>(function (w, d, s, l, i) {
           w[l] = w[l] || []; w[l].push({
@@ -41,7 +41,7 @@
 </head>
 
 <body>
-  <% if (env==='production' ) { %>
+  <% if (mode === 'production' ) { %>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LD2Z3D" height="0" width="0"
         style="display:none;visibility:hidden"></iframe></noscript>
