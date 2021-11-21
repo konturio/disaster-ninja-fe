@@ -10,6 +10,8 @@ import { useDrawings } from './useDrawings';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import { DRAW_MODE_CONFIG } from '~features/draw_tools/constants';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
+import { layersOrderManager } from '~core/layersOrder';
+
 import mapLibre from 'maplibre-gl';
 
 const updatedMapStyle = (
@@ -60,6 +62,7 @@ export function ConnectedMap({
   const [, currentMapAtomActions] = useAtom(currentMapAtom);
   useEffect(() => {
     if (mapRef.current) {
+      layersOrderManager.init(mapRef.current);
       // @ts-expect-error Fix for react dev tools
       mapRef.current.toJSON = () => '[Mapbox Object]';
       // Fix - map fitBounds for incorrectly, because have incorrect internal state abut self canvas size
@@ -68,7 +71,7 @@ export function ConnectedMap({
       // were this problem resolved by more elegant way
       requestAnimationFrame(() => {
         // @ts-expect-error Fix for react dev tools
-        mapRef.current.resize(); // Fix for webkit
+        mapRef.current.resize();
       });
       setTimeout(() => {
         // @ts-expect-error Fix for react dev tools
