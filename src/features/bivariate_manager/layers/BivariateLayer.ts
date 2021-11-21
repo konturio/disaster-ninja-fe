@@ -3,6 +3,7 @@ import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { BivariateLegend } from '~utils/atoms/createLogicalLayerAtom/legend';
 import { legendPanelAtom } from '~features/legend_panel/atoms/legendPanel';
+import { layersOrderManager } from '~core/layersOrder';
 
 export class BivariateLayer implements LogicalLayer {
   public readonly id: string;
@@ -36,7 +37,10 @@ export class BivariateLayer implements LogicalLayer {
     if (map.getLayer(this.id) !== undefined) {
       map.setLayoutProperty(this.id, 'visibility', 'visible');
     } else {
-      map.addLayer(this._layerStyle as any);
+      const beforeId = layersOrderManager.getBeforeIdByType(
+        this._layerStyle.type,
+      );
+      map.addLayer(this._layerStyle as any, beforeId);
     }
     legendPanelAtom.addLegend.dispatch(this._legend);
     this._isMounted = true;

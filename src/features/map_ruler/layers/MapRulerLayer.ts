@@ -4,6 +4,7 @@ import { CustomMeasureDistanceMode } from '@k2-packages/map-draw-tools/tslib/cus
 import { translationService } from '~core/index';
 import { MapboxLayer } from '@deck.gl/mapbox';
 import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
+import { layersOrderManager } from '~core/layersOrder';
 
 // add cyrillic alphabet to character set
 function getCyryllicCharacterSet() {
@@ -83,7 +84,8 @@ export class MapRulerLayer implements LogicalLayer {
 
       this._deckLayer = new MapboxLayer(deckGLLayer);
     }
-    map.addLayer(this._deckLayer);
+    const beforeId = layersOrderManager.getBeforeIdByType(this._deckLayer.type);
+    map.addLayer(this._deckLayer, beforeId);
     this._isMounted = true;
   }
 
