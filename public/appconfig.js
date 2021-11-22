@@ -8,4 +8,8 @@ window.konturAppConfig = {
   MAP_ACCESS_TOKEN: '',
   MAP_BASE_STYLE: 'https://disaster.ninja/tiles/basemap/style_ninja.json',
   LOGIN_API_PATH: '',
+  LAYERS_BY_DEFAULT: [
+    'count&area_km2|population&area_km2',
+    'activeContributors',
+  ],
 };

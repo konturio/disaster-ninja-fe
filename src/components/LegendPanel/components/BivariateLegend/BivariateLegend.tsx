@@ -11,7 +11,6 @@ type BivariateLegendProps = {
 };
 
 export function BivariateLegend({ layer, extraIcons }: BivariateLegendProps) {
-  console.log('%c⧭', 'color: #006dcc', layer);
   if (!layer.legend || layer.legend.type === 'simple' || !layer.name)
     return null;
 
@@ -31,13 +30,11 @@ export function BivariateLegend({ layer, extraIcons }: BivariateLegendProps) {
 
   return (
     <div className={s.bivariateLegend}>
-      <Tooltip className={s.tooltip} tipText={tipText} />
-
       <div className={s.headline}>
         <Text type="long-m">
           <span className={s.layerName}>{layer.name}</span>
         </Text>
-
+        <Tooltip className={s.tooltip} tipText={tipText} />
         {extraIcons && [...extraIcons]}
       </div>
 

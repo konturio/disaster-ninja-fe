@@ -111,9 +111,10 @@ const defaultReducer = <T>(
             isMounted: true,
           };
           maybePromise
-            .catch(() => {
+            .catch((e) => {
               stateUpdate.isError = true;
               stateUpdate.isMounted = false;
+              console.error(e);
             })
             .finally(() => {
               const actions = [create('_updateState', stateUpdate)];
@@ -123,7 +124,11 @@ const defaultReducer = <T>(
               dispatch(actions);
             });
         } else {
-          const actions = [create('_updateState')];
+          const actions = [
+            create('_updateState', {
+              isLoading: false,
+            }),
+          ];
           if (state.isListed) {
             actions.push(mountedLogicalLayersAtom.add(state.id));
           }
@@ -133,7 +138,7 @@ const defaultReducer = <T>(
       if (map.isStyleLoaded()) {
         doMount();
       } else {
-        map.once('load', () => doMount());
+        map.once('idle', () => doMount());
       }
     });
   });
