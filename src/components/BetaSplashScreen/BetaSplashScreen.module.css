@@ -21,6 +21,7 @@
   color: white;
   margin: auto;
   max-width: 320px;
+  white-space: pre-wrap;
   a {
     color: white;
   }
@@ -37,6 +38,7 @@
   flex: none;
   margin: 24px 0 0 0;
   color: white;
+  font-weight: bold;
   &:hover {
     background-color: #75cafa;
   }
