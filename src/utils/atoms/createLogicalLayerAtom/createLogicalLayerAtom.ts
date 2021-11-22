@@ -8,12 +8,14 @@ type LogicalLayerAtomState = {
   isMounted: boolean;
   isVisible: boolean;
   isLoading: boolean;
+  isError: boolean;
+  isListed: boolean;
 };
 
 export interface LogicalLayer<T = null> {
   id: string;
   name?: string;
-  onInit(): { isVisible?: boolean; isLoading?: boolean } | void;
+  onInit(): { isVisible?: boolean; isLoading?: boolean; isListed: boolean };
   willMount(map: ApplicationMap): void | Promise<unknown>;
   willUnmount(map: ApplicationMap): void | Promise<unknown>;
   willHide?: (map: ApplicationMap) => void;
@@ -42,6 +44,8 @@ const defaultReducer = <T>(
     isVisible: boolean;
     isLoading: boolean;
     isError: boolean;
+    /* Added in registry */
+    isListed: boolean;
   },
 ) => {
   onAction('init', () => {
@@ -50,6 +54,7 @@ const defaultReducer = <T>(
       ...state,
       isVisible: stateUpdate.isVisible ?? state.isVisible,
       isLoading: stateUpdate.isLoading ?? state.isLoading,
+      isListed: stateUpdate.isListed,
     };
   });
 
@@ -108,18 +113,17 @@ const defaultReducer = <T>(
             })
             .finally(() => {
               const actions = [create('_updateState', stateUpdate)];
-              if (stateUpdate.isMounted) {
+              if (state.isListed && stateUpdate.isMounted) {
                 actions.push(mountedLogicalLayersAtom.add(state.id));
               }
               dispatch(actions);
             });
         } else {
-          dispatch([
-            create('_updateState', {
-              isLoading: false,
-            }),
-            mountedLogicalLayersAtom.add(state.id),
-          ]);
+          const actions = [create('_updateState')];
+          if (state.isListed) {
+            actions.push(mountedLogicalLayersAtom.add(state.id));
+          }
+          dispatch(actions);
         }
       };
       if (map.isStyleLoaded()) {
@@ -147,7 +151,7 @@ const defaultReducer = <T>(
                 isError: !isSuccess,
               }),
             ];
-            if (isSuccess) {
+            if (state.isListed && isSuccess) {
               actions.push(mountedLogicalLayersAtom.remove(state.id));
             }
             dispatch(actions);
@@ -155,9 +159,11 @@ const defaultReducer = <T>(
       });
     } else {
       state = { ...state, isMounted: false };
-      schedule((dispatch) => {
-        dispatch(mountedLogicalLayersAtom.remove(state.id));
-      });
+      if (state.isListed) {
+        schedule((dispatch) => {
+          dispatch(mountedLogicalLayersAtom.remove(state.id));
+        });
+      }
     }
   });
 
@@ -195,12 +201,12 @@ export function createLogicalLayerAtom<T>(
             isMounted,
             isVisible,
             isError,
-          }: {
-            isLoading?: boolean;
-            isMounted?: boolean;
-            isVisible?: boolean;
-            isError?: boolean;
-          }) => ({ isLoading, isMounted, isVisible, isError }),
+          }: Partial<Omit<LogicalLayerAtomState, 'isListed'>>) => ({
+            isLoading,
+            isMounted,
+            isVisible,
+            isError,
+          }),
         },
         (
           track,
@@ -211,6 +217,7 @@ export function createLogicalLayerAtom<T>(
             isVisible: true,
             isLoading: false,
             isError: false,
+            isListed: true,
           },
         ) => {
           const { get, onChange } = track;
@@ -219,11 +226,14 @@ export function createLogicalLayerAtom<T>(
           onChange('data', (data) => {
             if (!map) return;
             if (typeof layer.onDataChange === 'function') {
-              const { isLoading, isMounted, isVisible } = state;
+              const { isLoading, isMounted, isVisible, isError, isListed } =
+                state;
               layer.onDataChange(map, data, {
                 isLoading,
                 isMounted,
                 isVisible,
+                isError,
+                isListed,
               });
               return;
             } else {
@@ -268,6 +278,7 @@ export function createLogicalLayerAtom<T>(
             isVisible: true,
             isLoading: false,
             isError: false,
+            isListed: true,
           },
         ) => {
           const { get, onAction } = track;
@@ -276,11 +287,14 @@ export function createLogicalLayerAtom<T>(
           onAction('setData', (data) => {
             if (!map) return;
             if (typeof layer.onDataChange === 'function') {
-              const { isLoading, isMounted, isVisible } = state;
+              const { isLoading, isMounted, isVisible, isError, isListed } =
+                state;
               layer.onDataChange(map, data, {
                 isLoading,
                 isMounted,
                 isVisible,
+                isListed,
+                isError,
               });
               return;
             } else {

@@ -53,7 +53,7 @@ export class FocusedGeometryLayer
   }
 
   onInit() {
-    return { isLoading: false, isVisible: true };
+    return { isLoading: false, isVisible: true, isListed: true };
   }
 
   wasAddInRegistry() {
