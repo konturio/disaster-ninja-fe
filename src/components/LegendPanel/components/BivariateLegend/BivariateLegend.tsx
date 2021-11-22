@@ -11,7 +11,6 @@ type BivariateLegendProps = {
 };
 
 export function BivariateLegend({ layer, extraIcons }: BivariateLegendProps) {
-  console.log('%c⧭', 'color: #006dcc', layer);
   if (!layer.legend || layer.legend.type === 'simple' || !layer.name)
     return null;
 
