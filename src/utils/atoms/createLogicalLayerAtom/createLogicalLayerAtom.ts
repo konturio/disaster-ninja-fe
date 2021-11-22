@@ -111,9 +111,10 @@ const defaultReducer = <T>(
             isMounted: true,
           };
           maybePromise
-            .catch(() => {
+            .catch((e) => {
               stateUpdate.isError = true;
               stateUpdate.isMounted = false;
+              console.error(e);
             })
             .finally(() => {
               const actions = [create('_updateState', stateUpdate)];
