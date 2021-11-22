@@ -32,7 +32,6 @@ export const layersInAreaResourceAtom = createResourceAtom(
       body,
       false,
     );
-
     if (responseData === undefined) throw new Error('No data received');
     // Temporary we use graphql api for bivariate layers
     // Don't forget remove this after release!

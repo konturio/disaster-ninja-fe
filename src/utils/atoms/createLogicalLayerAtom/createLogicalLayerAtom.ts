@@ -3,6 +3,7 @@ import { createBindAtom } from '~utils/atoms/createBindAtom';
 import isPromise from 'is-promise';
 import { currentMapAtom, mountedLogicalLayersAtom } from '~core/shared_state';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import { LayerLegend } from '.';
 
 type LogicalLayerAtomState = {
   isMounted: boolean;
@@ -15,6 +16,9 @@ type LogicalLayerAtomState = {
 export interface LogicalLayer<T = null> {
   id: string;
   name?: string;
+  legend?: LayerLegend;
+  description?: string;
+  copyright?: string;
   onInit(): { isVisible?: boolean; isLoading?: boolean; isListed: boolean };
   willMount(map: ApplicationMap): void | Promise<unknown>;
   willUnmount(map: ApplicationMap): void | Promise<unknown>;

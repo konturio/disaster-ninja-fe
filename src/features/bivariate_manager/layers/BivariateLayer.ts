@@ -2,7 +2,6 @@ import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { BivariateLegend } from '~utils/atoms/createLogicalLayerAtom/legend';
-import { legendPanelAtom } from '~features/legend_panel/atoms/legendPanel';
 import { layersOrderManager } from '~core/layersOrder';
 
 export class BivariateLayer implements LogicalLayer {
@@ -10,6 +9,7 @@ export class BivariateLayer implements LogicalLayer {
   public readonly name: string;
   public readonly group = 'bivariate';
   private readonly _legend: BivariateLegend;
+  readonly legend!: BivariateLegend;
   private readonly _layerStyle: BivariateLayerStyle;
 
   private _isMounted = false;
@@ -23,6 +23,7 @@ export class BivariateLayer implements LogicalLayer {
     this.id = layerStyle.id;
     this._layerStyle = layerStyle;
     this._legend = legend;
+    this.legend = legend;
   }
 
   get isMounted(): boolean {
@@ -42,13 +43,11 @@ export class BivariateLayer implements LogicalLayer {
       );
       map.addLayer(this._layerStyle as any, beforeId);
     }
-    legendPanelAtom.addLegend.dispatch(this._legend);
     this._isMounted = true;
   }
 
   willUnmount(map: ApplicationMap) {
     map.setLayoutProperty(this.id, 'visibility', 'none');
-    legendPanelAtom.removeLegend.dispatch(this._legend.name);
     this._isMounted = false;
   }
 }
