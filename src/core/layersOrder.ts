@@ -64,7 +64,7 @@ export class LayersOrderManager {
       .find((t) => firstIndexOfType[t]);
 
     if (closestTypeLayerIdx) {
-      return layers[closestTypeLayerIdx].id;
+      if (layers[closestTypeLayerIdx]) return layers[closestTypeLayerIdx].id;
     }
 
     return layers[0]?.id;
