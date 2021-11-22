@@ -16,9 +16,8 @@ export const logicalLayersRegistryAtom = createBindAtom(
       const willBeReplaced: LogicalLayerAtom[] = [];
       logicalLayers.forEach((logicalLayer) => {
         const alreadyRegistered = state[logicalLayer.id] !== undefined;
-        if (alreadyRegistered) {
-          willBeReplaced.push(state[logicalLayer.id]);
-        }
+        if (alreadyRegistered) willBeReplaced.push(state[logicalLayer.id]);
+
         state = { ...state, [logicalLayer.id]: logicalLayer };
       });
 

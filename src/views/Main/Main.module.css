@@ -25,6 +25,7 @@
   top: 8px;
   display: flex;
   pointer-events: none;
+  align-items: flex-start;
 }
 
 .floating > * {
