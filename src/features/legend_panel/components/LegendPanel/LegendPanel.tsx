@@ -43,9 +43,11 @@ export function LegendPanel({ layersId }: LegendPanelProps) {
         }}
       >
         <div className={s.panelBody}>
-          {layersId.map((id) => (
-            <LegendSorter id={id} key={id} />
-          ))}
+          {layersId
+            .filter((l) => l !== 'boundary-selector')
+            .map((id) => (
+              <LegendSorter id={id} key={id} />
+            ))}
         </div>
       </Panel>
 
