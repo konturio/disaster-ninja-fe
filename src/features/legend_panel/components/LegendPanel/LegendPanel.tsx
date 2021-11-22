@@ -1,34 +1,39 @@
 import { TranslationService as i18n } from '~core/localization';
-import { Panel, Text } from '@k2-packages/ui-kit';
+import { Panel, PanelIcon, Text } from '@k2-packages/ui-kit';
 import s from './LegendPanel.module.css';
 import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { LayerLegend } from '~utils/atoms/createLogicalLayerAtom';
-import { Legend as BivariateLegend } from '@k2-packages/ui-kit';
-import { invertClusters } from '@k2-packages/bivariate-tools';
-import { Tooltip } from '~components/Tooltip/Tooltip';
+import infoIcon from '~features/legend_panel/icons/info_icon.svg';
+import { LegendSorter } from './LegendSorter';
 
 interface LegendPanelProps {
-  legends: LayerLegend[];
+  layersId: string[];
 }
 
-export function LegendPanel({ legends }: LegendPanelProps) {
+export function LegendPanel({ layersId }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [closed, setClosedPreferation] = useState<boolean>(false);
 
   useEffect(() => {
-    if (legends.length && !isOpen) {
+    if (!closed && layersId.length && !isOpen) {
       setIsOpen(true);
-    } else if (!legends.length && isOpen) {
+    } else if (!layersId.length && isOpen) {
       setIsOpen(false);
     }
-  }, [legends]);
+  }, [layersId]);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
+    setClosedPreferation(true);
+  }, [setIsOpen]);
+
+  const onPanelOpen = useCallback(() => {
+    setIsOpen(true);
+    setClosedPreferation(false);
   }, [setIsOpen]);
 
   return (
-    <div className={s.panelContainer}>
+    <>
       <Panel
         header={<Text type="heading-l">{i18n.t('Legend')}</Text>}
         onClose={onPanelClose}
@@ -38,39 +43,23 @@ export function LegendPanel({ legends }: LegendPanelProps) {
         }}
       >
         <div className={s.panelBody}>
-          {legends.map((lg) => {
-            if (lg.type === 'bivariate') {
-              let tipText = '';
-              if (lg.description) {
-                tipText = lg.description;
-              }
-              if (lg.copyrights && lg.copyrights.length) {
-                if (tipText) {
-                  tipText += '\n';
-                }
-                lg.copyrights.forEach((cp, index) => {
-                  if (index) {
-                    tipText += '\n';
-                  }
-                  tipText += cp;
-                });
-              }
-              return (
-                <div key={lg.name} className={s.bivariateLegend}>
-                  <Tooltip className={s.tooltip} tipText={tipText} />
-                  <BivariateLegend
-                    showAxisLabels
-                    size={3}
-                    cells={invertClusters(lg.steps, 'label')}
-                    axis={lg.axis as any}
-                    title={lg.name}
-                  />
-                </div>
-              );
-            }
-          })}
+          {layersId.map((id) => (
+            <LegendSorter id={id} key={id} />
+          ))}
         </div>
       </Panel>
-    </div>
+
+      <PanelIcon
+        clickHandler={onPanelOpen}
+        className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+        icon={
+          <img
+            src={infoIcon}
+            alt={i18n.t('Open legends panel')}
+            className={s.iconElement}
+          />
+        }
+      />
+    </>
   );
 }

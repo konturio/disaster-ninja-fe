@@ -2,7 +2,7 @@ import { Axis } from '@k2-packages/bivariate-tools';
 
 type SimpleLegendStepType = 'square' | 'circle' | 'hex';
 interface MapCSSProperties {
-  [key: string]: unknown;
+  [key: string]: any;
   // Add bivariate steps
 }
 

@@ -1,3 +1,4 @@
+export { logicalLayersRegistryAtom } from './logicalLayersRegistry';
 export { currentEpisodeAtom } from './currentEpisode';
 export { currentEventAtom } from './currentEvent';
 export { currentMapPositionAtom } from './currentMapPosition';
@@ -8,4 +9,3 @@ export { mapListenersAtom } from './mapListeners';
 export { currentNotificationAtom } from './currentNotifications';
 export { sideControlsBarAtom } from './sideControlsBar';
 export { currentMapAtom } from './currentMap';
-export { logicalLayersRegistryAtom } from './logicalLayersRegistry';

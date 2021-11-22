@@ -18,7 +18,7 @@ export interface LayerInArea {
   category?: 'base' | 'overlay';
   group?: string;
   copyright?: string;
-  legend: LayerLegend;
+  legend?: LayerLegend;
   boundaryRequiredForRetrieval: boolean;
 }
 
