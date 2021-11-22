@@ -3,8 +3,21 @@ import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { notificationService } from '~core/index';
 import { GeoJSONSource } from 'maplibre-gl';
+import { layersOrderManager } from '~core/layersOrder';
 
 const layersConfig = (id: string, sourceId: string): maplibregl.AnyLayer[] => [
+  {
+    id: id + '-main',
+    source: sourceId,
+    type: 'line' as const,
+    paint: {
+      'line-width': 6,
+      'line-color': '#0C9BED',
+    },
+    layout: {
+      'line-join': 'round',
+    },
+  },
   {
     id: id + '-outline',
     source: sourceId,
@@ -13,18 +26,6 @@ const layersConfig = (id: string, sourceId: string): maplibregl.AnyLayer[] => [
       'line-width': 8,
       'line-color': '#FFF',
       'line-opacity': 0.5,
-    },
-    layout: {
-      'line-join': 'round',
-    },
-  },
-  {
-    id: id + '-main',
-    source: sourceId,
-    type: 'line' as const,
-    paint: {
-      'line-width': 6,
-      'line-color': '#0C9BED',
     },
     layout: {
       'line-join': 'round',
@@ -72,7 +73,8 @@ export class FocusedGeometryLayer
     });
 
     layersConfig(this.id + '-layer', this._sourceId).forEach((layerConfig) => {
-      map.addLayer(layerConfig);
+      const beforeId = layersOrderManager.getBeforeIdByType(layerConfig.type);
+      map.addLayer(layerConfig, beforeId);
     });
   }
 

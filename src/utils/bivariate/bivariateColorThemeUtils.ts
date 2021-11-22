@@ -3,12 +3,13 @@ import {
   Stat,
 } from '@k2-packages/bivariate-tools';
 import interpolate from 'color-interpolate';
+import maplibregl from 'maplibre-gl';
 import { ColorTheme } from '~appModule/types';
 import config from '~core/app_config';
 
 export interface BivariateLayerStyle {
   id: string;
-  type: string;
+  type: maplibregl.AnyLayer['type'];
   source: any;
   layout: unknown;
   filter: any[];

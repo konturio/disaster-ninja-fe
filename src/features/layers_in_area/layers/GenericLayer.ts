@@ -25,6 +25,7 @@ import {
 } from '~core/shared_state/focusedGeometry';
 import { currentEventAtom } from '~core/shared_state';
 import { createActiveContributorsLayers } from './activeContributorsLayers';
+import { layersOrderManager } from '~core/layersOrder';
 
 export class GenericLayer implements LogicalLayer {
   public readonly id: string;
@@ -110,21 +111,24 @@ export class GenericLayer implements LogicalLayer {
     if (this.legend) {
       const layerStyles = this._generateLayersFromLegend(this.legend);
       const layers = this._setLayersIds(layerStyles);
-      layers.forEach((layer) => {
-        map.addLayer(layer);
-        this._layerIds.push(layer.id);
+      layers.forEach((mapLayer) => {
+        const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
+        map.addLayer(mapLayer, beforeId);
+        this._layerIds.push(mapLayer.id);
       });
     } else {
       const layerId = `${LAYER_IN_AREA_PREFIX + this.id}`;
       this._layerIds.push(layerId);
-      map.addLayer({
+      const mapLayer = {
         id: layerId,
         source: this._sourceId,
-        type: 'fill',
+        type: 'fill' as const,
         paint: {
-          'fill-color': 'pink',
+          'fill-color': 'pink' as const,
         },
-      });
+      };
+      const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
+      map.addLayer(mapLayer, beforeId);
     }
   }
 
@@ -194,7 +198,8 @@ export class GenericLayer implements LogicalLayer {
         minzoom: 0,
         maxzoom: 22,
       };
-      map.addLayer(mapLayer);
+      const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
+      map.addLayer(mapLayer, beforeId);
       this._layerIds.push(layerId);
     } else {
       if (this.id === 'activeContributors') {
@@ -202,9 +207,10 @@ export class GenericLayer implements LogicalLayer {
           this._sourceId,
         ) as Omit<AnyLayer, 'id'>[];
         const layers = this._setLayersIds(layerStyles);
-        layers.forEach((layer) => {
-          map.addLayer(layer as AnyLayer);
-          this._layerIds.push(layer.id);
+        layers.forEach((mapLayer) => {
+          const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
+          map.addLayer(mapLayer as AnyLayer, beforeId);
+          this._layerIds.push(mapLayer.id);
         });
 
         return;
@@ -213,9 +219,10 @@ export class GenericLayer implements LogicalLayer {
       if (this.legend) {
         const layerStyles = this._generateLayersFromLegend(this.legend);
         const layers = this._setLayersIds(layerStyles);
-        layers.forEach((layer) => {
-          map.addLayer(layer as AnyLayer);
-          this._layerIds.push(layer.id);
+        layers.forEach((mapLayer) => {
+          const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
+          map.addLayer(mapLayer as AnyLayer, beforeId);
+          this._layerIds.push(mapLayer.id);
         });
       } else {
         // We don't known source-layer id
@@ -279,6 +286,8 @@ export class GenericLayer implements LogicalLayer {
     this._layerIds.forEach((id) => {
       map.removeLayer(id);
     });
+    this._layerIds = [];
+
     map.removeSource(this._sourceId);
     if (this._onClickListener) {
       map.off('click', this._onClickListener);
