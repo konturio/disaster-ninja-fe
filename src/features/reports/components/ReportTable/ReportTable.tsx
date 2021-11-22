@@ -44,6 +44,13 @@ export function ReportTable() {
       e.preventDefault();
       fetch(link, { method: 'GET' });
     }
+    function openOSMID(
+      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+      link: string,
+    ) {
+      e.preventDefault();
+      window.open(link);
+    }
 
     if (meta?.id === 'osm_population_inconsistencies') {
       const nameI = thead?.findIndex((val) => val === 'Name')!;
@@ -58,19 +65,19 @@ export function ReportTable() {
         <tr key={row[0]} className={cName}>
           {row.map((value, i) => {
             if (!thead) return null;
-            if (thead[i] === 'OSM ID')
+            if (thead[i] === 'OSM ID') {
+              const link = meta?.column_link_templates[0]['OSM ID']?.replace(
+                '{{OSM ID}}',
+                value,
+              );
               return (
                 <td key={row[0] + value + i + Math.random()}>
-                  <a
-                    href={meta?.column_link_templates[0]['OSM ID']?.replace(
-                      '{{OSM ID}}',
-                      value,
-                    )}
-                  >
+                  <a href={link} onClick={(e) => openOSMID(e, link)}>
                     {value}
                   </a>
                 </td>
               );
+            }
             if (thead[i] === 'Name') {
               const link = meta?.column_link_templates[1]['Name'].replace(
                 '{{OSM ID}}',
@@ -102,19 +109,21 @@ export function ReportTable() {
       <tr key={row[0]} className={clsx(styles.regularRow)}>
         {row.map((value, i) => {
           if (!thead) return null;
-          if (thead[i].toUpperCase() === 'OSM ID')
+          if (thead[i].toUpperCase() === 'OSM ID') {
+            const link = meta?.column_link_templates[0]['OSM ID']?.replace(
+              '{{OSM ID}}',
+              value,
+            );
             return (
               <td key={row[0] + value + i}>
-                <a
-                  href={meta?.column_link_templates[0]['OSM ID']?.replace(
-                    '{{OSM ID}}',
-                    value,
-                  )}
-                >
-                  {value}
-                </a>
+                {link ? (
+                  <a onClick={(e) => openOSMID(e, link)}>{value}</a>
+                ) : (
+                  value
+                )}
               </td>
             );
+          }
           if (thead[i] === 'OSM name') {
             const link = meta?.column_link_templates[1]['OSM name'].replace(
               '{{OSM ID}}',

@@ -33,6 +33,9 @@ td {
   line-height: 20.8px;
   width: auto;
 }
+td a {
+  cursor: pointer;
+}
 
 .evenRow {
   background: #f9f9f9;
