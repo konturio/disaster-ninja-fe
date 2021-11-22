@@ -119,7 +119,11 @@ const defaultReducer = <T>(
               dispatch(actions);
             });
         } else {
-          const actions = [create('_updateState')];
+          const actions = [
+            create('_updateState', {
+              isLoading: false,
+            }),
+          ];
           if (state.isListed) {
             actions.push(mountedLogicalLayersAtom.add(state.id));
           }
@@ -129,7 +133,7 @@ const defaultReducer = <T>(
       if (map.isStyleLoaded()) {
         doMount();
       } else {
-        map.once('load', () => doMount());
+        map.once('idle', () => doMount());
       }
     });
   });

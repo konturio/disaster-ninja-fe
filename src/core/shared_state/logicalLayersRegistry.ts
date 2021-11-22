@@ -1,3 +1,4 @@
+import appConfig from '~core/app_config';
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { LogicalLayerAtom } from '~utils/atoms/createLogicalLayerAtom';
 
@@ -22,11 +23,16 @@ export const logicalLayersRegistryAtom = createBindAtom(
         state = { ...state, [logicalLayer.id]: logicalLayer };
       });
 
+      const mountedByDefault = logicalLayers.filter((l) =>
+        (appConfig.layersByDefault ?? []).includes(l.id),
+      );
+
       schedule((dispatch) =>
         dispatch(
           willBeReplaced
-            .map((logicalLayer) => logicalLayer.unregister())
-            .concat(logicalLayers.map((logicalLayer) => logicalLayer.init())),
+            .map((l) => l.unregister())
+            .concat(logicalLayers.map((l) => l.init()))
+            .concat(mountedByDefault.map((l) => l.mount())),
         ),
       );
     });

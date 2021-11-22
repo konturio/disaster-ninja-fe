@@ -10,6 +10,7 @@ declare global {
       MAP_ACCESS_TOKEN: string;
       MAP_BASE_STYLE: string;
       LOGIN_API_PATH: string;
+      LAYERS_BY_DEFAULT: string[];
     };
   }
 }
@@ -24,6 +25,7 @@ export default {
   mapAccessToken: window.konturAppConfig.MAP_ACCESS_TOKEN,
   mapBaseStyle: window.konturAppConfig.MAP_BASE_STYLE,
   loginApiPath: window.konturAppConfig.LOGIN_API_PATH,
+  layersByDefault: window.konturAppConfig.LAYERS_BY_DEFAULT,
   baseUrl: import.meta.env.BASE_URL,
   isDevBuild: import.meta.env.DEV,
   isProdBuild: import.meta.env.PROD,
