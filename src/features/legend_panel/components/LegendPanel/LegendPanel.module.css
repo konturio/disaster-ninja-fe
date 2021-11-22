@@ -1,15 +1,12 @@
-.panelContainer {
-  pointer-events: none;
-}
-
 .sidePannel {
   pointer-events: auto;
   position: relative;
   z-index: 1; /* Show shadow over map */
-  margin-right: 8px;
+  margin-right: var(--unit);
   align-self: flex-start;
   right: -100px;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
+  height: 100%;
 
   &.show {
     transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
@@ -29,37 +26,41 @@
 }
 
 .panelBody {
+  height: 100%;
   width: 260px;
   padding: 0 18px 18px 18px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.panelBody :first-child {
+  margin-top: 0;
 }
 
 .header {
   border-bottom: none;
 }
 
-.bivariateLegend {
+.panelIcon {
   position: relative;
+  z-index: 999;
+  top: 0;
+  right: 8px;
 
-  [class*='legendTitle'] {
-    font-weight: bold;
-    width: calc(100% - 20px);
+  &.show {
+    transition: visibility 0s linear 0s, opacity 0.33s linear 0s;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.hide {
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s;
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
   }
 }
 
-.tooltip {
-  right: 4px;
-  top: 2px;
-}
-
-.copyrightsContainer {
-  margin-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.copyright {
-  font-size: 10px;
-  color: #999;
-  line-height: 12px;
+.iconElement {
+  width: 20px;
+  height: 20px;
 }
