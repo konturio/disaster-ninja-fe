@@ -13,6 +13,7 @@ import {
   boundarySelector,
   constructOptionsFromBoundaries,
 } from '~utils/map/boundaries';
+import { layersOrderManager } from '~core/layersOrder';
 
 import {
   HOVERED_BOUNDARIES_LAYER_ID,
@@ -69,7 +70,10 @@ export class BoundarySelectorLayer implements LogicalLayer {
     this._map = map;
     const emptyGeoJsonSource = createGeoJSONSource();
     map.addSource(HOVERED_BOUNDARIES_SOURCE, emptyGeoJsonSource);
-    map.addLayer(hoveredLayerConfig);
+    const beforeId = layersOrderManager.getBeforeIdByType(
+      hoveredLayerConfig.type,
+    );
+    map.addLayer(hoveredLayerConfig, beforeId);
     map.on('click', this._clickHandler);
     this._isMounted = true;
   }
