@@ -16,9 +16,10 @@ export function BetaSplashScreen() {
   return visible ? (
     <div className={s.shadow} onClick={onClose}>
       <div className={s.modal}>
-        We are happy to introduce beta version of Disaster Ninja. It ships with
-        a lot of new features and may have a few bugs which we will fix soon.
-        Please, in any doubt share any feedback in the chatbox or use stable
+        {[
+          'You are using a beta version of Disaster Ninja.',
+          'It introduces a lot of new features and may have a few bugs which we will fix soon. Please, in any doubt contact us in the chatbox or use the stable',
+        ].join('\n')}
         <a href="https://disaster.ninja/live/">Disaster Ninja →</a>
         <button className={s.btn}>Have a look</button>
       </div>
