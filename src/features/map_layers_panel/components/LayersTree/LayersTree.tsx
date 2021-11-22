@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useAction, useAtom } from '@reatom/react';
+import { Tooltip } from '~components/Tooltip/Tooltip';
 import type { LogicalLayerAtom } from '../../types';
 import { LayerControl } from '../LayerControl/LayerControl';
 import { ICategory, IGroup } from './types';
@@ -73,6 +74,20 @@ function Collapse({
   );
 }
 
+function LayerInfo({
+  copyrights,
+  description,
+}: {
+  copyrights?: string;
+  description?: string;
+}) {
+  if (copyrights || description) {
+    return <Tooltip tipText={[description, copyrights].join('\n')} />;
+  } else {
+    return null;
+  }
+}
+
 function Layer({ layerAtom }: { layerAtom: LogicalLayerAtom }) {
   const [layer] = useAtom(layerAtom);
   const onChange = useAction(
@@ -88,6 +103,13 @@ function Layer({ layerAtom }: { layerAtom: LogicalLayerAtom }) {
       hidden={!layer.isVisible}
       name={layer.layer.name || layer.id}
       inputType={'checkbox'}
+      controls={[
+        <LayerInfo
+          key={layer.id}
+          copyrights={layer.layer.copyright}
+          description={layer.layer.description}
+        />,
+      ]}
     />
   );
 }
