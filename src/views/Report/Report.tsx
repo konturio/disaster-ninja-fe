@@ -21,7 +21,7 @@ export function ReportPage() {
                   className={s.clickable}
                   onClick={() => history.push(config.baseUrl)}
                 >
-                  {i18n.t('Disaster Ninja')}
+                  Disaster Ninja
                 </span>{' '}
                 <span>{i18n.t('Reports')}</span>
               </div>
