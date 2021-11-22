@@ -2,6 +2,12 @@
   position: relative;
   margin: var(--unit) 0;
 }
+
+.headline {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
 .tooltip {
   right: 4px;
   top: 2px;
