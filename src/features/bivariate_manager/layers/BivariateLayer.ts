@@ -29,7 +29,7 @@ export class BivariateLayer implements LogicalLayer {
   }
 
   onInit() {
-    return { isVisible: true, isLoading: false };
+    return { isVisible: true, isLoading: false, isListed: true };
   }
 
   willMount(map: ApplicationMap) {
