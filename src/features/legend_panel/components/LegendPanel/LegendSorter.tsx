@@ -5,7 +5,6 @@ import { BivariateLegend } from '~components/LegendPanel/components/BivariateLeg
 
 export function LegendSorter({ id }: { id: string }) {
   const [{ layer }, atom] = useLayerAtomFromRegistry(id);
-
   if (!layer.legend || !layer.name) return null;
 
   if (layer.legend.type === 'bivariate')
