@@ -4,6 +4,6 @@ import { ToastGroup } from './components/ToastGroup/ToastGroup';
 
 export function NotificationToast() {
   const [toasts] = useAtom(toastsStackAtom);
-
+  return null;
   return <ToastGroup toasts={toasts} />;
 }

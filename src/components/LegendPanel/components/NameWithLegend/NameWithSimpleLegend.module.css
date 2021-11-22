@@ -1,0 +1,25 @@
+.nameWithLegend {
+  margin: var(--unit) 0;
+  position: relative;
+}
+
+.headline {
+  display: flex;
+  align-items: center;
+}
+.layerName {
+  margin-left: 2px;
+  font-weight: 500;
+}
+.layerInput {
+  flex: 1;
+}
+
+.extraIcons {
+  margin-left: auto;
+}
+
+.headline .tooltip {
+  right: 4px;
+  top: 2px;
+}

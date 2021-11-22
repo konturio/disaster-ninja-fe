@@ -1,9 +1,9 @@
 import { useAtom } from '@reatom/react';
-import { legendPanelAtom } from '~features/legend_panel/atoms/legendPanel';
+import { mountedLogicalLayersAtom } from '~core/shared_state';
 import { LegendPanel } from '~features/legend_panel/components/LegendPanel/LegendPanel';
 
 export function Legend() {
-  const [legends] = useAtom(legendPanelAtom);
+  const [layersId] = useAtom(mountedLogicalLayersAtom);
 
-  return <LegendPanel legends={legends} />;
+  return <LegendPanel layersId={layersId} />;
 }
