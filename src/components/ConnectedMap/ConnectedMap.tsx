@@ -69,13 +69,11 @@ export function ConnectedMap({
       // This will force update that state.
       // TODO: Replace map component with map service from event tinter
       // were this problem resolved by more elegant way
-      requestAnimationFrame(() => {
-        // @ts-expect-error Fix for react dev tools
-        mapRef.current.resize();
-      });
       setTimeout(() => {
-        // @ts-expect-error Fix for react dev tools
-        mapRef.current.resize();
+        requestAnimationFrame(() => {
+          // @ts-expect-error Fix for react dev tools
+          mapRef.current.resize();
+        });
       }, 1000);
     }
     currentMapAtomActions.setMap(mapRef.current);
