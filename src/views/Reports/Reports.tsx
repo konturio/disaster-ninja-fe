@@ -14,7 +14,7 @@ export function Reports() {
   return (
     <div>
       <div className={s.headerContainer}>
-        <AppHeader title="" key={history.location.pathname}>
+        <AppHeader title="">
           <Row>
             <Text type="short-l">
               <div className={s.customAppTitle}>
