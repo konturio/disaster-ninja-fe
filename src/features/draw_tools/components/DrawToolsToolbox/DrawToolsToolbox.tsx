@@ -12,13 +12,14 @@ import { useAtom } from '@reatom/react';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import clsx from 'clsx';
 import { drawModes, DrawModeType } from '~features/draw_tools/constants';
+import { drawLayerAtom } from '~features/draw_tools/atoms/drawLayerAtom';
 
 export const DrawToolsToolbox = () => {
   const [activeDrawMode, { setDrawMode }] = useAtom(activeDrawModeAtom);
+  const [drawLayer] = useAtom(drawLayerAtom);
 
   const onSelectTool = useCallback(
     (modeId: string) => {
-      console.log('mode setted to ', modeId);
       const mode: DrawModeType = drawModes[modeId] || drawModes.ViewMode;
       setDrawMode(mode);
     },
