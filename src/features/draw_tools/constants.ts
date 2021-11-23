@@ -27,6 +27,9 @@ export const DRAW_MODE_CONFIG = {
 export const drawModes = {
   DrawPolygonMode: 'DrawPolygonMode',
   ViewMode: 'ViewMode',
+  DrawLineMode: 'DrawLineMode',
+  DrawPointMode: 'DrawPointMode',
+  DeleteMode: 'DeleteMode',
 } as const;
 
 export type DrawModeType = keyof typeof drawModes;
