@@ -11,13 +11,19 @@ import {
 import { useAtom } from '@reatom/react';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import clsx from 'clsx';
+import { drawModes, DrawModeType } from '~features/draw_tools/constants';
 
 export const DrawToolsToolbox = () => {
-  const [activeDrawMode] = useAtom(activeDrawModeAtom);
+  const [activeDrawMode, { setDrawMode }] = useAtom(activeDrawModeAtom);
 
-  const onSelectTool = useCallback((modeId: string) => {
-    console.log('on select btn');
-  }, []);
+  const onSelectTool = useCallback(
+    (modeId: string) => {
+      console.log('mode setted to ', modeId);
+      const mode: DrawModeType = drawModes[modeId] || drawModes.ViewMode;
+      setDrawMode(mode);
+    },
+    [setDrawMode],
+  );
 
   return activeDrawMode ? (
     <div className={s.drawToolsContainer}>
@@ -27,17 +33,17 @@ export const DrawToolsToolbox = () => {
           btnContainer: s.modeButton,
         }}
       >
-        <Button id="button1">
+        <Button id={drawModes.DrawPolygonMode}>
           <div className={s.btnContainer}>
             <DrawPolygonIcon /> {i18n.t('Area')}
           </div>
         </Button>
-        <Button id="button2">
+        <Button id={drawModes.DrawLineMode}>
           <div className={s.btnContainer}>
             <DrawLineIcon /> {i18n.t('Line')}
           </div>
         </Button>
-        <Button id="button3">
+        <Button id={drawModes.DrawPointMode}>
           <div className={s.btnContainer}>
             <DrawPointIcon /> {i18n.t('Point')}
           </div>

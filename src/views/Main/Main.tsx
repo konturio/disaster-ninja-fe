@@ -7,8 +7,8 @@ import { Row } from '~components/Layout/Layout';
 import s from './Main.module.css';
 import { MapLayersList } from '~features/map_layers_panel';
 import { useHistory } from 'react-router';
-import { DrawToolsToolbox } from '~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
+import { DrawToolsToolbox } from '~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 
 const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
@@ -45,9 +45,9 @@ export function MainView() {
     import('~features/bivariate_manager/').then(({ initBivariateManager }) =>
       initBivariateManager(),
     );
-    // import('~features/draw_tools/').then(({ initDrawTools }) =>
-    //   initDrawTools(),
-    // );
+    import('~features/draw_tools/').then(({ initDrawTools }) =>
+      initDrawTools(),
+    );
   }, []);
 
   return (

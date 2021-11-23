@@ -1,3 +1,4 @@
+import { createLogicalLayerAtom } from '~utils/atoms';
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { DrawModeType } from '../constants';
 
@@ -10,6 +11,7 @@ export const activeDrawModeAtom = createBindAtom(
       if (state !== mode) {
         state = mode;
       }
+      // createLogicalLayerAtom()
     });
 
     return state;
