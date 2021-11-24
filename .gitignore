@@ -36,3 +36,4 @@ env.yml
 .pnpm-debug.log
 
 stats.json
+stats.html

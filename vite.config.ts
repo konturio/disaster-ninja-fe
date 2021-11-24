@@ -1,5 +1,6 @@
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
+import { visualizer } from 'rollup-plugin-visualizer';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import { injectHtml } from 'vite-plugin-html';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
@@ -16,6 +17,9 @@ export default ({ mode }) => {
     build: {
       minify: true,
       sourcemap: true,
+      rollupOptions: {
+        plugins: [env.VITE_ANALYZE_BUNDLE && visualizer({ open: true })],
+      },
     },
     plugins: [
       mode === 'development' && reactRefresh(),
