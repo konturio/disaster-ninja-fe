@@ -3,12 +3,11 @@ import {
   PointerMoveEvent,
   ModeProps,
   GuideFeatureCollection,
-  TentativeFeature,
-} from '@nebula.gl/edit-modes/dist/types';
+} from '@nebula.gl/edit-modes';
 import { Polygon, FeatureCollection, Position } from '@nebula.gl/edit-modes/';
-import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 import { CustomDrawPolygonMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomDrawPolygonMode';
 import { GeoJsonEditMode } from '@nebula.gl/edit-modes';
+import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 
 export function handleClick(
   this: CustomDrawPolygonMode,
@@ -18,6 +17,7 @@ export function handleClick(
   console.log('%c⧭', 'color: #00ff88', event, props, this);
   const { picks } = event;
   const clickedEditHandle = getPickedEditHandle(picks);
+  if (!props.selectedIndexes) props.selectedIndexes = [];
 
   let positionAdded = false;
   if (!clickedEditHandle) {
@@ -49,7 +49,7 @@ export function handleClick(
 
     this['resetClickSequence']();
 
-    console.log(polygonToAdd, props);
+    console.log('%c⧭', 'color: #ffa280', polygonToAdd, props);
     let editAction: any;
     try {
       editAction = this['getAddFeatureOrBooleanPolygonAction'](
