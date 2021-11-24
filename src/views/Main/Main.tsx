@@ -2,19 +2,24 @@ import { useEffect, Suspense } from 'react';
 import { lazily } from 'react-lazily';
 import { AppHeader, Logo } from '@k2-packages/ui-kit';
 import config from '~core/app_config';
-import { ConnectedMap } from '~components/ConnectedMap/ConnectedMap';
 import { Row } from '~components/Layout/Layout';
 import s from './Main.module.css';
-import { MapLayersList } from '~features/map_layers_panel';
 import { useHistory } from 'react-router';
-import { DrawToolsToolbox } from '~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 
+const { ConnectedMap } = lazily(
+  () => import('~components/ConnectedMap/ConnectedMap'),
+);
 const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
 const { Legend } = lazily(() => import('~features/legend_panel'));
+const { MapLayersList } = lazily(() => import('~features/map_layers_panel'));
+const { DrawToolsToolbox } = lazily(
+  () =>
+    import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
+);
 
 export function MainView() {
   const history = useHistory();
@@ -65,14 +70,16 @@ export function MainView() {
           <Analytics />
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
-          <ConnectedMap
-            options={{
-              logoPosition: 'top-right',
-            }}
-            style={config.mapBaseStyle || ''}
-            accessToken={config.mapAccessToken || ''}
-            className={s.Map}
-          />
+          <Suspense fallback={null}>
+            <ConnectedMap
+              options={{
+                logoPosition: 'top-right',
+              }}
+              style={config.mapBaseStyle || ''}
+              accessToken={config.mapAccessToken || ''}
+              className={s.Map}
+            />
+          </Suspense>
           <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
           </div>
