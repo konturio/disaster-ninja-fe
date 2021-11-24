@@ -1,14 +1,15 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
-import { CustomDrawPolygonMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomDrawPolygonMode';
+// import { CustomDrawPolygonMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomDrawPolygonMode';
 import { MapboxLayer } from '@deck.gl/mapbox';
 import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
 import { layersOrderManager } from '~core/layersOrder';
-import { handleClick } from './handleClick';
+// import { handleClick } from './handleClick';
+import { LocalDrawPolygonMode } from '../modes/drawPolygon';
 
-const drawPolygonMode = new CustomDrawPolygonMode();
+// const drawPolygonMode = new CustomDrawPolygonMode();
 
-drawPolygonMode.handleClick = handleClick;
+// drawPolygonMode.handleClick = handleClick;
 
 export class DrawModeLayer implements LogicalLayer {
   public readonly id: string;
@@ -36,7 +37,7 @@ export class DrawModeLayer implements LogicalLayer {
       const deckGLLayer = {
         id: 'draw-mode-testo-layer',
         type: EditableGeoJsonLayer,
-        mode: drawPolygonMode,
+        mode: LocalDrawPolygonMode,
         parameters: {
           depthTest: false, // skip z-buffer check
         },
@@ -50,8 +51,8 @@ export class DrawModeLayer implements LogicalLayer {
             //   return 20000 / (zoom * zoom);
             // },
             getFillColor: () => [0xff, 0x66, 0x00, 0xff],
-            // getLineWidth: () => 2,
-            // stroked: false,
+            getLineWidth: () => 2,
+            stroked: false,
           },
         },
         modeConfig: {
@@ -74,7 +75,8 @@ export class DrawModeLayer implements LogicalLayer {
     }
     const beforeId = layersOrderManager.getBeforeIdByType(this._deckLayer.type);
     // patch for hmr
-    if (!map.getLayer(beforeId)?.id) map.addLayer(this._deckLayer, beforeId);
+    if (!map.getLayer(this._deckLayer.id)?.id)
+      map.addLayer(this._deckLayer, beforeId);
     this._isMounted = true;
   }
 
