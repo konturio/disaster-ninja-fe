@@ -33,6 +33,7 @@ export interface ApiClientConfig extends ApisauceConfig {
   refreshTokenApiPath?: string;
   unauthorizedCallback?: () => void;
   disableAuth?: boolean;
+  storage?: WindowLocalStorage['localStorage'];
 }
 
 type ApiMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
@@ -48,6 +49,7 @@ export class ApiClient {
   private readonly refreshTokenApiPath: string;
   private readonly apiSauceInstance: ApisauceInstance;
   private readonly disableAuth: boolean;
+  private readonly storage: WindowLocalStorage['localStorage'];
   private token = '';
   private refreshToken = '';
   private tokenWillExpire: Date | undefined;
@@ -66,6 +68,7 @@ export class ApiClient {
     refreshTokenApiPath = '',
     unauthorizedCallback,
     disableAuth = false,
+    storage = window.localStorage,
     ...apiSauceConfig
   }: ApiClientConfig) {
     this.instanceId = instanceId;
@@ -74,6 +77,7 @@ export class ApiClient {
     this.loginApiPath = loginApiPath;
     this.refreshTokenApiPath = refreshTokenApiPath;
     this.disableAuth = disableAuth;
+    this.storage = storage;
 
     if (!apiSauceConfig.headers) {
       apiSauceConfig.headers = {};
@@ -128,7 +132,7 @@ export class ApiClient {
         this.token = tkn;
         this.refreshToken = refreshTkn;
         this.tokenWillExpire = expiringDate;
-        localStorage.setItem(
+        this.storage.setItem(
           LOCALSTORAGE_AUTH_KEY,
           JSON.stringify({ token: tkn, refreshToken: refreshTkn }),
         );
@@ -145,7 +149,7 @@ export class ApiClient {
     this.token = '';
     this.refreshToken = '';
     this.tokenWillExpire = undefined;
-    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+    this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
   }
 
   private async checkTokenIsExpired(): Promise<boolean> {
