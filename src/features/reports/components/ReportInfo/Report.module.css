@@ -1,6 +1,9 @@
 body {
   overflow-y: auto;
 }
+.loadingContainer > div {
+  margin-top: 10%;
+}
 
 .mainWrap {
   padding: 88px 218px 20px 218px;

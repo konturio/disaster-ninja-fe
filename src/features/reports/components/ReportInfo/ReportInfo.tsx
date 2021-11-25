@@ -12,6 +12,7 @@ import { ReportTable } from '../ReportTable/ReportTable';
 import { tableAtom } from '../../atoms/tableAtom';
 import commonStyles from '../ReportsList/ReportsList.module.css';
 import styles from './Report.module.css';
+import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 
 type Params = {
   reportId: string;
@@ -47,11 +48,17 @@ export function ReportInfo() {
         </Link>
       </Text>
 
-      <Text type="heading-m">
-        <span className={clsx(commonStyles.pageTitle, styles.title)}>
-          {report.meta?.name}
-        </span>
-      </Text>
+      {report.meta?.name ? (
+        <Text type="heading-m">
+          <span className={clsx(commonStyles.pageTitle, styles.title)}>
+            {report.meta?.name}
+          </span>
+        </Text>
+      ) : (
+        <div className={styles.loadingContainer}>
+          <LoadingSpinner message={i18n.t('Rendering data')} />
+        </div>
+      )}
 
       <Text type="long-l">
         <ReactMarkdown className={commonStyles.description}>

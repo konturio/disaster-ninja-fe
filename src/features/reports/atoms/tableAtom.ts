@@ -12,7 +12,6 @@ type TableState = {
   data?: string[][];
   ascending: boolean | null;
   wholeData?: string[][];
-  limit: number;
 };
 
 async function fetchTable(link: string) {
@@ -26,14 +25,13 @@ export const tableAtom = createBindAtom(
     setReport: (report: Report) => report,
     sortBy: (sorter: string) => sorter,
     setState: (state: TableState) => state,
-    addLimit: (cb: () => void) => cb,
     sort: () => {
       // noop
     },
   },
   (
     { onAction, schedule, create },
-    state: TableState = { meta: null, sortIndex: 0, ascending: null, limit },
+    state: TableState = { meta: null, sortIndex: 0, ascending: null },
   ) => {
     onAction('setReport', async (report) => {
       if (state.meta?.id === report.id) return;
@@ -43,6 +41,7 @@ export const tableAtom = createBindAtom(
         const parsed = papa.parse<string[]>(csv, {
           delimiter: ';',
           fastMode: true,
+          skipEmptyLines: true,
         });
 
         dispatch(
@@ -50,10 +49,9 @@ export const tableAtom = createBindAtom(
             meta: report,
             sortIndex: 0,
             thead: parsed.data[0],
-            data: parsed.data.slice(0, state.limit),
+            data: parsed.data.slice(1),
             ascending: null,
-            wholeData: parsed.data,
-            limit,
+            wholeData: parsed.data.slice(1),
           }),
         );
       });
@@ -79,22 +77,13 @@ export const tableAtom = createBindAtom(
       });
     });
 
-    // so we do the dispatch when async but we avoid dispatch when action is sync?!
     onAction('setState', (newState) => (state = newState));
-
-    onAction('addLimit', (cb) => {
-      state = { ...state, limit: state.limit + 50 };
-      schedule((dispatch) => {
-        dispatch(create('sort'));
-        cb();
-      });
-    });
 
     onAction('sort', () => {
       const sorted = (function sort() {
         if (!state.wholeData) return;
         if (state.ascending === null) return state.wholeData;
-        return [...state.wholeData].slice(1, state.limit).sort((a, b) => {
+        return [...state.wholeData].sort((a, b) => {
           let res: number;
           const numeric_a = Number(a[state.sortIndex]);
           const numeric_b = Number(b[state.sortIndex]);
@@ -111,7 +100,7 @@ export const tableAtom = createBindAtom(
       })();
       if (!sorted) throw 'error when sorting #2';
 
-      state = { ...state, data: sorted.slice(0, state.limit) };
+      state = { ...state, data: sorted };
     });
 
     return state;
