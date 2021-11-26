@@ -11,7 +11,7 @@ type TableState = {
   thead?: string[];
   data?: string[][];
   ascending: boolean | null;
-  wholeData?: string[][];
+  initialData?: string[][];
 };
 
 async function fetchTable(link: string) {
@@ -44,6 +44,7 @@ export const tableAtom = createBindAtom(
           skipEmptyLines: true,
         });
 
+
         dispatch(
           tableAtom.setState({
             meta: report,
@@ -51,14 +52,14 @@ export const tableAtom = createBindAtom(
             thead: parsed.data[0],
             data: parsed.data.slice(1),
             ascending: null,
-            wholeData: parsed.data.slice(1),
+            initialData: parsed.data.slice(1),
           }),
         );
       });
     });
 
     onAction('sortBy', (sorter) => {
-      if (!state.meta || state.meta.sortable === false || !state.wholeData)
+      if (!state.meta || state.meta.sortable === false || !state.initialData)
         return;
       const newSortIndex = state.thead?.findIndex((val) => val === sorter);
 
@@ -71,33 +72,43 @@ export const tableAtom = createBindAtom(
         return null;
       })();
 
-      state = { ...state, ascending, sortIndex: newSortIndex };
+      state = { ...state, ascending, sortIndex: newSortIndex, data: [] };
+
       schedule((dispatch) => {
-        dispatch(create('sort'));
+        setTimeout(() => {
+          dispatch(create('sort'));
+        }, 0);
       });
     });
 
     onAction('setState', (newState) => (state = newState));
 
     onAction('sort', () => {
-      const sorted = (function sort() {
-        if (!state.wholeData) return;
-        if (state.ascending === null) return state.wholeData;
-        return [...state.wholeData].sort((a, b) => {
+      const sorted = (function sortTable() {
+        if (!state.initialData) return;
+        // ascneding === null means we can return initial data
+        if (state.ascending === null) return state.initialData;
+
+        // make copy of initial data to prevent mutating
+        return [...state.initialData].sort((a, b) => {
           let res: number;
           const numeric_a = Number(a[state.sortIndex]);
           const numeric_b = Number(b[state.sortIndex]);
           const isNumeric =
             !Number.isNaN(numeric_a) && !Number.isNaN(numeric_b);
+
+          // CASE - comparing numbers
           if (isNumeric && state.ascending) res = numeric_a - numeric_b;
           else if (isNumeric) res = numeric_b - numeric_a;
+
+          // CASE - comparing strings
           else if (state.ascending)
             res = a[state.sortIndex]?.localeCompare(b[state.sortIndex]);
           else res = b[state.sortIndex]?.localeCompare(a[state.sortIndex]);
-
           return res;
         });
       })();
+
       if (!sorted) throw 'error when sorting #2';
 
       state = { ...state, data: sorted };
