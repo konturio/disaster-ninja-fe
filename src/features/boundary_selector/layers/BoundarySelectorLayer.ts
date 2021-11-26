@@ -63,7 +63,7 @@ export class BoundarySelectorLayer implements LogicalLayer {
   }
 
   public onInit() {
-    return { isVisible: true, isLoading: false, isListed: false };
+    return { isVisible: true, isLoading: false };
   }
 
   public willMount(map: ApplicationMap) {
