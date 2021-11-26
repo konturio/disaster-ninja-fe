@@ -6,6 +6,7 @@ import { Row } from '~components/Layout/Layout';
 import s from './Main.module.css';
 import { useHistory } from 'react-router';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
+import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -57,7 +58,7 @@ export function MainView() {
 
   return (
     <>
-      <AppHeader title="Disaster Ninja">
+      <AppHeader title="Disaster Ninja" logo={VisibleLogo()}>
         <Row>
           <BetaLabel />
         </Row>

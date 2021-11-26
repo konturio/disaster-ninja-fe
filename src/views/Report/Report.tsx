@@ -7,25 +7,32 @@ import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import s from './Report.module.css';
 import { useHistory } from 'react-router';
 import config from '~core/app_config';
+import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 
 export function ReportPage() {
   const history = useHistory();
+
+  function linkableTitle() {
+    return (
+      <Text type="short-l">
+        <div className={s.customAppTitle}>
+          <span
+            className={s.clickable}
+            onClick={() => history.push(config.baseUrl)}
+            title={i18n.t('to main page')}
+          >
+            Disaster Ninja
+          </span>{' '}
+          <span>{i18n.t('Reports')}</span>
+        </div>
+      </Text>
+    )
+  }
   return (
     <div>
       <div className={s.headerContainer}>
-        <AppHeader title="">
+        <AppHeader title={linkableTitle()} logo={VisibleLogo()}>
           <Row>
-            <Text type="short-l">
-              <div className={s.customAppTitle}>
-                <span
-                  className={s.clickable}
-                  onClick={() => history.push(config.baseUrl)}
-                >
-                  Disaster Ninja
-                </span>{' '}
-                <span>{i18n.t('Reports')}</span>
-              </div>
-            </Text>
             <div className={s.betaTag}>
               <BetaLabel />
             </div>
