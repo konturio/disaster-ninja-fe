@@ -48,17 +48,11 @@ export function ReportInfo() {
         </Link>
       </Text>
 
-      {report.meta?.name ? (
-        <Text type="heading-m">
-          <span className={clsx(commonStyles.pageTitle, styles.title)}>
-            {report.meta?.name}
-          </span>
-        </Text>
-      ) : (
-        <div className={styles.loadingContainer}>
-          <LoadingSpinner message={i18n.t('Rendering data')} />
-        </div>
-      )}
+      <Text type="heading-m">
+        <span className={clsx(commonStyles.pageTitle, styles.title)}>
+          {report.meta?.name}
+        </span>
+      </Text>
 
       <Text type="long-l">
         <ReactMarkdown className={commonStyles.description}>
@@ -74,7 +68,16 @@ export function ReportInfo() {
         </Text>
       )}
 
-      <ReportTable />
+      {!report.data?.length && (
+        <div className={styles.loadingContainer}>
+          <LoadingSpinner message={i18n.t('Rendering data')} />
+        </div>
+      )}
+      <div className={clsx(!report.data?.length && styles.invisible)}>
+
+        <ReportTable />
+      </div>
+
     </div>
   );
 }
