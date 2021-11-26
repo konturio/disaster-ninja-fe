@@ -115,3 +115,44 @@ a,
     line-height: 28.6px;
   }
 }
+
+
+@media screen and (max-width: 1200px) {
+  .mainWrap {
+    padding: 44px 2vw 44px 2vw;
+  }
+  .pageTitle {
+    font-size: 32px;
+    line-height: 32px;
+  }
+  .linkToMain,
+  .linkToMain:visited {
+    font-size: 32px;
+    line-height: 44px;
+  }
+
+  .description {
+    font-size: 18px;
+    line-height: 24px;
+  }
+  .reportsIntro {
+    margin-bottom: 30px;
+  }
+  
+  .reportCards {
+    gap: 12px;
+  }
+  .reportWrap {
+    padding: 20px;
+  }
+  .reportTitle {
+    margin-bottom: 8px;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .reportDescr {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
