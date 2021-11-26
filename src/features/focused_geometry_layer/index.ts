@@ -5,10 +5,15 @@ export function initFocusedGeometryLayer() {
   logicalLayersRegistryAtom.registerLayer.dispatch(focusedGeometryLayerAtom);
   focusedGeometryLayerAtom.init.dispatch();
   focusedGeometryLayerAtom.subscribe(() => null);
+  let timeout: number;
   const unsubscribe = currentMapAtom.subscribe((map) => {
-    if (map) {
-      focusedGeometryLayerAtom.mount.dispatch();
-      unsubscribe();
-    }
+    // Put in the end of callStack
+    timeout && clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      if (map) {
+        focusedGeometryLayerAtom.mount.dispatch();
+        unsubscribe();
+      }
+    });
   });
 }
