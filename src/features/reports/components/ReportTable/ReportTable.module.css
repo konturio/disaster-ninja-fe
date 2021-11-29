@@ -51,7 +51,7 @@ td a {
   box-shadow: inset 0px -1px 0px #b9b9b9;
 }
 
-.inconsistencesName a{
+td a{
   display: flex;
 }
 
