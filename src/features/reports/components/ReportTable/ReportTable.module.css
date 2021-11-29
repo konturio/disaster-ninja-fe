@@ -51,8 +51,16 @@ td a {
   box-shadow: inset 0px -1px 0px #b9b9b9;
 }
 
-.inconsistencesName {
-  white-space: pre;
+.inconsistencesName a{
+  display: flex;
+}
+
+.inconsistencesName img{
+  display: inline;
+}
+
+.nested a{
+  margin-left: var(--unit);
 }
 
 .columnTitle {

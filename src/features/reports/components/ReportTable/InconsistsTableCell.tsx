@@ -1,5 +1,7 @@
 import { memo, useCallback } from 'react';
 import { Report } from '~features/reports/atoms/reportsAtom';
+import { TranslationService as i18n } from '~core/localization';
+import jOSMLogo from '~features/reports/icons/JOSM.svg';
 
 type InconsistsTableCellProps = {
   row: string[];
@@ -16,6 +18,7 @@ type InconsistsTableCellProps = {
   thead: string[] | undefined;
   meta: Report | null;
   cName: string;
+  nested: string;
 };
 
 function InconsistsTableCellComponent({
@@ -27,6 +30,7 @@ function InconsistsTableCellComponent({
   thead,
   meta,
   cName,
+  nested,
 }: InconsistsTableCellProps) {
   const getLink = useCallback(
     (index: number, toReplace: string, replacer: string) =>
@@ -50,10 +54,22 @@ function InconsistsTableCellComponent({
   }
   if (thead[index] === 'Name') {
     const link = getLink(1, 'Name', row[0]);
+
+    // CASE it's nested
+    if (cell.startsWith(' - ')) return (
+      <td className={`${cName} ${nested}`}>
+        <a onClick={(e) => jOSMRedirect(e, link)} href={link} title={i18n.t('Open via JOSM remote control')}>
+          {'   '}
+          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
+          {cell.replace(' - ', '')}
+        </a>
+      </td>
+    );
     return (
       <td className={cName}>
-        <a onClick={(e) => jOSMRedirect(e, link)} href={link}>
-          {cell.replace('-', '')}
+        <a onClick={(e) => jOSMRedirect(e, link)} href={link} title={i18n.t('Open via JOSM remote control')}>
+          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
+          {cell}
         </a>
       </td>
     );
