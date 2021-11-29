@@ -64,6 +64,7 @@ export function ReportTable() {
                     meta={meta}
                     thead={thead}
                     cName={styles.inconsistencesName}
+                    nested={styles.nested}
                   />
                 ))}
               </tr>
