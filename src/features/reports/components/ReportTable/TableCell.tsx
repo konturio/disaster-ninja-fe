@@ -1,5 +1,7 @@
 import { memo, useCallback } from 'react';
 import { Report } from '~features/reports/atoms/reportsAtom';
+import { TranslationService as i18n } from '~core/localization';
+import jOSMLogo from '~features/reports/icons/JOSM.svg';
 
 type TableCellProps = {
   row: string[];
@@ -49,7 +51,8 @@ export function TableCellComponent({
     const link = getNameLink('OSM name');
     return (
       <td>
-        <a onClick={(e) => jOSMRedirect(e, link)} href={link}>
+        <a onClick={(e) => jOSMRedirect(e, link)} href={link} title={i18n.t('Open via JOSM remote control')}>
+          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
           {cell}
         </a>
       </td>
@@ -59,7 +62,8 @@ export function TableCellComponent({
     const link = getNameLink('Name');
     return (
       <td>
-        <a onClick={(e) => jOSMRedirect(e, link)} href={link}>
+        <a onClick={(e) => jOSMRedirect(e, link)} href={link} title={i18n.t('Open via JOSM remote control')}>
+          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
           {cell}
         </a>
       </td>
