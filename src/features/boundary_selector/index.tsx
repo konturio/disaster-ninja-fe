@@ -5,6 +5,7 @@ import {
   BOUNDARY_SELECTOR_CONTROL_ID,
   BOUNDARY_SELECTOR_CONTROL_NAME,
 } from '~features/boundary_selector/constants';
+import { MAP_RULER_CONTROL_ID } from '~features/map_ruler/constants';
 
 export function initBoundarySelector() {
   boundaryLogicalLayerAtom.init();
@@ -15,8 +16,9 @@ export function initBoundarySelector() {
     group: 'tools',
     icon: <BoundarySelectorIcon />,
     onClick: (becomesActive) => {
+      const exceptions = becomesActive ? [MAP_RULER_CONTROL_ID] : null
       sideControlsBarAtom.toggleActiveState.dispatch(
-        BOUNDARY_SELECTOR_CONTROL_ID,
+        BOUNDARY_SELECTOR_CONTROL_ID, exceptions
       );
     },
     onChange: (becomesActive) => {
