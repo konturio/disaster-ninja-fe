@@ -1,0 +1,21 @@
+.invisible {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.logoRef{
+  display: inline-flex;
+}
+.logo {
+  padding: var(--unit) 0;
+  display: inline-flex;
+}
+
+.logo svg {  
+  display: block;
+}
+
+.visible {
+  display: inline;
+  position: static;
+}

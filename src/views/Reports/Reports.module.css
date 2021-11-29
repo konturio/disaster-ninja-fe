@@ -3,12 +3,6 @@
   top: 0;
 }
 .customAppTitle {
-  align-self: center;
-  padding: var(--unit);
-  /* temporary solution */
-  margin-left: calc(var(--unit) * -2);
-
-  color: var(--invert-text-regular);
   font-weight: 500;
   letter-spacing: 0.03em;
   font-size: 14px;
@@ -19,5 +13,4 @@
 
 .betaTag {
   margin-left: auto;
-  align-self: center;
 }

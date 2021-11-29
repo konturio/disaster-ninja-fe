@@ -39,7 +39,7 @@ export class MapRulerLayer implements LogicalLayer {
   }
 
   public onInit() {
-    return { isVisible: true, isLoading: false, isListed: false };
+    return { isVisible: true, isLoading: false };
   }
 
   willMount(map: ApplicationMap): void {

@@ -5,6 +5,7 @@ import {
   MAP_RULER_CONTROL_NAME,
 } from '~features/map_ruler/constants';
 import { mapRulerLogicalLayerAtom } from '~features/map_ruler/atoms/mapRulerLogicalLayer';
+import { controlGroup } from '~core/shared_state/sideControlsBar';
 
 export function initMapRuler() {
   mapRulerLogicalLayerAtom.init.dispatch();
@@ -13,7 +14,7 @@ export function initMapRuler() {
     id: MAP_RULER_CONTROL_ID,
     name: MAP_RULER_CONTROL_NAME,
     active: false,
-    group: 'tools',
+    group: controlGroup.mapTools,
     icon: <MapRulerIcon />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch(MAP_RULER_CONTROL_ID);

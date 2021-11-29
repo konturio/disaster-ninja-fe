@@ -4,6 +4,7 @@ import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import styles from './views/Main/Main.module.css';
 import config from '~core/app_config';
+import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));
@@ -12,6 +13,7 @@ const { ReportPage } = lazily(() => import('~views/Report/Report'));
 export function RoutedApp() {
   return (
     <StrictMode>
+      <OriginalLogo />
       <Router>
         <CacheSwitch>
           <CacheRoute className={styles.mainWrap} exact path={config.baseUrl}>

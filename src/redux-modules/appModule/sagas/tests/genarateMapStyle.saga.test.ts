@@ -1,5 +1,6 @@
 import { createSagaTestEngine } from 'redux-saga-test-engine';
 import { select, take } from 'redux-saga/effects';
+import { setupTestContext } from '../../../../utils/testsUtils/setupTest';
 import {
   convertColorWithOpacity,
   styleGeneration,
@@ -7,28 +8,23 @@ import {
 import { setLegendCells, setMatrixSelection } from '../../actions';
 import * as selectors from '../../selectors';
 
+/* Corners */
 const a1Color = '#a1a1a1';
-const a2Color = '#a2a2a2';
-const a3Color = '#a3a3a3';
-const b1Color = '#b1b1b1';
-const b2Color = '#b2b2b2';
-const b3Color = '#b3b3b3';
 const c1Color = '#c1c1c1';
-const c2Color = '#c2c2c2';
+const a3Color = '#a3a3a3';
 const c3Color = '#c3c3c3';
 
-function extractOpacityFromRGBA(rgbaString: string) {
-  if (rgbaString.indexOf('rgba') === -1) {
-    throw new Error('extracted string is not in rgba format!');
-  } else {
-    const opacity = rgbaString.replace(/^.*,(.+)\)/, '$1');
-    return parseFloat(opacity);
+/* Setup stage */
+const test = setupTestContext(() => {
+  function extractOpacityFromRGBA(rgbaString: string) {
+    if (rgbaString.indexOf('rgba') === -1) {
+      throw new Error('extracted string is not in rgba format!');
+    } else {
+      const opacity = rgbaString.replace(/^.*,(.+)\)/, '$1');
+      return parseFloat(opacity);
+    }
   }
-}
 
-// we have to take in account here that X and Y axises are swapped
-
-describe('map and legend colors generation test', () => {
   const collectEffects = createSagaTestEngine();
   const actualEffects = collectEffects(
     styleGeneration,
@@ -106,62 +102,77 @@ describe('map and legend colors generation test', () => {
     setMatrixSelection('testXNumerator', 'testYNumerator'),
   );
 
-  const theme = actualEffects[0].payload.action.payload;
+  return {
+    extractOpacityFromRGBA,
+    theme: actualEffects[0].payload.action.payload,
+  };
+});
 
-  it('check bottom left corner', () => {
-    expect(theme[0].id).toEqual('A1');
-    expect(theme[0].color).toEqual(convertColorWithOpacity(a1Color));
-  });
+// we have to take in account here that X and Y axises are swapped
 
-  it('check bottom mid corner', () => {
-    expect(theme[1].id).toEqual('A2');
-    expect(theme[1].color).toEqual(convertColorWithOpacity(a2Color));
-  });
+test('check bottom left corner', (t) => {
+  const color = a1Color;
+  t.is(t.context.theme[0].id, 'A1');
+  t.is(t.context.theme[0].color, convertColorWithOpacity(color));
+});
 
-  it('check bottom right corner', () => {
-    expect(theme[2].id).toEqual('A3');
-    expect(theme[2].color).toEqual(convertColorWithOpacity(a3Color));
-  });
+test('check bottom mid corner', (t) => {
+  const color = '#a2a2a2';
+  t.is(t.context.theme[1].id, 'A2');
+  t.is(t.context.theme[1].color, convertColorWithOpacity(color));
+});
 
-  it('check mid left corner', () => {
-    expect(theme[3].id).toEqual('B1');
-    expect(theme[3].color).toEqual(convertColorWithOpacity(b1Color));
-  });
+test('check bottom right corner', (t) => {
+  const color = a3Color;
+  t.is(t.context.theme[2].id, 'A3');
+  t.is(t.context.theme[2].color, convertColorWithOpacity(color));
+});
 
-  it('check mid center corner', () => {
-    expect(theme[4].id).toEqual('B2');
-    expect(theme[4].color).toEqual(convertColorWithOpacity(b2Color));
-  });
+test('check mid left corner', (t) => {
+  const color = '#b1b1b1';
+  t.is(t.context.theme[3].id, 'B1');
+  t.is(t.context.theme[3].color, convertColorWithOpacity(color));
+});
 
-  it('check mid right corner', () => {
-    expect(theme[5].id).toEqual('B3');
-    expect(theme[5].color).toEqual(convertColorWithOpacity(b3Color));
-  });
+test('check mid center corner', (t) => {
+  const color = '#b2b2b2';
+  t.is(t.context.theme[4].id, 'B2');
+  t.is(t.context.theme[4].color, convertColorWithOpacity(color));
+});
 
-  it('check top left corner', () => {
-    expect(theme[6].id).toEqual('C1');
-    expect(theme[6].color).toEqual(convertColorWithOpacity(c1Color));
-  });
+test('check mid right corner', (t) => {
+  const color = '#b3b3b3';
+  t.is(t.context.theme[5].id, 'B3');
+  t.is(t.context.theme[5].color, convertColorWithOpacity(color));
+});
 
-  it('check top center corner', () => {
-    expect(theme[7].id).toEqual('C2');
-    expect(theme[7].color).toEqual(convertColorWithOpacity(c2Color));
-  });
+test('check top left corner', (t) => {
+  const color = c1Color;
+  t.is(t.context.theme[6].id, 'C1');
+  t.is(t.context.theme[6].color, convertColorWithOpacity(color));
+});
 
-  it('check top right corner', () => {
-    expect(theme[8].id).toEqual('C3');
-    expect(theme[8].color).toEqual(convertColorWithOpacity(c3Color));
-  });
+test('check top center corner', (t) => {
+  const color = '#c2c2c2';
+  t.is(t.context.theme[7].id, 'C2');
+  t.is(t.context.theme[7].color, convertColorWithOpacity(color));
+});
 
-  it('opacity check', () => {
-    expect(extractOpacityFromRGBA(theme[0].color) === 0.5);
-    expect(extractOpacityFromRGBA(theme[1].color) === 0.5);
-    expect(extractOpacityFromRGBA(theme[2].color) === 0.5);
-    expect(extractOpacityFromRGBA(theme[3].color) === 0.5);
-    expect(extractOpacityFromRGBA(theme[4].color) === 0.5);
-    expect(extractOpacityFromRGBA(theme[5].color) === 0.5);
-    expect(extractOpacityFromRGBA(theme[6].color) === 0.5);
-    expect(extractOpacityFromRGBA(theme[7].color) === 0.5);
-    expect(extractOpacityFromRGBA(theme[8].color) === 0.5);
-  });
+test('check top right corner', (t) => {
+  const color = c3Color;
+  t.is(t.context.theme[8].id, 'C3');
+  t.is(t.context.theme[8].color, convertColorWithOpacity(color));
+});
+
+test('opacity check', (t) => {
+  const { extractOpacityFromRGBA } = t.context;
+  t.true(extractOpacityFromRGBA(t.context.theme[0].color) === 0.5);
+  t.true(extractOpacityFromRGBA(t.context.theme[1].color) === 0.5);
+  t.true(extractOpacityFromRGBA(t.context.theme[2].color) === 0.5);
+  t.true(extractOpacityFromRGBA(t.context.theme[3].color) === 0.5);
+  t.true(extractOpacityFromRGBA(t.context.theme[4].color) === 0.5);
+  t.true(extractOpacityFromRGBA(t.context.theme[5].color) === 0.5);
+  t.true(extractOpacityFromRGBA(t.context.theme[6].color) === 0.5);
+  t.true(extractOpacityFromRGBA(t.context.theme[7].color) === 0.5);
+  t.true(extractOpacityFromRGBA(t.context.theme[8].color) === 0.5);
 });

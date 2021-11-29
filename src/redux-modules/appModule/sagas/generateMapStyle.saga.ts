@@ -12,8 +12,11 @@ import * as selectors from '../selectors';
 import { ColorTheme } from '../types';
 
 function resolveUrl(url: string) {
-  const isRelative = url.startsWith('/');
-  return isRelative ? `${window.location.origin}${url}` : url;
+  if (globalThis.window) {
+    const isRelative = url.startsWith('/');
+    return isRelative ? `${window.location.origin}${url}` : url;
+  }
+  return url;
 }
 
 export function convertColorWithOpacity(hexColor: string): string {
