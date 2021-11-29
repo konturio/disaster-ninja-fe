@@ -12,6 +12,7 @@ import { ReportTable } from '../ReportTable/ReportTable';
 import { tableAtom } from '../../atoms/tableAtom';
 import commonStyles from '../ReportsList/ReportsList.module.css';
 import styles from './Report.module.css';
+import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 
 type Params = {
   reportId: string;
@@ -67,7 +68,16 @@ export function ReportInfo() {
         </Text>
       )}
 
-      <ReportTable />
+      {!report.data?.length && (
+        <div className={styles.loadingContainer}>
+          <LoadingSpinner message={i18n.t('Rendering data')} />
+        </div>
+      )}
+      <div className={clsx(!report.data?.length && styles.invisible)}>
+
+        <ReportTable />
+      </div>
+
     </div>
   );
 }

@@ -234,7 +234,7 @@ export class GenericLayer implements LogicalLayer {
   }
 
   public onInit() {
-    return { isVisible: true, isLoading: false, isListed: true };
+    return { isVisible: true, isLoading: false };
   }
 
   public async willMount(map: ApplicationMap) {

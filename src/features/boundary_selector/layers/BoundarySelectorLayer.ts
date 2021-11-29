@@ -63,7 +63,7 @@ export class BoundarySelectorLayer implements LogicalLayer {
   }
 
   public onInit() {
-    return { isVisible: true, isLoading: false, isListed: false };
+    return { isVisible: true, isLoading: false };
   }
 
   public willMount(map: ApplicationMap) {
@@ -79,6 +79,7 @@ export class BoundarySelectorLayer implements LogicalLayer {
   }
 
   public willUnmount(map: ApplicationMap) {
+    if (!this._isMounted) return;
     this._map = undefined;
     map.removeLayer(hoveredLayerConfig.id);
     map.removeSource(HOVERED_BOUNDARIES_SOURCE);

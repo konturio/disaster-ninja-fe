@@ -2,6 +2,14 @@ body {
   overflow-y: auto;
 }
 
+.loadingContainer>div {
+  margin: 0;
+}
+
+.invisible {
+  display: none;
+}
+
 .mainWrap {
   padding: 88px 218px 20px 218px;
 }
@@ -26,7 +34,6 @@ body {
 .lastUpdated {
   font-size: 18px;
   line-height: 23px;
-  margin-bottom: 10px;
   color: #8c949b;
 }
 
@@ -34,19 +41,37 @@ body {
   .mainWrap {
     padding: 100px 216px 100px 216px;
   }
+
   .seeAllLink {
     font-size: 28px;
     line-height: 30.8px;
     margin-bottom: 50px;
   }
+
   .title {
     margin-bottom: 25px;
   }
+
   .description {
     margin-bottom: 73px;
   }
+
   .lastUpdated {
     font-size: 22px;
     line-height: 28.6px;
   }
+}
+
+
+@media screen and (max-width: 1200px) {
+  .mainWrap {
+    padding: 44px 2vw 44px 2vw;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
 }
