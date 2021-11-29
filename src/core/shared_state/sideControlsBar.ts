@@ -10,11 +10,16 @@ export interface SideControl {
   onChange?: (isActive: boolean) => void;
 }
 
+
+export const controlGroup = {
+  mapTools: 'mapTools'
+}
+
 export const sideControlsBarAtom = createBindAtom(
   {
     addControl: (control: SideControl) => control,
     removeControl: (controlId: string) => controlId,
-    toggleActiveState: (controlId: string, exceptions?: string[] | null) => { return { controlId, exceptions } },
+    toggleActiveState: (controlId: string) => controlId,
     enable: (controlId: string) => controlId,
     disable: (controlId: string) => controlId,
   },
@@ -54,33 +59,35 @@ export const sideControlsBarAtom = createBindAtom(
       }
     });
 
-    onAction('toggleActiveState', ({ controlId, exceptions }) => {
-      if (state[controlId]) {
-        const onChange = state[controlId].onChange;
-        onChange && onChange(!state[controlId].active);
-        const newControlState = {
-          ...state[controlId],
-          active: !state[controlId].active,
-        };
-        if (exceptions) {
-          const newState = { ...state, [controlId]: newControlState }
-          exceptions.forEach(exceptionId => {
-            const exception = newState[exceptionId]
-            if (!exception) return console.error(
-              `[sideControlsBarAtom] Cannot run exception for ${controlId} because it doesn't exist`,
-            );
-            exception.active = false
-            exception.onChange?.(false);
-          })
-          return state = newState
-        }
-        state = { ...state, [controlId]: newControlState };
-      } else {
-        console.error(
-          `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
-        );
+    onAction('toggleActiveState', (controlId) => {
+      const control = state[controlId]
+      if (!control) return console.error(
+        `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
+      );
+
+      const activity = !state[controlId].active
+      control.onChange?.(activity)
+
+      const newControlState = {
+        ...state[controlId],
+        active: activity,
+      };
+
+      const newState = { ...state, [controlId]: newControlState }
+
+      // only one mapTools control can be active. Let's check it
+      if (control.group === controlGroup.mapTools && activity) {
+        Object.entries(newState).forEach(([key, ctrl]) => {
+          if (ctrl.group === controlGroup.mapTools && ctrl.id !== controlId && ctrl.active) {
+            newState[key].active = false
+            newState[key].onChange?.(false);
+          }
+        })
       }
+
+      return state = newState
     });
+
     return state;
   },
   '[Shared state] sideControlsBarAtom',
