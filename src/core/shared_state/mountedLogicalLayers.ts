@@ -15,7 +15,6 @@ export const mountedLogicalLayersAtom = createBindAtom(
         (acc, lState) => (lState.isMounted && acc.push(lState.id), acc),
         [] as string[],
       );
-
       if (currentIds.length === state.length) {
         // Maybe similar. Need additional check
         const currentIdsSet = new Set(currentIds);
@@ -24,7 +23,7 @@ export const mountedLogicalLayersAtom = createBindAtom(
           return state;
         }
       }
-      return currentIds;
+      state = currentIds;
     });
     return state;
   },
