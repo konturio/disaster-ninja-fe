@@ -6,19 +6,26 @@ import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
 import { layersOrderManager } from '~core/layersOrder';
 // import { handleClick } from './handleClick';
 import { LocalDrawPolygonMode } from '../modes/drawPolygon';
+import { DrawModeType } from '../constants';
 
 // const drawPolygonMode = new CustomDrawPolygonMode();
 
 // drawPolygonMode.handleClick = handleClick;
 
+type MountedLayersType = {
+  [key in DrawModeType]?: any
+}
+
 export class DrawModeLayer implements LogicalLayer {
   public readonly id: string;
   public readonly name?: string;
+  public mountedLayers: MountedLayersType
   private _isMounted = false;
   private _deckLayer?: MapboxLayer<unknown>;
 
   public constructor(id: string, name?: string) {
     this.id = id;
+    this.mountedLayers = { }
     if (name) {
       this.name = name;
     }
@@ -86,4 +93,10 @@ export class DrawModeLayer implements LogicalLayer {
     }
     this._isMounted = false;
   }
+
+  // on logic layer mount - add watch/edit deck layer mode
+  addDeckLayer() { }
+
+  removeDeckLayer() { }
+  // on logic layer unmount - remove all our layers
 }
