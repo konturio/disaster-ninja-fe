@@ -14,7 +14,7 @@ export const sideControlsBarAtom = createBindAtom(
   {
     addControl: (control: SideControl) => control,
     removeControl: (controlId: string) => controlId,
-    toggleActiveState: (controlId: string) => controlId,
+    toggleActiveState: (controlId: string, exceptions?: string[] | null) => { return { controlId, exceptions } },
     enable: (controlId: string) => controlId,
     disable: (controlId: string) => controlId,
   },
@@ -54,7 +54,7 @@ export const sideControlsBarAtom = createBindAtom(
       }
     });
 
-    onAction('toggleActiveState', (controlId) => {
+    onAction('toggleActiveState', ({ controlId, exceptions }) => {
       if (state[controlId]) {
         const onChange = state[controlId].onChange;
         onChange && onChange(!state[controlId].active);
@@ -62,10 +62,22 @@ export const sideControlsBarAtom = createBindAtom(
           ...state[controlId],
           active: !state[controlId].active,
         };
+        if (exceptions) {
+          const newState = { ...state, [controlId]: newControlState }
+          exceptions.forEach(exceptionId => {
+            const exception = newState[exceptionId]
+            if (!exception) return console.error(
+              `[sideControlsBarAtom] Cannot run exception for ${controlId} because it doesn't exist`,
+            );
+            exception.active = false
+            exception.onChange?.(false);
+          })
+          return state = newState
+        }
         state = { ...state, [controlId]: newControlState };
       } else {
         console.error(
-          `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it not exist`,
+          `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
         );
       }
     });
