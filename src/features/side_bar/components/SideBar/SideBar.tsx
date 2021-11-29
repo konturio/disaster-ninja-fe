@@ -6,7 +6,6 @@ import { controlsOrder } from '../../constants';
 
 export function SideBar() {
   const [controls] = useAtom(sideControlsBarAtom);
-  console.log('%c⧭', 'color: #731d6d', controls);
 
   return (
     <ActionsBar>
