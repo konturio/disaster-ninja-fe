@@ -6,26 +6,26 @@ import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
 import { layersOrderManager } from '~core/layersOrder';
 // import { handleClick } from './handleClick';
 import { LocalDrawPolygonMode } from '../modes/drawPolygon';
-import { DrawModeType } from '../constants';
+import { drawModes, DrawModeType } from '../constants';
+import { drawPolyDeckLayerConfig } from '../configs/drawPolyLayer';
+import { layersConfigs } from '../configs';
 
-// const drawPolygonMode = new CustomDrawPolygonMode();
 
-// drawPolygonMode.handleClick = handleClick;
 
-type MountedLayersType = {
-  [key in DrawModeType]?: any
+type mountedDeckLayersType = {
+  [key in DrawModeType]?: MapboxLayer<unknown>
 }
 
 export class DrawModeLayer implements LogicalLayer {
   public readonly id: string;
   public readonly name?: string;
-  public mountedLayers: MountedLayersType
+  public mountedDeckLayers: mountedDeckLayersType
   private _isMounted = false;
-  private _deckLayer?: MapboxLayer<unknown>;
+  private _map!: ApplicationMap
 
   public constructor(id: string, name?: string) {
     this.id = id;
-    this.mountedLayers = { }
+    this.mountedDeckLayers = {}
     if (name) {
       this.name = name;
     }
@@ -36,67 +36,42 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   public onInit() {
-    return { isVisible: true, isLoading: false, isListed: false };
+    return { isVisible: true, isLoading: false };
   }
 
   willMount(map: ApplicationMap): void {
-    if (!this._deckLayer) {
-      const deckGLLayer = {
-        id: 'draw-mode-testo-layer',
-        type: EditableGeoJsonLayer,
-        mode: LocalDrawPolygonMode,
-        parameters: {
-          depthTest: false, // skip z-buffer check
-        },
-        _subLayerProps: {
-          tooltips: {
-            // getSize: () => 20,
-          },
-          guides: {
-            // getRadius: () => {
-            //   const zoom = map.getZoom();
-            //   return 20000 / (zoom * zoom);
-            // },
-            getFillColor: () => [0xff, 0x66, 0x00, 0xff],
-            getLineWidth: () => 2,
-            stroked: false,
-          },
-        },
-        modeConfig: {
-          multipoint: true,
-          // turfOptions: { units: 'kilometers' },
-          // formatTooltip: (distance: number) => {
-          //   const km = translationService.t('km');
-          //   const m = translationService.t('m');
-          //   const distanceLabel =
-          //     distance > 1
-          //       ? `${distance.toFixed(1)} ${km}.`
-          //       : `${(distance * 1000).toFixed(2)} ${m}.`;
-          //   const filler = new Array(distanceLabel.length + 2).join(' ');
-          //   return `${distanceLabel}${filler}`;
-          // },
-        },
-      };
+    this._map = map
 
-      this._deckLayer = new MapboxLayer(deckGLLayer);
-    }
-    const beforeId = layersOrderManager.getBeforeIdByType(this._deckLayer.type);
-    // patch for hmr
-    if (!map.getLayer(this._deckLayer.id)?.id)
-      map.addLayer(this._deckLayer, beforeId);
     this._isMounted = true;
   }
 
-  willUnmount(map: ApplicationMap): void {
-    if (this._deckLayer) {
-      map.removeLayer(this._deckLayer.id);
-    }
+  willUnmount(): void {
+    const keys = Object.keys(this.mountedDeckLayers) as Array<DrawModeType>
+    keys.forEach((key) => this.removeDeckLayer(key))
     this._isMounted = false;
   }
 
   // on logic layer mount - add watch/edit deck layer mode
-  addDeckLayer() { }
+  addDeckLayer(type: DrawModeType): void {
+    if (this.mountedDeckLayers[type]) return console.log(`cannot add ${type} as it's already mounted`);
 
-  removeDeckLayer() { }
-  // on logic layer unmount - remove all our layers
+    const config = layersConfigs[type]
+    const deckLayer = new MapboxLayer(config)
+    const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
+    if (!this._map.getLayer(deckLayer.id)?.id)
+      this._map.addLayer(deckLayer, beforeId);
+
+    this.mountedDeckLayers[type] = deckLayer
+  }
+
+  removeDeckLayer(type: DrawModeType): void {
+    const deckLayer = this.mountedDeckLayers[type]
+    if (!deckLayer) return console.log(`cannot remove ${type} as it wasn't mounted`);
+
+    this._map.removeLayer(deckLayer.id)
+    delete this.mountedDeckLayers[type]
+  }
+
+  willHide(){}
+  willUnhide(){}
 }

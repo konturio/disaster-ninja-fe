@@ -11,7 +11,7 @@ export const drawnGeometryAtom = createBindAtom(
   },
   ({ onChange, schedule, onAction }, state: Feature[] = []) => {
     onChange('activeDrawModeAtom', (mode) => {
-      if (!mode) state = [];
+      // if (!mode) state = [];
     });
     onAction('addFeature', (feature) => {
       state = [...state, feature];

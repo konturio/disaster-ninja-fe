@@ -26,6 +26,13 @@ export const DrawToolsToolbox = () => {
     [setDrawMode],
   );
 
+  const toViewMode = useCallback(
+    () => {
+      setDrawMode(drawModes.ViewMode);
+    },
+    [setDrawMode],
+  );
+
   return activeDrawMode ? (
     <div className={s.drawToolsContainer}>
       <ButtonGroup
@@ -55,7 +62,8 @@ export const DrawToolsToolbox = () => {
           <TrashBinIcon />
         </div>
       </Button>
-      <Button className={s.finishBtn}>
+      {/* this is temporary  */}
+      <Button className={s.finishBtn} onClick={() => toViewMode()}>
         <div className={clsx(s.btnContainer)}>{i18n.t('Finish Drawing')}</div>
       </Button>
     </div>
