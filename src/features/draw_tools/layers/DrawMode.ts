@@ -20,12 +20,14 @@ export class DrawModeLayer implements LogicalLayer {
   public readonly id: string;
   public readonly name?: string;
   public mountedDeckLayers: mountedDeckLayersType
+  public geometry: any[]
   private _isMounted = false;
   private _map!: ApplicationMap
 
   public constructor(id: string, name?: string) {
     this.id = id;
     this.mountedDeckLayers = {}
+    this.geometry = []
     if (name) {
       this.name = name;
     }
@@ -70,6 +72,11 @@ export class DrawModeLayer implements LogicalLayer {
 
     this._map.removeLayer(deckLayer.id)
     delete this.mountedDeckLayers[type]
+  }
+
+  addGeometry(geometry){
+    this.geometry.push(geometry)
+    // map.add features
   }
 
   willHide(){}
