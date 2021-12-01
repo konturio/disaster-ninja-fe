@@ -110,8 +110,8 @@ export class LocalDrawPolygonMode extends GeoJsonEditMode {
       });
     });
 
-    // thats nebula types confusion
-    return guides;
+    // todo wierd types
+    return guides as any;
   }
 
   handleClick(event: ClickEvent, props: ModeProps<FeatureCollection>) {

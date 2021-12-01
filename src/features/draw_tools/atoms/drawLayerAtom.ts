@@ -25,7 +25,7 @@ export const drawLayerAtom = createBindAtom(
       if (!mode) {
         // todo first time we mount, then we only hide and show 'em
         schedule((dispatch) => state && dispatch(state.hide()));
-      } else {
+      } else if (mode !== 'ViewMode'){
 
         schedule((dispatch) => {
           state && dispatch(state.unhide())

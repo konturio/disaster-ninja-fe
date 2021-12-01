@@ -53,8 +53,8 @@
     ]
   },
   "dependencies": {
-    "@deck.gl/extensions": "^8.5.3",
-    "@deck.gl/mapbox": "^8.6.0",
+    "@deck.gl/extensions": "^8.6.4",
+    "@deck.gl/mapbox": "^8.6.4",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@k2-packages/bivariate-tools": "^2.0.0-alpha.1",
     "@k2-packages/boundaries": "^2.0.0-alpha.14",
@@ -64,8 +64,8 @@
     "@k2-packages/default-theme": "^2.3.2-alpha.0",
     "@k2-packages/map": "^2.0.0-alpha.2",
     "@k2-packages/map-draw-tools": "^3.0.0-alpha.2",
-    "@nebula.gl/edit-modes": "1.0.0-alpha.0",
     "@k2-packages/ui-kit": "^3.0.0-alpha.12",
+    "@nebula.gl/edit-modes": "1.0.0-alpha.0",
     "@nebula.gl/layers": "1.0.0-alpha.0",
     "@reatom/core": "^2.0.0-rc15",
     "@reatom/react": "^2.0.0-rc5",
