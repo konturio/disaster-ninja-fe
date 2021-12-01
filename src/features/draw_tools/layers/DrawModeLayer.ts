@@ -9,6 +9,7 @@ import { LocalDrawPolygonMode } from '../modes/drawPolygon';
 import { drawModes, DrawModeType } from '../constants';
 import { drawPolyDeckLayerConfig } from '../configs/drawPolyLayer';
 import { layersConfigs } from '../configs';
+import { MapboxLayerProps } from '@deck.gl/mapbox/mapbox-layer';
 
 const exampleGeo = {
   "geometry": {
@@ -41,6 +42,12 @@ const exampleGeo = {
   "type": "Feature",
   "properties": {}
 }
+const myFeatureCollection = {
+  type: 'FeatureCollection',
+  features: [
+    exampleGeo
+  ],
+};
 
 
 type mountedDeckLayersType = {
@@ -88,7 +95,7 @@ export class DrawModeLayer implements LogicalLayer {
   addDeckLayer(type: DrawModeType): void {
     if (this.mountedDeckLayers[type]) return console.log(`cannot add ${type} as it's already mounted`);
 
-    const config = layersConfigs[type]
+    const config: MapboxLayerProps<unknown> = layersConfigs[type]
     const deckLayer = new MapboxLayer(config)
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
     if (!this._map.getLayer(deckLayer.id)?.id)

@@ -1,12 +1,14 @@
 import { MapboxLayerProps } from "@deck.gl/mapbox/mapbox-layer";
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
+import { AnyLayer } from "maplibre-gl";
 import { drawModes } from "../constants";
-import { LocalDrawPolygonMode } from "../modes/drawPolygon";
+import { ModifyMode } from "../modes/modifyMode";
 
-export const drawPolyDeckLayerConfig: MapboxLayerProps<unknown> = {
-  id: drawModes.DrawPolygonMode,
+
+export const modifyDeckLayerConfig: MapboxLayerProps<unknown> = {
+  id: drawModes.ViewMode,
   type: EditableGeoJsonLayer,
-  mode: LocalDrawPolygonMode,
+  mode: ModifyMode,
   parameters: {
     depthTest: false, // skip z-buffer check
   },

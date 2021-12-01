@@ -9,8 +9,8 @@ import {
   getPickedExistingEditHandle,
   getPickedIntermediateEditHandle,
   NearestPointType,
-} from '@nebula.gl/edit-modes/dist-types/utils';
-import { LineString, Point, FeatureCollection, FeatureOf } from '@nebula.gl/edit-modes/dist-types/geojson-types';
+} from '@nebula.gl/edit-modes/dist/utils';
+import { LineString, Point, FeatureCollection, FeatureOf } from '@nebula.gl/edit-modes/';
 import {
   ModeProps,
   ClickEvent,
@@ -22,15 +22,52 @@ import {
   GuideFeatureCollection,
   GeoJsonEditMode,
   ImmutableFeatureCollection,
-} from '@nebula.gl/edit-modes/dist-types/';
+} from '@nebula.gl/edit-modes';
 import { EditHandleFeature } from '@nebula.gl/edit-modes/dist-types/types';
 
 export class ModifyMode extends GeoJsonEditMode {
   getGuides(props: ModeProps<FeatureCollection>): GuideFeatureCollection {
+    if (!props) return {
+      type: 'FeatureCollection',
+      features: [],
+    }
+    
     const handles: EditHandleFeature[] = [];
 
     const { data, lastPointerMoveEvent } = props;
     const { features } = data;
+    // features.push({
+    //   "geometry": {
+    //     "type": "Polygon",
+    //     "coordinates": [
+    //       [
+    //         [
+    //           53.24676749999969,
+    //           73.844393544434
+    //         ],
+    //         [
+    //           82.4967717915341,
+    //           58.9228002926334
+    //         ],
+    //         [
+    //           25.965515354232487,
+    //           58.63121797209951
+    //         ],
+    //         [
+    //           25.824892499999685,
+    //           58.63121797209951
+    //         ],
+    //         [
+    //           53.24676749999969,
+    //           73.844393544434
+    //         ]
+    //       ]
+    //     ]
+    //   },
+    //   "type": "Feature",
+    //   "properties": {}
+    // })
+
     const picks = lastPointerMoveEvent && lastPointerMoveEvent.picks;
     const mapCoords = lastPointerMoveEvent && lastPointerMoveEvent.mapCoords;
 
