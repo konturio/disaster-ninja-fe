@@ -5,7 +5,7 @@ import { drawModes } from "../constants";
 import { ModifyMode } from "../modes/modifyMode";
 
 
-export const modifyDeckLayerConfig: MapboxLayerProps<unknown> = {
+export const modifyDeckLayerConfig = {
   id: drawModes.ViewMode,
   type: EditableGeoJsonLayer,
   mode: ModifyMode,

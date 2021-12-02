@@ -6,6 +6,7 @@ import { LocalDrawPolygonMode } from "../modes/drawPolygon";
 export const drawPolyDeckLayerConfig: MapboxLayerProps<unknown> = {
   id: drawModes.DrawPolygonMode,
   type: EditableGeoJsonLayer,
+  // typescript marks this as error. Yet the mode works on map.
   mode: LocalDrawPolygonMode,
   parameters: {
     depthTest: false, // skip z-buffer check
