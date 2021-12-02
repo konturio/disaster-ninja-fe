@@ -16,6 +16,7 @@ import {
   EVENTLIST_CONROL_NAME,
 } from '~features/events_list/constants';
 import eventsIcon from '~features/events_list/icons/eventsIcon.svg';
+import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 
 export function EventsListPanel({
   current,
@@ -50,12 +51,14 @@ export function EventsListPanel({
       id: EVENTLIST_CONROL_ID,
       name: EVENTLIST_CONROL_NAME,
       active: false,
-      group: 'tools',
+      visualGroup: controlVisualGroup.withAnalitics,
       icon: <img src={eventsIcon} alt={i18n.t('Event list')} />,
       onClick: (becomesActive) => {
         toggleActiveState(EVENTLIST_CONROL_ID);
-        setIsOpen((prev) => !prev);
       },
+      onChange: (isActive) => {
+        setIsOpen(isActive)
+      }
     });
 
     enable(EVENTLIST_CONROL_ID);
