@@ -49,6 +49,9 @@ const myFeatureCollection = {
   ],
 };
 
+const logicalLayerID = 'draw-mode-logical-layer'
+const logicalSourceID = 'draw-mode-logical-source'
+
 
 type mountedDeckLayersType = {
   [key in DrawModeType]?: MapboxLayer<unknown>
@@ -81,8 +84,64 @@ export class DrawModeLayer implements LogicalLayer {
 
   willMount(map: ApplicationMap): void {
     this._map = map
-
     this._isMounted = true;
+
+    map.addSource(logicalSourceID, {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': [
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Polygon',
+              'coordinates': [
+                [
+                  [
+                    51.27801535423255,
+                    74.75736924099657
+                  ],
+                  [
+                    64.21552179153421,
+                    63.64235944358494
+                  ],
+                  [
+                    26.528017499999784,
+                    55.89503096872798
+                  ],
+                  [
+                    26.528017499999784,
+                    55.97379963336789
+                  ],
+                  [
+                    51.27801535423255,
+                    74.75736924099657
+                  ]
+                ]
+              ]
+            },
+            properties: {}
+          },
+        ]
+      }
+    });
+    const beforeId = layersOrderManager.getBeforeIdByType('line');
+
+    map.addLayer({
+      id: logicalLayerID,
+      source: logicalSourceID,
+      type: 'line' as const,
+      paint: {
+        'line-width': 6,
+        'line-color': '#0C9BED',
+      },
+      layout: {
+        'line-join': 'round',
+      },
+    }, beforeId)
+
+    // this.addGeometry('')
+    // this.addDeckLayer(layersConfigs.ViewMode)
   }
 
   willUnmount(): void {
@@ -98,6 +157,8 @@ export class DrawModeLayer implements LogicalLayer {
     const config: MapboxLayerProps<unknown> = layersConfigs[type]
     const deckLayer = new MapboxLayer(config)
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
+    // deckLayer.source = layersConfigs.ViewMode + '-source'
+
     if (!this._map.getLayer(deckLayer.id)?.id)
       this._map.addLayer(deckLayer, beforeId);
 
@@ -114,6 +175,45 @@ export class DrawModeLayer implements LogicalLayer {
 
   addGeometry(geometry) {
     this.geometry.push(geometry)
+    this._map.addSource(layersConfigs.ViewMode + '-source', {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': [
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Polygon',
+              'coordinates': [
+                [
+                  [
+                    51.27801535423255,
+                    74.75736924099657
+                  ],
+                  [
+                    64.21552179153421,
+                    63.64235944358494
+                  ],
+                  [
+                    26.528017499999784,
+                    55.89503096872798
+                  ],
+                  [
+                    26.528017499999784,
+                    55.97379963336789
+                  ],
+                  [
+                    51.27801535423255,
+                    74.75736924099657
+                  ]
+                ]
+              ]
+            },
+            properties: {}
+          },
+        ]
+      }
+    });
     // map.add features
   }
 
