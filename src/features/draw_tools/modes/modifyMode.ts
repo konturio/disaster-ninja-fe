@@ -36,37 +36,6 @@ export class ModifyMode extends GeoJsonEditMode {
 
     const { data, lastPointerMoveEvent } = props;
     const { features } = data;
-    // features.push({
-    //   "geometry": {
-    //     "type": "Polygon",
-    //     "coordinates": [
-    //       [
-    //         [
-    //           53.24676749999969,
-    //           73.844393544434
-    //         ],
-    //         [
-    //           82.4967717915341,
-    //           58.9228002926334
-    //         ],
-    //         [
-    //           25.965515354232487,
-    //           58.63121797209951
-    //         ],
-    //         [
-    //           25.824892499999685,
-    //           58.63121797209951
-    //         ],
-    //         [
-    //           53.24676749999969,
-    //           73.844393544434
-    //         ]
-    //       ]
-    //     ]
-    //   },
-    //   "type": "Feature",
-    //   "properties": {}
-    // })
 
     const picks = lastPointerMoveEvent && lastPointerMoveEvent.picks;
     const mapCoords = lastPointerMoveEvent && lastPointerMoveEvent.mapCoords;

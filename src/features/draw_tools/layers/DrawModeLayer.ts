@@ -85,6 +85,7 @@ export class DrawModeLayer implements LogicalLayer {
   willMount(map: ApplicationMap): void {
     this._map = map
     this._isMounted = true;
+    this.addDeckLayer(drawModes.ViewMode)
   }
 
   willUnmount(): void {
@@ -100,7 +101,6 @@ export class DrawModeLayer implements LogicalLayer {
     const config: MapboxLayerProps<unknown> = layersConfigs[type]
     const deckLayer = new MapboxLayer(config)
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
-    // deckLayer.source = layersConfigs.ViewMode + '-source'
 
     if (!this._map.getLayer(deckLayer.id)?.id)
       this._map.addLayer(deckLayer, beforeId);
