@@ -23,9 +23,11 @@ import {
   GeoJsonEditMode,
   ImmutableFeatureCollection,
 } from '@nebula.gl/edit-modes';
-import { EditHandleFeature } from '@nebula.gl/edit-modes/dist-types/types';
+import { EditHandleFeature, TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
 
 export class ModifyMode extends GeoJsonEditMode {
+// TODO show the progress, probaly with createTentativeFeature analogue in drawPoygon
+  
   getGuides(props: ModeProps<FeatureCollection>): GuideFeatureCollection {
     if (!props) return {
       type: 'FeatureCollection',
@@ -107,6 +109,7 @@ export class ModifyMode extends GeoJsonEditMode {
         }
       }
     }
+
 
     return {
       type: 'FeatureCollection',

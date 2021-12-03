@@ -1,45 +1,11 @@
+import { EditAction, FeatureCollection } from "@nebula.gl/edit-modes";
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
+import { drawnGeometryAtom } from "../atoms/drawnGeometryAtom";
 import { drawModes } from "../constants";
 import { ModifyMode } from "../modes/modifyMode";
 
 
-const exampleGeo = {
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [
-          53.24676749999969,
-          73.844393544434
-        ],
-        [
-          82.4967717915341,
-          58.9228002926334
-        ],
-        [
-          25.965515354232487,
-          58.63121797209951
-        ],
-        [
-          25.824892499999685,
-          58.63121797209951
-        ],
-        [
-          53.24676749999969,
-          73.844393544434
-        ]
-      ]
-    ]
-  },
-  "type": "Feature",
-  "properties": {}
-}
-const myFeatureCollection = {
-  type: 'FeatureCollection',
-  features: [
-    exampleGeo
-  ],
-};
+
 
 
 export const modifyDeckLayerConfig = {
@@ -47,9 +13,17 @@ export const modifyDeckLayerConfig = {
   type: EditableGeoJsonLayer,
   mode: ModifyMode,
   // be shure to pass array, the modes do not expect non iterable value
-  selectedFeatureIndexes: [], //0 to select firts feature
+  selectedFeatureIndexes: [0], //0 to select firts feature
+
+  onEdit: ({ editContext, updatedData }: EditAction<FeatureCollection>): any => {
+    console.log("GeoJson Updated!!");
+    console.log(editContext);
+    // this works for one at a time feature selected editing
+    drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
+  },
   // typescript marks this as error. Yet this collection drawn on map
-  data: myFeatureCollection,
+  data: drawnGeometryAtom.getState(),
+
   parameters: {
     depthTest: false, // skip z-buffer check
   },
