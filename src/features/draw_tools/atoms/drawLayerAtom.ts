@@ -4,6 +4,7 @@ import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { DRAW_TOOLS_LAYER_ID } from '../constants';
 import { DrawModeLayer } from '../layers/DrawModeLayer';
 import { LogicalLayerAtom } from '~utils/atoms/createLogicalLayerAtom';
+import { drawnGeometryAtom } from './drawnGeometryAtom';
 
 // should we unmount prev layers after mode changes? should we delete or clear them?
 
@@ -17,7 +18,7 @@ export const drawLayerAtom = createBindAtom(
     onInit(() => {
 
       console.log('%c⧭', 'color: #ffcc00', 'init did run');
-      const layerAtom = createLogicalLayerAtom(drawModeLayer);
+      const layerAtom = createLogicalLayerAtom(drawModeLayer, drawnGeometryAtom);
       state = layerAtom;
       schedule((dispatch) => state && dispatch(state.mount()));
     })
