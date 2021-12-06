@@ -6,6 +6,8 @@ import { drawModes, DrawModeType } from '../constants';
 import { layersConfigs } from '../configs';
 import { MapboxLayerProps } from '@deck.gl/mapbox/mapbox-layer';
 import { FeatureCollection } from 'geojson';
+import { ViewMode } from '@nebula.gl/edit-modes';
+import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
 
 
 
@@ -45,6 +47,7 @@ export class DrawModeLayer implements LogicalLayer {
     console.log('%c⧭', 'color: #731d1d', 'mounted');
     this._map = map
     this._isMounted = true;
+    // this.drawnData = drawnGeometryAtom.getState()
   }
 
   willUnmount(): void {
@@ -57,11 +60,13 @@ export class DrawModeLayer implements LogicalLayer {
     if (this.mountedDeckLayers[type]) return console.log(`cannot add ${type} as it's already mounted`);
 
     const config: MapboxLayerProps<unknown> = layersConfigs[type]
+    if (type === drawModes.ViewMode) config.data = this.drawnData
+    console.log('%c⧭ config from adding', 'color: #1d3f73', this.drawnData.features);
     const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
 
-    if (!this._map.getLayer(deckLayer.id)?.id)
-      this._map.addLayer(deckLayer, beforeId);
+    if (!this._map?.getLayer(deckLayer.id)?.id)
+      this._map?.addLayer?.(deckLayer, beforeId);
 
     this.mountedDeckLayers[type] = deckLayer
   }
@@ -76,19 +81,23 @@ export class DrawModeLayer implements LogicalLayer {
 
 
   onDataChange(map: ApplicationMap, data: FeatureCollection | null) {
-    console.log('%c⧭ data change fired', 'color: #00a3cc', data);
-    if (!data) return this.drawnData = { type: 'FeatureCollection', features: [] }
-    this.drawnData = data
+    // console.log('%c⧭ data change fired', 'color: #00a3cc', data);
+  }
 
-    const deckLayer = map.getLayer(drawModes.ViewMode)
-    // console.log('%c⧭', 'color: #00e600', deckLayer);
+  updateViewData(data: FeatureCollection) {
+    if (!this._map) return;
+    this.drawnData = data
+    // const { implementation } = this._map.getLayer(drawModes.ViewMode)
+    // implementation.deck.setProps
+    this.removeDeckLayer(drawModes.ViewMode)
+    this.addDeckLayer(drawModes.ViewMode)
   }
 
   willHide() {
     const keys = Object.keys(this.mountedDeckLayers) as DrawModeType[]
     keys.forEach(deckLayer => this.removeDeckLayer(deckLayer))
   }
-  willUnhide() { 
+  willUnhide() {
 
   }
 }

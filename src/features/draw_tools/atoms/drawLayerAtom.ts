@@ -14,18 +14,19 @@ export const modeWatcherAtom = createBindAtom(
   {
     drawLayerAtom,
     activeDrawModeAtom,
-    // drawnGeometryAtom,    
+    drawnGeometryAtom,    
   },
-  ({ onChange, schedule, create, onInit, onAction }, state: boolean = false) => {
+  ({ onChange, schedule }, state: boolean = false) => {
     onChange('activeDrawModeAtom', (mode) => {
       if (!mode) return schedule(dispatch => dispatch(drawLayerAtom.hide()))
       schedule(dispatch => dispatch(drawLayerAtom.unhide()))
 
       drawModeLayer.addDeckLayer(mode)
     });
-    // onChange('drawnGeometryAtom', data => {
-    //   console.log('%c⧭ atom did changed', 'color: #d90000', data);
-    // })
+    
+    onChange('drawnGeometryAtom', data => {
+      drawModeLayer.updateViewData(data)
+    })
 
     return state;
   },

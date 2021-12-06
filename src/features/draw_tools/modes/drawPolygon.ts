@@ -11,7 +11,6 @@ import { GeoJsonEditMode } from '@nebula.gl/edit-modes';
 import { TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 import kinks from '@turf/kinks';
-import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
 
 // DrawPolygonMode
 
@@ -157,9 +156,9 @@ export class LocalDrawPolygonMode extends GeoJsonEditMode {
         props.onEdit(editAction);
       }
     } else if (positionAdded) {
-      console.log('%c⧭ positionAdded', 'color: #99614d', positionAdded, {
-        ...props,
-      });
+      // console.log('%c⧭ positionAdded', 'color: #99614d', positionAdded, {
+      //   ...props,
+      // });
       // new tentative point
       props.onEdit({
         // data is the same
@@ -208,17 +207,11 @@ export class LocalDrawPolygonMode extends GeoJsonEditMode {
               type: 'FeatureCollection',
             };
 
-          drawnGeometryAtom.addFeature.dispatch({
-            geometry: polygonToAdd,
-            type: 'Feature',
-            properties: {},
-          });
 
           const editAction = this['getAddFeatureOrBooleanPolygonAction'](
             polygonToAdd,
             props,
           );
-          console.log('%c⧭', 'color: #00736b', editAction, polygonToAdd, props);
 
           if (editAction) {
             props.onEdit(editAction);
