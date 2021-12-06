@@ -3,39 +3,30 @@ import { createLogicalLayerAtom } from '~utils/atoms';
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { DRAW_TOOLS_LAYER_ID } from '../constants';
 import { DrawModeLayer } from '../layers/DrawModeLayer';
-import { LogicalLayerAtom } from '~utils/atoms/createLogicalLayerAtom';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
 
-// should we unmount prev layers after mode changes? should we delete or clear them?
 
 const drawModeLayer = new DrawModeLayer(DRAW_TOOLS_LAYER_ID)
 
-export const drawLayerAtom = createBindAtom(
+export const drawLayerAtom = createLogicalLayerAtom(drawModeLayer, drawnGeometryAtom)
+
+export const modeWatcherAtom = createBindAtom(
   {
+    drawLayerAtom,
     activeDrawModeAtom,
+    // drawnGeometryAtom,    
   },
-  ({ onChange, schedule, onInit }, state: LogicalLayerAtom | undefined = undefined) => {
-    onInit(() => {
-
-      console.log('%c⧭', 'color: #ffcc00', 'init did run');
-      const layerAtom = createLogicalLayerAtom(drawModeLayer, drawnGeometryAtom);
-      state = layerAtom;
-      schedule((dispatch) => state && dispatch(state.mount()));
-    })
+  ({ onChange, schedule, create, onInit, onAction }, state: boolean = false) => {
     onChange('activeDrawModeAtom', (mode) => {
-      if (!mode) {
-        // todo first time we mount, then we only hide and show 'em
-        schedule((dispatch) => state && dispatch(state.hide()));
-      } else if (mode !== 'ViewMode'){
+      if (!mode) return schedule(dispatch => dispatch(drawLayerAtom.hide()))
+      schedule(dispatch => dispatch(drawLayerAtom.unhide()))
 
-        schedule((dispatch) => {
-          state && dispatch(state.unhide())
-          drawModeLayer.addDeckLayer(mode)
-        });
-      }
+      drawModeLayer.addDeckLayer(mode)
     });
+    // onChange('drawnGeometryAtom', data => {
+    //   console.log('%c⧭ atom did changed', 'color: #d90000', data);
+    // })
 
     return state;
   },
-  'drawLayerAtom',
 );

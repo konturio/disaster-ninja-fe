@@ -38,18 +38,17 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   public onInit() {
-    return { isVisible: true, isLoading: false };
+    return { isVisible: false, isLoading: false };
   }
 
   willMount(map: ApplicationMap): void {
+    console.log('%c⧭', 'color: #731d1d', 'mounted');
     this._map = map
     this._isMounted = true;
-    this.addDeckLayer(drawModes.ViewMode)
   }
 
   willUnmount(): void {
-    const keys = Object.keys(this.mountedDeckLayers) as Array<DrawModeType>
-    keys.forEach((key) => this.removeDeckLayer(key))
+    this.willHide()
     this._isMounted = false;
   }
 
@@ -77,17 +76,19 @@ export class DrawModeLayer implements LogicalLayer {
 
 
   onDataChange(map: ApplicationMap, data: FeatureCollection | null) {
-    console.log('%c⧭', 'color: #00a3cc', data);
+    console.log('%c⧭ data change fired', 'color: #00a3cc', data);
     if (!data) return this.drawnData = { type: 'FeatureCollection', features: [] }
     this.drawnData = data
 
     const deckLayer = map.getLayer(drawModes.ViewMode)
-    console.log('%c⧭', 'color: #00e600', deckLayer);
-
-
-
+    // console.log('%c⧭', 'color: #00e600', deckLayer);
   }
 
-  willHide() { }
-  willUnhide() { }
+  willHide() {
+    const keys = Object.keys(this.mountedDeckLayers) as DrawModeType[]
+    keys.forEach(deckLayer => this.removeDeckLayer(deckLayer))
+  }
+  willUnhide() { 
+
+  }
 }
