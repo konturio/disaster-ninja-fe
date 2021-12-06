@@ -3,26 +3,30 @@ import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { drawnGeometryAtom } from "../atoms/drawnGeometryAtom";
 import { drawModes } from "../constants";
 import { ModifyMode } from "../modes/modifyMode";
+import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
 
 
-
+let data
+// no reactive updates so you can just get state
+// drawnGeometryAtom.subscribe(s => {
+//   data = s
+// })
+data = drawnGeometryAtom.getState()
 
 
 export const modifyDeckLayerConfig = {
   id: drawModes.ViewMode,
   type: EditableGeoJsonLayer,
-  mode: ModifyMode,
+  mode: CustomModifyMode,
   // be shure to pass array, the modes do not expect non iterable value
   selectedFeatureIndexes: [0], //0 to select firts feature
 
-  onEdit: ({ editContext, updatedData }: EditAction<FeatureCollection>): any => {
-    console.log("GeoJson Updated!!");
-    console.log(editContext);
+  onEdit: ({ editContext, updatedData, editType }: EditAction<FeatureCollection>): any => {
     // this works for one at a time feature selected editing
     drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
   },
   // typescript marks this as error. Yet this collection drawn on map
-  data: drawnGeometryAtom.getState(),
+  data,
 
   parameters: {
     depthTest: false, // skip z-buffer check
@@ -36,12 +40,12 @@ export const modifyDeckLayerConfig = {
       //   const zoom = map.getZoom();
       //   return 20000 / (zoom * zoom);
       // },
-      getFillColor: () => [0xff, 0x66, 0x00, 0xff],
+      getFillColor: () => [ 0x66, 0x00, 0xff],
       getLineWidth: () => 3,
-      stroked: false,
+      stroked: true,
     },
     geojson: {
-      getFillColor: (feature) => [0xff, 0x66, 0x00, 0xff],
+      getFillColor: (feature) => [0x66, 0x00, 0xff],
       getLineColor: (feature) => [0xff, 0x66, 0x00, 0xff],
     },
   },

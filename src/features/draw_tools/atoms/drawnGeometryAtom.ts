@@ -44,7 +44,7 @@ export const drawnGeometryAtom = createBindAtom(
     activeDrawModeAtom,
     addFeature: (feature: Feature) => feature,
     sendToFocusedGeometry: () => null,
-    updateFeature: (index: number, feature: Feature) => { return { index, feature } }
+    updateFeature: (index: number, feature?: Feature) => { return { index, feature } }
   },
   ({ onChange, schedule, onAction }, state: FeatureCollection = defaultState) => {
     onChange('activeDrawModeAtom', (mode) => {
@@ -69,6 +69,7 @@ export const drawnGeometryAtom = createBindAtom(
     })
 
     onAction('updateFeature', ({ index, feature }) => {
+      if (!feature) return;
       const newState = { ...state, features: [...state.features] }
       newState.features[index] = feature
       state = newState
