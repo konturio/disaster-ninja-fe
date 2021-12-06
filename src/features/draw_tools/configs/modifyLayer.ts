@@ -6,12 +6,6 @@ import { ModifyMode } from "../modes/modifyMode";
 import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
 
 
-let data
-// no reactive updates so you can just get state
-// drawnGeometryAtom.subscribe(s => {
-//   data = s
-// })
-data = drawnGeometryAtom.getState()
 
 
 export const modifyDeckLayerConfig = {
@@ -19,14 +13,20 @@ export const modifyDeckLayerConfig = {
   type: EditableGeoJsonLayer,
   mode: CustomModifyMode,
   // be shure to pass array, the modes do not expect non iterable value
-  selectedFeatureIndexes: [0], //0 to select firts feature
+
+  // empty means nothing can be selected
+  // the question is shall we pass the number from higher up or change it 
+  selectedFeatureIndexes: [], //0 to select firts feature
 
   onEdit: ({ editContext, updatedData, editType }: EditAction<FeatureCollection>): any => {
+    // console.log('%c⧭ editType', 'color: #cc0088', editType, editContext.featureIndexes);
     // this works for one at a time feature selected editing
+    console.log('%c⧭ update by ', 'color: #735656', updatedData.features[0]);
     drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
+    return null
   },
   // typescript marks this as error. Yet this collection drawn on map
-  data,
+  // data,
 
   parameters: {
     depthTest: false, // skip z-buffer check

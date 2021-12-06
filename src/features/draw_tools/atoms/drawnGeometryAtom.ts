@@ -36,7 +36,7 @@ const exampleGeo: Feature = {
 }
 
 const defaultState: FeatureCollection = {
-  type: 'FeatureCollection', features: [exampleGeo]
+  type: 'FeatureCollection', features: []
 }
 // todo remove feature
 export const drawnGeometryAtom = createBindAtom(
