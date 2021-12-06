@@ -40,7 +40,7 @@ export const modifyDeckLayerConfig = {
       //   const zoom = map.getZoom();
       //   return 20000 / (zoom * zoom);
       // },
-      getFillColor: () => [ 0x66, 0x00, 0xff],
+      getFillColor: () => [0x66, 0x00, 0xff],
       getLineWidth: () => 3,
       stroked: true,
     },

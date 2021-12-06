@@ -1,4 +1,4 @@
-import { activeDrawModeAtom } from './activeDrawMode';
+// import { activeDrawModeAtom } from './activeDrawMode';
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { FeatureCollection, Feature } from 'geojson';
@@ -41,15 +41,15 @@ const defaultState: FeatureCollection = {
 // todo remove feature
 export const drawnGeometryAtom = createBindAtom(
   {
-    activeDrawModeAtom,
+    // activeDrawModeAtom,
     addFeature: (feature: Feature) => feature,
     sendToFocusedGeometry: () => null,
     updateFeature: (index: number, feature?: Feature) => { return { index, feature } }
   },
   ({ onChange, schedule, onAction }, state: FeatureCollection = defaultState) => {
-    onChange('activeDrawModeAtom', (mode) => {
-      // if (!mode) state = [];
-    });
+    // onChange('activeDrawModeAtom', (mode) => {
+    //   // if (!mode) state = [];
+    // });
 
     onAction('addFeature', (feature) => {
       state = { ...state, features: [...state.features, feature] }
