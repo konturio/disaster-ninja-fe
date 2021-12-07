@@ -60,7 +60,7 @@ export class DrawModeLayer implements LogicalLayer {
     if (this.mountedDeckLayers[type]) return console.log(`cannot add ${type} as it's already mounted`);
 
     const config: MapboxLayerProps<unknown> = layersConfigs[type]
-    if (type === drawModes.ViewMode) config.data = this.drawnData
+    if (type === drawModes.ModifyMode) config.data = this.drawnData
     console.log('%c⧭ config from adding', 'color: #1d3f73', this.drawnData.features);
     const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
@@ -89,8 +89,8 @@ export class DrawModeLayer implements LogicalLayer {
     this.drawnData = data
     // const { implementation } = this._map.getLayer(drawModes.ViewMode)
     // implementation.deck.setProps
-    this.removeDeckLayer(drawModes.ViewMode)
-    this.addDeckLayer(drawModes.ViewMode)
+    this.removeDeckLayer(drawModes.ModifyMode)
+    this.addDeckLayer(drawModes.ModifyMode)
   }
 
   willHide() {

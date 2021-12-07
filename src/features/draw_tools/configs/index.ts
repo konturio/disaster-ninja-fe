@@ -8,6 +8,7 @@ export const layersConfigs: {
   [key in DrawModeType]?: any
 } = {
   DrawPolygonMode: drawPolyDeckLayerConfig,
-  // ViewMode: viewDeckLayerConfig,
-  ViewMode: modifyDeckLayerConfig,
+  ViewMode: viewDeckLayerConfig,
+  // ViewMode: modifyDeckLayerConfig,
+  ModifyMode: modifyDeckLayerConfig
 }

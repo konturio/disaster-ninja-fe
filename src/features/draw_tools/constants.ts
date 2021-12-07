@@ -29,7 +29,10 @@ export const drawModes = {
   ViewMode: 'ViewMode',
   DrawLineMode: 'DrawLineMode',
   DrawPointMode: 'DrawPointMode',
+  ModifyMode: 'ModifyMode',
   DeleteMode: 'DeleteMode',
 } as const;
 
 export type DrawModeType = keyof typeof drawModes;
+export const createDrawingLayers = ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode']
+export const editDrawingLayers = ['ModifyMode', 'DeleteMode', 'ViewMode']
