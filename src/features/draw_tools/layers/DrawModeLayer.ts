@@ -121,6 +121,7 @@ export class DrawModeLayer implements LogicalLayer {
     // console.log('%c⧭ data change fired', 'color: #00a3cc', data);
   }
 
+  // TODO either update it without unmounting or create tentetive feature in mode
   updateData(data: FeatureCollection) {
     if (!this._map) return;
     this.drawnData = data
