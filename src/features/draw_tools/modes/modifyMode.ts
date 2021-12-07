@@ -19,266 +19,133 @@ import {
   StopDraggingEvent,
   DraggingEvent,
   Viewport,
+  ModifyMode,
+  TransformMode,
+  CompositeMode,
   GuideFeatureCollection,
   GeoJsonEditMode,
   ImmutableFeatureCollection,
 } from '@nebula.gl/edit-modes';
 import { EditHandleFeature, TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
 
-export class ModifyMode extends GeoJsonEditMode {
-// TODO show the progress, probaly with createTentativeFeature analogue in drawPoygon
-  
-  getGuides(props: ModeProps<FeatureCollection>): GuideFeatureCollection {
-    if (!props) return {
-      type: 'FeatureCollection',
-      features: [],
-    }
-    
-    const handles: EditHandleFeature[] = [];
 
-    const { data, lastPointerMoveEvent } = props;
-    const { features } = data;
+type SubmodeType = GeoJsonEditMode | CompositeMode;
 
-    const picks = lastPointerMoveEvent && lastPointerMoveEvent.picks;
-    const mapCoords = lastPointerMoveEvent && lastPointerMoveEvent.mapCoords;
+export class LocalModifyMode extends GeoJsonEditMode {
+  _submodesCache: { [key: string]: SubmodeType } = {};
+  _currentSubMode: SubmodeType | null = null;
+  _currentSubModeName = '';
+  _selectedIndex = -1;
 
-    for (const index of props.selectedIndexes) {
-      if (index < features.length) {
-        const { geometry } = features[index];
-        handles.push(...getEditHandlesForGeometry(geometry, index));
-      } else {
-        console.warn(`selectedFeatureIndexes out of range ${index}`); // eslint-disable-line no-console,no-undef
-      }
-    }
+  // on click
+  handleClick(event: ClickEvent, props: ModeProps<FeatureCollection>) {
+    let processSelection = false;
 
-    // intermediate edit handle
-    if (picks && picks.length && mapCoords) {
-      const existingEditHandle = getPickedExistingEditHandle(picks);
-      // don't show intermediate point when too close to an existing edit handle
-      const featureAsPick = !existingEditHandle && picks.find((pick) => !pick.isGuide);
-
-      // is the feature in the pick selected
-      if (
-        featureAsPick &&
-        !featureAsPick.object.geometry.type.includes('Point') &&
-        props.selectedIndexes.includes(featureAsPick.index)
-      ) {
-        let intermediatePoint: NearestPointType | null | undefined = null;
-        let positionIndexPrefix = [];
-        const referencePoint = point(mapCoords);
-        // process all lines of the (single) feature
-        recursivelyTraverseNestedArrays(
-          featureAsPick.object.geometry.coordinates,
-          [],
-          (lineString, prefix) => {
-            const lineStringFeature = toLineString(lineString);
-            const candidateIntermediatePoint = this.getNearestPoint(
-              // @ts-ignore
-              lineStringFeature,
-              referencePoint,
-              props.modeConfig && props.modeConfig.viewport
-            );
-            if (
-              !intermediatePoint ||
-              candidateIntermediatePoint.properties.dist < intermediatePoint.properties.dist
-            ) {
-              intermediatePoint = candidateIntermediatePoint;
-              positionIndexPrefix = prefix;
-            }
-          }
-        );
-        // tack on the lone intermediate point to the set of handles
-        if (intermediatePoint) {
-          const {
-            geometry: { coordinates: position },
-            properties: { index },
-          } = intermediatePoint;
-          handles.push({
-            type: 'Feature',
-            properties: {
-              guideType: 'editHandle',
-              editHandleType: 'intermediate',
-              featureIndex: featureAsPick.index,
-              positionIndexes: [...positionIndexPrefix, index + 1],
-            },
-            geometry: {
-              type: 'Point',
-              coordinates: position,
-            },
-          });
+    if (event.picks && event.picks.length) {
+      const lastPickIndex = event.picks[event.picks.length - 1].index;
+      if (this._selectedIndex !== lastPickIndex) {
+        processSelection = true;
+        this._selectedIndex = lastPickIndex;
+        props.onEdit({
+          updatedData: props.data,
+          editType: 'selectFeature',
+          editContext: {
+            featureIndexes: [lastPickIndex],
+          },
+        });
+        this._currentSubMode = this.createSubmode('Modify');
+      } else if (event.picks.length === 1) {
+        processSelection = true;
+        switch (this._currentSubModeName) {
+          case 'Modify':
+            this._currentSubMode = this.createSubmode('Transform');
+            break;
+          case 'Transform':
+            this._currentSubMode = this.createSubmode('Modify');
+            break;
         }
       }
-    }
-
-
-    return {
-      type: 'FeatureCollection',
-      features: handles,
-    };
-  }
-
-  // turf.js does not support elevation for nearestPointOnLine
-  getNearestPoint(
-    line: FeatureOf<LineString>,
-    inPoint: FeatureOf<Point>,
-    viewport: Viewport | undefined
-  ): NearestPointType {
-    const { coordinates } = line.geometry;
-    if (coordinates.some((coord) => coord.length > 2)) {
-      if (viewport) {
-        // This line has elevation, we need to use alternative algorithm
-        return nearestPointOnProjectedLine(line, inPoint, viewport);
-      }
-      // eslint-disable-next-line no-console,no-undef
-      console.log(
-        'Editing 3D point but modeConfig.viewport not provided. Falling back to 2D logic.'
-      );
-    }
-    return nearestPointOnLine(line, inPoint, viewport);
-  }
-
-  handleClick(event: ClickEvent, props: ModeProps<FeatureCollection>) {
-    const pickedExistingHandle = getPickedExistingEditHandle(event.picks);
-    const pickedIntermediateHandle = getPickedIntermediateEditHandle(event.picks);
-
-    if (pickedExistingHandle) {
-      const { featureIndex, positionIndexes } = pickedExistingHandle.properties;
-
-      let updatedData;
-      try {
-        updatedData = new ImmutableFeatureCollection(props.data)
-          .removePosition(featureIndex, positionIndexes)
-          .getObject();
-      } catch (ignored) {
-        // This happens if user attempts to remove the last point
-      }
-
-      if (updatedData) {
-        props.onEdit({
-          updatedData,
-          editType: 'removePosition',
-          editContext: {
-            featureIndexes: [featureIndex],
-            positionIndexes,
-            position: pickedExistingHandle.geometry.coordinates,
-          },
-        });
-      }
-    } else if (pickedIntermediateHandle) {
-      const { featureIndex, positionIndexes } = pickedIntermediateHandle.properties;
-
-      const updatedData = new ImmutableFeatureCollection(props.data)
-        .addPosition(featureIndex, positionIndexes, pickedIntermediateHandle.geometry.coordinates)
-        .getObject();
-
-      if (updatedData) {
-        props.onEdit({
-          updatedData,
-          editType: 'addPosition',
-          editContext: {
-            featureIndexes: [featureIndex],
-            positionIndexes,
-            position: pickedIntermediateHandle.geometry.coordinates,
-          },
-        });
-      }
-    }
-  }
-
-  handleDragging(event: DraggingEvent, props: ModeProps<FeatureCollection>): void {
-    const editHandle = getPickedEditHandle(event.pointerDownPicks);
-
-    if (editHandle) {
-      // Cancel map panning if pointer went down on an edit handle
-      event.cancelPan();
-
-      const editHandleProperties = editHandle.properties;
-
-      const updatedData = new ImmutableFeatureCollection(props.data)
-        .replacePosition(
-          editHandleProperties.featureIndex,
-          editHandleProperties.positionIndexes,
-          event.mapCoords
-        )
-        .getObject();
-
+    } else {
+      this._selectedIndex = -1;
       props.onEdit({
-        updatedData,
-        editType: 'movePosition',
+        updatedData: props.data,
+        editType: 'selectFeature',
         editContext: {
-          featureIndexes: [editHandleProperties.featureIndex],
-          positionIndexes: editHandleProperties.positionIndexes,
-          position: event.mapCoords,
+          featureIndexes: [],
         },
       });
+      this._currentSubMode = null;
+    }
+
+    if (!processSelection && this._currentSubMode) {
+      this._currentSubMode.handleClick(event, props);
     }
   }
 
-  handlePointerMove(event: PointerMoveEvent, props: ModeProps<FeatureCollection>): void {
-    const cursor = this.getCursor(event);
-    props.onUpdateCursor(cursor);
+  createSubmode(submodeName: string): SubmodeType {
+    this._currentSubModeName = submodeName;
+    if (!this._submodesCache[this._currentSubModeName]) {
+      switch (submodeName) {
+        case 'Modify':
+          this._submodesCache[submodeName] = new ModifyMode();
+          break;
+        case 'Transform':
+          this._submodesCache[submodeName] = new TransformMode();
+          break;
+      }
+    }
+    return this._submodesCache[this._currentSubModeName];
+  }
+
+  getGuides(props: ModeProps<FeatureCollection>): GuideFeatureCollection {
+    return this._currentSubMode ? this._currentSubMode.getGuides(props) : null;
+  }
+
+  handleDragging(event: DraggingEvent, props: ModeProps<FeatureCollection>) {
+    if (this._currentSubMode) {
+      this._currentSubMode.handleDragging(event, props);
+    }
   }
 
   handleStartDragging(event: StartDraggingEvent, props: ModeProps<FeatureCollection>) {
-    const selectedFeatureIndexes = props.selectedIndexes;
-
-    const editHandle = getPickedIntermediateEditHandle(event.picks);
-    if (selectedFeatureIndexes.length && editHandle) {
-      const editHandleProperties = editHandle.properties;
-
-      const updatedData = new ImmutableFeatureCollection(props.data)
-        .addPosition(
-          editHandleProperties.featureIndex,
-          editHandleProperties.positionIndexes,
-          event.mapCoords
-        )
-        .getObject();
-
-      props.onEdit({
-        updatedData,
-        editType: 'addPosition',
-        editContext: {
-          featureIndexes: [editHandleProperties.featureIndex],
-          positionIndexes: editHandleProperties.positionIndexes,
-          position: event.mapCoords,
-        },
-      });
+    if (this._currentSubMode) {
+      this._currentSubMode.handleStartDragging(event, props);
     }
   }
 
   handleStopDragging(event: StopDraggingEvent, props: ModeProps<FeatureCollection>) {
-    const selectedFeatureIndexes = props.selectedIndexes;
-    const editHandle = getPickedEditHandle(event.picks);
-    if (selectedFeatureIndexes.length && editHandle) {
-      const editHandleProperties = editHandle.properties;
-
-      const updatedData = new ImmutableFeatureCollection(props.data)
-        .replacePosition(
-          editHandleProperties.featureIndex,
-          editHandleProperties.positionIndexes,
-          event.mapCoords
-        )
-        .getObject();
-
-      props.onEdit({
-        updatedData,
-        editType: 'finishMovePosition',
-        editContext: {
-          featureIndexes: [editHandleProperties.featureIndex],
-          positionIndexes: editHandleProperties.positionIndexes,
-          position: event.mapCoords,
-        },
-      });
+    if (this._currentSubMode) {
+      this._currentSubMode.handleStopDragging(event, props);
     }
   }
 
-  getCursor(event: PointerMoveEvent): string | null | undefined {
-    const picks = (event && event.picks) || [];
-
-    const handlesPicked = getPickedEditHandles(picks);
-    if (handlesPicked.length) {
-      return 'cell';
+  handlePointerMove(event: PointerMoveEvent, props: ModeProps<FeatureCollection>) {
+    if (this._currentSubMode) {
+      this._currentSubMode.handlePointerMove(event, props);
     }
-    return null;
+  }
+
+  handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {
+    event.stopPropagation();
+    const { key } = event;
+
+    if ((key === 'Delete' || key === 'Backspace') && this._selectedIndex !== -1) {
+      const updatedData = new ImmutableFeatureCollection(props.data).deleteFeature(this._selectedIndex).getObject();
+      props.onEdit({
+        updatedData,
+        editType: 'removeFeature',
+        editContext: null,
+      });
+
+      this._selectedIndex = -1;
+      props.onEdit({
+        updatedData: props.data,
+        editType: 'selectFeature',
+        editContext: {
+          featureIndexes: [],
+        },
+      });
+      this._currentSubMode = null;
+    }
   }
 }
