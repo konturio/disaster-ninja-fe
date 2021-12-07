@@ -4,6 +4,7 @@ import { drawnGeometryAtom } from "../atoms/drawnGeometryAtom";
 import { drawModes } from "../constants";
 import { ModifyMode } from "../modes/modifyMode";
 import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
+import { activeDrawModeAtom } from "../atoms/activeDrawMode";
 
 
 
@@ -19,13 +20,15 @@ export const modifyDeckLayerConfig = {
   selectedFeatureIndexes: [], //0 to select firts feature
 
   onEdit: ({ editContext, updatedData, editType }: EditAction<FeatureCollection>): any => {
-    // console.log('%c⧭ editType', 'color: #cc0088', editType, editContext.featureIndexes);
+    console.log('%c⧭ editType', 'color: #cc0088', editType, editContext.featureIndexes?.length);
     // this works for one at a time feature selected editing
-    console.log('%c⧭ update by ', 'color: #735656', updatedData.features[0]);
-    drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
-    return null
+    // console.log('%c⧭ update by ', 'color: #735656', updatedData.features[0]);
+    if (editContext.featureIndexes.length) 
+      return activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
+    
+    if (updatedData.features?.[0])
+      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
   },
-  // typescript marks this as error. Yet this collection drawn on map
   // data,
 
   parameters: {
