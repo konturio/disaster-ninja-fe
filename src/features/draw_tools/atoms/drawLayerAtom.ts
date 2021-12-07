@@ -14,17 +14,23 @@ export const modeWatcherAtom = createBindAtom(
   {
     drawLayerAtom,
     activeDrawModeAtom,
-    drawnGeometryAtom,    
+    drawnGeometryAtom,
+    setFocusedIndexes: (indexes: number[]) => indexes
   },
-  ({ onChange, schedule }, state: boolean = false) => {
+  ({ onChange, schedule, onAction }, state: boolean = false) => {
     onChange('activeDrawModeAtom', (mode) => {
       if (!mode) return schedule(dispatch => dispatch(drawLayerAtom.hide()))
 
       drawModeLayer.setMode(mode)
     });
-    
+
     onChange('drawnGeometryAtom', data => {
+      console.log('%c⧭ data updated', 'color: #00736b', data);
       drawModeLayer.updateData(data)
+    })
+
+    onAction('setFocusedIndexes', indexes => {
+      // drawModeLayer.updateSelection(indexes)
     })
 
     return state;

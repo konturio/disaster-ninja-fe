@@ -10,8 +10,6 @@ import { ViewMode } from '@nebula.gl/edit-modes';
 import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
 
 
-
-
 type mountedDeckLayersType = {
   [key in DrawModeType]?: MapboxLayer<unknown>
 }
@@ -25,6 +23,7 @@ export class DrawModeLayer implements LogicalLayer {
   private _map!: ApplicationMap
   private _createDrawingLayer: DrawModeType | null
   private _editDrawingLayer: DrawModeType | null
+  private _selectedIndexes: number[] = []
 
   public constructor(id: string, name?: string) {
     this.id = id;
@@ -95,7 +94,10 @@ export class DrawModeLayer implements LogicalLayer {
     console.log('%c⧭ layer added: ', 'color: #7f7700', mode);
     const config: MapboxLayerProps<unknown> = layersConfigs[mode]
     // Types for data are wrong. See https://deck.gl/docs/api-reference/layers/geojson-layer#data
-    if (editDrawingLayers.includes(mode)) config.data = this.drawnData
+    if (editDrawingLayers.includes(mode)) {
+      // config.selectedFeatureIndexes = [...this._selectedIndexes]
+      config.data = this.drawnData
+    }
     console.log('%c⧭ config from adding', 'color: #1d3f73', this.drawnData.features);
     const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
@@ -124,8 +126,21 @@ export class DrawModeLayer implements LogicalLayer {
     this.drawnData = data
     // const { implementation } = this._map.getLayer(drawModes.ViewMode)
     // implementation.deck.setProps
-    this._removeDeckLayer(drawModes.ModifyMode)
-    this._addDeckLayer(drawModes.ModifyMode)
+    this._refreshMode(drawModes.ModifyMode)
+  }
+
+
+  updateSelection(selected: number[]): void {
+    if (arraysAreEqual(selected, this._selectedIndexes)) return;
+ 
+    console.log('%c⧭ selection update 2', 'color: #99614d', selected);
+    this._selectedIndexes = selected
+    this._refreshMode(drawModes.ModifyMode)
+  }
+
+  _refreshMode(mode: DrawModeType): void {
+    this._removeDeckLayer(mode)
+    this._addDeckLayer(mode)
   }
 
   willHide() {
@@ -134,7 +149,15 @@ export class DrawModeLayer implements LogicalLayer {
     this._createDrawingLayer = null
     this._editDrawingLayer = null
   }
+
   willUnhide() {
 
   }
+}
+
+function arraysAreEqual (arr1: number[], arr2: number[]): boolean {
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) return false    
+  }
+  return true
 }
