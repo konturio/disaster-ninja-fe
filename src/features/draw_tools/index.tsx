@@ -21,7 +21,7 @@ export function initDrawTools() {
     },
     onChange: (becomesActive) => {
       if (becomesActive) {        
-        activeDrawModeAtom.setDrawMode.dispatch(drawModes.ViewMode);
+        activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
       } else {
         activeDrawModeAtom.setDrawMode.dispatch(undefined);
       }

@@ -20,15 +20,15 @@ export const DrawToolsToolbox = () => {
 
   const onSelectTool = useCallback(
     (modeId: string) => {
-      const mode: DrawModeType = drawModes[modeId] || drawModes.ViewMode;
+      const mode: DrawModeType = drawModes[modeId] || drawModes.ModifyMode;
       setDrawMode(mode);
     },
     [setDrawMode],
   );
 
-  const toViewMode = useCallback(
+  const finishDrawing = useCallback(
     () => {
-      setDrawMode(drawModes.ViewMode);
+      setDrawMode(undefined);
     },
     [setDrawMode],
   );
@@ -63,7 +63,7 @@ export const DrawToolsToolbox = () => {
         </div>
       </Button>
       {/* this is temporary  */}
-      <Button className={s.finishBtn} onClick={() => toViewMode()}>
+      <Button className={s.finishBtn} onClick={() => finishDrawing()}>
         <div className={clsx(s.btnContainer)}>{i18n.t('Finish Drawing')}</div>
       </Button>
     </div>

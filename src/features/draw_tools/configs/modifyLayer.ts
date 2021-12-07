@@ -9,7 +9,7 @@ import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawMo
 
 
 export const modifyDeckLayerConfig = {
-  id: drawModes.ViewMode,
+  id: drawModes.ModifyMode,
   type: EditableGeoJsonLayer,
   mode: CustomModifyMode,
   // be shure to pass array, the modes do not expect non iterable value

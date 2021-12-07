@@ -69,12 +69,10 @@ export const drawnGeometryAtom = createBindAtom(
     })
 
     onAction('updateFeature', ({ index, feature }) => {
-      if (!feature) return;
+      if (!feature || !index) return;
       const newState = { ...state, features: [...state.features] }
       newState.features[index] = feature
       state = newState
-
-      console.log('%c⧭', 'color: #f27999', state);
     })
 
 
