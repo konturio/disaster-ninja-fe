@@ -95,7 +95,6 @@ export class DrawModeLayer implements LogicalLayer {
   _addDeckLayer(mode: DrawModeType): void {
     if (this.mountedDeckLayers[mode]) return console.log(`cannot add ${mode} as it's already mounted`);
 
-    console.log('%c⧭ layer added: ', 'color: #7f7700', mode);
     const config: MapboxLayerProps<unknown> = layersConfigs[mode]
     // Types for data are wrong. See https://deck.gl/docs/api-reference/layers/geojson-layer#data
     if (editDrawingLayers.includes(mode)) {
@@ -104,7 +103,7 @@ export class DrawModeLayer implements LogicalLayer {
       config.selectedFeatureIndexes = this.selectedIndexes
     }
     if (mode === drawModes.ModifyMode) config.onEdit = this._onModifyEdit
-    if (mode === drawModes.DrawPolygonMode) config.onEdit = this._onDrawPolyEdit
+    else if (createDrawingLayers.includes(mode)) config.onEdit = this._onDrawEdit
 
     console.log('%c⧭ config from adding', 'color: #1d3f73', this.drawnData.features);
     const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
@@ -174,7 +173,8 @@ export class DrawModeLayer implements LogicalLayer {
     drawnGeometryAtom.updateFeatures.dispatch(updatedData.features)
   }
 
-  _onDrawPolyEdit = ({ editContext, updatedData, editType }) => {
+  _onDrawEdit = ({ editContext, updatedData, editType }) => {
+
     if (editType === 'addFeature' && updatedData.features[0])
       drawnGeometryAtom.addFeature.dispatch(updatedData.features[0]);
   }
