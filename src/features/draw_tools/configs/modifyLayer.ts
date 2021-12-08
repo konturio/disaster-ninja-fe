@@ -29,8 +29,6 @@ export const modifyDeckLayerConfig = {
       modeWatcherAtom.setFocusedIndexes.dispatch(editContext.featureIndexes)
       activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
     }
-
-    // TODO we need to srop map moving when feature selected
     
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
       drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
