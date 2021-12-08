@@ -25,7 +25,6 @@ export const modeWatcherAtom = createBindAtom(
     });
 
     onChange('drawnGeometryAtom', data => {
-      console.log('%c⧭ data updated', 'color: #00736b', data);
       drawModeLayer.updateData(data)
     })
 

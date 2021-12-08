@@ -6,25 +6,22 @@ import { LocalModifyMode } from "../modes/modifyMode";
 import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
 import { activeDrawModeAtom } from "../atoms/activeDrawMode";
 import { modeWatcherAtom } from "../atoms/drawLayerAtom";
+import { currentMapAtom } from "~core/shared_state";
 
 
-
-
+// movePosition - we should only do it after keyup
+const completedTypes = ['selectFeature', 'finishMovePosition', 'rotated', 'translated']
 export const modifyDeckLayerConfig = {
   id: drawModes.ModifyMode,
   type: EditableGeoJsonLayer,
   mode: LocalModifyMode,
-  // be shure to pass array, the modes do not expect non iterable value
-
-  // empty means nothing can be selected
-  // the question is shall we pass the number from higher up or change it 
   // selectedFeatureIndexes: [], //0 to select firts feature
   selectedFeatureIndexes: [0],
   onEdit({ editContext, updatedData, editType }: EditAction<FeatureCollection>): any {
     console.log('%c⧭ editType', 'color: #cc0088', editType, editContext.featureIndexes);
-    console.log('%c⧭', 'color: #cc0036', editContext, updatedData);
+    // console.log('%c⧭', 'color: #cc0036', editContext, updatedData);
     // this works for one at a time feature selected editing
-    // console.log('%c⧭ update by ', 'color: #735656', updatedData.features[0]);
+
     // this.selectedFeatureIndexes = editContext.featureIndexes -- readonly
 
     // TODO we need to perform this only when we're not in Modify mode
@@ -33,8 +30,15 @@ export const modifyDeckLayerConfig = {
       activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
     }
 
-    if (updatedData.features?.[0])
+    // TODO we need to srop map moving when feature selected
+    
+    if (updatedData.features?.[0] && completedTypes.includes(editType)) {
       drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
+      currentMapAtom.setInteractivity.dispatch(true)
+    } else if (updatedData.features?.[0]) {
+      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
+      currentMapAtom.setInteractivity.dispatch(false)
+    }
   },
   // data,
 
@@ -52,11 +56,13 @@ export const modifyDeckLayerConfig = {
       // },
       getFillColor: () => [0x66, 0x00, 0xff],
       getLineWidth: () => 3,
+      getTentativeFillColor: () => [255, 0, 255, 100],
+      getTentativeLineColor: () => [0, 0, 255, 255],
       stroked: true,
     },
     geojson: {
-      getFillColor: (feature) => [0x66, 0x00, 0xff],
-      getLineColor: (feature) => [0xff, 0x66, 0x00, 0xff],
+      getFillColor: () => [0x66, 0x00, 0xff],
+      getLineColor: () => [0xff, 0x66, 0x00, 0xff],
     },
   },
   modeConfig: {
