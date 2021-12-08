@@ -1,8 +1,6 @@
 import {  FeatureCollection } from '@nebula.gl/edit-modes/';
 import {
   ModeProps,
-  CompositeMode,
-  GeoJsonEditMode,
   ImmutableFeatureCollection,
 } from '@nebula.gl/edit-modes';
 import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';

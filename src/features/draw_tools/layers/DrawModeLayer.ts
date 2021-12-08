@@ -104,6 +104,7 @@ export class DrawModeLayer implements LogicalLayer {
       config.selectedFeatureIndexes = this.selectedIndexes
     }
     if (mode === drawModes.ModifyMode) config.onEdit = this._onModifyEdit
+    if (mode === drawModes.DrawPolygonMode) config.onEdit = this._onDrawPolyEdit
 
     console.log('%c⧭ config from adding', 'color: #1d3f73', this.drawnData.features);
     const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
@@ -155,7 +156,7 @@ export class DrawModeLayer implements LogicalLayer {
 
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
     let changedIndexes = editContext?.featureIndexes || []
-    
+
     this.selectedIndexes = changedIndexes
 
     // if we selected something being in draw modes
@@ -171,5 +172,10 @@ export class DrawModeLayer implements LogicalLayer {
       currentMapAtom.setInteractivity.dispatch(false)
     }
     drawnGeometryAtom.updateFeatures.dispatch(updatedData.features)
+  }
+
+  _onDrawPolyEdit = ({ editContext, updatedData, editType }) => {
+    if (editType === 'addFeature' && updatedData.features[0])
+      drawnGeometryAtom.addFeature.dispatch(updatedData.features[0]);
   }
 }
