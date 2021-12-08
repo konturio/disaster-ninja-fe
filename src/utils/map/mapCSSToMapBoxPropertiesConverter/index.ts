@@ -2,7 +2,7 @@ import { MAP_CSS_MAPBOX } from './config';
 import { getRequirements } from './getRequirements';
 import { generateLayers } from './generateLayers';
 import { createValueConverters } from './valueConverters';
-import { SimpleLegendStep } from '~utils/atoms/createLogicalLayerAtom/legend';
+import { SimpleLegendStep } from '~core/logical_layers/createLogicalLayerAtom/types';
 import { AnyLayer } from 'maplibre-gl';
 
 /*

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { HexIcon } from '~components/LegendPanel/icons/HexIcon';
 import { CircleIcon } from '~components/LegendPanel/icons/CircleIcon';
 import { SquareIcon } from '~components/LegendPanel/icons/SquareIcon';
-import { SimpleLegend } from '~utils/atoms/createLogicalLayerAtom/legend';
+import { SimpleLegend } from '~core/logical_layers/createLogicalLayerAtom/types';
 
 export function InlineLegend({ legend }: { legend: SimpleLegend }) {
   const step = useMemo(() => legend?.steps[0], [legend]);

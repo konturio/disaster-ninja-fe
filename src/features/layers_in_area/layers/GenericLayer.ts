@@ -5,7 +5,10 @@ import {
   RasterSource,
   GeoJSONSourceRaw,
 } from 'maplibre-gl';
-import { LogicalLayer, LayerLegend } from '~utils/atoms/createLogicalLayerAtom';
+import type {
+  LogicalLayer,
+  LayerLegend,
+} from '~core/logical_layers/createLogicalLayerAtom';
 import {
   mapCSSToMapBoxProperties,
   applyLegendConditions,
@@ -25,7 +28,7 @@ import {
 } from '~core/shared_state/focusedGeometry';
 import { currentEventAtom } from '~core/shared_state';
 import { createActiveContributorsLayers } from './activeContributorsLayers';
-import { layersOrderManager } from '~core/layersOrder';
+import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
 export class GenericLayer implements LogicalLayer {
   public readonly id: string;

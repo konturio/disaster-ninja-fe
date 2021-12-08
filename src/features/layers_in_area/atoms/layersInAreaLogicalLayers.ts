@@ -1,5 +1,6 @@
-import { createLogicalLayerAtom, createBindAtom } from '~utils/atoms';
-import { logicalLayersRegistryAtom } from '~core/shared_state/logicalLayersRegistry';
+import { createBindAtom } from '~utils/atoms';
+import { logicalLayersRegistryAtom } from '~core/logical_layers/atoms/logicalLayersRegistry';
+import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
 import { layersInAreaResourceAtom } from './layersInArea';
 import { GenericLayer } from '../layers/GenericLayer';
 

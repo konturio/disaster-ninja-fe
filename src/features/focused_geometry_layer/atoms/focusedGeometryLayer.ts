@@ -1,5 +1,5 @@
 import { focusedGeometryAtom } from '~core/shared_state';
-import { createLogicalLayerAtom } from '~utils/atoms/createLogicalLayerAtom';
+import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
 import {
   FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
   FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY,
