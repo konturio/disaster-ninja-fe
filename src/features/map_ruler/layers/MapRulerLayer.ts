@@ -3,8 +3,8 @@ import { EditableGeoJsonLayer } from '@nebula.gl/layers';
 import { CustomMeasureDistanceMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomMeasureDistanceMode';
 import { translationService } from '~core/index';
 import { MapboxLayer } from '@deck.gl/mapbox';
-import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
-import { layersOrderManager } from '~core/layersOrder';
+import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
+import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
 // add cyrillic alphabet to character set
 function getCyryllicCharacterSet() {

@@ -33,7 +33,7 @@
     "*/**/*.{ts, tsx}": [
       "eslint --quiet --fix"
     ],
-    "*/**/*.{css}": [
+    "*/**/*.css": [
       "stylelint"
     ],
     "*/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [

@@ -1,4 +1,4 @@
-import { createLogicalLayerAtom } from '~utils/atoms/createLogicalLayerAtom';
+import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
 import { BoundarySelectorLayer } from '../layers/BoundarySelectorLayer';
 import { BOUNDARY_SELECTOR_LAYER_ID } from '../constants';
 
