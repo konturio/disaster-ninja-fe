@@ -69,6 +69,8 @@ export const drawnGeometryAtom = createBindAtom(
     })
 
     onAction('updateFeature', ({ index, feature }) => {
+      // TODO fix undef index - where does it come from?
+      // console.log('%c⧭', 'color: #5200cc', index, feature);
       if (!feature || index === undefined) return;
       const newState = { ...state, features: [...state.features] }
       newState.features[index] = feature

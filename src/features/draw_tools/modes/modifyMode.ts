@@ -98,7 +98,9 @@ export class LocalModifyMode extends GeoJsonEditMode {
   }
 
   getGuides(props: ModeProps<FeatureCollection>): GuideFeatureCollection {
-    return this._currentSubMode ? this._currentSubMode.getGuides(props) : null;
+    return this._currentSubMode ? this._currentSubMode.getGuides(props) : {
+      type: 'FeatureCollection', features: []
+    };
   }
 
   handleDragging(event: DraggingEvent, props: ModeProps<FeatureCollection>) {
