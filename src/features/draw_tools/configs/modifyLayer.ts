@@ -16,28 +16,6 @@ export const modifyDeckLayerConfig = {
   type: EditableGeoJsonLayer,
   mode: LocalModifyMode,
   // selectedFeatureIndexes: [], //0 to select firts feature
-  selectedFeatureIndexes: [0],
-  onEdit({ editContext, updatedData, editType }: EditAction<FeatureCollection>): any {
-    console.log('%c⧭ editType', 'color: #cc0088', editType, editContext.featureIndexes);
-    // console.log('%c⧭', 'color: #cc0036', editContext, updatedData);
-    // this works for one at a time feature selected editing
-
-    // this.selectedFeatureIndexes = editContext.featureIndexes -- readonly
-
-    // TODO we need to perform this only when we're not in Modify mode
-    if (editContext.featureIndexes.length) {
-      modeWatcherAtom.setFocusedIndexes.dispatch(editContext.featureIndexes)
-      activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
-    }
-    
-    if (updatedData.features?.[0] && completedTypes.includes(editType)) {
-      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
-      currentMapAtom.setInteractivity.dispatch(true)
-    } else if (updatedData.features?.[0]) {
-      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
-      currentMapAtom.setInteractivity.dispatch(false)
-    }
-  },
   // data,
 
   parameters: {
