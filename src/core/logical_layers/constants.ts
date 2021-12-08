@@ -37,7 +37,7 @@ export const groupSettings: Record<string, GroupSettings> = {
   Kontur: {
     name: 'Kontur',
     openByDefault: true,
-    mutuallyExclusive: true,
+    mutuallyExclusive: false,
     order: 2,
   },
 };
