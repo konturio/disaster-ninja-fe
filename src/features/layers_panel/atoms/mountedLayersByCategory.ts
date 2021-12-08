@@ -11,8 +11,10 @@ export const mountedLayersByCategoryAtom = createBindAtom(
     const layersHierarchy = get('layersHierarchy');
     const layersStates = get('layersStates');
     return Object.values(layersHierarchy).reduce((acc, layer) => {
-      if (layer.category && layersStates[layer.id].isMounted) {
-        acc[layer.category] = (acc[layer.category] ?? 0) + 1;
+      if (layer.category && layersStates[layer.id]) {
+        if (layersStates[layer.id].isMounted) {
+          acc[layer.category] = (acc[layer.category] ?? 0) + 1;
+        }
       }
       return acc;
     }, {});

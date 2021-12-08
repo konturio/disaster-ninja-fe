@@ -8,6 +8,7 @@ export class BivariateLayer implements LogicalLayer {
   public readonly id: string;
   public readonly name: string;
   public readonly group = 'bivariate';
+  public readonly category = 'overlay';
   private readonly _legend: BivariateLegend;
   readonly legend!: BivariateLegend;
   private readonly _layerStyle: BivariateLayerStyle;
