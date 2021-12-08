@@ -12,164 +12,12 @@ import { TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 import kinks from '@turf/kinks';
 
+import { CustomDrawPolygonMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomDrawPolygonMode';
+import { currentMapAtom } from '~core/shared_state';
+
 // DrawPolygonMode
 
-export class LocalDrawPolygonMode extends GeoJsonEditMode {
-  createTentativeFeature(
-    props: ModeProps<FeatureCollection>,
-  ): TentativeFeature {
-    const { lastPointerMoveEvent } = props;
-    const clickSequence = this['getClickSequence']();
-
-    const lastCoords = lastPointerMoveEvent
-      ? [lastPointerMoveEvent.mapCoords]
-      : [];
-
-    let tentativeFeature;
-    if (clickSequence.length === 1 || clickSequence.length === 2) {
-      tentativeFeature = {
-        type: 'Feature',
-        properties: {
-          guideType: 'tentative',
-        },
-        geometry: {
-          type: 'LineString',
-          coordinates: [...clickSequence, ...lastCoords],
-        },
-      };
-    } else if (clickSequence.length > 2) {
-      tentativeFeature = {
-        type: 'Feature',
-        properties: {
-          guideType: 'tentative',
-        },
-        geometry: {
-          type: 'Polygon',
-          coordinates: [[...clickSequence, ...lastCoords, clickSequence[0]]],
-        },
-      };
-    }
-
-    return tentativeFeature;
-  }
-
-  intersectionsTest(
-    props: ModeProps<FeatureCollection>,
-    coords: Position[],
-  ): boolean {
-    if (props.modeConfig && props.modeConfig.disableSelfIntersections) {
-      const k = kinks({
-        type: 'Polygon',
-        coordinates: [coords],
-      });
-      if (k.features.length) {
-        props.onEdit({
-          // data is the same
-          updatedData: props.data,
-          editType: 'skipSelfIntersection',
-          editContext: {
-            position: coords[coords.length - 1],
-          },
-        });
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
-
-  getGuides(props: ModeProps<FeatureCollection>): GuideFeatureCollection {
-    const clickSequence = this['getClickSequence']();
-
-    const guides: GeoJSON.FeatureCollection = {
-      type: 'FeatureCollection',
-      features: [],
-    };
-
-    const tentativeFeature = this.createTentativeFeature(props);
-    if (tentativeFeature) {
-      guides.features.push(tentativeFeature);
-    }
-
-    clickSequence.forEach((clickedCoord, index) => {
-      guides.features.push({
-        type: 'Feature',
-        properties: {
-          guideType: 'editHandle',
-          editHandleType: 'existing',
-          featureIndex: -1,
-          positionIndexes: [index],
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: clickedCoord,
-        },
-      });
-    });
-
-    // todo wierd types
-    return guides as any;
-  }
-
-  handleClick(event: ClickEvent, props: ModeProps<FeatureCollection>) {
-    const { picks } = event;
-    const clickedEditHandle = getPickedEditHandle(picks);
-
-    let positionAdded = false;
-    if (!clickedEditHandle) {
-      // Don't add another point right next to an existing one
-      this['addClickSequence'](event);
-      positionAdded = true;
-    }
-    const clickSequence = this['getClickSequence']();
-
-    if (
-      clickSequence.length > 2 &&
-      clickedEditHandle &&
-      Array.isArray(clickedEditHandle.properties.positionIndexes) &&
-      (clickedEditHandle.properties.positionIndexes[0] === 0 ||
-        clickedEditHandle.properties.positionIndexes[0] ===
-          clickSequence.length - 1)
-    ) {
-      // They clicked the first or last point (or double-clicked), so complete the polygon
-
-      const polygonCoords = [...clickSequence, clickSequence[0]];
-
-      if (this.intersectionsTest(props, polygonCoords)) return;
-
-      // Remove the hovered position
-      const polygonToAdd: Polygon = {
-        type: 'Polygon',
-        coordinates: [polygonCoords],
-      };
-
-      this['resetClickSequence']();
-
-      console.log(polygonToAdd, props);
-      const editAction = this['getAddFeatureOrBooleanPolygonAction'](
-        polygonToAdd,
-        props,
-      );
-      if (editAction) {
-        props.onEdit(editAction);
-      }
-    } else if (positionAdded) {
-      // console.log('%c⧭ positionAdded', 'color: #99614d', positionAdded, {
-      //   ...props,
-      // });
-      // new tentative point
-      props.onEdit({
-        // data is the same
-        updatedData: props.data,
-        editType: 'addTentativePosition',
-        editContext: {
-          position: event.mapCoords,
-        },
-      });
-    }
-  }
+export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
 
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {
     const clickSequence = this['getClickSequence']();
@@ -198,7 +46,6 @@ export class LocalDrawPolygonMode extends GeoJsonEditMode {
 
           this['resetClickSequence']();
 
-          if (!props.selectedIndexes) props.selectedIndexes = [];
           // in this['getAddFeatureOrBooleanPolygonAction'](polygonToAdd, props);
           // props.data.features must be [] but we were passing props.data as []
           if (Array.isArray(props.data))
@@ -212,6 +59,8 @@ export class LocalDrawPolygonMode extends GeoJsonEditMode {
             polygonToAdd,
             props,
           );
+
+          console.log('%c⧭', 'color: #917399', editAction);
 
           if (editAction) {
             props.onEdit(editAction);
@@ -246,11 +95,77 @@ export class LocalDrawPolygonMode extends GeoJsonEditMode {
     }
   }
 
-  handlePointerMove(
-    event: PointerMoveEvent,
-    props: ModeProps<FeatureCollection>,
-  ) {
-    super.handlePointerMove(event, props);
-    props.onUpdateCursor('cell');
+
+  handleClick(event: ClickEvent, props: ModeProps<FeatureCollection>) {
+    const { picks } = event;
+    const clickedEditHandle = getPickedEditHandle(picks);
+
+    let positionAdded = false;
+    if (!clickedEditHandle) {
+      // Don't add another point right next to an existing one
+      this['addClickSequence'](event);
+      positionAdded = true;
+    }
+    const clickSequence = this['getClickSequence']();
+
+    if (
+      clickSequence.length > 2 &&
+      clickedEditHandle &&
+      Array.isArray(clickedEditHandle.properties.positionIndexes) &&
+      (clickedEditHandle.properties.positionIndexes[0] === 0 ||
+        clickedEditHandle.properties.positionIndexes[0] ===
+        clickSequence.length - 1)
+    ) {
+      // They clicked the first or last point (or double-clicked), so complete the polygon
+
+      console.log('%c⧭', 'color: #1d5673', 'we disabled zoom');
+      currentMapAtom.getState()?.doubleClickZoom.disable()
+
+      const polygonCoords = [...clickSequence, clickSequence[0]];
+
+      if (this.intersectionsTest(props, polygonCoords)) return;
+
+      // Remove the hovered position
+      const polygonToAdd: Polygon = {
+        type: 'Polygon',
+        coordinates: [polygonCoords],
+      };
+
+      this['resetClickSequence']();
+
+      // in this['getAddFeatureOrBooleanPolygonAction'](polygonToAdd, props);
+      // props.data.features must be [] but we were passing props.data as []
+      if (Array.isArray(props.data))
+        props.data = {
+          features: [],
+          type: 'FeatureCollection',
+        };
+
+      const editAction = this['getAddFeatureOrBooleanPolygonAction'](
+        polygonToAdd,
+        props,
+      );
+
+      if (editAction) {
+        props.onEdit(editAction);
+      }
+      
+      // this will let us finish geometry by double click and after that - enable back map double click zoom
+      const t = setTimeout(() => {
+        currentMapAtom.getState()?.doubleClickZoom.enable()
+        clearTimeout(t)
+      }, 0)
+      
+    } else if (positionAdded) {
+      props.onEdit({
+        // data is the same
+        updatedData: props.data,
+        editType: 'addTentativePosition',
+        editContext: {
+          position: event.mapCoords,
+        },
+      });
+    }
   }
+
 }

@@ -2,8 +2,6 @@ import { MapboxLayerProps } from "@deck.gl/mapbox/mapbox-layer";
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { drawModes } from "../constants";
 import { LocalDrawPolygonMode } from "../modes/drawPolygon";
-import { EditAction, FeatureCollection } from "@nebula.gl/edit-modes";
-import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
 
 // it's supposed to be the type of : MapboxLayerProps<unknown>
 // it will work regardless to type errors
@@ -13,10 +11,6 @@ export const drawPolyDeckLayerConfig: MapboxLayerProps<unknown> = {
   // typescript marks this as error. Yet the mode works on map.
   mode: LocalDrawPolygonMode,
   selectedFeatureIndexes: [],
-  onEdit: ({ editContext, updatedData, editType }: EditAction<FeatureCollection>): any => {
-    if (editType === 'addFeature' && updatedData.features[0])
-      drawnGeometryAtom.addFeature.dispatch(updatedData.features[0]);
-  },
   parameters: {
     depthTest: false, // skip z-buffer check
   },
