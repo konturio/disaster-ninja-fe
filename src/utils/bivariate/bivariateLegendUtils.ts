@@ -1,4 +1,4 @@
-import { BivariateLegend } from '~utils/atoms/createLogicalLayerAtom/legend';
+import { BivariateLegend } from '~core/logical_layers/createLogicalLayerAtom/types';
 import { ColorTheme } from '~appModule/types';
 import { Stat } from '@k2-packages/bivariate-tools';
 

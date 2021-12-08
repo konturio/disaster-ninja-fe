@@ -1,5 +1,5 @@
 import { useAtom } from '@reatom/react';
-import { logicalLayersRegistryAtom } from '~core/shared_state/logicalLayersRegistry';
+import { logicalLayersRegistryAtom } from '~core/logical_layers/atoms/logicalLayersRegistry';
 
 export function useLayerAtomFromRegistry(layerId: string) {
   const [registry] = useAtom(logicalLayersRegistryAtom);

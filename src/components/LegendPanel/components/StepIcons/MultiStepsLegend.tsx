@@ -1,4 +1,4 @@
-import { SimpleLegend } from '~utils/atoms/createLogicalLayerAtom/legend';
+import { SimpleLegend } from '~core/logical_layers/createLogicalLayerAtom/types';
 import { Text } from '@k2-packages/ui-kit';
 import { HexIcon } from '~components/LegendPanel/icons/HexIcon';
 import { CircleIcon } from '~components/LegendPanel/icons/CircleIcon';

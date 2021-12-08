@@ -1,8 +1,8 @@
-import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
+import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
-import { BivariateLegend } from '~utils/atoms/createLogicalLayerAtom/legend';
-import { layersOrderManager } from '~core/layersOrder';
+import { BivariateLegend } from '~core/logical_layers/createLogicalLayerAtom/types';
+import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
 export class BivariateLayer implements LogicalLayer {
   public readonly id: string;

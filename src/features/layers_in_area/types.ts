@@ -1,4 +1,4 @@
-import { LayerLegend } from '~utils/atoms/createLogicalLayerAtom';
+import type { LayerLegend } from '~core/logical_layers/createLogicalLayerAtom';
 interface TileSource {
   type: 'vector' | 'raster';
   url: string[];
