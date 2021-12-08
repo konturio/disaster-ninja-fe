@@ -27,8 +27,7 @@ export class DrawModeLayer implements LogicalLayer {
   private _map!: ApplicationMap
   private _createDrawingLayer: DrawModeType | null
   private _editDrawingLayer: DrawModeType | null
-  public selectedIndexes: number[] = [1]
-  public test: any
+  public selectedIndexes: number[] = []
 
   public constructor(id: string, name?: string) {
     this.id = id;
@@ -138,11 +137,9 @@ export class DrawModeLayer implements LogicalLayer {
 
   _refreshMode(mode: DrawModeType): void {
     const layer = this.mountedDeckLayers[mode]
-    console.log('%c⧭ layer1', 'color: #00e600', layer, layer?.deck.props.data);
     // this won't show anything
     // layer?.deck.setProps({ data: this.drawnData })
     layer?.setProps({ data: this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
-    console.log('%c⧭ layer2', 'color: #00e600', layer?.deck.props.data);
   }
 
   willHide() {
@@ -157,27 +154,21 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
-    console.log('%c⧭', 'color: #e50000', editContext.featureIndexes);
     this.selectedIndexes = editContext.featureIndexes
 
     // if we selected something being in draw modes
     if (this._createDrawingLayer && editContext.featureIndexes.length) {
       activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
     }
+    
 
+    // This works for single feature selection. We need to update multiple features else
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
-      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
+      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[this.selectedIndexes[0]])
       currentMapAtom.setInteractivity.dispatch(true)
     } else if (updatedData.features?.[0]) {
-      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
+      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[this.selectedIndexes[0]])
       currentMapAtom.setInteractivity.dispatch(false)
     }
   }
-}
-
-function arraysAreEqual(arr1: number[], arr2: number[]): boolean {
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i] !== arr2[i]) return false
-  }
-  return true
 }

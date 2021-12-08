@@ -1,7 +1,7 @@
 import { activeDrawModeAtom } from './activeDrawMode';
 import { createLogicalLayerAtom } from '~utils/atoms';
 import { createBindAtom } from '~utils/atoms/createBindAtom';
-import { DRAW_TOOLS_LAYER_ID } from '../constants';
+import { drawModes, DRAW_TOOLS_LAYER_ID } from '../constants';
 import { DrawModeLayer } from '../layers/DrawModeLayer';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
 
