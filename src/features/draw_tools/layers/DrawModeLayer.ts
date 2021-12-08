@@ -87,7 +87,6 @@ export class DrawModeLayer implements LogicalLayer {
     }
   }
 
-  // on logic layer mount - add watch/edit deck layer mode
   _addDeckLayer(mode: DrawModeType): void {
     if (this.mountedDeckLayers[mode]) return console.log(`cannot add ${mode} as it's already mounted`);
 
