@@ -117,8 +117,8 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
         clickSequence.length - 1)
     ) {
       // They clicked the first or last point (or double-clicked), so complete the polygon
-
-      console.log('%c⧭', 'color: #1d5673', 'we disabled zoom');
+      
+      // disable zoom for finishing double-click
       currentMapAtom.getState()?.doubleClickZoom.disable()
 
       const polygonCoords = [...clickSequence, clickSequence[0]];

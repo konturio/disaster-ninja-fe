@@ -1,4 +1,5 @@
 import { DrawModeType } from "../constants"
+import { drawLineDeckLayerConfig } from "./drawLine"
 import { drawPolyDeckLayerConfig } from "./drawPolyLayer"
 import { modifyDeckLayerConfig } from "./modifyLayer"
 import { viewDeckLayerConfig } from "./viewLayer"
@@ -10,5 +11,6 @@ export const layersConfigs: {
   DrawPolygonMode: drawPolyDeckLayerConfig,
   ViewMode: viewDeckLayerConfig,
   // ViewMode: modifyDeckLayerConfig,
-  ModifyMode: modifyDeckLayerConfig
+  ModifyMode: modifyDeckLayerConfig,
+  DrawLineMode: drawLineDeckLayerConfig
 }
