@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
+import mapLibre from 'maplibre-gl';
 import Map, { MapBoxMapProps } from '@k2-packages/map';
 import MapDrawTools from '@k2-packages/map-draw-tools';
 import DeckGl from '@k2-packages/deck-gl';
@@ -10,9 +11,7 @@ import { useDrawings } from './useDrawings';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import { DRAW_MODE_CONFIG } from '~features/draw_tools/constants';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
-import { layersOrderManager } from '~core/layersOrder';
-
-import mapLibre from 'maplibre-gl';
+import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
 const updatedMapStyle = (
   mapStyle: MapStyle | undefined,

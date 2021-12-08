@@ -4,7 +4,7 @@ import {
   ApplicationMapMarker,
 } from '~components/ConnectedMap/ConnectedMap';
 import { sideControlsBarAtom } from '~core/shared_state';
-import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
+import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 import { createGeoJSONSource } from '~utils/geoJSON/helpers';
 import { boundariesClient } from '~core/index';
 import { getSelectorWithOptions } from '@k2-packages/boundaries/tslib/getSelectorWithOptions';
@@ -13,7 +13,7 @@ import {
   boundarySelector,
   constructOptionsFromBoundaries,
 } from '~utils/map/boundaries';
-import { layersOrderManager } from '~core/layersOrder';
+import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
 import {
   HOVERED_BOUNDARIES_LAYER_ID,

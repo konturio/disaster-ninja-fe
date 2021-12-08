@@ -4,8 +4,8 @@ import {
   currentEventAtom,
   currentEpisodeAtom,
   currentMapPositionAtom,
-  mountedLogicalLayersAtom,
 } from '~core/shared_state';
+import { logicalLayersRegistryStateAtom } from '~core/logical_layers/atoms/logicalLayersRegistryState';
 
 /* Compose shared state values into one atom */
 export const selectedDataAtom = createBindAtom(
@@ -13,7 +13,7 @@ export const selectedDataAtom = createBindAtom(
     currentMapPositionAtom,
     currentEventAtom,
     currentEpisodeAtom,
-    mountedLogicalLayersAtom,
+    layersStates: logicalLayersRegistryStateAtom,
   },
   ({ get }, state: UrlData = {}) => {
     const newState = { ...state };
@@ -32,7 +32,10 @@ export const selectedDataAtom = createBindAtom(
     const currentEpisode = get('currentEpisodeAtom');
     newState.episode = currentEpisode ? currentEpisode.id : undefined;
 
-    const mountedLayers = get('mountedLogicalLayersAtom');
+    const mountedLayers = Object.values(get('layersStates')).reduce(
+      (acc, l) => (l.isMounted && acc.push(l.id), acc),
+      [] as string[],
+    );
     if (mountedLayers.length > 0) {
       newState.layers = mountedLayers;
     }

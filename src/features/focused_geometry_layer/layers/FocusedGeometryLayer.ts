@@ -1,9 +1,12 @@
-import { LayerLegend, LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
+import {
+  LayerLegend,
+  LogicalLayer,
+} from '~core/logical_layers/createLogicalLayerAtom';
 import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { notificationService } from '~core/index';
 import { GeoJSONSource } from 'maplibre-gl';
-import { layersOrderManager } from '~core/layersOrder';
+import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
 const layersConfig = (id: string, sourceId: string): maplibregl.AnyLayer[] => [
   {
