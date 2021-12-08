@@ -8,22 +8,27 @@ import { MapboxLayerProps } from '@deck.gl/mapbox/mapbox-layer';
 import { FeatureCollection } from 'geojson';
 import { ViewMode } from '@nebula.gl/edit-modes';
 import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
+import { activeDrawModeAtom } from '../atoms/activeDrawMode';
+import { currentMapAtom } from '~core/shared_state';
 
 
 type mountedDeckLayersType = {
   [key in DrawModeType]?: MapboxLayer<unknown>
 }
+const completedTypes = ['selectFeature', 'finishMovePosition', 'rotated', 'translated']
 
 export class DrawModeLayer implements LogicalLayer {
   public readonly id: string;
   public readonly name?: string;
+  public mode?: DrawModeType
   public mountedDeckLayers: mountedDeckLayersType
   public drawnData: FeatureCollection
   private _isMounted = false;
   private _map!: ApplicationMap
   private _createDrawingLayer: DrawModeType | null
   private _editDrawingLayer: DrawModeType | null
-  private _selectedIndexes: number[] = []
+  public selectedIndexes: number[] = [1]
+  public test: any
 
   public constructor(id: string, name?: string) {
     this.id = id;
@@ -59,6 +64,7 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   setMode(mode: DrawModeType): void {
+    this.mode = mode
     if (!mode) return this.willHide()
     // Case setting mode to create drawings - 
     if (createDrawingLayers.includes(mode)) {
@@ -94,9 +100,12 @@ export class DrawModeLayer implements LogicalLayer {
     const config: MapboxLayerProps<unknown> = layersConfigs[mode]
     // Types for data are wrong. See https://deck.gl/docs/api-reference/layers/geojson-layer#data
     if (editDrawingLayers.includes(mode)) {
-      // config.selectedFeatureIndexes = [...this._selectedIndexes]
+      // config.selectedFeatureIndexes = [...this.selectedIndexes]
       config.data = this.drawnData
+      config.selectedFeatureIndexes = this.selectedIndexes
     }
+    if (mode === drawModes.ModifyMode) config.onEdit = this._onModifyEdit
+
     console.log('%c⧭ config from adding', 'color: #1d3f73', this.drawnData.features);
     const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
@@ -120,27 +129,20 @@ export class DrawModeLayer implements LogicalLayer {
     // console.log('%c⧭ data change fired', 'color: #00a3cc', data);
   }
 
-  // TODO either update it without unmounting or create tentetive feature in mode
   updateData(data: FeatureCollection) {
     if (!this._map) return;
     this.drawnData = data
-    // const { implementation } = this._map.getLayer(drawModes.ViewMode)
-    // implementation.deck.setProps
     this._refreshMode(drawModes.ModifyMode)
   }
 
-
-  updateSelection(selected: number[]): void {
-    if (arraysAreEqual(selected, this._selectedIndexes)) return;
- 
-    console.log('%c⧭ selection update 2', 'color: #99614d', selected);
-    this._selectedIndexes = selected
-    this._refreshMode(drawModes.ModifyMode)
-  }
 
   _refreshMode(mode: DrawModeType): void {
-    this._removeDeckLayer(mode)
-    this._addDeckLayer(mode)
+    const layer = this.mountedDeckLayers[mode]
+    console.log('%c⧭ layer1', 'color: #00e600', layer, layer?.deck.props.data);
+    // this won't show anything
+    // layer?.deck.setProps({ data: this.drawnData })
+    layer?.setProps({ data: this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
+    console.log('%c⧭ layer2', 'color: #00e600', layer?.deck.props.data);
   }
 
   willHide() {
@@ -153,11 +155,29 @@ export class DrawModeLayer implements LogicalLayer {
   willUnhide() {
 
   }
+
+  _onModifyEdit = ({ editContext, updatedData, editType }) => {
+    console.log('%c⧭', 'color: #e50000', editContext.featureIndexes);
+    this.selectedIndexes = editContext.featureIndexes
+
+    // if we selected something being in draw modes
+    if (this._createDrawingLayer && editContext.featureIndexes.length) {
+      activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
+    }
+
+    if (updatedData.features?.[0] && completedTypes.includes(editType)) {
+      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
+      currentMapAtom.setInteractivity.dispatch(true)
+    } else if (updatedData.features?.[0]) {
+      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[0])
+      currentMapAtom.setInteractivity.dispatch(false)
+    }
+  }
 }
 
-function arraysAreEqual (arr1: number[], arr2: number[]): boolean {
+function arraysAreEqual(arr1: number[], arr2: number[]): boolean {
   for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i] !== arr2[i]) return false    
+    if (arr1[i] !== arr2[i]) return false
   }
   return true
 }
