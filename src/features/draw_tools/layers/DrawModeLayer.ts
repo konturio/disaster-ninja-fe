@@ -154,21 +154,22 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
-    this.selectedIndexes = editContext.featureIndexes
+    let changedIndexes = editContext?.featureIndexes || []
+    
+    this.selectedIndexes = changedIndexes
 
     // if we selected something being in draw modes
     if (this._createDrawingLayer && editContext.featureIndexes.length) {
       activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
     }
-    
+
 
     // This works for single feature selection. We need to update multiple features else
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
-      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[this.selectedIndexes[0]])
       currentMapAtom.setInteractivity.dispatch(true)
     } else if (updatedData.features?.[0]) {
-      drawnGeometryAtom.updateFeature.dispatch(editContext.featureIndexes[0], updatedData.features[this.selectedIndexes[0]])
       currentMapAtom.setInteractivity.dispatch(false)
     }
+    drawnGeometryAtom.updateFeatures.dispatch(updatedData.features)
   }
 }

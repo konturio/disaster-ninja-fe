@@ -4,6 +4,7 @@ import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { drawModes, DRAW_TOOLS_LAYER_ID } from '../constants';
 import { DrawModeLayer } from '../layers/DrawModeLayer';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
+import { currentMapAtom } from '~core/shared_state';
 
 
 const drawModeLayer = new DrawModeLayer(DRAW_TOOLS_LAYER_ID)
@@ -19,6 +20,7 @@ export const modeWatcherAtom = createBindAtom(
   },
   ({ onChange, schedule, onAction }, state: boolean = false) => {
     onChange('activeDrawModeAtom', (mode) => {
+      schedule(dispatch => dispatch(currentMapAtom.setInteractivity(true)))
       if (!mode) return schedule(dispatch => dispatch(drawLayerAtom.hide()))
 
       drawModeLayer.setMode(mode)

@@ -44,7 +44,7 @@ export const drawnGeometryAtom = createBindAtom(
     // activeDrawModeAtom,
     addFeature: (feature: Feature) => feature,
     sendToFocusedGeometry: () => null,
-    updateFeature: (index: number, feature?: Feature) => { return { index, feature } }
+    updateFeatures: (features: Feature[]) => features
   },
   ({ onChange, schedule, onAction }, state: FeatureCollection = defaultState) => {
     // onChange('activeDrawModeAtom', (mode) => {
@@ -68,13 +68,8 @@ export const drawnGeometryAtom = createBindAtom(
       state = defaultState
     })
 
-    onAction('updateFeature', ({ index, feature }) => {
-      // TODO fix undef index - where does it come from?
-      // console.log('%c⧭', 'color: #5200cc', index, feature);
-      if (!feature || index === undefined) return;
-      const newState = { ...state, features: [...state.features] }
-      newState.features[index] = feature
-      state = newState
+    onAction('updateFeatures', (features) => {
+      state = { ...state, features: features }
     })
 
 
