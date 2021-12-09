@@ -14,7 +14,7 @@ export const categoriesSettings: Record<string, CategorySettings> = {
     order: 1,
   },
   base: {
-    name: 'Basemap',
+    name: 'OpenStreetMap Based',
     openByDefault: false,
     mutuallyExclusive: true,
     order: 2,
@@ -23,21 +23,27 @@ export const categoriesSettings: Record<string, CategorySettings> = {
 
 export const groupSettings: Record<string, GroupSettings> = {
   bivariate: {
-    name: 'Bivariate',
+    name: 'Kontur Analytics',
     openByDefault: true,
     mutuallyExclusive: true,
     order: 1,
+  },
+  Qa: {
+    name: 'QA',
+    openByDefault: true,
+    mutuallyExclusive: false,
+    order: 2,
+  },
+  osmbasemap: {
+    name: 'OpenStreetMap Based',
+    openByDefault: false,
+    mutuallyExclusive: false,
+    order: 3,
   },
   Other: {
     name: 'Other',
     openByDefault: false,
     mutuallyExclusive: false,
     order: 999,
-  },
-  Kontur: {
-    name: 'Kontur',
-    openByDefault: true,
-    mutuallyExclusive: false,
-    order: 2,
   },
 };
