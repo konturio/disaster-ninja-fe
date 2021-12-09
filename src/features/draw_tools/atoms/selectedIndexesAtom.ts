@@ -7,8 +7,6 @@ export const selectedIndexesAtom = createBindAtom(
   ({ onAction }, state: number[] = []) => {
     onAction('setIndexes', (indexes) => {
       state = indexes
-
-      console.log('%c⧭ setIndexes', 'color: #1d3f73', state);
     });
 
     return state;

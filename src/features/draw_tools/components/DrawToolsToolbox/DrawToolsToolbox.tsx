@@ -39,7 +39,7 @@ export const DrawToolsToolbox = () => {
   
   const onDelete = useCallback(
     () => {
-      removeByIndexes(selected)
+      if (selected.length) removeByIndexes(selected)
     },
     [selected],
   );
