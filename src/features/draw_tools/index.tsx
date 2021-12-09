@@ -7,6 +7,7 @@ import {
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import { DrawToolsIcon } from '@k2-packages/default-icons';
 import { drawLayerAtom } from './atoms/drawLayerAtom';
+import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
 
 export function initDrawTools() {
   drawLayerAtom.mount.dispatch()
@@ -14,7 +15,8 @@ export function initDrawTools() {
     id: DRAW_TOOLS_CONTROL_ID,
     name: DRAW_TOOLS_CONTROL_NAME,
     active: false,
-    group: 'tools',
+    exclusiveGroup: controlGroup.mapTools,
+    visualGroup: controlVisualGroup.withAnalitics,
     icon: <DrawToolsIcon />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch(DRAW_TOOLS_CONTROL_ID);

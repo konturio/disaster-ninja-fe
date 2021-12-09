@@ -16,7 +16,7 @@ const { EventList } = lazily(() => import('~features/events_list'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
 const { Legend } = lazily(() => import('~features/legend_panel'));
-const { MapLayersList } = lazily(() => import('~features/map_layers_panel'));
+const { MapLayersList } = lazily(() => import('~features/layers_panel'));
 const { DrawToolsToolbox } = lazily(
   () =>
     import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
+import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 import { Text } from '@k2-packages/ui-kit';
 import { InlineLegend } from '../StepIcons/InlineLegend';
 import { MultiStepsLegend } from '../StepIcons/MultiStepsLegend';

@@ -1,0 +1,29 @@
+.collapse {
+  margin-left: var(--unit);
+}
+
+.collapseControl {
+  display: flex;
+  flex-flow: row nowrap;
+  font-weight: bold;
+  padding: var(--half-unit);
+  cursor: pointer;
+}
+
+.collapseContent {
+  margin-left: var(--unit);
+}
+
+.collapseIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: cetner;
+  padding: 0 var(--half-unit);
+  transition: transform ease 0.1s;
+  &.close {
+    transform: rotate(-90deg);
+  }
+  & > svg {
+    display: block;
+  }
+}

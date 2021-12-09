@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
+import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 import { Legend as BiLegend, Text } from '@k2-packages/ui-kit';
 import { invertClusters } from '@k2-packages/bivariate-tools';
 import { Tooltip } from '~components/Tooltip/Tooltip';
