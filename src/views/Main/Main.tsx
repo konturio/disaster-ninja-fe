@@ -17,10 +17,7 @@ const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
 const { Legend } = lazily(() => import('~features/legend_panel'));
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
-const { DrawToolsToolbox } = lazily(
-  () =>
-    import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
-);
+const { DrawToolsToolbox } = lazily(() => import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'));
 
 export function MainView() {
   const history = useHistory();
@@ -45,13 +42,13 @@ export function MainView() {
     import('~features/focused_geometry_layer').then(
       ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
     );
-    import('~features/reports/').then(({ initReportsIcon }) =>
+    import('~features/reports').then(({ initReportsIcon }) =>
       initReportsIcon(history),
     );
-    import('~features/bivariate_manager/').then(({ initBivariateManager }) =>
+    import('~features/bivariate_manager').then(({ initBivariateManager }) =>
       initBivariateManager(),
     );
-    import('~features/draw_tools/').then(({ initDrawTools }) =>
+    import('~features/draw_tools').then(({ initDrawTools }) =>
       initDrawTools(),
     );
   }, []);
@@ -69,6 +66,7 @@ export function MainView() {
           <SideBar />
           <EventList />
           <Analytics />
+          <DrawToolsToolbox />
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -90,7 +88,6 @@ export function MainView() {
               <MapLayersList />
             </div>
           </Suspense>
-          <DrawToolsToolbox />
         </div>
       </Row>
     </>

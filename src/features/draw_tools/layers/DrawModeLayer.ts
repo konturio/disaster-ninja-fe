@@ -1,7 +1,5 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { MapboxLayer } from '@deck.gl/mapbox';
-import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
-import { layersOrderManager } from '~core/layersOrder';
 import { createDrawingLayers, drawModes, DrawModeType, editDrawingLayers } from '../constants';
 import { layersConfigs } from '../configs';
 import { FeatureCollection } from 'geojson';
@@ -9,6 +7,8 @@ import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '../atoms/activeDrawMode';
 import { currentMapAtom } from '~core/shared_state';
 import { selectedIndexesAtom } from '../atoms/selectedIndexesAtom';
+import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
+import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
 
 type mountedDeckLayersType = {
@@ -175,5 +175,9 @@ export class DrawModeLayer implements LogicalLayer {
   _onDrawEdit = ({ editContext, updatedData, editType }) => {
     if (editType === 'addFeature' && updatedData.features[0])
       drawnGeometryAtom.addFeature.dispatch(updatedData.features[0]);
+  }
+
+  onDataChange() {
+    // no data is incoming here
   }
 }

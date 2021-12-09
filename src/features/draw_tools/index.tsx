@@ -8,6 +8,7 @@ import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import { DrawToolsIcon } from '@k2-packages/default-icons';
 import { drawLayerAtom } from './atoms/drawLayerAtom';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import { DrawToolsToolbox } from './components/DrawToolsToolbox/DrawToolsToolbox';
 
 export function initDrawTools() {
   drawLayerAtom.mount.dispatch()
@@ -22,10 +23,10 @@ export function initDrawTools() {
       sideControlsBarAtom.toggleActiveState.dispatch(DRAW_TOOLS_CONTROL_ID);
     },
     onChange: (becomesActive) => {
-      if (becomesActive) {        
+      if (becomesActive) {
         activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
       } else {
-        activeDrawModeAtom.setDrawMode.dispatch(undefined);        
+        activeDrawModeAtom.setDrawMode.dispatch(undefined);
       }
     },
   });
