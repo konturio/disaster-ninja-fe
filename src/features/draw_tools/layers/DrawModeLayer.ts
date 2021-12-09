@@ -8,6 +8,7 @@ import { FeatureCollection } from 'geojson';
 import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '../atoms/activeDrawMode';
 import { currentMapAtom } from '~core/shared_state';
+import { selectedIndexesAtom } from '../atoms/selectedIndexesAtom';
 
 
 type mountedDeckLayersType = {
@@ -159,6 +160,7 @@ export class DrawModeLayer implements LogicalLayer {
     let changedIndexes = editContext?.featureIndexes || []
 
     this.selectedIndexes = changedIndexes
+    selectedIndexesAtom.setIndexes.dispatch(changedIndexes)
 
     // if we selected something being in draw modes
     if (this._createDrawingLayer && editContext.featureIndexes.length) {
@@ -166,7 +168,6 @@ export class DrawModeLayer implements LogicalLayer {
     }
 
 
-    // This works for single feature selection. We need to update multiple features else
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
       currentMapAtom.setInteractivity.dispatch(true)
     } else if (updatedData.features?.[0]) {

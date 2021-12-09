@@ -1,59 +1,23 @@
-// import { activeDrawModeAtom } from './activeDrawMode';
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { FeatureCollection, Feature } from 'geojson';
 
-const exampleGeo: Feature = {
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [
-          53.24676749999969,
-          73.844393544434
-        ],
-        [
-          82.4967717915341,
-          58.9228002926334
-        ],
-        [
-          25.965515354232487,
-          58.63121797209951
-        ],
-        [
-          25.824892499999685,
-          58.63121797209951
-        ],
-        [
-          53.24676749999969,
-          73.844393544434
-        ]
-      ]
-    ]
-  },
-  "type": "Feature",
-  "properties": {}
-}
 
 const defaultState: FeatureCollection = {
   type: 'FeatureCollection', features: []
 }
-// todo remove feature
+
 export const drawnGeometryAtom = createBindAtom(
   {
-    // activeDrawModeAtom,
     addFeature: (feature: Feature) => feature,
     sendToFocusedGeometry: () => null,
-    updateFeatures: (features: Feature[]) => features
+    updateFeatures: (features: Feature[]) => features,
+    removeByIndexes: (indexes: number[]) => indexes,
   },
-  ({ onChange, schedule, onAction }, state: FeatureCollection = defaultState) => {
-    // onChange('activeDrawModeAtom', (mode) => {
-    //   // if (!mode) state = [];
-    // });
+  ({ schedule, onAction }, state: FeatureCollection = defaultState) => {
 
     onAction('addFeature', (feature) => {
       state = { ...state, features: [...state.features, feature] }
-      console.log('%c⧭', 'color: #cc0036', state);
     });
 
     onAction('sendToFocusedGeometry', () => {
@@ -71,6 +35,15 @@ export const drawnGeometryAtom = createBindAtom(
     onAction('updateFeatures', (features) => {
       state = { ...state, features: features }
     })
+
+    onAction('removeByIndexes', (indexesToRemove) => {
+      if (!indexesToRemove.length) console.warn('no indexes to remove')
+      const stateCopy: FeatureCollection = { ...state, features: [...state.features] }
+      stateCopy.features = state.features.filter((feature, featureIndex) => {
+        return !indexesToRemove.includes(featureIndex)
+      })
+      state = stateCopy
+    });
 
 
     return state;
