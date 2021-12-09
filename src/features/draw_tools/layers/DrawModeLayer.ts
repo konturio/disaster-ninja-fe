@@ -4,9 +4,7 @@ import { LogicalLayer } from '~utils/atoms/createLogicalLayerAtom';
 import { layersOrderManager } from '~core/layersOrder';
 import { createDrawingLayers, drawModes, DrawModeType, editDrawingLayers } from '../constants';
 import { layersConfigs } from '../configs';
-import { MapboxLayerProps } from '@deck.gl/mapbox/mapbox-layer';
 import { FeatureCollection } from 'geojson';
-import { ViewMode } from '@nebula.gl/edit-modes';
 import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '../atoms/activeDrawMode';
 import { currentMapAtom } from '~core/shared_state';
@@ -51,10 +49,8 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   willMount(map: ApplicationMap): void {
-    console.log('%c⧭', 'color: #731d1d', 'mounted');
     this._map = map
     this._isMounted = true;
-    // this.drawnData = drawnGeometryAtom.getState()
   }
 
   willUnmount(): void {
@@ -62,7 +58,7 @@ export class DrawModeLayer implements LogicalLayer {
     this._isMounted = false;
   }
 
-  setMode(mode: DrawModeType): void {
+  setMode(mode: DrawModeType): any {
     this.mode = mode
     if (!mode) return this.willHide()
     // Case setting mode to create drawings - 
@@ -95,7 +91,7 @@ export class DrawModeLayer implements LogicalLayer {
   _addDeckLayer(mode: DrawModeType): void {
     if (this.mountedDeckLayers[mode]) return console.log(`cannot add ${mode} as it's already mounted`);
 
-    const config: MapboxLayerProps<unknown> = layersConfigs[mode]
+    const config = layersConfigs[mode]
     // Types for data are wrong. See https://deck.gl/docs/api-reference/layers/geojson-layer#data
     if (editDrawingLayers.includes(mode)) {
       // config.selectedFeatureIndexes = [...this.selectedIndexes]
@@ -147,7 +143,8 @@ export class DrawModeLayer implements LogicalLayer {
     layer?.setProps({ data: this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
   }
 
-  willHide() {
+  willHide(map?: ApplicationMap) {
+    if (map && !this._map) this._map = map
     const keys = Object.keys(this.mountedDeckLayers) as DrawModeType[]
     keys.forEach(deckLayer => this._removeDeckLayer(deckLayer))
     this._createDrawingLayer = null
