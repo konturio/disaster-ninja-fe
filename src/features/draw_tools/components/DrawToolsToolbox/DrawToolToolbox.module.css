@@ -53,3 +53,7 @@
 .finishBtn {
   background-color: #0c9bed !important;
 }
+
+.availibleButton{
+  background-color: red;
+}

@@ -13,9 +13,13 @@ import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import clsx from 'clsx';
 import { drawModes, DrawModeType } from '~features/draw_tools/constants';
 import { modeWatcherAtom } from '~features/draw_tools/atoms/drawLayerAtom';
+import { selectedIndexesAtom } from '~features/draw_tools/atoms/selectedIndexesAtom';
+import { drawnGeometryAtom } from '~features/draw_tools/atoms/drawnGeometryAtom';
 
 export const DrawToolsToolbox = () => {
   const [activeDrawMode, { setDrawMode, toggleDrawMode }] = useAtom(activeDrawModeAtom);
+  const [selected] = useAtom(selectedIndexesAtom)
+  const [, { removeByIndexes }] = useAtom(drawnGeometryAtom)
   useAtom(modeWatcherAtom);
 
   const onClick = useCallback(
@@ -23,7 +27,7 @@ export const DrawToolsToolbox = () => {
       const mode: DrawModeType = drawModes[modeId] || drawModes.ModifyMode;
       toggleDrawMode(mode);
     },
-    [setDrawMode],
+    [toggleDrawMode],
   );
 
   const finishDrawing = useCallback(
@@ -31,6 +35,13 @@ export const DrawToolsToolbox = () => {
       setDrawMode(undefined);
     },
     [setDrawMode],
+  );
+  
+  const onDelete = useCallback(
+    () => {
+      removeByIndexes(selected)
+    },
+    [selected],
   );
 
   return activeDrawMode ? (
@@ -50,7 +61,7 @@ export const DrawToolsToolbox = () => {
           <DrawPointIcon /> {i18n.t('Point')}
         </div>
       </Button>
-      <Button>
+      <Button active={Boolean(selected.length)} onClick={onDelete}>
         <div className={s.btnContainer}>
           <TrashBinIcon />
         </div>
