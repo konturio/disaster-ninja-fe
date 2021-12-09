@@ -1,22 +1,14 @@
 import {
   ClickEvent,
-  PointerMoveEvent,
   ModeProps,
-  GuideFeatureCollection,
-  DrawPolygonMode,
-  Feature,
 } from '@nebula.gl/edit-modes';
-import { Polygon, FeatureCollection, Position } from '@nebula.gl/edit-modes/';
-import { GeoJsonEditMode } from '@nebula.gl/edit-modes';
-import { TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
+import { Polygon, FeatureCollection } from '@nebula.gl/edit-modes/';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
-import kinks from '@turf/kinks';
 
 import { CustomDrawPolygonMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomDrawPolygonMode';
 import { currentMapAtom, currentNotificationAtom } from '~core/shared_state';
 import { TranslationService as i18n } from '~core/localization';
 
-// DrawPolygonMode
 
 export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
 

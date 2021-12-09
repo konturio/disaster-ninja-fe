@@ -14,7 +14,7 @@ import { selectedIndexesAtom } from '../atoms/selectedIndexesAtom';
 type mountedDeckLayersType = {
   [key in DrawModeType]?: MapboxLayer<unknown>
 }
-const completedTypes = ['selectFeature', 'finishMovePosition', 'rotated', 'translated']
+const completedTypes = ['selectFeature', 'finishMovePosition', 'rotated', 'translated', 'scaled']
 
 export class DrawModeLayer implements LogicalLayer {
   public readonly id: string;
@@ -157,6 +157,7 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
+    console.log('%c⧭', 'color: #f279ca', editType);
     let changedIndexes = editContext?.featureIndexes || []
 
     this.selectedIndexes = changedIndexes
@@ -170,6 +171,7 @@ export class DrawModeLayer implements LogicalLayer {
 
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
       currentMapAtom.setInteractivity.dispatch(true)
+      drawnGeometryAtom.sendToFocusedGeometry.dispatch()
     } else if (updatedData.features?.[0]) {
       currentMapAtom.setInteractivity.dispatch(false)
     }

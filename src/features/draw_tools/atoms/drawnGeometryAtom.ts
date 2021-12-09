@@ -14,10 +14,12 @@ export const drawnGeometryAtom = createBindAtom(
     updateFeatures: (features: Feature[]) => features,
     removeByIndexes: (indexes: number[]) => indexes,
   },
-  ({ schedule, onAction }, state: FeatureCollection = defaultState) => {
+  ({ schedule, onAction, create }, state: FeatureCollection = defaultState) => {
 
     onAction('addFeature', (feature) => {
       state = { ...state, features: [...state.features, feature] }
+      
+      schedule(dispatch => dispatch(create('sendToFocusedGeometry')))
     });
 
     onAction('sendToFocusedGeometry', () => {
@@ -29,7 +31,6 @@ export const drawnGeometryAtom = createBindAtom(
           ),
         ),
       );
-      state = defaultState
     })
 
     onAction('updateFeatures', (features) => {
@@ -43,6 +44,8 @@ export const drawnGeometryAtom = createBindAtom(
         return !indexesToRemove.includes(featureIndex)
       })
       state = stateCopy
+      
+      schedule(dispatch => dispatch(create('sendToFocusedGeometry')))
     });
 
 
