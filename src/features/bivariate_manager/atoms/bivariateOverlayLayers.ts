@@ -1,4 +1,4 @@
-import { createBindAtom, createLogicalLayerAtom } from '~utils/atoms';
+import { createBindAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { Stat } from '@k2-packages/bivariate-tools';
 import {
@@ -8,7 +8,10 @@ import {
 import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { ColorTheme } from '~appModule/types';
 import { logicalLayersRegistryAtom } from '~core/shared_state';
-import { LogicalLayerAtom } from '~utils/atoms/createLogicalLayerAtom';
+import {
+  LogicalLayerAtom,
+  createLogicalLayerAtom,
+} from '~core/logical_layers/createLogicalLayerAtom';
 import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
 
 export const bivariateOverlayLayersAtom = createBindAtom(
@@ -60,7 +63,7 @@ export const bivariateOverlayLayersAtom = createBindAtom(
               layers.push(
                 createLogicalLayerAtom(
                   new BivariateLayer(
-                    `Bivariate ${overlay.name}`,
+                    overlay.name,
                     bivariateStyle as BivariateLayerStyle,
                     legend,
                   ),

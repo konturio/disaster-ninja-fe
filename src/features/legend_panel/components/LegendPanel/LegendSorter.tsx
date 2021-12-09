@@ -1,4 +1,4 @@
-import { useLayerAtomFromRegistry } from '~utils/atoms';
+import { useLayerAtomFromRegistry } from '~core/logical_layers/useLayerAtomFromRegistry';
 import { NameWithSimpleLegend } from '~components/LegendPanel/components/NameWithLegend/NameWithSimpleLegend';
 import s from './LegendPanel.module.css';
 import { BivariateLegend } from '~components/LegendPanel/components/BivariateLegend/BivariateLegend';

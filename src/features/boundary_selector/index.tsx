@@ -5,7 +5,7 @@ import {
   BOUNDARY_SELECTOR_CONTROL_ID,
   BOUNDARY_SELECTOR_CONTROL_NAME,
 } from '~features/boundary_selector/constants';
-import { controlGroup } from '~core/shared_state/sideControlsBar';
+import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
 
 export function initBoundarySelector() {
   boundaryLogicalLayerAtom.init();
@@ -13,7 +13,8 @@ export function initBoundarySelector() {
     id: BOUNDARY_SELECTOR_CONTROL_ID,
     name: BOUNDARY_SELECTOR_CONTROL_NAME,
     active: false,
-    group: controlGroup.mapTools,
+    exclusiveGroup: controlGroup.mapTools,
+    visualGroup: controlVisualGroup.withAnalitics,
     icon: <BoundarySelectorIcon />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch(

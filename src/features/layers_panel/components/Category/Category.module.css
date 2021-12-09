@@ -1,0 +1,10 @@
+.mountedLayersCounter {
+  font-weight: normal;
+  opacity: 0.5;
+}
+
+.categoryTitle {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--unit);
+}

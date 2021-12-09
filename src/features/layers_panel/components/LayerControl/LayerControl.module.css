@@ -18,7 +18,7 @@
 
 .notInteractive {
   cursor: default;
-  > input[type='checkbox'] {
+  & > input[type='checkbox'] {
     display: none;
   }
 }
@@ -31,7 +31,7 @@
 
 .layerLabelIcon {
   margin-left: calc(var(--unit) * -1);
-  svg {
+  & svg {
     display: block;
   }
 }
