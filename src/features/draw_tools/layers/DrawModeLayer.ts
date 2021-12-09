@@ -126,10 +126,6 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
 
-  onDataChange(map: ApplicationMap, data: FeatureCollection | null) {
-    // console.log('%c⧭ data change fired', 'color: #00a3cc', data);
-  }
-
   updateData(data: FeatureCollection) {
     if (!this._map) return;
     this.drawnData = data
@@ -157,7 +153,6 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
-    console.log('%c⧭', 'color: #f279ca', editType);
     let changedIndexes = editContext?.featureIndexes || []
 
     this.selectedIndexes = changedIndexes

@@ -53,8 +53,6 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
             props,
           );
 
-          console.log('%c⧭', 'color: #917399', editAction);
-
           if (editAction) {
             props.onEdit(editAction);
             // props.data.features = editAction.updatedData.features

@@ -11,15 +11,17 @@ import {
 import { useAtom } from '@reatom/react';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import clsx from 'clsx';
-import { CLOSE_DRAW_HINT, drawModes, DrawModeType } from '~features/draw_tools/constants';
+import { CLOSE_DRAW_HINT, drawModes, DrawModeType, DRAW_TOOLS_CONTROL_ID } from '~features/draw_tools/constants';
 import { modeWatcherAtom } from '~features/draw_tools/atoms/drawLayerAtom';
 import { selectedIndexesAtom } from '~features/draw_tools/atoms/selectedIndexesAtom';
 import { drawnGeometryAtom } from '~features/draw_tools/atoms/drawnGeometryAtom';
+import { sideControlsBarAtom } from '~core/shared_state';
 
 export const DrawToolsToolbox = () => {
   const [activeDrawMode, { setDrawMode, toggleDrawMode }] = useAtom(activeDrawModeAtom);
   const [selected] = useAtom(selectedIndexesAtom)
   const [, { removeByIndexes }] = useAtom(drawnGeometryAtom)
+  const [, { disable: disableSideIcon }] = useAtom(sideControlsBarAtom)
   useAtom(modeWatcherAtom);
 
   const [hintShown, setHintShown] = useState(
@@ -36,6 +38,7 @@ export const DrawToolsToolbox = () => {
 
   const finishDrawing = useCallback(
     () => {
+      disableSideIcon(DRAW_TOOLS_CONTROL_ID)
       setDrawMode(undefined);
     },
     [setDrawMode],
