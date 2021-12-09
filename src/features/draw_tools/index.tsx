@@ -23,7 +23,7 @@ export function initDrawTools() {
       if (becomesActive) {        
         activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
       } else {
-        activeDrawModeAtom.setDrawMode.dispatch(undefined);
+        activeDrawModeAtom.setDrawMode.dispatch(undefined);        
       }
     },
   });

@@ -171,7 +171,6 @@ export class DrawModeLayer implements LogicalLayer {
 
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
       currentMapAtom.setInteractivity.dispatch(true)
-      drawnGeometryAtom.sendToFocusedGeometry.dispatch()
     } else if (updatedData.features?.[0]) {
       currentMapAtom.setInteractivity.dispatch(false)
     }

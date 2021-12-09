@@ -12,9 +12,10 @@ export const activeDrawModeAtom = createBindAtom(
         state = mode;
       }
     });
+
     onAction('toggleDrawMode', (mode) => {
       if (!mode && !state) return;
-      if (mode === drawModes.ModifyMode && state === mode) return; 
+      if (mode === drawModes.ModifyMode && state === mode) return;
       if (state === mode) {
         state = drawModes.ModifyMode;
       } else state = mode
