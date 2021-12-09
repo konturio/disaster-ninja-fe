@@ -1,6 +1,7 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { FeatureCollection, Feature } from 'geojson';
+import { activeDrawModeAtom } from './activeDrawMode'
 
 
 const defaultState: FeatureCollection = {
@@ -10,29 +11,17 @@ const defaultState: FeatureCollection = {
 export const drawnGeometryAtom = createBindAtom(
   {
     addFeature: (feature: Feature) => feature,
-    sendToFocusedGeometry: () => null,
     updateFeatures: (features: Feature[]) => features,
     removeByIndexes: (indexes: number[]) => indexes,
-    focusedGeometryAtom
+    focusedGeometryAtom,
+    activeDrawModeAtom
   },
   ({ schedule, onAction, create, onChange }, state: FeatureCollection = defaultState) => {
 
     onAction('addFeature', (feature) => {
       state = { ...state, features: [...state.features, feature] }
-
-      schedule(dispatch => dispatch(create('sendToFocusedGeometry')))
     });
 
-    onAction('sendToFocusedGeometry', () => {
-      schedule((dispatch) =>
-        dispatch(
-          focusedGeometryAtom.setFocusedGeometry(
-            { type: 'custom' },
-            state
-          ),
-        ),
-      );
-    })
 
     onAction('updateFeatures', (features) => {
       state = { ...state, features: features }
@@ -45,8 +34,6 @@ export const drawnGeometryAtom = createBindAtom(
         return !indexesToRemove.includes(featureIndex)
       })
       state = stateCopy
-
-      schedule(dispatch => dispatch(create('sendToFocusedGeometry')))
     });
 
     onChange('focusedGeometryAtom', incoming => {
@@ -60,6 +47,20 @@ export const drawnGeometryAtom = createBindAtom(
         }
         else console.warn('wrong type of data imported')
       })
+    })
+
+    onChange('activeDrawModeAtom', mode => {
+      if (mode) return;
+      if (state.features.length) schedule((dispatch) => {
+        dispatch(
+          focusedGeometryAtom.setFocusedGeometry(
+            { type: 'custom' },
+            state
+          )
+        )
+        state = defaultState
+      }
+      );
     })
 
 
