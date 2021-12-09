@@ -1,22 +1,14 @@
 import {
   ClickEvent,
-  PointerMoveEvent,
   ModeProps,
-  GuideFeatureCollection,
-  DrawPolygonMode,
-  Feature,
   DrawLineStringMode,
   LineString,
 } from '@nebula.gl/edit-modes';
-import { Polygon, FeatureCollection, Position } from '@nebula.gl/edit-modes/';
-import { GeoJsonEditMode } from '@nebula.gl/edit-modes';
-import { TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
+import {  FeatureCollection } from '@nebula.gl/edit-modes/';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
-import kinks from '@turf/kinks';
 
 import { currentMapAtom } from '~core/shared_state';
 
-// DrawPolygonMode
 
 export class LocalDrawLineStringMode extends DrawLineStringMode {
 

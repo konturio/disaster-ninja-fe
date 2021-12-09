@@ -28,10 +28,10 @@ export function MainView() {
   useEffect(() => {
     /* Lazy load module */
     // TODO: Add feature flag check
-    // import('~features/url_store').then(({ initUrlStore }) => initUrlStore());
-    // import('~features/current_event').then(({ initCurrentEvent }) =>
-    //   initCurrentEvent(),
-    // );
+    import('~features/url_store').then(({ initUrlStore }) => initUrlStore());
+    import('~features/current_event').then(({ initCurrentEvent }) =>
+      initCurrentEvent(),
+    );
     import('~features/geometry_uploader').then(({ initFileUploader }) =>
       initFileUploader(),
     );
@@ -39,18 +39,18 @@ export function MainView() {
     import('~features/boundary_selector').then(({ initBoundarySelector }) =>
       initBoundarySelector(),
     );
-    // import('~features/layers_in_area').then(({ initLayersInArea }) =>
-    //   initLayersInArea(),
-    // );
+    import('~features/layers_in_area').then(({ initLayersInArea }) =>
+      initLayersInArea(),
+    );
     import('~features/focused_geometry_layer').then(
       ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
     );
     import('~features/reports/').then(({ initReportsIcon }) =>
       initReportsIcon(history),
     );
-    // import('~features/bivariate_manager/').then(({ initBivariateManager }) =>
-    //   initBivariateManager(),
-    // );
+    import('~features/bivariate_manager/').then(({ initBivariateManager }) =>
+      initBivariateManager(),
+    );
     import('~features/draw_tools/').then(({ initDrawTools }) =>
       initDrawTools(),
     );
@@ -67,8 +67,8 @@ export function MainView() {
         <Suspense fallback={null}>
           <NotificationToast />
           <SideBar />
-          {/* <EventList /> */}
-          {/* <Analytics /> */}
+          <EventList />
+          <Analytics />
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -84,12 +84,12 @@ export function MainView() {
           <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
           </div>
-          {/* <Suspense fallback={null}>
+          <Suspense fallback={null}>
             <div className={s.floating}>
               <Legend />
               <MapLayersList />
             </div>
-          </Suspense> */}
+          </Suspense>
           <DrawToolsToolbox />
         </div>
       </Row>
