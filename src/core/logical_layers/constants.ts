@@ -14,7 +14,7 @@ export const categoriesSettings: Record<string, CategorySettings> = {
     order: 1,
   },
   base: {
-    name: 'OpenStreetMap Based',
+    name: 'Basemap',
     openByDefault: false,
     mutuallyExclusive: true,
     order: 2,
@@ -34,7 +34,7 @@ export const groupSettings: Record<string, GroupSettings> = {
     mutuallyExclusive: false,
     order: 2,
   },
-  osmbasemap: {
+  Osmbasedmap: {
     name: 'OpenStreetMap Based',
     openByDefault: false,
     mutuallyExclusive: false,
