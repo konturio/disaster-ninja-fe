@@ -1,12 +1,6 @@
 import { GroupSettings, CategorySettings } from '../types/layers';
 
 export const categoriesSettings: Record<string, CategorySettings> = {
-  'Layers in selected area': {
-    name: 'Layers in selected area',
-    openByDefault: true,
-    mutuallyExclusive: false,
-    order: 0,
-  },
   overlay: {
     name: 'Overlays',
     openByDefault: true,
@@ -22,28 +16,49 @@ export const categoriesSettings: Record<string, CategorySettings> = {
 };
 
 export const groupSettings: Record<string, GroupSettings> = {
+  layersInSelectedArea: {
+    name: 'Layers in selected area',
+    openByDefault: true,
+    mutuallyExclusive: false,
+    order: 0,
+  },
   bivariate: {
     name: 'Kontur Analytics',
     openByDefault: true,
     mutuallyExclusive: true,
     order: 1,
   },
-  Qa: {
+  qa: {
     name: 'QA',
     openByDefault: true,
     mutuallyExclusive: false,
     order: 2,
   },
-  Osmbasedmap: {
+  osmbasedmap: {
     name: 'OpenStreetMap Based',
     openByDefault: false,
     mutuallyExclusive: false,
     order: 3,
   },
-  Other: {
+  other: {
     name: 'Other',
     openByDefault: false,
     mutuallyExclusive: false,
     order: 999,
+  },
+  elevation: {
+    name: 'Elevation',
+    openByDefault: true,
+    mutuallyExclusive: false,
+  },
+  photo: {
+    name: 'Photo',
+    openByDefault: true,
+    mutuallyExclusive: false,
+  },
+  map: {
+    name: 'Map',
+    openByDefault: true,
+    mutuallyExclusive: false,
   },
 };
