@@ -102,10 +102,15 @@ export class DrawModeLayer implements LogicalLayer {
       config.data = this.drawnData
       config.selectedFeatureIndexes = this.selectedIndexes
     }
-    if (mode === drawModes.ModifyMode) config.onEdit = this._onModifyEdit
+    if (mode === drawModes.ModifyMode) {
+      config.onEdit = this._onModifyEdit
+      config.getRadius = () => {
+        const zoom = this._map.getZoom();
+        return 20000 / (zoom * zoom);
+      };
+    }
     else if (createDrawingLayers.includes(mode)) config.onEdit = this._onDrawEdit
 
-    console.log('%c⧭ config from adding', 'color: #1d3f73', this.drawnData.features);
     const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
 
