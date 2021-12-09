@@ -26,6 +26,7 @@ export const drawPolyDeckLayerConfig = {
   },
   modeConfig: {
     multipoint: true,
+    disableSelfIntersections: true
   },
 
 }

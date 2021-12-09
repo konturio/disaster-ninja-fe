@@ -13,7 +13,8 @@ import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 import kinks from '@turf/kinks';
 
 import { CustomDrawPolygonMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomDrawPolygonMode';
-import { currentMapAtom } from '~core/shared_state';
+import { currentMapAtom, currentNotificationAtom } from '~core/shared_state';
+import { TranslationService as i18n } from '~core/localization';
 
 // DrawPolygonMode
 
@@ -117,13 +118,15 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
         clickSequence.length - 1)
     ) {
       // They clicked the first or last point (or double-clicked), so complete the polygon
-      
+
       // disable zoom for finishing double-click
       currentMapAtom.getState()?.doubleClickZoom.disable()
 
       const polygonCoords = [...clickSequence, clickSequence[0]];
 
-      if (this.intersectionsTest(props, polygonCoords)) return;
+
+      if (this.intersectionsTest(props, polygonCoords))
+        return currentNotificationAtom.showNotification.dispatch('error', i18n.t('Polygon should not overlap itself'), 1600);
 
       // Remove the hovered position
       const polygonToAdd: Polygon = {
@@ -149,13 +152,13 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       if (editAction) {
         props.onEdit(editAction);
       }
-      
+
       // this will let us finish geometry by double click and after that - enable back map double click zoom
       const t = setTimeout(() => {
         currentMapAtom.getState()?.doubleClickZoom.enable()
         clearTimeout(t)
       }, 0)
-      
+
     } else if (positionAdded) {
       props.onEdit({
         // data is the same
@@ -167,5 +170,4 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       });
     }
   }
-
 }
