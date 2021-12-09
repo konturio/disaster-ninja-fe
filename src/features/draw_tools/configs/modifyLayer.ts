@@ -20,6 +20,7 @@ export const modifyDeckLayerConfig = {
 
   parameters: {
     depthTest: false, // skip z-buffer check
+    pickingRadius: 50
   },
   _subLayerProps: {
     tooltips: {
