@@ -66,26 +66,27 @@ export class DrawModeLayer implements LogicalLayer {
     if (createDrawingLayers.includes(mode)) {
       // Make shure editing mode is Modify mode
       if (!this._editDrawingLayer) this._addDeckLayer(drawModes.ModifyMode)
-      else if (this._editDrawingLayer !== drawModes.ModifyMode) {
-        this._removeDeckLayer(this._editDrawingLayer)
-        this._addDeckLayer(drawModes.ModifyMode)
-      }
       this._editDrawingLayer = drawModes.ModifyMode
+
+      // if we had other drawing mode - remove it
+      if (this._createDrawingLayer && this._createDrawingLayer !== mode)
+        this._removeDeckLayer(this._createDrawingLayer)
 
       this._addDeckLayer(drawModes[mode])
       this._createDrawingLayer = mode
     }
 
-    // Case setting editing mode - remove drawing mode and update edit mode if needed
+    // Case setting editing mode - remove drawing mode and add edit mode if needed
     else if (editDrawingLayers.includes(mode)) {
       if (this._createDrawingLayer) {
         this._removeDeckLayer(this._createDrawingLayer)
         this._createDrawingLayer = null
       }
       if (this._editDrawingLayer === mode) return;
-      if (this._editDrawingLayer && this._editDrawingLayer !== mode) this._removeDeckLayer(this._editDrawingLayer);
-      this._addDeckLayer(drawModes[mode])
-      this._editDrawingLayer = mode
+      if (!this._editDrawingLayer) {
+        this._addDeckLayer(drawModes[mode])
+        this._editDrawingLayer = mode
+      }
     }
   }
 
@@ -95,7 +96,6 @@ export class DrawModeLayer implements LogicalLayer {
     const config = layersConfigs[mode]
     // Types for data are wrong. See https://deck.gl/docs/api-reference/layers/geojson-layer#data
     if (editDrawingLayers.includes(mode)) {
-      // config.selectedFeatureIndexes = [...this.selectedIndexes]
       config.data = this.drawnData
       config.selectedFeatureIndexes = this.selectedIndexes
     }
@@ -177,7 +177,6 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   _onDrawEdit = ({ editContext, updatedData, editType }) => {
-
     if (editType === 'addFeature' && updatedData.features[0])
       drawnGeometryAtom.addFeature.dispatch(updatedData.features[0]);
   }
