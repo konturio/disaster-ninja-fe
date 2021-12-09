@@ -1,4 +1,4 @@
-import { Button, ButtonGroup } from '@k2-packages/ui-kit';
+import { Button } from '@k2-packages/ui-kit';
 import { useCallback } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import s from './DrawToolToolbox.module.css';
@@ -15,13 +15,13 @@ import { drawModes, DrawModeType } from '~features/draw_tools/constants';
 import { modeWatcherAtom } from '~features/draw_tools/atoms/drawLayerAtom';
 
 export const DrawToolsToolbox = () => {
-  const [activeDrawMode, { setDrawMode }] = useAtom(activeDrawModeAtom);
+  const [activeDrawMode, { setDrawMode, toggleDrawMode }] = useAtom(activeDrawModeAtom);
   useAtom(modeWatcherAtom);
 
-  const onSelectTool = useCallback(
+  const onClick = useCallback(
     (modeId: string) => {
       const mode: DrawModeType = drawModes[modeId] || drawModes.ModifyMode;
-      setDrawMode(mode);
+      toggleDrawMode(mode);
     },
     [setDrawMode],
   );
@@ -35,28 +35,21 @@ export const DrawToolsToolbox = () => {
 
   return activeDrawMode ? (
     <div className={s.drawToolsContainer}>
-      <ButtonGroup
-        onChange={onSelectTool}
-        classes={{
-          btnContainer: s.modeButton,
-        }}
-      >
-        <Button id={drawModes.DrawPolygonMode}>
-          <div className={s.btnContainer}>
-            <DrawPolygonIcon /> {i18n.t('Area')}
-          </div>
-        </Button>
-        <Button id={drawModes.DrawLineMode}>
-          <div className={s.btnContainer}>
-            <DrawLineIcon /> {i18n.t('Line')}
-          </div>
-        </Button>
-        <Button id={drawModes.DrawPointMode}>
-          <div className={s.btnContainer}>
-            <DrawPointIcon /> {i18n.t('Point')}
-          </div>
-        </Button>
-      </ButtonGroup>
+      <Button id={drawModes.DrawPolygonMode} active={activeDrawMode === drawModes.DrawPolygonMode} onClick={() => onClick(drawModes.DrawPolygonMode)}>
+        <div className={s.btnContainer}>
+          <DrawPolygonIcon /> {i18n.t('Area')}
+        </div>
+      </Button>
+      <Button id={drawModes.DrawLineMode} active={activeDrawMode === drawModes.DrawLineMode} onClick={() => onClick(drawModes.DrawLineMode)}>
+        <div className={s.btnContainer}>
+          <DrawLineIcon /> {i18n.t('Line')}
+        </div>
+      </Button>
+      <Button id={drawModes.DrawPointMode} active={activeDrawMode === drawModes.DrawPointMode} onClick={() => onClick(drawModes.DrawPointMode)}>
+        <div className={s.btnContainer}>
+          <DrawPointIcon /> {i18n.t('Point')}
+        </div>
+      </Button>
       <Button>
         <div className={s.btnContainer}>
           <TrashBinIcon />
