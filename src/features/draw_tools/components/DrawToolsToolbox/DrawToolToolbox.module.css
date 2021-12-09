@@ -1,8 +1,8 @@
 .drawToolsContainer {
   position: absolute;
-  top: 10px;
+  bottom: 8%;
   left: 50%;
-  margin-left: -200px;
+  transform: translate(-50%, 0);
   z-index: 1001;
   display: flex;
   border-radius: 4px;
@@ -52,4 +52,16 @@
 
 .finishBtn {
   background-color: #0c9bed !important;
+}
+
+.drawHint{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  cursor: pointer;
+  background-color: #0A1622;
+  color: #d7dadc;
+  padding: var(--half-unit) var(--unit);
+  border-radius: var(--border-radius);  
+  bottom: 16%;
 }
