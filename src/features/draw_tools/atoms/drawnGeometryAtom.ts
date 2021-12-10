@@ -37,15 +37,20 @@ export const drawnGeometryAtom = createBindAtom(
     });
 
     onChange('focusedGeometryAtom', incoming => {
+      if (activeDrawModeAtom.getState() === undefined) return;
+
       if (incoming?.source.type === 'uploaded') schedule(dispatch => {
+        const actions: any[] = []
         if (incoming.geometry.type === 'FeatureCollection' && incoming.geometry.features?.length) {
-          const actions: any[] = []
           incoming.geometry.features.forEach((feature) => actions.push(create('addFeature', feature)));
-          actions.length && dispatch(actions);
         } else if (incoming.geometry.type === 'Feature') {
-          dispatch(create('addFeature', incoming.geometry))
+          actions.push(create('addFeature', incoming.geometry))
         }
         else console.warn('wrong type of data imported')
+
+        // clear focused geometry afterwards
+        actions.push(focusedGeometryAtom.setFocusedGeometry({ type: 'custom' }, { type: 'FeatureCollection', features: [] }))
+        dispatch(actions);
       })
     })
 
