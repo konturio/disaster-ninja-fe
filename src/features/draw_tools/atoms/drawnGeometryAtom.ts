@@ -49,7 +49,7 @@ export const drawnGeometryAtom = createBindAtom(
         else console.warn('wrong type of data imported')
 
         // clear focused geometry afterwards
-        actions.push(focusedGeometryAtom.setFocusedGeometry({ type: 'custom' }, { type: 'FeatureCollection', features: [] }))
+        actions.push(focusedGeometryAtom.setFocusedGeometry({ type: 'cleared' }, { type: 'FeatureCollection', features: [] }))
         dispatch(actions);
       })
     })
@@ -59,7 +59,7 @@ export const drawnGeometryAtom = createBindAtom(
       if (state.features.length) schedule((dispatch) => {
         dispatch(
           focusedGeometryAtom.setFocusedGeometry(
-            { type: 'custom' },
+            { type: 'drawn' },
             state
           )
         )

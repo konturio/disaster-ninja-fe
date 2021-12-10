@@ -19,11 +19,21 @@ interface GeometrySourceBoundaries {
   meta: string;
 }
 
+interface GeometrySourceDrawn {
+  type: 'drawn';
+}
+
+interface GeometrySourceCleared {
+  type: 'cleared';
+}
+
 type GeometrySource =
   | GeometrySourceEvent
   | GeometrySourceCustom
   | GeometrySourceBoundaries
-  | GeometrySourceFromFile;
+  | GeometrySourceFromFile 
+  | GeometrySourceDrawn
+  | GeometrySourceCleared;
 
 export interface FocusedGeometry {
   source: GeometrySource;
