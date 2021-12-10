@@ -31,7 +31,7 @@ export const modeWatcherAtom = createBindAtom(
           const actions: any[] = []
           if (focusedFeatures.geometry.type === 'FeatureCollection') actions.push(drawnGeometryAtom.updateFeatures(focusedFeatures.geometry.features))
           else if (focusedFeatures.geometry.type === 'Feature') actions.push(drawnGeometryAtom.addFeature(focusedFeatures.geometry))
-          actions.push(focusedGeometryAtom.setFocusedGeometry({ type: 'custom' }, { type: 'FeatureCollection', features: [] }))
+          actions.push(focusedGeometryAtom.setFocusedGeometry({ type: 'cleared' }, { type: 'FeatureCollection', features: [] }))
           dispatch(actions)
         })
       }
