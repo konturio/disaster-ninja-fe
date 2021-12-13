@@ -154,13 +154,13 @@ export const MAP_CSS_MAPBOX = {
   'text-color': {
     type: 'symbol',
     category: 'paint',
-    name: 'icon-color',
+    name: 'text-color',
     valueConverter: null,
   },
   'text-opacity': {
     type: 'symbol',
     category: 'paint',
-    name: 'icon-opacity',
+    name: 'text-opacity',
     valueConverter: 'toNumber',
   },
   'text-position': {
@@ -172,7 +172,7 @@ export const MAP_CSS_MAPBOX = {
   'text-offset': {
     type: 'symbol',
     category: 'layout',
-    name: 'icon-offset',
+    name: 'text-offset',
     valueConverter: 'convertOffset',
   },
   'max-width': {
@@ -197,6 +197,12 @@ export const MAP_CSS_MAPBOX = {
     type: 'symbol',
     category: 'paint',
     name: 'text-halo-width',
+    valueConverter: null,
+  },
+  'text-size': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'text-size',
     valueConverter: null,
   },
   // Extra
