@@ -1,0 +1,971 @@
+[
+  {
+    "id": "Kontur Nighttime Heatwave Risk",
+    "name": "Kontur Nighttime Heatwave Risk",
+    "description": "This map shows heat-stress risk areas, where nighttime temperatures stay above 25°C. Due to the increase of greenhouse gases the nighttime temperatures are growing at a rate of 0.07 degrees per decade, compared to 0.05 degrees for daytime maximums globally (for the period from 1960 to 2009).\n       The number of people exposed to nighttime heatwaves in particular regions is provided by Kontur. The current warming scenario of the average number of nights over 25°C during the year is based on data and other content made available by Probable Futures, a Project of SouthCoast Community Foundation, and certain of that data may have been provided to Probable Futures by Woodwell Climate Research Center, Inc. or The Coordinated Regional climate Downscaling Experiment (CORDEX).",
+    "category": "overlay",
+    "group": "bivariate",
+    "boundaryRequiredForRetrieval": false,
+    "legend": {
+      "type": "bivariate",
+      "steps": [],
+      "colors": [
+        {
+          "id": "A1",
+          "color": "rgb(103,176,100)"
+        },
+        {
+          "id": "B2",
+          "color": "rgb(228,185,129)"
+        },
+        {
+          "id": "C3",
+          "color": "rgb(228,26,28)"
+        },
+        {
+          "id": "A2",
+          "color": "rgb(103,176,100)"
+        },
+        {
+          "id": "B3",
+          "color": "rgb(228,127,129)"
+        },
+        {
+          "id": "A3",
+          "color": "rgb(103,176,100)"
+        },
+        {
+          "id": "C1",
+          "color": "rgb(232,232,157)"
+        },
+        {
+          "id": "B1",
+          "color": "rgb(232,232,157)"
+        },
+        {
+          "id": "C2",
+          "color": "rgb(229,154,55)"
+        }
+      ],
+      "axises": {
+        "x": {
+          "label": "Number of nights per year",
+          "quotient": ["days_mintemp_above_25c_1c", "one"],
+          "steps": [0.0, 7.973542647008686, 60.83842596260666, 366.0]
+        },
+        "y": {
+          "label": "Population (ppl/km²)",
+          "quotient": ["population", "area_km2"],
+          "steps": [0.0, 7.783679246541093, 85.7474409507671, 46200.0]
+        }
+      }
+    },
+    "copyrights": [
+      "Numbers © Muḥammad ibn Mūsā al-Khwārizmī",
+      "NZ Building Outlines data sourced from the LINZ Data Service - https://data.linz.govt.nz/",
+      "Unconstrained Individual countries 2020 (100m resolution): WorldPop - https://www.worldpop.org/",
+      "© Kontur https://kontur.io/",
+      "Facebook Connectivity Lab and Center for International Earth Science Information Network - CIESIN - Columbia University. 2016. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 DigitalGlobe. https://dataforgood.fb.com/tools/population-density-maps/",
+      "Dataset: Schiavina, Marcello; Freire, Sergio; MacManus, Kytt (2019): GHS population grid multitemporal (1975, 1990, 2000, 2015) R2019A. European Commission, Joint Research Centre (JRC) DOI: 10.2905/42E8BE89-54FF-464E-BE7B-BF9E64DA5218 PID: http://data.europa.eu/89h/0c6b9751-a71f-4062-830b-43c9f432370f Concept & Methodology: Freire, Sergio; MacManus, Kytt; Pesaresi, Martino; Doxsey-Whitfield, Erin; Mills, Jane (2016): Development of new open and free multi-temporal global population grids at 250 m resolution. Geospatial Data in a Changing World; Association of Geographic Information Laboratories in Europe (AGILE). AGILE 2016",
+      "Microsoft Buildings: Australia, Canada, Tanzania, Uganda, USA: This data is licensed by Microsoft under the Open Data Commons Open Database License (ODbL).",
+      "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050",
+      "© OpenStreetMap contributors https://www.openstreetmap.org/copyright",
+      "© 2021 Probable Futures, a Project of the SouthCoast Community Foundation. https://probablefutures.org/, CC BY 4.0",
+      "Concept of areas © Brahmagupta, René Descartes",
+      "Geoalert Urban Mapping: Chechnya, Moscow region, Tyva - https://github.com/Geoalert/urban-mapping"
+    ]
+  },
+  {
+    "id": "eventShape",
+    "name": "Event shape",
+    "group": "layersInSelectedArea",
+    "boundaryRequiredForRetrieval": false,
+    "legend": {
+      "type": "simple",
+      "steps": [
+        {
+          "paramName": "Class",
+          "paramValue": "Point_Centroid",
+          "stepName": "Centroid",
+          "stepShape": "circle",
+          "style": {
+            "fill-color": "#051626",
+            "width": 3,
+            "color": "#fff"
+          }
+        },
+        {
+          "paramName": "Class",
+          "paramValue": "Poly_Circle",
+          "stepName": "Exposure Area 100Km",
+          "stepShape": "circle",
+          "style": {
+            "width": 3,
+            "color": "#051626"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "HDM_HOT",
+    "name": "OpenStreetMap (HOT Style)",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "© OpenStreetMap contributors, tiles courtesy of Humanitarian OpenStreetMap Team"
+    ]
+  },
+  {
+    "id": "OSM_Inspector-Geometry",
+    "name": "OSM Inspector: Geometry",
+    "category": "overlay",
+    "group": "qa",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "OSM_Inspector-Highways",
+    "name": "OSM Inspector: Highways",
+    "category": "overlay",
+    "group": "qa",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "Waymarked_Trails-Horse_Riding",
+    "name": "Waymarked Trails: Horse Riding",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+    ]
+  },
+  {
+    "id": "stamen-terrain-background",
+    "name": "Stamen Terrain",
+    "category": "base",
+    "group": "elevation",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL"
+    ]
+  },
+  {
+    "id": "OSM_Inspector-Addresses",
+    "name": "OSM Inspector: Addresses",
+    "category": "overlay",
+    "group": "qa",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "tf-outdoors",
+    "name": "Thunderforest Outdoors",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["Maps © Thunderforest, Data © OpenStreetMap contributors"]
+  },
+  {
+    "id": "Kontur OpenStreetMap Antiquity",
+    "name": "OSM Antiquity",
+    "description": "This map shows how old is OpenStreetMap and how many times users view in particular region of OpenStreetMap for the last 30 days. Explore to find the least edited, but the most popular areas at the same time. Last updated 2021-12-07 03:00:00+03",
+    "category": "overlay",
+    "group": "bivariate",
+    "boundaryRequiredForRetrieval": false,
+    "legend": {
+      "type": "bivariate",
+      "steps": [],
+      "colors": [
+        {
+          "id": "A1",
+          "color": "rgb(232,232,157)"
+        },
+        {
+          "id": "B2",
+          "color": "rgb(173,173,108)"
+        },
+        {
+          "id": "C3",
+          "color": "rgb(83,152,106)"
+        },
+        {
+          "id": "A2",
+          "color": "rgb(228,127,129)"
+        },
+        {
+          "id": "B3",
+          "color": "rgb(140,98,98)"
+        },
+        {
+          "id": "A3",
+          "color": "rgb(228,26,28)"
+        },
+        {
+          "id": "C1",
+          "color": "rgb(90,200,127)"
+        },
+        {
+          "id": "B1",
+          "color": "rgb(173,228,191)"
+        },
+        {
+          "id": "C2",
+          "color": "rgb(77,175,74)"
+        }
+      ],
+      "axises": {
+        "x": {
+          "label": "Last edit (date)",
+          "quotient": ["avgmax_ts", "one"],
+          "steps": [1.159577155e9, 1.557764363e9, 1.6133246545e9, 1.638997157e9]
+        },
+        "y": {
+          "label": "Map views, last 30 days (n/km²)",
+          "quotient": ["view_count", "area_km2"],
+          "steps": [0.0, 18.308304180624084, 248.03295200976132, 7603024.0]
+        }
+      }
+    },
+    "copyrights": [
+      "Numbers © Muḥammad ibn Mūsā al-Khwārizmī",
+      "© OpenStreetMap contributors https://www.openstreetmap.org/copyright",
+      "Concept of areas © Brahmagupta, René Descartes"
+    ]
+  },
+  {
+    "id": "kontur_urban_core",
+    "name": "Kontur Urban Core",
+    "description": "Kontur Urban Core highlights most populated region affected. For this event 13964885 people reside on 4732.35km² (out of total 20536979 people on 16241.11km²). This area should have higher priority in humanitarian activities.",
+    "group": "layersInSelectedArea",
+    "boundaryRequiredForRetrieval": true,
+    "legend": {
+      "type": "simple",
+      "steps": [
+        {
+          "stepShape": "hex",
+          "style": {
+            "color": "#FF7B00",
+            "width": 3,
+            "offset": 4,
+            "casing-offset": 2,
+            "casing-color": "#FF7B00",
+            "casing-width": 3,
+            "casing-opacity": 0.5
+          }
+        }
+      ]
+    },
+    "copyrights": ["© Kontur"]
+  },
+  {
+    "id": "opensnowmap-overlay",
+    "name": "OpenSnowMap overlay",
+    "description": "Overlay imagery for piste mapping in OSM. Updated daily.",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© OpenSnowMap.org"]
+  },
+  {
+    "id": "Kontur OpenStreetMap Mapping Activity",
+    "name": "OSM Mapping Activity",
+    "description": "Greener - stronger local community, darker - more active mapping. This map shows how active mapping in the area in last two years is. All mapping hours are shown against mapping hours we can surely attribute to an active local user. Mapper is considered active if they contributed more than 30 mapping hours during last two years. Position of active mapper is estimated by region of their highest activity. A mapping hour is a hour in which an user uploaded at least one tagged object. Last updated  2021-12-08T20:59:17Z",
+    "category": "overlay",
+    "group": "bivariate",
+    "boundaryRequiredForRetrieval": false,
+    "legend": {
+      "type": "bivariate",
+      "steps": [],
+      "colors": [
+        {
+          "id": "A1",
+          "color": "rgb(173,169,200)"
+        },
+        {
+          "id": "B2",
+          "color": "rgb(118,142,159)"
+        },
+        {
+          "id": "C3",
+          "color": "rgb(83,152,106)"
+        },
+        {
+          "id": "A2",
+          "color": "rgb(122,113,178)"
+        },
+        {
+          "id": "B3",
+          "color": "rgb(88,118,129)"
+        },
+        {
+          "id": "A3",
+          "color": "rgb(93,83,152)"
+        },
+        {
+          "id": "C1",
+          "color": "rgb(137,200,158)"
+        },
+        {
+          "id": "B1",
+          "color": "rgb(157,183,181)"
+        },
+        {
+          "id": "C2",
+          "color": "rgb(113,178,135)"
+        }
+      ],
+      "axises": {
+        "x": {
+          "label": "Edits by active locals (h/km²)",
+          "quotient": ["local_hours", "area_km2"],
+          "steps": [0.0, 1.3291753621638613, 3.0335174983708746, 1060.0]
+        },
+        "y": {
+          "label": "Edits by all mappers (h/km²)",
+          "quotient": ["total_hours", "area_km2"],
+          "steps": [0.0, 1.242876319311478, 2.9628738297871444, 1075.0]
+        }
+      }
+    },
+    "copyrights": [
+      "© Kontur https://kontur.io/",
+      "© OpenStreetMap contributors https://www.openstreetmap.org/copyright",
+      "Concept of areas © Brahmagupta, René Descartes"
+    ]
+  },
+  {
+    "id": "MAPNIK",
+    "name": "OpenStreetMap (Standard)",
+    "description": "The default OpenStreetMap layer.",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© OpenStreetMap contributors, CC-BY-SA 2.0"]
+  },
+  {
+    "id": "public_transport_oepnv",
+    "name": "Public Transport (ÖPNV)",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "Waymarked_Trails-Cycling",
+    "name": "Waymarked Trails: Cycling",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+    ]
+  },
+  {
+    "id": "OpenTopoMap",
+    "name": "OpenTopoMap",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "Kartendaten: © OpenStreetMap-Mitwirkende, SRTM | Kartendarstellung: © OpenTopoMap (CC-BY-SA)"
+    ]
+  },
+  {
+    "id": "Waymarked_Trails-Hiking",
+    "name": "Waymarked Trails: Hiking",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+    ]
+  },
+  {
+    "id": "Kontur OpenStreetMap Quantity",
+    "name": "OSM Object Quantity",
+    "description": "This map shows relative distribution of OpenStreetMap objects and Population. Last updated 2021-12-08T20:59:17Z",
+    "category": "overlay",
+    "group": "bivariate",
+    "boundaryRequiredForRetrieval": false,
+    "legend": {
+      "type": "bivariate",
+      "steps": [],
+      "colors": [
+        {
+          "id": "A1",
+          "color": "rgb(232,232,157)"
+        },
+        {
+          "id": "B2",
+          "color": "rgb(173,173,108)"
+        },
+        {
+          "id": "C3",
+          "color": "rgb(83,152,106)"
+        },
+        {
+          "id": "A2",
+          "color": "rgb(228,127,129)"
+        },
+        {
+          "id": "B3",
+          "color": "rgb(140,98,98)"
+        },
+        {
+          "id": "A3",
+          "color": "rgb(228,26,28)"
+        },
+        {
+          "id": "C1",
+          "color": "rgb(90,200,127)"
+        },
+        {
+          "id": "B1",
+          "color": "rgb(173,228,191)"
+        },
+        {
+          "id": "C2",
+          "color": "rgb(77,175,74)"
+        }
+      ],
+      "axises": {
+        "x": {
+          "label": "OSM objects (n/km²)",
+          "quotient": ["count", "area_km2"],
+          "steps": [0.0, 3.031664697038551, 17.518686795526584, 47262.0]
+        },
+        "y": {
+          "label": "Population (ppl/km²)",
+          "quotient": ["population", "area_km2"],
+          "steps": [0.0, 7.783679246541093, 85.7474409507671, 46200.0]
+        }
+      }
+    },
+    "copyrights": [
+      "NZ Building Outlines data sourced from the LINZ Data Service - https://data.linz.govt.nz/",
+      "Unconstrained Individual countries 2020 (100m resolution): WorldPop - https://www.worldpop.org/",
+      "© Kontur https://kontur.io/",
+      "Facebook Connectivity Lab and Center for International Earth Science Information Network - CIESIN - Columbia University. 2016. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 DigitalGlobe. https://dataforgood.fb.com/tools/population-density-maps/",
+      "Dataset: Schiavina, Marcello; Freire, Sergio; MacManus, Kytt (2019): GHS population grid multitemporal (1975, 1990, 2000, 2015) R2019A. European Commission, Joint Research Centre (JRC) DOI: 10.2905/42E8BE89-54FF-464E-BE7B-BF9E64DA5218 PID: http://data.europa.eu/89h/0c6b9751-a71f-4062-830b-43c9f432370f Concept & Methodology: Freire, Sergio; MacManus, Kytt; Pesaresi, Martino; Doxsey-Whitfield, Erin; Mills, Jane (2016): Development of new open and free multi-temporal global population grids at 250 m resolution. Geospatial Data in a Changing World; Association of Geographic Information Laboratories in Europe (AGILE). AGILE 2016",
+      "Microsoft Buildings: Australia, Canada, Tanzania, Uganda, USA: This data is licensed by Microsoft under the Open Data Commons Open Database License (ODbL).",
+      "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050",
+      "© OpenStreetMap contributors https://www.openstreetmap.org/copyright",
+      "Concept of areas © Brahmagupta, René Descartes",
+      "Geoalert Urban Mapping: Chechnya, Moscow region, Tyva - https://github.com/Geoalert/urban-mapping"
+    ]
+  },
+  {
+    "id": "EsriWorldImagery",
+    "name": "Esri World Imagery",
+    "description": "Esri world imagery.",
+    "category": "base",
+    "group": "photo",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["Terms & Feedback"]
+  },
+  {
+    "id": "openrailwaymap-signalling",
+    "name": "OpenRailwayMap Signalling",
+    "description": "Overlay imagery showing railway signals based on OpenStreetMap data",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "Rendering: OpenRailwayMap, © Map data OpenStreetMap contributors"
+    ]
+  },
+  {
+    "id": "Waymarked_Trails-Winter_Sports",
+    "name": "Waymarked Trails: Winter Sports",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+    ]
+  },
+  {
+    "id": "kontur_settled_periphery",
+    "name": "Kontur Settled Periphery",
+    "description": "Kontur Settled Periphery is complimentary to Kontur Urban Core and shows a spread-out part of the population in the region. For this event it adds 6572094 people on 11508.76km² on top of Kontur Urban Core.",
+    "group": "layersInSelectedArea",
+    "boundaryRequiredForRetrieval": true,
+    "legend": {
+      "type": "simple",
+      "steps": [
+        {
+          "stepShape": "hex",
+          "style": {
+            "color": "#2AD72A",
+            "width": 3,
+            "casing-offset": 2,
+            "casing-color": "#2AD72A",
+            "casing-width": 3,
+            "casing-opacity": 0.5
+          }
+        }
+      ]
+    },
+    "copyrights": ["© Kontur"]
+  },
+  {
+    "id": "wikimedia-map",
+    "name": "Wikimedia Map",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "EOXAT2018CLOUDLESS",
+    "name": "eox.at 2018 cloudless",
+    "description": "Post-processed Sentinel Satellite imagery.",
+    "category": "base",
+    "group": "photo",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2017 & 2018)"
+    ]
+  },
+  {
+    "id": "osm-gps",
+    "name": "OpenStreetMap GPS traces",
+    "description": "Public GPS traces uploaded to OpenStreetMap.",
+    "category": "overlay",
+    "group": "other",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© OpenStreetMap contributors"]
+  },
+  {
+    "id": "osm-mapnik-no_labels",
+    "name": "OpenStreetMap (Mapnik, no labels)",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "Kontur OpenStreetMap Road Length",
+    "name": "OSM Road Length",
+    "description": "This map shows whether populated places have roads to visit them or escape in time of disaster. Last updated  2021-12-08T20:59:17Z",
+    "category": "overlay",
+    "group": "bivariate",
+    "boundaryRequiredForRetrieval": false,
+    "legend": {
+      "type": "bivariate",
+      "steps": [],
+      "colors": [
+        {
+          "id": "A1",
+          "color": "rgb(232,232,157)"
+        },
+        {
+          "id": "B2",
+          "color": "rgb(173,173,108)"
+        },
+        {
+          "id": "C3",
+          "color": "rgb(83,152,106)"
+        },
+        {
+          "id": "A2",
+          "color": "rgb(228,127,129)"
+        },
+        {
+          "id": "B3",
+          "color": "rgb(140,98,98)"
+        },
+        {
+          "id": "A3",
+          "color": "rgb(228,26,28)"
+        },
+        {
+          "id": "C1",
+          "color": "rgb(90,200,127)"
+        },
+        {
+          "id": "B1",
+          "color": "rgb(173,228,191)"
+        },
+        {
+          "id": "C2",
+          "color": "rgb(77,175,74)"
+        }
+      ],
+      "axises": {
+        "x": {
+          "label": "Highway length (m/km²)",
+          "quotient": ["highway_length", "area_km2"],
+          "steps": [0.0, 1305.7272703849171, 3747.2092196470835, 522259.0]
+        },
+        "y": {
+          "label": "Population (ppl/km²)",
+          "quotient": ["population", "area_km2"],
+          "steps": [0.0, 7.783679246541093, 85.7474409507671, 46200.0]
+        }
+      }
+    },
+    "copyrights": [
+      "NZ Building Outlines data sourced from the LINZ Data Service - https://data.linz.govt.nz/",
+      "Unconstrained Individual countries 2020 (100m resolution): WorldPop - https://www.worldpop.org/",
+      "© Kontur https://kontur.io/",
+      "Facebook Connectivity Lab and Center for International Earth Science Information Network - CIESIN - Columbia University. 2016. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 DigitalGlobe. https://dataforgood.fb.com/tools/population-density-maps/",
+      "Dataset: Schiavina, Marcello; Freire, Sergio; MacManus, Kytt (2019): GHS population grid multitemporal (1975, 1990, 2000, 2015) R2019A. European Commission, Joint Research Centre (JRC) DOI: 10.2905/42E8BE89-54FF-464E-BE7B-BF9E64DA5218 PID: http://data.europa.eu/89h/0c6b9751-a71f-4062-830b-43c9f432370f Concept & Methodology: Freire, Sergio; MacManus, Kytt; Pesaresi, Martino; Doxsey-Whitfield, Erin; Mills, Jane (2016): Development of new open and free multi-temporal global population grids at 250 m resolution. Geospatial Data in a Changing World; Association of Geographic Information Laboratories in Europe (AGILE). AGILE 2016",
+      "Microsoft Buildings: Australia, Canada, Tanzania, Uganda, USA: This data is licensed by Microsoft under the Open Data Commons Open Database License (ODbL).",
+      "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050",
+      "© OpenStreetMap contributors https://www.openstreetmap.org/copyright",
+      "Concept of areas © Brahmagupta, René Descartes",
+      "Geoalert Urban Mapping: Chechnya, Moscow region, Tyva - https://github.com/Geoalert/urban-mapping"
+    ]
+  },
+  {
+    "id": "openrailwaymap-maxspeeds",
+    "name": "OpenRailwayMap Maxspeeds",
+    "description": "Overlay imagery showing railway speed limits based on OpenStreetMap data",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "Rendering: OpenRailwayMap, © Map data OpenStreetMap contributors"
+    ]
+  },
+  {
+    "id": "osm-mapnik-black_and_white",
+    "name": "OpenStreetMap (Standard Black & White)",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "osmfr",
+    "name": "OpenStreetMap (French Style)",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "Tiles © cquest@Openstreetmap France, data © OpenStreetMap contributors, ODBL"
+    ]
+  },
+  {
+    "id": "osm-mapnik-german_style",
+    "name": "OpenStreetMap (German Style)",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "Waymarked_Trails-Skating",
+    "name": "Waymarked Trails: Skating",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+    ]
+  },
+  {
+    "id": "mapbox_locator_overlay",
+    "name": "Locator Overlay",
+    "description": "Shows major features to help orient you.",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["Terms & Feedback"]
+  },
+  {
+    "id": "openpt_map",
+    "name": "OpenPT Map (overlay)",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "activeContributors",
+    "name": "Active contributors",
+    "description": "Contributors are labeled as active based on their mapping activity in the area for the past 2 years. We consider OpenStreetMap users to be local and mark them green if most of their edits were made close to that area.",
+    "category": "overlay",
+    "group": "other",
+    "boundaryRequiredForRetrieval": false,
+    "legend": {
+      "type": "simple",
+      "steps": [
+        {
+          "paramName": "is_local",
+          "paramValue": true,
+          "stepName": "Possibly local mappers",
+          "stepShape": "circle",
+          "style": {
+            "text": "{top_user}",
+            "text-color": "rgb(0, 145, 0)",
+            "text-halo-color": "rgba(255, 255, 255, 0.3)",
+            "text-halo-radius": 2,
+            "text-size": 14,
+            "text-letter-spacing": 0.05,
+            "font-family": "Noto Sans Bold"
+          },
+          "sourceLayer": "users"
+        },
+        {
+          "paramName": "is_local",
+          "paramValue": false,
+          "stepName": "Active mappers",
+          "stepShape": "circle",
+          "style": {
+            "text": "{top_user}",
+            "text-color": "rgb(45, 45, 45)",
+            "text-halo-color": "rgba(255, 255, 255, 0.3)",
+            "text-halo-radius": 2,
+            "text-size": 12,
+            "text-letter-spacing": 0.05,
+            "font-family": "Noto Sans Regular"
+          },
+          "sourceLayer": "users"
+        },
+        {
+          "style": {
+            "color": "black",
+            "width": 1,
+            "opacity": 0.2
+          },
+          "sourceLayer": "hexagon"
+        }
+      ]
+    },
+    "copyrights": ["© OpenStreetMap Contributors, © Kontur"]
+  },
+  {
+    "id": "OSM_Inspector-Tagging",
+    "name": "OSM Inspector: Tagging",
+    "category": "overlay",
+    "group": "qa",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "OSM_Inspector-Multipolygon",
+    "name": "OSM Inspector: Area",
+    "category": "overlay",
+    "group": "qa",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "OSM_Inspector-Routing",
+    "name": "OSM Inspector: Routing",
+    "category": "overlay",
+    "group": "qa",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "qa_no_address",
+    "name": "QA No Address",
+    "category": "overlay",
+    "group": "qa",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["Simon Poole, Data ©OpenStreetMap contributors"]
+  },
+  {
+    "id": "cyclosm",
+    "name": "CyclOSM",
+    "description": "CyclOSM is a map style designed with cycling in mind. It leverages OpenStreetMap data to create a beautiful and practical cycling map!",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "Rendering: CyclOSM (hosted by OpenStreetMap France) © Map data OpenStreetMap contributors"
+    ]
+  },
+  {
+    "id": "Kontur OpenStreetMap Building Quantity",
+    "name": "OSM Building Quantity",
+    "description": "This map shows whether all populated houses are mapped in OpenStreetMap. Last updated  2021-12-08T20:59:17Z",
+    "category": "overlay",
+    "group": "bivariate",
+    "boundaryRequiredForRetrieval": false,
+    "legend": {
+      "type": "bivariate",
+      "steps": [],
+      "colors": [
+        {
+          "id": "A1",
+          "color": "rgb(232,232,157)"
+        },
+        {
+          "id": "B2",
+          "color": "rgb(173,173,108)"
+        },
+        {
+          "id": "C3",
+          "color": "rgb(83,152,106)"
+        },
+        {
+          "id": "A2",
+          "color": "rgb(228,127,129)"
+        },
+        {
+          "id": "B3",
+          "color": "rgb(140,98,98)"
+        },
+        {
+          "id": "A3",
+          "color": "rgb(228,26,28)"
+        },
+        {
+          "id": "C1",
+          "color": "rgb(90,200,127)"
+        },
+        {
+          "id": "B1",
+          "color": "rgb(173,228,191)"
+        },
+        {
+          "id": "C2",
+          "color": "rgb(77,175,74)"
+        }
+      ],
+      "axises": {
+        "x": {
+          "label": "Buildings (n/km²)",
+          "quotient": ["building_count", "area_km2"],
+          "steps": [0.0, 3.639604572537004, 25.493731956297346, 47090.0]
+        },
+        "y": {
+          "label": "Population (ppl/km²)",
+          "quotient": ["population", "area_km2"],
+          "steps": [0.0, 7.783679246541093, 85.7474409507671, 46200.0]
+        }
+      }
+    },
+    "copyrights": [
+      "NZ Building Outlines data sourced from the LINZ Data Service - https://data.linz.govt.nz/",
+      "Unconstrained Individual countries 2020 (100m resolution): WorldPop - https://www.worldpop.org/",
+      "© Kontur https://kontur.io/",
+      "Facebook Connectivity Lab and Center for International Earth Science Information Network - CIESIN - Columbia University. 2016. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 DigitalGlobe. https://dataforgood.fb.com/tools/population-density-maps/",
+      "Dataset: Schiavina, Marcello; Freire, Sergio; MacManus, Kytt (2019): GHS population grid multitemporal (1975, 1990, 2000, 2015) R2019A. European Commission, Joint Research Centre (JRC) DOI: 10.2905/42E8BE89-54FF-464E-BE7B-BF9E64DA5218 PID: http://data.europa.eu/89h/0c6b9751-a71f-4062-830b-43c9f432370f Concept & Methodology: Freire, Sergio; MacManus, Kytt; Pesaresi, Martino; Doxsey-Whitfield, Erin; Mills, Jane (2016): Development of new open and free multi-temporal global population grids at 250 m resolution. Geospatial Data in a Changing World; Association of Geographic Information Laboratories in Europe (AGILE). AGILE 2016",
+      "Microsoft Buildings: Australia, Canada, Tanzania, Uganda, USA: This data is licensed by Microsoft under the Open Data Commons Open Database License (ODbL).",
+      "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050",
+      "© OpenStreetMap contributors https://www.openstreetmap.org/copyright",
+      "Concept of areas © Brahmagupta, René Descartes",
+      "Geoalert Urban Mapping: Chechnya, Moscow region, Tyva - https://github.com/Geoalert/urban-mapping"
+    ]
+  },
+  {
+    "id": "tf-landscape",
+    "name": "Thunderforest Landscape",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["Maps © Thunderforest, Data © OpenStreetMap contributors"]
+  },
+  {
+    "id": "EsriWorldImageryClarity",
+    "name": "Esri World Imagery (Clarity) Beta",
+    "description": "Esri archive imagery that may be clearer and more accurate than the default layer.",
+    "category": "base",
+    "group": "photo",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["Terms & Feedback"]
+  },
+  {
+    "id": "openseamap",
+    "name": "OpenSeaMap",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "hotProjects",
+    "name": "HOT Projects",
+    "description": "Projects on HOT Tasking Manager, ongoing and historical",
+    "group": "layersInSelectedArea",
+    "boundaryRequiredForRetrieval": true,
+    "legend": {
+      "type": "simple",
+      "linkProperty": "projectLink",
+      "steps": [
+        {
+          "paramName": "status",
+          "paramValue": "ARCHIVED",
+          "stepName": "Archived",
+          "stepShape": "icon",
+          "style": {
+            "icon": "hot-gray",
+            "text": "{projectId} - {projectPriority}"
+          }
+        }
+      ]
+    },
+    "copyrights": ["© Humanitarian OpenStreetMap Team, © Kontur"]
+  },
+  {
+    "id": "OSM_Inspector-Places",
+    "name": "OSM Inspector: Places",
+    "category": "overlay",
+    "group": "qa",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"]
+  },
+  {
+    "id": "tf-cycle",
+    "name": "Thunderforest OpenCycleMap",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["Maps © Thunderforest, Data © OpenStreetMap contributors"]
+  },
+  {
+    "id": "skobbler",
+    "name": "skobbler",
+    "category": "base",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["© Tiles: skobbler Map data: OpenStreetMap contributors"]
+  },
+  {
+    "id": "openrailwaymap",
+    "name": "OpenRailwayMap",
+    "description": "Overlay imagery showing railway infrastructure based on OpenStreetMap data",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "Rendering: OpenRailwayMap, © Map data OpenStreetMap contributors"
+    ]
+  },
+  {
+    "id": "Bing",
+    "name": "Bing aerial imagery",
+    "description": "Satellite and aerial imagery.",
+    "category": "base",
+    "group": "photo",
+    "boundaryRequiredForRetrieval": false
+  },
+  {
+    "id": "Mapbox",
+    "name": "Mapbox Satellite",
+    "description": "Satellite and aerial imagery.",
+    "category": "base",
+    "group": "photo",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": ["Terms & Feedback"]
+  },
+  {
+    "id": "Waymarked_Trails-MTB",
+    "name": "Waymarked Trails: MTB",
+    "category": "overlay",
+    "group": "osmbasedmap",
+    "boundaryRequiredForRetrieval": false,
+    "copyrights": [
+      "© waymarkedtrails.org, OpenStreetMap contributors, CC by-SA 3.0"
+    ]
+  }
+]

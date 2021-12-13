@@ -1,4 +1,4 @@
-# Snapshot report for `src/features/map_layers_panel/atoms/layersTree/createTree.test.ts`
+# Snapshot report for `src/core/logical_layers/atoms/layersTree/createTree.test.ts`
 
 The actual snapshot is saved in `createTree.test.ts.snap`.
 

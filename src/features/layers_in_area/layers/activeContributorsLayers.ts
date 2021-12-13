@@ -9,77 +9,29 @@ const FILTER = [
   ['all', ['>=', ['zoom'], 12], ['==', ['number', ['get', 'zoom']], 12]],
 ];
 
-const expression = {
-  if: (condition) => ({
-    // eslint-disable-next-line no-shadow
-    then: (expression) => ({
-      else: (fallback) => [
-        'case',
-        condition,
-        ['literal', expression],
-        ['literal', fallback],
-      ],
-    }),
-  }),
-};
+export function addZoomFilter(layers) {
+  layers.forEach((l) => {
+    if (l.filter) {
+      l.filter = ['all', FILTER, l.filter];
+    } else {
+      l.filter = FILTER;
+    }
+  });
+}
 
-export function createActiveContributorsLayers(sourceId: string) {
-  return [
-    {
-      type: 'symbol',
-      source: sourceId,
-      'source-layer': 'users',
-      filter: FILTER,
-      minzoom: 0,
-      maxzoom: 22,
-      paint: {
-        'text-color': expression
-          .if(['get', 'is_local'])
-          .then('rgb(0, 145, 0)')
-          .else('rgb(45, 45, 45)'),
-        'text-halo-color': 'rgba(255, 255, 255, 0.3)',
-        'text-halo-width': 2,
-      },
-      layout: {
-        'text-field': ['get', 'top_user'],
-        'text-font': expression
-          .if(['get', 'is_local'])
-          .then(['Noto Sans Bold'])
-          .else(['Noto Sans Regular']),
-        'text-size': expression.if(['get', 'is_local']).then(14).else(12),
-        // "text-transform": "uppercase",
-        'text-letter-spacing': 0.05,
-        // "text-offset": [0, 1.5]
-      },
-      transition: {
-        duration: 0,
-        delay: 0,
-      },
-    },
-    {
-      type: 'line',
-      source: sourceId,
-      'source-layer': 'hexagon',
-      filter: FILTER,
-      minzoom: 0,
-      maxzoom: 22,
-      paint: {
-        'line-color': `rgb(0, 0, 0)`,
-        'line-opacity': 0.2,
-      },
-    },
-    {
-      type: 'line',
-      source: sourceId,
-      'source-layer': 'hexagon',
-      filter: FILTER,
-      minzoom: 0,
-      maxzoom: 22,
-      paint: {
-        'line-color': `rgb(255, 255, 255)`,
-        'line-opacity': 0.2,
-        'line-width': 3,
-      },
-    },
-  ];
+export function onActiveContributorsClick(map, sourceId) {
+  return (ev) => {
+    if (!ev || !ev.lngLat) return;
+    const thisLayersFeatures = ev.target
+      .queryRenderedFeatures(ev.point)
+      .filter((f) => f.source.includes(sourceId));
+
+    if (thisLayersFeatures.length === 0) return;
+    const featureWithLink = thisLayersFeatures.find(
+      (feature) => feature.properties.top_user !== undefined,
+    );
+    if (featureWithLink === undefined) return;
+    const link = featureWithLink.properties.top_user;
+    window.open('https://www.openstreetmap.org/user/' + link);
+  };
 }
