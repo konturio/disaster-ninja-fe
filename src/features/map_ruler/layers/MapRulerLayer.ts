@@ -57,13 +57,11 @@ export class MapRulerLayer implements LogicalLayer {
             getSize: () => 20,
           },
           guides: {
-            getRadius: () => {
-              const zoom = map.getZoom();
-              return 20000 / (zoom * zoom);
-            },
             getFillColor: () => [0xff, 0x66, 0x00, 0xff],
             getLineWidth: () => 2,
             stroked: false,
+            pointRadiusMinPixels: 4, 
+            pointRadiusMaxPixels: 4
           },
         },
         modeConfig: {
