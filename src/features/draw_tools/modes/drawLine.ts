@@ -4,7 +4,7 @@ import {
   DrawLineStringMode,
   LineString,
 } from '@nebula.gl/edit-modes';
-import {  FeatureCollection } from '@nebula.gl/edit-modes/';
+import { FeatureCollection } from '@nebula.gl/edit-modes/';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 
 import { currentMapAtom } from '~core/shared_state';
@@ -76,7 +76,7 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
       if (editAction) {
         props.onEdit(editAction);
       }
-      
+
       // this will let us finish geometry by double click and after that - enable back map double click zoom
       const t = setTimeout(() => {
         currentMapAtom.getState()?.doubleClickZoom.enable()
@@ -93,6 +93,11 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
         },
       });
     }
+  }
+
+  handlePointerMove(event, props: ModeProps<FeatureCollection>) {
+    super.handlePointerMove(event, props);
+    props.onUpdateCursor('cell');
   }
 
 }
