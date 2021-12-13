@@ -160,4 +160,11 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       });
     }
   }
+
+  handlePointerMove(event, props: ModeProps<FeatureCollection>) {
+    console.log('%c⧭', 'color: #ace2e6', props.modeConfig.onUpdateCursor);
+    super.handlePointerMove(event, props);
+    props.modeConfig.onUpdateCursor('cell');
+  }
+
 }

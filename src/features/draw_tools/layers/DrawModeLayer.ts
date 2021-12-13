@@ -52,6 +52,7 @@ export class DrawModeLayer implements LogicalLayer {
   willMount(map: ApplicationMap): void {
     this._map = map
     this._isMounted = true;
+    this._map.getCanvas().style.cursor = 'cell'
   }
 
   willUnmount(): void {
@@ -91,22 +92,21 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   _addDeckLayer(mode: DrawModeType): void {
+    this._map.getCanvas().style.cursor = 'cell'
     if (this.mountedDeckLayers[mode]) return console.log(`cannot add ${mode} as it's already mounted`);
-
+    
     const config = layersConfigs[mode]
     // Types for data are wrong. See https://deck.gl/docs/api-reference/layers/geojson-layer#data
-    if (editDrawingLayers.includes(mode)) {
+    if (mode === drawModes.ModifyMode) {
       config.data = this.drawnData
       config.selectedFeatureIndexes = this.selectedIndexes
-    }
-    if (mode === drawModes.ModifyMode) {
       config.onEdit = this._onModifyEdit
-      config.getRadius = () => {
-        const zoom = this._map.getZoom();
-        return 20000 / (zoom * zoom);
-      };
+    } else {
+      config.onEdit = this._onDrawEdit
+      config.modeConfig.onUpdateCursor = (cursor: string) => {
+        this._map.getCanvas().style.cursor = cursor
+      }
     }
-    else if (createDrawingLayers.includes(mode)) config.onEdit = this._onDrawEdit
 
     const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
