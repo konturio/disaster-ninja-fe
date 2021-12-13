@@ -28,6 +28,11 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
             clickSequence[0],
           ];
           if (this.intersectionsTest(props, polygonCoords)) {
+
+            currentNotificationAtom.showNotification.dispatch(
+              'error',
+              { title: i18n.t('Polygon should not overlap itself') }, 1600
+            );
             this['resetClickSequence']();
             return;
           }
@@ -115,8 +120,15 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       const polygonCoords = [...clickSequence, clickSequence[0]];
 
 
-      if (this.intersectionsTest(props, polygonCoords))
-        return currentNotificationAtom.showNotification.dispatch('error', i18n.t('Polygon should not overlap itself'), 1600);
+      if (this.intersectionsTest(props, polygonCoords)) {
+        console.log('%c⧭ intersectionsTest CASE', 'color: #731d6d',);
+        currentNotificationAtom.showNotification.dispatch(
+          'error',
+          { title: i18n.t('Polygon should not overlap itself') }, 1600
+        );
+        this['resetClickSequence']();
+        return;
+      }
 
       // Remove the hovered position
       const polygonToAdd: Polygon = {
