@@ -27,7 +27,10 @@ import {
   focusedGeometryAtom,
 } from '~core/shared_state/focusedGeometry';
 import { currentEventAtom } from '~core/shared_state';
-import { createActiveContributorsLayers } from './activeContributorsLayers';
+import {
+  addZoomFilter,
+  onActiveContributorsClick,
+} from './activeContributorsLayers';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
 export class GenericLayer implements LogicalLayer {
@@ -205,23 +208,15 @@ export class GenericLayer implements LogicalLayer {
       map.addLayer(mapLayer, beforeId);
       this._layerIds.push(layerId);
     } else {
-      if (this.id === 'activeContributors') {
-        const layerStyles = createActiveContributorsLayers(
-          this._sourceId,
-        ) as Omit<AnyLayer, 'id'>[];
-        const layers = this._setLayersIds(layerStyles);
-        layers.forEach((mapLayer) => {
-          const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
-          map.addLayer(mapLayer as AnyLayer, beforeId);
-          this._layerIds.push(mapLayer.id);
-        });
-
-        return;
-      }
       // Vector tiles
       if (this.legend) {
         const layerStyles = this._generateLayersFromLegend(this.legend);
         const layers = this._setLayersIds(layerStyles);
+        // !FIXME - Hardcoded filter for layer
+        // Must be deleted after LayersDB implemented
+        if (this.id === 'activeContributors') {
+          addZoomFilter(layers);
+        }
         layers.forEach((mapLayer) => {
           const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
           map.addLayer(mapLayer as AnyLayer, beforeId);
@@ -276,6 +271,12 @@ export class GenericLayer implements LogicalLayer {
 
       /* Add event listener */
       if (this.legend) {
+        // !FIXME - Hardcoded filter for layer
+        // Must be deleted after LayersDB implemented
+        if (this.id === 'activeContributors') {
+          map.on('click', onActiveContributorsClick(map, this._sourceId));
+          return;
+        }
         const { linkProperty } = this.legend;
         if (linkProperty) {
           this._onClickListener = (e) => this.onMapClick(map, e, linkProperty);
