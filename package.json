@@ -15,7 +15,8 @@
     "lint-staged": "lint-staged",
     "test:unit": "ava",
     "test:unit-watch": "ava --watch",
-    "postinstall": "node ./scripts/fix-deckgl-types.mjs"
+    "postinstall": "node ./scripts/fix-deckgl-types.mjs",
+    "prepare": "husky install"
   },
   "ava": {
     "extensions": {
