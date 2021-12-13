@@ -6,7 +6,7 @@ import { AnalyticsData } from '~appModule/types';
 export const analyticsResourceAtom = createResourceAtom(
   focusedGeometryAtom,
   async (fGeo) => {
-    if (fGeo?.source.type === 'cleared') return null
+    if (!fGeo) return null
     const responseData = await apiClient.post<AnalyticsData[] | null>(
       `/analytics/`,
       fGeo?.geometry,
