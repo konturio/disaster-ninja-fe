@@ -5,10 +5,10 @@ import { layersConfigs } from '../configs';
 import { FeatureCollection } from 'geojson';
 import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '../atoms/activeDrawMode';
-import { currentMapAtom } from '~core/shared_state';
 import { selectedIndexesAtom } from '../atoms/selectedIndexesAtom';
 import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
+import { setMapInteractivity } from '../setMapInteractivity';
 
 
 type mountedDeckLayersType = {
@@ -94,7 +94,7 @@ export class DrawModeLayer implements LogicalLayer {
   _addDeckLayer(mode: DrawModeType): void {
     this._map.getCanvas().style.cursor = 'cell'
     if (this.mountedDeckLayers[mode]) return console.log(`cannot add ${mode} as it's already mounted`);
-    
+
     const config = layersConfigs[mode]
     // Types for data are wrong. See https://deck.gl/docs/api-reference/layers/geojson-layer#data
     if (mode === drawModes.ModifyMode) {
@@ -103,9 +103,6 @@ export class DrawModeLayer implements LogicalLayer {
       config.onEdit = this._onModifyEdit
     } else {
       config.onEdit = this._onDrawEdit
-      config.modeConfig.onUpdateCursor = (cursor: string) => {
-        this._map.getCanvas().style.cursor = cursor
-      }
     }
 
     const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
@@ -165,9 +162,9 @@ export class DrawModeLayer implements LogicalLayer {
 
 
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
-      currentMapAtom.setInteractivity.dispatch(true)
+      setMapInteractivity(this._map, true)
     } else if (updatedData.features?.[0]) {
-      currentMapAtom.setInteractivity.dispatch(false)
+      setMapInteractivity(this._map, false)
     }
     drawnGeometryAtom.updateFeatures.dispatch(updatedData.features)
   }
