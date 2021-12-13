@@ -52,7 +52,6 @@ export class DrawModeLayer implements LogicalLayer {
   willMount(map: ApplicationMap): void {
     this._map = map
     this._isMounted = true;
-    this._map.getCanvas().style.cursor = 'cell'
   }
 
   willUnmount(): void {
@@ -92,7 +91,6 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   _addDeckLayer(mode: DrawModeType): void {
-    this._map.getCanvas().style.cursor = 'cell'
     if (this.mountedDeckLayers[mode]) return console.log(`cannot add ${mode} as it's already mounted`);
 
     const config = layersConfigs[mode]

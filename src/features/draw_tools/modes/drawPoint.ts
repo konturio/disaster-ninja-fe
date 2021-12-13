@@ -21,4 +21,9 @@ export class LocalDrawPointMode extends DrawPointMode {
       type: 'Point', coordinates: mapCoords
     }, props.data));
   }
+  
+  handlePointerMove(event, props: ModeProps<FeatureCollection>) {
+    super.handlePointerMove(event, props);
+    props.onUpdateCursor('cell');
+  }
 }
