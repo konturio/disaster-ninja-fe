@@ -69,29 +69,29 @@ export const DrawToolsToolbox = () => {
       </div>}
 
       <div className={s.drawToolsContainer}>
-        <Button id={drawModes.DrawPolygonMode} active={activeDrawMode === drawModes.DrawPolygonMode} onClick={() => onClick(drawModes.DrawPolygonMode)}>
-          <div className={s.btnContainer}>
+        <Button className={s.modeBtn} active={activeDrawMode === drawModes.DrawPolygonMode} onClick={() => onClick(drawModes.DrawPolygonMode)}>
+          <div className={s.btnContent}>
             <DrawPolygonIcon /> {i18n.t('Area')}
           </div>
         </Button>
-        <Button id={drawModes.DrawLineMode} active={activeDrawMode === drawModes.DrawLineMode} onClick={() => onClick(drawModes.DrawLineMode)}>
-          <div className={s.btnContainer}>
+        <Button className={s.modeBtn} active={activeDrawMode === drawModes.DrawLineMode} onClick={() => onClick(drawModes.DrawLineMode)}>
+          <div className={s.btnContent}>
             <DrawLineIcon /> {i18n.t('Line')}
           </div>
         </Button>
-        <Button id={drawModes.DrawPointMode} active={activeDrawMode === drawModes.DrawPointMode} onClick={() => onClick(drawModes.DrawPointMode)}>
-          <div className={s.btnContainer}>
+        <Button className={s.modeBtn}  active={activeDrawMode === drawModes.DrawPointMode} onClick={() => onClick(drawModes.DrawPointMode)}>
+          <div className={s.btnContent}>
             <DrawPointIcon /> {i18n.t('Point')}
           </div>
         </Button>
-        <Button active={Boolean(selected.length)} onClick={onDelete}>
-          <div className={s.btnContainer}>
+        <Button className={s.modeBtn} active={Boolean(selected.length)} onClick={onDelete}>
+          <div className={s.btnContent}>
             <TrashBinIcon />
           </div>
         </Button>
         {/* this is temporary  */}
         <Button className={s.finishBtn} onClick={() => finishDrawing()}>
-          <div className={clsx(s.btnContainer)}>{i18n.t('Finish Drawing')}</div>
+          <div className={clsx(s.btnContent)}>{i18n.t('Finish Drawing')}</div>
         </Button>
       </div>
     </div>

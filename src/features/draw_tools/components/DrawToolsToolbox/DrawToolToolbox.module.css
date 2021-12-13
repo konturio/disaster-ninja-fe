@@ -22,22 +22,24 @@
   }
 }
 
-.btnContainer {
+.btnContent {
   display: flex;
   gap: 8px;
   align-items: center;
-  font-size: 12px;
+  font-size: 14px;
   height: 24px;
-  padding-right: 4px;
-  padding-left: 4px;
+  padding: 0 8px;
   color: #d7dadc;
+}
+.modeBtn:hover > * {
+  color: var(--primary-focus-outline-regular);
 }
 
 .modeButton {
   &[class*='activeBtn'] {
     button {
       background-color: #201d25;
-      .btnContainer {
+      .btnContent {
         color: #26abff;
         svg * {
           stroke: #26abff;
@@ -52,6 +54,9 @@
 
 .finishBtn {
   background-color: #0c9bed !important;
+  .btnContent{
+    color: #fff;
+  }
 }
 
 .drawHint{
