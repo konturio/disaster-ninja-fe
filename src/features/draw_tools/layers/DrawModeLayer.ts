@@ -103,12 +103,8 @@ export class DrawModeLayer implements LogicalLayer {
       config.onEdit = this._onDrawEdit
     }
 
-    config._subLayerProps.guides.getPointRadius = () => {      
-      const zoom = this._map.getZoom();
-      return 100000 / Math.pow(zoom, 3)
-    }
-    config._subLayerProps.guides.pointRadiusMinPixels = 5
-    config._subLayerProps.guides.pointRadiusMaxPixels = 11
+    config._subLayerProps.guides.pointRadiusMinPixels = 4
+    config._subLayerProps.guides.pointRadiusMaxPixels = 4
 
     const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
