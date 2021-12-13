@@ -4,7 +4,7 @@ import Map, { MapBoxMapProps } from '@k2-packages/map';
 import DeckGl from '@k2-packages/deck-gl';
 import { MapStyle } from '~appModule/types';
 import { useAtom } from '@reatom/react';
-import { currentMapAtom, focusedGeometryAtom } from '~core/shared_state';
+import { currentMapAtom } from '~core/shared_state';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
@@ -73,7 +73,6 @@ export function ConnectedMap({
     currentMapAtomActions.setMap(mapRef.current);
   }, [mapRef, currentMapAtomActions]);
 
-  const [, focusedGeometryAtomActions] = useAtom(focusedGeometryAtom);
 
 
   return (
