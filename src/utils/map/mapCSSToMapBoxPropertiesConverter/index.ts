@@ -29,7 +29,7 @@ export function applyLegendConditions(
   return mapLayers.map((layer) => {
     return {
       ...layer,
-      filter: ['==', legendStep.paramName, legendStep.paramValue],
+      filter: ['==', ['get', legendStep.paramName], legendStep.paramValue],
     };
   });
 }
