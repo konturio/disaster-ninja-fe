@@ -5,6 +5,7 @@ import { DrawModeLayer } from '../layers/DrawModeLayer';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { currentMapAtom, focusedGeometryAtom } from '~core/shared_state';
 import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
+import { setMapInteractivity } from '../setMapInteractivity';
 
 
 const drawModeLayer = new DrawModeLayer(DRAW_TOOLS_LAYER_ID)
@@ -19,7 +20,10 @@ export const modeWatcherAtom = createBindAtom(
   },
   ({ onChange, schedule }, prevMode: DrawModeType | undefined = undefined) => {
     onChange('activeDrawModeAtom', (mode) => {
-      schedule(dispatch => dispatch(currentMapAtom.setInteractivity(true)))
+      // turn on interactivity in case user swithced mode without finishing drawing
+      const map = currentMapAtom.getState()
+      if (map) setMapInteractivity(map, true)
+
       if (!mode) {
         schedule(dispatch => dispatch(drawLayerAtom.hide()))
       }
