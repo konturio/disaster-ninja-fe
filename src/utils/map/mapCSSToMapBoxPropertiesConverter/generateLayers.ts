@@ -1,6 +1,7 @@
 import { AnyLayer, LineLayer } from 'maplibre-gl';
 interface CasingLineLayer extends Omit<LineLayer, 'type'> {
   type: 'casing_line';
+  paint: Record<string, string | number>;
 }
 type AnyLayerWithoutId = Omit<AnyLayer | CasingLineLayer, 'id'>;
 
@@ -42,10 +43,17 @@ export function generateLayers(
     });
   });
 
-  return Object.values(layersByType).map(
-    (layer: Omit<AnyLayer | CasingLineLayer, 'id'>): Omit<AnyLayer, 'id'> => {
-      layer.type = layer.type === 'casing_line' ? 'line' : layer.type;
-      return layer as Omit<AnyLayer, 'id'>;
-    },
-  );
+  return Object.values(layersByType)
+    .map(
+      (layer: Omit<AnyLayer | CasingLineLayer, 'id'>): Omit<AnyLayer, 'id'> => {
+        layer.type = layer.type === 'casing_line' ? 'line' : layer.type;
+        return layer as Omit<AnyLayer, 'id'>;
+      },
+    )
+    .filter((l) => {
+      const isUnnecessaryLayer =
+        // @ts-expect-error - FIXME
+        l.type === 'line' && Object.keys(l.paint).length === 1;
+      return !isUnnecessaryLayer;
+    });
 }
