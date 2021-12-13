@@ -1,6 +1,7 @@
 # Disaster Ninja 2.0
 [Description](https://www.kontur.io/portfolio/disaster-ninja/)
 
+Run npx husky-init after you first time clone project
 ## Available Scripts
 
 ### npm start
