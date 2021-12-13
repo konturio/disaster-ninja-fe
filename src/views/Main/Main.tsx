@@ -64,8 +64,8 @@ export function MainView() {
         <Suspense fallback={null}>
           <NotificationToast />
           <SideBar />
-          <EventList />
-          <Analytics />
+          {/* <EventList />
+          <Analytics /> */}
           <DrawToolsToolbox />
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
@@ -83,10 +83,10 @@ export function MainView() {
             <Logo height={24} palette={'contrast'} />
           </div>
           <Suspense fallback={null}>
-            <div className={s.floating}>
+            {/* <div className={s.floating}>
               <Legend />
               <MapLayersList />
-            </div>
+            </div> */}
           </Suspense>
         </div>
       </Row>

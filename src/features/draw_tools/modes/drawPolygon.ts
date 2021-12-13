@@ -121,7 +121,6 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
 
 
       if (this.intersectionsTest(props, polygonCoords)) {
-        console.log('%c⧭ intersectionsTest CASE', 'color: #731d6d',);
         currentNotificationAtom.showNotification.dispatch(
           'error',
           { title: i18n.t('Polygon should not overlap itself') }, 1600
