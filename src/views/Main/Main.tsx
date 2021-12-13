@@ -17,7 +17,10 @@ const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
 const { Legend } = lazily(() => import('~features/legend_panel'));
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
-const { DrawToolsToolbox } = lazily(() => import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'));
+const { DrawToolsToolbox } = lazily(
+  () =>
+    import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
+);
 
 export function MainView() {
   const history = useHistory();
@@ -42,15 +45,15 @@ export function MainView() {
     import('~features/focused_geometry_layer').then(
       ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
     );
-    import('~features/reports').then(({ initReportsIcon }) =>
+    import('~features/reports/').then(({ initReportsIcon }) =>
       initReportsIcon(history),
     );
-    import('~features/bivariate_manager').then(({ initBivariateManager }) =>
+    import('~features/bivariate_manager/').then(({ initBivariateManager }) =>
       initBivariateManager(),
     );
-    import('~features/draw_tools').then(({ initDrawTools }) =>
-      initDrawTools(),
-    );
+    // import('~features/draw_tools/').then(({ initDrawTools }) =>
+    //   initDrawTools(),
+    // );
   }, []);
 
   return (
@@ -64,9 +67,8 @@ export function MainView() {
         <Suspense fallback={null}>
           <NotificationToast />
           <SideBar />
-          {/* <EventList />
-          <Analytics /> */}
-          <DrawToolsToolbox />
+          <EventList />
+          <Analytics />
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -83,11 +85,12 @@ export function MainView() {
             <Logo height={24} palette={'contrast'} />
           </div>
           <Suspense fallback={null}>
-            {/* <div className={s.floating}>
+            <div className={s.floating}>
               <Legend />
               <MapLayersList />
-            </div> */}
+            </div>
           </Suspense>
+          <DrawToolsToolbox />
         </div>
       </Row>
     </>
