@@ -9,4 +9,7 @@ export const drawPointDeckLayerConfig = {
   type: EditableGeoJsonLayer,
   mode: LocalDrawPointMode,
   selectedFeatureIndexes: [],
+  _subLayerProps: {
+    guides: {}
+  }
 }
