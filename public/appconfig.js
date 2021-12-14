@@ -11,5 +11,6 @@ window.konturAppConfig = {
   LAYERS_BY_DEFAULT: [
     'count&area_km2|population&area_km2',
     'activeContributors',
+    'eventShape'
   ],
 };
