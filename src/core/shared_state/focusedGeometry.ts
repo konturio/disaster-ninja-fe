@@ -19,11 +19,17 @@ interface GeometrySourceBoundaries {
   meta: string;
 }
 
+interface GeometrySourceDrawn {
+  type: 'drawn';
+}
+
+
 type GeometrySource =
   | GeometrySourceEvent
   | GeometrySourceCustom
   | GeometrySourceBoundaries
-  | GeometrySourceFromFile;
+  | GeometrySourceFromFile
+  | GeometrySourceDrawn;
 
 export interface FocusedGeometry {
   source: GeometrySource;
@@ -33,16 +39,17 @@ export interface FocusedGeometry {
 export const focusedGeometryAtom = createBindAtom(
   {
     setFocusedGeometry: (
-      source: GeometrySource,
-      geometry: GeoJSON.GeoJSON,
+      source: GeometrySource | null,
+      geometry: GeoJSON.GeoJSON | null,
     ) => ({ source, geometry }),
   },
   ({ onAction }, state: FocusedGeometry | null = null) => {
     onAction('setFocusedGeometry', ({ source, geometry }) => {
-      state = {
+      if (source && geometry) state = {
         source,
         geometry,
       };
+      else state = null
     });
     return state;
   },

@@ -26,7 +26,13 @@ export const DRAW_MODE_CONFIG = {
 
 export const drawModes = {
   DrawPolygonMode: 'DrawPolygonMode',
-  ViewMode: 'ViewMode',
+  DrawLineMode: 'DrawLineMode',
+  DrawPointMode: 'DrawPointMode',
+  ModifyMode: 'ModifyMode',
 } as const;
 
 export type DrawModeType = keyof typeof drawModes;
+export const createDrawingLayers = ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode']
+export const editDrawingLayers = ['ModifyMode']
+
+export const CLOSE_DRAW_HINT = 'drawModeHintWasClosed'
