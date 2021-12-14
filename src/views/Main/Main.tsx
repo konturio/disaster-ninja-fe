@@ -51,9 +51,9 @@ export function MainView() {
     import('~features/bivariate_manager/').then(({ initBivariateManager }) =>
       initBivariateManager(),
     );
-    // import('~features/draw_tools/').then(({ initDrawTools }) =>
-    //   initDrawTools(),
-    // );
+    import('~features/draw_tools/').then(({ initDrawTools }) =>
+      initDrawTools(),
+    );
   }, []);
 
   return (

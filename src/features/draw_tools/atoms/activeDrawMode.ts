@@ -1,15 +1,24 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
-import { DrawModeType } from '../constants';
+import { drawModes, DrawModeType } from '../constants';
 
 export const activeDrawModeAtom = createBindAtom(
   {
     setDrawMode: (mode: DrawModeType | undefined) => mode,
+    toggleDrawMode: (mode: DrawModeType | undefined) => mode
   },
-  ({ onChange, onAction }, state: DrawModeType | undefined = undefined) => {
+  ({ onAction }, state: DrawModeType | undefined = undefined) => {
     onAction('setDrawMode', (mode) => {
       if (state !== mode) {
         state = mode;
       }
+    });
+
+    onAction('toggleDrawMode', (mode) => {
+      if (!mode && !state) return;
+      if (mode === drawModes.ModifyMode && state === mode) return;
+      if (state === mode) {
+        state = drawModes.ModifyMode;
+      } else state = mode
     });
 
     return state;
