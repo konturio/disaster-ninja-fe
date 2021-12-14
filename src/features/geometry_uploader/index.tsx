@@ -2,8 +2,14 @@ import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { askGeoJSONFile } from './askGeoJSONFile';
 import { UploadFileIcon } from '@k2-packages/default-icons';
-import { GEOMETRY_UPLOADER_CONTROL_ID, GEOMETRY_UPLOADER_CONTROL_NAME } from './constants';
-import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import {
+  GEOMETRY_UPLOADER_CONTROL_ID,
+  GEOMETRY_UPLOADER_CONTROL_NAME,
+} from './constants';
+import {
+  controlGroup,
+  controlVisualGroup,
+} from '~core/shared_state/sideControlsBar';
 
 export function initFileUploader() {
   sideControlsBarAtom.addControl.dispatch({
@@ -18,12 +24,12 @@ export function initFileUploader() {
        * In webkit you can't use additional function wrapper including useCallback
        * because it's disable file upload popup.
        */
-      askGeoJSONFile((geoJSON) =>
+      askGeoJSONFile((geoJSON) => {
         focusedGeometryAtom.setFocusedGeometry.dispatch(
           { type: 'uploaded' },
           geoJSON,
-        ),
-      );
+        );
+      });
     },
   });
 }
