@@ -31,7 +31,7 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
 
             currentNotificationAtom.showNotification.dispatch(
               'error',
-              { title: i18n.t('Polygon should not overlap itself') }, 1600
+              { title: i18n.t('Polygon should not overlap itself') }, 5
             );
             this['resetClickSequence']();
             return;
@@ -123,7 +123,7 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       if (this.intersectionsTest(props, polygonCoords)) {
         currentNotificationAtom.showNotification.dispatch(
           'error',
-          { title: i18n.t('Polygon should not overlap itself') }, 1600
+          { title: i18n.t('Polygon should not overlap itself') }, 5
         );
         this['resetClickSequence']();
         return;
