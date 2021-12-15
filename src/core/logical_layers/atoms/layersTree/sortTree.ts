@@ -1,4 +1,4 @@
-import { TreeChildren } from '~features/layers_panel/types';
+import { TreeChildren } from './types';
 
 const _internalTypes = {
   withoutType: 'without_type',

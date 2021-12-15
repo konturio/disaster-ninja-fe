@@ -1,8 +1,4 @@
-import type {
-  CategorySettings,
-  GroupSettings,
-  Tree,
-} from '~features/layers_panel/types';
+import type { CategorySettings, GroupSettings, Tree } from './types';
 
 export function createTree(
   layers: { id: string; category?: string; group?: string; order?: number }[],

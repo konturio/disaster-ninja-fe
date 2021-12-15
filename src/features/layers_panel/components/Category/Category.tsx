@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useAtom } from '@reatom/react';
 import { Collapse } from '../Collapse/Collapse';
-import { mountedLayersByCategoryAtom } from '~features/layers_panel/atoms/mountedLayersByCategory';
+import { mountedLayersByCategoryAtom } from '../../atoms/mountedLayersByCategory';
 import { Group } from '../Group/Group';
-import type { CategoryWithSettings } from '../../types';
+import type { CategoryWithSettings } from '~core/logical_layers/atoms/layersTree/types';
 import s from './Category.module.css';
 
 function CategoryMountedLayersCounter({ categoryId }: { categoryId: string }) {
