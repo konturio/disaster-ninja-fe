@@ -221,4 +221,49 @@ export const MAP_CSS_MAPBOX = {
     },
   ],
   'casing-offset': null, // used only in value converter acceptCasingOffset
+  'circle-color': {
+    type: 'circle',
+    category: 'paint',
+    name: 'circle-color',
+  },
+  'circle-blur': {
+    type: 'circle',
+    category: 'paint',
+    name: 'circle-blur',
+  },
+  'circle-opacity': {
+    type: 'circle',
+    category: 'paint',
+    name: 'circle-opacity',
+  },
+  'circle-radius': {
+    type: 'circle',
+    category: 'paint',
+    name: 'circle-radius',
+  },
+  'circle-stroke-color': {
+    type: 'circle',
+    category: 'paint',
+    name: 'circle-stroke-color',
+  },
+  'circle-stroke-opacity': {
+    type: 'circle',
+    category: 'paint',
+    name: 'circle-stroke-opacity',
+  },
+  'circle-stroke-width': {
+    type: 'circle',
+    category: 'paint',
+    name: 'circle-stroke-width',
+  },
+  'circle-translate': {
+    type: 'circle',
+    category: 'paint',
+    name: 'circle-translate',
+  },
+  'circle-translate-anchor': {
+    type: 'circle',
+    category: 'paint',
+    name: 'circle-translate-anchor',
+  },
 };

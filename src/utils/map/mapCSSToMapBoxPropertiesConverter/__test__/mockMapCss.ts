@@ -30,4 +30,5 @@ export const mapCSS = {
   'text-halo-radius': 2,
   offset: 3,
   'casing-offset': 4,
+  'circle-radius': 3,
 };
