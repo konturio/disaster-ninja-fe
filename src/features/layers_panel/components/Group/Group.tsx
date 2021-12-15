@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Collapse } from '../Collapse/Collapse';
-import { GroupWithSettings } from '../../types';
+import { GroupWithSettings } from '~core/logical_layers/atoms/layersTree/types';
 import { Layer } from '../Layer/Layer';
 
 export function Group({
