@@ -314,8 +314,15 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
 
     // Update layer data
     if (state.isMounted) {
-      this.willUnmount(map);
-      this.willMount(map);
+      const source = map.getSource(this._sourceId);
+      if (source.type === 'geojson') {
+        source.setData(
+          this._lastGeometryUpdate || {
+            type: 'FeatureCollection',
+            features: [],
+          },
+        );
+      }
     }
   }
 
