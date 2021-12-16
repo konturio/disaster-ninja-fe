@@ -1,9 +1,12 @@
-.drawToolsContainer {
+.drawToolsContainer{
+  z-index: 1001;
+}
+
+.toolBox {
   position: absolute;
   bottom: 8%;
   left: 50%;
   transform: translate(-50%, 0);
-  z-index: 1001;
   display: flex;
   border-radius: 4px;
   background-color: #32404d;
