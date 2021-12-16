@@ -8,6 +8,7 @@ import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import { DrawToolsIcon } from '@k2-packages/default-icons';
 import { drawLayerAtom } from './atoms/drawLayerAtom';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import { drawingIsStartedAtom } from '~features/draw_tools/atoms/drawingIsStartedAtom';
 
 export function initDrawTools() {
   drawLayerAtom.mount.dispatch()
@@ -23,6 +24,7 @@ export function initDrawTools() {
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
+        drawingIsStartedAtom.setIsStarted.dispatch(false)
         activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
       } else {
         activeDrawModeAtom.setDrawMode.dispatch(undefined);

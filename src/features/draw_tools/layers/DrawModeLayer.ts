@@ -9,6 +9,7 @@ import { selectedIndexesAtom } from '../atoms/selectedIndexesAtom';
 import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
 import { setMapInteractivity } from '../setMapInteractivity';
+import { drawingIsStartedAtom } from '../atoms/drawingIsStartedAtom';
 
 
 type mountedDeckLayersType = {
@@ -171,6 +172,7 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   _onDrawEdit = ({ editContext, updatedData, editType }) => {
+    if (editType === 'addTentativePosition' || editType === 'addFeature') drawingIsStartedAtom.setIsStarted.dispatch(true)
     if (editType === 'addFeature' && updatedData.features[0])
       drawnGeometryAtom.addFeature.dispatch(updatedData.features[0]);
   }
