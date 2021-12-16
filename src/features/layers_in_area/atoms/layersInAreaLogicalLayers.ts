@@ -3,6 +3,7 @@ import { logicalLayersRegistryAtom } from '~core/logical_layers/atoms/logicalLay
 import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
 import { layersInAreaResourceAtom } from './layersInArea';
 import { GenericLayer } from '../layers/GenericLayer';
+import { focusedGeometryAtom } from '~core/shared_state';
 
 export const layersInAreaLogicalLayersAtom = createBindAtom(
   {
@@ -17,7 +18,7 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
       const newLayers = layersInArea.filter((l) => !registry.has(l.id));
       /* Create logical layers and wrap into atoms */
       const logicalLayersAtoms = newLayers.map((layer) =>
-        createLogicalLayerAtom(new GenericLayer(layer)),
+        createLogicalLayerAtom(new GenericLayer(layer), focusedGeometryAtom),
       );
       if (logicalLayersAtoms.length > 0) {
         /* Batch actions into one transaction */
