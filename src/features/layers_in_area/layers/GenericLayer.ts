@@ -222,11 +222,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     }
   }
 
-  public onInit() {
-    return { isVisible: true, isLoading: false };
-  }
-
-  public async willMount(map: ApplicationMap) {
+  async _fetchLayerData() {
     let params: {
       layerIds?: string[];
       geoJSON?: GeoJSON.GeoJSON;
@@ -256,16 +252,25 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       params,
       false,
     );
-    if (response) {
-      /* Api allow us fetch bunch of layers, but here we take only one */
-      const firstLayer = response[0];
+
+    /* Api allow us fetch bunch of layers, but here we take only one */
+    if (response) return response[0];
+  }
+
+  public onInit() {
+    return { isVisible: true, isLoading: false };
+  }
+
+  public async willMount(map: ApplicationMap) {
+    const layerData = await this._fetchLayerData();
+    if (layerData) {
       const isGeoJSONLayer = (
         layer: LayerInAreaSource,
       ): layer is LayerGeoJSONSource => layer.source.type === 'geojson';
-      if (isGeoJSONLayer(firstLayer)) {
-        this.mountGeoJSONLayer(map, firstLayer);
+      if (isGeoJSONLayer(layerData)) {
+        this.mountGeoJSONLayer(map, layerData);
       } else {
-        this.mountTileLayer(map, firstLayer);
+        this.mountTileLayer(map, layerData);
       }
 
       /* Add event listener */
@@ -285,7 +290,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     }
   }
 
-  onDataChange(map: ApplicationMap, data: FocusedGeometry | null, state) {
+  async onDataChange(map: ApplicationMap, data: FocusedGeometry | null, state) {
     if (data === null) {
       this._lastGeometryUpdate = null;
       this._eventId = null;
@@ -315,9 +320,13 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     // Update layer data
     if (state.isMounted) {
       const source = map.getSource(this._sourceId);
-      if (source.type === 'geojson') {
+      if (source.type !== 'geojson') return; // Want update only geojson source
+
+      const layerData = await this._fetchLayerData();
+      if (layerData) {
+        if (layerData.source.type !== 'geojson') return; // Geojson source accept only geojson
         source.setData(
-          this._lastGeometryUpdate || {
+          layerData.source.data || {
             type: 'FeatureCollection',
             features: [],
           },
