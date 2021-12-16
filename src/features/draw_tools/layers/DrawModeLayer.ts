@@ -53,6 +53,7 @@ export class DrawModeLayer implements LogicalLayer {
   willMount(map: ApplicationMap): void {
     this._map = map
     this._isMounted = true;
+    this._addDeckLayer(drawModes.ShowIcon)
   }
 
   willUnmount(): void {
@@ -65,10 +66,6 @@ export class DrawModeLayer implements LogicalLayer {
     if (!mode) return this.willHide()
     // Case setting mode to create drawings - 
     if (createDrawingLayers.includes(mode)) {
-      // Make shure editing mode is Modify mode
-      if (!this._editDrawingLayer) this._addDeckLayer(drawModes.ModifyMode)
-      this._editDrawingLayer = drawModes.ModifyMode
-
       // if we had other drawing mode - remove it
       if (this._createDrawingLayer && this._createDrawingLayer !== mode)
         this._removeDeckLayer(this._createDrawingLayer)
@@ -77,17 +74,15 @@ export class DrawModeLayer implements LogicalLayer {
       this._createDrawingLayer = mode
     }
 
-    // Case setting editing mode - remove drawing mode and add edit mode if needed
-    else if (editDrawingLayers.includes(mode)) {
+    // Case editing or watch mode - remove create-drawing modes
+    else {
       if (this._createDrawingLayer) {
         this._removeDeckLayer(this._createDrawingLayer)
         this._createDrawingLayer = null
       }
       if (this._editDrawingLayer === mode) return;
-      if (!this._editDrawingLayer) {
-        this._addDeckLayer(drawModes[mode])
-        this._editDrawingLayer = mode
-      }
+      this._addDeckLayer(drawModes[mode])
+      this._editDrawingLayer = mode
     }
   }
 
@@ -100,14 +95,22 @@ export class DrawModeLayer implements LogicalLayer {
       config.data = this.drawnData
       config.selectedFeatureIndexes = this.selectedIndexes
       config.onEdit = this._onModifyEdit
-    } else {
+    } else if (createDrawingLayers.includes(mode)) {
       config.onEdit = this._onDrawEdit
+    } else {
+      // config.data = this.drawnData.features.map(feature => feature.geometry)
+      console.log('%c⧭ this.drawnData map', 'color: #aa00ff', config.data, this.drawnData);
+      config.updateState = ({ oldProps, props, changeFlags }) => {
+        console.log('%c⧭ updateState', 'color: #e5ce00', oldProps, props, changeFlags);
+      }
     }
 
     config._subLayerProps.guides.pointRadiusMinPixels = 4
     config._subLayerProps.guides.pointRadiusMaxPixels = 4
+    console.log('%c⧭ mode config', 'color: #86bf60', config);
 
-    const deckLayer = new MapboxLayer({ ...config, renderingMode: '2d' })
+    const deckLayer = new MapboxLayer({ ...config })
+    console.log('%c⧭ mode decklayer', 'color: #cc7033', deckLayer);
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
 
     if (!this._map?.getLayer(deckLayer.id)?.id)
@@ -129,14 +132,17 @@ export class DrawModeLayer implements LogicalLayer {
     if (!this._map) return;
     this.drawnData = data
     this._refreshMode(drawModes.ModifyMode)
+    const simpleGeometry = this.drawnData.features.map(feature => feature.geometry)
+    console.log('%c⧭ simpleGeometry', 'color: #733d00', simpleGeometry);
+    this._refreshMode(drawModes.ShowIcon, simpleGeometry)
   }
 
 
-  _refreshMode(mode: DrawModeType): void {
+  _refreshMode(mode: DrawModeType, specialData?: any[]): void {
     const layer = this.mountedDeckLayers[mode]
     // this won't show anything
     // layer?.deck.setProps({ data: this.drawnData })
-    layer?.setProps({ data: this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
+    layer?.setProps({ data: specialData || this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
   }
 
   willHide(map?: ApplicationMap) {

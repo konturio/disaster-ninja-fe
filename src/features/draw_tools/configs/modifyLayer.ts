@@ -1,23 +1,12 @@
-import { EditAction, FeatureCollection } from "@nebula.gl/edit-modes";
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
-import { drawnGeometryAtom } from "../atoms/drawnGeometryAtom";
 import { drawModes } from "../constants";
 import { LocalModifyMode } from "../modes/modifyMode";
-import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
-import { activeDrawModeAtom } from "../atoms/activeDrawMode";
-import { modeWatcherAtom } from "../atoms/drawLayerAtom";
-import { currentMapAtom } from "~core/shared_state";
 
 
-// movePosition - we should only do it after keyup
-const completedTypes = ['selectFeature', 'finishMovePosition', 'rotated', 'translated']
 export const modifyDeckLayerConfig = {
   id: drawModes.ModifyMode,
   type: EditableGeoJsonLayer,
   mode: LocalModifyMode,
-  // selectedFeatureIndexes: [], //0 to select firts feature
-  // data,
-
   parameters: {
     depthTest: false, // skip z-buffer check
     pickingRadius: 50
@@ -37,7 +26,8 @@ export const modifyDeckLayerConfig = {
       stroked: true
     },
   },
-
+  // editHandleType: 'icon',  //starts search for icons. However it's unknown where to put these props https://deck.gl/docs/api-reference/layers/icon-layer
+  pickable: true,
 }
 
 
