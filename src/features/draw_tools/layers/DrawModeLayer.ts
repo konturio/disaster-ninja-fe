@@ -99,16 +99,30 @@ export class DrawModeLayer implements LogicalLayer {
       config.onEdit = this._onModifyEdit
     } else if (createDrawingLayers.includes(mode)) {
       config.onEdit = this._onDrawEdit
-    } else {
+    } else if (mode === drawModes.ShowIcon) {
       config.data = this.drawnData.features.map(feature => feature.geometry)
+      config.onClick = ({ index }) => {
+        selectedIndexesAtom.setIndexes.dispatch([index])
+        this.selectedIndexes = [index]
+
+        console.log('%c⧭', 'color: #807160', this.mountedDeckLayers.ModifyMode);
+        this._refreshMode(drawModes.ModifyMode)
+        this.mountedDeckLayers.ModifyMode?.deck.redraw(true)
+      }
+      config.onDrag = ({ coordinate, index }) => {
+        setMapInteractivity(this._map, false)
+        this.selectedIndexes = index
+        selectedIndexesAtom.setIndexes.dispatch([index])
+        drawnGeometryAtom.updateByIndex.dispatch({
+          type: 'Feature', geometry: { type: 'Point', coordinates: coordinate }, properties: {}
+        }, index)
+      }
     }
 
     config._subLayerProps.guides.pointRadiusMinPixels = 4
     config._subLayerProps.guides.pointRadiusMaxPixels = 4
-    console.log('%c⧭ mode config', 'color: #86bf60', config);
 
     const deckLayer = new MapboxLayer({ ...config })
-    console.log('%c⧭ mode decklayer', 'color: #cc7033', deckLayer);
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
 
     if (!this._map?.getLayer(deckLayer.id)?.id)
