@@ -38,7 +38,7 @@ export const showIconDeckLayerConfig = {
       width: 128,
       height: 128,
       anchorY: 128,
-      mask: true
+      mask: true,
     }
   },
   // required to show data
@@ -47,8 +47,10 @@ export const showIconDeckLayerConfig = {
 
 
   sizeScale: 15,
-  getSize: d => 3,
+  getSize: d => 10,
   getColor: d => [120, 140, 0],
+  
+  onClick: info => console.log(info),
 
 
   // onIconError: null,
