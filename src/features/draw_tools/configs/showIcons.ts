@@ -28,6 +28,8 @@ export const showIconDeckLayerConfig = {
   // getPixelOffset: [0, 0],
   // getPosition: d => d.coordinates,
   // getSize: d => 5,
+
+  // required by class
   iconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
   iconMapping: {
     marker: {
@@ -39,12 +41,12 @@ export const showIconDeckLayerConfig = {
       mask: true
     }
   },
+  // required to show data
   getIcon: d => 'marker',
-  data: [{ coordinates: [-122.466233, 37.684638] }],
+  getPosition: d => d.coordinates,
 
 
   sizeScale: 15,
-  getPosition: d => d.coordinates,
   getSize: d => 3,
   getColor: d => [120, 140, 0],
 

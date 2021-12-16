@@ -9,7 +9,7 @@ export const modifyDeckLayerConfig = {
   mode: LocalModifyMode,
   parameters: {
     depthTest: false, // skip z-buffer check
-    pickingRadius: 50
+    pickingRadius: 750
   },
   _subLayerProps: {
     tooltips: {
@@ -27,7 +27,6 @@ export const modifyDeckLayerConfig = {
     },
   },
   // editHandleType: 'icon',  //starts search for icons. However it's unknown where to put these props https://deck.gl/docs/api-reference/layers/icon-layer
-  pickable: true,
 }
 
 
