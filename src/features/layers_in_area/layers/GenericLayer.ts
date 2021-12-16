@@ -14,7 +14,7 @@ import {
   applyLegendConditions,
   setSourceLayer,
 } from '~utils/map/mapCSSToMapBoxPropertiesConverter';
-import { apiClient } from '~core/index';
+import { apiClient, notificationService } from '~core/index';
 import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '../constants';
 import {
   LayerInArea,
@@ -22,18 +22,14 @@ import {
   LayerGeoJSONSource,
   LayerTileSource,
 } from '../types';
-import {
-  FocusedGeometry,
-  focusedGeometryAtom,
-} from '~core/shared_state/focusedGeometry';
-import { currentEventAtom } from '~core/shared_state';
+import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 import {
   addZoomFilter,
   onActiveContributorsClick,
 } from './activeContributorsLayers';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
-export class GenericLayer implements LogicalLayer {
+export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
   public readonly id: string;
   public readonly name?: string;
   public readonly legend?: LayerLegend;
@@ -47,7 +43,10 @@ export class GenericLayer implements LogicalLayer {
   private _onClickListener:
     | ((e: maplibregl.MapMouseEvent & maplibregl.EventData) => void)
     | null = null;
-  private _focusedGeometry: FocusedGeometry | null = null;
+  private _lastGeometryUpdate:
+    | GeoJSON.Feature
+    | GeoJSON.FeatureCollection
+    | null = null;
   private _eventId: string | null = null;
 
   public constructor(layer: LayerInArea) {
@@ -62,14 +61,6 @@ export class GenericLayer implements LogicalLayer {
     /* private */
     this._layerIds = [];
     this._sourceId = SOURCE_IN_AREA_PREFIX + layer.id;
-    if (this.boundaryRequiredForRetrieval) {
-      focusedGeometryAtom.subscribe((geom) => {
-        this._focusedGeometry = geom;
-      });
-    }
-    currentEventAtom.subscribe((event) => {
-      this._eventId = event?.id ?? null;
-    });
   }
 
   _generateLayersFromLegend(legend: LayerLegend): Omit<AnyLayer, 'id'>[] {
@@ -236,22 +227,30 @@ export class GenericLayer implements LogicalLayer {
   }
 
   public async willMount(map: ApplicationMap) {
-    const params: {
+    let params: {
       layerIds?: string[];
       geoJSON?: GeoJSON.GeoJSON;
       eventId?: string;
-    } = this.boundaryRequiredForRetrieval
-      ? {
-          layerIds: [this.id],
-          geoJSON: this._focusedGeometry?.geometry,
-        }
-      : {
-          layerIds: [this.id],
-        };
+    };
+
+    if (this.boundaryRequiredForRetrieval) {
+      if (this._lastGeometryUpdate === null) {
+        throw Error(`Layer ${this.id} require geometry, but geometry is null`);
+      }
+      params = {
+        layerIds: [this.id],
+        geoJSON: this._lastGeometryUpdate,
+      };
+    } else {
+      params = {
+        layerIds: [this.id],
+      };
+    }
 
     if (this._eventId) {
       params.eventId = this._eventId;
     }
+
     const response = await apiClient.post<LayerInAreaSource[]>(
       '/layers/details',
       params,
@@ -283,6 +282,40 @@ export class GenericLayer implements LogicalLayer {
           map.on('click', this._onClickListener);
         }
       }
+    }
+  }
+
+  onDataChange(map: ApplicationMap, data: FocusedGeometry | null, state) {
+    if (data === null) {
+      this._lastGeometryUpdate = null;
+      this._eventId = null;
+      return;
+    }
+
+    const { source, geometry } = data;
+
+    // Update geometry
+    if (geometry.type === 'Feature' || geometry.type === 'FeatureCollection') {
+      this._lastGeometryUpdate = geometry;
+    } else {
+      // TODO: Add converter from any GeoJSON to Feature or FeatureCollection
+      notificationService.error({
+        title: 'Not implemented yet',
+        description: `${geometry.type} not supported`,
+      });
+    }
+
+    // Update event id
+    if (source.type === 'event') {
+      this._eventId = source.meta.eventId;
+    } else {
+      this._eventId = null;
+    }
+
+    // Update layer data
+    if (state.isMounted) {
+      this.willUnmount(map);
+      this.willMount(map);
     }
   }
 
