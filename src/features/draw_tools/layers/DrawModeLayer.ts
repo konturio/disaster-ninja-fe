@@ -64,7 +64,7 @@ export class DrawModeLayer implements LogicalLayer {
   setMode(mode: DrawModeType): any {
     this.mode = mode
     if (!mode) return this.willHide()
-    // Case setting mode to create drawings - 
+    // Case setting mode to create drawings
     if (createDrawingLayers.includes(mode)) {
       // if we had other drawing mode - remove it
       if (this._createDrawingLayer && this._createDrawingLayer !== mode)
@@ -74,14 +74,16 @@ export class DrawModeLayer implements LogicalLayer {
       this._createDrawingLayer = mode
     }
 
-    // Case editing or watch mode - remove create-drawing modes
+    // Case editing - remove create-drawing modes, add modify and icon showing modes
     else {
+      // remove create-drawing modes
       if (this._createDrawingLayer) {
         this._removeDeckLayer(this._createDrawingLayer)
         this._createDrawingLayer = null
       }
       if (this._editDrawingLayer === mode) return;
       this._addDeckLayer(drawModes[mode])
+      this._addDeckLayer(drawModes.ShowIcon)
       this._editDrawingLayer = mode
     }
   }
@@ -98,11 +100,7 @@ export class DrawModeLayer implements LogicalLayer {
     } else if (createDrawingLayers.includes(mode)) {
       config.onEdit = this._onDrawEdit
     } else {
-      // config.data = this.drawnData.features.map(feature => feature.geometry)
-      console.log('%c⧭ this.drawnData map', 'color: #aa00ff', config.data, this.drawnData);
-      config.updateState = ({ oldProps, props, changeFlags }) => {
-        console.log('%c⧭ updateState', 'color: #e5ce00', oldProps, props, changeFlags);
-      }
+      config.data = this.drawnData.features.map(feature => feature.geometry)
     }
 
     config._subLayerProps.guides.pointRadiusMinPixels = 4
@@ -132,16 +130,14 @@ export class DrawModeLayer implements LogicalLayer {
     if (!this._map) return;
     this.drawnData = data
     this._refreshMode(drawModes.ModifyMode)
+    // show icon needs different data type - see more in it's config page
     const simpleGeometry = this.drawnData.features.map(feature => feature.geometry)
-    console.log('%c⧭ simpleGeometry', 'color: #733d00', simpleGeometry);
     this._refreshMode(drawModes.ShowIcon, simpleGeometry)
   }
 
 
   _refreshMode(mode: DrawModeType, specialData?: any[]): void {
     const layer = this.mountedDeckLayers[mode]
-    // this won't show anything
-    // layer?.deck.setProps({ data: this.drawnData })
     layer?.setProps({ data: specialData || this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
   }
 
