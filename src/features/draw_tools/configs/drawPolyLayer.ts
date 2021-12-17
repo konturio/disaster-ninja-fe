@@ -1,4 +1,3 @@
-import { MapboxLayerProps } from "@deck.gl/mapbox/mapbox-layer";
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { drawModes } from "../constants";
 import { LocalDrawPolygonMode } from "../modes/drawPolygon";
@@ -8,7 +7,6 @@ import { LocalDrawPolygonMode } from "../modes/drawPolygon";
 export const drawPolyDeckLayerConfig = {
   id: drawModes.DrawPolygonMode,
   type: EditableGeoJsonLayer,
-  // typescript marks this as error. Yet the mode works on map.
   mode: LocalDrawPolygonMode,
   selectedFeatureIndexes: [],
   parameters: {
