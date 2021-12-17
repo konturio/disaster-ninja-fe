@@ -1,5 +1,6 @@
 import { IconLayer } from "@deck.gl/layers";
 import { drawModes } from "../constants";
+import Icon from '../icons/iconAtlas.png'
 
 export const showIconDeckLayerConfig = {
   id: drawModes.ShowIcon,
@@ -13,15 +14,15 @@ export const showIconDeckLayerConfig = {
   */
 
   // required by class
-  iconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+  iconAtlas: Icon,
   iconMapping: {
     marker: {
       x: 0,
       y: 0,
       width: 128,
-      height: 128,
-      anchorY: 128,
-      mask: true,
+      height: 165,
+      anchorY: 160,
+      // mask: true,
     }
   },
   // required to show data
@@ -34,7 +35,11 @@ export const showIconDeckLayerConfig = {
 
   sizeScale: 15,
   getSize: d => 10,
-  getColor: d => [120, 140, 0],
+  getColor: d => {
+
+    console.log('%c⧭', 'color: #408059', d);
+    return [120, 140, 0]
+  },
 
   onClick: info => console.log(info),
 
