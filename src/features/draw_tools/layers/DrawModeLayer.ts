@@ -129,7 +129,7 @@ export class DrawModeLayer implements LogicalLayer {
     const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
 
     if (!this._map?.getLayer(deckLayer.id)?.id)
-      this._map?.addLayer?.(deckLayer, beforeId);
+      this._map?.addLayer?.(deckLayer);
 
     this.mountedDeckLayers[mode] = deckLayer
   }

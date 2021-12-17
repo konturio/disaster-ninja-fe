@@ -67,8 +67,8 @@ export function MainView() {
         <Suspense fallback={null}>
           <NotificationToast />
           <SideBar />
-          {/* <EventList />
-          <Analytics /> */}
+          <EventList />
+          <Analytics />
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -86,8 +86,8 @@ export function MainView() {
           </div>
           <Suspense fallback={null}>
             <div className={s.floating}>
-              {/* <Legend />
-              <MapLayersList /> */}
+              <Legend />
+              <MapLayersList />
             </div>
           </Suspense>
           <DrawToolsToolbox />
