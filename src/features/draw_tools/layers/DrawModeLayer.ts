@@ -100,24 +100,31 @@ export class DrawModeLayer implements LogicalLayer {
     } else if (createDrawingLayers.includes(mode)) {
       config.onEdit = this._onDrawEdit
     } else if (mode === drawModes.ShowIcon) {
-      config.data = this.drawnData.features.map(feature => feature.geometry.type === 'Point' ? feature.geometry : { isHidden: true })
+      config.data = this._getIconLayerData()
       config.onClick = ({ index }) => {
         selectedIndexesAtom.setIndexes.dispatch([index])
         this.selectedIndexes = [index]
         this._refreshMode(drawModes.ModifyMode)
-        // this.mountedDeckLayers.ModifyMode?.deck.redraw(true)
+        const simpleGeometry = this._getIconLayerData()
+        this._refreshMode(drawModes.ShowIcon, simpleGeometry)
       }
-      config.onDragStart = () => {
+      config.onDragStart = ({ index }) => {
+        // console.log('%c⧭ onDragStart', 'color: #f279ca',);
         setMapInteractivity(this._map, false)
+        this.selectedIndexes = [index]
+        selectedIndexesAtom.setIndexes.dispatch([index])
       }
       config.onDrag = ({ coordinate, index }) => {
-        this.selectedIndexes = index
-        selectedIndexesAtom.setIndexes.dispatch([index])
+        // console.log('%c⧭ onDrag', 'color: #7f7700',);
         drawnGeometryAtom.updateByIndex.dispatch({
           type: 'Feature', geometry: { type: 'Point', coordinates: coordinate }, properties: {}
         }, index)
       }
-      config.onDragEnd = () => {
+      config.onDragEnd = ({ coordinate, index }) => {
+        // console.log('%c⧭ onDragEnd', 'color: #00ff88',);
+        // drawnGeometryAtom.updateByIndex.dispatch({
+        //   type: 'Feature', geometry: { type: 'Point', coordinates: coordinate }, properties: {}
+        // }, index)
         setMapInteractivity(this._map, true)
       }
     }
@@ -148,15 +155,14 @@ export class DrawModeLayer implements LogicalLayer {
     this.drawnData = data
     this._refreshMode(drawModes.ModifyMode)
     // show icon needs different data type - see more in it's config page
-    const simpleGeometry =
-      this.drawnData.features.map(feature => feature.geometry.type === 'Point' ? feature.geometry : { isHidden: true })
+    const simpleGeometry = this._getIconLayerData()
     this._refreshMode(drawModes.ShowIcon, simpleGeometry)
   }
 
 
   _refreshMode(mode: DrawModeType, specialData?: any[]): void {
     const layer = this.mountedDeckLayers[mode]
-    layer?.setProps({ data: specialData || this.drawnData, selectedFeatureIndexes: this.selectedIndexes, editType: 'selectFeature' })
+    layer?.setProps({ data: specialData || this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
   }
 
   willHide(map?: ApplicationMap) {
@@ -167,9 +173,7 @@ export class DrawModeLayer implements LogicalLayer {
     this._editDrawingLayer = null
   }
 
-  willUnhide() {
-
-  }
+  willUnhide() { }
 
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
     let changedIndexes = editContext?.featureIndexes || []
@@ -199,5 +203,14 @@ export class DrawModeLayer implements LogicalLayer {
 
   onDataChange() {
     // no data is incoming here
+  }
+
+  _getIconLayerData() {
+    const simpleGeometry = this.drawnData.features.map((feature, index) => {
+      if (feature.geometry.type !== 'Point') return { isHidden: true }
+      if (this.selectedIndexes.includes(index)) return { ...feature.geometry, isSelected: true }
+      return feature.geometry
+    })
+    return simpleGeometry
   }
 }

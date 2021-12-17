@@ -16,19 +16,28 @@ export const showIconDeckLayerConfig = {
   // required by class
   iconAtlas: Icon,
   iconMapping: {
-    marker: {
+    defaultIcon: {
       x: 0,
       y: 0,
       width: 128,
       height: 165,
       anchorY: 160,
       // mask: true,
+    },
+    selectedIcon: {
+      x: 130,
+      y: 0,
+      width: 135,
+      height: 165,
+      anchorY: 160,
     }
   },
   // required to show data
   getIcon: d => {
+    console.log('%c⧭', 'color: #eeff00', d);
     if (d.isHidden) return null
-    return 'marker'
+    if (d.isSelected) return 'selectedIcon'
+    return 'defaultIcon'
   },
   getPosition: d => d.coordinates,
 
@@ -36,8 +45,6 @@ export const showIconDeckLayerConfig = {
   sizeScale: 15,
   getSize: d => 10,
   getColor: d => {
-
-    console.log('%c⧭', 'color: #408059', d);
     return [120, 140, 0]
   },
 
