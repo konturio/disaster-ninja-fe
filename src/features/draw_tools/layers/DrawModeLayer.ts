@@ -53,7 +53,6 @@ export class DrawModeLayer implements LogicalLayer {
   willMount(map: ApplicationMap): void {
     this._map = map
     this._isMounted = true;
-    this._addDeckLayer(drawModes.ShowIcon)
   }
 
   willUnmount(): void {
@@ -109,22 +108,16 @@ export class DrawModeLayer implements LogicalLayer {
         this._refreshMode(drawModes.ShowIcon, simpleGeometry)
       }
       config.onDragStart = ({ index }) => {
-        // console.log('%c⧭ onDragStart', 'color: #f279ca',);
         setMapInteractivity(this._map, false)
         this.selectedIndexes = [index]
         selectedIndexesAtom.setIndexes.dispatch([index])
       }
       config.onDrag = ({ coordinate, index }) => {
-        // console.log('%c⧭ onDrag', 'color: #7f7700',);
         drawnGeometryAtom.updateByIndex.dispatch({
           type: 'Feature', geometry: { type: 'Point', coordinates: coordinate }, properties: {}
         }, index)
       }
-      config.onDragEnd = ({ coordinate, index }) => {
-        // console.log('%c⧭ onDragEnd', 'color: #00ff88',);
-        // drawnGeometryAtom.updateByIndex.dispatch({
-        //   type: 'Feature', geometry: { type: 'Point', coordinates: coordinate }, properties: {}
-        // }, index)
+      config.onDragEnd = () => {
         setMapInteractivity(this._map, true)
       }
     }
@@ -206,6 +199,7 @@ export class DrawModeLayer implements LogicalLayer {
   }
 
   _getIconLayerData() {
+    // icon layer needs special format of data
     const simpleGeometry = this.drawnData.features.map((feature, index) => {
       if (feature.geometry.type !== 'Point') return { isHidden: true }
       if (this.selectedIndexes.includes(index)) return { ...feature.geometry, isSelected: true }

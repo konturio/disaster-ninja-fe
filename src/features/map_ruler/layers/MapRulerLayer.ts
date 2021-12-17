@@ -44,7 +44,8 @@ export class MapRulerLayer implements LogicalLayer {
 
   willMount(map: ApplicationMap): void {
     if (!this._deckLayer) {
-      const deckGLLayer = {
+      // I have to use any beacause types expected for new MapboxLayer aren't fully correct. The config is working at the time of writing
+      const deckGLLayer: any = {
         id: 'measure-edit-layer',
         type: EditableGeoJsonLayer,
         mode: CustomMeasureDistanceMode,
