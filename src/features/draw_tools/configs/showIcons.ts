@@ -1,8 +1,6 @@
 import { IconLayer } from "@deck.gl/layers";
 import { drawModes } from "../constants";
 
-// it's supposed to be the type of : MapboxLayerProps<unknown>
-// it will work regardless to type errors
 export const showIconDeckLayerConfig = {
   id: drawModes.ShowIcon,
   type: IconLayer,
@@ -13,21 +11,6 @@ export const showIconDeckLayerConfig = {
   *   ...
   * ]
   */
-
-  //  we prbaply don't need nebula modes
-
-  // selectedFeatureIndexes: [],
-  // _subLayerProps: {
-  //   guides: {}
-  // },/* props from IconLayer class */
-
-  // alphaCutoff: 0.05,
-  // billboard: true,
-  // getAngle: 0,
-  // getColor: d => [Math.sqrt(d.exits), 140, 0],
-  // getPixelOffset: [0, 0],
-  // getPosition: d => d.coordinates,
-  // getSize: d => 5,
 
   // required by class
   iconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
@@ -42,14 +25,17 @@ export const showIconDeckLayerConfig = {
     }
   },
   // required to show data
-  getIcon: d => 'marker',
+  getIcon: d => {
+    if (d.isHidden) return null
+    return 'marker'
+  },
   getPosition: d => d.coordinates,
 
 
   sizeScale: 15,
   getSize: d => 10,
   getColor: d => [120, 140, 0],
-  
+
   onClick: info => console.log(info),
 
 

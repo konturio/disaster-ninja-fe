@@ -100,22 +100,25 @@ export class DrawModeLayer implements LogicalLayer {
     } else if (createDrawingLayers.includes(mode)) {
       config.onEdit = this._onDrawEdit
     } else if (mode === drawModes.ShowIcon) {
-      config.data = this.drawnData.features.map(feature => feature.geometry)
+      config.data = this.drawnData.features.map(feature => feature.geometry.type === 'Point' ? feature.geometry : { isHidden: true })
       config.onClick = ({ index }) => {
         selectedIndexesAtom.setIndexes.dispatch([index])
         this.selectedIndexes = [index]
-
-        console.log('%c⧭', 'color: #807160', this.mountedDeckLayers.ModifyMode);
         this._refreshMode(drawModes.ModifyMode)
-        this.mountedDeckLayers.ModifyMode?.deck.redraw(true)
+        // this.mountedDeckLayers.ModifyMode?.deck.redraw(true)
+      }
+      config.onDragStart = () => {
+        setMapInteractivity(this._map, false)
       }
       config.onDrag = ({ coordinate, index }) => {
-        setMapInteractivity(this._map, false)
         this.selectedIndexes = index
         selectedIndexesAtom.setIndexes.dispatch([index])
         drawnGeometryAtom.updateByIndex.dispatch({
           type: 'Feature', geometry: { type: 'Point', coordinates: coordinate }, properties: {}
         }, index)
+      }
+      config.onDragEnd = () => {
+        setMapInteractivity(this._map, true)
       }
     }
 
@@ -145,14 +148,15 @@ export class DrawModeLayer implements LogicalLayer {
     this.drawnData = data
     this._refreshMode(drawModes.ModifyMode)
     // show icon needs different data type - see more in it's config page
-    const simpleGeometry = this.drawnData.features.map(feature => feature.geometry)
+    const simpleGeometry =
+      this.drawnData.features.map(feature => feature.geometry.type === 'Point' ? feature.geometry : { isHidden: true })
     this._refreshMode(drawModes.ShowIcon, simpleGeometry)
   }
 
 
   _refreshMode(mode: DrawModeType, specialData?: any[]): void {
     const layer = this.mountedDeckLayers[mode]
-    layer?.setProps({ data: specialData || this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
+    layer?.setProps({ data: specialData || this.drawnData, selectedFeatureIndexes: this.selectedIndexes, editType: 'selectFeature' })
   }
 
   willHide(map?: ApplicationMap) {

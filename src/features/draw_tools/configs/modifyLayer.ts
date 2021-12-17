@@ -27,6 +27,25 @@ export const modifyDeckLayerConfig = {
     },
   },
   // editHandleType: 'icon',  //starts search for icons. However it's unknown where to put these props https://deck.gl/docs/api-reference/layers/icon-layer
+
+//   editHandleType: 'icon',
+//   editHandleIconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+//   editHandleIconMapping: {
+//     marker: {
+//       x: 0,
+//       y: 0,
+//       width: 128,
+//       height: 128,
+//       anchorY: 128,
+//       mask: true,
+//     }
+//   },
+//   editHandleIconSizeScale: 15,
+//   getEditHandleIcon: d => 'marker',
+//   getEditHandleIconSize: 15,
+//   getEditHandleIconColor: d => [200, 200, 200],
+//   getEditHandlePosition: d => d.coordinates,
+//   pickable: true,
 }
 
 
