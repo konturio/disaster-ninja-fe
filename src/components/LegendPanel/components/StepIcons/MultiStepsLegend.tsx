@@ -18,25 +18,27 @@ export function MultiStepsLegend({ legend }: { legend: SimpleLegend }) {
     <div className={s.multiStepsLegend}>
       <Text type="short-m">{legend.name}</Text>
       <div className={s.multiSteps}>
-        {legend.steps.map((step, i) => {
-          return (
-            <div className={s.legendStep} key={step.stepName + i}>
-              {icon(step.stepShape, step.style)}
-              <Text type="caption">
-                <span
-                  className={s.stepName}
-                  style={
-                    step.style['text-color']
-                      ? { color: step.style['text-color'] }
-                      : {}
-                  }
-                >
-                  {step.stepName}
-                </span>
-              </Text>
-            </div>
-          );
-        })}
+        {legend.steps
+          .filter((s) => s.stepName)
+          .map((step, i) => {
+            return (
+              <div className={s.legendStep} key={step.stepName + i}>
+                {icon(step.stepShape, step.style)}
+                <Text type="caption">
+                  <span
+                    className={s.stepName}
+                    style={
+                      step.style['text-color']
+                        ? { color: step.style['text-color'] }
+                        : {}
+                    }
+                  >
+                    {step.stepName}
+                  </span>
+                </Text>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
