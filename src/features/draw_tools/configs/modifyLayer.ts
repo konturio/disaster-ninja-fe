@@ -1,26 +1,15 @@
-import { EditAction, FeatureCollection } from "@nebula.gl/edit-modes";
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
-import { drawnGeometryAtom } from "../atoms/drawnGeometryAtom";
 import { drawModes } from "../constants";
 import { LocalModifyMode } from "../modes/modifyMode";
-import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
-import { activeDrawModeAtom } from "../atoms/activeDrawMode";
-import { modeWatcherAtom } from "../atoms/drawLayerAtom";
-import { currentMapAtom } from "~core/shared_state";
 
 
-// movePosition - we should only do it after keyup
-const completedTypes = ['selectFeature', 'finishMovePosition', 'rotated', 'translated']
 export const modifyDeckLayerConfig = {
   id: drawModes.ModifyMode,
   type: EditableGeoJsonLayer,
   mode: LocalModifyMode,
-  // selectedFeatureIndexes: [], //0 to select firts feature
-  // data,
-
   parameters: {
     depthTest: false, // skip z-buffer check
-    pickingRadius: 50
+    pickingRadius: 750
   },
   _subLayerProps: {
     tooltips: {
@@ -32,12 +21,37 @@ export const modifyDeckLayerConfig = {
       getLineColor: [20, 20, 10, 140],
     },
     geojson: {
-      getFillColor: () => [60, 20, 20, 100],
-      getLineColor: [150, 10, 20, 180],
+      getFillColor: (a) => {
+        if (a?.geometry?.type === 'Point') return null        
+        return [60, 20, 20, 100]
+      },
+      getLineColor: (a) => {
+        if (a?.geometry?.type === 'Point') return null        
+        return [150, 10, 20, 180]
+      },
       stroked: true
     },
   },
+  // editHandleType: 'icon',  //starts search for icons. However it's unknown where to put these props https://deck.gl/docs/api-reference/layers/icon-layer
 
+  //   editHandleType: 'icon',
+  //   editHandleIconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+  //   editHandleIconMapping: {
+  //     marker: {
+  //       x: 0,
+  //       y: 0,
+  //       width: 128,
+  //       height: 128,
+  //       anchorY: 128,
+  //       mask: true,
+  //     }
+  //   },
+  //   editHandleIconSizeScale: 15,
+  //   getEditHandleIcon: d => 'marker',
+  //   getEditHandleIconSize: 15,
+  //   getEditHandleIconColor: d => [200, 200, 200],
+  //   getEditHandlePosition: d => d.coordinates,
+  //   pickable: true,
 }
 
 
