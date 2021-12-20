@@ -1,6 +1,6 @@
 .nameWithLegend {
-  margin: var(--unit) 0;
   position: relative;
+  width: 100%;
 }
 
 .headline {
@@ -8,18 +8,18 @@
   align-items: center;
 }
 .layerName {
-  margin-left: 2px;
   font-weight: 500;
-}
-.layerInput {
-  flex: 1;
-}
-
-.extraIcons {
-  margin-left: auto;
 }
 
 .headline .tooltip {
   right: 4px;
   top: 2px;
+}
+
+.controlIcons{
+  margin-left: auto;
+}
+
+.inlineIcon{
+  margin-right: var(--half-unit);
 }
