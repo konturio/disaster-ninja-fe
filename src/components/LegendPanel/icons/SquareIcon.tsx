@@ -7,9 +7,11 @@ const sizes = {
 export function SquareIcon({
   styles,
   size,
+  className
 }: {
   styles: LegendStepStyle;
   size: LegendIconSize;
+  className?: string
 }) {
   return (
     <svg
@@ -18,6 +20,7 @@ export function SquareIcon({
       viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <rect
         x="3"

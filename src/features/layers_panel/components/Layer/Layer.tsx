@@ -47,6 +47,7 @@ export function Layer({
           description={layer.layer.description}
         />,
       ]}
+      legend={layer.layer.legend}
     />
   );
 }
