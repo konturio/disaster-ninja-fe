@@ -29,6 +29,7 @@ export const drawModes = {
   DrawLineMode: 'DrawLineMode',
   DrawPointMode: 'DrawPointMode',
   ModifyMode: 'ModifyMode',
+  ShowIcon: 'ShowIcon'
 } as const;
 
 export type DrawModeType = keyof typeof drawModes;
