@@ -2,35 +2,57 @@ import { TranslationService as i18n } from '~core/localization';
 import { Panel, PanelIcon, Text } from '@k2-packages/ui-kit';
 import s from './LegendPanel.module.css';
 import { useCallback, useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import clsx from 'clsx';
-import infoIcon from '~features/legend_panel/icons/info_icon.svg';
 import { LegendSorter } from './LegendSorter';
+import { LegendPanelIcon } from '@k2-packages/default-icons';
 
 interface LegendPanelProps {
   layersId: string[];
+  iconsContainerId: string;
 }
 
-export function LegendPanel({ layersId }: LegendPanelProps) {
+export function LegendPanel({ layersId, iconsContainerId }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [closed, setClosedPreferation] = useState<boolean>(false);
+  const [childIconContainer, setChildIconContainer] = useState<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const iconsContainer = document.getElementById(iconsContainerId);
+    if (iconsContainer !== null) {
+      setChildIconContainer(iconsContainer.appendChild(document.createElement('div')))
+    }
+  }, []);
 
   useEffect(() => {
     if (!closed && layersId.length && !isOpen) {
       setIsOpen(true);
+      if (childIconContainer) {
+        childIconContainer.className = s.iconContainerHidden;
+      }
     } else if (!layersId.length && isOpen) {
       setIsOpen(false);
+      if (childIconContainer) {
+        childIconContainer.className = s.iconContainerShown;
+      }
     }
   }, [layersId]);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
     setClosedPreferation(true);
-  }, [setIsOpen]);
+    if (childIconContainer) {
+      childIconContainer.className = s.iconContainerShown;
+    }
+  }, [setIsOpen, childIconContainer]);
 
   const onPanelOpen = useCallback(() => {
     setIsOpen(true);
     setClosedPreferation(false);
-  }, [setIsOpen]);
+    if (childIconContainer) {
+      childIconContainer.className = s.iconContainerHidden;
+    }
+  }, [setIsOpen, childIconContainer]);
 
   return (
     <>
@@ -48,18 +70,16 @@ export function LegendPanel({ layersId }: LegendPanelProps) {
           ))}
         </div>
       </Panel>
-
-      <PanelIcon
-        clickHandler={onPanelOpen}
-        className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
-        icon={
-          <img
-            src={infoIcon}
-            alt={i18n.t('Open legends panel')}
-            className={s.iconElement}
-          />
-        }
-      />
+      {childIconContainer &&
+        ReactDOM.createPortal(
+          <PanelIcon
+            clickHandler={onPanelOpen}
+            className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+            icon={<LegendPanelIcon />}
+          />,
+          childIconContainer
+        )
+      }
     </>
   );
 }
