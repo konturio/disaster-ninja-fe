@@ -5,7 +5,7 @@
   margin-right: var(--unit);
   align-self: flex-start;
   border-radius: var(--border-radius);
-  max-height: 100%;
+  max-height: calc(100vh - 140px);
 
   &.show {
     transition: visibility 0s linear 0s, opacity 0.33s linear 0s,

@@ -27,12 +27,13 @@
 .floating {
   position: absolute;
   right: 8px;
-  bottom: 80px;
+  bottom: 8px;
   top: 8px;
   display: flex;
   gap: 8px;
   pointer-events: none;
   align-items: flex-start;
+  z-index: 2;
 }
 
 .floating > * {
