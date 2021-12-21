@@ -29,6 +29,7 @@ export const modeWatcherAtom = createBindAtom(
       }
       // Case we enabled draw mode - lets get features from focused geometry
       else if (!prevMode && mode) {
+        drawModeLayer.addClickListener()
         const focusedFeatures = focusedGeometryAtom.getState()
 
         if (focusedFeatures) schedule(dispatch => {
