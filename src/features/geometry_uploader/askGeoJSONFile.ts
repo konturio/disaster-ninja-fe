@@ -1,4 +1,6 @@
+import { currentNotificationAtom } from '~core/shared_state';
 import { readGeoJSON } from '~utils/geoJSON/helpers';
+import { TranslationService as i18n } from '~core/localization';
 
 const input = (() => {
   const input = document.createElement('input');
@@ -8,11 +10,17 @@ const input = (() => {
 })();
 
 export function askGeoJSONFile(onSuccess: (geoJSON: GeoJSON.GeoJSON) => void) {
-  const onchange = async () => {
+  async function onchange() {
     if ('files' in input && input.files !== null) {
       const files = Array.from(input.files);
-      const geoJSON = await readGeoJSON(files[0]);
-      onSuccess(geoJSON);
+      try {
+        const geoJSON = await readGeoJSON(files[0]);
+        onSuccess(geoJSON);
+      } catch (error) {
+        currentNotificationAtom.showNotification.dispatch('error', { title: i18n.t('Error while reading uploaded file') }, 5);
+      } finally {
+        input.removeEventListener('change', onchange)
+      }
     }
   };
 
