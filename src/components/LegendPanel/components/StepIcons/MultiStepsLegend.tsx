@@ -4,7 +4,7 @@ import { HexIcon } from '~components/LegendPanel/icons/HexIcon';
 import { CircleIcon } from '~components/LegendPanel/icons/CircleIcon';
 import { LegendStepStyle } from '~components/LegendPanel/types';
 import { SquareIcon } from '~components/LegendPanel/icons/SquareIcon';
-import s from './MultiStepLegend.module.css';
+import s from './MultiStepsLegend.module.css';
 
 function icon(type: string, styles: LegendStepStyle) {
   if (!type) return null;
@@ -13,7 +13,7 @@ function icon(type: string, styles: LegendStepStyle) {
   if (type === 'square') return <SquareIcon styles={styles} size="normal" />;
 }
 
-export function MultiStepLegend({ legend }: { legend: SimpleLegend }) {
+export function MultiStepsLegend({ legend }: { legend: SimpleLegend }) {
   return (
     <div className={s.multiStepsLegend}>
       <Text type="short-m">{legend.name}</Text>

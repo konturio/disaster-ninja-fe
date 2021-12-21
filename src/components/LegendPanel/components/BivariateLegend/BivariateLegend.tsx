@@ -8,10 +8,9 @@ import s from './BivariateLegend.module.css';
 type BivariateLegendProps = {
   layer: LogicalLayer;
   extraIcons?: JSX.Element[];
-  showDescrption?: boolean
 };
 
-export function BivariateLegend({ layer, extraIcons, showDescrption = true }: BivariateLegendProps) {
+export function BivariateLegend({ layer, extraIcons }: BivariateLegendProps) {
   if (!layer.legend || layer.legend.type === 'simple' || !layer.name)
     return null;
 
@@ -31,13 +30,13 @@ export function BivariateLegend({ layer, extraIcons, showDescrption = true }: Bi
 
   return (
     <div className={s.bivariateLegend}>
-      {showDescrption && <div className={s.headline}>
+      <div className={s.headline}>
         <Text type="long-m">
           <span className={s.layerName}>{layer.name}</span>
         </Text>
         <Tooltip className={s.tooltip} tipText={tipText} />
         {extraIcons && [...extraIcons]}
-      </div>}
+      </div>
 
       <BiLegend
         showAxisLabels
@@ -46,9 +45,9 @@ export function BivariateLegend({ layer, extraIcons, showDescrption = true }: Bi
         axis={layer.legend.axis as any}
       />
 
-      {showDescrption && <Text type="caption">
+      <Text type="caption">
         {layer.description || layer.legend.description}
-      </Text>}
+      </Text>
     </div>
   );
 }

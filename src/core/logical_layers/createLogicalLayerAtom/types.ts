@@ -1,8 +1,5 @@
 import type { Axis } from '@k2-packages/bivariate-tools';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
-import { FocusedGeometryLayer } from '~features/focused_geometry_layer/layers/FocusedGeometryLayer';
-import { GenericLayer } from '~features/layers_in_area/layers/GenericLayer';
 
 type SimpleLegendStepType = 'square' | 'circle' | 'hex';
 interface MapCSSProperties {
@@ -52,7 +49,6 @@ export type LogicalLayerAtomState = {
   isVisible: boolean;
   isLoading: boolean;
   isError: boolean;
-  layer?: LogicalLayer<any> | BivariateLayer | FocusedGeometryLayer | GenericLayer
 };
 
 export interface LogicalLayer<T = null> {
