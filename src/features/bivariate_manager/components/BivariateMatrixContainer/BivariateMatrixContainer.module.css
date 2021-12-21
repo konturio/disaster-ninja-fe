@@ -1,0 +1,30 @@
+.scrollMatrix {
+	height: 100%;
+}
+
+.matrixContainer {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.topRightCorner {
+	position: absolute;
+	right: 12px;
+	top: 12px;
+	width: 50px;
+	height: 15px;
+	border-right: 2px solid #00d2ff;
+	border-top: 2px solid #00d2ff;
+}
+
+.bottomRightCorner {
+	position: absolute;
+	right: 12px;
+	bottom: 12px;
+	width: 50px;
+	height: 15px;
+	border-right: 2px solid #00d2ff;
+	border-bottom: 2px solid #00d2ff;
+}

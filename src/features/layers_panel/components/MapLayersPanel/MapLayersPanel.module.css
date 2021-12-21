@@ -5,7 +5,7 @@
 }
 
 .panel {
-  height: 100%;
+  max-height: calc(100vh - 140px);
   width: 284px;
 
   &.show {
