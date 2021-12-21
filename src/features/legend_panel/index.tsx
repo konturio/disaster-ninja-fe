@@ -15,8 +15,8 @@ const mountedLogicalLayersAtom = createBindAtom(
   },
 );
 
-export function Legend() {
+export function Legend({ iconsContainerId }: { iconsContainerId : string}) {
   const [layersId] = useAtom(mountedLogicalLayersAtom);
 
-  return <LegendPanel layersId={layersId} />;
+  return <LegendPanel iconsContainerId={iconsContainerId} layersId={layersId} />;
 }

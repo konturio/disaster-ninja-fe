@@ -1,0 +1,82 @@
+.sidePannel {
+	pointer-events: auto;
+	position: relative;
+	z-index: 1; /* Show shadow over map */
+	margin-right: var(--unit);
+	align-self: flex-start;
+	border-top-left-radius: var(--border-radius) !important;
+	border-bottom-left-radius: var(--border-radius) !important;;
+	border-top-right-radius: 0 !important;;
+	border-bottom-right-radius: 0 !important;;
+	max-height: 100%;
+
+&.show {
+	 transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
+	 margin-right 0.1s linear 0s;
+	 visibility: visible;
+	 opacity: 1;
+	 margin-right: -8px;
+ }
+
+&.hide {
+	 transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
+	 margin-right 0.15s linear 0s;
+	 visibility: hidden;
+	 opacity: 0;
+	 margin-right: -268px;
+ }
+}
+
+.panelBody {
+	height: 100%;
+	width: 260px;
+	padding: 0 18px 18px 18px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.panelBody :first-child {
+	margin-top: 0;
+}
+
+.panelIcon {
+	display: flex;
+
+&.show {
+	 transition: display 0s linear 0s, visibility 0s linear 0s, opacity 0.33s linear 0s;
+	 visibility: visible;
+	 display: flex;
+	 opacity: 1;
+ }
+
+&.hide {
+	 transition: display 0s linear 0.33s, visibility 0s linear 0.33s, opacity 0.33s linear 0s;
+	 visibility: hidden;
+	 display: none;
+	 opacity: 0;
+	 width: 0;
+ }
+}
+
+.customCloseBtn {
+	height: 40px;
+	width: 16px;
+	background: #32404D;
+	border-radius: 4px 0;
+	position: absolute;
+    cursor: pointer;
+
+	&:hover {
+	   background: #5e7080;
+	}
+}
+
+.iconContainerShown {
+	display: block;
+}
+
+.iconContainerHidden {
+	display: none;
+}
+
+
