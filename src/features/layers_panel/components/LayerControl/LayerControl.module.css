@@ -3,7 +3,6 @@
   flex-flow: row nowrap;
   align-items: center;
   padding: 0 var(--unit);
-  margin-bottom: var(--unit);
   &:hover {
     background-color: var(--primary-surface-hover);
   }
@@ -13,12 +12,8 @@
   opacity: 0.5;
 }
 
-.layerControl .layerInput{
-  flex: none;
-}
-
-.layerInput input {
-  margin: 0 2px 0 0;
+.layerInput {
+  flex: 1;
 }
 
 .notInteractive {

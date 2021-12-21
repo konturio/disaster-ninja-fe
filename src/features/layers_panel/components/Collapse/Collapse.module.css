@@ -1,17 +1,16 @@
+.collapse {
+  margin-left: var(--unit);
+}
 
-
-.foldingControl {
+.collapseControl {
   display: flex;
   flex-flow: row nowrap;
   font-weight: bold;
+  padding: var(--half-unit);
   cursor: pointer;
 }
 
-.foldingLabel{
-  width: 100% ;
-}
-
-.foldingContent {
+.collapseContent {
   margin-left: var(--unit);
 }
 
@@ -26,10 +25,5 @@
   }
   & > svg {
     display: block;
-  }
-  &.absoluteIndicator{
-    position: absolute;
-    top: var(--unit);
-    left: calc(-1 * var(--double-unit));
   }
 }

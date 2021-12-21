@@ -1,7 +1,6 @@
 .bivariateLegend {
   position: relative;
   margin: var(--unit) 0;
-  overflow:hidden ;
 }
 
 .headline {
@@ -15,6 +14,7 @@
 }
 
 .layerName {
+  margin-left: 2px;
   font-weight: 500;
   font-size: 14px;
   padding-right: 20px;

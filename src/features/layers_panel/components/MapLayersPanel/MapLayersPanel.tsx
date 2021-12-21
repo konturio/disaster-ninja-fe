@@ -8,9 +8,6 @@ export function MapLayerPanel() {
     <Panel
       className={s.panel}
       header={<Text type="heading-l">{i18n.t('Layers')}</Text>}
-      classes={{
-        header: s.header,
-      }}
     >
       <div className={s.scrollable}>
         <LayersTree />
