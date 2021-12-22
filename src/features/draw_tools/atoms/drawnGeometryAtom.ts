@@ -32,7 +32,7 @@ export const drawnGeometryAtom = createBindAtom(
       const stateCopy: FeatureCollection = { ...state, features: [...state.features] }
       if (!stateCopy.features[index]) console.warn(`index ${index} doesn't exist in feature collection`)
       stateCopy.features[index] = feature
-      state = stateCopy      
+      state = stateCopy
     })
 
     onAction('removeByIndexes', (indexesToRemove) => {
