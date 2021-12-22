@@ -127,7 +127,7 @@ export function AnalyticsPanel({
       </Panel>
       <PanelIcon
         clickHandler={onPanelOpen}
-        className={clsx(s.paneIcon, isOpen && s.hide, !isOpen && s.show)}
+        className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
         icon={<AnalyticsPanelIcon />}
       />
     </div>

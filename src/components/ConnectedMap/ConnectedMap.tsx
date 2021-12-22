@@ -4,7 +4,7 @@ import Map, { MapBoxMapProps } from '@k2-packages/map';
 import DeckGl from '@k2-packages/deck-gl';
 import { MapStyle } from '~appModule/types';
 import { useAtom } from '@reatom/react';
-import { currentMapAtom } from '~core/shared_state';
+import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
 
@@ -54,6 +54,9 @@ export function ConnectedMap({
 
   // init current MapRefAtom
   const [, currentMapAtomActions] = useAtom(currentMapAtom);
+
+  const [mapListeners] = useAtom(mapListenersAtom)
+
   useEffect(() => {
     if (mapRef.current) {
       layersOrderManager.init(mapRef.current);
@@ -72,6 +75,24 @@ export function ConnectedMap({
     }
     currentMapAtomActions.setMap(mapRef.current);
   }, [mapRef, currentMapAtomActions]);
+
+  useEffect(() => {    
+    // for starters lets add click handlers only. It's also easier to read
+
+    const handlers = (event: mapLibre.MapMouseEvent & mapLibre.EventData) => {
+      for (let i = 0; i < mapListeners.click.length; i++) {
+        const { listener } = mapListeners.click[i];
+        const passToNextListener = listener(event, mapRef.current);
+        if (!passToNextListener) break;
+      };
+    }
+    if (mapRef.current) {
+      mapRef.current.on('click', (handlers))
+    }
+    return () => {
+      mapRef.current?.off('click', handlers)
+    }
+  }, [mapRef, mapListeners])
 
 
 

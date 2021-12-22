@@ -30,6 +30,15 @@ export default {
   isDevBuild: import.meta.env.DEV,
   isProdBuild: import.meta.env.PROD,
   appVersion: import.meta.env.PACKAGE_VERSION as string,
+  autoFocus: {
+    desktopPaddings: {
+      left: 336, // communities/analytics panel + paddings
+      right: 300, // Layers list panel
+      top: 16,
+      bottom: 16,
+    },
+    maxZoom: 13,
+  },
 };
 
 if (import.meta.env.PROD) {
