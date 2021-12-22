@@ -1,5 +1,5 @@
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
-import { sideControlsBarAtom } from '~core/shared_state';
+import { currentMapAtom, currentMapPositionAtom, sideControlsBarAtom } from '~core/shared_state';
 import { askGeoJSONFile } from './askGeoJSONFile';
 import { UploadFileIcon } from '@k2-packages/default-icons';
 import {
@@ -10,6 +10,8 @@ import {
   controlGroup,
   controlVisualGroup,
 } from '~core/shared_state/sideControlsBar';
+import turfBbox from '@turf/bbox';
+import app_config from '~core/app_config';
 
 export function initFileUploader() {
   sideControlsBarAtom.addControl.dispatch({
@@ -29,6 +31,26 @@ export function initFileUploader() {
           { type: 'uploaded' },
           geoJSON,
         );
+
+        const map = currentMapAtom.getState()
+        if (!map) return;
+        // Turf can return 3d bbox, so we need to cut off potential extra data
+        const bbox = turfBbox(geoJSON) as [
+          number,
+          number,
+          number,
+          number,
+        ];
+        bbox.length = 4;
+        const camera = map.cameraForBounds(bbox, {
+          padding: app_config.autoFocus.desktopPaddings,
+        });
+        if (!camera) return;
+        const { zoom, center } = camera;
+        currentMapPositionAtom.setCurrentMapPosition.dispatch({
+          zoom: Math.min(zoom, app_config.autoFocus.maxZoom),
+          ...center,
+        })
       });
     },
   });
