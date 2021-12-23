@@ -1,0 +1,14 @@
+.multiSteps {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 2px;
+}
+
+.legendStep {
+  display: flex;
+  align-items: center;
+}
+
+.stepName {
+  margin-left: var(--half-unit);
+}

@@ -280,11 +280,15 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
         // !FIXME - Hardcoded filter for layer
         // Must be deleted after LayersDB implemented
         if (this.id === 'activeContributors') {
-          const onClick = onActiveContributorsClick(map, this._sourceId)
-          this._removeClickListener = registerMapListener('click', (e) => {
-            onClick(e)
-            return true
-          }, 60)
+          const onClick = onActiveContributorsClick(map, this._sourceId);
+          this._removeClickListener = registerMapListener(
+            'click',
+            (e) => {
+              onClick(e);
+              return true;
+            },
+            60,
+          );
           return;
         }
         const { linkProperty } = this.legend;
@@ -292,9 +296,9 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
         if (linkProperty) {
           const handler = (e) => {
             this.onMapClick(map, e, linkProperty);
-            return true
-          }
-          this._removeClickListener = registerMapListener('click', handler, 60)
+            return true;
+          };
+          this._removeClickListener = registerMapListener('click', handler, 60);
         }
       }
     }
@@ -329,13 +333,13 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
 
     // Update layer data
     if (state.isMounted) {
-      const source = map.getSource(this._sourceId);
-      if (source.type !== 'geojson') return; // Want update only geojson source
+      const mapSource = map.getSource(this._sourceId);
+      if (mapSource?.type !== 'geojson') return; // Want update only geojson source
 
       const layerData = await this._fetchLayerData();
       if (layerData) {
         if (layerData.source.type !== 'geojson') return; // Geojson source accept only geojson
-        source.setData(
+        mapSource.setData(
           layerData.source.data || {
             type: 'FeatureCollection',
             features: [],
@@ -352,7 +356,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     this._layerIds = [];
 
     map.removeSource(this._sourceId);
-    this._removeClickListener?.()
+    this._removeClickListener?.();
   }
 
   async onMapClick(

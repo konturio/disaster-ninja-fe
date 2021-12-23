@@ -1,3 +1,8 @@
+.category {
+  margin-left: calc(var(--unit) + var(--half-unit));
+  margin-bottom: var(--unit);
+}
+
 .mountedLayersCounter {
   font-weight: normal;
   opacity: 0.5;
@@ -7,4 +12,5 @@
   display: flex;
   flex-flow: row nowrap;
   gap: var(--unit);
+  font-weight: bold;
 }

@@ -6,6 +6,7 @@ import { Layer } from '../Layer/Layer';
 import { Category } from '../Category/Category';
 import { Group } from '../Group/Group';
 import type { LogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
+import s from './LayersTree.module.css'
 
 export const LogicalLayersRegistryContext = createContext<
   Record<string, LogicalLayerAtom>
@@ -17,7 +18,7 @@ export function LayersTree() {
 
   return (
     <LogicalLayersRegistryContext.Provider value={registry}>
-      <div>
+      <div className={s.layersTree}>
         {tree.children.map((chn) => {
           if ('isCategory' in chn)
             return <Category key={chn.id} category={chn} />;

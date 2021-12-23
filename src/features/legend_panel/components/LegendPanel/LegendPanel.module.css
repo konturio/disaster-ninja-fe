@@ -29,7 +29,6 @@
   width: 260px;
   padding: 0 18px 18px 18px;
   overflow-y: auto;
-  overflow-x: hidden;
 }
 .panelBody :first-child {
   margin-top: 0;
@@ -40,7 +39,10 @@
 }
 
 .panelIcon {
-  display: flex;
+  position: relative;
+  z-index: 100;
+  top: 0;
+  right: var(--unit);
 
   &.show {
     transition: display 0s linear 0s, visibility 0s linear 0s, opacity 0.33s linear 0s;
@@ -64,4 +66,29 @@
 
 .iconContainerHidden {
   display: none;
+}
+
+.legendContainer {
+  margin-bottom: var(--unit);
+  & .layerControl {
+    padding: 0;
+    &:hover {
+      background: none;
+    }
+  }
+}
+
+.legendLabel {
+  display: flex;
+  flex-flow: row;
+  gap: var(--half-unit);
+  margin-bottom: var(--half-unit);
+}
+
+.legendBody {
+  margin-left: var(--double-unit);
+}
+
+.alignRight {
+  margin-left: auto;
 }
