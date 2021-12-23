@@ -10,6 +10,7 @@ import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
 import { setMapInteractivity } from '../setMapInteractivity';
 import { drawingIsStartedAtom } from '../atoms/drawingIsStartedAtom';
+import { registerMapListener } from '~core/shared_state/mapListeners';
 
 
 type mountedDeckLayersType = {
@@ -28,6 +29,7 @@ export class DrawModeLayer implements LogicalLayer {
   private _createDrawingLayer: DrawModeType | null
   private _editDrawingLayer: DrawModeType | null
   public selectedIndexes: number[] = []
+  private _removeClickListener: null | (() => void) = null;
 
   public constructor(id: string, name?: string) {
     this.id = id;
@@ -48,6 +50,14 @@ export class DrawModeLayer implements LogicalLayer {
 
   public onInit() {
     return { isVisible: false, isLoading: false };
+  }
+
+  addClickListener() {
+    function listener(e) {
+      e.preventDefault()
+      return false
+    }
+    this._removeClickListener = registerMapListener('click', listener, 1)
   }
 
   willMount(map: ApplicationMap): void {
@@ -164,6 +174,7 @@ export class DrawModeLayer implements LogicalLayer {
     keys.forEach(deckLayer => this._removeDeckLayer(deckLayer))
     this._createDrawingLayer = null
     this._editDrawingLayer = null
+    this._removeClickListener?.()
   }
 
   willUnhide() { }

@@ -28,6 +28,7 @@ import {
   onActiveContributorsClick,
 } from './activeContributorsLayers';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
+import { registerMapListener } from '~core/shared_state/mapListeners';
 
 export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
   public readonly id: string;
@@ -48,6 +49,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     | GeoJSON.FeatureCollection
     | null = null;
   private _eventId: string | null = null;
+  private _removeClickListener: null | (() => void) = null;
 
   public constructor(layer: LayerInArea) {
     this.id = layer.id;
@@ -278,13 +280,21 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
         // !FIXME - Hardcoded filter for layer
         // Must be deleted after LayersDB implemented
         if (this.id === 'activeContributors') {
-          map.on('click', onActiveContributorsClick(map, this._sourceId));
+          const onClick = onActiveContributorsClick(map, this._sourceId)
+          this._removeClickListener = registerMapListener('click', (e) => {
+            onClick(e)
+            return true
+          }, 60)
           return;
         }
         const { linkProperty } = this.legend;
+
         if (linkProperty) {
-          this._onClickListener = (e) => this.onMapClick(map, e, linkProperty);
-          map.on('click', this._onClickListener);
+          const handler = (e) => {
+            this.onMapClick(map, e, linkProperty);
+            return true
+          }
+          this._removeClickListener = registerMapListener('click', handler, 60)
         }
       }
     }
@@ -342,9 +352,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     this._layerIds = [];
 
     map.removeSource(this._sourceId);
-    if (this._onClickListener) {
-      map.off('click', this._onClickListener);
-    }
+    this._removeClickListener?.()
   }
 
   async onMapClick(
