@@ -1,0 +1,13 @@
+.layerInput {
+  align-items: flex-start;
+}
+
+/* TODO: Fix this in kit ! */
+.layerInput input {
+  margin: 2px 2px 0 0;
+}
+
+.layerInput input ~ div {
+  margin-top: 2px;
+}
+/* TODO end */

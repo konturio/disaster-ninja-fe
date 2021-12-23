@@ -2,7 +2,7 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  padding: 0 var(--unit);
+  padding: 0 var(--double-unit);
   &:hover {
     background-color: var(--primary-surface-hover);
   }
@@ -12,27 +12,19 @@
   opacity: 0.5;
 }
 
-.layerInput {
-  flex: 1;
-}
-
-.notInteractive {
-  cursor: default;
-  & > input[type='checkbox'] {
-    display: none;
-  }
-}
-
 .layerLabel {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  margin: 0 4px;
 }
 
 .layerLabelIcon {
-  margin-left: calc(var(--unit) * -1);
   & svg {
     display: block;
+    margin: 0 4px 0 0;
+    width: 17px;
+    height: 17px;
   }
 }
 

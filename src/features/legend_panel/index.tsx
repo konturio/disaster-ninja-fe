@@ -1,22 +1,10 @@
 import { useAtom } from '@reatom/react';
-import { logicalLayersRegistryStateAtom } from '~core/logical_layers/atoms/logicalLayersRegistryState';
 import { LegendPanel } from '~features/legend_panel/components/LegendPanel/LegendPanel';
-import { createBindAtom } from '~utils/atoms';
+import { mountedLogicalLayersAtom } from './atoms/mountedLogicalLayers';
 
-const mountedLogicalLayersAtom = createBindAtom(
-  {
-    layersStates: logicalLayersRegistryStateAtom,
-  },
-  ({ get }) => {
-    return Object.values(get('layersStates')).reduce(
-      (acc, l) => (l.isMounted && acc.push(l.id), acc),
-      [] as string[],
-    );
-  },
-);
-
-export function Legend({ iconsContainerId }: { iconsContainerId : string}) {
+export function Legend({ iconsContainerId }: { iconsContainerId: string }) {
   const [layersId] = useAtom(mountedLogicalLayersAtom);
-
-  return <LegendPanel iconsContainerId={iconsContainerId} layersId={layersId} />;
+  return (
+    <LegendPanel iconsContainerId={iconsContainerId} layersId={layersId} />
+  );
 }

@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { Collapse } from '../Collapse/Collapse';
-import { GroupWithSettings } from '~core/logical_layers/atoms/layersTree/types';
+import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { Layer } from '../Layer/Layer';
+import { BIVARIATE_GROUP_ID } from '~features/layers_panel/constants';
+import { LayersBivariateLegend } from '../LayersBivariateLegend/LayersBivariateLegend';
+import s from './Group.module.css';
+import { GroupWithSettings } from '~core/types/layers';
 
 export function Group({
   group,
@@ -13,18 +16,25 @@ export function Group({
   const [isOpen, setOpenState] = useState(group.openByDefault);
 
   return (
-    <Collapse
-      open={isOpen}
-      label={<span>{group.name}</span>}
-      onStateChange={(newState) => setOpenState(!newState)}
-    >
-      {group.children.map((chn) => (
-        <Layer
-          key={chn.id}
-          layerAtomId={chn.id}
-          mutuallyExclusive={mutuallyExclusive || group.mutuallyExclusive}
-        />
-      ))}
-    </Collapse>
+    <div className={s.group}>
+      <FoldingWrap
+        open={isOpen}
+        label={<span className={s.groupTitle}>{group.name}</span>}
+        onStateChange={(newState) => setOpenState(!newState)}
+      >
+        <div className={s.childrenWrap}>
+          {group.children.map((chn) => (
+            <Layer
+              key={chn.id}
+              layerAtomId={chn.id}
+              mutuallyExclusive={mutuallyExclusive || group.mutuallyExclusive}
+            />
+          ))}
+          {group.id === BIVARIATE_GROUP_ID && (
+            <LayersBivariateLegend ids={group.children.map((c) => c.id)} />
+          )}
+        </div>
+      </FoldingWrap>
+    </div>
   );
 }
