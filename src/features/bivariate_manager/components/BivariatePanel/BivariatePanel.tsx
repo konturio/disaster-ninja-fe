@@ -4,19 +4,29 @@ import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { BivariatePanelIcon } from '@k2-packages/default-icons';
 import ReactDOM from 'react-dom';
-import BivariateMatrixContainer
-  from '~features/bivariate_manager/components/BivariateMatrixContainer/BivariateMatrixContainer';
+import BivariateMatrixContainer from '~features/bivariate_manager/components/BivariateMatrixContainer/BivariateMatrixContainer';
 import panzoom from 'panzoom';
 
 const CustomClosePanelBtn = () => (
   <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
-    <path d="M1 1L7 7L1 13" stroke="white" strokeWidth="1.3" strokeLinecap="square" strokeLinejoin="bevel"/>
+    <path
+      d="M1 1L7 7L1 13"
+      stroke="white"
+      strokeWidth="1.3"
+      strokeLinecap="square"
+      strokeLinejoin="bevel"
+    />
   </svg>
 );
 
-export function BivariatePanel({ iconsContainerId }: { iconsContainerId: string }) {
+export function BivariatePanel({
+  iconsContainerId,
+}: {
+  iconsContainerId: string;
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [childIconContainer, setChildIconContainer] = useState<HTMLDivElement | null>(null);
+  const [childIconContainer, setChildIconContainer] =
+    useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const iconsContainer = document.getElementById(iconsContainerId);
@@ -26,9 +36,11 @@ export function BivariatePanel({ iconsContainerId }: { iconsContainerId: string 
       cont.className = s.iconContainerShown;
     }
 
-    const bivariateContainer = document.getElementById('bivariate-matrix-container');
+    const bivariateContainer = document.getElementById(
+      'bivariate-matrix-container',
+    );
     if (bivariateContainer) {
-      const inst = panzoom(bivariateContainer, { minZoom: .5, maxZoom: 4 });
+      const inst = panzoom(bivariateContainer, { minZoom: 0.5, maxZoom: 4 });
       inst.moveTo(0, -430);
     }
   }, []);
@@ -38,7 +50,9 @@ export function BivariatePanel({ iconsContainerId }: { iconsContainerId: string 
     if (childIconContainer) {
       childIconContainer.className = s.iconContainerShown;
     }
-    const intercomApp = document.getElementsByClassName('intercom-lightweight-app');
+    const intercomApp = document.getElementsByClassName(
+      'intercom-lightweight-app',
+    );
     if (intercomApp && intercomApp.length) {
       (intercomApp[0] as HTMLDivElement).style.display = '';
     }
@@ -50,7 +64,9 @@ export function BivariatePanel({ iconsContainerId }: { iconsContainerId: string 
       childIconContainer.className = s.iconContainerShown;
     }
     // need this to temporary hide intercom when showing bivariate
-    const intercomApp = document.getElementsByClassName('intercom-lightweight-app');
+    const intercomApp = document.getElementsByClassName(
+      'intercom-lightweight-app',
+    );
     if (intercomApp && intercomApp.length) {
       (intercomApp[0] as HTMLDivElement).style.display = 'none';
     }
@@ -62,9 +78,9 @@ export function BivariatePanel({ iconsContainerId }: { iconsContainerId: string 
         onClose={onPanelClose}
         className={clsx(s.sidePannel, isOpen && s.show, !isOpen && s.hide)}
         classes={{
-          closeBtn: s.customCloseBtn
+          closeBtn: s.customCloseBtn,
         }}
-        customCloseBtn={<CustomClosePanelBtn/>}
+        customCloseBtn={<CustomClosePanelBtn />}
       >
         <div className={s.panelBody}>
           <BivariateMatrixContainer />
@@ -78,9 +94,8 @@ export function BivariatePanel({ iconsContainerId }: { iconsContainerId: string 
             className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
             icon={<BivariatePanelIcon />}
           />,
-          childIconContainer)
-      }
-
+          childIconContainer,
+        )}
     </>
   );
 }
