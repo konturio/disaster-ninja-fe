@@ -1,5 +1,8 @@
+.bivariatecContainer {
+	overflow: hidden;
+}
+
 .scrollMatrix {
-	height: 100%;
 }
 
 .matrixContainer {
@@ -7,6 +10,10 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	transform: scale(.7);
+	position: relative;
+	left: 100px;
+	top: 40px;
 }
 
 .topRightCorner {
