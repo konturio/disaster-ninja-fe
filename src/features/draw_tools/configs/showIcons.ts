@@ -1,4 +1,5 @@
 import { IconLayer } from "@deck.gl/layers";
+import app_config from "~core/app_config";
 import { drawModes } from "../constants";
 import Icon from '../icons/iconAtlas.png'
 
@@ -16,23 +17,7 @@ export const showIconDeckLayerConfig = {
 
   // required by class
   iconAtlas: Icon,
-  iconMapping: {
-    defaultIcon: {
-      x: 0,
-      y: 0,
-      width: 128,
-      height: 165,
-      anchorY: 160,
-      // mask: true,
-    },
-    selectedIcon: {
-      x: 128,
-      y: 0,
-      width: 128,
-      height: 165,
-      anchorY: 160,
-    }
-  },
+  iconMapping: app_config.iconLayer.iconMapping,
   // required to show data
   getIcon: d => {
     if (d.isHidden) return null
@@ -42,9 +27,8 @@ export const showIconDeckLayerConfig = {
   getPosition: d => d.coordinates,
 
 
-  sizeScale: 6,
-  getSize: d => 10,
-  onClick: info => console.log(info),
+  sizeScale: app_config.iconLayer.sizeScale,
+  getSize: app_config.iconLayer.getSize,
 
 
   pickable: true,

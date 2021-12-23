@@ -116,6 +116,9 @@ export class DrawModeLayer implements LogicalLayer {
     } else if (mode === drawModes.ShowIcon) {
       config.data = this._getIconLayerData()
       config.onClick = ({ index }) => {
+        // if we selected something being in draw modes
+        if (this._createDrawingLayer)
+          activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
         selectedIndexesAtom.setIndexes.dispatch([index])
         this.selectedIndexes = [index]
         this._refreshMode(drawModes.ModifyMode)
@@ -200,7 +203,7 @@ export class DrawModeLayer implements LogicalLayer {
       for (let i = 0; i < updatedData.features.length; i++) {
         const feature = updatedData.features[i];
         // check each edited feature for intersections
-        if (changedIndexes.includes(i) && kinks({ ...feature }).features.length) {
+        if (feature.geometry.type === 'Polygon' && changedIndexes.includes(i) && kinks({ ...feature }).features.length) {
           currentNotificationAtom.showNotification.dispatch(
             'error',
             { title: i18n.t('Polygon should not overlap itself') }, 5
