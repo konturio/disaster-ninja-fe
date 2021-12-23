@@ -24,16 +24,15 @@
 	 margin-right 0.15s linear 0s;
 	 visibility: hidden;
 	 opacity: 0;
-	 margin-right: -1308px;
+	 margin-right: -808px;
  }
 }
 
 .panelBody {
 	height: 100%;
-	width: 1300px;
+	width: 800px;
 	padding: 0 18px 18px 18px;
-	overflow-y: auto;
-	overflow-x: hidden;
+	overflow: hidden;
 }
 
 .panelBody :first-child {
@@ -66,6 +65,7 @@
 	border-radius: 4px 0;
 	position: absolute;
     cursor: pointer;
+	z-index: 1;
 
 	&:hover {
 	   background: #5e7080;
