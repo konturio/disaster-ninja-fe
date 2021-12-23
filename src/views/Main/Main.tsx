@@ -7,6 +7,7 @@ import s from './Main.module.css';
 import { useHistory } from 'react-router';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
+import { BivariatePanel } from '~features/bivariate_manager/components/BivariatePanel/BivariatePanel';
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -83,11 +84,13 @@ export function MainView() {
           </Suspense>
           <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
-          </div>
+          </div>`
           <Suspense fallback={null}>
             <div className={s.floating}>
-              <Legend />
-              <MapLayersList />
+              <div id='right-buttons-container' className={s.rightButtonsContainer}></div>
+              <Legend iconsContainerId='right-buttons-container' />
+              <MapLayersList iconsContainerId='right-buttons-container' />
+              <BivariatePanel iconsContainerId='right-buttons-container' />
             </div>
           </Suspense>
           <DrawToolsToolbox />
