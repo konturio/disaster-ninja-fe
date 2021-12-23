@@ -25,7 +25,9 @@ export function initDrawTools() {
     onChange: (becomesActive) => {
       if (becomesActive) {
         drawingIsStartedAtom.setIsStarted.dispatch(false)
+        // TODO fix that logic in layer.setMode()
         activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
+        activeDrawModeAtom.setDrawMode.dispatch(drawModes.DrawPolygonMode);
       } else {
         activeDrawModeAtom.setDrawMode.dispatch(undefined);
       }
