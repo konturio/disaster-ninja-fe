@@ -22,11 +22,13 @@ export const modifyDeckLayerConfig = {
     },
     geojson: {
       getFillColor: (a) => {
-        if (a?.geometry?.type === 'Point') return null        
+        if (a?.geometry?.type === 'Point') return null
+        if (a?.properties?.temporary) return [40, 150, 20, 70]
         return [60, 20, 20, 100]
       },
       getLineColor: (a) => {
-        if (a?.geometry?.type === 'Point') return null        
+        if (a?.geometry?.type === 'Point') return null
+        if (a?.properties?.temporary) return [60, 120, 20, 120]
         return [150, 10, 20, 180]
       },
       stroked: true
