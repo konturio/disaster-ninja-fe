@@ -39,6 +39,27 @@ export default {
     },
     maxZoom: 13,
   },
+  iconLayer: {
+    iconMapping: {
+      selectedIcon: {
+        x: 0,
+        y: 0,
+        width: 128,
+        height: 165,
+        anchorY: 160,
+        // mask: true,
+      },
+      defaultIcon: {
+        x: 128,
+        y: 0,
+        width: 128,
+        height: 165,
+        anchorY: 160,
+      }
+    },
+    sizeScale: 6,
+    getSize: d => 6,
+  }
 };
 
 if (import.meta.env.PROD) {
