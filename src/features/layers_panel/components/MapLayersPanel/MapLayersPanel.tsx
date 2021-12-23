@@ -35,26 +35,16 @@ export function MapLayerPanel({ iconsContainerId }: { iconsContainerId: string }
   }, [setIsOpen, childIconContainer]);
 
   return (
-    <>
-      <Panel
-        className={clsx(s.panel, isOpen && s.show, !isOpen && s.hide)}
-        header={<Text type="heading-l">{i18n.t('Layers')}</Text>}
-        onClose={onPanelClose}
-      >
-        <div className={s.scrollable}>
-          <LayersTree />
-        </div>
-      </Panel>
-      {childIconContainer &&
-      ReactDOM.createPortal(
-        <PanelIcon
-          clickHandler={onPanelOpen}
-          className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
-          icon={<LayersPanelIcon />}
-        />,
-        childIconContainer
-      )
-      }
-    </>
+    <Panel
+      className={s.panel}
+      header={<Text type="heading-l">{i18n.t('Layers')}</Text>}
+      classes={{
+        header: s.header,
+      }}
+    >
+      <div className={s.scrollable}>
+        <LayersTree />
+      </div>
+    </Panel>
   );
 }

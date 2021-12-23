@@ -1,22 +1,17 @@
 import { useContext } from 'react';
 import { useAction, useAtom } from '@reatom/react';
+import {
+  SimpleLegend as SimpleLegendComponent,
+  SimpleLegendStep as SimpleLegendStepComponent,
+} from '~components/SimpleLegend/SimpleLegend';
+import { LayerControl } from '~components/LayerControl/LayerControl';
+import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { LogicalLayersRegistryContext } from '../LayersTree/LayersTree';
-import { LayerControl } from '../LayerControl/LayerControl';
-import { Tooltip } from '~components/Tooltip/Tooltip';
-
-function LayerInfo({
-  copyrights,
-  description,
-}: {
-  copyrights?: string;
-  description?: string;
-}) {
-  if (copyrights || description) {
-    return <Tooltip tipText={[description, copyrights].join('\n')} />;
-  } else {
-    return null;
-  }
-}
+import { Folding } from '../Folding/Folding';
+import {
+  SimpleLegend,
+  SimpleLegendStep,
+} from '~core/logical_layers/createLogicalLayerAtom/types';
 
 export function Layer({
   layerAtomId,
@@ -26,27 +21,52 @@ export function Layer({
   mutuallyExclusive: boolean;
 }) {
   const registry = useContext(LogicalLayersRegistryContext);
-  const [layer, layerActions] = useAtom(registry[layerAtomId]);
+  const [layerAtom, layerActions] = useAtom(registry[layerAtomId]);
   const onChange = useAction(
-    () => (layer.isMounted ? layerActions.unmount() : layerActions.mount()),
-    [layer.isMounted],
+    () => (layerAtom.isMounted ? layerActions.unmount() : layerActions.mount()),
+    [layerAtom.isMounted],
   );
-  return (
+
+  const hasOneStepSimpleLegend =
+    layerAtom.layer.legend?.type === 'simple' &&
+    layerAtom.layer.legend.steps?.length === 1;
+
+  const hasMultiStepSimpleLegend =
+    layerAtom.layer.legend?.type === 'simple' &&
+    layerAtom.layer.legend.steps?.length > 1;
+
+  const Control = (
     <LayerControl
-      isError={layer.isError}
-      isLoading={layer.isLoading}
+      isError={layerAtom.isError}
+      isLoading={layerAtom.isLoading}
       onChange={onChange}
-      enabled={layer.isMounted}
-      hidden={!layer.isVisible}
-      name={layer.layer.name || layer.id}
+      enabled={layerAtom.isMounted}
+      hidden={!layerAtom.isVisible}
+      name={layerAtom.layer.name || layerAtom.id}
+      icon={
+        hasOneStepSimpleLegend && (
+          <SimpleLegendStepComponent
+            step={layerAtom.layer.legend!.steps[0] as SimpleLegendStep}
+            onlyIcon={true}
+          />
+        )
+      }
       inputType={mutuallyExclusive ? 'radio' : 'checkbox'}
       controls={[
         <LayerInfo
-          key={layer.id}
-          copyrights={layer.layer.copyright}
-          description={layer.layer.description}
+          key={layerAtom.id}
+          copyrights={layerAtom.layer.copyright}
+          description={layerAtom.layer.description}
         />,
       ]}
     />
+  );
+
+  return hasMultiStepSimpleLegend ? (
+    <Folding label={Control} open={layerAtom.isMounted}>
+      <SimpleLegendComponent legend={layerAtom.layer.legend as SimpleLegend} />
+    </Folding>
+  ) : (
+    Control
   );
 }

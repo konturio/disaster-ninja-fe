@@ -8,9 +8,11 @@ const sizes = {
 export function HexIcon({
   styles,
   size,
+  className,
 }: {
   styles: LegendStepStyle;
   size: LegendIconSize;
+  className?: string;
 }) {
   const casing = useMemo(
     () => Boolean(styles['casing-width'] || styles['casing-color']),
@@ -42,6 +44,7 @@ export function HexIcon({
       viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       {/* Background */}
       <path
