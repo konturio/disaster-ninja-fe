@@ -6,6 +6,7 @@ import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { currentMapAtom, focusedGeometryAtom } from '~core/shared_state';
 import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
 import { setMapInteractivity } from '../setMapInteractivity';
+import { temporaryGeometryAtom } from './temporaryGeometryAtom';
 
 
 const drawModeLayer = new DrawModeLayer(DRAW_TOOLS_LAYER_ID)
@@ -17,6 +18,7 @@ export const modeWatcherAtom = createBindAtom(
     drawLayerAtom,
     activeDrawModeAtom,
     drawnGeometryAtom,
+    temporaryGeometryAtom
   },
   ({ onChange, schedule }, prevMode: DrawModeType | undefined = undefined) => {
     onChange('activeDrawModeAtom', (mode) => {
@@ -49,6 +51,10 @@ export const modeWatcherAtom = createBindAtom(
     });
 
     onChange('drawnGeometryAtom', data => {
+      drawModeLayer.updateData(data)
+    })
+
+    onChange('temporaryGeometryAtom', data => {
       drawModeLayer.updateData(data)
     })
 

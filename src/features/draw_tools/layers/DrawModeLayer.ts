@@ -1,22 +1,27 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { MapboxLayer } from '@deck.gl/mapbox';
-import { createDrawingLayers, drawModes, DrawModeType, editDrawingLayers } from '../constants';
+import { createDrawingLayers, drawModes, DrawModeType } from '../constants';
 import { layersConfigs } from '../configs';
 import { FeatureCollection } from 'geojson';
 import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '../atoms/activeDrawMode';
 import { selectedIndexesAtom } from '../atoms/selectedIndexesAtom';
 import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
-import { layersOrderManager } from '~core/logical_layers/layersOrder';
 import { setMapInteractivity } from '../setMapInteractivity';
 import { drawingIsStartedAtom } from '../atoms/drawingIsStartedAtom';
 import { registerMapListener } from '~core/shared_state/mapListeners';
+import { currentNotificationAtom } from '~core/shared_state';
+import { TranslationService as i18n } from '~core/localization';
+import kinks from '@turf/kinks';
+import { temporaryGeometryAtom } from '../atoms/temporaryGeometryAtom';
 
 
 type mountedDeckLayersType = {
   [key in DrawModeType]?: MapboxLayer<unknown>
 }
-const completedTypes = ['selectFeature', 'finishMovePosition', 'rotated', 'translated', 'scaled']
+const completedTypes = [
+  'selectFeature', 'addPosition', 'removePosition', 'finishMovePosition', 'rotated', 'translated', 'scaled'
+]
 
 export class DrawModeLayer implements LogicalLayer {
   public readonly id: string;
@@ -136,7 +141,6 @@ export class DrawModeLayer implements LogicalLayer {
     config._subLayerProps.guides.pointRadiusMaxPixels = 4
 
     const deckLayer = new MapboxLayer({ ...config })
-    const beforeId = layersOrderManager.getBeforeIdByType(deckLayer.type);
 
     if (!this._map?.getLayer(deckLayer.id)?.id)
       this._map?.addLayer?.(deckLayer);
@@ -180,7 +184,7 @@ export class DrawModeLayer implements LogicalLayer {
   willUnhide() { }
 
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
-    let changedIndexes = editContext?.featureIndexes || []
+    let changedIndexes: number[] = editContext?.featureIndexes || []
 
     this.selectedIndexes = changedIndexes
     selectedIndexesAtom.setIndexes.dispatch(changedIndexes)
@@ -193,10 +197,26 @@ export class DrawModeLayer implements LogicalLayer {
 
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
       setMapInteractivity(this._map, true)
+      for (let i = 0; i < updatedData.features.length; i++) {
+        const feature = updatedData.features[i];
+        // check each edited feature for intersections
+        if (changedIndexes.includes(i) && kinks({ ...feature }).features.length) {
+          currentNotificationAtom.showNotification.dispatch(
+            'error',
+            { title: i18n.t('Polygon should not overlap itself') }, 5
+          );
+          return this.updateData(drawnGeometryAtom.getState())
+        }
+        // remove edit coloring for all of them
+        if (feature.properties?.temporary) delete feature.properties.temporary
+      }
+
+      drawnGeometryAtom.updateFeatures.dispatch(updatedData.features)
+      // temporaryGeometryAtom.resetToDefault.dispatch()
     } else if (updatedData.features?.[0]) {
       setMapInteractivity(this._map, false)
+      temporaryGeometryAtom.updateFeatures.dispatch(updatedData.features, changedIndexes)
     }
-    drawnGeometryAtom.updateFeatures.dispatch(updatedData.features)
   }
 
   _onDrawEdit = ({ editContext, updatedData, editType }) => {
