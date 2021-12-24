@@ -39,10 +39,7 @@
 }
 
 .panelIcon {
-  position: relative;
-  z-index: 100;
-  top: 0;
-  right: var(--unit);
+  display: flex;
 
   &.show {
     transition: display 0s linear 0s, visibility 0s linear 0s, opacity 0.33s linear 0s;
