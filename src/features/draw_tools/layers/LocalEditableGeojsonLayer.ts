@@ -123,10 +123,6 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
         iconAtlas: this.props.geojsonIcons.iconAtlas,
       })
     );
-    console.log('%c⧭', 'color: #cc0088', layer);
-    layer.props.onClick = (a) => {  
-      console.log('%c⧭', 'color: #1d3f73', 'clicked', a);
-    }
 
     return [layer];
   }
