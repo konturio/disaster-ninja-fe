@@ -7,7 +7,7 @@ import s from './Main.module.css';
 import { useHistory } from 'react-router';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
-import { BivariatePanel } from '~features/bivariate_manager/components/BivariatePanel/BivariatePanel';
+// import { BivariatePanel } from '~features/bivariate_manager/components/BivariatePanel/BivariatePanel';
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -68,8 +68,8 @@ export function MainView() {
         <Suspense fallback={null}>
           <NotificationToast />
           <SideBar />
-          <EventList />
-          <Analytics />
+          {/* <EventList />
+          <Analytics /> */}
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -85,14 +85,14 @@ export function MainView() {
           <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
           </div>`
-          <Suspense fallback={null}>
+          {/* <Suspense fallback={null}>
             <div className={s.floating}>
               <div id='right-buttons-container' className={s.rightButtonsContainer}></div>
               <Legend iconsContainerId='right-buttons-container' />
               <MapLayersList iconsContainerId='right-buttons-container' />
               <BivariatePanel iconsContainerId='right-buttons-container' />
             </div>
-          </Suspense>
+          </Suspense> */}
           <DrawToolsToolbox />
         </div>
       </Row>
