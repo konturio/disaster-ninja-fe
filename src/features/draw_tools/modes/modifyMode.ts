@@ -5,9 +5,16 @@ import {
 } from '@nebula.gl/edit-modes';
 import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
 
+// TODOS
+// shift selected indexes logic outside to be able to change it from outside
+// but mostly
+
+// Push selected indexes from outside AND fire on of the submodes, proboply Modify
+
 // Source code https://gitlab.com/kontur-private/k2/k2-front-end/-/blob/master/k2-packages/map-draw-tools/src/customDrawModes/CustomModifyMode.ts
 export class LocalModifyMode extends CustomModifyMode {
   _selectedIndexes: number[] | null = null
+  // _currentSubMode = this.createSubmode('Modify')
 
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {
     event.stopPropagation();

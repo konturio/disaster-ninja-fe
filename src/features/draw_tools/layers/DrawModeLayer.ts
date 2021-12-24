@@ -35,6 +35,8 @@ export class DrawModeLayer implements LogicalLayer {
   private _editDrawingLayer: DrawModeType | null
   public selectedIndexes: number[] = []
   private _removeClickListener: null | (() => void) = null;
+  // we need to store previous indexes because modify Mode always fires first and cancels clicks on icons
+  private _previousSelection: number[] = []
 
   public constructor(id: string, name?: string) {
     this.id = id;
@@ -97,7 +99,7 @@ export class DrawModeLayer implements LogicalLayer {
       }
       if (this._editDrawingLayer === mode) return;
       this._addDeckLayer(drawModes[mode])
-      this._addDeckLayer(drawModes.ShowIcon)
+      // this._addDeckLayer(drawModes.ShowIcon)
       this._editDrawingLayer = mode
     }
   }
@@ -115,12 +117,15 @@ export class DrawModeLayer implements LogicalLayer {
       config.onEdit = this._onDrawEdit
     } else if (mode === drawModes.ShowIcon) {
       config.data = this._getIconLayerData()
-      config.onClick = ({ index }) => {
+      config.onClick = ({ index }, e) => {
+        console.log('%c⧭', 'color: #ace2e6', this._previousSelection, index);
         // if we selected something being in draw modes
         if (this._createDrawingLayer)
           activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
         selectedIndexesAtom.setIndexes.dispatch([index])
-        this.selectedIndexes = [index]
+
+        this.selectedIndexes = e.srcEvent.shiftKey ? [...this._previousSelection, index] : [index]
+        console.log('%c⧭ this.selectedIndexes', 'color: #733d00', this.selectedIndexes, e.srcEvent.shiftKey);
         this._refreshMode(drawModes.ModifyMode)
         const simpleGeometry = this._getIconLayerData()
         this._refreshMode(drawModes.ShowIcon, simpleGeometry)
@@ -189,6 +194,7 @@ export class DrawModeLayer implements LogicalLayer {
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
     let changedIndexes: number[] = editContext?.featureIndexes || []
 
+    this._previousSelection = [...this.selectedIndexes]
     this.selectedIndexes = changedIndexes
     selectedIndexesAtom.setIndexes.dispatch(changedIndexes)
 

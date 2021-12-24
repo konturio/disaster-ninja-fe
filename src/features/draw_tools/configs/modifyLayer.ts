@@ -1,11 +1,14 @@
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { drawModes } from "../constants";
+import { LocalEditableGeojsonLayer } from "../layers/LocalEditableGeojsonLayer";
 import { LocalModifyMode } from "../modes/modifyMode";
+import Icon from '../icons/iconAtlas.png'
+import app_config from "~core/app_config";
 
 
 export const modifyDeckLayerConfig = {
   id: drawModes.ModifyMode,
-  type: EditableGeoJsonLayer,
+  type: LocalEditableGeojsonLayer,
   mode: LocalModifyMode,
   parameters: {
     depthTest: false, // skip z-buffer check
@@ -36,24 +39,47 @@ export const modifyDeckLayerConfig = {
   },
   // editHandleType: 'icon',  //starts search for icons. However it's unknown where to put these props https://deck.gl/docs/api-reference/layers/icon-layer
 
-  //   editHandleType: 'icon',
-  //   editHandleIconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
-  //   editHandleIconMapping: {
-  //     marker: {
-  //       x: 0,
-  //       y: 0,
-  //       width: 128,
-  //       height: 128,
-  //       anchorY: 128,
-  //       mask: true,
-  //     }
-  //   },
-  //   editHandleIconSizeScale: 15,
-  //   getEditHandleIcon: d => 'marker',
-  //   getEditHandleIconSize: 15,
-  //   getEditHandleIconColor: d => [200, 200, 200],
-  //   getEditHandlePosition: d => d.coordinates,
-  //   pickable: true,
+  // editHandleType: 'icon',
+  // editHandleIconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+  // editHandleIconMapping: {
+  //   marker: {
+  //     x: 0,
+  //     y: 0,
+  //     width: 128,
+  //     height: 128,
+  //     anchorY: 128,
+  //     mask: true,
+  //   }
+  // },
+  // editHandleIconSizeScale: 15,
+  // getEditHandleIcon: d => 'marker',
+  // getEditHandleIconSize: 15,
+  // getEditHandleIconColor: d => [200, 200, 200],
+  // getEditHandlePosition: d => d.coordinates,
+  // pickable: true,
+
+  geojsonIcons: {
+    iconAtlas: Icon,
+    iconMapping: app_config.iconLayer.iconMapping,
+    // required to show data
+    getIcon: d => {
+      if (d.properties.isHidden) return null
+      if (d.properties.isSelected) return 'selectedIcon'
+      return 'defaultIcon'
+    },
+    getPosition: d => d.coordinates,
+  
+  
+    sizeScale: app_config.iconLayer.sizeScale,
+    getSize: app_config.iconLayer.getSize,
+  
+  
+    pickable: true,
+    _subLayerProps: {
+      guides: {}
+    }
+
+  }
 }
 
 
