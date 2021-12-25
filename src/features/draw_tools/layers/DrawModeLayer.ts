@@ -113,36 +113,26 @@ export class DrawModeLayer implements LogicalLayer {
       config.data = this.drawnData
       config.selectedFeatureIndexes = this.selectedIndexes
       config.onEdit = this._onModifyEdit
+      config.getEditHandleIcon = (d) => {
+        if (d.properties.editHandleType === 'scale' || d.properties.editHandleType === 'rotate') return 'pointIcon'
+        if (!('featureIndex' in d.properties)) return null
+        const featureToHandle = this.drawnData.features[d.properties.featureIndex]
+        if (featureToHandle.geometry.type !== 'Point') return 'pointIcon'
+        return 'selectedIcon'
+      }
+      config.getEditHandleIconSize = (d) => {
+        if (!('featureIndex' in d.properties)) return 1.8;
+        const featureToHandle = this.drawnData.features[d.properties.featureIndex]
+        if (featureToHandle.geometry.type !== 'Point') return 1.8
+        return 6
+      }
+      config.geojsonIcons.getIcon = d => {
+        if (!d.properties || d.properties.isHidden) return null
+        if (d.properties.isSelected) return 'selectedIcon'
+        return 'defaultIcon'
+      }
     } else if (createDrawingLayers.includes(mode)) {
       config.onEdit = this._onDrawEdit
-    } else if (mode === drawModes.ShowIcon) {
-      config.data = this._getIconLayerData()
-      config.onClick = ({ index }, e) => {
-        console.log('%c⧭', 'color: #ace2e6', this._previousSelection, index);
-        // if we selected something being in draw modes
-        if (this._createDrawingLayer)
-          activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
-        selectedIndexesAtom.setIndexes.dispatch([index])
-
-        this.selectedIndexes = e.srcEvent.shiftKey ? [...this._previousSelection, index] : [index]
-        console.log('%c⧭ this.selectedIndexes', 'color: #733d00', this.selectedIndexes, e.srcEvent.shiftKey);
-        this._refreshMode(drawModes.ModifyMode)
-        const simpleGeometry = this._getIconLayerData()
-        this._refreshMode(drawModes.ShowIcon, simpleGeometry)
-      }
-      config.onDragStart = ({ index }) => {
-        setMapInteractivity(this._map, false)
-        this.selectedIndexes = [index]
-        selectedIndexesAtom.setIndexes.dispatch([index])
-      }
-      config.onDrag = ({ coordinate, index }) => {
-        drawnGeometryAtom.updateByIndex.dispatch({
-          type: 'Feature', geometry: { type: 'Point', coordinates: coordinate }, properties: {}
-        }, index)
-      }
-      config.onDragEnd = () => {
-        setMapInteractivity(this._map, true)
-      }
     }
 
     config._subLayerProps.guides.pointRadiusMinPixels = 4
@@ -194,7 +184,6 @@ export class DrawModeLayer implements LogicalLayer {
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
     let changedIndexes: number[] = editContext?.featureIndexes || []
 
-    this._previousSelection = [...this.selectedIndexes]
     this.selectedIndexes = changedIndexes
     selectedIndexesAtom.setIndexes.dispatch(changedIndexes)
 
@@ -205,19 +194,27 @@ export class DrawModeLayer implements LogicalLayer {
 
 
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
-      setMapInteractivity(this._map, true)
+      // make map interactive if we finished drawing
+      setMapInteractivity(this._map, true);
+
       for (let i = 0; i < updatedData.features.length; i++) {
         const feature = updatedData.features[i];
-        // check each edited feature for intersections
-        if (feature.geometry.type === 'Polygon' && changedIndexes.includes(i) && kinks({ ...feature }).features.length) {
-          currentNotificationAtom.showNotification.dispatch(
-            'error',
-            { title: i18n.t('Polygon should not overlap itself') }, 5
-          );
-          return this.updateData(drawnGeometryAtom.getState())
+        if (changedIndexes.includes(i)) {
+          feature.properties.isSelected = true
+
+          // check each edited feature for intersections
+          if (feature.geometry.type === 'Polygon' && kinks({ ...feature }).features.length) {
+            currentNotificationAtom.showNotification.dispatch(
+              'error',
+              { title: i18n.t('Polygon should not overlap itself') }, 5
+            );
+            return this.updateData(drawnGeometryAtom.getState())
+          }
+        } else {
+          // remove edit coloring for all of them
+          delete feature.properties.temporary
+          delete feature.properties.isSelected
         }
-        // remove edit coloring for all of them
-        if (feature.properties?.temporary) delete feature.properties.temporary
       }
 
       drawnGeometryAtom.updateFeatures.dispatch(updatedData.features)

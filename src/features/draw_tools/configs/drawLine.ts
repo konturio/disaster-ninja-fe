@@ -7,7 +7,6 @@ import { LocalDrawLineStringMode } from "../modes/drawLine";
 export const drawLineDeckLayerConfig = {
   id: drawModes.DrawLineMode,
   type: EditableGeoJsonLayer,
-  // typescript marks this as error. Yet the mode works on map.
   mode: LocalDrawLineStringMode,
   selectedFeatureIndexes: [],
   parameters: {
@@ -16,7 +15,7 @@ export const drawLineDeckLayerConfig = {
   _subLayerProps: {
     guides: {
       getLineWidth: 4,
-      getLineColor: [30, 70, 10, 160],
+      getLineColor: [60, 120, 20, 120],
     },
   },
 
