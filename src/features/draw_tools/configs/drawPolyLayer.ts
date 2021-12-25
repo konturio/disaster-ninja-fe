@@ -14,12 +14,14 @@ export const drawPolyDeckLayerConfig = {
   },
   _subLayerProps: {
     guides: {
-      getFillColor: [180, 222, 80, 150],
+      getFillColor: [40, 150, 20, 70],
       getLineWidth: 3,
-      getLineColor: [20, 50, 5, 100],
+      getLineColor: [60, 120, 20, 120],
       // not working but should https://github.com/uber/nebula.gl/blob/master/docs/api-reference/layers/editable-geojson-layer.md
-      getEditHandlePointColor: () => [220, 10, 10, 220],
-      getEditHandlePointOutlineColor: [220, 10, 10, 140]
+      getEditHandlePointColor: [12, 155, 237, 255],
+      getEditHandlePointOutlineColor: [12, 155, 237, 255],
+      handlePointColor: [12, 155, 237, 255],
+      pointColor: [12, 155, 237, 255],
     },
   },
   modeConfig: {

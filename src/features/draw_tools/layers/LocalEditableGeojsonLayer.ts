@@ -70,8 +70,6 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
 
     let layers: any[] = [new GeoJsonLayer(subLayerProps)];
 
-    // const geoJsoniconLayer = this.createGeoJsoniconLayer()
-    // console.log('%c⧭ geoJsoniconLayer', 'color: #0088cc', geoJsoniconLayer);
 
     layers = layers.concat(this.createGuidesLayers(), this.createTooltipsLayers(),
       this.createGeoJsoniconLayer()
@@ -109,8 +107,6 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
       sizeScale: this.props.geojsonIcons.sizeScale,
       getIcon: guideAccessor(this.props.geojsonIcons.getIcon),
       getSize: guideAccessor(this.props.geojsonIcons.getSize),
-      getColor: guideAccessor(this.props.getEditHandleIconColor),
-      getAngle: guideAccessor(this.props.getEditHandleIconAngle),
     };
 
     const layer = new GeoJsonLayer(
@@ -126,5 +122,7 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
 
     return [layer];
   }
+
+  // todo depends on handle source push it to iconhandles or point handles
 
 }

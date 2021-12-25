@@ -47,7 +47,6 @@ export default {
         width: 128,
         height: 165,
         anchorY: 160,
-        // mask: true,
       },
       defaultIcon: {
         x: 128,
@@ -55,6 +54,13 @@ export default {
         width: 128,
         height: 165,
         anchorY: 160,
+      },
+      pointIcon: {
+        x: 256,
+        y: 0,
+        width: 20,
+        height: 20,
+        anchorY: 10,
       }
     },
     sizeScale: 6,
