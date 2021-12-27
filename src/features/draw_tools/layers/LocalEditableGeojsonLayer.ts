@@ -1,4 +1,6 @@
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
+import { EditableGeojsonLayerProps } from "@nebula.gl/layers/dist-types/layers/editable-geojson-layer";
+
 import { GeoJsonLayer } from '@deck.gl/layers';
 import { IconLayer, ScatterplotLayer } from "@deck.gl/layers";
 import { FeatureCollection } from "@nebula.gl/edit-modes";
@@ -19,6 +21,8 @@ function unwrapGuide(guideMaybeWrapped) {
 }
 
 export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
+  // i did this because ts throws errors and EditableGeoJsonLayer in source code has ts errors itself, so it doesn't extends as it should
+  [key: string]: any
   renderLayers() {
     const subLayerProps = this.getSubLayerProps({
       id: 'geojson',
@@ -82,7 +86,6 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
     const data: FeatureCollection = {
       type: "FeatureCollection",
       features: []
-      // this.props.data?.features.filter((feature) => feature.geometry.type === 'Point')
     }
     data.features = this.props.data?.features?.map((feature, index) => {
       if (feature.geometry.type !== 'Point') return {
@@ -122,7 +125,4 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
 
     return [layer];
   }
-
-  // todo depends on handle source push it to iconhandles or point handles
-
 }
