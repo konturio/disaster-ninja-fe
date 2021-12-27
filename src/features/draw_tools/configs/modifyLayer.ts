@@ -12,12 +12,9 @@ export const modifyDeckLayerConfig = {
   mode: LocalModifyMode,
   parameters: {
     depthTest: false, // skip z-buffer check
-    pickingRadius: 750
+    pickingRadius: 200
   },
   _subLayerProps: {
-    tooltips: {
-      // getSize: () => 20,
-    },
     guides: {
       getFillColor: [30, 60, 20, 120],
       getLineWidth: 2,
@@ -37,34 +34,26 @@ export const modifyDeckLayerConfig = {
       stroked: true
     },
   },
-  // editHandleType: 'icon',  //starts search for icons. However it's unknown where to put these props https://deck.gl/docs/api-reference/layers/icon-layer
 
   editHandleType: 'icon',
   editHandleIconAtlas: Icon,
   editHandleIconMapping: app_config.iconLayer.iconMapping,
   editHandleIconSizeScale: app_config.iconLayer.sizeScale,
   getEditHandlePosition: d => d.coordinates,
-  pickable: true,
 
   geojsonIcons: {
     iconAtlas: Icon,
     iconMapping: app_config.iconLayer.iconMapping,
     // required to show data
     // getIcon: 'iconname',
-    getPosition: d => d.coordinates,
-  
+    getPosition: d => d.coordinates,  
   
     sizeScale: app_config.iconLayer.sizeScale,
-    getSize: app_config.iconLayer.getSize,
-  
+    getSize: app_config.iconLayer.getSize,  
   
     pickable: true,
     _subLayerProps: {
       guides: {}
-    }
-
+    },
   }
 }
-
-
-// https://deck.gl/docs/api-reference/layers/geojson-layer#data

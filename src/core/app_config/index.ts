@@ -56,15 +56,15 @@ export default {
         anchorY: 160,
       },
       pointIcon: {
-        x: 256,
-        y: 0,
+        x: 0,
+        y: 165,
         width: 20,
         height: 20,
         anchorY: 10,
       }
     },
     sizeScale: 6,
-    getSize: d => 6,
+    getSize: () => 6,
   }
 };
 
