@@ -97,7 +97,6 @@ export class DrawModeLayer implements LogicalLayer {
       }
       if (this._editDrawingLayer === mode) return;
       this._addDeckLayer(drawModes[mode])
-      this._addDeckLayer(drawModes.ShowIcon)
       this._editDrawingLayer = mode
     }
   }
@@ -111,33 +110,26 @@ export class DrawModeLayer implements LogicalLayer {
       config.data = this.drawnData
       config.selectedFeatureIndexes = this.selectedIndexes
       config.onEdit = this._onModifyEdit
+      config.getEditHandleIcon = (d) => {
+        if (d.properties.editHandleType === 'scale' || d.properties.editHandleType === 'rotate') return 'pointIcon'
+        if (!('featureIndex' in d.properties)) return null
+        const featureToHandle = this.drawnData.features[d.properties.featureIndex]
+        if (featureToHandle.geometry.type !== 'Point') return 'pointIcon'
+        return 'selectedIcon'
+      }
+      config.getEditHandleIconSize = (d) => {
+        if (!('featureIndex' in d.properties)) return 1.8;
+        const featureToHandle = this.drawnData.features[d.properties.featureIndex]
+        if (featureToHandle.geometry.type !== 'Point') return 1.8
+        return 6
+      }
+      config.geojsonIcons.getIcon = d => {
+        if (!d.properties || d.properties.isHidden) return null
+        if (d.properties.isSelected) return 'selectedIcon'
+        return 'defaultIcon'
+      }
     } else if (createDrawingLayers.includes(mode)) {
       config.onEdit = this._onDrawEdit
-    } else if (mode === drawModes.ShowIcon) {
-      config.data = this._getIconLayerData()
-      config.onClick = ({ index }) => {
-        // if we selected something being in draw modes
-        if (this._createDrawingLayer)
-          activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode)
-        selectedIndexesAtom.setIndexes.dispatch([index])
-        this.selectedIndexes = [index]
-        this._refreshMode(drawModes.ModifyMode)
-        const simpleGeometry = this._getIconLayerData()
-        this._refreshMode(drawModes.ShowIcon, simpleGeometry)
-      }
-      config.onDragStart = ({ index }) => {
-        setMapInteractivity(this._map, false)
-        this.selectedIndexes = [index]
-        selectedIndexesAtom.setIndexes.dispatch([index])
-      }
-      config.onDrag = ({ coordinate, index }) => {
-        drawnGeometryAtom.updateByIndex.dispatch({
-          type: 'Feature', geometry: { type: 'Point', coordinates: coordinate }, properties: {}
-        }, index)
-      }
-      config.onDragEnd = () => {
-        setMapInteractivity(this._map, true)
-      }
     }
 
     config._subLayerProps.guides.pointRadiusMinPixels = 4
@@ -164,15 +156,12 @@ export class DrawModeLayer implements LogicalLayer {
     if (!this._map) return;
     this.drawnData = data
     this._refreshMode(drawModes.ModifyMode)
-    // show icon needs different data type - see more in it's config page
-    const simpleGeometry = this._getIconLayerData()
-    this._refreshMode(drawModes.ShowIcon, simpleGeometry)
   }
 
 
-  _refreshMode(mode: DrawModeType, specialData?: any[]): void {
+  _refreshMode(mode: DrawModeType): void {
     const layer = this.mountedDeckLayers[mode]
-    layer?.setProps({ data: specialData || this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
+    layer?.setProps({ data: this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
   }
 
   willHide(map?: ApplicationMap) {
@@ -199,19 +188,27 @@ export class DrawModeLayer implements LogicalLayer {
 
 
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
-      setMapInteractivity(this._map, true)
+      // make map interactive if we finished drawing
+      setMapInteractivity(this._map, true);
+
       for (let i = 0; i < updatedData.features.length; i++) {
         const feature = updatedData.features[i];
-        // check each edited feature for intersections
-        if (feature.geometry.type === 'Polygon' && changedIndexes.includes(i) && kinks({ ...feature }).features.length) {
-          currentNotificationAtom.showNotification.dispatch(
-            'error',
-            { title: i18n.t('Polygon should not overlap itself') }, 5
-          );
-          return this.updateData(drawnGeometryAtom.getState())
+        if (changedIndexes.includes(i)) {
+          feature.properties.isSelected = true
+
+          // check each edited feature for intersections
+          if (feature.geometry.type === 'Polygon' && kinks({ ...feature }).features.length) {
+            currentNotificationAtom.showNotification.dispatch(
+              'error',
+              { title: i18n.t('Polygon should not overlap itself') }, 5
+            );
+            return this.updateData(drawnGeometryAtom.getState())
+          }
+        } else {
+          // remove edit coloring for all of them
+          delete feature.properties.temporary
+          delete feature.properties.isSelected
         }
-        // remove edit coloring for all of them
-        if (feature.properties?.temporary) delete feature.properties.temporary
       }
 
       drawnGeometryAtom.updateFeatures.dispatch(updatedData.features)
@@ -230,15 +227,5 @@ export class DrawModeLayer implements LogicalLayer {
 
   onDataChange() {
     // no data is incoming here
-  }
-
-  _getIconLayerData() {
-    // icon layer needs special format of data
-    const simpleGeometry = this.drawnData.features.map((feature, index) => {
-      if (feature.geometry.type !== 'Point') return { isHidden: true }
-      if (this.selectedIndexes.includes(index)) return { ...feature.geometry, isSelected: true }
-      return feature.geometry
-    })
-    return simpleGeometry
   }
 }
