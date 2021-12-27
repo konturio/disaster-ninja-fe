@@ -90,7 +90,7 @@ export function MainView() {
               <div id='right-buttons-container' className={s.rightButtonsContainer}></div>
               <Legend iconsContainerId='right-buttons-container' />
               <MapLayersList iconsContainerId='right-buttons-container' />
-              <BivariatePanel iconsContainerId='right-buttons-container' />
+              {/*<BivariatePanel iconsContainerId='right-buttons-container' />*/}
             </div>
           </Suspense>
           <DrawToolsToolbox />
