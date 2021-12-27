@@ -1,6 +1,8 @@
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { drawModes } from "../constants";
 import { LocalDrawPolygonMode } from "../modes/drawPolygon";
+import Icon from '../icons/iconAtlas.png'
+import app_config from "~core/app_config";
 
 // it's supposed to be the type of : MapboxLayerProps<unknown>
 // it will work regardless to type errors
@@ -29,4 +31,11 @@ export const drawPolyDeckLayerConfig = {
     disableSelfIntersections: true
   },
 
+  editHandleType: 'icon',
+  editHandleIconAtlas: Icon,
+  editHandleIconMapping: app_config.iconLayer.iconMapping,
+  editHandleIconSizeScale: app_config.iconLayer.sizeScale,
+  getEditHandlePosition: d => d.coordinates,
+  getEditHandleIconSize:() => 1.8,
+  getEditHandleIcon: () => "pointIcon",
 }
