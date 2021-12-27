@@ -99,7 +99,6 @@ export class DrawModeLayer implements LogicalLayer {
       }
       if (this._editDrawingLayer === mode) return;
       this._addDeckLayer(drawModes[mode])
-      // this._addDeckLayer(drawModes.ShowIcon)
       this._editDrawingLayer = mode
     }
   }
@@ -159,15 +158,12 @@ export class DrawModeLayer implements LogicalLayer {
     if (!this._map) return;
     this.drawnData = data
     this._refreshMode(drawModes.ModifyMode)
-    // show icon needs different data type - see more in it's config page
-    const simpleGeometry = this._getIconLayerData()
-    this._refreshMode(drawModes.ShowIcon, simpleGeometry)
   }
 
 
-  _refreshMode(mode: DrawModeType, specialData?: any[]): void {
+  _refreshMode(mode: DrawModeType): void {
     const layer = this.mountedDeckLayers[mode]
-    layer?.setProps({ data: specialData || this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
+    layer?.setProps({ data: this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
   }
 
   willHide(map?: ApplicationMap) {
@@ -233,15 +229,5 @@ export class DrawModeLayer implements LogicalLayer {
 
   onDataChange() {
     // no data is incoming here
-  }
-
-  _getIconLayerData() {
-    // icon layer needs special format of data
-    const simpleGeometry = this.drawnData.features.map((feature, index) => {
-      if (feature.geometry.type !== 'Point') return { isHidden: true }
-      if (this.selectedIndexes.includes(index)) return { ...feature.geometry, isSelected: true }
-      return feature.geometry
-    })
-    return simpleGeometry
   }
 }
