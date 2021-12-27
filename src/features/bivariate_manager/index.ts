@@ -4,6 +4,6 @@ import { bivariateCorrelationMatrixAtom } from '~features/bivariate_manager/atom
 
 export function initBivariateManager() {
   bivariateOverlayLayersAtom.subscribe(() => null);
-  bivariateNumeratorsAtom.subscribe(() => null);
-  bivariateCorrelationMatrixAtom.subscribe(() => null);
+  // bivariateNumeratorsAtom.subscribe(() => null);
+  // bivariateCorrelationMatrixAtom.subscribe(() => null);
 }
