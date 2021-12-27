@@ -7,7 +7,7 @@ import s from './Main.module.css';
 import { useHistory } from 'react-router';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
-import { BivariatePanel } from '~features/bivariate_manager/components/BivariatePanel/BivariatePanel';
+
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -18,6 +18,8 @@ const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
 const { Legend } = lazily(() => import('~features/legend_panel'));
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
+// const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
+
 const { DrawToolsToolbox } = lazily(
   () =>
     import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
@@ -90,7 +92,7 @@ export function MainView() {
               <div id='right-buttons-container' className={s.rightButtonsContainer}></div>
               <Legend iconsContainerId='right-buttons-container' />
               <MapLayersList iconsContainerId='right-buttons-container' />
-              <BivariatePanel iconsContainerId='right-buttons-container' />
+              {/*<BivariatePanel iconsContainerId='right-buttons-container' />*/}
             </div>
           </Suspense>
           <DrawToolsToolbox />
