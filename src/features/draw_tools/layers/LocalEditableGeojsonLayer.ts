@@ -1,8 +1,6 @@
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
-import { EditableGeojsonLayerProps } from "@nebula.gl/layers/dist-types/layers/editable-geojson-layer";
-
 import { GeoJsonLayer } from '@deck.gl/layers';
-import { IconLayer, ScatterplotLayer } from "@deck.gl/layers";
+import { IconLayer } from "@deck.gl/layers";
 import { FeatureCollection } from "@nebula.gl/edit-modes";
 function guideAccessor(accessor) {
   if (!accessor || typeof accessor !== 'function') {

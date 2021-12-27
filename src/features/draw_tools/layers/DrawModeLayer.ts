@@ -35,8 +35,6 @@ export class DrawModeLayer implements LogicalLayer {
   private _editDrawingLayer: DrawModeType | null
   public selectedIndexes: number[] = []
   private _removeClickListener: null | (() => void) = null;
-  // we need to store previous indexes because modify Mode always fires first and cancels clicks on icons
-  private _previousSelection: number[] = []
 
   public constructor(id: string, name?: string) {
     this.id = id;
