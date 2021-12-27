@@ -1,4 +1,3 @@
-import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { drawModes } from "../constants";
 import { LocalEditableGeojsonLayer } from "../layers/LocalEditableGeojsonLayer";
 import { LocalModifyMode } from "../modes/modifyMode";
@@ -45,7 +44,7 @@ export const modifyDeckLayerConfig = {
     iconAtlas: Icon,
     iconMapping: app_config.iconLayer.iconMapping,
     // required to show data
-    // getIcon: 'iconname',
+    // getIcon: 'iconname', - described later in drawModeLayer
     getPosition: d => d.coordinates,  
   
     sizeScale: app_config.iconLayer.sizeScale,

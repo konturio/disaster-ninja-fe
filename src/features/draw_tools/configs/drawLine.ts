@@ -4,8 +4,6 @@ import { LocalDrawLineStringMode } from "../modes/drawLine";
 import Icon from '../icons/iconAtlas.png'
 import app_config from "~core/app_config";
 
-// it's supposed to be the type of : MapboxLayerProps<unknown>
-// it will work regardless to type errors
 export const drawLineDeckLayerConfig = {
   id: drawModes.DrawLineMode,
   type: EditableGeoJsonLayer,
