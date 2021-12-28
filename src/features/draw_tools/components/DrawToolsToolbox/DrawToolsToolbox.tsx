@@ -20,7 +20,7 @@ import { drawingIsStartedAtom } from '~features/draw_tools/atoms/drawingIsStarte
 
 export const DrawToolsToolbox = () => {
   const [activeDrawMode, { setDrawMode, toggleDrawMode }] = useAtom(activeDrawModeAtom);
-  const [selected] = useAtom(selectedIndexesAtom)
+  const [selected, { setIndexes }] = useAtom(selectedIndexesAtom)
   const [, { removeByIndexes }] = useAtom(drawnGeometryAtom)
   const [, { disable: disableSideIcon }] = useAtom(sideControlsBarAtom)
   const [drawingIsStarted, { setIsStarted }] = useAtom(drawingIsStartedAtom)
@@ -31,7 +31,7 @@ export const DrawToolsToolbox = () => {
       toggleDrawMode(drawModes.DrawPolygonMode);
     }, [],
   );
-  
+
   const onLineClick = useCallback(
     () => {
       toggleDrawMode(drawModes.DrawLineMode);
@@ -53,7 +53,10 @@ export const DrawToolsToolbox = () => {
 
   const onDelete = useCallback(
     () => {
-      if (selected.length) removeByIndexes(selected)
+      if (selected.length) {
+        setIndexes([])
+        removeByIndexes(selected)
+      }
     },
     [selected],
   );
