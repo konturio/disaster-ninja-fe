@@ -37,7 +37,7 @@ export class LocalModifyMode extends CustomModifyMode {
     let processSelection = false;
 
     if (event.picks && event.picks.length) {
-      const lastPickIndex = event.picks[event.picks.length - 1].index;
+      const lastPickIndex = event.picks[0].index;
 
       if (event.sourceEvent.shiftKey) {
         // pick first feature if none were picked
@@ -73,7 +73,7 @@ export class LocalModifyMode extends CustomModifyMode {
           },
         });
         this._currentSubMode = this.createSubmode('Modify');
-      } else if (event.picks.length === 1) {
+      } else {
         processSelection = true;
         switch (this._currentSubModeName) {
           case 'Modify':
