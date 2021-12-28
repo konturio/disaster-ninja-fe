@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { AxiosInstance } from 'axios';
 
 let mockingEnabled = false;
 
@@ -14,10 +14,10 @@ export function enableMocking(state) {
 
 const isUrlMocked = url => url in mocks;
 
-const getMockError = config => {
+const getMockError = (config, fullUrl) => {
   const mockError = new Error();
   // add extra info to error object
-  mockError['mockData'] = mocks[config.url];
+  mockError['mockData'] = mocks[fullUrl];
   mockError['config'] = config;
   return Promise.reject(mockError);
 }
@@ -43,19 +43,31 @@ const getMockResponse = mockError => {
   }, mockData))
 }
 
-// Add a request interceptor
-axios.interceptors.request.use(config => {
-  if (mockingEnabled && isUrlMocked(config.url)) {
-    console.log('axios mocking ' + config.url)
-    return getMockError(config)
+function checkUrlIsRelative(url: string): string {
+  // if url is relative, add base host
+  if (url.startsWith('/') && url.indexOf('http') === -1) {
+    return `${location.origin}${url}`;
   }
-  return config
-}, error => Promise.reject(error))
+  return url;
+}
 
-// Add a response interceptor
-axios.interceptors.response.use(response => response, error => {
-  if (isMockError(error)) {
-    return getMockResponse(error)
-  }
-  return Promise.reject(error)
-})
+export function setupMocking(axiosInstance: AxiosInstance) {
+  // Add a request interceptor
+  axiosInstance.interceptors.request.use(config => {
+    const fullUrl = checkUrlIsRelative(`${config.baseURL || ''}${config.url}`);
+    if (mockingEnabled && isUrlMocked(fullUrl)) {
+      return getMockError(config, fullUrl)
+    }
+    return config
+  }, error => Promise.reject(error))
+
+  // Add a response interceptor
+  axiosInstance.interceptors.response.use(response => response, error => {
+    if (isMockError(error)) {
+      return getMockResponse(error)
+    }
+    return Promise.reject(error)
+  })
+
+}
+
