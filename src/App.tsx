@@ -11,3 +11,4 @@ ReactDOM.render(
   </reatomContext.Provider>,
   document.getElementById('root'),
 );
+
