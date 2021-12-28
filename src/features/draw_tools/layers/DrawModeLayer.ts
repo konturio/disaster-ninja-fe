@@ -161,7 +161,7 @@ export class DrawModeLayer implements LogicalLayer {
 
   _refreshMode(mode: DrawModeType): void {
     const layer = this.mountedDeckLayers[mode]
-    layer?.setProps({ data: this.drawnData, selectedFeatureIndexes: this.selectedIndexes })
+    layer?.setProps({ data: this.drawnData, selectedFeatureIndexes: selectedIndexesAtom.getState() })
   }
 
   willHide(map?: ApplicationMap) {
