@@ -48,7 +48,7 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(({},ref)
     const [matrixSelection, { setMatrixSelection }] = useAtom(bivariateMatrixSelectionAtom);
     const [matrix] = useAtom(bivariateCorrelationMatrixAtom);
     const [{ xNumerators, yNumerators }, { setNumerators }] = useAtom(bivariateNumeratorsAtom);
-    const [{ data: statisticsData, loading }] = useAtom(bivariateStatisticsResourceAtom);
+    const [{ data: statisticsData }] = useAtom(bivariateStatisticsResourceAtom);
     const stats = statisticsData?.polygonStatistic.bivariateStatistic;
 
     const selectedCell = useMemo(() => {
