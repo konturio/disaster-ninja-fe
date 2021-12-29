@@ -3,7 +3,7 @@ import { useAtom } from '@reatom/react';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { mountedLayersByCategoryAtom } from '~features/layers_panel/atoms/mountedLayersByCategory';
 import { Group } from '../Group/Group';
-import type { CategoryWithSettings } from '~core/logical_layers/atoms/layersTree/types';
+import { CategoryWithSettings } from '~core/types/layers';
 import s from './Category.module.css';
 
 function CategoryMountedLayersCounter({ categoryId }: { categoryId: string }) {

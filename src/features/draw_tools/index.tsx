@@ -7,11 +7,14 @@ import {
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import { DrawToolsIcon } from '@k2-packages/default-icons';
 import { drawLayerAtom } from './atoms/drawLayerAtom';
-import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import {
+  controlGroup,
+  controlVisualGroup,
+} from '~core/shared_state/sideControlsBar';
 import { drawingIsStartedAtom } from '~features/draw_tools/atoms/drawingIsStartedAtom';
 
 export function initDrawTools() {
-  drawLayerAtom.mount.dispatch()
+  drawLayerAtom.mount.dispatch();
   sideControlsBarAtom.addControl.dispatch({
     id: DRAW_TOOLS_CONTROL_ID,
     name: DRAW_TOOLS_CONTROL_NAME,
@@ -24,12 +27,12 @@ export function initDrawTools() {
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
-        drawingIsStartedAtom.setIsStarted.dispatch(false)
+        drawingIsStartedAtom.setIsStarted.dispatch(false);
         // TODO fix that logic in layer.setMode()
         activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
         activeDrawModeAtom.setDrawMode.dispatch(drawModes.DrawPolygonMode);
       } else {
-        activeDrawModeAtom.setDrawMode.dispatch(undefined);
+        activeDrawModeAtom.setDrawMode.dispatch(null);
       }
     },
   });

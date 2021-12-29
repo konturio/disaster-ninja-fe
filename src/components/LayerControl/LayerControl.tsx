@@ -39,7 +39,6 @@ export function LayerControl({
 
   return (
     <div
-      onClick={(e) => console.log('LayerControl', e)}
       className={cn(
         s.layerControl,
         {

@@ -21,7 +21,8 @@ export const layersInAreaResourceAtom = createResourceAtom(
   async (params) => {
     if (!params) return;
     const { currentEvent, focusedGeometry } = params;
-    if (!currentEvent || !focusedGeometry) return;
+    if (!currentEvent && !focusedGeometry)
+      throw new Error('Geometry or layers required for layers list');
 
     const body: { id?: string; geoJSON?: GeoJSON.GeoJSON } = {};
     if (currentEvent) body.id = currentEvent.id;
