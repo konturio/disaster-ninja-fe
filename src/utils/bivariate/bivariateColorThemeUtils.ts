@@ -1,15 +1,12 @@
-import {
-  generateBivariateStyleForAxis,
-  Stat,
-} from '@k2-packages/bivariate-tools';
+import { generateBivariateStyleForAxis, Stat } from '@k2-packages/bivariate-tools';
 import interpolate from 'color-interpolate';
-import maplibregl from 'maplibre-gl';
 import { ColorTheme } from '~appModule/types';
 import config from '~core/app_config';
+import { BivariateLegendBackend } from '~core/logical_layers/createLogicalLayerAtom/types';
 
 export interface BivariateLayerStyle {
   id: string;
-  type: maplibregl.AnyLayer['type'];
+  type: string;
   source: any;
   layout: unknown;
   filter: any[];
@@ -142,3 +139,20 @@ export function generateColorThemeAndBivariateStyle(
 
   return [colorTheme, bivariateStyle];
 }
+
+export function generateLayerStyleFromBivariateLegendBackend(bl: BivariateLegendBackend): BivariateLayerStyle {
+  return generateBivariateStyleForAxis({
+    id: `${bl.axises.x.quotient.join('&')}|${bl.axises.y.quotient.join('&')}`,
+    x: bl.axises.x,
+    y: bl.axises.y,
+    colors: bl.colors.sort((clr1, clr2) => clr1.id > clr2.id ? 1 : -1),
+    sourceLayer: 'stats',
+    source: {
+      type: 'vector',
+      tiles: [`${resolveUrl(config.tilesApi)}{z}/{x}/{y}.mvt`],
+      maxzoom: 8,
+      minzoom: 0,
+    },
+  });
+}
+

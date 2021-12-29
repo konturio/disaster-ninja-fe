@@ -40,7 +40,7 @@ export class BivariateLayer implements LogicalLayer {
       map.setLayoutProperty(this.id, 'visibility', 'visible');
     } else {
       const beforeId = layersOrderManager.getBeforeIdByType(
-        this._layerStyle.type,
+        this._layerStyle.type as any,
       );
       map.addLayer(this._layerStyle as any, beforeId);
     }

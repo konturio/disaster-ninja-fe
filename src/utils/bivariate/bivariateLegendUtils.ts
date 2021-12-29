@@ -1,6 +1,8 @@
-import { BivariateLegend } from '~core/logical_layers/createLogicalLayerAtom/types';
+import { BivariateLegend, BivariateLegendBackend } from '~core/logical_layers/createLogicalLayerAtom/types';
 import { ColorTheme } from '~appModule/types';
-import { Stat } from '@k2-packages/bivariate-tools';
+import { generateBivariateStyleForAxis, Stat } from '@k2-packages/bivariate-tools';
+import { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
+import config from '~core/app_config';
 
 export function createBivariateLegend(
   name: string,
