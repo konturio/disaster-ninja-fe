@@ -32,7 +32,9 @@ export function BivariateLegend({ layer, extraIcons, showDescrption = true }: Bi
         <Text type="long-m">
           <span className={s.layerName}>{layer.name}</span>
         </Text>
-        <Tooltip className={s.tooltip} tipText={tipText} />
+        {tipText &&
+          <Tooltip className={s.tooltip} tipText={tipText} />
+        }
         {extraIcons && [...extraIcons]}
       </div>}
 
