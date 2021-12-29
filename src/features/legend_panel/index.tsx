@@ -3,8 +3,6 @@ import { LegendPanel } from '~features/legend_panel/components/LegendPanel/Legen
 import { mountedLogicalLayersAtom } from './atoms/mountedLogicalLayers';
 
 export function Legend({ iconsContainerId }: { iconsContainerId: string }) {
-  const [layersId] = useAtom(mountedLogicalLayersAtom);
-  return (
-    <LegendPanel iconsContainerId={iconsContainerId} layersId={layersId} />
-  );
+  const [layers] = useAtom(mountedLogicalLayersAtom);
+  return <LegendPanel iconsContainerId={iconsContainerId} layers={layers} />;
 }

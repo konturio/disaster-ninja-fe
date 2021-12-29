@@ -38,10 +38,13 @@ export const logicalLayersRegistryAtom = createBindAtom(
 
     onAction('unregisterLayer', (logicalLayerId) => {
       const layer = state[logicalLayerId];
+      if (!layer) return console.warn('no layer with id', logicalLayerId);
       const copy = { ...state };
       delete copy[logicalLayerId];
       state = copy;
-      schedule((dispatch) => dispatch(layer.unregister()));
+      schedule((dispatch) => {
+        dispatch(layer.unregister());
+      });
     });
 
     onAction('mountLayers', (layersIds) => {
