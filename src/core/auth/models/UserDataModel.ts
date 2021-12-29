@@ -1,5 +1,3 @@
-import { createContext } from "react";
-
 type PartialRecord<K extends keyof any, T> = {
   [P in K]?: T;
 };
@@ -14,5 +12,3 @@ export class UserDataModel {
   
   public features: PartialRecord<AppFeature, boolean> = {};
 }
-
-export const UserDataContext = createContext<UserDataModel | null>(null);
