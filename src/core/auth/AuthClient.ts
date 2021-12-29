@@ -1,5 +1,4 @@
 import { ApiClient } from '~core/api_client';
-import { UserDataModel } from '~core/auth/models/UserDataModel';
 import { userResourceAtom } from '~core/auth/atoms/UserResourceAtom';
 
 interface AuthClientConfig {
@@ -34,7 +33,7 @@ export class AuthClient {
     return AuthClient.instance;
   }
 
-  public async authenticate(): void {
+  public async authenticate() {
     userResourceAtom.subscribe(() => {/*empty*/});
   }
 }
