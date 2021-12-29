@@ -1,6 +1,7 @@
 import { setupTestContext } from '../../../../utils/testsUtils/setupTest';
 import { createTree } from './createTree';
 
+const fakeAtom = {} as any;
 const test = setupTestContext(() => {
   return {
     settings: {
@@ -15,18 +16,21 @@ test('Empty registry', (t) => {
 });
 
 test('Root layer', (t) => {
-  t.deepEqual(createTree([{ id: 'rootLayer' }], t.context.settings), {
-    children: [{ id: 'rootLayer' }],
-  });
+  t.deepEqual(
+    createTree([{ id: 'rootLayer', atom: fakeAtom }], t.context.settings),
+    {
+      children: [{ id: 'rootLayer', atom: fakeAtom }],
+    },
+  );
 });
 
 test('Layer in group', (t) => {
   t.like(
     createTree(
       [
-        { id: 'layer_1', group: 'foo' },
-        { id: 'layer_2', group: 'bar' },
-        { id: 'layer_3', group: 'foo' },
+        { id: 'layer_1', group: 'foo', atom: fakeAtom },
+        { id: 'layer_2', group: 'bar', atom: fakeAtom },
+        { id: 'layer_3', group: 'foo', atom: fakeAtom },
       ],
       t.context.settings,
     ),
@@ -36,14 +40,14 @@ test('Layer in group', (t) => {
           id: 'foo',
           isGroup: true,
           children: [
-            { id: 'layer_1', group: 'foo' },
-            { id: 'layer_3', group: 'foo' },
+            { id: 'layer_1', group: 'foo', atom: fakeAtom },
+            { id: 'layer_3', group: 'foo', atom: fakeAtom },
           ],
         },
         {
           id: 'bar',
           isGroup: true,
-          children: [{ id: 'layer_2', group: 'bar' }],
+          children: [{ id: 'layer_2', group: 'bar', atom: fakeAtom }],
         },
       ],
     },
@@ -52,7 +56,14 @@ test('Layer in group', (t) => {
 
 test('Layer in category and group', (t) => {
   const tree = createTree(
-    [{ id: 'layer_1', group: 'foo_group', category: 'foo_category' }],
+    [
+      {
+        id: 'layer_1',
+        group: 'foo_group',
+        category: 'foo_category',
+        atom: fakeAtom,
+      },
+    ],
     t.context.settings,
   );
   t.true(tree.children[0].id === 'foo_category');
@@ -66,12 +77,32 @@ test('Integration - create correct tree', (t) => {
   t.snapshot(
     createTree(
       [
-        { id: 'rootLayer' },
-        { id: 'layer_1', group: 'foo_group', category: 'foo_category' },
-        { id: 'layer_2', group: 'foo_group', category: 'foo_category' },
-        { id: 'layer_3', group: 'foo_group', category: 'bar_category' },
-        { id: 'layer_4', group: 'bar_group', category: 'bar_category' },
-        { id: 'layer_5', group: 'bar_group' },
+        { id: 'rootLayer', atom: fakeAtom },
+        {
+          id: 'layer_1',
+          group: 'foo_group',
+          category: 'foo_category',
+          atom: fakeAtom,
+        },
+        {
+          id: 'layer_2',
+          group: 'foo_group',
+          category: 'foo_category',
+          atom: fakeAtom,
+        },
+        {
+          id: 'layer_3',
+          group: 'foo_group',
+          category: 'bar_category',
+          atom: fakeAtom,
+        },
+        {
+          id: 'layer_4',
+          group: 'bar_group',
+          category: 'bar_category',
+          atom: fakeAtom,
+        },
+        { id: 'layer_5', group: 'bar_group', atom: fakeAtom },
       ],
       t.context.settings,
     ),
@@ -81,7 +112,14 @@ test('Integration - create correct tree', (t) => {
 test('Tree apply group and category settings', (t) => {
   t.like(
     createTree(
-      [{ id: 'layer_1', group: 'foo_group', category: 'foo_category' }],
+      [
+        {
+          id: 'layer_1',
+          group: 'foo_group',
+          category: 'foo_category',
+          atom: fakeAtom,
+        },
+      ],
       {
         categoriesSettings: {
           foo_category: {
@@ -119,7 +157,12 @@ test('Tree apply group and category settings', (t) => {
               openByDefault: true,
               mutuallyExclusive: true,
               children: [
-                { id: 'layer_1', group: 'foo_group', category: 'foo_category' },
+                {
+                  id: 'layer_1',
+                  group: 'foo_group',
+                  category: 'foo_category',
+                  atom: fakeAtom,
+                },
               ],
             },
           ],

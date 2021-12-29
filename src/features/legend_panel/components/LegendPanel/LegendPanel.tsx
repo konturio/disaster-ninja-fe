@@ -6,37 +6,41 @@ import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { LegendSorter } from './LegendSorter';
 import { LegendPanelIcon } from '@k2-packages/default-icons';
+import type { LogicalLayerAtom } from '~core/types/layers';
 
 interface LegendPanelProps {
-  layersId: string[];
+  layers: LogicalLayerAtom[];
   iconsContainerId: string;
 }
 
-export function LegendPanel({ layersId, iconsContainerId }: LegendPanelProps) {
+export function LegendPanel({ layers, iconsContainerId }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [closed, setClosedPreferation] = useState<boolean>(false);
-  const [childIconContainer, setChildIconContainer] = useState<HTMLDivElement | null>(null);
+  const [childIconContainer, setChildIconContainer] =
+    useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const iconsContainer = document.getElementById(iconsContainerId);
     if (iconsContainer !== null) {
-      setChildIconContainer(iconsContainer.appendChild(document.createElement('div')))
+      setChildIconContainer(
+        iconsContainer.appendChild(document.createElement('div')),
+      );
     }
   }, []);
 
   useEffect(() => {
-    if (!closed && layersId.length && !isOpen) {
+    if (!closed && layers.length && !isOpen) {
       setIsOpen(true);
       if (childIconContainer) {
         childIconContainer.className = s.iconContainerHidden;
       }
-    } else if (!layersId.length && isOpen) {
+    } else if (!layers.length && isOpen) {
       setIsOpen(false);
       if (childIconContainer) {
         childIconContainer.className = s.iconContainerShown;
       }
     }
-  }, [layersId]);
+  }, [layers]);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
@@ -65,8 +69,8 @@ export function LegendPanel({ layersId, iconsContainerId }: LegendPanelProps) {
         }}
       >
         <div className={s.panelBody}>
-          {layersId.map((id) => (
-            <LegendSorter id={id} key={id} />
+          {layers.map((layer) => (
+            <LegendSorter layer={layer} key={layer.id} />
           ))}
         </div>
       </Panel>
@@ -77,9 +81,8 @@ export function LegendPanel({ layersId, iconsContainerId }: LegendPanelProps) {
             className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
             icon={<LegendPanelIcon />}
           />,
-          childIconContainer
-        )
-      }
+          childIconContainer,
+        )}
     </>
   );
 }
