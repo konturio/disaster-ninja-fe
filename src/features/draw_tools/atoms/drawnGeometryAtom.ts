@@ -1,81 +1,112 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { FeatureCollection, Feature } from 'geojson';
-import { activeDrawModeAtom } from './activeDrawMode'
-
+import { activeDrawModeAtom } from './activeDrawMode';
 
 const defaultState: FeatureCollection = {
-  type: 'FeatureCollection', features: []
-}
+  type: 'FeatureCollection',
+  features: [],
+};
 
 export const drawnGeometryAtom = createBindAtom(
   {
     addFeature: (feature: Feature) => feature,
     updateFeatures: (features: Feature[]) => features,
-    updateByIndex: (feature: Feature, index: number) => { return { feature, index } },
+    updateByIndex: (feature: Feature, index: number) => {
+      return { feature, index };
+    },
     removeByIndexes: (indexes: number[]) => indexes,
     focusedGeometryAtom,
-    activeDrawModeAtom
+    activeDrawModeAtom,
   },
-  ({ schedule, onAction, create, onChange }, state: FeatureCollection = defaultState) => {
-
+  (
+    { schedule, onAction, create, onChange, get, getUnlistedState },
+    state: FeatureCollection = defaultState,
+  ) => {
     onAction('addFeature', (feature) => {
-      state = { ...state, features: [...state.features, feature] }
+      state = { ...state, features: [...state.features, feature] };
     });
-
 
     onAction('updateFeatures', (features) => {
-      state = { ...state, features: features }
-    })
-
-    onAction('updateByIndex', ({ feature, index }) => {
-      const stateCopy: FeatureCollection = { ...state, features: [...state.features] }
-      if (!stateCopy.features[index]) console.warn(`index ${index} doesn't exist in feature collection`)
-      stateCopy.features[index] = feature
-      state = stateCopy
-    })
-
-    onAction('removeByIndexes', (indexesToRemove) => {
-      if (!indexesToRemove.length) console.warn('no indexes to remove')
-      const stateCopy: FeatureCollection = { ...state, features: [...state.features] }
-      stateCopy.features = state.features.filter((feature, featureIndex) => {
-        return !indexesToRemove.includes(featureIndex)
-      })
-      state = stateCopy
+      state = { ...state, features: features };
     });
 
-    onChange('focusedGeometryAtom', incoming => {
-      if (activeDrawModeAtom.getState() === undefined) return;
+    onAction('updateByIndex', ({ feature, index }) => {
+      const stateCopy: FeatureCollection = {
+        ...state,
+        features: [...state.features],
+      };
+      if (!stateCopy.features[index])
+        console.warn(`index ${index} doesn't exist in feature collection`);
+      stateCopy.features[index] = feature;
+      state = stateCopy;
+    });
 
-      if (incoming?.source.type === 'uploaded') schedule(dispatch => {
-        const actions: any[] = []
-        if (incoming.geometry.type === 'FeatureCollection' && incoming.geometry.features?.length) {
-          incoming.geometry.features.forEach((feature) => actions.push(create('addFeature', feature)));
-        } else if (incoming.geometry.type === 'Feature') {
-          actions.push(create('addFeature', incoming.geometry))
-        }
-        else console.warn('wrong type of data imported')
+    onAction('removeByIndexes', (indexesToRemove) => {
+      if (!indexesToRemove.length) console.warn('no indexes to remove');
+      const stateCopy: FeatureCollection = {
+        ...state,
+        features: [...state.features],
+      };
+      stateCopy.features = state.features.filter((feature, featureIndex) => {
+        return !indexesToRemove.includes(featureIndex);
+      });
+      state = stateCopy;
+    });
 
-        // clear focused geometry afterwards
-        actions.push(focusedGeometryAtom.setFocusedGeometry(null, null))
-        dispatch(actions);
-      })
-    })
+    onChange('focusedGeometryAtom', (incoming) => {
+      const mode = get('activeDrawModeAtom');
+      if (!mode) return;
 
-    onChange('activeDrawModeAtom', mode => {
-      if (mode) return;
-      if (state.features.length) schedule((dispatch) => {
-        dispatch(
-          focusedGeometryAtom.setFocusedGeometry(
-            { type: 'drawn' },
-            state
-          )
-        )
-        state = defaultState
-      }
-      );
-    })
+      if (incoming?.source.type === 'uploaded')
+        schedule((dispatch) => {
+          const actions: any[] = [];
+          if (
+            incoming.geometry.type === 'FeatureCollection' &&
+            incoming.geometry.features?.length
+          ) {
+            incoming.geometry.features.forEach((feature) =>
+              actions.push(create('addFeature', feature)),
+            );
+          } else if (incoming.geometry.type === 'Feature') {
+            actions.push(create('addFeature', incoming.geometry));
+          } else {
+            console.warn('wrong type of data imported');
+          }
 
+          // clear focused geometry afterwards
+          actions.push(focusedGeometryAtom.setFocusedGeometry(null, null));
+          dispatch(actions);
+        });
+    });
+
+    onChange('activeDrawModeAtom', (mode, prevMode) => {
+      const focusedFeatures = getUnlistedState(focusedGeometryAtom);
+      if (mode && !prevMode && focusedFeatures) {
+        schedule((dispatch) => {
+          const actions: any[] = [
+            focusedGeometryAtom.setFocusedGeometry(
+              { type: 'drawn' },
+              { type: 'FeatureCollection', features: [] },
+            ),
+          ];
+          if (focusedFeatures.geometry.type === 'FeatureCollection') {
+            actions.push(
+              create('updateFeatures', focusedFeatures.geometry.features),
+            );
+          } else if (focusedFeatures.geometry.type === 'Feature') {
+            actions.push(create('addFeature', focusedFeatures.geometry));
+          }
+          dispatch(actions);
+        });
+      } else if (!mode && prevMode)
+        schedule((dispatch) => {
+          dispatch(
+            focusedGeometryAtom.setFocusedGeometry({ type: 'drawn' }, state),
+          );
+          state = defaultState;
+        });
+    });
 
     return state;
   },

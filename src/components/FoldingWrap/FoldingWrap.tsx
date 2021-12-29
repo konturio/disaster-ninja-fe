@@ -48,9 +48,7 @@ export function FoldingWrap({
         <div className={s.foldingLabel}>{label}</div>
       </div>
       {open && (
-        <div
-          className={s.foldingContent}
-          onClick={(e) => console.log('foldingContent', e)}
+        <div className={s.foldingContent}
         >
           {children}
         </div>

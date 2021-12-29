@@ -3,10 +3,10 @@ import { drawModes, DrawModeType } from '../constants';
 
 export const activeDrawModeAtom = createBindAtom(
   {
-    setDrawMode: (mode: DrawModeType | undefined) => mode,
-    toggleDrawMode: (mode: DrawModeType | undefined) => mode
+    setDrawMode: (mode: DrawModeType | null) => mode,
+    toggleDrawMode: (mode: DrawModeType | null) => mode,
   },
-  ({ onAction }, state: DrawModeType | undefined = undefined) => {
+  ({ onAction }, state: DrawModeType | null = null) => {
     onAction('setDrawMode', (mode) => {
       if (state !== mode) {
         state = mode;
@@ -18,7 +18,7 @@ export const activeDrawModeAtom = createBindAtom(
       if (mode === drawModes.ModifyMode && state === mode) return;
       if (state === mode) {
         state = drawModes.ModifyMode;
-      } else state = mode
+      } else state = mode;
     });
 
     return state;

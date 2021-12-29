@@ -1,5 +1,8 @@
+import type { LogicalLayerAtom } from '~core/types/layers';
+
 export interface Layer {
   id: string;
+  atom: LogicalLayerAtom;
   group?: string;
   category?: string;
   order?: number;
