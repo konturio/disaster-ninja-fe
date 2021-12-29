@@ -7,7 +7,7 @@ import config from '~core/app_config';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { authClient } from '~core/index';
 import { useAtom } from '@reatom/react';
-import { userResourceAtom } from '~core/auth/atoms/UserResourceAtom';
+import { userResource } from '~core/auth/atoms/userResource';
 
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));
@@ -18,7 +18,7 @@ export function RoutedApp() {
     authClient.authenticate()
   }, []);
 
-  const [{ loading }] = useAtom(userResourceAtom);
+  const [{ loading }] = useAtom(userResource);
 
   return (
     <StrictMode>
