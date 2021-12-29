@@ -12,9 +12,6 @@ type BivariateLegendProps = {
 };
 
 export function BivariateLegend({ layer, extraIcons, showDescrption = true }: BivariateLegendProps) {
-  if (!layer.legend || layer.legend.type === 'simple' || !layer.name)
-    return null;
-
   const tipText = useMemo(() => {
     if (!layer.legend || layer.legend.type === 'simple') return '';
     let message = '';
@@ -29,7 +26,7 @@ export function BivariateLegend({ layer, extraIcons, showDescrption = true }: Bi
     return message;
   }, [layer.legend]);
 
-  return (
+  return layer.legend && layer.legend.type !== 'simple' && layer.name ?
     <div className={s.bivariateLegend}>
       {showDescrption && <div className={s.headline}>
         <Text type="long-m">
@@ -49,6 +46,5 @@ export function BivariateLegend({ layer, extraIcons, showDescrption = true }: Bi
       {showDescrption && <Text type="caption">
         {layer.description || layer.legend.description}
       </Text>}
-    </div>
-  );
+    </div> : null
 }
