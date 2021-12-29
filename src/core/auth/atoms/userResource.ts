@@ -2,7 +2,7 @@ import { createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/index';
 import { UserDataModel } from '~core/auth/models/UserDataModel';
 
-export const userResourceAtom = createResourceAtom<undefined, UserDataModel | null>(
+export const userResource = createResourceAtom<undefined, UserDataModel | undefined>(
   null,
   async () => {
     const responseData = await apiClient.get<any>( '/user', undefined, false);

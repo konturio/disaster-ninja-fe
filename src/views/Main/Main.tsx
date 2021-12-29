@@ -8,7 +8,7 @@ import { useHistory } from 'react-router';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { useAtom } from '@reatom/react';
-import { userResourceAtom } from '~core/auth/atoms/UserResourceAtom';
+import { userResource } from '~core/auth/atoms/userResource';
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -28,7 +28,7 @@ const { DrawToolsToolbox } = lazily(
 
 export function MainView() {
   const history = useHistory();
-  const [{ data: { features: userFeatures } }] = useAtom(userResourceAtom);
+  const [{ data: { features: userFeatures } }] = useAtom(userResource);
 
   useEffect(() => {
     if (!userFeatures) return;
