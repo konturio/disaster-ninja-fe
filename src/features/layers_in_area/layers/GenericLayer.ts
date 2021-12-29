@@ -83,7 +83,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     }
 
     if (legend.type === 'bivariate') {
-      throw new Error('Bivariate legend not supported yet');
+      throw new Error('Bivariate legend can only belong to layer with type bivariate');
     }
 
     /* @ts-expect-error - if backend add new legend type */

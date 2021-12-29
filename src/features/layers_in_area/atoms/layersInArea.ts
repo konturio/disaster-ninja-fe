@@ -33,12 +33,8 @@ export const layersInAreaResourceAtom = createResourceAtom(
       false,
     );
     if (responseData === undefined) throw new Error('No data received');
-    // Temporary we use graphql api for bivariate layers
-    // Don't forget remove this after release!
-    console.log('Bivariate layers was filtered!');
-    return responseData.filter((layer) =>
-      layer.legend ? layer.legend.type !== 'bivariate' : true,
-    );
+
+    return responseData;
   },
   'layersInAreaResourceAtom',
 );

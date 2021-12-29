@@ -4,6 +4,7 @@ import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerA
 import { layersInAreaResourceAtom } from './layersInArea';
 import { GenericLayer } from '../layers/GenericLayer';
 import { focusedGeometryAtom } from '~core/shared_state';
+import { LayerInArea } from '~features/layers_in_area/types';
 
 export const layersInAreaLogicalLayersAtom = createBindAtom(
   {
@@ -17,9 +18,13 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
       const registry = new Set(Object.keys(currentRegistry));
       const newLayers = layersInArea.filter((l) => !registry.has(l.id));
       /* Create logical layers and wrap into atoms */
-      const logicalLayersAtoms = newLayers.map((layer) =>
-        createLogicalLayerAtom(new GenericLayer(layer), focusedGeometryAtom),
-      );
+      const logicalLayersAtoms = newLayers.map((layer: LayerInArea) => {
+        if (layer.group === 'bivariate') {
+
+        } else {
+          createLogicalLayerAtom(new GenericLayer(layer), focusedGeometryAtom);
+        }
+      });
       if (logicalLayersAtoms.length > 0) {
         /* Batch actions into one transaction */
         schedule((dispatch) => {
