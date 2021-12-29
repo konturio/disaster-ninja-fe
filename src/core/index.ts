@@ -3,7 +3,7 @@ import { NotificationService } from './notifications';
 import { TranslationService } from './localization';
 import { ApiClient } from './api_client';
 import { autoRefreshService } from './auto_refresh';
-import { AuthClient } from '~core/auth_client/AuthClient';
+import { AuthClient } from '~core/auth/AuthClient';
 import { enableMocking } from '~utils/axios/axiosMockUtils';
 import { setupTemporaryMocking } from '~utils/axios/setupTemporaryMocking';
 

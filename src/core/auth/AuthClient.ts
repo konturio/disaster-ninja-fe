@@ -1,5 +1,6 @@
 import { ApiClient } from '~core/api_client';
-import { UserDataModel } from '~core/auth_client/userDataModel/UserDataModel';
+import { UserDataModel } from '~core/auth/models/UserDataModel';
+import { userResourceAtom } from '~core/auth/atoms/UserResourceAtom';
 
 interface AuthClientConfig {
    apiClient: ApiClient;
@@ -33,16 +34,7 @@ export class AuthClient {
     return AuthClient.instance;
   }
 
-  public async authenticate(): Promise<UserDataModel | null> {
-    const userResponse = await this._apiClient.get( '/user', undefined, false);
-    if (userResponse) {
-      // map data to UserDataModel class
-      const userData = new UserDataModel();
-      Object.assign(userData, userResponse);
-      return userData;
-    }
-
-    return null;
+  public async authenticate(): void {
+    userResourceAtom.subscribe(() => {/*empty*/});
   }
-
 }

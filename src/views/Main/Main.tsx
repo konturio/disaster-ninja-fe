@@ -1,4 +1,4 @@
-import { useEffect, Suspense, useContext } from 'react';
+import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { AppHeader, Logo } from '@k2-packages/ui-kit';
 import config from '~core/app_config';
@@ -7,7 +7,8 @@ import s from './Main.module.css';
 import { useHistory } from 'react-router';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
-import { UserDataContext } from '~core/auth_client/userDataModel/UserDataModel';
+import { useAtom } from '@reatom/react';
+import { userResourceAtom } from '~core/auth/atoms/UserResourceAtom';
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -27,7 +28,8 @@ const { DrawToolsToolbox } = lazily(
 
 export function MainView() {
   const history = useHistory();
-  const userFeatures = useContext(UserDataContext)?.features;
+  const [{ data: userData }] = useAtom(userResourceAtom);
+  const userFeatures = userData?.features;
 
   useEffect(() => {
     if (!userFeatures) return;
@@ -35,7 +37,7 @@ export function MainView() {
     /* Lazy load module */
     if (userFeatures?.url_store === true) {
       import('~features/url_store').then(({ initUrlStore }) => initUrlStore());
-    };
+    }
     if (userFeatures?.current_event === true) {
       import('~features/current_event').then(({ initCurrentEvent }) =>
         initCurrentEvent(),
