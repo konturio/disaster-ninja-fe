@@ -1,7 +1,7 @@
 import { AxisControl } from '@k2-packages/ui-kit';
 import React, { forwardRef, useCallback, useMemo } from 'react';
 import { Axis, Indicator } from '@k2-packages/bivariate-tools';
-import { NumeratorWithDenominators } from '~appModule/types';
+import { NumeratorWithDenominators } from '~core/types';
 import { useAtom } from '@reatom/react';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';

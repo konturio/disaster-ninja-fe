@@ -4,7 +4,7 @@ import {
 } from '@k2-packages/bivariate-tools';
 import interpolate from 'color-interpolate';
 import maplibregl from 'maplibre-gl';
-import { ColorTheme } from '~appModule/types';
+import { ColorTheme } from '~core/types';
 import config from '~core/app_config';
 
 export interface BivariateLayerStyle {
