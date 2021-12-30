@@ -6,7 +6,7 @@ import {
   generateColorThemeAndBivariateStyle,
 } from '~utils/bivariate/bivariateColorThemeUtils';
 import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
-import { ColorTheme } from '~appModule/types';
+import { ColorTheme } from '~core/types';
 import { logicalLayersRegistryAtom } from '~core/shared_state';
 import {
   LogicalLayerAtom,

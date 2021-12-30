@@ -5,10 +5,10 @@ import {
 import { SimpleLegendStep } from '~core/logical_layers/createLogicalLayerAtom/types';
 import { LayerControl } from '~components/LayerControl/LayerControl';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
-import { BivariateLegend } from '~components/LegendPanel/components/BivariateLegend/BivariateLegend';
 import s from './LegendPanel.module.css';
 import { useAtom } from '@reatom/react';
 import type { LogicalLayerAtom } from '~core/types/layers';
+import { BivariateLegend } from '~components/BivariateLegend/BivariateLegend';
 
 export function LegendSorter({
   layer: layerAtom,
