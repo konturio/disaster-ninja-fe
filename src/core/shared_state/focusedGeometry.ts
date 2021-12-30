@@ -1,5 +1,5 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
-import { EventWithGeometry } from '~appModule/types';
+import { EventWithGeometry } from '~core/types';
 
 interface GeometrySourceEvent {
   type: 'event';

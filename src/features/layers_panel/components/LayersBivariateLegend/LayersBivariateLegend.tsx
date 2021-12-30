@@ -1,7 +1,7 @@
 import { useAtom } from "@reatom/react"
 import { useEffect } from "react"
-import { BivariateLegend } from "~components/LegendPanel/components/BivariateLegend/BivariateLegend"
 import { bivariateLayersGroupAtom } from "~features/layers_panel/atoms/bivariateLayersGroupAtom"
+import { BivariateLegend } from '~components/BivariateLegend/BivariateLegend';
 
 export function LayersBivariateLegend({ ids }: { ids: string[] }) {
   const [{ activeLayer }, { setBivariateIds }] = useAtom(bivariateLayersGroupAtom)
