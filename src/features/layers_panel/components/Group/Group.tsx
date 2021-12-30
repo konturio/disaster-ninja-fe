@@ -26,7 +26,7 @@ export function Group({
           {group.children.map((chn) => (
             <Layer
               key={chn.id}
-              layerAtomId={chn.id}
+              layerAtom={chn.atom}
               mutuallyExclusive={mutuallyExclusive || group.mutuallyExclusive}
             />
           ))}

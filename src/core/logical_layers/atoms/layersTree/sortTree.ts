@@ -1,4 +1,4 @@
-import { TreeChildren } from './types';
+import { TreeChildren } from '~core/types/layers';
 
 const _internalTypes = {
   withoutType: 'without_type',
@@ -49,11 +49,14 @@ interface SorterSettings {
   inClusterSortField: string;
 }
 
-export function sortChildren(list: TreeChildren[], settings: SorterSettings) {
+export function sortChildren<T extends TreeChildren[]>(
+  list: TreeChildren[],
+  settings: SorterSettings,
+) {
   list.map((c) => {
     if ('children' in c) {
-      c.children = sortChildren(c.children, settings);
+      c.children = sortChildren<typeof c.children>(c.children, settings);
     }
   });
-  return clusterSort(list, settings);
+  return clusterSort(list, settings) as T;
 }

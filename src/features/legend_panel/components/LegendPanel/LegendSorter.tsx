@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-import { useLayerAtomFromRegistry } from '~core/logical_layers/useLayerAtomFromRegistry';
 import {
   SimpleLegend as SimpleLegendComponent,
   SimpleLegendStep as SimpleLegendStepComponent,
@@ -7,19 +5,17 @@ import {
 import { SimpleLegendStep } from '~core/logical_layers/createLogicalLayerAtom/types';
 import { LayerControl } from '~components/LayerControl/LayerControl';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
-import { BivariateLegend } from '~components/LegendPanel/components/BivariateLegend/BivariateLegend';
 import s from './LegendPanel.module.css';
+import { useAtom } from '@reatom/react';
+import type { LogicalLayerAtom } from '~core/types/layers';
+import { BivariateLegend } from '~components/BivariateLegend/BivariateLegend';
 
-export function LegendSorter({ id }: { id: string }) {
-  const [{ layer }] = useLayerAtomFromRegistry(id);
-
-  const tipText = useMemo(() => {
-    if (!layer.legend || layer.legend.type === 'bivariate') return '';
-    let message = '';
-    if (layer.description) message += layer.description;
-    if (layer.copyright) message += '\n' + layer.copyright;
-    return message;
-  }, [layer.legend, layer.description, layer.copyright]);
+export function LegendSorter({
+  layer: layerAtom,
+}: {
+  layer: LogicalLayerAtom;
+}) {
+  const [{ layer }] = useAtom(layerAtom);
 
   if (!layer.legend || !layer.name) return null;
 

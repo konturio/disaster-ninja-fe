@@ -21,6 +21,6 @@ export const bivariateLayersGroupAtom = createBindAtom({
   })
 
 function findActiveLayer(ids: string[], registry: Record<string, LogicalLayerAtomState>): LogicalLayer | null | undefined {
-  const activeId = ids.find(id => registry[id].isMounted);
+  const activeId = ids.find(id => registry[id] && registry[id].isMounted);
   return activeId ? registry[activeId].layer : null;
 }

@@ -27,21 +27,35 @@ export const logicalLayersRegistryStateAtom = createBindAtom(
     onChange('registry', (atomsList) => {
       const atoms: [LogicalLayerAtom[], LogicalLayerAtom[]] = [[], []];
 
+      // oldAtoms - atoms that already in state of this atom
       const [oldAtoms, newAtoms] = Object.values(atomsList).reduce(
         (acc, a) => ((state[a.id] ? acc[0] : acc[1]).push(a), acc),
         atoms,
       );
+      const oldAtomsIds = new Set(oldAtoms.map((a) => a.id));
+      const deletedAtomsIds = Object.keys(state).filter(
+        (atomId) => !oldAtomsIds.has(atomId),
+      );
 
+      // Delete old atoms from state
+      const stateCopy = { ...state };
+      deletedAtomsIds.forEach((id) => {
+        delete stateCopy[id];
+      });
+      state = stateCopy;
       schedule((dispatch, ctx: registryStateAtomContext) => {
         ctx.unsubscribes = ctx.unsubscribes ?? {};
-        const oldItemsIds = new Set(oldAtoms.map((a) => a.id));
-        Object.keys(state).forEach((atomId) => {
-          if (!oldItemsIds.has(atomId)) {
-            const unsubscribe = ctx.unsubscribes![atomId];
-            if (unsubscribe) unsubscribe();
+
+        // Unsubscribe from deleted (unregistered) atoms
+        deletedAtomsIds.forEach((atomId) => {
+          const unsubscribe = ctx.unsubscribes![atomId];
+          if (unsubscribe) {
+            unsubscribe();
+            delete ctx.unsubscribes![atomId];
           }
         });
 
+        // Subscribe to new atoms
         newAtoms.forEach((atom) => {
           ctx.unsubscribes![atom.id] = atom.subscribe((s) =>
             dispatch(create('_updateState', s)),

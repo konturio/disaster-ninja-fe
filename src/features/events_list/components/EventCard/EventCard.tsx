@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import cn from 'clsx';
 import { parseISO } from 'date-fns';
-import { Event } from '~appModule/types';
+import { Event } from '~core/types';
 import { Analytics } from './Analytics/Analytics';
 import s from './EventCard.module.css';
 import { Text } from '@k2-packages/ui-kit';

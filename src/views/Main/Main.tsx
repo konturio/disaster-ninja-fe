@@ -7,7 +7,8 @@ import s from './Main.module.css';
 import { useHistory } from 'react-router';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
-
+import { useAtom } from '@reatom/react';
+import { userResource } from '~core/auth/atoms/userResource';
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -18,7 +19,7 @@ const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
 const { Legend } = lazily(() => import('~features/legend_panel'));
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
-// const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
+const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
 
 const { DrawToolsToolbox } = lazily(
   () =>
@@ -27,37 +28,54 @@ const { DrawToolsToolbox } = lazily(
 
 export function MainView() {
   const history = useHistory();
+  const [{ data: { features: userFeatures } }] = useAtom(userResource);
 
   useEffect(() => {
+    if (!userFeatures) return;
+
     /* Lazy load module */
-    // TODO: Add feature flag check
-    import('~features/url_store').then(({ initUrlStore }) => initUrlStore());
-    import('~features/current_event').then(({ initCurrentEvent }) =>
-      initCurrentEvent(),
-    );
-    import('~features/geometry_uploader').then(({ initFileUploader }) =>
-      initFileUploader(),
-    );
-    import('~features/map_ruler').then(({ initMapRuler }) => initMapRuler());
-    import('~features/boundary_selector').then(({ initBoundarySelector }) =>
-      initBoundarySelector(),
-    );
-    import('~features/layers_in_area').then(({ initLayersInArea }) =>
-      initLayersInArea(),
-    );
-    import('~features/focused_geometry_layer').then(
-      ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
-    );
-    import('~features/reports/').then(({ initReportsIcon }) =>
-      initReportsIcon(history),
-    );
-    import('~features/bivariate_manager/').then(({ initBivariateManager }) =>
-      initBivariateManager(),
-    );
-    import('~features/draw_tools/').then(({ initDrawTools }) =>
-      initDrawTools(),
-    );
-  }, []);
+    if (userFeatures?.url_store === true) {
+      import('~features/url_store').then(({ initUrlStore }) => initUrlStore());
+    }
+    if (userFeatures?.current_event === true) {
+      import('~features/current_event').then(({ initCurrentEvent }) =>
+        initCurrentEvent(),
+      );
+    }
+    if (userFeatures?.geometry_uploader === true) {
+      import('~features/geometry_uploader').then(({ initFileUploader }) =>
+        initFileUploader(),
+      );
+    }
+    if (userFeatures?.map_ruler === true) {
+      import('~features/map_ruler').then(({ initMapRuler }) => initMapRuler());
+    }
+    if (userFeatures?.boundary_selector === true) {
+      import('~features/boundary_selector').then(({ initBoundarySelector }) =>
+        initBoundarySelector(),
+      );
+    }
+    if (userFeatures?.layers_in_area === true) {
+      import('~features/layers_in_area').then(({ initLayersInArea }) =>
+        initLayersInArea(),
+      );
+    }
+    if (userFeatures?.focused_geometry_layer === true) {
+      import('~features/focused_geometry_layer').then(
+        ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
+      );
+    }
+    if (userFeatures?.reports === true) {
+      import('~features/reports/').then(({ initReportsIcon }) =>
+        initReportsIcon(history),
+      );
+    }
+    if (userFeatures?.draw_tools === true) {
+      import('~features/draw_tools/').then(({ initDrawTools }) =>
+        initDrawTools(),
+      );
+    }
+  }, [userFeatures]);
 
   return (
     <>
@@ -68,10 +86,10 @@ export function MainView() {
       </AppHeader>
       <Row>
         <Suspense fallback={null}>
-          <NotificationToast />
-          <SideBar />
-          <EventList />
-          <Analytics />
+          { userFeatures?.toasts === true && <NotificationToast /> }
+          { userFeatures?.side_bar === true && <SideBar /> }
+          { userFeatures?.events_list === true && <EventList /> }
+          { userFeatures?.analytics_panel === true && <Analytics /> }
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -86,16 +104,16 @@ export function MainView() {
           </Suspense>
           <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
-          </div>`
+          </div>
           <Suspense fallback={null}>
             <div className={s.floating}>
               <div id='right-buttons-container' className={s.rightButtonsContainer}></div>
-              <Legend iconsContainerId='right-buttons-container' />
-              <MapLayersList iconsContainerId='right-buttons-container' />
-              {/*<BivariatePanel iconsContainerId='right-buttons-container' />*/}
+              { userFeatures?.legend_panel === true && <Legend iconsContainerId='right-buttons-container' />}
+              { userFeatures?.map_layers_panel === true && <MapLayersList iconsContainerId='right-buttons-container' />}
+              { userFeatures?.bivariate_manager === true && <BivariatePanel iconsContainerId='right-buttons-container' />}
             </div>
           </Suspense>
-          <DrawToolsToolbox />
+          { userFeatures?.draw_tools === true && <DrawToolsToolbox /> }
         </div>
       </Row>
     </>

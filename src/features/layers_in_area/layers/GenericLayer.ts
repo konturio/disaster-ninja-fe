@@ -88,7 +88,8 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       type: 'geojson' as const,
       data: layer.source.data,
     };
-    map.addSource(this._sourceId, mapSource);
+    if (!map.getSource(this._sourceId))
+      map.addSource(this._sourceId, mapSource);
 
     /* Create layer */
     if (this.legend) {
@@ -296,6 +297,8 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     }
 
     const { source, geometry } = data;
+
+    if (source.type === 'drawn' || source.type === 'uploaded') return;
 
     // Update geometry
     if (geometry.type === 'Feature' || geometry.type === 'FeatureCollection') {
