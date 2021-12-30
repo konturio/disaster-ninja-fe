@@ -156,3 +156,14 @@ export function generateLayerStyleFromBivariateLegendBackend(bl: BivariateLegend
   });
 }
 
+export function convertRGBtoObj(colorString: string): { r: number; g: number; b: number; a: number } {
+  const rgbKeys = ['r', 'g', 'b', 'a'];
+  const rgbObj: any = {};
+  const color = colorString.replace(/^rgba?\(|\s+|\)$/g,'').split(',');
+
+  for (const i in rgbKeys)
+    rgbObj[rgbKeys[i]] = parseFloat(color[i]) || 1;
+
+  return rgbObj;
+}
+

@@ -7,7 +7,10 @@ import { GenericLayer } from '../layers/GenericLayer';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { LayerInArea } from '../types';
 import { BivariateLegend, BivariateLegendBackend } from '~core/logical_layers/createLogicalLayerAtom/types';
-import { generateLayerStyleFromBivariateLegendBackend } from '~utils/bivariate/bivariateColorThemeUtils';
+import {
+  convertRGBtoObj,
+  generateLayerStyleFromBivariateLegendBackend,
+} from '~utils/bivariate/bivariateColorThemeUtils';
 import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
 
 type LayersInAreaAtomProps = {
@@ -43,6 +46,13 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
               const xAxis = {...bl.axises.x, steps: bl.axises.x.steps.map(stp => ({value: stp}))};
               const yAxis = {...bl.axises.y, steps: bl.axises.y.steps.map(stp => ({value: stp}))};
               bl.axises = { x: xAxis, y: yAxis } as any;
+
+              // add opacity .5 to colors
+              bl.colors = bl.colors.map(clr => {
+                const clrObj = convertRGBtoObj(clr.color);
+                return { id: clr.id, color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`}
+              });
+
               const bivariateStyle = generateLayerStyleFromBivariateLegendBackend(bl);
               const bivariateLegend: BivariateLegend = {
                 name: layer.name,
@@ -52,6 +62,8 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
                 description: layer.description || '',
                 steps: bl.colors.map(clr => ({ label: clr.id, color: clr.color }))
               };
+
+              console.log(bivariateLegend);
 
               acc.push(createLogicalLayerAtom(
                 new BivariateLayer(
