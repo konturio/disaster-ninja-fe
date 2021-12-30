@@ -1,4 +1,4 @@
-import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
+import { LayerLegend, LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { BivariateLegend } from '~core/logical_layers/createLogicalLayerAtom/types';
@@ -9,8 +9,7 @@ export class BivariateLayer implements LogicalLayer {
   public readonly name: string;
   public readonly group = 'bivariate';
   public readonly category = 'overlay';
-  private readonly _legend: BivariateLegend;
-  readonly legend!: BivariateLegend;
+  public readonly legend: LayerLegend;
   private readonly _layerStyle: BivariateLayerStyle;
 
   private _isMounted = false;
@@ -23,7 +22,6 @@ export class BivariateLayer implements LogicalLayer {
     this.name = name;
     this.id = layerStyle.id;
     this._layerStyle = layerStyle;
-    this._legend = legend;
     this.legend = legend;
   }
 

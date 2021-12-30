@@ -1,8 +1,5 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
-import {
-  LogicalLayerAtom,
-  LogicalLayerAtomState,
-} from '~core/logical_layers/createLogicalLayerAtom';
+import { LogicalLayerAtom, LogicalLayerAtomState } from '~core/logical_layers/createLogicalLayerAtom';
 import { logicalLayersRegistryAtom } from './logicalLayersRegistry';
 
 /**

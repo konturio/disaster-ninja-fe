@@ -1,9 +1,8 @@
-import { AppHeader } from '@k2-packages/ui-kit';
+import { AppHeader, Text } from '@k2-packages/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
 import { ReportsList } from '~features/reports/components/ReportsList/ReportsList';
 import { Row } from '~components/Layout/Layout';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
-import { Text } from '@k2-packages/ui-kit';
 import s from './Reports.module.css';
 import { useHistory } from 'react-router';
 import config from '~core/app_config';

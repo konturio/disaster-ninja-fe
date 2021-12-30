@@ -1,4 +1,4 @@
-import { useEffect, Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { AppHeader, Logo } from '@k2-packages/ui-kit';
 import config from '~core/app_config';

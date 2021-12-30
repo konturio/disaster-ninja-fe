@@ -55,8 +55,7 @@ export interface BivariateLegendBackend {
   steps: BivariateLegendStep[];
 }
 
-export type LayerLegend = SimpleLegend | BivariateLegend;
-export type LayerLegendBackend = SimpleLegend | BivariateLegendBackend;
+export type LayerLegend = SimpleLegend | BivariateLegend | BivariateLegendBackend;
 
 export type LogicalLayerAtomState = {
   id: string;

@@ -1,7 +1,4 @@
-import {
-  LogicalLayer,
-  LogicalLayerAtom,
-} from '~core/logical_layers/createLogicalLayerAtom';
+import { LogicalLayer, LogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
 
 interface MountedLayers {
   atom: LogicalLayerAtom;

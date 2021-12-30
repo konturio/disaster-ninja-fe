@@ -1,7 +1,6 @@
 import { Text } from '@k2-packages/ui-kit';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { TranslationService as i18n } from '~core/localization';
-import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import { Trans } from 'react-i18next';
 import { useEffect } from 'react';
