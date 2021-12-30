@@ -1,5 +1,5 @@
 import { TranslationService as i18n } from '~core/localization';
-import { AnalyticsData, Severity } from '~appModule/types';
+import { AnalyticsData, Severity } from '~core/types';
 import { Panel, PanelIcon, Tabs, Text } from '@k2-packages/ui-kit';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import s from './AnalyticsPanel.module.css';

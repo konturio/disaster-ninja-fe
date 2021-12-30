@@ -3,7 +3,7 @@ import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivar
 import { bivariateCorrelationMatrixAtom } from '~features/bivariate_manager/atoms/bivatiateCorrelationMatrix';
 
 export function initBivariateManager() {
-  bivariateOverlayLayersAtom.subscribe(() => null);
+  // bivariateOverlayLayersAtom.subscribe(() => null);
   // bivariateNumeratorsAtom.subscribe(() => null);
   // bivariateCorrelationMatrixAtom.subscribe(() => null);
 }

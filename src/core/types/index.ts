@@ -2,33 +2,6 @@ import { Stat } from '@k2-packages/bivariate-tools';
 import { Modes } from '@k2-packages/map-draw-tools';
 
 //------------------------------------------------------------------------------
-// State
-//------------------------------------------------------------------------------
-export type StateWithAppModule = {
-  appModule: AppModuleState;
-};
-
-export type AppModuleState = {
-  apiConfig: ApiConfig;
-  mapStyle: MapStyle;
-  stats: null | Stat;
-  selectedOverlayIndex: number;
-  xNumerators: NumeratorWithDenominators[] | null;
-  yNumerators: NumeratorWithDenominators[] | null;
-  correlationMatrix: CorrelationMatrix | null;
-  matrixSelection: MatrixSelection | null;
-  colorThemeCurrent: ColorTheme | null;
-  legendCells: LegendCells | null;
-  selectedPolygon: string | null;
-  activeDrawMode: keyof Modes;
-  showLoadingIndicator: boolean;
-  markers: Marker[];
-  sources: Record<string, unknown>;
-  uploadedGeometry: null | GeoJSON.GeoJSON;
-  disastersList: Event[];
-};
-
-//------------------------------------------------------------------------------
 // Correlations Matrix
 //------------------------------------------------------------------------------
 export type CorrelationMatrix = (number | null)[][];
@@ -127,3 +100,17 @@ export type EventWithGeometry = {
   severity: Severity;
   geojson: GeoJSON.GeoJSON;
 };
+
+export type LegendStepStyle = {
+  'casing-color'?: string;
+  'casing-offset'?: string;
+  'casing-opacity'?: string;
+  'casing-width'?: string;
+  'fill-color'?: string;
+  color?: string;
+  width?: string;
+  offset?: string;
+};
+
+export type LegendIconSize = 'normal' | 'small';
+

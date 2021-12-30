@@ -1,5 +1,5 @@
 import { BivariateLegend } from '~core/logical_layers/createLogicalLayerAtom/types';
-import { ColorTheme } from '~appModule/types';
+import { ColorTheme } from '~core/types';
 import { Stat } from '@k2-packages/bivariate-tools';
 
 export function createBivariateLegend(

@@ -5,7 +5,6 @@ import clsx from 'clsx';
 import { BivariatePanelIcon } from '@k2-packages/default-icons';
 import ReactDOM from 'react-dom';
 import BivariateMatrixContainer from '~features/bivariate_manager/components/BivariateMatrixContainer/BivariateMatrixContainer';
-import panzoom from 'panzoom';
 
 const CustomClosePanelBtn = () => (
   <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
@@ -34,14 +33,6 @@ export function BivariatePanel({
       const cont = iconsContainer.appendChild(document.createElement('div'));
       setChildIconContainer(cont);
       cont.className = s.iconContainerShown;
-    }
-
-    const bivariateContainer = document.getElementById(
-      'bivariate-matrix-container',
-    );
-    if (bivariateContainer) {
-      const inst = panzoom(bivariateContainer, { minZoom: 0.5, maxZoom: 4 });
-      inst.moveTo(0, -430);
     }
   }, []);
 
