@@ -1,7 +1,14 @@
-import type { CategorySettings, GroupSettings, Tree } from './types';
+import { LogicalLayerAtom } from '~core/types/layers';
+import type { CategorySettings, GroupSettings, Tree } from '~core/types/layers';
 
 export function createTree(
-  layers: { id: string; category?: string; group?: string; order?: number }[],
+  layers: {
+    id: string;
+    atom: LogicalLayerAtom;
+    category?: string;
+    group?: string;
+    order?: number;
+  }[],
   {
     categoriesSettings,
     groupsSettings,

@@ -3,6 +3,7 @@ import { NotificationService } from './notifications';
 import { TranslationService } from './localization';
 import { ApiClient } from './api_client';
 import { autoRefreshService } from './auto_refresh';
+import { AuthClient } from '~core/auth/AuthClient';
 
 NotificationService.init();
 export const notificationService = NotificationService.getInstance();
@@ -45,6 +46,10 @@ ApiClient.init({
   translationService: TranslationService,
 });
 export const reportsClient = ApiClient.getInstance('reports');
+
+// init authentication
+AuthClient.init({ apiClient });
+export const authClient = AuthClient.getInstance();
 
 autoRefreshService.start(config.refreshIntervalSec);
 

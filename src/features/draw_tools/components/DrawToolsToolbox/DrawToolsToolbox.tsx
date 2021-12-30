@@ -14,74 +14,82 @@ import { sideControlsBarAtom } from '~core/shared_state';
 import { drawingIsStartedAtom } from '~features/draw_tools/atoms/drawingIsStartedAtom';
 
 export const DrawToolsToolbox = () => {
-  const [activeDrawMode, { setDrawMode, toggleDrawMode }] = useAtom(activeDrawModeAtom);
-  const [selected, { setIndexes }] = useAtom(selectedIndexesAtom)
-  const [, { removeByIndexes }] = useAtom(drawnGeometryAtom)
-  const [, { disable: disableSideIcon }] = useAtom(sideControlsBarAtom)
-  const [drawingIsStarted, { setIsStarted }] = useAtom(drawingIsStartedAtom)
+  const [activeDrawMode, { setDrawMode, toggleDrawMode }] =
+    useAtom(activeDrawModeAtom);
+
+  const [selected, { setIndexes }] = useAtom(selectedIndexesAtom);
+  const [, { removeByIndexes }] = useAtom(drawnGeometryAtom);
+  const [, { disable: disableSideIcon }] = useAtom(sideControlsBarAtom);
+  const [drawingIsStarted] = useAtom(drawingIsStartedAtom);
   useAtom(modeWatcherAtom);
 
-  const onPolygonClick = useCallback(
-    () => {
-      toggleDrawMode(drawModes.DrawPolygonMode);
-    }, [],
-  );
+  const onPolygonClick = useCallback(() => {
+    toggleDrawMode(drawModes.DrawPolygonMode);
+  }, [toggleDrawMode]);
 
-  const onLineClick = useCallback(
-    () => {
-      toggleDrawMode(drawModes.DrawLineMode);
-    }, [],
-  );
-  const onPointClick = useCallback(
-    () => {
-      toggleDrawMode(drawModes.DrawPointMode);
-    }, [],
-  );
+  const onLineClick = useCallback(() => {
+    toggleDrawMode(drawModes.DrawLineMode);
+  }, [toggleDrawMode]);
 
-  const finishDrawing = useCallback(
-    () => {
-      disableSideIcon(DRAW_TOOLS_CONTROL_ID)
-      setDrawMode(undefined);
-    },
-    [setDrawMode],
-  );
+  const onPointClick = useCallback(() => {
+    toggleDrawMode(drawModes.DrawPointMode);
+  }, [toggleDrawMode]);
 
-  const onDelete = useCallback(
-    () => {
-      if (selected.length) {
-        setIndexes([])
-        removeByIndexes(selected)
-      }
-    },
-    [selected],
-  );
+  const finishDrawing = useCallback(() => {
+    disableSideIcon(DRAW_TOOLS_CONTROL_ID);
+    setDrawMode(null);
+  }, [disableSideIcon, setDrawMode]);
 
+  const onDelete = useCallback(() => {
+    if (selected.length) {
+      setIndexes([]);
+      removeByIndexes(selected);
+    }
+  }, [removeByIndexes, selected, setIndexes]);
 
   return activeDrawMode ? (
     <div className={s.drawToolsContainer}>
-      {!drawingIsStarted && <div className={s.drawHint}>
-        <Text type="caption">
-          <span className={s.drawHintText}>{i18n.t('Click on the map to begin drawing')}</span>
-        </Text>
-      </div>}
+      {!drawingIsStarted && (
+        <div className={s.drawHint}>
+          <Text type="caption">
+            <span>{i18n.t('Click on the map to begin drawing')}</span>
+          </Text>
+        </div>
+      )}
 
       <div className={s.toolBox}>
-        <Button className={s.modeBtn} active={activeDrawMode === drawModes.DrawPolygonMode} onClick={onPolygonClick}>
+        <Button
+          className={s.modeBtn}
+          active={activeDrawMode === drawModes.DrawPolygonMode}
+          onClick={onPolygonClick}
+        >
           <div className={s.btnContent}>
             <DrawPolygonIcon /> {i18n.t('Area')}
           </div>
         </Button>
-        <Button className={s.modeBtn} active={activeDrawMode === drawModes.DrawLineMode} onClick={onLineClick}>
+        <Button
+          className={s.modeBtn}
+          active={activeDrawMode === drawModes.DrawLineMode}
+          onClick={onLineClick}
+        >
           <div className={s.btnContent}>
             <DrawLineIcon /> {i18n.t('Line')}
           </div>
         </Button>
-        <Button className={s.modeBtn} active={activeDrawMode === drawModes.DrawPointMode} onClick={onPointClick}>
+        <Button
+          className={s.modeBtn}
+          active={activeDrawMode === drawModes.DrawPointMode}
+          onClick={onPointClick}
+        >
           <div className={s.btnContent}>
             <DrawPointIcon /> {i18n.t('Point')}
           </div>
         </Button>
-        <Button className={s.modeBtn} active={Boolean(selected.length)} onClick={onDelete}>
+        <Button
+          className={s.modeBtn}
+          active={Boolean(selected.length)}
+          onClick={onDelete}
+        >
           <div className={s.btnContent}>
             <TrashBinIcon />
           </div>

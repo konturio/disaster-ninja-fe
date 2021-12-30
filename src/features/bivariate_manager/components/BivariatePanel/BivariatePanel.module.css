@@ -32,7 +32,7 @@
 	height: 100%;
 	width: 800px;
 	padding: 0 18px 18px 18px;
-	overflow: hidden;
+	overflow: auto;
 }
 
 .panelBody :first-child {

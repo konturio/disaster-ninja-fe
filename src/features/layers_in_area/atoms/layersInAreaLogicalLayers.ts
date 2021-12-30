@@ -1,61 +1,99 @@
+import type { Action } from '@reatom/core';
 import { createBindAtom } from '~utils/atoms';
 import { logicalLayersRegistryAtom } from '~core/logical_layers/atoms/logicalLayersRegistry';
-import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
+import { createLogicalLayerAtom, LogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
 import { layersInAreaResourceAtom } from './layersInArea';
 import { GenericLayer } from '../layers/GenericLayer';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { LayerInArea } from '~features/layers_in_area/types';
+import { LayerInArea } from '../types';
 import { BivariateLegend, BivariateLegendBackend } from '~core/logical_layers/createLogicalLayerAtom/types';
 import { generateLayerStyleFromBivariateLegendBackend } from '~utils/bivariate/bivariateColorThemeUtils';
 import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
 
+type LayersInAreaAtomProps = {
+  loading: boolean;
+  data?: LayerInArea[] | null;
+  error: any;
+};
 export const layersInAreaLogicalLayersAtom = createBindAtom(
   {
     layersInAreaResourceAtom,
   },
-  ({ get, schedule, getUnlistedState }) => {
-    const { data: layersInArea, loading } = get('layersInAreaResourceAtom');
+  ({ onChange, schedule }) => {
+    onChange(
+      'layersInAreaResourceAtom',
+      (
+        { loading, data: newLayers, error }: LayersInAreaAtomProps,
+        prevData: LayersInAreaAtomProps | null,
+      ) => {
+        if (loading) return null;
+        const oldLayers: LayerInArea[] = prevData?.data || [];
+        const actions: Action[] = [];
 
-    if (layersInArea && !loading) {
-      const currentRegistry = getUnlistedState(logicalLayersRegistryAtom);
-      const registry = new Set(Object.keys(currentRegistry));
-      const newLayers = layersInArea.filter((l) => !registry.has(l.id));
-      /* Create logical layers and wrap into atoms */
-      const logicalLayersAtoms = newLayers.map((layer: LayerInArea) => {
-        if (layer.legend?.type === 'bivariate') {
-          const bl = layer.legend as BivariateLegendBackend;
-          if (!bl) return null;
-          const xAxis = {...bl.axises.x, steps: bl.axises.x.steps.map(stp => ({value: stp}))};
-          const yAxis = {...bl.axises.y, steps: bl.axises.y.steps.map(stp => ({value: stp}))};
-          bl.axises = { x: xAxis, y: yAxis } as any;
-          const bivariateStyle = generateLayerStyleFromBivariateLegendBackend(bl);
-          const bivariateLegend: BivariateLegend = {
-            name: layer.name,
-            type: "bivariate",
-            axis: bl.axises,
-            copyrights: layer.copyrights || [],
-            description: layer.description || '',
-            steps: bl.colors.map(clr => ({ label: clr.id, color: clr.color }))
-          };
+        /* Find what added */
+        const oldLayersIds = new Set(oldLayers.map((l) => l.id));
+        const mustBeRegistered = newLayers
+          ? newLayers.filter((l) => !oldLayersIds.has(l.id))
+          : [];
+        const logicalLayersAtoms = mustBeRegistered.reduce((acc: LogicalLayerAtom[], layer) => {
+            if (layer.legend?.type === 'bivariate') {
+              const bl = layer.legend as BivariateLegendBackend;
+              if (!bl) return acc;
 
-          return createLogicalLayerAtom(
-            new BivariateLayer(
-              layer.name,
-              bivariateStyle,
-              bivariateLegend,
-            ),
+              const xAxis = {...bl.axises.x, steps: bl.axises.x.steps.map(stp => ({value: stp}))};
+              const yAxis = {...bl.axises.y, steps: bl.axises.y.steps.map(stp => ({value: stp}))};
+              bl.axises = { x: xAxis, y: yAxis } as any;
+              const bivariateStyle = generateLayerStyleFromBivariateLegendBackend(bl);
+              const bivariateLegend: BivariateLegend = {
+                name: layer.name,
+                type: "bivariate",
+                axis: bl.axises,
+                copyrights: layer.copyrights || [],
+                description: layer.description || '',
+                steps: bl.colors.map(clr => ({ label: clr.id, color: clr.color }))
+              };
+
+              acc.push(createLogicalLayerAtom(
+                new BivariateLayer(
+                  layer.name,
+                  bivariateStyle,
+                  bivariateLegend,
+                ),
+              ));
+            } else {
+              acc.push(createLogicalLayerAtom(new GenericLayer(layer), focusedGeometryAtom))
+            }
+            return acc;
+        }, []
+
+        );
+        if (logicalLayersAtoms.length > 0) {
+          actions.push(
+            logicalLayersRegistryAtom.registerLayer(logicalLayersAtoms),
           );
-        } else {
-          return createLogicalLayerAtom(new GenericLayer(layer), focusedGeometryAtom);
         }
-      });
-      if (logicalLayersAtoms.length > 0) {
-        /* Batch actions into one transaction */
-        schedule((dispatch) => {
-          dispatch(logicalLayersRegistryAtom.registerLayer(logicalLayersAtoms));
+
+        /* Find what removed */
+        const newLayersIds = new Set(
+          newLayers ? newLayers.map((l) => l.id) : [],
+        );
+        const mustBeUnregistered = oldLayers.filter(
+          (layer) => !newLayersIds.has(layer.id),
+        );
+
+        mustBeUnregistered.forEach((config) => {
+          const action = logicalLayersRegistryAtom.unregisterLayer(config.id);
+          actions.push(action);
         });
-      }
-    }
+
+        /* Batch actions into one transaction */
+        if (actions.length > 0) {
+          schedule((dispatch) => {
+            dispatch(actions);
+          });
+        }
+      },
+    );
   },
   'layersInAreaLogicalLayers',
 );

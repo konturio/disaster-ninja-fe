@@ -2,7 +2,7 @@ import { createBindAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { BivariateLayerStyle, generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
-import { ColorTheme } from '~appModule/types';
+import { ColorTheme } from '~core/types';
 import { logicalLayersRegistryAtom } from '~core/shared_state';
 import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
 import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';

@@ -1,4 +1,4 @@
-import { LegendStepStyle, LegendIconSize } from '~components/LegendPanel/types';
+import { LegendStepStyle, LegendIconSize } from '~core/types';
 const sizes = {
   normal: 16,
   small: 12,

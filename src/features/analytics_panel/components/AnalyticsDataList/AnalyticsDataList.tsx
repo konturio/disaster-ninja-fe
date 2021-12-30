@@ -1,5 +1,5 @@
 import s from './AnalyticsData.module.css';
-import { AnalyticsData } from '~appModule/types';
+import { AnalyticsData } from '~core/types';
 import { TranslationService as t } from '~core/localization';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 

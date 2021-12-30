@@ -1,8 +1,8 @@
 import { generateBivariateStyleForAxis, Stat } from '@k2-packages/bivariate-tools';
 import interpolate from 'color-interpolate';
-import { ColorTheme } from '~appModule/types';
 import config from '~core/app_config';
 import { BivariateLegendBackend } from '~core/logical_layers/createLogicalLayerAtom/types';
+import { ColorTheme } from '~core/types';
 
 export interface BivariateLayerStyle {
   id: string;

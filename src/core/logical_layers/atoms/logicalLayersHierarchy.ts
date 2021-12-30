@@ -1,3 +1,4 @@
+import type { LogicalLayerAtom } from '~core/types/layers';
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { logicalLayersRegistryAtom } from './logicalLayersRegistry';
 
@@ -10,7 +11,7 @@ import { logicalLayersRegistryAtom } from './logicalLayersRegistry';
  * */
 export type LogicalLayersHierarchy = Record<
   string,
-  { id: string; group?: string; category?: string }
+  { id: string; atom: LogicalLayerAtom; group?: string; category?: string }
 >;
 export const logicalLayersHierarchyAtom = createBindAtom(
   {
@@ -25,6 +26,7 @@ export const logicalLayersHierarchyAtom = createBindAtom(
         const { group, category } = layer;
         newState[l.id] = {
           id: l.id,
+          atom: l,
           group,
           category,
         };

@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import { Marker } from '~appModule/types';
+import { Marker } from '~core/types';
 import { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
 
 // wrap react element into HTMLElement
