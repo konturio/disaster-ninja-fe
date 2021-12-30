@@ -1,8 +1,8 @@
-import { drawModes } from "../constants";
-import { LocalEditableGeojsonLayer } from "../layers/LocalEditableGeojsonLayer";
-import { LocalModifyMode } from "../modes/modifyMode";
-import Icon from '../icons/iconAtlas.png'
-import app_config from "~core/app_config";
+import { drawModes } from '../constants';
+import { LocalEditableGeojsonLayer } from '../layers/LocalEditableGeojsonLayer';
+import { LocalModifyMode } from '../modes/modifyMode';
+import Icon from '../icons/iconAtlas.png';
+import app_config from '~core/app_config';
 
 
 export const modifyDeckLayerConfig = {

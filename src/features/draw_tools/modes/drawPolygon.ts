@@ -1,8 +1,5 @@
-import {
-  ClickEvent,
-  ModeProps,
-} from '@nebula.gl/edit-modes';
-import { Polygon, FeatureCollection } from '@nebula.gl/edit-modes/';
+import { ClickEvent, ModeProps } from '@nebula.gl/edit-modes';
+import { FeatureCollection, Polygon } from '@nebula.gl/edit-modes/';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 
 import { CustomDrawPolygonMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomDrawPolygonMode';

@@ -1,4 +1,4 @@
-import { GroupSettings, CategorySettings } from '../types/layers';
+import { CategorySettings, GroupSettings } from '../types/layers';
 
 export const categoriesSettings: Record<string, CategorySettings> = {
   overlay: {

@@ -1,4 +1,4 @@
-import { LayerLegendBackend } from '~core/logical_layers/createLogicalLayerAtom/types';
+import { LayerLegend } from '~core/logical_layers/createLogicalLayerAtom';
 
 interface TileSource {
   type: 'vector' | 'raster';
@@ -19,7 +19,7 @@ export interface LayerInArea {
   category?: 'base' | 'overlay';
   group?: string;
   copyrights?: string[];
-  legend?: LayerLegendBackend;
+  legend?: LayerLegend;
   boundaryRequiredForRetrieval: boolean;
 }
 

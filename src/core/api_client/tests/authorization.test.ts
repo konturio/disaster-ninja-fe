@@ -2,17 +2,10 @@ import MockAdapter from 'axios-mock-adapter';
 import sinon from 'sinon';
 import type { NotificationMessage } from '../../../core/types/notification';
 import type { AuthResponseData } from '../../../core/api_client/ApiTypes';
-import {
-  setupTestContext,
-  createLocalStorageMock,
-} from '../../../utils/testsUtils/setupTest';
+import { createLocalStorageMock, setupTestContext } from '../../../utils/testsUtils/setupTest';
 import { ApiClientError } from '../ApiProblem';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
-import {
-  ApiClient,
-  INotificationService,
-  ITranslationService,
-} from '../ApiClient';
+import { ApiClient, INotificationService, ITranslationService } from '../ApiClient';
 
 /* Setup stage */
 let n = 0;

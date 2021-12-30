@@ -1,13 +1,6 @@
-import {
-  ApiClient,
-  INotificationService,
-  ITranslationService,
-} from '../ApiClient';
+import { ApiClient, INotificationService, ITranslationService } from '../ApiClient';
 import { NotificationMessage } from '../../../core/types/notification';
-import {
-  setupTestContext,
-  createLocalStorageMock,
-} from '../../../utils/testsUtils/setupTest';
+import { createLocalStorageMock, setupTestContext } from '../../../utils/testsUtils/setupTest';
 
 /* Setup stage */
 const test = setupTestContext({

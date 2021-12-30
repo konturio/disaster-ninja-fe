@@ -3,7 +3,6 @@ import { useAtom } from '@reatom/react';
 import { tableAtom } from '../../atoms/tableAtom';
 import clsx from 'clsx';
 import i18next from 'i18next';
-import commonStyles from '../ReportsList/ReportsList.module.css';
 import styles from './ReportTable.module.css';
 import sortIcon from '../../icons/sort_triangle.svg';
 import { TableCell } from './TableCell';

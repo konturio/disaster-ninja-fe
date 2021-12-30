@@ -1,6 +1,5 @@
-import { AppHeader } from '@k2-packages/ui-kit';
+import { AppHeader, Text } from '@k2-packages/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
-import { Text } from '@k2-packages/ui-kit';
 import { ReportInfo } from '~features/reports/components/ReportInfo/ReportInfo';
 import { Row } from '~components/Layout/Layout';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';

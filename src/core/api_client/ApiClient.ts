@@ -1,17 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import jwt_decode from 'jwt-decode';
-import {
-  ApiErrorResponse,
-  ApiResponse,
-  ApisauceConfig,
-  ApisauceInstance,
-  create,
-} from 'apisauce';
-import {
-  ApiClientError,
-  GeneralApiProblem,
-  getGeneralApiProblem,
-} from './ApiProblem';
+import { ApiErrorResponse, ApiResponse, ApisauceConfig, ApisauceInstance, create } from 'apisauce';
+import { ApiClientError, GeneralApiProblem, getGeneralApiProblem } from './ApiProblem';
 import { AuthResponseData, RequestParams } from './ApiTypes';
 import { NotificationMessage } from '~core/types/notification';
 

@@ -1,7 +1,7 @@
-import { LogicalLayer, LogicalLayerAtomState } from "~core/logical_layers/createLogicalLayerAtom";
-import { logicalLayersRegistryStateAtom } from "~core/shared_state";
-import { createBindAtom } from "~utils/atoms";
- 
+import { LogicalLayer, LogicalLayerAtomState } from '~core/logical_layers/createLogicalLayerAtom';
+import { logicalLayersRegistryStateAtom } from '~core/shared_state';
+import { createBindAtom } from '~utils/atoms';
+
 export const bivariateLayersGroupAtom = createBindAtom({
   setBivariateIds: (ids: string[]) => ids,
   registry: logicalLayersRegistryStateAtom

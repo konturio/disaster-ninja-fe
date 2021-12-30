@@ -1,8 +1,8 @@
-import { EditableGeoJsonLayer } from "@nebula.gl/layers";
-import { drawModes } from "../constants";
-import { LocalDrawLineStringMode } from "../modes/drawLine";
-import Icon from '../icons/iconAtlas.png'
-import app_config from "~core/app_config";
+import { EditableGeoJsonLayer } from '@nebula.gl/layers';
+import { drawModes } from '../constants';
+import { LocalDrawLineStringMode } from '../modes/drawLine';
+import Icon from '../icons/iconAtlas.png';
+import app_config from '~core/app_config';
 
 export const drawLineDeckLayerConfig = {
   id: drawModes.DrawLineMode,

@@ -1,32 +1,16 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
+import type { LayerLegend, LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 import {
-  AnyLayer,
-  VectorSource,
-  RasterSource,
-  GeoJSONSourceRaw,
-} from 'maplibre-gl';
-import type {
-  LogicalLayer,
-  LayerLegend,
-} from '~core/logical_layers/createLogicalLayerAtom';
-import {
-  mapCSSToMapBoxProperties,
   applyLegendConditions,
+  mapCSSToMapBoxProperties,
   setSourceLayer,
 } from '~utils/map/mapCSSToMapBoxPropertiesConverter';
 import { apiClient, notificationService } from '~core/index';
 import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '../constants';
-import {
-  LayerInArea,
-  LayerInAreaSource,
-  LayerGeoJSONSource,
-  LayerTileSource,
-} from '../types';
+import { LayerGeoJSONSource, LayerInArea, LayerInAreaSource, LayerTileSource } from '../types';
 import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
-import {
-  addZoomFilter,
-  onActiveContributorsClick,
-} from './activeContributorsLayers';
+import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 
@@ -37,7 +21,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
   public readonly category?: string;
   public readonly group?: string;
   public readonly description?: string;
-  public readonly copyright?: string;
+  public readonly copyrights?: string[];
   public readonly boundaryRequiredForRetrieval: boolean;
   private _layerIds: string[];
   private _sourceId: string;
@@ -57,7 +41,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     this.category = layer.category;
     this.group = layer.group;
     this.description = layer.description;
-    this.copyright = layer.copyright;
+    this.copyrights = layer.copyrights;
     this.boundaryRequiredForRetrieval = layer.boundaryRequiredForRetrieval;
     this.legend = layer.legend;
     /* private */
@@ -291,8 +275,8 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
           );
           return;
         }
-        const { linkProperty } = this.legend;
 
+        const linkProperty = 'linkProperty' in this.legend ? this.legend.linkProperty : null;
         if (linkProperty) {
           const handler = (e) => {
             this.onMapClick(map, e, linkProperty);
