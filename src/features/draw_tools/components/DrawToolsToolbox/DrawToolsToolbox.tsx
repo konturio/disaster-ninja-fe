@@ -2,19 +2,11 @@ import { Button, Text } from '@k2-packages/ui-kit';
 import { useCallback } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import s from './DrawToolToolbox.module.css';
-import {
-  DrawLineIcon,
-  DrawPointIcon,
-  DrawPolygonIcon,
-  TrashBinIcon,
-} from '@k2-packages/default-icons';
+import { DrawLineIcon, DrawPointIcon, DrawPolygonIcon, TrashBinIcon } from '@k2-packages/default-icons';
 import { useAtom } from '@reatom/react';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import clsx from 'clsx';
-import {
-  drawModes,
-  DRAW_TOOLS_CONTROL_ID,
-} from '~features/draw_tools/constants';
+import { DRAW_TOOLS_CONTROL_ID, drawModes } from '~features/draw_tools/constants';
 import { modeWatcherAtom } from '~features/draw_tools/atoms/drawLayerAtom';
 import { selectedIndexesAtom } from '~features/draw_tools/atoms/selectedIndexesAtom';
 import { drawnGeometryAtom } from '~features/draw_tools/atoms/drawnGeometryAtom';

@@ -1,4 +1,5 @@
 import { AnyLayer, LineLayer } from 'maplibre-gl';
+
 interface CasingLineLayer extends Omit<LineLayer, 'type'> {
   type: 'casing_line';
   paint: Record<string, string | number>;

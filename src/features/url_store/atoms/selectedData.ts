@@ -1,10 +1,6 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { UrlData } from '../types';
-import {
-  currentEventAtom,
-  currentEpisodeAtom,
-  currentMapPositionAtom,
-} from '~core/shared_state';
+import { currentEpisodeAtom, currentEventAtom, currentMapPositionAtom } from '~core/shared_state';
 import { logicalLayersRegistryStateAtom } from '~core/logical_layers/atoms/logicalLayersRegistryState';
 
 /* Compose shared state values into one atom */

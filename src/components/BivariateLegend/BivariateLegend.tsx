@@ -15,7 +15,7 @@ export function BivariateLegend({ layer, extraIcons, showDescrption = true }: Bi
   const tipText = useMemo(() => {
     if (!layer.legend || layer.legend.type === 'simple') return '';
     let message = '';
-    if (layer.legend.copyrights && layer.legend.copyrights.length) {
+    if ('copyrights' in layer.legend && layer.legend.copyrights && layer.legend.copyrights.length) {
       layer.legend.copyrights.forEach((copyright, index) => {
         if (index) {
           message += '\n';
@@ -32,7 +32,9 @@ export function BivariateLegend({ layer, extraIcons, showDescrption = true }: Bi
         <Text type="long-m">
           <span className={s.layerName}>{layer.name}</span>
         </Text>
-        <Tooltip className={s.tooltip} tipText={tipText} />
+        {tipText &&
+          <Tooltip className={s.tooltip} tipText={tipText} />
+        }
         {extraIcons && [...extraIcons]}
       </div>}
 
@@ -40,11 +42,11 @@ export function BivariateLegend({ layer, extraIcons, showDescrption = true }: Bi
         showAxisLabels
         size={3}
         cells={invertClusters(layer.legend.steps, 'label')}
-        axis={layer.legend.axis as any}
+        axis={'axis' in layer.legend && layer.legend.axis as any}
       />
 
       {showDescrption && <Text type="caption">
-        {layer.description || layer.legend.description}
+        {layer.description || ('description' in layer.legend && layer.legend.description)}
       </Text>}
     </div> : null
 }

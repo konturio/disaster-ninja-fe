@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import s from './Analytics.module.css';
 import peopleIcon from './icons/people.svg';
 import areaIcon from './icons/area.svg';
-import mapIcon from './icons/map.svg';
 import { TranslationService as i18n } from '~core/localization';
 
 const Sub = ({ children }) => (

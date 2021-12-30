@@ -70,11 +70,6 @@ export function MainView() {
         initReportsIcon(history),
       );
     }
-    if (userFeatures?.bivariate_manager === true) {
-      import('~features/bivariate_manager/').then(({ initBivariateManager }) =>
-        initBivariateManager(),
-      );
-    }
     if (userFeatures?.draw_tools === true) {
       import('~features/draw_tools/').then(({ initDrawTools }) =>
         initDrawTools(),

@@ -1,9 +1,6 @@
 import { sideControlsBarAtom } from '~core/shared_state';
 import MapRulerIcon from '@k2-packages/default-icons/tslib/icons/MapRulerIcon';
-import {
-  MAP_RULER_CONTROL_ID,
-  MAP_RULER_CONTROL_NAME,
-} from '~features/map_ruler/constants';
+import { MAP_RULER_CONTROL_ID, MAP_RULER_CONTROL_NAME } from '~features/map_ruler/constants';
 import { mapRulerLogicalLayerAtom } from '~features/map_ruler/atoms/mapRulerLogicalLayer';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
 

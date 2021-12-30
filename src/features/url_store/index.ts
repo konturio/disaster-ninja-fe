@@ -1,6 +1,6 @@
 import {
-  currentEventAtom,
   currentEpisodeAtom,
+  currentEventAtom,
   currentMapPositionAtom,
   logicalLayersRegistryAtom,
 } from '~core/shared_state';

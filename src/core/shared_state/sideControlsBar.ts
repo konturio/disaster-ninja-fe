@@ -1,5 +1,5 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
-import { Action } from '@reatom/core'
+import { Action } from '@reatom/core';
 
 export interface SideControl {
   id: string;
