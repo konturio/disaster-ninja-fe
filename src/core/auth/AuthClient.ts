@@ -33,7 +33,7 @@ export class AuthClient {
     return AuthClient.instance;
   }
 
-  public async authenticate() {
-    userResource.subscribe(() => {/*empty*/});
+  public authenticate() {
+    // auth functions go here
   }
 }

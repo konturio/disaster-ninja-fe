@@ -4,8 +4,6 @@ import { TranslationService } from './localization';
 import { ApiClient } from './api_client';
 import { autoRefreshService } from './auto_refresh';
 import { AuthClient } from '~core/auth/AuthClient';
-import { enableMocking } from '~utils/axios/axiosMockUtils';
-import { setupTemporaryMocking } from '~utils/axios/setupTemporaryMocking';
 
 NotificationService.init();
 export const notificationService = NotificationService.getInstance();
@@ -18,9 +16,6 @@ ApiClient.init({
   translationService: TranslationService,
 });
 export const apiClient = ApiClient.getInstance();
-// todo: Remove mocking once backend service will be fully complete
-enableMocking(true);
-setupTemporaryMocking(apiClient['apiSauceInstance'].axiosInstance);
 
 // initialize boundaries client
 ApiClient.init({
