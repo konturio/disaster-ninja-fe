@@ -1,8 +1,8 @@
-import { DrawModeType } from "../constants"
-import { drawLineDeckLayerConfig } from "./drawLine"
-import { drawPointDeckLayerConfig } from "./drawPoint"
-import { drawPolyDeckLayerConfig } from "./drawPolyLayer"
-import { modifyDeckLayerConfig } from "./modifyLayer"
+import { DrawModeType } from '../constants';
+import { drawLineDeckLayerConfig } from './drawLine';
+import { drawPointDeckLayerConfig } from './drawPoint';
+import { drawPolyDeckLayerConfig } from './drawPolyLayer';
+import { modifyDeckLayerConfig } from './modifyLayer';
 
 
 export const layersConfigs: {

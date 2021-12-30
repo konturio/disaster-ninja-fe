@@ -1,9 +1,5 @@
 import { sideControlsBarAtom } from '~core/shared_state';
-import {
-  DRAW_TOOLS_CONTROL_ID,
-  DRAW_TOOLS_CONTROL_NAME,
-  drawModes,
-} from '~features/draw_tools/constants';
+import { DRAW_TOOLS_CONTROL_ID, DRAW_TOOLS_CONTROL_NAME, drawModes } from '~features/draw_tools/constants';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import { DrawToolsIcon } from '@k2-packages/default-icons';
 import { drawLayerAtom } from './atoms/drawLayerAtom';

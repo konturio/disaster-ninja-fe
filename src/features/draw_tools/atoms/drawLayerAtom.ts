@@ -1,6 +1,6 @@
 import { activeDrawModeAtom } from './activeDrawMode';
 import { createBindAtom } from '~utils/atoms/createBindAtom';
-import { DrawModeType, DRAW_TOOLS_LAYER_ID } from '../constants';
+import { DRAW_TOOLS_LAYER_ID, DrawModeType } from '../constants';
 import { DrawModeLayer } from '../layers/DrawModeLayer';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { currentMapAtom } from '~core/shared_state';

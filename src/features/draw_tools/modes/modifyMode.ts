@@ -1,9 +1,5 @@
-import {
-  ClickEvent,
-  FeatureCollection,
-  PointerMoveEvent,
-} from '@nebula.gl/edit-modes/';
-import { ModeProps, ImmutableFeatureCollection } from '@nebula.gl/edit-modes';
+import { ClickEvent, FeatureCollection } from '@nebula.gl/edit-modes/';
+import { ImmutableFeatureCollection, ModeProps } from '@nebula.gl/edit-modes';
 import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
 
 // Source code https://gitlab.com/kontur-private/k2/k2-front-end/-/blob/master/k2-packages/map-draw-tools/src/customDrawModes/CustomModifyMode.ts

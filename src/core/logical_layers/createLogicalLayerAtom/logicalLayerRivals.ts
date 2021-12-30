@@ -1,14 +1,7 @@
 import { Action } from '@reatom/core';
-import {
-  layersGroupsSettingsAtom,
-  layersCategoriesSettingsAtom,
-  logicalLayersRegistryAtom,
-} from '~core/shared_state';
+import { layersCategoriesSettingsAtom, layersGroupsSettingsAtom, logicalLayersRegistryAtom } from '~core/shared_state';
 import { CategorySettings, GroupSettings } from '~core/types/layers';
-import {
-  logicalLayersHierarchyAtom,
-  LogicalLayersHierarchy,
-} from '../atoms/logicalLayersHierarchy';
+import { LogicalLayersHierarchy, logicalLayersHierarchyAtom } from '../atoms/logicalLayersHierarchy';
 
 import { logicalLayersRegistryStateAtom } from '../atoms/logicalLayersRegistryState';
 

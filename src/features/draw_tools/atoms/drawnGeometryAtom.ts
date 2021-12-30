@@ -1,6 +1,6 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { FeatureCollection, Feature } from 'geojson';
+import { Feature, FeatureCollection } from 'geojson';
 import { activeDrawModeAtom } from './activeDrawMode';
 
 const defaultState: FeatureCollection = {

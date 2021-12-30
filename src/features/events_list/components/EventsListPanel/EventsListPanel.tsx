@@ -11,10 +11,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useAtom } from '@reatom/react';
 import { sideControlsBarAtom } from '~core/shared_state';
 import clsx from 'clsx';
-import {
-  EVENTLIST_CONROL_ID,
-  EVENTLIST_CONROL_NAME,
-} from '~features/events_list/constants';
+import { EVENTLIST_CONROL_ID, EVENTLIST_CONROL_NAME } from '~features/events_list/constants';
 import eventsIcon from '~features/events_list/icons/eventsIcon.svg';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 

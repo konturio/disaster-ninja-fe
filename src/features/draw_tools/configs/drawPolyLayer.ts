@@ -1,8 +1,8 @@
-import { EditableGeoJsonLayer } from "@nebula.gl/layers";
-import { drawModes } from "../constants";
-import { LocalDrawPolygonMode } from "../modes/drawPolygon";
-import Icon from '../icons/iconAtlas.png'
-import app_config from "~core/app_config";
+import { EditableGeoJsonLayer } from '@nebula.gl/layers';
+import { drawModes } from '../constants';
+import { LocalDrawPolygonMode } from '../modes/drawPolygon';
+import Icon from '../icons/iconAtlas.png';
+import app_config from '~core/app_config';
 
 export const drawPolyDeckLayerConfig = {
   id: drawModes.DrawPolygonMode,

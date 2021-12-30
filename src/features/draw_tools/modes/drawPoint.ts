@@ -1,8 +1,4 @@
-import {
-  ClickEvent,
-  ModeProps,
-  DrawPointMode,
-} from '@nebula.gl/edit-modes';
+import { ClickEvent, DrawPointMode, ModeProps } from '@nebula.gl/edit-modes';
 import { FeatureCollection } from '@nebula.gl/edit-modes/';
 
 

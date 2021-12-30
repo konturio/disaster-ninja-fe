@@ -44,7 +44,18 @@ export interface BivariateLegend {
   copyrights: string[];
 }
 
-export type LayerLegend = SimpleLegend | BivariateLegend;
+export interface BivariateLegendBackend {
+  name: string;
+  type: 'bivariate';
+  axises: {
+    x: Axis;
+    y: Axis;
+  };
+  colors: { id: string; color: string }[];
+  steps: BivariateLegendStep[];
+}
+
+export type LayerLegend = SimpleLegend | BivariateLegend | BivariateLegendBackend;
 
 export type LogicalLayerAtomState = {
   id: string;
