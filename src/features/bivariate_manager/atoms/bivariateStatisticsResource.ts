@@ -8,7 +8,6 @@ let allMapStats: any;
 export const bivariateStatisticsResourceAtom = createResourceAtom(
   focusedGeometryAtom,
   async (geom) => {
-    console.log('fetch statistics', geom);
     if (!geom && allMapStats) {
       return allMapStats;
     }
@@ -91,8 +90,6 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
     if (!geom && !allMapStats) {
       allMapStats = responseData.data;
     }
-
-    console.log('fetch statistics complete');
 
     return responseData.data;
   },
