@@ -25,8 +25,10 @@ export const modeWatcherAtom = createBindAtom(
   },
   ({ onChange, schedule, get }, prevMode: DrawModeType | null = null) => {
     onChange('activeDrawModeAtom', (mode) => {
-      // turn on interactivity in case user swithced mode without finishing drawing
       const map = get('currentMapAtom');
+      const drawLayerState = get('drawLayerAtom')
+
+      // turn on interactivity in case user swithced mode without finishing drawing
       if (map) setMapInteractivity(map, true);
 
       if (!mode) {
@@ -35,7 +37,7 @@ export const modeWatcherAtom = createBindAtom(
         if (!prevMode) {
           drawModeLayer.addClickListener();
         }
-        if (!drawLayerAtom.getState().isMounted)
+        if (!drawLayerState.isMounted)
           return schedule((dispatch) =>
             dispatch(activeDrawModeAtom.setDrawMode(null)),
           );

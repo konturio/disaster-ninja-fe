@@ -14,6 +14,7 @@ import { currentNotificationAtom } from '~core/shared_state';
 import { TranslationService as i18n } from '~core/localization';
 import kinks from '@turf/kinks';
 import { temporaryGeometryAtom } from '../atoms/temporaryGeometryAtom';
+import { Unsubscribe } from '@reatom/core';
 
 type mountedDeckLayersType = {
   [key in DrawModeType]?: MapboxLayer<unknown>;
@@ -39,6 +40,7 @@ export class DrawModeLayer implements LogicalLayer {
   private _createDrawingLayer: DrawModeType | null;
   private _editDrawingLayer: DrawModeType | null;
   public selectedIndexes: number[] = [];
+  private _selectedIndexesUnsubscribe: Unsubscribe | null = null
   private _removeClickListener: null | (() => void) = null;
 
   public constructor(id: string, name?: string) {
@@ -68,7 +70,7 @@ export class DrawModeLayer implements LogicalLayer {
       e.preventDefault();
       return false;
     }
-    this._removeClickListener = registerMapListener('click', listener, 1);
+    this._removeClickListener = registerMapListener('click', listener, 10);
   }
 
   willMount(map: ApplicationMap): void {
@@ -79,6 +81,7 @@ export class DrawModeLayer implements LogicalLayer {
   willUnmount(): void {
     this.willHide();
     this._isMounted = false;
+    this._selectedIndexesUnsubscribe?.()
   }
 
   setMode(mode: DrawModeType): any {
@@ -114,6 +117,10 @@ export class DrawModeLayer implements LogicalLayer {
     const config = layersConfigs[mode];
     // Types for data are wrong. See https://deck.gl/docs/api-reference/layers/geojson-layer#data
     if (mode === drawModes.ModifyMode) {
+      this._selectedIndexesUnsubscribe = selectedIndexesAtom.subscribe(indexes => {
+        this.selectedIndexes = indexes
+        config.mode.previousSelection = indexes
+      })
       config.data = this.drawnData;
       config.selectedFeatureIndexes = this.selectedIndexes;
       config.onEdit = this._onModifyEdit;
@@ -147,7 +154,9 @@ export class DrawModeLayer implements LogicalLayer {
 
     config._subLayerProps.guides.pointRadiusMinPixels = 4;
     config._subLayerProps.guides.pointRadiusMaxPixels = 4;
-
+    if (config.mode?.mapRef === null) {
+      config.mode.mapRef = this._map
+    }
     const deckLayer = new MapboxLayer({ ...config });
 
     if (!this._map?.getLayer(deckLayer.id)?.id)
@@ -174,13 +183,13 @@ export class DrawModeLayer implements LogicalLayer {
   _refreshMode(mode: DrawModeType): void {
     const layer = this.mountedDeckLayers[mode];
     layer?.setProps({
-      data: this.drawnData,
-      selectedFeatureIndexes: selectedIndexesAtom.getState(),
+      data: this.drawnData, selectedFeatureIndexes: this.selectedIndexes,
     });
   }
 
   willHide(map?: ApplicationMap) {
     if (map && !this._map) this._map = map;
+    selectedIndexesAtom.setIndexes([])
     const keys = Object.keys(this.mountedDeckLayers) as DrawModeType[];
     keys.forEach((deckLayer) => this._removeDeckLayer(deckLayer));
     this._createDrawingLayer = null;
@@ -218,7 +227,8 @@ export class DrawModeLayer implements LogicalLayer {
               { title: i18n.t('Polygon should not overlap itself') },
               5,
             );
-            return this.updateData(drawnGeometryAtom.getState());
+            const unsubscribe = drawnGeometryAtom.subscribe(data => this.updateData(data))
+            return unsubscribe()
           }
         } else {
           // remove edit coloring for all of them

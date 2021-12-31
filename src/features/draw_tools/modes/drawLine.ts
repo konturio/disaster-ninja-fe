@@ -1,11 +1,11 @@
 import { ClickEvent, DrawLineStringMode, LineString, ModeProps } from '@nebula.gl/edit-modes';
 import { FeatureCollection } from '@nebula.gl/edit-modes/';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
-
-import { currentMapAtom } from '~core/shared_state';
+import mapLibre from 'maplibre-gl';
 
 
 export class LocalDrawLineStringMode extends DrawLineStringMode {
+  static mapRef?: mapLibre.Map | null = null
 
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {
     const { key } = event;
@@ -52,7 +52,7 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
       // They clicked the last point (or double-clicked), so add the LineString
 
       // disable zoom for finishing double-click
-      currentMapAtom.getState()?.doubleClickZoom.disable()
+      LocalDrawLineStringMode.mapRef?.doubleClickZoom.disable()
 
       const lineStringToAdd: LineString = {
         type: 'LineString',
@@ -73,10 +73,9 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
       }
 
       // this will let us finish geometry by double click and after that - enable back map double click zoom
-      const t = setTimeout(() => {
-        currentMapAtom.getState()?.doubleClickZoom.enable()
-        clearTimeout(t)
-      }, 0)
+      clearTimeout(setTimeout(() => {
+        LocalDrawLineStringMode.mapRef?.doubleClickZoom.enable()
+      }, 0))
     } else if (positionAdded) {
       // new tentative point
       props.onEdit({
