@@ -18,6 +18,29 @@ type LayersInAreaAtomProps = {
   data?: LayerInArea[] | null;
   error: any;
 };
+
+function isValidTimestamp(_timestamp) {
+  const dt = new Date(_timestamp);
+  const newTimestamp = new Date(_timestamp).getTime();
+  return isNumeric(newTimestamp) && dt.getFullYear() > 1970;
+}
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+const makeLabel = (step) => {
+  let parsed = parseFloat(step);
+  if (!isNaN(parsed)) {
+    parsed *= 1000;
+    if (isValidTimestamp(parsed)) {
+      const date = new Date(parsed);
+      return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+    }
+  }
+  return '';
+}
+
 export const layersInAreaLogicalLayersAtom = createBindAtom(
   {
     layersInAreaResourceAtom,
@@ -43,15 +66,16 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
               const bl = layer.legend as BivariateLegendBackend;
               if (!bl) return acc;
 
-              const xAxis = {...bl.axises.x, steps: bl.axises.x.steps.map(stp => ({value: stp}))};
-              const yAxis = {...bl.axises.y, steps: bl.axises.y.steps.map(stp => ({value: stp}))};
-              bl.axises = { x: xAxis, y: yAxis } as any;
+
+              const xAxis = {...bl.axises.x, steps: bl.axises.x.steps.map(stp => ({value: stp, label: makeLabel(stp)}))};
+              const yAxis = {...bl.axises.y, steps: bl.axises.y.steps.map(stp => ({value: stp, label: makeLabel(stp)}))};
+              bl.axises = { x: yAxis, y: xAxis } as any;
 
               // add opacity .5 to colors
-              // bl.colors = bl.colors.map(clr => {
-              //   const clrObj = convertRGBtoObj(clr.color);
-              //   return { id: clr.id, color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`}
-              // });
+              bl.colors = bl.colors.map(clr => {
+                const clrObj = convertRGBtoObj(clr.color);
+                return { id: clr.id, color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`}
+              });
 
               const bivariateStyle = generateLayerStyleFromBivariateLegendBackend(bl);
               const bivariateLegend: BivariateLegend = {
