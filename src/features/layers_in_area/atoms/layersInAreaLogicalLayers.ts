@@ -48,10 +48,10 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
               bl.axises = { x: xAxis, y: yAxis } as any;
 
               // add opacity .5 to colors
-              bl.colors = bl.colors.map(clr => {
-                const clrObj = convertRGBtoObj(clr.color);
-                return { id: clr.id, color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`}
-              });
+              // bl.colors = bl.colors.map(clr => {
+              //   const clrObj = convertRGBtoObj(clr.color);
+              //   return { id: clr.id, color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`}
+              // });
 
               const bivariateStyle = generateLayerStyleFromBivariateLegendBackend(bl);
               const bivariateLegend: BivariateLegend = {
@@ -62,8 +62,6 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
                 description: layer.description || '',
                 steps: bl.colors.map(clr => ({ label: clr.id, color: clr.color }))
               };
-
-              console.log(bivariateLegend);
 
               acc.push(createLogicalLayerAtom(
                 new BivariateLayer(

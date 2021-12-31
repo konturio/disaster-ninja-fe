@@ -1,9 +1,22 @@
 import { createResourceAtom } from '~utils/atoms';
 import { graphQlClient } from '~core/index';
+import { focusedGeometryAtom } from '~core/shared_state';
+
+const escapeQuotes = (str: string) => `"${str.replaceAll('"', '\\"')}"`;
+let allMapStats: any;
 
 export const bivariateStatisticsResourceAtom = createResourceAtom(
-  null,
-  async () => {
+  focusedGeometryAtom,
+  async (geom) => {
+    console.log('fetch statistics', geom);
+    if (!geom && allMapStats) {
+      return allMapStats;
+    }
+
+    const polygonStatisticRequest = geom
+      ? `{ polygon: ${escapeQuotes(JSON.stringify(geom.geometry))} }`
+      : '{}';
+
     const responseData = await graphQlClient.post<any>(`/`, {
       query: `
       fragment AxisFields on Axis {
@@ -17,7 +30,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       }
 
     query getPolygonStatistics {
-      polygonStatistic(polygonStatisticRequest: {}) {
+      polygonStatistic(polygonStatisticRequest: ${polygonStatisticRequest}) {
         bivariateStatistic {
           axis {
             ...AxisFields
@@ -70,8 +83,17 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       }
     }`,
     });
-    if (!responseData || !responseData.data)
+
+    if (!responseData || !responseData.data) {
       throw new Error('No data received');
+    }
+
+    if (!geom && !allMapStats) {
+      allMapStats = responseData.data;
+    }
+
+    console.log('fetch statistics complete');
+
     return responseData.data;
   },
   'bivariateStatisticsResource',

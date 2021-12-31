@@ -35,3 +35,16 @@
 	border-right: 2px solid #00d2ff;
 	border-bottom: 2px solid #00d2ff;
 }
+
+.loadingContainer {
+	position: absolute;
+	background: rgba(255, 255, 255, .7);
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

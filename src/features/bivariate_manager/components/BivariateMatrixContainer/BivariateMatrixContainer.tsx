@@ -3,6 +3,9 @@ import s from './BivariateMatrixContainer.module.css';
 import ConnectedBivariateMatrix
   from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
 import clsx from 'clsx';
+import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { useAtom } from '@reatom/react';
+import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 
 interface BivariateMatrixContainerProps {
   className?: string;
@@ -12,6 +15,8 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
   const [dimensions, setDimensions] = useState<{ w: number; h: number } | null>(
     null,
   );
+
+  const [{loading}] = useAtom(bivariateStatisticsResourceAtom);
 
   const onRefChange = useCallback(
     (ref: HTMLDivElement | null) => {
@@ -62,6 +67,11 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
       }
     >
       <div className={s.scrollMatrix}>
+        {loading &&
+          <div className={s.loadingContainer}>
+            <LoadingSpinner />
+          </div>
+        }
         <div className={s.matrixContainer}>
           <ConnectedBivariateMatrix ref={onRefChange} />
         </div>
