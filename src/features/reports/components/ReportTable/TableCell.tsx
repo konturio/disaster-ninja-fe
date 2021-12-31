@@ -17,6 +17,8 @@ type TableCellProps = {
   ) => void;
   thead: string[] | undefined;
   meta: Report | null;
+  OSMId: string;
+  OSMIdIndex: number;
 };
 
 export function TableCellComponent({
@@ -27,21 +29,23 @@ export function TableCellComponent({
   openOSMID,
   thead,
   meta,
+  OSMId,
+  OSMIdIndex
 }: TableCellProps) {
   const getIDLink = useCallback(
-    () => meta?.column_link_templates[0]['OSM ID']?.replace('{{OSM ID}}', cell),
-    [cell, meta],
+    () => meta?.column_link_templates[0]['OSM ID']?.replace('{{OSM ID}}', OSMId),
+    [cell, meta, OSMId],
   );
 
   const getNameLink = useCallback(
     (toReplace: string) =>
-      meta?.column_link_templates[1][toReplace]?.replace('{{OSM ID}}', row[0]),
-    [row, cell, meta],
+      meta?.column_link_templates[1][toReplace]?.replace('{{OSM ID}}', OSMId),
+    [row, cell, meta, OSMId],
   );
 
   if (!thead) return null;
 
-  if (thead[index].toUpperCase() === 'OSM ID') {
+  if (index === OSMIdIndex) {
     const link = getIDLink();
     return (
       <td>{link ? <a onClick={(e) => openOSMID(e, link)}>{cell}</a> : cell}</td>

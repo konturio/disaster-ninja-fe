@@ -19,6 +19,7 @@ type InconsistsTableCellProps = {
   meta: Report | null;
   cName: string;
   nested: string;
+  OSMId: string;
 };
 
 function InconsistsTableCellComponent({
@@ -31,19 +32,20 @@ function InconsistsTableCellComponent({
   meta,
   cName,
   nested,
+  OSMId,
 }: InconsistsTableCellProps) {
   const getLink = useCallback(
-    (index: number, toReplace: string, replacer: string) =>
+    (index: number, toReplace: string) =>
       meta?.column_link_templates[index][toReplace].replace(
         '{{OSM ID}}',
-        replacer,
+        OSMId,
       ),
-    [row, cell, meta],
+    [row, cell, meta, OSMId],
   );
 
   if (!thead) return null;
   if (thead[index] === 'OSM ID') {
-    const link = getLink(0, 'OSM ID', cell);
+    const link = getLink(0, 'OSM ID');
     return (
       <td>
         <a href={link} onClick={(e) => openOSMID(e, link)}>
@@ -53,7 +55,7 @@ function InconsistsTableCellComponent({
     );
   }
   if (thead[index] === 'Name') {
-    const link = getLink(1, 'Name', row[0]);
+    const link = getLink(1, 'Name');
 
     // CASE it's nested
     if (cell.startsWith(' - ')) return (

@@ -35,7 +35,9 @@ export function ReportTable() {
   }, []);
 
   const tableBody = useMemo(() => {
+    const OSMIdIndex = thead?.findIndex(val => val.toUpperCase() === 'OSM ID')!
     if (!data?.length || !thead) return null;
+
     if (meta?.id === 'osm_population_inconsistencies') {
       const nameI = thead?.findIndex((val) => val === 'Name')!;
 
@@ -47,6 +49,7 @@ export function ReportTable() {
       return (
         <tbody>
           {data.map((row, rowIndex) => {
+          const OSMId = row[OSMIdIndex]
             return (
               <tr
                 key={row[0] + 'row' + rowIndex}
@@ -64,6 +67,7 @@ export function ReportTable() {
                     thead={thead}
                     cName={styles.inconsistencesName}
                     nested={styles.nested}
+                    OSMId={OSMId}
                   />
                 ))}
               </tr>
@@ -76,6 +80,7 @@ export function ReportTable() {
     return (
       <tbody>
         {data.map((row, rowIndex) => {
+          const OSMId = row[OSMIdIndex]
           return (
             <tr
               key={row[0] + 'row' + rowIndex}
@@ -91,6 +96,8 @@ export function ReportTable() {
                   openOSMID={openOSMID}
                   meta={meta}
                   thead={thead}
+                  OSMId={OSMId}
+                  OSMIdIndex={OSMIdIndex}
                 />
               ))}
             </tr>
