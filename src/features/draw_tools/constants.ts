@@ -4,6 +4,9 @@ export const DRAW_TOOLS_CONTROL_ID = 'DrawTools';
 export const DRAW_TOOLS_CONTROL_NAME = 'Draw Tools';
 export const DRAW_TOOLS_LAYER_ID = 'draw-tools';
 
+export const DOWNLOAD_GEOMETRY_CONTROL_ID = 'DownloadGeometry'
+export const DOWNLOAD_GEOMETRY_CONTROL_NAME = 'Download Custom Geometry'
+
 export const DRAW_MODE_CONFIG = {
   DrawPolygonMode: {
     disableSelfIntersections: true,
