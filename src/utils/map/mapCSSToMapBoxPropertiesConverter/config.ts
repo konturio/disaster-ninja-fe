@@ -117,6 +117,12 @@ export const MAP_CSS_MAPBOX = {
     name: 'icon-opacity',
     valueConverter: 'toNumber',
   },
+  'icon-text-fit': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'icon-text-fit',
+    valueConverter: null,
+  },
   // font
   'font-family': {
     type: 'symbol',
