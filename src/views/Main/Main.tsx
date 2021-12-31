@@ -75,6 +75,11 @@ export function MainView() {
         initDrawTools(),
       );
     }
+    if (userFeatures?.osm_edit_link === true) {
+      import('~features/osm_edit_link/').then(({ initOsmEditLink }) =>
+        initOsmEditLink(),
+      );
+    }
   }, [userFeatures]);
 
   return (
@@ -86,10 +91,10 @@ export function MainView() {
       </AppHeader>
       <Row>
         <Suspense fallback={null}>
-          { userFeatures?.toasts === true && <NotificationToast /> }
-          { userFeatures?.side_bar === true && <SideBar /> }
-          { userFeatures?.events_list === true && <EventList /> }
-          { userFeatures?.analytics_panel === true && <Analytics /> }
+          {userFeatures?.toasts === true && <NotificationToast />}
+          {userFeatures?.side_bar === true && <SideBar />}
+          {userFeatures?.events_list === true && <EventList />}
+          {userFeatures?.analytics_panel === true && <Analytics />}
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -108,12 +113,12 @@ export function MainView() {
           <Suspense fallback={null}>
             <div className={s.floating}>
               <div id='right-buttons-container' className={s.rightButtonsContainer}></div>
-              { userFeatures?.legend_panel === true && <Legend iconsContainerId='right-buttons-container' />}
-              { userFeatures?.map_layers_panel === true && <MapLayersList iconsContainerId='right-buttons-container' />}
-              { userFeatures?.bivariate_manager === true && <BivariatePanel iconsContainerId='right-buttons-container' />}
+              {userFeatures?.legend_panel === true && <Legend iconsContainerId='right-buttons-container' />}
+              {userFeatures?.map_layers_panel === true && <MapLayersList iconsContainerId='right-buttons-container' />}
+              {userFeatures?.bivariate_manager === true && <BivariatePanel iconsContainerId='right-buttons-container' />}
             </div>
           </Suspense>
-          { userFeatures?.draw_tools === true && <DrawToolsToolbox /> }
+          {userFeatures?.draw_tools === true && <DrawToolsToolbox />}
         </div>
       </Row>
     </>
