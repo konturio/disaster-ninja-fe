@@ -1,11 +1,12 @@
 import { ClickEvent, FeatureCollection } from '@nebula.gl/edit-modes/';
 import { ImmutableFeatureCollection, ModeProps } from '@nebula.gl/edit-modes';
 import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
+import { selectedIndexesAtom } from '../atoms/selectedIndexesAtom';
 
 // Source code https://gitlab.com/kontur-private/k2/k2-front-end/-/blob/master/k2-packages/map-draw-tools/src/customDrawModes/CustomModifyMode.ts
 export class LocalModifyMode extends CustomModifyMode {
-  _selectedIndexes: number[] | null = null;
-  // _currentSubMode = this.createSubmode('Modify')
+  _selectedIndexes: number[] = [];
+  static previousSelection: number[] = []
 
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {
     event.stopPropagation();
@@ -29,7 +30,8 @@ export class LocalModifyMode extends CustomModifyMode {
         editContext: null,
       });
 
-      this._selectedIndexes = null;
+      selectedIndexesAtom.setIndexes([])
+      this._selectedIndexes = []
       this._currentSubMode = null;
     }
   }
@@ -38,18 +40,38 @@ export class LocalModifyMode extends CustomModifyMode {
     let processSelection = false;
 
     if (event.picks && event.picks.length) {
-      const lastPickIndex = event.picks[0].index;
+      const featureIndex: number = (function () {
+        let index: number = 0
+        event.picks.forEach(pick => {
+          if (!pick.isGuide) return index = pick.index
+        })
+        return index
+      }())
+
+      const featureIsPoint: boolean = (function () {
+        // I assume point features never have picks as guides
+        const firstPick = event.picks[0]
+        if (firstPick.isGuide) return false
+        if (firstPick.object?.geometry?.type === 'Point') return true
+        return false
+      }())
+
 
       if (event.sourceEvent.shiftKey) {
-        // pick first feature if none were picked
-        if (!this._selectedIndexes) this._selectedIndexes = [lastPickIndex];
         // remove feature if it was picked before and clicked under SHIFT
-        else if (this._selectedIndexes.includes(lastPickIndex))
-          this._selectedIndexes = this._selectedIndexes.filter(
-            (index) => index !== lastPickIndex,
-          );
+        if (LocalModifyMode.previousSelection.includes(featureIndex)) {
+          const selectedIndexes = this._selectedIndexes.filter(
+            (index) => index !== featureIndex,
+          )
+          selectedIndexesAtom.setIndexes(selectedIndexes);
+          this._selectedIndexes = selectedIndexes
+        }
         // add new feature picked under SHIFT
-        else this._selectedIndexes = [...this._selectedIndexes, lastPickIndex];
+        else {
+          const indexes = [...LocalModifyMode.previousSelection, featureIndex]
+          selectedIndexesAtom.setIndexes(indexes)
+          this._selectedIndexes = indexes
+        }
 
         // Keep modifying
         processSelection = true;
@@ -62,18 +84,19 @@ export class LocalModifyMode extends CustomModifyMode {
         });
 
         this._currentSubMode = this.createSubmode('Modify');
-      } else if (!this._selectedIndexes?.includes(lastPickIndex)) {
+      } else if (!LocalModifyMode.previousSelection.includes(featureIndex)) {
         processSelection = true;
-        this._selectedIndexes = [lastPickIndex];
+        selectedIndexesAtom.setIndexes([featureIndex]);
+        this._selectedIndexes = [featureIndex]
         props.onEdit({
           updatedData: props.data,
           editType: 'selectFeature',
           editContext: {
-            featureIndexes: [lastPickIndex],
+            featureIndexes: [featureIndex],
           },
         });
         this._currentSubMode = this.createSubmode('Modify');
-      } else {
+      } else if (event.picks.length === 1 || featureIsPoint) {
         processSelection = true;
         switch (this._currentSubModeName) {
           case 'Modify':
@@ -85,7 +108,8 @@ export class LocalModifyMode extends CustomModifyMode {
         }
       }
     } else {
-      this._selectedIndexes = null;
+      selectedIndexesAtom.setIndexes([]);
+      this._selectedIndexes = []
       props.onEdit({
         updatedData: props.data,
         editType: 'selectFeature',
