@@ -66,10 +66,9 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
               const bl = layer.legend as BivariateLegendBackend;
               if (!bl) return acc;
 
-
               const xAxis = {...bl.axises.x, steps: bl.axises.x.steps.map(stp => ({value: stp, label: makeLabel(stp)}))};
               const yAxis = {...bl.axises.y, steps: bl.axises.y.steps.map(stp => ({value: stp, label: makeLabel(stp)}))};
-              bl.axises = { x: yAxis, y: xAxis } as any;
+              bl.axises = { x: xAxis, y: yAxis } as any;
 
               // add opacity .5 to colors
               bl.colors = bl.colors.map(clr => {
@@ -81,7 +80,7 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
               const bivariateLegend: BivariateLegend = {
                 name: layer.name,
                 type: "bivariate",
-                axis: bl.axises,
+                axis: { x: yAxis, y: xAxis } as any,
                 copyrights: layer.copyrights || [],
                 description: layer.description || '',
                 steps: bl.colors.map(clr => ({ label: clr.id, color: clr.color }))
