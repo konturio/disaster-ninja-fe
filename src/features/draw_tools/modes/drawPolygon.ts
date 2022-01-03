@@ -9,7 +9,6 @@ import mapLibre from 'maplibre-gl';
 
 
 export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
-  static mapRef?: mapLibre.Map | null = null
 
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {
     const clickSequence = this['getClickSequence']();
@@ -114,7 +113,6 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       // They clicked the first or last point (or double-clicked), so complete the polygon
 
       // disable zoom for finishing double-click
-      LocalDrawPolygonMode.mapRef?.doubleClickZoom.disable()
 
       const polygonCoords = [...clickSequence, clickSequence[0]];
 
@@ -153,10 +151,6 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
         props.onEdit(editAction);
       }
 
-      // this will let us finish geometry by doubleclick and after that - enable back map double click zoom
-      clearTimeout(setTimeout(() => {
-        LocalDrawPolygonMode.mapRef?.doubleClickZoom.enable()
-      }, 0))
     } else if (positionAdded) {
       props.onEdit({
         // data is the same
