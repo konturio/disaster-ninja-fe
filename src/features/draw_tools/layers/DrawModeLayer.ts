@@ -89,6 +89,7 @@ export class DrawModeLayer implements LogicalLayer {
     if (!mode) return this.willHide();
     // Case setting mode to create drawings
     if (createDrawingLayers.includes(mode)) {
+      this._map.doubleClickZoom.disable()
       // if we had other drawing mode - remove it
       if (this._createDrawingLayer && this._createDrawingLayer !== mode)
         this._removeDeckLayer(this._createDrawingLayer);
@@ -99,10 +100,11 @@ export class DrawModeLayer implements LogicalLayer {
 
     // Case editing - remove create-drawing modes, add modify and icon showing modes
     else {
-      // remove create-drawing modes
+      // Case switched from create drawig mode - remove create-drawing modes
       if (this._createDrawingLayer) {
         this._removeDeckLayer(this._createDrawingLayer);
         this._createDrawingLayer = null;
+        this._map.doubleClickZoom.enable()
       }
       if (this._editDrawingLayer === mode) return;
       this._addDeckLayer(drawModes[mode]);
@@ -154,9 +156,6 @@ export class DrawModeLayer implements LogicalLayer {
 
     config._subLayerProps.guides.pointRadiusMinPixels = 4;
     config._subLayerProps.guides.pointRadiusMaxPixels = 4;
-    if (config.mode?.mapRef === null) {
-      config.mode.mapRef = this._map
-    }
     const deckLayer = new MapboxLayer({ ...config });
 
     if (!this._map?.getLayer(deckLayer.id)?.id)
@@ -189,6 +188,7 @@ export class DrawModeLayer implements LogicalLayer {
 
   willHide(map?: ApplicationMap) {
     if (map && !this._map) this._map = map;
+    this._map.doubleClickZoom.enable()
     selectedIndexesAtom.setIndexes([])
     const keys = Object.keys(this.mountedDeckLayers) as DrawModeType[];
     keys.forEach((deckLayer) => this._removeDeckLayer(deckLayer));
