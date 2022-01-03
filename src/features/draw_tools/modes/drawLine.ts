@@ -5,8 +5,6 @@ import mapLibre from 'maplibre-gl';
 
 
 export class LocalDrawLineStringMode extends DrawLineStringMode {
-  static mapRef?: mapLibre.Map | null = null
-
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {
     const { key } = event;
     if (key === 'Enter') {
@@ -51,8 +49,6 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
     ) {
       // They clicked the last point (or double-clicked), so add the LineString
 
-      // disable zoom for finishing double-click
-      LocalDrawLineStringMode.mapRef?.doubleClickZoom.disable()
 
       const lineStringToAdd: LineString = {
         type: 'LineString',
@@ -71,11 +67,6 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
       if (editAction) {
         props.onEdit(editAction);
       }
-
-      // this will let us finish geometry by double click and after that - enable back map double click zoom
-      clearTimeout(setTimeout(() => {
-        LocalDrawLineStringMode.mapRef?.doubleClickZoom.enable()
-      }, 0))
     } else if (positionAdded) {
       // new tentative point
       props.onEdit({
