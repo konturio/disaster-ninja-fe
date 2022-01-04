@@ -3,7 +3,7 @@
   "events_list": true,
   "map_layers_panel": true,
   "side_bar": true,
-  "bivariate_manager": true,
+  "bivariate_manager": false,
   "current_event": true,
   "focused_geometry_layer": true,
   "layers_in_area": true,
