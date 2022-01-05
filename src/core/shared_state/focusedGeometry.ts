@@ -35,7 +35,6 @@ type GeometrySource =
 export interface FocusedGeometry {
   source: GeometrySource;
   geometry: GeoJSON.GeoJSON;
-  hash: string;
 }
 
 export const focusedGeometryAtom = createBindAtom(
@@ -49,11 +48,12 @@ export const focusedGeometryAtom = createBindAtom(
   ({ onAction, schedule, create }, state: FocusedGeometry | null = null) => {
     onAction('setFocusedGeometry', ({ source, geometry }) => {
       if (source && geometry) {
-        schedule(async (dispatch) => {
+        schedule(async (dispatch, ctx: { hash?:string }) => {
           const hash = await crc32(JSON.stringify({ geometry, source }));
           // update only in case if geometry source or hash has changed
-          if (!state || state.hash !== hash) {
-            dispatch(create('_update', { source, geometry, hash }));
+          if (!state || !ctx.hash || ctx.hash !== hash) {
+            ctx.hash = hash;
+            dispatch(create('_update', { source, geometry }));
           }
         });
       } else {
