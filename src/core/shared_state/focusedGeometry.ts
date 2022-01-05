@@ -1,7 +1,6 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { EventWithGeometry } from '~core/types';
 import { crc32 } from 'hash-wasm';
-import { meta } from 'ava';
 
 interface GeometrySourceEvent {
   type: 'event';
