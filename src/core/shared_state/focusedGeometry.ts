@@ -51,7 +51,6 @@ export const focusedGeometryAtom = createBindAtom(
       if (source && geometry) {
         schedule(async (dispatch) => {
           const geometryHash = await crc32(JSON.stringify(geometry));
-          console.log('hash: ', geometryHash);
           // update only in case if geometry source or hash has changed
           if (!state || state.source?.type !== source.type || state.geometryHash !== geometryHash) {
             dispatch(create('_update', { source, geometry, geometryHash }));
