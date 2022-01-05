@@ -1,6 +1,7 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { EventWithGeometry } from '~core/types';
 import { crc32 } from 'hash-wasm';
+import { meta } from 'ava';
 
 interface GeometrySourceEvent {
   type: 'event';
@@ -35,7 +36,7 @@ type GeometrySource =
 export interface FocusedGeometry {
   source: GeometrySource;
   geometry: GeoJSON.GeoJSON;
-  geometryHash: string;
+  hash: string;
 }
 
 export const focusedGeometryAtom = createBindAtom(
@@ -50,10 +51,10 @@ export const focusedGeometryAtom = createBindAtom(
     onAction('setFocusedGeometry', ({ source, geometry }) => {
       if (source && geometry) {
         schedule(async (dispatch) => {
-          const geometryHash = await crc32(JSON.stringify(geometry));
+          const hash = await crc32(JSON.stringify({ geometry, source }));
           // update only in case if geometry source or hash has changed
-          if (!state || state.source?.type !== source.type || state.geometryHash !== geometryHash) {
-            dispatch(create('_update', { source, geometry, geometryHash }));
+          if (!state || state.hash !== hash) {
+            dispatch(create('_update', { source, geometry, hash }));
           }
         });
       } else {
