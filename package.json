@@ -15,7 +15,8 @@
     "lint-staged": "lint-staged",
     "test:unit": "ava",
     "test:unit-watch": "ava --watch",
-    "postinstall": "node ./scripts/fix-deckgl-types.mjs"
+    "postinstall": "node ./scripts/fix-deckgl-types.mjs",
+    "checkapi": "node ./scripts/is-api-working.js"
   },
   "ava": {
     "extensions": {
@@ -143,6 +144,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^7.0.0",
     "lint-staged": "^12.1.2",
+    "node-fetch": "^3.1.0",
     "stylelint": "^14.1.0",
     "stylelint-config-recommended": "^6.0.0",
     "stylelint-config-standard": "^24.0.0",
