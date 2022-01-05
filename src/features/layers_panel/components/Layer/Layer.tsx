@@ -19,32 +19,32 @@ export function Layer({
   layerAtom: LogicalLayerAtom;
   mutuallyExclusive: boolean;
 }) {
-  const [layer, layerActions] = useAtom(layerAtom);
+  const [layerState, layerActions] = useAtom(layerAtom);
   const onChange = useAction(
-    () => (layer.isMounted ? layerActions.unmount() : layerActions.mount()),
-    [layer.isMounted],
+    () => (layerState.isMounted ? layerActions.unmount() : layerActions.mount()),
+    [layerState.isMounted],
   );
 
   const hasOneStepSimpleLegend =
-    layer.layer.legend?.type === 'simple' &&
-    layer.layer.legend.steps?.length === 1;
+    layerState.layer.legend?.type === 'simple' &&
+    layerState.layer.legend.steps?.length === 1;
 
   const hasMultiStepSimpleLegend =
-    layer.layer.legend?.type === 'simple' &&
-    layer.layer.legend.steps?.length > 1;
+    layerState.layer.legend?.type === 'simple' &&
+    layerState.layer.legend.steps?.length > 1;
 
   const Control = (
     <LayerControl
-      isError={layer.isError}
-      isLoading={layer.isLoading}
+      isError={layerState.isError}
+      isLoading={layerState.isLoading}
       onChange={onChange}
-      enabled={layer.isMounted}
-      hidden={!layer.isVisible}
-      name={layer.layer.name || layer.id}
+      enabled={layerState.isMounted}
+      hidden={!layerState.isVisible}
+      name={layerState.layer.name || layerState.id}
       icon={
         hasOneStepSimpleLegend && (
           <SimpleLegendStepComponent
-            step={layer.layer.legend!.steps[0] as SimpleLegendStep}
+            step={layerState.layer.legend!.steps[0] as SimpleLegendStep}
             onlyIcon={true}
           />
         )
@@ -52,17 +52,17 @@ export function Layer({
       inputType={mutuallyExclusive ? 'radio' : 'checkbox'}
       controls={[
         <LayerInfo
-          key={layer.id}
-          copyrights={layer.layer.copyright}
-          description={layer.layer.description}
+          key={layerState.id}
+          copyrights={layerState.layer.copyrights}
+          description={layerState.layer.description}
         />,
       ]}
     />
   );
 
   return hasMultiStepSimpleLegend ? (
-    <Folding label={Control} open={layer.isMounted}>
-      <SimpleLegendComponent legend={layer.layer.legend as SimpleLegend} />
+    <Folding label={Control} open={layerState.isMounted}>
+      <SimpleLegendComponent legend={layerState.layer.legend as SimpleLegend} />
     </Folding>
   ) : (
     Control

@@ -71,7 +71,7 @@ export interface LogicalLayer<T = null> {
   name?: string;
   legend?: LayerLegend;
   description?: string;
-  copyright?: string;
+  copyrights?: string | string[];
   readonly group?: string;
   readonly category?: string;
   onInit(): { isVisible?: boolean; isLoading?: boolean };

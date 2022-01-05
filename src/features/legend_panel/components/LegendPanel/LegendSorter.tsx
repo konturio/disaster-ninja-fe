@@ -50,7 +50,7 @@ export function LegendSorter({
           controls={[
             <LayerInfo
               key={layer.id}
-              copyrights={layer.copyright}
+              copyrights={layer.copyrights}
               description={layer.description}
             />,
           ]}
