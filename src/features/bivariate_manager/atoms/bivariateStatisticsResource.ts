@@ -2,8 +2,12 @@ import { createResourceAtom } from '~utils/atoms';
 import { graphQlClient } from '~core/index';
 import { focusedGeometryAtom } from '~core/shared_state';
 
-const escapeQuotes = (str: string) => `"${str.replaceAll('"', '\\"')}"`;
-let allMapStats: any;
+function stringifyWithoutQuotes(obj: unknown): string {
+  const json = JSON.stringify(obj);
+  return json.replace(/"([^"]+)":/g, '$1:');
+}
+
+let allMapStats: unknown;
 
 export const bivariateStatisticsResourceAtom = createResourceAtom(
   focusedGeometryAtom,
@@ -13,10 +17,10 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
     }
 
     const polygonStatisticRequest = geom
-      ? `{ polygon: ${escapeQuotes(JSON.stringify(geom.geometry))} }`
+      ? `{ polygonV2: ${stringifyWithoutQuotes(geom.geometry)} }`
       : '{}';
 
-    const responseData = await graphQlClient.post<any>(`/`, {
+    const responseData = await graphQlClient.post<{ data?: unknown }>(`/`, {
       query: `
       fragment AxisFields on Axis {
         label
