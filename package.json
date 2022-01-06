@@ -95,6 +95,7 @@
     "esbuild-node-loader": "^0.6.3",
     "graphql": "^15.5.1",
     "graphql-tag": "^2.12.5",
+    "hash-wasm": "^4.9.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
     "i18next": "^20.4.0",
