@@ -125,12 +125,21 @@ export class FocusedGeometryLayer
 
       // Fill data for icon points. We only need points to show data
       if (geojson.type === 'Feature') {
-        if (geojson.geometry.type === 'Point') (this._iconLayerData = [{ ...geojson.geometry }])
+        if (geojson.geometry.type === 'Point') {
+          this._iconLayerData = [{ ...geojson.geometry }]
+        }
         this._lastGeometryUpdate = geojson;
       } else if (geojson.type === 'FeatureCollection') {
         this._iconLayerData = []
-        geojson.features.forEach(feature =>
-          feature.geometry.type === 'Point' && (this._iconLayerData = [...this._iconLayerData, feature.geometry])
+        geojson.features.forEach(feature => {
+          if (feature.geometry.type === 'Point') {
+            this._iconLayerData = [...this._iconLayerData, feature.geometry]
+          } else if (feature.geometry.type === 'MultiPoint') {
+            feature.geometry.coordinates.forEach(coordinates =>
+              this._iconLayerData = [...this._iconLayerData, { coordinates }]
+            )
+          }
+        }
         )
         this._lastGeometryUpdate = geojson;
       } else {
