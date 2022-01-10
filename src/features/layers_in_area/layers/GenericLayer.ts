@@ -1,6 +1,14 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
-import type { LayerLegend, LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
+import {
+  AnyLayer,
+  GeoJSONSourceRaw,
+  RasterSource,
+  VectorSource,
+} from 'maplibre-gl';
+import type {
+  LayerLegend,
+  LogicalLayer,
+} from '~core/logical_layers/createLogicalLayerAtom';
 import {
   applyLegendConditions,
   mapCSSToMapBoxProperties,
@@ -8,9 +16,17 @@ import {
 } from '~utils/map/mapCSSToMapBoxPropertiesConverter';
 import { apiClient, notificationService } from '~core/index';
 import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '../constants';
-import { LayerGeoJSONSource, LayerInArea, LayerInAreaSource, LayerTileSource } from '../types';
+import {
+  LayerGeoJSONSource,
+  LayerInArea,
+  LayerInAreaSource,
+  LayerTileSource,
+} from '../types';
 import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
-import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
+import {
+  addZoomFilter,
+  onActiveContributorsClick,
+} from './activeContributorsLayers';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 
@@ -67,7 +83,9 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     }
 
     if (legend.type === 'bivariate') {
-      throw new Error('Bivariate legend can only belong to layer with type bivariate');
+      throw new Error(
+        'Bivariate legend can only belong to layer with type bivariate',
+      );
     }
 
     /* @ts-expect-error - if backend add new legend type */
@@ -216,6 +234,11 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       eventId?: string;
     };
 
+    if (this._eventId === null && this._lastGeometryUpdate === null) {
+      // TODO: temporary solution until #8421 was not merged
+      return;
+    }
+
     if (this.boundaryRequiredForRetrieval) {
       if (this._lastGeometryUpdate === null) {
         throw Error(`Layer ${this.id} require geometry, but geometry is null`);
@@ -259,7 +282,6 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       } else {
         this.mountTileLayer(map, layerData);
       }
-
       /* Add event listener */
       if (this.legend) {
         // !FIXME - Hardcoded filter for layer
@@ -277,7 +299,8 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
           return;
         }
 
-        const linkProperty = 'linkProperty' in this.legend ? this.legend.linkProperty : null;
+        const linkProperty =
+          'linkProperty' in this.legend ? this.legend.linkProperty : null;
         if (linkProperty) {
           const handler = (e) => {
             this.onMapClick(map, e, linkProperty);
@@ -289,7 +312,11 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     }
   }
 
-  async onDataChange(map: ApplicationMap, data: FocusedGeometry | null, state) {
+  async onDataChange(
+    map: ApplicationMap | null,
+    data: FocusedGeometry | null,
+    state,
+  ) {
     if (data === null) {
       this._lastGeometryUpdate = null;
       this._eventId = null;
@@ -297,8 +324,6 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     }
 
     const { source, geometry } = data;
-
-    if (source.type === 'drawn' || source.type === 'uploaded') return;
 
     // Update geometry
     if (geometry.type === 'Feature' || geometry.type === 'FeatureCollection') {
@@ -319,7 +344,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     }
 
     // Update layer data
-    if (state.isMounted) {
+    if (map && state.isMounted) {
       const mapSource = map.getSource(this._sourceId);
       if (mapSource?.type !== 'geojson') return; // Want update only geojson source
 
@@ -344,6 +369,10 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
 
     map.removeSource(this._sourceId);
     this._removeClickListener?.();
+  }
+
+  wasRemoveFromInRegistry(map: ApplicationMap) {
+    this.willUnmount(map);
   }
 
   async onMapClick(

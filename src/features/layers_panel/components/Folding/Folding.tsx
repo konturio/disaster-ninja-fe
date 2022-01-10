@@ -14,12 +14,7 @@ export function Folding({
       childrenWithIndent={false}
       onStateChange={(s) => null}
     >
-      <div
-        className={s.foldingChildren}
-        onClick={(e) => console.log('foldingChildren', e)}
-      >
-        {children}
-      </div>
+      <div className={s.foldingChildren}>{children}</div>
     </FoldingWrap>
   );
 }

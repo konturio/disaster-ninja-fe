@@ -18,8 +18,8 @@ class AutoRefreshService {
     this.timer = setInterval(() => {
       Object.entries(this.resources).forEach(([id, resource]) => {
         // Don't repeat request if previous still in progress
-        if (this.resources[id].loading) return;
-        this.resources[id].refetch();
+        if (resource.loading) return;
+        resource.refetch();
       });
     }, this.intervalSec * 1000);
   }
