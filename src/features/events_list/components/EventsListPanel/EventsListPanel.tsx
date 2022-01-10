@@ -11,7 +11,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAtom } from '@reatom/react';
 import { sideControlsBarAtom } from '~core/shared_state';
 import clsx from 'clsx';
-import { EVENTLIST_CONROL_ID, EVENTLIST_CONROL_NAME } from '~features/events_list/constants';
+import {
+  EVENTLIST_CONROL_ID,
+  EVENTLIST_CONROL_NAME,
+} from '~features/events_list/constants';
 import eventsIcon from '~features/events_list/icons/eventsIcon.svg';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 
@@ -36,13 +39,16 @@ export function EventsListPanel({
 
   useEffect(() => {
     // type any is used because virtuoso types doesnt have scrollToIndex method, but it's described in docs https://virtuoso.dev/scroll-to-index
-    const ref: any = virtuoso.current
+    const ref: any = virtuoso.current;
     if (ref && current && eventsList?.length) {
-      const currentEventIndex = eventsList.findIndex(event => event.eventId === current)
+      const currentEventIndex = eventsList.findIndex(
+        (event) => event.eventId === current,
+      );
       // behavior: 'smooth' breaks this method as documentation warns https://virtuoso.dev/scroll-to-index
-      if (currentEventIndex > -1) ref.scrollToIndex({ index: currentEventIndex, align: 'center' })
+      if (currentEventIndex > -1)
+        ref.scrollToIndex({ index: currentEventIndex, align: 'center' });
     }
-  }, [current, eventsList, virtuoso])
+  }, [current, eventsList, virtuoso]);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
@@ -66,8 +72,8 @@ export function EventsListPanel({
         toggleActiveState(EVENTLIST_CONROL_ID);
       },
       onChange: (isActive) => {
-        setIsOpen(isActive)
-      }
+        setIsOpen(isActive);
+      },
     });
 
     enable(EVENTLIST_CONROL_ID);
@@ -99,7 +105,7 @@ export function EventsListPanel({
               )}
               ref={virtuoso}
             />
-          )
+          ),
         })}
       </div>
     </Panel>

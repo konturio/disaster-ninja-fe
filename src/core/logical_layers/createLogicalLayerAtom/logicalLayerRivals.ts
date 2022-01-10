@@ -1,20 +1,16 @@
 import { Action } from '@reatom/core';
-import { layersCategoriesSettingsAtom, layersGroupsSettingsAtom, logicalLayersRegistryAtom } from '~core/shared_state';
+import {
+  layersCategoriesSettingsAtom,
+  layersGroupsSettingsAtom,
+} from '~core/shared_state';
 import { CategorySettings, GroupSettings } from '~core/types/layers';
-import { LogicalLayersHierarchy, logicalLayersHierarchyAtom } from '../atoms/logicalLayersHierarchy';
-
-import { logicalLayersRegistryStateAtom } from '../atoms/logicalLayersRegistryState';
+import {
+  LogicalLayersHierarchy,
+  logicalLayersHierarchyAtom,
+} from '../atoms/logicalLayersHierarchy';
 
 export const getRivalsLayersUnmountActions: (layerId: string) => Action[] =
   (() => {
-    let registry = {};
-    logicalLayersRegistryAtom.subscribe((reg) => (registry = reg));
-
-    let layerStates = {};
-    logicalLayersRegistryStateAtom.subscribe(
-      (states) => (layerStates = states),
-    );
-
     let hierarchy: LogicalLayersHierarchy = {};
     logicalLayersHierarchyAtom.subscribe(
       (logicalLayersHierarchy) => (hierarchy = logicalLayersHierarchy),
@@ -37,7 +33,7 @@ export const getRivalsLayersUnmountActions: (layerId: string) => Action[] =
         // get all mounted layers in this category excluding layer with layerId;
         return Object.values(hierarchy).reduce((acc, l) => {
           if (l.category === layerCategory && l.id !== layerId) {
-            layerStates[l.id].isMounted && acc.push(registry[l.id].unmount());
+            l.atom.getState().isMounted && acc.push(l.atom.unmount());
           }
           return acc;
         }, [] as Action[]);
@@ -49,7 +45,7 @@ export const getRivalsLayersUnmountActions: (layerId: string) => Action[] =
         // get all mounted layers in this group excluding layer with layerId;
         return Object.values(hierarchy).reduce((acc, l) => {
           if (l.group === layerGroup && l.id !== layerId) {
-            layerStates[l.id].isMounted && acc.push(registry[l.id].unmount());
+            l.atom.getState().isMounted && acc.push(l.atom.unmount());
           }
           return acc;
         }, [] as Action[]);

@@ -7,12 +7,16 @@ import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { notificationService } from '~core/index';
 import { GeoJSONSource } from 'maplibre-gl';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
-import { IconLayer } from "@deck.gl/layers";
+import { IconLayer } from '@deck.gl/layers';
 import { MapboxLayer } from '@deck.gl/mapbox';
-import Icon from '../icons/iconAtlas.png'
-import app_config from "~core/app_config";
+import Icon from '../icons/iconAtlas.png';
+import app_config from '~core/app_config';
 
-const layersConfig = (id: string, sourceId: string, data: any): maplibregl.AnyLayer[] => [
+const layersConfig = (
+  id: string,
+  sourceId: string,
+  data: any,
+): maplibregl.AnyLayer[] => [
   {
     id: id + '-main',
     source: sourceId,
@@ -45,19 +49,19 @@ const layersConfig = (id: string, sourceId: string, data: any): maplibregl.AnyLa
     iconAtlas: Icon,
     iconMapping: app_config.iconLayer.iconMapping,
     // required to show data
-    getIcon: d => {
-      if (d.isHidden) return null
-      if (d.isSelected) return 'selectedIcon'
-      return 'defaultIcon'
+    getIcon: (d) => {
+      if (d.isHidden) return null;
+      if (d.isSelected) return 'selectedIcon';
+      return 'defaultIcon';
     },
-    getPosition: d => d.coordinates,
+    getPosition: (d) => d.coordinates,
 
     sizeScale: app_config.iconLayer.sizeScale,
     getSize: app_config.iconLayer.getSize,
 
     pickable: true,
     data,
-  })
+  }),
 ];
 
 // const deckLayer = new MapboxLayer({ id: id + '-icons' })
@@ -72,8 +76,8 @@ export class FocusedGeometryLayer
   private _sourceId: string;
   private _lastGeometryUpdate: GeoJSON.Feature | GeoJSON.FeatureCollection;
   private _iconLayerData: {
-    [key: string]: any,
-    coordinates: number[]
+    [key: string]: any;
+    coordinates: number[];
   }[];
 
   constructor({ id, name }) {
@@ -84,7 +88,7 @@ export class FocusedGeometryLayer
       type: 'FeatureCollection',
       features: [],
     };
-    this._iconLayerData = []
+    this._iconLayerData = [];
   }
 
   onInit() {
@@ -106,41 +110,51 @@ export class FocusedGeometryLayer
       data: this._lastGeometryUpdate,
     });
 
-    layersConfig(this.id + '-layer', this._sourceId, this._iconLayerData).forEach((layerConfig) => {
+    layersConfig(
+      this.id + '-layer',
+      this._sourceId,
+      this._iconLayerData,
+    ).forEach((layerConfig) => {
       // give data to icons
       const beforeId = layersOrderManager.getBeforeIdByType(layerConfig.type);
-      map.addLayer(layerConfig, layerConfig.id.endsWith('-icons') ? null : beforeId);
+      map.addLayer(
+        layerConfig,
+        layerConfig.id.endsWith('-icons') ? null : beforeId,
+      );
     });
   }
 
-  onDataChange(map: ApplicationMap, data: FocusedGeometry | null) {
+  onDataChange(map: ApplicationMap | null, data: FocusedGeometry | null) {
     if (data === null) {
       this._lastGeometryUpdate = {
         type: 'FeatureCollection',
         features: [],
       };
-      this._iconLayerData = []
+      this._iconLayerData = [];
     } else {
       const geojson = { ...data.geometry };
 
       // Fill data for icon points. We only need points to show data
       if (geojson.type === 'Feature') {
         if (geojson.geometry.type === 'Point') {
-          this._iconLayerData = [{ ...geojson.geometry }]
+          this._iconLayerData = [{ ...geojson.geometry }];
         }
         this._lastGeometryUpdate = geojson;
       } else if (geojson.type === 'FeatureCollection') {
-        this._iconLayerData = []
-        geojson.features.forEach(feature => {
+        this._iconLayerData = [];
+        geojson.features.forEach((feature) => {
           if (feature.geometry.type === 'Point') {
-            this._iconLayerData = [...this._iconLayerData, feature.geometry]
+            this._iconLayerData = [...this._iconLayerData, feature.geometry];
           } else if (feature.geometry.type === 'MultiPoint') {
-            feature.geometry.coordinates.forEach(coordinates =>
-              this._iconLayerData = [...this._iconLayerData, { coordinates }]
-            )
+            feature.geometry.coordinates.forEach(
+              (coordinates) =>
+                (this._iconLayerData = [
+                  ...this._iconLayerData,
+                  { coordinates },
+                ]),
+            );
           }
-        }
-        )
+        });
         this._lastGeometryUpdate = geojson;
       } else {
         // TODO: Add converter from any GeoJSON to Feature or FeatureCollection
@@ -151,18 +165,26 @@ export class FocusedGeometryLayer
       }
     }
 
-    const source = map.getSource(this._sourceId);
-    if (source) {
-      (source as GeoJSONSource).setData(this._lastGeometryUpdate);
+    if (map) {
+      const source = map.getSource(this._sourceId);
+      if (source) {
+        (source as GeoJSONSource).setData(this._lastGeometryUpdate);
+      }
+      const iconLayer = map.getLayer(this.id + '-layer' + '-icons');
+      // custom layer has .implementation key which leads to Mapbox deak layer created with new Mapboxlayer()
+      iconLayer &&
+        (iconLayer as any).implementation?.setProps({
+          data: this._iconLayerData,
+        });
     }
-    const iconLayer = map.getLayer(this.id + '-layer' + '-icons');
-
-    // custom layer has .implementation key which leads to Mapbox deak layer created with new Mapboxlayer()
-    iconLayer && (iconLayer as any).implementation?.setProps({ data: this._iconLayerData })
   }
 
   willUnmount(map: ApplicationMap) {
-    layersConfig(this.id + '-layer', this._sourceId, this._iconLayerData).forEach((layerConfig) => {
+    layersConfig(
+      this.id + '-layer',
+      this._sourceId,
+      this._iconLayerData,
+    ).forEach((layerConfig) => {
       map.removeLayer(layerConfig.id);
     });
     map.removeSource(this._sourceId);

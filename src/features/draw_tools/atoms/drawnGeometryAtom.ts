@@ -2,7 +2,7 @@ import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { Feature, FeatureCollection } from 'geojson';
 import { activeDrawModeAtom } from './activeDrawMode';
-import { point as createPointFeature } from '@turf/helpers'
+import { point as createPointFeature } from '@turf/helpers';
 import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 
 const defaultState: FeatureCollection = {
@@ -63,7 +63,7 @@ export const drawnGeometryAtom = createBindAtom(
       if (incoming?.source.type === 'uploaded')
         schedule((dispatch) => {
           const actions: any[] = [];
-          updateFromGeometry(incoming, actions, create)
+          updateFromGeometry(incoming, actions, create);
 
           // clear focused geometry afterwards
           actions.push(focusedGeometryAtom.setFocusedGeometry(null, null));
@@ -81,7 +81,7 @@ export const drawnGeometryAtom = createBindAtom(
               { type: 'FeatureCollection', features: [] },
             ),
           ];
-          updateFromGeometry(focusedFeatures, actions, create)
+          updateFromGeometry(focusedFeatures, actions, create);
           dispatch(actions);
         });
       } else if (!mode && prevMode)
@@ -98,22 +98,27 @@ export const drawnGeometryAtom = createBindAtom(
   'drawnGeometryAtom',
 );
 
-function updateFromGeometry(focusedGeometry: FocusedGeometry, actions: any[], create: any) {
+function updateFromGeometry(
+  focusedGeometry: FocusedGeometry,
+  actions: any[],
+  create: any,
+) {
   if (focusedGeometry.geometry.type === 'FeatureCollection') {
-    const noMultipoints: Feature[] = focusedGeometry.geometry.features.reduce((result: Feature[], currentFeature) => {
-      if (currentFeature.geometry.type === 'MultiPoint') {
-        currentFeature.geometry.coordinates.forEach(
-          coordinate => result.push(createPointFeature(coordinate))
-        )
-      } else result.push(currentFeature)
-      return result
-    }, [])
+    const noMultipoints: Feature[] = focusedGeometry.geometry.features.reduce(
+      (result: Feature[], currentFeature) => {
+        if (currentFeature.geometry.type === 'MultiPoint') {
+          currentFeature.geometry.coordinates.forEach((coordinate) =>
+            result.push(createPointFeature(coordinate)),
+          );
+        } else result.push(currentFeature);
+        return result;
+      },
+      [],
+    );
 
-    actions.push(create('updateFeatures', noMultipoints))
+    actions.push(create('updateFeatures', noMultipoints));
   } else if (focusedGeometry.geometry.type === 'Feature') {
-    actions.push(
-      create('updateFeatures', [focusedGeometry.geometry]),
-    )
+    actions.push(create('updateFeatures', [focusedGeometry.geometry]));
   } else {
     console.warn('wrong type of data imported or the type is not supported');
   }
