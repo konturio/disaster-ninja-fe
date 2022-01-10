@@ -21,7 +21,8 @@ export function Layer({
 }) {
   const [layerState, layerActions] = useAtom(layerAtom);
   const onChange = useAction(
-    () => (layerState.isMounted ? layerActions.unmount() : layerActions.mount()),
+    () =>
+      layerState.isMounted ? layerActions.unmount() : layerActions.mount(),
     [layerState.isMounted],
   );
 

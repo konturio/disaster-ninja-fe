@@ -40,7 +40,7 @@ export class DrawModeLayer implements LogicalLayer {
   private _createDrawingLayer: DrawModeType | null;
   private _editDrawingLayer: DrawModeType | null;
   public selectedIndexes: number[] = [];
-  private _selectedIndexesUnsubscribe: Unsubscribe | null = null
+  private _selectedIndexesUnsubscribe: Unsubscribe | null = null;
   private _removeClickListener: null | (() => void) = null;
 
   public constructor(id: string, name?: string) {
@@ -81,7 +81,7 @@ export class DrawModeLayer implements LogicalLayer {
   willUnmount(): void {
     this.willHide();
     this._isMounted = false;
-    this._selectedIndexesUnsubscribe?.()
+    this._selectedIndexesUnsubscribe?.();
   }
 
   setMode(mode: DrawModeType): any {
@@ -89,7 +89,7 @@ export class DrawModeLayer implements LogicalLayer {
     if (!mode) return this.willHide();
     // Case setting mode to create drawings
     if (createDrawingLayers.includes(mode)) {
-      this._map.doubleClickZoom.disable()
+      this._map.doubleClickZoom.disable();
       // if we had other drawing mode - remove it
       if (this._createDrawingLayer && this._createDrawingLayer !== mode)
         this._removeDeckLayer(this._createDrawingLayer);
@@ -104,7 +104,7 @@ export class DrawModeLayer implements LogicalLayer {
       if (this._createDrawingLayer) {
         this._removeDeckLayer(this._createDrawingLayer);
         this._createDrawingLayer = null;
-        this._map.doubleClickZoom.enable()
+        this._map.doubleClickZoom.enable();
       }
       if (this._editDrawingLayer === mode) return;
       this._addDeckLayer(drawModes[mode]);
@@ -114,15 +114,17 @@ export class DrawModeLayer implements LogicalLayer {
 
   _addDeckLayer(mode: DrawModeType): void {
     if (this.mountedDeckLayers[mode])
-      return console.log(`cannot add ${mode} as it's already mounted`);
+      return console.error(`cannot add ${mode} as it's already mounted`);
 
     const config = layersConfigs[mode];
     // Types for data are wrong. See https://deck.gl/docs/api-reference/layers/geojson-layer#data
     if (mode === drawModes.ModifyMode) {
-      this._selectedIndexesUnsubscribe = selectedIndexesAtom.subscribe(indexes => {
-        this.selectedIndexes = indexes
-        config.mode.previousSelection = indexes
-      })
+      this._selectedIndexesUnsubscribe = selectedIndexesAtom.subscribe(
+        (indexes) => {
+          this.selectedIndexes = indexes;
+          config.mode.previousSelection = indexes;
+        },
+      );
       config.data = this.drawnData;
       config.selectedFeatureIndexes = this.selectedIndexes;
       config.onEdit = this._onModifyEdit;
@@ -167,7 +169,7 @@ export class DrawModeLayer implements LogicalLayer {
   _removeDeckLayer(mode: DrawModeType): void {
     const deckLayer = this.mountedDeckLayers[mode];
     if (!deckLayer)
-      return console.log(`cannot remove ${mode} as it wasn't mounted`);
+      return console.error(`cannot remove ${mode} as it wasn't mounted`);
 
     this._map.removeLayer(deckLayer.id);
     delete this.mountedDeckLayers[mode];
@@ -182,14 +184,15 @@ export class DrawModeLayer implements LogicalLayer {
   _refreshMode(mode: DrawModeType): void {
     const layer = this.mountedDeckLayers[mode];
     layer?.setProps({
-      data: this.drawnData, selectedFeatureIndexes: this.selectedIndexes,
+      data: this.drawnData,
+      selectedFeatureIndexes: this.selectedIndexes,
     });
   }
 
   willHide(map?: ApplicationMap) {
     if (map && !this._map) this._map = map;
-    this._map.doubleClickZoom.enable()
-    selectedIndexesAtom.setIndexes([])
+    this._map.doubleClickZoom.enable();
+    selectedIndexesAtom.setIndexes([]);
     const keys = Object.keys(this.mountedDeckLayers) as DrawModeType[];
     keys.forEach((deckLayer) => this._removeDeckLayer(deckLayer));
     this._createDrawingLayer = null;
@@ -227,8 +230,10 @@ export class DrawModeLayer implements LogicalLayer {
               { title: i18n.t('Polygon should not overlap itself') },
               5,
             );
-            const unsubscribe = drawnGeometryAtom.subscribe(data => this.updateData(data))
-            return unsubscribe()
+            const unsubscribe = drawnGeometryAtom.subscribe((data) =>
+              this.updateData(data),
+            );
+            return unsubscribe();
           }
         } else {
           // remove edit coloring for all of them
