@@ -4,7 +4,7 @@ import { focusedGeometryAtom, currentEventAtom } from '~core/shared_state';
 import { LayerInArea } from '../types';
 
 /* Collect data for request */
-const paramsAtom = createBindAtom(
+export const paramsAtom = createBindAtom(
   {
     focusedGeometryAtom,
     currentEventAtom,

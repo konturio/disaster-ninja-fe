@@ -24,7 +24,6 @@ interface GeometrySourceDrawn {
   type: 'drawn';
 }
 
-
 type GeometrySource =
   | GeometrySourceEvent
   | GeometrySourceCustom
@@ -48,7 +47,7 @@ export const focusedGeometryAtom = createBindAtom(
   ({ onAction, schedule, create }, state: FocusedGeometry | null = null) => {
     onAction('setFocusedGeometry', ({ source, geometry }) => {
       if (source && geometry) {
-        schedule(async (dispatch, ctx: { hash?:string }) => {
+        schedule(async (dispatch, ctx: { hash?: string }) => {
           const hash = await crc32(JSON.stringify({ geometry, source }));
           // update only in case if geometry source or hash has changed
           if (!state || !ctx.hash || ctx.hash !== hash) {

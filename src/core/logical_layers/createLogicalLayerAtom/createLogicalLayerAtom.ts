@@ -45,12 +45,10 @@ export function createLogicalLayerAtom<T>(
         ) => {
           const { get, onChange } = track;
           const map = get('map');
-          state = logicalLayerReducer(map, layer, track, state);
           onChange('data', (data) => {
-            if (!map) return;
             if (typeof layer.onDataChange === 'function') {
               const { isLoading, isMounted, isVisible, isError } = state;
-              layer.onDataChange(map, data, {
+              layer.onDataChange(map ?? null, data, {
                 isLoading,
                 isMounted,
                 isVisible,
@@ -63,6 +61,8 @@ export function createLogicalLayerAtom<T>(
               );
             }
           });
+          state = logicalLayerReducer(map, layer, track, state);
+
           return state;
         },
         layer.id,
