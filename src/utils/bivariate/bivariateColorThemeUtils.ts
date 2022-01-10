@@ -163,6 +163,7 @@ export function generateLayerStyleFromBivariateLegendBackend(bl: BivariateLegend
 export function convertRGBtoObj(colorString: string): { r: number; g: number; b: number; a: number } {
   const rgbKeys = ['r', 'g', 'b', 'a'] as const;
   const rgbObj: {[K in typeof rgbKeys[number]]?: number} = {};
+   // rgba(number, number, number, number) => [number, number, number, number];
   const color = colorString.replace(/^rgba?\(|\s+|\)$/g,'').split(',');
 
   rgbKeys.forEach((colorKey, colorIndex) => {
