@@ -16,30 +16,8 @@ import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLaye
 type LayersInAreaAtomProps = {
   loading: boolean;
   data?: LayerInArea[] | null;
-  error: any;
+  error: unknown;
 };
-
-function isValidTimestamp(_timestamp) {
-  const dt = new Date(_timestamp);
-  const newTimestamp = new Date(_timestamp).getTime();
-  return isNumeric(newTimestamp) && dt.getFullYear() > 1970;
-}
-
-function isNumeric(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
-const makeLabel = (step) => {
-  let parsed = parseFloat(step);
-  if (!isNaN(parsed)) {
-    parsed *= 1000;
-    if (isValidTimestamp(parsed)) {
-      const date = new Date(parsed);
-      return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
-    }
-  }
-  return '';
-}
 
 export const layersInAreaLogicalLayersAtom = createBindAtom(
   {
@@ -66,10 +44,6 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
               const bl = layer.legend as BivariateLegendBackend;
               if (!bl) return acc;
 
-              const xAxis = {...bl.axises.x, steps: bl.axises.x.steps.map(stp => ({value: stp, label: makeLabel(stp)}))};
-              const yAxis = {...bl.axises.y, steps: bl.axises.y.steps.map(stp => ({value: stp, label: makeLabel(stp)}))};
-              bl.axises = { x: xAxis, y: yAxis } as any;
-
               // add opacity .5 to colors
               bl.colors = bl.colors.map(clr => {
                 const clrObj = convertRGBtoObj(clr.color);
@@ -80,7 +54,7 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
               const bivariateLegend: BivariateLegend = {
                 name: layer.name,
                 type: "bivariate",
-                axis: { x: yAxis, y: xAxis } as any,
+                axis: { x: bl.axes.y, y: bl.axes.x },
                 copyrights: layer.copyrights || [],
                 description: layer.description || '',
                 steps: bl.colors.map(clr => ({ label: clr.id, color: clr.color }))

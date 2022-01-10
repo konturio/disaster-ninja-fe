@@ -47,7 +47,7 @@ export interface BivariateLegend {
 export interface BivariateLegendBackend {
   name: string;
   type: 'bivariate';
-  axises: {
+  axes: {
     x: Axis;
     y: Axis;
   };
