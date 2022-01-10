@@ -37,7 +37,7 @@ export const bivariateNumeratorsAtom = createBindAtom(
           selectedDenominator: num.denominators[0],
         }));
 
-        state = { xNumerators: numsY, yNumerators: numsY };
+        state = { xNumerators: numsX, yNumerators: numsY };
       }
     });
 
