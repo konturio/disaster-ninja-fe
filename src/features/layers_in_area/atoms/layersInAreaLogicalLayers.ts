@@ -13,7 +13,7 @@ import { LayerInArea } from '../types';
 type LayersInAreaAtomProps = {
   loading: boolean;
   data?: LayerInArea[] | null;
-  error: any;
+  error: unknown;
 };
 
 const layersInAreaData = createBindAtom(
