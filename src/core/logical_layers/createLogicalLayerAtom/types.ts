@@ -55,7 +55,10 @@ export interface BivariateLegendBackend {
   steps: BivariateLegendStep[];
 }
 
-export type LayerLegend = SimpleLegend | BivariateLegend | BivariateLegendBackend;
+export type LayerLegend =
+  | SimpleLegend
+  | BivariateLegend
+  | BivariateLegendBackend;
 
 export type LogicalLayerAtomState = {
   id: string;
@@ -63,7 +66,11 @@ export type LogicalLayerAtomState = {
   isVisible: boolean;
   isLoading: boolean;
   isError: boolean;
-  layer?: LogicalLayer<any> | BivariateLayer | FocusedGeometryLayer | GenericLayer
+  layer?:
+    | LogicalLayer<any>
+    | BivariateLayer
+    | FocusedGeometryLayer
+    | GenericLayer;
 };
 
 export interface LogicalLayer<T = null> {
@@ -86,7 +93,7 @@ export interface LogicalLayer<T = null> {
     map: ApplicationMap,
   ) => { isVisible?: boolean; isLoading?: boolean } | void;
   onDataChange?: (
-    map: ApplicationMap,
+    map: ApplicationMap | null,
     data: T,
     state: Omit<LogicalLayerAtomState, 'id'>,
   ) => void;
