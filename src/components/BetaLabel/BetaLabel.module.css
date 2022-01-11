@@ -1,10 +1,10 @@
 .betaLabel {
-  margin-left: auto;
+  margin-left: 4px;
   background-color: hsla(202, 90%, 49%, 1);
   border-radius: 20px;
   color: white;
   font-weight: 500;
-  padding: 6px 16px;
+  padding: 4px 16px;
   font-size: 12px;
   margin-right: 8px;
 }
