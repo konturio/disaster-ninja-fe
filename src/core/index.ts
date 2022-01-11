@@ -3,7 +3,7 @@ import { NotificationService } from './notifications';
 import { TranslationService } from './localization';
 import { ApiClient } from './api_client';
 import { autoRefreshService } from './auto_refresh';
-import { AuthClient } from '~core/auth/AuthClient';
+import { AuthClient } from '~core/auth';
 
 NotificationService.init();
 export const notificationService = NotificationService.getInstance();

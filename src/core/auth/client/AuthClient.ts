@@ -1,5 +1,5 @@
 import { ApiClient } from '~core/api_client';
-import { userResource } from '~core/auth/atoms/userResource';
+import { userResourceAtom } from '~core/auth/atoms/userResource';
 
 interface AuthClientConfig {
    apiClient: ApiClient;
