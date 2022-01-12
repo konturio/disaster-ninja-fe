@@ -3,9 +3,6 @@
 	margin: var(--unit) 0;
 	overflow:hidden ;
 }
-.bivariateLegend > div{
-	margin-left: var(--unit);
-}
 
 .headline {
 	display: flex;
