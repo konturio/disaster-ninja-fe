@@ -21,6 +21,7 @@ import {
   BOUNDARY_MARKER_ID,
 } from '../constants';
 import { focusedGeometryAtom } from '~core/shared_state';
+import { setMapInteractivity } from '~utils/map/setMapInteractivity';
 
 const LOADING_OPTIONS = [
   { label: 'Loading...', value: 'loading', disabled: true },
@@ -68,6 +69,10 @@ export class BoundarySelectorLayer implements LogicalLayer {
 
   public willMount(map: ApplicationMap) {
     this._map = map;
+
+    // switch map interactivity off on layer enable
+    setMapInteractivity(this._map, false);
+
     const emptyGeoJsonSource = createGeoJSONSource();
     map.addSource(HOVERED_BOUNDARIES_SOURCE, emptyGeoJsonSource);
     const beforeId = layersOrderManager.getBeforeIdByType(
@@ -80,6 +85,10 @@ export class BoundarySelectorLayer implements LogicalLayer {
 
   public willUnmount(map: ApplicationMap) {
     if (!this._isMounted) return;
+
+    // switch map interactivity on on layer disable
+    setMapInteractivity(this._map, true);
+
     this._map = undefined;
     map.removeLayer(hoveredLayerConfig.id);
     map.removeSource(HOVERED_BOUNDARIES_SOURCE);
