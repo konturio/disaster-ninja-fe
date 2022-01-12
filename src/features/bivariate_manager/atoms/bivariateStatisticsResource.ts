@@ -7,6 +7,21 @@ function stringifyWithoutQuotes(obj: unknown): string {
   return json.replace(/"([^"]+)":/g, '$1:');
 }
 
+// we need this function to get rid of "properties" param in geojson geom cause
+// sometimes it contains inappropriate symbols like ":" which causes server side errors
+function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
+  const newGeom = geom as any;
+
+  if ('properties' in newGeom) {
+    newGeom.properties = {};
+  }
+  if ('features' in newGeom && newGeom.features.length) {
+    newGeom.features.forEach((feat) => cleanupGeometry(feat));
+  }
+
+  return newGeom;
+}
+
 let allMapStats: unknown;
 
 export const bivariateStatisticsResourceAtom = createResourceAtom(
@@ -17,7 +32,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
     }
 
     const polygonStatisticRequest = geom
-      ? `{ polygonV2: ${stringifyWithoutQuotes(geom.geometry)} }`
+      ? `{ polygonV2: ${stringifyWithoutQuotes(cleanupGeometry(geom.geometry))} }`
       : '{}';
 
     const responseData = await graphQlClient.post<{ data?: unknown }>(`/`, {

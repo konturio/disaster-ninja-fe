@@ -363,11 +363,22 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
 
   public willUnmount(map: ApplicationMap) {
     this._layerIds.forEach((id) => {
-      map.removeLayer(id);
+      if (map.getLayer(id) !== undefined) {
+        map.removeLayer(id);
+      } else {
+        console.error(`Can't remove layer with ID: ${id}. Layer does't exist in map`);
+      }
     });
     this._layerIds = [];
 
-    map.removeSource(this._sourceId);
+    if (this._sourceId) {
+      if (map.getSource(this._sourceId) !== undefined) {
+        map.removeSource(this._sourceId);
+      } else {
+        console.error(`Can't remove source with ID: ${this._sourceId}. Source does't exist in map`);
+      }
+    }
+
     this._removeClickListener?.();
   }
 
