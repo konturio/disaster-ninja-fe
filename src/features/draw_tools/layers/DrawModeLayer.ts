@@ -7,7 +7,7 @@ import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '../atoms/activeDrawMode';
 import { selectedIndexesAtom } from '../atoms/selectedIndexesAtom';
 import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
-import { setMapInteractivity } from '../setMapInteractivity';
+import { setMapInteractivity } from '~utils/map/setMapInteractivity';
 import { drawingIsStartedAtom } from '../atoms/drawingIsStartedAtom';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { currentNotificationAtom } from '~core/shared_state';

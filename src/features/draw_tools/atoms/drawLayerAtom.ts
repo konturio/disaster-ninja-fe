@@ -5,7 +5,7 @@ import { DrawModeLayer } from '../layers/DrawModeLayer';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { currentMapAtom } from '~core/shared_state';
 import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
-import { setMapInteractivity } from '../setMapInteractivity';
+import { setMapInteractivity } from '~utils/map/setMapInteractivity';
 import { temporaryGeometryAtom } from './temporaryGeometryAtom';
 
 const drawModeLayer = new DrawModeLayer(DRAW_TOOLS_LAYER_ID);
