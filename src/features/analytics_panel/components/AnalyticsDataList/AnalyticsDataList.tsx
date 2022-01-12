@@ -19,7 +19,7 @@ function textFormatter(txt: string) {
     const strRight = txt.substring(km2Ind + 3);
     return (
       <>
-        {strLeft}km<Sub>2</Sub>
+        {strLeft} km<Sub>2</Sub>
         {strRight}
       </>
     );
