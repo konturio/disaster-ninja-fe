@@ -3,10 +3,7 @@
 	margin: var(--unit) 0;
 	overflow:hidden ;
 }
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 .headline {
 	display: flex;
 	flex-flow: row nowrap;
