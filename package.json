@@ -116,6 +116,7 @@
     "react-i18next": "^11.11.4",
     "react-lazily": "^0.9.0",
     "react-markdown": "^7.1.0",
+    "react-router": "^5.2.1",
     "react-router-cache-route": "^1.11.1",
     "react-router-dom": "^5.3.0",
     "react-transition-group": "^4.4.2",
@@ -131,6 +132,7 @@
     "typed-react-markdown": "^0.1.0",
     "typescript": "4.3.5",
     "typescript-plugin-css-modules": "^3.4.0",
+    "use-subscription": "^1.5.1",
     "vite-plugin-html": "^2.1.1",
     "yenv": "^2.1.1"
   },
