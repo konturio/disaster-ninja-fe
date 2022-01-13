@@ -21,5 +21,6 @@
   "episode_list": true,
   "communities": true,
   "feature_settings": true,
-  "osm_edit_link": true
+  "osm_edit_link": true,
+  "tooltip": true
 }
