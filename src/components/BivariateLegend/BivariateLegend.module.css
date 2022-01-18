@@ -9,9 +9,8 @@
 	flex-flow: row nowrap;
 }
 
-.tooltip {
-	right: 4px;
-	top: 2px;
+.hidden{
+	opacity: 0.5;
 }
 
 .layerName {
@@ -21,4 +20,11 @@
 	display: inline-block;
 	line-height: 120%;
 	margin-bottom: 8px;
+}
+
+.controlsBar{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	gap: var(--unit);
 }

@@ -47,12 +47,14 @@ export function SimpleLegendStep({
 export function SimpleLegend({
   legend,
   label,
+  isHidden = false
 }: {
   legend: SimpleLegendType;
   label?: React.ReactChild;
+  isHidden?: boolean
 }) {
   return (
-    <div>
+    <div className={isHidden ? s.hidden : ''}>
       {label}
       <div className={s.multiSteps}>
         {legend.steps.map((step, i) => (
