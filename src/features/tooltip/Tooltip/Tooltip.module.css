@@ -80,6 +80,10 @@
   display: none;
 }
 
+.markdown a, .markdown a:visited, .markdown a:link, .markdown a:active, .markdown a:hover {
+  color: var(--invert-outline-text-active);
+}
+
 @media screen and (max-width: 960px) {
   /* var(--md) */
 
@@ -132,5 +136,9 @@
 
   .markdown {
     flex: 1 1 0;
+  }
+
+  .markdown a, .markdown a:visited, .markdown a:link, .markdown a:active, .markdown a:hover {
+    color: var(--primary-text-active);
   }
 }
