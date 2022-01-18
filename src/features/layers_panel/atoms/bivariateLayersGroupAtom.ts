@@ -6,15 +6,19 @@ export const bivariateLayersGroupAtom = createBindAtom({
   setBivariateIds: (ids: string[]) => ids,
   registry: logicalLayersRegistryStateAtom
 },
-  ({ onAction, get, onChange }, state: { ids: string[], activeLayer?: LogicalLayer | null } = { ids: [], activeLayer: null }) => {
+  ({ onAction, get, onChange }, state: { ids: string[], activeLayer?: LogicalLayer | null, activeLayerIsVisible?: boolean } = { ids: [], activeLayer: null }) => {
 
     onAction('setBivariateIds', ids => {
       const registry = get('registry')
-      state = { ...state, ids, activeLayer: findActiveLayer(ids, registry) }
+      const activeLayer = findActiveLayer(ids, registry)
+      const activeLayerIsVisible = activeLayer?.id ? registry[activeLayer.id].isVisible : false
+      state = { ...state, ids, activeLayer: activeLayer, activeLayerIsVisible }
     })
 
     onChange('registry', registry => {
-      state = { ...state, activeLayer: findActiveLayer(state.ids, registry) }
+      const activeLayer = findActiveLayer(state.ids, registry)
+      const activeLayerIsVisible = activeLayer?.id ? registry[activeLayer.id].isVisible : false
+      state = { ...state, activeLayer, activeLayerIsVisible }
     })
 
     return state

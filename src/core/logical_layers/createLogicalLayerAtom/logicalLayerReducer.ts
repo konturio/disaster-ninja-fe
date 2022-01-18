@@ -113,6 +113,7 @@ export const logicalLayerReducer = <T>(
           .finally(() => {
             const updateStateAction = create('_updateState', {
               isLoading: false,
+              isVisible: true,
               isMounted: !isSuccess,
               isError: !isSuccess,
             });
@@ -120,7 +121,7 @@ export const logicalLayerReducer = <T>(
           });
       });
     } else {
-      state = { ...state, isMounted: false };
+      state = { ...state, isMounted: false, isVisible: true, };
     }
   });
 
