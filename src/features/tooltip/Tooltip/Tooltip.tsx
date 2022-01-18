@@ -4,6 +4,7 @@ import { TooltipInfo } from '~core/shared_state/сurrentTooltip'
 import s from './Tooltip.module.css'
 import { CloseIcon } from '@k2-packages/default-icons';
 import { useEffect, useState } from 'react';
+import { LinkRenderer } from '~utils/markdown/mdComponents';
 
 export function Tooltip({ info, closeTooltip }: { info: TooltipInfo | null, closeTooltip: () => void }) {
   const [position, setPosition] =
@@ -23,9 +24,9 @@ export function Tooltip({ info, closeTooltip }: { info: TooltipInfo | null, clos
         setPosition('bottom-left')
       }
       else setPosition('bottom-right')
-    } 
+    }
     else setPosition(null)
-    
+
   }, [info?.position]);
 
 
@@ -48,7 +49,9 @@ export function Tooltip({ info, closeTooltip }: { info: TooltipInfo | null, clos
         {position && <div className={clsx(s.popup, s[position])} >
           <div className={s.popupContent} onClick={onContentClick}>
             {typeof info.popup === 'string' ?
-              <ReactMarkdown className={s.markdown}>{info.popup}</ReactMarkdown>
+              <ReactMarkdown components={{ a: LinkRenderer }} className={s.markdown}>
+                {info.popup}
+              </ReactMarkdown>
               :
               info.popup
             }
