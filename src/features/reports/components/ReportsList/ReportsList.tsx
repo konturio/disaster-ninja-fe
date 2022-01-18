@@ -10,6 +10,7 @@ import { useAtom } from '@reatom/react';
 import config from '~core/app_config';
 import styles from './ReportsList.module.css';
 import arrowIcon from '../../icons/arrow.svg';
+import { LinkRenderer } from '~utils/markdown/mdComponents';
 
 export function ReportsList() {
   const history = useHistory();
@@ -76,7 +77,7 @@ export function ReportsList() {
                   </div>
                 </Text>
                 <Text type="long-l">
-                  <ReactMarkdown className={clsx(styles.reportDescr)}>
+                  <ReactMarkdown className={clsx(styles.reportDescr)} components={{ a: LinkRenderer }}>
                     {report.description_brief}
                   </ReactMarkdown>
                 </Text>
