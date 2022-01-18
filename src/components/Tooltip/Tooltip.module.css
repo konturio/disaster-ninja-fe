@@ -1,7 +1,6 @@
 .tooltip {
   cursor: pointer;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  margin-top: 2px;
 }

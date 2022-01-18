@@ -12,7 +12,7 @@ import { MapboxLayer } from '@deck.gl/mapbox';
 import Icon from '../icons/iconAtlas.png';
 import app_config from '~core/app_config';
 
-const layersConfig = (
+const getLayersConfig = (
   id: string,
   sourceId: string,
   data: any,
@@ -72,13 +72,13 @@ export class FocusedGeometryLayer
   public readonly id: string;
   public readonly name?: string;
   public readonly legend?: LayerLegend;
-
   private _sourceId: string;
   private _lastGeometryUpdate: GeoJSON.Feature | GeoJSON.FeatureCollection;
   private _iconLayerData: {
     [key: string]: any;
     coordinates: number[];
   }[];
+  private _layerConfigs: maplibregl.AnyLayer[] = [];
 
   constructor({ id, name }) {
     this.id = id;
@@ -92,6 +92,11 @@ export class FocusedGeometryLayer
   }
 
   onInit() {
+    this._layerConfigs = getLayersConfig(
+      this.id + '-layer',
+      this._sourceId,
+      this._iconLayerData,
+    );
     return { isLoading: false, isVisible: true };
   }
 
@@ -110,13 +115,9 @@ export class FocusedGeometryLayer
       data: this._lastGeometryUpdate,
     });
 
-    layersConfig(
-      this.id + '-layer',
-      this._sourceId,
-      this._iconLayerData,
-    ).forEach((layerConfig) => {
-      // give data to icons
+    this._layerConfigs.forEach((layerConfig) => {
       const beforeId = layersOrderManager.getBeforeIdByType(layerConfig.type);
+      // give data to icons
       map.addLayer(
         layerConfig,
         layerConfig.id.endsWith('-icons') ? null : beforeId,
@@ -180,13 +181,21 @@ export class FocusedGeometryLayer
   }
 
   willUnmount(map: ApplicationMap) {
-    layersConfig(
-      this.id + '-layer',
-      this._sourceId,
-      this._iconLayerData,
-    ).forEach((layerConfig) => {
-      map.removeLayer(layerConfig.id);
+    this._layerConfigs.forEach(({ id }) => {
+      map.removeLayer(id);
     });
     map.removeSource(this._sourceId);
+  }
+
+  willHide(map: ApplicationMap) {
+    this._layerConfigs.forEach(({ id }) => {
+      map.setLayoutProperty(id, 'visibility', 'none');
+    });
+  }
+
+  willUnhide(map: ApplicationMap) {
+    this._layerConfigs.forEach(({ id }) => {
+      map.setLayoutProperty(id, 'visibility', 'visible');
+    });
   }
 }
