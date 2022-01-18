@@ -366,7 +366,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       if (map.getLayer(id) !== undefined) {
         map.removeLayer(id);
       } else {
-        console.error(`Can't remove layer with ID: ${id}. Layer does't exist in map`);
+        console.error(`Can't remove layer with ID: ${id}. Layer doesn't exist on the map`);
       }
     });
     this._layerIds = [];
@@ -375,7 +375,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       if (map.getSource(this._sourceId) !== undefined) {
         map.removeSource(this._sourceId);
       } else {
-        console.error(`Can't remove source with ID: ${this._sourceId}. Source does't exist in map`);
+        console.error(`Can't remove source with ID: ${this._sourceId}. Source doesn't exist on the map`);
       }
     }
 
@@ -403,5 +403,26 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     if (featureWithLink === undefined) return;
     const link = featureWithLink[linkProperty];
     window.open(link);
+  }
+
+  willHide(map: ApplicationMap) {
+    this._layerIds.forEach((id) => {
+      if (map.getLayer(id) !== undefined) {
+        map.setLayoutProperty(id, 'visibility', 'none');
+      } else {
+        console.error(`Can't hide layer with ID: ${id}. Layer doesn't exist on the map`);
+      }
+    });
+  }
+
+
+  willUnhide(map: ApplicationMap) {
+    this._layerIds.forEach((id) => {
+      if (map.getLayer(id) !== undefined) {
+        map.setLayoutProperty(id, 'visibility', 'visible');
+      } else {
+        console.error(`Cannot unhide layer with ID: ${id}. Layer doesn't exist on the map`);
+      }
+    });
   }
 }
