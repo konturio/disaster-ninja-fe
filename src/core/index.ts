@@ -47,8 +47,17 @@ ApiClient.init({
 });
 export const reportsClient = ApiClient.getInstance('reports');
 
+// initialize Keycloak client
+ApiClient.init({
+  instanceId: 'keycloak',
+  notificationService: notificationService,
+  baseURL: config.keycloakUrl,
+  disableAuth: true,
+  translationService: TranslationService,
+});
+
 // init authentication
-AuthClient.init({ apiClient });
+AuthClient.init({ apiClient: ApiClient.getInstance('keycloak') });
 export const authClient = AuthClient.getInstance();
 
 autoRefreshService.start(config.refreshIntervalSec);
