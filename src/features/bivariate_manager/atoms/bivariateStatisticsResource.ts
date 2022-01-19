@@ -88,6 +88,8 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
             rate
             quality
             correlation
+            avgCorrelationX
+            avgCorrelationY
           }
           colors {
             fallback
