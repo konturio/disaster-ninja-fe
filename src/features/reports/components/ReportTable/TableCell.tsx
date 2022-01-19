@@ -43,6 +43,12 @@ export function TableCellComponent({
     [row, cell, meta, OSMId],
   );
 
+  const getBBoxLink = useCallback(
+    () =>
+      meta?.column_link_templates[0]['Bounding box']?.replace('{{Bounding box}}', cell),
+    [cell, meta],
+  );
+
   if (!thead) return null;
 
   if (index === OSMIdIndex) {
@@ -69,6 +75,16 @@ export function TableCellComponent({
         <a onClick={(e) => jOSMRedirect(e, link)} href={link} title={i18n.t('Open via JOSM remote control')}>
           <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
           {cell}
+        </a>
+      </td>
+    );
+  }
+  if (thead[index] === 'Place bounding box') {
+    const link = getBBoxLink();
+    return (
+      <td>
+        <a onClick={(e) => jOSMRedirect(e, link)} href={link} title={i18n.t('Open via JOSM remote control')}>
+          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
         </a>
       </td>
     );
