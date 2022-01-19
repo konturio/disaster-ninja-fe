@@ -1,7 +1,6 @@
 .bivariateLegend {
 	position: relative;
 	margin: var(--unit) 0;
-	overflow:hidden ;
 }
 
 .headline {
