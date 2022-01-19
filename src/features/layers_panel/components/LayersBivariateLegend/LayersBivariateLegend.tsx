@@ -4,12 +4,12 @@ import { bivariateLayersGroupAtom } from "~features/layers_panel/atoms/bivariate
 import { BivariateLegend } from '~components/BivariateLegend/BivariateLegend';
 
 export function LayersBivariateLegend({ ids }: { ids: string[] }) {
-  const [{ activeLayer }, { setBivariateIds }] = useAtom(bivariateLayersGroupAtom)
+  const [{ activeLayer, activeLayerIsVisible }, { setBivariateIds }] = useAtom(bivariateLayersGroupAtom)
 
   useEffect(() => {
     setBivariateIds(ids)
   }, [ids])
 
   if (!activeLayer) return null
-  return (<BivariateLegend layer={activeLayer} showDescrption={false} />)
+  return (<BivariateLegend layer={activeLayer} showDescrption={false} isHidden={!activeLayerIsVisible} />)
 }

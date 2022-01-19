@@ -1,0 +1,144 @@
+.tooltipContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--tooltip);
+}
+
+.tooltipAnchor {
+  position: relative;
+}
+
+.popup {
+  position: absolute;
+  width: 256px;
+}
+
+.markdown p {
+  margin: 0;
+}
+
+.popupContent {
+  position: absolute;
+  display: flex;
+  padding: var(--unit) var(--unit) var(--half-unit) var(--unit);
+  max-width: 268px;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: var(--invert-surface-regular);
+  color: white;
+  border-radius: var(--border-radius);
+}
+
+.top-left {
+  left: calc(0px - var(--half-unit));
+  bottom: var(--half-unit);
+
+  .popupContent {
+    transform: translate(-100%, -100%);
+  }
+}
+
+.top-right {
+  left: var(--half-unit);
+  bottom: var(--half-unit);
+
+  .popupContent {
+    transform: translate(0, -100%);
+  }
+}
+
+.bottom-left {
+  left: calc(0px - var(--half-unit));
+  top: var(--half-unit);
+
+  .popupContent {
+    transform: translate(-100%, 0);
+  }
+}
+
+.bottom-right {
+  left: var(--half-unit);
+  top: var(--half-unit);
+}
+
+.closeIcon {
+  cursor: pointer;
+  height: 10px;
+  display: flex;
+  color: var(--invert-outline-icon-disabled);
+}
+
+.closeIcon svg {
+  width: var(--double-unit);
+  height: var(--double-unit);
+}
+
+.unset {
+  display: none;
+}
+
+.markdown a, .markdown a:visited, .markdown a:link, .markdown a:active, .markdown a:hover {
+  color: var(--invert-outline-text-active);
+}
+
+@media screen and (max-width: 960px) {
+  /* var(--md) */
+
+  .tooltipContainer {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .tooltipAnchor {
+    position: static;
+    width: 100%;
+    height: 100%;
+  }
+
+  .popup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+
+  .popupContent {
+    position: absolute;
+    display: flex;
+    z-index: var(--tooltip);
+    left: 0;
+    bottom: calc(0px - var(--half-unit));
+    width: 100%;
+    display: flex;
+    padding: var(--double-unit);
+    max-height: 90%;
+    max-width: 100%;
+    background-color: white;
+    color: var(--primary-text-regular);
+    font-weight: 400;
+    font-size: 16px;
+    border-radius: var(--unit) var(--unit) 0 0;
+  }
+
+  .popup .popupContent {
+    transform: translate(0, 0);
+  }
+
+  .closeIcon {
+    cursor: pointer;
+    height: 10px;
+    display: flex;
+    color: var(--primary-icon-regular);
+  }
+
+  .markdown {
+    flex: 1 1 0;
+  }
+
+  .markdown a, .markdown a:visited, .markdown a:link, .markdown a:active, .markdown a:hover {
+    color: var(--primary-text-active);
+  }
+}

@@ -13,6 +13,7 @@ import { tableAtom } from '../../atoms/tableAtom';
 import commonStyles from '../ReportsList/ReportsList.module.css';
 import styles from './Report.module.css';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { LinkRenderer } from '~utils/markdown/mdComponents';
 
 type Params = {
   reportId: string;
@@ -55,7 +56,7 @@ export function ReportInfo() {
       </Text>
 
       <Text type="long-l">
-        <ReactMarkdown className={commonStyles.description}>
+        <ReactMarkdown className={commonStyles.description} components={{ a: LinkRenderer }}>
           {report.meta?.description_full!}
         </ReactMarkdown>
       </Text>

@@ -10,27 +10,24 @@ import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivar
 
 export const bivariateMatrixSelectionAtom = createBindAtom(
   {
-    setMatrixSelection: (xNumerator: string | null, yNumerator: string | null) => ({ xNumerator, yNumerator }),
+    setMatrixSelection: (xNumerator: string | null, xDenominator: string | null, yNumerator: string | null, yDenominator: string | null) => ({ xNumerator, xDenominator, yNumerator, yDenominator }),
   },
-  ({ onAction, schedule, getUnlistedState }, state: { xNumerator: string | null, yNumerator: string | null } = {
+  ({ onAction, schedule, getUnlistedState }, state: { xNumerator: string | null, xDenominator: string | null, yNumerator: string | null, yDenominator: string | null } = {
     xNumerator: null,
+    xDenominator: null,
     yNumerator: null,
+    yDenominator: null
   }) => {
     onAction('setMatrixSelection', (selection) => {
       state = selection;
 
-      const { xNumerator, yNumerator } = selection;
+      const { xNumerator, xDenominator, yNumerator, yDenominator } = selection;
       if (xNumerator === null || yNumerator === null) return;
 
       const { xNumerators, yNumerators } = getUnlistedState(bivariateNumeratorsAtom);
       const stats = getUnlistedState(bivariateStatisticsResourceAtom).data.polygonStatistic.bivariateStatistic;
 
       if (!xNumerators || !yNumerators || !xNumerators.length || !yNumerators.length) return;
-
-      const xDenominator = xNumerators.find((num) => num.numeratorId === xNumerator)
-        ?.selectedDenominator;
-      const yDenominator = yNumerators.find((num) => num.numeratorId === yNumerator)
-        ?.selectedDenominator;
 
       if (!xDenominator || !yDenominator) return;
 

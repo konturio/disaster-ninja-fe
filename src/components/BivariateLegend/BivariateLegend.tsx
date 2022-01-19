@@ -4,14 +4,16 @@ import { Legend as BiLegend, Text } from '@k2-packages/ui-kit';
 import { invertClusters } from '@k2-packages/bivariate-tools';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import s from './BivariateLegend.module.css';
+import cn from 'clsx';
 
 type BivariateLegendProps = {
   layer: LogicalLayer;
-  extraIcons?: JSX.Element[];
-  showDescrption?: boolean
+  controls?: JSX.Element[];
+  showDescrption?: boolean;
+  isHidden?: boolean
 };
 
-export function BivariateLegend({ layer, extraIcons, showDescrption = true }: BivariateLegendProps) {
+export function BivariateLegend({ layer, controls, showDescrption = true, isHidden }: BivariateLegendProps) {
   const tipText = useMemo(() => {
     if (!layer.legend || layer.legend.type === 'simple') return '';
     let message = '';
@@ -27,15 +29,22 @@ export function BivariateLegend({ layer, extraIcons, showDescrption = true }: Bi
   }, [layer.legend]);
 
   return layer.legend && layer.legend.type !== 'simple' && layer.name ?
-    <div className={s.bivariateLegend}>
+    <div
+      className={cn(
+        s.bivariateLegend,
+        {
+          [s.hidden]: isHidden,
+        },
+      )}>
       {showDescrption && <div className={s.headline}>
         <Text type="long-m">
           <span className={s.layerName}>{layer.name}</span>
         </Text>
-        {tipText &&
-          <Tooltip className={s.tooltip} tipText={tipText} />
-        }
-        {extraIcons && [...extraIcons]}
+        <div className={s.controlsBar}>{controls}
+          {tipText &&
+            <Tooltip className={s.tooltip} tipText={tipText} />
+          }
+        </div>
       </div>}
 
       <BiLegend
