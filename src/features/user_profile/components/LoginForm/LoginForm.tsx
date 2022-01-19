@@ -2,10 +2,10 @@ import { Button, Card, Input, Modal, Text } from '@k2-packages/ui-kit';
 import { useAction, useAtom } from '@reatom/react';
 import { currentUserAtom } from '~core/auth';
 import s from './LoginForm.module.css';
-import { translationService as i18n } from '~core/index';
+import { authClient, keycloakClient, translationService as i18n } from '~core/index';
 import { SocialLoginIcon } from '~components/SocialLoginIcon/SocialLoginIcon';
 import clsx from 'clsx';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { testEmail } from '~utils/forms/formsUtils';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 
@@ -51,8 +51,9 @@ export function LoginForm() {
       setError(err);
     } else {
       setLoading(true);
-      setTimeout(() => {
+      setTimeout(async () => {
         setLoading(false);
+        const authResponse = await authClient.authenticate(email, password);
         if (email !== 'test@test.com' || password !== '1234') {
           setError({ general: 'Incorrect username or password!'});
         } else {

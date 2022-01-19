@@ -202,6 +202,7 @@ export class ApiClient {
     ) {
       this.unauthorizedCallback();
     }
+
     const problem = getGeneralApiProblem(response);
     const errorMessage = ApiClient.parseError(problem);
 

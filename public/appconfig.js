@@ -13,4 +13,7 @@ window.konturAppConfig = {
     'activeContributors',
     'eventShape'
   ],
+  KEYCLOAK_URL: 'http://localhost:8080',
+  KEYCLOAK_REALM: 'kontur-test',
+  KEYCLOAK_CLIENT_ID: 'kontur-test',
 };

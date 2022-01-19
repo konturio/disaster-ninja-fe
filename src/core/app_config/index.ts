@@ -11,6 +11,9 @@ declare global {
       MAP_BASE_STYLE: string;
       LOGIN_API_PATH: string;
       LAYERS_BY_DEFAULT: string[];
+      KEYCLOAK_URL: string,
+      KEYCLOAK_REALM: string,
+      KEYCLOAK_CLIENT_ID: string,
     };
   }
 }
@@ -26,6 +29,9 @@ export default {
   mapBaseStyle: window.konturAppConfig.MAP_BASE_STYLE,
   loginApiPath: window.konturAppConfig.LOGIN_API_PATH,
   layersByDefault: window.konturAppConfig.LAYERS_BY_DEFAULT,
+  keycloakUrl: window.konturAppConfig.KEYCLOAK_URL,
+  keycloakRealm: window.konturAppConfig.KEYCLOAK_REALM,
+  keycloakClientId: window.konturAppConfig.KEYCLOAK_CLIENT_ID,
   baseUrl: import.meta.env.BASE_URL,
   isDevBuild: import.meta.env.DEV,
   isProdBuild: import.meta.env.PROD,
