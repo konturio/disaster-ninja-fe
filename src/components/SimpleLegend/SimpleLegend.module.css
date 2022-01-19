@@ -12,3 +12,7 @@
 .stepName {
   margin-left: var(--half-unit);
 }
+
+.hidden {
+  opacity: 0.5;
+}

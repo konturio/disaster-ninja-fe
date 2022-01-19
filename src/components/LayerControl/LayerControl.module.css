@@ -32,7 +32,7 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  gap: 2px; /* with of focus outile */
+  gap: var(--unit);
 }
 
 .loading {

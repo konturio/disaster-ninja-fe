@@ -51,4 +51,16 @@ export class BivariateLayer implements LogicalLayer {
     }
     this._isMounted = false;
   }
+
+  willHide(map: ApplicationMap) {
+    if (map.getLayer(this.id) !== undefined) {
+      map.setLayoutProperty(this.id, 'visibility', 'none');
+    }
+  }
+
+  willUnhide(map: ApplicationMap) {
+    if (map.getLayer(this.id) !== undefined) {
+      map.setLayoutProperty(this.id, 'visibility', 'visible');
+    }
+  }
 }

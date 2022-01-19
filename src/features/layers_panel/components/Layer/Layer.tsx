@@ -11,6 +11,7 @@ import {
   SimpleLegendStep,
 } from '~core/logical_layers/createLogicalLayerAtom/types';
 import type { LogicalLayerAtom } from '~core/types/layers';
+import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
 
 export function Layer({
   layerAtom,
@@ -34,6 +35,22 @@ export function Layer({
     layerState.layer.legend?.type === 'simple' &&
     layerState.layer.legend.steps?.length > 1;
 
+  const controlElements: JSX.Element[] = []
+  if (layerState.isMounted) controlElements.push(
+    <LayerHideControl key={layerState.id + 'hide'}
+      isVisible={layerState.isVisible}
+      hideLayer={layerActions.hide}
+      unhideLayer={layerActions.unhide}
+    />
+  );
+  controlElements.push(
+    <LayerInfo
+      key={layerState.id}
+      copyrights={layerState.layer.copyrights}
+      description={layerState.layer.description}
+    />
+  );
+
   const Control = (
     <LayerControl
       isError={layerState.isError}
@@ -51,19 +68,13 @@ export function Layer({
         )
       }
       inputType={mutuallyExclusive ? 'radio' : 'checkbox'}
-      controls={[
-        <LayerInfo
-          key={layerState.id}
-          copyrights={layerState.layer.copyrights}
-          description={layerState.layer.description}
-        />,
-      ]}
+      controls={controlElements}
     />
   );
 
   return hasMultiStepSimpleLegend ? (
     <Folding label={Control} open={layerState.isMounted}>
-      <SimpleLegendComponent legend={layerState.layer.legend as SimpleLegend} />
+      <SimpleLegendComponent legend={layerState.layer.legend as SimpleLegend} isHidden={!layerState.isVisible} />
     </Folding>
   ) : (
     Control

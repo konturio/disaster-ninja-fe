@@ -1,10 +1,6 @@
 .bivariateLegend {
 	position: relative;
 	margin: var(--unit) 0;
-	overflow:hidden ;
-}
-.bivariateLegend > div{
-	margin-left: var(--unit);
 }
 
 .headline {
@@ -12,9 +8,8 @@
 	flex-flow: row nowrap;
 }
 
-.tooltip {
-	right: 4px;
-	top: 2px;
+.hidden{
+	opacity: 0.5;
 }
 
 .layerName {
@@ -22,4 +17,13 @@
 	font-size: 14px;
 	padding-right: 20px;
 	display: inline-block;
+	line-height: 120%;
+	margin-bottom: 8px;
+}
+
+.controlsBar{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	gap: var(--unit);
 }

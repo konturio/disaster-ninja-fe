@@ -6,9 +6,9 @@ import { Row } from '~components/Layout/Layout';
 import s from './Main.module.css';
 import { useHistory } from 'react-router';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
-import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
+import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { UserProfile } from '~features/user_profile';
 
 const { ConnectedMap } = lazily(
@@ -21,6 +21,7 @@ const { Analytics } = lazily(() => import('~features/analytics_panel'));
 const { Legend } = lazily(() => import('~features/legend_panel'));
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
 const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
+const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 
 const { DrawToolsToolbox } = lazily(
   () =>
@@ -85,6 +86,7 @@ export function MainView() {
 
   return (
     <>
+      {userFeatures?.tooltip === true && <PopupTooltip />}
       <AppHeader title="Disaster Ninja" logo={VisibleLogo()} afterChatContent={<UserProfile />}>
         <Row>
           <BetaLabel />
