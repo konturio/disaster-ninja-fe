@@ -14,6 +14,7 @@ export function createLogicalLayerAtom<T>(
           data: atom,
           map: currentMapAtom,
           init: () => undefined,
+          download: () => undefined,
           mount: () => undefined,
           unmount: () => undefined,
           hide: () => undefined,
@@ -71,6 +72,7 @@ export function createLogicalLayerAtom<T>(
         {
           map: currentMapAtom,
           setData: (data: T) => data,
+          download: () => undefined,
           init: () => undefined,
           mount: () => undefined,
           unmount: () => undefined,

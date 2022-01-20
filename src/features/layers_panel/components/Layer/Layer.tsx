@@ -12,6 +12,7 @@ import {
 } from '~core/logical_layers/createLogicalLayerAtom/types';
 import type { LogicalLayerAtom } from '~core/types/layers';
 import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
+import { DownloadControl } from '../DownloadControl/DownloadControl';
 
 export function Layer({
   layerAtom,
@@ -41,6 +42,12 @@ export function Layer({
       isVisible={layerState.isVisible}
       hideLayer={layerActions.hide}
       unhideLayer={layerActions.unhide}
+    />
+  );
+  if (layerState.isMounted && layerState.layer.isDownloadable) controlElements.push(
+    <DownloadControl
+      key={layerState.id + 'download'}
+      startDownload={layerActions.download}
     />
   );
   controlElements.push(
