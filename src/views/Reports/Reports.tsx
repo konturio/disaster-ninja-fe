@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { AppHeader, Text } from '@k2-packages/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
 import { ReportsList } from '~features/reports/components/ReportsList/ReportsList';
@@ -7,9 +8,15 @@ import s from './Reports.module.css';
 import { useHistory } from 'react-router';
 import config from '~core/app_config';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
+import { useAtom } from '@reatom/react';
+import { userResource } from '~core/auth/atoms/userResource';
+import { lazily } from 'react-lazily';
+
+const { NotificationToast } = lazily(() => import('~features/toasts'));
 
 export function Reports() {
   const history = useHistory();
+  const [{ data: { features: userFeatures } }] = useAtom(userResource);
 
   function linkableTitle() {
     return (
@@ -40,6 +47,9 @@ export function Reports() {
           </Row>
         </AppHeader>
       </div>
+      <Suspense fallback={null}>
+        {userFeatures?.toasts === true && <NotificationToast />}
+      </Suspense>
       <ReportsList />
     </div>
   );
