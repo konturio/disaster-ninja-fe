@@ -11,6 +11,7 @@ import { IconLayer } from '@deck.gl/layers';
 import { MapboxLayer } from '@deck.gl/mapbox';
 import Icon from '../icons/iconAtlas.png';
 import app_config from '~core/app_config';
+import { downloadObject } from '~utils/fileHelpers/download';
 
 const getLayersConfig = (
   id: string,
@@ -79,6 +80,7 @@ export class FocusedGeometryLayer
     coordinates: number[];
   }[];
   private _layerConfigs: maplibregl.AnyLayer[] = [];
+  public isDownloadable: boolean = true
 
   constructor({ id, name }) {
     this.id = id;
@@ -197,5 +199,9 @@ export class FocusedGeometryLayer
     this._layerConfigs.forEach(({ id }) => {
       map.setLayoutProperty(id, 'visibility', 'visible');
     });
+  }
+  
+  public onDownload(map: ApplicationMap) {
+    downloadObject(this._lastGeometryUpdate, `${this.name || 'Disaster Ninja map layer'} ${new Date().toISOString()}.json`)
   }
 }

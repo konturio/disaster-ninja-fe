@@ -97,4 +97,6 @@ export interface LogicalLayer<T = null> {
     data: T,
     state: Omit<LogicalLayerAtomState, 'id'>,
   ) => void;
+  isDownloadable?: boolean;
+  onDownload?: (map: ApplicationMap) => any;
 }
