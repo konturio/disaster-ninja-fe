@@ -17,6 +17,7 @@ import { drawingIsStartedAtom } from '~features/draw_tools/atoms/drawingIsStarte
 import DownloadIcon from './icons/DownloadIcon';
 import { drawnGeometryAtom } from './atoms/drawnGeometryAtom';
 import { TranslationService as i18n } from '~core/localization';
+import { downloadObject } from '~utils/fileHelpers/download';
 
 
 
@@ -63,17 +64,7 @@ export function initDrawTools() {
           return feature
         })
       }
-      const file = new Blob([JSON.stringify(cleared)], { type: 'json' })
-      const a = document.createElement("a")
-      const url = URL.createObjectURL(file)
-      a.href = url;
-      a.download = `Disater_Ninja_custom_geometry_${new Date().toISOString()}.json`;
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(function () {
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      }, 0);
+      downloadObject(cleared, `Disater_Ninja_custom_geometry_${new Date().toISOString()}.json`)
     }
   });
 }
