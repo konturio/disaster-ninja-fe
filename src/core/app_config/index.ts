@@ -30,10 +30,10 @@ export default {
   keycloakUrl: window.konturAppConfig.KEYCLOAK_URL,
   keycloakRealm: window.konturAppConfig.KEYCLOAK_REALM,
   keycloakClientId: window.konturAppConfig.KEYCLOAK_CLIENT_ID,
-  baseUrl: import.meta.env.BASE_URL,
-  isDevBuild: import.meta.env.DEV,
-  isProdBuild: import.meta.env.PROD,
-  appVersion: import.meta.env.PACKAGE_VERSION as string,
+  baseUrl: import.meta.env?.BASE_URL,
+  isDevBuild: import.meta.env?.DEV,
+  isProdBuild: import.meta.env?.PROD,
+  appVersion: import.meta.env?.PACKAGE_VERSION as string,
   autoFocus: {
     desktopPaddings: {
       left: 336, // communities/analytics panel + paddings
@@ -72,7 +72,7 @@ export default {
   }
 };
 
-if (import.meta.env.PROD) {
+if (import.meta.env?.PROD) {
   console.info(
     `%c Disaster Ninja ${import.meta.env.PACKAGE_VERSION} deployment:
   - Build Time: ${import.meta.env.BUILD_TIME}

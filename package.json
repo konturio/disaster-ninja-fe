@@ -28,7 +28,10 @@
     ],
     "nonSemVerExperiments": {
       "configurableModuleFormat": true
-    }
+    },
+    "require": [
+      "./src/utils/testsUtils/setupBrowserEnv.ts"
+    ]
   },
   "lint-staged": {
     "*/**/*.{ts, tsx}": [
