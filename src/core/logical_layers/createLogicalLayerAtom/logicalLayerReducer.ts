@@ -57,6 +57,16 @@ export const logicalLayerReducer = <T>(
     state = { ...state, isVisible: true };
   });
 
+  onAction('download', () => {
+    if (!map || !layer.isDownloadable) return;
+    if (typeof layer.onDownload !== 'function') {
+      console.error(`Layer '${state.id}' haven't implemented onDownload method`);
+      return;
+    }
+    layer.onDownload(map);
+  });
+
+
   onAction('mount', () => {
     state = { ...state, isLoading: true, isMounted: true, isError: false };
     if (!map) return;

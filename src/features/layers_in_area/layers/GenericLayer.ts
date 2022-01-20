@@ -29,6 +29,7 @@ import {
 } from './activeContributorsLayers';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
+import { downloadObject } from '~utils/fileHelpers/download';
 
 export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
   public readonly id: string;
@@ -39,6 +40,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
   public readonly description?: string;
   public readonly copyrights?: string[];
   public readonly boundaryRequiredForRetrieval: boolean;
+  public isDownloadable: boolean = false
   private _layerIds: string[];
   private _sourceId: string;
   private _onClickListener:
@@ -279,6 +281,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       ): layer is LayerGeoJSONSource => layer.source.type === 'geojson';
       if (isGeoJSONLayer(layerData)) {
         this.mountGeoJSONLayer(map, layerData);
+        this.isDownloadable = true
       } else {
         this.mountTileLayer(map, layerData);
       }
@@ -424,5 +427,11 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
         console.error(`Cannot unhide layer with ID: ${id}. Layer doesn't exist on the map`);
       }
     });
+  }
+
+  public onDownload(map: ApplicationMap) {
+    const data: any = map.getSource(this._sourceId)
+    if (!data || data.type !== 'geojson') return console.error(`Source id ${this._sourceId} can't be downloaded`)
+    downloadObject(data._data, `${this.name || 'Disaster Ninja map layer'} ${new Date().toISOString()}.json`)
   }
 }
