@@ -313,6 +313,7 @@ export class ApiClient {
           response.data.access_token,
           response.data.refresh_token,
         );
+
         if (typeof setAuthResult === 'string') {
           throw new ApiClientError(this.translationService.t(setAuthResult), {
             kind: 'bad-data',
