@@ -12,7 +12,7 @@ export const notificationService = NotificationService.getInstance();
 ApiClient.init({
   notificationService: notificationService,
   baseURL: config.apiGateway,
-  loginApiPath: config.loginApiPath,
+  loginApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
   translationService: TranslationService,
 });
 export const apiClient = ApiClient.getInstance();
@@ -47,17 +47,8 @@ ApiClient.init({
 });
 export const reportsClient = ApiClient.getInstance('reports');
 
-// initialize Keycloak client
-ApiClient.init({
-  instanceId: 'keycloak',
-  notificationService: notificationService,
-  baseURL: config.keycloakUrl,
-  disableAuth: true,
-  translationService: TranslationService,
-});
-
 // init authentication
-AuthClient.init({ apiClient: ApiClient.getInstance('keycloak') });
+AuthClient.init({ apiClient });
 export const authClient = AuthClient.getInstance();
 
 autoRefreshService.start(config.refreshIntervalSec);

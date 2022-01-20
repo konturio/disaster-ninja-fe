@@ -1,6 +1,9 @@
 export type CurrentUser = {
-  name: string;
+  username: string;
+  email: string;
   token: string;
+  firstName: string;
+  lastName: string;
 };
 
 export type UserWithAuth = { userState: 'unauthorized' | 'logging_in' | 'signing_up' }

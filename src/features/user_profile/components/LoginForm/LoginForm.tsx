@@ -2,7 +2,7 @@ import { Button, Card, Input, Modal, Text } from '@k2-packages/ui-kit';
 import { useAction, useAtom } from '@reatom/react';
 import { currentUserAtom } from '~core/auth';
 import s from './LoginForm.module.css';
-import { authClient, keycloakClient, translationService as i18n } from '~core/index';
+import { authClient, translationService as i18n } from '~core/index';
 import { SocialLoginIcon } from '~components/SocialLoginIcon/SocialLoginIcon';
 import clsx from 'clsx';
 import { ChangeEvent, useState } from 'react';
@@ -10,10 +10,10 @@ import { testEmail } from '~utils/forms/formsUtils';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 
 export function LoginForm() {
-  const [currentUser, userActions] = useAtom(currentUserAtom);
+  const [currentUser] = useAtom(currentUserAtom);
 
   const onCloseFormCallback = useAction(() => {
-    userActions.setUser();
+    authClient.closeLoginForm();
   }, []);
 
   const [error, setError] = useState<{ email?: string, password?: string, general?: string }>({});
@@ -35,7 +35,7 @@ export function LoginForm() {
     setPassword(ev.target.value);
   };
 
-  const onLoginClick = () => {
+  const onLoginClick = async () => {
     const err: {email?: string; password?: string; general?: string; } = {};
     if (!email.length) {
       err.email = i18n.t('Email has not to be empty!');
@@ -51,15 +51,15 @@ export function LoginForm() {
       setError(err);
     } else {
       setLoading(true);
-      setTimeout(async () => {
-        setLoading(false);
-        const authResponse = await authClient.authenticate(email, password);
-        if (email !== 'test@test.com' || password !== '1234') {
-          setError({ general: 'Incorrect username or password!'});
+      const authResponse = await authClient.authenticate(email, password);
+      setLoading(false);
+      if (authResponse !== true) {
+        if (typeof authResponse === 'string') {
+          setError({ general: authResponse});
         } else {
-          userActions.setUser({ name: 'test@test.com', token: '123' });
+          setError({ general: 'Incorrect username or password!'});
         }
-      }, 1000 + Math.random() * 3000 );
+      }
     }
   };
 
@@ -72,14 +72,14 @@ export function LoginForm() {
           </div>
         )}
         <Text type="heading-xl">{i18n.t('Log in')}</Text>
-        <div className={s.socialLoginContainer}>
-          <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='google' />}>{i18n.t('Google')}</Button>
-          <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='github' />}>{i18n.t('Github')}</Button>
-          <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='osm' />}>{i18n.t('OSM')}</Button>
-        </div>
-        <div className={s.useEmailLabelContainer}>
-          <div className={s.useEmailLabel}>{i18n.t('or use email')}</div>
-        </div>
+        {/*<div className={s.socialLoginContainer}>*/}
+        {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='google' />}>{i18n.t('Google')}</Button>*/}
+        {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='github' />}>{i18n.t('Github')}</Button>*/}
+        {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='osm' />}>{i18n.t('OSM')}</Button>*/}
+        {/*</div>*/}
+        {/*<div className={s.useEmailLabelContainer}>*/}
+        {/*  <div className={s.useEmailLabel}>{i18n.t('or use email')}</div>*/}
+        {/*</div>*/}
         <div className={s.inputsContainer}>
           <Input error={error.email} showTopPlaceholder className={s.inputBox}
                  classes={{

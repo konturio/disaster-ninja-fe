@@ -1,7 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 import sinon from 'sinon';
 import type { NotificationMessage } from '../../../core/types/notification';
-import type { AuthResponseData } from '../../../core/api_client/ApiTypes';
 import { createLocalStorageMock, setupTestContext } from '../../../utils/testsUtils/setupTest';
 import { ApiClientError } from '../ApiProblem';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
@@ -41,9 +40,9 @@ const test = setupTestContext(() => {
     apiClient,
     loginFunc: async () => await apiClient.login(username, password),
     token:
-      'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiYWRtaW4iLCJVc2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjk3MTA2NDM0LCJpYXQiOjE2MzQwMzQ0MzR9.0GUrGfXYioalJVDRfWgWfx3oQRwk9FsOeAvULj-3ins',
+      'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ0cm1rNEFKRjF4Y2llMG5IQ0ZqUGdYbDVISmVkUFRmMXB5cE9rUHZtNXZVIn0.eyJleHAiOjE2NDI2ODAzOTksImlhdCI6MTY0MjY4MDA5OSwianRpIjoiZmNmMzZkOWQtNzkxNS00NTkyLTgxYjktOTE5ZDBlNDc1MTdiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL2tvbnR1ci10ZXN0IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImE1MTY4Y2NjLWQ1M2YtNDk1Mi04ZjlhLWNiMzlhYjE2MTRmOCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImtvbnR1ci10ZXN0Iiwic2Vzc2lvbl9zdGF0ZSI6ImUxODdjNzE4LWYxNGUtNGE5Yi1iZGQ3LTM0ZDJhOTBjNzY5YiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiVGVzdFVzZXIgVGVzdFVzZXIyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoidGVzdCIsImdpdmVuX25hbWUiOiJUZXN0VXNlciIsImZhbWlseV9uYW1lIjoiVGVzdFVzZXIyIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIn0.He9jZVuvl_4kfvbNrknqiXxg01CfZojD_KT3yc8dnu3pjDL_vzWDWKCFNX0mlLXEuBLZXCUc8lEMgVO0qWp2MBRn79g7boVDXZLWheQINoGXjJ94Su_c6JHKtenYn9deMkxeJo0CQHB_Ellcu59J3L-Ob68qNnipN4jm4eMzsKvGXMWpzbmGL2kl5vit6JYAU0xWPiY79tOl-EhmSb34-nryvZ5NezMR_a-ZXlfG0hZBDSVJ0Syauu9Vy_QE_Hoey0UFtQfRO9UjpeFsrOy4aR0IcOhQk5PR2AXbwi8qaUQSPdz8XRtEqteCWW8Fj3De6JYzWSELuj-OE3VD0Z0akA',
     expiredToken:
-      'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiYWRtaW4iLCJVc2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjAyNDk4NDM0LCJpYXQiOjE2MzQwMzQ0MzR9.tIETTaRaiJYto0Wb4oPbfCJHUGGjw9--mTfXVWWsVMk',
+      'eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmYTc2MjQ4OS05NWRiLTQ2YjAtYWExOS03ZjQzYzYwOWM0YzAifQ.eyJleHAiOjE2NDI2ODE4OTksImlhdCI6MTY0MjY4MDA5OSwianRpIjoiNzg5MmZmYjYtZmUzOS00M2YzLTk3OWYtZWYzYTI1NGNhMDFhIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL2tvbnR1ci10ZXN0IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL2tvbnR1ci10ZXN0Iiwic3ViIjoiYTUxNjhjY2MtZDUzZi00OTUyLThmOWEtY2IzOWFiMTYxNGY4IiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImtvbnR1ci10ZXN0Iiwic2Vzc2lvbl9zdGF0ZSI6ImUxODdjNzE4LWYxNGUtNGE5Yi1iZGQ3LTM0ZDJhOTBjNzY5YiIsInNjb3BlIjoiZW1haWwgcHJvZmlsZSJ9.V8pFITx9d4U00hcGmrrPIs8wZEklyTswevTvmqdxxLY',
     mockAdapter: new MockAdapter(axiosInstance),
     username,
     password,
@@ -57,8 +56,13 @@ test('can login with username and password', async (t) => {
   const loginRequestMock = sinon.fake.returns([
     200,
     {
-      accessToken: t.context.token,
-      refreshToken: t.context.token,
+      access_token: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ0cm1rNEFKRjF4Y2llMG5IQ0ZqUGdYbDVISmVkUFRmMXB5cE9rUHZtNXZVIn0.eyJleHAiOjE2NDI2ODAzOTksImlhdCI6MTY0MjY4MDA5OSwianRpIjoiZmNmMzZkOWQtNzkxNS00NTkyLTgxYjktOTE5ZDBlNDc1MTdiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL2tvbnR1ci10ZXN0IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImE1MTY4Y2NjLWQ1M2YtNDk1Mi04ZjlhLWNiMzlhYjE2MTRmOCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImtvbnR1ci10ZXN0Iiwic2Vzc2lvbl9zdGF0ZSI6ImUxODdjNzE4LWYxNGUtNGE5Yi1iZGQ3LTM0ZDJhOTBjNzY5YiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiVGVzdFVzZXIgVGVzdFVzZXIyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoidGVzdCIsImdpdmVuX25hbWUiOiJUZXN0VXNlciIsImZhbWlseV9uYW1lIjoiVGVzdFVzZXIyIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIn0.He9jZVuvl_4kfvbNrknqiXxg01CfZojD_KT3yc8dnu3pjDL_vzWDWKCFNX0mlLXEuBLZXCUc8lEMgVO0qWp2MBRn79g7boVDXZLWheQINoGXjJ94Su_c6JHKtenYn9deMkxeJo0CQHB_Ellcu59J3L-Ob68qNnipN4jm4eMzsKvGXMWpzbmGL2kl5vit6JYAU0xWPiY79tOl-EhmSb34-nryvZ5NezMR_a-ZXlfG0hZBDSVJ0Syauu9Vy_QE_Hoey0UFtQfRO9UjpeFsrOy4aR0IcOhQk5PR2AXbwi8qaUQSPdz8XRtEqteCWW8Fj3De6JYzWSELuj-OE3VD0Z0akA",
+      expires_in: 300,
+      refresh_expires_in: 1800,
+      refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmYTc2MjQ4OS05NWRiLTQ2YjAtYWExOS03ZjQzYzYwOWM0YzAifQ.eyJleHAiOjE2NDI2ODE4OTksImlhdCI6MTY0MjY4MDA5OSwianRpIjoiNzg5MmZmYjYtZmUzOS00M2YzLTk3OWYtZWYzYTI1NGNhMDFhIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL2tvbnR1ci10ZXN0IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL2tvbnR1ci10ZXN0Iiwic3ViIjoiYTUxNjhjY2MtZDUzZi00OTUyLThmOWEtY2IzOWFiMTYxNGY4IiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImtvbnR1ci10ZXN0Iiwic2Vzc2lvbl9zdGF0ZSI6ImUxODdjNzE4LWYxNGUtNGE5Yi1iZGQ3LTM0ZDJhOTBjNzY5YiIsInNjb3BlIjoiZW1haWwgcHJvZmlsZSJ9.V8pFITx9d4U00hcGmrrPIs8wZEklyTswevTvmqdxxLY",
+      scope: "email profile",
+      session_state: "e187c718-f14e-4a9b-bdd7-34d2a90c769b",
+      token_type: "Bearer"
     },
   ]);
 
@@ -69,10 +73,10 @@ test('can login with username and password', async (t) => {
   sinon.replace(t.context.localStorageMock, 'setItem', setItemFake);
 
   // Login
-  const res = (await t.context.apiClient.login(
+  const res: any = (await t.context.apiClient.login(
     t.context.username,
     t.context.password,
-  )) as AuthResponseData;
+  ));
 
   // Assertions
   t.is(loginRequestMock.callCount, 1);
@@ -81,15 +85,23 @@ test('can login with username and password', async (t) => {
     JSON.stringify({ token: t.context.token, refreshToken: t.context.token }),
     'token saved in storage',
   );
-  t.is(res.accessToken, t.context.token, 'response contain new accessToken');
-  t.is(res.refreshToken, t.context.token, 'response contain new refreshToken');
+  t.is(res.token, t.context.token, 'response contain new accessToken');
+  t.is(res.ref, t.context.token, 'response contain new refreshToken');
 });
 
 test('invalid token error', async (t) => {
   // Mock backend
   const loginRequestMock = sinon.fake.returns([
     200,
-    { accessToken: '123', refreshToken: '123' },
+    {
+      access_token: "123",
+      expires_in: 300,
+      refresh_expires_in: 1800,
+      refresh_token: "123",
+      scope: "email profile",
+      session_state: "e187c718-f14e-4a9b-bdd7-34d2a90c769b",
+      token_type: "Bearer"
+    },
   ]);
 
   // Login

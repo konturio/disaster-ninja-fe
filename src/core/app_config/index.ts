@@ -9,7 +9,6 @@ declare global {
       REFRESH_INTERVAL_SEC: number;
       MAP_ACCESS_TOKEN: string;
       MAP_BASE_STYLE: string;
-      LOGIN_API_PATH: string;
       LAYERS_BY_DEFAULT: string[];
       KEYCLOAK_URL: string,
       KEYCLOAK_REALM: string,
@@ -27,7 +26,6 @@ export default {
   refreshIntervalSec: window.konturAppConfig.REFRESH_INTERVAL_SEC,
   mapAccessToken: window.konturAppConfig.MAP_ACCESS_TOKEN,
   mapBaseStyle: window.konturAppConfig.MAP_BASE_STYLE,
-  loginApiPath: window.konturAppConfig.LOGIN_API_PATH,
   layersByDefault: window.konturAppConfig.LAYERS_BY_DEFAULT,
   keycloakUrl: window.konturAppConfig.KEYCLOAK_URL,
   keycloakRealm: window.konturAppConfig.KEYCLOAK_REALM,
