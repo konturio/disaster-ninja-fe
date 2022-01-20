@@ -1,5 +1,5 @@
 import { ApiClient } from '~core/api_client';
-import config from '~core/app_config';
+import { currentUserAtom } from '~core/auth';
 
 interface AuthClientConfig {
    apiClient: ApiClient;
@@ -33,19 +33,26 @@ export class AuthClient {
     return AuthClient.instance;
   }
 
-  public async authenticate(user: string, password: string) {
-    const params = new URLSearchParams();
-    params.append('username', user);
-    params.append('password', password);
-    params.append('client_id', config.keycloakClientId);
-    params.append('grant_type', 'password');
-    const response = this._apiClient.post(`auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
-      params,
-      false,
-      { headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }});
-    console.log('auth: ', response);
+  public showLoginForm() {
+    currentUserAtom.login.dispatch();
+  }
+
+  public closeLoginForm() {
+    currentUserAtom.reset.dispatch();
+  }
+
+  public async authenticate(user: string, password: string): Promise<true | string | undefined> {
+    const response = await this._apiClient.login(user, password);
+    if (response && typeof response === 'object' && 'token' in response) {
+      currentUserAtom.setUser.dispatch({
+        username: response.jwtData.preferred_username,
+        token: response.token,
+        email: response.jwtData.email,
+        firstName: response.jwtData.given_name,
+        lastName: response.jwtData.family_name
+      });
+      return true;
+    }
     return response;
   }
 }

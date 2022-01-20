@@ -8,6 +8,7 @@ const SING_UP_STATE: UserWithAuth = { userState: 'signing_up' };
 export const currentUserAtom = createBindAtom(
   {
     setUser: (user?: CurrentUser) => user,
+    reset: () => null,
     login: () => null,
     logout: () => null,
     signup: () => null,
@@ -18,6 +19,12 @@ export const currentUserAtom = createBindAtom(
       if (usr) {
         state = { ...usr, userState: 'authorized' };
       } else {
+        state = UNAUTHORIZED_STATE;
+      }
+    });
+
+    onAction('reset', () => {
+      if (state.userState !== 'unauthorized') {
         state = UNAUTHORIZED_STATE;
       }
     });
