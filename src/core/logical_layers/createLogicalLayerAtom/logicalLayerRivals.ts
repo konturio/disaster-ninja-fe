@@ -33,7 +33,7 @@ export const getRivalsLayersUnmountActions: (layerId: string) => Action[] =
         // get all mounted layers in this category excluding layer with layerId;
         return Object.values(hierarchy).reduce((acc, l) => {
           if (l.category === layerCategory && l.id !== layerId) {
-            l.atom.getState().isMounted && acc.push(l.atom.unmount());
+            l.atom.getState().isMounted && acc.push(l.atom.disable());
           }
           return acc;
         }, [] as Action[]);
@@ -45,7 +45,7 @@ export const getRivalsLayersUnmountActions: (layerId: string) => Action[] =
         // get all mounted layers in this group excluding layer with layerId;
         return Object.values(hierarchy).reduce((acc, l) => {
           if (l.group === layerGroup && l.id !== layerId) {
-            l.atom.getState().isMounted && acc.push(l.atom.unmount());
+            l.atom.getState().isMounted && acc.push(l.atom.disable());
           }
           return acc;
         }, [] as Action[]);

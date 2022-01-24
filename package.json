@@ -16,7 +16,10 @@
     "test:unit": "ava",
     "test:unit-watch": "ava --watch",
     "postinstall": "node ./scripts/fix-deckgl-types.mjs",
-    "checkapi": "node ./scripts/is-api-working.js"
+    "checkapi": "node ./scripts/is-api-working.js",
+    "lint": "npm-run-all lint:js lint:css",
+    "lint:js": "eslint --quiet  --ext .tsx,.ts src/",
+    "lint:css": "stylelint ./src/**/*.css"
   },
   "ava": {
     "extensions": {
@@ -68,8 +71,8 @@
     "@k2-packages/ui-kit": "^3.0.0-alpha.17",
     "@nebula.gl/edit-modes": "1.0.2-alpha.0",
     "@nebula.gl/layers": "1.0.2-alpha.0",
-    "@reatom/core": "^2.0.0-rc15",
-    "@reatom/react": "^2.0.0-rc5",
+    "@reatom/core": "^2.0.16",
+    "@reatom/react": "^2.0.15",
     "@turf/bbox": "^6.0.1",
     "@types/geojson": "^7946.0.7",
     "@types/node": "^12.0.0",
@@ -107,6 +110,7 @@
     "maplibre-gl": "^1.15.2",
     "mini-css-extract-plugin": "^2.2.0",
     "nanoid": "^3.1.30",
+    "npm-run-all": "^4.1.5",
     "papaparse": "^5.3.1",
     "postcss-loader": "^6.1.1",
     "postcss-nested": "^5.0.6",
@@ -135,16 +139,14 @@
     "typescript-plugin-css-modules": "^3.4.0",
     "use-subscription": "^1.5.1",
     "vite-plugin-html": "^2.1.1",
-    "yenv": "^2.1.1"
-  },
-  "devDependencies": {
+    "yenv": "^2.1.1",
     "@types/sinon": "^10.0.6",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^7.0.0",
     "lint-staged": "^12.1.2",
