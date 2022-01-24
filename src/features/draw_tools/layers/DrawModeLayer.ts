@@ -12,9 +12,10 @@ import { drawingIsStartedAtom } from '../atoms/drawingIsStartedAtom';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { currentNotificationAtom } from '~core/shared_state';
 import { TranslationService as i18n } from '~core/localization';
-import kinks from '@turf/kinks';
 import { temporaryGeometryAtom } from '../atoms/temporaryGeometryAtom';
 import { Unsubscribe } from '@reatom/core';
+import gpsi from 'geojson-polygon-self-intersections'
+import { Feature } from '@nebula.gl/edit-modes';
 
 type mountedDeckLayersType = {
   [key in DrawModeType]?: MapboxLayer<unknown>;
@@ -221,10 +222,7 @@ export class DrawModeLayer implements LogicalLayer {
           feature.properties.isSelected = true;
 
           // check each edited feature for intersections
-          if (
-            feature.geometry.type === 'Polygon' &&
-            kinks({ ...feature }).features.length
-          ) {
+          if (hasIntersections(feature)) {
             currentNotificationAtom.showNotification.dispatch(
               'error',
               { title: i18n.t('Polygon should not overlap itself') },
@@ -263,4 +261,17 @@ export class DrawModeLayer implements LogicalLayer {
   onDataChange() {
     // no data is incoming here
   }
+}
+function hasIntersections(feature: Feature) {
+  if (feature.geometry.type === 'MultiPolygon') {
+    for (let i = 0; i < feature.geometry.coordinates.length; i++) {
+      const polygonFeature: Feature = {
+        type: 'Feature', geometry: { type: 'Polygon', coordinates: feature.geometry.coordinates[i] }
+      }
+      if (hasIntersections(polygonFeature)) return true
+    }
+  }
+  if (feature.geometry.type !== 'Polygon') return false
+  const intersectionFeature = gpsi(feature)
+  if (intersectionFeature.geometry.coordinates.length) return true
 }
