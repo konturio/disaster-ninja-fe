@@ -15,6 +15,7 @@ export function Group({
 }) {
   const [delegatedLegend, delegateLegendRender] = useState<{
     layer: LogicalLayer;
+    isHidden: boolean;
   } | null>(null);
   const [isOpen, setOpenState] = useState(group.openByDefault);
 
@@ -35,7 +36,12 @@ export function Group({
             />
           ))}
           {delegatedLegend && (
-            <BivariateLegendComponent layer={delegatedLegend.layer} />
+            <div className={s.bivariateLegendWrap}>
+              <BivariateLegendComponent
+                layer={delegatedLegend.layer}
+                isHidden={delegatedLegend.isHidden}
+              />
+            </div>
           )}
         </div>
       </FoldingWrap>
