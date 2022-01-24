@@ -134,6 +134,8 @@ export function MainView() {
                 <BivariatePanel iconsContainerId="right-buttons-container" />
               )}
             </div>
+          </Suspense>
+          <Suspense fallback={null}>
             {userFeatures?.draw_tools === true && <DrawToolsToolbox />}
           </Suspense>
         </div>
