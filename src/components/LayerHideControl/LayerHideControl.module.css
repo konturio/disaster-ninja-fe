@@ -1,9 +1,11 @@
-.hideLogo, .unhideLogo {
+.hideLogo,
+.unhideLogo {
   color: var(--primary-icon-regular);
   display: flex;
   align-items: center;
   cursor: pointer;
 }
-.hideLogo svg, .unhideLogo svg {
+.hideLogo svg,
+.unhideLogo svg {
   opacity: 0.3;
 }

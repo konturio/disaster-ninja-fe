@@ -1,8 +1,12 @@
-import { LayerLegend, LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
+import {
+  LayerLegend,
+  LogicalLayer,
+} from '~core/logical_layers/createLogicalLayerAtom';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { BivariateLegend } from '~core/logical_layers/createLogicalLayerAtom/types';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
+import { enabledLayersAtom } from '~core/shared_state';
 
 export class BivariateLayer implements LogicalLayer {
   public readonly id: string;
@@ -31,6 +35,14 @@ export class BivariateLayer implements LogicalLayer {
 
   onInit() {
     return { isVisible: true, isLoading: false };
+  }
+
+  public willEnabled(map?: ApplicationMap) {
+    return [enabledLayersAtom.add(this.id)];
+  }
+
+  public willDisabled(map?: ApplicationMap) {
+    return [enabledLayersAtom.remove(this.id)];
   }
 
   willMount(map: ApplicationMap) {

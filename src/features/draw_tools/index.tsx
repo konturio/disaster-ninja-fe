@@ -1,4 +1,7 @@
-import { currentNotificationAtom, sideControlsBarAtom } from '~core/shared_state';
+import {
+  currentNotificationAtom,
+  sideControlsBarAtom,
+} from '~core/shared_state';
 import {
   DRAW_TOOLS_CONTROL_ID,
   DRAW_TOOLS_CONTROL_NAME,
@@ -18,8 +21,6 @@ import DownloadIcon from './icons/DownloadIcon';
 import { drawnGeometryAtom } from './atoms/drawnGeometryAtom';
 import { TranslationService as i18n } from '~core/localization';
 import { downloadObject } from '~utils/fileHelpers/download';
-
-
 
 export function initDrawTools() {
   drawLayerAtom.mount.dispatch();
@@ -52,19 +53,25 @@ export function initDrawTools() {
     visualGroup: controlVisualGroup.noAnalitics,
     icon: <DownloadIcon />,
     onClick: () => {
-      const data = drawnGeometryAtom.getState()
-      if (!data.features.length) return currentNotificationAtom.showNotification.dispatch(
-        'info',
-        { title: i18n.t('No drawn geometry to download') }, 5
-      );
+      const data = drawnGeometryAtom.getState();
+      if (!data.features.length)
+        return currentNotificationAtom.showNotification.dispatch(
+          'info',
+          { title: i18n.t('No drawn geometry to download') },
+          5,
+        );
       // clear features from service properties
       const cleared = {
-        type: 'FeatureCollection', features: data.features.map(feature => {
-          feature.properties = {}
-          return feature
-        })
-      }
-      downloadObject(cleared, `Disater_Ninja_custom_geometry_${new Date().toISOString()}.json`)
-    }
+        type: 'FeatureCollection',
+        features: data.features.map((feature) => {
+          feature.properties = {};
+          return feature;
+        }),
+      };
+      downloadObject(
+        cleared,
+        `Disater_Ninja_custom_geometry_${new Date().toISOString()}.json`,
+      );
+    },
   });
 }

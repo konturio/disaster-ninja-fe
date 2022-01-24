@@ -19,7 +19,9 @@ const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
 const { Legend } = lazily(() => import('~features/legend_panel'));
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
-const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
+const { BivariatePanel } = lazily(
+  () => import('~features/bivariate_manager/components'),
+);
 const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 
 const { DrawToolsToolbox } = lazily(
@@ -29,7 +31,11 @@ const { DrawToolsToolbox } = lazily(
 
 export function MainView() {
   const history = useHistory();
-  const [{ data: { features: userFeatures } }] = useAtom(userResource);
+  const [
+    {
+      data: { features: userFeatures },
+    },
+  ] = useAtom(userResource);
 
   useEffect(() => {
     if (!userFeatures) return;
@@ -114,13 +120,22 @@ export function MainView() {
           </div>
           <Suspense fallback={null}>
             <div className={s.floating}>
-              <div id='right-buttons-container' className={s.rightButtonsContainer}></div>
-              {userFeatures?.legend_panel === true && <Legend iconsContainerId='right-buttons-container' />}
-              {userFeatures?.map_layers_panel === true && <MapLayersList iconsContainerId='right-buttons-container' />}
-              {userFeatures?.bivariate_manager === true && <BivariatePanel iconsContainerId='right-buttons-container' />}
+              <div
+                id="right-buttons-container"
+                className={s.rightButtonsContainer}
+              ></div>
+              {userFeatures?.legend_panel === true && (
+                <Legend iconsContainerId="right-buttons-container" />
+              )}
+              {userFeatures?.map_layers_panel === true && (
+                <MapLayersList iconsContainerId="right-buttons-container" />
+              )}
+              {userFeatures?.bivariate_manager === true && (
+                <BivariatePanel iconsContainerId="right-buttons-container" />
+              )}
             </div>
+            {userFeatures?.draw_tools === true && <DrawToolsToolbox />}
           </Suspense>
-          {userFeatures?.draw_tools === true && <DrawToolsToolbox />}
         </div>
       </Row>
     </>

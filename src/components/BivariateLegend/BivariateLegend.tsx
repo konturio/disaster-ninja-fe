@@ -9,16 +9,27 @@ import cn from 'clsx';
 type BivariateLegendProps = {
   layer: LogicalLayer;
   controls?: JSX.Element[];
-  showDescrption?: boolean;
-  isHidden?: boolean
+  showDescription?: boolean;
+  isHidden?: boolean;
 };
 
-export function BivariateLegend({ layer, controls, showDescrption = true, isHidden }: BivariateLegendProps) {
+export function BivariateLegend({
+  layer,
+  controls,
+  showDescription = true,
+  isHidden = false,
+}: BivariateLegendProps) {
+  const { legend, name } = layer;
+
   const tipText = useMemo(() => {
-    if (!layer.legend || layer.legend.type === 'simple') return '';
     let message = '';
-    if ('copyrights' in layer.legend && layer.legend.copyrights && layer.legend.copyrights.length) {
-      layer.legend.copyrights.forEach((copyright, index) => {
+    if (
+      legend &&
+      'copyrights' in legend &&
+      legend.copyrights &&
+      legend.copyrights.length
+    ) {
+      legend.copyrights.forEach((copyright, index) => {
         if (index) {
           message += '\n';
         }
@@ -26,36 +37,37 @@ export function BivariateLegend({ layer, controls, showDescrption = true, isHidd
       });
     }
     return message;
-  }, [layer.legend]);
+  }, [legend]);
 
-  return layer.legend && layer.legend.type !== 'simple' && layer.name ?
-    <div
-      className={cn(
-        s.bivariateLegend,
-        {
-          [s.hidden]: isHidden,
-        },
-      )}>
-      {showDescrption && <div className={s.headline}>
-        <Text type="long-m">
-          <span className={s.layerName}>{layer.name}</span>
-        </Text>
-        <div className={s.controlsBar}>{controls}
-          {tipText &&
-            <Tooltip className={s.tooltip} tipText={tipText} />
-          }
+  if (legend === undefined) return null;
+
+  return (
+    <div className={s.bivariateLegend}>
+      {showDescription && (
+        <div className={s.headline}>
+          <Text type="long-m">
+            <span className={s.layerName}>{name}</span>
+          </Text>
+
+          <div className={s.controlsBar}>
+            {controls}
+            {tipText && <Tooltip tipText={tipText} />}
+          </div>
         </div>
-      </div>}
+      )}
 
       <BiLegend
         showAxisLabels
         size={3}
-        cells={invertClusters(layer.legend.steps, 'label')}
-        axis={'axis' in layer.legend && layer.legend.axis as any}
+        cells={invertClusters(legend.steps, 'label')}
+        axis={'axis' in legend && (legend.axis as any)}
       />
 
-      {showDescrption && <Text type="caption">
-        {layer.description || ('description' in layer.legend && layer.legend.description)}
-      </Text>}
-    </div> : null
+      {showDescription && (
+        <Text type="caption">
+          {layer.description || ('description' in legend && legend.description)}
+        </Text>
+      )}
+    </div>
+  );
 }

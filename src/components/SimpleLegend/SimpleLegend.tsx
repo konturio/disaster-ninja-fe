@@ -47,11 +47,11 @@ export function SimpleLegendStep({
 export function SimpleLegend({
   legend,
   label,
-  isHidden = false
+  isHidden = false,
 }: {
   legend: SimpleLegendType;
   label?: React.ReactChild;
-  isHidden?: boolean
+  isHidden?: boolean;
 }) {
   return (
     <div className={isHidden ? s.hidden : ''}>

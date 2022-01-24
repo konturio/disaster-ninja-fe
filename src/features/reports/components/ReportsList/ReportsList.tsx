@@ -77,7 +77,10 @@ export function ReportsList() {
                   </div>
                 </Text>
                 <Text type="long-l">
-                  <ReactMarkdown className={clsx(styles.reportDescr)} components={{ a: LinkRenderer }}>
+                  <ReactMarkdown
+                    className={clsx(styles.reportDescr)}
+                    components={{ a: LinkRenderer }}
+                  >
                     {report.description_brief}
                   </ReactMarkdown>
                 </Text>
