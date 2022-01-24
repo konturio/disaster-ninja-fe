@@ -5,12 +5,13 @@ import { invertClusters } from '@k2-packages/bivariate-tools';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import s from './BivariateLegend.module.css';
 import cn from 'clsx';
+import clsx from 'clsx';
 
 type BivariateLegendProps = {
   layer: LogicalLayer;
   controls?: JSX.Element[];
   showDescription?: boolean;
-  isHidden?: boolean;
+  isHidden: boolean;
 };
 
 export function BivariateLegend({
@@ -23,13 +24,17 @@ export function BivariateLegend({
 
   const tipText = useMemo(() => {
     let message = '';
+    if (!layer.legend) return message;
+
+    if ('description' in layer.legend) {
+      message = layer.legend.description + '\n';
+    }
     if (
-      legend &&
-      'copyrights' in legend &&
-      legend.copyrights &&
-      legend.copyrights.length
+      'copyrights' in layer.legend &&
+      layer.legend.copyrights &&
+      layer.legend.copyrights.length
     ) {
-      legend.copyrights.forEach((copyright, index) => {
+      layer.legend.copyrights.forEach((copyright, index) => {
         if (index) {
           message += '\n';
         }
@@ -42,7 +47,7 @@ export function BivariateLegend({
   if (legend === undefined) return null;
 
   return (
-    <div className={s.bivariateLegend}>
+    <div className={clsx(s.bivariateLegend, isHidden && s.hidden)}>
       {showDescription && (
         <div className={s.headline}>
           <Text type="long-m">
@@ -62,12 +67,6 @@ export function BivariateLegend({
         cells={invertClusters(legend.steps, 'label')}
         axis={'axis' in legend && (legend.axis as any)}
       />
-
-      {showDescription && (
-        <Text type="caption">
-          {layer.description || ('description' in legend && legend.description)}
-        </Text>
-      )}
     </div>
   );
 }
