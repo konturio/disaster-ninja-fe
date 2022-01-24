@@ -4,7 +4,6 @@ import { createDrawingLayers, drawModes, DrawModeType } from '../constants';
 import { layersConfigs } from '../configs';
 import { FeatureCollection } from 'geojson';
 import { drawnGeometryAtom } from '../atoms/drawnGeometryAtom';
-import { activeDrawModeAtom } from '../atoms/activeDrawMode';
 import { selectedIndexesAtom } from '../atoms/selectedIndexesAtom';
 import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
@@ -14,7 +13,7 @@ import { currentNotificationAtom } from '~core/shared_state';
 import { TranslationService as i18n } from '~core/localization';
 import { temporaryGeometryAtom } from '../atoms/temporaryGeometryAtom';
 import { Unsubscribe } from '@reatom/core';
-import gpsi from 'geojson-polygon-self-intersections'
+import gpsi from 'geojson-polygon-self-intersections';
 import { Feature } from '@nebula.gl/edit-modes';
 
 type mountedDeckLayersType = {
@@ -207,9 +206,9 @@ export class DrawModeLayer implements LogicalLayer {
     this.selectedIndexes = changedIndexes;
     selectedIndexesAtom.setIndexes.dispatch(changedIndexes);
 
-    // if we selected something being in draw modes
-    if (this._createDrawingLayer && editContext.featureIndexes.length) {
-      activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
+    // edit types list availible here in the description of onEdit method https://nebula.gl/docs/api-reference/layers/editable-geojson-layer
+    if (editType === 'selectFeature' && this._createDrawingLayer) {
+      selectedIndexesAtom.setIndexes.dispatch([]);
     }
 
     if (updatedData.features?.[0] && completedTypes.includes(editType)) {
@@ -248,6 +247,8 @@ export class DrawModeLayer implements LogicalLayer {
         updatedData.features,
         changedIndexes,
       );
+    } else {
+      drawnGeometryAtom.updateFeatures.dispatch(updatedData.features);
     }
   };
 
@@ -266,12 +267,16 @@ function hasIntersections(feature: Feature) {
   if (feature.geometry.type === 'MultiPolygon') {
     for (let i = 0; i < feature.geometry.coordinates.length; i++) {
       const polygonFeature: Feature = {
-        type: 'Feature', geometry: { type: 'Polygon', coordinates: feature.geometry.coordinates[i] }
-      }
-      if (hasIntersections(polygonFeature)) return true
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates: feature.geometry.coordinates[i],
+        },
+      };
+      if (hasIntersections(polygonFeature)) return true;
     }
   }
-  if (feature.geometry.type !== 'Polygon') return false
-  const intersectionFeature = gpsi(feature)
-  if (intersectionFeature.geometry.coordinates.length) return true
+  if (feature.geometry.type !== 'Polygon') return false;
+  const intersectionFeature = gpsi(feature);
+  if (intersectionFeature.geometry.coordinates.length) return true;
 }
