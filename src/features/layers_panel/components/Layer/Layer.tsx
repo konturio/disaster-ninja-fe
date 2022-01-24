@@ -23,7 +23,10 @@ export function Layer({
 }: {
   layerAtom: LogicalLayerAtom;
   mutuallyExclusive: boolean;
-  delegateLegendRender?: (params: { layer: LogicalLayer }) => void;
+  delegateLegendRender?: (params: {
+    layer: LogicalLayer;
+    isHidden: boolean;
+  }) => void;
 }) {
   const [layerState, layerActions] = useAtom(layerAtom);
   const onChange = useAction(
@@ -37,6 +40,7 @@ export function Layer({
     if (layerState.isEnabled && layerState.layer.legend?.type === 'bivariate') {
       delegateLegendRender({
         layer: layerState.layer,
+        isHidden: !layerState.isVisible,
       });
     }
   }, [delegateLegendRender, layerState]);
@@ -67,11 +71,7 @@ export function Layer({
       />,
     );
   controlElements.push(
-    <LayerInfo
-      key={layerState.id}
-      copyrights={layerState.layer.copyrights}
-      description={layerState.layer.description}
-    />,
+    <LayerInfo key={layerState.id} layer={layerState.layer} />,
   );
 
   const Control = (
