@@ -22,7 +22,7 @@
   margin: auto;
   max-width: 320px;
   white-space: pre-wrap;
-  a {
+  & a {
     color: white;
   }
 }

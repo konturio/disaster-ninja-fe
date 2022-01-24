@@ -15,7 +15,7 @@
   align-items: center;
   margin-top: 6px;
 
-  path {
+  & path {
     stroke: #0c9bed;
   }
 }

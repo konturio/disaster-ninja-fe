@@ -12,7 +12,7 @@ export function initFocusedGeometryLayer() {
       timeout && clearTimeout(timeout);
       timeout = setTimeout(() => {
         if (map) {
-          focusedGeometryLayerAtom.mount.dispatch();
+          focusedGeometryLayerAtom.enable.dispatch();
           unsubscribe();
         }
       });
