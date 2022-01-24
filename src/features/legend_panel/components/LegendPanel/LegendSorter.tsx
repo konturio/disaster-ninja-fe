@@ -46,11 +46,7 @@ export function LegendSorter({
 
   if (layer.legend.type === 'simple') {
     controlElements.push(
-      <LayerInfo
-        key={layer.id}
-        copyrights={layer.copyrights}
-        description={layer.description}
-      />,
+      <LayerInfo key={layer.id} layer={layer} />
     );
     const hasOneStepSimpleLegend = layer.legend.steps.length === 1;
     return (
