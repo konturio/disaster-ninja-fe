@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { Layer } from '../Layer/Layer';
-import { BIVARIATE_GROUP_ID } from '~features/layers_panel/constants';
-import { LayersBivariateLegend } from '../LayersBivariateLegend/LayersBivariateLegend';
+import { BivariateLegend as BivariateLegendComponent } from '~components/BivariateLegend/BivariateLegend';
 import s from './Group.module.css';
 import { GroupWithSettings } from '~core/types/layers';
+import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
 
 export function Group({
   group,
@@ -13,6 +13,9 @@ export function Group({
   group: GroupWithSettings;
   mutuallyExclusive?: boolean;
 }) {
+  const [delegatedLegend, delegateLegendRender] = useState<{
+    layer: LogicalLayer;
+  } | null>(null);
   const [isOpen, setOpenState] = useState(group.openByDefault);
 
   return (
@@ -28,10 +31,11 @@ export function Group({
               key={chn.id}
               layerAtom={chn.atom}
               mutuallyExclusive={mutuallyExclusive || group.mutuallyExclusive}
+              delegateLegendRender={delegateLegendRender}
             />
           ))}
-          {group.id === BIVARIATE_GROUP_ID && (
-            <LayersBivariateLegend ids={group.children.map((c) => c.id)} />
+          {delegatedLegend && (
+            <BivariateLegendComponent layer={delegatedLegend.layer} />
           )}
         </div>
       </FoldingWrap>

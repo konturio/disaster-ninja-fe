@@ -16,7 +16,11 @@ const { NotificationToast } = lazily(() => import('~features/toasts'));
 
 export function ReportPage() {
   const history = useHistory();
-  const [{ data: { features: userFeatures } }] = useAtom(userResource);
+  const [
+    {
+      data: { features: userFeatures },
+    },
+  ] = useAtom(userResource);
 
   function linkableTitle() {
     return (
@@ -32,7 +36,7 @@ export function ReportPage() {
           <span>{i18n.t('Reports')}</span>
         </div>
       </Text>
-    )
+    );
   }
   return (
     <div>

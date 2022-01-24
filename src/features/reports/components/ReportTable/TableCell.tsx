@@ -30,10 +30,11 @@ export function TableCellComponent({
   thead,
   meta,
   OSMId,
-  OSMIdIndex
+  OSMIdIndex,
 }: TableCellProps) {
   const getIDLink = useCallback(
-    () => meta?.column_link_templates[0]['OSM ID']?.replace('{{OSM ID}}', OSMId),
+    () =>
+      meta?.column_link_templates[0]['OSM ID']?.replace('{{OSM ID}}', OSMId),
     [cell, meta, OSMId],
   );
 
@@ -45,7 +46,10 @@ export function TableCellComponent({
 
   const getBBoxLink = useCallback(
     () =>
-      meta?.column_link_templates[0]['Bounding box']?.replace('{{Bounding box}}', cell),
+      meta?.column_link_templates[0]['Bounding box']?.replace(
+        '{{Bounding box}}',
+        cell,
+      ),
     [cell, meta],
   );
 
@@ -61,7 +65,11 @@ export function TableCellComponent({
     const link = getNameLink('OSM name');
     return (
       <td>
-        <a onClick={(e) => jOSMRedirect(e, link)} href={link} title={i18n.t('Open via JOSM remote control')}>
+        <a
+          onClick={(e) => jOSMRedirect(e, link)}
+          href={link}
+          title={i18n.t('Open via JOSM remote control')}
+        >
           <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
           {cell}
         </a>
@@ -72,7 +80,11 @@ export function TableCellComponent({
     const link = getNameLink('Name');
     return (
       <td>
-        <a onClick={(e) => jOSMRedirect(e, link)} href={link} title={i18n.t('Open via JOSM remote control')}>
+        <a
+          onClick={(e) => jOSMRedirect(e, link)}
+          href={link}
+          title={i18n.t('Open via JOSM remote control')}
+        >
           <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
           {cell}
         </a>
@@ -83,7 +95,11 @@ export function TableCellComponent({
     const link = getBBoxLink();
     return (
       <td>
-        <a onClick={(e) => jOSMRedirect(e, link)} href={link} title={i18n.t('Open via JOSM remote control')}>
+        <a
+          onClick={(e) => jOSMRedirect(e, link)}
+          href={link}
+          title={i18n.t('Open via JOSM remote control')}
+        >
           <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
         </a>
       </td>

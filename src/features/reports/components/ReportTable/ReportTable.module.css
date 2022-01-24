@@ -15,7 +15,7 @@ th {
   background: #f0f0f0;
   padding: 6px 8px;
   text-align: left;
-  font-family: IBM Plex Sans;
+  font: var(--font);
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
@@ -26,7 +26,7 @@ th {
 
 td {
   padding: 10px 8px;
-  font-family: IBM Plex Sans;
+  font: var(--font);
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -35,6 +35,7 @@ td {
 }
 td a {
   cursor: pointer;
+  display: flex;
 }
 
 .evenRow {
@@ -51,15 +52,11 @@ td a {
   box-shadow: inset 0px -1px 0px #b9b9b9;
 }
 
-td a{
-  display: flex;
-}
-
-.inconsistencesName img{
+.inconsistencesName img {
   display: inline;
 }
 
-.nested a{
+.nested a {
   margin-left: var(--unit);
 }
 
@@ -80,10 +77,6 @@ td a{
   opacity: 0;
 }
 
-.defaultSort:hover img {
-  opacity: 0.3;
-}
-
 .ascending img {
   opacity: 1;
 }
@@ -91,4 +84,8 @@ td a{
 .descending img {
   opacity: 1;
   transform: rotate(180deg);
+}
+
+.defaultSort:hover img {
+  opacity: 0.3;
 }

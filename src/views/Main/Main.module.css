@@ -5,7 +5,7 @@
   flex: 1;
   position: absolute !important;
 
-  .maplibregl-canvas {
+  & .maplibregl-canvas {
     width: 100% !important;
   }
 }

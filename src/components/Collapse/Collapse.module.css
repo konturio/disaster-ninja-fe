@@ -33,7 +33,7 @@
 }
 
 .right {
-  .hideBtn {
+  & .hideBtn {
     left: 0;
     top: 6px;
     transform: translateX(-100%);
@@ -44,11 +44,11 @@
 }
 
 .left {
-  .icon {
+  & .icon {
     transform: rotate(180deg);
   }
 
-  .hideBtn {
+  & .hideBtn {
     right: 0;
     top: 6px;
     transform: translateX(100%);
@@ -61,13 +61,13 @@
 .bottom {
   margin-bottom: 12px;
 
-  .icon {
+  & .icon {
     transform: rotate(90deg);
     top: 6px;
     left: 10px;
   }
 
-  .hideBtn {
+  & .hideBtn {
     width: 50px;
     height: 20px;
     top: 0;
@@ -78,10 +78,14 @@
 }
 
 .hidden {
+  & .icon {
+    transform: rotate(0deg);
+  }
+
   &.right {
     transform: translateX(100%);
 
-    .icon {
+    & .icon {
       transform: rotate(180deg);
     }
   }
@@ -90,15 +94,11 @@
     transform: translateX(-100%);
   }
 
-  .icon {
-    transform: rotate(0deg);
-  }
-
   &.bottom {
     transform: translateY(100%);
     margin-bottom: 0;
 
-    .icon {
+    & .icon {
       transform: rotate(-90deg);
     }
   }

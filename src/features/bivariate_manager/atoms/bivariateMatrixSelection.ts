@@ -1,6 +1,9 @@
 import { createBindAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import { BivariateLayerStyle, generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
+import {
+  BivariateLayerStyle,
+  generateColorThemeAndBivariateStyle,
+} from '~utils/bivariate/bivariateColorThemeUtils';
 import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { ColorTheme } from '~core/types';
 import { logicalLayersRegistryAtom } from '~core/shared_state';
@@ -10,24 +13,46 @@ import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivar
 
 export const bivariateMatrixSelectionAtom = createBindAtom(
   {
-    setMatrixSelection: (xNumerator: string | null, xDenominator: string | null, yNumerator: string | null, yDenominator: string | null) => ({ xNumerator, xDenominator, yNumerator, yDenominator }),
+    setMatrixSelection: (
+      xNumerator: string | null,
+      xDenominator: string | null,
+      yNumerator: string | null,
+      yDenominator: string | null,
+    ) => ({ xNumerator, xDenominator, yNumerator, yDenominator }),
   },
-  ({ onAction, schedule, getUnlistedState }, state: { xNumerator: string | null, xDenominator: string | null, yNumerator: string | null, yDenominator: string | null } = {
-    xNumerator: null,
-    xDenominator: null,
-    yNumerator: null,
-    yDenominator: null
-  }) => {
+  (
+    { onAction, schedule, getUnlistedState },
+    state: {
+      xNumerator: string | null;
+      xDenominator: string | null;
+      yNumerator: string | null;
+      yDenominator: string | null;
+    } = {
+      xNumerator: null,
+      xDenominator: null,
+      yNumerator: null,
+      yDenominator: null,
+    },
+  ) => {
     onAction('setMatrixSelection', (selection) => {
       state = selection;
 
       const { xNumerator, xDenominator, yNumerator, yDenominator } = selection;
       if (xNumerator === null || yNumerator === null) return;
 
-      const { xNumerators, yNumerators } = getUnlistedState(bivariateNumeratorsAtom);
-      const stats = getUnlistedState(bivariateStatisticsResourceAtom).data.polygonStatistic.bivariateStatistic;
+      const { xNumerators, yNumerators } = getUnlistedState(
+        bivariateNumeratorsAtom,
+      );
+      const stats = getUnlistedState(bivariateStatisticsResourceAtom).data
+        .polygonStatistic.bivariateStatistic;
 
-      if (!xNumerators || !yNumerators || !xNumerators.length || !yNumerators.length) return;
+      if (
+        !xNumerators ||
+        !yNumerators ||
+        !xNumerators.length ||
+        !yNumerators.length
+      )
+        return;
 
       if (!xDenominator || !yDenominator) return;
 
@@ -36,7 +61,7 @@ export const bivariateMatrixSelectionAtom = createBindAtom(
         xDenominator,
         yNumerator,
         yDenominator,
-        stats
+        stats,
       );
       if (res) {
         const [colorTheme, bivariateStyle] = res;
@@ -65,7 +90,7 @@ export const bivariateMatrixSelectionAtom = createBindAtom(
           for (const [layerId, layer] of Object.entries(currentRegistry)) {
             if (getUnlistedState(layer).layer.name === 'Bivariate Layer') {
               layerToUnreg = layerId;
-              logicalLayersRegistryAtom.unregisterLayer(layerId)
+              logicalLayersRegistryAtom.unregisterLayer(layerId);
               break;
             }
           }
@@ -74,12 +99,11 @@ export const bivariateMatrixSelectionAtom = createBindAtom(
             dispatch(logicalLayersRegistryAtom.registerLayer(layer));
             dispatch(layer.mount());
             if (layerToUnreg) {
-              dispatch(logicalLayersRegistryAtom.unregisterLayer(layerToUnreg))
+              dispatch(logicalLayersRegistryAtom.unregisterLayer(layerToUnreg));
             }
           });
         }
       }
-
     });
 
     return state;

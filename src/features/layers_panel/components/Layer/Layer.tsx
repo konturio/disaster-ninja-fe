@@ -6,27 +6,40 @@ import {
 import { LayerControl } from '~components/LayerControl/LayerControl';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { Folding } from '../Folding/Folding';
-import {
+import type {
+  LogicalLayer,
   SimpleLegend,
   SimpleLegendStep,
 } from '~core/logical_layers/createLogicalLayerAtom/types';
 import type { LogicalLayerAtom } from '~core/types/layers';
+import { useEffect } from 'react';
 import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
 import { DownloadControl } from '../DownloadControl/DownloadControl';
 
 export function Layer({
   layerAtom,
   mutuallyExclusive,
+  delegateLegendRender,
 }: {
   layerAtom: LogicalLayerAtom;
   mutuallyExclusive: boolean;
+  delegateLegendRender?: (params: { layer: LogicalLayer }) => void;
 }) {
   const [layerState, layerActions] = useAtom(layerAtom);
   const onChange = useAction(
     () =>
-      layerState.isMounted ? layerActions.unmount() : layerActions.mount(),
+      layerState.isMounted ? layerActions.disable() : layerActions.enable(),
     [layerState.isMounted],
   );
+
+  useEffect(() => {
+    if (!delegateLegendRender) return;
+    if (layerState.isEnabled && layerState.layer.legend?.type === 'bivariate') {
+      delegateLegendRender({
+        layer: layerState.layer,
+      });
+    }
+  }, [delegateLegendRender, layerState]);
 
   const hasOneStepSimpleLegend =
     layerState.layer.legend?.type === 'simple' &&
@@ -36,26 +49,29 @@ export function Layer({
     layerState.layer.legend?.type === 'simple' &&
     layerState.layer.legend.steps?.length > 1;
 
-  const controlElements: JSX.Element[] = []
-  if (layerState.isMounted) controlElements.push(
-    <LayerHideControl key={layerState.id + 'hide'}
-      isVisible={layerState.isVisible}
-      hideLayer={layerActions.hide}
-      unhideLayer={layerActions.unhide}
-    />
-  );
-  if (layerState.isMounted && layerState.layer.isDownloadable) controlElements.push(
-    <DownloadControl
-      key={layerState.id + 'download'}
-      startDownload={layerActions.download}
-    />
-  );
+  const controlElements: JSX.Element[] = [];
+  if (layerState.isMounted)
+    controlElements.push(
+      <LayerHideControl
+        key={layerState.id + 'hide'}
+        isVisible={layerState.isVisible}
+        hideLayer={layerActions.hide}
+        unhideLayer={layerActions.unhide}
+      />,
+    );
+  if (layerState.isMounted && layerState.layer.isDownloadable)
+    controlElements.push(
+      <DownloadControl
+        key={layerState.id + 'download'}
+        startDownload={layerActions.download}
+      />,
+    );
   controlElements.push(
     <LayerInfo
       key={layerState.id}
       copyrights={layerState.layer.copyrights}
       description={layerState.layer.description}
-    />
+    />,
   );
 
   const Control = (
@@ -63,7 +79,7 @@ export function Layer({
       isError={layerState.isError}
       isLoading={layerState.isLoading}
       onChange={onChange}
-      enabled={layerState.isMounted}
+      enabled={layerState.isEnabled}
       hidden={!layerState.isVisible}
       name={layerState.layer.name || layerState.id}
       icon={
@@ -81,7 +97,10 @@ export function Layer({
 
   return hasMultiStepSimpleLegend ? (
     <Folding label={Control} open={layerState.isMounted}>
-      <SimpleLegendComponent legend={layerState.layer.legend as SimpleLegend} isHidden={!layerState.isVisible} />
+      <SimpleLegendComponent
+        legend={layerState.layer.legend as SimpleLegend}
+        isHidden={!layerState.isVisible}
+      />
     </Folding>
   ) : (
     Control
