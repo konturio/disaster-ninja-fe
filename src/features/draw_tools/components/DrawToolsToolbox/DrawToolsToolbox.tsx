@@ -107,7 +107,7 @@ export const DrawToolsToolbox = () => {
           </div>
         </Button>
         {/* this is temporary  */}
-        <Button className={s.finishBtn} onClick={() => finishDrawing()}>
+        <Button className={s.finishBtn} onClick={finishDrawing}>
           <div className={clsx(s.btnContent)}>{i18n.t('Finish Drawing')}</div>
         </Button>
       </div>
