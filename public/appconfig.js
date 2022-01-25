@@ -12,7 +12,8 @@ window.konturAppConfig = {
     'activeContributors',
     'eventShape'
   ],
-  KEYCLOAK_URL: 'http://localhost:8080',
-  KEYCLOAK_REALM: 'kontur-test',
-  KEYCLOAK_CLIENT_ID: 'kontur-test',
+  KEYCLOAK_URL: 'https://keycloak01.konturlabs.com',
+  KEYCLOAK_REALM: 'test',
+  KEYCLOAK_CLIENT_ID: 'kontur_platform',
+  YANDEX_METRICA_ID: [56089129, 87226607],
 };

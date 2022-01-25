@@ -1,5 +1,6 @@
 import { ApiClient } from '~core/api_client';
 import { currentUserAtom } from '~core/auth';
+import ym from 'react-yandex-metrika';
 
 interface AuthClientConfig {
    apiClient: ApiClient;
@@ -51,6 +52,8 @@ export class AuthClient {
         firstName: response.jwtData.given_name,
         lastName: response.jwtData.family_name
       });
+      window['Intercom']('update', { name: response.jwtData.name, email: response.jwtData.email });
+      ym('setUserID', response.jwtData.email);
       return true;
     }
     return response;
