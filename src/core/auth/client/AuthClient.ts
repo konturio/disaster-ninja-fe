@@ -52,7 +52,7 @@ export class AuthClient {
         firstName: response.jwtData.given_name,
         lastName: response.jwtData.family_name
       });
-      window['Intercom']('update', { name: response.jwtData.name, email: response.jwtData.email });
+      window['Intercom']('update', { name: response.jwtData.preferred_username, email: response.jwtData.email });
       ym('setUserID', response.jwtData.email);
       return true;
     }
