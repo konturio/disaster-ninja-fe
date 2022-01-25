@@ -1,0 +1,105 @@
+.root {
+  position: absolute;
+  transition: transform cubic-bezier(0.43, 0.27, 0.1, 1.13) 0.5s;
+}
+
+.root.right {
+  right: 0;
+}
+
+.root.left {
+  left: 0;
+  bottom: 0;
+}
+
+.hideBtn {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  cursor: pointer;
+  pointer-events: all;
+
+  &:focus {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+.icon {
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 4px;
+}
+
+.right {
+  & .hideBtn {
+    left: 0;
+    top: 6px;
+    transform: translateX(-100%);
+    border-radius: 5px 0px 0px 20px;
+    width: 20px;
+    height: 50px;
+  }
+}
+
+.left {
+  & .icon {
+    transform: rotate(180deg);
+  }
+
+  & .hideBtn {
+    right: 0;
+    top: 6px;
+    transform: translateX(100%);
+    border-radius: 0px 5px 20px 0px;
+    width: 20px;
+    height: 50px;
+  }
+}
+
+.bottom {
+  margin-bottom: 12px;
+
+  & .icon {
+    transform: rotate(90deg);
+    top: 6px;
+    left: 10px;
+  }
+
+  & .hideBtn {
+    width: 50px;
+    height: 20px;
+    top: 0;
+    right: 6px;
+    transform: translateY(-100%);
+    border-radius: 20px 5px 0px 0px;
+  }
+}
+
+.hidden {
+  & .icon {
+    transform: rotate(0deg);
+  }
+
+  &.right {
+    transform: translateX(100%);
+
+    & .icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  &.left {
+    transform: translateX(-100%);
+  }
+
+  &.bottom {
+    transform: translateY(100%);
+    margin-bottom: 0;
+
+    & .icon {
+      transform: rotate(-90deg);
+    }
+  }
+}

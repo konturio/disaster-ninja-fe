@@ -32,7 +32,9 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
     }
 
     const polygonStatisticRequest = geom
-      ? `{ polygonV2: ${stringifyWithoutQuotes(cleanupGeometry(geom.geometry))} }`
+      ? `{ polygonV2: ${stringifyWithoutQuotes(
+          cleanupGeometry(geom.geometry),
+        )} }`
       : '{}';
 
     const responseData = await graphQlClient.post<{ data?: unknown }>(`/`, {

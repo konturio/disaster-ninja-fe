@@ -35,11 +35,17 @@ export function ReportTable() {
   }, []);
 
   const tableBody = useMemo(() => {
-    const OSMIdIndex = thead?.findIndex(val => val.toUpperCase() === 'OSM ID')!
+    const OSMIdIndex = thead?.findIndex(
+      (val) => val.toUpperCase() === 'OSM ID',
+    );
+    if (OSMIdIndex === undefined || OSMIdIndex == -1) {
+      console.error(`Can't find OSMIdIndex`);
+      return null;
+    }
     if (!data?.length || !thead) return null;
 
     if (meta?.id === 'osm_population_inconsistencies') {
-      const nameI = thead?.findIndex((val) => val === 'Name')!;
+      const nameI = thead?.findIndex((val) => val === 'Name');
 
       function cName(row: string[], i: number) {
         if (!row[nameI].includes(' -')) return styles.headingRow;
@@ -49,7 +55,7 @@ export function ReportTable() {
       return (
         <tbody>
           {data.map((row, rowIndex) => {
-          const OSMId = row[OSMIdIndex]
+            const OSMId = row[OSMIdIndex];
             return (
               <tr
                 key={row[0] + 'row' + rowIndex}
@@ -80,7 +86,7 @@ export function ReportTable() {
     return (
       <tbody>
         {data.map((row, rowIndex) => {
-          const OSMId = row[OSMIdIndex]
+          const OSMId = row[OSMIdIndex];
           return (
             <tr
               key={row[0] + 'row' + rowIndex}

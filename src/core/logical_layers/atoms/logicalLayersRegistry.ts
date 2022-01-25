@@ -1,6 +1,6 @@
-import appConfig from '~core/app_config';
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { LogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
+import { enabledLayersAtom } from '~core/shared_state';
 
 export const logicalLayersRegistryAtom = createBindAtom(
   {
@@ -10,7 +10,7 @@ export const logicalLayersRegistryAtom = createBindAtom(
     mountLayers: (layersIds: string[]) => layersIds,
   },
   (
-    { onAction, schedule },
+    { onAction, schedule, getUnlistedState },
     state: Record<LogicalLayerAtom['id'], LogicalLayerAtom> = {},
   ) => {
     onAction('registerLayer', (logicalLayers) => {
@@ -22,16 +22,18 @@ export const logicalLayersRegistryAtom = createBindAtom(
         state = { ...state, [logicalLayer.id]: logicalLayer };
       });
 
-      const mountedByDefault = logicalLayers.filter((l) =>
-        (appConfig.layersByDefault ?? []).includes(l.id),
-      );
+      const enabledLayers = getUnlistedState(enabledLayersAtom);
+      let alreadyEnabled: typeof logicalLayers = [];
+      if (enabledLayers) {
+        alreadyEnabled = logicalLayers.filter((l) => enabledLayers.has(l.id));
+      }
 
       schedule((dispatch) =>
         dispatch(
           willBeReplaced
             .map((l) => l.unregister())
             .concat(logicalLayers.map((l) => l.init()))
-            .concat(mountedByDefault.map((l) => l.mount())),
+            .concat(alreadyEnabled.map((l) => l.mount())),
         ),
       );
     });

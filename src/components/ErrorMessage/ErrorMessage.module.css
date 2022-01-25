@@ -1,7 +1,6 @@
 .spinner {
   display: flex;
   flex-flow: column nowrap;
-  margin: auto;
   align-items: center;
   margin: 2em;
   margin-top: 30%;
