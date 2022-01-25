@@ -3,7 +3,6 @@ import { useAction, useAtom } from '@reatom/react';
 import { currentUserAtom } from '~core/auth';
 import s from './LoginForm.module.css';
 import { authClient, translationService as i18n } from '~core/index';
-import { SocialLoginIcon } from '~components/SocialLoginIcon/SocialLoginIcon';
 import clsx from 'clsx';
 import { ChangeEvent, useState } from 'react';
 import { testEmail } from '~utils/forms/formsUtils';
@@ -99,15 +98,15 @@ export function LoginForm() {
                  placeholder={i18n.t('Password')} type='password' />
         </div>
         {error.general && <div className={s.errorMessageContainer}>{error.general}</div>}
-        <div className={clsx(s.link, s.forgotPasswordContainer)}>{i18n.t('Forgot password?')}</div>
+        {/*<div className={clsx(s.link, s.forgotPasswordContainer)}>{i18n.t('Forgot password?')}</div>*/}
         <div className={s.loginButtonContainer}>
           <Button onClick={onLoginClick} className={s.loginButton}>{i18n.t('Log in')}</Button>
         </div>
-        <div className={s.signUpContainer}>
-          <span>{i18n.t('Don\'t have an account?')}</span>
-          &nbsp;&nbsp;
-          <span className={s.link}>{i18n.t('Sign up')}</span>
-        </div>
+        {/*<div className={s.signUpContainer}>*/}
+        {/*  <span>{i18n.t('Don\'t have an account?')}</span>*/}
+        {/*  &nbsp;&nbsp;*/}
+        {/*  <span className={s.link}>{i18n.t('Sign up')}</span>*/}
+        {/*</div>*/}
       </Card>
     </Modal>
   ) : null;

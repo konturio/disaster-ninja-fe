@@ -13,6 +13,7 @@ declare global {
       KEYCLOAK_URL: string,
       KEYCLOAK_REALM: string,
       KEYCLOAK_CLIENT_ID: string,
+      YANDEX_METRICA_ID: number[],
     };
   }
 }
@@ -30,6 +31,7 @@ export default {
   keycloakUrl: window.konturAppConfig.KEYCLOAK_URL,
   keycloakRealm: window.konturAppConfig.KEYCLOAK_REALM,
   keycloakClientId: window.konturAppConfig.KEYCLOAK_CLIENT_ID,
+  yandexMetricaId: window.konturAppConfig.YANDEX_METRICA_ID,
   baseUrl: import.meta.env?.BASE_URL,
   isDevBuild: import.meta.env?.DEV,
   isProdBuild: import.meta.env?.PROD,
