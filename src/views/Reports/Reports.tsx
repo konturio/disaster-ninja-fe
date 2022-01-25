@@ -9,8 +9,8 @@ import { useHistory } from 'react-router';
 import config from '~core/app_config';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { useAtom } from '@reatom/react';
-import { userResource } from '~core/auth/atoms/userResource';
 import { lazily } from 'react-lazily';
+import { userResourceAtom } from '~core/auth';
 
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 
@@ -20,7 +20,7 @@ export function Reports() {
     {
       data: { features: userFeatures },
     },
-  ] = useAtom(userResource);
+  ] = useAtom(userResourceAtom);
 
   function linkableTitle() {
     return (

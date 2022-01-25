@@ -6,9 +6,10 @@ import { Row } from '~components/Layout/Layout';
 import s from './Main.module.css';
 import { useHistory } from 'react-router';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
-import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { useAtom } from '@reatom/react';
-import { userResource } from '~core/auth/atoms/userResource';
+import { userResourceAtom } from '~core/auth/atoms/userResource';
+import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
+import { UserProfile } from '~features/user_profile';
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -35,7 +36,7 @@ export function MainView() {
     {
       data: { features: userFeatures },
     },
-  ] = useAtom(userResource);
+  ] = useAtom(userResourceAtom);
 
   useEffect(() => {
     if (!userFeatures) return;
@@ -92,7 +93,7 @@ export function MainView() {
   return (
     <>
       {userFeatures?.tooltip === true && <PopupTooltip />}
-      <AppHeader title="Disaster Ninja" logo={VisibleLogo()}>
+      <AppHeader title="Disaster Ninja" logo={VisibleLogo()} afterChatContent={<UserProfile />}>
         <Row>
           <BetaLabel />
         </Row>
