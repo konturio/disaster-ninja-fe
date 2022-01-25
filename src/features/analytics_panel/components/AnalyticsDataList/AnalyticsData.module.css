@@ -2,7 +2,7 @@
   color: #051626;
   margin-top: 12px;
 
-  .statHead {
+  & .statHead {
     font-weight: bold;
     display: inline-flex;
     flex-flow: row nowrap;
@@ -12,15 +12,12 @@
     justify-content: center;
   }
 
-  .statContent {
-  }
-
-  .statSplitter {
+  & .statSplitter {
     display: inline-block;
     margin: 0 8px;
   }
 
-  .detailsLink {
+  & .detailsLink {
     display: block;
     color: #0c9bed;
     text-decoration: none;

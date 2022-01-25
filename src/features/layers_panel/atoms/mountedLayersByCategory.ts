@@ -1,20 +1,18 @@
 import { createBindAtom } from '~utils/atoms';
-import { logicalLayersRegistryStateAtom } from '~core/logical_layers/atoms/logicalLayersRegistryState';
 import { logicalLayersHierarchyAtom } from '~core/logical_layers/atoms/logicalLayersHierarchy';
+import { enabledLayersAtom } from '~core/shared_state/enabledLayers';
 
 export const mountedLayersByCategoryAtom = createBindAtom(
   {
     layersHierarchy: logicalLayersHierarchyAtom,
-    layersStates: logicalLayersRegistryStateAtom,
+    enabledLayers: enabledLayersAtom,
   },
   ({ get }, state: Record<string, number> = {}) => {
     const layersHierarchy = get('layersHierarchy');
-    const layersStates = get('layersStates');
+    const enabledLayers = get('enabledLayers');
     return Object.values(layersHierarchy).reduce((acc, layer) => {
-      if (layer.category && layersStates[layer.id]) {
-        if (layersStates[layer.id].isMounted) {
-          acc[layer.category] = (acc[layer.category] ?? 0) + 1;
-        }
+      if (layer.category && enabledLayers?.has(layer.id)) {
+        acc[layer.category] = (acc[layer.category] ?? 0) + 1;
       }
       return acc;
     }, {});

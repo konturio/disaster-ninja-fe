@@ -20,32 +20,33 @@ export function LegendSorter({
 
   if (!layer.legend || !layer.name) return null;
 
-  const controlElements: JSX.Element[] = []
+  const controlElements: JSX.Element[] = [];
 
-  if (isMounted) controlElements.push(
-    <LayerHideControl
-      key={layer.id + 'hide'}
-      isVisible={isVisible}
-      hideLayer={layerActions.hide}
-      unhideLayer={layerActions.unhide}
-    />
-  );
+  if (isMounted)
+    controlElements.push(
+      <LayerHideControl
+        key={layer.id + 'hide'}
+        isVisible={isVisible}
+        hideLayer={layerActions.hide}
+        unhideLayer={layerActions.unhide}
+      />,
+    );
 
   if (layer.legend.type === 'bivariate') {
     return (
       <div className={s.legendContainer}>
-        <BivariateLegend layer={layer} controls={controlElements} isHidden={!isVisible} />
+        <BivariateLegend
+          layer={layer}
+          controls={controlElements}
+          isHidden={!isVisible}
+        />
       </div>
     );
   }
 
   if (layer.legend.type === 'simple') {
     controlElements.push(
-      <LayerInfo
-        key={layer.id}
-        copyrights={layer.copyrights}
-        description={layer.description}
-      />
+      <LayerInfo key={layer.id} layer={layer} />
     );
     const hasOneStepSimpleLegend = layer.legend.steps.length === 1;
     return (
@@ -69,7 +70,10 @@ export function LegendSorter({
         />
         {!hasOneStepSimpleLegend && (
           <div className={s.legendBody}>
-            <SimpleLegendComponent legend={layer.legend} isHidden={!isVisible} />
+            <SimpleLegendComponent
+              legend={layer.legend}
+              isHidden={!isVisible}
+            />
           </div>
         )}
       </div>

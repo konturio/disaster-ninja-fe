@@ -8,7 +8,6 @@ interface UrlEncoder<
 }
 
 export class URLStore {
-  _init = false;
   _listener: (nesSate: UrlData) => void = () => {
     /* noop */
   };
@@ -18,30 +17,12 @@ export class URLStore {
     this._encoder = encoder;
   }
 
-  init() {
+  readCurrentState() {
     const urlState = this._encoder.decode(document.location.search.slice(1));
-    /* If user navigate back state must be ready */
-    window.history.replaceState(
-      urlState,
-      document.title,
-      '?' + this._encoder.encode(urlState),
-    );
-
-    window.addEventListener('popstate', ({ state }) => {
-      this._listener(state);
-    });
-
-    this._listener(urlState);
-    this._init = true;
+    return urlState;
   }
 
   updateUrl(data: UrlData) {
-    /**
-     * This check allow to skip state updates until original url not read.
-     * Without this check url will have rewritten instantly by default state values
-     * */
-    if (this._init === false) return;
-
     window.history.pushState(
       data,
       document.title,
@@ -50,6 +31,8 @@ export class URLStore {
   }
 
   onUrlChange(listener: (nesSate: UrlData) => void) {
-    this._listener = listener;
+    window.addEventListener('popstate', ({ state }) => {
+      listener(state);
+    });
   }
 }

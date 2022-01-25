@@ -14,3 +14,6 @@
 .childrenWrap {
   margin-top: var(--unit);
 }
+.childrenWrap .bivariateLegendWrap {
+  padding-right: var(--double-unit);
+}

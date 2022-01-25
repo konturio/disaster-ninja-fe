@@ -26,7 +26,7 @@ export const modeWatcherAtom = createBindAtom(
   ({ onChange, schedule, get }, prevMode: DrawModeType | null = null) => {
     onChange('activeDrawModeAtom', (mode) => {
       const map = get('currentMapAtom');
-      const drawLayerState = get('drawLayerAtom')
+      const drawLayerState = get('drawLayerAtom');
 
       // turn on interactivity in case user swithced mode without finishing drawing
       if (map) setMapInteractivity(map, true);
@@ -52,7 +52,9 @@ export const modeWatcherAtom = createBindAtom(
     });
 
     onChange('temporaryGeometryAtom', (data) => {
-      drawModeLayer.updateData(data);
+      // temporary geometry clears out after every deletion of any amount of features
+      // if we cleared temporaryGeometry, there's no need to clear all displayed geometry (geometry from drawnGeometryAtom)
+      if (data.features.length) drawModeLayer.updateData(data);
     });
 
     return prevMode;

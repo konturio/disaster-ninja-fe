@@ -1,83 +1,83 @@
 .sidePannel {
-	pointer-events: auto;
-	position: relative;
-	z-index: 1; /* Show shadow over map */
-	margin-right: var(--unit);
-	align-self: flex-start;
-	border-top-left-radius: var(--border-radius) !important;
-	border-bottom-left-radius: var(--border-radius) !important;;
-	border-top-right-radius: 0 !important;;
-	border-bottom-right-radius: 0 !important;;
-	max-height: 100%;
-	height: 100%;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1; /* Show shadow over map */
+  margin-right: var(--unit);
+  align-self: flex-start;
+  border-top-left-radius: var(--border-radius) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  max-height: 100%;
+  height: 100%;
 
-&.show {
-	 transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
-	 margin-right 0.1s linear 0s;
-	 visibility: visible;
-	 opacity: 1;
-	 margin-right: -8px;
- }
+  &.show {
+    transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
+      margin-right 0.1s linear 0s;
+    visibility: visible;
+    opacity: 1;
+    margin-right: -8px;
+  }
 
-&.hide {
-	 transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
-	 margin-right 0.15s linear 0s;
-	 visibility: hidden;
-	 opacity: 0;
-	 margin-right: -808px;
- }
+  &.hide {
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
+      margin-right 0.15s linear 0s;
+    visibility: hidden;
+    opacity: 0;
+    margin-right: -808px;
+  }
 }
 
 .panelBody {
-	height: 100%;
-	width: 800px;
-	padding: 0 18px 18px 18px;
-	overflow: auto;
+  height: 100%;
+  width: 800px;
+  padding: 0 18px 18px 18px;
+  overflow: auto;
 }
 
 .panelBody :first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .panelIcon {
-	display: flex;
+  display: flex;
 
-&.show {
-	 transition: display 0s linear 0s, visibility 0s linear 0s, opacity 0.33s linear 0s;
-	 visibility: visible;
-	 display: flex;
-	 opacity: 1;
- }
+  &.show {
+    transition: display 0s linear 0s, visibility 0s linear 0s,
+      opacity 0.33s linear 0s;
+    visibility: visible;
+    display: flex;
+    opacity: 1;
+  }
 
-&.hide {
-	 transition: display 0s linear 0.33s, visibility 0s linear 0.33s, opacity 0.33s linear 0s;
-	 visibility: hidden;
-	 display: none;
-	 opacity: 0;
-	 width: 0;
- }
+  &.hide {
+    transition: display 0s linear 0.33s, visibility 0s linear 0.33s,
+      opacity 0.33s linear 0s;
+    visibility: hidden;
+    display: none;
+    opacity: 0;
+    width: 0;
+  }
 }
 
 .customCloseBtn {
-	height: 40px;
-	width: 16px;
-	background: #32404D;
-	border-radius: 4px 0;
-	position: absolute;
-    cursor: pointer;
-	z-index: 2;
+  height: 40px;
+  width: 16px;
+  background: #32404d;
+  border-radius: 4px 0;
+  position: absolute;
+  cursor: pointer;
+  z-index: 2;
 
-	&:hover {
-	   background: #5e7080;
-	}
+  &:hover {
+    background: #5e7080;
+  }
 }
 
 .iconContainerShown {
-	display: block;
+  display: block;
 }
 
 .iconContainerHidden {
-	display: none;
+  display: none;
 }
-
-

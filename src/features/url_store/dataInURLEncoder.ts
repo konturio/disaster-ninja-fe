@@ -17,7 +17,11 @@ export class URLDataInSearchEncoder {
       if (this._specials[key]) {
         val = this._specials[key].encode(val);
       } else if (Array.isArray(val)) {
-        val = this._arrayStart + val.join(this._arraySep);
+        val =
+          this._arrayStart +
+          val.map((v) => encodeURIComponent(v)).join(this._arraySep);
+      } else {
+        val = encodeURIComponent(val);
       }
       acc.push(`${key}${this._keyValSep}${val}`);
       return acc;
@@ -37,9 +41,11 @@ export class URLDataInSearchEncoder {
         const arrayVal = val
           .slice(this._arrayStart.length)
           .split(this._arraySep);
-        acc[key] = arrayVal.filter((v) => v !== '');
+        acc[key] = arrayVal
+          .filter((v) => v !== '')
+          .map((v) => decodeURIComponent(v));
       } else {
-        acc[key] = val;
+        acc[key] = decodeURIComponent(val);
       }
       return acc;
     }, {} as T);
