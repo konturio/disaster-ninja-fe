@@ -1,0 +1,7 @@
+.avatar {
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	margin-left: 12px;
+	margin-right: var(--unit);
+}

@@ -1,7 +1,3 @@
-type PartialRecord<K extends keyof any, T> = {
-  [P in K]?: T;
-};
-
 type AppFeature = "analytics_panel" | "events_list" | "map_layers_panel" | "side_bar" | "bivariate_manager"
   | "current_event" | "focused_geometry_layer" | "layers_in_area" | "map_ruler" | "toasts" | "boundary_selector"
   | "draw_tools" | "geometry_uploader" | "legend_panel" | "reports" | "url_store" | "interactive_map"
@@ -9,7 +5,5 @@ type AppFeature = "analytics_panel" | "events_list" | "map_layers_panel" | "side
   | "tooltip";
 
 export class UserDataModel {
-  public name = '';
-  
-  public features: PartialRecord<AppFeature, boolean> = {};
+  public features: {[T in AppFeature]?: boolean } = {};
 }

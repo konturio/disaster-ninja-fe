@@ -31,7 +31,10 @@
     ],
     "nonSemVerExperiments": {
       "configurableModuleFormat": true
-    }
+    },
+    "require": [
+      "./src/utils/testsUtils/setupBrowserEnv.ts"
+    ]
   },
   "lint-staged": {
     "*/**/*.{ts, tsx}": [
@@ -65,7 +68,7 @@
     "@k2-packages/client": "^2.0.0-alpha.1",
     "@k2-packages/deck-gl": "^3.0.0-alpha.1",
     "@k2-packages/default-icons": "^2.0.0-alpha.13",
-    "@k2-packages/default-theme": "^2.3.2-alpha.0",
+    "@k2-packages/default-theme": "^2.4.0-alpha.2",
     "@k2-packages/map": "^2.0.0-alpha.2",
     "@k2-packages/map-draw-tools": "^3.0.0-alpha.2",
     "@k2-packages/ui-kit": "^3.0.0-alpha.17",
@@ -126,6 +129,7 @@
     "react-router-dom": "^5.3.0",
     "react-transition-group": "^4.4.2",
     "react-virtuoso": "^2.2.3",
+    "react-yandex-metrika": "^2.6.0",
     "redux-devtools-extension": "^2.13.9",
     "remarkable": "^2.0.0",
     "reselect": "^4.0.0",
