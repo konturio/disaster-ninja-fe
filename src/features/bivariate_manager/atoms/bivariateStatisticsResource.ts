@@ -31,6 +31,8 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       return allMapStats;
     }
 
+    const geomNotEmpty = !!(geom && geom.geometry && (geom.geometry.type !== 'FeatureCollection' || geom.geometry.features.length));
+
     const polygonStatisticRequest = geom
       ? `{ polygonV2: ${stringifyWithoutQuotes(
           cleanupGeometry(geom.geometry),
@@ -110,7 +112,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       throw new Error('No data received');
     }
 
-    if (!geom && !allMapStats) {
+    if (!geomNotEmpty && !allMapStats) {
       allMapStats = responseData.data;
     }
 
