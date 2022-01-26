@@ -17,8 +17,8 @@ type TableCellProps = {
   ) => void;
   thead: string[] | undefined;
   meta: Report | null;
-  OSMId: string;
-  OSMIdIndex: number;
+  OSMId: string | null;
+  OSMIdIndex?: number;
 };
 
 export function TableCellComponent({
@@ -34,7 +34,10 @@ export function TableCellComponent({
 }: TableCellProps) {
   const getIDLink = useCallback(
     () =>
-      meta?.column_link_templates[0]['OSM ID']?.replace('{{OSM ID}}', OSMId),
+      meta?.column_link_templates[0]['OSM ID']?.replace(
+        '{{OSM ID}}',
+        OSMId || '',
+      ),
     [cell, meta, OSMId],
   );
 
