@@ -93,7 +93,7 @@ export function MainView() {
   return (
     <>
       {userFeatures?.tooltip === true && <PopupTooltip />}
-      <AppHeader title="Disaster Ninja" logo={VisibleLogo()} afterChatContent={<UserProfile />}>
+      <AppHeader title="Disaster Ninja" logo={VisibleLogo()} afterChatContent={userFeatures?.app_login === true ? <UserProfile /> : undefined }>
         <Row>
           <BetaLabel />
         </Row>
