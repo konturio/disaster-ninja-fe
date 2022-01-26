@@ -33,7 +33,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
 
     const geomNotEmpty = !!(geom && geom.geometry && (geom.geometry.type !== 'FeatureCollection' || geom.geometry.features.length));
 
-    const polygonStatisticRequest = geom
+    const polygonStatisticRequest = geom && geomNotEmpty
       ? `{ polygonV2: ${stringifyWithoutQuotes(
           cleanupGeometry(geom.geometry),
         )} }`
