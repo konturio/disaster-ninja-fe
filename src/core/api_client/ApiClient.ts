@@ -1,9 +1,10 @@
 import { AxiosRequestConfig } from 'axios';
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import { ApiErrorResponse, ApiResponse, ApisauceConfig, ApisauceInstance, create } from 'apisauce';
 import { ApiClientError, GeneralApiProblem, getGeneralApiProblem } from './ApiProblem';
-import { AuthResponseData, RequestParams } from './ApiTypes';
+import { JWTData, KeycloakAuthResponse, RequestParams } from './ApiTypes';
 import { NotificationMessage } from '~core/types/notification';
+import config from '~core/app_config';
 
 const LOCALSTORAGE_AUTH_KEY = 'auth_token';
 
@@ -107,11 +108,11 @@ export class ApiClient {
   /**
    * Authentication
    */
-  private setAuth(tkn: string, refreshTkn: string): string | undefined {
-    let decodedToken: { exp?: number };
+  private setAuth(tkn: string, refreshTkn: string): JWTData | string {
+    let decodedToken: JWTData | undefined;
 
     try {
-      decodedToken = jwt_decode<{ exp?: number }>(tkn);
+      decodedToken = jwtDecode(tkn);
     } catch (e) {
       return "Can't decode token!";
     }
@@ -126,7 +127,7 @@ export class ApiClient {
           LOCALSTORAGE_AUTH_KEY,
           JSON.stringify({ token: tkn, refreshToken: refreshTkn }),
         );
-        return;
+        return decodedToken;
       } else {
         return 'Wrong token expire time!';
       }
@@ -202,6 +203,7 @@ export class ApiClient {
     ) {
       this.unauthorizedCallback();
     }
+
     const problem = getGeneralApiProblem(response);
     const errorMessage = ApiClient.parseError(problem);
 
@@ -284,32 +286,40 @@ export class ApiClient {
   public async login(
     username: string,
     password: string,
-  ): Promise<AuthResponseData | undefined> {
-    const response = await this.apiSauceInstance.post<
-      AuthResponseData,
-      GeneralApiProblem
-    >(this.loginApiPath, {
-      username,
-      password,
-    });
+  ): Promise<{ token: string; refreshToken: string; jwtData: JWTData } | string | undefined> {
+    const params = new URLSearchParams();
+    params.append('username', username);
+    params.append('password', password);
+    params.append('client_id', config.keycloakClientId);
+    params.append('grant_type', 'password');
 
-    this.processAuthResponse(response);
-    return this.processResponse(response);
+    const response = await this.apiSauceInstance.post<
+      KeycloakAuthResponse
+    >(this.loginApiPath, params, { headers: { 'Content-Type': 'application/x-www-form-urlencoded'}} );
+
+    if (response.ok) {
+      return this.processAuthResponse(response);
+    } else {
+      return response.data?.error_description;
+    }
   }
 
   private processAuthResponse(
-    response: ApiResponse<AuthResponseData, GeneralApiProblem>,
-  ) {
+    response: ApiResponse<KeycloakAuthResponse, GeneralApiProblem>,
+  ): { token: string; refreshToken: string; jwtData: JWTData } | undefined {
     if (response.ok) {
-      if (response.data && response.data.accessToken) {
+      if (response.data && response.data.access_token) {
         const setAuthResult = this.setAuth(
-          response.data.accessToken,
-          response.data.refreshToken,
+          response.data.access_token,
+          response.data.refresh_token,
         );
+
         if (typeof setAuthResult === 'string') {
           throw new ApiClientError(this.translationService.t(setAuthResult), {
             kind: 'bad-data',
           });
+        } else {
+          return { token: response.data.access_token, refreshToken: response.data.refresh_token, jwtData: setAuthResult };
         }
       } else {
         if (response.status === 204) {
@@ -327,13 +337,14 @@ export class ApiClient {
     }
   }
 
+
   async logout() {
     this.resetAuth();
   }
 
-  public async refreshAuthToken(): Promise<AuthResponseData | undefined> {
+  public async refreshAuthToken(): Promise<KeycloakAuthResponse | undefined> {
     const response = await this.apiSauceInstance.post<
-      AuthResponseData,
+      KeycloakAuthResponse,
       GeneralApiProblem
     >(
       this.refreshTokenApiPath,
@@ -352,7 +363,7 @@ export class ApiClient {
   public async call<T>(
     method: ApiMethod,
     path: string,
-    requestParams?: any,
+    requestParams?: unknown,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
@@ -402,7 +413,7 @@ export class ApiClient {
 
   public async post<T>(
     path: string,
-    requestParams?: any,
+    requestParams?: unknown,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
