@@ -36,7 +36,6 @@ export function ReportTable() {
     };
   }, []);
 
-  console.log('%c⧭', 'color: #731d1d', thead);
   const tableBody = useMemo(() => {
     const OSMIdIndex = thead?.findIndex(
       (val) => val.toUpperCase() === 'OSM ID',
