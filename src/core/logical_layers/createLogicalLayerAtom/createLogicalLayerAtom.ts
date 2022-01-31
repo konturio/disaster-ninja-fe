@@ -16,7 +16,7 @@ import { doUnmount } from './unmountingProcess';
 
 export type LogicalLayerAtom = AtomSelfBinded<
   LogicalLayerAtomState,
-  LogicalLayerAtomActions<never>
+  LogicalLayerAtomActions<unknown>
 >;
 
 function isStateChanged(
@@ -107,13 +107,22 @@ export function createLogicalLayerAtom<T>(
       });
 
       onAction('setData', (data) => {
+        // @ts-ignore IDK why it's not working
+        if ('layer' in data && 'legend' in data.layer) {
+          schedule((dispatch) => {
+            // @ts-ignore IDK why it's not working
+            dispatch(currentLegendsAtom.set(state.id, data.layer.legend));
+          });
+        }
         if (!map) return;
         if (typeof layer.onDataChange === 'function') {
           const { layer: l, id, ...layerState } = state;
           layer.onDataChange(map, data, layerState);
           return;
         } else {
-          console.error(`Layer '${state.id}' not implement setData method`);
+          console.error(
+            `Layer '${state.id}' not implement onDataChange method`,
+          );
         }
       });
 
@@ -128,6 +137,7 @@ export function createLogicalLayerAtom<T>(
       });
 
       onAction('unregister', () => {
+        currentLegendsAtom.delete(state.id);
         if (!map) return;
         if (typeof layer.wasRemoveFromInRegistry !== 'function') {
           return;
@@ -168,7 +178,7 @@ export function createLogicalLayerAtom<T>(
         schedule((dispatch) => {
           const runMountProcess = async () => {
             const { isMounted, legend, ...stateUpdate } = await doMount(
-              layer.willMount(map),
+              layer.willMount(map) ?? null,
             );
             // Collect required actions
             const actions = [
