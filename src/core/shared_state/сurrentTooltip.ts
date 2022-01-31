@@ -1,23 +1,23 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 
-export type TooltipInfo = {
-  position: { x: number, y: number }
-  popup: string | JSX.Element
-}
-type сurrentTooltipAtomState = TooltipInfo | null;
+export type TooltipData = {
+  position: { x: number; y: number };
+  popup: string | JSX.Element;
+  onOuterClick?: (event, closeTooltip: () => void) => void;
+  hoverBehabiour?: boolean;
+};
+type currentTooltipAtomState = TooltipData | null;
 
-export const сurrentTooltipAtom = createBindAtom(
+export const currentTooltipAtom = createBindAtom(
   {
-    setCurrentTooltip: (tooltipInfo: TooltipInfo) => tooltipInfo,
+    setCurrentTooltip: (tooltipData: TooltipData) => tooltipData,
     resetCurrentTooltip: () => null,
   },
-  ({ onAction }, state: сurrentTooltipAtomState = null) => {
-    onAction('setCurrentTooltip', (tooltipInfo) => {
-      (state = tooltipInfo)
-    });
+  ({ onAction }, state: currentTooltipAtomState = null) => {
+    onAction('setCurrentTooltip', (tooltipData) => (state = tooltipData));
     onAction('resetCurrentTooltip', () => (state = null));
 
     return state;
   },
-  '[Shared state] сurrentTooltipAtom',
+  '[Shared state] currentTooltipAtom',
 );

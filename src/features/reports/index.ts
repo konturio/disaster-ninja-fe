@@ -3,11 +3,13 @@ import { REPORTS_CONROL_ID, REPORTS_CONROL_NAME } from './constants';
 import { ReportsIcon } from './components/icon/ReportsIcon';
 import { History } from 'history';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import { TranslationService as i18n } from '~core/localization';
 
 export function initReportsIcon(history: History) {
   sideControlsBarAtom.addControl.dispatch({
     id: REPORTS_CONROL_ID,
     name: REPORTS_CONROL_NAME,
+    title: i18n.t('Reports'),
     active: false,
     visualGroup: controlVisualGroup.noAnalitics,
     icon: ReportsIcon(),

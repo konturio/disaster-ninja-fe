@@ -65,6 +65,7 @@ export function EventsListPanel({
     addControl({
       id: EVENTLIST_CONROL_ID,
       name: EVENTLIST_CONROL_NAME,
+      title: i18n.t('Focus to ongoing disasters'),
       active: false,
       visualGroup: controlVisualGroup.withAnalitics,
       icon: <img src={eventsIcon} alt={i18n.t('Event list')} />,
