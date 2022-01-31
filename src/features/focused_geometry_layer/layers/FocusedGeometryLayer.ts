@@ -114,7 +114,7 @@ export class FocusedGeometryLayer
     return [enabledLayersAtom.remove(this.id)];
   }
 
-  willMount(map: ApplicationMap) {
+  public async willMount(map: ApplicationMap) {
     if (import.meta.env.DEV) {
       // HRM fix
       map.getSource(this._sourceId) && this.willUnmount(map);
@@ -133,6 +133,8 @@ export class FocusedGeometryLayer
         layerConfig.id.endsWith('-icons') ? null : beforeId,
       );
     });
+
+    return this.legend ?? null;
   }
 
   onDataChange(map: ApplicationMap | null, data: FocusedGeometry | null) {

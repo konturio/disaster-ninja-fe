@@ -5,11 +5,11 @@ interface MountStateUpdate {
   isError?: boolean;
   isMounted?: boolean;
   isLoading?: boolean;
-  legend?: LayerLegend;
+  legend?: LayerLegend | null;
 }
 
 export async function doMount(
-  mountResult: LayerLegend | Promise<LayerLegend>,
+  mountResult: LayerLegend | null | Promise<LayerLegend | null>,
 ): Promise<MountStateUpdate> {
   // Async
   if (isPromise(mountResult)) {

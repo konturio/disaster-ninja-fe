@@ -72,7 +72,7 @@ export interface LogicalLayer<T = null> {
   onInit(): { isVisible?: boolean; isLoading?: boolean };
   willEnabled?(map?: ApplicationMap): Action[] | void;
   willDisabled?(map?: ApplicationMap): Action[] | void;
-  willMount(map: ApplicationMap): void | Promise<unknown>;
+  willMount(map: ApplicationMap): void | Promise<LayerLegend | null>;
   willUnmount(map: ApplicationMap): void | Promise<unknown>;
   willHide?: (map: ApplicationMap) => void;
   willUnhide?: (map: ApplicationMap) => void;
