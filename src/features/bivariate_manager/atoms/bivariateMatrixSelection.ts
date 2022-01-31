@@ -77,11 +77,12 @@ export const bivariateMatrixSelectionAtom = createBindAtom(
 
         if (legend) {
           const layer = createLogicalLayerAtom(
-            new BivariateLayer(
-              'Bivariate Layer',
-              bivariateStyle as BivariateLayerStyle,
+            new BivariateLayer({
+              name: 'Bivariate Layer',
+              id: (bivariateStyle as BivariateLayerStyle).id,
+              layerStyle: bivariateStyle as BivariateLayerStyle,
               legend,
-            ),
+            }),
           );
 
           let layerToUnreg: string;
