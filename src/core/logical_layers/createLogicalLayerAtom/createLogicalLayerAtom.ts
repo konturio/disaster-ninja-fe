@@ -8,6 +8,7 @@ import {
 } from './types';
 import { currentHiddenLayersAtom } from '../atoms/currentHiddenLayers';
 import { currentMountedLayersAtom } from '../atoms/currentMountedLayers';
+import { currentLegendsAtom } from '../atoms/currentLegends';
 import { getRivalsLayersUnmountActions as unmountConcurrentLayers } from './logicalLayerRivals';
 import { enabledLayersAtom } from '~core/shared_state';
 import { doMount } from './mountingProcess';
@@ -79,6 +80,7 @@ export function createLogicalLayerAtom<T>(
       currentMountedLayersAtom,
       currentHiddenLayersAtom,
       enabledLayersAtom,
+      currentLegendsAtom,
       ...actions,
     },
     ({ get, onAction, schedule, create }, state = initialState) => {
@@ -91,12 +93,17 @@ export function createLogicalLayerAtom<T>(
         isMounted: get('currentMountedLayersAtom').has(state.id),
         isVisible: !get('currentHiddenLayersAtom').has(state.id),
         isEnabled: get('enabledLayersAtom')?.has(state.id) ?? false,
+        legend: get('currentLegendsAtom').has(state.id) ?? null,
       };
 
       onAction('_updateState', (update) => {
         for (const k in update) {
           if (update[k] !== undefined) newState[k] = update[k];
         }
+      });
+
+      onAction('init', () => {
+        state.layer.onInit();
       });
 
       onAction('setData', (data) => {
@@ -106,9 +113,7 @@ export function createLogicalLayerAtom<T>(
           layer.onDataChange(map, data, layerState);
           return;
         } else {
-          console.error(
-            `Layer '${state.id}' not implement onGeometryChange method`,
-          );
+          console.error(`Layer '${state.id}' not implement setData method`);
         }
       });
 
@@ -162,7 +167,7 @@ export function createLogicalLayerAtom<T>(
         if (!map) return;
         schedule((dispatch) => {
           const runMountProcess = async () => {
-            const { isMounted, ...stateUpdate } = await doMount(
+            const { isMounted, legend, ...stateUpdate } = await doMount(
               layer.willMount(map),
             );
             // Collect required actions
@@ -170,6 +175,7 @@ export function createLogicalLayerAtom<T>(
               create('_updateState', stateUpdate),
               isMounted &&
                 currentMountedLayersAtom.set(state.id, logicalLayerAtom),
+              legend && currentLegendsAtom.set(state.id, legend),
               ...unmountConcurrentLayers(state.id),
             ].filter(Boolean) as Action[];
 
@@ -201,6 +207,7 @@ export function createLogicalLayerAtom<T>(
             const actions = [
               create('_updateState', stateUpdate),
               !isMounted && currentMountedLayersAtom.delete(state.id),
+              !isMounted && currentLegendsAtom.delete(state.id),
             ].filter(Boolean) as Action[];
 
             // Perform update
