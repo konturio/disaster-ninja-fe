@@ -1,18 +1,22 @@
 import isPromise from 'is-promise';
+import { LayerLegend } from './types';
 
 interface MountStateUpdate {
   isError?: boolean;
   isMounted?: boolean;
   isLoading?: boolean;
+  legend?: LayerLegend;
 }
 
-export async function doMount(layerMountTask): Promise<MountStateUpdate> {
+export async function doMount(
+  mountResult: LayerLegend | Promise<LayerLegend>,
+): Promise<MountStateUpdate> {
   // Async
-  if (isPromise(layerMountTask)) {
+  if (isPromise(mountResult)) {
     const stateUpdate: MountStateUpdate = {};
 
     try {
-      await layerMountTask;
+      stateUpdate.legend = await mountResult;
       stateUpdate.isError = false;
       stateUpdate.isMounted = true;
     } catch (e) {
@@ -29,6 +33,7 @@ export async function doMount(layerMountTask): Promise<MountStateUpdate> {
       isError: false,
       isMounted: true,
       isLoading: false,
+      legend: mountResult,
     };
   }
 }
