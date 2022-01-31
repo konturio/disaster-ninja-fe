@@ -6,21 +6,21 @@ export interface SideControl {
   name: string;
   icon: JSX.Element;
   active: boolean;
+  title: string;
   exclusiveGroup?: string;
   visualGroup: string;
   onClick?: (isActive: boolean) => void;
   onChange?: (isActive: boolean) => void;
 }
 
-
 export const controlGroup = {
   mapTools: 'mapTools',
-}
+};
 
 export const controlVisualGroup = {
   withAnalitics: 'withAnalitics',
-  noAnalitics: 'noAnalitics'
-}
+  noAnalitics: 'noAnalitics',
+};
 
 export const sideControlsBarAtom = createBindAtom(
   {
@@ -41,48 +41,53 @@ export const sideControlsBarAtom = createBindAtom(
     });
 
     onAction('enable', (controlId) => {
-      const control = state[controlId]
+      const control = state[controlId];
 
-      control.onChange?.(true)
+      control.onChange?.(true);
       const newControlState = { ...state[controlId], active: true };
-      const newState = { ...state, [controlId]: newControlState }
+      const newState = { ...state, [controlId]: newControlState };
 
       // if there're other controls in exclusive group - turn 'em off
-      const disableActions: Action[] = []
+      const disableActions: Action[] = [];
 
       Object.entries(newState).forEach(([key, ctrl]) => {
         if (ctrl.id === controlId) return;
 
         if (ctrl.exclusiveGroup === control.exclusiveGroup && ctrl.active) {
-          const action = create('disable', ctrl.id)
-          disableActions.push(action)
+          const action = create('disable', ctrl.id);
+          disableActions.push(action);
         }
-      })
+      });
 
-      disableActions.length && schedule(dispatch => {
-        dispatch(disableActions)
-      })
+      disableActions.length &&
+        schedule((dispatch) => {
+          dispatch(disableActions);
+        });
 
-      state = newState
+      state = newState;
     });
 
     onAction('disable', (controlId) => {
-      const control = state[controlId]
+      const control = state[controlId];
 
-      control.onChange?.(false)
+      control.onChange?.(false);
       const newControlState = { ...state[controlId], active: false };
       state = { ...state, [controlId]: newControlState };
     });
 
     onAction('toggleActiveState', (controlId) => {
-      const control = state[controlId]
-      if (!control) return console.error(
-        `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
+      const control = state[controlId];
+      if (!control)
+        return console.error(
+          `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
+        );
+
+      const action = create(
+        state[controlId].active ? 'disable' : 'enable',
+        controlId,
       );
 
-      const action = create(state[controlId].active ? 'disable' : 'enable', controlId)
-
-      schedule(dispatch => dispatch(action))
+      schedule((dispatch) => dispatch(action));
     });
 
     return state;

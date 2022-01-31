@@ -27,6 +27,7 @@ export function initDrawTools() {
   sideControlsBarAtom.addControl.dispatch({
     id: DRAW_TOOLS_CONTROL_ID,
     name: DRAW_TOOLS_CONTROL_NAME,
+    title: i18n.t('Focus to freehand geometry'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalitics,
@@ -49,6 +50,7 @@ export function initDrawTools() {
   sideControlsBarAtom.addControl.dispatch({
     id: DOWNLOAD_GEOMETRY_CONTROL_ID,
     name: DOWNLOAD_GEOMETRY_CONTROL_NAME,
+    title: i18n.t('Download selected area'),
     active: false,
     visualGroup: controlVisualGroup.noAnalitics,
     icon: <DownloadIcon />,

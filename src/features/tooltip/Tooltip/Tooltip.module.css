@@ -1,3 +1,6 @@
+@custom-media --mobile (max-width: 960px);
+/* var(--md) */
+
 .tooltipContainer {
   position: absolute;
   left: 0;
@@ -7,17 +10,28 @@
   z-index: var(--tooltip);
 }
 
-.tooltipAnchor {
-  position: relative;
-}
-
 .popup {
   position: absolute;
   width: 256px;
+  @media (--mobile) {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
 }
 
-.markdown p {
-  margin: 0;
+.tooltipContainer.hoverTooltip {
+  pointer-events: none;
+
+  & .popup {
+    pointer-events: visible;
+  }
+}
+
+.tooltipAnchor {
+  position: relative;
 }
 
 .popupContent {
@@ -65,6 +79,8 @@
 }
 
 .closeIcon {
+  position: sticky;
+  top: 0;
   cursor: pointer;
   height: 10px;
   display: flex;
@@ -80,54 +96,51 @@
   display: none;
 }
 
-.markdown a,
-.markdown a:visited,
-.markdown a:link,
-.markdown a:active,
-.markdown a:hover {
-  color: var(--invert-outline-text-active);
+.markdown {
+  & p {
+    margin: 0;
+  }
+  & a {
+    word-break: break-all;
+    &:visited,
+    &:link,
+    &:active,
+    &:hover {
+      color: var(--invert-outline-text-active);
+    }
+  }
 }
 
-@media screen and (max-width: 960px) {
-  /* var(--md) */
+@media (--mobile) {
+  .hoverTooltip {
+    display: none;
+  }
 
   .tooltipContainer {
     background-color: rgba(0, 0, 0, 0.3);
+    & .popupContent {
+      transform: translate(0, 0);
+      position: absolute;
+      display: flex;
+      z-index: var(--tooltip);
+      left: 0;
+      bottom: calc(0px - var(--half-unit));
+      width: 100%;
+      padding: var(--double-unit);
+      max-height: 90%;
+      max-width: 100%;
+      background-color: white;
+      color: var(--primary-text-regular);
+      font-weight: 400;
+      font-size: 16px;
+      border-radius: var(--unit) var(--unit) 0 0;
+    }
   }
 
   .tooltipAnchor {
     position: static;
     width: 100%;
     height: 100%;
-  }
-
-  .popup {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-  }
-
-  .popupContent {
-    position: absolute;
-    display: flex;
-    z-index: var(--tooltip);
-    left: 0;
-    bottom: calc(0px - var(--half-unit));
-    width: 100%;
-    padding: var(--double-unit);
-    max-height: 90%;
-    max-width: 100%;
-    background-color: white;
-    color: var(--primary-text-regular);
-    font-weight: 400;
-    font-size: 16px;
-    border-radius: var(--unit) var(--unit) 0 0;
-  }
-
-  .popup .popupContent {
-    transform: translate(0, 0);
   }
 
   .closeIcon {
@@ -139,13 +152,13 @@
 
   .markdown {
     flex: 1 1 0;
-  }
-
-  .markdown a,
-  .markdown a:visited,
-  .markdown a:link,
-  .markdown a:active,
-  .markdown a:hover {
-    color: var(--primary-text-active);
+    & a {
+      &:visited,
+      &:link,
+      &:active,
+      &:hover {
+        color: var(--primary-text-active);
+      }
+    }
   }
 }

@@ -1,16 +1,16 @@
 import ReactMarkdown from 'react-markdown';
 import clsx from 'clsx';
-import { TooltipInfo } from '~core/shared_state/сurrentTooltip';
+import { TooltipData } from '~core/shared_state/сurrentTooltip';
 import s from './Tooltip.module.css';
 import { CloseIcon } from '@k2-packages/default-icons';
 import { useEffect, useState } from 'react';
 import { LinkRenderer } from '~utils/markdown/mdComponents';
 
 export function Tooltip({
-  info,
+  properties,
   closeTooltip,
 }: {
-  info: TooltipInfo | null;
+  properties: TooltipData | null;
   closeTooltip: () => void;
 }) {
   const [position, setPosition] = useState<
@@ -18,53 +18,67 @@ export function Tooltip({
   >(null);
 
   useEffect(() => {
-    if (info) {
+    if (properties) {
       const { height, width } = window.visualViewport;
       // Case - click was on the bottom half, put tooltip on top half
-      if (info.position.y > height / 2) {
+      if (properties.position.y > height / 2) {
         // click was on the rigth side
-        if (info.position.x > width / 2) setPosition('top-left');
+        if (properties.position.x > width / 2) setPosition('top-left');
         else setPosition('top-right');
       }
       // click was on the top right side
-      else if (info.position.x > width / 2) {
+      else if (properties.position.x > width / 2) {
         setPosition('bottom-left');
       } else setPosition('bottom-right');
     } else setPosition(null);
-  }, [info?.position]);
+  }, [properties?.position]);
 
-  function close() {
-    closeTooltip();
+  function onOuterClick(e) {
+    if (!properties?.hoverBehabiour)
+      properties?.onOuterClick
+        ? properties.onOuterClick(e, closeTooltip)
+        : closeTooltip();
   }
 
-  function onContentClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  function stopPropagation(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     e.stopPropagation();
   }
 
-  if (!info) return null;
+  if (!properties) return null;
 
   return (
-    <div className={s.tooltipContainer} onClick={close}>
+    <div
+      className={clsx(
+        s.tooltipContainer,
+        properties?.hoverBehabiour && s.hoverTooltip,
+      )}
+      onClick={onOuterClick}
+    >
       <div
         className={s.tooltipAnchor}
-        style={{ top: info.position.y || 0, left: info.position.x || 0 }}
+        style={{
+          top: properties.position.y || 0,
+          left: properties.position.x || 0,
+        }}
       >
         {position && (
           <div className={clsx(s.popup, s[position])}>
-            <div className={s.popupContent} onClick={onContentClick}>
-              {typeof info.popup === 'string' ? (
+            <div className={s.popupContent} onClick={stopPropagation}>
+              {typeof properties.popup === 'string' ? (
                 <ReactMarkdown
                   components={{ a: LinkRenderer }}
                   className={s.markdown}
                 >
-                  {info.popup}
+                  {properties.popup}
                 </ReactMarkdown>
               ) : (
-                info.popup
+                properties.popup
               )}
-              <div className={s.closeIcon} onClick={close}>
-                <CloseIcon />
-              </div>
+              {!properties?.hoverBehabiour && (
+                <div className={s.closeIcon} onClick={() => closeTooltip()}>
+                  <CloseIcon />
+                </div>
+              )}
             </div>
           </div>
         )}
