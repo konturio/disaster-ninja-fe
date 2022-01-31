@@ -34,7 +34,7 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
           <div key={`${dataItem.name}_${index}`} className={s.stat}>
             <div className={s.statHead}>
               {dataItem.name}
-              <Tooltip tipText={dataItem.description} />
+              <Tooltip tipText={dataItem.description} showedOnHover={true} />
             </div>
             <div className={s.statContent}>
               {typeof dataItem.percentValue !== 'undefined' ? (
