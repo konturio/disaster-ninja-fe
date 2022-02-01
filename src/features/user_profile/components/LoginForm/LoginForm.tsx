@@ -4,7 +4,7 @@ import { currentUserAtom } from '~core/auth';
 import s from './LoginForm.module.css';
 import { authClient, translationService as i18n } from '~core/index';
 import clsx from 'clsx';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { testEmail } from '~utils/forms/formsUtils';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 
@@ -16,41 +16,41 @@ export function LoginForm() {
   }, []);
 
   const [error, setError] = useState<{ email?: string, password?: string, general?: string }>({});
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [formData, setFormData] = useState<{ email?: string, password?: string }>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const formRef = useRef<HTMLDivElement>(null);
 
-  const onEmailInputChange = (ev: ChangeEvent<HTMLInputElement>) => {
+  const onEmailInputChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
     if (error.email) {
       setError({...error, email: undefined })
     }
-    setEmail(ev.target.value);
-  };
+    setFormData({ ...formData, email: ev.target.value })
+  }, [formData, setFormData, error, setError]);
 
-  const onPasswordInputChange = (ev: ChangeEvent<HTMLInputElement>) => {
+  const onPasswordInputChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
     if (error.password) {
       setError({...error, password: undefined })
     }
-    setPassword(ev.target.value);
-  };
+    setFormData({ ...formData, password: ev.target.value })
+  }, [formData, setFormData, error, setError]);
 
   const onLoginClick = async () => {
     const err: {email?: string; password?: string; general?: string; } = {};
-    if (!email.length) {
+    if (!formData.email?.length) {
       err.email = i18n.t('Email has not to be empty!');
     } else {
-      if (!testEmail(email)) {
+      if (!testEmail(formData.email)) {
         err.email = i18n.t('Email has to be valid!');
       }
     }
-    if (!password.length) {
+    if (!formData.password?.length) {
       err.password = i18n.t('Password has not to be empty!');
     }
     if (err.email || err.password) {
       setError(err);
     } else {
       setLoading(true);
-      const authResponse = await authClient.authenticate(email, password);
+      const authResponse = await authClient.authenticate(formData.email || '', formData.password || '');
       setLoading(false);
       if (authResponse !== true) {
         if (typeof authResponse === 'string') {
@@ -62,9 +62,24 @@ export function LoginForm() {
     }
   };
 
+  useEffect(() => {
+    if (formRef.current) {
+      const keyDownListener = (ev: KeyboardEvent) => {
+        if (ev.key === 'Enter') {
+          onLoginClick();
+        }
+      };
+      formRef.current.addEventListener('keydown', keyDownListener);
+
+      return () => {
+        formRef?.current?.removeEventListener('keydown', keyDownListener);
+      };
+    }
+  }, [formRef.current, formData]);
+
   return currentUser.userState === 'logging_in' ? (
     <Modal onModalCloseCallback={onCloseFormCallback}>
-      <Card className={s.modalCard}>
+      <Card ref={formRef} className={s.modalCard}>
         {loading && (
           <div className={s.loadingContainer}>
             <LoadingSpinner message={i18n.t('Logging in...')} />
