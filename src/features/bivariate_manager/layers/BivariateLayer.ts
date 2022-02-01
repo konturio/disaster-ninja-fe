@@ -52,8 +52,8 @@ export class BivariateLayer implements LogicalLayer {
   }
 
   willMount(map: ApplicationMap) {
-    if (map.getLayer(this.id) !== undefined) {
-      map.setLayoutProperty(this.id, 'visibility', 'visible');
+    if (map.getLayer(this._layerStyle.id) !== undefined) {
+      map.setLayoutProperty(this._layerStyle.id, 'visibility', 'visible');
     } else {
       const beforeId = layersOrderManager.getBeforeIdByType(
         this._layerStyle.type as any,
@@ -61,11 +61,12 @@ export class BivariateLayer implements LogicalLayer {
       map.addLayer(this._layerStyle as any, beforeId);
     }
     this._isMounted = true;
+    return this.legend;
   }
 
   willUnmount(map: ApplicationMap) {
     if (map.getLayer(this._layerStyle.id) !== undefined) {
-      map.setLayoutProperty(this.id, 'visibility', 'none');
+      map.setLayoutProperty(this._layerStyle.id, 'visibility', 'none');
     }
     this._isMounted = false;
   }
@@ -80,5 +81,9 @@ export class BivariateLayer implements LogicalLayer {
     if (map.getLayer(this._layerStyle.id) !== undefined) {
       map.setLayoutProperty(this._layerStyle.id, 'visibility', 'visible');
     }
+  }
+
+  onDataChange() {
+    // noop
   }
 }

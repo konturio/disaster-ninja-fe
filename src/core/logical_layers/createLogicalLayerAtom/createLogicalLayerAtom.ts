@@ -33,10 +33,9 @@ function isStateChanged(
   return isChanged;
 }
 
-export function createLogicalLayerAtom<T>(
-  layer: LogicalLayer<T>,
-  atom?: AtomSelfBinded | Atom,
-): LogicalLayerAtom {
+export function createLogicalLayerAtom<
+  T extends { [key: string]: any } | null | [] | undefined,
+>(layer: LogicalLayer<T>, atom?: AtomSelfBinded | Atom): LogicalLayerAtom {
   const actions: LogicalLayerAtomActions<T> = {
     init: () => undefined,
     mount: () => undefined,
@@ -106,11 +105,9 @@ export function createLogicalLayerAtom<T>(
         state.layer.onInit();
       });
 
-      onAction('setData', (data) => {
-        // @ts-ignore IDK why it's not working
-        if ('layer' in data && 'legend' in data.layer) {
+      onAction('setData', async (data) => {
+        if (data && 'layer' in data && 'legend' in data.layer) {
           schedule((dispatch) => {
-            // @ts-ignore IDK why it's not working
             dispatch(currentLegendsAtom.set(state.id, data.layer.legend));
           });
         }
@@ -271,7 +268,6 @@ export function createLogicalLayerAtom<T>(
 
   if (atom && 'subscribe' in atom) {
     atom.subscribe((s) => {
-      // @ts-ignore
       logicalLayerAtom.setData.dispatch(s);
     });
   }
