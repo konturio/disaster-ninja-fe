@@ -141,7 +141,6 @@
     "react-router-dom": "^5.3.0",
     "react-transition-group": "^4.4.2",
     "react-virtuoso": "^2.2.3",
-    "react-yandex-metrika": "^2.6.0",
     "redux-devtools-extension": "^2.13.9",
     "remarkable": "^2.0.0",
     "reselect": "^4.0.0",
