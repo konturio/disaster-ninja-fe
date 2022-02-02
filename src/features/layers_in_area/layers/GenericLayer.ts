@@ -383,9 +383,13 @@ export class GenericLayer
     return [enabledLayersAtom.remove(this.id)];
   }
 
-  public async willMount(map: ApplicationMap) {
-    this._updateMap(map);
-    return this.legend ?? null;
+  public async willMount(map: ApplicationMap): Promise<{
+    legend?: LayerLegend;
+    isDownloadable?: boolean;
+  }> {
+    await this._updateMap(map);
+
+    return { legend: this.legend, isDownloadable: this.isDownloadable };
   }
 
   async onDataChange(
@@ -427,6 +431,11 @@ export class GenericLayer
   }
 
   wasRemoveFromInRegistry(map: ApplicationMap) {
+    // only unmount layers that was mounted
+    if (!this._layerIds.size) return;
+    for (const id of this._layerIds) {
+      if (!map.getLayer(id)) return;
+    }
     this.willUnmount(map);
   }
 
