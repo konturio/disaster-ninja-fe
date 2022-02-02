@@ -6,17 +6,24 @@ interface MountStateUpdate {
   isMounted?: boolean;
   isLoading?: boolean;
   legend?: LayerLegend | null;
+  isDownloadable?: boolean;
 }
 
 export async function doMount(
-  mountResult: LayerLegend | null | Promise<LayerLegend | null>,
+  mountResult:
+    | Promise<{ legend?: LayerLegend; isDownloadable?: boolean }>
+    | { legend?: LayerLegend; isDownloadable?: boolean }
+    | null
+    | void,
 ): Promise<MountStateUpdate> {
   // Async
   if (isPromise(mountResult)) {
     const stateUpdate: MountStateUpdate = {};
 
     try {
-      stateUpdate.legend = await mountResult;
+      const { isDownloadable, legend } = await mountResult;
+      stateUpdate.legend = legend;
+      stateUpdate.isDownloadable = Boolean(isDownloadable);
       stateUpdate.isError = false;
       stateUpdate.isMounted = true;
     } catch (e) {
@@ -33,7 +40,8 @@ export async function doMount(
       isError: false,
       isMounted: true,
       isLoading: false,
-      legend: mountResult,
+      legend: mountResult?.legend,
+      isDownloadable: Boolean(mountResult?.isDownloadable),
     };
   }
 }

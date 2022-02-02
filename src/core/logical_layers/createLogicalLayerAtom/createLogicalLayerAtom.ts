@@ -54,12 +54,14 @@ export function createLogicalLayerAtom<
       isVisible,
       isError,
       isEnabled,
+      isDownloadable,
     }: Partial<LogicalLayerAtomState>) => ({
       isLoading,
       isMounted,
       isVisible,
       isError,
       isEnabled,
+      isDownloadable,
     }),
   };
 
@@ -71,6 +73,7 @@ export function createLogicalLayerAtom<
     isLoading: false,
     isError: false,
     isEnabled: false,
+    isDownloadable: false,
   };
 
   const logicalLayerAtom: LogicalLayerAtom = createBindAtom(
@@ -89,6 +92,7 @@ export function createLogicalLayerAtom<
         id: layer.id,
         isLoading: state.isLoading,
         isError: state.isError,
+        isDownloadable: state.isDownloadable,
         isMounted: get('currentMountedLayersAtom').has(state.id),
         isVisible: !get('currentHiddenLayersAtom').has(state.id),
         isEnabled: get('enabledLayersAtom')?.has(state.id) ?? false,
@@ -175,7 +179,7 @@ export function createLogicalLayerAtom<
         schedule((dispatch) => {
           const runMountProcess = async () => {
             const { isMounted, legend, ...stateUpdate } = await doMount(
-              layer.willMount(map) ?? null,
+              (await layer.willMount(map)) ?? null,
             );
             // Collect required actions
             const actions = [
@@ -251,7 +255,7 @@ export function createLogicalLayerAtom<
       });
 
       onAction('download', () => {
-        if (!map || !layer.isDownloadable) return;
+        if (!map || !state.isDownloadable) return;
         if (typeof layer.onDownload !== 'function') {
           console.error(
             `Layer '${state.id}' haven't implemented onDownload method`,
