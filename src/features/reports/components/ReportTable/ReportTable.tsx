@@ -57,8 +57,9 @@ export function ReportTable() {
       return (
         <tbody>
           {data.map((row, rowIndex) => {
-            const OSMId = OSMIdIndex ? row[OSMIdIndex] : null;
-            if (!OSMId)
+            const OSMId =
+              typeof OSMIdIndex === 'number' ? row[OSMIdIndex] : null;
+            if (OSMId === null)
               return showNotification(
                 'error',
                 { title: 'No osm ID provided' },
@@ -94,7 +95,7 @@ export function ReportTable() {
     return (
       <tbody>
         {data.map((row, rowIndex) => {
-          const OSMId = OSMIdIndex ? row[OSMIdIndex] : null;
+          const OSMId = typeof OSMIdIndex === 'number' ? row[OSMIdIndex] : null;
           return (
             <tr
               key={row[0] + 'row' + rowIndex}
