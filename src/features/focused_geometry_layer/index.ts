@@ -8,5 +8,16 @@ export function initFocusedGeometryLayer() {
     focusedGeometryLayerAtom.init.dispatch();
     focusedGeometryLayerAtom.subscribe(() => null);
     visibilityWatcherAtom.subscribe(() => null);
+    let timeout: number;
+    const unsubscribe = currentMapAtom.subscribe((map) => {
+      // Put in the end of callStack
+      timeout && clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        if (map) {
+          focusedGeometryLayerAtom.enable.dispatch();
+          unsubscribe();
+        }
+      });
+    });
   }, 0);
 }
