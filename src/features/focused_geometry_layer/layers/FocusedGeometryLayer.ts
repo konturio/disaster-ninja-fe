@@ -81,7 +81,6 @@ export class FocusedGeometryLayer
     coordinates: number[];
   }[];
   private _layerConfigs: maplibregl.AnyLayer[] = [];
-  public isDownloadable = true;
 
   constructor({ id, name }) {
     this.id = id;
@@ -134,7 +133,7 @@ export class FocusedGeometryLayer
       );
     });
 
-    return this.legend ?? null;
+    return { legend: this.legend, isDownloadable: true };
   }
 
   onDataChange(map: ApplicationMap | null, data: FocusedGeometry | null) {

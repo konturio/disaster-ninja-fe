@@ -61,7 +61,7 @@ export class BivariateLayer implements LogicalLayer {
       map.addLayer(this._layerStyle as any, beforeId);
     }
     this._isMounted = true;
-    return this.legend;
+    return { legend: this.legend, isDownloadable: false };
   }
 
   willUnmount(map: ApplicationMap) {
@@ -85,5 +85,9 @@ export class BivariateLayer implements LogicalLayer {
 
   onDataChange() {
     // noop
+  }
+
+  wasRemoveFromInRegistry(map: ApplicationMap) {
+    this.willUnmount(map);
   }
 }
