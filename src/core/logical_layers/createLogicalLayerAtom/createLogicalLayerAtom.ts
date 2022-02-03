@@ -189,7 +189,6 @@ export function createLogicalLayerAtom<T>(
       });
 
       onAction('unmount', () => {
-        console.log('unmount layer', state);
         newState.isLoading = true;
         newState.isError = false;
         if (!map) return;
