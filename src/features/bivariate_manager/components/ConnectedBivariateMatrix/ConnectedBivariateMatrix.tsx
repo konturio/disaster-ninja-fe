@@ -105,7 +105,6 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
 
     const onSelectCellHandler = useCallback(
       (e, { x, y }) => {
-        console.log('on select cell', e, x, y);
         if (
           !xNumerators ||
           !yNumerators ||
@@ -131,7 +130,6 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
         onSelectCell={onSelectCellHandler}
         selectedCell={selectedCell}
         onSelectDenominator={() => {
-          console.log('onSelectDenominator');
           /* do nothing */
         }}
       />
