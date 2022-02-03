@@ -1,12 +1,12 @@
 import { Button, Card, Input, Modal, Text } from '@k2-packages/ui-kit';
 import { useAction, useAtom } from '@reatom/react';
-import { currentUserAtom } from '~core/auth';
 import s from './LoginForm.module.css';
 import { authClient, translationService as i18n } from '~core/index';
 import clsx from 'clsx';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { testEmail } from '~utils/forms/formsUtils';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { currentUserAtom } from '~core/shared_state';
 
 export function LoginForm() {
   const [currentUser] = useAtom(currentUserAtom);

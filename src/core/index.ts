@@ -13,6 +13,7 @@ ApiClient.init({
   notificationService: notificationService,
   baseURL: config.apiGateway,
   loginApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
+  refreshTokenApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
   translationService: TranslationService,
 });
 export const apiClient = ApiClient.getInstance();

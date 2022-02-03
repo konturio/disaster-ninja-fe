@@ -136,6 +136,24 @@ export class ApiClient {
     return 'Wrong data received!';
   }
 
+  async checkAuth(callback: () => void): Promise<{ token: string; refreshToken: string; jwtData: JWTData } | undefined> {
+    this.expiredTokenCallback = callback;
+    const authStr = localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
+    if (authStr) {
+      const auth = JSON.parse(authStr);
+      if (auth.token && auth.refreshToken) {
+        const setAuthResult = this.setAuth(auth.token, auth.refreshToken);
+        if (typeof setAuthResult === 'string') {
+          localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+          throw new ApiClientError(this.translationService.t(setAuthResult), {
+            kind: 'bad-data',
+          });
+        }
+        return { token: auth.token, refreshToken: auth.refreshToken, jwtData: setAuthResult };
+      }
+    }
+  }
+
   private resetAuth() {
     this.token = '';
     this.refreshToken = '';
@@ -162,7 +180,7 @@ export class ApiClient {
           const minutes5 = 1000 * 60 * 5;
           if (diffTime < minutes5) {
             const refreshResult = await this.refreshAuthToken();
-            if (refreshResult) {
+            if (refreshResult && typeof refreshResult !== 'string') {
               resolve(true);
               return true;
             }
@@ -337,27 +355,25 @@ export class ApiClient {
     }
   }
 
-
   async logout() {
     this.resetAuth();
   }
 
-  public async refreshAuthToken(): Promise<KeycloakAuthResponse | undefined> {
-    const response = await this.apiSauceInstance.post<
-      KeycloakAuthResponse,
-      GeneralApiProblem
-    >(
-      this.refreshTokenApiPath,
-      { accessToken: this.token, refreshToken: this.refreshToken },
-      {
-        headers: {
-          Authorization: `Bearer ${this.token}`,
-        },
-      },
-    );
+  public async refreshAuthToken(): Promise<{ token: string; refreshToken: string; jwtData: JWTData } | string | undefined> {
+    const params = new URLSearchParams();
+    params.append('client_id', config.keycloakClientId);
+    params.append('refresh_token', this.refreshToken);
+    params.append('grant_type', 'refresh_token');
 
-    this.processAuthResponse(response);
-    return this.processResponse(response);
+    const response = await this.apiSauceInstance.post<
+      KeycloakAuthResponse
+      >(this.refreshTokenApiPath, params, { headers: { 'Content-Type': 'application/x-www-form-urlencoded'}} );
+
+    if (response.ok) {
+      return this.processAuthResponse(response);
+    } else {
+      return response.data?.error_description;
+    }
   }
 
   public async call<T>(
