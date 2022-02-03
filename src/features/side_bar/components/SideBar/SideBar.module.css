@@ -1,0 +1,14 @@
+.sideBarContainer {
+  display: inline-block;
+  width: 48px;
+  text-align: center;
+  margin: var(--unit) auto;
+  & .buttonWrap {
+    width: 40px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  & button {
+    margin: 0;
+  }
+}

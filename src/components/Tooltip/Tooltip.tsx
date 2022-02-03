@@ -1,22 +1,51 @@
 import s from './Tooltip.module.css';
 import clsx from 'clsx';
 import { useAction } from '@reatom/react';
-import { сurrentTooltipAtom } from '~core/shared_state/сurrentTooltip';
+import { currentTooltipAtom } from '~core/shared_state/сurrentTooltip';
 
 interface TooltipProps {
   tipText: string;
   className?: string;
+  showedOnHover?: boolean;
 }
 
-export const Tooltip = ({ tipText, className }: TooltipProps) => {
-  const setTooltip = useAction(сurrentTooltipAtom.setCurrentTooltip)
+export const Tooltip = ({
+  tipText,
+  className,
+  showedOnHover,
+}: TooltipProps) => {
+  const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
+  const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
+
   function onClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    setTooltip({ popup: tipText, position: { x: e.clientX, y: e.clientY } })
+    setTooltip({
+      popup: tipText,
+      position: { x: e.clientX, y: e.clientY },
+      onOuterClick(e, close) {
+        close();
+      },
+    });
   }
+
+  function onPointerEnter(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    if (showedOnHover)
+      setTooltip({
+        popup: tipText,
+        position: { x: e.clientX, y: e.clientY },
+        hoverBehabiour: true,
+      });
+  }
+
+  function onPointerLeave() {
+    if (showedOnHover) resetTooltip();
+  }
+
   return (
     <div
       className={clsx(s.tooltip, className)}
       onClick={onClick}
+      onPointerEnter={onPointerEnter}
+      onPointerLeave={onPointerLeave}
     >
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
         <path
@@ -42,5 +71,5 @@ export const Tooltip = ({ tipText, className }: TooltipProps) => {
         />
       </svg>
     </div>
-  )
+  );
 };
