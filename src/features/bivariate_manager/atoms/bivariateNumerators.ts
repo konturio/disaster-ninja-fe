@@ -1,18 +1,7 @@
 import { createBindAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { Stat } from '@k2-packages/bivariate-tools';
-import {
-  BivariateLayerStyle,
-  generateColorThemeAndBivariateStyle,
-} from '~utils/bivariate/bivariateColorThemeUtils';
-import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
-import { ColorTheme, NumeratorWithDenominators } from '~core/types';
-import { logicalLayersRegistryAtom } from '~core/shared_state';
-import {
-  LogicalLayerAtom,
-  createLogicalLayerAtom,
-} from '~core/logical_layers/createLogicalLayerAtom';
-import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
+import { NumeratorWithDenominators } from '~core/types';
 
 const extractAvailableNumeratorsWithDenominators = (stat: Stat) => {
   const { correlationRates } = stat;
