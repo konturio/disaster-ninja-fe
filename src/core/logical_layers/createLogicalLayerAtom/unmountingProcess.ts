@@ -4,12 +4,15 @@ interface UnmountStateUpdate {
   isError?: boolean;
   isMounted?: boolean;
   isLoading?: boolean;
+  legend: null;
 }
 
 export async function doUnmount(layerUnmountTask): Promise<UnmountStateUpdate> {
   // Async
   if (isPromise(layerUnmountTask)) {
-    const stateUpdate: UnmountStateUpdate = {};
+    const stateUpdate: UnmountStateUpdate = {
+      legend: null,
+    };
 
     try {
       await layerUnmountTask;
@@ -29,6 +32,7 @@ export async function doUnmount(layerUnmountTask): Promise<UnmountStateUpdate> {
       isError: false,
       isMounted: false,
       isLoading: false,
+      legend: null,
     };
   }
 }
