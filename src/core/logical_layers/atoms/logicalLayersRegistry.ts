@@ -45,7 +45,7 @@ export const logicalLayersRegistryAtom = createBindAtom(
       delete copy[logicalLayerId];
       state = copy;
       schedule((dispatch) => {
-        dispatch(layer.unregister());
+        dispatch([layer.unregister(), layer.unmount()]);
       });
     });
 
