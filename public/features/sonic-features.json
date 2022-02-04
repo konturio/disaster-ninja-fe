@@ -1,5 +1,5 @@
 {
-  "app_login": true,
+  "app_login": false,
   "analytics_panel": true,
   "events_list": true,
   "map_layers_panel": true,

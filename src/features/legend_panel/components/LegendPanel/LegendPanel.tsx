@@ -7,13 +7,19 @@ import clsx from 'clsx';
 import { LegendSorter } from './LegendSorter';
 import { LegendPanelIcon } from '@k2-packages/default-icons';
 import type { LogicalLayerAtom } from '~core/types/layers';
+import { LayerLegend } from '~core/logical_layers/createLogicalLayerAtom';
 
 interface LegendPanelProps {
   layers: LogicalLayerAtom[];
   iconsContainerId: string;
+  legends: Map<string, LayerLegend>;
 }
 
-export function LegendPanel({ layers, iconsContainerId }: LegendPanelProps) {
+export function LegendPanel({
+  layers,
+  iconsContainerId,
+  legends,
+}: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [closed, setClosedPreferation] = useState<boolean>(false);
   const [childIconContainer, setChildIconContainer] =
@@ -70,7 +76,11 @@ export function LegendPanel({ layers, iconsContainerId }: LegendPanelProps) {
       >
         <div className={s.panelBody}>
           {layers.map((layer) => (
-            <LegendSorter layer={layer} key={layer.id} />
+            <LegendSorter
+              layer={layer}
+              legend={legends.get(layer.id)}
+              key={layer.id}
+            />
           ))}
         </div>
       </Panel>
