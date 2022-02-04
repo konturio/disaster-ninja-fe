@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react';
 import { tableAtom } from '../../atoms/tableAtom';
 import clsx from 'clsx';
 import i18next from 'i18next';
@@ -7,6 +7,7 @@ import styles from './ReportTable.module.css';
 import sortIcon from '../../icons/sort_triangle.svg';
 import { TableCell } from './TableCell';
 import { InconsistsTableCell } from './InconsistsTableCell';
+import { currentNotificationAtom } from '~core/shared_state';
 
 function jOSMRedirect(
   e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -27,6 +28,7 @@ function openOSMID(
 export function ReportTable() {
   const [{ data, thead, ascending, sortIndex, meta }, { sortBy, setState }] =
     useAtom(tableAtom);
+  const showNotification = useAction(currentNotificationAtom.showNotification);
 
   useEffect(() => {
     return () => {
@@ -38,9 +40,9 @@ export function ReportTable() {
     const OSMIdIndex = thead?.findIndex(
       (val) => val.toUpperCase() === 'OSM ID',
     );
-    if (OSMIdIndex === undefined || OSMIdIndex == -1) {
+    if (OSMIdIndex == -1) {
       console.error(`Can't find OSMIdIndex`);
-      return null;
+      // return null;
     }
     if (!data?.length || !thead) return null;
 
@@ -55,7 +57,14 @@ export function ReportTable() {
       return (
         <tbody>
           {data.map((row, rowIndex) => {
-            const OSMId = row[OSMIdIndex];
+            const OSMId =
+              typeof OSMIdIndex === 'number' ? row[OSMIdIndex] : null;
+            if (OSMId === null)
+              return showNotification(
+                'error',
+                { title: 'No osm ID provided' },
+                5000,
+              );
             return (
               <tr
                 key={row[0] + 'row' + rowIndex}
@@ -86,7 +95,7 @@ export function ReportTable() {
     return (
       <tbody>
         {data.map((row, rowIndex) => {
-          const OSMId = row[OSMIdIndex];
+          const OSMId = typeof OSMIdIndex === 'number' ? row[OSMIdIndex] : null;
           return (
             <tr
               key={row[0] + 'row' + rowIndex}
