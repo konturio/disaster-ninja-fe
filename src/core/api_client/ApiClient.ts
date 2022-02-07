@@ -41,11 +41,12 @@ export class ApiClient {
   private readonly apiSauceInstance: ApisauceInstance;
   private readonly disableAuth: boolean;
   private readonly storage: WindowLocalStorage['localStorage'];
-  private token = '';
-  private refreshToken = '';
-  private tokenWillExpire: Date | undefined;
-  private checkTokenPromise: Promise<boolean> | undefined;
-  private expiredTokenCallback?: () => void;
+
+  private static token = '';
+  private static refreshToken = '';
+  private static tokenWillExpire: Date | undefined;
+  private static checkTokenPromise: Promise<boolean> | undefined;
+  private static expiredTokenCallback?: () => void;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -120,9 +121,9 @@ export class ApiClient {
     if (decodedToken && decodedToken.exp) {
       const expiringDate = new Date(decodedToken.exp * 1000);
       if (expiringDate > new Date()) {
-        this.token = tkn;
-        this.refreshToken = refreshTkn;
-        this.tokenWillExpire = expiringDate;
+        ApiClient.token = tkn;
+        ApiClient.refreshToken = refreshTkn;
+        ApiClient.tokenWillExpire = expiringDate;
         this.storage.setItem(
           LOCALSTORAGE_AUTH_KEY,
           JSON.stringify({ token: tkn, refreshToken: refreshTkn }),
@@ -137,7 +138,7 @@ export class ApiClient {
   }
 
   async checkAuth(callback: () => void): Promise<{ token: string; refreshToken: string; jwtData: JWTData } | undefined> {
-    this.expiredTokenCallback = callback;
+    ApiClient.expiredTokenCallback = callback;
     const authStr = localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
     if (authStr) {
       const auth = JSON.parse(authStr);
@@ -155,24 +156,24 @@ export class ApiClient {
   }
 
   private resetAuth() {
-    this.token = '';
-    this.refreshToken = '';
-    this.tokenWillExpire = undefined;
+    ApiClient.token = '';
+    ApiClient.refreshToken = '';
+    ApiClient.tokenWillExpire = undefined;
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
   }
 
   private async checkTokenIsExpired(): Promise<boolean> {
-    if (!this.checkTokenPromise) {
+    if (!ApiClient.checkTokenPromise) {
       // eslint-disable-next-line no-async-promise-executor
-      this.checkTokenPromise = new Promise<boolean>(async (resolve) => {
+      ApiClient.checkTokenPromise = new Promise<boolean>(async (resolve) => {
         // if token has less then 5 minutes lifetime, refresh it
-        if (this.tokenWillExpire) {
+        if (ApiClient.tokenWillExpire) {
           const diffTime =
-            this.tokenWillExpire.getTime() - new Date().getTime();
+            ApiClient.tokenWillExpire.getTime() - new Date().getTime();
           if (diffTime < 0) {
             this.resetAuth();
-            if (this.expiredTokenCallback) {
-              this.expiredTokenCallback();
+            if (ApiClient.expiredTokenCallback) {
+              ApiClient.expiredTokenCallback();
             }
             resolve(false);
             return false;
@@ -184,8 +185,8 @@ export class ApiClient {
               resolve(true);
               return true;
             }
-            if (this.expiredTokenCallback) {
-              this.expiredTokenCallback();
+            if (ApiClient.expiredTokenCallback) {
+              ApiClient.expiredTokenCallback();
             }
             resolve(false);
             return false;
@@ -194,16 +195,16 @@ export class ApiClient {
           return true;
         }
 
-        if (this.expiredTokenCallback) {
-          this.expiredTokenCallback();
+        if (ApiClient.expiredTokenCallback) {
+          ApiClient.expiredTokenCallback();
         }
         resolve(false);
         return false;
       });
     }
 
-    const res = await this.checkTokenPromise;
-    this.checkTokenPromise = undefined;
+    const res = await ApiClient.checkTokenPromise;
+    ApiClient.checkTokenPromise = undefined;
     return res;
   }
 
@@ -362,7 +363,7 @@ export class ApiClient {
   public async refreshAuthToken(): Promise<{ token: string; refreshToken: string; jwtData: JWTData } | string | undefined> {
     const params = new URLSearchParams();
     params.append('client_id', config.keycloakClientId);
-    params.append('refresh_token', this.refreshToken);
+    params.append('refresh_token', ApiClient.refreshToken);
     params.append('grant_type', 'refresh_token');
 
     const response = await this.apiSauceInstance.post<
@@ -397,7 +398,7 @@ export class ApiClient {
 
       if (!axiosConfig.headers || !axiosConfig.headers.Authorization) {
         axiosConfig.headers = {
-          Authorization: `Bearer ${this.token}`,
+          Authorization: `Bearer ${ApiClient.token}`,
         };
       }
 

@@ -1,20 +1,37 @@
 import { createResourceAtom } from '~utils/atoms';
-import { apiClient } from '~core/index';
-import { currentUserAtom, UserWithAuth } from '~core/shared_state/currentUser';
+import { apiClient, userApiClient } from '~core/index';
+import { CurrentUser, currentUserAtom } from '~core/shared_state/currentUser';
 import { UserDataModel } from '~core/auth';
+import { AppFeature } from '~core/auth/models/UserDataModel';
 
-export const userResourceAtom = createResourceAtom<UserWithAuth, UserDataModel | undefined>(
+export const userResourceAtom = createResourceAtom<CurrentUser, UserDataModel | undefined>(
   currentUserAtom,
-  async (userState) => {
-    console.log('fetch user data', userState);
-    const responseData = await apiClient.get<unknown>( '/user', undefined, false);
-    if (!responseData) {
+  async (userData) => {
+    const featuresResponse = userApiClient.get<unknown>( '/features', undefined, userData?.id !== 'public');
+    const feedsResponse = apiClient.get<unknown>( '/events/user_feeds', undefined, userData?.id !== 'public');
+
+    const data = await Promise.all([featuresResponse, feedsResponse]);
+
+    if (!data || !data[0] || !data[1]) {
       throw new Error('No user data received');
     }
 
-    const userData = new UserDataModel();
-    Object.assign(userData, responseData);
-    return userData;
+    const features: {[T in AppFeature]?: boolean } = {};
+    if (Array.isArray(data[0])) {
+      data[0].forEach((ft: { name: AppFeature }) => {
+        features[ft.name] = true;
+      })
+    }
+
+    let feeds: string[] = [];
+    if (Array.isArray(data[1])) {
+      feeds = data[1].map((fd: { feed: string }) => fd.feed );
+    }
+
+    const udm = new UserDataModel();
+    Object.assign(udm, { features, feeds });
+
+    return udm;
   },
   'userResourceAtom',
 );
