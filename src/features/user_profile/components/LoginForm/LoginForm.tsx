@@ -6,10 +6,10 @@ import clsx from 'clsx';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { testEmail } from '~utils/forms/formsUtils';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
-import { currentUserAtom } from '~core/shared_state';
+import { userStateAtom } from '~core/auth/atoms/userState';
 
 export function LoginForm() {
-  const [currentUser] = useAtom(currentUserAtom);
+  const [userState] = useAtom(userStateAtom);
 
   const onCloseFormCallback = useAction(() => {
     authClient.closeLoginForm();
@@ -77,7 +77,7 @@ export function LoginForm() {
     }
   }, [formRef.current, formData]);
 
-  return currentUser.userState === 'logging_in' ? (
+  return userState === 'logging_in' ? (
     <Modal onModalCloseCallback={onCloseFormCallback}>
       <Card ref={formRef} className={s.modalCard}>
         {loading && (
