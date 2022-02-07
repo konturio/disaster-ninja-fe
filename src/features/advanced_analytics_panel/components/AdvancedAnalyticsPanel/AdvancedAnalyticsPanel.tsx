@@ -11,7 +11,6 @@ import { Tab } from '@k2-packages/ui-kit/tslib/Tabs';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
 import { useAtom } from '@reatom/react';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
-import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { AnalyticsPanelIcon } from '@k2-packages/default-icons';
 import { focusedGeometryAtom } from '~core/shared_state';
 
@@ -101,7 +100,7 @@ export function AdvancedAnalyticsPanel({
       >
         <div className={s.panelBody}>
           {statesToComponents({
-            init: <AnalyticsEmptyState />,
+            init: <div />,
             loading: <LoadingSpinner />,
             error: (errorMessage) => <ErrorMessage message={errorMessage} />,
             ready: (dataList) => {
