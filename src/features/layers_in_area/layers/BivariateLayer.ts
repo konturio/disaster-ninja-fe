@@ -13,20 +13,28 @@ export function createBivariateLayerFromPreset(layer: LayerInArea) {
   const bl = layer.legend as BivariateLegendBackend;
 
   // add opacity .5 to colors
-  bl.colors = bl.colors.map(clr => {
+  bl.colors = bl.colors.map((clr) => {
     const clrObj = convertRGBtoObj(clr.color);
-    return { id: clr.id, color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`}
+    return {
+      id: clr.id,
+      color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`,
+    };
   });
 
   const bivariateStyle = generateLayerStyleFromBivariateLegendBackend(bl);
   const bivariateLegend: BivariateLegend = {
     name: layer.name,
-    type: "bivariate",
+    type: 'bivariate',
     axis: { x: bl.axes.y, y: bl.axes.x },
     copyrights: layer.copyrights || [],
     description: layer.description || '',
-    steps: bl.colors.map(clr => ({ label: clr.id, color: clr.color }))
+    steps: bl.colors.map((clr) => ({ label: clr.id, color: clr.color })),
   };
 
-  return new BivariateManagerLayer(layer.name, bivariateStyle, bivariateLegend);
+  return new BivariateManagerLayer({
+    name: layer.name,
+    id: layer.id,
+    layerStyle: bivariateStyle,
+    legend: bivariateLegend,
+  });
 }

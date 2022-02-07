@@ -2,7 +2,10 @@ import {
   SimpleLegend as SimpleLegendComponent,
   SimpleLegendStep as SimpleLegendStepComponent,
 } from '~components/SimpleLegend/SimpleLegend';
-import { SimpleLegendStep } from '~core/logical_layers/createLogicalLayerAtom/types';
+import {
+  LayerLegend,
+  SimpleLegendStep,
+} from '~core/logical_layers/createLogicalLayerAtom/types';
 import { LayerControl } from '~components/LayerControl/LayerControl';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import s from './LegendPanel.module.css';
@@ -13,12 +16,14 @@ import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl'
 
 export function LegendSorter({
   layer: layerAtom,
+  legend,
 }: {
   layer: LogicalLayerAtom;
+  legend?: LayerLegend;
 }) {
   const [{ layer, isMounted, isVisible }, layerActions] = useAtom(layerAtom);
 
-  if (!layer.legend || !layer.name) return null;
+  if (!legend || !layer.name) return null;
 
   const controlElements: JSX.Element[] = [];
 
@@ -32,7 +37,7 @@ export function LegendSorter({
       />,
     );
 
-  if (layer.legend.type === 'bivariate') {
+  if (legend.type === 'bivariate') {
     return (
       <div className={s.legendContainer}>
         <BivariateLegend
@@ -44,11 +49,9 @@ export function LegendSorter({
     );
   }
 
-  if (layer.legend.type === 'simple') {
-    controlElements.push(
-      <LayerInfo key={layer.id} layer={layer} />
-    );
-    const hasOneStepSimpleLegend = layer.legend.steps.length === 1;
+  if (legend.type === 'simple') {
+    controlElements.push(<LayerInfo key={layer.id} layer={layer} />);
+    const hasOneStepSimpleLegend = legend.steps.length === 1;
     return (
       <div className={s.legendContainer}>
         <LayerControl
@@ -61,7 +64,7 @@ export function LegendSorter({
           icon={
             hasOneStepSimpleLegend && (
               <SimpleLegendStepComponent
-                step={layer.legend!.steps[0] as SimpleLegendStep}
+                step={legend!.steps[0] as SimpleLegendStep}
                 onlyIcon={true}
               />
             )
@@ -70,10 +73,7 @@ export function LegendSorter({
         />
         {!hasOneStepSimpleLegend && (
           <div className={s.legendBody}>
-            <SimpleLegendComponent
-              legend={layer.legend}
-              isHidden={!isVisible}
-            />
+            <SimpleLegendComponent legend={legend} isHidden={!isVisible} />
           </div>
         )}
       </div>
