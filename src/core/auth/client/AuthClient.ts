@@ -48,7 +48,6 @@ export class AuthClient {
   }
 
   private processAuthResponse(response: { token: string; refreshToken: string; jwtData: JWTData }) {
-    console.log('processAuthResponse', response);
     currentUserAtom.setUser.dispatch({
       username: response.jwtData.preferred_username,
       token: response.token,
@@ -70,11 +69,9 @@ export class AuthClient {
   }
 
   public async checkAuth(): Promise<void> {
-    console.log('check auth');
     const response = await this._apiClient.checkAuth(this.onTokenExpired);
     if (response && typeof response === 'object' && 'token' in response) {
       this.processAuthResponse(response);
     }
   }
-
 }
