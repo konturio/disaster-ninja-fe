@@ -58,10 +58,6 @@ export default ({ mode }) => {
           target: 'https://test-apps-ninja02.konturlabs.com',
           changeOrigin: true,
         },
-        '/userprofile': {
-          target: 'https://test-apps02.konturlabs.com',
-          changeOrigin: true,
-        },
         '/tiles': 'https://zigzag.kontur.io',
       },
     },
