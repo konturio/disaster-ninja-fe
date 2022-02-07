@@ -3,7 +3,7 @@ import { apiClient } from '~core/index';
 import { currentUserAtom, UserWithAuth } from '~core/shared_state/currentUser';
 import { UserDataModel } from '~core/auth';
 
-export const userResourceAtom = createResourceAtom<UserWithAuth | null, UserDataModel | undefined>(
+export const userResourceAtom = createResourceAtom<UserWithAuth, UserDataModel | undefined>(
   currentUserAtom,
   async (userState) => {
     console.log('fetch user data', userState);
