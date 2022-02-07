@@ -17,9 +17,14 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
+const { AdvancedAnalytics } = lazily(
+  () => import('~features/advanced_analytics_panel'),
+);
 const { Legend } = lazily(() => import('~features/legend_panel'));
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
-const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
+const { BivariatePanel } = lazily(
+  () => import('~features/bivariate_manager/components'),
+);
 const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 
 const { DrawToolsToolbox } = lazily(
@@ -29,7 +34,11 @@ const { DrawToolsToolbox } = lazily(
 
 export function MainView() {
   const history = useHistory();
-  const [{ data: { features: userFeatures } }] = useAtom(userResource);
+  const [
+    {
+      data: { features: userFeatures },
+    },
+  ] = useAtom(userResource);
 
   useEffect(() => {
     if (!userFeatures) return;
@@ -97,6 +106,7 @@ export function MainView() {
           {userFeatures?.side_bar === true && <SideBar />}
           {userFeatures?.events_list === true && <EventList />}
           {userFeatures?.analytics_panel === true && <Analytics />}
+          {<AdvancedAnalytics />}
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -114,10 +124,19 @@ export function MainView() {
           </div>
           <Suspense fallback={null}>
             <div className={s.floating}>
-              <div id='right-buttons-container' className={s.rightButtonsContainer}></div>
-              {userFeatures?.legend_panel === true && <Legend iconsContainerId='right-buttons-container' />}
-              {userFeatures?.map_layers_panel === true && <MapLayersList iconsContainerId='right-buttons-container' />}
-              {userFeatures?.bivariate_manager === true && <BivariatePanel iconsContainerId='right-buttons-container' />}
+              <div
+                id="right-buttons-container"
+                className={s.rightButtonsContainer}
+              ></div>
+              {userFeatures?.legend_panel === true && (
+                <Legend iconsContainerId="right-buttons-container" />
+              )}
+              {userFeatures?.map_layers_panel === true && (
+                <MapLayersList iconsContainerId="right-buttons-container" />
+              )}
+              {userFeatures?.bivariate_manager === true && (
+                <BivariatePanel iconsContainerId="right-buttons-container" />
+              )}
             </div>
           </Suspense>
           {userFeatures?.draw_tools === true && <DrawToolsToolbox />}

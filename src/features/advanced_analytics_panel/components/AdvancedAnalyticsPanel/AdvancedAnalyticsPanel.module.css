@@ -1,0 +1,66 @@
+.panelContainer {
+  position: relative;
+}
+
+.panelIcon {
+  position: absolute;
+  z-index: 1;
+  top: 8px;
+  left: 8px;
+
+  &.show {
+    transition: visibility 0s linear 0s, opacity 0.33s linear 0s;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.hide {
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s;
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.sidePannel {
+  z-index: 1; /* Show shadow over map */
+  position: absolute;
+  margin-left: 8px;
+  margin-top: 8px;
+  align-self: flex-start;
+  left: -100px;
+  border-radius: 4px;
+
+  &.show {
+    transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
+      left 0.1s linear 0s;
+    visibility: visible;
+    opacity: 1;
+    left: 0;
+  }
+
+  &.hide {
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
+      left 0.15s linear 0s;
+    visibility: hidden;
+    opacity: 0;
+    left: -150px;
+  }
+}
+
+.panelBody {
+  width: 920px;
+  min-height: 740px;
+  padding: 0 16px 16px 16px;
+}
+
+.header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.head {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--unit);
+  align-items: center;
+}
