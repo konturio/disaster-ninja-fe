@@ -5,6 +5,7 @@ import { invertClusters } from '@k2-packages/bivariate-tools';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import s from './BivariateLegend.module.css';
 import clsx from 'clsx';
+import { BivariateLegend as BivariateLegendType } from '~core/logical_layers/createLogicalLayerAtom/types';
 
 type BivariateLegendProps = {
   layer: LogicalLayer;
@@ -43,6 +44,16 @@ export function BivariateLegend({
     return message;
   }, [legend]);
 
+  const axis = useMemo(() => {
+    const axis = (legend as BivariateLegendType).axis;
+    // fallback axis description for bivariate layers
+    if (!axis.x.label)
+      axis.x.label = `${axis.x.quotient[0]} to ${axis.x.quotient[1]}`;
+    if (!axis.y.label)
+      axis.y.label = `${axis.y.quotient[0]} to ${axis.y.quotient[1]}`;
+    return axis;
+  }, [legend]);
+
   if (legend === undefined) return null;
 
   return (
@@ -64,7 +75,7 @@ export function BivariateLegend({
         showAxisLabels
         size={3}
         cells={invertClusters(legend.steps, 'label')}
-        axis={'axis' in legend && (legend.axis as any)}
+        axis={axis as any}
       />
     </div>
   );
