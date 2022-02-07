@@ -56,6 +56,7 @@ export class AuthClient {
       firstName: response.jwtData.given_name,
       lastName: response.jwtData.family_name
     });
+    userStateAtom.authorize.dispatch();
     window['Intercom']('update', { name: response.jwtData.preferred_username, email: response.jwtData.email });
     callYm('setUserID', response.jwtData.email);
   }
