@@ -15,12 +15,11 @@ export class LocalModifyMode extends CustomModifyMode {
     event.stopPropagation();
     const { key } = event;
 
-    if (
-      (key === 'Delete' || key === 'Backspace') &&
-      this._selectedIndexes?.length
-    ) {
+    if (key === 'Delete' || key === 'Backspace') {
+      const selectedIndexes = selectedIndexesAtom.getState();
+      if (!selectedIndexes.length) return;
       const clearedFeatures = props.data.features.filter(
-        (f, index) => !this._selectedIndexes.includes(index),
+        (f, index) => !selectedIndexes.includes(index),
       );
       const featureCollection: FeatureCollection = {
         ...props.data,

@@ -1,4 +1,5 @@
 import { LayerLegend } from '~core/logical_layers/createLogicalLayerAtom';
+import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 
 interface TileSource {
   type: 'vector' | 'raster';
@@ -40,5 +41,14 @@ export interface LayerTileSource {
     tileSize: number;
     urls: string[];
   };
+}
+
+export interface LayersInAreaParams {
+  focusedGeometry: FocusedGeometry | null;
+}
+
+export interface LayerInAreaReactiveData {
+  layer: LayerInArea;
+  requestParams: LayersInAreaParams;
 }
 export type LayerInAreaSource = LayerGeoJSONSource | LayerTileSource;

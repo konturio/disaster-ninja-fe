@@ -10,6 +10,7 @@ import { logicalLayersRegistryAtom } from '~core/shared_state';
 import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
 import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
+import { Action } from '@reatom/core';
 
 export const bivariateMatrixSelectionAtom = createBindAtom(
   {
@@ -77,11 +78,12 @@ export const bivariateMatrixSelectionAtom = createBindAtom(
 
         if (legend) {
           const layer = createLogicalLayerAtom(
-            new BivariateLayer(
-              'Bivariate Layer',
-              bivariateStyle as BivariateLayerStyle,
+            new BivariateLayer({
+              name: 'Bivariate Layer',
+              id: (bivariateStyle as BivariateLayerStyle).id,
+              layerStyle: bivariateStyle as BivariateLayerStyle,
               legend,
-            ),
+            }),
           );
 
           let layerToUnreg: string;
@@ -96,11 +98,12 @@ export const bivariateMatrixSelectionAtom = createBindAtom(
           }
 
           schedule((dispatch) => {
-            dispatch(logicalLayersRegistryAtom.registerLayer(layer));
-            dispatch(layer.mount());
+            const actionsBatch: Action<unknown>[] = [logicalLayersRegistryAtom.registerLayer(layer), layer.mount()]
             if (layerToUnreg) {
-              dispatch(logicalLayersRegistryAtom.unregisterLayer(layerToUnreg));
+              actionsBatch.push(logicalLayersRegistryAtom.unregisterLayer(layerToUnreg));
             }
+
+            dispatch(actionsBatch);
           });
         }
       }

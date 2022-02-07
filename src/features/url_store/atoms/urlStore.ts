@@ -9,6 +9,7 @@ import { enabledLayersAtom } from '~core/shared_state';
 import { URLStore } from '../URLStore';
 import { URLDataInSearchEncoder } from '../dataInURLEncoder';
 import { UrlData } from '../types';
+import { Action } from '@reatom/core';
 
 const urlStore = new URLStore(new URLDataInSearchEncoder());
 const initFlagAtom = createBooleanAtom(false);
@@ -40,23 +41,47 @@ export const urlStoreAtom = createBindAtom(
         };
       }
 
-      // Finish Initialization
-      schedule((dispatch) =>
-        dispatch([
-          initFlagAtom.setTrue(),
-          enabledLayersAtom.set(state.layers ?? []),
-        ]),
-      );
+      /* Finish Initialization */
+      schedule((dispatch) => {
+        const actions: Action[] = [];
+
+        // Apply layers
+        actions.push(enabledLayersAtom.set(state.layers ?? []));
+
+        // Apply map position
+        if (state.map) {
+          actions.push(
+            currentMapPositionAtom.setCurrentMapPosition({
+              zoom: Number(state.map[0]),
+              lng: Number(state.map[1]),
+              lat: Number(state.map[2]),
+            }),
+          );
+        }
+
+        // Apply event
+        if (state.event) {
+          actions.push(currentEventAtom.setCurrentEventId(state.event));
+        }
+        // Apply episode
+        if (state.episode) {
+          actions.push(currentEpisodeAtom.setCurrentEpisodeId(state.episode));
+        }
+
+        // Done
+        actions.push(initFlagAtom.setTrue());
+        if (actions.length) dispatch(actions);
+      });
     } else {
       const newState = { ...state };
       const currentMapPosition = get('currentMapPositionAtom');
-      newState.map = currentMapPosition
-        ? [
-            Number(currentMapPosition.zoom.toFixed(3)),
-            Number(currentMapPosition.lng.toFixed(3)),
-            Number(currentMapPosition.lat.toFixed(3)),
-          ]
-        : undefined;
+      if (currentMapPosition) {
+        newState.map = [
+          Number(currentMapPosition.zoom.toFixed(3)),
+          Number(currentMapPosition.lng.toFixed(3)),
+          Number(currentMapPosition.lat.toFixed(3)),
+        ];
+      }
 
       const currentEvent = get('currentEventAtom');
       newState.event = currentEvent ? currentEvent.id : undefined;
@@ -78,44 +103,44 @@ export const urlStoreAtom = createBindAtom(
         /* URL -> Store realtime updates (extra feature) */
         // const actions: Action[] = [];
         // urlStore.onUrlChange((updated: UrlData) => {
-        //   if (state.event !== updated.event) {
-        //     actions.push(
-        //       updated.event
-        //         ? currentEventAtom.setCurrentEventId(updated.event)
-        //         : currentEventAtom.resetCurrentEvent(),
-        //     );
-        //   }
-
-        //   // Update EPISODE
-        //   if (state.episode !== updated.episode) {
-        //     actions.push(
-        //       updated.episode
-        //         ? currentEpisodeAtom.setCurrentEpisodeId(updated.episode)
-        //         : currentEpisodeAtom.resetCurrentEpisodeId(),
-        //     );
-        //   }
-
-        //   // Update LAYERS
-        //   const currentLayers = new Set(state.layers ?? []);
-        //   const added = (updated.layers ?? []).filter(
-        //     (l) => !currentLayers.has(l),
+        // if (state.event !== updated.event) {
+        //   actions.push(
+        //     updated.event
+        //       ? currentEventAtom.setCurrentEventId(updated.event)
+        //       : currentEventAtom.resetCurrentEvent(),
         //   );
-        //   actions.push(logicalLayersRegistryAtom.mountLayers(added));
+        // }
 
-        //   // Update MAP position
-        //   if ((state.map ?? []).join() !== (updated.map ?? []).join()) {
-        //     if (updated.map !== undefined) {
-        //       actions.push(
-        //         currentMapPositionAtom.setCurrentMapPosition({
-        //           zoom: Number(updated.map[0]),
-        //           lng: Number(updated.map[1]),
-        //           lat: Number(updated.map[2]),
-        //         }),
-        //       );
-        //     }
+        // Update EPISODE
+        // if (state.episode !== updated.episode) {
+        //   actions.push(
+        //     updated.episode
+        //       ? currentEpisodeAtom.setCurrentEpisodeId(updated.episode)
+        //       : currentEpisodeAtom.resetCurrentEpisodeId(),
+        //   );
+        // }
+
+        // Update LAYERS
+        // const currentLayers = new Set(state.layers ?? []);
+        // const added = (updated.layers ?? []).filter(
+        //   (l) => !currentLayers.has(l),
+        // );
+        // actions.push(logicalLayersRegistryAtom.mountLayers(added));
+
+        // Update MAP position
+        // if ((state.map ?? []).join() !== (updated.map ?? []).join()) {
+        //   if (updated.map !== undefined) {
+        //     actions.push(
+        //       currentMapPositionAtom.setCurrentMapPosition({
+        //         zoom: Number(updated.map[0]),
+        //         lng: Number(updated.map[1]),
+        //         lat: Number(updated.map[2]),
+        //       }),
+        //     );
         //   }
+        // }
 
-        //   if (actions.length) dispatch(actions);
+        // if (actions.length) dispatch(actions);
         // });
       });
     }

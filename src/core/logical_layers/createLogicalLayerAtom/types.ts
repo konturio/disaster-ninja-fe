@@ -72,7 +72,13 @@ export interface LogicalLayer<T = null> {
   onInit(): { isVisible?: boolean; isLoading?: boolean };
   willEnabled?(map?: ApplicationMap): Action[] | void;
   willDisabled?(map?: ApplicationMap): Action[] | void;
-  willMount(map: ApplicationMap): void | Promise<unknown>;
+  willMount(
+    map: ApplicationMap,
+  ):
+    | Promise<{ legend?: LayerLegend; isDownloadable?: boolean }>
+    | { legend?: LayerLegend; isDownloadable?: boolean }
+    | null
+    | void;
   willUnmount(map: ApplicationMap): void | Promise<unknown>;
   willHide?: (map: ApplicationMap) => void;
   willUnhide?: (map: ApplicationMap) => void;
@@ -87,7 +93,6 @@ export interface LogicalLayer<T = null> {
     data: T,
     state: Omit<LogicalLayerAtomState, 'id' | 'layer'>,
   ) => void;
-  isDownloadable?: boolean;
   onDownload?: (map: ApplicationMap) => any;
 }
 
@@ -98,6 +103,7 @@ export interface LogicalLayerAtomState {
   isVisible: boolean;
   isLoading: boolean;
   isError: boolean;
+  isDownloadable: boolean;
   layer: LogicalLayer<any>;
 }
 
@@ -122,5 +128,6 @@ export interface LogicalLayerAtomActions<T>
     isVisible,
     isError,
     isEnabled,
+    isDownloadable,
   }: Partial<LogicalLayerAtomState>) => Partial<LogicalLayerAtomState>;
 }
