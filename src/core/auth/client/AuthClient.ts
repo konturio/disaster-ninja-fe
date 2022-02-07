@@ -2,6 +2,7 @@ import { ApiClient } from '~core/api_client';
 import ym from 'react-yandex-metrika';
 import { JWTData } from '~core/api_client/ApiTypes';
 import { currentUserAtom } from '~core/shared_state';
+import { userStateAtom } from '~core/auth/atoms/userState';
 
 interface AuthClientConfig {
    apiClient: ApiClient;
@@ -36,11 +37,11 @@ export class AuthClient {
   }
 
   public showLoginForm() {
-    currentUserAtom.login.dispatch();
+    userStateAtom.login.dispatch();
   }
 
   public closeLoginForm() {
-    currentUserAtom.reset.dispatch();
+    userStateAtom.reset.dispatch();
   }
 
   private onTokenExpired() {
@@ -55,6 +56,7 @@ export class AuthClient {
       firstName: response.jwtData.given_name,
       lastName: response.jwtData.family_name
     });
+    userStateAtom.authorize.dispatch();
     window['Intercom']('update', { name: response.jwtData.preferred_username, email: response.jwtData.email });
     ym('setUserID', response.jwtData.email);
   }
