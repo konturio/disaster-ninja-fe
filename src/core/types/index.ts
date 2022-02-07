@@ -93,6 +93,20 @@ export interface AnalyticsData {
   percentValue?: number;
 }
 
+export interface AdvancedAnalyticsData {
+  numerator: string;
+  denominator: string;
+  numeratorLabel: string;
+  denominatorLabel: number;
+  analytics: [AdvancedAnalyticsDataValues];
+}
+
+export interface AdvancedAnalyticsDataValues {
+  calculation: string;
+  value: number;
+  quality: number;
+}
+
 export type EventWithGeometry = {
   eventId: string;
   eventName: string;
@@ -113,4 +127,3 @@ export type LegendStepStyle = {
 };
 
 export type LegendIconSize = 'normal' | 'small';
-
