@@ -38,8 +38,8 @@ export interface BivariateLegend {
   description: string;
   type: 'bivariate';
   axis: {
-    x: Axis;
-    y: Axis;
+    x: Axis & { label?: string };
+    y: Axis & { label?: string };
   };
   steps: BivariateLegendStep[];
   copyrights: string[];

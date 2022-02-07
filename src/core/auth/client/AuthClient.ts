@@ -1,8 +1,8 @@
 import { ApiClient } from '~core/api_client';
-import ym from 'react-yandex-metrika';
-import { JWTData } from '~core/api_client/ApiTypes';
+import { userStateAtom } from '~core/auth';
 import { currentUserAtom } from '~core/shared_state';
-import { userStateAtom } from '~core/auth/atoms/userState';
+import { JWTData } from '~core/api_client/ApiTypes';
+import { callYm } from '~utils/stats/yandexCounter';
 
 interface AuthClientConfig {
    apiClient: ApiClient;
@@ -41,7 +41,7 @@ export class AuthClient {
   }
 
   public closeLoginForm() {
-    userStateAtom.reset.dispatch();
+    userStateAtom.reset.dispatch()
   }
 
   private onTokenExpired() {
@@ -56,9 +56,8 @@ export class AuthClient {
       firstName: response.jwtData.given_name,
       lastName: response.jwtData.family_name
     });
-    userStateAtom.authorize.dispatch();
     window['Intercom']('update', { name: response.jwtData.preferred_username, email: response.jwtData.email });
-    ym('setUserID', response.jwtData.email);
+    callYm('setUserID', response.jwtData.email);
   }
 
   public async authenticate(user: string, password: string): Promise<true | string | undefined> {
