@@ -34,9 +34,11 @@ export const logicalLayersHierarchyAtom = createBindAtom(
       state = newState;
     });
 
-    onAction('unregister', (layerId) => {
+    onAction('unregister', (layersId) => {
       const newState = { ...state };
-      delete newState[layerId];
+      layersId.forEach((layerId) => {
+        delete newState[layerId];
+      });
       state = newState;
     });
 

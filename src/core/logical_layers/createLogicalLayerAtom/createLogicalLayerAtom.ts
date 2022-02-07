@@ -8,6 +8,7 @@ import {
 } from './types';
 import { currentHiddenLayersAtom } from '../atoms/currentHiddenLayers';
 import { currentMountedLayersAtom } from '../atoms/currentMountedLayers';
+import { currentLegendsAtom } from '../atoms/currentLegends';
 import { getRivalsLayersUnmountActions as unmountConcurrentLayers } from './logicalLayerRivals';
 import { enabledLayersAtom } from '~core/shared_state';
 import { doMount } from './mountingProcess';
@@ -15,7 +16,7 @@ import { doUnmount } from './unmountingProcess';
 
 export type LogicalLayerAtom = AtomSelfBinded<
   LogicalLayerAtomState,
-  LogicalLayerAtomActions<never>
+  LogicalLayerAtomActions<unknown>
 >;
 
 function isStateChanged(
@@ -32,10 +33,9 @@ function isStateChanged(
   return isChanged;
 }
 
-export function createLogicalLayerAtom<T>(
-  layer: LogicalLayer<T>,
-  atom?: AtomSelfBinded | Atom,
-): LogicalLayerAtom {
+export function createLogicalLayerAtom<
+  T extends { [key: string]: any } | null | [] | undefined,
+>(layer: LogicalLayer<T>, atom?: AtomSelfBinded | Atom): LogicalLayerAtom {
   const actions: LogicalLayerAtomActions<T> = {
     init: () => undefined,
     mount: () => undefined,
@@ -54,12 +54,14 @@ export function createLogicalLayerAtom<T>(
       isVisible,
       isError,
       isEnabled,
+      isDownloadable,
     }: Partial<LogicalLayerAtomState>) => ({
       isLoading,
       isMounted,
       isVisible,
       isError,
       isEnabled,
+      isDownloadable,
     }),
   };
 
@@ -71,6 +73,7 @@ export function createLogicalLayerAtom<T>(
     isLoading: false,
     isError: false,
     isEnabled: false,
+    isDownloadable: false,
   };
 
   const logicalLayerAtom: LogicalLayerAtom = createBindAtom(
@@ -79,6 +82,7 @@ export function createLogicalLayerAtom<T>(
       currentMountedLayersAtom,
       currentHiddenLayersAtom,
       enabledLayersAtom,
+      currentLegendsAtom,
       ...actions,
     },
     ({ get, onAction, schedule, create }, state = initialState) => {
@@ -88,9 +92,11 @@ export function createLogicalLayerAtom<T>(
         id: layer.id,
         isLoading: state.isLoading,
         isError: state.isError,
+        isDownloadable: state.isDownloadable,
         isMounted: get('currentMountedLayersAtom').has(state.id),
         isVisible: !get('currentHiddenLayersAtom').has(state.id),
         isEnabled: get('enabledLayersAtom')?.has(state.id) ?? false,
+        legend: get('currentLegendsAtom').has(state.id) ?? null,
       };
 
       onAction('_updateState', (update) => {
@@ -99,7 +105,16 @@ export function createLogicalLayerAtom<T>(
         }
       });
 
-      onAction('setData', (data) => {
+      onAction('init', () => {
+        state.layer.onInit();
+      });
+
+      onAction('setData', async (data) => {
+        if (data && 'layer' in data && 'legend' in data.layer) {
+          schedule((dispatch) => {
+            dispatch(currentLegendsAtom.set(state.id, data.layer.legend));
+          });
+        }
         if (!map) return;
         if (typeof layer.onDataChange === 'function') {
           const { layer: l, id, ...layerState } = state;
@@ -107,7 +122,7 @@ export function createLogicalLayerAtom<T>(
           return;
         } else {
           console.error(
-            `Layer '${state.id}' not implement onGeometryChange method`,
+            `Layer '${state.id}' not implement onDataChange method`,
           );
         }
       });
@@ -123,6 +138,7 @@ export function createLogicalLayerAtom<T>(
       });
 
       onAction('unregister', () => {
+        currentLegendsAtom.delete(state.id);
         if (!map) return;
         if (typeof layer.wasRemoveFromInRegistry !== 'function') {
           return;
@@ -162,14 +178,15 @@ export function createLogicalLayerAtom<T>(
         if (!map) return;
         schedule((dispatch) => {
           const runMountProcess = async () => {
-            const { isMounted, ...stateUpdate } = await doMount(
-              layer.willMount(map),
+            const { isMounted, legend, ...stateUpdate } = await doMount(
+              (await layer.willMount(map)) ?? null,
             );
             // Collect required actions
             const actions = [
               create('_updateState', stateUpdate),
               isMounted &&
                 currentMountedLayersAtom.set(state.id, logicalLayerAtom),
+              legend && currentLegendsAtom.set(state.id, legend),
               ...unmountConcurrentLayers(state.id),
             ].filter(Boolean) as Action[];
 
@@ -201,6 +218,7 @@ export function createLogicalLayerAtom<T>(
             const actions = [
               create('_updateState', stateUpdate),
               !isMounted && currentMountedLayersAtom.delete(state.id),
+              !isMounted && currentLegendsAtom.delete(state.id),
             ].filter(Boolean) as Action[];
 
             // Perform update
@@ -237,7 +255,7 @@ export function createLogicalLayerAtom<T>(
       });
 
       onAction('download', () => {
-        if (!map || !layer.isDownloadable) return;
+        if (!map || !state.isDownloadable) return;
         if (typeof layer.onDownload !== 'function') {
           console.error(
             `Layer '${state.id}' haven't implemented onDownload method`,
@@ -254,7 +272,6 @@ export function createLogicalLayerAtom<T>(
 
   if (atom && 'subscribe' in atom) {
     atom.subscribe((s) => {
-      // @ts-ignore
       logicalLayerAtom.setData.dispatch(s);
     });
   }

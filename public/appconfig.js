@@ -8,9 +8,10 @@ window.konturAppConfig = {
   MAP_ACCESS_TOKEN: '',
   MAP_BASE_STYLE: 'https://disaster.ninja/tiles/basemap/style_ninja.json',
   LAYERS_BY_DEFAULT: [
-    'count&area_km2|population&area_km2',
+    'Kontur OpenStreetMap Quantity',
     'activeContributors',
-    'eventShape'
+    'eventShape',
+    'focused-geometry',
   ],
   KEYCLOAK_URL: 'https://keycloak01.konturlabs.com',
   KEYCLOAK_REALM: 'dev',

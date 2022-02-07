@@ -4,7 +4,6 @@ import { Legend as BiLegend, Text } from '@k2-packages/ui-kit';
 import { invertClusters } from '@k2-packages/bivariate-tools';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import s from './BivariateLegend.module.css';
-import cn from 'clsx';
 import clsx from 'clsx';
 
 type BivariateLegendProps = {

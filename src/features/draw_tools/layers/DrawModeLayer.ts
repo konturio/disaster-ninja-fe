@@ -211,7 +211,9 @@ export class DrawModeLayer implements LogicalLayer {
       selectedIndexesAtom.setIndexes.dispatch([]);
     }
 
-    if (updatedData.features?.[0] && completedTypes.includes(editType)) {
+    if (editType === 'removeFeature') {
+      drawnGeometryAtom.updateFeatures.dispatch(updatedData.features);
+    } else if (updatedData.features?.[0] && completedTypes.includes(editType)) {
       // make map interactive if we finished drawing
       setMapInteractivity(this._map, true);
 
@@ -242,6 +244,7 @@ export class DrawModeLayer implements LogicalLayer {
       drawnGeometryAtom.updateFeatures.dispatch(updatedData.features);
       // temporaryGeometryAtom.resetToDefault.dispatch()
     } else if (updatedData.features?.[0]) {
+      // Case we're in process of modifying features that could be not validated yet
       setMapInteractivity(this._map, false);
       temporaryGeometryAtom.updateFeatures.dispatch(
         updatedData.features,

@@ -1,7 +1,7 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import { focusedGeometryAtom } from './focusedGeometry';
 
-type CurrentEventAtomState = {
+export type CurrentEventAtomState = {
   id: string;
 } | null;
 

@@ -8,7 +8,7 @@ import {
 import { layersInAreaResourceAtom, paramsAtom } from './layersInArea';
 import { GenericLayer } from '../layers/GenericLayer';
 import { createBivariateLayerFromPreset } from '../layers/BivariateLayer';
-import { LayerInArea } from '../types';
+import { LayerInArea, LayerInAreaReactiveData } from '../types';
 
 type LayersInAreaAtomProps = {
   loading: boolean;
@@ -16,15 +16,16 @@ type LayersInAreaAtomProps = {
   error: unknown;
 };
 
-const layersInAreaData = createBindAtom(
-  {
-    updateData: (state) => state,
-  },
-  ({ onAction }, state = null) => {
-    onAction('updateData', (update) => (state = update));
-    return state;
-  },
-);
+function wrapInLogicalLayer(layer: LayerInArea, initialData) {
+  if (layer.legend?.type === 'bivariate') {
+    return createLogicalLayerAtom(createBivariateLayerFromPreset(layer));
+  } else {
+    // TODO: Check layer flags and subscribe only to data that required
+    // Wait unit #8421 was merged
+    const genericLayer = new GenericLayer(layer, initialData);
+    return createLogicalLayerAtom(genericLayer);
+  }
+}
 
 export const layersInAreaLogicalLayersAtom = createBindAtom(
   {
@@ -34,66 +35,83 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
     onChange(
       'layersInAreaResourceAtom',
       (
-        { loading, data: newLayers, error }: LayersInAreaAtomProps,
+        nextData: LayersInAreaAtomProps,
         prevData: LayersInAreaAtomProps | null,
       ) => {
-        if (loading) return null;
-        const oldLayers: LayerInArea[] = prevData?.data || [];
-        const actions: Action[] = [];
+        if (nextData.loading) return null;
+        const { data: nextLayers } = nextData;
+        const { data: prevLayers } = prevData ?? {};
+        const allLayers = new Set([
+          ...(nextLayers ?? []).map((l) => l.id),
+          ...(prevLayers ?? []).map((l) => l.id),
+        ]);
 
-        /* Find what added */
-        const oldLayersIds = new Set(oldLayers.map((l) => l.id));
-        const mustBeRegistered = newLayers
-          ? newLayers.filter((l) => !oldLayersIds.has(l.id))
-          : [];
-        const logicalLayersAtoms = mustBeRegistered.reduce(
-          (acc: LogicalLayerAtom[], layer) => {
-            if (layer.legend?.type === 'bivariate') {
-              acc.push(
-                createLogicalLayerAtom(createBivariateLayerFromPreset(layer)),
-              );
+        /* Create diff */
+        const nextMap = new Map(nextLayers?.map((l) => [l.id, l]));
+        const prevSet = new Set(prevLayers?.map((l) => l.id));
+        const [added, removed, unchanged] = Array.from(allLayers).reduce(
+          (acc, layerId) => {
+            if (nextMap.has(layerId) && !prevSet.has(layerId)) {
+              acc[0].set(layerId, nextMap.get(layerId)!);
+            } else if (prevSet.has(layerId) && !nextMap.has(layerId)) {
+              acc[1].add(layerId);
             } else {
-              // TODO: Check layer flags and subscribe only to data that required
-              // Wait unit #8421 was merged
-              acc.push(
-                createLogicalLayerAtom(
-                  new GenericLayer(layer),
-                  layersInAreaData,
-                ),
-              );
+              acc[2].set(layerId, nextMap.get(layerId)!);
             }
             return acc;
           },
-          [],
-        );
-        if (logicalLayersAtoms.length > 0) {
-          actions.push(
-            logicalLayersRegistryAtom.registerLayer(logicalLayersAtoms),
-          );
-        }
-
-        /* Find what removed */
-        const newLayersIds = new Set(
-          newLayers ? newLayers.map((l) => l.id) : [],
-        );
-        const mustBeUnregistered = oldLayers.filter(
-          (layer) => !newLayersIds.has(layer.id),
+          [
+            new Map<string, LayerInArea>(),
+            new Set<string>(),
+            new Map<string, LayerInArea>(),
+          ],
         );
 
-        mustBeUnregistered.forEach((config) => {
-          const action = logicalLayersRegistryAtom.unregisterLayer(config.id);
-          actions.push(action);
+        /**
+         * Most layers require some dynamic data
+         * For example: eventId and geometry for /details request
+         */
+        const requestParams = getUnlistedState(paramsAtom);
+        const actions: Action[] = [];
+
+        /**
+         * Create new logical layers for new layers
+         * and register them
+         */
+        const newLogicalLayers = Array.from(added).map(([layerId, layer]) => {
+          // Initial data. Same data as passed .setData
+          const dynamicLayerData: LayerInAreaReactiveData = {
+            layer,
+            requestParams,
+          };
+          const logicalLayer = wrapInLogicalLayer(layer, dynamicLayerData);
+          return logicalLayer;
+        });
+        actions.push(logicalLayersRegistryAtom.registerLayer(newLogicalLayers));
+
+        /* Unregister removed layers */
+        actions.push(
+          logicalLayersRegistryAtom.unregisterLayer(Array.from(removed)),
+        );
+
+        /* Update data for layers was still there */
+        const logicalLayersInRegistry = getUnlistedState(
+          logicalLayersRegistryAtom,
+        );
+
+        unchanged.forEach((layerInArea, layerId) => {
+          const logicalLayer = logicalLayersInRegistry[layerId];
+          const dynamicLayerData: LayerInAreaReactiveData = {
+            layer: layerInArea,
+            requestParams,
+          };
+          actions.push(logicalLayer.setData(dynamicLayerData));
         });
 
-        const paramsData = getUnlistedState(paramsAtom);
-
         /* Batch actions into one transaction */
-        if (actions.length > 0) {
+        if (actions.length) {
           schedule((dispatch) => {
             dispatch(actions);
-            setTimeout(() => {
-              dispatch(layersInAreaData.updateData(paramsData.focusedGeometry));
-            }, 1000);
           });
         }
       },

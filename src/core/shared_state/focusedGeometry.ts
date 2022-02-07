@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createBindAtom, createBooleanAtom } from '~utils/atoms/createBindAtom';
 import { EventWithGeometry } from '~core/types';
 import { crc32 } from 'hash-wasm';
 
@@ -66,3 +66,5 @@ export const focusedGeometryAtom = createBindAtom(
   },
   '[Shared state] focusedGeometryAtom',
 );
+
+export const focusedGeometryVisibilityAtom = createBooleanAtom(true);
