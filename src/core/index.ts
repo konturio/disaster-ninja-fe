@@ -18,15 +18,6 @@ ApiClient.init({
 });
 export const apiClient = ApiClient.getInstance();
 
-// initialize user data client
-ApiClient.init({
-  instanceId: 'user',
-  notificationService: notificationService,
-  baseURL: config.userApi,
-  translationService: TranslationService,
-});
-export const userApiClient = ApiClient.getInstance('user');
-
 // initialize boundaries client
 ApiClient.init({
   instanceId: 'boundaries',
