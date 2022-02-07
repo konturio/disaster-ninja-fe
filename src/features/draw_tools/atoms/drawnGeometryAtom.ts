@@ -1,5 +1,8 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
-import { focusedGeometryAtom } from '~core/shared_state';
+import {
+  focusedGeometryAtom,
+  focusedGeometryVisibilityAtom,
+} from '~core/shared_state';
 import { Feature, FeatureCollection } from 'geojson';
 import { activeDrawModeAtom } from './activeDrawMode';
 import { point as createPointFeature } from '@turf/helpers';
@@ -75,20 +78,16 @@ export const drawnGeometryAtom = createBindAtom(
       const focusedFeatures = getUnlistedState(focusedGeometryAtom);
       if (mode && !prevMode && focusedFeatures) {
         schedule((dispatch) => {
-          const actions: any[] = [
-            focusedGeometryAtom.setFocusedGeometry(
-              { type: 'drawn' },
-              { type: 'FeatureCollection', features: [] },
-            ),
-          ];
+          const actions: any[] = [focusedGeometryVisibilityAtom.setFalse()];
           updateFromGeometry(focusedFeatures, actions, create);
           dispatch(actions);
         });
       } else if (!mode && prevMode)
         schedule((dispatch) => {
-          dispatch(
+          dispatch([
             focusedGeometryAtom.setFocusedGeometry({ type: 'drawn' }, state),
-          );
+            focusedGeometryVisibilityAtom.setTrue(),
+          ]);
           state = defaultState;
         });
     });
