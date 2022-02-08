@@ -44,6 +44,12 @@ export class AuthClient {
     userStateAtom.reset.dispatch()
   }
 
+  public logout() {
+    this._apiClient.logout();
+    currentUserAtom.setUser.dispatch();
+    userStateAtom.logout.dispatch();
+  }
+
   private onTokenExpired() {
     console.error('Auth Problem! Token is expired.')
   }

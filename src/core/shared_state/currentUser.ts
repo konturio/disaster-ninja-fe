@@ -18,7 +18,7 @@ const publicUser: CurrentUser = {
 
 export const currentUserAtom = createBindAtom(
   {
-    setUser: (user: CurrentUser | undefined) => user,
+    setUser: (user?: CurrentUser) => user,
   },
   (
     { onAction, onInit, schedule, create },
