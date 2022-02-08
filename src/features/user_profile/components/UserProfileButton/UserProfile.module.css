@@ -5,3 +5,9 @@
 	margin-left: 12px;
 	margin-right: var(--unit);
 }
+
+.dropdownContainer {
+	position: absolute;
+	z-index: 3;
+	right: 10px;
+}
