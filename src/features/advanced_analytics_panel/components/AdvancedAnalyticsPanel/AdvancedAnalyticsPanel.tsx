@@ -109,15 +109,8 @@ export function AdvancedAnalyticsPanel({
                   <Tab name="INFO" id="data">
                     <AdvancedAnalyticsDataList
                       data={advancedAnalyticsDataList}
-                      links={
-                        (focusedGeometry?.source as any)?.meta?.externalUrls ??
-                        undefined
-                      }
                     />
                   </Tab>
-                  {/*<Tab name="COMMUNITIES" id="communities">*/}
-                  {/*  <AnalyticsCommunities />*/}
-                  {/*</Tab>*/}
                 </Tabs>
               );
             },

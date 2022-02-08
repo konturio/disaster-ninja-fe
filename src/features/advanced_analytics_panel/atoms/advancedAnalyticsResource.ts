@@ -1262,7 +1262,24 @@ const json = `[
 export const advancedAnalyticsResourceAtom = createResourceAtom(
   focusedGeometryAtom,
   async (fGeo) => {
+    if (!fGeo) return null;
+    const responseData = await apiClient.post<AdvancedAnalyticsData[] | null>(
+      `/advanced_analytics/`,
+      fGeo?.geometry,
+      false,
+    );
+    if (responseData === undefined) throw new Error('No data received');
+    return responseData;
+  },
+  'advancedAnalyticsResource',
+);
+
+/*
+export const advancedAnalyticsResourceAtom = createResourceAtom(
+  focusedGeometryAtom,
+  async (fGeo) => {
     return JSON.parse(json);
   },
   'advancedAnalyticsResource',
 );
+*/
