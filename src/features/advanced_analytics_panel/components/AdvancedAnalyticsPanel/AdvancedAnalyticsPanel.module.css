@@ -5,7 +5,7 @@
 .panelIcon {
   position: absolute;
   z-index: 1;
-  top: 8px;
+  top: 55px;
   left: 8px;
 
   &.show {
