@@ -1,15 +1,15 @@
 import { Button, Card, Input, Modal, Text } from '@k2-packages/ui-kit';
 import { useAction, useAtom } from '@reatom/react';
-import { currentUserAtom } from '~core/auth';
 import s from './LoginForm.module.css';
 import { authClient, translationService as i18n } from '~core/index';
 import clsx from 'clsx';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { testEmail } from '~utils/forms/formsUtils';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { userStateAtom } from '~core/auth/atoms/userState';
 
 export function LoginForm() {
-  const [currentUser] = useAtom(currentUserAtom);
+  const [userState] = useAtom(userStateAtom);
 
   const onCloseFormCallback = useAction(() => {
     authClient.closeLoginForm();
@@ -77,7 +77,7 @@ export function LoginForm() {
     }
   }, [formRef.current, formData]);
 
-  return currentUser.userState === 'logging_in' ? (
+  return userState === 'logging_in' ? (
     <Modal onModalCloseCallback={onCloseFormCallback}>
       <Card ref={formRef} className={s.modalCard}>
         {loading && (
