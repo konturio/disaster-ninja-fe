@@ -5,3 +5,27 @@
 	margin-left: 12px;
 	margin-right: var(--unit);
 }
+
+.dropdownContainer {
+	position: absolute;
+	z-index: 3;
+	right: 10px;
+	color:  var(--primary-text-regular);
+	--animation-duration: 0.2s;
+
+	&.show {
+		transition: visibility 0s linear 0s, opacity var(--animation-duration) linear 0s,
+		top 0.1s linear 0s;
+		visibility: visible;
+		opacity: 1;
+		top: 40px;
+	}
+
+	&.hide {
+		transition: visibility 0s linear var(--animation-duration), opacity var(--animation-duration) linear 0s,
+		top 0.15s linear 0s;
+		visibility: hidden;
+		opacity: 0;
+		top: -40px;
+	}
+}
