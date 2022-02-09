@@ -6,7 +6,7 @@ const converters = {
   convertPlacement: (value) =>
     value.trim() === 'center' ? 'line-center' : value,
   convertOffset: (value) => {
-    const pos = splitByComma(value);
+    const pos = Array.isArray(value) ? value : splitByComma(value);
     if (pos.length === 1) return [0, pos[0]];
     return pos;
   },
