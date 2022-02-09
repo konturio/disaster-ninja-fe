@@ -19,7 +19,7 @@ export function RoutedApp() {
   return (
     <StrictMode>
       <OriginalLogo />
-      {!loading && data ?
+      {!loading && data ? (
         <Router>
           <CacheSwitch>
             <CacheRoute className={styles.mainWrap} exact path={config.baseUrl}>
@@ -41,8 +41,7 @@ export function RoutedApp() {
             </Route>
           </CacheSwitch>
         </Router>
-        : null
-      }
+      ) : null}
       <LoginForm />
     </StrictMode>
   );

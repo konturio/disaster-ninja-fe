@@ -15,27 +15,40 @@ export function LoginForm() {
     authClient.closeLoginForm();
   }, []);
 
-  const [error, setError] = useState<{ email?: string, password?: string, general?: string }>({});
-  const [formData, setFormData] = useState<{ email?: string, password?: string }>({});
+  const [error, setError] = useState<{
+    email?: string;
+    password?: string;
+    general?: string;
+  }>({});
+  const [formData, setFormData] = useState<{
+    email?: string;
+    password?: string;
+  }>({});
   const [loading, setLoading] = useState<boolean>(false);
   const formRef = useRef<HTMLDivElement>(null);
 
-  const onEmailInputChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
-    if (error.email) {
-      setError({...error, email: undefined })
-    }
-    setFormData({ ...formData, email: ev.target.value })
-  }, [formData, setFormData, error, setError]);
+  const onEmailInputChange = useCallback(
+    (ev: ChangeEvent<HTMLInputElement>) => {
+      if (error.email) {
+        setError({ ...error, email: undefined });
+      }
+      setFormData({ ...formData, email: ev.target.value });
+    },
+    [formData, setFormData, error, setError],
+  );
 
-  const onPasswordInputChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
-    if (error.password) {
-      setError({...error, password: undefined })
-    }
-    setFormData({ ...formData, password: ev.target.value })
-  }, [formData, setFormData, error, setError]);
+  const onPasswordInputChange = useCallback(
+    (ev: ChangeEvent<HTMLInputElement>) => {
+      if (error.password) {
+        setError({ ...error, password: undefined });
+      }
+      setFormData({ ...formData, password: ev.target.value });
+    },
+    [formData, setFormData, error, setError],
+  );
 
   const onLoginClick = async () => {
-    const err: {email?: string; password?: string; general?: string; } = {};
+    const err: { email?: string; password?: string; general?: string } = {};
     if (!formData.email?.length) {
       err.email = i18n.t('Email has not to be empty!');
     } else {
@@ -50,13 +63,16 @@ export function LoginForm() {
       setError(err);
     } else {
       setLoading(true);
-      const authResponse = await authClient.authenticate(formData.email || '', formData.password || '');
+      const authResponse = await authClient.authenticate(
+        formData.email || '',
+        formData.password || '',
+      );
       setLoading(false);
       if (authResponse !== true) {
         if (typeof authResponse === 'string') {
-          setError({ general: authResponse});
+          setError({ general: authResponse });
         } else {
-          setError({ general: 'Incorrect username or password!'});
+          setError({ general: 'Incorrect username or password!' });
         }
       }
     }
@@ -95,27 +111,46 @@ export function LoginForm() {
         {/*  <div className={s.useEmailLabel}>{i18n.t('or use email')}</div>*/}
         {/*</div>*/}
         <div className={s.inputsContainer}>
-          <Input error={error.email} showTopPlaceholder className={s.inputBox}
-                 classes={{
-                   input: clsx(s.input, error.email && s.inputError),
-                   topPlaceholder: clsx(s.topPlaceholder, error.email && s.topPlaceholderError),
-                   error: s.errorMessage,
-                 }}
-                 onChange={onEmailInputChange}
-                 placeholder={i18n.t('Email')} />
-          <Input error={error.password} showTopPlaceholder
-                 className={s.inputBox} classes={{
-                   input: clsx(s.input, error.password && s.inputError),
-                   topPlaceholder: clsx(s.topPlaceholder, error.password && s.topPlaceholderError),
-                   error: s.errorMessage,
-                 }}
-                 onChange={onPasswordInputChange}
-                 placeholder={i18n.t('Password')} type='password' />
+          <Input
+            error={error.email}
+            showTopPlaceholder
+            className={s.inputBox}
+            classes={{
+              input: clsx(s.input, error.email && s.inputError),
+              topPlaceholder: clsx(
+                s.topPlaceholder,
+                error.email && s.topPlaceholderError,
+              ),
+              error: s.errorMessage,
+            }}
+            onChange={onEmailInputChange}
+            placeholder={i18n.t('Email')}
+          />
+          <Input
+            error={error.password}
+            showTopPlaceholder
+            className={s.inputBox}
+            classes={{
+              input: clsx(s.input, error.password && s.inputError),
+              topPlaceholder: clsx(
+                s.topPlaceholder,
+                error.password && s.topPlaceholderError,
+              ),
+              error: s.errorMessage,
+            }}
+            onChange={onPasswordInputChange}
+            placeholder={i18n.t('Password')}
+            type="password"
+          />
         </div>
-        {error.general && <div className={s.errorMessageContainer}>{error.general}</div>}
+        {error.general && (
+          <div className={s.errorMessageContainer}>{error.general}</div>
+        )}
         {/*<div className={clsx(s.link, s.forgotPasswordContainer)}>{i18n.t('Forgot password?')}</div>*/}
         <div className={s.loginButtonContainer}>
-          <Button onClick={onLoginClick} className={s.loginButton}>{i18n.t('Log in')}</Button>
+          <Button onClick={onLoginClick} className={s.loginButton}>
+            {i18n.t('Log in')}
+          </Button>
         </div>
         {/*<div className={s.signUpContainer}>*/}
         {/*  <span>{i18n.t('Don\'t have an account?')}</span>*/}
