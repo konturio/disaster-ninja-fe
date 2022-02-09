@@ -5,7 +5,7 @@ table {
 }
 
 thead {
-  box-shadow: inset 0px 1px 0px #b9b9b9;
+  box-shadow: inset 0px 1px 0px var(--primary-faint-border-regular);
   background: #f0f0f0;
 }
 
@@ -24,6 +24,14 @@ th {
   /* white-space: nowrap; */
 }
 
+tbody tr {
+  box-shadow: inset 0 -1px #b9b9b9;
+}
+
+tbody tr:nth-child(odd) {
+  background: var(--primary-surface-disabled);
+}
+
 td {
   padding: 10px 8px;
   font: var(--font);
@@ -38,26 +46,12 @@ td a {
   display: flex;
 }
 
-.evenRow {
-  background: #f9f9f9;
+.subRow {
+  box-shadow: none;
 }
 
-.headingRow {
-  background: rgba(255, 255, 255, 0.0001);
-  box-shadow: inset 0px -1px 0px #b9b9b9;
-}
-
-.regularRow {
-  background: rgba(255, 255, 255, 0.0001);
-  box-shadow: inset 0px -1px 0px #b9b9b9;
-}
-
-.inconsistencesName img {
-  display: inline;
-}
-
-.nested a {
-  margin-left: var(--unit);
+.nested {
+  padding-left: 28px;
 }
 
 .columnTitle {

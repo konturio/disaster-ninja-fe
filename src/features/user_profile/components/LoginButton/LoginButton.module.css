@@ -1,20 +1,18 @@
 .loginButton {
-	background: #0C9BED;
-	border-radius: 4px;
-	color: #fff;
-	margin-left: 16px;
-	border: 1px solid transparent;
-	padding: 6px 12px;
-	box-shadow: none !important;
+  background: #0c9bed;
+  border-radius: 4px;
+  color: #fff;
+  margin-left: 16px;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  box-shadow: none !important;
 
-	&:hover {
-		border: 1px solid hsla(0, 0%, 0%, 0.3);
-	}
+  &:hover {
+    border: 1px solid hsla(0, 0%, 0%, 0.3);
+  }
 
-	&:active {
-		 background: #168acc !important;
-		 color: #eee !important;
-	}
+  &:active {
+    background: #168acc !important;
+    color: #eee !important;
+  }
 }
-
-

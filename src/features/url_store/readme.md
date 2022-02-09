@@ -101,4 +101,4 @@ enabled layer now available
 
 - Previously enabled layer cannot be removed when it not available anymore.  
   Because user can't click to this layer
-- When user re-login we probably must pure current url and re-init orl store
+- When user re-login we probably must clear current url and re-init url store

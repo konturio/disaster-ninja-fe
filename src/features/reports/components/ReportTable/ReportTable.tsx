@@ -1,13 +1,10 @@
-import { useEffect, useMemo } from 'react';
-import { useAction, useAtom } from '@reatom/react';
+import { useEffect } from 'react';
+import { useAtom } from '@reatom/react';
 import { tableAtom } from '../../atoms/tableAtom';
-import clsx from 'clsx';
 import i18next from 'i18next';
 import styles from './ReportTable.module.css';
 import sortIcon from '../../icons/sort_triangle.svg';
 import { TableCell } from './TableCell';
-import { InconsistsTableCell } from './InconsistsTableCell';
-import { currentNotificationAtom } from '~core/shared_state';
 
 function jOSMRedirect(
   e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -28,99 +25,12 @@ function openOSMID(
 export function ReportTable() {
   const [{ data, thead, ascending, sortIndex, meta }, { sortBy, setState }] =
     useAtom(tableAtom);
-  const showNotification = useAction(currentNotificationAtom.showNotification);
 
   useEffect(() => {
     return () => {
       setState({ meta: null, sortIndex: 0, ascending: null });
     };
   }, []);
-
-  const tableBody = useMemo(() => {
-    const OSMIdIndex = thead?.findIndex(
-      (val) => val.toUpperCase() === 'OSM ID',
-    );
-    if (OSMIdIndex == -1) {
-      console.error(`Can't find OSMIdIndex`);
-      // return null;
-    }
-    if (!data?.length || !thead) return null;
-
-    if (meta?.id === 'osm_population_inconsistencies') {
-      const nameI = thead?.findIndex((val) => val === 'Name');
-
-      function cName(row: string[], i: number) {
-        if (!row[nameI].includes(' -')) return styles.headingRow;
-        if (i % 2) return styles.evenRow;
-      }
-
-      return (
-        <tbody>
-          {data.map((row, rowIndex) => {
-            const OSMId =
-              typeof OSMIdIndex === 'number' ? row[OSMIdIndex] : null;
-            if (OSMId === null)
-              return showNotification(
-                'error',
-                { title: 'No osm ID provided' },
-                5000,
-              );
-            return (
-              <tr
-                key={row[0] + 'row' + rowIndex}
-                className={cName(row, rowIndex)}
-              >
-                {row.map((cell, cellIndex) => (
-                  <InconsistsTableCell
-                    key={row[0] + 'cell' + cellIndex + rowIndex}
-                    row={row}
-                    cell={cell}
-                    index={cellIndex}
-                    jOSMRedirect={jOSMRedirect}
-                    openOSMID={openOSMID}
-                    meta={meta}
-                    thead={thead}
-                    cName={styles.inconsistencesName}
-                    nested={styles.nested}
-                    OSMId={OSMId}
-                  />
-                ))}
-              </tr>
-            );
-          })}
-        </tbody>
-      );
-    }
-
-    return (
-      <tbody>
-        {data.map((row, rowIndex) => {
-          const OSMId = typeof OSMIdIndex === 'number' ? row[OSMIdIndex] : null;
-          return (
-            <tr
-              key={row[0] + 'row' + rowIndex}
-              className={clsx(styles.regularRow)}
-            >
-              {row.map((cell, cellIndex) => (
-                <TableCell
-                  key={row[0] + 'cell' + cellIndex}
-                  row={row}
-                  cell={cell}
-                  index={cellIndex}
-                  jOSMRedirect={jOSMRedirect}
-                  openOSMID={openOSMID}
-                  meta={meta}
-                  thead={thead}
-                  OSMId={OSMId}
-                  OSMIdIndex={OSMIdIndex}
-                />
-              ))}
-            </tr>
-          );
-        })}
-      </tbody>
-    );
-  }, [data, thead, ascending, sortIndex]);
 
   return (
     <div>
@@ -150,8 +60,25 @@ export function ReportTable() {
           </tr>
         </thead>
 
-        {/* render if not inconsistancies */}
-        {tableBody}
+        <tbody>
+          {data?.map((row, rowIndex) => {
+            return (
+              <tr
+                key={row[0] + 'row' + rowIndex}
+                className={row[0].startsWith('subrow_') ? styles.subRow : ''}
+              >
+                {row.map((cell, cellIndex) => (
+                  <TableCell
+                    key={row[0] + 'cell' + cellIndex}
+                    cell={cell}
+                    jOSMRedirect={jOSMRedirect}
+                    openOSMID={openOSMID}
+                  />
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );

@@ -1,13 +1,20 @@
 import MockAdapter from 'axios-mock-adapter';
 import sinon from 'sinon';
 import type { NotificationMessage } from '../../../core/types/notification';
-import { createLocalStorageMock, setupTestContext } from '../../../utils/testsUtils/setupTest';
+import {
+  createLocalStorageMock,
+  setupTestContext,
+} from '../../../utils/testsUtils/setupTest';
 import { ApiClientError } from '../ApiProblem';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
-import { ApiClient, INotificationService, ITranslationService } from '../ApiClient';
+import {
+  ApiClient,
+  INotificationService,
+  ITranslationService,
+} from '../ApiClient';
 
 function setTimeOffset(timeOffsetMin: number): number {
-  return ((new Date()).getTime() + timeOffsetMin * 60 * 1000) / 1000;
+  return (new Date().getTime() + timeOffsetMin * 60 * 1000) / 1000;
 }
 
 function setTokenExp(token: string, time: number): string {
@@ -46,9 +53,10 @@ const test = setupTestContext(() => {
   const axiosInstance = (apiClient as any).apiSauceInstance.axiosInstance;
   const username = 'testuser';
   const password = 'testpassword';
-  const expiredToken = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ0cm1rNEFKRjF4Y2llMG5IQ0ZqUGdYbDVISmVkUFRmMXB5cE9rUHZtNXZVIn0.eyJleHAiOjE2NDI2ODAzOTksImlhdCI6MTY0MjY4MDA5OSwianRpIjoiZmNmMzZkOWQtNzkxNS00NTkyLTgxYjktOTE5ZDBlNDc1MTdiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL2tvbnR1ci10ZXN0IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImE1MTY4Y2NjLWQ1M2YtNDk1Mi04ZjlhLWNiMzlhYjE2MTRmOCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImtvbnR1ci10ZXN0Iiwic2Vzc2lvbl9zdGF0ZSI6ImUxODdjNzE4LWYxNGUtNGE5Yi1iZGQ3LTM0ZDJhOTBjNzY5YiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiVGVzdFVzZXIgVGVzdFVzZXIyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoidGVzdCIsImdpdmVuX25hbWUiOiJUZXN0VXNlciIsImZhbWlseV9uYW1lIjoiVGVzdFVzZXIyIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIn0.He9jZVuvl_4kfvbNrknqiXxg01CfZojD_KT3yc8dnu3pjDL_vzWDWKCFNX0mlLXEuBLZXCUc8lEMgVO0qWp2MBRn79g7boVDXZLWheQINoGXjJ94Su_c6JHKtenYn9deMkxeJo0CQHB_Ellcu59J3L-Ob68qNnipN4jm4eMzsKvGXMWpzbmGL2kl5vit6JYAU0xWPiY79tOl-EhmSb34-nryvZ5NezMR_a-ZXlfG0hZBDSVJ0Syauu9Vy_QE_Hoey0UFtQfRO9UjpeFsrOy4aR0IcOhQk5PR2AXbwi8qaUQSPdz8XRtEqteCWW8Fj3De6JYzWSELuj-OE3VD0Z0akA";
+  const expiredToken =
+    'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ0cm1rNEFKRjF4Y2llMG5IQ0ZqUGdYbDVISmVkUFRmMXB5cE9rUHZtNXZVIn0.eyJleHAiOjE2NDI2ODAzOTksImlhdCI6MTY0MjY4MDA5OSwianRpIjoiZmNmMzZkOWQtNzkxNS00NTkyLTgxYjktOTE5ZDBlNDc1MTdiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL2tvbnR1ci10ZXN0IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImE1MTY4Y2NjLWQ1M2YtNDk1Mi04ZjlhLWNiMzlhYjE2MTRmOCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImtvbnR1ci10ZXN0Iiwic2Vzc2lvbl9zdGF0ZSI6ImUxODdjNzE4LWYxNGUtNGE5Yi1iZGQ3LTM0ZDJhOTBjNzY5YiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiVGVzdFVzZXIgVGVzdFVzZXIyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoidGVzdCIsImdpdmVuX25hbWUiOiJUZXN0VXNlciIsImZhbWlseV9uYW1lIjoiVGVzdFVzZXIyIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIn0.He9jZVuvl_4kfvbNrknqiXxg01CfZojD_KT3yc8dnu3pjDL_vzWDWKCFNX0mlLXEuBLZXCUc8lEMgVO0qWp2MBRn79g7boVDXZLWheQINoGXjJ94Su_c6JHKtenYn9deMkxeJo0CQHB_Ellcu59J3L-Ob68qNnipN4jm4eMzsKvGXMWpzbmGL2kl5vit6JYAU0xWPiY79tOl-EhmSb34-nryvZ5NezMR_a-ZXlfG0hZBDSVJ0Syauu9Vy_QE_Hoey0UFtQfRO9UjpeFsrOy4aR0IcOhQk5PR2AXbwi8qaUQSPdz8XRtEqteCWW8Fj3De6JYzWSELuj-OE3VD0Z0akA';
   const actualToken = setTokenExp(expiredToken, setTimeOffset(10));
-  const refreshToken = "testRefreshToken";
+  const refreshToken = 'testRefreshToken';
 
   return {
     localStorageMock,
@@ -82,20 +90,27 @@ test('can login with username and password', async (t) => {
   sinon.replace(t.context.localStorageMock, 'setItem', setItemFake);
 
   // Login
-  const res: any = (await t.context.apiClient.login(
+  const res: any = await t.context.apiClient.login(
     t.context.username,
     t.context.password,
-  ));
+  );
 
   // Assertions
   t.is(loginRequestMock.callCount, 1);
   t.is(
     setItemFake.getCall(0).args[1],
-    JSON.stringify({ token: t.context.token, refreshToken: t.context.refreshToken }),
+    JSON.stringify({
+      token: t.context.token,
+      refreshToken: t.context.refreshToken,
+    }),
     'token saved in storage',
   );
   t.is(res.token, t.context.token, 'response contain new accessToken');
-  t.is(res.refreshToken, t.context.refreshToken, 'response contain new refreshToken');
+  t.is(
+    res.refreshToken,
+    t.context.refreshToken,
+    'response contain new refreshToken',
+  );
 });
 
 test('invalid token error', async (t) => {
@@ -103,7 +118,7 @@ test('invalid token error', async (t) => {
   const loginRequestMock = sinon.fake.returns([
     200,
     {
-      access_token: "123",
+      access_token: '123',
       refresh_token: t.context.refreshToken,
     },
   ]);
@@ -211,17 +226,9 @@ test('login and refresh token', async (t) => {
 
   // Assertions
   const params = new URLSearchParams(loginRequestMock.getCall(0).args[0].data);
-  t.is(
-    params.get('username'),
-    t.context.username,
-    'Login with username',
-  );
+  t.is(params.get('username'), t.context.username, 'Login with username');
 
-  t.is(
-    params.get('password'),
-    t.context.password,
-    'Login with password',
-  );
+  t.is(params.get('password'), t.context.password, 'Login with password');
 
   t.deepEqual(
     // @ts-expect-error - Fix me - check expire time without reading private fields

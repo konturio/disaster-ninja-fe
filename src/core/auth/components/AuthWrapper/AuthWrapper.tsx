@@ -1,7 +1,11 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { authClient } from '~core/index';
 
-export function AuthWrapper ({ children }: { children: ReactNode | ReactNode[]}){
+export function AuthWrapper({
+  children,
+}: {
+  children: ReactNode | ReactNode[];
+}) {
   const [initialized, setInitialized] = useState<boolean>(false);
 
   useEffect(() => {
@@ -15,4 +19,3 @@ export function AuthWrapper ({ children }: { children: ReactNode | ReactNode[]})
 
   return initialized ? <>{children}</> : null;
 }
-
