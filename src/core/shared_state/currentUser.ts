@@ -20,10 +20,7 @@ export const currentUserAtom = createBindAtom(
   {
     setUser: (user?: CurrentUser) => user,
   },
-  (
-    { onAction, onInit, schedule, create },
-    state: CurrentUser = publicUser,
-  ) => {
+  ({ onAction, onInit, schedule, create }, state: CurrentUser = publicUser) => {
     onAction('setUser', (usr) => {
       if (usr) {
         state = usr;

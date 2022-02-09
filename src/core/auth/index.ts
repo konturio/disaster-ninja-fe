@@ -4,4 +4,10 @@ import { userStateAtom } from './atoms/userState';
 import { UserDataModel } from './models/UserDataModel';
 import { AuthWrapper } from './components/AuthWrapper/AuthWrapper';
 
-export { AuthClient, UserDataModel, userResourceAtom, userStateAtom, AuthWrapper };
+export {
+  AuthClient,
+  UserDataModel,
+  userResourceAtom,
+  userStateAtom,
+  AuthWrapper,
+};
