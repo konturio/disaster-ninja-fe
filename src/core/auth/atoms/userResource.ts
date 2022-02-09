@@ -2,7 +2,7 @@ import { createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/index';
 import { CurrentUser, currentUserAtom } from '~core/shared_state/currentUser';
 import { UserDataModel } from '~core/auth';
-import { AppFeature } from '~core/auth/models/UserDataModel';
+import { AppFeature, UserFeed } from '~core/auth/models/UserDataModel';
 
 export const userResourceAtom = createResourceAtom<CurrentUser, UserDataModel | undefined>(
   currentUserAtom,
@@ -24,9 +24,13 @@ export const userResourceAtom = createResourceAtom<CurrentUser, UserDataModel | 
       })
     }
 
-    let feeds: string[] = [];
+    let feeds: UserFeed[] = [];
     if (Array.isArray(data[1])) {
-      feeds = data[1].map((fd: { feed: string }) => fd.feed );
+      feeds = data[1].map((fd: { feed: string, default: boolean }) => ({
+        feed: fd.feed,
+        isDefault: fd.default
+      })
+      );
     }
 
     const udm = new UserDataModel();

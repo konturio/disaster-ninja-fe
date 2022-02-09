@@ -389,7 +389,7 @@ export class ApiClient {
       axiosConfig = {};
     }
 
-    if (!this.disableAuth && useAuth) {
+    if (!this.disableAuth && useAuth && this.token) {
       const tokenCheckError = await this.checkToken(axiosConfig);
       if (tokenCheckError) {
         return await this.processResponse<T>(tokenCheckError);
