@@ -2,6 +2,7 @@ declare global {
   interface Window {
     konturAppConfig: {
       API_GATEWAY: string;
+      FEATURES_API: string;
       GRAPHQL_API: string;
       BOUNDARIES_API: string;
       REPORTS_API: string;
@@ -10,16 +11,17 @@ declare global {
       MAP_ACCESS_TOKEN: string;
       MAP_BASE_STYLE: string;
       LAYERS_BY_DEFAULT: string[];
-      KEYCLOAK_URL: string,
-      KEYCLOAK_REALM: string,
-      KEYCLOAK_CLIENT_ID: string,
-      YANDEX_METRICA_ID: number[],
+      KEYCLOAK_URL: string;
+      KEYCLOAK_REALM: string;
+      KEYCLOAK_CLIENT_ID: string;
+      YANDEX_METRICA_ID: number[];
     };
   }
 }
 
 export default {
   apiGateway: window.konturAppConfig.API_GATEWAY,
+  featuresApi: window.konturAppConfig.FEATURES_API,
   graphqlApi: window.konturAppConfig.GRAPHQL_API,
   boundariesApi: window.konturAppConfig.BOUNDARIES_API,
   reportsApi: window.konturAppConfig.REPORTS_API,
@@ -67,11 +69,11 @@ export default {
         width: 20,
         height: 20,
         anchorY: 10,
-      }
+      },
     },
     sizeScale: 6,
     getSize: () => 6,
-  }
+  },
 };
 
 if (import.meta.env?.PROD) {

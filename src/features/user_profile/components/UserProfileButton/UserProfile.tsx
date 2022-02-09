@@ -48,18 +48,27 @@ function UserAvatar() {
 
   return (
     <>
-      <div className={clsx(s.dropdownContainer, isMenuShown && s.show, !isMenuShown && s.hide)}>
+      <div
+        className={clsx(
+          s.dropdownContainer,
+          isMenuShown && s.show,
+          !isMenuShown && s.hide,
+        )}
+      >
         <Selector onChange={onMenuSelect} options={userMenu} />
       </div>
-      <img onClick={onImgClick} src='assets/default-avatar.png' className={s.avatar} alt='user avatar' />
+      <img
+        onClick={onImgClick}
+        src="assets/default-avatar.png"
+        className={s.avatar}
+        alt="user avatar"
+      />
     </>
-  )
+  );
 }
 
 export function UserProfile() {
   const [userState] = useAtom(userStateAtom);
 
-  return userState === 'authorized' ? (
-    <UserAvatar />
-  ) : <LoginButton />;
+  return userState === 'authorized' ? <UserAvatar /> : <LoginButton />;
 }

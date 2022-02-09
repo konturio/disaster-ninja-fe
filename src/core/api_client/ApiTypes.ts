@@ -5,7 +5,7 @@ export interface KeycloakAuthResponse {
   refresh_token: string;
   scope: string;
   session_state: string;
-  token_type: "Bearer";
+  token_type: 'Bearer';
   error_description?: string;
 }
 
@@ -24,12 +24,12 @@ export type JWTData = {
   name: string;
   preferred_username: string;
   realm_access: { roles: string[] };
-  resource_access: { account: { roles: string[] }};
+  resource_access: { account: { roles: string[] } };
   scope: string;
   session_state: string;
   sub: string;
   typ: string;
-}
+};
 
 // GeoJSON.GeoJSON conflict with  Record<string, unknown>
 // https://stackoverflow.com/questions/60697214/how-to-fix-index-signature-is-missing-in-type-error

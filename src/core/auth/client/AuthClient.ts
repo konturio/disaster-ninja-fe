@@ -5,7 +5,7 @@ import { JWTData } from '~core/api_client/ApiTypes';
 import { callYm } from '~utils/stats/yandexCounter';
 
 interface AuthClientConfig {
-   apiClient: ApiClient;
+  apiClient: ApiClient;
 }
 
 export class AuthClient {
@@ -13,7 +13,7 @@ export class AuthClient {
 
   private readonly _apiClient: ApiClient;
 
-  private constructor({ apiClient}: AuthClientConfig) {
+  private constructor({ apiClient }: AuthClientConfig) {
     this._apiClient = apiClient;
   }
 
@@ -27,9 +27,7 @@ export class AuthClient {
 
   public static init(config: AuthClientConfig): AuthClient {
     if (AuthClient.instance) {
-      throw new Error(
-        `Auth client instance with had been already initialized`,
-      );
+      throw new Error(`Auth client instance with had been already initialized`);
     }
 
     AuthClient.instance = new AuthClient(config);
@@ -41,7 +39,7 @@ export class AuthClient {
   }
 
   public closeLoginForm() {
-    userStateAtom.reset.dispatch()
+    userStateAtom.reset.dispatch();
   }
 
   public logout() {
@@ -51,23 +49,33 @@ export class AuthClient {
   }
 
   private onTokenExpired() {
-    console.error('Auth Problem! Token is expired.')
+    console.error('Auth Problem! Token is expired.');
   }
 
-  private processAuthResponse(response: { token: string; refreshToken: string; jwtData: JWTData }) {
+  private processAuthResponse(response: {
+    token: string;
+    refreshToken: string;
+    jwtData: JWTData;
+  }) {
     currentUserAtom.setUser.dispatch({
       username: response.jwtData.preferred_username,
       token: response.token,
       email: response.jwtData.email,
       firstName: response.jwtData.given_name,
-      lastName: response.jwtData.family_name
+      lastName: response.jwtData.family_name,
     });
     userStateAtom.authorize.dispatch();
-    window['Intercom']('update', { name: response.jwtData.preferred_username, email: response.jwtData.email });
+    window['Intercom']('update', {
+      name: response.jwtData.preferred_username,
+      email: response.jwtData.email,
+    });
     callYm('setUserID', response.jwtData.email);
   }
 
-  public async authenticate(user: string, password: string): Promise<true | string | undefined> {
+  public async authenticate(
+    user: string,
+    password: string,
+  ): Promise<true | string | undefined> {
     const response = await this._apiClient.login(user, password);
     if (response && typeof response === 'object' && 'token' in response) {
       this.processAuthResponse(response);

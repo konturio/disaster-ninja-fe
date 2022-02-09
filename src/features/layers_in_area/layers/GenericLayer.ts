@@ -31,6 +31,7 @@ import { layersOrderManager } from '~core/logical_layers/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { enabledLayersAtom } from '~core/shared_state';
 import { downloadObject } from '~utils/fileHelpers/download';
+import { replaceUrlWithProxy } from '../../../../vite.proxy';
 
 export class GenericLayer
   implements LogicalLayer<LayerInAreaReactiveData | null>
@@ -193,7 +194,7 @@ export class GenericLayer
   _adaptUrl(url: string) {
     /** Fix cors in local development */
     if (import.meta.env.DEV) {
-      url = url.replace('zigzag.kontur.io', location.host);
+      url = replaceUrlWithProxy(url);
     }
 
     /**
@@ -240,7 +241,6 @@ export class GenericLayer
       minzoom: layer.minZoom || 0,
       maxzoom: layer.maxZoom || 22,
     };
-
     // I expect that all servers provide url with same scheme
     this._setTileScheme(layer.source.urls[0], mapSource);
 
@@ -275,6 +275,10 @@ export class GenericLayer
         if (this.id === 'activeContributors') {
           addZoomFilter(layers);
         }
+        console.assert(
+          layers.length !== 0,
+          'Zero layers generated for this layer. Check legend and layer type',
+        );
         layers.forEach((mapLayer) => {
           if (map.getLayer(mapLayer.id)) {
             map.removeLayer(mapLayer.id);
@@ -298,11 +302,6 @@ export class GenericLayer
       geoJSON?: GeoJSON.GeoJSON;
       eventId?: string;
     };
-
-    if (this._eventId === null && this._lastGeometryUpdate === null) {
-      // TODO: temporary solution until #8421 was not merged
-      return;
-    }
 
     if (this.boundaryRequiredForRetrieval) {
       if (this._lastGeometryUpdate === null) {

@@ -9,13 +9,14 @@ export const bivariateCorrelationMatrixAtom = createBindAtom(
     bivariateNumeratorsAtom,
   },
   ({ get, getUnlistedState }, state: CorrelationMatrix | null = null) => {
-    const { xNumerators, yNumerators } = get(
-      'bivariateNumeratorsAtom',
-    );
+    const { xNumerators, yNumerators } = get('bivariateNumeratorsAtom');
 
     if (xNumerators.length && yNumerators.length) {
-      const { data: statisticsData } = getUnlistedState(bivariateStatisticsResourceAtom);
-      const correlationRates: CorrelationRate[] = statisticsData.polygonStatistic.bivariateStatistic.correlationRates;
+      const { data: statisticsData } = getUnlistedState(
+        bivariateStatisticsResourceAtom,
+      );
+      const correlationRates: CorrelationRate[] =
+        statisticsData.polygonStatistic.bivariateStatistic.correlationRates;
 
       const matrix: CorrelationMatrix = [];
       for (let i = 0; i < yNumerators.length; i += 1) {
