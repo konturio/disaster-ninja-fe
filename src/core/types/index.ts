@@ -97,7 +97,7 @@ export interface AdvancedAnalyticsData {
   numerator: string;
   denominator: string;
   numeratorLabel: string;
-  denominatorLabel: number;
+  denominatorLabel: string;
   analytics: [AdvancedAnalyticsDataValues];
 }
 

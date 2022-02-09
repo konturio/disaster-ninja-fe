@@ -16,6 +16,7 @@ import { focusedGeometryAtom } from '~core/shared_state';
 
 interface PanelHeadingProps {
   event: {
+    location: string;
     eventName: string;
     severity: Severity;
     externalUrls: string[];
@@ -25,7 +26,7 @@ interface PanelHeadingProps {
 function PanelHeading({ event }: PanelHeadingProps) {
   return (
     <div className={s.head}>
-      <Text type="heading-m">{event.eventName}</Text>
+      <Text type="heading-m">{event.eventName + ' - ' + event.location}</Text>
       <SeverityIndicator severity={event.severity} />
     </div>
   );
@@ -42,7 +43,7 @@ export function AdvancedAnalyticsPanel({
   loading,
   advancedAnalyticsDataList,
 }: AdvancedAnalyticsPanelProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>('data');
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
 
@@ -106,7 +107,7 @@ export function AdvancedAnalyticsPanel({
             ready: (dataList) => {
               return (
                 <Tabs onTabChange={setTab} current={currentTab}>
-                  <Tab name="INFO" id="data">
+                  <Tab name="Advanced Analytics" id="data">
                     <AdvancedAnalyticsDataList
                       data={advancedAnalyticsDataList}
                     />
