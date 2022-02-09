@@ -1,6 +1,11 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 
-export type UserStateType = 'authorized' | 'unauthorized' | 'logging_in' | 'signing_up' | 'password_reset';
+export type UserStateType =
+  | 'authorized'
+  | 'unauthorized'
+  | 'logging_in'
+  | 'signing_up'
+  | 'password_reset';
 
 export const userStateAtom = createBindAtom(
   {

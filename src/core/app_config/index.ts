@@ -11,10 +11,10 @@ declare global {
       MAP_ACCESS_TOKEN: string;
       MAP_BASE_STYLE: string;
       LAYERS_BY_DEFAULT: string[];
-      KEYCLOAK_URL: string,
-      KEYCLOAK_REALM: string,
-      KEYCLOAK_CLIENT_ID: string,
-      YANDEX_METRICA_ID: number[],
+      KEYCLOAK_URL: string;
+      KEYCLOAK_REALM: string;
+      KEYCLOAK_CLIENT_ID: string;
+      YANDEX_METRICA_ID: number[];
     };
   }
 }
@@ -69,11 +69,11 @@ export default {
         width: 20,
         height: 20,
         anchorY: 10,
-      }
+      },
     },
     sizeScale: 6,
     getSize: () => 6,
-  }
+  },
 };
 
 if (import.meta.env?.PROD) {

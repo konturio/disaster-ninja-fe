@@ -5,6 +5,7 @@ import reactRefresh from '@vitejs/plugin-react-refresh';
 import { injectHtml } from 'vite-plugin-html';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
 import postcssConfig from './postcss.config';
+import { proxyConfig } from './vite.proxy';
 import packageJson from './package.json';
 
 const relative = (folder: string) => path.resolve(__dirname, folder);
@@ -15,7 +16,7 @@ export default ({ mode }) => {
   return defineConfig({
     base: mode === 'development' ? '/' : packageJson.homepage,
     build: {
-      minify: true,
+      minify: mode === 'development' ? false : true,
       sourcemap: true,
       rollupOptions: {
         plugins: [env.VITE_ANALYZE_BUNDLE && visualizer({ open: true })],
@@ -53,13 +54,8 @@ export default ({ mode }) => {
       },
     },
     server: {
-      proxy: {
-        [packageJson.homepage + 'api']: {
-          target: 'https://test-apps-ninja02.konturlabs.com',
-          changeOrigin: true,
-        },
-        '/tiles': 'https://zigzag.kontur.io',
-      },
+      proxy: proxyConfig,
     },
   });
 };
+
