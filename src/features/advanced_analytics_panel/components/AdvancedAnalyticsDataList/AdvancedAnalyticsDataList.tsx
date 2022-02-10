@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import s from './AnalyticsData.module.css';
 import { AdvancedAnalyticsData } from '~core/types';
-import { TranslationService as t } from '~core/localization';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import { stateFlagsSystem } from 'react-virtuoso/dist/stateFlagsSystem';
 
@@ -9,9 +8,6 @@ interface AdvancedAnalyticsDataListProps {
   data?: AdvancedAnalyticsData[] | null;
 }
 
-// is there table on k2? may need table sort
-// solve min - max width height | use screen width, heights
-// TODO may get this from data, use translate
 const calculations = [
   'Nominator',
   'Normalized By',

@@ -16,7 +16,6 @@ import { focusedGeometryAtom } from '~core/shared_state';
 
 interface PanelHeadingProps {
   event: {
-    location: string;
     eventName: string;
     severity: Severity;
     externalUrls: string[];
@@ -26,7 +25,7 @@ interface PanelHeadingProps {
 function PanelHeading({ event }: PanelHeadingProps) {
   return (
     <div className={s.head}>
-      <Text type="heading-m">{event.eventName + ' - ' + event.location}</Text>
+      <Text type="heading-m">{event.eventName}</Text>
       <SeverityIndicator severity={event.severity} />
     </div>
   );
