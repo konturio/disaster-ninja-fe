@@ -6,9 +6,9 @@ import { AnalyticsData } from '~core/types';
 export const analyticsResourceAtom = createResourceAtom(
   focusedGeometryAtom,
   async (fGeo) => {
-    if (!fGeo) return null
+    if (!fGeo) return null;
     const responseData = await apiClient.post<AnalyticsData[] | null>(
-      `/analytics/`,
+      `/polygon_details`,
       fGeo?.geometry,
       false,
     );
