@@ -82,7 +82,7 @@ export class ApiClient {
     this.storage = storage;
 
     // Will deleted by terser
-    if (import.meta.env.DEV) {
+    if (import.meta?.env?.DEV) {
       apiSauceConfig.baseURL = replaceUrlWithProxy(
         apiSauceConfig.baseURL ?? '',
       );
@@ -432,7 +432,7 @@ export class ApiClient {
       axiosConfig = {};
     }
 
-    if (!this.disableAuth && useAuth) {
+    if (!this.disableAuth && useAuth && this.token) {
       const tokenCheckError = await this.checkToken(axiosConfig);
       if (tokenCheckError) {
         return await this.processResponse<T>(tokenCheckError);
