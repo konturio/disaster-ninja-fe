@@ -82,7 +82,7 @@ export class ApiClient {
     this.storage = storage;
 
     // Will deleted by terser
-    if (import.meta.env.DEV) {
+    if (import.meta?.env?.DEV) {
       apiSauceConfig.baseURL = replaceUrlWithProxy(
         apiSauceConfig.baseURL ?? '',
       );

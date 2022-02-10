@@ -187,7 +187,7 @@ test('refreshToken called when token is expired', async (t) => {
   // set private field token with new token
   const apiClientObj = t.context.apiClient as any;
   apiClientObj.tokenWillExpire = new Date(new Date().getTime() + 1000 * 60 * 4);
-  // apiClientObj.token = newToken;
+  apiClientObj.token = t.context.token;
 
   // mock refreshAuthToken
   const refreshFn = sinon.fake();
