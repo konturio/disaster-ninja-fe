@@ -17,6 +17,7 @@ import {
 } from '~features/events_list/constants';
 import eventsIcon from '~features/events_list/icons/eventsIcon.svg';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import { FeedSelector } from '~features/feed_selector';
 
 export function EventsListPanel({
   current,
@@ -89,6 +90,7 @@ export function EventsListPanel({
       className={clsx(s.sidePannel, isOpen && s.show, !isOpen && s.hide)}
       onClose={onPanelClose}
     >
+      <FeedSelector />
       <div className={s.scrollable}>
         {statesToComponents({
           loading: <LoadingSpinner />,
