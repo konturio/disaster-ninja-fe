@@ -7,7 +7,7 @@ interface AdvancedAnalyticsDataListProps {
 }
 
 const calculations = [
-  'Nominator',
+  'Numerator',
   'Normalized By',
   'Sum',
   'Min',
@@ -44,8 +44,8 @@ export const AdvancedAnalyticsDataList = ({
   });
 
   function onNominatorFilterChange(e) {
-    let numerator = e.target.value.toLowerCase();
-    let filteredData = data?.filter(function (values) {
+    const numerator = e.target.value.toLowerCase();
+    const filteredData = data?.filter(function (values) {
       return (
         values.numeratorLabel.toLowerCase().includes(numerator) &&
         values.denominatorLabel.toLowerCase().includes(state.denominator)
@@ -59,8 +59,8 @@ export const AdvancedAnalyticsDataList = ({
   }
 
   function onDenominatorFilterChange(e) {
-    let denominator = e.target.value.toLowerCase();
-    let filteredData = data?.filter(function (values) {
+    const denominator = e.target.value.toLowerCase();
+    const filteredData = data?.filter(function (values) {
       return (
         values.numeratorLabel.toLowerCase().includes(state.numerator) &&
         values.denominatorLabel.toLowerCase().includes(denominator)
@@ -76,51 +76,55 @@ export const AdvancedAnalyticsDataList = ({
   return (
     <div className={s.table_scroll}>
       <table className={s.table_in_panel}>
-        <tr>
-          {calculations.map((item) => (
-            <th align="left">{item}</th>
-          ))}
-        </tr>
+        <tbody>
+          <tr>
+            {calculations.map((item, index) => (
+              <th key={`${item}_${index}`} align="left">
+                {item}
+              </th>
+            ))}
+          </tr>
 
-        <tr className={s.table_filter}>
-          <td>
-            <input
-              className={s.filter_text}
-              placeholder="Filter Nominator"
-              type="text"
-              onChange={onNominatorFilterChange.bind(this)}
-            />
-          </td>
-          <td>
-            <input
-              className={s.filter_text}
-              placeholder="Filter Denominator"
-              type="text"
-              onChange={onDenominatorFilterChange.bind(this)}
-            />
-          </td>
-        </tr>
+          <tr className={s.table_filter}>
+            <td>
+              <input
+                className={s.filter_text}
+                placeholder="Filter Nominator"
+                type="text"
+                onChange={onNominatorFilterChange.bind(this)}
+              />
+            </td>
+            <td>
+              <input
+                className={s.filter_text}
+                placeholder="Filter Denominator"
+                type="text"
+                onChange={onDenominatorFilterChange.bind(this)}
+              />
+            </td>
+          </tr>
 
-        {state.listData &&
-          state.listData.map((dataItem) => (
-            <tr>
-              <td className={s.numerator}>
-                <div>{dataItem.numeratorLabel}</div>
-                <br></br>
-              </td>
-              <td className={s.denominator}>
-                <div>{dataItem.denominatorLabel}</div>
-                <br></br>
-              </td>
-              {dataItem.analytics &&
-                dataItem.analytics.map((values) => (
-                  <td>
-                    <div>{values.value.toFixed(decimal)}</div>
-                    <div>{qualityFromatter(values.quality)}</div>
-                  </td>
-                ))}
-            </tr>
-          ))}
+          {state.listData &&
+            state.listData.map((dataItem, index) => (
+              <tr key={`${dataItem.numerator}_${index}`}>
+                <td className={s.numerator}>
+                  <div>{dataItem.numeratorLabel}</div>
+                  <br></br>
+                </td>
+                <td className={s.denominator}>
+                  <div>{dataItem.denominatorLabel}</div>
+                  <br></br>
+                </td>
+                {dataItem.analytics &&
+                  dataItem.analytics.map((values, index) => (
+                    <td key={index}>
+                      <div>{values.value.toFixed(decimal)}</div>
+                      <div>{qualityFromatter(values.quality)}</div>
+                    </td>
+                  ))}
+              </tr>
+            ))}
+        </tbody>
       </table>
     </div>
   );
