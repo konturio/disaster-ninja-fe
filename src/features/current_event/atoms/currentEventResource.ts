@@ -23,7 +23,7 @@ export const currentEventResourceAtom = createResourceAtom(
   async (deps) => {
     if (deps && deps.event?.id && deps.feed?.id) {
       const responseData = await apiClient.get<EventWithGeometry>(
-        `/events/${deps.feed.id}/${deps.event.id}`,
+        `/events/${deps.feed.id}/${deps.event.id}`
       );
       if (responseData === undefined) throw 'No data received';
       return responseData;
