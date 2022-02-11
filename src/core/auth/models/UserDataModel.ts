@@ -1,6 +1,7 @@
 export type AppFeature =
   | 'app_login'
   | 'analytics_panel'
+  | 'advanced_analytics_panel'
   | 'events_list'
   | 'map_layers_panel'
   | 'side_bar'
