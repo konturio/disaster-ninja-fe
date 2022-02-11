@@ -3,7 +3,7 @@ import { NotificationService } from './notifications';
 import { TranslationService } from './localization';
 import { ApiClient } from './api_client';
 import { autoRefreshService } from './auto_refresh';
-import { AuthClient } from '~core/auth/AuthClient';
+import { AuthClient } from '~core/auth';
 
 NotificationService.init();
 export const notificationService = NotificationService.getInstance();
@@ -12,7 +12,8 @@ export const notificationService = NotificationService.getInstance();
 ApiClient.init({
   notificationService: notificationService,
   baseURL: config.apiGateway,
-  loginApiPath: config.loginApiPath,
+  loginApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
+  refreshTokenApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
   translationService: TranslationService,
 });
 export const apiClient = ApiClient.getInstance();

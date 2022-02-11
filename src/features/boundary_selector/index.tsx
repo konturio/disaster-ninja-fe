@@ -5,20 +5,25 @@ import {
   BOUNDARY_SELECTOR_CONTROL_ID,
   BOUNDARY_SELECTOR_CONTROL_NAME,
 } from '~features/boundary_selector/constants';
-import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import {
+  controlGroup,
+  controlVisualGroup,
+} from '~core/shared_state/sideControlsBar';
+import { TranslationService as i18n } from '~core/localization';
 
 export function initBoundarySelector() {
   boundaryLogicalLayerAtom.init();
   sideControlsBarAtom.addControl.dispatch({
     id: BOUNDARY_SELECTOR_CONTROL_ID,
     name: BOUNDARY_SELECTOR_CONTROL_NAME,
+    title: i18n.t('Focus to administrative boundary'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalitics,
     icon: <BoundarySelectorIcon />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch(
-        BOUNDARY_SELECTOR_CONTROL_ID
+        BOUNDARY_SELECTOR_CONTROL_ID,
       );
     },
     onChange: (becomesActive) => {

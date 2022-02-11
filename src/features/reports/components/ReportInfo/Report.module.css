@@ -2,7 +2,7 @@ body {
   overflow-y: auto;
 }
 
-.loadingContainer>div {
+.loadingContainer > div {
   margin: 0;
 }
 
@@ -62,7 +62,6 @@ body {
   }
 }
 
-
 @media screen and (max-width: 1200px) {
   .mainWrap {
     padding: 44px 2vw 44px 2vw;
@@ -73,5 +72,11 @@ body {
     overflow-x: auto;
     white-space: nowrap;
   }
-
+  thead tr {
+    border-bottom: 1px solid #b9b9b9;
+  }
+  th {
+    padding: var(--double-unit) var(--unit);
+    top: auto;
+  }
 }

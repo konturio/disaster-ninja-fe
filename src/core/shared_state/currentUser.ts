@@ -1,21 +1,34 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
+import appConfig from '~core/app_config';
 
-export interface CurrentUser {
-  id: string;
-  defaultLayers: string[];
-}
+export type CurrentUser = {
+  id?: string;
+  defaultLayers?: string[];
+  username?: string;
+  email?: string;
+  token?: string;
+  firstName?: string;
+  lastName?: string;
+};
 
-const defaultUser: CurrentUser = {
+const publicUser: CurrentUser = {
   id: 'public',
-  defaultLayers: [],
+  defaultLayers: appConfig.layersByDefault ?? [],
 };
 
 export const currentUserAtom = createBindAtom(
   {
-    setCurrentUser: (currentUser: CurrentUser) => currentUser,
+    setUser: (user?: CurrentUser) => user,
   },
-  ({ onAction }, state: CurrentUser = defaultUser) => {
-    onAction('setCurrentUser', (currentUser) => (state = currentUser));
+  ({ onAction, onInit, schedule, create }, state: CurrentUser = publicUser) => {
+    onAction('setUser', (usr) => {
+      if (usr) {
+        state = usr;
+      } else {
+        state = publicUser;
+      }
+    });
+
     return state;
   },
   '[Shared state] currentUserAtom',

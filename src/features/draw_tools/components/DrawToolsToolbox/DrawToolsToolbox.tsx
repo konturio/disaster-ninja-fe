@@ -2,16 +2,25 @@ import { Button, Text } from '@k2-packages/ui-kit';
 import { useCallback } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import s from './DrawToolToolbox.module.css';
-import { DrawLineIcon, DrawPointIcon, DrawPolygonIcon, TrashBinIcon } from '@k2-packages/default-icons';
-import { useAtom } from '@reatom/react';
+import {
+  DrawLineIcon,
+  DrawPointIcon,
+  DrawPolygonIcon,
+  TrashBinIcon,
+} from '@k2-packages/default-icons';
+import { useAction, useAtom } from '@reatom/react';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import clsx from 'clsx';
-import { DRAW_TOOLS_CONTROL_ID, drawModes } from '~features/draw_tools/constants';
+import {
+  DRAW_TOOLS_CONTROL_ID,
+  drawModes,
+} from '~features/draw_tools/constants';
 import { modeWatcherAtom } from '~features/draw_tools/atoms/drawLayerAtom';
 import { selectedIndexesAtom } from '~features/draw_tools/atoms/selectedIndexesAtom';
 import { drawnGeometryAtom } from '~features/draw_tools/atoms/drawnGeometryAtom';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { drawingIsStartedAtom } from '~features/draw_tools/atoms/drawingIsStartedAtom';
+import { temporaryGeometryAtom } from '~features/draw_tools/atoms/temporaryGeometryAtom';
 
 export const DrawToolsToolbox = () => {
   const [activeDrawMode, { setDrawMode, toggleDrawMode }] =
@@ -19,6 +28,7 @@ export const DrawToolsToolbox = () => {
 
   const [selected, { setIndexes }] = useAtom(selectedIndexesAtom);
   const [, { removeByIndexes }] = useAtom(drawnGeometryAtom);
+  const clearTempGeometry = useAction(temporaryGeometryAtom.resetToDefault);
   const [, { disable: disableSideIcon }] = useAtom(sideControlsBarAtom);
   const [drawingIsStarted] = useAtom(drawingIsStartedAtom);
   useAtom(modeWatcherAtom);
@@ -42,8 +52,10 @@ export const DrawToolsToolbox = () => {
 
   const onDelete = useCallback(() => {
     if (selected.length) {
+      const indexes = [...selected];
       setIndexes([]);
-      removeByIndexes(selected);
+      removeByIndexes(indexes);
+      clearTempGeometry();
     }
   }, [removeByIndexes, selected, setIndexes]);
 
@@ -95,7 +107,7 @@ export const DrawToolsToolbox = () => {
           </div>
         </Button>
         {/* this is temporary  */}
-        <Button className={s.finishBtn} onClick={() => finishDrawing()}>
+        <Button className={s.finishBtn} onClick={finishDrawing}>
           <div className={clsx(s.btnContent)}>{i18n.t('Finish Drawing')}</div>
         </Button>
       </div>

@@ -17,12 +17,16 @@ export function askGeoJSONFile(onSuccess: (geoJSON: GeoJSON.GeoJSON) => void) {
         const geoJSON = await readGeoJSON(files[0]);
         onSuccess(geoJSON);
       } catch (error) {
-        currentNotificationAtom.showNotification.dispatch('error', { title: i18n.t('Error while reading uploaded file') }, 5);
+        currentNotificationAtom.showNotification.dispatch(
+          'error',
+          { title: i18n.t('Error while reading uploaded file') },
+          5,
+        );
       } finally {
-        input.removeEventListener('change', onchange)
+        input.removeEventListener('change', onchange);
       }
     }
-  };
+  }
 
   input.addEventListener('change', onchange);
   input.click();

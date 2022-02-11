@@ -5,7 +5,7 @@ table {
 }
 
 thead {
-  box-shadow: inset 0px 1px 0px #b9b9b9;
+  box-shadow: inset 0px 1px 0px var(--primary-faint-border-regular);
   background: #f0f0f0;
 }
 
@@ -15,7 +15,7 @@ th {
   background: #f0f0f0;
   padding: 6px 8px;
   text-align: left;
-  font-family: IBM Plex Sans;
+  font: var(--font);
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
@@ -24,9 +24,17 @@ th {
   /* white-space: nowrap; */
 }
 
+tbody tr {
+  box-shadow: inset 0 -1px #b9b9b9;
+}
+
+tbody tr:nth-child(even) {
+  background: var(--primary-surface-disabled);
+}
+
 td {
   padding: 10px 8px;
-  font-family: IBM Plex Sans;
+  font: var(--font);
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -35,32 +43,15 @@ td {
 }
 td a {
   cursor: pointer;
-}
-
-.evenRow {
-  background: #f9f9f9;
-}
-
-.headingRow {
-  background: rgba(255, 255, 255, 0.0001);
-  box-shadow: inset 0px -1px 0px #b9b9b9;
-}
-
-.regularRow {
-  background: rgba(255, 255, 255, 0.0001);
-  box-shadow: inset 0px -1px 0px #b9b9b9;
-}
-
-td a{
   display: flex;
 }
 
-.inconsistencesName img{
-  display: inline;
+.subRow {
+  box-shadow: none;
 }
 
-.nested a{
-  margin-left: var(--unit);
+.nested {
+  padding-left: 28px;
 }
 
 .columnTitle {
@@ -80,10 +71,6 @@ td a{
   opacity: 0;
 }
 
-.defaultSort:hover img {
-  opacity: 0.3;
-}
-
 .ascending img {
   opacity: 1;
 }
@@ -91,4 +78,8 @@ td a{
 .descending img {
   opacity: 1;
   transform: rotate(180deg);
+}
+
+.defaultSort:hover img {
+  opacity: 0.3;
 }

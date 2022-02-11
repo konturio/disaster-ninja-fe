@@ -9,14 +9,18 @@ import { useHistory } from 'react-router';
 import config from '~core/app_config';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { useAtom } from '@reatom/react';
-import { userResource } from '~core/auth/atoms/userResource';
 import { lazily } from 'react-lazily';
+import { userResourceAtom } from '~core/auth';
 
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 
 export function ReportPage() {
   const history = useHistory();
-  const [{ data: { features: userFeatures } }] = useAtom(userResource);
+  const [
+    {
+      data: { features: userFeatures },
+    },
+  ] = useAtom(userResourceAtom);
 
   function linkableTitle() {
     return (
@@ -32,7 +36,7 @@ export function ReportPage() {
           <span>{i18n.t('Reports')}</span>
         </div>
       </Text>
-    )
+    );
   }
   return (
     <div>

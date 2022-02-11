@@ -1,5 +1,5 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import {
+import maplibregl, {
   AnyLayer,
   GeoJSONSourceRaw,
   RasterSource,
@@ -19,29 +19,33 @@ import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '../constants';
 import {
   LayerGeoJSONSource,
   LayerInArea,
+  LayerInAreaReactiveData,
   LayerInAreaSource,
   LayerTileSource,
 } from '../types';
-import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 import {
   addZoomFilter,
   onActiveContributorsClick,
 } from './activeContributorsLayers';
 import { layersOrderManager } from '~core/logical_layers/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
+import { enabledLayersAtom } from '~core/shared_state';
 import { downloadObject } from '~utils/fileHelpers/download';
+import { replaceUrlWithProxy } from '../../../../vite.proxy';
 
-export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
+export class GenericLayer
+  implements LogicalLayer<LayerInAreaReactiveData | null>
+{
   public readonly id: string;
   public readonly name?: string;
-  public readonly legend?: LayerLegend;
+  public legend?: LayerLegend;
   public readonly category?: string;
   public readonly group?: string;
   public readonly description?: string;
   public readonly copyrights?: string[];
   public readonly boundaryRequiredForRetrieval: boolean;
-  public isDownloadable: boolean = false
-  private _layerIds: string[];
+  public isDownloadable = false;
+  private _layerIds: Set<string>;
   private _sourceId: string;
   private _onClickListener:
     | ((e: maplibregl.MapMouseEvent & maplibregl.EventData) => void)
@@ -53,7 +57,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
   private _eventId: string | null = null;
   private _removeClickListener: null | (() => void) = null;
 
-  public constructor(layer: LayerInArea) {
+  public constructor(layer: LayerInArea, initialData: LayerInAreaReactiveData) {
     this.id = layer.id;
     this.name = layer.name;
     this.category = layer.category;
@@ -63,8 +67,40 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     this.boundaryRequiredForRetrieval = layer.boundaryRequiredForRetrieval;
     this.legend = layer.legend;
     /* private */
-    this._layerIds = [];
+    this._layerIds = new Set();
     this._sourceId = SOURCE_IN_AREA_PREFIX + layer.id;
+    this._updateFromReactiveData(initialData);
+  }
+
+  _updateFromReactiveData(data: LayerInAreaReactiveData | null) {
+    this._lastGeometryUpdate = null;
+    this._eventId = null;
+
+    if (data === null) return;
+
+    const { focusedGeometry } = data.requestParams;
+    if (focusedGeometry) {
+      const { geometry, source } = focusedGeometry;
+
+      // Update geometry
+      if (
+        geometry.type === 'Feature' ||
+        geometry.type === 'FeatureCollection'
+      ) {
+        this._lastGeometryUpdate = geometry;
+      } else {
+        // TODO: Add converter from any GeoJSON to Feature or FeatureCollection
+        notificationService.error({
+          title: 'Not implemented yet',
+          description: `${geometry.type} not supported`,
+        });
+      }
+
+      // Update event id
+      if (source.type === 'event') {
+        this._eventId = source.meta.eventId;
+      }
+    }
   }
 
   _generateLayersFromLegend(legend: LayerLegend): Omit<AnyLayer, 'id'>[] {
@@ -108,21 +144,37 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       type: 'geojson' as const,
       data: layer.source.data,
     };
-    if (!map.getSource(this._sourceId))
+    const source = map.getSource(this._sourceId) as maplibregl.GeoJSONSource;
+
+    /* Mount or update source */
+    if (!source) {
       map.addSource(this._sourceId, mapSource);
+    } else {
+      source.setData(
+        mapSource.data || {
+          type: 'FeatureCollection',
+          features: [],
+        },
+      );
+    }
 
     /* Create layer */
     if (this.legend) {
       const layerStyles = this._generateLayersFromLegend(this.legend);
       const layers = this._setLayersIds(layerStyles);
       layers.forEach((mapLayer) => {
+        const layer = map.getLayer(mapLayer.id);
+        if (layer) {
+          map.removeLayer(layer.id);
+        }
         const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
         map.addLayer(mapLayer, beforeId);
-        this._layerIds.push(mapLayer.id);
+        this._layerIds.add(mapLayer.id);
       });
     } else {
+      // Fallback layer
       const layerId = `${LAYER_IN_AREA_PREFIX + this.id}`;
-      this._layerIds.push(layerId);
+      if (map.getLayer(layerId)) return;
       const mapLayer = {
         id: layerId,
         source: this._sourceId,
@@ -133,13 +185,16 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       };
       const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
       map.addLayer(mapLayer, beforeId);
+      this._layerIds.add(mapLayer.id);
     }
+
+    // TODO: Remove unused in new legend layers
   }
 
   _adaptUrl(url: string) {
     /** Fix cors in local development */
     if (import.meta.env.DEV) {
-      url = url.replace('zigzag.kontur.io', location.host);
+      url = replaceUrlWithProxy(url);
     }
 
     /**
@@ -186,15 +241,20 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       minzoom: layer.minZoom || 0,
       maxzoom: layer.maxZoom || 22,
     };
-
     // I expect that all servers provide url with same scheme
     this._setTileScheme(layer.source.urls[0], mapSource);
 
-    map.addSource(this._sourceId, mapSource);
+    const source = map.getSource(this._sourceId);
+    if (source) {
+      // TODO: update tile source
+    } else {
+      map.addSource(this._sourceId, mapSource);
+    }
 
     /* Create layer */
     if (mapSource.type === 'raster') {
       const layerId = `${LAYER_IN_AREA_PREFIX + this.id}`;
+      if (map.getLayer(layerId)) return;
       const mapLayer = {
         id: layerId,
         type: 'raster' as const,
@@ -204,7 +264,7 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       };
       const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
       map.addLayer(mapLayer, beforeId);
-      this._layerIds.push(layerId);
+      this._layerIds.add(layerId);
     } else {
       // Vector tiles
       if (this.legend) {
@@ -215,10 +275,17 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
         if (this.id === 'activeContributors') {
           addZoomFilter(layers);
         }
+        console.assert(
+          layers.length !== 0,
+          'Zero layers generated for this layer. Check legend and layer type',
+        );
         layers.forEach((mapLayer) => {
+          if (map.getLayer(mapLayer.id)) {
+            map.removeLayer(mapLayer.id);
+          }
           const beforeId = layersOrderManager.getBeforeIdByType(mapLayer.type);
           map.addLayer(mapLayer as AnyLayer, beforeId);
-          this._layerIds.push(mapLayer.id);
+          this._layerIds.add(mapLayer.id);
         });
       } else {
         // We don't known source-layer id
@@ -235,11 +302,6 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       geoJSON?: GeoJSON.GeoJSON;
       eventId?: string;
     };
-
-    if (this._eventId === null && this._lastGeometryUpdate === null) {
-      // TODO: temporary solution until #8421 was not merged
-      return;
-    }
 
     if (this.boundaryRequiredForRetrieval) {
       if (this._lastGeometryUpdate === null) {
@@ -269,98 +331,76 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
     if (response) return response[0];
   }
 
+  isGeoJSONLayer = (layer: LayerInAreaSource): layer is LayerGeoJSONSource =>
+    layer.source.type === 'geojson';
+
+  async _updateMap(map: ApplicationMap) {
+    const layerData = await this._fetchLayerData();
+    if (!layerData) return;
+    if (this.isGeoJSONLayer(layerData)) {
+      this.mountGeoJSONLayer(map, layerData);
+      this.isDownloadable = true;
+    } else {
+      this.mountTileLayer(map, layerData);
+    }
+
+    /* Add event listener */
+    if (this.legend) {
+      // !FIXME - Hardcoded filter for layer
+      // Must be deleted after LayersDB implemented
+      if (this.id === 'activeContributors') {
+        const onClick = onActiveContributorsClick(map, this._sourceId);
+        this._removeClickListener = registerMapListener(
+          'click',
+          (e) => (onClick(e), true),
+          60,
+        );
+        return;
+      }
+
+      const linkProperty =
+        'linkProperty' in this.legend ? this.legend.linkProperty : null;
+      if (linkProperty) {
+        const handler = (e) => {
+          this.onMapClick(map, e, linkProperty);
+          return true;
+        };
+        this._removeClickListener = registerMapListener('click', handler, 60);
+      }
+    }
+  }
+
   public onInit() {
     return { isVisible: true, isLoading: false };
   }
 
-  public async willMount(map: ApplicationMap) {
-    const layerData = await this._fetchLayerData();
-    if (layerData) {
-      const isGeoJSONLayer = (
-        layer: LayerInAreaSource,
-      ): layer is LayerGeoJSONSource => layer.source.type === 'geojson';
-      if (isGeoJSONLayer(layerData)) {
-        this.mountGeoJSONLayer(map, layerData);
-        this.isDownloadable = true
-      } else {
-        this.mountTileLayer(map, layerData);
-      }
-      /* Add event listener */
-      if (this.legend) {
-        // !FIXME - Hardcoded filter for layer
-        // Must be deleted after LayersDB implemented
-        if (this.id === 'activeContributors') {
-          const onClick = onActiveContributorsClick(map, this._sourceId);
-          this._removeClickListener = registerMapListener(
-            'click',
-            (e) => {
-              onClick(e);
-              return true;
-            },
-            60,
-          );
-          return;
-        }
+  public willEnabled(map?: ApplicationMap) {
+    return [enabledLayersAtom.add(this.id)];
+  }
 
-        const linkProperty =
-          'linkProperty' in this.legend ? this.legend.linkProperty : null;
-        if (linkProperty) {
-          const handler = (e) => {
-            this.onMapClick(map, e, linkProperty);
-            return true;
-          };
-          this._removeClickListener = registerMapListener('click', handler, 60);
-        }
-      }
-    }
+  public willDisabled(map?: ApplicationMap) {
+    return [enabledLayersAtom.remove(this.id)];
+  }
+
+  public async willMount(map: ApplicationMap): Promise<{
+    legend?: LayerLegend;
+    isDownloadable?: boolean;
+  }> {
+    await this._updateMap(map);
+
+    return { legend: this.legend, isDownloadable: this.isDownloadable };
   }
 
   async onDataChange(
     map: ApplicationMap | null,
-    data: FocusedGeometry | null,
+    data: LayerInAreaReactiveData | null,
     state,
   ) {
-    if (data === null) {
-      this._lastGeometryUpdate = null;
-      this._eventId = null;
-      return;
-    }
-
-    const { source, geometry } = data;
-
-    // Update geometry
-    if (geometry.type === 'Feature' || geometry.type === 'FeatureCollection') {
-      this._lastGeometryUpdate = geometry;
-    } else {
-      // TODO: Add converter from any GeoJSON to Feature or FeatureCollection
-      notificationService.error({
-        title: 'Not implemented yet',
-        description: `${geometry.type} not supported`,
-      });
-    }
-
-    // Update event id
-    if (source.type === 'event') {
-      this._eventId = source.meta.eventId;
-    } else {
-      this._eventId = null;
-    }
-
+    this.legend = data?.layer.legend;
+    this._updateFromReactiveData(data);
     // Update layer data
     if (map && state.isMounted) {
-      const mapSource = map.getSource(this._sourceId);
-      if (mapSource?.type !== 'geojson') return; // Want update only geojson source
-
-      const layerData = await this._fetchLayerData();
-      if (layerData) {
-        if (layerData.source.type !== 'geojson') return; // Geojson source accept only geojson
-        mapSource.setData(
-          layerData.source.data || {
-            type: 'FeatureCollection',
-            features: [],
-          },
-        );
-      }
+      this._updateMap(map);
     }
   }
 
@@ -369,16 +409,20 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       if (map.getLayer(id) !== undefined) {
         map.removeLayer(id);
       } else {
-        console.error(`Can't remove layer with ID: ${id}. Layer doesn't exist on the map`);
+        console.error(
+          `Can't remove layer with ID: ${id}. Layer does't exist in map`,
+        );
       }
     });
-    this._layerIds = [];
+    this._layerIds = new Set();
 
     if (this._sourceId) {
       if (map.getSource(this._sourceId) !== undefined) {
         map.removeSource(this._sourceId);
       } else {
-        console.error(`Can't remove source with ID: ${this._sourceId}. Source doesn't exist on the map`);
+        console.error(
+          `Can't remove source with ID: ${this._sourceId}. Source does't exist in map`,
+        );
       }
     }
 
@@ -386,6 +430,11 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
   }
 
   wasRemoveFromInRegistry(map: ApplicationMap) {
+    // only unmount layers that was mounted
+    if (!this._layerIds.size) return;
+    for (const id of this._layerIds) {
+      if (!map.getLayer(id)) return;
+    }
     this.willUnmount(map);
   }
 
@@ -413,25 +462,34 @@ export class GenericLayer implements LogicalLayer<FocusedGeometry | null> {
       if (map.getLayer(id) !== undefined) {
         map.setLayoutProperty(id, 'visibility', 'none');
       } else {
-        console.error(`Can't hide layer with ID: ${id}. Layer doesn't exist on the map`);
+        console.error(
+          `Can't hide layer with ID: ${id}. Layer doesn't exist on the map`,
+        );
       }
     });
   }
-
 
   willUnhide(map: ApplicationMap) {
     this._layerIds.forEach((id) => {
       if (map.getLayer(id) !== undefined) {
         map.setLayoutProperty(id, 'visibility', 'visible');
       } else {
-        console.error(`Cannot unhide layer with ID: ${id}. Layer doesn't exist on the map`);
+        console.error(
+          `Cannot unhide layer with ID: ${id}. Layer doesn't exist on the map`,
+        );
       }
     });
   }
 
   public onDownload(map: ApplicationMap) {
-    const data: any = map.getSource(this._sourceId)
-    if (!data || data.type !== 'geojson') return console.error(`Source id ${this._sourceId} can't be downloaded`)
-    downloadObject(data._data, `${this.name || 'Disaster Ninja map layer'} ${new Date().toISOString()}.json`)
+    const data: any = map.getSource(this._sourceId);
+    if (!data || data.type !== 'geojson')
+      return console.error(`Source id ${this._sourceId} can't be downloaded`);
+    downloadObject(
+      data._data,
+      `${
+        this.name || 'Disaster Ninja map layer'
+      } ${new Date().toISOString()}.json`,
+    );
   }
 }

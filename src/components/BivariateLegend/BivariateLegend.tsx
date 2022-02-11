@@ -4,20 +4,36 @@ import { Legend as BiLegend, Text } from '@k2-packages/ui-kit';
 import { invertClusters } from '@k2-packages/bivariate-tools';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import s from './BivariateLegend.module.css';
-import cn from 'clsx';
+import clsx from 'clsx';
+import { BivariateLegend as BivariateLegendType } from '~core/logical_layers/createLogicalLayerAtom/types';
 
 type BivariateLegendProps = {
   layer: LogicalLayer;
   controls?: JSX.Element[];
-  showDescrption?: boolean;
-  isHidden?: boolean
+  showDescription?: boolean;
+  isHidden: boolean;
 };
 
-export function BivariateLegend({ layer, controls, showDescrption = true, isHidden }: BivariateLegendProps) {
+export function BivariateLegend({
+  layer,
+  controls,
+  showDescription = true,
+  isHidden = false,
+}: BivariateLegendProps) {
+  const { legend, name } = layer;
+
   const tipText = useMemo(() => {
-    if (!layer.legend || layer.legend.type === 'simple') return '';
     let message = '';
-    if ('copyrights' in layer.legend && layer.legend.copyrights && layer.legend.copyrights.length) {
+    if (!layer.legend) return message;
+
+    if ('description' in layer.legend) {
+      message = layer.legend.description + '\n';
+    }
+    if (
+      'copyrights' in layer.legend &&
+      layer.legend.copyrights &&
+      layer.legend.copyrights.length
+    ) {
       layer.legend.copyrights.forEach((copyright, index) => {
         if (index) {
           message += '\n';
@@ -26,36 +42,41 @@ export function BivariateLegend({ layer, controls, showDescrption = true, isHidd
       });
     }
     return message;
-  }, [layer.legend]);
+  }, [legend]);
 
-  return layer.legend && layer.legend.type !== 'simple' && layer.name ?
-    <div
-      className={cn(
-        s.bivariateLegend,
-        {
-          [s.hidden]: isHidden,
-        },
-      )}>
-      {showDescrption && <div className={s.headline}>
-        <Text type="long-m">
-          <span className={s.layerName}>{layer.name}</span>
-        </Text>
-        <div className={s.controlsBar}>{controls}
-          {tipText &&
-            <Tooltip className={s.tooltip} tipText={tipText} />
-          }
+  const axis = useMemo(() => {
+    const axis = (legend as BivariateLegendType).axis;
+    // fallback axis description for bivariate layers
+    if (!axis.x.label)
+      axis.x.label = `${axis.x.quotient[0]} to ${axis.x.quotient[1]}`;
+    if (!axis.y.label)
+      axis.y.label = `${axis.y.quotient[0]} to ${axis.y.quotient[1]}`;
+    return axis;
+  }, [legend]);
+
+  if (legend === undefined) return null;
+
+  return (
+    <div className={clsx(s.bivariateLegend, isHidden && s.hidden)}>
+      {showDescription && (
+        <div className={s.headline}>
+          <Text type="long-m">
+            <span className={s.layerName}>{name}</span>
+          </Text>
+
+          <div className={s.controlsBar}>
+            {controls}
+            {tipText && <Tooltip tipText={tipText} />}
+          </div>
         </div>
-      </div>}
+      )}
 
       <BiLegend
         showAxisLabels
         size={3}
-        cells={invertClusters(layer.legend.steps, 'label')}
-        axis={'axis' in layer.legend && layer.legend.axis as any}
+        cells={invertClusters(legend.steps, 'label')}
+        axis={axis as any}
       />
-
-      {showDescrption && <Text type="caption">
-        {layer.description || ('description' in layer.legend && layer.legend.description)}
-      </Text>}
-    </div> : null
+    </div>
+  );
 }

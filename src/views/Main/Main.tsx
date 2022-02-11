@@ -6,9 +6,10 @@ import { Row } from '~components/Layout/Layout';
 import s from './Main.module.css';
 import { useHistory } from 'react-router';
 import { BetaLabel } from '~components/BetaLabel/BetaLabel';
-import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { useAtom } from '@reatom/react';
-import { userResource } from '~core/auth/atoms/userResource';
+import { userResourceAtom } from '~core/auth/atoms/userResource';
+import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
+import { UserProfile } from '~features/user_profile';
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -17,9 +18,6 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
-const { AdvancedAnalytics } = lazily(
-  () => import('~features/advanced_analytics_panel'),
-);
 const { Legend } = lazily(() => import('~features/legend_panel'));
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
 const { BivariatePanel } = lazily(
@@ -38,7 +36,7 @@ export function MainView() {
     {
       data: { features: userFeatures },
     },
-  ] = useAtom(userResource);
+  ] = useAtom(userResourceAtom);
 
   useEffect(() => {
     if (!userFeatures) return;
@@ -95,7 +93,13 @@ export function MainView() {
   return (
     <>
       {userFeatures?.tooltip === true && <PopupTooltip />}
-      <AppHeader title="Disaster Ninja" logo={VisibleLogo()}>
+      <AppHeader
+        title="Disaster Ninja"
+        logo={VisibleLogo()}
+        afterChatContent={
+          userFeatures?.app_login === true ? <UserProfile /> : undefined
+        }
+      >
         <Row>
           <BetaLabel />
         </Row>
@@ -106,9 +110,6 @@ export function MainView() {
           {userFeatures?.side_bar === true && <SideBar />}
           {userFeatures?.events_list === true && <EventList />}
           {userFeatures?.analytics_panel === true && <Analytics />}
-          {userFeatures?.advanced_analytics_panel === true && (
-            <AdvancedAnalytics />
-          )}
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -141,7 +142,9 @@ export function MainView() {
               )}
             </div>
           </Suspense>
-          {userFeatures?.draw_tools === true && <DrawToolsToolbox />}
+          <Suspense fallback={null}>
+            {userFeatures?.draw_tools === true && <DrawToolsToolbox />}
+          </Suspense>
         </div>
       </Row>
     </>

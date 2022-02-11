@@ -1,27 +1,25 @@
-import { StrictMode, Suspense, useEffect } from 'react';
+import { StrictMode, Suspense } from 'react';
 import { lazily } from 'react-lazily';
 import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import styles from './views/Main/Main.module.css';
 import config from '~core/app_config';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
-import { apiClient, authClient } from '~core/index';
 import { useAtom } from '@reatom/react';
-import { userResource } from '~core/auth/atoms/userResource';
-import { enableMocking } from '~utils/axios/axiosMockUtils';
-import { setupTemporaryMocking } from '~utils/axios/setupTemporaryMocking';
+import { userResourceAtom } from '~core/auth';
+import { LoginForm } from '~features/user_profile';
 
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
 
 export function RoutedApp() {
-  const [{ data, loading }] = useAtom(userResource);
+  const [{ data, loading }] = useAtom(userResourceAtom);
 
   return (
     <StrictMode>
       <OriginalLogo />
-      {!loading && data ?
+      {!loading && data ? (
         <Router>
           <CacheSwitch>
             <CacheRoute className={styles.mainWrap} exact path={config.baseUrl}>
@@ -43,8 +41,8 @@ export function RoutedApp() {
             </Route>
           </CacheSwitch>
         </Router>
-        : null
-      }
+      ) : null}
+      <LoginForm />
     </StrictMode>
   );
 }

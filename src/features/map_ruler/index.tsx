@@ -1,8 +1,15 @@
 import { sideControlsBarAtom } from '~core/shared_state';
 import MapRulerIcon from '@k2-packages/default-icons/tslib/icons/MapRulerIcon';
-import { MAP_RULER_CONTROL_ID, MAP_RULER_CONTROL_NAME } from '~features/map_ruler/constants';
+import {
+  MAP_RULER_CONTROL_ID,
+  MAP_RULER_CONTROL_NAME,
+} from '~features/map_ruler/constants';
 import { mapRulerLogicalLayerAtom } from '~features/map_ruler/atoms/mapRulerLogicalLayer';
-import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import {
+  controlGroup,
+  controlVisualGroup,
+} from '~core/shared_state/sideControlsBar';
+import { TranslationService as i18n } from '~core/localization';
 
 export function initMapRuler() {
   mapRulerLogicalLayerAtom.init.dispatch();
@@ -10,6 +17,7 @@ export function initMapRuler() {
   sideControlsBarAtom.addControl.dispatch({
     id: MAP_RULER_CONTROL_ID,
     name: MAP_RULER_CONTROL_NAME,
+    title: i18n.t('Ruler'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.noAnalitics,

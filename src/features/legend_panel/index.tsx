@@ -1,8 +1,17 @@
 import { useAtom } from '@reatom/react';
 import { LegendPanel } from '~features/legend_panel/components/LegendPanel/LegendPanel';
-import { mountedLogicalLayersAtom } from './atoms/mountedLogicalLayers';
+import { currentMountedLayersAtom } from '~core/logical_layers/atoms/currentMountedLayers';
+import { currentLegendsAtom } from '~core/logical_layers/atoms/currentLegends';
 
 export function Legend({ iconsContainerId }: { iconsContainerId: string }) {
-  const [layers] = useAtom(mountedLogicalLayersAtom);
-  return <LegendPanel iconsContainerId={iconsContainerId} layers={layers} />;
+  const [layers] = useAtom(currentMountedLayersAtom);
+  const [legends] = useAtom(currentLegendsAtom);
+
+  return (
+    <LegendPanel
+      iconsContainerId={iconsContainerId}
+      layers={Array.from(layers.values())}
+      legends={legends}
+    />
+  );
 }

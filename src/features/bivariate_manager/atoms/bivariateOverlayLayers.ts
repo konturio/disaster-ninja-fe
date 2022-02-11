@@ -62,11 +62,12 @@ export const bivariateOverlayLayersAtom = createBindAtom(
             if (legend) {
               layers.push(
                 createLogicalLayerAtom(
-                  new BivariateLayer(
-                    overlay.name,
-                    bivariateStyle as BivariateLayerStyle,
+                  new BivariateLayer({
+                    name: overlay.name,
+                    id: (bivariateStyle as BivariateLayerStyle).id,
+                    layerStyle: bivariateStyle as BivariateLayerStyle,
                     legend,
-                  ),
+                  }),
                 ),
               );
             }

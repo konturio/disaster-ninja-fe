@@ -19,7 +19,7 @@
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
 
-  svg {
+  & > svg {
     pointer-events: none;
   }
 }

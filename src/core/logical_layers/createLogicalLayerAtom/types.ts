@@ -1,8 +1,9 @@
 import type { Axis } from '@k2-packages/bivariate-tools';
+import { Action, ActionCreator, Atom, Fn, Rec } from '@reatom/core';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
-import { FocusedGeometryLayer } from '~features/focused_geometry_layer/layers/FocusedGeometryLayer';
-import { GenericLayer } from '~features/layers_in_area/layers/GenericLayer';
+import type { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
+import type { FocusedGeometryLayer } from '~features/focused_geometry_layer/layers/FocusedGeometryLayer';
+import type { GenericLayer } from '~features/layers_in_area/layers/GenericLayer';
 
 type SimpleLegendStepType = 'square' | 'circle' | 'hex';
 interface MapCSSProperties {
@@ -37,8 +38,8 @@ export interface BivariateLegend {
   description: string;
   type: 'bivariate';
   axis: {
-    x: Axis;
-    y: Axis;
+    x: Axis & { label?: string };
+    y: Axis & { label?: string };
   };
   steps: BivariateLegendStep[];
   copyrights: string[];
@@ -60,19 +61,6 @@ export type LayerLegend =
   | BivariateLegend
   | BivariateLegendBackend;
 
-export type LogicalLayerAtomState = {
-  id: string;
-  isMounted: boolean;
-  isVisible: boolean;
-  isLoading: boolean;
-  isError: boolean;
-  layer?:
-    | LogicalLayer<any>
-    | BivariateLayer
-    | FocusedGeometryLayer
-    | GenericLayer;
-};
-
 export interface LogicalLayer<T = null> {
   id: string;
   name?: string;
@@ -82,7 +70,15 @@ export interface LogicalLayer<T = null> {
   readonly group?: string;
   readonly category?: string;
   onInit(): { isVisible?: boolean; isLoading?: boolean };
-  willMount(map: ApplicationMap): void | Promise<unknown>;
+  willEnabled?(map?: ApplicationMap): Action[] | void;
+  willDisabled?(map?: ApplicationMap): Action[] | void;
+  willMount(
+    map: ApplicationMap,
+  ):
+    | Promise<{ legend?: LayerLegend; isDownloadable?: boolean }>
+    | { legend?: LayerLegend; isDownloadable?: boolean }
+    | null
+    | void;
   willUnmount(map: ApplicationMap): void | Promise<unknown>;
   willHide?: (map: ApplicationMap) => void;
   willUnhide?: (map: ApplicationMap) => void;
@@ -95,8 +91,43 @@ export interface LogicalLayer<T = null> {
   onDataChange?: (
     map: ApplicationMap | null,
     data: T,
-    state: Omit<LogicalLayerAtomState, 'id'>,
+    state: Omit<LogicalLayerAtomState, 'id' | 'layer'>,
   ) => void;
-  isDownloadable?: boolean;
   onDownload?: (map: ApplicationMap) => any;
+}
+
+export interface LogicalLayerAtomState {
+  id: string;
+  isEnabled: boolean;
+  isMounted: boolean;
+  isVisible: boolean;
+  isLoading: boolean;
+  isError: boolean;
+  isDownloadable: boolean;
+  layer: LogicalLayer<any>;
+}
+
+// Rec<PayloadMapper | Atom<any>>
+declare type PayloadMapper = Fn;
+export interface LogicalLayerAtomActions<T>
+  extends Rec<PayloadMapper | Atom | ActionCreator> {
+  init: () => undefined;
+  mount: () => undefined;
+  unmount: () => undefined;
+  hide: () => undefined;
+  unhide: () => undefined;
+  enable: () => undefined;
+  disable: () => undefined;
+  register: () => undefined;
+  unregister: () => undefined;
+  download: () => undefined;
+  setData: (data: T) => T;
+  _updateState: ({
+    isLoading,
+    isMounted,
+    isVisible,
+    isError,
+    isEnabled,
+    isDownloadable,
+  }: Partial<LogicalLayerAtomState>) => Partial<LogicalLayerAtomState>;
 }

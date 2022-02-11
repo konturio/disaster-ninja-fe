@@ -1,18 +1,6 @@
 import { createBindAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import { extractAvailableNumeratorsWithDenominators, Stat } from '@k2-packages/bivariate-tools';
-import {
-  BivariateLayerStyle,
-  generateColorThemeAndBivariateStyle,
-} from '~utils/bivariate/bivariateColorThemeUtils';
-import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
-import { ColorTheme, CorrelationMatrix, NumeratorWithDenominators } from '~core/types';
-import { logicalLayersRegistryAtom } from '~core/shared_state';
-import {
-  LogicalLayerAtom,
-  createLogicalLayerAtom,
-} from '~core/logical_layers/createLogicalLayerAtom';
-import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
+import { CorrelationMatrix } from '~core/types';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { CorrelationRate } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
 
@@ -21,13 +9,14 @@ export const bivariateCorrelationMatrixAtom = createBindAtom(
     bivariateNumeratorsAtom,
   },
   ({ get, getUnlistedState }, state: CorrelationMatrix | null = null) => {
-    const { xNumerators, yNumerators } = get(
-      'bivariateNumeratorsAtom',
-    );
+    const { xNumerators, yNumerators } = get('bivariateNumeratorsAtom');
 
     if (xNumerators.length && yNumerators.length) {
-      const { data: statisticsData } = getUnlistedState(bivariateStatisticsResourceAtom);
-      const correlationRates: CorrelationRate[] = statisticsData.polygonStatistic.bivariateStatistic.correlationRates;
+      const { data: statisticsData } = getUnlistedState(
+        bivariateStatisticsResourceAtom,
+      );
+      const correlationRates: CorrelationRate[] =
+        statisticsData.polygonStatistic.bivariateStatistic.correlationRates;
 
       const matrix: CorrelationMatrix = [];
       for (let i = 0; i < yNumerators.length; i += 1) {

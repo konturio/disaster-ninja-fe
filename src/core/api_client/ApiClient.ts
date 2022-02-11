@@ -1,9 +1,21 @@
 import { AxiosRequestConfig } from 'axios';
-import jwt_decode from 'jwt-decode';
-import { ApiErrorResponse, ApiResponse, ApisauceConfig, ApisauceInstance, create } from 'apisauce';
-import { ApiClientError, GeneralApiProblem, getGeneralApiProblem } from './ApiProblem';
-import { AuthResponseData, RequestParams } from './ApiTypes';
+import jwtDecode from 'jwt-decode';
+import {
+  ApiErrorResponse,
+  ApiResponse,
+  ApisauceConfig,
+  ApisauceInstance,
+  create,
+} from 'apisauce';
+import {
+  ApiClientError,
+  GeneralApiProblem,
+  getGeneralApiProblem,
+} from './ApiProblem';
+import { JWTData, KeycloakAuthResponse, RequestParams } from './ApiTypes';
 import { NotificationMessage } from '~core/types/notification';
+import { replaceUrlWithProxy } from '../../../vite.proxy';
+import config from '~core/app_config';
 
 const LOCALSTORAGE_AUTH_KEY = 'auth_token';
 
@@ -69,6 +81,14 @@ export class ApiClient {
     this.disableAuth = disableAuth;
     this.storage = storage;
 
+    // Will deleted by terser
+    if (import.meta?.env?.DEV) {
+      apiSauceConfig.baseURL = replaceUrlWithProxy(
+        apiSauceConfig.baseURL ?? '',
+      );
+      this.loginApiPath = replaceUrlWithProxy(this.loginApiPath);
+    }
+
     if (!apiSauceConfig.headers) {
       apiSauceConfig.headers = {};
     }
@@ -107,11 +127,11 @@ export class ApiClient {
   /**
    * Authentication
    */
-  private setAuth(tkn: string, refreshTkn: string): string | undefined {
-    let decodedToken: { exp?: number };
+  private setAuth(tkn: string, refreshTkn: string): JWTData | string {
+    let decodedToken: JWTData | undefined;
 
     try {
-      decodedToken = jwt_decode<{ exp?: number }>(tkn);
+      decodedToken = jwtDecode(tkn);
     } catch (e) {
       return "Can't decode token!";
     }
@@ -126,13 +146,39 @@ export class ApiClient {
           LOCALSTORAGE_AUTH_KEY,
           JSON.stringify({ token: tkn, refreshToken: refreshTkn }),
         );
-        return;
+        return decodedToken;
       } else {
         return 'Wrong token expire time!';
       }
     }
 
     return 'Wrong data received!';
+  }
+
+  async checkAuth(
+    callback: () => void,
+  ): Promise<
+    { token: string; refreshToken: string; jwtData: JWTData } | undefined
+  > {
+    this.expiredTokenCallback = callback;
+    const authStr = localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
+    if (authStr) {
+      const auth = JSON.parse(authStr);
+      if (auth.token && auth.refreshToken) {
+        const setAuthResult = this.setAuth(auth.token, auth.refreshToken);
+        if (typeof setAuthResult === 'string') {
+          localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+          throw new ApiClientError(this.translationService.t(setAuthResult), {
+            kind: 'bad-data',
+          });
+        }
+        return {
+          token: auth.token,
+          refreshToken: auth.refreshToken,
+          jwtData: setAuthResult,
+        };
+      }
+    }
   }
 
   private resetAuth() {
@@ -161,7 +207,7 @@ export class ApiClient {
           const minutes5 = 1000 * 60 * 5;
           if (diffTime < minutes5) {
             const refreshResult = await this.refreshAuthToken();
-            if (refreshResult) {
+            if (refreshResult && typeof refreshResult !== 'string') {
               resolve(true);
               return true;
             }
@@ -202,6 +248,7 @@ export class ApiClient {
     ) {
       this.unauthorizedCallback();
     }
+
     const problem = getGeneralApiProblem(response);
     const errorMessage = ApiClient.parseError(problem);
 
@@ -284,32 +331,50 @@ export class ApiClient {
   public async login(
     username: string,
     password: string,
-  ): Promise<AuthResponseData | undefined> {
-    const response = await this.apiSauceInstance.post<
-      AuthResponseData,
-      GeneralApiProblem
-    >(this.loginApiPath, {
-      username,
-      password,
-    });
+  ): Promise<
+    | { token: string; refreshToken: string; jwtData: JWTData }
+    | string
+    | undefined
+  > {
+    const params = new URLSearchParams();
+    params.append('username', username);
+    params.append('password', password);
+    params.append('client_id', config.keycloakClientId);
+    params.append('grant_type', 'password');
 
-    this.processAuthResponse(response);
-    return this.processResponse(response);
+    const response = await this.apiSauceInstance.post<KeycloakAuthResponse>(
+      this.loginApiPath,
+      params,
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
+    );
+
+    if (response.ok) {
+      return this.processAuthResponse(response);
+    } else {
+      return response.data?.error_description;
+    }
   }
 
   private processAuthResponse(
-    response: ApiResponse<AuthResponseData, GeneralApiProblem>,
-  ) {
+    response: ApiResponse<KeycloakAuthResponse, GeneralApiProblem>,
+  ): { token: string; refreshToken: string; jwtData: JWTData } | undefined {
     if (response.ok) {
-      if (response.data && response.data.accessToken) {
+      if (response.data && response.data.access_token) {
         const setAuthResult = this.setAuth(
-          response.data.accessToken,
-          response.data.refreshToken,
+          response.data.access_token,
+          response.data.refresh_token,
         );
+
         if (typeof setAuthResult === 'string') {
           throw new ApiClientError(this.translationService.t(setAuthResult), {
             kind: 'bad-data',
           });
+        } else {
+          return {
+            token: response.data.access_token,
+            refreshToken: response.data.refresh_token,
+            jwtData: setAuthResult,
+          };
         }
       } else {
         if (response.status === 204) {
@@ -331,28 +396,33 @@ export class ApiClient {
     this.resetAuth();
   }
 
-  public async refreshAuthToken(): Promise<AuthResponseData | undefined> {
-    const response = await this.apiSauceInstance.post<
-      AuthResponseData,
-      GeneralApiProblem
-    >(
+  public async refreshAuthToken(): Promise<
+    | { token: string; refreshToken: string; jwtData: JWTData }
+    | string
+    | undefined
+  > {
+    const params = new URLSearchParams();
+    params.append('client_id', config.keycloakClientId);
+    params.append('refresh_token', this.refreshToken);
+    params.append('grant_type', 'refresh_token');
+
+    const response = await this.apiSauceInstance.post<KeycloakAuthResponse>(
       this.refreshTokenApiPath,
-      { accessToken: this.token, refreshToken: this.refreshToken },
-      {
-        headers: {
-          Authorization: `Bearer ${this.token}`,
-        },
-      },
+      params,
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
     );
 
-    this.processAuthResponse(response);
-    return this.processResponse(response);
+    if (response.ok) {
+      return this.processAuthResponse(response);
+    } else {
+      return response.data?.error_description;
+    }
   }
 
   public async call<T>(
     method: ApiMethod,
     path: string,
-    requestParams?: any,
+    requestParams?: unknown,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
@@ -362,7 +432,7 @@ export class ApiClient {
       axiosConfig = {};
     }
 
-    if (!this.disableAuth && useAuth) {
+    if (!this.disableAuth && useAuth && this.token) {
       const tokenCheckError = await this.checkToken(axiosConfig);
       if (tokenCheckError) {
         return await this.processResponse<T>(tokenCheckError);
@@ -402,7 +472,7 @@ export class ApiClient {
 
   public async post<T>(
     path: string,
-    requestParams?: any,
+    requestParams?: unknown,
     useAuth = !this.disableAuth,
     axiosConfig?: AxiosRequestConfig,
   ): Promise<T | undefined> {
