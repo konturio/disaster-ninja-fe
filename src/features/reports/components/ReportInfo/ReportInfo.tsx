@@ -55,11 +55,16 @@ export function ReportInfo() {
         </span>
       </Text>
 
-      <Text type="long-l">
-        <ReactMarkdown className={commonStyles.description} components={{ a: LinkRenderer }}>
-          {report.meta?.description_full!}
-        </ReactMarkdown>
-      </Text>
+      {report.meta?.description_full && (
+        <Text type="long-l">
+          <ReactMarkdown
+            className={commonStyles.description}
+            components={{ a: LinkRenderer }}
+          >
+            {report.meta.description_full}
+          </ReactMarkdown>
+        </Text>
+      )}
 
       {Boolean(report.meta?.last_updated) && (
         <Text type="caption">
@@ -75,10 +80,8 @@ export function ReportInfo() {
         </div>
       )}
       <div className={clsx(!report.data?.length && styles.invisible)}>
-
         <ReportTable />
       </div>
-
     </div>
   );
 }

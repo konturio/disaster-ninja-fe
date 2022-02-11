@@ -1,50 +1,47 @@
 .bivariatecContainer {
-	overflow: hidden;
-}
-
-.scrollMatrix {
+  overflow: hidden;
 }
 
 .matrixContainer {
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transform: scale(.7);
-	position: relative;
-	left: 100px;
-	top: 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.7);
+  position: relative;
+  left: 100px;
+  top: 40px;
 }
 
 .topRightCorner {
-	position: absolute;
-	right: 12px;
-	top: 12px;
-	width: 50px;
-	height: 15px;
-	border-right: 2px solid #00d2ff;
-	border-top: 2px solid #00d2ff;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 50px;
+  height: 15px;
+  border-right: 2px solid #00d2ff;
+  border-top: 2px solid #00d2ff;
 }
 
 .bottomRightCorner {
-	position: absolute;
-	right: 12px;
-	bottom: 12px;
-	width: 50px;
-	height: 15px;
-	border-right: 2px solid #00d2ff;
-	border-bottom: 2px solid #00d2ff;
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 50px;
+  height: 15px;
+  border-right: 2px solid #00d2ff;
+  border-bottom: 2px solid #00d2ff;
 }
 
 .loadingContainer {
-	position: absolute;
-	background: rgba(255, 255, 255, .7);
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	z-index: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.7);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

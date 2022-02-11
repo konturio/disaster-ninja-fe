@@ -1,66 +1,88 @@
 import ReactMarkdown from 'react-markdown';
 import clsx from 'clsx';
-import { TooltipInfo } from '~core/shared_state/сurrentTooltip'
-import s from './Tooltip.module.css'
+import { TooltipData } from '~core/shared_state/сurrentTooltip';
+import s from './Tooltip.module.css';
 import { CloseIcon } from '@k2-packages/default-icons';
 import { useEffect, useState } from 'react';
 import { LinkRenderer } from '~utils/markdown/mdComponents';
 
-export function Tooltip({ info, closeTooltip }: { info: TooltipInfo | null, closeTooltip: () => void }) {
-  const [position, setPosition] =
-    useState<'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | null>(null);
+export function Tooltip({
+  properties,
+  closeTooltip,
+}: {
+  properties: TooltipData | null;
+  closeTooltip: () => void;
+}) {
+  const [position, setPosition] = useState<
+    'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | null
+  >(null);
 
   useEffect(() => {
-    if (info) {
-      const { height, width } = window.visualViewport
+    if (properties) {
+      const { height, width } = window.visualViewport;
       // Case - click was on the bottom half, put tooltip on top half
-      if (info.position.y > (height / 2)) {
+      if (properties.position.y > height / 2) {
         // click was on the rigth side
-        if (info.position.x > (width / 2)) setPosition('top-left')
-        else setPosition('top-right')
+        if (properties.position.x > width / 2) setPosition('top-left');
+        else setPosition('top-right');
       }
       // click was on the top right side
-      else if (info.position.x > (width / 2)) {
-        setPosition('bottom-left')
-      }
-      else setPosition('bottom-right')
-    }
-    else setPosition(null)
+      else if (properties.position.x > width / 2) {
+        setPosition('bottom-left');
+      } else setPosition('bottom-right');
+    } else setPosition(null);
+  }, [properties?.position]);
 
-  }, [info?.position]);
-
-
-  function close() {
-    closeTooltip()
+  function onOuterClick(e) {
+    if (!properties?.hoverBehabiour)
+      properties?.onOuterClick
+        ? properties.onOuterClick(e, closeTooltip)
+        : closeTooltip();
   }
 
-  function onContentClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    e.stopPropagation()
+  function stopPropagation(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    e.stopPropagation();
   }
 
-  if (!info) return null;
+  if (!properties) return null;
 
   return (
-    <div className={s.tooltipContainer} onClick={close}>
+    <div
+      className={clsx(
+        s.tooltipContainer,
+        properties?.hoverBehabiour && s.hoverTooltip,
+      )}
+      onClick={onOuterClick}
+    >
       <div
         className={s.tooltipAnchor}
-        style={{ top: info.position.y || 0, left: info.position.x || 0 }}
+        style={{
+          top: properties.position.y || 0,
+          left: properties.position.x || 0,
+        }}
       >
-        {position && <div className={clsx(s.popup, s[position])} >
-          <div className={s.popupContent} onClick={onContentClick}>
-            {typeof info.popup === 'string' ?
-              <ReactMarkdown components={{ a: LinkRenderer }} className={s.markdown}>
-                {info.popup}
-              </ReactMarkdown>
-              :
-              info.popup
-            }
-            <div className={s.closeIcon} onClick={close}>
-              <CloseIcon />
+        {position && (
+          <div className={clsx(s.popup, s[position])}>
+            <div className={s.popupContent} onClick={stopPropagation}>
+              {typeof properties.popup === 'string' ? (
+                <ReactMarkdown
+                  components={{ a: LinkRenderer }}
+                  className={s.markdown}
+                >
+                  {properties.popup}
+                </ReactMarkdown>
+              ) : (
+                properties.popup
+              )}
+              {!properties?.hoverBehabiour && (
+                <div className={s.closeIcon} onClick={() => closeTooltip()}>
+                  <CloseIcon />
+                </div>
+              )}
             </div>
           </div>
-        </div>}
+        )}
       </div>
     </div>
-  )
+  );
 }

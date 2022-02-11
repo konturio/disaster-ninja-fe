@@ -17,6 +17,7 @@ import {
 } from '~features/events_list/constants';
 import eventsIcon from '~features/events_list/icons/eventsIcon.svg';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import { FeedSelector } from '~features/feed_selector';
 
 export function EventsListPanel({
   current,
@@ -65,6 +66,7 @@ export function EventsListPanel({
     addControl({
       id: EVENTLIST_CONROL_ID,
       name: EVENTLIST_CONROL_NAME,
+      title: i18n.t('Focus to ongoing disasters'),
       active: false,
       visualGroup: controlVisualGroup.withAnalitics,
       icon: <img src={eventsIcon} alt={i18n.t('Event list')} />,
@@ -88,6 +90,7 @@ export function EventsListPanel({
       className={clsx(s.sidePannel, isOpen && s.show, !isOpen && s.hide)}
       onClose={onPanelClose}
     >
+      <FeedSelector />
       <div className={s.scrollable}>
         {statesToComponents({
           loading: <LoadingSpinner />,

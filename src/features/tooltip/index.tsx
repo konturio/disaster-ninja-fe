@@ -1,8 +1,8 @@
-import { useAtom } from "@reatom/react";
-import { сurrentTooltipAtom } from "~core/shared_state/сurrentTooltip";
-import { Tooltip } from "./Tooltip/Tooltip";
+import { useAtom } from '@reatom/react';
+import { currentTooltipAtom } from '~core/shared_state/сurrentTooltip';
+import { Tooltip } from './Tooltip/Tooltip';
 
 export function PopupTooltip() {
-  const [tooltip, { resetCurrentTooltip }] = useAtom(сurrentTooltipAtom)
-  return (<Tooltip info={tooltip} closeTooltip={resetCurrentTooltip} />)
+  const [tooltip, { resetCurrentTooltip }] = useAtom(currentTooltipAtom);
+  return <Tooltip properties={tooltip} closeTooltip={resetCurrentTooltip} />;
 }

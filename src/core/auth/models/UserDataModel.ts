@@ -1,9 +1,5 @@
-type PartialRecord<K extends keyof any, T> = {
-  [P in K]?: T;
-};
-
-type AppFeature =
-  | 'advanced_analytics_panel'
+export type AppFeature =
+  | 'app_login'
   | 'analytics_panel'
   | 'events_list'
   | 'map_layers_panel'
@@ -27,10 +23,22 @@ type AppFeature =
   | 'communities'
   | 'feature_settings'
   | 'osm_edit_link'
-  | 'tooltip';
+  | 'tooltip'
+  | 'feed_selector';
+
+export type UserFeed = { feed: string; isDefault?: boolean };
 
 export class UserDataModel {
-  public name = '';
+  public features: { [T in AppFeature]?: boolean } = {};
+  public feeds: UserFeed[] = [];
 
-  public features: PartialRecord<AppFeature, boolean> = {};
+  public get defaultFeed(): UserFeed | undefined {
+    return this.feeds.find((fd) => fd.isDefault);
+  }
+
+  public checkFeed(feedId?: string): string | undefined {
+    if (!feedId) return this.defaultFeed?.feed;
+    const feed = this.feeds.find((fd) => fd.feed === feedId);
+    return feed ? feed.feed : this.defaultFeed?.feed;
+  }
 }

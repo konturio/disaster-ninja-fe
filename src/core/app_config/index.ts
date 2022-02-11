@@ -2,6 +2,7 @@ declare global {
   interface Window {
     konturAppConfig: {
       API_GATEWAY: string;
+      FEATURES_API: string;
       GRAPHQL_API: string;
       BOUNDARIES_API: string;
       REPORTS_API: string;
@@ -9,14 +10,18 @@ declare global {
       REFRESH_INTERVAL_SEC: number;
       MAP_ACCESS_TOKEN: string;
       MAP_BASE_STYLE: string;
-      LOGIN_API_PATH: string;
       LAYERS_BY_DEFAULT: string[];
+      KEYCLOAK_URL: string;
+      KEYCLOAK_REALM: string;
+      KEYCLOAK_CLIENT_ID: string;
+      YANDEX_METRICA_ID: number[];
     };
   }
 }
 
 export default {
   apiGateway: window.konturAppConfig.API_GATEWAY,
+  featuresApi: window.konturAppConfig.FEATURES_API,
   graphqlApi: window.konturAppConfig.GRAPHQL_API,
   boundariesApi: window.konturAppConfig.BOUNDARIES_API,
   reportsApi: window.konturAppConfig.REPORTS_API,
@@ -24,12 +29,15 @@ export default {
   refreshIntervalSec: window.konturAppConfig.REFRESH_INTERVAL_SEC,
   mapAccessToken: window.konturAppConfig.MAP_ACCESS_TOKEN,
   mapBaseStyle: window.konturAppConfig.MAP_BASE_STYLE,
-  loginApiPath: window.konturAppConfig.LOGIN_API_PATH,
   layersByDefault: window.konturAppConfig.LAYERS_BY_DEFAULT,
-  baseUrl: import.meta.env.BASE_URL,
-  isDevBuild: import.meta.env.DEV,
-  isProdBuild: import.meta.env.PROD,
-  appVersion: import.meta.env.PACKAGE_VERSION as string,
+  keycloakUrl: window.konturAppConfig.KEYCLOAK_URL,
+  keycloakRealm: window.konturAppConfig.KEYCLOAK_REALM,
+  keycloakClientId: window.konturAppConfig.KEYCLOAK_CLIENT_ID,
+  yandexMetricaId: window.konturAppConfig.YANDEX_METRICA_ID,
+  baseUrl: import.meta.env?.BASE_URL,
+  isDevBuild: import.meta.env?.DEV,
+  isProdBuild: import.meta.env?.PROD,
+  appVersion: import.meta.env?.PACKAGE_VERSION as string,
   autoFocus: {
     desktopPaddings: {
       left: 336, // communities/analytics panel + paddings
@@ -61,14 +69,14 @@ export default {
         width: 20,
         height: 20,
         anchorY: 10,
-      }
+      },
     },
     sizeScale: 6,
     getSize: () => 6,
-  }
+  },
 };
 
-if (import.meta.env.PROD) {
+if (import.meta.env?.PROD) {
   console.info(
     `%c Disaster Ninja ${import.meta.env.PACKAGE_VERSION} deployment:
   - Build Time: ${import.meta.env.BUILD_TIME}

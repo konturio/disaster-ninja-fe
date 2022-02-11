@@ -10,11 +10,15 @@
   <link rel="icon" href="/favicon/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon/180.png">
-  <link rel="manifest" href="/favicon/manifest.json" />
+  <link rel="manifest" href="/manifest.json" />
   <title>Disaster Ninja</title>
   <script src="/appconfig.js"></script>
   <script>
+    // need this to reset intercom session for unregistered users on startup
+    document.cookie = "intercom-session-e59cl64z= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+
     window.intercomSettings = {
+      name: 'Guest',
       app_id: "e59cl64z",
       custom_launcher_selector: '#kontur_header_chat_btn'
     };
@@ -41,14 +45,14 @@
 </head>
 
 <body>
-  <% if (mode === 'production' ) { %>
+    <% if (mode === 'production' ) { %>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LD2Z3D" height="0" width="0"
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LD2Z3D" height="0" width="0"
         style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <% } %>
-      <div id="root"></div>
-      <script type="module" src="/src/index.ts"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/index.ts"></script>
 </body>
 
 </html>

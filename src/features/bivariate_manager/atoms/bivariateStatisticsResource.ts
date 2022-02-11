@@ -31,9 +31,19 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       return allMapStats;
     }
 
-    const polygonStatisticRequest = geom
-      ? `{ polygonV2: ${stringifyWithoutQuotes(cleanupGeometry(geom.geometry))} }`
-      : '{}';
+    const geomNotEmpty = !!(
+      geom &&
+      geom.geometry &&
+      (geom.geometry.type !== 'FeatureCollection' ||
+        geom.geometry.features.length)
+    );
+
+    const polygonStatisticRequest =
+      geom && geomNotEmpty
+        ? `{ polygonV2: ${stringifyWithoutQuotes(
+            cleanupGeometry(geom.geometry),
+          )} }`
+        : '{}';
 
     const responseData = await graphQlClient.post<{ data?: unknown }>(`/`, {
       query: `
@@ -108,7 +118,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       throw new Error('No data received');
     }
 
-    if (!geom && !allMapStats) {
+    if (!geomNotEmpty && !allMapStats) {
       allMapStats = responseData.data;
     }
 

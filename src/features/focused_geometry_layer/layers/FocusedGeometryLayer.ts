@@ -2,7 +2,8 @@ import {
   LayerLegend,
   LogicalLayer,
 } from '~core/logical_layers/createLogicalLayerAtom';
-import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
+import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
+import { enabledLayersAtom } from '~core/shared_state';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { notificationService } from '~core/index';
 import { GeoJSONSource } from 'maplibre-gl';
@@ -80,7 +81,6 @@ export class FocusedGeometryLayer
     coordinates: number[];
   }[];
   private _layerConfigs: maplibregl.AnyLayer[] = [];
-  public isDownloadable: boolean = true
 
   constructor({ id, name }) {
     this.id = id;
@@ -105,8 +105,15 @@ export class FocusedGeometryLayer
   wasAddInRegistry() {
     /* noop */
   }
+  willEnabled(map?: ApplicationMap) {
+    return [enabledLayersAtom.add(this.id)];
+  }
 
-  willMount(map: ApplicationMap) {
+  willDisabled(map?: ApplicationMap) {
+    return [enabledLayersAtom.remove(this.id)];
+  }
+
+  public async willMount(map: ApplicationMap) {
     if (import.meta.env.DEV) {
       // HRM fix
       map.getSource(this._sourceId) && this.willUnmount(map);
@@ -125,6 +132,8 @@ export class FocusedGeometryLayer
         layerConfig.id.endsWith('-icons') ? null : beforeId,
       );
     });
+
+    return { legend: this.legend, isDownloadable: true };
   }
 
   onDataChange(map: ApplicationMap | null, data: FocusedGeometry | null) {
@@ -200,8 +209,13 @@ export class FocusedGeometryLayer
       map.setLayoutProperty(id, 'visibility', 'visible');
     });
   }
-  
+
   public onDownload(map: ApplicationMap) {
-    downloadObject(this._lastGeometryUpdate, `${this.name || 'Disaster Ninja map layer'} ${new Date().toISOString()}.json`)
+    downloadObject(
+      this._lastGeometryUpdate,
+      `${
+        this.name || 'Disaster Ninja map layer'
+      } ${new Date().toISOString()}.json`,
+    );
   }
 }
