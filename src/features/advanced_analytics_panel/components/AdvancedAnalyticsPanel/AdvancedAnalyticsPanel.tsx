@@ -11,7 +11,7 @@ import { Tab } from '@k2-packages/ui-kit/tslib/Tabs';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
 import { useAtom } from '@reatom/react';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
-import { AnalyticsPanelIcon } from '@k2-packages/default-icons';
+import { BivariatePanelIcon } from '@k2-packages/default-icons';
 import { focusedGeometryAtom } from '~core/shared_state';
 
 interface PanelHeadingProps {
@@ -120,7 +120,7 @@ export function AdvancedAnalyticsPanel({
       <PanelIcon
         clickHandler={onPanelOpen}
         className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
-        icon={<AnalyticsPanelIcon />}
+        icon={<BivariatePanelIcon />}
       />
     </div>
   );
