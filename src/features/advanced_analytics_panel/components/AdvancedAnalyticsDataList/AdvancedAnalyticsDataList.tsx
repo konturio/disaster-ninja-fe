@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import s from './AnalyticsData.module.css';
 import { AdvancedAnalyticsData } from '~core/types';
-import { Tooltip } from '~components/Tooltip/Tooltip';
-import { stateFlagsSystem } from 'react-virtuoso/dist/stateFlagsSystem';
 
 interface AdvancedAnalyticsDataListProps {
   data?: AdvancedAnalyticsData[] | null;

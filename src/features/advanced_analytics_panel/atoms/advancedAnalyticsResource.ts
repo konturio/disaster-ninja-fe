@@ -8,7 +8,7 @@ export const advancedAnalyticsResourceAtom = createResourceAtom(
   async (fGeo) => {
     if (!fGeo) return null;
     const responseData = await apiClient.post<AdvancedAnalyticsData[] | null>(
-      `/advanced_analytics/`,
+      `/advanced_polygon_details/`,
       fGeo?.geometry,
       false,
     );
