@@ -18,6 +18,9 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 const { EventList } = lazily(() => import('~features/events_list'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { Analytics } = lazily(() => import('~features/analytics_panel'));
+const { AdvancedAnalytics } = lazily(
+  () => import('~features/advanced_analytics_panel'),
+);
 const { Legend } = lazily(() => import('~features/legend_panel'));
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
 const { BivariatePanel } = lazily(
@@ -110,6 +113,7 @@ export function MainView() {
           {userFeatures?.side_bar === true && <SideBar />}
           {userFeatures?.events_list === true && <EventList />}
           {userFeatures?.analytics_panel === true && <Analytics />}
+          {userFeatures?.analytics_panel === true && <AdvancedAnalytics />}
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
