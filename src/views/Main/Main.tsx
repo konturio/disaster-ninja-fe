@@ -113,7 +113,9 @@ export function MainView() {
           {userFeatures?.side_bar === true && <SideBar />}
           {userFeatures?.events_list === true && <EventList />}
           {userFeatures?.analytics_panel === true && <Analytics />}
-          {userFeatures?.analytics_panel === true && <AdvancedAnalytics />}
+          {userFeatures?.advanced_analytics_panel === true && (
+            <AdvancedAnalytics />
+          )}
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
