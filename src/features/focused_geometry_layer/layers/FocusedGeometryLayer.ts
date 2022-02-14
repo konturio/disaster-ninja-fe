@@ -119,10 +119,15 @@ export class FocusedGeometryLayer
       map.getSource(this._sourceId) && this.willUnmount(map);
     }
 
-    map.addSource(this._sourceId, {
-      type: 'geojson',
-      data: this._lastGeometryUpdate,
-    });
+    if (!map.getSource(this._sourceId)) {
+      map.addSource(this._sourceId, {
+        type: 'geojson',
+        data: this._lastGeometryUpdate,
+      });
+    } else {
+      console.warn(`Source with id ${this._sourceId} id already added to map`);
+    }
+
 
     this._layerConfigs.forEach((layerConfig) => {
       const beforeId = layersOrderManager.getBeforeIdByType(layerConfig.type);
