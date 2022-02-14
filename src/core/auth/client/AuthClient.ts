@@ -70,6 +70,7 @@ export class AuthClient {
       email: response.jwtData.email,
     });
     callYm('setUserID', response.jwtData.email);
+    callYm('userParams', { status: 'registered', UserID: response.jwtData.email });
   }
 
   public async authenticate(
