@@ -3,14 +3,14 @@ import { RoutedApp } from './Routes';
 import { reatomContext } from '@reatom/react';
 import { store } from '~core/store/store';
 import { BetaSplashScreen } from '~components/BetaSplashScreen/BetaSplashScreen';
-import MockWrapper from '~utils/axios/MockWrapper';
+import { AuthWrapper } from '~core/auth';
 
 ReactDOM.render(
   <reatomContext.Provider value={store}>
     <BetaSplashScreen />
-    <MockWrapper>
+    <AuthWrapper>
       <RoutedApp />
-    </MockWrapper>
+    </AuthWrapper>
   </reatomContext.Provider>,
   document.getElementById('root'),
 );

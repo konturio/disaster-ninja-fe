@@ -1,9 +1,11 @@
 import { ApiClient } from '~core/api_client';
-import { currentUserAtom } from '~core/auth';
+import { userStateAtom } from '~core/auth';
+import { currentUserAtom } from '~core/shared_state';
+import { JWTData } from '~core/api_client/ApiTypes';
 import { callYm } from '~utils/stats/yandexCounter';
 
 interface AuthClientConfig {
-   apiClient: ApiClient;
+  apiClient: ApiClient;
 }
 
 export class AuthClient {
@@ -11,7 +13,7 @@ export class AuthClient {
 
   private readonly _apiClient: ApiClient;
 
-  private constructor({ apiClient}: AuthClientConfig) {
+  private constructor({ apiClient }: AuthClientConfig) {
     this._apiClient = apiClient;
   }
 
@@ -25,9 +27,7 @@ export class AuthClient {
 
   public static init(config: AuthClientConfig): AuthClient {
     if (AuthClient.instance) {
-      throw new Error(
-        `Auth client instance with had been already initialized`,
-      );
+      throw new Error(`Auth client instance with had been already initialized`);
     }
 
     AuthClient.instance = new AuthClient(config);
@@ -35,16 +35,13 @@ export class AuthClient {
   }
 
   public showLoginForm() {
-    currentUserAtom.login.dispatch();
+    userStateAtom.login.dispatch();
   }
 
   public closeLoginForm() {
-    currentUserAtom.reset.dispatch();
+    userStateAtom.reset.dispatch();
   }
 
-<<<<<<< Updated upstream
-  public async authenticate(user: string, password: string): Promise<true | string | undefined> {
-=======
   public logout() {
     this._apiClient.logout();
     currentUserAtom.setUser.dispatch();
@@ -80,20 +77,18 @@ export class AuthClient {
     user: string,
     password: string,
   ): Promise<true | string | undefined> {
->>>>>>> Stashed changes
     const response = await this._apiClient.login(user, password);
     if (response && typeof response === 'object' && 'token' in response) {
-      currentUserAtom.setUser.dispatch({
-        username: response.jwtData.preferred_username,
-        token: response.token,
-        email: response.jwtData.email,
-        firstName: response.jwtData.given_name,
-        lastName: response.jwtData.family_name
-      });
-      window['Intercom']('update', { name: response.jwtData.preferred_username, email: response.jwtData.email });
-      callYm('setUserID', response.jwtData.email);
+      this.processAuthResponse(response);
       return true;
     }
     return response;
+  }
+
+  public async checkAuth(): Promise<void> {
+    const response = await this._apiClient.checkAuth(this.onTokenExpired);
+    if (response && typeof response === 'object' && 'token' in response) {
+      this.processAuthResponse(response);
+    }
   }
 }

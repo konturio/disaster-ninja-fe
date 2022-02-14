@@ -1,33 +1,33 @@
 import { createBindAtom } from '~utils/atoms/createBindAtom';
 import appConfig from '~core/app_config';
 
-export interface CurrentUser {
-  id: string;
-  defaultLayers: string[];
-}
+export type CurrentUser = {
+  id?: string;
+  defaultLayers?: string[];
+  username?: string;
+  email?: string;
+  token?: string;
+  firstName?: string;
+  lastName?: string;
+};
+
+const publicUser: CurrentUser = {
+  id: 'public',
+  defaultLayers: appConfig.layersByDefault ?? [],
+};
 
 export const currentUserAtom = createBindAtom(
   {
-    setCurrentUser: (currentUser: CurrentUser) => currentUser,
+    setUser: (user?: CurrentUser) => user,
   },
-  (
-    { onAction, onInit, schedule, create },
-    state: CurrentUser | null = null,
-  ) => {
-    // Imitate current user update
-    // Delete this when login feature be ready
-    onInit(() => {
-      schedule((dispatch) => {
-        dispatch(
-          create('setCurrentUser', {
-            id: 'public',
-            defaultLayers: appConfig.layersByDefault ?? [],
-          }),
-        );
-      });
+  ({ onAction, onInit, schedule, create }, state: CurrentUser = publicUser) => {
+    onAction('setUser', (usr) => {
+      if (usr) {
+        state = usr;
+      } else {
+        state = publicUser;
+      }
     });
-
-    onAction('setCurrentUser', (currentUser) => (state = currentUser));
 
     return state;
   },

@@ -70,6 +70,7 @@ specifiers:
   node-fetch: ^3.1.0
   npm-run-all: ^4.1.5
   papaparse: ^5.3.1
+  patch-package: ^6.4.7
   postcss-custom-media: ^8.0.0
   postcss-loader: ^6.1.1
   postcss-nested: ^5.0.6
@@ -171,6 +172,7 @@ dependencies:
   node-fetch: 3.1.0
   npm-run-all: 4.1.5
   papaparse: 5.3.1
+  patch-package: 6.4.7
   postcss-custom-media: 8.0.0
   postcss-loader: 6.2.1
   postcss-nested: 5.0.6
@@ -1860,6 +1862,10 @@ packages:
       react-refresh: 0.10.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@yarnpkg/lockfile/1.1.0:
+    resolution: {integrity: sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==}
     dev: false
 
   /acorn-jsx/5.3.2_acorn@7.4.1:
@@ -3739,6 +3745,12 @@ packages:
       path-exists: 4.0.0
     dev: false
 
+  /find-yarn-workspace-root/2.0.0:
+    resolution: {integrity: sha512-1IMnbjt4KzsQfnhnzNd8wUEgXZ44IzZaZmnLYx7D5FZlaHt2gW20Cri8Q+E/t5tIj4+epTBub+2Zxu/vNILzqQ==}
+    dependencies:
+      micromatch: 4.0.4
+    dev: false
+
   /flat-cache/3.0.4:
     resolution: {integrity: sha512-dm9s5Pw7Jc0GvMYbshN6zchCA9RgQlzzEZX3vylR9IqFfS8XciblUXOKfW6SiuJ0e13eDYZoZV5wdrev7P3Nwg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -4737,6 +4749,12 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /klaw-sync/6.0.0:
+    resolution: {integrity: sha512-nIeuVSzdCCs6TDPTqI8w1Yre34sSq7AkZ4B3sfOBbI2CgVSB4Du4aLQijFU2+lhAFCwt9+42Hel6lQNIv6AntQ==}
+    dependencies:
+      graceful-fs: 4.2.9
+    dev: false
+
   /kleur/4.1.4:
     resolution: {integrity: sha512-8QADVssbrFjivHWQU7KkMgptGTl6WAcSdlbBPY4uNF+mWr6DGcKrvY2w4FQJoXch7+fKMjj0dRrL75vk3k23OA==}
     engines: {node: '>=6'}
@@ -5715,6 +5733,11 @@ packages:
       wcwidth: 1.0.1
     dev: false
 
+  /os-tmpdir/1.0.2:
+    resolution: {integrity: sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /p-cancelable/1.1.0:
     resolution: {integrity: sha512-s73XxOZ4zpt1edZYZzvhqFa6uvQc1vwUa0K0BdtIZgQMAJj9IbebH+JkgKZc9h+B05PKHLOTl4ajG1BmNrVZlw==}
     engines: {node: '>=6'}
@@ -5861,6 +5884,26 @@ packages:
     dependencies:
       no-case: 3.0.4
       tslib: 2.3.1
+    dev: false
+
+  /patch-package/6.4.7:
+    resolution: {integrity: sha512-S0vh/ZEafZ17hbhgqdnpunKDfzHQibQizx9g8yEf5dcVk3KOflOfdufRXQX8CSEkyOQwuM/bNz1GwKvFj54kaQ==}
+    engines: {npm: '>5'}
+    hasBin: true
+    dependencies:
+      '@yarnpkg/lockfile': 1.1.0
+      chalk: 2.4.2
+      cross-spawn: 6.0.5
+      find-yarn-workspace-root: 2.0.0
+      fs-extra: 7.0.1
+      is-ci: 2.0.0
+      klaw-sync: 6.0.0
+      minimist: 1.2.5
+      open: 7.4.2
+      rimraf: 2.7.1
+      semver: 5.7.1
+      slash: 2.0.0
+      tmp: 0.0.33
     dev: false
 
   /path-exists/3.0.0:
@@ -6860,6 +6903,11 @@ packages:
       supports-color: 7.2.0
     dev: false
 
+  /slash/2.0.0:
+    resolution: {integrity: sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==}
+    engines: {node: '>=6'}
+    dev: false
+
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
@@ -7321,6 +7369,13 @@ packages:
 
   /tinyqueue/2.0.3:
     resolution: {integrity: sha512-ppJZNDuKGgxzkHihX8v9v9G5f+18gzaTfrukGrq6ueg0lmH4nqVnA2IPG0AEH3jKEk2GRJCUhDoqpoiw3PHLBA==}
+    dev: false
+
+  /tmp/0.0.33:
+    resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
+    engines: {node: '>=0.6.0'}
+    dependencies:
+      os-tmpdir: 1.0.2
     dev: false
 
   /to-fast-properties/2.0.0:

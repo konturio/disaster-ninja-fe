@@ -2,14 +2,15 @@ import { createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/index';
 import { autoRefreshService } from '~core/auto_refresh';
 import { Event } from '~core/types';
+import { currentEventFeedAtom } from '~core/shared_state';
 
 export const eventListResourceAtom = createResourceAtom(
-  null,
-  async () => {
+  currentEventFeedAtom,
+  async (currentFeed) => {
+    const params = currentFeed && currentFeed.id ? { feed: currentFeed.id } : undefined;
     const responseData = await apiClient.get<Event[]>(
       `/events/`,
-      undefined,
-      false,
+      params
     );
     if (responseData === undefined) throw new Error('No data received');
     return responseData;

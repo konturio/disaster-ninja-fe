@@ -1,12 +1,10 @@
-import { memo, useCallback } from 'react';
-import { Report } from '~features/reports/atoms/reportsAtom';
+import { memo } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import jOSMLogo from '~features/reports/icons/JOSM.svg';
+import styles from './ReportTable.module.css';
 
 type TableCellProps = {
-  row: string[];
   cell: string;
-  index: number;
   jOSMRedirect: (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     link: string,
@@ -15,99 +13,55 @@ type TableCellProps = {
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     link: string,
   ) => void;
-  thead: string[] | undefined;
-  meta: Report | null;
-  OSMId: string | null;
-  OSMIdIndex?: number;
 };
 
 export function TableCellComponent({
-  row,
   cell,
-  index,
   jOSMRedirect,
   openOSMID,
-  thead,
-  meta,
-  OSMId,
-  OSMIdIndex,
 }: TableCellProps) {
-  const getIDLink = useCallback(
-    () =>
-      meta?.column_link_templates[0]['OSM ID']?.replace(
-        '{{OSM ID}}',
-        OSMId || '',
-      ),
-    [cell, meta, OSMId],
-  );
+  if (cell.startsWith('subrow_')) cell = cell.substring(7);
 
-  const getNameLink = useCallback(
-    (toReplace: string) =>
-      meta?.column_link_templates[1][toReplace]?.replace('{{OSM ID}}', OSMId),
-    [row, cell, meta, OSMId],
-  );
-
-  const getBBoxLink = useCallback(
-    () =>
-      meta?.column_link_templates[0]['Bounding box']?.replace(
-        '{{Bounding box}}',
-        cell,
-      ),
-    [cell, meta],
-  );
-
-  if (!thead) return null;
-
-  if (index === OSMIdIndex) {
-    const link = getIDLink();
+  if (cell.startsWith('hrefIcon_')) {
+    // eslint-disable-next-line
+    let [, name, link] = cell.split(/\[([^\[\]]*)\]\((http.*?)\)/);
+    let cName = '';
+    if (name.startsWith('tab_')) {
+      cName = styles.nested;
+      name = name.substring(4);
+    }
     return (
-      <td>{link ? <a onClick={(e) => openOSMID(e, link)}>{cell}</a> : cell}</td>
-    );
-  }
-  if (thead[index] === 'OSM name') {
-    const link = getNameLink('OSM name');
-    return (
-      <td>
+      <td className={cName}>
         <a
           onClick={(e) => jOSMRedirect(e, link)}
           href={link}
           title={i18n.t('Open via JOSM remote control')}
         >
-          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
-          {cell}
+          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} /> {name}
         </a>
       </td>
     );
   }
-  if (thead[index] === 'Name') {
-    const link = getNameLink('Name');
+
+  if (cell.startsWith('href_')) {
+    // eslint-disable-next-line
+    let [, name, link] = cell.split(/\[([^\[\]]*)\]\((http.*?)\)/);
+    let cName = '';
+    if (name.startsWith('tab_')) {
+      cName = styles.nested;
+      name = name.substring(4);
+    }
     return (
-      <td>
-        <a
-          onClick={(e) => jOSMRedirect(e, link)}
-          href={link}
-          title={i18n.t('Open via JOSM remote control')}
-        >
-          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
-          {cell}
-        </a>
+      <td className={cName}>
+        {link ? <a onClick={(e) => openOSMID(e, link)}>{name}</a> : name}
       </td>
     );
   }
-  if (thead[index] === 'Place bounding box') {
-    const link = getBBoxLink();
-    return (
-      <td>
-        <a
-          onClick={(e) => jOSMRedirect(e, link)}
-          href={link}
-          title={i18n.t('Open via JOSM remote control')}
-        >
-          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} />
-        </a>
-      </td>
-    );
-  }
-  return <td>{cell || '-'}</td>;
+
+  return (
+    <td className={cell.startsWith('tab_') ? styles.nested : ''}>
+      {cell ? (cell.startsWith('tab_') ? cell.substring(4) : cell) : '-'}
+    </td>
+  );
 }
 export const TableCell = memo(TableCellComponent);
