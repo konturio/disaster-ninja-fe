@@ -42,7 +42,45 @@ export class AuthClient {
     currentUserAtom.reset.dispatch();
   }
 
+<<<<<<< Updated upstream
   public async authenticate(user: string, password: string): Promise<true | string | undefined> {
+=======
+  public logout() {
+    this._apiClient.logout();
+    currentUserAtom.setUser.dispatch();
+    userStateAtom.logout.dispatch();
+  }
+
+  private onTokenExpired() {
+    console.error('Auth Problem! Token is expired.');
+  }
+
+  private processAuthResponse(response: {
+    token: string;
+    refreshToken: string;
+    jwtData: JWTData;
+  }) {
+    currentUserAtom.setUser.dispatch({
+      username: response.jwtData.preferred_username,
+      token: response.token,
+      email: response.jwtData.email,
+      firstName: response.jwtData.given_name,
+      lastName: response.jwtData.family_name,
+    });
+    userStateAtom.authorize.dispatch();
+    window['Intercom']('update', {
+      name: response.jwtData.preferred_username,
+      email: response.jwtData.email,
+    });
+    callYm('setUserID', response.jwtData.email);
+    callYm('userParams', { status: 'registered', UserID: response.jwtData.email });
+  }
+
+  public async authenticate(
+    user: string,
+    password: string,
+  ): Promise<true | string | undefined> {
+>>>>>>> Stashed changes
     const response = await this._apiClient.login(user, password);
     if (response && typeof response === 'object' && 'token' in response) {
       currentUserAtom.setUser.dispatch({
