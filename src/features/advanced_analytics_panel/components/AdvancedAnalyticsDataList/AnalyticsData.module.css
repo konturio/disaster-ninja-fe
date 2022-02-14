@@ -1,0 +1,42 @@
+tr:nth-child(odd) {
+  background-color: #eeecec;
+}
+
+.table_scroll {
+  height: 90%;
+  max-height: 700px;
+  overflow: auto;
+  font-size: 11px;
+}
+
+.numerator {
+  max-width: 200px;
+  width: 200px;
+  min-width: 200px;
+}
+
+.denominator {
+  max-width: 120px;
+  width: 120px;
+  min-width: 120px;
+}
+
+.filter_text {
+  width: 125px;
+  border: 1px solid #dad8d8;
+}
+
+.table_scroll th {
+  position: sticky;
+  top: 0;
+  background: #eeecec;
+}
+
+.sticky_div {
+  position: sticky;
+  top: 0;
+}
+
+.table_in_panel {
+  width: 100%;
+}

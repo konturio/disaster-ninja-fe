@@ -16,4 +16,3 @@ export { currentNotificationAtom } from './currentNotifications';
 export { sideControlsBarAtom } from './sideControlsBar';
 export { currentMapAtom } from './currentMap';
 export { enabledLayersAtom } from './enabledLayers';
-

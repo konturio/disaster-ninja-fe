@@ -7,11 +7,9 @@ import { currentEventFeedAtom } from '~core/shared_state';
 export const eventListResourceAtom = createResourceAtom(
   currentEventFeedAtom,
   async (currentFeed) => {
-    const params = currentFeed && currentFeed.id ? { feed: currentFeed.id } : undefined;
-    const responseData = await apiClient.get<Event[]>(
-      `/events/`,
-      params
-    );
+    const params =
+      currentFeed && currentFeed.id ? { feed: currentFeed.id } : undefined;
+    const responseData = await apiClient.get<Event[]>(`/events/`, params);
     if (responseData === undefined) throw new Error('No data received');
     return responseData;
   },
