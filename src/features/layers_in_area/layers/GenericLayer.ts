@@ -449,11 +449,14 @@ export class GenericLayer
       .filter((f) => f.source.includes(this._sourceId));
 
     if (thisLayersFeatures.length === 0) return;
-    const featureWithLink = thisLayersFeatures.find(
-      (feature) => feature.properties?.[linkProperty] !== undefined,
-    );
-    if (featureWithLink === undefined) return;
-    const link = featureWithLink[linkProperty];
+    let link: string | undefined;
+    for (let i = 0; i < thisLayersFeatures.length; i++) {
+      if (thisLayersFeatures[i].properties?.[linkProperty] !== undefined) {
+        link = thisLayersFeatures[i].properties?.[linkProperty];
+        break;
+      }
+    }
+    if (link === undefined) return;
     window.open(link);
   }
 
