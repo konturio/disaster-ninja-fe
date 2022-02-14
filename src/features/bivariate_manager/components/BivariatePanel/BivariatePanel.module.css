@@ -24,13 +24,13 @@
       margin-right 0.15s linear 0s;
     visibility: hidden;
     opacity: 0;
-    margin-right: -808px;
+    margin-right: calc(-75vw - 8px);
   }
 }
 
 .panelBody {
   height: 100%;
-  width: 800px;
+  width: 75vw;
   padding: 0 18px 18px 18px;
   overflow: auto;
 }
