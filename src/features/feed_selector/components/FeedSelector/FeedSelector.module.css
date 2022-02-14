@@ -1,15 +1,14 @@
 .feedSelectorContainer {
-	height: 40px;
-	border-bottom: 1px solid var(--primary-faint-border-regular);
-	display: flex;
-	justify-content: space-between;
-	align-content: center;
-	padding: 0 var(--double-unit);
-	align-items: center;
+  height: 40px;
+  border-bottom: 1px solid var(--primary-faint-border-regular);
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 0 var(--double-unit);
+  align-items: center;
 
-	& .feedsSelect {
-		border: none;
-		padding-right: var(--unit);
-	}
-
+  & .feedsSelect {
+    border: none;
+    padding-right: var(--unit);
+  }
 }
