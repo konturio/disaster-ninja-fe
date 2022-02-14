@@ -1,5 +1,6 @@
 postcss.config.ts
 vite.config.ts
+vite.proxy.ts
 cosmos.decorator.tsx
 template.config.js
 .helpers

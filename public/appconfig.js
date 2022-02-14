@@ -1,5 +1,6 @@
 window.konturAppConfig = {
   API_GATEWAY: '/active/api',
+  FEATURES_API: 'https://test-apps02.konturlabs.com/userprofile/features',
   GRAPHQL_API: 'https://test-apps02.konturlabs.com/insights-api/graphql',
   BOUNDARIES_API: 'https://test-api02.konturlabs.com',
   REPORTS_API: 'https://test-apps-ninja02.konturlabs.com/active/reports',
@@ -14,7 +15,7 @@ window.konturAppConfig = {
     'focused-geometry',
   ],
   KEYCLOAK_URL: 'https://keycloak01.konturlabs.com',
-  KEYCLOAK_REALM: 'test',
+  KEYCLOAK_REALM: 'dev',
   KEYCLOAK_CLIENT_ID: 'kontur_platform',
   YANDEX_METRICA_ID: [56089129, 87226607],
 };

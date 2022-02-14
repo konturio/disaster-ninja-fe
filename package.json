@@ -1,6 +1,6 @@
 {
   "name": "disaster-ninja-fe",
-  "version": "2.0.11-alfa",
+  "version": "2.0.12-alfa",
   "private": true,
   "homepage": "/active/",
   "type": "module",
@@ -15,11 +15,13 @@
     "lint-staged": "lint-staged",
     "test:unit": "ava",
     "test:unit-watch": "ava --watch",
-    "postinstall": "node ./scripts/fix-deckgl-types.mjs",
     "checkapi": "node ./scripts/is-api-working.js",
     "lint": "npm-run-all lint:js lint:css",
     "lint:js": "eslint --quiet  --ext .tsx,.ts src/",
-    "lint:css": "stylelint ./src/**/*.css"
+    "lint:css": "stylelint ./src/**/*.css",
+    "postinstall": "run-s fixtypes patch",
+    "fixtypes": "node ./scripts/fix-deckgl-types.mjs",
+    "patch": "patch-package"
   },
   "ava": {
     "extensions": {
@@ -126,6 +128,7 @@
     "node-fetch": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "papaparse": "^5.3.1",
+    "patch-package": "^6.4.7",
     "postcss-custom-media": "^8.0.0",
     "postcss-loader": "^6.1.1",
     "postcss-nested": "^5.0.6",

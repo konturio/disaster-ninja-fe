@@ -98,9 +98,14 @@ export const bivariateMatrixSelectionAtom = createBindAtom(
           }
 
           schedule((dispatch) => {
-            const actionsBatch: Action<unknown>[] = [logicalLayersRegistryAtom.registerLayer(layer), layer.mount()]
+            const actionsBatch: Action<unknown>[] = [
+              logicalLayersRegistryAtom.registerLayer(layer),
+              layer.mount(),
+            ];
             if (layerToUnreg) {
-              actionsBatch.push(logicalLayersRegistryAtom.unregisterLayer(layerToUnreg));
+              actionsBatch.push(
+                logicalLayersRegistryAtom.unregisterLayer(layerToUnreg),
+              );
             }
 
             dispatch(actionsBatch);

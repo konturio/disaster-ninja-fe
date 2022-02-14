@@ -31,13 +31,19 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       return allMapStats;
     }
 
-    const geomNotEmpty = !!(geom && geom.geometry && (geom.geometry.type !== 'FeatureCollection' || geom.geometry.features.length));
+    const geomNotEmpty = !!(
+      geom &&
+      geom.geometry &&
+      (geom.geometry.type !== 'FeatureCollection' ||
+        geom.geometry.features.length)
+    );
 
-    const polygonStatisticRequest = geom && geomNotEmpty
-      ? `{ polygonV2: ${stringifyWithoutQuotes(
-          cleanupGeometry(geom.geometry),
-        )} }`
-      : '{}';
+    const polygonStatisticRequest =
+      geom && geomNotEmpty
+        ? `{ polygonV2: ${stringifyWithoutQuotes(
+            cleanupGeometry(geom.geometry),
+          )} }`
+        : '{}';
 
     const responseData = await graphQlClient.post<{ data?: unknown }>(`/`, {
       query: `
