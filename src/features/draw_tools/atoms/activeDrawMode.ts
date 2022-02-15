@@ -1,7 +1,7 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { drawModes, DrawModeType } from '../constants';
 
-export const activeDrawModeAtom = createBindAtom(
+export const activeDrawModeAtom = createAtom(
   {
     setDrawMode: (mode: DrawModeType | null) => mode,
     toggleDrawMode: (mode: DrawModeType | null) => mode,

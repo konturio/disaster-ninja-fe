@@ -1,36 +1,39 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { Feature, FeatureCollection } from 'geojson';
 import { activeDrawModeAtom } from './activeDrawMode';
 
-
 const defaultState: FeatureCollection = {
-  type: 'FeatureCollection', features: []
-}
+  type: 'FeatureCollection',
+  features: [],
+};
 
-export const temporaryGeometryAtom = createBindAtom(
+export const temporaryGeometryAtom = createAtom(
   {
-    updateFeatures: (features: Feature[], updateIndexes: number[]) => { return { features, indexes: updateIndexes } },
+    updateFeatures: (features: Feature[], updateIndexes: number[]) => {
+      return { features, indexes: updateIndexes };
+    },
     activeDrawModeAtom,
-    resetToDefault: () => null
+    resetToDefault: () => null,
   },
   ({ onAction, onChange }, state: FeatureCollection = defaultState) => {
-
     onAction('updateFeatures', ({ features, indexes }) => {
       const tempFeatures: Feature[] = features.map((feature, index) => {
-        if (!indexes.includes(index)) return feature
-        const copy = { ...feature }
-        copy.properties ? (copy.properties.temporary = true) : (copy.properties = { temporary: true })
-        return copy
-      })
-      state = { ...state, features: tempFeatures }
-    })
+        if (!indexes.includes(index)) return feature;
+        const copy = { ...feature };
+        copy.properties
+          ? (copy.properties.temporary = true)
+          : (copy.properties = { temporary: true });
+        return copy;
+      });
+      state = { ...state, features: tempFeatures };
+    });
 
-    onAction('resetToDefault', () => (state = defaultState))
+    onAction('resetToDefault', () => (state = defaultState));
 
-    onChange('activeDrawModeAtom', mode => {
+    onChange('activeDrawModeAtom', (mode) => {
       if (mode) return;
-      state = defaultState
-    })
+      state = defaultState;
+    });
 
     return state;
   },

@@ -1,11 +1,11 @@
 import { logicalLayersHierarchyAtom } from '~core/shared_state';
-import { createBindAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { layersCategoriesSettingsAtom } from '~core/shared_state/layersCategoriesSettings';
 import { layersGroupsSettingsAtom } from '~core/shared_state/layersGroupsSettings';
 import { createTree } from './createTree';
 import { sortChildren } from './sortTree';
 
-export const layersTreeAtom = createBindAtom(
+export const layersTreeAtom = createAtom(
   {
     registry: logicalLayersHierarchyAtom,
     categoriesSettings: layersCategoriesSettingsAtom,

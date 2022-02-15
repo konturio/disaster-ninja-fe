@@ -1,5 +1,5 @@
 import { Action, AtomSelfBinded, Atom } from '@reatom/core';
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { currentMapAtom } from '~core/shared_state';
 import {
   LogicalLayer,
@@ -76,7 +76,7 @@ export function createLogicalLayerAtom<
     isDownloadable: false,
   };
 
-  const logicalLayerAtom: LogicalLayerAtom = createBindAtom(
+  const logicalLayerAtom: LogicalLayerAtom = createAtom(
     {
       map: currentMapAtom,
       currentMountedLayersAtom,

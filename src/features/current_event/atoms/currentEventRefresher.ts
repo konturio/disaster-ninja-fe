@@ -1,9 +1,9 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { currentEventAtom } from '~core/shared_state';
 import { autoRefreshService } from '~core/auto_refresh';
 import { currentEventResourceAtom } from './currentEventResource';
 
-export const currentEventRefresherAtom = createBindAtom(
+export const currentEventRefresherAtom = createAtom(
   {
     currentEventAtom,
   },

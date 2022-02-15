@@ -1,9 +1,9 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { LogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
 import { enabledLayersAtom } from '~core/shared_state';
 import { Action } from '@reatom/core';
 
-export const logicalLayersRegistryAtom = createBindAtom(
+export const logicalLayersRegistryAtom = createAtom(
   {
     registerLayer: (logicalLayer: LogicalLayerAtom | LogicalLayerAtom[]) =>
       Array.isArray(logicalLayer) ? logicalLayer : [logicalLayer],

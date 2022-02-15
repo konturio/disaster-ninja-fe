@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { Stat } from '@k2-packages/bivariate-tools';
 import {
@@ -14,7 +14,7 @@ import {
 } from '~core/logical_layers/createLogicalLayerAtom';
 import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
 
-export const bivariateOverlayLayersAtom = createBindAtom(
+export const bivariateOverlayLayersAtom = createAtom(
   {
     bivariateStatisticsResourceAtom,
   },

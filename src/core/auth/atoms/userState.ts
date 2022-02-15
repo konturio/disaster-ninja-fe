@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 
 export type UserStateType =
   | 'authorized'
@@ -7,7 +7,7 @@ export type UserStateType =
   | 'signing_up'
   | 'password_reset';
 
-export const userStateAtom = createBindAtom(
+export const userStateAtom = createAtom(
   {
     setState: (state: UserStateType) => state,
     authorize: () => null,

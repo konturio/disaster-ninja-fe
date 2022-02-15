@@ -1,10 +1,10 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 /**
  * Atom to save current map ref and reuse it in other atoms
  */
-export const currentMapAtom = createBindAtom(
+export const currentMapAtom = createAtom(
   {
     setMap: (map?: ApplicationMap) => map,
   },

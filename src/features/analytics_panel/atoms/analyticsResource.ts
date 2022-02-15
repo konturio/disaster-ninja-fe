@@ -4,7 +4,6 @@ import { focusedGeometryAtom } from '~core/shared_state';
 import { AnalyticsData } from '~core/types';
 
 export const analyticsResourceAtom = createResourceAtom(
-  focusedGeometryAtom,
   async (fGeo) => {
     if (!fGeo) return null;
     const responseData = await apiClient.post<AnalyticsData[] | null>(
@@ -15,5 +14,6 @@ export const analyticsResourceAtom = createResourceAtom(
     if (responseData === undefined) throw new Error('No data received');
     return responseData;
   },
+  focusedGeometryAtom,
   'analyticsResource',
 );

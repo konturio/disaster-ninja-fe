@@ -1,9 +1,9 @@
-import { createBindAtom, createResourceAtom } from '~utils/atoms';
+import { createAtom, createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/index';
 import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
 import { EventWithGeometry } from '~core/types';
 
-const eventDependencyAtom = createBindAtom(
+const eventDependencyAtom = createAtom(
   { currentEventAtom, currentEventFeedAtom },
   (
     { get },
@@ -19,7 +19,6 @@ const eventDependencyAtom = createBindAtom(
 );
 
 export const currentEventResourceAtom = createResourceAtom(
-  eventDependencyAtom,
   async (deps) => {
     if (deps && deps.event?.id && deps.feed?.id) {
       const responseData = await apiClient.get<EventWithGeometry>(
@@ -30,5 +29,6 @@ export const currentEventResourceAtom = createResourceAtom(
     }
     return null;
   },
+  eventDependencyAtom,
   'currentEventResource',
 );

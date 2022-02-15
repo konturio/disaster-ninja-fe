@@ -1,10 +1,10 @@
-import { createBindAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { CorrelationMatrix } from '~core/types';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { CorrelationRate } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
 
-export const bivariateCorrelationMatrixAtom = createBindAtom(
+export const bivariateCorrelationMatrixAtom = createAtom(
   {
     bivariateNumeratorsAtom,
   },
@@ -15,6 +15,7 @@ export const bivariateCorrelationMatrixAtom = createBindAtom(
       const { data: statisticsData } = getUnlistedState(
         bivariateStatisticsResourceAtom,
       );
+      if (statisticsData === null) return null;
       const correlationRates: CorrelationRate[] =
         statisticsData.polygonStatistic.bivariateStatistic.correlationRates;
 
