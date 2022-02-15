@@ -26,6 +26,7 @@ const getLayersConfig = (
     paint: {
       'line-width': 6,
       'line-color': '#0C9BED',
+      'line-opacity': 0.35,
     },
     layout: {
       'line-join': 'round',
@@ -38,7 +39,7 @@ const getLayersConfig = (
     paint: {
       'line-width': 8,
       'line-color': '#FFF',
-      'line-opacity': 0.5,
+      'line-opacity': 0.4,
     },
     layout: {
       'line-join': 'round',
