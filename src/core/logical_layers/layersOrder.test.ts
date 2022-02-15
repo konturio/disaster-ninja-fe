@@ -30,7 +30,7 @@ class FakeMapWithBaseLayers {
 
 /* Test cases */
 
-test('Always return top basemap layer', (t) => {
+test('Return undefined if only basemap layers are awailible', (t) => {
   const layersOrderManager = new LayersOrderManager();
   const map = new FakeMapWithBaseLayers([
     { type: 'background', id: 'base-line-background' },
@@ -40,13 +40,13 @@ test('Always return top basemap layer', (t) => {
   layersOrderManager.init(map as any);
 
   const beforeId1 = layersOrderManager.getBeforeIdByType('fill');
-  t.is(beforeId1, 'base-line-top');
+  t.is(beforeId1, undefined);
 
   const beforeId2 = layersOrderManager.getBeforeIdByType('line');
-  t.is(beforeId2, 'base-line-top');
+  t.is(beforeId2, undefined);
 
   const beforeId3 = layersOrderManager.getBeforeIdByType('background');
-  t.is(beforeId3, 'base-line-top');
+  t.is(beforeId3, undefined);
 });
 
 test('Return first layer with same type', (t) => {
