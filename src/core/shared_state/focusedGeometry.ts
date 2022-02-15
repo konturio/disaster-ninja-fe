@@ -1,4 +1,4 @@
-import { createBindAtom, createBooleanAtom } from '~utils/atoms/createBindAtom';
+import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { EventWithGeometry } from '~core/types';
 import { crc32 } from 'hash-wasm';
 
@@ -36,7 +36,7 @@ export interface FocusedGeometry {
   geometry: GeoJSON.GeoJSON;
 }
 
-export const focusedGeometryAtom = createBindAtom(
+export const focusedGeometryAtom = createAtom(
   {
     setFocusedGeometry: (
       source: GeometrySource | null,

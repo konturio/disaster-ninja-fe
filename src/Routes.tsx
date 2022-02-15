@@ -15,7 +15,6 @@ const { ReportPage } = lazily(() => import('~views/Report/Report'));
 
 export function RoutedApp() {
   const [{ data, loading }] = useAtom(userResourceAtom);
-
   return (
     <StrictMode>
       <OriginalLogo />

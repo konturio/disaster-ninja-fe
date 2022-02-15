@@ -1,4 +1,4 @@
-import { createMapAtom } from '~utils/atoms/createBindAtom';
+import { createMapAtom } from '~utils/atoms';
 import { LayerLegend } from '../createLogicalLayerAtom';
 
 export const currentLegendsAtom = createMapAtom<string, LayerLegend>(

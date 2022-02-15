@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { GroupSettings } from '../types/layers';
 import { groupSettings } from '~core/logical_layers/constants';
 
@@ -20,7 +20,7 @@ const settingsMock = new Proxy(defaultSettings, {
   },
 });
 
-export const layersGroupsSettingsAtom = createBindAtom(
+export const layersGroupsSettingsAtom = createAtom(
   {},
   ({}, state: Record<string, GroupSettings> = settingsMock) => {
     return state;

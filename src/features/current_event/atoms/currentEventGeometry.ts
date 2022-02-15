@@ -1,9 +1,9 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { currentEventResourceAtom } from './currentEventResource';
 import { EventWithGeometry } from '~core/types';
 
-export const currentEventGeometryAtom = createBindAtom(
+export const currentEventGeometryAtom = createAtom(
   {
     currentEventResourceAtom,
     focusedGeometryAtom,

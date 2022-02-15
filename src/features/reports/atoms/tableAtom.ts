@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { reportsClient } from '~core/index';
 import { Report } from '~features/reports/atoms/reportsAtom';
 import papa from 'papaparse';
@@ -20,7 +20,7 @@ async function fetchTable(link: string) {
   return responseData;
 }
 
-export const tableAtom = createBindAtom(
+export const tableAtom = createAtom(
   {
     setReport: (report: Report) => report,
     sortBy: (sorter: string) => sorter,
@@ -43,7 +43,6 @@ export const tableAtom = createBindAtom(
           fastMode: true,
           skipEmptyLines: true,
         });
-
 
         dispatch(
           tableAtom.setState({
@@ -100,7 +99,6 @@ export const tableAtom = createBindAtom(
           // CASE - comparing numbers
           if (isNumeric && state.ascending) res = numeric_a - numeric_b;
           else if (isNumeric) res = numeric_b - numeric_a;
-
           // CASE - comparing strings
           else if (state.ascending)
             res = a[state.sortIndex]?.localeCompare(b[state.sortIndex]);

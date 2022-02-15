@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import mapLibre from 'maplibre-gl';
 
 // listener that returns `true` allows next listener to run. If returns `false`, no listeners will be executed after
@@ -24,7 +24,7 @@ export function registerMapListener(
   return () => mapListenersAtom.removeMapListener.dispatch(eventType, listener);
 }
 
-export const mapListenersAtom = createBindAtom(
+export const mapListenersAtom = createAtom(
   {
     addMapListener: (
       eventType: MapEvent,

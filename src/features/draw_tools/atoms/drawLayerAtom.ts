@@ -1,5 +1,5 @@
 import { activeDrawModeAtom } from './activeDrawMode';
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { DRAW_TOOLS_LAYER_ID, DrawModeType } from '../constants';
 import { DrawModeLayer } from '../layers/DrawModeLayer';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
@@ -15,7 +15,7 @@ export const drawLayerAtom = createLogicalLayerAtom(
   drawnGeometryAtom,
 );
 
-export const modeWatcherAtom = createBindAtom(
+export const modeWatcherAtom = createAtom(
   {
     drawLayerAtom,
     activeDrawModeAtom,

@@ -1,11 +1,11 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from './focusedGeometry';
 
 export type CurrentEventAtomState = {
   id: string;
 } | null;
 
-export const currentEventAtom = createBindAtom(
+export const currentEventAtom = createAtom(
   {
     setCurrentEventId: (eventId: string) => eventId,
     resetCurrentEvent: () => null,

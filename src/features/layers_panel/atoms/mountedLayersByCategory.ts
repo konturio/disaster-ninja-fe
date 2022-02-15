@@ -1,8 +1,8 @@
-import { createBindAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { logicalLayersHierarchyAtom } from '~core/logical_layers/atoms/logicalLayersHierarchy';
 import { enabledLayersAtom } from '~core/shared_state/enabledLayers';
 
-export const mountedLayersByCategoryAtom = createBindAtom(
+export const mountedLayersByCategoryAtom = createAtom(
   {
     layersHierarchy: logicalLayersHierarchyAtom,
     enabledLayers: enabledLayersAtom,

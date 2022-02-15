@@ -16,11 +16,8 @@ const { NotificationToast } = lazily(() => import('~features/toasts'));
 
 export function Reports() {
   const history = useHistory();
-  const [
-    {
-      data: { features: userFeatures },
-    },
-  ] = useAtom(userResourceAtom);
+  const [{ data }] = useAtom(userResourceAtom);
+  const userFeatures = data?.features;
 
   function linkableTitle() {
     return (

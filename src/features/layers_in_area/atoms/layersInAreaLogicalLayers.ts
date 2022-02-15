@@ -1,5 +1,5 @@
 import type { Action } from '@reatom/core';
-import { createBindAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { logicalLayersRegistryAtom } from '~core/logical_layers/atoms/logicalLayersRegistry';
 import {
   createLogicalLayerAtom,
@@ -27,7 +27,7 @@ function wrapInLogicalLayer(layer: LayerInArea, initialData) {
   }
 }
 
-export const layersInAreaLogicalLayersAtom = createBindAtom(
+export const layersInAreaLogicalLayersAtom = createAtom(
   {
     layersInAreaResourceAtom,
   },
@@ -36,7 +36,7 @@ export const layersInAreaLogicalLayersAtom = createBindAtom(
       'layersInAreaResourceAtom',
       (
         nextData: LayersInAreaAtomProps,
-        prevData: LayersInAreaAtomProps | null,
+        prevData: LayersInAreaAtomProps | undefined,
       ) => {
         if (nextData.loading) return null;
         const { data: nextLayers } = nextData;

@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 
 export interface MapPosition {
   lat: number;
@@ -8,7 +8,7 @@ export interface MapPosition {
 
 type CurrentMapPositionAtomState = MapPosition | null;
 
-export const currentMapPositionAtom = createBindAtom(
+export const currentMapPositionAtom = createAtom(
   {
     setCurrentMapPosition: (mapPosition: MapPosition) => mapPosition,
   },

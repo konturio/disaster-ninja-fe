@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { Action } from '@reatom/core';
 
 export interface SideControl {
@@ -22,7 +22,7 @@ export const controlVisualGroup = {
   noAnalitics: 'noAnalitics',
 };
 
-export const sideControlsBarAtom = createBindAtom(
+export const sideControlsBarAtom = createAtom(
   {
     addControl: (control: SideControl) => control,
     removeControl: (controlId: string) => controlId,
