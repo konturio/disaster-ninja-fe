@@ -1,6 +1,6 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 
-export const enabledLayersAtom = createBindAtom(
+export const enabledLayersAtom = createAtom(
   {
     set: (layersIds: Set<string> | string[]) => layersIds,
     add: (layerId: string) => layerId,

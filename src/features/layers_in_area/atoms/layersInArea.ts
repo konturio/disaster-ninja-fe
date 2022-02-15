@@ -1,11 +1,11 @@
-import { createResourceAtom, createBindAtom } from '~utils/atoms';
+import { createResourceAtom, createAtom } from '~utils/atoms';
 import { apiClient } from '~core/index';
 import { focusedGeometryAtom, currentEventAtom } from '~core/shared_state';
 import { LayerInArea, LayersInAreaParams } from '../types';
 
 /* Collect data for request */
 
-export const paramsAtom = createBindAtom(
+export const paramsAtom = createAtom(
   {
     focusedGeometryAtom,
     currentEventAtom,
@@ -17,7 +17,6 @@ export const paramsAtom = createBindAtom(
 );
 
 export const layersInAreaResourceAtom = createResourceAtom(
-  paramsAtom,
   async (params) => {
     if (!params) return;
     const { focusedGeometry } = params;
@@ -37,5 +36,6 @@ export const layersInAreaResourceAtom = createResourceAtom(
     if (responseData === undefined) throw new Error('No data received');
     return responseData;
   },
+  paramsAtom,
   'layersInAreaResourceAtom',
 );

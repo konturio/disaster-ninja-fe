@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import {
   focusedGeometryAtom,
   focusedGeometryVisibilityAtom,
@@ -13,7 +13,7 @@ const defaultState: FeatureCollection = {
   features: [],
 };
 
-export const drawnGeometryAtom = createBindAtom(
+export const drawnGeometryAtom = createAtom(
   {
     addFeature: (feature: Feature) => feature,
     updateFeatures: (features: Feature[]) => features,

@@ -1,8 +1,8 @@
 import { MapBoxStyle } from '@k2-packages/map';
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from '~core/shared_state';
 
-export const mapStyleAtom = createBindAtom(
+export const mapStyleAtom = createAtom(
   {
     focusedGeometryAtom,
   },

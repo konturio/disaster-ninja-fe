@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import appConfig from '~core/app_config';
 
 export type CurrentUser = {
@@ -16,7 +16,7 @@ const publicUser: CurrentUser = {
   defaultLayers: appConfig.layersByDefault ?? [],
 };
 
-export const currentUserAtom = createBindAtom(
+export const currentUserAtom = createAtom(
   {
     setUser: (user?: CurrentUser) => user,
   },

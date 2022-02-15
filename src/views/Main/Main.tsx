@@ -35,11 +35,8 @@ const { DrawToolsToolbox } = lazily(
 
 export function MainView() {
   const history = useHistory();
-  const [
-    {
-      data: { features: userFeatures },
-    },
-  ] = useAtom(userResourceAtom);
+  const [{ data }] = useAtom(userResourceAtom);
+  const userFeatures = data?.features;
 
   useEffect(() => {
     if (!userFeatures) return;

@@ -1,12 +1,12 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 
-export const selectedIndexesAtom = createBindAtom(
+export const selectedIndexesAtom = createAtom(
   {
     setIndexes: (indexes: number[]) => indexes,
   },
   ({ onAction }, state: number[] = []) => {
     onAction('setIndexes', (indexes) => {
-      state = indexes
+      state = indexes;
     });
 
     return state;

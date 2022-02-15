@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import {
   BivariateLayerStyle,
@@ -12,7 +12,7 @@ import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLaye
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { Action } from '@reatom/core';
 
-export const bivariateMatrixSelectionAtom = createBindAtom(
+export const bivariateMatrixSelectionAtom = createAtom(
   {
     setMatrixSelection: (
       xNumerator: string | null,
@@ -44,8 +44,12 @@ export const bivariateMatrixSelectionAtom = createBindAtom(
       const { xNumerators, yNumerators } = getUnlistedState(
         bivariateNumeratorsAtom,
       );
-      const stats = getUnlistedState(bivariateStatisticsResourceAtom).data
-        .polygonStatistic.bivariateStatistic;
+      const bivariateStatisticsResource = getUnlistedState(
+        bivariateStatisticsResourceAtom,
+      ).data;
+      if (bivariateStatisticsResource === null) return;
+      const stats =
+        bivariateStatisticsResource.polygonStatistic.bivariateStatistic;
 
       if (
         !xNumerators ||

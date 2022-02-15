@@ -1,6 +1,7 @@
 import { createResourceAtom } from '~utils/atoms';
 import { graphQlClient } from '~core/index';
 import { focusedGeometryAtom } from '~core/shared_state';
+import { Stat } from '@k2-packages/bivariate-tools';
 
 function stringifyWithoutQuotes(obj: unknown): string {
   const json = JSON.stringify(obj);
@@ -22,10 +23,15 @@ function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
   return newGeom;
 }
 
-let allMapStats: unknown;
+interface BivariateStatisticsResponse {
+  polygonStatistic: {
+    bivariateStatistic: Stat;
+  };
+}
+
+let allMapStats: BivariateStatisticsResponse;
 
 export const bivariateStatisticsResourceAtom = createResourceAtom(
-  focusedGeometryAtom,
   async (geom) => {
     if (!geom && allMapStats) {
       return allMapStats;
@@ -45,7 +51,9 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
           )} }`
         : '{}';
 
-    const responseData = await graphQlClient.post<{ data?: unknown }>(`/`, {
+    const responseData = await graphQlClient.post<{
+      data: BivariateStatisticsResponse;
+    }>(`/`, {
       query: `
       fragment AxisFields on Axis {
         label
@@ -124,5 +132,6 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
 
     return responseData.data;
   },
+  focusedGeometryAtom,
   'bivariateStatisticsResource',
 );

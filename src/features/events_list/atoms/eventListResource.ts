@@ -5,7 +5,6 @@ import { Event } from '~core/types';
 import { currentEventFeedAtom } from '~core/shared_state';
 
 export const eventListResourceAtom = createResourceAtom(
-  currentEventFeedAtom,
   async (currentFeed) => {
     const params =
       currentFeed && currentFeed.id ? { feed: currentFeed.id } : undefined;
@@ -13,6 +12,7 @@ export const eventListResourceAtom = createResourceAtom(
     if (responseData === undefined) throw new Error('No data received');
     return responseData;
   },
+  currentEventFeedAtom,
   'eventListResource',
 );
 
