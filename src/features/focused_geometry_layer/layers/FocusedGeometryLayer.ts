@@ -132,10 +132,14 @@ export class FocusedGeometryLayer
     this._layerConfigs.forEach((layerConfig) => {
       const beforeId = layersOrderManager.getBeforeIdByType(layerConfig.type);
       // give data to icons
-      map.addLayer(
-        layerConfig,
-        layerConfig.id.endsWith('-icons') ? null : beforeId,
-      );
+      if (!map.getLayer(layerConfig.id)) {
+        map.addLayer(
+          layerConfig,
+          layerConfig.id.endsWith('-icons') ? null : beforeId,
+        );
+      } else {
+        console.warn(`Source with such id ${this._sourceId} id already added to map`);
+      }
     });
 
     return { legend: this.legend, isDownloadable: true };
