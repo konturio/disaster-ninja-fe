@@ -49,18 +49,10 @@ export class LayersOrderManager {
     }
 
     const layers = allLayers.slice(this._baseMapFirstLayerIdx! + 1);
-    // This is first custom layer
 
-    if (layers.length === 0) {
-      // return upper basemap layer
-      if (allLayers[this._baseMapFirstLayerIdx]) {
-        return allLayers[this._baseMapFirstLayerIdx].id;
-      }
-      console.error(
-        'Basemap style was changed, and old indexes not available anymore',
-      );
-      return undefined;
-    }
+    // This is first custom layer
+    // return undefined so it wouldn't draw under the basemap
+    if (!layers.length) return undefined;
 
     // Create map { type: upper layer with this type }
     const upperLayers = new Map();
