@@ -5,7 +5,7 @@ import { Event } from '~core/types';
 
 export const autoSelectEvent = createBindAtom(
   {
-    eventListResourceAtom
+    eventListResourceAtom,
   },
   ({ get, schedule, getUnlistedState }, state = {}) => {
     const eventListResource = get('eventListResourceAtom');
@@ -16,9 +16,12 @@ export const autoSelectEvent = createBindAtom(
       eventListResource.data.length > 0 &&
       eventListResource.data[0];
 
-    const focusedGeometryCheck = focusedGeometry === null
-      || (focusedGeometry.source.type === 'event'
-        && !eventListResource.data?.find((ev: Event) => ev.eventId === focusedGeometry.source['meta']?.eventId));
+    const focusedGeometryCheck =
+      focusedGeometry === null ||
+      (focusedGeometry.source.type === 'event' &&
+        !eventListResource.data?.find(
+          (ev: Event) => ev.eventId === focusedGeometry.source['meta']?.eventId,
+        ));
     if (currentEvent === null && firstEventInList && focusedGeometryCheck) {
       schedule((dispatch) => {
         dispatch(currentEventAtom.setCurrentEventId(firstEventInList.eventId));
