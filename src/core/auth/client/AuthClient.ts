@@ -49,7 +49,8 @@ export class AuthClient {
   }
 
   private onTokenExpired() {
-    console.error('Auth Problem! Token is expired.');
+    console.warn('User session has been expired. Logging out.');
+    this.logout();
   }
 
   private processAuthResponse(response: {
@@ -70,6 +71,7 @@ export class AuthClient {
       email: response.jwtData.email,
     });
     callYm('setUserID', response.jwtData.email);
+    callYm('userParams', { status: 'registered', UserID: response.jwtData.email });
   }
 
   public async authenticate(
@@ -85,9 +87,14 @@ export class AuthClient {
   }
 
   public async checkAuth(): Promise<void> {
-    const response = await this._apiClient.checkAuth(this.onTokenExpired);
-    if (response && typeof response === 'object' && 'token' in response) {
-      this.processAuthResponse(response);
+    try {
+      const response = await this._apiClient.checkAuth(this.onTokenExpired);
+      if (response && typeof response === 'object' && 'token' in response) {
+        this.processAuthResponse(response);
+      }
+    } catch (e) {
+      console.warn('Auth has been expired');
+      this.logout();
     }
   }
 }

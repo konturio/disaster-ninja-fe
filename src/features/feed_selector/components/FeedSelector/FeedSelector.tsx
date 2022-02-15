@@ -12,18 +12,27 @@ const FeedSelectorComp = () => {
     currentEventFeedAtom.setCurrentFeed.dispatch(ev.target.value);
   }, []);
 
-  return data && data.features?.feed_selector === true && data.feeds && data.feeds.length > 1 ? (
+  return data &&
+    data.features?.feed_selector === true &&
+    data.feeds &&
+    data.feeds.length > 1 ? (
     <div className={s.feedSelectorContainer}>
       <div>{i18n.t('Feed')}:</div>
       <div>
-        <select onChange={onFeedChange} defaultValue={data.defaultFeed?.feed} className={s.feedsSelect}>
+        <select
+          onChange={onFeedChange}
+          defaultValue={data.defaultFeed?.feed}
+          className={s.feedsSelect}
+        >
           {data.feeds.map((fd) => (
-            <option key={fd.feed} value={fd.feed}>{fd.feed}</option>
+            <option key={fd.feed} value={fd.feed}>
+              {fd.feed}
+            </option>
           ))}
         </select>
       </div>
     </div>
   ) : null;
-}
+};
 
-export const FeedSelector =  memo(FeedSelectorComp);
+export const FeedSelector = memo(FeedSelectorComp);
