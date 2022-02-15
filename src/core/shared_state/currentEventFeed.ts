@@ -10,7 +10,7 @@ export const currentEventFeedAtom = createBindAtom(
   {
     setCurrentFeed: (feedId: string) => feedId,
     resetCurrentFeed: () => null,
-    userResourceAtom
+    userResourceAtom,
   },
   ({ onAction, onChange }, state: CurrentEventFeedAtomState = null) => {
     onAction('setCurrentFeed', (feedId) => {
@@ -25,7 +25,7 @@ export const currentEventFeedAtom = createBindAtom(
         state = null;
       }
     });
-    onChange('userResourceAtom', ( { data }) => {
+    onChange('userResourceAtom', ({ data }) => {
       if (data && data.feeds && data.feeds.length) {
         const newFeed = data.checkFeed(state?.id);
         if (newFeed !== state?.id) {
