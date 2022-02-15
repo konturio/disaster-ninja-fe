@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { reportsClient } from '~core/index';
 
 export type Report = {
@@ -16,7 +16,7 @@ export type Report = {
   ];
 };
 
-export const reportsAtom = createBindAtom(
+export const reportsAtom = createAtom(
   {
     setReports: (reports: Report[]) => reports,
     getReports: () => {

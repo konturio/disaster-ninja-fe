@@ -1,5 +1,5 @@
-import { createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/index';
+import { createResourceAtom } from '~utils/atoms';
 import { CurrentUser, currentUserAtom } from '~core/shared_state/currentUser';
 import { UserDataModel } from '~core/auth';
 import { AppFeature, UserFeed } from '~core/auth/models/UserDataModel';
@@ -9,7 +9,6 @@ export const userResourceAtom = createResourceAtom<
   CurrentUser,
   UserDataModel | undefined
 >(
-  currentUserAtom,
   async (userData) => {
     // TODO: Remove full address when Userprofile API service will be moved to the main app API
     const featuresResponse = apiClient.get<unknown>(
@@ -44,10 +43,9 @@ export const userResourceAtom = createResourceAtom<
       }));
     }
 
-    const udm = new UserDataModel();
-    Object.assign(udm, { features, feeds });
-
+    const udm = new UserDataModel({ features, feeds });
     return udm;
   },
+  currentUserAtom,
   'userResourceAtom',
 );

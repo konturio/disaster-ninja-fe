@@ -1,8 +1,8 @@
-import { createBindAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { focusedGeometryVisibilityAtom } from '~core/shared_state';
 import { focusedGeometryLayerAtom } from './focusedGeometryLayer';
 
-export const visibilityWatcherAtom = createBindAtom(
+export const visibilityWatcherAtom = createAtom(
   { focusedGeometryVisibilityAtom },
   ({ onChange, getUnlistedState, schedule }, state = null) => {
     const { isVisible: layerIsVisible } = getUnlistedState(

@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 
 export type NotificationType = 'error' | 'warning' | 'info';
 
@@ -15,7 +15,7 @@ export interface Notification {
   onClose: () => void;
 }
 
-export const currentNotificationAtom = createBindAtom(
+export const currentNotificationAtom = createAtom(
   {
     showNotification: (
       type: NotificationType,

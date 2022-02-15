@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { CategorySettings } from '../types/layers';
 import { categoriesSettings } from '~core/logical_layers/constants';
 
@@ -20,7 +20,7 @@ const settingsMock = new Proxy(defaultSettings, {
   },
 });
 
-export const layersCategoriesSettingsAtom = createBindAtom(
+export const layersCategoriesSettingsAtom = createAtom(
   {},
   ({}, state: Record<string, CategorySettings> = settingsMock) => {
     return state;

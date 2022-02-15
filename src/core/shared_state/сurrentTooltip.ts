@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 
 export type TooltipData = {
   position: { x: number; y: number };
@@ -8,7 +8,7 @@ export type TooltipData = {
 };
 type currentTooltipAtomState = TooltipData | null;
 
-export const currentTooltipAtom = createBindAtom(
+export const currentTooltipAtom = createAtom(
   {
     setCurrentTooltip: (tooltipData: TooltipData) => tooltipData,
     resetCurrentTooltip: () => null,

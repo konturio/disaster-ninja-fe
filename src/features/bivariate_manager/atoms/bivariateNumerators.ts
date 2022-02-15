@@ -1,4 +1,4 @@
-import { createBindAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { Stat } from '@k2-packages/bivariate-tools';
 import { NumeratorWithDenominators } from '~core/types';
@@ -47,7 +47,7 @@ const extractAvailableNumeratorsWithDenominators = (stat: Stat) => {
   return { x, y };
 };
 
-export const bivariateNumeratorsAtom = createBindAtom(
+export const bivariateNumeratorsAtom = createAtom(
   {
     setNumerators: (
       numxX: NumeratorWithDenominators[],
