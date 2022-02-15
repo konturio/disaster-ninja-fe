@@ -1,4 +1,4 @@
-import { createBindAtom, createBooleanAtom } from '~utils/atoms/createBindAtom';
+import { createAtom, createBooleanAtom } from '~utils/atoms';
 import {
   currentUserAtom,
   currentEpisodeAtom,
@@ -15,7 +15,7 @@ const urlStore = new URLStore(new URLDataInSearchEncoder());
 const initFlagAtom = createBooleanAtom(false);
 
 /* Compose shared state values into one atom */
-export const urlStoreAtom = createBindAtom(
+export const urlStoreAtom = createAtom(
   {
     currentUser: currentUserAtom,
     initFlag: initFlagAtom,

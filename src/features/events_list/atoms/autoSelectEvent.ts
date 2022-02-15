@@ -1,9 +1,9 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 import { eventListResourceAtom } from './eventListResource';
 import { currentEventAtom, focusedGeometryAtom } from '~core/shared_state';
 import { Event } from '~core/types';
 
-export const autoSelectEvent = createBindAtom(
+export const autoSelectEvent = createAtom(
   {
     eventListResourceAtom,
   },

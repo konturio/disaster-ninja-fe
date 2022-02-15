@@ -1,6 +1,6 @@
-import { createBindAtom } from '~utils/atoms/createBindAtom';
+import { createAtom } from '~utils/atoms';
 
-export const drawingIsStartedAtom = createBindAtom(
+export const drawingIsStartedAtom = createAtom(
   { setIsStarted: (isStarted: boolean) => isStarted },
   ({ onAction }, started = false) => {
     onAction('setIsStarted', (value) => {

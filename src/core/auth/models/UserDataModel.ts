@@ -33,6 +33,17 @@ export class UserDataModel {
   public features: { [T in AppFeature]?: boolean } = {};
   public feeds: UserFeed[] = [];
 
+  constructor({
+    features,
+    feeds,
+  }: {
+    features: { [T in AppFeature]?: boolean };
+    feeds: UserFeed[];
+  }) {
+    this.features = features;
+    this.feeds = feeds;
+  }
+
   public get defaultFeed(): UserFeed | undefined {
     return this.feeds.find((fd) => fd.isDefault);
   }
