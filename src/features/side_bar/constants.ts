@@ -5,6 +5,7 @@ import { REPORTS_CONROL_ID } from '~features/reports/constants';
 import { DOWNLOAD_GEOMETRY_CONTROL_ID, DRAW_TOOLS_CONTROL_ID } from '~features/draw_tools/constants';
 import { GEOMETRY_UPLOADER_CONTROL_ID } from '~features/geometry_uploader/constants';
 import { EDIT_IN_OSM_CONTROL_ID } from '~features/osm_edit_link/constants';
+import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
 
 export const controlsOrder = [
   EVENTLIST_CONROL_ID,
@@ -15,4 +16,5 @@ export const controlsOrder = [
   MAP_RULER_CONTROL_ID,
   EDIT_IN_OSM_CONTROL_ID,
   REPORTS_CONROL_ID,
+  CREATE_LAYER_CONTROL_ID
 ];

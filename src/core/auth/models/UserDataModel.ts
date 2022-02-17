@@ -25,7 +25,8 @@ export type AppFeature =
   | 'feature_settings'
   | 'osm_edit_link'
   | 'tooltip'
-  | 'feed_selector';
+  | 'feed_selector'
+  | 'create_layer';
 
 export type UserFeed = { feed: string; isDefault?: boolean };
 
