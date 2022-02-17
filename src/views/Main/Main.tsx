@@ -44,6 +44,8 @@ export function MainView() {
   useEffect(() => {
     if (!userFeatures) return;
 
+console.log('userFeatures: ', userFeatures);
+
     /* Lazy load module */
     if (userFeatures?.url_store === true) {
       import('~features/url_store').then(({ initUrlStore }) => initUrlStore());
@@ -89,6 +91,11 @@ export function MainView() {
     if (userFeatures?.osm_edit_link === true) {
       import('~features/osm_edit_link/').then(({ initOsmEditLink }) =>
         initOsmEditLink(),
+      );
+    }
+    if (userFeatures?.create_layer === true) {
+      import('~features/create_layer/').then(({ initCreateLayer }) =>
+        initCreateLayer(),
       );
     }
   }, [userFeatures]);
