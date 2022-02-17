@@ -17,5 +17,4 @@ window.konturAppConfig = {
   KEYCLOAK_URL: 'https://keycloak01.konturlabs.com',
   KEYCLOAK_REALM: 'dev',
   KEYCLOAK_CLIENT_ID: 'kontur_platform',
-  YANDEX_METRICA_ID: [56089129, 87226607],
 };
