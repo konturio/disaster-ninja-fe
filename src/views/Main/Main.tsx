@@ -44,7 +44,6 @@ export function MainView() {
   useEffect(() => {
     if (!userFeatures) return;
 
-console.log('userFeatures: ', userFeatures);
 
     /* Lazy load module */
     if (userFeatures?.url_store === true) {
