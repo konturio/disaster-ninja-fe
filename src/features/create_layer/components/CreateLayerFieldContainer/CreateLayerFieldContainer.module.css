@@ -1,0 +1,11 @@
+.fieldContainer {
+	position: relative;
+
+	& .removeBtn {
+		position: absolute;
+		padding: var(--half-unit);
+		cursor: pointer;
+		right: 8px;
+		top: 8px;
+	}
+}
