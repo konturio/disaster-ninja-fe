@@ -10,6 +10,7 @@ import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { UserProfile } from '~features/user_profile';
+import { CreateLayerPanel } from '~features/create_layer/components/CreateLayerPanel/CreateLayerPanel';
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -89,7 +90,8 @@ export function MainView() {
         initOsmEditLink(),
       );
     }
-    if (userFeatures?.create_layer === true) {
+    // if (userFeatures?.create_layer === true) {
+    if (true) {
       import('~features/create_layer/').then(({ initCreateLayer }) =>
         initCreateLayer(),
       );
@@ -142,6 +144,10 @@ export function MainView() {
               ></div>
               {userFeatures?.legend_panel === true && (
                 <Legend iconsContainerId="right-buttons-container" />
+              )}
+              {/*{userFeatures?.create_layer === true && (*/}
+              {true && (
+                <CreateLayerPanel />
               )}
               {userFeatures?.map_layers_panel === true && (
                 <MapLayersList iconsContainerId="right-buttons-container" />
