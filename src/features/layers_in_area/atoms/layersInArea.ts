@@ -29,7 +29,7 @@ export const layersInAreaResourceAtom = createResourceAtom(
     if (focusedGeometry) body.geoJSON = focusedGeometry.geometry;
 
     const responseData = await apiClient.post<LayerInArea[]>(
-      `/layers/`,
+      `/layers/search/`,
       body,
       false,
     );
