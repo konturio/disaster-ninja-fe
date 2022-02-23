@@ -1,4 +1,4 @@
-import { Atom } from '@reatom/core';
+import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerField';
 
 export type LayerFieldType = 'none' | 'shorttext' | 'longtext' | 'image';
 
@@ -10,7 +10,7 @@ export type LayerFieldModel = {
 export type CreateLayerModel = {
   id: number;
   name: string;
-  // TODO: change it to corrensponding icon type
+  // TODO: change it to corresponding icon type
   marker: string;
-  fields: Atom<LayerFieldModel>[];
+  fields: LayerFieldAtomType[];
 }

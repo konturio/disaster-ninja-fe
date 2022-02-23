@@ -1,11 +1,26 @@
 .fieldContainer {
 	position: relative;
+	background: var(--neutral-neutral-20);
 
 	& .removeBtn {
 		position: absolute;
 		padding: var(--half-unit);
 		cursor: pointer;
-		right: 8px;
-		top: 8px;
+		right: 4px;
+		top: 4px;
+		border-radius: var(--half-unit);
+
+		&:hover {
+			background: var(--neutral-neutral-30);
+		}
+
+		&:active {
+			background: var(--neutral-neutral-40);
+		}
+
+		& svg {
+			width: 16px;
+			height: 16px;
+		}
 	}
 }
