@@ -11,7 +11,7 @@ specifiers:
   '@k2-packages/boundaries': ^2.0.0-alpha.14
   '@k2-packages/client': ^2.0.0-alpha.1
   '@k2-packages/deck-gl': ^3.0.0-alpha.1
-  '@k2-packages/default-icons': ^2.0.0-alpha.14
+  '@k2-packages/default-icons': ^2.0.0-alpha.15
   '@k2-packages/default-theme': ^2.4.0-alpha.2
   '@k2-packages/map': ^2.0.0-alpha.2
   '@k2-packages/map-draw-tools': ^3.0.0-alpha.2
@@ -102,6 +102,7 @@ specifiers:
   typescript: 4.3.5
   typescript-plugin-css-modules: ^3.4.0
   use-subscription: ^1.5.1
+  uuid: ^8.3.2
   vite: ^2.6.14
   vite-plugin-html: ^2.1.1
   yenv: ^2.1.1
@@ -114,7 +115,7 @@ dependencies:
   '@k2-packages/boundaries': 2.0.0-alpha.18_a472ff28d8f2dcb47eccfa2643336b35
   '@k2-packages/client': 2.0.0-alpha.1
   '@k2-packages/deck-gl': 3.0.0-alpha.1_react@17.0.2
-  '@k2-packages/default-icons': 2.0.0-alpha.14_react@17.0.2
+  '@k2-packages/default-icons': 2.0.0-alpha.15_react@17.0.2
   '@k2-packages/default-theme': 2.4.0-alpha.2
   '@k2-packages/map': 2.0.0-alpha.2_8e8bc899e6ff6e793f7fd8eac52b2e5d
   '@k2-packages/map-draw-tools': 3.0.0-alpha.2_2d190d942bb83446b3b4d2da3fe998f6
@@ -205,6 +206,7 @@ dependencies:
   typescript: 4.3.5
   typescript-plugin-css-modules: 3.4.0_typescript@4.3.5
   use-subscription: 1.5.1_react@17.0.2
+  uuid: 8.3.2
   vite: 2.7.10
   vite-plugin-html: 2.1.2_vite@2.7.10
   yenv: 2.1.1
@@ -654,8 +656,8 @@ packages:
       react: 17.0.2
     dev: false
 
-  /@k2-packages/default-icons/2.0.0-alpha.14_react@17.0.2:
-    resolution: {integrity: sha512-diZma1xbmi9bN9C3zTt7UI+NIuve/dD3ZlEPr81YhVK3tsZK+gViOdbiA1nS/c5Xn4skGAKRMOcTmTya39+Pmw==}
+  /@k2-packages/default-icons/2.0.0-alpha.15_react@17.0.2:
+    resolution: {integrity: sha512-bz/5nLD53bPujyrR6k+kx3miM5yLBiOQbQd25xc3mAF9EMDtucOy+4F1rpa+uu1Uoz489+PC7WAwzwbqv+zt3w==}
     peerDependencies:
       react: ^17.0.2
     dependencies:
@@ -7764,6 +7766,11 @@ packages:
 
   /utila/0.4.0:
     resolution: {integrity: sha1-ihagXURWV6Oupe7MWxKk+lN5dyw=}
+    dev: false
+
+  /uuid/8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
     dev: false
 
   /uvu/0.5.3:

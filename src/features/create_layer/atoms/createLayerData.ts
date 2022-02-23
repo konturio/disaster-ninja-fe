@@ -1,7 +1,7 @@
-import { Atom } from '@reatom/core';
 import { CreateLayerModel } from '~features/create_layer/types';
 import { createAtom } from '~utils/atoms';
 import { createLayerFieldAtom } from '~features/create_layer/atoms/createLayerField';
+import { v4 as uuidv4 } from 'uuid';
 
 const DEFAULT_ATOM_STATE: CreateLayerModel = {
   id: -1,
@@ -10,13 +10,16 @@ const DEFAULT_ATOM_STATE: CreateLayerModel = {
   fields: []
 }
 
-export function createLayerDataAtom(initialState?: CreateLayerModel): Atom<CreateLayerModel> {
+export type LayerDataAtomType = ReturnType<typeof createLayerDataAtom>;
+
+export function createLayerDataAtom(initialState?: CreateLayerModel) {
   return createAtom(
     {
       updateName: (name: string) => name,
       updateMarker: (marker: string) => marker,
       addField: () => null,
       removeField: (fieldIndex: number) => fieldIndex,
+      reorderFields: (oldIndex: number, newIndex: number) => ({ oldIndex, newIndex}),
     },
     ({ onAction }, state: CreateLayerModel = initialState || DEFAULT_ATOM_STATE) => {
       onAction('updateName', (name) => {
@@ -35,8 +38,15 @@ export function createLayerDataAtom(initialState?: CreateLayerModel): Atom<Creat
         state = { ...state };
       });
 
+      onAction('reorderFields', ({ oldIndex, newIndex}) => {
+        const tmp = state.fields[oldIndex];
+        state.fields[oldIndex] = state.fields[newIndex];
+        state.fields[newIndex] = tmp;
+        state = { ...state };
+      });
+
       return state;
     },
-    'createLayerDataAtom'
+    `createLayerDataAtom_${uuidv4()}`
   );
 }

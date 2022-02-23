@@ -1,8 +1,10 @@
-import { Atom } from '@reatom/core';
 import { LayerFieldModel, LayerFieldType } from '~features/create_layer/types';
 import { createAtom } from '~utils/atoms';
+import { v4 as uuidv4 } from 'uuid';
 
-export function createLayerFieldAtom(): Atom<LayerFieldModel> {
+export type LayerFieldAtomType = ReturnType<typeof createLayerFieldAtom>;
+
+export function createLayerFieldAtom() {
   return createAtom(
     {
       updateName: (name: string) => name,
@@ -23,5 +25,5 @@ export function createLayerFieldAtom(): Atom<LayerFieldModel> {
 
       return state;
     },
-    'LayerFieldAtom');
+    `LayerFieldAtom_${uuidv4()}`);
 }
