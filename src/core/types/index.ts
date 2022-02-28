@@ -17,11 +17,12 @@ export type MatrixSelection = {
 //------------------------------------------------------------------------------
 // Numerator
 //------------------------------------------------------------------------------
-export type NumeratorWithDenominators = {
-  numeratorId: string;
-  denominators: string[];
-  selectedDenominator: string;
-};
+
+export type AxisGroup = {
+  parent: string | null;
+  quotients: Array<[string, string]>;
+  selectedQuotient: [string, string];
+}
 
 //------------------------------------------------------------------------------
 // Denominator
