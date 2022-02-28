@@ -41,7 +41,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
       const { xNumerator, xDenominator, yNumerator, yDenominator } = selection;
       if (xNumerator === null || yNumerator === null) return;
 
-      const { xNumerators, yNumerators } = getUnlistedState(
+      const { xGroups, yGroups } = getUnlistedState(
         bivariateNumeratorsAtom,
       );
       const bivariateStatisticsResource = getUnlistedState(
@@ -52,10 +52,10 @@ export const bivariateMatrixSelectionAtom = createAtom(
         bivariateStatisticsResource.polygonStatistic.bivariateStatistic;
 
       if (
-        !xNumerators ||
-        !yNumerators ||
-        !xNumerators.length ||
-        !yNumerators.length
+        !xGroups ||
+        !yGroups ||
+        !xGroups.length ||
+        !yGroups.length
       )
         return;
 

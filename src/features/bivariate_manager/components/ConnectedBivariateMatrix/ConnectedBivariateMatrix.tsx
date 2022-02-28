@@ -1,7 +1,7 @@
 import { AxisControl } from '@k2-packages/ui-kit';
 import React, { forwardRef, useCallback, useMemo } from 'react';
 import { Axis, Indicator } from '@k2-packages/bivariate-tools';
-import { NumeratorWithDenominators } from '~core/types';
+import { AxisGroup } from '~core/types';
 import { CorrelationRate } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
 import { useAtom } from '@reatom/react';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
@@ -15,35 +15,35 @@ const qualityFormat = (quality?) =>
     : undefined;
 
 const mapHeaderCell = (
-  numerator: NumeratorWithDenominators,
+  group: AxisGroup,
   indicators: Indicator[],
   correlationRates: CorrelationRate[],
   axis: 'x' | 'y',
 ) => ({
   label:
-    indicators.find((indicator) => indicator.name === numerator.numeratorId)
+    indicators.find((indicator) => indicator.name === group.selectedQuotient[0])
       ?.label || '',
-  selectedDenominator: {
-    id: numerator.selectedDenominator,
+  selectedQuotient: {
+    id: group.selectedQuotient,
     label: indicators.find(
-      (indicator) => indicator.name === numerator.selectedDenominator,
+      (indicator) => indicator.name === group.selectedQuotient[1],
     )?.label,
   },
   quality: qualityFormat(
     correlationRates.find(
       (cr) =>
-        cr[axis].quotient[0] === numerator.numeratorId &&
-        cr[axis].quotient[1] === numerator.selectedDenominator,
+        cr[axis].quotient[0] === group.selectedQuotient[0] &&
+        cr[axis].quotient[1] === group.selectedQuotient[1],
     )?.[axis === 'x' ? 'avgCorrelationX' : 'avgCorrelationY'],
   ),
-  denominators: numerator.denominators.map((denId) => ({
-    id: denId,
-    label: indicators.find((indicator) => indicator.name === denId)?.label,
+  quotients: group.quotients.map((quotient) => ({
+    id: quotient,
+    label: indicators.find((indicator) => indicator.name === quotient[0])?.label,
     quality: qualityFormat(
       correlationRates.find(
         (cr) =>
-          cr[axis].quotient[0] === numerator.numeratorId &&
-          cr[axis].quotient[1] === denId,
+          cr[axis].quotient[0] === quotient[0] &&
+          cr[axis].quotient[1] === quotient[1],
       )?.[axis === 'x' ? 'avgCorrelationX' : 'avgCorrelationY'],
     ),
   })),
@@ -55,70 +55,105 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
       bivariateMatrixSelectionAtom,
     );
     const [matrix] = useAtom(bivariateCorrelationMatrixAtom);
-    const [{ xNumerators, yNumerators }, { setNumerators }] = useAtom(
+    const [{ xGroups, yGroups }, { setNumerators }] = useAtom(
       bivariateNumeratorsAtom,
     );
     const [{ data: statisticsData }] = useAtom(bivariateStatisticsResourceAtom);
     const stats = statisticsData?.polygonStatistic.bivariateStatistic;
 
     const selectedCell = useMemo(() => {
-      const xIndex = xNumerators?.findIndex(
-        (numerator) =>
-          numerator.numeratorId === matrixSelection?.xNumerator &&
-          numerator.denominators[0] === matrixSelection?.xDenominator,
+      const xIndex = xGroups?.findIndex(
+        (group) =>
+          group.selectedQuotient[0] === matrixSelection?.xNumerator &&
+          group.selectedQuotient[1] === matrixSelection?.xDenominator,
       );
-      const yIndex = yNumerators?.findIndex(
-        (numerator) =>
-          numerator.numeratorId === matrixSelection?.yNumerator &&
-          numerator.denominators[0] === matrixSelection?.yDenominator,
+      const yIndex = yGroups?.findIndex(
+        (group) =>
+          group.selectedQuotient[0] === matrixSelection?.yNumerator &&
+          group.selectedQuotient[1] === matrixSelection?.yDenominator,
       );
 
       return { x: xIndex, y: yIndex };
-    }, [matrixSelection, xNumerators, yNumerators]);
+    }, [matrixSelection, xGroups, yGroups]);
 
     const headings = useMemo(() => {
       if (
         !stats ||
         !stats.indicators ||
-        !xNumerators ||
-        !xNumerators.length ||
-        !yNumerators ||
-        !yNumerators.length
+        !xGroups ||
+        !xGroups.length ||
+        !yGroups ||
+        !yGroups.length
       ) {
         return null;
       }
 
       const mapWithIndicators =
-        (axis: 'x' | 'y') => (numerator: NumeratorWithDenominators) =>
+        (axis: 'x' | 'y') => (group: AxisGroup) =>
           mapHeaderCell(
-            numerator,
+            group,
             stats?.indicators,
             stats?.correlationRates,
             axis,
           );
 
       return {
-        x: xNumerators.map(mapWithIndicators('x')),
-        y: yNumerators.map(mapWithIndicators('y')),
+        x: xGroups.map(mapWithIndicators('x')),
+        y: yGroups.map(mapWithIndicators('y')),
       };
-    }, [stats, xNumerators, yNumerators]);
+    }, [stats, xGroups, yGroups]);
 
     const onSelectCellHandler = useCallback(
       (e, { x, y }) => {
         if (
-          !xNumerators ||
-          !yNumerators ||
+          !xGroups ||
+          !yGroups ||
           (x === selectedCell.x && y === selectedCell.y)
         )
           return;
         setMatrixSelection(
-          x !== -1 ? xNumerators[x].numeratorId : null,
-          x !== -1 ? xNumerators[x].selectedDenominator : null,
-          y !== -1 ? yNumerators[y].numeratorId : null,
-          y !== -1 ? yNumerators[y].selectedDenominator : null,
+          x !== -1 ? xGroups[x].selectedQuotient[0] : null,
+          x !== -1 ? xGroups[x].selectedQuotient[1] : null,
+          y !== -1 ? yGroups[y].selectedQuotient[0] : null,
+          y !== -1 ? yGroups[y].selectedQuotient[1] : null,
         );
       },
-      [xNumerators, yNumerators, selectedCell],
+      [xGroups, yGroups, selectedCell],
+    );
+
+    const onSelectDenominator = useCallback(
+      (horizontal: boolean, index: number, numId: string, denId: string) => {
+        const props = horizontal ? yGroups : xGroups;
+        if (xGroups && yGroups && props) {
+          const newProps = [...props];
+          const newSelectedQuotient = props[index].quotients.find((q) => JSON.stringify(q) === JSON.stringify([numId, denId]));
+          if (newSelectedQuotient) {
+            newProps[index] = { ...props[index], selectedQuotient: newSelectedQuotient };
+          }
+
+          const nextNumerators = horizontal ? { x: xGroups, y: newProps } : { x: newProps, y: yGroups };
+
+          setNumerators(nextNumerators.x, nextNumerators.y);
+
+          // refresh colors
+          if (
+            selectedCell.x !== undefined &&
+            selectedCell.y !== undefined &&
+            selectedCell.x !== -1 &&
+            selectedCell.y !== -1 &&
+            ((horizontal && selectedCell.y === index) ||
+              (!horizontal && selectedCell.x === index))
+          ) {
+            setMatrixSelection(
+              nextNumerators.x[selectedCell.x].selectedQuotient[0],
+              nextNumerators.x[selectedCell.x].selectedQuotient[1],
+              nextNumerators.y[selectedCell.y].selectedQuotient[0],
+              nextNumerators.y[selectedCell.y].selectedQuotient[1],
+            );
+          }
+        }
+      },
+      [xGroups, yGroups, selectedCell],
     );
 
     return matrix && headings ? (
@@ -129,9 +164,7 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
         yHeadings={headings.y}
         onSelectCell={onSelectCellHandler}
         selectedCell={selectedCell}
-        onSelectDenominator={() => {
-          /* do nothing */
-        }}
+        onSelectDenominator={onSelectDenominator}
       />
     ) : null;
   },
