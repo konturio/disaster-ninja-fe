@@ -1,8 +1,7 @@
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
-import { drawModes } from '../constants';
+import { drawModes, iconLayer } from '../constants';
 import { LocalDrawPolygonMode } from '../modes/drawPolygon';
 import Icon from '../icons/iconAtlas.png';
-import app_config from '~core/app_config';
 
 export const drawPolyDeckLayerConfig = {
   id: drawModes.DrawPolygonMode,
@@ -21,14 +20,14 @@ export const drawPolyDeckLayerConfig = {
   },
   modeConfig: {
     multipoint: true,
-    disableSelfIntersections: true
+    disableSelfIntersections: true,
   },
 
   editHandleType: 'icon',
   editHandleIconAtlas: Icon,
-  editHandleIconMapping: app_config.iconLayer.iconMapping,
-  editHandleIconSizeScale: app_config.iconLayer.sizeScale,
-  getEditHandlePosition: d => d.coordinates,
-  getEditHandleIconSize:() => 1.8,
-  getEditHandleIcon: () => "pointIcon",
-}
+  editHandleIconMapping: iconLayer.iconMapping,
+  editHandleIconSizeScale: iconLayer.sizeScale,
+  getEditHandlePosition: (d) => d.coordinates,
+  getEditHandleIconSize: () => 1.8,
+  getEditHandleIcon: () => 'pointIcon',
+};

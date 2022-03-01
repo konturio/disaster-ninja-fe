@@ -4,7 +4,8 @@ import { Layer } from '../Layer/Layer';
 import { BivariateLegend as BivariateLegendComponent } from '~components/BivariateLegend/BivariateLegend';
 import s from './Group.module.css';
 import { GroupWithSettings } from '~core/types/layers';
-import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
+import { LayerMeta } from '~core/logical_layers/types/meta';
+import { LayerLegend } from '~core/logical_layers/types/legends';
 
 export function Group({
   group,
@@ -14,7 +15,9 @@ export function Group({
   mutuallyExclusive?: boolean;
 }) {
   const [delegatedLegend, delegateLegendRender] = useState<{
-    layer: LogicalLayer;
+    meta: LayerMeta | null;
+    legend: LayerLegend | null;
+    name: string;
     isHidden: boolean;
   } | null>(null);
   const [isOpen, setOpenState] = useState(group.openByDefault);
@@ -38,7 +41,9 @@ export function Group({
           {delegatedLegend && (
             <div className={s.bivariateLegendWrap}>
               <BivariateLegendComponent
-                layer={delegatedLegend.layer}
+                name={delegatedLegend.name}
+                meta={delegatedLegend.meta}
+                legend={delegatedLegend.legend}
                 isHidden={delegatedLegend.isHidden}
               />
             </div>

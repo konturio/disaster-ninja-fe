@@ -1,4 +1,4 @@
-import { createAtom, createBooleanAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { EventWithGeometry } from '~core/types';
 import { crc32 } from 'hash-wasm';
 
@@ -67,4 +67,4 @@ export const focusedGeometryAtom = createAtom(
   '[Shared state] focusedGeometryAtom',
 );
 
-export const focusedGeometryVisibilityAtom = createBooleanAtom(true);
+export const FOCUSED_GEOMETRY_LOGICAL_LAYER_ID = 'focused-geometry';

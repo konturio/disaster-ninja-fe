@@ -3,16 +3,19 @@ import MapRulerIcon from '@k2-packages/default-icons/tslib/icons/MapRulerIcon';
 import {
   MAP_RULER_CONTROL_ID,
   MAP_RULER_CONTROL_NAME,
+  MAP_RULER_LAYER_ID,
 } from '~features/map_ruler/constants';
-import { mapRulerLogicalLayerAtom } from '~features/map_ruler/atoms/mapRulerLogicalLayer';
 import {
   controlGroup,
   controlVisualGroup,
 } from '~core/shared_state/sideControlsBar';
 import { TranslationService as i18n } from '~core/localization';
+import { createLogicalLayerAtom } from '~core/logical_layers/utils/logicalLayerFabric';
+import { MapRulerRenderer } from './renderers/MapRulerRenderer';
 
 export function initMapRuler() {
-  mapRulerLogicalLayerAtom.init.dispatch();
+  const renderer = new MapRulerRenderer(MAP_RULER_LAYER_ID);
+  const logicalLayerAtom = createLogicalLayerAtom(MAP_RULER_LAYER_ID, renderer);
 
   sideControlsBarAtom.addControl.dispatch({
     id: MAP_RULER_CONTROL_ID,
@@ -27,9 +30,9 @@ export function initMapRuler() {
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
-        mapRulerLogicalLayerAtom.mount.dispatch();
+        logicalLayerAtom.enable.dispatch();
       } else {
-        mapRulerLogicalLayerAtom.unmount.dispatch();
+        logicalLayerAtom.disable.dispatch();
       }
     },
   });

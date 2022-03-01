@@ -20,7 +20,7 @@ function unwrapGuide(guideMaybeWrapped) {
 
 export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
   // i did this because ts throws errors and EditableGeoJsonLayer in source code has ts errors itself, so it doesn't extends as it should
-  [key: string]: any
+  [key: string]: any;
   renderLayers() {
     const subLayerProps = this.getSubLayerProps({
       id: 'geojson',
@@ -72,9 +72,10 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
 
     let layers: any[] = [new GeoJsonLayer(subLayerProps)];
 
-
-    layers = layers.concat(this.createGuidesLayers(), this.createTooltipsLayers(),
-      this.createGeoJsoniconLayer()
+    layers = layers.concat(
+      this.createGuidesLayers(),
+      this.createTooltipsLayers(),
+      this.createGeoJsoniconLayer(),
     );
 
     return layers;
@@ -82,17 +83,21 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
 
   createGeoJsoniconLayer() {
     const data: FeatureCollection = {
-      type: "FeatureCollection",
-      features: []
-    }
+      type: 'FeatureCollection',
+      features: [],
+    };
     data.features = this.props.data?.features?.map((feature, index) => {
-      if (feature.geometry.type !== 'Point') return {
-        ...feature, properties: { isHidden: true }, geometry: {
-          type: 'Point', coordinates: [0, 0]
-        }
-      }
-      return { ...feature }
-    })
+      if (feature.geometry.type !== 'Point')
+        return {
+          ...feature,
+          properties: { isHidden: true },
+          geometry: {
+            type: 'Point',
+            coordinates: [0, 0],
+          },
+        };
+      return { ...feature };
+    });
 
     if (!data || !data.features.length || !this.props.geojsonIcons) {
       return [];
@@ -118,7 +123,7 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
         _subLayerProps: subLayerProps,
         pointType: 'icon',
         iconAtlas: this.props.geojsonIcons.iconAtlas,
-      })
+      }),
     );
 
     return [layer];
