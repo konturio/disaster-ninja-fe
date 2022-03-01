@@ -76,7 +76,7 @@
     "@k2-packages/ui-kit": "3.0.0-alpha.21",
     "@nebula.gl/edit-modes": "1.0.2-alpha.0",
     "@nebula.gl/layers": "1.0.2-alpha.0",
-    "@reatom/core": "^2.0.16",
+    "@reatom/core": "^2.0.17",
     "@reatom/react": "^2.0.15",
     "@turf/bbox": "^6.0.1",
     "@types/geojson": "^7946.0.7",

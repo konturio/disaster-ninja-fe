@@ -1,15 +1,15 @@
-import { LayerLegend } from '~core/logical_layers/createLogicalLayerAtom';
+import { LayerLegend } from '~core/logical_layers/types/legends';
 import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 
 interface TileSource {
   type: 'vector' | 'raster';
-  url: string[];
   tileSize: number;
+  url: string[];
 }
 
 interface GeoJSONSource {
   type: 'geojson';
-  data: GeoJSON.GeoJSON;
+  data: GeoJSON.FeatureCollection | GeoJSON.Feature;
 }
 
 export interface LayerInArea {
@@ -24,31 +24,18 @@ export interface LayerInArea {
   boundaryRequiredForRetrieval: boolean;
 }
 
-export interface LayerGeoJSONSource {
+export interface LayerDetailsGeoJSONSource {
   id: string;
-  source: {
-    type: 'geojson';
-    data: GeoJSON.FeatureCollection | GeoJSON.Feature;
-  };
+  source: GeoJSONSource;
 }
 
-export interface LayerTileSource {
+export interface LayerDetailsTileSource {
   id: string;
   maxZoom: number;
   minZoom: number;
-  source: {
-    type: 'vector' | 'raster';
-    tileSize: number;
-    urls: string[];
-  };
+  source: TileSource;
 }
 
-export interface LayersInAreaParams {
-  focusedGeometry: FocusedGeometry | null;
-}
-
-export interface LayerInAreaReactiveData {
-  layer: LayerInArea;
-  requestParams: LayersInAreaParams;
-}
-export type LayerInAreaSource = LayerGeoJSONSource | LayerTileSource;
+export type LayerInAreaDetails =
+  | LayerDetailsGeoJSONSource
+  | LayerDetailsTileSource;

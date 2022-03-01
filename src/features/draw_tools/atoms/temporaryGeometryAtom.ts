@@ -9,14 +9,14 @@ const defaultState: FeatureCollection = {
 
 export const temporaryGeometryAtom = createAtom(
   {
-    updateFeatures: (features: Feature[], updateIndexes: number[]) => {
+    setFeatures: (features: Feature[], updateIndexes: number[]) => {
       return { features, indexes: updateIndexes };
     },
     activeDrawModeAtom,
     resetToDefault: () => null,
   },
   ({ onAction, onChange }, state: FeatureCollection = defaultState) => {
-    onAction('updateFeatures', ({ features, indexes }) => {
+    onAction('setFeatures', ({ features, indexes }) => {
       const tempFeatures: Feature[] = features.map((feature, index) => {
         if (!indexes.includes(index)) return feature;
         const copy = { ...feature };

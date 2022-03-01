@@ -2,7 +2,7 @@ import { Atom, AtomSelfBinded, isObject } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
 
 export type ResourceAtom<P, T> = AtomSelfBinded<
-  ResourceAtomState<T>,
+  ResourceAtomState<T, P>,
   {
     request: (params?: P | undefined) => T | undefined;
     refetch: () => undefined;
@@ -12,11 +12,12 @@ export type ResourceAtom<P, T> = AtomSelfBinded<
   }
 >;
 
-interface ResourceAtomState<T> {
+interface ResourceAtomState<T, P> {
   loading: boolean;
   error: string | null;
   data: T | null;
   canceled: boolean;
+  lastParams: P | null;
 }
 
 type ResourceCtx<P> = {
@@ -41,16 +42,18 @@ function createResourceFetcherAtom<P, T>(
     },
     (
       { onAction, schedule, create },
-      state: ResourceAtomState<T> = {
+      state: ResourceAtomState<T, P> = {
         loading: false,
         data: null,
         error: null,
         canceled: false,
+        lastParams: null,
       },
     ) => {
       const newState = { ...state };
 
       onAction('request', (params) => {
+        newState.lastParams = params ? { ...params } : params;
         newState.loading = true;
         newState.error = null;
         newState.canceled = false;

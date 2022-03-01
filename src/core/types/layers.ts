@@ -1,8 +1,8 @@
-import type { LogicalLayerAtom } from '~core/types/layers';
+import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
 
 export interface Layer {
   id: string;
-  atom: LogicalLayerAtom;
+  atom: LayerAtom;
   group?: string;
   category?: string;
   order?: number;
@@ -43,5 +43,3 @@ export type TreeChildren = CategoryWithSettings | GroupWithSettings | Layer;
 export interface Tree {
   children: TreeChildren[];
 }
-
-export type { LogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';

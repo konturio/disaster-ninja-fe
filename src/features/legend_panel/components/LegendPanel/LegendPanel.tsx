@@ -1,25 +1,22 @@
-import { TranslationService as i18n } from '~core/localization';
-import { Panel, PanelIcon, Text } from '@k2-packages/ui-kit';
-import s from './LegendPanel.module.css';
 import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
-import { LegendSorter } from './LegendSorter';
 import { LegendPanelIcon } from '@k2-packages/default-icons';
-import type { LogicalLayerAtom } from '~core/types/layers';
-import { LayerLegend } from '~core/logical_layers/createLogicalLayerAtom';
+import { Panel, PanelIcon, Text } from '@k2-packages/ui-kit';
+import { TranslationService as i18n } from '~core/localization';
+import s from './LegendPanel.module.css';
+import { LegendsList } from './LegendsList';
+
+import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
+import type { LayerLegend } from '~core/logical_layers/types/legends';
+import { AsyncState } from '~core/logical_layers/types/asyncState';
 
 interface LegendPanelProps {
-  layers: LogicalLayerAtom[];
+  layers: LayerAtom[];
   iconsContainerId: string;
-  legends: Map<string, LayerLegend>;
 }
 
-export function LegendPanel({
-  layers,
-  iconsContainerId,
-  legends,
-}: LegendPanelProps) {
+export function LegendPanel({ layers, iconsContainerId }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [closed, setClosedPreferation] = useState<boolean>(false);
   const [childIconContainer, setChildIconContainer] =
@@ -76,11 +73,7 @@ export function LegendPanel({
       >
         <div className={s.panelBody}>
           {layers.map((layer) => (
-            <LegendSorter
-              layer={layer}
-              legend={legends.get(layer.id)}
-              key={layer.id}
-            />
+            <LegendsList layer={layer} key={layer.id} />
           ))}
         </div>
       </Panel>

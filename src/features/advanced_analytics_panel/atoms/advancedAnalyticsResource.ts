@@ -1,4 +1,4 @@
-import { createResourceAtom } from '~utils/atoms';
+import { createAtom, createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/index';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { AdvancedAnalyticsData } from '~core/types';

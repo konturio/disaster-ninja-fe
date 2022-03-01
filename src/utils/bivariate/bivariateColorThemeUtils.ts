@@ -1,13 +1,17 @@
-import { CornerRange, generateBivariateStyleForAxis, Stat } from '@k2-packages/bivariate-tools';
+import {
+  CornerRange,
+  generateBivariateStyleForAxis,
+  Stat,
+} from '@k2-packages/bivariate-tools';
 import interpolate from 'color-interpolate';
 import config from '~core/app_config';
-import { BivariateLegendBackend } from '~core/logical_layers/createLogicalLayerAtom/types';
+import { BivariateLegend, BivariateLegendBackend } from '~core/logical_layers/types/legends';
 import { ColorTheme } from '~core/types';
 import { ColorCombination } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
 
 export interface BivariateLayerStyle {
   id: string;
-  type: string;
+  type: 'fill';
   source: unknown;
   layout: unknown;
   filter: unknown[];
@@ -39,10 +43,13 @@ function convertColorWithOpacity(hexColor: string): string {
   throw new Error('Bad Hex');
 }
 
-function findColors(colors: {
-  fallback: string;
-  combinations: ColorCombination[];
-}, crn: [CornerRange[], CornerRange[]]): string {
+function findColors(
+  colors: {
+    fallback: string;
+    combinations: ColorCombination[];
+  },
+  crn: [CornerRange[], CornerRange[]],
+): string {
   const corner1 = Array.isArray(crn[0]) ? crn[0] : [crn[0]];
   const corner2 = Array.isArray(crn[1]) ? crn[1] : [crn[1]];
   const mergedCorner = [...corner1];
@@ -144,12 +151,16 @@ export function generateColorThemeAndBivariateStyle(
   return [colorTheme, bivariateStyle];
 }
 
-export function generateLayerStyleFromBivariateLegendBackend(bl: BivariateLegendBackend): BivariateLayerStyle {
+export function generateLayerStyleFromBivariateLegend(
+  bl: BivariateLegend,
+): BivariateLayerStyle {
   return generateBivariateStyleForAxis({
-    id: `${bl.axes.x.quotient.join('&')}|${bl.axes.y.quotient.join('&')}`,
-    x: bl.axes.x,
-    y: bl.axes.y,
-    colors: bl.colors.sort((clr1, clr2) => clr1.id > clr2.id ? 1 : -1),
+    id: `${bl.axis.x.quotient.join('&')}|${bl.axis.y.quotient.join('&')}`,
+    x: bl.axis.x,
+    y: bl.axis.y,
+    colors: [...bl.steps]
+      .sort((stp1, stp2) => (stp1.label > stp2.label ? 1 : -1))
+      .map(stp => ({ id: stp.label, color: stp.color })),
     sourceLayer: 'stats',
     source: {
       type: 'vector',
@@ -157,19 +168,41 @@ export function generateLayerStyleFromBivariateLegendBackend(bl: BivariateLegend
       maxzoom: 8,
       minzoom: 0,
     },
-  });
+  }) as BivariateLayerStyle;
 }
 
-export function convertRGBtoObj(colorString: string): { r: number; g: number; b: number; a: number } {
+export function generateLayerStyleFromBivariateLegendBackend(
+  bl: BivariateLegendBackend,
+): BivariateLayerStyle {
+  return generateBivariateStyleForAxis({
+    id: `${bl.axes.x.quotient.join('&')}|${bl.axes.y.quotient.join('&')}`,
+    x: bl.axes.x,
+    y: bl.axes.y,
+    colors: bl.colors.sort((clr1, clr2) => (clr1.id > clr2.id ? 1 : -1)),
+    sourceLayer: 'stats',
+    source: {
+      type: 'vector',
+      tiles: [`${resolveUrl(config.tilesApi)}{z}/{x}/{y}.mvt`],
+      maxzoom: 8,
+      minzoom: 0,
+    },
+  }) as BivariateLayerStyle;
+}
+
+export function convertRGBtoObj(colorString: string): {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+} {
   const rgbKeys = ['r', 'g', 'b', 'a'] as const;
-  const rgbObj: {[K in typeof rgbKeys[number]]?: number} = {};
-   // rgba(number, number, number, number) => [number, number, number, number];
-  const color = colorString.replace(/^rgba?\(|\s+|\)$/g,'').split(',');
+  const rgbObj: { [K in typeof rgbKeys[number]]?: number } = {};
+  // rgba(number, number, number, number) => [number, number, number, number];
+  const color = colorString.replace(/^rgba?\(|\s+|\)$/g, '').split(',');
 
   rgbKeys.forEach((colorKey, colorIndex) => {
     rgbObj[colorKey] = parseFloat(color[colorIndex]) || 1;
   });
 
-  return rgbObj as {[K in typeof rgbKeys[number]]: number};
+  return rgbObj as { [K in typeof rgbKeys[number]]: number };
 }
-

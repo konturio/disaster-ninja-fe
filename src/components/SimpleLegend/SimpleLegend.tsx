@@ -1,5 +1,5 @@
 import { Text } from '@k2-packages/ui-kit';
-import { SimpleLegend as SimpleLegendType } from '~core/logical_layers/createLogicalLayerAtom/types';
+import { SimpleLegend as SimpleLegendType } from '~core/logical_layers/types/legends';
 import { HexIcon } from '~components/SimpleLegend/icons/HexIcon';
 import { CircleIcon } from '~components/SimpleLegend/icons/CircleIcon';
 import { SquareIcon } from '~components/SimpleLegend/icons/SquareIcon';

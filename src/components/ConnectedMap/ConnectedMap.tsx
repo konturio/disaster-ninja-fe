@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import mapLibre from 'maplibre-gl';
 import Map, { MapBoxMapProps } from '@k2-packages/map';
 import DeckGl from '@k2-packages/deck-gl';
 import { useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
-import { layersOrderManager } from '~core/logical_layers/layersOrder';
+import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import { MapStyle } from '~core/types';
 
 const updatedMapStyle = (
@@ -55,11 +55,14 @@ export function ConnectedMap({
   // init current MapRefAtom
   const [, currentMapAtomActions] = useAtom(currentMapAtom);
 
-  const [mapListeners] = useAtom(mapListenersAtom)
+  const [mapListeners] = useAtom(mapListenersAtom);
+  const initLayersOrderManager = useCallback(
+    (map) => layersOrderManager.init(mapRef.current!),
+    [],
+  );
 
   useEffect(() => {
     if (mapRef.current) {
-      layersOrderManager.init(mapRef.current);
       // @ts-expect-error Fix for react dev tools
       mapRef.current.toJSON = () => '[Mapbox Object]';
       // Fix - map fitBounds for incorrectly, because have incorrect internal state abut self canvas size
@@ -76,7 +79,7 @@ export function ConnectedMap({
     currentMapAtomActions.setMap(mapRef.current);
   }, [mapRef, currentMapAtomActions]);
 
-  useEffect(() => {    
+  useEffect(() => {
     // for starters lets add click handlers only. It's also easier to read
 
     const handlers = (event: mapLibre.MapMouseEvent & mapLibre.EventData) => {
@@ -85,16 +88,14 @@ export function ConnectedMap({
         const passToNextListener = listener(event, mapRef.current);
         if (!passToNextListener) break;
       }
-    }
+    };
     if (mapRef.current) {
-      mapRef.current.on('click', (handlers))
+      mapRef.current.on('click', handlers);
     }
     return () => {
-      mapRef.current?.off('click', handlers)
-    }
-  }, [mapRef, mapListeners])
-
-
+      mapRef.current?.off('click', handlers);
+    };
+  }, [mapRef, mapListeners]);
 
   return (
     <DeckGl layers={[]}>
@@ -103,6 +104,7 @@ export function ConnectedMap({
           ref={mapRef}
           mapStyle={updatedMapStyle(mapStyle as any, layers, {})}
           markers={markers}
+          onLoad={initLayersOrderManager}
           layersOnTop={[
             'editable-layer',
             'hovered-boundaries-layer',
