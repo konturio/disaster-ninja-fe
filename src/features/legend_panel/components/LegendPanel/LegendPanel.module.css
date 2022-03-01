@@ -27,7 +27,7 @@
 .panelBody {
   height: 100%;
   width: 260px;
-  padding: 0 18px 18px 18px;
+  padding: 0 var(--double-unit) var(--double-unit) var(--double-unit);
   overflow-y: auto;
   overflow-x: hidden;
 }

@@ -1,37 +1,25 @@
 import { Button, Text } from '@k2-packages/ui-kit';
 import { useCallback } from 'react';
 import { TranslationService as i18n } from '~core/localization';
-import s from './DrawToolToolbox.module.css';
 import {
   DrawLineIcon,
   DrawPointIcon,
   DrawPolygonIcon,
   TrashBinIcon,
 } from '@k2-packages/default-icons';
-import { useAction, useAtom } from '@reatom/react';
-import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
+import { useAtom } from '@reatom/react';
 import clsx from 'clsx';
-import {
-  DRAW_TOOLS_CONTROL_ID,
-  drawModes,
-} from '~features/draw_tools/constants';
-import { modeWatcherAtom } from '~features/draw_tools/atoms/drawLayerAtom';
-import { selectedIndexesAtom } from '~features/draw_tools/atoms/selectedIndexesAtom';
-import { drawnGeometryAtom } from '~features/draw_tools/atoms/drawnGeometryAtom';
-import { sideControlsBarAtom } from '~core/shared_state';
-import { drawingIsStartedAtom } from '~features/draw_tools/atoms/drawingIsStartedAtom';
-import { temporaryGeometryAtom } from '~features/draw_tools/atoms/temporaryGeometryAtom';
+import s from './DrawToolToolbox.module.css';
+import { drawModes } from '../../constants';
+import { combinedAtom } from '../../atoms/combinedAtom';
+import { toolboxAtom } from '~features/draw_tools/atoms/toolboxAtom';
 
 export const DrawToolsToolbox = () => {
-  const [activeDrawMode, { setDrawMode, toggleDrawMode }] =
-    useAtom(activeDrawModeAtom);
-
-  const [selected, { setIndexes }] = useAtom(selectedIndexesAtom);
-  const [, { removeByIndexes }] = useAtom(drawnGeometryAtom);
-  const clearTempGeometry = useAction(temporaryGeometryAtom.resetToDefault);
-  const [, { disable: disableSideIcon }] = useAtom(sideControlsBarAtom);
-  const [drawingIsStarted] = useAtom(drawingIsStartedAtom);
-  useAtom(modeWatcherAtom);
+  const [
+    { mode: activeDrawMode, selectedIndexes, drawingIsStarted },
+    { deleteFeatures, toggleDrawMode, finishDrawing },
+  ] = useAtom(toolboxAtom);
+  useAtom(combinedAtom);
 
   const onPolygonClick = useCallback(() => {
     toggleDrawMode(drawModes.DrawPolygonMode);
@@ -45,19 +33,7 @@ export const DrawToolsToolbox = () => {
     toggleDrawMode(drawModes.DrawPointMode);
   }, [toggleDrawMode]);
 
-  const finishDrawing = useCallback(() => {
-    disableSideIcon(DRAW_TOOLS_CONTROL_ID);
-    setDrawMode(null);
-  }, [disableSideIcon, setDrawMode]);
-
-  const onDelete = useCallback(() => {
-    if (selected.length) {
-      const indexes = [...selected];
-      setIndexes([]);
-      removeByIndexes(indexes);
-      clearTempGeometry();
-    }
-  }, [removeByIndexes, selected, setIndexes]);
+  const onDelete = useCallback(() => deleteFeatures(), [deleteFeatures]);
 
   return activeDrawMode ? (
     <div className={s.drawToolsContainer}>
@@ -99,7 +75,7 @@ export const DrawToolsToolbox = () => {
         </Button>
         <Button
           className={s.modeBtn}
-          active={Boolean(selected.length)}
+          active={Boolean(selectedIndexes.length)}
           onClick={onDelete}
         >
           <div className={s.btnContent}>

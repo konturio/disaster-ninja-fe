@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
-import { logicalLayersHierarchyAtom } from '~core/logical_layers/atoms/logicalLayersHierarchy';
-import { enabledLayersAtom } from '~core/shared_state/enabledLayers';
+import { logicalLayersHierarchyAtom } from '~core/logical_layers/atoms/layersHierarchy';
+import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 
 export const mountedLayersByCategoryAtom = createAtom(
   {

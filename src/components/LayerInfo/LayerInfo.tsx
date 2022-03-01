@@ -1,22 +1,9 @@
 import React from 'react';
 import { Tooltip } from '~components/Tooltip/Tooltip';
-import { LogicalLayer } from '~core/logical_layers/createLogicalLayerAtom';
+import { LayerMeta } from '~core/logical_layers/types/meta';
 
-const Component = React.memo(function ({
-  layer,
-}: {
-  layer: LogicalLayer<any>;
-}) {
-  const copyrights =
-    layer.legend && 'copyrights' in layer.legend
-      ? layer.legend.copyrights
-      : layer.copyrights;
-
-  const description =
-    layer.legend && 'description' in layer.legend
-      ? layer.legend.description
-      : layer.description;
-
+const Component = React.memo(function ({ meta }: { meta: LayerMeta }) {
+  const { copyrights, description } = meta;
   if (copyrights || description) {
     const tipText = [description, copyrights]
       .flat()

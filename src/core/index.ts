@@ -3,9 +3,11 @@ import config from './app_config';
 import { NotificationService } from './notifications';
 import { TranslationService } from './localization';
 import { autoRefreshService } from './auto_refresh';
+import { init as initLogicalLayers } from './logical_layers';
 import { AuthClient } from '~core/auth';
 
 NotificationService.init();
+initLogicalLayers();
 export const notificationService = NotificationService.getInstance();
 
 // initialize main api client
