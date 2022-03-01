@@ -1,9 +1,12 @@
 type Option = { label: string; value: string | number };
 
 export function constructOptionsFromBoundaries(
-  boundaries: GeoJSON.FeatureCollection,
+  boundaries: GeoJSON.FeatureCollection | GeoJSON.Feature,
 ): Option[] {
-  const { features } = boundaries;
+  const features =
+    boundaries.type === 'FeatureCollection'
+      ? boundaries.features
+      : [boundaries];
   const sortedFeatures = features.sort(
     (f1, f2) => f2.properties?.admin_level - f1.properties?.admin_level,
   );
@@ -20,12 +23,24 @@ export function constructOptionsFromBoundaries(
   return options;
 }
 
-export function boundarySelector(boundaries: GeoJSON.FeatureCollection) {
+export function boundarySelector(
+  boundaries: GeoJSON.FeatureCollection | GeoJSON.Feature,
+) {
   return (id: string) => {
-    const feature = boundaries.features.find((boundary) => boundary.id === id);
-    return {
-      type: 'FeatureCollection' as const,
-      features: [feature],
-    };
+    if (boundaries.type === 'FeatureCollection') {
+      const feature = boundaries.features.find(
+        (boundary) => boundary.id === id,
+      );
+      return {
+        type: 'FeatureCollection' as const,
+        features: [feature],
+      };
+    } else {
+      const features = boundaries.id === id ? [boundaries] : [];
+      return {
+        type: 'FeatureCollection' as const,
+        features: features,
+      };
+    }
   };
 }

@@ -1,15 +1,11 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import {
-  BivariateLayerStyle,
-  generateColorThemeAndBivariateStyle,
-} from '~utils/bivariate/bivariateColorThemeUtils';
+import { BivariateLayerStyle, generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { ColorTheme } from '~core/types';
-import { logicalLayersRegistryAtom } from '~core/shared_state';
-import { createLogicalLayerAtom } from '~core/logical_layers/createLogicalLayerAtom';
-import { BivariateLayer } from '~features/bivariate_manager/layers/BivariateLayer';
+import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
+import { createLayerActionsFromLayerInArea } from '~features/layers_in_area/atoms/areaLayers';
 import { Action } from '@reatom/core';
 
 export const bivariateMatrixSelectionAtom = createAtom(
@@ -81,39 +77,34 @@ export const bivariateMatrixSelectionAtom = createAtom(
         );
 
         if (legend) {
-          const layer = createLogicalLayerAtom(
-            new BivariateLayer({
-              name: 'Bivariate Layer',
-              id: (bivariateStyle as BivariateLayerStyle).id,
-              layerStyle: bivariateStyle as BivariateLayerStyle,
-              legend,
-            }),
-          );
+          const id = (bivariateStyle as BivariateLayerStyle).id;
+          const layerInArea = {
+            id,
+            name: 'Bivariate Layer',
+            category: 'overlay' as 'overlay' | 'base',
+            group: 'bivariate',
+            legend,
+            boundaryRequiredForRetrieval: false,
+          };
 
-          let layerToUnreg: string;
+          const actions = createLayerActionsFromLayerInArea(id, layerInArea);
 
-          const currentRegistry = getUnlistedState(logicalLayersRegistryAtom);
-          for (const [layerId, layer] of Object.entries(currentRegistry)) {
-            if (getUnlistedState(layer).layer.name === 'Bivariate Layer') {
-              layerToUnreg = layerId;
-              logicalLayersRegistryAtom.unregisterLayer(layerId);
-              break;
+          const currentRegistry = getUnlistedState(layersRegistryAtom);
+          for (const [layerId, layer] of Array.from(currentRegistry)) {
+            const layerData = getUnlistedState(layer);
+            if (layerData.legend?.type === 'bivariate' && layerData.legend?.name === 'Bivariate Layer') {
+                actions.push(layersRegistryAtom.unregister(layerId));
+            }
+            if (layerData.id === id) {
+              actions.push(layer.show());
             }
           }
 
-          schedule((dispatch) => {
-            const actionsBatch: Action<unknown>[] = [
-              logicalLayersRegistryAtom.registerLayer(layer),
-              layer.mount(),
-            ];
-            if (layerToUnreg) {
-              actionsBatch.push(
-                logicalLayersRegistryAtom.unregisterLayer(layerToUnreg),
-              );
-            }
-
-            dispatch(actionsBatch);
-          });
+          if (actions.length) {
+            schedule((dispatch) => {
+              dispatch(actions);
+            });
+          }
         }
       }
     });
