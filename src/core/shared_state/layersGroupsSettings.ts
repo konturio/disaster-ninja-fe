@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms/createPrimitives';
 import { GroupSettings } from '../types/layers';
 import { groupSettings } from '~core/logical_layers/constants';
 

@@ -1,12 +1,14 @@
 import { createAtom } from '~utils/atoms';
-import {
-  focusedGeometryAtom,
-  focusedGeometryVisibilityAtom,
-} from '~core/shared_state';
+import { focusedGeometryAtom } from '~core/shared_state';
 import { Feature, FeatureCollection } from 'geojson';
 import { activeDrawModeAtom } from './activeDrawMode';
 import { point as createPointFeature } from '@turf/helpers';
-import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
+import {
+  FocusedGeometry,
+  FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
+} from '~core/shared_state/focusedGeometry';
+import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 
 const defaultState: FeatureCollection = {
   type: 'FeatureCollection',
@@ -16,7 +18,7 @@ const defaultState: FeatureCollection = {
 export const drawnGeometryAtom = createAtom(
   {
     addFeature: (feature: Feature) => feature,
-    updateFeatures: (features: Feature[]) => features,
+    setFeatures: (features: Feature[]) => features,
     updateByIndex: (feature: Feature, index: number) => {
       return { feature, index };
     },
@@ -32,7 +34,7 @@ export const drawnGeometryAtom = createAtom(
       state = { ...state, features: [...state.features, feature] };
     });
 
-    onAction('updateFeatures', (features) => {
+    onAction('setFeatures', (features) => {
       state = { ...state, features: features };
     });
 
@@ -59,6 +61,11 @@ export const drawnGeometryAtom = createAtom(
       state = stateCopy;
     });
 
+    /**
+     * While draw mode is active, some geometry can be uploaded which will be received by focusedGeometryAtom
+     * this listener intercepts geometry in such case
+     */
+
     onChange('focusedGeometryAtom', (incoming) => {
       const mode = get('activeDrawModeAtom');
       if (!mode) return;
@@ -67,29 +74,30 @@ export const drawnGeometryAtom = createAtom(
         schedule((dispatch) => {
           const actions: any[] = [];
           updateFromGeometry(incoming, actions, create);
-
-          // clear focused geometry afterwards
-          actions.push(focusedGeometryAtom.setFocusedGeometry(null, null));
           dispatch(actions);
         });
     });
 
-    onChange('activeDrawModeAtom', (mode, prevMode) => {
+    onChange('activeDrawModeAtom', (activeMode, previousActiveMode) => {
       const focusedFeatures = getUnlistedState(focusedGeometryAtom);
-      if (mode && !prevMode && focusedFeatures) {
+      if (activeMode && !previousActiveMode && focusedFeatures) {
         schedule((dispatch) => {
-          const actions: any[] = [focusedGeometryVisibilityAtom.setFalse()];
+          const actions: any[] = [
+            enabledLayersAtom.delete(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
+          ];
           updateFromGeometry(focusedFeatures, actions, create);
           dispatch(actions);
         });
-      } else if (!mode && prevMode)
+      } else if (!activeMode && previousActiveMode) {
+        // if draw mode was turned off after being turned on
         schedule((dispatch) => {
           dispatch([
             focusedGeometryAtom.setFocusedGeometry({ type: 'drawn' }, state),
-            focusedGeometryVisibilityAtom.setTrue(),
+            enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
           ]);
           state = defaultState;
         });
+      }
     });
 
     return state;
@@ -97,6 +105,7 @@ export const drawnGeometryAtom = createAtom(
   'drawnGeometryAtom',
 );
 
+// here I use deepCopy to modify feature.properties object later
 function updateFromGeometry(
   focusedGeometry: FocusedGeometry,
   actions: any[],
@@ -109,15 +118,15 @@ function updateFromGeometry(
           currentFeature.geometry.coordinates.forEach((coordinate) =>
             result.push(createPointFeature(coordinate)),
           );
-        } else result.push(currentFeature);
+        } else result.push(deepCopy(currentFeature));
         return result;
       },
       [],
     );
 
-    actions.push(create('updateFeatures', noMultipoints));
+    actions.push(create('setFeatures', noMultipoints));
   } else if (focusedGeometry.geometry.type === 'Feature') {
-    actions.push(create('updateFeatures', [focusedGeometry.geometry]));
+    actions.push(create('setFeatures', [deepCopy(focusedGeometry.geometry)]));
   } else {
     console.warn('wrong type of data imported or the type is not supported');
   }
