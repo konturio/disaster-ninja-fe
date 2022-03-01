@@ -1,8 +1,7 @@
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
-import { drawModes } from '../constants';
+import { drawModes, iconLayer } from '../constants';
 import { LocalDrawLineStringMode } from '../modes/drawLine';
 import Icon from '../icons/iconAtlas.png';
-import app_config from '~core/app_config';
 
 export const drawLineDeckLayerConfig = {
   id: drawModes.DrawLineMode,
@@ -21,9 +20,9 @@ export const drawLineDeckLayerConfig = {
 
   editHandleType: 'icon',
   editHandleIconAtlas: Icon,
-  editHandleIconMapping: app_config.iconLayer.iconMapping,
-  editHandleIconSizeScale: app_config.iconLayer.sizeScale,
-  getEditHandlePosition: d => d.coordinates,
-  getEditHandleIconSize:() => 1.8,
-  getEditHandleIcon: () => "pointIcon",
-}
+  editHandleIconMapping: iconLayer.iconMapping,
+  editHandleIconSizeScale: iconLayer.sizeScale,
+  getEditHandlePosition: (d) => d.coordinates,
+  getEditHandleIconSize: () => 1.8,
+  getEditHandleIcon: () => 'pointIcon',
+};

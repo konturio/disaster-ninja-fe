@@ -5,7 +5,7 @@ import {
   currentEventAtom,
   currentMapPositionAtom,
 } from '~core/shared_state';
-import { enabledLayersAtom } from '~core/shared_state';
+import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { URLStore } from '../URLStore';
 import { URLDataInSearchEncoder } from '../dataInURLEncoder';
 import { UrlData } from '../types';
@@ -46,7 +46,7 @@ export const urlStoreAtom = createAtom(
         const actions: Action[] = [];
 
         // Apply layers
-        actions.push(enabledLayersAtom.set(state.layers ?? []));
+        actions.push(enabledLayersAtom.change(() => new Set(state.layers)));
 
         // Apply map position
         if (state.map) {

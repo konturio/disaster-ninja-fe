@@ -1,2 +1,2 @@
-export const FOCUSED_GEOMETRY_LOGICAL_LAYER_ID = 'focused-geometry';
 export const FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY = 'Selected Area';
+export const FOCUSED_GEOMETRY_COLOR = '#0C9BED';
