@@ -28,7 +28,9 @@
 	}
 
 	& .fieldsPlaceholder {
-
+		display: flex;
+		flex-direction: column;
+		gap: var(--half-unit);
 	}
 
 	& .addFieldButton {

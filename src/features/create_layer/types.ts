@@ -1,6 +1,6 @@
 import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerField';
 
-export type LayerFieldType = 'none' | 'shorttext' | 'longtext' | 'image';
+export type LayerFieldType = 'none' | 'shorttext' | 'longtext' | 'link' | 'image';
 
 export type LayerFieldModel = {
   name: string;
@@ -13,4 +13,5 @@ export type CreateLayerModel = {
   // TODO: change it to corresponding icon type
   marker: string;
   fields: LayerFieldAtomType[];
+  isSaving?: boolean;
 }
