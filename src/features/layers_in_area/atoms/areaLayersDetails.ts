@@ -8,12 +8,14 @@ import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { areaLayersResourceAtom } from './areaLayers';
 import { LayerInAreaDetails } from '../types';
 import { LayerSource } from '~core/logical_layers/types/source';
+import { currentEventFeedAtom } from '~core/shared_state';
 
 export interface DetailsRequestParams {
   layersToRetrieveWithGeometryFilter: string[];
   layersToRetrieveWithoutGeometryFilter: string[];
   geoJSON?: GeoJSON.GeoJSON;
   eventId?: string;
+  eventFeed?: string;
 }
 
 function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
@@ -49,6 +51,7 @@ export const areaLayersDetailsParamsAtom = createAtom(
     if (availableLayersInArea === undefined) return null;
 
     const enabledLayers = get('enabledLayersAtom');
+    let hasEventIdRequiredForRetrieval = false;
     const [
       layersToRetrieveWithGeometryFilter,
       layersToRetrieveWithoutGeometryFilter,
@@ -56,16 +59,14 @@ export const areaLayersDetailsParamsAtom = createAtom(
       (acc, layer) => {
         if (enabledLayers.has(layer.id)) {
           acc[layer.boundaryRequiredForRetrieval ? 0 : 1].push(layer.id);
+          if (!hasEventIdRequiredForRetrieval && layer.eventIdRequiredForRetrieval) {
+            hasEventIdRequiredForRetrieval = true;
+          }
         }
         return acc;
       },
       [[], []] as [string[], string[]],
     );
-
-    const requestParams: DetailsRequestParams = {
-      layersToRetrieveWithGeometryFilter,
-      layersToRetrieveWithoutGeometryFilter,
-    };
 
     if (
       layersToRetrieveWithGeometryFilter.length +
@@ -74,6 +75,12 @@ export const areaLayersDetailsParamsAtom = createAtom(
     ) {
       return null;
     }
+
+    const requestParams: DetailsRequestParams = {
+      layersToRetrieveWithGeometryFilter,
+      layersToRetrieveWithoutGeometryFilter,
+    };
+
     /**
      * To avoid double request case:
      * (one for enabled layers list, second for focused geometry change)
@@ -87,6 +94,13 @@ export const areaLayersDetailsParamsAtom = createAtom(
 
     if (focusedGeometry) {
       requestParams.geoJSON = focusedGeometry.geometry;
+    }
+
+    if (hasEventIdRequiredForRetrieval) {
+      const eventFeed = getUnlistedState(currentEventFeedAtom);
+      if (eventFeed) {
+        requestParams.eventFeed = eventFeed.id;
+      }
     }
 
     return requestParams;

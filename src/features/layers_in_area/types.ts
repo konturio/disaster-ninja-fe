@@ -22,6 +22,7 @@ export interface LayerInArea {
   copyrights?: string[];
   legend?: LayerLegend;
   boundaryRequiredForRetrieval: boolean;
+  eventIdRequiredForRetrieval?: boolean;
 }
 
 export interface LayerDetailsGeoJSONSource {
