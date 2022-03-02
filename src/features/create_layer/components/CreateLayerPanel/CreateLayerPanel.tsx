@@ -8,18 +8,17 @@ import { activeCreateLayerAtom } from '~features/create_layer/atoms/activeCreate
 import { sideControlsBarAtom } from '~core/shared_state';
 import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
 import { createStateMap } from '~utils/atoms';
-import { Atom } from '@reatom/core';
-import { CreateLayerModel } from '~features/create_layer/types';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { CreateLayerForm } from '~features/create_layer/components/CreateLayerForm/CreateLayerForm';
+import { LayerDataAtomType } from '~features/create_layer/atoms/createLayerData';
 
 export function CreateLayerPanel() {
   const [ createLayerState ] = useAtom(activeCreateLayerAtom);
 
   let statesToComponents: ReturnType<typeof createStateMap> | undefined = undefined;
   if (createLayerState) {
-    statesToComponents = createStateMap<Atom<CreateLayerModel>>(createLayerState);
+    statesToComponents = createStateMap<LayerDataAtomType>(createLayerState);
   }
 
   const onPanelClose = useCallback(() => {
@@ -38,7 +37,7 @@ export function CreateLayerPanel() {
           loading: <LoadingSpinner />,
           error: (errorMessage) => <ErrorMessage message={errorMessage} />,
           ready: (data) => {
-            return <CreateLayerForm data={data as Atom<CreateLayerModel>} />;
+            return <CreateLayerForm data={data as LayerDataAtomType} />;
           },
         })}
       </div>
