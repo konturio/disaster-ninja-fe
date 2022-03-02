@@ -15,17 +15,7 @@ interface CreateLayerFormProps {
 export function CreateLayerForm({ data }: CreateLayerFormProps) {
   const [ formState, { addField, removeField, reorderFields } ] = useAtom(data);
 
-  const onAddField = useCallback(() => {
-    addField();
-  }, [addField]);
-
-  const onRemoveField = useCallback((index: number) => {
-
-  }, [removeField]);
-
-  const onReorderFields = useCallback((oldIndex: number, newIndex: number) => {
-
-  }, [reorderFields]);
+  const onSaveBtnClick = useCallback()
 
   return (
     <div className={s.formContainer}>
@@ -47,9 +37,9 @@ export function CreateLayerForm({ data }: CreateLayerFormProps) {
       </div>
       <CreateLayerFieldsPlaceholder
         fieldModels={formState.fields}
-        onAddField={onAddField}
-        onRemoveField={onRemoveField}
-        onReorderFields={onReorderFields}
+        onAddField={addField}
+        onRemoveField={removeField}
+        onReorderFields={reorderFields}
       />
       <div className={s.buttonsContainer}>
         <Button className={s.saveBtn}>
