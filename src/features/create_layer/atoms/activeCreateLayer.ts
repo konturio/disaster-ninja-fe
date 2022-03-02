@@ -1,12 +1,10 @@
 import { createAtom } from '~utils/atoms';
-import { CreateLayerModel } from '~features/create_layer/types';
-import { Atom } from '@reatom/core';
-import { createLayerDataAtom } from '~features/create_layer/atoms/createLayerData';
+import { createLayerDataAtom, LayerDataAtomType } from '~features/create_layer/atoms/createLayerData';
 
 type CreateLayerAtomStateType = {
   loading: boolean;
   error: string | null;
-  data: Atom<CreateLayerModel> | null;
+  data: LayerDataAtomType | null;
 }
 
 export const activeCreateLayerAtom = createAtom(
