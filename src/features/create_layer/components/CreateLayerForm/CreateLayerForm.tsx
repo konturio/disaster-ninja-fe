@@ -15,7 +15,7 @@ interface CreateLayerFormProps {
 export function CreateLayerForm({ data }: CreateLayerFormProps) {
   const [ formState, { addField, removeField, reorderFields } ] = useAtom(data);
 
-  const onSaveBtnClick = useCallback()
+  // const onSaveBtnClick = useCallback()
 
   return (
     <div className={s.formContainer}>
