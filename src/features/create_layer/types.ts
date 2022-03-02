@@ -13,5 +13,4 @@ export type CreateLayerModel = {
   // TODO: change it to corresponding icon type
   marker: string;
   fields: LayerFieldAtomType[];
-  isSaving?: boolean;
 }

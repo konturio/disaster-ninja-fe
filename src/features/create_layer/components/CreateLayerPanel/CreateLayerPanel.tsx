@@ -14,7 +14,7 @@ import { CreateLayerForm } from '~features/create_layer/components/CreateLayerFo
 import { LayerDataAtomType } from '~features/create_layer/atoms/createLayerData';
 
 export function CreateLayerPanel() {
-  const [ createLayerState ] = useAtom(activeCreateLayerAtom);
+  const [ createLayerState, { save } ] = useAtom(activeCreateLayerAtom);
 
   let statesToComponents: ReturnType<typeof createStateMap> | undefined = undefined;
   if (createLayerState) {
@@ -37,7 +37,7 @@ export function CreateLayerPanel() {
           loading: <LoadingSpinner />,
           error: (errorMessage) => <ErrorMessage message={errorMessage} />,
           ready: (data) => {
-            return <CreateLayerForm data={data as LayerDataAtomType} />;
+            return <CreateLayerForm data={data as LayerDataAtomType} onSave={save} />;
           },
         })}
       </div>

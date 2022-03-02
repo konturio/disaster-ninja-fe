@@ -5,17 +5,20 @@ import { translationService as i18n } from '~core/index';
 import { Button, Input } from '@k2-packages/ui-kit';
 import { MarkerIcon } from '@k2-packages/default-icons';
 import { CreateLayerFieldsPlaceholder } from '../CreateLayerFieldsPlaceholder/CreateLayerFieldsPlaceholder';
-import { useCallback } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 import { LayerDataAtomType } from '~features/create_layer/atoms/createLayerData';
 
 interface CreateLayerFormProps {
   data: LayerDataAtomType;
+  onSave: () => void;
 }
 
-export function CreateLayerForm({ data }: CreateLayerFormProps) {
-  const [ formState, { addField, removeField, reorderFields } ] = useAtom(data);
+export function CreateLayerForm({ data, onSave }: CreateLayerFormProps) {
+  const [ formState, { addField, removeField, reorderFields, updateName } ] = useAtom(data);
 
-  // const onSaveBtnClick = useCallback()
+  const onNameChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
+    updateName(ev.target.value);
+  }, [updateName]);
 
   return (
     <div className={s.formContainer}>
@@ -24,7 +27,7 @@ export function CreateLayerForm({ data }: CreateLayerFormProps) {
           text={i18n.t('Layer name')}
           description={i18n.t('Layer name')}
         />
-        <Input className={s.formInput} />
+        <Input onChange={onNameChange} className={s.formInput} />
       </div>
       <div className={s.formParam}>
         <LabelWithTooltip
@@ -42,7 +45,7 @@ export function CreateLayerForm({ data }: CreateLayerFormProps) {
         onReorderFields={reorderFields}
       />
       <div className={s.buttonsContainer}>
-        <Button className={s.saveBtn}>
+        <Button onClick={onSave} className={s.saveBtn}>
           {i18n.t('Save')}
         </Button>
         <Button className={s.cancelBtn}>
