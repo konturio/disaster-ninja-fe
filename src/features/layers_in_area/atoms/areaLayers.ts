@@ -1,7 +1,7 @@
 import { Action } from '@reatom/core';
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
+import { FocusedGeometry, focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';
@@ -10,6 +10,7 @@ import { apiClient } from '~core/index';
 import { LayerInArea } from '../types';
 import { GenericRenderer } from '../renderers/GenericRenderer';
 import { legendFormatter } from '~utils/legend/legendFormatter';
+import { currentEventFeedAtom } from '~core/shared_state';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -25,15 +26,36 @@ import { legendFormatter } from '~utils/legend/legendFormatter';
  * Another caveat - eventId is read from focusedGeometry atom,
  * that means - after focusedGeometry editing layers that we get by eventId can be omitted
  */
+const areaLayersDependencyAtom = createAtom(
+  { focusedGeometryAtom },
+  (
+    { onChange, getUnlistedState },
+    state: { focusedGeometry: FocusedGeometry | null; eventFeed: { id: string } | null } = {
+      focusedGeometry: null,
+      eventFeed: null,
+    },
+  ) => {
+    onChange('focusedGeometryAtom', (geometry) => {
+      const feed = getUnlistedState(currentEventFeedAtom);
+      state = { focusedGeometry: geometry, eventFeed: feed };
+    });
+
+    return state;
+  },
+);
+
 export const areaLayersResourceAtom = createResourceAtom(
-  async (focusedGeometry) => {
-    if (!focusedGeometry) return;
-    const body: { id?: string; geoJSON?: GeoJSON.GeoJSON } = {
-      geoJSON: focusedGeometry.geometry,
+  async (params) => {
+    if (!params?.focusedGeometry) return;
+    const body: { id?: string; geoJSON?: GeoJSON.GeoJSON; eventFeed?: string } = {
+      geoJSON: params?.focusedGeometry.geometry,
     };
 
-    if (focusedGeometry.source.type === 'event') {
-      body.id = focusedGeometry.source.meta.eventId;
+    if (params?.focusedGeometry.source.type === 'event') {
+      body.id = params?.focusedGeometry.source.meta.eventId;
+      if (params?.eventFeed) {
+        body.eventFeed = params?.eventFeed.id;
+      }
     }
 
     const responseData = await apiClient.post<LayerInArea[]>(
@@ -44,7 +66,7 @@ export const areaLayersResourceAtom = createResourceAtom(
     if (responseData === undefined) throw new Error('No data received');
     return responseData;
   },
-  focusedGeometryAtom,
+  areaLayersDependencyAtom,
 );
 
 /**
