@@ -10,7 +10,8 @@ import { LayerInAreaDetails } from '../types';
 import { LayerSource } from '~core/logical_layers/types/source';
 
 export interface DetailsRequestParams {
-  layerIds: string[];
+  layersToRetrieveWithGeometryFilter: string[];
+  layersToRetrieveWithoutGeometryFilter: string[];
   geoJSON?: GeoJSON.GeoJSON;
   eventId?: string;
 }
@@ -46,25 +47,39 @@ export const areaLayersDetailsParamsAtom = createAtom(
       return state;
     const availableLayersInArea = areaLayersResource.data;
     if (availableLayersInArea === undefined) return null;
-    /**
-     * Layer list already depends from focused geometry.
-     * This atom must update only layer list changes,
-     * But it still required focused geometry
-     */
+
     const enabledLayers = get('enabledLayersAtom');
-    const layerIds = availableLayersInArea.reduce((acc, layer) => {
-      if (enabledLayers.has(layer.id)) acc.push(layer.id);
-      return acc;
-    }, [] as string[]);
+    const [
+      layersToRetrieveWithGeometryFilter,
+      layersToRetrieveWithoutGeometryFilter,
+    ] = availableLayersInArea.reduce(
+      (acc, layer) => {
+        if (enabledLayers.has(layer.id)) {
+          acc[layer.boundaryRequiredForRetrieval ? 0 : 1].push(layer.id);
+        }
+        return acc;
+      },
+      [[], []] as [string[], string[]],
+    );
 
     const requestParams: DetailsRequestParams = {
-      layerIds,
+      layersToRetrieveWithGeometryFilter,
+      layersToRetrieveWithoutGeometryFilter,
     };
 
-    if (!requestParams.layerIds?.length) {
+    if (
+      layersToRetrieveWithGeometryFilter.length +
+        layersToRetrieveWithoutGeometryFilter.length ===
+      0
+    ) {
       return null;
     }
-
+    /**
+     * To avoid double request case:
+     * (one for enabled layers list, second for focused geometry change)
+     * I'm use getUnlistedState here. This atom still updated on focusedGeometryAtom changes
+     * because areaLayersResourceAtom subscribed to focusedGeometryAtom
+     */
     const focusedGeometry = getUnlistedState(focusedGeometryAtom);
     if (focusedGeometry?.source?.type === 'event') {
       requestParams.eventId = focusedGeometry.source.meta.eventId;
@@ -101,7 +116,12 @@ export const areaLayersDetails = createAtom(
     const actions: Action[] = [];
     // Set loading state for details
     if (layersDetails.loading && layersDetails.lastParams) {
-      layersDetails.lastParams?.layerIds?.forEach((id) =>
+      const requestedLayers = [
+        ...(layersDetails.lastParams?.layersToRetrieveWithGeometryFilter ?? []),
+        ...(layersDetails.lastParams?.layersToRetrieveWithoutGeometryFilter ??
+          []),
+      ];
+      requestedLayers.forEach((id) =>
         actions.push(
           layersSourcesAtom.change((state) => {
             const s = state.get(id);
