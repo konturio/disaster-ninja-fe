@@ -20,6 +20,7 @@ export function createLayerDataAtom(initialState?: CreateLayerModel) {
       addField: () => null,
       removeField: (fieldIndex: number) => fieldIndex,
       reorderFields: (oldIndex: number, newIndex: number) => ({ oldIndex, newIndex}),
+      setIsSaving: (isSaving: boolean) => isSaving,
     },
     ({ onAction }, state: CreateLayerModel = initialState || DEFAULT_ATOM_STATE) => {
       onAction('updateName', (name) => {
@@ -34,7 +35,7 @@ export function createLayerDataAtom(initialState?: CreateLayerModel) {
       });
 
       onAction('removeField', (fieldIndex) => {
-        state.fields.splice(fieldIndex);
+        state.fields.splice(fieldIndex, 1);
         state = { ...state };
       });
 
@@ -43,6 +44,12 @@ export function createLayerDataAtom(initialState?: CreateLayerModel) {
         state.fields[oldIndex] = state.fields[newIndex];
         state.fields[newIndex] = tmp;
         state = { ...state };
+      });
+
+      onAction('setIsSaving', (isSaving) => {
+        if (state.isSaving != initialState) {
+          state = { ...state, isSaving };
+        }
       });
 
       return state;
