@@ -48,8 +48,7 @@ export const activeCreateLayerAtom = createAtom(
 
         const data = {
           name: dataState.name,
-          legend: {},
-          feature_properties: dataState.fields.reduce((acc, fldAtom: LayerFieldAtomType) => {
+          featureProperties: dataState.fields.reduce((acc, fldAtom: LayerFieldAtomType) => {
             const fieldState = getUnlistedState(fldAtom);
             if (fieldState.name && fieldState.type !== 'none') {
               acc[fieldState.name] = fieldState.type;
