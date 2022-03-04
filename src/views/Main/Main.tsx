@@ -90,8 +90,7 @@ export function MainView() {
         initOsmEditLink(),
       );
     }
-    // if (userFeatures?.create_layer === true) {
-    if (true) {
+    if (userFeatures?.create_layer === true) {
       import('~features/create_layer/').then(({ initCreateLayer }) =>
         initCreateLayer(),
       );
@@ -145,8 +144,7 @@ export function MainView() {
               {userFeatures?.legend_panel === true && (
                 <Legend iconsContainerId="right-buttons-container" />
               )}
-              {/*{userFeatures?.create_layer === true && (*/}
-              {true && (
+              {userFeatures?.create_layer === true && (
                 <CreateLayerPanel />
               )}
               {userFeatures?.map_layers_panel === true && (
