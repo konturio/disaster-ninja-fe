@@ -136,10 +136,18 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     // I'm cast type here because i known that in willMount i add geojson source
     const mapSource = map.getSource(this.sourceId) as GeoJSONSource;
     if (mapSource === undefined) {
-      map.addSource(this.sourceId, {
-        type: 'geojson',
-        data: source.data,
-      });
+      // add source first time
+      const type = 'geojson';
+      const data = source.data;
+      if (map.isStyleLoaded()) {
+        map.addSource(this.sourceId, { type, data });
+      } else {
+        map.once('load', () => {
+          // this callback runs twice sometimes
+          !map.getSource(this.sourceId) &&
+            map.addSource(this.sourceId, { type, data });
+        });
+      }
       return true;
     } else {
       mapSource.setData(source.data);
