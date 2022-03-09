@@ -1,6 +1,9 @@
-import { useState } from 'react';
-import s from './AnalyticsData.module.css';
+import { useState, useEffect } from 'react';
+import { useAtom } from '@reatom/react';
+import { LocaleNumber } from '~core/localization';
+import s from './AdvancedAnalyticsData.module.css';
 import { AdvancedAnalyticsData } from '~core/types';
+import { worldAnalyticsResource } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsWorldResource';
 
 interface AdvancedAnalyticsDataListProps {
   data?: AdvancedAnalyticsData[] | null;
@@ -24,7 +27,7 @@ const badQualityColor = '#ff453b',
   minQuality = -1.7;
 
 function qualityWithColor(_quality, _color) {
-  _quality = _quality.toFixed(decimal);
+  _quality = Number.isInteger(_quality) ? _quality : _quality.toFixed(decimal);
   return <span style={{ color: _color }}>{_quality}</span>;
 }
 
@@ -34,47 +37,73 @@ function qualityFromatter(_quality: number) {
     : qualityWithColor(_quality, badQualityColor);
 }
 
+function valueFormatter(_value) {
+  _value = Number.isInteger(_value) ? _value : _value.toFixed(decimal);
+  return <LocaleNumber>{parseFloat(_value)}</LocaleNumber>;
+}
+
 export const AdvancedAnalyticsDataList = ({
   data,
 }: AdvancedAnalyticsDataListProps) => {
-  const [state, setState] = useState({
-    listData: data,
-    numerator: '',
-    denominator: '',
-  });
+  const [listData, setList] = useState(data);
+  const [stateNumerator, setNumerator] = useState('');
+  const [stateDenominator, setDenominator] = useState('');
+  const [worldList, setWorldList] = useAtom(worldAnalyticsResource);
+  const [seeWorld, setSeeWorld] = useState(false);
 
   function onNominatorFilterChange(e) {
     const numerator = e.target.value.toLowerCase();
     const filteredData = data?.filter(function (values) {
       return (
         values.numeratorLabel.toLowerCase().includes(numerator) &&
-        values.denominatorLabel.toLowerCase().includes(state.denominator)
+        values.denominatorLabel.toLowerCase().includes(stateDenominator)
       );
     });
-    setState({
-      listData: filteredData,
-      numerator: numerator,
-      denominator: state.denominator,
-    });
+
+    setList(filteredData);
+    setNumerator(numerator);
+    setDenominator(stateDenominator);
   }
 
   function onDenominatorFilterChange(e) {
     const denominator = e.target.value.toLowerCase();
     const filteredData = data?.filter(function (values) {
       return (
-        values.numeratorLabel.toLowerCase().includes(state.numerator) &&
+        values.numeratorLabel.toLowerCase().includes(stateNumerator) &&
         values.denominatorLabel.toLowerCase().includes(denominator)
       );
     });
-    setState({
-      listData: filteredData,
-      numerator: state.numerator,
-      denominator: denominator,
-    });
+
+    setList(filteredData);
+    setNumerator(stateNumerator);
+    setDenominator(denominator);
+  }
+
+  function getWorlData() {
+    setSeeWorld(true);
+    if (!worldList.data) {
+      setWorldList.getWorld();
+    } else {
+      loadWorldDataList();
+    }
+  }
+
+  useEffect(() => {
+    if (seeWorld) {
+      loadWorldDataList();
+    }
+  }, [worldList.data]);
+
+  function loadWorldDataList() {
+    setList(worldList.data);
+    setSeeWorld(false);
   }
 
   return (
     <div className={s.table_scroll}>
+      <a href="#" onClick={getWorlData}>
+        Load World Data
+      </a>
       <table className={s.table_in_panel}>
         <tbody>
           <tr>
@@ -104,8 +133,8 @@ export const AdvancedAnalyticsDataList = ({
             </td>
           </tr>
 
-          {state.listData &&
-            state.listData.map((dataItem, index) => (
+          {listData &&
+            listData.map((dataItem, index) => (
               <tr key={`${dataItem.numerator}_${index}`}>
                 <td className={s.numerator}>
                   <div>{dataItem.numeratorLabel}</div>
@@ -118,7 +147,7 @@ export const AdvancedAnalyticsDataList = ({
                 {dataItem.analytics &&
                   dataItem.analytics.map((values, index) => (
                     <td key={index}>
-                      <div>{values.value.toFixed(decimal)}</div>
+                      <div>{valueFormatter(values.value)}</div>
                       <div>{qualityFromatter(values.quality)}</div>
                     </td>
                   ))}
