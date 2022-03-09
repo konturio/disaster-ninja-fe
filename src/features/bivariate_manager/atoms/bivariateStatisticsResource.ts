@@ -2,6 +2,7 @@ import { createResourceAtom } from '~utils/atoms';
 import { graphQlClient } from '~core/index';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { Stat } from '@k2-packages/bivariate-tools';
+import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 
 function stringifyWithoutQuotes(obj: unknown): string {
   const json = JSON.stringify(obj);
@@ -11,7 +12,7 @@ function stringifyWithoutQuotes(obj: unknown): string {
 // we need this function to get rid of "properties" param in geojson geom cause
 // sometimes it contains inappropriate symbols like ":" which causes server side errors
 function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
-  const newGeom = geom as any;
+  const newGeom = deepCopy(geom) as any;
 
   if ('properties' in newGeom) {
     newGeom.properties = {};
