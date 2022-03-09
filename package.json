@@ -73,7 +73,7 @@
     "@k2-packages/default-theme": "^2.4.0-alpha.2",
     "@k2-packages/map": "^2.0.0-alpha.2",
     "@k2-packages/map-draw-tools": "^3.0.0-alpha.2",
-    "@k2-packages/ui-kit": "3.0.0-alpha.21",
+    "@k2-packages/ui-kit": "^3.0.0-alpha.22",
     "@nebula.gl/edit-modes": "1.0.2-alpha.0",
     "@nebula.gl/layers": "1.0.2-alpha.0",
     "@reatom/core": "^2.0.17",
