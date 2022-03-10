@@ -16,9 +16,10 @@ export const bivariateMatrixSelectionAtom = createAtom(
       yNumerator: string | null,
       yDenominator: string | null,
     ) => ({ xNumerator, xDenominator, yNumerator, yDenominator }),
+    enableBivariateLayer: (layerId: string) => layerId
   },
   (
-    { onAction, schedule, getUnlistedState },
+    { onAction, schedule, getUnlistedState, create },
     state: {
       xNumerator: string | null;
       xDenominator: string | null;
@@ -93,22 +94,32 @@ export const bivariateMatrixSelectionAtom = createAtom(
           for (const [layerId, layer] of Array.from(currentRegistry)) {
             const layerData = getUnlistedState(layer);
             if (layerData.legend?.type === 'bivariate' && layerData.legend?.name === 'Bivariate Layer') {
-                actions.push(layersRegistryAtom.unregister(layerId));
-            }
-            if (layerData.id === id) {
-              actions.push(layer.show());
+                actions.unshift(layersRegistryAtom.unregister(layerId));
             }
           }
+
+          actions.push(create('enableBivariateLayer', id))
 
           if (actions.length) {
             schedule((dispatch) => {
               dispatch(actions);
-              console.log('new state', getUnlistedState(layersRegistryAtom));
             });
           }
         }
       }
     });
+
+    onAction('enableBivariateLayer', (lId: string) => {
+      const currentRegistry = getUnlistedState(layersRegistryAtom);
+      for (const [layerId, layer] of Array.from(currentRegistry)) {
+        if (layerId === lId) {
+          schedule((dispatch) => {
+            dispatch(layer.enable());
+          });
+          break;
+        }
+      }
+    })
 
     return state;
   },
