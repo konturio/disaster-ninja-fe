@@ -3,7 +3,7 @@ import { TranslationService as i18n } from '~core/localization';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { AddLayerIcon } from '@k2-packages/default-icons';
 import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
-import { activeCreateLayerAtom } from '~features/create_layer/atoms/activeCreateLayer';
+import { createLayerControllerAtom } from '~features/create_layer/atoms/createLayerController';
 
 export function initCreateLayer() {
   sideControlsBarAtom.addControl.dispatch({
@@ -19,9 +19,9 @@ export function initCreateLayer() {
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
-        activeCreateLayerAtom.createNewLayer.dispatch();
+        createLayerControllerAtom.createNewLayer.dispatch();
       } else {
-        activeCreateLayerAtom.reset.dispatch();
+        createLayerControllerAtom.reset.dispatch();
       }
     },
   });
