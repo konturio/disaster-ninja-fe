@@ -7,12 +7,13 @@ tr:nth-child(odd) {
   max-height: 700px;
   overflow: auto;
   font-size: 11px;
+  white-space: nowrap;
 }
 
 .numerator {
-  max-width: 200px;
-  width: 200px;
-  min-width: 200px;
+  max-width: 245px;
+  width: 245px;
+  min-width: 245px;
 }
 
 .denominator {

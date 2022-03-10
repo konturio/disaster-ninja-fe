@@ -4,19 +4,17 @@ import {
   ModeProps,
 } from '@nebula.gl/edit-modes';
 import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
-import { selectedIndexesAtom } from '../atoms/selectedIndexesAtom';
 
 // Source code https://gitlab.com/kontur-private/k2/k2-front-end/-/blob/master/k2-packages/map-draw-tools/src/customDrawModes/CustomModifyMode.ts
 export class LocalModifyMode extends CustomModifyMode {
   _selectedIndexes: number[] = [];
-  static previousSelection: number[] = [];
 
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {
     event.stopPropagation();
     const { key } = event;
 
     if (key === 'Delete' || key === 'Backspace') {
-      const selectedIndexes = selectedIndexesAtom.getState();
+      const selectedIndexes = props.selectedIndexes;
       if (!selectedIndexes.length) return;
       const clearedFeatures = props.data.features.filter(
         (f, index) => !selectedIndexes.includes(index),
@@ -32,13 +30,13 @@ export class LocalModifyMode extends CustomModifyMode {
         editContext: null,
       });
 
-      selectedIndexesAtom.setIndexes([]);
       this._selectedIndexes = [];
       this._currentSubMode = null;
     }
   }
 
   handleClick(event: ClickEvent, props: ModeProps<FeatureCollection>) {
+    const prevSelection = [...props.selectedIndexes];
     let processSelection = false;
 
     if (event.picks && event.picks.length) {
@@ -55,22 +53,15 @@ export class LocalModifyMode extends CustomModifyMode {
 
       if (event.sourceEvent.shiftKey) {
         // remove feature if it was picked before and clicked under SHIFT
-        if (
-          LocalModifyMode.previousSelection.includes(firstNotGuidePickIndex)
-        ) {
+        if (prevSelection.includes(firstNotGuidePickIndex)) {
           const selectedIndexes = this._selectedIndexes.filter(
             (index) => index !== firstNotGuidePickIndex,
           );
-          selectedIndexesAtom.setIndexes(selectedIndexes);
           this._selectedIndexes = selectedIndexes;
         }
         // add new feature picked under SHIFT
         else {
-          const indexes = [
-            ...LocalModifyMode.previousSelection,
-            firstNotGuidePickIndex,
-          ];
-          selectedIndexesAtom.setIndexes(indexes);
+          const indexes = [...prevSelection, firstNotGuidePickIndex];
           this._selectedIndexes = indexes;
         }
 
@@ -85,11 +76,8 @@ export class LocalModifyMode extends CustomModifyMode {
         });
 
         this._currentSubMode = this.createSubmode('Modify');
-      } else if (
-        !LocalModifyMode.previousSelection.includes(firstNotGuidePickIndex)
-      ) {
+      } else if (!prevSelection.includes(firstNotGuidePickIndex)) {
         processSelection = true;
-        selectedIndexesAtom.setIndexes([firstNotGuidePickIndex]);
         this._selectedIndexes = [firstNotGuidePickIndex];
         props.onEdit({
           updatedData: props.data,
@@ -111,7 +99,6 @@ export class LocalModifyMode extends CustomModifyMode {
         }
       }
     } else {
-      selectedIndexesAtom.setIndexes([]);
       this._selectedIndexes = [];
       props.onEdit({
         updatedData: props.data,

@@ -15,6 +15,8 @@ declare global {
       KEYCLOAK_REALM: string;
       KEYCLOAK_CLIENT_ID: string;
       YANDEX_METRICA_ID: number[];
+      AUTOFOCUS_PADDINGS: [number, number, number, number];
+      AUTOFOCUS_ZOOM: number;
     };
   }
 }
@@ -40,39 +42,12 @@ export default {
   appVersion: import.meta.env?.PACKAGE_VERSION as string,
   autoFocus: {
     desktopPaddings: {
-      left: 336, // communities/analytics panel + paddings
-      right: 300, // Layers list panel
-      top: 16,
-      bottom: 16,
+      top: window.konturAppConfig.AUTOFOCUS_PADDINGS?.[0] ?? 0,
+      right: window.konturAppConfig.AUTOFOCUS_PADDINGS?.[1] ?? 0, // Layers list panel
+      bottom: window.konturAppConfig.AUTOFOCUS_PADDINGS?.[2] ?? 0,
+      left: window.konturAppConfig.AUTOFOCUS_PADDINGS?.[3] ?? 0, // communities/analytics panel + paddings
     },
-    maxZoom: 13,
-  },
-  iconLayer: {
-    iconMapping: {
-      selectedIcon: {
-        x: 0,
-        y: 0,
-        width: 128,
-        height: 165,
-        anchorY: 160,
-      },
-      defaultIcon: {
-        x: 128,
-        y: 0,
-        width: 128,
-        height: 165,
-        anchorY: 160,
-      },
-      pointIcon: {
-        x: 0,
-        y: 165,
-        width: 20,
-        height: 20,
-        anchorY: 10,
-      },
-    },
-    sizeScale: 6,
-    getSize: () => 6,
+    maxZoom: window.konturAppConfig.AUTOFOCUS_ZOOM,
   },
 };
 

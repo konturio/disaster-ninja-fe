@@ -2,6 +2,7 @@
   overflow-y: auto;
   width: 320px;
   height: 100%;
+  padding-bottom: var(--double-unit);
 }
 
 .sidePannel {

@@ -28,7 +28,7 @@ export function SquareIcon({
         width="12"
         height="12"
         fill={styles['fill-color'] || 'none'}
-        stroke={styles.color || styles['text-color'] || '#000000'}
+        stroke={styles.color || '#000000'}
         strokeWidth={styles.width || 3}
       />
     </svg>
