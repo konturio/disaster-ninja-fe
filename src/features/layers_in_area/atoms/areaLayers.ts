@@ -47,12 +47,12 @@ const areaLayersDependencyAtom = createAtom(
 export const areaLayersResourceAtom = createResourceAtom(
   async (params) => {
     if (!params?.focusedGeometry) return;
-    const body: { id?: string; geoJSON?: GeoJSON.GeoJSON; eventFeed?: string } = {
+    const body: { eventId?: string; geoJSON?: GeoJSON.GeoJSON; eventFeed?: string } = {
       geoJSON: params?.focusedGeometry.geometry,
     };
 
     if (params?.focusedGeometry.source.type === 'event') {
-      body.id = params?.focusedGeometry.source.meta.eventId;
+      body.eventId = params?.focusedGeometry.source.meta.eventId;
       if (params?.eventFeed) {
         body.eventFeed = params?.eventFeed.id;
       }
