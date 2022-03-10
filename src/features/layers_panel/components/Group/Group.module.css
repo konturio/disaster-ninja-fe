@@ -17,3 +17,7 @@
 .childrenWrap .bivariateLegendWrap {
   padding-right: var(--double-unit);
 }
+
+.groupControl {
+  color: var(--primary-text-active);
+}
