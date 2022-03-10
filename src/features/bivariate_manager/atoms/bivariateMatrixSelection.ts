@@ -103,6 +103,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
           if (actions.length) {
             schedule((dispatch) => {
               dispatch(actions);
+              console.log('new state', getUnlistedState(layersRegistryAtom));
             });
           }
         }
