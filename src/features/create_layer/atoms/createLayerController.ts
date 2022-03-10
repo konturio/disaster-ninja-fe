@@ -10,7 +10,7 @@ type CreateLayerAtomStateType = {
   data: LayerDataAtomType | null;
 }
 
-export const activeCreateLayerAtom = createAtom(
+export const createLayerControllerAtom = createAtom(
   {
     editLayer: (id: number) => id,
     createNewLayer: () => null,
@@ -86,5 +86,5 @@ export const activeCreateLayerAtom = createAtom(
 
     return state;
   },
-  'currentCreateLayerAtom',
+  'createLayerControllerAtom',
 );
