@@ -9,9 +9,9 @@ export const bivariateCorrelationMatrixAtom = createAtom(
     bivariateNumeratorsAtom,
   },
   ({ get, getUnlistedState }, state: CorrelationMatrix | null = null) => {
-    const { xNumerators, yNumerators } = get('bivariateNumeratorsAtom');
+    const { xGroups, yGroups } = get('bivariateNumeratorsAtom');
 
-    if (xNumerators.length && yNumerators.length) {
+    if (xGroups.length && yGroups.length) {
       const { data: statisticsData } = getUnlistedState(
         bivariateStatisticsResourceAtom,
       );
@@ -20,19 +20,19 @@ export const bivariateCorrelationMatrixAtom = createAtom(
         statisticsData.polygonStatistic.bivariateStatistic.correlationRates;
 
       const matrix: CorrelationMatrix = [];
-      for (let i = 0; i < yNumerators.length; i += 1) {
+      for (let i = 0; i < yGroups.length; i += 1) {
         matrix.push([]);
-        for (let j = 0; j < xNumerators.length; j += 1) {
+        for (let j = 0; j < xGroups.length; j += 1) {
           matrix[i].push(null);
         }
       }
 
-      for (let i = 0; i < yNumerators.length; i += 1) {
-        const yNumerator = yNumerators[i].numeratorId;
-        const yDenominator = yNumerators[i].selectedDenominator;
-        for (let j = 0; j < xNumerators.length; j += 1) {
-          const xNumerator = xNumerators[j].numeratorId;
-          const xDenominator = xNumerators[j].selectedDenominator;
+      for (let i = 0; i < yGroups.length; i += 1) {
+        const yNumerator = yGroups[i].selectedQuotient[0];
+        const yDenominator = yGroups[i].selectedQuotient[1];
+        for (let j = 0; j < xGroups.length; j += 1) {
+          const xNumerator = xGroups[j].selectedQuotient[0];
+          const xDenominator = xGroups[j].selectedQuotient[1];
           for (let k = 0; k < correlationRates.length; k += 1) {
             const cr = correlationRates[k];
             if (

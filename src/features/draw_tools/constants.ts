@@ -1,31 +1,9 @@
-import { TranslationService as i18n } from '~core/localization';
-
 export const DRAW_TOOLS_CONTROL_ID = 'DrawTools';
 export const DRAW_TOOLS_CONTROL_NAME = 'Draw Tools';
 export const DRAW_TOOLS_LAYER_ID = 'draw-tools';
 
-export const DOWNLOAD_GEOMETRY_CONTROL_ID = 'DownloadGeometry'
-export const DOWNLOAD_GEOMETRY_CONTROL_NAME = 'Download Custom Geometry'
-
-export const DRAW_MODE_CONFIG = {
-  DrawPolygonMode: {
-    disableSelfIntersections: true,
-  },
-  MeasureDistanceMode: {
-    multipoint: true,
-    turfOptions: { units: 'kilometers' },
-    formatTooltip: (distance: number) => {
-      const km = i18n.t('firebrigade:modules.measureDistanceMode.km');
-      const m = i18n.t('firebrigade:modules.measureDistanceMode.m');
-      const distanceLabel =
-        distance > 1
-          ? `${distance.toFixed(1)} ${km}.`
-          : `${(distance * 1000).toFixed(2)} ${m}.`;
-      const filler = new Array(distanceLabel.length + 2).join(' ');
-      return `${distanceLabel}${filler}`;
-    },
-  },
-};
+export const DOWNLOAD_GEOMETRY_CONTROL_ID = 'DownloadGeometry';
+export const DOWNLOAD_GEOMETRY_CONTROL_NAME = 'Download Custom Geometry';
 
 export const drawModes = {
   DrawPolygonMode: 'DrawPolygonMode',
@@ -35,5 +13,36 @@ export const drawModes = {
 } as const;
 
 export type DrawModeType = keyof typeof drawModes;
-export const createDrawingLayers = ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode']
-export const editDrawingLayers = ['ModifyMode']
+export const createDrawingLayers = [
+  'DrawPolygonMode',
+  'DrawLineMode',
+  'DrawPointMode',
+];
+export const editDrawingLayers = ['ModifyMode'];
+export const iconLayer = {
+  iconMapping: {
+    selectedIcon: {
+      x: 0,
+      y: 0,
+      width: 128,
+      height: 165,
+      anchorY: 160,
+    },
+    defaultIcon: {
+      x: 128,
+      y: 0,
+      width: 128,
+      height: 165,
+      anchorY: 160,
+    },
+    pointIcon: {
+      x: 0,
+      y: 165,
+      width: 20,
+      height: 20,
+      anchorY: 10,
+    },
+  },
+  sizeScale: 6,
+  size: 6,
+};

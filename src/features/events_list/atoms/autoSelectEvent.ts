@@ -1,28 +1,23 @@
 import { createAtom } from '~utils/atoms';
 import { eventListResourceAtom } from './eventListResource';
 import { currentEventAtom, focusedGeometryAtom } from '~core/shared_state';
-import { Event } from '~core/types';
 
 export const autoSelectEvent = createAtom(
   {
     eventListResourceAtom,
+    currentEventAtom,
+    focusedGeometryAtom,
   },
-  ({ get, schedule, getUnlistedState }, state = {}) => {
+  ({ get, schedule }, state = {}) => {
     const eventListResource = get('eventListResourceAtom');
-    const currentEvent = getUnlistedState(currentEventAtom);
-    const focusedGeometry = getUnlistedState(focusedGeometryAtom);
+    const currentEvent = get('currentEventAtom');
+    const focusedGeometry = get('focusedGeometryAtom');
     const firstEventInList =
       eventListResource.data &&
       eventListResource.data.length > 0 &&
       eventListResource.data[0];
 
-    const focusedGeometryCheck =
-      focusedGeometry === null ||
-      (focusedGeometry.source.type === 'event' &&
-        !eventListResource.data?.find(
-          (ev: Event) => ev.eventId === focusedGeometry.source['meta']?.eventId,
-        ));
-    if (currentEvent === null && firstEventInList && focusedGeometryCheck) {
+    if (currentEvent === null && firstEventInList && focusedGeometry === null) {
       schedule((dispatch) => {
         dispatch(currentEventAtom.setCurrentEventId(firstEventInList.eventId));
       });

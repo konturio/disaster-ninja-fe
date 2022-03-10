@@ -15,7 +15,7 @@
 .layerLabel {
   display: flex;
   flex-flow: row nowrap;
-  align-items: flex-start;
+  align-items: center;
   margin: 0 4px;
 }
 

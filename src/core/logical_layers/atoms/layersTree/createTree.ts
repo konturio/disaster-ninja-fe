@@ -1,10 +1,10 @@
-import { LogicalLayerAtom } from '~core/types/layers';
+import { LayerAtom } from '../../types/logicalLayer';
 import type { CategorySettings, GroupSettings, Tree } from '~core/types/layers';
 
 export function createTree(
   layers: {
     id: string;
-    atom: LogicalLayerAtom;
+    atom: LayerAtom;
     category?: string;
     group?: string;
     order?: number;

@@ -1,6 +1,6 @@
 import cn from 'clsx';
 import s from './LayerControl.module.css';
-import { LayerLegend } from '~core/logical_layers/createLogicalLayerAtom';
+import { LayerLegend } from '~core/logical_layers/types/legends';
 import { LayerInput } from '../LayerInput/LayerInput';
 
 interface LayerControl {
