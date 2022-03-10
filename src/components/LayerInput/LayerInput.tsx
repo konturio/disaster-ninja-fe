@@ -8,36 +8,57 @@ export interface LayerInput {
   label?: React.ReactChild | React.ReactChild[];
   onChange?: ((e: React.ChangeEvent<HTMLInputElement>) => void) &
     React.ChangeEventHandler<HTMLInputElement>;
+  onClick?: React.MouseEventHandler<HTMLInputElement>;
 }
 
-export function LayerInput({ id, type, onChange, enabled, label }: LayerInput) {
-  if (type === 'checkbox') {
-    return (
-      <Checkbox
-        onChange={onChange}
-        id={id}
-        checked={enabled}
-        label={label}
-        className={s.layerInput}
-      />
-    );
-  }
+function CheckboxLayerInput({
+  id,
+  onChange,
+  onClick,
+  enabled,
+  label,
+}: LayerInput) {
+  return (
+    <Checkbox
+      onChange={onChange}
+      onClick={onClick}
+      id={id}
+      checked={enabled}
+      label={label}
+      className={s.layerInput}
+    />
+  );
+}
 
-  if (type === 'radio') {
-    return (
-      <Radio
-        onChange={onChange}
-        id={id}
-        checked={enabled}
-        label={label}
-        className={s.layerInput}
-      />
-    );
-  }
+function RadioLayerInput({
+  id,
+  onChange,
+  onClick,
+  enabled,
+  label,
+}: LayerInput) {
+  return (
+    <Radio
+      onChange={onChange}
+      onClick={onClick}
+      id={id}
+      checked={enabled}
+      label={label}
+      className={s.layerInput}
+    />
+  );
+}
 
-  if (type === 'not-interactive') {
-    return <LineItem label={label} className={s.layerInput} />;
-  }
+export function LayerInput(props: LayerInput) {
+  switch (props.type) {
+    case 'checkbox':
+      return <CheckboxLayerInput {...props} />;
 
-  return null;
+    case 'radio':
+      return <RadioLayerInput {...props} />;
+
+    case 'not-interactive':
+    default:
+      return <LineItem label={props.label} className={s.layerInput} />;
+  }
 }

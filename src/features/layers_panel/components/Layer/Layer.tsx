@@ -106,7 +106,7 @@ export function Layer({
   );
 
   return hasMultiStepSimpleLegend ? (
-    <Folding label={Control} open={layerState.isMounted}>
+    <Folding title={Control} open={layerState.isMounted}>
       <SimpleLegendComponent
         legend={layerState.legend as SimpleLegend}
         isHidden={!layerState.isVisible}
