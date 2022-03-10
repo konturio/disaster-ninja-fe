@@ -7,6 +7,7 @@ export interface RegisterRequest {
   renderer: LogicalLayerRenderer;
   registry?: LayerRegistryAtom;
   cleanUpActions?: Action[];
+  enabledByDefault?: boolean;
 }
 
 export type LayerRegistryAtom = AtomSelfBinded<
