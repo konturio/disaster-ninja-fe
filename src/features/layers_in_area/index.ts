@@ -1,5 +1,8 @@
-import { layersInAreaLogicalLayersAtom } from './atoms/layersInAreaLogicalLayers';
+import { forceRun } from '~utils/atoms/forceRun';
+import { areaLayers } from './atoms/areaLayers';
+import { areaLayersDetails } from './atoms/areaLayersDetails';
 
 export function initLayersInArea() {
-  layersInAreaLogicalLayersAtom.subscribe(() => null);
+  forceRun(areaLayers);
+  forceRun(areaLayersDetails);
 }

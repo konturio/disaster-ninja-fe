@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/prefer-default-export
 export function createGeoJSONSource(
-  featureCollection: GeoJSON.FeatureCollection = {
+  featureCollection: GeoJSON.FeatureCollection | GeoJSON.Feature = {
     type: 'FeatureCollection' as const,
     features: [],
   },
@@ -20,6 +20,7 @@ export function readGeoJSON(file): Promise<GeoJSON.GeoJSON> {
       if (!string) return;
       try {
         const json = JSON.parse(string);
+        if (json.type === 'geojson') return res(json.data);
         if (json.type !== 'FeatureCollection' && json.type !== 'Feature') {
           throw new Error('Not geoJSON format');
         }

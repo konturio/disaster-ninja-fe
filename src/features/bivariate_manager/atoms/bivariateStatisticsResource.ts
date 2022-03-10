@@ -63,6 +63,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
         }
         quality
         quotient
+        parent
       }
 
     query getPolygonStatistics {

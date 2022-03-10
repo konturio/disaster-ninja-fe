@@ -11,19 +11,22 @@ import {
 } from '~features/draw_tools/constants';
 import { activeDrawModeAtom } from '~features/draw_tools/atoms/activeDrawMode';
 import { DrawToolsIcon } from '@k2-packages/default-icons';
-import { drawLayerAtom } from './atoms/drawLayerAtom';
 import {
   controlGroup,
   controlVisualGroup,
 } from '~core/shared_state/sideControlsBar';
-import { drawingIsStartedAtom } from '~features/draw_tools/atoms/drawingIsStartedAtom';
 import DownloadIcon from './icons/DownloadIcon';
 import { drawnGeometryAtom } from './atoms/drawnGeometryAtom';
 import { TranslationService as i18n } from '~core/localization';
 import { downloadObject } from '~utils/fileHelpers/download';
+import { drawModeLogicalLayerAtom } from './atoms/logicalLayerAtom';
+import { combinedAtom } from './atoms/combinedAtom';
+import { drawModeRenderer } from './atoms/logicalLayerAtom';
+// a little scratch about new and previous structure https://www.figma.com/file/G8VQQ3mctz5gPkcZZvbzCl/Untitled?node-id=0%3A1
 
 export function initDrawTools() {
-  drawLayerAtom.mount.dispatch();
+  drawModeRenderer.setupExtension(combinedAtom);
+
   sideControlsBarAtom.addControl.dispatch({
     id: DRAW_TOOLS_CONTROL_ID,
     name: DRAW_TOOLS_CONTROL_NAME,
@@ -37,11 +40,12 @@ export function initDrawTools() {
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
-        drawingIsStartedAtom.setIsStarted.dispatch(false);
         // TODO fix that logic in layer.setMode()
+        drawModeLogicalLayerAtom.enable.dispatch();
         activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
         activeDrawModeAtom.setDrawMode.dispatch(drawModes.DrawPolygonMode);
       } else {
+        drawModeLogicalLayerAtom.disable.dispatch();
         activeDrawModeAtom.setDrawMode.dispatch(null);
       }
     },
