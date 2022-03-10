@@ -10,8 +10,8 @@ import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { UserProfile } from '~features/user_profile';
-import { CreateLayerPanel } from '~features/create_layer/components/CreateLayerPanel/CreateLayerPanel';
 
+const { CreateLayerPanel } = lazily(() => import('~features/create_layer/components/CreateLayerPanel/CreateLayerPanel'));
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
 );
@@ -41,7 +41,6 @@ export function MainView() {
 
   useEffect(() => {
     if (!userFeatures) return;
-
 
     /* Lazy load module */
     if (userFeatures?.url_store === true) {
