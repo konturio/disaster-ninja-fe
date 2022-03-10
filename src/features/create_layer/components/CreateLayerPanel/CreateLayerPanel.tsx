@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { TranslationService as i18n } from '~core/localization';
 import { useCallback } from 'react';
 import { useAtom } from '@reatom/react';
-import { activeCreateLayerAtom } from '~features/create_layer/atoms/activeCreateLayer';
+import { createLayerControllerAtom } from '~features/create_layer/atoms/createLayerController';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
 import { createStateMap } from '~utils/atoms';
@@ -14,7 +14,7 @@ import { CreateLayerForm } from '~features/create_layer/components/CreateLayerFo
 import { LayerDataAtomType } from '~features/create_layer/atoms/createLayerData';
 
 export function CreateLayerPanel() {
-  const [ createLayerState, { save } ] = useAtom(activeCreateLayerAtom);
+  const [ createLayerState, { save } ] = useAtom(createLayerControllerAtom);
 
   let statesToComponents: ReturnType<typeof createStateMap> | undefined = undefined;
   if (createLayerState) {
