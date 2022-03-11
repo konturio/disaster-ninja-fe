@@ -31,10 +31,13 @@ function qualityWithColor(_quality, _color) {
   return <span style={{ color: _color }}>{_quality}</span>;
 }
 
-function qualityFromatter(_quality: number) {
-  return _quality < maxQuality && _quality > minQuality
-    ? qualityWithColor(_quality, goodQualityColor)
-    : qualityWithColor(_quality, badQualityColor);
+function qualityFromatter(_values) {
+  if (_values.quality != undefined) {
+    const _quality = _values.quality;
+    return _quality < maxQuality && _quality > minQuality
+      ? qualityWithColor(_quality, goodQualityColor)
+      : qualityWithColor(_quality, badQualityColor);
+  } else return <br />;
 }
 
 function valueFormatter(_value) {
@@ -62,7 +65,6 @@ export const AdvancedAnalyticsDataList = ({
 
     setList(filteredData);
     setNumerator(numerator);
-    setDenominator(stateDenominator);
   }
 
   function onDenominatorFilterChange(e) {
@@ -75,7 +77,6 @@ export const AdvancedAnalyticsDataList = ({
     });
 
     setList(filteredData);
-    setNumerator(stateNumerator);
     setDenominator(denominator);
   }
 
@@ -148,7 +149,7 @@ export const AdvancedAnalyticsDataList = ({
                   dataItem.analytics.map((values, index) => (
                     <td key={index}>
                       <div>{valueFormatter(values.value)}</div>
-                      <div>{qualityFromatter(values.quality)}</div>
+                      <div>{qualityFromatter(values)}</div>
                     </td>
                   ))}
               </tr>
