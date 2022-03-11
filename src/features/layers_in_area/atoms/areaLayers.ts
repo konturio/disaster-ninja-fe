@@ -1,7 +1,10 @@
 import { Action } from '@reatom/core';
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { FocusedGeometry, focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
+import {
+  FocusedGeometry,
+  focusedGeometryAtom,
+} from '~core/shared_state/focusedGeometry';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';
@@ -30,7 +33,10 @@ const areaLayersDependencyAtom = createAtom(
   { focusedGeometryAtom },
   (
     { onChange, getUnlistedState },
-    state: { focusedGeometry: FocusedGeometry | null; eventFeed: { id: string } | null } = {
+    state: {
+      focusedGeometry: FocusedGeometry | null;
+      eventFeed: { id: string } | null;
+    } = {
       focusedGeometry: null,
       eventFeed: null,
     },
@@ -44,30 +50,31 @@ const areaLayersDependencyAtom = createAtom(
   },
 );
 
-export const areaLayersResourceAtom = createResourceAtom(
-  async (params) => {
-    if (!params?.focusedGeometry) return;
-    const body: { eventId?: string; geoJSON?: GeoJSON.GeoJSON; eventFeed?: string } = {
-      geoJSON: params?.focusedGeometry.geometry,
-    };
+export const areaLayersResourceAtom = createResourceAtom(async (params) => {
+  if (!params?.focusedGeometry) return;
+  const body: {
+    eventId?: string;
+    geoJSON?: GeoJSON.GeoJSON;
+    eventFeed?: string;
+  } = {
+    geoJSON: params?.focusedGeometry.geometry,
+  };
 
-    if (params?.focusedGeometry.source.type === 'event') {
-      body.eventId = params?.focusedGeometry.source.meta.eventId;
-      if (params?.eventFeed) {
-        body.eventFeed = params?.eventFeed.id;
-      }
+  if (params?.focusedGeometry.source.type === 'event') {
+    body.eventId = params?.focusedGeometry.source.meta.eventId;
+    if (params?.eventFeed) {
+      body.eventFeed = params?.eventFeed.id;
     }
+  }
 
-    const responseData = await apiClient.post<LayerInArea[]>(
-      '/layers/search/',
-      body,
-      false,
-    );
-    if (responseData === undefined) throw new Error('No data received');
-    return responseData;
-  },
-  areaLayersDependencyAtom,
-);
+  const responseData = await apiClient.post<LayerInArea[]>(
+    '/layers/search/',
+    body,
+    false,
+  );
+  if (responseData === undefined) throw new Error('No data received');
+  return responseData;
+}, areaLayersDependencyAtom);
 
 /**
  * This atom responsibilities:
@@ -94,27 +101,51 @@ export const areaLayers = createAtom(
       /* Find diff */
       const nextMap = new Map(nextLayers?.map((l) => [l.id, l]));
       const prevSet = new Set(prevLayers?.map((l) => l.id));
-      const [added, removed] = Array.from(allLayers).reduce(
+      const [added, removed, updated] = Array.from(allLayers).reduce(
         (acc, layerId) => {
           if (nextMap.has(layerId) && !prevSet.has(layerId)) {
             acc[0].set(layerId, nextMap.get(layerId)!);
           } else if (prevSet.has(layerId) && !nextMap.has(layerId)) {
             acc[1].add(layerId);
+          } else if (nextMap.has(layerId) && prevSet.has(layerId)) {
+            acc[2].set(layerId, nextMap.get(layerId)!);
           }
           return acc;
         },
-        [new Map<string, LayerInArea>(), new Set<string>()],
+        [
+          new Map<string, LayerInArea>(),
+          new Set<string>(),
+          new Map<string, LayerInArea>(),
+        ],
       );
 
       const actions: Action[] = [];
 
-      /* Register added layers */
-      const layerActions = Array.from(added).reduce((acc, [layerId, layer]) => {
-        acc.push(...createLayerActionsFromLayerInArea(layerId, layer));
-        return acc;
-      }, [] as Action[]);
+      /* Update layers */
+      const layerUpdateActions = Array.from(updated).reduce(
+        (acc, [layerId, layer]) => {
+          acc.push(
+            ...createLayerActionsFromLayerInArea(layerId, layer, {
+              registration: false,
+            }),
+          );
+          return acc;
+        },
+        [] as Action[],
+      );
 
-      actions.push(...layerActions);
+      actions.push(...layerUpdateActions);
+
+      /* Register added layers */
+      const layerRegisterActions = Array.from(added).reduce(
+        (acc, [layerId, layer]) => {
+          acc.push(...createLayerActionsFromLayerInArea(layerId, layer));
+          return acc;
+        },
+        [] as Action[],
+      );
+
+      actions.push(...layerRegisterActions);
 
       /* Unregister removed layers */
       actions.push(layersRegistryAtom.unregister(Array.from(removed)));
@@ -130,7 +161,11 @@ export const areaLayers = createAtom(
   'layersInAreaLogicalLayers',
 );
 
-export function createLayerActionsFromLayerInArea(layerId: string, layer: Omit<LayerInArea, 'source'>): Action[] {
+export function createLayerActionsFromLayerInArea(
+  layerId: string,
+  layer: Omit<LayerInArea, 'source'>,
+  options = { registration: true },
+): Action[] {
   const actions: Action[] = [];
   const cleanUpActions: Action[] = [];
 
@@ -175,15 +210,17 @@ export function createLayerActionsFromLayerInArea(layerId: string, layer: Omit<L
   cleanUpActions.push(layersLegendsAtom.delete(layerId));
 
   // Register
-  actions.push(
-    layersRegistryAtom.register({
-      id: layerId,
-      renderer: new GenericRenderer({
+  if (options.registration) {
+    actions.push(
+      layersRegistryAtom.register({
         id: layerId,
+        renderer: new GenericRenderer({
+          id: layerId,
+        }),
+        cleanUpActions,
       }),
-      cleanUpActions,
-    }),
-  );
+    );
+  }
 
   return actions;
 }
