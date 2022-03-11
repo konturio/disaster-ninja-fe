@@ -33,13 +33,17 @@ export function BivariateLegend({
 
   const axis = useMemo(() => {
     if (!legend) return null;
+
     const axis = (legend as BivariateLegendType).axis;
     if (!axis) return null;
     // fallback axis description for bivariate layers
-    if (!axis.x.label)
-      axis.x.label = `${axis.x.quotient[0]} to ${axis.x.quotient[1]}`;
-    if (!axis.y.label)
-      axis.y.label = `${axis.y.quotient[0]} to ${axis.y.quotient[1]}`;
+    if (!axis.x.label || !axis.y.label) {
+      return  {
+        x: { ...axis.x, label: axis.x.label || `${axis.x.quotient[0]} to ${axis.x.quotient[1]}`},
+        y: { ...axis.y, label: axis.y.label || `${axis.y.quotient[0]} to ${axis.y.quotient[1]}`}
+      }
+    }
+
     return axis;
   }, [legend]);
 

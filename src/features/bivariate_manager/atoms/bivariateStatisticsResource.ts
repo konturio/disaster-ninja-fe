@@ -12,7 +12,7 @@ function stringifyWithoutQuotes(obj: unknown): string {
 // we need this function to get rid of "properties" param in geojson geom cause
 // sometimes it contains inappropriate symbols like ":" which causes server side errors
 function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
-  const newGeom = deepCopy(geom) as any;
+  const newGeom = deepCopy(geom);
 
   if ('properties' in newGeom) {
     newGeom.properties = {};
