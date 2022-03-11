@@ -1,6 +1,5 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
-import { AppHeader, Logo } from '@k2-packages/ui-kit';
 import config from '~core/app_config';
 import { Row } from '~components/Layout/Layout';
 import s from './Main.module.css';
@@ -10,8 +9,8 @@ import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { UserProfile } from '~features/user_profile';
-
 const { CreateLayerPanel } = lazily(() => import('~features/create_layer/components/CreateLayerPanel/CreateLayerPanel'));
+const { AppHeader, Logo } = lazily(() => import('@k2-packages/ui-kit'));
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
 );
@@ -28,7 +27,6 @@ const { BivariatePanel } = lazily(
   () => import('~features/bivariate_manager/components'),
 );
 const { PopupTooltip } = lazily(() => import('~features/tooltip'));
-
 const { DrawToolsToolbox } = lazily(
   () =>
     import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
@@ -94,22 +92,33 @@ export function MainView() {
         initCreateLayer(),
       );
     }
+    if (userFeatures?.intercom === true) {
+      import('~features/intercom').then(({ initIntercom }) => {
+        initIntercom();
+      });
+    }
   }, [userFeatures]);
 
   return (
     <>
-      {userFeatures?.tooltip === true && <PopupTooltip />}
-      <AppHeader
-        title="Disaster Ninja"
-        logo={VisibleLogo()}
-        afterChatContent={
-          userFeatures?.app_login === true ? <UserProfile /> : undefined
-        }
-      >
-        <Row>
-          <BetaLabel />
-        </Row>
-      </AppHeader>
+      <Suspense fallback={null}>
+        {userFeatures?.tooltip === true && <PopupTooltip />}
+      </Suspense>
+      <Suspense fallback={null}>
+        {userFeatures?.header && (
+          <AppHeader
+            title="Disaster Ninja"
+            logo={VisibleLogo()}
+            afterChatContent={
+              userFeatures?.app_login === true ? <UserProfile /> : undefined
+            }
+          >
+            <Row>
+              <BetaLabel />
+            </Row>
+          </AppHeader>
+        )}
+      </Suspense>
       <Row>
         <Suspense fallback={null}>
           {userFeatures?.toasts === true && <NotificationToast />}
@@ -143,9 +152,7 @@ export function MainView() {
               {userFeatures?.legend_panel === true && (
                 <Legend iconsContainerId="right-buttons-container" />
               )}
-              {userFeatures?.create_layer === true && (
-                <CreateLayerPanel />
-              )}
+              {userFeatures?.create_layer === true && <CreateLayerPanel />}
               {userFeatures?.map_layers_panel === true && (
                 <MapLayersList iconsContainerId="right-buttons-container" />
               )}

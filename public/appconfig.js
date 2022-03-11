@@ -19,4 +19,7 @@ window.konturAppConfig = {
   KEYCLOAK_CLIENT_ID: 'kontur_platform',
   AUTOFOCUS_PADDINGS: [16, 300, 16, 336],
   AUTOFOCUS_ZOOM: 13,
+  INTERCOM_NAME: 'Guest',
+  INTERCOM_APP_ID: 'e59cl64z',
+  INTERCOM_SELECTOR: '#kontur_header_chat_btn',
 };
