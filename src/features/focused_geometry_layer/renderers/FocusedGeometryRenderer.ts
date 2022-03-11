@@ -107,7 +107,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     return iconUrl;
   }
 
-  updateOrSetSource({
+  async updateOrSetSource({
     map,
     state,
     isInitialLoad = false,
@@ -116,41 +116,48 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     state: LogicalLayerState;
     isInitialLoad?: boolean;
   }) {
-    const source = state.source?.source ?? null;
+    // TODO adress this logic in task 9295
 
-    if (isInitialLoad) {
-      map.addSource(
-        this.sourceId,
-        source || {
-          data: { type: 'FeatureCollection', features: [] },
-          type: 'geojson',
-        },
-      );
-      return true;
-    }
-
+    const stateSource = state.source?.source ?? null;
     // I'm cast type here because i known that in willMount i add geojson source
     const mapSource = map.getSource(this.sourceId) as GeoJSONSource;
 
-    if (source === null) {
+    if (isInitialLoad) {
+      !mapSource &&
+        map.addSource(
+          this.sourceId,
+          stateSource || {
+            data: { type: 'FeatureCollection', features: [] },
+            type: 'geojson',
+          },
+        );
+      return true;
+    }
+
+    if (stateSource === null) {
       mapSource.setData({ type: 'FeatureCollection', features: [] });
       return true;
     }
 
-    if (source.type !== 'geojson') {
+    if (stateSource.type !== 'geojson') {
       this.removeSourcesAndLayers({ map });
       throw Error('Focused geometry must be geojson');
     }
 
     if (
-      source.data.type !== 'FeatureCollection' &&
-      source.data.type !== 'Feature'
+      stateSource.data.type !== 'FeatureCollection' &&
+      stateSource.data.type !== 'Feature'
     ) {
       this.removeSourcesAndLayers({ map });
       throw Error('Focused geometry must be Feature or FeatureCollection');
     }
 
-    mapSource.setData(source.data);
+    // @ts-expect-error
+    // see comment on top
+    !map._loaded && (await waitMapEvent(map, 'load'));
+    if (mapSource === undefined) {
+      map.addSource(this.sourceId, stateSource);
+    } else mapSource.setData(stateSource.data);
     return true;
   }
 
@@ -162,7 +169,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     map: ApplicationMap;
     state: LogicalLayerState;
   }) {
-    const sourceAdded = this.updateOrSetSource({
+    const sourceAdded = await this.updateOrSetSource({
       map,
       state,
       isInitialLoad: true,
