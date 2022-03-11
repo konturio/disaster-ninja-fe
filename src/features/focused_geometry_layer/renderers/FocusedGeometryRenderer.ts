@@ -118,6 +118,10 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
   }) {
     // TODO adress this logic in task 9295
 
+    // @ts-expect-error
+    // see comment on top
+    !map._loaded && (await waitMapEvent(map, 'load'));
+
     const stateSource = state.source?.source ?? null;
     // I'm cast type here because i known that in willMount i add geojson source
     const mapSource = map.getSource(this.sourceId) as GeoJSONSource;
@@ -152,9 +156,6 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
       throw Error('Focused geometry must be Feature or FeatureCollection');
     }
 
-    // @ts-expect-error
-    // see comment on top
-    !map._loaded && (await waitMapEvent(map, 'load'));
     if (mapSource === undefined) {
       map.addSource(this.sourceId, stateSource);
     } else mapSource.setData(stateSource.data);
