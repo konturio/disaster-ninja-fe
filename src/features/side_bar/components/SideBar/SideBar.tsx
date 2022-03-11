@@ -3,7 +3,7 @@ import { ActionsBar, ActionsBarBTN } from '@k2-packages/ui-kit';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { sortByPredefinedOrder } from './sortByPredefinedOrder';
 import { controlsOrder } from '../../constants';
-import { currentTooltipAtom } from '~core/shared_state/сurrentTooltip';
+import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import s from './SideBar.module.css';
 
 export function SideBar() {
@@ -18,7 +18,7 @@ export function SideBar() {
     setTooltip({
       popup: title,
       position: { x: e.clientX + 5, y: e.clientY },
-      hoverBehabiour: true,
+      hoverBehavior: true,
     });
   }
 
