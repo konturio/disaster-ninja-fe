@@ -1,7 +1,7 @@
 import s from './Tooltip.module.css';
 import clsx from 'clsx';
 import { useAction } from '@reatom/react';
-import { currentTooltipAtom } from '~core/shared_state/сurrentTooltip';
+import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 
 interface TooltipProps {
   tipText: string;
@@ -32,7 +32,7 @@ export const Tooltip = ({
       setTooltip({
         popup: tipText,
         position: { x: e.clientX, y: e.clientY },
-        hoverBehabiour: true,
+        hoverBehavior: true,
       });
   }
 

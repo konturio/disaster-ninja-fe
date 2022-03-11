@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import clsx from 'clsx';
-import { TooltipData } from '~core/shared_state/сurrentTooltip';
+import { TooltipData } from '~core/shared_state/currentTooltip';
 import s from './Tooltip.module.css';
 import { CloseIcon } from '@k2-packages/default-icons';
 import { useEffect, useState } from 'react';
@@ -34,7 +34,7 @@ export function Tooltip({
   }, [properties?.position]);
 
   function onOuterClick(e) {
-    if (!properties?.hoverBehabiour)
+    if (!properties?.hoverBehavior)
       properties?.onOuterClick
         ? properties.onOuterClick(e, closeTooltip)
         : closeTooltip();
@@ -50,7 +50,7 @@ export function Tooltip({
     <div
       className={clsx(
         s.tooltipContainer,
-        properties?.hoverBehabiour && s.hoverTooltip,
+        properties?.hoverBehavior && s.hoverTooltip,
       )}
       onClick={onOuterClick}
     >
@@ -74,7 +74,7 @@ export function Tooltip({
               ) : (
                 properties.popup
               )}
-              {!properties?.hoverBehabiour && (
+              {!properties?.hoverBehavior && (
                 <div className={s.closeIcon} onClick={() => closeTooltip()}>
                   <CloseIcon />
                 </div>
