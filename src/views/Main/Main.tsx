@@ -103,9 +103,9 @@ export function MainView() {
       );
     }
     // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
-    if (userFeatures?.draw_tools || userFeatures?.focused_geometry_editor) {
+    if (userFeatures?.draw_tools /* old name */ || userFeatures?.focused_geometry_editor) {
       import('~features/focused_geometry_editor/').then(
-        ({ initFreehandGeometry }) => initFreehandGeometry(),
+        ({ initFocusedGeometry }) => initFocusedGeometry(),
       );
     }
     if (userFeatures?.create_layer === true) {
