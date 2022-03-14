@@ -23,10 +23,9 @@ const badQualityColor = '#ff453b',
   maxQuality = 1.7,
   minQuality = -1.7;
 
-function qualityWithColor(_quality, _color) {
-  _quality = _quality.toFixed(decimal);
-  return <span style={{ color: _color }}>{_quality}</span>;
-}
+const qualityWithColor = (_quality, _color) => (
+  <span style={{ color: _color }}>{_quality?.toFixed(decimal)}</span>
+);
 
 function qualityFromatter(_quality: number) {
   return _quality < maxQuality && _quality > minQuality

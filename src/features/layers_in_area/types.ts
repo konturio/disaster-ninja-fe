@@ -1,5 +1,4 @@
 import { LayerLegend } from '~core/logical_layers/types/legends';
-import { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 
 interface TileSource {
   type: 'vector' | 'raster';
