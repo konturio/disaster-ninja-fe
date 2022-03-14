@@ -15,6 +15,8 @@ export function legendFormatter(layer: Omit<LayerInArea, 'source'>): LayerLegend
         id: clr.id,
         color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`,
       };
+    }).sort((clr1, clr2) => {
+      return clr1.id < clr2.id ? -1 : clr1.id > clr2.id ? 1 : 0;
     });
 
     return {

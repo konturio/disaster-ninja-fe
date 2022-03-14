@@ -9,8 +9,8 @@ import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
-import { UserProfile } from '~features/user_profile';
 
+const { UserProfile } = lazily(() => import('~features/user_profile'));
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
 );
