@@ -12,7 +12,7 @@ import clsx from 'clsx';
 import s from './DrawToolToolbox.module.css';
 import { drawModes } from '../../constants';
 import { combinedAtom } from '../../atoms/combinedAtom';
-import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
+import { toolboxAtom } from '../../atoms/toolboxAtom';
 
 export const DrawToolsToolbox = () => {
   const [
