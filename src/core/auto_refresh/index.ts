@@ -29,6 +29,7 @@ class AutoRefreshService {
   }
 
   addWatcher(id: string, atom: ResourceAtom<any, any>) {
+    console.log('addWatcher', id);
     const unsubscribe = atom.subscribe(({ loading }) => {
       this.resources[id] = {
         refetch: () => atom.refetch.dispatch(),

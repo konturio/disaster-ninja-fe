@@ -8,9 +8,10 @@ import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
-import { UserProfile } from '~features/user_profile';
 const { CreateLayerPanel } = lazily(() => import('~features/create_layer/components/CreateLayerPanel/CreateLayerPanel'));
 const { AppHeader, Logo } = lazily(() => import('@k2-packages/ui-kit'));
+
+const { UserProfile }  = lazily(() => import('~features/user_profile'));
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
 );
@@ -105,7 +106,9 @@ export function MainView() {
         {userFeatures?.tooltip === true && <PopupTooltip />}
       </Suspense>
       <Suspense fallback={null}>
-        {userFeatures?.header && (
+        {/* TODO: remove harcoded check when header feature will be available */}
+        {true && (
+        //{userFeatures?.header && (
           <AppHeader
             title="Disaster Ninja"
             logo={VisibleLogo()}
