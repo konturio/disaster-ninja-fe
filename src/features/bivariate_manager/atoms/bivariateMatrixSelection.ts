@@ -6,6 +6,7 @@ import { ColorTheme } from '~core/types';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { createLayerActionsFromLayerInArea } from '~features/layers_in_area/atoms/areaLayers';
+import { TileSource } from '~features/layers_in_area/types';
 
 export const bivariateMatrixSelectionAtom = createAtom(
   {
@@ -77,7 +78,8 @@ export const bivariateMatrixSelectionAtom = createAtom(
         );
 
         if (legend) {
-          const id = (bivariateStyle as BivariateLayerStyle).id;
+          const bivStyle = bivariateStyle as BivariateLayerStyle;
+          const id = bivStyle.id;
           const layerInArea = {
             id,
             name: 'Bivariate Layer',
@@ -85,6 +87,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
             group: 'bivariate',
             legend,
             boundaryRequiredForRetrieval: false,
+            source: bivStyle.source as TileSource,
           };
 
           const actions = createLayerActionsFromLayerInArea(id, layerInArea);
