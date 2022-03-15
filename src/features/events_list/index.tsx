@@ -8,7 +8,6 @@ export function EventList() {
   const [currentEvent, currentEventActions] = useAtom(currentEventAtom);
   const [eventListResource] = useAtom(eventListResourceAtom);
   useAtom(autoSelectEvent);
-
   return (
     <EventsListPanel
       current={currentEvent?.id ?? null}
