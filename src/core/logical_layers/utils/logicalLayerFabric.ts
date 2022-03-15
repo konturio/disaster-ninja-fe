@@ -190,6 +190,7 @@ export function createLogicalLayerAtom(
       const syncNotFinished =
         !hasBeenDestroyed && newState.isEnabled !== newState.isMounted;
       const mountStateNotApplied = state.isMounted !== newState.isMounted;
+
       if (!mountStateNotApplied && syncNotFinished && !newState.isLoading) {
         try {
           if (!newState.isMounted) {

@@ -332,7 +332,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(id) !== undefined) {
         map.removeLayer(id);
       } else {
-        console.error(
+        console.warn(
           `Can't remove layer with ID: ${id}. Layer does't exist in map`,
         );
       }
@@ -342,7 +342,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getSource(this._sourceId) !== undefined) {
         map.removeSource(this._sourceId);
       } else {
-        console.error(
+        console.warn(
           `Can't remove source with ID: ${this._sourceId}. Source does't exist in map`,
         );
       }
@@ -355,7 +355,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(id) !== undefined) {
         map.setLayoutProperty(id, 'visibility', 'none');
       } else {
-        console.error(
+        console.warn(
           `Can't hide layer with ID: ${id}. Layer doesn't exist on the map`,
         );
       }
@@ -367,7 +367,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(id) !== undefined) {
         map.setLayoutProperty(id, 'visibility', 'visible');
       } else {
-        console.error(
+        console.warn(
           `Cannot unhide layer with ID: ${id}. Layer doesn't exist on the map`,
         );
       }

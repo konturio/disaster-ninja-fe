@@ -14,6 +14,7 @@ import { LayerInArea } from '../types';
 import { GenericRenderer } from '../renderers/GenericRenderer';
 import { legendFormatter } from '~utils/legend/legendFormatter';
 import { currentEventFeedAtom } from '~core/shared_state';
+import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -163,7 +164,7 @@ export const areaLayers = createAtom(
 
 export function createLayerActionsFromLayerInArea(
   layerId: string,
-  layer: Omit<LayerInArea, 'source'>,
+  layer: LayerInArea,
   options = { registration: true },
 ): Action[] {
   const actions: Action[] = [];
@@ -208,6 +209,15 @@ export function createLayerActionsFromLayerInArea(
     }),
   );
   cleanUpActions.push(layersLegendsAtom.delete(layerId));
+
+  if (layer.source) {
+    actions.push(layersSourcesAtom.set(layerId, {
+      error: null,
+      data: { id: layerId, source: { urls: (layer.source as any).tiles, type: layer.source.type as any, tileSize: 512 } as any},
+      isLoading: false,
+    }))
+    cleanUpActions.push(layersSourcesAtom.delete(layerId));
+  }
 
   // Register
   if (options.registration) {
