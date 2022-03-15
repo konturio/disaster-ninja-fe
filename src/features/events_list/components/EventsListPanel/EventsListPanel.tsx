@@ -56,9 +56,12 @@ export function EventsListPanel({
     disable(EVENTLIST_CONROL_ID);
   }, [setIsOpen]);
 
+  /* It's ignore loading state, when it just refresh of list */
+  const loadingState = loading && eventsList === null;
+
   const statesToComponents = createStateMap({
     error,
-    loading,
+    loading: loadingState,
     data: eventsList,
   });
 
