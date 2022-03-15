@@ -291,7 +291,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       (feature) => feature.properties?.[linkProperty] !== undefined,
     );
     if (featureWithLink === undefined) return;
-    const link = featureWithLink[linkProperty];
+    const link = featureWithLink.properties?.[linkProperty];
     window.open(link);
   }
 
