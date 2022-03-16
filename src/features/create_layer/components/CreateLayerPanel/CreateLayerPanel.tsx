@@ -34,7 +34,7 @@ export function CreateLayerPanel() {
       <div className={s.panelBody}>
         {statesToComponents &&
         statesToComponents({
-          loading: <LoadingSpinner />,
+          loading: <LoadingSpinner message={i18n.t('Saving layer...')} />,
           error: (errorMessage) => <ErrorMessage message={errorMessage} />,
           ready: (data) => {
             return <CreateLayerForm data={data as LayerDataAtomType} onSave={save} />;

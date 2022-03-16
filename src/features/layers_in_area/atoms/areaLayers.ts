@@ -11,6 +11,7 @@ import { LayerInArea } from '../types';
 import { GenericRenderer } from '../renderers/GenericRenderer';
 import { legendFormatter } from '~utils/legend/legendFormatter';
 import { currentEventFeedAtom } from '~core/shared_state';
+import { UpdateCallbackLayersType, updateCallbackService } from '~core/update_callbacks';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -27,14 +28,24 @@ import { currentEventFeedAtom } from '~core/shared_state';
  * that means - after focusedGeometry editing layers that we get by eventId can be omitted
  */
 const areaLayersDependencyAtom = createAtom(
-  { focusedGeometryAtom },
+  {
+    _update: () => null,
+    focusedGeometryAtom,
+    callbackAtom: updateCallbackService.addCallback(UpdateCallbackLayersType),
+  },
   (
-    { onChange, getUnlistedState },
+    { onChange, getUnlistedState, onAction, create, schedule },
     state: { focusedGeometry: FocusedGeometry | null; eventFeed: { id: string } | null } = {
       focusedGeometry: null,
       eventFeed: null,
     },
   ) => {
+    onChange('callbackAtom', () => {
+     const geometry = getUnlistedState(focusedGeometryAtom);
+      const feed = getUnlistedState(currentEventFeedAtom);
+      state = { focusedGeometry: geometry, eventFeed: feed };
+    });
+
     onChange('focusedGeometryAtom', (geometry) => {
       const feed = getUnlistedState(currentEventFeedAtom);
       state = { focusedGeometry: geometry, eventFeed: feed };
@@ -61,7 +72,7 @@ export const areaLayersResourceAtom = createResourceAtom(
     const responseData = await apiClient.post<LayerInArea[]>(
       '/layers/search/',
       body,
-      false,
+      true,
     );
     if (responseData === undefined) throw new Error('No data received');
     return responseData;
