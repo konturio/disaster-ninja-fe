@@ -10,8 +10,10 @@ class AutoRefreshService {
       refetch: () => void;
     }
   > = {};
+
   private intervalSec = 60;
   private timer: NodeJS.Timeout | null = null;
+  private
 
   start(sec: number) {
     this.intervalSec = sec || this.intervalSec;
@@ -29,7 +31,6 @@ class AutoRefreshService {
   }
 
   addWatcher(id: string, atom: ResourceAtom<any, any>) {
-    console.log('addWatcher', id);
     const unsubscribe = atom.subscribe(({ loading }) => {
       this.resources[id] = {
         refetch: () => atom.refetch.dispatch(),
