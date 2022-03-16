@@ -74,7 +74,7 @@ export function BivariatePanel({
         customCloseBtn={<CustomClosePanelBtn />}
       >
         <div className={s.panelBody}>
-          <BivariateMatrixContainer />
+          {isOpen && <BivariateMatrixContainer />}
         </div>
       </Panel>
 
