@@ -23,7 +23,7 @@ export function initMapRuler() {
     title: i18n.t('Ruler'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
-    visualGroup: controlVisualGroup.noAnalitics,
+    visualGroup: controlVisualGroup.noAnalytics,
     icon: <MapRulerIcon />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch(MAP_RULER_CONTROL_ID);
