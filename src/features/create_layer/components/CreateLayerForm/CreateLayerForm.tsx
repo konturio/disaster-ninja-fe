@@ -11,9 +11,10 @@ import { LayerDataAtomType } from '~features/create_layer/atoms/createLayerData'
 interface CreateLayerFormProps {
   data: LayerDataAtomType;
   onSave: () => void;
+  onCancel: () => void;
 }
 
-export function CreateLayerForm({ data, onSave }: CreateLayerFormProps) {
+export function CreateLayerForm({ data, onSave, onCancel }: CreateLayerFormProps) {
   const [ formState, { addField, removeField, reorderFields, updateName } ] = useAtom(data);
 
   const onNameChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +49,7 @@ export function CreateLayerForm({ data, onSave }: CreateLayerFormProps) {
         <Button onClick={onSave} className={s.saveBtn}>
           {i18n.t('Save')}
         </Button>
-        <Button className={s.cancelBtn}>
+        <Button onClick={onCancel} className={s.cancelBtn}>
           {i18n.t('Cancel')}
         </Button>
       </div>
