@@ -13,7 +13,7 @@ export function initOsmEditLink() {
     name: EDIT_IN_OSM_CONTROL_NAME,
     title: i18n.t('Edit in OpenStreetMap'),
     active: false,
-    visualGroup: controlVisualGroup.noAnalitics,
+    visualGroup: controlVisualGroup.noAnalytics,
     icon: <EditInOsmIcon />,
     onClick: () => {
       const position = currentMapPositionAtom.getState();
