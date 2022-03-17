@@ -3,6 +3,7 @@ import { createLayerDataAtom, LayerDataAtomType } from '~features/create_layer/a
 import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerField';
 import { LayerFieldType } from '~features/create_layer/types';
 import { apiClient } from '~core/index';
+import { UpdateCallbackLayersType, updateCallbackService } from '~core/update_callbacks';
 
 type CreateLayerAtomStateType = {
   loading: boolean;
@@ -65,7 +66,11 @@ export const createLayerControllerAtom = createAtom(
               true,
             );
 
-            dispatch(create('_update', { loading: false, error: null, data: state?.data || null }));
+            if (responseData) {
+              dispatch(create('_update', { loading: false, error: null, data: state?.data || null }));
+              updateCallbackService.triggerCallback(UpdateCallbackLayersType);
+            }
+
           } catch (e) {
             dispatch(create('_update', { loading: false, error: e, data: state?.data || null }));
           }
