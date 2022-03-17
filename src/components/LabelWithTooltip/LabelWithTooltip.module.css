@@ -1,0 +1,9 @@
+.tooltip {
+	font-weight: bold;
+	display: inline-flex;
+	flex-flow: row nowrap;
+	position: relative;
+	gap: var(--half-unit);
+	align-items: center;
+	justify-content: center;
+}

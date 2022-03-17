@@ -1,0 +1,56 @@
+.fieldContainer {
+  position: relative;
+  background: var(--neutral-neutral-20);
+  padding: var(--double-unit);
+  margin: 0 -16px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit);
+
+  & .sortBtn {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    cursor: pointer;
+  }
+
+  & .removeBtn {
+    position: absolute;
+    padding: var(--half-unit);
+    cursor: pointer;
+    right: 12px;
+    top: 4px;
+    border-radius: var(--half-unit);
+
+    &:hover {
+      background: var(--neutral-neutral-30);
+    }
+
+    &:active {
+      background: var(--neutral-neutral-40);
+    }
+
+    & svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  & .fieldPlaceholder {
+    & .fieldLabel {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      margin-bottom: 8px;
+    }
+
+    & .input {
+      height: 38px;
+      border-radius: var(--half-unit);
+      border: 1px solid var(--primary-border-disabled);
+      box-shadow: none;
+      padding: var(--unit);
+      width: 100%;
+    }
+  }
+}

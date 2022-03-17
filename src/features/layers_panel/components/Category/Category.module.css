@@ -14,3 +14,7 @@
   gap: var(--unit);
   font-weight: bold;
 }
+
+.categoryControl {
+  color: var(--primary-text-active);
+}

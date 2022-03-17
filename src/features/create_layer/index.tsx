@@ -3,6 +3,7 @@ import { TranslationService as i18n } from '~core/localization';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { AddLayerIcon } from '@k2-packages/default-icons';
 import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
+import { createLayerControllerAtom } from '~features/create_layer/atoms/createLayerController';
 
 export function initCreateLayer() {
   sideControlsBarAtom.addControl.dispatch({
@@ -13,11 +14,15 @@ export function initCreateLayer() {
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.noAnalitics,
     icon: <AddLayerIcon />,
-    onClick: (becomesActive) => {
+    onClick: () => {
       sideControlsBarAtom.toggleActiveState.dispatch(CREATE_LAYER_CONTROL_ID);
     },
     onChange: (becomesActive) => {
-      // create layer functionality from task #8652 will come here
+      if (becomesActive) {
+        createLayerControllerAtom.createNewLayer.dispatch();
+      } else {
+        createLayerControllerAtom.reset.dispatch();
+      }
     },
   });
 }

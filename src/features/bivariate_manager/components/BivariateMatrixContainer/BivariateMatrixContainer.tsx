@@ -37,6 +37,7 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
           }
         };
 
+        // TODO: check that we really need this code or remove it
         // const observer = new MutationObserver((mutationsList) => {
         //   mutationsList.forEach((mutation) => {
         //     if (mutation.type === 'attributes') {
