@@ -1,6 +1,6 @@
 {
   "name": "disaster-ninja-fe",
-  "version": "2.0.12-alfa",
+  "version": "2.0.13-beta",
   "private": true,
   "homepage": "/active/",
   "type": "module",
@@ -73,7 +73,7 @@
     "@k2-packages/default-theme": "^2.4.0-alpha.4",
     "@k2-packages/map": "^2.0.0-alpha.2",
     "@k2-packages/map-draw-tools": "^3.0.0-alpha.2",
-    "@k2-packages/ui-kit": "^3.0.0-alpha.22",
+    "@k2-packages/ui-kit": "3.0.0-alpha.22",
     "@nebula.gl/edit-modes": "1.0.2-alpha.0",
     "@nebula.gl/layers": "1.0.2-alpha.0",
     "@reatom/core": "^2.0.17",

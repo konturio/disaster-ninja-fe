@@ -33,6 +33,7 @@ export function BivariateLegend({
 
   const axis = useMemo(() => {
     if (!legend) return null;
+
     const axis = (legend as BivariateLegendType).axis;
     if (!axis) return null;
     // fallback axis description for bivariate layers
