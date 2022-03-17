@@ -32,27 +32,27 @@ export function FoldingWrap({
   open,
   onStateChange,
   children,
-  label,
+  title,
+  controls,
   childrenWithIndent = true,
 }: {
   open: boolean;
   onStateChange: (newState: boolean) => void;
   children: JSX.Element | JSX.Element[];
-  label: JSX.Element;
+  title: JSX.Element;
   childrenWithIndent?: boolean;
+  controls?: JSX.Element | false;
 }) {
   return (
     <div>
-      <div className={s.foldingControl} onClick={() => onStateChange(open)}>
-        <CollapseIndicator isOpen={open} indent={childrenWithIndent} />
-        <div className={s.foldingLabel}>{label}</div>
-      </div>
-      {open && (
-        <div className={s.foldingContent}
-        >
-          {children}
+      <div className={s.foldingHeader}>
+        <div onClick={() => onStateChange(open)} className={s.foldingLabel}>
+          <CollapseIndicator isOpen={open} indent={childrenWithIndent} />
+          <div className={s.foldingTitle}>{title}</div>
         </div>
-      )}
+        <div className={s.foldingControls}>{controls}</div>
+      </div>
+      {open && <div className={s.foldingContent}>{children}</div>}
     </div>
   );
 }

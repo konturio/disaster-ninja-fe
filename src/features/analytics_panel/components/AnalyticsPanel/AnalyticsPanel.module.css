@@ -5,8 +5,8 @@
 .panelIcon {
   position: absolute;
   z-index: 1;
-  top: 8px;
-  left: 8px;
+  top: var(--unit);
+  left: var(--unit);
 
   &.show {
     transition: visibility 0s linear 0s, opacity 0.33s linear 0s;
@@ -22,13 +22,13 @@
 }
 
 .sidePannel {
-  z-index: 1; /* Show shadow over map */
+  z-index: 2; /* Show shadow over map */
   position: absolute;
-  margin-left: 8px;
-  margin-top: 8px;
+  margin-left: var(--unit);
+  margin-top: var(--unit);
   align-self: flex-start;
   left: -100px;
-  border-radius: 4px;
+  border-radius: var(--half-unit);
 
   &.show {
     transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
@@ -50,7 +50,7 @@
 .panelBody {
   width: 320px;
   min-height: 320px;
-  padding: 0 16px 16px 16px;
+  padding: 0 var(--double-unit) var(--double-unit) var(--double-unit);
 }
 
 .header {

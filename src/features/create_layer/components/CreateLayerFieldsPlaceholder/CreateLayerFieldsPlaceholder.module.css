@@ -1,0 +1,55 @@
+.fieldsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit);
+  width: 100%;
+  border-bottom: 1px solid var(--primary-border-disabled);
+  padding-bottom: var(--unit);
+
+  & .fieldsLabel {
+    display: flex;
+    justify-content: center;
+    color: var(--primary-border-disabled);
+    position: relative;
+
+    &::after {
+      content: '';
+      width: 100%;
+      border-bottom: 1px solid var(--primary-border-disabled);
+      position: absolute;
+      top: 50%;
+    }
+
+    & .textCaption {
+      z-index: 1;
+      background: #fff;
+      padding: 0 var(--unit);
+    }
+  }
+
+  & .fieldsPlaceholder {
+    display: flex;
+    flex-direction: column;
+    gap: var(--half-unit);
+  }
+
+  & .addFieldButton {
+    color: var(--primary-text-active);
+    width: 100px;
+    gap: var(--half-unit);
+
+    &:hover {
+      background: var(--primary-surface-hover);
+    }
+
+    &:active {
+      background: var(--primary-surface-active);
+      color: var(--primary-surface-regular);
+    }
+
+    & svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
