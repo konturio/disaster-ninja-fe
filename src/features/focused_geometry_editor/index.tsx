@@ -28,7 +28,7 @@ export function initFreehandGeometry() {
     title: i18n.t('Focus to freehand geometry'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
-    visualGroup: controlVisualGroup.withAnalitics,
+    visualGroup: controlVisualGroup.withAnalytics,
     icon: <DrawToolsIcon />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch(
@@ -53,7 +53,7 @@ export function initFreehandGeometry() {
     name: DOWNLOAD_GEOMETRY_CONTROL_NAME,
     title: i18n.t('Download selected area'),
     active: false,
-    visualGroup: controlVisualGroup.noAnalitics,
+    visualGroup: controlVisualGroup.noAnalytics,
     icon: <DownloadIcon />,
     onClick: () => {
       const data = drawnGeometryAtom.getState();
@@ -73,7 +73,7 @@ export function initFreehandGeometry() {
       };
       downloadObject(
         cleared,
-        `Disater_Ninja_custom_geometry_${new Date().toISOString()}.json`,
+        `Disaster_Ninja_custom_geometry_${new Date().toISOString()}.json`,
       );
     },
   });

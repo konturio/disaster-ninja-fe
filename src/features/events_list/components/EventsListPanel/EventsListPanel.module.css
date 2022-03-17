@@ -5,7 +5,7 @@
   padding-bottom: var(--double-unit);
 }
 
-.sidePannel {
+.sidePanel {
   z-index: 1; /* Show shadow over map */
   border-radius: 0;
 
