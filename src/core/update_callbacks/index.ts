@@ -6,26 +6,32 @@ export const UpdateCallbackEventsType = 'UpdateEvents';
 export const UpdateCallbackLegendType = 'UpdateLegend';
 export const UpdateCallbackLayersType = 'UpdateLayers';
 
-export type UpdateCallbackType = typeof UpdateCallbackAnalyticsType
+export type UpdateCallbackType =
+  | typeof UpdateCallbackAnalyticsType
   | typeof UpdateCallbackAdvancedAnalyticsType
   | typeof UpdateCallbackEventsType
   | typeof UpdateCallbackLegendType
   | typeof UpdateCallbackLayersType;
 
-const createCallbackAtom = () => createAtom({
-  update: () => null
-}, ({ onAction }, state = {}) => {
-  onAction('update', () => {
-    state = {};
-  });
+const createCallbackAtom = () =>
+  createAtom(
+    {
+      update: () => null,
+    },
+    ({ onAction }, state = {}) => {
+      onAction('update', () => {
+        state = {};
+      });
 
-  return state;
-})
+      return state;
+    },
+  );
 
 export type CallbackAtomType = ReturnType<typeof createCallbackAtom>;
 
 class UpdateCallbackService {
-  private _callbacks: Partial<Record<UpdateCallbackType, CallbackAtomType[]>> = {};
+  private _callbacks: Partial<Record<UpdateCallbackType, CallbackAtomType[]>> =
+    {};
 
   public addCallback(type: UpdateCallbackType): CallbackAtomType {
     if (!this._callbacks[type]) {

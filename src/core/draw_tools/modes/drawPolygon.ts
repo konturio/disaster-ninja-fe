@@ -7,9 +7,7 @@ import { currentNotificationAtom } from '~core/shared_state';
 import { TranslationService as i18n } from '~core/localization';
 import mapLibre from 'maplibre-gl';
 
-
 export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
-
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {
     const clickSequence = this['getClickSequence']();
     const clickSequenceLength = clickSequence.length;
@@ -26,10 +24,10 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
             clickSequence[0],
           ];
           if (this.intersectionsTest(props, polygonCoords)) {
-
             currentNotificationAtom.showNotification.dispatch(
               'error',
-              { title: i18n.t('Polygon should not overlap itself') }, 5
+              { title: i18n.t('Polygon should not overlap itself') },
+              5,
             );
             this['resetClickSequence']();
             return;
@@ -49,7 +47,6 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
               features: [],
               type: 'FeatureCollection',
             };
-
 
           const editAction = this['getAddFeatureOrBooleanPolygonAction'](
             polygonToAdd,
@@ -89,7 +86,6 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
     }
   }
 
-
   handleClick(event: ClickEvent, props: ModeProps<FeatureCollection>) {
     const { picks } = event;
     const clickedEditHandle = getPickedEditHandle(picks);
@@ -108,7 +104,7 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       Array.isArray(clickedEditHandle.properties.positionIndexes) &&
       (clickedEditHandle.properties.positionIndexes[0] === 0 ||
         clickedEditHandle.properties.positionIndexes[0] ===
-        clickSequence.length - 1)
+          clickSequence.length - 1)
     ) {
       // They clicked the first or last point (or double-clicked), so complete the polygon
 
@@ -116,11 +112,11 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
 
       const polygonCoords = [...clickSequence, clickSequence[0]];
 
-
       if (this.intersectionsTest(props, polygonCoords)) {
         currentNotificationAtom.showNotification.dispatch(
           'error',
-          { title: i18n.t('Polygon should not overlap itself') }, 5
+          { title: i18n.t('Polygon should not overlap itself') },
+          5,
         );
         this['resetClickSequence']();
         return;
@@ -150,7 +146,6 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       if (editAction) {
         props.onEdit(editAction);
       }
-
     } else if (positionAdded) {
       props.onEdit({
         // data is the same
@@ -167,5 +162,4 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
     super.handlePointerMove(event, props);
     props.onUpdateCursor('cell');
   }
-
 }

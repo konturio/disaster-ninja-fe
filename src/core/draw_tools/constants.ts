@@ -1,5 +1,5 @@
-export const DRAW_TOOLS_CONTROL_ID = 'DrawTools';
-export const DRAW_TOOLS_CONTROL_NAME = 'Draw Tools';
+export const FOCUSED_GEOMETRY_EDITOR_CONTROL_ID = 'FreehandGeometry';
+export const FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME = 'Freehand Geometry';
 export const DRAW_TOOLS_LAYER_ID = 'draw-tools';
 
 export const DOWNLOAD_GEOMETRY_CONTROL_ID = 'DownloadGeometry';

@@ -7,8 +7,8 @@ const DEFAULT_ATOM_STATE: CreateLayerModel = {
   id: -1,
   name: '',
   marker: 'default',
-  fields: []
-}
+  fields: [],
+};
 
 export type LayerDataAtomType = ReturnType<typeof createLayerDataAtom>;
 
@@ -19,12 +19,18 @@ export function createLayerDataAtom(initialState?: CreateLayerModel) {
       updateMarker: (marker: string) => marker,
       addField: () => null,
       removeField: (fieldIndex: number) => fieldIndex,
-      reorderFields: (oldIndex: number, newIndex: number) => ({ oldIndex, newIndex}),
+      reorderFields: (oldIndex: number, newIndex: number) => ({
+        oldIndex,
+        newIndex,
+      }),
     },
-    ({ onAction }, state: CreateLayerModel = initialState || DEFAULT_ATOM_STATE) => {
+    (
+      { onAction },
+      state: CreateLayerModel = initialState || DEFAULT_ATOM_STATE,
+    ) => {
       onAction('updateName', (name) => {
         if (state.name !== name) {
-          state = { ... state, name };
+          state = { ...state, name };
         }
       });
 
@@ -38,7 +44,7 @@ export function createLayerDataAtom(initialState?: CreateLayerModel) {
         state = { ...state };
       });
 
-      onAction('reorderFields', ({ oldIndex, newIndex}) => {
+      onAction('reorderFields', ({ oldIndex, newIndex }) => {
         const tmp = state.fields[oldIndex];
         state.fields[oldIndex] = state.fields[newIndex];
         state.fields[newIndex] = tmp;
@@ -47,6 +53,6 @@ export function createLayerDataAtom(initialState?: CreateLayerModel) {
 
       return state;
     },
-    `createLayerDataAtom_${uuidv4()}`
+    `createLayerDataAtom_${uuidv4()}`,
   );
 }

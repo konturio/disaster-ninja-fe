@@ -14,12 +14,20 @@ interface CreateLayerFormProps {
   onCancel: () => void;
 }
 
-export function CreateLayerForm({ data, onSave, onCancel }: CreateLayerFormProps) {
-  const [ formState, { addField, removeField, reorderFields, updateName } ] = useAtom(data);
+export function CreateLayerForm({
+  data,
+  onSave,
+  onCancel,
+}: CreateLayerFormProps) {
+  const [formState, { addField, removeField, reorderFields, updateName }] =
+    useAtom(data);
 
-  const onNameChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
-    updateName(ev.target.value);
-  }, [updateName]);
+  const onNameChange = useCallback(
+    (ev: ChangeEvent<HTMLInputElement>) => {
+      updateName(ev.target.value);
+    },
+    [updateName],
+  );
 
   return (
     <div className={s.formContainer}>
@@ -54,5 +62,5 @@ export function CreateLayerForm({ data, onSave, onCancel }: CreateLayerFormProps
         </Button>
       </div>
     </div>
-  )
+  );
 }
