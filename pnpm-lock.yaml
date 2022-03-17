@@ -11,8 +11,8 @@ specifiers:
   '@k2-packages/boundaries': ^2.0.0-alpha.14
   '@k2-packages/client': ^2.0.0-alpha.1
   '@k2-packages/deck-gl': ^3.0.0-alpha.1
-  '@k2-packages/default-icons': ^2.0.0-alpha.14
-  '@k2-packages/default-theme': ^2.4.0-alpha.2
+  '@k2-packages/default-icons': ^2.0.0-alpha.16
+  '@k2-packages/default-theme': ^2.4.0-alpha.4
   '@k2-packages/map': ^2.0.0-alpha.2
   '@k2-packages/map-draw-tools': ^3.0.0-alpha.2
   '@k2-packages/ui-kit': 3.0.0-alpha.22
@@ -77,6 +77,8 @@ specifiers:
   postcss-normalize: 8.0.1
   prettier: ^2.3.2
   react: ^17.0.2
+  react-dnd: ^15.1.1
+  react-dnd-html5-backend: ^15.1.2
   react-dom: ^17.0.2
   react-i18next: ^11.11.4
   react-lazily: ^0.9.0
@@ -101,6 +103,7 @@ specifiers:
   typescript: 4.3.5
   typescript-plugin-css-modules: ^3.4.0
   use-subscription: ^1.5.1
+  uuid: ^8.3.2
   vite: ^2.6.14
   vite-plugin-html: ^2.1.1
   yenv: ^2.1.1
@@ -113,8 +116,8 @@ dependencies:
   '@k2-packages/boundaries': 2.0.0-alpha.18_a472ff28d8f2dcb47eccfa2643336b35
   '@k2-packages/client': 2.0.0-alpha.1
   '@k2-packages/deck-gl': 3.0.0-alpha.1_react@17.0.2
-  '@k2-packages/default-icons': 2.0.0-alpha.14_react@17.0.2
-  '@k2-packages/default-theme': 2.4.0-alpha.2
+  '@k2-packages/default-icons': 2.0.0-alpha.17_react@17.0.2
+  '@k2-packages/default-theme': 2.4.0-alpha.4
   '@k2-packages/map': 2.0.0-alpha.2_8e8bc899e6ff6e793f7fd8eac52b2e5d
   '@k2-packages/map-draw-tools': 3.0.0-alpha.2_2d190d942bb83446b3b4d2da3fe998f6
   '@k2-packages/ui-kit': 3.0.0-alpha.22_a472ff28d8f2dcb47eccfa2643336b35
@@ -179,6 +182,8 @@ dependencies:
   postcss-normalize: 8.0.1
   prettier: 2.5.1
   react: 17.0.2
+  react-dnd: 15.1.1_59e2f123083c31f16e532757a500a2b3
+  react-dnd-html5-backend: 15.1.2
   react-dom: 17.0.2_react@17.0.2
   react-i18next: 11.15.3_ad209b3ec0793904285d43906e66750b
   react-lazily: 0.9.1_react-dom@17.0.2+react@17.0.2
@@ -203,6 +208,7 @@ dependencies:
   typescript: 4.3.5
   typescript-plugin-css-modules: 3.4.0_typescript@4.3.5
   use-subscription: 1.5.1_react@17.0.2
+  uuid: 8.3.2
   vite: 2.7.10
   vite-plugin-html: 2.1.2_vite@2.7.10
   yenv: 2.1.1
@@ -652,16 +658,16 @@ packages:
       react: 17.0.2
     dev: false
 
-  /@k2-packages/default-icons/2.0.0-alpha.14_react@17.0.2:
-    resolution: {integrity: sha512-diZma1xbmi9bN9C3zTt7UI+NIuve/dD3ZlEPr81YhVK3tsZK+gViOdbiA1nS/c5Xn4skGAKRMOcTmTya39+Pmw==}
+  /@k2-packages/default-icons/2.0.0-alpha.17_react@17.0.2:
+    resolution: {integrity: sha512-sjGgnoMIIRoHwv9IYlgt8/tAShzmbrVOaO4ziZAP6zIB/FEL2WgayEi96VSGD+EjOgn6GP2UBP47TWi7uO26oA==}
     peerDependencies:
       react: ^17.0.2
     dependencies:
       react: 17.0.2
     dev: false
 
-  /@k2-packages/default-theme/2.4.0-alpha.2:
-    resolution: {integrity: sha512-l43hzRUT3dsqhgVszLtfJZop30dPtQPrsAV7u1X+Lt03v262+4+3HPZX2jZQJkU6/LlxoUZktDH38VCREqsdQA==}
+  /@k2-packages/default-theme/2.4.0-alpha.4:
+    resolution: {integrity: sha512-pVCgQT4WvNWrcJqT/sECPo0If+50F16gvStXuZlTcSSVANyrW3eFOkY8PIdHGpbiKcEsMsQcepyLx4bDrAsAAw==}
     dev: false
 
   /@k2-packages/map-draw-tools/3.0.0-alpha.2_2d190d942bb83446b3b4d2da3fe998f6:
@@ -1234,6 +1240,18 @@ packages:
     resolution: {integrity: sha512-IH2M+F3c8HR1DTroBARePUFG7wIewumtKA0UFqx51Z7S4hKrD60wFbpMmg0AcF4FvHAXMBoC+kYi1UKW9XbAOw==}
     dependencies:
       '@babel/runtime': 7.16.7
+    dev: false
+
+  /@react-dnd/asap/4.0.0:
+    resolution: {integrity: sha512-0XhqJSc6pPoNnf8DhdsPHtUhRzZALVzYMTzRwV4VI6DJNJ/5xxfL9OQUwb8IH5/2x7lSf7nAZrnzUD+16VyOVQ==}
+    dev: false
+
+  /@react-dnd/invariant/3.0.0:
+    resolution: {integrity: sha512-keberJRIqPX15IK3SWS/iO1t/kGETiL1oczKrDitAaMnQ+kpHf81l3MrRmFjvfqcnApE+izEvwM6GsyoIcpsVA==}
+    dev: false
+
+  /@react-dnd/shallowequal/3.0.0:
+    resolution: {integrity: sha512-1ELWQdJB2UrCXTKK5cCD9uGLLIwECLIEdttKA255owdpchtXohIjZBTlFJszwYi2ZKe2Do+QvUzsGyGCMNwbdw==}
     dev: false
 
   /@reatom/core/2.0.17:
@@ -2931,6 +2949,14 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       path-type: 4.0.0
+    dev: false
+
+  /dnd-core/15.1.1:
+    resolution: {integrity: sha512-Mtj/Sltcx7stVXzeDg4g7roTe/AmzRuIf/FYOxX6F8gULbY54w066BlErBOzQfn9RIJ3gAYLGX7wvVvoBSq7ig==}
+    dependencies:
+      '@react-dnd/asap': 4.0.0
+      '@react-dnd/invariant': 3.0.0
+      redux: 4.1.2
     dev: false
 
   /doctrine/2.1.0:
@@ -6302,6 +6328,37 @@ packages:
       strip-json-comments: 2.0.1
     dev: false
 
+  /react-dnd-html5-backend/15.1.2:
+    resolution: {integrity: sha512-mem9QbutUF+aA2YC1y47G3ECjnYV/sCYKSnu5Jd7cbg3fLMPAwbnTf/JayYdnCH5l3eg9akD9dQt+cD0UdF8QQ==}
+    dependencies:
+      dnd-core: 15.1.1
+    dev: false
+
+  /react-dnd/15.1.1_59e2f123083c31f16e532757a500a2b3:
+    resolution: {integrity: sha512-QLrHtPU08U4c5zop0ANeqrHXaQw2EWLMn8DQoN6/e4eSN/UbB84P49/80Qg0MEF29VLB5vikSoiFh9N8ASNmpQ==}
+    peerDependencies:
+      '@types/hoist-non-react-statics': '>= 3.3.1'
+      '@types/node': '>= 12'
+      '@types/react': '>= 16'
+      react: '>= 16.14'
+    peerDependenciesMeta:
+      '@types/hoist-non-react-statics':
+        optional: true
+      '@types/node':
+        optional: true
+      '@types/react':
+        optional: true
+    dependencies:
+      '@react-dnd/invariant': 3.0.0
+      '@react-dnd/shallowequal': 3.0.0
+      '@types/node': 12.20.41
+      '@types/react': 17.0.38
+      dnd-core: 15.1.1
+      fast-deep-equal: 3.1.3
+      hoist-non-react-statics: 3.3.2
+      react: 17.0.2
+    dev: false
+
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
@@ -6538,6 +6595,12 @@ packages:
     deprecated: Package moved to @redux-devtools/extension.
     peerDependencies:
       redux: ^3.1.0 || ^4.0.0
+    dev: false
+
+  /redux/4.1.2:
+    resolution: {integrity: sha512-SH8PglcebESbd/shgf6mii6EIoRM0zrQyjcuQ+ojmfxjTtE0z9Y8pa62iA/OJ58qjP6j27uyW4kUF4jl/jd6sw==}
+    dependencies:
+      '@babel/runtime': 7.16.7
     dev: false
 
   /regenerator-runtime/0.13.9:
@@ -7677,6 +7740,11 @@ packages:
 
   /utila/0.4.0:
     resolution: {integrity: sha1-ihagXURWV6Oupe7MWxKk+lN5dyw=}
+    dev: false
+
+  /uuid/8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
     dev: false
 
   /uvu/0.5.3:

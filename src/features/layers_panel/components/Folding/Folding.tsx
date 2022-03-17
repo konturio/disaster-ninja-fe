@@ -3,13 +3,13 @@ import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import s from './Folding.module.css';
 
 export function Folding({
-  label,
+  title,
   children,
   open,
-}: PropsWithChildren<{ label: JSX.Element; open: boolean }>) {
+}: PropsWithChildren<{ title: JSX.Element; open: boolean }>) {
   return (
     <FoldingWrap
-      label={label}
+      title={title}
       open={open}
       childrenWithIndent={false}
       onStateChange={(s) => null}

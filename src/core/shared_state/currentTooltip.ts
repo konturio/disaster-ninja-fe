@@ -4,7 +4,7 @@ export type TooltipData = {
   position: { x: number; y: number };
   popup: string | JSX.Element;
   onOuterClick?: (event, closeTooltip: () => void) => void;
-  hoverBehabiour?: boolean;
+  hoverBehavior?: boolean;
 };
 type currentTooltipAtomState = TooltipData | null;
 
