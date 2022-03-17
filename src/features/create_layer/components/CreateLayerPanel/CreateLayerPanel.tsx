@@ -14,9 +14,10 @@ import { CreateLayerForm } from '~features/create_layer/components/CreateLayerFo
 import { LayerDataAtomType } from '~features/create_layer/atoms/createLayerData';
 
 export function CreateLayerPanel() {
-  const [ createLayerState, { save } ] = useAtom(createLayerControllerAtom);
+  const [createLayerState, { save }] = useAtom(createLayerControllerAtom);
 
-  let statesToComponents: ReturnType<typeof createStateMap> | undefined = undefined;
+  let statesToComponents: ReturnType<typeof createStateMap> | undefined =
+    undefined;
   if (createLayerState) {
     statesToComponents = createStateMap<LayerDataAtomType>(createLayerState);
   }
@@ -29,21 +30,27 @@ export function CreateLayerPanel() {
     <Panel
       header={<Text type="heading-l">{i18n.t('Create Layer')}</Text>}
       onClose={onPanelClose}
-      className={clsx(s.sidePannel, createLayerState && s.show, !createLayerState && s.hide)}
+      className={clsx(
+        s.sidePannel,
+        createLayerState && s.show,
+        !createLayerState && s.hide,
+      )}
     >
       <div className={s.panelBody}>
         {statesToComponents &&
-        statesToComponents({
-          loading: <LoadingSpinner message={i18n.t('Saving layer...')} />,
-          error: (errorMessage) => <ErrorMessage message={errorMessage} />,
-          ready: (data) => {
-            return <CreateLayerForm
-              data={data as LayerDataAtomType}
-              onSave={save}
-              onCancel={onPanelClose}
-            />;
-          },
-        })}
+          statesToComponents({
+            loading: <LoadingSpinner message={i18n.t('Saving layer...')} />,
+            error: (errorMessage) => <ErrorMessage message={errorMessage} />,
+            ready: (data) => {
+              return (
+                <CreateLayerForm
+                  data={data as LayerDataAtomType}
+                  onSave={save}
+                  onCancel={onPanelClose}
+                />
+              );
+            },
+          })}
       </div>
     </Panel>
   );

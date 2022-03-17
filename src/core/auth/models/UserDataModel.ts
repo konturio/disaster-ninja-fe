@@ -13,6 +13,7 @@ export type AppFeature =
   | 'toasts'
   | 'boundary_selector'
   | 'draw_tools'
+  | 'focused_geometry_editor'
   | 'geometry_uploader'
   | 'legend_panel'
   | 'reports'

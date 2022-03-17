@@ -1,6 +1,9 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import { BivariateLayerStyle, generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
+import {
+  BivariateLayerStyle,
+  generateColorThemeAndBivariateStyle,
+} from '~utils/bivariate/bivariateColorThemeUtils';
 import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { ColorTheme } from '~core/types';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
@@ -38,9 +41,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
       const { xNumerator, xDenominator, yNumerator, yDenominator } = selection;
       if (xNumerator === null || yNumerator === null) return;
 
-      const { xGroups, yGroups } = getUnlistedState(
-        bivariateNumeratorsAtom,
-      );
+      const { xGroups, yGroups } = getUnlistedState(bivariateNumeratorsAtom);
       const bivariateStatisticsResource = getUnlistedState(
         bivariateStatisticsResourceAtom,
       ).data;
@@ -48,13 +49,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
       const stats =
         bivariateStatisticsResource.polygonStatistic.bivariateStatistic;
 
-      if (
-        !xGroups ||
-        !yGroups ||
-        !xGroups.length ||
-        !yGroups.length
-      )
-        return;
+      if (!xGroups || !yGroups || !xGroups.length || !yGroups.length) return;
 
       if (!xDenominator || !yDenominator) return;
 
@@ -95,14 +90,17 @@ export const bivariateMatrixSelectionAtom = createAtom(
           const currentRegistry = getUnlistedState(layersRegistryAtom);
           for (const [layerId, layer] of Array.from(currentRegistry)) {
             const layerData = getUnlistedState(layer);
-            if (layerData.legend?.type === 'bivariate' && layerData.legend?.name === 'Bivariate Layer') {
+            if (
+              layerData.legend?.type === 'bivariate' &&
+              layerData.legend?.name === 'Bivariate Layer'
+            ) {
               actions.unshift(layersRegistryAtom.unregister(layerId));
               actions.unshift(layer.disable());
               actions.unshift(layer.hide());
             }
           }
 
-          actions.push(create('enableBivariateLayer', id))
+          actions.push(create('enableBivariateLayer', id));
 
           if (actions.length) {
             schedule((dispatch) => {
@@ -123,7 +121,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
           break;
         }
       }
-    })
+    });
 
     return state;
   },

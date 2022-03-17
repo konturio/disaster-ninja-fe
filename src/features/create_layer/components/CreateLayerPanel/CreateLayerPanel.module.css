@@ -1,37 +1,36 @@
 .sidePannel {
-	pointer-events: auto;
-	position: relative;
-	z-index: 1;
-	margin-right: var(--unit);
-	align-self: flex-start;
-	border-radius: var(--border-radius);
-	max-height: calc(100vh - 140px);
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+  margin-right: var(--unit);
+  align-self: flex-start;
+  border-radius: var(--border-radius);
+  max-height: calc(100vh - 140px);
 
-	&.show {
-		transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
-		margin-right 0.1s linear 0s;
-		visibility: visible;
-		opacity: 1;
-		margin-right: 0;
-	}
+  &.show {
+    transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
+      margin-right 0.1s linear 0s;
+    visibility: visible;
+    opacity: 1;
+    margin-right: 0;
+  }
 
-	&.hide {
-		transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
-		margin-right 0.15s linear 0s;
-		visibility: hidden;
-		opacity: 0;
-		margin-right: -268px;
-	}
+  &.hide {
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
+      margin-right 0.15s linear 0s;
+    visibility: hidden;
+    opacity: 0;
+    margin-right: -268px;
+  }
 }
 
 .panelBody {
-	height: 100%;
-	width: 260px;
-	padding: 0 18px 18px 18px;
-	overflow-y: auto;
-	overflow-x: hidden;
+  height: 100%;
+  width: 260px;
+  padding: 0 18px 18px 18px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .panelBody :first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
-

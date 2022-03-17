@@ -13,17 +13,18 @@ export function createLayerFieldAtom() {
     ({ onAction }, state: LayerFieldModel = { name: '', type: 'none' }) => {
       onAction('updateName', (name) => {
         if (state.name !== name) {
-          state = { ...state, name }
+          state = { ...state, name };
         }
       });
 
       onAction('updateType', (type) => {
         if (state.type !== type) {
-          state = { ...state, type }
+          state = { ...state, type };
         }
       });
 
       return state;
     },
-    `LayerFieldAtom_${uuidv4()}`);
+    `LayerFieldAtom_${uuidv4()}`,
+  );
 }
