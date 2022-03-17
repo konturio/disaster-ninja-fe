@@ -94,7 +94,7 @@ export function AnalyticsPanel({
       <Panel
         header={panelHeading}
         onClose={onPanelClose}
-        className={clsx(s.sidePannel, isOpen && s.show, !isOpen && s.hide)}
+        className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
         classes={{
           header: s.header,
         }}

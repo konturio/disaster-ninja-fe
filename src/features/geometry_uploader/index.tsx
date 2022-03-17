@@ -25,7 +25,7 @@ export function initFileUploader() {
     title: i18n.t('Focus to uploaded geometry'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
-    visualGroup: controlVisualGroup.withAnalitics,
+    visualGroup: controlVisualGroup.withAnalytics,
     icon: <UploadFileIcon />,
     onClick: () => {
       /**

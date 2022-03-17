@@ -67,7 +67,7 @@ export function BivariatePanel({
     <>
       <Panel
         onClose={onPanelClose}
-        className={clsx(s.sidePannel, isOpen && s.show, !isOpen && s.hide)}
+        className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
         classes={{
           closeBtn: s.customCloseBtn,
         }}

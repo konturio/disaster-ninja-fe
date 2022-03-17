@@ -1,5 +1,5 @@
 import { sideControlsBarAtom } from '~core/shared_state';
-import { REPORTS_CONROL_ID, REPORTS_CONROL_NAME } from './constants';
+import { REPORTS_CONTROL_ID, REPORTS_CONTROL_NAME } from './constants';
 import { ReportsIcon } from './components/icon/ReportsIcon';
 import { History } from 'history';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
@@ -7,16 +7,16 @@ import { TranslationService as i18n } from '~core/localization';
 
 export function initReportsIcon(history: History) {
   sideControlsBarAtom.addControl.dispatch({
-    id: REPORTS_CONROL_ID,
-    name: REPORTS_CONROL_NAME,
+    id: REPORTS_CONTROL_ID,
+    name: REPORTS_CONTROL_NAME,
     title: i18n.t('Reports'),
     active: false,
-    visualGroup: controlVisualGroup.noAnalitics,
+    visualGroup: controlVisualGroup.noAnalytics,
     icon: ReportsIcon(),
     onClick: (becomesActive) => {
-      sideControlsBarAtom.enable.dispatch(REPORTS_CONROL_ID);
+      sideControlsBarAtom.enable.dispatch(REPORTS_CONTROL_ID);
       history.push('./reports');
-      sideControlsBarAtom.disable.dispatch(REPORTS_CONROL_ID);
+      sideControlsBarAtom.disable.dispatch(REPORTS_CONTROL_ID);
     },
   });
 }

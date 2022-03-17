@@ -12,8 +12,8 @@ import { useAtom } from '@reatom/react';
 import { sideControlsBarAtom } from '~core/shared_state';
 import clsx from 'clsx';
 import {
-  EVENTLIST_CONROL_ID,
-  EVENTLIST_CONROL_NAME,
+  EVENT_LIST_CONTROL_ID,
+  EVENT_LIST_CONTROL_NAME,
 } from '~features/events_list/constants';
 import eventsIcon from '~features/events_list/icons/eventsIcon.svg';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
@@ -39,7 +39,7 @@ export function EventsListPanel({
   const virtuoso = useRef(null);
 
   useEffect(() => {
-    // type any is used because virtuoso types doesnt have scrollToIndex method, but it's described in docs https://virtuoso.dev/scroll-to-index
+    // type any is used because virtuoso types doesn't have scrollToIndex method, but it's described in docs https://virtuoso.dev/scroll-to-index
     const ref: any = virtuoso.current;
     if (ref && current && eventsList?.length) {
       const currentEventIndex = eventsList.findIndex(
@@ -53,7 +53,7 @@ export function EventsListPanel({
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
-    disable(EVENTLIST_CONROL_ID);
+    disable(EVENT_LIST_CONTROL_ID);
   }, [setIsOpen]);
 
   /* It's ignore loading state, when it just refresh of list */
@@ -67,30 +67,30 @@ export function EventsListPanel({
 
   useEffect(() => {
     addControl({
-      id: EVENTLIST_CONROL_ID,
-      name: EVENTLIST_CONROL_NAME,
+      id: EVENT_LIST_CONTROL_ID,
+      name: EVENT_LIST_CONTROL_NAME,
       title: i18n.t('Focus to ongoing disasters'),
       active: false,
-      visualGroup: controlVisualGroup.withAnalitics,
+      visualGroup: controlVisualGroup.withAnalytics,
       icon: <img src={eventsIcon} alt={i18n.t('Event list')} />,
       onClick: (becomesActive) => {
-        toggleActiveState(EVENTLIST_CONROL_ID);
+        toggleActiveState(EVENT_LIST_CONTROL_ID);
       },
       onChange: (isActive) => {
         setIsOpen(isActive);
       },
     });
 
-    enable(EVENTLIST_CONROL_ID);
+    enable(EVENT_LIST_CONTROL_ID);
     return () => {
-      disable(EVENTLIST_CONROL_ID);
+      disable(EVENT_LIST_CONTROL_ID);
     };
   }, []);
 
   return (
     <Panel
       header={<Text type="heading-l">{i18n.t('Ongoing disasters')}</Text>}
-      className={clsx(s.sidePannel, isOpen && s.show, !isOpen && s.hide)}
+      className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
       onClose={onPanelClose}
     >
       <FeedSelector />
