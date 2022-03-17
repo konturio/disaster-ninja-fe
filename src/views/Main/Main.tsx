@@ -8,7 +8,6 @@ import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
-<<<<<<< HEAD
 
 const { UserProfile } = lazily(
   () => import('~features/user_profile')
@@ -22,12 +21,6 @@ const { AppHeader, Logo } = lazily(
   () => import('@k2-packages/ui-kit')
 );
 
-=======
-const { CreateLayerPanel } = lazily(() => import('~features/create_layer/components/CreateLayerPanel/CreateLayerPanel'));
-const { AppHeader, Logo } = lazily(() => import('@k2-packages/ui-kit'));
-
-const { UserProfile }  = lazily(() => import('~features/user_profile'));
->>>>>>> df8583b1e60dbd39252cbbd98888a692caa8c478
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
 );
