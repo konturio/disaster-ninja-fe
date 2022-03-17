@@ -59,7 +59,10 @@ export const areaLayersDetailsParamsAtom = createAtom(
       (acc, layer) => {
         if (enabledLayers.has(layer.id)) {
           acc[layer.boundaryRequiredForRetrieval ? 0 : 1].push(layer.id);
-          if (!hasEventIdRequiredForRetrieval && layer.eventIdRequiredForRetrieval) {
+          if (
+            !hasEventIdRequiredForRetrieval &&
+            layer.eventIdRequiredForRetrieval
+          ) {
             hasEventIdRequiredForRetrieval = true;
           }
         }
@@ -88,8 +91,14 @@ export const areaLayersDetailsParamsAtom = createAtom(
      * because areaLayersResourceAtom subscribed to focusedGeometryAtom
      */
     const focusedGeometry = getUnlistedState(focusedGeometryAtom);
-    if (focusedGeometry?.source?.type === 'event') {
-      requestParams.eventId = focusedGeometry.source.meta.eventId;
+    if (hasEventIdRequiredForRetrieval) {
+      if (focusedGeometry?.source?.type === 'event') {
+        requestParams.eventId = focusedGeometry.source.meta.eventId;
+      } else {
+        throw Error(
+          'Current geometry not from event, event related layer was selected',
+        );
+      }
     }
 
     if (focusedGeometry) {

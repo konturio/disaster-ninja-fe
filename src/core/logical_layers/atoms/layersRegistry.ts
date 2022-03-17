@@ -11,7 +11,9 @@ import type { RegisterRequest, LayerRegistryAtom } from '../types/registry';
  * 1. Create layer atoms
  * 2. Cleanup side-states when layer unregistered
  * */
+type UnsubscribeFn = () => void;
 const cleanUpActionsMap = new WeakMap<LayerAtom, Action[]>();
+const unsubscribes = new WeakMap<LayerAtom, UnsubscribeFn>();
 
 export const layersRegistryAtom: LayerRegistryAtom = createAtom(
   {
@@ -36,6 +38,15 @@ export const layersRegistryAtom: LayerRegistryAtom = createAtom(
         if (cleanUpActions) {
           cleanUpActionsMap.set(layerAtom, cleanUpActions);
         }
+        /**
+         * If layer not rendered (for example it in collapsed group) his atom in sleeping state
+         * It problem because we still need run logic inside for map rendering
+         * This activate layer atom even it not visible in view
+         * */
+        unsubscribes.set(
+          layerAtom,
+          layerAtom.subscribe(() => null),
+        );
       });
       state = newState;
     });
@@ -50,6 +61,10 @@ export const layersRegistryAtom: LayerRegistryAtom = createAtom(
         const layerAtom = state.get(id);
         if (layerAtom) {
           schedule((dispatch) => {
+            // Stop atom
+            const unsubscribe = unsubscribes.get(layerAtom)!;
+            unsubscribe();
+
             const actions: Action[] = [
               ...(cleanUpActionsMap.get(layerAtom) || []),
               /* Not clear enabledLayersAtom, because it store only user choices,

@@ -37,8 +37,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   private _layerIds: Set<string>;
   private _sourceId: string;
   private _removeClickListener: null | (() => void) = null;
-  private legend: LayerLegend | null = null;
-  private source: LayerSource | null = null;
 
   public constructor({ id }: { id: string }) {
     super();
@@ -78,7 +76,11 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     });
   }
 
-  async mountGeoJSONLayer(map: ApplicationMap, layer: LayerGeoJSONSource) {
+  async mountGeoJSONLayer(
+    map: ApplicationMap,
+    layer: LayerGeoJSONSource,
+    legend: LayerLegend | null,
+  ) {
     /* Create source */
     const mapSource: GeoJSONSourceRaw = {
       type: 'geojson' as const,
@@ -97,8 +99,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       );
     }
     /* Create layer */
-    if (this.legend) {
-      const layerStyles = this._generateLayersFromLegend(this.legend);
+    if (legend) {
+      const layerStyles = this._generateLayersFromLegend(legend);
       const layers = this._setLayersIds(layerStyles);
       layers.forEach(async (mapLayer) => {
         const layer = map.getLayer(mapLayer.id);
@@ -171,7 +173,11 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  mountTileLayer(map: ApplicationMap, layer: LayerTileSource) {
+  mountTileLayer(
+    map: ApplicationMap,
+    layer: LayerTileSource,
+    legend: LayerLegend | null,
+  ) {
     /* Create source */
     const mapSource: VectorSource | RasterSource = {
       type: layer.source.type,
@@ -208,8 +214,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       });
     } else {
       // Vector tiles
-      if (this.legend) {
-        const layerStyles = this._generateLayersFromLegend(this.legend);
+      if (legend) {
+        const layerStyles = this._generateLayersFromLegend(legend);
         const layers = this._setLayersIds(layerStyles);
         // !FIXME - Hardcoded filter for layer
         // Must be deleted after LayersDB implemented
@@ -244,29 +250,33 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   isGeoJSONLayer = (layer: LayerSource): layer is LayerGeoJSONSource =>
     layer.source.type === 'geojson';
 
-  _updateMap(map: ApplicationMap) {
-    const layerData = this.source;
+  _updateMap(
+    map: ApplicationMap,
+    layerData: LayerSource,
+    legend: LayerLegend | null,
+  ) {
     if (layerData == null) return;
     if (this.isGeoJSONLayer(layerData)) {
-      this.mountGeoJSONLayer(map, layerData);
+      this.mountGeoJSONLayer(map, layerData, legend);
     } else {
-      this.mountTileLayer(map, layerData);
+      this.mountTileLayer(map, layerData, legend);
     }
     /* Add event listener */
-    if (this.legend) {
-      // !FIXME - Hardcoded filter for layer
-      // Must be deleted after LayersDB implemented
-      if (this.id === 'activeContributors') {
-        const onClick = onActiveContributorsClick(map, this._sourceId);
-        this._removeClickListener = registerMapListener(
-          'click',
-          (e) => (onClick(e), true),
-          60,
-        );
-        return;
-      }
+    // !FIXME - Hardcoded filter for layer
+    // Must be deleted after LayersDB implemented
+    if (this.id === 'activeContributors') {
+      const onClick = onActiveContributorsClick(map, this._sourceId);
+      this._removeClickListener = registerMapListener(
+        'click',
+        (e) => (onClick(e), true),
+        60,
+      );
+      return;
+    }
+
+    if (legend) {
       const linkProperty =
-        'linkProperty' in this.legend ? this.legend.linkProperty : null;
+        'linkProperty' in legend ? legend.linkProperty : null;
       if (linkProperty) {
         const handler = (e) => {
           this.onMapClick(map, e, linkProperty);
@@ -291,7 +301,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       (feature) => feature.properties?.[linkProperty] !== undefined,
     );
     if (featureWithLink === undefined) return;
-    const link = featureWithLink[linkProperty];
+    const link = featureWithLink.properties?.[linkProperty];
     window.open(link);
   }
 
@@ -304,9 +314,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     map: ApplicationMap;
     state: LogicalLayerState;
   }) {
-    this.legend = state.legend;
-    if (map && state.isMounted) {
-      this._updateMap(map);
+    if (state.source) {
+      this._updateMap(map, state.source, state.legend);
     }
   }
 
@@ -317,14 +326,15 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     map: ApplicationMap;
     state: LogicalLayerState;
   }) {
-    this.source = state.source;
-    if (map && state.isMounted) {
-      this._updateMap(map);
+    if (state.source) {
+      this._updateMap(map, state.source, state.legend);
     }
   }
 
-  willMount({ map }: { map: ApplicationMap }) {
-    this._updateMap(map);
+  willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
+    if (state.source) {
+      this._updateMap(map, state.source, state.legend);
+    }
   }
 
   willUnMount({ map }: { map: ApplicationMap }) {
@@ -332,7 +342,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(id) !== undefined) {
         map.removeLayer(id);
       } else {
-        console.error(
+        console.warn(
           `Can't remove layer with ID: ${id}. Layer does't exist in map`,
         );
       }
@@ -342,7 +352,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getSource(this._sourceId) !== undefined) {
         map.removeSource(this._sourceId);
       } else {
-        console.error(
+        console.warn(
           `Can't remove source with ID: ${this._sourceId}. Source does't exist in map`,
         );
       }
@@ -355,7 +365,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(id) !== undefined) {
         map.setLayoutProperty(id, 'visibility', 'none');
       } else {
-        console.error(
+        console.warn(
           `Can't hide layer with ID: ${id}. Layer doesn't exist on the map`,
         );
       }
@@ -367,7 +377,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(id) !== undefined) {
         map.setLayoutProperty(id, 'visibility', 'visible');
       } else {
-        console.error(
+        console.warn(
           `Cannot unhide layer with ID: ${id}. Layer doesn't exist on the map`,
         );
       }
