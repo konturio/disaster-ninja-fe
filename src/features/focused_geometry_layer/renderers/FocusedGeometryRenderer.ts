@@ -90,7 +90,11 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
   }
 
   async setupIcon(map: ApplicationMap, id: string, url: string) {
-    await waitMapEvent(map, 'load');
+    // @ts-expect-error
+    // it seems to me that map._loaded represents current map state which is needed,
+    // whereas map.loaded() or map.isStyleLoaded() check allows
+    // to set a callback on map.on('load') method, that will never run
+    !map._loaded && (await waitMapEvent(map, 'load'));
     const image = await loadImageOnMap(map, url);
     map.addImage(id, image);
     this.availableIcons.add(id);
@@ -103,48 +107,59 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     return iconUrl;
   }
 
-  updateOrSetSource({
+  async updateOrSetSource({
     map,
     state,
+    isInitialLoad = false,
   }: {
     map: ApplicationMap;
     state: LogicalLayerState;
+    isInitialLoad?: boolean;
   }) {
-    let source = state.source?.source ?? null;
+    // TODO adress this logic in task 9295
 
-    if (source === null) {
-      this.removeSourcesAndLayers({ map });
-      source = {
-        data: { type: 'FeatureCollection', features: [] },
-        type: 'geojson',
-      };
+    // @ts-expect-error
+    // see comment on top
+    !map._loaded && (await waitMapEvent(map, 'load'));
+
+    const stateSource = state.source?.source ?? null;
+    // I'm cast type here because i known that in willMount i add geojson source
+    const mapSource = map.getSource(this.sourceId) as GeoJSONSource;
+
+    if (isInitialLoad) {
+      !mapSource &&
+        map.addSource(
+          this.sourceId,
+          stateSource || {
+            data: { type: 'FeatureCollection', features: [] },
+            type: 'geojson',
+          },
+        );
+      return true;
     }
 
-    if (source.type !== 'geojson') {
+    if (stateSource === null) {
+      mapSource.setData({ type: 'FeatureCollection', features: [] });
+      return true;
+    }
+
+    if (stateSource.type !== 'geojson') {
       this.removeSourcesAndLayers({ map });
       throw Error('Focused geometry must be geojson');
     }
 
     if (
-      source.data.type !== 'FeatureCollection' &&
-      source.data.type !== 'Feature'
+      stateSource.data.type !== 'FeatureCollection' &&
+      stateSource.data.type !== 'Feature'
     ) {
       this.removeSourcesAndLayers({ map });
       throw Error('Focused geometry must be Feature or FeatureCollection');
     }
 
-    // I'm cast type here because i known that in willMount i add geojson source
-    const mapSource = map.getSource(this.sourceId) as GeoJSONSource;
     if (mapSource === undefined) {
-      map.addSource(this.sourceId, {
-        type: 'geojson',
-        data: source.data,
-      });
-      return true;
-    } else {
-      mapSource.setData(source.data);
-      return true;
-    }
+      map.addSource(this.sourceId, stateSource);
+    } else mapSource.setData(stateSource.data);
+    return true;
   }
 
   /* ======== Hooks ========== */
@@ -155,11 +170,14 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     map: ApplicationMap;
     state: LogicalLayerState;
   }) {
-    const sourceAdded = this.updateOrSetSource({ map, state });
+    const sourceAdded = await this.updateOrSetSource({
+      map,
+      state,
+      isInitialLoad: true,
+    });
     await Promise.all(
       Object.entries(icons).map(([id, url]) => this.getIcon(map, id, url)),
     );
-
     if (sourceAdded) {
       this.layerConfigs.map(async (layerConfig) => {
         layersOrderManager.getBeforeIdByType(layerConfig.type, (beforeId) => {
@@ -178,7 +196,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
   }) {
     if (!state.isMounted) return;
     if (!map) return;
-    this.updateOrSetSource({ map, state });
+    this.updateOrSetSource({ map, state, isInitialLoad: false });
   }
 
   willUnMount({ map }: { map: ApplicationMap }) {

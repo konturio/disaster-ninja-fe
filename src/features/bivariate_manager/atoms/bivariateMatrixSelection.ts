@@ -6,7 +6,7 @@ import { ColorTheme } from '~core/types';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { createLayerActionsFromLayerInArea } from '~features/layers_in_area/atoms/areaLayers';
-import { Action } from '@reatom/core';
+import { TileSource } from '~features/layers_in_area/types';
 
 export const bivariateMatrixSelectionAtom = createAtom(
   {
@@ -16,7 +16,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
       yNumerator: string | null,
       yDenominator: string | null,
     ) => ({ xNumerator, xDenominator, yNumerator, yDenominator }),
-    enableBivariateLayer: (layerId: string) => layerId
+    enableBivariateLayer: (layerId: string) => layerId,
   },
   (
     { onAction, schedule, getUnlistedState, create },
@@ -78,7 +78,8 @@ export const bivariateMatrixSelectionAtom = createAtom(
         );
 
         if (legend) {
-          const id = (bivariateStyle as BivariateLayerStyle).id;
+          const bivStyle = bivariateStyle as BivariateLayerStyle;
+          const id = bivStyle.id;
           const layerInArea = {
             id,
             name: 'Bivariate Layer',
@@ -86,6 +87,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
             group: 'bivariate',
             legend,
             boundaryRequiredForRetrieval: false,
+            source: bivStyle.source as TileSource,
           };
 
           const actions = createLayerActionsFromLayerInArea(id, layerInArea);
@@ -94,7 +96,9 @@ export const bivariateMatrixSelectionAtom = createAtom(
           for (const [layerId, layer] of Array.from(currentRegistry)) {
             const layerData = getUnlistedState(layer);
             if (layerData.legend?.type === 'bivariate' && layerData.legend?.name === 'Bivariate Layer') {
-                actions.unshift(layersRegistryAtom.unregister(layerId));
+              actions.unshift(layersRegistryAtom.unregister(layerId));
+              actions.unshift(layer.disable());
+              actions.unshift(layer.hide());
             }
           }
 

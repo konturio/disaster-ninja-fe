@@ -13,7 +13,7 @@ import { Action } from '@reatom/core';
 
 const urlStore = new URLStore(new URLDataInSearchEncoder());
 const initFlagAtom = createBooleanAtom(false);
-
+let lastVersion = 0;
 /* Compose shared state values into one atom */
 export const urlStoreAtom = createAtom(
   {
@@ -91,9 +91,16 @@ export const urlStoreAtom = createAtom(
 
       const enabledLayers = get('enabledLayersAtom');
       newState.layers = Array.from(enabledLayers ?? []);
-
       state = newState;
+      const currentVersion = ++lastVersion;
+
       schedule((dispatch, ctx: { debounceTimer?: NodeJS.Timeout }) => {
+        /**
+         * Schedule run not in the same order as created, every dispatch have own side effects order.
+         * Next line check that it last one schedule, if not - we ignore it
+         *  */
+        if (currentVersion !== lastVersion) return;
+
         /* STORE -> URL reactive updates */
         if (ctx.debounceTimer) clearTimeout(ctx.debounceTimer);
         ctx.debounceTimer = setTimeout(() => {

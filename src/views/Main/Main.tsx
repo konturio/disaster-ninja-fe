@@ -8,29 +8,61 @@ import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
-const { CreateLayerPanel } = lazily(() => import('~features/create_layer/components/CreateLayerPanel/CreateLayerPanel'));
-const { AppHeader, Logo } = lazily(() => import('@k2-packages/ui-kit'));
 
-const { UserProfile }  = lazily(() => import('~features/user_profile'));
+const { UserProfile } = lazily(
+  () => import('~features/user_profile')
+);
+
+const { CreateLayerPanel } = lazily(
+  () => import('~features/create_layer/components/CreateLayerPanel/CreateLayerPanel')
+);
+
+const { AppHeader, Logo } = lazily(
+  () => import('@k2-packages/ui-kit')
+);
+
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
 );
-const { SideBar } = lazily(() => import('~features/side_bar'));
-const { EventList } = lazily(() => import('~features/events_list'));
-const { NotificationToast } = lazily(() => import('~features/toasts'));
-const { Analytics } = lazily(() => import('~features/analytics_panel'));
+
+const { SideBar } = lazily(
+  () => import('~features/side_bar')
+);
+
+const { EventList } = lazily(
+  () => import('~features/events_list')
+);
+
+const { NotificationToast } = lazily(
+  () => import('~features/toasts')
+);
+
+const { Analytics } = lazily(
+  () => import('~features/analytics_panel')
+);
+
 const { AdvancedAnalytics } = lazily(
   () => import('~features/advanced_analytics_panel'),
 );
-const { Legend } = lazily(() => import('~features/legend_panel'));
-const { MapLayersList } = lazily(() => import('~features/layers_panel'));
+
+const { Legend } = lazily(
+  () => import('~features/legend_panel')
+);
+
+const { MapLayersList } = lazily(
+  () => import('~features/layers_panel')
+);
+
 const { BivariatePanel } = lazily(
   () => import('~features/bivariate_manager/components'),
 );
-const { PopupTooltip } = lazily(() => import('~features/tooltip'));
+
+const { PopupTooltip } = lazily(
+  () => import('~features/tooltip')
+);
+
 const { DrawToolsToolbox } = lazily(
-  () =>
-    import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
+  () => import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
 );
 
 export function MainView() {
