@@ -32,6 +32,19 @@ interface BivariateStatisticsResponse {
 
 let allMapStats: BivariateStatisticsResponse;
 
+// hard coded to HOT layers for now (task 7801)
+const importantLayers = [
+  ['count', 'area_km2'],
+  ['building_count', 'area_km2'],
+  ['highway_length', 'area_km2'],
+  ['local_hours', 'area_km2'],
+  ['avgmax_ts', 'one'],
+  ['days_mintemp_above_25c_1c', 'one'],
+  ['population', 'area_km2'],
+  ['total_hours', 'area_km2'],
+  ['view_count', 'area_km2'],
+];
+
 export const bivariateStatisticsResourceAtom = createResourceAtom(
   async (geom) => {
     if (!geom && allMapStats) {
@@ -49,7 +62,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       geom && geomNotEmpty
         ? `{ polygonV2: ${stringifyWithoutQuotes(
             cleanupGeometry(geom.geometry),
-          )} }`
+          )}, importantLayers: ${JSON.stringify(importantLayers)} }`
         : '{}';
 
     const responseData = await graphQlClient.post<{
