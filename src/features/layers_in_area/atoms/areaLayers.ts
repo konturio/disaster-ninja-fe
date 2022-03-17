@@ -15,7 +15,10 @@ import { GenericRenderer } from '../renderers/GenericRenderer';
 import { legendFormatter } from '~utils/legend/legendFormatter';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import { UpdateCallbackLayersType, updateCallbackService } from '~core/update_callbacks';
+import {
+  UpdateCallbackLayersType,
+  updateCallbackService,
+} from '~core/update_callbacks';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -48,7 +51,7 @@ const areaLayersDependencyAtom = createAtom(
     },
   ) => {
     onChange('callbackAtom', () => {
-     const geometry = getUnlistedState(focusedGeometryAtom);
+      const geometry = getUnlistedState(focusedGeometryAtom);
       const feed = getUnlistedState(currentEventFeedAtom);
       state = { focusedGeometry: geometry, eventFeed: feed };
     });
@@ -62,34 +65,31 @@ const areaLayersDependencyAtom = createAtom(
   },
 );
 
-export const areaLayersResourceAtom = createResourceAtom(
-  async (params) => {
-    if (!params?.focusedGeometry) return;
-    const body: {
-      eventId?: string;
-      geoJSON?: GeoJSON.GeoJSON;
-      eventFeed?: string;
-    } = {
-      geoJSON: params?.focusedGeometry.geometry,
-    };
+export const areaLayersResourceAtom = createResourceAtom(async (params) => {
+  if (!params?.focusedGeometry) return;
+  const body: {
+    eventId?: string;
+    geoJSON?: GeoJSON.GeoJSON;
+    eventFeed?: string;
+  } = {
+    geoJSON: params?.focusedGeometry.geometry,
+  };
 
-    if (params?.focusedGeometry.source.type === 'event') {
-      body.eventId = params?.focusedGeometry.source.meta.eventId;
-      if (params?.eventFeed) {
-        body.eventFeed = params?.eventFeed.id;
-      }
+  if (params?.focusedGeometry.source.type === 'event') {
+    body.eventId = params?.focusedGeometry.source.meta.eventId;
+    if (params?.eventFeed) {
+      body.eventFeed = params?.eventFeed.id;
     }
+  }
 
-    const responseData = await apiClient.post<LayerInArea[]>(
-      '/layers/search/',
-      body,
-      true,
-    );
-    if (responseData === undefined) throw new Error('No data received');
-    return responseData;
-  },
-  areaLayersDependencyAtom,
-);
+  const responseData = await apiClient.post<LayerInArea[]>(
+    '/layers/search/',
+    body,
+    true,
+  );
+  if (responseData === undefined) throw new Error('No data received');
+  return responseData;
+}, areaLayersDependencyAtom);
 
 /**
  * This atom responsibilities:
@@ -225,11 +225,20 @@ export function createLayerActionsFromLayerInArea(
   cleanUpActions.push(layersLegendsAtom.delete(layerId));
 
   if (layer.source) {
-    actions.push(layersSourcesAtom.set(layerId, {
-      error: null,
-      data: { id: layerId, source: { urls: (layer.source as any).tiles, type: layer.source.type as any, tileSize: 512 } as any},
-      isLoading: false,
-    }))
+    actions.push(
+      layersSourcesAtom.set(layerId, {
+        error: null,
+        data: {
+          id: layerId,
+          source: {
+            urls: (layer.source as any).tiles,
+            type: layer.source.type as any,
+            tileSize: 512,
+          } as any,
+        },
+        isLoading: false,
+      }),
+    );
     cleanUpActions.push(layersSourcesAtom.delete(layerId));
   }
 

@@ -8,7 +8,11 @@ interface LabelWithTooltipProps {
   className?: string;
 }
 
-export const LabelWithTooltip = ( { text, description, className }: LabelWithTooltipProps ) => (
+export const LabelWithTooltip = ({
+  text,
+  description,
+  className,
+}: LabelWithTooltipProps) => (
   <div className={clsx(s.tooltip, className)}>
     {text}
     <Tooltip tipText={description} showedOnHover={true} />

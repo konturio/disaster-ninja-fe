@@ -8,6 +8,6 @@ export const drawPointDeckLayerConfig = {
   mode: LocalDrawPointMode,
   selectedFeatureIndexes: [],
   _subLayerProps: {
-    guides: {}
-  }
-}
+    guides: {},
+  },
+};
