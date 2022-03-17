@@ -14,7 +14,11 @@ import { LayerInArea } from '../types';
 import { GenericRenderer } from '../renderers/GenericRenderer';
 import { legendFormatter } from '~utils/legend/legendFormatter';
 import { currentEventFeedAtom } from '~core/shared_state';
+<<<<<<< HEAD
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
+=======
+import { UpdateCallbackLayersType, updateCallbackService } from '~core/update_callbacks';
+>>>>>>> df8583b1e60dbd39252cbbd98888a692caa8c478
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -31,17 +35,32 @@ import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
  * that means - after focusedGeometry editing layers that we get by eventId can be omitted
  */
 const areaLayersDependencyAtom = createAtom(
-  { focusedGeometryAtom },
+  {
+    _update: () => null,
+    focusedGeometryAtom,
+    callbackAtom: updateCallbackService.addCallback(UpdateCallbackLayersType),
+  },
   (
+<<<<<<< HEAD
     { onChange, getUnlistedState },
     state: {
       focusedGeometry: FocusedGeometry | null;
       eventFeed: { id: string } | null;
     } = {
+=======
+    { onChange, getUnlistedState, onAction, create, schedule },
+    state: { focusedGeometry: FocusedGeometry | null; eventFeed: { id: string } | null } = {
+>>>>>>> df8583b1e60dbd39252cbbd98888a692caa8c478
       focusedGeometry: null,
       eventFeed: null,
     },
   ) => {
+    onChange('callbackAtom', () => {
+     const geometry = getUnlistedState(focusedGeometryAtom);
+      const feed = getUnlistedState(currentEventFeedAtom);
+      state = { focusedGeometry: geometry, eventFeed: feed };
+    });
+
     onChange('focusedGeometryAtom', (geometry) => {
       const feed = getUnlistedState(currentEventFeedAtom);
       state = { focusedGeometry: geometry, eventFeed: feed };
@@ -68,6 +87,7 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     }
   }
 
+<<<<<<< HEAD
   const responseData = await apiClient.post<LayerInArea[]>(
     '/layers/search/',
     body,
@@ -76,6 +96,18 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
   if (responseData === undefined) throw new Error('No data received');
   return responseData;
 }, areaLayersDependencyAtom);
+=======
+    const responseData = await apiClient.post<LayerInArea[]>(
+      '/layers/search/',
+      body,
+      true,
+    );
+    if (responseData === undefined) throw new Error('No data received');
+    return responseData;
+  },
+  areaLayersDependencyAtom,
+);
+>>>>>>> df8583b1e60dbd39252cbbd98888a692caa8c478
 
 /**
  * This atom responsibilities:
