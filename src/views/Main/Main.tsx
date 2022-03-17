@@ -8,62 +8,44 @@ import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
+import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 
-const { UserProfile } = lazily(
-  () => import('~features/user_profile')
-);
+const { UserProfile } = lazily(() => import('~features/user_profile'));
 
 const { CreateLayerPanel } = lazily(
-  () => import('~features/create_layer/components/CreateLayerPanel/CreateLayerPanel')
+  () =>
+    import(
+      '~features/create_layer/components/CreateLayerPanel/CreateLayerPanel'
+    ),
 );
 
-const { AppHeader, Logo } = lazily(
-  () => import('@k2-packages/ui-kit')
-);
+const { AppHeader, Logo } = lazily(() => import('@k2-packages/ui-kit'));
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
 );
 
-const { SideBar } = lazily(
-  () => import('~features/side_bar')
-);
+const { SideBar } = lazily(() => import('~features/side_bar'));
 
-const { EventList } = lazily(
-  () => import('~features/events_list')
-);
+const { EventList } = lazily(() => import('~features/events_list'));
 
-const { NotificationToast } = lazily(
-  () => import('~features/toasts')
-);
+const { NotificationToast } = lazily(() => import('~features/toasts'));
 
-const { Analytics } = lazily(
-  () => import('~features/analytics_panel')
-);
+const { Analytics } = lazily(() => import('~features/analytics_panel'));
 
 const { AdvancedAnalytics } = lazily(
   () => import('~features/advanced_analytics_panel'),
 );
 
-const { Legend } = lazily(
-  () => import('~features/legend_panel')
-);
+const { Legend } = lazily(() => import('~features/legend_panel'));
 
-const { MapLayersList } = lazily(
-  () => import('~features/layers_panel')
-);
+const { MapLayersList } = lazily(() => import('~features/layers_panel'));
 
 const { BivariatePanel } = lazily(
   () => import('~features/bivariate_manager/components'),
 );
 
-const { PopupTooltip } = lazily(
-  () => import('~features/tooltip')
-);
-
-const { DrawToolsToolbox } = lazily(
-  () => import('~features/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
-);
+const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 
 export function MainView() {
   const history = useHistory();
@@ -71,7 +53,7 @@ export function MainView() {
   const userFeatures = data?.features;
 
   useEffect(() => {
-    if (!userFeatures) return;
+    import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
 
     /* Lazy load module */
     if (userFeatures?.url_store === true) {
@@ -110,14 +92,20 @@ export function MainView() {
         initReportsIcon(history),
       );
     }
-    if (userFeatures?.draw_tools === true) {
-      import('~features/draw_tools/').then(({ initDrawTools }) =>
-        initDrawTools(),
-      );
-    }
     if (userFeatures?.osm_edit_link === true) {
       import('~features/osm_edit_link/').then(({ initOsmEditLink }) =>
         initOsmEditLink(),
+      );
+    }
+    if (userFeatures?.create_layer === true) {
+      import('~features/create_layer/').then(({ initCreateLayer }) =>
+        initCreateLayer(),
+      );
+    }
+    // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
+    if (userFeatures?.draw_tools || userFeatures?.focused_geometry_editor) {
+      import('~features/focused_geometry_editor/').then(
+        ({ initFreehandGeometry }) => initFreehandGeometry(),
       );
     }
     if (userFeatures?.create_layer === true) {
@@ -140,7 +128,7 @@ export function MainView() {
       <Suspense fallback={null}>
         {/* TODO: remove harcoded check when header feature will be available */}
         {true && (
-        //{userFeatures?.header && (
+          //{userFeatures?.header && (
           <AppHeader
             title="Disaster Ninja"
             logo={VisibleLogo()}
@@ -196,9 +184,7 @@ export function MainView() {
               )}
             </div>
           </Suspense>
-          <Suspense fallback={null}>
-            {userFeatures?.draw_tools === true && <DrawToolsToolbox />}
-          </Suspense>
+          <DrawToolsToolbox />
         </div>
       </Row>
     </>
