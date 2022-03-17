@@ -73,7 +73,10 @@ export function Layer({
 
     if (layerState?.settings?.group === 'user_layers')
       elements.push(
-        <UserLayerContext layerId={layerState.id} key={layerState.id + 'context'} />,
+        <UserLayerContext
+          layerId={layerState.id}
+          key={layerState.id + 'context'}
+        />,
       );
 
     if (layerState.meta) {
