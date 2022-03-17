@@ -66,14 +66,11 @@ export const createLayerControllerAtom = createAtom(
               true,
             );
 
-            console.log('responseData', responseData);
-
             if (responseData) {
               dispatch(create('_update', { loading: false, error: null, data: state?.data || null }));
               updateCallbackService.triggerCallback(UpdateCallbackLayersType);
             }
 
-            console.log('response data', responseData);
           } catch (e) {
             dispatch(create('_update', { loading: false, error: e, data: state?.data || null }));
           }
