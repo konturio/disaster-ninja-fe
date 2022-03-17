@@ -15,7 +15,7 @@ import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 
 type CreateLayerAtomStateType = {
   loading: boolean;
-  error: string | null;
+  error: string | null | unknown;
   data: LayerDataAtomType | null;
 };
 

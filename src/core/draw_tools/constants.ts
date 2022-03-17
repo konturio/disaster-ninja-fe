@@ -5,6 +5,8 @@ export const DRAW_TOOLS_LAYER_ID = 'draw-tools';
 export const DOWNLOAD_GEOMETRY_CONTROL_ID = 'DownloadGeometry';
 export const DOWNLOAD_GEOMETRY_CONTROL_NAME = 'Download Custom Geometry';
 
+export const EDIT_LAYER_CONTROL = 'Edit user layer';
+
 export const drawModes = {
   DrawPolygonMode: 'DrawPolygonMode',
   DrawLineMode: 'DrawLineMode',

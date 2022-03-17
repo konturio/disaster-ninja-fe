@@ -40,17 +40,20 @@ export function UserLayerContext({ layerId }: { layerId: string }) {
 
   const onContextItemClick = useCallback(
     (type: ContextMenuEditItemType) => {
+
       switch (type) {
         case ContextMenuEditItem:
           updateCallbackService.triggerCallback(UpdateCallbackEditLayerType, { layerId });
           break;
         case ContextMenuEditLayerFeaturesItem:
+          // TODO: check that it start draw mode
           updateCallbackService.triggerCallback(UpdateCallbackEditFeaturesType, { layerId });
           break;
         case ContextMenuDeleteLayerItem:
           updateCallbackService.triggerCallback(UpdateCallbackDeleteLayerType, { layerId });
-          break;
       }
+
+
       setShowContext(false);
     },
     [layerId],

@@ -3,4 +3,5 @@ import { createLayerSideBarButtonControllerAtom } from '~features/create_layer/a
 
 export function initCreateLayer() {
   forceRun(createLayerSideBarButtonControllerAtom);
+  // TODO: disable all other modes when edit feature enabled
 }
