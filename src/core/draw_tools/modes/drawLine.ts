@@ -1,8 +1,12 @@
-import { ClickEvent, DrawLineStringMode, LineString, ModeProps } from '@nebula.gl/edit-modes';
+import {
+  ClickEvent,
+  DrawLineStringMode,
+  LineString,
+  ModeProps,
+} from '@nebula.gl/edit-modes';
 import { FeatureCollection } from '@nebula.gl/edit-modes/';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 import mapLibre from 'maplibre-gl';
-
 
 export class LocalDrawLineStringMode extends DrawLineStringMode {
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {
@@ -22,7 +26,10 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
             features: [],
             type: 'FeatureCollection',
           };
-        const editAction = this.getAddFeatureAction(lineStringToAdd, props.data);
+        const editAction = this.getAddFeatureAction(
+          lineStringToAdd,
+          props.data,
+        );
         if (editAction) {
           props.onEdit(editAction);
         }
@@ -45,10 +52,10 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
       clickSequence.length > 1 &&
       clickedEditHandle &&
       Array.isArray(clickedEditHandle.properties.positionIndexes) &&
-      clickedEditHandle.properties.positionIndexes[0] === clickSequence.length - 1
+      clickedEditHandle.properties.positionIndexes[0] ===
+        clickSequence.length - 1
     ) {
       // They clicked the last point (or double-clicked), so add the LineString
-
 
       const lineStringToAdd: LineString = {
         type: 'LineString',
@@ -84,5 +91,4 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
     super.handlePointerMove(event, props);
     props.onUpdateCursor('cell');
   }
-
 }

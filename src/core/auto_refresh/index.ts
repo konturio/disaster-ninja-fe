@@ -13,7 +13,6 @@ class AutoRefreshService {
 
   private intervalSec = 60;
   private timer: NodeJS.Timeout | null = null;
-  private
 
   start(sec: number) {
     this.intervalSec = sec || this.intervalSec;

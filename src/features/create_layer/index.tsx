@@ -1,6 +1,9 @@
 import { sideControlsBarAtom } from '~core/shared_state';
 import { TranslationService as i18n } from '~core/localization';
-import { controlGroup, controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import {
+  controlGroup,
+  controlVisualGroup,
+} from '~core/shared_state/sideControlsBar';
 import { AddLayerIcon } from '@k2-packages/default-icons';
 import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
 import { createLayerControllerAtom } from '~features/create_layer/atoms/createLayerController';

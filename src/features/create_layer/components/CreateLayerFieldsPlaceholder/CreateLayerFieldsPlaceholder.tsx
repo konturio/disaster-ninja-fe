@@ -5,8 +5,8 @@ import { Button } from '@k2-packages/ui-kit';
 import { UploadFileIcon } from '@k2-packages/default-icons';
 import { CreateLayerFieldContainer } from '../CreateLayerFieldContainer/CreateLayerFieldContainer';
 import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerField';
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 interface CreateLayerFieldsPlaceholderProps {
   fieldModels: LayerFieldAtomType[];
@@ -15,7 +15,12 @@ interface CreateLayerFieldsPlaceholderProps {
   onReorderFields: (fromIndex: number, toIndex: number) => void;
 }
 
-export function CreateLayerFieldsPlaceholder( { fieldModels, onAddField, onRemoveField, onReorderFields }: CreateLayerFieldsPlaceholderProps ) {
+export function CreateLayerFieldsPlaceholder({
+  fieldModels,
+  onAddField,
+  onRemoveField,
+  onReorderFields,
+}: CreateLayerFieldsPlaceholderProps) {
   return (
     <div className={s.fieldsContainer}>
       <div className={clsx(s.fieldsLabel, 'k-font-caption')}>
@@ -24,7 +29,7 @@ export function CreateLayerFieldsPlaceholder( { fieldModels, onAddField, onRemov
 
       <DndProvider backend={HTML5Backend}>
         <div className={s.fieldsPlaceholder}>
-          { fieldModels.map((fldModelAtom, index) => (
+          {fieldModels.map((fldModelAtom, index) => (
             <CreateLayerFieldContainer
               id={fldModelAtom.id}
               index={index}
@@ -33,11 +38,15 @@ export function CreateLayerFieldsPlaceholder( { fieldModels, onAddField, onRemov
               onReorder={onReorderFields}
               onRemove={onRemoveField}
             />
-          )) }
+          ))}
         </div>
       </DndProvider>
 
-      <Button onClick={onAddField} className={s.addFieldButton} variant='invert-outline'>
+      <Button
+        onClick={onAddField}
+        className={s.addFieldButton}
+        variant="invert-outline"
+      >
         <UploadFileIcon />
         {i18n.t('Add field')}
       </Button>
