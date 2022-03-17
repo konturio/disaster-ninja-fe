@@ -15,7 +15,7 @@ export function initCreateLayer() {
     title: i18n.t('Create layer'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
-    visualGroup: controlVisualGroup.noAnalitics,
+    visualGroup: controlVisualGroup.noAnalytics,
     icon: <AddLayerIcon />,
     onClick: () => {
       sideControlsBarAtom.toggleActiveState.dispatch(CREATE_LAYER_CONTROL_ID);
