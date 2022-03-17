@@ -6,8 +6,8 @@ import {
   drawModes,
   DOWNLOAD_GEOMETRY_CONTROL_ID,
   DOWNLOAD_GEOMETRY_CONTROL_NAME,
-  FOCUSED_GEOMETRY_CONTROL_ID,
-  FOCUSED_GEOMETRY_CONTROL_NAME,
+  FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
+  FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
 } from '~core/draw_tools/constants';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { DrawToolsIcon } from '@k2-packages/default-icons';
@@ -23,16 +23,16 @@ import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAto
 
 export function initFocusedGeometry() {
   sideControlsBarAtom.addControl.dispatch({
-    id: FOCUSED_GEOMETRY_CONTROL_ID,
-    name: FOCUSED_GEOMETRY_CONTROL_NAME,
-    title: i18n.t('Focus to focused geometry'),
+    id: FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
+    name: FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
+    title: i18n.t('Focus to freehand geometry'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,
     icon: <DrawToolsIcon />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch(
-        FOCUSED_GEOMETRY_CONTROL_ID,
+        FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
       );
     },
     onChange: (becomesActive) => {
