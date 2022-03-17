@@ -97,6 +97,8 @@ export const bivariateMatrixSelectionAtom = createAtom(
             const layerData = getUnlistedState(layer);
             if (layerData.legend?.type === 'bivariate' && layerData.legend?.name === 'Bivariate Layer') {
               actions.unshift(layersRegistryAtom.unregister(layerId));
+              actions.unshift(layer.disable());
+              actions.unshift(layer.hide());
             }
           }
 
