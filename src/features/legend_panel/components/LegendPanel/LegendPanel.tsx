@@ -66,7 +66,7 @@ export function LegendPanel({ layers, iconsContainerId }: LegendPanelProps) {
       <Panel
         header={<Text type="heading-l">{i18n.t('Legend')}</Text>}
         onClose={onPanelClose}
-        className={clsx(s.sidePannel, isOpen && s.show, !isOpen && s.hide)}
+        className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
         classes={{
           header: s.header,
         }}

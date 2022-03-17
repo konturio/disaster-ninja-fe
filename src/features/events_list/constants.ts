@@ -1,2 +1,2 @@
-export const EVENTLIST_CONROL_ID = 'Event list';
-export const EVENTLIST_CONROL_NAME = 'Event list icon';
+export const EVENT_LIST_CONTROL_ID = 'Event list';
+export const EVENT_LIST_CONTROL_NAME = 'Event list icon';

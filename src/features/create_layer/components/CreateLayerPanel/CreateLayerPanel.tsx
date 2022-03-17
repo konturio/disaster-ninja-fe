@@ -31,7 +31,7 @@ export function CreateLayerPanel() {
       header={<Text type="heading-l">{i18n.t('Create Layer')}</Text>}
       onClose={onPanelClose}
       className={clsx(
-        s.sidePannel,
+        s.sidePanel,
         createLayerState && s.show,
         !createLayerState && s.hide,
       )}

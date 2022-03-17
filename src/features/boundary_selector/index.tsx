@@ -42,7 +42,7 @@ export function initBoundarySelector() {
     title: i18n.t(BOUNDARIES_BTN_TITLE_TRANSLATION_KEY),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
-    visualGroup: controlVisualGroup.withAnalitics,
+    visualGroup: controlVisualGroup.withAnalytics,
     icon: <BoundarySelectorIcon />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch(

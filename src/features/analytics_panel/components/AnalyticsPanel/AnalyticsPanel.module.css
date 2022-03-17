@@ -21,7 +21,7 @@
   }
 }
 
-.sidePannel {
+.sidePanel {
   z-index: 2; /* Show shadow over map */
   position: absolute;
   margin-left: var(--unit);

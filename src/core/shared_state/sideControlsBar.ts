@@ -18,8 +18,8 @@ export const controlGroup = {
 };
 
 export const controlVisualGroup = {
-  withAnalitics: 'withAnalitics',
-  noAnalitics: 'noAnalitics',
+  withAnalytics: 'withAnalytics',
+  noAnalytics: 'noAnalytics',
 };
 
 export const sideControlsBarAtom = createAtom(
