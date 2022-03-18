@@ -217,24 +217,25 @@ export function createLogicalLayerAtom(
 
       /* Reactive updates */
 
-      const legendHaveUpdate = state.legend !== newState.legend;
-      if (legendHaveUpdate) {
-        if (map)
-          renderer.willLegendUpdate({
-            map,
-            state: { ...newState },
-          });
-      }
+      if (state.isMounted) {
+        const legendHaveUpdate = state.legend !== newState.legend;
+        if (legendHaveUpdate) {
+          if (map)
+            renderer.willLegendUpdate({
+              map,
+              state: { ...newState },
+            });
+        }
 
-      const sourceHaveUpdate = state.source !== newState.source;
-      if (sourceHaveUpdate) {
-        if (map)
-          renderer.willSourceUpdate({
-            map,
-            state: { ...newState },
-          });
+        const sourceHaveUpdate = state.source !== newState.source;
+        if (sourceHaveUpdate) {
+          if (map)
+            renderer.willSourceUpdate({
+              map,
+              state: { ...newState },
+            });
+        }
       }
-
       /* Destroy */
 
       onAction('destroy', () => {
