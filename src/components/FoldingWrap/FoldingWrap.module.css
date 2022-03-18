@@ -3,19 +3,18 @@
   flex-flow: row nowrap;
   cursor: pointer;
   position: relative;
+  flex: 1;
 }
 
 .foldingHeader {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  gap: var(--unit);
 }
 
 .foldingControls {
   display: flex;
   flex-flow: row nowrap;
-  padding-right: var(--double-unit);
 }
 
 .foldingTitle {

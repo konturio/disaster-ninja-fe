@@ -217,6 +217,10 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (legend) {
         const layerStyles = this._generateLayersFromLegend(legend);
         const layers = this._setLayersIds(layerStyles);
+        const isAllLayersAlreadyAdded = layers.every(
+          (layers) => !!map.getLayer(layers.id),
+        );
+        if (isAllLayersAlreadyAdded) return;
         // !FIXME - Hardcoded filter for layer
         // Must be deleted after LayersDB implemented
         if (this.id === 'activeContributors') {
