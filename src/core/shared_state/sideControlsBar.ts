@@ -1,5 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { Action } from '@reatom/core';
+import { currentUserAtom } from '~core/shared_state/currentUser';
 
 export interface SideControl {
   id: string;
@@ -29,11 +30,21 @@ export const sideControlsBarAtom = createAtom(
     toggleActiveState: (controlId: string) => controlId,
     enable: (controlId: string) => controlId,
     disable: (controlId: string) => controlId,
+    reset: () => null,
+    currentUserAtom,
   },
-  ({ onAction, schedule, create }, state: Record<string, SideControl> = {}) => {
+  ({ onAction, onChange, schedule, create }, state: Record<string, SideControl> = {}) => {
+    onChange('currentUserAtom', (usr) => {
+      schedule((dispatch) => {
+        dispatch(create('reset'));
+      });
+    });
+
     onAction(
       'addControl',
-      (control) => (state = { ...state, [control.id]: control }),
+      (control) => {
+        state = { ...state, [control.id]: control };
+      },
     );
     onAction('removeControl', (controlId) => {
       delete state[controlId];
@@ -70,7 +81,7 @@ export const sideControlsBarAtom = createAtom(
     onAction('disable', (controlId) => {
       const control = state[controlId];
 
-      control.onChange?.(false);
+      control?.onChange?.(false);
       const newControlState = { ...state[controlId], active: false };
       state = { ...state, [controlId]: newControlState };
     });
@@ -88,6 +99,10 @@ export const sideControlsBarAtom = createAtom(
       );
 
       schedule((dispatch) => dispatch(action));
+    });
+
+    onAction('reset', () => {
+      state = {};
     });
 
     return state;
