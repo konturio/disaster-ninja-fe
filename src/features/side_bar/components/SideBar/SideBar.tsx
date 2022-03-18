@@ -4,6 +4,7 @@ import { sideControlsBarAtom } from '~core/shared_state';
 import { sortByPredefinedOrder } from './sortByPredefinedOrder';
 import { controlsOrder } from '../../constants';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import { v4 as uuidv4 } from 'uuid';
 import s from './SideBar.module.css';
 
 export function SideBar() {
@@ -30,7 +31,7 @@ export function SideBar() {
     <ActionsBar>
       {sortByPredefinedOrder(Object.values(controls), controlsOrder).map(
         (control) => (
-          <div key={control.id} className={s.sideBarContainer}>
+          <div key={uuidv4()} className={s.sideBarContainer}>
             <div
               className={s.buttonWrap}
               onClick={() =>
