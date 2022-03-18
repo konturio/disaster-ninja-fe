@@ -9,16 +9,27 @@ interface AdvancedAnalyticsDataListProps {
   data?: AdvancedAnalyticsData[] | null;
 }
 
+const sum = 'sum',
+  min = 'min',
+  max = 'max',
+  mean = 'mean',
+  stddev = 'stddev',
+  median = 'median';
+
 const calculations = [
   'Numerator',
   'Normalized By',
-  'Sum',
-  'Min',
-  'Max',
-  'Mean',
-  'Stddev',
-  'Median',
+  capitalizeFirstChar(sum),
+  capitalizeFirstChar(min),
+  capitalizeFirstChar(max),
+  capitalizeFirstChar(mean),
+  capitalizeFirstChar(stddev),
+  capitalizeFirstChar(median),
 ];
+
+function capitalizeFirstChar(_word) {
+  return _word.charAt(0).toUpperCase() + _word.slice(1);
+}
 
 const badQualityColor = '#ff453b',
   goodQualityColor = '#00b221',
@@ -53,6 +64,14 @@ export const AdvancedAnalyticsDataList = ({
   const [stateDenominator, setDenominator] = useState('');
   const [worldList, setWorldList] = useAtom(worldAnalyticsResource);
   const [seeWorld, setSeeWorld] = useState(false);
+  const [checkFilter, setCheckFilter] = useState([
+    { checked: false, value: sum },
+    { checked: false, value: min },
+    { checked: false, value: max },
+    { checked: false, value: mean },
+    { checked: false, value: stddev },
+    { checked: false, value: median },
+  ]);
 
   function onNominatorFilterChange(e) {
     const numerator = e.target.value.toLowerCase();
@@ -78,6 +97,59 @@ export const AdvancedAnalyticsDataList = ({
 
     setList(filteredData);
     setDenominator(denominator);
+  }
+
+  function doCheckFilter() {
+    setList(data);
+    let filteredData = data;
+    checkFilter.forEach(function (item) {
+      if (item.checked) {
+        filteredData = filteredData?.filter((obj) =>
+          obj.analytics.some(
+            (cat) =>
+              cat.calculation === item.value &&
+              cat.quality != null &&
+              cat.quality > minQuality &&
+              cat.quality < maxQuality,
+          ),
+        );
+        setList(filteredData);
+      }
+    });
+  }
+
+  function setFilterChecked(_clicked, _calculation) {
+    checkFilter.forEach(function (item) {
+      if (item.value == _calculation) {
+        return (item.checked = _clicked);
+      }
+    });
+    setCheckFilter(checkFilter);
+    doCheckFilter();
+  }
+
+  function sumClick(e) {
+    setFilterChecked(e.target.checked, sum);
+  }
+
+  function minClick(e) {
+    setFilterChecked(e.target.checked, min);
+  }
+
+  function maxClick(e) {
+    setFilterChecked(e.target.checked, max);
+  }
+
+  function meanClick(e) {
+    setFilterChecked(e.target.checked, mean);
+  }
+
+  function stddevClick(e) {
+    setFilterChecked(e.target.checked, stddev);
+  }
+
+  function medianClick(e) {
+    setFilterChecked(e.target.checked, median);
   }
 
   function getWorlData() {
@@ -132,8 +204,52 @@ export const AdvancedAnalyticsDataList = ({
                 onChange={onDenominatorFilterChange.bind(this)}
               />
             </td>
-          </tr>
+            <td>
+              <input
+                className={s.switch}
+                type="checkbox"
+                onClick={sumClick.bind(this)}
+              />
+            </td>
 
+            <td>
+              <input
+                className={s.switch}
+                type="checkbox"
+                onClick={minClick.bind(this)}
+              />
+            </td>
+            <td>
+              <input
+                className={s.switch}
+                type="checkbox"
+                onClick={maxClick.bind(this)}
+              />
+            </td>
+
+            <td>
+              <input
+                className={s.switch}
+                type="checkbox"
+                onClick={meanClick.bind(this)}
+              />
+            </td>
+
+            <td>
+              <input
+                className={s.switch}
+                type="checkbox"
+                onClick={stddevClick.bind(this)}
+              />
+            </td>
+            <td>
+              <input
+                className={s.switch}
+                type="checkbox"
+                onClick={medianClick.bind(this)}
+              />
+            </td>
+          </tr>
           {listData &&
             listData.map((dataItem, index) => (
               <tr key={`${dataItem.numerator}_${index}`}>
