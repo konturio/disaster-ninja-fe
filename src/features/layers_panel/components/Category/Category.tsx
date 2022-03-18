@@ -4,10 +4,10 @@ import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { mountedLayersByCategoryAtom } from '~features/layers_panel/atoms/mountedLayersByCategory';
 import { Group } from '../Group/Group';
 import { CategoryWithSettings } from '~core/types/layers';
-import { TranslationService as i18n } from '~core/localization';
 import { useAction } from '@reatom/react';
 import s from './Category.module.css';
 import { categoryDeselection } from '../../atoms/categoryDeselection';
+import { DeselectControl } from '../DeselectControl/DeselectControl';
 
 function CategoryMountedLayersCounter({ categoryId }: { categoryId: string }) {
   const [counters] = useAtom(mountedLayersByCategoryAtom);
@@ -16,7 +16,7 @@ function CategoryMountedLayersCounter({ categoryId }: { categoryId: string }) {
 
 export function Category({ category }: { category: CategoryWithSettings }) {
   const [isOpen, setOpenState] = useState(category.openByDefault ?? false);
-  const onGroupDeselect = useAction(
+  const onCategoryDeselect = useAction(
     () => categoryDeselection.deselect(category.id),
     [category.id],
   );
@@ -34,9 +34,7 @@ export function Category({ category }: { category: CategoryWithSettings }) {
         }
         controls={
           category.mutuallyExclusive && (
-            <button onClick={onGroupDeselect} className={s.categoryControl}>
-              {i18n.t('Deselect')}
-            </button>
+            <DeselectControl onClick={onCategoryDeselect} />
           )
         }
         onStateChange={(newState) => setOpenState(!newState)}
