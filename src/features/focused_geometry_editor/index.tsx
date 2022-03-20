@@ -20,8 +20,12 @@ import { downloadObject } from '~utils/fileHelpers/download';
 import DownloadIcon from '~core/draw_tools/icons/DownloadIcon';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
+import { forceRun } from '~utils/atoms/forceRun';
+import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
 
 export function initFocusedGeometry() {
+  forceRun(focusedGeometryEditorAtom);
+
   sideControlsBarAtom.addControl.dispatch({
     id: FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
     name: FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,

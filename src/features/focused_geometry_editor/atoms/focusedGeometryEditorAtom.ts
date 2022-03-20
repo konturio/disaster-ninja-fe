@@ -17,7 +17,7 @@ const defaultState: FeatureCollection = {
   features: [],
 };
 
-export const watcherAtom = createAtom(
+export const focusedGeometryEditorAtom = createAtom(
   {
     focusedGeometryAtom,
     activeDrawModeAtom,
@@ -27,10 +27,6 @@ export const watcherAtom = createAtom(
     { schedule, onChange, get, getUnlistedState },
     state: FeatureCollection = defaultState,
   ) => {
-    // if draw tools were turned off - stop watching atoms
-    const { mode } = get('toolboxAtom');
-    if (!mode) return;
-
     /**
      * While draw mode is active, some geometry can be uploaded which will be received by focusedGeometryAtom
      * this listener intercepts geometry in such case
@@ -60,12 +56,15 @@ export const watcherAtom = createAtom(
         });
       } else if (!activeMode && previousActiveMode) {
         // if draw mode was turned off after being turned on
+        const drawnFeatures = getUnlistedState(drawnGeometryAtom);
         schedule((dispatch) => {
           dispatch([
-            focusedGeometryAtom.setFocusedGeometry({ type: 'drawn' }, state),
+            focusedGeometryAtom.setFocusedGeometry(
+              { type: 'drawn' },
+              drawnFeatures,
+            ),
             enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
           ]);
-          state = defaultState;
         });
       }
     });
