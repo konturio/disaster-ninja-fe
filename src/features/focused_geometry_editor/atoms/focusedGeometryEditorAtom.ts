@@ -11,6 +11,7 @@ import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
+import { isEditorActiveAtom } from './isEditorActive';
 
 const defaultState: FeatureCollection = {
   type: 'FeatureCollection',
@@ -19,6 +20,7 @@ const defaultState: FeatureCollection = {
 
 export const focusedGeometryEditorAtom = createAtom(
   {
+    isEditorActiveAtom,
     focusedGeometryAtom,
     activeDrawModeAtom,
     toolboxAtom,
@@ -27,6 +29,9 @@ export const focusedGeometryEditorAtom = createAtom(
     { schedule, onChange, get, getUnlistedState },
     state: FeatureCollection = defaultState,
   ) => {
+    // Make changes only when mode is active
+    const modeIsActive = get('isEditorActiveAtom');
+    if (!modeIsActive) return state;
     /**
      * While draw mode is active, some geometry can be uploaded which will be received by focusedGeometryAtom
      * this listener intercepts geometry in such case
