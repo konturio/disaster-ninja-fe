@@ -8,7 +8,7 @@ import { GroupWithSettings } from '~core/types/layers';
 import { LayerMeta } from '~core/logical_layers/types/meta';
 import { LayerLegend } from '~core/logical_layers/types/legends';
 import { useAction } from '@reatom/react';
-import { TranslationService as i18n } from '~core/localization';
+import { DeselectControl } from '../DeselectControl/DeselectControl';
 
 export function Group({
   group,
@@ -36,9 +36,7 @@ export function Group({
         title={<span className={s.groupTitle}>{group.name}</span>}
         controls={
           group.mutuallyExclusive && (
-            <button onClick={onGroupDeselect} className={s.groupControl}>
-              {i18n.t('Deselect')}
-            </button>
+            <DeselectControl onClick={onGroupDeselect} />
           )
         }
         onStateChange={(newState) => setOpenState(!newState)}
