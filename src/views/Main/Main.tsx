@@ -126,9 +126,7 @@ export function MainView() {
         {userFeatures?.tooltip === true && <PopupTooltip />}
       </Suspense>
       <Suspense fallback={null}>
-        {/* TODO: remove harcoded check when header feature will be available */}
-        {true && (
-          //{userFeatures?.header && (
+        {userFeatures?.header && (
           <AppHeader
             title="Disaster Ninja"
             logo={VisibleLogo()}
