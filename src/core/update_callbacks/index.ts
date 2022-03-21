@@ -6,6 +6,8 @@ export const UpdateCallbackEventsType = 'UpdateEvents';
 export const UpdateCallbackLegendType = 'UpdateLegend';
 export const UpdateCallbackLayersType = 'UpdateLayers';
 export const UpdateCallbackEditLayerType = 'EditLayer';
+export const UpdateCallbackEditFeaturesType = 'EditFeatures';
+export const UpdateCallbackDeleteLayerType = 'DeleteLayer';
 
 export type UpdateCallbackType =
   | typeof UpdateCallbackAnalyticsType
@@ -13,7 +15,9 @@ export type UpdateCallbackType =
   | typeof UpdateCallbackEventsType
   | typeof UpdateCallbackLegendType
   | typeof UpdateCallbackLayersType
-  | typeof UpdateCallbackEditLayerType;
+  | typeof UpdateCallbackEditLayerType
+  | typeof UpdateCallbackEditFeaturesType
+  | typeof UpdateCallbackDeleteLayerType;
 
 export type CallbackAtomParams = Record<string, unknown>;
 export type CallbackAtomState = {

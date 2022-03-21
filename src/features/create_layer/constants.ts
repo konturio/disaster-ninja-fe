@@ -1,13 +1,17 @@
 import {
   UserDataFieldImage,
   UserDataFieldLink,
-  UserDataFieldLongTextType,
+  UserDataFieldLongTextType, UserDataFieldNoneType,
   UserDataFieldShortTextType,
 } from '~core/logical_layers/types/userData';
 
 export const CREATE_LAYER_CONTROL_ID = 'CreateLayer';
 
 export const USER_LAYER_FIELDS = [
+  {
+    label: 'Select',
+    type: UserDataFieldNoneType
+  },
   {
     label: 'Short Text',
     type: UserDataFieldShortTextType

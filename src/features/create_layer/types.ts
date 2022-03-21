@@ -7,7 +7,7 @@ export type LayerFieldModel = {
 };
 
 export type CreateLayerModel = {
-  id: number;
+  id?: string;
   name: string;
   // TODO: change it to corresponding icon type
   marker: string;
