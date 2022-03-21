@@ -1,5 +1,5 @@
 import { Button, Text } from '@k2-packages/ui-kit';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import {
   DrawLineIcon,
@@ -16,7 +16,7 @@ import { toolboxAtom } from '../../atoms/toolboxAtom';
 
 export const DrawToolsToolbox = () => {
   const [
-    { mode: activeDrawMode, selectedIndexes, drawingIsStarted },
+    { mode: activeDrawMode, selectedIndexes, drawingIsStarted, avalibleModes },
     { deleteFeatures, toggleDrawMode, finishDrawing },
   ] = useAtom(toolboxAtom);
   useAtom(combinedAtom);
@@ -46,33 +46,39 @@ export const DrawToolsToolbox = () => {
       )}
 
       <div className={s.toolBox}>
-        <Button
-          className={s.modeBtn}
-          active={activeDrawMode === drawModes.DrawPolygonMode}
-          onClick={onPolygonClick}
-        >
-          <div className={s.btnContent}>
-            <DrawPolygonIcon /> {i18n.t('Area')}
-          </div>
-        </Button>
-        <Button
-          className={s.modeBtn}
-          active={activeDrawMode === drawModes.DrawLineMode}
-          onClick={onLineClick}
-        >
-          <div className={s.btnContent}>
-            <DrawLineIcon /> {i18n.t('Line')}
-          </div>
-        </Button>
-        <Button
-          className={s.modeBtn}
-          active={activeDrawMode === drawModes.DrawPointMode}
-          onClick={onPointClick}
-        >
-          <div className={s.btnContent}>
-            <DrawPointIcon /> {i18n.t('Point')}
-          </div>
-        </Button>
+        {avalibleModes?.includes('DrawPolygonMode') && (
+          <Button
+            className={s.modeBtn}
+            active={activeDrawMode === drawModes.DrawPolygonMode}
+            onClick={onPolygonClick}
+          >
+            <div className={s.btnContent}>
+              <DrawPolygonIcon /> {i18n.t('Area')}
+            </div>
+          </Button>
+        )}
+        {avalibleModes?.includes('DrawLineMode') && (
+          <Button
+            className={s.modeBtn}
+            active={activeDrawMode === drawModes.DrawLineMode}
+            onClick={onLineClick}
+          >
+            <div className={s.btnContent}>
+              <DrawLineIcon /> {i18n.t('Line')}
+            </div>
+          </Button>
+        )}
+        {avalibleModes?.includes('DrawPointMode') && (
+          <Button
+            className={s.modeBtn}
+            active={activeDrawMode === drawModes.DrawPointMode}
+            onClick={onPointClick}
+          >
+            <div className={s.btnContent}>
+              <DrawPointIcon /> {i18n.t('Point')}
+            </div>
+          </Button>
+        )}
         <Button
           className={s.modeBtn}
           active={Boolean(selectedIndexes.length)}

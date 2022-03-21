@@ -19,6 +19,10 @@ const { CreateLayerPanel } = lazily(
     ),
 );
 
+const { FeaturePanel } = lazily(
+  () => import('~features/create_layer/components/FeaturePanel/FeaturePanel'),
+);
+
 const { AppHeader, Logo } = lazily(() => import('@k2-packages/ui-kit'));
 
 const { ConnectedMap } = lazily(
@@ -174,6 +178,7 @@ export function MainView() {
                 <Legend iconsContainerId="right-buttons-container" />
               )}
               {userFeatures?.create_layer === true && <CreateLayerPanel />}
+              {userFeatures?.create_layer === true && <FeaturePanel />}
               {userFeatures?.map_layers_panel === true && (
                 <MapLayersList iconsContainerId="right-buttons-container" />
               )}

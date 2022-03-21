@@ -1,0 +1,28 @@
+.formContainer {
+  padding-top: var(--double-unit);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--double-unit);
+
+  & .formParam {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--unit);
+    width: 100%;
+
+    & > [class*='_root'] {
+      width: 100%;
+    }
+  }
+
+  & .formInput {
+    width: 100%;
+    height: 36px;
+    padding: var(--unit);
+    border: 1px solid var(--primary-border-disabled);
+    box-shadow: none;
+    border-radius: var(--half-unit);
+  }
+}

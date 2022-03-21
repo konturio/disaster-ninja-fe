@@ -12,6 +12,7 @@ type ToolboxState = {
   mode: DrawModeType | null;
   selectedIndexes: number[];
   drawingIsStarted?: boolean;
+  avalibleModes?: DrawModeType[];
 };
 
 export const toolboxAtom = createAtom(
@@ -22,6 +23,7 @@ export const toolboxAtom = createAtom(
     toggleDrawMode: (mode: DrawModeType) => mode,
     finishDrawing: () => null,
     isDrawingStartedAtom,
+    setAvalibleModes: (modes: DrawModeType[]) => modes,
   },
   (
     { onAction, schedule, get },
@@ -51,6 +53,12 @@ export const toolboxAtom = createAtom(
       );
       actions.push(activeDrawModeAtom.setDrawMode(null));
     });
+
+    // I think we don't need to specify the need for ModifyMode
+    onAction(
+      'setAvalibleModes',
+      (modes) => (state = { ...state, avalibleModes: modes }),
+    );
 
     actions.length &&
       schedule((dispatch) => {
