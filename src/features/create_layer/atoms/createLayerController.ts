@@ -7,9 +7,11 @@ import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerFiel
 import { LayerFieldType } from '~features/create_layer/types';
 import { apiClient } from '~core/index';
 import {
+  UpdateCallbackEditLayerType,
   UpdateCallbackLayersType,
   updateCallbackService,
 } from '~core/update_callbacks';
+import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 
 type CreateLayerAtomStateType = {
   loading: boolean;
@@ -24,11 +26,28 @@ export const createLayerControllerAtom = createAtom(
     save: () => null,
     reset: () => null,
     _update: (state: CreateLayerAtomStateType) => state,
+    editLayerCallback: updateCallbackService.addCallback(UpdateCallbackEditLayerType),
   },
   (
-    { onAction, schedule, getUnlistedState, create },
+    { onAction, schedule, getUnlistedState, create, onChange },
     state: CreateLayerAtomStateType | null = null,
   ) => {
+    onChange('editLayerCallback', (updateState ) => {
+      if (updateState?.params?.layerId) {
+        const lId = updateState?.params?.layerId as string;
+        const lRegistry = getUnlistedState(layersRegistryAtom);
+        if (lRegistry && lRegistry.has(lId)) {
+          const layerAtom = lRegistry.get(lId);
+          if (layerAtom) {
+            console.log('layer', getUnlistedState(layerAtom));
+          }
+        }
+        // schedule((dispatch) => {
+        //   dispatch(create('editLayer', updateState?.params?.layerId as number));
+        // })
+      }
+    });
+
     onAction('editLayer', (id) => {
       const dataAtom = createLayerDataAtom({
         id: 1,
