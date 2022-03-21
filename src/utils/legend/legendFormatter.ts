@@ -22,7 +22,7 @@ export function legendFormatter(layer: Omit<LayerInArea, 'source'>): LayerLegend
     return {
       name: layer.name,
       type: 'bivariate',
-      axis: { x: layer.legend.axes.y, y: layer.legend.axes.x },
+      axis: { x: layer.legend.axes.x, y: layer.legend.axes.y },
       copyrights: layer.copyrights || [],
       description: layer.description || '',
       steps: layer.legend.colors.map((clr) => ({ label: clr.id, color: clr.color })),
