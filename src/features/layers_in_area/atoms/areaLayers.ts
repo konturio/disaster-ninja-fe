@@ -19,6 +19,8 @@ import {
   UpdateCallbackLayersType,
   updateCallbackService,
 } from '~core/update_callbacks';
+import { UserLayerGroup } from '~core/types/layers';
+import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -213,6 +215,19 @@ export function createLayerActionsFromLayerInArea(
     }),
   );
   cleanUpActions.push(layersSettingsAtom.delete(layerId));
+
+  // Setup userdata
+  if (layer.group === UserLayerGroup) {
+    actions.push(layersUserDataAtom.set(layerId, {
+      isLoading: false,
+      error: null,
+      data: {
+        name: layer.name,
+        featureProperties: layer.featureProperties || {},
+      }
+    }));
+    cleanUpActions.push(layersUserDataAtom.delete(layerId));
+  }
 
   // Setup legends
   actions.push(

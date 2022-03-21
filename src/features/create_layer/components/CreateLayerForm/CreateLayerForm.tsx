@@ -36,7 +36,7 @@ export function CreateLayerForm({
           text={i18n.t('Layer name')}
           description={i18n.t('Layer name')}
         />
-        <Input onChange={onNameChange} className={s.formInput} />
+        <Input onChange={onNameChange} value={formState.name} className={s.formInput} />
       </div>
       <div className={s.formParam}>
         <LabelWithTooltip
@@ -55,7 +55,7 @@ export function CreateLayerForm({
       />
       <div className={s.buttonsContainer}>
         <Button onClick={onSave} className={s.saveBtn}>
-          {i18n.t('Save')}
+          {i18n.t(formState.id ? 'Save' : 'Create')}
         </Button>
         <Button onClick={onCancel} className={s.cancelBtn}>
           {i18n.t('Cancel')}

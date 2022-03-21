@@ -8,8 +8,9 @@ import { ChangeEvent, useCallback, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import type { Identifier, XYCoord } from 'dnd-core';
 import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerField';
-import { LayerFieldType } from '~features/create_layer/types';
 import { USER_LAYER_FIELDS } from '~features/create_layer/constants';
+import { UserDataFieldType } from '~core/logical_layers/types/userData';
+import { v4 as uuidv4 } from 'uuid';
 
 const ITEM_TYPE = 'field-container';
 
@@ -110,7 +111,7 @@ export function CreateLayerFieldContainer({
 
   const updateAtomType = useCallback(
     (ev: ChangeEvent<HTMLSelectElement>) => {
-      updateType(ev.target.value as LayerFieldType);
+      updateType(ev.target.value as UserDataFieldType);
     },
     [updateType],
   );
@@ -143,10 +144,9 @@ export function CreateLayerFieldContainer({
           value={atomState.type}
           onChange={updateAtomType}
         >
-          <option value="none">{i18n.t('Select')}</option>
           {
             USER_LAYER_FIELDS.map((fldParams) => (
-              <option value={fldParams.type}>{i18n.t(fldParams.label)}</option>
+              <option key={uuidv4()} value={fldParams.type}>{i18n.t(fldParams.label)}</option>
             ))
           }
         </select>
