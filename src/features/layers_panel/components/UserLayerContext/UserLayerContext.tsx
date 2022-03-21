@@ -3,6 +3,7 @@ import { TripleDotIcon } from '@k2-packages/default-icons';
 import { useCallback, useState } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import { v4 as uuidv4 } from 'uuid';
+import { UpdateCallbackEditLayerType, updateCallbackService } from '~core/update_callbacks';
 
 const ContextMenuEditItem = 'editlayer';
 
@@ -44,8 +45,7 @@ export function UserLayerContext({ layerId }: { layerId: string }) {
     (type: ContextMenuEditItemType) => {
       switch (ContextMenuEditItem) {
         case 'editlayer':
-          // TODO: Layer edit mode processing should start here
-          console.log('onContextItemClick', layerId);
+          updateCallbackService.triggerCallback(UpdateCallbackEditLayerType, { layerId });
           break;
       }
     },
