@@ -1,15 +1,9 @@
 import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerField';
-
-export type LayerFieldType =
-  | 'none'
-  | 'shorttext'
-  | 'longtext'
-  | 'link'
-  | 'image';
+import { UserDataFieldType } from '~core/logical_layers/types/userData';
 
 export type LayerFieldModel = {
   name: string;
-  type: LayerFieldType;
+  type: UserDataFieldType;
 };
 
 export type CreateLayerModel = {

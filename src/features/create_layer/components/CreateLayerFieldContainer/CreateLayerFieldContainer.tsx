@@ -9,6 +9,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import type { Identifier, XYCoord } from 'dnd-core';
 import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerField';
 import { LayerFieldType } from '~features/create_layer/types';
+import { USER_LAYER_FIELDS } from '~features/create_layer/constants';
 
 const ITEM_TYPE = 'field-container';
 
@@ -143,10 +144,11 @@ export function CreateLayerFieldContainer({
           onChange={updateAtomType}
         >
           <option value="none">{i18n.t('Select')}</option>
-          <option value="shorttext">{i18n.t('Short Text')}</option>
-          <option value="longtext">{i18n.t('Long Text')}</option>
-          <option value="link">{i18n.t('Link')}</option>
-          <option value="image">{i18n.t('Image')}</option>
+          {
+            USER_LAYER_FIELDS.map((fldParams) => (
+              <option value={fldParams.type}>{i18n.t(fldParams.label)}</option>
+            ))
+          }
         </select>
       </div>
     </div>
