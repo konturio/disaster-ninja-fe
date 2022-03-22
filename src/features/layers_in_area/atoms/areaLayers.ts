@@ -211,6 +211,7 @@ export function createLayerActionsFromLayerInArea(
         group: layer.group,
         boundaryRequiredForRetrieval:
           layer.boundaryRequiredForRetrieval ?? false,
+        ownedByUser: layer.ownedByUser,
       },
     }),
   );

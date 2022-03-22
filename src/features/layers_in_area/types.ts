@@ -24,6 +24,7 @@ export interface LayerInArea {
   featureProperties?: UserDataFeaturePropertiesType;
   boundaryRequiredForRetrieval: boolean;
   eventIdRequiredForRetrieval?: boolean;
+  ownedByUser: boolean;
 }
 
 export interface LayerDetailsGeoJSONSource {
