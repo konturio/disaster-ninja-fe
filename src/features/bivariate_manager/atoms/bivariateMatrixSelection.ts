@@ -83,6 +83,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
             legend,
             boundaryRequiredForRetrieval: false,
             source: bivStyle.source as TileSource,
+            ownedByUser: false,
           };
 
           const actions = createLayerActionsFromLayerInArea(id, layerInArea);
