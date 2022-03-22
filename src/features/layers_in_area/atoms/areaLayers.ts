@@ -16,6 +16,7 @@ import { legendFormatter } from '~utils/legend/legendFormatter';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import {
+  UpdateCallbackLayersLoading,
   UpdateCallbackLayersType,
   updateCallbackService,
 } from '~core/update_callbacks';
@@ -84,11 +85,13 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     }
   }
 
+  updateCallbackService.triggerCallback(UpdateCallbackLayersLoading);
   const responseData = await apiClient.post<LayerInArea[]>(
     '/layers/search/',
     body,
     true,
   );
+  updateCallbackService.triggerCallback(UpdateCallbackLayersLoading, { loaded: true });
   if (responseData === undefined) throw new Error('No data received');
   return responseData;
 }, areaLayersDependencyAtom);
