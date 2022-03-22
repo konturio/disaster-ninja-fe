@@ -19,23 +19,24 @@ export interface LayerInArea {
   category?: 'base' | 'overlay';
   group?: string;
   copyrights?: string[];
-  legend?: LayerLegend;
   boundaryRequiredForRetrieval: boolean;
   eventIdRequiredForRetrieval?: boolean;
 }
 
-export interface LayerDetailsGeoJSONSource {
+export interface GeoJSONSourceSourceContainer {
   id: string;
   source: GeoJSONSource;
+  legend: LayerLegend;
 }
 
-export interface LayerDetailsTileSource {
+export interface TileSourceContainer {
   id: string;
   maxZoom: number;
   minZoom: number;
   source: TileSource;
+  legend?: LayerLegend;
 }
 
 export type LayerInAreaDetails =
-  | LayerDetailsGeoJSONSource
-  | LayerDetailsTileSource;
+  | GeoJSONSourceSourceContainer
+  | TileSourceContainer;
