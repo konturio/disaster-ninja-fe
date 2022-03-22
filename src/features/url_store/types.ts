@@ -8,4 +8,5 @@ export interface UrlData {
   episode?: string;
   layers?: string[];
   bv?: string; // bivariate state hash
+  app?: string;
 }
