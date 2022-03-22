@@ -7,6 +7,7 @@ import { createLayerControllerAtom } from '~features/create_layer/atoms/createLa
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
+import { UpdateCallbackLayersLoading, updateCallbackService } from '~core/update_callbacks';
 
 const sidebarButtonParams = {
   id: CREATE_LAYER_CONTROL_ID,
@@ -31,13 +32,23 @@ const sidebarButtonParams = {
 export const createLayerSideBarButtonControllerAtom = createAtom({
     layersSettingsAtom,
     layersUserDataAtom,
+    layersLoadedCallback: updateCallbackService.addCallback(UpdateCallbackLayersLoading),
   },
   ({ get, getUnlistedState, schedule }) => {
+    const sidebarState = getUnlistedState(sideControlsBarAtom);
+    const isLayersLoading = get('layersLoadedCallback');
+    if (!isLayersLoading.params?.loaded) {
+      if (sidebarState[CREATE_LAYER_CONTROL_ID]) {
+        schedule((dispatch) => {
+          dispatch(sideControlsBarAtom.removeControl(CREATE_LAYER_CONTROL_ID));
+        });
+      }
+      return;
+    }
     const settingsRegistryKeys = Array.from(get('layersSettingsAtom'))
       .filter(([, val]) => val?.data?.ownedByUser).map(([key]) => key);
     const userDataRegistryKeys = Array.from(get('layersUserDataAtom').keys());
     const intersect = settingsRegistryKeys.filter((settingsKey) => userDataRegistryKeys.includes(settingsKey));
-    const sidebarState = getUnlistedState(sideControlsBarAtom);
     if (sidebarState[CREATE_LAYER_CONTROL_ID]) {
       if (intersect.length >= MAX_USER_LAYER_ALLOWED_TO_CREATE) {
         schedule((dispatch) => {
