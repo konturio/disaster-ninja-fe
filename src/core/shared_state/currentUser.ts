@@ -13,7 +13,6 @@ export type CurrentUser = {
 
 const publicUser: CurrentUser = {
   id: 'public',
-  defaultLayers: appConfig.layersByDefault ?? [],
 };
 
 export const currentUserAtom = createAtom(
