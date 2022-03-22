@@ -29,3 +29,6 @@ export const USER_LAYER_FIELDS = [
     type: UserDataFieldImage
   }
 ];
+
+// Move this constant to backend user settings later
+export const MAX_USER_LAYER_ALLOWED_TO_CREATE = 1;
