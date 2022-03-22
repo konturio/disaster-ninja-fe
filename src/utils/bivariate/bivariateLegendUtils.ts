@@ -1,6 +1,7 @@
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import { ColorTheme } from '~core/types';
 import { Stat } from '@k2-packages/bivariate-tools';
+import { LayerMeta } from '~core/logical_layers/types/meta';
 
 export function createBivariateLegend(
   name: string,
@@ -20,14 +21,33 @@ export function createBivariateLegend(
 
   if (!xAxis || !yAxis) return;
 
+  return {
+    name,
+    axis: { x: xAxis, y: yAxis },
+    type: 'bivariate',
+    steps: colorTheme.map(({ id, color }) => ({
+      label: id,
+      color,
+    })),
+  };
+}
+
+export function createBivariateMeta(
+  xNumerator: string,
+  xDenominator: string,
+  yNumerator: string,
+  yDenominator: string,
+  stats: Stat,
+): LayerMeta {
   const xAxisIndicator = stats.indicators.find(
     (ind) => ind.name === xNumerator,
   );
-  const xAxisLabel = xAxisIndicator?.label;
 
   const yAxisIndicator = stats.indicators.find(
     (ind) => ind.name === yNumerator,
   );
+
+  const xAxisLabel = xAxisIndicator?.label;
   const yAxisLabel = yAxisIndicator?.label;
   const xDenominatorLabel = stats.indicators.find(
     (ind) => ind.name === xDenominator,
@@ -55,14 +75,7 @@ export function createBivariateLegend(
   const description = `This map shows relation of ${xAxisLabel} (normalized by ${xDenominatorLabel}) to the base of ${yAxisLabel} (normalized by ${yDenominatorLabel}).`;
 
   return {
-    name,
     description,
-    axis: { x: yAxis, y: xAxis },
-    type: 'bivariate',
-    steps: colorTheme.map(({ id, color }) => ({
-      label: id,
-      color,
-    })),
     copyrights,
   };
 }

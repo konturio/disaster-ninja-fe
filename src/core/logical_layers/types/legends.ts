@@ -30,14 +30,12 @@ export interface BivariateLegendStep {
 export interface BivariateLegend {
   name: string;
   linkProperty?: string;
-  description: string;
   type: 'bivariate';
   axis: {
     x: Axis & { label?: string };
     y: Axis & { label?: string };
   };
   steps: BivariateLegendStep[];
-  copyrights: string[];
 }
 
 export interface BivariateLegendBackend {

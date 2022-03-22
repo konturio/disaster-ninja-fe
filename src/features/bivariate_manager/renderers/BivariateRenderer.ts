@@ -1,28 +1,17 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import maplibregl, {
-  AnyLayer,
-  GeoJSONSourceRaw,
-  RasterSource,
-  VectorSource,
-} from 'maplibre-gl';
+import maplibregl, { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import {
   applyLegendConditions,
   mapCSSToMapBoxProperties,
   setSourceLayer,
 } from '~utils/map/mapCSSToMapBoxPropertiesConverter';
-import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '../constants';
-import {
-  addZoomFilter,
-  onActiveContributorsClick,
-} from './activeContributorsLayers';
+import { LAYER_BIVARIATE_PREFIX, SOURCE_BIVARIATE_PREFIX } from '../constants';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
-import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import {
-  LayerGeoJSONSource,
   LayerSource,
   LayerTileSource,
 } from '~core/logical_layers/types/source';
@@ -32,7 +21,7 @@ import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariat
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
  * I found that if i call setLayer by requestAnimationFrame callback - UI becomes much more responsive!
  */
-export class GenericRenderer extends LogicalLayerDefaultRenderer {
+export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
   private _layerIds: Set<string>;
   private _sourceId: string;
@@ -43,7 +32,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     this.id = id;
     /* private */
     this._layerIds = new Set();
-    this._sourceId = SOURCE_IN_AREA_PREFIX + this.id;
+    this._sourceId = LAYER_BIVARIATE_PREFIX + this.id;
   }
 
   _generateLayersFromLegend(legend: LayerLegend): Omit<AnyLayer, 'id'>[] {
@@ -70,73 +59,12 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
 
   _setLayersIds(layers: Omit<AnyLayer, 'id'>[]): AnyLayer[] {
     return layers.map((layer, i) => {
-      const layerId = `${LAYER_IN_AREA_PREFIX + this.id}-${i}`;
+      const layerId = `${SOURCE_BIVARIATE_PREFIX + this.id}-${i}`;
       const mapLayer = { ...layer, id: layerId, source: this._sourceId };
       return mapLayer as AnyLayer;
     });
   }
 
-  async mountGeoJSONLayer(
-    map: ApplicationMap,
-    layer: LayerGeoJSONSource,
-    legend: LayerLegend | null,
-  ) {
-    /* Create source */
-    const mapSource: GeoJSONSourceRaw = {
-      type: 'geojson' as const,
-      data: layer.source.data,
-    };
-    const source = map.getSource(this._sourceId) as maplibregl.GeoJSONSource;
-    /* Mount or update source */
-    if (!source) {
-      map.addSource(this._sourceId, mapSource);
-    } else {
-      source.setData(
-        mapSource.data || {
-          type: 'FeatureCollection',
-          features: [],
-        },
-      );
-    }
-    /* Create layer */
-    if (legend) {
-      const layerStyles = this._generateLayersFromLegend(legend);
-      const layers = this._setLayersIds(layerStyles);
-      layers.forEach(async (mapLayer) => {
-        const layer = map.getLayer(mapLayer.id);
-        if (layer) {
-          map.removeLayer(layer.id);
-        }
-        /* Look at class comment */
-        requestAnimationFrame(() => {
-          layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-            map.addLayer(mapLayer, beforeId);
-            this._layerIds.add(mapLayer.id);
-          });
-        });
-      });
-    } else {
-      // Fallback layer
-      const layerId = `${LAYER_IN_AREA_PREFIX + this.id}`;
-      if (map.getLayer(layerId)) return;
-      const mapLayer = {
-        id: layerId,
-        source: this._sourceId,
-        type: 'fill' as const,
-        paint: {
-          'fill-color': 'pink' as const,
-        },
-      };
-      /* Look at class comment */
-      requestAnimationFrame(() => {
-        layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-          map.addLayer(mapLayer, beforeId);
-          this._layerIds.add(mapLayer.id);
-        });
-      });
-    }
-    // TODO: Remove unused in new legend layers
-  }
   _adaptUrl(url: string) {
     /** Fix cors in local development */
     if (import.meta.env.DEV) {
@@ -194,64 +122,34 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       map.addSource(this._sourceId, mapSource);
     }
     /* Create layer */
-    if (mapSource.type === 'raster') {
-      const layerId = `${LAYER_IN_AREA_PREFIX + this.id}`;
-      if (map.getLayer(layerId)) return;
-      const mapLayer = {
-        id: layerId,
-        type: 'raster' as const,
-        source: this._sourceId,
-        minzoom: 0,
-        maxzoom: 22,
-      };
-      /* Look at class comment */
-      requestAnimationFrame(() => {
-        layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-          map.addLayer(mapLayer, beforeId);
-          this._layerIds.add(layerId);
+
+    // Vector tiles
+    if (legend) {
+      const layerStyles = this._generateLayersFromLegend(legend);
+      const layers = this._setLayersIds(layerStyles);
+      console.assert(
+        layers.length !== 0,
+        `Zero layers generated for layer "${this.id}". Check legend and layer type`,
+      );
+      layers.forEach(async (mapLayer) => {
+        if (map.getLayer(mapLayer.id)) {
+          map.removeLayer(mapLayer.id);
+        }
+        /* Look at class comment */
+        requestAnimationFrame(() => {
+          layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
+            map.addLayer(mapLayer as AnyLayer, beforeId);
+            this._layerIds.add(mapLayer.id);
+          });
         });
       });
     } else {
-      // Vector tiles
-      if (legend) {
-        const layerStyles = this._generateLayersFromLegend(legend);
-        const layers = this._setLayersIds(layerStyles);
-        const isAllLayersAlreadyAdded = layers.every(
-          (layers) => !!map.getLayer(layers.id),
-        );
-        if (isAllLayersAlreadyAdded) return;
-        // !FIXME - Hardcoded filter for layer
-        // Must be deleted after LayersDB implemented
-        if (this.id === 'activeContributors') {
-          addZoomFilter(layers);
-        }
-        console.assert(
-          layers.length !== 0,
-          `Zero layers generated for layer "${this.id}". Check legend and layer type`,
-        );
-        layers.forEach(async (mapLayer) => {
-          if (map.getLayer(mapLayer.id)) {
-            map.removeLayer(mapLayer.id);
-          }
-          /* Look at class comment */
-          requestAnimationFrame(() => {
-            layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-              map.addLayer(mapLayer as AnyLayer, beforeId);
-              this._layerIds.add(mapLayer.id);
-            });
-          });
-        });
-      } else {
-        // We don't known source-layer id
-        throw new Error(
-          `[GenericLayer ${this.id}] Vector layers must have legend`,
-        );
-      }
+      // We don't known source-layer id
+      throw new Error(
+        `[GenericLayer ${this.id}] Vector layers must have legend`,
+      );
     }
   }
-
-  isGeoJSONLayer = (layer: LayerSource): layer is LayerGeoJSONSource =>
-    layer.source.type === 'geojson';
 
   _updateMap(
     map: ApplicationMap,
@@ -259,53 +157,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     legend: LayerLegend | null,
   ) {
     if (layerData == null) return;
-    if (this.isGeoJSONLayer(layerData)) {
-      this.mountGeoJSONLayer(map, layerData, legend);
-    } else {
-      this.mountTileLayer(map, layerData, legend);
-    }
-    /* Add event listener */
-    // !FIXME - Hardcoded filter for layer
-    // Must be deleted after LayersDB implemented
-    if (this.id === 'activeContributors') {
-      const onClick = onActiveContributorsClick(map, this._sourceId);
-      this._removeClickListener = registerMapListener(
-        'click',
-        (e) => (onClick(e), true),
-        60,
-      );
-      return;
-    }
-
-    if (legend) {
-      const linkProperty =
-        'linkProperty' in legend ? legend.linkProperty : null;
-      if (linkProperty) {
-        const handler = (e) => {
-          this.onMapClick(map, e, linkProperty);
-          return true;
-        };
-        this._removeClickListener = registerMapListener('click', handler, 60);
-      }
-    }
-  }
-
-  async onMapClick(
-    map: ApplicationMap,
-    ev: maplibregl.MapMouseEvent & maplibregl.EventData,
-    linkProperty: string,
-  ) {
-    if (!ev || !ev.lngLat) return;
-    const thisLayersFeatures = ev.target
-      .queryRenderedFeatures(ev.point)
-      .filter((f) => f.source.includes(this._sourceId));
-    if (thisLayersFeatures.length === 0) return;
-    const featureWithLink = thisLayersFeatures.find(
-      (feature) => feature.properties?.[linkProperty] !== undefined,
-    );
-    if (featureWithLink === undefined) return;
-    const link = featureWithLink.properties?.[linkProperty];
-    window.open(link);
+    this.mountTileLayer(map, layerData as LayerTileSource, legend);
   }
 
   /* ========== Hooks ========== */

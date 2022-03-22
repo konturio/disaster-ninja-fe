@@ -1,9 +1,11 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
 import {
-  currentUserAtom,
   currentEpisodeAtom,
   currentEventAtom,
   currentMapPositionAtom,
+  currentApplicationAtom,
+  defaultAppLayersAtom,
+  defaultLayersParamsAtom,
 } from '~core/shared_state';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { URLStore } from '../URLStore';
@@ -17,31 +19,47 @@ let lastVersion = 0;
 /* Compose shared state values into one atom */
 export const urlStoreAtom = createAtom(
   {
-    currentUser: currentUserAtom,
+    defaultAppLayersAtom,
     initFlag: initFlagAtom,
     currentMapPositionAtom,
     currentEventAtom,
     currentEpisodeAtom,
     enabledLayersAtom,
+    currentApplicationAtom,
   },
-  ({ get, schedule, create }, state: UrlData = urlStore.readCurrentState()) => {
+  ({ get, schedule }, state: UrlData = urlStore.readCurrentState()) => {
     const initFlag = get('initFlag');
     if (!initFlag) {
       /* Initialization */
-
-      // Check url
+      /* If layers in url absent, take default layers form user settings */
       const noLayersInUrl =
         state.layers === undefined || state.layers.length === 0;
       if (noLayersInUrl) {
-        const currentUser = get('currentUser');
-        if (currentUser === null) return state; // Wait user settings for defaults
-        state = {
-          ...state,
-          layers: currentUser.defaultLayers,
-        };
+        const defaultLayers = get('defaultAppLayersAtom');
+        if (
+          defaultLayers.data === null &&
+          !defaultLayers.loading &&
+          !defaultLayers.error
+        ) {
+          schedule((dispatch) => dispatch(defaultLayersParamsAtom.request()));
+          return;
+        }
+
+        if (defaultLayers.loading) {
+          return; // Wait default layers
+        }
+
+        if (defaultLayers.data !== null) {
+          state = {
+            ...state,
+            layers: defaultLayers.data,
+          };
+        }
+        // Continue in case of error
       }
 
       /* Finish Initialization */
+      /* Setup atom state from initial url */
       schedule((dispatch) => {
         const actions: Action[] = [];
 
@@ -68,11 +86,17 @@ export const urlStoreAtom = createAtom(
           actions.push(currentEpisodeAtom.setCurrentEpisodeId(state.episode));
         }
 
+        // Apply application id
+        if (state.app) {
+          actions.push(currentApplicationAtom.set(state.app));
+        }
+
         // Done
         actions.push(initFlagAtom.setTrue());
         if (actions.length) dispatch(actions);
       });
     } else {
+      /* After initialization finished - write new changes from state back to url */
       const newState = { ...state };
       const currentMapPosition = get('currentMapPositionAtom');
       if (currentMapPosition) {
@@ -91,6 +115,10 @@ export const urlStoreAtom = createAtom(
 
       const enabledLayers = get('enabledLayersAtom');
       newState.layers = Array.from(enabledLayers ?? []);
+
+      const currentApplication = get('currentApplicationAtom');
+      newState.app = currentApplication ?? undefined;
+
       state = newState;
       const currentVersion = ++lastVersion;
 
@@ -106,49 +134,6 @@ export const urlStoreAtom = createAtom(
         ctx.debounceTimer = setTimeout(() => {
           urlStore.updateUrl(state);
         }, 300);
-
-        /* URL -> Store realtime updates (extra feature) */
-        // const actions: Action[] = [];
-        // urlStore.onUrlChange((updated: UrlData) => {
-        // if (state.event !== updated.event) {
-        //   actions.push(
-        //     updated.event
-        //       ? currentEventAtom.setCurrentEventId(updated.event)
-        //       : currentEventAtom.resetCurrentEvent(),
-        //   );
-        // }
-
-        // Update EPISODE
-        // if (state.episode !== updated.episode) {
-        //   actions.push(
-        //     updated.episode
-        //       ? currentEpisodeAtom.setCurrentEpisodeId(updated.episode)
-        //       : currentEpisodeAtom.resetCurrentEpisodeId(),
-        //   );
-        // }
-
-        // Update LAYERS
-        // const currentLayers = new Set(state.layers ?? []);
-        // const added = (updated.layers ?? []).filter(
-        //   (l) => !currentLayers.has(l),
-        // );
-        // actions.push(logicalLayersRegistryAtom.mountLayers(added));
-
-        // Update MAP position
-        // if ((state.map ?? []).join() !== (updated.map ?? []).join()) {
-        //   if (updated.map !== undefined) {
-        //     actions.push(
-        //       currentMapPositionAtom.setCurrentMapPosition({
-        //         zoom: Number(updated.map[0]),
-        //         lng: Number(updated.map[1]),
-        //         lat: Number(updated.map[2]),
-        //       }),
-        //     );
-        //   }
-        // }
-
-        // if (actions.length) dispatch(actions);
-        // });
       });
     }
 
