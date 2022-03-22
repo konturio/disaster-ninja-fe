@@ -4,12 +4,16 @@ import {
   BivariateLayerStyle,
   generateColorThemeAndBivariateStyle,
 } from '~utils/bivariate/bivariateColorThemeUtils';
-import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
+import {
+  createBivariateLegend,
+  createBivariateMeta,
+} from '~utils/bivariate/bivariateLegendUtils';
 import { ColorTheme } from '~core/types';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
-import { createLayerActionsFromLayerInArea } from '~features/layers_in_area/atoms/areaLayers';
-import { TileSource } from '~features/layers_in_area/types';
+import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
+import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
+import { BivariateRenderer } from '../renderers/BivariateRenderer';
 
 export const bivariateMatrixSelectionAtom = createAtom(
   {
@@ -20,6 +24,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
       yDenominator: string | null,
     ) => ({ xNumerator, xDenominator, yNumerator, yDenominator }),
     enableBivariateLayer: (layerId: string) => layerId,
+    disableBivariateLayer: () => null,
   },
   (
     { onAction, schedule, getUnlistedState, create },
@@ -74,38 +79,70 @@ export const bivariateMatrixSelectionAtom = createAtom(
 
         if (legend) {
           const bivStyle = bivariateStyle as BivariateLayerStyle;
+          const biSource = bivStyle.source;
           const id = bivStyle.id;
-          const layerInArea = {
+          const meta = createBivariateMeta(
+            xNumerator,
+            xDenominator,
+            yNumerator,
+            yDenominator,
+            stats,
+          );
+
+          const source = {
             id,
-            name: 'Bivariate Layer',
-            category: 'overlay' as 'overlay' | 'base',
-            group: 'bivariate',
-            legend,
-            boundaryRequiredForRetrieval: false,
-            source: bivStyle.source as TileSource,
+            maxZoom: biSource.maxzoom,
+            minZoom: biSource.minzoom,
+            source: {
+              type: biSource.type,
+              urls: biSource.tiles,
+              tileSize: 512,
+            },
           };
 
-          const actions = createLayerActionsFromLayerInArea(id, layerInArea);
+          const [updateActions, cleanUpActions] = createUpdateLayerActions(id, {
+            legend,
+            meta,
+            source,
+          });
 
-          const currentRegistry = getUnlistedState(layersRegistryAtom);
-          for (const [layerId, layer] of Array.from(currentRegistry)) {
-            const layerData = getUnlistedState(layer);
-            if (
-              layerData.legend?.type === 'bivariate' &&
-              layerData.legend?.name === 'Bivariate Layer'
-            ) {
-              actions.unshift(layersRegistryAtom.unregister(layerId));
-              actions.unshift(layer.disable());
-              actions.unshift(layer.hide());
-            }
+          // Setup only (because it static)
+          const currentSettings = getUnlistedState(layersSettingsAtom);
+          if (!currentSettings.has(id)) {
+            createUpdateLayerActions(
+              id,
+              {
+                settings: {
+                  id,
+                  name: 'Bivariate Layer',
+                  category: 'overlay' as const,
+                  group: 'bivariate',
+                },
+              },
+              [updateActions, cleanUpActions],
+            );
           }
 
-          actions.push(create('enableBivariateLayer', id));
+          // Register and Enable
+          const currentRegistry = getUnlistedState(layersRegistryAtom);
+          if (!currentRegistry.has(id)) {
+            updateActions.push(
+              layersRegistryAtom.register({
+                id,
+                renderer: new BivariateRenderer({ id }),
+                cleanUpActions,
+              }),
+              create('enableBivariateLayer', id),
+            );
+          }
 
-          if (actions.length) {
-            schedule((dispatch) => {
-              dispatch(actions);
-            });
+          if (updateActions.length) {
+            schedule(
+              (dispatch, ctx: { bivariateLayerAtomId?: string } = {}) => {
+                ctx.bivariateLayerAtomId = id;
+                dispatch(updateActions);
+              },
+            );
           }
         }
       }
@@ -121,6 +158,16 @@ export const bivariateMatrixSelectionAtom = createAtom(
           break;
         }
       }
+    });
+
+    onAction('disableBivariateLayer', () => {
+      const currentRegistry = getUnlistedState(layersRegistryAtom);
+      schedule((dispatch, ctx: { bivariateLayerAtomId?: string } = {}) => {
+        if (ctx.bivariateLayerAtomId) {
+          const layerAtom = currentRegistry.get(ctx.bivariateLayerAtomId);
+          layerAtom && dispatch(layerAtom.destroy());
+        }
+      });
     });
 
     return state;

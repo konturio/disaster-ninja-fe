@@ -9,6 +9,9 @@ import { areaLayersResourceAtom } from './areaLayers';
 import { LayerInAreaDetails } from '../types';
 import { LayerSource } from '~core/logical_layers/types/source';
 import { currentEventFeedAtom } from '~core/shared_state';
+import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
+import { LayerLegend } from '~core/logical_layers/types/legends';
+import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
 
 export interface DetailsRequestParams {
   layersToRetrieveWithGeometryFilter: string[];
@@ -32,6 +35,13 @@ function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
   } else {
     return response as LayerSource;
   }
+}
+
+function convertDetailsToLegends(
+  response: LayerInAreaDetails,
+): LayerLegend | null {
+  if (!response.legend) return null;
+  return legendFormatter(response.legend);
 }
 
 /* This atom subscribes to all data that required for request layer details  */
@@ -158,16 +168,31 @@ export const areaLayersDetails = createAtom(
     } else if (layersDetails.data) {
       const layersDetailsData = layersDetails.data;
       actions.push(
+        // Update sources
         layersSourcesAtom.change((state) => {
+          const newState = new Map(state);
           layersDetailsData.forEach((layerDetails) => {
             const layerSource = convertDetailsToSource(layerDetails);
-            state.set(layerSource.id, {
+            newState.set(layerDetails.id, {
               error: null,
               data: layerSource,
               isLoading: false,
             });
           });
-          return state;
+          return newState;
+        }),
+        // Update legends
+        layersLegendsAtom.change((state) => {
+          const newState = new Map(state);
+          layersDetailsData.forEach((layerDetails) => {
+            const layerLegend = convertDetailsToLegends(layerDetails);
+            newState.set(layerDetails.id, {
+              error: null,
+              data: layerLegend,
+              isLoading: false,
+            });
+          });
+          return newState;
         }),
       );
     }

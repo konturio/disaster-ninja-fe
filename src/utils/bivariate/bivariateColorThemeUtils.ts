@@ -5,14 +5,24 @@ import {
 } from '@k2-packages/bivariate-tools';
 import interpolate from 'color-interpolate';
 import config from '~core/app_config';
-import { BivariateLegend, BivariateLegendBackend } from '~core/logical_layers/types/legends';
+import {
+  BivariateLegend,
+  BivariateLegendBackend,
+} from '~core/logical_layers/types/legends';
 import { ColorTheme } from '~core/types';
 import { ColorCombination } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
+
+type BivariateLayerSource = {
+  type: 'vector';
+  tiles: string[];
+  maxzoom: number;
+  minzoom: number;
+};
 
 export interface BivariateLayerStyle {
   id: string;
   type: 'fill';
-  source: unknown;
+  source: BivariateLayerSource;
   layout: unknown;
   filter: unknown[];
   paint: {
@@ -160,7 +170,7 @@ export function generateLayerStyleFromBivariateLegend(
     y: bl.axis.y,
     colors: [...bl.steps]
       .sort((stp1, stp2) => (stp1.label > stp2.label ? 1 : -1))
-      .map(stp => ({ id: stp.label, color: stp.color })),
+      .map((stp) => ({ id: stp.label, color: stp.color })),
     sourceLayer: 'stats',
     source: {
       type: 'vector',
@@ -168,7 +178,7 @@ export function generateLayerStyleFromBivariateLegend(
       maxzoom: 8,
       minzoom: 0,
     },
-  }) as BivariateLayerStyle;
+  });
 }
 
 export function generateLayerStyleFromBivariateLegendBackend(
@@ -186,7 +196,7 @@ export function generateLayerStyleFromBivariateLegendBackend(
       maxzoom: 8,
       minzoom: 0,
     },
-  }) as BivariateLayerStyle;
+  });
 }
 
 export function convertRGBtoObj(colorString: string): {
