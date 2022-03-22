@@ -26,6 +26,7 @@ export function initFocusedGeometryLayer() {
         name: i18n.t(FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY),
         id: FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
         boundaryRequiredForRetrieval: false,
+        ownedByUser: false,
       }),
     ),
     // Sel layer legend once
