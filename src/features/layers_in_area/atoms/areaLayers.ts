@@ -12,8 +12,6 @@ import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { apiClient } from '~core/index';
 import { LayerInArea } from '../types';
 import { GenericRenderer } from '../renderers/GenericRenderer';
-import { legendFormatter } from '~utils/legend/legendFormatter';
-import { currentEventFeedAtom } from '~core/shared_state';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import {
   UpdateCallbackLayersLoading,
@@ -22,6 +20,10 @@ import {
 } from '~core/update_callbacks';
 import { UserLayerGroup } from '~core/types/layers';
 import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
+import {
+  currentEventFeedAtom,
+  currentApplicationAtom,
+} from '~core/shared_state';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -44,24 +46,27 @@ const areaLayersDependencyAtom = createAtom(
     callbackAtom: updateCallbackService.addCallback(UpdateCallbackLayersType),
   },
   (
-    { onChange, getUnlistedState, onAction, create, schedule },
+    { onChange, getUnlistedState },
     state: {
       focusedGeometry: FocusedGeometry | null;
       eventFeed: { id: string } | null;
+      appId: string | null;
     } = {
       focusedGeometry: null,
       eventFeed: null,
+      appId: null,
     },
   ) => {
     onChange('callbackAtom', () => {
       const geometry = getUnlistedState(focusedGeometryAtom);
       const feed = getUnlistedState(currentEventFeedAtom);
-      state = { focusedGeometry: geometry, eventFeed: feed };
+      state = { focusedGeometry: geometry, eventFeed: feed, appId: state.appId };
     });
 
     onChange('focusedGeometryAtom', (geometry) => {
       const feed = getUnlistedState(currentEventFeedAtom);
-      state = { focusedGeometry: geometry, eventFeed: feed };
+      const appId = getUnlistedState(currentApplicationAtom);
+      state = { focusedGeometry: geometry, eventFeed: feed, appId };
     });
 
     return state;
@@ -74,6 +79,7 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     eventId?: string;
     geoJSON?: GeoJSON.GeoJSON;
     eventFeed?: string;
+    appId?: string;
   } = {
     geoJSON: params?.focusedGeometry.geometry,
   };
@@ -86,6 +92,11 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
   }
 
   updateCallbackService.triggerCallback(UpdateCallbackLayersLoading);
+
+  if (params.appId) {
+    body.appId = params.appId;
+  }
+
   const responseData = await apiClient.post<LayerInArea[]>(
     '/layers/search/',
     body,
@@ -233,33 +244,14 @@ export function createLayerActionsFromLayerInArea(
     cleanUpActions.push(layersUserDataAtom.delete(layerId));
   }
 
-  // Setup legends
-  actions.push(
-    layersLegendsAtom.set(layerId, {
-      isLoading: false,
-      error: null,
-      data: legendFormatter(layer),
-    }),
-  );
+  /**
+   * Sources and legends will added later in areaLayersDetails atom
+   * I'am add cleanup actions here, because it only way right now
+   * TODO: Add action to registry for extend clean effect, or auto-cleanup it
+   *  */
+  //
   cleanUpActions.push(layersLegendsAtom.delete(layerId));
-
-  if (layer.source) {
-    actions.push(
-      layersSourcesAtom.set(layerId, {
-        error: null,
-        data: {
-          id: layerId,
-          source: {
-            urls: (layer.source as any).tiles,
-            type: layer.source.type as any,
-            tileSize: 512,
-          } as any,
-        },
-        isLoading: false,
-      }),
-    );
-    cleanUpActions.push(layersSourcesAtom.delete(layerId));
-  }
+  cleanUpActions.push(layersSourcesAtom.delete(layerId));
 
   // Register
   if (options.registration) {
