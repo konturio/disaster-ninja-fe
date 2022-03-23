@@ -4,4 +4,5 @@ export interface LayerSettings {
   category?: 'base' | 'overlay';
   group?: string;
   boundaryRequiredForRetrieval?: boolean;
+  ownedByUser: boolean;
 }
