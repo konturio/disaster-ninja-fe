@@ -14,14 +14,16 @@ import { LayerInArea } from '../types';
 import { GenericRenderer } from '../renderers/GenericRenderer';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import {
+  UpdateCallbackLayersLoading,
   UpdateCallbackLayersType,
   updateCallbackService,
 } from '~core/update_callbacks';
+import { UserLayerGroup } from '~core/types/layers';
+import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
 import {
   currentEventFeedAtom,
   currentApplicationAtom,
 } from '~core/shared_state';
-
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -89,6 +91,8 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     }
   }
 
+  updateCallbackService.triggerCallback(UpdateCallbackLayersLoading);
+
   if (params.appId) {
     body.appId = params.appId;
   }
@@ -98,6 +102,7 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     body,
     true,
   );
+  updateCallbackService.triggerCallback(UpdateCallbackLayersLoading, { loaded: true });
   if (responseData === undefined) throw new Error('No data received');
   return responseData;
 }, areaLayersDependencyAtom);
@@ -220,10 +225,24 @@ export function createLayerActionsFromLayerInArea(
         group: layer.group,
         boundaryRequiredForRetrieval:
           layer.boundaryRequiredForRetrieval ?? false,
+        ownedByUser: layer.ownedByUser,
       },
     }),
   );
   cleanUpActions.push(layersSettingsAtom.delete(layerId));
+
+  // Setup userdata
+  if (layer.group === UserLayerGroup) {
+    actions.push(layersUserDataAtom.set(layerId, {
+      isLoading: false,
+      error: null,
+      data: {
+        name: layer.name,
+        featureProperties: layer.featureProperties || {},
+      }
+    }));
+    cleanUpActions.push(layersUserDataAtom.delete(layerId));
+  }
 
   /**
    * Sources and legends will added later in areaLayersDetails atom
