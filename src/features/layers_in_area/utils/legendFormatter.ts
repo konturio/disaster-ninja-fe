@@ -26,7 +26,7 @@ export function legendFormatter(
     return {
       name: legend.name,
       type: 'bivariate',
-      axis: { x: legend.axes.x, y: legend.axes.y },
+      axis: { x: legend.axes.y, y: legend.axes.x },
       steps: legend.colors.map((clr) => ({
         label: clr.id,
         color: clr.color,
