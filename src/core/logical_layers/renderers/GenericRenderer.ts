@@ -1,32 +1,19 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import maplibregl, {
-  AnyLayer,
-  GeoJSONSourceRaw,
-  RasterSource,
-  VectorSource,
-} from 'maplibre-gl';
+import maplibregl, { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import {
   applyLegendConditions,
   mapCSSToMapBoxProperties,
   setSourceLayer,
 } from '~utils/map/mapCSSToMapBoxPropertiesConverter';
-import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '../constants';
-import {
-  addZoomFilter,
-  onActiveContributorsClick,
-} from './activeContributorsLayers';
+import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '~features/layers_in_area/constants';
+import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
-import {
-  LayerGeoJSONSource,
-  LayerSource,
-  LayerTileSource,
-} from '~core/logical_layers/types/source';
-import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
+import { LayerGeoJSONSource, LayerSource, LayerTileSource } from '~core/logical_layers/types/source';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -61,9 +48,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
           ),
         );
       return layers.flat();
-    }
-    if (legend.type === 'bivariate' && 'axis' in legend) {
-      return [generateLayerStyleFromBivariateLegend(legend)];
     }
     throw new Error(`Unexpected legend type '${legend.type}'`);
   }

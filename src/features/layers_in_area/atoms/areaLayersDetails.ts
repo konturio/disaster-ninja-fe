@@ -41,7 +41,7 @@ function convertDetailsToLegends(
   response: LayerInAreaDetails,
 ): LayerLegend | null {
   if (!response.legend) return null;
-  return legendFormatter(response.legend);
+  return legendFormatter(response);
 }
 
 /* This atom subscribes to all data that required for request layer details  */

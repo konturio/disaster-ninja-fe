@@ -1,26 +1,17 @@
 import { Action } from '@reatom/core';
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import {
-  FocusedGeometry,
-  focusedGeometryAtom,
-} from '~core/shared_state/focusedGeometry';
+import { FocusedGeometry, focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { apiClient } from '~core/index';
 import { LayerInArea } from '../types';
-import { GenericRenderer } from '../renderers/GenericRenderer';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import {
-  UpdateCallbackLayersType,
-  updateCallbackService,
-} from '~core/update_callbacks';
-import {
-  currentEventFeedAtom,
-  currentApplicationAtom,
-} from '~core/shared_state';
+import { UpdateCallbackLayersType, updateCallbackService } from '~core/update_callbacks';
+import { currentApplicationAtom, currentEventFeedAtom } from '~core/shared_state';
+import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 
 
 /**
@@ -239,9 +230,7 @@ export function createLayerActionsFromLayerInArea(
     actions.push(
       layersRegistryAtom.register({
         id: layerId,
-        renderer: new GenericRenderer({
-          id: layerId,
-        }),
+        renderer: getLayerRenderer(layer),
         cleanUpActions,
       }),
     );

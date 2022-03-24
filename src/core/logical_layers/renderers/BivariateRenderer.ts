@@ -1,20 +1,12 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import maplibregl, { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
-import type { LayerLegend } from '~core/logical_layers/types/legends';
-import {
-  applyLegendConditions,
-  mapCSSToMapBoxProperties,
-  setSourceLayer,
-} from '~utils/map/mapCSSToMapBoxPropertiesConverter';
+import { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
+import type { BivariateLegend, LayerLegend } from '~core/logical_layers/types/legends';
 import { LAYER_BIVARIATE_PREFIX, SOURCE_BIVARIATE_PREFIX } from '../constants';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
-import {
-  LayerSource,
-  LayerTileSource,
-} from '~core/logical_layers/types/source';
+import { LayerSource, LayerTileSource } from '~core/logical_layers/types/source';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
 
 /**
@@ -35,23 +27,8 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._sourceId = LAYER_BIVARIATE_PREFIX + this.id;
   }
 
-  _generateLayersFromLegend(legend: LayerLegend): Omit<AnyLayer, 'id'>[] {
-    if (legend.type === 'simple') {
-      const layers = legend.steps
-        /**
-         * Layer filters method generate extra layers for legend steps, it simple and reliably.
-         * Find properties diff between steps and put expressions right into property value
-         * if tou need more map performance
-         * */
-        .map((step) =>
-          setSourceLayer(
-            step,
-            applyLegendConditions(step, mapCSSToMapBoxProperties(step.style)),
-          ),
-        );
-      return layers.flat();
-    }
-    if (legend.type === 'bivariate' && 'axis' in legend) {
+  _generateLayersFromLegend(legend: BivariateLegend): Omit<AnyLayer, 'id'>[] {
+    if (legend.type === 'bivariate') {
       return [generateLayerStyleFromBivariateLegend(legend)];
     }
     throw new Error(`Unexpected legend type '${legend.type}'`);
@@ -75,7 +52,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
      * request from https to http failed in browser with "mixed content" error
      * solution: cut off protocol part and replace with current page protocol
      */
-    url = window.location.protocol + url.replace('/https?:/', '');
+    url = window.location.protocol + url.replace(/https?:/, '');
     /**
      * Some link templates use values that mapbox/maplibre do not understand
      * solution: convert to equivalents
@@ -125,7 +102,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     // Vector tiles
     if (legend) {
-      const layerStyles = this._generateLayersFromLegend(legend);
+      const layerStyles = this._generateLayersFromLegend(legend as BivariateLegend);
       const layers = this._setLayersIds(layerStyles);
       console.assert(
         layers.length !== 0,
@@ -138,7 +115,9 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         /* Look at class comment */
         requestAnimationFrame(() => {
           layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-            map.addLayer(mapLayer as AnyLayer, beforeId);
+            if (!map.getLayer(mapLayer.id)) {
+              map.addLayer(mapLayer as AnyLayer, beforeId);
+            }
             this._layerIds.add(mapLayer.id);
           });
         });
