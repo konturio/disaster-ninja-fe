@@ -39,6 +39,7 @@ export function initFileUploader() {
         );
         const map = currentMapAtom.getState();
         if (!map) return;
+
         // Turf can return 3d bbox, so we need to cut off potential extra data
         const bbox = turfBbox(geoJSON) as [number, number, number, number];
         bbox.length = 4;
