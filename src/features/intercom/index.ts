@@ -15,33 +15,45 @@ export function initIntercom() {
   /* eslint-disable */
   // We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/e59cl64z'
   (function () {
-    var w = window;
-    var ic = w.Intercom;
-    if (typeof ic === 'function') {
-      ic('reattach_activator');
-      ic('update', w.intercomSettings);
+    let intercom = window.Intercom;
+    if (typeof intercom === 'function') {
+      intercom('reattach_activator');
+      intercom('update', window.intercomSettings);
     } else {
-      var d = document;
-      var i = function () {
+      const i = function () {
         i.c(arguments);
       };
       i.q = [];
       i.c = function (args) {
         i.q.push(args);
       };
-      w.Intercom = i;
-      var l = function () {
-        var s = d.createElement('script');
-        s.type = 'text/javascript';
-        s.async = true;
-        s.src = `https://widget.intercom.io/widget/${appConfig.intercom.app_id}`;
-        var x = d.getElementsByTagName('script')[0];
-        x.parentNode.insertBefore(s, x);
+      window.Intercom = i;
+
+      const insertIntercomScript = function () {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = `https://widget.intercom.io/widget/${appConfig.intercom.app_id}`;
+        try {
+          const firstScriptElement =
+            document.getElementsByTagName('script')[0]!;
+          firstScriptElement.parentNode.insertBefore(
+            script,
+            firstScriptElement,
+          );
+        } catch (error) {
+          console.error('could not insert script');
+        }
       };
-      if (w.attachEvent) {
-        w.attachEvent('onload', l);
+      if (window.attachEvent) {
+        window.attachEvent('onload', insertIntercomScript);
+      } else if (
+        document.readyState === 'complete' ||
+        document.readyState === 'interactive'
+      ) {
+        insertIntercomScript();
       } else {
-        w.addEventListener('load', l, false);
+        window.addEventListener('load', insertIntercomScript, false);
       }
     }
   })();
