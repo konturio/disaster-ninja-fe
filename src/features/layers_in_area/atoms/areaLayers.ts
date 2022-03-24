@@ -1,29 +1,19 @@
 import { Action } from '@reatom/core';
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import {
-  FocusedGeometry,
-  focusedGeometryAtom,
-} from '~core/shared_state/focusedGeometry';
+import { FocusedGeometry, focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { apiClient } from '~core/index';
 import { LayerInArea } from '../types';
-import { GenericRenderer } from '../renderers/GenericRenderer';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import {
-  UpdateCallbackLayersLoading,
-  UpdateCallbackLayersType,
-  updateCallbackService,
-} from '~core/update_callbacks';
-import { UserLayerGroup } from '~core/types/layers';
+import { UpdateCallbackLayersLoading, UpdateCallbackLayersType, updateCallbackService } from '~core/update_callbacks';
+import { currentApplicationAtom, currentEventFeedAtom } from '~core/shared_state';
+import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
-import {
-  currentEventFeedAtom,
-  currentApplicationAtom,
-} from '~core/shared_state';
+import { UserLayerGroup } from '~core/types/layers';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -258,9 +248,7 @@ export function createLayerActionsFromLayerInArea(
     actions.push(
       layersRegistryAtom.register({
         id: layerId,
-        renderer: new GenericRenderer({
-          id: layerId,
-        }),
+        renderer: getLayerRenderer(layer),
         cleanUpActions,
       }),
     );
