@@ -69,6 +69,7 @@ export const combinedAtom = createAtom(
       if (!mode) {
         actions.push(drawModeLogicalLayerAtom.disable());
       } else {
+        drawModeRenderer.addClickListener();
         drawModeRenderer.setMode(mode);
       }
     });
