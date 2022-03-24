@@ -117,6 +117,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
                   name: 'Bivariate Layer',
                   category: 'overlay' as const,
                   group: 'bivariate',
+                  ownedByUser: true,
                 },
               },
               [updateActions, cleanUpActions],

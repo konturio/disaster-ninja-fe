@@ -17,6 +17,7 @@ import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl'
 import { DownloadControl } from '../DownloadControl/DownloadControl';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import { UserLayerContext } from '~features/layers_panel/components/UserLayerContext/UserLayerContext';
+import { UserLayerGroup } from '~core/types/layers';
 
 export function Layer({
   layerAtom,
@@ -71,7 +72,7 @@ export function Layer({
         />,
       );
 
-    if (layerState?.settings?.group === 'user_layers')
+    if (layerState?.settings?.group === UserLayerGroup)
       elements.push(
         <UserLayerContext
           layerId={layerState.id}
