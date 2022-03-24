@@ -21,7 +21,9 @@ export function registerMapListener(
   priority1to100 = 50,
 ): () => void {
   mapListenersAtom.addMapListener.dispatch(eventType, listener, priority1to100);
-  return () => mapListenersAtom.removeMapListener.dispatch(eventType, listener);
+  return () => {
+    mapListenersAtom.removeMapListener.dispatch(eventType, listener);
+  };
 }
 
 export const mapListenersAtom = createAtom(
