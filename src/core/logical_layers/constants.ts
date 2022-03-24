@@ -1,5 +1,8 @@
 import { CategorySettings, GroupSettings } from '../types/layers';
 
+export const LAYER_BIVARIATE_PREFIX = 'bivariate-layer-';
+export const SOURCE_BIVARIATE_PREFIX = 'bivariate-source-';
+
 export const categoriesSettings: Record<string, CategorySettings> = {
   overlay: {
     name: 'Overlays',

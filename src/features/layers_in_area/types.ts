@@ -1,4 +1,4 @@
-import { LayerLegend } from '~core/logical_layers/types/legends';
+import { LayerDetailsLegend } from '~core/logical_layers/types/legends';
 import { UserDataFeaturePropertiesType } from '~core/logical_layers/types/userData';
 
 export interface TileSource {
@@ -29,7 +29,7 @@ export interface LayerInArea {
 export interface GeoJSONSourceSourceContainer {
   id: string;
   source: GeoJSONSource;
-  legend: LayerLegend;
+  legend: LayerDetailsLegend;
 }
 
 export interface TileSourceContainer {
@@ -37,7 +37,7 @@ export interface TileSourceContainer {
   maxZoom: number;
   minZoom: number;
   source: TileSource;
-  legend?: LayerLegend;
+  legend?: LayerDetailsLegend;
 }
 
 export type LayerInAreaDetails =
