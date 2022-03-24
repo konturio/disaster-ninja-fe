@@ -1,38 +1,37 @@
-import { LayerLegend } from '~core/logical_layers/types/legends';
+import { BivariateLegendStep, LayerLegend } from '~core/logical_layers/types/legends';
 import { convertRGBtoObj } from '~utils/bivariate/bivariateColorThemeUtils';
 import { LayerInAreaDetails } from '../types';
 
+function convertBivariateColorsToSteps(colors: Record<string, string>): BivariateLegendStep[] {
+  return Object.entries(colors).map(([key, val]) => {
+    const clrObj = convertRGBtoObj(val);
+    return {
+      label: key,
+      color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`,
+    }
+  }).sort((stp1, stp2) => {
+    return stp1.label < stp2.label ? -1 : stp1.label > stp2.label ? 1 : 0;
+  });
+}
+
 export function legendFormatter(
-  legend: LayerInAreaDetails['legend'],
+  details: LayerInAreaDetails,
 ): LayerLegend | null {
-  if (!legend) {
+  if (!details.legend) {
     return null;
   }
 
-  if (legend?.type === 'bivariate' && 'axes' in legend) {
-    // add opacity .5 to colors
-    legend.colors = legend.colors
-      .map((clr) => {
-        const clrObj = convertRGBtoObj(clr.color);
-        return {
-          id: clr.id,
-          color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`,
-        };
-      })
-      .sort((clr1, clr2) => {
-        return clr1.id < clr2.id ? -1 : clr1.id > clr2.id ? 1 : 0;
-      });
-
+  if (details.legend?.type === 'bivariate') {
     return {
-      name: legend.name,
+      name: details.id,
       type: 'bivariate',
-      axis: { x: legend.axes.y, y: legend.axes.x },
-      steps: legend.colors.map((clr) => ({
-        label: clr.id,
-        color: clr.color,
-      })),
+      axis: {
+        x: details.legend.bivariateAxes.x,
+        y: details.legend.bivariateAxes.y,
+      },
+      steps: convertBivariateColorsToSteps(details.legend.bivariateColors)
     };
   }
 
-  return legend;
+  return details.legend;
 }

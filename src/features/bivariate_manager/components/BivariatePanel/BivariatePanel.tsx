@@ -26,9 +26,6 @@ export function BivariatePanel({
 }: {
   iconsContainerId: string;
 }) {
-  const disableBivariateLayer = useAction(
-    bivariateMatrixSelectionAtom.disableBivariateLayer,
-  );
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [childIconContainer, setChildIconContainer] =
     useState<HTMLDivElement | null>(null);
@@ -64,12 +61,6 @@ export function BivariatePanel({
       (intercomApp[0] as HTMLDivElement).style.display = 'none';
     }
   }, [setIsOpen, childIconContainer]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      disableBivariateLayer();
-    }
-  }, [isOpen, disableBivariateLayer]);
 
   return (
     <>
