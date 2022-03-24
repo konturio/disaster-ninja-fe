@@ -127,7 +127,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
           const currentRegistry = getUnlistedState(layersRegistryAtom);
           if (!currentRegistry.has(id)) {
             updateActions.push(
-              create('disableBivariateLayer', false),
+              create('disableBivariateLayer'),
               layersRegistryAtom.register({
                 id,
                 renderer: new BivariateRenderer({ id }),
