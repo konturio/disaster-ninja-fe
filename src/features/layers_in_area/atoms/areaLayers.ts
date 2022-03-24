@@ -169,7 +169,11 @@ export const areaLayers = createAtom(
       actions.push(...layerRegisterActions);
 
       /* Unregister removed layers */
-      actions.push(layersRegistryAtom.unregister(Array.from(removed)));
+      actions.push(
+        layersRegistryAtom.unregister(Array.from(removed), {
+          notifyLayerAboutDestroy: true,
+        }),
+      );
 
       /* Batch actions into one transaction */
       if (actions.length) {
