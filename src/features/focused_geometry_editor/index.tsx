@@ -67,8 +67,7 @@ export function initFreehandGeometry() {
       const cleared = {
         type: 'FeatureCollection',
         features: data.features.map((feature) => {
-          feature.properties = {};
-          return feature;
+          return { ...feature, properties: {} };
         }),
       };
       downloadObject(
