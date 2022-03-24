@@ -44,7 +44,10 @@ export function BivariateLegend({
       }
     }
 
-    return axis;
+    return {
+      x: axis.y,
+      y: axis.x
+    };
   }, [legend]);
 
   if (!legend) return null;
