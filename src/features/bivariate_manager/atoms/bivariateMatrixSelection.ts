@@ -13,7 +13,7 @@ import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
-import { BivariateRenderer } from '../renderers/BivariateRenderer';
+import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
 
 export const bivariateMatrixSelectionAtom = createAtom(
   {
@@ -127,6 +127,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
           const currentRegistry = getUnlistedState(layersRegistryAtom);
           if (!currentRegistry.has(id)) {
             updateActions.push(
+              create('disableBivariateLayer', false),
               layersRegistryAtom.register({
                 id,
                 renderer: new BivariateRenderer({ id }),
@@ -139,8 +140,8 @@ export const bivariateMatrixSelectionAtom = createAtom(
           if (updateActions.length) {
             schedule(
               (dispatch, ctx: { bivariateLayerAtomId?: string } = {}) => {
-                ctx.bivariateLayerAtomId = id;
                 dispatch(updateActions);
+                ctx.bivariateLayerAtomId = id;
               },
             );
           }
@@ -163,10 +164,10 @@ export const bivariateMatrixSelectionAtom = createAtom(
     onAction('disableBivariateLayer', () => {
       const currentRegistry = getUnlistedState(layersRegistryAtom);
       schedule((dispatch, ctx: { bivariateLayerAtomId?: string } = {}) => {
-        if (ctx.bivariateLayerAtomId) {
-          const layerAtom = currentRegistry.get(ctx.bivariateLayerAtomId);
-          layerAtom && dispatch(layerAtom.destroy());
-        }
+          if (ctx.bivariateLayerAtomId) {
+            const layerAtom = currentRegistry.get(ctx.bivariateLayerAtomId);
+            layerAtom && dispatch(layerAtom.destroy());
+          }
       });
     });
 
