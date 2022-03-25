@@ -3,6 +3,7 @@ import { userStateAtom } from '~core/auth';
 import { currentUserAtom } from '~core/shared_state';
 import { JWTData } from '~core/api_client/ApiTypes';
 import { callYm } from '~utils/stats/yandexCounter';
+import appConfig from '~core/app_config';
 
 interface AuthClientConfig {
   apiClient: ApiClient;
@@ -66,12 +67,16 @@ export class AuthClient {
       lastName: response.jwtData.family_name,
     });
     userStateAtom.authorize.dispatch();
+    // now when intercom is a feature it can be saved in window after this check happens
     if (window['Intercom']) {
       window['Intercom']('update', {
         name: response.jwtData.preferred_username,
         email: response.jwtData.email,
       });
     }
+    // in case we do have intercom - lets store right credentials for when it will be ready
+    appConfig.intercom.name = response.jwtData.preferred_username;
+    appConfig.intercom['email'] = response.jwtData.email;
     callYm('setUserID', response.jwtData.email);
   }
 
