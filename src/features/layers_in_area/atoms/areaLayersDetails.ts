@@ -133,7 +133,7 @@ export const areaLayersDetailsResourceAtom = createResourceAtom(
     return await apiClient.post<LayerInAreaDetails[]>(
       '/layers/details',
       params,
-      false,
+      true,
     );
   },
   areaLayersDetailsParamsAtom,
