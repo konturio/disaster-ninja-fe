@@ -2,11 +2,11 @@ import { BivariateLegendStep, LayerLegend } from '~core/logical_layers/types/leg
 import { convertRGBtoObj } from '~utils/bivariate/bivariateColorThemeUtils';
 import { LayerInAreaDetails } from '../types';
 
-function convertBivariateColorsToSteps(colors: Record<string, string>): BivariateLegendStep[] {
-  return Object.entries(colors).map(([key, val]) => {
-    const clrObj = convertRGBtoObj(val);
+function convertBivariateColorsToSteps(colors: { id: string; color: string }[]): BivariateLegendStep[] {
+  return colors.map(({ id, color}) => {
+    const clrObj = convertRGBtoObj(color);
     return {
-      label: key,
+      label: id,
       color: `rgba(${clrObj.r},${clrObj.g},${clrObj.b},0.5)`,
     }
   }).sort((stp1, stp2) => {
@@ -26,10 +26,10 @@ export function legendFormatter(
       name: details.id,
       type: 'bivariate',
       axis: {
-        x: details.legend.bivariateAxes.x,
-        y: details.legend.bivariateAxes.y,
+        x: details.legend.axes.x,
+        y: details.legend.axes.y,
       },
-      steps: convertBivariateColorsToSteps(details.legend.bivariateColors)
+      steps: convertBivariateColorsToSteps(details.legend.colors)
     };
   }
 

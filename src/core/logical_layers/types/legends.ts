@@ -38,15 +38,6 @@ export interface BivariateLegend {
   steps: BivariateLegendStep[];
 }
 
-export interface BivariateDetailsLegend {
-  type: 'bivariate';
-  bivariateAxes: {
-    x: Axis & { label?: string };
-    y: Axis & { label?: string };
-  };
-  bivariateColors: Record<string, string>;
-}
-
 export interface BivariateLegendBackend {
   type: 'bivariate';
   axes: {
@@ -64,4 +55,4 @@ export type LayerLegend =
 
 export type LayerDetailsLegend =
   | SimpleLegend
-  | BivariateDetailsLegend;
+  | BivariateLegendBackend;
