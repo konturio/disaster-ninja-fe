@@ -46,25 +46,25 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
   };
   // actions
   private _setFeaturesAction: (features: Feature[]) => void = () =>
-    console.error('setFeatures action isn`t availible yet');
+    console.error('setFeatures action isn`t available yet');
   private _addFeatureAction: (feature: Feature) => void = () =>
-    console.error('addFeature action isn`t availible yet');
+    console.error('addFeature action isn`t available yet');
   private _updateTempFeaturesAction: (
     features: Feature[],
     updateIndexes: number[],
   ) => void = () =>
-    console.error('updateTempFeatures action isn`t availible yet');
+    console.error('updateTempFeatures action isn`t available yet');
   private _showNotificationAction: (
     type: NotificationType,
     message: NotificationMessage,
     lifetimeSec: number,
   ) => void = () =>
-    console.error('showNotification action isn`t availible yet');
+    console.error('showNotification action isn`t available yet');
 
   private _setSelectedIndexes: (indexes: number[]) => void = () =>
-    console.error('setIndexes action isn`t availible yet');
+    console.error('setIndexes action isn`t available yet');
   private _setDrawingStarted: (isStarted: boolean) => void = () =>
-    console.error('setDrawingStarting action isn`t availible yet');
+    console.error('setDrawingStarting action isn`t available yet');
   // hooks
 
   public constructor(id: string, name?: string) {
@@ -90,6 +90,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
     this._setDrawingStarted(false);
     this._removeAllDeckLayers(args.map);
     this._removeClickListener?.();
+    this._removeClickListener = null;
   }
 
   willHide(args: NotNullableMap & CommonHookArgs): void {
@@ -161,6 +162,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
   }
 
   public addClickListener() {
+    if (this._removeClickListener !== null) return;
     function listener(e) {
       e.preventDefault();
       return false;
@@ -228,7 +230,6 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
     keys.forEach((deckLayer) => this._removeDeckLayer(deckLayer));
     this._createDrawingLayer = null;
     this._editDrawingLayer = null;
-    this._removeClickListener?.();
   }
 
   _updateData(data: FeatureCollection) {
@@ -249,7 +250,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
     const changedIndexes: number[] = editContext?.featureIndexes || [];
     this._setSelectedIndexes(changedIndexes);
-    // edit types list availible here in the description of onEdit method https://nebula.gl/docs/api-reference/layers/editable-geojson-layer
+    // edit types list available here in the description of onEdit method https://nebula.gl/docs/api-reference/layers/editable-geojson-layer
     if (editType === 'selectFeature' && this._createDrawingLayer) {
       this._setSelectedIndexes([]);
     } else if (editType === 'removeFeature') {
