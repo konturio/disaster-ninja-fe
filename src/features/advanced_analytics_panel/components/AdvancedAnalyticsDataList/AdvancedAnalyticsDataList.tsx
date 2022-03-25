@@ -42,9 +42,8 @@ function qualityWithColor(_quality, _color) {
   return <span style={{ color: _color }}>{_quality}</span>;
 }
 
-function qualityFromatter(_values) {
-  if (_values.quality != undefined) {
-    const _quality = _values.quality;
+function qualityFromatter(_quality) {
+  if (_quality != undefined) {
     return _quality < maxQuality && _quality > minQuality
       ? qualityWithColor(_quality, goodQualityColor)
       : qualityWithColor(_quality, badQualityColor);
@@ -52,8 +51,10 @@ function qualityFromatter(_values) {
 }
 
 function valueFormatter(_value) {
-  _value = Number.isInteger(_value) ? _value : _value.toFixed(decimal);
-  return <LocaleNumber>{parseFloat(_value)}</LocaleNumber>;
+  if (_value != undefined) {
+    _value = Number.isInteger(_value) ? _value : _value.toFixed(decimal);
+    return <LocaleNumber>{parseFloat(_value)}</LocaleNumber>;
+  } else return <br />;
 }
 
 export const AdvancedAnalyticsDataList = ({
@@ -265,7 +266,7 @@ export const AdvancedAnalyticsDataList = ({
                   dataItem.analytics.map((values, index) => (
                     <td key={index}>
                       <div>{valueFormatter(values.value)}</div>
-                      <div>{qualityFromatter(values)}</div>
+                      <div>{qualityFromatter(values.quality)}</div>
                     </td>
                   ))}
               </tr>
