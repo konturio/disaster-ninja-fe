@@ -22,6 +22,7 @@ import { layersRegistryAtom } from '../atoms/layersRegistry';
 import { downloadObject } from '~utils/fileHelpers/download';
 import { deepFreeze } from './deepFreeze';
 import { createAtom } from '~utils/atoms';
+import { getMutualExcludedActions } from './getMutualExcludedActions';
 
 /**
  * Layer Atom responsibilities:
@@ -58,7 +59,7 @@ export function createLogicalLayerAtom(
       hiddenLayersAtom,
     },
     (
-      { get, onAction, onChange, onInit, schedule },
+      { get, onAction, getUnlistedState, onInit, schedule },
       state: LogicalLayerState = {
         id,
         error: null,
@@ -129,7 +130,10 @@ export function createLogicalLayerAtom(
 
       onAction('enable', () => {
         newState.isEnabled = true;
-        actions.push(enabledLayersAtom.set(id));
+        actions.push(
+          enabledLayersAtom.set(id),
+          ...getMutualExcludedActions(state),
+        );
       });
 
       onAction('disable', () => {
