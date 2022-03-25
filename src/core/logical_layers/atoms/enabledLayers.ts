@@ -1,4 +1,4 @@
-import { createSetAtom } from '@reatom/core/primitives';
+import { createSetAtom } from '~utils/atoms/createPrimitives';
 
 export const enabledLayersAtom = createSetAtom(
   new Set<string>(),
