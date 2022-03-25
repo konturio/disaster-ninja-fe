@@ -9,7 +9,7 @@ window.konturAppConfig = {
   MAP_ACCESS_TOKEN: '',
   MAP_BASE_STYLE: 'https://disaster.ninja/tiles/basemap/style_ninja.json',
   LAYERS_BY_DEFAULT: [
-    'Kontur OpenStreetMap Quantity',
+    'BIV__Kontur OpenStreetMap Quantity',
     'activeContributors',
     'eventShape',
     'focused-geometry',
