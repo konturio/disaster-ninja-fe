@@ -66,7 +66,7 @@ const BivariateMatrixContainer = ({
         dimensions ? { width: dimensions.w, height: dimensions.h } : undefined
       }
     >
-      <div className={s.scrollMatrix}>
+      <div>
         {loading && (
           <div className={s.loadingContainer}>
             <LoadingSpinner />
