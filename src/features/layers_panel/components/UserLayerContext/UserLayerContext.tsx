@@ -3,22 +3,20 @@ import { TripleDotIcon } from '@k2-packages/default-icons';
 import { useCallback, useState } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import { v4 as uuidv4 } from 'uuid';
-
-const ContextMenuEditItem = 'editlayer';
-
-type ContextMenuEditItemType = typeof ContextMenuEditItem;
-
-type ContextMenuItemType = {
-  name: string;
-  type: ContextMenuEditItemType;
-};
-
-const contextMenuItems: ContextMenuItemType[] = [
-  {
-    name: 'Edit Layer',
-    type: ContextMenuEditItem,
-  },
-];
+import {
+  UpdateCallbackDeleteLayerType,
+  UpdateCallbackEditFeaturesType,
+  UpdateCallbackEditLayerType,
+  updateCallbackService,
+} from '~core/update_callbacks';
+import { CONTEXT_MENU_ITEMS } from '~features/layers_panel/constants';
+import {
+  ContextMenuDeleteLayerItem,
+  ContextMenuEditItem,
+  ContextMenuEditItemType,
+  ContextMenuEditLayerFeaturesItem,
+  ContextMenuItemType,
+} from '~features/layers_panel/types';
 
 interface UserLayerContextItemProps {
   context: ContextMenuItemType;
@@ -42,12 +40,18 @@ export function UserLayerContext({ layerId }: { layerId: string }) {
 
   const onContextItemClick = useCallback(
     (type: ContextMenuEditItemType) => {
-      switch (ContextMenuEditItem) {
-        case 'editlayer':
-          // TODO: Layer edit mode processing should start here
-          console.log('onContextItemClick', layerId);
+      switch (type) {
+        case ContextMenuEditItem:
+          updateCallbackService.triggerCallback(UpdateCallbackEditLayerType, { layerId });
+          break;
+        case ContextMenuEditLayerFeaturesItem:
+          updateCallbackService.triggerCallback(UpdateCallbackEditFeaturesType, { layerId });
+          break;
+        case ContextMenuDeleteLayerItem:
+          updateCallbackService.triggerCallback(UpdateCallbackDeleteLayerType, { layerId });
           break;
       }
+      setShowContext(false);
     },
     [layerId],
   );
@@ -70,7 +74,7 @@ export function UserLayerContext({ layerId }: { layerId: string }) {
       </div>
       {showContext && (
         <div className={s.contextBox} onMouseLeave={onContextMouseOut}>
-          {contextMenuItems.map((ctx) => (
+          {CONTEXT_MENU_ITEMS.map((ctx) => (
             <UserLayerContextItem
               key={uuidv4()}
               context={ctx}
