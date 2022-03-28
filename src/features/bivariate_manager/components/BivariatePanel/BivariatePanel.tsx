@@ -5,6 +5,9 @@ import clsx from 'clsx';
 import { BivariatePanelIcon } from '@k2-packages/default-icons';
 import ReactDOM from 'react-dom';
 import BivariateMatrixContainer from '~features/bivariate_manager/components/BivariateMatrixContainer/BivariateMatrixContainer';
+import { INTERCOM_ELEMENT_ID } from '../../constants';
+import { bivariateMatrixSelectionAtom } from '../../atoms/bivariateMatrixSelection';
+import { useAction } from '@reatom/react';
 
 const CustomClosePanelBtn = () => (
   <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
@@ -41,9 +44,7 @@ export function BivariatePanel({
     if (childIconContainer) {
       childIconContainer.className = s.iconContainerShown;
     }
-    const intercomApp = document.getElementsByClassName(
-      'intercom-lightweight-app',
-    );
+    const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
     if (intercomApp && intercomApp.length) {
       (intercomApp[0] as HTMLDivElement).style.display = '';
     }
@@ -55,9 +56,7 @@ export function BivariatePanel({
       childIconContainer.className = s.iconContainerShown;
     }
     // need this to temporary hide intercom when showing bivariate
-    const intercomApp = document.getElementsByClassName(
-      'intercom-lightweight-app',
-    );
+    const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
     if (intercomApp && intercomApp.length) {
       (intercomApp[0] as HTMLDivElement).style.display = 'none';
     }

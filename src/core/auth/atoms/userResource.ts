@@ -1,19 +1,47 @@
 import { apiClient } from '~core/index';
-import { createResourceAtom } from '~utils/atoms';
+import { createAtom, createResourceAtom } from '~utils/atoms';
 import { CurrentUser, currentUserAtom } from '~core/shared_state/currentUser';
+import { currentApplicationAtom } from '~core/shared_state/currentApplication';
+
 import { UserDataModel } from '~core/auth';
 import { AppFeature, UserFeed } from '~core/auth/models/UserDataModel';
 import config from '~core/app_config';
 
+type UserResourceRequestParams = {
+  userData?: CurrentUser;
+  applicationId?: string | null;
+};
+
+const userResourceRequestParamsAtom = createAtom(
+  {
+    currentUserAtom,
+    currentApplicationAtom,
+  },
+  (
+    { get },
+    state: UserResourceRequestParams = {},
+  ): UserResourceRequestParams => {
+    return {
+      userData: get('currentUserAtom'),
+      applicationId: get('currentApplicationAtom'),
+    };
+  },
+  'userResourceRequestParamsAtom',
+);
+
 export const userResourceAtom = createResourceAtom<
-  CurrentUser,
+  UserResourceRequestParams,
   UserDataModel | undefined
 >(
-  async (userData) => {
+  async (params) => {
+    if (!params) return;
+    const { userData, applicationId } = params;
+
     // TODO: Remove full address when Userprofile API service will be moved to the main app API
+    const query = { appId: applicationId };
     const featuresResponse = apiClient.get<unknown>(
       config.featuresApi,
-      undefined,
+      query,
       userData?.id !== 'public',
     );
     const feedsResponse = apiClient.get<unknown>(
@@ -46,6 +74,6 @@ export const userResourceAtom = createResourceAtom<
     const udm = new UserDataModel({ features, feeds });
     return udm;
   },
-  currentUserAtom,
+  userResourceRequestParamsAtom,
   'userResourceAtom',
 );

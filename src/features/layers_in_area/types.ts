@@ -1,4 +1,5 @@
-import { LayerLegend } from '~core/logical_layers/types/legends';
+import { LayerDetailsLegend } from '~core/logical_layers/types/legends';
+import { UserDataFeaturePropertiesType } from '~core/logical_layers/types/userData';
 
 export interface TileSource {
   type: 'vector' | 'raster';
@@ -19,23 +20,26 @@ export interface LayerInArea {
   category?: 'base' | 'overlay';
   group?: string;
   copyrights?: string[];
-  legend?: LayerLegend;
+  featureProperties?: UserDataFeaturePropertiesType;
   boundaryRequiredForRetrieval: boolean;
   eventIdRequiredForRetrieval?: boolean;
+  ownedByUser: boolean;
 }
 
-export interface LayerDetailsGeoJSONSource {
+export interface GeoJSONSourceSourceContainer {
   id: string;
   source: GeoJSONSource;
+  legend: LayerDetailsLegend;
 }
 
-export interface LayerDetailsTileSource {
+export interface TileSourceContainer {
   id: string;
   maxZoom: number;
   minZoom: number;
   source: TileSource;
+  legend?: LayerDetailsLegend;
 }
 
 export type LayerInAreaDetails =
-  | LayerDetailsGeoJSONSource
-  | LayerDetailsTileSource;
+  | GeoJSONSourceSourceContainer
+  | TileSourceContainer;

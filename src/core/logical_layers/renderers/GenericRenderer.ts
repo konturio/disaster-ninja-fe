@@ -1,32 +1,19 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import maplibregl, {
-  AnyLayer,
-  GeoJSONSourceRaw,
-  RasterSource,
-  VectorSource,
-} from 'maplibre-gl';
+import maplibregl, { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import {
   applyLegendConditions,
   mapCSSToMapBoxProperties,
   setSourceLayer,
 } from '~utils/map/mapCSSToMapBoxPropertiesConverter';
-import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '../constants';
-import {
-  addZoomFilter,
-  onActiveContributorsClick,
-} from './activeContributorsLayers';
+import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '~features/layers_in_area/constants';
+import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
-import {
-  LayerGeoJSONSource,
-  LayerSource,
-  LayerTileSource,
-} from '~core/logical_layers/types/source';
-import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
+import { LayerGeoJSONSource, LayerSource, LayerTileSource } from '~core/logical_layers/types/source';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -61,9 +48,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
           ),
         );
       return layers.flat();
-    }
-    if (legend.type === 'bivariate' && 'axis' in legend) {
-      return [generateLayerStyleFromBivariateLegend(legend)];
     }
     throw new Error(`Unexpected legend type '${legend.type}'`);
   }
@@ -107,13 +91,20 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         if (layer) {
           map.removeLayer(layer.id);
         }
-        /* Look at class comment */
-        requestAnimationFrame(() => {
-          layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-            map.addLayer(mapLayer, beforeId);
-            this._layerIds.add(mapLayer.id);
-          });
+
+        layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
+          map.addLayer(mapLayer, beforeId);
+          this._layerIds.add(mapLayer.id);
         });
+      });
+
+      // cleanup unused layers
+      this._layerIds.forEach((id) => {
+        if (!layers.find((layer) => layer.id === id)) {
+          map.removeLayer(id);
+          this._layerIds.delete(id);
+          return;
+        }
       });
     } else {
       // Fallback layer
@@ -127,15 +118,20 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
           'fill-color': 'pink' as const,
         },
       };
-      /* Look at class comment */
-      requestAnimationFrame(() => {
-        layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-          map.addLayer(mapLayer, beforeId);
-          this._layerIds.add(mapLayer.id);
-        });
+
+      layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
+        map.addLayer(mapLayer, beforeId);
+        this._layerIds.add(mapLayer.id);
+      });
+      // cleanup unused layers
+      this._layerIds.forEach((id) => {
+        if (id !== layerId) {
+          map.removeLayer(id);
+          this._layerIds.delete(id);
+          return;
+        }
       });
     }
-    // TODO: Remove unused in new legend layers
   }
   _adaptUrl(url: string) {
     /** Fix cors in local development */
@@ -147,8 +143,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
      * request from https to http failed in browser with "mixed content" error
      * solution: cut off protocol part and replace with current page protocol
      */
-    url =
-      window.location.protocol + url.replace('https:', '').replace('http:', '');
+    url = window.location.protocol + url.replace('/https?:/', '');
     /**
      * Some link templates use values that mapbox/maplibre do not understand
      * solution: convert to equivalents
@@ -254,7 +249,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   isGeoJSONLayer = (layer: LayerSource): layer is LayerGeoJSONSource =>
     layer.source.type === 'geojson';
 
-  _updateMap(
+  private _updateMap(
     map: ApplicationMap,
     layerData: LayerSource,
     legend: LayerLegend | null,
@@ -269,12 +264,14 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     // !FIXME - Hardcoded filter for layer
     // Must be deleted after LayersDB implemented
     if (this.id === 'activeContributors') {
-      const onClick = onActiveContributorsClick(map, this._sourceId);
-      this._removeClickListener = registerMapListener(
-        'click',
-        (e) => (onClick(e), true),
-        60,
-      );
+      if (!this._removeClickListener) {
+        const onClick = onActiveContributorsClick(map, this._sourceId);
+        this._removeClickListener = registerMapListener(
+          'click',
+          (e) => (onClick(e), true),
+          60,
+        );
+      }
       return;
     }
 
@@ -286,7 +283,9 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
           this.onMapClick(map, e, linkProperty);
           return true;
         };
-        this._removeClickListener = registerMapListener('click', handler, 60);
+        if (!this._removeClickListener) {
+          this._removeClickListener = registerMapListener('click', handler, 60);
+        }
       }
     }
   }
@@ -342,16 +341,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   }
 
   willUnMount({ map }: { map: ApplicationMap }) {
-    this._layerIds.forEach((id) => {
-      if (map.getLayer(id) !== undefined) {
-        map.removeLayer(id);
-      } else {
-        console.warn(
-          `Can't remove layer with ID: ${id}. Layer does't exist in map`,
-        );
-      }
-    });
-    this._layerIds = new Set();
+    this._removeLayers(map);
     if (this._sourceId) {
       if (map.getSource(this._sourceId) !== undefined) {
         map.removeSource(this._sourceId);
@@ -396,5 +386,18 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (!map.getLayer(id)) return;
     }
     this.willUnMount({ map });
+  }
+
+  private _removeLayers(map: ApplicationMap) {
+    this._layerIds.forEach((id) => {
+      if (map.getLayer(id) !== undefined) {
+        map.removeLayer(id);
+      } else {
+        console.warn(
+          `Can't remove layer with ID: ${id}. Layer does't exist in map`,
+        );
+      }
+    });
+    this._layerIds = new Set();
   }
 }
