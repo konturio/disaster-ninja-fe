@@ -48,15 +48,16 @@ const areaLayersDependencyAtom = createAtom(
     },
   ) => {
     onChange('callbackAtom', () => {
-      const geometry = getUnlistedState(focusedGeometryAtom);
-      const feed = getUnlistedState(currentEventFeedAtom);
-      state = { focusedGeometry: geometry, eventFeed: feed, appId: state.appId };
+      const focusedGeometry = getUnlistedState(focusedGeometryAtom);
+      const eventFeed = getUnlistedState(currentEventFeedAtom);
+      const appId = getUnlistedState(currentApplicationAtom);
+      state = { focusedGeometry, eventFeed, appId };
     });
 
-    onChange('focusedGeometryAtom', (geometry) => {
-      const feed = getUnlistedState(currentEventFeedAtom);
+    onChange('focusedGeometryAtom', (focusedGeometry) => {
+      const eventFeed = getUnlistedState(currentEventFeedAtom);
       const appId = getUnlistedState(currentApplicationAtom);
-      state = { focusedGeometry: geometry, eventFeed: feed, appId };
+      state = { focusedGeometry, eventFeed, appId };
     });
 
     return state;
