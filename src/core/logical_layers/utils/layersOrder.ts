@@ -12,20 +12,22 @@ type LayersTypes =
   | 'raster'
   | 'custom';
 
+// The actual mapbox layers are drawn in natural order. E.g. ['basmap', 'rasterLayer', 'pointLayer']
+// The latter layers overlaps previous layers
 export class LayersOrderManager {
   _baseMapFirstLayerIdx: number | null = null;
   _map: MapLibre | null = null;
-  _orderByType: LayersTypes[] = [
-    'custom',
-    'symbol',
-    'circle',
-    'line',
-    'fill-extrusion',
-    'fill',
-    'heatmap',
-    'hillshade',
-    'raster',
+  _typesOrder: LayersTypes[] = [
     'background',
+    'raster',
+    'hillshade',
+    'heatmap',
+    'fill',
+    'fill-extrusion',
+    'line',
+    'circle',
+    'symbol',
+    'custom',
   ];
 
   _awaitingTasks = new Set<(map: MapLibre) => void>();
@@ -41,59 +43,55 @@ export class LayersOrderManager {
     });
   }
 
-  _getBeforeIdByTypeSync(map: MapLibre, type: LayersTypes) {
+  _getBeforeIdByTypeSync(map: MapLibre, type: LayersTypes): string | undefined {
     if (this._baseMapFirstLayerIdx === null) return;
-    // Take all custom layers
+    if (!this._typesOrder.includes(type)) {
+      console.error(
+        `${type} is not supported type. If you want to work with it add it to layers order manager`,
+      );
+    }
+    // Take all layers
     const allLayers = map.getStyle().layers ?? [];
-    // This is first layer
+    // Check for the first layer
     if (allLayers.length === 0) {
       return undefined;
     }
 
-    const layers = allLayers.slice(this._baseMapFirstLayerIdx! + 1);
+    const customLayers = allLayers.slice(this._baseMapFirstLayerIdx! + 1);
 
-    // This is first custom layer
+    // Check for the first custom layer
     // return undefined so it wouldn't draw under the basemap
-    if (!layers.length) return undefined;
+    if (!customLayers.length) return undefined;
 
     // Create map { type: upper layer with this type }
-    const upperLayers = new Map();
+    const mountedLayersByType = new Map<LayersTypes, maplibregl.AnyLayer>();
     let n = 0;
-    while (n < layers.length) {
-      const layer = layers[n];
-      if (!upperLayers.has(layer.type)) {
-        upperLayers.set(layer.type, layer);
+    // this loop will come from bottom to top layers
+    while (n < customLayers.length) {
+      const layer = customLayers[n];
+      // set the lowest layer for it's type
+      if (!mountedLayersByType.has(layer.type)) {
+        mountedLayersByType.set(layer.type, layer);
       }
       n++;
     }
 
-    // Return upper layers with same type
-    if (upperLayers.has(type)) {
-      return upperLayers.get(type).id;
-    }
+    const higherMountedType = this._typesOrder
+      // get all higher types
+      .slice(this._typesOrder.indexOf(type) + 1)
+      // find closest of them that exists on map
+      .find((t) => mountedLayersByType.has(t));
 
-    // In case this is first layer with this type
-    // return first layer of prev type
-    const prevType = this._orderByType
-      // cut off prev types
-      .slice(this._orderByType.indexOf(type) + 1)
-      .find((t) => upperLayers.has(t));
-
-    if (prevType) {
-      return upperLayers.get(prevType).id;
-    }
-
-    // In case no layers even in more lower types
-    // Return upper custom layer
-    if (layers[0]?.id) {
-      return layers[0].id;
-    }
-
-    console.error('Unexpected case in layer sorting');
-    return undefined;
+    // if there's no higher type mounted - return undefined and mount layer on top
+    if (!higherMountedType) return;
+    // if higher type is mounted, get it's bottom layer's id to mount underneath it
+    return mountedLayersByType.get(higherMountedType)?.id;
   }
 
-  getBeforeIdByType(type: LayersTypes, cb: (id: string) => void): void {
+  getBeforeIdByType(
+    type: LayersTypes,
+    cb: (id: string | undefined) => void,
+  ): void {
     const map = this._map;
     if (map === null || this._baseMapFirstLayerIdx === null) {
       this._awaitingTasks.add((map) => {
