@@ -1,6 +1,7 @@
 import { createAtom } from '~utils/atoms';
 import { userResourceAtom } from '~core/auth';
 import { currentEventAtom } from '~core/shared_state/currentEvent'
+import { UpdateCallbackLayersType, updateCallbackService } from '~core/update_callbacks';
 
 type CurrentEventFeedAtomState = {
   id: string;
@@ -32,10 +33,10 @@ export const currentEventFeedAtom = createAtom(
         state = null;
       }
     });
-    onChange('userResourceAtom', ({ data }) => {
-      if (data && data.feeds && data.feeds.length) {
+    onChange('userResourceAtom', ({ data, loading, error }) => {
+      if (!loading && !error && data && data.feeds && data.feeds.length) {
         const newFeed = data.checkFeed(state?.id);
-        if (newFeed !== undefined && newFeed !== state?.id) {
+        if (newFeed !== undefined) {
           state = { id: newFeed };
         }
       }

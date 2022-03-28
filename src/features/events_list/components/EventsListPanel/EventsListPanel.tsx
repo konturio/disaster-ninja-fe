@@ -56,12 +56,9 @@ export function EventsListPanel({
     disable(EVENT_LIST_CONTROL_ID);
   }, [setIsOpen]);
 
-  /* It's ignore loading state, when it just refresh of list */
-  const loadingState = loading && eventsList === null;
-
   const statesToComponents = createStateMap({
     error,
-    loading: loadingState,
+    loading,
     data: eventsList,
   });
 
@@ -96,7 +93,7 @@ export function EventsListPanel({
       <FeedSelector />
       <div className={s.scrollable}>
         {statesToComponents({
-          loading: <LoadingSpinner />,
+          loading: <LoadingSpinner message={i18n.t('Loading events')} />,
           error: (errorMessage) => <ErrorMessage message={errorMessage} />,
           ready: (eventsList) => (
             <Virtuoso

@@ -8,7 +8,7 @@ export const eventListResourceAtom = createResourceAtom(
   async (currentFeed) => {
     const params =
       currentFeed && currentFeed.id ? { feed: currentFeed.id } : undefined;
-    const responseData = await apiClient.get<Event[]>(`/events/`, params);
+    const responseData = await apiClient.get<Event[]>(`/events/`, params, true);
     if (responseData === undefined) throw new Error('No data received');
     return responseData;
   },
