@@ -4,16 +4,18 @@ import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
 import { EventWithGeometry } from '~core/types';
 
 const eventDependencyAtom = createAtom(
-  { currentEventAtom, currentEventFeedAtom },
+  { currentEventAtom },
   (
-    { get },
+    { get, getUnlistedState },
     state: { event: { id: string } | null; feed: { id: string } | null } = {
       event: null,
       feed: null,
     },
   ) => {
     const event = get('currentEventAtom');
-    const feed = get('currentEventFeedAtom');
+    if (!event) return state;
+
+    const feed = getUnlistedState(currentEventFeedAtom);
     return { event, feed };
   },
 );
