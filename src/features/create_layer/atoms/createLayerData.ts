@@ -4,7 +4,6 @@ import { createLayerFieldAtom } from '~features/create_layer/atoms/createLayerFi
 import { v4 as uuidv4 } from 'uuid';
 
 const DEFAULT_ATOM_STATE: CreateLayerModel = {
-  id: -1,
   name: '',
   marker: 'default',
   fields: [],
