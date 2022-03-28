@@ -6,7 +6,6 @@ import { EventWithGeometry } from '~core/types';
 export const currentEventGeometryAtom = createAtom(
   {
     currentEventResourceAtom,
-    focusedGeometryAtom,
   },
   ({ onChange, schedule }, state: null | EventWithGeometry = null) => {
     onChange('currentEventResourceAtom', ({ error, loading, data }) => {
