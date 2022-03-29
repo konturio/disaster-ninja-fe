@@ -1,7 +1,10 @@
 import { Action } from '@reatom/core';
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { FocusedGeometry, focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
+import {
+  FocusedGeometry,
+  focusedGeometryAtom,
+} from '~core/shared_state/focusedGeometry';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';
@@ -9,11 +12,11 @@ import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { apiClient } from '~core/index';
 import { LayerInArea } from '../types';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import { UpdateCallbackLayersLoading, UpdateCallbackLayersType, updateCallbackService } from '~core/update_callbacks';
-import { currentApplicationAtom, currentEventFeedAtom } from '~core/shared_state';
+import {
+  currentApplicationAtom,
+  currentEventFeedAtom,
+} from '~core/shared_state';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
-import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
-import { UserLayerGroup } from '~core/types/layers';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -31,9 +34,7 @@ import { UserLayerGroup } from '~core/types/layers';
  */
 const areaLayersDependencyAtom = createAtom(
   {
-    _update: () => null,
     focusedGeometryAtom,
-    callbackAtom: updateCallbackService.addCallback(UpdateCallbackLayersType),
   },
   (
     { onChange, getUnlistedState },
@@ -47,13 +48,6 @@ const areaLayersDependencyAtom = createAtom(
       appId: null,
     },
   ) => {
-    onChange('callbackAtom', () => {
-      const focusedGeometry = getUnlistedState(focusedGeometryAtom);
-      const eventFeed = getUnlistedState(currentEventFeedAtom);
-      const appId = getUnlistedState(currentApplicationAtom);
-      state = { focusedGeometry, eventFeed, appId };
-    });
-
     onChange('focusedGeometryAtom', (focusedGeometry) => {
       const eventFeed = getUnlistedState(currentEventFeedAtom);
       const appId = getUnlistedState(currentApplicationAtom);
@@ -82,8 +76,6 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     }
   }
 
-  updateCallbackService.triggerCallback(UpdateCallbackLayersLoading);
-
   if (params.appId) {
     body.appId = params.appId;
   }
@@ -93,7 +85,6 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     body,
     true,
   );
-  updateCallbackService.triggerCallback(UpdateCallbackLayersLoading, { loaded: true });
   if (responseData === undefined) throw new Error('No data received');
   return responseData;
 }, areaLayersDependencyAtom);
@@ -225,19 +216,6 @@ export function createLayerActionsFromLayerInArea(
     }),
   );
   cleanUpActions.push(layersSettingsAtom.delete(layerId));
-
-  // Setup userdata
-  if (layer.group === UserLayerGroup) {
-    actions.push(layersUserDataAtom.set(layerId, {
-      isLoading: false,
-      error: null,
-      data: {
-        name: layer.name,
-        featureProperties: layer.featureProperties || {},
-      }
-    }));
-    cleanUpActions.push(layersUserDataAtom.delete(layerId));
-  }
 
   /**
    * Sources and legends will added later in areaLayersDetails atom
