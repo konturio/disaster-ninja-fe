@@ -1,13 +1,23 @@
 import { createAtom } from '~utils/atoms';
-import { CREATE_LAYER_CONTROL_ID, MAX_USER_LAYER_ALLOWED_TO_CREATE } from '~features/create_layer/constants';
+import {
+  CREATE_LAYER_CONTROL_ID,
+  MAX_USER_LAYER_ALLOWED_TO_CREATE,
+} from '~features/create_layer/constants';
 import { TranslationService as i18n } from '~core/localization';
-import { controlGroup, controlVisualGroup, sideControlsBarAtom } from '~core/shared_state/sideControlsBar';
+import {
+  controlGroup,
+  controlVisualGroup,
+  sideControlsBarAtom,
+} from '~core/shared_state/sideControlsBar';
 import { AddLayerIcon } from '@k2-packages/default-icons';
 import { createLayerControllerAtom } from '~features/create_layer/atoms/createLayerController';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
-import { UpdateCallbackLayersLoading, updateCallbackService } from '~core/update_callbacks';
+import {
+  UpdateCallbackLayersLoading,
+  updateCallbackService,
+} from '~core/update_callbacks';
 
 const sidebarButtonParams = {
   id: CREATE_LAYER_CONTROL_ID,
@@ -27,15 +37,19 @@ const sidebarButtonParams = {
       createLayerControllerAtom.reset.dispatch();
     }
   },
-}
+};
 
-export const createLayerSideBarButtonControllerAtom = createAtom({
+export const createLayerSideBarButtonControllerAtom = createAtom(
+  {
     layersSettingsAtom,
     layersUserDataAtom,
-    layersLoadedCallback: updateCallbackService.addCallback(UpdateCallbackLayersLoading),
+    layersLoadedCallback: updateCallbackService.addCallback(
+      UpdateCallbackLayersLoading,
+    ),
   },
   ({ get, getUnlistedState, schedule }) => {
     const sidebarState = getUnlistedState(sideControlsBarAtom);
+    // TODO: Remove this, #8653
     const isLayersLoading = get('layersLoadedCallback');
     if (!isLayersLoading.params?.loaded) {
       if (sidebarState[CREATE_LAYER_CONTROL_ID]) {
@@ -45,10 +59,15 @@ export const createLayerSideBarButtonControllerAtom = createAtom({
       }
       return;
     }
+
     const settingsRegistryKeys = Array.from(get('layersSettingsAtom'))
-      .filter(([, val]) => val?.data?.ownedByUser).map(([key]) => key);
+      .filter(([, val]) => val?.data?.ownedByUser)
+      .map(([key]) => key);
     const userDataRegistryKeys = Array.from(get('layersUserDataAtom').keys());
-    const intersect = settingsRegistryKeys.filter((settingsKey) => userDataRegistryKeys.includes(settingsKey));
+
+    const intersect = settingsRegistryKeys.filter((settingsKey) =>
+      userDataRegistryKeys.includes(settingsKey),
+    );
     if (sidebarState[CREATE_LAYER_CONTROL_ID]) {
       if (intersect.length >= MAX_USER_LAYER_ALLOWED_TO_CREATE) {
         schedule((dispatch) => {
@@ -63,5 +82,5 @@ export const createLayerSideBarButtonControllerAtom = createAtom({
       }
     }
   },
-  "createLayerSideBarButtonControllerAtom"
+  'createLayerSideBarButtonControllerAtom',
 );
