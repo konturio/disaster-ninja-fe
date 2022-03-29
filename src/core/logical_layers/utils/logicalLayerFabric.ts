@@ -19,6 +19,7 @@ import { layersLegendsAtom } from '../atoms/layersLegends';
 import { layersMetaAtom } from '../atoms/layersMeta';
 import { layersSourcesAtom } from '../atoms/layersSources';
 import { layersRegistryAtom } from '../atoms/layersRegistry';
+import { layersMenusAtom } from '../atoms/layersMenus';
 import { downloadObject } from '~utils/fileHelpers/download';
 import { deepFreeze } from './deepFreeze';
 import { createAtom } from '~utils/atoms';
@@ -57,6 +58,7 @@ export function createLogicalLayerAtom(
       enabledLayersAtom,
       mountedLayersAtom,
       hiddenLayersAtom,
+      layersMenusAtom,
     },
     (
       { get, onAction, getUnlistedState, onInit, schedule },
@@ -72,6 +74,7 @@ export function createLogicalLayerAtom(
         meta: null,
         legend: null,
         source: null,
+        contextMenu: null,
       },
     ) => {
       const actions: Action[] = [];
@@ -94,6 +97,7 @@ export function createLogicalLayerAtom(
         get('layersLegendsAtom').get(id) ?? fallbackAsyncState;
       const asyncLayerSource =
         get('layersSourcesAtom').get(id) ?? fallbackAsyncState;
+      const layersMenus = get('layersMenusAtom').get(id) ?? null;
 
       const newState = {
         id: state.id,
@@ -113,6 +117,7 @@ export function createLogicalLayerAtom(
         meta: deepFreeze(asyncLayerMeta.data),
         legend: deepFreeze(asyncLayerLegend.data),
         source: deepFreeze(asyncLayerSource.data),
+        contextMenu: deepFreeze(layersMenus),
       };
 
       /* Init (lazy) */
