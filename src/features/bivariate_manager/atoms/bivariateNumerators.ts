@@ -7,64 +7,57 @@ const extractAvailableNumeratorsWithDenominators = (stat: Stat) => {
   const { correlationRates } = stat;
   const x: AxisGroup[] = [];
   const y: AxisGroup[] = [];
-  for (const {
-    x: { quotient: xQuotient, parent: xParent },
-    y: { quotient: yQuotient, parent: yParent },
-  } of correlationRates) {
-    if (xParent) {
-      let group = x.find((g) => g.parent === JSON.stringify(xParent));
-      if (!group) {
-        group = {
-          parent: JSON.stringify(xParent),
-          quotients: [xQuotient],
-          selectedQuotient: xQuotient,
-        };
-        x.push(group);
-      } else if (
-        !group.quotients.find(
-          (q) => JSON.stringify(q) === JSON.stringify(xQuotient),
-        )
-      ) {
-        group.quotients.push(xQuotient);
-      }
-    } else if (
-      !x.find(
-        (g) => JSON.stringify(g.selectedQuotient) === JSON.stringify(xQuotient),
-      )
-    ) {
-      x.push({
-        parent: null,
+  for (const correlationRate of correlationRates) {
+    const xQuotient = correlationRate.x.quotient;
+    const xParent = correlationRate.x.parent || xQuotient;
+
+    let xGroup = x.find((g) => g.parent === JSON.stringify(xParent));
+    if (!xGroup) {
+      xGroup = {
+        parent: JSON.stringify(xParent),
         quotients: [xQuotient],
         selectedQuotient: xQuotient,
-      });
-    }
-
-    if (yParent) {
-      let group = y.find((g) => g.parent === JSON.stringify(yParent));
-      if (!group) {
-        group = {
-          parent: JSON.stringify(yParent),
-          quotients: [yQuotient],
-          selectedQuotient: yQuotient,
-        };
-        y.push(group);
-      } else if (
-        !group.quotients.find(
-          (q) => JSON.stringify(q) === JSON.stringify(yQuotient),
-        )
-      ) {
-        group.quotients.push(yQuotient);
-      }
+      };
+      x.push(xGroup);
     } else if (
-      !y.find(
-        (g) => JSON.stringify(g.selectedQuotient) === JSON.stringify(yQuotient),
+      !xGroup.quotients.find(
+        (q) => JSON.stringify(q) === JSON.stringify(xQuotient),
       )
     ) {
-      y.push({
-        parent: null,
+      xGroup.quotients.push(xQuotient);
+    }
+
+    const yQuotient = correlationRate.y.quotient;
+    const yParent = correlationRate.y.parent || yQuotient;
+
+    let yGroup = y.find((g) => g.parent === JSON.stringify(yParent));
+    if (!yGroup) {
+      yGroup = {
+        parent: JSON.stringify(yParent),
         quotients: [yQuotient],
         selectedQuotient: yQuotient,
-      });
+      };
+      y.push(yGroup);
+    } else if (
+      !yGroup.quotients.find(
+        (q) => JSON.stringify(q) === JSON.stringify(yQuotient),
+      )
+    ) {
+      yGroup.quotients.push(yQuotient);
+    }
+  }
+
+  for (const group of x) {
+    const parent = group.quotients.find(q => JSON.stringify(q) === group.parent);
+    if (parent) {
+      group.selectedQuotient = parent;
+    }
+  }
+
+  for (const group of y) {
+    const parent = group.quotients.find(q => JSON.stringify(q) === group.parent);
+    if (parent) {
+      group.selectedQuotient = parent;
     }
   }
 
