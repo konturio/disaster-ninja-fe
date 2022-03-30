@@ -26,18 +26,6 @@ const getLayersConfig = (
   );
   return [
     {
-      id: id + '-main',
-      source: sourceId,
-      type: 'line' as const,
-      paint: {
-        'line-width': 6,
-        'line-color': FOCUSED_GEOMETRY_COLOR,
-      },
-      layout: {
-        'line-join': 'round',
-      },
-    },
-    {
       id: id + '-outline',
       source: sourceId,
       type: 'line' as const,
@@ -45,6 +33,18 @@ const getLayersConfig = (
         'line-width': 8,
         'line-color': '#FFF',
         'line-opacity': 0.5,
+      },
+      layout: {
+        'line-join': 'round',
+      },
+    },
+    {
+      id: id + '-main',
+      source: sourceId,
+      type: 'line' as const,
+      paint: {
+        'line-width': 6,
+        'line-color': FOCUSED_GEOMETRY_COLOR,
       },
       layout: {
         'line-join': 'round',
