@@ -243,8 +243,6 @@ export function createLogicalLayerAtom(
       /* Destroy */
 
       onAction('destroy', () => {
-        if (state.id === 'eventShape')
-          console.log('%c⧭', 'color: #e57373', 'fabric destroy');
         /**
          * Without this layer mounted back right after destroy
          * on the next reducer run (because mountedLayersAtom changed)
