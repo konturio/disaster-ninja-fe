@@ -7,6 +7,9 @@ import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { isDrawingStartedAtom } from './isDrawingStartedAtom';
 import { selectedIndexesAtom } from './selectedIndexesAtom';
 import { temporaryGeometryAtom } from './temporaryGeometryAtom';
+import { currentNotificationAtom } from '~core/shared_state';
+import { TranslationService as i18n } from '~core/localization';
+import { downloadObject } from '~utils/fileHelpers/download';
 
 type ToolboxState = {
   mode: DrawModeType | null;
@@ -22,9 +25,10 @@ export const toolboxAtom = createAtom(
     toggleDrawMode: (mode: DrawModeType) => mode,
     finishDrawing: () => null,
     isDrawingStartedAtom,
+    downloadDrawGeometry: () => null,
   },
   (
-    { onAction, schedule, get },
+    { onAction, schedule, get, getUnlistedState },
     state: ToolboxState = { mode: null, selectedIndexes: [] },
   ) => {
     const actions: Action[] = [];
@@ -50,6 +54,30 @@ export const toolboxAtom = createAtom(
         sideControlsBarAtom.disable(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID),
       );
       actions.push(activeDrawModeAtom.setDrawMode(null));
+    });
+
+    onAction('downloadDrawGeometry', () => {
+      const data = getUnlistedState(drawnGeometryAtom);
+
+      if (!data.features.length)
+        return actions.push(
+          currentNotificationAtom.showNotification(
+            'info',
+            { title: i18n.t('No drawn geometry to download') },
+            5,
+          ),
+        );
+      // clear features from service properties
+      const cleared = {
+        type: 'FeatureCollection',
+        features: data.features.map((feature) => {
+          return { ...feature, properties: {} };
+        }),
+      };
+      downloadObject(
+        cleared,
+        `Disaster_Ninja_custom_geometry_${new Date().toISOString()}.json`,
+      );
     });
 
     actions.length &&
