@@ -1,7 +1,7 @@
 .container {
   position: relative;
   transition: 0.8;
-  z-index: 2;
+  z-index: calc(var(--modal) + 1);
   margin: 2px 0;
 }
 
