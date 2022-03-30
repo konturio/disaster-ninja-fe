@@ -14,11 +14,11 @@ const { Reports } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
 
 export function RoutedApp() {
-  const [{ data, loading }] = useAtom(userResourceAtom);
+  const [{ loading }] = useAtom(userResourceAtom);
   return (
     <StrictMode>
       <OriginalLogo />
-      {!loading && data ? (
+      {!loading ? (
         <Router>
           <CacheSwitch>
             <CacheRoute className={styles.mainWrap} exact path={config.baseUrl}>
