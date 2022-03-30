@@ -1,19 +1,34 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import maplibregl, { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
+import maplibregl, {
+  AnyLayer,
+  GeoJSONSourceRaw,
+  RasterSource,
+  VectorSource,
+} from 'maplibre-gl';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import {
   applyLegendConditions,
   mapCSSToMapBoxProperties,
   setSourceLayer,
 } from '~utils/map/mapCSSToMapBoxPropertiesConverter';
-import { LAYER_IN_AREA_PREFIX, SOURCE_IN_AREA_PREFIX } from '~features/layers_in_area/constants';
-import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
+import {
+  LAYER_IN_AREA_PREFIX,
+  SOURCE_IN_AREA_PREFIX,
+} from '~features/layers_in_area/constants';
+import {
+  addZoomFilter,
+  onActiveContributorsClick,
+} from './activeContributorsLayers';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
-import { LayerGeoJSONSource, LayerSource, LayerTileSource } from '~core/logical_layers/types/source';
+import {
+  LayerGeoJSONSource,
+  LayerSource,
+  LayerTileSource,
+} from '~core/logical_layers/types/source';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -200,12 +215,9 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         minzoom: 0,
         maxzoom: 22,
       };
-      /* Look at class comment */
-      requestAnimationFrame(() => {
-        layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-          map.addLayer(mapLayer, beforeId);
-          this._layerIds.add(layerId);
-        });
+      layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
+        map.addLayer(mapLayer, beforeId);
+        this._layerIds.add(layerId);
       });
     } else {
       // Vector tiles
@@ -229,12 +241,9 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
           if (map.getLayer(mapLayer.id)) {
             map.removeLayer(mapLayer.id);
           }
-          /* Look at class comment */
-          requestAnimationFrame(() => {
-            layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-              map.addLayer(mapLayer as AnyLayer, beforeId);
-              this._layerIds.add(mapLayer.id);
-            });
+          layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
+            map.addLayer(mapLayer as AnyLayer, beforeId);
+            this._layerIds.add(mapLayer.id);
           });
         });
       } else {
