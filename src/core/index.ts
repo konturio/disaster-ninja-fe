@@ -5,6 +5,8 @@ import { TranslationService } from './localization';
 import { autoRefreshService } from './auto_refresh';
 import { init as initLogicalLayers } from './logical_layers';
 import { AuthClient } from '~core/auth';
+import { setupDefaultLayersMocking } from '~utils/axios/setupTemporaryMocking';
+import { enableMocking } from '~utils/axios/axiosMockUtils';
 
 NotificationService.init();
 initLogicalLayers();
@@ -18,7 +20,12 @@ ApiClient.init({
   refreshTokenApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
   translationService: TranslationService,
 });
-export const apiClient = ApiClient.getInstance();
+const apiClientInstance = ApiClient.getInstance();
+// @ts-ignore TODO: implement more legal way
+setupDefaultLayersMocking(apiClientInstance.apiSauceInstance.axiosInstance);
+enableMocking(true);
+
+export const apiClient = apiClientInstance;
 
 // initialize boundaries client
 ApiClient.init({
