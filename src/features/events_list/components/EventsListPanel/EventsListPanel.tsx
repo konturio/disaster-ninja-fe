@@ -78,11 +78,17 @@ export function EventsListPanel({
       },
     });
 
-    enable(EVENT_LIST_CONTROL_ID);
     return () => {
       disable(EVENT_LIST_CONTROL_ID);
     };
   }, []);
+
+  useEffect(() => {
+    if (!eventsList?.length && !loading) disable(EVENT_LIST_CONTROL_ID);
+    else {
+      enable(EVENT_LIST_CONTROL_ID);
+    }
+  }, [eventsList, loading]);
 
   return (
     <Panel
