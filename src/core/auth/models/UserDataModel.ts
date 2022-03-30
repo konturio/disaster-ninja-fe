@@ -35,26 +35,26 @@ export type UserFeed = { feed: string; isDefault?: boolean };
 
 export class UserDataModel {
   public features: { [T in AppFeature]?: boolean } = {};
-  public feeds: UserFeed[] = [];
+  public feeds: UserFeed[] | null = [];
 
   constructor({
     features,
     feeds,
   }: {
     features: { [T in AppFeature]?: boolean };
-    feeds: UserFeed[];
+    feeds: UserFeed[] | null;
   }) {
     this.features = features;
     this.feeds = feeds;
   }
 
   public get defaultFeed(): UserFeed | undefined {
-    return this.feeds.find((fd) => fd.isDefault);
+    return this.feeds?.find((fd) => fd.isDefault);
   }
 
   public checkFeed(feedId?: string): string | undefined {
     if (!feedId) return this.defaultFeed?.feed;
-    const feed = this.feeds.find((fd) => fd.feed === feedId);
+    const feed = this.feeds?.find((fd) => fd.feed === feedId);
     return feed ? feed.feed : this.defaultFeed?.feed;
   }
 }
