@@ -50,25 +50,36 @@ export const userResourceAtom = createResourceAtom<
       userData?.id !== 'public',
     );
 
-    const data = await Promise.all([featuresResponse, feedsResponse]);
-
-    if (!data || !data[0] || !data[1]) {
-      throw new Error('No user data received');
-    }
+    const [featuresSettled, feedsSettled] = await Promise.allSettled([
+      featuresResponse,
+      feedsResponse,
+    ]);
 
     const features: { [T in AppFeature]?: boolean } = {};
-    if (Array.isArray(data[0])) {
-      data[0].forEach((ft: { name: AppFeature }) => {
+    if (
+      featuresSettled.status === 'fulfilled' &&
+      Array.isArray(featuresSettled.value)
+    ) {
+      featuresSettled.value.forEach((ft: { name: AppFeature }) => {
         features[ft.name] = true;
       });
+    } else if (featuresSettled.status === 'rejected') {
+      console.error('Feature api call failed');
     }
 
-    let feeds: UserFeed[] = [];
-    if (Array.isArray(data[1])) {
-      feeds = data[1].map((fd: { feed: string; default: boolean }) => ({
-        feed: fd.feed,
-        isDefault: fd.default,
-      }));
+    let feeds: UserFeed[] | null = null;
+    if (
+      feedsSettled.status === 'fulfilled' &&
+      Array.isArray(feedsSettled.value)
+    ) {
+      feeds = feedsSettled.value.map(
+        (fd: { feed: string; default: boolean }) => ({
+          feed: fd.feed,
+          isDefault: fd.default,
+        }),
+      );
+    } else if (feedsSettled.status === 'rejected') {
+      console.error('User feeds call failed');
     }
 
     const udm = new UserDataModel({ features, feeds });
