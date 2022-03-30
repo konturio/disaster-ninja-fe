@@ -144,7 +144,7 @@ export function MainView() {
         <Suspense fallback={null}>
           {userFeatures?.toasts === true && <NotificationToast />}
           {userFeatures?.side_bar === true && <SideBar />}
-          {userFeatures?.events_list === true && <EventList />}
+          {userFeatures?.events_list === true && data?.feeds && <EventList />}
           {userFeatures?.analytics_panel === true && <Analytics />}
           {userFeatures?.advanced_analytics_panel === true && (
             <AdvancedAnalytics />

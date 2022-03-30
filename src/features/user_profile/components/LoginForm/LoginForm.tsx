@@ -72,7 +72,9 @@ export function LoginForm() {
         if (typeof authResponse === 'string') {
           setError({ general: authResponse });
         } else {
-          setError({ general: 'Incorrect username or password!' });
+          setError({
+            general: i18n.t("Couldn't connect to authentication service"),
+          });
         }
       }
     }

@@ -30,6 +30,15 @@ export function Analytics({
         },
       ];
 
+    if (!affectedPeople)
+      return [
+        {
+          tooltip: i18n.t('Affected People'),
+          value: i18n.t('No data'),
+          icon: peopleIcon,
+        },
+      ];
+
     const formatNumber = new Intl.NumberFormat().format;
     return [
       {

@@ -1,4 +1,5 @@
 .sideBarContainer {
+  z-index: 1;
   display: inline-block;
   width: 48px;
   text-align: center;

@@ -457,7 +457,9 @@ export class ApiClient {
       );
     }
 
-    return this.processResponse<T>(response);
+    const res = this.processResponse<T>(response);
+
+    return res;
   }
 
   // method shortcuts
