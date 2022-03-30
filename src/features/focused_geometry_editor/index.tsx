@@ -1,5 +1,6 @@
 import {
   currentNotificationAtom,
+  focusedGeometryAtom,
   sideControlsBarAtom,
 } from '~core/shared_state';
 import {
@@ -18,7 +19,6 @@ import {
 import { TranslationService as i18n } from '~core/localization';
 import { downloadObject } from '~utils/fileHelpers/download';
 import DownloadIcon from '~core/draw_tools/icons/DownloadIcon';
-import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 
 export function initFreehandGeometry() {
@@ -56,23 +56,16 @@ export function initFreehandGeometry() {
     visualGroup: controlVisualGroup.noAnalytics,
     icon: <DownloadIcon />,
     onClick: () => {
-      const data = drawnGeometryAtom.getState();
-      if (!data.features.length)
+      const data = focusedGeometryAtom.getState();
+      if (!data)
         return currentNotificationAtom.showNotification.dispatch(
           'info',
-          { title: i18n.t('No drawn geometry to download') },
+          { title: i18n.t('No selected geometry to download') },
           5,
         );
-      // clear features from service properties
-      const cleared = {
-        type: 'FeatureCollection',
-        features: data.features.map((feature) => {
-          return { ...feature, properties: {} };
-        }),
-      };
       downloadObject(
-        cleared,
-        `Disaster_Ninja_custom_geometry_${new Date().toISOString()}.json`,
+        { ...data.geometry },
+        `Disaster_Ninja_selected_geometry_${new Date().toISOString()}.json`,
       );
     },
   });
