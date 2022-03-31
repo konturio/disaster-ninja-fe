@@ -143,7 +143,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
      * request from https to http failed in browser with "mixed content" error
      * solution: cut off protocol part and replace with current page protocol
      */
-    url = window.location.protocol + url.replace('/https?:/', '');
+    url = window.location.protocol + url.replace(/https?:/, '');
     /**
      * Some link templates use values that mapbox/maplibre do not understand
      * solution: convert to equivalents
@@ -203,8 +203,10 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       /* Look at class comment */
       requestAnimationFrame(() => {
         layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-          map.addLayer(mapLayer, beforeId);
-          this._layerIds.add(layerId);
+          if (!this._layerIds.has(mapLayer.id) && !map.getLayer(mapLayer.id)) {
+            map.addLayer(mapLayer, beforeId);
+            this._layerIds.add(layerId);
+          }
         });
       });
     } else {
@@ -232,8 +234,10 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
           /* Look at class comment */
           requestAnimationFrame(() => {
             layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-              map.addLayer(mapLayer as AnyLayer, beforeId);
-              this._layerIds.add(mapLayer.id);
+              if (!this._layerIds.has(mapLayer.id) && !map.getLayer(mapLayer.id)) {
+                map.addLayer(mapLayer as AnyLayer, beforeId);
+                this._layerIds.add(mapLayer.id);
+              }
             });
           });
         });

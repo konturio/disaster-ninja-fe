@@ -1,13 +1,14 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
-import type { BivariateLegend, LayerLegend } from '~core/logical_layers/types/legends';
-import { LAYER_BIVARIATE_PREFIX, SOURCE_BIVARIATE_PREFIX } from '../constants';
+import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
-import { LayerSource, LayerTileSource } from '~core/logical_layers/types/source';
+import { LayerTileSource } from '~core/logical_layers/types/source';
+import { addZoomFilter } from '~core/logical_layers/renderers/activeContributorsLayers';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
+import { LAYER_BIVARIATE_PREFIX, SOURCE_BIVARIATE_PREFIX } from '~core/logical_layers/constants';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -24,7 +25,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this.id = id;
     /* private */
     this._layerIds = new Set();
-    this._sourceId = LAYER_BIVARIATE_PREFIX + this.id;
+    this._sourceId = SOURCE_BIVARIATE_PREFIX + this.id;
   }
 
   _generateLayersFromLegend(legend: BivariateLegend): Omit<AnyLayer, 'id'>[] {
@@ -36,7 +37,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
   _setLayersIds(layers: Omit<AnyLayer, 'id'>[]): AnyLayer[] {
     return layers.map((layer, i) => {
-      const layerId = `${SOURCE_BIVARIATE_PREFIX + this.id}-${i}`;
+      const layerId = `${LAYER_BIVARIATE_PREFIX + this.id}-${i}`;
       const mapLayer = { ...layer, id: layerId, source: this._sourceId };
       return mapLayer as AnyLayer;
     });
@@ -80,7 +81,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   mountTileLayer(
     map: ApplicationMap,
     layer: LayerTileSource,
-    legend: LayerLegend | null,
+    legend: BivariateLegend | null,
   ) {
     /* Create source */
     const mapSource: VectorSource | RasterSource = {
@@ -99,11 +100,18 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       map.addSource(this._sourceId, mapSource);
     }
     /* Create layer */
-
-    // Vector tiles
     if (legend) {
-      const layerStyles = this._generateLayersFromLegend(legend as BivariateLegend);
+      const layerStyles = this._generateLayersFromLegend(legend);
       const layers = this._setLayersIds(layerStyles);
+      const isAllLayersAlreadyAdded = layers.every(
+        (layers) => !!map.getLayer(layers.id),
+      );
+      if (isAllLayersAlreadyAdded) return;
+      // !FIXME - Hardcoded filter for layer
+      // Must be deleted after LayersDB implemented
+      if (this.id === 'activeContributors') {
+        addZoomFilter(layers);
+      }
       console.assert(
         layers.length !== 0,
         `Zero layers generated for layer "${this.id}". Check legend and layer type`,
@@ -115,10 +123,10 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         /* Look at class comment */
         requestAnimationFrame(() => {
           layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-            if (!map.getLayer(mapLayer.id)) {
+            if (!this._layerIds.has(mapLayer.id) && !map.getLayer(mapLayer.id)) {
               map.addLayer(mapLayer as AnyLayer, beforeId);
+              this._layerIds.add(mapLayer.id);
             }
-            this._layerIds.add(mapLayer.id);
           });
         });
       });
@@ -130,58 +138,36 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  _updateMap(
+  private _updateMap(
     map: ApplicationMap,
-    layerData: LayerSource,
-    legend: LayerLegend | null,
+    layerData: LayerTileSource,
+    legend: BivariateLegend | null,
   ) {
     if (layerData == null) return;
-    this.mountTileLayer(map, layerData as LayerTileSource, legend);
+    this.mountTileLayer(map, layerData, legend);
   }
 
   /* ========== Hooks ========== */
-
-  willLegendUpdate({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
-    if (state.source) {
-      this._updateMap(map, state.source, state.legend);
-    }
-  }
-
   willSourceUpdate({
-    map,
-    state,
-  }: {
+                     map,
+                     state,
+                   }: {
     map: ApplicationMap;
     state: LogicalLayerState;
   }) {
     if (state.source) {
-      this._updateMap(map, state.source, state.legend);
+      this._updateMap(map, state.source as LayerTileSource, state.legend as BivariateLegend);
     }
   }
 
   willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
-      this._updateMap(map, state.source, state.legend);
+      this._updateMap(map, state.source as LayerTileSource, state.legend as BivariateLegend);
     }
   }
 
   willUnMount({ map }: { map: ApplicationMap }) {
-    this._layerIds.forEach((id) => {
-      if (map.getLayer(id) !== undefined) {
-        map.removeLayer(id);
-      } else {
-        console.warn(
-          `Can't remove layer with ID: ${id}. Layer does't exist in map`,
-        );
-      }
-    });
-    this._layerIds = new Set();
+    this._removeLayers(map);
     if (this._sourceId) {
       if (map.getSource(this._sourceId) !== undefined) {
         map.removeSource(this._sourceId);
@@ -226,5 +212,18 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       if (!map.getLayer(id)) return;
     }
     this.willUnMount({ map });
+  }
+
+  private _removeLayers(map: ApplicationMap) {
+    this._layerIds.forEach((id) => {
+      if (map.getLayer(id) !== undefined) {
+        map.removeLayer(id);
+      } else {
+        console.warn(
+          `Can't remove layer with ID: ${id}. Layer does't exist in map`,
+        );
+      }
+    });
+    this._layerIds = new Set();
   }
 }
