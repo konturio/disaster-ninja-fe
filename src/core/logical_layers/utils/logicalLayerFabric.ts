@@ -251,11 +251,16 @@ export function createLogicalLayerAtom(
         hasBeenDestroyed = true;
         try {
           renderer.willDestroy({ map, state: { ...newState } });
-          actions.push(
-            registry.unregister(state.id, {
-              notifyLayerAboutDestroy: false, // cancel layer.destroy() call from registry
-            }),
-          );
+
+          // make this check to avoid double unregister call
+          const layersRegistryState = getUnlistedState(registry);
+          if (layersRegistryState.has(state.id)) {
+            actions.push(
+              registry.unregister(state.id, {
+                notifyLayerAboutDestroy: false, // cancel layer.destroy() call from registry
+              }),
+            );
+          }
         } catch (e) {
           console.error(e);
           newState.error = e;
