@@ -11,7 +11,10 @@ import { LayerSource } from '~core/logical_layers/types/source';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { LayerLegend } from '~core/logical_layers/types/legends';
-import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
+import {
+  convertDetailsToLegends,
+  legendFormatter,
+} from '~features/layers_in_area/utils/legendFormatter';
 
 export interface DetailsRequestParams {
   layersToRetrieveWithGeometryFilter: string[];
@@ -35,13 +38,6 @@ function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
   } else {
     return response as LayerSource;
   }
-}
-
-function convertDetailsToLegends(
-  response: LayerInAreaDetails,
-): LayerLegend | null {
-  if (!response.legend) return null;
-  return legendFormatter(response);
 }
 
 /* This atom subscribes to all data that required for request layer details  */
