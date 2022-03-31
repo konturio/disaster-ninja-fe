@@ -158,7 +158,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
      * request from https to http failed in browser with "mixed content" error
      * solution: cut off protocol part and replace with current page protocol
      */
-    url = window.location.protocol + url.replace('/https?:/', '');
+    url = window.location.protocol + url.replace(/https?:/, '');
     /**
      * Some link templates use values that mapbox/maplibre do not understand
      * solution: convert to equivalents
