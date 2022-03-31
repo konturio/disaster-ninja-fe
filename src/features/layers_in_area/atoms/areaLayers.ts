@@ -24,10 +24,7 @@ import {
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
 import { UserLayerGroup } from '~core/types/layers';
-import {
-  convertDetailsToLegends,
-  legendFormatter,
-} from '~features/layers_in_area/utils/legendFormatter';
+import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
 import { LayerInAreaDetails } from '../types';
 
 /**
@@ -131,24 +128,6 @@ export const areaLayers = createAtom(
       /* Prepare data */
       if (nextData.loading) return null;
       const { data: nextLayers } = nextData;
-      console.log('%c⧭ nextLayers', 'color: #ff6600', nextLayers);
-
-      // Update legends
-      // layersLegendsAtom.change((state) => {
-      //   console.log('%c⧭', 'color: #607339', 'the change');
-      //   const newState = new Map(state);
-      //   nextLayers?.forEach((layerDetails) => {
-      //     console.log('%c⧭', 'color: #00736b', layerDetails);
-      //     const layerLegend = convertDetailsToLegends(layerDetails);
-      //     console.log('%c⧭ layerLegend', 'color: #99614d', layerLegend);
-      //     newState.set(layerDetails.id, {
-      //       error: null,
-      //       data: layerLegend,
-      //       isLoading: false,
-      //     });
-      //   });
-      //   return newState;
-      // })
 
       const { data: prevLayers } = prevData ?? {};
       const allLayers = new Set([
