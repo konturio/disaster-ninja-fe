@@ -181,7 +181,9 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     if (sourceAdded) {
       this.layerConfigs.map(async (layerConfig) => {
         layersOrderManager.getBeforeIdByType(layerConfig.type, (beforeId) => {
-          map.addLayer(layerConfig, beforeId);
+          if (map.getLayer(layerConfig.id) === undefined) {
+            map.addLayer(layerConfig, beforeId);
+          }
         });
       });
     }
