@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 import { useAtom } from '@reatom/react';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { EDIT_LAYER_CONTROL } from '~core/draw_tools/constants';
-import { featurePanelAtom } from '~features/create_layer/atoms/featurePanel';
+import { featurePanelAtom } from '~features/create_layer/_atoms/featurePanel';
 import { AddOrEditFeature } from '../AddOrEditFeature/AddOrEditFeature';
 
 export function FeaturePanel() {

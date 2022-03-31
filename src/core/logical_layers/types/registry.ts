@@ -6,6 +6,9 @@ export interface RegisterRequest {
   id: string;
   renderer: LogicalLayerRenderer;
   registry?: LayerRegistryAtom;
+  /**
+   * TODO: Add action to registry for extend clean effect, or auto-cleanup it
+   *  */
   cleanUpActions?: Action[];
 }
 

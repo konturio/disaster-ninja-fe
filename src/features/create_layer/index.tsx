@@ -1,7 +1,12 @@
 import { forceRun } from '~utils/atoms/forceRun';
-import { createLayerSideBarButtonControllerAtom } from '~features/create_layer/atoms/createLayerSideBarButtonController';
+import { layerSideBarButtonControllerAtom } from './atoms/layerSideBarButtonController';
+import { editableLayersControlsAtom } from './atoms/editableLayersControls';
+import { editableLayersLegendsAndSources } from './atoms/editableLayersLegendsAndSources';
 
 export function initCreateLayer() {
-  forceRun(createLayerSideBarButtonControllerAtom);
-  // TODO: disable all other modes when edit feature enabled
+  forceRun([
+    layerSideBarButtonControllerAtom,
+    editableLayersControlsAtom,
+    editableLayersLegendsAndSources,
+  ]);
 }

@@ -12,16 +12,12 @@ import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/D
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
 
-const { CreateLayerPanel } = lazily(
-  () =>
-    import(
-      '~features/create_layer/components/CreateLayerPanel/CreateLayerPanel'
-    ),
-);
-
-const { FeaturePanel } = lazily(
-  () => import('~features/create_layer/components/FeaturePanel/FeaturePanel'),
-);
+// const { LayerEditorPanel } = lazily(
+//   () =>
+//     import(
+//       '~features/create_layer/components/LayerEditorPanel/LayerEditorPanel'
+//     ),
+// );
 
 const { AppHeader, Logo } = lazily(() => import('@k2-packages/ui-kit'));
 
@@ -101,13 +97,11 @@ export function MainView() {
         initOsmEditLink(),
       );
     }
-    if (userFeatures?.create_layer === true) {
-      import('~features/create_layer/').then(({ initCreateLayer }) =>
-        initCreateLayer(),
-      );
-    }
     // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
-    if (userFeatures?.draw_tools /* old name */ || userFeatures?.focused_geometry_editor) {
+    if (
+      userFeatures?.draw_tools /* old name */ ||
+      userFeatures?.focused_geometry_editor
+    ) {
       import('~features/focused_geometry_editor/').then(
         ({ initFocusedGeometry }) => initFocusedGeometry(),
       );
@@ -177,8 +171,8 @@ export function MainView() {
               {userFeatures?.legend_panel === true && (
                 <Legend iconsContainerId="right-buttons-container" />
               )}
-              {userFeatures?.create_layer === true && <CreateLayerPanel />}
-              {userFeatures?.create_layer === true && <FeaturePanel />}
+              {/* {userFeatures?.create_layer === true && <LayerEditorPanel />} */}
+              {/* <LayerEditorPanel /> */}
               {userFeatures?.map_layers_panel === true && (
                 <MapLayersList iconsContainerId="right-buttons-container" />
               )}

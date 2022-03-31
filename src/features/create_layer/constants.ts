@@ -1,33 +1,34 @@
 import {
   UserDataFieldImage,
   UserDataFieldLink,
-  UserDataFieldLongTextType, UserDataFieldNoneType,
+  UserDataFieldLongTextType,
+  UserDataFieldNoneType,
   UserDataFieldShortTextType,
-} from '~core/logical_layers/types/userData';
+} from '~features/create_layer/userData';
 
 export const CREATE_LAYER_CONTROL_ID = 'CreateLayer';
 
 export const USER_LAYER_FIELDS = [
   {
     label: 'Select',
-    type: UserDataFieldNoneType
+    type: UserDataFieldNoneType,
   },
   {
     label: 'Short Text',
-    type: UserDataFieldShortTextType
+    type: UserDataFieldShortTextType,
   },
   {
     label: 'Long Text',
-    type: UserDataFieldLongTextType
+    type: UserDataFieldLongTextType,
   },
   {
     label: 'Link',
-    type: UserDataFieldLink
+    type: UserDataFieldLink,
   },
   {
     label: 'Image',
-    type: UserDataFieldImage
-  }
+    type: UserDataFieldImage,
+  },
 ];
 
 // Move this constant to backend user settings later

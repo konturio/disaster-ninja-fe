@@ -4,7 +4,7 @@ import { translationService as i18n } from '~core/index';
 import { Button } from '@k2-packages/ui-kit';
 import { UploadFileIcon } from '@k2-packages/default-icons';
 import { CreateLayerFieldContainer } from '../CreateLayerFieldContainer/CreateLayerFieldContainer';
-import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerField';
+import { LayerFieldAtomType } from '~features/create_layer/_atoms/createLayerField';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 

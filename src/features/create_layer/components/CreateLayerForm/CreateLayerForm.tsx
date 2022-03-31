@@ -6,7 +6,7 @@ import { Button, Input } from '@k2-packages/ui-kit';
 import { MarkerIcon } from '@k2-packages/default-icons';
 import { CreateLayerFieldsPlaceholder } from '../CreateLayerFieldsPlaceholder/CreateLayerFieldsPlaceholder';
 import { ChangeEvent, useCallback } from 'react';
-import { LayerDataAtomType } from '~features/create_layer/atoms/createLayerData';
+import { LayerDataAtomType } from '~features/create_layer/_atoms/createLayerData';
 
 interface CreateLayerFormProps {
   data: LayerDataAtomType;
@@ -36,7 +36,11 @@ export function CreateLayerForm({
           text={i18n.t('Layer name')}
           description={i18n.t('Layer name')}
         />
-        <Input onChange={onNameChange} value={formState.name} className={s.formInput} />
+        <Input
+          onChange={onNameChange}
+          value={formState.name}
+          className={s.formInput}
+        />
       </div>
       <div className={s.formParam}>
         <LabelWithTooltip

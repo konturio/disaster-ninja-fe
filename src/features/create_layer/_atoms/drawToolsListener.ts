@@ -30,8 +30,9 @@ export const drawToolsListenerAtom = createAtom(
         const indexToRemove = previousFeatures.findIndex(
           (feature) => feature.properties?.isSelected,
         );
-        if (indexToRemove === -1)
+        if (indexToRemove === -1) {
           console.error(`haven't found index`, [...previousFeatures]);
+        }
         actions.push(featurePanelAtom.setFeatureGeometry(null));
         actions.push(drawnFeaturesAtom.removeFeature(indexToRemove));
       }

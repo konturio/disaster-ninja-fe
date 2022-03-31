@@ -7,10 +7,9 @@ import clsx from 'clsx';
 import { ChangeEvent, useCallback, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import type { Identifier, XYCoord } from 'dnd-core';
-import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerField';
+import { LayerFieldAtomType } from '~features/create_layer/_atoms/createLayerField';
 import { USER_LAYER_FIELDS } from '~features/create_layer/constants';
-import { UserDataFieldType } from '~core/logical_layers/types/userData';
-import { v4 as uuidv4 } from 'uuid';
+import { UserDataFieldType } from '~features/create_layer/userData';
 
 const ITEM_TYPE = 'field-container';
 
@@ -144,11 +143,11 @@ export function CreateLayerFieldContainer({
           value={atomState.type}
           onChange={updateAtomType}
         >
-          {
-            USER_LAYER_FIELDS.map((fldParams) => (
-              <option key={uuidv4()} value={fldParams.type}>{i18n.t(fldParams.label)}</option>
-            ))
-          }
+          {USER_LAYER_FIELDS.map((fldParams) => (
+            <option key={fldParams.label} value={fldParams.type}>
+              {i18n.t(fldParams.label)}
+            </option>
+          ))}
         </select>
       </div>
     </div>

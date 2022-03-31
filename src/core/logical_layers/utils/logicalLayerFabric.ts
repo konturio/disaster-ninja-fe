@@ -61,7 +61,7 @@ export function createLogicalLayerAtom(
       layersMenusAtom,
     },
     (
-      { get, onAction, getUnlistedState, onInit, schedule },
+      { get, onAction, onInit, schedule },
       state: LogicalLayerState = {
         id,
         error: null,
@@ -249,13 +249,12 @@ export function createLogicalLayerAtom(
 
       onAction('destroy', () => {
         if (state.id === 'eventShape')
-          console.log('%c⧭', 'color: #e57373', 'fabric destroy');
-        /**
-         * Without this layer mounted back right after destroy
-         * on the next reducer run (because mountedLayersAtom changed)
-         * */
+          /**
+           * Without this layer mounted back right after destroy
+           * on the next reducer run (because mountedLayersAtom changed)
+           * */
 
-        hasBeenDestroyed = true;
+          hasBeenDestroyed = true;
         try {
           renderer.willDestroy({ map, state: { ...newState } });
           actions.push(

@@ -11,7 +11,7 @@ import { createStateMap } from '~utils/atoms';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { CreateLayerForm } from '~features/create_layer/components/CreateLayerForm/CreateLayerForm';
-import { LayerDataAtomType } from '~features/create_layer/atoms/createLayerData';
+import { LayerDataAtomType } from '~features/create_layer/_atoms/createLayerData';
 
 export function CreateLayerPanel() {
   const [createLayerState, { save }] = useAtom(createLayerControllerAtom);

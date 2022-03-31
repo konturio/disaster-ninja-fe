@@ -1,7 +1,6 @@
 import { CreateLayerModel } from '~features/create_layer/types';
 import { createAtom } from '~utils/atoms';
-import { createLayerFieldAtom } from '~features/create_layer/atoms/createLayerField';
-import { v4 as uuidv4 } from 'uuid';
+import { createLayerFieldAtom } from '~features/create_layer/_atoms/createLayerField';
 
 const DEFAULT_ATOM_STATE: CreateLayerModel = {
   name: '',
@@ -11,6 +10,7 @@ const DEFAULT_ATOM_STATE: CreateLayerModel = {
 
 export type LayerDataAtomType = ReturnType<typeof createLayerDataAtom>;
 
+let counter = 0;
 export function createLayerDataAtom(initialState?: CreateLayerModel) {
   return createAtom(
     {
@@ -52,6 +52,6 @@ export function createLayerDataAtom(initialState?: CreateLayerModel) {
 
       return state;
     },
-    `createLayerDataAtom_${uuidv4()}`,
+    `createLayerDataAtom_${counter++}`,
   );
 }
