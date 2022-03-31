@@ -98,8 +98,9 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       );
     }
     /* Create layer */
-    if (legend) {
+    if (legend && legend.steps.length) {
       const layerStyles = this._generateLayersFromLegend(legend);
+      console.log('layerStyles', layerStyles);
       const layers = this._setLayersIds(layerStyles);
       layers.forEach(async (mapLayer) => {
         const layer = map.getLayer(mapLayer.id);
@@ -116,8 +117,10 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       // cleanup unused layers
       this._layerIds.forEach((id) => {
         if (!layers.find((layer) => layer.id === id)) {
-          map.removeLayer(id);
-          this._layerIds.delete(id);
+          if (map.getLayer(id)) {
+            map.removeLayer(id);
+            this._layerIds.delete(id);
+          }
           return;
         }
       });
