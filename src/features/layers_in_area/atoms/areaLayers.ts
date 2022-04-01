@@ -1,10 +1,7 @@
 import { Action } from '@reatom/core';
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import {
-  FocusedGeometry,
-  focusedGeometryAtom,
-} from '~core/shared_state/focusedGeometry';
+import { FocusedGeometry, focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';
@@ -12,20 +9,11 @@ import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { apiClient } from '~core/index';
 import { LayerInArea } from '../types';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import {
-  UpdateCallbackLayersLoading,
-  UpdateCallbackLayersType,
-  updateCallbackService,
-} from '~core/update_callbacks';
-import {
-  currentApplicationAtom,
-  currentEventFeedAtom,
-} from '~core/shared_state';
+import { UpdateCallbackLayersLoading, UpdateCallbackLayersType, updateCallbackService } from '~core/update_callbacks';
+import { currentApplicationAtom, currentEventFeedAtom } from '~core/shared_state';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
 import { UserLayerGroup } from '~core/types/layers';
-import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
-import { LayerInAreaDetails } from '../types';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -105,9 +93,7 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     body,
     true,
   );
-  updateCallbackService.triggerCallback(UpdateCallbackLayersLoading, {
-    loaded: true,
-  });
+  updateCallbackService.triggerCallback(UpdateCallbackLayersLoading, { loaded: true });
   if (responseData === undefined) throw new Error('No data received');
   return responseData;
 }, areaLayersDependencyAtom);
@@ -128,7 +114,6 @@ export const areaLayers = createAtom(
       /* Prepare data */
       if (nextData.loading) return null;
       const { data: nextLayers } = nextData;
-
       const { data: prevLayers } = prevData ?? {};
       const allLayers = new Set([
         ...(nextLayers ?? []).map((l) => l.id),
@@ -243,29 +228,16 @@ export function createLayerActionsFromLayerInArea(
 
   // Setup userdata
   if (layer.group === UserLayerGroup) {
-    actions.push(
-      layersUserDataAtom.set(layerId, {
-        isLoading: false,
-        error: null,
-        data: {
-          name: layer.name,
-          featureProperties: layer.featureProperties || {},
-        },
-      }),
-    );
-    cleanUpActions.push(layersUserDataAtom.delete(layerId));
-  }
-
-  // REMOVE when deployed task 9181 (https://kontur.fibery.io/Tasks/Task/Update-DN2-integration-with-Layers-API-for-front-facing-maps-9181)
-  // RETURN cleanUpActions if needed
-  // Setup legends
-  actions.push(
-    layersLegendsAtom.set(layerId, {
+    actions.push(layersUserDataAtom.set(layerId, {
       isLoading: false,
       error: null,
-      data: legendFormatter(layer as LayerInAreaDetails),
-    }),
-  );
+      data: {
+        name: layer.name,
+        featureProperties: layer.featureProperties || {},
+      }
+    }));
+    cleanUpActions.push(layersUserDataAtom.delete(layerId));
+  }
 
   /**
    * Sources and legends will added later in areaLayersDetails atom
