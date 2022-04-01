@@ -20,6 +20,10 @@ export interface SimpleLegend {
   linkProperty?: string;
   type: 'simple';
   steps: SimpleLegendStep[];
+  tooltip?: {
+    type: 'markdown';
+    propName: string;
+  };
 }
 
 export interface BivariateLegendStep {
@@ -53,6 +57,4 @@ export type LayerLegend =
   | BivariateLegend
   | BivariateLegendBackend;
 
-export type LayerDetailsLegend =
-  | SimpleLegend
-  | BivariateLegendBackend;
+export type LayerDetailsLegend = SimpleLegend | BivariateLegendBackend;
