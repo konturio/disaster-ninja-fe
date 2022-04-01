@@ -273,8 +273,8 @@ export function createLayerActionsFromLayerInArea(
    * TODO: Add action to registry for extend clean effect, or auto-cleanup it
    *  */
   //
-  // cleanUpActions.push(layersLegendsAtom.delete(layerId));
-  // cleanUpActions.push(layersSourcesAtom.delete(layerId));
+  cleanUpActions.push(layersLegendsAtom.delete(layerId));
+  cleanUpActions.push(layersSourcesAtom.delete(layerId));
 
   // Register
   if (options.registration) {

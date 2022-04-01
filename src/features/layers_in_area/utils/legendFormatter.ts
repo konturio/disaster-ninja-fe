@@ -42,10 +42,3 @@ export function legendFormatter(
 
   return details.legend;
 }
-
-export function convertDetailsToLegends(
-  response: LayerInAreaDetails,
-): LayerLegend | null {
-  if (!response.legend) return null;
-  return legendFormatter(response);
-}
