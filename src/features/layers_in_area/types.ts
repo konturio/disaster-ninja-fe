@@ -34,8 +34,8 @@ export interface GeoJSONSourceSourceContainer {
 
 export interface TileSourceContainer {
   id: string;
-  maxZoom: number;
-  minZoom: number;
+  maxZoom?: number;
+  minZoom?: number;
   source: TileSource;
   legend?: LayerDetailsLegend;
 }
