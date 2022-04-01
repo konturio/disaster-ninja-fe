@@ -100,7 +100,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     /* Create layer */
     if (legend && legend.steps.length) {
       const layerStyles = this._generateLayersFromLegend(legend);
-      console.log('layerStyles', layerStyles);
       const layers = this._setLayersIds(layerStyles);
       layers.forEach(async (mapLayer) => {
         const layer = map.getLayer(mapLayer.id);

@@ -82,8 +82,6 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     }
   }
 
-  updateCallbackService.triggerCallback(UpdateCallbackLayersLoading);
-
   if (params.appId) {
     body.appId = params.appId;
   }
@@ -93,7 +91,6 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     body,
     true,
   );
-  updateCallbackService.triggerCallback(UpdateCallbackLayersLoading, { loaded: true });
   if (responseData === undefined) throw new Error('No data received');
   return responseData;
 }, areaLayersDependencyAtom);
@@ -112,7 +109,10 @@ export const areaLayers = createAtom(
   ({ onChange, schedule }) => {
     onChange('areaLayersResourceAtom', (nextData, prevData) => {
       /* Prepare data */
-      if (nextData.loading) return null;
+      if (nextData.loading) {
+        updateCallbackService.triggerCallback(UpdateCallbackLayersLoading);
+        return null;
+      }
       const { data: nextLayers } = nextData;
       const { data: prevLayers } = prevData ?? {};
       const allLayers = new Set([
@@ -180,6 +180,12 @@ export const areaLayers = createAtom(
       if (actions.length) {
         schedule((dispatch) => {
           dispatch(actions);
+
+          if (nextData.data) {
+            updateCallbackService.triggerCallback(UpdateCallbackLayersLoading, {
+              loaded: true,
+            });
+          }
         });
       }
     });
