@@ -267,14 +267,18 @@ export function createLayerActionsFromLayerInArea(
     }),
   );
 
+  const legend = legendFormatter(layer);
+
+  console.log(legend);
+
   /**
    * Sources and legends will added later in areaLayersDetails atom
    * I'am add cleanup actions here, because it only way right now
    * TODO: Add action to registry for extend clean effect, or auto-cleanup it
    *  */
   //
-  cleanUpActions.push(layersLegendsAtom.delete(layerId));
-  cleanUpActions.push(layersSourcesAtom.delete(layerId));
+  // cleanUpActions.push(layersLegendsAtom.delete(layerId));
+  // cleanUpActions.push(layersSourcesAtom.delete(layerId));
 
   // Register
   if (options.registration) {
