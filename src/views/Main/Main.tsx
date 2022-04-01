@@ -97,11 +97,6 @@ export function MainView() {
         initOsmEditLink(),
       );
     }
-    if (userFeatures?.create_layer === true) {
-      import('~features/create_layer/').then(({ initCreateLayer }) =>
-        initCreateLayer(),
-      );
-    }
     // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
     if (userFeatures?.draw_tools || userFeatures?.focused_geometry_editor) {
       import('~features/focused_geometry_editor/').then(
