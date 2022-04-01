@@ -267,7 +267,7 @@ export function createLayerActionsFromLayerInArea(
     }),
   );
 
-  const legend = legendFormatter(layer);
+  const legend = legendFormatter(layer as LayerInAreaDetails);
 
   console.log(legend);
 
