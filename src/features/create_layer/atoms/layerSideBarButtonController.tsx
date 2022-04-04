@@ -1,6 +1,7 @@
 import { createAtom } from '~utils/atoms';
 import {
   CREATE_LAYER_CONTROL_ID,
+  EditTargets,
   MAX_USER_LAYER_ALLOWED_TO_CREATE,
 } from '~features/create_layer/constants';
 import { TranslationService as i18n } from '~core/localization';
@@ -10,10 +11,9 @@ import {
   sideControlsBarAtom,
 } from '~core/shared_state/sideControlsBar';
 import { AddLayerIcon } from '@k2-packages/default-icons';
-import { createLayerControllerAtom } from './createLayerController';
+import { editableLayerControllerAtom } from './editableLayerController';
 import { editableLayersListResource } from './editableLayersListResource';
-
-import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
+import { editTargetAtom } from './editTarget';
 
 const sidebarButtonParams = {
   id: CREATE_LAYER_CONTROL_ID,
@@ -28,9 +28,10 @@ const sidebarButtonParams = {
   },
   onChange: (becomesActive: boolean) => {
     if (becomesActive) {
-      createLayerControllerAtom.createNewLayer.dispatch();
+      editableLayerControllerAtom.createNewLayer.dispatch();
     } else {
-      createLayerControllerAtom.reset.dispatch();
+      editableLayerControllerAtom.reset.dispatch();
+      editTargetAtom.set(EditTargets.none);
     }
   },
 };
@@ -40,7 +41,6 @@ const sidebarButtonParams = {
  */
 export const layerSideBarButtonControllerAtom = createAtom(
   {
-    layersSettingsAtom,
     editableLayersListResource,
   },
   ({ getUnlistedState, schedule, onChange }) => {

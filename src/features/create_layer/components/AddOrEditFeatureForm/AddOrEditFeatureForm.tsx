@@ -1,21 +1,21 @@
 import { Geometry } from 'geojson';
-import s from './AddOrEditFeature.module.css';
+import s from './AddOrEditFeatureForm.module.css';
 import { LabelWithTooltip } from '~components/LabelWithTooltip/LabelWithTooltip';
 import { translationService as i18n } from '~core/index';
 import { Input } from '@k2-packages/ui-kit';
 import { ChangeEvent } from 'react';
 
-type AddOrEditFeatureProps = {
+type AddOrEditFeatureFormProps = {
   geometry: Geometry | null;
   featureProperties: { [key: string]: string };
   changeProperty: (property: string, value: string) => void;
 };
 
-export function AddOrEditFeature({
+export function AddOrEditFeatureForm({
   geometry,
   featureProperties,
   changeProperty,
-}: AddOrEditFeatureProps) {
+}: AddOrEditFeatureFormProps) {
   // we only expecting point geometry ATM
   if (geometry !== null && geometry.type !== 'Point') return null;
 

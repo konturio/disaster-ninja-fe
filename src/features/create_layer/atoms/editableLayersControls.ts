@@ -6,6 +6,11 @@ import { EditableLayers } from '../types';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateActionsFromLayersDTO } from '~features/create_layer/utils/createUpdateActionsFromLayersDTO';
 import { editableLayersListResource } from './editableLayersListResource';
+import { TranslationService as i18n } from '~core/localization';
+import { editableLayerControllerAtom } from './editableLayerController';
+import { featurePanelControllerAtom } from './featurePanelController';
+import { editTargetAtom } from './editTarget';
+import { EditTargets } from '../constants';
 
 /**
  * This atom responsibilities:
@@ -93,9 +98,22 @@ export const editableLayersControlsAtom = createAtom(
           const [updateActions] = createUpdateLayerActions(layerId, {
             menu: [
               {
-                id: 'test',
-                name: 'test',
-                callback: () => console.log('test clicked'),
+                id: 'edit_layer',
+                name: i18n.t('Edit Layer'),
+                callback: () =>
+                  editableLayerControllerAtom.editLayer.dispatch(layerId),
+              },
+              {
+                id: 'edit_features',
+                name: i18n.t('Edit Features'),
+                callback: () =>
+                  editTargetAtom.set.dispatch(EditTargets.features),
+              },
+              {
+                id: 'delete_layer',
+                name: i18n.t('Delete Layer'),
+                callback: () =>
+                  editableLayerControllerAtom.deleteLayer.dispatch(layerId),
               },
             ],
           });

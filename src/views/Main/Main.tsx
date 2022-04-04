@@ -12,12 +12,12 @@ import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/D
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
 
-// const { LayerEditorPanel } = lazily(
-//   () =>
-//     import(
-//       '~features/create_layer/components/LayerEditorPanel/LayerEditorPanel'
-//     ),
-// );
+const { EditFeaturesOrLayerPanel: LayerEditorPanel } = lazily(
+  () =>
+    import(
+      '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
+    ),
+);
 
 const { AppHeader, Logo } = lazily(() => import('@k2-packages/ui-kit'));
 
@@ -107,8 +107,8 @@ export function MainView() {
       );
     }
     if (userFeatures?.create_layer === true) {
-      import('~features/create_layer/').then(({ initCreateLayer }) =>
-        initCreateLayer(),
+      import('~features/create_layer/').then(({ initEditableLayer }) =>
+        initEditableLayer(),
       );
     }
     if (userFeatures?.intercom === true) {
@@ -171,8 +171,7 @@ export function MainView() {
               {userFeatures?.legend_panel === true && (
                 <Legend iconsContainerId="right-buttons-container" />
               )}
-              {/* {userFeatures?.create_layer === true && <LayerEditorPanel />} */}
-              {/* <LayerEditorPanel /> */}
+              {userFeatures?.create_layer === true && <LayerEditorPanel />}
               {userFeatures?.map_layers_panel === true && (
                 <MapLayersList iconsContainerId="right-buttons-container" />
               )}

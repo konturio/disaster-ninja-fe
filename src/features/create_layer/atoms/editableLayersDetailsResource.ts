@@ -2,10 +2,8 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { apiClient } from '~core/index';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { editableLayersListResource } from './editableLayersListResource';
 import { LayerInAreaDetails } from '../types';
-import { currentEventFeedAtom } from '~core/shared_state';
 
 export interface DetailsRequestParams {
   layersToRetrieveWithGeometryFilter: string[];
@@ -28,70 +26,24 @@ export const editableLayersDetailsParamsAtom = createAtom(
     const editableLayersResource = get('editableLayersResourceAtom');
     if (editableLayersResource.loading || editableLayersResource.data === null)
       return state;
-    const availableLayersInArea = editableLayersResource.data;
-    if (availableLayersInArea === undefined) return null;
+    const editableLayers = editableLayersResource.data;
+    if (editableLayers === undefined) return null;
 
-    const enabledLayers = get('enabledLayersAtom');
-    let hasEventIdRequiredForRetrieval = false;
-    const [
-      layersToRetrieveWithGeometryFilter,
-      layersToRetrieveWithoutGeometryFilter,
-    ] = availableLayersInArea.reduce(
-      (acc, layer) => {
-        if (enabledLayers.has(layer.id)) {
-          acc[layer.boundaryRequiredForRetrieval ? 0 : 1].push(layer.id);
-          if (
-            !hasEventIdRequiredForRetrieval &&
-            layer.eventIdRequiredForRetrieval
-          ) {
-            hasEventIdRequiredForRetrieval = true;
-          }
-        }
-        return acc;
-      },
-      [[], []] as [string[], string[]],
+    const allEnabledLayers = get('enabledLayersAtom');
+    const enabledEditableLAyers = editableLayers.filter((l) =>
+      allEnabledLayers.has(l.id),
     );
 
-    if (
-      layersToRetrieveWithGeometryFilter.length +
-        layersToRetrieveWithoutGeometryFilter.length ===
-      0
-    ) {
+    if (enabledEditableLAyers.length === 0) {
       return null;
     }
 
     const requestParams: DetailsRequestParams = {
-      layersToRetrieveWithGeometryFilter,
-      layersToRetrieveWithoutGeometryFilter,
+      layersToRetrieveWithoutGeometryFilter: enabledEditableLAyers.map(
+        (l) => l.id,
+      ),
+      layersToRetrieveWithGeometryFilter: [],
     };
-
-    /**
-     * To avoid double request case:
-     * (one for enabled layers list, second for focused geometry change)
-     * I'm use getUnlistedState here. This atom still updated on focusedGeometryAtom changes
-     * because editableLayersResourceAtom subscribed to focusedGeometryAtom
-     */
-    const focusedGeometry = getUnlistedState(focusedGeometryAtom);
-    if (hasEventIdRequiredForRetrieval) {
-      if (focusedGeometry?.source?.type === 'event') {
-        requestParams.eventId = focusedGeometry.source.meta.eventId;
-      } else {
-        throw Error(
-          'Current geometry not from event, event related layer was selected',
-        );
-      }
-    }
-
-    if (focusedGeometry) {
-      requestParams.geoJSON = focusedGeometry.geometry;
-    }
-
-    if (hasEventIdRequiredForRetrieval) {
-      const eventFeed = getUnlistedState(currentEventFeedAtom);
-      if (eventFeed) {
-        requestParams.eventFeed = eventFeed.id;
-      }
-    }
 
     return requestParams;
   },

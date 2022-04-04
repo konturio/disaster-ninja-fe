@@ -1,29 +1,24 @@
-import { LayerFieldAtomType } from '~features/create_layer/_atoms/createLayerField';
+import { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
 import { LayerDetailsLegend } from '~core/logical_layers/types/legends';
+import { FieldTypes, EditTargets } from './constants';
 
 export type LayerFieldModel = {
   name: string;
   type: EditableLayerFieldType;
 };
 
-export type CreateLayerModel = {
+export type LayerEditorFormModel = {
   id?: string;
   name: string;
   // TODO: change it to corresponding icon type
   marker: string;
-  fields: LayerFieldAtomType[];
+  fields: LayerEditorFormFieldAtomType[];
 };
 
 /* Backend layer DTO received from /search endpoint */
-const FieldTypes = {
-  None: 'none',
-  ShortText: 'short_text',
-  LongText: 'long_text',
-  Image: 'image',
-  Link: 'link',
-} as const;
 
 export type EditableLayerFieldType = typeof FieldTypes[keyof typeof FieldTypes];
+export type EditTargetsType = typeof EditTargets[keyof typeof EditTargets];
 
 export type EditableLayerFeaturePropertiesType = Record<
   string,

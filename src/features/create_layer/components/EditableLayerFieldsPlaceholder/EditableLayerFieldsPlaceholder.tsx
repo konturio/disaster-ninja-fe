@@ -1,26 +1,26 @@
-import s from './CreateLayerFieldsPlaceholder.module.css';
-import clsx from 'clsx';
-import { translationService as i18n } from '~core/index';
-import { Button } from '@k2-packages/ui-kit';
-import { UploadFileIcon } from '@k2-packages/default-icons';
-import { CreateLayerFieldContainer } from '../CreateLayerFieldContainer/CreateLayerFieldContainer';
-import { LayerFieldAtomType } from '~features/create_layer/_atoms/createLayerField';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import clsx from 'clsx';
+import { Button } from '@k2-packages/ui-kit';
+import { UploadFileIcon } from '@k2-packages/default-icons';
+import { translationService as i18n } from '~core/index';
+import { EditableLayerFieldContainer } from '../EditableLayerFieldContainer/EditableLayerFieldContainer';
+import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
+import s from './EditableLayerFieldsPlaceholder.module.css';
 
-interface CreateLayerFieldsPlaceholderProps {
-  fieldModels: LayerFieldAtomType[];
+interface EditableLayerFieldsPlaceholderProps {
+  fieldModels: LayerEditorFormFieldAtomType[];
   onAddField: () => void;
   onRemoveField: (index: number) => void;
   onReorderFields: (fromIndex: number, toIndex: number) => void;
 }
 
-export function CreateLayerFieldsPlaceholder({
+export function EditableLayerFieldsPlaceholder({
   fieldModels,
   onAddField,
   onRemoveField,
   onReorderFields,
-}: CreateLayerFieldsPlaceholderProps) {
+}: EditableLayerFieldsPlaceholderProps) {
   return (
     <div className={s.fieldsContainer}>
       <div className={clsx(s.fieldsLabel, 'k-font-caption')}>
@@ -30,7 +30,7 @@ export function CreateLayerFieldsPlaceholder({
       <DndProvider backend={HTML5Backend}>
         <div className={s.fieldsPlaceholder}>
           {fieldModels.map((fldModelAtom, index) => (
-            <CreateLayerFieldContainer
+            <EditableLayerFieldContainer
               id={fldModelAtom.id}
               index={index}
               key={fldModelAtom.id}

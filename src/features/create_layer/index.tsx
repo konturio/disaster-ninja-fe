@@ -3,7 +3,7 @@ import { layerSideBarButtonControllerAtom } from './atoms/layerSideBarButtonCont
 import { editableLayersControlsAtom } from './atoms/editableLayersControls';
 import { editableLayersLegendsAndSources } from './atoms/editableLayersLegendsAndSources';
 
-export function initCreateLayer() {
+export function initEditableLayer() {
   forceRun([
     layerSideBarButtonControllerAtom,
     editableLayersControlsAtom,

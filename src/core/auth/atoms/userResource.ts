@@ -62,9 +62,6 @@ export const userResourceAtom = createResourceAtom<
         features[ft.name] = true;
       });
     }
-    if (window.location.host === 'localhost:3000') {
-      features.create_layer = true;
-    }
 
     let feeds: UserFeed[] = [];
     if (Array.isArray(data[1])) {

@@ -14,12 +14,47 @@ Consists of two parts:
 2. Create / Edit layer features
 
 ```mermaid
-flowchart TB
-  classDef coreAtom stroke:#f96;
-  editableLayersControls:::coreAtom
-  editableLayersControls-->editableLayersListResource
-  editableLayersLegendsAndSources-->editableLayersDetailsResource
-  editableLayerSettings-->editableLayersDetailsResource
+flowchart TD
+  classDef coreAtom stroke:orange;
+  classDef View stroke:green;
+
+  enabledLayersAtom:::coreAtom --> editableLayersDetailsResource
+  editableLayersListResource --> editableLayersDetailsResource
+  editableLayersDetailsResource --> editableLayersLegendsAndSources
+  currentApplicationAtom:::coreAtom --> editableLayersListResource
+  editableLayersLegendsAndSources --> layersLegendsAtom:::coreAtom
+  editableLayersLegendsAndSources --> layersSourcesAtom:::coreAtom
+  editableLayersListResource --> editableLayersControlsAtom
+  editableLayersControlsAtom --> layersRegistryAtom:::coreAtom
+  editableLayersControlsAtom --> layersMetaAtom:::coreAtom
+  editableLayersControlsAtom --> layersSettingsAtom:::coreAtom
+  editableLayersControlsAtom --> layersMenusAtom:::coreAtom
+  editableLayersListResource --> layerSideBarButtonController
+  layerSideBarButtonController --> sideControlsBarAtom:::coreAtom
+  layerSideBarButtonController --> editTargetAtom
+  layerSideBarButtonController --> editableLayerControllerAtom
+  editableLayersControlsAtom ----> editableLayerControllerAtom
+  %% Sub features switch
+  editTargetAtom --> EditFeaturesOrLayerPanel:::View
+  EditFeaturesOrLayerPanel --> EditLayerPanel:::View
+  EditFeaturesOrLayerPanel --> EditFeaturesPanel:::View
+  %% Edit Layer
+  EditLayerPanel --> editableLayerControllerAtom
+  editableLayerControllerAtom --> EditLayerPanel
+  EditLayerPanel --> EditLayerForm:::View
+  EditLayerForm  --> EditableLayerFieldsPlaceholder:::View
+  EditableLayerFieldsPlaceholder --> EditableLayerFieldContainer:::View
+  editableLayerControllerAtom --> layerEditorFormAtom
+  editableLayerControllerAtom --> layerEditorFormFieldAtom
+  editableLayerControllerAtom --> editableLayersListResource
+  %% Edit Features
+  EditFeaturesPanel:::View ---> featurePanelControllerAtom
+  featurePanelControllerAtom --> editTargetAtom
+  EditFeaturesPanel --> AddOrEditFeatureForm:::View
+  drawToolsListenerAtom --> featurePanelControllerAtom
+  editTargetAtom --> drawToolsListenerAtom
+  drawnGeometryAtom:::coreAtom --> drawToolsListenerAtom
+  drawToolsListenerAtom --> drawnFeaturesAtom
 ```
 
 ### Stage I - adding controls

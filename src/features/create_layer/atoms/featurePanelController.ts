@@ -1,5 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { Geometry } from 'geojson';
+import { editTargetAtom } from './editTarget';
 
 type FeaturePanelMode = 'Add feature' | 'Edit feature' | null;
 type StateType = {
@@ -12,7 +13,7 @@ const defaultState: StateType = {
   geometry: null,
 };
 
-export const featurePanelAtom = createAtom(
+export const featurePanelControllerAtom = createAtom(
   {
     setPanelMode: (mode: FeaturePanelMode) => mode,
     setFeatureGeometry: (
@@ -33,7 +34,7 @@ export const featurePanelAtom = createAtom(
     },
     resetPanel: () => null,
   },
-  ({ onAction }, state: StateType = defaultState) => {
+  ({ onAction, schedule }, state: StateType = defaultState) => {
     onAction('startEditMode', ({ geometry, properties }) => {
       state = {
         featurePanelMode: 'Edit feature',
@@ -42,7 +43,11 @@ export const featurePanelAtom = createAtom(
       };
     });
 
+    schedule((dispatch) => {
+      dispatch(editTargetAtom.set('features'));
+    });
+
     return state;
   },
-  'featurePanelAtom',
+  'featurePanelControllerAtom',
 );

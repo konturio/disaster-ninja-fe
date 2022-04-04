@@ -1,21 +1,22 @@
 import { createAtom } from '~utils/atoms';
 import { Feature } from 'geojson';
-import { isModeActiveAtom } from './isModeActive';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { Action } from '@reatom/core';
-import { featurePanelAtom } from './featurePanel';
+import { featurePanelControllerAtom } from './featurePanelController';
 import { drawnFeaturesAtom } from './drawnFeatures';
+import { editTargetAtom } from './editTarget';
+import { EditTargets } from '../constants';
 
 // So far we're only care about feature with Point type of geometry
 export const drawToolsListenerAtom = createAtom(
   {
-    isModeActiveAtom,
+    editTargetAtom,
     drawnGeometryAtom,
     drawnFeaturesAtom,
   },
   ({ schedule, get, onChange, getUnlistedState }, state: Feature[] = []) => {
     // Make changes only when mode is active
-    const modeIsActive = get('isModeActiveAtom');
+    const modeIsActive = get('editTargetAtom') === EditTargets.features;
     if (!modeIsActive) return state;
 
     const actions: Action[] = [];
@@ -33,7 +34,7 @@ export const drawToolsListenerAtom = createAtom(
         if (indexToRemove === -1) {
           console.error(`haven't found index`, [...previousFeatures]);
         }
-        actions.push(featurePanelAtom.setFeatureGeometry(null));
+        actions.push(featurePanelControllerAtom.setFeatureGeometry(null));
         actions.push(drawnFeaturesAtom.removeFeature(indexToRemove));
       }
 
@@ -41,7 +42,9 @@ export const drawToolsListenerAtom = createAtom(
       else if (features.length > previousFeatures.length) {
         const editableFeature = features[features.length - 1];
         actions.push(
-          featurePanelAtom.setFeatureGeometry(editableFeature.geometry),
+          featurePanelControllerAtom.setFeatureGeometry(
+            editableFeature.geometry,
+          ),
         );
         actions.push(drawnFeaturesAtom.updateEditableFeature(editableFeature));
       }
@@ -55,7 +58,7 @@ export const drawToolsListenerAtom = createAtom(
         if (selectedIndex === -1)
           console.error(`haven't found index`, [...previousFeatures]);
         actions.push(
-          featurePanelAtom.startEditMode(
+          featurePanelControllerAtom.startEditMode(
             features[selectedIndex].geometry,
             features[selectedIndex].properties || {},
           ),

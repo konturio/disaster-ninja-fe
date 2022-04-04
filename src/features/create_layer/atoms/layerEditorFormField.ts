@@ -1,24 +1,23 @@
 import { LayerFieldModel } from '~features/create_layer/types';
 import { createAtom } from '~utils/atoms';
-import { v4 as uuidv4 } from 'uuid';
-import {
-  UserDataFieldNoneType,
-  UserDataFieldType,
-} from '~features/create_layer/userData';
+import { FieldTypes } from '../constants';
+import { EditableLayerFieldType } from '../types';
 
-export type LayerFieldAtomType = ReturnType<typeof createLayerFieldAtom>;
-
-export function createLayerFieldAtom(initialState?: LayerFieldModel) {
+export type LayerEditorFormFieldAtomType = ReturnType<
+  typeof createLayerEditorFormFieldAtom
+>;
+let i = 0;
+export function createLayerEditorFormFieldAtom(initialState?: LayerFieldModel) {
   return createAtom(
     {
       updateName: (name: string) => name,
-      updateType: (type: UserDataFieldType) => type,
+      updateType: (type: EditableLayerFieldType) => type,
     },
     (
       { onAction },
       state: LayerFieldModel = initialState || {
         name: '',
-        type: UserDataFieldNoneType,
+        type: FieldTypes.None,
       },
     ) => {
       onAction('updateName', (name) => {
@@ -35,6 +34,6 @@ export function createLayerFieldAtom(initialState?: LayerFieldModel) {
 
       return state;
     },
-    `LayerFieldAtom_${uuidv4()}`,
+    `layerEditorFormFieldAtom_${i++}`,
   );
 }

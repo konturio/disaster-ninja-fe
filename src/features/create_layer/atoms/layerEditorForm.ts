@@ -1,17 +1,19 @@
-import { CreateLayerModel } from '~features/create_layer/types';
+import { LayerEditorFormModel } from '~features/create_layer/types';
 import { createAtom } from '~utils/atoms';
-import { createLayerFieldAtom } from '~features/create_layer/_atoms/createLayerField';
+import { createLayerEditorFormFieldAtom } from '~features/create_layer/atoms/layerEditorFormField';
 
-const DEFAULT_ATOM_STATE: CreateLayerModel = {
+const DEFAULT_ATOM_STATE: LayerEditorFormModel = {
   name: '',
   marker: 'default',
   fields: [],
 };
 
-export type LayerDataAtomType = ReturnType<typeof createLayerDataAtom>;
+export type LayerEditorFormAtomType = ReturnType<
+  typeof createLayerEditorFormAtom
+>;
 
 let counter = 0;
-export function createLayerDataAtom(initialState?: CreateLayerModel) {
+export function createLayerEditorFormAtom(initialState?: LayerEditorFormModel) {
   return createAtom(
     {
       updateName: (name: string) => name,
@@ -25,7 +27,7 @@ export function createLayerDataAtom(initialState?: CreateLayerModel) {
     },
     (
       { onAction },
-      state: CreateLayerModel = initialState || DEFAULT_ATOM_STATE,
+      state: LayerEditorFormModel = initialState || DEFAULT_ATOM_STATE,
     ) => {
       onAction('updateName', (name) => {
         if (state.name !== name) {
@@ -34,7 +36,7 @@ export function createLayerDataAtom(initialState?: CreateLayerModel) {
       });
 
       onAction('addField', () => {
-        state.fields.push(createLayerFieldAtom());
+        state.fields.push(createLayerEditorFormFieldAtom());
         state = { ...state };
       });
 
@@ -52,6 +54,6 @@ export function createLayerDataAtom(initialState?: CreateLayerModel) {
 
       return state;
     },
-    `createLayerDataAtom_${counter++}`,
+    `layerEditorFormAtom_${counter++}`,
   );
 }

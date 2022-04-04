@@ -1,33 +1,39 @@
-import {
-  UserDataFieldImage,
-  UserDataFieldLink,
-  UserDataFieldLongTextType,
-  UserDataFieldNoneType,
-  UserDataFieldShortTextType,
-} from '~features/create_layer/userData';
+export const CREATE_LAYER_CONTROL_ID = 'EditableLayer';
 
-export const CREATE_LAYER_CONTROL_ID = 'CreateLayer';
+export const FieldTypes = {
+  None: 'none',
+  ShortText: 'short_text',
+  LongText: 'long_text',
+  Image: 'image',
+  Link: 'link',
+} as const;
+
+export const EditTargets = {
+  features: 'features',
+  layer: 'layer',
+  none: null,
+} as const;
 
 export const USER_LAYER_FIELDS = [
   {
     label: 'Select',
-    type: UserDataFieldNoneType,
+    type: FieldTypes.None,
   },
   {
     label: 'Short Text',
-    type: UserDataFieldShortTextType,
+    type: FieldTypes.ShortText,
   },
   {
     label: 'Long Text',
-    type: UserDataFieldLongTextType,
+    type: FieldTypes.LongText,
   },
   {
     label: 'Link',
-    type: UserDataFieldLink,
+    type: FieldTypes.Link,
   },
   {
     label: 'Image',
-    type: UserDataFieldImage,
+    type: FieldTypes.Image,
   },
 ];
 

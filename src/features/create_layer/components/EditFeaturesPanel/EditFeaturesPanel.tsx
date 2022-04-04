@@ -1,19 +1,19 @@
-import s from './FeaturePanel.module.css';
-import { Panel, Text } from '@k2-packages/ui-kit';
-import clsx from 'clsx';
-import { TranslationService as i18n } from '~core/localization';
 import { useCallback } from 'react';
+import clsx from 'clsx';
 import { useAtom } from '@reatom/react';
+import { Panel, Text } from '@k2-packages/ui-kit';
+import { TranslationService as i18n } from '~core/localization';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { EDIT_LAYER_CONTROL } from '~core/draw_tools/constants';
-import { featurePanelAtom } from '~features/create_layer/_atoms/featurePanel';
-import { AddOrEditFeature } from '../AddOrEditFeature/AddOrEditFeature';
+import { featurePanelControllerAtom } from '../../atoms/featurePanelController';
+import { AddOrEditFeatureForm } from '../AddOrEditFeatureForm/AddOrEditFeatureForm';
+import s from './EditFeaturesPanel.module.css';
 
-export function FeaturePanel() {
+export function EditFeaturesPanel() {
   const [
     { featurePanelMode, geometry, ...featureProperties },
     { changeProperty },
-  ] = useAtom(featurePanelAtom);
+  ] = useAtom(featurePanelControllerAtom);
 
   const onPanelClose = useCallback(() => {
     sideControlsBarAtom.disable.dispatch(EDIT_LAYER_CONTROL);
@@ -30,7 +30,7 @@ export function FeaturePanel() {
       )}
     >
       <div className={s.panelBody}>
-        <AddOrEditFeature
+        <AddOrEditFeatureForm
           featureProperties={featureProperties}
           geometry={geometry}
           changeProperty={changeProperty}

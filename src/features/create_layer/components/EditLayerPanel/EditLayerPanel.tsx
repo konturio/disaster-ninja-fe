@@ -1,25 +1,26 @@
-import s from './CreateLayerPanel.module.css';
-import { Panel, Text } from '@k2-packages/ui-kit';
-import clsx from 'clsx';
-import { TranslationService as i18n } from '~core/localization';
 import { useCallback } from 'react';
 import { useAtom } from '@reatom/react';
-import { createLayerControllerAtom } from '~features/create_layer/atoms/createLayerController';
+import clsx from 'clsx';
+import { Panel, Text } from '@k2-packages/ui-kit';
+import { TranslationService as i18n } from '~core/localization';
 import { sideControlsBarAtom } from '~core/shared_state';
-import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
 import { createStateMap } from '~utils/atoms';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { CreateLayerForm } from '~features/create_layer/components/CreateLayerForm/CreateLayerForm';
-import { LayerDataAtomType } from '~features/create_layer/_atoms/createLayerData';
+import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
+import { EditLayerForm } from '../../components/EditLayerForm/EditLayerForm';
+import { editableLayerControllerAtom } from '../../atoms/editableLayerController';
+import { CREATE_LAYER_CONTROL_ID } from '../../constants';
+import s from './EditLayerPanel.module.css';
 
-export function CreateLayerPanel() {
-  const [createLayerState, { save }] = useAtom(createLayerControllerAtom);
+export function EditLayerPanel() {
+  const [createLayerState, { save }] = useAtom(editableLayerControllerAtom);
 
   let statesToComponents: ReturnType<typeof createStateMap> | undefined =
     undefined;
   if (createLayerState) {
-    statesToComponents = createStateMap<LayerDataAtomType>(createLayerState);
+    statesToComponents =
+      createStateMap<LayerEditorFormAtomType>(createLayerState);
   }
 
   const onPanelClose = useCallback(() => {
@@ -43,8 +44,8 @@ export function CreateLayerPanel() {
             error: (errorMessage) => <ErrorMessage message={errorMessage} />,
             ready: (data) => {
               return (
-                <CreateLayerForm
-                  data={data as LayerDataAtomType}
+                <EditLayerForm
+                  data={data as LayerEditorFormAtomType}
                   onSave={save}
                   onCancel={onPanelClose}
                 />
