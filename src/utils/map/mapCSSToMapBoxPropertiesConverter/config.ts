@@ -92,6 +92,7 @@ export const MAP_CSS_MAPBOX = {
     name: 'fill-opacity',
     valueConverter: 'toNumber',
   },
+
   // symbol
   'icon-image': {
     type: 'symbol',
@@ -108,7 +109,7 @@ export const MAP_CSS_MAPBOX = {
   'icon-height': {
     type: 'symbol',
     category: 'layout',
-    name: 'icon-size', // overnight icon-width
+    name: 'icon-size', // overwrite icon-width
     valueConverter: 'toNumber',
   },
   'icon-opacity': {
@@ -123,8 +124,39 @@ export const MAP_CSS_MAPBOX = {
     name: 'icon-text-fit',
     valueConverter: null,
   },
+  'text-field': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'text-field',
+    valueConverter: null,
+  },
+  'text-allow-overlap': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'text-allow-overlap',
+    valueConverter: null,
+  },
+  'text-variable-anchor': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'text-variable-anchor',
+    valueConverter: null,
+  },
+  'symbol-placement': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'symbol-placement',
+    valueConverter: null,
+  },
+
   // font
   'font-family': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'text-font',
+    valueConverter: 'splitByComma',
+  },
+  'text-font': {
     type: 'symbol',
     category: 'layout',
     name: 'text-font',
