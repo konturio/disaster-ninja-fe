@@ -123,6 +123,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     !map._loaded && (await waitMapEvent(map, 'load'));
 
     const stateSource = state.source?.source ?? null;
+
     // I'm cast type here because i known that in willMount i add geojson source
     const mapSource = map.getSource(this.sourceId) as GeoJSONSource;
 

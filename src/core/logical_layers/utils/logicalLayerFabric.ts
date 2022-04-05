@@ -23,6 +23,7 @@ import { downloadObject } from '~utils/fileHelpers/download';
 import { deepFreeze } from './deepFreeze';
 import { createAtom } from '~utils/atoms';
 import { getMutualExcludedActions } from './getMutualExcludedActions';
+import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 /**
  * Layer Atom responsibilities:
@@ -49,17 +50,16 @@ export function createLogicalLayerAtom(
   const logicalLayerAtom = createAtom(
     {
       ...logicalLayerActions,
-      currentMapAtom,
       layersSettingsAtom,
       layersLegendsAtom,
       layersMetaAtom,
       layersSourcesAtom,
       enabledLayersAtom,
       mountedLayersAtom,
-      hiddenLayersAtom,
+      hiddenLayersAtom
     },
     (
-      { get, onAction, getUnlistedState, onInit, schedule },
+      { get, onAction, getUnlistedState, onInit, schedule, onChange },
       state: LogicalLayerState = {
         id,
         error: null,
@@ -75,7 +75,7 @@ export function createLogicalLayerAtom(
       },
     ) => {
       const actions: Action[] = [];
-      const map = get('currentMapAtom') ?? null;
+      const map = getUnlistedState<ApplicationMap | undefined>(currentMapAtom) ?? null;
 
       /**
        * ! Important Note! In you add new sub stores,
