@@ -36,6 +36,7 @@ const logicalLayerActions: LogicalLayerActions = {
   disable: () => null,
   hide: () => null,
   show: () => null,
+  remount: () => null,
   download: () => null,
   destroy: () => null,
 };
@@ -186,6 +187,11 @@ export function createLogicalLayerAtom(
           console.error(e);
           newState.error = e;
         }
+      });
+
+      onAction('remount', () => {
+        state = { ...state, isMounted: false };
+        newState.isMounted = false;
       });
 
       /* Mount / Unmount */

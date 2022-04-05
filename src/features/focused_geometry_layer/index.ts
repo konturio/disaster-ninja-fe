@@ -14,7 +14,21 @@ import {
 import { forceRun } from '~utils/atoms/forceRun';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/shared_state/focusedGeometry';
 
+let isInitialized = false;
+
 export function initFocusedGeometryLayer() {
+  if (isInitialized) {
+    const registry = layersRegistryAtom.getState();
+    if (registry.has(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID)) {
+      const layerAtom = registry.get(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID);
+      if (layerAtom) {
+        store.dispatch(layerAtom.remount());
+      }
+    }
+    return;
+  }
+  isInitialized = true;
+
   // Connect layer source with focused geometry
   forceRun(createFocusedGeometrySourceAtom(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID));
 

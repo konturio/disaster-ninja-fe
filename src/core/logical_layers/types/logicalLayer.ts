@@ -23,6 +23,7 @@ export type LogicalLayerActions = {
   disable: () => null;
   hide: () => null;
   show: () => null;
+  remount: () => null,
   download: () => null;
   destroy: () => null;
 };
