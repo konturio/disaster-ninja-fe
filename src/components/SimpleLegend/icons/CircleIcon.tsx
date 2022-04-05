@@ -27,7 +27,12 @@ export function CircleIcon({
         cy="9"
         r="7"
         fill={styles['fill-color'] || styles['circle-color'] || 'none'}
-        stroke={styles['circle-stroke-color'] || styles.color || '#000000'}
+        stroke={
+          styles['circle-stroke-color'] ||
+          styles.color ||
+          styles['circle-color'] ||
+          '#000000'
+        }
         strokeWidth={styles.width || 4}
       />
     </svg>
