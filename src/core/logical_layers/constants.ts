@@ -25,23 +25,29 @@ export const groupSettings: Record<string, GroupSettings> = {
     mutuallyExclusive: false,
     order: 0,
   },
+  user_layers: {
+    name: 'Your Layers',
+    openByDefault: true,
+    mutuallyExclusive: false,
+    order: 1,
+  },
   bivariate: {
     name: 'Kontur Analytics',
     openByDefault: true,
     mutuallyExclusive: true,
-    order: 1,
+    order: 2,
   },
   qa: {
     name: 'QA',
     openByDefault: true,
     mutuallyExclusive: false,
-    order: 2,
+    order: 3,
   },
   osmbasedmap: {
     name: 'OpenStreetMap Based',
     openByDefault: false,
     mutuallyExclusive: false,
-    order: 3,
+    order: 4,
   },
   other: {
     name: 'Other',
