@@ -26,18 +26,6 @@ const getLayersConfig = (
   );
   return [
     {
-      id: id + '-main',
-      source: sourceId,
-      type: 'line' as const,
-      paint: {
-        'line-width': 6,
-        'line-color': FOCUSED_GEOMETRY_COLOR,
-      },
-      layout: {
-        'line-join': 'round',
-      },
-    },
-    {
       id: id + '-outline',
       source: sourceId,
       type: 'line' as const,
@@ -45,6 +33,18 @@ const getLayersConfig = (
         'line-width': 8,
         'line-color': '#FFF',
         'line-opacity': 0.5,
+      },
+      layout: {
+        'line-join': 'round',
+      },
+    },
+    {
+      id: id + '-main',
+      source: sourceId,
+      type: 'line' as const,
+      paint: {
+        'line-width': 6,
+        'line-color': FOCUSED_GEOMETRY_COLOR,
       },
       layout: {
         'line-join': 'round',
@@ -123,6 +123,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     !map._loaded && (await waitMapEvent(map, 'load'));
 
     const stateSource = state.source?.source ?? null;
+
     // I'm cast type here because i known that in willMount i add geojson source
     const mapSource = map.getSource(this.sourceId) as GeoJSONSource;
 
@@ -181,7 +182,9 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     if (sourceAdded) {
       this.layerConfigs.map(async (layerConfig) => {
         layersOrderManager.getBeforeIdByType(layerConfig.type, (beforeId) => {
-          map.addLayer(layerConfig, beforeId);
+          if (map.getLayer(layerConfig.id) === undefined) {
+            map.addLayer(layerConfig, beforeId);
+          }
         });
       });
     }

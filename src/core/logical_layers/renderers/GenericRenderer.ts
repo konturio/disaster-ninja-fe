@@ -99,7 +99,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       );
     }
     /* Create layer */
-    if (legend) {
+    if (legend && legend.steps.length) {
       const layerStyles = this._generateLayersFromLegend(legend);
       const layers = this._setLayersIds(layerStyles);
       layers.forEach(async (mapLayer) => {
@@ -117,8 +117,10 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       // cleanup unused layers
       this._layerIds.forEach((id) => {
         if (!layers.find((layer) => layer.id === id)) {
-          map.removeLayer(id);
-          this._layerIds.delete(id);
+          if (map.getLayer(id)) {
+            map.removeLayer(id);
+            this._layerIds.delete(id);
+          }
           return;
         }
       });
@@ -159,7 +161,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
      * request from https to http failed in browser with "mixed content" error
      * solution: cut off protocol part and replace with current page protocol
      */
-    url = window.location.protocol + url.replace('/https?:/', '');
+    url = window.location.protocol + url.replace(/https?:/, '');
     /**
      * Some link templates use values that mapbox/maplibre do not understand
      * solution: convert to equivalents
@@ -216,12 +218,9 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         minzoom: 0,
         maxzoom: 22,
       };
-      /* Look at class comment */
-      requestAnimationFrame(() => {
-        layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-          map.addLayer(mapLayer, beforeId);
-          this._layerIds.add(layerId);
-        });
+      layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
+        map.addLayer(mapLayer, beforeId);
+        this._layerIds.add(layerId);
       });
     } else {
       // Vector tiles
@@ -245,12 +244,9 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
           if (map.getLayer(mapLayer.id)) {
             map.removeLayer(mapLayer.id);
           }
-          /* Look at class comment */
-          requestAnimationFrame(() => {
-            layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-              map.addLayer(mapLayer as AnyLayer, beforeId);
-              this._layerIds.add(mapLayer.id);
-            });
+          layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
+            map.addLayer(mapLayer as AnyLayer, beforeId);
+            this._layerIds.add(mapLayer.id);
           });
         });
       } else {
