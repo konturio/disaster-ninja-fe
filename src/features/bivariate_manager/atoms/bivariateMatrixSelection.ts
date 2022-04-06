@@ -1,19 +1,20 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import {
-  BivariateLayerStyle,
-  generateColorThemeAndBivariateStyle,
-} from '~utils/bivariate/bivariateColorThemeUtils';
-import {
-  createBivariateLegend,
-  createBivariateMeta,
-} from '~utils/bivariate/bivariateLegendUtils';
+import { BivariateLayerStyle, generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
+import { createBivariateLegend, createBivariateMeta } from '~utils/bivariate/bivariateLegendUtils';
 import { ColorTheme } from '~core/types';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
+
+const UNSELECTED_STATE = {
+  xNumerator: null,
+  xDenominator: null,
+  yNumerator: null,
+  yDenominator: null,
+};
 
 export const bivariateMatrixSelectionAtom = createAtom(
   {
@@ -27,18 +28,13 @@ export const bivariateMatrixSelectionAtom = createAtom(
     disableBivariateLayer: () => null,
   },
   (
-    { onAction, schedule, getUnlistedState, create },
+    { onAction, schedule, getUnlistedState, create, onChange },
     state: {
       xNumerator: string | null;
       xDenominator: string | null;
       yNumerator: string | null;
       yDenominator: string | null;
-    } = {
-      xNumerator: null,
-      xDenominator: null,
-      yNumerator: null,
-      yDenominator: null,
-    },
+    } = UNSELECTED_STATE,
   ) => {
     onAction('setMatrixSelection', (selection) => {
       state = selection;
