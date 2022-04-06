@@ -106,7 +106,7 @@ export const areaLayers = createAtom(
   {
     areaLayersResourceAtom,
   },
-  ({ onChange, schedule, getUnlistedState }) => {
+  ({ onChange, schedule }) => {
     onChange('areaLayersResourceAtom', (nextData, prevData) => {
       /* Prepare data */
       if (nextData.loading) {
@@ -170,15 +170,11 @@ export const areaLayers = createAtom(
       actions.push(...layerRegisterActions);
 
       /* Unregister removed layers */
-      const layersRegistry = getUnlistedState(layersRegistryAtom);
-      const layerIdsToRemove = Array.from(removed).filter(lrId => layersRegistry.has(lrId));
-      if (layerIdsToRemove.length) {
-        actions.push(
-          layersRegistryAtom.unregister(layerIdsToRemove, {
-            notifyLayerAboutDestroy: true,
-          }),
-        );
-      }
+      actions.push(
+        layersRegistryAtom.unregister(Array.from(removed), {
+          notifyLayerAboutDestroy: true,
+        }),
+      );
 
       /* Batch actions into one transaction */
       if (actions.length) {
