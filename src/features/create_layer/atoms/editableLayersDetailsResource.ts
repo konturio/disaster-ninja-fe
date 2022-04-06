@@ -20,7 +20,7 @@ export const editableLayersDetailsParamsAtom = createAtom(
     editableLayersResourceAtom: editableLayersListResource,
   },
   (
-    { get, getUnlistedState },
+    { get },
     state: DetailsRequestParams | null = null,
   ): DetailsRequestParams | null => {
     const editableLayersResource = get('editableLayersResourceAtom');

@@ -3,7 +3,6 @@ import { editTargetAtom } from './editTarget';
 import { EditTargets } from '../constants';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
-import { selectedIndexesAtom } from '~core/draw_tools/atoms/selectedIndexesAtom';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawModes } from '~core/draw_tools/constants';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
@@ -124,6 +123,7 @@ createAtom(
 export const currentSelectedPoint = createAtom(
   {
     currentSelectedPointIndex,
+    currentEditedLayerFeatures,
     updateProperties: (properties: GeoJSON.GeoJsonProperties) => properties,
     setPosition: (position: { lng: number; lat: number }) => position,
     deleteFeature: () => null,
@@ -140,7 +140,7 @@ export const currentSelectedPoint = createAtom(
         getUnlistedState(drawnGeometryAtom).features[currentSelectedPointIndex];
       const updatedProperties = {
         ...currentFeature.properties,
-        properties,
+        ...properties,
       };
       schedule((d) => {
         d(
@@ -162,8 +162,11 @@ export const currentSelectedPoint = createAtom(
       });
     });
 
-    return getUnlistedState(drawnGeometryAtom).features[
-      currentSelectedPointIndex
-    ];
+    const layerFeatures = get('currentEditedLayerFeatures');
+    if (layerFeatures === null) {
+      return null;
+    }
+
+    return layerFeatures[currentSelectedPointIndex];
   },
 );

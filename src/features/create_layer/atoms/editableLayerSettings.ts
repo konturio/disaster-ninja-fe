@@ -1,4 +1,3 @@
-import type { Action } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import type { EditableLayerSettings } from '../types';
 import { editableLayersListResource } from './editableLayersListResource';

@@ -65,7 +65,11 @@ export const editableLayerControllerAtom = createAtom(
             ),
           };
           dispatch([
-            editTargetAtom.set({ type: EditTargets.layer, layerId }),
+            editTargetAtom.set({
+              type: EditTargets.layer,
+              layerId,
+              settings: layerUserData,
+            }),
             create('editForm', form),
           ]);
         });
@@ -130,6 +134,10 @@ export const editableLayerControllerAtom = createAtom(
                 editTargetAtom.set({
                   type: EditTargets.features,
                   layerId: responseData.id,
+                  settings: {
+                    name: responseData.name,
+                    featureProperties: responseData.featureProperties ?? {},
+                  },
                 }),
               ]);
             }
