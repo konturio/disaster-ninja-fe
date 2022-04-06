@@ -212,11 +212,8 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
     config._subLayerProps.guides.pointRadiusMaxPixels = 4;
     const deckLayer = new MapboxLayer({ ...config });
     if (!this._map.getLayer(deckLayer.id)) {
-      debugger;
       this._map.addLayer(deckLayer);
-      console.log(this._map.getLayer(deckLayer.id));
     }
-    console.log(this._map, this._map.getLayer(deckLayer.id));
     this.mountedDeckLayers[mode] = deckLayer;
   }
 

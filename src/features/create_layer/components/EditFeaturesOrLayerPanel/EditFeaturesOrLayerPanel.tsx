@@ -2,15 +2,16 @@ import { useAtom } from '@reatom/react';
 import { editTargetAtom } from '~features/create_layer/atoms/editTarget';
 import { EditFeaturesPanel } from '../EditFeaturesPanel/EditFeaturesPanel';
 import { EditLayerPanel } from '../EditLayerPanel/EditLayerPanel';
+import { EditTargets } from '../../constants';
 
 export function EditFeaturesOrLayerPanel() {
   const [editTarget] = useAtom(editTargetAtom);
 
-  switch (editTarget) {
-    case 'layer':
+  switch (editTarget.type) {
+    case EditTargets.layer:
       return <EditLayerPanel />;
 
-    case 'features':
+    case EditTargets.features:
       return <EditFeaturesPanel />;
 
     default:

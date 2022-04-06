@@ -30,7 +30,8 @@ export const toolboxAtom = createAtom(
     state: ToolboxState = { mode: null, selectedIndexes: [] },
   ) => {
     const actions: Action[] = [];
-    const newState: ToolboxState = {
+    let newState: ToolboxState = {
+      ...state,
       mode: get('activeDrawModeAtom'),
       selectedIndexes: get('selectedIndexesAtom'),
       drawingIsStarted: get('isDrawingStartedAtom'),
@@ -55,10 +56,9 @@ export const toolboxAtom = createAtom(
     });
 
     // I think we don't need to specify the need for ModifyMode
-    onAction(
-      'setAvalibleModes',
-      (modes) => (state = { ...state, avalibleModes: modes }),
-    );
+    onAction('setAvalibleModes', (modes) => {
+      newState = { ...newState, avalibleModes: modes };
+    });
 
     actions.length &&
       schedule((dispatch) => {
