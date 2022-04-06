@@ -57,7 +57,6 @@ export const layersRegistryAtom: LayerRegistryAtom = createAtom(
      * For avoid state inconsistency, you must clean sub-states atoms here in one transaction
      */
     onAction('unregister', ({ ids, notifyLayerAboutDestroy }) => {
-      if (notifyLayerAboutDestroy === false) return;
       ids.forEach((id) => {
         const layerAtom = state.get(id);
         if (layerAtom) {
