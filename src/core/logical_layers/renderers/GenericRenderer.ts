@@ -29,6 +29,7 @@ import {
   LayerSource,
   LayerTileSource,
 } from '~core/logical_layers/types/source';
+import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -297,6 +298,41 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         if (!this._removeClickListener) {
           this._removeClickListener = registerMapListener('click', handler, 60);
         }
+      }
+
+      // Add tooltip if it's described in legend
+      // Todo we might want to move this logic somewhere else
+      if ('tooltip' in legend && !this._removeClickListener) {
+        const paramName = legend.tooltip?.paramName;
+        const tooltipType = legend.tooltip?.type;
+        // we only expect markdown tooltip type ATM
+        if (!paramName || tooltipType !== 'markdown') return;
+
+        this._removeClickListener = registerMapListener(
+          'click',
+          (ev) => {
+            if (!ev || !ev.lngLat) return true;
+            const thisLayersFeatures = ev.target
+              .queryRenderedFeatures(ev.point)
+              .filter((f) => f.source.includes(this._sourceId));
+            const featureProperties = thisLayersFeatures.find(
+              (feature) => feature.properties?.[paramName],
+            )?.properties;
+            if (!featureProperties) return true;
+            currentTooltipAtom.setCurrentTooltip.dispatch({
+              popup: featureProperties[paramName],
+              position: {
+                x: ev.originalEvent.clientX,
+                y: ev.originalEvent.clientY,
+              },
+              onOuterClick(e, close) {
+                close();
+              },
+            });
+            return true;
+          },
+          50,
+        );
       }
     }
   }
