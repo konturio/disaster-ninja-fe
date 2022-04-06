@@ -1,7 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import {
   CREATE_LAYER_CONTROL_ID,
-  EditTargets,
   MAX_USER_LAYER_ALLOWED_TO_CREATE,
 } from '~features/create_layer/constants';
 import { TranslationService as i18n } from '~core/localization';
@@ -13,7 +12,6 @@ import {
 import { AddLayerIcon } from '@k2-packages/default-icons';
 import { editableLayerControllerAtom } from './editableLayerController';
 import { editableLayersListResource } from './editableLayersListResource';
-import { editTargetAtom } from './editTarget';
 
 const sidebarButtonParams = {
   id: CREATE_LAYER_CONTROL_ID,
@@ -31,7 +29,6 @@ const sidebarButtonParams = {
       editableLayerControllerAtom.createNewLayer.dispatch();
     } else {
       editableLayerControllerAtom.reset.dispatch();
-      editTargetAtom.set(EditTargets.none);
     }
   },
 };

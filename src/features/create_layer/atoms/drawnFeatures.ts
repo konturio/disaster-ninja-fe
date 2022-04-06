@@ -8,9 +8,7 @@ export const drawnFeaturesAtom = createAtom(
     addEditableFeature: (feature: Feature) => feature,
     updateEditableFeature: (feature: Feature) => feature,
     saveEditableFeature: (feature: Feature) => feature,
-    editFeature: (feature: Feature, index: number) => {
-      return { feature, index };
-    },
+    editFeature: (feature: Feature, index: number) => ({ feature, index }),
     removeFeature: (index: number) => index,
     setFeatures: (features: Feature[]) => features,
     clearFeatures: () => null,

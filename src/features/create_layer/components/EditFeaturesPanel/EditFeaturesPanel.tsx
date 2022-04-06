@@ -10,6 +10,8 @@ import { AddOrEditFeatureForm } from '../AddOrEditFeatureForm/AddOrEditFeatureFo
 import s from './EditFeaturesPanel.module.css';
 
 export function EditFeaturesPanel() {
+  return null;
+
   const [
     { featurePanelMode, geometry, ...featureProperties },
     { changeProperty },

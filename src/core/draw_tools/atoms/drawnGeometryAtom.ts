@@ -1,5 +1,4 @@
 import { createAtom } from '~utils/atoms';
-import { focusedGeometryAtom } from '~core/shared_state';
 import { Feature, FeatureCollection } from 'geojson';
 import { activeDrawModeAtom } from './activeDrawMode';
 
@@ -12,14 +11,11 @@ export const drawnGeometryAtom = createAtom(
   {
     addFeature: (feature: Feature) => feature,
     setFeatures: (features: Feature[]) => features,
-    updateByIndex: (feature: Feature, index: number) => {
-      return { feature, index };
-    },
+    updateByIndex: (feature: Feature, index: number) => ({ feature, index }),
     removeByIndexes: (indexes: number[]) => indexes,
-    focusedGeometryAtom,
     activeDrawModeAtom,
   },
-  ({ onAction }, state: FeatureCollection = defaultState) => {
+  ({ onAction, schedule }, state: FeatureCollection = defaultState) => {
     onAction('addFeature', (feature) => {
       state = { ...state, features: [...state.features, feature] };
     });

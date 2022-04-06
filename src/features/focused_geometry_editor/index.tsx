@@ -50,7 +50,7 @@ export function initFocusedGeometry() {
           'DrawLineMode',
           'DrawPointMode',
         ]);
-        // TODO fix that logic in layer.setMode()
+        // TODO fix that logic in layer.setMode() in #9782
         drawModeLogicalLayerAtom.enable.dispatch();
         activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
         activeDrawModeAtom.setDrawMode.dispatch(drawModes.DrawPolygonMode);

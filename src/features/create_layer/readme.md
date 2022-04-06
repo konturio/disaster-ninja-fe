@@ -31,7 +31,6 @@ flowchart TD
   editableLayersControlsAtom --> layersMenusAtom:::coreAtom
   editableLayersListResource --> layerSideBarButtonController
   layerSideBarButtonController --> sideControlsBarAtom:::coreAtom
-  layerSideBarButtonController --> editTargetAtom
   layerSideBarButtonController --> editableLayerControllerAtom
   editableLayersControlsAtom ----> editableLayerControllerAtom
   %% Sub features switch
@@ -47,12 +46,13 @@ flowchart TD
   editableLayerControllerAtom --> layerEditorFormAtom
   editableLayerControllerAtom --> layerEditorFormFieldAtom
   editableLayerControllerAtom --> editableLayersListResource
+  editableLayerControllerAtom --> editTargetAtom
   %% Edit Features
+  editableLayersControlsAtom --> featurePanelControllerAtom
   EditFeaturesPanel:::View ---> featurePanelControllerAtom
   featurePanelControllerAtom --> editTargetAtom
   EditFeaturesPanel --> AddOrEditFeatureForm:::View
   drawToolsListenerAtom --> featurePanelControllerAtom
-  editTargetAtom --> drawToolsListenerAtom
   drawnGeometryAtom:::coreAtom --> drawToolsListenerAtom
   drawToolsListenerAtom --> drawnFeaturesAtom
 ```

@@ -8,7 +8,11 @@ import {
   createLayerEditorFormFieldAtom,
   LayerEditorFormFieldAtomType,
 } from './layerEditorFormField';
-import { LayerEditorFormModel, EditableLayerFieldType } from '../types';
+import {
+  LayerEditorFormModel,
+  EditableLayerFieldType,
+  EditableLayers,
+} from '../types';
 import { apiClient } from '~core/index';
 import { editableLayerSettingsAtom } from './editableLayerSettings';
 import { editTargetAtom } from './editTarget';
@@ -43,7 +47,7 @@ export const editableLayerControllerAtom = createAtom(
         data: createLayerEditorFormAtom(),
       };
       schedule((dispatch) => {
-        dispatch(editTargetAtom.set('layer'));
+        dispatch(editTargetAtom.set({ type: 'layer' }));
       });
     });
 
@@ -61,7 +65,7 @@ export const editableLayerControllerAtom = createAtom(
             ),
           };
           dispatch([
-            editTargetAtom.set(EditTargets.layer),
+            editTargetAtom.set({ type: EditTargets.layer, layerId }),
             create('editForm', form),
           ]);
         });
@@ -100,15 +104,15 @@ export const editableLayerControllerAtom = createAtom(
 
         schedule(async (dispatch) => {
           try {
-            let responseData: unknown;
+            let responseData: EditableLayers | undefined;
             if (data.id) {
-              responseData = await apiClient.put<unknown>(
+              responseData = await apiClient.put<EditableLayers>(
                 `/layers/${data.id}`,
                 data,
                 true,
               );
             } else {
-              responseData = await apiClient.post<unknown>(
+              responseData = await apiClient.post<EditableLayers>(
                 `/layers`,
                 data,
                 true,
@@ -120,10 +124,13 @@ export const editableLayerControllerAtom = createAtom(
                 create('_update', {
                   loading: false,
                   error: null,
-                  data: state?.data || null,
+                  data: state?.data ?? null,
                 }),
                 editableLayersListResource.refetch(),
-                editTargetAtom.set(EditTargets.features),
+                editTargetAtom.set({
+                  type: EditTargets.features,
+                  layerId: responseData.id,
+                }),
               ]);
             }
           } catch (e) {
@@ -152,7 +159,7 @@ export const editableLayerControllerAtom = createAtom(
                 data: null,
               }),
               editableLayersListResource.refetch(),
-              editTargetAtom.set(EditTargets.none),
+              editTargetAtom.set({ type: EditTargets.none }),
               layersRegistryAtom.unregister(layerId),
             ]);
           } catch (e) {
@@ -173,6 +180,9 @@ export const editableLayerControllerAtom = createAtom(
       if (state) {
         state = null;
       }
+      schedule((dispatch) => {
+        dispatch(editTargetAtom.set({ type: EditTargets.none }));
+      });
     });
 
     onAction('_update', (st) => {

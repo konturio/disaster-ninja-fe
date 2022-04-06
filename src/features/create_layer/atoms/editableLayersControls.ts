@@ -9,8 +9,6 @@ import { editableLayersListResource } from './editableLayersListResource';
 import { TranslationService as i18n } from '~core/localization';
 import { editableLayerControllerAtom } from './editableLayerController';
 import { featurePanelControllerAtom } from './featurePanelController';
-import { editTargetAtom } from './editTarget';
-import { EditTargets } from '../constants';
 
 /**
  * This atom responsibilities:
@@ -107,7 +105,7 @@ export const editableLayersControlsAtom = createAtom(
                 id: 'edit_features',
                 name: i18n.t('Edit Features'),
                 callback: () =>
-                  editTargetAtom.set.dispatch(EditTargets.features),
+                  featurePanelControllerAtom.editFeatures.dispatch(layerId),
               },
               {
                 id: 'delete_layer',
