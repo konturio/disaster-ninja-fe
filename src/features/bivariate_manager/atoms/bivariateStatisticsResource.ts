@@ -58,12 +58,14 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
         geom.geometry.features.length)
     );
 
+    const importantLayersRequest = `importantLayers: ${JSON.stringify(importantLayers)}`;
+
     const polygonStatisticRequest =
       geom && geomNotEmpty
         ? `{ polygonV2: ${stringifyWithoutQuotes(
             cleanupGeometry(geom.geometry),
-          )}, importantLayers: ${JSON.stringify(importantLayers)} }`
-        : '{}';
+          )}, ${importantLayersRequest} }`
+        : `{ ${importantLayersRequest} }`;
 
     const responseData = await graphQlClient.post<{
       data: BivariateStatisticsResponse;
