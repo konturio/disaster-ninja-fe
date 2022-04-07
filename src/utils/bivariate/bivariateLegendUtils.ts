@@ -15,9 +15,31 @@ export function createBivariateLegend(
   const xAxis = stats.axis.find(
     (ax) => ax.quotient[0] === xNumerator && ax.quotient[1] === xDenominator,
   );
+  if (xAxis && !xAxis.label) {
+    const xAxisNominatorIndicator = stats.indicators.find(
+      (ind) => ind.name === xNumerator,
+    );
+    const xAxisDenominatorIndicator = stats.indicators.find(
+      (ind) => ind.name === xDenominator,
+    );
+
+    xAxis.label = `${xAxisNominatorIndicator?.label || xNumerator} to ${xAxisDenominatorIndicator?.label || xDenominator}`;
+  }
+
   const yAxis = stats.axis.find(
     (ax) => ax.quotient[0] === yNumerator && ax.quotient[1] === yDenominator,
   );
+
+  if (yAxis && !yAxis.label) {
+    const yAxisNominatorIndicator = stats.indicators.find(
+      (ind) => ind.name === yNumerator,
+    );
+    const yAxisDenominatorIndicator = stats.indicators.find(
+      (ind) => ind.name === yDenominator,
+    );
+
+    yAxis.label = `${yAxisNominatorIndicator?.label || yNumerator} to ${yAxisDenominatorIndicator?.label || yDenominator}`;
+  }
 
   if (!xAxis || !yAxis) return;
 
@@ -39,16 +61,16 @@ export function createBivariateMeta(
   yDenominator: string,
   stats: Stat,
 ): LayerMeta {
-  const xAxisIndicator = stats.indicators.find(
+  const xAxisNominatorIndicator = stats.indicators.find(
     (ind) => ind.name === xNumerator,
   );
 
-  const yAxisIndicator = stats.indicators.find(
+  const yAxisNominatorIndicator = stats.indicators.find(
     (ind) => ind.name === yNumerator,
   );
 
-  const xAxisLabel = xAxisIndicator?.label;
-  const yAxisLabel = yAxisIndicator?.label;
+  const xNominatorLabel = xAxisNominatorIndicator?.label;
+  const yNominatorLabel = yAxisNominatorIndicator?.label;
   const xDenominatorLabel = stats.indicators.find(
     (ind) => ind.name === xDenominator,
   )?.label;
@@ -58,21 +80,21 @@ export function createBivariateMeta(
 
   let copyrights: string[] = [];
   if (
-    xAxisIndicator &&
-    xAxisIndicator.copyrights &&
-    xAxisIndicator.copyrights.length
+    xAxisNominatorIndicator &&
+    xAxisNominatorIndicator.copyrights &&
+    xAxisNominatorIndicator.copyrights.length
   ) {
-    copyrights = copyrights.concat(xAxisIndicator.copyrights);
+    copyrights = copyrights.concat(xAxisNominatorIndicator.copyrights);
   }
   if (
-    yAxisIndicator &&
-    yAxisIndicator.copyrights &&
-    yAxisIndicator.copyrights.length
+    yAxisNominatorIndicator &&
+    yAxisNominatorIndicator.copyrights &&
+    yAxisNominatorIndicator.copyrights.length
   ) {
-    copyrights = copyrights.concat(yAxisIndicator.copyrights);
+    copyrights = copyrights.concat(yAxisNominatorIndicator.copyrights);
   }
 
-  const description = `This map shows relation of ${xAxisLabel} (normalized by ${xDenominatorLabel}) to the base of ${yAxisLabel} (normalized by ${yDenominatorLabel}).`;
+  const description = `This map shows relation of ${xNominatorLabel} (normalized by ${xDenominatorLabel}) to the base of ${yNominatorLabel} (normalized by ${yDenominatorLabel}).`;
 
   return {
     description,
