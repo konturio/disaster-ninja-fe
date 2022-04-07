@@ -2,7 +2,7 @@ import { Geometry } from 'geojson';
 import s from './AddOrEditFeatureForm.module.css';
 import { Label } from '~components/Label/Label';
 import { translationService as i18n } from '~core/index';
-import { Input } from '@k2-packages/ui-kit';
+import { Button, Input } from '@k2-packages/ui-kit';
 import { ChangeEvent } from 'react';
 import { EditableLayerSettings } from '~features/create_layer/types';
 
@@ -11,6 +11,8 @@ type AddOrEditFeatureFormProps = {
   fieldsSettings: EditableLayerSettings;
   featureProperties: { [key: string]: string };
   changeProperty: (property: string, value: string) => void;
+  onSave: () => void;
+  onCancel: () => void;
 };
 
 export function AddOrEditFeatureForm({
@@ -18,6 +20,8 @@ export function AddOrEditFeatureForm({
   fieldsSettings,
   changeProperty,
   featureProperties,
+  onSave,
+  onCancel,
 }: AddOrEditFeatureFormProps) {
   // we only expecting point geometry ATM
   if (geometry !== null && geometry.type !== 'Point') return null;
@@ -50,6 +54,14 @@ export function AddOrEditFeatureForm({
           </div>
         );
       })}
+      <div className={s.buttonsContainer}>
+        <Button onClick={onSave} className={s.saveBtn}>
+          {i18n.t('Save Features')}
+        </Button>
+        <Button onClick={onCancel} className={s.cancelBtn}>
+          {i18n.t('Cancel')}
+        </Button>
+      </div>
     </div>
   );
 }

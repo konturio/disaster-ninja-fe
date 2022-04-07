@@ -1,8 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import {
-  CREATE_LAYER_CONTROL_ID,
-  MAX_USER_LAYER_ALLOWED_TO_CREATE,
-} from '~features/create_layer/constants';
+import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
 import { TranslationService as i18n } from '~core/localization';
 import {
   controlGroup,
@@ -46,19 +43,17 @@ export const layerSideBarButtonControllerAtom = createAtom(
       if (loading === true || error || data === null || data === undefined)
         return;
       // Editable layers laded, check count
-      const userCanCreateMoreLayers =
-        data.length < MAX_USER_LAYER_ALLOWED_TO_CREATE;
       const controlWasAddedBefore =
         !!getUnlistedState(sideControlsBarAtom)[sidebarButtonParams.id];
       // Add
-      if (userCanCreateMoreLayers && !controlWasAddedBefore) {
+      if (!controlWasAddedBefore) {
         schedule((dispatch) => {
           dispatch(sideControlsBarAtom.addControl(sidebarButtonParams));
         });
         return;
       }
       // Or remove
-      if (!userCanCreateMoreLayers && controlWasAddedBefore) {
+      if (controlWasAddedBefore) {
         schedule((dispatch) => {
           dispatch(sideControlsBarAtom.removeControl(sidebarButtonParams.id));
         });

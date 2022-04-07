@@ -4,6 +4,7 @@
   width: 100%;
   text-align: center;
   transition: 0.8;
+  z-index: 100;
 }
 
 .enter {

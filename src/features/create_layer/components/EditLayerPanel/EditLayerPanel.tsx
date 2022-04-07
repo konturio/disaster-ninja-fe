@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { Panel, Text } from '@k2-packages/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
@@ -10,11 +10,20 @@ import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
 import { EditLayerForm } from '../../components/EditLayerForm/EditLayerForm';
 import { editableLayerControllerAtom } from '../../atoms/editableLayerController';
-import { CREATE_LAYER_CONTROL_ID } from '../../constants';
+import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
 import s from './EditLayerPanel.module.css';
+import { editTargetAtom } from '~features/create_layer/atoms/editTarget';
 
 export function EditLayerPanel() {
   const [createLayerState, { save }] = useAtom(editableLayerControllerAtom);
+  const disableSideBarControl = useAction(
+    () => sideControlsBarAtom.disable(CREATE_LAYER_CONTROL_ID),
+    [],
+  );
+  const disableEditing = useAction(
+    () => editTargetAtom.set({ type: EditTargets.none }),
+    [],
+  );
 
   let statesToComponents: ReturnType<typeof createStateMap> | undefined =
     undefined;
@@ -24,8 +33,9 @@ export function EditLayerPanel() {
   }
 
   const onPanelClose = useCallback(() => {
-    sideControlsBarAtom.disable.dispatch(CREATE_LAYER_CONTROL_ID);
-  }, []);
+    disableSideBarControl();
+    disableEditing();
+  }, [disableEditing, disableSideBarControl]);
 
   return (
     <Panel

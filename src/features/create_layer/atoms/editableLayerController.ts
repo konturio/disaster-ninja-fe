@@ -16,7 +16,7 @@ import {
 import { apiClient } from '~core/index';
 import { editableLayerSettingsAtom } from './editableLayerSettings';
 import { editTargetAtom } from './editTarget';
-import { EditTargets } from '../constants';
+import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
 import { editableLayersListResource } from './editableLayersListResource';
 
 type EditableLayerAtomStateType = {
@@ -68,7 +68,6 @@ export const editableLayerControllerAtom = createAtom(
             editTargetAtom.set({
               type: EditTargets.layer,
               layerId,
-              settings: layerUserData,
             }),
             create('editForm', form),
           ]);
@@ -94,6 +93,10 @@ export const editableLayerControllerAtom = createAtom(
         const data = {
           id: dataState.id,
           name: dataState.name,
+          legend: {
+            name: dataState.name,
+            ...TEMPORARY_USER_LAYER_LEGEND,
+          },
           featureProperties: dataState.fields.reduce(
             (acc, fldAtom: LayerEditorFormFieldAtomType) => {
               const fieldState = getUnlistedState(fldAtom);
@@ -108,6 +111,10 @@ export const editableLayerControllerAtom = createAtom(
 
         schedule(async (dispatch) => {
           try {
+            // TODO - use shared appId from core (fix in #9817)
+            const appId = await apiClient.get('/apps/default_id');
+            // @ts-expect-error temporary code
+            data.appId = appId;
             let responseData: EditableLayers | undefined;
             if (data.id) {
               responseData = await apiClient.put<EditableLayers>(
@@ -134,10 +141,6 @@ export const editableLayerControllerAtom = createAtom(
                 editTargetAtom.set({
                   type: EditTargets.features,
                   layerId: responseData.id,
-                  settings: {
-                    name: responseData.name,
-                    featureProperties: responseData.featureProperties ?? {},
-                  },
                 }),
               ]);
             }

@@ -1,4 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
+import { FeatureCollection } from '~utils/geoJSON/helpers';
+
 import { editTargetAtom } from './editTarget';
 import { EditTargets } from '../constants';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
@@ -7,12 +9,15 @@ import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawModes } from '~core/draw_tools/constants';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
+import { apiClient, notificationService } from '~core/index';
+import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 
-const currentEditedLayerFeatures = createAtom(
+export const currentEditedLayerFeatures = createAtom(
   {
     readFeaturesFromLayer: (layerId: string) => layerId,
     addFeature: drawnGeometryAtom.addFeature,
     removeFeature: drawnGeometryAtom.removeByIndexes,
+    save: () => null,
     setFeatureProperty: (
       featureIdx: number,
       properties: GeoJSON.GeoJsonProperties,
@@ -27,13 +32,17 @@ const currentEditedLayerFeatures = createAtom(
       const layerSource = layersSources.get(layerId);
       const sourceData = layerSource?.data?.source;
       if (sourceData?.type === 'geojson') {
-        if (sourceData.data.type === 'Feature') {
-          state = [sourceData.data];
+        const sourceDataCopy = deepCopy(sourceData);
+        if (sourceDataCopy.data.type === 'Feature') {
+          state = [sourceDataCopy.data];
         }
-        if (sourceData.data.type === 'FeatureCollection') {
-          state = sourceData.data.features;
+        if (sourceDataCopy.data.type === 'FeatureCollection') {
+          state = sourceDataCopy.data.features;
         }
       }
+      schedule((dispatch, ctx = {}) => {
+        ctx.layerId = layerId;
+      });
     });
 
     onAction('addFeature', (feature) => {
@@ -60,6 +69,24 @@ const currentEditedLayerFeatures = createAtom(
         properties,
       });
       state = newState;
+    });
+
+    onAction('save', () => {
+      schedule(async (dispatch, ctx) => {
+        if (ctx.layerId && state) {
+          try {
+            await apiClient.put<unknown>(
+              `/layers/${ctx.layerId}/items/`,
+              new FeatureCollection(state),
+              true,
+            );
+            notificationService.info({ title: 'Features was saved' }, 3);
+          } catch (e) {
+            notificationService.error({ title: 'Failed to save features' });
+            console.error(e);
+          }
+        }
+      });
     });
 
     return state;
@@ -93,8 +120,9 @@ createAtom(
   ({ onChange, getUnlistedState, schedule }) => {
     onChange('editTargetAtom', (next) => {
       const { layerId } = next;
+      const drawToolsActivated = !!getUnlistedState(activeDrawModeAtom);
+
       if (next.type === EditTargets.features && layerId !== undefined) {
-        const drawToolsActivated = !!getUnlistedState(activeDrawModeAtom);
         if (!drawToolsActivated) {
           schedule((dispatch) => {
             // TODO fix that logic in layer.setMode() in #9782
@@ -105,16 +133,18 @@ createAtom(
               currentEditedLayerFeatures.readFeaturesFromLayer(layerId),
             ]);
           });
-        } else {
-          schedule((dispatch) => {
-            // TODO fix that logic in layer.setMode() in #9782
-            dispatch([
-              drawModeLogicalLayerAtom.disable(),
-              activeDrawModeAtom.setDrawMode(null),
-              drawnGeometryAtom.setFeatures([]),
-            ]);
-          });
         }
+      }
+
+      if (drawToolsActivated && next.type === EditTargets.none) {
+        schedule((dispatch) => {
+          // TODO fix that logic in layer.setMode() in #9782
+          dispatch([
+            drawModeLogicalLayerAtom.disable(),
+            activeDrawModeAtom.setDrawMode(null),
+            drawnGeometryAtom.setFeatures([]),
+          ]);
+        });
       }
     });
   },
