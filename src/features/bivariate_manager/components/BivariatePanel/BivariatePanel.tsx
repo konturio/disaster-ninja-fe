@@ -4,10 +4,9 @@ import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { BivariatePanelIcon } from '@k2-packages/default-icons';
 import ReactDOM from 'react-dom';
-import BivariateMatrixContainer from '~features/bivariate_manager/components/BivariateMatrixContainer/BivariateMatrixContainer';
+import BivariateMatrixContainer
+  from '~features/bivariate_manager/components/BivariateMatrixContainer/BivariateMatrixContainer';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
-import { bivariateMatrixSelectionAtom } from '../../atoms/bivariateMatrixSelection';
-import { useAction } from '@reatom/react';
 
 const CustomClosePanelBtn = () => (
   <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
