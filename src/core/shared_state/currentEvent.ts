@@ -13,8 +13,10 @@ export const currentEventAtom = createAtom(
     focusedGeometryAtom,
     currentEventFeedAtom,
   },
-  ({ onAction, onChange, getUnlistedState }, state: CurrentEventAtomState = null) => {
-    onAction('setCurrentEventId', (eventId) => (state = { id: eventId }));
+  (
+    { onAction, onChange, getUnlistedState },
+    state: CurrentEventAtomState = null,
+  ) => {
     onAction('resetCurrentEvent', () => (state = null));
     onChange('focusedGeometryAtom', (focusedGeometry) => {
       const currentGeometrySource = focusedGeometry?.source;
@@ -28,6 +30,7 @@ export const currentEventAtom = createAtom(
         state = null;
       }
     });
+    onAction('setCurrentEventId', (eventId) => (state = { id: eventId }));
     return state;
   },
   '[Shared state] currentEventAtom',

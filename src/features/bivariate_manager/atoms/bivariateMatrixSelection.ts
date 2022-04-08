@@ -15,6 +15,13 @@ import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
 
+const UNSELECTED_STATE = {
+  xNumerator: null,
+  xDenominator: null,
+  yNumerator: null,
+  yDenominator: null,
+};
+
 export const bivariateMatrixSelectionAtom = createAtom(
   {
     setMatrixSelection: (
@@ -27,18 +34,13 @@ export const bivariateMatrixSelectionAtom = createAtom(
     disableBivariateLayer: () => null,
   },
   (
-    { onAction, schedule, getUnlistedState, create },
+    { onAction, schedule, getUnlistedState, create, onChange },
     state: {
       xNumerator: string | null;
       xDenominator: string | null;
       yNumerator: string | null;
       yDenominator: string | null;
-    } = {
-      xNumerator: null,
-      xDenominator: null,
-      yNumerator: null,
-      yDenominator: null,
-    },
+    } = UNSELECTED_STATE,
   ) => {
     onAction('setMatrixSelection', (selection) => {
       state = selection;
@@ -165,10 +167,10 @@ export const bivariateMatrixSelectionAtom = createAtom(
     onAction('disableBivariateLayer', () => {
       const currentRegistry = getUnlistedState(layersRegistryAtom);
       schedule((dispatch, ctx: { bivariateLayerAtomId?: string } = {}) => {
-          if (ctx.bivariateLayerAtomId) {
-            const layerAtom = currentRegistry.get(ctx.bivariateLayerAtomId);
-            layerAtom && dispatch(layerAtom.destroy());
-          }
+        if (ctx.bivariateLayerAtomId) {
+          const layerAtom = currentRegistry.get(ctx.bivariateLayerAtomId);
+          layerAtom && dispatch(layerAtom.destroy());
+        }
       });
     });
 

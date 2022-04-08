@@ -24,6 +24,7 @@ import { downloadObject } from '~utils/fileHelpers/download';
 import { deepFreeze } from './deepFreeze';
 import { createAtom } from '~utils/atoms';
 import { getMutualExcludedActions } from './getMutualExcludedActions';
+import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 /**
  * Layer Atom responsibilities:
@@ -50,7 +51,6 @@ export function createLogicalLayerAtom(
   const logicalLayerAtom = createAtom(
     {
       ...logicalLayerActions,
-      currentMapAtom,
       layersSettingsAtom,
       layersLegendsAtom,
       layersMetaAtom,
@@ -61,7 +61,7 @@ export function createLogicalLayerAtom(
       layersMenusAtom,
     },
     (
-      { get, onAction, onInit, schedule },
+      { get, onAction, getUnlistedState, onInit, schedule, onChange },
       state: LogicalLayerState = {
         id,
         error: null,
@@ -78,7 +78,8 @@ export function createLogicalLayerAtom(
       },
     ) => {
       const actions: Action[] = [];
-      const map = get('currentMapAtom') ?? null;
+      const map =
+        getUnlistedState<ApplicationMap | undefined>(currentMapAtom) ?? null;
 
       /**
        * ! Important Note! In you add new sub stores,
@@ -248,20 +249,24 @@ export function createLogicalLayerAtom(
       /* Destroy */
 
       onAction('destroy', () => {
-        if (state.id === 'eventShape')
-          /**
-           * Without this layer mounted back right after destroy
-           * on the next reducer run (because mountedLayersAtom changed)
-           * */
+        /**
+         * Without this layer mounted back right after destroy
+         * on the next reducer run (because mountedLayersAtom changed)
+         * */
 
-          hasBeenDestroyed = true;
+        hasBeenDestroyed = true;
         try {
           renderer.willDestroy({ map, state: { ...newState } });
-          actions.push(
-            registry.unregister(state.id, {
-              notifyLayerAboutDestroy: false, // cancel layer.destroy() call from registry
-            }),
-          );
+
+          // make this check to avoid double unregister call
+          const layersRegistryState = getUnlistedState(registry);
+          if (layersRegistryState.has(state.id)) {
+            actions.push(
+              registry.unregister(state.id, {
+                notifyLayerAboutDestroy: false, // cancel layer.destroy() call from registry
+              }),
+            );
+          }
         } catch (e) {
           console.error(e);
           newState.error = e;
