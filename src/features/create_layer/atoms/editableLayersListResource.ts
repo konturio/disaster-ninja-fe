@@ -29,16 +29,20 @@ const editableLayersListDependencyAtom = createAtom(
   'editableLayersListDependencyAtom',
 );
 
-export const editableLayersListResource = createResourceAtom(async (params) => {
-  const body = params?.appId ? { appId: params?.appId } : {};
+export const editableLayersListResource = createResourceAtom(
+  async (params) => {
+    const body = params?.appId ? { appId: params?.appId } : {};
 
-  const responseData = await apiClient.post<EditableLayers[]>(
-    '/layers/search/',
-    body,
-    true,
-  );
-  if (responseData === undefined) throw new Error('No data received');
+    const responseData = await apiClient.post<EditableLayers[]>(
+      '/layers/search/',
+      body,
+      true,
+    );
+    if (responseData === undefined) throw new Error('No data received');
 
-  /* Performance optimization - editable layers updated in create_layer feature */
-  return responseData.filter((l) => l.group === EDITABLE_LAYERS_GROUP);
-}, editableLayersListDependencyAtom);
+    /* Performance optimization - editable layers updated in create_layer feature */
+    return responseData.filter((l) => l.group === EDITABLE_LAYERS_GROUP);
+  },
+  editableLayersListDependencyAtom,
+  'editableLayersListResource',
+);

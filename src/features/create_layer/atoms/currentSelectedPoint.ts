@@ -11,6 +11,7 @@ import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { apiClient, notificationService } from '~core/index';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
+import { editableLayersListResource } from './editableLayersListResource';
 
 export const currentEditedLayerFeatures = createAtom(
   {
@@ -81,6 +82,7 @@ export const currentEditedLayerFeatures = createAtom(
               true,
             );
             notificationService.info({ title: 'Features was saved' }, 3);
+            dispatch(editableLayersListResource.refetch());
           } catch (e) {
             notificationService.error({ title: 'Failed to save features' });
             console.error(e);

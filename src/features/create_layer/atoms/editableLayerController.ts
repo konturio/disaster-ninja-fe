@@ -169,9 +169,9 @@ export const editableLayerControllerAtom = createAtom(
                 error: null,
                 data: null,
               }),
+              layersRegistryAtom.unregister(layerId), // Optimistic bahevior, improve ux
               editableLayersListResource.refetch(),
               editTargetAtom.set({ type: EditTargets.none }),
-              layersRegistryAtom.unregister(layerId),
             ]);
           } catch (e) {
             dispatch([
