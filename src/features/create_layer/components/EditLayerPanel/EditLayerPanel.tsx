@@ -25,17 +25,14 @@ export function EditLayerPanel() {
     [],
   );
 
-  let statesToComponents: ReturnType<typeof createStateMap> | undefined =
-    undefined;
-  if (createLayerState) {
-    statesToComponents =
-      createStateMap<LayerEditorFormAtomType>(createLayerState);
-  }
-
   const onPanelClose = useCallback(() => {
     disableSideBarControl();
     disableEditing();
   }, [disableEditing, disableSideBarControl]);
+
+  const statesToComponents = createLayerState
+    ? createStateMap<LayerEditorFormAtomType>(createLayerState)
+    : null;
 
   return (
     <Panel

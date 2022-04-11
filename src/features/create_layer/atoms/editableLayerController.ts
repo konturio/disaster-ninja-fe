@@ -160,6 +160,7 @@ export const editableLayerControllerAtom = createAtom(
     onAction('deleteLayer', (layerId) => {
       const registeredLayers = getUnlistedState(layersRegistryAtom);
       if (registeredLayers.has(layerId)) {
+        const layer = registeredLayers.get(layerId)!;
         schedule(async (dispatch) => {
           try {
             await apiClient.delete<unknown>(`/layers/${layerId}`, true);
@@ -169,8 +170,9 @@ export const editableLayerControllerAtom = createAtom(
                 error: null,
                 data: null,
               }),
-              layersRegistryAtom.unregister(layerId), // Optimistic bahevior, improve ux
-              editableLayersListResource.refetch(),
+              layer.disable(), // clear url, remove from next details request
+              layersRegistryAtom.unregister(layerId), // Optimistic behavior, improve ux
+              // editableLayersListResource.refetch(), // Extra refresh layers list request, uncomment it's in case it needed for some reason
               editTargetAtom.set({ type: EditTargets.none }),
             ]);
           } catch (e) {

@@ -2,11 +2,11 @@ import { createAtom } from '~utils/atoms';
 import { LayerEditorFormModel } from '../types';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
 
-const DEFAULT_ATOM_STATE: LayerEditorFormModel = {
+const getDefaultAtomState = (): LayerEditorFormModel => ({
   name: '',
   marker: 'default',
   fields: [],
-};
+});
 
 export type LayerEditorFormAtomType = ReturnType<
   typeof createLayerEditorFormAtom
@@ -27,7 +27,7 @@ export function createLayerEditorFormAtom(initialState?: LayerEditorFormModel) {
     },
     (
       { onAction },
-      state: LayerEditorFormModel = initialState || DEFAULT_ATOM_STATE,
+      state: LayerEditorFormModel = initialState || getDefaultAtomState(),
     ) => {
       onAction('updateName', (name) => {
         if (state.name !== name) {
