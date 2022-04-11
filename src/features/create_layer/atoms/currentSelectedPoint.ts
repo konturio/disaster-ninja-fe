@@ -12,6 +12,7 @@ import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAto
 import { apiClient, notificationService } from '~core/index';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { editableLayersListResource } from './editableLayersListResource';
+import { selectedIndexesAtom } from '~core/draw_tools/atoms/selectedIndexesAtom';
 
 export const currentEditedLayerFeatures = createAtom(
   {
@@ -19,6 +20,7 @@ export const currentEditedLayerFeatures = createAtom(
     setFeatures: drawnGeometryAtom.setFeatures,
     addFeature: drawnGeometryAtom.addFeature,
     removeFeature: drawnGeometryAtom.removeByIndexes,
+    reset: () => null,
     save: () => null,
     setFeatureProperty: (
       featureIdx: number,
@@ -29,6 +31,10 @@ export const currentEditedLayerFeatures = createAtom(
     { onAction, getUnlistedState, schedule },
     state: null | GeoJSON.Feature[] = null,
   ): typeof state => {
+    onAction('reset', () => {
+      state = null;
+    });
+
     onAction('readFeaturesFromLayer', (layerId) => {
       const layersSources = getUnlistedState(layersSourcesAtom);
       const layerSource = layersSources.get(layerId);
@@ -44,22 +50,17 @@ export const currentEditedLayerFeatures = createAtom(
       }
       schedule((dispatch, ctx = {}) => {
         ctx.layerId = layerId;
+        console.log('load geometry to drawnGeometryAtom', state);
         if (state) dispatch(drawnGeometryAtom.setFeatures(state));
       });
     });
 
-    // drawnGeometryAtom use 'setFeatures' for update selected point position after drag
-    onAction('setFeatures', (features) => {
-      state = [...features];
-    });
-
     onAction('addFeature', (feature) => {
       state = [...(state ?? []), feature];
-      // Attempt to auto select last added feature failed
-      // const lastIndex = state.length - 1;
-      // schedule(d => {
-      //   d(selectedIndexesAtom.setIndexes([lastIndex]));
-      // })
+      const lastIndex = state.length - 1;
+      schedule((dispatch) => {
+        dispatch(selectedIndexesAtom.setIndexes([lastIndex]));
+      });
     });
 
     onAction('removeFeature', (indexes) => {
@@ -80,12 +81,13 @@ export const currentEditedLayerFeatures = createAtom(
     });
 
     onAction('save', () => {
+      const stateSnapshot = state ? [...state] : null;
       schedule(async (dispatch, ctx) => {
-        if (ctx.layerId && state) {
+        if (ctx.layerId && stateSnapshot) {
           try {
             await apiClient.put<unknown>(
               `/layers/${ctx.layerId}/items/`,
-              new FeatureCollection(state),
+              new FeatureCollection(stateSnapshot),
               true,
             );
             notificationService.info({ title: 'Features was saved' }, 3);
@@ -98,24 +100,14 @@ export const currentEditedLayerFeatures = createAtom(
       });
     });
 
+    // drawnGeometryAtom use 'setFeatures' for update selected point position after drag
+    onAction('setFeatures', (features) => {
+      state = [...features];
+    });
+
     return state;
   },
 );
-
-// /* Load existing layer features to draw tools */
-// createAtom(
-//   {
-//     currentEditedLayerFeatures,
-//   },
-//   ({ get, schedule }) => {
-//     const currentEditedLayerFeatures = get('currentEditedLayerFeatures');
-//     if (currentEditedLayerFeatures) {
-//       schedule((dispatch) => {
-//         dispatch(drawnGeometryAtom.setFeatures(currentEditedLayerFeatures));
-//       });
-//     }
-//   },
-// ).subscribe((s) => null);
 
 const currentSelectedPointIndex = createAtom({ drawnGeometryAtom }, ({ get }) =>
   get('drawnGeometryAtom').features.findIndex((f) => f.properties?.isSelected),
@@ -133,7 +125,8 @@ createAtom(
 
       if (next.type === EditTargets.features && layerId !== undefined) {
         if (!drawToolsActivated) {
-          schedule((dispatch) => {
+          schedule((dispatch, ctx = {}) => {
+            ctx.unsubscribe = currentEditedLayerFeatures.subscribe(() => null);
             // TODO fix that logic in layer.setMode() in #9782
             dispatch([
               drawModeLogicalLayerAtom.enable(),
@@ -146,12 +139,17 @@ createAtom(
       }
 
       if (drawToolsActivated && next.type === EditTargets.none) {
-        schedule((dispatch) => {
+        schedule((dispatch, ctx = {}) => {
+          if (typeof ctx.unsubscribe === 'function') {
+            ctx.unsubscribe();
+          }
+
           // TODO fix that logic in layer.setMode() in #9782
           dispatch([
             drawModeLogicalLayerAtom.disable(),
             activeDrawModeAtom.setDrawMode(null),
             drawnGeometryAtom.setFeatures([]),
+            currentEditedLayerFeatures.reset(),
           ]);
         });
       }
