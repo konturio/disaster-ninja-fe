@@ -64,6 +64,7 @@ export const urlStoreAtom = createAtom(
         const actions: Action[] = [];
 
         // Apply layers
+        console.log('%c⧭ apply new layers', 'color: #9c66cc', state.layers);
         actions.push(enabledLayersAtom.change(() => new Set(state.layers)));
 
         // Apply map position

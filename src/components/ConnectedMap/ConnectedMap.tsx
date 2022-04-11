@@ -3,10 +3,18 @@ import mapLibre from 'maplibre-gl';
 import Map, { MapBoxMapProps } from '@k2-packages/map';
 import DeckGl from '@k2-packages/deck-gl';
 import { useAtom } from '@reatom/react';
-import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
+import {
+  currentMapAtom,
+  layersRegistryAtom,
+  mapListenersAtom,
+} from '~core/shared_state';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import { MapStyle } from '~core/types';
+import { BasemapRenderer } from './renderer/BasemapRenderer';
+import { basemapLayerAtom } from './atoms/basemapLayerAtom';
+import { BASEMAP_LAYER_ID, BASEMAP_LAYER_NAME } from './constants';
+import { TranslationService as i18n } from '~core/localization';
 
 const updatedMapStyle = (
   mapStyle: MapStyle | undefined,
@@ -54,6 +62,8 @@ export function ConnectedMap({
 
   // init current MapRefAtom
   const [, currentMapAtomActions] = useAtom(currentMapAtom);
+  const [, { registerRenderer, unregisterRenderer }] =
+    useAtom(basemapLayerAtom);
 
   const [mapListeners] = useAtom(mapListenersAtom);
   const initLayersOrderManager = useCallback(
@@ -96,6 +106,20 @@ export function ConnectedMap({
       mapRef.current?.off('click', handlers);
     };
   }, [mapRef, mapListeners]);
+
+  useEffect(() => {
+    const renderer = new BasemapRenderer({
+      id: BASEMAP_LAYER_ID,
+      name: i18n.t(BASEMAP_LAYER_NAME),
+      category: 'base',
+      group: 'photo',
+    });
+    registerRenderer(BASEMAP_LAYER_ID, renderer);
+
+    return () => {
+      unregisterRenderer(BASEMAP_LAYER_ID);
+    };
+  }, []);
 
   return (
     <DeckGl layers={[]}>
