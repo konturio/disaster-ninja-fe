@@ -16,6 +16,7 @@ import { editableLayersListResource } from './editableLayersListResource';
 export const currentEditedLayerFeatures = createAtom(
   {
     readFeaturesFromLayer: (layerId: string) => layerId,
+    setFeatures: drawnGeometryAtom.setFeatures,
     addFeature: drawnGeometryAtom.addFeature,
     removeFeature: drawnGeometryAtom.removeByIndexes,
     save: () => null,
@@ -43,7 +44,13 @@ export const currentEditedLayerFeatures = createAtom(
       }
       schedule((dispatch, ctx = {}) => {
         ctx.layerId = layerId;
+        if (state) dispatch(drawnGeometryAtom.setFeatures(state));
       });
+    });
+
+    // drawnGeometryAtom use 'setFeatures' for update selected point position after drag
+    onAction('setFeatures', (features) => {
+      state = [...features];
     });
 
     onAction('addFeature', (feature) => {
@@ -95,20 +102,20 @@ export const currentEditedLayerFeatures = createAtom(
   },
 );
 
-/* Load existing layer features to draw tools */
-createAtom(
-  {
-    currentEditedLayerFeatures,
-  },
-  ({ get, schedule }) => {
-    const currentEditedLayerFeatures = get('currentEditedLayerFeatures');
-    if (currentEditedLayerFeatures) {
-      schedule((dispatch) => {
-        dispatch(drawnGeometryAtom.setFeatures(currentEditedLayerFeatures));
-      });
-    }
-  },
-).subscribe((s) => null);
+// /* Load existing layer features to draw tools */
+// createAtom(
+//   {
+//     currentEditedLayerFeatures,
+//   },
+//   ({ get, schedule }) => {
+//     const currentEditedLayerFeatures = get('currentEditedLayerFeatures');
+//     if (currentEditedLayerFeatures) {
+//       schedule((dispatch) => {
+//         dispatch(drawnGeometryAtom.setFeatures(currentEditedLayerFeatures));
+//       });
+//     }
+//   },
+// ).subscribe((s) => null);
 
 const currentSelectedPointIndex = createAtom({ drawnGeometryAtom }, ({ get }) =>
   get('drawnGeometryAtom').features.findIndex((f) => f.properties?.isSelected),

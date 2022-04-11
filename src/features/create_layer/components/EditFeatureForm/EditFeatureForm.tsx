@@ -50,6 +50,7 @@ export function EditFeatureForm({
       <div className={s.formParam}>
         <Label>{i18n.t('Location')}</Label>
         <Input
+          disabled={true}
           className={s.formInput}
           value={
             geometry
