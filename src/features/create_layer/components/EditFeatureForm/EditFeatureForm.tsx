@@ -1,12 +1,12 @@
+import { ChangeEvent } from 'react';
 import { Geometry } from 'geojson';
-import s from './AddOrEditFeatureForm.module.css';
 import { Label } from '~components/Label/Label';
 import { translationService as i18n } from '~core/index';
-import { Button, Input } from '@k2-packages/ui-kit';
-import { ChangeEvent } from 'react';
-import { EditableLayerSettings } from '~features/create_layer/types';
+import { Button, Input, Text } from '@k2-packages/ui-kit';
+import { EditableLayerSettings } from '../../types';
+import s from './EditFeatureForm.module.css';
 
-type AddOrEditFeatureFormProps = {
+type EditFeatureFormProps = {
   geometry: Geometry | null;
   fieldsSettings: EditableLayerSettings;
   featureProperties: { [key: string]: string };
@@ -15,14 +15,33 @@ type AddOrEditFeatureFormProps = {
   onCancel: () => void;
 };
 
-export function AddOrEditFeatureForm({
+function ButtonPanel({
+  onSave,
+  onCancel,
+}: {
+  onSave: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <div className={s.buttonsContainer}>
+      <Button onClick={onSave} className={s.saveBtn}>
+        {i18n.t('Save Features')}
+      </Button>
+      <Button onClick={onCancel} className={s.cancelBtn}>
+        {i18n.t('Cancel')}
+      </Button>
+    </div>
+  );
+}
+
+export function EditFeatureForm({
   geometry,
   fieldsSettings,
   changeProperty,
   featureProperties,
   onSave,
   onCancel,
-}: AddOrEditFeatureFormProps) {
+}: EditFeatureFormProps) {
   // we only expecting point geometry ATM
   if (geometry !== null && geometry.type !== 'Point') return null;
 
@@ -54,14 +73,24 @@ export function AddOrEditFeatureForm({
           </div>
         );
       })}
-      <div className={s.buttonsContainer}>
-        <Button onClick={onSave} className={s.saveBtn}>
-          {i18n.t('Save Features')}
-        </Button>
-        <Button onClick={onCancel} className={s.cancelBtn}>
-          {i18n.t('Cancel')}
-        </Button>
-      </div>
+      <ButtonPanel onSave={onSave} onCancel={onCancel} />
+    </div>
+  );
+}
+
+export function EditFeaturePlaceholder({
+  onSave,
+  onCancel,
+}: {
+  onSave: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <div className={s.formContainer}>
+      <Text type="short-m">
+        {i18n.t('Select some feature for start edit feature properties')}
+      </Text>
+      <ButtonPanel onSave={onSave} onCancel={onCancel} />
     </div>
   );
 }

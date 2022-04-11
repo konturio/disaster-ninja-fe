@@ -11,7 +11,10 @@ import {
   currentSelectedPoint,
 } from '../../atoms/currentSelectedPoint';
 import { editTargetAtom } from '../../atoms/editTarget';
-import { AddOrEditFeatureForm } from '../AddOrEditFeatureForm/AddOrEditFeatureForm';
+import {
+  EditFeatureForm,
+  EditFeaturePlaceholder,
+} from '../EditFeatureForm/EditFeatureForm';
 import s from './EditFeaturesPanel.module.css';
 import { editableLayerSettingsAtom } from '../../atoms/editableLayerSettings';
 
@@ -27,11 +30,16 @@ export function EditFeaturesPanel() {
     () => editTargetAtom.set({ type: EditTargets.none }),
     [],
   );
-  const saveFeatures = useAction(currentEditedLayerFeatures.save);
   const onPanelClose = useCallback(() => {
     disableSideBarControl();
     disableEditing();
   }, [disableSideBarControl, disableEditing]);
+
+  const saveFeatures = useAction(currentEditedLayerFeatures.save);
+  const onSave = useCallback(() => {
+    saveFeatures();
+    onPanelClose();
+  }, [onPanelClose, saveFeatures]);
 
   const changeProperty = useCallback(
     (key, val) => {
@@ -42,9 +50,6 @@ export function EditFeaturesPanel() {
   if (!layerId) return null;
   const settings = layersSettings?.get(layerId);
   if (!settings) return null;
-  if (selectedFeature === null) return null;
-  const { properties, geometry } = selectedFeature;
-  if (properties === null) return null;
 
   return (
     <Panel
@@ -53,14 +58,18 @@ export function EditFeaturesPanel() {
       className={clsx(s.sidePanel)}
     >
       <div className={s.panelBody}>
-        <AddOrEditFeatureForm
-          featureProperties={properties}
-          fieldsSettings={settings}
-          geometry={geometry}
-          changeProperty={changeProperty}
-          onCancel={onPanelClose}
-          onSave={saveFeatures}
-        />
+        {selectedFeature?.properties ? (
+          <EditFeatureForm
+            featureProperties={selectedFeature.properties}
+            fieldsSettings={settings}
+            geometry={selectedFeature.geometry}
+            changeProperty={changeProperty}
+            onCancel={onPanelClose}
+            onSave={onSave}
+          />
+        ) : (
+          <EditFeaturePlaceholder onSave={onSave} onCancel={onPanelClose} />
+        )}
       </div>
     </Panel>
   );
