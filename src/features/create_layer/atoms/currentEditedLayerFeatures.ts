@@ -49,7 +49,7 @@ export const currentEditedLayerFeatures = createAtom(
     });
 
     onAction('addFeature', (feature) => {
-      state = [...(state ?? []), feature];
+      if (state === null) return;
       const lastIndex = state.length - 1;
       schedule((dispatch) => {
         dispatch(selectedIndexesAtom.setIndexes([lastIndex]));
@@ -57,7 +57,8 @@ export const currentEditedLayerFeatures = createAtom(
     });
 
     onAction('removeFeature', (indexes) => {
-      const newState = state ? Array.from(state) : [];
+      if (state === null) return;
+      const newState = Array.from(state);
       indexes.forEach((i) => {
         newState.splice(i, 1);
       });
@@ -65,11 +66,15 @@ export const currentEditedLayerFeatures = createAtom(
     });
 
     onAction('setFeatureProperty', ({ featureIdx, properties }) => {
-      const newState = state ? Array.from(state) : [];
-      newState.splice(featureIdx, 1, {
+      if (state === null) return;
+      const newState = Array.from(state);
+      newState[featureIdx] = {
         ...newState[featureIdx],
-        properties,
-      });
+        properties: {
+          ...newState[featureIdx].properties,
+          ...properties,
+        },
+      };
       state = newState;
     });
 
@@ -95,7 +100,37 @@ export const currentEditedLayerFeatures = createAtom(
 
     // drawnGeometryAtom use 'setFeatures' for update selected point position after drag
     onAction('setFeatures', (features) => {
-      state = [...features];
+      if (state === null) return;
+      // This features not contain new properties, so I update ONLY positions here
+      const featureIdToGeometryMap = new Map<
+        string | number,
+        GeoJSON.Geometry
+      >();
+      let featuresWithoutId = 0;
+      features.forEach(({ geometry, id }) => {
+        if (id === undefined) {
+          featuresWithoutId++;
+        } else {
+          featureIdToGeometryMap.set(id, geometry);
+        }
+      });
+
+      const newState = Array.from(state);
+
+      state = newState.map((f) => {
+        if (f.id === undefined) {
+          featuresWithoutId++;
+        } else {
+          const newGeometry = featureIdToGeometryMap.get(f.id);
+          if (newGeometry) {
+            return { ...f, geometry: newGeometry };
+          }
+        }
+        return f;
+      });
+
+      if (featuresWithoutId)
+        console.error('Cannot update position for feature without id');
     });
 
     return state;
