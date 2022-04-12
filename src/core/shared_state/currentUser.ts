@@ -1,6 +1,5 @@
 import { createAtom } from '~utils/atoms';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
-import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 
 export type CurrentUser = {
