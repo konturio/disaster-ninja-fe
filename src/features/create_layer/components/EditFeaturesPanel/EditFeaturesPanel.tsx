@@ -5,11 +5,8 @@ import { Panel, Text } from '@k2-packages/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
-
-import {
-  currentEditedLayerFeatures,
-  currentSelectedPoint,
-} from '../../atoms/currentSelectedPoint';
+import { currentEditedLayerFeatures } from '../../atoms/currentEditedLayerFeatures';
+import { currentSelectedPoint } from '../../atoms/currentSelectedPoint';
 import { editTargetAtom } from '../../atoms/editTarget';
 import {
   EditFeatureForm,

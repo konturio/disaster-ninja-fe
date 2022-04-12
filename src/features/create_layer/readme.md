@@ -51,7 +51,7 @@ flowchart TD
   editableLayersControlsAtom --> featurePanelControllerAtom
   EditFeaturesPanel:::View ---> featurePanelControllerAtom
   featurePanelControllerAtom --> editTargetAtom
-  EditFeaturesPanel --> AddOrEditFeatureForm:::View
+  EditFeaturesPanel --> EditFeatureForm:::View
   drawToolsListenerAtom --> featurePanelControllerAtom
   drawnGeometryAtom:::coreAtom --> drawToolsListenerAtom
   drawToolsListenerAtom --> drawnFeaturesAtom

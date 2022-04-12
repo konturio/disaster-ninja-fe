@@ -21,7 +21,7 @@ flowchart TB
 
   editTargetAtom --> editableFeatureControllerAtom
   subgraph Edit features
-  EditFeaturesPanel:::View --> AddOrEditFeatureForm:::View
+  EditFeaturesPanel:::View --> EditFeatureForm:::View
   editableFeatureControllerAtom --> EditFeaturesPanel:::View
   end
 ```
