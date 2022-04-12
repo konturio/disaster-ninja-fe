@@ -24,10 +24,15 @@ export function Group({
     isHidden: boolean;
   } | null>(null);
   const [isOpen, setOpenState] = useState(group.openByDefault);
-  const onGroupDeselect = useAction(
+  const groupDeselectAction = useAction(
     () => groupDeselection.deselect(group.id),
     [group.id],
   );
+
+  function onGroupDeselect() {
+    groupDeselectAction();
+    delegateLegendRender(null);
+  }
 
   return (
     <div className={s.group}>
