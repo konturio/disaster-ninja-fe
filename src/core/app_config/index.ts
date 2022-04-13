@@ -17,7 +17,7 @@ declare global {
       YANDEX_METRICA_ID: number[];
       AUTOFOCUS_PADDINGS: [number, number, number, number];
       AUTOFOCUS_ZOOM: number;
-      INTERCOM_NAME: string;
+      INTERCOM_DEFAULT_NAME: string;
       INTERCOM_APP_ID: string;
       INTERCOM_SELECTOR: string;
     };
@@ -53,7 +53,7 @@ export default {
     maxZoom: window.konturAppConfig.AUTOFOCUS_ZOOM,
   },
   intercom: {
-    name: window.konturAppConfig.INTERCOM_NAME,
+    name: window.konturAppConfig.INTERCOM_DEFAULT_NAME,
     app_id: window.konturAppConfig.INTERCOM_APP_ID,
     custom_launcher_selector: window.konturAppConfig.INTERCOM_SELECTOR,
   },
