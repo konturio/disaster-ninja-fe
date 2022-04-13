@@ -1,4 +1,4 @@
-export const CREATE_LAYER_CONTROL_ID = 'EditableLayer';
+export const CREATE_LAYER_CONTROL_ID = 'EditableLayer' as const;
 
 export const FieldTypes = {
   None: 'none',
