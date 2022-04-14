@@ -4,13 +4,17 @@ import { CurrentUser, currentUserAtom } from '~core/shared_state/currentUser';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 
 import { UserDataModel } from '~core/auth';
-import { AppFeature, UserFeed } from '~core/auth/models/UserDataModel';
 import config from '~core/app_config';
+import { AppFeatureType, UserFeed } from '~core/auth/types';
 
 type UserResourceRequestParams = {
   userData?: CurrentUser;
   applicationId?: string | null;
 };
+
+type UserFeature = {
+
+}
 
 const userResourceRequestParamsAtom = createAtom(
   {
@@ -39,11 +43,13 @@ export const userResourceAtom = createResourceAtom<
 
     // TODO: Remove full address when Userprofile API service will be moved to the main app API
     const query = { appId: applicationId };
+
     const featuresResponse = apiClient.get<unknown>(
       config.featuresApi,
       query,
       userData?.id !== 'public',
     );
+
     const feedsResponse = apiClient.get<unknown>(
       '/events/user_feeds',
       undefined,
@@ -55,16 +61,18 @@ export const userResourceAtom = createResourceAtom<
       feedsResponse,
     ]);
 
-    const features: { [T in AppFeature]?: boolean } = {};
+    console.log('featuresSettled', featuresSettled);
+
+    const features: { [T in AppFeatureType]?: boolean } = {};
     if (
       featuresSettled.status === 'fulfilled' &&
       Array.isArray(featuresSettled.value)
     ) {
-      featuresSettled.value.forEach((ft: { name: AppFeature }) => {
+      featuresSettled.value.forEach((ft: { name: AppFeatureType }) => {
         features[ft.name] = true;
       });
     } else if (featuresSettled.status === 'rejected') {
-      console.error('Feature api call failed');
+      console.error('Feature api call failed. Applying default features...');
     }
 
     let feeds: UserFeed[] | null = null;
