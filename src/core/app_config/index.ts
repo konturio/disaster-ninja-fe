@@ -20,6 +20,8 @@ declare global {
       INTERCOM_NAME: string;
       INTERCOM_APP_ID: string;
       INTERCOM_SELECTOR: string;
+      FEATURES_BY_DEFAULT: [string];
+      DEFAULT_FEED: string;
     };
   }
 }
@@ -35,6 +37,8 @@ export default {
   mapAccessToken: window.konturAppConfig.MAP_ACCESS_TOKEN,
   mapBaseStyle: window.konturAppConfig.MAP_BASE_STYLE,
   layersByDefault: window.konturAppConfig.LAYERS_BY_DEFAULT,
+  featuresByDefault: window.konturAppConfig.FEATURES_BY_DEFAULT,
+  defaultFeed: window.konturAppConfig.DEFAULT_FEED,
   keycloakUrl: window.konturAppConfig.KEYCLOAK_URL,
   keycloakRealm: window.konturAppConfig.KEYCLOAK_REALM,
   keycloakClientId: window.konturAppConfig.KEYCLOAK_CLIENT_ID,
