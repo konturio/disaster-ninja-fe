@@ -7,6 +7,7 @@ import { currentEventFeedAtom } from '~core/shared_state';
 
 const FeedSelectorComp = () => {
   const [{ data }] = useAtom(userResourceAtom);
+  const [currentFeed] = useAtom(currentEventFeedAtom);
 
   const onFeedChange = useCallback((ev: ChangeEvent<HTMLSelectElement>) => {
     currentEventFeedAtom.setCurrentFeed.dispatch(ev.target.value);
@@ -21,7 +22,7 @@ const FeedSelectorComp = () => {
       <div>
         <select
           onChange={onFeedChange}
-          defaultValue={data.defaultFeed?.feed}
+          defaultValue={currentFeed?.id || data.defaultFeed?.feed}
           className={s.feedsSelect}
         >
           {data.feeds.map((fd) => (
