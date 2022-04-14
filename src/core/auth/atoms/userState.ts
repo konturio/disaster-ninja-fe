@@ -1,11 +1,5 @@
 import { createAtom } from '~utils/atoms';
-
-export type UserStateType =
-  | 'authorized'
-  | 'unauthorized'
-  | 'logging_in'
-  | 'signing_up'
-  | 'password_reset';
+import { UserStateStatus, UserStateType } from '~core/auth/types';
 
 export const userStateAtom = createAtom(
   {
@@ -19,7 +13,7 @@ export const userStateAtom = createAtom(
   },
   (
     { onAction, onInit, schedule, create },
-    state: UserStateType = 'unauthorized',
+    state: UserStateType = UserStateStatus.UNAUTHORIZED,
   ) => {
     onAction('setState', (st) => {
       if (state !== st) {
@@ -28,38 +22,38 @@ export const userStateAtom = createAtom(
     });
 
     onAction('authorize', () => {
-      if (state !== 'authorized') {
-        state = 'authorized';
+      if (state !== UserStateStatus.AUTHORIZED) {
+        state = UserStateStatus.AUTHORIZED;
       }
     });
 
     onAction('reset', () => {
-      if (state !== 'unauthorized') {
-        state = 'unauthorized';
+      if (state !== UserStateStatus.UNAUTHORIZED) {
+        state = UserStateStatus.UNAUTHORIZED;
       }
     });
 
     onAction('login', () => {
-      if (state === 'unauthorized' || state === 'signing_up') {
-        state = 'logging_in';
+      if (state === UserStateStatus.UNAUTHORIZED || state === UserStateStatus.SIGNING_UP) {
+        state = UserStateStatus.LOGGING_IN;
       }
     });
 
     onAction('logout', () => {
-      if (state === 'authorized' || state === 'password_reset') {
-        state = 'unauthorized';
+      if (state === UserStateStatus.AUTHORIZED || state === UserStateStatus.PASSWORD_RESET) {
+        state = UserStateStatus.UNAUTHORIZED;
       }
     });
 
     onAction('signup', () => {
-      if (state === 'unauthorized' || state === 'logging_in') {
-        state = 'signing_up';
+      if (state === UserStateStatus.UNAUTHORIZED || state === UserStateStatus.LOGGING_IN) {
+        state = UserStateStatus.SIGNING_UP;
       }
     });
 
     onAction('passwordReset', () => {
-      if (state === 'authorized') {
-        state = 'password_reset';
+      if (state === UserStateStatus.AUTHORIZED) {
+        state = UserStateStatus.PASSWORD_RESET;
       }
     });
 
