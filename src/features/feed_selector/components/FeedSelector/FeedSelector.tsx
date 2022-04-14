@@ -4,27 +4,28 @@ import { userResourceAtom } from '~core/auth';
 import { ChangeEvent, memo, useCallback } from 'react';
 import s from './FeedSelector.module.css';
 import { currentEventFeedAtom } from '~core/shared_state';
+import { AppFeature } from '~core/auth/types';
 
 const FeedSelectorComp = () => {
-  const [{ data }] = useAtom(userResourceAtom);
+  const [{ data: userModel }] = useAtom(userResourceAtom);
 
   const onFeedChange = useCallback((ev: ChangeEvent<HTMLSelectElement>) => {
     currentEventFeedAtom.setCurrentFeed.dispatch(ev.target.value);
   }, []);
 
-  return data &&
-    data.features?.feed_selector === true &&
-    data.feeds &&
-    data.feeds.length > 1 ? (
+  return userModel &&
+    userModel.hasFeature(AppFeature.FEED_SELECTOR) &&
+    userModel.feeds &&
+    userModel.feeds.length > 1 ? (
     <div className={s.feedSelectorContainer}>
       <div>{i18n.t('Feed')}:</div>
       <div>
         <select
           onChange={onFeedChange}
-          defaultValue={data.defaultFeed?.feed}
+          defaultValue={userModel.defaultFeed?.feed}
           className={s.feedsSelect}
         >
-          {data.feeds.map((fd) => (
+          {userModel.feeds.map((fd) => (
             <option key={fd.feed} value={fd.feed}>
               {fd.feed}
             </option>
