@@ -9,6 +9,7 @@ import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
 import { UpdateCallbackLayersLoading, updateCallbackService } from '~core/update_callbacks';
 import { userResourceAtom } from '~core/auth';
+import { AppFeature } from '~core/auth/types';
 
 const sidebarButtonParams = {
   id: CREATE_LAYER_CONTROL_ID,
@@ -38,8 +39,8 @@ export const createLayerSideBarButtonControllerAtom = createAtom({
   ({ get, getUnlistedState, schedule }) => {
     const isLayersLoading = get('layersLoadedCallback');
     const sidebarState = getUnlistedState(sideControlsBarAtom)
-    const userData = getUnlistedState(userResourceAtom);
-    if (!isLayersLoading.params?.loaded || !userData.data?.features?.create_layer) {
+    const { data: userModel } = getUnlistedState(userResourceAtom);
+    if (!isLayersLoading.params?.loaded || !userModel?.hasFeature(AppFeature.CREATE_LAYER)) {
       if (sidebarState[CREATE_LAYER_CONTROL_ID]) {
         schedule((dispatch) => {
           dispatch(sideControlsBarAtom.removeControl(CREATE_LAYER_CONTROL_ID));
