@@ -2,19 +2,15 @@ import { apiClient } from '~core/index';
 import { createAtom, createResourceAtom } from '~utils/atoms';
 import { CurrentUser, currentUserAtom } from '~core/shared_state/currentUser';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
-
+import appConfig from '~core/app_config';
 import { UserDataModel } from '~core/auth';
 import config from '~core/app_config';
-import { AppFeatureType, UserFeed } from '~core/auth/types';
+import { AppFeatureType, BackendFeature, BackendFeed, UserFeed } from '~core/auth/types';
 
 type UserResourceRequestParams = {
   userData?: CurrentUser;
   applicationId?: string | null;
 };
-
-type UserFeature = {
-
-}
 
 const userResourceRequestParamsAtom = createAtom(
   {
@@ -44,13 +40,13 @@ export const userResourceAtom = createResourceAtom<
     // TODO: Remove full address when Userprofile API service will be moved to the main app API
     const query = { appId: applicationId };
 
-    const featuresResponse = apiClient.get<unknown>(
+    const featuresResponse = apiClient.get<BackendFeature[]>(
       config.featuresApi,
       query,
       userData?.id !== 'public',
     );
 
-    const feedsResponse = apiClient.get<unknown>(
+    const feedsResponse = apiClient.get<BackendFeed[]>(
       '/events/user_feeds',
       undefined,
       userData?.id !== 'public',
@@ -61,18 +57,20 @@ export const userResourceAtom = createResourceAtom<
       feedsResponse,
     ]);
 
-    console.log('featuresSettled', featuresSettled);
-
     const features: { [T in AppFeatureType]?: boolean } = {};
     if (
       featuresSettled.status === 'fulfilled' &&
       Array.isArray(featuresSettled.value)
     ) {
-      featuresSettled.value.forEach((ft: { name: AppFeatureType }) => {
+      featuresSettled.value.forEach((ft: BackendFeature) => {
         features[ft.name] = true;
       });
     } else if (featuresSettled.status === 'rejected') {
       console.error('Feature api call failed. Applying default features...');
+      appConfig.featuresByDefault.reduce((acc, featName) => {
+        acc[featName] = true;
+        return acc;
+      }, features);
     }
 
     let feeds: UserFeed[] | null = null;
@@ -87,7 +85,8 @@ export const userResourceAtom = createResourceAtom<
         }),
       );
     } else if (feedsSettled.status === 'rejected') {
-      console.error('User feeds call failed');
+      console.error('User feeds call failed. Applying default feed...');
+      feeds = [{ feed: appConfig.defaultFeed, isDefault: true }];
     }
 
     const udm = new UserDataModel({ features, feeds });
