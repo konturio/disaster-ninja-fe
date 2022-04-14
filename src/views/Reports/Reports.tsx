@@ -12,6 +12,7 @@ import { useAtom } from '@reatom/react';
 import { lazily } from 'react-lazily';
 import { userResourceAtom } from '~core/auth';
 import { History } from 'history';
+import { AppFeature } from '~core/auth/types';
 const { AppHeader } = lazily(() => import('@k2-packages/ui-kit'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 
@@ -34,24 +35,23 @@ function linkableTitle(history: History) {
 
 export function Reports() {
   const history = useHistory();
-  const [{ data }] = useAtom(userResourceAtom);
-  const userFeatures = data?.features;
+  const [{ data: userModel }] = useAtom(userResourceAtom);
 
   useEffect(() => {
-    if (!userFeatures) return;
+    if (!userModel) return;
 
     /* Lazy load module */
-    if (userFeatures?.intercom === true) {
+    if (userModel.hasFeature(AppFeature.INTERCOM)) {
       import('~features/intercom').then(({ initIntercom }) => {
         initIntercom();
       });
     }
-  }, [userFeatures]);
+  }, [userModel]);
 
   return (
     <div>
       <Suspense fallback={null}>
-        {userFeatures?.header && (
+        {userModel?.hasFeature(AppFeature.HEADER) && (
           <div className={s.headerContainer}>
             <AppHeader title={linkableTitle(history)} logo={VisibleLogo()}>
               <Row>
@@ -64,7 +64,7 @@ export function Reports() {
         )}
       </Suspense>
       <Suspense fallback={null}>
-        {userFeatures?.toasts === true && <NotificationToast />}
+        {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
       </Suspense>
       <ReportsList />
     </div>
