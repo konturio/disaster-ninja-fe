@@ -69,7 +69,7 @@ export function Tooltip({
                   components={{ a: LinkRenderer }}
                   className={s.markdown}
                 >
-                  {properties.popup}
+                  {parseLinksAsTags(properties.popup)}
                 </ReactMarkdown>
               ) : (
                 properties.popup
@@ -85,4 +85,18 @@ export function Tooltip({
       </div>
     </div>
   );
+}
+
+function parseLinksAsTags(text?: string): string {
+  if (!text) return '';
+  let parsed = text;
+  // this regex will only find links that are not in .md format already [label](link).
+  // See regex explanation at https://regex101.com/
+  const regex =
+    /((?<!\[|\()http|(?<!\[|\()https)(:\/\/)([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?/gm;
+  const matchIterable = text.matchAll(regex);
+  [...matchIterable].forEach(([match, protocol, , domain, path]) => {
+    parsed = text.replace(match, `[${domain}${path}](${match})`);
+  });
+  return parsed;
 }
