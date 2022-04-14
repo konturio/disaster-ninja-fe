@@ -40,9 +40,24 @@ export const AppFeature = {
   CREATE_LAYER: 'create_layer',
   HEADER: 'header',
   INTERCOM: 'intercom',
-
 } as const;
 
 export type AppFeatureType = typeof AppFeature[keyof typeof AppFeature];
+
+export const BackendFeatureType = {
+  UI_PANEL: 'UI_PANEL',
+} as const;
+
+export type BackendFeature = {
+  name: string;
+  description: string;
+  type: typeof BackendFeatureType[keyof typeof BackendFeatureType];
+}
+
+export type BackendFeed = {
+  feed: string;
+  description: string;
+  default: boolean;
+}
 
 export type UserFeed = { feed: string; isDefault?: boolean };
