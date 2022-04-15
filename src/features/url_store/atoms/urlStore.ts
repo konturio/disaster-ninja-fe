@@ -6,6 +6,7 @@ import {
   currentApplicationAtom,
   defaultAppLayersAtom,
   defaultLayersParamsAtom,
+  currentEventFeedAtom,
 } from '~core/shared_state';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { URLStore } from '../URLStore';
@@ -16,6 +17,7 @@ import { Action } from '@reatom/core';
 const urlStore = new URLStore(new URLDataInSearchEncoder());
 const initFlagAtom = createBooleanAtom(false);
 let lastVersion = 0;
+
 /* Compose shared state values into one atom */
 export const urlStoreAtom = createAtom(
   {
@@ -26,6 +28,7 @@ export const urlStoreAtom = createAtom(
     currentEpisodeAtom,
     enabledLayersAtom,
     currentApplicationAtom,
+    currentEventFeedAtom,
   },
   ({ get, schedule }, state: UrlData = urlStore.readCurrentState()) => {
     const initFlag = get('initFlag');
@@ -81,6 +84,12 @@ export const urlStoreAtom = createAtom(
         if (state.event) {
           actions.push(currentEventAtom.setCurrentEventId(state.event));
         }
+        // Apply feed
+        if (state.feed) {
+          actions.push(
+            currentEventFeedAtom.setFeedForExistingEvent(state.feed),
+          );
+        }
         // Apply episode
         if (state.episode) {
           actions.push(currentEpisodeAtom.setCurrentEpisodeId(state.episode));
@@ -109,6 +118,9 @@ export const urlStoreAtom = createAtom(
 
       const currentEvent = get('currentEventAtom');
       newState.event = currentEvent ? currentEvent.id : undefined;
+
+      const currentFeed = get('currentEventFeedAtom');
+      newState.feed = currentFeed ? currentFeed.id : undefined;
 
       const currentEpisode = get('currentEpisodeAtom');
       newState.episode = currentEpisode ? currentEpisode.id : undefined;
