@@ -399,6 +399,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       }
     }
     this._removeClickListener?.();
+    this._removeClickListener = null;
   }
 
   willHide({ map }: { map: ApplicationMap }) {
