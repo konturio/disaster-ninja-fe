@@ -67,7 +67,7 @@ export function Analytics({
         icon: areaIcon,
       });
 
-    if (osmGapsPercentage)
+    if (typeof osmGapsPercentage === 'number')
       result.push({
         tooltip: i18n.t('OSM Gaps Percentage (lower is better)'),
         value: `${osmGapsPercentage}% gaps`,
