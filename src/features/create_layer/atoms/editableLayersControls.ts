@@ -122,12 +122,13 @@ export const editableLayersControlsAtom = createAtom(
       actions.push(...layerContextMenusActions);
 
       /* Unregister removed layers */
-      actions.push(
-        layersRegistryAtom.unregister(Array.from(removed), {
-          notifyLayerAboutDestroy: true,
-        }),
-      );
-
+      if (removed.size) {
+        actions.push(
+          layersRegistryAtom.unregister(Array.from(removed), {
+            notifyLayerAboutDestroy: true,
+          }),
+        );
+      }
       /* Batch actions into one transaction */
       if (actions.length) {
         schedule((dispatch) => {
