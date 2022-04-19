@@ -37,9 +37,6 @@ export const USER_LAYER_FIELDS = [
   },
 ];
 
-// Move this constant to backend user settings later
-export const MAX_USER_LAYER_ALLOWED_TO_CREATE = 1;
-
 export const TEMPORARY_USER_LAYER_LEGEND = {
   type: 'simple',
   steps: [
