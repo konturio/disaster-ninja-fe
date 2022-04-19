@@ -41,13 +41,13 @@ export const userResourceAtom = createResourceAtom<
     const query = { appId: applicationId };
 
     const featuresResponse = apiClient.get<BackendFeature[]>(
-      config.featuresApi,
+      config.featuresApi+ '1',
       query,
       userData?.id !== 'public',
     );
 
     const feedsResponse = apiClient.get<BackendFeed[]>(
-      '/events/user_feeds',
+      '/events/user_feeds1',
       undefined,
       userData?.id !== 'public',
     );
