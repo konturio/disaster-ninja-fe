@@ -1,7 +1,7 @@
 import { ApiClient } from '~core/api_client';
 import { userStateAtom } from '~core/auth';
 import { currentUserAtom } from '~core/shared_state';
-import { JWTData } from '~core/api_client/ApiTypes';
+import { JWTData } from '~core/api_client/types';
 import { callYm } from '~utils/stats/yandexCounter';
 import appConfig from '~core/app_config';
 

@@ -1,9 +1,83 @@
-import { ApiResponse } from 'apisauce';
+import { ApiResponse, ApisauceConfig } from 'apisauce';
+import { INotificationService, ITranslationService } from '~core/api_client/apiClient';
+import { AxiosRequestConfig } from 'axios';
+
+export const ApiMethodTypes = {
+  GET: 'get',
+  POST: 'post',
+  PUT:  'put',
+  PATCH: 'patch',
+  DELETE: 'delete',
+} as const;
+
+export type ApiMethod = typeof ApiMethodTypes[keyof typeof ApiMethodTypes];
+
+export interface ApiClientConfig extends ApisauceConfig {
+  instanceId?: string;
+  notificationService: INotificationService;
+  translationService: ITranslationService;
+  loginApiPath?: string;
+  refreshTokenApiPath?: string;
+  unauthorizedCallback?: () => void;
+  disableAuth?: boolean;
+  storage?: WindowLocalStorage['localStorage'];
+}
+
+export interface KeycloakAuthResponse {
+  access_token: string;
+  expires_in: number;
+  refresh_expires_in: number;
+  refresh_token: string;
+  scope: string;
+  session_state: string;
+  token_type: 'Bearer';
+  error_description?: string;
+}
+
+export type JWTData = {
+  acr: string;
+  aud: string;
+  azp: string;
+  email: string;
+  email_verified: boolean;
+  exp: number;
+  family_name: string;
+  given_name: string;
+  iat: number;
+  iss: string;
+  jti: string;
+  name: string;
+  preferred_username: string;
+  realm_access: { roles: string[] };
+  resource_access: { account: { roles: string[] } };
+  scope: string;
+  session_state: string;
+  sub: string;
+  typ: string;
+};
+
+// GeoJSON.GeoJSON conflict with  Record<string, unknown>
+// https://stackoverflow.com/questions/60697214/how-to-fix-index-signature-is-missing-in-type-error
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type RequestParams = Record<string, any>;
+
+export type RequestErrorsConfig = {
+  dontShowErrors?: boolean;
+  messages?: Record<number, string> | string;
+}
+
+export interface CustomRequestConfig extends AxiosRequestConfig {
+  errorsConfig?: RequestErrorsConfig;
+}
+
+/** ----------------------------------------------------------------------------
+ *          API PROBLEM
+ * -------------------------------------------------------------------------- */
 
 export type GeneralApiProblem =
-  /**
-   * Times up.
-   */
+/**
+ * Times up.
+ */
   | { kind: 'timeout'; temporary: true }
   /**
    * Cannot connect to the server for some reason.
@@ -98,3 +172,4 @@ export class ApiClientError extends Error {
     Object.setPrototypeOf(this, ApiClientError.prototype);
   }
 }
+
