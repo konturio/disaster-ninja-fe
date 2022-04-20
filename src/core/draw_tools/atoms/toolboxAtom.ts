@@ -11,11 +11,17 @@ import { currentNotificationAtom } from '~core/shared_state';
 import { TranslationService as i18n } from '~core/localization';
 import { downloadObject } from '~utils/fileHelpers/download';
 
+interface DrawToolBoxSettings {
+  availableModes?: DrawModeType[];
+  finishButtonText?: string;
+  finishButtonCallback?: () => Promise<boolean>;
+}
+
 type ToolboxState = {
   mode: DrawModeType | null;
   selectedIndexes: number[];
   drawingIsStarted?: boolean;
-  avalibleModes?: DrawModeType[];
+  settings: DrawToolBoxSettings;
 };
 
 export const toolboxAtom = createAtom(
@@ -26,12 +32,16 @@ export const toolboxAtom = createAtom(
     toggleDrawMode: (mode: DrawModeType) => mode,
     finishDrawing: () => null,
     isDrawingStartedAtom,
-    setAvalibleModes: (modes: DrawModeType[]) => modes,
+    setSettings: (settings: DrawToolBoxSettings) => settings,
     downloadDrawGeometry: () => null,
   },
   (
     { onAction, schedule, get, getUnlistedState },
-    state: ToolboxState = { mode: null, selectedIndexes: [] },
+    state: ToolboxState = {
+      mode: null,
+      selectedIndexes: [],
+      settings: {},
+    },
   ) => {
     const actions: Action[] = [];
     let newState: ToolboxState = {
@@ -60,8 +70,8 @@ export const toolboxAtom = createAtom(
     });
 
     // I think we don't need to specify the need for ModifyMode
-    onAction('setAvalibleModes', (modes) => {
-      newState = { ...newState, avalibleModes: modes };
+    onAction('setSettings', (settings) => {
+      newState = { ...newState, settings };
     });
 
     onAction('downloadDrawGeometry', () => {

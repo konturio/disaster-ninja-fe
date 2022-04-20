@@ -7,6 +7,7 @@ import { drawModes } from '~core/draw_tools/constants';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
+import { TranslationService as i18n } from '~core/localization';
 
 /* Enable / Disable draw tools panel */
 export const openDrawToolsInFeatureEditMode = createAtom(
@@ -25,7 +26,17 @@ export const openDrawToolsInFeatureEditMode = createAtom(
             // TODO fix that logic in layer.setMode() in #9782
             dispatch([
               drawModeLogicalLayerAtom.enable(),
-              toolboxAtom.setAvalibleModes(['DrawPointMode', 'ModifyMode']),
+              toolboxAtom.setSettings({
+                availableModes: ['DrawPointMode', 'ModifyMode'],
+                finishButtonText: i18n.t('Save features'),
+                finishButtonCallback: () =>
+                  new Promise((res, rej) => {
+                    currentEditedLayerFeatures.save.dispatch({
+                      onSuccess: () => res(true),
+                      onError: rej,
+                    });
+                  }),
+              }),
               activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
               currentEditedLayerFeatures.readFeaturesFromLayer(layerId),
             ]);
