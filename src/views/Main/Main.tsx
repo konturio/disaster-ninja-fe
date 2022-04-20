@@ -141,7 +141,7 @@ export function MainView() {
           {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
           {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && <EventList />}
           {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <Analytics />}
-          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && (
+          {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
             <AdvancedAnalytics />
           )}
         </Suspense>
