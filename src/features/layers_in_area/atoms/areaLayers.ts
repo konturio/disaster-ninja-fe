@@ -14,6 +14,7 @@ import { currentApplicationAtom, currentEventFeedAtom } from '~core/shared_state
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
 import { UserLayerGroup } from '~core/types/layers';
+import { LAYERS_IN_AREA_API_ERROR } from '~features/layers_in_area/constants';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -86,12 +87,21 @@ export const areaLayersResourceAtom = createResourceAtom(async (params) => {
     body.appId = params.appId;
   }
 
-  const responseData = await apiClient.post<LayerInArea[]>(
-    '/layers/search/',
-    body,
-    true,
-  );
+  let responseData: LayerInArea[] | undefined;
+  try {
+    responseData = await apiClient.post<LayerInArea[]>(
+      '/layers/search/',
+      body,
+      true,
+      { errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR } }
+    );
+  } catch (e: unknown) {
+    throw new Error('Error while fetching area layers data');
+  }
+
+  // in case there is no error but response data is empty
   if (responseData === undefined) throw new Error('No data received');
+
   return responseData;
 }, areaLayersDependencyAtom);
 

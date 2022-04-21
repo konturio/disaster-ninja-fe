@@ -5,13 +5,13 @@ import {
   createLocalStorageMock,
   setupTestContext,
 } from '../../../utils/testsUtils/setupTest';
-import { ApiClientError } from '../ApiProblem';
+import { ApiClientError } from '../types';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
 import {
   ApiClient,
   INotificationService,
   ITranslationService,
-} from '../ApiClient';
+} from '../apiClient';
 
 function setTimeOffset(timeOffsetMin: number): number {
   return (new Date().getTime() + timeOffsetMin * 60 * 1000) / 1000;
