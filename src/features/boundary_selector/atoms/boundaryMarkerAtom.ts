@@ -107,6 +107,10 @@ export const boundaryMarkerAtom = createAtom(
               dispatch([
                 updateFocusedGeometryAction(featureCollection, boundaryId),
                 sideControlsBarAtom.disable('BoundarySelector'),
+                updateBoundaryLayerAction(
+                  { type: 'FeatureCollection', features: [] },
+                  boundaryId,
+                ),
               ]);
             },
             // onOptionHover:
