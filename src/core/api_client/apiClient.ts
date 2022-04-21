@@ -241,15 +241,16 @@ export class ApiClient {
     // if there is custom error messages config use it do define error message
     // Parse error message from error body in other case
     let errorMessage = '';
-    if (errorsConfig) {
-      if (typeof errorsConfig !== 'string') {
-        if (response.status &&  response.status in errorsConfig) {
-          errorMessage = errorsConfig[response.status];
+    if (errorsConfig && errorsConfig.messages) {
+      if (typeof errorsConfig.messages !== 'string') {
+        if (response.status && response.status in errorsConfig.messages) {
+          errorMessage = errorsConfig.messages[response.status];
         }
       } else {
-        errorMessage = errorsConfig;
+        errorMessage = errorsConfig.messages;
       }
     }
+
     if (!errorMessage) {
       errorMessage = ApiClient.parseError(problem);
     }
