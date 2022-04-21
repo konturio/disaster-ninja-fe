@@ -6,6 +6,7 @@ import appConfig from '~core/app_config';
 import { UserDataModel } from '~core/auth';
 import config from '~core/app_config';
 import { AppFeatureType, BackendFeature, BackendFeed, UserFeed } from '~core/auth/types';
+import { PUBLIC_USER_ID } from '~core/auth/constants';
 
 type UserResourceRequestParams = {
   userData?: CurrentUser;
@@ -43,13 +44,14 @@ export const userResourceAtom = createResourceAtom<
     const featuresResponse = apiClient.get<BackendFeature[]>(
       config.featuresApi,
       query,
-      userData?.id !== 'public',
+      userData?.id !== PUBLIC_USER_ID,
+      { errorsConfig: { dontShowErrors: true }},
     );
 
     const feedsResponse = apiClient.get<BackendFeed[]>(
       '/events/user_feeds',
       undefined,
-      userData?.id !== 'public',
+      userData?.id !== PUBLIC_USER_ID,
     );
 
     const [featuresSettled, feedsSettled] = await Promise.allSettled([
