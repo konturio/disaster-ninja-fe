@@ -17,7 +17,7 @@ import DownloadIcon from '~core/draw_tools/icons/DownloadIcon';
 
 export const DrawToolsToolbox = () => {
   const [
-    { mode: activeDrawMode, selectedIndexes, drawingIsStarted, avalibleModes },
+    { mode: activeDrawMode, selectedIndexes, drawingIsStarted, settings },
     { deleteFeatures, toggleDrawMode, finishDrawing, downloadDrawGeometry },
   ] = useAtom(toolboxAtom);
   useAtom(combinedAtom);
@@ -34,6 +34,15 @@ export const DrawToolsToolbox = () => {
     toggleDrawMode(drawModes.DrawPointMode);
   }, [toggleDrawMode]);
 
+  const onFinishClick = useCallback(() => {
+    (async () => {
+      if (settings.finishButtonCallback) {
+        await settings.finishButtonCallback();
+      }
+      finishDrawing();
+    })();
+  }, [finishDrawing, settings]);
+
   return activeDrawMode ? (
     <div className={s.drawToolsContainer}>
       {!drawingIsStarted && (
@@ -45,7 +54,7 @@ export const DrawToolsToolbox = () => {
       )}
 
       <div className={s.toolBox}>
-        {avalibleModes?.includes('DrawPolygonMode') && (
+        {settings.availableModes?.includes('DrawPolygonMode') && (
           <Button
             className={s.modeBtn}
             active={activeDrawMode === drawModes.DrawPolygonMode}
@@ -56,7 +65,7 @@ export const DrawToolsToolbox = () => {
             </div>
           </Button>
         )}
-        {avalibleModes?.includes('DrawLineMode') && (
+        {settings.availableModes?.includes('DrawLineMode') && (
           <Button
             className={s.modeBtn}
             active={activeDrawMode === drawModes.DrawLineMode}
@@ -67,7 +76,7 @@ export const DrawToolsToolbox = () => {
             </div>
           </Button>
         )}
-        {avalibleModes?.includes('DrawPointMode') && (
+        {settings.availableModes?.includes('DrawPointMode') && (
           <Button
             className={s.modeBtn}
             active={activeDrawMode === drawModes.DrawPointMode}
@@ -87,14 +96,15 @@ export const DrawToolsToolbox = () => {
             <TrashBinIcon />
           </div>
         </Button>
-
         <Button className={s.modeBtn} onClick={downloadDrawGeometry}>
           <div className={s.btnContent}>
             <DownloadIcon />
           </div>
         </Button>
-        <Button className={s.finishBtn} onClick={finishDrawing}>
-          <div className={clsx(s.btnContent)}>{i18n.t('Finish Drawing')}</div>
+        <Button className={s.finishBtn} onClick={onFinishClick}>
+          <div className={clsx(s.btnContent)}>
+            {settings.finishButtonText || i18n.t('Finish Drawing')}
+          </div>
         </Button>
       </div>
     </div>

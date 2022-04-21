@@ -61,11 +61,10 @@ export function EditFeaturesPanel() {
             fieldsSettings={settings}
             geometry={selectedFeature.geometry}
             changeProperty={changeProperty}
-            onCancel={onPanelClose}
             onSave={onSave}
           />
         ) : (
-          <EditFeaturePlaceholder onSave={onSave} onCancel={onPanelClose} />
+          <EditFeaturePlaceholder />
         )}
       </div>
     </Panel>
