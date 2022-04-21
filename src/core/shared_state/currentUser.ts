@@ -2,6 +2,7 @@ import { createAtom } from '~utils/atoms';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersUserDataAtom } from '~core/logical_layers/atoms/layersUserData';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
+import { PUBLIC_USER_ID } from '~core/auth/constants';
 
 export type CurrentUser = {
   id?: string;
@@ -14,7 +15,7 @@ export type CurrentUser = {
 };
 
 const publicUser: CurrentUser = {
-  id: 'public',
+  id: PUBLIC_USER_ID,
 };
 
 export const currentUserAtom = createAtom(
