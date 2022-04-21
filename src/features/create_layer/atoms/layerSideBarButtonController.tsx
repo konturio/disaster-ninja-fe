@@ -9,6 +9,7 @@ import {
 import { AddLayerIcon } from '@k2-packages/default-icons';
 import { editableLayerControllerAtom } from './editableLayerController';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
+import { AppFeature } from '~core/auth/types';
 
 const sidebarButtonParams = {
   id: CREATE_LAYER_CONTROL_ID,
@@ -39,13 +40,18 @@ export const layerSideBarButtonControllerAtom = createAtom(
   },
   ({ getUnlistedState, schedule, onChange }) => {
     onChange('userResourceAtom', (userResource) => {
-      const { data, loading, error } = userResource;
-      if (loading === true || error || data === null || data === undefined)
+      const { data: userModel, loading, error } = userResource;
+      if (
+        loading === true ||
+        error ||
+        userModel === null ||
+        userModel === undefined
+      )
         return;
 
       const currentControls = getUnlistedState(sideControlsBarAtom);
       // Enabled
-      if (data.features.create_layer === true) {
+      if (userModel.hasFeature(AppFeature.CREATE_LAYER)) {
         // But not added
         if (!currentControls[sidebarButtonParams.id]) {
           schedule((dispatch) => {

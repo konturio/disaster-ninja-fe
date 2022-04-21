@@ -12,6 +12,8 @@ import {
 } from '~core/shared_state';
 import { EDITABLE_LAYERS_GROUP } from '~core/constants';
 import { UserDataModel, userResourceAtom } from '~core/auth';
+import { LAYERS_IN_AREA_API_ERROR } from '~features/layers_in_area/constants';
+import { AppFeature } from '~core/auth/types';
 
 /**
  * This resource atom get layers for current focused geometry.
@@ -30,27 +32,35 @@ import { UserDataModel, userResourceAtom } from '~core/auth';
 const areaLayersListDependencyAtom = createAtom(
   {
     focusedGeometryAtom,
+    userResourceAtom,
   },
   (
-    { onChange, getUnlistedState },
+    { onChange, getUnlistedState, get },
     state: {
       focusedGeometry: FocusedGeometry | null;
       eventFeed: { id: string } | null;
       appId: string | null;
-      enabledFeatures: UserDataModel['features'] | null;
+      createLayerFeatureActivated: boolean | null;
     } = {
       focusedGeometry: null,
       eventFeed: null,
       appId: null,
-      enabledFeatures: null,
+      createLayerFeatureActivated: null,
     },
   ) => {
     onChange('focusedGeometryAtom', (focusedGeometry) => {
       const eventFeed = getUnlistedState(currentEventFeedAtom);
       const appId = getUnlistedState(currentApplicationAtom);
-      const enabledFeatures =
-        getUnlistedState(userResourceAtom).data?.features ?? null;
-      state = { focusedGeometry, eventFeed, appId, enabledFeatures };
+      const { data: userModel } = get('userResourceAtom');
+
+      const createLayerFeatureActivated =
+        userModel?.hasFeature(AppFeature.CREATE_LAYER) ?? null;
+      state = {
+        focusedGeometry,
+        eventFeed,
+        appId,
+        createLayerFeatureActivated,
+      };
     });
 
     return state;
@@ -59,6 +69,7 @@ const areaLayersListDependencyAtom = createAtom(
 );
 
 export const areaLayersListResource = createResourceAtom(async (params) => {
+  if (params?.createLayerFeatureActivated === null) return; // Avoid double request
   if (!params?.focusedGeometry) return;
   const body: {
     eventId?: string;
@@ -80,15 +91,22 @@ export const areaLayersListResource = createResourceAtom(async (params) => {
     body.appId = params.appId;
   }
 
-  const responseData = await apiClient.post<LayerInArea[]>(
-    '/layers/search/',
-    body,
-    true,
-  );
+  let responseData: LayerInArea[] | undefined;
+  try {
+    responseData = await apiClient.post<LayerInArea[]>(
+      '/layers/search/',
+      body,
+      true,
+      { errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR } },
+    );
+  } catch (e: unknown) {
+    throw new Error('Error while fetching area layers data');
+  }
+
   if (responseData === undefined) throw new Error('No data received');
 
   /* Performance optimization - editable layers updated in create_layer feature */
-  if (params.enabledFeatures?.create_layer) {
+  if (params.createLayerFeatureActivated) {
     return responseData.filter((l) => l.group !== EDITABLE_LAYERS_GROUP);
   }
 
