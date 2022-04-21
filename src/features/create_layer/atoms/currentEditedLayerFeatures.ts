@@ -6,6 +6,11 @@ import { apiClient, notificationService } from '~core/index';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { editableLayersListResource } from './editableLayersListResource';
 
+interface SafeCallbacks {
+  onSuccess: () => void;
+  onError: () => void;
+}
+
 export const currentEditedLayerFeatures = createAtom(
   {
     readFeaturesFromLayer: (layerId: string) => layerId,
@@ -14,7 +19,7 @@ export const currentEditedLayerFeatures = createAtom(
     removeFeature: drawnGeometryAtom.removeByIndexes,
     drawnGeometryAtom,
     reset: () => null,
-    save: () => null,
+    save: (safeCallbacks?: SafeCallbacks) => safeCallbacks,
     setFeatureProperty: (
       featureIdx: number,
       properties: GeoJSON.GeoJsonProperties,
@@ -89,7 +94,7 @@ export const currentEditedLayerFeatures = createAtom(
       });
     });
 
-    onAction('save', () => {
+    onAction('save', (safeCallbacks) => {
       const stateSnapshot = state ? [...state] : null;
       schedule(async (dispatch, ctx) => {
         if (ctx.layerId && stateSnapshot) {
@@ -100,8 +105,10 @@ export const currentEditedLayerFeatures = createAtom(
               true,
             );
             notificationService.info({ title: 'Features was saved' }, 3);
+            if (safeCallbacks) safeCallbacks.onSuccess();
             dispatch(editableLayersListResource.refetch());
           } catch (e) {
+            if (safeCallbacks) safeCallbacks.onError();
             notificationService.error({ title: 'Failed to save features' });
             console.error(e);
           }

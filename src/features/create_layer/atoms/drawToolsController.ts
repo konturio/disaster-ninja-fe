@@ -1,12 +1,31 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
+import { store } from '~core/store/store';
 import { editTargetAtom } from './editTarget';
-import { EditTargets } from '../constants';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawModes } from '~core/draw_tools/constants';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
+import { TranslationService as i18n } from '~core/localization';
+import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../constants';
+import { sideControlsBarAtom } from '~core/shared_state';
+
+/* When saving success - close darwtools panel and edit feature form */
+function onFinishDrawing() {
+  return new Promise<boolean>((res, rej) => {
+    currentEditedLayerFeatures.save.dispatch({
+      onSuccess: () => {
+        store.dispatch([
+          sideControlsBarAtom.disable(CREATE_LAYER_CONTROL_ID),
+          editTargetAtom.set({ type: EditTargets.none }),
+        ]);
+        res(true);
+      },
+      onError: rej,
+    });
+  });
+}
 
 /* Enable / Disable draw tools panel */
 export const openDrawToolsInFeatureEditMode = createAtom(
@@ -25,7 +44,11 @@ export const openDrawToolsInFeatureEditMode = createAtom(
             // TODO fix that logic in layer.setMode() in #9782
             dispatch([
               drawModeLogicalLayerAtom.enable(),
-              toolboxAtom.setAvalibleModes(['DrawPointMode', 'ModifyMode']),
+              toolboxAtom.setSettings({
+                availableModes: ['DrawPointMode', 'ModifyMode'],
+                finishButtonText: i18n.t('Save features'),
+                finishButtonCallback: onFinishDrawing,
+              }),
               activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
               currentEditedLayerFeatures.readFeaturesFromLayer(layerId),
             ]);

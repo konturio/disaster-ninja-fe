@@ -24,6 +24,7 @@ import { forceRun } from '~utils/atoms/forceRun';
 import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
 import { isEditorActiveAtom } from './atoms/isEditorActive';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
+import { store } from '~core/store/store';
 
 export function initFocusedGeometry() {
   forceRun(focusedGeometryEditorAtom);
@@ -36,28 +37,40 @@ export function initFocusedGeometry() {
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,
     icon: <DrawToolsIcon />,
-    onClick: (becomesActive) => {
+    onClick: () => {
       sideControlsBarAtom.toggleActiveState.dispatch(
         FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
       );
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
-        isEditorActiveAtom.set.dispatch(true);
-
-        toolboxAtom.setAvalibleModes.dispatch([
-          'DrawPolygonMode',
-          'DrawLineMode',
-          'DrawPointMode',
+        store.dispatch([
+          isEditorActiveAtom.set(true),
+          toolboxAtom.setSettings({
+            availableModes: [
+              'DrawPolygonMode',
+              'DrawLineMode',
+              'DrawPointMode',
+            ],
+            finishButtonCallback: () =>
+              new Promise((res) => {
+                focusedGeometryEditorAtom.updateGeometry.dispatch();
+                res(true);
+              }),
+          }),
+          drawModeLogicalLayerAtom.enable(),
+          activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
         ]);
         // TODO fix that logic in layer.setMode() in #9782
-        drawModeLogicalLayerAtom.enable.dispatch();
-        activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
-        activeDrawModeAtom.setDrawMode.dispatch(drawModes.DrawPolygonMode);
+        store.dispatch(
+          activeDrawModeAtom.setDrawMode(drawModes.DrawPolygonMode),
+        );
       } else {
-        isEditorActiveAtom.set.dispatch(false);
-        drawModeLogicalLayerAtom.disable.dispatch();
-        activeDrawModeAtom.setDrawMode.dispatch(null);
+        store.dispatch([
+          isEditorActiveAtom.set(false),
+          drawModeLogicalLayerAtom.disable(),
+          activeDrawModeAtom.setDrawMode(null),
+        ]);
       }
     },
   });
