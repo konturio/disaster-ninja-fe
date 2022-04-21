@@ -92,6 +92,12 @@ export const MAP_CSS_MAPBOX = {
     name: 'fill-opacity',
     valueConverter: 'toNumber',
   },
+  'fill-opacity-complex': {
+    type: 'fill',
+    category: 'paint',
+    name: 'fill-opacity',
+    valueConverter: null,
+  },
 
   // symbol
   'icon-image': {

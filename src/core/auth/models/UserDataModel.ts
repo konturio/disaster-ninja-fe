@@ -1,60 +1,35 @@
-export type AppFeature =
-  | 'app_login'
-  | 'analytics_panel'
-  | 'advanced_analytics_panel'
-  | 'events_list'
-  | 'map_layers_panel'
-  | 'side_bar'
-  | 'bivariate_manager'
-  | 'current_event'
-  | 'focused_geometry_layer'
-  | 'layers_in_area'
-  | 'map_ruler'
-  | 'toasts'
-  | 'boundary_selector'
-  | 'draw_tools'
-  | 'focused_geometry_editor'
-  | 'geometry_uploader'
-  | 'legend_panel'
-  | 'reports'
-  | 'url_store'
-  | 'interactive_map'
-  | 'current_episode'
-  | 'geocoder'
-  | 'episode_list'
-  | 'communities'
-  | 'feature_settings'
-  | 'osm_edit_link'
-  | 'tooltip'
-  | 'feed_selector'
-  | 'create_layer'
-  | 'header'
-  | 'intercom';
-
-export type UserFeed = { feed: string; isDefault?: boolean };
+import { AppFeatureType, UserFeed } from '~core/auth/types';
 
 export class UserDataModel {
-  public features: { [T in AppFeature]?: boolean } = {};
-  public feeds: UserFeed[] | null = [];
+  private readonly _features: { [T in AppFeatureType]?: boolean } = {};
+  private readonly _feeds: UserFeed[] | null = [];
 
   constructor({
     features,
     feeds,
   }: {
-    features: { [T in AppFeature]?: boolean };
+    features: { [T in AppFeatureType]?: boolean };
     feeds: UserFeed[] | null;
   }) {
-    this.features = features;
-    this.feeds = feeds;
+    this._features = features;
+    this._feeds = feeds;
   }
 
   public get defaultFeed(): UserFeed | undefined {
-    return this.feeds?.find((fd) => fd.isDefault);
+    return this._feeds?.find((fd) => fd.isDefault);
   }
 
   public checkFeed(feedId?: string): string | undefined {
     if (!feedId) return this.defaultFeed?.feed;
-    const feed = this.feeds?.find((fd) => fd.feed === feedId);
+    const feed = this._feeds?.find((fd) => fd.feed === feedId);
     return feed ? feed.feed : this.defaultFeed?.feed;
+  }
+
+  public hasFeature(featureType: AppFeatureType): boolean {
+    return this._features && this._features[featureType] === true;
+  }
+
+  public get feeds() {
+    return this._feeds;
   }
 }

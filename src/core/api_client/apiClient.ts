@@ -3,16 +3,22 @@ import jwtDecode from 'jwt-decode';
 import {
   ApiErrorResponse,
   ApiResponse,
-  ApisauceConfig,
   ApisauceInstance,
   create,
 } from 'apisauce';
 import {
+  ApiClientConfig,
   ApiClientError,
+  ApiMethod,
+  ApiMethodTypes,
+  CustomRequestConfig,
   GeneralApiProblem,
   getGeneralApiProblem,
-} from './ApiProblem';
-import { JWTData, KeycloakAuthResponse, RequestParams } from './ApiTypes';
+  JWTData,
+  KeycloakAuthResponse,
+  RequestErrorsConfig,
+  RequestParams,
+} from './types';
 import { NotificationMessage } from '~core/types/notification';
 import { replaceUrlWithProxy } from '../../../vite.proxy';
 import config from '~core/app_config';
@@ -26,19 +32,6 @@ export interface INotificationService {
 export interface ITranslationService {
   t: (message: string) => string;
 }
-
-export interface ApiClientConfig extends ApisauceConfig {
-  instanceId?: string;
-  notificationService: INotificationService;
-  translationService: ITranslationService;
-  loginApiPath?: string;
-  refreshTokenApiPath?: string;
-  unauthorizedCallback?: () => void;
-  disableAuth?: boolean;
-  storage?: WindowLocalStorage['localStorage'];
-}
-
-type ApiMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
 export class ApiClient {
   private static instances: Record<string, ApiClient> = {};
@@ -236,6 +229,7 @@ export class ApiClient {
 
   private async processResponse<T>(
     response: ApiResponse<T, GeneralApiProblem>,
+    errorsConfig?: RequestErrorsConfig,
   ): Promise<T | undefined | never> {
     if (response.ok) {
       return response.data;
@@ -250,12 +244,30 @@ export class ApiClient {
     }
 
     const problem = getGeneralApiProblem(response);
-    const errorMessage = ApiClient.parseError(problem);
 
-    this.notificationService.error({
-      title: this.translationService.t('Error'),
-      description: this.translationService.t(errorMessage),
-    });
+    // if there is custom error messages config use it do define error message
+    // Parse error message from error body in other case
+    let errorMessage = '';
+    if (errorsConfig && errorsConfig.messages) {
+      if (typeof errorsConfig.messages !== 'string') {
+        if (response.status && response.status in errorsConfig.messages) {
+          errorMessage = errorsConfig.messages[response.status];
+        }
+      } else {
+        errorMessage = errorsConfig.messages;
+      }
+    }
+
+    if (!errorMessage) {
+      errorMessage = ApiClient.parseError(problem);
+    }
+
+    if (!errorsConfig || !errorsConfig.dontShowErrors) {
+      this.notificationService.error({
+        title: this.translationService.t('Error'),
+        description: this.translationService.t(errorMessage),
+      });
+    }
 
     throw new ApiClientError(errorMessage, problem);
   }
@@ -424,22 +436,25 @@ export class ApiClient {
     path: string,
     requestParams?: unknown,
     useAuth = !this.disableAuth,
-    axiosConfig?: AxiosRequestConfig,
+    requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
     let response: ApiResponse<T, GeneralApiProblem>;
 
-    if (!axiosConfig) {
-      axiosConfig = {};
+    if (!requestConfig) {
+      requestConfig = {};
     }
 
     if (!this.disableAuth && useAuth && this.token) {
-      const tokenCheckError = await this.checkToken(axiosConfig);
+      const tokenCheckError = await this.checkToken(requestConfig);
       if (tokenCheckError) {
-        return await this.processResponse<T>(tokenCheckError);
+        return await this.processResponse<T>(
+          tokenCheckError,
+          requestConfig?.errorsConfig,
+        );
       }
 
-      if (!axiosConfig.headers || !axiosConfig.headers.Authorization) {
-        axiosConfig.headers = {
+      if (!requestConfig.headers || !requestConfig.headers.Authorization) {
+        requestConfig.headers = {
           Authorization: `Bearer ${this.token}`,
         };
       }
@@ -447,19 +462,17 @@ export class ApiClient {
       response = await this.apiSauceInstance[method](
         path,
         requestParams,
-        axiosConfig,
+        requestConfig,
       );
     } else {
       response = await this.apiSauceInstance[method](
         path,
         requestParams,
-        axiosConfig,
+        requestConfig,
       );
     }
 
-    const res = this.processResponse<T>(response);
-
-    return res;
+    return this.processResponse<T>(response, requestConfig?.errorsConfig);
   }
 
   // method shortcuts
@@ -467,43 +480,73 @@ export class ApiClient {
     path: string,
     requestParams?: RequestParams,
     useAuth = !this.disableAuth,
-    axiosConfig?: AxiosRequestConfig,
+    requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
-    return this.call<T>('get', path, requestParams, useAuth, axiosConfig);
+    return this.call<T>(
+      ApiMethodTypes.GET,
+      path,
+      requestParams,
+      useAuth,
+      requestConfig,
+    );
   }
 
   public async post<T>(
     path: string,
     requestParams?: unknown,
     useAuth = !this.disableAuth,
-    axiosConfig?: AxiosRequestConfig,
+    requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
-    return this.call('post', path, requestParams, useAuth, axiosConfig);
+    return this.call(
+      ApiMethodTypes.POST,
+      path,
+      requestParams,
+      useAuth,
+      requestConfig,
+    );
   }
 
   public async put<T>(
     path: string,
     requestParams?: RequestParams,
     useAuth = !this.disableAuth,
-    axiosConfig?: AxiosRequestConfig,
+    requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
-    return this.call('put', path, requestParams, useAuth, axiosConfig);
+    return this.call(
+      ApiMethodTypes.PUT,
+      path,
+      requestParams,
+      useAuth,
+      requestConfig,
+    );
   }
 
   public async patch<T>(
     path: string,
     requestParams?: RequestParams,
     useAuth = !this.disableAuth,
-    axiosConfig?: AxiosRequestConfig,
+    requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
-    return this.call('patch', path, requestParams, useAuth, axiosConfig);
+    return this.call(
+      ApiMethodTypes.PATCH,
+      path,
+      requestParams,
+      useAuth,
+      requestConfig,
+    );
   }
 
   public async delete<T>(
     path: string,
     useAuth = !this.disableAuth,
-    axiosConfig?: AxiosRequestConfig,
+    requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
-    return this.call('delete', path, undefined, useAuth, axiosConfig);
+    return this.call(
+      ApiMethodTypes.DELETE,
+      path,
+      undefined,
+      useAuth,
+      requestConfig,
+    );
   }
 }

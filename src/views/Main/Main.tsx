@@ -9,6 +9,7 @@ import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
+import { AppFeature } from '~core/auth/types';
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
 
@@ -49,87 +50,88 @@ const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 
 export function MainView() {
   const history = useHistory();
-  const [{ data }] = useAtom(userResourceAtom);
-  const userFeatures = data?.features;
+  const [{ data: userModel }] = useAtom(userResourceAtom);
 
   useEffect(() => {
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
 
     /* Lazy load module */
-    if (userFeatures?.url_store === true) {
+    if (userModel?.hasFeature(AppFeature.URL_STORE)) {
       import('~features/url_store').then(({ initUrlStore }) => initUrlStore());
     }
-    if (userFeatures?.current_event === true) {
+    if (userModel?.hasFeature(AppFeature.CURRENT_EVENT)) {
       import('~features/current_event').then(({ initCurrentEvent }) =>
         initCurrentEvent(),
       );
     }
-    if (userFeatures?.geometry_uploader === true) {
+    if (userModel?.hasFeature(AppFeature.GEOMETRY_UPLOADER)) {
       import('~features/geometry_uploader').then(({ initFileUploader }) =>
         initFileUploader(),
       );
     }
-    if (userFeatures?.map_ruler === true) {
+    if (userModel?.hasFeature(AppFeature.MAP_RULER)) {
       import('~features/map_ruler').then(({ initMapRuler }) => initMapRuler());
     }
-    if (userFeatures?.boundary_selector === true) {
+    if (userModel?.hasFeature(AppFeature.BOUNDARY_SELECTOR)) {
       import('~features/boundary_selector').then(({ initBoundarySelector }) =>
         initBoundarySelector(),
       );
     }
-    if (userFeatures?.layers_in_area === true) {
+    if (userModel?.hasFeature(AppFeature.LAYERS_IN_AREA)) {
       import('~features/layers_in_area').then(({ initLayersInArea }) =>
         initLayersInArea(),
       );
     }
-    if (userFeatures?.focused_geometry_layer === true) {
+    if (userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_LAYER)) {
       import('~features/focused_geometry_layer').then(
         ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
       );
     }
-    if (userFeatures?.reports === true) {
+    if (userModel?.hasFeature(AppFeature.REPORTS)) {
       import('~features/reports/').then(({ initReportsIcon }) =>
         initReportsIcon(history),
       );
     }
-    if (userFeatures?.osm_edit_link === true) {
+    if (userModel?.hasFeature(AppFeature.OSM_EDIT_LINK)) {
       import('~features/osm_edit_link/').then(({ initOsmEditLink }) =>
         initOsmEditLink(),
       );
     }
     // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
     if (
-      userFeatures?.draw_tools /* old name */ ||
-      userFeatures?.focused_geometry_editor
+      userModel?.hasFeature(AppFeature.DRAW_TOOLS) ||
+      userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_EDITOR)
     ) {
       import('~features/focused_geometry_editor/').then(
         ({ initFocusedGeometry }) => initFocusedGeometry(),
       );
     }
-    if (userFeatures?.create_layer === true) {
+    if (userModel?.hasFeature(AppFeature.CREATE_LAYER)) {
       import('~features/create_layer/').then(({ initEditableLayer }) =>
         initEditableLayer(),
       );
     }
-    if (userFeatures?.intercom === true) {
+    if (userModel?.hasFeature(AppFeature.INTERCOM)) {
       import('~features/intercom').then(({ initIntercom }) => {
         initIntercom();
       });
     }
-  }, [userFeatures]);
+  }, [userModel]);
 
   return (
     <>
       <Suspense fallback={null}>
-        {userFeatures?.tooltip === true && <PopupTooltip />}
+        {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
       </Suspense>
       <Suspense fallback={null}>
-        {userFeatures?.header && (
+        {userModel?.hasFeature(AppFeature.HEADER) && (
           <AppHeader
             title="Disaster Ninja"
             logo={VisibleLogo()}
             afterChatContent={
-              userFeatures?.app_login === true ? <UserProfile /> : undefined
+              userModel?.hasFeature(AppFeature.APP_LOGIN) ? (
+                <UserProfile />
+              ) : undefined
             }
           >
             <Row>
@@ -140,11 +142,12 @@ export function MainView() {
       </Suspense>
       <Row>
         <Suspense fallback={null}>
-          {userFeatures?.toasts === true && <NotificationToast />}
-          {userFeatures?.side_bar === true && <SideBar />}
-          {userFeatures?.events_list === true && data?.feeds && <EventList />}
-          {userFeatures?.analytics_panel === true && <Analytics />}
-          {userFeatures?.advanced_analytics_panel === true && (
+          {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
+          {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
+          {userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
+            userModel?.feeds && <EventList />}
+          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <Analytics />}
+          {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
             <AdvancedAnalytics />
           )}
         </Suspense>
@@ -168,14 +171,16 @@ export function MainView() {
                 id="right-buttons-container"
                 className={s.rightButtonsContainer}
               ></div>
-              {userFeatures?.legend_panel === true && (
+              {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
                 <Legend iconsContainerId="right-buttons-container" />
               )}
-              {userFeatures?.create_layer === true && <LayerEditorPanel />}
-              {userFeatures?.map_layers_panel === true && (
+              {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
+                <LayerEditorPanel />
+              )}
+              {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
                 <MapLayersList iconsContainerId="right-buttons-container" />
               )}
-              {userFeatures?.bivariate_manager === true && (
+              {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
                 <BivariatePanel iconsContainerId="right-buttons-container" />
               )}
             </div>

@@ -1,9 +1,16 @@
 import MockAdapter from 'axios-mock-adapter';
 import sinon from 'sinon';
 import type { NotificationMessage } from '../../../core/types/notification';
-import { createLocalStorageMock, setupTestContext } from '../../../utils/testsUtils/setupTest';
-import { ApiClient, INotificationService, ITranslationService } from '../ApiClient';
-import { ApiClientError } from '../ApiProblem';
+import {
+  createLocalStorageMock,
+  setupTestContext,
+} from '../../../utils/testsUtils/setupTest';
+import {
+  ApiClient,
+  INotificationService,
+  ITranslationService,
+} from '../apiClient';
+import { ApiClientError } from '../types';
 
 /* Setup stage */
 let n = 0;

@@ -11,6 +11,14 @@ const Sub = ({ children }) => (
   </span>
 );
 
+const formatNumber = new Intl.NumberFormat().format;
+
+type Statistics = {
+  tooltip: string;
+  value: string | JSX.Element | null;
+  icon?: string;
+}[];
+
 export function Analytics({
   settledArea,
   affectedPeople,
@@ -20,7 +28,7 @@ export function Analytics({
   affectedPeople: number;
   osmGapsPercentage: number | null;
 }) {
-  const statistics = useMemo(() => {
+  const statistics = useMemo((): Statistics => {
     if (affectedPeople === 0)
       return [
         {
@@ -39,14 +47,16 @@ export function Analytics({
         },
       ];
 
-    const formatNumber = new Intl.NumberFormat().format;
-    return [
+    const result: Statistics = [
       {
         tooltip: i18n.t('Affected People'),
         value: formatNumber(affectedPeople),
         icon: peopleIcon,
       },
-      {
+    ];
+
+    if (typeof settledArea === 'number')
+      result.push({
         tooltip: i18n.t('Settled Area'),
 
         value: (
@@ -55,12 +65,14 @@ export function Analytics({
           </span>
         ),
         icon: areaIcon,
-      },
-      {
+      });
+
+    if (osmGapsPercentage)
+      result.push({
         tooltip: i18n.t('OSM Gaps Percentage (lower is better)'),
-        value: osmGapsPercentage ? `${osmGapsPercentage}% gaps` : ' - ',
-      },
-    ];
+        value: `${osmGapsPercentage}% gaps`,
+      });
+    return result;
   }, [settledArea, affectedPeople, osmGapsPercentage]);
 
   return (
