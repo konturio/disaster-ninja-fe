@@ -3,16 +3,19 @@ import { LayerLegend } from '../types/legends';
 import { LayerMeta } from '../types/meta';
 import { LayerSettings } from '../types/settings';
 import { LayerSource } from '../types/source';
+import { LayerContextMenu } from '../types/contextMenu';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
+import { layersMenusAtom } from '~core/logical_layers/atoms/layersMenus';
 
 export interface LayersUpdate {
   legend?: LayerLegend;
   source?: LayerSource;
   meta?: LayerMeta;
   settings?: LayerSettings;
+  menu?: LayerContextMenu;
 }
 
 /**
@@ -72,6 +75,11 @@ export function createUpdateLayerActions(
         data: update.settings,
       }),
     );
+    cleanupActions.push(layersSettingsAtom.delete(id));
+  }
+
+  if (update.menu) {
+    updateActions.push(layersMenusAtom.set(id, update.menu));
     cleanupActions.push(layersSettingsAtom.delete(id));
   }
 

@@ -1,6 +1,5 @@
-import s from './LabelWithTooltip.module.css';
 import { Tooltip } from '~components/Tooltip/Tooltip';
-import clsx from 'clsx';
+import { Label } from '~components/Label/Label';
 
 interface LabelWithTooltipProps {
   text: string;
@@ -13,8 +12,8 @@ export const LabelWithTooltip = ({
   description,
   className,
 }: LabelWithTooltipProps) => (
-  <div className={clsx(s.tooltip, className)}>
+  <Label className={className}>
     {text}
     <Tooltip tipText={description} showedOnHover={true} />
-  </div>
+  </Label>
 );
