@@ -34,19 +34,28 @@ export const userStateAtom = createAtom(
     });
 
     onAction('login', () => {
-      if (state === UserStateStatus.UNAUTHORIZED || state === UserStateStatus.SIGNING_UP) {
+      if (
+        state === UserStateStatus.UNAUTHORIZED ||
+        state === UserStateStatus.SIGNING_UP
+      ) {
         state = UserStateStatus.LOGGING_IN;
       }
     });
 
     onAction('logout', () => {
-      if (state === UserStateStatus.AUTHORIZED || state === UserStateStatus.PASSWORD_RESET) {
+      if (
+        state === UserStateStatus.AUTHORIZED ||
+        state === UserStateStatus.PASSWORD_RESET
+      ) {
         state = UserStateStatus.UNAUTHORIZED;
       }
     });
 
     onAction('signup', () => {
-      if (state === UserStateStatus.UNAUTHORIZED || state === UserStateStatus.LOGGING_IN) {
+      if (
+        state === UserStateStatus.UNAUTHORIZED ||
+        state === UserStateStatus.LOGGING_IN
+      ) {
         state = UserStateStatus.SIGNING_UP;
       }
     });

@@ -11,65 +11,73 @@ import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
+import { isEditorActiveAtom } from './isEditorActive';
+import { Action } from '@reatom/core';
 
 const defaultState: FeatureCollection = {
   type: 'FeatureCollection',
   features: [],
 };
 
-export const watcherAtom = createAtom(
+export const focusedGeometryEditorAtom = createAtom(
   {
+    isEditorActiveAtom,
     focusedGeometryAtom,
     activeDrawModeAtom,
     toolboxAtom,
+    updateGeometry: () => null,
   },
   (
-    { schedule, onChange, get, getUnlistedState },
+    { schedule, onChange, get, getUnlistedState, onAction },
     state: FeatureCollection = defaultState,
   ) => {
-    // if draw tools were turned off - stop watching atoms
-    const { mode } = get('toolboxAtom');
-    if (!mode) return;
-
+    // Make changes only when mode is active
+    const modeIsActive = get('isEditorActiveAtom');
+    if (!modeIsActive) return state;
     /**
+     * Upload geometry from file (why this not part of draw tools?)
+     *
      * While draw mode is active, some geometry can be uploaded which will be received by focusedGeometryAtom
      * this listener intercepts geometry in such case
      */
-
     onChange('focusedGeometryAtom', (incoming) => {
       const mode = get('activeDrawModeAtom');
       if (!mode) return;
 
       if (incoming?.source.type === 'uploaded')
         schedule((dispatch) => {
-          const actions: any[] = [];
+          const actions: Action[] = [];
           updateFromGeometry(incoming, actions);
           dispatch(actions);
         });
     });
 
+    onAction('updateGeometry', () => {
+      const drawnFeatures = getUnlistedState(drawnGeometryAtom);
+      schedule((dispatch) => {
+        dispatch([
+          focusedGeometryAtom.setFocusedGeometry(
+            { type: 'drawn' },
+            drawnFeatures,
+          ),
+          enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
+        ]);
+      });
+    });
+
+    /* Disable focused geometry layer when editing was enabled */
     onChange('activeDrawModeAtom', (activeMode, previousActiveMode) => {
       const focusedFeatures = getUnlistedState(focusedGeometryAtom);
       if (activeMode && !previousActiveMode && focusedFeatures) {
         schedule((dispatch) => {
-          const actions: any[] = [
+          const actions: Action[] = [
             enabledLayersAtom.delete(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
           ];
           updateFromGeometry(focusedFeatures, actions);
           dispatch(actions);
         });
-      } else if (!activeMode && previousActiveMode) {
-        // if draw mode was turned off after being turned on
-        schedule((dispatch) => {
-          dispatch([
-            focusedGeometryAtom.setFocusedGeometry({ type: 'drawn' }, state),
-            enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
-          ]);
-          state = defaultState;
-        });
       }
     });
-
     return state;
   },
   'drawnGeometryAtom',

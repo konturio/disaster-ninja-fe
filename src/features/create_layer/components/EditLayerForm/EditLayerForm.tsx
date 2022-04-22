@@ -1,24 +1,24 @@
-import s from './CreateLayerForm.module.css';
+import { ChangeEvent, useCallback } from 'react';
 import { useAtom } from '@reatom/react';
-import { LabelWithTooltip } from '~components/LabelWithTooltip/LabelWithTooltip';
-import { translationService as i18n } from '~core/index';
 import { Button, Input } from '@k2-packages/ui-kit';
 import { MarkerIcon } from '@k2-packages/default-icons';
-import { CreateLayerFieldsPlaceholder } from '../CreateLayerFieldsPlaceholder/CreateLayerFieldsPlaceholder';
-import { ChangeEvent, useCallback } from 'react';
-import { LayerDataAtomType } from '~features/create_layer/atoms/createLayerData';
+import { translationService as i18n } from '~core/index';
+import { LabelWithTooltip } from '~components/LabelWithTooltip/LabelWithTooltip';
+import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
+import { EditableLayerFieldsPlaceholder } from '../EditableLayerFieldsPlaceholder/EditableLayerFieldsPlaceholder';
+import s from './EditLayerForm.module.css';
 
-interface CreateLayerFormProps {
-  data: LayerDataAtomType;
+interface EditLayerFormFormProps {
+  data: LayerEditorFormAtomType;
   onSave: () => void;
   onCancel: () => void;
 }
 
-export function CreateLayerForm({
+export function EditLayerForm({
   data,
   onSave,
   onCancel,
-}: CreateLayerFormProps) {
+}: EditLayerFormFormProps) {
   const [formState, { addField, removeField, reorderFields, updateName }] =
     useAtom(data);
 
@@ -36,7 +36,11 @@ export function CreateLayerForm({
           text={i18n.t('Layer name')}
           description={i18n.t('Layer name')}
         />
-        <Input onChange={onNameChange} value={formState.name} className={s.formInput} />
+        <Input
+          onChange={onNameChange}
+          value={formState.name}
+          className={s.formInput}
+        />
       </div>
       <div className={s.formParam}>
         <LabelWithTooltip
@@ -47,7 +51,7 @@ export function CreateLayerForm({
           <MarkerIcon />
         </Button>
       </div>
-      <CreateLayerFieldsPlaceholder
+      <EditableLayerFieldsPlaceholder
         fieldModels={formState.fields}
         onAddField={addField}
         onRemoveField={removeField}

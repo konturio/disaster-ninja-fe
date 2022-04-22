@@ -13,10 +13,10 @@ import { AppFeature } from '~core/auth/types';
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
 
-const { CreateLayerPanel } = lazily(
+const { EditFeaturesOrLayerPanel: LayerEditorPanel } = lazily(
   () =>
     import(
-      '~features/create_layer/components/CreateLayerPanel/CreateLayerPanel'
+      '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
     ),
 );
 
@@ -98,14 +98,17 @@ export function MainView() {
       );
     }
     // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
-    if (userModel?.hasFeature(AppFeature.DRAW_TOOLS) || userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_EDITOR)) {
+    if (
+      userModel?.hasFeature(AppFeature.DRAW_TOOLS) ||
+      userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_EDITOR)
+    ) {
       import('~features/focused_geometry_editor/').then(
-        ({ initFreehandGeometry }) => initFreehandGeometry(),
+        ({ initFocusedGeometry }) => initFocusedGeometry(),
       );
     }
     if (userModel?.hasFeature(AppFeature.CREATE_LAYER)) {
-      import('~features/create_layer/').then(({ initCreateLayer }) =>
-        initCreateLayer(),
+      import('~features/create_layer/').then(({ initEditableLayer }) =>
+        initEditableLayer(),
       );
     }
     if (userModel?.hasFeature(AppFeature.INTERCOM)) {
@@ -126,7 +129,9 @@ export function MainView() {
             title="Disaster Ninja"
             logo={VisibleLogo()}
             afterChatContent={
-              userModel?.hasFeature(AppFeature.APP_LOGIN) ? <UserProfile /> : undefined
+              userModel?.hasFeature(AppFeature.APP_LOGIN) ? (
+                <UserProfile />
+              ) : undefined
             }
           >
             <Row>
@@ -139,7 +144,8 @@ export function MainView() {
         <Suspense fallback={null}>
           {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
           {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
-          {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && <EventList />}
+          {userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
+            userModel?.feeds && <EventList />}
           {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <Analytics />}
           {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
             <AdvancedAnalytics />
@@ -168,7 +174,9 @@ export function MainView() {
               {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
                 <Legend iconsContainerId="right-buttons-container" />
               )}
-              {userModel?.hasFeature(AppFeature.CREATE_LAYER) && <CreateLayerPanel />}
+              {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
+                <LayerEditorPanel />
+              )}
               {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
                 <MapLayersList iconsContainerId="right-buttons-container" />
               )}

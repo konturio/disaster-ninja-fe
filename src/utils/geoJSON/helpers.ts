@@ -11,6 +11,14 @@ export function createGeoJSONSource(
   };
 }
 
+export class FeatureCollection {
+  type = 'FeatureCollection';
+  features: GeoJSON.Feature[];
+  constructor(features: GeoJSON.Feature[]) {
+    this.features = features;
+  }
+}
+
 export function readGeoJSON(file): Promise<GeoJSON.GeoJSON> {
   return new Promise((res, rej) => {
     const reader = new FileReader();

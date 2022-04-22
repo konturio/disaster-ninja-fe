@@ -6,7 +6,8 @@ export const UserStateStatus = {
   PASSWORD_RESET: 'password_reset',
 } as const;
 
-export type UserStateType = typeof UserStateStatus[keyof typeof UserStateStatus];
+export type UserStateType =
+  typeof UserStateStatus[keyof typeof UserStateStatus];
 
 export const AppFeature = {
   APP_LOGIN: 'app_login',
@@ -52,12 +53,12 @@ export type BackendFeature = {
   name: string;
   description: string;
   type: typeof BackendFeatureType[keyof typeof BackendFeatureType];
-}
+};
 
 export type BackendFeed = {
   feed: string;
   description: string;
   default: boolean;
-}
+};
 
 export type UserFeed = { feed: string; isDefault?: boolean };
