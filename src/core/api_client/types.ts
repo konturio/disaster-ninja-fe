@@ -1,11 +1,14 @@
 import { ApiResponse, ApisauceConfig } from 'apisauce';
-import { INotificationService, ITranslationService } from '~core/api_client/apiClient';
+import {
+  INotificationService,
+  ITranslationService,
+} from '~core/api_client/apiClient';
 import { AxiosRequestConfig } from 'axios';
 
 export const ApiMethodTypes = {
   GET: 'get',
   POST: 'post',
-  PUT:  'put',
+  PUT: 'put',
   PATCH: 'patch',
   DELETE: 'delete',
 } as const;
@@ -64,7 +67,7 @@ export type RequestParams = Record<string, any>;
 export type RequestErrorsConfig = {
   dontShowErrors?: boolean;
   messages?: Record<number, string> | string;
-}
+};
 
 export interface CustomRequestConfig extends AxiosRequestConfig {
   errorsConfig?: RequestErrorsConfig;
@@ -75,9 +78,9 @@ export interface CustomRequestConfig extends AxiosRequestConfig {
  * -------------------------------------------------------------------------- */
 
 export type GeneralApiProblem =
-/**
- * Times up.
- */
+  /**
+   * Times up.
+   */
   | { kind: 'timeout'; temporary: true }
   /**
    * Cannot connect to the server for some reason.
@@ -172,4 +175,3 @@ export class ApiClientError extends Error {
     Object.setPrototypeOf(this, ApiClientError.prototype);
   }
 }
-

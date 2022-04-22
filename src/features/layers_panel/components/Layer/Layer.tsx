@@ -1,10 +1,10 @@
+import { useEffect } from 'react';
 import { useAction, useAtom } from '@reatom/react';
 import {
   SimpleLegend as SimpleLegendComponent,
   SimpleLegendStep as SimpleLegendStepComponent,
 } from '~components/SimpleLegend/SimpleLegend';
 import { LayerControl } from '~components/LayerControl/LayerControl';
-import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { Folding } from '../Folding/Folding';
 import type {
   LayerLegend,
@@ -12,12 +12,8 @@ import type {
   SimpleLegendStep,
 } from '~core/logical_layers/types/legends';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
-import { useEffect, useState } from 'react';
-import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
-import { DownloadControl } from '../DownloadControl/DownloadControl';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
-import { UserLayerContext } from '~features/layers_panel/components/UserLayerContext/UserLayerContext';
-import { UserLayerGroup } from '~core/types/layers';
+import { useControlElements } from './useControlElements';
 
 export function Layer({
   layerAtom,
@@ -39,8 +35,8 @@ export function Layer({
       layerState.isMounted ? layerActions.disable() : layerActions.enable(),
     [layerState.isMounted],
   );
-  const [controlElements, setControlElements] = useState<JSX.Element[]>([]);
 
+  const controlElements = useControlElements(layerState, layerActions);
   useEffect(() => {
     if (!delegateLegendRender) return;
     if (layerState.isEnabled && layerState.legend?.type === 'bivariate') {
@@ -52,40 +48,6 @@ export function Layer({
       });
     }
   }, [delegateLegendRender, layerState]);
-
-  useEffect(() => {
-    const elements: JSX.Element[] = [];
-    if (layerState.isMounted)
-      elements.push(
-        <LayerHideControl
-          key={layerState.id + 'hide'}
-          isVisible={layerState.isVisible}
-          hideLayer={layerActions.hide}
-          unhideLayer={layerActions.show}
-        />,
-      );
-    if (layerState.isMounted && layerState.isDownloadable)
-      elements.push(
-        <DownloadControl
-          key={layerState.id + 'download'}
-          startDownload={layerActions.download}
-        />,
-      );
-
-    if (layerState?.settings?.group === UserLayerGroup)
-      elements.push(
-        <UserLayerContext
-          layerId={layerState.id}
-          key={layerState.id + 'context'}
-        />,
-      );
-
-    if (layerState.meta) {
-      elements.push(<LayerInfo key={layerState.id} meta={layerState.meta} />);
-    }
-
-    setControlElements(elements);
-  }, [layerState, layerActions]);
 
   const hasOneStepSimpleLegend =
     layerState.legend?.type === 'simple' &&

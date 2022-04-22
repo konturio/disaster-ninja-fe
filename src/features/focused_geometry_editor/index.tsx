@@ -20,8 +20,15 @@ import { TranslationService as i18n } from '~core/localization';
 import { downloadObject } from '~utils/fileHelpers/download';
 import DownloadIcon from '~core/draw_tools/icons/DownloadIcon';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
+import { forceRun } from '~utils/atoms/forceRun';
+import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
+import { isEditorActiveAtom } from './atoms/isEditorActive';
+import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
+import { store } from '~core/store/store';
 
-export function initFreehandGeometry() {
+export function initFocusedGeometry() {
+  forceRun(focusedGeometryEditorAtom);
+
   sideControlsBarAtom.addControl.dispatch({
     id: FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
     name: FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
@@ -30,20 +37,40 @@ export function initFreehandGeometry() {
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,
     icon: <DrawToolsIcon />,
-    onClick: (becomesActive) => {
+    onClick: () => {
       sideControlsBarAtom.toggleActiveState.dispatch(
         FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
       );
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
-        // TODO fix that logic in layer.setMode()
-        drawModeLogicalLayerAtom.enable.dispatch();
-        activeDrawModeAtom.setDrawMode.dispatch(drawModes.ModifyMode);
-        activeDrawModeAtom.setDrawMode.dispatch(drawModes.DrawPolygonMode);
+        store.dispatch([
+          isEditorActiveAtom.set(true),
+          toolboxAtom.setSettings({
+            availableModes: [
+              'DrawPolygonMode',
+              'DrawLineMode',
+              'DrawPointMode',
+            ],
+            finishButtonCallback: () =>
+              new Promise((res) => {
+                focusedGeometryEditorAtom.updateGeometry.dispatch();
+                res(true);
+              }),
+          }),
+          drawModeLogicalLayerAtom.enable(),
+          activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
+        ]);
+        // TODO fix that logic in layer.setMode() in #9782
+        store.dispatch(
+          activeDrawModeAtom.setDrawMode(drawModes.DrawPolygonMode),
+        );
       } else {
-        drawModeLogicalLayerAtom.disable.dispatch();
-        activeDrawModeAtom.setDrawMode.dispatch(null);
+        store.dispatch([
+          isEditorActiveAtom.set(false),
+          drawModeLogicalLayerAtom.disable(),
+          activeDrawModeAtom.setDrawMode(null),
+        ]);
       }
     },
   });

@@ -8,14 +8,14 @@ export const advancedAnalyticsResourceAtom = createResourceAtom(
     if (!fGeo) return null;
     let responseData: AdvancedAnalyticsData[] | null | undefined;
     try {
-        responseData = await apiClient.post<AdvancedAnalyticsData[] | null>(
-          `/advanced_polygon_details/`,
-          fGeo?.geometry,
-          false,
-          { errorsConfig: { dontShowErrors: true } },
-        );
+      responseData = await apiClient.post<AdvancedAnalyticsData[] | null>(
+        `/advanced_polygon_details/`,
+        fGeo?.geometry,
+        false,
+        { errorsConfig: { dontShowErrors: true } },
+      );
     } catch (e: unknown) {
-        throw new Error('Error while fetching advanced analytics data');
+      throw new Error('Error while fetching advanced analytics data');
     }
 
     // in case there is no error but response data is empty

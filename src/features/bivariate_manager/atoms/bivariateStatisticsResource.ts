@@ -58,7 +58,9 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
         geom.geometry.features.length)
     );
 
-    const importantLayersRequest = `importantLayers: ${JSON.stringify(importantLayers)}`;
+    const importantLayersRequest = `importantLayers: ${JSON.stringify(
+      importantLayers,
+    )}`;
 
     const polygonStatisticRequest =
       geom && geomNotEmpty

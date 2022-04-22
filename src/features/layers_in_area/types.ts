@@ -1,5 +1,4 @@
 import { LayerDetailsLegend } from '~core/logical_layers/types/legends';
-import { UserDataFeaturePropertiesType } from '~core/logical_layers/types/userData';
 
 export interface TileSource {
   type: 'vector' | 'raster';
@@ -20,7 +19,6 @@ export interface LayerInArea {
   category?: 'base' | 'overlay';
   group?: string;
   copyrights?: string[];
-  featureProperties?: UserDataFeaturePropertiesType;
   boundaryRequiredForRetrieval: boolean;
   eventIdRequiredForRetrieval?: boolean;
   ownedByUser: boolean;

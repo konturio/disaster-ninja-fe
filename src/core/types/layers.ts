@@ -43,5 +43,3 @@ export type TreeChildren = CategoryWithSettings | GroupWithSettings | Layer;
 export interface Tree {
   children: TreeChildren[];
 }
-
-export const UserLayerGroup = 'user_layers';
