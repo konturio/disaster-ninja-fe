@@ -1,8 +1,8 @@
 import { forceRun } from '~utils/atoms/forceRun';
-import { areaLayers } from './atoms/areaLayers';
-import { areaLayersDetails } from './atoms/areaLayersDetails';
+import { areaLayersControlsAtom } from './atoms/areaLayersControls';
+import { areaLayersLegendsAndSources } from './atoms/areaLayersLegendsAndSources';
 
 export function initLayersInArea() {
-  forceRun(areaLayers);
-  forceRun(areaLayersDetails);
+  forceRun(areaLayersControlsAtom);
+  forceRun(areaLayersLegendsAndSources);
 }

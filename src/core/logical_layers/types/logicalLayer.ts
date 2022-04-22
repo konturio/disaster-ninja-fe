@@ -3,6 +3,7 @@ import { LayerLegend } from './legends';
 import { LayerMeta } from './meta';
 import { LayerSource } from './source';
 import { LayerSettings } from './settings';
+import { LayerContextMenu } from './contextMenu';
 
 export type LogicalLayerState = Readonly<{
   id: string;
@@ -16,6 +17,7 @@ export type LogicalLayerState = Readonly<{
   legend: LayerLegend | null;
   settings: LayerSettings | null;
   source: LayerSource | null;
+  contextMenu: LayerContextMenu | null;
 }>;
 
 export type LogicalLayerActions = {

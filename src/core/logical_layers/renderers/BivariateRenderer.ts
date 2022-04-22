@@ -7,7 +7,10 @@ import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import { LayerTileSource } from '~core/logical_layers/types/source';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
-import { LAYER_BIVARIATE_PREFIX, SOURCE_BIVARIATE_PREFIX } from '~core/logical_layers/constants';
+import {
+  LAYER_BIVARIATE_PREFIX,
+  SOURCE_BIVARIATE_PREFIX,
+} from '~core/logical_layers/constants';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -116,25 +119,36 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
   /* ========== Hooks ========== */
   willSourceUpdate({
-                     map,
-                     state,
-                   }: {
+    map,
+    state,
+  }: {
     map: ApplicationMap;
     state: LogicalLayerState;
   }) {
     if (state.source) {
-      this._updateMap(map, state.source as LayerTileSource, state.legend as BivariateLegend);
+      this._updateMap(
+        map,
+        state.source as LayerTileSource,
+        state.legend as BivariateLegend,
+      );
     }
   }
 
   willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
-      this._updateMap(map, state.source as LayerTileSource, state.legend as BivariateLegend);
+      this._updateMap(
+        map,
+        state.source as LayerTileSource,
+        state.legend as BivariateLegend,
+      );
     }
   }
 
   willUnMount({ map }: { map: ApplicationMap }) {
-    if (this._layerId !== undefined && map.getLayer(this._layerId) !== undefined) {
+    if (
+      this._layerId !== undefined &&
+      map.getLayer(this._layerId) !== undefined
+    ) {
       map.removeLayer(this._layerId);
     } else {
       console.warn(

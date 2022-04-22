@@ -48,14 +48,18 @@ const extractAvailableNumeratorsWithDenominators = (stat: Stat) => {
   }
 
   for (const group of x) {
-    const parent = group.quotients.find(q => JSON.stringify(q) === group.parent);
+    const parent = group.quotients.find(
+      (q) => JSON.stringify(q) === group.parent,
+    );
     if (parent) {
       group.selectedQuotient = parent;
     }
   }
 
   for (const group of y) {
-    const parent = group.quotients.find(q => JSON.stringify(q) === group.parent);
+    const parent = group.quotients.find(
+      (q) => JSON.stringify(q) === group.parent,
+    );
     if (parent) {
       group.selectedQuotient = parent;
     }
