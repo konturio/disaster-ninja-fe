@@ -105,6 +105,11 @@ export function AnalyticsPanel({
             loading: <LoadingSpinner />,
             error: (errorMessage) => <ErrorMessage message={errorMessage} />,
             ready: (dataList) => {
+              const geometry =
+                focusedGeometry?.geometry as GeoJSON.FeatureCollection;
+              if (geometry.features && geometry.features.length == 0) {
+                return <AnalyticsEmptyState />;
+              }
               return (
                 <Tabs onTabChange={setTab} current={currentTab}>
                   <Tab name="INFO" id="data">
