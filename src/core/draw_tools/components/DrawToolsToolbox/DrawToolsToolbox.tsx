@@ -1,5 +1,5 @@
 import { Button, Text } from '@k2-packages/ui-kit';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import {
   DrawLineIcon,
@@ -17,7 +17,7 @@ import DownloadIcon from '~core/draw_tools/icons/DownloadIcon';
 
 export const DrawToolsToolbox = () => {
   const [
-    { mode: activeDrawMode, selectedIndexes, drawingIsStarted },
+    { mode: activeDrawMode, selectedIndexes, drawingIsStarted, settings },
     { deleteFeatures, toggleDrawMode, finishDrawing, downloadDrawGeometry },
   ] = useAtom(toolboxAtom);
   useAtom(combinedAtom);
@@ -34,6 +34,15 @@ export const DrawToolsToolbox = () => {
     toggleDrawMode(drawModes.DrawPointMode);
   }, [toggleDrawMode]);
 
+  const onFinishClick = useCallback(() => {
+    (async () => {
+      if (settings.finishButtonCallback) {
+        await settings.finishButtonCallback();
+      }
+      finishDrawing();
+    })();
+  }, [finishDrawing, settings]);
+
   return activeDrawMode ? (
     <div className={s.drawToolsContainer}>
       {!drawingIsStarted && (
@@ -45,33 +54,39 @@ export const DrawToolsToolbox = () => {
       )}
 
       <div className={s.toolBox}>
-        <Button
-          className={s.modeBtn}
-          active={activeDrawMode === drawModes.DrawPolygonMode}
-          onClick={onPolygonClick}
-        >
-          <div className={s.btnContent}>
-            <DrawPolygonIcon /> {i18n.t('Area')}
-          </div>
-        </Button>
-        <Button
-          className={s.modeBtn}
-          active={activeDrawMode === drawModes.DrawLineMode}
-          onClick={onLineClick}
-        >
-          <div className={s.btnContent}>
-            <DrawLineIcon /> {i18n.t('Line')}
-          </div>
-        </Button>
-        <Button
-          className={s.modeBtn}
-          active={activeDrawMode === drawModes.DrawPointMode}
-          onClick={onPointClick}
-        >
-          <div className={s.btnContent}>
-            <DrawPointIcon /> {i18n.t('Point')}
-          </div>
-        </Button>
+        {settings.availableModes?.includes('DrawPolygonMode') && (
+          <Button
+            className={s.modeBtn}
+            active={activeDrawMode === drawModes.DrawPolygonMode}
+            onClick={onPolygonClick}
+          >
+            <div className={s.btnContent}>
+              <DrawPolygonIcon /> {i18n.t('Area')}
+            </div>
+          </Button>
+        )}
+        {settings.availableModes?.includes('DrawLineMode') && (
+          <Button
+            className={s.modeBtn}
+            active={activeDrawMode === drawModes.DrawLineMode}
+            onClick={onLineClick}
+          >
+            <div className={s.btnContent}>
+              <DrawLineIcon /> {i18n.t('Line')}
+            </div>
+          </Button>
+        )}
+        {settings.availableModes?.includes('DrawPointMode') && (
+          <Button
+            className={s.modeBtn}
+            active={activeDrawMode === drawModes.DrawPointMode}
+            onClick={onPointClick}
+          >
+            <div className={s.btnContent}>
+              <DrawPointIcon /> {i18n.t('Point')}
+            </div>
+          </Button>
+        )}
         <Button
           className={s.modeBtn}
           active={Boolean(selectedIndexes.length)}
@@ -81,14 +96,15 @@ export const DrawToolsToolbox = () => {
             <TrashBinIcon />
           </div>
         </Button>
-
         <Button className={s.modeBtn} onClick={downloadDrawGeometry}>
           <div className={s.btnContent}>
             <DownloadIcon />
           </div>
         </Button>
-        <Button className={s.finishBtn} onClick={finishDrawing}>
-          <div className={clsx(s.btnContent)}>{i18n.t('Finish Drawing')}</div>
+        <Button className={s.finishBtn} onClick={onFinishClick}>
+          <div className={clsx(s.btnContent)}>
+            {settings.finishButtonText || i18n.t('Finish Drawing')}
+          </div>
         </Button>
       </div>
     </div>

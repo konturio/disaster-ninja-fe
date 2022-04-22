@@ -5,7 +5,7 @@ import { currentUserAtom } from '~core/shared_state/currentUser';
 export interface SideControl {
   id: string;
   name: string;
-  icon: JSX.Element;
+  icon: JSX.Element | null;
   active: boolean;
   title: string;
   exclusiveGroup?: string;

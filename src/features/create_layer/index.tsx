@@ -1,6 +1,15 @@
 import { forceRun } from '~utils/atoms/forceRun';
-import { createLayerSideBarButtonControllerAtom } from '~features/create_layer/atoms/createLayerSideBarButtonController';
+import { layerSideBarButtonControllerAtom } from './atoms/layerSideBarButtonController';
+import { editableLayersControlsAtom } from './atoms/editableLayersControls';
+import { editableLayersLegendsAndSources } from './atoms/editableLayersLegendsAndSources';
+import { openDrawToolsInFeatureEditMode } from './atoms/drawToolsController';
+import { createAtom } from '@reatom/core';
 
-export function initCreateLayer() {
-  forceRun(createLayerSideBarButtonControllerAtom);
+export function initEditableLayer() {
+  forceRun([
+    layerSideBarButtonControllerAtom,
+    editableLayersControlsAtom, // Adds layers in layers panel
+    editableLayersLegendsAndSources,
+    openDrawToolsInFeatureEditMode,
+  ]);
 }

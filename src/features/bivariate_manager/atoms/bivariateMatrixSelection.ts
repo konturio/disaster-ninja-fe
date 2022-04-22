@@ -1,7 +1,13 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import { BivariateLayerStyle, generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
-import { createBivariateLegend, createBivariateMeta } from '~utils/bivariate/bivariateLegendUtils';
+import {
+  BivariateLayerStyle,
+  generateColorThemeAndBivariateStyle,
+} from '~utils/bivariate/bivariateColorThemeUtils';
+import {
+  createBivariateLegend,
+  createBivariateMeta,
+} from '~utils/bivariate/bivariateLegendUtils';
 import { ColorTheme } from '~core/types';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
@@ -161,10 +167,10 @@ export const bivariateMatrixSelectionAtom = createAtom(
     onAction('disableBivariateLayer', () => {
       const currentRegistry = getUnlistedState(layersRegistryAtom);
       schedule((dispatch, ctx: { bivariateLayerAtomId?: string } = {}) => {
-          if (ctx.bivariateLayerAtomId) {
-            const layerAtom = currentRegistry.get(ctx.bivariateLayerAtomId);
-            layerAtom && dispatch(layerAtom.destroy());
-          }
+        if (ctx.bivariateLayerAtomId) {
+          const layerAtom = currentRegistry.get(ctx.bivariateLayerAtomId);
+          layerAtom && dispatch(layerAtom.destroy());
+        }
       });
     });
 
