@@ -8,69 +8,73 @@
   left: 50%;
   transform: translate(-50%, 0);
   display: flex;
-  border-radius: 4px;
-  background-color: #32404d;
+  border-radius: var(--half-unit);
+  background-color: var(--neutral-neutral-90);
   overflow: hidden;
   box-shadow: var(--elevation-1);
+}
 
-  & button {
-    background-color: #32404d;
-    border-radius: 0;
-    &:focus {
-      box-shadow: none;
-    }
+button.modeBtn,
+button.modeBtn:disabled {
+  background-color: var(--neutral-neutral-90);
+}
 
-    &:hover:not(:disabled) {
-      background-color: #55616c;
-    }
-  }
+.modeBtn:hover {
+  background-color: var(--primary-surface-active);
+}
+.modeBtn:focus {
+  border: 2px solid var(--invert-outline-icon-active);
+  padding: calc(var(--unit) - 2px);
+  box-shadow: none;
+}
+.modeBtn:disabled {
+  cursor: not-allowed;
+}
+.modeBtn:disabled > * {
+  color: var(--primary-icon-disabled);
 }
 
 .btnContent {
   display: flex;
-  gap: 8px;
+  gap: var(--unit);
   align-items: center;
-  font-size: 14px;
+  font-size: var(--font);
   height: 24px;
-  padding: 0 8px;
-  color: #d7dadc;
-}
-.modeBtn:hover > * {
-  color: var(--primary-focus-outline-regular);
+  padding: 0 var(--unit);
+  color: var(--neutral-neutral-40);
 }
 
 .finishBtn {
-  background-color: #0c9bed !important;
+  background-color: var(--invert-outline-text-active) !important;
   & .btnContent {
-    color: #fff;
+    color: var(--white);
   }
 }
 
 /* stylelint-disable */
-.modeButton {
-  &[class*='activeBtn'] {
-    & button {
-      background-color: #201d25;
-      &:hover:not(:disabled) {
-        background-color: #201d25;
-      }
-      & .btnContent {
-        color: #26abff;
-        & svg * {
-          stroke: #26abff;
-        }
+.modeBtn {
+  &[class*='active'] {
+    & > * {
+      color: var(--primary-text-active);
+    }
+    background-color: var(--primary-surface-active);
+    & .btnContent {
+      color: var(--primary-icon-active);
+      & svg * {
+        stroke: var(--primary-text-active);
       }
     }
   }
 }
 /* stylelint-enable */
+
 .drawHint {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
   cursor: pointer;
-  background-color: #0a1622;
-  color: #d7dadc;
+  background-color: var(--primary-surface-active);
+  color: var(--invert-outline-text-active);
   padding: var(--half-unit) var(--unit);
   border-radius: var(--border-radius);
   bottom: 16%;

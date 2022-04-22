@@ -74,7 +74,7 @@ export const DrawToolsToolbox = () => {
         </Button>
         <Button
           className={s.modeBtn}
-          active={Boolean(selectedIndexes.length)}
+          disabled={!Boolean(selectedIndexes.length)}
           onClick={deleteFeatures}
         >
           <div className={s.btnContent}>
