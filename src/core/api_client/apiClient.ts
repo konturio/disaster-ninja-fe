@@ -1,15 +1,22 @@
 import { AxiosRequestConfig } from 'axios';
 import jwtDecode from 'jwt-decode';
-import { ApiErrorResponse, ApiResponse, ApisauceInstance, create } from 'apisauce';
+import {
+  ApiErrorResponse,
+  ApiResponse,
+  ApisauceInstance,
+  create,
+} from 'apisauce';
 import {
   ApiClientConfig,
   ApiClientError,
   ApiMethod,
-  ApiMethodTypes, CustomRequestConfig,
+  ApiMethodTypes,
+  CustomRequestConfig,
   GeneralApiProblem,
   getGeneralApiProblem,
   JWTData,
-  KeycloakAuthResponse, RequestErrorsConfig,
+  KeycloakAuthResponse,
+  RequestErrorsConfig,
   RequestParams,
 } from './types';
 import { NotificationMessage } from '~core/types/notification';
@@ -440,7 +447,10 @@ export class ApiClient {
     if (!this.disableAuth && useAuth && this.token) {
       const tokenCheckError = await this.checkToken(requestConfig);
       if (tokenCheckError) {
-        return await this.processResponse<T>(tokenCheckError, requestConfig?.errorsConfig);
+        return await this.processResponse<T>(
+          tokenCheckError,
+          requestConfig?.errorsConfig,
+        );
       }
 
       if (!requestConfig.headers || !requestConfig.headers.Authorization) {
@@ -472,7 +482,13 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
-    return this.call<T>(ApiMethodTypes.GET, path, requestParams, useAuth, requestConfig);
+    return this.call<T>(
+      ApiMethodTypes.GET,
+      path,
+      requestParams,
+      useAuth,
+      requestConfig,
+    );
   }
 
   public async post<T>(
@@ -481,7 +497,13 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
-    return this.call(ApiMethodTypes.POST, path, requestParams, useAuth, requestConfig);
+    return this.call(
+      ApiMethodTypes.POST,
+      path,
+      requestParams,
+      useAuth,
+      requestConfig,
+    );
   }
 
   public async put<T>(
@@ -490,7 +512,13 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
-    return this.call(ApiMethodTypes.PUT, path, requestParams, useAuth, requestConfig);
+    return this.call(
+      ApiMethodTypes.PUT,
+      path,
+      requestParams,
+      useAuth,
+      requestConfig,
+    );
   }
 
   public async patch<T>(
@@ -499,7 +527,13 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
-    return this.call(ApiMethodTypes.PATCH, path, requestParams, useAuth, requestConfig);
+    return this.call(
+      ApiMethodTypes.PATCH,
+      path,
+      requestParams,
+      useAuth,
+      requestConfig,
+    );
   }
 
   public async delete<T>(
@@ -507,6 +541,12 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | undefined> {
-    return this.call(ApiMethodTypes.DELETE, path, undefined, useAuth, requestConfig);
+    return this.call(
+      ApiMethodTypes.DELETE,
+      path,
+      undefined,
+      useAuth,
+      requestConfig,
+    );
   }
 }

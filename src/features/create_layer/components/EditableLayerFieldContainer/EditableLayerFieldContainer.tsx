@@ -1,21 +1,20 @@
-import s from './CreateLayerFieldContainer.module.css';
-import { SortIcon, TrashBinIcon } from '@k2-packages/default-icons';
-import { useAtom } from '@reatom/react';
-import { Input } from '@k2-packages/ui-kit';
-import { TranslationService as i18n } from '~core/localization';
-import clsx from 'clsx';
 import { ChangeEvent, useCallback, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import { useAtom } from '@reatom/react';
 import type { Identifier, XYCoord } from 'dnd-core';
-import { LayerFieldAtomType } from '~features/create_layer/atoms/createLayerField';
-import { USER_LAYER_FIELDS } from '~features/create_layer/constants';
-import { UserDataFieldType } from '~core/logical_layers/types/userData';
-import { v4 as uuidv4 } from 'uuid';
+import clsx from 'clsx';
+import { SortIcon, TrashBinIcon } from '@k2-packages/default-icons';
+import { Input } from '@k2-packages/ui-kit';
+import { TranslationService as i18n } from '~core/localization';
+import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
+import { USER_LAYER_FIELDS } from '../../constants';
+import { EditableLayerFieldType } from '../../types';
+import s from './EditableLayerFieldContainer.module.css';
 
 const ITEM_TYPE = 'field-container';
 
-interface CreateLayerFieldContainerProps {
-  data: LayerFieldAtomType;
+interface EditableLayerFieldContainerProps {
+  data: LayerEditorFormFieldAtomType;
   index: number;
   id: string;
   onReorder: (dragIndex: number, hoverIndex: number) => void;
@@ -29,14 +28,14 @@ interface DragItem {
   type: string;
 }
 
-export function CreateLayerFieldContainer({
+export function EditableLayerFieldContainer({
   data,
   id,
   index,
   onReorder,
   onRemove,
   className,
-}: CreateLayerFieldContainerProps) {
+}: EditableLayerFieldContainerProps) {
   const [atomState, { updateType, updateName }] = useAtom(data);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -111,7 +110,7 @@ export function CreateLayerFieldContainer({
 
   const updateAtomType = useCallback(
     (ev: ChangeEvent<HTMLSelectElement>) => {
-      updateType(ev.target.value as UserDataFieldType);
+      updateType(ev.target.value as EditableLayerFieldType);
     },
     [updateType],
   );
@@ -144,11 +143,11 @@ export function CreateLayerFieldContainer({
           value={atomState.type}
           onChange={updateAtomType}
         >
-          {
-            USER_LAYER_FIELDS.map((fldParams) => (
-              <option key={uuidv4()} value={fldParams.type}>{i18n.t(fldParams.label)}</option>
-            ))
-          }
+          {USER_LAYER_FIELDS.map((fldParams) => (
+            <option key={fldParams.label} value={fldParams.type}>
+              {i18n.t(fldParams.label)}
+            </option>
+          ))}
         </select>
       </div>
     </div>

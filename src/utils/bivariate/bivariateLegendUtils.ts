@@ -23,7 +23,9 @@ export function createBivariateLegend(
       (ind) => ind.name === xDenominator,
     );
 
-    xAxis.label = `${xAxisNominatorIndicator?.label || xNumerator} to ${xAxisDenominatorIndicator?.label || xDenominator}`;
+    xAxis.label = `${xAxisNominatorIndicator?.label || xNumerator} to ${
+      xAxisDenominatorIndicator?.label || xDenominator
+    }`;
   }
 
   const yAxis = stats.axis.find(
@@ -38,7 +40,9 @@ export function createBivariateLegend(
       (ind) => ind.name === yDenominator,
     );
 
-    yAxis.label = `${yAxisNominatorIndicator?.label || yNumerator} to ${yAxisDenominatorIndicator?.label || yDenominator}`;
+    yAxis.label = `${yAxisNominatorIndicator?.label || yNumerator} to ${
+      yAxisDenominatorIndicator?.label || yDenominator
+    }`;
   }
 
   if (!xAxis || !yAxis) return;

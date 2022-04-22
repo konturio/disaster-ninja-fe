@@ -5,7 +5,12 @@ import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 import appConfig from '~core/app_config';
 import { UserDataModel } from '~core/auth';
 import config from '~core/app_config';
-import { AppFeatureType, BackendFeature, BackendFeed, UserFeed } from '~core/auth/types';
+import {
+  AppFeatureType,
+  BackendFeature,
+  BackendFeed,
+  UserFeed,
+} from '~core/auth/types';
 import { PUBLIC_USER_ID } from '~core/auth/constants';
 
 type UserResourceRequestParams = {
@@ -45,7 +50,7 @@ export const userResourceAtom = createResourceAtom<
       config.featuresApi,
       query,
       userData?.id !== PUBLIC_USER_ID,
-      { errorsConfig: { dontShowErrors: true }},
+      { errorsConfig: { dontShowErrors: true } },
     );
 
     const feedsResponse = apiClient.get<BackendFeed[]>(

@@ -11,10 +11,17 @@ import { currentNotificationAtom } from '~core/shared_state';
 import { TranslationService as i18n } from '~core/localization';
 import { downloadObject } from '~utils/fileHelpers/download';
 
+interface DrawToolBoxSettings {
+  availableModes?: DrawModeType[];
+  finishButtonText?: string;
+  finishButtonCallback?: () => Promise<boolean>;
+}
+
 type ToolboxState = {
   mode: DrawModeType | null;
   selectedIndexes: number[];
   drawingIsStarted?: boolean;
+  settings: DrawToolBoxSettings;
 };
 
 export const toolboxAtom = createAtom(
@@ -25,14 +32,20 @@ export const toolboxAtom = createAtom(
     toggleDrawMode: (mode: DrawModeType) => mode,
     finishDrawing: () => null,
     isDrawingStartedAtom,
+    setSettings: (settings: DrawToolBoxSettings) => settings,
     downloadDrawGeometry: () => null,
   },
   (
     { onAction, schedule, get, getUnlistedState },
-    state: ToolboxState = { mode: null, selectedIndexes: [] },
+    state: ToolboxState = {
+      mode: null,
+      selectedIndexes: [],
+      settings: {},
+    },
   ) => {
     const actions: Action[] = [];
-    const newState: ToolboxState = {
+    let newState: ToolboxState = {
+      ...state,
       mode: get('activeDrawModeAtom'),
       selectedIndexes: get('selectedIndexesAtom'),
       drawingIsStarted: get('isDrawingStartedAtom'),
@@ -54,6 +67,11 @@ export const toolboxAtom = createAtom(
         sideControlsBarAtom.disable(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID),
       );
       actions.push(activeDrawModeAtom.setDrawMode(null));
+    });
+
+    // I think we don't need to specify the need for ModifyMode
+    onAction('setSettings', (settings) => {
+      newState = { ...newState, settings };
     });
 
     onAction('downloadDrawGeometry', () => {

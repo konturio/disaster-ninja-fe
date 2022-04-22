@@ -1,4 +1,3 @@
-import { Atom } from '@reatom/core';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { LogicalLayerState } from './logicalLayer';
 
