@@ -1,7 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { userResourceAtom } from '~core/auth';
-import { currentEventAtom } from '~core/shared_state/currentEvent'
-import { UpdateCallbackLayersType, updateCallbackService } from '~core/update_callbacks';
+import { currentEventAtom } from '~core/shared_state/currentEvent';
 
 type CurrentEventFeedAtomState = {
   id: string;
@@ -10,6 +9,7 @@ type CurrentEventFeedAtomState = {
 export const currentEventFeedAtom = createAtom(
   {
     setCurrentFeed: (feedId: string) => feedId,
+    setFeedForExistingEvent: (feedId: string) => feedId,
     resetCurrentFeed: () => null,
     userResourceAtom,
   },
@@ -22,6 +22,11 @@ export const currentEventFeedAtom = createAtom(
         schedule((dispatch) => {
           dispatch(currentEventAtom.resetCurrentEvent());
         });
+        state = { id: feedId };
+      }
+    });
+    onAction('setFeedForExistingEvent', (feedId) => {
+      if (state?.id !== feedId) {
         state = { id: feedId };
       }
     });
