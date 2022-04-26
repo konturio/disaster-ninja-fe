@@ -15,7 +15,7 @@ const converters = {
     return mainLineWidth * 2 + Number(value);
   },
   applyCasingOffset: (value, mapCSS) => {
-    const casingOffset = mapCSS['casing-offset'] || 0;
+    const casingOffset = mapCSS?.['casing-offset'] || 0;
     return Number(value) + Number(casingOffset);
   },
   toNumber: (value) => Number(value),

@@ -8,10 +8,14 @@ export function CircleIcon({
   styles,
   size,
   className,
+  fill,
+  stroke,
 }: {
   styles: LegendStepStyle;
   size: LegendIconSize;
   className?: string;
+  fill?: string;
+  stroke?: string;
 }) {
   return (
     <svg
@@ -26,8 +30,9 @@ export function CircleIcon({
         cx="9"
         cy="9"
         r="7"
-        fill={styles['fill-color'] || styles['circle-color'] || 'none'}
+        fill={fill || styles['fill-color'] || styles['circle-color'] || 'none'}
         stroke={
+          stroke ||
           styles['circle-stroke-color'] ||
           styles.color ||
           styles['circle-color'] ||
