@@ -50,6 +50,7 @@ export function EventCard({
         settledArea={event.settledArea}
         affectedPeople={event.affectedPopulation}
         osmGapsPercentage={event.osmGaps}
+        loss={event.loss}
       />
 
       <div className={s.footer}>

@@ -23,37 +23,29 @@ export function Analytics({
   settledArea,
   affectedPeople,
   osmGapsPercentage,
+  loss,
 }: {
   settledArea: number;
   affectedPeople: number;
   osmGapsPercentage: number | null;
+  loss?: number;
 }) {
   const statistics = useMemo((): Statistics => {
+    const result: Statistics = [];
+
     if (affectedPeople === 0)
-      return [
-        {
-          tooltip: i18n.t('Affected People'),
-          value: i18n.t('No humanitarian impact'),
-          icon: peopleIcon,
-        },
-      ];
+      result.push({
+        tooltip: i18n.t('Affected People'),
+        value: i18n.t('No humanitarian impact'),
+        icon: peopleIcon,
+      });
 
-    if (!affectedPeople)
-      return [
-        {
-          tooltip: i18n.t('Affected People'),
-          value: i18n.t('No data'),
-          icon: peopleIcon,
-        },
-      ];
-
-    const result: Statistics = [
-      {
+    if (typeof affectedPeople === 'number')
+      result.push({
         tooltip: i18n.t('Affected People'),
         value: formatNumber(affectedPeople),
         icon: peopleIcon,
-      },
-    ];
+      });
 
     if (typeof settledArea === 'number')
       result.push({
@@ -67,11 +59,18 @@ export function Analytics({
         icon: areaIcon,
       });
 
-    if (osmGapsPercentage)
+    if (typeof osmGapsPercentage === 'number')
       result.push({
         tooltip: i18n.t('OSM Gaps Percentage (lower is better)'),
         value: `${osmGapsPercentage}% gaps`,
       });
+
+    if (typeof loss === 'number')
+      result.push({
+        tooltip: i18n.t('Estimated loss'),
+        value: `$${formatNumber(loss)}% estimated loss`,
+      });
+
     return result;
   }, [settledArea, affectedPeople, osmGapsPercentage]);
 
