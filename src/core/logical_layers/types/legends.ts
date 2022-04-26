@@ -9,6 +9,8 @@ interface MapCSSProperties {
 export interface SimpleLegendStep {
   paramName?: string;
   paramValue?: string | number;
+  stepIconFill?: string;
+  stepIconStroke?: string;
   stepName: string;
   stepShape: SimpleLegendStepType;
   sourceLayer?: string; // Required for vector tile source, unnecessary for other
