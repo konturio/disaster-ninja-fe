@@ -41,6 +41,8 @@ export interface Event {
   settledArea: number;
   /** Map quality. Float. Lower is better */
   osmGaps: number | null;
+  /** Optional param describes event loss estimation*/
+  loss?: number;
   /** Time in UTC (ISO8601) */
   updatedAt: string;
   externalUrls: string[];
