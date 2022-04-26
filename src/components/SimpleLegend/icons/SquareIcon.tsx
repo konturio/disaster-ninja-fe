@@ -8,10 +8,14 @@ export function SquareIcon({
   styles,
   size,
   className,
+  fill,
+  stroke,
 }: {
   styles: LegendStepStyle;
   size: LegendIconSize;
   className?: string;
+  fill?: string;
+  stroke?: string;
 }) {
   return (
     <svg
@@ -27,8 +31,8 @@ export function SquareIcon({
         y="3"
         width="12"
         height="12"
-        fill={styles['fill-color'] || 'none'}
-        stroke={styles.color || '#000000'}
+        fill={fill || styles['fill-color'] || 'none'}
+        stroke={stroke || styles.color || '#000000'}
         strokeWidth={styles.width || 3}
       />
     </svg>
