@@ -9,4 +9,5 @@ export interface UrlData {
   layers?: string[];
   bv?: string; // bivariate state hash
   app?: string;
+  feed?: string;
 }

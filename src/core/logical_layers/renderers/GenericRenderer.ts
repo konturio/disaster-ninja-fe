@@ -329,7 +329,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
                 close();
               },
             });
-            return true;
+            // Don't allow lower clicks to run - for example ignore active contributors click afterwards
+            return false;
           },
           50,
         );
@@ -399,6 +400,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       }
     }
     this._removeClickListener?.();
+    this._removeClickListener = null;
   }
 
   willHide({ map }: { map: ApplicationMap }) {

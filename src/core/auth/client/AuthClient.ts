@@ -47,6 +47,15 @@ export class AuthClient {
     this._apiClient.logout();
     currentUserAtom.setUser.dispatch();
     userStateAtom.logout.dispatch();
+
+    if (window['Intercom']) {
+      appConfig.intercom.name = window.konturAppConfig.INTERCOM_DEFAULT_NAME;
+      appConfig.intercom['email'] = null;
+      window['Intercom']('update', {
+        name: appConfig.intercom.name,
+        email: appConfig.intercom['email'],
+      });
+    }
   }
 
   private onTokenExpired() {
