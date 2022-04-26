@@ -11,11 +11,20 @@ type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
 function icon(
   type: string,
   styles: Flatten<SimpleLegendType['steps']>['style'],
+  fill?: string,
+  stroke?: string,
 ) {
   if (!type) return null;
-  if (type === 'hex') return <HexIcon styles={styles} size="small" />;
-  if (type === 'circle') return <CircleIcon styles={styles} size="small" />;
-  if (type === 'square') return <SquareIcon styles={styles} size="normal" />;
+  if (type === 'hex')
+    return <HexIcon styles={styles} size="small" fill={fill} stroke={stroke} />;
+  if (type === 'circle')
+    return (
+      <CircleIcon styles={styles} size="small" fill={fill} stroke={stroke} />
+    );
+  if (type === 'square')
+    return (
+      <SquareIcon styles={styles} size="normal" fill={fill} stroke={stroke} />
+    );
 }
 
 export function SimpleLegendStep({
@@ -32,7 +41,7 @@ export function SimpleLegendStep({
 
   return (
     <div className={s.legendStep}>
-      {icon(step.stepShape, step.style)}
+      {icon(step.stepShape, step.style, step.stepIconFill, step.stepIconStroke)}
       {!onlyIcon && (
         <Text type="caption">
           <span className={s.stepName} style={style}>

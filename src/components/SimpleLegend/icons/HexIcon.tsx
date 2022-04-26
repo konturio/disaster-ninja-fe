@@ -9,10 +9,14 @@ export function HexIcon({
   styles,
   size,
   className,
+  fill,
+  stroke,
 }: {
   styles: LegendStepStyle;
   size: LegendIconSize;
   className?: string;
+  fill?: string;
+  stroke?: string;
 }) {
   const casing = useMemo(
     () => Boolean(styles['casing-width'] || styles['casing-color']),
@@ -49,31 +53,31 @@ export function HexIcon({
       {/* Background */}
       <path
         d="M2.70577 5.36603L9 1.73205L15.2942 5.36602V12.634L9 16.268L2.70577 12.634V5.36603Z"
-        fill={styles['fill-color'] || 'white'}
-        stroke={styles['fill-color'] || 'white'}
+        fill={fill || styles['fill-color'] || 'white'}
+        stroke={fill || styles['fill-color'] || 'white'}
         strokeWidth="3"
       />
 
       {/* Outer figure - border representation*/}
       <path
         d="M2.70577 5.36603L9 1.73205L15.2942 5.36602V12.634L9 16.268L2.70577 12.634V5.36603Z"
-        stroke={styles.color || '#000000'}
+        stroke={stroke || styles.color || '#000000'}
         strokeWidth={styles.width || 3}
       />
 
       {casing && (
         <g>
-          {/* Casing background that prevents it from blending with outer fidure - border */}
+          {/* Casing background that prevents it from blending with outer figure - border */}
           <path
             d={casingPath}
-            stroke={styles['fill-color'] || 'white'}
-            strokeWidth={styles['casing-width'] || 3}
+            stroke={fill || styles['fill-color'] || 'white'}
+            strokeWidth={fill || styles['casing-width'] || 3}
           />
           {/* Casing itself */}
           <path
             d={casingPath}
-            stroke={styles['casing-color'] || '#000000'}
-            strokeWidth={styles['casing-width'] || 3}
+            stroke={fill || styles['casing-color'] || '#000000'}
+            strokeWidth={fill || styles['casing-width'] || 3}
             style={{ opacity }}
           />
         </g>
@@ -82,7 +86,7 @@ export function HexIcon({
       {/* Background / inner space */}
       <path
         d="M9 6L11.5981 7.5V10.5L9 12L6.40192 10.5V7.5L9 6Z"
-        fill={styles['fill-color'] || 'white'}
+        fill={fill || styles['fill-color'] || 'white'}
       />
     </svg>
   );
