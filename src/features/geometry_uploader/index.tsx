@@ -17,6 +17,7 @@ import {
 import turfBbox from '@turf/bbox';
 import app_config from '~core/app_config';
 import { TranslationService as i18n } from '~core/localization';
+import { currentNotificationAtom } from '~core/shared_state';
 
 export function initFileUploader() {
   sideControlsBarAtom.addControl.dispatch({
@@ -33,6 +34,20 @@ export function initFileUploader() {
        * because it's disable file upload popup.
        */
       askGeoJSONFile((geoJSON) => {
+        let bbox;
+        try {
+          // Turf can return 3d bbox, so we need to cut off potential extra data
+          // Turf also check if geojson is valid
+          bbox = turfBbox(geoJSON) as [number, number, number, number];
+        } catch (error) {
+          currentNotificationAtom.showNotification.dispatch(
+            'warning',
+            { title: i18n.t('Not a valid geojson file') },
+            6,
+          );
+          throw new Error('Not geoJSON format');
+        }
+
         focusedGeometryAtom.setFocusedGeometry.dispatch(
           { type: 'uploaded' },
           geoJSON,
@@ -40,8 +55,6 @@ export function initFileUploader() {
         const map = currentMapAtom.getState();
         if (!map) return;
 
-        // Turf can return 3d bbox, so we need to cut off potential extra data
-        const bbox = turfBbox(geoJSON) as [number, number, number, number];
         bbox.length = 4;
         const camera = map.cameraForBounds(bbox, {
           padding: app_config.autoFocus.desktopPaddings,
