@@ -11,6 +11,7 @@ const input = (() => {
 
 export function askGeoJSONFile(onSuccess: (geoJSON: GeoJSON.GeoJSON) => void) {
   async function onchange() {
+    console.log('%c⧭', 'color: #99614d', 'input onChange did run', input);
     if ('files' in input && input.files !== null) {
       const files = Array.from(input.files);
       try {
@@ -24,6 +25,8 @@ export function askGeoJSONFile(onSuccess: (geoJSON: GeoJSON.GeoJSON) => void) {
         );
       } finally {
         input.removeEventListener('change', onchange);
+        // this will run this function even after the file with the same name was uploaded
+        input.value = '';
       }
     }
   }
