@@ -1,9 +1,9 @@
+import { apiClient, notificationService } from '~core/index';
 import { createAtom } from '~utils/atoms/createPrimitives';
+import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
-import { apiClient, notificationService } from '~core/index';
-import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { editableLayersListResource } from './editableLayersListResource';
 
 interface SafeCallbacks {

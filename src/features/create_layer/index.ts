@@ -3,7 +3,7 @@ import { layerSideBarButtonControllerAtom } from './atoms/layerSideBarButtonCont
 import { editableLayersControlsAtom } from './atoms/editableLayersControls';
 import { editableLayersLegendsAndSources } from './atoms/editableLayersLegendsAndSources';
 import { openDrawToolsInFeatureEditMode } from './atoms/drawToolsController';
-import { createAtom } from '@reatom/core';
+export { EditFeaturesOrLayerPanel } from './components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel';
 
 export function initEditableLayer() {
   forceRun([
