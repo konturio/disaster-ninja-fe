@@ -13,7 +13,7 @@ import { AppFeature } from '~core/auth/types';
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
 
-const { EditFeaturesOrLayerPanel: LayerEditorPanel } = lazily(
+const { EditFeaturesOrLayerPanel } = lazily(
   () =>
     import(
       '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
@@ -175,7 +175,7 @@ export function MainView() {
                 <Legend iconsContainerId="right-buttons-container" />
               )}
               {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
-                <LayerEditorPanel />
+                <EditFeaturesOrLayerPanel />
               )}
               {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
                 <MapLayersList iconsContainerId="right-buttons-container" />
