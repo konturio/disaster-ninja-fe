@@ -11,7 +11,6 @@ const input = (() => {
 
 export function askGeoJSONFile(onSuccess: (geoJSON: GeoJSON.GeoJSON) => void) {
   async function onchange() {
-    console.log('%c⧭', 'color: #99614d', 'input onChange did run', input);
     if ('files' in input && input.files !== null) {
       const files = Array.from(input.files);
       try {
