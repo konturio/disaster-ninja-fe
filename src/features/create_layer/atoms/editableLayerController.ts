@@ -1,3 +1,4 @@
+import { apiClient } from '~core/index';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import {
@@ -13,7 +14,6 @@ import {
   EditableLayerFieldType,
   EditableLayers,
 } from '../types';
-import { apiClient } from '~core/index';
 import { editableLayerSettingsAtom } from './editableLayerSettings';
 import { editTargetAtom } from './editTarget';
 import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';

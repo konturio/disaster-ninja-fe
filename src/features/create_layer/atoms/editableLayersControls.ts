@@ -1,28 +1,27 @@
 import { Action } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
-import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
-import { EditableLayers } from '../types';
-import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
-import { createUpdateActionsFromLayersDTO } from '~features/create_layer/utils/createUpdateActionsFromLayersDTO';
-import { editableLayersListResource } from './editableLayersListResource';
 import { TranslationService as i18n } from '~core/localization';
+import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
+import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
+import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
+import { createUpdateActionsFromLayersDTO } from '../utils/createUpdateActionsFromLayersDTO';
+import { EditableLayers } from '../types';
+import { editableLayersListResource } from './editableLayersListResource';
 import { editableLayerControllerAtom } from './editableLayerController';
 import { featurePanelControllerAtom } from './featurePanelController';
 
 /**
- * This atom responsibilities:
- * 1. Find a diff between old layer in area list and new
- * 2.1 Unregister missing layers
- * 2.2 Create and register new layers
- * 3. Set area layers legends, meta and settings
+ * This atom load user layers
+ * For every new layer it create logical layer atom,
+ * and logical layers sub-atoms like, meta and settings.
+ * And unregister logical layers for removed layers
  */
 export const editableLayersControlsAtom = createAtom(
   {
-    editableLayersResourceAtom: editableLayersListResource,
+    editableLayersListResource,
   },
   ({ onChange, schedule }) => {
-    onChange('editableLayersResourceAtom', (nextData, prevData) => {
+    onChange('editableLayersListResource', (nextData, prevData) => {
       /* Prepare data */
       if (nextData.loading) return null;
       const { data: nextLayers } = nextData;
