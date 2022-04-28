@@ -50,7 +50,10 @@ export const layerSideBarButtonControllerAtom = createAtom(
         return;
 
       const currentControls = getUnlistedState(sideControlsBarAtom);
-      // Enabled
+      // This flag already checked in Main.js, when user logout
+      // I need to remove this button, if default user not contain that feature.
+      // TODO: Add cleanup hooks for features
+
       if (userModel.hasFeature(AppFeature.CREATE_LAYER)) {
         // But not added
         if (!currentControls[sidebarButtonParams.id]) {
