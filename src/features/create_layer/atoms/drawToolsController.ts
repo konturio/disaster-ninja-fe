@@ -1,15 +1,15 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { TranslationService as i18n } from '~core/localization';
 import { store } from '~core/store/store';
-import { editTargetAtom } from './editTarget';
+import { sideControlsBarAtom } from '~core/shared_state';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawModes } from '~core/draw_tools/constants';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
-import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
-import { TranslationService as i18n } from '~core/localization';
+import { createAtom } from '~utils/atoms/createPrimitives';
 import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../constants';
-import { sideControlsBarAtom } from '~core/shared_state';
+import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
+import { editTargetAtom } from './editTarget';
 
 /* When saving success - close darwtools panel and edit feature form */
 function onFinishDrawing() {
