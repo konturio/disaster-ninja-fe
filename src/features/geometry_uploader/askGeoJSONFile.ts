@@ -24,6 +24,8 @@ export function askGeoJSONFile(onSuccess: (geoJSON: GeoJSON.GeoJSON) => void) {
         );
       } finally {
         input.removeEventListener('change', onchange);
+        // this will run this function even after the file with the same name was uploaded
+        input.value = '';
       }
     }
   }

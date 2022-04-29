@@ -8,10 +8,10 @@ import { AppFeature } from '~core/auth/types';
 
 const FeedSelectorComp = () => {
   const [{ data: userModel }] = useAtom(userResourceAtom);
-  const [currentFeed] = useAtom(currentEventFeedAtom);
+  const [currentFeed, { setCurrentFeed }] = useAtom(currentEventFeedAtom);
 
   const onFeedChange = useCallback((ev: ChangeEvent<HTMLSelectElement>) => {
-    currentEventFeedAtom.setCurrentFeed.dispatch(ev.target.value);
+    setCurrentFeed(ev.target.value);
   }, []);
 
   return userModel &&
@@ -23,7 +23,7 @@ const FeedSelectorComp = () => {
       <div>
         <select
           onChange={onFeedChange}
-          defaultValue={currentFeed?.id || userModel.defaultFeed?.feed}
+          value={currentFeed?.id || userModel.defaultFeed?.feed}
           className={s.feedsSelect}
         >
           {userModel.feeds.map((fd) => (
