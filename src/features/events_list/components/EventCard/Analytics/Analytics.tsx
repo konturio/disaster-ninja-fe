@@ -68,7 +68,7 @@ export function Analytics({
     if (typeof loss === 'number')
       result.push({
         tooltip: i18n.t('Estimated loss'),
-        value: `$${formatNumber(loss)}% estimated loss`,
+        value: `$${formatNumber(loss)} estimated loss`,
       });
 
     return result;
