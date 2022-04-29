@@ -5,6 +5,7 @@ import s from './Tooltip.module.css';
 import { CloseIcon } from '@k2-packages/default-icons';
 import { useEffect, useState } from 'react';
 import { LinkRenderer } from '~utils/markdown/mdComponents';
+import { parseLinksAsTags } from '~utils/markdown/parsers';
 
 export function Tooltip({
   properties,
@@ -85,18 +86,4 @@ export function Tooltip({
       </div>
     </div>
   );
-}
-
-function parseLinksAsTags(text?: string): string {
-  if (!text) return '';
-  let parsed = text;
-  // this regex will only find links that are not in .md format already [label](link).
-  // See regex explanation at https://regex101.com/
-  const regex =
-    /((?<!\[|\()http|(?<!\[|\()https)(:\/\/)([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?/gm;
-  const matchIterable = text.matchAll(regex);
-  [...matchIterable].forEach(([match, protocol, , domain, path]) => {
-    parsed = text.replace(match, `[${domain}${path}](${match})`);
-  });
-  return parsed;
 }
