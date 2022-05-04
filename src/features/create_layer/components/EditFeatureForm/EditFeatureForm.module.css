@@ -21,7 +21,7 @@
     width: 100%;
     height: 36px;
     padding: var(--unit);
-    border: 1px solid var(--primary-border-disabled);
+    border: 1px solid var(--faint-strong-down);
     box-shadow: none;
     border-radius: var(--half-unit);
   }
@@ -32,35 +32,35 @@
 
     & .saveBtn {
       padding: var(--unit) var(--double-unit);
-      background: var(--primary-text-active);
+      background: var(--accent-strong);
       border-radius: var(--half-unit);
-      color: var(--primary-surface-regular);
+      color: var(--base-weak);
       box-shadow: none;
 
       &:hover {
-        background: var(--primary-border-active);
+        background: var(--accent-strong);
       }
 
       &:active {
-        background: var(--primary-surface-active);
-        color: var(--primary-surface-regular);
+        background: var(--back-faint-weak-up);
+        color: var(--base-weak);
       }
     }
 
     & .cancelBtn {
       padding: var(--unit) var(--double-unit);
       border-radius: var(--half-unit);
-      color: var(--primary-text-active);
-      border: 1px solid var(--primary-text-active);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-strong);
       box-shadow: none;
 
       &:hover {
-        background: var(--primary-surface-hover);
+        background: var(--accent-weak);
       }
 
       &:active {
-        background: var(--primary-surface-active);
-        color: var(--primary-surface-regular);
+        background: var(--back-faint-weak-up);
+        color: var(--base-weak);
       }
     }
   }

@@ -41,8 +41,8 @@
   max-width: 268px;
   max-height: 200px;
   overflow-y: auto;
-  background-color: var(--invert-surface-regular);
-  color: white;
+  background-color: var(--base-strong);
+  color: var(--base-weak);
   border-radius: var(--border-radius);
 }
 
@@ -84,7 +84,7 @@
   cursor: pointer;
   height: 10px;
   display: flex;
-  color: var(--invert-outline-icon-disabled);
+  color: var(--faint-strong);
 }
 
 .closeIcon svg {
@@ -106,7 +106,7 @@
     &:link,
     &:active,
     &:hover {
-      color: var(--invert-outline-text-active);
+      color: var(--accent-strong);
     }
   }
 }
@@ -129,8 +129,8 @@
       padding: var(--double-unit);
       max-height: 90%;
       max-width: 100%;
-      background-color: white;
-      color: var(--primary-text-regular);
+      background-color: var(--base-weak);
+      color: var(--base-strong);
       font-weight: 400;
       font-size: 16px;
       border-radius: var(--unit) var(--unit) 0 0;
@@ -147,7 +147,7 @@
     cursor: pointer;
     height: 10px;
     display: flex;
-    color: var(--primary-icon-regular);
+    color: var(--base-strong);
   }
 
   .markdown {
@@ -157,7 +157,7 @@
       &:link,
       &:active,
       &:hover {
-        color: var(--primary-text-active);
+        color: var(--accent-strong);
       }
     }
   }

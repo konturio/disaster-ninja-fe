@@ -1,8 +1,8 @@
 .betaLabel {
   margin-left: var(--half-unit);
-  background-color: hsla(202, 90%, 49%, 1);
+  background-color: var(--accent-strong);
   border-radius: 20px;
-  color: white;
+  color: var(--base-weak);
   font-weight: 500;
   padding: var(--half-unit) var(--double-unit);
   font-size: 12px;

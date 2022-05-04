@@ -63,7 +63,7 @@
 .customCloseBtn {
   height: 40px;
   width: 16px;
-  background: #32404d;
+  background: var(--base-strong-down);
   border-radius: 4px 0;
   position: absolute;
   cursor: pointer;

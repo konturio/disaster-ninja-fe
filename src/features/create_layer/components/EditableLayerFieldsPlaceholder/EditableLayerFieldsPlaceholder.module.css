@@ -3,26 +3,26 @@
   flex-direction: column;
   gap: var(--unit);
   width: 100%;
-  border-bottom: 1px solid var(--primary-border-disabled);
+  border-bottom: 1px solid var(--faint-strong-down);
   padding-bottom: var(--unit);
 
   & .fieldsLabel {
     display: flex;
     justify-content: center;
-    color: var(--primary-border-disabled);
+    color: var(--faint-strong-down);
     position: relative;
 
     &::after {
       content: '';
       width: 100%;
-      border-bottom: 1px solid var(--primary-border-disabled);
+      border-bottom: 1px solid var(--faint-strong-down);
       position: absolute;
       top: 50%;
     }
 
     & .textCaption {
       z-index: 1;
-      background: #fff;
+      background: var(--base-weak);
       padding: 0 var(--unit);
     }
   }
@@ -34,17 +34,17 @@
   }
 
   & .addFieldButton {
-    color: var(--primary-text-active);
+    color: var(--accent-strong);
     width: 100px;
     gap: var(--half-unit);
 
     &:hover {
-      background: var(--primary-surface-hover);
+      background: var(--accent-weak);
     }
 
     &:active {
-      background: var(--primary-surface-active);
-      color: var(--primary-surface-regular);
+      background: var(--back-faint-weak-up);
+      color: var(--base-weak);
     }
 
     & svg {

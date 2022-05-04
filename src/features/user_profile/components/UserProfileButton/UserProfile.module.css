@@ -10,7 +10,7 @@
   position: absolute;
   z-index: 3;
   right: 10px;
-  color: var(--primary-text-regular);
+  color: var(--back-faint-weak-up);
   --animation-duration: 0.2s;
 
   &.show {

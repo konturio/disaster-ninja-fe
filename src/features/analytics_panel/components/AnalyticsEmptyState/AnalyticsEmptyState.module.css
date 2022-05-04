@@ -8,7 +8,7 @@
 }
 
 .iconsContainer {
-  color: #0c9bed;
+  color: var(--accent-strong);
   font-size: 14px;
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@
   margin-top: 6px;
 
   & path {
-    stroke: #0c9bed;
+    stroke: var(--accent-strong);
   }
 }
 
