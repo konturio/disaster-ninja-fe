@@ -4,7 +4,7 @@
   align-items: center;
   padding: 0 var(--double-unit);
   &:hover {
-    background-color: var(--primary-surface-hover);
+    background-color: var(--accent-weak);
   }
 }
 
@@ -41,5 +41,5 @@
 }
 
 .error {
-  color: red !important;
+  color: var(--error-strong) !important;
 }

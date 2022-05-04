@@ -8,6 +8,6 @@
 }
 
 .download path {
-  stroke: var(--primary-icon-regular);
+  stroke: var(--back-faint-weak-up);
   opacity: 0.3;
 }

@@ -21,15 +21,15 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 20px;
-  color: #0c9bed;
+  color: var(--accent-strong);
   padding: 12px 16px;
 
   &:hover {
-    background-color: var(--primary-surface-hover);
+    background-color: var(--accent-weak);
   }
 
   &:active {
-    background-color: var(--primary-surface-disabled) !important;
+    background-color: var(--faint-weak-down) !important;
   }
 }
 
@@ -54,7 +54,7 @@
   font-size: 14px;
   line-height: 20px;
   color: #8c949b;
-  background: #fff;
+  background: var(--base-weak);
   padding: 0 16px;
   z-index: 1;
 }
@@ -71,7 +71,7 @@
 }
 
 .input {
-  background-color: #fff;
+  background-color: var(--base-weak);
   height: 44px;
   font-size: 16px !important;
   font-style: normal;
@@ -95,7 +95,7 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 22px;
-  color: #0c9bed;
+  color: var(--accent-strong);
   cursor: pointer;
 
   &:hover {
@@ -112,7 +112,7 @@
 }
 
 .loginButton {
-  background: #0c9bed;
+  background: var(--accent-strong);
   color: #fff;
   width: 100%;
   font-size: 16px;
@@ -145,15 +145,15 @@
 }
 
 .inputError {
-  border: 2px solid #ec0000 !important;
+  border: 2px solid var(--error-strong) !important;
 }
 
 .topPlaceholderError {
-  color: #ec0000;
+  color: var(--error-strong);
 }
 
 .errorMessage {
-  color: #ec0000;
+  color: var(--error-strong);
 }
 
 .loadingContainer {
@@ -178,5 +178,5 @@
   line-height: 22px;
   display: flex;
   justify-content: center;
-  color: #ec0000;
+  color: var(--error-strong);
 }

@@ -19,7 +19,7 @@
 
   & .detailsLink {
     display: block;
-    color: #0c9bed;
+    color: var(--accent-strong);
     text-decoration: none;
     font-size: 13px;
     margin-top: var(--half-unit);
@@ -33,7 +33,7 @@
   width: 100%;
   display: block;
   text-decoration: none;
-  color: #0c9bed;
+  color: var(--accent-strong);
 }
 
 .link:hover {

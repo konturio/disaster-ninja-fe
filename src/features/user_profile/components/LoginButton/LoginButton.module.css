@@ -1,5 +1,5 @@
 .loginButton {
-  background: #0c9bed;
+  background: var(--accent-strong);
   border-radius: 4px;
   color: #fff;
   margin-left: 16px;

@@ -30,8 +30,7 @@ function SeverityIndicatorGenerator({
           key={i}
           className={s.indicatorCell}
           style={{
-            backgroundColor:
-              i < pivot ? COLORS[i] : 'var(--primary-placeholder-regular)',
+            backgroundColor: i < pivot ? COLORS[i] : 'var(--faint-weak)',
           }}
         ></div>
       ))}

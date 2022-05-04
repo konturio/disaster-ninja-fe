@@ -19,7 +19,7 @@ body {
 
 a,
 .link {
-  color: #0c9bed;
+  color: var(--accent-strong);
   text-decoration: none;
 }
 
@@ -116,7 +116,6 @@ a,
   }
 }
 
-
 @media screen and (max-width: 1200px) {
   .mainWrap {
     padding: 44px 2vw 44px 2vw;
@@ -138,7 +137,7 @@ a,
   .reportsIntro {
     margin-bottom: 30px;
   }
-  
+
   .reportCards {
     gap: 12px;
   }
