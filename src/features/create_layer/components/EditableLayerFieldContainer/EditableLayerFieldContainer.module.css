@@ -1,6 +1,6 @@
 .fieldContainer {
   position: relative;
-  background: var(--neutral-neutral-20);
+  background: var(--faint-weak-down);
   padding: var(--double-unit);
   margin: 0 -16px;
   display: flex;
@@ -23,11 +23,11 @@
     border-radius: var(--half-unit);
 
     &:hover {
-      background: var(--neutral-neutral-30);
+      background: var(--faint-weak);
     }
 
     &:active {
-      background: var(--neutral-neutral-40);
+      background: var(--faint-weak-up);
     }
 
     & svg {
@@ -47,7 +47,7 @@
     & .input {
       height: 38px;
       border-radius: var(--half-unit);
-      border: 1px solid var(--primary-border-disabled);
+      border: 1px solid var(--faint-strong-down);
       box-shadow: none;
       padding: var(--unit);
       width: 100%;

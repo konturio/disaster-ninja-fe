@@ -1,6 +1,6 @@
 .feedSelectorContainer {
   height: 40px;
-  border-bottom: 1px solid var(--primary-faint-border-regular);
+  border-bottom: 1px solid var(--faint-weak);
   display: flex;
   justify-content: space-between;
   align-content: center;

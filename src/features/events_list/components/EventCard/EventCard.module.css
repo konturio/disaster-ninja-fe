@@ -2,17 +2,17 @@
   display: flex;
   flex-flow: column nowrap;
   gap: var(--unit);
-  border-bottom: 1px solid var(--primary-faint-border-regular);
+  border-bottom: 1px solid var(--faint-weak);
   padding: var(--double-unit);
   text-align: left;
   width: 100%;
   transition: background-color ease-out 0.1s;
   &.active {
-    background-color: var(--primary-surface-hover);
-    box-shadow: 0px 0px 0px 1px var(--primary-border-active);
+    background-color: var(--accent-weak);
+    box-shadow: 0px 0px 0px 1px var(--accent-strong);
   }
   &:focus {
-    box-shadow: inset 0px 0px 0px 2px var(--primary-border-active);
+    box-shadow: inset 0px 0px 0px 2px var(--accent-strong);
   }
 }
 
@@ -24,5 +24,5 @@
 }
 
 .footer {
-  color: var(--primary-text-disabled);
+  color: var(--text-faint-strong);
 }

@@ -1,6 +1,6 @@
 .hideLogo,
 .unhideLogo {
-  color: var(--primary-icon-regular);
+  color: var(--back-faint-weak-up);
   display: flex;
   align-items: center;
   cursor: pointer;

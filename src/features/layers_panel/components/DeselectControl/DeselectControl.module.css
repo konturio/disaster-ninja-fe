@@ -1,4 +1,4 @@
 .deselectControl {
-  color: var(--primary-text-active);
+  color: var(--accent-strong);
   padding-right: var(--double-unit);
 }
