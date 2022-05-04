@@ -5,7 +5,7 @@ table {
 }
 
 thead {
-  box-shadow: inset 0px 1px 0px var(--primary-faint-border-regular);
+  box-shadow: inset 0px 1px 0px var(--faint-weak);
   background: #f0f0f0;
 }
 
@@ -29,7 +29,7 @@ tbody tr {
 }
 
 tbody tr:nth-child(even) {
-  background: var(--primary-surface-disabled);
+  background: var(--faint-weak-down);
 }
 
 td {

@@ -42,7 +42,7 @@
       }
 
       &:active {
-        background: var(--primary-surface-active);
+        background: var(--base-strong);
         color: var(--primary-surface-regular);
       }
     }
@@ -59,7 +59,7 @@
       }
 
       &:active {
-        background: var(--primary-surface-active);
+        background: var(--base-strong);
         color: var(--primary-surface-regular);
       }
     }

@@ -48,8 +48,8 @@ tr:nth-child(odd) {
   outline: none;
   width: 30px;
   height: 20px;
-  background-color: #fff;
-  border: 1px solid var(--neutral-neutral-40);
+  background-color: var(--base-weak);
+  border: 1px solid var(--faint-weak-up);
   border-radius: 20px;
 }
 
