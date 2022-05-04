@@ -18,12 +18,12 @@
     0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04),
     0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 4px;
-  color: white;
+  color: var(--base-weak);
   margin: auto;
   max-width: 320px;
   white-space: pre-wrap;
   & a {
-    color: white;
+    color: var(--base-weak);
   }
 }
 
@@ -33,11 +33,11 @@
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
-  background: #0c9bed;
+  background: var(--accent-strong);
   border-radius: 4px;
   flex: none;
   margin: 24px 0 0 0;
-  color: white;
+  color: var(--base-weak);
   font-weight: bold;
   &:hover {
     background-color: #75cafa;

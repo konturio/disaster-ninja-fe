@@ -33,19 +33,19 @@ export const sideControlsBarAtom = createAtom(
     reset: () => null,
     currentUserAtom,
   },
-  ({ onAction, onChange, schedule, create }, state: Record<string, SideControl> = {}) => {
+  (
+    { onAction, onChange, schedule, create },
+    state: Record<string, SideControl> = {},
+  ) => {
     onChange('currentUserAtom', (usr) => {
       schedule((dispatch) => {
         dispatch(create('reset'));
       });
     });
 
-    onAction(
-      'addControl',
-      (control) => {
-        state = { ...state, [control.id]: control };
-      },
-    );
+    onAction('addControl', (control) => {
+      state = { ...state, [control.id]: control };
+    });
     onAction('removeControl', (controlId) => {
       delete state[controlId];
       state = { ...state };
