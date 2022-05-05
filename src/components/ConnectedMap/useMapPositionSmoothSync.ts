@@ -24,7 +24,7 @@ export function useMapPositionSmoothSync(mapRef) {
             map.easeTo({
               center: [newMapPosition.lng, newMapPosition.lat],
               zoom: newMapPosition.zoom,
-              duration: 3000,
+              duration: 0,
             });
           });
         });
