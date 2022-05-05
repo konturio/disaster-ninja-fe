@@ -26,6 +26,14 @@ test('do not transform propper marked link', (t) => {
   t.is(result2, text2);
 });
 
+test('have trailing slash', (t) => {
+  const result = parseLinksAsTags('Lets have https://some.link/with-slash/');
+  t.is(
+    result,
+    'Lets have [some.link/with-slash/](https://some.link/with-slash/)',
+  );
+});
+
 test('Transform inline links to markdown link format', (t) => {
   t.plan(4);
 
@@ -69,5 +77,17 @@ test('Transform multiple links to markdown link format', (t) => {
   t.is(
     result2,
     '[some.link](https://some.link) [another.link/with-path](http://another.link/with-path)',
+  );
+});
+
+test('real life case - newline, parenthesis and repeating', (t) => {
+  const result = parseLinksAsTags(
+    `This map shows visualization of survey results conducted by IOM (https://www.iom.int/) ...end of paragraph.
+    https://www.iom.int, https://displacement.iom.int/reports`,
+  );
+  t.is(
+    result,
+    `This map shows visualization of survey results conducted by IOM ([www.iom.int/](https://www.iom.int/)) ...end of paragraph.
+    [www.iom.int](https://www.iom.int), [displacement.iom.int/reports](https://displacement.iom.int/reports)`,
   );
 });
