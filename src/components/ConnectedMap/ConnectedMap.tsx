@@ -97,6 +97,20 @@ export function ConnectedMap({
     };
   }, [mapRef, mapListeners]);
 
+  // Resize map canvas when map container changes in size
+  useEffect(() => {
+    if (mapRef.current) {
+      const resizeObserver = new ResizeObserver(() => {
+        mapRef.current!.resize();
+      });
+      const mapContainer = mapRef.current.getCanvasContainer();
+      resizeObserver.observe(mapContainer);
+      return () => {
+        resizeObserver.unobserve(mapContainer);
+      };
+    }
+  }, [mapRef]);
+
   return (
     <DeckGl layers={[]}>
       {({ layers }) => (
