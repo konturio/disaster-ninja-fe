@@ -56,7 +56,8 @@ export const DrawToolsToolbox = () => {
       <div className={s.toolBox}>
         {settings.availableModes?.includes('DrawPolygonMode') && (
           <Button
-            className={s.modeBtn}
+            dark
+            variant="invert"
             active={activeDrawMode === drawModes.DrawPolygonMode}
             onClick={onPolygonClick}
           >
@@ -67,7 +68,8 @@ export const DrawToolsToolbox = () => {
         )}
         {settings.availableModes?.includes('DrawLineMode') && (
           <Button
-            className={s.modeBtn}
+            dark
+            variant="invert"
             active={activeDrawMode === drawModes.DrawLineMode}
             onClick={onLineClick}
           >
@@ -78,7 +80,8 @@ export const DrawToolsToolbox = () => {
         )}
         {settings.availableModes?.includes('DrawPointMode') && (
           <Button
-            className={s.modeBtn}
+            dark
+            variant="invert"
             active={activeDrawMode === drawModes.DrawPointMode}
             onClick={onPointClick}
           >
@@ -88,23 +91,18 @@ export const DrawToolsToolbox = () => {
           </Button>
         )}
         <Button
-          className={s.modeBtn}
+          dark
+          variant="invert"
           disabled={!Boolean(selectedIndexes.length)}
           onClick={deleteFeatures}
         >
-          <div className={s.btnContent}>
-            <TrashBinIcon />
-          </div>
+          <TrashBinIcon />
         </Button>
-        <Button className={s.modeBtn} onClick={downloadDrawGeometry}>
-          <div className={s.btnContent}>
-            <DownloadIcon />
-          </div>
+        <Button dark variant="invert" onClick={downloadDrawGeometry}>
+          <DownloadIcon />
         </Button>
-        <Button className={s.finishBtn} onClick={onFinishClick}>
-          <div className={clsx(s.btnContent)}>
-            {settings.finishButtonText || i18n.t('Finish Drawing')}
-          </div>
+        <Button onClick={onFinishClick}>
+          {settings.finishButtonText || i18n.t('Finish Drawing')}
         </Button>
       </div>
     </div>

@@ -112,26 +112,7 @@
 }
 
 .loginButton {
-  background: var(--accent-strong);
-  color: #fff;
   width: 100%;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
-  height: 44px;
-  border-radius: 5px;
-  border: 2px solid transparent;
-  box-shadow: none !important;
-
-  &:hover {
-    border: 2px solid #0000004d;
-  }
-
-  &:active {
-    background: #168acc !important;
-    color: #eee !important;
-  }
 }
 
 .signUpContainer {
