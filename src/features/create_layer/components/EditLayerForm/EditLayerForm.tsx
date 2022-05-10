@@ -47,9 +47,11 @@ export function EditLayerForm({
           text={i18n.t('Marker icon')}
           description={i18n.t('Marker icon')}
         />
-        <Button>
-          <MarkerIcon />
-        </Button>
+        <Button
+          iconBefore={<MarkerIcon />}
+          size="small"
+          variant="invert-outline"
+        />
       </div>
       <EditableLayerFieldsPlaceholder
         fieldModels={formState.fields}
@@ -58,10 +60,10 @@ export function EditLayerForm({
         onReorderFields={reorderFields}
       />
       <div className={s.buttonsContainer}>
-        <Button onClick={onSave} className={s.saveBtn}>
+        <Button onClick={onSave} variant="primary" size="small">
           {i18n.t(formState.id ? 'Save' : 'Create')}
         </Button>
-        <Button onClick={onCancel} className={s.cancelBtn}>
+        <Button onClick={onCancel} variant="invert-outline" size="small">
           {i18n.t('Cancel')}
         </Button>
       </div>
