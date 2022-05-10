@@ -54,3 +54,19 @@ code {
 .intercom-lightweight-app-launcher {
   transform: scale(0.8) !important;
 }
+
+/* handling app header here bacause 
+  a) it's global component 
+  b) following requironments are specific for this app
+  Requironments for this app is to hide chat button on mobile viewport
+  I also aligned intercom chat button with mapbox info icon to free up more map space in the middle
+*/
+@media screen and (max-width: 960px) {
+  #kontur_header_chat_btn {
+    display: none;
+  }
+  .intercom-lightweight-app-launcher.intercom-launcher {
+    right: 6px;
+    bottom: 24px;
+  }
+}

@@ -18,6 +18,7 @@ import {
 import eventsIcon from '~features/events_list/icons/eventsIcon.svg';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { FeedSelector } from '~features/feed_selector';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 
 export function EventsListPanel({
   current,
@@ -36,7 +37,15 @@ export function EventsListPanel({
     useAtom(sideControlsBarAtom);
 
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [wasClosed, setWasClosed] = useState<null | boolean>(null);
   const virtuoso = useRef(null);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
+  useEffect(() => {
+    if (isMobile) {
+      disable(EVENT_LIST_CONTROL_ID);
+    }
+  }, [isMobile, disable]);
 
   useEffect(() => {
     // type any is used because virtuoso types doesn't have scrollToIndex method, but it's described in docs https://virtuoso.dev/scroll-to-index
@@ -52,7 +61,6 @@ export function EventsListPanel({
   }, [current, eventsList, virtuoso]);
 
   const onPanelClose = useCallback(() => {
-    setIsOpen(false);
     disable(EVENT_LIST_CONTROL_ID);
   }, [setIsOpen]);
 
@@ -75,6 +83,10 @@ export function EventsListPanel({
       },
       onChange: (isActive) => {
         setIsOpen(isActive);
+        setWasClosed((wasPreviouslyClosed) => {
+          if (wasPreviouslyClosed === null) return false;
+          return !isActive;
+        });
       },
     });
 
@@ -85,7 +97,7 @@ export function EventsListPanel({
 
   useEffect(() => {
     if (!eventsList?.length && !loading) disable(EVENT_LIST_CONTROL_ID);
-    else {
+    else if (!wasClosed && !isMobile) {
       enable(EVENT_LIST_CONTROL_ID);
     }
   }, [eventsList, loading]);
