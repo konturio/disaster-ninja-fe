@@ -40,9 +40,10 @@ export function SideBar() {
               onPointerEnter={(e) => onMouseEnter(e, control.title)}
               onPointerLeave={onMouseLeave}
             >
-              <ActionsBarBTN active={control.active}>
-                {control.icon}
-              </ActionsBarBTN>
+              <ActionsBarBTN
+                active={control.active}
+                iconBefore={control.icon}
+              />
             </div>
           </div>
         ),

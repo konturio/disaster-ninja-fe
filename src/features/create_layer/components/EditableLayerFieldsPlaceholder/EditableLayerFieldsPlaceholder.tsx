@@ -45,9 +45,10 @@ export function EditableLayerFieldsPlaceholder({
       <Button
         onClick={onAddField}
         className={s.addFieldButton}
-        variant="invert-outline"
+        variant="invert"
+        iconBefore={<UploadFileIcon />}
+        size="small"
       >
-        <UploadFileIcon />
         {i18n.t('Add field')}
       </Button>
     </div>
