@@ -61,6 +61,8 @@ export const AdvancedAnalyticsDataList = ({
   data,
 }: AdvancedAnalyticsDataListProps) => {
   const [listData, setList] = useState(data);
+  //used to aware all world data being watched
+  const [activeList, setActiveList] = useState(data);
   const [stateNumerator, setNumerator] = useState('');
   const [stateDenominator, setDenominator] = useState('');
   const [worldList, setWorldList] = useAtom(worldAnalyticsResource);
@@ -75,8 +77,15 @@ export const AdvancedAnalyticsDataList = ({
   ]);
 
   function onNominatorFilterChange(e) {
+    //check if all world loaded
+    let filteredData;
+    if (data === activeList) {
+      filteredData = data;
+    } else {
+      filteredData = worldList.data;
+    }
     const numerator = e.target.value.toLowerCase();
-    const filteredData = data?.filter(function (values) {
+    filteredData = filteredData?.filter(function (values) {
       return (
         values.numeratorLabel.toLowerCase().includes(numerator) &&
         values.denominatorLabel.toLowerCase().includes(stateDenominator)
@@ -88,8 +97,15 @@ export const AdvancedAnalyticsDataList = ({
   }
 
   function onDenominatorFilterChange(e) {
+    //check if all world loaded
+    let filteredData;
+    if (data === activeList) {
+      filteredData = data;
+    } else {
+      filteredData = worldList.data;
+    }
     const denominator = e.target.value.toLowerCase();
-    const filteredData = data?.filter(function (values) {
+    filteredData = filteredData?.filter(function (values) {
       return (
         values.numeratorLabel.toLowerCase().includes(stateNumerator) &&
         values.denominatorLabel.toLowerCase().includes(denominator)
@@ -170,6 +186,8 @@ export const AdvancedAnalyticsDataList = ({
 
   function loadWorldDataList() {
     setList(worldList.data);
+    //set to know active list
+    setActiveList(worldList.data);
     setSeeWorld(false);
   }
 
