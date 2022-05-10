@@ -34,18 +34,7 @@
   }
 
   & .addFieldButton {
-    color: var(--accent-strong);
-    width: 100px;
-    gap: var(--half-unit);
-
-    &:hover {
-      background: var(--accent-weak);
-    }
-
-    &:active {
-      background: var(--back-faint-weak-up);
-      color: var(--base-weak);
-    }
+    width: 120px;
 
     & svg {
       width: 16px;
