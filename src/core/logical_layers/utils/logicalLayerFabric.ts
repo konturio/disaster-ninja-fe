@@ -227,7 +227,7 @@ export function createLogicalLayerAtom(
 
       /* Reactive updates */
 
-      if (state.isMounted) {
+      if (state.isMounted && newState.isMounted) {
         const legendHaveUpdate = state.legend !== newState.legend;
         if (legendHaveUpdate) {
           if (map)
