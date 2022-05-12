@@ -6,6 +6,7 @@ import { BivariatePanelIcon } from '@k2-packages/default-icons';
 import ReactDOM from 'react-dom';
 import BivariateMatrixContainer from '~features/bivariate_manager/components/BivariateMatrixContainer/BivariateMatrixContainer';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 
 const CustomClosePanelBtn = () => (
   <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
@@ -20,45 +21,35 @@ const CustomClosePanelBtn = () => (
 );
 
 export function BivariatePanel({
-  iconsContainerId,
+  iconsContainerRef,
 }: {
-  iconsContainerId: string;
+  iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [childIconContainer, setChildIconContainer] =
-    useState<HTMLDivElement | null>(null);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   useEffect(() => {
-    const iconsContainer = document.getElementById(iconsContainerId);
-    if (iconsContainer !== null) {
-      const cont = iconsContainer.appendChild(document.createElement('div'));
-      setChildIconContainer(cont);
-      cont.className = s.iconContainerShown;
+    if (isMobile) {
+      setIsOpen(false);
     }
-  }, []);
+  }, [isMobile]);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
-    if (childIconContainer) {
-      childIconContainer.className = s.iconContainerShown;
-    }
     const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
     if (intercomApp && intercomApp.length) {
       (intercomApp[0] as HTMLDivElement).style.display = '';
     }
-  }, [setIsOpen, childIconContainer]);
+  }, [setIsOpen]);
 
   const onPanelOpen = useCallback(() => {
     setIsOpen(true);
-    if (childIconContainer) {
-      childIconContainer.className = s.iconContainerShown;
-    }
     // need this to temporary hide intercom when showing bivariate
     const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
     if (intercomApp && intercomApp.length) {
       (intercomApp[0] as HTMLDivElement).style.display = 'none';
     }
-  }, [setIsOpen, childIconContainer]);
+  }, [setIsOpen]);
 
   return (
     <>
@@ -75,14 +66,14 @@ export function BivariatePanel({
         </div>
       </Panel>
 
-      {childIconContainer &&
+      {iconsContainerRef.current &&
         ReactDOM.createPortal(
           <PanelIcon
             clickHandler={onPanelOpen}
             className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
             icon={<BivariatePanelIcon />}
           />,
-          childIconContainer,
+          iconsContainerRef.current,
         )}
     </>
   );
