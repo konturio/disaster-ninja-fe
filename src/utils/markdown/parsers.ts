@@ -22,7 +22,7 @@ export function parseLinksAsTags(text?: string): string {
     const matchIndex = matchEntity.index!;
     const matchLength = match.length;
     // skip links in propper markdown format
-    if (match.startsWith('](')) return;
+    if (match.startsWith('](') || match.indexOf('[http') > -1) return;
     // get full link to work with it
     const linkStartIndex = match.indexOf('http');
     const fullLink = match.substring(linkStartIndex);

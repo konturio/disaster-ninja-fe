@@ -6,33 +6,29 @@ import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { LayersPanelIcon } from '@k2-packages/default-icons';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 
-export function MapLayerPanel({ iconsContainerId }: { iconsContainerId: string }) {
+export function MapLayerPanel({
+  iconsContainerRef,
+}: {
+  iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const [childIconContainer, setChildIconContainer] = useState<HTMLDivElement | null>(null);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   useEffect(() => {
-    const iconsContainer = document.getElementById(iconsContainerId);
-    if (iconsContainer !== null) {
-      const cont = iconsContainer.appendChild(document.createElement('div'));
-      setChildIconContainer(cont);
-      cont.className = s.iconContainerHidden;
+    if (isMobile) {
+      setIsOpen(false);
     }
-  }, []);
+  }, [isMobile]);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
-    if (childIconContainer) {
-      childIconContainer.className = s.iconContainerShown;
-    }
-  }, [setIsOpen, childIconContainer]);
+  }, [setIsOpen]);
 
   const onPanelOpen = useCallback(() => {
     setIsOpen(true);
-    if (childIconContainer) {
-      childIconContainer.className = s.iconContainerHidden;
-    }
-  }, [setIsOpen, childIconContainer]);
+  }, [setIsOpen]);
 
   return (
     <>
@@ -45,16 +41,19 @@ export function MapLayerPanel({ iconsContainerId }: { iconsContainerId: string }
           <LayersTree />
         </div>
       </Panel>
-      {childIconContainer &&
-      ReactDOM.createPortal(
-        <PanelIcon
-          clickHandler={onPanelOpen}
-          className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
-          icon={<LayersPanelIcon />}
-        />,
-        childIconContainer
-      )
-      }
+      {iconsContainerRef.current &&
+        ReactDOM.createPortal(
+          <div
+            className={!isOpen ? s.iconContainerShown : s.iconContainerHidden}
+          >
+            <PanelIcon
+              clickHandler={onPanelOpen}
+              className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+              icon={<LayersPanelIcon />}
+            />
+          </div>,
+          iconsContainerRef.current,
+        )}
     </>
   );
 }
