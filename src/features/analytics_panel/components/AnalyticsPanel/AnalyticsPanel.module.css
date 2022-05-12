@@ -22,7 +22,7 @@
 }
 
 .sidePanel {
-  z-index: 2; /* Show shadow over map */
+  z-index: 3; /* Show shadow over map */
   position: absolute;
   margin-left: var(--unit);
   margin-top: var(--unit);
