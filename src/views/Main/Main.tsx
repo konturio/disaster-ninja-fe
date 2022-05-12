@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { lazily } from 'react-lazily';
 import config from '~core/app_config';
 import { Row } from '~components/Layout/Layout';
@@ -51,6 +51,7 @@ const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 export function MainView() {
   const history = useHistory();
   const [{ data: userModel }] = useAtom(userResourceAtom);
+  const iconsContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
@@ -168,20 +169,20 @@ export function MainView() {
           <Suspense fallback={null}>
             <div className={s.floating}>
               <div
-                id="right-buttons-container"
                 className={s.rightButtonsContainer}
+                ref={iconsContainerRef}
               ></div>
               {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
-                <Legend iconsContainerId="right-buttons-container" />
+                <Legend iconsContainerRef={iconsContainerRef} />
               )}
               {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
                 <EditFeaturesOrLayerPanel />
               )}
               {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
-                <MapLayersList iconsContainerId="right-buttons-container" />
+                <MapLayersList iconsContainerRef={iconsContainerRef} />
               )}
               {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
-                <BivariatePanel iconsContainerId="right-buttons-container" />
+                <BivariatePanel iconsContainerRef={iconsContainerRef} />
               )}
             </div>
           </Suspense>
