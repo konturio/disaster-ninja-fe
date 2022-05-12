@@ -15,7 +15,7 @@ test('do not transform simple text', (t) => {
 });
 
 test('do not transform propper marked link', (t) => {
-  t.plan(2);
+  t.plan(3);
 
   const text = 'Lorem lorem [label](https://some.link)';
   const result = parseLinksAsTags(text);
@@ -24,6 +24,10 @@ test('do not transform propper marked link', (t) => {
   const text2 = '[Leading label](https://some.link) lorem lorem';
   const result2 = parseLinksAsTags(text2);
   t.is(result2, text2);
+
+  const text3 = `Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. [http://doi.org/10.5281/zenodo.3939050](http://doi.org/10.5281/zenodo.3939050)`;
+  const result3 = parseLinksAsTags(text3);
+  t.is(result3, text3);
 });
 
 test('have trailing slash', (t) => {
