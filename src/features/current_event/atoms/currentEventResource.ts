@@ -13,7 +13,7 @@ const eventDependencyAtom = createAtom(
     },
   ) => {
     const event = get('currentEventAtom');
-    if (!event) return state;
+    if (!event) return { event: null, feed: state.feed };
 
     const feed = getUnlistedState(currentEventFeedAtom);
     return { event, feed };
