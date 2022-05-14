@@ -1,8 +1,15 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import { CorrelationMatrix } from '~core/types';
+import { AxisGroup, CorrelationMatrix } from '~core/types';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
-import { CorrelationRate } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
+import { Axis, CorrelationRate } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
+
+function covertGroupToObject(groups: AxisGroup[]) {
+  return groups.reduce((acc, gr, index) => {
+    acc[JSON.stringify(gr.selectedQuotient)] = index;
+    return acc;
+  }, {} as Record<string, number>);
+}
 
 export const bivariateCorrelationMatrixAtom = createAtom(
   {
@@ -15,10 +22,12 @@ export const bivariateCorrelationMatrixAtom = createAtom(
       const { data: statisticsData } = getUnlistedState(
         bivariateStatisticsResourceAtom,
       );
+
       if (statisticsData === null) return null;
       const correlationRates: CorrelationRate[] =
         statisticsData.polygonStatistic.bivariateStatistic.correlationRates;
 
+      // init empty matrix
       const matrix: CorrelationMatrix = [];
       for (let i = 0; i < yGroups.length; i += 1) {
         matrix.push([]);
@@ -27,23 +36,20 @@ export const bivariateCorrelationMatrixAtom = createAtom(
         }
       }
 
-      for (let i = 0; i < yGroups.length; i += 1) {
-        const yNumerator = yGroups[i].selectedQuotient[0];
-        const yDenominator = yGroups[i].selectedQuotient[1];
-        for (let j = 0; j < xGroups.length; j += 1) {
-          const xNumerator = xGroups[j].selectedQuotient[0];
-          const xDenominator = xGroups[j].selectedQuotient[1];
-          for (let k = 0; k < correlationRates.length; k += 1) {
-            const cr = correlationRates[k];
-            if (
-              cr.x.quotient[0] === xNumerator &&
-              cr.x.quotient[1] === xDenominator &&
-              cr.y.quotient[0] === yNumerator &&
-              cr.y.quotient[1] === yDenominator
-            ) {
-              matrix[i][j] = cr.rate;
-              break;
-            }
+      // convert groups to objects to get rig of O(N2) complexity while calculating result matrix
+      const xGroupsConverted = covertGroupToObject(xGroups);
+      const yGroupsConverted = covertGroupToObject(yGroups);
+
+      for (let k = 0; k < correlationRates.length; k += 1) {
+        const cr = correlationRates[k];
+        const quotX = JSON.stringify(cr.x.quotient);
+        if (xGroupsConverted.hasOwnProperty(quotX)) {
+          const jIndex = xGroupsConverted[quotX];
+
+          const quotY = JSON.stringify(cr.y.quotient);
+          if (yGroupsConverted.hasOwnProperty(quotY)) {
+            const iIndex = yGroupsConverted[quotY];
+            matrix[iIndex][jIndex] = cr.rate;
           }
         }
       }
