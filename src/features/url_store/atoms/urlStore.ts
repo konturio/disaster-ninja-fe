@@ -83,6 +83,10 @@ export const urlStoreAtom = createAtom(
         // Apply event
         if (state.event) {
           actions.push(currentEventAtom.setCurrentEventId(state.event));
+        } else if (state.map && !state.event) {
+          // in this case user implicitly shared map coordinates without an event.
+          // Reseting it will avoid event autoselection and map focus on autoselected event
+          actions.push(currentEventAtom.setCurrentEventId(null));
         }
         // Apply feed
         if (state.feed) {
@@ -117,7 +121,7 @@ export const urlStoreAtom = createAtom(
       }
 
       const currentEvent = get('currentEventAtom');
-      newState.event = currentEvent ? currentEvent.id : undefined;
+      newState.event = currentEvent?.id ? currentEvent.id : undefined;
 
       const currentFeed = get('currentEventFeedAtom');
       newState.feed = currentFeed ? currentFeed.id : undefined;
