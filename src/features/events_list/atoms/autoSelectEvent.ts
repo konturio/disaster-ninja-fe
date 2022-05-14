@@ -7,19 +7,26 @@ export const autoSelectEvent = createAtom(
     eventListResourceAtom,
     focusedGeometryAtom,
   },
-  ({ get, getUnlistedState, schedule, onChange }, state = {}) => {
+  ({ getUnlistedState, schedule, onChange }, state = {}) => {
     onChange('eventListResourceAtom', (eventListResource) => {
-      if (eventListResource
-        && !eventListResource.loading
-        && !eventListResource.error
-        && eventListResource.data
-        && eventListResource.data.length) {
+      if (
+        eventListResource &&
+        !eventListResource.loading &&
+        !eventListResource.error &&
+        eventListResource.data &&
+        eventListResource.data.length
+      ) {
         const firstEventInList = eventListResource.data[0];
         const focusedGeometry = getUnlistedState(focusedGeometryAtom);
         const currentEvent = getUnlistedState(currentEventAtom);
-        if (currentEvent === null && (focusedGeometry === null || focusedGeometry.source?.type === 'event')) {
+        if (
+          currentEvent === null &&
+          (focusedGeometry === null || focusedGeometry.source?.type === 'event')
+        ) {
           schedule((dispatch) => {
-            dispatch(currentEventAtom.setCurrentEventId(firstEventInList.eventId));
+            dispatch(
+              currentEventAtom.setCurrentEventId(firstEventInList.eventId),
+            );
           });
         }
       }
@@ -30,14 +37,18 @@ export const autoSelectEvent = createAtom(
         const currentEvent = getUnlistedState(currentEventAtom);
         if (currentEvent === null) {
           const eventListResource = getUnlistedState(eventListResourceAtom);
-          if (eventListResource
-            && !eventListResource.loading
-            && !eventListResource.error
-            && eventListResource.data
-            && eventListResource.data.length) {
+          if (
+            eventListResource &&
+            !eventListResource.loading &&
+            !eventListResource.error &&
+            eventListResource.data &&
+            eventListResource.data.length
+          ) {
             const firstEventInList = eventListResource.data[0];
             schedule((dispatch) => {
-              dispatch(currentEventAtom.setCurrentEventId(firstEventInList.eventId));
+              dispatch(
+                currentEventAtom.setCurrentEventId(firstEventInList.eventId),
+              );
             });
           }
         }

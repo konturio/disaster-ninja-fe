@@ -9,7 +9,7 @@ export const currentEventRefresherAtom = createAtom(
   },
   ({ onChange, schedule }) => {
     onChange('currentEventAtom', (event, prev) => {
-      if (event === null) {
+      if (event === null || event.id === null) {
         schedule((dispatch) => {
           autoRefreshService.removeWatcher('currentEvent');
         });
