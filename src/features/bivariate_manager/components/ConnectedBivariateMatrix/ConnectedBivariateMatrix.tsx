@@ -1,6 +1,6 @@
 import { AxisControl } from '@k2-packages/ui-kit';
 import React, { forwardRef, useCallback, useMemo } from 'react';
-import { Axis, Indicator } from '@k2-packages/bivariate-tools';
+import { Indicator } from '@k2-packages/bivariate-tools';
 import { AxisGroup } from '~core/types';
 import { CorrelationRate } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
 import { useAtom } from '@reatom/react';
@@ -54,11 +54,15 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
     const [matrixSelection, { setMatrixSelection }] = useAtom(
       bivariateMatrixSelectionAtom,
     );
+
     const [matrix] = useAtom(bivariateCorrelationMatrixAtom);
+
     const [{ xGroups, yGroups }, { setNumerators }] = useAtom(
       bivariateNumeratorsAtom,
     );
+
     const [{ data: statisticsData }] = useAtom(bivariateStatisticsResourceAtom);
+
     const stats = statisticsData?.polygonStatistic.bivariateStatistic;
 
     const selectedCell = useMemo(() => {
