@@ -172,7 +172,7 @@ export function MainView() {
               {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
                 <MapLayersList iconsContainerId="right-buttons-container" />
               )}
-              {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
+              {true && (
                 <BivariatePanel iconsContainerId="right-buttons-container" />
               )}
             </div>
