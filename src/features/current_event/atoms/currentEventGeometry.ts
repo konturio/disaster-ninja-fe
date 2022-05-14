@@ -23,6 +23,10 @@ export const currentEventGeometryAtom = createAtom(
           );
         });
       }
+      // Case resource didn't call for event because event id or feed id was absent
+      else if (!loading && !error && data === null) {
+        state = null;
+      }
     });
     return state;
   },
