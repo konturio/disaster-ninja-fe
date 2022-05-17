@@ -1,6 +1,6 @@
 import { Map as MapLibre } from 'maplibre-gl';
 
-type LayersTypes =
+export type LayersType =
   | 'symbol'
   | 'background'
   | 'circle'
@@ -14,21 +14,22 @@ type LayersTypes =
 
 // The actual mapbox layers are drawn in natural order. E.g. ['basmap', 'rasterLayer', 'pointLayer']
 // The latter layers overlaps previous layers
+export const layerTypesOrdered: LayersType[] = [
+  'background',
+  'raster',
+  'hillshade',
+  'heatmap',
+  'fill',
+  'fill-extrusion',
+  'line',
+  'circle',
+  'symbol',
+  'custom',
+];
 export class LayersOrderManager {
   _baseMapFirstLayerIdx: number | null = null;
   _map: MapLibre | null = null;
-  _typesOrder: LayersTypes[] = [
-    'background',
-    'raster',
-    'hillshade',
-    'heatmap',
-    'fill',
-    'fill-extrusion',
-    'line',
-    'circle',
-    'symbol',
-    'custom',
-  ];
+  _typesOrder: LayersType[] = [...layerTypesOrdered];
 
   _awaitingTasks = new Set<(map: MapLibre) => void>();
 
@@ -43,7 +44,7 @@ export class LayersOrderManager {
     });
   }
 
-  _getBeforeIdByTypeSync(map: MapLibre, type: LayersTypes): string | undefined {
+  _getBeforeIdByTypeSync(map: MapLibre, type: LayersType): string | undefined {
     if (this._baseMapFirstLayerIdx === null) return;
     if (!this._typesOrder.includes(type)) {
       console.error(
@@ -64,7 +65,7 @@ export class LayersOrderManager {
     if (!customLayers.length) return undefined;
 
     // Create map { type: upper layer with this type }
-    const mountedLayersByType = new Map<LayersTypes, maplibregl.AnyLayer>();
+    const mountedLayersByType = new Map<LayersType, maplibregl.AnyLayer>();
     let n = 0;
     // this loop will come from bottom to top layers
     while (n < customLayers.length) {
@@ -89,7 +90,7 @@ export class LayersOrderManager {
   }
 
   getBeforeIdByType(
-    type: LayersTypes,
+    type: LayersType,
     cb: (id: string | undefined) => void,
   ): void {
     const map = this._map;
