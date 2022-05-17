@@ -82,7 +82,7 @@
   position: sticky;
   top: 0;
   cursor: pointer;
-  height: 10px;
+  height: 16px;
   display: flex;
   color: var(--faint-strong);
 }

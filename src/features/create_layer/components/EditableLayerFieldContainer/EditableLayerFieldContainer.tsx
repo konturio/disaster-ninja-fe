@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { useAtom } from '@reatom/react';
 import type { Identifier, XYCoord } from 'dnd-core';
 import clsx from 'clsx';
-import { SortIcon, TrashBinIcon } from '@k2-packages/default-icons';
+import { SortDrag16, Trash16 } from '@k2-packages/default-icons';
 import { Input } from '@k2-packages/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
 import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
@@ -123,10 +123,10 @@ export function EditableLayerFieldContainer({
       className={clsx(s.fieldContainer, className)}
     >
       <div className={s.sortBtn}>
-        <SortIcon />
+        <SortDrag16 />
       </div>
       <div onClick={onRemoveClick} className={s.removeBtn}>
-        <TrashBinIcon />
+        <Trash16 />
       </div>
       <div className={s.fieldPlaceholder}>
         <div className={s.fieldLabel}>{i18n.t('Field name')}</div>
