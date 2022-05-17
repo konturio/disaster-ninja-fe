@@ -6,7 +6,7 @@ import {
   controlVisualGroup,
   sideControlsBarAtom,
 } from '~core/shared_state/sideControlsBar';
-import { AddLayerIcon } from '@k2-packages/default-icons';
+import { AddLayer24 } from '@k2-packages/default-icons';
 import { editableLayerControllerAtom } from './editableLayerController';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { AppFeature } from '~core/auth/types';
@@ -18,7 +18,7 @@ const sidebarButtonParams = {
   active: false,
   exclusiveGroup: controlGroup.mapTools,
   visualGroup: controlVisualGroup.noAnalytics,
-  icon: <AddLayerIcon />,
+  icon: <AddLayer24 />,
   onClick: () => {
     sideControlsBarAtom.toggleActiveState.dispatch(CREATE_LAYER_CONTROL_ID);
   },

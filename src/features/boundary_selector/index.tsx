@@ -1,5 +1,5 @@
 import { sideControlsBarAtom } from '~core/shared_state';
-import BoundarySelectorIcon from '@k2-packages/default-icons/tslib/icons/BoundarySelectorIcon';
+import { SelectArea24 } from '@k2-packages/default-icons';
 import {
   BOUNDARY_SELECTOR_CONTROL_ID,
   BOUNDARY_SELECTOR_CONTROL_NAME,
@@ -43,7 +43,7 @@ export function initBoundarySelector() {
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,
-    icon: <BoundarySelectorIcon />,
+    icon: <SelectArea24 />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch(
         BOUNDARY_SELECTOR_CONTROL_ID,

@@ -2,7 +2,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import clsx from 'clsx';
 import { Button } from '@k2-packages/ui-kit';
-import { UploadFileIcon } from '@k2-packages/default-icons';
+import { Plus24 } from '@k2-packages/default-icons';
 import { translationService as i18n } from '~core/index';
 import { EditableLayerFieldContainer } from '../EditableLayerFieldContainer/EditableLayerFieldContainer';
 import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
@@ -46,7 +46,7 @@ export function EditableLayerFieldsPlaceholder({
         onClick={onAddField}
         className={s.addFieldButton}
         variant="invert"
-        iconBefore={<UploadFileIcon />}
+        iconBefore={<Plus24 />}
         size="small"
       >
         {i18n.t('Add field')}

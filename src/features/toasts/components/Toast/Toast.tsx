@@ -2,11 +2,8 @@ import { Card, Text } from '@k2-packages/ui-kit';
 import { Notification } from '~core/shared_state/currentNotifications';
 import clsx from 'clsx';
 import styles from './Toast.module.css';
-import closeCross from '../../icons/close_alert.svg';
-import errorAlert from '../../icons/error_alert.svg';
-import warningAlert from '../../icons/warning_alert.svg';
-import infogAlert from '../../icons/info_alert.svg';
 import { useMemo } from 'react';
+import { Alarm24, Close24, Error24, Info24 } from '@k2-packages/default-icons';
 
 export function Toast({
   notification,
@@ -19,10 +16,10 @@ export function Toast({
     notification.onClose();
   }
 
-  const iconType = useMemo(() => {
-    if (notification.type === 'warning') return warningAlert;
-    if (notification.type === 'info') return infogAlert;
-    return errorAlert;
+  const icon = useMemo(() => {
+    if (notification.type === 'warning') return <Alarm24 />;
+    if (notification.type === 'info') return <Info24 />;
+    return <Error24 />;
   }, [notification]);
 
   return (
@@ -32,17 +29,13 @@ export function Toast({
         className={clsx(styles.toast, styles['toast-' + notification.type])}
       >
         <div className={clsx(styles.content)}>
-          <img src={iconType} className={clsx(styles.icon)} />
+          <div className={clsx(styles.icon)}>{icon}</div>
           <Text type="short-l">
             <span className={clsx(styles.text)}>
               {notification.message.description || notification.message.title}
             </span>
           </Text>
-          <img
-            src={closeCross}
-            className={clsx(styles.closeCross)}
-            onClick={close}
-          />
+          <Close24 onClick={close} className={clsx(styles.closeCross)} />
         </div>
       </Card>
     </div>

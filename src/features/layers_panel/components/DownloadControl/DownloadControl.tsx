@@ -1,5 +1,4 @@
-// TODO add DownloadIcon to k2 packages
-import DownloadIcon from '~core/draw_tools/icons/DownloadIcon';
+import { Download16 } from '@k2-packages/default-icons';
 import s from './DownloadControl.module.css';
 
 export function DownloadControl({
@@ -12,7 +11,7 @@ export function DownloadControl({
   }
   return (
     <div className={s.download} onClick={downloadLayer}>
-      <DownloadIcon onClick={downloadLayer} stroke="red" />
+      <Download16 onClick={downloadLayer} />
     </div>
   );
 }
