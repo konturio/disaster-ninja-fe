@@ -15,10 +15,10 @@ import {
   EVENT_LIST_CONTROL_ID,
   EVENT_LIST_CONTROL_NAME,
 } from '~features/events_list/constants';
-import eventsIcon from '~features/events_list/icons/eventsIcon.svg';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { FeedSelector } from '~features/feed_selector';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { Disasters24 } from '@k2-packages/default-icons';
 
 export function EventsListPanel({
   current,
@@ -77,7 +77,7 @@ export function EventsListPanel({
       title: i18n.t('Focus to ongoing disasters'),
       active: false,
       visualGroup: controlVisualGroup.withAnalytics,
-      icon: <img src={eventsIcon} alt={i18n.t('Event list')} />,
+      icon: <Disasters24 />,
       onClick: (becomesActive) => {
         toggleActiveState(EVENT_LIST_CONTROL_ID);
       },

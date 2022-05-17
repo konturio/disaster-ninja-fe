@@ -1,25 +1,28 @@
 import s from './LayerHideControl.module.css';
-import { EyeBallCrossedIcon, EyeBallIcon } from '@k2-packages/default-icons';
+import { Eye16, EyeOff16 } from '@k2-packages/default-icons';
 
 type LayerHideControlType = {
   isVisible: boolean;
   hideLayer: () => void;
   unhideLayer: () => void;
 };
+
 export function LayerHideControl({
   isVisible,
   hideLayer,
   unhideLayer,
 }: LayerHideControlType) {
-  if (isVisible)
+  if (isVisible) {
     return (
-      <div onClick={() => hideLayer()} className={s.hideLogo}>
-        <EyeBallIcon />
+      <div onClick={hideLayer} className={s.hideLogo}>
+        <Eye16 />
       </div>
     );
+  }
+
   return (
-    <div onClick={() => unhideLayer()} className={s.unhideLogo}>
-      <EyeBallCrossedIcon />
+    <div onClick={unhideLayer} className={s.unhideLogo}>
+      <EyeOff16 />
     </div>
   );
 }

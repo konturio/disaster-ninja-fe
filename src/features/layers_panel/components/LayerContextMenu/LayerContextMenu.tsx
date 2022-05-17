@@ -1,5 +1,5 @@
 import s from './LayerContextMenu.module.css';
-import { TripleDotIcon } from '@k2-packages/default-icons';
+import { More16 } from '@k2-packages/default-icons';
 import { useCallback, useState } from 'react';
 
 interface LayerContextMenuItemProps {
@@ -40,7 +40,7 @@ export function LayerContextMenu({
   return (
     <div className={s.userLayerContext}>
       <div className={s.context} onClick={onContextClick}>
-        <TripleDotIcon />
+        <More16 />
       </div>
       {showContext && (
         <div className={s.contextBox} onMouseLeave={onContextMouseOut}>

@@ -1,9 +1,9 @@
 import s from './AnalyticsEmptyState.module.css';
 import {
-  BoundarySelectorIcon,
+  SelectArea24,
   DisastersListIcon,
-  DrawToolsIcon,
-  UploadFileIcon,
+  Poly24,
+  Plus24,
 } from '@k2-packages/default-icons';
 import { TranslationService as i18n } from '~core/localization';
 
@@ -30,13 +30,13 @@ export const AnalyticsEmptyState = ({
           <DisastersListIcon /> {i18n.t('Pick disaster from the list')}
         </div>
         <div className={s.iconRow}>
-          <DrawToolsIcon /> {i18n.t('Draw polygon on the map')}
+          <Poly24 /> {i18n.t('Draw polygon on the map')}
         </div>
         <div className={s.iconRow}>
-          <BoundarySelectorIcon /> {i18n.t('Select boundary on the map')}
+          <SelectArea24 /> {i18n.t('Select boundary on the map')}
         </div>
         <div className={s.iconRow}>
-          <UploadFileIcon /> {i18n.t('Upload your own geoJSON')}
+          <Plus24 /> {i18n.t('Upload your own geoJSON')}
         </div>
       </div>
     </div>
