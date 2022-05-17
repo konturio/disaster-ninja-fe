@@ -2,10 +2,10 @@ import { Button, Text } from '@k2-packages/ui-kit';
 import { useCallback, useMemo } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import {
-  DrawLineIcon,
-  DrawPointIcon,
-  DrawPolygonIcon,
-  TrashBinIcon,
+  Line24,
+  PointOutline24,
+  Area24,
+  Trash24,
 } from '@k2-packages/default-icons';
 import { useAtom } from '@reatom/react';
 import clsx from 'clsx';
@@ -13,7 +13,7 @@ import s from './DrawToolToolbox.module.css';
 import { drawModes } from '../../constants';
 import { combinedAtom } from '../../atoms/combinedAtom';
 import { toolboxAtom } from '../../atoms/toolboxAtom';
-import DownloadIcon from '~core/draw_tools/icons/DownloadIcon';
+import { Download24 } from '@k2-packages/default-icons';
 
 export const DrawToolsToolbox = () => {
   const [
@@ -62,7 +62,7 @@ export const DrawToolsToolbox = () => {
             onClick={onPolygonClick}
           >
             <div className={s.btnContent}>
-              <DrawPolygonIcon /> {i18n.t('Area')}
+              <Area24 /> {i18n.t('Area')}
             </div>
           </Button>
         )}
@@ -74,7 +74,7 @@ export const DrawToolsToolbox = () => {
             onClick={onLineClick}
           >
             <div className={s.btnContent}>
-              <DrawLineIcon /> {i18n.t('Line')}
+              <Line24 /> {i18n.t('Line')}
             </div>
           </Button>
         )}
@@ -86,7 +86,7 @@ export const DrawToolsToolbox = () => {
             onClick={onPointClick}
           >
             <div className={s.btnContent}>
-              <DrawPointIcon /> {i18n.t('Point')}
+              <PointOutline24 /> {i18n.t('Point')}
             </div>
           </Button>
         )}
@@ -96,10 +96,10 @@ export const DrawToolsToolbox = () => {
           disabled={!Boolean(selectedIndexes.length)}
           onClick={deleteFeatures}
         >
-          <TrashBinIcon />
+          <Trash24 />
         </Button>
         <Button dark variant="invert" onClick={downloadDrawGeometry}>
-          <DownloadIcon />
+          <Download24 />
         </Button>
         <Button onClick={onFinishClick}>
           {settings.finishButtonText || i18n.t('Finish Drawing')}

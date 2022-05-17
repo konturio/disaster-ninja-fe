@@ -1,8 +1,7 @@
 import { Text } from '@k2-packages/ui-kit';
 import { useMemo } from 'react';
 import s from './Analytics.module.css';
-import peopleIcon from './icons/people.svg';
-import areaIcon from './icons/area.svg';
+import { People16, Area16 } from '@k2-packages/default-icons';
 import { TranslationService as i18n } from '~core/localization';
 
 const Sub = ({ children }) => (
@@ -16,7 +15,7 @@ const formatNumber = new Intl.NumberFormat().format;
 type Statistics = {
   tooltip: string;
   value: string | JSX.Element | null;
-  icon?: string;
+  icon?: JSX.Element;
 }[];
 
 export function Analytics({
@@ -37,14 +36,14 @@ export function Analytics({
       result.push({
         tooltip: i18n.t('Affected People'),
         value: i18n.t('No humanitarian impact'),
-        icon: peopleIcon,
+        icon: <People16 />,
       });
 
     if (typeof affectedPeople === 'number')
       result.push({
         tooltip: i18n.t('Affected People'),
         value: formatNumber(affectedPeople),
-        icon: peopleIcon,
+        icon: <People16 />,
       });
 
     if (typeof settledArea === 'number')
@@ -56,7 +55,7 @@ export function Analytics({
             {formatNumber(settledArea)} km<Sub>2</Sub>
           </span>
         ),
-        icon: areaIcon,
+        icon: <Area16 />,
       });
 
     if (typeof osmGapsPercentage === 'number')
@@ -78,7 +77,7 @@ export function Analytics({
     <div className={s.analytics}>
       {statistics.map(({ tooltip, icon, value }) => (
         <div key={tooltip} className={s.analyticsBadge} title={tooltip}>
-          {icon && <img className={s.analyticsIcon} src={icon}></img>}
+          {icon && icon}
           <span className={s.analyticsValue}>
             <Text type="caption">{value}</Text>
           </span>

@@ -1,13 +1,5 @@
 .download {
   cursor: pointer;
   display: flex;
-}
-
-.download svg {
-  width: 14px;
-}
-
-.download path {
-  stroke: var(--back-faint-weak-up);
-  opacity: 0.3;
+  color: var(--faint-strong);
 }

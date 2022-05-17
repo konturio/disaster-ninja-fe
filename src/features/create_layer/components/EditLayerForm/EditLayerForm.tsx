@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback } from 'react';
 import { useAtom } from '@reatom/react';
 import { Button, Input } from '@k2-packages/ui-kit';
-import { MarkerIcon } from '@k2-packages/default-icons';
+import { PointFilled24 } from '@k2-packages/default-icons';
 import { translationService as i18n } from '~core/index';
 import { LabelWithTooltip } from '~components/LabelWithTooltip/LabelWithTooltip';
 import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
@@ -48,7 +48,7 @@ export function EditLayerForm({
           description={i18n.t('Marker icon')}
         />
         <Button
-          iconBefore={<MarkerIcon />}
+          iconBefore={<PointFilled24 />}
           size="small"
           variant="invert-outline"
         />

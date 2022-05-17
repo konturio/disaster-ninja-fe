@@ -11,7 +11,7 @@ import { Tab } from '@k2-packages/ui-kit/tslib/Tabs';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
 import { useAtom } from '@reatom/react';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
-import { BivariatePanelIcon } from '@k2-packages/default-icons';
+import { Bi24 as BivariatePanelIcon } from '@k2-packages/default-icons';
 import { focusedGeometryAtom } from '~core/shared_state';
 
 interface PanelHeadingProps {
