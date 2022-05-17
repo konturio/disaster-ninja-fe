@@ -5,7 +5,7 @@ import {
   sideControlsBarAtom,
 } from '~core/shared_state';
 import { askGeoJSONFile } from './askGeoJSONFile';
-import { UploadFileIcon } from '@k2-packages/default-icons';
+import { Plus24 } from '@k2-packages/default-icons';
 import {
   GEOMETRY_UPLOADER_CONTROL_ID,
   GEOMETRY_UPLOADER_CONTROL_NAME,
@@ -27,7 +27,7 @@ export function initFileUploader() {
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,
-    icon: <UploadFileIcon />,
+    icon: <Plus24 />,
     onClick: () => {
       /**
        * In webkit you can't use additional function wrapper including useCallback

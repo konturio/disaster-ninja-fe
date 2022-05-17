@@ -1,5 +1,5 @@
 import { sideControlsBarAtom } from '~core/shared_state';
-import MapRulerIcon from '@k2-packages/default-icons/tslib/icons/MapRulerIcon';
+import { Ruler24 } from '@k2-packages/default-icons';
 import {
   MAP_RULER_CONTROL_ID,
   MAP_RULER_CONTROL_NAME,
@@ -24,7 +24,7 @@ export function initMapRuler() {
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.noAnalytics,
-    icon: <MapRulerIcon />,
+    icon: <Ruler24 />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.toggleActiveState.dispatch(MAP_RULER_CONTROL_ID);
     },

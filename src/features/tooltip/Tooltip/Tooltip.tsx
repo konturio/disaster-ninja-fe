@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import clsx from 'clsx';
 import { TooltipData } from '~core/shared_state/currentTooltip';
 import s from './Tooltip.module.css';
-import { CloseIcon } from '@k2-packages/default-icons';
+import { Close16 } from '@k2-packages/default-icons';
 import { useEffect, useState } from 'react';
 import { LinkRenderer } from '~utils/markdown/mdComponents';
 import { parseLinksAsTags } from '~utils/markdown/parsers';
@@ -77,7 +77,7 @@ export function Tooltip({
               )}
               {!properties?.hoverBehavior && (
                 <div className={s.closeIcon} onClick={() => closeTooltip()}>
-                  <CloseIcon />
+                  <Close16 />
                 </div>
               )}
             </div>

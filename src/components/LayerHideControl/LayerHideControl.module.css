@@ -1,11 +1,7 @@
 .hideLogo,
 .unhideLogo {
-  color: var(--back-faint-weak-up);
+  color: var(--faint-strong);
   display: flex;
   align-items: center;
   cursor: pointer;
-}
-.hideLogo svg,
-.unhideLogo svg {
-  opacity: 0.3;
 }
