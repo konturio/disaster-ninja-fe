@@ -19,11 +19,7 @@ import {
   addZoomFilter,
   onActiveContributorsClick,
 } from './activeContributorsLayers';
-import {
-  layersOrderManager,
-  LayersType,
-  layerTypesOrdered,
-} from '~core/logical_layers/utils/layersOrder';
+import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
@@ -41,7 +37,6 @@ import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
  */
 export class GenericRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
-  public highestLayerType?: LayersType;
   private _layerIds: Set<string>;
   private _sourceId: string;
   private _removeClickListener: null | (() => void) = null;
@@ -107,7 +102,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     if (legend && legend.steps.length) {
       const layerStyles = this._generateLayersFromLegend(legend);
       const layers = this._setLayersIds(layerStyles);
-      this.highestLayerType = getHighestType(layers);
       layers.forEach(async (mapLayer) => {
         const layer = map.getLayer(mapLayer.id);
         if (layer) {
@@ -338,11 +332,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
             // Don't allow lower clicks to run - for example ignore active contributors click afterwards
             return false;
           },
-          // lower number would mean higher priority for layer types that drawn higher
-          50 -
-            (this.highestLayerType
-              ? layerTypesOrdered.indexOf(this.highestLayerType)
-              : 0),
+          50,
         );
       }
     }
@@ -459,14 +449,4 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     });
     this._layerIds = new Set();
   }
-}
-
-function getHighestType(layers: maplibregl.AnyLayer[]) {
-  let result: LayersType | undefined;
-  const index = -1;
-  layers.forEach(
-    (layer) =>
-      layerTypesOrdered.indexOf(layer.type) > index && (result = layer.type),
-  );
-  return result;
 }
