@@ -12,7 +12,7 @@ import { AnalyticsDataList } from '~features/analytics_panel/components/Analytic
 import { useAtom } from '@reatom/react';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
-import { AnalyticsPanelIcon } from '@k2-packages/default-icons';
+import { Analytics24 } from '@k2-packages/default-icons';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 
@@ -141,7 +141,7 @@ export function AnalyticsPanel({
       <PanelIcon
         clickHandler={onPanelOpen}
         className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
-        icon={<AnalyticsPanelIcon />}
+        icon={<Analytics24 />}
       />
     </div>
   );

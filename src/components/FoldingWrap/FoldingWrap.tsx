@@ -1,3 +1,4 @@
+import { TriangleDown16 } from '@k2-packages/default-icons';
 import cn from 'clsx';
 import s from './FoldingWrap.module.css';
 
@@ -15,15 +16,7 @@ function CollapseIndicator({
         [s.absolutePosition]: !indent,
       })}
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="10"
-        height="6"
-        fill="none"
-        viewBox="0 0 10 6"
-      >
-        <path fill="currentColor" d="M0 0l5 6 5-6" />
-      </svg>
+      <TriangleDown16 />
     </button>
   );
 }

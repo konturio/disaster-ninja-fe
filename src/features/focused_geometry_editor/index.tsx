@@ -11,14 +11,14 @@ import {
   FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
 } from '~core/draw_tools/constants';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
-import { DrawToolsIcon } from '@k2-packages/default-icons';
+import { Poly24 } from '@k2-packages/default-icons';
 import {
   controlGroup,
   controlVisualGroup,
 } from '~core/shared_state/sideControlsBar';
 import { TranslationService as i18n } from '~core/localization';
 import { downloadObject } from '~utils/fileHelpers/download';
-import DownloadIcon from '~core/draw_tools/icons/DownloadIcon';
+import { Download24 } from '@k2-packages/default-icons';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { forceRun } from '~utils/atoms/forceRun';
 import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
@@ -36,7 +36,7 @@ export function initFocusedGeometry() {
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,
-    icon: <DrawToolsIcon />,
+    icon: <Poly24 />,
     onClick: () => {
       sideControlsBarAtom.toggleActiveState.dispatch(
         FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
@@ -81,7 +81,7 @@ export function initFocusedGeometry() {
     title: i18n.t('Download selected area'),
     active: false,
     visualGroup: controlVisualGroup.noAnalytics,
-    icon: <DownloadIcon />,
+    icon: <Download24 />,
     onClick: () => {
       const data = focusedGeometryAtom.getState();
       if (!data)
