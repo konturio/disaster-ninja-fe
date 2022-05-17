@@ -1,9 +1,9 @@
 import { sideControlsBarAtom } from '~core/shared_state';
 import { REPORTS_CONTROL_ID, REPORTS_CONTROL_NAME } from './constants';
-import { ReportsIcon } from './components/icon/ReportsIcon';
 import { History } from 'history';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { TranslationService as i18n } from '~core/localization';
+import { BookOpen24 } from '@k2-packages/default-icons';
 
 export function initReportsIcon(history: History) {
   sideControlsBarAtom.addControl.dispatch({
@@ -12,7 +12,7 @@ export function initReportsIcon(history: History) {
     title: i18n.t('Reports'),
     active: false,
     visualGroup: controlVisualGroup.noAnalytics,
-    icon: ReportsIcon(),
+    icon: <BookOpen24 />,
     onClick: (becomesActive) => {
       sideControlsBarAtom.enable.dispatch(REPORTS_CONTROL_ID);
       history.push('./reports');

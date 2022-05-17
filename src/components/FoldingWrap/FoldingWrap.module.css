@@ -28,7 +28,7 @@
 .collapseIndicator {
   display: flex;
   align-items: center;
-  justify-content: cetner;
+  justify-content: center;
   padding: 0 var(--half-unit);
   transition: transform ease 0.1s;
   &.close {
@@ -40,5 +40,6 @@
   &.absolutePosition {
     position: absolute;
     height: 100%;
+    padding: 0 !important;
   }
 }
