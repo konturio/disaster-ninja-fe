@@ -7,6 +7,7 @@ import {
   defaultAppLayersAtom,
   defaultLayersParamsAtom,
   currentEventFeedAtom,
+  focusedGeometryAtom,
 } from '~core/shared_state';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { URLStore } from '../URLStore';
@@ -87,6 +88,13 @@ export const urlStoreAtom = createAtom(
           // in this case user implicitly shared map coordinates without an event.
           // Reseting it will avoid event autoselection and map focus on autoselected event
           actions.push(currentEventAtom.setCurrentEventId(null));
+          // set focus geometry to valid empty state to make a request for a global layers
+          actions.push(
+            focusedGeometryAtom.setFocusedGeometry(
+              { type: 'custom' },
+              { type: 'FeatureCollection', features: [] },
+            ),
+          );
         }
         // Apply feed
         if (state.feed) {
