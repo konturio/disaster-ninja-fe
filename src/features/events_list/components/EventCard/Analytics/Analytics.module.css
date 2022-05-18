@@ -1,8 +1,7 @@
 .analytics {
   display: flex;
-  flex-flow: row nowrap;
-  gap: var(--unit);
-  justify-content: space-between;
+  flex-flow: wrap;
+  gap: var(--half-unit) var(--unit);
   align-items: flex-end;
 }
 
