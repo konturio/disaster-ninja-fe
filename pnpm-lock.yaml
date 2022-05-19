@@ -11,11 +11,11 @@ specifiers:
   '@k2-packages/boundaries': ^2.0.0-alpha.24
   '@k2-packages/client': ^2.0.0-alpha.1
   '@k2-packages/deck-gl': ^3.0.0-alpha.1
-  '@k2-packages/default-icons': ^2.0.0-alpha.18
-  '@k2-packages/default-theme': ^2.4.0-alpha.5
+  '@k2-packages/default-icons': ^2.0.0-alpha.20
+  '@k2-packages/default-theme': ^2.4.0-alpha.8
   '@k2-packages/map': ^2.0.0-alpha.2
   '@k2-packages/map-draw-tools': ^3.0.0-alpha.2
-  '@k2-packages/ui-kit': ^3.0.0-alpha.26
+  '@k2-packages/ui-kit': ^3.0.0-alpha.33
   '@nebula.gl/edit-modes': 1.0.2-alpha.0
   '@nebula.gl/layers': 1.0.2-alpha.0
   '@reatom/core': ^2.0.17
@@ -29,6 +29,7 @@ specifiers:
   '@types/react-router-dom': ^5.1.8
   '@types/react-transition-group': ^4.4.3
   '@types/sinon': ^10.0.6
+  '@types/uuid': ^8.3.4
   '@typescript-eslint/eslint-plugin': ^4.4.1
   '@typescript-eslint/parser': ^4.10.0
   '@vitejs/plugin-react-refresh': ^1.3.6
@@ -116,11 +117,11 @@ dependencies:
   '@k2-packages/boundaries': 2.0.0-alpha.24_a472ff28d8f2dcb47eccfa2643336b35
   '@k2-packages/client': 2.0.0-alpha.1
   '@k2-packages/deck-gl': 3.0.0-alpha.1_react@17.0.2
-  '@k2-packages/default-icons': 2.0.0-alpha.18_react@17.0.2
-  '@k2-packages/default-theme': 2.4.0-alpha.5
+  '@k2-packages/default-icons': 2.0.0-alpha.20_react@17.0.2
+  '@k2-packages/default-theme': 2.4.0-alpha.9
   '@k2-packages/map': 2.0.0-alpha.2_8e8bc899e6ff6e793f7fd8eac52b2e5d
   '@k2-packages/map-draw-tools': 3.0.0-alpha.2_2d190d942bb83446b3b4d2da3fe998f6
-  '@k2-packages/ui-kit': 3.0.0-alpha.26_a472ff28d8f2dcb47eccfa2643336b35
+  '@k2-packages/ui-kit': 3.0.0-alpha.33_a472ff28d8f2dcb47eccfa2643336b35
   '@nebula.gl/edit-modes': 1.0.2-alpha.0
   '@nebula.gl/layers': 1.0.2-alpha.0_@deck.gl+extensions@8.6.5
   '@reatom/core': 2.0.17
@@ -212,6 +213,9 @@ dependencies:
   vite: 2.7.10
   vite-plugin-html: 2.1.2_vite@2.7.10
   yenv: 2.1.1
+
+devDependencies:
+  '@types/uuid': 8.3.4
 
 packages:
 
@@ -635,7 +639,7 @@ packages:
       redux-saga: ^1.1.3
     dependencies:
       '@k2-packages/client': 2.0.0-alpha.1
-      '@k2-packages/ui-kit': 3.0.0-alpha.26_a472ff28d8f2dcb47eccfa2643336b35
+      '@k2-packages/ui-kit': 3.0.0-alpha.33_a472ff28d8f2dcb47eccfa2643336b35
       redux-act: 1.8.0
     transitivePeerDependencies:
       - clsx
@@ -658,16 +662,16 @@ packages:
       react: 17.0.2
     dev: false
 
-  /@k2-packages/default-icons/2.0.0-alpha.18_react@17.0.2:
-    resolution: {integrity: sha512-wHXgaTgwuYgkUJj08kA/BCH4i12JU7M1uGjBCc3aPFqWKcHHYs+4cUoWSOzFVpPUAEg2rmu6FOLngX38yc2bPg==}
+  /@k2-packages/default-icons/2.0.0-alpha.20_react@17.0.2:
+    resolution: {integrity: sha512-gzR92At+yfmpu7PDVeyGOHPIRAe4sEttbd+tTH0S+Nq+R+V0wfB+teugzEzX6BeoCyK8FPhf5AbAZaTnOdXOQQ==}
     peerDependencies:
       react: ^17.0.2
     dependencies:
       react: 17.0.2
     dev: false
 
-  /@k2-packages/default-theme/2.4.0-alpha.5:
-    resolution: {integrity: sha512-GA0s+HTH2uvBoSaHGK05iFjkxcjX6BFPBNSHK2Hc0FqYn+t8p3adjIER9g6+ggd1+Ged9rfL6fDFSKSdIJ0Kvw==}
+  /@k2-packages/default-theme/2.4.0-alpha.9:
+    resolution: {integrity: sha512-msana4D42F2i3UgsKFpEOhTQdyI2ByMgBRjDDfTWQQk93FA/KYxJUtFs3Nkhyf9FJ2LCCs/gUc57wlapl1alzw==}
     dev: false
 
   /@k2-packages/map-draw-tools/3.0.0-alpha.2_2d190d942bb83446b3b4d2da3fe998f6:
@@ -716,8 +720,8 @@ packages:
       react: 17.0.2
     dev: false
 
-  /@k2-packages/ui-kit/3.0.0-alpha.26_a472ff28d8f2dcb47eccfa2643336b35:
-    resolution: {integrity: sha512-wpclnOFSRsrd2n99bqi64lldANMzr3n1SIhGnORKAe1ELj5Nyz6+yEePM1/OaXetl/vlG2T465zTjUUgJb0tGg==}
+  /@k2-packages/ui-kit/3.0.0-alpha.33_a472ff28d8f2dcb47eccfa2643336b35:
+    resolution: {integrity: sha512-VHT61o+incAvdGzpdjoPMVPrNPrpJm7Q4wK04DRQu2q2ORPcmAevzBRFEck/gJCmYySjyhliXl0bIW4nbEZ6vg==}
     peerDependencies:
       clsx: ^1.1.1
       react: ^17.0.2
@@ -1748,6 +1752,10 @@ packages:
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: false
+
+  /@types/uuid/8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
+    dev: true
 
   /@typescript-eslint/eslint-plugin/4.33.0_d212f40a84a592446cd1718bfda08a13:
     resolution: {integrity: sha512-aINiAxGVdOl1eJyVjaWn/YcVAq4Gi/Yo35qHGCnqbWVz61g39D0h23veY/MA0rFFGfxK7TySg2uwDeNv+JgVpg==}
