@@ -1,8 +1,7 @@
-import { AxisControl } from '@k2-packages/ui-kit';
+import { BivariateMatrixControlComponent } from '@k2-packages/ui-kit';
 import React, { forwardRef, useCallback, useMemo } from 'react';
-import { Axis, Indicator } from '@k2-packages/bivariate-tools';
+import { Indicator, CorrelationRate } from '@k2-packages/bivariate-tools';
 import { AxisGroup } from '~core/types';
-import { CorrelationRate } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
 import { useAtom } from '@reatom/react';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
@@ -54,11 +53,15 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
     const [matrixSelection, { setMatrixSelection }] = useAtom(
       bivariateMatrixSelectionAtom,
     );
+
     const [matrix] = useAtom(bivariateCorrelationMatrixAtom);
+
     const [{ xGroups, yGroups }, { setNumerators }] = useAtom(
       bivariateNumeratorsAtom,
     );
+
     const [{ data: statisticsData }] = useAtom(bivariateStatisticsResourceAtom);
+
     const stats = statisticsData?.polygonStatistic.bivariateStatistic;
 
     const selectedCell = useMemo(() => {
@@ -104,7 +107,7 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
     }, [stats, xGroups, yGroups]);
 
     const onSelectCellHandler = useCallback(
-      (e, { x, y }) => {
+      (x, y) => {
         if (
           !xGroups ||
           !yGroups ||
@@ -157,7 +160,7 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
     );
 
     return matrix && headings ? (
-      <AxisControl
+      <BivariateMatrixControlComponent
         ref={ref}
         matrix={matrix}
         xHeadings={headings.x}

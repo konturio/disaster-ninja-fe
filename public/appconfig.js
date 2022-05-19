@@ -1,7 +1,7 @@
 window.konturAppConfig = {
   API_GATEWAY: '/active/api',
   FEATURES_API: 'https://test-apps02.konturlabs.com/userprofile/features',
-  GRAPHQL_API: 'https://test-apps02.konturlabs.com/insights-api/graphql',
+  GRAPHQL_API: 'https://apps.kontur.io/insights-api/graphql',
   BOUNDARIES_API: 'https://test-api02.konturlabs.com',
   REPORTS_API: 'https://test-apps-ninja02.konturlabs.com/active/reports',
   TILES_API: 'https://zigzag.kontur.io/tiles/stats/',
