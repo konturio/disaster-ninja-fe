@@ -33,6 +33,11 @@
   width: 75vw;
   padding: 0 var(--double-unit) var(--double-unit) var(--double-unit);
   overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
 }
 
 .panelBody :first-child {
