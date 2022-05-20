@@ -2,8 +2,6 @@ import { AtomOptions, createAtom as createAtomOriginal } from '@reatom/core';
 import {
   createBooleanAtom as createBooleanAtomOriginal,
   createPrimitiveAtom as createPrimitiveAtomOriginal,
-  createSetAtom as createSetAtomOriginal,
-  createMapAtom as createMapAtomOriginal,
   PrimitiveAtom,
 } from '@reatom/core/primitives';
 import { store } from '~core/store/store';
@@ -38,12 +36,47 @@ export function createSetAtom<Element>(
   initState = new Set<Element>(),
   options: AtomOptions<Set<Element>> = `set${++count}`,
 ) {
-  return createSetAtomOriginal(initState, addStoreInOptions(options));
+  type State = Set<Element>;
+  return createPrimitiveAtomOriginal(
+    initState,
+    {
+      set: (state, el: Element): State => {
+        if (state.has(el)) return state;
+        return new Set(state).add(el);
+      },
+      delete: (state, el: Element): State => {
+        const newState = (state = new Set(state));
+        if (!newState.delete(el)) return state;
+        return newState;
+      },
+      clear: (): State => new Set(),
+      change: (state, cb: (stateCopy: State) => State): State =>
+        cb(new Set(state)),
+    },
+    addStoreInOptions(options),
+  );
 }
 
 export function createMapAtom<Key, Element>(
   initState = new Map<Key, Element>(),
   options: AtomOptions<Map<Key, Element>> = `map${++count}`,
 ) {
-  return createMapAtomOriginal(initState, addStoreInOptions(options));
+  type State = Map<Key, Element>;
+  return createPrimitiveAtomOriginal(
+    initState,
+    {
+      set: (state, key: Key, el: Element) => {
+        if (state.get(key) === el) return state;
+        return new Map(state).set(key, el);
+      },
+      delete: (state, key: Key) => {
+        const newState = (state = new Map(state));
+        if (!newState.delete(key)) return state;
+        return newState;
+      },
+      clear: () => new Map(),
+      change: (state, cb: (stateCopy: State) => State) => cb(new Map(state)),
+    },
+    addStoreInOptions(options),
+  );
 }
