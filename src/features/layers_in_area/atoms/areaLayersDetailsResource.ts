@@ -60,7 +60,7 @@ export const areaLayersDetailsParamsAtom = createAtom(
       return null;
     }
 
-    const requestParams: DetailsRequestParams = {
+    const newState: DetailsRequestParams = {
       layersToRetrieveWithGeometryFilter,
       layersToRetrieveWithoutGeometryFilter,
     };
@@ -74,7 +74,7 @@ export const areaLayersDetailsParamsAtom = createAtom(
     const focusedGeometry = getUnlistedState(focusedGeometryAtom);
     if (hasEventIdRequiredForRetrieval) {
       if (focusedGeometry?.source?.type === 'event') {
-        requestParams.eventId = focusedGeometry.source.meta.eventId;
+        newState.eventId = focusedGeometry.source.meta.eventId;
       } else {
         throw Error(
           'Current geometry not from event, event related layer was selected',
@@ -82,18 +82,38 @@ export const areaLayersDetailsParamsAtom = createAtom(
       }
     }
 
+    /**
+     * After we select area layers from changed `enabledLayers` set
+     * we can check - do we have a difference from the last request?
+     * If not - just return previous result!
+     */
+    if (
+      state &&
+      newState.eventId === state.eventId &&
+      arraysAreEqual(
+        newState.layersToRetrieveWithGeometryFilter,
+        state.layersToRetrieveWithGeometryFilter,
+      ) &&
+      arraysAreEqual(
+        newState.layersToRetrieveWithoutGeometryFilter,
+        state.layersToRetrieveWithoutGeometryFilter,
+      )
+    ) {
+      return state;
+    }
+
     if (focusedGeometry) {
-      requestParams.geoJSON = focusedGeometry.geometry;
+      newState.geoJSON = focusedGeometry.geometry;
     }
 
     if (hasEventIdRequiredForRetrieval) {
       const eventFeed = getUnlistedState(currentEventFeedAtom);
       if (eventFeed) {
-        requestParams.eventFeed = eventFeed.id;
+        newState.eventFeed = eventFeed.id;
       }
     }
 
-    return requestParams;
+    return newState;
   },
 );
 
@@ -107,3 +127,10 @@ export const areaLayersDetailsResourceAtom =
       true,
     );
   }, areaLayersDetailsParamsAtom);
+
+function arraysAreEqual(arr1: any[], arr2: any[]) {
+  return (
+    arr1.length === arr2.length &&
+    arr1.every((value, index) => value === arr2[index])
+  );
+}
