@@ -141,8 +141,20 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
     }`,
     });
 
-    if (!responseData || !responseData.data) {
+    if (!responseData) {
       throw new Error('No data received');
+    } else if (!responseData.data) {
+      if (responseData.hasOwnProperty('errors') && Array.isArray(responseData['errors'])) {
+        const msg = responseData['errors'].reduce((acc, errorObj) => {
+          if (errorObj.hasOwnProperty('message')) {
+            acc.push(errorObj['message']);
+          }
+          return acc;
+        }, []).join('<br/>');
+        throw new Error(msg || 'No data received');
+      } else {
+        throw new Error('No data received');
+      }
     }
 
     if (!geomNotEmpty && !allMapStats) {
