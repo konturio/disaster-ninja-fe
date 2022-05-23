@@ -1,9 +1,10 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { currentMapAtom } from '~core/shared_state';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
+import { registerMapListener } from '~core/shared_state/mapListeners';
 
 interface ScheduleContext {
-  onMapClickListener?: (e: maplibregl.MapLayerEventType['click']) => void;
+  removeClickListener?: () => void;
 }
 
 let isAtomEnabled = false;
@@ -20,22 +21,34 @@ export const clickCoordinatesAtom = createAtom(
   ) => {
     const enableListeners = (map: maplibregl.Map) =>
       schedule((dispatch, ctx: ScheduleContext = {}) => {
-        ctx.onMapClickListener ??= ({ lngLat }) =>
-          dispatch(
-            create('_set', {
-              lng: lngLat.lng,
-              lat: lngLat.lat,
-            }),
-          );
+        ctx.removeClickListener ??= registerMapListener(
+          'click',
+          (e) => {
+            console.log(
+              '%c⧭ registerMapListener',
+              'color: #8c0038',
+              e,
+              e.lngLat.lng,
+              e.lngLat.lat,
+            );
+            dispatch(
+              create('_set', {
+                lng: e.lngLat.lng,
+                lat: e.lngLat.lat,
+              }),
+            );
+            return false;
+          },
+          10,
+        );
         setMapInteractivity(map, false);
-        map.on('click', ctx.onMapClickListener);
       });
 
     const disableListeners = (map: maplibregl.Map) =>
       schedule((dispatch, ctx: ScheduleContext = {}) => {
         setMapInteractivity(map, true);
-        ctx.onMapClickListener && map.off('click', ctx.onMapClickListener);
-        delete ctx.onMapClickListener;
+        ctx.removeClickListener?.();
+        delete ctx.removeClickListener;
       });
 
     onAction('_set', (coords) => {
