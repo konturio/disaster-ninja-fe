@@ -1,10 +1,13 @@
 import { useCallback, useState } from 'react';
-import s from './BivariateMatrixContainer.module.css';
-import ConnectedBivariateMatrix from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
+import ConnectedBivariateMatrix
+  from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
 import clsx from 'clsx';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { useAtom } from '@reatom/react';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
+import { createStateMap } from '~utils/atoms';
+import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
+import s from './BivariateMatrixContainer.module.css';
 
 interface BivariateMatrixContainerProps {
   className?: string;
@@ -17,7 +20,7 @@ const BivariateMatrixContainer = ({
     null,
   );
 
-  const [{ loading }] = useAtom(bivariateStatisticsResourceAtom);
+  const statesToComponents = createStateMap(useAtom(bivariateStatisticsResourceAtom)[0]);
 
   const onRefChange = useCallback(
     (ref: HTMLDivElement | null) => {
@@ -53,14 +56,14 @@ const BivariateMatrixContainer = ({
       }
     >
       <div>
-        {loading && (
-          <div className={s.loadingContainer}>
-            <LoadingSpinner />
-          </div>
-        )}
-        <div className={s.matrixContainer}>
-          <ConnectedBivariateMatrix ref={onRefChange} />
-        </div>
+        {statesToComponents({
+          loading: <div className={s.loadingContainer}><LoadingSpinner /></div>,
+          error: () => (
+            <div className={s.errorContainer}>
+              <ErrorMessage message='Unfortunately, we cannot display the matrix. Try refreshing the page or come back later.' />
+            </div>),
+          ready: () => <div className={s.matrixContainer}><ConnectedBivariateMatrix ref={onRefChange} /></div>,
+        })}
         <div className={s.topRightCorner} />
         <div className={s.bottomRightCorner} />
       </div>

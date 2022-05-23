@@ -276,7 +276,6 @@ export class ApiClient {
     if (errorResponse && 'data' in errorResponse) {
       const { data: errorData } = errorResponse;
       if (errorData !== null) {
-        // Array
         if (Array.isArray(errorData)) {
           return errorData
             .map((errorMsg) =>
@@ -286,10 +285,16 @@ export class ApiClient {
             )
             .join('<br/>');
         }
-        // Object
         if (errorData instanceof Object) {
-          const errorDataRecord: { error?: string } = errorData;
-          if (errorDataRecord.error) return errorDataRecord.error;
+          if (errorData.hasOwnProperty('error')) return errorData['error'];
+          if (errorData.hasOwnProperty('errors') && Array.isArray(errorData['errors'])) {
+            return errorData['errors'].reduce((acc, errorObj) => {
+              if (errorObj.hasOwnProperty('message')) {
+                acc.push(errorObj['message']);
+              }
+              return acc;
+            }, []).join('<br/>');
+          }
         }
 
         return String(errorData);
