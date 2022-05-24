@@ -2,7 +2,7 @@ import {
   CornerRange,
   generateBivariateStyleForAxis,
   Stat,
-} from '@k2-packages/bivariate-tools';
+} from '~utils/bivariate';
 import interpolate from 'color-interpolate';
 import config from '~core/app_config';
 import {
@@ -10,7 +10,7 @@ import {
   BivariateLegendBackend,
 } from '~core/logical_layers/types/legends';
 import { ColorTheme } from '~core/types';
-import { ColorCombination } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
+import type { ColorCombination } from '~utils/bivariate/types/stat.types';
 
 type BivariateLayerSource = {
   type: 'vector';

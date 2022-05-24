@@ -1,6 +1,6 @@
 import { BivariateMatrixControlComponent } from '@k2-packages/ui-kit';
 import React, { forwardRef, useCallback, useMemo } from 'react';
-import { Indicator, CorrelationRate } from '@k2-packages/bivariate-tools';
+import { Indicator, CorrelationRate } from '~utils/bivariate';
 import { AxisGroup } from '~core/types';
 import { useAtom } from '@reatom/react';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
@@ -37,7 +37,8 @@ const mapHeaderCell = (
   ),
   quotients: group.quotients.map((quotient) => ({
     id: quotient,
-    label: indicators.find((indicator) => indicator.name === quotient[0])?.label,
+    label: indicators.find((indicator) => indicator.name === quotient[0])
+      ?.label,
     quality: qualityFormat(
       correlationRates.find(
         (cr) =>
@@ -91,14 +92,8 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
         return null;
       }
 
-      const mapWithIndicators =
-        (axis: 'x' | 'y') => (group: AxisGroup) =>
-          mapHeaderCell(
-            group,
-            stats?.indicators,
-            stats?.correlationRates,
-            axis,
-          );
+      const mapWithIndicators = (axis: 'x' | 'y') => (group: AxisGroup) =>
+        mapHeaderCell(group, stats?.indicators, stats?.correlationRates, axis);
 
       return {
         x: xGroups.map(mapWithIndicators('x')),
@@ -129,12 +124,19 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
         const props = horizontal ? yGroups : xGroups;
         if (xGroups && yGroups && props) {
           const newProps = [...props];
-          const newSelectedQuotient = props[index].quotients.find((q) => JSON.stringify(q) === JSON.stringify([numId, denId]));
+          const newSelectedQuotient = props[index].quotients.find(
+            (q) => JSON.stringify(q) === JSON.stringify([numId, denId]),
+          );
           if (newSelectedQuotient) {
-            newProps[index] = { ...props[index], selectedQuotient: newSelectedQuotient };
+            newProps[index] = {
+              ...props[index],
+              selectedQuotient: newSelectedQuotient,
+            };
           }
 
-          const nextNumerators = horizontal ? { x: xGroups, y: newProps } : { x: newProps, y: yGroups };
+          const nextNumerators = horizontal
+            ? { x: xGroups, y: newProps }
+            : { x: newProps, y: yGroups };
 
           setNumerators(nextNumerators.x, nextNumerators.y);
 
