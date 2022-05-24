@@ -24,13 +24,6 @@ export const clickCoordinatesAtom = createAtom(
         ctx.removeClickListener ??= registerMapListener(
           'click',
           (e) => {
-            console.log(
-              '%c⧭ registerMapListener',
-              'color: #8c0038',
-              e,
-              e.lngLat.lng,
-              e.lngLat.lat,
-            );
             dispatch(
               create('_set', {
                 lng: e.lngLat.lng,
