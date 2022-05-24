@@ -70,7 +70,6 @@
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@k2-packages/bivariate-tools": "^2.0.0-alpha.7",
     "@k2-packages/boundaries": "^2.0.0-alpha.24",
-    "@k2-packages/client": "^2.0.0-alpha.1",
     "@k2-packages/deck-gl": "^3.0.0-alpha.1",
     "@k2-packages/default-icons": "^2.0.0-alpha.20",
     "@k2-packages/default-theme": "^2.4.0-alpha.8",
