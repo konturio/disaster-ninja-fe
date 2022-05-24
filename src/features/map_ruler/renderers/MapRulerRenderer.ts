@@ -1,5 +1,5 @@
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
-import { CustomMeasureDistanceMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomMeasureDistanceMode';
+import { CustomMeasureDistanceMode } from '~core/draw_tools/map-daw-tools/customDrawModes/CustomMeasureDistanceMode';
 import { translationService } from '~core/index';
 import { MapboxLayer } from '@deck.gl/mapbox';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
@@ -10,19 +10,21 @@ import {
   NotNullableMap,
 } from '~core/logical_layers/types/renderer';
 
-// add cyrillic alphabet to character set
+/* Add cyrillic alphabet to character set */
 function getCyrillicCharacterSet() {
+  // Latin + symbols
   const charSet: string[] = [];
   for (let i = 32; i <= 175; i++) {
     charSet.push(String.fromCharCode(i));
   }
-  const cyrLettersBig =
-    'А,Б,В,Г,Д,Е,Ё,Ж,З,И,Й,К,Л,М,Н,О,П,Р,С,Т,У,Ф,Х,Ц,Ч,Ш,Щ,Ъ,Ы,Ь,Э,Ю,Я';
-  const cyrLettersSmall = cyrLettersBig.toLowerCase();
 
-  return charSet
-    .concat(cyrLettersBig.split(','))
-    .concat(cyrLettersSmall.split(','));
+  // `a`.charCodeAt() == 1040
+  // `я`.charCodeAt() == 1103
+  for (let i = 1040; i <= 1103; i++) {
+    charSet.push(String.fromCharCode(i));
+  }
+
+  return charSet;
 }
 
 export class MapRulerRenderer extends LogicalLayerDefaultRenderer {

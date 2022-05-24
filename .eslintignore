@@ -10,3 +10,4 @@ jest.setup.js
 appconfig.js
 deploy/*
 __test__
+fixture
