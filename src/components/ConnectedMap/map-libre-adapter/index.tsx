@@ -247,7 +247,6 @@ function MapboxMap(
         if (existingSource !== undefined) {
           if (isGeoJsonSource(existingSource)) {
             if (isGeoJsonSourceOptions(newSource)) {
-              // eslint-disable-next-line prettier/prettier
               newSource.data
                 ? existingSource.setData(newSource.data)
                 : existingSource.setData(EMPTY_FEATURE_COLLECTION); // reset data if new source with same id but without data
@@ -298,14 +297,12 @@ function MapboxMap(
     if (!mapLoaded) return;
     if (!popup) return;
 
-    /* eslint-disable prettier/prettier */
     const renderString =
       typeof popup.layout === 'string'
         ? popup.layout
         : typeof popup.layout === 'number'
         ? String(popup.layout)
         : ReactDOMServer.renderToStaticMarkup(popup.layout);
-    /* eslint-enable prettier/prettier */
 
     const popupInstance = new mapLibre.Popup(popup.options)
       .setLngLat(popup.coordinates)
