@@ -402,11 +402,11 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       );
     }
 
-    this._addClickListeners(map, legend);
+    this._addClickListener(map, legend);
     if (!isVisible) this.willHide({ map });
   }
 
-  private _addClickListeners(map: maplibregl.Map, legend: LayerLegend | null) {
+  private _addClickListener(map: maplibregl.Map, legend: LayerLegend | null) {
     if (this._removeClickListener) return;
     // !FIXME - Hardcoded filter for layer
     // Must be deleted after LayersDB implemented
