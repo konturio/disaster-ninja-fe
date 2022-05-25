@@ -40,7 +40,7 @@
   },
   "lint-staged": {
     "*/**/*.{ts, tsx}": [
-      "eslint --quiet --fix"
+      "eslint --quiet --fix --cache"
     ],
     "*/**/*.css": [
       "stylelint"
@@ -68,7 +68,6 @@
     "@deck.gl/mapbox": "^8.6.4",
     "@deck.gl/mesh-layers": "^8.5.4",
     "@fortawesome/fontawesome-free": "^5.15.2",
-    "@k2-packages/bivariate-tools": "^2.0.0-alpha.7",
     "@k2-packages/default-icons": "^2.0.0-alpha.20",
     "@k2-packages/default-theme": "^2.4.0-alpha.8",
     "@k2-packages/ui-kit": "^3.0.0-alpha.33",

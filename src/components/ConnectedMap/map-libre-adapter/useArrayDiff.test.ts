@@ -1,4 +1,10 @@
-export {};
+import { setupTestContext } from '../../../utils/testsUtils/setupTest';
+
+const test = setupTestContext(() => ({}));
+test('useArrayDiff tests', (t) => {
+  t.log('TODO: Port me! ');
+  t.pass();
+});
 // import { renderHook } from '@testing-library/react-hooks';
 // import { useArrayDiff } from './useArrayDiff';
 
