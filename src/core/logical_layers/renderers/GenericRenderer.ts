@@ -148,7 +148,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     state: LogicalLayerState;
   }) {
     this._mountLayers(map, state.legend, state.isVisible);
-    this._addClickListeners(map, state.legend);
   }
 
   willSourceUpdate({
@@ -178,7 +177,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       );
       this._mountLayers(map, state.legend, state.isVisible);
     }
-    this._addClickListeners(map, state.legend);
   }
 
   willUnMount({ map }: { map: ApplicationMap }) {
@@ -404,6 +402,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       );
     }
 
+    this._addClickListeners(map, legend);
     if (!isVisible) this.willHide({ map });
   }
 
