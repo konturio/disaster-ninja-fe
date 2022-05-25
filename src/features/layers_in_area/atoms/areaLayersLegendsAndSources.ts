@@ -76,6 +76,18 @@ export const areaLayersLegendsAndSources = createAtom(
         layersLegendsAtom.change((state) => {
           const newState = new Map(state);
           layersDetailsData.forEach((layerDetails) => {
+            const existedLegend = state.get(layerDetails.id);
+            if (existedLegend?.data) {
+              // Let's not overrite legend object so we don't cause extra update that can break UX (example - task #10316)
+              // Otherwise following chain of events happens:
+              // - new state that has 99.99% similar legend data triggers legend update in logical layer fabric in createLogicalLayerAtom
+              // -> GenericRenderer.willLegendUpdate() will run, mounting the same layer again
+              return newState.set(layerDetails.id, {
+                error: null,
+                isLoading: false,
+                data: existedLegend.data,
+              });
+            }
             const layerLegend = convertDetailsToLegends(layerDetails);
             newState.set(layerDetails.id, {
               error: null,
