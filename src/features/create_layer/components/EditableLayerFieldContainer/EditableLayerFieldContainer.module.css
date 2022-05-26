@@ -50,12 +50,19 @@
     }
 
     & .input {
-      height: 38px;
-      border-radius: var(--half-unit);
-      border: 1px solid var(--faint-strong-down);
-      box-shadow: none;
+      height: 40px;
       padding: var(--unit);
       width: 100%;
+      border-radius: var(--border-radius);
+      box-shadow: 0 0 0 1px var(--faint-strong-down);
+      border: none;
+      color: var(--base-strong);
+      background-color: var(--base-weak);
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--accent-strong-down);
+      }
     }
   }
 }
