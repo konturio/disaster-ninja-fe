@@ -130,11 +130,7 @@ export function EditableLayerFieldContainer({
       </div>
       <div className={s.fieldPlaceholder}>
         <div className={s.fieldLabel}>{i18n.t('Field name')}</div>
-        <Input
-          className={s.input}
-          onChange={updateAtomName}
-          value={atomState.name}
-        />
+        <Input onChange={updateAtomName} value={atomState.name} />
       </div>
       <div className={s.fieldPlaceholder}>
         <div className={s.fieldLabel}>{i18n.t('Type')}</div>
