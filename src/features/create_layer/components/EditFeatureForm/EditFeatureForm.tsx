@@ -36,31 +36,28 @@ export function EditFeatureForm({
 
   return (
     <div className={s.formContainer}>
-      <div className={s.formParam}>
-        <Label>{i18n.t('Location')}</Label>
-        <Input
-          disabled={true}
-          className={s.formInput}
-          value={
-            geometry
-              ? `${geometry.coordinates[0]}, ${geometry.coordinates[1]}`
-              : ''
-          }
-        />
-      </div>
+      <Input
+        disabled={true}
+        className={s.formParam}
+        renderLabel={<Label>{i18n.t('Location')}</Label>}
+        value={
+          geometry
+            ? `${geometry.coordinates[0]}, ${geometry.coordinates[1]}`
+            : ''
+        }
+      />
       {Object.entries(fieldsSettings.featureProperties).map(([key, type]) => {
         function onPropertyChange(ev: ChangeEvent<HTMLInputElement>) {
           changeProperty(key, ev.target.value);
         }
         return (
-          <div key={key} className={s.formParam}>
-            <Label>{key}</Label>
-            <Input
-              onChange={onPropertyChange}
-              className={s.formInput}
-              value={featureProperties[key] ?? ''}
-            />
-          </div>
+          <Input
+            key={key}
+            onChange={onPropertyChange}
+            value={featureProperties[key] ?? ''}
+            renderLabel={<Label>{key}</Label>}
+            className={s.formParam}
+          />
         );
       })}
       <ButtonPanel onSave={onSave} />

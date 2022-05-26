@@ -66,28 +66,8 @@
   gap: 20px;
 }
 
-.inputBox {
-  box-shadow: none !important;
-}
-
-.input {
-  background-color: var(--base-weak);
-  height: 44px;
-  font-size: 16px !important;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
-  border-radius: 4px;
-  padding: 11px 12px !important;
-  border: 1px solid #afb4ba !important;
-}
-
-.input:-webkit-autofill {
+.authInput:-webkit-autofill {
   -webkit-background-clip: text;
-}
-
-.topPlaceholder {
-  font-size: 12px;
 }
 
 .link {
@@ -123,18 +103,6 @@
   line-height: 22px;
   display: flex;
   justify-content: center;
-}
-
-.inputError {
-  border: 2px solid var(--error-strong) !important;
-}
-
-.topPlaceholderError {
-  color: var(--error-strong);
-}
-
-.errorMessage {
-  color: var(--error-strong);
 }
 
 .loadingContainer {
