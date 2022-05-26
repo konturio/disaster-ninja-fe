@@ -21,13 +21,8 @@
     }
   }
 
-  & .formInput {
+  & .formInputContainer {
     width: 100%;
-    height: 36px;
-    padding: var(--unit);
-    border: 1px solid var(--primary-border-disabled);
-    box-shadow: none;
-    border-radius: var(--half-unit);
   }
 
   & .buttonsContainer {
