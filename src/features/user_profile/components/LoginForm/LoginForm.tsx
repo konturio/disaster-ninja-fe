@@ -8,6 +8,8 @@ import { testEmail } from '~utils/forms/formsUtils';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { userStateAtom } from '~core/auth/atoms/userState';
 
+const authInputClasses = { input: clsx(s.authInput) };
+
 export function LoginForm() {
   const [userState] = useAtom(userStateAtom);
 
@@ -115,31 +117,17 @@ export function LoginForm() {
         <div className={s.inputsContainer}>
           <Input
             error={error.email}
+            classes={authInputClasses}
             showTopPlaceholder
-            className={s.inputBox}
-            classes={{
-              input: clsx(s.input, error.email && s.inputError),
-              topPlaceholder: clsx(
-                s.topPlaceholder,
-                error.email && s.topPlaceholderError,
-              ),
-              error: s.errorMessage,
-            }}
+            value={formData.email}
             onChange={onEmailInputChange}
             placeholder={i18n.t('Email')}
           />
           <Input
             error={error.password}
+            classes={authInputClasses}
             showTopPlaceholder
-            className={s.inputBox}
-            classes={{
-              input: clsx(s.input, error.password && s.inputError),
-              topPlaceholder: clsx(
-                s.topPlaceholder,
-                error.password && s.topPlaceholderError,
-              ),
-              error: s.errorMessage,
-            }}
+            value={formData.password}
             onChange={onPasswordInputChange}
             placeholder={i18n.t('Password')}
             type="password"

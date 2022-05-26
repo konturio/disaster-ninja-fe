@@ -31,17 +31,17 @@ export function EditLayerForm({
 
   return (
     <div className={s.formContainer}>
-      <div className={s.formParam}>
-        <LabelWithTooltip
-          text={i18n.t('Layer name')}
-          description={i18n.t('Layer name')}
-        />
-        <Input
-          onChange={onNameChange}
-          value={formState.name}
-          className={s.formInput}
-        />
-      </div>
+      <Input
+        onChange={onNameChange}
+        value={formState.name}
+        className={s.formInputContainer}
+        renderLabel={
+          <LabelWithTooltip
+            text={i18n.t('Layer name')}
+            description={i18n.t('Layer name')}
+          />
+        }
+      />
       <div className={s.formParam}>
         <LabelWithTooltip
           text={i18n.t('Marker icon')}
