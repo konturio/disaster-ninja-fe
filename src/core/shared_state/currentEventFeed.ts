@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { userResourceAtom } from '~core/auth';
+import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
 
 type CurrentEventFeedAtomState = {
