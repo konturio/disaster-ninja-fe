@@ -37,7 +37,8 @@ const mapHeaderCell = (
   ),
   quotients: group.quotients.map((quotient) => ({
     id: quotient,
-    label: indicators.find((indicator) => indicator.name === quotient[0])?.label,
+    label: indicators.find((indicator) => indicator.name === quotient[0])
+      ?.label,
     quality: qualityFormat(
       correlationRates.find(
         (cr) =>
@@ -91,14 +92,8 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
         return null;
       }
 
-      const mapWithIndicators =
-        (axis: 'x' | 'y') => (group: AxisGroup) =>
-          mapHeaderCell(
-            group,
-            stats?.indicators,
-            stats?.correlationRates,
-            axis,
-          );
+      const mapWithIndicators = (axis: 'x' | 'y') => (group: AxisGroup) =>
+        mapHeaderCell(group, stats?.indicators, stats?.correlationRates, axis);
 
       return {
         x: xGroups.map(mapWithIndicators('x')),
@@ -129,7 +124,9 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
         const groups = horizontal ? yGroups : xGroups;
         if (xGroups && yGroups) {
           const newGroups = [...groups];
-          const selectedQuotient = groups[index].quotients.find((q: [string, string]) => q[0] === numId && q[1] === denId);
+          const selectedQuotient = groups[index].quotients.find(
+            (q: [string, string]) => q[0] === numId && q[1] === denId,
+          );
           if (selectedQuotient) {
             newGroups[index] = { ...groups[index], selectedQuotient };
           }
