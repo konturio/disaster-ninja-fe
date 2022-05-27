@@ -11,6 +11,7 @@ import { Tab } from '@k2-packages/ui-kit/tslib/Tabs';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
 import { useAtom } from '@reatom/react';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
+import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsEmptyState/AdvancedAnalyticsEmptyState';
 import { Bi24 as BivariatePanelIcon } from '@k2-packages/default-icons';
 import { focusedGeometryAtom } from '~core/shared_state';
 
@@ -104,6 +105,9 @@ export function AdvancedAnalyticsPanel({
             loading: <LoadingSpinner />,
             error: (errorMessage) => <ErrorMessage message={errorMessage} />,
             ready: (dataList) => {
+              if (advancedAnalyticsDataList?.length == 0) {
+                return <AdvancedAnalyticsEmptyState />;
+              }
               return (
                 <Tabs onTabChange={setTab} current={currentTab}>
                   <Tab name="Advanced Analytics" id="data">
