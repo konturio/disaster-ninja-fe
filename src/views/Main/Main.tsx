@@ -4,7 +4,6 @@ import config from '~core/app_config';
 import { Row } from '~components/Layout/Layout';
 import s from './Main.module.css';
 import { useHistory } from 'react-router';
-import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
@@ -134,11 +133,7 @@ export function MainView() {
                 <UserProfile />
               ) : undefined
             }
-          >
-            <Row>
-              <BetaLabel />
-            </Row>
-          </AppHeader>
+          ></AppHeader>
         )}
       </Suspense>
       <Row>

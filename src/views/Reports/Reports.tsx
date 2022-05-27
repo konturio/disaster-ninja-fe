@@ -3,7 +3,6 @@ import { Text } from '@k2-packages/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
 import { ReportsList } from '~features/reports/components/ReportsList/ReportsList';
 import { Row } from '~components/Layout/Layout';
-import { BetaLabel } from '~components/BetaLabel/BetaLabel';
 import s from './Reports.module.css';
 import { useHistory } from 'react-router';
 import config from '~core/app_config';
@@ -53,13 +52,10 @@ export function Reports() {
       <Suspense fallback={null}>
         {userModel?.hasFeature(AppFeature.HEADER) && (
           <div className={s.headerContainer}>
-            <AppHeader title={linkableTitle(history)} logo={VisibleLogo()}>
-              <Row>
-                <div className={s.betaTag}>
-                  <BetaLabel />
-                </div>
-              </Row>
-            </AppHeader>
+            <AppHeader
+              title={linkableTitle(history)}
+              logo={VisibleLogo()}
+            ></AppHeader>
           </div>
         )}
       </Suspense>
