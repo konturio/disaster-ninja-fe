@@ -271,6 +271,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     map: ApplicationMap,
     layerData: LayerSource,
     legend: LayerLegend | null,
+    isVisible: boolean,
   ) {
     if (layerData == null) return;
     if (this.isGeoJSONLayer(layerData)) {
@@ -278,6 +279,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     } else {
       this.mountTileLayer(map, layerData, legend);
     }
+    if (!isVisible) this.willHide({ map });
+
     /* Add event listener */
     // !FIXME - Hardcoded filter for layer
     // Must be deleted after LayersDB implemented
@@ -376,7 +379,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     state: LogicalLayerState;
   }) {
     if (state.source) {
-      this._updateMap(map, state.source, state.legend);
+      this._updateMap(map, state.source, state.legend, state.isVisible);
     }
   }
 
@@ -388,13 +391,13 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     state: LogicalLayerState;
   }) {
     if (state.source) {
-      this._updateMap(map, state.source, state.legend);
+      this._updateMap(map, state.source, state.legend, state.isVisible);
     }
   }
 
   willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
-      this._updateMap(map, state.source, state.legend);
+      this._updateMap(map, state.source, state.legend, state.isVisible);
     }
   }
 
