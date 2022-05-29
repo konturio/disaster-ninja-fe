@@ -31,7 +31,7 @@ const BivariateMatrixContainer = ({
           const baseDim =
             parseFloat(ref.getAttribute('base-dimension') || '0') * 0.7;
           const newWidth = baseDim + dim.width + 18;
-          const newHeight = dim.height + 5;
+          const newHeight = dim.height + 105;
           if (
             !dimensions ||
             Math.abs(dimensions.w - newWidth) > 3 ||
