@@ -3,7 +3,7 @@ import {
   FeatureCollection,
   ModeProps,
 } from '@nebula.gl/edit-modes';
-import { CustomModifyMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomModifyMode';
+import { CustomModifyMode } from '../map-daw-tools/customDrawModes/CustomModifyMode';
 
 // Source code https://gitlab.com/kontur-private/k2/k2-front-end/-/blob/master/k2-packages/map-draw-tools/src/customDrawModes/CustomModifyMode.ts
 export class LocalModifyMode extends CustomModifyMode {

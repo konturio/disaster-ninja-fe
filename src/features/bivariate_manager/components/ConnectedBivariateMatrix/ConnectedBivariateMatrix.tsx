@@ -1,6 +1,6 @@
 import { BivariateMatrixControlComponent } from '@k2-packages/ui-kit';
 import React, { forwardRef, useCallback, useMemo } from 'react';
-import { Indicator, CorrelationRate } from '@k2-packages/bivariate-tools';
+import { Indicator, CorrelationRate } from '~utils/bivariate';
 import { AxisGroup } from '~core/types';
 import { useAtom } from '@reatom/react';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';

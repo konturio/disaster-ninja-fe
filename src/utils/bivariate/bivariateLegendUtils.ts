@@ -1,6 +1,6 @@
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import { ColorTheme } from '~core/types';
-import { Stat } from '@k2-packages/bivariate-tools';
+import type { Stat } from '~utils/bivariate';
 import { LayerMeta } from '~core/logical_layers/types/meta';
 
 export function createBivariateLegend(

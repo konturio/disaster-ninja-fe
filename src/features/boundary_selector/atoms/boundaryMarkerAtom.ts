@@ -3,7 +3,7 @@ import { currentMapAtom } from '~core/shared_state';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 import { boundaryResourceAtom } from './boundaryResourceAtom';
 import { highlightedGeometry } from './highlightedGeometry';
-import { getSelectorWithOptions } from '@k2-packages/boundaries/tslib/getSelectorWithOptions';
+import { getSelectorWithOptions } from './../components/getSelectorWithOptions';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { convertToAppMarker } from '~utils/map/markers';
 import { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
