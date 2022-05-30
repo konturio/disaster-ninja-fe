@@ -60,25 +60,19 @@ function findColors(
   },
   crn: [CornerRange[], CornerRange[]],
 ): string {
-  const corner1 = Array.isArray(crn[0]) ? crn[0] : [crn[0]];
-  const corner2 = Array.isArray(crn[1]) ? crn[1] : [crn[1]];
-  const mergedCorner = [...corner1];
-  corner2.forEach((clr: CornerRange) => {
-    if (mergedCorner.indexOf(clr) === -1) {
-      mergedCorner.push(clr);
-    }
-  });
+  const corner1 = (Array.isArray(crn[0]) ? crn[0] : [crn[0]]).sort();
+  const corner2 = (Array.isArray(crn[1]) ? crn[1] : [crn[1]]).sort();
+
+  const mergedCorner = Array.from(new Set(corner1.concat(corner2)));
+
   const combination = colors.combinations.find(({ corner }) => {
-    let isEqual = mergedCorner.length === corner.length;
-    if (isEqual) {
-      for (let i = 0; i < mergedCorner.length; i += 1) {
-        if (mergedCorner[i] !== corner[i]) {
-          isEqual = false;
-          break;
-        }
+    if (mergedCorner.length !== corner.length) return false;
+    for (let i = 0; i < mergedCorner.length; i += 1) {
+      if (mergedCorner[i] !== corner[i]) {
+        return false;
       }
     }
-    return isEqual;
+    return true;
   });
 
   return combination?.color || colors.fallback;

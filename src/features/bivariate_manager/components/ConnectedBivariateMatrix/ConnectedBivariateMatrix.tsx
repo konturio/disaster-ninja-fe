@@ -119,26 +119,22 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
       [xGroups, yGroups, selectedCell],
     );
 
-    const onSelectDenominator = useCallback(
+    const onSelectQuotient = useCallback(
       (horizontal: boolean, index: number, numId: string, denId: string) => {
-        const props = horizontal ? yGroups : xGroups;
-        if (xGroups && yGroups && props) {
-          const newProps = [...props];
-          const newSelectedQuotient = props[index].quotients.find(
-            (q) => JSON.stringify(q) === JSON.stringify([numId, denId]),
+        const groups = horizontal ? yGroups : xGroups;
+        if (xGroups && yGroups) {
+          const newGroups = [...groups];
+          const selectedQuotient = groups[index].quotients.find(
+            (q: [string, string]) => q[0] === numId && q[1] === denId,
           );
-          if (newSelectedQuotient) {
-            newProps[index] = {
-              ...props[index],
-              selectedQuotient: newSelectedQuotient,
-            };
+          if (selectedQuotient) {
+            newGroups[index] = { ...groups[index], selectedQuotient };
           }
 
-          const nextNumerators = horizontal
-            ? { x: xGroups, y: newProps }
-            : { x: newProps, y: yGroups };
+          const newXGroups = horizontal ? xGroups : newGroups;
+          const newYGroups = horizontal ? newGroups : xGroups;
 
-          setNumerators(nextNumerators.x, nextNumerators.y);
+          setNumerators(newXGroups, newYGroups);
 
           // refresh colors
           if (
@@ -150,10 +146,10 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
               (!horizontal && selectedCell.x === index))
           ) {
             setMatrixSelection(
-              nextNumerators.x[selectedCell.x].selectedQuotient[0],
-              nextNumerators.x[selectedCell.x].selectedQuotient[1],
-              nextNumerators.y[selectedCell.y].selectedQuotient[0],
-              nextNumerators.y[selectedCell.y].selectedQuotient[1],
+              newXGroups[selectedCell.x].selectedQuotient[0],
+              newXGroups[selectedCell.x].selectedQuotient[1],
+              newYGroups[selectedCell.y].selectedQuotient[0],
+              newYGroups[selectedCell.y].selectedQuotient[1],
             );
           }
         }
@@ -169,7 +165,7 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
         yHeadings={headings.y}
         onSelectCell={onSelectCellHandler}
         selectedCell={selectedCell}
-        onSelectDenominator={onSelectDenominator}
+        onSelectQuotient={onSelectQuotient}
       />
     ) : null;
   },

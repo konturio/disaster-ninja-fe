@@ -6,39 +6,53 @@
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <!-- Favicons -->
-  <link rel="icon" href="/favicon/favicon.ico" sizes="any">
+
+  <!-- Favicons display -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=2.0.22">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=2.0.22">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=2.0.22">
   <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon/180.png">
-  <link rel="manifest" href="/manifest.json" />
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=2.0.22" color="#444444">
+  <link rel="shortcut icon" href="/favicon/favicon.ico?v=2.0.22">
+  <meta name="apple-mobile-web-app-title" content="Disaster Ninja">
+  <meta name="application-name" content="Disaster Ninja">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=2.0.22">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Manifest -->
+  <link rel="manifest" href="/manifest.webmanifest?v=2.0.22">
+
   <title>Disaster Ninja</title>
+
+  <!-- Scripts -->
   <script src="/appconfig.js"></script>
-  <% if (VITE_SPACING_JS === true) { %>
+  <% if (VITE_SPACING_JS===true) { %>
     <script src="https://unpkg.com/spacingjs" async></script>
-  <% } %>
-    <% if (mode === 'production' ) { %>
-      <!-- Google Tag Manager -->
-      <script>(function (w, d, s, l, i) {
-          w[l] = w[l] || []; w[l].push({
-            'gtm.start':
-              new Date().getTime(), event: 'gtm.js'
-          }); var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-              'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-5LD2Z3D');</script>
-      <!-- End Google Tag Manager -->
-      <% } %>
+    <% } %>
+      <% if (mode==='production' ) { %>
+        <!-- Google Tag Manager -->
+        <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+              'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+              j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+          })(window, document, 'script', 'dataLayer', 'GTM-5LD2Z3D');</script>
+        <!-- End Google Tag Manager -->
+        <% } %>
 </head>
 
 <body>
-    <% if (mode === 'production' ) { %>
+  <% if (mode==='production' ) { %>
     <!-- Google Tag Manager (noscript) -->
-      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LD2Z3D" height="0" width="0"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LD2Z3D" height="0" width="0"
         style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <% } %>
-    <div id="root"></div>
-    <script type="module" src="/src/index.ts"></script>
+      <div id="root"></div>
+      <script type="module" src="/src/index.ts"></script>
 </body>
 
 </html>
