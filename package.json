@@ -21,7 +21,9 @@
     "lint:css": "stylelint ./src/**/*.css",
     "postinstall": "run-s fixtypes patch",
     "fixtypes": "node ./scripts/fix-deckgl-types.mjs",
-    "patch": "patch-package"
+    "patch": "patch-package",
+    "docker:build": "docker build -f ./Dockerfile ./ -t ghcr.io/konturio/disaster-ninja-fe:latest",
+    "docker:run": "docker run --rm -d -p 80:80/tcp ghcr.io/konturio/disaster-ninja-fe:latest"
   },
   "ava": {
     "extensions": {
