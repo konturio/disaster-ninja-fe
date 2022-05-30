@@ -37,9 +37,9 @@
     "./src/**/*.tsx",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/utils/map/mapCSSToMapBoxPropertiesConverter/__test__/mapCSSToMapBoxPropertiesConverter.test.js"
+    "src/utils/map/mapCSSToMapBoxPropertiesConverter/__test__/mapCSSToMapBoxPropertiesConverter.test.js",
   ],
-  "exclude": ["**/*.test.tsx"],
+  "exclude": ["**/*.test.tsx", "./**/*.fixture.tsx", "./**/fixture/*.*"],
   "types": ["@types/react"],
   "typeRoots": ["./node_modules/@types"]
 }

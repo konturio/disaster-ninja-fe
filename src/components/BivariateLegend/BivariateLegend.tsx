@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Legend as BiLegend, Text } from '@k2-packages/ui-kit';
-import { invertClusters } from '@k2-packages/bivariate-tools';
+import { invertClusters } from '~utils/bivariate';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import s from './BivariateLegend.module.css';
 import clsx from 'clsx';
@@ -38,15 +38,23 @@ export function BivariateLegend({
     if (!axis) return null;
     // fallback axis description for bivariate layers
     if (!axis.x.label || !axis.y.label) {
-      return  {
-        x: { ...axis.x, label: axis.x.label || `${axis.x.quotient[0]} to ${axis.x.quotient[1]}`},
-        y: { ...axis.y, label: axis.y.label || `${axis.y.quotient[0]} to ${axis.y.quotient[1]}`}
-      }
+      return {
+        x: {
+          ...axis.x,
+          label:
+            axis.x.label || `${axis.x.quotient[0]} to ${axis.x.quotient[1]}`,
+        },
+        y: {
+          ...axis.y,
+          label:
+            axis.y.label || `${axis.y.quotient[0]} to ${axis.y.quotient[1]}`,
+        },
+      };
     }
 
     return {
       x: axis.y,
-      y: axis.x
+      y: axis.x,
     };
   }, [legend]);
 

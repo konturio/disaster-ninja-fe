@@ -1,7 +1,7 @@
 import { createResourceAtom } from '~utils/atoms';
 import { graphQlClient } from '~core/index';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { Stat } from '@k2-packages/bivariate-tools';
+import type { Stat } from '~utils/bivariate';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 
 function stringifyWithoutQuotes(obj: unknown): string {
@@ -144,13 +144,18 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
     if (!responseData) {
       throw new Error('No data received');
     } else if (!responseData.data) {
-      if (responseData.hasOwnProperty('errors') && Array.isArray(responseData['errors'])) {
-        const msg = responseData['errors'].reduce((acc, errorObj) => {
-          if (errorObj.hasOwnProperty('message')) {
-            acc.push(errorObj['message']);
-          }
-          return acc;
-        }, []).join('<br/>');
+      if (
+        responseData.hasOwnProperty('errors') &&
+        Array.isArray(responseData['errors'])
+      ) {
+        const msg = responseData['errors']
+          .reduce((acc, errorObj) => {
+            if (errorObj.hasOwnProperty('message')) {
+              acc.push(errorObj['message']);
+            }
+            return acc;
+          }, [])
+          .join('<br/>');
         throw new Error(msg || 'No data received');
       } else {
         throw new Error('No data received');
