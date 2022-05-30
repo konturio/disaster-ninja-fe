@@ -2,7 +2,7 @@ import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { AxisGroup, CorrelationMatrix } from '~core/types';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
-import { Axis, CorrelationRate } from '@k2-packages/bivariate-tools/tslib/types/stat.types';
+import { CorrelationRate } from '~utils/bivariate/types/stat.types';
 
 function covertGroupToObject(groups: AxisGroup[]) {
   return groups.reduce((acc, gr, index) => {

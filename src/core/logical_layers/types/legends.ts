@@ -1,4 +1,4 @@
-import type { Axis } from '@k2-packages/bivariate-tools';
+import type { Axis } from '~utils/bivariate';
 
 type SimpleLegendStepType = 'square' | 'circle' | 'hex';
 interface MapCSSProperties {

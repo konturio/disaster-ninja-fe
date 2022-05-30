@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import mapLibre from 'maplibre-gl';
-import Map, { MapBoxMapProps } from '@k2-packages/map';
-import DeckGl from '@k2-packages/deck-gl';
+import Map, { MapBoxMapProps } from './map-libre-adapter';
+import DeckGl from './deck-gl';
 import { useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';

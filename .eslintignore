@@ -10,3 +10,7 @@ jest.setup.js
 appconfig.js
 deploy/*
 __test__
+fixture
+**/*.test.tsx
+./**/*.fixture.tsx
+./**/fixture/*.*
