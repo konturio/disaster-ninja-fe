@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import { Stat } from '@k2-packages/bivariate-tools';
+import { Stat } from '~utils/bivariate';
 import { AxisGroup } from '~core/types';
 
 const extractAvailableNumeratorsWithDenominators = (stat: Stat) => {

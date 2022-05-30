@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
-import ConnectedBivariateMatrix
-  from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
+import ConnectedBivariateMatrix from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
 import clsx from 'clsx';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { useAtom } from '@reatom/react';
@@ -20,7 +19,9 @@ const BivariateMatrixContainer = ({
     null,
   );
 
-  const statesToComponents = createStateMap(useAtom(bivariateStatisticsResourceAtom)[0]);
+  const statesToComponents = createStateMap(
+    useAtom(bivariateStatisticsResourceAtom)[0],
+  );
 
   const onRefChange = useCallback(
     (ref: HTMLDivElement | null) => {
@@ -57,12 +58,21 @@ const BivariateMatrixContainer = ({
     >
       <div>
         {statesToComponents({
-          loading: <div className={s.loadingContainer}><LoadingSpinner /></div>,
+          loading: (
+            <div className={s.loadingContainer}>
+              <LoadingSpinner />
+            </div>
+          ),
           error: () => (
             <div className={s.errorContainer}>
-              <ErrorMessage message='Unfortunately, we cannot display the matrix. Try refreshing the page or come back later.' />
-            </div>),
-          ready: () => <div className={s.matrixContainer}><ConnectedBivariateMatrix ref={onRefChange} /></div>,
+              <ErrorMessage message="Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." />
+            </div>
+          ),
+          ready: () => (
+            <div className={s.matrixContainer}>
+              <ConnectedBivariateMatrix ref={onRefChange} />
+            </div>
+          ),
         })}
         <div className={s.topRightCorner} />
         <div className={s.bottomRightCorner} />
