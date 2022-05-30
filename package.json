@@ -95,14 +95,11 @@
     "clsx": "^1.1.0",
     "color-interpolate": "^1.0.5",
     "cpr": "^3.0.1",
-    "cross-env": "^7.0.3",
     "date-fns": "^2.23.0",
     "dnd-core": "^16.0.1",
     "esbuild-node-loader": "^0.6.3",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "geojson-polygon-self-intersections": "^1.2.1",
@@ -151,8 +148,7 @@
     "use-subscription": "^1.5.1",
     "uuid": "^8.3.2",
     "vite": "^2.6.14",
-    "vite-plugin-html": "^2.1.1",
-    "yenv": "^2.1.1"
+    "vite-plugin-html": "^2.1.1"
   },
   "resolutions": {
     "@turf/difference": "6.0.1"
