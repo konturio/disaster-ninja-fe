@@ -1,8 +1,7 @@
 import { ClickEvent, ModeProps } from '@nebula.gl/edit-modes';
 import { FeatureCollection, Polygon } from '@nebula.gl/edit-modes/';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
-
-import { CustomDrawPolygonMode } from '@k2-packages/map-draw-tools/tslib/customDrawModes/CustomDrawPolygonMode';
+import { CustomDrawPolygonMode } from '../map-daw-tools/customDrawModes/CustomDrawPolygonMode';
 import { currentNotificationAtom } from '~core/shared_state';
 import { TranslationService as i18n } from '~core/localization';
 import mapLibre from 'maplibre-gl';

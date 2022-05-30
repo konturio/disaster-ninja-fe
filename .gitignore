@@ -40,3 +40,4 @@ pnpm-lock.yaml
 stats.json
 stats.html
 template.config.js
+.eslintcache

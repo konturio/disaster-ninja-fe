@@ -99,20 +99,34 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
       return { ...feature };
     });
 
+    const { editHandleIconSizeUnits } = this.props;
+
+    // TODO: contribute type fix in nebula
+    // @ts-ignore - it's error in nebula typings
     if (!data || !data.features.length || !this.props.geojsonIcons) {
       return [];
     }
+
+    const {
+      iconAtlas,
+      iconMapping,
+      sizeScale,
+      getIcon,
+      getSize,
+      // TODO: contribute type fix in nebula
+      // @ts-ignore - it's error in nebula typings
+    } = this.props.geojsonIcons;
 
     const subLayerProps = {};
 
     subLayerProps['points-icon'] = {
       type: IconLayer,
-      iconAtlas: this.props.geojsonIcons.iconAtlas,
-      iconMapping: this.props.geojsonIcons.iconMapping,
-      sizeUnits: this.props.editHandleIconSizeUnits,
-      sizeScale: this.props.geojsonIcons.sizeScale,
-      getIcon: guideAccessor(this.props.geojsonIcons.getIcon),
-      getSize: guideAccessor(this.props.geojsonIcons.getSize),
+      iconAtlas: iconAtlas,
+      iconMapping: iconMapping,
+      sizeUnits: editHandleIconSizeUnits,
+      sizeScale: sizeScale,
+      getIcon: guideAccessor(getIcon),
+      getSize: guideAccessor(getSize),
     };
 
     const layer = new GeoJsonLayer(
@@ -122,7 +136,7 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
         fp64: this.props.fp64,
         _subLayerProps: subLayerProps,
         pointType: 'icon',
-        iconAtlas: this.props.geojsonIcons.iconAtlas,
+        iconAtlas: iconAtlas,
       }),
     );
 
