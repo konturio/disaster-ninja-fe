@@ -1,7 +1,6 @@
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
-import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
@@ -11,6 +10,7 @@ import {
   LAYER_BIVARIATE_PREFIX,
   SOURCE_BIVARIATE_PREFIX,
 } from '~core/logical_layers/constants';
+import { layerByOrder } from '~utils/map/layersOrder';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -96,10 +96,8 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         return;
       }
       const layer = { ...layerStyle, id: layerId, source: this._sourceId };
-      layersOrderManager.getBeforeIdByType(layer.type, (beforeId) => {
-        map.addLayer(layer as AnyLayer, beforeId);
-        this._layerId = layer.id;
-      });
+      layerByOrder(map).addAboveLayerWithSameType(layer as AnyLayer);
+      this._layerId = layer.id;
     } else {
       // We don't known source-layer id
       throw new Error(

@@ -1,12 +1,12 @@
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { GeoJSONSource } from 'maplibre-gl';
-import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import Icon from '../icons/marker_black.png';
 import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import { waitMapEvent } from '~utils/map/waitMapEvent';
 import { loadImageOnMap } from '~utils/map/loadImageOnMap';
 import { FOCUSED_GEOMETRY_COLOR } from '../constants';
+import { layerByOrder } from '~utils/map/layersOrder';
 
 const icons = {
   place: Icon,
@@ -116,7 +116,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     state: LogicalLayerState;
     isInitialLoad?: boolean;
   }) {
-    // TODO adress this logic in task 9295
+    // TODO address this logic in task 9295
 
     // @ts-expect-error
     // see comment on top
@@ -181,11 +181,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     );
     if (sourceAdded) {
       this.layerConfigs.map(async (layerConfig) => {
-        layersOrderManager.getBeforeIdByType(layerConfig.type, (beforeId) => {
-          if (map.getLayer(layerConfig.id) === undefined) {
-            map.addLayer(layerConfig, beforeId);
-          }
-        });
+        layerByOrder(map).addUnderLayerWithSameType(layerConfig);
       });
     }
   }
