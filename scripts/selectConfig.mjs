@@ -6,8 +6,8 @@ import process from 'process';
 const relativePath = path => resolve(dirname(fileURLToPath(import.meta.url)), path);
 
 function configInjector(pathToDest) {
-  if (!existsSync(pathToDest)){
-    mkdirSync(pathToDest, { recursive: true });
+  if (!existsSync(dirname(pathToDest))){
+    mkdirSync(dirname(pathToDest), { recursive: true });
   }
   return (pathToConfig) => {
     copyFileSync(pathToConfig, pathToDest);
