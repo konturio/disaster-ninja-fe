@@ -22,7 +22,7 @@ import {
 import {
   LayersType,
   layerTypesOrdered,
-} from '~core/logical_layers/utils/layersOrder';
+} from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
