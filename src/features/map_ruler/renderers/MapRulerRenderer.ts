@@ -3,12 +3,12 @@ import { CustomMeasureDistanceMode } from '@k2-packages/map-draw-tools/tslib/cus
 import { translationService } from '~core/index';
 import { MapboxLayer } from '@deck.gl/mapbox';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import {
   NullableMap,
   CommonHookArgs,
   NotNullableMap,
 } from '~core/logical_layers/types/renderer';
+import { layerByOrder } from '~utils/map/layersOrder';
 
 // add cyrillic alphabet to character set
 function getCyrillicCharacterSet() {
@@ -78,10 +78,8 @@ export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
       };
       this._deckLayer = new MapboxLayer(deckGLLayer);
     }
-    const deckLayer = this._deckLayer;
-    layersOrderManager.getBeforeIdByType(this._deckLayer.type, (beforeId) => {
-      map.addLayer(deckLayer, beforeId);
-    });
+
+    layerByOrder(map).addAboveLayerWithSameType(this._deckLayer!);
   }
 
   willUnMount(args: NotNullableMap & CommonHookArgs): void {
