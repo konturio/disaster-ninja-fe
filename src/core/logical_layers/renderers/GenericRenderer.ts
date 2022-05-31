@@ -20,7 +20,6 @@ import {
   onActiveContributorsClick,
 } from './activeContributorsLayers';
 import {
-  layersOrderManager,
   LayersType,
   layerTypesOrdered,
 } from '~core/logical_layers/utils/layersOrder';
@@ -34,6 +33,7 @@ import {
   LayerTileSource,
 } from '~core/logical_layers/types/source';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import { layerByOrder } from '~utils/map/layersOrder';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -108,16 +108,13 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       const layerStyles = this._generateLayersFromLegend(legend);
       const layers = this._setLayersIds(layerStyles);
       this.highestLayerType = getHighestType(layers);
-      layers.forEach(async (mapLayer) => {
+      layers.forEach((mapLayer) => {
         const layer = map.getLayer(mapLayer.id);
         if (layer) {
           map.removeLayer(layer.id);
         }
-
-        layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-          map.addLayer(mapLayer, beforeId);
-          this._layerIds.add(mapLayer.id);
-        });
+        layerByOrder(map).addAboveLayerWithSameType(mapLayer);
+        this._layerIds.add(mapLayer.id);
       });
 
       // cleanup unused layers
@@ -143,10 +140,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         },
       };
 
-      layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-        map.addLayer(mapLayer, beforeId);
-        this._layerIds.add(mapLayer.id);
-      });
+      layerByOrder(map).addAboveLayerWithSameType(mapLayer);
+      this._layerIds.add(mapLayer.id);
       // cleanup unused layers
       this._layerIds.forEach((id) => {
         if (id !== layerId) {
@@ -224,10 +219,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         minzoom: 0,
         maxzoom: 22,
       };
-      layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-        map.addLayer(mapLayer, beforeId);
-        this._layerIds.add(layerId);
-      });
+      layerByOrder(map).addAboveLayerWithSameType(mapLayer);
+      this._layerIds.add(mapLayer.id);
     } else {
       // Vector tiles
       if (legend) {
@@ -250,10 +243,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
           if (map.getLayer(mapLayer.id)) {
             map.removeLayer(mapLayer.id);
           }
-          layersOrderManager.getBeforeIdByType(mapLayer.type, (beforeId) => {
-            map.addLayer(mapLayer as AnyLayer, beforeId);
-            this._layerIds.add(mapLayer.id);
-          });
+          layerByOrder(map).addAboveLayerWithSameType(mapLayer);
+          this._layerIds.add(mapLayer.id);
         });
       } else {
         // We don't known source-layer id
