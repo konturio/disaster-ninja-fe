@@ -41,5 +41,6 @@ stats.json
 stats.html
 template.config.js
 .eslintcache
-dist/appconfig.js
 deploy/config.local.js
+public/appconfig.js
+public/config/appconfig.js
