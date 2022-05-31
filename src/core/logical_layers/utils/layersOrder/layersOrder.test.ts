@@ -1,4 +1,4 @@
-import { setupTestContext } from '../../../utils/testsUtils/setupTest';
+import { setupTestContext } from '../../../../utils/testsUtils/setupTest';
 import { LayersOrderManager } from './layersOrder';
 
 /* Setup stage */
