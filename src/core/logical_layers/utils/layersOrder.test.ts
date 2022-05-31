@@ -39,18 +39,22 @@ test('Return undefined if only base map layers are available', (t) => {
   ]);
   layersOrderManager.init(map as any);
 
-  t.plan(3);
+  t.plan(4);
 
-  layersOrderManager.getBeforeIdByType('fill', (beforeId1) => {
+  layersOrderManager.getIdToMountOnTypesTop('fill', (beforeId1) => {
     t.is(beforeId1, undefined);
   });
 
-  layersOrderManager.getBeforeIdByType('line', (beforeId2) => {
+  layersOrderManager.getIdToMountOnTypesTop('line', (beforeId2) => {
     t.is(beforeId2, undefined);
   });
 
-  layersOrderManager.getBeforeIdByType('background', (beforeId3) => {
+  layersOrderManager.getIdToMountOnTypesTop('background', (beforeId3) => {
     t.is(beforeId3, undefined);
+  });
+
+  layersOrderManager.getIdToMountOnTypesBottom('background', (beforeId) => {
+    t.is(beforeId, undefined);
   });
 });
 
@@ -72,9 +76,9 @@ test('Returns id of layer with type that must be rendered above passed type', (t
     { type: 'custom', id: 'custom-layer' },
   ]);
 
-  t.plan(3);
+  t.plan(4);
   {
-    layersOrderManager.getBeforeIdByType('background', (beforeId) => {
+    layersOrderManager.getIdToMountOnTypesTop('background', (beforeId) => {
       t.is(
         beforeId,
         'raster-layer',
@@ -82,7 +86,15 @@ test('Returns id of layer with type that must be rendered above passed type', (t
       );
     });
 
-    layersOrderManager.getBeforeIdByType('fill', (beforeId) => {
+    layersOrderManager.getIdToMountOnTypesBottom('background', (beforeId) => {
+      t.is(
+        beforeId,
+        'background-layer',
+        'test to get bottom id of a singular mounted layer',
+      );
+    });
+
+    layersOrderManager.getIdToMountOnTypesTop('fill', (beforeId) => {
       t.is(
         beforeId,
         'fill-extrusion-layer',
@@ -90,7 +102,7 @@ test('Returns id of layer with type that must be rendered above passed type', (t
       );
     });
 
-    layersOrderManager.getBeforeIdByType('custom', (beforeId) => {
+    layersOrderManager.getIdToMountOnTypesTop('custom', (beforeId) => {
       t.is(beforeId, undefined, 'test for the last/top type of the type set');
     });
   }
@@ -108,9 +120,9 @@ test('Return correct beforeId when some layer types are missing', (t) => {
     { type: 'symbol', id: 'symbol-layer1' },
   ]);
 
-  t.plan(5);
+  t.plan(7);
 
-  layersOrderManager.getBeforeIdByType('background', (beforeId) => {
+  layersOrderManager.getIdToMountOnTypesTop('background', (beforeId) => {
     t.is(
       beforeId,
       'raster-layer',
@@ -118,7 +130,7 @@ test('Return correct beforeId when some layer types are missing', (t) => {
     );
   });
 
-  layersOrderManager.getBeforeIdByType('raster', (beforeId) => {
+  layersOrderManager.getIdToMountOnTypesTop('raster', (beforeId) => {
     t.is(
       beforeId,
       'hillshade-layer',
@@ -126,7 +138,23 @@ test('Return correct beforeId when some layer types are missing', (t) => {
     );
   });
 
-  layersOrderManager.getBeforeIdByType('hillshade', (beforeId) => {
+  layersOrderManager.getIdToMountOnTypesBottom('raster', (beforeId) => {
+    t.is(
+      beforeId,
+      'raster-layer',
+      'test before layer type that goes next in order',
+    );
+  });
+
+  layersOrderManager.getIdToMountOnTypesBottom('heatmap', (beforeId) => {
+    t.is(
+      beforeId,
+      'fill-layer',
+      'test for mounting layer on type bottom when type was not mounted',
+    );
+  });
+
+  layersOrderManager.getIdToMountOnTypesTop('hillshade', (beforeId) => {
     t.is(
       beforeId,
       'fill-layer',
@@ -134,7 +162,7 @@ test('Return correct beforeId when some layer types are missing', (t) => {
     );
   });
 
-  layersOrderManager.getBeforeIdByType('symbol', (beforeId) => {
+  layersOrderManager.getIdToMountOnTypesTop('symbol', (beforeId) => {
     t.is(
       beforeId,
       undefined,
@@ -142,7 +170,7 @@ test('Return correct beforeId when some layer types are missing', (t) => {
     );
   });
 
-  layersOrderManager.getBeforeIdByType('custom', (beforeId) => {
+  layersOrderManager.getIdToMountOnTypesTop('custom', (beforeId) => {
     t.is(beforeId, undefined, 'test for the last/top type of the type set');
   });
 });
@@ -165,9 +193,9 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
     { type: 'fill-extrusion', id: 'fill-extrusion-layer-2' },
   ]);
 
-  t.plan(5);
+  t.plan(6);
 
-  layersOrderManager.getBeforeIdByType('background', (beforeId) => {
+  layersOrderManager.getIdToMountOnTypesTop('background', (beforeId) => {
     t.is(
       beforeId,
       'raster-layer',
@@ -176,7 +204,7 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
   });
 
   //
-  layersOrderManager.getBeforeIdByType('raster', (beforeId) => {
+  layersOrderManager.getIdToMountOnTypesTop('raster', (beforeId) => {
     t.is(
       beforeId,
       'hillshade-layer-0',
@@ -184,7 +212,15 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
     );
   });
 
-  layersOrderManager.getBeforeIdByType('hillshade', (beforeId) => {
+  layersOrderManager.getIdToMountOnTypesBottom('hillshade', (beforeId) => {
+    t.is(
+      beforeId,
+      'hillshade-layer-0',
+      'test to get bottom type when multiple types are mounted',
+    );
+  });
+
+  layersOrderManager.getIdToMountOnTypesTop('hillshade', (beforeId) => {
     t.is(
       beforeId,
       'heatmap-layer',
@@ -192,11 +228,11 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
     );
   });
 
-  layersOrderManager.getBeforeIdByType('heatmap', (beforeId) => {
+  layersOrderManager.getIdToMountOnTypesTop('heatmap', (beforeId) => {
     t.is(beforeId, 'fill-layer', 'test for the type before 2 layers type');
   });
 
-  layersOrderManager.getBeforeIdByType('custom', (beforeId) => {
+  layersOrderManager.getIdToMountOnTypesTop('custom', (beforeId) => {
     t.is(beforeId, undefined, 'test for the last/top type of the type set');
   });
 });

@@ -4,9 +4,9 @@ import {
 } from '~components/ConnectedMap/ConnectedMap';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { createGeoJSONSource } from '~utils/geoJSON/helpers';
-import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import { LayerGeoJSONSource } from '~core/logical_layers/types/source';
+import { layerByOrder } from '~utils/map/layersOrder';
 
 export class BoundarySelectorRenderer extends LogicalLayerDefaultRenderer {
   public readonly layerId: string;
@@ -51,10 +51,7 @@ export class BoundarySelectorRenderer extends LogicalLayerDefaultRenderer {
       source ? source.source.data : undefined,
     );
     map.addSource(this.sourceId, geoJsonSource);
-    layersOrderManager.getBeforeIdByType(
-      this.hoveredLayerConfig.type,
-      (beforeId) => map.addLayer(this.hoveredLayerConfig, beforeId),
-    );
+    layerByOrder(map).addAboveLayerWithSameType(this.hoveredLayerConfig);
   }
 
   public willUnMount({ map }: { map: ApplicationMap }) {
