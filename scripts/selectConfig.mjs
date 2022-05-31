@@ -19,12 +19,12 @@ function configInjector(pathToDest) {
  */
 export default function selectRuntimeConfig(mode, env, isSelfInvoked = false) {
   // Setup path
-  const configsFolder = isSelfInvoked ? relativePath('../deploy') : relativePath('./deploy');
+  const configsFolder = isSelfInvoked ? relativePath('../configs') : relativePath('./configs');
   const knownConfigs = {
     local: resolve(configsFolder, 'config.local.js'),
     default: resolve(configsFolder, 'config.default.js')
   };
-  const publicFolder = isSelfInvoked ? relativePath('../public') : relativePath('./public');
+  const publicFolder = isSelfInvoked ? relativePath('../public/config') : relativePath('./public/config');
   const pathToDest = env.DEST_PATH ?? resolve(publicFolder, 'appconfig.js');
 
   // Check env

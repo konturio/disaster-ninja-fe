@@ -8,7 +8,7 @@ scripts
 jest.config.js
 jest.setup.js
 appconfig.js
-deploy/*
+configs/*
 __test__
 fixture
 **/*.test.tsx
