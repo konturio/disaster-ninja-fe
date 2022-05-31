@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'url';
 import process from 'process';
@@ -6,6 +6,9 @@ import process from 'process';
 const relativePath = path => resolve(dirname(fileURLToPath(import.meta.url)), path);
 
 function configInjector(pathToDest) {
+  if (!existsSync(pathToDest)){
+    mkdirSync(pathToDest, { recursive: true });
+  }
   return (pathToConfig) => {
     copyFileSync(pathToConfig, pathToDest);
     console.log(`Config "${pathToConfig}" will be used`)
