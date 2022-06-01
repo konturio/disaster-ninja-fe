@@ -1,4 +1,4 @@
-import { Button, Text } from '@k2-packages/ui-kit';
+import { Button, Text } from '@konturio/ui-kit';
 import { useCallback, useMemo } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import {

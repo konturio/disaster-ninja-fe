@@ -1,5 +1,5 @@
 import { TranslationService as i18n } from '~core/localization';
-import { Panel, PanelIcon, Text } from '@k2-packages/ui-kit';
+import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { LayersTree } from '../LayersTree/LayersTree';
 import s from './MapLayersPanel.module.css';
 import { useCallback, useEffect, useState } from 'react';

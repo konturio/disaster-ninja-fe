@@ -1,7 +1,7 @@
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import clsx from 'clsx';
-import { Button } from '@k2-packages/ui-kit';
+import { Button } from '@konturio/ui-kit';
 import { Plus24 } from '@konturio/default-icons';
 import { translationService as i18n } from '~core/index';
 import { EditableLayerFieldContainer } from '../EditableLayerFieldContainer/EditableLayerFieldContainer';

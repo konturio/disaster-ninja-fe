@@ -1,4 +1,4 @@
-import { Panel, PanelIcon } from '@k2-packages/ui-kit';
+import { Panel, PanelIcon } from '@konturio/ui-kit';
 import s from './BivariatePanel.module.css';
 import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';

@@ -1,6 +1,6 @@
 import { ChangeEvent, useCallback } from 'react';
 import { useAtom } from '@reatom/react';
-import { Button, Input } from '@k2-packages/ui-kit';
+import { Button, Input } from '@konturio/ui-kit';
 import { PointFilled24 } from '@konturio/default-icons';
 import { translationService as i18n } from '~core/index';
 import { LabelWithTooltip } from '~components/LabelWithTooltip/LabelWithTooltip';

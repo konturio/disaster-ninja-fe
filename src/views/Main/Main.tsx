@@ -19,7 +19,7 @@ const { EditFeaturesOrLayerPanel } = lazily(
     ),
 );
 
-const { AppHeader, Logo } = lazily(() => import('@k2-packages/ui-kit'));
+const { AppHeader, Logo } = lazily(() => import('@konturio/ui-kit'));
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),

@@ -1,4 +1,4 @@
-import { Card, Text } from '@k2-packages/ui-kit';
+import { Card, Text } from '@konturio/ui-kit';
 import { Notification } from '~core/shared_state/currentNotifications';
 import clsx from 'clsx';
 import styles from './Toast.module.css';

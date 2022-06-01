@@ -1,13 +1,13 @@
 import { TranslationService as i18n } from '~core/localization';
 import { AnalyticsData, Severity } from '~core/types';
-import { Panel, PanelIcon, Tabs, Text } from '@k2-packages/ui-kit';
+import { Panel, PanelIcon, Tabs, Text } from '@konturio/ui-kit';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import s from './AnalyticsPanel.module.css';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { Tab } from '@k2-packages/ui-kit/tslib/Tabs';
+import { Tab } from '@konturio/ui-kit/tslib/Tabs';
 import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
 import { useAtom } from '@reatom/react';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';

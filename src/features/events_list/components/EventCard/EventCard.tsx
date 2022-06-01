@@ -4,7 +4,7 @@ import { parseISO } from 'date-fns';
 import { Event } from '~core/types';
 import { Analytics } from './Analytics/Analytics';
 import s from './EventCard.module.css';
-import { Text } from '@k2-packages/ui-kit';
+import { Text } from '@konturio/ui-kit';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 
 const formatTime = (() => {

@@ -1,4 +1,4 @@
-import { Text } from '@k2-packages/ui-kit';
+import { Text } from '@konturio/ui-kit';
 import { Link, useHistory } from 'react-router-dom';
 import { TranslationService as i18n } from '~core/localization';
 import clsx from 'clsx';

@@ -1,4 +1,4 @@
-import { Text } from '@k2-packages/ui-kit';
+import { Text } from '@konturio/ui-kit';
 import { useMemo } from 'react';
 import s from './Analytics.module.css';
 import { People16, Area16 } from '@konturio/default-icons';

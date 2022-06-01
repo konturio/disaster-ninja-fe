@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 import { Geometry } from 'geojson';
 import { Label } from '~components/Label/Label';
 import { translationService as i18n } from '~core/index';
-import { Button, Input, Text } from '@k2-packages/ui-kit';
+import { Button, Input, Text } from '@konturio/ui-kit';
 import { EditableLayerSettings } from '../../types';
 import s from './EditFeatureForm.module.css';
 
