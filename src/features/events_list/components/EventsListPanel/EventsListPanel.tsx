@@ -18,7 +18,7 @@ import {
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { FeedSelector } from '~features/feed_selector';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { Disasters24 } from '@k2-packages/default-icons';
+import { Disasters24 } from '@konturio/default-icons';
 
 export function EventsListPanel({
   current,

@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { useAtom } from '@reatom/react';
 import type { Identifier, XYCoord } from 'dnd-core';
 import clsx from 'clsx';
-import { SortDrag16, Trash16 } from '@k2-packages/default-icons';
+import { SortDrag16, Trash16 } from '@konturio/default-icons';
 import { Input } from '@k2-packages/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
 import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';

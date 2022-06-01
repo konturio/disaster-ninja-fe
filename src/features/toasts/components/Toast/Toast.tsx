@@ -3,7 +3,7 @@ import { Notification } from '~core/shared_state/currentNotifications';
 import clsx from 'clsx';
 import styles from './Toast.module.css';
 import { useMemo } from 'react';
-import { Alarm24, Close24, Error24, Info24 } from '@k2-packages/default-icons';
+import { Alarm24, Close24, Error24, Info24 } from '@konturio/default-icons';
 
 export function Toast({
   notification,

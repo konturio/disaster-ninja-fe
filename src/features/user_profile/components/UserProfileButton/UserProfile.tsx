@@ -7,7 +7,7 @@ import { OptionType, Selector } from '@k2-packages/ui-kit/tslib/Selector';
 import clsx from 'clsx';
 import { authClient } from '~core/index';
 import { Button } from '@k2-packages/ui-kit';
-import { User24 } from '@k2-packages/default-icons';
+import { User24 } from '@konturio/default-icons';
 
 const userMenu: OptionType[] = [
   {

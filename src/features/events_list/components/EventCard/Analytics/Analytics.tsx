@@ -1,7 +1,7 @@
 import { Text } from '@k2-packages/ui-kit';
 import { useMemo } from 'react';
 import s from './Analytics.module.css';
-import { People16, Area16 } from '@k2-packages/default-icons';
+import { People16, Area16 } from '@konturio/default-icons';
 import { TranslationService as i18n } from '~core/localization';
 
 const Sub = ({ children }) => (

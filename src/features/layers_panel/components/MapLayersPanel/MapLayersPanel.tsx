@@ -5,7 +5,7 @@ import s from './MapLayersPanel.module.css';
 import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
-import { Layers24 } from '@k2-packages/default-icons';
+import { Layers24 } from '@konturio/default-icons';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 
 export function MapLayerPanel({

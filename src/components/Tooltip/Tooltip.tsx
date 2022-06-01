@@ -2,7 +2,7 @@ import s from './Tooltip.module.css';
 import clsx from 'clsx';
 import { useAction } from '@reatom/react';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import { InfoOutline16 } from '@k2-packages/default-icons';
+import { InfoOutline16 } from '@konturio/default-icons';
 
 interface TooltipProps {
   tipText: string;

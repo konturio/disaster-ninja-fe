@@ -12,7 +12,7 @@ import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/co
 import { useAtom } from '@reatom/react';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsEmptyState/AdvancedAnalyticsEmptyState';
-import { Bi24 as BivariatePanelIcon } from '@k2-packages/default-icons';
+import { Bi24 as BivariatePanelIcon } from '@konturio/default-icons';
 import { focusedGeometryAtom } from '~core/shared_state';
 
 interface PanelHeadingProps {

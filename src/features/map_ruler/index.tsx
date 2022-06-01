@@ -1,5 +1,5 @@
 import { sideControlsBarAtom } from '~core/shared_state';
-import { Ruler24 } from '@k2-packages/default-icons';
+import { Ruler24 } from '@konturio/default-icons';
 import {
   MAP_RULER_CONTROL_ID,
   MAP_RULER_CONTROL_NAME,

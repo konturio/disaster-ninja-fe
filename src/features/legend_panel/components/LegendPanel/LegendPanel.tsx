@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
-import { Info24 } from '@k2-packages/default-icons';
+import { Info24 } from '@konturio/default-icons';
 import { Panel, PanelIcon, Text } from '@k2-packages/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
 import s from './LegendPanel.module.css';
