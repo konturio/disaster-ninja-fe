@@ -1,4 +1,4 @@
-import { Button } from '@k2-packages/ui-kit';
+import { Button } from '@konturio/ui-kit';
 import { authClient, translationService } from '~core/index';
 import s from './LoginButton.module.css';
 

@@ -3,11 +3,11 @@ import { LoginButton } from '~features/user_profile';
 import { userStateAtom } from '~core/auth/atoms/userState';
 import { useCallback, useEffect, useState } from 'react';
 import s from './UserProfile.module.css';
-import { OptionType, Selector } from '@k2-packages/ui-kit/tslib/Selector';
+import { OptionType, Selector } from '@konturio/ui-kit/tslib/Selector';
 import clsx from 'clsx';
 import { authClient } from '~core/index';
-import { Button } from '@k2-packages/ui-kit';
-import { User24 } from '@k2-packages/default-icons';
+import { Button } from '@konturio/ui-kit';
+import { User24 } from '@konturio/default-icons';
 
 const userMenu: OptionType[] = [
   {

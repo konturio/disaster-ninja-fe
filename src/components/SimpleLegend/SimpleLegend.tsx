@@ -1,4 +1,4 @@
-import { Text } from '@k2-packages/ui-kit';
+import { Text } from '@konturio/ui-kit';
 import { SimpleLegend as SimpleLegendType } from '~core/logical_layers/types/legends';
 import { HexIcon } from '~components/SimpleLegend/icons/HexIcon';
 import { CircleIcon } from '~components/SimpleLegend/icons/CircleIcon';

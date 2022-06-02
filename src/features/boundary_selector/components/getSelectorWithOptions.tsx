@@ -1,4 +1,4 @@
-import { Selector } from '@k2-packages/ui-kit';
+import { Selector } from '@konturio/ui-kit';
 
 export const getSelectorWithOptions = (options, onChange, onHover) => (
   <Selector

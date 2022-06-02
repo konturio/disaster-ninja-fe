@@ -5,7 +5,7 @@ import {
   sideControlsBarAtom,
 } from '~core/shared_state';
 import { askGeoJSONFile } from './askGeoJSONFile';
-import { Plus24 } from '@k2-packages/default-icons';
+import { Plus24 } from '@konturio/default-icons';
 import {
   GEOMETRY_UPLOADER_CONTROL_ID,
   GEOMETRY_UPLOADER_CONTROL_NAME,
