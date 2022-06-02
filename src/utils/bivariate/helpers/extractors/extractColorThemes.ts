@@ -1,4 +1,4 @@
-import { Stat, OverlayColor } from '../types/stat.types';
+import { Stat, OverlayColor } from '../../types/stat.types';
 
 export type Theme = OverlayColor[];
 

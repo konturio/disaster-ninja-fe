@@ -64,7 +64,7 @@ export const userResourceAtom = createResourceAtom<
       feedsResponse,
     ]);
 
-    const features: { [T in AppFeatureType]?: boolean } = {};
+    let features: { [T in AppFeatureType]?: boolean } = {};
     if (
       featuresSettled.status === 'fulfilled' &&
       Array.isArray(featuresSettled.value)
@@ -94,6 +94,17 @@ export const userResourceAtom = createResourceAtom<
     } else if (feedsSettled.status === 'rejected') {
       console.error('User feeds call failed. Applying default feed...');
       feeds = [{ feed: appConfig.defaultFeed, isDefault: true }];
+    }
+
+    // check features override from .env and .env.local files.
+    // use it to enable/disable specific features for development
+    if (import.meta.env.VITE_FEATURES_CONFIG) {
+      try {
+        const featuresOverride = JSON.parse(import.meta.env.VITE_FEATURES_CONFIG as string);
+        if (featuresOverride) {
+          features = {...features, ...featuresOverride};
+        }
+      } catch (e) {}
     }
 
     const udm = new UserDataModel({ features, feeds });

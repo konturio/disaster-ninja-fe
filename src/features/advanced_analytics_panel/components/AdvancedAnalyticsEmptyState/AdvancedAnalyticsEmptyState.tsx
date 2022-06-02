@@ -8,7 +8,7 @@ import {
 import { TranslationService as i18n } from '~core/localization';
 
 interface AdvancedAnalyticsEmptyStateProps {
-  stateType?: 'initial' | 'not-found';
+  stateType?: 'initial' | 'not-found' | 'error';
 }
 
 export const AdvancedAnalyticsEmptyState = ({
@@ -22,11 +22,17 @@ export const AdvancedAnalyticsEmptyState = ({
           <br />
         </>
       )}
-      {i18n.t('An error occured!')}
-      <br />
+      {stateType === 'error' && (
+        <>
+          {i18n.t('An error occured!')}
+          <br />
+        </>
+      )}
+
       {i18n.t('Please, select an area again')}
       <br />
       {i18n.t('to see state of the map')}
+
       <div className={s.iconsContainer}>
         <div className={s.iconRow}>
           <DisastersListIcon /> {i18n.t('Pick disaster from the list')}
