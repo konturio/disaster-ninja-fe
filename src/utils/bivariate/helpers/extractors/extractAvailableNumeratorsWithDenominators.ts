@@ -1,4 +1,4 @@
-import { Stat } from '../types/stat.types';
+import { Stat } from '../../types/stat.types';
 
 type NumeratorWithDenominators = {
   numeratorId: string;

@@ -1,12 +1,11 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import s from './BivariatePanel.module.css';
-import { useCallback, useEffect, useState } from 'react';
+import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Bi24 as BivariatePanelIcon } from '@konturio/default-icons';
 import ReactDOM from 'react-dom';
-import BivariateMatrixContainer from '~features/bivariate_manager/components/BivariateMatrixContainer/BivariateMatrixContainer';
-import { INTERCOM_ELEMENT_ID } from '../../constants';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { INTERCOM_ELEMENT_ID } from '../../constants';
+import styles from './BivariatePanel.module.css';
 
 const CustomClosePanelBtn = () => (
   <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
@@ -19,6 +18,8 @@ const CustomClosePanelBtn = () => (
     />
   </svg>
 );
+
+const LazyLoadedBivariateMatrixContainer = lazy(() => import('../BivariateMatrixContainer/BivariateMatrixContainer'));
 
 export function BivariatePanel({
   iconsContainerRef,
@@ -55,14 +56,14 @@ export function BivariatePanel({
     <>
       <Panel
         onClose={onPanelClose}
-        className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
+        className={clsx(styles.sidePanel, isOpen && styles.show, !isOpen && styles.hide)}
         classes={{
-          closeBtn: s.customCloseBtn,
+          closeBtn: styles.customCloseBtn,
         }}
         customCloseBtn={<CustomClosePanelBtn />}
       >
-        <div className={s.panelBody}>
-          {isOpen && <BivariateMatrixContainer />}
+        <div className={styles.panelBody}>
+          {isOpen && <LazyLoadedBivariateMatrixContainer />}
         </div>
       </Panel>
 
@@ -70,7 +71,7 @@ export function BivariatePanel({
         ReactDOM.createPortal(
           <PanelIcon
             clickHandler={onPanelOpen}
-            className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+            className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
             icon={<BivariatePanelIcon />}
           />,
           iconsContainerRef.current,

@@ -1,5 +1,5 @@
-import { HashMap } from '../utils/classes/HashMap';
-import { Axis, Stat } from '../types/stat.types';
+import { HashMap } from '../HashMap';
+import { Axis, Stat } from '../../types/stat.types';
 
 export function createBivariateAxisesHashMap(stat: Stat) {
   const axisHashMap = new HashMap<Axis>();

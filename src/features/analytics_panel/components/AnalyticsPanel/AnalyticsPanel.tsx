@@ -1,52 +1,15 @@
-import { TranslationService as i18n } from '~core/localization';
-import { AnalyticsData, Severity } from '~core/types';
-import { Panel, PanelIcon, Tabs, Text } from '@konturio/ui-kit';
-import { createStateMap } from '~utils/atoms/createStateMap';
-import s from './AnalyticsPanel.module.css';
-import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
-import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import { Panel, PanelIcon } from '@konturio/ui-kit';
+import styles from './AnalyticsPanel.module.css';
+import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { Tab } from '@konturio/ui-kit/tslib/Tabs';
-import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
-import { useAtom } from '@reatom/react';
-import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
-import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { Analytics24 } from '@konturio/default-icons';
-import { focusedGeometryAtom } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 
-interface PanelHeadingProps {
-  event: {
-    eventName: string;
-    severity: Severity;
-    externalUrls: string[];
-  };
-}
+const LazyLoadedAnalyticsContainer = lazy(() => import('../AnalyticsContainer/AnalyticsContainer'));
+const LazyLoadedAnalyticsPanelHeader = lazy(() => import('../AnalyticsPanelHeaderContainer/AnalyticsPanelHeaderContainer'));
 
-function PanelHeading({ event }: PanelHeadingProps) {
-  return (
-    <div className={s.head}>
-      <Text type="heading-m">{event.eventName}</Text>
-      <SeverityIndicator severity={event.severity} />
-    </div>
-  );
-}
-
-interface AnalyticsPanelProps {
-  error: string | null;
-  loading: boolean;
-  analyticsDataList?: AnalyticsData[] | null;
-}
-
-export function AnalyticsPanel({
-  error,
-  loading,
-  analyticsDataList,
-}: AnalyticsPanelProps) {
+export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const [currentTab, setCurrentTab] = useState<string>('data');
-  const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   useEffect(() => {
@@ -54,33 +17,6 @@ export function AnalyticsPanel({
       setIsOpen(false);
     }
   }, [isMobile]);
-
-  let panelHeading: ReactElement;
-  if (loading) {
-    panelHeading = (
-      <Text type="heading-m">{i18n.t('Loading analytics...')}</Text>
-    );
-  } else if (error) {
-    panelHeading = <Text type="heading-m">{i18n.t('Error')}</Text>;
-  } else if (analyticsDataList) {
-    if (focusedGeometry?.source.type === 'event') {
-      panelHeading = <PanelHeading event={focusedGeometry.source.meta} />;
-    } else if (focusedGeometry?.source.type === 'boundaries') {
-      panelHeading = (
-        <Text type="heading-m">{focusedGeometry.source.meta}</Text>
-      );
-    } else {
-      panelHeading = <Text type="heading-m">{i18n.t('Analytics')}</Text>;
-    }
-  } else {
-    panelHeading = <Text type="heading-m">{i18n.t('Select Geometry')}</Text>;
-  }
-
-  const statesToComponents = createStateMap({
-    error,
-    loading,
-    data: analyticsDataList,
-  });
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
@@ -90,57 +26,23 @@ export function AnalyticsPanel({
     setIsOpen(true);
   }, [setIsOpen]);
 
-  const setTab = useCallback(
-    (tabId: string) => {
-      setCurrentTab(tabId);
-    },
-    [setCurrentTab],
-  );
-
   return (
-    <div className={s.panelContainer}>
+    <div className={styles.panelContainer}>
       <Panel
-        header={panelHeading}
+        header={isOpen ? <LazyLoadedAnalyticsPanelHeader/> : undefined}
         onClose={onPanelClose}
-        className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
+        className={clsx(styles.sidePanel, isOpen && styles.show, !isOpen && styles.hide)}
         classes={{
-          header: s.header,
+          header: styles.header,
         }}
       >
-        <div className={s.panelBody}>
-          {statesToComponents({
-            init: <AnalyticsEmptyState />,
-            loading: <LoadingSpinner />,
-            error: (errorMessage) => <ErrorMessage message={errorMessage} />,
-            ready: (dataList) => {
-              const geometry =
-                focusedGeometry?.geometry as GeoJSON.FeatureCollection;
-              if (geometry.features && geometry.features.length == 0) {
-                return <AnalyticsEmptyState />;
-              }
-              return (
-                <Tabs onTabChange={setTab} current={currentTab}>
-                  <Tab name="INFO" id="data">
-                    <AnalyticsDataList
-                      data={analyticsDataList}
-                      links={
-                        (focusedGeometry?.source as any)?.meta?.externalUrls ??
-                        undefined
-                      }
-                    />
-                  </Tab>
-                  {/*<Tab name="COMMUNITIES" id="communities">*/}
-                  {/*  <AnalyticsCommunities />*/}
-                  {/*</Tab>*/}
-                </Tabs>
-              );
-            },
-          })}
+        <div className={styles.panelBody}>
+          {isOpen && <LazyLoadedAnalyticsContainer />}
         </div>
       </Panel>
       <PanelIcon
         clickHandler={onPanelOpen}
-        className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+        className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
         icon={<Analytics24 />}
       />
     </div>

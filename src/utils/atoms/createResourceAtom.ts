@@ -132,12 +132,24 @@ function createResourceFetcherAtom<P, T>(
  * The demo:
  * https://codesandbox.io/s/reatom-resource-atom-complex-qwi3h
  */
-let i = 0;
+
+export type ResourceAtomType<P, T> = AtomSelfBinded<ResourceAtomState<T, P>, {
+  request: (params: P | null) => P | null,
+  refetch: () => undefined,
+  done: (data: T) => T,
+  error: (error: string) => string,
+  cancel: () => undefined,
+  loading: () => undefined,
+  finally: () => null,
+}>;
+
+let resourceAtomIndex = 0;
+
 export function createResourceAtom<P, T>(
   fetcher: (params?: P | null) => Promise<T>,
   paramsAtom?: Atom<P> | ResourceAtom<any, any> | null,
-  name = `Resource-${i++}`,
-) {
+  name = `Resource-${resourceAtomIndex++}`,
+): ResourceAtomType<P, T> {
   const resourceFetcherAtom = createResourceFetcherAtom(fetcher, name);
 
   if (paramsAtom) {
