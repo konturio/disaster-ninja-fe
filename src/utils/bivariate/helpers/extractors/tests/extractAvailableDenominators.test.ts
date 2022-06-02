@@ -1,5 +1,5 @@
 import { extractAvailableDenominators } from '../extractAvailableDenominators';
-import { setupTestContext } from '../../../../utils/testsUtils/setupTest';
+import { setupTestContext } from '../../../../testsUtils/setupTest';
 
 const test = setupTestContext(() => ({}));
 test('extractAvailableDenominators tests', (t) => {

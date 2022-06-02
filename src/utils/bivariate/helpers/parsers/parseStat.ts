@@ -1,9 +1,9 @@
 import { ratesToTable, Table } from '../converters/ratesToTable';
 import { extractAvailableDenominators } from '../extractors/extractAvailableDenominators';
-import { Axis, CorrelationRate, Stat } from '../types/stat.types';
+import { Axis, CorrelationRate, Stat } from '../../types/stat.types';
 import { createBivariateAxisesHashMap } from './createBivariateAxisesHashMap';
 import { createCorrelationsHashMap } from './createCorrelationsHashMap';
-import { sortByExample } from '../utils/sort/sortByExample';
+import { sortByExample } from '../sort/sortByExample';
 
 export type { Stat };
 export type { Table };
