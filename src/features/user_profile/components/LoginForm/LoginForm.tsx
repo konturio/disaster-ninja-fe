@@ -1,4 +1,4 @@
-import { Button, Card, Input, Modal, Text } from '@k2-packages/ui-kit';
+import { Button, Card, Input, Modal, Text } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/react';
 import s from './LoginForm.module.css';
 import { authClient, translationService as i18n } from '~core/index';

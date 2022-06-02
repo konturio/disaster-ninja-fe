@@ -6,7 +6,7 @@ import postcssCustomMedia from 'postcss-custom-media'
 export default {
   plugins: [
     postcssCustomMedia({
-      importFrom: './node_modules/@k2-packages/default-theme/variables.css'
+      importFrom: './node_modules/@konturio/default-theme/variables.css'
     }),
     autoprefixer,
     postcssNormalize,

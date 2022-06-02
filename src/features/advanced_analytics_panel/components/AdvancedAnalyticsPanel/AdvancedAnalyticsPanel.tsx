@@ -1,18 +1,18 @@
 import { TranslationService as i18n } from '~core/localization';
 import { AdvancedAnalyticsData, Severity } from '~core/types';
-import { Panel, PanelIcon, Tabs, Text } from '@k2-packages/ui-kit';
+import { Panel, PanelIcon, Tabs, Text } from '@konturio/ui-kit';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import s from './AdvancedAnalyticsPanel.module.css';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { ReactElement, useCallback, useState } from 'react';
 import clsx from 'clsx';
-import { Tab } from '@k2-packages/ui-kit/tslib/Tabs';
+import { Tab } from '@konturio/ui-kit/tslib/Tabs';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
 import { useAtom } from '@reatom/react';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsEmptyState/AdvancedAnalyticsEmptyState';
-import { Bi24 as BivariatePanelIcon } from '@k2-packages/default-icons';
+import { Bi24 as BivariatePanelIcon } from '@konturio/default-icons';
 import { focusedGeometryAtom } from '~core/shared_state';
 
 interface PanelHeadingProps {

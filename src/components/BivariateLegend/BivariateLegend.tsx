@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Legend as BiLegend, Text } from '@k2-packages/ui-kit';
+import { Legend as BiLegend, Text } from '@konturio/ui-kit';
 import { invertClusters } from '~utils/bivariate';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import s from './BivariateLegend.module.css';
