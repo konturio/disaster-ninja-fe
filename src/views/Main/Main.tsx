@@ -31,9 +31,9 @@ const { EventList } = lazily(() => import('~features/events_list'));
 
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 
-const { Analytics } = lazily(() => import('~features/analytics_panel'));
+const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
 
-const { AdvancedAnalytics } = lazily(
+const { AdvancedAnalyticsPanel } = lazily(
   () => import('~features/advanced_analytics_panel'),
 );
 
@@ -142,9 +142,9 @@ export function MainView() {
           {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
           {userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
             userModel?.feeds && <EventList />}
-          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <Analytics />}
+          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
           {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-            <AdvancedAnalytics />
+            <AdvancedAnalyticsPanel />
           )}
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
