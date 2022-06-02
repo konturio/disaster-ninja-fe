@@ -1,4 +1,4 @@
-import { BivariateMatrixControlComponent } from '@k2-packages/ui-kit';
+import { BivariateMatrixControlComponent } from '@konturio/ui-kit';
 import React, { forwardRef, useCallback, useMemo } from 'react';
 import { Indicator, CorrelationRate } from '~utils/bivariate';
 import { AxisGroup } from '~core/types';

@@ -1,4 +1,4 @@
-import { Download16 } from '@k2-packages/default-icons';
+import { Download16 } from '@konturio/default-icons';
 import s from './DownloadControl.module.css';
 
 export function DownloadControl({

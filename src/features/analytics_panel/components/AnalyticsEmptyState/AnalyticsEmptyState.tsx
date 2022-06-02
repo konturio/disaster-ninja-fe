@@ -4,7 +4,7 @@ import {
   DisastersListIcon,
   Poly24,
   Plus24,
-} from '@k2-packages/default-icons';
+} from '@konturio/default-icons';
 import { TranslationService as i18n } from '~core/localization';
 
 interface AnalyticsEmptyStateProps {
