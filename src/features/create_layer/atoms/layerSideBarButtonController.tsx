@@ -6,7 +6,7 @@ import {
   controlVisualGroup,
   sideControlsBarAtom,
 } from '~core/shared_state/sideControlsBar';
-import { AddLayer24 } from '@k2-packages/default-icons';
+import { AddLayer24 } from '@konturio/default-icons';
 import { editableLayerControllerAtom } from './editableLayerController';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { AppFeature } from '~core/auth/types';

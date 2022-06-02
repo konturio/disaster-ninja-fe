@@ -11,14 +11,14 @@ import {
   FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
 } from '~core/draw_tools/constants';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
-import { Poly24 } from '@k2-packages/default-icons';
+import { Poly24 } from '@konturio/default-icons';
 import {
   controlGroup,
   controlVisualGroup,
 } from '~core/shared_state/sideControlsBar';
 import { TranslationService as i18n } from '~core/localization';
 import { downloadObject } from '~utils/fileHelpers/download';
-import { Download24 } from '@k2-packages/default-icons';
+import { Download24 } from '@konturio/default-icons';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { forceRun } from '~utils/atoms/forceRun';
 import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';

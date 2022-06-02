@@ -1,4 +1,4 @@
-import { Button, Text } from '@k2-packages/ui-kit';
+import { Button, Text } from '@konturio/ui-kit';
 import { useCallback, useMemo } from 'react';
 import { TranslationService as i18n } from '~core/localization';
 import {
@@ -6,14 +6,14 @@ import {
   PointOutline24,
   Area24,
   Trash24,
-} from '@k2-packages/default-icons';
+} from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import s from './DrawToolToolbox.module.css';
 import { drawModes } from '../../constants';
 import { combinedAtom } from '../../atoms/combinedAtom';
 import { toolboxAtom } from '../../atoms/toolboxAtom';
-import { Download24 } from '@k2-packages/default-icons';
+import { Download24 } from '@konturio/default-icons';
 
 export const DrawToolsToolbox = () => {
   const [

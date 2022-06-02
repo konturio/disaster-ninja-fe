@@ -1,4 +1,4 @@
-import { Checkbox, Radio, LineItem } from '@k2-packages/ui-kit';
+import { Checkbox, Radio, LineItem } from '@konturio/ui-kit';
 import s from './LayerInput.module.css';
 
 export interface LayerInput {

@@ -1,5 +1,5 @@
 import { Suspense, useEffect } from 'react';
-import { Text } from '@k2-packages/ui-kit';
+import { Text } from '@konturio/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
 import { ReportInfo } from '~features/reports/components/ReportInfo/ReportInfo';
 import { Row } from '~components/Layout/Layout';
@@ -12,7 +12,7 @@ import { lazily } from 'react-lazily';
 import { userResourceAtom } from '~core/auth';
 import { History } from 'history';
 import { AppFeature } from '~core/auth/types';
-const { AppHeader } = lazily(() => import('@k2-packages/ui-kit'));
+const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 
 function linkableTitle(history: History) {

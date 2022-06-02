@@ -1,4 +1,4 @@
-import { Text } from '@k2-packages/ui-kit';
+import { Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
