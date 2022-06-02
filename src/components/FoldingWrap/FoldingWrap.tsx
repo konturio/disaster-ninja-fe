@@ -1,4 +1,4 @@
-import { TriangleDown16 } from '@k2-packages/default-icons';
+import { TriangleDown16 } from '@konturio/default-icons';
 import cn from 'clsx';
 import s from './FoldingWrap.module.css';
 

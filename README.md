@@ -32,8 +32,8 @@ Check types error in project
 Run this script after you run npm install
 This will fix deck-gl types
 
-### upgrade:k2
-Update @k2-packages to last versions
+### upgrade:kontur
+Update @konturio to last versions
 
 ## Configuration
 This app have few source of configuration:  

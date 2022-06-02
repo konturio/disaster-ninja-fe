@@ -1,5 +1,5 @@
 import { useAction, useAtom } from '@reatom/react';
-import { ActionsBar, ActionsBarBTN } from '@k2-packages/ui-kit';
+import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { sortByPredefinedOrder } from './sortByPredefinedOrder';
 import { controlsOrder } from '../../constants';

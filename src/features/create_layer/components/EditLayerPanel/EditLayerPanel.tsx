@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useAction, useAtom } from '@reatom/react';
 import clsx from 'clsx';
-import { Panel, Text } from '@k2-packages/ui-kit';
+import { Panel, Text } from '@konturio/ui-kit';
 import { TranslationService as i18n } from '~core/localization';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
