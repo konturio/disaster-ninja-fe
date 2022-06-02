@@ -1,4 +1,4 @@
-import { Logo } from '@k2-packages/ui-kit';
+import { Logo } from '@konturio/ui-kit';
 import s from './KonturLogo.module.css';
 
 const logoId = 'kontur_header_logo_id';

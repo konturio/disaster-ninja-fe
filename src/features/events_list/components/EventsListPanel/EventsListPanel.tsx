@@ -1,7 +1,7 @@
 import { Virtuoso } from 'react-virtuoso';
 import { TranslationService as i18n } from '~core/localization';
 import { Event } from '~core/types';
-import { Panel, Text } from '@k2-packages/ui-kit';
+import { Panel, Text } from '@konturio/ui-kit';
 import { EventCard } from '../EventCard/EventCard';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import s from './EventsListPanel.module.css';
@@ -18,7 +18,7 @@ import {
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { FeedSelector } from '~features/feed_selector';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { Disasters24 } from '@k2-packages/default-icons';
+import { Disasters24 } from '@konturio/default-icons';
 
 export function EventsListPanel({
   current,
