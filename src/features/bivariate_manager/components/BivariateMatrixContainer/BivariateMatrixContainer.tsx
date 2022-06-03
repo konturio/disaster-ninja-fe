@@ -24,6 +24,12 @@ const BivariateMatrixContainer = ({
     useAtom(bivariateStatisticsResourceAtom)[0],
   );
 
+  function updateDimensions() {
+    if (!containerRef.current || !dimensions.current) return;
+    containerRef.current.style.width = `${dimensions.current.w}px`;
+    containerRef.current.style.height = `${dimensions.current.h}px`;
+  }
+
   const onRefChange = useCallback(
     (ref: HTMLDivElement | null) => {
       if (!ref) return;
@@ -39,16 +45,13 @@ const BivariateMatrixContainer = ({
         Math.abs(dimensions.current.h - newHeight) > 3
       ) {
         dimensions.current = { w: newWidth, h: newHeight };
+        updateDimensions();
       }
     },
     [],
   );
 
-  useEffect(() => {
-    if (!containerRef.current || !dimensions.current) return;
-    containerRef.current.style.width = `${dimensions.current.w}px`;
-    containerRef.current.style.height = `${dimensions.current.h}px`;
-  }, [containerRef, dimensions]);
+  useEffect(updateDimensions, [containerRef]);
 
   return (
     <div
