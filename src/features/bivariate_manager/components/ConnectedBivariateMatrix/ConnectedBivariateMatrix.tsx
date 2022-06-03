@@ -132,7 +132,7 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
           }
 
           const newXGroups = horizontal ? xGroups : newGroups;
-          const newYGroups = horizontal ? newGroups : xGroups;
+          const newYGroups = horizontal ? newGroups : yGroups;
 
           setNumerators(newXGroups, newYGroups);
 
