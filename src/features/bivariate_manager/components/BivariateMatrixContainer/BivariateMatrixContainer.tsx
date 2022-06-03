@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import ConnectedBivariateMatrix from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
 import clsx from 'clsx';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
@@ -13,48 +13,51 @@ interface BivariateMatrixContainerProps {
 }
 
 const BivariateMatrixContainer = ({
-  className,
-}: BivariateMatrixContainerProps) => {
-  const [dimensions, setDimensions] = useState<{ w: number; h: number } | null>(
+                                    className,
+                                  }: BivariateMatrixContainerProps) => {
+  const containerRef = useRef<HTMLDivElement | null>(
     null,
   );
+  const dimensions = useRef<{ w: number, h: number } | null>(null)
 
   const statesToComponents = createStateMap(
     useAtom(bivariateStatisticsResourceAtom)[0],
   );
 
+  function updateDimensions() {
+    if (!containerRef.current || !dimensions.current) return;
+    containerRef.current.style.width = `${dimensions.current.w}px`;
+    containerRef.current.style.height = `${dimensions.current.h}px`;
+  }
+
   const onRefChange = useCallback(
     (ref: HTMLDivElement | null) => {
-      if (ref) {
-        const recalculateDimensions = () => {
-          const dim = ref.getClientRects()[0];
-          // coeff 0.7 here is because of transform: scale(0.7) applied to matrix
-          const baseDim =
-            parseFloat(ref.getAttribute('base-dimension') || '0') * 0.7;
-          const newWidth = baseDim + dim.width + 18;
-          const newHeight = dim.height + 105;
-          if (
-            !dimensions ||
-            Math.abs(dimensions.w - newWidth) > 3 ||
-            Math.abs(dimensions.h - newHeight) > 3
-          ) {
-            setDimensions({ w: newWidth, h: newHeight });
-          }
-        };
+      if (!ref) return;
 
-        recalculateDimensions();
+      const dim = ref.getClientRects()[0];
+      // coeff 0.7 here is because of transform: scale(0.7) applied to matrix
+      const baseDim = parseFloat(ref.getAttribute('base-dimension') || '0') * 0.7;
+      const newWidth = baseDim + dim.width + 18;
+      const newHeight = dim.height + 105;
+      if (
+        !dimensions.current ||
+        Math.abs(dimensions.current.w - newWidth) > 3 ||
+        Math.abs(dimensions.current.h - newHeight) > 3
+      ) {
+        dimensions.current = { w: newWidth, h: newHeight };
+        updateDimensions();
       }
     },
-    [dimensions],
+    [],
   );
+
+  useEffect(updateDimensions, [containerRef]);
 
   return (
     <div
       id="bivariate-matrix-container"
       className={clsx(s.bivariatecContainer, className)}
-      style={
-        dimensions ? { width: dimensions.w, height: dimensions.h } : undefined
-      }
+      ref={containerRef}
     >
       <div>
         {statesToComponents({

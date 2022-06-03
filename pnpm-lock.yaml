@@ -5,16 +5,28 @@ overrides:
 
 specifiers:
   '@deck.gl/extensions': ^8.6.4
+  '@deck.gl/geo-layers': ^8.5.4
+  '@deck.gl/layers': ^8.5.4
   '@deck.gl/mapbox': ^8.6.4
+  '@deck.gl/mesh-layers': ^8.5.4
   '@fortawesome/fontawesome-free': ^5.15.2
   '@k2-packages/default-icons': ^2.0.0-alpha.20
   '@k2-packages/default-theme': ^2.4.0-alpha.8
   '@k2-packages/ui-kit': ^3.0.0-alpha.39
+  '@loaders.gl/core': ^3.0.9
+  '@loaders.gl/gltf': ^3.0.9
+  '@loaders.gl/images': ^2.3.0
   '@nebula.gl/edit-modes': 1.0.2-alpha.0
   '@nebula.gl/layers': 1.0.2-alpha.0
   '@reatom/core': ^2.0.17
   '@reatom/react': ^2.0.15
+  '@turf/area': 6.x
   '@turf/bbox': ^6.0.1
+  '@turf/difference': 6.0.1
+  '@turf/distance': '>=4.0.0'
+  '@turf/great-circle': ^6.3.0
+  '@turf/kinks': ^6.3.0
+  '@types/file-saver': ^2.0.3
   '@types/geojson': ^7946.0.7
   '@types/node': ^12.0.0
   '@types/papaparse': ^5.3.1
@@ -32,6 +44,7 @@ specifiers:
   ava: ^3.15.0
   axios: ^0.21.4
   axios-mock-adapter: ^1.20.0
+  caniuse-lite: ^1.0.30001342
   clsx: ^1.1.0
   color-interpolate: ^1.0.5
   core-js: ^3.16.1
@@ -46,6 +59,7 @@ specifiers:
   eslint-plugin-prettier: ^3.4.0
   eslint-plugin-react: ^7.28.0
   eslint-plugin-react-hooks: ^4.2.0
+  file-saver: ^2.0.5
   geojson-polygon-self-intersections: ^1.2.1
   graphql: ^15.5.1
   graphql-tag: ^2.12.5
@@ -105,16 +119,28 @@ specifiers:
 
 dependencies:
   '@deck.gl/extensions': 8.6.5
+  '@deck.gl/geo-layers': 8.6.5_3af297aeb0ded687d4b64c3198a51e46
+  '@deck.gl/layers': 8.6.5_@loaders.gl+core@3.1.4
   '@deck.gl/mapbox': 8.6.5
+  '@deck.gl/mesh-layers': 8.6.5_ae72aaf8df495e712843305125ff9611
   '@fortawesome/fontawesome-free': 5.15.4
   '@k2-packages/default-icons': 2.0.0-alpha.20_react@17.0.2
   '@k2-packages/default-theme': 2.4.0-alpha.9
   '@k2-packages/ui-kit': 3.0.0-alpha.39_a472ff28d8f2dcb47eccfa2643336b35
+  '@loaders.gl/core': 3.1.4
+  '@loaders.gl/gltf': 3.1.4_@loaders.gl+core@3.1.4
+  '@loaders.gl/images': 2.3.13
   '@nebula.gl/edit-modes': 1.0.2-alpha.0
-  '@nebula.gl/layers': 1.0.2-alpha.0_@deck.gl+extensions@8.6.5
+  '@nebula.gl/layers': 1.0.2-alpha.0_124a3c4486da118e4201db642a88e0f9
   '@reatom/core': 2.0.17
   '@reatom/react': 2.0.15_f951a4b5db932acff3cedae7efa7f5e7
+  '@turf/area': 6.5.0
   '@turf/bbox': 6.5.0
+  '@turf/difference': 6.0.1
+  '@turf/distance': 6.5.0
+  '@turf/great-circle': 6.5.0
+  '@turf/kinks': 6.5.0
+  '@types/file-saver': 2.0.4
   '@types/geojson': 7946.0.8
   '@types/node': 12.20.41
   '@types/papaparse': 5.3.1
@@ -131,6 +157,7 @@ dependencies:
   ava: 3.15.0
   axios: 0.21.4
   axios-mock-adapter: 1.20.0_axios@0.21.4
+  caniuse-lite: 1.0.30001346
   clsx: 1.1.1
   color-interpolate: 1.0.5
   core-js: 3.20.2
@@ -145,6 +172,7 @@ dependencies:
   eslint-plugin-prettier: 3.4.1_eslint@7.32.0+prettier@2.5.1
   eslint-plugin-react: 7.28.0_eslint@7.32.0
   eslint-plugin-react-hooks: 4.3.0_eslint@7.32.0
+  file-saver: 2.0.5
   geojson-polygon-self-intersections: 1.2.1
   graphql: 15.8.0
   graphql-tag: 2.12.6_graphql@15.8.0
@@ -459,15 +487,6 @@ packages:
     resolution: {integrity: sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==}
     dev: false
 
-  /@danmarshall/deckgl-typings/3.5.0:
-    resolution: {integrity: sha512-YDwHoWxAUQdgSkxdqSp+CFUlzrnat9rEeRKucA8zE78iwUVkmOVCRjOrtVf1CjQuBRWhQbs/7/2V3N9wFc9rtw==}
-    requiresBuild: true
-    dependencies:
-      '@types/hammerjs': 2.0.41
-      '@types/react': 17.0.38
-      indefinitely-typed: 1.1.0
-    dev: false
-
   /@danmarshall/deckgl-typings/4.9.12:
     resolution: {integrity: sha512-hRXXDepfieobs+YFcjhoSXS97boSqgMAlWKREGwxBbqO/mE2seNJgQHPedsR+DeGJiK3hJsQmykt8TO51shJ4g==}
     requiresBuild: true
@@ -475,19 +494,6 @@ packages:
       '@types/hammerjs': 2.0.41
       '@types/react': 17.0.38
       indefinitely-typed: 1.1.0
-    dev: false
-
-  /@deck.gl/core/8.6.5:
-    resolution: {integrity: sha512-xqTnW4LFYf1kX91xUJp1lm7QW4NhYglKRTwMejXxzGBcknUq27BYBZNTdeIEVkkQfO/AydhHWaZe3npAsM7cMQ==}
-    dependencies:
-      '@loaders.gl/core': 3.1.4
-      '@loaders.gl/images': 3.1.4
-      '@luma.gl/core': 8.5.10
-      '@math.gl/web-mercator': 3.5.6
-      gl-matrix: 3.4.3
-      math.gl: 3.5.6
-      mjolnir.js: 2.6.0
-      probe.gl: 3.5.0
     dev: false
 
   /@deck.gl/extensions/8.6.5:
@@ -550,14 +556,6 @@ packages:
     resolution: {integrity: sha512-NuUD0JzOpsCHZPrpNsT+eTEjQpZ/svoxmmvZkfP9aBQYcJ4Gy5EBmJzvCaf3gVZkPDQHKM2zPyqfri5j867jtg==}
     peerDependencies:
       '@deck.gl/core': ^8.0.0
-    dev: false
-
-  /@deck.gl/mapbox/8.6.5_@deck.gl+core@8.6.5:
-    resolution: {integrity: sha512-NuUD0JzOpsCHZPrpNsT+eTEjQpZ/svoxmmvZkfP9aBQYcJ4Gy5EBmJzvCaf3gVZkPDQHKM2zPyqfri5j867jtg==}
-    peerDependencies:
-      '@deck.gl/core': ^8.0.0
-    dependencies:
-      '@deck.gl/core': 8.6.5
     dev: false
 
   /@deck.gl/mesh-layers/8.6.5_ae72aaf8df495e712843305125ff9611:
@@ -791,29 +789,6 @@ packages:
     resolution: {integrity: sha512-0OZnNbb8hF+ogr/Exr5KFEnSMQdCgjrbO2ZYeNIGO0UVMTu4oTSLfRcBxKUs1NzxG5RogyV8dL6ETQbkP5VAZw==}
     dev: false
 
-  /@luma.gl/core/8.5.10:
-    resolution: {integrity: sha512-NzzMnSgzPta3gMu8vSM/kWiY09HypHRXt4zw/xFX4geLeX4iXm7Jnm+eeaNpc/QH/yJ51+4bpvZml0P5NIukfQ==}
-    dependencies:
-      '@babel/runtime': 7.16.7
-      '@luma.gl/constants': 8.5.10
-      '@luma.gl/engine': 8.5.10
-      '@luma.gl/gltools': 8.5.10
-      '@luma.gl/shadertools': 8.5.10
-      '@luma.gl/webgl': 8.5.10
-    dev: false
-
-  /@luma.gl/engine/8.5.10:
-    resolution: {integrity: sha512-W3cPlabMl1g6dfAio4yGD9GohoMULXqsBm9P9WOh0KypQBw5pFlE2C/njY43YhfvnpMPDMUjjraYrEXa1fhaig==}
-    dependencies:
-      '@babel/runtime': 7.16.7
-      '@luma.gl/constants': 8.5.10
-      '@luma.gl/gltools': 8.5.10
-      '@luma.gl/shadertools': 8.5.10
-      '@luma.gl/webgl': 8.5.10
-      '@math.gl/core': 3.5.6
-      probe.gl: 3.5.0
-    dev: false
-
   /@luma.gl/experimental/8.5.10_3faa0be74fd90e975a44fc479f903e4f:
     resolution: {integrity: sha512-1Ldq2DEor9qWHoRetcAz4BID1pwp+5x67F2mfe2UtjEpDY0Modi7t8C94PR8cviyjRIu3DErxX7o8HxJ4JXxpQ==}
     peerDependencies:
@@ -849,28 +824,11 @@ packages:
       earcut: 2.2.3
     dev: false
 
-  /@luma.gl/gltools/8.5.10:
-    resolution: {integrity: sha512-XQFocLXvSYfkW2xL1I50nYrPwgyt1jvmzmood3RQBQMiBcgU1JFW2w4tU+V/C5QXcAWWVzm8aIBkuQsCo34zrQ==}
-    dependencies:
-      '@babel/runtime': 7.16.7
-      '@luma.gl/constants': 8.5.10
-      probe.gl: 3.5.0
-    dev: false
-
   /@luma.gl/shadertools/8.5.10:
     resolution: {integrity: sha512-Va/e7fHFI7ZWu03obtNlXN7noIUF1u9U3Pm6PVqeVi3Z24yWl/pFbb5/O1gn66LQZF6fpwoLGN7m4NGk2YyHyA==}
     dependencies:
       '@babel/runtime': 7.16.7
       '@math.gl/core': 3.5.6
-    dev: false
-
-  /@luma.gl/webgl/8.5.10:
-    resolution: {integrity: sha512-8cCJ6aoKmVKvrYoPC6G1jHqMsfTGyn50YMmRkrk2Q79nBe531LZr+6EYXlqx2+AR9obKwTnhTPlxjKg5gR4rYg==}
-    dependencies:
-      '@babel/runtime': 7.16.7
-      '@luma.gl/constants': 8.5.10
-      '@luma.gl/gltools': 8.5.10
-      probe.gl: 3.5.0
     dev: false
 
   /@mapbox/geojson-rewind/0.5.1:
@@ -901,7 +859,7 @@ packages:
     dev: false
 
   /@mapbox/point-geometry/0.1.0:
-    resolution: {integrity: sha1-ioP5M1x4YO/6Lu7KJUMyqgru2PI=}
+    resolution: {integrity: sha512-6j56HdLTwWGO0fJPlrZtdU/B13q8Uwmo18Ck2GnGgN9PCFyKTZ3UbXeEdRFh18i9XQ92eH2VdtpJHpBD3aripQ==}
     dev: false
 
   /@mapbox/tiny-sdf/1.2.5:
@@ -959,39 +917,6 @@ packages:
       gl-matrix: 3.3.0
     dev: false
 
-  /@nebula.gl/edit-modes/0.23.8:
-    resolution: {integrity: sha512-2zzQKXx1/KCA4JePWynWfVfAt/9Idvr/ffCSq0NxyYkQOPJODEXT9h4EH0PBRvjf8MLgGsxgCVZ92LaASEi77Q==}
-    dependencies:
-      '@turf/along': 6.5.0
-      '@turf/area': 6.5.0
-      '@turf/bbox': 6.5.0
-      '@turf/bbox-polygon': 6.5.0
-      '@turf/bearing': 6.5.0
-      '@turf/boolean-point-in-polygon': 6.5.0
-      '@turf/buffer': 6.5.0
-      '@turf/center': 6.5.0
-      '@turf/centroid': 6.5.0
-      '@turf/circle': 6.5.0
-      '@turf/destination': 6.5.0
-      '@turf/difference': 6.0.1
-      '@turf/distance': 6.5.0
-      '@turf/ellipse': 6.5.0
-      '@turf/helpers': 6.5.0
-      '@turf/intersect': 6.5.0
-      '@turf/line-intersect': 6.5.0
-      '@turf/nearest-point-on-line': 6.5.0
-      '@turf/point-to-line-distance': 6.5.0
-      '@turf/polygon-to-line': 6.5.0
-      '@turf/rewind': 6.5.0
-      '@turf/transform-rotate': 6.5.0
-      '@turf/transform-scale': 6.5.0
-      '@turf/transform-translate': 6.5.0
-      '@turf/union': 6.5.0
-      geojson: 0.5.0
-      lodash.throttle: 4.1.1
-      viewport-mercator-project: 7.0.4
-    dev: false
-
   /@nebula.gl/edit-modes/1.0.2-alpha.0:
     resolution: {integrity: sha512-SQfksd7c4H0r5Zf+3ElDUQBttk1gSfT8skSeTWAq1Bv3t65zMZZuvWeQjI8mc+NQL33W8tDJuoGYw0uhYgVZ6g==}
     dependencies:
@@ -1025,51 +950,7 @@ packages:
       viewport-mercator-project: 7.0.4
     dev: false
 
-  /@nebula.gl/layers/0.23.8_2aa4dd0369f19e4e8e2dee3fb0213602:
-    resolution: {integrity: sha512-29xzYyE2uMmZsBb4/io6SzNS8Mxfr1L4PeL1B4WV1fx83phbZa22qb8ktQ/tOkLnwVwm0Zk3QRiLfrrQGD1V4g==}
-    peerDependencies:
-      '@deck.gl/core': ^8.4.6
-      '@deck.gl/geo-layers': ^8.4.6
-      '@deck.gl/layers': ^8.4.6
-      '@deck.gl/mesh-layers': ^8.4.6
-      '@luma.gl/constants': ^8.4.3
-      '@luma.gl/core': ^8.4.3
-    dependencies:
-      '@danmarshall/deckgl-typings': 3.5.0
-      '@deck.gl/geo-layers': 8.6.5_3af297aeb0ded687d4b64c3198a51e46
-      '@deck.gl/layers': 8.6.5_@loaders.gl+core@3.1.4
-      '@deck.gl/mesh-layers': 8.6.5_ae72aaf8df495e712843305125ff9611
-      '@nebula.gl/edit-modes': 0.23.8
-      '@turf/bbox': 6.5.0
-      '@turf/bbox-polygon': 6.5.0
-      '@turf/bearing': 6.5.0
-      '@turf/boolean-point-in-polygon': 6.5.0
-      '@turf/buffer': 6.5.0
-      '@turf/center': 6.5.0
-      '@turf/centroid': 6.5.0
-      '@turf/circle': 6.5.0
-      '@turf/destination': 6.5.0
-      '@turf/difference': 6.0.1
-      '@turf/distance': 6.5.0
-      '@turf/ellipse': 6.5.0
-      '@turf/helpers': 6.5.0
-      '@turf/intersect': 6.5.0
-      '@turf/line-intersect': 6.5.0
-      '@turf/nearest-point-on-line': 6.5.0
-      '@turf/point-to-line-distance': 6.5.0
-      '@turf/polygon-to-line': 6.5.0
-      '@turf/transform-rotate': 6.5.0
-      '@turf/transform-scale': 6.5.0
-      '@turf/transform-translate': 6.5.0
-      '@turf/union': 6.5.0
-      cubic-hermite-spline: 1.0.1
-      geojson-types: 2.0.1
-      global: 4.4.0
-      h3-js: 3.7.2
-      viewport-mercator-project: 7.0.4
-    dev: false
-
-  /@nebula.gl/layers/1.0.2-alpha.0_@deck.gl+extensions@8.6.5:
+  /@nebula.gl/layers/1.0.2-alpha.0_124a3c4486da118e4201db642a88e0f9:
     resolution: {integrity: sha512-bSRqEvdauWUTIYf+RXamnYekSCBaA4tEkqGiD3xVZEsrgG0//BYsjHbSG62tpYY5FwSJEzPx6NeBRIxcJ+xPIg==}
     peerDependencies:
       '@deck.gl/core': ^8.6.0
@@ -1082,6 +963,9 @@ packages:
     dependencies:
       '@danmarshall/deckgl-typings': 4.9.12
       '@deck.gl/extensions': 8.6.5
+      '@deck.gl/geo-layers': 8.6.5_3af297aeb0ded687d4b64c3198a51e46
+      '@deck.gl/layers': 8.6.5_@loaders.gl+core@3.1.4
+      '@deck.gl/mesh-layers': 8.6.5_ae72aaf8df495e712843305125ff9611
       '@nebula.gl/edit-modes': 1.0.2-alpha.0
       '@turf/bbox': 6.5.0
       '@turf/bbox-polygon': 6.5.0
@@ -2047,7 +1931,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.19.1
-      caniuse-lite: 1.0.30001298
+      caniuse-lite: 1.0.30001346
       fraction.js: 4.1.2
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2221,7 +2105,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001298
+      caniuse-lite: 1.0.30001346
       electron-to-chromium: 1.4.40
       escalade: 3.1.1
       node-releases: 2.0.1
@@ -2290,8 +2174,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite/1.0.30001298:
-    resolution: {integrity: sha512-AcKqikjMLlvghZL/vfTHorlQsLDhGRalYf1+GmWCf5SCMziSGjRYQW/JEksj14NaYHIR6KIhrFAy0HV5C25UzQ==}
+  /caniuse-lite/1.0.30001346:
+    resolution: {integrity: sha512-q6ibZUO2t88QCIPayP/euuDREq+aMAxFE5S70PkrLh0iTDj/zEhgvJRKC2+CvXY6EWc6oQwUR48lL5vCW6jiXQ==}
     dev: false
 
   /chalk/2.4.2:
@@ -3976,11 +3860,6 @@ packages:
     engines: {node: '>=4', npm: '>=3', yarn: '>=1.3.0'}
     dev: false
 
-  /hammerjs/2.0.8:
-    resolution: {integrity: sha1-BO93hiz/K7edMPdpIJWTAiK/YPE=}
-    engines: {node: '>=0.8.0'}
-    dev: false
-
   /hard-rejection/2.1.0:
     resolution: {integrity: sha512-VIZB+ibDhx7ObhAe7OVtoEbuP4h/MuOTHJ+J8h/eBXotJYl0fBgR72xDFCKgIh22OJZIOVNxBMWuhAr10r8HdA==}
     engines: {node: '>=6'}
@@ -4906,7 +4785,7 @@ packages:
     dev: false
 
   /long/3.2.0:
-    resolution: {integrity: sha1-2CG3E4yhy1gcFymQ7xTbIAtcR0s=}
+    resolution: {integrity: sha512-ZYvPPOMqUwPoDsbJaR10iQJYnMuZhRTvHYl62ErLIEX7RgFlziSBUUvrt3OVfc47QlHHpzPZYP17g3Fv7oeJkg==}
     engines: {node: '>=0.6'}
     dev: false
 
@@ -5403,14 +5282,6 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
-    dev: false
-
-  /mjolnir.js/2.6.0:
-    resolution: {integrity: sha512-rGA7+BJKvXI0ypxQD/+rQE/sW26kmc8UIZWhmQrjhwCf/zvhbcBlsu2vPB6w0Kv/rVnVFEONTSQqC0vFEpQvIA==}
-    engines: {node: '>= 4', npm: '>= 3'}
-    dependencies:
-      '@babel/runtime': 7.16.7
-      hammerjs: 2.0.8
     dev: false
 
   /mkdirp/0.5.5:
@@ -6508,10 +6379,6 @@ packages:
     dependencies:
       indent-string: 4.0.0
       strip-indent: 3.0.0
-    dev: false
-
-  /redux-act/1.8.0:
-    resolution: {integrity: sha512-xW3FIco/VwJGMW3eCD3JGAxyozNC4k35qrWM5lEQf9T2pfv3leDC+3vQ8WdHZjcrol/jjWAeJ+ULqrscuDqlKg==}
     dev: false
 
   /redux-devtools-extension/2.13.9:
