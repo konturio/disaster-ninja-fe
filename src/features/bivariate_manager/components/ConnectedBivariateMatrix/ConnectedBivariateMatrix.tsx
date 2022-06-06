@@ -1,5 +1,5 @@
 import { BivariateMatrixControlComponent } from '@konturio/ui-kit';
-import React, { forwardRef, useCallback, useMemo } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
 import { Indicator, CorrelationRate } from '~utils/bivariate';
 import { AxisGroup } from '~core/types';
 import { useAtom } from '@reatom/react';
@@ -65,19 +65,25 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
 
     const stats = statisticsData?.polygonStatistic.bivariateStatistic;
 
-    const selectedCell = useMemo(() => {
-      const xIndex = xGroups?.findIndex(
+    const calculateSelectedCell = useCallback((): { x: number, y: number } => {
+      const xIndex = xGroups ? xGroups.findIndex(
         (group) =>
           group.selectedQuotient[0] === matrixSelection?.xNumerator &&
           group.selectedQuotient[1] === matrixSelection?.xDenominator,
-      );
-      const yIndex = yGroups?.findIndex(
+      ) : -1;
+      const yIndex = yGroups ? yGroups.findIndex(
         (group) =>
           group.selectedQuotient[0] === matrixSelection?.yNumerator &&
           group.selectedQuotient[1] === matrixSelection?.yDenominator,
-      );
+      ) : -1;
 
       return { x: xIndex, y: yIndex };
+    }, [xGroups, yGroups, matrixSelection]);
+
+    const selectedCell = useRef<{ x: number, y: number }>(calculateSelectedCell());
+    
+    useEffect(() => {
+      selectedCell.current = calculateSelectedCell();
     }, [matrixSelection, xGroups, yGroups]);
 
     const headings = useMemo(() => {
@@ -106,7 +112,7 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
         if (
           !xGroups ||
           !yGroups ||
-          (x === selectedCell.x && y === selectedCell.y)
+          (x === selectedCell.current.x && y === selectedCell.current.y)
         )
           return;
         setMatrixSelection(
@@ -116,7 +122,7 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
           y !== -1 ? yGroups[y].selectedQuotient[1] : null,
         );
       },
-      [xGroups, yGroups, selectedCell],
+      [xGroups, yGroups],
     );
 
     const onSelectQuotient = useCallback(
@@ -138,23 +144,23 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
 
           // refresh colors
           if (
-            selectedCell.x !== undefined &&
-            selectedCell.y !== undefined &&
-            selectedCell.x !== -1 &&
-            selectedCell.y !== -1 &&
-            ((horizontal && selectedCell.y === index) ||
-              (!horizontal && selectedCell.x === index))
+            selectedCell.current.x !== undefined &&
+            selectedCell.current.y !== undefined &&
+            selectedCell.current.x !== -1 &&
+            selectedCell.current.y !== -1 &&
+            ((horizontal && selectedCell.current.y === index) ||
+              (!horizontal && selectedCell.current.x === index))
           ) {
             setMatrixSelection(
-              newXGroups[selectedCell.x].selectedQuotient[0],
-              newXGroups[selectedCell.x].selectedQuotient[1],
-              newYGroups[selectedCell.y].selectedQuotient[0],
-              newYGroups[selectedCell.y].selectedQuotient[1],
+              newXGroups[selectedCell.current.x].selectedQuotient[0],
+              newXGroups[selectedCell.current.x].selectedQuotient[1],
+              newYGroups[selectedCell.current.y].selectedQuotient[0],
+              newYGroups[selectedCell.current.y].selectedQuotient[1],
             );
           }
         }
       },
-      [xGroups, yGroups, selectedCell],
+      [xGroups, yGroups],
     );
 
     return matrix && headings ? (
@@ -164,7 +170,7 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
         xHeadings={headings.x}
         yHeadings={headings.y}
         onSelectCell={onSelectCellHandler}
-        selectedCell={selectedCell}
+        selectedCell={selectedCell.current}
         onSelectQuotient={onSelectQuotient}
       />
     ) : null;
