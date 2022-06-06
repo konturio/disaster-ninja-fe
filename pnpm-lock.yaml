@@ -40,6 +40,7 @@ specifiers:
   ava: ^3.15.0
   axios: ^0.21.4
   axios-mock-adapter: ^1.20.0
+  caniuse-lite: ^1.0.30001342
   clsx: ^1.1.0
   color-interpolate: ^1.0.5
   cpr: ^3.0.1
@@ -128,6 +129,7 @@ dependencies:
   ava: 3.15.0
   axios: 0.21.4
   axios-mock-adapter: 1.20.0_axios@0.21.4
+  caniuse-lite: 1.0.30001346
   clsx: 1.1.1
   color-interpolate: 1.0.5
   cpr: 3.0.1
@@ -779,7 +781,7 @@ packages:
     dev: false
 
   /@mapbox/point-geometry/0.1.0:
-    resolution: {integrity: sha1-ioP5M1x4YO/6Lu7KJUMyqgru2PI=}
+    resolution: {integrity: sha512-6j56HdLTwWGO0fJPlrZtdU/B13q8Uwmo18Ck2GnGgN9PCFyKTZ3UbXeEdRFh18i9XQ92eH2VdtpJHpBD3aripQ==}
     dev: false
 
   /@mapbox/tiny-sdf/1.2.5:
@@ -1804,7 +1806,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.19.1
-      caniuse-lite: 1.0.30001344
+      caniuse-lite: 1.0.30001346
       fraction.js: 4.1.2
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -1961,7 +1963,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001344
+      caniuse-lite: 1.0.30001346
       electron-to-chromium: 1.4.40
       escalade: 3.1.1
       node-releases: 2.0.1
@@ -2030,8 +2032,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite/1.0.30001344:
-    resolution: {integrity: sha512-0ZFjnlCaXNOAYcV7i+TtdKBp0L/3XEU2MF/x6Du1lrh+SRX4IfzIVL4HNJg5pB2PmFb8rszIGyOvsZnqqRoc2g==}
+  /caniuse-lite/1.0.30001346:
+    resolution: {integrity: sha512-q6ibZUO2t88QCIPayP/euuDREq+aMAxFE5S70PkrLh0iTDj/zEhgvJRKC2+CvXY6EWc6oQwUR48lL5vCW6jiXQ==}
     dev: false
 
   /chalk/2.4.2:
