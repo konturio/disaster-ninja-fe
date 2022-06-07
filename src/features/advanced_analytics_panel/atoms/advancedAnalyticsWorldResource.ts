@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
-import { apiClient } from '~core/index';
-import { AdvancedAnalyticsData } from '~core/types';
+import { apiClient } from '~core/apiClientInstance';
+import type { AdvancedAnalyticsData } from '~core/types';
 
 interface ResourceState {
   loading: boolean;

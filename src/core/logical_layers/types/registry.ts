@@ -1,4 +1,4 @@
-import { Action, AtomSelfBinded } from '@reatom/core';
+import type { Action, AtomSelfBinded } from '@reatom/core';
 import type { LayerAtom } from './logicalLayer';
 import type { LogicalLayerRenderer } from './renderer';
 

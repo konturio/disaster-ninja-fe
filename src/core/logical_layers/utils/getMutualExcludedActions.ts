@@ -7,8 +7,8 @@ import { layersCategoriesSettingsAtom } from '~core/shared_state/layersCategorie
 // import { LogicalLayersHierarchy, logicalLayersHierarchyAtom } from '../atoms/layersHierarchy';
 import type { CategorySettings, GroupSettings } from '~core/types/layers';
 import type { LogicalLayerState } from '../types/logicalLayer';
-import { LayerSettings } from '../types/settings';
-import { AsyncState } from '../types/asyncState';
+import type { LayerSettings } from '../types/settings';
+import type { AsyncState } from '../types/asyncState';
 
 export const getMutualExcludedActions = (() => {
   let groupsSettings: Record<string, GroupSettings> | null = null;

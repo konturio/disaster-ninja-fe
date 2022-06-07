@@ -1,5 +1,5 @@
-import { EventData, MapEventType } from 'maplibre-gl';
-import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import type { EventData, MapEventType } from 'maplibre-gl';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 export const waitMapEvent = <T extends keyof MapEventType>(
   map: ApplicationMap,

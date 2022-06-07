@@ -12,7 +12,7 @@ import {
   controlGroup,
   controlVisualGroup,
 } from '~core/shared_state/sideControlsBar';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { forceRun } from '~utils/atoms/forceRun';
 import { BoundarySelectorRenderer } from './renderers/BoundarySelectorRenderer';

@@ -1,8 +1,8 @@
 import turfDistance from '@turf/distance';
 import greatCircle from '@turf/great-circle';
-import { FeatureCollection } from '@nebula.gl/edit-modes';
+import type { FeatureCollection } from '@nebula.gl/edit-modes';
 import { GeoJsonEditMode } from '@nebula.gl/edit-modes';
-import {
+import type {
   ClickEvent,
   PointerMoveEvent,
   ModeProps,

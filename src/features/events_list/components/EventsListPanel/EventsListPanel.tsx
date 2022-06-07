@@ -1,6 +1,6 @@
 import { Virtuoso } from 'react-virtuoso';
-import { TranslationService as i18n } from '~core/localization';
-import { Event } from '~core/types';
+import { i18n } from '~core/localization';
+import type { Event } from '~core/types';
 import { Panel, Text } from '@konturio/ui-kit';
 import { EventCard } from '../EventCard/EventCard';
 import { createStateMap } from '~utils/atoms/createStateMap';

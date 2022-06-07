@@ -1,7 +1,7 @@
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
-import { ColorTheme } from '~core/types';
+import type { ColorTheme } from '~core/types';
 import type { Stat } from '~utils/bivariate';
-import { LayerMeta } from '~core/logical_layers/types/meta';
+import type { LayerMeta } from '~core/logical_layers/types/meta';
 
 export function createBivariateLegend(
   name: string,

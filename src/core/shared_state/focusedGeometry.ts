@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { EventWithGeometry } from '~core/types';
+import type { EventWithGeometry } from '~core/types';
 import { crc32 } from 'hash-wasm';
 import { currentUserAtom } from '~core/shared_state/currentUser';
 
@@ -46,7 +46,10 @@ export const focusedGeometryAtom = createAtom(
     _update: (fGeometry: FocusedGeometry) => fGeometry,
     currentUserAtom,
   },
-  ({ onAction, schedule, create, getUnlistedState, onChange }, state: FocusedGeometry | null = null) => {
+  (
+    { onAction, schedule, create, getUnlistedState, onChange },
+    state: FocusedGeometry | null = null,
+  ) => {
     onAction('setFocusedGeometry', ({ source, geometry }) => {
       // need to add user to cache to be able to focused geometry invalidate cache on login/logout
       const user = getUnlistedState(currentUserAtom);

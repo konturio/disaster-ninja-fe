@@ -1,4 +1,4 @@
-import { AsyncState } from '~core/logical_layers/types/asyncState';
+import type { AsyncState } from '~core/logical_layers/types/asyncState';
 
 export function createAsyncWrapper<T>(
   data: T,

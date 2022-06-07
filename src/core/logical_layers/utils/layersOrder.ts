@@ -1,4 +1,4 @@
-import { Map as MapLibre } from 'maplibre-gl';
+import type { Map as MapLibre } from 'maplibre-gl';
 
 export type LayersType =
   | 'symbol'

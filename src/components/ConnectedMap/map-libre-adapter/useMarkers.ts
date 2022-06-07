@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import mapLibre from 'maplibre-gl';
-import { Marker } from './types';
+import type { Marker } from './types';
 
 function isReact(el: { props?: any }): boolean {
   return el.props !== undefined;

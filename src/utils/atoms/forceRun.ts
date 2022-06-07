@@ -1,4 +1,4 @@
-import { Atom } from '@reatom/core';
+import type { Atom } from '@reatom/core';
 /**
  * Atoms computed by lazy algorithm - without subscribers atom don't do anything,
  * but in case with stateless atoms we want to run atom event them event without subscribers.
