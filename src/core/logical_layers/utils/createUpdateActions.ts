@@ -1,9 +1,9 @@
-import { Action } from '@reatom/core';
-import { LayerLegend } from '../types/legends';
-import { LayerMeta } from '../types/meta';
-import { LayerSettings } from '../types/settings';
-import { LayerSource } from '../types/source';
-import { LayerContextMenu } from '../types/contextMenu';
+import type { Action } from '@reatom/core';
+import type { LayerLegend } from '../types/legends';
+import type { LayerMeta } from '../types/meta';
+import type { LayerSettings } from '../types/settings';
+import type { LayerSource } from '../types/source';
+import type { LayerContextMenu } from '../types/contextMenu';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';

@@ -1,11 +1,12 @@
-import { apiClient } from '~core/index';
+import { apiClient } from '~core/apiClientInstance';
 import { createAtom, createResourceAtom } from '~utils/atoms';
-import { CurrentUser, currentUserAtom } from '~core/shared_state/currentUser';
+import { currentUserAtom } from '~core/shared_state/currentUser';
+import type { CurrentUser } from '~core/shared_state/currentUser';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 import appConfig from '~core/app_config';
-import { UserDataModel } from '~core/auth';
+import { UserDataModel } from '../models/UserDataModel';
 import config from '~core/app_config';
-import {
+import type {
   AppFeatureType,
   BackendFeature,
   BackendFeed,
@@ -100,9 +101,11 @@ export const userResourceAtom = createResourceAtom<
     // use it to enable/disable specific features for development
     if (import.meta.env.VITE_FEATURES_CONFIG) {
       try {
-        const featuresOverride = JSON.parse(import.meta.env.VITE_FEATURES_CONFIG as string);
+        const featuresOverride = JSON.parse(
+          import.meta.env.VITE_FEATURES_CONFIG as string,
+        );
         if (featuresOverride) {
-          features = {...features, ...featuresOverride};
+          features = { ...features, ...featuresOverride };
         }
       } catch (e) {}
     }

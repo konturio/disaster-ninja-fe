@@ -1,7 +1,7 @@
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { apiClient } from '~core/index';
-import { EditableLayers } from '../types';
+import { apiClient } from '~core/apiClientInstance';
+import type { EditableLayers } from '../types';
 import { currentApplicationAtom } from '~core/shared_state';
 import { EDITABLE_LAYERS_GROUP } from '~core/constants';
 

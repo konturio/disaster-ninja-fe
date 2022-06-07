@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import ReactMarkdown from 'react-markdown';
-import { notificationService } from '~core/index';
+import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { reportsAtom } from '~features/reports/atoms/reportsAtom';
 import { useAtom } from '@reatom/react';
 import { ReportTable } from '../ReportTable/ReportTable';
@@ -33,7 +33,7 @@ export function ReportInfo() {
     if (reports.length) {
       const meta = reports.find((report) => report.id === reportId);
       if (!meta)
-        notificationService.error({ title: i18n.t('Wrong report ID') });
+        notificationServiceInstance.error({ title: i18n.t('Wrong report ID') });
       else setReport(meta);
     }
   }, [reports]);

@@ -12,8 +12,8 @@ import {
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { URLStore } from '../URLStore';
 import { URLDataInSearchEncoder } from '../dataInURLEncoder';
-import { UrlData } from '../types';
-import { Action } from '@reatom/core';
+import type { UrlData } from '../types';
+import type { Action } from '@reatom/core';
 
 const urlStore = new URLStore(new URLDataInSearchEncoder());
 const initFlagAtom = createBooleanAtom(false);

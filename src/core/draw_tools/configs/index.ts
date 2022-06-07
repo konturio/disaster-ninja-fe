@@ -1,4 +1,4 @@
-import { DrawModeType } from '../constants';
+import type { DrawModeType } from '../constants';
 import { drawLineDeckLayerConfig } from './drawLine';
 import { drawPointDeckLayerConfig } from './drawPoint';
 import { drawPolyDeckLayerConfig } from './drawPolyLayer';

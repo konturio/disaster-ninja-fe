@@ -1,11 +1,9 @@
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import {
-  FocusedGeometry,
-  focusedGeometryAtom,
-} from '~core/shared_state/focusedGeometry';
-import { apiClient } from '~core/index';
-import { LayerInArea } from '../types';
+import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
+import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
+import { apiClient } from '~core/apiClientInstance';
+import type { LayerInArea } from '../types';
 import {
   currentApplicationAtom,
   currentEventFeedAtom,

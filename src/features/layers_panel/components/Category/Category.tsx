@@ -3,7 +3,7 @@ import { useAtom } from '@reatom/react';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { mountedLayersByCategoryAtom } from '~features/layers_panel/atoms/mountedLayersByCategory';
 import { Group } from '../Group/Group';
-import { CategoryWithSettings } from '~core/types/layers';
+import type { CategoryWithSettings } from '~core/types/layers';
 import { useAction } from '@reatom/react';
 import s from './Category.module.css';
 import { categoryDeselection } from '../../atoms/categoryDeselection';

@@ -1,5 +1,6 @@
-import { ClickEvent, DrawPointMode, ModeProps } from '@nebula.gl/edit-modes';
-import { FeatureCollection } from '@nebula.gl/edit-modes/';
+import type { ClickEvent, ModeProps } from '@nebula.gl/edit-modes';
+import { DrawPointMode } from '@nebula.gl/edit-modes';
+import type { FeatureCollection } from '@nebula.gl/edit-modes/';
 
 export class LocalDrawPointMode extends DrawPointMode {
   handleClick(

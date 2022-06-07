@@ -1,15 +1,12 @@
-import {
-  CornerRange,
-  generateBivariateStyleForAxis,
-  Stat,
-} from '~utils/bivariate';
+import type { CornerRange, Stat } from '~utils/bivariate';
+import { generateBivariateStyleForAxis } from '~utils/bivariate';
 import interpolate from 'color-interpolate';
 import config from '~core/app_config';
-import {
+import type {
   BivariateLegend,
   BivariateLegendBackend,
 } from '~core/logical_layers/types/legends';
-import { ColorTheme } from '~core/types';
+import type { ColorTheme } from '~core/types';
 import type { ColorCombination } from '~utils/bivariate/types/stat.types';
 
 type BivariateLayerSource = {

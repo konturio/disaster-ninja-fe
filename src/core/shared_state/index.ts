@@ -1,4 +1,3 @@
-export { layersRegistryAtom } from '../logical_layers/atoms/layersRegistry';
 export { currentEpisodeAtom } from './currentEpisode';
 export { currentEventAtom } from './currentEvent';
 export { currentEventFeedAtom } from './currentEventFeed';

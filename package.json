@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/active/",
   "type": "module",
-  "license" : "MIT",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -17,9 +17,10 @@
     "test:unit": "ava",
     "test:unit-watch": "ava --watch",
     "checkapi": "node ./scripts/is-api-working.js",
-    "lint": "npm-run-all lint:js lint:css",
+    "lint": "npm-run-all lint:js lint:css depcruise",
     "lint:js": "eslint --quiet  --ext .tsx,.ts src/",
     "lint:css": "stylelint ./src/**/*.css",
+    "depcruise": "depcruise --config .dependency-cruiser.cjs src",
     "postinstall": "run-s fixtypes patch",
     "fixtypes": "node ./scripts/fix-deckgl-types.mjs",
     "patch": "patch-package",
@@ -150,7 +151,11 @@
     "use-subscription": "^1.5.1",
     "uuid": "^8.3.2",
     "vite": "^2.6.14",
-    "vite-plugin-html": "^2.1.1"
+    "vite-plugin-html": "^2.1.1",
+    "@turf/helpers": "^6.5.0",
+    "@turf/centroid": "^6.5.0",
+    "core-js": "^3.22.8",
+    "dependency-cruiser": "^11.8.0"
   },
   "resolutions": {
     "@turf/difference": "6.0.1"

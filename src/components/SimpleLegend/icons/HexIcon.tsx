@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { LegendStepStyle, LegendIconSize } from '~core/types';
+import type { LegendStepStyle, LegendIconSize } from '~core/types';
 const sizes = {
   normal: 16,
   small: 12,

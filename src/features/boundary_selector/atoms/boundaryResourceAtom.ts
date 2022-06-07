@@ -1,5 +1,5 @@
 import { createResourceAtom } from '~utils/atoms';
-import { boundariesClient } from '~core/index';
+import { boundariesClient } from '~core/apiClientInstance';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 
 export const boundaryResourceAtom = createResourceAtom(async (params) => {

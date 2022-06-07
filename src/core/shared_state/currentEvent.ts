@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from './focusedGeometry';
-import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
+import { currentEventFeedAtom } from './currentEventFeed';
 
 // * CurrentEventAtomState *
 // null represents the initial state of event - we need that state for cases of autoselecting event
@@ -28,10 +28,15 @@ export const currentEventAtom = createAtom(
         state = { id: null };
       }
     });
-    onChange('currentEventFeedAtom', () => {
+
+    onChange('currentEventFeedAtom', (nextData, prevData) => {
       const focusedGeometry = getUnlistedState(focusedGeometryAtom);
-      if (!focusedGeometry || focusedGeometry.source?.type === 'event') {
-        // if feed was changed while browsing events - we should roll back for the initial state
+      if (
+        !focusedGeometry ||
+        focusedGeometry.source?.type === 'event' || // if feed was changed while browsing events - we should roll back for the initial state
+        (nextData?.id && nextData.id !== prevData?.id) ||
+        nextData === null
+      ) {
         state = null;
       }
     });

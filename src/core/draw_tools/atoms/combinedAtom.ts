@@ -1,11 +1,11 @@
-import { Action } from '@reatom/core';
+import type { Action } from '@reatom/core';
 import { createAtom } from '~utils/atoms';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
-import { Feature } from 'geojson';
+import type { Feature } from 'geojson';
 import { temporaryGeometryAtom } from './temporaryGeometryAtom';
 import { currentMapAtom, currentNotificationAtom } from '~core/shared_state';
-import { NotificationType } from '~core/shared_state/currentNotifications';
-import { NotificationMessage } from '~core/types/notification';
+import type { NotificationType } from '~core/shared_state/currentNotifications';
+import type { NotificationMessage } from '~core/types/notification';
 import { activeDrawModeAtom } from './activeDrawMode';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
 import { drawModeLogicalLayerAtom } from './logicalLayerAtom';

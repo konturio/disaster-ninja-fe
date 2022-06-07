@@ -1,5 +1,6 @@
-import { ReactNode, useEffect, useState } from 'react';
-import { authClient } from '~core/index';
+import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
+import { authClientInstance } from '~core/authClientInstance';
 
 export function AuthWrapper({
   children,
@@ -10,7 +11,7 @@ export function AuthWrapper({
 
   useEffect(() => {
     async function initApp() {
-      await authClient.checkAuth();
+      await authClientInstance.checkAuth();
       setInitialized(true);
     }
 
