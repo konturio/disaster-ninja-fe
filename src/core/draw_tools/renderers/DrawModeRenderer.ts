@@ -1,20 +1,21 @@
-import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { MapboxLayer } from '@deck.gl/mapbox';
-import { createDrawingLayers, drawModes, DrawModeType } from '../constants';
+import type { DrawModeType } from '../constants';
+import { createDrawingLayers, drawModes } from '../constants';
 import { layersConfigs } from '../configs';
-import { FeatureCollection, Feature } from 'geojson';
+import type { FeatureCollection, Feature } from 'geojson';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
 import { registerMapListener } from '~core/shared_state/mapListeners';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import gpsi from 'geojson-polygon-self-intersections';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import {
+import type {
   NotNullableMap,
   CommonHookArgs,
 } from '~core/logical_layers/types/renderer';
-import { CombinedAtom } from '../atoms/combinedAtom';
-import { NotificationType } from '~core/shared_state/currentNotifications';
-import { NotificationMessage } from '~core/types/notification';
+import type { CombinedAtom } from '../atoms/combinedAtom';
+import type { NotificationType } from '~core/shared_state/currentNotifications';
+import type { NotificationMessage } from '~core/types/notification';
 
 type mountedDeckLayersType = {
   [key in DrawModeType]?: MapboxLayer<unknown>;

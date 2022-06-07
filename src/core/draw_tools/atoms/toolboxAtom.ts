@@ -1,14 +1,15 @@
-import { Action } from '@reatom/core';
+import type { Action } from '@reatom/core';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
-import { DrawModeType, FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '../constants';
+import type { DrawModeType } from '../constants';
+import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '../constants';
 import { activeDrawModeAtom } from './activeDrawMode';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { isDrawingStartedAtom } from './isDrawingStartedAtom';
 import { selectedIndexesAtom } from './selectedIndexesAtom';
 import { temporaryGeometryAtom } from './temporaryGeometryAtom';
 import { currentNotificationAtom } from '~core/shared_state';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { downloadObject } from '~utils/fileHelpers/download';
 
 interface DrawToolBoxSettings {

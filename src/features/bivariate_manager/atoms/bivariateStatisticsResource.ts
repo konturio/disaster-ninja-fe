@@ -1,5 +1,5 @@
 import { createResourceAtom } from '~utils/atoms';
-import { graphQlClient } from '~core/index';
+import { graphQlClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
 import type { Stat } from '~utils/bivariate';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';

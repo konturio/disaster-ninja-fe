@@ -1,11 +1,11 @@
-import {
+import type {
   ClickEvent,
   PointerMoveEvent,
   ModeProps,
   GuideFeatureCollection,
   TentativeFeature,
 } from '@nebula.gl/edit-modes/dist/types';
-import {
+import type {
   Polygon,
   FeatureCollection,
   Position,

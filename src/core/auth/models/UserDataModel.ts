@@ -1,4 +1,4 @@
-import { AppFeatureType, UserFeed } from '~core/auth/types';
+import type { AppFeatureType, UserFeed } from '~core/auth/types';
 
 export class UserDataModel {
   private readonly _features: { [T in AppFeatureType]?: boolean } = {};

@@ -1,14 +1,12 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import {
-  BivariateLayerStyle,
-  generateColorThemeAndBivariateStyle,
-} from '~utils/bivariate/bivariateColorThemeUtils';
+import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
+import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import {
   createBivariateLegend,
   createBivariateMeta,
 } from '~utils/bivariate/bivariateLegendUtils';
-import { ColorTheme } from '~core/types';
+import type { ColorTheme } from '~core/types';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';

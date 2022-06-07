@@ -1,7 +1,7 @@
 import { createAtom, createResourceAtom } from '~utils/atoms';
-import { apiClient } from '~core/index';
+import { apiClient } from '~core/apiClientInstance';
 import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
-import { EventWithGeometry } from '~core/types';
+import type { EventWithGeometry } from '~core/types';
 
 const eventDependencyAtom = createAtom(
   { currentEventAtom },

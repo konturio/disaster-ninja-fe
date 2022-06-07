@@ -1,5 +1,5 @@
-import { Unsubscribe } from '@reatom/core';
-import { ResourceAtom } from '~utils/atoms/createResourceAtom';
+import type { Unsubscribe } from '@reatom/core';
+import type { ResourceAtom } from '~utils/atoms/createResourceAtom';
 
 class AutoRefreshService {
   private resources: Record<

@@ -5,7 +5,7 @@ import {
   Poly24,
   Plus24,
 } from '@konturio/default-icons';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 
 interface AdvancedAnalyticsEmptyStateProps {
   stateType?: 'initial' | 'not-found' | 'error';

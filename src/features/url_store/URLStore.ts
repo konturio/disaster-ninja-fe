@@ -1,4 +1,4 @@
-import { UrlData } from './types';
+import type { UrlData } from './types';
 
 interface UrlEncoder<
   T = Record<string, string | number | string[] | number[]>,

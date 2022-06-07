@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import cn from 'clsx';
 import { parseISO } from 'date-fns';
-import { Event } from '~core/types';
+import type { Event } from '~core/types';
 import { Analytics } from './Analytics/Analytics';
 import s from './EventCard.module.css';
 import { Text } from '@konturio/ui-kit';

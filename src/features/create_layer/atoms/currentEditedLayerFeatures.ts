@@ -1,4 +1,5 @@
-import { apiClient, notificationService } from '~core/index';
+import { notificationServiceInstance } from '~core/notificationServiceInstance';
+import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
@@ -104,12 +105,17 @@ export const currentEditedLayerFeatures = createAtom(
               new FeatureCollection(stateSnapshot),
               true,
             );
-            notificationService.info({ title: 'Features was saved' }, 3);
+            notificationServiceInstance.info(
+              { title: 'Features was saved' },
+              3,
+            );
             if (safeCallbacks) safeCallbacks.onSuccess();
             dispatch(editableLayersListResource.refetch());
           } catch (e) {
             if (safeCallbacks) safeCallbacks.onError();
-            notificationService.error({ title: 'Failed to save features' });
+            notificationServiceInstance.error({
+              title: 'Failed to save features',
+            });
             console.error(e);
           }
         }

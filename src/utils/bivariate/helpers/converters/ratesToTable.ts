@@ -1,4 +1,4 @@
-import { Axis, CorrelationRate } from '../../types/stat.types';
+import type { Axis, CorrelationRate } from '../../types/stat.types';
 import { MapIndex } from '../MapIndex';
 import { Matrix } from '../Matrix';
 

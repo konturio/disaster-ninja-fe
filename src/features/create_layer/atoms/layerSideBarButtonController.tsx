@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import {
   controlGroup,
   controlVisualGroup,

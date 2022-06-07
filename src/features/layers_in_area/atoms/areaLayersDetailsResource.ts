@@ -1,9 +1,9 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { apiClient } from '~core/index';
+import { apiClient } from '~core/apiClientInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { areaLayersListResource } from './areaLayersListResource';
-import { LayerInAreaDetails } from '../types';
+import type { LayerInAreaDetails } from '../types';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { createResourceAtom_WithoutRequestSkip } from '../utils/tempCreateResourceAtom';
 

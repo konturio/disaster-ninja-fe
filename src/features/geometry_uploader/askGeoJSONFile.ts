@@ -1,6 +1,6 @@
 import { currentNotificationAtom } from '~core/shared_state';
 import { readGeoJSON } from '~utils/geoJSON/helpers';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 
 const input = (() => {
   const input = document.createElement('input');

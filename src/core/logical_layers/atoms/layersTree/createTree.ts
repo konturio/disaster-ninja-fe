@@ -1,4 +1,4 @@
-import { LayerAtom } from '../../types/logicalLayer';
+import type { LayerAtom } from '../../types/logicalLayer';
 import type { CategorySettings, GroupSettings, Tree } from '~core/types/layers';
 
 export function createTree(

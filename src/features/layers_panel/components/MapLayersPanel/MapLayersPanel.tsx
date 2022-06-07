@@ -1,4 +1,4 @@
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { LayersTree } from '../LayersTree/LayersTree';
 import s from './MapLayersPanel.module.css';

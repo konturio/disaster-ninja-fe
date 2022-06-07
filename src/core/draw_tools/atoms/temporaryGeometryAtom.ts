@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { Feature, FeatureCollection } from 'geojson';
+import type { Feature, FeatureCollection } from 'geojson';
 import { activeDrawModeAtom } from './activeDrawMode';
 
 const defaultState: FeatureCollection = {
