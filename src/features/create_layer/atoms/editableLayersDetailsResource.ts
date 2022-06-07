@@ -1,9 +1,9 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
-import { apiClient } from '~core/index';
+import { apiClient } from '~core/apiClientInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { editableLayersListResource } from './editableLayersListResource';
-import { LayerInAreaDetails } from '../types';
+import type { LayerInAreaDetails } from '../types';
 
 export interface DetailsRequestParams {
   layersToRetrieveWithGeometryFilter: string[];

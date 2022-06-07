@@ -1,14 +1,15 @@
-import { ChangeEvent, useCallback, useRef } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useAtom } from '@reatom/react';
 import type { Identifier, XYCoord } from 'dnd-core';
 import clsx from 'clsx';
 import { SortDrag16, Trash16 } from '@konturio/default-icons';
 import { Input } from '@konturio/ui-kit';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
 import { USER_LAYER_FIELDS } from '../../constants';
-import { EditableLayerFieldType } from '../../types';
+import type { EditableLayerFieldType } from '../../types';
 import s from './EditableLayerFieldContainer.module.css';
 
 const ITEM_TYPE = 'field-container';

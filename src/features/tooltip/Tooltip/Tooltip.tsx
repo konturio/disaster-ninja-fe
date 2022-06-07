@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import clsx from 'clsx';
-import { TooltipData } from '~core/shared_state/currentTooltip';
+import type { TooltipData } from '~core/shared_state/currentTooltip';
 import s from './Tooltip.module.css';
 import { Close16 } from '@konturio/default-icons';
 import { useEffect, useState } from 'react';

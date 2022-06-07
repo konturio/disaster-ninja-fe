@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { Action } from '@reatom/core';
+import type { Action } from '@reatom/core';
 import { currentUserAtom } from '~core/shared_state/currentUser';
 
 export interface SideControl {

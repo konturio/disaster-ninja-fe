@@ -1,5 +1,6 @@
 import { createAtom } from '~utils/atoms';
-import { drawModes, DrawModeType } from '../constants';
+import type { DrawModeType } from '../constants';
+import { drawModes } from '../constants';
 
 export const activeDrawModeAtom = createAtom(
   {

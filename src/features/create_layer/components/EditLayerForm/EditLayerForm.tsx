@@ -1,8 +1,9 @@
-import { ChangeEvent, useCallback } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback } from 'react';
 import { useAtom } from '@reatom/react';
 import { Button, Input } from '@konturio/ui-kit';
 import { PointFilled24 } from '@konturio/default-icons';
-import { translationService as i18n } from '~core/index';
+import { i18n } from '~core/localization';
 import { LabelWithTooltip } from '~components/LabelWithTooltip/LabelWithTooltip';
 import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
 import { EditableLayerFieldsPlaceholder } from '../EditableLayerFieldsPlaceholder/EditableLayerFieldsPlaceholder';

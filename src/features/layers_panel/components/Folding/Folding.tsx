@@ -1,4 +1,5 @@
-import { PropsWithChildren, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { useState } from 'react';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import s from './Folding.module.css';
 

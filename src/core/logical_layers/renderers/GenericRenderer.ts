@@ -1,10 +1,11 @@
-import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import maplibregl, {
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import type {
   AnyLayer,
   GeoJSONSourceRaw,
   RasterSource,
   VectorSource,
 } from 'maplibre-gl';
+import type maplibregl from 'maplibre-gl';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import {
   applyLegendConditions,
@@ -19,15 +20,13 @@ import {
   addZoomFilter,
   onActiveContributorsClick,
 } from './activeContributorsLayers';
-import {
-  LayersType,
-  layerTypesOrdered,
-} from '~core/logical_layers/utils/layersOrder';
+import type { LayersType } from '~core/logical_layers/utils/layersOrder';
+import { layerTypesOrdered } from '~core/logical_layers/utils/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
-import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
-import {
+import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
+import type {
   LayerGeoJSONSource,
   LayerSource,
   LayerTileSource,

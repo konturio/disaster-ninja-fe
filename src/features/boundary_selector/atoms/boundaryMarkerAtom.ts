@@ -6,10 +6,10 @@ import { highlightedGeometry } from './highlightedGeometry';
 import { getSelectorWithOptions } from './../components/getSelectorWithOptions';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { convertToAppMarker } from '~utils/map/markers';
-import { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
+import type { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
 import { sideControlsBarAtom, focusedGeometryAtom } from '~core/shared_state';
 import { BOUNDARY_MARKER_ID } from '../constants';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 
 const LOADING_OPTIONS = [
   { label: i18n.t('Loading...'), value: 'loading', disabled: true },

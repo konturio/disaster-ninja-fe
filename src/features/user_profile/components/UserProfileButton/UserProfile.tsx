@@ -1,11 +1,12 @@
 import { useAtom } from '@reatom/react';
-import { LoginButton } from '~features/user_profile';
+import { LoginButton } from '../LoginButton/LoginButton';
 import { userStateAtom } from '~core/auth/atoms/userState';
 import { useCallback, useEffect, useState } from 'react';
 import s from './UserProfile.module.css';
-import { OptionType, Selector } from '@konturio/ui-kit/tslib/Selector';
+import type { OptionType } from '@konturio/ui-kit/tslib/Selector';
+import { Selector } from '@konturio/ui-kit/tslib/Selector';
 import clsx from 'clsx';
-import { authClient } from '~core/index';
+import { authClientInstance } from '~core/authClientInstance';
 import { Button } from '@konturio/ui-kit';
 import { User24 } from '@konturio/default-icons';
 
@@ -43,7 +44,7 @@ function UserAvatar() {
   const onMenuSelect = useCallback((val: string) => {
     switch (val) {
       case 'logout':
-        authClient.logout();
+        authClientInstance.logout();
         break;
     }
   }, []);

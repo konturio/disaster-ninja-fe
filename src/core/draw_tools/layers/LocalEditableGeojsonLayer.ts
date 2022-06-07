@@ -1,6 +1,6 @@
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
 import { GeoJsonLayer, IconLayer } from '@deck.gl/layers';
-import { FeatureCollection } from '@nebula.gl/edit-modes';
+import type { FeatureCollection } from '@nebula.gl/edit-modes';
 
 function guideAccessor(accessor) {
   if (!accessor || typeof accessor !== 'function') {

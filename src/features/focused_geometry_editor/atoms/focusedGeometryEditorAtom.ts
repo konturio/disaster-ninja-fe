@@ -1,18 +1,16 @@
 import { createAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { Feature, FeatureCollection } from 'geojson';
+import type { Feature, FeatureCollection } from 'geojson';
 import { point as createPointFeature } from '@turf/helpers';
-import {
-  FocusedGeometry,
-  FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
-} from '~core/shared_state/focusedGeometry';
+import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
+import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/shared_state/focusedGeometry';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { isEditorActiveAtom } from './isEditorActive';
-import { Action } from '@reatom/core';
+import type { Action } from '@reatom/core';
 
 const defaultState: FeatureCollection = {
   type: 'FeatureCollection',
