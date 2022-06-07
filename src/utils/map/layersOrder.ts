@@ -1,4 +1,4 @@
-import maplibregl from 'maplibre-gl';
+import type maplibregl from 'maplibre-gl';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
 
 export function layerByOrder(map: maplibregl.Map) {

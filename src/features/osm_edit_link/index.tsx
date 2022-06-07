@@ -5,7 +5,7 @@ import {
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';
 import { EditOsm24 } from '@konturio/default-icons';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 
 export function initOsmEditLink() {
   sideControlsBarAtom.addControl.dispatch({

@@ -1,6 +1,6 @@
-import { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
-import { LayerDetailsLegend } from '~core/logical_layers/types/legends';
-import { FieldTypes, EditTargets } from './constants';
+import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
+import type { LayerDetailsLegend } from '~core/logical_layers/types/legends';
+import type { FieldTypes, EditTargets } from './constants';
 
 export type LayerFieldModel = {
   name: string;

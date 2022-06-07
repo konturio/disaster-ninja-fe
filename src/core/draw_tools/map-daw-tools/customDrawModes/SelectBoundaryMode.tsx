@@ -1,10 +1,10 @@
-import {
-  GeoJsonEditMode,
+import type {
   ClickEvent,
   ModeProps,
   FeatureCollection,
   PointerMoveEvent,
 } from '@nebula.gl/edit-modes';
+import { GeoJsonEditMode } from '@nebula.gl/edit-modes';
 
 export class SelectBoundaryMode extends GeoJsonEditMode {
   // on click

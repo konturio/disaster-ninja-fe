@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import mapLibre from 'maplibre-gl';
+import type mapLibre from 'maplibre-gl';
 
 // listener that returns `true` allows next listener to run. If returns `false`, no listeners will be executed after
 type MapListener = (

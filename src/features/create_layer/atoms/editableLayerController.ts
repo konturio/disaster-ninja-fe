@@ -1,15 +1,11 @@
-import { apiClient } from '~core/index';
+import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
-import {
-  createLayerEditorFormAtom,
-  LayerEditorFormAtomType,
-} from './layerEditorForm';
-import {
-  createLayerEditorFormFieldAtom,
-  LayerEditorFormFieldAtomType,
-} from './layerEditorFormField';
-import {
+import type { LayerEditorFormAtomType } from './layerEditorForm';
+import { createLayerEditorFormAtom } from './layerEditorForm';
+import type { LayerEditorFormFieldAtomType } from './layerEditorFormField';
+import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
+import type {
   LayerEditorFormModel,
   EditableLayerFieldType,
   EditableLayers,

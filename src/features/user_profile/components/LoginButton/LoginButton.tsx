@@ -1,14 +1,15 @@
 import { Button } from '@konturio/ui-kit';
-import { authClient, translationService } from '~core/index';
+import { i18n } from '~core/localization';
+import { authClientInstance } from '~core/authClientInstance';
 import s from './LoginButton.module.css';
 
 export const LoginButton = () => (
   <Button
-    onClick={authClient.showLoginForm}
+    onClick={authClientInstance.showLoginForm}
     size="small"
     dark
     className={s.loginButton}
   >
-    {translationService.t('Login')}
+    {i18n.t('Login')}
   </Button>
 );

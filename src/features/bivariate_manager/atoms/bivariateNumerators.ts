@@ -1,7 +1,7 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import { Stat } from '~utils/bivariate';
-import { AxisGroup } from '~core/types';
+import type { Stat } from '~utils/bivariate';
+import type { AxisGroup } from '~core/types';
 
 const extractAvailableNumeratorsWithDenominators = (stat: Stat) => {
   const { correlationRates } = stat;

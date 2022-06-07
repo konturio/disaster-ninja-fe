@@ -5,12 +5,9 @@ import {
   createLocalStorageMock,
   setupTestContext,
 } from '../../../utils/testsUtils/setupTest';
-import {
-  ApiClient,
-  INotificationService,
-  ITranslationService,
-} from '../apiClient';
-import { ApiClientError } from '../types';
+import { ApiClient } from '../apiClient';
+import { ApiClientError } from '../apiClientError';
+import type { INotificationService, ITranslationService } from '../types';
 
 /* Setup stage */
 let n = 0;

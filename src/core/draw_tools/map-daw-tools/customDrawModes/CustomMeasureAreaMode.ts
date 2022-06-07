@@ -1,6 +1,6 @@
 import turfArea from '@turf/area';
 import turfCentroid from '@turf/centroid';
-import {
+import type {
   ClickEvent,
   Tooltip,
   ModeProps,
@@ -8,7 +8,7 @@ import {
   PointerMoveEvent,
   TentativeFeature,
 } from '@nebula.gl/edit-modes/dist/types';
-import { FeatureCollection } from '@nebula.gl/edit-modes/dist/geojson-types';
+import type { FeatureCollection } from '@nebula.gl/edit-modes/dist/geojson-types';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 import { GeoJsonEditMode } from '@nebula.gl/edit-modes/dist/index';
 

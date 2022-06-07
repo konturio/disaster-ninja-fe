@@ -1,6 +1,6 @@
 import { Button, Text } from '@konturio/ui-kit';
 import { useCallback, useMemo } from 'react';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import {
   Line24,
   PointOutline24,

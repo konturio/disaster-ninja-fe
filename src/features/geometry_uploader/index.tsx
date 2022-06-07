@@ -16,7 +16,7 @@ import {
 } from '~core/shared_state/sideControlsBar';
 import turfBbox from '@turf/bbox';
 import app_config from '~core/app_config';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
 
 export function initFileUploader() {

@@ -3,7 +3,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import clsx from 'clsx';
 import { Button } from '@konturio/ui-kit';
 import { Plus24 } from '@konturio/default-icons';
-import { translationService as i18n } from '~core/index';
+import { i18n } from '~core/localization';
 import { EditableLayerFieldContainer } from '../EditableLayerFieldContainer/EditableLayerFieldContainer';
 import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
 import s from './EditableLayerFieldsPlaceholder.module.css';

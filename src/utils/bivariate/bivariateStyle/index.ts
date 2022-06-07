@@ -1,4 +1,4 @@
-import { Stat, Axis, OverlayColor } from '../types/stat.types';
+import type { Stat, Axis, OverlayColor } from '../types/stat.types';
 import {
   addVariable,
   anyCondition,

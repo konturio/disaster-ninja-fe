@@ -1,7 +1,7 @@
 import { createResourceAtom } from '~utils/atoms';
-import { apiClient } from '~core/index';
+import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { AnalyticsData } from '~core/types';
+import type { AnalyticsData } from '~core/types';
 
 export const analyticsResourceAtom = createResourceAtom(
   async (fGeo) => {

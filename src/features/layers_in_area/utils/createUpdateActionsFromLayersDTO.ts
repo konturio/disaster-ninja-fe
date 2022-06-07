@@ -1,5 +1,5 @@
-import { Action } from '@reatom/core';
-import { LayerInArea } from '../types';
+import type { Action } from '@reatom/core';
+import type { LayerInArea } from '../types';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 
 export function createUpdateActionsFromLayersDTO(

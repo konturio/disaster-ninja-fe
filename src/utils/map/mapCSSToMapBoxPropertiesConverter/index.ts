@@ -2,8 +2,8 @@ import { MAP_CSS_MAPBOX } from './config';
 import { getRequirements } from './getRequirements';
 import { generateLayers } from './generateLayers';
 import { createValueConverters } from './valueConverters';
-import { SimpleLegendStep } from '~core/logical_layers/types/legends';
-import { AnyLayer } from 'maplibre-gl';
+import type { SimpleLegendStep } from '~core/logical_layers/types/legends';
+import type { AnyLayer } from 'maplibre-gl';
 
 /*
   Parsing style pipeline

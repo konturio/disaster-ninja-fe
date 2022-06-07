@@ -1,7 +1,7 @@
 import { createAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { currentEventResourceAtom } from './currentEventResource';
-import { EventWithGeometry } from '~core/types';
+import type { EventWithGeometry } from '~core/types';
 
 export const currentEventGeometryAtom = createAtom(
   {

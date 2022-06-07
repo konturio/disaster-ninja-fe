@@ -4,9 +4,9 @@ import { invertClusters } from '~utils/bivariate';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import s from './BivariateLegend.module.css';
 import clsx from 'clsx';
-import { BivariateLegend as BivariateLegendType } from '~core/logical_layers/types/legends';
-import { LayerMeta } from '~core/logical_layers/types/meta';
-import { LayerLegend } from '~core/logical_layers/types/legends';
+import type { BivariateLegend as BivariateLegendType } from '~core/logical_layers/types/legends';
+import type { LayerMeta } from '~core/logical_layers/types/meta';
+import type { LayerLegend } from '~core/logical_layers/types/legends';
 
 type BivariateLegendProps = {
   meta: LayerMeta | null;

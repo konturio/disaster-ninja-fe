@@ -1,4 +1,4 @@
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import s from './DeselectControl.module.css';
 
 export function DeselectControl({ onClick }: { onClick: () => void }) {
