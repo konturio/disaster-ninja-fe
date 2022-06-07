@@ -1,37 +1,25 @@
-import { AxiosRequestConfig } from 'axios';
+import type { AxiosRequestConfig } from 'axios';
 import jwtDecode from 'jwt-decode';
-import {
-  ApiErrorResponse,
-  ApiResponse,
-  ApisauceInstance,
-  create,
-} from 'apisauce';
-import {
+import type { ApiErrorResponse, ApiResponse, ApisauceInstance } from 'apisauce';
+import { create } from 'apisauce';
+import type {
   ApiClientConfig,
-  ApiClientError,
   ApiMethod,
-  ApiMethodTypes,
   CustomRequestConfig,
   GeneralApiProblem,
-  getGeneralApiProblem,
   JWTData,
   KeycloakAuthResponse,
   RequestErrorsConfig,
   RequestParams,
+  ITranslationService,
+  INotificationService,
 } from './types';
-import { NotificationMessage } from '~core/types/notification';
+import { ApiMethodTypes, getGeneralApiProblem } from './types';
+import { ApiClientError } from './apiClientError';
 import { replaceUrlWithProxy } from '../../../vite.proxy';
 import config from '~core/app_config';
 
 const LOCALSTORAGE_AUTH_KEY = 'auth_token';
-
-export interface INotificationService {
-  error: (message: NotificationMessage, lifetimeSec?: number) => void;
-}
-
-export interface ITranslationService {
-  t: (message: string) => string;
-}
 
 export class ApiClient {
   private static instances: Record<string, ApiClient> = {};
@@ -287,13 +275,18 @@ export class ApiClient {
         }
         if (errorData instanceof Object) {
           if (errorData.hasOwnProperty('error')) return errorData['error'];
-          if (errorData.hasOwnProperty('errors') && Array.isArray(errorData['errors'])) {
-            return errorData['errors'].reduce((acc, errorObj) => {
-              if (errorObj.hasOwnProperty('message')) {
-                acc.push(errorObj['message']);
-              }
-              return acc;
-            }, []).join('<br/>');
+          if (
+            errorData.hasOwnProperty('errors') &&
+            Array.isArray(errorData['errors'])
+          ) {
+            return errorData['errors']
+              .reduce((acc, errorObj) => {
+                if (errorObj.hasOwnProperty('message')) {
+                  acc.push(errorObj['message']);
+                }
+                return acc;
+              }, [])
+              .join('<br/>');
           }
         }
 

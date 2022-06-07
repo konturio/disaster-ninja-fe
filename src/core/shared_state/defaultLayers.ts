@@ -1,6 +1,6 @@
 import { createAtom, createResourceAtom } from '~utils/atoms';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
-import { apiClient } from '~core/index';
+import { apiClient } from '~core/apiClientInstance';
 
 type DefaultLayers = string[];
 

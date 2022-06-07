@@ -1,6 +1,5 @@
 import { createAtom } from '~utils/atoms';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { currentEventAtom } from '~core/shared_state/currentEvent';
 
 type CurrentEventFeedAtomState = {
   id: string;
@@ -19,9 +18,6 @@ export const currentEventFeedAtom = createAtom(
   ) => {
     onAction('setCurrentFeed', (feedId) => {
       if (state?.id !== feedId) {
-        schedule((dispatch) => {
-          dispatch(currentEventAtom.resetCurrentEvent());
-        });
         state = { id: feedId };
       }
     });
@@ -32,9 +28,6 @@ export const currentEventFeedAtom = createAtom(
     });
     onAction('resetCurrentFeed', () => {
       if (state) {
-        schedule((dispatch) => {
-          dispatch(currentEventAtom.resetCurrentEvent());
-        });
         state = null;
       }
     });

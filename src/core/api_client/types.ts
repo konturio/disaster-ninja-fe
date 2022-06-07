@@ -1,9 +1,15 @@
-import { ApiResponse, ApisauceConfig } from 'apisauce';
-import {
-  INotificationService,
-  ITranslationService,
-} from '~core/api_client/apiClient';
-import { AxiosRequestConfig } from 'axios';
+import type { ApiResponse, ApisauceConfig } from 'apisauce';
+import type { AxiosRequestConfig } from 'axios';
+
+import type { NotificationMessage } from '~core/types/notification';
+
+export interface INotificationService {
+  error: (message: NotificationMessage, lifetimeSec?: number) => void;
+}
+
+export interface ITranslationService {
+  t: (message: string) => string;
+}
 
 export const ApiMethodTypes = {
   GET: 'get',
@@ -160,18 +166,5 @@ export function getGeneralApiProblem(response: ApiResponse<GeneralApiProblem>) {
 
     default:
       return { kind: 'unknown', temporary: true } as const;
-  }
-}
-
-export class ApiClientError extends Error {
-  public readonly problem: GeneralApiProblem;
-
-  constructor(message: string, problem: GeneralApiProblem) {
-    super(message);
-
-    this.problem = problem;
-
-    // need this to pass checks with "error instanceof ApiClientError"
-    Object.setPrototypeOf(this, ApiClientError.prototype);
   }
 }

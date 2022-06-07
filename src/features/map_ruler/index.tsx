@@ -9,13 +9,18 @@ import {
   controlGroup,
   controlVisualGroup,
 } from '~core/shared_state/sideControlsBar';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { createLogicalLayerAtom } from '~core/logical_layers/utils/logicalLayerFabric';
 import { MapRulerRenderer } from './renderers/MapRulerRenderer';
+import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 
 export function initMapRuler() {
   const renderer = new MapRulerRenderer(MAP_RULER_LAYER_ID);
-  const logicalLayerAtom = createLogicalLayerAtom(MAP_RULER_LAYER_ID, renderer);
+  const logicalLayerAtom = createLogicalLayerAtom(
+    MAP_RULER_LAYER_ID,
+    renderer,
+    layersRegistryAtom,
+  );
 
   sideControlsBarAtom.addControl.dispatch({
     id: MAP_RULER_CONTROL_ID,

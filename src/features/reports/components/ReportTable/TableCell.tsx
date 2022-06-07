@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import jOSMLogo from '~features/reports/icons/JOSM.svg';
 import styles from './ReportTable.module.css';
 

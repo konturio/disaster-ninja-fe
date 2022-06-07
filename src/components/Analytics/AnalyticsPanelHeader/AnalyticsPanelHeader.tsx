@@ -1,12 +1,12 @@
 import { useAtom } from '@reatom/react';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { Text } from '@konturio/ui-kit';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
-import { Severity } from '~core/types';
+import type { Severity } from '~core/types';
 import styles from './AnalyticsPanelHeader.module.css';
-import { ResourceAtomType } from '~utils/atoms/createResourceAtom';
+import type { ResourceAtomType } from '~utils/atoms/createResourceAtom';
 
 interface PanelHeadingProps {
   event: {
@@ -32,10 +32,13 @@ interface AnalyticsPanelHeaderParams {
     loading: string;
     error: string;
     other: string;
-  }
+  };
 }
 
-const AnalyticsPanelHeader = ({ resourceAtom, messages }: AnalyticsPanelHeaderParams) => {
+const AnalyticsPanelHeader = ({
+  resourceAtom,
+  messages,
+}: AnalyticsPanelHeaderParams) => {
   const [{ error, loading, data }] = useAtom(resourceAtom);
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
 
@@ -45,17 +48,25 @@ const AnalyticsPanelHeader = ({ resourceAtom, messages }: AnalyticsPanelHeaderPa
     data,
   });
 
-  const sourceType = focusedGeometry?.source.type === 'event' ? 'event' : focusedGeometry?.source.type === 'boundaries' ? 'boundaries' : 'other';
+  const sourceType =
+    focusedGeometry?.source.type === 'event'
+      ? 'event'
+      : focusedGeometry?.source.type === 'boundaries'
+      ? 'boundaries'
+      : 'other';
 
   return statesToComponents({
     init: () => <Text type="heading-m">{i18n.t(messages.init)}</Text>,
     loading: () => <Text type="heading-m">{i18n.t(messages.loading)}</Text>,
     error: () => <Text type="heading-m">{i18n.t(messages.error)}</Text>,
-    ready: () => ({
-      'event': <PanelHeading event={(focusedGeometry?.source as any).meta} />,
-      'boundaries': <Text type="heading-m">{(focusedGeometry?.source as any).meta}</Text>,
-      'other': <Text type="heading-m">{i18n.t(messages.other)}</Text>
-    }[sourceType])
+    ready: () =>
+      ({
+        event: <PanelHeading event={(focusedGeometry?.source as any).meta} />,
+        boundaries: (
+          <Text type="heading-m">{(focusedGeometry?.source as any).meta}</Text>
+        ),
+        other: <Text type="heading-m">{i18n.t(messages.other)}</Text>,
+      }[sourceType]),
   }) as JSX.Element;
 };
 

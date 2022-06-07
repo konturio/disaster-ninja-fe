@@ -1,5 +1,5 @@
 import { Text } from '@konturio/ui-kit';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import s from './ErrorMessage.module.css';
 
 export function ErrorMessage({ message }) {

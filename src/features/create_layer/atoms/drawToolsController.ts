@@ -1,4 +1,4 @@
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';

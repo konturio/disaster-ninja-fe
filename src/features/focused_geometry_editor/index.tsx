@@ -16,7 +16,7 @@ import {
   controlGroup,
   controlVisualGroup,
 } from '~core/shared_state/sideControlsBar';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { downloadObject } from '~utils/fileHelpers/download';
 import { Download24 } from '@konturio/default-icons';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';

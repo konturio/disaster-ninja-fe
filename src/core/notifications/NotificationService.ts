@@ -1,5 +1,5 @@
-import { currentNotificationAtom } from '~core/shared_state';
-import { NotificationMessage } from '~core/types/notification';
+import { currentNotificationAtom } from '~core/shared_state/currentNotifications';
+import type { NotificationMessage } from '~core/types/notification';
 
 export class NotificationService {
   private static instance: NotificationService;

@@ -1,4 +1,4 @@
-import { AnyLayer, LineLayer } from 'maplibre-gl';
+import type { AnyLayer, LineLayer } from 'maplibre-gl';
 
 interface CasingLineLayer extends Omit<LineLayer, 'type'> {
   type: 'casing_line';

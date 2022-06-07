@@ -1,6 +1,7 @@
-import { Atom, isObject } from '@reatom/core';
+import type { Atom } from '@reatom/core';
+import { isObject } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { ResourceAtom } from '~utils/atoms/createResourceAtom';
+import type { ResourceAtom } from '~utils/atoms/createResourceAtom';
 
 // TODO task #10217
 // It's a temporary quickfix

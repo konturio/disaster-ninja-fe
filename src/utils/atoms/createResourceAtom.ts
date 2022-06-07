@@ -1,4 +1,5 @@
-import { Atom, AtomSelfBinded, isObject } from '@reatom/core';
+import type { Atom, AtomSelfBinded } from '@reatom/core';
+import { isObject } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
 
 export type ResourceAtom<P, T> = AtomSelfBinded<
@@ -133,15 +134,18 @@ function createResourceFetcherAtom<P, T>(
  * https://codesandbox.io/s/reatom-resource-atom-complex-qwi3h
  */
 
-export type ResourceAtomType<P, T> = AtomSelfBinded<ResourceAtomState<T, P>, {
-  request: (params: P | null) => P | null,
-  refetch: () => undefined,
-  done: (data: T) => T,
-  error: (error: string) => string,
-  cancel: () => undefined,
-  loading: () => undefined,
-  finally: () => null,
-}>;
+export type ResourceAtomType<P, T> = AtomSelfBinded<
+  ResourceAtomState<T, P>,
+  {
+    request: (params: P | null) => P | null;
+    refetch: () => undefined;
+    done: (data: T) => T;
+    error: (error: string) => string;
+    cancel: () => undefined;
+    loading: () => undefined;
+    finally: () => null;
+  }
+>;
 
 let resourceAtomIndex = 0;
 

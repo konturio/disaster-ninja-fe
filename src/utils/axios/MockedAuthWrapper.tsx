@@ -1,7 +1,8 @@
-import { ReactNode, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { enableMocking } from '~utils/axios/axiosMockUtils';
 import { setupFeatureFlagsMocking } from '~utils/axios/setupTemporaryMocking';
-import { apiClient } from '~core/index';
+import { apiClient } from '~core/apiClientInstance';
 
 /* Use in instead of <AuthWrapper /> */
 function MockedAuthWrapper({

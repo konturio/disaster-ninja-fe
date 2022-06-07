@@ -1,8 +1,9 @@
-import { AtomOptions, createAtom as createAtomOriginal } from '@reatom/core';
+import type { AtomOptions } from '@reatom/core';
+import { createAtom as createAtomOriginal } from '@reatom/core';
+import type { PrimitiveAtom } from '@reatom/core/primitives';
 import {
   createBooleanAtom as createBooleanAtomOriginal,
   createPrimitiveAtom as createPrimitiveAtomOriginal,
-  PrimitiveAtom,
 } from '@reatom/core/primitives';
 import { store } from '~core/store/store';
 

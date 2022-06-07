@@ -1,7 +1,7 @@
 import { BivariateMatrixControlComponent } from '@konturio/ui-kit';
-import React, { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
-import { Indicator, CorrelationRate } from '~utils/bivariate';
-import { AxisGroup } from '~core/types';
+import { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
+import type { Indicator, CorrelationRate } from '~utils/bivariate';
+import type { AxisGroup } from '~core/types';
 import { useAtom } from '@reatom/react';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
@@ -65,23 +65,29 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(
 
     const stats = statisticsData?.polygonStatistic.bivariateStatistic;
 
-    const calculateSelectedCell = useCallback((): { x: number, y: number } => {
-      const xIndex = xGroups ? xGroups.findIndex(
-        (group) =>
-          group.selectedQuotient[0] === matrixSelection?.xNumerator &&
-          group.selectedQuotient[1] === matrixSelection?.xDenominator,
-      ) : -1;
-      const yIndex = yGroups ? yGroups.findIndex(
-        (group) =>
-          group.selectedQuotient[0] === matrixSelection?.yNumerator &&
-          group.selectedQuotient[1] === matrixSelection?.yDenominator,
-      ) : -1;
+    const calculateSelectedCell = useCallback((): { x: number; y: number } => {
+      const xIndex = xGroups
+        ? xGroups.findIndex(
+            (group) =>
+              group.selectedQuotient[0] === matrixSelection?.xNumerator &&
+              group.selectedQuotient[1] === matrixSelection?.xDenominator,
+          )
+        : -1;
+      const yIndex = yGroups
+        ? yGroups.findIndex(
+            (group) =>
+              group.selectedQuotient[0] === matrixSelection?.yNumerator &&
+              group.selectedQuotient[1] === matrixSelection?.yDenominator,
+          )
+        : -1;
 
       return { x: xIndex, y: yIndex };
     }, [xGroups, yGroups, matrixSelection]);
 
-    const selectedCell = useRef<{ x: number, y: number }>(calculateSelectedCell());
-    
+    const selectedCell = useRef<{ x: number; y: number }>(
+      calculateSelectedCell(),
+    );
+
     useEffect(() => {
       selectedCell.current = calculateSelectedCell();
     }, [matrixSelection, xGroups, yGroups]);

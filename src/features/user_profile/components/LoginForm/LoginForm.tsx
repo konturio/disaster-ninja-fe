@@ -1,9 +1,11 @@
 import { Button, Card, Input, Modal, Text } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/react';
 import s from './LoginForm.module.css';
-import { authClient, translationService as i18n } from '~core/index';
+import { i18n } from '~core/localization';
+import { authClientInstance } from '~core/authClientInstance';
 import clsx from 'clsx';
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { testEmail } from '~utils/forms/formsUtils';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { userStateAtom } from '~core/auth/atoms/userState';
@@ -14,7 +16,7 @@ export function LoginForm() {
   const [userState] = useAtom(userStateAtom);
 
   const onCloseFormCallback = useAction(() => {
-    authClient.closeLoginForm();
+    authClientInstance.closeLoginForm();
   }, []);
 
   const [error, setError] = useState<{
@@ -65,7 +67,7 @@ export function LoginForm() {
       setError(err);
     } else {
       setLoading(true);
-      const authResponse = await authClient.authenticate(
+      const authResponse = await authClientInstance.authenticate(
         formData.email || '',
         formData.password || '',
       );

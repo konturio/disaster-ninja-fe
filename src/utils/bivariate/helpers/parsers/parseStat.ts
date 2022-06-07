@@ -1,6 +1,7 @@
-import { ratesToTable, Table } from '../converters/ratesToTable';
+import type { Table } from '../converters/ratesToTable';
+import { ratesToTable } from '../converters/ratesToTable';
 import { extractAvailableDenominators } from '../extractors/extractAvailableDenominators';
-import { Axis, CorrelationRate, Stat } from '../../types/stat.types';
+import type { Axis, CorrelationRate, Stat } from '../../types/stat.types';
 import { createBivariateAxisesHashMap } from './createBivariateAxisesHashMap';
 import { createCorrelationsHashMap } from './createCorrelationsHashMap';
 import { sortByExample } from '../sort/sortByExample';
