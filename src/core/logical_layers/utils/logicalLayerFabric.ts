@@ -1,5 +1,5 @@
 // https://beta.plectica.com/maps/I6JK50E2F/edit/4NE4TFESC
-import { Action } from '@reatom/core';
+import type { Action } from '@reatom/core';
 import { memo } from '@reatom/core/experiments';
 import type { AsyncState } from '../types/asyncState';
 import type { LogicalLayerRenderer } from '../types/renderer';
@@ -18,13 +18,12 @@ import { hiddenLayersAtom } from '../atoms/hiddenLayers';
 import { layersLegendsAtom } from '../atoms/layersLegends';
 import { layersMetaAtom } from '../atoms/layersMeta';
 import { layersSourcesAtom } from '../atoms/layersSources';
-import { layersRegistryAtom } from '../atoms/layersRegistry';
 import { layersMenusAtom } from '../atoms/layersMenus';
 import { downloadObject } from '~utils/fileHelpers/download';
 import { deepFreeze } from './deepFreeze';
 import { createAtom } from '~utils/atoms';
 import { getMutualExcludedActions } from './getMutualExcludedActions';
-import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 /**
  * Layer Atom responsibilities:
@@ -45,7 +44,7 @@ const logicalLayerActions: LogicalLayerActions = {
 export function createLogicalLayerAtom(
   id: string,
   renderer: LogicalLayerRenderer,
-  registry: LayerRegistryAtom = layersRegistryAtom,
+  registry: LayerRegistryAtom,
 ) {
   let hasBeenDestroyed = false;
   const logicalLayerAtom = createAtom(

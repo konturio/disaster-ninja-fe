@@ -1,4 +1,4 @@
-import { TreeChildren } from '~core/types/layers';
+import type { TreeChildren } from '~core/types/layers';
 
 const _internalTypes = {
   withoutType: 'without_type',

@@ -1,4 +1,4 @@
-import { Action, Causes, Patch, Rec, StoreOnPatch } from '@reatom/core';
+import type { Action, Causes, Patch, Rec, StoreOnPatch } from '@reatom/core';
 
 function getActionsType(actions: ReadonlyArray<Action>) {
   return actions.length === 1

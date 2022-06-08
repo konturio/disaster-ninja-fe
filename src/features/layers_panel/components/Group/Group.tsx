@@ -4,9 +4,9 @@ import { Layer } from '../Layer/Layer';
 import { groupDeselection } from '../../atoms/groupDeselection';
 import { BivariateLegend as BivariateLegendComponent } from '~components/BivariateLegend/BivariateLegend';
 import s from './Group.module.css';
-import { GroupWithSettings } from '~core/types/layers';
-import { LayerMeta } from '~core/logical_layers/types/meta';
-import { LayerLegend } from '~core/logical_layers/types/legends';
+import type { GroupWithSettings } from '~core/types/layers';
+import type { LayerMeta } from '~core/logical_layers/types/meta';
+import type { LayerLegend } from '~core/logical_layers/types/legends';
 import { useAction } from '@reatom/react';
 import { DeselectControl } from '../DeselectControl/DeselectControl';
 

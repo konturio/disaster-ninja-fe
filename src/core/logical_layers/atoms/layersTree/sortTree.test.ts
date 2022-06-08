@@ -1,4 +1,4 @@
-import { TreeChildren } from '~core/types/layers';
+import type { TreeChildren } from '~core/types/layers';
 import { setupTestContext } from '../../../../utils/testsUtils/setupTest';
 import { sortChildren } from './sortTree';
 

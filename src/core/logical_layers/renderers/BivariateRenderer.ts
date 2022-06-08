@@ -1,10 +1,10 @@
-import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import type { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
-import { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
-import { LayerTileSource } from '~core/logical_layers/types/source';
+import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
+import type { LayerTileSource } from '~core/logical_layers/types/source';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
 import {
   LAYER_BIVARIATE_PREFIX,

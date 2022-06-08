@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import clsx from 'clsx';
 import { useAction, useAtom } from '@reatom/react';
 import { Panel, Text } from '@konturio/ui-kit';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
 import { currentEditedLayerFeatures } from '../../atoms/currentEditedLayerFeatures';

@@ -1,7 +1,8 @@
 import { useAtom } from '@reatom/react';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { userResourceAtom } from '~core/auth';
-import { ChangeEvent, memo, useCallback } from 'react';
+import type { ChangeEvent } from 'react';
+import { memo, useCallback } from 'react';
 import s from './FeedSelector.module.css';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { AppFeature } from '~core/auth/types';

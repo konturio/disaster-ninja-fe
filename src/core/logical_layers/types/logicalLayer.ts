@@ -1,9 +1,9 @@
-import { AtomSelfBinded } from '@reatom/core';
-import { LayerLegend } from './legends';
-import { LayerMeta } from './meta';
-import { LayerSource } from './source';
-import { LayerSettings } from './settings';
-import { LayerContextMenu } from './contextMenu';
+import type { AtomSelfBinded } from '@reatom/core';
+import type { LayerLegend } from './legends';
+import type { LayerMeta } from './meta';
+import type { LayerSource } from './source';
+import type { LayerSettings } from './settings';
+import type { LayerContextMenu } from './contextMenu';
 
 export type LogicalLayerState = Readonly<{
   id: string;

@@ -1,4 +1,4 @@
-import { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 /* Async load image on mao */
 export const loadImageOnMap = (map: ApplicationMap, url: string) =>

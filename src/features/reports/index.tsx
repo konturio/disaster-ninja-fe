@@ -1,8 +1,8 @@
 import { sideControlsBarAtom } from '~core/shared_state';
 import { REPORTS_CONTROL_ID, REPORTS_CONTROL_NAME } from './constants';
-import { History } from 'history';
+import type { History } from 'history';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { BookOpen24 } from '@konturio/default-icons';
 
 export function initReportsIcon(history: History) {

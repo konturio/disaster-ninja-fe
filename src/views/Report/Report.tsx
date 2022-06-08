@@ -1,6 +1,6 @@
 import { Suspense, useEffect } from 'react';
 import { Text } from '@konturio/ui-kit';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import { ReportInfo } from '~features/reports/components/ReportInfo/ReportInfo';
 import { Row } from '~components/Layout/Layout';
 import s from './Report.module.css';
@@ -10,7 +10,7 @@ import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { useAtom } from '@reatom/react';
 import { lazily } from 'react-lazily';
 import { userResourceAtom } from '~core/auth';
-import { History } from 'history';
+import type { History } from 'history';
 import { AppFeature } from '~core/auth/types';
 const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));

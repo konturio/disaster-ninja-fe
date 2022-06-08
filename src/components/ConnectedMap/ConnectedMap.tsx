@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef } from 'react';
 import mapLibre from 'maplibre-gl';
-import Map, { MapBoxMapProps } from './map-libre-adapter';
+import type { MapBoxMapProps } from './map-libre-adapter';
+import Map from './map-libre-adapter';
 import DeckGl from './deck-gl';
 import { useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
-import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
-import { MapStyle } from '~core/types';
+import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
+import type { MapStyle } from '~core/types';
 
 const updatedMapStyle = (
   mapStyle: MapStyle | undefined,

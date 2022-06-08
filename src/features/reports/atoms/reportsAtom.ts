@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { reportsClient } from '~core/index';
+import { reportsClient } from '~core/apiClientInstance';
 
 export type Report = {
   id: string;

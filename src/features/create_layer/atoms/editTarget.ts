@@ -1,6 +1,6 @@
 import { createPrimitiveAtom } from '~utils/atoms/createPrimitives';
 import { EditTargets } from '../constants';
-import { EditTargetsType } from '../types';
+import type { EditTargetsType } from '../types';
 
 export const editTargetAtom = createPrimitiveAtom<{
   type: EditTargetsType;

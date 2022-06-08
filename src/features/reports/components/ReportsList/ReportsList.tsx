@@ -1,6 +1,6 @@
 import { Text } from '@konturio/ui-kit';
 import { Link, useHistory } from 'react-router-dom';
-import { TranslationService as i18n } from '~core/localization';
+import { i18n } from '~core/localization';
 import clsx from 'clsx';
 import { Trans } from 'react-i18next';
 import { useEffect } from 'react';

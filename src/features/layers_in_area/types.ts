@@ -1,4 +1,4 @@
-import { LayerDetailsLegend } from '~core/logical_layers/types/legends';
+import type { LayerDetailsLegend } from '~core/logical_layers/types/legends';
 
 export interface TileSource {
   type: 'vector' | 'raster';

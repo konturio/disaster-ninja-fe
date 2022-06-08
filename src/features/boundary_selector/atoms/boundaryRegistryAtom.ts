@@ -1,7 +1,7 @@
 import { currentMapAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
-import { LogicalLayerRenderer } from '~core/logical_layers/types/renderer';
+import type { LogicalLayerRenderer } from '~core/logical_layers/types/renderer';
 import { highlightedGeometry } from './highlightedGeometry';
 
 export const createBoundaryRegistryAtom = (

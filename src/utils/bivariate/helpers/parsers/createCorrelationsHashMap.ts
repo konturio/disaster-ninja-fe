@@ -1,5 +1,5 @@
 import { HashMap } from '../HashMap';
-import { Stat, CorrelationRate, Axis } from '../../types/stat.types';
+import type { Stat, CorrelationRate, Axis } from '../../types/stat.types';
 
 export function createCorrelationsHashMap(
   stat: Stat,

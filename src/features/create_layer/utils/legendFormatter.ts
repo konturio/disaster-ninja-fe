@@ -1,9 +1,9 @@
-import {
+import type {
   BivariateLegendStep,
   LayerLegend,
 } from '~core/logical_layers/types/legends';
 import { convertRGBtoObj } from '~utils/bivariate/bivariateColorThemeUtils';
-import { LayerInAreaDetails } from '../types';
+import type { LayerInAreaDetails } from '../types';
 
 function convertBivariateColorsToSteps(
   colors: { id: string; color: string }[],

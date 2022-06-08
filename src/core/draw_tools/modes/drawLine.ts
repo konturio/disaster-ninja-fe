@@ -1,10 +1,6 @@
-import {
-  ClickEvent,
-  DrawLineStringMode,
-  LineString,
-  ModeProps,
-} from '@nebula.gl/edit-modes';
-import { FeatureCollection } from '@nebula.gl/edit-modes/';
+import type { ClickEvent, LineString, ModeProps } from '@nebula.gl/edit-modes';
+import { DrawLineStringMode } from '@nebula.gl/edit-modes';
+import type { FeatureCollection } from '@nebula.gl/edit-modes/';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 import mapLibre from 'maplibre-gl';
 
