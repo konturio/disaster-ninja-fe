@@ -7,6 +7,7 @@ declare global {
       BOUNDARIES_API: string;
       REPORTS_API: string;
       TILES_API: string;
+      BIVARIATE_TILES_API?: string;
       REFRESH_INTERVAL_SEC: number;
       MAP_ACCESS_TOKEN: string;
       MAP_BASE_STYLE: string;
@@ -33,6 +34,7 @@ export default {
   boundariesApi: window.konturAppConfig.BOUNDARIES_API,
   reportsApi: window.konturAppConfig.REPORTS_API,
   tilesApi: window.konturAppConfig.TILES_API,
+  bivariateTilesApi: window.konturAppConfig.BIVARIATE_TILES_API,
   refreshIntervalSec: window.konturAppConfig.REFRESH_INTERVAL_SEC,
   mapAccessToken: window.konturAppConfig.MAP_ACCESS_TOKEN,
   mapBaseStyle: window.konturAppConfig.MAP_BASE_STYLE,
