@@ -2,10 +2,7 @@ import type { CornerRange, Stat } from '~utils/bivariate';
 import { generateBivariateStyleForAxis } from '~utils/bivariate';
 import interpolate from 'color-interpolate';
 import config from '~core/app_config';
-import type {
-  BivariateLegend,
-  BivariateLegendBackend,
-} from '~core/logical_layers/types/legends';
+import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
 import type { ColorCombination } from '~utils/bivariate/types/stat.types';
 
@@ -19,7 +16,7 @@ type BivariateLayerSource = {
 export interface BivariateLayerStyle {
   id: string;
   type: 'fill';
-  source: BivariateLayerSource;
+  source?: BivariateLayerSource;
   layout: unknown;
   filter: unknown[];
   paint: {
@@ -163,30 +160,6 @@ export function generateLayerStyleFromBivariateLegend(
       .sort((stp1, stp2) => (stp1.label > stp2.label ? 1 : -1))
       .map((stp) => ({ id: stp.label, color: stp.color })),
     sourceLayer: 'stats',
-    source: {
-      type: 'vector',
-      tiles: [`${resolveUrl(config.tilesApi)}{z}/{x}/{y}.mvt`],
-      maxzoom: 8,
-      minzoom: 0,
-    },
-  });
-}
-
-export function generateLayerStyleFromBivariateLegendBackend(
-  bl: BivariateLegendBackend,
-): BivariateLayerStyle {
-  return generateBivariateStyleForAxis({
-    id: `${bl.axes.x.quotient.join('&')}|${bl.axes.y.quotient.join('&')}`,
-    x: bl.axes.x,
-    y: bl.axes.y,
-    colors: bl.colors.sort((clr1, clr2) => (clr1.id > clr2.id ? 1 : -1)),
-    sourceLayer: 'stats',
-    source: {
-      type: 'vector',
-      tiles: [`${resolveUrl(config.tilesApi)}{z}/{x}/{y}.mvt`],
-      maxzoom: 8,
-      minzoom: 0,
-    },
   });
 }
 

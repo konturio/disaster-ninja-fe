@@ -7,6 +7,7 @@ import {
   featureProp,
   notEqual,
 } from './styleGen';
+import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 
 function colorsMap(colors) {
   return Object.fromEntries(colors.map(Object.values));
@@ -53,7 +54,7 @@ export interface StyleGeneratorProps {
   y: Stat['axis'][0];
   colors: OverlayColor[];
   id?: string;
-  source: string | any; // TODO: take typings from mapbox
+  source?: string | any; // TODO: take typings from mapbox
   sourceLayer?: string;
 }
 
@@ -64,11 +65,10 @@ export function generateBivariateStyleForAxis({
   source,
   sourceLayer,
   id = 'bivariate',
-}: StyleGeneratorProps) {
-  const style = {
+}: StyleGeneratorProps): BivariateLayerStyle {
+  const style: BivariateLayerStyle = {
     id,
     type: 'fill' as const,
-    source,
     layout: {},
     filter: filterSetup(x, y),
     paint: {
@@ -77,6 +77,10 @@ export function generateBivariateStyleForAxis({
       'fill-antialias': false,
     },
   };
+
+  if (source) {
+    style.source = source;
+  }
 
   if (sourceLayer) {
     style['source-layer'] = sourceLayer;

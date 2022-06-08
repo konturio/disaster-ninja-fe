@@ -6,6 +6,7 @@ import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
+import config from '~core/app_config';
 import {
   LAYER_BIVARIATE_PREFIX,
   SOURCE_BIVARIATE_PREFIX,
@@ -46,7 +47,14 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
      * request from https to http failed in browser with "mixed content" error
      * solution: cut off protocol part and replace with current page protocol
      */
-    url = window.location.protocol + url.replace(/https?:/, '');
+    const protocolRegexp = /https?:/;
+    if (protocolRegexp.test(url)) {
+      url = window.location.protocol + url.replace(protocolRegexp, '');
+    } else {
+      const baseUrl = config.bivariateTilesApi ?? `${window.location.protocol}${window.location.host}${window.location.pathname}`;
+      url = `${baseUrl}${url}`;
+    }
+
     /**
      * Some link templates use values that mapbox/maplibre do not understand
      * solution: convert to equivalents

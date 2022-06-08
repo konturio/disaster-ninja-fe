@@ -89,7 +89,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
             stats,
           );
 
-          const source = {
+          const source = biSource ? {
             id,
             maxZoom: biSource.maxzoom,
             minZoom: biSource.minzoom,
@@ -98,7 +98,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
               urls: biSource.tiles,
               tileSize: 512,
             },
-          };
+          } : undefined;
 
           const [updateActions, cleanUpActions] = createUpdateLayerActions(id, {
             legend,
