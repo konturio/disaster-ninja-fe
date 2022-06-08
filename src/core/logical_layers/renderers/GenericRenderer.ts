@@ -20,8 +20,8 @@ import {
   addZoomFilter,
   onActiveContributorsClick,
 } from './activeContributorsLayers';
-import type { LayersType } from '~core/logical_layers/utils/layersOrder';
-import { layerTypesOrdered } from '~core/logical_layers/utils/layersOrder';
+import type { LayersType } from '~core/logical_layers/utils/layersOrder/layersOrder';
+import { layerTypesOrdered } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';

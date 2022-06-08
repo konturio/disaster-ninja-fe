@@ -6,7 +6,7 @@ import DeckGl from './deck-gl';
 import { useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
-import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
+import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import type { MapStyle } from '~core/types';
 
 const updatedMapStyle = (
