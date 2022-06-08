@@ -1,5 +1,5 @@
 import type maplibregl from 'maplibre-gl';
-import { layersOrderManager } from '~core/logical_layers/utils/layersOrder';
+import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 
 export function layerByOrder(map: maplibregl.Map) {
   function addAboveLayerWithSameType(layer: maplibregl.AnyLayer) {
