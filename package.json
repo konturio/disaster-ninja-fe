@@ -138,7 +138,8 @@
     "use-subscription": "^1.5.1",
     "uuid": "^8.3.2",
     "vite": "^2.6.14",
-    "vite-plugin-html": "^2.1.1"
+    "vite-plugin-html": "^2.1.1",
+    "vitest": "^0.14.1"
   },
   "resolutions": {
     "@turf/difference": "6.0.1"
