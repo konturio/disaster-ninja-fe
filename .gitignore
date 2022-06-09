@@ -7,7 +7,6 @@
 /node_modules
 /.pnp
 .pnp.js
-/.husky
 
 #npm and yarn config
 .npmrc
