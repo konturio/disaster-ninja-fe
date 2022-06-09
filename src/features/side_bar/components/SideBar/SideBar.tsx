@@ -1,10 +1,10 @@
 import { useAction, useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
-import { sideControlsBarAtom } from '~core/shared_state';
-import { sortByPredefinedOrder } from './sortByPredefinedOrder';
-import { controlsOrder } from '../../constants';
-import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { v4 as uuidv4 } from 'uuid';
+import { sideControlsBarAtom } from '~core/shared_state';
+import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import { controlsOrder } from '../../constants';
+import { sortByPredefinedOrder } from './sortByPredefinedOrder';
 import s from './SideBar.module.css';
 
 export function SideBar() {

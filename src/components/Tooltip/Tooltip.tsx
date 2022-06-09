@@ -1,8 +1,8 @@
-import s from './Tooltip.module.css';
 import clsx from 'clsx';
 import { useAction } from '@reatom/react';
-import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { InfoOutline16 } from '@konturio/default-icons';
+import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import s from './Tooltip.module.css';
 
 interface TooltipProps {
   tipText: string;

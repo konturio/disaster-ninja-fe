@@ -1,6 +1,5 @@
 import { Button, Text } from '@konturio/ui-kit';
 import { useCallback, useMemo } from 'react';
-import { i18n } from '~core/localization';
 import {
   Line24,
   PointOutline24,
@@ -9,11 +8,12 @@ import {
 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
 import clsx from 'clsx';
-import s from './DrawToolToolbox.module.css';
+import { Download24 } from '@konturio/default-icons';
+import { i18n } from '~core/localization';
 import { drawModes } from '../../constants';
 import { combinedAtom } from '../../atoms/combinedAtom';
 import { toolboxAtom } from '../../atoms/toolboxAtom';
-import { Download24 } from '@konturio/default-icons';
+import s from './DrawToolToolbox.module.css';
 
 export const DrawToolsToolbox = () => {
   const [

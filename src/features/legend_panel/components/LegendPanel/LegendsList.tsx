@@ -1,15 +1,15 @@
+import { useAtom } from '@reatom/react';
 import {
   SimpleLegend as SimpleLegendComponent,
   SimpleLegendStep as SimpleLegendStepComponent,
 } from '~components/SimpleLegend/SimpleLegend';
-import type { SimpleLegendStep } from '~core/logical_layers/types/legends';
 import { LayerControl } from '~components/LayerControl/LayerControl';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
-import s from './LegendPanel.module.css';
-import { useAtom } from '@reatom/react';
-import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
 import { BivariateLegend } from '~components/BivariateLegend/BivariateLegend';
 import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
+import s from './LegendPanel.module.css';
+import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
+import type { SimpleLegendStep } from '~core/logical_layers/types/legends';
 
 export function LegendsList({ layer: layerAtom }: { layer: LayerAtom }) {
   const [{ id, settings, isMounted, isVisible, meta, legend }, layerActions] =

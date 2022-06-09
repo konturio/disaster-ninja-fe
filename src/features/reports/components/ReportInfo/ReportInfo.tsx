@@ -3,17 +3,17 @@ import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { i18n } from '~core/localization';
 import ReactMarkdown from 'react-markdown';
+import { useAtom } from '@reatom/react';
+import { i18n } from '~core/localization';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { reportsAtom } from '~features/reports/atoms/reportsAtom';
-import { useAtom } from '@reatom/react';
+import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { LinkRenderer } from '~utils/markdown/mdComponents';
 import { ReportTable } from '../ReportTable/ReportTable';
 import { tableAtom } from '../../atoms/tableAtom';
 import commonStyles from '../ReportsList/ReportsList.module.css';
 import styles from './Report.module.css';
-import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
-import { LinkRenderer } from '~utils/markdown/mdComponents';
 
 type Params = {
   reportId: string;

@@ -1,14 +1,14 @@
-import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { MapboxLayer } from '@deck.gl/mapbox';
-import type { DrawModeType } from '../constants';
-import { createDrawingLayers, drawModes } from '../constants';
-import { layersConfigs } from '../configs';
-import type { FeatureCollection, Feature } from 'geojson';
+import gpsi from 'geojson-polygon-self-intersections';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { i18n } from '~core/localization';
-import gpsi from 'geojson-polygon-self-intersections';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
+import { createDrawingLayers, drawModes } from '../constants';
+import { layersConfigs } from '../configs';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import type { DrawModeType } from '../constants';
+import type { FeatureCollection, Feature } from 'geojson';
 import type {
   NotNullableMap,
   CommonHookArgs,

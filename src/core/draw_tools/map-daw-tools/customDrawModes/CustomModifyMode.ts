@@ -1,3 +1,9 @@
+import {
+  GeoJsonEditMode,
+  ModifyMode,
+  TransformMode,
+  ImmutableFeatureCollection,
+} from '@nebula.gl/edit-modes';
 import type { FeatureCollection } from '@nebula.gl/edit-modes/dist/geojson-types';
 import type {
   ModeProps,
@@ -9,12 +15,6 @@ import type {
   StopDraggingEvent,
 } from '@nebula.gl/edit-modes/dist/types';
 import type { CompositeMode } from '@nebula.gl/edit-modes';
-import {
-  GeoJsonEditMode,
-  ModifyMode,
-  TransformMode,
-  ImmutableFeatureCollection,
-} from '@nebula.gl/edit-modes';
 
 type SubmodeType = GeoJsonEditMode | CompositeMode;
 

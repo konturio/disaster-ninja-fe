@@ -1,5 +1,5 @@
-import s from './SocialLoginIcon.module.css';
 import clsx from 'clsx';
+import s from './SocialLoginIcon.module.css';
 
 interface SocialLoginIconProps {
   type: 'google' | 'github' | 'osm';

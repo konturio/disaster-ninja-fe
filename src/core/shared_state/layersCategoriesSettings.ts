@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
-import type { CategorySettings } from '../types/layers';
 import { categoriesSettings } from '~core/logical_layers/constants';
+import type { CategorySettings } from '../types/layers';
 
 const defaultSettings: Record<string, CategorySettings> = categoriesSettings;
 

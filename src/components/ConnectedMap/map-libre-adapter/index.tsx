@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import ReactDOMServer from 'react-dom/server';
+import mapLibre from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import { useMarkers } from './useMarkers';
+import { useArrayDiff } from './useArrayDiff';
+import type { Marker } from './types';
 import type {
   MapMouseEvent,
   MapboxOptions,
@@ -10,11 +15,6 @@ import type {
   GeoJSONSource,
   GeoJSONSourceOptions,
 } from 'maplibre-gl';
-import mapLibre from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import type { Marker } from './types';
-import { useMarkers } from './useMarkers';
-import { useArrayDiff } from './useArrayDiff';
 
 interface FeatureState {
   source: string; // source id

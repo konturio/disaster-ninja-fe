@@ -7,12 +7,12 @@ import { sideControlsBarAtom } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
+import { editTargetAtom } from '~features/create_layer/atoms/editTarget';
 import { EditLayerForm } from '../../components/EditLayerForm/EditLayerForm';
 import { editableLayerControllerAtom } from '../../atoms/editableLayerController';
 import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
 import s from './EditLayerPanel.module.css';
-import { editTargetAtom } from '~features/create_layer/atoms/editTarget';
+import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
 
 export function EditLayerPanel() {
   const [createLayerState, { save }] = useAtom(editableLayerControllerAtom);

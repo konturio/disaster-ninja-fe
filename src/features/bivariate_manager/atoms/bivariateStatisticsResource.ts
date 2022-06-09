@@ -1,8 +1,8 @@
 import { createResourceAtom } from '~utils/atoms';
 import { graphQlClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
-import type { Stat } from '~utils/bivariate';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
+import type { Stat } from '~utils/bivariate';
 
 function stringifyWithoutQuotes(obj: unknown): string {
   const json = JSON.stringify(obj);

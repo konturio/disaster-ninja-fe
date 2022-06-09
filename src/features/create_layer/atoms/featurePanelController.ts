@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { editTargetAtom } from './editTarget';
 import { EditTargets } from '../constants';
+import { editTargetAtom } from './editTarget';
 
 export const featurePanelControllerAtom = createAtom(
   {

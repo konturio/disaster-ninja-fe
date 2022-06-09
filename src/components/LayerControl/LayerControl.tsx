@@ -1,7 +1,7 @@
 import cn from 'clsx';
+import { LayerInput } from '../LayerInput/LayerInput';
 import s from './LayerControl.module.css';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
-import { LayerInput } from '../LayerInput/LayerInput';
 
 interface LayerControl {
   inputType: 'radio' | 'checkbox' | 'not-interactive';

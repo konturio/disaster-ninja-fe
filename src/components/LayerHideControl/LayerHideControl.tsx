@@ -1,5 +1,5 @@
-import s from './LayerHideControl.module.css';
 import { Eye16, EyeOff16 } from '@konturio/default-icons';
+import s from './LayerHideControl.module.css';
 
 type LayerHideControlType = {
   isVisible: boolean;

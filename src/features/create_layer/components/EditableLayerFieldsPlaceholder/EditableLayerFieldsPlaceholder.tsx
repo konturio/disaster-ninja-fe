@@ -5,8 +5,8 @@ import { Button } from '@konturio/ui-kit';
 import { Plus24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { EditableLayerFieldContainer } from '../EditableLayerFieldContainer/EditableLayerFieldContainer';
-import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
 import s from './EditableLayerFieldsPlaceholder.module.css';
+import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
 
 interface EditableLayerFieldsPlaceholderProps {
   fieldModels: LayerEditorFormFieldAtomType[];

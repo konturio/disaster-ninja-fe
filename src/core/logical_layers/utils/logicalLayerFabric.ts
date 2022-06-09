@@ -1,15 +1,7 @@
 // https://beta.plectica.com/maps/I6JK50E2F/edit/4NE4TFESC
-import type { Action } from '@reatom/core';
 import { memo } from '@reatom/core/experiments';
-import type { AsyncState } from '../types/asyncState';
-import type { LogicalLayerRenderer } from '../types/renderer';
-
-import type {
-  LogicalLayerActions,
-  LogicalLayerState,
-} from '../types/logicalLayer';
-import type { LayerRegistryAtom } from '../types/registry';
-
+import { downloadObject } from '~utils/fileHelpers/download';
+import { createAtom } from '~utils/atoms';
 import { currentMapAtom } from '../../shared_state/currentMap';
 import { layersSettingsAtom } from '../atoms/layersSettings';
 import { enabledLayersAtom } from '../atoms/enabledLayers';
@@ -19,10 +11,16 @@ import { layersLegendsAtom } from '../atoms/layersLegends';
 import { layersMetaAtom } from '../atoms/layersMeta';
 import { layersSourcesAtom } from '../atoms/layersSources';
 import { layersMenusAtom } from '../atoms/layersMenus';
-import { downloadObject } from '~utils/fileHelpers/download';
 import { deepFreeze } from './deepFreeze';
-import { createAtom } from '~utils/atoms';
 import { getMutualExcludedActions } from './getMutualExcludedActions';
+import type { LayerRegistryAtom } from '../types/registry';
+import type {
+  LogicalLayerActions,
+  LogicalLayerState,
+} from '../types/logicalLayer';
+import type { LogicalLayerRenderer } from '../types/renderer';
+import type { AsyncState } from '../types/asyncState';
+import type { Action } from '@reatom/core';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 /**

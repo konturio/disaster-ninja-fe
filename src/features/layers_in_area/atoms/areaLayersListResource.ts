@@ -1,9 +1,7 @@
 import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { apiClient } from '~core/apiClientInstance';
-import type { LayerInArea } from '../types';
 import {
   currentApplicationAtom,
   currentEventFeedAtom,
@@ -12,6 +10,8 @@ import { EDITABLE_LAYERS_GROUP } from '~core/constants';
 import { UserDataModel, userResourceAtom } from '~core/auth';
 import { LAYERS_IN_AREA_API_ERROR } from '~features/layers_in_area/constants';
 import { AppFeature } from '~core/auth/types';
+import type { LayerInArea } from '../types';
+import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 
 /**
  * This resource atom get layers for current focused geometry.
