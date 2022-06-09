@@ -2,8 +2,8 @@ import turfBbox from '@turf/bbox';
 import { createAtom } from '~utils/atoms';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { currentMapAtom } from '~core/shared_state';
-import { currentEventGeometryAtom } from './currentEventGeometry';
 import app_config from '~core/app_config';
+import { currentEventGeometryAtom } from './currentEventGeometry';
 
 export const currentEventAutoFocusAtom = createAtom(
   {

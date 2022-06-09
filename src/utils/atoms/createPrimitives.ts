@@ -1,11 +1,11 @@
-import type { AtomOptions } from '@reatom/core';
 import { createAtom as createAtomOriginal } from '@reatom/core';
-import type { PrimitiveAtom } from '@reatom/core/primitives';
 import {
   createBooleanAtom as createBooleanAtomOriginal,
   createPrimitiveAtom as createPrimitiveAtomOriginal,
 } from '@reatom/core/primitives';
 import { store } from '~core/store/store';
+import type { PrimitiveAtom } from '@reatom/core/primitives';
+import type { AtomOptions } from '@reatom/core';
 
 const addStoreInOptions = (options) => ({
   ...(typeof options === 'string' ? { id: options } : options),

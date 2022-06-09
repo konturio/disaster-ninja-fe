@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useAtom } from '@reatom/react';
+import { useAction } from '@reatom/react';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { mountedLayersByCategoryAtom } from '~features/layers_panel/atoms/mountedLayersByCategory';
 import { Group } from '../Group/Group';
-import type { CategoryWithSettings } from '~core/types/layers';
-import { useAction } from '@reatom/react';
-import s from './Category.module.css';
 import { categoryDeselection } from '../../atoms/categoryDeselection';
 import { DeselectControl } from '../DeselectControl/DeselectControl';
+import s from './Category.module.css';
+import type { CategoryWithSettings } from '~core/types/layers';
 
 function CategoryMountedLayersCounter({ categoryId }: { categoryId: string }) {
   const [counters] = useAtom(mountedLayersByCategoryAtom);

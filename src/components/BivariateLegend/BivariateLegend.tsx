@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { Legend as BiLegend, Text } from '@konturio/ui-kit';
+import clsx from 'clsx';
 import { invertClusters } from '~utils/bivariate';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import s from './BivariateLegend.module.css';
-import clsx from 'clsx';
 import type { BivariateLegend as BivariateLegendType } from '~core/logical_layers/types/legends';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { LayerLegend } from '~core/logical_layers/types/legends';

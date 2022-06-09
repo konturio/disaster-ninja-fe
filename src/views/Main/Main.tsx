@@ -1,14 +1,14 @@
 import { Suspense, useEffect, useRef } from 'react';
 import { lazily } from 'react-lazily';
-import config from '~core/app_config';
-import { Row } from '~components/Layout/Layout';
-import s from './Main.module.css';
 import { useHistory } from 'react-router';
 import { useAtom } from '@reatom/react';
+import { Row } from '~components/Layout/Layout';
+import config from '~core/app_config';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
+import s from './Main.module.css';
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
 
@@ -142,7 +142,9 @@ export function MainView() {
           {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
           {userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
             userModel?.feeds && <EventList />}
-          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
+          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && (
+            <AnalyticsPanel />
+          )}
           {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
             <AdvancedAnalyticsPanel />
           )}

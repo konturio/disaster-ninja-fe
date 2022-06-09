@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useAtom } from '@reatom/react';
 import { LocaleNumber } from '~core/localization';
+import { worldAnalyticsResource } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsWorldResource';
 import s from './AdvancedAnalyticsData.module.css';
 import type { AdvancedAnalyticsData } from '~core/types';
-import { worldAnalyticsResource } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsWorldResource';
 
 interface AdvancedAnalyticsDataListProps {
   data?: AdvancedAnalyticsData[] | null;

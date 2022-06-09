@@ -1,4 +1,3 @@
-import s from './AdvancedAnalyticsEmptyState.module.css';
 import {
   SelectArea24,
   DisastersListIcon,
@@ -6,6 +5,7 @@ import {
   Plus24,
 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
+import s from './AdvancedAnalyticsEmptyState.module.css';
 
 interface AdvancedAnalyticsEmptyStateProps {
   stateType?: 'initial' | 'not-found' | 'error';

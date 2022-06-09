@@ -1,4 +1,3 @@
-import type { Stat, Axis, OverlayColor } from '../types/stat.types';
 import {
   addVariable,
   anyCondition,
@@ -7,6 +6,7 @@ import {
   featureProp,
   notEqual,
 } from './styleGen';
+import type { Stat, Axis, OverlayColor } from '../types/stat.types';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 
 function colorsMap(colors) {

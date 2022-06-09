@@ -1,7 +1,7 @@
-import type { LayerAtom } from '../types/logicalLayer';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersRegistryAtom } from '../atoms/layersRegistry';
 import { layersSettingsAtom } from '../atoms/layersSettings';
+import type { LayerAtom } from '../types/logicalLayer';
 
 /**
  * This atom contain list of layers with their group and category settings

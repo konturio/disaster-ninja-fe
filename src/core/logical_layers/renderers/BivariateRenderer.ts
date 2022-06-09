@@ -1,10 +1,4 @@
-import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import type { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
-import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import { replaceUrlWithProxy } from '../../../../vite.proxy';
-import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
-import type { LayerTileSource } from '~core/logical_layers/types/source';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
 import config from '~core/app_config';
 import {
@@ -12,6 +6,12 @@ import {
   SOURCE_BIVARIATE_PREFIX,
 } from '~core/logical_layers/constants';
 import { layerByOrder } from '~utils/map/layersOrder';
+import { replaceUrlWithProxy } from '../../../../vite.proxy';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import type { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
+import type { BivariateLegend } from '~core/logical_layers/types/legends';
+import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
+import type { LayerTileSource } from '~core/logical_layers/types/source';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -51,7 +51,9 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     if (protocolRegexp.test(url)) {
       url = window.location.protocol + url.replace(protocolRegexp, '');
     } else {
-      const baseUrl = config.bivariateTilesApi ?? `${window.location.protocol}${window.location.host}${window.location.pathname}`;
+      const baseUrl =
+        config.bivariateTilesApi ??
+        `${window.location.protocol}${window.location.host}${window.location.pathname}`;
       url = `${baseUrl}${url}`;
     }
 

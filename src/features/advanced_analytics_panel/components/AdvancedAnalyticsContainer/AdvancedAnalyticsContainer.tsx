@@ -1,15 +1,15 @@
+import { useAtom } from '@reatom/react';
+import { useCallback, useState } from 'react';
+import { Tabs } from '@konturio/ui-kit';
+import { Tab } from '@konturio/ui-kit/tslib/Tabs';
 import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms';
-import { useAtom } from '@reatom/react';
-import { useCallback, useState } from 'react';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { advancedAnalyticsResourceAtom } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsResource';
 import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsEmptyState/AdvancedAnalyticsEmptyState';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
-import { Tabs } from '@konturio/ui-kit';
-import { Tab } from '@konturio/ui-kit/tslib/Tabs';
 
 const AdvancedAnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(advancedAnalyticsResourceAtom);

@@ -1,14 +1,14 @@
 import { Button, Card, Input, Modal, Text } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/react';
-import s from './LoginForm.module.css';
-import { i18n } from '~core/localization';
-import { authClientInstance } from '~core/authClientInstance';
 import clsx from 'clsx';
-import type { ChangeEvent } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { authClientInstance } from '~core/authClientInstance';
+import { i18n } from '~core/localization';
 import { testEmail } from '~utils/forms/formsUtils';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { userStateAtom } from '~core/auth/atoms/userState';
+import s from './LoginForm.module.css';
+import type { ChangeEvent } from 'react';
 
 const authInputClasses = { input: clsx(s.authInput) };
 
