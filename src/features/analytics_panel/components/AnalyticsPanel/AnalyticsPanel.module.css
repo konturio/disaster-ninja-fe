@@ -49,7 +49,6 @@
 
 .panelBody {
   width: 320px;
-  min-height: 320px;
   padding: 0 var(--double-unit) var(--double-unit) var(--double-unit);
 }
 

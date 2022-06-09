@@ -100,7 +100,10 @@ export function LoginForm() {
   }, [formRef.current, formData]);
 
   return userState === 'logging_in' ? (
-    <Modal onModalCloseCallback={onCloseFormCallback}>
+    <Modal
+      onModalCloseCallback={onCloseFormCallback}
+      className={s.modalContainer}
+    >
       <Card ref={formRef} className={s.modalCard}>
         {loading && (
           <div className={s.loadingContainer}>
