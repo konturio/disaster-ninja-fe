@@ -1,9 +1,9 @@
-import type { ApiClient } from '~core/api_client';
-import { userStateAtom } from '../atoms/userState';
 import { currentUserAtom } from '~core/shared_state';
-import type { JWTData } from '~core/api_client/types';
 import { callYm } from '~utils/stats/yandexCounter';
 import appConfig from '~core/app_config';
+import { userStateAtom } from '../atoms/userState';
+import type { JWTData } from '~core/api_client/types';
+import type { ApiClient } from '~core/api_client';
 
 interface AuthClientConfig {
   apiClient: ApiClient;

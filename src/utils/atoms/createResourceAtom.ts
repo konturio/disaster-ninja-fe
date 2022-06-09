@@ -1,6 +1,6 @@
-import type { Atom, AtomSelfBinded } from '@reatom/core';
 import { isObject } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
+import type { Atom, AtomSelfBinded } from '@reatom/core';
 
 export type ResourceAtom<P, T> = AtomSelfBinded<
   ResourceAtomState<T, P>,

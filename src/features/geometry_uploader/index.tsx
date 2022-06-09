@@ -1,23 +1,23 @@
-import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
+import { Plus24 } from '@konturio/default-icons';
+import turfBbox from '@turf/bbox';
+import {
+  controlGroup,
+  controlVisualGroup,
+} from '~core/shared_state/sideControlsBar';
 import {
   currentMapAtom,
   currentMapPositionAtom,
   sideControlsBarAtom,
 } from '~core/shared_state';
-import { askGeoJSONFile } from './askGeoJSONFile';
-import { Plus24 } from '@konturio/default-icons';
+import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
+import app_config from '~core/app_config';
+import { i18n } from '~core/localization';
+import { currentNotificationAtom } from '~core/shared_state';
 import {
   GEOMETRY_UPLOADER_CONTROL_ID,
   GEOMETRY_UPLOADER_CONTROL_NAME,
 } from './constants';
-import {
-  controlGroup,
-  controlVisualGroup,
-} from '~core/shared_state/sideControlsBar';
-import turfBbox from '@turf/bbox';
-import app_config from '~core/app_config';
-import { i18n } from '~core/localization';
-import { currentNotificationAtom } from '~core/shared_state';
+import { askGeoJSONFile } from './askGeoJSONFile';
 
 export function initFileUploader() {
   sideControlsBarAtom.addControl.dispatch({

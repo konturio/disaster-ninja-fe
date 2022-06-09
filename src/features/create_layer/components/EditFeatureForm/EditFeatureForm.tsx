@@ -1,10 +1,10 @@
-import type { ChangeEvent } from 'react';
-import type { Geometry } from 'geojson';
+import { Button, Input, Text } from '@konturio/ui-kit';
 import { Label } from '~components/Label/Label';
 import { i18n } from '~core/localization';
-import { Button, Input, Text } from '@konturio/ui-kit';
-import type { EditableLayerSettings } from '../../types';
 import s from './EditFeatureForm.module.css';
+import type { ChangeEvent } from 'react';
+import type { Geometry } from 'geojson';
+import type { EditableLayerSettings } from '../../types';
 
 type EditFeatureFormProps = {
   geometry: Geometry | null;

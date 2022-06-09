@@ -1,13 +1,13 @@
 import MockAdapter from 'axios-mock-adapter';
 import sinon from 'sinon';
-import type { NotificationMessage } from '../../../core/types/notification';
 import {
   createLocalStorageMock,
   setupTestContext,
 } from '../../../utils/testsUtils/setupTest';
 import { ApiClientError } from '../apiClientError';
-import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
 import { ApiClient } from '../apiClient';
+import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
+import type { NotificationMessage } from '~core/types/notification';
 import type { INotificationService, ITranslationService } from '../types';
 
 function setTimeOffset(timeOffsetMin: number): number {

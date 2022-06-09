@@ -1,18 +1,17 @@
-import { FocusedGeometryRenderer } from './renderers/FocusedGeometryRenderer';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
-import { createFocusedGeometrySourceAtom } from './atoms/focusedGeometrySourceAtom';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
 import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
+import { forceRun } from '~utils/atoms/forceRun';
+import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/shared_state/focusedGeometry';
 import {
   FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY,
   FOCUSED_GEOMETRY_COLOR,
 } from './constants';
-
-import { forceRun } from '~utils/atoms/forceRun';
-import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/shared_state/focusedGeometry';
+import { createFocusedGeometrySourceAtom } from './atoms/focusedGeometrySourceAtom';
+import { FocusedGeometryRenderer } from './renderers/FocusedGeometryRenderer';
 
 let isInitialized = false;
 

@@ -1,10 +1,10 @@
-import type { Action } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
-import type { LayerInArea } from '../types';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateActionsFromLayersDTO } from '../utils/createUpdateActionsFromLayersDTO';
 import { areaLayersListResource } from './areaLayersListResource';
+import type { LayerInArea } from '../types';
+import type { Action } from '@reatom/core';
 
 /**
  * This atom responsibilities:

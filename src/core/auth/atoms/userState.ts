@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
-import type { UserStateType } from '~core/auth/types';
 import { UserStateStatus } from '~core/auth/types';
+import type { UserStateType } from '~core/auth/types';
 
 export const userStateAtom = createAtom(
   {

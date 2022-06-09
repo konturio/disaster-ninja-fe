@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
-import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 /**
  * Atom to save current map ref and reuse it in other atoms

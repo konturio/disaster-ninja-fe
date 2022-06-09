@@ -1,9 +1,9 @@
 import { Card, Text } from '@konturio/ui-kit';
-import type { Notification } from '~core/shared_state/currentNotifications';
 import clsx from 'clsx';
-import styles from './Toast.module.css';
 import { useMemo } from 'react';
 import { Alarm24, Close24, Error24, Info24 } from '@konturio/default-icons';
+import styles from './Toast.module.css';
+import type { Notification } from '~core/shared_state/currentNotifications';
 
 export function Toast({
   notification,

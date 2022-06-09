@@ -1,19 +1,19 @@
 import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
-import type { LayerEditorFormAtomType } from './layerEditorForm';
+import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
 import { createLayerEditorFormAtom } from './layerEditorForm';
-import type { LayerEditorFormFieldAtomType } from './layerEditorFormField';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
+import { editableLayerSettingsAtom } from './editableLayerSettings';
+import { editTargetAtom } from './editTarget';
+import { editableLayersListResource } from './editableLayersListResource';
 import type {
   LayerEditorFormModel,
   EditableLayerFieldType,
   EditableLayers,
 } from '../types';
-import { editableLayerSettingsAtom } from './editableLayerSettings';
-import { editTargetAtom } from './editTarget';
-import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
-import { editableLayersListResource } from './editableLayersListResource';
+import type { LayerEditorFormFieldAtomType } from './layerEditorFormField';
+import type { LayerEditorFormAtomType } from './layerEditorForm';
 
 type EditableLayerAtomStateType = {
   loading: boolean;

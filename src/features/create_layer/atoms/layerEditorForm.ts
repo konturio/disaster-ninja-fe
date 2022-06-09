@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
-import type { LayerEditorFormModel } from '../types';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
+import type { LayerEditorFormModel } from '../types';
 
 const getDefaultAtomState = (): LayerEditorFormModel => ({
   name: '',

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
-import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
 import { DownloadControl } from '../DownloadControl/DownloadControl';
 import { LayerContextMenu } from '../LayerContextMenu/LayerContextMenu';
+import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 
 export function useControlElements(
   layerState: LogicalLayerState,

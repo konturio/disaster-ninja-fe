@@ -1,6 +1,6 @@
-import type { LayerFieldModel } from '~features/create_layer/types';
 import { createAtom } from '~utils/atoms';
 import { FieldTypes } from '../constants';
+import type { LayerFieldModel } from '~features/create_layer/types';
 import type { EditableLayerFieldType } from '../types';
 
 export type LayerEditorFormFieldAtomType = ReturnType<

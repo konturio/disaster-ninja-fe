@@ -1,7 +1,7 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import type { AxisGroup, CorrelationMatrix } from '~core/types';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
+import type { AxisGroup, CorrelationMatrix } from '~core/types';
 import type { CorrelationRate } from '~utils/bivariate/types/stat.types';
 
 function covertGroupToObject(groups: AxisGroup[]) {

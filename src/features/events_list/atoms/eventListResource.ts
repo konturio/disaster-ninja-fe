@@ -1,8 +1,8 @@
 import { createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
-import type { Event } from '~core/types';
 import { currentEventFeedAtom } from '~core/shared_state';
+import type { Event } from '~core/types';
 
 export const eventListResourceAtom = createResourceAtom(
   async (currentFeed) => {

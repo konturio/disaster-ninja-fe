@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
-import type { Marker } from '~core/types';
 import { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
+import type { Marker } from '~core/types';
 
 // wrap react element into HTMLElement
 function renderInline(reactElement: React.ReactElement) {

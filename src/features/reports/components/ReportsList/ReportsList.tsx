@@ -1,16 +1,16 @@
 import { Text } from '@konturio/ui-kit';
 import { Link, useHistory } from 'react-router-dom';
-import { i18n } from '~core/localization';
 import clsx from 'clsx';
 import { Trans } from 'react-i18next';
 import { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { reportsAtom } from '~features/reports/atoms/reportsAtom';
 import { useAtom } from '@reatom/react';
+import { reportsAtom } from '~features/reports/atoms/reportsAtom';
+import { i18n } from '~core/localization';
 import config from '~core/app_config';
-import styles from './ReportsList.module.css';
-import arrowIcon from '../../icons/arrow.svg';
 import { LinkRenderer } from '~utils/markdown/mdComponents';
+import arrowIcon from '../../icons/arrow.svg';
+import styles from './ReportsList.module.css';
 
 export function ReportsList() {
   const history = useHistory();

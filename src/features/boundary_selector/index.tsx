@@ -1,5 +1,5 @@
-import { sideControlsBarAtom } from '~core/shared_state';
 import { SelectArea24 } from '@konturio/default-icons';
+import { sideControlsBarAtom } from '~core/shared_state';
 import {
   BOUNDARY_SELECTOR_CONTROL_ID,
   BOUNDARY_SELECTOR_CONTROL_NAME,

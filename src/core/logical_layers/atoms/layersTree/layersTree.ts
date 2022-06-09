@@ -1,7 +1,7 @@
-import { logicalLayersHierarchyAtom } from '../layersHierarchy';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersCategoriesSettingsAtom } from '~core/shared_state/layersCategoriesSettings';
 import { layersGroupsSettingsAtom } from '~core/shared_state/layersGroupsSettings';
+import { logicalLayersHierarchyAtom } from '../layersHierarchy';
 import { createTree } from './createTree';
 import { sortChildren } from './sortTree';
 

@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
-import type { GroupSettings } from '../types/layers';
 import { groupSettings } from '~core/logical_layers/constants';
+import type { GroupSettings } from '../types/layers';
 
 const defaultSettings: Record<string, GroupSettings> = groupSettings;
 

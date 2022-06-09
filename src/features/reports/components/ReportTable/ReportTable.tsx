@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useAtom } from '@reatom/react';
-import { tableAtom } from '../../atoms/tableAtom';
 import i18next from 'i18next';
-import styles from './ReportTable.module.css';
+import { tableAtom } from '../../atoms/tableAtom';
 import sortIcon from '../../icons/sort_triangle.svg';
+import styles from './ReportTable.module.css';
 import { TableCell } from './TableCell';
 
 function jOSMRedirect(

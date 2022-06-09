@@ -1,12 +1,3 @@
-import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import type {
-  AnyLayer,
-  GeoJSONSourceRaw,
-  RasterSource,
-  VectorSource,
-} from 'maplibre-gl';
-import type maplibregl from 'maplibre-gl';
-import type { LayerLegend } from '~core/logical_layers/types/legends';
 import {
   applyLegendConditions,
   mapCSSToMapBoxProperties,
@@ -16,23 +7,32 @@ import {
   LAYER_IN_AREA_PREFIX,
   SOURCE_IN_AREA_PREFIX,
 } from '~features/layers_in_area/constants';
+import { layerTypesOrdered } from '~core/logical_layers/utils/layersOrder/layersOrder';
+import { registerMapListener } from '~core/shared_state/mapListeners';
+import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
+import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import { layerByOrder } from '~utils/map/layersOrder';
+import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import {
   addZoomFilter,
   onActiveContributorsClick,
 } from './activeContributorsLayers';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import type {
+  AnyLayer,
+  GeoJSONSourceRaw,
+  RasterSource,
+  VectorSource,
+} from 'maplibre-gl';
+import type maplibregl from 'maplibre-gl';
+import type { LayerLegend } from '~core/logical_layers/types/legends';
 import type { LayersType } from '~core/logical_layers/utils/layersOrder/layersOrder';
-import { layerTypesOrdered } from '~core/logical_layers/utils/layersOrder/layersOrder';
-import { registerMapListener } from '~core/shared_state/mapListeners';
-import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type {
   LayerGeoJSONSource,
   LayerSource,
   LayerTileSource,
 } from '~core/logical_layers/types/source';
-import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import { layerByOrder } from '~utils/map/layersOrder';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
