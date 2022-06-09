@@ -6,6 +6,7 @@ import {
 } from '~components/SimpleLegend/SimpleLegend';
 import { LayerControl } from '~components/LayerControl/LayerControl';
 import { Folding } from '../Folding/Folding';
+import { useControlElements } from './useControlElements';
 import type {
   LayerLegend,
   SimpleLegend,
@@ -13,7 +14,6 @@ import type {
 } from '~core/logical_layers/types/legends';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
-import { useControlElements } from './useControlElements';
 
 export function Layer({
   layerAtom,

@@ -1,17 +1,17 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import {
   createBivariateLegend,
   createBivariateMeta,
 } from '~utils/bivariate/bivariateLegendUtils';
-import type { ColorTheme } from '~core/types';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
+import type { ColorTheme } from '~core/types';
+import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 
 const UNSELECTED_STATE = {
   xNumerator: null,
@@ -89,16 +89,18 @@ export const bivariateMatrixSelectionAtom = createAtom(
             stats,
           );
 
-          const source = biSource ? {
-            id,
-            maxZoom: biSource.maxzoom,
-            minZoom: biSource.minzoom,
-            source: {
-              type: biSource.type,
-              urls: biSource.tiles,
-              tileSize: 512,
-            },
-          } : undefined;
+          const source = biSource
+            ? {
+                id,
+                maxZoom: biSource.maxzoom,
+                minZoom: biSource.minzoom,
+                source: {
+                  type: biSource.type,
+                  urls: biSource.tiles,
+                  tileSize: 512,
+                },
+              }
+            : undefined;
 
           const [updateActions, cleanUpActions] = createUpdateLayerActions(id, {
             legend,

@@ -1,12 +1,12 @@
 import MockAdapter from 'axios-mock-adapter';
 import sinon from 'sinon';
-import type { NotificationMessage } from '../../../core/types/notification';
 import {
   createLocalStorageMock,
   setupTestContext,
 } from '../../../utils/testsUtils/setupTest';
 import { ApiClient } from '../apiClient';
 import { ApiClientError } from '../apiClientError';
+import type { NotificationMessage } from '~core/types/notification';
 import type { INotificationService, ITranslationService } from '../types';
 
 /* Setup stage */

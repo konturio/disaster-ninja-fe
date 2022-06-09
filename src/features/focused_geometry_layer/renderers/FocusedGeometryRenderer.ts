@@ -1,12 +1,12 @@
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import type { GeoJSONSource } from 'maplibre-gl';
-import Icon from '../icons/marker_black.png';
-import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import { waitMapEvent } from '~utils/map/waitMapEvent';
 import { loadImageOnMap } from '~utils/map/loadImageOnMap';
-import { FOCUSED_GEOMETRY_COLOR } from '../constants';
 import { layerByOrder } from '~utils/map/layersOrder';
+import Icon from '../icons/marker_black.png';
+import { FOCUSED_GEOMETRY_COLOR } from '../constants';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
+import type { GeoJSONSource } from 'maplibre-gl';
+import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 
 const icons = {
   place: Icon,

@@ -2,12 +2,12 @@ import { StrictMode, Suspense } from 'react';
 import { lazily } from 'react-lazily';
 import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import styles from './views/Main/Main.module.css';
+import { useAtom } from '@reatom/react';
 import config from '~core/app_config';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
-import { useAtom } from '@reatom/react';
 import { userResourceAtom } from '~core/auth';
 import { LoginForm } from '~features/user_profile';
+import styles from './views/Main/Main.module.css';
 
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));

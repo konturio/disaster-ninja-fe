@@ -1,6 +1,5 @@
 import type { ApiResponse, ApisauceConfig } from 'apisauce';
 import type { AxiosRequestConfig } from 'axios';
-
 import type { NotificationMessage } from '~core/types/notification';
 
 export interface INotificationService {

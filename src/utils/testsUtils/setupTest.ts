@@ -1,5 +1,5 @@
-import type { TestInterface } from 'ava';
 import anyTest from 'ava';
+import type { TestInterface } from 'ava';
 
 /* Allow setup typed context */
 // https://github.com/avajs/ava/blob/main/docs/recipes/typescript.md

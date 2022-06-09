@@ -1,7 +1,7 @@
-import s from './AnalyticsData.module.css';
-import type { AnalyticsData } from '~core/types';
 import { i18n } from '~core/localization';
 import { Tooltip } from '~components/Tooltip/Tooltip';
+import s from './AnalyticsData.module.css';
+import type { AnalyticsData } from '~core/types';
 
 interface AnalyticsDataListProps {
   data?: AnalyticsData[] | null;

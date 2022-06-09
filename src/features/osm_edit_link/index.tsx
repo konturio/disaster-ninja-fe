@@ -1,11 +1,11 @@
+import { EditOsm24 } from '@konturio/default-icons';
 import {
   currentMapPositionAtom,
   sideControlsBarAtom,
 } from '~core/shared_state';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
-import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';
-import { EditOsm24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
+import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';
 
 export function initOsmEditLink() {
   sideControlsBarAtom.addControl.dispatch({

@@ -1,14 +1,14 @@
 import { useAtom } from '@reatom/react';
-import { LoginButton } from '../LoginButton/LoginButton';
-import { userStateAtom } from '~core/auth/atoms/userState';
 import { useCallback, useEffect, useState } from 'react';
-import s from './UserProfile.module.css';
-import type { OptionType } from '@konturio/ui-kit/tslib/Selector';
 import { Selector } from '@konturio/ui-kit/tslib/Selector';
 import clsx from 'clsx';
-import { authClientInstance } from '~core/authClientInstance';
 import { Button } from '@konturio/ui-kit';
 import { User24 } from '@konturio/default-icons';
+import { authClientInstance } from '~core/authClientInstance';
+import { userStateAtom } from '~core/auth/atoms/userState';
+import { LoginButton } from '../LoginButton/LoginButton';
+import s from './UserProfile.module.css';
+import type { OptionType } from '@konturio/ui-kit/tslib/Selector';
 
 const userMenu: OptionType[] = [
   {

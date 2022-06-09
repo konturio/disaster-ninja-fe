@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import cn from 'clsx';
 import { parseISO } from 'date-fns';
-import type { Event } from '~core/types';
-import { Analytics } from './Analytics/Analytics';
-import s from './EventCard.module.css';
 import { Text } from '@konturio/ui-kit';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
+import { Analytics } from './Analytics/Analytics';
+import s from './EventCard.module.css';
+import type { Event } from '~core/types';
 
 const formatTime = (() => {
   const format = new Intl.DateTimeFormat('default', {

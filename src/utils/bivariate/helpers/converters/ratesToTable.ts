@@ -1,6 +1,6 @@
-import type { Axis, CorrelationRate } from '../../types/stat.types';
 import { MapIndex } from '../MapIndex';
 import { Matrix } from '../Matrix';
+import type { Axis, CorrelationRate } from '../../types/stat.types';
 
 export type TableHeading = {
   id: string;

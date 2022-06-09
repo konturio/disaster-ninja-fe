@@ -1,7 +1,7 @@
-import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import s from './Folding.module.css';
+import type { PropsWithChildren } from 'react';
 
 export function Folding({
   title,

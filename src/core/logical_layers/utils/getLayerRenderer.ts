@@ -1,7 +1,7 @@
-import type { LayerInArea } from '~features/layers_in_area/types';
-import type { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { GenericRenderer } from '~core/logical_layers/renderers/GenericRenderer';
 import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
+import type { LayerInArea } from '~features/layers_in_area/types';
+import type { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 
 export function getLayerRenderer(
   layer: LayerInArea,

@@ -22,6 +22,22 @@
     }
   },
   "rules": {
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
+        ],
+        "newlines-between": "never"
+      }
+    ],
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/ban-ts-comment": "warn",
@@ -41,6 +57,11 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {
+        "project": "tsconfig.json"
+      }
     }
   }
 }
