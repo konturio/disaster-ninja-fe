@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import type { PropsWithChildren } from 'react';
 import s from './Label.module.css';
+import type { PropsWithChildren } from 'react';
 
 interface LabelWithTooltipProps {
   className?: string;

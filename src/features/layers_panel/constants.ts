@@ -1,9 +1,9 @@
-import type { ContextMenuItemType } from '~features/layers_panel/types';
 import {
   ContextMenuDeleteLayerItem,
   ContextMenuEditItem,
   ContextMenuEditLayerFeaturesItem,
 } from '~features/layers_panel/types';
+import type { ContextMenuItemType } from '~features/layers_panel/types';
 
 export const CONTEXT_MENU_ITEMS: ContextMenuItemType[] = [
   {

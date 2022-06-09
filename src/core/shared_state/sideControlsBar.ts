@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
-import type { Action } from '@reatom/core';
 import { currentUserAtom } from '~core/shared_state/currentUser';
+import type { Action } from '@reatom/core';
 
 export interface SideControl {
   id: string;

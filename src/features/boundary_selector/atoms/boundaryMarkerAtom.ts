@@ -1,15 +1,15 @@
 import { createAtom } from '~utils/atoms';
 import { currentMapAtom } from '~core/shared_state';
+import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
+import { convertToAppMarker } from '~utils/map/markers';
+import { sideControlsBarAtom, focusedGeometryAtom } from '~core/shared_state';
+import { i18n } from '~core/localization';
+import { BOUNDARY_MARKER_ID } from '../constants';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 import { boundaryResourceAtom } from './boundaryResourceAtom';
 import { highlightedGeometry } from './highlightedGeometry';
 import { getSelectorWithOptions } from './../components/getSelectorWithOptions';
-import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
-import { convertToAppMarker } from '~utils/map/markers';
 import type { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
-import { sideControlsBarAtom, focusedGeometryAtom } from '~core/shared_state';
-import { BOUNDARY_MARKER_ID } from '../constants';
-import { i18n } from '~core/localization';
 
 const LOADING_OPTIONS = [
   { label: i18n.t('Loading...'), value: 'loading', disabled: true },

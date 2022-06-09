@@ -1,12 +1,12 @@
+import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
+import { createGeoJSONSource } from '~utils/geoJSON/helpers';
+import { layerByOrder } from '~utils/map/layersOrder';
 import type {
   ApplicationLayer,
   ApplicationMap,
 } from '~components/ConnectedMap/ConnectedMap';
-import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import { createGeoJSONSource } from '~utils/geoJSON/helpers';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LayerGeoJSONSource } from '~core/logical_layers/types/source';
-import { layerByOrder } from '~utils/map/layersOrder';
 
 export class BoundarySelectorRenderer extends LogicalLayerDefaultRenderer {
   public readonly layerId: string;

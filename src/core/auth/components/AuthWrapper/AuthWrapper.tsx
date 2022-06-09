@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { authClientInstance } from '~core/authClientInstance';
+import type { ReactNode } from 'react';
 
 export function AuthWrapper({
   children,

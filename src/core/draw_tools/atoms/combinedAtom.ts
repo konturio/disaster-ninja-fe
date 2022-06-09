@@ -1,17 +1,17 @@
-import type { Action } from '@reatom/core';
 import { createAtom } from '~utils/atoms';
-import { drawnGeometryAtom } from './drawnGeometryAtom';
-import type { Feature } from 'geojson';
-import { temporaryGeometryAtom } from './temporaryGeometryAtom';
 import { currentMapAtom, currentNotificationAtom } from '~core/shared_state';
-import type { NotificationType } from '~core/shared_state/currentNotifications';
-import type { NotificationMessage } from '~core/types/notification';
-import { activeDrawModeAtom } from './activeDrawMode';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
+import { activeDrawModeAtom } from './activeDrawMode';
+import { temporaryGeometryAtom } from './temporaryGeometryAtom';
+import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { drawModeLogicalLayerAtom } from './logicalLayerAtom';
 import { selectedIndexesAtom } from './selectedIndexesAtom';
 import { isDrawingStartedAtom } from './isDrawingStartedAtom';
 import { drawModeRenderer } from './logicalLayerAtom';
+import type { NotificationMessage } from '~core/types/notification';
+import type { NotificationType } from '~core/shared_state/currentNotifications';
+import type { Feature } from 'geojson';
+import type { Action } from '@reatom/core';
 
 export type DrawModeHooks =
   | 'drawnGeometryAtom'

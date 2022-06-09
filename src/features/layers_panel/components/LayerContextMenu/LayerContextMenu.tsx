@@ -1,6 +1,6 @@
-import s from './LayerContextMenu.module.css';
 import { More16 } from '@konturio/default-icons';
 import { useCallback, useState } from 'react';
+import s from './LayerContextMenu.module.css';
 
 interface LayerContextMenuItemProps {
   id: string;

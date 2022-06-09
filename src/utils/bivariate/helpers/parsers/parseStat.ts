@@ -1,10 +1,10 @@
-import type { Table } from '../converters/ratesToTable';
 import { ratesToTable } from '../converters/ratesToTable';
 import { extractAvailableDenominators } from '../extractors/extractAvailableDenominators';
-import type { Axis, CorrelationRate, Stat } from '../../types/stat.types';
+import { sortByExample } from '../sort/sortByExample';
 import { createBivariateAxisesHashMap } from './createBivariateAxisesHashMap';
 import { createCorrelationsHashMap } from './createCorrelationsHashMap';
-import { sortByExample } from '../sort/sortByExample';
+import type { Axis, CorrelationRate, Stat } from '../../types/stat.types';
+import type { Table } from '../converters/ratesToTable';
 
 export type { Stat };
 export type { Table };

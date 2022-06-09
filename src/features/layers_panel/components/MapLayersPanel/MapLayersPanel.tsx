@@ -1,12 +1,12 @@
-import { i18n } from '~core/localization';
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
-import { LayersTree } from '../LayersTree/LayersTree';
-import s from './MapLayersPanel.module.css';
 import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Layers24 } from '@konturio/default-icons';
+import { i18n } from '~core/localization';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { LayersTree } from '../LayersTree/LayersTree';
+import s from './MapLayersPanel.module.css';
 
 export function MapLayerPanel({
   iconsContainerRef,

@@ -1,9 +1,9 @@
 import { Text } from '@konturio/ui-kit';
-import type { SimpleLegend as SimpleLegendType } from '~core/logical_layers/types/legends';
 import { HexIcon } from '~components/SimpleLegend/icons/HexIcon';
 import { CircleIcon } from '~components/SimpleLegend/icons/CircleIcon';
 import { SquareIcon } from '~components/SimpleLegend/icons/SquareIcon';
 import s from './SimpleLegend.module.css';
+import type { SimpleLegend as SimpleLegendType } from '~core/logical_layers/types/legends';
 import type { CSSProperties } from 'react';
 
 type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;

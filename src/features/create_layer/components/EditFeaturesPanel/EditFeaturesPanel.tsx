@@ -12,8 +12,8 @@ import {
   EditFeatureForm,
   EditFeaturePlaceholder,
 } from '../EditFeatureForm/EditFeatureForm';
-import s from './EditFeaturesPanel.module.css';
 import { editableLayerSettingsAtom } from '../../atoms/editableLayerSettings';
+import s from './EditFeaturesPanel.module.css';
 
 export function EditFeaturesPanel() {
   const [selectedFeature, { updateProperties }] = useAtom(currentSelectedPoint);

@@ -1,8 +1,8 @@
 import { Text } from '@konturio/ui-kit';
 import { useMemo } from 'react';
-import s from './Analytics.module.css';
 import { People16, Area16 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
+import s from './Analytics.module.css';
 
 const Sub = ({ children }) => (
   <span style={{ fontSize: '.7em', verticalAlign: 'super', lineHeight: 0 }}>

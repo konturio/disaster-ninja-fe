@@ -1,11 +1,11 @@
 import { useAtom } from '@reatom/react';
+import { memo, useCallback } from 'react';
 import { i18n } from '~core/localization';
 import { userResourceAtom } from '~core/auth';
-import type { ChangeEvent } from 'react';
-import { memo, useCallback } from 'react';
-import s from './FeedSelector.module.css';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { AppFeature } from '~core/auth/types';
+import s from './FeedSelector.module.css';
+import type { ChangeEvent } from 'react';
 
 const FeedSelectorComp = () => {
   const [{ data: userModel }] = useAtom(userResourceAtom);

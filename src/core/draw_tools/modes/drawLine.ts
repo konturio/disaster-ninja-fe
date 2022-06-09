@@ -1,8 +1,8 @@
-import type { ClickEvent, LineString, ModeProps } from '@nebula.gl/edit-modes';
 import { DrawLineStringMode } from '@nebula.gl/edit-modes';
-import type { FeatureCollection } from '@nebula.gl/edit-modes/';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
 import mapLibre from 'maplibre-gl';
+import type { FeatureCollection } from '@nebula.gl/edit-modes/';
+import type { ClickEvent, LineString, ModeProps } from '@nebula.gl/edit-modes';
 
 export class LocalDrawLineStringMode extends DrawLineStringMode {
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {

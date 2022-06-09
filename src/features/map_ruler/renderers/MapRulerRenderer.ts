@@ -1,14 +1,14 @@
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
+import { MapboxLayer } from '@deck.gl/mapbox';
 import { CustomMeasureDistanceMode } from '~core/draw_tools/map-daw-tools/customDrawModes/CustomMeasureDistanceMode';
 import { i18n } from '~core/localization';
-import { MapboxLayer } from '@deck.gl/mapbox';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
+import { layerByOrder } from '~utils/map/layersOrder';
 import type {
   NullableMap,
   CommonHookArgs,
   NotNullableMap,
 } from '~core/logical_layers/types/renderer';
-import { layerByOrder } from '~utils/map/layersOrder';
 
 /* Add cyrillic alphabet to character set */
 function getCyrillicCharacterSet() {

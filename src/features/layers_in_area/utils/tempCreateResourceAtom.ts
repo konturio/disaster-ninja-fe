@@ -1,6 +1,6 @@
-import type { Atom } from '@reatom/core';
 import { isObject } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
+import type { Atom } from '@reatom/core';
 import type { ResourceAtom } from '~utils/atoms/createResourceAtom';
 
 // TODO task #10217

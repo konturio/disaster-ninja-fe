@@ -1,14 +1,14 @@
+import { useAtom } from '@reatom/react';
+import { useCallback, useState } from 'react';
+import { Tabs } from '@konturio/ui-kit';
+import { Tab } from '@konturio/ui-kit/tslib/Tabs';
 import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
 import { createStateMap } from '~utils/atoms';
-import { useAtom } from '@reatom/react';
 import { analyticsResourceAtom } from '~features/analytics_panel/atoms/analyticsResource';
-import { useCallback, useState } from 'react';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { Tabs } from '@konturio/ui-kit';
-import { Tab } from '@konturio/ui-kit/tslib/Tabs';
 
 const AnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(analyticsResourceAtom);
@@ -54,7 +54,8 @@ const AnalyticsContainer = () => {
           {/*</Tab>*/}
         </Tabs>
       );
-  }}) as JSX.Element;
-}
+    },
+  }) as JSX.Element;
+};
 
 export default AnalyticsContainer;
