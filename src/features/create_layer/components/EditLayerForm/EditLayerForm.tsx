@@ -1,13 +1,13 @@
-import type { ChangeEvent } from 'react';
 import { useCallback } from 'react';
 import { useAtom } from '@reatom/react';
 import { Button, Input } from '@konturio/ui-kit';
 import { PointFilled24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { LabelWithTooltip } from '~components/LabelWithTooltip/LabelWithTooltip';
-import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
 import { EditableLayerFieldsPlaceholder } from '../EditableLayerFieldsPlaceholder/EditableLayerFieldsPlaceholder';
 import s from './EditLayerForm.module.css';
+import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
+import type { ChangeEvent } from 'react';
 
 interface EditLayerFormFormProps {
   data: LayerEditorFormAtomType;

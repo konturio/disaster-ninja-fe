@@ -1,7 +1,11 @@
-import type { AxiosRequestConfig } from 'axios';
 import jwtDecode from 'jwt-decode';
-import type { ApiErrorResponse, ApiResponse, ApisauceInstance } from 'apisauce';
 import { create } from 'apisauce';
+import config from '~core/app_config';
+import { replaceUrlWithProxy } from '../../../vite.proxy';
+import { ApiMethodTypes, getGeneralApiProblem } from './types';
+import { ApiClientError } from './apiClientError';
+import type { AxiosRequestConfig } from 'axios';
+import type { ApiErrorResponse, ApiResponse, ApisauceInstance } from 'apisauce';
 import type {
   ApiClientConfig,
   ApiMethod,
@@ -14,10 +18,6 @@ import type {
   ITranslationService,
   INotificationService,
 } from './types';
-import { ApiMethodTypes, getGeneralApiProblem } from './types';
-import { ApiClientError } from './apiClientError';
-import { replaceUrlWithProxy } from '../../../vite.proxy';
-import config from '~core/app_config';
 
 const LOCALSTORAGE_AUTH_KEY = 'auth_token';
 

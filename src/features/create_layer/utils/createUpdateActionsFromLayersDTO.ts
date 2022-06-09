@@ -1,6 +1,6 @@
+import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 import type { Action } from '@reatom/core';
 import type { EditableLayers } from '../types';
-import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 
 export function createUpdateActionsFromLayersDTO(
   layerId: string,

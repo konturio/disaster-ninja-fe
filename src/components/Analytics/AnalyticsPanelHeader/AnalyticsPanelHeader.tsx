@@ -1,11 +1,11 @@
 import { useAtom } from '@reatom/react';
+import { Text } from '@konturio/ui-kit';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { i18n } from '~core/localization';
-import { Text } from '@konturio/ui-kit';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
-import type { Severity } from '~core/types';
 import styles from './AnalyticsPanelHeader.module.css';
+import type { Severity } from '~core/types';
 import type { ResourceAtomType } from '~utils/atoms/createResourceAtom';
 
 interface PanelHeadingProps {

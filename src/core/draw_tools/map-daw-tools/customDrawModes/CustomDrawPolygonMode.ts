@@ -1,3 +1,11 @@
+import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
+import { GeoJsonEditMode } from '@nebula.gl/edit-modes/dist/index';
+import kinks from '@turf/kinks';
+import type {
+  Polygon,
+  FeatureCollection,
+  Position,
+} from '@nebula.gl/edit-modes/dist/geojson-types';
 import type {
   ClickEvent,
   PointerMoveEvent,
@@ -5,14 +13,6 @@ import type {
   GuideFeatureCollection,
   TentativeFeature,
 } from '@nebula.gl/edit-modes/dist/types';
-import type {
-  Polygon,
-  FeatureCollection,
-  Position,
-} from '@nebula.gl/edit-modes/dist/geojson-types';
-import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
-import { GeoJsonEditMode } from '@nebula.gl/edit-modes/dist/index';
-import kinks from '@turf/kinks';
 
 export class CustomDrawPolygonMode extends GeoJsonEditMode {
   createTentativeFeature(

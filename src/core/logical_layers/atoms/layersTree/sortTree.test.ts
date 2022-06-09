@@ -1,6 +1,6 @@
-import type { TreeChildren } from '~core/types/layers';
 import { setupTestContext } from '../../../../utils/testsUtils/setupTest';
 import { sortChildren } from './sortTree';
+import type { TreeChildren } from '~core/types/layers';
 
 const fakeAtom = {} as any;
 const test = setupTestContext(() => {

@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
-import type { EditableLayerSettings } from '../types';
 import { editableLayersListResource } from './editableLayersListResource';
+import type { EditableLayerSettings } from '../types';
 
 export const editableLayerSettingsAtom = createAtom(
   {

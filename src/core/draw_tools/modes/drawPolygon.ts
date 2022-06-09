@@ -1,10 +1,10 @@
-import type { ClickEvent, ModeProps } from '@nebula.gl/edit-modes';
-import type { FeatureCollection, Polygon } from '@nebula.gl/edit-modes/';
 import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
-import { CustomDrawPolygonMode } from '../map-daw-tools/customDrawModes/CustomDrawPolygonMode';
+import mapLibre from 'maplibre-gl';
 import { currentNotificationAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
-import mapLibre from 'maplibre-gl';
+import { CustomDrawPolygonMode } from '../map-daw-tools/customDrawModes/CustomDrawPolygonMode';
+import type { ClickEvent, ModeProps } from '@nebula.gl/edit-modes';
+import type { FeatureCollection, Polygon } from '@nebula.gl/edit-modes/';
 
 export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
   handleKeyUp(event: KeyboardEvent, props: ModeProps<FeatureCollection>) {

@@ -1,7 +1,7 @@
-import { createAtom } from '~utils/atoms';
-import type { EventWithGeometry } from '~core/types';
 import { crc32 } from 'hash-wasm';
+import { createAtom } from '~utils/atoms';
 import { currentUserAtom } from '~core/shared_state/currentUser';
+import type { EventWithGeometry } from '~core/types';
 
 interface GeometrySourceEvent {
   type: 'event';

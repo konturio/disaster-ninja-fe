@@ -1,10 +1,7 @@
-import { enabledLayersAtom } from '../atoms/enabledLayers';
-import { layersSettingsAtom } from '../atoms/layersSettings';
-
 import { layersGroupsSettingsAtom } from '~core/shared_state/layersGroupsSettings';
 import { layersCategoriesSettingsAtom } from '~core/shared_state/layersCategoriesSettings';
-
-// import { LogicalLayersHierarchy, logicalLayersHierarchyAtom } from '../atoms/layersHierarchy';
+import { enabledLayersAtom } from '../atoms/enabledLayers';
+import { layersSettingsAtom } from '../atoms/layersSettings';
 import type { CategorySettings, GroupSettings } from '~core/types/layers';
 import type { LogicalLayerState } from '../types/logicalLayer';
 import type { LayerSettings } from '../types/settings';

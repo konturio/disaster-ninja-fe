@@ -1,11 +1,18 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import s from './AdvancedAnalyticsPanel.module.css';
 import { lazy, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { Bi24 as BivariatePanelIcon } from '@konturio/default-icons';
+import s from './AdvancedAnalyticsPanel.module.css';
 
-const LazyLoadedAdvancedAnalyticsContainer = lazy(() => import('../AdvancedAnalyticsContainer/AdvancedAnalyticsContainer'));
-const LazyLoadedAdvancedAnalyticsPanelHeader = lazy(() => import('../AdvancedAnalyticsPanelHeaderContainer/AdvancedAnalyticsPanelHeaderContainer'));
+const LazyLoadedAdvancedAnalyticsContainer = lazy(
+  () => import('../AdvancedAnalyticsContainer/AdvancedAnalyticsContainer'),
+);
+const LazyLoadedAdvancedAnalyticsPanelHeader = lazy(
+  () =>
+    import(
+      '../AdvancedAnalyticsPanelHeaderContainer/AdvancedAnalyticsPanelHeaderContainer'
+    ),
+);
 
 export function AdvancedAnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(false);

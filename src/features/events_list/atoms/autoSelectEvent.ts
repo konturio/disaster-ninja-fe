@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
-import { eventListResourceAtom } from './eventListResource';
 import { currentEventAtom, focusedGeometryAtom } from '~core/shared_state';
+import { eventListResourceAtom } from './eventListResource';
 
 export const autoSelectEvent = createAtom(
   {

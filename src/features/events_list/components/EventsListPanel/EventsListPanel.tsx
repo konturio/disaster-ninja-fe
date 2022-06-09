@@ -1,16 +1,12 @@
 import { Virtuoso } from 'react-virtuoso';
-import { i18n } from '~core/localization';
-import type { Event } from '~core/types';
 import { Panel, Text } from '@konturio/ui-kit';
-import { EventCard } from '../EventCard/EventCard';
-import { createStateMap } from '~utils/atoms/createStateMap';
-import s from './EventsListPanel.module.css';
-import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
-import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAtom } from '@reatom/react';
-import { sideControlsBarAtom } from '~core/shared_state';
 import clsx from 'clsx';
+import { Disasters24 } from '@konturio/default-icons';
+import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
+import { sideControlsBarAtom } from '~core/shared_state';
 import {
   EVENT_LIST_CONTROL_ID,
   EVENT_LIST_CONTROL_NAME,
@@ -18,7 +14,11 @@ import {
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { FeedSelector } from '~features/feed_selector';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { Disasters24 } from '@konturio/default-icons';
+import { createStateMap } from '~utils/atoms/createStateMap';
+import { i18n } from '~core/localization';
+import { EventCard } from '../EventCard/EventCard';
+import s from './EventsListPanel.module.css';
+import type { Event } from '~core/types';
 
 export function EventsListPanel({
   current,

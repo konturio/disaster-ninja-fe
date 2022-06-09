@@ -1,12 +1,17 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import styles from './AnalyticsPanel.module.css';
 import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Analytics24 } from '@konturio/default-icons';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import styles from './AnalyticsPanel.module.css';
 
-const LazyLoadedAnalyticsContainer = lazy(() => import('../AnalyticsContainer/AnalyticsContainer'));
-const LazyLoadedAnalyticsPanelHeader = lazy(() => import('../AnalyticsPanelHeaderContainer/AnalyticsPanelHeaderContainer'));
+const LazyLoadedAnalyticsContainer = lazy(
+  () => import('../AnalyticsContainer/AnalyticsContainer'),
+);
+const LazyLoadedAnalyticsPanelHeader = lazy(
+  () =>
+    import('../AnalyticsPanelHeaderContainer/AnalyticsPanelHeaderContainer'),
+);
 
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -29,9 +34,13 @@ export function AnalyticsPanel() {
   return (
     <div className={styles.panelContainer}>
       <Panel
-        header={isOpen ? <LazyLoadedAnalyticsPanelHeader/> : undefined}
+        header={isOpen ? <LazyLoadedAnalyticsPanelHeader /> : undefined}
         onClose={onPanelClose}
-        className={clsx(styles.sidePanel, isOpen && styles.show, !isOpen && styles.hide)}
+        className={clsx(
+          styles.sidePanel,
+          isOpen && styles.show,
+          !isOpen && styles.hide,
+        )}
         classes={{
           header: styles.header,
         }}
@@ -42,7 +51,11 @@ export function AnalyticsPanel() {
       </Panel>
       <PanelIcon
         clickHandler={onPanelOpen}
-        className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
+        className={clsx(
+          styles.panelIcon,
+          isOpen && styles.hide,
+          !isOpen && styles.show,
+        )}
         icon={<Analytics24 />}
       />
     </div>

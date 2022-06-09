@@ -1,12 +1,12 @@
-import type { Action } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import type { LayerInAreaDetails } from '../types';
-import type { LayerSource } from '~core/logical_layers/types/source';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
-import type { LayerLegend } from '~core/logical_layers/types/legends';
 import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
 import { areaLayersDetailsResourceAtom } from './areaLayersDetailsResource';
+import type { LayerInAreaDetails } from '../types';
+import type { LayerSource } from '~core/logical_layers/types/source';
+import type { LayerLegend } from '~core/logical_layers/types/legends';
+import type { Action } from '@reatom/core';
 
 function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
   /* Typescript makes me sad sometimes T.T */
