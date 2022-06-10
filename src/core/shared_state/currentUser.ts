@@ -22,7 +22,7 @@ export const currentUserAtom = createAtom(
     setUser: (user?: CurrentUser) => user,
   },
   (
-    { onAction, onInit, schedule, create, getUnlistedState },
+    { onAction, schedule, getUnlistedState },
     state: CurrentUser = publicUser,
   ) => {
     onAction('setUser', (usr) => {
