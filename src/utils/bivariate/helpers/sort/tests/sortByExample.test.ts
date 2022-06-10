@@ -1,5 +1,5 @@
 import { sortByExample } from '../sortByExample';
-import { setupTestContext } from '../../../../test-utils/setupTest';
+import { setupTestContext } from '../../../../test_utils/setupTest';
 
 const test = setupTestContext(() => ({}));
 test('sortByExample tests', (t) => {
