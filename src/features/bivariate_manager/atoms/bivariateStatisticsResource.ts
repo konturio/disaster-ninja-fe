@@ -1,172 +1,72 @@
 import { createResourceAtom } from '~utils/atoms';
 import { graphQlClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { deepCopy } from '~core/logical_layers/utils/deepCopy';
-import type { Stat } from '~utils/bivariate';
-
-function stringifyWithoutQuotes(obj: unknown): string {
-  const json = JSON.stringify(obj);
-  return json.replace(/"([^"]+)":/g, '$1:');
-}
-
-// we need this function to get rid of "properties" param in geojson geom cause
-// sometimes it contains inappropriate symbols like ":" which causes server side errors
-function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
-  const newGeom = deepCopy(geom);
-
-  if ('properties' in newGeom) {
-    newGeom.properties = {};
-  }
-  if ('features' in newGeom && newGeom.features.length) {
-    newGeom.features.forEach((feat) => cleanupGeometry(feat));
-  }
-
-  return newGeom;
-}
-
-interface BivariateStatisticsResponse {
-  polygonStatistic: {
-    bivariateStatistic: Stat;
-  };
-}
+import {
+  createBivariateGraphQLQuery,
+  isGeometryEmpty,
+} from '~features/bivariate_manager/utils/createBivariateGraphQLQuery';
+import { parseGraphQLErrors } from '~features/bivariate_manager/utils/parseGraphQLErrors';
+import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 
 let allMapStats: BivariateStatisticsResponse;
-
-// hard coded to HOT layers for now (task 7801)
-const importantLayers = [
-  ['count', 'area_km2'],
-  ['building_count', 'area_km2'],
-  ['highway_length', 'area_km2'],
-  ['local_hours', 'area_km2'],
-  ['avgmax_ts', 'one'],
-  ['days_mintemp_above_25c_1c', 'one'],
-  ['population', 'area_km2'],
-  ['total_hours', 'area_km2'],
-  ['view_count', 'area_km2'],
-];
+const abortControllers: AbortController[] = [];
 
 export const bivariateStatisticsResourceAtom = createResourceAtom(
-  async (geom) => {
-    if (!geom && allMapStats) {
-      return allMapStats;
-    }
-
-    const geomNotEmpty = !!(
-      geom &&
-      geom.geometry &&
-      (geom.geometry.type !== 'FeatureCollection' ||
-        geom.geometry.features.length)
-    );
-
-    const importantLayersRequest = `importantLayers: ${JSON.stringify(
-      importantLayers,
-    )}`;
-
-    const polygonStatisticRequest =
-      geom && geomNotEmpty
-        ? `{ polygonV2: ${stringifyWithoutQuotes(
-            cleanupGeometry(geom.geometry),
-          )}, ${importantLayersRequest} }`
-        : `{ ${importantLayersRequest} }`;
-
-    const responseData = await graphQlClient.post<{
-      data: BivariateStatisticsResponse;
-    }>(`/`, {
-      query: `
-      fragment AxisFields on Axis {
-        label
-        steps {
-          label
-          value
-        }
-        quality
-        quotient
-        parent
+  (geom) => {
+    async function processor() {
+      if (!geom && allMapStats) {
+        return allMapStats;
       }
 
-    query getPolygonStatistics {
-      polygonStatistic(polygonStatisticRequest: ${polygonStatisticRequest}) {
-        bivariateStatistic {
-          axis {
-            ...AxisFields
-          }
-          meta {
-            max_zoom
-            min_zoom
-          }
-          overlays {
-            name
-            description
-            active
-            colors {
-              id
-              color
-            }
-            x {
-              ...AxisFields
-            }
-            y {
-              ...AxisFields
-            }
-          }
-          indicators {
-            name
-            label
-            copyrights
-            direction
-          }
-          correlationRates {
-            x {
-              ...AxisFields
-            }
-            y {
-              ...AxisFields
-            }
-            rate
-            quality
-            correlation
-            avgCorrelationX
-            avgCorrelationY
-          }
-          colors {
-            fallback
-            combinations {
-              color
-              corner
-              color_comment
-            }
-          }
+      let responseData: { data: BivariateStatisticsResponse } | undefined;
+      const abortController = new AbortController();
+      abortControllers.push(abortController);
+      try {
+        responseData = await graphQlClient.post<{
+          data: BivariateStatisticsResponse;
+        }>(
+          `/`,
+          {
+            query: createBivariateGraphQLQuery(geom),
+          },
+          true,
+          {
+            signal: abortController.signal,
+            errorsConfig: { dontShowErrors: true },
+          },
+        );
+      } catch (e) {
+        if (e.problem && e.problem.kind === 'canceled') {
+          return null;
+        } else {
+          throw e;
         }
       }
-    }`,
-    });
 
-    if (!responseData) {
-      throw new Error('No data received');
-    } else if (!responseData.data) {
-      if (
-        responseData.hasOwnProperty('errors') &&
-        Array.isArray(responseData['errors'])
-      ) {
-        const msg = responseData['errors']
-          .reduce((acc, errorObj) => {
-            if (errorObj.hasOwnProperty('message')) {
-              acc.push(errorObj['message']);
-            }
-            return acc;
-          }, [])
-          .join('<br/>');
-        throw new Error(msg || 'No data received');
-      } else {
+      if (!responseData) {
         throw new Error('No data received');
+      } else if (!responseData.data) {
+        const msg = parseGraphQLErrors(responseData as any);
+        throw new Error(msg || 'No data received');
+      }
+
+      if (isGeometryEmpty(geom) && !allMapStats) {
+        allMapStats = responseData.data;
+      }
+
+      return responseData.data;
+    }
+
+    function canceller() {
+      try {
+        abortControllers.forEach((ab) => ab.abort());
+        abortControllers.length = 0;
+      } catch (e) {
+        console.warn('Cannot abort previous bivariate request!', e);
       }
     }
 
-    if (!geomNotEmpty && !allMapStats) {
-      allMapStats = responseData.data;
-    }
-
-    return responseData.data;
+    return [processor, canceller];
   },
   focusedGeometryAtom,
   'bivariateStatisticsResource',

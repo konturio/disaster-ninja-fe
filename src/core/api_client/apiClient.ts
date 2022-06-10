@@ -1,11 +1,15 @@
 import jwtDecode from 'jwt-decode';
-import { create } from 'apisauce';
 import config from '~core/app_config';
+import { create } from '~utils/axios/apisauce/apisauce';
 import { replaceUrlWithProxy } from '../../../vite.proxy';
 import { ApiMethodTypes, getGeneralApiProblem } from './types';
 import { ApiClientError } from './apiClientError';
+import type {
+  ApiErrorResponse,
+  ApiResponse,
+  ApisauceInstance,
+} from '~utils/axios/apisauce/apisauce';
 import type { AxiosRequestConfig } from 'axios';
-import type { ApiErrorResponse, ApiResponse, ApisauceInstance } from 'apisauce';
 import type {
   ApiClientConfig,
   ApiMethod,

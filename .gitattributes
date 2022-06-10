@@ -25,7 +25,7 @@
 *.html            text diff=html
 *.inc             text
 *.ini             text
-*.js              text
+*.js              text eol=lf
 *.json            text
 *.jsx             text
 *.less            text
@@ -45,8 +45,8 @@
 *.sql             text
 *.styl            text
 *.tag             text
-*.ts              text
-*.tsx             text
+*.ts              text eol=lf
+*.tsx             text eol=lf
 *.xml             text
 *.xhtml           text diff=html
 
@@ -109,8 +109,8 @@ TODO              text
 .htaccess         text
 *.lock            text -diff
 package.json      text eol=lf
-package-lock.json text -diff
-pnpm-lock.yaml    text eol=lf -diff
+package-lock.json text -diff eol=lf
+pnpm-lock.yaml    text eol=lf -diff eol=lf
 .prettierrc       text
 yarn.lock         text -diff
 *.toml            text
