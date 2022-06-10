@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import {
   createLocalStorageMock,
   setupTestContext,
-} from '~utils/test-utils/setupTest';
+} from '~utils/test_utils/setupTest';
 import { ApiClientError } from '../apiClientError';
 import { ApiClient } from '../apiClient';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';

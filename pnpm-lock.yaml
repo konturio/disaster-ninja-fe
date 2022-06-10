@@ -58,6 +58,7 @@ specifiers:
   geojson-polygon-self-intersections: ^1.2.1
   hash-wasm: ^4.9.0
   husky: ^8.0.1
+  hsluv: ^0.1.0
   i18next: ^20.4.0
   i18next-browser-languagedetector: ^6.1.2
   jwt-decode: ^3.1.2
@@ -149,6 +150,7 @@ dependencies:
   file-saver: 2.0.5
   geojson-polygon-self-intersections: 1.2.1
   hash-wasm: 4.9.0
+  hsluv: 0.1.0
   i18next: 20.6.1
   i18next-browser-languagedetector: 6.1.2
   jwt-decode: 3.1.2
@@ -3702,7 +3704,11 @@ packages:
     dev: false
 
   /hsluv/0.0.3:
-    resolution: {integrity: sha1-gpEH2vtKn4tSoYCe0C4JHq3mdUw=}
+    resolution: {integrity: sha512-08iL2VyCRbkQKBySkSh6m8zMUa3sADAxGVWs3Z1aPcUkTJeK0ETG4Fc27tEmQBGUAXZjIsXOZqBvacuVNSC/fQ==}
+    dev: false
+
+  /hsluv/0.1.0:
+    resolution: {integrity: sha512-ERcanKLAszD2XN3Vh5r5Szkrv9q0oSTudmP0rkiKAGM/3NMc9FLmMZBB7TSqTaXJfSDBOreYTfjezCOYbRKqlw==}
     dev: false
 
   /html-escaper/2.0.2:
