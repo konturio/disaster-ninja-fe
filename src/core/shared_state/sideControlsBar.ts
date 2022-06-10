@@ -37,10 +37,12 @@ export const sideControlsBarAtom = createAtom(
     { onAction, onChange, schedule, create },
     state: Record<string, SideControl> = {},
   ) => {
-    onChange('currentUserAtom', (usr) => {
-      schedule((dispatch) => {
-        dispatch(create('reset'));
-      });
+    onChange('currentUserAtom', (user, prevUser) => {
+      // if previous user is undefined - atom wasn't initialized, so no user was setted before, so no need to reset
+      if (prevUser !== undefined)
+        schedule((dispatch) => {
+          dispatch(create('reset'));
+        });
     });
 
     onAction('addControl', (control) => {
