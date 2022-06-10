@@ -1,5 +1,5 @@
-import { setupTestContext } from '~utils/testsUtils/setupTest';
-import { parseLinksAsTags } from './parsers';
+import { setupTestContext } from '~utils/test-utils/setupTest';
+import { parseLinksAsTags } from '~utils/markdown/parser';
 
 /* Setup stage */
 const test = setupTestContext(() => {
