@@ -1,4 +1,4 @@
-import { setupTestContext } from '../../../utils/testsUtils/setupTest';
+import { setupTestContext } from '../../../utils/test-utils/setupTest';
 
 const test = setupTestContext(() => ({}));
 test('useArrayDiff tests', (t) => {
