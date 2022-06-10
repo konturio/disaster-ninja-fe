@@ -1,169 +1,86 @@
-import MockAdapter from 'axios-mock-adapter';
+/**
+ * @vitest-environment happy-dom
+ */
+import { test, expect, beforeEach } from 'vitest';
 import sinon from 'sinon';
-import {
-  createLocalStorageMock,
-  setupTestContext,
-} from '~utils/test_utils/setupTest';
-import { ApiClient } from '../apiClient';
 import { ApiClientError } from '../apiClientError';
-import type { NotificationMessage } from '~core/types/notification';
-import type { INotificationService, ITranslationService } from '../types';
+import { createContext } from './_clientTestsContext';
 
-/* Setup stage */
-let n = 0;
-const test = setupTestContext(() => {
-  const localStorageMock = createLocalStorageMock();
-  const instanceId = `Instance ${n++}`;
-  const token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiYWRtaW4iLCJVc2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjk3MTA2NDM0LCJpYXQiOjE2MzQwMzQ0MzR9.0GUrGfXYioalJVDRfWgWfx3oQRwk9FsOeAvULj-3ins';
-  const expiredToken =
-    'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiYWRtaW4iLCJVc2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjAyNDk4NDM0LCJpYXQiOjE2MzQwMzQ0MzR9.tIETTaRaiJYto0Wb4oPbfCJHUGGjw9--mTfXVWWsVMk';
-
-  ApiClient.init({
-    notificationService: {
-      error: (message: NotificationMessage) => {
-        /* noop */
-      },
-    } as INotificationService,
-    translationService: {
-      t: (message: string) => message,
-    } as ITranslationService,
-    loginApiPath: '/login',
-    refreshTokenApiPath: '/refresh',
-    baseURL: 'https://localhost/api',
-    timeout: 3000,
-    storage: localStorageMock,
-    instanceId,
-  });
-
-  const apiClient = ApiClient.getInstance(instanceId);
-  // trick to get access to private var
-  const axiosInstance = (apiClient as any).apiSauceInstance.axiosInstance;
-
-  // setup token expiration time
-  (apiClient as any).token = token;
-  (apiClient as any).tokenWillExpire = new Date(
-    new Date().getTime() + 1000 * 60 * 30,
-  );
-
-  return {
-    apiClient,
-    token,
-    expiredToken,
-    mockAdapter: new MockAdapter(axiosInstance),
-  };
+beforeEach((context) => {
+  context.ctx = createContext();
 });
 
-test('401 error', async (t) => {
+test('401 error', async ({ ctx }) => {
   const loginRequestMock = sinon.fake.returns([401]);
-  t.context.mockAdapter.onGet('test401').reply(loginRequestMock);
+  ctx.mockAdapter.onGet('test401').reply(loginRequestMock);
 
-  const error = await t.throwsAsync(t.context.apiClient.get('/test401'), {
-    instanceOf: ApiClientError,
-    message: 'Not authorized or session has expired.',
-  });
-
-  t.deepEqual(
+  await expect(ctx.apiClient.get('/test401')).rejects.toMatchObject(
     new ApiClientError('Not authorized or session has expired.', {
       kind: 'unauthorized',
       data: 'Not authorized or session has expired.',
     }),
-    error,
   );
 });
 
-test('403 error', async (t) => {
+test('403 error', async ({ ctx }) => {
   const loginRequestMock = sinon.fake.returns([403]);
-  t.context.mockAdapter.onGet('test403').reply(loginRequestMock);
+  ctx.mockAdapter.onGet('test403').reply(loginRequestMock);
 
-  const error = await t.throwsAsync(t.context.apiClient.get('/test403'), {
-    instanceOf: ApiClientError,
-    message: 'Forbidden',
-  });
-
-  t.deepEqual(new ApiClientError('Forbidden', { kind: 'forbidden' }), error);
-});
-
-test('404 error', async (t) => {
-  const loginRequestMock = sinon.fake.returns([404]);
-  t.context.mockAdapter.onGet('test404').reply(loginRequestMock);
-
-  const error = await t.throwsAsync(t.context.apiClient.get('/test404'), {
-    instanceOf: ApiClientError,
-    message: 'Not found',
-  });
-
-  t.deepEqual(new ApiClientError('Not found', { kind: 'not-found' }), error);
-});
-
-test('timeout error', async (t) => {
-  t.context.mockAdapter.onDelete('testTimeout').timeout();
-
-  const error = await t.throwsAsync(
-    t.context.apiClient.delete('/testTimeout'),
-    {
-      instanceOf: ApiClientError,
-    },
+  await expect(ctx.apiClient.get('/test403')).rejects.toMatchObject(
+    new ApiClientError('Forbidden', { kind: 'forbidden' }),
   );
+});
 
-  t.deepEqual(
+test('404 error', async ({ ctx }) => {
+  const loginRequestMock = sinon.fake.returns([404]);
+  ctx.mockAdapter.onGet('test404').reply(loginRequestMock);
+
+  await expect(ctx.apiClient.get('/test404')).rejects.toMatchObject(
+    new ApiClientError('Not found', { kind: 'not-found' }),
+  );
+});
+
+test('timeout error', async ({ ctx }) => {
+  ctx.mockAdapter.onDelete('testTimeout').timeout();
+
+  await expect(ctx.apiClient.delete('/testTimeout')).rejects.toMatchObject(
     new ApiClientError('Request Timeout', {
       kind: 'timeout',
       temporary: true,
     }),
-    error,
   );
 });
 
-test('network error', async (t) => {
-  t.context.mockAdapter.onDelete('testNetwork').networkError();
+test('network error', async ({ ctx }) => {
+  ctx.mockAdapter.onDelete('testNetwork').networkError();
 
-  const error = await t.throwsAsync(
-    t.context.apiClient.delete('/testNetwork'),
-    {
-      instanceOf: ApiClientError,
-    },
-  );
-
-  t.deepEqual(
+  await expect(ctx.apiClient.delete('/testNetwork')).rejects.toMatchObject(
     new ApiClientError("Can't connect to server", {
       kind: 'cannot-connect',
       temporary: true,
     }),
-    error,
   );
 });
 
-test('request abort error', async (t) => {
-  t.plan(2);
-  t.context.mockAdapter.onDelete('testAbort').abortRequest();
+test('request abort error', async ({ ctx }) => {
+  ctx.mockAdapter.onDelete('testAbort').abortRequest();
 
-  const error = await t.throwsAsync(t.context.apiClient.delete('/testAbort'), {
-    instanceOf: ApiClientError,
-  });
-
-  t.deepEqual(
+  await expect(ctx.apiClient.delete('/testAbort')).rejects.toMatchObject(
     new ApiClientError('Request Timeout', {
       kind: 'timeout',
       temporary: true,
     }),
-    error,
   );
 });
 
-test('500 error', async (t) => {
+test('500 error', async ({ ctx }) => {
   const loginRequestMock = sinon.fake.returns([500]);
-  t.context.mockAdapter.onGet('test500').reply(loginRequestMock);
+  ctx.mockAdapter.onGet('test500').reply(loginRequestMock);
 
-  const error = await t.throwsAsync(t.context.apiClient.get('/test500'), {
-    instanceOf: ApiClientError,
-  });
-
-  t.deepEqual(
+  await expect(ctx.apiClient.get('/test500')).rejects.toMatchObject(
     new ApiClientError('Unknown Error', {
       data: null,
       kind: 'server',
     }),
-    error,
   );
 });

@@ -1,0 +1,77 @@
+// Vitest Snapshot v1
+
+exports[`Integration - create correct tree 1`] = `
+{
+  "children": [
+    {
+      "atom": {},
+      "id": "rootLayer",
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "atom": {},
+              "category": "foo_category",
+              "group": "foo_group",
+              "id": "layer_1",
+            },
+            {
+              "atom": {},
+              "category": "foo_category",
+              "group": "foo_group",
+              "id": "layer_2",
+            },
+          ],
+          "id": "foo_group",
+          "isGroup": true,
+        },
+      ],
+      "id": "foo_category",
+      "isCategory": true,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "atom": {},
+              "category": "bar_category",
+              "group": "foo_group",
+              "id": "layer_3",
+            },
+          ],
+          "id": "foo_group",
+          "isGroup": true,
+        },
+        {
+          "children": [
+            {
+              "atom": {},
+              "category": "bar_category",
+              "group": "bar_group",
+              "id": "layer_4",
+            },
+          ],
+          "id": "bar_group",
+          "isGroup": true,
+        },
+      ],
+      "id": "bar_category",
+      "isCategory": true,
+    },
+    {
+      "children": [
+        {
+          "atom": {},
+          "group": "bar_group",
+          "id": "layer_5",
+        },
+      ],
+      "id": "bar_group",
+      "isGroup": true,
+    },
+  ],
+}
+`;
