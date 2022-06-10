@@ -1,5 +1,5 @@
 import { clusterize, invertClusters } from '../legendClusters';
-import { setupTestContext } from '../../../test-utils/setupTest';
+import { setupTestContext } from '../../../test_utils/setupTest';
 
 const test = setupTestContext(() => ({}));
 test('legendClusters tests', (t) => {
