@@ -2,8 +2,8 @@ import ReactMarkdown from 'react-markdown';
 import clsx from 'clsx';
 import { Close16 } from '@konturio/default-icons';
 import { useEffect, useState } from 'react';
-import { LinkRenderer } from '~utils/markdown/mdComponents';
-import { parseLinksAsTags } from '~utils/markdown/parsers';
+import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
+import { parseLinksAsTags } from '~utils/markdown/parser';
 import s from './Tooltip.module.css';
 import type { TooltipData } from '~core/shared_state/currentTooltip';
 

@@ -1,4 +1,7 @@
-import type { ApiResponse, ApisauceConfig } from 'apisauce';
+import type {
+  ApiResponse,
+  ApisauceConfig,
+} from '~utils/axios/apisauce/apisauce';
 import type { AxiosRequestConfig } from 'axios';
 import type { NotificationMessage } from '~core/types/notification';
 
