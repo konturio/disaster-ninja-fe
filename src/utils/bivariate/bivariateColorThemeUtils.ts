@@ -1,6 +1,7 @@
-import interpolate from 'color-interpolate';
+import { hexToHsluv, hsluvToHex } from 'hsluv';
 import { generateBivariateStyleForAxis } from '~utils/bivariate';
 import config from '~core/app_config';
+import type { ColorTuple } from 'hsluv';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
@@ -26,12 +27,28 @@ export interface BivariateLayerStyle {
   };
 }
 
+function interpolate360(start: number, end: number): number {
+  return start + (((((end - start) % 360) + 540) % 360) - 180) * 0.5;
+}
+
+function interpolateLinear(start: number, end: number): number {
+  return (start + end) / 2;
+}
+
+function interpolateHsl(start: ColorTuple, end: ColorTuple): ColorTuple {
+  return [
+    interpolate360(start[0], end[0]),
+    interpolateLinear(start[1], end[1]),
+    interpolateLinear(start[2], end[2]),
+  ];
+}
+
 function resolveUrl(url: string) {
   const isRelative = url.startsWith('/');
   return isRelative ? `${window.location.origin}${url}` : url;
 }
 
-function convertColorWithOpacity(hexColor: string): string {
+function convertToRgbaWithOpacity(hexColor: string): string {
   if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hexColor)) {
     let clr = hexColor.substring(1).split('');
     if (clr.length === 3) {
@@ -100,36 +117,33 @@ export function generateColorThemeAndBivariateStyle(
 
   if (!xAxisDirection || !yAxisDirection) return;
 
-  const corner00 = convertColorWithOpacity(
-    findColors(colors, [xAxisDirection[0], yAxisDirection[0]]),
-  );
-  const corner10 = convertColorWithOpacity(
-    findColors(colors, [xAxisDirection[1], yAxisDirection[0]]),
-  );
-  const corner01 = convertColorWithOpacity(
-    findColors(colors, [xAxisDirection[0], yAxisDirection[1]]),
-  );
-  const corner11 = convertColorWithOpacity(
-    findColors(colors, [xAxisDirection[1], yAxisDirection[1]]),
-  );
+  const corner00 = findColors(colors, [xAxisDirection[0], yAxisDirection[0]]);
+  const corner10 = findColors(colors, [xAxisDirection[1], yAxisDirection[0]]);
+  const corner01 = findColors(colors, [xAxisDirection[0], yAxisDirection[1]]);
+  const corner11 = findColors(colors, [xAxisDirection[1], yAxisDirection[1]]);
 
-  const midLeft = interpolate([corner00, corner01])(0.5);
-  const midBottom = interpolate([corner00, corner10])(0.5);
-  const midTop = interpolate([corner01, corner11])(0.5);
-  const midRight = interpolate([corner10, corner11])(0.5);
-  const midMid = interpolate([midBottom, midTop])(0.5);
+  const corner00hsl = hexToHsluv(corner00);
+  const corner10hsl = hexToHsluv(corner10);
+  const corner01hsl = hexToHsluv(corner01);
+  const corner11hsl = hexToHsluv(corner11);
+
+  const midLeftHsl = interpolateHsl(corner00hsl, corner01hsl);
+  const midBottomHsl = interpolateHsl(corner00hsl, corner10hsl);
+  const midTopHsl = interpolateHsl(corner01hsl, corner11hsl);
+  const midRightHsl = interpolateHsl(corner10hsl, corner11hsl);
+  const midMidHsl = interpolateHsl(midBottomHsl, midTopHsl);
 
   // put colors in specific way because x and y axises are swapped here
   const colorTheme: ColorTheme = [
-    { id: 'A1', color: corner00 },
-    { id: 'A2', color: midLeft },
-    { id: 'A3', color: corner01 },
-    { id: 'B1', color: midBottom },
-    { id: 'B2', color: midMid },
-    { id: 'B3', color: midTop },
-    { id: 'C1', color: corner10 },
-    { id: 'C2', color: midRight },
-    { id: 'C3', color: corner11 },
+    { id: 'A1', color: convertToRgbaWithOpacity(corner00) },
+    { id: 'A2', color: convertToRgbaWithOpacity(hsluvToHex(midLeftHsl)) },
+    { id: 'A3', color: convertToRgbaWithOpacity(corner01) },
+    { id: 'B1', color: convertToRgbaWithOpacity(hsluvToHex(midBottomHsl)) },
+    { id: 'B2', color: convertToRgbaWithOpacity(hsluvToHex(midMidHsl)) },
+    { id: 'B3', color: convertToRgbaWithOpacity(hsluvToHex(midTopHsl)) },
+    { id: 'C1', color: convertToRgbaWithOpacity(corner10) },
+    { id: 'C2', color: convertToRgbaWithOpacity(hsluvToHex(midRightHsl)) },
+    { id: 'C3', color: convertToRgbaWithOpacity(corner11) },
   ];
 
   const bivariateStyle = generateBivariateStyleForAxis({

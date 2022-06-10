@@ -40,7 +40,7 @@
       "configurableModuleFormat": true
     },
     "require": [
-      "./src/utils/test-utils/setupBrowserEnv.ts"
+      "./src/utils/test_utils/setupBrowserEnv.ts"
     ]
   },
   "lint-staged": {
@@ -119,6 +119,7 @@
     "file-saver": "^2.0.5",
     "geojson-polygon-self-intersections": "^1.2.1",
     "hash-wasm": "^4.9.0",
+    "hsluv": "^0.1.0",
     "i18next": "^20.4.0",
     "i18next-browser-languagedetector": "^6.1.2",
     "jwt-decode": "^3.1.2",

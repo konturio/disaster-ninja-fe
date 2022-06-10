@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import {
   createLocalStorageMock,
   setupTestContext,
-} from '~utils/test-utils/setupTest';
+} from '~utils/test_utils/setupTest';
 import { ApiClient } from '../apiClient';
 import { ApiClientError } from '../apiClientError';
 import type { NotificationMessage } from '~core/types/notification';
