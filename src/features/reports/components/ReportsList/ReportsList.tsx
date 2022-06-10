@@ -8,7 +8,7 @@ import { useAtom } from '@reatom/react';
 import { reportsAtom } from '~features/reports/atoms/reportsAtom';
 import { i18n } from '~core/localization';
 import config from '~core/app_config';
-import { LinkRenderer } from '~utils/markdown/mdComponents';
+import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import arrowIcon from '../../icons/arrow.svg';
 import styles from './ReportsList.module.css';
 

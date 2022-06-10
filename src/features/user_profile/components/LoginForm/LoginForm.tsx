@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
-import { testEmail } from '~utils/forms/formsUtils';
+import { testEmail } from '~utils/form/validators';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { userStateAtom } from '~core/auth/atoms/userState';
 import s from './LoginForm.module.css';

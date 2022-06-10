@@ -1,6 +1,6 @@
 import { ratesToTable } from '../ratesToTable';
 import { CorrelationRate } from '../../../types/stat.types';
-import { setupTestContext } from '../../../../testsUtils/setupTest';
+import { setupTestContext } from '../../../../test-utils/setupTest';
 
 const test = setupTestContext(() => ({}));
 test('ratesToTable tests', (t) => {
