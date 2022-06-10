@@ -1,4 +1,4 @@
-import { setupTestContext } from '~utils/test-utils/setupTest';
+import { setupTestContext } from '~utils/test_utils/setupTest';
 import { parseLinksAsTags } from '~utils/markdown/parser';
 
 /* Setup stage */

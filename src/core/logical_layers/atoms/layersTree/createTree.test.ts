@@ -1,4 +1,4 @@
-import { setupTestContext } from '../../../../utils/test-utils/setupTest';
+import { setupTestContext } from '../../../../utils/test_utils/setupTest';
 import { createTree } from './createTree';
 
 const fakeAtom = {} as any;
