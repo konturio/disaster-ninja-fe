@@ -15,7 +15,7 @@ specifiers:
   '@loaders.gl/core': ^3.0.9
   '@nebula.gl/edit-modes': 1.0.2-alpha.0
   '@nebula.gl/layers': 1.0.2-alpha.0
-  '@reatom/core': ^2.0.17
+  '@reatom/core': ^2.0.20
   '@reatom/react': ^2.0.15
   '@testing-library/react': ^12.0.0
   '@testing-library/react-hooks': ^8.0.0
@@ -112,8 +112,8 @@ dependencies:
   '@loaders.gl/core': 3.1.4
   '@nebula.gl/edit-modes': 1.0.2-alpha.0
   '@nebula.gl/layers': 1.0.2-alpha.0_124a3c4486da118e4201db642a88e0f9
-  '@reatom/core': 2.0.17
-  '@reatom/react': 2.0.15_f951a4b5db932acff3cedae7efa7f5e7
+  '@reatom/core': 2.0.20
+  '@reatom/react': 2.0.15_bf08ab0ad2bc3c1e1cf553d1b8dcc33a
   '@testing-library/react': 12.1.5_react-dom@17.0.2+react@17.0.2
   '@testing-library/react-hooks': 8.0.0_a440a55f350b2d6b1851625a619f4939
   '@turf/area': 6.5.0
@@ -985,11 +985,11 @@ packages:
     resolution: {integrity: sha512-1ELWQdJB2UrCXTKK5cCD9uGLLIwECLIEdttKA255owdpchtXohIjZBTlFJszwYi2ZKe2Do+QvUzsGyGCMNwbdw==}
     dev: false
 
-  /@reatom/core/2.0.17:
-    resolution: {integrity: sha512-5IjCokrswPC+FrOJ8erlRVw4p648ucOQ3CoLxLCEvw+yUfNDU8XE9ySBcQPcXu1snsZRCUYRa00ASaMisHA2aw==}
+  /@reatom/core/2.0.20:
+    resolution: {integrity: sha512-a5+GDeSKH8KRyP34eP6TuxRVfrRQXyJZAJoYRyd4xUUU7tZT/fGAbjovAMKctgilGeGCzDpnG8WiRypPZWqPug==}
     dev: false
 
-  /@reatom/react/2.0.15_f951a4b5db932acff3cedae7efa7f5e7:
+  /@reatom/react/2.0.15_bf08ab0ad2bc3c1e1cf553d1b8dcc33a:
     resolution: {integrity: sha512-opVEN1IEaLrpnOeqwuGkhQFjyN0lw0pvXRIuGPQaJJQpcpUNvFY0eXFG1YDlcFFws+31yemC+Jb14pcGjbYwVg==}
     peerDependencies:
       '@reatom/core': ^2.0.15
@@ -997,7 +997,7 @@ packages:
       react: ^17.0.2
       use-subscription: ^1.5.1
     dependencies:
-      '@reatom/core': 2.0.17
+      '@reatom/core': 2.0.20
       react: 17.0.2
       use-subscription: 1.5.1_react@17.0.2
     dev: false
