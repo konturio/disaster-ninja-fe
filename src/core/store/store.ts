@@ -6,7 +6,6 @@ function configureStore() {
   // Must be cutted out in production by terser
   if (import.meta.env.VITE_REDUX_DEV_TOOLS === 'true') {
     return createStore({
-      // @ts-expect-error - have bad typings since it experimental;
       onError: (error, t) => devtoolsLogger(t, error),
       onPatch: (t) => devtoolsLogger(t),
       now: globalThis.performance?.now.bind(performance) ?? Date.now,
