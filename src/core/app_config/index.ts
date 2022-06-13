@@ -6,8 +6,9 @@ declare global {
       GRAPHQL_API: string;
       BOUNDARIES_API: string;
       REPORTS_API: string;
-      TILES_API: string;
-      BIVARIATE_TILES_API?: string;
+      BIVARIATE_TILES_RELATIVE_URL: string;
+      BIVARIATE_TILES_SERVER?: string;
+      BIVARIATE_TILES_INDICATORS_CLASS: string;
       REFRESH_INTERVAL_SEC: number;
       MAP_ACCESS_TOKEN: string;
       MAP_BASE_STYLE: string;
@@ -33,8 +34,11 @@ export default {
   graphqlApi: window.konturAppConfig.GRAPHQL_API,
   boundariesApi: window.konturAppConfig.BOUNDARIES_API,
   reportsApi: window.konturAppConfig.REPORTS_API,
-  tilesApi: window.konturAppConfig.TILES_API,
-  bivariateTilesApi: window.konturAppConfig.BIVARIATE_TILES_API,
+  bivariateTilesRelativeUrl:
+    window.konturAppConfig.BIVARIATE_TILES_RELATIVE_URL,
+  bivariateTilesServer: window.konturAppConfig.BIVARIATE_TILES_SERVER,
+  bivariateTilesIndicatorsClass:
+    window.konturAppConfig.BIVARIATE_TILES_INDICATORS_CLASS,
   refreshIntervalSec: window.konturAppConfig.REFRESH_INTERVAL_SEC,
   mapAccessToken: window.konturAppConfig.MAP_ACCESS_TOKEN,
   mapBaseStyle: window.konturAppConfig.MAP_BASE_STYLE,
