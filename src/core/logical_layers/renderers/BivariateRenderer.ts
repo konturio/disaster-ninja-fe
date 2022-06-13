@@ -1,12 +1,11 @@
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
-import config from '~core/app_config';
 import {
   LAYER_BIVARIATE_PREFIX,
   SOURCE_BIVARIATE_PREFIX,
 } from '~core/logical_layers/constants';
 import { layerByOrder } from '~utils/map/layersOrder';
-import { replaceUrlWithProxy } from '../../../../vite.proxy';
+import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
@@ -37,42 +36,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     throw new Error(`Unexpected legend type '${legend.type}'`);
   }
 
-  _adaptUrl(url: string) {
-    /** Fix cors in local development */
-    if (import.meta.env.DEV) {
-      url = replaceUrlWithProxy(url);
-    }
-    /**
-     * Protocol fix
-     * request from https to http failed in browser with "mixed content" error
-     * solution: cut off protocol part and replace with current page protocol
-     */
-    const protocolRegexp = /https?:/;
-    if (protocolRegexp.test(url)) {
-      url = window.location.protocol + url.replace(protocolRegexp, '');
-    } else {
-      const baseUrl =
-        config.bivariateTilesApi ??
-        `${window.location.protocol}${window.location.host}${window.location.pathname}`;
-      url = `${baseUrl}${url}`;
-    }
-
-    /**
-     * Some link templates use values that mapbox/maplibre do not understand
-     * solution: convert to equivalents
-     */
-    url = url
-      .replace('{bbox}', '{bbox-epsg-3857}')
-      .replace('{proj}', 'EPSG:3857')
-      .replace('{width}', '256')
-      .replace('{height}', '256')
-      .replace('{zoom}', '{z}')
-      .replace('{-y}', '{y}');
-    /* Some magic for remove `switch:` */
-    const domains = (url.match(/{switch:(.*?)}/) || ['', ''])[1].split(',')[0];
-    url = url.replace(/{switch:(.*?)}/, domains);
-    return url;
-  }
   /* https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#vector-scheme */
   _setTileScheme(rawUrl: string, mapSource: VectorSource | RasterSource) {
     const isTMS = rawUrl.includes('{-y}');
@@ -89,7 +52,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     /* Create source */
     const mapSource: VectorSource = {
       type: 'vector',
-      tiles: layer.source.urls.map((url) => this._adaptUrl(url)),
+      tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
       minzoom: layer.minZoom || 0,
       maxzoom: layer.maxZoom || 22,
     };

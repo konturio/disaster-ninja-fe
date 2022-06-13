@@ -1,6 +1,7 @@
 import { hexToHsluv, hsluvToHex } from 'hsluv';
 import { generateBivariateStyleForAxis } from '~utils/bivariate';
 import config from '~core/app_config';
+import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import type { ColorTuple } from 'hsluv';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
@@ -41,11 +42,6 @@ function interpolateHsl(start: ColorTuple, end: ColorTuple): ColorTuple {
     interpolateLinear(start[1], end[1]),
     interpolateLinear(start[2], end[2]),
   ];
-}
-
-function resolveUrl(url: string) {
-  const isRelative = url.startsWith('/');
-  return isRelative ? `${window.location.origin}${url}` : url;
 }
 
 function convertToRgbaWithOpacity(hexColor: string): string {
@@ -154,7 +150,13 @@ export function generateColorThemeAndBivariateStyle(
     sourceLayer: 'stats',
     source: {
       type: 'vector',
-      tiles: [`${resolveUrl(config.tilesApi)}{z}/{x}/{y}.mvt`],
+      tiles: [
+        `${adaptTileUrl(
+          config.bivariateTilesRelativeUrl,
+        )}{z}/{x}/{y}.mvt?indicatorsClass=${
+          config.bivariateTilesIndicatorsClass
+        }`,
+      ],
       maxzoom: stats?.meta.max_zoom,
       minzoom: 0,
     },
