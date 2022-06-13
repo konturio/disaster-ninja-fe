@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import type { Action, Causes, Patch, Rec, StoreOnPatch } from '@reatom/core';
 
 function getActionsType(actions: ReadonlyArray<Action>) {
@@ -33,74 +34,7 @@ function parsePatch(patch: Patch) {
 export const createDevtoolsLogger: (config?: Rec) => StoreOnPatch = (
   config = {},
 ) => {
-  const connect = (globalThis as any)?.__REDUX_DEVTOOLS_EXTENSION__?.connect;
-
-  if (!connect) {
-    return () => null;
-  }
-
-  const devTools = connect(config);
-  const state: Record<string, any> = {};
-
-  devTools.init(state);
-
-  return async ({ actions, patch, causes, start, end }, error) => {
-    const duration = `${(end - start).toFixed(3)}ms`;
-    const stateCauses: Rec = {};
-    const displayState = error ? { ...state } : state;
-
-    for (const [{ id }, { cause, state: atomState }] of patch) {
-      if (!Object.is(displayState[id], atomState)) stateCauses[id] = cause;
-      displayState[id] = atomState;
-    }
-
-    let type = getActionsType(actions);
-
-    if (error) type = `ERROR: ${type}`;
-
-    causes = (causes as Causes).map((cause) =>
-      typeof cause === 'string'
-        ? cause
-        : {
-            ...cause,
-            type: getActionsType(cause.actions),
-            patch: parsePatch(cause.patch),
-          },
-    );
-
-    const action =
-      actions.length === 1
-        ? {
-            ...actions[0],
-            type,
-            error,
-            causes,
-            stateCauses,
-            duration,
-            start,
-            end,
-          }
-        : {
-            type,
-            actions,
-            error: error instanceof Error ? error.message : error,
-            causes,
-            stateCauses,
-            duration,
-            start,
-            end,
-          };
-
-    // @ts-ignore
-    delete action.targets;
-
-    // use it if your devtools is slow coz of synthetic events parsing
-    // console.log({ DEBUG: { action, state: displayState } })
-
-    try {
-      devTools.send(action, displayState);
-    } catch (error) {
-      console.log(`Devtools error`, error);
-    }
-  };
+  /* Reatom change devtools api */
+  // TODO: Use new devtool reatom api
+  return () => [];
 };
