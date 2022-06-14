@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 import { enableMocking } from '~utils/axios/axiosMockUtils';
 
 /* Use in instead of <AuthWrapper /> */
