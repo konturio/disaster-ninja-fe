@@ -60,7 +60,7 @@
     "@konturio/default-icons": "^2.0.0-alpha.21",
     "@konturio/default-theme": "^2.4.0-alpha.10",
     "@konturio/ui-kit": "^3.0.0-alpha.39",
-    "@loaders.gl/core": "^3.0.9",
+    "@loaders.gl/core": "^3.2.3",
     "@nebula.gl/edit-modes": "1.0.2-alpha.0",
     "@nebula.gl/layers": "1.0.2-alpha.0",
     "@reatom/core": "^2.0.20",
@@ -143,9 +143,6 @@
     "vite": "^2.6.14",
     "vite-plugin-html": "^2.1.1",
     "vitest": "^0.14.1"
-  },
-  "resolutions": {
-    "@turf/difference": "6.0.1"
   },
   "devDependencies": {
     "@types/uuid": "^8.3.4",
