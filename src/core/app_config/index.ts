@@ -27,7 +27,6 @@ declare global {
     };
   }
 }
-
 export default {
   apiGateway: window.konturAppConfig.API_GATEWAY,
   featuresApi: window.konturAppConfig.FEATURES_API,

@@ -1,42 +1,29 @@
-import {
-  createLocalStorageMock,
-  setupTestContext,
-} from '~utils/test_utils/setupTest';
+/**
+ * @vitest-environment happy-dom
+ */
+import { test, expect } from 'vitest';
+import './_configMock';
 import { ApiClient } from '../apiClient';
-import type { INotificationService, ITranslationService } from '../types';
-import type { NotificationMessage } from '~core/types/notification';
-
-/* Setup stage */
-const test = setupTestContext({
-  baseURL: 'https://localhost/api',
-  loginApiPath: '/login',
-  refreshTokenApiPath: '/refresh',
-  timeout: 3000,
-  notificationService: {
-    error: (message: NotificationMessage) => {
-      /* noop */
-    },
-  } as INotificationService,
-  translationService: {
-    t: (message: string) => message,
-  } as ITranslationService,
-});
+import {
+  createNotificationServiceMock,
+  createTranslationServiceMock,
+} from './_servicesMocks';
 
 /* Test cases */
 
-test('has to be initialized first', (t) => {
-  const error = t.throws(ApiClient.getInstance);
-  t.is(error.message, 'You have to initialize api client first!');
+test('has to be initialized first', () => {
+  expect(ApiClient.getInstance).toThrowError(
+    'You have to initialize api client first!',
+  );
 });
 
-test('can be initialized with config object', (t) => {
+test('can be initialized with config object', () => {
   ApiClient.init({
-    notificationService: t.context.notificationService,
-    translationService: t.context.translationService,
-    loginApiPath: t.context.loginApiPath,
-    baseURL: t.context.baseURL,
-    timeout: t.context.timeout,
-    storage: createLocalStorageMock(),
+    notificationService: createNotificationServiceMock(),
+    translationService: createTranslationServiceMock(),
+    loginApiPath: '/login',
+    baseURL: 'https://localhost/api',
+    timeout: 3000,
   });
-  t.truthy(ApiClient.getInstance());
+  expect(ApiClient.getInstance()).toBeTruthy();
 });

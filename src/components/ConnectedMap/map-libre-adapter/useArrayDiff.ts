@@ -33,14 +33,12 @@ interface DiffState<T> {
   deleted: T[];
 }
 
-const initialState = {
-  added: [],
-  deleted: [],
-};
-
 export function useArrayDiff<T>(newArray?: T[], freeze = false): DiffState<T> {
   const update = useRef(memo<T[]>([]));
-  const [state, setState] = useState<DiffState<T>>(initialState);
+  const [state, setState] = useState<DiffState<T>>({
+    added: newArray ?? [],
+    deleted: [],
+  });
 
   useEffect(() => {
     update.current((lastArray) => {

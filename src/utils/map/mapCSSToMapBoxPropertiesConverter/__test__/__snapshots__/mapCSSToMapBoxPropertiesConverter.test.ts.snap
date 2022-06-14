@@ -1,0 +1,76 @@
+// Vitest Snapshot v1
+
+exports[`Convert mapCSS style to mapBox layers 1`] = `
+[
+  {
+    "layout": {
+      "line-cap": "round",
+      "line-join": "miter",
+    },
+    "paint": {
+      "line-color": "#FEFEFE",
+      "line-offset": 3,
+      "line-opacity": 0.5,
+      "line-pattern": [
+        "1",
+        "2",
+        "4",
+      ],
+      "line-width": 1,
+    },
+    "type": "line",
+  },
+  {
+    "layout": {
+      "line-cap": "square",
+      "line-join": "bevel",
+    },
+    "paint": {
+      "line-color": "black",
+      "line-offset": 7,
+      "line-opacity": 1,
+      "line-pattern": [
+        "1",
+      ],
+      "line-width": 5,
+    },
+    "type": "line",
+  },
+  {
+    "paint": {
+      "fill-color": "rgb(255, 255, 255)",
+      "fill-opacity": 0.3,
+    },
+    "type": "fill",
+  },
+  {
+    "layout": {
+      "icon-image": "airport",
+      "icon-size": 12,
+      "symbol-placement": "line-center",
+      "text-field": "label",
+      "text-font": [
+        "Open Sans",
+        "Tahoma",
+      ],
+      "text-max-width": 300,
+      "text-offset": 3,
+      "text-size": 16,
+    },
+    "paint": {
+      "icon-opacity": 1,
+      "text-color": "gray",
+      "text-halo-color": "red",
+      "text-halo-width": 2,
+      "text-opacity": 1,
+    },
+    "type": "symbol",
+  },
+  {
+    "paint": {
+      "circle-radius": 3,
+    },
+    "type": "circle",
+  },
+]
+`;
