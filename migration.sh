@@ -1,6 +1,8 @@
 git filter-repo --path-glob '*/*.local.js' --invert-paths --force
 git filter-repo --path-glob '*/*.sonic.js' --invert-paths --force
 git filter-repo --path-glob '*/*.default.js' --invert-paths --force
+git filter-repo --path-glob '*/*.lima.js' --invert-paths --force
+git filter-repo --path-glob '*/*.zigzag.js' --invert-paths --force
 git filter-repo --path-glob '*.npmrc' --invert-paths --force
 git filter-repo --path-glob '.npmrc' --invert-paths --force
 git filter-repo --path-glob vite.proxy.ts --invert-paths --force
