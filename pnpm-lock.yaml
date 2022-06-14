@@ -4,6 +4,7 @@ overrides:
   '@turf/difference': 6.0.1
 
 specifiers:
+  '@deck.gl/core': ^8.7.11
   '@deck.gl/extensions': ^8.6.4
   '@deck.gl/geo-layers': ^8.5.4
   '@deck.gl/layers': ^8.5.4
@@ -101,17 +102,18 @@ specifiers:
   vitest: ^0.14.1
 
 dependencies:
-  '@deck.gl/extensions': 8.7.11
-  '@deck.gl/geo-layers': 8.7.11_a005e266d99daccf26a9c3830f466491
-  '@deck.gl/layers': 8.7.11_@loaders.gl+core@3.2.3
-  '@deck.gl/mapbox': 8.7.11
-  '@deck.gl/mesh-layers': 8.7.11
+  '@deck.gl/core': 8.7.11
+  '@deck.gl/extensions': 8.7.11_@deck.gl+core@8.7.11
+  '@deck.gl/geo-layers': 8.7.11_50c3ba925aa950c0182b88a6d9135e29
+  '@deck.gl/layers': 8.7.11_52ee7e4f89e4230a267379820f201df3
+  '@deck.gl/mapbox': 8.7.11_@deck.gl+core@8.7.11
+  '@deck.gl/mesh-layers': 8.7.11_@deck.gl+core@8.7.11
   '@konturio/default-icons': 2.0.0-alpha.21_react@17.0.2
   '@konturio/default-theme': 2.4.0-alpha.10
   '@konturio/ui-kit': 3.0.0-alpha.39_8a58b45a414e2edef47451d639f8fb69
   '@loaders.gl/core': 3.2.3
   '@nebula.gl/edit-modes': 1.0.2-alpha.0
-  '@nebula.gl/layers': 1.0.2-alpha.0_4ade788107f1c36e436efc761a2a16d8
+  '@nebula.gl/layers': 1.0.2-alpha.0_c97ea33e2c0bd67f1ce9ee3afcff6f7b
   '@reatom/core': 2.0.20
   '@reatom/react': 2.0.19_@reatom+core@2.0.20+react@17.0.2
   '@testing-library/react': 12.1.5_react-dom@17.0.2+react@17.0.2
@@ -456,16 +458,34 @@ packages:
       indefinitely-typed: 1.1.0
     dev: false
 
-  /@deck.gl/extensions/8.7.11:
+  /@deck.gl/core/8.7.11:
+    resolution: {integrity: sha512-zTAjbU2lJ5/LjxLLIA6vFquIqd16uY/Xe2Y3J84YmCxOeFWx7khX8n9s42bfi2mXK+ygx8sqRfhHjReFArg3bA==}
+    dependencies:
+      '@loaders.gl/core': 3.2.3
+      '@loaders.gl/images': 3.2.3
+      '@luma.gl/constants': 8.5.14
+      '@luma.gl/core': 8.5.14
+      '@math.gl/core': 3.6.0
+      '@math.gl/web-mercator': 3.6.0
+      '@probe.gl/env': 3.5.0
+      '@probe.gl/log': 3.5.0
+      '@probe.gl/stats': 3.5.0
+      gl-matrix: 3.4.3
+      math.gl: 3.6.0
+      mjolnir.js: 2.7.0
+    dev: false
+
+  /@deck.gl/extensions/8.7.11_@deck.gl+core@8.7.11:
     resolution: {integrity: sha512-/kW3D/PuynJUB9YS7So+iia+3YjYm5ziWf/yCwSbLu/cfflJ5Y29qlBcznkjJGriFPkHB7y0ZJiYMItG6DTjrw==}
     peerDependencies:
       '@deck.gl/core': ^8.0.0
       gl-matrix: ^3.0.0
     dependencies:
+      '@deck.gl/core': 8.7.11
       '@luma.gl/shadertools': 8.5.14
     dev: false
 
-  /@deck.gl/geo-layers/8.7.11_a005e266d99daccf26a9c3830f466491:
+  /@deck.gl/geo-layers/8.7.11_50c3ba925aa950c0182b88a6d9135e29:
     resolution: {integrity: sha512-mCcP/CeXC9aavMHwecwKde2PlMoOu6IsOmYUuGtcQlN+xhZ5gQ460KrBpmjCLQv/W503DrjuHOqffgeNYIRkog==}
     peerDependencies:
       '@deck.gl/core': ^8.0.0
@@ -474,9 +494,10 @@ packages:
       '@deck.gl/mesh-layers': ^8.0.0
       '@loaders.gl/core': ^3.0.0
     dependencies:
-      '@deck.gl/extensions': 8.7.11
-      '@deck.gl/layers': 8.7.11_@loaders.gl+core@3.2.3
-      '@deck.gl/mesh-layers': 8.7.11
+      '@deck.gl/core': 8.7.11
+      '@deck.gl/extensions': 8.7.11_@deck.gl+core@8.7.11
+      '@deck.gl/layers': 8.7.11_52ee7e4f89e4230a267379820f201df3
+      '@deck.gl/mesh-layers': 8.7.11_@deck.gl+core@8.7.11
       '@loaders.gl/3d-tiles': 3.2.3_@loaders.gl+core@3.2.3
       '@loaders.gl/core': 3.2.3
       '@loaders.gl/gis': 3.2.3
@@ -499,12 +520,13 @@ packages:
       - '@luma.gl/webgl'
     dev: false
 
-  /@deck.gl/layers/8.7.11_@loaders.gl+core@3.2.3:
+  /@deck.gl/layers/8.7.11_52ee7e4f89e4230a267379820f201df3:
     resolution: {integrity: sha512-uO4Y+7D8iobcpVaFJkH8NxtdHw393U5qItN466iCUQKziFqCNRxokkchQmenrUrY4hn+jb5CMFh/otehPV1Grg==}
     peerDependencies:
       '@deck.gl/core': ^8.0.0
       '@loaders.gl/core': ^3.1.5
     dependencies:
+      '@deck.gl/core': 8.7.11
       '@loaders.gl/core': 3.2.3
       '@loaders.gl/images': 3.2.3
       '@mapbox/tiny-sdf': 1.2.5
@@ -512,17 +534,20 @@ packages:
       earcut: 2.2.3
     dev: false
 
-  /@deck.gl/mapbox/8.7.11:
+  /@deck.gl/mapbox/8.7.11_@deck.gl+core@8.7.11:
     resolution: {integrity: sha512-oRxN5ZWKzmEwhKp/4N46qxyWVMjzrmdCeq0/O4RNeOfGDXypEE+E6N1qKYh2baT3R5oq1zcIRXwZeOvFKm1Nxw==}
     peerDependencies:
       '@deck.gl/core': ^8.0.0
+    dependencies:
+      '@deck.gl/core': 8.7.11
     dev: false
 
-  /@deck.gl/mesh-layers/8.7.11:
+  /@deck.gl/mesh-layers/8.7.11_@deck.gl+core@8.7.11:
     resolution: {integrity: sha512-JaM6ACcx+ljE/gRnYePwhhoX+0ETCcjJGBDEw4qbDfVnaO2cUoMYo1hi8UhQD0gX9n05Jkmj+Ubnua0cCpJ3Ig==}
     peerDependencies:
       '@deck.gl/core': ^8.0.0
     dependencies:
+      '@deck.gl/core': 8.7.11
       '@loaders.gl/gltf': 3.2.3
       '@luma.gl/constants': 8.5.14
       '@luma.gl/core': 8.5.14
@@ -984,7 +1009,7 @@ packages:
       viewport-mercator-project: 7.0.4
     dev: false
 
-  /@nebula.gl/layers/1.0.2-alpha.0_4ade788107f1c36e436efc761a2a16d8:
+  /@nebula.gl/layers/1.0.2-alpha.0_c97ea33e2c0bd67f1ce9ee3afcff6f7b:
     resolution: {integrity: sha512-bSRqEvdauWUTIYf+RXamnYekSCBaA4tEkqGiD3xVZEsrgG0//BYsjHbSG62tpYY5FwSJEzPx6NeBRIxcJ+xPIg==}
     peerDependencies:
       '@deck.gl/core': ^8.6.0
@@ -996,10 +1021,11 @@ packages:
       '@luma.gl/core': ^8.5.10
     dependencies:
       '@danmarshall/deckgl-typings': 4.9.12
-      '@deck.gl/extensions': 8.7.11
-      '@deck.gl/geo-layers': 8.7.11_a005e266d99daccf26a9c3830f466491
-      '@deck.gl/layers': 8.7.11_@loaders.gl+core@3.2.3
-      '@deck.gl/mesh-layers': 8.7.11
+      '@deck.gl/core': 8.7.11
+      '@deck.gl/extensions': 8.7.11_@deck.gl+core@8.7.11
+      '@deck.gl/geo-layers': 8.7.11_50c3ba925aa950c0182b88a6d9135e29
+      '@deck.gl/layers': 8.7.11_52ee7e4f89e4230a267379820f201df3
+      '@deck.gl/mesh-layers': 8.7.11_@deck.gl+core@8.7.11
       '@nebula.gl/edit-modes': 1.0.2-alpha.0
       '@turf/bbox': 6.5.0
       '@turf/bbox-polygon': 6.5.0
@@ -3656,6 +3682,11 @@ packages:
     engines: {node: '>=4', npm: '>=3', yarn: '>=1.3.0'}
     dev: false
 
+  /hammerjs/2.0.8:
+    resolution: {integrity: sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
   /handlebars/4.7.7:
     resolution: {integrity: sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==}
     engines: {node: '>=0.4.7'}
@@ -4483,6 +4514,12 @@ packages:
       tinyqueue: 1.2.3
     dev: false
 
+  /math.gl/3.6.0:
+    resolution: {integrity: sha512-iQMoZlCf2IGtOCTBMr/XFBJY3TT7X25hXs5NtNdG1w3//GK0OxPHioaVHAprEAny/pkPtoSfjEQZRp6tLRIqEg==}
+    dependencies:
+      '@math.gl/core': 3.6.0
+    dev: false
+
   /mathml-tag-names/2.1.3:
     resolution: {integrity: sha512-APMBEanjybaPzUrfqU0IMU5I0AswKMH7k8OTLs0vvV4KZpExkTkY87nR/zpbuTPj+gARop7aGUbl11pnDfW6xg==}
     dev: false
@@ -4830,6 +4867,14 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
+    dev: false
+
+  /mjolnir.js/2.7.0:
+    resolution: {integrity: sha512-XlK5OZ7d09eAIdYr+5VKOArYtkWB/f306s34yVij4pBk5wnaKxSrD7fVfP8/BL27nKVylNweqP1pxqh8h+hWKw==}
+    engines: {node: '>= 4', npm: '>= 3'}
+    dependencies:
+      '@types/hammerjs': 2.0.41
+      hammerjs: 2.0.8
     dev: false
 
   /mkdirp/0.5.6:
