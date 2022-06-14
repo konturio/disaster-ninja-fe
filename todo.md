@@ -1,1 +1,0 @@
-fix auto clean ap

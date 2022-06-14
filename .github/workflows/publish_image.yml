@@ -1,0 +1,56 @@
+name: Publish Docker image
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+on:
+  workflow_run:
+    workflows: ["build"]
+    types: [completed]
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build.yml
+          workflow_conclusion: success
+          name: ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}
+
+      - name: Extract files from archive
+        run: tar -xvf ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}.tar.xz
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: .
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        uses: docker/metadata-action@v4.0.1
+        id: meta
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value=${{ github.ref_name }}.{{sha}}.${{ github.run_attempt }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
