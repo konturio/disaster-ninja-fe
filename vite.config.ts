@@ -22,7 +22,7 @@ export default ({ mode }) => {
       minify: mode === 'development' ? false : true,
       sourcemap: true,
       rollupOptions: {
-        plugins: [env.VITE_ANALYZE_BUNDLE && visualizer({ open: true })],
+        plugins: [!!env.VITE_ANALYZE_BUNDLE && visualizer({ open: true })],
       },
     },
     plugins: [
