@@ -1,17 +1,17 @@
-import test from 'ava';
+import { test, expect } from 'vitest';
 import { mapCSSToMapBoxProperties } from '../index';
 import { mapCSS } from './mockMapCss';
 
-test('Convert mapCSS style to mapBox layers', (t) => {
+test('Convert mapCSS style to mapBox layers', () => {
   const result = mapCSSToMapBoxProperties(mapCSS);
-  t.snapshot(result, 'mapcss');
+  expect(result).toMatchSnapshot();
 });
 
-test('Not create extra line-offset layers', (t) => {
+test('Not create extra line-offset layers', () => {
   const result = mapCSSToMapBoxProperties({
     color: 'black',
     width: 1,
     opacity: 0.2,
   });
-  t.is(result.length, 1);
+  expect(result.length).toEqual(1);
 });

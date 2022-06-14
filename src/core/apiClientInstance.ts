@@ -1,5 +1,5 @@
-import { setupDefaultLayersMocking } from '~utils/axios/setupTemporaryMocking';
 import { enableMocking } from '~utils/axios/axiosMockUtils';
+import { setupDefaultLayersMocking } from '~utils/axios/setupTemporaryMocking';
 import { ApiClient } from './api_client';
 import config from './app_config';
 import { i18n } from './localization';

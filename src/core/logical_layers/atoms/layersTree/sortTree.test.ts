@@ -1,9 +1,9 @@
+import { expect, test } from 'vitest';
 import { sortChildren } from './sortTree';
 import type { TreeChildren } from '~core/types/layers';
-import { setupTestContext } from '~utils/test_utils/setupTest';
 
 const fakeAtom = {} as any;
-const test = setupTestContext(() => {
+const getTestContext = () => {
   return {
     getIds: (arr: { id: string }[]) => arr.map((a) => a.id),
     sorterSettings: {
@@ -11,30 +11,30 @@ const test = setupTestContext(() => {
       inClusterSortField: 'order',
     },
   };
-});
+};
 
-test('Layers without category and groups go first', (t) => {
+test('Layers without category and groups go first', () => {
   const children: TreeChildren[] = [
     { id: 'testGroup', isGroup: true },
     { id: 'testCategory', isCategory: true },
     { id: 'rootLayer' },
   ] as TreeChildren[];
 
-  const sorted = sortChildren(children, t.context.sorterSettings);
-  t.deepEqual(t.context.getIds(sorted)[0], 'rootLayer');
+  const sorted = sortChildren(children, getTestContext().sorterSettings);
+  expect(getTestContext().getIds(sorted)[0]).toEqual('rootLayer');
 });
 
-test('Groups without category and groups go first', (t) => {
+test('Groups without category and groups go first', () => {
   const children = [
     { id: 'testCategory_2', isCategory: true },
     { id: 'rootGroup', isGroup: true },
     { id: 'testCategory', isCategory: true },
   ] as TreeChildren[];
-  const sorted = sortChildren(children, t.context.sorterSettings);
-  t.deepEqual(t.context.getIds(sorted)[0], 'rootGroup');
+  const sorted = sortChildren(children, getTestContext().sorterSettings);
+  expect(getTestContext().getIds(sorted)[0]).toEqual('rootGroup');
 });
 
-test('Sort children recursively', (t) => {
+test('Sort children recursively', () => {
   const children: TreeChildren[] = [
     {
       id: 'parenCategory',
@@ -42,13 +42,13 @@ test('Sort children recursively', (t) => {
       children: [{ id: 'rootGroup', isGroup: true }, { id: 'rootLayer' }],
     },
   ] as TreeChildren[];
-  const sorted = sortChildren(children, t.context.sorterSettings);
+  const sorted = sortChildren(children, getTestContext().sorterSettings);
 
   // @ts-expect-error - we clearly see above that single item is category, no check needed
-  t.deepEqual(t.context.getIds(sorted[0].children)[0], 'rootLayer');
+  expect(getTestContext().getIds(sorted[0].children)[0]).toEqual('rootLayer');
 });
 
-test('Ignore other boolean properties', (t) => {
+test('Ignore other boolean properties', () => {
   const children: TreeChildren[] = [
     {
       id: 'testGroup',
@@ -61,11 +61,11 @@ test('Ignore other boolean properties', (t) => {
     { id: 'rootLayer' },
   ] as TreeChildren[];
 
-  const sorted = sortChildren(children, t.context.sorterSettings);
-  t.deepEqual(t.context.getIds(sorted)[0], 'rootLayer');
+  const sorted = sortChildren(children, getTestContext().sorterSettings);
+  expect(getTestContext().getIds(sorted)[0]).toEqual('rootLayer');
 });
 
-test('Use order property for sort similar types', (t) => {
+test('Use order property for sort similar types', () => {
   const children: TreeChildren[] = [
     {
       id: 'testGroup',
@@ -88,11 +88,11 @@ test('Use order property for sort similar types', (t) => {
     },
   ] as TreeChildren[];
 
-  const sorted = sortChildren(children, t.context.sorterSettings);
-  t.deepEqual(t.context.getIds(sorted)[1], 'testCategory1');
+  const sorted = sortChildren(children, getTestContext().sorterSettings);
+  expect(getTestContext().getIds(sorted)[1]).toEqual('testCategory1');
 });
 
-test('Ignore order for different types', (t) => {
+test('Ignore order for different types', () => {
   const children: TreeChildren[] = [
     {
       id: 'testGroup1',
@@ -116,11 +116,11 @@ test('Ignore order for different types', (t) => {
     },
   ] as TreeChildren[];
 
-  const sorted = sortChildren(children, t.context.sorterSettings);
-  t.deepEqual(t.context.getIds(sorted)[0], 'testGroup1');
+  const sorted = sortChildren(children, getTestContext().sorterSettings);
+  expect(getTestContext().getIds(sorted)[0]).toEqual('testGroup1');
 });
 
-test('Not loose layers after sort', (t) => {
+test('Not loose layers after sort', () => {
   const children: TreeChildren[] = [
     { id: 'rootLayer' },
     {
@@ -194,6 +194,6 @@ test('Not loose layers after sort', (t) => {
       return acc;
     }, 0);
 
-  const sorted = sortChildren(children, t.context.sorterSettings);
-  t.deepEqual(countChildren(children), countChildren(sorted));
+  const sorted = sortChildren(children, getTestContext().sorterSettings);
+  expect(countChildren(children)).toEqual(countChildren(sorted));
 });
