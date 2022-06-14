@@ -51,6 +51,7 @@
     ]
   },
   "dependencies": {
+    "@deck.gl/core": "^8.7.11",
     "@deck.gl/extensions": "^8.6.4",
     "@deck.gl/geo-layers": "^8.5.4",
     "@deck.gl/layers": "^8.5.4",
