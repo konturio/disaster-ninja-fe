@@ -1,5 +1,5 @@
-import { Button, Text } from '@konturio/ui-kit';
-import { useCallback, useMemo } from 'react';
+import { Button, ButtonGroup, Text } from '@konturio/ui-kit';
+import { useCallback } from 'react';
 import {
   Line24,
   PointOutline24,
@@ -7,13 +7,13 @@ import {
   Trash24,
 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
-import clsx from 'clsx';
 import { Download24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { drawModes } from '../../constants';
 import { combinedAtom } from '../../atoms/combinedAtom';
 import { toolboxAtom } from '../../atoms/toolboxAtom';
 import s from './DrawToolToolbox.module.css';
+import type { DrawModeType } from '../../constants';
 
 export const DrawToolsToolbox = () => {
   const [
@@ -21,18 +21,6 @@ export const DrawToolsToolbox = () => {
     { deleteFeatures, toggleDrawMode, finishDrawing, downloadDrawGeometry },
   ] = useAtom(toolboxAtom);
   useAtom(combinedAtom);
-
-  const onPolygonClick = useCallback(() => {
-    toggleDrawMode(drawModes.DrawPolygonMode);
-  }, [toggleDrawMode]);
-
-  const onLineClick = useCallback(() => {
-    toggleDrawMode(drawModes.DrawLineMode);
-  }, [toggleDrawMode]);
-
-  const onPointClick = useCallback(() => {
-    toggleDrawMode(drawModes.DrawPointMode);
-  }, [toggleDrawMode]);
 
   const onFinishClick = useCallback(() => {
     (async () => {
@@ -53,38 +41,28 @@ export const DrawToolsToolbox = () => {
         </div>
       )}
 
-      <div className={s.toolBox}>
+      <ButtonGroup
+        onChange={(id) => toggleDrawMode(id as DrawModeType)}
+        current={activeDrawMode}
+        classes={{ groupContainer: s.toolBox, btnContainer: s.toolBoxBtn }}
+        borderWrap={false}
+      >
         {settings.availableModes?.includes('DrawPolygonMode') && (
-          <Button
-            dark
-            variant="invert"
-            active={activeDrawMode === drawModes.DrawPolygonMode}
-            onClick={onPolygonClick}
-          >
+          <Button id={drawModes.DrawPolygonMode} dark variant="invert">
             <div className={s.btnContent}>
               <Area24 /> {i18n.t('Area')}
             </div>
           </Button>
         )}
         {settings.availableModes?.includes('DrawLineMode') && (
-          <Button
-            dark
-            variant="invert"
-            active={activeDrawMode === drawModes.DrawLineMode}
-            onClick={onLineClick}
-          >
+          <Button id={drawModes.DrawLineMode} dark variant="invert">
             <div className={s.btnContent}>
               <Line24 /> {i18n.t('Line')}
             </div>
           </Button>
         )}
         {settings.availableModes?.includes('DrawPointMode') && (
-          <Button
-            dark
-            variant="invert"
-            active={activeDrawMode === drawModes.DrawPointMode}
-            onClick={onPointClick}
-          >
+          <Button id={drawModes.DrawPointMode} dark variant="invert">
             <div className={s.btnContent}>
               <PointOutline24 /> {i18n.t('Point')}
             </div>
@@ -104,7 +82,7 @@ export const DrawToolsToolbox = () => {
         <Button onClick={onFinishClick}>
           {settings.finishButtonText || i18n.t('Finish Drawing')}
         </Button>
-      </div>
+      </ButtonGroup>
     </div>
   ) : null;
 };

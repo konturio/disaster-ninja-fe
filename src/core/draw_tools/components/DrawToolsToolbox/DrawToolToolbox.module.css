@@ -9,7 +9,6 @@
   transform: translate(-50%, 0);
   display: flex;
   border-radius: var(--half-unit);
-  background-color: var(--base-strong-down);
   overflow: hidden;
   box-shadow: var(--elevation-1);
   height: 40px;
@@ -21,18 +20,20 @@
   align-items: center;
 }
 
-.toolBox > button {
-  border-radius: 0;
-  &:focus {
-    border: 2px solid var(--accent-strong) !important;
-    box-shadow: none;
-    padding: 10px;
+.toolBoxBtn {
+  display: flex;
+
+  & button {
+    &:focus {
+      box-shadow: inset 0 0 0 2px var(--complimentary-strong);
+    }
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
-  &:disabled {
-    cursor: not-allowed;
-  }
-  &:not(:nth-last-child(-n + 2)) {
-    border-right: 1px solid var(--base-strong);
+
+  &:not(:nth-last-child(-n + 2)) button {
+    border-right: 1px solid var(--base-strong) !important;
   }
 }
 
