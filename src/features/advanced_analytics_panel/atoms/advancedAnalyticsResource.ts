@@ -49,4 +49,5 @@ export const advancedAnalyticsResourceAtom = createResourceAtom(
   },
   focusedGeometryAtom,
   'advancedAnalyticsResource',
+  true,
 );
