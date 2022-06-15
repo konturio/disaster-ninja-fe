@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { currentMapAtom } from '~core/shared_state';
+import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { convertToAppMarker } from '~utils/map/markers';
 import { sideControlsBarAtom, focusedGeometryAtom } from '~core/shared_state';
@@ -10,6 +10,9 @@ import { boundaryResourceAtom } from './boundaryResourceAtom';
 import { highlightedGeometry } from './highlightedGeometry';
 import { getSelectorWithOptions } from './../components/getSelectorWithOptions';
 import type { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
+import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
+import app_config from '~core/app_config';
+import type { Action } from '@reatom/core';
 
 const LOADING_OPTIONS = [
   { label: i18n.t('Loading...'), value: 'loading', disabled: true },
@@ -58,13 +61,7 @@ export const boundaryMarkerAtom = createAtom(
     });
 
     // Marker callbacks
-    const updateFocusedGeometryAction = (
-      fc: GeoJSON.FeatureCollection,
-      boundaryId: string,
-    ) => {
-      const feature = fc.features.find(
-        (boundary) => boundary.id === boundaryId,
-      )!;
+    const updateFocusedGeometryAction = (feature: GeoJSON.Feature) => {
       const name = (feature.properties?.name as string) || 'Boundary geometry';
       return focusedGeometryAtom.setFocusedGeometry(
         {
@@ -100,19 +97,38 @@ export const boundaryMarkerAtom = createAtom(
 
           const markerData = getSelectorWithOptions(
             options,
+
             // onOptionSelect:
             (boundaryId) => {
               if (!featureCollection) return;
+              const selectedFeature = featureCollection.features.find(
+                (f) => f.id === boundaryId,
+              )!;
 
-              dispatch([
-                updateFocusedGeometryAction(featureCollection, boundaryId),
+              const actions: Action[] = [
+                updateFocusedGeometryAction(selectedFeature),
                 sideControlsBarAtom.disable('BoundarySelector'),
                 updateBoundaryLayerAction(
                   { type: 'FeatureCollection', features: [] },
                   boundaryId,
                 ),
-              ]);
+              ];
+
+              const geometryCamera = getCameraForGeometry(selectedFeature, map);
+              if (typeof geometryCamera === 'object')
+                actions.push(
+                  currentMapPositionAtom.setCurrentMapPosition({
+                    zoom: Math.min(
+                      geometryCamera.zoom,
+                      app_config.autoFocus.maxZoom,
+                    ),
+                    ...geometryCamera.center,
+                  }),
+                );
+
+              dispatch(actions);
             },
+
             // onOptionHover:
             (boundaryId) => {
               if (!featureCollection) return;
