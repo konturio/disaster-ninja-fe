@@ -1,10 +1,5 @@
-import { setupTestContext } from '~utils/test_utils/setupTest';
+import { test, expect } from 'vitest';
 import { LayersOrderManager } from './layersOrder';
-
-/* Setup stage */
-const test = setupTestContext(() => {
-  return {};
-});
 
 class FakeMapWithBaseLayers {
   #baseLayers = [];
@@ -39,22 +34,22 @@ test('Return undefined if only base map layers are available', (t) => {
   ]);
   layersOrderManager.init(map as any);
 
-  t.plan(4);
+  expect.assertions(4);
 
   layersOrderManager.getIdToMountOnTypesTop('fill', (beforeId1) => {
-    t.is(beforeId1, undefined);
+    expect(beforeId1).toBeUndefined();
   });
 
   layersOrderManager.getIdToMountOnTypesTop('line', (beforeId2) => {
-    t.is(beforeId2, undefined);
+    expect(beforeId2).toBeUndefined();
   });
 
   layersOrderManager.getIdToMountOnTypesTop('background', (beforeId3) => {
-    t.is(beforeId3, undefined);
+    expect(beforeId3).toBeUndefined();
   });
 
   layersOrderManager.getIdToMountOnTypesBottom('background', (beforeId) => {
-    t.is(beforeId, undefined);
+    expect(beforeId).toBeUndefined();
   });
 });
 
@@ -76,34 +71,36 @@ test('Returns id of layer with type that must be rendered above passed type', (t
     { type: 'custom', id: 'custom-layer' },
   ]);
 
-  t.plan(4);
+  expect.assertions(4);
   {
     layersOrderManager.getIdToMountOnTypesTop('background', (beforeId) => {
-      t.is(
-        beforeId,
+      expect(beforeId, 'test for the first/bottom type of the type set').toBe(
         'raster-layer',
-        'test for the first/bottom type of the type set',
       );
     });
 
     layersOrderManager.getIdToMountOnTypesBottom('background', (beforeId) => {
-      t.is(
+      expect(
         beforeId,
-        'background-layer',
         'test to get bottom id of a singular mounted layer',
-      );
+      ).toBe('background-layer');
     });
 
     layersOrderManager.getIdToMountOnTypesTop('fill', (beforeId) => {
-      t.is(
+      // prettier-ignore
+      expect(
         beforeId,
+        'test for one of the middle layers'
+      ).toBe(
         'fill-extrusion-layer',
-        'test for one of the middle layers',
       );
     });
 
     layersOrderManager.getIdToMountOnTypesTop('custom', (beforeId) => {
-      t.is(beforeId, undefined, 'test for the last/top type of the type set');
+      expect(
+        beforeId,
+        'test for the last/top type of the type set',
+      ).toBeUndefined();
     });
   }
 });
@@ -120,58 +117,58 @@ test('Return correct beforeId when some layer types are missing', (t) => {
     { type: 'symbol', id: 'symbol-layer1' },
   ]);
 
-  t.plan(7);
+  expect.assertions(7);
 
   layersOrderManager.getIdToMountOnTypesTop('background', (beforeId) => {
-    t.is(
+    // prettier-ignore
+    expect(
       beforeId,
-      'raster-layer',
-      'test for the first/bottom type of the type set',
-    );
+      'test for the first/bottom type of the type set'
+    ).toBe('raster-layer')
   });
 
   layersOrderManager.getIdToMountOnTypesTop('raster', (beforeId) => {
-    t.is(
+    // prettier-ignore
+    expect(
       beforeId,
-      'hillshade-layer',
       'test before layer type that goes next in order',
-    );
+    ).toBe('hillshade-layer');
   });
 
   layersOrderManager.getIdToMountOnTypesBottom('raster', (beforeId) => {
-    t.is(
+    // prettier-ignore
+    expect(
       beforeId,
-      'raster-layer',
-      'test before layer type that goes next in order',
-    );
+      'test before layer type that goes next in order'
+    ).toBe('raster-layer');
   });
 
   layersOrderManager.getIdToMountOnTypesBottom('heatmap', (beforeId) => {
-    t.is(
+    expect(
       beforeId,
-      'fill-layer',
       'test for mounting layer on type bottom when type was not mounted',
-    );
+    ).toBe('fill-layer');
   });
 
   layersOrderManager.getIdToMountOnTypesTop('hillshade', (beforeId) => {
-    t.is(
+    expect(
       beforeId,
-      'fill-layer',
       'test when theres no layers for the type that goes up in order',
-    );
+    ).toBe('fill-layer');
   });
 
   layersOrderManager.getIdToMountOnTypesTop('symbol', (beforeId) => {
-    t.is(
+    expect(
       beforeId,
-      undefined,
       'test when theres no layers for ANY type that goes up in order',
-    );
+    ).toBeUndefined();
   });
 
   layersOrderManager.getIdToMountOnTypesTop('custom', (beforeId) => {
-    t.is(beforeId, undefined, 'test for the last/top type of the type set');
+    expect(
+      beforeId,
+      'test for the last/top type of the type set',
+    ).toBeUndefined();
   });
 });
 
@@ -193,46 +190,54 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
     { type: 'fill-extrusion', id: 'fill-extrusion-layer-2' },
   ]);
 
-  t.plan(6);
+  expect.assertions(6);
 
   layersOrderManager.getIdToMountOnTypesTop('background', (beforeId) => {
-    t.is(
+    // prettier-ignore
+    expect(
       beforeId,
-      'raster-layer',
-      'test for the first/bottom type of the type set',
-    );
+      'test for the first/bottom type of the type set'
+    ).toBe('raster-layer');
   });
 
-  //
   layersOrderManager.getIdToMountOnTypesTop('raster', (beforeId) => {
-    t.is(
+    // prettier-ignore
+    expect(
       beforeId,
+      'test for the type before 2+ layers type')
+    .toBe(
       'hillshade-layer-0',
-      'test for the type before 2+ layers type',
     );
   });
 
   layersOrderManager.getIdToMountOnTypesBottom('hillshade', (beforeId) => {
-    t.is(
+    expect(
       beforeId,
-      'hillshade-layer-0',
       'test to get bottom type when multiple types are mounted',
-    );
+    ).toBe('hillshade-layer-0');
   });
 
   layersOrderManager.getIdToMountOnTypesTop('hillshade', (beforeId) => {
-    t.is(
+    // prettier-ignore
+    expect(
       beforeId,
-      'heatmap-layer',
-      'test for the type before single layers type',
-    );
+      'test for the type before single layers type'
+    ).toBe('heatmap-layer');
   });
 
   layersOrderManager.getIdToMountOnTypesTop('heatmap', (beforeId) => {
-    t.is(beforeId, 'fill-layer', 'test for the type before 2 layers type');
+    // prettier-ignore
+    expect(
+      beforeId,
+      'test for the type before 2 layers type')
+    .toBe('fill-layer');
   });
 
   layersOrderManager.getIdToMountOnTypesTop('custom', (beforeId) => {
-    t.is(beforeId, undefined, 'test for the last/top type of the type set');
+    // prettier-ignore
+    expect(
+      beforeId,
+      'test for the last/top type of the type set'
+    ).toBeUndefined()
   });
 });
