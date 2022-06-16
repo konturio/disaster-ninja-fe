@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, Text } from '@konturio/ui-kit';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   Line24,
   PointOutline24,
@@ -15,6 +15,11 @@ import { toolboxAtom } from '../../atoms/toolboxAtom';
 import s from './DrawToolToolbox.module.css';
 import type { DrawModeType } from '../../constants';
 
+const btnGroupClasses = {
+  groupContainer: s.toolBox,
+  btnContainer: s.toolBoxBtn,
+};
+
 export const DrawToolsToolbox = () => {
   const [
     { mode: activeDrawMode, selectedIndexes, drawingIsStarted, settings },
@@ -29,7 +34,62 @@ export const DrawToolsToolbox = () => {
       }
       finishDrawing();
     })();
-  }, [finishDrawing, settings]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings]);
+
+  const onToggleDrawMode = useCallback(
+    (id) => toggleDrawMode(id),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  const buttons = useMemo(
+    () => [
+      settings.availableModes?.includes('DrawPolygonMode') && (
+        <Button id={drawModes.DrawPolygonMode} dark variant="invert">
+          <div className={s.btnContent}>
+            <Area24 /> {i18n.t('Area')}
+          </div>
+        </Button>
+      ),
+      settings.availableModes?.includes('DrawLineMode') && (
+        <Button id={drawModes.DrawLineMode} dark variant="invert">
+          <div className={s.btnContent}>
+            <Line24 /> {i18n.t('Line')}
+          </div>
+        </Button>
+      ),
+      settings.availableModes?.includes('DrawPointMode') && (
+        <Button id={drawModes.DrawPointMode} dark variant="invert">
+          <div className={s.btnContent}>
+            <PointOutline24 /> {i18n.t('Point')}
+          </div>
+        </Button>
+      ),
+      <Button
+        key="delete"
+        dark
+        variant="invert"
+        disabled={!Boolean(selectedIndexes.length)}
+        onClick={deleteFeatures}
+      >
+        <Trash24 />
+      </Button>,
+      <Button
+        key="download"
+        dark
+        variant="invert"
+        onClick={downloadDrawGeometry}
+      >
+        <Download24 />
+      </Button>,
+      <Button key="finish" onClick={onFinishClick}>
+        {settings.finishButtonText || i18n.t('Finish Drawing')}
+      </Button>,
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedIndexes.length, settings, onFinishClick],
+  );
 
   return activeDrawMode ? (
     <div className={s.drawToolsContainer}>
@@ -42,46 +102,12 @@ export const DrawToolsToolbox = () => {
       )}
 
       <ButtonGroup
-        onChange={(id) => toggleDrawMode(id as DrawModeType)}
+        onChange={onToggleDrawMode}
         current={activeDrawMode}
-        classes={{ groupContainer: s.toolBox, btnContainer: s.toolBoxBtn }}
+        classes={btnGroupClasses}
         borderWrap={false}
       >
-        {settings.availableModes?.includes('DrawPolygonMode') && (
-          <Button id={drawModes.DrawPolygonMode} dark variant="invert">
-            <div className={s.btnContent}>
-              <Area24 /> {i18n.t('Area')}
-            </div>
-          </Button>
-        )}
-        {settings.availableModes?.includes('DrawLineMode') && (
-          <Button id={drawModes.DrawLineMode} dark variant="invert">
-            <div className={s.btnContent}>
-              <Line24 /> {i18n.t('Line')}
-            </div>
-          </Button>
-        )}
-        {settings.availableModes?.includes('DrawPointMode') && (
-          <Button id={drawModes.DrawPointMode} dark variant="invert">
-            <div className={s.btnContent}>
-              <PointOutline24 /> {i18n.t('Point')}
-            </div>
-          </Button>
-        )}
-        <Button
-          dark
-          variant="invert"
-          disabled={!Boolean(selectedIndexes.length)}
-          onClick={deleteFeatures}
-        >
-          <Trash24 />
-        </Button>
-        <Button dark variant="invert" onClick={downloadDrawGeometry}>
-          <Download24 />
-        </Button>
-        <Button onClick={onFinishClick}>
-          {settings.finishButtonText || i18n.t('Finish Drawing')}
-        </Button>
+        {buttons}
       </ButtonGroup>
     </div>
   ) : null;
