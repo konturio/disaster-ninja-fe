@@ -1,7 +1,7 @@
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react'
 import { injectHtml } from 'vite-plugin-html';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
 // @ts-ignore
@@ -26,7 +26,7 @@ export default ({ mode }) => {
       },
     },
     plugins: [
-      mode === 'development' && reactRefresh(),
+      react(),
       mode === 'production' && viteBuildInfoPlugin(),
       injectHtml({
         data: {
