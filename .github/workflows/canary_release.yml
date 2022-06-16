@@ -3,7 +3,7 @@ on:
   workflow_run:
     workflows: ["build"]
     types: [completed]
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,7 +13,7 @@ jobs:
         with:
           workflow: build.yml
           workflow_conclusion: success
-          name: ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}
+          name: ${{ github.event.workflow_run.head_branch }}.${{ github.sha }}.${{ github.run_attempt }}
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
