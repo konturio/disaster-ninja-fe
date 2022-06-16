@@ -38,7 +38,7 @@ export function initFileUploader() {
         if (!map) return;
 
         const geometryCamera = getCameraForGeometry(geoJSON, map);
-        if (typeof geometryCamera === 'string') {
+        if (!geometryCamera || typeof geometryCamera === 'string') {
           currentNotificationAtom.showNotification.dispatch(
             'warning',
             { title: i18n.t('Not a valid geojson file') },
@@ -52,7 +52,6 @@ export function initFileUploader() {
           geoJSON,
         );
 
-        if (!geometryCamera) return;
         const { zoom, center } = geometryCamera;
         currentMapPositionAtom.setCurrentMapPosition.dispatch({
           zoom: Math.min(zoom, app_config.autoFocus.maxZoom),

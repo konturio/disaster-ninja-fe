@@ -1,17 +1,17 @@
 import { createAtom } from '~utils/atoms';
 import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
+import app_config from '~core/app_config';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { convertToAppMarker } from '~utils/map/markers';
 import { sideControlsBarAtom, focusedGeometryAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
+import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
 import { BOUNDARY_MARKER_ID } from '../constants';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 import { boundaryResourceAtom } from './boundaryResourceAtom';
 import { highlightedGeometry } from './highlightedGeometry';
 import { getSelectorWithOptions } from './../components/getSelectorWithOptions';
 import type { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
-import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
-import app_config from '~core/app_config';
 import type { Action } from '@reatom/core';
 
 const LOADING_OPTIONS = [
