@@ -70,4 +70,5 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
   },
   focusedGeometryAtom,
   'bivariateStatisticsResource',
+  true,
 );
