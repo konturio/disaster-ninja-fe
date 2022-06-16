@@ -8,9 +8,6 @@
 /.pnp
 .pnp.js
 
-#npm and yarn config
-.npmrc
-.yarnrc
 
 # testing
 /coverage
