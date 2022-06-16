@@ -1,5 +1,4 @@
 import { Plus24 } from '@konturio/default-icons';
-import turfBbox from '@turf/bbox';
 import {
   controlGroup,
   controlVisualGroup,
@@ -18,6 +17,7 @@ import {
   GEOMETRY_UPLOADER_CONTROL_NAME,
 } from './constants';
 import { askGeoJSONFile } from './askGeoJSONFile';
+import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
 
 export function initFileUploader() {
   sideControlsBarAtom.addControl.dispatch({
@@ -34,12 +34,11 @@ export function initFileUploader() {
        * because it's disable file upload popup.
        */
       askGeoJSONFile((geoJSON) => {
-        let bbox;
-        try {
-          // Turf can return 3d bbox, so we need to cut off potential extra data
-          // Turf also check if geojson is valid
-          bbox = turfBbox(geoJSON) as [number, number, number, number];
-        } catch (error) {
+        const map = currentMapAtom.getState();
+        if (!map) return;
+
+        const geometryCamera = getCameraForGeometry(geoJSON, map);
+        if (!geometryCamera || typeof geometryCamera === 'string') {
           currentNotificationAtom.showNotification.dispatch(
             'warning',
             { title: i18n.t('Not a valid geojson file') },
@@ -52,15 +51,8 @@ export function initFileUploader() {
           { type: 'uploaded' },
           geoJSON,
         );
-        const map = currentMapAtom.getState();
-        if (!map) return;
 
-        bbox.length = 4;
-        const camera = map.cameraForBounds(bbox, {
-          padding: app_config.autoFocus.desktopPaddings,
-        });
-        if (!camera) return;
-        const { zoom, center } = camera;
+        const { zoom, center } = geometryCamera;
         currentMapPositionAtom.setCurrentMapPosition.dispatch({
           zoom: Math.min(zoom, app_config.autoFocus.maxZoom),
           ...center,
