@@ -38,19 +38,26 @@ type ResourceCtx<P> = {
 function createResourceFetcherAtom<P, T>(
   fetcher: FetcherFunc<P, T> | FetcherFabric<P, T>,
   name: string,
+  autoFetchAtom?: Atom,
 ): ResourceAtomType<P, T> {
+  const deps = {
+    request: (params: P | null) => params,
+    refetch: () => undefined,
+    done: (data: T) => data,
+    error: (error: string) => error,
+    cancel: () => undefined,
+    loading: () => undefined,
+    finally: () => null,
+  };
+
+  if (autoFetchAtom) {
+    deps['autoFetch'] = autoFetchAtom;
+  }
+
   return createAtom(
-    {
-      request: (params: P | null) => params,
-      refetch: () => undefined,
-      done: (data: T) => data,
-      error: (error: string) => error,
-      cancel: () => undefined,
-      loading: () => undefined,
-      finally: () => null,
-    },
+    deps,
     (
-      { onAction, schedule, create },
+      { onAction, schedule, create, onChange },
       state: ResourceAtomState<T, P> = {
         loading: false,
         data: null,
@@ -60,6 +67,15 @@ function createResourceFetcherAtom<P, T>(
       },
     ) => {
       const newState = { ...state };
+
+      if (autoFetchAtom) {
+        // Use this hack to provide lazy resourceAtoms to depend on autofetch atom
+        // So, because autofetch atom is in dependency now, no need to manually trigger autofetch atom
+        // to start working with atom.subscribe(() => null) (see line 238). Atom will start working automatically when resourceFetcher
+        // atom is needed and stop working when all features that require resourceFetcher are off
+        // @ts-ignore
+        onChange('autoFetch', () => null);
+      }
 
       onAction('request', (params) => {
         newState.lastParams = params ? { ...params } : params;
@@ -169,13 +185,15 @@ export type ResourceAtomType<P, T> = AtomSelfBinded<
 >;
 
 let resourceAtomIndex = 0;
+const voidCallback = () => null;
 
 export function createResourceAtom<P, T>(
   fetcher: FetcherFunc<P, T> | FetcherFabric<P, T>,
   paramsAtom?: Atom<P> | ResourceAtom<any, any> | null,
   name = `Resource-${resourceAtomIndex++}`,
+  isLazy = false,
 ): ResourceAtomType<P, T> {
-  const resourceFetcherAtom = createResourceFetcherAtom<P, T>(fetcher, name);
+  let resourceFetcherAtom: ResourceAtomType<P, T>;
 
   if (paramsAtom) {
     const autoFetchAtom = createAtom(
@@ -211,10 +229,23 @@ export function createResourceAtom<P, T>(
         });
       },
     );
-    // Start after core modules loaded
-    setTimeout(() => {
-      autoFetchAtom.subscribe(() => null);
-    });
+
+    if (isLazy) {
+      resourceFetcherAtom = createResourceFetcherAtom<P, T>(
+        fetcher,
+        name,
+        autoFetchAtom,
+      );
+    } else {
+      resourceFetcherAtom = createResourceFetcherAtom<P, T>(fetcher, name);
+      // Start after core modules loaded
+      setTimeout(() => {
+        autoFetchAtom.subscribe(voidCallback);
+      });
+    }
+  } else {
+    resourceFetcherAtom = createResourceFetcherAtom<P, T>(fetcher, name);
   }
+
   return resourceFetcherAtom;
 }

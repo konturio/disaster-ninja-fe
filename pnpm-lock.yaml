@@ -1,8 +1,5 @@
 lockfileVersion: 5.3
 
-overrides:
-  '@turf/difference': 6.0.1
-
 specifiers:
   '@deck.gl/core': ^8.7.11
   '@deck.gl/extensions': ^8.6.4
@@ -13,7 +10,7 @@ specifiers:
   '@konturio/default-icons': ^2.0.0-alpha.21
   '@konturio/default-theme': ^2.4.0-alpha.10
   '@konturio/ui-kit': ^3.0.0-alpha.39
-  '@loaders.gl/core': ^3.0.9
+  '@loaders.gl/core': ^3.2.3
   '@nebula.gl/edit-modes': 1.0.2-alpha.0
   '@nebula.gl/layers': 1.0.2-alpha.0
   '@reatom/core': ^2.0.20
