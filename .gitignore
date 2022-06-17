@@ -1,6 +1,7 @@
 #ide folders
 /.idea
 /.vscode
+/.husky
 
 # dependencies
 /pnpm-global

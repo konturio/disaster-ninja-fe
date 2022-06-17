@@ -1,0 +1,6 @@
+{
+ "hooks": {
+  "pre-commit": "npx --no-install lint-staged",
+  "pre-push": "git diff HEAD --quiet && npm run typecheck && npm run depcruise"
+ }
+}
