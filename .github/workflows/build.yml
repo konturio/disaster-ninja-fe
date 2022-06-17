@@ -1,5 +1,10 @@
 name: build
-on: [push]
+on:
+  push:
+    branches:
+      - 'main'
+      - 'release-*'
+  workflow_dispatch:
 env:
   NODE_ENV: production
   AVA_FORCE_CI: 'not-ci'
