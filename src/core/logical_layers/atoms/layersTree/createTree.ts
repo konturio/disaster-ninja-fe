@@ -28,6 +28,10 @@ export function createTree(
   };
 
   layers.forEach((layer) => {
+    if (layer.category && !layer.group) {
+      // this is error handling case - we expect layers that have category to also have group name
+      layer.group = 'Undefined group';
+    }
     if (!layer.group) {
       // It's a root layer, because layer without group can't be children of category too
       tree.children.push(layer);
