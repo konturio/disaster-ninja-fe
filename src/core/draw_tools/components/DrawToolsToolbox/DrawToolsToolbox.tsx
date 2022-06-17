@@ -21,6 +21,7 @@ const btnGroupClasses = {
 };
 
 export const DrawToolsToolbox = () => {
+  console.log('test');
   const [
     { mode: activeDrawMode, selectedIndexes, drawingIsStarted, settings },
     { deleteFeatures, toggleDrawMode, finishDrawing, downloadDrawGeometry },
