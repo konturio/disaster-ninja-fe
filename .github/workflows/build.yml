@@ -5,7 +5,7 @@ on:
       - 'main'
       - 'release-*'
   pull_request:
-    types: [ opened, edited ]
+    types: [ opened, synchronize ]
   workflow_dispatch:
 env:
   NODE_ENV: production
