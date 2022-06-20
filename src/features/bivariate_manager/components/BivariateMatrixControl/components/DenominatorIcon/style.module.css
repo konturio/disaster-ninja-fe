@@ -1,0 +1,20 @@
+.denominatorIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(0.9);
+}
+
+:global(.horizontal) .denominatorIcon {
+  margin-left: 4px;
+  width: 24px;
+}
+
+:global(.vertical) .denominatorIcon {
+  margin-top: 4px;
+  height: 24px;
+}
+
+:global(.vertical) .denominatorIcon > svg {
+  transform: rotate(90deg);
+}
