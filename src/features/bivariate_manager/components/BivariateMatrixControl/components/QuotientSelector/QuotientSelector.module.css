@@ -1,0 +1,123 @@
+.denominators {
+  position: relative;
+}
+
+.row.denominators {
+  margin-right: 5px;
+}
+
+.column.denominators {
+  margin-bottom: 5px;
+}
+
+.denominatorSelector {
+  font-size: 18px;
+  background: #333;
+  color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 23px;
+  width: 24px;
+  cursor: pointer;
+}
+
+.denominatorSelector.disabled {
+  background: #bbb;
+  pointer-events: none;
+}
+
+.denominatorSelector:hover {
+  background: #666;
+}
+
+.column .denominatorSelector {
+  transform: rotate(90deg);
+  flex-direction: row;
+}
+
+.row .denominatorSelector {
+  flex-direction: column;
+}
+
+.denominatorsContainer {
+  position: absolute;
+  background: #f5f5f5;
+  line-height: 25px;
+  -webkit-text-stroke-width: 0;
+  z-index: 2;
+}
+
+.column .denominatorsContainer {
+  top: -62px;
+  right: 22px;
+  box-shadow: -3px 3px 4px rgb(31 51 73 / 15%);
+  max-width: 250px;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+.column .denominatorsContainer :global(.quotientLabel) {
+  border-top: 24px solid #e5e5e5;
+  padding-top: 5px;
+}
+
+.row .denominatorsContainer {
+  left: -62px;
+  top: 22px;
+  box-shadow: 3px 3px 4px rgb(31 51 73 / 15%);
+  max-height: 250px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+.row .denominatorsContainer :global(.quotientLabel) {
+  border-left: 24px solid #e5e5e5;
+  padding-left: 5px;
+}
+
+.denominatorsContainer > div {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.denominatorsContainer > div:hover {
+  background: #777;
+  color: #eee;
+}
+
+.denominatorsContainer > div:hover :global(.qualityLabel) {
+  color: #eee;
+}
+
+.denominatorsContainer > div:hover > span {
+  color: #eee;
+  fill: #eee;
+}
+
+.column .denominatorsContainer > div:hover :global(.quotientLabel) {
+  border-top: 24px solid #555;
+}
+
+.row .denominatorsContainer > div:hover :global(.quotientLabel) {
+  border-left: 24px solid #555;
+}
+
+.row .denominatorsContainer > div {
+  padding-right: 10px;
+  border-bottom: 1px dotted #999;
+}
+
+.column .denominatorsContainer > div {
+  padding-bottom: 10px;
+  border-right: 1px dotted #999;
+}
