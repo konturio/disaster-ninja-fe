@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-cosmos/dist/generateWebExport.js b/node_modules/react-cosmos/dist/generateWebExport.js
+index a6421d2..672e176 100644
+--- a/node_modules/react-cosmos/dist/generateWebExport.js
++++ b/node_modules/react-cosmos/dist/generateWebExport.js
+@@ -24,7 +24,9 @@ function _generateWebExport() {
+         switch (_context.prev = _context.next) {
+           case 0:
+             _context.next = 2;
+-            return (0, _generateExport.generateExport)([_webpack.webpackExport]);
++
++            // As we have vite bundler and do not need webpack to be run
++            return (0, _generateExport.generateExport)([]);
+ 
+           case 2:
+           case "end":
