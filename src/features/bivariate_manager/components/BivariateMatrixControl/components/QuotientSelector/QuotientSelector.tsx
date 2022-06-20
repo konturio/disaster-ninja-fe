@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react';
-import DenominatorIcon from '../DenominatorIcon/DenominatorIcon';
 import cn from 'clsx';
+import DenominatorIcon from '../DenominatorIcon/DenominatorIcon';
 import { useHeadingGlobalState } from '../../utils/globalState';
 import styles from './QuotientSelector.module.css';
 

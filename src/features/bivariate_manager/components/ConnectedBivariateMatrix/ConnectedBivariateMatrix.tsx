@@ -1,10 +1,10 @@
-import { BivariateMatrixControlComponent } from '@konturio/ui-kit';
 import { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useAtom } from '@reatom/react';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { bivariateCorrelationMatrixAtom } from '~features/bivariate_manager/atoms/bivatiateCorrelationMatrix';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
+import { BivariateMatrixControlComponent } from '../BivariateMatrixControl';
 import type { AxisGroup } from '~core/types';
 import type { Indicator, CorrelationRate } from '~utils/bivariate';
 
