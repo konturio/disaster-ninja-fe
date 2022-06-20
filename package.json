@@ -7,6 +7,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
+    "cosmos": "run-p auto:cosmos:renderer auto:cosmos auto:open",
+    "cosmos:build": "run-s auto:cosmos:export auto:cosmos:renderer:export",
     "build": "vite build",
     "serve": "vite preview",
     "typecheck": "tsc --noEmit",
@@ -25,7 +27,12 @@
     "patch": "patch-package",
     "docker:build": "docker build -f ./Dockerfile ./ -t ghcr.io/konturio/disaster-ninja-fe:latest",
     "docker:run": "docker run --rm -d -p 80:80/tcp ghcr.io/konturio/disaster-ninja-fe:latest",
-    "prepare": "node ./scripts/husky-prepare.js"
+    "prepare": "node ./scripts/husky-prepare.js",
+    "auto:open": "npx open-cli http://localhost:5000",
+    "auto:cosmos": "cosmos --config cosmos.config.json",
+    "auto:cosmos:export": "patch-package && cosmos-export --config cosmos.config.export.json",
+    "auto:cosmos:renderer": "vite --config cosmos.vite.config.ts --force serve --port=8080",
+    "auto:cosmos:renderer:export": "vite build --config cosmos.vite.config.ts"
   },
   "lint-staged": {
     "*/**/*.{ts, tsx}": [
@@ -148,6 +155,9 @@
     "@types/uuid": "^8.3.4",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.0",
-    "react-test-renderer": "^17.0.0"
+    "open-cli": "^7.0.0",
+    "react-cosmos": "5.7.2",
+    "react-test-renderer": "^17.0.0",
+    "patch-package": "6.4.7"
   }
 }

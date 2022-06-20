@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/react-cosmos/config.schema.json",
+  "watchDirs": ["src"],
+  "userDepsFilePath": "cosmos/cosmos.userdeps.js",
+  "experimentalRendererUrl": "renderer.html",
+  "globalImports": [
+    "node_modules/@konturio/default-theme/variables.css",
+    "node_modules/@konturio/default-theme/defaults.css",
+    "node_modules/@konturio/default-theme/typography.css"
+  ]
+}
