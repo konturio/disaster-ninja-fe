@@ -9,7 +9,8 @@ import './../node_modules/@konturio/default-theme/typography.css';
 
 import fixture0 from './../src/features/bivariate_manager/components/BivariateMatrixControl/react-cosmos/BivariateMatrixControl.fixture.tsx';
 
-import decorator0 from './../src/cosmos.decorator.tsx';
+import decorator0 from './../cosmos.decorator.tsx';
+import decorator1 from './../src/cosmos.decorator.tsx';
 
 export const rendererConfig = {
   port: 5000,
@@ -21,5 +22,6 @@ export const fixtures = {
 };
 
 export const decorators = {
-  'src/cosmos.decorator.tsx': decorator0,
+  'cosmos.decorator.tsx': decorator0,
+  'src/cosmos.decorator.tsx': decorator1,
 };

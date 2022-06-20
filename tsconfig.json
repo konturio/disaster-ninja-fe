@@ -37,9 +37,16 @@
     "./src/**/*.tsx",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/utils/map/mapCSSToMapBoxPropertiesConverter/__test__/mapCSSToMapBoxPropertiesConverter.test.js",
+    "src/utils/map/mapCSSToMapBoxPropertiesConverter/__test__/mapCSSToMapBoxPropertiesConverter.test.js"
   ],
-  "exclude": ["**/*.test.tsx", "./**/*.fixture.tsx", "./**/fixture/*.*"],
+  "exclude": [
+    "**/*.test.tsx",
+    "./**/*.fixture.tsx",
+    "./**/*.decorator.tsx",
+    "./**/fixture/*.*",
+    "./cosmos/*.*",
+    "./cosmos-export/*.*"
+  ],
   "types": ["@types/react"],
   "typeRoots": ["./node_modules/@types"]
 }
