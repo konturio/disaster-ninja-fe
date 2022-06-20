@@ -149,15 +149,14 @@
     "uuid": "^8.3.2",
     "vite": "^2.6.14",
     "vite-plugin-html": "^2.1.1",
-    "vitest": "^0.14.1"
+    "vitest": "^0.14.1",
+    "open-cli": "^7.0.0",
+    "react-cosmos": "5.7.2",
+    "react-test-renderer": "^17.0.0"
   },
   "devDependencies": {
     "@types/uuid": "^8.3.4",
     "husky": "^8.0.1",
-    "lint-staged": "^13.0.0",
-    "open-cli": "^7.0.0",
-    "react-cosmos": "5.7.2",
-    "react-test-renderer": "^17.0.0",
-    "patch-package": "6.4.7"
+    "lint-staged": "^13.0.0"
   }
 }
