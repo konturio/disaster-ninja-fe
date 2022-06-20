@@ -1,6 +1,6 @@
-import { mock } from './mocks/mock-20';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { BivariateMatrixControlComponent } from '../index';
+import { mock } from './mocks/mock-20';
 import styles from './BivariateMatrixControlFixture.module.css';
 
 type AxisGroup = {
