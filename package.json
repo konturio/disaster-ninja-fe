@@ -151,7 +151,8 @@
     "vite-plugin-html": "^2.1.1",
     "vitest": "^0.14.1",
     "open-cli": "^7.0.0",
-    "react-cosmos": "5.7.2"
+    "react-cosmos": "5.7.2",
+    "@uiw/react-github-corners": "1.5.14"
   },
   "devDependencies": {
     "@types/uuid": "^8.3.4",
