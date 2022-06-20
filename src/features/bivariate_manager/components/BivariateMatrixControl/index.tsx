@@ -5,11 +5,11 @@ import {
   useBaseMatrixDimension,
   useGridStyle,
 } from './utils/utils';
-import { BivariateMatrixHeadingType } from './types';
 import { BivariateMatrixCell } from './components/BivariateMatrixCell/BivariateMatrixCell';
 import styles from './style.module.css';
 import { BivariateMatrixCellConnector } from './components/BivariateMatrixConnector/BivariateMatrixCellConnector';
 import { BivariateMatrixHeadingEntry } from './components/BivariateMatrixHeadingEntry/BivariateMatrixHeadingEntry';
+import type { BivariateMatrixHeadingType } from './types';
 
 const CELL_INDEX_X_OFFSET = 3;
 const CELL_INDEX_Y_OFFSET = 3;

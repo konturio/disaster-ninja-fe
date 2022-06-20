@@ -1,6 +1,6 @@
 import cn from 'clsx';
-import styles from './BivariateMatrixCell.module.css';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
+import styles from './BivariateMatrixCell.module.css';
 
 interface CellProps {
   value?: number;
