@@ -1,7 +1,7 @@
 name: Deploy master branch to GitHub Pages
 on:
   push:
-    branches: [10430-add-cosmos]
+    branches: [main]
 permissions:
   contents: write
 
