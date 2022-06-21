@@ -28,13 +28,13 @@
     "prepare": "node ./scripts/husky-prepare.js"
   },
   "lint-staged": {
-    "*/**/*.{ts, tsx}": [
-      "eslint --fix --cache --rule 'no-console: error'"
+    "**/*.{ts,tsx}": [
+      "eslint --cache --fix --quiet --rule 'no-console: error'"
     ],
-    "*/**/*.css": [
+    "**/*.css": [
       "stylelint"
     ],
-    "*/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+    "**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write"
     ]
   },
