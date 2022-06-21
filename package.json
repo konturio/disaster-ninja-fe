@@ -29,7 +29,7 @@
   },
   "lint-staged": {
     "*/**/*.{ts, tsx}": [
-      "eslint --fix --cache"
+      "eslint --fix --cache --rule 'no-console: error'"
     ],
     "*/**/*.css": [
       "stylelint"
