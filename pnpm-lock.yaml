@@ -7,9 +7,9 @@ specifiers:
   '@deck.gl/layers': ^8.5.4
   '@deck.gl/mapbox': ^8.6.4
   '@deck.gl/mesh-layers': ^8.5.4
-  '@konturio/default-icons': ^2.0.0-alpha.21
-  '@konturio/default-theme': ^2.4.0-alpha.10
-  '@konturio/ui-kit': ^3.0.0-alpha.39
+  '@konturio/default-icons': ^2.0.0-alpha.22
+  '@konturio/default-theme': ^2.4.0-alpha.11
+  '@konturio/ui-kit': ^3.0.0-alpha.41
   '@loaders.gl/core': ^3.2.3
   '@nebula.gl/edit-modes': 1.0.2-alpha.0
   '@nebula.gl/layers': 1.0.2-alpha.0
@@ -105,9 +105,9 @@ dependencies:
   '@deck.gl/layers': 8.7.11_klxh4t4j4qrqujttpgba6ia56m
   '@deck.gl/mapbox': 8.7.11_@deck.gl+core@8.7.11
   '@deck.gl/mesh-layers': 8.7.11_@deck.gl+core@8.7.11
-  '@konturio/default-icons': 2.0.0-alpha.21_react@17.0.2
-  '@konturio/default-theme': 2.4.0-alpha.10
-  '@konturio/ui-kit': 3.0.0-alpha.39_rjmliwsbjyxn55dukhldt6h3ne
+  '@konturio/default-icons': 2.0.0-alpha.22_react@17.0.2
+  '@konturio/default-theme': 2.4.0-alpha.11
+  '@konturio/ui-kit': 3.0.0-alpha.41_rjmliwsbjyxn55dukhldt6h3ne
   '@loaders.gl/core': 3.2.3
   '@nebula.gl/edit-modes': 1.0.2-alpha.0
   '@nebula.gl/layers': 1.0.2-alpha.0_zf7kgprmbplh6hhj5y5pz73ppm
@@ -677,20 +677,20 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.13
     dev: false
 
-  /@konturio/default-icons/2.0.0-alpha.21_react@17.0.2:
-    resolution: {integrity: sha512-OECzR8Vx+L4NCdwrZJsRT8eSmwMxLfllWiUapOf65m6Ffx+ilhRKqIinU1dOKemVHdfZEloXPiopPKKT44c+MA==}
+  /@konturio/default-icons/2.0.0-alpha.22_react@17.0.2:
+    resolution: {integrity: sha512-oPlt+BuMLSiVAjzyA6LWy2/roi+I/9949iWali4N7aIJap9//sjtYsLeNf2OOx1IrZVOJ7Pj6WTNWdaI1U4OFg==}
     peerDependencies:
       react: ^17.0.2
     dependencies:
       react: 17.0.2
     dev: false
 
-  /@konturio/default-theme/2.4.0-alpha.10:
-    resolution: {integrity: sha512-5hz5wK5wQBY7ESlLej5f/6784FUw9pPKnBirdwIKRHTUqW8gbCLSAuI8YfSH2/8//lnbkS0AdwlFF0lOMfZ47A==}
+  /@konturio/default-theme/2.4.0-alpha.11:
+    resolution: {integrity: sha512-w1bazwHIdf7zulKSd29jTl3MUENPd4HFTkJz9oxeE6BSJw7ibf9qoab/3/fWPWqc10uxgjxNl8917o3FS8Jaqw==}
     dev: false
 
-  /@konturio/ui-kit/3.0.0-alpha.39_rjmliwsbjyxn55dukhldt6h3ne:
-    resolution: {integrity: sha512-I3qFleFdEMaikBk+4WK4gnpXqAx9WKeyAjHmlHeHSN34dlvAwMcLAKDasj38f/UOfBEyDVVEEdDLq9rz6sNwjQ==}
+  /@konturio/ui-kit/3.0.0-alpha.41_rjmliwsbjyxn55dukhldt6h3ne:
+    resolution: {integrity: sha512-k5U7eQizsiZpCJTwb4ziRNio6zVik6VQlEEc6TUImFSouTJrDSxl1RkSnY1aO1Kqyc0rHzw3vqUgLYujA9po3A==}
     peerDependencies:
       clsx: ^1.1.1
       react: ^17.0.2
