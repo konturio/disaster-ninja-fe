@@ -35,8 +35,8 @@
     "auto:cosmos:renderer:export": "vite build --config cosmos.vite.config.ts"
   },
   "lint-staged": {
-    "*/**/*.{ts, tsx}": [
-      "eslint --fix --cache"
+    "*/**/*.{ts,tsx}": [
+      "eslint --cache --fix --rule 'no-console: error'"
     ],
     "*/**/*.css": [
       "stylelint"
