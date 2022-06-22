@@ -22,7 +22,7 @@
     "lint:js": "eslint --quiet --ext .tsx,.ts src/",
     "lint:css": "stylelint ./src/**/*.css",
     "depcruise": "depcruise --config .dependency-cruiser.cjs src",
-    "postinstall": "run-s fixtypes patch",
+    "postinstall": "npm-run-all fixtypes patch",
     "fixtypes": "node ./scripts/fix-deckgl-types.mjs",
     "patch": "patch-package",
     "docker:build": "docker build -f ./Dockerfile ./ -t ghcr.io/konturio/disaster-ninja-fe:latest",
