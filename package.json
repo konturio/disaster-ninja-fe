@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "vite",
     "cosmos": "run-p auto:cosmos:renderer auto:cosmos auto:open",
-    "cosmos:build": "npm-run-all auto:cosmos:export auto:cosmos:renderer:export",
+    "cosmos:build": "run-s auto:cosmos:export auto:cosmos:renderer:export",
     "build": "vite build",
     "serve": "vite preview",
     "typecheck": "tsc --noEmit",
