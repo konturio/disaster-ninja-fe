@@ -1,11 +1,11 @@
 import { useAction, useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
-import { v4 as uuidv4 } from 'uuid';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { controlsOrder } from '../../constants';
 import { sortByPredefinedOrder } from './sortByPredefinedOrder';
 import s from './SideBar.module.css';
+import { nanoid } from 'nanoid';
 
 export function SideBar() {
   const [controls] = useAtom(sideControlsBarAtom);
@@ -31,7 +31,7 @@ export function SideBar() {
     <ActionsBar>
       {sortByPredefinedOrder(Object.values(controls), controlsOrder).map(
         (control) => (
-          <div key={uuidv4()} className={s.sideBarContainer}>
+          <div key={nanoid(4)} className={s.sideBarContainer}>
             <div
               className={s.buttonWrap}
               onClick={() =>

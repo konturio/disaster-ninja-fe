@@ -16,7 +16,7 @@ jobs:
 
       - name: Run cosmos:build to build static
         run: |
-          npm ci
+          npm ci --also=dev
           npm run cosmos:build
 
       - name: Deploy 🚀
