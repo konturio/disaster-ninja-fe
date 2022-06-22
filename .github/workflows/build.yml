@@ -5,7 +5,11 @@ on:
       - 'main'
       - 'release-*'
   pull_request:
-    types: [ opened, synchronize ]
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review    
   workflow_dispatch:
 env:
   NODE_ENV: production
@@ -13,6 +17,7 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
