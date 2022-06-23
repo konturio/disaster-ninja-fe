@@ -9,7 +9,7 @@ on:
       - opened
       - reopened
       - synchronize
-      - ready_for_review    
+      - ready_for_review
   workflow_dispatch:
 env:
   NODE_ENV: production
