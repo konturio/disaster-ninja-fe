@@ -1,9 +1,10 @@
 import {
   GeoJsonEditMode,
   ModifyMode,
-  TransformMode,
+  // TransformMode,
   ImmutableFeatureCollection,
 } from '@nebula.gl/edit-modes';
+import { CustomTransformMode } from './CustomTransformMode';
 import type { FeatureCollection } from '@nebula.gl/edit-modes/dist/geojson-types';
 import type {
   ModeProps,
@@ -77,7 +78,7 @@ export class CustomModifyMode extends GeoJsonEditMode {
           this._submodesCache[submodeName] = new ModifyMode();
           break;
         case 'Transform':
-          this._submodesCache[submodeName] = new TransformMode();
+          this._submodesCache[submodeName] = new CustomTransformMode();
           break;
       }
     }
