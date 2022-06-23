@@ -67,7 +67,7 @@
     "@konturio/default-icons": "^2.0.0-alpha.22",
     "@konturio/default-theme": "^2.4.0-alpha.11",
     "@konturio/ui-kit": "^3.0.0-alpha.42",
-    "@loaders.gl/core": "^3.2.3",
+    "@loaders.gl/core": "3.2.0",
     "@nebula.gl/edit-modes": "1.0.2-alpha.0",
     "@nebula.gl/layers": "1.0.2-alpha.0",
     "@reatom/core": "^2.0.20",
