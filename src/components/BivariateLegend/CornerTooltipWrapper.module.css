@@ -1,0 +1,31 @@
+.tooltipRoot {
+  max-width: 225px;
+  display: flex;
+  flex-direction: column;
+  font-size: 10px;
+  font-weight: 400;
+  padding: 0 var(--half-unit) var(--half-unit) var(--half-unit);
+  line-height: 14px;
+}
+
+.tooltipRow {
+  display: flex;
+  gap: 13px;
+  justify-content: flex-start;
+}
+
+.sentimentDirection {
+  color: var(--text-faint-strong);
+}
+
+.sentimentLabel {
+  padding-right: 5px;
+}
+
+.sentimentInfo {
+  display: inline;
+}
+
+.indicator {
+  width: 29px;
+}
