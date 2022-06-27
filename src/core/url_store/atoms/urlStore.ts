@@ -108,9 +108,7 @@ export const urlStoreAtom = createAtom(
         }
 
         // Apply application id
-        if (state.app) {
-          actions.push(currentApplicationAtom.set(state.app));
-        }
+        actions.push(currentApplicationAtom.init(state.app));
 
         // Done
         actions.push(initFlagAtom.setTrue());

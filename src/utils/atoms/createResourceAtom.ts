@@ -1,6 +1,6 @@
 import { isObject } from '@reatom/core';
-import type { Atom, AtomSelfBinded, Action } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
+import type { Atom, AtomSelfBinded, Action } from '@reatom/core';
 
 export type ResourceAtom<P, T> = AtomSelfBinded<
   ResourceAtomState<T, P>,
@@ -245,6 +245,8 @@ export function createResourceAtom<P, T>(
     }
   } else {
     resourceFetcherAtom = createResourceFetcherAtom<P, T>(fetcher, name);
+    // auto start resource atom that has no params atom controlling it's flow
+    resourceFetcherAtom.request.dispatch(null);
   }
 
   return resourceFetcherAtom;

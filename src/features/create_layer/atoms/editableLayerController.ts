@@ -1,19 +1,20 @@
 import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
+import { currentApplicationAtom } from '~core/shared_state';
 import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
 import { createLayerEditorFormAtom } from './layerEditorForm';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
 import { editableLayerSettingsAtom } from './editableLayerSettings';
 import { editTargetAtom } from './editTarget';
 import { editableLayersListResource } from './editableLayersListResource';
-import type {
-  LayerEditorFormModel,
-  EditableLayerFieldType,
-  EditableLayers,
-} from '../types';
 import type { LayerEditorFormFieldAtomType } from './layerEditorFormField';
 import type { LayerEditorFormAtomType } from './layerEditorForm';
+import type {
+  EditableLayerFieldType,
+  EditableLayers,
+  LayerEditorFormModel,
+} from '../types';
 
 type EditableLayerAtomStateType = {
   loading: boolean;
@@ -107,10 +108,8 @@ export const editableLayerControllerAtom = createAtom(
 
         schedule(async (dispatch) => {
           try {
-            // TODO - use shared appId from core (fix in #9817)
-            const appId = await apiClient.get('/apps/default_id');
             // @ts-expect-error temporary code
-            data.appId = appId;
+            data.appId = getUnlistedState(currentApplicationAtom);
             let responseData: EditableLayers | undefined;
             if (data.id) {
               responseData = await apiClient.put<EditableLayers>(
