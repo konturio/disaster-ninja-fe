@@ -64,6 +64,11 @@ export function ConnectedMap({
 
   useEffect(() => {
     if (mapRef.current) {
+      console.info(
+        'Map instance available by window.KONTUR_MAP',
+        mapRef.current,
+      );
+      globalThis.KONTUR_MAP = mapRef.current;
       // @ts-expect-error Fix for react dev tools
       mapRef.current.toJSON = () => '[Mapbox Object]';
       // Fix - map fitBounds for incorrectly, because have incorrect internal state abut self canvas size
