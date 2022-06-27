@@ -273,8 +273,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     if (!isVisible) this.willHide({ map });
 
     /* Add event listener */
-    // !FIXME - Hardcoded filter for layer
-    // Must be deleted after LayersDB implemented
+    /* !FIXME - Hardcoded filter for layer */
+    /* Must be deleted after LayersDB implemented */
     if (this.id === 'activeContributors') {
       if (!this._removeClickListener) {
         const onClick = onActiveContributorsClick(map, this._sourceId);

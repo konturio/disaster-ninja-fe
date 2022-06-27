@@ -14,7 +14,7 @@ import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer'
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 
 /**
- * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
+ * mapLibre have very expensive event handler with getClientRects. So, sometimes it took almost ~1 second!
  * I found that if i call setLayer by requestAnimationFrame callback - UI becomes much more responsive!
  */
 export class BivariateRenderer extends LogicalLayerDefaultRenderer {
