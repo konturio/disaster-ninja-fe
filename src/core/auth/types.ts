@@ -28,7 +28,6 @@ export const AppFeature = {
   GEOMETRY_UPLOADER: 'geometry_uploader',
   LEGEND_PANEL: 'legend_panel',
   REPORTS: 'reports',
-  URL_STORE: 'url_store',
   INTERACTIVE_MAP: 'interactive_map',
   CURRENT_EPISODE: 'current_episode',
   GEOCODER: 'geocoder',

@@ -17,7 +17,7 @@ import type { CurrentUser } from '~core/shared_state/currentUser';
 type UserResourceRequestParams = {
   userData?: CurrentUser;
   applicationId?: string | null;
-};
+} | null;
 
 const userResourceRequestParamsAtom = createAtom(
   {
@@ -26,11 +26,16 @@ const userResourceRequestParamsAtom = createAtom(
   },
   (
     { get },
-    state: UserResourceRequestParams = {},
+    state: UserResourceRequestParams = null,
   ): UserResourceRequestParams => {
+    const applicationId = get('currentApplicationAtom');
+    const userData = get('currentUserAtom');
+
+    if (!applicationId) return state;
+
     return {
-      userData: get('currentUserAtom'),
-      applicationId: get('currentApplicationAtom'),
+      userData,
+      applicationId,
     };
   },
   'userResourceRequestParamsAtom',
@@ -44,12 +49,9 @@ export const userResourceAtom = createResourceAtom<
     if (!params) return;
     const { userData, applicationId } = params;
 
-    // TODO: Remove full address when Userprofile API service will be moved to the main app API
-    const query = { appId: applicationId };
-
     const featuresResponse = apiClient.get<BackendFeature[]>(
-      config.featuresApi,
-      query,
+      `/features`,
+      { appId: applicationId },
       userData?.id !== PUBLIC_USER_ID,
       { errorsConfig: { dontShowErrors: true } },
     );
