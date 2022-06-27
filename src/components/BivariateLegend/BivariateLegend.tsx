@@ -10,7 +10,7 @@ import type { BivariateLegend as BivariateLegendType } from '~core/logical_layer
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 
-type BivariateLegendProps = {
+export type BivariateLegendProps = {
   meta: LayerMeta | null;
   legend: LayerLegend | null;
   name: string;
