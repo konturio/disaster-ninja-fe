@@ -28,9 +28,9 @@ const CornerTooltipWrapper = ({
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
   const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
 
-  function onMouseEnter(
+  function onPointerOver(
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    cell: Cell,
+    _cell: Cell,
     i: number,
   ) {
     const cornerIndex = CORNER_POINTS_INDEXES.indexOf(i);
@@ -45,14 +45,14 @@ const CornerTooltipWrapper = ({
     }
   }
 
-  function onMouseLeave() {
+  function onPointerLeave() {
     resetTooltip();
   }
 
   return isValidElement(children)
     ? cloneElement(children, {
-        onCellMouseEnter: onMouseEnter,
-        onCellMouseLeave: onMouseLeave,
+        onCellPointerOver: onPointerOver,
+        onCellPointerLeave: onPointerLeave,
       })
     : null;
 };
@@ -85,20 +85,20 @@ const BivariateLegendCornerTooltip = ({
       label: hints.x?.label,
       direction:
         hints.x?.directions?.[isBottomCornerPoint(cornerIndex) ? 0 : 1],
+      indicator: isBottomCornerPoint(cornerIndex) ? '↓Low' : '↑High',
     },
     {
       label: hints.y?.label,
       direction: hints.y?.directions?.[isLeftCornerPoint(cornerIndex) ? 0 : 1],
+      indicator: isLeftCornerPoint(cornerIndex) ? '↓Low' : '↑High',
     },
   ];
 
   return (
     <div className={clsx(s.tooltipRoot)}>
-      {rows.map(({ label, direction }, i) => (
+      {rows.map(({ label, direction, indicator }, i) => (
         <div key={i} className={clsx(s.tooltipRow)}>
-          <span className={clsx(s.indicator)}>
-            {isBottomCornerPoint(cornerIndex) ? '↓Low' : '↑High'}
-          </span>
+          <span className={clsx(s.indicator)}>{indicator}</span>
 
           <span className={clsx(s.sentimentInfo)}>
             <span className={clsx(s.sentimentLabel)}>{label} </span>
