@@ -1,18 +1,27 @@
-import { createAtom, createResourceAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 
 export const currentApplicationAtom = createAtom(
   {
     init: (appid?: string) => appid,
+    _update: (val: string) => val,
   },
-  ({ onAction }, state = '') => {
-    onAction('init', async (appid) => {
+  ({ onAction, schedule, create }, state = '') => {
+    onAction('init', (appid) => {
       if (!appid) {
-        const response = await apiClient.get<string>('/apps/default_id');
-        state = response || '';
+        schedule(async (dispatch) => {
+          const response = await apiClient.get<string>('/apps/default_id');
+          if (response) {
+            dispatch(create('_update', response));
+          }
+        });
       } else {
         state = appid;
       }
+    });
+
+    onAction('_update', (val) => {
+      state = val;
     });
 
     return state;
