@@ -8,6 +8,7 @@ import type {
   GuideFeatureCollection,
   PointerMoveEvent,
   FeatureCollection,
+  Position,
 } from '@nebula.gl/edit-modes';
 import type { TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
 
@@ -79,7 +80,7 @@ export class CustomMeasureAreaMode extends GeoJsonEditMode {
 
       return [
         {
-          position: centroid?.geometry?.coordinates,
+          position: centroid?.geometry?.coordinates as Position,
           text,
         },
       ];
@@ -91,7 +92,7 @@ export class CustomMeasureAreaMode extends GeoJsonEditMode {
     const { lastPointerMoveEvent } = props;
 
     const guides = {
-      type: 'FeatureCollection',
+      type: 'FeatureCollection' as const,
       features: new Array<any>(),
     };
 

@@ -2,6 +2,7 @@ import { CustomModifyMode } from '../map-daw-tools/customDrawModes/CustomModifyM
 import type {
   ClickEvent,
   FeatureCollection,
+  GuideFeatureCollection,
   ModeProps,
 } from '@nebula.gl/edit-modes';
 
@@ -115,7 +116,7 @@ export class LocalModifyMode extends CustomModifyMode {
     }
   }
 
-  getGuides(props) {
+  getGuides(props): GuideFeatureCollection | null {
     // getGuides() for rotate mode with no features will throw error
     if (!props.data?.features?.length || !props.selectedIndexes?.length)
       return null;

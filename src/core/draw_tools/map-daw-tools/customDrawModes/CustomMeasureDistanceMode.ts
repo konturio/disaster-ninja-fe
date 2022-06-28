@@ -187,7 +187,7 @@ export class CustomMeasureDistanceMode extends GeoJsonEditMode {
     const clickSequence = this['getClickSequence']();
 
     const guides = {
-      type: 'FeatureCollection',
+      type: 'FeatureCollection' as const,
       features: new Array<any>(),
     };
 

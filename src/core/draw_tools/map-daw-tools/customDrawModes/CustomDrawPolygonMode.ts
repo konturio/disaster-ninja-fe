@@ -81,9 +81,9 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
   getGuides(props: ModeProps<FeatureCollection>): GuideFeatureCollection {
     const clickSequence = this['getClickSequence']();
 
-    const guides: GeoJSON.FeatureCollection = {
-      type: 'FeatureCollection',
-      features: [],
+    const guides = {
+      type: 'FeatureCollection' as const,
+      features: new Array<any>(),
     };
 
     const tentativeFeature = this.createTentativeFeature(props);
@@ -92,7 +92,7 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
     }
 
     const editHandles = clickSequence.map((clickedCoord, index) => ({
-      type: 'Feature',
+      type: 'Feature' as const,
       properties: {
         guideType: 'editHandle',
         editHandleType: 'existing',
@@ -100,7 +100,7 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
         positionIndexes: [index],
       },
       geometry: {
-        type: 'Point',
+        type: 'Point' as const,
         coordinates: clickedCoord,
       },
     }));
