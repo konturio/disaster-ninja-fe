@@ -1,18 +1,16 @@
-import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
-import { GeoJsonEditMode } from '@nebula.gl/edit-modes/dist/index';
+import { utils } from '@nebula.gl/edit-modes';
+import { GeoJsonEditMode } from '@nebula.gl/edit-modes';
 import kinks from '@turf/kinks';
-import type {
-  Polygon,
-  FeatureCollection,
-  Position,
-} from '@nebula.gl/edit-modes/dist/geojson-types';
 import type {
   ClickEvent,
   PointerMoveEvent,
   ModeProps,
   GuideFeatureCollection,
-  TentativeFeature,
-} from '@nebula.gl/edit-modes/dist/types';
+  Polygon,
+  FeatureCollection,
+  Position,
+} from '@nebula.gl/edit-modes';
+import type { TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
 
 export class CustomDrawPolygonMode extends GeoJsonEditMode {
   createTentativeFeature(
@@ -113,7 +111,7 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
 
   handleClick(event: ClickEvent, props: ModeProps<FeatureCollection>) {
     const { picks } = event;
-    const clickedEditHandle = getPickedEditHandle(picks);
+    const clickedEditHandle = utils.getPickedEditHandle(picks);
 
     let positionAdded = false;
     if (!clickedEditHandle) {
@@ -145,7 +143,9 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
 
       this['resetClickSequence']();
 
+      // eslint-disable-next-line
       console.log(polygonToAdd, props);
+
       const editAction = this['getAddFeatureOrBooleanPolygonAction'](
         polygonToAdd,
         props,
