@@ -1,7 +1,7 @@
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react';
 import { injectHtml } from 'vite-plugin-html';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
 // @ts-ignore
@@ -15,7 +15,7 @@ const relative = (folder: string) => path.resolve(__dirname, folder);
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   const env = loadEnv(mode, 'env');
-  selectConfig(mode, env)
+  selectConfig(mode, env);
   return defineConfig({
     base: mode === 'development' ? '/' : packageJson.homepage,
     build: {
@@ -26,7 +26,7 @@ export default ({ mode }) => {
       },
     },
     plugins: [
-      mode === 'development' && reactRefresh(),
+      react(),
       mode === 'production' && viteBuildInfoPlugin(),
       injectHtml({
         data: {
@@ -35,6 +35,10 @@ export default ({ mode }) => {
         },
       }),
     ],
+    // was fixed in plugin-react to 3.0.0-alpha.2. so after 3.0.0 release this workaround can be removed
+    optimizeDeps: {
+      include: ['react/jsx-runtime'],
+    },
     css: {
       postcss: postcssConfig,
     },
@@ -61,4 +65,3 @@ export default ({ mode }) => {
     },
   });
 };
-

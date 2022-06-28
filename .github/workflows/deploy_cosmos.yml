@@ -1,0 +1,26 @@
+name: Deploy master branch to GitHub Pages
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+
+jobs:
+  deploy_cosmos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Run cosmos:build to build static
+        run: |
+          npm ci
+          npm run cosmos:build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: cosmos-export

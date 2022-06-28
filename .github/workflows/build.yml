@@ -1,11 +1,23 @@
 name: build
-on: [push]
+on:
+  push:
+    branches:
+      - 'main'
+      - 'release-*'
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+  workflow_dispatch:
 env:
   NODE_ENV: production
   AVA_FORCE_CI: 'not-ci'
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -33,9 +45,9 @@ jobs:
           node-version: '17'
       - run: npm ci
       - run: npm run build
-      - run: tar cvf - dist | xz -1 > ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}.tar.xz
+      - run: tar cvf - dist | xz -1 > ${{ github.head_ref || github.ref_name }}.${{ github.event.pull_request.head.sha || github.sha }}.${{ github.run_attempt }}.tar.xz
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}
+          name: ${{ github.head_ref || github.ref_name }}.${{ github.event.pull_request.head.sha || github.sha }}.${{ github.run_attempt }}
           path: '*.tar.xz'
 

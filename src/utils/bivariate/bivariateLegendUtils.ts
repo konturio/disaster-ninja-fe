@@ -83,18 +83,10 @@ export function createBivariateMeta(
   )?.label;
 
   let copyrights: string[] = [];
-  if (
-    xAxisNominatorIndicator &&
-    xAxisNominatorIndicator.copyrights &&
-    xAxisNominatorIndicator.copyrights.length
-  ) {
+  if (xAxisNominatorIndicator?.copyrights?.length) {
     copyrights = copyrights.concat(xAxisNominatorIndicator.copyrights);
   }
-  if (
-    yAxisNominatorIndicator &&
-    yAxisNominatorIndicator.copyrights &&
-    yAxisNominatorIndicator.copyrights.length
-  ) {
+  if (yAxisNominatorIndicator?.copyrights?.length) {
     copyrights = copyrights.concat(yAxisNominatorIndicator.copyrights);
   }
 
@@ -103,5 +95,15 @@ export function createBivariateMeta(
   return {
     description,
     copyrights,
+    hints: {
+      x: {
+        label: xNominatorLabel,
+        direction: xAxisNominatorIndicator?.direction,
+      },
+      y: {
+        label: yNominatorLabel,
+        direction: yAxisNominatorIndicator?.direction,
+      },
+    },
   };
 }

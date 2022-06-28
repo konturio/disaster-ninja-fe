@@ -6,6 +6,7 @@ import {
 } from '~core/logical_layers/constants';
 import { layerByOrder } from '~utils/map/layersOrder';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
+import { waitMapEvent } from '~utils/map/waitMapEvent';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
@@ -105,8 +106,16 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
+  async willMount({
+    map,
+    state,
+  }: {
+    map: ApplicationMap;
+    state: LogicalLayerState;
+  }) {
     if (state.source) {
+      // this case happens after userprofile change resets most of the app
+      !map.loaded() && (await waitMapEvent(map, 'load'));
       this._updateMap(
         map,
         state.source as LayerTileSource,

@@ -7,7 +7,7 @@ import {
   currentEventFeedAtom,
 } from '~core/shared_state';
 import { EDITABLE_LAYERS_GROUP } from '~core/constants';
-import { UserDataModel, userResourceAtom } from '~core/auth';
+import { userResourceAtom } from '~core/auth';
 import { LAYERS_IN_AREA_API_ERROR } from '~features/layers_in_area/constants';
 import { AppFeature } from '~core/auth/types';
 import type { LayerInArea } from '../types';
@@ -67,18 +67,20 @@ const areaLayersListDependencyAtom = createAtom(
 );
 
 export const areaLayersListResource = createResourceAtom(async (params) => {
-  if (params?.createLayerFeatureActivated === null) return; // Avoid double request
-  if (!params?.focusedGeometry) return;
+  if (!params) return;
+  if (params.createLayerFeatureActivated === null) return; // Avoid double request
   const body: {
     eventId?: string;
     geoJSON?: GeoJSON.GeoJSON;
     eventFeed?: string;
     appId?: string;
-  } = {
-    geoJSON: params?.focusedGeometry.geometry,
-  };
+  } = params.focusedGeometry
+    ? {
+        geoJSON: params.focusedGeometry.geometry,
+      }
+    : {};
 
-  if (params?.focusedGeometry.source.type === 'event') {
+  if (params.focusedGeometry?.source.type === 'event') {
     body.eventId = params?.focusedGeometry.source.meta.eventId;
     if (params?.eventFeed) {
       body.eventFeed = params?.eventFeed.id;

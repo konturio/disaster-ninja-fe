@@ -2,7 +2,6 @@ declare global {
   interface Window {
     konturAppConfig: {
       API_GATEWAY: string;
-      FEATURES_API: string;
       GRAPHQL_API: string;
       BOUNDARIES_API: string;
       REPORTS_API: string;
@@ -29,7 +28,6 @@ declare global {
 }
 export default {
   apiGateway: window.konturAppConfig.API_GATEWAY,
-  featuresApi: window.konturAppConfig.FEATURES_API,
   graphqlApi: window.konturAppConfig.GRAPHQL_API,
   boundariesApi: window.konturAppConfig.BOUNDARIES_API,
   reportsApi: window.konturAppConfig.REPORTS_API,

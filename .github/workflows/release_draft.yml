@@ -1,0 +1,25 @@
+# This workflow create draft release automatically for every success build in release branch
+name: release-draft
+on:
+  workflow_run:
+    workflows: ["build"]
+    types: [completed]
+    branches:
+      - 'release-*'
+
+jobs:
+  create_:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build.yml
+          workflow_conclusion: success
+          name: ${{ github.event.workflow_run.head_branch }}.${{ github.event.workflow_run.head_sha }}.${{ github.run_attempt }}
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: ${{ github.event.workflow_run.head_branch }}
+          draft: true
+          title: ${{ github.event.workflow_run.head_branch }} release candidate

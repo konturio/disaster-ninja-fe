@@ -4,11 +4,13 @@ import clsx from 'clsx';
 import { invertClusters } from '~utils/bivariate';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import s from './BivariateLegend.module.css';
+import { CornerTooltipWrapper } from './CornerTooltipWrapper';
+import { BIVARIATE_LEGEND_SIZE } from './const';
 import type { BivariateLegend as BivariateLegendType } from '~core/logical_layers/types/legends';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 
-type BivariateLegendProps = {
+export type BivariateLegendProps = {
   meta: LayerMeta | null;
   legend: LayerLegend | null;
   name: string;
@@ -75,13 +77,15 @@ export function BivariateLegend({
           </div>
         </div>
       )}
-      <BiLegend
-        showAxisLabels
-        size={3}
-        cells={invertClusters(legend.steps, 'label')}
-        // @ts-ignore
-        axis={axis}
-      />
+      <CornerTooltipWrapper meta={meta}>
+        <BiLegend
+          showAxisLabels
+          size={BIVARIATE_LEGEND_SIZE}
+          cells={invertClusters(legend.steps, 'label')}
+          // @ts-ignore
+          axis={axis}
+        />
+      </CornerTooltipWrapper>
     </div>
   );
 }

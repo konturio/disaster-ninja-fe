@@ -12,6 +12,7 @@ import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { layerByOrder } from '~utils/map/layersOrder';
+import { waitMapEvent } from '~utils/map/waitMapEvent';
 import { replaceUrlWithProxy } from '../../../../vite.proxy';
 import {
   addZoomFilter,
@@ -385,8 +386,16 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
+  async willMount({
+    map,
+    state,
+  }: {
+    map: ApplicationMap;
+    state: LogicalLayerState;
+  }) {
     if (state.source) {
+      // this case happens after userprofile change resets most of the app
+      !map.loaded() && (await waitMapEvent(map, 'load'));
       this._updateMap(map, state.source, state.legend, state.isVisible);
     }
   }

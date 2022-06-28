@@ -8,6 +8,7 @@ import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
+import { initUrlStore } from '~core/url_store';
 import s from './Main.module.css';
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
@@ -53,12 +54,11 @@ export function MainView() {
   const iconsContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    initUrlStore();
+
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
 
     /* Lazy load module */
-    if (userModel?.hasFeature(AppFeature.URL_STORE)) {
-      import('~features/url_store').then(({ initUrlStore }) => initUrlStore());
-    }
     if (userModel?.hasFeature(AppFeature.CURRENT_EVENT)) {
       import('~features/current_event').then(({ initCurrentEvent }) =>
         initCurrentEvent(),

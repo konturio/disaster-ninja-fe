@@ -11,7 +11,7 @@ export function DownloadControl({
   }
   return (
     <div className={s.download} onClick={downloadLayer}>
-      <Download16 onClick={downloadLayer} />
+      <Download16 />
     </div>
   );
 }
