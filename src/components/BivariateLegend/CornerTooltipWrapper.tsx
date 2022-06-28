@@ -83,13 +83,12 @@ const BivariateLegendCornerTooltip = ({
   const rows = [
     {
       label: hints.x?.label,
-      direction:
-        hints.x?.directions?.[isBottomCornerPoint(cornerIndex) ? 0 : 1],
+      direction: hints.x?.direction?.[isBottomCornerPoint(cornerIndex) ? 0 : 1],
       indicator: isBottomCornerPoint(cornerIndex) ? '↓Low' : '↑High',
     },
     {
       label: hints.y?.label,
-      direction: hints.y?.directions?.[isLeftCornerPoint(cornerIndex) ? 0 : 1],
+      direction: hints.y?.direction?.[isLeftCornerPoint(cornerIndex) ? 0 : 1],
       indicator: isLeftCornerPoint(cornerIndex) ? '↓Low' : '↑High',
     },
   ];

@@ -98,11 +98,11 @@ export function createBivariateMeta(
     hints: {
       x: {
         label: xNominatorLabel,
-        directions: xAxisNominatorIndicator?.direction,
+        direction: xAxisNominatorIndicator?.direction,
       },
       y: {
         label: yNominatorLabel,
-        directions: yAxisNominatorIndicator?.direction,
+        direction: yAxisNominatorIndicator?.direction,
       },
     },
   };

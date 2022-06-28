@@ -6,11 +6,11 @@ export interface LayerMeta {
   hints?: {
     x: {
       label?: string;
-      directions?: Direction;
+      direction?: Direction;
     };
     y: {
       label?: string;
-      directions?: Direction;
+      direction?: Direction;
     };
   };
 }

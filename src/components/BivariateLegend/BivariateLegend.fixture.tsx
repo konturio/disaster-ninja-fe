@@ -7,11 +7,11 @@ const meta = {
   hints: {
     x: {
       label: 'Average NDVI, JUN 2019',
-      directions: [['bad'], ['good']],
+      direction: [['bad'], ['good']],
     },
     y: {
       label: 'Multi-hazard exposure PDC GRVA',
-      directions: [['unimportant'], ['bad', 'important']],
+      direction: [['unimportant'], ['bad', 'important']],
     },
   },
 };
