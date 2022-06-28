@@ -1,15 +1,14 @@
 import turfDistance from '@turf/distance';
 import greatCircle from '@turf/great-circle';
-import { GeoJsonEditMode } from '@nebula.gl/edit-modes';
-import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
-import type { FeatureCollection } from '@nebula.gl/edit-modes';
+import { GeoJsonEditMode, utils } from '@nebula.gl/edit-modes';
 import type {
+  FeatureCollection,
   ClickEvent,
   PointerMoveEvent,
   ModeProps,
   GuideFeatureCollection,
   Tooltip,
-} from '@nebula.gl/edit-modes/dist/types';
+} from '@nebula.gl/edit-modes';
 
 export class CustomMeasureDistanceMode extends GeoJsonEditMode {
   _isMeasuringSessionFinished = false;
@@ -104,7 +103,7 @@ export class CustomMeasureDistanceMode extends GeoJsonEditMode {
     }
 
     const { picks } = event;
-    const clickedEditHandle = getPickedEditHandle(picks);
+    const clickedEditHandle = utils.getPickedEditHandle(picks);
 
     let positionAdded = false;
     if (!clickedEditHandle) {

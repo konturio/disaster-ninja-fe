@@ -4,7 +4,6 @@ import {
   TransformMode,
   ImmutableFeatureCollection,
 } from '@nebula.gl/edit-modes';
-import type { FeatureCollection } from '@nebula.gl/edit-modes/dist/geojson-types';
 import type {
   ModeProps,
   ClickEvent,
@@ -13,8 +12,9 @@ import type {
   DraggingEvent,
   StartDraggingEvent,
   StopDraggingEvent,
-} from '@nebula.gl/edit-modes/dist/types';
-import type { CompositeMode } from '@nebula.gl/edit-modes';
+  CompositeMode,
+  FeatureCollection,
+} from '@nebula.gl/edit-modes';
 
 type SubmodeType = GeoJsonEditMode | CompositeMode;
 

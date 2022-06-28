@@ -1,16 +1,15 @@
 import turfArea from '@turf/area';
 import turfCentroid from '@turf/centroid';
-import { getPickedEditHandle } from '@nebula.gl/edit-modes/dist/utils';
-import { GeoJsonEditMode } from '@nebula.gl/edit-modes/dist/index';
+import { GeoJsonEditMode, utils } from '@nebula.gl/edit-modes';
 import type {
   ClickEvent,
   Tooltip,
   ModeProps,
   GuideFeatureCollection,
   PointerMoveEvent,
-  TentativeFeature,
-} from '@nebula.gl/edit-modes/dist/types';
-import type { FeatureCollection } from '@nebula.gl/edit-modes/dist/geojson-types';
+  FeatureCollection,
+} from '@nebula.gl/edit-modes';
+import type { TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
 
 const DEFAULT_TOOLTIPS = [];
 
@@ -160,7 +159,7 @@ export class CustomMeasureAreaMode extends GeoJsonEditMode {
     }
 
     const { picks } = event;
-    const clickedEditHandle = getPickedEditHandle(picks);
+    const clickedEditHandle = utils.getPickedEditHandle(picks);
 
     let positionAdded = false;
     if (!clickedEditHandle) {
