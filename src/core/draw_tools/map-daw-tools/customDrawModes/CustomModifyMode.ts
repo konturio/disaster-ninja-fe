@@ -84,7 +84,10 @@ export class CustomModifyMode extends GeoJsonEditMode {
     return this._submodesCache[this._currentSubModeName];
   }
 
-  getGuides(props: ModeProps<FeatureCollection>): GuideFeatureCollection {
+  // @ts-expect-error we need to handle null here
+  getGuides(
+    props: ModeProps<FeatureCollection>,
+  ): GuideFeatureCollection | null {
     return this._currentSubMode ? this._currentSubMode.getGuides(props) : null;
   }
 
