@@ -1,7 +1,7 @@
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react';
 import { injectHtml } from 'vite-plugin-html';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
 // @ts-ignore
@@ -15,14 +15,14 @@ const relative = (folder: string) => path.resolve(__dirname, folder);
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   const env = loadEnv(mode, 'env');
-  selectConfig(mode, env)
+  selectConfig(mode, env);
   return defineConfig({
     base: mode === 'development' ? '/' : packageJson.homepage,
     build: {
       minify: mode === 'development' ? false : true,
       sourcemap: true,
       rollupOptions: {
-        plugins: [!!env.VITE_ANALYZE_BUNDLE && visualizer({ open: true })],
+        plugins: [visualizer({ open: true })],
       },
     },
     plugins: [
@@ -54,6 +54,7 @@ export default ({ mode }) => {
         '~appModule': relative('./src/redux-modules/appModule'),
         '~core': relative('./src/core'),
         '~features': relative('./src/features'),
+        '@nebula.gl/edit-modes/dist': '@nebula.gl/edit-modes/dist-es6',
       },
     },
     server: {
@@ -61,4 +62,3 @@ export default ({ mode }) => {
     },
   });
 };
-

@@ -28,7 +28,8 @@
       "~services/*": ["services/*"],
       "~appModule/*": ["redux-modules/appModule/*"],
       "~core/*": ["core/*"],
-      "~features/*": ["features/*"]
+      "~features/*": ["features/*"],
+      "@nebula.gl/edit-modes/dist": ["@nebula.gl/edit-modes/dist-es6"]
     }
   },
   "include": [
