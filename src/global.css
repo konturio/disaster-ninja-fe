@@ -70,3 +70,18 @@ code {
     bottom: 24px;
   }
 }
+
+.critical-error-screen {
+  margin: auto;
+  display: flex;
+  flex-flow: row;
+  margin-top: 18vh;
+  max-width: 50em;
+  padding: 1em;
+}
+
+.critical-error-message {
+  text-align: center;
+  color: red;
+  font-size: calc(1em + 0.5vw);
+}

@@ -5,7 +5,10 @@ import react from '@vitejs/plugin-react';
 import { injectHtml } from 'vite-plugin-html';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
 // @ts-ignore
-import selectConfig from './scripts/selectConfig.mjs';
+import { selectConfig, useConfig } from './scripts/select-config.mjs';
+// @ts-ignore
+import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
+
 import postcssConfig from './postcss.config';
 import { proxyConfig } from './vite.proxy';
 import packageJson from './package.json';
@@ -15,7 +18,8 @@ const relative = (folder: string) => path.resolve(__dirname, folder);
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   const env = loadEnv(mode, 'env');
-  selectConfig(mode, env);
+  const config = useConfig(selectConfig(mode), env.DEST_PATH);
+  validateConfig(config, buildScheme());
   return defineConfig({
     base: mode === 'development' ? '/' : packageJson.homepage,
     build: {

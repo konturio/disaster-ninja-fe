@@ -1,51 +1,49 @@
-import { copyFileSync, existsSync, mkdirSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'url';
 import process from 'process';
 
 const relativePath = path => resolve(dirname(fileURLToPath(import.meta.url)), path);
 
-function configInjector(pathToDest) {
+
+export function useConfig(pathToConfig, dest, isSelfInvoked = false) {
+  // Create dir for config
+  const publicFolder = isSelfInvoked ? relativePath('../public/config') : relativePath('./public/config');
+  const pathToDest = dest ?? resolve(publicFolder, 'appconfig.json');
   if (!existsSync(dirname(pathToDest))){
     mkdirSync(dirname(pathToDest), { recursive: true });
   }
-  return (pathToConfig) => {
-    copyFileSync(pathToConfig, pathToDest);
-    console.log(`Config "${pathToConfig}" will be used`)
-    return `Config "${pathToConfig}" will be used`;
-  }
+
+  // Save config file
+  copyFileSync(pathToConfig, pathToDest);
+  console.log(`Config "${pathToConfig}" will be used`);
+
+  // Return saved config
+  return JSON.parse(readFileSync(pathToDest));
 }
 
 /**
  * This script select right config depending on env.
  * In production mode in will use default config, in development it prefer to use local config
  */
-export default function selectRuntimeConfig(mode, env, isSelfInvoked = false) {
+export function selectConfig(mode, isSelfInvoked = false) {
   // Setup path
   const configsFolder = isSelfInvoked ? relativePath('../configs') : relativePath('./configs');
   const knownConfigs = {
-    local: resolve(configsFolder, 'config.local.js'),
-    default: resolve(configsFolder, 'config.default.js')
+    local: resolve(configsFolder, 'config.local.json'),
+    default: resolve(configsFolder, 'config.default.json')
   };
-  const publicFolder = isSelfInvoked ? relativePath('../public/config') : relativePath('./public/config');
-  const pathToDest = env.DEST_PATH ?? resolve(publicFolder, 'appconfig.js');
 
-  // Check env
   const isProduction = mode === 'production';
-  const useConfig = configInjector(pathToDest)
-
-  // Prod
   if (isProduction) {
-    return useConfig(knownConfigs.default);
+    return knownConfigs.default;
   }
 
   // Dev
   const isHaveLocalOverride = existsSync(knownConfigs.local);
-  return useConfig(
-    isHaveLocalOverride
-      ? knownConfigs.local
-      : knownConfigs.default
-  );
+  return isHaveLocalOverride
+    ? knownConfigs.local
+    : knownConfigs.default
 }
 
 
