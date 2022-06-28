@@ -8,6 +8,7 @@ import type { ReactNode } from 'react';
 import type { Cell } from '@konturio/ui-kit/tslib/Legend/types';
 import type { BivariateLegendProps } from './BivariateLegend';
 import type { CornerRange } from '~utils/bivariate';
+import type { LayerMeta } from '~core/logical_layers/types/meta';
 
 export type CornerTooltipWrapperProps = {
   meta: BivariateLegendProps['meta'];
@@ -34,10 +35,13 @@ const CornerTooltipWrapper = ({
     i: number,
   ) {
     const cornerIndex = CORNER_POINTS_INDEXES.indexOf(i);
-    if (cornerIndex >= 0) {
+    if (meta?.hints && cornerIndex >= 0) {
       setTooltip({
         popup: (
-          <BivariateLegendCornerTooltip cornerIndex={cornerIndex} meta={meta} />
+          <BivariateLegendCornerTooltip
+            cornerIndex={cornerIndex}
+            hints={meta.hints}
+          />
         ),
         position: { x: e.clientX - 40, y: e.clientY },
         hoverBehavior: true,
@@ -71,15 +75,13 @@ const formatSentimentDirection = (direction: Array<CornerRange>): string => {
 };
 
 const BivariateLegendCornerTooltip = ({
-  meta,
+  hints,
   cornerIndex,
 }: {
-  meta: BivariateLegendProps['meta'];
+  hints: LayerMeta['hints'];
   cornerIndex: number;
 }) => {
-  if (!meta?.hints) return null;
-
-  const { hints } = meta;
+  if (!hints) return null;
   const rows = [
     {
       label: hints.x?.label,
