@@ -11,7 +11,7 @@ import type { CornerRange } from '~utils/bivariate';
 
 export type CornerTooltipWrapperProps = {
   meta: BivariateLegendProps['meta'];
-  children: ReactNode | ReactNode[];
+  children: ReactNode;
 };
 
 const CORNER_POINTS_INDEXES = [
