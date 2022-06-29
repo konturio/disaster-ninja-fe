@@ -39,15 +39,6 @@ export type InitAxis = {
   y: Axis;
 };
 
-export type Overlay = {
-  name: string;
-  description: string;
-  active: boolean;
-  colors: OverlayColor[];
-  x: Axis;
-  y: Axis;
-};
-
 export type Meta = {
   min_zoom: number;
   max_zoom: number;
@@ -75,7 +66,6 @@ export interface Stat {
   meta: Meta;
   initAxis: InitAxis;
   correlationRates: CorrelationRate[];
-  overlays: Overlay[];
   indicators: Indicator[];
   colors: {
     fallback: string;
