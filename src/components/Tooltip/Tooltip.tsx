@@ -8,12 +8,14 @@ interface TooltipProps {
   tipText: string;
   className?: string;
   showedOnHover?: boolean;
+  tooltipId?: string;
 }
 
 export const Tooltip = ({
   tipText,
   className,
   showedOnHover,
+  tooltipId,
 }: TooltipProps) => {
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
   const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
@@ -25,6 +27,7 @@ export const Tooltip = ({
       onOuterClick(e, close) {
         close();
       },
+      initiatorId: tooltipId,
     });
   }
 

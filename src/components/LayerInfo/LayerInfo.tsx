@@ -2,14 +2,19 @@ import React from 'react';
 import { Tooltip } from '~components/Tooltip/Tooltip';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 
-const Component = React.memo(function ({ meta }: { meta: LayerMeta }) {
+type LayerInfoProps = {
+  meta: LayerMeta;
+  tooltipId?: string;
+};
+
+const Component = React.memo(function ({ meta, tooltipId }: LayerInfoProps) {
   const { copyrights, description } = meta;
   if (copyrights || description) {
     const tipText = [description, copyrights]
       .flat()
       .filter((line) => line !== undefined)
       .join('\n');
-    return <Tooltip tipText={tipText} />;
+    return <Tooltip tipText={tipText} tooltipId={tooltipId} />;
   } else {
     return null;
   }

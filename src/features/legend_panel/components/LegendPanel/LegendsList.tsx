@@ -7,6 +7,7 @@ import { LayerControl } from '~components/LayerControl/LayerControl';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { BivariateLegend } from '~components/BivariateLegend/BivariateLegend';
 import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
+import { LEGEND_PANEL_FEATURE_ID } from '~features/legend_panel/constants';
 import s from './LegendPanel.module.css';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
 import type { SimpleLegendStep } from '~core/logical_layers/types/legends';
@@ -44,7 +45,10 @@ export function LegendsList({ layer: layerAtom }: { layer: LayerAtom }) {
   }
 
   if (legend.type === 'simple') {
-    meta && controlElements.push(<LayerInfo key={id} meta={meta} />);
+    meta &&
+      controlElements.push(
+        <LayerInfo key={id} meta={meta} tooltipId={LEGEND_PANEL_FEATURE_ID} />,
+      );
     const hasOneStepSimpleLegend = legend.steps.length === 1;
     return (
       <div className={s.legendContainer}>

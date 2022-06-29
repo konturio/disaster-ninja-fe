@@ -3,8 +3,11 @@ import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Layers24 } from '@konturio/default-icons';
+import { useAction } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { LayersTree } from '../LayersTree/LayersTree';
 import s from './MapLayersPanel.module.css';
 
@@ -15,10 +18,12 @@ export function MapLayerPanel({
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
 
   useEffect(() => {
     if (isMobile) {
       setIsOpen(false);
+      turnOffTooltip(LAYERS_PANEL_FEATURE_ID);
     }
   }, [isMobile]);
 

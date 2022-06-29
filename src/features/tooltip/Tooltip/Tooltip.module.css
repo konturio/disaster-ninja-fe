@@ -50,8 +50,8 @@
 }
 
 .top-left {
-  left: calc(0px - var(--half-unit));
-  bottom: var(--half-unit);
+  margin-left: calc(0px - var(--half-unit));
+  margin-bottom: var(--half-unit);
 
   & .popupContent {
     transform: translate(-100%, -100%);
@@ -59,8 +59,8 @@
 }
 
 .top-right {
-  left: var(--half-unit);
-  bottom: var(--half-unit);
+  margin-left: var(--half-unit);
+  margin-bottom: var(--half-unit);
 
   & .popupContent {
     transform: translate(0, -100%);
@@ -68,8 +68,8 @@
 }
 
 .bottom-left {
-  left: calc(0px - var(--half-unit));
-  top: var(--half-unit);
+  margin-left: calc(0px - var(--half-unit));
+  margin-top: var(--half-unit);
 
   & .popupContent {
     transform: translate(-100%, 0);
@@ -77,8 +77,8 @@
 }
 
 .bottom-right {
-  left: var(--half-unit);
-  top: var(--half-unit);
+  margin-left: var(--half-unit);
+  margin-top: var(--half-unit);
 }
 
 .closeIcon {

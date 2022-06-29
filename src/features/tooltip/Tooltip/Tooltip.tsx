@@ -41,10 +41,10 @@ export function Tooltip({
     if (!properties?.position) {
       setPosition(null);
       setPrevCoords(null);
-      return;
+    } else {
+      setPosition(findTooltipPosition(properties?.position));
+      setPrevCoords(properties?.position);
     }
-    setPosition(findTooltipPosition(properties?.position));
-    setPrevCoords(properties?.position);
   }
 
   function onOuterClick(e) {
