@@ -21,18 +21,29 @@ function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
   return newGeom;
 }
 
-export function isGeometryEmpty(geom?: { geometry: GeoJSON.GeoJSON } | null): boolean {
-  return !geom || !geom.geometry || (geom.geometry.type === 'FeatureCollection' && !geom.geometry.features.length);
+export function isGeometryEmpty(
+  geom?: { geometry: GeoJSON.GeoJSON } | null,
+): boolean {
+  return (
+    !geom ||
+    !geom.geometry ||
+    (geom.geometry.type === 'FeatureCollection' &&
+      !geom.geometry.features.length)
+  );
 }
 
-export function createBivariateGraphQLQuery(geom?: { geometry: GeoJSON.GeoJSON } | null) {
+export function createBivariateGraphQLQuery(
+  geom?: { geometry: GeoJSON.GeoJSON } | null,
+) {
   const importantLayersRequest = `importantLayers: ${JSON.stringify(
     IMPORTANT_BIVARIATE_LAYERS,
   )}`;
 
   const polygonStatisticRequest =
-    geom && !isGeometryEmpty(geom) ?
-      `{ polygonV2: ${stringifyWithoutQuotes(cleanupGeometry(geom.geometry))}, ${importantLayersRequest} }`
+    geom && !isGeometryEmpty(geom)
+      ? `{ polygonV2: ${stringifyWithoutQuotes(
+          cleanupGeometry(geom.geometry),
+        )}, ${importantLayersRequest} }`
       : `{ ${importantLayersRequest} }`;
 
   return `
@@ -56,21 +67,6 @@ export function createBivariateGraphQLQuery(geom?: { geometry: GeoJSON.GeoJSON }
           meta {
             max_zoom
             min_zoom
-          }
-          overlays {
-            name
-            description
-            active
-            colors {
-              id
-              color
-            }
-            x {
-              ...AxisFields
-            }
-            y {
-              ...AxisFields
-            }
           }
           indicators {
             name
