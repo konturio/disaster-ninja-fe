@@ -27,6 +27,9 @@ export default ({ mode }) => {
       sourcemap: true,
       rollupOptions: {
         plugins: [!!env.VITE_ANALYZE_BUNDLE && visualizer({ open: true })],
+        manualChunks: {
+          '@nebula.gl': ['@nebula.gl/edit-modes', '@nebula.gl/layers'],
+        },
       },
     },
     plugins: [
