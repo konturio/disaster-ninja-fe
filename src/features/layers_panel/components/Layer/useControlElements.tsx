@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
+import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { DownloadControl } from '../DownloadControl/DownloadControl';
 import { LayerContextMenu } from '../LayerContextMenu/LayerContextMenu';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
@@ -43,7 +44,13 @@ export function useControlElements(
       );
 
     if (layerState.meta) {
-      elements.push(<LayerInfo key={layerState.id} meta={layerState.meta} />);
+      elements.push(
+        <LayerInfo
+          key={layerState.id}
+          meta={layerState.meta}
+          tooltipId={LAYERS_PANEL_FEATURE_ID}
+        />,
+      );
     }
 
     setControlElements(elements);

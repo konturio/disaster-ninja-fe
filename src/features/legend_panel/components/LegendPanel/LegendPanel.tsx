@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Info24 } from '@konturio/default-icons';
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
+import { useAction } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import { LEGEND_PANEL_FEATURE_ID } from '~features/legend_panel/constants';
 import s from './LegendPanel.module.css';
 import { LegendsList } from './LegendsList';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
@@ -20,10 +23,12 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
   const [wasClosed, setWasClosed] = useState<boolean>(false);
 
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
 
   useEffect(() => {
     if (isMobile) {
       setIsOpen(false);
+      turnOffTooltip(LEGEND_PANEL_FEATURE_ID);
     }
   }, [isMobile]);
 
