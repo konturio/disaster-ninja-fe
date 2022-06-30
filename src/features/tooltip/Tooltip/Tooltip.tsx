@@ -34,16 +34,18 @@ export function Tooltip({
   const [position, setPosition] = useState<Position | null>(null);
   const [prevCoords, setPrevCoords] = useState<Coords | null | undefined>(null);
 
+  if (!properties) return null;
+
   if (
-    prevCoords?.x !== properties?.position.x &&
-    prevCoords?.y !== properties?.position.y
+    prevCoords?.x !== properties.position.x &&
+    prevCoords?.y !== properties.position.y
   ) {
-    if (!properties?.position) {
+    if (!properties.position) {
       setPosition(null);
       setPrevCoords(null);
     } else {
-      setPosition(findTooltipPosition(properties?.position));
-      setPrevCoords(properties?.position);
+      setPosition(findTooltipPosition(properties.position));
+      setPrevCoords(properties.position);
     }
   }
 
@@ -58,13 +60,11 @@ export function Tooltip({
     e.stopPropagation();
   }
 
-  if (!properties) return null;
-
   return (
     <div
       className={clsx(
         s.tooltipContainer,
-        properties?.hoverBehavior && s.hoverTooltip,
+        properties.hoverBehavior && s.hoverTooltip,
       )}
       onClick={onOuterClick}
     >
@@ -88,7 +88,7 @@ export function Tooltip({
               ) : (
                 properties.popup
               )}
-              {!properties?.hoverBehavior && (
+              {!properties.hoverBehavior && (
                 <div className={s.closeIcon} onClick={() => closeTooltip()}>
                   <Close16 />
                 </div>
