@@ -4,7 +4,6 @@ import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { createResourceAtom } from '~utils/atoms';
-import { createResourceAtom_WithoutRequestSkip } from '../utils/tempCreateResourceAtom';
 import { areaLayersListResource } from './areaLayersListResource';
 import type { LayerInAreaDetails } from '../types';
 
@@ -128,19 +127,17 @@ export const areaLayersDetailsResourceAtom = createResourceAtom((params) => {
         params,
         true,
       );
-      return request || null;
+      return request ?? null;
     } catch (e: any) {
       console.warn(e);
       return null;
     }
   }
 
+  // the fact that this function exists enables cancel handling
   function canceller() {
-    // enables cancel handling
+    // noop
   }
-  //     todo:
-  // remake array to object with readable keys
-  // or handle cancel right inside resource atom based on context and stuff
 
   return [processor, canceller];
 }, areaLayersDetailsParamsAtom);
