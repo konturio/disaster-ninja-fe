@@ -39,7 +39,33 @@ export const areaLayersLegendsAndSources = createAtom(
     const layersDetails = get('areaLayersDetailsResourceAtom');
     const actions: Action[] = [];
     // Set loading state for details
-    if (layersDetails.loading && layersDetails.lastParams) {
+    if (layersDetails.canceled) {
+      // find layers we won't need after request was canceled
+      const canceledLayers: string[] = [];
+      const canceledLayersIds1 =
+        layersDetails.lastParams?.layersToRetrieveWithGeometryFilter.filter(
+          (prevLayerId) =>
+            !layersDetails.nextParams?.layersToRetrieveWithGeometryFilter.includes(
+              prevLayerId,
+            ),
+        ) || [];
+      const canceledLayersIds2 =
+        layersDetails.lastParams?.layersToRetrieveWithoutGeometryFilter.filter(
+          (prevLayerId) =>
+            !layersDetails.nextParams?.layersToRetrieveWithoutGeometryFilter.includes(
+              prevLayerId,
+            ),
+        ) || [];
+      canceledLayers.push(...canceledLayersIds1, ...canceledLayersIds2);
+
+      // remove them
+      canceledLayers.forEach((layerId) => {
+        actions.push(
+          layersSourcesAtom.delete(layerId),
+          layersLegendsAtom.delete(layerId),
+        );
+      });
+    } else if (layersDetails.loading && layersDetails.lastParams) {
       const requestedLayers = [
         ...(layersDetails.lastParams?.layersToRetrieveWithGeometryFilter ?? []),
         ...(layersDetails.lastParams?.layersToRetrieveWithoutGeometryFilter ??

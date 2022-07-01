@@ -19,20 +19,21 @@ interface ResourceAtomState<T, P> {
   data: T | null;
   canceled: boolean;
   lastParams: P | null;
+  nextParams?: P | null;
 }
 
 type FetcherFunc<P, T> = (params?: P | null) => Promise<T>;
 type FetcherProcessor<T> = () => Promise<T>;
-type FetcherCanceller = () => void;
+type FetcherCanceller<P> = (context: ResourceCtx<P>) => void;
 type FetcherFabric<P, T> = (
   params?: P | null,
-) => [FetcherProcessor<T>, FetcherCanceller];
+) => [FetcherProcessor<T>, FetcherCanceller<P>];
 
-type ResourceCtx<P> = {
+export type ResourceCtx<P> = {
   version?: number;
   lastParams?: P | null;
   _refetchable?: boolean;
-  canceller?: FetcherCanceller;
+  canceller?: FetcherCanceller<P>;
 };
 
 function createResourceFetcherAtom<P, T>(
@@ -45,7 +46,7 @@ function createResourceFetcherAtom<P, T>(
     refetch: () => undefined,
     done: (data: T) => data,
     error: (error: string) => error,
-    cancel: () => undefined,
+    cancel: (nextParams: P | null) => nextParams,
     loading: () => undefined,
     finally: () => null,
   };
@@ -91,8 +92,11 @@ function createResourceFetcherAtom<P, T>(
 
           // cancel previous request if we have a special function for it
           if (ctx.canceller) {
-            ctx.canceller();
+            ctx.canceller(ctx);
             ctx.canceller = undefined;
+            // extra dispatch allows resource subscribers to proccess cancel event and then
+            // process the response of the next event
+            dispatch(create('cancel', params));
           }
 
           let requestAction: Action | null = null;
@@ -114,7 +118,7 @@ function createResourceFetcherAtom<P, T>(
 
               requestAction = create('done', response);
             }
-          } catch (e) {
+          } catch (e: any) {
             console.error(`[${name}]:`, e);
             if (ctx.version === version) {
               requestAction = create('error', e.message ?? e ?? true);
@@ -144,15 +148,20 @@ function createResourceFetcherAtom<P, T>(
         newState.canceled = false;
       });
 
-      onAction('cancel', () => {
+      onAction('cancel', (nextParams) => {
         newState.loading = false;
         newState.error = null;
         newState.canceled = true;
         newState.data = null;
+        newState.nextParams = nextParams;
       });
 
       onAction('error', (error) => (newState.error = error));
-      onAction('done', (data) => (newState.data = data));
+      onAction('done', (data) => {
+        newState.data = data;
+        newState.canceled = false;
+        newState.nextParams = null;
+      });
       onAction('finally', () => (newState.loading = false));
 
       // Significant reduce renders count
@@ -178,7 +187,7 @@ export type ResourceAtomType<P, T> = AtomSelfBinded<
     refetch: () => undefined;
     done: (data: T) => T;
     error: (error: string) => string;
-    cancel: () => undefined;
+    cancel: (nextParams: P | null) => P | null;
     loading: () => undefined;
     finally: () => null;
   }
@@ -204,7 +213,7 @@ export function createResourceAtom<P, T>(
             if (isObject(newParams)) {
               // Check states than we can be escalated
               if ('canceled' in newParams && newParams.canceled) {
-                dispatch(resourceFetcherAtom.cancel());
+                dispatch(resourceFetcherAtom.cancel(newParams as unknown as P));
                 return;
               }
               if ('loading' in newParams && newParams.loading) {
