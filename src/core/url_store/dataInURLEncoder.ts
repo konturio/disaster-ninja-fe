@@ -1,51 +1,75 @@
+interface CodecCustomTransformer {
+  decode: (str: string) => unknown;
+  encode: (data: any) => string | null;
+}
+
 export class URLDataInSearchEncoder {
-  _arraySep = ',';
-  _arrayStart = ',';
-  _keyValSep = '=';
-  _paramSep = '&';
-  _specials = {
-    map: {
-      decode: (str: string) => str.split('/').map((s) => Number(s)),
-      encode: (position: [number, number, number]) => position.join('/'),
-    },
-  };
+  #transformers: Map<string, CodecCustomTransformer> = new Map();
+  #order: string[] = [];
+
+  constructor({
+    transformers,
+    order,
+  }: {
+    transformers?: Record<string, CodecCustomTransformer>;
+    order?: string[];
+  } = {}) {
+    if (transformers) {
+      this.#transformers = new Map(Object.entries(transformers));
+    }
+    if (order) {
+      this.#order = order;
+    }
+  }
 
   encode<T = Record<string, string | number | string[] | number[]>>(data: T) {
-    const urlMetaStrings: string[] = [];
-    Object.entries(data).reduce((acc, [key, val]) => {
-      if (val === null || val === undefined) return acc;
-      if (this._specials[key]) {
-        val = this._specials[key].encode(val);
-      } else if (Array.isArray(val)) {
-        val =
-          this._arrayStart +
-          val.map((v) => encodeURIComponent(v)).join(this._arraySep);
-      } else {
-        val = encodeURIComponent(val);
+    const dataEntries = Object.entries(data);
+
+    // Sort according preferred order
+    if (this.#order.length) {
+      dataEntries.sort((a, b) => {
+        if (this.#order.indexOf(a[0]) === -1) return 1;
+        if (this.#order.indexOf(b[0]) === -1) return -1;
+
+        return this.#order.indexOf(a[0]) - this.#order.indexOf(b[0]);
+      });
+    }
+
+    const notInvalidValue = (v: unknown) =>
+      (typeof v === 'number' ? !isNaN(v) : true) &&
+      v !== undefined &&
+      v !== null;
+
+    // Omit invalid values, apply custom transformers, convert to string
+    const normalized = dataEntries.reduce((acc, [key, val]) => {
+      if (notInvalidValue(val)) {
+        if (this.#transformers.has(key)) {
+          const value = this.#transformers.get(key)!.encode(val);
+          if (value !== null) acc.push([key, value]);
+        } else {
+          acc.push([key, String(val)]);
+        }
       }
-      acc.push(`${key}${this._keyValSep}${val}`);
       return acc;
-    }, urlMetaStrings);
-    return urlMetaStrings.join(this._paramSep);
+    }, [] as string[][]);
+
+    return new URLSearchParams(normalized)
+      .toString() // convert to string according to URL spec
+      .replaceAll('%2F', '/'); // keep slashes (used in map property in "map=z/x/y")
   }
 
   decode<T = Record<string, string | number | string[] | number[]>>(
     metaString: string,
   ): T {
     if (metaString.length === 0) return {} as T;
-    return metaString.split(this._paramSep).reduce((acc, pair) => {
-      const [key, val = ''] = pair.split(this._keyValSep);
-      if (this._specials[key]) {
-        acc[key] = this._specials[key].decode(val);
-      } else if (val.slice(0, this._arrayStart.length) === this._arrayStart) {
-        const arrayVal = val
-          .slice(this._arrayStart.length)
-          .split(this._arraySep);
-        acc[key] = arrayVal
-          .filter((v) => v !== '')
-          .map((v) => decodeURIComponent(v));
+    const params = new URLSearchParams(metaString);
+    // apply transformers
+    return Array.from(params.entries()).reduce((acc, [key, val]) => {
+      if (this.#transformers.has(key)) {
+        const value = this.#transformers.get(key)!.decode(val);
+        if (value !== null) acc[key] = value;
       } else {
-        acc[key] = decodeURIComponent(val);
+        acc[key] = val;
       }
       return acc;
     }, {} as T);
