@@ -35,7 +35,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
             errorsConfig: { dontShowErrors: true },
           },
         );
-      } catch (e) {
+      } catch (e: any) {
         if (e.problem && e.problem.kind === 'canceled') {
           return null;
         } else {
@@ -66,7 +66,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       }
     }
 
-    return [processor, canceller];
+    return { processor, canceller };
   },
   focusedGeometryAtom,
   'bivariateStatisticsResource',

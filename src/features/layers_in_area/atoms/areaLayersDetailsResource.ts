@@ -134,12 +134,7 @@ export const areaLayersDetailsResourceAtom = createResourceAtom((params) => {
     }
   }
 
-  // the fact that this function exists enables cancel handling
-  function canceller() {
-    // noop
-  }
-
-  return [processor, canceller];
+  return { processor, allowCancel: true };
 }, areaLayersDetailsParamsAtom);
 
 function arraysAreEqual(arr1: any[], arr2: any[]) {

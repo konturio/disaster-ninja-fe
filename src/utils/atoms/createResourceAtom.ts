@@ -25,15 +25,18 @@ interface ResourceAtomState<T, P> {
 type FetcherFunc<P, T> = (params?: P | null) => Promise<T>;
 type FetcherProcessor<T> = () => Promise<T>;
 type FetcherCanceller<P> = (context: ResourceCtx<P>) => void;
-type FetcherFabric<P, T> = (
-  params?: P | null,
-) => [FetcherProcessor<T>, FetcherCanceller<P>];
+type FetcherFabric<P, T> = (params?: P | null) => {
+  processor: FetcherProcessor<T>;
+  canceller?: FetcherCanceller<P>;
+  allowCancel?: boolean;
+};
 
 export type ResourceCtx<P> = {
   version?: number;
   lastParams?: P | null;
   _refetchable?: boolean;
   canceller?: FetcherCanceller<P>;
+  allowCancel?: boolean;
 };
 
 function createResourceFetcherAtom<P, T>(
@@ -94,19 +97,20 @@ function createResourceFetcherAtom<P, T>(
           if (ctx.canceller) {
             ctx.canceller(ctx);
             ctx.canceller = undefined;
-            // extra dispatch allows resource subscribers to proccess cancel event and then
-            // process the response of the next event
-            dispatch(create('cancel', params));
           }
+          // extra dispatch allows resource subscribers to proccess cancel event and then
+          // process the response of the next event
+          if (ctx.allowCancel) dispatch(create('cancel', params));
 
           let requestAction: Action | null = null;
           try {
             let response: T;
             const fetcherResult =
               params === undefined ? fetcher() : fetcher(params);
-            if (Array.isArray(fetcherResult)) {
-              const [processor, canceller] = fetcherResult;
+            if ('processor' in fetcherResult) {
+              const { processor, canceller, allowCancel } = fetcherResult;
               ctx.canceller = canceller;
+              ctx.allowCancel = allowCancel || Boolean(canceller);
               response = await processor();
             } else {
               response = await fetcherResult;
