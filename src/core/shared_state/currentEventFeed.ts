@@ -34,7 +34,7 @@ export const currentEventFeedAtom = createAtom(
     onChange('userResourceAtom', ({ data, loading, error }) => {
       if (!loading && !error && data && data.feeds && data.feeds.length) {
         const newFeed = data.checkFeed(state?.id);
-        if (newFeed !== undefined) {
+        if (newFeed !== undefined && newFeed !== state?.id) {
           state = { id: newFeed };
         }
       }
