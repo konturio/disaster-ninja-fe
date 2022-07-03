@@ -1,6 +1,4 @@
 import { saveAs } from 'file-saver';
-// Remove that after ECMA 2021 released
-import 'core-js/features/string/replace-all';
 
 const emptyGeoJson = {
   type: 'FeatureCollection',
