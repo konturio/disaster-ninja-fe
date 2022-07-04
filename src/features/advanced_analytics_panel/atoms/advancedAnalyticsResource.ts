@@ -1,6 +1,7 @@
 import { createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
+import { isApiError } from '~core/api_client/apiClientError';
 import type { AdvancedAnalyticsData } from '~core/types';
 
 const abortControllers: AbortController[] = [];
@@ -22,8 +23,8 @@ export const advancedAnalyticsResourceAtom = createResourceAtom(
             errorsConfig: { dontShowErrors: true },
           },
         );
-      } catch (e: any) {
-        if (e.problem && e.problem.kind === 'canceled') {
+      } catch (e) {
+        if (isApiError(e) && e.problem.kind === 'canceled') {
           return null;
         } else {
           throw new Error('Error while fetching advanced analytics data');
