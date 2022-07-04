@@ -43,7 +43,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '17'
-      - run: npm ci
+      - run: npm ci --also=dev
       - run: npm run build
       - run: tar cvf - dist | xz -1 > ${{ github.head_ref || github.ref_name }}.${{ github.event.pull_request.head.sha || github.sha }}.${{ github.run_attempt }}.tar.xz
       - uses: actions/upload-artifact@v3
