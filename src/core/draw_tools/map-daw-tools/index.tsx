@@ -1,8 +1,6 @@
 import React, { forwardRef } from 'react';
 import MapDrawToolsComponent from './component';
-import icons from './modesIcons';
 import type { RenderProps, ModeConfig } from './component';
-export { icons };
 
 interface NebulaRef {
   current: unknown;
