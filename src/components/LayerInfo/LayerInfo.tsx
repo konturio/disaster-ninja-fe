@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip } from '~components/Tooltip/Tooltip';
+import { Tooltip } from '~components/Tooltip';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 
 type LayerInfoProps = {

@@ -1,14 +1,15 @@
 import { cloneElement, isValidElement } from 'react';
-import { useAction } from '@reatom/react';
+import i18next from 'i18next';
 import clsx from 'clsx';
-import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import { TooltipWrapper } from '~components/Tooltip';
 import { BIVARIATE_LEGEND_SIZE } from './const';
 import s from './CornerTooltipWrapper.module.css';
-import type { ReactNode } from 'react';
+import type { ReactNode, PointerEvent } from 'react';
 import type { Cell } from '@konturio/ui-kit/tslib/Legend/types';
 import type { BivariateLegendProps } from './BivariateLegend';
 import type { CornerRange } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
+import type { TooltipData } from '~core/shared_state/currentTooltip';
 
 export type CornerTooltipWrapperProps = {
   meta: BivariateLegendProps['meta'];
@@ -26,14 +27,12 @@ const CornerTooltipWrapper = ({
   children,
   meta,
 }: CornerTooltipWrapperProps) => {
-  const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
-  const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
-
-  function onPointerOver(
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  const renderTooltip = (
+    e: PointerEvent<Element>,
+    setTooltip: (tooltipData: TooltipData) => void,
     _cell: Cell,
     i: number,
-  ) {
+  ) => {
     const cornerIndex = CORNER_POINTS_INDEXES.indexOf(i);
     if (meta?.hints && cornerIndex >= 0) {
       setTooltip({
@@ -43,23 +42,24 @@ const CornerTooltipWrapper = ({
             hints={meta.hints}
           />
         ),
-        position: { x: e.clientX - 40, y: e.clientY },
+        position: { x: e.clientX, y: e.clientY },
         hoverBehavior: true,
       });
     }
-  }
+  };
 
-  function onPointerLeave() {
-    resetTooltip();
-  }
-
-  return isValidElement(children)
-    ? cloneElement(children, {
-        onCellPointerOver: onPointerOver,
-        onCellPointerLeave: onPointerLeave,
-      })
-    : null;
+  return isValidElement(children) ? (
+    <TooltipWrapper renderTooltip={renderTooltip}>
+      {({ showTooltip, hideTooltip }) =>
+        cloneElement(children, {
+          onCellPointerOver: showTooltip,
+          onCellPointerLeave: hideTooltip,
+        })
+      }
+    </TooltipWrapper>
+  ) : null;
 };
+
 const isBottomCornerPoint = (cornerIndex: number): boolean =>
   cornerIndex === 2 || cornerIndex === 3;
 
@@ -74,6 +74,9 @@ const formatSentimentDirection = (direction: Array<CornerRange>): string => {
   } else return capitalize(direction);
 };
 
+const LOW = `↓${i18next.t('bivariate.legend.low')}`;
+const HIGH = `↑${i18next.t('bivariate.legend.high')}`;
+
 const BivariateLegendCornerTooltip = ({
   hints,
   cornerIndex,
@@ -86,12 +89,12 @@ const BivariateLegendCornerTooltip = ({
     {
       label: hints.x?.label,
       direction: hints.x?.direction?.[isBottomCornerPoint(cornerIndex) ? 0 : 1],
-      indicator: isBottomCornerPoint(cornerIndex) ? '↓Low' : '↑High',
+      indicator: isBottomCornerPoint(cornerIndex) ? LOW : HIGH,
     },
     {
       label: hints.y?.label,
       direction: hints.y?.direction?.[isLeftCornerPoint(cornerIndex) ? 0 : 1],
-      indicator: isLeftCornerPoint(cornerIndex) ? '↓Low' : '↑High',
+      indicator: isLeftCornerPoint(cornerIndex) ? LOW : HIGH,
     },
   ];
 

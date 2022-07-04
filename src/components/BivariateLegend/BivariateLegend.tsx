@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Legend as BiLegend, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { invertClusters } from '~utils/bivariate';
-import { Tooltip } from '~components/Tooltip/Tooltip';
+import { Tooltip } from '~components/Tooltip';
 import s from './BivariateLegend.module.css';
 import { CornerTooltipWrapper } from './CornerTooltipWrapper';
 import { BIVARIATE_LEGEND_SIZE } from './const';
