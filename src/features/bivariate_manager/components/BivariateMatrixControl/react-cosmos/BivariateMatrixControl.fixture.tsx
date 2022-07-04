@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
+import { PopupTooltip } from '~features/tooltip';
 import { BivariateMatrixControlComponent } from '../index';
 import { mock } from './mocks/mock-20';
 import styles from './BivariateMatrixControlFixture.module.css';
@@ -43,12 +44,14 @@ export default function BivariateMatrixControlFixture() {
     }
 
     const mapWithIndicators = (group: AxisGroup) =>
+      // eslint-disable-next-line
       mapHeaderCell(group, mock?.indicators as any);
 
     return {
       x: (mock.xGroups as AxisGroup[]).map(mapWithIndicators),
       y: (mock.yGroups as AxisGroup[]).map(mapWithIndicators),
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mock]);
 
   const [selectedCell, setSelectedCell] = useState<{
@@ -57,12 +60,14 @@ export default function BivariateMatrixControlFixture() {
   } | null>(null);
 
   const onSelectCellHandler = useCallback((x, y) => {
+    /* eslint-disable */
     console.log('onSelectCellHandler', x, y);
     setSelectedCell({ x, y });
   }, []);
 
   const onSelectDenominator = useCallback(
     (horizontal: boolean, index: number, numId: string, denId: string) => {
+      /* eslint-disable */
       console.log('onSelectDenominator', horizontal, index, numId, denId);
     },
     [],
@@ -79,6 +84,7 @@ export default function BivariateMatrixControlFixture() {
         selectedCell={selectedCell}
         onSelectDenominator={onSelectDenominator}
       />
+      <PopupTooltip />
     </div>
   );
 }

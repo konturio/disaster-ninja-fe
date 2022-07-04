@@ -1,5 +1,5 @@
 import { i18n } from '~core/localization';
-import { Tooltip } from '~components/Tooltip/Tooltip';
+import { Tooltip } from '~components/Tooltip';
 import s from './AnalyticsData.module.css';
 import type { AnalyticsData } from '~core/types';
 

@@ -1,4 +1,4 @@
-import { Tooltip } from '~components/Tooltip/Tooltip';
+import { Tooltip } from '~components/Tooltip';
 import { Label } from '~components/Label/Label';
 
 interface LabelWithTooltipProps {

@@ -2,6 +2,16 @@
   "common": {
     "Request Timeout": "Request Timeout!",
     "No administrative boundaries": "No administrative boundaries here!",
-    "Self intersections are not supported": "Self intersections are not supported!"
+    "Self intersections are not supported": "Self intersections are not supported!",
+
+    "bivariate.matrix.icon.population": "Value divided by Population",
+    "bivariate.matrix.icon.area_km2": "Value divided by Populated area",
+    "bivariate.matrix.icon.total_building_count": "Value divided by Total Buildings Estimate",
+    "bivariate.matrix.icon.populated_area_km2": "Value divided by area",
+    "bivariate.matrix.icon.one": "Without divider",
+    "bivariate.matrix.icon.roads": "Value divided by Total Roads Lenght",
+
+    "bivariate.legend.high": "High",
+    "bivariate.legend.low": "Low"
   }
 }
