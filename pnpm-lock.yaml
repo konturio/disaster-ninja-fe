@@ -11,8 +11,8 @@ specifiers:
   '@konturio/default-theme': ^2.4.0-alpha.11
   '@konturio/ui-kit': ^3.0.0-alpha.43
   '@loaders.gl/core': ^3.2.3
-  '@nebula.gl/edit-modes': 1.0.2-alpha.0
-  '@nebula.gl/layers': 1.0.2-alpha.0
+  '@nebula.gl/edit-modes': 1.0.3
+  '@nebula.gl/layers': 1.0.3
   '@reatom/core': ^2.0.20
   '@reatom/react': ^2.0.15
   '@testing-library/react': ^12.0.0
@@ -113,8 +113,8 @@ dependencies:
   '@konturio/default-theme': 2.4.0-alpha.11
   '@konturio/ui-kit': 3.0.0-alpha.43_8a58b45a414e2edef47451d639f8fb69
   '@loaders.gl/core': 3.2.3
-  '@nebula.gl/edit-modes': 1.0.2-alpha.0
-  '@nebula.gl/layers': 1.0.2-alpha.0_c97ea33e2c0bd67f1ce9ee3afcff6f7b
+  '@nebula.gl/edit-modes': 1.0.3
+  '@nebula.gl/layers': 1.0.3_c97ea33e2c0bd67f1ce9ee3afcff6f7b
   '@reatom/core': 2.0.20
   '@reatom/react': 2.0.19_@reatom+core@2.0.20+react@17.0.2
   '@testing-library/react': 12.1.5_react-dom@17.0.2+react@17.0.2
@@ -1028,8 +1028,8 @@ packages:
       gl-matrix: 3.4.3
     dev: false
 
-  /@nebula.gl/edit-modes/1.0.2-alpha.0:
-    resolution: {integrity: sha512-SQfksd7c4H0r5Zf+3ElDUQBttk1gSfT8skSeTWAq1Bv3t65zMZZuvWeQjI8mc+NQL33W8tDJuoGYw0uhYgVZ6g==}
+  /@nebula.gl/edit-modes/1.0.3:
+    resolution: {integrity: sha512-EsfgK3NE6eVoY/6w4/VtXKE8iHpKoUvVO/7hjNwve8wrWH7x3eUXRbqnZIOd+kInuS62dTDmawoZkioHAFOvtg==}
     dependencies:
       '@turf/along': 6.5.0
       '@turf/area': 6.5.0
@@ -1048,6 +1048,7 @@ packages:
       '@turf/helpers': 6.5.0
       '@turf/intersect': 6.5.0
       '@turf/line-intersect': 6.5.0
+      '@turf/midpoint': 6.5.0
       '@turf/nearest-point-on-line': 6.5.0
       '@turf/point-to-line-distance': 6.5.0
       '@turf/polygon-to-line': 6.5.0
@@ -1061,8 +1062,8 @@ packages:
       viewport-mercator-project: 7.0.4
     dev: false
 
-  /@nebula.gl/layers/1.0.2-alpha.0_c97ea33e2c0bd67f1ce9ee3afcff6f7b:
-    resolution: {integrity: sha512-bSRqEvdauWUTIYf+RXamnYekSCBaA4tEkqGiD3xVZEsrgG0//BYsjHbSG62tpYY5FwSJEzPx6NeBRIxcJ+xPIg==}
+  /@nebula.gl/layers/1.0.3_c97ea33e2c0bd67f1ce9ee3afcff6f7b:
+    resolution: {integrity: sha512-/OJjiHkDd0qLS/2XZC8ctYccya8SLwsyCb+Xv99lY4HGqd6UM503yH4mZKRVnBfJIpgKDsZFnkUSjNxP1EHQHQ==}
     peerDependencies:
       '@deck.gl/core': ^8.6.0
       '@deck.gl/extensions': ^8.6.0
@@ -1078,7 +1079,7 @@ packages:
       '@deck.gl/geo-layers': 8.7.11_50c3ba925aa950c0182b88a6d9135e29
       '@deck.gl/layers': 8.7.11_52ee7e4f89e4230a267379820f201df3
       '@deck.gl/mesh-layers': 8.7.11_@deck.gl+core@8.7.11
-      '@nebula.gl/edit-modes': 1.0.2-alpha.0
+      '@nebula.gl/edit-modes': 1.0.3
       '@turf/bbox': 6.5.0
       '@turf/bbox-polygon': 6.5.0
       '@turf/bearing': 6.5.0
@@ -1461,6 +1462,15 @@ packages:
   /@turf/meta/6.5.0:
     resolution: {integrity: sha512-RrArvtsV0vdsCBegoBtOalgdSOfkBrTJ07VkpiCnq/491W67hnMWmDu7e6Ztw0C3WldRYTXkg3SumfdzZxLBHA==}
     dependencies:
+      '@turf/helpers': 6.5.0
+    dev: false
+
+  /@turf/midpoint/6.5.0:
+    resolution: {integrity: sha512-MyTzV44IwmVI6ec9fB2OgZ53JGNlgOpaYl9ArKoF49rXpL84F9rNATndbe0+MQIhdkw8IlzA6xVP4lZzfMNVCw==}
+    dependencies:
+      '@turf/bearing': 6.5.0
+      '@turf/destination': 6.5.0
+      '@turf/distance': 6.5.0
       '@turf/helpers': 6.5.0
     dev: false
 

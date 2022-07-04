@@ -15,7 +15,21 @@ import { URLDataInSearchEncoder } from '../dataInURLEncoder';
 import type { UrlData } from '../types';
 import type { Action } from '@reatom/core';
 
-const urlStore = new URLStore(new URLDataInSearchEncoder());
+const urlStore = new URLStore(
+  new URLDataInSearchEncoder({
+    order: ['map', 'app', 'event', 'feed', 'layers'], // Doc #1168
+    transformers: {
+      map: {
+        decode: (str: string) => str.split('/').map((s) => Number(s)),
+        encode: (position: [number, number, number]) => position.join('/'),
+      },
+      layers: {
+        decode: (str: string) => str.split(','),
+        encode: (layers: string[]) => (layers.length ? layers.join(',') : null), // null means - not add this parameter
+      },
+    },
+  }),
+);
 const initFlagAtom = createBooleanAtom(false);
 let lastVersion = 0;
 
@@ -148,7 +162,7 @@ export const urlStoreAtom = createAtom(
         /**
          * Schedule run not in the same order as created, every dispatch have own side effects order.
          * Next line check that it last one schedule, if not - we ignore it
-         *  */
+         **/
         if (currentVersion !== lastVersion) return;
 
         /* STORE -> URL reactive updates */
