@@ -113,6 +113,7 @@ module.exports = {
         path: '^(src)',
         pathNot: [
           '\\.(spec|test)\\.(js|mjs|cjs|ts|tsx|ls|coffee|litcoffee|coffee\\.md)$',
+          '_clientTestsContext.ts',
         ]
       },
       to: {
