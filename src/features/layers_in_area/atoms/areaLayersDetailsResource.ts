@@ -129,8 +129,7 @@ export const areaLayersDetailsResourceAtom = createResourceAtom((params) => {
       );
       return request ?? null;
     } catch (e) {
-      console.warn(e);
-      return null;
+      throw e;
     }
   }
 
