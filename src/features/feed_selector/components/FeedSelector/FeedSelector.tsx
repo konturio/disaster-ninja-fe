@@ -1,8 +1,9 @@
-import { useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react';
 import { memo, useCallback } from 'react';
 import { i18n } from '~core/localization';
 import { userResourceAtom } from '~core/auth';
 import { currentEventFeedAtom } from '~core/shared_state';
+import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
 import { AppFeature } from '~core/auth/types';
 import s from './FeedSelector.module.css';
 import type { ChangeEvent } from 'react';
@@ -10,9 +11,10 @@ import type { ChangeEvent } from 'react';
 const FeedSelectorComp = () => {
   const [{ data: userModel }] = useAtom(userResourceAtom);
   const [currentFeed, { setCurrentFeed }] = useAtom(currentEventFeedAtom);
-
+  const scheduleAutoSelect = useAction(scheduledAutoSelect.setTrue);
   const onFeedChange = useCallback((ev: ChangeEvent<HTMLSelectElement>) => {
     setCurrentFeed(ev.target.value);
+    scheduleAutoSelect();
   }, []);
 
   return userModel &&

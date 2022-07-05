@@ -7,8 +7,8 @@ import {
   defaultAppLayersAtom,
   defaultLayersParamsAtom,
   currentEventFeedAtom,
-  focusedGeometryAtom,
 } from '~core/shared_state';
+import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { URLStore } from '../URLStore';
 import { URLDataInSearchEncoder } from '../dataInURLEncoder';
@@ -98,24 +98,18 @@ export const urlStoreAtom = createAtom(
         // Apply event
         if (state.event) {
           actions.push(currentEventAtom.setCurrentEventId(state.event));
-        } else if (state.map && !state.event) {
-          // in this case user implicitly shared map coordinates without an event.
-          // Reseting it will avoid event autoselection and map focus on autoselected event
-          actions.push(currentEventAtom.setCurrentEventId(null));
-          // set focus geometry to valid empty state to make a request for a global layers
-          actions.push(
-            focusedGeometryAtom.setFocusedGeometry(
-              { type: 'custom' },
-              { type: 'FeatureCollection', features: [] },
-            ),
-          );
+        } else {
+          // Auto select event from event list when url not contain that
+          schedule((dispatch) => {
+            dispatch(scheduledAutoSelect.setTrue());
+          });
         }
+
         // Apply feed
         if (state.feed) {
-          actions.push(
-            currentEventFeedAtom.setFeedForExistingEvent(state.feed),
-          );
+          actions.push(currentEventFeedAtom.setCurrentFeed(state.feed));
         }
+
         // Apply episode
         if (state.episode) {
           actions.push(currentEpisodeAtom.setCurrentEpisodeId(state.episode));
