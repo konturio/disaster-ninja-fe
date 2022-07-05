@@ -1,6 +1,6 @@
 import { cloneElement, isValidElement } from 'react';
-import i18next from 'i18next';
 import clsx from 'clsx';
+import { i18n } from '~core/localization';
 import { TooltipWrapper } from '~components/Tooltip';
 import { BIVARIATE_LEGEND_SIZE } from './const';
 import s from './CornerTooltipWrapper.module.css';
@@ -74,8 +74,8 @@ const formatSentimentDirection = (direction: Array<CornerRange>): string => {
   } else return capitalize(direction);
 };
 
-const LOW = `↓${i18next.t('bivariate.legend.low')}`;
-const HIGH = `↑${i18next.t('bivariate.legend.high')}`;
+const LOW = `↓${i18n.t('bivariate.legend.low')}`;
+const HIGH = `↑${i18n.t('bivariate.legend.high')}`;
 
 const BivariateLegendCornerTooltip = ({
   hints,
