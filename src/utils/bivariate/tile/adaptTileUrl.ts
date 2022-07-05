@@ -1,5 +1,5 @@
 import config from '~core/app_config';
-import { replaceUrlWithProxy } from '../../../../vite.proxy';
+import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 
 export function adaptTileUrl(url: string): string {
   /** Fix cors in local development */
