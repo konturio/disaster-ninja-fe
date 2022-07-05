@@ -1,4 +1,12 @@
-import { forwardRef, memo, useCallback, useEffect, useMemo } from 'react';
+import {
+  forwardRef,
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+} from 'react';
+import { MatrixRedrawContext } from '~features/bivariate_manager/utils/useMatrixRedraw';
 import {
   calculateHeadingsStyle,
   generateCellStyles,
@@ -50,7 +58,29 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
     let selectedColIndex = selectedCell?.x ?? -1;
     let selectedRowIndex = selectedCell?.y ?? -1;
 
+    function updateBounds(
+      left: number,
+      top: number,
+      right: number,
+      bottom: number,
+    ) {
+      //cellRowReferences[5][5].checkBounds(left, top, right, bottom);
+      if (cellRowReferences) {
+        cellRowReferences.forEach((row) => {
+          row.forEach(
+            (ref) =>
+              ref.checkBounds && ref.checkBounds(left, top, right, bottom),
+          );
+        });
+      }
+    }
+
+    const [, setHandler] = useContext(MatrixRedrawContext);
+    setHandler(updateBounds);
+
     const setCellReference = (ref, rowIndex, colIndex) => {
+      if (!ref) return;
+
       if (rowIndex >= 0) {
         if (!cellRowReferences[rowIndex]) {
           cellRowReferences[rowIndex] = [];

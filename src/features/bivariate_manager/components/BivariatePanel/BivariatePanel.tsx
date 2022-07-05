@@ -1,9 +1,13 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { lazy, useCallback, useEffect, useState } from 'react';
+import { lazy, useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Bi24 as BivariatePanelIcon } from '@konturio/default-icons';
 import ReactDOM from 'react-dom';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import {
+  MatrixRedrawWrapper,
+  useMatrixRedraw,
+} from '~features/bivariate_manager/utils/useMatrixRedraw';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
 import styles from './BivariatePanel.module.css';
 
@@ -19,7 +23,9 @@ const CustomClosePanelBtn = () => (
   </svg>
 );
 
-const LazyLoadedBivariateMatrixContainer = lazy(() => import('../BivariateMatrixContainer/BivariateMatrixContainer'));
+const LazyLoadedBivariateMatrixContainer = lazy(
+  () => import('../BivariateMatrixContainer/BivariateMatrixContainer'),
+);
 
 export function BivariatePanel({
   iconsContainerRef,
@@ -28,6 +34,9 @@ export function BivariatePanel({
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  useMatrixRedraw(containerRef.current);
 
   useEffect(() => {
     if (isMobile) {
@@ -53,16 +62,20 @@ export function BivariatePanel({
   }, [setIsOpen]);
 
   return (
-    <>
+    <MatrixRedrawWrapper>
       <Panel
         onClose={onPanelClose}
-        className={clsx(styles.sidePanel, isOpen && styles.show, !isOpen && styles.hide)}
+        className={clsx(
+          styles.sidePanel,
+          isOpen && styles.show,
+          !isOpen && styles.hide,
+        )}
         classes={{
           closeBtn: styles.customCloseBtn,
         }}
         customCloseBtn={<CustomClosePanelBtn />}
       >
-        <div className={styles.panelBody}>
+        <div ref={containerRef} className={styles.panelBody}>
           {isOpen && <LazyLoadedBivariateMatrixContainer />}
         </div>
       </Panel>
@@ -71,11 +84,15 @@ export function BivariatePanel({
         ReactDOM.createPortal(
           <PanelIcon
             clickHandler={onPanelOpen}
-            className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
+            className={clsx(
+              styles.panelIcon,
+              isOpen && styles.hide,
+              !isOpen && styles.show,
+            )}
             icon={<BivariatePanelIcon />}
           />,
           iconsContainerRef.current,
         )}
-    </>
+    </MatrixRedrawWrapper>
   );
 }

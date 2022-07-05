@@ -1,6 +1,46 @@
 import cn from 'clsx';
-import { forwardRef, useImperativeHandle, useRef } from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 import styles from './BivariateMatrixCell.module.css';
+
+const memoize = (fn) => {
+  const cache: Map<string, string> = new Map<string, string>();
+  return (...args) => {
+    const hash = args.map(Number).join('');
+    if (hash in cache) {
+      return cache[hash];
+    } else {
+      const result = fn(...args);
+      cache[hash] = result;
+      return result;
+    }
+  };
+};
+
+const memoizedClassGen = memoize(
+  (
+    isVisibleLocal: boolean,
+    isHoveredLocal: boolean,
+    isFromSelectedColLocal: boolean,
+    isFromSelectedRowLocal: boolean,
+    firstRowLocal: boolean,
+    lastRowLocal: boolean,
+    firstColLocal: boolean,
+    lastColLocal: boolean,
+  ) => {
+    if (!isVisibleLocal) return styles.invisibleCell;
+    return cn({
+      [styles.hoveredCell]: isHoveredLocal,
+      [styles.selectedCol]: isFromSelectedColLocal,
+      [styles.selectedRow]: isFromSelectedRowLocal,
+      [styles.first]:
+        (firstRowLocal && isFromSelectedColLocal) ||
+        (firstColLocal && isFromSelectedRowLocal),
+      [styles.last]:
+        (lastRowLocal && isFromSelectedColLocal) ||
+        (lastColLocal && isFromSelectedRowLocal),
+    });
+  },
+);
 
 interface CellProps {
   value?: number;
@@ -11,14 +51,14 @@ interface CellProps {
   onClick: (x: number, y: number) => void;
   className?: string;
   disabled?: boolean;
-  style?: Record<string, any>;
+  style?: Record<string, unknown>;
   firstRow?: boolean;
   firstCol?: boolean;
   lastRow?: boolean;
   lastCol?: boolean;
 }
 
-export const BivariateMatrixCell = forwardRef(
+export const BivariateMatrixCell = React.forwardRef(
   (
     {
       value,
@@ -39,6 +79,8 @@ export const BivariateMatrixCell = forwardRef(
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
+    let isVisible = true;
+
     let isHovered = false;
     let isFromSelectedRow = false;
     let isFromSelectedCol = false;
@@ -49,52 +91,83 @@ export const BivariateMatrixCell = forwardRef(
       disabled && styles.disabled,
     );
 
-    function generateClassNames(): string {
-      return `${baseClassNames} ${cn({
-        [styles.hoveredCell]: isHovered,
-        [styles.selectedCol]: isFromSelectedCol,
-        [styles.selectedRow]: isFromSelectedRow,
-        [styles.first]:
-          (firstRow && isFromSelectedCol) || (firstCol && isFromSelectedRow),
-        [styles.last]:
-          (lastRow && isFromSelectedCol) || (lastCol && isFromSelectedRow),
-      })}`;
-    }
+    const generateClassNames = (): string => {
+      return `${baseClassNames} ${memoizedClassGen(
+        isVisible,
+        isHovered,
+        isFromSelectedCol,
+        isFromSelectedRow,
+        firstRow,
+        lastRow,
+        firstCol,
+        lastCol,
+      )}`;
+    };
 
     useImperativeHandle(ref, () => ({
       setHovered: () => {
-        if (containerRef.current) {
-          isHovered = true;
+        isHovered = true;
+        if (isVisible && containerRef.current) {
           containerRef.current.className = generateClassNames();
         }
       },
       resetHovered: () => {
-        if (containerRef.current) {
-          isHovered = false;
+        isHovered = false;
+        if (isVisible && containerRef.current) {
           containerRef.current.className = generateClassNames();
         }
       },
       setSelectedCol: () => {
-        if (containerRef.current) {
-          isFromSelectedCol = true;
+        isFromSelectedCol = true;
+        if (isVisible && containerRef.current) {
           containerRef.current.className = generateClassNames();
         }
       },
       resetSelectedCol: () => {
-        if (containerRef.current) {
-          isFromSelectedCol = false;
+        isFromSelectedCol = false;
+        if (isVisible && containerRef.current) {
           containerRef.current.className = generateClassNames();
         }
       },
       setSelectedRow: () => {
-        if (containerRef.current) {
-          isFromSelectedRow = true;
+        isFromSelectedRow = true;
+        if (isVisible && containerRef.current) {
           containerRef.current.className = generateClassNames();
         }
       },
       resetSelectedRow: () => {
-        if (containerRef.current) {
-          isFromSelectedRow = false;
+        isFromSelectedRow = false;
+        if (isVisible && containerRef.current) {
+          containerRef.current.className = generateClassNames();
+        }
+      },
+      checkBounds: (
+        left: number,
+        top: number,
+        right: number,
+        bottom: number,
+      ) => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const cLeft = rect.left + window.scrollX;
+        const cTop = rect.top + window.scrollY;
+        const cRight = cLeft + rect.width;
+        const cBottom = cTop + rect.height;
+
+        if (
+          isVisible &&
+          (cRight < left || cBottom < top || cLeft > right || cTop > bottom)
+        ) {
+          isVisible = false;
+          containerRef.current.className = generateClassNames();
+        } else if (
+          !isVisible &&
+          cRight > left &&
+          cBottom > top &&
+          cLeft < right &&
+          cTop < bottom
+        ) {
+          isVisible = true;
           containerRef.current.className = generateClassNames();
         }
       },
@@ -119,7 +192,7 @@ export const BivariateMatrixCell = forwardRef(
               <div
                 className={styles.valueFill}
                 style={{ transform: `scale(${Math.abs(value)})` }}
-              ></div>
+              />
             )}
             <span className={styles.rotatedCell}>{value?.toFixed(3)}</span>
           </>

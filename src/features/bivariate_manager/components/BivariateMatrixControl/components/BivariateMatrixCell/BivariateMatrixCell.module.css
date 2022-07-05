@@ -2,6 +2,11 @@
   background: var(--hover-bg-color);
 }
 
+.invisibleCell {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .valueCell {
   text-align: center;
   position: relative;
