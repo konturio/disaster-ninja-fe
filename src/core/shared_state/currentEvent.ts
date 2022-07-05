@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from './focusedGeometry';
 import { currentEventFeedAtom } from './currentEventFeed';
 
@@ -17,7 +17,7 @@ export const currentEventAtom = createAtom(
     currentEventFeedAtom,
   },
   (
-    { onAction, onChange, getUnlistedState },
+    { onAction, onChange, getUnlistedState, schedule },
     state: CurrentEventAtomState = null,
   ) => {
     onChange('focusedGeometryAtom', (focusedGeometry) => {
@@ -29,20 +29,11 @@ export const currentEventAtom = createAtom(
       }
     });
 
-    onChange('currentEventFeedAtom', (nextData, prevData) => {
-      const focusedGeometry = getUnlistedState(focusedGeometryAtom);
-      if (
-        !focusedGeometry ||
-        focusedGeometry.source?.type === 'event' || // if feed was changed while browsing events - we should roll back for the initial state
-        (nextData?.id && nextData.id !== prevData?.id) ||
-        nextData === null
-      ) {
-        state = null;
-      }
-    });
     onAction('setCurrentEventId', (eventId) => (state = { id: eventId }));
     onAction('resetCurrentEvent', () => (state = null));
     return state;
   },
   '[Shared state] currentEventAtom',
 );
+
+export const scheduledAutoSelect = createBooleanAtom(false);
