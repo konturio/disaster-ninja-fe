@@ -67,8 +67,8 @@ function findColors(
   },
   crn: [CornerRange[], CornerRange[]],
 ): string {
-  const corner1 = (Array.isArray(crn[0]) ? crn[0] : [crn[0]]).sort();
-  const corner2 = (Array.isArray(crn[1]) ? crn[1] : [crn[1]]).sort();
+  const corner1 = (Array.isArray(crn[0]) ? [...crn[0]] : [crn[0]]).sort();
+  const corner2 = (Array.isArray(crn[1]) ? [...crn[1]] : [crn[1]]).sort();
 
   const mergedCorner = Array.from(new Set(corner1.concat(corner2)));
 
