@@ -13,7 +13,7 @@ import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/Defa
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { layerByOrder } from '~utils/map/layersOrder';
 import { waitMapEvent } from '~utils/map/waitMapEvent';
-import { replaceUrlWithProxy } from '~utils/replaceUrlWithProxy';
+import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import {
   addZoomFilter,
   onActiveContributorsClick,

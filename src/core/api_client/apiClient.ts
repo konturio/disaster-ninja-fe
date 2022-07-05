@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import config from '~core/app_config';
 import { create } from '~utils/axios/apisauce/apisauce';
-import { replaceUrlWithProxy } from '~utils/replaceUrlWithProxy';
+import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { ApiMethodTypes, getGeneralApiProblem } from './types';
 import { ApiClientError } from './apiClientError';
 import type {
