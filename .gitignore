@@ -38,6 +38,7 @@ stats.html
 template.config.js
 .eslintcache
 configs/config.local.json
+configs/proxy-config.local.js
 public/config/appconfig.json
 cosmos/dist/
 cosmos-export/
