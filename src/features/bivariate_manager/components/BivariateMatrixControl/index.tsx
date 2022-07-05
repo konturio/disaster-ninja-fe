@@ -212,7 +212,7 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
       if (selectedCell && (selectedCell.x !== -1 || selectedCell.y !== -1)) {
         onSelect(selectedCell.x, selectedCell.y);
       }
-    }, []);
+    }, [matrix]);
 
     return (
       <div
