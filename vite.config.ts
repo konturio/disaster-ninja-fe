@@ -67,8 +67,8 @@ export default ({ mode }) => {
     server: {
       proxy: proxyConfig,
     },
-    define: {
+    define: mode === 'development' ? {
       viteProxyConfig: JSON.stringify(proxyConfig),
-    }
+    } : undefined
   });
 };
