@@ -77,6 +77,14 @@ export const areaLayersControlsAtom = createAtom(
               id: layerId,
               renderer: getLayerRenderer(layer),
               cleanUpActions,
+              layerWasDrawnCallback: () => {
+                // eslint-disable-next-line
+                console.log(
+                  '%c⧭ layerWasDrawnCallback for ',
+                  'color: #d0bfff',
+                  layerId,
+                );
+              },
             }),
           );
           return acc;

@@ -28,26 +28,29 @@ export const layersRegistryAtom: LayerRegistryAtom = createAtom(
   ({ onAction, create, schedule }, state = new Map<string, LayerAtom>()) => {
     onAction('register', (requests) => {
       const newState = new Map(state);
-      requests.forEach(({ id, renderer, cleanUpActions }) => {
-        const layerAtom = createLogicalLayerAtom(
-          id,
-          renderer,
-          layersRegistryAtom,
-        );
-        newState.set(id, layerAtom);
-        if (cleanUpActions) {
-          cleanUpActionsMap.set(layerAtom, cleanUpActions);
-        }
-        /**
-         * If layer not rendered (for example it in collapsed group) his atom in sleeping state
-         * It problem because we still need run logic inside for map rendering
-         * This activate layer atom even it not visible in view
-         * */
-        unsubscribes.set(
-          layerAtom,
-          layerAtom.subscribe(() => null),
-        );
-      });
+      requests.forEach(
+        ({ id, renderer, cleanUpActions, layerWasDrawnCallback }) => {
+          const layerAtom = createLogicalLayerAtom(
+            id,
+            renderer,
+            layersRegistryAtom,
+            layerWasDrawnCallback,
+          );
+          newState.set(id, layerAtom);
+          if (cleanUpActions) {
+            cleanUpActionsMap.set(layerAtom, cleanUpActions);
+          }
+          /**
+           * If layer not rendered (for example it in collapsed group) his atom in sleeping state
+           * It problem because we still need run logic inside for map rendering
+           * This activate layer atom even it not visible in view
+           * */
+          unsubscribes.set(
+            layerAtom,
+            layerAtom.subscribe(() => null),
+          );
+        },
+      );
       state = newState;
     });
 

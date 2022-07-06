@@ -16,11 +16,20 @@ export type CommonHookArgs = {
 export interface LogicalLayerRenderer<T = any> {
   setupExtension: (extensionAtom: T) => void;
   willInit: (args: NullableMap & CommonHookArgs) => void;
-  willMount: (args: NotNullableMap & CommonHookArgs) => void;
+  willMount: (
+    args: NotNullableMap & CommonHookArgs,
+    layerWasDrawnCallback?: () => void,
+  ) => void;
   willUnMount: (args: NotNullableMap & CommonHookArgs) => void;
   willHide: (args: NotNullableMap & CommonHookArgs) => void;
   willUnhide: (args: NotNullableMap & CommonHookArgs) => void;
-  willLegendUpdate: (args: NotNullableMap & CommonHookArgs) => void;
-  willSourceUpdate: (args: NotNullableMap & CommonHookArgs) => void;
+  willLegendUpdate: (
+    args: NotNullableMap & CommonHookArgs,
+    layerWasDrawnCallback?: () => void,
+  ) => void;
+  willSourceUpdate: (
+    args: NotNullableMap & CommonHookArgs,
+    layerWasDrawnCallback?: () => void,
+  ) => void;
   willDestroy: (args: NullableMap & CommonHookArgs) => void;
 }
