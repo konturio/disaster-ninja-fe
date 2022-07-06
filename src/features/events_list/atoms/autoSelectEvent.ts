@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { currentEventAtom, focusedGeometryAtom } from '~core/shared_state';
+import { currentEventAtom } from '~core/shared_state';
 import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
 import { eventListResourceAtom } from './eventListResource';
 
@@ -18,13 +18,20 @@ export const autoSelectEvent = createAtom(
         eventListResource.data &&
         eventListResource.data.length
       ) {
-        const firstEventInList = eventListResource.data[0];
-        schedule((dispatch) => {
-          dispatch([
-            scheduledAutoSelect.setFalse(),
-            currentEventAtom.setCurrentEventId(firstEventInList.eventId),
-          ]);
-        });
+        const currentEvent = getUnlistedState(currentEventAtom);
+        const currentEventNotInNewList =
+          eventListResource.data.findIndex(
+            (e) => e.eventId === currentEvent?.id,
+          ) === -1;
+        if (currentEventNotInNewList) {
+          const firstEventInList = eventListResource.data[0];
+          schedule((dispatch) => {
+            dispatch([
+              scheduledAutoSelect.setFalse(),
+              currentEventAtom.setCurrentEventId(firstEventInList.eventId),
+            ]);
+          });
+        }
       }
     });
 

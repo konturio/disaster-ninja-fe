@@ -8,7 +8,10 @@ import {
   defaultLayersParamsAtom,
   currentEventFeedAtom,
 } from '~core/shared_state';
-import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
+import {
+  scheduledAutoSelect,
+  scheduledAutoFocus,
+} from '~core/shared_state/currentEvent';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { URLStore } from '../URLStore';
 import { URLDataInSearchEncoder } from '../dataInURLEncoder';
@@ -47,6 +50,7 @@ export const urlStoreAtom = createAtom(
   },
   ({ get, schedule }, state: UrlData = urlStore.readCurrentState()) => {
     const initFlag = get('initFlag');
+    const initActions: Action[] = [];
     if (!initFlag) {
       /* Initialization */
       /* If layers in url absent, take default layers form user settings */
@@ -59,7 +63,7 @@ export const urlStoreAtom = createAtom(
           !defaultLayers.loading &&
           !defaultLayers.error
         ) {
-          schedule((dispatch) => dispatch(defaultLayersParamsAtom.request()));
+          initActions.push(defaultLayersParamsAtom.request());
           return;
         }
 
@@ -73,13 +77,23 @@ export const urlStoreAtom = createAtom(
             layers: defaultLayers.data,
           };
         }
+
+        if (state.event === undefined) {
+          // Auto select event from event list when url not contain that
+          initActions.push(scheduledAutoSelect.setTrue());
+        }
+
+        if (state.map === undefined) {
+          // Auto zoom to event if no coordinates in url
+          initActions.push(scheduledAutoFocus.setTrue());
+        }
         // Continue in case of error
       }
 
       /* Finish Initialization */
       /* Setup atom state from initial url */
       schedule((dispatch) => {
-        const actions: Action[] = [];
+        const actions: Action[] = [...initActions];
 
         // Apply layers
         actions.push(enabledLayersAtom.change(() => new Set(state.layers)));
@@ -98,11 +112,6 @@ export const urlStoreAtom = createAtom(
         // Apply event
         if (state.event) {
           actions.push(currentEventAtom.setCurrentEventId(state.event));
-        } else {
-          // Auto select event from event list when url not contain that
-          schedule((dispatch) => {
-            dispatch(scheduledAutoSelect.setTrue());
-          });
         }
 
         // Apply feed

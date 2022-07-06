@@ -16,10 +16,7 @@ export const currentEventAtom = createAtom(
     focusedGeometryAtom,
     currentEventFeedAtom,
   },
-  (
-    { onAction, onChange, getUnlistedState, schedule },
-    state: CurrentEventAtomState = null,
-  ) => {
+  ({ onAction, onChange }, state: CurrentEventAtomState = null) => {
     onChange('focusedGeometryAtom', (focusedGeometry) => {
       const currentGeometrySource = focusedGeometry?.source;
       if (currentGeometrySource && currentGeometrySource.type !== 'event') {
@@ -37,3 +34,4 @@ export const currentEventAtom = createAtom(
 );
 
 export const scheduledAutoSelect = createBooleanAtom(false);
+export const scheduledAutoFocus = createBooleanAtom(false);
