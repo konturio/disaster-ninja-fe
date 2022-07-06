@@ -50,7 +50,6 @@ export const urlStoreAtom = createAtom(
   },
   ({ get, schedule }, state: UrlData = urlStore.readCurrentState()) => {
     const initFlag = get('initFlag');
-    const initActions: Action[] = [];
     if (!initFlag) {
       /* Initialization */
       /* If layers in url absent, take default layers form user settings */
@@ -63,33 +62,35 @@ export const urlStoreAtom = createAtom(
           !defaultLayers.loading &&
           !defaultLayers.error
         ) {
-          initActions.push(defaultLayersParamsAtom.request());
-          return;
+          schedule((dispatch) => {
+            dispatch(defaultLayersParamsAtom.request());
+          });
+          return; // Wait next update
         }
 
         if (defaultLayers.loading) {
-          return; // Wait default layers
+          return; // Wait until default layers loaded
         }
 
         if (defaultLayers.data !== null) {
+          // Continue app loading in case of error in default layers request
           state = {
             ...state,
             layers: defaultLayers.data,
           };
         }
-
-        if (state.event === undefined) {
-          // Auto select event from event list when url not contain that
-          initActions.push(scheduledAutoSelect.setTrue());
-        }
-
-        if (state.map === undefined) {
-          // Auto zoom to event if no coordinates in url
-          initActions.push(scheduledAutoFocus.setTrue());
-        }
-        // Continue in case of error
       }
 
+      const initActions: Action[] = [];
+      if (state.event === undefined) {
+        // Auto select event from event list when url not contain that
+        initActions.push(scheduledAutoSelect.setTrue());
+      }
+
+      if (state.map === undefined) {
+        // Auto zoom to event if no coordinates in url
+        initActions.push(scheduledAutoFocus.setTrue());
+      }
       /* Finish Initialization */
       /* Setup atom state from initial url */
       schedule((dispatch) => {
