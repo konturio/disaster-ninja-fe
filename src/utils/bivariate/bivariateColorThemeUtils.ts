@@ -91,7 +91,7 @@ export function generateColorThemeAndBivariateStyle(
   yNumerator: string,
   yDenominator: string,
   stats: Stat,
-) {
+): [ColorTheme, BivariateLayerStyle] | undefined {
   const { indicators, colors, axis } = stats;
 
   const xAxis = axis.find(
