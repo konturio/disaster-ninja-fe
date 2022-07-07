@@ -12,6 +12,9 @@ import styles from './views/Main/Main.module.css';
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
+const { BivariateManagerPage } = lazily(
+  () => import('~views/BivariateManager/BivariateManager'),
+);
 
 export function RoutedApp() {
   const [{ loading }] = useAtom(userResourceAtom);
@@ -36,6 +39,12 @@ export function RoutedApp() {
             <Route path={config.baseUrl + 'reports/:reportId'}>
               <Suspense fallback={null}>
                 <ReportPage />
+              </Suspense>
+            </Route>
+
+            <Route path={config.baseUrl + 'bivariate-manager'}>
+              <Suspense fallback={null}>
+                <BivariateManagerPage />
               </Suspense>
             </Route>
           </CacheSwitch>
