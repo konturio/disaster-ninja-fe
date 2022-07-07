@@ -3,7 +3,6 @@ import { createAtom, createResourceAtom } from '~utils/atoms';
 import { currentUserAtom } from '~core/shared_state/currentUser';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 import appConfig from '~core/app_config';
-import config from '~core/app_config';
 import { PUBLIC_USER_ID } from '~core/auth/constants';
 import { UserDataModel } from '../models/UserDataModel';
 import type {

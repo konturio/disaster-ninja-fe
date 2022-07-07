@@ -6,6 +6,7 @@ import {
   isGeometryEmpty,
 } from '~features/bivariate_manager/utils/createBivariateGraphQLQuery';
 import { parseGraphQLErrors } from '~features/bivariate_manager/utils/parseGraphQLErrors';
+import { isApiError } from '~core/api_client/apiClientError';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 
 let allMapStats: BivariateStatisticsResponse;
@@ -36,7 +37,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
           },
         );
       } catch (e) {
-        if (e.problem && e.problem.kind === 'canceled') {
+        if (isApiError(e) && e.problem.kind === 'canceled') {
           return null;
         } else {
           throw e;
@@ -66,7 +67,7 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       }
     }
 
-    return [processor, canceller];
+    return { processor, canceller };
   },
   focusedGeometryAtom,
   'bivariateStatisticsResource',

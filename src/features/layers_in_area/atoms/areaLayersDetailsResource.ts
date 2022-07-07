@@ -3,7 +3,7 @@ import { apiClient } from '~core/apiClientInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { currentEventFeedAtom } from '~core/shared_state';
-import { createResourceAtom_WithoutRequestSkip } from '../utils/tempCreateResourceAtom';
+import { createResourceAtom } from '~utils/atoms';
 import { areaLayersListResource } from './areaLayersListResource';
 import type { LayerInAreaDetails } from '../types';
 
@@ -118,15 +118,23 @@ export const areaLayersDetailsParamsAtom = createAtom(
 );
 
 // Call api
-export const areaLayersDetailsResourceAtom =
-  createResourceAtom_WithoutRequestSkip(async (params) => {
+export const areaLayersDetailsResourceAtom = createResourceAtom((params) => {
+  async function processor(): Promise<LayerInAreaDetails[] | null> {
     if (params === null) return null;
-    return await apiClient.post<LayerInAreaDetails[]>(
-      '/layers/details',
-      params,
-      true,
-    );
-  }, areaLayersDetailsParamsAtom);
+    try {
+      const request = await apiClient.post<LayerInAreaDetails[]>(
+        '/layers/details',
+        params,
+        true,
+      );
+      return request ?? null;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  return { processor, allowCancel: true };
+}, areaLayersDetailsParamsAtom);
 
 function arraysAreEqual(arr1: any[], arr2: any[]) {
   return (
