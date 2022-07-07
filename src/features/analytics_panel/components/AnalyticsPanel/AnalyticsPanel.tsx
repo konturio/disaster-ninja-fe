@@ -3,7 +3,11 @@ import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Analytics24 } from '@konturio/default-icons';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import styles from './AnalyticsPanel.module.css';
+
+let markedReady = false;
 
 const LazyLoadedAnalyticsContainer = lazy(
   () => import('../AnalyticsContainer/AnalyticsContainer'),
@@ -16,6 +20,10 @@ const LazyLoadedAnalyticsPanelHeader = lazy(
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  if (!markedReady) {
+    featureStatus.markReady(AppFeature.ANALYTICS_PANEL);
+    markedReady = true;
+  }
 
   useEffect(() => {
     if (isMobile) {

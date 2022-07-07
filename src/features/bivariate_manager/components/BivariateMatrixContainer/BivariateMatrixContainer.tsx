@@ -6,6 +6,8 @@ import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { createStateMap } from '~utils/atoms';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import s from './BivariateMatrixContainer.module.css';
 
 interface BivariateMatrixContainerProps {
@@ -61,16 +63,22 @@ const BivariateMatrixContainer = ({
               <LoadingSpinner />
             </div>
           ),
-          error: () => (
-            <div className={s.errorContainer}>
-              <ErrorMessage message="Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." />
-            </div>
-          ),
-          ready: () => (
-            <div className={s.matrixContainer}>
-              <ConnectedBivariateMatrix ref={onRefChange} />
-            </div>
-          ),
+          error: () => {
+            featureStatus.markReady(AppFeature.BIVARIATE_MANAGER);
+            return (
+              <div className={s.errorContainer}>
+                <ErrorMessage message="Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." />
+              </div>
+            );
+          },
+          ready: () => {
+            featureStatus.markReady(AppFeature.BIVARIATE_MANAGER);
+            return (
+              <div className={s.matrixContainer}>
+                <ConnectedBivariateMatrix ref={onRefChange} />
+              </div>
+            );
+          },
         })}
         <div className={s.topRightCorner} />
         <div className={s.bottomRightCorner} />

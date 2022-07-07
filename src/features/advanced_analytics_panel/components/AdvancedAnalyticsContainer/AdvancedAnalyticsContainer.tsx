@@ -10,6 +10,8 @@ import { focusedGeometryAtom } from '~core/shared_state';
 import { advancedAnalyticsResourceAtom } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsResource';
 import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsEmptyState/AdvancedAnalyticsEmptyState';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 
 const AdvancedAnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(advancedAnalyticsResourceAtom);
@@ -33,8 +35,12 @@ const AdvancedAnalyticsContainer = () => {
   return statesToComponents({
     init: <AdvancedAnalyticsEmptyState />,
     loading: <LoadingSpinner />,
-    error: (errorMessage) => <ErrorMessage message={errorMessage} />,
+    error: (errorMessage) => {
+      featureStatus.markReady(AppFeature.ADVANCED_ANALYTICS_PANEL);
+      return <ErrorMessage message={errorMessage} />;
+    },
     ready: (dataList) => {
+      featureStatus.markReady(AppFeature.ADVANCED_ANALYTICS_PANEL);
       const geometry = focusedGeometry?.geometry as GeoJSON.FeatureCollection;
       if (geometry.features && geometry.features.length == 0) {
         return <AnalyticsEmptyState />;

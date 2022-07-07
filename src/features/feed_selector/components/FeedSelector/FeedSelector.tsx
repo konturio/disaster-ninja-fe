@@ -4,6 +4,7 @@ import { i18n } from '~core/localization';
 import { userResourceAtom } from '~core/auth';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { AppFeature } from '~core/auth/types';
+import { featureStatus } from '~core/featureStatus';
 import s from './FeedSelector.module.css';
 import type { ChangeEvent } from 'react';
 
@@ -14,6 +15,8 @@ const FeedSelectorComp = () => {
   const onFeedChange = useCallback((ev: ChangeEvent<HTMLSelectElement>) => {
     setCurrentFeed(ev.target.value);
   }, []);
+
+  featureStatus.markReady(AppFeature.FEED_SELECTOR);
 
   return userModel &&
     userModel.hasFeature(AppFeature.FEED_SELECTOR) &&

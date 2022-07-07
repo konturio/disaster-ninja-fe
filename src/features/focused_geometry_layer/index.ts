@@ -6,6 +6,8 @@ import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { forceRun } from '~utils/atoms/forceRun';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/shared_state/focusedGeometry';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import {
   FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY,
   FOCUSED_GEOMETRY_COLOR,
@@ -58,4 +60,6 @@ export function initFocusedGeometryLayer() {
       id: FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
     }),
   ]);
+
+  featureStatus.markReady(AppFeature.FOCUSED_GEOMETRY_LAYER);
 }

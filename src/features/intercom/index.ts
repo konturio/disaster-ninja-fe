@@ -1,6 +1,8 @@
 // @ts-nocheck
 
 import appConfig from '~core/app_config';
+import { AppFeature } from '~core/auth/types';
+import { featureStatus } from '~core/featureStatus';
 
 export function initIntercom() {
   // need this to reset intercom session for unregistered users on startup
@@ -62,4 +64,6 @@ export function initIntercom() {
     }
   })();
   /* eslint-enable */
+
+  featureStatus.markReady(AppFeature.INTERCOM);
 }

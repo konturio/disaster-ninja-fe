@@ -5,6 +5,8 @@ import {
 } from '~core/shared_state';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { i18n } from '~core/localization';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';
 
 export function initOsmEditLink() {
@@ -23,4 +25,6 @@ export function initOsmEditLink() {
       window.open(url)?.focus();
     },
   });
+
+  featureStatus.markReady(AppFeature.OSM_EDIT_LINK);
 }

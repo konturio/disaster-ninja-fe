@@ -15,6 +15,8 @@ import {
 import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { forceRun } from '~utils/atoms/forceRun';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import { BoundarySelectorRenderer } from './renderers/BoundarySelectorRenderer';
 import { createBoundaryRegistryAtom } from './atoms/boundaryRegistryAtom';
 import { boundaryMarkerAtom } from './atoms/boundaryMarkerAtom';
@@ -67,4 +69,6 @@ export function initBoundarySelector() {
       }
     },
   });
+
+  featureStatus.markReady(AppFeature.BOUNDARY_SELECTOR);
 }

@@ -12,6 +12,8 @@ import {
 import { i18n } from '~core/localization';
 import { createLogicalLayerAtom } from '~core/logical_layers/utils/logicalLayerFabric';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import { MapRulerRenderer } from './renderers/MapRulerRenderer';
 
 export function initMapRuler() {
@@ -41,4 +43,6 @@ export function initMapRuler() {
       }
     },
   });
+
+  featureStatus.markReady(AppFeature.MAP_RULER);
 }

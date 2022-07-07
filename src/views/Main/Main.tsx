@@ -9,6 +9,7 @@ import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { initUrlStore } from '~core/url_store';
+import { featureStatus } from '~core/featureStatus';
 import s from './Main.module.css';
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
@@ -116,6 +117,8 @@ export function MainView() {
         initIntercom();
       });
     }
+    if (userModel?.hasFeature(AppFeature.HEADER))
+      featureStatus.markReady(AppFeature.HEADER);
   }, [userModel]);
 
   return (

@@ -3,6 +3,8 @@ import { i18n } from '~core/localization';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import { createUpdateActionsFromLayersDTO } from '../utils/createUpdateActionsFromLayersDTO';
 import { editableLayersListResource } from './editableLayersListResource';
 import { editableLayerControllerAtom } from './editableLayerController';
@@ -132,6 +134,7 @@ export const editableLayersControlsAtom = createAtom(
       if (actions.length) {
         schedule((dispatch) => {
           dispatch(actions);
+          featureStatus.markReady(AppFeature.CREATE_LAYER);
         });
       }
     });

@@ -1,16 +1,25 @@
 import { useAction, useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
+import { nanoid } from 'nanoid';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import { controlsOrder } from '../../constants';
 import { sortByPredefinedOrder } from './sortByPredefinedOrder';
 import s from './SideBar.module.css';
-import { nanoid } from 'nanoid';
+
+let markedReady = false;
 
 export function SideBar() {
   const [controls] = useAtom(sideControlsBarAtom);
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
   const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
+
+  if (!markedReady) {
+    featureStatus.markReady(AppFeature.SIDE_BAR);
+    markedReady = true;
+  }
 
   function onMouseEnter(
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
