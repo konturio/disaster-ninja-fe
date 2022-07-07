@@ -180,7 +180,7 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
       }
     }
 
-    return [processor, canceller];
+    return { processor, canceller };
   },
   null,
   'bivariateColorManagerResource',
