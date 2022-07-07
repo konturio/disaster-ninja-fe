@@ -4,7 +4,7 @@ import { currentUserAtom } from '~core/shared_state/currentUser';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 import appConfig from '~core/app_config';
 import { PUBLIC_USER_ID } from '~core/auth/constants';
-import { featureStatusAtom } from '~core/shared_state/featureStatus';
+import { featureStatus } from '~core/featureStatus';
 import { UserDataModel } from '../models/UserDataModel';
 import type {
   AppFeatureType,
@@ -111,8 +111,7 @@ export const userResourceAtom = createResourceAtom<
         }
       } catch (e) {}
     }
-
-    featureStatusAtom.setFeatures.dispatch(Object.keys(features));
+    featureStatus.init(Object.keys(features));
     const udm = new UserDataModel({ features, feeds });
     return udm;
   },

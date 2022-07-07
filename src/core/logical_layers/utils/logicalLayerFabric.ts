@@ -43,7 +43,6 @@ export function createLogicalLayerAtom(
   id: string,
   renderer: LogicalLayerRenderer,
   registry: LayerRegistryAtom,
-  layerWasDrawnCallback?: () => void,
 ) {
   let hasBeenDestroyed = false;
   const logicalLayerAtom = createAtom(
@@ -203,10 +202,7 @@ export function createLogicalLayerAtom(
         try {
           if (!newState.isMounted) {
             if (map) {
-              renderer.willMount(
-                { map, state: { ...newState } },
-                layerWasDrawnCallback,
-              );
+              renderer.willMount({ map, state: { ...newState } });
               newState.isMounted = true;
               actions.push(mountedLayersAtom.set(id, logicalLayerAtom));
             }
@@ -232,25 +228,19 @@ export function createLogicalLayerAtom(
         const legendHaveUpdate = state.legend !== newState.legend;
         if (legendHaveUpdate) {
           if (map)
-            renderer.willLegendUpdate(
-              {
-                map,
-                state: { ...newState },
-              },
-              layerWasDrawnCallback,
-            );
+            renderer.willLegendUpdate({
+              map,
+              state: { ...newState },
+            });
         }
 
         const sourceHaveUpdate = state.source !== newState.source;
         if (sourceHaveUpdate) {
           if (map)
-            renderer.willSourceUpdate(
-              {
-                map,
-                state: { ...newState },
-              },
-              layerWasDrawnCallback,
-            );
+            renderer.willSourceUpdate({
+              map,
+              state: { ...newState },
+            });
         }
       }
       /* Destroy */

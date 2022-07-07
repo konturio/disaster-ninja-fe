@@ -1,6 +1,8 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import { createUpdateActionsFromLayersDTO } from '../utils/createUpdateActionsFromLayersDTO';
 import { areaLayersListResource } from './areaLayersListResource';
 import type { LayerInArea } from '../types';
@@ -77,14 +79,6 @@ export const areaLayersControlsAtom = createAtom(
               id: layerId,
               renderer: getLayerRenderer(layer),
               cleanUpActions,
-              layerWasDrawnCallback: () => {
-                // eslint-disable-next-line
-                console.log(
-                  '%c⧭ layerWasDrawnCallback for ',
-                  'color: #d0bfff',
-                  layerId,
-                );
-              },
             }),
           );
           return acc;
@@ -112,6 +106,7 @@ export const areaLayersControlsAtom = createAtom(
       if (actions.length) {
         schedule((dispatch) => {
           dispatch(actions);
+          featureStatus.markReady(AppFeature.LAYERS_IN_AREA);
         });
       }
     });

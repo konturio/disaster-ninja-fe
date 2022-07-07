@@ -15,10 +15,7 @@ export class LogicalLayerDefaultRenderer<T = Atom>
   willInit(args: NullableMap & CommonHookArgs) {
     return;
   }
-  willMount(
-    args: NotNullableMap & CommonHookArgs,
-    layerWasDrawnCallback?: () => void,
-  ) {
+  willMount(args: NotNullableMap & CommonHookArgs) {
     return;
   }
   willUnMount(args: NotNullableMap & CommonHookArgs) {
@@ -30,16 +27,10 @@ export class LogicalLayerDefaultRenderer<T = Atom>
   willUnhide(args: NotNullableMap & CommonHookArgs) {
     return;
   }
-  willLegendUpdate(
-    args: NotNullableMap & CommonHookArgs,
-    layerWasDrawnCallback?: () => void,
-  ) {
+  willLegendUpdate(args: NotNullableMap & CommonHookArgs) {
     return;
   }
-  willSourceUpdate(
-    args: NotNullableMap & CommonHookArgs,
-    layerWasDrawnCallback?: () => void,
-  ) {
+  willSourceUpdate(args: NotNullableMap & CommonHookArgs) {
     return;
   }
   willDestroy(args: NullableMap & CommonHookArgs) {

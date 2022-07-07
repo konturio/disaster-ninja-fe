@@ -3,9 +3,11 @@ import mapLibre from 'maplibre-gl';
 import { useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
+import { featureStatus } from '~core/featureStatus';
 import Map from './map-libre-adapter';
 import DeckGl from './deck-gl';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
+import { reportMapReadyness } from './MapReadyness';
 import type { MapBoxMapProps } from './map-libre-adapter';
 import type { MapStyle } from '~core/types';
 
@@ -111,6 +113,11 @@ export function ConnectedMap({
       });
       const mapContainer = mapRef.current.getCanvasContainer();
       resizeObserver.observe(mapContainer);
+      reportMapReadyness(
+        mapRef.current,
+        featureStatus.markReady.bind(featureStatus),
+        featureStatus.markUnready.bind(featureStatus),
+      );
       return () => {
         resizeObserver.unobserve(mapContainer);
       };

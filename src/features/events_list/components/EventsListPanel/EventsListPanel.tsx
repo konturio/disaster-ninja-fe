@@ -1,7 +1,7 @@
 import { Virtuoso } from 'react-virtuoso';
 import { Panel, Text } from '@konturio/ui-kit';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useAction, useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
@@ -16,7 +16,7 @@ import { FeedSelector } from '~features/feed_selector';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import { i18n } from '~core/localization';
-import { featureStatusAtom } from '~core/shared_state/featureStatus';
+import { featureStatus } from '~core/featureStatus';
 import { AppFeature } from '~core/auth/types';
 import { EventCard } from '../EventCard/EventCard';
 import s from './EventsListPanel.module.css';
@@ -40,7 +40,6 @@ export function EventsListPanel({
 
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [wasClosed, setWasClosed] = useState<null | boolean>(null);
-  const signalFeatureReadyness = useAction(featureStatusAtom.markReady);
   const virtuoso = useRef(null);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
@@ -99,7 +98,7 @@ export function EventsListPanel({
   }, []);
 
   useEffect(() => {
-    if (eventsList && !loading) signalFeatureReadyness(AppFeature.EVENTS_LIST);
+    if (eventsList && !loading) featureStatus.markReady(AppFeature.EVENTS_LIST);
     if (!eventsList && !loading) disable(EVENT_LIST_CONTROL_ID);
     else if (!wasClosed && !isMobile) {
       enable(EVENT_LIST_CONTROL_ID);
