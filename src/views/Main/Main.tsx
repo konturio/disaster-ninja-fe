@@ -92,6 +92,13 @@ export function MainView() {
         initReportsIcon(history),
       );
     }
+
+    if (userModel?.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)) {
+      import('~features/bivariate_color_manager/').then(
+        ({ initBivariateColorManagerIcon }) =>
+          initBivariateColorManagerIcon(history),
+      );
+    }
     if (userModel?.hasFeature(AppFeature.OSM_EDIT_LINK)) {
       import('~features/osm_edit_link/').then(({ initOsmEditLink }) =>
         initOsmEditLink(),
