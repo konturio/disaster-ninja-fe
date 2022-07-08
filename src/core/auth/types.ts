@@ -40,6 +40,7 @@ export const AppFeature = {
   CREATE_LAYER: 'create_layer',
   HEADER: 'header',
   INTERCOM: 'intercom',
+  BIVARIATE_COLOR_MANAGER: 'bivariate_color_manager',
 } as const;
 
 export type AppFeatureType = typeof AppFeature[keyof typeof AppFeature];
