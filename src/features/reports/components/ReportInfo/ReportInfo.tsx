@@ -16,6 +16,7 @@ import {
 } from '~features/reports/atoms/reportResource';
 import commonStyles from '../ReportsList/ReportsList.module.css';
 import { ReportTable } from '../ReportTable/ReportTable';
+import { Searchbar } from '../search/Searchbar';
 import styles from './Report.module.css';
 
 type Params = {
@@ -84,6 +85,9 @@ export function ReportInfo() {
         </div>
       )}
       <div className={clsx(!reportResource.data && styles.invisible)}>
+        {report?.searchable_columns_indexes?.length && (
+          <Searchbar searchIndexes={report?.searchable_columns_indexes} />
+        )}
         <ReportTable />
       </div>
     </div>
