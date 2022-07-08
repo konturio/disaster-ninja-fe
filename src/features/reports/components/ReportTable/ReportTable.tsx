@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useAtom } from '@reatom/react';
 import i18next from 'i18next';
+import { Text } from '@konturio/ui-kit';
+import { currentReportAtom } from '~features/reports/atoms/reportResource';
+import { i18n } from '~core/localization';
 import { tableAtom } from '../../atoms/tableAtom';
 import sortIcon from '../../icons/sort_triangle.svg';
 import styles from './ReportTable.module.css';
@@ -23,14 +26,23 @@ function openOSMID(
 }
 
 export function ReportTable() {
-  const [{ data, thead, ascending, sortIndex, meta }, { sortBy, setState }] =
+  const [{ data, thead, ascending, sortIndex }, { sortBy, setState }] =
     useAtom(tableAtom);
+  const [meta] = useAtom(currentReportAtom);
 
   useEffect(() => {
     return () => {
-      setState({ meta: null, sortIndex: 0, ascending: null });
+      setState({ sortIndex: 0, ascending: null });
     };
   }, []);
+
+  if (data === null) {
+    return <Text type="heading-xl">{i18n.t('No data for this report')}</Text>;
+  }
+
+  if (data === 'sorting') {
+    return <Text type="heading-xl">{i18n.t('Sorting data...')}</Text>;
+  }
 
   return (
     <div>
