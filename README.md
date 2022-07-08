@@ -1,7 +1,30 @@
 # Disaster Ninja 2.0
 [Description](https://www.kontur.io/portfolio/disaster-ninja/)
 
-Run npx husky-init after you first time clone project
+Run `npx husky-init` after you first time clone project
+
+## How to use
+
+The easiest way to use disaster-ninja front-end build is to use a docker image.
+```
+docker run --rm -d -p 80:80/tcp ghcr.io/konturio/disaster-ninja-fe:latest
+```
+after that it will be available on `http://localhost/active/` url
+
+Another way is - use vite preview build
+```
+npm i
+npm run serve
+```
+
+## How to develop
+
+For start dev server all you need is
+```
+npm i
+npm run dev
+```
+
 ## Available Scripts
 
 ### npm start
@@ -19,11 +42,10 @@ See the section about running tests for more information.
 
 ### npm run build
 
-Builds a static copy of your site to the `build/` folder.
+Builds a static copy of your site to the `dist/` folder.
 
 ### npm run serve
 Run static server for builded app
-Use this script after `build`. 
 
 ### typecheck and typecheck:watch
 Check types error in project
@@ -46,12 +68,13 @@ Need for store data that used in build time. This mostly internal glue stuff as 
 
 **Runtime variables**  
 Can be different for every environment.
-Must describe - api endpoints, feature flags, base url, path to s3 with images, etc.)
+Must describe - api endpoints, feature flags, base url, path to s3 with images, etc.
 Available via AppConfig alias, in runtime in browser environment
 They defined in JSON-per-enviroment files in `./configs/` folder.
+You can your own for override default config, it should have name `./configs/config.local.json`
 
 - When used: At runtime (browser)
-- How to set: by configs in `./configs/` folder or in `public/appconfig` for localhostW
+- How to set: by configs in `./configs/`
 - How to read: `import appConfig from '~core/app_config'`
 
 > If you want use some build time variables in browser - re-export them from app_config
