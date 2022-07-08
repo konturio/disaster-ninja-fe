@@ -3,6 +3,7 @@ import { graphQlClient } from '~core/apiClientInstance';
 import { createBivariateColorsGraphQLQuery } from '~features/bivariate_manager/utils/createBivariateGraphQLQuery';
 import { parseGraphQLErrors } from '~features/bivariate_manager/utils/parseGraphQLErrors';
 import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
+import { isApiError } from '~core/api_client/apiClientError';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 import type { Indicator } from '~utils/bivariate';
 import type { ColorTheme } from '~core/types';
@@ -58,7 +59,7 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
           },
         );
       } catch (e) {
-        if (abortController.signal.aborted) {
+        if (isApiError(e) && e.problem.kind === 'canceled') {
           return null;
         }
         throw e;
