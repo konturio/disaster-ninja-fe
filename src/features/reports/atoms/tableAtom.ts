@@ -47,8 +47,6 @@ export const tableAtom = createAtom(
     });
 
     onAction('sortBy', (sorter) => {
-      // if (!state.meta || state.meta.sortable === false || !state.initialData)
-      //   return;
       const newSortIndex = state.thead?.findIndex((val) => val === sorter);
 
       if (newSortIndex === undefined || newSortIndex < 0)
