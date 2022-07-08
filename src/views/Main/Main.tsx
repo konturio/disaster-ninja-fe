@@ -9,6 +9,8 @@ import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { initUrlStore } from '~core/url_store';
+import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager';
+import { initReportsIcon } from '~features/reports';
 import s from './Main.module.css';
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
@@ -88,16 +90,11 @@ export function MainView() {
       );
     }
     if (userModel?.hasFeature(AppFeature.REPORTS)) {
-      import('~features/reports/').then(({ initReportsIcon }) =>
-        initReportsIcon(history),
-      );
+      initReportsIcon(history);
     }
 
     if (userModel?.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)) {
-      import('~features/bivariate_color_manager/').then(
-        ({ initBivariateColorManagerIcon }) =>
-          initBivariateColorManagerIcon(history),
-      );
+      initBivariateColorManagerIcon(history);
     }
     if (userModel?.hasFeature(AppFeature.OSM_EDIT_LINK)) {
       import('~features/osm_edit_link/').then(({ initOsmEditLink }) =>
