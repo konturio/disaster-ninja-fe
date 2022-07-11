@@ -1,65 +1,52 @@
 import papa from 'papaparse';
 import { createAtom } from '~utils/atoms';
-import { reportsClient } from '~core/apiClientInstance';
+import { reportResourceAtom } from './reportResource';
 import type { Report } from '~features/reports/atoms/reportsAtom';
 
 export const limit = 100;
 
 type TableState = {
-  meta: Report | null;
   sortIndex: number;
   thead?: string[];
-  data?: string[][];
+  data?: string[][] | null | 'sorting';
   ascending: boolean | null;
   initialData?: string[][];
 };
 
-async function fetchTable(link: string) {
-  const responseData = await reportsClient.get<string>(link, undefined, false);
-  if (responseData === undefined) throw new Error('No data received');
-  return responseData;
-}
-
 export const tableAtom = createAtom(
   {
-    setReport: (report: Report) => report,
     sortBy: (sorter: string) => sorter,
     setState: (state: TableState) => state,
+    reportResourceAtom,
     sort: () => {
       // noop
     },
   },
   (
-    { onAction, schedule, create },
-    state: TableState = { meta: null, sortIndex: 0, ascending: null },
+    { onAction, onChange, schedule, create },
+    state: TableState = { sortIndex: 0, ascending: null },
   ) => {
-    onAction('setReport', async (report) => {
-      if (state.meta?.id === report.id) return;
+    onChange('reportResourceAtom', (resource) => {
+      if (!resource.data) return (state = { sortIndex: 0, ascending: null });
 
-      schedule(async (dispatch) => {
-        const csv = await fetchTable(report.link);
-        const parsed = papa.parse<string[]>(csv, {
-          delimiter: ';',
-          fastMode: true,
-          skipEmptyLines: true,
-        });
-
-        dispatch(
-          tableAtom.setState({
-            meta: report,
-            sortIndex: 0,
-            thead: parsed.data[0],
-            data: parsed.data.slice(1),
-            ascending: null,
-            initialData: parsed.data.slice(1),
-          }),
-        );
+      const csv = resource.data;
+      const parsed = papa.parse<string[]>(csv, {
+        delimiter: ';',
+        fastMode: true,
+        skipEmptyLines: true,
       });
+
+      state = {
+        sortIndex: 0,
+        thead: parsed.data[0],
+        data: parsed.data.slice(1),
+        ascending: null,
+        initialData: parsed.data.slice(1),
+      };
+      if (!state.data!.length) state.data = null;
     });
 
     onAction('sortBy', (sorter) => {
-      if (!state.meta || state.meta.sortable === false || !state.initialData)
-        return;
       const newSortIndex = state.thead?.findIndex((val) => val === sorter);
 
       if (newSortIndex === undefined || newSortIndex < 0)
@@ -71,7 +58,7 @@ export const tableAtom = createAtom(
         return null;
       })();
 
-      state = { ...state, ascending, sortIndex: newSortIndex, data: [] };
+      state = { ...state, ascending, sortIndex: newSortIndex, data: 'sorting' };
 
       schedule((dispatch) => {
         setTimeout(() => {
@@ -85,7 +72,7 @@ export const tableAtom = createAtom(
     onAction('sort', () => {
       const sorted = (function sortTable() {
         if (!state.initialData) return;
-        // ascneding === null means we can return initial data
+        // ascending === null means we can return initial data
         if (state.ascending === null) return state.initialData;
 
         // make copy of initial data to prevent mutating
