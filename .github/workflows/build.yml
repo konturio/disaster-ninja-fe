@@ -51,7 +51,7 @@ jobs:
       - run: tar cvf - dist | xz -1 > ${{ env.IMAGE_TAG }}.tar.xz
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ IMAGE_TAG }}
+          name: ${{ env.IMAGE_TAG }}
           path: '*.tar.xz'
 
   publish:
