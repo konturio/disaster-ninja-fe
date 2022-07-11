@@ -2,7 +2,7 @@ import { cloneElement, isValidElement } from 'react';
 import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { TooltipWrapper } from '~components/Tooltip';
-import { BIVARIATE_LEGEND_SIZE } from './const';
+import { CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';
 import type { ReactNode, PointerEvent } from 'react';
 import type { Cell } from '@konturio/ui-kit/tslib/Legend/types';
@@ -15,13 +15,6 @@ export type CornerTooltipWrapperProps = {
   meta: BivariateLegendProps['meta'];
   children: ReactNode;
 };
-
-const CORNER_POINTS_INDEXES = [
-  0,
-  BIVARIATE_LEGEND_SIZE - 1,
-  BIVARIATE_LEGEND_SIZE * BIVARIATE_LEGEND_SIZE - BIVARIATE_LEGEND_SIZE,
-  BIVARIATE_LEGEND_SIZE * BIVARIATE_LEGEND_SIZE - 1,
-];
 
 const CornerTooltipWrapper = ({
   children,
