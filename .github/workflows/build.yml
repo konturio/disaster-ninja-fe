@@ -11,9 +11,12 @@ on:
       - synchronize
       - ready_for_review
   workflow_dispatch:
+  
 env:
   NODE_ENV: production
   AVA_FORCE_CI: 'not-ci'
+  IMAGE_TAG: ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -45,9 +48,17 @@ jobs:
           node-version: '17'
       - run: npm ci --also=dev
       - run: npm run build
-      - run: tar cvf - dist | xz -1 > ${{ github.head_ref || github.ref_name }}.${{ github.event.pull_request.head.sha || github.sha }}.${{ github.run_attempt }}.tar.xz
+      - run: tar cvf - dist | xz -1 > ${{ env.IMAGE_TAG }}.tar.xz
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.head_ref || github.ref_name }}.${{ github.event.pull_request.head.sha || github.sha }}.${{ github.run_attempt }}
+          name: ${{ IMAGE_TAG }}
           path: '*.tar.xz'
 
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ success() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'release'))) }}
+    steps:
+      - uses: ./.github/workflows/publish_image
+        with:
+          artifact_name: ${{ env.IMAGE_TAG }}
+        secrets: inherit

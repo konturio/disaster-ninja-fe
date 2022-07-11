@@ -2,12 +2,12 @@ name: Publish Docker image
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
+  IMAGE_REPO: ${{ github.repository }}
 on:
-  workflow_run:
-    workflows: ["build"]
-    types: [completed]
+  workflow_call:
+    inputs:
+      artifact_name: string
+    secrets: inherit
 
 jobs:
   push_to_registry:
@@ -19,10 +19,10 @@ jobs:
         with:
           workflow: build.yml
           workflow_conclusion: success
-          name: ${{ github.event.workflow_run.head_branch }}.${{ github.event.workflow_run.head_sha }}.${{ github.run_attempt }}
+          name: ${{ inputs.artifact_name }}
 
       - name: Extract files from archive
-        run: tar -xvf ${{ github.event.workflow_run.head_branch }}.${{ github.event.workflow_run.head_sha }}.${{ github.run_attempt }}.tar.xz
+        run: tar -xvf ${{ inputs.artifact_name }}.tar.xz
 
       - name: Display structure of downloaded files
         run: ls -R
@@ -39,10 +39,10 @@ jobs:
         uses: docker/metadata-action@v4.0.1
         id: meta
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}
           tags: |
             type=semver,pattern={{version}}
-            type=raw,value=${{ github.event.workflow_run.head_branch }}.${{ github.event.workflow_run.head_sha }}.${{ github.run_attempt }}
+            type=raw,value=${{ inputs.artifact_name }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
@@ -52,6 +52,6 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.workflow_run.head_branch }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}:${{ github.event.workflow_run.head_branch }}
           labels: ${{ steps.meta.outputs.labels }}
