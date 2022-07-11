@@ -55,10 +55,9 @@ jobs:
           path: '*.tar.xz'
 
   publish:
-    runs-on: ubuntu-latest
+    needs: build
     if: ${{ success() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'release'))) }}
-    steps:
-      - uses: ./.github/workflows/publish_image
-        with:
-          artifact_name: ${{ env.IMAGE_TAG }}
-        secrets: inherit
+    uses: ./.github/workflows/publish_image
+    with:
+      artifact_name: ${{ env.IMAGE_TAG }}
+    secrets: inherit
