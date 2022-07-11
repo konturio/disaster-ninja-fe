@@ -14,6 +14,7 @@ after that it will be available on `http://localhost/active/` url
 Another way is - use vite preview build
 ```
 npm i
+npm run build
 npm run serve
 ```
 
