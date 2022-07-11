@@ -50,7 +50,7 @@ jobs:
       - run: tar cvf - dist | xz -1 > ${{ env.IMAGE_TAG }}.tar.xz
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}
+          name: ${{ github.sha }}.${{ github.run_attempt }}
           path: '*.tar.xz'
 
   publish:
@@ -58,5 +58,5 @@ jobs:
     if: ${{ success() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'release'))) }}
     uses: ./.github/workflows/publish_image.yml
     with:
-      artifact_name: ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}
+      artifact_name: ${{ github.sha }}.${{ github.run_attempt }}
     secrets: inherit
