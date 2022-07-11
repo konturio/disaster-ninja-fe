@@ -5,7 +5,7 @@ import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { tableAtom } from '~features/reports/atoms/tableAtom';
 import s from './search.module.css';
-import type { FormEvent} from 'react';
+import type { FormEvent } from 'react';
 
 export function Searchbar({ searchIndexes = [] }: { searchIndexes: number[] }) {
   const [query, setQuery] = useState('');
@@ -18,10 +18,8 @@ export function Searchbar({ searchIndexes = [] }: { searchIndexes: number[] }) {
     setQuery('');
   }
 
-  // todo remove rerender
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      // do job here
       search(query, searchIndexes);
     }, 300);
     return () => clearTimeout(delayDebounceFn);
@@ -35,7 +33,7 @@ export function Searchbar({ searchIndexes = [] }: { searchIndexes: number[] }) {
         onTouchCancel={cancel}
         placeholder={i18n.t('Search location')}
       >
-        <SearchIcon />
+        <SearchIcon width={20} />
       </Input>
     </div>
   );
