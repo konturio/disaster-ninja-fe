@@ -6,8 +6,9 @@ env:
 on:
   workflow_call:
     inputs:
-      artifact_name: string
-    secrets: inherit
+      artifact_name:
+        required: true
+        type: string
 
 jobs:
   push_to_registry:
