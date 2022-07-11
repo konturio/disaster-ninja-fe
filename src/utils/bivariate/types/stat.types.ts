@@ -32,6 +32,8 @@ export type CorrelationRate = {
   x: Axis;
   y: Axis;
   rate: number;
+  avgCorrelationY?: number;
+  avgCorrelationX?: number;
 };
 
 export type InitAxis = {

@@ -12,6 +12,8 @@
     "bivariate.matrix.icon.roads": "Value divided by Total Roads Length",
 
     "bivariate.legend.high": "High",
-    "bivariate.legend.low": "Low"
+    "bivariate.legend.low": "Low",
+
+    "sidebar.biv-color-manager": "Bivariate color manager"
   }
 }

@@ -19,12 +19,15 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
         return allMapStats;
       }
 
-      let responseData: { data: BivariateStatisticsResponse } | undefined;
+      let responseData:
+        | { data: BivariateStatisticsResponse; errors?: unknown }
+        | undefined;
       const abortController = new AbortController();
       abortControllers.push(abortController);
       try {
         responseData = await graphQlClient.post<{
           data: BivariateStatisticsResponse;
+          errors?: unknown;
         }>(
           `/`,
           {
@@ -39,15 +42,15 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       } catch (e) {
         if (isApiError(e) && e.problem.kind === 'canceled') {
           return null;
-        } else {
-          throw e;
         }
+        throw e;
       }
 
       if (!responseData) {
         throw new Error('No data received');
-      } else if (!responseData.data) {
-        const msg = parseGraphQLErrors(responseData as any);
+      }
+      if (!responseData?.data) {
+        const msg = parseGraphQLErrors(responseData);
         throw new Error(msg || 'No data received');
       }
 

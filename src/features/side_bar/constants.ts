@@ -9,6 +9,7 @@ import {
 import { GEOMETRY_UPLOADER_CONTROL_ID } from '~features/geometry_uploader/constants';
 import { EDIT_IN_OSM_CONTROL_ID } from '~features/osm_edit_link/constants';
 import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
+import { BIVARIATE_COLOR_MANAGER_CONTROL_ID } from '~features/bivariate_color_manager/constants';
 
 export const controlsOrder = [
   EVENT_LIST_CONTROL_ID,
@@ -20,4 +21,5 @@ export const controlsOrder = [
   EDIT_IN_OSM_CONTROL_ID,
   REPORTS_CONTROL_ID,
   CREATE_LAYER_CONTROL_ID,
+  BIVARIATE_COLOR_MANAGER_CONTROL_ID,
 ];
