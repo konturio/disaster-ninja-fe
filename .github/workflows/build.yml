@@ -15,7 +15,6 @@ on:
 env:
   NODE_ENV: production
   AVA_FORCE_CI: 'not-ci'
-  IMAGE_TAG: ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}
 
 jobs:
   test:
@@ -51,7 +50,7 @@ jobs:
       - run: tar cvf - dist | xz -1 > ${{ env.IMAGE_TAG }}.tar.xz
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.IMAGE_TAG }}
+          name: ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}
           path: '*.tar.xz'
 
   publish:
@@ -59,5 +58,5 @@ jobs:
     if: ${{ success() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'release'))) }}
     uses: ./.github/workflows/publish_image.yml
     with:
-      artifact_name: ${{ jobs.build.env.IMAGE_TAG }}
+      artifact_name: ${{ github.ref_name }}.${{ github.sha }}.${{ github.run_attempt }}
     secrets: inherit
