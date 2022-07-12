@@ -10,6 +10,7 @@ import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/D
 import { AppFeature } from '~core/auth/types';
 import { initUrlStore } from '~core/url_store';
 import { featureStatus } from '~core/featureStatus';
+import { featureWrap, initFeature } from '~utils/hooks/loadFeature';
 import s from './Main.module.css';
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
@@ -89,8 +90,8 @@ export function MainView() {
       );
     }
     if (userModel?.hasFeature(AppFeature.REPORTS)) {
-      import('~features/reports/').then(({ initReportsIcon }) =>
-        initReportsIcon(history),
+      import('~features/reports/').then(({ featureInterface }) =>
+        initFeature(featureInterface, AppFeature.REPORTS, [history]),
       );
     }
     if (userModel?.hasFeature(AppFeature.OSM_EDIT_LINK)) {
@@ -178,9 +179,12 @@ export function MainView() {
               {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
                 <EditFeaturesOrLayerPanel />
               )}
-              {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
-                <MapLayersList iconsContainerRef={iconsContainerRef} />
-              )}
+              {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) &&
+                featureWrap(
+                  <MapLayersList iconsContainerRef={iconsContainerRef} />,
+                  AppFeature.MAP_LAYERS_PANEL,
+                  false,
+                )}
               {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
                 <BivariatePanel iconsContainerRef={iconsContainerRef} />
               )}

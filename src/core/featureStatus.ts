@@ -44,12 +44,12 @@ class FeatureStatus {
     this.features = newFeatures;
   }
 
-  public markReady(featureId: string) {
+  public markReady(featureId: string, affectsMap?: boolean) {
     if (this.fullReadynessReported) return;
     if (!(featureId in this.features))
       console.error('feature supposed be initialized first');
 
-    if (this.mapTriggeringFeatures.includes(featureId)) {
+    if (this.mapTriggeringFeatures.includes(featureId) || affectsMap) {
       this.markUnready(APPLICATION_MAP_KEY);
       this.features[featureId] = 'ready';
       return;
@@ -73,6 +73,15 @@ class FeatureStatus {
     if (!(featureId in this.features))
       console.error('feature supposed be initialized first');
     this.features[featureId] = null;
+  }
+
+  // todo replace feature registration by this one
+  // todo when done we can store init time and readyness time for each feature - register start here, register finish on ready
+  public getReadynessCb(
+    featureId: string,
+    affectsApplicationMap: boolean,
+  ): () => void {
+    return () => this.markReady(featureId, affectsApplicationMap);
   }
 }
 
