@@ -79,17 +79,18 @@ export function ReportInfo() {
         </Text>
       )}
 
-      {reportResource.loading && (
+      {reportResource.loading ? (
         <div className={styles.loadingContainer}>
           <LoadingSpinner message={i18n.t('Loading data')} />
         </div>
+      ) : (
+        <div className={clsx(!reportResource.data && styles.invisible)}>
+          {report?.searchable_columns_indexes?.length && (
+            <Searchbar searchIndexes={report.searchable_columns_indexes} />
+          )}
+          <ReportTable />
+        </div>
       )}
-      <div className={clsx(!reportResource.data && styles.invisible)}>
-        {report?.searchable_columns_indexes?.length && (
-          <Searchbar searchIndexes={report?.searchable_columns_indexes} />
-        )}
-        <ReportTable />
-      </div>
     </div>
   );
 }

@@ -11,7 +11,7 @@ type TableState = {
   ascending: boolean | null;
   initialData?: string[][];
   isSorting?: boolean;
-  _sortDefault?: string[][];
+  _defaultSortedData?: string[][];
 };
 
 export const tableAtom = createAtom(
@@ -78,7 +78,7 @@ export const tableAtom = createAtom(
       const sorted = (function sortTable() {
         // ascending === null means we want to deactivate sorting
         if (state.ascending === null || !state.data?.length)
-          return state._sortDefault!;
+          return state._defaultSortedData!;
 
         // make copy of initial data to prevent mutating
         return [...state.data].sort((a, b) => {
@@ -108,7 +108,9 @@ export const tableAtom = createAtom(
         ...state,
         data: sorted,
         isSorting: false,
-        _sortDefault: state.data?.length ? state.data : state._sortDefault,
+        _defaultSortedData: state.data?.length
+          ? state.data
+          : state._defaultSortedData,
       };
     });
 
@@ -117,13 +119,14 @@ export const tableAtom = createAtom(
         return (state = { ...state, data: state.initialData });
 
       const filtered = state.initialData.filter((row) => {
-        // match all register
-        let matched = false;
-        columnIndexes.forEach((index) => {
-          row[index].toLocaleLowerCase().includes(query.toLocaleLowerCase()) &&
-            (matched = true);
-        });
-        return matched;
+        for (let i = 0; i < columnIndexes.length; i++) {
+          const index = columnIndexes[i];
+          if (
+            row[index].toLocaleLowerCase().includes(query.toLocaleLowerCase())
+          ) {
+            return true;
+          }
+        }
       });
       state = { ...state, data: filtered, isSorting: false };
     });

@@ -33,7 +33,7 @@ export function Searchbar({ searchIndexes = [] }: { searchIndexes: number[] }) {
         onTouchCancel={cancel}
         placeholder={i18n.t('Search location')}
       >
-        <SearchIcon width={20} />
+        <SearchIcon width={16} />
       </Input>
     </div>
   );
