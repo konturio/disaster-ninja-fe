@@ -26,8 +26,10 @@ function openOSMID(
 }
 
 export function ReportTable() {
-  const [{ data, thead, ascending, sortIndex }, { sortBy, setState }] =
-    useAtom(tableAtom);
+  const [
+    { data, thead, ascending, sortIndex, isSorting },
+    { sortBy, setState },
+  ] = useAtom(tableAtom);
   const [meta] = useAtom(currentReportAtom);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export function ReportTable() {
     return <Text type="heading-xl">{i18n.t('No data for this report')}</Text>;
   }
 
-  if (data === 'sorting') {
+  if (isSorting) {
     return <Text type="heading-xl">{i18n.t('Sorting data...')}</Text>;
   }
 
