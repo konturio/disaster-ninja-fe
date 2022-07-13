@@ -12,7 +12,7 @@ import {
   EVENT_LIST_CONTROL_NAME,
 } from '~features/events_list/constants';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
-import { FeedSelector } from '~features/feed_selector';
+import { FeedSelector } from '../FeedSelector/FeedSelector';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import { i18n } from '~core/localization';
@@ -74,7 +74,7 @@ export function EventsListPanel({
     addControl({
       id: EVENT_LIST_CONTROL_ID,
       name: EVENT_LIST_CONTROL_NAME,
-      title: i18n.t('Focus to ongoing disasters'),
+      title: i18n.t('Focus to disasters'),
       active: false,
       visualGroup: controlVisualGroup.withAnalytics,
       icon: <Disasters24 />,
@@ -104,15 +104,18 @@ export function EventsListPanel({
 
   return (
     <Panel
-      header={<Text type="heading-l">{i18n.t('Ongoing disasters')}</Text>}
+      header={<Text type="heading-l">{i18n.t('Disasters')}</Text>}
       className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
       onClose={onPanelClose}
     >
-      <FeedSelector />
+      <EventListSettingsRow>
+        <FeedSelector />
+        
+      </EventListSettingsRow>
       <div className={s.scrollable}>
         {statesToComponents({
           loading: <LoadingSpinner message={i18n.t('Loading events')} />,
-          error: (errorMessage) => <ErrorMessage message={errorMessage} />,
+          error: (errorMessage) => <ErrorMessage message={errorMessage ? i18n.t(errorMessage) : errorMessage} />,
           ready: (eventsList) => (
             <Virtuoso
               data={eventsList}
