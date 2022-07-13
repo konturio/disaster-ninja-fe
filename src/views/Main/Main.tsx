@@ -1,19 +1,14 @@
 import { Suspense, useEffect, useRef } from 'react';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
-import { useAtom } from '@reatom/react';
 import { Row } from '~components/Layout/Layout';
 import config from '~core/app_config';
-import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
-import { initUrlStore } from '~core/url_store';
 import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager';
 import { initReportsIcon } from '~features/reports';
 import s from './Main.module.css';
-
-const { UserProfile } = lazily(() => import('~features/user_profile'));
+import type { UserDataModel } from '~core/auth';
 
 const { EditFeaturesOrLayerPanel } = lazily(
   () =>
@@ -22,7 +17,7 @@ const { EditFeaturesOrLayerPanel } = lazily(
     ),
 );
 
-const { AppHeader, Logo } = lazily(() => import('@konturio/ui-kit'));
+const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
@@ -31,8 +26,6 @@ const { ConnectedMap } = lazily(
 const { SideBar } = lazily(() => import('~features/side_bar'));
 
 const { EventList } = lazily(() => import('~features/events_list'));
-
-const { NotificationToast } = lazily(() => import('~features/toasts'));
 
 const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
 
@@ -50,14 +43,14 @@ const { BivariatePanel } = lazily(
 
 const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 
-export function MainView() {
+type MainViewProps = {
+  userModel?: UserDataModel | null;
+};
+export function MainView({ userModel }: MainViewProps) {
   const history = useHistory();
-  const [{ data: userModel }] = useAtom(userResourceAtom);
   const iconsContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    initUrlStore();
-
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
 
     /* Lazy load module */
@@ -120,6 +113,7 @@ export function MainView() {
         initIntercom();
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userModel]);
 
   return (
@@ -127,22 +121,8 @@ export function MainView() {
       <Suspense fallback={null}>
         {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
       </Suspense>
-      <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.HEADER) && (
-          <AppHeader
-            title="Disaster Ninja"
-            logo={VisibleLogo()}
-            afterChatContent={
-              userModel?.hasFeature(AppFeature.APP_LOGIN) ? (
-                <UserProfile />
-              ) : undefined
-            }
-          ></AppHeader>
-        )}
-      </Suspense>
       <Row>
         <Suspense fallback={null}>
-          {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
           {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
           {userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
             userModel?.feeds && <EventList />}
