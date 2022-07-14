@@ -20,5 +20,3 @@ export const featureInterface: FeatureInterface = {
   id: AppFeature.TOASTS,
   RootComponent: PopupTooltip,
 };
-
-export default featureInterface;

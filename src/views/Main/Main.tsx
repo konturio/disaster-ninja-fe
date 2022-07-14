@@ -10,8 +10,11 @@ import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/D
 import { AppFeature } from '~core/auth/types';
 import { initUrlStore } from '~core/url_store';
 import { featureStatus } from '~core/featureStatus';
-import { featureWrap, initFeature } from '~utils/hooks/loadFeature';
-import { useAppFeature } from '~utils/hooks/useAppFeature';
+import { initFeature } from '~utils/hooks/loadFeature';
+import {
+  useAppFeature,
+  useFeatureInitializer,
+} from '~utils/hooks/useAppFeature';
 import s from './Main.module.css';
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
@@ -43,20 +46,24 @@ const { AdvancedAnalyticsPanel } = lazily(
 
 const { Legend } = lazily(() => import('~features/legend_panel'));
 
-const { MapLayersList } = lazily(() => import('~features/layers_panel'));
-
 const { BivariatePanel } = lazily(
   () => import('~features/bivariate_manager/components'),
 );
-
-const PopupTooltip = import('~features/tooltip');
 
 export function MainView() {
   const history = useHistory();
   const [{ data: userModel }] = useAtom(userResourceAtom);
   const iconsContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const popupTooltip = useAppFeature(PopupTooltip);
+  // Load features
+  const loadFeature = useFeatureInitializer(userModel);
+  const popupTooltip = useAppFeature(
+    loadFeature(AppFeature.TOOLTIP, import('~features/tooltip')),
+  );
+  const mapLayersPanel = useAppFeature(
+    loadFeature(AppFeature.MAP_LAYERS_PANEL, import('~features/layers_panel')),
+    { iconsContainerRef },
+  );
 
   useEffect(() => {
     initUrlStore();
@@ -183,12 +190,7 @@ export function MainView() {
               {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
                 <EditFeaturesOrLayerPanel />
               )}
-              {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) &&
-                featureWrap(
-                  <MapLayersList iconsContainerRef={iconsContainerRef} />,
-                  AppFeature.MAP_LAYERS_PANEL,
-                  false,
-                )}
+              {mapLayersPanel}
               {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
                 <BivariatePanel iconsContainerRef={iconsContainerRef} />
               )}
