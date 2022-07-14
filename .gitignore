@@ -22,7 +22,6 @@
 .env.test.local
 .env.production.local
 
-dist
 web_modules
 
 npm-debug.log*
