@@ -13,7 +13,7 @@ import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LoginForm } from '~features/user_profile';
 import { AppFeature } from '~core/auth/types';
-import { initUrlStore } from '~core/url_store';
+import { currentApplicationAtom } from '~core/shared_state';
 import s from './views/Main/Main.module.css';
 import type { UserDataModel } from '~core/auth';
 
@@ -32,46 +32,41 @@ const ROUTES = {
 };
 
 export function RoutedApp() {
-  const [{ loading, data: userModel }] = useAtom(userResourceAtom);
-
-  useEffect(() => {
-    initUrlStore();
-  }, [userModel]);
-
+  const [{ data: userModel }] = useAtom(userResourceAtom);
   return (
     <StrictMode>
       <OriginalLogo />
-      {!loading ? (
-        <Router>
-          {userModel && <CommonRoutesFeatures userModel={userModel} />}
 
-          <CacheSwitch>
-            <CacheRoute className={s.mainWrap} exact path={ROUTES.base}>
-              <Suspense fallback={null}>
-                <MainView userModel={userModel} />
-              </Suspense>
-            </CacheRoute>
+      <Router>
+        <CommonRoutesFeatures userModel={userModel} />
 
-            <Route exact path={ROUTES.reports}>
-              <Suspense fallback={null}>
-                <Reports />
-              </Suspense>
-            </Route>
+        <CacheSwitch>
+          <CacheRoute className={s.mainWrap} exact path={ROUTES.base}>
+            <Suspense fallback={null}>
+              <MainView userModel={userModel} />
+            </Suspense>
+          </CacheRoute>
 
-            <Route path={ROUTES.reportPage}>
-              <Suspense fallback={null}>
-                <ReportPage />
-              </Suspense>
-            </Route>
+          <Route exact path={ROUTES.reports}>
+            <Suspense fallback={null}>
+              <Reports />
+            </Suspense>
+          </Route>
 
-            <Route path={ROUTES.bivariateManager}>
-              <Suspense fallback={null}>
-                <BivariateManagerPage />
-              </Suspense>
-            </Route>
-          </CacheSwitch>
-        </Router>
-      ) : null}
+          <Route path={ROUTES.reportPage}>
+            <Suspense fallback={null}>
+              <ReportPage />
+            </Suspense>
+          </Route>
+
+          <Route path={ROUTES.bivariateManager}>
+            <Suspense fallback={null}>
+              <BivariateManagerPage />
+            </Suspense>
+          </Route>
+        </CacheSwitch>
+      </Router>
+
       <LoginForm />
     </StrictMode>
   );
@@ -84,28 +79,45 @@ const { NotificationToast } = lazily(() => import('~features/toasts'));
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 const PAGE_TITLES_BY_ROUTE = {
   [ROUTES.base]: () => DEFAULT_HEADER_TITLE,
-  [ROUTES.reports]: () => LinkableTitle(i18n.t('Reports')),
-  [ROUTES.reportPage]: () => LinkableTitle(i18n.t('Reports')),
-  [ROUTES.bivariateManager]: () =>
-    LinkableTitle(i18n.t('Bivariate Color Manager')),
+  [ROUTES.reports]: () => <LinkableTitle title={i18n.t('Reports')} />,
+  [ROUTES.reportPage]: () => <LinkableTitle title={i18n.t('Reports')} />,
+  [ROUTES.bivariateManager]: () => (
+    <LinkableTitle title={i18n.t('Bivariate Color Manager')} />
+  ),
 };
 
 type CommonRoutesFeaturesProps = {
-  userModel: UserDataModel;
+  userModel?: UserDataModel | null;
 };
 
 const CommonRoutesFeatures = ({ userModel }: CommonRoutesFeaturesProps) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (userModel.hasFeature(AppFeature.INTERCOM)) {
+    if (userModel?.hasFeature(AppFeature.INTERCOM)) {
       import('~features/intercom').then(({ initIntercom }) => {
         initIntercom();
       });
     }
   }, [userModel]);
 
+  // TODO: this is needed to get features from routes other than '/', as features need /apps/default_id
+  // Remove this useEffect right after we don't need /apps/default_id for features request
+  useEffect(() => {
+    if (
+      !matchPath(pathname, {
+        path: ROUTES.base,
+        exact: true,
+      })
+    ) {
+      currentApplicationAtom.init.dispatch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const headerTitle = getHeaderTitle(pathname);
+
+  if (!userModel) return null;
 
   return (
     <>
@@ -142,7 +154,7 @@ const getHeaderTitle = (pathname: string): JSX.Element | string => {
   return PAGE_TITLES_BY_ROUTE[activeRoute]();
 };
 
-const LinkableTitle = (title: string) => {
+const LinkableTitle = ({ title }: { title: string }) => {
   const history = useHistory();
   const goBase = () => history.push(config.baseUrl);
 
