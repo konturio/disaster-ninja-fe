@@ -74,14 +74,9 @@ function UserAvatar() {
   );
 }
 
-let markedReady = false;
-
-export function UserProfile() {
+export function UserProfile({ reportReady }: { reportReady: () => void }) {
   const [userState] = useAtom(userStateAtom);
 
-  if (!markedReady) {
-    featureStatus.markReady(AppFeature.APP_LOGIN);
-    markedReady = true;
-  }
+  useEffect(() => reportReady(), []);
   return userState === 'authorized' ? <UserAvatar /> : <LoginButton />;
 }

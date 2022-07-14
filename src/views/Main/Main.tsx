@@ -9,45 +9,16 @@ import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { initUrlStore } from '~core/url_store';
-import { featureStatus } from '~core/featureStatus';
-import { initFeature } from '~utils/hooks/loadFeature';
 import {
   useAppFeature,
   useFeatureInitializer,
 } from '~utils/hooks/useAppFeature';
 import s from './Main.module.css';
 
-const { UserProfile } = lazily(() => import('~features/user_profile'));
-
-const { EditFeaturesOrLayerPanel } = lazily(
-  () =>
-    import(
-      '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
-    ),
-);
-
-const { AppHeader, Logo } = lazily(() => import('@konturio/ui-kit'));
+const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
 const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
-);
-
-const { SideBar } = lazily(() => import('~features/side_bar'));
-
-const { EventList } = lazily(() => import('~features/events_list'));
-
-const { NotificationToast } = lazily(() => import('~features/toasts'));
-
-const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
-
-const { AdvancedAnalyticsPanel } = lazily(
-  () => import('~features/advanced_analytics_panel'),
-);
-
-const { Legend } = lazily(() => import('~features/legend_panel'));
-
-const { BivariatePanel } = lazily(
-  () => import('~features/bivariate_manager/components'),
 );
 
 export function MainView() {
@@ -60,76 +31,121 @@ export function MainView() {
   const popupTooltip = useAppFeature(
     loadFeature(AppFeature.TOOLTIP, import('~features/tooltip')),
   );
+  const userProfile = useAppFeature(
+    loadFeature(AppFeature.APP_LOGIN, import('~features/user_profile')),
+  );
+  const appHeader = useAppFeature(
+    loadFeature(AppFeature.APP_LOGIN, import('~features/app_header')),
+    { logo: VisibleLogo(), title: 'Disaster Ninja', content: userProfile },
+    [],
+    userProfile,
+  );
+
+  const sideBar = useAppFeature(
+    loadFeature(AppFeature.SIDE_BAR, import('~features/side_bar')),
+  );
+
+  const eventList = useAppFeature(
+    loadFeature(AppFeature.EVENTS_LIST, import('~features/events_list')),
+  );
+
+  const notificationToast = useAppFeature(
+    loadFeature(AppFeature.TOASTS, import('~features/toasts')),
+  );
+
+  const analyticsPanel = useAppFeature(
+    loadFeature(
+      AppFeature.ANALYTICS_PANEL,
+      import('~features/analytics_panel'),
+    ),
+  );
+
+  const advancedAnalyticsPanel = useAppFeature(
+    loadFeature(
+      AppFeature.ADVANCED_ANALYTICS_PANEL,
+      import('~features/advanced_analytics_panel'),
+    ),
+  );
+
   const mapLayersPanel = useAppFeature(
     loadFeature(AppFeature.MAP_LAYERS_PANEL, import('~features/layers_panel')),
     { iconsContainerRef },
   );
 
+  const legend = useAppFeature(
+    loadFeature(AppFeature.LEGEND_PANEL, import('~features/legend_panel')),
+    { iconsContainerRef },
+  );
+
+  const bivariatePanel = useAppFeature(
+    loadFeature(
+      AppFeature.BIVARIATE_MANAGER,
+      import('~features/bivariate_manager/components'),
+    ),
+    { iconsContainerRef },
+  );
+
+  const editFeaturesOrLayerPanel = useAppFeature(
+    loadFeature(AppFeature.CREATE_LAYER, import('~features/create_layer')),
+    { iconsContainerRef },
+  );
+  // features initialized without component
+  useAppFeature(
+    loadFeature(AppFeature.REPORTS, import('~features/reports')),
+    {},
+    [history],
+  );
+
+  useAppFeature(
+    loadFeature(AppFeature.CURRENT_EVENT, import('~features/current_event')),
+  );
+
+  useAppFeature(
+    loadFeature(
+      AppFeature.GEOMETRY_UPLOADER,
+      import('~features/geometry_uploader'),
+    ),
+  );
+
+  useAppFeature(
+    loadFeature(AppFeature.MAP_RULER, import('~features/map_ruler')),
+  );
+
+  useAppFeature(
+    loadFeature(
+      AppFeature.BOUNDARY_SELECTOR,
+      import('~features/boundary_selector'),
+    ),
+  );
+
+  useAppFeature(
+    loadFeature(AppFeature.LAYERS_IN_AREA, import('~features/layers_in_area')),
+  );
+
+  useAppFeature(
+    loadFeature(
+      AppFeature.FOCUSED_GEOMETRY_LAYER,
+      import('~features/focused_geometry_layer'),
+    ),
+  );
+
+  useAppFeature(
+    loadFeature(AppFeature.OSM_EDIT_LINK, import('~features/osm_edit_link')),
+  );
+
+  useAppFeature(
+    loadFeature(
+      AppFeature.FOCUSED_GEOMETRY_EDITOR,
+      import('~features/focused_geometry_editor'),
+    ),
+  );
+
+  useAppFeature(loadFeature(AppFeature.INTERCOM, import('~features/intercom')));
+
   useEffect(() => {
     initUrlStore();
 
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
-
-    /* Lazy load module */
-    if (userModel?.hasFeature(AppFeature.CURRENT_EVENT)) {
-      import('~features/current_event').then(({ initCurrentEvent }) =>
-        initCurrentEvent(),
-      );
-    }
-    if (userModel?.hasFeature(AppFeature.GEOMETRY_UPLOADER)) {
-      import('~features/geometry_uploader').then(({ initFileUploader }) =>
-        initFileUploader(),
-      );
-    }
-    if (userModel?.hasFeature(AppFeature.MAP_RULER)) {
-      import('~features/map_ruler').then(({ initMapRuler }) => initMapRuler());
-    }
-    if (userModel?.hasFeature(AppFeature.BOUNDARY_SELECTOR)) {
-      import('~features/boundary_selector').then(({ initBoundarySelector }) =>
-        initBoundarySelector(),
-      );
-    }
-    if (userModel?.hasFeature(AppFeature.LAYERS_IN_AREA)) {
-      import('~features/layers_in_area').then(({ initLayersInArea }) =>
-        initLayersInArea(),
-      );
-    }
-    if (userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_LAYER)) {
-      import('~features/focused_geometry_layer').then(
-        ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
-      );
-    }
-    if (userModel?.hasFeature(AppFeature.REPORTS)) {
-      import('~features/reports/').then(({ featureInterface }) =>
-        initFeature(featureInterface, AppFeature.REPORTS, [history]),
-      );
-    }
-    if (userModel?.hasFeature(AppFeature.OSM_EDIT_LINK)) {
-      import('~features/osm_edit_link/').then(({ initOsmEditLink }) =>
-        initOsmEditLink(),
-      );
-    }
-    // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
-    if (
-      userModel?.hasFeature(AppFeature.DRAW_TOOLS) ||
-      userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_EDITOR)
-    ) {
-      import('~features/focused_geometry_editor/').then(
-        ({ initFocusedGeometry }) => initFocusedGeometry(),
-      );
-    }
-    if (userModel?.hasFeature(AppFeature.CREATE_LAYER)) {
-      import('~features/create_layer/').then(({ initEditableLayer }) =>
-        initEditableLayer(),
-      );
-    }
-    if (userModel?.hasFeature(AppFeature.INTERCOM)) {
-      import('~features/intercom').then(({ initIntercom }) => {
-        initIntercom();
-      });
-    }
-    if (userModel?.hasFeature(AppFeature.HEADER))
-      featureStatus.markReady(AppFeature.HEADER);
   }, [userModel]);
 
   return (
@@ -138,31 +154,14 @@ export function MainView() {
         {userModel?.hasFeature(AppFeature.TOOLTIP) && popupTooltip}
       </Suspense>
 
-      <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.HEADER) && (
-          <AppHeader
-            title="Disaster Ninja"
-            logo={VisibleLogo()}
-            afterChatContent={
-              userModel?.hasFeature(AppFeature.APP_LOGIN) ? (
-                <UserProfile />
-              ) : undefined
-            }
-          ></AppHeader>
-        )}
-      </Suspense>
+      <Suspense fallback={null}>{appHeader}</Suspense>
       <Row>
         <Suspense fallback={null}>
-          {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
-          {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
-          {userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
-            userModel?.feeds && <EventList />}
-          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && (
-            <AnalyticsPanel />
-          )}
-          {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-            <AdvancedAnalyticsPanel />
-          )}
+          {notificationToast}
+          {sideBar}
+          {userModel?.feeds && eventList}
+          {analyticsPanel}
+          {advancedAnalyticsPanel}
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -184,16 +183,10 @@ export function MainView() {
                 className={s.rightButtonsContainer}
                 ref={iconsContainerRef}
               ></div>
-              {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
-                <Legend iconsContainerRef={iconsContainerRef} />
-              )}
-              {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
-                <EditFeaturesOrLayerPanel />
-              )}
+              {legend}
+              {editFeaturesOrLayerPanel}
               {mapLayersPanel}
-              {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
-                <BivariatePanel iconsContainerRef={iconsContainerRef} />
-              )}
+              {bivariatePanel}
             </div>
           </Suspense>
           <DrawToolsToolbox />

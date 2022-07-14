@@ -3,7 +3,7 @@ import mapLibre from 'maplibre-gl';
 import { useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
-import { featureStatus } from '~core/featureStatus';
+import { APPLICATION_MAP_KEY, featureStatus } from '~core/featureStatus';
 import Map from './map-libre-adapter';
 import DeckGl from './deck-gl';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
@@ -115,8 +115,8 @@ export function ConnectedMap({
       resizeObserver.observe(mapContainer);
       reportMapReadyness(
         mapRef.current,
-        featureStatus.markReady.bind(featureStatus),
-        featureStatus.markUnready.bind(featureStatus),
+        () => featureStatus.markReady(APPLICATION_MAP_KEY),
+        () => featureStatus.markUnready(APPLICATION_MAP_KEY),
       );
       return () => {
         resizeObserver.unobserve(mapContainer);

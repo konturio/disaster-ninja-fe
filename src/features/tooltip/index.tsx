@@ -17,6 +17,6 @@ function PopupTooltip({ reportReady }: { reportReady: () => void }) {
 
 export const featureInterface: FeatureInterface = {
   affectsMap: false,
-  id: AppFeature.TOASTS,
+  id: AppFeature.TOOLTIP,
   RootComponent: PopupTooltip,
 };

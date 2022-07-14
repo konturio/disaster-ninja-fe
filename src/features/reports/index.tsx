@@ -2,12 +2,15 @@ import { BookOpen24 } from '@konturio/default-icons';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { i18n } from '~core/localization';
+import { AppFeature } from '~core/auth/types';
 import { REPORTS_CONTROL_ID, REPORTS_CONTROL_NAME } from './constants';
-import type { FeatureInterface } from '~utils/hooks/loadFeature';
+import type { FeatureInterface } from '~utils/hooks/useAppFeature';
 import type { History } from 'history';
 
 export const featureInterface: FeatureInterface = {
-  initialize(reportReady, history: History) {
+  affectsMap: false,
+  id: AppFeature.REPORTS,
+  initFunction(reportReady, history: History) {
     sideControlsBarAtom.addControl.dispatch({
       id: REPORTS_CONTROL_ID,
       name: REPORTS_CONTROL_NAME,
@@ -24,5 +27,4 @@ export const featureInterface: FeatureInterface = {
 
     reportReady();
   },
-  affectsApplicationMap: false,
 };

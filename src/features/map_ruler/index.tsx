@@ -12,11 +12,11 @@ import {
 import { i18n } from '~core/localization';
 import { createLogicalLayerAtom } from '~core/logical_layers/utils/logicalLayerFabric';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
-import { featureStatus } from '~core/featureStatus';
 import { AppFeature } from '~core/auth/types';
 import { MapRulerRenderer } from './renderers/MapRulerRenderer';
+import type { FeatureInterface } from '~utils/hooks/useAppFeature';
 
-export function initMapRuler() {
+function initMapRuler(reportReady: () => void) {
   const renderer = new MapRulerRenderer(MAP_RULER_LAYER_ID);
   const logicalLayerAtom = createLogicalLayerAtom(
     MAP_RULER_LAYER_ID,
@@ -44,5 +44,13 @@ export function initMapRuler() {
     },
   });
 
-  featureStatus.markReady(AppFeature.MAP_RULER);
+  reportReady();
 }
+
+export const featureInterface: FeatureInterface = {
+  affectsMap: true,
+  id: AppFeature.MAP_RULER,
+  initFunction(reportReady) {
+    initMapRuler(reportReady);
+  },
+};

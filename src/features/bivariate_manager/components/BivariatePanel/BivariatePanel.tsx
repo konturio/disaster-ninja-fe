@@ -19,15 +19,21 @@ const CustomClosePanelBtn = () => (
   </svg>
 );
 
-const LazyLoadedBivariateMatrixContainer = lazy(() => import('../BivariateMatrixContainer/BivariateMatrixContainer'));
+const LazyLoadedBivariateMatrixContainer = lazy(
+  () => import('../BivariateMatrixContainer/BivariateMatrixContainer'),
+);
 
 export function BivariatePanel({
   iconsContainerRef,
+  reportReady,
 }: {
-  iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
+  iconsContainerRef?: React.MutableRefObject<HTMLDivElement | null>;
+  reportReady: () => void;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
+  useEffect(() => reportReady(), []);
 
   useEffect(() => {
     if (isMobile) {
@@ -52,11 +58,16 @@ export function BivariatePanel({
     }
   }, [setIsOpen]);
 
+  if (!iconsContainerRef) return <></>;
   return (
     <>
       <Panel
         onClose={onPanelClose}
-        className={clsx(styles.sidePanel, isOpen && styles.show, !isOpen && styles.hide)}
+        className={clsx(
+          styles.sidePanel,
+          isOpen && styles.show,
+          !isOpen && styles.hide,
+        )}
         classes={{
           closeBtn: styles.customCloseBtn,
         }}
@@ -71,7 +82,11 @@ export function BivariatePanel({
         ReactDOM.createPortal(
           <PanelIcon
             clickHandler={onPanelOpen}
-            className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
+            className={clsx(
+              styles.panelIcon,
+              isOpen && styles.hide,
+              !isOpen && styles.show,
+            )}
             icon={<BivariatePanelIcon />}
           />,
           iconsContainerRef.current,

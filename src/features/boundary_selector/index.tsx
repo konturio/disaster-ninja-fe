@@ -15,18 +15,18 @@ import {
 import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { forceRun } from '~utils/atoms/forceRun';
-import { featureStatus } from '~core/featureStatus';
 import { AppFeature } from '~core/auth/types';
 import { BoundarySelectorRenderer } from './renderers/BoundarySelectorRenderer';
 import { createBoundaryRegistryAtom } from './atoms/boundaryRegistryAtom';
 import { boundaryMarkerAtom } from './atoms/boundaryMarkerAtom';
 import { clickCoordinatesAtom } from './atoms/clickCoordinatesAtom';
+import type { FeatureInterface } from '~utils/hooks/useAppFeature';
 
 let stopAll = () => {
   /* noop */
 };
 
-export function initBoundarySelector() {
+function initBoundarySelector(reportReady: () => void) {
   const renderer = new BoundarySelectorRenderer({
     layerId: BOUNDARY_SELECTOR_LAYER_ID,
     sourceId: HOVERED_BOUNDARIES_SOURCE_ID,
@@ -70,5 +70,13 @@ export function initBoundarySelector() {
     },
   });
 
-  featureStatus.markReady(AppFeature.BOUNDARY_SELECTOR);
+  reportReady();
 }
+
+export const featureInterface: FeatureInterface = {
+  affectsMap: true,
+  id: AppFeature.BOUNDARY_SELECTOR,
+  initFunction(reportReady) {
+    initBoundarySelector(reportReady);
+  },
+};

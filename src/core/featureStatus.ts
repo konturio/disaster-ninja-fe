@@ -24,14 +24,6 @@ const exceptions = [
 ];
 class FeatureStatus {
   private features: FeatureRecord = {};
-  private mapTriggeringFeatures: string[] = [
-    AppFeature.LAYERS_IN_AREA,
-    AppFeature.BOUNDARY_SELECTOR,
-    AppFeature.CREATE_LAYER,
-    AppFeature.FOCUSED_GEOMETRY_EDITOR,
-    AppFeature.FOCUSED_GEOMETRY_LAYER,
-    AppFeature.MAP_RULER,
-  ];
   private fullReadynessReported = false;
 
   public init(featuresIds: string[]) {
@@ -47,9 +39,9 @@ class FeatureStatus {
   public markReady(featureId: string, affectsMap?: boolean) {
     if (this.fullReadynessReported) return;
     if (!(featureId in this.features))
-      console.error('feature supposed be initialized first');
+      console.error('feature supposed be initialized first - ', featureId);
 
-    if (this.mapTriggeringFeatures.includes(featureId) || affectsMap) {
+    if (affectsMap) {
       this.markUnready(APPLICATION_MAP_KEY);
       this.features[featureId] = 'ready';
       return;
@@ -75,8 +67,8 @@ class FeatureStatus {
     this.features[featureId] = null;
   }
 
-  // todo replace feature registration by this one
-  // todo when done we can store init time and readyness time for each feature - register start here, register finish on ready
+  // todo #11232 when done we can store init time and readyness time for each feature
+  // - register start here, register finish on ready
   public getReadynessCb(
     featureId: string,
     affectsApplicationMap: boolean,

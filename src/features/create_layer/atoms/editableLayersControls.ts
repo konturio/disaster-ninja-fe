@@ -134,7 +134,6 @@ export const editableLayersControlsAtom = createAtom(
       if (actions.length) {
         schedule((dispatch) => {
           dispatch(actions);
-          featureStatus.markReady(AppFeature.CREATE_LAYER);
         });
       }
     });

@@ -13,15 +13,15 @@ import app_config from '~core/app_config';
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
-import { featureStatus } from '~core/featureStatus';
 import { AppFeature } from '~core/auth/types';
 import { askGeoJSONFile } from './askGeoJSONFile';
 import {
   GEOMETRY_UPLOADER_CONTROL_ID,
   GEOMETRY_UPLOADER_CONTROL_NAME,
 } from './constants';
+import type { FeatureInterface } from '~utils/hooks/useAppFeature';
 
-export function initFileUploader() {
+function initFileUploader(reportReady: () => void) {
   sideControlsBarAtom.addControl.dispatch({
     id: GEOMETRY_UPLOADER_CONTROL_ID,
     name: GEOMETRY_UPLOADER_CONTROL_NAME,
@@ -63,5 +63,13 @@ export function initFileUploader() {
     },
   });
 
-  featureStatus.markReady(AppFeature.GEOMETRY_UPLOADER);
+  reportReady();
 }
+
+export const featureInterface: FeatureInterface = {
+  affectsMap: false,
+  id: AppFeature.GEOMETRY_UPLOADER,
+  initFunction(reportReady) {
+    initFileUploader(reportReady);
+  },
+};

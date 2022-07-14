@@ -1,19 +1,19 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import { Text } from '@konturio/ui-kit';
 import { useHistory } from 'react-router';
 import { useAtom } from '@reatom/react';
-import { lazily } from 'react-lazily';
 import { i18n } from '~core/localization';
 import { ReportsList } from '~features/reports/components/ReportsList/ReportsList';
-import { Row } from '~components/Layout/Layout';
 import config from '~core/app_config';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth';
 import { AppFeature } from '~core/auth/types';
+import {
+  useAppFeature,
+  useFeatureInitializer,
+} from '~utils/hooks/useAppFeature';
 import s from './Reports.module.css';
 import type { History } from 'history';
-const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
-const { NotificationToast } = lazily(() => import('~features/toasts'));
 
 function linkableTitle(history: History) {
   return (
@@ -35,33 +35,24 @@ function linkableTitle(history: History) {
 export function Reports() {
   const history = useHistory();
   const [{ data: userModel }] = useAtom(userResourceAtom);
+  const loadFeature = useFeatureInitializer(userModel);
 
-  useEffect(() => {
-    if (!userModel) return;
+  useAppFeature(loadFeature(AppFeature.INTERCOM, import('~features/intercom')));
 
-    /* Lazy load module */
-    if (userModel.hasFeature(AppFeature.INTERCOM)) {
-      import('~features/intercom').then(({ initIntercom }) => {
-        initIntercom();
-      });
-    }
-  }, [userModel]);
+  const notificationToast = useAppFeature(
+    loadFeature(AppFeature.TOASTS, import('~features/toasts')),
+  );
 
+  const appHeader = useAppFeature(
+    loadFeature(AppFeature.APP_LOGIN, import('~features/app_header')),
+    { logo: VisibleLogo(), title: linkableTitle(history) },
+    [],
+    linkableTitle,
+  );
   return (
     <div>
-      <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.HEADER) && (
-          <div className={s.headerContainer}>
-            <AppHeader
-              title={linkableTitle(history)}
-              logo={VisibleLogo()}
-            ></AppHeader>
-          </div>
-        )}
-      </Suspense>
-      <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
-      </Suspense>
+      <Suspense fallback={null}>{appHeader}</Suspense>
+      <Suspense fallback={null}>{notificationToast}</Suspense>
       <ReportsList />
     </div>
   );

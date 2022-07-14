@@ -1,5 +1,3 @@
-import { AppFeature } from '~core/auth/types';
-import { featureStatus } from '~core/featureStatus';
 import { mapStyleAtom } from './atoms/mapStyle';
 
 export function initInteractiveMap() {
@@ -8,6 +6,4 @@ export function initInteractiveMap() {
   mapStyleAtom.subscribe((style) => {
     /* call map api */
   });
-
-  featureStatus.markReady(AppFeature.INTERACTIVE_MAP);
 }

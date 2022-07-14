@@ -106,7 +106,6 @@ export const areaLayersControlsAtom = createAtom(
       if (actions.length) {
         schedule((dispatch) => {
           dispatch(actions);
-          featureStatus.markReady(AppFeature.LAYERS_IN_AREA);
         });
       }
     });

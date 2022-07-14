@@ -27,8 +27,9 @@ import { featureStatus } from '~core/featureStatus';
 import { AppFeature } from '~core/auth/types';
 import { isEditorActiveAtom } from './atoms/isEditorActive';
 import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
+import type { FeatureInterface } from '~utils/hooks/useAppFeature';
 
-export function initFocusedGeometry() {
+export function initFocusedGeometry(reportReady) {
   forceRun(focusedGeometryEditorAtom);
 
   sideControlsBarAtom.addControl.dispatch({
@@ -98,5 +99,13 @@ export function initFocusedGeometry() {
       );
     },
   });
-  featureStatus.markReady(AppFeature.FOCUSED_GEOMETRY_EDITOR);
+
+  reportReady();
 }
+export const featureInterface: FeatureInterface = {
+  affectsMap: true,
+  id: AppFeature.FOCUSED_GEOMETRY_EDITOR,
+  initFunction(reportReady) {
+    initFocusedGeometry(reportReady);
+  },
+};

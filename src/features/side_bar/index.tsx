@@ -1,9 +1,9 @@
 import { AppFeature } from '~core/auth/types';
-import { BivariatePanel } from './BivariatePanel/BivariatePanel';
+import { SideBar } from './components/SideBar/SideBar';
 import type { FeatureInterface } from '~utils/hooks/useAppFeature';
 
 export const featureInterface: FeatureInterface = {
   affectsMap: false,
-  id: AppFeature.BIVARIATE_MANAGER,
-  RootComponent: BivariatePanel,
+  id: AppFeature.SIDE_BAR,
+  RootComponent: SideBar,
 };

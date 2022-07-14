@@ -4,7 +4,7 @@ import { EditFeaturesPanel } from '../EditFeaturesPanel/EditFeaturesPanel';
 import { EditLayerPanel } from '../EditLayerPanel/EditLayerPanel';
 import { EditTargets } from '../../constants';
 
-export function EditFeaturesOrLayerPanel() {
+export function EditFeaturesOrLayerPanel({}: { reportReady: () => void }) {
   const [editTarget] = useAtom(editTargetAtom);
 
   switch (editTarget.type) {
@@ -15,6 +15,6 @@ export function EditFeaturesOrLayerPanel() {
       return <EditFeaturesPanel />;
 
     default:
-      return null;
+      return <></>;
   }
 }

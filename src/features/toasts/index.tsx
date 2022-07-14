@@ -1,17 +1,22 @@
 import { useAtom } from '@reatom/react';
+import { useEffect } from 'react';
 import { AppFeature } from '~core/auth/types';
-import { featureStatus } from '~core/featureStatus';
 import { toastsStackAtom } from './atoms/toastsStackAtom';
 import { ToastGroup } from './components/ToastGroup/ToastGroup';
+import type { FeatureInterface } from '~utils/hooks/useAppFeature';
 
-let markedReady = false;
-
-export function NotificationToast() {
+export function NotificationToast({
+  reportReady,
+}: {
+  reportReady: () => void;
+}) {
   const [toasts] = useAtom(toastsStackAtom);
-  if (!markedReady) {
-    featureStatus.markReady(AppFeature.TOASTS);
-    markedReady = true;
-  }
+  useEffect(() => reportReady(), []);
 
   return <ToastGroup toasts={toasts} />;
 }
+export const featureInterface: FeatureInterface = {
+  affectsMap: false,
+  id: AppFeature.TOASTS,
+  RootComponent: NotificationToast,
+};

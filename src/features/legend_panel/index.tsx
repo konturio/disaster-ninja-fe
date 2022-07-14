@@ -1,25 +1,29 @@
 import { useAtom } from '@reatom/react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { LegendPanel } from '~features/legend_panel/components/LegendPanel/LegendPanel';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
-import { featureStatus } from '~core/featureStatus';
 import { AppFeature } from '~core/auth/types';
+import type { FeatureInterface } from '~utils/hooks/useAppFeature';
 
-let markedReady = false;
-
-export function Legend({
+function Legend({
+  reportReady,
   iconsContainerRef,
 }: {
-  iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
+  iconsContainerRef?: React.MutableRefObject<HTMLDivElement | null>;
+  reportReady: () => void;
 }) {
   const [layers] = useAtom(mountedLayersAtom);
   const layersAtoms = useMemo(() => Array.from(layers.values()), [layers]);
 
-  if (!markedReady) {
-    featureStatus.markReady(AppFeature.LEGEND_PANEL);
-    markedReady = true;
-  }
+  useEffect(() => reportReady(), []);
+
+  if (!iconsContainerRef) return <></>;
   return (
     <LegendPanel iconsContainerRef={iconsContainerRef} layers={layersAtoms} />
   );
 }
+export const featureInterface: FeatureInterface = {
+  affectsMap: false,
+  id: AppFeature.LEGEND_PANEL,
+  RootComponent: Legend,
+};

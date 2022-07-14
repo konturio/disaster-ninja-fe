@@ -28,12 +28,14 @@ export function EventsListPanel({
   error,
   loading,
   eventsList,
+  reportReady,
 }: {
   current: string | null;
   onCurrentChange: (id: string) => void;
   error: string | null;
   loading: boolean;
   eventsList: Event[] | null;
+  reportReady: () => void;
 }) {
   const [, { enable, disable, addControl, toggleActiveState }] =
     useAtom(sideControlsBarAtom);
@@ -98,7 +100,7 @@ export function EventsListPanel({
   }, []);
 
   useEffect(() => {
-    if (eventsList && !loading) featureStatus.markReady(AppFeature.EVENTS_LIST);
+    if (eventsList && !loading) reportReady();
     if (!eventsList && !loading) disable(EVENT_LIST_CONTROL_ID);
     else if (!wasClosed && !isMobile) {
       enable(EVENT_LIST_CONTROL_ID);

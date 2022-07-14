@@ -1,5 +1,4 @@
-import { MutableRefObject, useEffect, useState } from 'react';
-import { AppFeature } from '~core/auth/types';
+import { useEffect, useState } from 'react';
 import { featureStatus } from '~core/featureStatus';
 import type { UserDataModel } from '~core/auth';
 import type { AppFeatureType } from '~core/auth/types';
@@ -12,7 +11,7 @@ export type FeatureInterface = {
   }: {
     reportReady: () => void;
   } & RootFeatureProps) => JSX.Element;
-  initFunction?: (reportReady: () => void) => any;
+  initFunction?: (reportReady: () => void, ...args: any[]) => any;
 };
 
 type RootFeatureProps = {
@@ -43,6 +42,7 @@ export function useAppFeature(
   featureInterfacePromise: Promise<FeatureInterface | null>,
   addedProps: RootFeatureProps = {},
   initArgs: any[] = [],
+  updateTrigger?: any,
 ) {
   const [featureComponent, setFeatureComponent] = useState(<NullComponent />);
 
@@ -63,10 +63,10 @@ export function useAppFeature(
         );
         setFeatureComponent(component);
       } else if (initFunction) {
-        initFunction(reportReadyness, ...(initArgs as []));
+        initFunction(reportReadyness, ...initArgs);
       }
     })();
-  }, []);
+  }, [updateTrigger]);
 
   return featureComponent;
 }

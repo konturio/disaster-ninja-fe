@@ -7,8 +7,6 @@ import { featureStatus } from '~core/featureStatus';
 import { AppFeature } from '~core/auth/types';
 import styles from './AnalyticsPanel.module.css';
 
-let markedReady = false;
-
 const LazyLoadedAnalyticsContainer = lazy(
   () => import('../AnalyticsContainer/AnalyticsContainer'),
 );
@@ -17,13 +15,11 @@ const LazyLoadedAnalyticsPanelHeader = lazy(
     import('../AnalyticsPanelHeaderContainer/AnalyticsPanelHeaderContainer'),
 );
 
-export function AnalyticsPanel() {
+export function AnalyticsPanel({ reportReady }: { reportReady: () => void }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  if (!markedReady) {
-    featureStatus.markReady(AppFeature.ANALYTICS_PANEL);
-    markedReady = true;
-  }
+
+  useEffect(() => reportReady(), []);
 
   useEffect(() => {
     if (isMobile) {

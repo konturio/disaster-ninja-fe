@@ -16,6 +16,7 @@ const FeedSelectorComp = () => {
     setCurrentFeed(ev.target.value);
   }, []);
 
+  // todo think about it in #11232
   featureStatus.markReady(AppFeature.FEED_SELECTOR);
 
   return userModel &&
