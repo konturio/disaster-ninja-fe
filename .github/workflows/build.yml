@@ -48,6 +48,9 @@ jobs:
           node-version: '17'
       - run: npm ci --also=dev
       - run: npm run build
+      - name: Display structure of builded files
+        run: ls -R
+        working-directory: .
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.sha }}.dist
