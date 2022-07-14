@@ -54,10 +54,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.sha }}.dist
-          path: |
-            '/dist/'
-            '/Dockerfile'
-
+          path: './Dockerfile'
   publish:
     needs: build
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'release')) }}
