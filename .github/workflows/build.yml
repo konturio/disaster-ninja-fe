@@ -55,8 +55,8 @@ jobs:
         with:
           name: ${{ github.sha }}.dist
           path: |
-            './dist/'
-            './Dockerfile'
+            '/dist/'
+            '/Dockerfile'
 
   publish:
     needs: build
