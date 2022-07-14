@@ -42,6 +42,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '17'
+      - run: npm ci --include=dev
       - run: npm run build
       - name: Display structure of builded files
         run: ls -R
@@ -56,6 +61,7 @@ jobs:
         with:
           name: ${{ github.sha }}
           path: ./_artifact
+
   publish:
     needs: build
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'release')) }}
@@ -63,7 +69,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: ${{ github.sha }}
+          name: ${{ github.sha }}.dist
 
       - name: Display structure of downloaded files
         run: ls -R
