@@ -87,7 +87,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}
           tags: |
             type=semver,pattern={{version}}
-            type=raw,value=${{ inputs.artifact_name }}
+            type=raw,value=${{ github.ref_name }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
@@ -98,6 +98,6 @@ jobs:
           tags: |
             ${{ steps.meta.outputs.tags }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}:${{ github.event.workflow_run.head_branch }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}:${{ github.ref_name }}
           labels: ${{ steps.meta.outputs.labels }}
 
