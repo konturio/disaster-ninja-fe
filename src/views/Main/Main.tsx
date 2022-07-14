@@ -7,6 +7,7 @@ import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/D
 import { AppFeature } from '~core/auth/types';
 import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager';
 import { initReportsIcon } from '~features/reports';
+import { initUrlStore } from '~core/url_store';
 import s from './Main.module.css';
 import type { UserDataModel } from '~core/auth';
 
@@ -51,6 +52,8 @@ export function MainView({ userModel }: MainViewProps) {
   const iconsContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    initUrlStore();
+
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
 
     /* Lazy load module */
