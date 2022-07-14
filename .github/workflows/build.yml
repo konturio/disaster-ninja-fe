@@ -14,7 +14,9 @@ on:
 env:
   NODE_ENV: production
   AVA_FORCE_CI: 'not-ci'
-
+  REGISTRY: ghcr.io
+  IMAGE_REPO: ${{ github.repository }}
+  
 jobs:
   test:
     runs-on: ubuntu-latest
