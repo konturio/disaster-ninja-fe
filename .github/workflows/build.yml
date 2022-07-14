@@ -47,16 +47,50 @@ jobs:
           node-version: '17'
       - run: npm ci --also=dev
       - run: npm run build
-      - run: tar cvf - dist | xz -1 > ${{ github.sha }}.${{ github.run_attempt }}.tar.xz
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.sha }}.${{ github.run_attempt }}
-          path: '*.tar.xz'
+          name: ${{ github.sha }}.dist
+          path: './dist'
 
   publish:
     needs: build
-    if: ${{ success() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'release'))) }}
-    uses: ./.github/workflows/publish_image.yml
-    with:
-      artifact_name: ${{ github.sha }}.${{ github.run_attempt }}
-    secrets: inherit
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'release')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.sha }}.dist
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: .
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        uses: docker/metadata-action@v4.0.1
+        id: meta
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value=${{ inputs.artifact_name }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}:${{ github.event.workflow_run.head_branch }}
+          labels: ${{ steps.meta.outputs.labels }}
+
