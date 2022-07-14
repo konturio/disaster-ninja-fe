@@ -1,18 +1,24 @@
 import { useAtom } from '@reatom/react';
+import { useEffect } from 'react';
 import { AppFeature } from '~core/auth/types';
-import { featureStatus } from '~core/featureStatus';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { Tooltip } from './Tooltip/Tooltip';
+import type { FeatureInterface } from '~utils/hooks/useAppFeature';
 
-let markedReady = false;
-
-export function PopupTooltip() {
+function PopupTooltip({ reportReady }: { reportReady: () => void }) {
   const [tooltip, { resetCurrentTooltip }] = useAtom(currentTooltipAtom);
 
-  if (!markedReady) {
-    featureStatus.markReady(AppFeature.TOOLTIP);
-    markedReady = true;
-  }
+  useEffect(() => {
+    reportReady();
+  }, []);
 
   return <Tooltip properties={tooltip} closeTooltip={resetCurrentTooltip} />;
 }
+
+export const featureInterface: FeatureInterface = {
+  affectsMap: false,
+  id: AppFeature.TOASTS,
+  RootComponent: PopupTooltip,
+};
+
+export default featureInterface;

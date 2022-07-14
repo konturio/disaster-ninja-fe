@@ -11,6 +11,7 @@ import { AppFeature } from '~core/auth/types';
 import { initUrlStore } from '~core/url_store';
 import { featureStatus } from '~core/featureStatus';
 import { featureWrap, initFeature } from '~utils/hooks/loadFeature';
+import { useAppFeature } from '~utils/hooks/useAppFeature';
 import s from './Main.module.css';
 
 const { UserProfile } = lazily(() => import('~features/user_profile'));
@@ -48,12 +49,14 @@ const { BivariatePanel } = lazily(
   () => import('~features/bivariate_manager/components'),
 );
 
-const { PopupTooltip } = lazily(() => import('~features/tooltip'));
+const PopupTooltip = import('~features/tooltip');
 
 export function MainView() {
   const history = useHistory();
   const [{ data: userModel }] = useAtom(userResourceAtom);
   const iconsContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const popupTooltip = useAppFeature(PopupTooltip);
 
   useEffect(() => {
     initUrlStore();
@@ -125,8 +128,9 @@ export function MainView() {
   return (
     <>
       <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
+        {userModel?.hasFeature(AppFeature.TOOLTIP) && popupTooltip}
       </Suspense>
+
       <Suspense fallback={null}>
         {userModel?.hasFeature(AppFeature.HEADER) && (
           <AppHeader
