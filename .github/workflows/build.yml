@@ -52,7 +52,7 @@ jobs:
         run: ls -R
         working-directory: .
       - name: Make artifact folder and fill it
-        run: mkdir ./_artifact && cp ./Dockerfile ./dist ./_artifact
+        run: mkdir ./_artifact && cp ./Dockerfile -r ./dist ./_artifact
         working-directory: .
       - name: Display structure of artifact files
         run: ls ./_artifact -R
