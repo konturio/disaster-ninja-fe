@@ -54,9 +54,6 @@ jobs:
       - name: Make artifact folder and fill it
         run: mkdir ./_artifact && cp ./Dockerfile -r ./dist ./_artifact
         working-directory: .
-      - name: Display structure of artifact files
-        run: ls ./_artifact -R
-        working-directory: .
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.sha }}
@@ -69,7 +66,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: ${{ github.sha }}.dist
+          name: ${{ github.sha }}
 
       - name: Display structure of downloaded files
         run: ls -R
