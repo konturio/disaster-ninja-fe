@@ -51,8 +51,8 @@ jobs:
       - name: Display structure of builded files
         run: ls -R
         working-directory: .
-      - name: Make artifact folder and fill it
-        run: mkdir ./_artifact && cp ./Dockerfile -r ./dist ./_artifact
+      - name: Make artifact folder for dist (workaround for actions/upload-artifact@v3 bug)
+        run: mkdir ./_artifact && mv ./dist ./_artifact
         working-directory: .
       - uses: actions/upload-artifact@v3
         with:
@@ -64,6 +64,7 @@ jobs:
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'release')) }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
           name: ${{ github.sha }}
