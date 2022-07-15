@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { PopupTooltip } from '~features/tooltip';
+import { featureInterface } from '~features/tooltip';
 import { BivariateMatrixControlComponent } from '../index';
 import { mock } from './mocks/mock-20';
 import styles from './BivariateMatrixControlFixture.module.css';
@@ -9,6 +9,7 @@ type AxisGroup = {
   quotients: Array<[string, string]>;
   selectedQuotient: [string, string];
 };
+const { PopupTooltip } = featureInterface;
 
 const mapHeaderCell = (group: AxisGroup, indicators: Indicator[]) => ({
   label:
