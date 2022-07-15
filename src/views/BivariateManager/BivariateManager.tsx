@@ -4,10 +4,17 @@ import { bivariateColorManagerResourceAtom } from '~features/bivariate_manager/a
 import s from './BivariateManager.module.css';
 
 export function BivariateManagerPage() {
-  const [{ loading, data }] = useAtom(bivariateColorManagerResourceAtom);
-  return (
+  const [{ loading }] = useAtom(bivariateColorManagerResourceAtom);
+  return loading ? null : (
     <div className={clsx(s.pageContainer)}>
-      <span>{loading ? 'Loading...' : JSON.stringify(data, null, 4)}</span>
+      <div className={clsx(s.Nav)}></div>
+
+      <div className={clsx(s.List)}>
+        <div className={clsx(s.ListFilters)}>Filters here: </div>
+        <div className={clsx(s.ListBody)}></div>
+      </div>
+
+      <div className={clsx(s.LegendMap)}></div>
     </div>
   );
 }
