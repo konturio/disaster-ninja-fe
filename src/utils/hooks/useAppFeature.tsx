@@ -42,7 +42,7 @@ export function useAppFeature(
   featureInterfacePromise: Promise<FeatureInterface | null>,
   addedProps: RootFeatureProps = {},
   initArgs: any[] = [],
-  updateTrigger?: any,
+  updateTrigger: any[] = [],
 ) {
   const [featureComponent, setFeatureComponent] = useState(<NullComponent />);
 
@@ -65,7 +65,7 @@ export function useAppFeature(
         initFunction(reportReadyness, ...initArgs);
       }
     })();
-  }, [updateTrigger]);
+  }, [...updateTrigger]);
 
   return featureComponent;
 }

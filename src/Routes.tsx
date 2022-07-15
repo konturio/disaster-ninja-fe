@@ -118,7 +118,7 @@ const CommonRoutesFeatures = ({
     loadFeature(AppFeature.APP_LOGIN, import('~features/app_header')),
     { logo: VisibleLogo(), title: headerTitle, content: userProfile },
     [],
-    userProfile,
+    [userProfile],
   );
 
   const notificationToast = useAppFeature(
