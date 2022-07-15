@@ -3,7 +3,7 @@ import app_config from '~core/app_config';
 
 export function getCameraForGeometry(
   geojson: GeoJSON.GeoJSON,
-  map: maplibregl.Map | undefined,
+  map: maplibregl.Map | null,
 ) {
   if (!map) return;
   let bbox: [number, number, number, number];

@@ -75,8 +75,7 @@ export function createLogicalLayerAtom(
       },
     ) => {
       const actions: Action[] = [];
-      const map =
-        getUnlistedState<ApplicationMap | undefined>(currentMapAtom) ?? null;
+      const map = getUnlistedState<ApplicationMap | null>(currentMapAtom);
 
       /**
        * ! Important Note! In you add new sub stores,
