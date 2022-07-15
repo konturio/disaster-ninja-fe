@@ -14,9 +14,9 @@ import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LoginForm } from '~features/user_profile';
 import { AppFeature } from '~core/auth/types';
 import { currentApplicationAtom } from '~core/shared_state';
+import { initUrlStore } from '~core/url_store';
 import s from './views/Main/Main.module.css';
 import type { UserDataModel } from '~core/auth';
-
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
@@ -32,41 +32,44 @@ const ROUTES = {
 };
 
 export function RoutedApp() {
-  const [{ data: userModel }] = useAtom(userResourceAtom);
+  useEffect(() => {
+    initUrlStore();
+  }, []);
+
+  const [{ data: userModel, loading }] = useAtom(userResourceAtom);
   return (
     <StrictMode>
       <OriginalLogo />
+      {userModel && !loading && (
+        <Router>
+          <CommonRoutesFeatures userModel={userModel} />
+          <CacheSwitch>
+            <CacheRoute className={s.mainWrap} exact path={ROUTES.base}>
+              <Suspense fallback={null}>
+                <MainView userModel={userModel} />
+              </Suspense>
+            </CacheRoute>
 
-      <Router>
-        <CommonRoutesFeatures userModel={userModel} />
+            <Route exact path={ROUTES.reports}>
+              <Suspense fallback={null}>
+                <Reports />
+              </Suspense>
+            </Route>
 
-        <CacheSwitch>
-          <CacheRoute className={s.mainWrap} exact path={ROUTES.base}>
-            <Suspense fallback={null}>
-              <MainView userModel={userModel} />
-            </Suspense>
-          </CacheRoute>
+            <Route path={ROUTES.reportPage}>
+              <Suspense fallback={null}>
+                <ReportPage />
+              </Suspense>
+            </Route>
 
-          <Route exact path={ROUTES.reports}>
-            <Suspense fallback={null}>
-              <Reports />
-            </Suspense>
-          </Route>
-
-          <Route path={ROUTES.reportPage}>
-            <Suspense fallback={null}>
-              <ReportPage />
-            </Suspense>
-          </Route>
-
-          <Route path={ROUTES.bivariateManager}>
-            <Suspense fallback={null}>
-              <BivariateManagerPage />
-            </Suspense>
-          </Route>
-        </CacheSwitch>
-      </Router>
-
+            <Route path={ROUTES.bivariateManager}>
+              <Suspense fallback={null}>
+                <BivariateManagerPage />
+              </Suspense>
+            </Route>
+          </CacheSwitch>
+        </Router>
+      )}
       <LoginForm />
     </StrictMode>
   );
