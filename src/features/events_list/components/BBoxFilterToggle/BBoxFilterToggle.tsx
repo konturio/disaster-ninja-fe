@@ -16,7 +16,7 @@ export function BBoxFilterToggle() {
     <div className={s.bBoxFilterToggle}>
       <Button
         variant="invert-outline"
-        size="medium"
+        size="small"
         active={isActive}
         onClick={isActive ? resetBboxFilter : setBBoxFilterFromCurrentMapView}
         iconAfter={isActive ? <CloseFilled16 /> : null}
@@ -25,6 +25,8 @@ export function BBoxFilterToggle() {
       </Button>
       {isActive && (
         <Button
+          variant="invert-outline"
+          size="small"
           onClick={setBBoxFilterFromCurrentMapView}
           iconAfter={<Update16 />}
         ></Button>
