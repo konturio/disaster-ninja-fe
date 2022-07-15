@@ -32,17 +32,14 @@ const ROUTES = {
 };
 
 export function RoutedApp() {
-  useEffect(() => {
-    initUrlStore();
-  }, []);
-
   const [{ data: userModel, loading }] = useAtom(userResourceAtom);
   return (
     <StrictMode>
       <OriginalLogo />
-      {userModel && !loading && (
-        <Router>
-          <CommonRoutesFeatures userModel={userModel} />
+
+      <Router>
+        <CommonRoutesFeatures userModel={userModel} />
+        {userModel && !loading && (
           <CacheSwitch>
             <CacheRoute className={s.mainWrap} exact path={ROUTES.base}>
               <Suspense fallback={null}>
@@ -68,8 +65,8 @@ export function RoutedApp() {
               </Suspense>
             </Route>
           </CacheSwitch>
-        </Router>
-      )}
+        )}
+      </Router>
       <LoginForm />
     </StrictMode>
   );
@@ -105,14 +102,16 @@ const CommonRoutesFeatures = ({ userModel }: CommonRoutesFeaturesProps) => {
   }, [userModel]);
 
   // TODO: this is needed to get features from routes other than '/', as features need /apps/default_id
-  // Remove this useEffect right after we don't need /apps/default_id for features request
+  // Remove currentApplicationAtom.init.dispatch(); right after we don't need /apps/default_id for features request
   useEffect(() => {
     if (
-      !matchPath(pathname, {
+      matchPath(pathname, {
         path: ROUTES.base,
         exact: true,
       })
     ) {
+      initUrlStore();
+    } else {
       currentApplicationAtom.init.dispatch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
