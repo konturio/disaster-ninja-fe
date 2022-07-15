@@ -32,7 +32,7 @@ const ROUTES = {
 };
 
 export function RoutedApp() {
-  const [{ data: userModel }] = useAtom(userResourceAtom);
+  const [{ loading, data: userModel }] = useAtom(userResourceAtom);
   return (
     <StrictMode>
       <OriginalLogo />
@@ -40,31 +40,33 @@ export function RoutedApp() {
       <Router>
         <CommonRoutesFeatures userModel={userModel} />
 
-        <CacheSwitch>
-          <CacheRoute className={s.mainWrap} exact path={ROUTES.base}>
-            <Suspense fallback={null}>
-              <MainView userModel={userModel} />
-            </Suspense>
-          </CacheRoute>
+        {!loading && (
+          <CacheSwitch>
+            <CacheRoute className={s.mainWrap} exact path={ROUTES.base}>
+              <Suspense fallback={null}>
+                <MainView userModel={userModel} />
+              </Suspense>
+            </CacheRoute>
 
-          <Route exact path={ROUTES.reports}>
-            <Suspense fallback={null}>
-              <Reports />
-            </Suspense>
-          </Route>
+            <Route exact path={ROUTES.reports}>
+              <Suspense fallback={null}>
+                <Reports />
+              </Suspense>
+            </Route>
 
-          <Route path={ROUTES.reportPage}>
-            <Suspense fallback={null}>
-              <ReportPage />
-            </Suspense>
-          </Route>
+            <Route path={ROUTES.reportPage}>
+              <Suspense fallback={null}>
+                <ReportPage />
+              </Suspense>
+            </Route>
 
-          <Route path={ROUTES.bivariateManager}>
-            <Suspense fallback={null}>
-              <BivariateManagerPage />
-            </Suspense>
-          </Route>
-        </CacheSwitch>
+            <Route path={ROUTES.bivariateManager}>
+              <Suspense fallback={null}>
+                <BivariateManagerPage />
+              </Suspense>
+            </Route>
+          </CacheSwitch>
+        )}
       </Router>
 
       <LoginForm />
