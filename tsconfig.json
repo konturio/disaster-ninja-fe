@@ -41,7 +41,9 @@
   ],
   "exclude": [
     "**/*.test.tsx",
+    "./**/*.fixture.tsx",
     "./**/*.decorator.tsx",
+    "./**/fixture/*.*",
     "./cosmos/*.*",
     "./cosmos-export/*.*"
   ],

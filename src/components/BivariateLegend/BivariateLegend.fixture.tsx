@@ -110,7 +110,6 @@ export default function BivariateLegendFixture() {
   return (
     <>
       <PopupTooltip />
-      {/* @ts-ignore - FIXME */}
       <CornerTooltipWrapper meta={meta}>
         <BiLegend
           showAxisLabels={true}
