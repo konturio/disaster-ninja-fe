@@ -72,4 +72,7 @@ export const featureInterface: FeatureInterface = {
   initFunction(reportReady) {
     initFileUploader(reportReady);
   },
+  RootComponent() {
+    return null;
+  },
 };

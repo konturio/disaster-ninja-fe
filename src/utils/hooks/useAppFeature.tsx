@@ -6,11 +6,11 @@ import type { AppFeatureType } from '~core/auth/types';
 export type FeatureInterface = {
   affectsMap: boolean;
   id: string;
-  RootComponent?: ({
+  RootComponent: ({
     reportReady,
   }: {
     reportReady: () => void;
-  } & RootFeatureProps) => JSX.Element;
+  } & RootFeatureProps) => JSX.Element | null;
   initFunction?: (reportReady: () => void, ...args: any[]) => any;
 };
 
@@ -57,12 +57,11 @@ export function useAppFeature(
 
       const reportReadyness = featureStatus.getReadynessCb(id, affectsMap);
 
-      if (RootComponent) {
-        const component = (
-          <RootComponent reportReady={reportReadyness} {...addedProps} />
-        );
-        setFeatureComponent(component);
-      } else if (initFunction) {
+      const component = (
+        <RootComponent reportReady={reportReadyness} {...addedProps} />
+      );
+      setFeatureComponent(component);
+      if (initFunction) {
         initFunction(reportReadyness, ...initArgs);
       }
     })();

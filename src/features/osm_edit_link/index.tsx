@@ -35,4 +35,7 @@ export const featureInterface: FeatureInterface = {
   initFunction(reportReady) {
     initOsmEditLink(reportReady);
   },
+  RootComponent() {
+    return null;
+  },
 };

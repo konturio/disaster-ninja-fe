@@ -27,4 +27,7 @@ export const featureInterface: FeatureInterface = {
 
     reportReady();
   },
+  RootComponent() {
+    return null;
+  },
 };

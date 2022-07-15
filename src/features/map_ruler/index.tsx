@@ -53,4 +53,7 @@ export const featureInterface: FeatureInterface = {
   initFunction(reportReady) {
     initMapRuler(reportReady);
   },
+  RootComponent() {
+    return null;
+  },
 };

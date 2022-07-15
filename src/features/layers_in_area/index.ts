@@ -13,4 +13,7 @@ export const featureInterface: FeatureInterface = {
     // todo improve that logic in #11232
     reportReady();
   },
+  RootComponent() {
+    return null;
+  },
 };

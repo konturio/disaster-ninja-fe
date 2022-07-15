@@ -74,4 +74,7 @@ export const featureInterface: FeatureInterface = {
   initFunction(reportReady) {
     initIntercom(reportReady);
   },
+  RootComponent() {
+    return null;
+  },
 };

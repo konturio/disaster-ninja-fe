@@ -79,4 +79,7 @@ export const featureInterface: FeatureInterface = {
   initFunction(reportReady) {
     initBoundarySelector(reportReady);
   },
+  RootComponent() {
+    return null;
+  },
 };

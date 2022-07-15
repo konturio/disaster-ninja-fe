@@ -70,4 +70,7 @@ export const featureInterface: FeatureInterface = {
   initFunction(reportReady) {
     initFocusedGeometryLayer(reportReady);
   },
+  RootComponent() {
+    return null;
+  },
 };

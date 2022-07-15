@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useCallback, useEffect, useRef } from 'react';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
 import { useAtom } from '@reatom/react';
@@ -27,7 +27,10 @@ export function MainView() {
   const iconsContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Load features
-  const loadFeature = useFeatureInitializer(userModel);
+  const loadFeature = useCallback(useFeatureInitializer(userModel), [
+    userModel,
+  ]);
+
   const popupTooltip = useAppFeature(
     loadFeature(AppFeature.TOOLTIP, import('~features/tooltip')),
   );

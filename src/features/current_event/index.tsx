@@ -14,4 +14,7 @@ export const featureInterface: FeatureInterface = {
     currentEventAutoFocusAtom.subscribe(() => null);
     reportReady();
   },
+  RootComponent() {
+    return null;
+  },
 };
