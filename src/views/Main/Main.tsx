@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
 import { Row } from '~components/Layout/Layout';
@@ -6,17 +6,13 @@ import config from '~core/app_config';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { initUrlStore } from '~core/url_store';
-import {
-  useAppFeature,
-  useFeatureInitializer,
-} from '~utils/hooks/useAppFeature';
-import { userResourceAtom } from '~core/auth';
-import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
+import { useAppFeature } from '~utils/hooks/useAppFeature';
 import s from './Main.module.css';
-import type { UserDataModel} from '~core/auth';
+import type { UserDataModel } from '~core/auth';
 import type {
   FeatureInterface,
-  FeatureModule} from '~utils/hooks/useAppFeature';
+  FeatureModule,
+} from '~utils/hooks/useAppFeature';
 import type { AppFeatureType } from '~core/auth/types';
 
 const { Logo } = lazily(() => import('@konturio/ui-kit'));

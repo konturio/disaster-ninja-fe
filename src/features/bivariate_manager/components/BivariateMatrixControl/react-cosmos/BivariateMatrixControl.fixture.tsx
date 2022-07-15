@@ -84,7 +84,11 @@ export default function BivariateMatrixControlFixture() {
         selectedCell={selectedCell}
         onSelectDenominator={onSelectDenominator}
       />
-      <PopupTooltip reportReady={() => {}} />
+      <PopupTooltip
+        reportReady={() => {
+          // noop
+        }}
+      />
     </div>
   );
 }

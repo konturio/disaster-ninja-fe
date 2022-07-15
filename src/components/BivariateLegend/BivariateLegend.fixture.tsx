@@ -110,7 +110,11 @@ const PopupTooltip = featureInterface.RootComponent;
 export default function BivariateLegendFixture() {
   return (
     <>
-      <PopupTooltip reportReady={() => {}} />
+      <PopupTooltip
+        reportReady={() => {
+          // noop
+        }}
+      />
       {/* @ts-ignore - FIXME */}
       <CornerTooltipWrapper meta={meta}>
         <BiLegend

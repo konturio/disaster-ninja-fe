@@ -18,10 +18,12 @@ import {
   useAppFeature,
   useFeatureInitializer,
 } from '~utils/hooks/useAppFeature';
+import { initUrlStore } from '~core/url_store';
 import s from './views/Main/Main.module.css';
 import type {
   FeatureInterface,
-  FeatureModule} from '~utils/hooks/useAppFeature';
+  FeatureModule,
+} from '~utils/hooks/useAppFeature';
 import type { AppFeatureType } from '~core/auth/types';
 import type { UserDataModel } from '~core/auth';
 
@@ -40,47 +42,45 @@ const ROUTES = {
 };
 
 export function RoutedApp() {
-  const [{ data: userModel }] = useAtom(userResourceAtom);
-
+  const [{ data: userModel, loading }] = useAtom(userResourceAtom);
   // Load features
   const loadFeature = useCallback(useFeatureInitializer(userModel), [
     userModel,
   ]);
-
   return (
     <StrictMode>
       <OriginalLogo />
 
       <Router>
         <CommonRoutesFeatures userModel={userModel} loadFeature={loadFeature} />
+        {userModel && !loading && (
+          <CacheSwitch>
+            <CacheRoute className={s.mainWrap} exact path={ROUTES.base}>
+              <Suspense fallback={null}>
+                <MainView userModel={userModel} loadFeature={loadFeature} />
+              </Suspense>
+            </CacheRoute>
 
-        <CacheSwitch>
-          <CacheRoute className={s.mainWrap} exact path={ROUTES.base}>
-            <Suspense fallback={null}>
-              <MainView userModel={userModel} loadFeature={loadFeature} />
-            </Suspense>
-          </CacheRoute>
+            <Route exact path={ROUTES.reports}>
+              <Suspense fallback={null}>
+                <Reports />
+              </Suspense>
+            </Route>
 
-          <Route exact path={ROUTES.reports}>
-            <Suspense fallback={null}>
-              <Reports />
-            </Suspense>
-          </Route>
+            <Route path={ROUTES.reportPage}>
+              <Suspense fallback={null}>
+                <ReportPage />
+              </Suspense>
+            </Route>
 
-          <Route path={ROUTES.reportPage}>
-            <Suspense fallback={null}>
-              <ReportPage />
-            </Suspense>
-          </Route>
-
-          <Route path={ROUTES.bivariateManager}>
-            <Suspense fallback={null}>
-              <BivariateManagerPage />
-            </Suspense>
-          </Route>
-        </CacheSwitch>
+            <Route path={ROUTES.bivariateManager}>
+              <Suspense fallback={null}>
+                <BivariateManagerPage />
+              </Suspense>
+            </Route>
+          </CacheSwitch>
+        )}
       </Router>
-
       <LoginForm />
     </StrictMode>
   );
@@ -128,14 +128,16 @@ const CommonRoutesFeatures = ({
   useAppFeature(loadFeature(AppFeature.INTERCOM, import('~features/intercom')));
 
   // TODO: this is needed to get features from routes other than '/', as features need /apps/default_id
-  // Remove this useEffect right after we don't need /apps/default_id for features request
+  // Remove currentApplicationAtom.init.dispatch(); right after we don't need /apps/default_id for features request
   useEffect(() => {
     if (
-      !matchPath(pathname, {
+      matchPath(pathname, {
         path: ROUTES.base,
         exact: true,
       })
     ) {
+      initUrlStore();
+    } else {
       currentApplicationAtom.init.dispatch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
