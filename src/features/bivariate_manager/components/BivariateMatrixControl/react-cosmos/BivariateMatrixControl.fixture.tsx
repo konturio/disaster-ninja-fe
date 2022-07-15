@@ -10,7 +10,7 @@ type AxisGroup = {
   quotients: Array<[string, string]>;
   selectedQuotient: [string, string];
 };
-const { PopupTooltip } = featureInterface;
+const PopupTooltip = featureInterface.RootComponent;
 
 const mapHeaderCell = (group: AxisGroup, indicators: Indicator[]) => ({
   label:
@@ -63,14 +63,12 @@ export default function BivariateMatrixControlFixture() {
 
   const onSelectCellHandler = useCallback((x, y) => {
     /* eslint-disable */
-    console.log('onSelectCellHandler', x, y);
     setSelectedCell({ x, y });
   }, []);
 
   const onSelectDenominator = useCallback(
     (horizontal: boolean, index: number, numId: string, denId: string) => {
       /* eslint-disable */
-      console.log('onSelectDenominator', horizontal, index, numId, denId);
     },
     [],
   );
@@ -86,7 +84,7 @@ export default function BivariateMatrixControlFixture() {
         selectedCell={selectedCell}
         onSelectDenominator={onSelectDenominator}
       />
-      <PopupTooltip />
+      <PopupTooltip reportReady={() => {}} />
     </div>
   );
 }
