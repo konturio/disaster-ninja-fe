@@ -1,5 +1,39 @@
 .pageContainer {
-  white-space: pre;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   overflow: scroll;
+  display: flex;
+}
+
+.Nav,
+.List,
+.LegendMap {
+  display: flex;
+  flex-direction: column;
+}
+
+.LegendMap {
+  width: 492px;
+}
+
+.Nav {
+  width: 188px;
+}
+
+.ListFilters {
+  display: flex;
+  align-items: center;
+  padding: 24px 32px 16px 32px;
+}
+
+.List {
+  flex-grow: 1;
+  border: 1px solid var(--faint-weak);
+  border-width: 0px 1px 0px 1px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ListBody {
+  flex-grow: 1;
 }

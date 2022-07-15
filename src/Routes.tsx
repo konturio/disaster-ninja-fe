@@ -82,7 +82,7 @@ const PAGE_TITLES_BY_ROUTE = {
   [ROUTES.reports]: () => <LinkableTitle title={i18n.t('Reports')} />,
   [ROUTES.reportPage]: () => <LinkableTitle title={i18n.t('Reports')} />,
   [ROUTES.bivariateManager]: () => (
-    <LinkableTitle title={i18n.t('Bivariate Color Manager')} />
+    <LinkableTitle title={i18n.t('Appearance administration')} />
   ),
 };
 
