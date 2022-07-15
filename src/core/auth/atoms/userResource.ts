@@ -31,8 +31,6 @@ const userResourceRequestParamsAtom = createAtom(
     const applicationId = get('currentApplicationAtom');
     const userData = get('currentUserAtom');
 
-    if (!applicationId) return state;
-
     return {
       userData,
       applicationId,
@@ -46,7 +44,7 @@ export const userResourceAtom = createResourceAtom<
   UserDataModel | undefined
 >(
   async (params) => {
-    if (!params) return;
+    if (!params?.applicationId) return;
     const { userData, applicationId } = params;
 
     const featuresResponse = apiClient.get<BackendFeature[]>(

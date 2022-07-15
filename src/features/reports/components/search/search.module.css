@@ -1,0 +1,4 @@
+.searchContainer {
+  margin: var(--unit) 0;
+  max-width: 420px;
+}

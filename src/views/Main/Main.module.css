@@ -18,9 +18,9 @@
 }
 
 .mainWrap {
-  height: 100%;
   margin: 0;
   display: flex;
+  flex-grow: 1;
   flex-flow: column nowrap;
 }
 
@@ -50,4 +50,14 @@
   display: flex;
   flex-direction: column-reverse;
   gap: 8px;
+}
+
+.customAppTitle {
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  font-size: 14px;
+}
+
+.clickable {
+  cursor: pointer;
 }

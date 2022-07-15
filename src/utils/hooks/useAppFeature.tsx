@@ -19,7 +19,7 @@ type RootFeatureProps = {
   [key: string]: any;
 };
 
-type FeatureModule = {
+export type FeatureModule = {
   featureInterface: FeatureInterface;
   [key: string]: any;
 };

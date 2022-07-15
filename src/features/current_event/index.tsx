@@ -1,5 +1,5 @@
-import { featureStatus } from '~core/featureStatus';
 import { AppFeature } from '~core/auth/types';
+import { forceRun } from '~utils/atoms/forceRun';
 import { currentEventGeometryAtom } from './atoms/currentEventGeometry';
 import { currentEventRefresherAtom } from './atoms/currentEventRefresher';
 import { currentEventAutoFocusAtom } from './atoms/currentEventAutoFocus';
@@ -9,12 +9,17 @@ export const featureInterface: FeatureInterface = {
   affectsMap: false,
   id: AppFeature.CURRENT_EVENT,
   initFunction(reportReady) {
-    currentEventGeometryAtom.subscribe((val) => null);
-    currentEventRefresherAtom.subscribe(() => null);
-    currentEventAutoFocusAtom.subscribe(() => null);
-    reportReady();
+    initCurrentEvent(reportReady);
   },
   RootComponent() {
     return null;
   },
 };
+export function initCurrentEvent(reportReady) {
+  forceRun([
+    currentEventGeometryAtom,
+    currentEventRefresherAtom,
+    currentEventAutoFocusAtom,
+  ]);
+  reportReady();
+}

@@ -1,56 +1,36 @@
 import { createAtom } from '~utils/atoms';
-import { currentEventAtom, focusedGeometryAtom } from '~core/shared_state';
+import { currentEventAtom } from '~core/shared_state';
+import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
 import { eventListResourceAtom } from './eventListResource';
 
 export const autoSelectEvent = createAtom(
   {
     eventListResourceAtom,
-    focusedGeometryAtom,
   },
   ({ getUnlistedState, schedule, onChange }, state = {}) => {
     onChange('eventListResourceAtom', (eventListResource) => {
+      const autoSelectWasScheduled = getUnlistedState(scheduledAutoSelect);
       if (
+        autoSelectWasScheduled &&
         eventListResource &&
         !eventListResource.loading &&
         !eventListResource.error &&
         eventListResource.data &&
         eventListResource.data.length
       ) {
-        const firstEventInList = eventListResource.data[0];
-        const focusedGeometry = getUnlistedState(focusedGeometryAtom);
         const currentEvent = getUnlistedState(currentEventAtom);
-        if (
-          currentEvent === null &&
-          (focusedGeometry === null || focusedGeometry.source?.type === 'event')
-        ) {
+        const currentEventNotInNewList =
+          eventListResource.data.findIndex(
+            (e) => e.eventId === currentEvent?.id,
+          ) === -1;
+        if (currentEventNotInNewList) {
+          const firstEventInList = eventListResource.data[0];
           schedule((dispatch) => {
-            dispatch(
+            dispatch([
+              scheduledAutoSelect.setFalse(),
               currentEventAtom.setCurrentEventId(firstEventInList.eventId),
-            );
+            ]);
           });
-        }
-      }
-    });
-
-    onChange('focusedGeometryAtom', (focusedGeometry) => {
-      if (focusedGeometry === null) {
-        const currentEvent = getUnlistedState(currentEventAtom);
-        if (currentEvent === null) {
-          const eventListResource = getUnlistedState(eventListResourceAtom);
-          if (
-            eventListResource &&
-            !eventListResource.loading &&
-            !eventListResource.error &&
-            eventListResource.data &&
-            eventListResource.data.length
-          ) {
-            const firstEventInList = eventListResource.data[0];
-            schedule((dispatch) => {
-              dispatch(
-                currentEventAtom.setCurrentEventId(firstEventInList.eventId),
-              );
-            });
-          }
         }
       }
     });

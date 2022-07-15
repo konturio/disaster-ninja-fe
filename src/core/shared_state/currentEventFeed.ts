@@ -12,16 +12,8 @@ export const currentEventFeedAtom = createAtom(
     resetCurrentFeed: () => null,
     userResourceAtom,
   },
-  (
-    { onAction, onChange, schedule },
-    state: CurrentEventFeedAtomState = null,
-  ) => {
+  ({ onAction, onChange }, state: CurrentEventFeedAtomState = null) => {
     onAction('setCurrentFeed', (feedId) => {
-      if (state?.id !== feedId) {
-        state = { id: feedId };
-      }
-    });
-    onAction('setFeedForExistingEvent', (feedId) => {
       if (state?.id !== feedId) {
         state = { id: feedId };
       }

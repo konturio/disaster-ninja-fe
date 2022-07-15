@@ -1,11 +1,8 @@
 import { Suspense, useCallback, useEffect, useRef } from 'react';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
-import { useAtom } from '@reatom/react';
 import { Row } from '~components/Layout/Layout';
 import config from '~core/app_config';
-import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { initUrlStore } from '~core/url_store';
@@ -13,7 +10,14 @@ import {
   useAppFeature,
   useFeatureInitializer,
 } from '~utils/hooks/useAppFeature';
+import { userResourceAtom } from '~core/auth';
+import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import s from './Main.module.css';
+import type { UserDataModel} from '~core/auth';
+import type {
+  FeatureInterface,
+  FeatureModule} from '~utils/hooks/useAppFeature';
+import type { AppFeatureType } from '~core/auth/types';
 
 const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
@@ -21,27 +25,20 @@ const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
 );
 
-export function MainView() {
-  const history = useHistory();
-  const [{ data: userModel }] = useAtom(userResourceAtom);
-  const iconsContainerRef = useRef<HTMLDivElement | null>(null);
+type MainViewProps = {
+  userModel?: UserDataModel | null;
+  loadFeature: (
+    featureId: AppFeatureType,
+    importAction: Promise<FeatureModule>,
+  ) => Promise<FeatureInterface | null>;
+};
 
-  // Load features
-  const loadFeature = useCallback(useFeatureInitializer(userModel), [
-    userModel,
-  ]);
+export function MainView({ userModel, loadFeature }: MainViewProps) {
+  const history = useHistory();
+  const iconsContainerRef = useRef<HTMLDivElement | null>(null);
 
   const popupTooltip = useAppFeature(
     loadFeature(AppFeature.TOOLTIP, import('~features/tooltip')),
-  );
-  const userProfile = useAppFeature(
-    loadFeature(AppFeature.APP_LOGIN, import('~features/user_profile')),
-  );
-  const appHeader = useAppFeature(
-    loadFeature(AppFeature.APP_LOGIN, import('~features/app_header')),
-    { logo: VisibleLogo(), title: 'Disaster Ninja', content: userProfile },
-    [],
-    userProfile,
   );
 
   const sideBar = useAppFeature(
@@ -98,6 +95,14 @@ export function MainView() {
     {},
     [history],
   );
+  useAppFeature(
+    loadFeature(
+      AppFeature.BIVARIATE_COLOR_MANAGER,
+      import('~features/bivariate_color_manager'),
+    ),
+    {},
+    [history],
+  );
 
   useAppFeature(
     loadFeature(AppFeature.CURRENT_EVENT, import('~features/current_event')),
@@ -143,6 +148,13 @@ export function MainView() {
     ),
   );
 
+  useAppFeature(
+    loadFeature(
+      AppFeature.FOCUSED_GEOMETRY_EDITOR,
+      import('~features/focused_geometry_editor'),
+    ),
+  );
+
   useAppFeature(loadFeature(AppFeature.INTERCOM, import('~features/intercom')));
 
   useEffect(() => {
@@ -157,7 +169,6 @@ export function MainView() {
         {userModel?.hasFeature(AppFeature.TOOLTIP) && popupTooltip}
       </Suspense>
 
-      <Suspense fallback={null}>{appHeader}</Suspense>
       <Row>
         <Suspense fallback={null}>
           {notificationToast}

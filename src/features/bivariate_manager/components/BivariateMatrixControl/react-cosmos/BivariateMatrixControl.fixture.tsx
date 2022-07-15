@@ -3,6 +3,7 @@ import { featureInterface } from '~features/tooltip';
 import { BivariateMatrixControlComponent } from '../index';
 import { mock } from './mocks/mock-20';
 import styles from './BivariateMatrixControlFixture.module.css';
+import type { Indicator } from '../types';
 
 type AxisGroup = {
   parent: string | null;

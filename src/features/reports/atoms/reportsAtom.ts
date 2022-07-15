@@ -14,6 +14,7 @@ export type Report = {
     { 'OSM ID': string },
     { Name: string } | { ['OSM name']: string },
   ];
+  searchable_columns_indexes?: number[];
 };
 
 export const reportsAtom = createAtom(
