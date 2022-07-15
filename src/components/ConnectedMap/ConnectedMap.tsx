@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import mapLibre from 'maplibre-gl';
-import { useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import Map from './map-libre-adapter';
@@ -54,7 +54,8 @@ export function ConnectedMap({
   useMapPositionSmoothSync(mapRef);
 
   // init current MapRefAtom
-  const [, currentMapAtomActions] = useAtom(currentMapAtom);
+  const setCurrentMap = useAction(currentMapAtom.setMap);
+  const resetCurrentMap = useAction(currentMapAtom.resetMap);
 
   const [mapListeners] = useAtom(mapListenersAtom);
   const initLayersOrderManager = useCallback(
@@ -82,8 +83,8 @@ export function ConnectedMap({
         });
       }, 1000);
     }
-    currentMapAtomActions.setMap(mapRef.current);
-  }, [mapRef, currentMapAtomActions]);
+    mapRef.current ? setCurrentMap(mapRef.current) : resetCurrentMap();
+  }, [mapRef, setCurrentMap]);
 
   useEffect(() => {
     // for starters lets add click handlers only. It's also easier to read

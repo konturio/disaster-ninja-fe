@@ -12,10 +12,12 @@ import {
   EVENT_LIST_CONTROL_NAME,
 } from '~features/events_list/constants';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
-import { FeedSelector } from '../FeedSelector/FeedSelector';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import { i18n } from '~core/localization';
+import { FeedSelector } from '../FeedSelector/FeedSelector';
+import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
+import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { EventCard } from '../EventCard/EventCard';
 import s from './EventsListPanel.module.css';
 import type { Event } from '~core/types';
@@ -110,12 +112,16 @@ export function EventsListPanel({
     >
       <EventListSettingsRow>
         <FeedSelector />
-        
+        <BBoxFilterToggle />
       </EventListSettingsRow>
       <div className={s.scrollable}>
         {statesToComponents({
           loading: <LoadingSpinner message={i18n.t('Loading events')} />,
-          error: (errorMessage) => <ErrorMessage message={errorMessage ? i18n.t(errorMessage) : errorMessage} />,
+          error: (errorMessage) => (
+            <ErrorMessage
+              message={errorMessage ? i18n.t(errorMessage) : errorMessage}
+            />
+          ),
           ready: (eventsList) => (
             <Virtuoso
               data={eventsList}
