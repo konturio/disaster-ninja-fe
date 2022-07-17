@@ -1,4 +1,4 @@
-import { StrictMode, Suspense, useCallback, useEffect } from 'react';
+import { StrictMode, Suspense, useEffect } from 'react';
 import { Text } from '@konturio/ui-kit';
 import { matchPath } from 'react-router';
 import { lazily } from 'react-lazily';
@@ -14,19 +14,11 @@ import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LoginForm } from '~features/user_profile';
 import { AppFeature } from '~core/auth/types';
 import { currentApplicationAtom } from '~core/shared_state';
-import {
-  useAppFeature,
-  useFeatureInitializer,
-} from '~utils/hooks/useAppFeature';
 import { initUrlStore } from '~core/url_store';
+import { lazyFeatureLoad } from '~utils/metrics/lazyFeatureLoad';
+import { initializeFeature } from '~utils/metrics/initFeature';
 import s from './views/Main/Main.module.css';
-import type {
-  FeatureInterface,
-  FeatureModule,
-} from '~utils/hooks/useAppFeature';
-import type { AppFeatureType } from '~core/auth/types';
 import type { UserDataModel } from '~core/auth';
-
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
@@ -43,21 +35,17 @@ const ROUTES = {
 
 export function RoutedApp() {
   const [{ data: userModel, loading }] = useAtom(userResourceAtom);
-  // Load features
-  const loadFeature = useCallback(useFeatureInitializer(userModel), [
-    userModel,
-  ]);
   return (
     <StrictMode>
       <OriginalLogo />
 
       <Router>
-        <CommonRoutesFeatures userModel={userModel} loadFeature={loadFeature} />
+        <CommonRoutesFeatures userModel={userModel} />
         {userModel && !loading && (
           <CacheSwitch>
             <CacheRoute className={s.mainWrap} exact path={ROUTES.base}>
               <Suspense fallback={null}>
-                <MainView userModel={userModel} loadFeature={loadFeature} />
+                <MainView userModel={userModel} />
               </Suspense>
             </CacheRoute>
 
@@ -86,6 +74,9 @@ export function RoutedApp() {
   );
 }
 
+const UserProfile = lazyFeatureLoad(() => import('~features/user_profile'));
+const NotificationToast = lazyFeatureLoad(() => import('~features/toasts'));
+
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 const PAGE_TITLES_BY_ROUTE = {
   [ROUTES.base]: () => DEFAULT_HEADER_TITLE,
@@ -98,34 +89,16 @@ const PAGE_TITLES_BY_ROUTE = {
 
 type CommonRoutesFeaturesProps = {
   userModel?: UserDataModel | null;
-  loadFeature: (
-    featureId: AppFeatureType,
-    importAction: Promise<FeatureModule>,
-  ) => Promise<FeatureInterface | null>;
 };
 
-const CommonRoutesFeatures = ({
-  userModel,
-  loadFeature,
-}: CommonRoutesFeaturesProps) => {
+const CommonRoutesFeatures = ({ userModel }: CommonRoutesFeaturesProps) => {
   const { pathname } = useLocation();
-  const headerTitle = getHeaderTitle(pathname);
 
-  const userProfile = useAppFeature(
-    loadFeature(AppFeature.APP_LOGIN, import('~features/user_profile')),
-  );
-  const appHeader = useAppFeature(
-    loadFeature(AppFeature.APP_LOGIN, import('~features/app_header')),
-    { logo: VisibleLogo(), title: headerTitle, content: userProfile },
-    [],
-    [userProfile],
-  );
-
-  const notificationToast = useAppFeature(
-    loadFeature(AppFeature.TOASTS, import('~features/toasts')),
-  );
-
-  useAppFeature(loadFeature(AppFeature.INTERCOM, import('~features/intercom')));
+  useEffect(() => {
+    if (userModel?.hasFeature(AppFeature.INTERCOM)) {
+      initializeFeature(() => import('~features/intercom'));
+    }
+  }, [userModel]);
 
   // TODO: this is needed to get features from routes other than '/', as features need /apps/default_id
   // Remove currentApplicationAtom.init.dispatch(); right after we don't need /apps/default_id for features request
@@ -143,15 +116,24 @@ const CommonRoutesFeatures = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const headerTitle = getHeaderTitle(pathname);
+
+  const AppHeader = lazyFeatureLoad(() => import('~features/app_header'), {
+    title: headerTitle,
+    logo: VisibleLogo(),
+    afterChatContent: userModel?.hasFeature(AppFeature.APP_LOGIN) ? (
+      <UserProfile />
+    ) : undefined,
+  });
   if (!userModel) return null;
 
   return (
     <>
       <Suspense fallback={null}>
-        {userModel.hasFeature(AppFeature.HEADER) && appHeader}
+        {userModel.hasFeature(AppFeature.HEADER) && <AppHeader />}
       </Suspense>
       <Suspense fallback={null}>
-        {userModel.hasFeature(AppFeature.TOASTS) && notificationToast}
+        {userModel.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
       </Suspense>
     </>
   );

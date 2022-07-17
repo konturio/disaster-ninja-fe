@@ -5,7 +5,7 @@ import { editableLayersControlsAtom } from './atoms/editableLayersControls';
 import { editableLayersLegendsAndSources } from './atoms/editableLayersLegendsAndSources';
 import { openDrawToolsInFeatureEditMode } from './atoms/drawToolsController';
 import { EditFeaturesOrLayerPanel } from './components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { FeatureInterface } from '~utils/metrics/lazyFeatureLoad';
 
 function initEditableLayer(reportReady) {
   forceRun([
@@ -18,10 +18,13 @@ function initEditableLayer(reportReady) {
 }
 
 // todo improve that logic on #11232
+/* eslint-disable react/display-name */
 export const featureInterface: FeatureInterface = {
   affectsMap: true,
   id: AppFeature.CREATE_LAYER,
-  RootComponent: EditFeaturesOrLayerPanel,
+  rootComponentWrap(reportReady, addedProps) {
+    return () => <EditFeaturesOrLayerPanel reportReady={reportReady} />;
+  },
   initFunction(reportReady, ...args) {
     initEditableLayer(reportReady);
   },

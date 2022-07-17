@@ -20,7 +20,7 @@ import { BoundarySelectorRenderer } from './renderers/BoundarySelectorRenderer';
 import { createBoundaryRegistryAtom } from './atoms/boundaryRegistryAtom';
 import { boundaryMarkerAtom } from './atoms/boundaryMarkerAtom';
 import { clickCoordinatesAtom } from './atoms/clickCoordinatesAtom';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
 let stopAll = () => {
   /* noop */
@@ -73,13 +73,11 @@ function initBoundarySelector(reportReady: () => void) {
   reportReady();
 }
 
-export const featureInterface: FeatureInterface = {
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
   affectsMap: true,
   id: AppFeature.BOUNDARY_SELECTOR,
   initFunction(reportReady) {
     initBoundarySelector(reportReady);
-  },
-  RootComponent() {
-    return null;
   },
 };

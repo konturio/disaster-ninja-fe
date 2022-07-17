@@ -14,7 +14,7 @@ import { createLogicalLayerAtom } from '~core/logical_layers/utils/logicalLayerF
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { AppFeature } from '~core/auth/types';
 import { MapRulerRenderer } from './renderers/MapRulerRenderer';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
 function initMapRuler(reportReady: () => void) {
   const renderer = new MapRulerRenderer(MAP_RULER_LAYER_ID);
@@ -47,13 +47,11 @@ function initMapRuler(reportReady: () => void) {
   reportReady();
 }
 
-export const featureInterface: FeatureInterface = {
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
   affectsMap: true,
   id: AppFeature.MAP_RULER,
   initFunction(reportReady) {
     initMapRuler(reportReady);
-  },
-  RootComponent() {
-    return null;
   },
 };

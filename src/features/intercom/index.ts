@@ -2,7 +2,7 @@
 
 import appConfig from '~core/app_config';
 import { AppFeature } from '~core/auth/types';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
 function initIntercom(reportReady) {
   // need this to reset intercom session for unregistered users on startup
@@ -68,13 +68,11 @@ function initIntercom(reportReady) {
   reportReady();
 }
 
-export const featureInterface: FeatureInterface = {
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
   affectsMap: false,
   id: AppFeature.INTERCOM,
   initFunction(reportReady) {
     initIntercom(reportReady);
-  },
-  RootComponent() {
-    return null;
   },
 };

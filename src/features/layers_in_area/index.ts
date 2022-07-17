@@ -2,9 +2,10 @@ import { AppFeature } from '~core/auth/types';
 import { forceRun } from '~utils/atoms/forceRun';
 import { areaLayersControlsAtom } from './atoms/areaLayersControls';
 import { areaLayersLegendsAndSources } from './atoms/areaLayersLegendsAndSources';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
-export const featureInterface: FeatureInterface = {
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
   affectsMap: true,
   id: AppFeature.LAYERS_IN_AREA,
   initFunction(reportReady) {
@@ -12,8 +13,5 @@ export const featureInterface: FeatureInterface = {
     forceRun(areaLayersLegendsAndSources);
     // todo improve that logic in #11232
     reportReady();
-  },
-  RootComponent() {
-    return null;
   },
 };

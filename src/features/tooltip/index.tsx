@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { AppFeature } from '~core/auth/types';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { Tooltip } from './Tooltip/Tooltip';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { FeatureInterface } from '~utils/metrics/lazyFeatureLoad';
 
 function PopupTooltip({ reportReady }: { reportReady: () => void }) {
   const [tooltip, { resetCurrentTooltip }] = useAtom(currentTooltipAtom);
@@ -15,8 +15,12 @@ function PopupTooltip({ reportReady }: { reportReady: () => void }) {
   return <Tooltip properties={tooltip} closeTooltip={resetCurrentTooltip} />;
 }
 
+/* eslint-disable react/display-name */
+
 export const featureInterface: FeatureInterface = {
   affectsMap: false,
   id: AppFeature.TOOLTIP,
-  RootComponent: PopupTooltip,
+  rootComponentWrap(reportReady, addedProps) {
+    return () => <PopupTooltip reportReady={reportReady} />;
+  },
 };

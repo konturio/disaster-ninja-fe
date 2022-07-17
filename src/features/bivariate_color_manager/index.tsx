@@ -7,7 +7,7 @@ import {
   BIVARIATE_COLOR_MANAGER_CONTROL_ID,
   BIVARIATE_COLOR_MANAGER_CONTROL_NAME,
 } from './constants';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 import type { History } from 'history';
 
 function initBivariateColorManagerIcon(reportReady, history: History) {
@@ -27,13 +27,11 @@ function initBivariateColorManagerIcon(reportReady, history: History) {
   reportReady();
 }
 
-export const featureInterface: FeatureInterface = {
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
   affectsMap: false,
   id: AppFeature.BIVARIATE_COLOR_MANAGER,
   initFunction(reportReady, history) {
     initBivariateColorManagerIcon(reportReady, history);
-  },
-  RootComponent() {
-    return null;
   },
 };

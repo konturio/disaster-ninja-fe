@@ -3,16 +3,14 @@ import { forceRun } from '~utils/atoms/forceRun';
 import { currentEventGeometryAtom } from './atoms/currentEventGeometry';
 import { currentEventRefresherAtom } from './atoms/currentEventRefresher';
 import { currentEventAutoFocusAtom } from './atoms/currentEventAutoFocus';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
-export const featureInterface: FeatureInterface = {
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
   affectsMap: false,
   id: AppFeature.CURRENT_EVENT,
   initFunction(reportReady) {
     initCurrentEvent(reportReady);
-  },
-  RootComponent() {
-    return null;
   },
 };
 export function initCurrentEvent(reportReady) {

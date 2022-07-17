@@ -13,7 +13,7 @@ import {
 } from './constants';
 import { createFocusedGeometrySourceAtom } from './atoms/focusedGeometrySourceAtom';
 import { FocusedGeometryRenderer } from './renderers/FocusedGeometryRenderer';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
 let isInitialized = false;
 
@@ -64,13 +64,11 @@ export function initFocusedGeometryLayer(reportReady: () => void) {
   reportReady();
 }
 
-export const featureInterface: FeatureInterface = {
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
   affectsMap: true,
   id: AppFeature.FOCUSED_GEOMETRY_LAYER,
   initFunction(reportReady) {
     initFocusedGeometryLayer(reportReady);
-  },
-  RootComponent() {
-    return null;
   },
 };

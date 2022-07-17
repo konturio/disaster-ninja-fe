@@ -5,15 +5,14 @@ import { Row } from '~components/Layout/Layout';
 import config from '~core/app_config';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
-import { initUrlStore } from '~core/url_store';
-import { useAppFeature } from '~utils/hooks/useAppFeature';
+import { lazyFeatureLoad } from '~utils/metrics/lazyFeatureLoad';
+import { initializeFeature } from '~utils/metrics/initFeature';
 import s from './Main.module.css';
 import type { UserDataModel } from '~core/auth';
-import type {
-  FeatureInterface,
-  FeatureModule,
-} from '~utils/hooks/useAppFeature';
-import type { AppFeatureType } from '~core/auth/types';
+
+const EditFeaturesOrLayerPanel = lazyFeatureLoad(
+  () => import('~features/create_layer'),
+);
 
 const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
@@ -21,157 +20,101 @@ const { ConnectedMap } = lazily(
   () => import('~components/ConnectedMap/ConnectedMap'),
 );
 
+const SideBar = lazyFeatureLoad(() => import('~features/side_bar'));
+
+const EventList = lazyFeatureLoad(() => import('~features/events_list'));
+
+const AnalyticsPanel = lazyFeatureLoad(
+  () => import('~features/analytics_panel'),
+);
+
+const AdvancedAnalyticsPanel = lazyFeatureLoad(
+  () => import('~features/advanced_analytics_panel'),
+);
+
+const PopupTooltip = lazyFeatureLoad(() => import('~features/tooltip'));
+
 type MainViewProps = {
   userModel?: UserDataModel | null;
-  loadFeature: (
-    featureId: AppFeatureType,
-    importAction: Promise<FeatureModule>,
-  ) => Promise<FeatureInterface | null>;
 };
-
-export function MainView({ userModel, loadFeature }: MainViewProps) {
+export function MainView({ userModel }: MainViewProps) {
   const history = useHistory();
   const iconsContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const popupTooltip = useAppFeature(
-    loadFeature(AppFeature.TOOLTIP, import('~features/tooltip')),
-  );
-
-  const sideBar = useAppFeature(
-    loadFeature(AppFeature.SIDE_BAR, import('~features/side_bar')),
-  );
-
-  const eventList = useAppFeature(
-    loadFeature(AppFeature.EVENTS_LIST, import('~features/events_list')),
-  );
-
-  const notificationToast = useAppFeature(
-    loadFeature(AppFeature.TOASTS, import('~features/toasts')),
-  );
-
-  const analyticsPanel = useAppFeature(
-    loadFeature(
-      AppFeature.ANALYTICS_PANEL,
-      import('~features/analytics_panel'),
-    ),
-  );
-
-  const advancedAnalyticsPanel = useAppFeature(
-    loadFeature(
-      AppFeature.ADVANCED_ANALYTICS_PANEL,
-      import('~features/advanced_analytics_panel'),
-    ),
-  );
-
-  const mapLayersPanel = useAppFeature(
-    loadFeature(AppFeature.MAP_LAYERS_PANEL, import('~features/layers_panel')),
+  const Legend = lazyFeatureLoad(() => import('~features/legend_panel'), {
+    iconsContainerRef,
+  });
+  const MapLayersList = lazyFeatureLoad(
+    () => import('~features/layers_panel'),
     { iconsContainerRef },
   );
 
-  const legend = useAppFeature(
-    loadFeature(AppFeature.LEGEND_PANEL, import('~features/legend_panel')),
+  const BivariatePanel = lazyFeatureLoad(
+    () => import('~features/bivariate_manager/components'),
     { iconsContainerRef },
   );
-
-  const bivariatePanel = useAppFeature(
-    loadFeature(
-      AppFeature.BIVARIATE_MANAGER,
-      import('~features/bivariate_manager/components'),
-    ),
-    { iconsContainerRef },
-  );
-
-  const editFeaturesOrLayerPanel = useAppFeature(
-    loadFeature(AppFeature.CREATE_LAYER, import('~features/create_layer')),
-    { iconsContainerRef },
-  );
-  // features initialized without component
-  useAppFeature(
-    loadFeature(AppFeature.REPORTS, import('~features/reports')),
-    {},
-    [history],
-  );
-  useAppFeature(
-    loadFeature(
-      AppFeature.BIVARIATE_COLOR_MANAGER,
-      import('~features/bivariate_color_manager'),
-    ),
-    {},
-    [history],
-  );
-
-  useAppFeature(
-    loadFeature(AppFeature.CURRENT_EVENT, import('~features/current_event')),
-  );
-
-  useAppFeature(
-    loadFeature(
-      AppFeature.GEOMETRY_UPLOADER,
-      import('~features/geometry_uploader'),
-    ),
-  );
-
-  useAppFeature(
-    loadFeature(AppFeature.MAP_RULER, import('~features/map_ruler')),
-  );
-
-  useAppFeature(
-    loadFeature(
-      AppFeature.BOUNDARY_SELECTOR,
-      import('~features/boundary_selector'),
-    ),
-  );
-
-  useAppFeature(
-    loadFeature(AppFeature.LAYERS_IN_AREA, import('~features/layers_in_area')),
-  );
-
-  useAppFeature(
-    loadFeature(
-      AppFeature.FOCUSED_GEOMETRY_LAYER,
-      import('~features/focused_geometry_layer'),
-    ),
-  );
-
-  useAppFeature(
-    loadFeature(AppFeature.OSM_EDIT_LINK, import('~features/osm_edit_link')),
-  );
-
-  useAppFeature(
-    loadFeature(
-      AppFeature.FOCUSED_GEOMETRY_EDITOR,
-      import('~features/focused_geometry_editor'),
-    ),
-  );
-
-  useAppFeature(
-    loadFeature(
-      AppFeature.FOCUSED_GEOMETRY_EDITOR,
-      import('~features/focused_geometry_editor'),
-    ),
-  );
-
-  useAppFeature(loadFeature(AppFeature.INTERCOM, import('~features/intercom')));
 
   useEffect(() => {
-    initUrlStore();
-
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
+
+    /* Lazy load module */
+    if (userModel?.hasFeature(AppFeature.CURRENT_EVENT)) {
+      initializeFeature(() => import('~features/current_event'));
+    }
+    if (userModel?.hasFeature(AppFeature.GEOMETRY_UPLOADER)) {
+      initializeFeature(() => import('~features/geometry_uploader'));
+    }
+    if (userModel?.hasFeature(AppFeature.MAP_RULER)) {
+      initializeFeature(() => import('~features/map_ruler'));
+    }
+    if (userModel?.hasFeature(AppFeature.BOUNDARY_SELECTOR)) {
+      initializeFeature(() => import('~features/boundary_selector'));
+    }
+    if (userModel?.hasFeature(AppFeature.LAYERS_IN_AREA)) {
+      initializeFeature(() => import('~features/layers_in_area'));
+    }
+    if (userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_LAYER)) {
+      initializeFeature(() => import('~features/focused_geometry_layer'));
+    }
+    if (userModel?.hasFeature(AppFeature.REPORTS)) {
+      initializeFeature(() => import('~features/reports'), [history]);
+    }
+
+    if (userModel?.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)) {
+      initializeFeature(
+        () => import('~features/bivariate_color_manager'),
+        [history],
+      );
+    }
+    if (userModel?.hasFeature(AppFeature.OSM_EDIT_LINK)) {
+      initializeFeature(() => import('~features/osm_edit_link'));
+    }
+    // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
+    if (
+      userModel?.hasFeature(AppFeature.DRAW_TOOLS) ||
+      userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_EDITOR)
+    ) {
+      initializeFeature(() => import('~features/focused_geometry_editor'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userModel]);
 
   return (
     <>
       <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.TOOLTIP) && popupTooltip}
+        {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
       </Suspense>
-
       <Row>
         <Suspense fallback={null}>
-          {notificationToast}
-          {sideBar}
-          {userModel?.feeds && eventList}
-          {analyticsPanel}
-          {advancedAnalyticsPanel}
+          {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
+          {userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
+            userModel?.feeds && <EventList />}
+          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && (
+            <AnalyticsPanel />
+          )}
+          {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+            <AdvancedAnalyticsPanel />
+          )}
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
@@ -193,10 +136,16 @@ export function MainView({ userModel, loadFeature }: MainViewProps) {
                 className={s.rightButtonsContainer}
                 ref={iconsContainerRef}
               ></div>
-              {legend}
-              {editFeaturesOrLayerPanel}
-              {mapLayersPanel}
-              {bivariatePanel}
+              {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
+              {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
+                <EditFeaturesOrLayerPanel />
+              )}
+              {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
+                <MapLayersList />
+              )}
+              {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
+                <BivariatePanel />
+              )}
             </div>
           </Suspense>
           <DrawToolsToolbox />

@@ -27,7 +27,7 @@ import { featureStatus } from '~core/featureStatus';
 import { AppFeature } from '~core/auth/types';
 import { isEditorActiveAtom } from './atoms/isEditorActive';
 import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
 export function initFocusedGeometry(reportReady) {
   forceRun(focusedGeometryEditorAtom);
@@ -102,13 +102,11 @@ export function initFocusedGeometry(reportReady) {
 
   reportReady();
 }
-export const featureInterface: FeatureInterface = {
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
   affectsMap: true,
   id: AppFeature.FOCUSED_GEOMETRY_EDITOR,
   initFunction(reportReady) {
     initFocusedGeometry(reportReady);
-  },
-  RootComponent() {
-    return null;
   },
 };

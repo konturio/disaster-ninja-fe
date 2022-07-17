@@ -4,10 +4,11 @@ import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { REPORTS_CONTROL_ID, REPORTS_CONTROL_NAME } from './constants';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 import type { History } from 'history';
 
-export const featureInterface: FeatureInterface = {
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
   affectsMap: false,
   id: AppFeature.REPORTS,
   initFunction(reportReady, history: History) {
@@ -26,8 +27,5 @@ export const featureInterface: FeatureInterface = {
     });
 
     reportReady();
-  },
-  RootComponent() {
-    return null;
   },
 };

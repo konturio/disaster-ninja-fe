@@ -6,7 +6,7 @@ import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { eventListResourceAtom } from './atoms/eventListResource';
 import { autoSelectEvent } from './atoms/autoSelectEvent';
 import { EventsListPanel } from './components';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { FeatureInterface } from '~utils/metrics/lazyFeatureLoad';
 
 function EventList({ reportReady }: { reportReady: () => void }) {
   const [currentEvent, currentEventActions] = useAtom(currentEventAtom);
@@ -31,8 +31,11 @@ function EventList({ reportReady }: { reportReady: () => void }) {
   );
 }
 
+/* eslint-disable react/display-name */
 export const featureInterface: FeatureInterface = {
   affectsMap: false,
   id: AppFeature.EVENTS_LIST,
-  RootComponent: EventList,
+  rootComponentWrap(reportReady, addedProps) {
+    return () => <EventList reportReady={reportReady} />;
+  },
 };

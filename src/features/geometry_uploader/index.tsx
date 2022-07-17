@@ -19,7 +19,7 @@ import {
   GEOMETRY_UPLOADER_CONTROL_ID,
   GEOMETRY_UPLOADER_CONTROL_NAME,
 } from './constants';
-import type { FeatureInterface } from '~utils/hooks/useAppFeature';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
 function initFileUploader(reportReady: () => void) {
   sideControlsBarAtom.addControl.dispatch({
@@ -66,13 +66,11 @@ function initFileUploader(reportReady: () => void) {
   reportReady();
 }
 
-export const featureInterface: FeatureInterface = {
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
   affectsMap: false,
   id: AppFeature.GEOMETRY_UPLOADER,
   initFunction(reportReady) {
     initFileUploader(reportReady);
-  },
-  RootComponent() {
-    return null;
   },
 };
