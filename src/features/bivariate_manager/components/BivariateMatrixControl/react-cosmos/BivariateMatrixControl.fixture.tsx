@@ -10,7 +10,9 @@ type AxisGroup = {
   quotients: Array<[string, string]>;
   selectedQuotient: [string, string];
 };
-const PopupTooltip = featureInterface.RootComponent;
+const PopupTooltip = featureInterface.rootComponentWrap(() => {
+  // noop
+}, {});
 
 const mapHeaderCell = (group: AxisGroup, indicators: Indicator[]) => ({
   label:

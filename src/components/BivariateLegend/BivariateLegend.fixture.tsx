@@ -106,7 +106,9 @@ const cells = [
   },
 ];
 
-const PopupTooltip = featureInterface.RootComponent;
+const PopupTooltip = featureInterface.rootComponentWrap(() => {
+  // noop
+}, {});
 export default function BivariateLegendFixture() {
   return (
     <>
