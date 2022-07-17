@@ -1,6 +1,8 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import { createUpdateActionsFromLayersDTO } from '../utils/createUpdateActionsFromLayersDTO';
 import { areaLayersListResource } from './areaLayersListResource';
 import type { LayerInArea } from '../types';

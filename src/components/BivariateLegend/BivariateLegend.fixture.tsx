@@ -1,5 +1,5 @@
 import { Legend as BiLegend } from '@konturio/ui-kit';
-import { PopupTooltip } from '~features/tooltip';
+import { featureInterface } from '~features/tooltip';
 import { BIVARIATE_LEGEND_SIZE } from './const';
 import { CornerTooltipWrapper } from './CornerTooltipWrapper';
 
@@ -106,10 +106,17 @@ const cells = [
   },
 ];
 
+const PopupTooltip = featureInterface.rootComponentWrap(() => {
+  // noop
+}, {});
 export default function BivariateLegendFixture() {
   return (
     <>
-      <PopupTooltip />
+      <PopupTooltip
+        reportReady={() => {
+          // noop
+        }}
+      />
       {/* @ts-ignore - FIXME */}
       <CornerTooltipWrapper meta={meta}>
         <BiLegend

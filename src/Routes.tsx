@@ -15,6 +15,8 @@ import { LoginForm } from '~features/user_profile';
 import { AppFeature } from '~core/auth/types';
 import { currentApplicationAtom } from '~core/shared_state';
 import { initUrlStore } from '~core/url_store';
+import { lazyFeatureLoad } from '~utils/metrics/lazyFeatureLoad';
+import { initializeFeature } from '~utils/metrics/initFeature';
 import s from './views/Main/Main.module.css';
 import type { UserDataModel } from '~core/auth';
 const { MainView } = lazily(() => import('~views/Main/Main'));
@@ -72,9 +74,8 @@ export function RoutedApp() {
   );
 }
 
-const { UserProfile } = lazily(() => import('~features/user_profile'));
-const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
-const { NotificationToast } = lazily(() => import('~features/toasts'));
+const UserProfile = lazyFeatureLoad(() => import('~features/user_profile'));
+const NotificationToast = lazyFeatureLoad(() => import('~features/toasts'));
 
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 const PAGE_TITLES_BY_ROUTE = {
@@ -95,9 +96,7 @@ const CommonRoutesFeatures = ({ userModel }: CommonRoutesFeaturesProps) => {
 
   useEffect(() => {
     if (userModel?.hasFeature(AppFeature.INTERCOM)) {
-      import('~features/intercom').then(({ initIntercom }) => {
-        initIntercom();
-      });
+      initializeFeature(() => import('~features/intercom'));
     }
   }, [userModel]);
 
@@ -119,22 +118,19 @@ const CommonRoutesFeatures = ({ userModel }: CommonRoutesFeaturesProps) => {
 
   const headerTitle = getHeaderTitle(pathname);
 
+  const AppHeader = lazyFeatureLoad(() => import('~features/app_header'), {
+    title: headerTitle,
+    logo: VisibleLogo(),
+    afterChatContent: userModel?.hasFeature(AppFeature.APP_LOGIN) ? (
+      <UserProfile />
+    ) : undefined,
+  });
   if (!userModel) return null;
 
   return (
     <>
       <Suspense fallback={null}>
-        {userModel.hasFeature(AppFeature.HEADER) && (
-          <AppHeader
-            title={headerTitle}
-            logo={VisibleLogo()}
-            afterChatContent={
-              userModel.hasFeature(AppFeature.APP_LOGIN) ? (
-                <UserProfile />
-              ) : undefined
-            }
-          />
-        )}
+        {userModel.hasFeature(AppFeature.HEADER) && <AppHeader />}
       </Suspense>
       <Suspense fallback={null}>
         {userModel.hasFeature(AppFeature.TOASTS) && <NotificationToast />}

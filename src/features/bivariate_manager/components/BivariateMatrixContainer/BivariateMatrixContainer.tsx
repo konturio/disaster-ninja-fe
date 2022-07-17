@@ -61,16 +61,20 @@ const BivariateMatrixContainer = ({
               <LoadingSpinner />
             </div>
           ),
-          error: () => (
-            <div className={s.errorContainer}>
-              <ErrorMessage message="Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." />
-            </div>
-          ),
-          ready: () => (
-            <div className={s.matrixContainer}>
-              <ConnectedBivariateMatrix ref={onRefChange} />
-            </div>
-          ),
+          error: () => {
+            return (
+              <div className={s.errorContainer}>
+                <ErrorMessage message="Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." />
+              </div>
+            );
+          },
+          ready: () => {
+            return (
+              <div className={s.matrixContainer}>
+                <ConnectedBivariateMatrix ref={onRefChange} />
+              </div>
+            );
+          },
         })}
         <div className={s.topRightCorner} />
         <div className={s.bottomRightCorner} />

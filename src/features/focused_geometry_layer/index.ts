@@ -6,16 +6,18 @@ import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { forceRun } from '~utils/atoms/forceRun';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/shared_state/focusedGeometry';
+import { AppFeature } from '~core/auth/types';
 import {
   FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY,
   FOCUSED_GEOMETRY_COLOR,
 } from './constants';
 import { createFocusedGeometrySourceAtom } from './atoms/focusedGeometrySourceAtom';
 import { FocusedGeometryRenderer } from './renderers/FocusedGeometryRenderer';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
 let isInitialized = false;
 
-export function initFocusedGeometryLayer() {
+export function initFocusedGeometryLayer(reportReady: () => void) {
   if (isInitialized) return;
   isInitialized = true;
 
@@ -58,4 +60,15 @@ export function initFocusedGeometryLayer() {
       id: FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
     }),
   ]);
+
+  reportReady();
 }
+
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
+  affectsMap: true,
+  id: AppFeature.FOCUSED_GEOMETRY_LAYER,
+  initFunction(reportReady) {
+    initFocusedGeometryLayer(reportReady);
+  },
+};

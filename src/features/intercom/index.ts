@@ -1,8 +1,10 @@
 // @ts-nocheck
 
 import appConfig from '~core/app_config';
+import { AppFeature } from '~core/auth/types';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
-export function initIntercom() {
+function initIntercom(reportReady) {
   // need this to reset intercom session for unregistered users on startup
   document.cookie = `intercom-session-${appConfig.intercom.app_id}= ; expires = Thu, 01 Jan 1970 00:00:00 GMT`;
 
@@ -62,4 +64,15 @@ export function initIntercom() {
     }
   })();
   /* eslint-enable */
+
+  reportReady();
 }
+
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
+  affectsMap: false,
+  id: AppFeature.INTERCOM,
+  initFunction(reportReady) {
+    initIntercom(reportReady);
+  },
+};

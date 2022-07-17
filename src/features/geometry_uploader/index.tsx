@@ -12,14 +12,16 @@ import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import app_config from '~core/app_config';
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
+import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
+import { AppFeature } from '~core/auth/types';
+import { askGeoJSONFile } from './askGeoJSONFile';
 import {
   GEOMETRY_UPLOADER_CONTROL_ID,
   GEOMETRY_UPLOADER_CONTROL_NAME,
 } from './constants';
-import { askGeoJSONFile } from './askGeoJSONFile';
-import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
-export function initFileUploader() {
+function initFileUploader(reportReady: () => void) {
   sideControlsBarAtom.addControl.dispatch({
     id: GEOMETRY_UPLOADER_CONTROL_ID,
     name: GEOMETRY_UPLOADER_CONTROL_NAME,
@@ -60,4 +62,15 @@ export function initFileUploader() {
       });
     },
   });
+
+  reportReady();
 }
+
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
+  affectsMap: false,
+  id: AppFeature.GEOMETRY_UPLOADER,
+  initFunction(reportReady) {
+    initFileUploader(reportReady);
+  },
+};

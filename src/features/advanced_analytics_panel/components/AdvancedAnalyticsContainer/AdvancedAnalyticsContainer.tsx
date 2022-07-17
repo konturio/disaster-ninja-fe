@@ -33,7 +33,9 @@ const AdvancedAnalyticsContainer = () => {
   return statesToComponents({
     init: <AdvancedAnalyticsEmptyState />,
     loading: <LoadingSpinner />,
-    error: (errorMessage) => <ErrorMessage message={errorMessage} />,
+    error: (errorMessage) => {
+      return <ErrorMessage message={errorMessage} />;
+    },
     ready: (dataList) => {
       const geometry = focusedGeometry?.geometry as GeoJSON.FeatureCollection;
       if (geometry.features && geometry.features.length == 0) {

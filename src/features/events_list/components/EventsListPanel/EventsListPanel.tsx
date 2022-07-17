@@ -16,6 +16,8 @@ import { FeedSelector } from '~features/feed_selector';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import { i18n } from '~core/localization';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import { EventCard } from '../EventCard/EventCard';
 import s from './EventsListPanel.module.css';
 import type { Event } from '~core/types';
@@ -26,12 +28,14 @@ export function EventsListPanel({
   error,
   loading,
   eventsList,
+  reportReady,
 }: {
   current: string | null;
   onCurrentChange: (id: string) => void;
   error: string | null;
   loading: boolean;
   eventsList: Event[] | null;
+  reportReady: () => void;
 }) {
   const [, { enable, disable, addControl, toggleActiveState }] =
     useAtom(sideControlsBarAtom);
@@ -96,7 +100,8 @@ export function EventsListPanel({
   }, []);
 
   useEffect(() => {
-    if (!eventsList?.length && !loading) disable(EVENT_LIST_CONTROL_ID);
+    if (eventsList && !loading) reportReady();
+    if (!eventsList && !loading) disable(EVENT_LIST_CONTROL_ID);
     else if (!wasClosed && !isMobile) {
       enable(EVENT_LIST_CONTROL_ID);
     }

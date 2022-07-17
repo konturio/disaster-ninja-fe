@@ -2,13 +2,15 @@ import { Prefs24 } from '@konturio/default-icons';
 import { sideControlsBarAtom } from '~core/shared_state';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { i18n } from '~core/localization';
+import { AppFeature } from '~core/auth/types';
 import {
   BIVARIATE_COLOR_MANAGER_CONTROL_ID,
   BIVARIATE_COLOR_MANAGER_CONTROL_NAME,
 } from './constants';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 import type { History } from 'history';
 
-export function initBivariateColorManagerIcon(history: History) {
+function initBivariateColorManagerIcon(reportReady, history: History) {
   sideControlsBarAtom.addControl.dispatch({
     id: BIVARIATE_COLOR_MANAGER_CONTROL_ID,
     name: BIVARIATE_COLOR_MANAGER_CONTROL_NAME,
@@ -22,4 +24,14 @@ export function initBivariateColorManagerIcon(history: History) {
       sideControlsBarAtom.disable.dispatch(BIVARIATE_COLOR_MANAGER_CONTROL_ID);
     },
   });
+  reportReady();
 }
+
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
+  affectsMap: false,
+  id: AppFeature.BIVARIATE_COLOR_MANAGER,
+  initFunction(reportReady, history) {
+    initBivariateColorManagerIcon(reportReady, history);
+  },
+};

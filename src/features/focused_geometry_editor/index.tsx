@@ -1,7 +1,5 @@
 import { Poly24 } from '@konturio/default-icons';
 import { Download24 } from '@konturio/default-icons';
-import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
-import { isEditorActiveAtom } from './atoms/isEditorActive';
 import {
   currentNotificationAtom,
   focusedGeometryAtom,
@@ -25,8 +23,13 @@ import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAto
 import { forceRun } from '~utils/atoms/forceRun';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { store } from '~core/store/store';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
+import { isEditorActiveAtom } from './atoms/isEditorActive';
+import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
+import type { InitFeatureInterface } from '~utils/metrics/initFeature';
 
-export function initFocusedGeometry() {
+export function initFocusedGeometry(reportReady) {
   forceRun(focusedGeometryEditorAtom);
 
   sideControlsBarAtom.addControl.dispatch({
@@ -96,4 +99,14 @@ export function initFocusedGeometry() {
       );
     },
   });
+
+  reportReady();
 }
+/* eslint-disable react/display-name */
+export const featureInterface: InitFeatureInterface = {
+  affectsMap: true,
+  id: AppFeature.FOCUSED_GEOMETRY_EDITOR,
+  initFunction(reportReady) {
+    initFocusedGeometry(reportReady);
+  },
+};

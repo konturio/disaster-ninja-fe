@@ -6,6 +6,8 @@ import { Button } from '@konturio/ui-kit';
 import { User24 } from '@konturio/default-icons';
 import { authClientInstance } from '~core/authClientInstance';
 import { userStateAtom } from '~core/auth/atoms/userState';
+import { featureStatus } from '~core/featureStatus';
+import { AppFeature } from '~core/auth/types';
 import { LoginButton } from '../LoginButton/LoginButton';
 import s from './UserProfile.module.css';
 import type { OptionType } from '@konturio/ui-kit/tslib/Selector';
@@ -72,8 +74,9 @@ function UserAvatar() {
   );
 }
 
-export function UserProfile() {
+export function UserProfile({ reportReady }: { reportReady: () => void }) {
   const [userState] = useAtom(userStateAtom);
 
+  useEffect(() => reportReady(), []);
   return userState === 'authorized' ? <UserAvatar /> : <LoginButton />;
 }

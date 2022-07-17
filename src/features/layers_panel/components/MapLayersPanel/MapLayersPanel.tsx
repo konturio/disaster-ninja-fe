@@ -13,8 +13,10 @@ import s from './MapLayersPanel.module.css';
 
 export function MapLayerPanel({
   iconsContainerRef,
+  reportReady,
 }: {
   iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
+  reportReady: () => void;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -43,7 +45,7 @@ export function MapLayerPanel({
         onClose={onPanelClose}
       >
         <div className={s.scrollable}>
-          <LayersTree />
+          <LayersTree reportReady={reportReady} />
         </div>
       </Panel>
       {iconsContainerRef.current &&

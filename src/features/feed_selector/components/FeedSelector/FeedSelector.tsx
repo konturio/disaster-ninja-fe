@@ -5,6 +5,7 @@ import { userResourceAtom } from '~core/auth';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
 import { AppFeature } from '~core/auth/types';
+import { featureStatus } from '~core/featureStatus';
 import s from './FeedSelector.module.css';
 import type { ChangeEvent } from 'react';
 
@@ -16,6 +17,9 @@ const FeedSelectorComp = () => {
     setCurrentFeed(ev.target.value);
     scheduleAutoSelect();
   }, []);
+
+  // todo think about it in #11232
+  featureStatus.markReady(AppFeature.FEED_SELECTOR);
 
   return userModel &&
     userModel.hasFeature(AppFeature.FEED_SELECTOR) &&

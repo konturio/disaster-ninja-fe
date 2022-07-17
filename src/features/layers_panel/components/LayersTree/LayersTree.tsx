@@ -1,12 +1,15 @@
 import { useAtom } from '@reatom/react';
+import { useEffect } from 'react';
 import { layersTreeAtom } from '~core/logical_layers/atoms/layersTree';
 import { Layer } from '../Layer/Layer';
 import { Category } from '../Category/Category';
 import { Group } from '../Group/Group';
 import s from './LayersTree.module.css';
 
-export function LayersTree() {
+export function LayersTree({ reportReady }: { reportReady: () => void }) {
   const [tree] = useAtom(layersTreeAtom);
+
+  useEffect(() => reportReady(), []);
 
   return (
     <div className={s.layersTree}>
