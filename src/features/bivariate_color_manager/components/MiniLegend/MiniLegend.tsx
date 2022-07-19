@@ -6,10 +6,10 @@ import type { CSSProperties } from 'react';
 
 export type MiniLegendProps = {
   legend: ColorTheme;
-  changes: { [key: string]: { color?: string } };
+  changes?: { [key: string]: { color?: string } };
 };
 
-export const MiniLegend = ({ legend, changes }: MiniLegendProps) => {
+export const MiniLegend = ({ legend, changes = {} }: MiniLegendProps) => {
   const corners = CORNER_POINTS_INDEXES.map((corner) => legend[corner]);
   const changesHasUndefinedColor = Object.values(changes).some(
     ({ color }) => !color,

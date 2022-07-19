@@ -1,7 +1,6 @@
 .pageContainer {
   height: 100%;
   width: 100%;
-  overflow: scroll;
   display: flex;
 }
 
@@ -14,10 +13,12 @@
 
 .LegendMap {
   width: 492px;
+  flex-shrink: 0;
 }
 
 .Nav {
   width: 188px;
+  flex-shrink: 0;
 }
 
 .ListFilters {
@@ -27,13 +28,18 @@
 }
 
 .List {
+  display: flex;
   flex-grow: 1;
   border: 1px solid var(--faint-weak);
   border-width: 0px 1px 0px 1px;
-  display: flex;
   flex-direction: column;
 }
 
 .ListBody {
+  display: flex;
   flex-grow: 1;
+  overflow: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  justify-content: center;
 }
