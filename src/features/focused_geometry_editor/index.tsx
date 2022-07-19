@@ -1,7 +1,5 @@
 import { Poly24 } from '@konturio/default-icons';
 import { Download24 } from '@konturio/default-icons';
-import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
-import { isEditorActiveAtom } from './atoms/isEditorActive';
 import {
   currentNotificationAtom,
   focusedGeometryAtom,
@@ -25,6 +23,8 @@ import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAto
 import { forceRun } from '~utils/atoms/forceRun';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { store } from '~core/store/store';
+import { isEditorActiveAtom } from './atoms/isEditorActive';
+import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
 
 export function initFocusedGeometry() {
   forceRun(focusedGeometryEditorAtom);

@@ -12,12 +12,12 @@ import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import app_config from '~core/app_config';
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
+import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
 import {
   GEOMETRY_UPLOADER_CONTROL_ID,
   GEOMETRY_UPLOADER_CONTROL_NAME,
 } from './constants';
 import { askGeoJSONFile } from './askGeoJSONFile';
-import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
 
 export function initFileUploader() {
   sideControlsBarAtom.addControl.dispatch({

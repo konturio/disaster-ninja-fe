@@ -2,8 +2,8 @@ import { createResourceAtom, combineAtoms } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
 import { currentEventFeedAtom } from '~core/shared_state';
-import type { Event } from '~core/types';
 import { eventListFilters } from './eventListFilters';
+import type { Event } from '~core/types';
 
 const depsAtom = combineAtoms({
   currentFeed: currentEventFeedAtom,
@@ -11,15 +11,13 @@ const depsAtom = combineAtoms({
 });
 
 export const eventListResourceAtom = createResourceAtom(
-  async (depsAtomState) => {
-    const deps = depsAtomState!;
-
+  async (deps) => {
     const params: {
       feed?: string;
       bbox?: string;
     } = {
-      feed: deps.currentFeed?.id,
-      bbox: deps.filters.bbox?.join(','),
+      feed: deps?.currentFeed?.id,
+      bbox: deps?.filters.bbox?.join(','),
     };
 
     const responseData = await apiClient.get<Event[]>('/events/', params, true);
