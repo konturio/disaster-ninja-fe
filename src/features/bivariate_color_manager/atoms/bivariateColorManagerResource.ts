@@ -17,7 +17,7 @@ type TableData = {
   };
 };
 
-type BivariateColorManagerData = {
+export type BivariateColorManagerData = {
   [key: string]: {
     legend?: ColorTheme;
     vertical: TableData;
@@ -75,18 +75,20 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
 
       const bivariateStatistic =
         responseData.data.polygonStatistic.bivariateStatistic;
-      const correlationRates = bivariateStatistic.correlationRates;
+      const { correlationRates, indicators, axis } = bivariateStatistic;
 
-      const indicatorsMap = bivariateStatistic.indicators.reduce<IndicatorsMap>(
-        (acc, value) => {
-          if (value?.name) acc[value.name] = value;
-          return acc;
-        },
-        {},
-      );
+      if (!correlationRates || !indicators || !axis) {
+        const msg = parseGraphQLErrors(responseData);
+        throw new Error(msg || 'No part of data received');
+      }
 
-      const axisNominatorQualityMap =
-        bivariateStatistic.axis.reduce<AxisNominatorQualityMap>((acc, axis) => {
+      const indicatorsMap = indicators.reduce<IndicatorsMap>((acc, value) => {
+        if (value?.name) acc[value.name] = value;
+        return acc;
+      }, {});
+
+      const axisNominatorQualityMap = axis.reduce<AxisNominatorQualityMap>(
+        (acc, axis) => {
           if (!axis.quality) return acc;
 
           const [numerator, denominator] = axis.quotient;
@@ -99,7 +101,9 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
             }
           }
           return acc;
-        }, {});
+        },
+        {},
+      );
 
       const getMostQualityDenominatorForNumenator = (
         numenator: string,

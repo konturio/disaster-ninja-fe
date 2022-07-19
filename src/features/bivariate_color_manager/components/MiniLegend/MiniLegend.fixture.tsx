@@ -1,6 +1,5 @@
-import { useValue } from 'react-cosmos/fixture';
+import React from 'react';
 import { MiniLegend } from './MiniLegend';
-import type { MiniLegendProps } from './MiniLegend';
 
 const mockResponse = [
   {

@@ -1,0 +1,44 @@
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: auto;
+
+  & thead {
+    box-shadow: inset 0px 1px 0px var(--faint-weak);
+    background: var(--faint-weak-down);
+  }
+
+  & th {
+    background: var(--faint-weak-down);
+    padding: 8px 8px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    width: auto;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  & td {
+    padding: 8px;
+    width: auto;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  & td.label {
+    color: var(--accent-strong);
+  }
+
+  & .centered {
+    text-align: center;
+  }
+
+  & .legendWrapper {
+    display: flex;
+    justify-content: center;
+  }
+}

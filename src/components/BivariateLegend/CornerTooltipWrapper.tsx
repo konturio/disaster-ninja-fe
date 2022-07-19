@@ -2,6 +2,7 @@ import { cloneElement, isValidElement } from 'react';
 import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { TooltipWrapper } from '~components/Tooltip';
+import { capitalizeArrayOrString } from '~utils/common';
 import { CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';
 import type { ReactNode, PointerEvent } from 'react';
@@ -59,13 +60,8 @@ const isBottomCornerPoint = (cornerIndex: number): boolean =>
 const isLeftCornerPoint = (cornerIndex: number): boolean =>
   cornerIndex === 0 || cornerIndex === 2;
 
-const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-
-const formatSentimentDirection = (direction: Array<CornerRange>): string => {
-  if (Array.isArray(direction)) {
-    return direction.map(capitalize).join(', ');
-  } else return capitalize(direction);
-};
+const formatSentimentDirection = (direction: Array<CornerRange>): string =>
+  capitalizeArrayOrString(direction);
 
 const LOW = `↓${i18n.t('bivariate.legend.low')}`;
 const HIGH = `↑${i18n.t('bivariate.legend.high')}`;
