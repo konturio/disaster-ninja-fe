@@ -10,13 +10,17 @@ export const currentReportAtom = createAtom(
   },
 );
 
-export const reportResourceAtom = createResourceAtom(async (report) => {
-  if (!report) return null;
-  const responseData = await reportsClient.get<string>(
-    report.link,
-    undefined,
-    false,
-  );
-  if (responseData === undefined) throw new Error('No data received');
-  return responseData;
-}, currentReportAtom);
+export const reportResourceAtom = createResourceAtom(
+  async (report) => {
+    if (!report) return null;
+    const responseData = await reportsClient.get<string>(
+      report.link,
+      undefined,
+      false,
+    );
+    if (responseData === undefined) throw new Error('No data received');
+    return responseData;
+  },
+  'reportResourceAtom',
+  currentReportAtom,
+);

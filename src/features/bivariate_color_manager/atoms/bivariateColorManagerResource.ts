@@ -207,7 +207,7 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
 
     return { processor, canceller };
   },
-  null,
   'bivariateColorManagerResource',
+  null,
   true,
 );
