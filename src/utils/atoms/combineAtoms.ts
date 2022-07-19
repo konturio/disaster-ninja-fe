@@ -5,12 +5,11 @@ type AtomsMap = { [key: string]: Atom<any> };
 
 export function combineAtoms<T extends AtomsMap>(
   shape: T,
-): Atom<{ [key in keyof T]: T[key] extends Atom<infer S> ? S : never }> {
+): Atom<{ [key in keyof T]: T[key] extends Atom<infer S> ? S : unknown }> {
   return createAtom(shape, ({ get }, state = {}) => {
     return Object.keys(shape).reduce((acc, key) => {
-      // @ts-ignore
-      acc[key] = get(key);
+      acc[key as keyof T] = get(key);
       return acc;
-    }, {} as { [key in keyof T]: T[key] extends Atom<infer S> ? S : never });
+    }, {} as { [key in keyof T]: T[key] extends Atom<infer S> ? S : unknown });
   });
 }

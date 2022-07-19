@@ -26,7 +26,7 @@ const FeedSelectorComp = () => {
     userModel.feeds &&
     userModel.feeds.length > 1 ? (
     <div className={s.feedSelectorContainer}>
-      <Text type="short-m" /* type="label" */>{i18n.t('Feed')}:</Text>
+      <Text type="short-m">{i18n.t('Feed')}:</Text>
       <div>
         <select
           onChange={onFeedChange}
