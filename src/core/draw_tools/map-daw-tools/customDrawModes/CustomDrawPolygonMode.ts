@@ -143,9 +143,6 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
 
       this['resetClickSequence']();
 
-      // eslint-disable-next-line
-      console.log(polygonToAdd, props);
-
       const editAction = this['getAddFeatureOrBooleanPolygonAction'](
         polygonToAdd,
         props,

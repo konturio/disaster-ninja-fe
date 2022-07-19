@@ -1,4 +1,5 @@
 import { useAction, useAtom } from '@reatom/react';
+import { Text } from '@konturio/ui-kit';
 import { memo, useCallback } from 'react';
 import { i18n } from '~core/localization';
 import { userResourceAtom } from '~core/auth';
@@ -12,17 +13,20 @@ const FeedSelectorComp = () => {
   const [{ data: userModel }] = useAtom(userResourceAtom);
   const [currentFeed, { setCurrentFeed }] = useAtom(currentEventFeedAtom);
   const scheduleAutoSelect = useAction(scheduledAutoSelect.setTrue);
-  const onFeedChange = useCallback((ev: ChangeEvent<HTMLSelectElement>) => {
-    setCurrentFeed(ev.target.value);
-    scheduleAutoSelect();
-  }, []);
+  const onFeedChange = useCallback(
+    (ev: ChangeEvent<HTMLSelectElement>) => {
+      setCurrentFeed(ev.target.value);
+      scheduleAutoSelect();
+    },
+    [setCurrentFeed, scheduleAutoSelect],
+  );
 
   return userModel &&
     userModel.hasFeature(AppFeature.FEED_SELECTOR) &&
     userModel.feeds &&
     userModel.feeds.length > 1 ? (
     <div className={s.feedSelectorContainer}>
-      <div>{i18n.t('Feed')}:</div>
+      <Text type="short-m">{i18n.t('Feed')}:</Text>
       <div>
         <select
           onChange={onFeedChange}
