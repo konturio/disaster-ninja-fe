@@ -29,8 +29,8 @@ export const eventListResourceAtom = createResourceAtom(
     }
     return responseData;
   },
-  depsAtom,
   'eventListResource',
+  depsAtom,
 );
 
 autoRefreshService.addWatcher('eventList', eventListResourceAtom);

@@ -25,6 +25,6 @@ export const analyticsResourceAtom = createResourceAtom(
 
     return responseData;
   },
-  focusedGeometryAtom,
   'analyticsResource',
+  focusedGeometryAtom,
 );

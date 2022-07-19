@@ -19,14 +19,19 @@ export const defaultLayersParamsAtom = createAtom(
   },
 );
 
-export const defaultAppLayersAtom = createResourceAtom(async (params) => {
-  if (!params) return null;
-  const { appId } = params;
-  const responseData = await apiClient.get<DefaultLayers | null>(
-    `/layers/defaults/`,
-    { appId },
-    false,
-  );
-  if (responseData === undefined) throw new Error('No default layers received');
-  return responseData;
-}, defaultLayersParamsAtom);
+export const defaultAppLayersAtom = createResourceAtom(
+  async (params) => {
+    if (!params) return null;
+    const { appId } = params;
+    const responseData = await apiClient.get<DefaultLayers | null>(
+      `/layers/defaults/`,
+      { appId },
+      false,
+    );
+    if (responseData === undefined)
+      throw new Error('No default layers received');
+    return responseData;
+  },
+  'defaultAppLayersAtom',
+  defaultLayersParamsAtom,
+);
