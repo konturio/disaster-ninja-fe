@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { appMetrics } from '~core/metrics';
 import { useMarkers } from './useMarkers';
 import { useArrayDiff } from './useArrayDiff';
 import type { Marker } from './types';
@@ -124,6 +125,7 @@ function MapboxMap(
       ref.current = mapInstance;
     }
     setMap(mapInstance);
+    appMetrics.mark(appMetrics.loaded('feature.map'), mapInstance);
   }, [mapEl, externalStyleLink, options, ref]);
 
   /* On fit bounds effect */
