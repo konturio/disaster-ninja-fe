@@ -1,6 +1,16 @@
+type Decision = {
+  continueSq?: boolean;
+  breakSq?: boolean;
+};
+
 interface SequenceStep {
   eventName: string | RegExp;
-  handler?: (ctx: Record<string, any>, payload: any) => void | true; // id step return true - sequence stop
+  /**
+   * Sometimes you need check payload for understand is that event that you looking for.
+   * return { continueSq: false } from the handler, for repeat this step on next event
+   * or { breakSq: true } for end sequence
+   * */
+  handler?: (ctx: Record<string, any>, payload: any) => void | Decision;
 }
 
 export class Sequence {
@@ -28,11 +38,16 @@ export class Sequence {
         ? step.eventName === eventName
         : step.eventName.test(eventName)
     ) {
-      this.nextStepIndex++;
       if (step.handler) {
-        const isFinal = step.handler(this.context, eventPayload);
-        if (isFinal === true) this.sequenceEnded = true;
+        const { continueSq = true, breakSq = false } =
+          step.handler(this.context, eventPayload) ?? {};
+        if (breakSq === true) this.sequenceEnded = true;
+        if (continueSq === true) this.nextStepIndex++;
+      } else {
+        this.nextStepIndex++;
       }
+      const isLastStep = this.steps[this.nextStepIndex] === undefined;
+      if (isLastStep) this.sequenceEnded = true;
     }
   }
 }
