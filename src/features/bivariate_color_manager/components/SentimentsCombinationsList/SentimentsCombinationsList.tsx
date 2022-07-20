@@ -4,16 +4,17 @@ import { memo } from 'react';
 import { joinAndCapitalizeItems, sortByKey } from '~utils/common';
 import { i18n } from '~core/localization';
 import { MiniLegend } from '~features/bivariate_color_manager/components/MiniLegend/MiniLegend';
+import { invertClusters } from '~utils/bivariate';
 import s from './SentimentsCombinationsList.module.css';
 import type { BivariateColorManagerData } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
-import type { ColorTheme } from '~core/types';
+import type { BivariateLegend } from '~core/logical_layers/types/legends';
 
 type Row = {
   key: string;
   maps: number;
   verticalLabel: string;
   horizontalLabel: string;
-  legend: ColorTheme | undefined;
+  legend?: BivariateLegend;
   id: string;
 };
 
@@ -73,7 +74,11 @@ const SentimentsCombinationsList = memo(
             <tr key={id}>
               <td>
                 <div className={clsx(s.legendWrapper)}>
-                  {legend && <MiniLegend legend={legend} />}
+                  {legend && (
+                    <MiniLegend
+                      legend={invertClusters(legend.steps, 'label')}
+                    />
+                  )}
                 </div>
               </td>
               <td className={clsx(s.centered)}>{maps}</td>

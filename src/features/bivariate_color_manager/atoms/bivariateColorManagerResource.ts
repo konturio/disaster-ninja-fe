@@ -4,22 +4,25 @@ import { createBivariateColorsGraphQLQuery } from '~features/bivariate_manager/u
 import { parseGraphQLErrors } from '~features/bivariate_manager/utils/parseGraphQLErrors';
 import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { isApiError } from '~core/api_client/apiClientError';
+import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 import type { Indicator } from '~utils/bivariate';
-import type { ColorTheme } from '~core/types';
+import type { BivariateLegend } from '~core/logical_layers/types/legends';
+
+export type TableDataValue = {
+  label: string;
+  name: string;
+  quality?: number;
+  mostQualityDenominator?: string;
+};
 
 type TableData = {
-  [key: string]: {
-    label: string;
-    name: string;
-    quality?: number;
-    mostQualityDenominator?: string;
-  };
+  [key: string]: TableDataValue;
 };
 
 export type BivariateColorManagerData = {
   [key: string]: {
-    legend?: ColorTheme;
+    legend?: BivariateLegend;
     vertical: TableData;
     horizontal: TableData;
     maps: number;
@@ -73,9 +76,8 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
         throw new Error(msg || 'No data received');
       }
 
-      const bivariateStatistic =
-        responseData.data.polygonStatistic.bivariateStatistic;
-      const { correlationRates, indicators, axis } = bivariateStatistic;
+      const stats = responseData.data.polygonStatistic.bivariateStatistic;
+      const { correlationRates, indicators, axis } = stats;
 
       if (!correlationRates || !indicators || !axis) {
         const msg = parseGraphQLErrors(responseData);
@@ -116,6 +118,7 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
             const xQuotientNumerator = correlationRate.x.quotient[0];
             const yQuotientNumerator = correlationRate.y.quotient[0];
 
+            // x - for vertical, y - for horizontal
             const xQuotientIndicator = indicatorsMap[xQuotientNumerator];
             const yQuotientIndicator = indicatorsMap[yQuotientNumerator];
 
@@ -124,24 +127,40 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
               horizontal: yQuotientIndicator.direction,
             });
 
+            const xNumerator = correlationRate.x.quotient[0];
+            const xDenominator = correlationRate.x.quotient[1];
+            const yNumerator = correlationRate.y.quotient[0];
+            const yDenominator = correlationRate.y.quotient[1];
+
             if (!acc[key]) {
               const colorThemeAndBivariateStyle =
                 generateColorThemeAndBivariateStyle(
-                  correlationRate.x.quotient[0],
-                  correlationRate.x.quotient[1],
-                  correlationRate.y.quotient[0],
-                  correlationRate.y.quotient[1],
-                  bivariateStatistic,
+                  xNumerator,
+                  xDenominator,
+                  yNumerator,
+                  yDenominator,
+                  stats,
                 );
 
-              const colorTheme = colorThemeAndBivariateStyle?.[0];
+              if (colorThemeAndBivariateStyle) {
+                const [colorTheme] = colorThemeAndBivariateStyle;
+                const legend = createBivariateLegend(
+                  'Bivariate Layer',
+                  colorTheme,
+                  xNumerator,
+                  xDenominator,
+                  yNumerator,
+                  yDenominator,
+                  stats,
+                );
 
-              acc[key] = {
-                legend: colorTheme,
-                vertical: {},
-                horizontal: {},
-                maps: 0,
-              };
+                acc[key] = {
+                  legend,
+                  vertical: {},
+                  horizontal: {},
+                  maps: 0,
+                };
+              }
             }
 
             acc[key].maps++;
