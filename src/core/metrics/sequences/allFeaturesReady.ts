@@ -1,21 +1,18 @@
 import type { AppMetrics } from '../app-metrics';
 
-export function allFeaturesReady(appMetrics: AppMetrics) {
-  appMetrics
+export function allFeaturesReady(mtr: AppMetrics) {
+  mtr
     .addSequence('allFeaturesReady')
-    .on(appMetrics.loaded('appConfig'))
+    .on(mtr.loaded('appConfig'))
     /* Use something like this when we add all features readiness metric */
-    .on(appMetrics.loaded('userResourceAtom'), (ctx, payload) => {
+    .on(mtr.loaded('userResourceAtom'), (ctx, payload) => {
       const notLoadedFeatures = payload.getActiveFeatures();
-      const sq = appMetrics.addSequence('featuresReady');
+      const sq = mtr.addSequence('featuresReady');
       notLoadedFeatures.forEach((feature) => {
-        sq.on(appMetrics.loaded(feature), () => {
-          notLoadedFeatures.delete(feature.id);
-          if (ctx.features.size === 0) {
-            return true;
-          }
-        });
+        sq.on(mtr.loaded(feature));
       });
     })
-    .on(appMetrics.loaded('featuresReady'), () => true);
+    .on(mtr.loaded('featuresReady'), () => {
+      /* Report */
+    });
 }
