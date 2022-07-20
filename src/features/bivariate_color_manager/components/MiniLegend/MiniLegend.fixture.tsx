@@ -1,4 +1,3 @@
-import React from 'react';
 import { MiniLegend } from './MiniLegend';
 
 const mockResponse = [

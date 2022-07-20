@@ -39,7 +39,6 @@
   display: flex;
   flex-grow: 1;
   overflow: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0 calc(var(--unit) * 3) 0 calc(var(--unit) * 3);
   justify-content: center;
 }
