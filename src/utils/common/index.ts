@@ -1,14 +1,20 @@
-const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const toCapitalizedList = (arr: string[]): string =>
   arr.map(capitalize).join(', ');
 
-const capitalizeArrayOrString = (input: string[] | string): string =>
+const joinAndCapitalizeItems = (input: string[] | string): string =>
   Array.isArray(input) ? toCapitalizedList(input) : capitalize(input);
 
 const sortByKey =
-  <T>(key: string, direction: 'asc' | 'desc') =>
-  (a: T, b: T) =>
-    direction === 'desc' ? b[key] - a[key] : a[key] - b[key];
+  <T extends Record<string, unknown>>(key: string, direction: 'asc' | 'desc') =>
+  (a: T, b: T) => {
+    const aVal = a[key];
+    const bVal = b[key];
+    if (typeof aVal === 'number' && typeof bVal === 'number') {
+      return direction === 'desc' ? bVal - aVal : aVal - bVal;
+    }
+    return 0;
+  };
 
-export { capitalize, toCapitalizedList, capitalizeArrayOrString, sortByKey };
+export { capitalize, joinAndCapitalizeItems, sortByKey };
