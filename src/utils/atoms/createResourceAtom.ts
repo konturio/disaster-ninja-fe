@@ -87,7 +87,7 @@ function createResourceFetcherAtom<P, T>(
         newState.loading = true;
         newState.error = null;
         newState.canceled = false;
-        appMetrics.mark(appMetrics.loading(name));
+        appMetrics.mark(appMetrics.loading(name), params);
         schedule(async (dispatch, ctx: ResourceCtx<P>) => {
           const version = (ctx.version ?? 0) + 1;
           ctx._refetchable = true;
