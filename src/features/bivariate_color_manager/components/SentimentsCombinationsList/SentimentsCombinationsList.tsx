@@ -1,6 +1,6 @@
-import { nanoid } from 'nanoid';
 import clsx from 'clsx';
-import { memo } from 'react';
+import { nanoid } from 'nanoid';
+import { memo, useState } from 'react';
 import { joinAndCapitalizeItems, sortByKey } from '~utils/common';
 import { i18n } from '~core/localization';
 import { MiniLegend } from '~features/bivariate_color_manager/components/MiniLegend/MiniLegend';
@@ -31,6 +31,7 @@ const convertDirectionsArrayToLabel = (directions: string[][]) => {
 
 const SentimentsCombinationsList = memo(
   ({ data }: SentimentsCombinationsListProps) => {
+    const [selectedRowKey, setSelectedRowKey] = useState<string>();
     const columns = [
       { title: i18n.t('Legend'), className: clsx(s.centered) },
       { title: i18n.t('Maps'), className: clsx(s.centered) },
@@ -70,22 +71,43 @@ const SentimentsCombinationsList = memo(
         </thead>
 
         <tbody>
-          {rows.map(({ id, legend, maps, verticalLabel, horizontalLabel }) => (
-            <tr key={id}>
-              <td>
-                <div className={clsx(s.legendWrapper)}>
-                  {legend && (
-                    <MiniLegend
-                      legend={invertClusters(legend.steps, 'label')}
-                    />
+          {rows.map(
+            ({ id, key, legend, maps, verticalLabel, horizontalLabel }) => {
+              const rowSelected = selectedRowKey === key;
+              const selectRow = () => setSelectedRowKey(key);
+
+              return (
+                <>
+                  <tr
+                    key={id}
+                    onClick={selectRow}
+                    className={clsx(rowSelected && s.rowSeleted)}
+                  >
+                    <td>
+                      <div className={clsx(s.legendWrapper)}>
+                        {legend && (
+                          <MiniLegend
+                            legend={invertClusters(legend.steps, 'label')}
+                          />
+                        )}
+                      </div>
+                    </td>
+                    <td className={clsx(s.centered)}>{maps}</td>
+                    <td className={clsx(s.label)}>{verticalLabel}</td>
+                    <td className={clsx(s.label)}>{horizontalLabel}</td>
+                  </tr>
+                  {rowSelected && (
+                    <tr>
+                      <td />
+                      <td />
+                      <td>koko</td>
+                      <td>koko</td>
+                    </tr>
                   )}
-                </div>
-              </td>
-              <td className={clsx(s.centered)}>{maps}</td>
-              <td className={clsx(s.label)}>{verticalLabel}</td>
-              <td className={clsx(s.label)}>{horizontalLabel}</td>
-            </tr>
-          ))}
+                </>
+              );
+            },
+          )}
         </tbody>
       </table>
     );
