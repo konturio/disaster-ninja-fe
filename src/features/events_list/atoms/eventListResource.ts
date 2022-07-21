@@ -20,8 +20,8 @@ export const eventListResourceAtom = createResourceAtom(
       bbox: deps?.filters.bbox?.join(','),
     };
 
-    const responseData = await apiClient.get<Event[]>('/events/', params, true);
-    if (responseData === undefined) throw new Error('No data received');
+    const responseData =
+      (await apiClient.get<Event[]>('/events/', params, true)) ?? [];
     if (responseData.length === 0) {
       throw params.bbox
         ? new Error('No disasters in this area')

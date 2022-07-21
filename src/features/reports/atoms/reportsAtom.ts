@@ -33,7 +33,7 @@ export const reportsAtom = createAtom(
           undefined,
           false,
         );
-        if (responseData === undefined) throw new Error('No data received');
+        if (responseData === null) throw new Error('No data received');
         dispatch(reportsAtom.setReports(responseData));
       });
     });

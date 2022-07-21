@@ -40,9 +40,10 @@ const abortControllers: AbortController[] = [];
 export const bivariateColorManagerResourceAtom = createResourceAtom(
   () => {
     async function processor() {
-      let responseData:
-        | { data: BivariateStatisticsResponse; errors?: unknown }
-        | undefined;
+      let responseData: {
+        data: BivariateStatisticsResponse;
+        errors?: unknown;
+      } | null;
 
       const abortController = new AbortController();
       abortControllers.push(abortController);

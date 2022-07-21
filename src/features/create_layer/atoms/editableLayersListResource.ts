@@ -38,7 +38,7 @@ export const editableLayersListResource = createResourceAtom(
       body,
       true,
     );
-    if (responseData === undefined) throw new Error('No data received');
+    if (responseData === null) return [];
 
     /* Performance optimization - editable layers updated in create_layer feature */
     return responseData.filter((l) => l.group === EDITABLE_LAYERS_GROUP);
