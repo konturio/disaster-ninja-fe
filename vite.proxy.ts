@@ -14,7 +14,14 @@ async function getLocalConfig() {
     console.log('Applying local vite proxy config file from ./configs/proxy-config.local.js');
     return res.default;
   } catch (e) {
-    return {};
+    try {
+      const res = await import('./configs/proxy-config.default');
+      console.log('Applying local vite proxy config file from ./configs/proxy-config.default.js');
+      return res.default;
+    } catch(e) {
+      console.log('Not found any proxy configs');
+      return {};
+    }
   }
 }
 
