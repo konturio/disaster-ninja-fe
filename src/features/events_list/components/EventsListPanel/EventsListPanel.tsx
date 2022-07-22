@@ -117,11 +117,7 @@ export function EventsListPanel({
       <div className={s.scrollable}>
         {statesToComponents({
           loading: <LoadingSpinner message={i18n.t('Loading events')} />,
-          error: (errorMessage) => (
-            <ErrorMessage
-              message={errorMessage ? i18n.t(errorMessage) : errorMessage}
-            />
-          ),
+          error: (errorMessage) => <ErrorMessage message={errorMessage} />,
           ready: (eventsList) => (
             <Virtuoso
               data={eventsList}

@@ -222,7 +222,7 @@ export class ApiClient {
   private async processResponse<T>(
     response: ApiResponse<T, GeneralApiProblem>,
     errorsConfig?: RequestErrorsConfig,
-  ): Promise<T | undefined | never> {
+  ): Promise<T | null | never> {
     if (response.ok) {
       return response.data;
     }
@@ -439,7 +439,7 @@ export class ApiClient {
     requestParams?: unknown,
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
-  ): Promise<T | undefined> {
+  ): Promise<T | null> {
     let response: ApiResponse<T, GeneralApiProblem>;
 
     if (!requestConfig) {
@@ -483,7 +483,7 @@ export class ApiClient {
     requestParams?: RequestParams,
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
-  ): Promise<T | undefined> {
+  ): Promise<T | null> {
     return this.call<T>(
       ApiMethodTypes.GET,
       path,
@@ -498,7 +498,7 @@ export class ApiClient {
     requestParams?: unknown,
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
-  ): Promise<T | undefined> {
+  ): Promise<T | null> {
     return this.call(
       ApiMethodTypes.POST,
       path,
@@ -513,7 +513,7 @@ export class ApiClient {
     requestParams?: RequestParams,
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
-  ): Promise<T | undefined> {
+  ): Promise<T | null> {
     return this.call(
       ApiMethodTypes.PUT,
       path,
@@ -528,7 +528,7 @@ export class ApiClient {
     requestParams?: RequestParams,
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
-  ): Promise<T | undefined> {
+  ): Promise<T | null> {
     return this.call(
       ApiMethodTypes.PATCH,
       path,
@@ -542,7 +542,7 @@ export class ApiClient {
     path: string,
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
-  ): Promise<T | undefined> {
+  ): Promise<T | null> {
     return this.call(
       ApiMethodTypes.DELETE,
       path,

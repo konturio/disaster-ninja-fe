@@ -19,9 +19,10 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
         return allMapStats;
       }
 
-      let responseData:
-        | { data: BivariateStatisticsResponse; errors?: unknown }
-        | undefined;
+      let responseData: {
+        data: BivariateStatisticsResponse;
+        errors?: unknown;
+      } | null;
       const abortController = new AbortController();
       abortControllers.push(abortController);
       try {

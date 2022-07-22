@@ -113,8 +113,7 @@ export interface ApiOkResponse<T> {
   ok: true;
   problem: null;
   originalError: null;
-
-  data?: T;
+  data: T | null;
   status?: number;
   headers?: HEADERS;
   config?: AxiosRequestConfig;

@@ -110,7 +110,7 @@ export const editableLayerControllerAtom = createAtom(
           try {
             // @ts-expect-error temporary code
             data.appId = getUnlistedState(currentApplicationAtom);
-            let responseData: EditableLayers | undefined;
+            let responseData: EditableLayers | null;
             if (data.id) {
               responseData = await apiClient.put<EditableLayers>(
                 `/layers/${data.id}`,

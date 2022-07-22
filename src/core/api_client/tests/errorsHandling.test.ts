@@ -10,6 +10,14 @@ beforeEach((context) => {
   context.ctx = createContext();
 });
 
+test('204 response', async ({ ctx }) => {
+  const requestMock = sinon.fake.returns([204]);
+  ctx.mockAdapter.onGet('test204').reply(requestMock);
+
+  const response = await ctx.apiClient.get('/test204');
+  expect(response).toStrictEqual(null);
+});
+
 test('401 error', async ({ ctx }) => {
   const loginRequestMock = sinon.fake.returns([401]);
   ctx.mockAdapter.onGet('test401').reply(loginRequestMock);
@@ -74,8 +82,8 @@ test('request abort error', async ({ ctx }) => {
 });
 
 test('500 error', async ({ ctx }) => {
-  const loginRequestMock = sinon.fake.returns([500]);
-  ctx.mockAdapter.onGet('test500').reply(loginRequestMock);
+  const errorRequestMock = sinon.fake.returns([500]);
+  ctx.mockAdapter.onGet('test500').reply(errorRequestMock);
 
   await expect(ctx.apiClient.get('/test500')).rejects.toMatchObject(
     new ApiClientError('Unknown Error', {

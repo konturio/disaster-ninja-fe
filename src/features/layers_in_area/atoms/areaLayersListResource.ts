@@ -91,7 +91,7 @@ export const areaLayersListResource = createResourceAtom(async (params) => {
     body.appId = params.appId;
   }
 
-  let responseData: LayerInArea[] | undefined;
+  let responseData: LayerInArea[] | null;
   try {
     responseData = await apiClient.post<LayerInArea[]>(
       '/layers/search/',
@@ -103,7 +103,7 @@ export const areaLayersListResource = createResourceAtom(async (params) => {
     throw new Error('Error while fetching area layers data');
   }
 
-  if (responseData === undefined) throw new Error('No data received');
+  if (responseData === null) return [];
 
   /* Performance optimization - editable layers updated in create_layer feature */
   if (params.createLayerFeatureActivated) {
