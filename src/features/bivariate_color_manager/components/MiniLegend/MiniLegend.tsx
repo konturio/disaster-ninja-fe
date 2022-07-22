@@ -5,7 +5,7 @@ import type { ColorTheme } from '~core/types';
 import type { CSSProperties } from 'react';
 
 export type MiniLegendProps = {
-  legend: ColorTheme;
+  legend: { color: string; label: string }[];
   changes?: { [key: string]: { color?: string } };
 };
 
@@ -22,9 +22,9 @@ export const MiniLegend = ({ legend, changes = {} }: MiniLegendProps) => {
         let cellBorderClass: string | undefined;
         let style: CSSProperties | undefined;
 
-        if (changes[cell.id]) {
+        if (changes[cell.label]) {
           changed = true;
-          const nextColor = changes[cell.id]?.color;
+          const nextColor = changes[cell.label]?.color;
           cellColor = nextColor;
           cellBorderClass = nextColor
             ? s.LegendGridCellChanged
@@ -35,7 +35,7 @@ export const MiniLegend = ({ legend, changes = {} }: MiniLegendProps) => {
 
         return (
           <div
-            key={cell.id}
+            key={cell.label}
             className={clsx(s.LegendGridCell, cellBorderClass)}
             style={style}
           >

@@ -1,13 +1,24 @@
 import clsx from 'clsx';
-import { nanoid } from 'nanoid';
-import { memo, useState } from 'react';
+import React, {
+  Children,
+  cloneElement,
+  isValidElement,
+  memo,
+  useRef,
+  useState,
+} from 'react';
+import { CSSTransition } from 'react-transition-group';
 import { joinAndCapitalizeItems, sortByKey } from '~utils/common';
 import { i18n } from '~core/localization';
 import { MiniLegend } from '~features/bivariate_color_manager/components/MiniLegend/MiniLegend';
 import { invertClusters } from '~utils/bivariate';
 import s from './SentimentsCombinationsList.module.css';
-import type { BivariateColorManagerData } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
+import type {
+  BivariateColorManagerData,
+  TableDataValue,
+} from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
+import type { CSSTransitionProps } from 'react-transition-group/CSSTransition';
 
 type Row = {
   key: string;
@@ -15,7 +26,6 @@ type Row = {
   verticalLabel: string;
   horizontalLabel: string;
   legend?: BivariateLegend;
-  id: string;
 };
 
 type SentimentsCombinationsListProps = {
@@ -23,15 +33,25 @@ type SentimentsCombinationsListProps = {
 };
 
 const sortDescendingByMaps = sortByKey<Row>('maps', 'desc');
+const sortDescendingByQuality = sortByKey<TableDataValue>('quality', 'desc');
 
 const convertDirectionsArrayToLabel = (directions: string[][]) => {
   const [from = '', to = ''] = directions;
   return `${joinAndCapitalizeItems(from)} → ${joinAndCapitalizeItems(to)}`;
 };
 
+const fadeClassNames = {
+  enter: clsx(s.fadeEnter),
+  enterActive: clsx(s.fadeEnterActive),
+  exit: clsx(s.fadeExit),
+  exitActive: clsx(s.fadeExitActive),
+};
+
 const SentimentsCombinationsList = memo(
   ({ data }: SentimentsCombinationsListProps) => {
-    const [selectedRowKey, setSelectedRowKey] = useState<string>();
+    const [selectedRowKeys, setSelectedRowKeys] = useState<{
+      [key: string]: boolean;
+    }>({});
     const columns = [
       { title: i18n.t('Legend'), className: clsx(s.centered) },
       { title: i18n.t('Maps'), className: clsx(s.centered) },
@@ -47,13 +67,13 @@ const SentimentsCombinationsList = memo(
         const horizontalLabel = convertDirectionsArrayToLabel(
           keyParsed.horizontal,
         );
+
         return {
           key,
           maps,
           verticalLabel,
           horizontalLabel,
           legend,
-          id: nanoid(4),
         };
       })
       .sort(sortDescendingByMaps);
@@ -71,48 +91,90 @@ const SentimentsCombinationsList = memo(
         </thead>
 
         <tbody>
-          {rows.map(
-            ({ id, key, legend, maps, verticalLabel, horizontalLabel }) => {
-              const rowSelected = selectedRowKey === key;
-              const selectRow = () => setSelectedRowKey(key);
+          {rows.map(({ key, legend, maps, verticalLabel, horizontalLabel }) => {
+            const rowSelected = selectedRowKeys[key];
+            const selectRow = () =>
+              setSelectedRowKeys({
+                ...selectedRowKeys,
+                [key]: !selectedRowKeys[key],
+              });
 
-              return (
-                <>
-                  <tr
-                    key={id}
-                    onClick={selectRow}
-                    className={clsx(rowSelected && s.rowSeleted)}
-                  >
+            const { vertical, horizontal } = data[key];
+            const verticalList = Object.values(vertical).sort(
+              sortDescendingByQuality,
+            );
+            const horizontalList = Object.values(horizontal).sort(
+              sortDescendingByQuality,
+            );
+
+            return (
+              <React.Fragment key={key}>
+                <tr
+                  onClick={selectRow}
+                  className={clsx(rowSelected && s.rowSeleted)}
+                >
+                  <td>
+                    <div className={clsx(s.legendWrapper)}>
+                      {legend && (
+                        <MiniLegend
+                          legend={invertClusters(legend.steps, 'label')}
+                        />
+                      )}
+                    </div>
+                  </td>
+                  <td className={clsx(s.centered)}>{maps}</td>
+                  <td className={clsx(s.label)}>{verticalLabel}</td>
+                  <td className={clsx(s.label)}>{horizontalLabel}</td>
+                </tr>
+
+                <CSSTransitionWrapper
+                  in={rowSelected}
+                  timeout={300}
+                  unmountOnExit
+                  appear
+                  classNames={fadeClassNames}
+                >
+                  <tr className={clsx(s.sublist)}>
+                    <td />
+                    <td />
                     <td>
-                      <div className={clsx(s.legendWrapper)}>
-                        {legend && (
-                          <MiniLegend
-                            legend={invertClusters(legend.steps, 'label')}
-                          />
-                        )}
-                      </div>
+                      {verticalList.map(({ label }) => (
+                        <div className={clsx(s.sublistRow)} key={label}>
+                          {label}
+                        </div>
+                      ))}
                     </td>
-                    <td className={clsx(s.centered)}>{maps}</td>
-                    <td className={clsx(s.label)}>{verticalLabel}</td>
-                    <td className={clsx(s.label)}>{horizontalLabel}</td>
+                    <td>
+                      {horizontalList.map(({ label }) => (
+                        <div className={clsx(s.sublistRow)} key={label}>
+                          {label}
+                        </div>
+                      ))}
+                    </td>
                   </tr>
-                  {rowSelected && (
-                    <tr>
-                      <td />
-                      <td />
-                      <td>koko</td>
-                      <td>koko</td>
-                    </tr>
-                  )}
-                </>
-              );
-            },
-          )}
+                </CSSTransitionWrapper>
+              </React.Fragment>
+            );
+          })}
         </tbody>
       </table>
     );
   },
 );
+
+const CSSTransitionWrapper = ({ children, ...props }: CSSTransitionProps) => {
+  const nodeRef = useRef(null);
+
+  return (
+    <CSSTransition {...props} nodeRef={nodeRef}>
+      <>
+        {Children.map(children, (child) =>
+          isValidElement(child) ? cloneElement(child, { ref: nodeRef }) : child,
+        )}
+      </>
+    </CSSTransition>
+  );
+};
 
 SentimentsCombinationsList.displayName = 'SentimentsCombinationsList';
 
