@@ -22,7 +22,8 @@ const FeedSelectorComp = () => {
   );
 
   return userModel &&
-    userModel.hasFeature(AppFeature.FEED_SELECTOR) &&
+    (userModel.hasFeature(AppFeature.FEED_SELECTOR) ||
+      userModel.hasFeature(AppFeature.EVENTS_LIST__FEED_SELECTOR)) &&
     userModel.feeds &&
     userModel.feeds.length > 1 ? (
     <div className={s.feedSelectorContainer}>
