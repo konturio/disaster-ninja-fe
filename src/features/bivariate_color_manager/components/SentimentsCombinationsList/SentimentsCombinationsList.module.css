@@ -41,4 +41,41 @@
     display: flex;
     justify-content: center;
   }
+
+  & tr.sublist {
+    vertical-align: top;
+
+    & .sublistRow {
+      padding: var(--double-unit) 0 var(--double-unit) 0;
+      max-height: 50px;
+
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 18px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+  }
+}
+
+.fadeEnter {
+  opacity: 0;
+}
+
+.fadeEnterActive {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
+.fadeExit {
+  opacity: 1;
+}
+
+.fadeExitActive {
+  opacity: 0;
+  transition: opacity 300ms;
 }

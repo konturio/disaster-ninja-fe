@@ -2,39 +2,39 @@ import { MiniLegend } from './MiniLegend';
 
 const mockResponse = [
   {
-    id: 'A1',
+    label: 'A1',
     color: 'rgba(232,232,157,0.5)',
   },
   {
-    id: 'A2',
+    label: 'A2',
     color: 'rgba(216,159,88,0.5)',
   },
   {
-    id: 'A3',
+    label: 'A3',
     color: 'rgba(228,26,28,0.5)',
   },
   {
-    id: 'B1',
+    label: 'B1',
     color: 'rgba(169,218,122,0.5)',
   },
   {
-    id: 'B2',
+    label: 'B2',
     color: 'rgba(159,171,87,0.5)',
   },
   {
-    id: 'B3',
+    label: 'B3',
     color: 'rgba(140,127,57,0.5)',
   },
   {
-    id: 'C1',
+    label: 'C1',
     color: 'rgba(90,200,127,0.5)',
   },
   {
-    id: 'C2',
+    label: 'C2',
     color: 'rgba(88,176,117,0.5)',
   },
   {
-    id: 'C3',
+    label: 'C3',
     color: 'rgba(83,152,106,0.5)',
   },
 ];
