@@ -22,7 +22,6 @@ export function eventReadyForScreenShot(mtr: AppMetrics) {
     .on('mapIdle', () => {
       setTimeout(() => {
         const eventReadyEvent = new Event('event_ready_for_screenshot');
-        alert('ready');
         window.dispatchEvent(eventReadyEvent);
       }, 1000); // Mapbox have ~1000ms fadeIn animation after it report first 'idle'
     });
