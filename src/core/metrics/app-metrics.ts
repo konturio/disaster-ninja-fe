@@ -24,8 +24,18 @@ export class AppMetrics {
     return sequence;
   }
 
+  /**
+   * Mark - create record with timing of metric event
+   * and event about mark was created
+   */
   mark(name: string, payload?: unknown) {
     this.markers.push(new MetricMarker(name));
+    // Mark was created event
+    this.processEvent(name, payload);
+  }
+
+  processEvent(name: string, payload?: unknown) {
+    console.debug('processEvent', name); // eslint-disable-line
     this.sequences.forEach((s) => {
       s.update(name, payload);
       if (s.sequenceEnded) {
