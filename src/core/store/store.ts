@@ -1,5 +1,6 @@
 import { createStore } from '@reatom/core';
 import { createDevtoolsLogger } from '~utils/debug/reatom-redux-devtools';
+import { appMetrics } from '~core/metrics';
 
 function configureStore() {
   const devtoolsLogger = createDevtoolsLogger();
@@ -11,7 +12,15 @@ function configureStore() {
       now: globalThis.performance?.now.bind(performance) ?? Date.now,
     });
   }
-  return createStore();
+  return createStore({
+    onPatch: (t) => {
+      for (const action of t.actions) {
+        if (!action.type.includes('invalidate')) {
+          appMetrics.processEvent(action.type, action.payload);
+        }
+      }
+    },
+  });
 }
 
 export const store = configureStore();
