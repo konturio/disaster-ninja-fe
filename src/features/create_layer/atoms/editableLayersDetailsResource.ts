@@ -59,6 +59,6 @@ export const editableLayersDetailsResourceAtom = createResourceAtom(
       true,
     );
   },
-  editableLayersDetailsParamsAtom,
   'editableLayersDetailsResourceAtom',
+  editableLayersDetailsParamsAtom,
 );

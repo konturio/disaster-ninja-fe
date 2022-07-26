@@ -118,23 +118,27 @@ export const areaLayersDetailsParamsAtom = createAtom(
 );
 
 // Call api
-export const areaLayersDetailsResourceAtom = createResourceAtom((params) => {
-  async function processor(): Promise<LayerInAreaDetails[] | null> {
-    if (params === null) return null;
-    try {
-      const request = await apiClient.post<LayerInAreaDetails[]>(
-        '/layers/details',
-        params,
-        true,
-      );
-      return request ?? null;
-    } catch (e) {
-      throw e;
+export const areaLayersDetailsResourceAtom = createResourceAtom(
+  (params) => {
+    async function processor(): Promise<LayerInAreaDetails[] | null> {
+      if (params === null) return null;
+      try {
+        const request = await apiClient.post<LayerInAreaDetails[]>(
+          '/layers/details',
+          params,
+          true,
+        );
+        return request ?? null;
+      } catch (e) {
+        throw e;
+      }
     }
-  }
 
-  return { processor, allowCancel: true };
-}, areaLayersDetailsParamsAtom);
+    return { processor, allowCancel: true };
+  },
+  'areaLayersDetailsResourceAtom',
+  areaLayersDetailsParamsAtom,
+);
 
 function arraysAreEqual(arr1: any[], arr2: any[]) {
   return (

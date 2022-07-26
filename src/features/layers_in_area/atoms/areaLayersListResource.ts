@@ -66,30 +66,31 @@ const areaLayersListDependencyAtom = createAtom(
   'areaLayersListDependencyAtom',
 );
 
-export const areaLayersListResource = createResourceAtom(async (params) => {
-  if (!params) return;
-  if (params.createLayerFeatureActivated === null) return; // Avoid double request
-  const body: {
-    eventId?: string;
-    geoJSON?: GeoJSON.GeoJSON;
-    eventFeed?: string;
-    appId?: string;
-  } = params.focusedGeometry
-    ? {
-        geoJSON: params.focusedGeometry.geometry,
+export const areaLayersListResource = createResourceAtom(
+  async (params) => {
+    if (!params) return;
+    if (params.createLayerFeatureActivated === null) return; // Avoid double request
+    const body: {
+      eventId?: string;
+      geoJSON?: GeoJSON.GeoJSON;
+      eventFeed?: string;
+      appId?: string;
+    } = params.focusedGeometry
+      ? {
+          geoJSON: params.focusedGeometry.geometry,
+        }
+      : {};
+
+    if (params.focusedGeometry?.source.type === 'event') {
+      body.eventId = params?.focusedGeometry.source.meta.eventId;
+      if (params?.eventFeed) {
+        body.eventFeed = params?.eventFeed.id;
       }
-    : {};
-
-  if (params.focusedGeometry?.source.type === 'event') {
-    body.eventId = params?.focusedGeometry.source.meta.eventId;
-    if (params?.eventFeed) {
-      body.eventFeed = params?.eventFeed.id;
     }
-  }
 
-  if (params.appId) {
-    body.appId = params.appId;
-  }
+    if (params.appId) {
+      body.appId = params.appId;
+    }
 
   let responseData: LayerInArea[] | null;
   try {
@@ -105,10 +106,13 @@ export const areaLayersListResource = createResourceAtom(async (params) => {
 
   if (responseData === null) return [];
 
-  /* Performance optimization - editable layers updated in create_layer feature */
-  if (params.createLayerFeatureActivated) {
-    return responseData.filter((l) => l.group !== EDITABLE_LAYERS_GROUP);
-  }
+    /* Performance optimization - editable layers updated in create_layer feature */
+    if (params.createLayerFeatureActivated) {
+      return responseData.filter((l) => l.group !== EDITABLE_LAYERS_GROUP);
+    }
 
-  return responseData;
-}, areaLayersListDependencyAtom);
+    return responseData;
+  },
+  'areaLayersListResource',
+  areaLayersListDependencyAtom,
+);
