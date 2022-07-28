@@ -6,8 +6,9 @@ import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateC
 import { isApiError } from '~core/api_client/apiClientError';
 import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
-import type { Indicator } from '~utils/bivariate';
+import type { Direction, Indicator } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
+import type { LayerMeta } from '~core/logical_layers/types/meta';
 
 export type TableDataValue = {
   label: string;
@@ -16,17 +17,24 @@ export type TableDataValue = {
   mostQualityDenominator?: string;
 };
 
-type TableData = {
+export type TableData = {
   [key: string]: TableDataValue;
 };
 
-export type BivariateColorManagerData = {
-  [key: string]: {
-    legend?: BivariateLegend;
-    vertical: TableData;
-    horizontal: TableData;
-    maps: number;
+export type BivariateColorManagerDataValue = {
+  legend?: BivariateLegend;
+  meta?: LayerMeta;
+  vertical: TableData;
+  horizontal: TableData;
+  maps: number;
+  directions: {
+    vertical: Direction;
+    horizontal: Direction;
   };
+};
+
+export type BivariateColorManagerData = {
+  [key: string]: BivariateColorManagerDataValue;
 };
 
 type IndicatorsMap = { [key: string]: Indicator };
@@ -160,6 +168,10 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
                   vertical: {},
                   horizontal: {},
                   maps: 0,
+                  directions: {
+                    vertical: xQuotientIndicator.direction,
+                    horizontal: yQuotientIndicator.direction,
+                  },
                 };
               }
             }

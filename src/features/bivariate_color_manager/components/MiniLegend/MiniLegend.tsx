@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import { CORNER_POINTS_INDEXES } from '~components/BivariateLegend/const';
 import s from './MiniLegend.module.css';
-import type { ColorTheme } from '~core/types';
 import type { CSSProperties } from 'react';
 
 export type MiniLegendProps = {
@@ -15,7 +14,7 @@ export const MiniLegend = ({ legend, changes = {} }: MiniLegendProps) => {
     ({ color }) => !color,
   );
   return (
-    <div className={clsx(s.LegendGrid)}>
+    <div className={s.LegendGrid}>
       {corners.map((cell) => {
         let cellColor: string | undefined = cell.color;
         let changed = false;
@@ -39,13 +38,13 @@ export const MiniLegend = ({ legend, changes = {} }: MiniLegendProps) => {
             className={clsx(s.LegendGridCell, cellBorderClass)}
             style={style}
           >
-            {changed && <div className={clsx(s.CircleIndicator)} />}
+            {changed && <div className={s.CircleIndicator} />}
           </div>
         );
       })}
 
       {changesHasUndefinedColor && (
-        <div className={clsx(s.UndefinedColorsIndicator)}>
+        <div className={s.UndefinedColorsIndicator}>
           <AlarmIcon />
         </div>
       )}
