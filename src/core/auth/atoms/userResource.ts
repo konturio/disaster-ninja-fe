@@ -4,6 +4,7 @@ import { currentUserAtom } from '~core/shared_state/currentUser';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 import appConfig from '~core/app_config';
 import { PUBLIC_USER_ID } from '~core/auth/constants';
+import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
 import { UserDataModel } from '../models/UserDataModel';
 import type {
   AppFeatureType,
@@ -24,16 +25,23 @@ const userResourceRequestParamsAtom = createAtom(
     currentApplicationAtom,
   },
   (
-    { get },
+    { get, schedule },
     state: UserResourceRequestParams = null,
   ): UserResourceRequestParams => {
     const applicationId = get('currentApplicationAtom');
     const userData = get('currentUserAtom');
 
-    return {
+    // if user profile had changed
+    if (state && state.userData?.username !== userData.username) {
+      // mark all layers as unmounted
+      schedule((dispatch) => dispatch(mountedLayersAtom.clear()));
+    }
+    state = {
       userData,
       applicationId,
     };
+
+    return state;
   },
   'userResourceRequestParamsAtom',
 );
