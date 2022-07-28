@@ -41,8 +41,6 @@ const { BivariatePanel } = lazily(
   () => import('~features/bivariate_manager/components'),
 );
 
-const { PopupTooltip } = lazily(() => import('~features/tooltip'));
-
 type MainViewProps = {
   userModel?: UserDataModel | null;
 };
@@ -118,9 +116,6 @@ export function MainView({ userModel }: MainViewProps) {
 
   return (
     <>
-      <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
-      </Suspense>
       <Row>
         <Suspense fallback={null}>
           {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
