@@ -4,6 +4,7 @@ import { currentUserAtom } from '~core/shared_state/currentUser';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 import appConfig from '~core/app_config';
 import { PUBLIC_USER_ID } from '~core/auth/constants';
+import app_config from '~core/app_config';
 import { UserDataModel } from '../models/UserDataModel';
 import type {
   AppFeatureType,
@@ -53,11 +54,23 @@ export const userResourceAtom = createResourceAtom<
       { errorsConfig: { dontShowErrors: true } },
     );
 
-    const feedsResponse = apiClient.get<BackendFeed[]>(
-      '/events/user_feeds',
-      undefined,
-      userData?.id !== PUBLIC_USER_ID,
-    );
+    let feedsResponse: Promise<BackendFeed[] | null>;
+    // if user not logged in - avoid extra request for feed
+    if (userData?.id === PUBLIC_USER_ID) {
+      feedsResponse = (async () => [
+        {
+          feed: appConfig.defaultFeed,
+          description: appConfig.defaultFeedDescription,
+          default: true,
+        },
+      ])();
+    } else {
+      feedsResponse = apiClient.get<BackendFeed[]>(
+        '/events/user_feeds',
+        undefined,
+        true,
+      );
+    }
 
     const [featuresSettled, feedsSettled] = await Promise.allSettled([
       featuresResponse,

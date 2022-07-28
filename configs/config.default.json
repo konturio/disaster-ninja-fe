@@ -44,6 +44,7 @@
     "tooltip"
   ],
   "DEFAULT_FEED": "kontur-public",
+  "DEFAULT_FEED_DESCRIPTION": "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires.",
   "KEYCLOAK_URL": "https://keycloak01.kontur.io",
   "KEYCLOAK_REALM": "kontur",
   "KEYCLOAK_CLIENT_ID": "kontur_platform"
