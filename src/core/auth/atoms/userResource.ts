@@ -64,12 +64,13 @@ export const userResourceAtom = createResourceAtom<
           default: true,
         },
       ])();
-    } else
+    } else {
       feedsResponse = apiClient.get<BackendFeed[]>(
         '/events/user_feeds',
         undefined,
         true,
       );
+    }
 
     const [featuresSettled, feedsSettled] = await Promise.allSettled([
       featuresResponse,
