@@ -5,7 +5,6 @@ import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 import appConfig from '~core/app_config';
 import { PUBLIC_USER_ID } from '~core/auth/constants';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
-import app_config from '~core/app_config';
 import { UserDataModel } from '../models/UserDataModel';
 import type {
   AppFeatureType,
