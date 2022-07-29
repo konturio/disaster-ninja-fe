@@ -9,23 +9,32 @@ import { BIVARIATE_LEGEND_SIZE } from './const';
 import type { BivariateLegend as BivariateLegendType } from '~core/logical_layers/types/legends';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
+import type { LegendProps } from '@konturio/ui-kit';
 
 export type BivariateLegendProps = {
-  meta: LayerMeta | null;
-  legend: LayerLegend | null;
-  name: string;
+  meta?: LayerMeta | null;
+  legend?: LayerLegend | null;
+  name?: string;
   controls?: JSX.Element[];
   showDescription?: boolean;
-  isHidden: boolean;
+  isHidden?: boolean;
+  showSteps?: boolean;
+  showArrowHeads?: boolean;
+  renderXAxisLabel?: LegendProps['renderXAxisLabel'];
+  renderYAxisLabel?: LegendProps['renderYAxisLabel'];
 };
 
 export function BivariateLegend({
   meta,
   legend,
-  name,
+  name = '',
   controls,
   showDescription = true,
   isHidden = false,
+  showSteps = true,
+  showArrowHeads = true,
+  renderXAxisLabel,
+  renderYAxisLabel,
 }: BivariateLegendProps) {
   const tipText = useMemo(() => {
     return meta
@@ -82,8 +91,11 @@ export function BivariateLegend({
           showAxisLabels
           size={BIVARIATE_LEGEND_SIZE}
           cells={invertClusters(legend.steps, 'label')}
-          // @ts-ignore
-          axis={axis}
+          axis={axis as LegendProps['axis']}
+          showSteps={showSteps}
+          showArrowHeads={showArrowHeads}
+          renderXAxisLabel={renderXAxisLabel}
+          renderYAxisLabel={renderYAxisLabel}
         />
       </CornerTooltipWrapper>
     </div>

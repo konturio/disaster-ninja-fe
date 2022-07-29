@@ -1,0 +1,23 @@
+.sublist {
+  vertical-align: top;
+
+  & .sublistRow {
+    padding: var(--double-unit) 0 var(--double-unit) 0;
+    max-height: 50px;
+
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    cursor: pointer;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  & .sublistRowSelected {
+    font-weight: bold;
+  }
+}

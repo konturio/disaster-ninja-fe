@@ -75,6 +75,7 @@ export function RoutedApp() {
 const { UserProfile } = lazily(() => import('~features/user_profile'));
 const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
+const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 const PAGE_TITLES_BY_ROUTE = {
@@ -123,6 +124,9 @@ const CommonRoutesFeatures = ({ userModel }: CommonRoutesFeaturesProps) => {
 
   return (
     <>
+      <Suspense fallback={null}>
+        {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
+      </Suspense>
       <Suspense fallback={null}>
         {userModel.hasFeature(AppFeature.HEADER) && (
           <AppHeader

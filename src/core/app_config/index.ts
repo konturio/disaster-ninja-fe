@@ -21,6 +21,7 @@ export interface AppConfig {
   INTERCOM_SELECTOR?: string;
   FEATURES_BY_DEFAULT: string[];
   DEFAULT_FEED: string;
+  DEFAULT_FEED_DESCRIPTION?: string;
 }
 
 declare global {
@@ -45,6 +46,7 @@ export default {
   layersByDefault: window.konturAppConfig.LAYERS_BY_DEFAULT,
   featuresByDefault: window.konturAppConfig.FEATURES_BY_DEFAULT,
   defaultFeed: window.konturAppConfig.DEFAULT_FEED,
+  defaultFeedDescription: window.konturAppConfig.DEFAULT_FEED_DESCRIPTION || '',
   keycloakUrl: window.konturAppConfig.KEYCLOAK_URL,
   keycloakRealm: window.konturAppConfig.KEYCLOAK_REALM,
   keycloakClientId: window.konturAppConfig.KEYCLOAK_CLIENT_ID,
