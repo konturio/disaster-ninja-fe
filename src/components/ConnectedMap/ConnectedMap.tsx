@@ -4,25 +4,7 @@ import { useAction, useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import Map from './map-libre-adapter';
-import DeckGl from './deck-gl';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
-import type { MapBoxMapProps } from './map-libre-adapter';
-import type { MapStyle } from '~core/types';
-
-const updatedMapStyle = (
-  mapStyle: MapStyle | undefined,
-  layers = [] as unknown,
-  sources = {},
-) => {
-  if (mapStyle) {
-    return {
-      ...mapStyle,
-      layers: (mapStyle.layers || []).concat(layers),
-      sources: sources || {},
-    };
-  }
-  return mapStyle;
-};
 
 // temporary set generic map class to mapbox map
 // todo: change mapbox map declaration to generic map later
@@ -43,13 +25,21 @@ export class ApplicationMapMarker extends mapLibre.Marker {
   }
 }
 
+const LAYERS_ON_TOP = [
+  'editable-layer',
+  'hovered-boundaries-layer',
+  'selected-boundaries-layer',
+];
+
 export function ConnectedMap({
   mapStyle,
-  markers,
-  // sources,
-  // dCheckBoundaries,
-  ...rest
-}: MapBoxMapProps) {
+  accessToken,
+  className,
+}: {
+  mapStyle: string | mapLibre.Style;
+  accessToken?: string;
+  className?: string;
+}) {
   const mapRef = useRef<ApplicationMap>();
   useMapPositionSmoothSync(mapRef);
 
@@ -119,21 +109,13 @@ export function ConnectedMap({
   }, [mapRef]);
 
   return (
-    <DeckGl layers={[]}>
-      {({ layers }) => (
-        <Map
-          ref={mapRef}
-          mapStyle={updatedMapStyle(mapStyle as any, layers, {})}
-          markers={markers}
-          onLoad={initLayersOrderManager}
-          layersOnTop={[
-            'editable-layer',
-            'hovered-boundaries-layer',
-            'selected-boundaries-layer',
-          ]}
-          {...rest}
-        />
-      )}
-    </DeckGl>
+    <Map
+      accessToken={accessToken}
+      ref={mapRef}
+      mapStyle={mapStyle}
+      onLoad={initLayersOrderManager}
+      layersOnTop={LAYERS_ON_TOP}
+      className={className}
+    />
   );
 }

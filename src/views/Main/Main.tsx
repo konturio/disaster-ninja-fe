@@ -131,11 +131,8 @@ export function MainView({ userModel }: MainViewProps) {
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
             <ConnectedMap
-              options={{
-                logoPosition: 'top-right',
-              }}
-              style={config.mapBaseStyle || ''}
-              accessToken={config.mapAccessToken || ''}
+              mapStyle={config.mapBaseStyle}
+              accessToken={config.mapAccessToken}
               className={s.Map}
             />
           </Suspense>

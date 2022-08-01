@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { appMetrics } from '~core/metrics';
 import { useMarkers } from './useMarkers';
 import { useArrayDiff } from './useArrayDiff';
 import type { Marker } from './types';
@@ -36,9 +35,8 @@ type MapStyle = Omit<mapLibre.Style, 'layers'> & {
 };
 
 export interface MapBoxMapProps {
-  accessToken: string;
-  style: string;
-  mapStyle?: MapStyle;
+  accessToken?: string;
+  mapStyle?: string | mapLibre.Style;
   className?: string;
   options?: Partial<MapboxOptions>;
   setMap?: any;
@@ -78,7 +76,6 @@ const EMPTY_FEATURE_COLLECTION = {
 function MapboxMap(
   {
     accessToken,
-    style: externalStyleLink, // initial style
     mapStyle = {
       version: 0,
     },
@@ -97,7 +94,7 @@ function MapboxMap(
   }: MapBoxMapProps,
   ref,
 ): React.ReactElement {
-  mapLibre.accessToken = accessToken;
+  mapLibre.accessToken = accessToken ?? '';
   const [map, setMap] = useState<Map | null>(null);
   const mapEl = useRef<HTMLDivElement | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -108,7 +105,7 @@ function MapboxMap(
     if (current === null) return;
     const mapInstance = new mapLibre.Map({
       container: current,
-      style: externalStyleLink,
+      style: mapStyle,
       ...options,
     });
 
@@ -125,8 +122,7 @@ function MapboxMap(
       ref.current = mapInstance;
     }
     setMap(mapInstance);
-    appMetrics.mark(appMetrics.loaded('feature.map'), mapInstance);
-  }, [mapEl, externalStyleLink, options, ref]);
+  }, [mapEl, mapStyle, options, ref]);
 
   /* On fit bounds effect */
   useEffect(() => {
