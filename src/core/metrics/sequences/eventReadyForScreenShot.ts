@@ -1,4 +1,3 @@
-import { add } from '@deck.gl/core/utils/range';
 import type { AppMetrics } from '../app-metrics';
 
 export function eventReadyForScreenShot(mtr: AppMetrics) {
