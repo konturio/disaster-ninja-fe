@@ -72,6 +72,20 @@ export function BivariateLegend({
   if (!legend) return null;
   if (!axis) return null;
 
+  let hints: LayerMeta['hints'] = meta?.hints;
+  if (legend.type === 'bivariate' && !hints) {
+    hints = {
+      y: {
+        label: axis.x.label,
+        direction: axis.x?.quotients?.[0]?.direction,
+      },
+      x: {
+        label: axis.y.label,
+        direction: axis.y?.quotients?.[0]?.direction,
+      },
+    };
+  }
+
   return (
     <div className={clsx(s.bivariateLegend, isHidden && s.hidden)}>
       {showDescription && (
@@ -86,7 +100,7 @@ export function BivariateLegend({
           </div>
         </div>
       )}
-      <CornerTooltipWrapper meta={meta}>
+      <CornerTooltipWrapper hints={hints}>
         <BiLegend
           showAxisLabels
           size={BIVARIATE_LEGEND_SIZE}
