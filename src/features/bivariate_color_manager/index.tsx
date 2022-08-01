@@ -6,9 +6,11 @@ import {
   BIVARIATE_COLOR_MANAGER_CONTROL_ID,
   BIVARIATE_COLOR_MANAGER_CONTROL_NAME,
 } from './constants';
-import type { History } from 'history';
+import type { useHistory } from 'react-router';
 
-export function initBivariateColorManagerIcon(history: History) {
+export function initBivariateColorManagerIcon(
+  history: ReturnType<typeof useHistory>,
+) {
   sideControlsBarAtom.addControl.dispatch({
     id: BIVARIATE_COLOR_MANAGER_CONTROL_ID,
     name: BIVARIATE_COLOR_MANAGER_CONTROL_NAME,
