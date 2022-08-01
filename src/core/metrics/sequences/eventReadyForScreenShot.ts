@@ -3,9 +3,9 @@ import type { AppMetrics } from '../app-metrics';
 export function eventReadyForScreenShot(mtr: AppMetrics) {
   mtr
     .addSequence('eventReadyForScreenShot')
-    .on(mtr.loaded('appConfig'))
+    .on('appConfig_loaded')
     .on('done_userResourceAtom')
-    .on(mtr.loaded('feature.map'), (ctx, map: maplibregl.Map) => {
+    .on('[Shared state] currentMapAtom_setMap', (ctx, map: maplibregl.Map) => {
       ctx.map = map;
     })
     .on('request_areaLayersDetailsResourceAtom', (ctx, payload) => {

@@ -23,11 +23,10 @@ function showCriticalError(e: Error) {
   }
 }
 
-appMetrics.mark(appMetrics.loading('appConfig'));
 loadConfig()
   .then(() => {
     import('./App');
-    appMetrics.mark(appMetrics.loaded('appConfig'));
+    appMetrics.mark('appConfig_loaded');
   })
   .catch((e: Error) => {
     console.error(e);

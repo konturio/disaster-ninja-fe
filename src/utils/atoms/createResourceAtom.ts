@@ -1,6 +1,5 @@
 import { isObject } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { appMetrics } from '~core/metrics';
 import type { Atom, AtomSelfBinded, Action } from '@reatom/core';
 
 export type ResourceAtom<P, T> = AtomSelfBinded<
@@ -87,7 +86,6 @@ function createResourceFetcherAtom<P, T>(
         newState.loading = true;
         newState.error = null;
         newState.canceled = false;
-        appMetrics.mark(appMetrics.loading(name), params);
         schedule(async (dispatch, ctx: ResourceCtx<P>) => {
           const version = (ctx.version ?? 0) + 1;
           ctx._refetchable = true;
@@ -162,7 +160,6 @@ function createResourceFetcherAtom<P, T>(
 
       onAction('error', (error) => (newState.error = error));
       onAction('done', (data) => {
-        appMetrics.mark(appMetrics.loaded(name), data);
         newState.data = data;
         newState.canceled = false;
         newState.nextParams = null;

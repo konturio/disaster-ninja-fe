@@ -35,21 +35,12 @@ export class AppMetrics {
   }
 
   processEvent(name: string, payload?: unknown) {
-    console.debug('processEvent', name); // eslint-disable-line
     this.sequences.forEach((s) => {
       s.update(name, payload);
       if (s.sequenceEnded) {
-        this.markers.push(new MetricMarker(this.loaded(s.name)));
+        this.markers.push(new MetricMarker(s.name + '_ended'));
         this.sequences.delete(s);
       }
     });
-  }
-
-  loaded(name: string) {
-    return name + '.loaded';
-  }
-
-  loading(name: string) {
-    return name + '.loading';
   }
 }
