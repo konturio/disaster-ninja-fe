@@ -24,6 +24,10 @@ export class Sequence {
     this.name = name;
   }
 
+  get activeStep() {
+    return this.steps[this.nextStepIndex];
+  }
+
   on(eventName: string | RegExp, handler?: SequenceStep['handler']) {
     this.steps.push({ eventName, handler });
     return this;
@@ -31,7 +35,7 @@ export class Sequence {
 
   update(eventName: string, eventPayload: unknown) {
     if (this.sequenceEnded) return;
-    const step = this.steps[this.nextStepIndex];
+    const step = this.activeStep;
     if (!step) return;
     if (
       typeof step.eventName === 'string'

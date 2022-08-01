@@ -1,3 +1,4 @@
+import { add } from '@deck.gl/core/utils/range';
 import type { AppMetrics } from '../app-metrics';
 
 export function eventReadyForScreenShot(mtr: AppMetrics) {
@@ -5,7 +6,7 @@ export function eventReadyForScreenShot(mtr: AppMetrics) {
     .addSequence('eventReadyForScreenShot')
     .on('appConfig_loaded')
     .on('done_userResourceAtom')
-    .on('[Shared state] currentMapAtom_setMap', (ctx, map: maplibregl.Map) => {
+    .on('setMap_[Shared state] currentMapAtom', (ctx, map: maplibregl.Map) => {
       ctx.map = map;
     })
     .on('request_areaLayersDetailsResourceAtom', (ctx, payload) => {

@@ -13,9 +13,13 @@ class MetricMarker {
 export class AppMetrics {
   markers: MetricMarker[] = [];
   private sequences: Set<Sequence> = new Set();
+  private eventLog: Set<string> = new Set();
 
   constructor() {
-    globalThis.kontur_markers = this.markers;
+    globalThis.KONTUR_METRICS = {
+      sequences: this.sequences,
+      events: this.eventLog,
+    };
   }
 
   addSequence(name: string) {
@@ -35,6 +39,7 @@ export class AppMetrics {
   }
 
   processEvent(name: string, payload?: unknown) {
+    this.eventLog.add(name);
     this.sequences.forEach((s) => {
       s.update(name, payload);
       if (s.sequenceEnded) {
