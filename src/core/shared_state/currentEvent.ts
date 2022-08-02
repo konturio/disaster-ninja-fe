@@ -1,6 +1,5 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from './focusedGeometry';
-import { currentEventFeedAtom } from './currentEventFeed';
 
 // * CurrentEventAtomState *
 // null represents the initial state of event - we need that state for cases of autoselecting event
@@ -14,7 +13,6 @@ export const currentEventAtom = createAtom(
     setCurrentEventId: (eventId: string | null) => eventId,
     resetCurrentEvent: () => null,
     focusedGeometryAtom,
-    currentEventFeedAtom,
   },
   ({ onAction, onChange }, state: CurrentEventAtomState = null) => {
     onChange('focusedGeometryAtom', (focusedGeometry) => {
