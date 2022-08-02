@@ -13,6 +13,10 @@ export const autoClearAtom = createAtom(
       schedule((dispatch) => {
         dispatch([hiddenLayersAtom.clear(), mountedLayersAtom.clear()]);
       });
+    } else {
+      schedule((dispatch) => {
+        dispatch(mountedLayersAtom.clear());
+      });
     }
   },
 );
