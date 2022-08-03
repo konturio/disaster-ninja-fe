@@ -2,12 +2,11 @@ import { cloneElement, isValidElement } from 'react';
 import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { TooltipWrapper } from '~components/Tooltip';
-import { joinAndCapitalizeItems } from '~utils/common';
+import { formatSentimentDirection } from '~utils/bivariate';
 import { CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';
 import type { ReactNode, PointerEvent } from 'react';
 import type { Cell } from '@konturio/ui-kit/tslib/Legend/types';
-import type { CornerRange } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { TooltipData } from '~core/shared_state/currentTooltip';
 
@@ -58,9 +57,6 @@ const isBottomCornerPoint = (cornerIndex: number): boolean =>
 
 const isLeftCornerPoint = (cornerIndex: number): boolean =>
   cornerIndex === 0 || cornerIndex === 2;
-
-const formatSentimentDirection = (direction: Array<CornerRange>): string =>
-  joinAndCapitalizeItems(direction);
 
 const LOW = `↓${i18n.t('bivariate.legend.low')}`;
 const HIGH = `↑${i18n.t('bivariate.legend.high')}`;

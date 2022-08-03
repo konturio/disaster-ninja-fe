@@ -31,3 +31,9 @@
     padding-bottom: 5px;
   }
 }
+
+.LegendDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
