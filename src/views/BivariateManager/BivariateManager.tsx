@@ -10,6 +10,7 @@ import {
   fadeClassNames,
 } from '~features/bivariate_color_manager/components/CssTransitionWrapper/CssTransitionWrapper';
 import s from './BivariateManager.module.css';
+import type { LayerSelectionFull } from '~features/bivariate_color_manager/components/LegendWithMap/LegendWithMap';
 
 export function BivariateManagerPage() {
   const [{ data, layersSelection }, { setLayersSelection }] = useAtom(
@@ -19,7 +20,7 @@ export function BivariateManagerPage() {
   const selectedData =
     data && layersSelection?.key ? data[layersSelection.key] : null;
   const fullSelection =
-    layersSelection?.horizontal && layersSelection?.vertical && data;
+    layersSelection?.horizontal && layersSelection?.vertical;
 
   return (
     <div className={s.pageContainer}>
@@ -52,9 +53,9 @@ export function BivariateManagerPage() {
         >
           {(ref) => (
             <div ref={ref}>
-              {layersSelection && selectedData && fullSelection && (
+              {selectedData && fullSelection && (
                 <LegendWithMap
-                  layersSelection={layersSelection}
+                  layersSelection={layersSelection as LayerSelectionFull}
                   selectedData={selectedData}
                 />
               )}

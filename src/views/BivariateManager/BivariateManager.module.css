@@ -2,6 +2,8 @@
   height: 100%;
   width: 100%;
   display: flex;
+  min-width: 845px;
+  overflow-x: auto;
 }
 
 .Nav,
@@ -33,6 +35,7 @@
   border: 1px solid var(--faint-weak);
   border-width: 0px 1px 0px 1px;
   flex-direction: column;
+  min-width: 440px;
 }
 
 .ListBody {

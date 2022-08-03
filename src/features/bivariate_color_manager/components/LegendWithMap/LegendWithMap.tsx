@@ -2,15 +2,24 @@ import clsx from 'clsx';
 import { Text } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { BivariateLegend as BivariateLegendComponent } from '~components/BivariateLegend/BivariateLegend';
-import { joinAndCapitalizeItems } from '~utils/common';
+import { formatSentimentDirection } from '~utils/bivariate';
 import s from './LegendWithMap.module.css';
-import type { BivariateColorManagerDataValue } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
-import type { LayerSelectionInput } from '~features/bivariate_color_manager/atoms/bivariateColorManager';
+import { LegendDetails } from './LegendDetails';
+import type {
+  BivariateColorManagerDataValue,
+  TableDataValue,
+} from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
 import type { Axis } from '~utils/bivariate';
+
+export type LayerSelectionFull = {
+  key: string;
+  vertical: TableDataValue;
+  horizontal: TableDataValue;
+};
 
 export type LegendWithMapProps = {
   selectedData: BivariateColorManagerDataValue;
-  layersSelection: LayerSelectionInput;
+  layersSelection: LayerSelectionFull;
 };
 
 export const LegendWithMap = ({
@@ -19,6 +28,8 @@ export const LegendWithMap = ({
 }: LegendWithMapProps) => {
   const { legend, directions } = selectedData;
   const { horizontal, vertical } = layersSelection;
+  const verticalMostQualityDenominator = vertical?.mostQualityDenominator;
+  const horizontalMostQualityDenominator = horizontal?.mostQualityDenominator;
   const horizontalLabel = horizontal?.label;
   const verticalLabel = vertical?.label;
 
@@ -39,7 +50,7 @@ export const LegendWithMap = ({
     <div className={clsx(rootClassName, s.xAxisLabel)}>
       <div className={s.axisDirectionLabel}>
         {directions.horizontal.map((direction, i) => (
-          <div key={i}>{joinAndCapitalizeItems(direction)}</div>
+          <div key={i}>{formatSentimentDirection(direction)}</div>
         ))}
       </div>
       {horizontalLabel}
@@ -51,7 +62,7 @@ export const LegendWithMap = ({
       {verticalLabel}
       <div className={s.axisDirectionLabel}>
         {directions.vertical.map((direction, i) => (
-          <div key={i}>{joinAndCapitalizeItems(direction)}</div>
+          <div key={i}>{formatSentimentDirection(direction)}</div>
         ))}
       </div>
     </div>
@@ -70,6 +81,19 @@ export const LegendWithMap = ({
         renderXAxisLabel={renderXAxisLabel}
         renderYAxisLabel={renderYAxisLabel}
       />
+
+      <div className={s.LegendDetailsContainer}>
+        <LegendDetails
+          label={verticalLabel}
+          mostQualityDenominator={verticalMostQualityDenominator}
+          direction={directions.vertical}
+        />
+        <LegendDetails
+          label={horizontalLabel}
+          mostQualityDenominator={horizontalMostQualityDenominator}
+          direction={directions.horizontal}
+        />
+      </div>
     </div>
   );
 };

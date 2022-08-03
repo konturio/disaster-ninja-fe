@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import React, { memo, useState } from 'react';
-import { joinAndCapitalizeItems, sortByKey } from '~utils/common';
+import { sortByKey } from '~utils/common';
 import { i18n } from '~core/localization';
 import { MiniLegend } from '~features/bivariate_color_manager/components/MiniLegend/MiniLegend';
 import { invertClusters } from '~utils/bivariate';
+import { convertDirectionsArrayToLabel } from '~utils/bivariate';
 import { CombinationsSublist } from './CombinationsSublist';
 import s from './SentimentsCombinationsList.module.css';
 import type { BivariateColorManagerData } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
@@ -28,11 +29,6 @@ type SentimentsCombinationsListProps = {
 };
 
 const sortDescendingByMaps = sortByKey<Row>('maps', 'desc');
-
-const convertDirectionsArrayToLabel = (directions: string[][]) => {
-  const [from = '', to = ''] = directions;
-  return `${joinAndCapitalizeItems(from)} → ${joinAndCapitalizeItems(to)}`;
-};
 
 const columns = [
   { title: i18n.t('Legend'), className: s.centered },
