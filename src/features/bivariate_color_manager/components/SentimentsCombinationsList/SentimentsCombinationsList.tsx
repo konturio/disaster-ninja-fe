@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
+import { EyeOff24 } from '@konturio/default-icons';
 import { sortByKey } from '~utils/common';
 import { i18n } from '~core/localization';
 import { MiniLegend } from '~features/bivariate_color_manager/components/MiniLegend/MiniLegend';
@@ -26,6 +27,9 @@ type SentimentsCombinationsListProps = {
   data: BivariateColorManagerData;
   setLayersSelection: (input: LayerSelectionInput) => void;
   layersSelection: BivariateColorManagerAtomState['layersSelection'];
+  setSelectedRows: (key: string) => void;
+  selectedRows: BivariateColorManagerAtomState['selectedRows'];
+  anyFilterActivated: boolean;
 };
 
 const sortDescendingByMaps = sortByKey<Row>('maps', 'desc');
@@ -42,11 +46,10 @@ const SentimentsCombinationsList = memo(
     data,
     setLayersSelection,
     layersSelection,
+    setSelectedRows,
+    selectedRows,
+    anyFilterActivated = false,
   }: SentimentsCombinationsListProps) => {
-    const [selectedRowKeys, setSelectedRowKeys] = useState<{
-      [key: string]: boolean;
-    }>({});
-
     const rows: Row[] = Object.entries(data)
       .map(([key, value]) => {
         const { maps, legend } = value;
@@ -79,52 +82,70 @@ const SentimentsCombinationsList = memo(
         </thead>
 
         <tbody>
-          {rows.map(({ key, legend, maps, verticalLabel, horizontalLabel }) => {
-            const rowSelected = selectedRowKeys[key];
-            const selectRow = () =>
-              setSelectedRowKeys({
-                ...selectedRowKeys,
-                [key]: !selectedRowKeys[key],
-              });
+          {rows.length === 0
+            ? showEmptyResultsTable(anyFilterActivated)
+            : rows.map(
+                ({ key, legend, maps, verticalLabel, horizontalLabel }) => {
+                  const rowSelected = selectedRows[key];
+                  const selectRow = () => setSelectedRows(key);
 
-            let layersSelectionData;
-            if (layersSelection?.key === key)
-              layersSelectionData = layersSelection;
+                  let layersSelectionData;
+                  if (layersSelection?.key === key)
+                    layersSelectionData = layersSelection;
 
-            return (
-              <React.Fragment key={key}>
-                <tr
-                  onClick={selectRow}
-                  className={clsx(s.rowSelectable, rowSelected && s.rowSeleted)}
-                >
-                  <td>
-                    <div className={s.legendWrapper}>
-                      {legend && (
-                        <MiniLegend
-                          legend={invertClusters(legend.steps, 'label')}
-                        />
-                      )}
-                    </div>
-                  </td>
-                  <td className={s.centered}>{maps}</td>
-                  <td className={s.label}>{verticalLabel}</td>
-                  <td className={s.label}>{horizontalLabel}</td>
-                </tr>
+                  return (
+                    <React.Fragment key={key}>
+                      <tr
+                        onClick={selectRow}
+                        className={clsx(
+                          s.rowSelectable,
+                          rowSelected && s.rowSeleted,
+                        )}
+                      >
+                        <td>
+                          <div className={s.legendWrapper}>
+                            {legend && (
+                              <MiniLegend
+                                legend={invertClusters(legend.steps, 'label')}
+                              />
+                            )}
+                          </div>
+                        </td>
+                        <td className={s.centered}>{maps}</td>
+                        <td className={s.label}>{verticalLabel}</td>
+                        <td className={s.label}>{horizontalLabel}</td>
+                      </tr>
 
-                <CombinationsSublist
-                  open={rowSelected}
-                  rowData={data[key]}
-                  rowKey={key}
-                  setLayersSelection={setLayersSelection}
-                  layersSelection={layersSelectionData}
-                />
-              </React.Fragment>
-            );
-          })}
+                      <CombinationsSublist
+                        open={rowSelected}
+                        rowData={data[key]}
+                        rowKey={key}
+                        setLayersSelection={setLayersSelection}
+                        layersSelection={layersSelectionData}
+                      />
+                    </React.Fragment>
+                  );
+                },
+              )}
         </tbody>
       </table>
     );
   },
+);
+
+const showEmptyResultsTable = (anyFilterActivated: boolean) => (
+  <tr className={s.emptyResults}>
+    <td width="100%">
+      {anyFilterActivated ? (
+        <>
+          <EyeOff24 />
+          {i18n.t('There are no legends satisfying the conditions.')}
+        </>
+      ) : (
+        i18n.t('No data.')
+      )}
+    </td>
+  </tr>
 );
 
 SentimentsCombinationsList.displayName = 'SentimentsCombinationsList';

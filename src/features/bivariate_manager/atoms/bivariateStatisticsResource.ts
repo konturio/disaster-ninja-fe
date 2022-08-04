@@ -5,7 +5,7 @@ import {
   createBivariateGraphQLQuery,
   isGeometryEmpty,
 } from '~features/bivariate_manager/utils/createBivariateGraphQLQuery';
-import { parseGraphQLErrors } from '~features/bivariate_manager/utils/parseGraphQLErrors';
+import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { isApiError } from '~core/api_client/apiClientError';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 
