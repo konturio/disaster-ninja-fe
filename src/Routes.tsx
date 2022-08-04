@@ -116,7 +116,7 @@ const CommonRoutesFeatures = ({ userModel }: CommonRoutesFeaturesProps) => {
       currentApplicationAtom.init.dispatch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pathname]);
 
   const headerTitle = getHeaderTitle(pathname);
 
