@@ -1,10 +1,10 @@
 import { createResourceAtom } from '~utils/atoms';
 import { graphQlClient } from '~core/apiClientInstance';
-import { createBivariateColorsGraphQLQuery } from '~features/bivariate_manager/utils/createBivariateGraphQLQuery';
-import { parseGraphQLErrors } from '~features/bivariate_manager/utils/parseGraphQLErrors';
 import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { isApiError } from '~core/api_client/apiClientError';
 import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
+import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
+import { createBivariateColorsGraphQLQuery } from '../utils/createBivariateColorsGraphQLQuery';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 import type { Direction, Indicator } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
@@ -205,7 +205,11 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
           {},
         );
 
-      return bivariateColorManagerData;
+      const sortedIndicators = indicators
+        .filter((item) => item.name !== 'one') // as 'one' doesn't participate in layers intersections (correlationRates)
+        .sort((a, b) => (a.label > b.label ? 1 : -1));
+
+      return { bivariateColorManagerData, indicators: sortedIndicators };
     }
 
     function canceller() {

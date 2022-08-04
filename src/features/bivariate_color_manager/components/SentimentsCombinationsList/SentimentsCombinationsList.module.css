@@ -49,4 +49,26 @@
   & .rowSelectable {
     cursor: pointer;
   }
+
+  & .emptyResults {
+    position: relative;
+    height: 93px;
+
+    & td {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    & svg {
+      color: var(--faint-strong);
+    }
+  }
 }
