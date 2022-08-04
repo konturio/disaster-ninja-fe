@@ -8,8 +8,8 @@ import type { PrimitiveAtom } from '@reatom/core/primitives';
 import type { AtomOptions } from '@reatom/core';
 
 const addStoreInOptions = (options) => ({
-  ...(typeof options === 'string' ? { id: options } : options),
   store,
+  ...(typeof options === 'string' ? { id: options } : options),
 });
 
 export const createAtom: typeof createAtomOriginal = (deps, reducer, options) =>
