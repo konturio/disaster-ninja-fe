@@ -1,4 +1,5 @@
 import { isObject } from '@reatom/core';
+import { memo } from '@reatom/core/experiments/memo';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { isApiError } from '~core/api_client/apiClientError';
 import type { Atom, AtomSelfBinded, Action } from '@reatom/core';
@@ -173,11 +174,12 @@ function createResourceFetcherAtom<P, T>(
 
       // Significant reduce renders count
       // Replace it with memo decorator if it cause of bugs
-      return state.loading === true && newState.loading === true
-        ? state
-        : newState;
+      return newState;
     },
-    name,
+    {
+      id: name,
+      decorators: [memo()],
+    },
   );
 }
 
