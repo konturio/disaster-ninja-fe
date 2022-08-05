@@ -22,15 +22,17 @@ export const eventListResourceAtom = createResourceAtom(
 
     const responseData =
       (await apiClient.get<Event[]>('/events/', params, true)) ?? [];
+
     if (responseData.length === 0) {
-      throw params.bbox
-        ? new Error('No disasters in this area')
-        : new Error('No disasters');
+      if (params.bbox) throw new Error('No disasters in this area');
+      if (params.feed) throw new Error('No disasters in this feed');
+      throw new Error('No disasters');
     }
+
     return responseData;
   },
-  depsAtom,
   'eventListResource',
+  depsAtom,
 );
 
 autoRefreshService.addWatcher('eventList', eventListResourceAtom);

@@ -3,9 +3,9 @@ import { sideControlsBarAtom } from '~core/shared_state';
 import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
 import { i18n } from '~core/localization';
 import { REPORTS_CONTROL_ID, REPORTS_CONTROL_NAME } from './constants';
-import type { History } from 'history';
+import type { useHistory } from 'react-router';
 
-export function initReportsIcon(history: History) {
+export function initReportsIcon(history: ReturnType<typeof useHistory>) {
   sideControlsBarAtom.addControl.dispatch({
     id: REPORTS_CONTROL_ID,
     name: REPORTS_CONTROL_NAME,

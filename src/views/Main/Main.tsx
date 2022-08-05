@@ -2,7 +2,6 @@ import { Suspense, useEffect, useRef } from 'react';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
 import { Row } from '~components/Layout/Layout';
-import config from '~core/app_config';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager';
@@ -130,14 +129,7 @@ export function MainView({ userModel }: MainViewProps) {
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
-            <ConnectedMap
-              options={{
-                logoPosition: 'top-right',
-              }}
-              style={config.mapBaseStyle || ''}
-              accessToken={config.mapAccessToken || ''}
-              className={s.Map}
-            />
+            <ConnectedMap className={s.Map} />
           </Suspense>
           <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />

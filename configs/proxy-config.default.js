@@ -8,6 +8,6 @@ export default {
   '/tiles/stats': 'https://disaster.ninja',
   /* For Active contributors  */
   '/tiles/users': 'https://disaster.ninja',
-  /* Hot activatiions */
+  /* Hot activations */
   '/tiles/public.hot_projects': 'https://disaster.ninja',
 };

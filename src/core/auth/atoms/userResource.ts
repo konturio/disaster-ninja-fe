@@ -124,6 +124,6 @@ export const userResourceAtom = createResourceAtom<
     const udm = new UserDataModel({ features, feeds });
     return udm;
   },
-  userResourceRequestParamsAtom,
   'userResourceAtom',
+  userResourceRequestParamsAtom,
 );

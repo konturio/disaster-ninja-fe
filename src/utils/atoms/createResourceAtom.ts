@@ -86,7 +86,6 @@ function createResourceFetcherAtom<P, T>(
         newState.loading = true;
         newState.error = null;
         newState.canceled = false;
-
         schedule(async (dispatch, ctx: ResourceCtx<P>) => {
           const version = (ctx.version ?? 0) + 1;
           ctx._refetchable = true;
@@ -119,7 +118,6 @@ function createResourceFetcherAtom<P, T>(
               if (ctx.canceller) {
                 ctx.canceller = undefined;
               }
-
               requestAction = create('done', response);
             }
           } catch (e: any) {
@@ -197,13 +195,12 @@ export type ResourceAtomType<P, T> = AtomSelfBinded<
   }
 >;
 
-let resourceAtomIndex = 0;
 const voidCallback = () => null;
 
 export function createResourceAtom<P, T>(
   fetcher: FetcherFunc<P, T> | FetcherFabric<P, T>,
+  name: string,
   paramsAtom?: Atom<P> | ResourceAtom<any, any> | null,
-  name = `Resource-${resourceAtomIndex++}`,
   isLazy = false,
 ): ResourceAtomType<P, T> {
   let resourceFetcherAtom: ResourceAtomType<P, T>;

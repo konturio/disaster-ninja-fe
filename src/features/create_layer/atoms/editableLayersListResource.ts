@@ -43,6 +43,6 @@ export const editableLayersListResource = createResourceAtom(
     /* Performance optimization - editable layers updated in create_layer feature */
     return responseData.filter((l) => l.group === EDITABLE_LAYERS_GROUP);
   },
-  editableLayersListDependencyAtom,
   'editableLayersListResource',
+  editableLayersListDependencyAtom,
 );
