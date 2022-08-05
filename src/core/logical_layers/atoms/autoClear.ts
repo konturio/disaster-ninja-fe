@@ -7,12 +7,12 @@ export const autoClearAtom = createAtom(
   {
     currentMapAtom,
   },
-  ({ get, schedule }) => {
-    const currentMap = get('currentMapAtom');
-    if (currentMap === null) {
+  ({ onChange, schedule }) => {
+    onChange('currentMapAtom', (currentMap, prevMap) => {
+      if (!prevMap) return;
       schedule((dispatch) => {
         dispatch([hiddenLayersAtom.clear(), mountedLayersAtom.clear()]);
       });
-    }
+    });
   },
 );

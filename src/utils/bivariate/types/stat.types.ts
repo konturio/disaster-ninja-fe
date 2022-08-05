@@ -18,11 +18,17 @@ export type Step = {
 };
 
 /* Divisor and denominator pair */
-export type Quotient = [string, string];
+export type Quotient = [string, string]; // this field will be removed in next tickets, only Quotients will stay
+export type Quotients = {
+  name: string;
+  label: string;
+  direction: Direction;
+};
 
 export type Axis = {
   steps: Step[];
   quotient: Quotient;
+  quotients?: Quotients[];
   quality?: number;
   parent?: Quotient;
   label?: string;

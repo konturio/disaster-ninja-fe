@@ -7,19 +7,18 @@ import { CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';
 import type { ReactNode, PointerEvent } from 'react';
 import type { Cell } from '@konturio/ui-kit/tslib/Legend/types';
-import type { BivariateLegendProps } from './BivariateLegend';
 import type { CornerRange } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { TooltipData } from '~core/shared_state/currentTooltip';
 
 export type CornerTooltipWrapperProps = {
-  meta: BivariateLegendProps['meta'];
+  hints: LayerMeta['hints'];
   children: ReactNode;
 };
 
 const CornerTooltipWrapper = ({
   children,
-  meta,
+  hints,
 }: CornerTooltipWrapperProps) => {
   const renderTooltip = (
     e: PointerEvent<Element>,
@@ -28,12 +27,12 @@ const CornerTooltipWrapper = ({
     i: number,
   ) => {
     const cornerIndex = CORNER_POINTS_INDEXES.indexOf(i);
-    if (meta?.hints && cornerIndex >= 0) {
+    if (hints && cornerIndex >= 0) {
       setTooltip({
         popup: (
           <BivariateLegendCornerTooltip
             cornerIndex={cornerIndex}
-            hints={meta.hints}
+            hints={hints}
           />
         ),
         position: { x: e.clientX, y: e.clientY },
