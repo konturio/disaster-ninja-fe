@@ -1,5 +1,6 @@
 import { isObject } from '@reatom/core';
 import { createAtom } from '~utils/atoms/createPrimitives';
+import { isApiError } from '~core/api_client/apiClientError';
 import type { Atom, AtomSelfBinded, Action } from '@reatom/core';
 
 export type ResourceAtom<P, T> = AtomSelfBinded<
@@ -110,7 +111,14 @@ function createResourceFetcherAtom<P, T>(
               const { processor, canceller, allowCancel } = fetcherResult;
               ctx.canceller = canceller;
               ctx.allowCancel = allowCancel || Boolean(canceller);
-              response = await processor();
+              try {
+                response = await processor();
+              } catch (e) {
+                if (isApiError(e) && e.problem.kind === 'canceled') {
+                  return;
+                }
+                throw e;
+              }
             } else {
               response = await fetcherResult;
             }
@@ -151,10 +159,7 @@ function createResourceFetcherAtom<P, T>(
       });
 
       onAction('cancel', (nextParams) => {
-        newState.loading = false;
-        newState.error = null;
         newState.canceled = true;
-        newState.data = null;
         newState.nextParams = nextParams;
       });
 
