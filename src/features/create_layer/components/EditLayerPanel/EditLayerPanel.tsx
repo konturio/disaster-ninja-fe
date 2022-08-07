@@ -15,7 +15,9 @@ import s from './EditLayerPanel.module.css';
 import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
 
 export function EditLayerPanel() {
-  const [createLayerState, { save }] = useAtom(editableLayerControllerAtom);
+  const [createLayerState, { saveLayer }] = useAtom(
+    editableLayerControllerAtom,
+  );
   const disableSideBarControl = useAction(
     () => sideControlsBarAtom.disable(CREATE_LAYER_CONTROL_ID),
     [],
@@ -53,7 +55,7 @@ export function EditLayerPanel() {
               return (
                 <EditLayerForm
                   data={data as LayerEditorFormAtomType}
-                  onSave={save}
+                  onSave={saveLayer}
                   onCancel={onPanelClose}
                 />
               );
