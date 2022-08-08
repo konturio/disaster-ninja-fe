@@ -52,6 +52,11 @@ code {
   }
 }
 
+/* Map scale control */
+.mapboxgl-ctrl-bottom-right {
+  display: flex;
+}
+
 .intercom-launcher-frame,
 .intercom-lightweight-app-launcher {
   transform: scale(0.8) !important;
