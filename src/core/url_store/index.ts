@@ -1,5 +1,9 @@
 import { urlStoreAtom } from './atoms/urlStore';
 
+let wasStarted = false;
 export const initUrlStore = () => {
-  urlStoreAtom.subscribe(() => null);
+  if (!wasStarted) {
+    urlStoreAtom.subscribe(() => null);
+    wasStarted = true;
+  }
 };
