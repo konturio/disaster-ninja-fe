@@ -48,6 +48,20 @@ export const createFocusedGeometrySourceAtom = (sourceId: string) =>
             '[focused_geometry_layer]: Only FeatureCollection and Feature supported ',
           );
         }
+      } else {
+        schedule((dispatch) => {
+          const focusedLayerSource = createGeoJSONLayerSource(sourceId, {
+            type: 'FeatureCollection',
+            features: [],
+          });
+
+          dispatch(
+            layersSourcesAtom.set(
+              sourceId,
+              createAsyncWrapper(focusedLayerSource),
+            ),
+          );
+        });
       }
     },
   );
