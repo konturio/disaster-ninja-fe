@@ -11,12 +11,13 @@ export const currentEventAutoFocusAtom = createAtom(
     currentEventGeometryAtom,
     map: currentMapAtom,
   },
-  ({ onChange, get, schedule }) => {
+  ({ onChange, get, schedule, getUnlistedState }) => {
     onChange(
       'currentEventGeometryAtom',
       (currentEventGeometry, lastEventGeometry) => {
         if (currentEventGeometry === null) return;
-        if (scheduledAutoFocus === false) return;
+        const autoFocusWasScheduled = getUnlistedState(scheduledAutoFocus);
+        if (autoFocusWasScheduled === false) return;
         if (currentEventGeometry?.eventId !== lastEventGeometry?.eventId) {
           const map = get('map');
           const geometryCamera = getCameraForGeometry(

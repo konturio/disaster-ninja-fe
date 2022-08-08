@@ -1,6 +1,9 @@
 import { createAtom } from '~utils/atoms';
 import { currentEventAtom } from '~core/shared_state';
-import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
+import {
+  scheduledAutoFocus,
+  scheduledAutoSelect,
+} from '~core/shared_state/currentEvent';
 import { eventListResourceAtom } from './eventListResource';
 
 export const autoSelectEvent = createAtom(
@@ -28,6 +31,7 @@ export const autoSelectEvent = createAtom(
           schedule((dispatch) => {
             dispatch([
               scheduledAutoSelect.setFalse(),
+              scheduledAutoFocus.setTrue(),
               currentEventAtom.setCurrentEventId(firstEventInList.eventId),
             ]);
           });
