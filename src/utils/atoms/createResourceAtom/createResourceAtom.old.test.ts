@@ -1,6 +1,6 @@
 import { expect, test, describe, vi } from 'vitest';
-import { createBooleanAtom, createPrimitiveAtom } from './createPrimitives';
-import { createResourceAtom } from './createResourceAtom';
+import { createBooleanAtom, createPrimitiveAtom } from '../createPrimitives';
+import { createResourceAtom } from './createResourceAtom.old';
 
 const wait = (sec: number) => new Promise((res) => setTimeout(res, sec * 1000));
 const waitCallbackBeenCalled = (fn) => {
