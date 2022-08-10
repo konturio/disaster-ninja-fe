@@ -374,6 +374,16 @@ function MapboxMap(
     });
   }, [map, mapLoaded]);
 
+  /* Deck GL cursor updates */
+  useEffect(() => {
+    if (!map || !mapLoaded) return;
+    const scale = new mapLibre.ScaleControl({
+      maxWidth: 120,
+      unit: 'metric',
+    });
+    map.addControl(scale, 'bottom-right');
+  }, [map, mapLoaded]);
+
   return <div className={className} ref={mapEl} />;
 }
 
