@@ -97,13 +97,6 @@ export function EventsListPanel({
     };
   }, []);
 
-  useEffect(() => {
-    if (!eventsList?.length && !loading) disable(EVENT_LIST_CONTROL_ID);
-    else if (!wasClosed && !isMobile) {
-      enable(EVENT_LIST_CONTROL_ID);
-    }
-  }, [eventsList, loading]);
-
   return (
     <Panel
       header={<Text type="heading-l">{i18n.t('Disasters')}</Text>}

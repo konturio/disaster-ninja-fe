@@ -11,25 +11,37 @@ const depsAtom = combineAtoms({
 });
 
 export const eventListResourceAtom = createResourceAtom(
-  async (deps) => {
-    const params: {
-      feed?: string;
-      bbox?: string;
-    } = {
-      feed: deps?.currentFeed?.id,
-      bbox: deps?.filters.bbox?.join(','),
-    };
+  (deps) => {
+    const abortController = new AbortController();
+    async function processor() {
+      const params: {
+        feed?: string;
+        bbox?: string;
+      } = {
+        feed: deps?.currentFeed?.id,
+        bbox: deps?.filters.bbox?.join(','),
+      };
 
-    const responseData =
-      (await apiClient.get<Event[]>('/events/', params, true)) ?? [];
+      const responseData =
+        (await apiClient.get<Event[]>('/events/', params, true, {
+          signal: abortController.signal,
+          errorsConfig: { dontShowErrors: true },
+        })) ?? ([] as Event[]);
 
-    if (responseData.length === 0) {
-      if (params.bbox) throw new Error('No disasters in this area');
-      if (params.feed) throw new Error('No disasters in this feed');
-      throw new Error('No disasters');
+      if (responseData.length === 0) {
+        if (params.bbox) throw new Error('No disasters in this area');
+        if (params.feed) throw new Error('No disasters in this feed');
+        throw new Error('No disasters');
+      }
+
+      return responseData;
     }
 
-    return responseData;
+    function canceller() {
+      abortController.abort();
+    }
+
+    return { processor, canceller };
   },
   'eventListResource',
   depsAtom,
