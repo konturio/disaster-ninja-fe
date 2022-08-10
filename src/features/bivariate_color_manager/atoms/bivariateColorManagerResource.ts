@@ -253,3 +253,16 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
   null,
   true,
 );
+
+const fillLayersWithCorrelationLevel = (
+  bivariateColorManagerData: BivariateColorManagerData,
+  numeratorCorellationMap: NumeratorCorellationMap,
+): void => {
+  Object.values(bivariateColorManagerData).forEach((row) => {
+    [...Object.values(row.horizontal), ...Object.values(row.vertical)].forEach(
+      (layer) => {
+        layer.correlationLevel = numeratorCorellationMap[layer.name] || 0;
+      },
+    );
+  });
+};
