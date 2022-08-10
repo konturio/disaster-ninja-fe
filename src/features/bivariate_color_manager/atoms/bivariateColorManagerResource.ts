@@ -13,7 +13,7 @@ import type { LayerMeta } from '~core/logical_layers/types/meta';
 export type TableDataValue = {
   label: string;
   name: string;
-  quality?: number;
+  correlationLevel?: number;
   mostQualityDenominator?: string;
 };
 
@@ -38,12 +38,26 @@ export type BivariateColorManagerData = {
 };
 
 type IndicatorsMap = { [key: string]: Indicator };
+export type NumeratorCorellationMap = { [key: string]: number | undefined };
 
 type AxisNominatorQualityMap = {
   [numerator: string]: [denominator: string, quality: number];
 };
 
 const abortControllers: AbortController[] = [];
+
+const fillLayersWithCorrelationLevel = (
+  bivariateColorManagerData: BivariateColorManagerData,
+  numeratorCorellationMap: NumeratorCorellationMap,
+): void => {
+  Object.values(bivariateColorManagerData).forEach((row) => {
+    [...Object.values(row.horizontal), ...Object.values(row.vertical)].forEach(
+      (layer) => {
+        layer.correlationLevel = numeratorCorellationMap[layer.name] || 0;
+      },
+    );
+  });
+};
 
 export const bivariateColorManagerResourceAtom = createResourceAtom(
   () => {
@@ -120,16 +134,22 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
         numenator: string,
       ): string | undefined => axisNominatorQualityMap?.[numenator]?.[0];
 
+      const numeratorCorellationMap: NumeratorCorellationMap = {};
+
       const bivariateColorManagerData =
         correlationRates.reduce<BivariateColorManagerData>(
           (acc, correlationRate) => {
-            const quality = correlationRate.avgCorrelationY;
             const xQuotientNumerator = correlationRate.x.quotient[0];
             const yQuotientNumerator = correlationRate.y.quotient[0];
 
             // x - for vertical, y - for horizontal
             const xQuotientIndicator = indicatorsMap[xQuotientNumerator];
             const yQuotientIndicator = indicatorsMap[yQuotientNumerator];
+
+            // fill numeratorCorellationMap with correllation by layer for sorting sublists
+            // avgCorrelationY is by Y, so we associate it with yQuotientIndicator
+            numeratorCorellationMap[yQuotientIndicator.name] =
+              correlationRate.avgCorrelationY;
 
             const key = JSON.stringify({
               vertical: xQuotientIndicator.direction,
@@ -184,7 +204,6 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
               acc[key].vertical[xQuotientIndicator.name] = {
                 label: xQuotientIndicator.label,
                 name: xQuotientIndicator.name,
-                quality,
                 mostQualityDenominator,
               };
             }
@@ -195,7 +214,6 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
               acc[key].horizontal[yQuotientIndicator.name] = {
                 label: yQuotientIndicator.label,
                 name: yQuotientIndicator.name,
-                quality,
                 mostQualityDenominator,
               };
             }
@@ -205,11 +223,19 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
           {},
         );
 
+      fillLayersWithCorrelationLevel(
+        bivariateColorManagerData,
+        numeratorCorellationMap,
+      );
+
       const sortedIndicators = indicators
         .filter((item) => item.name !== 'one') // as 'one' doesn't participate in layers intersections (correlationRates)
         .sort((a, b) => (a.label > b.label ? 1 : -1));
 
-      return { bivariateColorManagerData, indicators: sortedIndicators };
+      return {
+        bivariateColorManagerData,
+        indicators: sortedIndicators,
+      };
     }
 
     function canceller() {

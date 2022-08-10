@@ -21,7 +21,10 @@ type SentimentsCombinationsListProps = {
   layersSelection: BivariateColorManagerAtomState['layersSelection'];
 };
 
-const sortDescendingByQuality = sortByKey<TableDataValue>('quality', 'desc');
+const sortDescendingByQuality = sortByKey<TableDataValue>(
+  'correlationLevel',
+  'desc',
+);
 
 type SublistProps = {
   open: boolean;
