@@ -90,6 +90,13 @@
   margin-top: 16px;
 }
 
+.registerContainter {
+  margin: var(--unit) auto 0 auto;
+  & a {
+    color: var(--accent-strong);
+  }
+}
+
 .loginButtonContainer {
   margin-top: 24px;
 }

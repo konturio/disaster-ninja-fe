@@ -142,6 +142,14 @@ export function LoginForm() {
           <div className={s.errorMessageContainer}>{error.general}</div>
         )}
         {/*<div className={clsx(s.link, s.forgotPasswordContainer)}>{i18n.t('Forgot password?')}</div>*/}
+        <div className={clsx(s.link, s.registerContainter)}>
+          <a
+            href="https://www.kontur.io/portfolio/event-feed-draft/#publicfeed"
+            target="_blank" rel="noreferrer"
+          >
+            {i18n.t('Register')}
+          </a>
+        </div>
         <div className={s.loginButtonContainer}>
           <Button onClick={onLoginClick} className={s.loginButton}>
             {i18n.t('Log in')}
