@@ -12,7 +12,7 @@ import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { layerByOrder } from '~utils/map/layersOrder';
-import { waitMapEvent } from '~utils/map/waitMapEvent';
+import { mapLoaded } from '~utils/map/waitMapEvent';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import {
   addZoomFilter,
@@ -258,13 +258,15 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   isGeoJSONLayer = (layer: LayerSource): layer is LayerGeoJSONSource =>
     layer.source.type === 'geojson';
 
-  private _updateMap(
+  private async _updateMap(
     map: ApplicationMap,
     layerData: LayerSource,
     legend: LayerLegend | null,
     isVisible: boolean,
   ) {
     if (layerData == null) return;
+    await mapLoaded(map);
+
     if (this.isGeoJSONLayer(layerData)) {
       this.mountGeoJSONLayer(map, layerData, legend);
     } else {
@@ -386,16 +388,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  async willMount({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
-      // this case happens after userprofile change resets most of the app
-      !map.loaded() && (await waitMapEvent(map, 'load'));
       this._updateMap(map, state.source, state.legend, state.isVisible);
     }
   }

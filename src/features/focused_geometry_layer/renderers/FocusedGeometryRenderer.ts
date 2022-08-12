@@ -1,5 +1,5 @@
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import { waitMapEvent } from '~utils/map/waitMapEvent';
+import { mapLoaded, waitMapEvent } from '~utils/map/waitMapEvent';
 import { loadImageOnMap } from '~utils/map/loadImageOnMap';
 import { layerByOrder } from '~utils/map/layersOrder';
 import Icon from '../icons/marker_black.png';
@@ -90,11 +90,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
   }
 
   async setupIcon(map: ApplicationMap, id: string, url: string) {
-    // @ts-expect-error
-    // it seems to me that map._loaded represents current map state which is needed,
-    // whereas map.loaded() or map.isStyleLoaded() check allows
-    // to set a callback on map.on('load') method, that will never run
-    !map._loaded && (await waitMapEvent(map, 'load'));
+    await mapLoaded(map);
     const image = await loadImageOnMap(map, url);
     map.addImage(id, image);
     this.availableIcons.add(id);
@@ -118,9 +114,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
   }) {
     // TODO address this logic in task 9295
 
-    // @ts-expect-error
-    // see comment on top
-    !map._loaded && (await waitMapEvent(map, 'load'));
+    await mapLoaded(map);
 
     const stateSource = state.source?.source ?? null;
 
