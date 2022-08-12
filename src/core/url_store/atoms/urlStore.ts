@@ -83,8 +83,11 @@ export const urlStoreAtom = createAtom(
 
       const initActions: Action[] = [];
       if (state.event === undefined) {
-        // Auto select event from event list when url not contain that
-        initActions.push(scheduledAutoSelect.setTrue());
+        // if link was shared with map coords without event - mark event was deselected intentionally
+        if (state.map)
+          initActions.push(currentEventAtom.deselectCurrentEvent());
+        // Or auto select event from event list when url is empty
+        else initActions.push(scheduledAutoSelect.setTrue());
       }
 
       if (state.map === undefined) {
