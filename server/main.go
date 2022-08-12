@@ -21,11 +21,26 @@ func renderTemplate(response http.ResponseWriter, request *http.Request) {
 	}
 
 	parsedTemplate, _ := template.ParseFiles("./static/index.html")
+	response.Header().Add("Expires", "-1")
+	response.Header().Add("Cache-Control", "no-cache")
 	err := parsedTemplate.Execute(response, templateVariables)
 
 	if err != nil {
 		log.Println("Error executing template:", err)
 		return
+	}
+}
+
+func handleStaticFiles(fs http.Handler) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+		switch url := request.URL.Path; url {
+		case "/config/":
+			response.Header().Add("Expires", "-1")
+			response.Header().Add("Cache-Control", "no-cache")
+		default:
+		}
+
+		fs.ServeHTTP(response, request)
 	}
 }
 
@@ -37,7 +52,8 @@ func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/active", http.StripPrefix("/active", http.HandlerFunc(redirect)))
 	http.Handle("/active/", http.StripPrefix("/active/", http.HandlerFunc(renderTemplate)))
-	http.Handle("/active/static/", http.StripPrefix("/active/static", fs))
+	http.Handle("/active/static/", http.StripPrefix("/active/static", http.HandlerFunc(handleStaticFiles(fs))))
+
 	log.Println("Server listening:", "http://"+Host+":"+Port)
 	err := http.ListenAndServe(Host+":"+Port, nil)
 	if err != nil {
