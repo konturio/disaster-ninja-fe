@@ -8,7 +8,7 @@ import (
 
 const (
 	Host = ""
-	Port = "8080"
+	Port = "80"
 )
 
 type TemplateVariables struct {
