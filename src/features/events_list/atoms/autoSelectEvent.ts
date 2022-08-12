@@ -11,7 +11,7 @@ export const autoSelectEvent = createAtom(
     eventListResourceAtom,
   },
   ({ getUnlistedState, schedule, onChange }, state = {}) => {
-    onChange('eventListResourceAtom', (eventListResource, prevRes) => {
+    onChange('eventListResourceAtom', (eventListResource) => {
       const autoSelectWasScheduled = getUnlistedState(scheduledAutoSelect);
       if (
         autoSelectWasScheduled &&
