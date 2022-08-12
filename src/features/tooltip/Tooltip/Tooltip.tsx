@@ -1,7 +1,8 @@
 import ReactMarkdown from 'react-markdown';
 import clsx from 'clsx';
 import { Close16 } from '@konturio/default-icons';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { parseLinksAsTags } from '~utils/markdown/parser';
 import s from './Tooltip.module.css';
@@ -33,6 +34,16 @@ export function Tooltip({
 }) {
   const [position, setPosition] = useState<Position | null>(null);
   const [prevCoords, setPrevCoords] = useState<Coords | null | undefined>(null);
+  const { pathname } = useLocation();
+  const prevPathname = useRef<string>();
+
+  useEffect(() => {
+    if (pathname !== prevPathname.current && properties?.position) {
+      closeTooltip();
+    }
+    prevPathname.current = pathname;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   if (!properties) return null;
 
