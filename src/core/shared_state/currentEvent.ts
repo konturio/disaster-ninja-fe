@@ -10,8 +10,8 @@ export type CurrentEventAtomState = {
 
 export const currentEventAtom = createAtom(
   {
-    setCurrentEventId: (eventId: string | null) => eventId,
-    resetCurrentEvent: () => null,
+    setCurrentEventId: (eventId: string) => eventId,
+    deselectCurrentEvent: () => null,
     focusedGeometryAtom,
   },
   ({ onAction, onChange }, state: CurrentEventAtomState = null) => {
@@ -25,7 +25,8 @@ export const currentEventAtom = createAtom(
     });
 
     onAction('setCurrentEventId', (eventId) => (state = { id: eventId }));
-    onAction('resetCurrentEvent', () => (state = null));
+    onAction('deselectCurrentEvent', () => (state = { id: null }));
+
     return state;
   },
   '[Shared state] currentEventAtom',

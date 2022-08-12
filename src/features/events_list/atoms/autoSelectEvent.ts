@@ -11,7 +11,7 @@ export const autoSelectEvent = createAtom(
     eventListResourceAtom,
   },
   ({ getUnlistedState, schedule, onChange }, state = {}) => {
-    onChange('eventListResourceAtom', (eventListResource) => {
+    onChange('eventListResourceAtom', (eventListResource, prevRes) => {
       const autoSelectWasScheduled = getUnlistedState(scheduledAutoSelect);
       if (
         autoSelectWasScheduled &&
@@ -22,11 +22,12 @@ export const autoSelectEvent = createAtom(
         eventListResource.data.length
       ) {
         const currentEvent = getUnlistedState(currentEventAtom);
+        const eventWasDeselected = currentEvent?.id === null;
         const currentEventNotInNewList =
           eventListResource.data.findIndex(
             (e) => e.eventId === currentEvent?.id,
           ) === -1;
-        if (currentEventNotInNewList) {
+        if (currentEventNotInNewList && !eventWasDeselected) {
           const firstEventInList = eventListResource.data[0];
           schedule((dispatch) => {
             dispatch([
