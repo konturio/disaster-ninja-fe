@@ -64,7 +64,7 @@ export function useControlElements(
     }
 
     setControlElements(elements);
-  }, [layerState, layerActions, skipControls]);
+  }, [layerState, layerActions]);
 
   return controlElements;
 }
