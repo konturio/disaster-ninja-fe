@@ -13,12 +13,18 @@ export function useControlElements(
     show: () => void;
     download: () => void;
   },
+  skipControls?: {
+    skipVisibilityControl?: true;
+    skipDownloadControl?: true;
+    skipContextMenu?: true;
+    skipLayerInfo?: true;
+  },
 ) {
   const [controlElements, setControlElements] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
     const elements: JSX.Element[] = [];
-    if (layerState.isMounted)
+    if (layerState.isMounted && !skipControls?.skipVisibilityControl)
       elements.push(
         <LayerHideControl
           key={layerState.id + 'hide'}
@@ -27,7 +33,11 @@ export function useControlElements(
           unhideLayer={layerActions.show}
         />,
       );
-    if (layerState.isMounted && layerState.isDownloadable)
+    if (
+      layerState.isMounted &&
+      layerState.isDownloadable &&
+      !skipControls?.skipDownloadControl
+    )
       elements.push(
         <DownloadControl
           key={layerState.id + 'download'}
@@ -35,7 +45,7 @@ export function useControlElements(
         />,
       );
 
-    if (layerState?.contextMenu)
+    if (layerState?.contextMenu && !skipControls?.skipContextMenu)
       elements.push(
         <LayerContextMenu
           contextMenu={layerState.contextMenu}
@@ -43,7 +53,7 @@ export function useControlElements(
         />,
       );
 
-    if (layerState.meta) {
+    if (layerState.meta && !skipControls?.skipLayerInfo) {
       elements.push(
         <LayerInfo
           key={layerState.id}
@@ -54,7 +64,7 @@ export function useControlElements(
     }
 
     setControlElements(elements);
-  }, [layerState, layerActions]);
+  }, [layerState, layerActions, skipControls]);
 
   return controlElements;
 }
