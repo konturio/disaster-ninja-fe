@@ -41,7 +41,6 @@ export const DrawToolsToolbox = () => {
     (id) => {
       toggleDrawMode(id);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [toggleDrawMode],
   );
 
