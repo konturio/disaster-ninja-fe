@@ -93,18 +93,17 @@ type CommonRoutesFeaturesProps = {
 
 const afterChatContent = (loginFeature: boolean) => {
   return (
-    <>
-      <Text type="heading-l">
-        <a
-          href="https://www.kontur.io/portfolio/disaster-ninja/"
-          target="_blank"
-          className={s.link} rel="noreferrer"
-        >
-          {i18n.t('About')}
-        </a>
-      </Text>
+    <div className={s.afterChatContentWrap}>
+      <a
+        href="https://www.kontur.io/portfolio/disaster-ninja/"
+        target="_blank"
+        className={s.link}
+        rel="noreferrer"
+      >
+        <Text type="heading-m">{i18n.t('About')}</Text>
+      </a>
       {loginFeature && <UserProfile />}
-    </>
+    </div>
   );
 };
 

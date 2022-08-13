@@ -62,15 +62,24 @@
   cursor: pointer;
 }
 
+.afterChatContentWrap {
+  display: flex;
+}
 .link {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-  color: var(--accent-strong);
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  font-style: normal;
+  font-family: var(--font-family);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: var(--double-unit);
+  line-height: 0;
+  text-decoration: none;
+  color: var(--accent-strong);
 
   &:hover {
     color: var(--primary-focus-outline-regular);
+    background-color: var(--base-strong);
   }
 }
