@@ -38,29 +38,46 @@ export const DrawToolsToolbox = () => {
   }, [settings]);
 
   const onToggleDrawMode = useCallback(
-    (id) => toggleDrawMode(id),
+    (id) => {
+      toggleDrawMode(id);
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [toggleDrawMode],
   );
 
   const buttons = useMemo(
     () => [
       settings.availableModes?.includes('DrawPolygonMode') && (
-        <Button id={drawModes.DrawPolygonMode} dark variant="invert">
+        <Button
+          id={drawModes.DrawPolygonMode}
+          dark
+          variant="invert"
+          onClick={() => onToggleDrawMode(drawModes.DrawPolygonMode)}
+        >
           <div className={s.btnContent}>
             <Area24 /> {i18n.t('Area')}
           </div>
         </Button>
       ),
       settings.availableModes?.includes('DrawLineMode') && (
-        <Button id={drawModes.DrawLineMode} dark variant="invert">
+        <Button
+          id={drawModes.DrawLineMode}
+          dark
+          variant="invert"
+          onClick={() => onToggleDrawMode(drawModes.DrawLineMode)}
+        >
           <div className={s.btnContent}>
             <Line24 /> {i18n.t('Line')}
           </div>
         </Button>
       ),
       settings.availableModes?.includes('DrawPointMode') && (
-        <Button id={drawModes.DrawPointMode} dark variant="invert">
+        <Button
+          id={drawModes.DrawPointMode}
+          dark
+          variant="invert"
+          onClick={() => onToggleDrawMode(drawModes.DrawPointMode)}
+        >
           <div className={s.btnContent}>
             <PointOutline24 /> {i18n.t('Point')}
           </div>
@@ -88,7 +105,7 @@ export const DrawToolsToolbox = () => {
       </Button>,
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectedIndexes.length, settings, onFinishClick],
+    [selectedIndexes.length, settings, onFinishClick, onToggleDrawMode],
   );
 
   return activeDrawMode ? (
@@ -102,7 +119,6 @@ export const DrawToolsToolbox = () => {
       )}
 
       <ButtonGroup
-        onChange={onToggleDrawMode}
         current={activeDrawMode}
         classes={btnGroupClasses}
         borderWrap={false}
