@@ -71,15 +71,16 @@
   cursor: pointer;
   font-style: normal;
   font-family: var(--font-family);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.2px;
-  line-height: var(--double-unit);
-  line-height: 0;
   text-decoration: none;
-  color: var(--accent-strong);
+  color: var(--button-invert-color);
 
   &:hover {
     color: var(--primary-focus-outline-regular);
-    background-color: var(--base-strong);
+  }
+
+  & span {
+    line-height: 0;
   }
 }
