@@ -13,7 +13,7 @@ export const waitMapEvent = <T extends keyof MapEventType>(
     }
   });
 
-export async function mapLoaded(map: ApplicationMap) {
+export function mapLoaded(map: ApplicationMap) {
   // Use hidden maplibre method for reliability. Explanation - https://github.com/konturio/disaster-ninja-fe/issues/101
   // @ts-expect-error
   if (!map._loaded) {
