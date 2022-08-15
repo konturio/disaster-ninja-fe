@@ -37,13 +37,6 @@ export const DrawToolsToolbox = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings]);
 
-  const onToggleDrawMode = useCallback(
-    (id) => {
-      toggleDrawMode(id);
-    },
-    [toggleDrawMode],
-  );
-
   const buttons = useMemo(
     () => [
       settings.availableModes?.includes('DrawPolygonMode') && (
@@ -51,7 +44,7 @@ export const DrawToolsToolbox = () => {
           id={drawModes.DrawPolygonMode}
           dark
           variant="invert"
-          onClick={() => onToggleDrawMode(drawModes.DrawPolygonMode)}
+          onClick={() => toggleDrawMode(drawModes.DrawPolygonMode)}
         >
           <div className={s.btnContent}>
             <Area24 /> {i18n.t('Area')}
@@ -63,7 +56,7 @@ export const DrawToolsToolbox = () => {
           id={drawModes.DrawLineMode}
           dark
           variant="invert"
-          onClick={() => onToggleDrawMode(drawModes.DrawLineMode)}
+          onClick={() => toggleDrawMode(drawModes.DrawLineMode)}
         >
           <div className={s.btnContent}>
             <Line24 /> {i18n.t('Line')}
@@ -75,7 +68,7 @@ export const DrawToolsToolbox = () => {
           id={drawModes.DrawPointMode}
           dark
           variant="invert"
-          onClick={() => onToggleDrawMode(drawModes.DrawPointMode)}
+          onClick={() => toggleDrawMode(drawModes.DrawPointMode)}
         >
           <div className={s.btnContent}>
             <PointOutline24 /> {i18n.t('Point')}
@@ -104,7 +97,7 @@ export const DrawToolsToolbox = () => {
       </Button>,
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectedIndexes.length, settings, onFinishClick, onToggleDrawMode],
+    [selectedIndexes.length, settings, onFinishClick],
   );
 
   return activeDrawMode ? (
