@@ -23,7 +23,9 @@ export function Group({
     name: string;
     isHidden: boolean;
   } | null>(null);
-  const [isOpen, setOpenState] = useState(group.openByDefault);
+  // Temporary solution before redisign according to task 11553-unfold-all-layers-tree-in-layers-panel-by-default
+  // const [isOpen, setOpenState] = useState(group.openByDefault);
+  const [isOpen, setOpenState] = useState(true);
   const groupDeselectAction = useAction(
     () => groupDeselection.deselect(group.id),
     [group.id],

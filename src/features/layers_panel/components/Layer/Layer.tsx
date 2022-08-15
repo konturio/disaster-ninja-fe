@@ -36,7 +36,9 @@ export function Layer({
     [layerState.isMounted],
   );
 
-  const controlElements = useControlElements(layerState, layerActions);
+  const controlElements = useControlElements(layerState, layerActions, {
+    skipVisibilityControl: true,
+  });
   useEffect(() => {
     if (!delegateLegendRender) return;
     if (layerState.isEnabled && layerState.legend?.type === 'bivariate') {
