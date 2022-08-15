@@ -6,5 +6,5 @@ COPY ./server/. ./
 COPY ./dist/. ./static/
 RUN go build -v -o /usr/local/bin/app ./...
 
-EXPOSE 8080
+EXPOSE 80
 CMD ["app"]

@@ -26,7 +26,7 @@
     "fixtypes": "node ./scripts/fix-deckgl-types.mjs",
     "patch": "patch-package",
     "docker:build": "docker build -f ./Dockerfile ./ -t ghcr.io/konturio/disaster-ninja-fe:latest",
-    "docker:run": "docker run --rm -d -p 80:8080/tcp ghcr.io/konturio/disaster-ninja-fe:latest",
+    "docker:run": "docker run --rm -d -p 80:80/tcp ghcr.io/konturio/disaster-ninja-fe:latest",
     "prepare": "node ./scripts/husky-prepare.js",
     "auto:open": "npx open-cli http://localhost:5000",
     "auto:cosmos": "cosmos --config cosmos.config.json",
