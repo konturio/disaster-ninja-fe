@@ -51,7 +51,9 @@ function createResourceFetcherAtom<P, T>(
     refetch: () => undefined,
     done: (data: T) => data,
     error: (error: string) => error,
-    cancel: (nextParams: P | null) => nextParams,
+    cancel: (nextParams: P | null, prevParams: P | null) => {
+      return { nextParams, prevParams };
+    },
     loading: () => undefined,
     finally: () => null,
   };
@@ -90,6 +92,7 @@ function createResourceFetcherAtom<P, T>(
         newState.canceled = false;
         schedule(async (dispatch, ctx: ResourceCtx<P>) => {
           const version = (ctx.version ?? 0) + 1;
+          const nextParams = ctx.lastParams || null;
           ctx._refetchable = true;
           ctx.version = version;
           ctx.lastParams = params; // explicit set that request no have any parameters
@@ -99,9 +102,6 @@ function createResourceFetcherAtom<P, T>(
             ctx.canceller(ctx);
             ctx.canceller = undefined;
           }
-          // extra dispatch allows resource subscribers to proccess cancel event and then
-          // process the response of the next event
-          if (ctx.allowCancel) dispatch(create('cancel', params));
 
           let requestAction: Action | null = null;
           try {
@@ -135,6 +135,13 @@ function createResourceFetcherAtom<P, T>(
               requestAction = create('error', e.message ?? e ?? true);
             }
           } finally {
+            // that's when request was canceled
+            if (version !== ctx.version) {
+              // extra dispatch allows resource subscribers to proccess cancel event and then
+              // process the response of the next event
+              if (ctx.allowCancel)
+                dispatch(create('cancel', nextParams, params));
+            }
             if (requestAction) {
               dispatch([requestAction, create('finally')]);
             }
@@ -159,9 +166,10 @@ function createResourceFetcherAtom<P, T>(
         newState.canceled = false;
       });
 
-      onAction('cancel', (nextParams) => {
+      onAction('cancel', ({ nextParams, prevParams }) => {
         newState.canceled = true;
         newState.nextParams = nextParams;
+        newState.lastParams = prevParams;
       });
 
       onAction('error', (error) => (newState.error = error));
@@ -196,7 +204,10 @@ export type ResourceAtomType<P, T> = AtomSelfBinded<
     refetch: () => undefined;
     done: (data: T) => T;
     error: (error: string) => string;
-    cancel: (nextParams: P | null) => P | null;
+    cancel: (
+      nextParams: P | null,
+      prevParams: P | null,
+    ) => { nextParams: P | null; prevParams: P | null };
     loading: () => undefined;
     finally: () => null;
   }
@@ -216,12 +227,17 @@ export function createResourceAtom<P, T>(
     const autoFetchAtom = createAtom(
       { paramsAtom },
       ({ onChange, schedule }) => {
-        onChange('paramsAtom', (newParams) => {
+        onChange('paramsAtom', (newParams, prevParams) => {
           schedule((dispatch) => {
             if (isObject(newParams)) {
               // Check states than we can be escalated
               if ('canceled' in newParams && newParams.canceled) {
-                dispatch(resourceFetcherAtom.cancel(newParams as unknown as P));
+                dispatch(
+                  resourceFetcherAtom.cancel(
+                    newParams as unknown as P,
+                    prevParams as unknown as P,
+                  ),
+                );
                 return;
               }
               if ('loading' in newParams && newParams.loading) {

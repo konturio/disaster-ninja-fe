@@ -35,24 +35,25 @@ export const areaLayersLegendsAndSources = createAtom(
   {
     areaLayersDetailsResourceAtom,
   },
-  ({ get, schedule }) => {
+  ({ get, schedule, getUnlistedState }) => {
     const layersDetails = get('areaLayersDetailsResourceAtom');
     const actions: Action[] = [];
     // Set loading state for details
     if (layersDetails.canceled) {
+      if (!layersDetails.nextParams || !layersDetails.lastParams) return;
       // find layers we won't need after request was canceled
       const canceledLayers: string[] = [];
       const canceledLayersIds1 =
-        layersDetails.lastParams?.layersToRetrieveWithGeometryFilter.filter(
+        layersDetails.lastParams.layersToRetrieveWithGeometryFilter.filter(
           (prevLayerId) =>
-            !layersDetails.nextParams?.layersToRetrieveWithGeometryFilter.includes(
+            !layersDetails.nextParams!.layersToRetrieveWithGeometryFilter.includes(
               prevLayerId,
             ),
         ) || [];
       const canceledLayersIds2 =
-        layersDetails.lastParams?.layersToRetrieveWithoutGeometryFilter.filter(
+        layersDetails.lastParams.layersToRetrieveWithoutGeometryFilter.filter(
           (prevLayerId) =>
-            !layersDetails.nextParams?.layersToRetrieveWithoutGeometryFilter.includes(
+            !layersDetails.nextParams!.layersToRetrieveWithoutGeometryFilter.includes(
               prevLayerId,
             ),
         ) || [];
@@ -65,23 +66,22 @@ export const areaLayersLegendsAndSources = createAtom(
           layersLegendsAtom.delete(layerId),
         );
       });
-    } else if (layersDetails.loading && layersDetails.lastParams) {
+    }
+    // Loading case
+    else if (layersDetails.loading && layersDetails.lastParams) {
       const requestedLayers = [
         ...(layersDetails.lastParams?.layersToRetrieveWithGeometryFilter ?? []),
         ...(layersDetails.lastParams?.layersToRetrieveWithoutGeometryFilter ??
           []),
       ];
-      requestedLayers.forEach((id) =>
-        actions.push(
-          layersSourcesAtom.change((state) => {
-            const s = state.get(id);
-            if (s) {
-              state.set(id, { ...s, isLoading: true });
-            }
-            return state;
-          }),
-        ),
-      );
+      const layersSources = getUnlistedState(layersSourcesAtom);
+      requestedLayers.forEach((id) => {
+        const source = layersSources.get(id);
+        if (source)
+          actions.push(
+            layersSourcesAtom.set(id, { ...source, isLoading: true }),
+          );
+      });
     } else if (layersDetails.data) {
       const layersDetailsData = layersDetails.data;
       actions.push(
