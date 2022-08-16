@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 const (
@@ -53,7 +55,7 @@ func main() {
 	http.Handle("/active", http.StripPrefix("/active", http.HandlerFunc(redirect)))
 	http.Handle("/active/", http.StripPrefix("/active/", http.HandlerFunc(renderTemplate)))
 	http.Handle("/active/static/", http.StripPrefix("/active/static", http.HandlerFunc(handleStaticFiles(fs))))
-
+	http.Handle("/metrics", promhttp.Handler())
 	log.Println("Server listening:", "http://"+Host+":"+Port)
 	err := http.ListenAndServe(Host+":"+Port, nil)
 	if err != nil {

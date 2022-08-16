@@ -1,6 +1,8 @@
 FROM golang:1.19-alpine3.16
 WORKDIR /usr/src/app
-# ENTRYPOINT ["tail", "-f", "/dev/null"]
+
+COPY ./server/go.mod ./server/go.sum ./
+RUN go mod download && go mod verify
 
 COPY ./server/. ./
 COPY ./dist/. ./static/
