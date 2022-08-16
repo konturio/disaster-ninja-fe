@@ -145,9 +145,10 @@ export function LoginForm() {
         <div className={clsx(s.link, s.registerContainter)}>
           <a
             href="https://www.kontur.io/portfolio/event-feed-draft/#publicfeed"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
-            {i18n.t('Register')}
+            {i18n.t('Sign up')}
           </a>
         </div>
         <div className={s.loginButtonContainer}>
