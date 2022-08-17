@@ -10,6 +10,7 @@ export interface RegisterRequest {
    * TODO: Add action to registry for extend clean effect, or auto-cleanup it
    *  */
   cleanUpActions?: Action[];
+  map?: maplibregl.Map;
 }
 
 export type LayerRegistryAtom = AtomSelfBinded<

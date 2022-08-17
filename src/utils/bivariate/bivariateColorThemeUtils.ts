@@ -6,7 +6,7 @@ import type { ColorTuple } from 'hsluv';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
-import type { ColorCombination } from '~utils/bivariate/types/stat.types';
+import type { Axis, ColorCombination, Meta, Direction } from '~utils/bivariate';
 
 type BivariateLayerSource = {
   type: 'vector';
@@ -113,6 +113,54 @@ export function generateColorThemeAndBivariateStyle(
 
   if (!xAxisDirection || !yAxisDirection) return;
 
+  // put colors in specific way because x and y axises are swapped here
+  const colorTheme: ColorTheme = generateColorTheme(
+    colors,
+    xAxisDirection,
+    yAxisDirection,
+  );
+
+  const bivariateStyle = generateBivariateStyle(
+    xAxis,
+    yAxis,
+    colorTheme,
+    stats?.meta,
+  );
+
+  return [colorTheme, bivariateStyle];
+}
+
+export const generateBivariateStyle = (
+  xAxis: Axis,
+  yAxis: Axis,
+  colorTheme: ColorTheme,
+  meta: Meta,
+) =>
+  generateBivariateStyleForAxis({
+    id: `${xAxis.quotient.join('&')}|${yAxis.quotient.join('&')}`,
+    x: xAxis,
+    y: yAxis,
+    colors: colorTheme,
+    sourceLayer: 'stats',
+    source: {
+      type: 'vector',
+      tiles: [
+        `${adaptTileUrl(
+          config.bivariateTilesRelativeUrl,
+        )}{z}/{x}/{y}.mvt?indicatorsClass=${
+          config.bivariateTilesIndicatorsClass
+        }`,
+      ],
+      maxzoom: meta.max_zoom,
+      minzoom: 0,
+    },
+  });
+
+export const generateColorTheme = (
+  colors: Stat['colors'],
+  xAxisDirection: Direction,
+  yAxisDirection: Direction,
+) => {
   const corner00 = findColors(colors, [xAxisDirection[0], yAxisDirection[0]]);
   const corner10 = findColors(colors, [xAxisDirection[1], yAxisDirection[0]]);
   const corner01 = findColors(colors, [xAxisDirection[0], yAxisDirection[1]]);
@@ -142,28 +190,8 @@ export function generateColorThemeAndBivariateStyle(
     { id: 'C3', color: convertToRgbaWithOpacity(corner11) },
   ];
 
-  const bivariateStyle = generateBivariateStyleForAxis({
-    id: `${xAxis.quotient.join('&')}|${yAxis.quotient.join('&')}`,
-    x: xAxis,
-    y: yAxis,
-    colors: colorTheme,
-    sourceLayer: 'stats',
-    source: {
-      type: 'vector',
-      tiles: [
-        `${adaptTileUrl(
-          config.bivariateTilesRelativeUrl,
-        )}{z}/{x}/{y}.mvt?indicatorsClass=${
-          config.bivariateTilesIndicatorsClass
-        }`,
-      ],
-      maxzoom: stats?.meta.max_zoom,
-      minzoom: 0,
-    },
-  });
-
-  return [colorTheme, bivariateStyle];
-}
+  return colorTheme;
+};
 
 export function generateLayerStyleFromBivariateLegend(
   bl: BivariateLegend,

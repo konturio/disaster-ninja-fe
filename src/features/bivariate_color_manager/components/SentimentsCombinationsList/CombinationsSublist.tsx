@@ -11,14 +11,14 @@ import type {
   TableDataValue,
 } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
 import type {
-  BivariateColorManagerAtomState,
+  BivariateColorManagerDataAtomState,
   LayerSelectionInput,
-} from '~features/bivariate_color_manager/atoms/bivariateColorManager';
+} from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 
 type SentimentsCombinationsListProps = {
   data: BivariateColorManagerData;
   setLayersSelection: (input: LayerSelectionInput) => void;
-  layersSelection: BivariateColorManagerAtomState['layersSelection'];
+  layersSelection: BivariateColorManagerDataAtomState['layersSelection'];
 };
 
 const sortDescendingByQuality = sortByKey<TableDataValue>(

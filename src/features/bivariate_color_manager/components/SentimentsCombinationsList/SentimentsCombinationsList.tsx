@@ -11,9 +11,9 @@ import s from './SentimentsCombinationsList.module.css';
 import type { BivariateColorManagerData } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type {
-  BivariateColorManagerAtomState,
+  BivariateColorManagerDataAtomState,
   LayerSelectionInput,
-} from '~features/bivariate_color_manager/atoms/bivariateColorManager';
+} from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 
 type Row = {
   key: string;
@@ -26,9 +26,9 @@ type Row = {
 type SentimentsCombinationsListProps = {
   data: BivariateColorManagerData;
   setLayersSelection: (input: LayerSelectionInput) => void;
-  layersSelection: BivariateColorManagerAtomState['layersSelection'];
+  layersSelection: BivariateColorManagerDataAtomState['layersSelection'];
   setSelectedRows: (key: string) => void;
-  selectedRows: BivariateColorManagerAtomState['selectedRows'];
+  selectedRows: BivariateColorManagerDataAtomState['selectedRows'];
   anyFilterActivated: boolean;
 };
 
@@ -50,7 +50,7 @@ const SentimentsCombinationsList = memo(
     selectedRows,
     anyFilterActivated = false,
   }: SentimentsCombinationsListProps) => {
-    const rows: Row[] = Object.entries(data)
+    const rows: Row[] = Object.entries(data || {})
       .map(([key, value]) => {
         const { maps, legend } = value;
         const keyParsed = JSON.parse(key);

@@ -10,9 +10,9 @@ import {
   fadeClassNames,
 } from '~features/bivariate_color_manager/components/CssTransitionWrapper/CssTransitionWrapper';
 import { LegendWithMap } from '~features/bivariate_color_manager/components/LegendWithMap/LegendWithMap';
-import { bivariateColorManagerAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManager';
+import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import style from './ColorLegendsView.module.css';
-import type { LayerSelectionInput } from '~features/bivariate_color_manager/atoms/bivariateColorManager';
+import type { LayerSelectionInput } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import type { LayerSelectionFull } from '~features/bivariate_color_manager/components/LegendWithMap/LegendWithMap';
 import type { BivariateColorManagerData } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
 import type { SelectItemType } from '@konturio/ui-kit/tslib/Select/types';
@@ -35,7 +35,7 @@ export const ColorLegendsView = () => {
   const [
     { filteredData: data, indicators, layersSelection, selectedRows, filters },
     { setLayersSelection, setLayersFilter, setSelectedRows },
-  ] = useAtom(bivariateColorManagerAtom);
+  ] = useAtom(bivariateColorManagerDataAtom);
   const [{ loading }] = useAtom(bivariateColorManagerResourceAtom);
   const filteredDataNotEmpty = data && Object.keys(data).length > 0;
   const selectedData =
