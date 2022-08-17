@@ -2,11 +2,11 @@ import { createAtom } from '~utils/atoms';
 import { bivariateColorManagerResourceAtom } from './bivariateColorManagerResource';
 import type { TableDataValue } from './bivariateColorManagerResource';
 import type { BivariateColorManagerData } from './bivariateColorManagerResource';
-import type { Indicator } from '~utils/bivariate';
+import type { Indicator, Meta } from '~utils/bivariate';
 import type { SelectItemType } from '@konturio/ui-kit/tslib/Select/types';
 import type { BivariateColorManagerDataValue } from './bivariateColorManagerResource';
 
-export type BivariateColorManagerAtomState = {
+export type BivariateColorManagerDataAtomState = {
   filteredData: BivariateColorManagerData | null;
   _initialData: BivariateColorManagerData | null;
   indicators: Indicator[] | null;
@@ -15,6 +15,7 @@ export type BivariateColorManagerAtomState = {
   selectedRows: {
     [key: string]: boolean;
   };
+  meta: Meta | null;
 };
 
 export type Filters = {
@@ -30,7 +31,8 @@ export type LayerSelectionInput = {
   horizontal?: TableDataValue;
 };
 
-export type BivariateColorManagerAtom = typeof bivariateColorManagerAtom;
+export type BivariateColorManagerDataAtom =
+  typeof bivariateColorManagerDataAtom;
 
 const DEFAULT_STATE = {
   _initialData: null,
@@ -39,9 +41,10 @@ const DEFAULT_STATE = {
   filters: { layers: null },
   selectedRows: {},
   layersSelection: null,
+  meta: null,
 };
 
-export const bivariateColorManagerAtom = createAtom(
+export const bivariateColorManagerDataAtom = createAtom(
   {
     setLayersSelection: (input: LayerSelectionInput) => input,
     runFilters: () => undefined,
@@ -51,18 +54,19 @@ export const bivariateColorManagerAtom = createAtom(
   },
   (
     { onAction, onChange, schedule, create },
-    state: BivariateColorManagerAtomState = DEFAULT_STATE,
+    state: BivariateColorManagerDataAtomState = DEFAULT_STATE,
   ) => {
     onChange('bivariateColorManagerResourceAtom', (resource) => {
       if (!resource.data) return (state = DEFAULT_STATE);
 
-      const { bivariateColorManagerData, indicators } = resource.data;
+      const { bivariateColorManagerData, indicators, meta } = resource.data;
 
       state = {
         ...DEFAULT_STATE,
         _initialData: bivariateColorManagerData,
         filteredData: bivariateColorManagerData,
         indicators: indicators,
+        meta,
       };
 
       if (!state._initialData) {
@@ -88,14 +92,15 @@ export const bivariateColorManagerAtom = createAtom(
     });
 
     onAction('runFilters', () => {
-      const filterFunctionsToApply = Object.entries(state.filters)
+      const { filters, _initialData } = state;
+      const filterFunctionsToApply = Object.entries(filters)
         .map(([key, value]) => (value ? [filterFunctions[key], value] : null))
         .filter(Boolean) as [FilterFunction, FiltersValues][];
 
-      if (filterFunctionsToApply.length === 0 || !state._initialData) {
+      if (filterFunctionsToApply.length === 0 || !_initialData) {
         state = {
           ...state,
-          filteredData: state._initialData,
+          filteredData: _initialData,
 
           // drop selected rows/sublist after filter cleared
           selectedRows: {},
@@ -104,9 +109,8 @@ export const bivariateColorManagerAtom = createAtom(
         return;
       }
 
-      const initialData = state._initialData;
-      const nextFilteredData = Object.keys(initialData).reduce((acc, key) => {
-        const value = { ...initialData[key] };
+      const nextFilteredData = Object.keys(_initialData).reduce((acc, key) => {
+        const value = { ..._initialData[key] };
 
         // check if row passes all filter functions
         const filterPassed = filterFunctionsToApply.every(
@@ -118,24 +122,21 @@ export const bivariateColorManagerAtom = createAtom(
           // do postprocessing for passed row here
 
           // if filter layer selected - stay only filtered layer in row's sublist
-          if (state.filters.layers) {
-            const isInVerticalSublist = Boolean(
-              value.vertical[state.filters.layers],
-            );
+          if (filters.layers) {
+            const isInVerticalSublist = Boolean(value.vertical[filters.layers]);
             const isInHorizontalSublist = Boolean(
-              value.horizontal[state.filters.layers],
+              value.horizontal[filters.layers],
             );
 
             // if filtered item in both columns - don't filter
             if (!(isInHorizontalSublist && isInVerticalSublist)) {
               if (isInVerticalSublist)
                 value.vertical = {
-                  [state.filters.layers]: value.vertical[state.filters.layers],
+                  [filters.layers]: value.vertical[filters.layers],
                 };
               if (isInHorizontalSublist)
                 value.horizontal = {
-                  [state.filters.layers]:
-                    value.horizontal[state.filters.layers],
+                  [filters.layers]: value.horizontal[filters.layers],
                 };
             }
           }

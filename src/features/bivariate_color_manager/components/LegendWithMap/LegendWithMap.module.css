@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--double-unit);
+  height: 100%;
 }
 
 .axisDirectionLabel {
@@ -36,4 +37,22 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.Map {
+  height: 100%;
+  width: 100%;
+
+  & .maplibregl-canvas {
+    width: 100% !important;
+  }
+}
+
+.LegendFullscreen {
+  z-index: 3;
+  padding: 12px 80px 12px 12px;
+  background: white;
+  position: fixed;
+  right: 20px;
+  top: 80px;
 }

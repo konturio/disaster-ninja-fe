@@ -12,6 +12,7 @@ import type { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
+import type { LayersOrderManager } from '../utils/layersOrder/layersOrder';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -22,10 +23,18 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   private _layerId?: string;
   private _sourceId: string;
   private _removeClickListener: null | (() => void) = null;
+  private _layersOrderManager?: LayersOrderManager;
 
-  public constructor({ id }: { id: string }) {
+  public constructor({
+    id,
+    layersOrderManager,
+  }: {
+    id: string;
+    layersOrderManager?: LayersOrderManager;
+  }) {
     super();
     this.id = id;
+    this._layersOrderManager = layersOrderManager;
     /* private */
     this._sourceId = SOURCE_BIVARIATE_PREFIX + this.id;
   }
@@ -72,7 +81,9 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         return;
       }
       const layer = { ...layerStyle, id: layerId, source: this._sourceId };
-      layerByOrder(map).addAboveLayerWithSameType(layer as AnyLayer);
+      layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
+        layer as AnyLayer,
+      );
       this._layerId = layer.id;
     } else {
       // We don't known source-layer id
