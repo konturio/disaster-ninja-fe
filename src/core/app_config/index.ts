@@ -51,7 +51,7 @@ export default {
   keycloakRealm: window.konturAppConfig.KEYCLOAK_REALM,
   keycloakClientId: window.konturAppConfig.KEYCLOAK_CLIENT_ID,
   yandexMetricaId: window.konturAppConfig.YANDEX_METRICA_ID,
-  baseUrl: import.meta.env?.BASE_URL,
+  baseUrl: import.meta.env?.VITE_BASE_PATH,
   isDevBuild: import.meta.env?.DEV,
   isProdBuild: import.meta.env?.PROD,
   appVersion: import.meta.env?.PACKAGE_VERSION as string,
