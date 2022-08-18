@@ -82,8 +82,8 @@ export const urlStoreAtom = createAtom(
       }
 
       const initActions: Action[] = [];
-      if (state.event === undefined) {
-        // Auto select event from event list when url not contain that
+      if (state.event === undefined && !state.map) {
+        // Auto select event from event list when url is empty
         initActions.push(scheduledAutoSelect.setTrue());
       }
 

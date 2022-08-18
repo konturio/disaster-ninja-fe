@@ -1,14 +1,7 @@
 import { Poly24 } from '@konturio/default-icons';
-import { Download24 } from '@konturio/default-icons';
-import {
-  currentNotificationAtom,
-  focusedGeometryAtom,
-  sideControlsBarAtom,
-} from '~core/shared_state';
+import { sideControlsBarAtom } from '~core/shared_state';
 import {
   drawModes,
-  DOWNLOAD_GEOMETRY_CONTROL_ID,
-  DOWNLOAD_GEOMETRY_CONTROL_NAME,
   FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
   FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
 } from '~core/draw_tools/constants';
@@ -18,7 +11,6 @@ import {
   controlVisualGroup,
 } from '~core/shared_state/sideControlsBar';
 import { i18n } from '~core/localization';
-import { downloadObject } from '~utils/file/download';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { forceRun } from '~utils/atoms/forceRun';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
@@ -72,28 +64,6 @@ export function initFocusedGeometry() {
           activeDrawModeAtom.setDrawMode(null),
         ]);
       }
-    },
-  });
-
-  sideControlsBarAtom.addControl.dispatch({
-    id: DOWNLOAD_GEOMETRY_CONTROL_ID,
-    name: DOWNLOAD_GEOMETRY_CONTROL_NAME,
-    title: i18n.t('Download selected area'),
-    active: false,
-    visualGroup: controlVisualGroup.noAnalytics,
-    icon: <Download24 />,
-    onClick: () => {
-      const data = focusedGeometryAtom.getState();
-      if (!data)
-        return currentNotificationAtom.showNotification.dispatch(
-          'info',
-          { title: i18n.t('No selected geometry to download') },
-          5,
-        );
-      downloadObject(
-        { ...data.geometry },
-        `Disaster_Ninja_selected_geometry_${new Date().toISOString()}.json`,
-      );
     },
   });
 }

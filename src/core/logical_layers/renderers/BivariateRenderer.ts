@@ -84,9 +84,12 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     map: ApplicationMap,
     layerData: LayerTileSource,
     legend: BivariateLegend | null,
+    isVisible: boolean,
   ) {
     if (layerData == null) return;
     this.mountBivariateLayer(map, layerData, legend);
+
+    if (!isVisible) this.willHide({ map });
   }
 
   /* ========== Hooks ========== */
@@ -102,6 +105,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         map,
         state.source as LayerTileSource,
         state.legend as BivariateLegend,
+        state.isVisible,
       );
     }
   }
@@ -120,6 +124,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         map,
         state.source as LayerTileSource,
         state.legend as BivariateLegend,
+        state.isVisible,
       );
     }
   }

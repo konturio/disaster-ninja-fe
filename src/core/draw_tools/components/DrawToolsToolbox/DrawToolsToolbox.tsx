@@ -37,30 +37,39 @@ export const DrawToolsToolbox = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings]);
 
-  const onToggleDrawMode = useCallback(
-    (id) => toggleDrawMode(id),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
   const buttons = useMemo(
     () => [
       settings.availableModes?.includes('DrawPolygonMode') && (
-        <Button id={drawModes.DrawPolygonMode} dark variant="invert">
+        <Button
+          id={drawModes.DrawPolygonMode}
+          dark
+          variant="invert"
+          onClick={() => toggleDrawMode(drawModes.DrawPolygonMode)}
+        >
           <div className={s.btnContent}>
             <Area24 /> {i18n.t('Area')}
           </div>
         </Button>
       ),
       settings.availableModes?.includes('DrawLineMode') && (
-        <Button id={drawModes.DrawLineMode} dark variant="invert">
+        <Button
+          id={drawModes.DrawLineMode}
+          dark
+          variant="invert"
+          onClick={() => toggleDrawMode(drawModes.DrawLineMode)}
+        >
           <div className={s.btnContent}>
             <Line24 /> {i18n.t('Line')}
           </div>
         </Button>
       ),
       settings.availableModes?.includes('DrawPointMode') && (
-        <Button id={drawModes.DrawPointMode} dark variant="invert">
+        <Button
+          id={drawModes.DrawPointMode}
+          dark
+          variant="invert"
+          onClick={() => toggleDrawMode(drawModes.DrawPointMode)}
+        >
           <div className={s.btnContent}>
             <PointOutline24 /> {i18n.t('Point')}
           </div>
@@ -102,7 +111,6 @@ export const DrawToolsToolbox = () => {
       )}
 
       <ButtonGroup
-        onChange={onToggleDrawMode}
         current={activeDrawMode}
         classes={btnGroupClasses}
         borderWrap={false}

@@ -91,6 +91,22 @@ type CommonRoutesFeaturesProps = {
   userModel?: UserDataModel | null;
 };
 
+const afterChatContent = (loginFeature: boolean) => {
+  return (
+    <div className={s.afterChatContentWrap}>
+      <a
+        href="https://www.kontur.io/portfolio/disaster-ninja/"
+        target="_blank"
+        className={s.link}
+        rel="noreferrer"
+      >
+        <Text type="heading-m">{i18n.t('About')}</Text>
+      </a>
+      {loginFeature && <UserProfile />}
+    </div>
+  );
+};
+
 const CommonRoutesFeatures = ({ userModel }: CommonRoutesFeaturesProps) => {
   const { pathname } = useLocation();
 
@@ -132,11 +148,9 @@ const CommonRoutesFeatures = ({ userModel }: CommonRoutesFeaturesProps) => {
           <AppHeader
             title={headerTitle}
             logo={VisibleLogo()}
-            afterChatContent={
-              userModel.hasFeature(AppFeature.APP_LOGIN) ? (
-                <UserProfile />
-              ) : undefined
-            }
+            afterChatContent={afterChatContent(
+              userModel.hasFeature(AppFeature.APP_LOGIN),
+            )}
           />
         )}
       </Suspense>
