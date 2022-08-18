@@ -107,10 +107,10 @@ export function ConnectedMap({ className }: { className?: string }) {
     <Map
       accessToken={accessToken}
       ref={mapRef}
-      mapStyle={mapBaseStyle}
       onLoad={initLayersOrderManager}
       layersOnTop={LAYERS_ON_TOP}
       className={className}
+      style={mapBaseStyle}
     />
   );
 }
