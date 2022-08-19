@@ -30,5 +30,11 @@ export const currentEventAtom = createAtom(
   '[Shared state] currentEventAtom',
 );
 
-export const scheduledAutoSelect = createBooleanAtom(false);
-export const scheduledAutoFocus = createBooleanAtom(false);
+export const scheduledAutoSelect = createBooleanAtom(
+  false,
+  'scheduledAutoSelect',
+);
+export const scheduledAutoFocus = createBooleanAtom(
+  false,
+  'scheduledAutoFocus',
+);
