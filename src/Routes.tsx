@@ -4,7 +4,12 @@ import { matchPath } from 'react-router';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
 import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
-import { BrowserRouter as Router, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  useLocation,
+  Redirect,
+} from 'react-router-dom';
 import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
 import config from '~core/app_config';
@@ -64,6 +69,7 @@ export function RoutedApp() {
                 <BivariateManagerPage />
               </Suspense>
             </Route>
+            <Redirect to="/" />
           </CacheSwitch>
         )}
       </Router>
