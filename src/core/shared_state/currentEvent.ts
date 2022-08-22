@@ -32,3 +32,4 @@ export const currentEventAtom = createAtom(
 
 export const scheduledAutoSelect = createBooleanAtom(false);
 export const scheduledAutoFocus = createBooleanAtom(false);
+export const eventWasDeselected = createBooleanAtom(false);

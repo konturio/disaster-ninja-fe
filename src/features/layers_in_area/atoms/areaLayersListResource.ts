@@ -10,6 +10,7 @@ import { EDITABLE_LAYERS_GROUP } from '~core/constants';
 import { userResourceAtom } from '~core/auth';
 import { LAYERS_IN_AREA_API_ERROR } from '~features/layers_in_area/constants';
 import { AppFeature } from '~core/auth/types';
+import { eventWasDeselected } from '~core/shared_state/currentEvent';
 import type { LayerInArea } from '../types';
 import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 
@@ -39,6 +40,7 @@ const areaLayersListDependencyAtom = createAtom(
       eventFeed: { id: string } | null;
       appId: string | null;
       createLayerFeatureActivated: boolean | null;
+      eventWasDeselected?: boolean;
     } = {
       focusedGeometry: null,
       eventFeed: null,
@@ -58,6 +60,7 @@ const areaLayersListDependencyAtom = createAtom(
         eventFeed,
         appId,
         createLayerFeatureActivated,
+        eventWasDeselected: getUnlistedState(eventWasDeselected),
       };
     });
 
@@ -68,8 +71,8 @@ const areaLayersListDependencyAtom = createAtom(
 
 export const areaLayersListResource = createResourceAtom(
   async (params) => {
-    if (!params) return;
-    if (params.createLayerFeatureActivated === null) return; // Avoid double request
+    if (!params?.focusedGeometry && !params?.eventWasDeselected) return;
+    if (params?.createLayerFeatureActivated === null) return; // Avoid double request
     const body: {
       eventId?: string;
       geoJSON?: GeoJSON.GeoJSON;
@@ -77,7 +80,7 @@ export const areaLayersListResource = createResourceAtom(
       appId?: string;
     } = params.focusedGeometry
       ? {
-          geoJSON: params.focusedGeometry.geometry,
+          geoJSON: params?.focusedGeometry.geometry,
         }
       : {};
 
@@ -92,19 +95,19 @@ export const areaLayersListResource = createResourceAtom(
       body.appId = params.appId;
     }
 
-  let responseData: LayerInArea[] | null;
-  try {
-    responseData = await apiClient.post<LayerInArea[]>(
-      '/layers/search/',
-      body,
-      true,
-      { errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR } },
-    );
-  } catch (e: unknown) {
-    throw new Error('Error while fetching area layers data');
-  }
+    let responseData: LayerInArea[] | null;
+    try {
+      responseData = await apiClient.post<LayerInArea[]>(
+        '/layers/search/',
+        body,
+        true,
+        { errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR } },
+      );
+    } catch (e: unknown) {
+      throw new Error('Error while fetching area layers data');
+    }
 
-  if (responseData === null) return [];
+    if (responseData === null) return [];
 
     /* Performance optimization - editable layers updated in create_layer feature */
     if (params.createLayerFeatureActivated) {

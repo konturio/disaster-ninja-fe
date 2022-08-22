@@ -11,6 +11,7 @@ import {
 import {
   scheduledAutoSelect,
   scheduledAutoFocus,
+  eventWasDeselected,
 } from '~core/shared_state/currentEvent';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { URLStore } from '../URLStore';
@@ -113,6 +114,8 @@ export const urlStoreAtom = createAtom(
         // Apply event
         if (state.event) {
           actions.push(currentEventAtom.setCurrentEventId(state.event));
+        } else if (state.map) {
+          actions.push(eventWasDeselected.setTrue());
         }
 
         // Apply feed
