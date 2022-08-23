@@ -16,23 +16,23 @@ export const EditTargets = {
 
 export const USER_LAYER_FIELDS = [
   {
-    label: 'Select',
+    label: 'create_layer.select',
     type: FieldTypes.None,
   },
   {
-    label: 'Short Text',
+    label: 'create_layer.short_text',
     type: FieldTypes.ShortText,
   },
   {
-    label: 'Long Text',
+    label: 'create_layer.long_text',
     type: FieldTypes.LongText,
   },
   {
-    label: 'Link',
+    label: 'create_layer.link',
     type: FieldTypes.Link,
   },
   {
-    label: 'Image',
+    label: 'create_layer.image',
     type: FieldTypes.Image,
   },
 ];

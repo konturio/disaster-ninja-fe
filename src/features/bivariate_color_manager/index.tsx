@@ -14,7 +14,7 @@ export function initBivariateColorManagerIcon(
   sideControlsBarAtom.addControl.dispatch({
     id: BIVARIATE_COLOR_MANAGER_CONTROL_ID,
     name: BIVARIATE_COLOR_MANAGER_CONTROL_NAME,
-    title: i18n.t('sidebar.biv-color-manager'),
+    title: i18n.t('sidebar.biv_color_manager'),
     active: false,
     visualGroup: controlVisualGroup.noAnalytics,
     icon: <Prefs24 />,

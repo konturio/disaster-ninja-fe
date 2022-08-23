@@ -34,21 +34,21 @@ export function Analytics({
 
     if (affectedPeople === 0)
       result.push({
-        tooltip: i18n.t('Affected People'),
-        value: i18n.t('No humanitarian impact'),
+        tooltip: i18n.t('analytics.affected_people.tooltip'),
+        value: i18n.t('analytics.affected_people.value'),
         icon: <People16 />,
       });
 
     if (typeof affectedPeople === 'number')
       result.push({
-        tooltip: i18n.t('Affected People'),
+        tooltip: i18n.t('analytics.affected_people.tooltip'),
         value: formatNumber(affectedPeople),
         icon: <People16 />,
       });
 
     if (typeof settledArea === 'number')
       result.push({
-        tooltip: i18n.t('Settled Area'),
+        tooltip: i18n.t('analytics.settled_area.tooltip'),
 
         value: (
           <span>
@@ -60,13 +60,13 @@ export function Analytics({
 
     if (typeof osmGapsPercentage === 'number')
       result.push({
-        tooltip: i18n.t('OSM Gaps Percentage (lower is better)'),
+        tooltip: i18n.t('analytics.osm_gaps_percentage.tooltip'),
         value: `${osmGapsPercentage}% gaps`,
       });
 
     if (typeof loss === 'number')
       result.push({
-        tooltip: i18n.t('Estimated loss'),
+        tooltip: i18n.t('analytics.loss.tooltip'),
         value: `$${formatNumber(loss)} estimated loss`,
       });
 

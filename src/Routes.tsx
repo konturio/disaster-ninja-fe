@@ -86,10 +86,12 @@ const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 const PAGE_TITLES_BY_ROUTE = {
   [ROUTES.base]: () => DEFAULT_HEADER_TITLE,
-  [ROUTES.reports]: () => <LinkableTitle title={i18n.t('Reports')} />,
-  [ROUTES.reportPage]: () => <LinkableTitle title={i18n.t('Reports')} />,
+  [ROUTES.reports]: () => <LinkableTitle title={i18n.t('sidebar.reports')} />,
+  [ROUTES.reportPage]: () => (
+    <LinkableTitle title={i18n.t('sidebar.reports')} />
+  ),
   [ROUTES.bivariateManager]: () => (
-    <LinkableTitle title={i18n.t('Appearance administration')} />
+    <LinkableTitle title={i18n.t('bivariate.color_manager.title')} />
   ),
 };
 
@@ -106,7 +108,7 @@ const afterChatContent = (loginFeature: boolean) => {
         className={s.link}
         rel="noreferrer"
       >
-        <Text type="heading-m">{i18n.t('About')}</Text>
+        <Text type="heading-m">{i18n.t('about')}</Text>
       </a>
       {loginFeature && <UserProfile />}
     </div>
@@ -190,7 +192,7 @@ const LinkableTitle = ({ title }: { title: string }) => {
         <span
           className={s.clickable}
           onClick={goBase}
-          title={i18n.t('to main page')}
+          title={i18n.t('to_main_page')}
         >
           Disaster Ninja
         </span>{' '}

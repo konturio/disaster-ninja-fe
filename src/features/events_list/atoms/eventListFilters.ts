@@ -29,8 +29,8 @@ export const eventListFilters = createAtom(
         };
       } else {
         notification.warning({
-          title: i18n.t("Can't use map as filter"),
-          description: i18n.t('Map not ready yet, try later'),
+          title: i18n.t('event_list.warning_title'),
+          description: i18n.t('event_list.warning_description'),
         });
       }
     });

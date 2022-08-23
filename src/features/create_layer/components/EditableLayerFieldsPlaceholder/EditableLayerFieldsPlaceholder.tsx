@@ -27,7 +27,7 @@ export function EditableLayerFieldsPlaceholder({
         className={clsx(s.dividerLabel, 'k-font-caption')}
         type="horizontal"
       >
-        {i18n.t('Fields')}
+        {i18n.t('create_layer.fields')}
       </Divider>
 
       <DndProvider backend={HTML5Backend}>
@@ -52,7 +52,7 @@ export function EditableLayerFieldsPlaceholder({
         iconBefore={<Plus24 />}
         size="small"
       >
-        {i18n.t('Add field')}
+        {i18n.t('create_layer.add_field')}
       </Button>
 
       <Divider fitted />
