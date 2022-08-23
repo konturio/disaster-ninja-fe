@@ -1,5 +1,8 @@
 import clsx from 'clsx';
 import s from './SocialLoginIcon.module.css';
+import googleIcon from './google_icon.png';
+import githubIcon from './github_icon.png';
+import osmIcon from './osm_icon.png';
 
 interface SocialLoginIconProps {
   type: 'google' | 'github' | 'osm';
@@ -7,9 +10,9 @@ interface SocialLoginIconProps {
 }
 
 const ICON_SOURCES = {
-  google: 'assets/google_icon.png',
-  github: 'assets/github_icon.png',
-  osm: 'assets/osm_icon.png',
+  google: googleIcon,
+  github: githubIcon,
+  osm: osmIcon,
 };
 
 export function SocialLoginIcon({ type, className }: SocialLoginIconProps) {
