@@ -92,7 +92,6 @@ function createResourceFetcherAtom<P, T>(
         newState.canceled = false;
         schedule(async (dispatch, ctx: ResourceCtx<P>) => {
           const version = (ctx.version ?? 0) + 1;
-          const nextParams = ctx.lastParams || null;
           ctx._refetchable = true;
           ctx.version = version;
           ctx.lastParams = params; // explicit set that request no have any parameters
@@ -139,8 +138,11 @@ function createResourceFetcherAtom<P, T>(
             if (version !== ctx.version) {
               // extra dispatch allows resource subscribers to proccess cancel event and then
               // process the response of the next event
-              if (ctx.allowCancel)
-                dispatch(create('cancel', nextParams, params));
+              if (ctx.allowCancel) {
+                // if another request was fired - ctx.lastParams would be overwritten with latest params
+                // so on the cancel we'd be able to compare those two if needed
+                dispatch(create('cancel', ctx.lastParams, params));
+              }
             }
             if (requestAction) {
               dispatch([requestAction, create('finally')]);
