@@ -23,7 +23,7 @@ export const controlVisualGroup = {
   noAnalytics: 'noAnalytics',
 };
 
-export const sideControlsBarAtom = createAtom(
+export const toolbarControlsAtom = createAtom(
   {
     addControl: (control: SideControl) => control,
     removeControl: (controlId: string) => controlId,

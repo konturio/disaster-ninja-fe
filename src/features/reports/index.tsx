@@ -1,12 +1,12 @@
 import { BookOpen24 } from '@konturio/default-icons';
-import { sideControlsBarAtom } from '~core/shared_state';
-import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import { toolbarControlsAtom } from '~core/shared_state';
+import { controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
 import { REPORTS_CONTROL_ID, REPORTS_CONTROL_NAME } from './constants';
 import type { useHistory } from 'react-router';
 
 export function initReportsIcon(history: ReturnType<typeof useHistory>) {
-  sideControlsBarAtom.addControl.dispatch({
+  toolbarControlsAtom.addControl.dispatch({
     id: REPORTS_CONTROL_ID,
     name: REPORTS_CONTROL_NAME,
     title: i18n.t('Reports'),
@@ -14,9 +14,9 @@ export function initReportsIcon(history: ReturnType<typeof useHistory>) {
     visualGroup: controlVisualGroup.noAnalytics,
     icon: <BookOpen24 />,
     onClick: (becomesActive) => {
-      sideControlsBarAtom.enable.dispatch(REPORTS_CONTROL_ID);
+      toolbarControlsAtom.enable.dispatch(REPORTS_CONTROL_ID);
       history.push('./reports');
-      sideControlsBarAtom.disable.dispatch(REPORTS_CONTROL_ID);
+      toolbarControlsAtom.disable.dispatch(REPORTS_CONTROL_ID);
     },
   });
 }

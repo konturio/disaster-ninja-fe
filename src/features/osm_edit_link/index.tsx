@@ -1,14 +1,14 @@
 import { EditOsm24 } from '@konturio/default-icons';
 import {
   currentMapPositionAtom,
-  sideControlsBarAtom,
+  toolbarControlsAtom,
 } from '~core/shared_state';
-import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import { controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
 import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';
 
 export function initOsmEditLink() {
-  sideControlsBarAtom.addControl.dispatch({
+  toolbarControlsAtom.addControl.dispatch({
     id: EDIT_IN_OSM_CONTROL_ID,
     name: EDIT_IN_OSM_CONTROL_NAME,
     title: i18n.t('Edit in OpenStreetMap'),

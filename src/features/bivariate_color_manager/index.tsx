@@ -1,6 +1,6 @@
 import { Prefs24 } from '@konturio/default-icons';
-import { sideControlsBarAtom } from '~core/shared_state';
-import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import { toolbarControlsAtom } from '~core/shared_state';
+import { controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
 import {
   BIVARIATE_COLOR_MANAGER_CONTROL_ID,
@@ -11,7 +11,7 @@ import type { useHistory } from 'react-router';
 export function initBivariateColorManagerIcon(
   history: ReturnType<typeof useHistory>,
 ) {
-  sideControlsBarAtom.addControl.dispatch({
+  toolbarControlsAtom.addControl.dispatch({
     id: BIVARIATE_COLOR_MANAGER_CONTROL_ID,
     name: BIVARIATE_COLOR_MANAGER_CONTROL_NAME,
     title: i18n.t('sidebar.biv-color-manager'),
@@ -19,9 +19,9 @@ export function initBivariateColorManagerIcon(
     visualGroup: controlVisualGroup.noAnalytics,
     icon: <Prefs24 />,
     onClick: (_becomesActive) => {
-      sideControlsBarAtom.enable.dispatch(BIVARIATE_COLOR_MANAGER_CONTROL_ID);
+      toolbarControlsAtom.enable.dispatch(BIVARIATE_COLOR_MANAGER_CONTROL_ID);
       history.push('./bivariate-manager');
-      sideControlsBarAtom.disable.dispatch(BIVARIATE_COLOR_MANAGER_CONTROL_ID);
+      toolbarControlsAtom.disable.dispatch(BIVARIATE_COLOR_MANAGER_CONTROL_ID);
     },
   });
 }

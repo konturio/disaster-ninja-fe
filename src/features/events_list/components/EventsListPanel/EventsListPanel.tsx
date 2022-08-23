@@ -6,12 +6,12 @@ import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { sideControlsBarAtom } from '~core/shared_state';
+import { toolbarControlsAtom } from '~core/shared_state';
 import {
   EVENT_LIST_CONTROL_ID,
   EVENT_LIST_CONTROL_NAME,
 } from '~features/events_list/constants';
-import { controlVisualGroup } from '~core/shared_state/sideControlsBar';
+import { controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import { i18n } from '~core/localization';
@@ -36,7 +36,7 @@ export function EventsListPanel({
   eventsList: Event[] | null;
 }) {
   const [, { enable, disable, addControl, toggleActiveState }] =
-    useAtom(sideControlsBarAtom);
+    useAtom(toolbarControlsAtom);
 
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [wasClosed, setWasClosed] = useState<null | boolean>(null);
