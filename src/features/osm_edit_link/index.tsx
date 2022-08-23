@@ -11,7 +11,7 @@ export function initOsmEditLink() {
   sideControlsBarAtom.addControl.dispatch({
     id: EDIT_IN_OSM_CONTROL_ID,
     name: EDIT_IN_OSM_CONTROL_NAME,
-    title: i18n.t('Edit in OpenStreetMap'),
+    title: i18n.t('sidebar.edit_osm'),
     active: false,
     visualGroup: controlVisualGroup.noAnalytics,
     icon: <EditOsm24 />,

@@ -35,9 +35,9 @@ export function TableCellComponent({
         <a
           onClick={(e) => jOSMRedirect(e, link)}
           href={link}
-          title={i18n.t('Open via JOSM remote control')}
+          title={i18n.t('reports.open_josm')}
         >
-          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} /> {name}
+          <img src={jOSMLogo} alt={i18n.t('reports.josm_logo_alt')} /> {name}
         </a>
       </td>
     );

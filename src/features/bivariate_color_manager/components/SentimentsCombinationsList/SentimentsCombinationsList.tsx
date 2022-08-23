@@ -35,10 +35,10 @@ type SentimentsCombinationsListProps = {
 const sortDescendingByMaps = sortByKey<Row>('maps', 'desc');
 
 const columns = [
-  { title: i18n.t('Legend'), className: s.centered },
-  { title: i18n.t('Maps'), className: s.centered },
-  { title: i18n.t('Vertical direction') },
-  { title: i18n.t('Horizontal direction') },
+  { title: i18n.t('legend'), className: s.centered },
+  { title: i18n.t('maps'), className: s.centered },
+  { title: i18n.t('vertical_direction') },
+  { title: i18n.t('horizontal_direction') },
 ];
 
 const SentimentsCombinationsList = memo(
@@ -139,10 +139,10 @@ const showEmptyResultsTable = (anyFilterActivated: boolean) => (
       {anyFilterActivated ? (
         <>
           <EyeOff24 />
-          {i18n.t('There are no legends satisfying the conditions.')}
+          {i18n.t('bivariate.color_manager.no_legends')}
         </>
       ) : (
-        i18n.t('No data.')
+        i18n.t('bivariate.color_manager.no_data')
       )}
     </td>
   </tr>

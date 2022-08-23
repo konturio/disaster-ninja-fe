@@ -5,11 +5,12 @@ const AdvancedAnalyticsPanelHeaderContainer = () => (
   <AnalyticsPanelHeader
     resourceAtom={advancedAnalyticsResourceAtom}
     messages={{
-      init: 'Select Geometry',
-      loading: 'Loading advanced analytics...',
-      error: 'Error',
-      other: 'Advanced analytics'
+      init: 'analytics_panel_header.init',
+      loading: 'advanced_analytics_panel_header.loading',
+      error: 'analytics_panel_header.error',
+      other: 'advanced_analytics_panel_header.other',
     }}
-  />);
+  />
+);
 
 export default AdvancedAnalyticsPanelHeaderContainer;

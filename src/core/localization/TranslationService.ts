@@ -10,7 +10,6 @@ i18n
     fallbackLng: 'en',
     debug: false,
     defaultNS: 'common',
-    keySeparator: '/',
     interpolation: {
       escapeValue: false,
     },

@@ -49,7 +49,7 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
         ))}
       {links && links.length ? (
         <div className={s.stat}>
-          <div className={s.statHead}>{i18n.t('Details')}</div>
+          <div className={s.statHead}>{i18n.t('details')}</div>
           <div className={s.statContent}>
             {links.map((link) => (
               <a

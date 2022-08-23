@@ -22,7 +22,7 @@ export function useDrawings() {
           setDrawings(updatedData);
           break;
         case 'skipSelfIntersection':
-          alert(t('Self intersections are not supported'));
+          alert(t('drawings.self_directions_not_supported'));
           break;
         default:
           break;

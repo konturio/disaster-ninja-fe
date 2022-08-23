@@ -39,11 +39,11 @@ export function ReportTable() {
   }, []);
 
   if (data === null) {
-    return <Text type="heading-xl">{i18n.t('No data for this report')}</Text>;
+    return <Text type="heading-xl">{i18n.t('reports.no_data')}</Text>;
   }
 
   if (isSorting) {
-    return <Text type="heading-xl">{i18n.t('Sorting data...')}</Text>;
+    return <Text type="heading-xl">{i18n.t('reports.sorting')}</Text>;
   }
 
   return (

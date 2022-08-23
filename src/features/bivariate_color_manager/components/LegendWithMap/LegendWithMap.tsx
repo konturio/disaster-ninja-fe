@@ -70,7 +70,7 @@ export const LegendWithMap = ({
 
   return (
     <div className={s.legendWithMapContainer}>
-      <Text type="heading-m">{i18n.t('Legend presentation ')}</Text>
+      <Text type="heading-m">{i18n.t('legend_presentation')}</Text>
 
       <BivariateLegendComponent
         showDescription={false}
