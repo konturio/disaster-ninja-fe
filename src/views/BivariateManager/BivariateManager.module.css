@@ -4,49 +4,42 @@
   display: flex;
   min-width: 845px;
   overflow-x: auto;
-}
 
-.Nav,
-.List,
-.LegendMap {
-  display: flex;
-  flex-direction: column;
-}
+  & .Nav {
+    display: flex;
+    flex-direction: column;
+    width: 188px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--faint-weak);
+    padding-top: var(--half-unit);
 
-.LegendMap {
-  width: 492px;
-  flex-shrink: 0;
-}
+    & .Tab {
+      font: var(--font);
+      line-height: 40px;
+      display: flex;
+      width: 100%;
 
-.Nav {
-  width: 188px;
-  flex-shrink: 0;
-}
+      &[aria-selected='true'] {
+        background: var(--accent-weak);
+        color: var(--accent-strong);
+      }
 
-.ListFilters {
-  display: flex;
-  align-items: center;
-  padding: 24px 32px 16px 32px;
-}
+      & .TabItem {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding-left: 18px;
 
-.List {
-  display: flex;
-  flex-grow: 1;
-  border: 1px solid var(--faint-weak);
-  border-width: 0px 1px 0px 1px;
-  flex-direction: column;
-  min-width: 440px;
-}
+        & .TabIcon {
+          height: 100%;
+          display: flex;
+        }
 
-.ListBody {
-  display: flex;
-  overflow: auto;
-  padding: 0 calc(var(--unit) * 3) 0 calc(var(--unit) * 3);
-  justify-content: center;
-}
-
-.LayersFilterMenu {
-  z-index: 2;
-  max-height: 60vh;
-  overflow: auto;
+        & svg {
+          height: 16px;
+          width: 16px;
+        }
+      }
+    }
+  }
 }
