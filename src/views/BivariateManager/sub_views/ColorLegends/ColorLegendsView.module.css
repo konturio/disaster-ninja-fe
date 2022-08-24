@@ -5,12 +5,6 @@
   flex-shrink: 0;
 }
 
-.ListFilters {
-  display: flex;
-  align-items: center;
-  padding: 24px 32px 16px 32px;
-}
-
 .List {
   display: flex;
   flex-direction: column;
@@ -24,10 +18,4 @@
   overflow: auto;
   padding: 0 calc(var(--unit) * 3) 0 calc(var(--unit) * 3);
   justify-content: center;
-}
-
-.LayersFilterMenu {
-  z-index: 2;
-  max-height: 60vh;
-  overflow: auto;
 }

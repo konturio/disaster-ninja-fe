@@ -1,0 +1,11 @@
+.ListFilters {
+  display: flex;
+  align-items: center;
+  padding: 24px 32px 16px 32px;
+}
+
+.LayersFilterMenu {
+  z-index: 2;
+  max-height: 60vh;
+  overflow: auto;
+}
