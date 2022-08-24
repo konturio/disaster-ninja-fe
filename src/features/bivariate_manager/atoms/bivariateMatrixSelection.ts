@@ -98,6 +98,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
                   type: biSource.type,
                   urls: biSource.tiles,
                   tileSize: 512,
+                  apiKey: '',
                 },
               }
             : undefined;
