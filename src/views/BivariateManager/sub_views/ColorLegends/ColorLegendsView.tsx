@@ -36,7 +36,7 @@ export const ColorLegendsView = () => {
   const anyFilterActivated = Object.values(filters).filter(Boolean).length > 0;
 
   return (
-    <>
+    <div className={style.ColorLegendContainer}>
       <div className={style.List}>
         <ColorLegendFilters />
 
@@ -76,6 +76,6 @@ export const ColorLegendsView = () => {
           )}
         </CSSTransitionWrapper>
       </div>
-    </>
+    </div>
   );
 };
