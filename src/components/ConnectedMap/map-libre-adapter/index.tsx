@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { appMetrics } from '~core/metrics';
 import { useMarkers } from './useMarkers';
 import { useArrayDiff } from './useArrayDiff';
 import type { Marker } from './types';
@@ -12,7 +11,6 @@ import type {
   EventData,
   Map,
   LngLatBoundsLike,
-  FitBoundsOptions,
   GeoJSONSource,
   GeoJSONSourceOptions,
 } from 'maplibre-gl';
@@ -53,7 +51,6 @@ export interface MapBoxMapProps {
   popup?: Popup;
   featuresState?: FeatureState[];
   bounds?: LngLatBoundsLike;
-  boundsOptions?: FitBoundsOptions;
   markers?: Marker[];
   isochroneStyle?: any;
   layersOnTop?: string[];
@@ -89,8 +86,6 @@ function MapboxMap(
     activeFeature,
     featuresState,
     popup,
-    bounds,
-    boundsOptions,
     markers,
     isochroneStyle,
     layersOnTop,
@@ -131,10 +126,6 @@ function MapboxMap(
   useEffect(() => {
     if (map === null) return;
     if (!mapLoaded) return;
-    if (bounds !== undefined) {
-      map.fitBounds(bounds, boundsOptions);
-      return;
-    }
     if (mapStyle.center !== undefined) {
       map.flyTo({
         center: mapStyle.center as [number, number],
@@ -146,14 +137,13 @@ function MapboxMap(
       map.setZoom(mapStyle.zoom);
       return;
     }
-  }, [map, mapLoaded, bounds, boundsOptions, mapStyle.center, mapStyle.zoom]);
+  }, [map, mapLoaded, mapStyle.center, mapStyle.zoom]);
 
   /* On load effect */
   useEffect(() => {
     if (!map) return;
     const loadHandler = (): void => {
       // Set initial position
-      bounds && map.fitBounds(bounds, { duration: 0 });
       setMapLoaded(true);
       onLoad && onLoad(true);
     };
@@ -162,7 +152,7 @@ function MapboxMap(
     return () => {
       map.off('load', loadHandler);
     };
-  }, [map, bounds, onLoad]);
+  }, [map, onLoad]);
 
   /* Set markers effect */
   const mapBoxMarkers = useMarkers(markers);
