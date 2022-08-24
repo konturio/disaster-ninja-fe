@@ -71,16 +71,18 @@
       "edit_feature_placeholder": "Select some feature for start edit feature properties"
     },
 
-    "advanced_analytics_panel_header": {
-      "loading": "Loading advanced analytics...",
-      "other": "Advanced analytics"
-    },
-
-    "analytics_panel_header": {
+    "analytics_panel": {
       "init": "Select Geometry",
       "loading": "Loading analytics...",
       "error": "Error",
-      "other": "Analytics"
+      "other": "Analytics",
+      "info_tab": "INFO"
+    },
+
+    "advanced_analytics_panel": {
+      "loading": "Loading advanced analytics...",
+      "other": "Advanced analytics",
+      "analytics_tab": "Advanced Analytics"
     },
 
     "advanced_analytics_empty": {
@@ -138,7 +140,10 @@
         "layers_filter": "Layers",
         "title": "Appearance administration",
         "no_legends": "There are no legends satisfying the conditions.",
-        "no_data": "No Data."
+        "no_data": "No Data.",
+        "sentiments_tab": "Sentiments",
+        "color_legends_tab": "Color Legends",
+        "layers_tab": "Layers (indicators)"
       }
     },
 
