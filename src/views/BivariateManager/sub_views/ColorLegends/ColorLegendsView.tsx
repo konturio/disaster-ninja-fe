@@ -12,6 +12,7 @@ import {
 import { LegendWithMap } from '~features/bivariate_color_manager/components/LegendWithMap/LegendWithMap';
 import { bivariateColorManagerAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManager';
 import style from './ColorLegendsView.module.css';
+import type { LayerSelectionInput } from '~features/bivariate_color_manager/atoms/bivariateColorManager';
 import type { LayerSelectionFull } from '~features/bivariate_color_manager/components/LegendWithMap/LegendWithMap';
 import type { BivariateColorManagerData } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
 import type { SelectItemType } from '@konturio/ui-kit/tslib/Select/types';
@@ -20,6 +21,14 @@ const LayersFilterMenuClasses = { menu: style.LayersFilterMenu };
 
 function itemToString(item) {
   return item ? item.title : '';
+}
+
+function isFullSelection(
+  selection: LayerSelectionInput | null,
+): selection is LayerSelectionFull {
+  return (
+    selection?.horizontal !== undefined && selection?.vertical !== undefined
+  );
 }
 
 export const ColorLegendsView = () => {
@@ -33,8 +42,6 @@ export const ColorLegendsView = () => {
     filteredDataNotEmpty && layersSelection?.key
       ? (data as BivariateColorManagerData)[layersSelection.key]
       : null;
-  const fullSelection =
-    layersSelection?.horizontal && layersSelection?.vertical;
   const anyFilterActivated = Object.values(filters).filter(Boolean).length > 0;
 
   const selectIndicatorsData: SelectItemType[] = useMemo(() => {
@@ -66,7 +73,7 @@ export const ColorLegendsView = () => {
           ) : (
             <SentimentsCombinationsList
               anyFilterActivated={anyFilterActivated}
-              data={data as BivariateColorManagerData}
+              data={data!}
               setLayersSelection={setLayersSelection}
               layersSelection={layersSelection}
               selectedRows={selectedRows}
@@ -78,7 +85,7 @@ export const ColorLegendsView = () => {
 
       <div className={style.LegendMap}>
         <CSSTransitionWrapper
-          in={Boolean(fullSelection)}
+          in={isFullSelection(layersSelection)}
           timeout={300}
           unmountOnExit
           appear
@@ -86,9 +93,9 @@ export const ColorLegendsView = () => {
         >
           {(ref) => (
             <div ref={ref}>
-              {selectedData && fullSelection && (
+              {selectedData && isFullSelection(layersSelection) && (
                 <LegendWithMap
-                  layersSelection={layersSelection as LayerSelectionFull}
+                  layersSelection={layersSelection}
                   selectedData={selectedData}
                 />
               )}

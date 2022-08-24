@@ -11,6 +11,10 @@ import { i18n } from '~core/localization';
 import style from './BivariateManager.module.css';
 
 export function BivariateManagerPage() {
+  const tabsClasses = {
+    selected: style.SelectedTab,
+  };
+
   return (
     <Tabs
       defaultIndex={1}
@@ -18,7 +22,7 @@ export function BivariateManagerPage() {
       orientation="vertical"
     >
       <TabList className={style.Nav}>
-        <Tab className={style.Tab}>
+        <Tab className={style.Tab} classes={tabsClasses}>
           <div className={style.TabItem}>
             <span className={style.TabIcon}>
               <ColumnWidth16 />
@@ -26,7 +30,7 @@ export function BivariateManagerPage() {
             {i18n.t('Sentiments')}
           </div>
         </Tab>
-        <Tab className={style.Tab}>
+        <Tab className={style.Tab} classes={tabsClasses}>
           <div className={style.TabItem}>
             <span className={style.TabIcon}>
               <TwoXTwo16 />
@@ -34,7 +38,7 @@ export function BivariateManagerPage() {
             {i18n.t('Color Legends')}
           </div>
         </Tab>
-        <Tab className={style.Tab}>
+        <Tab className={style.Tab} classes={tabsClasses}>
           <div className={style.TabItem}>
             <span className={style.TabIcon}>
               <Tags16 />

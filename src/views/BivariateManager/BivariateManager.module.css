@@ -19,7 +19,7 @@
       display: flex;
       width: 100%;
 
-      &[aria-selected='true'] {
+      &.SelectedTab {
         background: var(--accent-weak);
         color: var(--accent-strong);
       }
