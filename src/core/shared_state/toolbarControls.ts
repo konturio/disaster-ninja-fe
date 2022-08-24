@@ -92,7 +92,7 @@ export const toolbarControlsAtom = createAtom(
       const control = state[controlId];
       if (!control)
         return console.error(
-          `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
+          `[toolbarControlsAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
         );
 
       const action = create(
@@ -109,5 +109,5 @@ export const toolbarControlsAtom = createAtom(
 
     return state;
   },
-  '[Shared state] sideControlsBarAtom',
+  '[Shared state] toolbarControlsAtom',
 );

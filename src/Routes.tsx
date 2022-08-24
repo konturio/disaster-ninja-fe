@@ -20,6 +20,7 @@ import { LoginForm } from '~features/user_profile';
 import { AppFeature } from '~core/auth/types';
 import { currentApplicationAtom } from '~core/shared_state';
 import { initUrlStore } from '~core/url_store';
+import { initModes } from '~core/modes/initializeModes';
 import s from './views/Main/Main.module.css';
 import type { UserDataModel } from '~core/auth';
 const { MainView } = lazily(() => import('~views/Main/Main'));
@@ -141,6 +142,10 @@ const CommonRoutesFeatures = ({ userModel }: CommonRoutesFeaturesProps) => {
   }, [pathname]);
 
   const headerTitle = getHeaderTitle(pathname);
+
+  useEffect(() => {
+    initModes();
+  }, []);
 
   if (!userModel) return null;
 
