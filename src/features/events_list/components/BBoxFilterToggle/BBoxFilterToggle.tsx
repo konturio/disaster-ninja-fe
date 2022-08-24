@@ -25,7 +25,7 @@ export function BBoxFilterToggle() {
         onClick={isActive ? resetBboxFilter : setBBoxFilterFromCurrentMapView}
         iconAfter={isActive ? <CloseFilled16 /> : null}
       >
-        {i18n.t('Use map view as filter')}
+        {i18n.t('event_list.bbox_filter_button')}
       </Button>
       {isActive && (
         <Button

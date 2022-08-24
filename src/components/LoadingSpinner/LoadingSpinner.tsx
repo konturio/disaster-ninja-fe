@@ -4,7 +4,7 @@ import { KonturSpinner } from './KonturSpinner';
 import s from './LoadingSpinner.module.css';
 
 export function LoadingSpinner({
-  message = i18n.t('Gathering data'),
+  message = i18n.t('spinner_text'),
 }: {
   message?: string;
 }) {

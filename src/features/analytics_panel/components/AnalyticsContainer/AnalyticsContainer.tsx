@@ -1,5 +1,4 @@
 import { useAtom } from '@reatom/react';
-import { useCallback, useState } from 'react';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@konturio/ui-kit';
 import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
@@ -20,15 +19,6 @@ const AnalyticsContainer = () => {
     data,
   });
 
-  const [currentTab, setCurrentTab] = useState<string>('data');
-
-  const setTab = useCallback(
-    (tabId: string) => {
-      setCurrentTab(tabId);
-    },
-    [setCurrentTab],
-  );
-
   return statesToComponents({
     init: <AnalyticsEmptyState />,
     loading: <LoadingSpinner />,
@@ -41,7 +31,7 @@ const AnalyticsContainer = () => {
       return (
         <Tabs>
           <TabList style={{ display: 'none' }}>
-            <Tab>{i18n.t('INFO')}</Tab>
+            <Tab>{i18n.t('analytics_panel.info_tab')}</Tab>
             {/*<Tab>*/}
             {/*  {i18n.t('COMMUNITIES')}*/}
             {/*</Tab>*/}

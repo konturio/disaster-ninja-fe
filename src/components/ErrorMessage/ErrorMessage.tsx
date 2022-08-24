@@ -1,5 +1,6 @@
 import { Text } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
+import errorImage from './error-state-img.png';
 import s from './ErrorMessage.module.css';
 
 export function ErrorMessage({ message }) {
@@ -10,7 +11,7 @@ export function ErrorMessage({ message }) {
           message ?? 'Sorry, we are having issues, which will be fixed soon',
         )}
       </Text>
-      <img src="assets/error-state-img.png" alt="" className={s.icon} />
+      <img src={errorImage} alt="" className={s.icon} />
     </div>
   );
 }

@@ -54,14 +54,14 @@ export function LoginForm() {
   const onLoginClick = async () => {
     const err: { email?: string; password?: string; general?: string } = {};
     if (!formData.email?.length) {
-      err.email = i18n.t('Email has not to be empty!');
+      err.email = i18n.t('login.error.email_empty');
     } else {
       if (!testEmail(formData.email)) {
-        err.email = i18n.t('Email has to be valid!');
+        err.email = i18n.t('login.error.email_invalid');
       }
     }
     if (!formData.password?.length) {
-      err.password = i18n.t('Password has not to be empty!');
+      err.password = i18n.t('login.error.password');
     }
     if (err.email || err.password) {
       setError(err);
@@ -77,7 +77,7 @@ export function LoginForm() {
           setError({ general: authResponse });
         } else {
           setError({
-            general: i18n.t("Couldn't connect to authentication service"),
+            general: i18n.t('login.error.connect'),
           });
         }
       }
@@ -107,10 +107,10 @@ export function LoginForm() {
       <Card ref={formRef} className={s.modalCard}>
         {loading && (
           <div className={s.loadingContainer}>
-            <LoadingSpinner message={i18n.t('Logging in...')} />
+            <LoadingSpinner message={i18n.t('login.logging_in')} />
           </div>
         )}
-        <Text type="heading-xl">{i18n.t('Log in')}</Text>
+        <Text type="heading-xl">{i18n.t('login.log_in')}</Text>
         {/*<div className={s.socialLoginContainer}>*/}
         {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='google' />}>{i18n.t('Google')}</Button>*/}
         {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='github' />}>{i18n.t('Github')}</Button>*/}
@@ -126,7 +126,7 @@ export function LoginForm() {
             showTopPlaceholder
             value={formData.email}
             onChange={onEmailInputChange}
-            placeholder={i18n.t('Email')}
+            placeholder={i18n.t('login.email')}
           />
           <Input
             error={error.password}
@@ -134,7 +134,7 @@ export function LoginForm() {
             showTopPlaceholder
             value={formData.password}
             onChange={onPasswordInputChange}
-            placeholder={i18n.t('Password')}
+            placeholder={i18n.t('login.password')}
             type="password"
           />
         </div>
@@ -145,14 +145,15 @@ export function LoginForm() {
         <div className={clsx(s.link, s.registerContainter)}>
           <a
             href="https://www.kontur.io/portfolio/event-feed-draft/#publicfeed"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
-            {i18n.t('Register')}
+            {i18n.t('login.sign_up')}
           </a>
         </div>
         <div className={s.loginButtonContainer}>
           <Button onClick={onLoginClick} className={s.loginButton}>
-            {i18n.t('Log in')}
+            {i18n.t('login.log_in')}
           </Button>
         </div>
         {/*<div className={s.signUpContainer}>*/}

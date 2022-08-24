@@ -50,7 +50,9 @@ export function EditFeaturesPanel() {
 
   return (
     <Panel
-      header={<Text type="heading-l">{i18n.t('Edit features')}</Text>}
+      header={
+        <Text type="heading-l">{i18n.t('create_layer.edit_features')}</Text>
+      }
       onClose={onPanelClose}
       className={clsx(s.sidePanel)}
     >

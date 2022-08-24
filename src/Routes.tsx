@@ -4,7 +4,12 @@ import { matchPath } from 'react-router';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
 import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
-import { BrowserRouter as Router, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  useLocation,
+  Redirect,
+} from 'react-router-dom';
 import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
 import config from '~core/app_config';
@@ -64,6 +69,7 @@ export function RoutedApp() {
                 <BivariateManagerPage />
               </Suspense>
             </Route>
+            <Redirect to="/" />
           </CacheSwitch>
         )}
       </Router>
@@ -80,10 +86,12 @@ const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 const PAGE_TITLES_BY_ROUTE = {
   [ROUTES.base]: () => DEFAULT_HEADER_TITLE,
-  [ROUTES.reports]: () => <LinkableTitle title={i18n.t('Reports')} />,
-  [ROUTES.reportPage]: () => <LinkableTitle title={i18n.t('Reports')} />,
+  [ROUTES.reports]: () => <LinkableTitle title={i18n.t('sidebar.reports')} />,
+  [ROUTES.reportPage]: () => (
+    <LinkableTitle title={i18n.t('sidebar.reports')} />
+  ),
   [ROUTES.bivariateManager]: () => (
-    <LinkableTitle title={i18n.t('Appearance administration')} />
+    <LinkableTitle title={i18n.t('bivariate.color_manager.title')} />
   ),
 };
 
@@ -100,7 +108,7 @@ const afterChatContent = (loginFeature: boolean) => {
         className={s.link}
         rel="noreferrer"
       >
-        <Text type="heading-m">{i18n.t('About')}</Text>
+        <Text type="heading-m">{i18n.t('about')}</Text>
       </a>
       {loginFeature && <UserProfile />}
     </div>
@@ -184,7 +192,7 @@ const LinkableTitle = ({ title }: { title: string }) => {
         <span
           className={s.clickable}
           onClick={goBase}
-          title={i18n.t('to main page')}
+          title={i18n.t('to_main_page')}
         >
           Disaster Ninja
         </span>{' '}

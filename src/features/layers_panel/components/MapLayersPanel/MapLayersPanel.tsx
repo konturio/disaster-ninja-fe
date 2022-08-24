@@ -39,7 +39,7 @@ export function MapLayerPanel({
     <>
       <Panel
         className={clsx(s.panel, isOpen && s.show, !isOpen && s.hide)}
-        header={<Text type="heading-l">{i18n.t('Layers')}</Text>}
+        header={<Text type="heading-l">{i18n.t('layers')}</Text>}
         onClose={onPanelClose}
       >
         <div className={s.scrollable}>

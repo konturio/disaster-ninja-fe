@@ -38,7 +38,9 @@ export function ReportInfo() {
     if (reports.length) {
       const report = reports.find((report) => report.id === reportId);
       if (!report)
-        notificationServiceInstance.error({ title: i18n.t('Wrong report ID') });
+        notificationServiceInstance.error({
+          title: i18n.t('reports.wrong_id'),
+        });
       else setReport(report);
     }
   }, [reports]);
@@ -50,7 +52,7 @@ export function ReportInfo() {
           to={'../reports'}
           className={clsx(commonStyles.link, styles.seeAllLink)}
         >
-          {i18n.t('See all reports')}
+          {i18n.t('reports.see_all')}
         </Link>
       </Text>
 
@@ -74,14 +76,14 @@ export function ReportInfo() {
       {Boolean(report?.last_updated) && (
         <Text type="caption">
           <div className={styles.lastUpdated}>
-            {i18n.t('Updated ') + report?.last_updated}
+            {i18n.t('reports.updated') + ` ${report?.last_updated}`}
           </div>
         </Text>
       )}
 
       {reportResource.loading ? (
         <div className={styles.loadingContainer}>
-          <LoadingSpinner message={i18n.t('Loading data')} />
+          <LoadingSpinner message={i18n.t('reports.loading')} />
         </div>
       ) : (
         <div className={clsx(!reportResource.data && styles.invisible)}>

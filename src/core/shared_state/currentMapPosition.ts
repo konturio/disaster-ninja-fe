@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom, createBooleanAtom } from '~utils/atoms';
 
 export interface MapPosition {
   lat: number;
@@ -12,14 +12,21 @@ export const currentMapPositionAtom = createAtom(
   {
     setCurrentMapPosition: (mapPosition: MapPosition) => mapPosition,
   },
-  ({ onAction }, state: CurrentMapPositionAtomState = null) => {
+  ({ onAction, schedule }, state: CurrentMapPositionAtomState = null) => {
+    const prevState = state;
     onAction('setCurrentMapPosition', ({ lat, lng, zoom }) => {
       if (state === null) state = { lat, lng, zoom };
       if (state.lat !== lat || state.lng !== lng || state.zoom !== zoom) {
         state = { lat, lng, zoom };
       }
     });
+
+    if (state !== prevState) {
+      schedule((dispatch) => dispatch(mapIdle.setFalse()));
+    }
     return state;
   },
   '[Shared state] currentMapPositionAtom',
 );
+
+export const mapIdle = createBooleanAtom(false, 'mapIdle');

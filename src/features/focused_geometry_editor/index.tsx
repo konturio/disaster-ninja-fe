@@ -24,7 +24,7 @@ export function initFocusedGeometry() {
   sideControlsBarAtom.addControl.dispatch({
     id: FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
     name: FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
-    title: i18n.t('Focus to freehand geometry'),
+    title: i18n.t('focus_geometry.title'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,

@@ -64,7 +64,7 @@ export const ColorLegendsView = () => {
             itemToString={itemToString}
             disabled={loading}
           >
-            {i18n.t('Layers')}
+            {i18n.t('bivariate.color_manager.layers_filter')}
           </Select>
         </div>
         <div className={style.ListBody}>

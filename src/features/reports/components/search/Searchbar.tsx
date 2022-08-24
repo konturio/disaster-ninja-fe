@@ -31,7 +31,7 @@ export function Searchbar({ searchIndexes = [] }: { searchIndexes: number[] }) {
         onInput={onInput}
         value={query}
         onTouchCancel={cancel}
-        placeholder={i18n.t('Search location')}
+        placeholder={i18n.t('reports.search_location')}
       >
         <SearchIcon width={16} />
       </Input>

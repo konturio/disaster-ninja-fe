@@ -1,6 +1,5 @@
 import { useAtom } from '@reatom/react';
-import { useCallback, useState } from 'react';
-import { Tab, Tabs, TabList, TabPanel, TabPanels } from '@konturio/ui-kit';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@konturio/ui-kit';
 import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
@@ -21,15 +20,6 @@ const AdvancedAnalyticsContainer = () => {
     data,
   });
 
-  const [currentTab, setCurrentTab] = useState<string>('data');
-
-  const setTab = useCallback(
-    (tabId: string) => {
-      setCurrentTab(tabId);
-    },
-    [setCurrentTab],
-  );
-
   return statesToComponents({
     init: <AdvancedAnalyticsEmptyState />,
     loading: <LoadingSpinner />,
@@ -45,7 +35,7 @@ const AdvancedAnalyticsContainer = () => {
       return (
         <Tabs>
           <TabList style={{ display: 'none' }}>
-            <Tab>{i18n.t('Advanced Analytics')}</Tab>
+            <Tab>{i18n.t('advanced_analytics_panel.analytics_tab')}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

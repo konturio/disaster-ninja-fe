@@ -38,15 +38,15 @@ export function EditLayerForm({
         className={s.formInputContainer}
         renderLabel={
           <LabelWithTooltip
-            text={i18n.t('Layer name')}
-            description={i18n.t('Layer name')}
+            text={i18n.t('create_layer.layer_name')}
+            description={i18n.t('create_layer.layer_name')}
           />
         }
       />
       <div className={s.formParam}>
         <LabelWithTooltip
-          text={i18n.t('Marker icon')}
-          description={i18n.t('Marker icon')}
+          text={i18n.t('create_layer.marker_icon')}
+          description={i18n.t('create_layer.marker_icon')}
         />
         <Button
           iconBefore={<PointFilled24 />}
@@ -62,10 +62,10 @@ export function EditLayerForm({
       />
       <div className={s.buttonsContainer}>
         <Button onClick={onSave} variant="primary" size="small">
-          {i18n.t(formState.id ? 'Save' : 'Create')}
+          {i18n.t(formState.id ? 'save' : 'create')}
         </Button>
         <Button onClick={onCancel} variant="invert-outline" size="small">
-          {i18n.t('Cancel')}
+          {i18n.t('cancel')}
         </Button>
       </div>
     </div>

@@ -19,7 +19,7 @@ export function askGeoJSONFile(onSuccess: (geoJSON: GeoJSON.GeoJSON) => void) {
       } catch (error) {
         currentNotificationAtom.showNotification.dispatch(
           'error',
-          { title: i18n.t('Error while reading uploaded file') },
+          { title: i18n.t('geometry_uploader.error') },
           5,
         );
       } finally {

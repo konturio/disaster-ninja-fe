@@ -269,7 +269,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
           if (hasIntersections(feature)) {
             this._showNotificationAction(
               'error',
-              { title: i18n.t('Polygon should not overlap itself') },
+              { title: i18n.t('draw_tools.overlap_error') },
               5,
             );
             return this._updateData(this._previousValidGeometry);

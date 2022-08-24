@@ -27,7 +27,7 @@ export function BivariateManagerPage() {
             <span className={style.TabIcon}>
               <ColumnWidth16 />
             </span>
-            {i18n.t('Sentiments')}
+            {i18n.t('bivariate.color_manager.sentiments_tab')}
           </div>
         </Tab>
         <Tab className={style.Tab} classes={tabsClasses}>
@@ -35,7 +35,7 @@ export function BivariateManagerPage() {
             <span className={style.TabIcon}>
               <TwoXTwo16 />
             </span>
-            {i18n.t('Color Legends')}
+            {i18n.t('bivariate.color_manager.color_legends_tab')}
           </div>
         </Tab>
         <Tab className={style.Tab} classes={tabsClasses}>
@@ -43,7 +43,7 @@ export function BivariateManagerPage() {
             <span className={style.TabIcon}>
               <Tags16 />
             </span>
-            {i18n.t('Layers (indicators)')}
+            {i18n.t('bivariate.color_manager.layers_tab')}
           </div>
         </Tab>
       </TabList>

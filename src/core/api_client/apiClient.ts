@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import { i18n } from '~core/localization';
 import config from '~core/app_config';
 import { create } from '~utils/axios/apisauce/apisauce';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
@@ -302,17 +303,17 @@ export class ApiClient {
 
     switch (errorResponse.kind) {
       case 'timeout':
-        return 'Request Timeout';
+        return i18n.t('errors.timeout');
       case 'cannot-connect':
-        return "Can't connect to server";
+        return i18n.t('errors.cannot_connect');
       case 'forbidden':
-        return 'Forbidden';
+        return i18n.t('errors.forbidden');
       case 'not-found':
-        return 'Not found';
+        return i18n.t('errors.not_found');
       case 'unknown':
-        return 'Unknown';
+        return i18n.t('errors.unknown');
       default:
-        return 'Server Error';
+        return i18n.t('errors.server_error');
     }
   }
 
