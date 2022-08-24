@@ -1,3 +1,7 @@
+.ColorLegendContainer {
+  display: flex;
+}
+
 .LegendMap {
   display: flex;
   flex-direction: column;

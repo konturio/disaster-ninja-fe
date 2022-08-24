@@ -54,7 +54,7 @@ export const ColorLegendsView = () => {
   }, [indicators]);
 
   return (
-    <>
+    <div className={style.ColorLegendContainer}>
       <div className={style.List}>
         <div className={style.ListFilters}>
           <Select
@@ -103,6 +103,6 @@ export const ColorLegendsView = () => {
           )}
         </CSSTransitionWrapper>
       </div>
-    </>
+    </div>
   );
 };
