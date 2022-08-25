@@ -2,24 +2,10 @@
   display: flex;
 }
 
-.LegendMap {
-  display: flex;
-  flex-direction: column;
-  width: 492px;
-  flex-shrink: 0;
-}
-
 .List {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   border-right: 1px solid var(--faint-weak);
   min-width: 440px;
-}
-
-.ListBody {
-  display: flex;
-  overflow: auto;
-  padding: 0 calc(var(--unit) * 3) 0 calc(var(--unit) * 3);
-  justify-content: center;
 }

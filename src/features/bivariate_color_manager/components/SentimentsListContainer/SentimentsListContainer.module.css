@@ -1,0 +1,6 @@
+.ListBody {
+  display: flex;
+  overflow: auto;
+  padding: 0 calc(var(--unit) * 3) 0 calc(var(--unit) * 3);
+  justify-content: center;
+}
