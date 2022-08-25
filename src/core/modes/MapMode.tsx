@@ -4,12 +4,12 @@ import type { ModesControlsAtom } from './modesControls';
 
 export function registerMapMode(modesControlAtom: ModesControlsAtom) {
   modesControlAtom.addControl.dispatch({
-    id: 'Map',
+    id: 'map',
     active: true,
     // todo add Map24
     icon: <Map16 />,
     onClick() {
-      currentModeAtom.setCurrentMode.dispatch('Map');
+      currentModeAtom.setCurrentMode.dispatch('map');
     },
     onChange(isActive) {
       // noop

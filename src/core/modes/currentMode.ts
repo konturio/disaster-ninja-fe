@@ -1,12 +1,12 @@
 import { createAtom } from '~utils/atoms';
 
-export type ApplicationMode = 'Map' | 'Reports' | 'Events';
+export type ApplicationMode = 'map' | 'reports' | 'events';
 
 export const currentModeAtom = createAtom(
   {
     setCurrentMode: (mode: ApplicationMode) => mode,
   },
-  ({ onAction }, state: ApplicationMode = 'Map') => {
+  ({ onAction }, state: ApplicationMode = 'map') => {
     onAction('setCurrentMode', (mode) => (state = mode));
 
     return state;

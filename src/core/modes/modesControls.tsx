@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { currentModeAtom } from './currentMode';
-import type { ApplicationMode} from './currentMode';
+import type { ApplicationMode } from './currentMode';
 
 export interface ModeControl {
   id: ApplicationMode;
@@ -42,7 +42,7 @@ export const modesControlsAtom = createAtom(
       state = newState;
     });
 
-    onChange('currentModeAtom', (mode) => {
+    onChange('currentModeAtom', (mode, prevMode) => {
       schedule((dispatch) => dispatch(create('_enable', mode)));
     });
 

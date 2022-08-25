@@ -4,11 +4,11 @@ import type { ModesControlsAtom } from './modesControls';
 
 export function registerReportsMode(modesControlAtom: ModesControlsAtom) {
   modesControlAtom.addControl.dispatch({
-    id: 'Reports',
+    id: 'reports',
     active: false,
     icon: <BookOpen24 />,
     onClick() {
-      currentModeAtom.setCurrentMode.dispatch('Reports');
+      currentModeAtom.setCurrentMode.dispatch('reports');
     },
     onChange(isActive) {
       // noop
