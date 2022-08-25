@@ -1,4 +1,4 @@
-import { BookOpen24, Map16 } from '@konturio/default-icons';
+import { Map24 } from '@konturio/default-icons';
 import { currentModeAtom } from './currentMode';
 import type { ModesControlsAtom } from './modesControls';
 
@@ -6,8 +6,7 @@ export function registerMapMode(modesControlAtom: ModesControlsAtom) {
   modesControlAtom.addControl.dispatch({
     id: 'map',
     active: true,
-    // todo add Map24 when modules are ready
-    icon: <BookOpen24 />,
+    icon: <Map24 />,
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('map');
     },
