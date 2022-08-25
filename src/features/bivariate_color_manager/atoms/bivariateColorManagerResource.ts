@@ -1,5 +1,5 @@
 import { createResourceAtom } from '~utils/atoms';
-import { graphQlClient } from '~core/apiClientInstance';
+import { apiClient } from '~core/apiClientInstance';
 import { generateColorTheme } from '~utils/bivariate/bivariateColorThemeUtils';
 import { isApiError } from '~core/api_client/apiClientError';
 import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
@@ -66,10 +66,10 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
       abortControllers.push(abortController);
 
       try {
-        responseData = await graphQlClient.post<{
+        responseData = await apiClient.post<{
           data: BivariateStatisticsResponse;
         }>(
-          `/`,
+          '/bivariate_matrix',
           {
             query: createBivariateColorsGraphQLQuery(),
           },
