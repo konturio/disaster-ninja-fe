@@ -1,15 +1,19 @@
 .sideBarContainer {
   z-index: 1;
   display: inline-block;
-  width: 48px;
-  text-align: center;
-  margin: var(--unit) auto;
+  /* width: 48px; */
+  /* text-align: center; */
+  padding: 0 var(--unit);
+  margin: var(--unit) 0;
   & .buttonWrap {
-    width: 40px;
     margin: 0 auto;
-    text-align: center;
   }
   & button {
     margin: 0;
   }
+}
+
+.controlButton {
+  width: 100%;
+  justify-content: l;
 }

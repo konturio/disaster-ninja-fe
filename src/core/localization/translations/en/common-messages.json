@@ -15,5 +15,10 @@
     "bivariate.legend.low": "Low",
 
     "sidebar.biv-color-manager": "Bivariate color manager"
+  },
+  "modes": {
+    "Map": "Map",
+    "Event": "Event",
+    "Reports": "Reports"
   }
 }

@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
 import { modesControlsAtom } from '~core/modes/modesControls';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
+import { MODES_LABELS } from '~core/modes/constants';
 import { controlsOrder } from '../../constants';
 import { sortByPredefinedOrder } from './sortByPredefinedOrder';
 import s from './SideBar.module.css';
@@ -43,8 +44,10 @@ export function SideBar() {
                   active={control.active}
                   iconBefore={control.icon}
                   value={control.id}
-                />
-                {control.id}
+                  className={s.controlButton}
+                >
+                  <span className={s.modeName}>{MODES_LABELS[control.id]}</span>
+                </ActionsBarBTN>
               </div>
             </Link>
           );
