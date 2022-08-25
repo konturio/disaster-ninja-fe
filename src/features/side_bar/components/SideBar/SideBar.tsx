@@ -11,23 +11,6 @@ import s from './SideBar.module.css';
 
 export function SideBar() {
   const [controls] = useAtom(modesControlsAtom);
-  // const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
-  // const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
-
-  // function onMouseEnter(
-  //   e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  //   title: string,
-  // ) {
-  //   setTooltip({
-  //     popup: title,
-  //     position: { x: e.clientX + 5, y: e.clientY },
-  //     hoverBehavior: true,
-  //   });
-  // }
-
-  // function onMouseLeave() {
-  //   resetTooltip();
-  // }
 
   return (
     <ActionsBar>
