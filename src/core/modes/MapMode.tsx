@@ -6,7 +6,7 @@ export function registerMapMode(modesControlAtom: ModesControlsAtom) {
   modesControlAtom.addControl.dispatch({
     id: 'map',
     active: true,
-    // todo add Map24
+    // todo add Map24 when modules are ready
     icon: <BookOpen24 />,
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('map');
