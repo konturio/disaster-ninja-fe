@@ -5,7 +5,7 @@ import { toolbarControlsAtom } from '~core/shared_state';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { controlsOrder } from '../constants';
 import { sortByPredefinedOrder } from '../sortByPredefinedOrder';
-import s from './SideBar.module.css';
+import s from './Toolbar.module.css';
 
 // To be developed in next commit
 export function Toolbar() {
