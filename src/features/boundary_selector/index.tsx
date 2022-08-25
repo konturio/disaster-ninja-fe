@@ -3,7 +3,6 @@ import { toolbarControlsAtom } from '~core/shared_state';
 import {
   BOUNDARY_SELECTOR_CONTROL_ID,
   BOUNDARY_SELECTOR_CONTROL_NAME,
-  BOUNDARIES_BTN_TITLE_TRANSLATION_KEY,
   BOUNDARY_SELECTOR_LAYER_ID,
   BOUNDARY_GEOMETRY_COLOR,
   HOVERED_BOUNDARIES_SOURCE_ID,
@@ -39,7 +38,7 @@ export function initBoundarySelector() {
   toolbarControlsAtom.addControl.dispatch({
     id: BOUNDARY_SELECTOR_CONTROL_ID,
     name: BOUNDARY_SELECTOR_CONTROL_NAME,
-    title: i18n.t(BOUNDARIES_BTN_TITLE_TRANSLATION_KEY),
+    title: i18n.t('boundary_selector.title'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,

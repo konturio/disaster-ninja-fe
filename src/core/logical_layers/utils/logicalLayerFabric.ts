@@ -43,6 +43,7 @@ export function createLogicalLayerAtom(
   id: string,
   renderer: LogicalLayerRenderer,
   registry: LayerRegistryAtom,
+  customMap?: maplibregl.Map | null,
 ) {
   let hasBeenDestroyed = false;
   const logicalLayerAtom = createAtom(
@@ -75,7 +76,8 @@ export function createLogicalLayerAtom(
       },
     ) => {
       const actions: Action[] = [];
-      const map = getUnlistedState<ApplicationMap | null>(currentMapAtom);
+      const map =
+        customMap || getUnlistedState<ApplicationMap | null>(currentMapAtom);
 
       /**
        * ! Important Note! In you add new sub stores,

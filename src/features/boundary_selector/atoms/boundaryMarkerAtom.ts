@@ -15,7 +15,7 @@ import type { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap
 import type { Action } from '@reatom/core';
 
 const LOADING_OPTIONS = [
-  { label: i18n.t('Loading...'), value: 'loading', disabled: true },
+  { label: i18n.t('loading'), value: 'loading', disabled: true },
 ];
 
 interface BoundaryMarkerAtomState {

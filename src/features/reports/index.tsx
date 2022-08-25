@@ -9,7 +9,7 @@ export function initReportsIcon(history: ReturnType<typeof useHistory>) {
   toolbarControlsAtom.addControl.dispatch({
     id: REPORTS_CONTROL_ID,
     name: REPORTS_CONTROL_NAME,
-    title: i18n.t('Reports'),
+    title: i18n.t('sidebar.reports'),
     active: false,
     visualGroup: controlVisualGroup.noAnalytics,
     icon: <BookOpen24 />,

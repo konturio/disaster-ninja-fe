@@ -1,8 +1,10 @@
 import clsx from 'clsx';
 import { Text } from '@konturio/ui-kit';
+import { useState } from 'react';
 import { i18n } from '~core/localization';
 import { BivariateLegend as BivariateLegendComponent } from '~components/BivariateLegend/BivariateLegend';
 import { formatSentimentDirection } from '~utils/bivariate';
+import { BivariateSampleMap } from '../BivariateSampleMap/BivariateSampleMap';
 import s from './LegendWithMap.module.css';
 import { LegendDetails } from './LegendDetails';
 import type {
@@ -32,6 +34,8 @@ export const LegendWithMap = ({
   const horizontalMostQualityDenominator = horizontal?.mostQualityDenominator;
   const horizontalLabel = horizontal?.label;
   const verticalLabel = vertical?.label;
+
+  const [fullscreen, setFullscreen] = useState(false);
 
   const meta = {
     hints: {
@@ -70,17 +74,18 @@ export const LegendWithMap = ({
 
   return (
     <div className={s.legendWithMapContainer}>
-      <Text type="heading-m">{i18n.t('Legend presentation ')}</Text>
-
-      <BivariateLegendComponent
-        showDescription={false}
-        meta={meta}
-        legend={legend}
-        showSteps={false}
-        showArrowHeads={false}
-        renderXAxisLabel={renderXAxisLabel}
-        renderYAxisLabel={renderYAxisLabel}
-      />
+      <div className={clsx(fullscreen && s.LegendFullscreen)}>
+        <Text type="heading-m">{i18n.t('legend_presentation')}</Text>
+        <BivariateLegendComponent
+          showDescription={false}
+          meta={meta}
+          legend={legend}
+          showSteps={false}
+          showArrowHeads={false}
+          renderXAxisLabel={renderXAxisLabel}
+          renderYAxisLabel={renderYAxisLabel}
+        />
+      </div>
 
       <div className={s.LegendDetailsContainer}>
         <LegendDetails
@@ -94,6 +99,13 @@ export const LegendWithMap = ({
           direction={directions.horizontal}
         />
       </div>
+
+      <BivariateSampleMap
+        fullscreen={fullscreen}
+        setFullscreen={setFullscreen}
+        className={s.Map}
+        layersSelection={layersSelection}
+      />
     </div>
   );
 };

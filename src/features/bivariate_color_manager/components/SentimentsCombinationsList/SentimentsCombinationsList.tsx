@@ -11,9 +11,9 @@ import s from './SentimentsCombinationsList.module.css';
 import type { BivariateColorManagerData } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type {
-  BivariateColorManagerAtomState,
+  BivariateColorManagerDataAtomState,
   LayerSelectionInput,
-} from '~features/bivariate_color_manager/atoms/bivariateColorManager';
+} from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 
 type Row = {
   key: string;
@@ -26,19 +26,19 @@ type Row = {
 type SentimentsCombinationsListProps = {
   data: BivariateColorManagerData;
   setLayersSelection: (input: LayerSelectionInput) => void;
-  layersSelection: BivariateColorManagerAtomState['layersSelection'];
+  layersSelection: BivariateColorManagerDataAtomState['layersSelection'];
   setSelectedRows: (key: string) => void;
-  selectedRows: BivariateColorManagerAtomState['selectedRows'];
+  selectedRows: BivariateColorManagerDataAtomState['selectedRows'];
   anyFilterActivated: boolean;
 };
 
 const sortDescendingByMaps = sortByKey<Row>('maps', 'desc');
 
 const columns = [
-  { title: i18n.t('Legend'), className: s.centered },
-  { title: i18n.t('Maps'), className: s.centered },
-  { title: i18n.t('Vertical direction') },
-  { title: i18n.t('Horizontal direction') },
+  { title: i18n.t('legend'), className: s.centered },
+  { title: i18n.t('maps'), className: s.centered },
+  { title: i18n.t('vertical_direction') },
+  { title: i18n.t('horizontal_direction') },
 ];
 
 const SentimentsCombinationsList = memo(
@@ -50,7 +50,7 @@ const SentimentsCombinationsList = memo(
     selectedRows,
     anyFilterActivated = false,
   }: SentimentsCombinationsListProps) => {
-    const rows: Row[] = Object.entries(data)
+    const rows: Row[] = Object.entries(data || {})
       .map(([key, value]) => {
         const { maps, legend } = value;
         const keyParsed = JSON.parse(key);
@@ -139,10 +139,10 @@ const showEmptyResultsTable = (anyFilterActivated: boolean) => (
       {anyFilterActivated ? (
         <>
           <EyeOff24 />
-          {i18n.t('There are no legends satisfying the conditions.')}
+          {i18n.t('bivariate.color_manager.no_legends')}
         </>
       ) : (
-        i18n.t('No data.')
+        i18n.t('bivariate.color_manager.no_data')
       )}
     </td>
   </tr>

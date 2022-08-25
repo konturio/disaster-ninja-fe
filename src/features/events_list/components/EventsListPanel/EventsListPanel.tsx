@@ -76,7 +76,7 @@ export function EventsListPanel({
     addControl({
       id: EVENT_LIST_CONTROL_ID,
       name: EVENT_LIST_CONTROL_NAME,
-      title: i18n.t('Focus to disasters'),
+      title: i18n.t('event_list.title'),
       active: false,
       visualGroup: controlVisualGroup.withAnalytics,
       icon: <Disasters24 />,
@@ -99,7 +99,7 @@ export function EventsListPanel({
 
   return (
     <Panel
-      header={<Text type="heading-l">{i18n.t('Disasters')}</Text>}
+      header={<Text type="heading-l">{i18n.t('disasters')}</Text>}
       className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
       onClose={onPanelClose}
     >
@@ -109,7 +109,7 @@ export function EventsListPanel({
       </EventListSettingsRow>
       <div className={s.scrollable}>
         {statesToComponents({
-          loading: <LoadingSpinner message={i18n.t('Loading events')} />,
+          loading: <LoadingSpinner message={i18n.t('loading_events')} />,
           error: (errorMessage) => <ErrorMessage message={errorMessage} />,
           ready: (eventsList) => (
             <Virtuoso

@@ -1,20 +1,22 @@
 import { createResourceAtom } from '~utils/atoms';
 import { graphQlClient } from '~core/apiClientInstance';
-import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
+import { generateColorTheme } from '~utils/bivariate/bivariateColorThemeUtils';
 import { isApiError } from '~core/api_client/apiClientError';
-import { createBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
+import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { createBivariateColorsGraphQLQuery } from '../utils/createBivariateColorsGraphQLQuery';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
-import type { Direction, Indicator } from '~utils/bivariate';
+import type { Axis, Direction, Indicator } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
+import type { ColorTheme } from '~core/types';
 
 export type TableDataValue = {
   label: string;
   name: string;
   correlationLevel?: number;
   mostQualityDenominator?: string;
+  axis?: Axis;
 };
 
 export type TableData = {
@@ -24,6 +26,7 @@ export type TableData = {
 export type BivariateColorManagerDataValue = {
   legend?: BivariateLegend;
   meta?: LayerMeta;
+  colorTheme: ColorTheme;
   vertical: TableData;
   horizontal: TableData;
   maps: number;
@@ -45,23 +48,11 @@ type AxisNominatorInfo = {
     mostQualityDenominator: string;
     quality: number;
     layersCount: number;
+    mostQualityAxis: Axis;
   };
 };
 
 const abortControllers: AbortController[] = [];
-
-const fillLayersWithCorrelationLevel = (
-  bivariateColorManagerData: BivariateColorManagerData,
-  numeratorCorellationMap: NumeratorCorellationMap,
-): void => {
-  Object.values(bivariateColorManagerData).forEach((row) => {
-    [...Object.values(row.horizontal), ...Object.values(row.vertical)].forEach(
-      (layer) => {
-        layer.correlationLevel = numeratorCorellationMap[layer.name] || 0;
-      },
-    );
-  });
-};
 
 export const bivariateColorManagerResourceAtom = createResourceAtom(
   () => {
@@ -104,7 +95,7 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
       }
 
       const stats = responseData.data.polygonStatistic.bivariateStatistic;
-      const { correlationRates, indicators, axis } = stats;
+      const { correlationRates, indicators, axis, colors, meta } = stats;
 
       if (!correlationRates || !indicators || !axis) {
         const msg = parseGraphQLErrors(responseData);
@@ -125,6 +116,7 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
             mostQualityDenominator: denominator,
             quality: axis.quality,
             layersCount: 1,
+            mostQualityAxis: axis,
           };
         } else {
           acc[numerator].layersCount++;
@@ -135,6 +127,7 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
               ...acc[numerator],
               mostQualityDenominator: denominator,
               quality: axis.quality,
+              mostQualityAxis: axis,
             };
           }
         }
@@ -146,13 +139,16 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
       ): string | undefined =>
         axisNominatorInfo?.[numenator]?.mostQualityDenominator;
 
+      const getMostQualityAxisByNumerator = (numenator: string): Axis =>
+        axisNominatorInfo?.[numenator].mostQualityAxis;
+
       const numeratorCorellationMap: NumeratorCorellationMap = {};
 
       const bivariateColorManagerData =
         correlationRates.reduce<BivariateColorManagerData>(
           (acc, correlationRate) => {
-            const [xNumerator, xDenominator] = correlationRate.x.quotient;
-            const [yNumerator, yDenominator] = correlationRate.y.quotient;
+            const [xNumerator, _xDenominator] = correlationRate.x.quotient;
+            const [yNumerator, _yDenominator] = correlationRate.y.quotient;
 
             // x - for vertical, y - for horizontal
             const xQuotientIndicator = indicatorsMap[xNumerator];
@@ -169,29 +165,25 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
             });
 
             if (!acc[key]) {
-              const colorThemeAndBivariateStyle =
-                generateColorThemeAndBivariateStyle(
-                  xNumerator,
-                  xDenominator,
-                  yNumerator,
-                  yDenominator,
-                  stats,
-                );
+              const colorTheme = generateColorTheme(
+                colors,
+                xQuotientIndicator.direction,
+                yQuotientIndicator.direction,
+              );
 
-              if (colorThemeAndBivariateStyle) {
-                const [colorTheme] = colorThemeAndBivariateStyle;
-                const legend = createBivariateLegend(
+              if (colorTheme) {
+                // this is a common legend for directions combination
+                // it has 2 random layers inside that fits directions combination
+                const legend = fillBivariateLegend(
                   'Bivariate Layer',
+                  getMostQualityAxisByNumerator(xNumerator),
+                  getMostQualityAxisByNumerator(yNumerator),
                   colorTheme,
-                  xNumerator,
-                  xDenominator,
-                  yNumerator,
-                  yDenominator,
-                  stats,
                 );
 
                 acc[key] = {
                   legend,
+                  colorTheme,
                   vertical: {},
                   horizontal: {},
                   maps: 0,
@@ -205,21 +197,25 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
 
             if (!acc[key].vertical[xQuotientIndicator.name]) {
               const mostQualityDenominator =
-                getMostQualityDenominatorForNumenator(xQuotientIndicator.name);
+                getMostQualityDenominatorForNumenator(xNumerator);
+              const xAxis = getMostQualityAxisByNumerator(xNumerator);
               acc[key].vertical[xQuotientIndicator.name] = {
                 label: xQuotientIndicator.label,
                 name: xQuotientIndicator.name,
                 mostQualityDenominator,
+                axis: xAxis,
               };
             }
 
             if (!acc[key].horizontal[yQuotientIndicator.name]) {
               const mostQualityDenominator =
-                getMostQualityDenominatorForNumenator(yQuotientIndicator.name);
+                getMostQualityDenominatorForNumenator(yNumerator);
+              const yAxis = getMostQualityAxisByNumerator(yNumerator);
               acc[key].horizontal[yQuotientIndicator.name] = {
                 label: yQuotientIndicator.label,
                 name: yQuotientIndicator.name,
                 mostQualityDenominator,
+                axis: yAxis,
               };
             }
 
@@ -241,6 +237,8 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
       return {
         bivariateColorManagerData,
         indicators: sortedIndicators,
+        meta,
+        axis,
       };
     }
 

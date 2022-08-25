@@ -26,9 +26,7 @@ export function ReportsList() {
     <div className={styles.mainWrap}>
       <div className={styles.titleRow}>
         <Text type="heading-l">
-          <span className={styles.pageTitle}>
-            {i18n.t('Disaster Ninja Reports')}
-          </span>
+          <span className={styles.pageTitle}>{i18n.t('reports.title')}</span>
         </Text>
         <Text type="heading-l">
           <Link

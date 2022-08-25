@@ -25,7 +25,7 @@ export function initMapRuler() {
   toolbarControlsAtom.addControl.dispatch({
     id: MAP_RULER_CONTROL_ID,
     name: MAP_RULER_CONTROL_NAME,
-    title: i18n.t('Ruler'),
+    title: i18n.t('sidebar.ruler'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.noAnalytics,

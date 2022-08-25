@@ -152,7 +152,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       });
     }
   }
-  _adaptUrl(url: string) {
+  _adaptUrl(url: string, apiKey: string) {
     /** Fix cors in local development */
     if (import.meta.env.DEV) {
       url = replaceUrlWithProxy(url);
@@ -174,6 +174,12 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       .replace('{height}', '256')
       .replace('{zoom}', '{z}')
       .replace('{-y}', '{y}');
+
+    // layers that need api key to reach
+    if (apiKey) {
+      url = url.replace('{apiKey}', apiKey);
+    }
+
     /* Some magic for remove `switch:` */
     const domains = (url.match(/{switch:(.*?)}/) || ['', ''])[1].split(',')[0];
     url = url.replace(/{switch:(.*?)}/, domains);
@@ -195,7 +201,9 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     /* Create source */
     const mapSource: VectorSource | RasterSource = {
       type: layer.source.type,
-      tiles: layer.source.urls.map((url) => this._adaptUrl(url)),
+      tiles: layer.source.urls.map((url) =>
+        this._adaptUrl(url, layer.source.apiKey),
+      ),
       tileSize: layer.source.tileSize || 256,
       minzoom: layer.minZoom || 0,
       maxzoom: layer.maxZoom || 22,

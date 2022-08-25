@@ -38,7 +38,9 @@ export function EditLayerPanel() {
 
   return (
     <Panel
-      header={<Text type="heading-l">{i18n.t('Create Layer')}</Text>}
+      header={
+        <Text type="heading-l">{i18n.t('create_layer.create_layer')}</Text>
+      }
       onClose={onPanelClose}
       className={clsx(
         s.sidePanel,
@@ -49,7 +51,9 @@ export function EditLayerPanel() {
       <div className={s.panelBody}>
         {statesToComponents &&
           statesToComponents({
-            loading: <LoadingSpinner message={i18n.t('Saving layer...')} />,
+            loading: (
+              <LoadingSpinner message={i18n.t('create_layer.saving_layer')} />
+            ),
             error: (errorMessage) => <ErrorMessage message={errorMessage} />,
             ready: (data) => {
               return (

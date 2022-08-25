@@ -82,7 +82,7 @@ export const toolboxAtom = createAtom(
         return actions.push(
           currentNotificationAtom.showNotification(
             'info',
-            { title: i18n.t('No drawn geometry to download') },
+            { title: i18n.t('draw_tools.no_geometry_error') },
             5,
           ),
         );

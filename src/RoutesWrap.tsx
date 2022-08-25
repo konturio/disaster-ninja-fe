@@ -25,8 +25,12 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 const PAGE_TITLES_BY_ROUTE = {
   [APP_ROUTES.base]: () => DEFAULT_HEADER_TITLE,
-  [APP_ROUTES.reports]: () => <LinkableTitle title={i18n.t('Reports')} />,
-  [APP_ROUTES.reportPage]: () => <LinkableTitle title={i18n.t('Reports')} />,
+  [APP_ROUTES.reports]: () => (
+    <LinkableTitle title={i18n.t('sidebar.reports')} />
+  ),
+  [APP_ROUTES.reportPage]: () => (
+    <LinkableTitle title={i18n.t('bivariate.color_manager.title')} />
+  ),
   [APP_ROUTES.bivariateManager]: () => (
     <LinkableTitle title={i18n.t('Appearance administration')} />
   ),
@@ -46,7 +50,7 @@ const afterChatContent = (loginFeature: boolean) => {
         className={s.link}
         rel="noreferrer"
       >
-        <Text type="heading-m">{i18n.t('About')}</Text>
+        <Text type="heading-m">{i18n.t('about')}</Text>
       </a>
       {loginFeature && <UserProfile />}
     </div>
@@ -145,7 +149,7 @@ const LinkableTitle = ({ title }: { title: string }) => {
         <span
           className={s.clickable}
           onClick={goBase}
-          title={i18n.t('to main page')}
+          title={i18n.t('to_main_page')}
         >
           Disaster Ninja
         </span>{' '}

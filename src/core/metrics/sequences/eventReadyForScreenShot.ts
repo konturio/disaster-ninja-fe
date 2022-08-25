@@ -14,12 +14,8 @@ export function eventReadyForScreenShot(mtr: AppMetrics) {
       }
     })
     .on('done_areaLayersDetailsResourceAtom')
-    .on('change_layersLegends', (ctx) => {
-      ctx.map.loaded()
-        ? setTimeout(() => mtr.mark('mapIdle')) // Here setTimeout because we want exit from this handler before process next handler
-        : ctx.map.once('idle', () => mtr.mark('mapIdle'));
-    })
-    .on('mapIdle', () => {
+    .on('change_layersLegends')
+    .on('setTrue_mapIdle', () => {
       setTimeout(() => {
         const eventReadyEvent = new Event('event_ready_for_screenshot');
         window.dispatchEvent(eventReadyEvent);

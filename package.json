@@ -66,7 +66,7 @@
     "@deck.gl/mesh-layers": "^8.5.4",
     "@konturio/default-icons": "^2.0.0-alpha.26",
     "@konturio/default-theme": "^2.4.0-alpha.12",
-    "@konturio/ui-kit": "^3.0.0-alpha.51",
+    "@konturio/ui-kit": "^3.0.0-alpha.56",
     "@loaders.gl/core": "^3.2.3",
     "@nebula.gl/edit-modes": "1.0.3",
     "@nebula.gl/layers": "1.0.3",

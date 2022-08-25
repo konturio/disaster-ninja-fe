@@ -96,19 +96,19 @@ export const editableLayersControlsAtom = createAtom(
             menu: [
               {
                 id: 'edit_layer',
-                name: i18n.t('Edit Layer'),
+                name: i18n.t('create_layer.edit_layer'),
                 callback: () =>
                   editableLayerControllerAtom.editLayer.dispatch(layerId),
               },
               {
                 id: 'edit_features',
-                name: i18n.t('Edit Features'),
+                name: i18n.t('create_layer.edit_features'),
                 callback: () =>
                   featurePanelControllerAtom.editFeatures.dispatch(layerId),
               },
               {
                 id: 'delete_layer',
-                name: i18n.t('Delete Layer'),
+                name: i18n.t('create_layer.delete_layer'),
                 callback: () =>
                   editableLayerControllerAtom.deleteLayer.dispatch(layerId),
               },
