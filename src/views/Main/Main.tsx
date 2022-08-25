@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
 import { Row } from '~components/Layout/Layout';
@@ -8,6 +8,7 @@ import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager
 import { initReportsIcon } from '~features/reports';
 import s from './Main.module.css';
 import type { UserDataModel } from '~core/auth';
+import type { MutableRefObject } from 'react';
 
 const { EditFeaturesOrLayerPanel } = lazily(
   () =>
@@ -45,7 +46,13 @@ type MainViewProps = {
 };
 export function MainView({ userModel }: MainViewProps) {
   const history = useHistory();
-  const iconsContainerRef = useRef<HTMLDivElement | null>(null);
+  const [iconsContainerRef, setIconsContainerRef] = useState<
+    MutableRefObject<HTMLDivElement | null>
+  >({ current: null });
+
+  const setIconsContainerRefCallback = useCallback((ref) => {
+    setIconsContainerRef({ current: ref });
+  }, []);
 
   useEffect(() => {
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
@@ -138,7 +145,7 @@ export function MainView({ userModel }: MainViewProps) {
             <div className={s.floating}>
               <div
                 className={s.rightButtonsContainer}
-                ref={iconsContainerRef}
+                ref={setIconsContainerRefCallback}
               ></div>
               {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
                 <Legend iconsContainerRef={iconsContainerRef} />
