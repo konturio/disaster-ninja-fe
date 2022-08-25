@@ -1,58 +1,53 @@
-import { useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
 import { nanoid } from 'nanoid';
-import { Link } from 'react-router-dom';
-import { modesControlsAtom } from '~core/modes/modesControls';
-import { APP_ROUTES } from '~core/app_config/appRoutes';
-import { MODES_LABELS } from '~core/modes/constants';
+import { toolbarControlsAtom } from '~core/shared_state';
+import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { controlsOrder } from '../constants';
 import { sortByPredefinedOrder } from '../sortByPredefinedOrder';
 import s from './SideBar.module.css';
 
 // To be developed in next commit
 export function Toolbar() {
-  const [controls] = useAtom(modesControlsAtom);
-  // const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
-  // const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
+  const [controls] = useAtom(toolbarControlsAtom);
+  const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
+  const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
 
-  // function onMouseEnter(
-  //   e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  //   title: string,
-  // ) {
-  //   setTooltip({
-  //     popup: title,
-  //     position: { x: e.clientX + 5, y: e.clientY },
-  //     hoverBehavior: true,
-  //   });
-  // }
+  function onMouseEnter(
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    title: string,
+  ) {
+    setTooltip({
+      popup: title,
+      position: { x: e.clientX + 5, y: e.clientY },
+      hoverBehavior: true,
+    });
+  }
 
-  // function onMouseLeave() {
-  //   resetTooltip();
-  // }
+  function onMouseLeave() {
+    resetTooltip();
+  }
 
   return (
     <ActionsBar>
       {sortByPredefinedOrder(Object.values(controls), controlsOrder).map(
-        (control) => {
-          return (
-            <Link
-              key={nanoid(4)}
-              className={s.sideBarContainer}
-              to={APP_ROUTES[control.id]}
+        (control) => (
+          <div key={nanoid(4)} className={s.sideBarContainer}>
+            <div
+              className={s.buttonWrap}
+              onClick={() =>
+                control.onClick && control.onClick(!control.active)
+              }
+              onPointerEnter={(e) => onMouseEnter(e, control.title)}
+              onPointerLeave={onMouseLeave}
             >
-              <div className={s.buttonWrap} onClick={() => control.onClick()}>
-                <ActionsBarBTN
-                  active={control.active}
-                  iconBefore={control.icon}
-                  value={control.id}
-                  className={s.controlButton}
-                >
-                  <span className={s.modeName}>{MODES_LABELS[control.id]}</span>
-                </ActionsBarBTN>
-              </div>
-            </Link>
-          );
-        },
+              <ActionsBarBTN
+                active={control.active}
+                iconBefore={control.icon}
+              />
+            </div>
+          </div>
+        ),
       )}
     </ActionsBar>
   );
