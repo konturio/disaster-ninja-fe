@@ -1,6 +1,5 @@
 {
   "API_GATEWAY": "https://disaster.ninja/active/api",
-  "GRAPHQL_API": "https://apps.kontur.io/insights-api/graphql",
   "BOUNDARIES_API": "https://api.kontur.io",
   "REPORTS_API": "https://disaster.ninja/active/reports",
   "BIVARIATE_TILES_RELATIVE_URL": "api/tiles/bivariate/v1/",
