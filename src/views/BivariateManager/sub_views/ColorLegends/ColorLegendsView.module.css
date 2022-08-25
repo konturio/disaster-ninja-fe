@@ -21,6 +21,7 @@
   flex-grow: 1;
   border-right: 1px solid var(--faint-weak);
   min-width: 440px;
+  max-height: calc(100vh - 50px);
 }
 
 .ListBody {
