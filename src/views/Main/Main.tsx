@@ -117,7 +117,6 @@ export function MainView({ userModel }: MainViewProps) {
     <>
       <Row>
         <Suspense fallback={null}>
-          {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
           {userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
             userModel?.feeds && <EventList />}
           {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && (

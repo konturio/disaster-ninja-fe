@@ -9,7 +9,6 @@ export function registerMapMode(modesControlAtom: ModesControlsAtom) {
     // todo add Map24
     icon: <Map16 />,
     onClick() {
-      // noop
       currentModeAtom.setCurrentMode.dispatch('Map');
     },
     onChange(isActive) {
