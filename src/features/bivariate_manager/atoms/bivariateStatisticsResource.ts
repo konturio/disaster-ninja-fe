@@ -1,5 +1,5 @@
 import { createResourceAtom } from '~utils/atoms';
-import { graphQlClient } from '~core/apiClientInstance';
+import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
 import {
   createBivariateGraphQLQuery,
@@ -26,11 +26,11 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       const abortController = new AbortController();
       abortControllers.push(abortController);
       try {
-        responseData = await graphQlClient.post<{
+        responseData = await apiClient.post<{
           data: BivariateStatisticsResponse;
           errors?: unknown;
         }>(
-          `/`,
+          '/bivariate_matrix',
           {
             query: createBivariateGraphQLQuery(geom),
           },

@@ -17,7 +17,9 @@ export function adaptTileUrl(url: string): string {
   } else {
     const baseUrl =
       config.bivariateTilesServer ??
-      `${window.location.protocol}${window.location.host}${window.location.pathname}`;
+      `${window.location.protocol}${window.location.host}${
+        import.meta.env.DEV ? '/' : '/active/'
+      }`;
     url = `${baseUrl}${url}`;
   }
 
