@@ -13,10 +13,7 @@ export function Toolbar() {
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
   const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
 
-  function onMouseEnter(
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    title: string,
-  ) {
+  function onMouseEnter(e: React.MouseEvent<HTMLDivElement, MouseEvent>, title: string) {
     setTooltip({
       popup: title,
       position: { x: e.clientX + 5, y: e.clientY },
@@ -30,25 +27,18 @@ export function Toolbar() {
 
   return (
     <ActionsBar>
-      {sortByPredefinedOrder(Object.values(controls), controlsOrder).map(
-        (control) => (
-          <div key={nanoid(4)} className={s.sideBarContainer}>
-            <div
-              className={s.buttonWrap}
-              onClick={() =>
-                control.onClick && control.onClick(!control.active)
-              }
-              onPointerEnter={(e) => onMouseEnter(e, control.title)}
-              onPointerLeave={onMouseLeave}
-            >
-              <ActionsBarBTN
-                active={control.active}
-                iconBefore={control.icon}
-              />
-            </div>
+      {sortByPredefinedOrder(Object.values(controls), controlsOrder).map((control) => (
+        <div key={nanoid(4)} className={s.sideBarContainer}>
+          <div
+            className={s.buttonWrap}
+            onClick={() => control.onClick && control.onClick(!control.active)}
+            onPointerEnter={(e) => onMouseEnter(e, control.title)}
+            onPointerLeave={onMouseLeave}
+          >
+            <ActionsBarBTN active={control.active} iconBefore={control.icon} />
           </div>
-        ),
-      )}
+        </div>
+      ))}
     </ActionsBar>
   );
 }
