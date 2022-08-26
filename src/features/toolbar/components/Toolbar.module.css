@@ -6,7 +6,7 @@
 
   & .toolButton {
     background-color: var(--base-weak);
-    box-shadow: 2px 2px 4px var(--neutral-neutral-50);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   & .toolButton:hover {
