@@ -46,6 +46,13 @@
   bottom: 8px;
 }
 
+.toolbarContainer {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
 .rightButtonsContainer {
   display: flex;
   flex-direction: column-reverse;

@@ -5,7 +5,6 @@ import { Row } from '~components/Layout/Layout';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager';
-import { initReportsIcon } from '~features/reports';
 import s from './Main.module.css';
 import type { UserDataModel } from '~core/auth';
 
@@ -18,9 +17,7 @@ const { EditFeaturesOrLayerPanel } = lazily(
 
 const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
-const { ConnectedMap } = lazily(
-  () => import('~components/ConnectedMap/ConnectedMap'),
-);
+const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/ConnectedMap'));
 
 const { SideBar } = lazily(() => import('~features/side_bar'));
 
@@ -36,9 +33,9 @@ const { Legend } = lazily(() => import('~features/legend_panel'));
 
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
 
-const { BivariatePanel } = lazily(
-  () => import('~features/bivariate_manager/components'),
-);
+const { Toolbar } = lazily(() => import('~features/toolbar'));
+
+const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
 
 type MainViewProps = {
   userModel?: UserDataModel | null;
@@ -75,29 +72,24 @@ export function MainView({ userModel }: MainViewProps) {
       );
     }
     if (userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_LAYER)) {
-      import('~features/focused_geometry_layer').then(
-        ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
+      import('~features/focused_geometry_layer').then(({ initFocusedGeometryLayer }) =>
+        initFocusedGeometryLayer(),
       );
-    }
-    if (userModel?.hasFeature(AppFeature.REPORTS)) {
-      initReportsIcon(history);
     }
 
     if (userModel?.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)) {
       initBivariateColorManagerIcon(history);
     }
     if (userModel?.hasFeature(AppFeature.OSM_EDIT_LINK)) {
-      import('~features/osm_edit_link/').then(({ initOsmEditLink }) =>
-        initOsmEditLink(),
-      );
+      import('~features/osm_edit_link/').then(({ initOsmEditLink }) => initOsmEditLink());
     }
     // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
     if (
       userModel?.hasFeature(AppFeature.DRAW_TOOLS) ||
       userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_EDITOR)
     ) {
-      import('~features/focused_geometry_editor/').then(
-        ({ initFocusedGeometry }) => initFocusedGeometry(),
+      import('~features/focused_geometry_editor/').then(({ initFocusedGeometry }) =>
+        initFocusedGeometry(),
       );
     }
     if (userModel?.hasFeature(AppFeature.CREATE_LAYER)) {
@@ -117,11 +109,10 @@ export function MainView({ userModel }: MainViewProps) {
     <>
       <Row>
         <Suspense fallback={null}>
-          {userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
-            userModel?.feeds && <EventList />}
-          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && (
-            <AnalyticsPanel />
+          {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
+            <EventList />
           )}
+          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
           {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
             <AdvancedAnalyticsPanel />
           )}
@@ -133,12 +124,12 @@ export function MainView({ userModel }: MainViewProps) {
           <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
           </div>
+          <div className={s.toolbarContainer}>
+            <Toolbar />
+          </div>
           <Suspense fallback={null}>
             <div className={s.floating}>
-              <div
-                className={s.rightButtonsContainer}
-                ref={iconsContainerRef}
-              ></div>
+              <div className={s.rightButtonsContainer} ref={iconsContainerRef}></div>
               {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
                 <Legend iconsContainerRef={iconsContainerRef} />
               )}
