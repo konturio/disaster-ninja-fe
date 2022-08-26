@@ -21,7 +21,7 @@ export const SentimentsListContainer = () => {
   return (
     <div className={style.ListBody}>
       {loading ? (
-        <KonturSpinner />
+        <KonturSpinner className={style.LoadingSpinner} />
       ) : (
         <SentimentsCombinationsList
           anyFilterActivated={anyFilterActivated}

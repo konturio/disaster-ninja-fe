@@ -3,4 +3,9 @@
   overflow: auto;
   padding: 0 calc(var(--unit) * 3) 0 calc(var(--unit) * 3);
   justify-content: center;
+
+  & .LoadingSpinner {
+    position: absolute;
+    top: calc(50% - 35px);
+  }
 }
