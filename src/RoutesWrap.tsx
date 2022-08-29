@@ -29,11 +29,9 @@ const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 const PAGE_TITLES_BY_ROUTE = {
   [APP_ROUTES.map]: () => DEFAULT_HEADER_TITLE,
   [APP_ROUTES.reports]: () => <LinkableTitle title={i18n.t('sidebar.reports')} />,
-  [APP_ROUTES.reportPage]: () => (
-    <LinkableTitle title={i18n.t('bivariate.color_manager.title')} />
-  ),
+  [APP_ROUTES.reportPage]: () => <LinkableTitle title={i18n.t('sidebar.reports')} />,
   [APP_ROUTES.bivariateManager]: () => (
-    <LinkableTitle title={i18n.t('Appearance administration')} />
+    <LinkableTitle title={i18n.t('bivariate.color_manager.title')} />
   ),
 };
 
