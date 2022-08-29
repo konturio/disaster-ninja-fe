@@ -1,5 +1,5 @@
 import { useAction, useAtom } from '@reatom/react';
-import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
+import { Button } from '@konturio/ui-kit';
 import { nanoid } from 'nanoid';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
@@ -10,35 +10,44 @@ import s from './Toolbar.module.css';
 // To be developed in next commit
 export function Toolbar() {
   const [controls] = useAtom(toolbarControlsAtom);
-  const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
-  const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
+  // To do soon in #11734
+
+  // const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
+  // const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
 
   function onMouseEnter(e: React.MouseEvent<HTMLDivElement, MouseEvent>, title: string) {
-    setTooltip({
-      popup: title,
-      position: { x: e.clientX + 5, y: e.clientY },
-      hoverBehavior: true,
-    });
+    // To do soon in #11734
+    // setTooltip({
+    //   popup: title,
+    //   position: { x: e.clientX + 5, y: e.clientY },
+    //   hoverBehavior: true,
+    // });
   }
 
   function onMouseLeave() {
-    resetTooltip();
+    // resetTooltip();
   }
 
   return (
-    <ActionsBar>
+    <div className={s.toolbar}>
       {sortByPredefinedOrder(Object.values(controls), controlsOrder).map((control) => (
-        <div key={nanoid(4)} className={s.sideBarContainer}>
+        <div key={control.id} className={s.sideBarContainer}>
           <div
             className={s.buttonWrap}
             onClick={() => control.onClick && control.onClick(!control.active)}
             onPointerEnter={(e) => onMouseEnter(e, control.title)}
             onPointerLeave={onMouseLeave}
           >
-            <ActionsBarBTN active={control.active} iconBefore={control.icon} />
+            <Button
+              active={control.active}
+              iconBefore={control.icon}
+              size="small"
+              className={s.toolButton}
+              variant="invert"
+            />
           </div>
         </div>
       ))}
-    </ActionsBar>
+    </div>
   );
 }
