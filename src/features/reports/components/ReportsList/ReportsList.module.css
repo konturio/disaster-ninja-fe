@@ -1,9 +1,7 @@
-body {
-  overflow-y: auto;
-}
-
 .mainWrap {
   padding: 144px 216px 191px 176px;
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
 }
 
 .titleRow {
