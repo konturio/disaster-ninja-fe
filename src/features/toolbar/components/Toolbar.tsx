@@ -31,7 +31,7 @@ export function Toolbar() {
   return (
     <div className={s.toolbar}>
       {sortByPredefinedOrder(Object.values(controls), controlsOrder).map((control) => (
-        <div key={nanoid(4)} className={s.sideBarContainer}>
+        <div key={control.id} className={s.sideBarContainer}>
           <div
             className={s.buttonWrap}
             onClick={() => control.onClick && control.onClick(!control.active)}
