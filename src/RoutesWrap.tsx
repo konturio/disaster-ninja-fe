@@ -4,6 +4,7 @@ import { matchPath } from 'react-router';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import { useAction } from '@reatom/react';
 import { i18n } from '~core/localization';
 import config from '~core/app_config';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
@@ -12,7 +13,9 @@ import { currentApplicationAtom } from '~core/shared_state';
 import { initUrlStore } from '~core/url_store';
 import { initModes } from '~core/modes/initializeModes';
 import { Row } from '~components/Layout/Layout';
-import { APP_ROUTES } from '~core/app_config/appRoutes';
+import { APP_ROUTES, findCurrentMode } from '~core/app_config/appRoutes';
+import { urlStoreAtom } from '~core/url_store/atoms/urlStore';
+import { currentModeAtom } from '~core/modes/currentMode';
 import s from './views/Main/Main.module.css';
 import type { UserDataModel } from '~core/auth';
 
@@ -24,10 +27,8 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 const PAGE_TITLES_BY_ROUTE = {
-  [APP_ROUTES.base]: () => DEFAULT_HEADER_TITLE,
-  [APP_ROUTES.reports]: () => (
-    <LinkableTitle title={i18n.t('sidebar.reports')} />
-  ),
+  [APP_ROUTES.map]: () => DEFAULT_HEADER_TITLE,
+  [APP_ROUTES.reports]: () => <LinkableTitle title={i18n.t('sidebar.reports')} />,
   [APP_ROUTES.reportPage]: () => (
     <LinkableTitle title={i18n.t('bivariate.color_manager.title')} />
   ),
@@ -62,6 +63,8 @@ export const CommonRoutesFeatures = ({
   children,
 }: CommonRoutesFeaturesProps) => {
   const { pathname } = useLocation();
+  const refreshURL = useAction(urlStoreAtom.refreshUrl);
+  const setApplicationMode = useAction(currentModeAtom.setCurrentMode);
 
   useEffect(() => {
     if (userModel?.hasFeature(AppFeature.INTERCOM)) {
@@ -76,16 +79,22 @@ export const CommonRoutesFeatures = ({
   useEffect(() => {
     if (
       matchPath(pathname, {
-        path: APP_ROUTES.base,
+        path: APP_ROUTES.map,
+        exact: true,
+      }) ||
+      matchPath(pathname, {
+        path: APP_ROUTES.eventExplorer,
         exact: true,
       })
     ) {
       initUrlStore();
+      refreshURL();
     } else {
       currentApplicationAtom.init.dispatch();
     }
+    setApplicationMode(findCurrentMode(pathname));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, setApplicationMode, refreshURL]);
 
   const headerTitle = getHeaderTitle(pathname);
 
@@ -146,11 +155,7 @@ const LinkableTitle = ({ title }: { title: string }) => {
   return (
     <Text type="short-l">
       <div className={s.customAppTitle}>
-        <span
-          className={s.clickable}
-          onClick={goBase}
-          title={i18n.t('to_main_page')}
-        >
+        <span className={s.clickable} onClick={goBase} title={i18n.t('to_main_page')}>
           Disaster Ninja
         </span>{' '}
         <span>{title}</span>

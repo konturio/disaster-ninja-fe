@@ -5,7 +5,7 @@ import type { ModesControlsAtom } from './modesControls';
 export function registerMapMode(modesControlAtom: ModesControlsAtom) {
   modesControlAtom.addControl.dispatch({
     id: 'map',
-    active: true,
+    active: false,
     icon: <Map24 />,
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('map');

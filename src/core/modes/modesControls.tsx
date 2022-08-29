@@ -19,12 +19,17 @@ export const modesControlsAtom = createAtom(
     currentModeAtom,
   },
   (
-    { onAction, onChange, schedule, create },
+    { onAction, onChange, schedule, create, getUnlistedState },
     state: ModesControlsAtomState = {},
   ) => {
     onAction('addControl', (control) => {
-      state = { ...state, [control.id]: control };
+      const currentMode = getUnlistedState(currentModeAtom);
+      state = {
+        ...state,
+        [control.id]: { ...control, active: control.id === currentMode },
+      };
     });
+
     onAction('removeControl', (controlId) => {
       delete state[controlId];
       state = { ...state };
