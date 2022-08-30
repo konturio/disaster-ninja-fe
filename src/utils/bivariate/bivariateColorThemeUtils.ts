@@ -60,20 +60,6 @@ function convertToRgbaWithOpacity(hexColor: string): string {
   throw new Error('Bad Hex');
 }
 
-export function mergeColorsCorner(
-  corner1: CornerRange[],
-  corner2: CornerRange[],
-): CornerRange[] {
-  const convertedCorner1 = (
-    Array.isArray(corner1[0]) ? [...corner1[0]] : [corner1[0]]
-  ).sort();
-  const convertedCorner2 = (
-    Array.isArray(corner2[1]) ? [...corner2[1]] : [corner2[1]]
-  ).sort();
-
-  return Array.from(new Set(convertedCorner1.concat(convertedCorner2)));
-}
-
 function findColors(
   colors: {
     fallback: string;
@@ -81,7 +67,10 @@ function findColors(
   },
   crn: [CornerRange[], CornerRange[]],
 ): string {
-  const mergedCorner = mergeColorsCorner(crn[0], crn[1]);
+  const corner1 = (Array.isArray(crn[0]) ? [...crn[0]] : [crn[0]]).sort();
+  const corner2 = (Array.isArray(crn[1]) ? [...crn[1]] : [crn[1]]).sort();
+
+  const mergedCorner = Array.from(new Set(corner1.concat(corner2)));
 
   const combination = colors.combinations.find(({ corner }) => {
     if (mergedCorner.length !== corner.length) return false;
