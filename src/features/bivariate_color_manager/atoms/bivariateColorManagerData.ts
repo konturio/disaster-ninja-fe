@@ -1,10 +1,12 @@
 import { createAtom } from '~utils/atoms';
 import { bivariateColorManagerResourceAtom } from './bivariateColorManagerResource';
-import type { TableDataValue } from './bivariateColorManagerResource';
-import type { BivariateColorManagerData } from './bivariateColorManagerResource';
+import type {
+  BivariateColorManagerData,
+  BivariateColorManagerDataValue,
+  TableDataValue,
+} from './bivariateColorManagerResource';
 import type { Indicator, Meta } from '~utils/bivariate';
-import type { SelectItemType } from '@konturio/ui-kit/tslib/Select/types';
-import type { BivariateColorManagerDataValue } from './bivariateColorManagerResource';
+import type { CornerRange } from '~utils/bivariate';
 
 export type BivariateColorManagerDataAtomState = {
   filteredData: BivariateColorManagerData | null;
@@ -20,10 +22,11 @@ export type BivariateColorManagerDataAtomState = {
 
 export type Filters = {
   layers: string | number | null;
+  sentiments?: string[][] | null;
 };
 
 export type FiltersKeys = keyof Filters;
-export type FiltersValues = Filters[keyof Filters];
+export type FiltersValues = Filters[FiltersKeys];
 
 export type LayerSelectionInput = {
   key: string;
@@ -48,7 +51,8 @@ export const bivariateColorManagerDataAtom = createAtom(
   {
     setLayersSelection: (input: LayerSelectionInput) => input,
     runFilters: () => undefined,
-    setLayersFilter: (input: SelectItemType | null) => input,
+    setLayersFilter: (input?: string) => input,
+    setSentimentsFilter: (sentiments?: string[][]) => sentiments,
     setSelectedRows: (key: string) => key,
     bivariateColorManagerResourceAtom,
   },
@@ -74,8 +78,18 @@ export const bivariateColorManagerDataAtom = createAtom(
       }
     });
 
-    onAction('setLayersFilter', (input) => {
-      state.filters = { ...state.filters, layers: input?.value || null };
+    onAction('setLayersFilter', (layers) => {
+      state.filters = { ...state.filters, layers: layers || null };
+      schedule((dispatch) => {
+        dispatch(create('runFilters'));
+      });
+    });
+
+    onAction('setSentimentsFilter', (sentiments) => {
+      state.filters = {
+        ...state.filters,
+        sentiments: sentiments?.length ? sentiments : null,
+      };
       schedule((dispatch) => {
         dispatch(create('runFilters'));
       });
@@ -93,6 +107,7 @@ export const bivariateColorManagerDataAtom = createAtom(
 
     onAction('runFilters', () => {
       const { filters, _initialData } = state;
+      if (!filters) return;
       const filterFunctionsToApply = Object.entries(filters)
         .map(([key, value]) => (value ? [filterFunctions[key], value] : null))
         .filter(Boolean) as [FilterFunction, FiltersValues][];
@@ -186,6 +201,54 @@ const layersFilterFunction: FilterFunction = (
   return Boolean(value.horizontal[indicator] || value.vertical[indicator]);
 };
 
+function compareArrays(array1: string[], array2: string[]): boolean {
+  return (
+    array1.length === array2.length &&
+    array1.every(function (value, index) {
+      return value === array2[index];
+    })
+  );
+}
+
+function mergeCorner(
+  corner1: CornerRange[],
+  corner2: CornerRange[],
+): CornerRange[] {
+  const mergedCorner: CornerRange[] = corner1.slice();
+  corner2.forEach((crn) => {
+    if (mergedCorner.indexOf(crn) === -1) {
+      mergedCorner.push(crn);
+    }
+  });
+
+  return mergedCorner;
+}
+
+const sentimentsFilterFunction: FilterFunction = (
+  _key: string,
+  { directions: { horizontal, vertical } }: BivariateColorManagerDataValue,
+  sentiments: FiltersValues,
+): boolean => {
+  if (!sentiments || !Array.isArray(sentiments)) return false;
+
+  const colorCombinations = [
+    mergeCorner(vertical[0], horizontal[0]),
+    mergeCorner(vertical[0], horizontal[1]),
+    mergeCorner(vertical[1], horizontal[0]),
+    mergeCorner(vertical[1], horizontal[1]),
+  ];
+
+  for (let i = 0; i < colorCombinations.length; i++) {
+    for (let j = 0; j < sentiments.length; j++) {
+      if (compareArrays(colorCombinations[i], sentiments[j])) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
 type FilterFunction = (
   key: string,
   value: BivariateColorManagerDataValue,
@@ -196,4 +259,5 @@ const filterFunctions: {
   [key in FiltersKeys]: FilterFunction;
 } = {
   layers: layersFilterFunction,
+  sentiments: sentimentsFilterFunction,
 };

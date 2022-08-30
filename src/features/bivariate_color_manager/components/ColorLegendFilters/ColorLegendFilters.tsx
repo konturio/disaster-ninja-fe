@@ -1,26 +1,29 @@
-import { Select } from '@konturio/ui-kit';
+import { Autocomplete, Select } from '@konturio/ui-kit';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useAtom } from '@reatom/react';
 import { Plus16 } from '@konturio/default-icons';
 import { nanoid } from 'nanoid';
 import cn from 'clsx';
 import { i18n } from '~core/localization';
-import { bivariateColorManagerAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManager';
 import { bivariateColorManagerResourceAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
 import { capitalize } from '~utils/common';
+import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import style from './ColorLegendFilters.module.css';
-import type { SelectItemType } from '@konturio/ui-kit/tslib/Select/types';
+import type { SelectItemType, AutocompleteItemType } from '@konturio/ui-kit';
 
-const LayersFilterMenuClasses = {
-  menu: style.LayersFilterMenu,
+const SentimentFiltersClasses = {
   noValue: style.NoValue,
 };
 
-type FilterValueType = { key: string; value: SelectItemType['value'][] };
+const LayerFilterClasses = {
+  menu: style.AutocompleteMenu,
+};
+
+type FilterValueType = { key: string; value: string[] };
 
 export const ColorLegendFilters = () => {
-  const [indicators, { setLayersFilter }] = useAtom(
-    bivariateColorManagerAtom,
+  const [indicators, { setLayersFilter, setSentimentsFilter }] = useAtom(
+    bivariateColorManagerDataAtom,
     (state) => state.indicators,
   );
 
@@ -68,6 +71,9 @@ export const ColorLegendFilters = () => {
   const sentimentFilterValues = useRef<FilterValueType[]>([
     { key: nanoid(4), value: [] },
   ]);
+  const [selectedLayer, setSelectedLayer] = useState<
+    AutocompleteItemType['value'] | undefined
+  >(undefined);
 
   const onResetSentiments = useCallback(
     (index: number) => {
@@ -87,9 +93,17 @@ export const ColorLegendFilters = () => {
             setSentimentFiltersCount(sentimentFiltersCount - 1);
           }
         }
+        setSentimentsFilter(
+          sentimentFilterValues.current.reduce((acc, sf) => {
+            if (sf.value.length) {
+              acc.push(sf.value);
+            }
+            return acc;
+          }, [] as string[][]),
+        );
       }
     },
-    [sentimentFiltersCount, setSentimentFiltersCount],
+    [sentimentFiltersCount, setSentimentFiltersCount, setSentimentsFilter],
   );
 
   const onSelectSentiment = useCallback(
@@ -105,62 +119,107 @@ export const ColorLegendFilters = () => {
           sentimentFilterValues.current.push({ key: nanoid(4), value: [] });
           setSentimentFiltersCount(sentimentFiltersCount + 1);
         }
-        sentimentFilterValues.current[index].value = selection?.map(
-          (itm) => itm.value,
+        sentimentFilterValues.current[index].value = selection?.map((itm) =>
+          itm.value.toString(),
         );
+        setSentimentsFilter(
+          sentimentFilterValues.current.reduce((acc, sf) => {
+            if (sf.value.length) {
+              acc.push(sf.value);
+            }
+            return acc;
+          }, [] as string[][]),
+        );
+
+        if (selectedLayer) {
+          setSelectedLayer(undefined);
+          setLayersFilter();
+        }
       } else {
         onResetSentiments(index);
       }
     },
-    [sentimentFiltersCount, setSentimentFiltersCount, onResetSentiments],
+    [
+      sentimentFiltersCount,
+      setSentimentFiltersCount,
+      onResetSentiments,
+      selectedLayer,
+      setSelectedLayer,
+      setLayersFilter,
+      setSentimentsFilter,
+    ],
+  );
+
+  const onChangeLayer = useCallback(
+    (item) => {
+      if (item.selectedItem && sentimentFilterValues.current[0].value?.length) {
+        if (sentimentFiltersCount > 1) {
+          setSentimentFiltersCount(1);
+        }
+        sentimentFilterValues.current.length = 1;
+        sentimentFilterValues.current[0].value = [];
+        setSentimentsFilter();
+      }
+      setSelectedLayer(item.selectedItem?.value || undefined);
+      setLayersFilter(item.selectedItem?.value || undefined);
+    },
+    [
+      setSelectedLayer,
+      setLayersFilter,
+      sentimentFiltersCount,
+      setSentimentFiltersCount,
+      setSentimentsFilter,
+    ],
   );
 
   return (
     <div className={style.ListFilters}>
-      <div className={style.SentimentsFiltersContainer}>
-        {[...Array(sentimentFiltersCount)].map((item, index) => (
-          <Select
-            onClose={(changes) => {
-              onSelectSentiment(changes, index);
-            }}
-            onReset={() => {
-              onResetSentiments(index);
-            }}
-            key={
-              index < sentimentFilterValues.current.length
-                ? sentimentFilterValues.current[index].key
-                : 'add_filter'
-            }
-            classes={LayersFilterMenuClasses}
-            className={cn(
-              style.SentimentsFilters,
-              sentimentFiltersCount !== 1 && index === sentimentFiltersCount - 1
-                ? style.SentimentsAddButton
-                : undefined,
-            )}
-            value={sentimentFilterValues.current[index].value}
-            items={selectDirectionsData}
-            multiselect="aggregate"
-            disabled={loading}
+      {!loading && (
+        <div className={style.FiltersContainer}>
+          {[...Array(sentimentFiltersCount)].map((item, index) => (
+            <Select
+              onClose={(changes) => {
+                onSelectSentiment(changes, index);
+              }}
+              onReset={() => {
+                onResetSentiments(index);
+              }}
+              key={
+                index < sentimentFilterValues.current.length
+                  ? sentimentFilterValues.current[index].key
+                  : 'add_filter'
+              }
+              classes={SentimentFiltersClasses}
+              className={cn(
+                style.SentimentsFilters,
+                index === sentimentFiltersCount - 1 && style.LastFilter,
+                sentimentFiltersCount !== 1 &&
+                  index === sentimentFiltersCount - 1
+                  ? style.SentimentsAddButton
+                  : undefined,
+              )}
+              value={sentimentFilterValues.current[index].value}
+              items={selectDirectionsData}
+              multiselect="aggregate"
+            >
+              {index === 0 ? (
+                i18n.t('bivariate.color_manager.sentiments_combinations_filter')
+              ) : (
+                <Plus16 />
+              )}
+            </Select>
+          ))}
+          <Autocomplete
+            onChange={onChangeLayer}
+            className={style.LayersFilters}
+            classes={LayerFilterClasses}
+            items={selectIndicatorsData}
+            value={selectedLayer}
           >
-            {index === 0 ? (
-              i18n.t('bivariate.color_manager.sentiments_combinations_filter')
-            ) : (
-              <Plus16 />
-            )}
-          </Select>
-        ))}
-      </div>
-
-      <Select
-        onChange={(item) => setLayersFilter(item.selectedItem || null)}
-        classes={LayersFilterMenuClasses}
-        className={style.LayersFilters}
-        items={selectIndicatorsData}
-        disabled={loading}
-      >
-        {i18n.t('bivariate.color_manager.layers_filter')}
-      </Select>
+            {i18n.t('bivariate.color_manager.layers_filter')}
+          </Autocomplete>
+        </div>
+      )}
     </div>
   );
 };

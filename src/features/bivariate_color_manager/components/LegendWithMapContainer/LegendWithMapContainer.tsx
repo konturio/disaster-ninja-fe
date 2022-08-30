@@ -4,9 +4,9 @@ import {
   fadeClassNames,
 } from '~features/bivariate_color_manager/components/CssTransitionWrapper/CssTransitionWrapper';
 import { LegendWithMap } from '~features/bivariate_color_manager/components/LegendWithMap/LegendWithMap';
-import { bivariateColorManagerAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManager';
+import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import style from './LegendWithMapContainer.module.css';
-import type { LayerSelectionInput } from '~features/bivariate_color_manager/atoms/bivariateColorManager';
+import type { LayerSelectionInput } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import type { LayerSelectionFull } from '~features/bivariate_color_manager/components/LegendWithMap/LegendWithMap';
 
 function isFullSelection(
@@ -19,7 +19,7 @@ function isFullSelection(
 
 export const LegendWithMapContainer = () => {
   const [{ filteredData, layersSelection }] = useAtom(
-    bivariateColorManagerAtom,
+    bivariateColorManagerDataAtom,
     (state) => ({
       filteredData: state.filteredData,
       layersSelection: state.layersSelection,

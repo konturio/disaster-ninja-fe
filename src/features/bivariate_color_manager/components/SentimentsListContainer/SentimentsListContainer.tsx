@@ -2,7 +2,7 @@ import { useAtom } from '@reatom/react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { SentimentsCombinationsList } from '~features/bivariate_color_manager/components';
 import { bivariateColorManagerResourceAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
-import { bivariateColorManagerAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManager';
+import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import style from './SentimentsListContainer.module.css';
 
 export const SentimentsListContainer = () => {
@@ -14,7 +14,7 @@ export const SentimentsListContainer = () => {
   const [
     { filteredData: data, layersSelection, selectedRows, filters },
     { setLayersSelection, setSelectedRows },
-  ] = useAtom(bivariateColorManagerAtom);
+  ] = useAtom(bivariateColorManagerDataAtom);
 
   const anyFilterActivated = Object.values(filters).filter(Boolean).length > 0;
 

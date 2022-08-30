@@ -2,6 +2,19 @@
   display: flex;
   align-items: center;
   padding: 24px 32px 16px 32px;
+  z-index: 2;
+
+  & .SentimentsFilters {
+    height: 36px;
+
+    &.LastFilter {
+      margin-right: 10px;
+    }
+  }
+
+  & .LayersFilters {
+    height: 36px;
+  }
 
   & .NoValue.SentimentsAddButton {
     width: auto !important;
@@ -19,18 +32,14 @@
     max-width: 100%;
   }
 
-  & .SentimentsFiltersContainer {
+  & .FiltersContainer {
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
   }
 
-  & .LayersFilters {
-    margin-left: 20px;
+  & .AutocompleteMenu {
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
   }
-}
-
-.LayersFilterMenu {
-  z-index: 2;
-  max-height: 60vh;
-  overflow: auto;
 }
