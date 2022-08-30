@@ -5,8 +5,6 @@
 .panelIcon {
   position: absolute;
   z-index: 1;
-  top: 55px;
-  left: var(--unit);
 
   &.show {
     transition: visibility 0s linear 0s, opacity 0.33s linear 0s;
@@ -24,26 +22,24 @@
 .sidePanel {
   z-index: 1; /* Show shadow over map */
   position: absolute;
-  margin-left: var(--unit);
-  margin-top: var(--unit);
   align-self: flex-start;
   left: -100px;
   border-radius: var(--half-unit);
 
   &.show {
-    transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
-      left 0.1s linear 0s;
+    transition: visibility 0s linear 0s, opacity 0.33s linear 0s, left 0.1s linear 0s;
     visibility: visible;
     opacity: 1;
     left: 0;
   }
 
   &.hide {
-    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
-      left 0.15s linear 0s;
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s, left 0.15s linear 0s;
     visibility: hidden;
     opacity: 0;
     left: -150px;
+    width: 0;
+    height: 0;
   }
 }
 

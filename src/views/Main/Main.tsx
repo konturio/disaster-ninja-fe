@@ -19,9 +19,7 @@ const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
 const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/ConnectedMap'));
 
-const { SideBar } = lazily(() => import('~features/side_bar'));
-
-const { EventList } = lazily(() => import('~features/events_list'));
+const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
 
 const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
 
@@ -109,13 +107,20 @@ export function MainView({ userModel }: MainViewProps) {
     <>
       <Row>
         <Suspense fallback={null}>
-          {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
-            <EventList />
-          )}
-          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
-          {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-            <AdvancedAnalyticsPanel />
-          )}
+          <div className={s.leftButtonsContainer}>
+            <div className={s.iconColumn}>
+              {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
+              {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
+                <EventListPanel />
+              )}
+            </div>
+
+            <div className={s.iconColumn}>
+              {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+                <AdvancedAnalyticsPanel />
+              )}
+            </div>
+          </div>
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>

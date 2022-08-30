@@ -24,6 +24,24 @@
   flex-flow: column nowrap;
 }
 
+.leftButtonsContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  gap: var(--unit);
+  margin-left: var(--unit);
+  margin-top: var(--unit);
+}
+
+.iconColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.iconColumn > div {
+  margin-bottom: var(--unit);
+}
+
 .floating {
   position: absolute;
   right: 8px;
