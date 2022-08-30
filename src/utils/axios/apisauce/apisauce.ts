@@ -86,6 +86,7 @@ export type PROBLEM_CODE =
   | typeof UNKNOWN_ERROR
   | typeof CANCEL_ERROR;
 
+const BAD_REQUEST_ERROR_CODES = ['ERR_BAD_REQUEST'];
 const TIMEOUT_ERROR_CODES = ['ECONNABORTED'];
 const NODEJS_CONNECTION_ERROR_CODES = [
   'ENOTFOUND',
@@ -140,6 +141,7 @@ export const getProblemFromError = (error) => {
 
   // then check the specific error code
   if (!error.code) return getProblemFromStatus(error.response.status);
+  if (BAD_REQUEST_ERROR_CODES.includes(error.code)) return CLIENT_ERROR;
   if (TIMEOUT_ERROR_CODES.includes(error.code)) return TIMEOUT_ERROR;
   if (NODEJS_CONNECTION_ERROR_CODES.includes(error.code))
     return CONNECTION_ERROR;

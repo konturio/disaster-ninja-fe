@@ -66,6 +66,7 @@ export class ApiClient {
     this.refreshTokenApiPath = refreshTokenApiPath;
     this.disableAuth = disableAuth;
     this.storage = storage;
+    this.unauthorizedCallback = unauthorizedCallback;
 
     // Will deleted by terser
     if (import.meta?.env?.DEV) {
