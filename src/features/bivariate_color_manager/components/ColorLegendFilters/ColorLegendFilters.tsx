@@ -82,13 +82,19 @@ export const ColorLegendFilters = () => {
         sentimentFilterValues.current[index].value.length
       ) {
         if (index !== 0) {
+          // when clearing not first filter, just remove it's value from values array and reduce filters count
           sentimentFilterValues.current.splice(index, 1);
           setSentimentFiltersCount(sentimentFiltersCount - 1);
         } else {
+          // when resetting first filter.
+          // if sentiment filters count is 2 (actual filter and plus button (which is also a filter but without a
+          // selected value)). Then set filters count to 1 and reset it's value, so plus button/filter will be removed,
+          // only first actual filter without value will be shown
           if (sentimentFiltersCount === 2) {
             setSentimentFiltersCount(1);
             sentimentFilterValues.current[0].value = [];
           } else {
+            // if amount of filters is more than 2. remove first filter and shift values
             sentimentFilterValues.current.shift();
             setSentimentFiltersCount(sentimentFiltersCount - 1);
           }
