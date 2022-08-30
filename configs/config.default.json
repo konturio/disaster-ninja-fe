@@ -11,7 +11,8 @@
     "BIV__Kontur OpenStreetMap Quantity",
     "activeContributors",
     "eventShape",
-    "focused-geometry"
+    "focused-geometry",
+    "hotProjects"
   ],
   "AUTOFOCUS_PADDINGS": [16, 300, 16, 336],
   "AUTOFOCUS_ZOOM": 13,
