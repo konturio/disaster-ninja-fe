@@ -22,7 +22,7 @@ export type BivariateColorManagerDataAtomState = {
 };
 
 export type Filters = {
-  layers: string | number | null;
+  layers?: string | number | null;
   sentiments?: string[][] | null;
 };
 
