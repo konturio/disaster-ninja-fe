@@ -4,15 +4,10 @@ import { matchPath } from 'react-router';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
 import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
-import {
-  BrowserRouter as Router,
-  Route,
-  useLocation,
-  Redirect,
-} from 'react-router-dom';
+import { Router, Route, useLocation, Redirect } from 'react-router-dom';
 import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
-import config from '~core/app_config';
+import history from '~core/history';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
@@ -21,6 +16,7 @@ import { AppFeature } from '~core/auth/types';
 import { currentApplicationAtom } from '~core/shared_state';
 import { initUrlStore } from '~core/url_store';
 import s from './views/Main/Main.module.css';
+import { ROUTE_PATHS as ROUTES } from './RoutePaths';
 import type { UserDataModel } from '~core/auth';
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));
@@ -29,20 +25,13 @@ const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
 
-const ROUTES = {
-  base: config.baseUrl,
-  reports: config.baseUrl + 'reports',
-  reportPage: config.baseUrl + 'reports/:reportId',
-  bivariateManager: config.baseUrl + 'bivariate-manager',
-};
-
 export function RoutedApp() {
   const [{ data: userModel, loading }] = useAtom(userResourceAtom);
   return (
     <StrictMode>
       <OriginalLogo />
 
-      <Router>
+      <Router history={history}>
         <CommonRoutesFeatures userModel={userModel} />
         {userModel && !loading && (
           <CacheSwitch>
@@ -184,7 +173,7 @@ const getHeaderTitle = (pathname: string): JSX.Element | string => {
 
 const LinkableTitle = ({ title }: { title: string }) => {
   const history = useHistory();
-  const goBase = () => history.push(config.baseUrl);
+  const goBase = () => history.push(ROUTES.base);
 
   return (
     <Text type="short-l">
