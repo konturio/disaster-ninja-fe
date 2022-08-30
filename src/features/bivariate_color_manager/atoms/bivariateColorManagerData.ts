@@ -1,4 +1,5 @@
 import { createAtom } from '~utils/atoms';
+import { arraysAreEqualWithStrictOrder } from '~utils/array/arraysAreEqual';
 import { bivariateColorManagerResourceAtom } from './bivariateColorManagerResource';
 import type {
   BivariateColorManagerData,
@@ -201,15 +202,6 @@ const layersFilterFunction: FilterFunction = (
   return Boolean(value.horizontal[indicator] || value.vertical[indicator]);
 };
 
-function compareArrays(array1: string[], array2: string[]): boolean {
-  return (
-    array1.length === array2.length &&
-    array1.every(function (value, index) {
-      return value === array2[index];
-    })
-  );
-}
-
 function mergeCorner(
   corner1: CornerRange[],
   corner2: CornerRange[],
@@ -240,7 +232,7 @@ const sentimentsFilterFunction: FilterFunction = (
 
   for (let i = 0; i < colorCombinations.length; i++) {
     for (let j = 0; j < sentiments.length; j++) {
-      if (compareArrays(colorCombinations[i], sentiments[j])) {
+      if (arraysAreEqualWithStrictOrder(colorCombinations[i], sentiments[j])) {
         return true;
       }
     }

@@ -4,6 +4,7 @@ import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { createResourceAtom } from '~utils/atoms';
+import { arraysAreEqual } from '~utils/array/arraysAreEqual';
 import { areaLayersListResource } from './areaLayersListResource';
 import type { LayerInAreaDetails } from '../types';
 
@@ -139,10 +140,3 @@ export const areaLayersDetailsResourceAtom = createResourceAtom(
   'areaLayersDetailsResourceAtom',
   areaLayersDetailsParamsAtom,
 );
-
-function arraysAreEqual(arr1: any[], arr2: any[]) {
-  return (
-    arr1.length === arr2.length &&
-    arr1.every((value, index) => value === arr2[index])
-  );
-}
