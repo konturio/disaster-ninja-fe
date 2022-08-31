@@ -49,7 +49,7 @@ export default (
   >
     All next colors - undefined
     <MiniLegend
-      legend={mockResponse}
+      legendSteps={mockResponse}
       changes={{
         A1: { color: undefined },
         A3: { color: undefined },
@@ -58,10 +58,10 @@ export default (
       }}
     />
     No changes
-    <MiniLegend legend={mockResponse} changes={{}} />
+    <MiniLegend legendSteps={mockResponse} changes={{}} />
     All changed
     <MiniLegend
-      legend={mockResponse}
+      legendSteps={mockResponse}
       changes={{
         A1: { color: 'rgba(173, 169, 200, 0.5)' },
         A3: { color: 'rgba(12, 155, 237, 0.5)' },
@@ -71,7 +71,7 @@ export default (
     />
     Half of cells changed
     <MiniLegend
-      legend={mockResponse}
+      legendSteps={mockResponse}
       changes={{
         A1: { color: 'rgba(173, 169, 200, 0.5)' },
         C3: { color: 'rgba(83, 152, 106, 0.5)' },
@@ -79,7 +79,7 @@ export default (
     />
     Half of cells changed, half comes incorrect
     <MiniLegend
-      legend={mockResponse}
+      legendSteps={mockResponse}
       changes={{
         A1: { color: undefined },
         A3: { color: 'rgba(12, 155, 237, 0.5)' },
