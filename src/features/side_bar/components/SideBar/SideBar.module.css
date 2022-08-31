@@ -1,8 +1,23 @@
-.sideBarContainer {
+.sideBar {
+  &.expanded {
+    transition: visibility 0s linear 0s, opacity 0.33s linear 0s, left 0.1s linear 0s;
+    /* visibility: visible; */
+    /* opacity: 1; */
+    /* left: 0; */
+  }
+
+  &.collapsed {
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s, left 0.15s linear 0s;
+    /* visibility: hidden; */
+    width: 48px;
+    text-align: center;
+    /* left: -150px; */
+  }
+}
+
+.sidebarItemContainer {
   z-index: 1;
   display: inline-block;
-  /* width: 48px; */
-  /* text-align: center; */
   padding: 0 var(--unit);
   margin: var(--unit) 0;
   text-decoration: none;
@@ -15,4 +30,9 @@
   width: 100%;
   justify-content: left;
   margin: 0;
+}
+
+.togglerContainer {
+  /* margin-top: auto; */
+  flex-grow: 1;
 }
