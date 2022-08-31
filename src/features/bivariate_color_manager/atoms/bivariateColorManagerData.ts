@@ -89,7 +89,7 @@ export const bivariateColorManagerDataAtom = createAtom(
     onAction('setSentimentsFilter', (sentiments) => {
       state.filters = {
         ...state.filters,
-        sentiments,
+        sentiments: sentiments?.length ? sentiments : undefined,
       };
       schedule((dispatch) => {
         dispatch(create('runFilters'));
