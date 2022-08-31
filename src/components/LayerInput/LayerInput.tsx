@@ -6,8 +6,7 @@ export interface LayerInput {
   enabled: boolean;
   type: 'checkbox' | 'radio' | 'not-interactive';
   label?: React.ReactChild | React.ReactChild[];
-  onChange?: ((e: React.ChangeEvent<HTMLInputElement>) => void) &
-    React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: (isChecked: boolean) => void;
   onClick?: React.MouseEventHandler<HTMLInputElement>;
 }
 
