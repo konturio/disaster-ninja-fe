@@ -1,9 +1,10 @@
 import { StrictMode, Suspense } from 'react';
 import { lazily } from 'react-lazily';
 import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Router, Route, Redirect } from 'react-router-dom';
 import { useAtom } from '@reatom/react';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
+import history from '~core/history';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LoginForm } from '~features/user_profile';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
@@ -22,7 +23,7 @@ export function RoutedApp() {
     <StrictMode>
       <OriginalLogo />
 
-      <Router>
+      <Router history={history}>
         <CommonRoutesFeatures userModel={userModel}>
           {userModel && !loading && (
             <CacheSwitch>
