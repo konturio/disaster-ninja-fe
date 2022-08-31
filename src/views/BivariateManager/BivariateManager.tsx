@@ -48,7 +48,7 @@ export function BivariateManagerPage() {
         </Tab>
       </TabList>
 
-      <TabPanels>
+      <TabPanels className={style.TabPanels}>
         <TabPanel>Sentiments</TabPanel>
         <TabPanel>
           <ColorLegendsView />
