@@ -1,17 +1,10 @@
 import { Virtuoso } from 'react-virtuoso';
-import { Panel, Text } from '@konturio/ui-kit';
+import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { toolbarControlsAtom } from '~core/shared_state';
-import {
-  EVENT_LIST_CONTROL_ID,
-  EVENT_LIST_CONTROL_NAME,
-} from '~features/events_list/constants';
-import { controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import { i18n } from '~core/localization';
@@ -35,19 +28,15 @@ export function EventsListPanel({
   loading: boolean;
   eventsList: Event[] | null;
 }) {
-  const [, { enable, disable, addControl, toggleActiveState }] =
-    useAtom(toolbarControlsAtom);
-
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const [wasClosed, setWasClosed] = useState<null | boolean>(null);
   const virtuoso = useRef(null);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   useEffect(() => {
     if (isMobile) {
-      disable(EVENT_LIST_CONTROL_ID);
+      setIsOpen(false);
     }
-  }, [isMobile, disable]);
+  }, [isMobile, setIsOpen]);
 
   useEffect(() => {
     // type any is used because virtuoso types doesn't have scrollToIndex method, but it's described in docs https://virtuoso.dev/scroll-to-index
@@ -62,8 +51,12 @@ export function EventsListPanel({
     }
   }, [current, eventsList, virtuoso]);
 
+  const onPanelOpen = useCallback(() => {
+    setIsOpen(true);
+  }, [setIsOpen]);
+
   const onPanelClose = useCallback(() => {
-    disable(EVENT_LIST_CONTROL_ID);
+    setIsOpen(false);
   }, [setIsOpen]);
 
   const statesToComponents = createStateMap({
@@ -72,61 +65,45 @@ export function EventsListPanel({
     data: eventsList,
   });
 
-  useEffect(() => {
-    addControl({
-      id: EVENT_LIST_CONTROL_ID,
-      name: EVENT_LIST_CONTROL_NAME,
-      title: i18n.t('event_list.title'),
-      active: false,
-      visualGroup: controlVisualGroup.withAnalytics,
-      icon: <Disasters24 />,
-      onClick: (becomesActive) => {
-        toggleActiveState(EVENT_LIST_CONTROL_ID);
-      },
-      onChange: (isActive) => {
-        setIsOpen(isActive);
-        setWasClosed((wasPreviouslyClosed) => {
-          if (wasPreviouslyClosed === null) return false;
-          return !isActive;
-        });
-      },
-    });
-
-    return () => {
-      disable(EVENT_LIST_CONTROL_ID);
-    };
-  }, []);
-
   return (
-    <Panel
-      header={<Text type="heading-l">{i18n.t('disasters')}</Text>}
-      className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
-      onClose={onPanelClose}
-    >
-      <EventListSettingsRow>
-        <FeedSelector />
-        <BBoxFilterToggle />
-      </EventListSettingsRow>
-      <div className={s.scrollable}>
-        {statesToComponents({
-          loading: <LoadingSpinner message={i18n.t('loading_events')} />,
-          error: (errorMessage) => <ErrorMessage message={errorMessage} />,
-          ready: (eventsList) => (
-            <Virtuoso
-              data={eventsList}
-              itemContent={(index, event) => (
-                <EventCard
-                  key={event.eventId}
-                  event={event}
-                  isActive={event.eventId === current}
-                  onClick={onCurrentChange}
+    <>
+      <Panel
+        header={isOpen ? <Text type="heading-l">{i18n.t('disasters')}</Text> : undefined}
+        className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
+        onClose={onPanelClose}
+      >
+        <div className={s.panelBody}>
+          <EventListSettingsRow>
+            <FeedSelector />
+            <BBoxFilterToggle />
+          </EventListSettingsRow>
+          <div className={s.scrollable}>
+            {statesToComponents({
+              loading: <LoadingSpinner message={i18n.t('loading_events')} />,
+              error: (errorMessage) => <ErrorMessage message={errorMessage} />,
+              ready: (eventsList) => (
+                <Virtuoso
+                  data={eventsList}
+                  itemContent={(index, event) => (
+                    <EventCard
+                      key={event.eventId}
+                      event={event}
+                      isActive={event.eventId === current}
+                      onClick={onCurrentChange}
+                    />
+                  )}
+                  ref={virtuoso}
                 />
-              )}
-              ref={virtuoso}
-            />
-          ),
-        })}
-      </div>
-    </Panel>
+              ),
+            })}
+          </div>
+        </div>
+      </Panel>
+      <PanelIcon
+        clickHandler={onPanelOpen}
+        className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+        icon={<Disasters24 />}
+      />
+    </>
   );
 }
