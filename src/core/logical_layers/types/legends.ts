@@ -31,6 +31,7 @@ export interface SimpleLegend {
 export interface BivariateLegendStep {
   label: string;
   color: string;
+  isFallbackColor?: boolean;
 }
 
 export interface BivariateLegend {

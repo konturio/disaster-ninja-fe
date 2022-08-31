@@ -66,7 +66,7 @@ function findColors(
     combinations: ColorCombination[];
   },
   crn: [CornerRange[], CornerRange[]],
-): string {
+): { color: string; isFallbackColor?: boolean } {
   const corner1 = (Array.isArray(crn[0]) ? [...crn[0]] : [crn[0]]).sort();
   const corner2 = (Array.isArray(crn[1]) ? [...crn[1]] : [crn[1]]).sort();
 
@@ -82,7 +82,13 @@ function findColors(
     return true;
   });
 
-  return combination?.color || colors.fallback;
+  // need this line for testing purposes, uncomment it to simulate undefined color combinations
+  // TODO: remove commented line after bivariate color editor work is finished
+  //if (combination && Math.random() * 100 < 10) combination.color = '';
+
+  return combination?.color
+    ? { color: combination.color }
+    : { color: colors.fallback, isFallbackColor: true };
 }
 
 export function generateColorThemeAndBivariateStyle(
@@ -166,10 +172,10 @@ export const generateColorTheme = (
   const corner01 = findColors(colors, [xAxisDirection[0], yAxisDirection[1]]);
   const corner11 = findColors(colors, [xAxisDirection[1], yAxisDirection[1]]);
 
-  const corner00hsl = hexToHsluv(corner00);
-  const corner10hsl = hexToHsluv(corner10);
-  const corner01hsl = hexToHsluv(corner01);
-  const corner11hsl = hexToHsluv(corner11);
+  const corner00hsl = hexToHsluv(corner00.color);
+  const corner10hsl = hexToHsluv(corner10.color);
+  const corner01hsl = hexToHsluv(corner01.color);
+  const corner11hsl = hexToHsluv(corner11.color);
 
   const midLeftHsl = interpolateHsl(corner00hsl, corner01hsl);
   const midBottomHsl = interpolateHsl(corner00hsl, corner10hsl);
@@ -179,15 +185,31 @@ export const generateColorTheme = (
 
   // put colors in specific way because x and y axises are swapped here
   const colorTheme: ColorTheme = [
-    { id: 'A1', color: convertToRgbaWithOpacity(corner00) },
+    {
+      id: 'A1',
+      color: convertToRgbaWithOpacity(corner00.color),
+      isFallbackColor: corner00.isFallbackColor,
+    },
     { id: 'A2', color: convertToRgbaWithOpacity(hsluvToHex(midLeftHsl)) },
-    { id: 'A3', color: convertToRgbaWithOpacity(corner01) },
+    {
+      id: 'A3',
+      color: convertToRgbaWithOpacity(corner01.color),
+      isFallbackColor: corner01.isFallbackColor,
+    },
     { id: 'B1', color: convertToRgbaWithOpacity(hsluvToHex(midBottomHsl)) },
     { id: 'B2', color: convertToRgbaWithOpacity(hsluvToHex(midMidHsl)) },
     { id: 'B3', color: convertToRgbaWithOpacity(hsluvToHex(midTopHsl)) },
-    { id: 'C1', color: convertToRgbaWithOpacity(corner10) },
+    {
+      id: 'C1',
+      color: convertToRgbaWithOpacity(corner10.color),
+      isFallbackColor: corner10.isFallbackColor,
+    },
     { id: 'C2', color: convertToRgbaWithOpacity(hsluvToHex(midRightHsl)) },
-    { id: 'C3', color: convertToRgbaWithOpacity(corner11) },
+    {
+      id: 'C3',
+      color: convertToRgbaWithOpacity(corner11.color),
+      isFallbackColor: corner11.isFallbackColor,
+    },
   ];
 
   return colorTheme;

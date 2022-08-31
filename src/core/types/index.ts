@@ -6,7 +6,11 @@ export type AxisGroup = {
   selectedQuotient: [string, string];
 };
 
-export type ColorTheme = Array<{ id: string; color: string }>;
+export type ColorTheme = Array<{
+  id: string;
+  color: string;
+  isFallbackColor?: boolean;
+}>;
 
 export type MapStyle = {
   version: number;

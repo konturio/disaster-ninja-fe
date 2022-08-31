@@ -60,9 +60,10 @@ export const fillBivariateLegend = (
   name,
   axis: { x: xAxis, y: yAxis },
   type: 'bivariate',
-  steps: colorTheme.map(({ id, color }) => ({
+  steps: colorTheme.map(({ id, color, isFallbackColor }) => ({
     label: id,
     color,
+    isFallbackColor,
   })),
 });
 

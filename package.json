@@ -32,7 +32,8 @@
     "auto:cosmos": "cosmos --config cosmos.config.json",
     "auto:cosmos:export": "patch-package && cosmos-export --config cosmos.config.export.json",
     "auto:cosmos:renderer": "vite --config cosmos.vite.config.ts --force serve --port=8080",
-    "auto:cosmos:renderer:export": "vite build --config cosmos.vite.config.ts"
+    "auto:cosmos:renderer:export": "vite build --config cosmos.vite.config.ts",
+    "link:ui-kit": "npm link @konturio/ui-kit @konturio/default-theme @konturio/default-icons"
   },
   "lint-staged": {
     "*/**/*.{ts,tsx}": [
@@ -64,9 +65,9 @@
     "@deck.gl/layers": "^8.5.4",
     "@deck.gl/mapbox": "^8.8.4",
     "@deck.gl/mesh-layers": "^8.5.4",
-    "@konturio/default-icons": "^2.0.0-alpha.26",
+    "@konturio/default-icons": "^2.0.0-alpha.28",
     "@konturio/default-theme": "^2.4.0-alpha.12",
-    "@konturio/ui-kit": "^3.0.0-alpha.72",
+    "@konturio/ui-kit": "^3.0.0-alpha.73",
     "@loaders.gl/core": "^3.2.3",
     "@nebula.gl/edit-modes": "1.0.3",
     "@nebula.gl/layers": "1.0.3",

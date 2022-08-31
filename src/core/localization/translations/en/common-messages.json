@@ -137,6 +137,7 @@
       },
 
       "color_manager": {
+        "not_defined": "Not defined",
         "sentiments_combinations_filter": "Sentiments combinations",
         "layers_filter": "Layers",
         "title": "Appearance administration",

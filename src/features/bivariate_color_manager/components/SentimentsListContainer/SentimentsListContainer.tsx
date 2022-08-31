@@ -12,7 +12,7 @@ export const SentimentsListContainer = () => {
   );
 
   const [
-    { filteredData: data, layersSelection, selectedRows, filters },
+    { filteredData, layersSelection, selectedRows, filters },
     { setLayersSelection, setSelectedRows },
   ] = useAtom(bivariateColorManagerDataAtom);
 
@@ -25,7 +25,7 @@ export const SentimentsListContainer = () => {
       ) : (
         <SentimentsCombinationsList
           anyFilterActivated={anyFilterActivated}
-          data={data!}
+          data={filteredData!}
           setLayersSelection={setLayersSelection}
           layersSelection={layersSelection}
           selectedRows={selectedRows}
