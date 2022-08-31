@@ -34,9 +34,9 @@ export function EventsListPanel({
 
   useEffect(() => {
     if (isMobile) {
-      // TODO
+      setIsOpen(false);
     }
-  }, [isMobile]);
+  }, [isMobile, setIsOpen]);
 
   useEffect(() => {
     // type any is used because virtuoso types doesn't have scrollToIndex method, but it's described in docs https://virtuoso.dev/scroll-to-index
