@@ -206,14 +206,7 @@ function mergeCorner(
   corner1: CornerRange[],
   corner2: CornerRange[],
 ): CornerRange[] {
-  const mergedCorner: CornerRange[] = corner1.slice();
-  corner2.forEach((crn) => {
-    if (mergedCorner.indexOf(crn) === -1) {
-      mergedCorner.push(crn);
-    }
-  });
-
-  return mergedCorner;
+  return [...new Set([...corner1, ...corner2])];
 }
 
 const sentimentsFilterFunction: FilterFunction = (
