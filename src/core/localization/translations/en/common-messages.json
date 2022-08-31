@@ -132,7 +132,8 @@
       "biv_color_manager": "Bivariate color manager",
       "reports": "Reports",
       "edit_osm": "Edit in OpenStreetMap",
-      "ruler": "Ruler"
+      "ruler": "Ruler",
+      "collapse": "Collapse"
     },
     "login": {
       "email": "Email",

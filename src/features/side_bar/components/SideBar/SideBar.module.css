@@ -1,8 +1,7 @@
-.sideBarContainer {
+.sidebarItemContainer,
+.toggler {
   z-index: 1;
   display: inline-block;
-  /* width: 48px; */
-  /* text-align: center; */
   padding: 0 var(--unit);
   margin: var(--unit) 0;
   text-decoration: none;
@@ -11,8 +10,22 @@
   }
 }
 
+.collapsed .sidebarItemContainer {
+  padding: 0;
+  margin: var(--unit);
+}
+
 .controlButton {
   width: 100%;
   justify-content: left;
   margin: 0;
+}
+
+.togglerContainer {
+  flex-grow: 1;
+  display: flex;
+}
+
+.toggler {
+  margin-top: auto;
 }
