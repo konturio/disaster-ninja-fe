@@ -1,21 +1,5 @@
-.sideBar {
-  &.expanded {
-    transition: visibility 0s linear 0s, opacity 0.33s linear 0s, left 0.1s linear 0s;
-    /* visibility: visible; */
-    /* opacity: 1; */
-    /* left: 0; */
-  }
-
-  &.collapsed {
-    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s, left 0.15s linear 0s;
-    /* visibility: hidden; */
-    width: 48px;
-    text-align: center;
-    /* left: -150px; */
-  }
-}
-
-.sidebarItemContainer {
+.sidebarItemContainer,
+.toggler {
   z-index: 1;
   display: inline-block;
   padding: 0 var(--unit);
@@ -26,6 +10,11 @@
   }
 }
 
+.collapsed .sidebarItemContainer {
+  padding: 0;
+  margin: var(--unit);
+}
+
 .controlButton {
   width: 100%;
   justify-content: left;
@@ -33,6 +22,10 @@
 }
 
 .togglerContainer {
-  /* margin-top: auto; */
   flex-grow: 1;
+  display: flex;
+}
+
+.toggler {
+  margin-top: auto;
 }

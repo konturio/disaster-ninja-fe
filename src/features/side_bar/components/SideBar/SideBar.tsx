@@ -3,7 +3,6 @@ import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
 import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import clsx from 'clsx';
 import { ArrowLeft24, ArrowRight24 } from '@konturio/default-icons';
 import { modesControlsAtom } from '~core/modes/modesControls';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
@@ -27,33 +26,48 @@ export function SideBar() {
   }, [setIsOpen]);
 
   return (
-    <div className={clsx(s.sideBar, isOpen && s.expanded, !isOpen && s.collapsed)}>
-      <ActionsBar>
-        {Object.values(controls).map((control) => {
-          return (
-            <Link
-              key={nanoid(4)}
-              className={s.sidebarItemContainer}
-              to={APP_ROUTES[control.id]}
-            >
-              <div className={s.buttonWrap} onClick={() => control.onClick()}>
-                <ActionsBarBTN
-                  active={control.active}
-                  iconBefore={control.icon}
-                  value={control.id}
-                  className={s.controlButton}
-                >
+    <ActionsBar>
+      {Object.values(controls).map((control) => {
+        return (
+          <Link
+            key={nanoid(4)}
+            className={s.sidebarItemContainer}
+            to={APP_ROUTES[control.id]}
+          >
+            <div className={s.buttonWrap} onClick={() => control.onClick()}>
+              <ActionsBarBTN
+                active={control.active}
+                iconBefore={control.icon}
+                value={control.id}
+                className={s.controlButton}
+              >
+                {isOpen ? (
                   <span className={s.modeName}>{MODES_LABELS[control.id]}</span>
-                </ActionsBarBTN>
-              </div>
-            </Link>
-          );
-        })}
+                ) : null}
+              </ActionsBarBTN>
+            </div>
+          </Link>
+        );
+      })}
 
-        <div className={s.togglerContainer} onClick={toggleIsOpen}>
-          {isOpen ? <ArrowLeft24 /> : <ArrowRight24 />}
+      <div className={s.togglerContainer}>
+        <div className={s.toggler}>
+          {isOpen ? (
+            <div className={s.buttonWrap} onClick={toggleIsOpen}>
+              <ActionsBarBTN iconBefore={<ArrowLeft24 />} className={s.controlButton}>
+                <span className={s.modeName}>{'Collapse'}</span>
+              </ActionsBarBTN>
+            </div>
+          ) : (
+            <div className={s.buttonWrap} onClick={toggleIsOpen}>
+              <ActionsBarBTN
+                iconBefore={<ArrowRight24 />}
+                className={s.controlButton}
+              ></ActionsBarBTN>
+            </div>
+          )}
         </div>
-      </ActionsBar>
-    </div>
+      </div>
+    </ActionsBar>
   );
 }
