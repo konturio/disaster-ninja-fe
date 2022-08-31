@@ -4,7 +4,7 @@
 
 .toolBox {
   position: absolute;
-  bottom: 8%;
+  top: 4%;
   left: 50%;
   transform: translate(-50%, 0);
   display: flex;
@@ -46,5 +46,5 @@
   color: var(--accent-strong);
   padding: var(--half-unit) var(--unit);
   border-radius: var(--border-radius);
-  bottom: 16%;
+  top: 12%;
 }
