@@ -1,10 +1,5 @@
 import axios from 'axios';
-import type {
-  AxiosResponse,
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosInstance,
-} from 'axios';
+import type { AxiosResponse, AxiosError, AxiosRequestConfig, AxiosInstance } from 'axios';
 
 /**
  * Converts the parameter to a number.
@@ -86,12 +81,9 @@ export type PROBLEM_CODE =
   | typeof UNKNOWN_ERROR
   | typeof CANCEL_ERROR;
 
+const BAD_REQUEST_ERROR_CODES = ['ERR_BAD_REQUEST'];
 const TIMEOUT_ERROR_CODES = ['ECONNABORTED'];
-const NODEJS_CONNECTION_ERROR_CODES = [
-  'ENOTFOUND',
-  'ECONNREFUSED',
-  'ECONNRESET',
-];
+const NODEJS_CONNECTION_ERROR_CODES = ['ENOTFOUND', 'ECONNREFUSED', 'ECONNRESET'];
 const in200s = (n: number): boolean => isWithin(200, 299, n);
 const in400s = (n: number): boolean => isWithin(400, 499, n);
 const in500s = (n: number): boolean => isWithin(500, 599, n);
@@ -140,9 +132,9 @@ export const getProblemFromError = (error) => {
 
   // then check the specific error code
   if (!error.code) return getProblemFromStatus(error.response.status);
+  if (BAD_REQUEST_ERROR_CODES.includes(error.code)) return CLIENT_ERROR;
   if (TIMEOUT_ERROR_CODES.includes(error.code)) return TIMEOUT_ERROR;
-  if (NODEJS_CONNECTION_ERROR_CODES.includes(error.code))
-    return CONNECTION_ERROR;
+  if (NODEJS_CONNECTION_ERROR_CODES.includes(error.code)) return CONNECTION_ERROR;
   return UNKNOWN_ERROR;
 };
 
@@ -261,10 +253,8 @@ export const create = (config: ApisauceConfig): ApisauceInstance => {
   const asyncResponseTransforms: AsyncResponseTransform[] = [];
 
   const addRequestTransform = (transform) => requestTransforms.push(transform);
-  const addAsyncRequestTransform = (transform) =>
-    asyncRequestTransforms.push(transform);
-  const addResponseTransform = (transform) =>
-    responseTransforms.push(transform);
+  const addAsyncRequestTransform = (transform) => asyncRequestTransforms.push(transform);
+  const addResponseTransform = (transform) => responseTransforms.push(transform);
   const addAsyncResponseTransform = (transform) =>
     asyncResponseTransforms.push(transform);
 
@@ -276,9 +266,7 @@ export const create = (config: ApisauceConfig): ApisauceInstance => {
 
   // sets headers in bulk
   const setHeaders = (headers) => {
-    Object.keys(headers).forEach((header) =>
-      setHeader(header, headers[header]),
-    );
+    Object.keys(headers).forEach((header) => setHeader(header, headers[header]));
     return instance;
   };
 
@@ -311,11 +299,7 @@ export const create = (config: ApisauceConfig): ApisauceInstance => {
    */
   const doRequestWithoutBody =
     (method: RequestsWithoutBody) =>
-    (
-      url: string,
-      params: unknown = {},
-      axiosConfig: AxiosRequestConfig = {},
-    ) => {
+    (url: string, params: unknown = {}, axiosConfig: AxiosRequestConfig = {}) => {
       return doRequest({ ...axiosConfig, url, params, method });
     };
 

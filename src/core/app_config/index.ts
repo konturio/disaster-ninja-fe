@@ -1,6 +1,5 @@
 export interface AppConfig {
   API_GATEWAY: string;
-  GRAPHQL_API: string;
   BOUNDARIES_API: string;
   REPORTS_API: string;
   BIVARIATE_TILES_RELATIVE_URL: string;
@@ -32,14 +31,11 @@ declare global {
 
 export default {
   apiGateway: window.konturAppConfig.API_GATEWAY,
-  graphqlApi: window.konturAppConfig.GRAPHQL_API,
   boundariesApi: window.konturAppConfig.BOUNDARIES_API,
   reportsApi: window.konturAppConfig.REPORTS_API,
-  bivariateTilesRelativeUrl:
-    window.konturAppConfig.BIVARIATE_TILES_RELATIVE_URL,
+  bivariateTilesRelativeUrl: window.konturAppConfig.BIVARIATE_TILES_RELATIVE_URL,
   bivariateTilesServer: window.konturAppConfig.BIVARIATE_TILES_SERVER,
-  bivariateTilesIndicatorsClass:
-    window.konturAppConfig.BIVARIATE_TILES_INDICATORS_CLASS,
+  bivariateTilesIndicatorsClass: window.konturAppConfig.BIVARIATE_TILES_INDICATORS_CLASS,
   refreshIntervalSec: window.konturAppConfig.REFRESH_INTERVAL_SEC,
   mapAccessToken: window.konturAppConfig.MAP_ACCESS_TOKEN,
   mapBaseStyle: window.konturAppConfig.MAP_BASE_STYLE,

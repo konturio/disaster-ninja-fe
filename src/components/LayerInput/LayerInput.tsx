@@ -6,18 +6,11 @@ export interface LayerInput {
   enabled: boolean;
   type: 'checkbox' | 'radio' | 'not-interactive';
   label?: React.ReactChild | React.ReactChild[];
-  onChange?: ((e: React.ChangeEvent<HTMLInputElement>) => void) &
-    React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: (isChecked: boolean) => void;
   onClick?: React.MouseEventHandler<HTMLInputElement>;
 }
 
-function CheckboxLayerInput({
-  id,
-  onChange,
-  onClick,
-  enabled,
-  label,
-}: LayerInput) {
+function CheckboxLayerInput({ id, onChange, onClick, enabled, label }: LayerInput) {
   return (
     <Checkbox
       onChange={onChange}
@@ -30,13 +23,7 @@ function CheckboxLayerInput({
   );
 }
 
-function RadioLayerInput({
-  id,
-  onChange,
-  onClick,
-  enabled,
-  label,
-}: LayerInput) {
+function RadioLayerInput({ id, onChange, onClick, enabled, label }: LayerInput) {
   return (
     <Radio
       onChange={onChange}

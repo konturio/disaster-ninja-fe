@@ -1,10 +1,13 @@
 import { createAtom } from '~utils/atoms';
+import { arraysAreEqualWithStrictOrder } from '~utils/array/arraysAreEqual';
 import { bivariateColorManagerResourceAtom } from './bivariateColorManagerResource';
-import type { TableDataValue } from './bivariateColorManagerResource';
-import type { BivariateColorManagerData } from './bivariateColorManagerResource';
+import type {
+  BivariateColorManagerData,
+  BivariateColorManagerDataValue,
+  TableDataValue,
+} from './bivariateColorManagerResource';
 import type { Indicator, Meta } from '~utils/bivariate';
-import type { SelectItemType } from '@konturio/ui-kit/tslib/Select/types';
-import type { BivariateColorManagerDataValue } from './bivariateColorManagerResource';
+import type { CornerRange } from '~utils/bivariate';
 
 export type BivariateColorManagerDataAtomState = {
   filteredData: BivariateColorManagerData | null;
@@ -19,11 +22,12 @@ export type BivariateColorManagerDataAtomState = {
 };
 
 export type Filters = {
-  layers: string | number | null;
+  layers?: string;
+  sentiments?: string[][];
 };
 
 export type FiltersKeys = keyof Filters;
-export type FiltersValues = Filters[keyof Filters];
+export type FiltersValues = Filters[FiltersKeys];
 
 export type LayerSelectionInput = {
   key: string;
@@ -31,14 +35,13 @@ export type LayerSelectionInput = {
   horizontal?: TableDataValue;
 };
 
-export type BivariateColorManagerDataAtom =
-  typeof bivariateColorManagerDataAtom;
+export type BivariateColorManagerDataAtom = typeof bivariateColorManagerDataAtom;
 
 const DEFAULT_STATE = {
   _initialData: null,
   filteredData: null,
   indicators: null,
-  filters: { layers: null },
+  filters: {},
   selectedRows: {},
   layersSelection: null,
   meta: null,
@@ -48,7 +51,8 @@ export const bivariateColorManagerDataAtom = createAtom(
   {
     setLayersSelection: (input: LayerSelectionInput) => input,
     runFilters: () => undefined,
-    setLayersFilter: (input: SelectItemType | null) => input,
+    setLayersFilter: (input?: string) => input,
+    setSentimentsFilter: (sentiments?: string[][]) => sentiments,
     setSelectedRows: (key: string) => key,
     bivariateColorManagerResourceAtom,
   },
@@ -74,8 +78,18 @@ export const bivariateColorManagerDataAtom = createAtom(
       }
     });
 
-    onAction('setLayersFilter', (input) => {
-      state.filters = { ...state.filters, layers: input?.value || null };
+    onAction('setLayersFilter', (layers) => {
+      state.filters = { ...state.filters, layers };
+      schedule((dispatch) => {
+        dispatch(create('runFilters'));
+      });
+    });
+
+    onAction('setSentimentsFilter', (sentiments) => {
+      state.filters = {
+        ...state.filters,
+        sentiments: sentiments?.length ? sentiments : undefined,
+      };
       schedule((dispatch) => {
         dispatch(create('runFilters'));
       });
@@ -93,6 +107,7 @@ export const bivariateColorManagerDataAtom = createAtom(
 
     onAction('runFilters', () => {
       const { filters, _initialData } = state;
+      if (!filters) return;
       const filterFunctionsToApply = Object.entries(filters)
         .map(([key, value]) => (value ? [filterFunctions[key], value] : null))
         .filter(Boolean) as [FilterFunction, FiltersValues][];
@@ -114,8 +129,7 @@ export const bivariateColorManagerDataAtom = createAtom(
 
         // check if row passes all filter functions
         const filterPassed = filterFunctionsToApply.every(
-          ([filterFunction, filterValue]) =>
-            filterFunction(key, value, filterValue),
+          ([filterFunction, filterValue]) => filterFunction(key, value, filterValue),
         );
 
         if (filterPassed) {
@@ -124,9 +138,7 @@ export const bivariateColorManagerDataAtom = createAtom(
           // if filter layer selected - stay only filtered layer in row's sublist
           if (filters.layers) {
             const isInVerticalSublist = Boolean(value.vertical[filters.layers]);
-            const isInHorizontalSublist = Boolean(
-              value.horizontal[filters.layers],
-            );
+            const isInHorizontalSublist = Boolean(value.horizontal[filters.layers]);
 
             // if filtered item in both columns - don't filter
             if (!(isInHorizontalSublist && isInVerticalSublist)) {
@@ -186,6 +198,35 @@ const layersFilterFunction: FilterFunction = (
   return Boolean(value.horizontal[indicator] || value.vertical[indicator]);
 };
 
+function mergeCorner(corner1: CornerRange[], corner2: CornerRange[]): CornerRange[] {
+  return [...new Set([...corner1, ...corner2])];
+}
+
+const sentimentsFilterFunction: FilterFunction = (
+  _key: string,
+  { directions: { horizontal, vertical } }: BivariateColorManagerDataValue,
+  sentiments: FiltersValues,
+): boolean => {
+  if (!sentiments || !Array.isArray(sentiments)) return false;
+
+  const colorCombinations = [
+    mergeCorner(vertical[0], horizontal[0]),
+    mergeCorner(vertical[0], horizontal[1]),
+    mergeCorner(vertical[1], horizontal[0]),
+    mergeCorner(vertical[1], horizontal[1]),
+  ];
+
+  for (let i = 0; i < colorCombinations.length; i++) {
+    for (let j = 0; j < sentiments.length; j++) {
+      if (arraysAreEqualWithStrictOrder(colorCombinations[i], sentiments[j])) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
 type FilterFunction = (
   key: string,
   value: BivariateColorManagerDataValue,
@@ -196,4 +237,5 @@ const filterFunctions: {
   [key in FiltersKeys]: FilterFunction;
 } = {
   layers: layersFilterFunction,
+  sentiments: sentimentsFilterFunction,
 };

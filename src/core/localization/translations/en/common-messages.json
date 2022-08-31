@@ -119,6 +119,7 @@
         "low": "Low"
       },
       "color_manager": {
+        "sentiments_combinations_filter": "Sentiments combinations",
         "layers_filter": "Layers",
         "title": "Appearance administration",
         "no_legends": "There are no legends satisfying the conditions.",

@@ -12,8 +12,7 @@ interface LayerControl {
   enabled: boolean;
   hidden: boolean;
   controls?: JSX.Element[];
-  onChange: ((e: React.ChangeEvent<HTMLInputElement>) => void) &
-    React.ChangeEventHandler<HTMLInputElement>;
+  onChange: (isChecked: boolean) => void;
   legend?: LayerLegend;
   className?: string;
 }
