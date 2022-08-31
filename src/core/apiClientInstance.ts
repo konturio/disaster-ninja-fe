@@ -2,11 +2,11 @@ import { matchPath } from 'react-router';
 import { enableMocking } from '~utils/axios/axiosMockUtils';
 import history from '~core/history';
 import { setupDefaultLayersMocking } from '~utils/axios/setupTemporaryMocking';
-import { ROUTE_PATHS } from '../RoutePaths';
 import { ApiClient } from './api_client';
 import config from './app_config';
 import { i18n } from './localization';
 import { notificationServiceInstance } from './notificationServiceInstance';
+import { APP_ROUTES } from './app_config/appRoutes';
 
 // initialize main api client
 ApiClient.init({
@@ -45,7 +45,7 @@ ApiClient.init({
 export function apiClientUnauthorizedCallback() {
   if (
     matchPath(history.location.pathname, {
-      path: ROUTE_PATHS.bivariateManager,
+      path: APP_ROUTES.bivariateManager,
       exact: true,
     })
   ) {

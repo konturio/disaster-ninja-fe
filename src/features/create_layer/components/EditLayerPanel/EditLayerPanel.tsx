@@ -3,7 +3,7 @@ import { useAction, useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { Panel, Text } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
-import { sideControlsBarAtom } from '~core/shared_state';
+import { toolbarControlsAtom } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
@@ -19,7 +19,7 @@ export function EditLayerPanel() {
     editableLayerControllerAtom,
   );
   const disableSideBarControl = useAction(
-    () => sideControlsBarAtom.disable(CREATE_LAYER_CONTROL_ID),
+    () => toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
     [],
   );
   const disableEditing = useAction(

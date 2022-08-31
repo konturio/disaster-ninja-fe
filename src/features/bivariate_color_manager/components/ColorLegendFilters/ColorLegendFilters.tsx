@@ -22,18 +22,13 @@ const LayerFilterClasses = {
 type FilterValueType = { key: string; value: string[] };
 
 export const ColorLegendFilters = () => {
-  const [
-    { indicators, layersFilter },
-    { setLayersFilter, setSentimentsFilter },
-  ] = useAtom(bivariateColorManagerDataAtom, (state) => ({
-    indicators: state.indicators,
-    layersFilter: state.filters.layers,
-  }));
+  const [{ indicators, layersFilter }, { setLayersFilter, setSentimentsFilter }] =
+    useAtom(bivariateColorManagerDataAtom, (state) => ({
+      indicators: state.indicators,
+      layersFilter: state.filters.layers,
+    }));
 
-  const [loading] = useAtom(
-    bivariateColorManagerResourceAtom,
-    (state) => state.loading,
-  );
+  const [loading] = useAtom(bivariateColorManagerResourceAtom, (state) => state.loading);
 
   const selectIndicatorsData: SelectItemType[] = useMemo(() => {
     return (
@@ -102,10 +97,7 @@ export const ColorLegendFilters = () => {
   );
 
   const onSelectSentiment = useCallback(
-    (
-      selection: SelectItemType | SelectItemType[] | null | undefined,
-      index: number,
-    ) => {
+    (selection: SelectItemType | SelectItemType[] | null | undefined, index: number) => {
       if (selection && Array.isArray(selection) && selection?.length) {
         if (!sentimentFilterValues.current[index]?.value?.length) {
           sentimentFilterValues.current.push({ key: nanoid(4), value: [] });
@@ -178,8 +170,7 @@ export const ColorLegendFilters = () => {
               className={cn(
                 style.SentimentsFilters,
                 index === sentimentFiltersCount - 1 && style.LastFilter,
-                sentimentFiltersCount !== 1 &&
-                  index === sentimentFiltersCount - 1
+                sentimentFiltersCount !== 1 && index === sentimentFiltersCount - 1
                   ? style.SentimentsAddButton
                   : undefined,
               )}

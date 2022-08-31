@@ -35,8 +35,7 @@ export type LayerSelectionInput = {
   horizontal?: TableDataValue;
 };
 
-export type BivariateColorManagerDataAtom =
-  typeof bivariateColorManagerDataAtom;
+export type BivariateColorManagerDataAtom = typeof bivariateColorManagerDataAtom;
 
 const DEFAULT_STATE = {
   _initialData: null,
@@ -130,8 +129,7 @@ export const bivariateColorManagerDataAtom = createAtom(
 
         // check if row passes all filter functions
         const filterPassed = filterFunctionsToApply.every(
-          ([filterFunction, filterValue]) =>
-            filterFunction(key, value, filterValue),
+          ([filterFunction, filterValue]) => filterFunction(key, value, filterValue),
         );
 
         if (filterPassed) {
@@ -140,9 +138,7 @@ export const bivariateColorManagerDataAtom = createAtom(
           // if filter layer selected - stay only filtered layer in row's sublist
           if (filters.layers) {
             const isInVerticalSublist = Boolean(value.vertical[filters.layers]);
-            const isInHorizontalSublist = Boolean(
-              value.horizontal[filters.layers],
-            );
+            const isInHorizontalSublist = Boolean(value.horizontal[filters.layers]);
 
             // if filtered item in both columns - don't filter
             if (!(isInHorizontalSublist && isInVerticalSublist)) {
@@ -202,10 +198,7 @@ const layersFilterFunction: FilterFunction = (
   return Boolean(value.horizontal[indicator] || value.vertical[indicator]);
 };
 
-function mergeCorner(
-  corner1: CornerRange[],
-  corner2: CornerRange[],
-): CornerRange[] {
+function mergeCorner(corner1: CornerRange[], corner2: CornerRange[]): CornerRange[] {
   return [...new Set([...corner1, ...corner2])];
 }
 

@@ -8,10 +8,7 @@ import {
   defaultLayersParamsAtom,
   currentEventFeedAtom,
 } from '~core/shared_state';
-import {
-  scheduledAutoSelect,
-  scheduledAutoFocus,
-} from '~core/shared_state/currentEvent';
+import { scheduledAutoSelect, scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { URLStore } from '../URLStore';
 import { URLDataInSearchEncoder } from '../dataInURLEncoder';
@@ -47,14 +44,14 @@ export const urlStoreAtom = createAtom(
     enabledLayersAtom,
     currentApplicationAtom,
     currentEventFeedAtom,
+    refreshUrl: () => null,
   },
-  ({ get, schedule }, state: UrlData = urlStore.readCurrentState()) => {
+  ({ get, schedule, onAction }, state: UrlData = urlStore.readCurrentState()) => {
     const initFlag = get('initFlag');
     if (!initFlag) {
       /* Initialization */
       /* If layers in url absent, take default layers form user settings */
-      const noLayersInUrl =
-        state.layers === undefined || state.layers.length === 0;
+      const noLayersInUrl = state.layers === undefined || state.layers.length === 0;
       if (noLayersInUrl) {
         const defaultLayers = get('defaultAppLayersAtom');
         if (
@@ -177,6 +174,9 @@ export const urlStoreAtom = createAtom(
       });
     }
 
+    onAction('refreshUrl', () => {
+      // noop
+    });
     return state;
   },
   'urlStoreAtom',

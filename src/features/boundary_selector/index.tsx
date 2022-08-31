@@ -1,5 +1,5 @@
 import { SelectArea24 } from '@konturio/default-icons';
-import { sideControlsBarAtom } from '~core/shared_state';
+import { toolbarControlsAtom } from '~core/shared_state';
 import {
   BOUNDARY_SELECTOR_CONTROL_ID,
   BOUNDARY_SELECTOR_CONTROL_NAME,
@@ -10,7 +10,7 @@ import {
 import {
   controlGroup,
   controlVisualGroup,
-} from '~core/shared_state/sideControlsBar';
+} from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { forceRun } from '~utils/atoms/forceRun';
@@ -35,7 +35,7 @@ export function initBoundarySelector() {
     renderer,
   );
 
-  sideControlsBarAtom.addControl.dispatch({
+  toolbarControlsAtom.addControl.dispatch({
     id: BOUNDARY_SELECTOR_CONTROL_ID,
     name: BOUNDARY_SELECTOR_CONTROL_NAME,
     title: i18n.t('boundary_selector.title'),
@@ -44,7 +44,7 @@ export function initBoundarySelector() {
     visualGroup: controlVisualGroup.withAnalytics,
     icon: <SelectArea24 />,
     onClick: (becomesActive) => {
-      sideControlsBarAtom.toggleActiveState.dispatch(
+      toolbarControlsAtom.toggleActiveState.dispatch(
         BOUNDARY_SELECTOR_CONTROL_ID,
       );
     },

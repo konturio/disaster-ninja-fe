@@ -27,31 +27,25 @@ export const areaLayersDetailsParamsAtom = createAtom(
     state: DetailsRequestParams | null = null,
   ): DetailsRequestParams | null => {
     const areaLayersResource = get('areaLayersResourceAtom');
-    if (areaLayersResource.loading || areaLayersResource.data === null)
-      return state;
+    if (areaLayersResource.loading || areaLayersResource.data === null) return state;
     const availableLayersInArea = areaLayersResource.data;
     if (availableLayersInArea === undefined) return null;
 
     const enabledLayers = get('enabledLayersAtom');
     let hasEventIdRequiredForRetrieval = false;
-    const [
-      layersToRetrieveWithGeometryFilter,
-      layersToRetrieveWithoutGeometryFilter,
-    ] = availableLayersInArea.reduce(
-      (acc, layer) => {
-        if (enabledLayers.has(layer.id)) {
-          acc[layer.boundaryRequiredForRetrieval ? 0 : 1].push(layer.id);
-          if (
-            !hasEventIdRequiredForRetrieval &&
-            layer.eventIdRequiredForRetrieval
-          ) {
-            hasEventIdRequiredForRetrieval = true;
+    const [layersToRetrieveWithGeometryFilter, layersToRetrieveWithoutGeometryFilter] =
+      availableLayersInArea.reduce(
+        (acc, layer) => {
+          if (enabledLayers.has(layer.id)) {
+            acc[layer.boundaryRequiredForRetrieval ? 0 : 1].push(layer.id);
+            if (!hasEventIdRequiredForRetrieval && layer.eventIdRequiredForRetrieval) {
+              hasEventIdRequiredForRetrieval = true;
+            }
           }
-        }
-        return acc;
-      },
-      [[], []] as [string[], string[]],
-    );
+          return acc;
+        },
+        [[], []] as [string[], string[]],
+      );
 
     if (
       layersToRetrieveWithGeometryFilter.length +
@@ -77,9 +71,7 @@ export const areaLayersDetailsParamsAtom = createAtom(
       if (focusedGeometry?.source?.type === 'event') {
         newState.eventId = focusedGeometry.source.meta.eventId;
       } else {
-        throw Error(
-          'Current geometry not from event, event related layer was selected',
-        );
+        throw Error('Current geometry not from event, event related layer was selected');
       }
     }
 

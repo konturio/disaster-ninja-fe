@@ -77,7 +77,7 @@ flowchart TD
   initEditableLayer --> openDrawToolsInFeatureEditMode
 
   layerSideBarButtonControllerAtom -----> userResourceAtom:::coreAtom
-  layerSideBarButtonControllerAtom ----> sideControlsBarAtom:::coreAtom
+  layerSideBarButtonControllerAtom ----> toolbarControlsAtom:::coreAtom
   layerSideBarButtonControllerAtom --> editableLayerControllerAtom
 
   editableLayersControlsAtom --> editableLayersListResource
@@ -111,12 +111,12 @@ flowchart TD
 
   %% Edit layer View
   EditLayerPanel:::View --> editableLayerControllerAtom
-  EditLayerPanel:::View ---> sideControlsBarAtom:::coreAtom
+  EditLayerPanel:::View ---> toolbarControlsAtom:::coreAtom
   EditLayerPanel:::View ---> editTargetAtom
 
   %% Edit feature View
   EditFeaturesPanel:::View --> currentSelectedPoint
   EditFeaturesPanel:::View ---> editTargetAtom
   EditFeaturesPanel:::View --> editableLayerSettingsAtom
-  EditFeaturesPanel:::View ---> sideControlsBarAtom:::coreAtom
+  EditFeaturesPanel:::View ---> toolbarControlsAtom:::coreAtom
 ```

@@ -23,7 +23,7 @@ export const controlVisualGroup = {
   noAnalytics: 'noAnalytics',
 };
 
-export const sideControlsBarAtom = createAtom(
+export const toolbarControlsAtom = createAtom(
   {
     addControl: (control: SideControl) => control,
     removeControl: (controlId: string) => controlId,
@@ -92,7 +92,7 @@ export const sideControlsBarAtom = createAtom(
       const control = state[controlId];
       if (!control)
         return console.error(
-          `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
+          `[toolbarControlsAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
         );
 
       const action = create(
@@ -109,5 +109,5 @@ export const sideControlsBarAtom = createAtom(
 
     return state;
   },
-  '[Shared state] sideControlsBarAtom',
+  '[Shared state] toolbarControlsAtom',
 );

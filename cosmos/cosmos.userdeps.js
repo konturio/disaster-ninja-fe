@@ -22,8 +22,9 @@ export const fixtures = {
   'src/components/BivariateLegend/BivariateLegend.fixture.tsx': {
     module: { default: fixture0 },
   },
-  'src/features/bivariate_color_manager/components/MiniLegend/MiniLegend.fixture.tsx':
-    { module: { default: fixture1 } },
+  'src/features/bivariate_color_manager/components/MiniLegend/MiniLegend.fixture.tsx': {
+    module: { default: fixture1 },
+  },
   'src/features/bivariate_manager/components/BivariateMatrixControl/react-cosmos/BivariateMatrixControl.fixture.tsx':
     { module: { default: fixture2 } },
 };

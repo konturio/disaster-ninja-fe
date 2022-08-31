@@ -12,9 +12,7 @@ import type { LayerSelectionFull } from '~features/bivariate_color_manager/compo
 function isFullSelection(
   selection: LayerSelectionInput | null,
 ): selection is LayerSelectionFull {
-  return (
-    selection?.horizontal !== undefined && selection?.vertical !== undefined
-  );
+  return selection?.horizontal !== undefined && selection?.vertical !== undefined;
 }
 
 export const LegendWithMapContainer = () => {

@@ -136,8 +136,7 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
 
       const getMostQualityDenominatorForNumenator = (
         numenator: string,
-      ): string | undefined =>
-        axisNominatorInfo?.[numenator]?.mostQualityDenominator;
+      ): string | undefined => axisNominatorInfo?.[numenator]?.mostQualityDenominator;
 
       const getMostQualityAxisByNumerator = (numenator: string): Axis =>
         axisNominatorInfo?.[numenator].mostQualityAxis;
@@ -145,84 +144,81 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
       const numeratorCorellationMap: NumeratorCorellationMap = {};
 
       const bivariateColorManagerData =
-        correlationRates.reduce<BivariateColorManagerData>(
-          (acc, correlationRate) => {
-            const [xNumerator, _xDenominator] = correlationRate.x.quotient;
-            const [yNumerator, _yDenominator] = correlationRate.y.quotient;
+        correlationRates.reduce<BivariateColorManagerData>((acc, correlationRate) => {
+          const [xNumerator, _xDenominator] = correlationRate.x.quotient;
+          const [yNumerator, _yDenominator] = correlationRate.y.quotient;
 
-            // x - for vertical, y - for horizontal
-            const xQuotientIndicator = indicatorsMap[xNumerator];
-            const yQuotientIndicator = indicatorsMap[yNumerator];
+          // x - for vertical, y - for horizontal
+          const xQuotientIndicator = indicatorsMap[xNumerator];
+          const yQuotientIndicator = indicatorsMap[yNumerator];
 
-            // fill numeratorCorellationMap with correllation by layer for sorting sublists
-            // avgCorrelationY is by Y, so we associate it with yQuotientIndicator
-            numeratorCorellationMap[yQuotientIndicator.name] =
-              correlationRate.avgCorrelationY;
+          // fill numeratorCorellationMap with correllation by layer for sorting sublists
+          // avgCorrelationY is by Y, so we associate it with yQuotientIndicator
+          numeratorCorellationMap[yQuotientIndicator.name] =
+            correlationRate.avgCorrelationY;
 
-            const key = JSON.stringify({
-              vertical: xQuotientIndicator.direction,
-              horizontal: yQuotientIndicator.direction,
-            });
+          const key = JSON.stringify({
+            vertical: xQuotientIndicator.direction,
+            horizontal: yQuotientIndicator.direction,
+          });
 
-            if (!acc[key]) {
-              const colorTheme = generateColorTheme(
-                colors,
-                xQuotientIndicator.direction,
-                yQuotientIndicator.direction,
+          if (!acc[key]) {
+            const colorTheme = generateColorTheme(
+              colors,
+              xQuotientIndicator.direction,
+              yQuotientIndicator.direction,
+            );
+
+            if (colorTheme) {
+              // this is a common legend for directions combination
+              // it has 2 random layers inside that fits directions combination
+              const legend = fillBivariateLegend(
+                'Bivariate Layer',
+                getMostQualityAxisByNumerator(xNumerator),
+                getMostQualityAxisByNumerator(yNumerator),
+                colorTheme,
               );
 
-              if (colorTheme) {
-                // this is a common legend for directions combination
-                // it has 2 random layers inside that fits directions combination
-                const legend = fillBivariateLegend(
-                  'Bivariate Layer',
-                  getMostQualityAxisByNumerator(xNumerator),
-                  getMostQualityAxisByNumerator(yNumerator),
-                  colorTheme,
-                );
-
-                acc[key] = {
-                  legend,
-                  colorTheme,
-                  vertical: {},
-                  horizontal: {},
-                  maps: 0,
-                  directions: {
-                    vertical: xQuotientIndicator.direction,
-                    horizontal: yQuotientIndicator.direction,
-                  },
-                };
-              }
-            }
-
-            if (!acc[key].vertical[xQuotientIndicator.name]) {
-              const mostQualityDenominator =
-                getMostQualityDenominatorForNumenator(xNumerator);
-              const xAxis = getMostQualityAxisByNumerator(xNumerator);
-              acc[key].vertical[xQuotientIndicator.name] = {
-                label: xQuotientIndicator.label,
-                name: xQuotientIndicator.name,
-                mostQualityDenominator,
-                axis: xAxis,
+              acc[key] = {
+                legend,
+                colorTheme,
+                vertical: {},
+                horizontal: {},
+                maps: 0,
+                directions: {
+                  vertical: xQuotientIndicator.direction,
+                  horizontal: yQuotientIndicator.direction,
+                },
               };
             }
+          }
 
-            if (!acc[key].horizontal[yQuotientIndicator.name]) {
-              const mostQualityDenominator =
-                getMostQualityDenominatorForNumenator(yNumerator);
-              const yAxis = getMostQualityAxisByNumerator(yNumerator);
-              acc[key].horizontal[yQuotientIndicator.name] = {
-                label: yQuotientIndicator.label,
-                name: yQuotientIndicator.name,
-                mostQualityDenominator,
-                axis: yAxis,
-              };
-            }
+          if (!acc[key].vertical[xQuotientIndicator.name]) {
+            const mostQualityDenominator =
+              getMostQualityDenominatorForNumenator(xNumerator);
+            const xAxis = getMostQualityAxisByNumerator(xNumerator);
+            acc[key].vertical[xQuotientIndicator.name] = {
+              label: xQuotientIndicator.label,
+              name: xQuotientIndicator.name,
+              mostQualityDenominator,
+              axis: xAxis,
+            };
+          }
 
-            return acc;
-          },
-          {},
-        );
+          if (!acc[key].horizontal[yQuotientIndicator.name]) {
+            const mostQualityDenominator =
+              getMostQualityDenominatorForNumenator(yNumerator);
+            const yAxis = getMostQualityAxisByNumerator(yNumerator);
+            acc[key].horizontal[yQuotientIndicator.name] = {
+              label: yQuotientIndicator.label,
+              name: yQuotientIndicator.name,
+              mostQualityDenominator,
+              axis: yAxis,
+            };
+          }
+
+          return acc;
+        }, {});
 
       fillLayersWithCorrelationLevelAndMaps(
         bivariateColorManagerData,

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useAction, useAtom } from '@reatom/react';
 import { Panel, Text } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
-import { sideControlsBarAtom } from '~core/shared_state';
+import { toolbarControlsAtom } from '~core/shared_state';
 import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
 import { currentEditedLayerFeatures } from '../../atoms/currentEditedLayerFeatures';
 import { currentSelectedPoint } from '../../atoms/currentSelectedPoint';
@@ -20,7 +20,7 @@ export function EditFeaturesPanel() {
   const [{ layerId }] = useAtom(editTargetAtom);
   const [layersSettings] = useAtom(editableLayerSettingsAtom);
   const disableSideBarControl = useAction(
-    () => sideControlsBarAtom.disable(CREATE_LAYER_CONTROL_ID),
+    () => toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
     [],
   );
   const disableEditing = useAction(

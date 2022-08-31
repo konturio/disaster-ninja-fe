@@ -1,5 +1,5 @@
 import { Poly24 } from '@konturio/default-icons';
-import { sideControlsBarAtom } from '~core/shared_state';
+import { toolbarControlsAtom } from '~core/shared_state';
 import {
   drawModes,
   FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
@@ -9,7 +9,7 @@ import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import {
   controlGroup,
   controlVisualGroup,
-} from '~core/shared_state/sideControlsBar';
+} from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { forceRun } from '~utils/atoms/forceRun';
@@ -21,7 +21,7 @@ import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
 export function initFocusedGeometry() {
   forceRun(focusedGeometryEditorAtom);
 
-  sideControlsBarAtom.addControl.dispatch({
+  toolbarControlsAtom.addControl.dispatch({
     id: FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
     name: FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
     title: i18n.t('focus_geometry.title'),
@@ -30,7 +30,7 @@ export function initFocusedGeometry() {
     visualGroup: controlVisualGroup.withAnalytics,
     icon: <Poly24 />,
     onClick: () => {
-      sideControlsBarAtom.toggleActiveState.dispatch(
+      toolbarControlsAtom.toggleActiveState.dispatch(
         FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
       );
     },

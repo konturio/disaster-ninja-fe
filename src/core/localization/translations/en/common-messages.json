@@ -3,11 +3,9 @@
     "km": "km",
     "m": "m",
     "to": "to",
-
     "save": "Save",
     "cancel": "Cancel",
     "create": "Create",
-
     "disasters": "Disasters",
     "loading": "Loading...",
     "loading_events": "Loading events",
@@ -23,7 +21,6 @@
     "details": "Details",
     "deselect": "Deselect",
     "spinner_text": "Gathering data",
-
     "errors": {
       "timeout": "Request Timeout",
       "cannot_connect": "Can't connect to server",
@@ -32,13 +29,11 @@
       "unknown": "Unknown",
       "server_error": "Server Error"
     },
-
     "event_list": {
       "title": "Focus to disasters",
       "warning_title": "Can't use map as filter",
       "warning_description": "Map not ready yet, try later",
       "bbox_filter_button": "Use map view as filter",
-
       "analytics": {
         "affected_people": {
           "tooltip": "Affected People",
@@ -49,7 +44,6 @@
         "loss.tooltip": "Estimated loss"
       }
     },
-
     "create_layer": {
       "edit_layer": "Edit Layer",
       "edit_features": "Edit Features",
@@ -70,7 +64,6 @@
       "location": "Location",
       "edit_feature_placeholder": "Select some feature for start edit feature properties"
     },
-
     "analytics_panel": {
       "init": "Select Geometry",
       "loading": "Loading analytics...",
@@ -78,13 +71,11 @@
       "other": "Analytics",
       "info_tab": "INFO"
     },
-
     "advanced_analytics_panel": {
       "loading": "Loading advanced analytics...",
       "other": "Advanced analytics",
       "analytics_tab": "Advanced Analytics"
     },
-
     "advanced_analytics_empty": {
       "not_found": "Sorry, requested event not found.",
       "error": "An error occured!",
@@ -95,7 +86,6 @@
       "select": "Select boundary on the map",
       "upload": "Upload your own geoJSON"
     },
-
     "draw_tools": {
       "area": "Area",
       "line": "Line",
@@ -106,21 +96,15 @@
       "overlap_error": "Polygon should not overlap itself",
       "save_features": "Save features"
     },
-
     "boundary_selector.title": "Focus to administrative boundary",
-
     "geometry_uploader": {
       "title": "Focus to uploaded geometry",
       "warning": "Not a valid geojson file",
       "error": "Error while reading uploaded file"
     },
-
     "focus_geometry.title": "Focus to freehand geometry",
-
     "focus_geometry_layer.settings.name": "Selected Areay",
-
     "drawings.self_directions_not_supported": "Self intersections are not supported!",
-
     "bivariate": {
       "matrix": {
         "icon.population": "Value divided by Population",
@@ -130,12 +114,10 @@
         "icon.one": "Without divider",
         "icon.roads": "Value divided by Total Roads Length"
       },
-
       "legend": {
         "high": "High",
         "low": "Low"
       },
-
       "color_manager": {
         "sentiments_combinations_filter": "Sentiments combinations",
         "layers_filter": "Layers",
@@ -147,14 +129,13 @@
         "layers_tab": "Layers (indicators)"
       }
     },
-
     "sidebar": {
       "biv_color_manager": "Bivariate color manager",
       "reports": "Reports",
       "edit_osm": "Edit in OpenStreetMap",
-      "ruler": "Ruler"
+      "ruler": "Ruler",
+      "collapse": "Collapse"
     },
-
     "login": {
       "email": "Email",
       "password": "Password",
@@ -169,7 +150,6 @@
         "connect": "Couldn't connect to authentication service"
       }
     },
-
     "reports": {
       "title": "Disaster Ninja Reports",
       "no_data": "No data for this report",
@@ -181,6 +161,11 @@
       "updated": "Updated",
       "see_all": "See all reports",
       "wrong_id": "Wrong report ID"
+    },
+    "modes": {
+      "map": "Map",
+      "event": "Event",
+      "reports": "Reports"
     }
   }
 }
