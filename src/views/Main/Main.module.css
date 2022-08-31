@@ -53,6 +53,17 @@
   transform: translate(-50%, 0);
 }
 
+@media screen and (max-width: 960px) {
+  .toolbarContainer {
+    position: absolute;
+    top: 25%;
+    right: var(--unit);
+    left: unset;
+    bottom: unset;
+    transform: translate(0%, 0%);
+  }
+}
+
 .rightButtonsContainer {
   display: flex;
   flex-direction: column-reverse;
