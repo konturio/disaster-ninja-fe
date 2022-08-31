@@ -8,6 +8,7 @@ import history from '~core/history';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LoginForm } from '~features/user_profile';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
+import { AppFeature } from '~core/auth/types';
 import s from './views/Main/Main.module.css';
 import { CommonRoutesFeatures } from './RoutesWrap';
 const { MainView } = lazily(() => import('~views/Main/Main'));
@@ -50,11 +51,16 @@ export function RoutedApp() {
               </Route>
 
               <Route path={APP_ROUTES.bivariateManager}>
-                <Suspense fallback={null}>
-                  <BivariateManagerPage />
-                </Suspense>
+                <Protected
+                  pass={userModel.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)}
+                >
+                  <Suspense fallback={null}>
+                    <BivariateManagerPage />
+                  </Suspense>
+                </Protected>
               </Route>
-              <Redirect to="/" />
+
+              <Redirect to={APP_ROUTES.map} />
             </CacheSwitch>
           )}
         </CommonRoutesFeatures>
@@ -63,3 +69,16 @@ export function RoutedApp() {
     </StrictMode>
   );
 }
+
+export const Protected = ({
+  children,
+  pass,
+}: {
+  children: JSX.Element;
+  pass: boolean;
+}) => {
+  if (!pass) {
+    return <Redirect to={APP_ROUTES.map} />;
+  }
+  return children;
+};
