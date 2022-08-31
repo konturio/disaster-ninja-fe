@@ -22,8 +22,8 @@ export type BivariateColorManagerDataAtomState = {
 };
 
 export type Filters = {
-  layers?: string | number | null;
-  sentiments?: string[][] | null;
+  layers?: string;
+  sentiments?: string[][];
 };
 
 export type FiltersKeys = keyof Filters;
@@ -42,7 +42,7 @@ const DEFAULT_STATE = {
   _initialData: null,
   filteredData: null,
   indicators: null,
-  filters: { layers: null },
+  filters: {},
   selectedRows: {},
   layersSelection: null,
   meta: null,
@@ -80,7 +80,7 @@ export const bivariateColorManagerDataAtom = createAtom(
     });
 
     onAction('setLayersFilter', (layers) => {
-      state.filters = { ...state.filters, layers: layers || null };
+      state.filters = { ...state.filters, layers };
       schedule((dispatch) => {
         dispatch(create('runFilters'));
       });
@@ -89,7 +89,7 @@ export const bivariateColorManagerDataAtom = createAtom(
     onAction('setSentimentsFilter', (sentiments) => {
       state.filters = {
         ...state.filters,
-        sentiments: sentiments?.length ? sentiments : null,
+        sentiments,
       };
       schedule((dispatch) => {
         dispatch(create('runFilters'));

@@ -9,7 +9,7 @@ import { bivariateColorManagerResourceAtom } from '~features/bivariate_color_man
 import { capitalize } from '~utils/common';
 import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import style from './ColorLegendFilters.module.css';
-import type { SelectItemType, AutocompleteItemType } from '@konturio/ui-kit';
+import type { SelectItemType } from '@konturio/ui-kit';
 
 const SentimentFiltersClasses = {
   noValue: style.NoValue,
@@ -22,10 +22,13 @@ const LayerFilterClasses = {
 type FilterValueType = { key: string; value: string[] };
 
 export const ColorLegendFilters = () => {
-  const [indicators, { setLayersFilter, setSentimentsFilter }] = useAtom(
-    bivariateColorManagerDataAtom,
-    (state) => state.indicators,
-  );
+  const [
+    { indicators, layersFilter },
+    { setLayersFilter, setSentimentsFilter },
+  ] = useAtom(bivariateColorManagerDataAtom, (state) => ({
+    indicators: state.indicators,
+    layersFilter: state.filters.layers,
+  }));
 
   const [loading] = useAtom(
     bivariateColorManagerResourceAtom,
@@ -44,43 +47,29 @@ export const ColorLegendFilters = () => {
   // calculate unique direction items that are available in indicators list
   const selectDirectionsData: SelectItemType[] = useMemo(() => {
     const uniqueDirectionsSet = new Set<string>();
-    const directionsData: SelectItemType[] = [];
-
-    function processDirectionItem(directionItem: string) {
-      if (!uniqueDirectionsSet.has(directionItem)) {
-        uniqueDirectionsSet.add(directionItem);
-        directionsData.push({
-          title: capitalize(directionItem),
-          value: directionItem,
-        });
-      }
-    }
 
     indicators?.forEach((indicator) => {
       const {
         direction: [startDirection, endDirection],
       } = indicator;
-      startDirection.forEach(processDirectionItem);
-      endDirection.forEach(processDirectionItem);
+      startDirection.forEach((di) => uniqueDirectionsSet.add(di));
+      endDirection.forEach((di) => uniqueDirectionsSet.add(di));
     });
 
-    return directionsData;
+    return Array.from(uniqueDirectionsSet).map((directionItem) => ({
+      title: capitalize(directionItem),
+      value: directionItem,
+    }));
   }, [indicators]);
 
   const [sentimentFiltersCount, setSentimentFiltersCount] = useState<number>(1);
   const sentimentFilterValues = useRef<FilterValueType[]>([
     { key: nanoid(4), value: [] },
   ]);
-  const [selectedLayer, setSelectedLayer] = useState<
-    AutocompleteItemType['value'] | undefined
-  >(undefined);
 
   const onResetSentiments = useCallback(
     (index: number) => {
-      if (
-        sentimentFilterValues.current[index].value &&
-        sentimentFilterValues.current[index].value.length
-      ) {
+      if (sentimentFilterValues.current[index]?.value?.length) {
         if (index !== 0) {
           // when clearing not first filter, just remove it's value from values array and reduce filters count
           sentimentFilterValues.current.splice(index, 1);
@@ -118,10 +107,7 @@ export const ColorLegendFilters = () => {
       index: number,
     ) => {
       if (selection && Array.isArray(selection) && selection?.length) {
-        if (
-          !sentimentFilterValues.current[index].value ||
-          !sentimentFilterValues.current[index].value.length
-        ) {
+        if (!sentimentFilterValues.current[index]?.value?.length) {
           sentimentFilterValues.current.push({ key: nanoid(4), value: [] });
           setSentimentFiltersCount(sentimentFiltersCount + 1);
         }
@@ -137,10 +123,7 @@ export const ColorLegendFilters = () => {
           }, [] as string[][]),
         );
 
-        if (selectedLayer) {
-          setSelectedLayer(undefined);
-          setLayersFilter();
-        }
+        setLayersFilter();
       } else {
         onResetSentiments(index);
       }
@@ -149,8 +132,6 @@ export const ColorLegendFilters = () => {
       sentimentFiltersCount,
       setSentimentFiltersCount,
       onResetSentiments,
-      selectedLayer,
-      setSelectedLayer,
       setLayersFilter,
       setSentimentsFilter,
     ],
@@ -166,11 +147,9 @@ export const ColorLegendFilters = () => {
         sentimentFilterValues.current[0].value = [];
         setSentimentsFilter();
       }
-      setSelectedLayer(item.selectedItem?.value || undefined);
       setLayersFilter(item.selectedItem?.value || undefined);
     },
     [
-      setSelectedLayer,
       setLayersFilter,
       sentimentFiltersCount,
       setSentimentFiltersCount,
@@ -220,7 +199,7 @@ export const ColorLegendFilters = () => {
             className={style.LayersFilters}
             classes={LayerFilterClasses}
             items={selectIndicatorsData}
-            value={selectedLayer}
+            value={layersFilter}
           >
             {i18n.t('bivariate.color_manager.layers_filter')}
           </Autocomplete>
