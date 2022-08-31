@@ -3,11 +3,12 @@ import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
 import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowLeft24, ArrowRight24 } from '@konturio/default-icons';
+import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
 import { modesControlsAtom } from '~core/modes/modesControls';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
 import { MODES_LABELS } from '~core/modes/constants';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { i18n } from '~core/localization';
 import s from './SideBar.module.css';
 
 export function SideBar() {
@@ -54,14 +55,17 @@ export function SideBar() {
         <div className={s.toggler}>
           {isOpen ? (
             <div className={s.buttonWrap} onClick={toggleIsOpen}>
-              <ActionsBarBTN iconBefore={<ArrowLeft24 />} className={s.controlButton}>
-                <span className={s.modeName}>{'Collapse'}</span>
+              <ActionsBarBTN
+                iconBefore={<DoubleChevronRight24 />}
+                className={s.controlButton}
+              >
+                <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
               </ActionsBarBTN>
             </div>
           ) : (
             <div className={s.buttonWrap} onClick={toggleIsOpen}>
               <ActionsBarBTN
-                iconBefore={<ArrowRight24 />}
+                iconBefore={<DoubleChevronLeft24 />}
                 className={s.controlButton}
               ></ActionsBarBTN>
             </div>
