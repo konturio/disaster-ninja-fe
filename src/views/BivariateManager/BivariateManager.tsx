@@ -16,11 +16,7 @@ export function BivariateManagerPage() {
   };
 
   return (
-    <Tabs
-      defaultIndex={1}
-      className={style.pageContainer}
-      orientation="vertical"
-    >
+    <Tabs defaultIndex={1} className={style.pageContainer} orientation="vertical">
       <TabList className={style.Nav}>
         <Tab className={style.Tab} classes={tabsClasses}>
           <div className={style.TabItem}>

@@ -1,12 +1,9 @@
 import { Plus24 } from '@konturio/default-icons';
-import {
-  controlGroup,
-  controlVisualGroup,
-} from '~core/shared_state/sideControlsBar';
+import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import {
   currentMapAtom,
   currentMapPositionAtom,
-  sideControlsBarAtom,
+  toolbarControlsAtom,
 } from '~core/shared_state';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import app_config from '~core/app_config';
@@ -20,7 +17,7 @@ import {
 import { askGeoJSONFile } from './askGeoJSONFile';
 
 export function initFileUploader() {
-  sideControlsBarAtom.addControl.dispatch({
+  toolbarControlsAtom.addControl.dispatch({
     id: GEOMETRY_UPLOADER_CONTROL_ID,
     name: GEOMETRY_UPLOADER_CONTROL_NAME,
     title: i18n.t('geometry_uploader.title'),
@@ -47,10 +44,7 @@ export function initFileUploader() {
           throw new Error('Not geoJSON format');
         }
 
-        focusedGeometryAtom.setFocusedGeometry.dispatch(
-          { type: 'uploaded' },
-          geoJSON,
-        );
+        focusedGeometryAtom.setFocusedGeometry.dispatch({ type: 'uploaded' }, geoJSON);
 
         const { zoom, center } = geometryCamera;
         currentMapPositionAtom.setCurrentMapPosition.dispatch({

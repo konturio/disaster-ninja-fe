@@ -1,6 +1,6 @@
 import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
-import { sideControlsBarAtom } from '~core/shared_state';
+import { toolbarControlsAtom } from '~core/shared_state';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawModes } from '~core/draw_tools/constants';
@@ -17,7 +17,7 @@ function onFinishDrawing() {
     currentEditedLayerFeatures.save.dispatch({
       onSuccess: () => {
         store.dispatch([
-          sideControlsBarAtom.disable(CREATE_LAYER_CONTROL_ID),
+          toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
           editTargetAtom.set({ type: EditTargets.none }),
         ]);
         res(true);

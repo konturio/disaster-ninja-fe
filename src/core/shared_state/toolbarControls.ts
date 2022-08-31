@@ -23,7 +23,7 @@ export const controlVisualGroup = {
   noAnalytics: 'noAnalytics',
 };
 
-export const sideControlsBarAtom = createAtom(
+export const toolbarControlsAtom = createAtom(
   {
     addControl: (control: SideControl) => control,
     removeControl: (controlId: string) => controlId,
@@ -33,10 +33,7 @@ export const sideControlsBarAtom = createAtom(
     reset: () => null,
     currentUserAtom,
   },
-  (
-    { onAction, onChange, schedule, create },
-    state: Record<string, SideControl> = {},
-  ) => {
+  ({ onAction, onChange, schedule, create }, state: Record<string, SideControl> = {}) => {
     onChange('currentUserAtom', (user, prevUser) => {
       // if previous user is undefined - atom wasn't initialized, so no user was setted before, so no need to reset
       if (prevUser !== undefined)
@@ -92,13 +89,10 @@ export const sideControlsBarAtom = createAtom(
       const control = state[controlId];
       if (!control)
         return console.error(
-          `[sideControlsBarAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
+          `[toolbarControlsAtom] Cannot toggle state for ${controlId} because it doesn't exist`,
         );
 
-      const action = create(
-        state[controlId].active ? 'disable' : 'enable',
-        controlId,
-      );
+      const action = create(state[controlId].active ? 'disable' : 'enable', controlId);
 
       schedule((dispatch) => dispatch(action));
     });
@@ -109,5 +103,5 @@ export const sideControlsBarAtom = createAtom(
 
     return state;
   },
-  '[Shared state] sideControlsBarAtom',
+  '[Shared state] toolbarControlsAtom',
 );

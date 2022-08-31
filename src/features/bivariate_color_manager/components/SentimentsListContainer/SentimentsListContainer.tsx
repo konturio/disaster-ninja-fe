@@ -6,10 +6,7 @@ import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager
 import style from './SentimentsListContainer.module.css';
 
 export const SentimentsListContainer = () => {
-  const [loading] = useAtom(
-    bivariateColorManagerResourceAtom,
-    (state) => state.loading,
-  );
+  const [loading] = useAtom(bivariateColorManagerResourceAtom, (state) => state.loading);
 
   const [
     { filteredData, layersSelection, selectedRows, filters },

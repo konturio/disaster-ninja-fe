@@ -10,13 +10,7 @@ export interface LayerInput {
   onClick?: React.MouseEventHandler<HTMLInputElement>;
 }
 
-function CheckboxLayerInput({
-  id,
-  onChange,
-  onClick,
-  enabled,
-  label,
-}: LayerInput) {
+function CheckboxLayerInput({ id, onChange, onClick, enabled, label }: LayerInput) {
   return (
     <Checkbox
       onChange={onChange}
@@ -29,13 +23,7 @@ function CheckboxLayerInput({
   );
 }
 
-function RadioLayerInput({
-  id,
-  onChange,
-  onClick,
-  enabled,
-  label,
-}: LayerInput) {
+function RadioLayerInput({ id, onChange, onClick, enabled, label }: LayerInput) {
   return (
     <Radio
       onChange={onChange}

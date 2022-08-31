@@ -70,9 +70,7 @@ export class ApiClient {
 
     // Will deleted by terser
     if (import.meta?.env?.DEV) {
-      apiSauceConfig.baseURL = replaceUrlWithProxy(
-        apiSauceConfig.baseURL ?? '',
-      );
+      apiSauceConfig.baseURL = replaceUrlWithProxy(apiSauceConfig.baseURL ?? '');
       this.loginApiPath = replaceUrlWithProxy(this.loginApiPath);
     }
 
@@ -102,9 +100,7 @@ export class ApiClient {
   public static init(config: ApiClientConfig): ApiClient {
     const instanceId = config.instanceId || 'default';
     if (ApiClient.instances[instanceId]) {
-      throw new Error(
-        `Api client instance with Id: ${instanceId} already initialized`,
-      );
+      throw new Error(`Api client instance with Id: ${instanceId} already initialized`);
     }
 
     ApiClient.instances[instanceId] = new ApiClient(config);
@@ -144,9 +140,7 @@ export class ApiClient {
 
   async checkAuth(
     callback: () => void,
-  ): Promise<
-    { token: string; refreshToken: string; jwtData: JWTData } | undefined
-  > {
+  ): Promise<{ token: string; refreshToken: string; jwtData: JWTData } | undefined> {
     this.expiredTokenCallback = callback;
     const authStr = localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
     if (authStr) {
@@ -181,8 +175,7 @@ export class ApiClient {
       this.checkTokenPromise = new Promise<boolean>(async (resolve) => {
         // if token has less then 5 minutes lifetime, refresh it
         if (this.tokenWillExpire) {
-          const diffTime =
-            this.tokenWillExpire.getTime() - new Date().getTime();
+          const diffTime = this.tokenWillExpire.getTime() - new Date().getTime();
           if (diffTime < 0) {
             this.resetAuth();
             if (this.expiredTokenCallback) {
@@ -281,10 +274,7 @@ export class ApiClient {
         }
         if (errorData instanceof Object) {
           if (errorData.hasOwnProperty('error')) return errorData['error'];
-          if (
-            errorData.hasOwnProperty('errors') &&
-            Array.isArray(errorData['errors'])
-          ) {
+          if (errorData.hasOwnProperty('errors') && Array.isArray(errorData['errors'])) {
             return errorData['errors']
               .reduce((acc, errorObj) => {
                 if (errorObj.hasOwnProperty('message')) {
@@ -348,9 +338,7 @@ export class ApiClient {
     username: string,
     password: string,
   ): Promise<
-    | { token: string; refreshToken: string; jwtData: JWTData }
-    | string
-    | undefined
+    { token: string; refreshToken: string; jwtData: JWTData } | string | undefined
   > {
     const params = new URLSearchParams();
     params.append('username', username);
@@ -394,15 +382,13 @@ export class ApiClient {
         }
       } else {
         if (response.status === 204) {
-          throw new ApiClientError(
-            this.translationService.t('No data received!'),
-            { kind: 'no-data' },
-          );
+          throw new ApiClientError(this.translationService.t('No data received!'), {
+            kind: 'no-data',
+          });
         } else {
-          throw new ApiClientError(
-            this.translationService.t('Wrong data received!'),
-            { kind: 'bad-data' },
-          );
+          throw new ApiClientError(this.translationService.t('Wrong data received!'), {
+            kind: 'bad-data',
+          });
         }
       }
     }
@@ -413,9 +399,7 @@ export class ApiClient {
   }
 
   public async refreshAuthToken(): Promise<
-    | { token: string; refreshToken: string; jwtData: JWTData }
-    | string
-    | undefined
+    { token: string; refreshToken: string; jwtData: JWTData } | string | undefined
   > {
     const params = new URLSearchParams();
     params.append('client_id', config.keycloakClientId);
@@ -463,17 +447,9 @@ export class ApiClient {
         };
       }
 
-      response = await this.apiSauceInstance[method](
-        path,
-        requestParams,
-        requestConfig,
-      );
+      response = await this.apiSauceInstance[method](path, requestParams, requestConfig);
     } else {
-      response = await this.apiSauceInstance[method](
-        path,
-        requestParams,
-        requestConfig,
-      );
+      response = await this.apiSauceInstance[method](path, requestParams, requestConfig);
     }
 
     return this.processResponse<T>(response, requestConfig?.errorsConfig);
@@ -486,13 +462,7 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call<T>(
-      ApiMethodTypes.GET,
-      path,
-      requestParams,
-      useAuth,
-      requestConfig,
-    );
+    return this.call<T>(ApiMethodTypes.GET, path, requestParams, useAuth, requestConfig);
   }
 
   public async post<T>(
@@ -501,13 +471,7 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(
-      ApiMethodTypes.POST,
-      path,
-      requestParams,
-      useAuth,
-      requestConfig,
-    );
+    return this.call(ApiMethodTypes.POST, path, requestParams, useAuth, requestConfig);
   }
 
   public async put<T>(
@@ -516,13 +480,7 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(
-      ApiMethodTypes.PUT,
-      path,
-      requestParams,
-      useAuth,
-      requestConfig,
-    );
+    return this.call(ApiMethodTypes.PUT, path, requestParams, useAuth, requestConfig);
   }
 
   public async patch<T>(
@@ -531,13 +489,7 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(
-      ApiMethodTypes.PATCH,
-      path,
-      requestParams,
-      useAuth,
-      requestConfig,
-    );
+    return this.call(ApiMethodTypes.PATCH, path, requestParams, useAuth, requestConfig);
   }
 
   public async delete<T>(
@@ -545,12 +497,6 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(
-      ApiMethodTypes.DELETE,
-      path,
-      undefined,
-      useAuth,
-      requestConfig,
-    );
+    return this.call(ApiMethodTypes.DELETE, path, undefined, useAuth, requestConfig);
   }
 }
