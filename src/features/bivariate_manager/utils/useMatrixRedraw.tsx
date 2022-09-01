@@ -1,12 +1,7 @@
 import { createContext, useContext, useEffect } from 'react';
 import type { ReactNode } from 'react';
 
-type RedrawHandler = (
-  left: number,
-  top: number,
-  right: number,
-  bottom: number,
-) => void;
+type RedrawHandler = (left: number, top: number, right: number, bottom: number) => void;
 
 let redrawHandler: RedrawHandler | undefined;
 
@@ -45,7 +40,7 @@ export function useMatrixRedraw(containerRef: HTMLDivElement | null) {
   const [callMatrixRedraw] = useContext(MatrixRedrawContext);
 
   useEffect(() => {
-    const scrollHandler = debounce(() => {
+    const resizeAndScrollHandler = debounce(() => {
       if (!containerRef || !callMatrixRedraw) return;
       const rect = containerRef.getBoundingClientRect();
       callMatrixRedraw(
@@ -56,10 +51,18 @@ export function useMatrixRedraw(containerRef: HTMLDivElement | null) {
       );
     }, 50);
 
-    containerRef?.addEventListener('scroll', scrollHandler);
+    const ro = new ResizeObserver(resizeAndScrollHandler);
+
+    if (containerRef) {
+      containerRef.addEventListener('scroll', resizeAndScrollHandler);
+      ro.observe(containerRef);
+    }
 
     return () => {
-      containerRef?.removeEventListener('scroll', scrollHandler);
+      if (containerRef) {
+        containerRef.removeEventListener('scroll', resizeAndScrollHandler);
+        ro.disconnect();
+      }
     };
   }, [containerRef]);
 }
