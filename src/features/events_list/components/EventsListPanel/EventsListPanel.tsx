@@ -115,7 +115,7 @@ export function EventsListPanel({
   });
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Panel
         header={isOpen ? <Text type="heading-l">{i18n.t('disasters')}</Text> : undefined}
         className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
@@ -155,6 +155,6 @@ export function EventsListPanel({
         className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
         icon={<Disasters24 />}
       /> */}
-    </>
+    </div>
   );
 }
