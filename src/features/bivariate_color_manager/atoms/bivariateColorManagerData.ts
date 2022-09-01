@@ -43,7 +43,7 @@ const DEFAULT_STATE = {
   filteredData: null,
   indicators: null,
   filters: {
-    notDefined: true,
+    notDefined: false,
   },
   selectedRows: {},
   layersSelection: null,
@@ -79,6 +79,10 @@ export const bivariateColorManagerDataAtom = createAtom(
 
       if (!state._initialData) {
         state = DEFAULT_STATE;
+      } else {
+        schedule((dispatch) => {
+          dispatch(create('runFilters'));
+        });
       }
     });
 
@@ -248,10 +252,9 @@ const notDefinedFilterFunction: FilterFunction = (
   { legend }: BivariateColorManagerDataValue,
   notDefined: FiltersValues,
 ): boolean => {
-  if (!notDefined) {
-    return !legend?.steps.some((step) => step.isFallbackColor);
-  }
-  return true;
+  if (!legend) return false;
+  const hasNotDefined = legend.steps.some((step) => step.isFallbackColor);
+  return (notDefined && hasNotDefined) || (!notDefined && !hasNotDefined);
 };
 
 type FilterFunction = (
