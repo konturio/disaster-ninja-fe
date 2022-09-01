@@ -31,24 +31,27 @@ export function Toolbar() {
 
   return (
     <div className={s.toolbar}>
-      {sortByPredefinedOrder(Object.values(controls), controlsOrder).map((control) => (
-        <div key={control.id} className={s.toolbarItem}>
-          <div
-            className={clsx([s.buttonWrap, control.active && s.active])}
-            onClick={() => control.onClick && control.onClick(!control.active)}
-            onPointerEnter={(e) => onMouseEnter(e, control.title)}
-            onPointerLeave={onMouseLeave}
-          >
-            <Button
-              active={control.active}
-              iconBefore={control.icon}
-              size="small"
-              className={s.toolButton}
-              variant="invert"
-            />
+      {sortByPredefinedOrder(Object.values(controls), controlsOrder).map(
+        (control, index) => (
+          <div key={control.id} className={s.toolbarItem}>
+            <div
+              className={clsx([s.buttonWrap, control.active && s.active])}
+              onClick={() => control.onClick && control.onClick(!control.active)}
+              onPointerEnter={(e) => onMouseEnter(e, control.title)}
+              onPointerLeave={onMouseLeave}
+            >
+              <Button
+                active={control.active}
+                iconBefore={control.icon}
+                size="small"
+                className={s.toolButton}
+                variant="invert"
+              />
+            </div>
+            <div className={s.hoverHint}>{control.title}</div>
           </div>
-        </div>
-      ))}
+        ),
+      )}
     </div>
   );
 }
