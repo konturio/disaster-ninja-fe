@@ -41,12 +41,7 @@ export const layerSideBarButtonControllerAtom = createAtom(
   ({ getUnlistedState, schedule, onChange }) => {
     onChange('userResourceAtom', (userResource) => {
       const { data: userModel, loading, error } = userResource;
-      if (
-        loading === true ||
-        error ||
-        userModel === null ||
-        userModel === undefined
-      )
+      if (loading === true || error || userModel === null || userModel === undefined)
         return;
 
       const currentControls = getUnlistedState(toolbarControlsAtom);

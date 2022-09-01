@@ -5,10 +5,7 @@ import {
   MAP_RULER_CONTROL_NAME,
   MAP_RULER_LAYER_ID,
 } from '~features/map_ruler/constants';
-import {
-  controlGroup,
-  controlVisualGroup,
-} from '~core/shared_state/toolbarControls';
+import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
 import { createLogicalLayerAtom } from '~core/logical_layers/utils/logicalLayerFabric';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';

@@ -1,8 +1,5 @@
 import { Plus24 } from '@konturio/default-icons';
-import {
-  controlGroup,
-  controlVisualGroup,
-} from '~core/shared_state/toolbarControls';
+import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import {
   currentMapAtom,
   currentMapPositionAtom,
@@ -47,10 +44,7 @@ export function initFileUploader() {
           throw new Error('Not geoJSON format');
         }
 
-        focusedGeometryAtom.setFocusedGeometry.dispatch(
-          { type: 'uploaded' },
-          geoJSON,
-        );
+        focusedGeometryAtom.setFocusedGeometry.dispatch({ type: 'uploaded' }, geoJSON);
 
         const { zoom, center } = geometryCamera;
         currentMapPositionAtom.setCurrentMapPosition.dispatch({

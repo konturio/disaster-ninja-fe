@@ -15,9 +15,7 @@ import s from './EditLayerPanel.module.css';
 import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
 
 export function EditLayerPanel() {
-  const [createLayerState, { saveLayer }] = useAtom(
-    editableLayerControllerAtom,
-  );
+  const [createLayerState, { saveLayer }] = useAtom(editableLayerControllerAtom);
   const disableSideBarControl = useAction(
     () => toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
     [],
@@ -38,9 +36,7 @@ export function EditLayerPanel() {
 
   return (
     <Panel
-      header={
-        <Text type="heading-l">{i18n.t('create_layer.create_layer')}</Text>
-      }
+      header={<Text type="heading-l">{i18n.t('create_layer.create_layer')}</Text>}
       onClose={onPanelClose}
       className={clsx(
         s.sidePanel,
@@ -51,9 +47,7 @@ export function EditLayerPanel() {
       <div className={s.panelBody}>
         {statesToComponents &&
           statesToComponents({
-            loading: (
-              <LoadingSpinner message={i18n.t('create_layer.saving_layer')} />
-            ),
+            loading: <LoadingSpinner message={i18n.t('create_layer.saving_layer')} />,
             error: (errorMessage) => <ErrorMessage message={errorMessage} />,
             ready: (data) => {
               return (

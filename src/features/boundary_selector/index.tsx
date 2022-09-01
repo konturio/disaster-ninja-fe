@@ -7,10 +7,7 @@ import {
   BOUNDARY_GEOMETRY_COLOR,
   HOVERED_BOUNDARIES_SOURCE_ID,
 } from '~features/boundary_selector/constants';
-import {
-  controlGroup,
-  controlVisualGroup,
-} from '~core/shared_state/toolbarControls';
+import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { forceRun } from '~utils/atoms/forceRun';
@@ -44,9 +41,7 @@ export function initBoundarySelector() {
     visualGroup: controlVisualGroup.withAnalytics,
     icon: <SelectArea24 />,
     onClick: (becomesActive) => {
-      toolbarControlsAtom.toggleActiveState.dispatch(
-        BOUNDARY_SELECTOR_CONTROL_ID,
-      );
+      toolbarControlsAtom.toggleActiveState.dispatch(BOUNDARY_SELECTOR_CONTROL_ID);
     },
     onChange: (becomesActive) => {
       if (becomesActive) {

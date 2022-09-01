@@ -64,9 +64,7 @@ export const toolboxAtom = createAtom(
     });
 
     onAction('finishDrawing', () => {
-      actions.push(
-        toolbarControlsAtom.disable(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID),
-      );
+      actions.push(toolbarControlsAtom.disable(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID));
       actions.push(activeDrawModeAtom.setDrawMode(null));
     });
 

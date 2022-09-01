@@ -6,10 +6,7 @@ import {
   FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
 } from '~core/draw_tools/constants';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
-import {
-  controlGroup,
-  controlVisualGroup,
-} from '~core/shared_state/toolbarControls';
+import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { forceRun } from '~utils/atoms/forceRun';
@@ -30,20 +27,14 @@ export function initFocusedGeometry() {
     visualGroup: controlVisualGroup.withAnalytics,
     icon: <Poly24 />,
     onClick: () => {
-      toolbarControlsAtom.toggleActiveState.dispatch(
-        FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
-      );
+      toolbarControlsAtom.toggleActiveState.dispatch(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID);
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
         store.dispatch([
           isEditorActiveAtom.set(true),
           toolboxAtom.setSettings({
-            availableModes: [
-              'DrawPolygonMode',
-              'DrawLineMode',
-              'DrawPointMode',
-            ],
+            availableModes: ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode'],
             finishButtonCallback: () =>
               new Promise((res) => {
                 focusedGeometryEditorAtom.updateGeometry.dispatch();
@@ -54,9 +45,7 @@ export function initFocusedGeometry() {
           activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
         ]);
         // TODO fix that logic in layer.setMode() in #9782
-        store.dispatch(
-          activeDrawModeAtom.setDrawMode(drawModes.DrawPolygonMode),
-        );
+        store.dispatch(activeDrawModeAtom.setDrawMode(drawModes.DrawPolygonMode));
       } else {
         store.dispatch([
           isEditorActiveAtom.set(false),
