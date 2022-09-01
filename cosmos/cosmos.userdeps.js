@@ -9,27 +9,24 @@ import './../node_modules/@konturio/default-theme/typography.css';
 
 import fixture0 from './../src/components/BivariateLegend/BivariateLegend.fixture.tsx';
 import fixture1 from './../src/features/bivariate_color_manager/components/MiniLegend/MiniLegend.fixture.tsx';
-import fixture2 from './../src/features/bivariate_manager/components/BivariateMatrixControl/react-cosmos/BivariateMatrixControl.fixture.tsx';
+import fixture2 from './../src/features/bivariate_manager/fixtures/BivariateGreetings.fixture.tsx';
+import fixture3 from './../src/features/bivariate_manager/fixtures/BivariateMatrixControl.fixture.tsx';
 
 import decorator0 from './../cosmos.decorator.tsx';
 import decorator1 from './../src/cosmos.decorator.tsx';
 
 export const rendererConfig = {
-  port: 5000,
+  "port": 5000
 };
 
 export const fixtures = {
-  'src/components/BivariateLegend/BivariateLegend.fixture.tsx': {
-    module: { default: fixture0 },
-  },
-  'src/features/bivariate_color_manager/components/MiniLegend/MiniLegend.fixture.tsx': {
-    module: { default: fixture1 },
-  },
-  'src/features/bivariate_manager/components/BivariateMatrixControl/react-cosmos/BivariateMatrixControl.fixture.tsx':
-    { module: { default: fixture2 } },
+  'src/components/BivariateLegend/BivariateLegend.fixture.tsx': { module: { default: fixture0 } },
+  'src/features/bivariate_color_manager/components/MiniLegend/MiniLegend.fixture.tsx': { module: { default: fixture1 } },
+  'src/features/bivariate_manager/fixtures/BivariateGreetings.fixture.tsx': { module: { default: fixture2 } },
+  'src/features/bivariate_manager/fixtures/BivariateMatrixControl.fixture.tsx': { module: { default: fixture3 } }
 };
 
 export const decorators = {
   'cosmos.decorator.tsx': decorator0,
-  'src/cosmos.decorator.tsx': decorator1,
+  'src/cosmos.decorator.tsx': decorator1
 };

@@ -6,21 +6,18 @@ import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { createStateMap } from '~utils/atoms';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
+import { BivariateGreetingsContainer } from '~features/bivariate_manager/components/BivariateGreetings/BivariateGreetingsContainer';
 import s from './BivariateMatrixContainer.module.css';
 
 interface BivariateMatrixContainerProps {
   className?: string;
 }
 
-const BivariateMatrixContainer = ({
-  className,
-}: BivariateMatrixContainerProps) => {
+const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const dimensions = useRef<{ w: number; h: number } | null>(null);
 
-  const statesToComponents = createStateMap(
-    useAtom(bivariateStatisticsResourceAtom)[0],
-  );
+  const statesToComponents = createStateMap(useAtom(bivariateStatisticsResourceAtom)[0]);
 
   function updateDimensions() {
     if (!containerRef.current || !dimensions.current) return;
@@ -67,9 +64,12 @@ const BivariateMatrixContainer = ({
             </div>
           ),
           ready: () => (
-            <div className={s.matrixContainer}>
-              <ConnectedBivariateMatrix ref={onRefChange} />
-            </div>
+            <>
+              <div className={s.matrixContainer}>
+                <ConnectedBivariateMatrix ref={onRefChange} />
+              </div>
+              <BivariateGreetingsContainer className={s.greetings} />
+            </>
           ),
         })}
         <div className={s.topRightCorner} />
