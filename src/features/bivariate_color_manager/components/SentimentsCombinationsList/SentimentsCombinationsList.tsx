@@ -106,7 +106,10 @@ const SentimentsCombinationsList = memo(
                           <div className={s.legendWrapper}>
                             {legend && (
                               <MiniLegend
-                                legend={invertClusters(legend.steps, 'label')}
+                                legendSteps={invertClusters(
+                                  legend.steps,
+                                  'label',
+                                )}
                               />
                             )}
                           </div>

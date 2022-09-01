@@ -1,4 +1,4 @@
-import { Autocomplete, Select } from '@konturio/ui-kit';
+import { Autocomplete, Checkbox, Select } from '@konturio/ui-kit';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useAtom } from '@reatom/react';
 import { Plus16 } from '@konturio/default-icons';
@@ -22,11 +22,14 @@ const LayerFilterClasses = {
 type FilterValueType = { key: string; value: string[] };
 
 export const ColorLegendFilters = () => {
-  const [{ indicators, layersFilter }, { setLayersFilter, setSentimentsFilter }] =
-    useAtom(bivariateColorManagerDataAtom, (state) => ({
-      indicators: state.indicators,
-      layersFilter: state.filters.layers,
-    }));
+  const [
+    { indicators, layersFilter, notDefinedFilter },
+    { setLayersFilter, setSentimentsFilter, setNotDefinedSentimentsFilter },
+  ] = useAtom(bivariateColorManagerDataAtom, (state) => ({
+    indicators: state.indicators,
+    layersFilter: state.filters.layers,
+    notDefinedFilter: state.filters.notDefined,
+  }));
 
   const [loading] = useAtom(bivariateColorManagerResourceAtom, (state) => state.loading);
 
@@ -149,10 +152,24 @@ export const ColorLegendFilters = () => {
     ],
   );
 
+  const onSelectNotDefinedSentimentsFilter = useCallback(
+    (isSelected: boolean) => {
+      setNotDefinedSentimentsFilter(isSelected);
+    },
+    [setNotDefinedSentimentsFilter],
+  );
+
   return (
     <div className={style.ListFilters}>
       {!loading && (
         <div className={style.FiltersContainer}>
+          <Checkbox
+            id="not_defined_sentiments_filter"
+            label={i18n.t('bivariate.color_manager.not_defined') as string}
+            className={style.NotDefinedCheckbox}
+            onChange={onSelectNotDefinedSentimentsFilter}
+            checked={notDefinedFilter}
+          />
           {[...Array(sentimentFiltersCount)].map((item, index) => (
             <Select
               onClose={(changes) => {

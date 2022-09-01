@@ -4,6 +4,11 @@
   padding: 24px 32px 16px 32px;
   z-index: 2;
 
+  & .NotDefinedCheckbox {
+    color: var(--base-strong-down);
+    margin-right: 10px;
+  }
+
   & .SentimentsFilters {
     height: 36px;
 

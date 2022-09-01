@@ -24,6 +24,7 @@ export type BivariateColorManagerDataAtomState = {
 export type Filters = {
   layers?: string;
   sentiments?: string[][];
+  notDefined?: boolean;
 };
 
 export type FiltersKeys = keyof Filters;
@@ -41,7 +42,9 @@ const DEFAULT_STATE = {
   _initialData: null,
   filteredData: null,
   indicators: null,
-  filters: {},
+  filters: {
+    notDefined: false,
+  },
   selectedRows: {},
   layersSelection: null,
   meta: null,
@@ -53,6 +56,7 @@ export const bivariateColorManagerDataAtom = createAtom(
     runFilters: () => undefined,
     setLayersFilter: (input?: string) => input,
     setSentimentsFilter: (sentiments?: string[][]) => sentiments,
+    setNotDefinedSentimentsFilter: (notDefined?: boolean) => notDefined,
     setSelectedRows: (key: string) => key,
     bivariateColorManagerResourceAtom,
   },
@@ -75,6 +79,10 @@ export const bivariateColorManagerDataAtom = createAtom(
 
       if (!state._initialData) {
         state = DEFAULT_STATE;
+      } else {
+        schedule((dispatch) => {
+          dispatch(create('runFilters'));
+        });
       }
     });
 
@@ -95,6 +103,16 @@ export const bivariateColorManagerDataAtom = createAtom(
       });
     });
 
+    onAction('setNotDefinedSentimentsFilter', (notDefined) => {
+      state.filters = {
+        ...state.filters,
+        notDefined,
+      };
+      schedule((dispatch) => {
+        dispatch(create('runFilters'));
+      });
+    });
+
     onAction('setSelectedRows', (key) => {
       state = {
         ...state,
@@ -109,7 +127,11 @@ export const bivariateColorManagerDataAtom = createAtom(
       const { filters, _initialData } = state;
       if (!filters) return;
       const filterFunctionsToApply = Object.entries(filters)
-        .map(([key, value]) => (value ? [filterFunctions[key], value] : null))
+        .map(([key, value]) =>
+          value !== null && value !== undefined
+            ? [filterFunctions[key], value]
+            : null,
+        )
         .filter(Boolean) as [FilterFunction, FiltersValues][];
 
       if (filterFunctionsToApply.length === 0 || !_initialData) {
@@ -227,6 +249,16 @@ const sentimentsFilterFunction: FilterFunction = (
   return false;
 };
 
+const notDefinedFilterFunction: FilterFunction = (
+  _key: string,
+  { legend }: BivariateColorManagerDataValue,
+  notDefined: FiltersValues,
+): boolean => {
+  if (!legend) return false;
+  const hasNotDefined = legend.steps.some((step) => step.isFallbackColor);
+  return (notDefined && hasNotDefined) || (!notDefined && !hasNotDefined);
+};
+
 type FilterFunction = (
   key: string,
   value: BivariateColorManagerDataValue,
@@ -238,4 +270,5 @@ const filterFunctions: {
 } = {
   layers: layersFilterFunction,
   sentiments: sentimentsFilterFunction,
+  notDefined: notDefinedFilterFunction,
 };

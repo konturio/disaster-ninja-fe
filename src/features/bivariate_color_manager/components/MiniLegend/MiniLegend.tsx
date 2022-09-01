@@ -1,18 +1,26 @@
 import clsx from 'clsx';
 import { CORNER_POINTS_INDEXES } from '~components/BivariateLegend/const';
 import s from './MiniLegend.module.css';
+import type { BivariateLegendStep } from '~core/logical_layers/types/legends';
 import type { CSSProperties } from 'react';
 
 export type MiniLegendProps = {
-  legend: { color: string; label: string }[];
+  legendSteps: BivariateLegendStep[];
   changes?: { [key: string]: { color?: string } };
 };
 
-export const MiniLegend = ({ legend, changes = {} }: MiniLegendProps) => {
-  const corners = CORNER_POINTS_INDEXES.map((corner) => legend[corner]);
-  const changesHasUndefinedColor = Object.values(changes).some(
-    ({ color }) => !color,
+export const MiniLegend = ({ legendSteps, changes = {} }: MiniLegendProps) => {
+  const corners = CORNER_POINTS_INDEXES.map((corner) => legendSteps[corner]);
+  const legendStepsHasUndefinedColor = legendSteps.some(
+    (step) => step.isFallbackColor,
   );
+
+  // skip it for now. need more color changing logic to be impletemented first
+  // TODO: implement checks for fallbackColor in changes after color changing logic is ready
+  // const changesHasUndefinedColor = Object.values(changes).some(
+  //   ({ color }) => !color,
+  // );
+
   return (
     <div className={s.LegendGrid}>
       {corners.map((cell) => {
@@ -43,7 +51,8 @@ export const MiniLegend = ({ legend, changes = {} }: MiniLegendProps) => {
         );
       })}
 
-      {changesHasUndefinedColor && (
+      {/* TODO: implement checks for fallbackColor in changes after color changing logic is ready */}
+      {legendStepsHasUndefinedColor && (
         <div className={s.UndefinedColorsIndicator}>
           <AlarmIcon />
         </div>
