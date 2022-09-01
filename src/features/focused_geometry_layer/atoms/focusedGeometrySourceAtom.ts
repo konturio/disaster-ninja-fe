@@ -26,21 +26,12 @@ export const createFocusedGeometrySourceAtom = (sourceId: string) =>
       const focusedGeometryAtom = get('focusedGeometryAtom');
       if (focusedGeometryAtom) {
         const { geometry } = focusedGeometryAtom;
-        if (
-          geometry.type === 'FeatureCollection' ||
-          geometry.type === 'Feature'
-        ) {
+        if (geometry.type === 'FeatureCollection' || geometry.type === 'Feature') {
           schedule((dispatch) => {
-            const focusedLayerSource = createGeoJSONLayerSource(
-              sourceId,
-              geometry,
-            );
+            const focusedLayerSource = createGeoJSONLayerSource(sourceId, geometry);
 
             dispatch(
-              layersSourcesAtom.set(
-                sourceId,
-                createAsyncWrapper(focusedLayerSource),
-              ),
+              layersSourcesAtom.set(sourceId, createAsyncWrapper(focusedLayerSource)),
             );
           });
         } else {
@@ -48,6 +39,17 @@ export const createFocusedGeometrySourceAtom = (sourceId: string) =>
             '[focused_geometry_layer]: Only FeatureCollection and Feature supported ',
           );
         }
+      } else {
+        schedule((dispatch) => {
+          const focusedLayerSource = createGeoJSONLayerSource(sourceId, {
+            type: 'FeatureCollection',
+            features: [],
+          });
+
+          dispatch(
+            layersSourcesAtom.set(sourceId, createAsyncWrapper(focusedLayerSource)),
+          );
+        });
       }
     },
   );

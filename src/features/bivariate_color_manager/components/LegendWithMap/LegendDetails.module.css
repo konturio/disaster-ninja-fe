@@ -1,0 +1,15 @@
+.LegendDetailsLabel,
+.LegendDetailsDirection {
+  line-height: 18px;
+}
+
+.LegendDetailsDirection {
+  color: var(--text-faint-strong);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  & svg {
+    color: var(--accent-strong);
+  }
+}

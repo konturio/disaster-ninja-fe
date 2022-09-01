@@ -1,5 +1,5 @@
 import config from '~core/app_config';
-import { replaceUrlWithProxy } from '../../../../vite.proxy';
+import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 
 export function adaptTileUrl(url: string): string {
   /** Fix cors in local development */
@@ -17,7 +17,7 @@ export function adaptTileUrl(url: string): string {
   } else {
     const baseUrl =
       config.bivariateTilesServer ??
-      `${window.location.protocol}${window.location.host}${window.location.pathname}`;
+      `${window.location.protocol}${window.location.host}${config.baseUrl}`;
     url = `${baseUrl}${url}`;
   }
 

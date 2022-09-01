@@ -31,12 +31,13 @@ export function Layer({
 }) {
   const [layerState, layerActions] = useAtom(layerAtom);
   const onChange = useAction(
-    () =>
-      layerState.isMounted ? layerActions.disable() : layerActions.enable(),
+    () => (layerState.isMounted ? layerActions.disable() : layerActions.enable()),
     [layerState.isMounted],
   );
 
-  const controlElements = useControlElements(layerState, layerActions);
+  const controlElements = useControlElements(layerState, layerActions, {
+    skipVisibilityControl: true,
+  });
   useEffect(() => {
     if (!delegateLegendRender) return;
     if (layerState.isEnabled && layerState.legend?.type === 'bivariate') {
@@ -50,8 +51,7 @@ export function Layer({
   }, [delegateLegendRender, layerState]);
 
   const hasOneStepSimpleLegend =
-    layerState.legend?.type === 'simple' &&
-    layerState.legend.steps?.length === 1;
+    layerState.legend?.type === 'simple' && layerState.legend.steps?.length === 1;
 
   const hasMultiStepSimpleLegend =
     layerState.legend?.type === 'simple' && layerState.legend.steps?.length > 1;

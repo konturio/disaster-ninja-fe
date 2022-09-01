@@ -14,6 +14,7 @@ export type Report = {
     { 'OSM ID': string },
     { Name: string } | { ['OSM name']: string },
   ];
+  searchable_columns_indexes?: number[];
 };
 
 export const reportsAtom = createAtom(
@@ -32,7 +33,7 @@ export const reportsAtom = createAtom(
           undefined,
           false,
         );
-        if (responseData === undefined) throw new Error('No data received');
+        if (responseData === null) throw new Error('No data received');
         dispatch(reportsAtom.setReports(responseData));
       });
     });

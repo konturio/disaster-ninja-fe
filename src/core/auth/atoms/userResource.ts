@@ -3,7 +3,6 @@ import { createAtom, createResourceAtom } from '~utils/atoms';
 import { currentUserAtom } from '~core/shared_state/currentUser';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 import appConfig from '~core/app_config';
-import config from '~core/app_config';
 import { PUBLIC_USER_ID } from '~core/auth/constants';
 import { UserDataModel } from '../models/UserDataModel';
 import type {
@@ -24,14 +23,9 @@ const userResourceRequestParamsAtom = createAtom(
     currentUserAtom,
     currentApplicationAtom,
   },
-  (
-    { get },
-    state: UserResourceRequestParams = null,
-  ): UserResourceRequestParams => {
+  ({ get }, state: UserResourceRequestParams = null): UserResourceRequestParams => {
     const applicationId = get('currentApplicationAtom');
     const userData = get('currentUserAtom');
-
-    if (!applicationId) return state;
 
     return {
       userData,
@@ -46,7 +40,7 @@ export const userResourceAtom = createResourceAtom<
   UserDataModel | undefined
 >(
   async (params) => {
-    if (!params) return;
+    if (!params?.applicationId) return;
     const { userData, applicationId } = params;
 
     const featuresResponse = apiClient.get<BackendFeature[]>(
@@ -56,11 +50,19 @@ export const userResourceAtom = createResourceAtom<
       { errorsConfig: { dontShowErrors: true } },
     );
 
-    const feedsResponse = apiClient.get<BackendFeed[]>(
-      '/events/user_feeds',
-      undefined,
-      userData?.id !== PUBLIC_USER_ID,
-    );
+    let feedsResponse: Promise<BackendFeed[] | null>;
+    // if user not logged in - avoid extra request for feed
+    if (userData?.id === PUBLIC_USER_ID) {
+      feedsResponse = (async () => [
+        {
+          feed: appConfig.defaultFeed,
+          description: appConfig.defaultFeedDescription,
+          default: true,
+        },
+      ])();
+    } else {
+      feedsResponse = apiClient.get<BackendFeed[]>('/events/user_feeds', undefined, true);
+    }
 
     const [featuresSettled, feedsSettled] = await Promise.allSettled([
       featuresResponse,
@@ -68,10 +70,7 @@ export const userResourceAtom = createResourceAtom<
     ]);
 
     let features: { [T in AppFeatureType]?: boolean } = {};
-    if (
-      featuresSettled.status === 'fulfilled' &&
-      Array.isArray(featuresSettled.value)
-    ) {
+    if (featuresSettled.status === 'fulfilled' && Array.isArray(featuresSettled.value)) {
       featuresSettled.value.forEach((ft: BackendFeature) => {
         features[ft.name] = true;
       });
@@ -84,16 +83,11 @@ export const userResourceAtom = createResourceAtom<
     }
 
     let feeds: UserFeed[] | null = null;
-    if (
-      feedsSettled.status === 'fulfilled' &&
-      Array.isArray(feedsSettled.value)
-    ) {
-      feeds = feedsSettled.value.map(
-        (fd: { feed: string; default: boolean }) => ({
-          feed: fd.feed,
-          isDefault: fd.default,
-        }),
-      );
+    if (feedsSettled.status === 'fulfilled' && Array.isArray(feedsSettled.value)) {
+      feeds = feedsSettled.value.map((fd: { feed: string; default: boolean }) => ({
+        feed: fd.feed,
+        isDefault: fd.default,
+      }));
     } else if (feedsSettled.status === 'rejected') {
       console.error('User feeds call failed. Applying default feed...');
       feeds = [{ feed: appConfig.defaultFeed, isDefault: true }];
@@ -115,6 +109,6 @@ export const userResourceAtom = createResourceAtom<
     const udm = new UserDataModel({ features, feeds });
     return udm;
   },
-  userResourceRequestParamsAtom,
   'userResourceAtom',
+  userResourceRequestParamsAtom,
 );

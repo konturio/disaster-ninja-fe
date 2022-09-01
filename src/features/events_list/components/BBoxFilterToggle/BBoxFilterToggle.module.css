@@ -1,0 +1,4 @@
+.bBoxFilterToggle {
+  display: flex;
+  gap: var(--unit);
+}

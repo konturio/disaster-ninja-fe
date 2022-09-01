@@ -28,7 +28,7 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
           if (this.intersectionsTest(props, polygonCoords)) {
             currentNotificationAtom.showNotification.dispatch(
               'error',
-              { title: i18n.t('Polygon should not overlap itself') },
+              { title: i18n.t('draw_tools.overlap_error') },
               5,
             );
             this['resetClickSequence']();
@@ -105,8 +105,7 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       clickedEditHandle &&
       Array.isArray(clickedEditHandle.properties.positionIndexes) &&
       (clickedEditHandle.properties.positionIndexes[0] === 0 ||
-        clickedEditHandle.properties.positionIndexes[0] ===
-          clickSequence.length - 1)
+        clickedEditHandle.properties.positionIndexes[0] === clickSequence.length - 1)
     ) {
       // They clicked the first or last point (or double-clicked), so complete the polygon
 
@@ -117,7 +116,7 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       if (this.intersectionsTest(props, polygonCoords)) {
         currentNotificationAtom.showNotification.dispatch(
           'error',
-          { title: i18n.t('Polygon should not overlap itself') },
+          { title: i18n.t('draw_tools.overlap_error') },
           5,
         );
         this['resetClickSequence']();
@@ -140,10 +139,7 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
           type: 'FeatureCollection',
         };
 
-      const editAction = this['getAddFeatureOrBooleanPolygonAction'](
-        polygonToAdd,
-        props,
-      );
+      const editAction = this['getAddFeatureOrBooleanPolygonAction'](polygonToAdd, props);
 
       if (editAction) {
         props.onEdit(editAction);

@@ -3,7 +3,7 @@ import { useAction, useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { Panel, Text } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
-import { sideControlsBarAtom } from '~core/shared_state';
+import { toolbarControlsAtom } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
@@ -15,9 +15,9 @@ import s from './EditLayerPanel.module.css';
 import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
 
 export function EditLayerPanel() {
-  const [createLayerState, { save }] = useAtom(editableLayerControllerAtom);
+  const [createLayerState, { saveLayer }] = useAtom(editableLayerControllerAtom);
   const disableSideBarControl = useAction(
-    () => sideControlsBarAtom.disable(CREATE_LAYER_CONTROL_ID),
+    () => toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
     [],
   );
   const disableEditing = useAction(
@@ -36,7 +36,7 @@ export function EditLayerPanel() {
 
   return (
     <Panel
-      header={<Text type="heading-l">{i18n.t('Create Layer')}</Text>}
+      header={<Text type="heading-l">{i18n.t('create_layer.create_layer')}</Text>}
       onClose={onPanelClose}
       className={clsx(
         s.sidePanel,
@@ -47,13 +47,13 @@ export function EditLayerPanel() {
       <div className={s.panelBody}>
         {statesToComponents &&
           statesToComponents({
-            loading: <LoadingSpinner message={i18n.t('Saving layer...')} />,
+            loading: <LoadingSpinner message={i18n.t('create_layer.saving_layer')} />,
             error: (errorMessage) => <ErrorMessage message={errorMessage} />,
             ready: (data) => {
               return (
                 <EditLayerForm
                   data={data as LayerEditorFormAtomType}
-                  onSave={save}
+                  onSave={saveLayer}
                   onCancel={onPanelClose}
                 />
               );

@@ -1,25 +1,28 @@
 import { ProxyOptions } from 'vite';
-import packageJson from './package.json';
-const host = 'http://localhost:3000';
 
-export const proxyConfig: Record<string, string | ProxyOptions> = {
-  /**
-   * This proxy help us proxy mapbox tiles requests 
-   * For example, record like:
-   * '/tiles/stats': 'https://disaster.ninja',
-   * will force mapbox take tiles from https://disaster.ninja domain
-   */
-}
+/**
+ * This proxy help us proxy mapbox tiles requests
+ * For example, record like:
+ * '/tiles/stats': 'https://disaster.ninja',
+ * will force mapbox take tiles from https://disaster.ninja domain
+ */
 
 
-/* Replace api url that require CORS to proxy */
-export function replaceUrlWithProxy(originalUrl: string): string {
-  return Object.entries(proxyConfig).reduce((url, rule) => {
-    const proxyTarget = typeof rule[1] === 'string' ? rule[1] : rule[1].target;
-    if (proxyTarget) {
-      return url.replace(String(proxyTarget), host);
-    } else {
-      return url;
+async function getLocalConfig() {
+  try {
+    const res = await import('./configs/proxy-config.local');
+    console.log('Applying local vite proxy config file from ./configs/proxy-config.local.js');
+    return res.default;
+  } catch (e) {
+    try {
+      const res = await import('./configs/proxy-config.default');
+      console.log('Applying local vite proxy config file from ./configs/proxy-config.default.js');
+      return res.default;
+    } catch(e) {
+      console.log('Not found any proxy configs');
+      return {};
     }
-  }, originalUrl);
+  }
 }
+
+export const proxyConfig: Record<string, string | ProxyOptions> = await getLocalConfig();

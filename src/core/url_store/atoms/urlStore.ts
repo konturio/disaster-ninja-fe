@@ -7,8 +7,8 @@ import {
   defaultAppLayersAtom,
   defaultLayersParamsAtom,
   currentEventFeedAtom,
-  focusedGeometryAtom,
 } from '~core/shared_state';
+import { scheduledAutoSelect, scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { URLStore } from '../URLStore';
 import { URLDataInSearchEncoder } from '../dataInURLEncoder';
@@ -44,14 +44,14 @@ export const urlStoreAtom = createAtom(
     enabledLayersAtom,
     currentApplicationAtom,
     currentEventFeedAtom,
+    refreshUrl: () => null,
   },
-  ({ get, schedule }, state: UrlData = urlStore.readCurrentState()) => {
+  ({ get, schedule, onAction }, state: UrlData = urlStore.readCurrentState()) => {
     const initFlag = get('initFlag');
     if (!initFlag) {
       /* Initialization */
       /* If layers in url absent, take default layers form user settings */
-      const noLayersInUrl =
-        state.layers === undefined || state.layers.length === 0;
+      const noLayersInUrl = state.layers === undefined || state.layers.length === 0;
       if (noLayersInUrl) {
         const defaultLayers = get('defaultAppLayersAtom');
         if (
@@ -59,27 +59,39 @@ export const urlStoreAtom = createAtom(
           !defaultLayers.loading &&
           !defaultLayers.error
         ) {
-          schedule((dispatch) => dispatch(defaultLayersParamsAtom.request()));
-          return;
+          schedule((dispatch) => {
+            dispatch(defaultLayersParamsAtom.request());
+          });
+          return; // Wait next update
         }
 
         if (defaultLayers.loading) {
-          return; // Wait default layers
+          return; // Wait until default layers loaded
         }
 
         if (defaultLayers.data !== null) {
+          // Continue app loading in case of error in default layers request
           state = {
             ...state,
             layers: defaultLayers.data,
           };
         }
-        // Continue in case of error
       }
 
+      const initActions: Action[] = [];
+      if (state.event === undefined && !state.map) {
+        // Auto select event from event list when url is empty
+        initActions.push(scheduledAutoSelect.setTrue());
+      }
+
+      if (state.map === undefined) {
+        // Auto zoom to event if no coordinates in url
+        initActions.push(scheduledAutoFocus.setTrue());
+      }
       /* Finish Initialization */
       /* Setup atom state from initial url */
       schedule((dispatch) => {
-        const actions: Action[] = [];
+        const actions: Action[] = [...initActions];
 
         // Apply layers
         actions.push(enabledLayersAtom.change(() => new Set(state.layers)));
@@ -98,24 +110,13 @@ export const urlStoreAtom = createAtom(
         // Apply event
         if (state.event) {
           actions.push(currentEventAtom.setCurrentEventId(state.event));
-        } else if (state.map && !state.event) {
-          // in this case user implicitly shared map coordinates without an event.
-          // Reseting it will avoid event autoselection and map focus on autoselected event
-          actions.push(currentEventAtom.setCurrentEventId(null));
-          // set focus geometry to valid empty state to make a request for a global layers
-          actions.push(
-            focusedGeometryAtom.setFocusedGeometry(
-              { type: 'custom' },
-              { type: 'FeatureCollection', features: [] },
-            ),
-          );
         }
+
         // Apply feed
         if (state.feed) {
-          actions.push(
-            currentEventFeedAtom.setFeedForExistingEvent(state.feed),
-          );
+          actions.push(currentEventFeedAtom.setCurrentFeed(state.feed));
         }
+
         // Apply episode
         if (state.episode) {
           actions.push(currentEpisodeAtom.setCurrentEpisodeId(state.episode));
@@ -173,6 +174,9 @@ export const urlStoreAtom = createAtom(
       });
     }
 
+    onAction('refreshUrl', () => {
+      // noop
+    });
     return state;
   },
   'urlStoreAtom',

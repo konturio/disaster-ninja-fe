@@ -28,7 +28,7 @@ export const editableLayerControllerAtom = createAtom(
     editLayer: (layerId: string) => layerId,
     deleteLayer: (layerId: string) => layerId,
     createNewLayer: () => null,
-    save: () => null,
+    saveLayer: () => null,
     delete: (formId: string) => formId,
     reset: () => null,
     _update: (state: EditableLayerAtomStateType) => state,
@@ -57,8 +57,8 @@ export const editableLayerControllerAtom = createAtom(
             id: layerId,
             name: layerUserData.name ?? '',
             marker: 'default' as const,
-            fields: Object.entries(layerUserData.featureProperties).map(
-              ([name, type]) => createLayerEditorFormFieldAtom({ name, type }),
+            fields: Object.entries(layerUserData.featureProperties).map(([name, type]) =>
+              createLayerEditorFormFieldAtom({ name, type }),
             ),
           };
           dispatch([
@@ -80,7 +80,7 @@ export const editableLayerControllerAtom = createAtom(
       };
     });
 
-    onAction('save', () => {
+    onAction('saveLayer', () => {
       if (state?.data) {
         const dataState = getUnlistedState(state.data);
         if (!dataState.name) return;
@@ -106,11 +106,12 @@ export const editableLayerControllerAtom = createAtom(
           ),
         };
 
+        // @ts-expect-error temporary code
+        data.appId = getUnlistedState(currentApplicationAtom);
+
         schedule(async (dispatch) => {
           try {
-            // @ts-expect-error temporary code
-            data.appId = getUnlistedState(currentApplicationAtom);
-            let responseData: EditableLayers | undefined;
+            let responseData: EditableLayers | null;
             if (data.id) {
               responseData = await apiClient.put<EditableLayers>(
                 `/layers/${data.id}`,
@@ -118,11 +119,7 @@ export const editableLayerControllerAtom = createAtom(
                 true,
               );
             } else {
-              responseData = await apiClient.post<EditableLayers>(
-                `/layers`,
-                data,
-                true,
-              );
+              responseData = await apiClient.post<EditableLayers>(`/layers`, data, true);
             }
 
             if (responseData) {
@@ -143,7 +140,7 @@ export const editableLayerControllerAtom = createAtom(
             dispatch(
               create('_update', {
                 loading: false,
-                error: e,
+                error: e as string,
                 data: state?.data || null,
               }),
             );
@@ -174,7 +171,7 @@ export const editableLayerControllerAtom = createAtom(
             dispatch([
               create('_update', {
                 loading: false,
-                error: e,
+                error: e as string,
                 data: state?.data || null,
               }),
               editableLayersListResource.refetch(),

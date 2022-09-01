@@ -1,53 +1,77 @@
-import { useAction, useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
-import { sideControlsBarAtom } from '~core/shared_state';
-import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import { controlsOrder } from '../../constants';
-import { sortByPredefinedOrder } from './sortByPredefinedOrder';
-import s from './SideBar.module.css';
 import { nanoid } from 'nanoid';
+import { Link } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
+import { modesControlsAtom } from '~core/modes/modesControls';
+import { APP_ROUTES } from '~core/app_config/appRoutes';
+import { MODES_LABELS } from '~core/modes/constants';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { i18n } from '~core/localization';
+import s from './SideBar.module.css';
 
 export function SideBar() {
-  const [controls] = useAtom(sideControlsBarAtom);
-  const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
-  const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
+  const [controls] = useAtom(modesControlsAtom);
+  const [isOpen, setIsOpen] = useState(true);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
-  function onMouseEnter(
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    title: string,
-  ) {
-    setTooltip({
-      popup: title,
-      position: { x: e.clientX + 5, y: e.clientY },
-      hoverBehavior: true,
-    });
-  }
+  useEffect(() => {
+    if (isMobile) {
+      setIsOpen(false);
+    }
+  }, [isMobile, setIsOpen]);
 
-  function onMouseLeave() {
-    resetTooltip();
-  }
+  const toggleIsOpen = useCallback(() => {
+    setIsOpen((prevState) => !prevState);
+  }, [setIsOpen]);
 
   return (
     <ActionsBar>
-      {sortByPredefinedOrder(Object.values(controls), controlsOrder).map(
-        (control) => (
-          <div key={nanoid(4)} className={s.sideBarContainer}>
-            <div
-              className={s.buttonWrap}
-              onClick={() =>
-                control.onClick && control.onClick(!control.active)
-              }
-              onPointerEnter={(e) => onMouseEnter(e, control.title)}
-              onPointerLeave={onMouseLeave}
-            >
+      {Object.values(controls).map((control) => {
+        return (
+          <Link
+            key={nanoid(4)}
+            className={s.sidebarItemContainer}
+            to={APP_ROUTES[control.id]}
+          >
+            <div className={s.buttonWrap} onClick={() => control.onClick()}>
               <ActionsBarBTN
                 active={control.active}
                 iconBefore={control.icon}
-              />
+                value={control.id}
+                className={s.controlButton}
+              >
+                {isOpen ? (
+                  <span className={s.modeName}>{MODES_LABELS[control.id]}</span>
+                ) : null}
+              </ActionsBarBTN>
             </div>
-          </div>
-        ),
-      )}
+          </Link>
+        );
+      })}
+
+      <div className={s.togglerContainer}>
+        <div className={s.toggler}>
+          {isOpen ? (
+            <div className={s.buttonWrap} onClick={toggleIsOpen}>
+              <ActionsBarBTN
+                iconBefore={<DoubleChevronRight24 />}
+                className={s.controlButton}
+              >
+                <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
+              </ActionsBarBTN>
+            </div>
+          ) : (
+            <div className={s.buttonWrap} onClick={toggleIsOpen}>
+              <ActionsBarBTN
+                iconBefore={<DoubleChevronLeft24 />}
+                className={s.controlButton}
+              ></ActionsBarBTN>
+            </div>
+          )}
+        </div>
+      </div>
     </ActionsBar>
   );
 }

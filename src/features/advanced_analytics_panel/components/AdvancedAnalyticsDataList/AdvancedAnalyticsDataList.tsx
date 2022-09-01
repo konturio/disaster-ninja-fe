@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAtom } from '@reatom/react';
 import { LocaleNumber } from '~core/localization';
 import { worldAnalyticsResource } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsWorldResource';
+import { capitalize } from '~utils/common';
 import s from './AdvancedAnalyticsData.module.css';
 import type { AdvancedAnalyticsData } from '~core/types';
 
@@ -19,17 +20,13 @@ const sum = 'sum',
 const calculations = [
   'Numerator',
   'Normalized By',
-  capitalizeFirstChar(sum),
-  capitalizeFirstChar(min),
-  capitalizeFirstChar(max),
-  capitalizeFirstChar(mean),
-  capitalizeFirstChar(stddev),
-  capitalizeFirstChar(median),
+  capitalize(sum),
+  capitalize(min),
+  capitalize(max),
+  capitalize(mean),
+  capitalize(stddev),
+  capitalize(median),
 ];
-
-function capitalizeFirstChar(_word) {
-  return _word.charAt(0).toUpperCase() + _word.slice(1);
-}
 
 const badQualityColor = '#ff453b',
   goodQualityColor = '#00b221',
@@ -57,9 +54,7 @@ function valueFormatter(_value) {
   } else return <br />;
 }
 
-export const AdvancedAnalyticsDataList = ({
-  data,
-}: AdvancedAnalyticsDataListProps) => {
+export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListProps) => {
   const [listData, setList] = useState(data);
   //used to aware all world data being watched
   const [activeList, setActiveList] = useState(data);
@@ -224,26 +219,14 @@ export const AdvancedAnalyticsDataList = ({
               />
             </td>
             <td>
-              <input
-                className={s.switch}
-                type="checkbox"
-                onClick={sumClick.bind(this)}
-              />
+              <input className={s.switch} type="checkbox" onClick={sumClick.bind(this)} />
             </td>
 
             <td>
-              <input
-                className={s.switch}
-                type="checkbox"
-                onClick={minClick.bind(this)}
-              />
+              <input className={s.switch} type="checkbox" onClick={minClick.bind(this)} />
             </td>
             <td>
-              <input
-                className={s.switch}
-                type="checkbox"
-                onClick={maxClick.bind(this)}
-              />
+              <input className={s.switch} type="checkbox" onClick={maxClick.bind(this)} />
             </td>
 
             <td>

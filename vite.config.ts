@@ -11,19 +11,27 @@ import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
 
 import postcssConfig from './postcss.config';
 import { proxyConfig } from './vite.proxy';
-import packageJson from './package.json';
 
 const relative = (folder: string) => path.resolve(__dirname, folder);
+const parseEnv = (
+  env: Record<string, string>,
+): Record<string, string> =>
+  Object.entries(env).reduce((acc, [k, v]) => {
+    try {
+      acc[k] = JSON.parse(v);
+    } catch (e) {}
+    return acc;
+  }, env);
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
-  const env = loadEnv(mode, 'env');
+  const env = parseEnv(loadEnv(mode, process.cwd()));
   const config = useConfig(selectConfig(mode), env.DEST_PATH);
   validateConfig(config, buildScheme());
   return defineConfig({
-    base: mode === 'development' ? '/' : packageJson.homepage,
+    base: env.VITE_BASE_PATH + env.VITE_STATIC_PATH,
     build: {
-      minify: mode === 'development' ? false : true,
+      minify: mode !== 'development',
       sourcemap: true,
       rollupOptions: {
         plugins: [!!env.VITE_ANALYZE_BUNDLE && visualizer({ open: true })],
@@ -67,5 +75,11 @@ export default ({ mode }) => {
     server: {
       proxy: proxyConfig,
     },
+    define:
+      mode === 'development'
+        ? {
+            viteProxyConfig: JSON.stringify(proxyConfig),
+          }
+        : undefined,
   });
 };

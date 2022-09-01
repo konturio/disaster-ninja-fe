@@ -1,4 +1,12 @@
-FROM nginx:1.22.0-alpine
-COPY ./dist/ /usr/share/nginx/html/active
+FROM golang:1.19-alpine3.16
+WORKDIR /usr/src/app
+
+COPY ./server/go.mod ./server/go.sum ./
+RUN go mod download && go mod verify
+
+COPY ./server/. ./
+COPY ./dist/. ./static/
+RUN go build -v -o /usr/local/bin/app ./...
+
 EXPOSE 80
-CMD [ "nginx", "-g", "daemon off;" ]
+CMD ["app"]

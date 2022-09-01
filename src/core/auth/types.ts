@@ -6,14 +6,19 @@ export const UserStateStatus = {
   PASSWORD_RESET: 'password_reset',
 } as const;
 
-export type UserStateType =
-  typeof UserStateStatus[keyof typeof UserStateStatus];
+export type UserStateType = typeof UserStateStatus[keyof typeof UserStateStatus];
 
 export const AppFeature = {
   APP_LOGIN: 'app_login',
   ANALYTICS_PANEL: 'analytics_panel',
   ADVANCED_ANALYTICS_PANEL: 'advanced_analytics_panel',
   EVENTS_LIST: 'events_list',
+  /**
+   * @deprecated Use EVENTS_LIST__FEED_SELECTOR instead
+   */
+  FEED_SELECTOR: 'feed_selector',
+  EVENTS_LIST__FEED_SELECTOR: 'events_list__feed_selector',
+  EVENTS_LIST__BBOX_FILTER: 'events_list__bbox_filter',
   MAP_LAYERS_PANEL: 'map_layers_panel',
   SIDE_BAR: 'side_bar',
   BIVARIATE_MANAGER: 'bivariate_manager',
@@ -36,10 +41,10 @@ export const AppFeature = {
   FEATURE_SETTINGS: 'feature_settings',
   OSM_EDIT_LINK: 'osm_edit_link',
   TOOLTIP: 'tooltip',
-  FEED_SELECTOR: 'feed_selector',
   CREATE_LAYER: 'create_layer',
   HEADER: 'header',
   INTERCOM: 'intercom',
+  BIVARIATE_COLOR_MANAGER: 'bivariate_color_manager',
 } as const;
 
 export type AppFeatureType = typeof AppFeature[keyof typeof AppFeature];

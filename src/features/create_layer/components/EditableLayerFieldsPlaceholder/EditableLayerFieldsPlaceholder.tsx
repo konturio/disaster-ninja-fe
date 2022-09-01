@@ -1,7 +1,7 @@
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import clsx from 'clsx';
-import { Button } from '@konturio/ui-kit';
+import { Button, Divider } from '@konturio/ui-kit';
 import { Plus24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { EditableLayerFieldContainer } from '../EditableLayerFieldContainer/EditableLayerFieldContainer';
@@ -23,9 +23,9 @@ export function EditableLayerFieldsPlaceholder({
 }: EditableLayerFieldsPlaceholderProps) {
   return (
     <div className={s.fieldsContainer}>
-      <div className={clsx(s.fieldsLabel, 'k-font-caption')}>
-        <div className={s.textCaption}>{i18n.t('Fields')}</div>
-      </div>
+      <Divider className={clsx(s.dividerLabel, 'k-font-caption')} type="horizontal">
+        {i18n.t('create_layer.fields')}
+      </Divider>
 
       <DndProvider backend={HTML5Backend}>
         <div className={s.fieldsPlaceholder}>
@@ -49,8 +49,10 @@ export function EditableLayerFieldsPlaceholder({
         iconBefore={<Plus24 />}
         size="small"
       >
-        {i18n.t('Add field')}
+        {i18n.t('create_layer.add_field')}
       </Button>
+
+      <Divider fitted />
     </div>
   );
 }

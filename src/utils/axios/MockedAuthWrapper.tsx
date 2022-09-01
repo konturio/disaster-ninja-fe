@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
-import type { ReactNode } from 'react';
 import { enableMocking } from '~utils/axios/axiosMockUtils';
+import type { ReactNode } from 'react';
 
 /* Use in instead of <AuthWrapper /> */
-function MockedAuthWrapper({
-  children,
-}: {
-  children: ReactNode | ReactNode[];
-}) {
+function MockedAuthWrapper({ children }: { children: ReactNode | ReactNode[] }) {
   const [initialized, setInitialized] = useState<boolean>(false);
 
   useEffect(() => {

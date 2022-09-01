@@ -12,19 +12,11 @@ import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { layerByOrder } from '~utils/map/layersOrder';
-import { waitMapEvent } from '~utils/map/waitMapEvent';
-import { replaceUrlWithProxy } from '../../../../vite.proxy';
-import {
-  addZoomFilter,
-  onActiveContributorsClick,
-} from './activeContributorsLayers';
+import { mapLoaded } from '~utils/map/waitMapEvent';
+import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
+import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import type {
-  AnyLayer,
-  GeoJSONSourceRaw,
-  RasterSource,
-  VectorSource,
-} from 'maplibre-gl';
+import type { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
 import type maplibregl from 'maplibre-gl';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import type { LayersType } from '~core/logical_layers/utils/layersOrder/layersOrder';
@@ -152,7 +144,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       });
     }
   }
-  _adaptUrl(url: string) {
+  _adaptUrl(url: string, apiKey: string) {
     /** Fix cors in local development */
     if (import.meta.env.DEV) {
       url = replaceUrlWithProxy(url);
@@ -174,6 +166,12 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       .replace('{height}', '256')
       .replace('{zoom}', '{z}')
       .replace('{-y}', '{y}');
+
+    // layers that need api key to reach
+    if (apiKey) {
+      url = url.replace('{apiKey}', apiKey);
+    }
+
     /* Some magic for remove `switch:` */
     const domains = (url.match(/{switch:(.*?)}/) || ['', ''])[1].split(',')[0];
     url = url.replace(/{switch:(.*?)}/, domains);
@@ -195,7 +193,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     /* Create source */
     const mapSource: VectorSource | RasterSource = {
       type: layer.source.type,
-      tiles: layer.source.urls.map((url) => this._adaptUrl(url)),
+      tiles: layer.source.urls.map((url) => this._adaptUrl(url, layer.source.apiKey)),
       tileSize: layer.source.tileSize || 256,
       minzoom: layer.minZoom || 0,
       maxzoom: layer.maxZoom || 22,
@@ -248,9 +246,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         });
       } else {
         // We don't known source-layer id
-        throw new Error(
-          `[GenericLayer ${this.id}] Vector layers must have legend`,
-        );
+        throw new Error(`[GenericLayer ${this.id}] Vector layers must have legend`);
       }
     }
   }
@@ -258,13 +254,15 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   isGeoJSONLayer = (layer: LayerSource): layer is LayerGeoJSONSource =>
     layer.source.type === 'geojson';
 
-  private _updateMap(
+  private async _updateMap(
     map: ApplicationMap,
     layerData: LayerSource,
     legend: LayerLegend | null,
     isVisible: boolean,
   ) {
     if (layerData == null) return;
+    await mapLoaded(map);
+
     if (this.isGeoJSONLayer(layerData)) {
       this.mountGeoJSONLayer(map, layerData, legend);
     } else {
@@ -288,8 +286,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     }
 
     if (legend) {
-      const linkProperty =
-        'linkProperty' in legend ? legend.linkProperty : null;
+      const linkProperty = 'linkProperty' in legend ? legend.linkProperty : null;
       if (linkProperty) {
         const handler = (e) => {
           this.onMapClick(map, e, linkProperty);
@@ -362,40 +359,20 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
 
   /* ========== Hooks ========== */
 
-  willLegendUpdate({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  willLegendUpdate({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
       this._updateMap(map, state.source, state.legend, state.isVisible);
     }
   }
 
-  willSourceUpdate({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  willSourceUpdate({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
       this._updateMap(map, state.source, state.legend, state.isVisible);
     }
   }
 
-  async willMount({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
-      // this case happens after userprofile change resets most of the app
-      !map.loaded() && (await waitMapEvent(map, 'load'));
       this._updateMap(map, state.source, state.legend, state.isVisible);
     }
   }
@@ -420,9 +397,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(id) !== undefined) {
         map.setLayoutProperty(id, 'visibility', 'none');
       } else {
-        console.warn(
-          `Can't hide layer with ID: ${id}. Layer doesn't exist on the map`,
-        );
+        console.warn(`Can't hide layer with ID: ${id}. Layer doesn't exist on the map`);
       }
     });
   }
@@ -454,9 +429,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(id) !== undefined) {
         map.removeLayer(id);
       } else {
-        console.warn(
-          `Can't remove layer with ID: ${id}. Layer does't exist in map`,
-        );
+        console.warn(`Can't remove layer with ID: ${id}. Layer does't exist in map`);
       }
     });
     this._layerIds = new Set();

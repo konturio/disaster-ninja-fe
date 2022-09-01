@@ -15,7 +15,9 @@ function CategoryMountedLayersCounter({ categoryId }: { categoryId: string }) {
 }
 
 export function Category({ category }: { category: CategoryWithSettings }) {
-  const [isOpen, setOpenState] = useState(category.openByDefault ?? false);
+  // Temporary solution before redisign according to task 11553-unfold-all-layers-tree-in-layers-panel-by-default
+  // const [isOpen, setOpenState] = useState(category.openByDefault ?? false);
+  const [isOpen, setOpenState] = useState(true);
   const onCategoryDeselect = useAction(
     () => categoryDeselection.deselect(category.id),
     [category.id],
@@ -33,9 +35,7 @@ export function Category({ category }: { category: CategoryWithSettings }) {
           </div>
         }
         controls={
-          category.mutuallyExclusive && (
-            <DeselectControl onClick={onCategoryDeselect} />
-          )
+          category.mutuallyExclusive && <DeselectControl onClick={onCategoryDeselect} />
         }
         onStateChange={(newState) => setOpenState(!newState)}
       >

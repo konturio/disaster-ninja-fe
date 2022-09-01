@@ -39,7 +39,7 @@ export function MapLayerPanel({
     <>
       <Panel
         className={clsx(s.panel, isOpen && s.show, !isOpen && s.hide)}
-        header={<Text type="heading-l">{i18n.t('Layers')}</Text>}
+        header={<Text type="heading-l">{i18n.t('layers')}</Text>}
         onClose={onPanelClose}
       >
         <div className={s.scrollable}>
@@ -48,9 +48,7 @@ export function MapLayerPanel({
       </Panel>
       {iconsContainerRef.current &&
         ReactDOM.createPortal(
-          <div
-            className={!isOpen ? s.iconContainerShown : s.iconContainerHidden}
-          >
+          <div className={!isOpen ? s.iconContainerShown : s.iconContainerHidden}>
             <PanelIcon
               clickHandler={onPanelOpen}
               className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}

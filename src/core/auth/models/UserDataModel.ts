@@ -29,6 +29,13 @@ export class UserDataModel {
     return this._features && this._features[featureType] === true;
   }
 
+  public getActiveFeatures() {
+    return Object.entries(this._features).reduce((acc, [name, active]) => {
+      if (active === true) acc.add(name);
+      return acc;
+    }, new Set() as Set<string>);
+  }
+
   public get feeds() {
     return this._feeds;
   }

@@ -31,6 +31,6 @@ export const currentEventResourceAtom = createResourceAtom(
     }
     return null;
   },
-  eventDependencyAtom,
   'currentEventResource',
+  eventDependencyAtom,
 );

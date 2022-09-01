@@ -55,37 +55,30 @@ export const editableLayersControlsAtom = createAtom(
       const actions: Action[] = [];
 
       /* Update layers */
-      const layerUpdateActions = Array.from(updated).reduce(
-        (acc, [layerId, layer]) => {
-          const [updateActions] = createUpdateActionsFromLayersDTO(
-            layerId,
-            layer,
-          );
-          acc.push(...updateActions);
-          return acc;
-        },
-        [] as Action[],
-      );
+      const layerUpdateActions = Array.from(updated).reduce((acc, [layerId, layer]) => {
+        const [updateActions] = createUpdateActionsFromLayersDTO(layerId, layer);
+        acc.push(...updateActions);
+        return acc;
+      }, [] as Action[]);
 
       actions.push(...layerUpdateActions);
 
       /* Register added layers */
-      const layerRegisterActions = Array.from(added).reduce(
-        (acc, [layerId, layer]) => {
-          const [updateActions, cleanUpActions] =
-            createUpdateActionsFromLayersDTO(layerId, layer);
-          acc.push(...updateActions);
-          acc.push(
-            layersRegistryAtom.register({
-              id: layerId,
-              renderer: getLayerRenderer(layer),
-              cleanUpActions,
-            }),
-          );
-          return acc;
-        },
-        [] as Action[],
-      );
+      const layerRegisterActions = Array.from(added).reduce((acc, [layerId, layer]) => {
+        const [updateActions, cleanUpActions] = createUpdateActionsFromLayersDTO(
+          layerId,
+          layer,
+        );
+        acc.push(...updateActions);
+        acc.push(
+          layersRegistryAtom.register({
+            id: layerId,
+            renderer: getLayerRenderer(layer),
+            cleanUpActions,
+          }),
+        );
+        return acc;
+      }, [] as Action[]);
 
       actions.push(...layerRegisterActions);
 
@@ -96,21 +89,18 @@ export const editableLayersControlsAtom = createAtom(
             menu: [
               {
                 id: 'edit_layer',
-                name: i18n.t('Edit Layer'),
-                callback: () =>
-                  editableLayerControllerAtom.editLayer.dispatch(layerId),
+                name: i18n.t('create_layer.edit_layer'),
+                callback: () => editableLayerControllerAtom.editLayer.dispatch(layerId),
               },
               {
                 id: 'edit_features',
-                name: i18n.t('Edit Features'),
-                callback: () =>
-                  featurePanelControllerAtom.editFeatures.dispatch(layerId),
+                name: i18n.t('create_layer.edit_features'),
+                callback: () => featurePanelControllerAtom.editFeatures.dispatch(layerId),
               },
               {
                 id: 'delete_layer',
-                name: i18n.t('Delete Layer'),
-                callback: () =>
-                  editableLayerControllerAtom.deleteLayer.dispatch(layerId),
+                name: i18n.t('create_layer.delete_layer'),
+                callback: () => editableLayerControllerAtom.deleteLayer.dispatch(layerId),
               },
             ],
           });

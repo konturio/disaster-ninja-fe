@@ -2,6 +2,7 @@ import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
 import type { Stat } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
+import type { Axis } from '~utils/bivariate';
 
 export function createBivariateLegend(
   name: string,
@@ -47,16 +48,23 @@ export function createBivariateLegend(
 
   if (!xAxis || !yAxis) return;
 
-  return {
-    name,
-    axis: { x: xAxis, y: yAxis },
-    type: 'bivariate',
-    steps: colorTheme.map(({ id, color }) => ({
-      label: id,
-      color,
-    })),
-  };
+  return fillBivariateLegend(name, xAxis, yAxis, colorTheme);
 }
+
+export const fillBivariateLegend = (
+  name: string,
+  xAxis: Axis,
+  yAxis: Axis,
+  colorTheme: ColorTheme,
+): BivariateLegend => ({
+  name,
+  axis: { x: xAxis, y: yAxis },
+  type: 'bivariate',
+  steps: colorTheme.map(({ id, color }) => ({
+    label: id,
+    color,
+  })),
+});
 
 export function createBivariateMeta(
   xNumerator: string,
@@ -65,13 +73,9 @@ export function createBivariateMeta(
   yDenominator: string,
   stats: Stat,
 ): LayerMeta {
-  const xAxisNominatorIndicator = stats.indicators.find(
-    (ind) => ind.name === xNumerator,
-  );
+  const xAxisNominatorIndicator = stats.indicators.find((ind) => ind.name === xNumerator);
 
-  const yAxisNominatorIndicator = stats.indicators.find(
-    (ind) => ind.name === yNumerator,
-  );
+  const yAxisNominatorIndicator = stats.indicators.find((ind) => ind.name === yNumerator);
 
   const xNominatorLabel = xAxisNominatorIndicator?.label;
   const yNominatorLabel = yAxisNominatorIndicator?.label;

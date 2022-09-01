@@ -5,6 +5,7 @@ import '@konturio/default-theme/typography.css';
 import '~utils/atoms/disableDefaultStore';
 import './global.css';
 import { loadConfig } from '~core/app_config/loader';
+import { appMetrics } from '~core/metrics';
 
 function showCriticalError(e: Error) {
   const root = document.getElementById('root');
@@ -23,7 +24,10 @@ function showCriticalError(e: Error) {
 }
 
 loadConfig()
-  .then(() => import('./App'))
+  .then(() => {
+    import('./App');
+    appMetrics.mark('appConfig_loaded');
+  })
   .catch((e: Error) => {
     console.error(e);
     showCriticalError(e);

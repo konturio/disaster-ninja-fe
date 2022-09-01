@@ -1,11 +1,6 @@
 import { Button, ButtonGroup, Text } from '@konturio/ui-kit';
 import { useCallback, useMemo } from 'react';
-import {
-  Line24,
-  PointOutline24,
-  Area24,
-  Trash24,
-} from '@konturio/default-icons';
+import { Line24, PointOutline24, Area24, Trash24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
 import { Download24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
@@ -37,32 +32,41 @@ export const DrawToolsToolbox = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings]);
 
-  const onToggleDrawMode = useCallback(
-    (id) => toggleDrawMode(id),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
   const buttons = useMemo(
     () => [
       settings.availableModes?.includes('DrawPolygonMode') && (
-        <Button id={drawModes.DrawPolygonMode} dark variant="invert">
+        <Button
+          id={drawModes.DrawPolygonMode}
+          dark
+          variant="invert"
+          onClick={() => toggleDrawMode(drawModes.DrawPolygonMode)}
+        >
           <div className={s.btnContent}>
-            <Area24 /> {i18n.t('Area')}
+            <Area24 /> {i18n.t('draw_tools.area')}
           </div>
         </Button>
       ),
       settings.availableModes?.includes('DrawLineMode') && (
-        <Button id={drawModes.DrawLineMode} dark variant="invert">
+        <Button
+          id={drawModes.DrawLineMode}
+          dark
+          variant="invert"
+          onClick={() => toggleDrawMode(drawModes.DrawLineMode)}
+        >
           <div className={s.btnContent}>
-            <Line24 /> {i18n.t('Line')}
+            <Line24 /> {i18n.t('draw_tools.line')}
           </div>
         </Button>
       ),
       settings.availableModes?.includes('DrawPointMode') && (
-        <Button id={drawModes.DrawPointMode} dark variant="invert">
+        <Button
+          id={drawModes.DrawPointMode}
+          dark
+          variant="invert"
+          onClick={() => toggleDrawMode(drawModes.DrawPointMode)}
+        >
           <div className={s.btnContent}>
-            <PointOutline24 /> {i18n.t('Point')}
+            <PointOutline24 /> {i18n.t('draw_tools.point')}
           </div>
         </Button>
       ),
@@ -75,16 +79,11 @@ export const DrawToolsToolbox = () => {
       >
         <Trash24 />
       </Button>,
-      <Button
-        key="download"
-        dark
-        variant="invert"
-        onClick={downloadDrawGeometry}
-      >
+      <Button key="download" dark variant="invert" onClick={downloadDrawGeometry}>
         <Download24 />
       </Button>,
       <Button key="finish" onClick={onFinishClick}>
-        {settings.finishButtonText || i18n.t('Finish Drawing')}
+        {settings.finishButtonText || i18n.t('draw_tools.finish_drawing')}
       </Button>,
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -96,17 +95,12 @@ export const DrawToolsToolbox = () => {
       {!drawingIsStarted && (
         <div className={s.drawHint}>
           <Text type="caption">
-            <span>{i18n.t('Click on the map to begin drawing')}</span>
+            <span>{i18n.t('draw_tools.caption')}</span>
           </Text>
         </div>
       )}
 
-      <ButtonGroup
-        onChange={onToggleDrawMode}
-        current={activeDrawMode}
-        classes={btnGroupClasses}
-        borderWrap={false}
-      >
+      <ButtonGroup current={activeDrawMode} classes={btnGroupClasses} borderWrap={false}>
         {buttons}
       </ButtonGroup>
     </div>

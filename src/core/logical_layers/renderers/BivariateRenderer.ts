@@ -6,12 +6,13 @@ import {
 } from '~core/logical_layers/constants';
 import { layerByOrder } from '~utils/map/layersOrder';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
-import { waitMapEvent } from '~utils/map/waitMapEvent';
+import { mapLoaded } from '~utils/map/waitMapEvent';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
+import type { LayersOrderManager } from '../utils/layersOrder/layersOrder';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -22,10 +23,18 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   private _layerId?: string;
   private _sourceId: string;
   private _removeClickListener: null | (() => void) = null;
+  private _layersOrderManager?: LayersOrderManager;
 
-  public constructor({ id }: { id: string }) {
+  public constructor({
+    id,
+    layersOrderManager,
+  }: {
+    id: string;
+    layersOrderManager?: LayersOrderManager;
+  }) {
     super();
     this.id = id;
+    this._layersOrderManager = layersOrderManager;
     /* private */
     this._sourceId = SOURCE_BIVARIATE_PREFIX + this.id;
   }
@@ -45,7 +54,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  mountBivariateLayer(
+  async mountBivariateLayer(
     map: ApplicationMap,
     layer: LayerTileSource,
     legend: BivariateLegend | null,
@@ -59,6 +68,8 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     };
     // I expect that all servers provide url with same scheme
     this._setTileScheme(layer.source.urls[0], mapSource);
+
+    await mapLoaded(map);
     if (map.getSource(this._sourceId) === undefined) {
       map.addSource(this._sourceId, mapSource);
     }
@@ -70,13 +81,13 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         return;
       }
       const layer = { ...layerStyle, id: layerId, source: this._sourceId };
-      layerByOrder(map).addAboveLayerWithSameType(layer as AnyLayer);
+      layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
+        layer as AnyLayer,
+      );
       this._layerId = layer.id;
     } else {
       // We don't known source-layer id
-      throw new Error(
-        `[GenericLayer ${this.id}] Vector layers must have legend`,
-      );
+      throw new Error(`[GenericLayer ${this.id}] Vector layers must have legend`);
     }
   }
 
@@ -84,51 +95,39 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     map: ApplicationMap,
     layerData: LayerTileSource,
     legend: BivariateLegend | null,
+    isVisible: boolean,
   ) {
     if (layerData == null) return;
     this.mountBivariateLayer(map, layerData, legend);
+
+    if (!isVisible) this.willHide({ map });
   }
 
   /* ========== Hooks ========== */
-  willSourceUpdate({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  willSourceUpdate({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
       this._updateMap(
         map,
         state.source as LayerTileSource,
         state.legend as BivariateLegend,
+        state.isVisible,
       );
     }
   }
 
-  async willMount({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
-      // this case happens after userprofile change resets most of the app
-      !map.loaded() && (await waitMapEvent(map, 'load'));
       this._updateMap(
         map,
         state.source as LayerTileSource,
         state.legend as BivariateLegend,
+        state.isVisible,
       );
     }
   }
 
   willUnMount({ map }: { map: ApplicationMap }) {
-    if (
-      this._layerId !== undefined &&
-      map.getLayer(this._layerId) !== undefined
-    ) {
+    if (this._layerId !== undefined && map.getLayer(this._layerId) !== undefined) {
       map.removeLayer(this._layerId);
     } else {
       console.warn(

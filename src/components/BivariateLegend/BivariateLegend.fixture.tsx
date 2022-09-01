@@ -2,6 +2,7 @@ import { Legend as BiLegend } from '@konturio/ui-kit';
 import { PopupTooltip } from '~features/tooltip';
 import { BIVARIATE_LEGEND_SIZE } from './const';
 import { CornerTooltipWrapper } from './CornerTooltipWrapper';
+import type { LegendProps } from '@konturio/ui-kit';
 
 const meta = {
   hints: {
@@ -16,7 +17,7 @@ const meta = {
   },
 };
 
-const axis = {
+const axis: LegendProps['axis'] = {
   x: {
     label: 'Multi-hazard exposure PDC GRVA to 1',
     steps: [
@@ -39,7 +40,6 @@ const axis = {
     ],
     quality: 0.997101882904748,
     quotient: ['mhe_index', 'one'],
-    parent: null,
   },
   y: {
     label: 'Average NDVI, JUN 2019 to 1',
@@ -63,7 +63,6 @@ const axis = {
     ],
     quality: 0.9410965072118505,
     quotient: ['avg_ndvi', 'one'],
-    parent: null,
   },
 };
 
@@ -110,6 +109,7 @@ export default function BivariateLegendFixture() {
   return (
     <>
       <PopupTooltip />
+      {/* @ts-ignore - FIXME */}
       <CornerTooltipWrapper meta={meta}>
         <BiLegend
           showAxisLabels={true}

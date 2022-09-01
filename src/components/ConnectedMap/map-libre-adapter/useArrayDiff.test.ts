@@ -1,6 +1,6 @@
 import { expect, test, describe } from 'vitest';
-import { useArrayDiff } from './useArrayDiff';
 import { renderHook } from '@testing-library/react-hooks';
+import { useArrayDiff } from './useArrayDiff';
 
 describe('useArrayDiff effect must return difference between arrays', () => {
   test.todo("Investigate why it's hung");

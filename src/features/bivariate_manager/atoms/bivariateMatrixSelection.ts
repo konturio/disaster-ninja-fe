@@ -51,8 +51,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
         bivariateStatisticsResourceAtom,
       ).data;
       if (bivariateStatisticsResource === null) return;
-      const stats =
-        bivariateStatisticsResource.polygonStatistic.bivariateStatistic;
+      const stats = bivariateStatisticsResource.polygonStatistic.bivariateStatistic;
 
       if (!xGroups || !yGroups || !xGroups.length || !yGroups.length) return;
 
@@ -98,6 +97,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
                   type: biSource.type,
                   urls: biSource.tiles,
                   tileSize: 512,
+                  apiKey: '',
                 },
               }
             : undefined;
@@ -141,12 +141,10 @@ export const bivariateMatrixSelectionAtom = createAtom(
           }
 
           if (updateActions.length) {
-            schedule(
-              (dispatch, ctx: { bivariateLayerAtomId?: string } = {}) => {
-                dispatch(updateActions);
-                ctx.bivariateLayerAtomId = id;
-              },
-            );
+            schedule((dispatch, ctx: { bivariateLayerAtomId?: string } = {}) => {
+              dispatch(updateActions);
+              ctx.bivariateLayerAtomId = id;
+            });
           }
         }
       }

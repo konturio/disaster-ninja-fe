@@ -18,10 +18,28 @@
 }
 
 .mainWrap {
-  height: 100%;
   margin: 0;
   display: flex;
+  flex-grow: 1;
   flex-flow: column nowrap;
+}
+
+.leftButtonsContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  gap: var(--unit);
+  margin-left: var(--unit);
+  margin-top: var(--unit);
+}
+
+.iconColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.iconColumn > div {
+  margin-bottom: var(--unit);
 }
 
 .floating {
@@ -46,8 +64,59 @@
   bottom: 8px;
 }
 
+.toolbarContainer {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+@media screen and (max-width: 960px) {
+  .toolbarContainer {
+    position: absolute;
+    top: 25%;
+    right: var(--unit);
+    left: unset;
+    bottom: unset;
+    transform: translate(0%, 0%);
+  }
+}
+
 .rightButtonsContainer {
   display: flex;
   flex-direction: column-reverse;
   gap: 8px;
+}
+
+.customAppTitle {
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  font-size: 14px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.afterChatContentWrap {
+  display: flex;
+}
+.link {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-style: normal;
+  font-family: var(--font-family);
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  color: var(--button-invert-color);
+
+  &:hover {
+    color: var(--primary-focus-outline-regular);
+  }
+
+  & span {
+    line-height: 0;
+  }
 }

@@ -1,7 +1,8 @@
 import ReactMarkdown from 'react-markdown';
 import clsx from 'clsx';
 import { Close16 } from '@konturio/default-icons';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { parseLinksAsTags } from '~utils/markdown/parser';
 import s from './Tooltip.module.css';
@@ -14,8 +15,7 @@ function findTooltipPosition(clickPosition?: Coords | null): Position | null {
   const { height, width } = window.visualViewport;
   if (!clickPosition) return null;
   // click was on the bottom right side
-  if (clickPosition.y > height / 2 && clickPosition.x > width / 2)
-    return 'top-left';
+  if (clickPosition.y > height / 2 && clickPosition.x > width / 2) return 'top-left';
   // click was on the bottom left side
   if (clickPosition.y > height / 2) return 'top-right';
   // click was on the top right side
@@ -33,6 +33,16 @@ export function Tooltip({
 }) {
   const [position, setPosition] = useState<Position | null>(null);
   const [prevCoords, setPrevCoords] = useState<Coords | null | undefined>(null);
+  const { pathname } = useLocation();
+  const prevPathname = useRef<string>();
+
+  useEffect(() => {
+    if (pathname !== prevPathname.current && properties?.position) {
+      closeTooltip();
+    }
+    prevPathname.current = pathname;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   if (!properties) return null;
 
@@ -62,10 +72,7 @@ export function Tooltip({
 
   return (
     <div
-      className={clsx(
-        s.tooltipContainer,
-        properties.hoverBehavior && s.hoverTooltip,
-      )}
+      className={clsx(s.tooltipContainer, properties.hoverBehavior && s.hoverTooltip)}
       onClick={onOuterClick}
     >
       <div
@@ -79,10 +86,7 @@ export function Tooltip({
           <div className={clsx(s.popup, s[position])}>
             <div className={s.popupContent} onClick={stopPropagation}>
               {typeof properties.popup === 'string' ? (
-                <ReactMarkdown
-                  components={{ a: LinkRenderer }}
-                  className={s.markdown}
-                >
+                <ReactMarkdown components={{ a: LinkRenderer }} className={s.markdown}>
                   {parseLinksAsTags(properties.popup)}
                 </ReactMarkdown>
               ) : (

@@ -9,17 +9,10 @@ type TableCellProps = {
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     link: string,
   ) => void;
-  openOSMID: (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    link: string,
-  ) => void;
+  openOSMID: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, link: string) => void;
 };
 
-export function TableCellComponent({
-  cell,
-  jOSMRedirect,
-  openOSMID,
-}: TableCellProps) {
+export function TableCellComponent({ cell, jOSMRedirect, openOSMID }: TableCellProps) {
   if (cell.startsWith('subrow_')) cell = cell.substring(7);
 
   if (cell.startsWith('hrefIcon_')) {
@@ -35,9 +28,9 @@ export function TableCellComponent({
         <a
           onClick={(e) => jOSMRedirect(e, link)}
           href={link}
-          title={i18n.t('Open via JOSM remote control')}
+          title={i18n.t('reports.open_josm')}
         >
-          <img src={jOSMLogo} alt={i18n.t('JOSM logo')} /> {name}
+          <img src={jOSMLogo} alt={i18n.t('reports.josm_logo_alt')} /> {name}
         </a>
       </td>
     );

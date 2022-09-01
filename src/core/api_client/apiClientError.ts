@@ -12,3 +12,8 @@ export class ApiClientError extends Error {
     Object.setPrototypeOf(this, ApiClientError.prototype);
   }
 }
+
+export function isApiError(x: any): x is { problem: GeneralApiProblem } {
+  if (x.problem) return typeof x.problem === 'object';
+  return false;
+}

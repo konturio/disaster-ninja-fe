@@ -1,17 +1,13 @@
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
-import { useAtom } from '@reatom/react';
 import { Row } from '~components/Layout/Layout';
-import config from '~core/app_config';
-import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
-import { initUrlStore } from '~core/url_store';
+import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager';
 import s from './Main.module.css';
-
-const { UserProfile } = lazily(() => import('~features/user_profile'));
+import type { UserDataModel } from '~core/auth';
+import type { MutableRefObject } from 'react';
 
 const { EditFeaturesOrLayerPanel } = lazily(
   () =>
@@ -20,17 +16,11 @@ const { EditFeaturesOrLayerPanel } = lazily(
     ),
 );
 
-const { AppHeader, Logo } = lazily(() => import('@konturio/ui-kit'));
+const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
-const { ConnectedMap } = lazily(
-  () => import('~components/ConnectedMap/ConnectedMap'),
-);
+const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/ConnectedMap'));
 
-const { SideBar } = lazily(() => import('~features/side_bar'));
-
-const { EventList } = lazily(() => import('~features/events_list'));
-
-const { NotificationToast } = lazily(() => import('~features/toasts'));
+const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
 
 const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
 
@@ -42,20 +32,24 @@ const { Legend } = lazily(() => import('~features/legend_panel'));
 
 const { MapLayersList } = lazily(() => import('~features/layers_panel'));
 
-const { BivariatePanel } = lazily(
-  () => import('~features/bivariate_manager/components'),
-);
+const { Toolbar } = lazily(() => import('~features/toolbar'));
 
-const { PopupTooltip } = lazily(() => import('~features/tooltip'));
+const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
 
-export function MainView() {
+type MainViewProps = {
+  userModel?: UserDataModel | null;
+};
+export function MainView({ userModel }: MainViewProps) {
   const history = useHistory();
-  const [{ data: userModel }] = useAtom(userResourceAtom);
-  const iconsContainerRef = useRef<HTMLDivElement | null>(null);
+  const [iconsContainerRef, setIconsContainerRef] = useState<
+    MutableRefObject<HTMLDivElement | null>
+  >({ current: null });
+
+  const setIconsContainerRefCallback = useCallback((ref) => {
+    setIconsContainerRef({ current: ref });
+  }, []);
 
   useEffect(() => {
-    initUrlStore();
-
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
 
     /* Lazy load module */
@@ -83,27 +77,24 @@ export function MainView() {
       );
     }
     if (userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_LAYER)) {
-      import('~features/focused_geometry_layer').then(
-        ({ initFocusedGeometryLayer }) => initFocusedGeometryLayer(),
+      import('~features/focused_geometry_layer').then(({ initFocusedGeometryLayer }) =>
+        initFocusedGeometryLayer(),
       );
     }
-    if (userModel?.hasFeature(AppFeature.REPORTS)) {
-      import('~features/reports/').then(({ initReportsIcon }) =>
-        initReportsIcon(history),
-      );
+
+    if (userModel?.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)) {
+      initBivariateColorManagerIcon(history);
     }
     if (userModel?.hasFeature(AppFeature.OSM_EDIT_LINK)) {
-      import('~features/osm_edit_link/').then(({ initOsmEditLink }) =>
-        initOsmEditLink(),
-      );
+      import('~features/osm_edit_link/').then(({ initOsmEditLink }) => initOsmEditLink());
     }
     // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
     if (
       userModel?.hasFeature(AppFeature.DRAW_TOOLS) ||
       userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_EDITOR)
     ) {
-      import('~features/focused_geometry_editor/').then(
-        ({ initFocusedGeometry }) => initFocusedGeometry(),
+      import('~features/focused_geometry_editor/').then(({ initFocusedGeometry }) =>
+        initFocusedGeometry(),
       );
     }
     if (userModel?.hasFeature(AppFeature.CREATE_LAYER)) {
@@ -116,58 +107,43 @@ export function MainView() {
         initIntercom();
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userModel]);
 
   return (
     <>
-      <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
-      </Suspense>
-      <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.HEADER) && (
-          <AppHeader
-            title="Disaster Ninja"
-            logo={VisibleLogo()}
-            afterChatContent={
-              userModel?.hasFeature(AppFeature.APP_LOGIN) ? (
-                <UserProfile />
-              ) : undefined
-            }
-          ></AppHeader>
-        )}
-      </Suspense>
       <Row>
         <Suspense fallback={null}>
-          {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
-          {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
-          {userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
-            userModel?.feeds && <EventList />}
-          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && (
-            <AnalyticsPanel />
-          )}
-          {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-            <AdvancedAnalyticsPanel />
-          )}
+          <div className={s.leftButtonsContainer}>
+            <div className={s.iconColumn}>
+              {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
+              {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
+                <EventListPanel />
+              )}
+            </div>
+
+            <div className={s.iconColumn}>
+              {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+                <AdvancedAnalyticsPanel />
+              )}
+            </div>
+          </div>
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>
-            <ConnectedMap
-              options={{
-                logoPosition: 'top-right',
-              }}
-              style={config.mapBaseStyle || ''}
-              accessToken={config.mapAccessToken || ''}
-              className={s.Map}
-            />
+            <ConnectedMap className={s.Map} />
           </Suspense>
           <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
+          </div>
+          <div className={s.toolbarContainer}>
+            <Toolbar />
           </div>
           <Suspense fallback={null}>
             <div className={s.floating}>
               <div
                 className={s.rightButtonsContainer}
-                ref={iconsContainerRef}
+                ref={setIconsContainerRefCallback}
               ></div>
               {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
                 <Legend iconsContainerRef={iconsContainerRef} />

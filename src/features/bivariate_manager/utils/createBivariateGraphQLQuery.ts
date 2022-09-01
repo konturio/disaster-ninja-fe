@@ -21,20 +21,15 @@ function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
   return newGeom;
 }
 
-export function isGeometryEmpty(
-  geom?: { geometry: GeoJSON.GeoJSON } | null,
-): boolean {
+export function isGeometryEmpty(geom?: { geometry: GeoJSON.GeoJSON } | null): boolean {
   return (
     !geom ||
     !geom.geometry ||
-    (geom.geometry.type === 'FeatureCollection' &&
-      !geom.geometry.features.length)
+    (geom.geometry.type === 'FeatureCollection' && !geom.geometry.features.length)
   );
 }
 
-export function createBivariateGraphQLQuery(
-  geom?: { geometry: GeoJSON.GeoJSON } | null,
-) {
+export function createBivariateGraphQLQuery(geom?: { geometry: GeoJSON.GeoJSON } | null) {
   const importantLayersRequest = `importantLayers: ${JSON.stringify(
     IMPORTANT_BIVARIATE_LAYERS,
   )}`;
@@ -85,6 +80,56 @@ export function createBivariateGraphQLQuery(
             quality
             correlation
             avgCorrelationX
+            avgCorrelationY
+          }
+          colors {
+            fallback
+            combinations {
+              color
+              corner
+              color_comment
+            }
+          }
+        }
+      }
+    }`;
+}
+
+export function createBivariateColorsGraphQLQuery() {
+  return `
+      fragment AxisFields on Axis {
+        label
+        steps {
+          label
+          value
+        }
+        quality
+        quotient
+      }
+
+    query getPolygonStatistics {
+      polygonStatistic(polygonStatisticRequest:{}) {
+        bivariateStatistic {
+          axis {
+            ...AxisFields
+          }
+          meta {
+            max_zoom
+            min_zoom
+          }
+          indicators {
+            name
+            label
+            direction
+          }
+          correlationRates {
+            x {
+              ...AxisFields
+            }
+            y {
+              ...AxisFields
+            }
+            quality
             avgCorrelationY
           }
           colors {

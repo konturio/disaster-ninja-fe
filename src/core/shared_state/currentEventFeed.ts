@@ -1,5 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
+import { currentEventAtom, scheduledAutoSelect } from './currentEvent';
 
 type CurrentEventFeedAtomState = {
   id: string;
@@ -13,15 +14,10 @@ export const currentEventFeedAtom = createAtom(
     userResourceAtom,
   },
   (
-    { onAction, onChange, schedule },
+    { onAction, onChange, schedule, getUnlistedState },
     state: CurrentEventFeedAtomState = null,
   ) => {
     onAction('setCurrentFeed', (feedId) => {
-      if (state?.id !== feedId) {
-        state = { id: feedId };
-      }
-    });
-    onAction('setFeedForExistingEvent', (feedId) => {
       if (state?.id !== feedId) {
         state = { id: feedId };
       }
@@ -34,8 +30,11 @@ export const currentEventFeedAtom = createAtom(
     onChange('userResourceAtom', ({ data, loading, error }) => {
       if (!loading && !error && data && data.feeds && data.feeds.length) {
         const newFeed = data.checkFeed(state?.id);
-        if (newFeed !== undefined) {
+        if (newFeed !== undefined && newFeed !== state?.id) {
           state = { id: newFeed };
+          const currentEvent = getUnlistedState(currentEventAtom);
+          if (currentEvent !== null)
+            schedule((dispatch) => dispatch(scheduledAutoSelect.setTrue()));
         }
       }
     });

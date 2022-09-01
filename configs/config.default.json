@@ -1,6 +1,5 @@
 {
   "API_GATEWAY": "https://disaster.ninja/active/api",
-  "GRAPHQL_API": "https://apps.kontur.io/insights-api/graphql",
   "BOUNDARIES_API": "https://api.kontur.io",
   "REPORTS_API": "https://disaster.ninja/active/reports",
   "BIVARIATE_TILES_RELATIVE_URL": "api/tiles/bivariate/v1/",
@@ -12,7 +11,8 @@
     "BIV__Kontur OpenStreetMap Quantity",
     "activeContributors",
     "eventShape",
-    "focused-geometry"
+    "focused-geometry",
+    "hotProjects"
   ],
   "AUTOFOCUS_PADDINGS": [16, 300, 16, 336],
   "AUTOFOCUS_ZOOM": 13,
@@ -44,6 +44,7 @@
     "tooltip"
   ],
   "DEFAULT_FEED": "kontur-public",
+  "DEFAULT_FEED_DESCRIPTION": "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires.",
   "KEYCLOAK_URL": "https://keycloak01.kontur.io",
   "KEYCLOAK_REALM": "kontur",
   "KEYCLOAK_CLIENT_ID": "kontur_platform"

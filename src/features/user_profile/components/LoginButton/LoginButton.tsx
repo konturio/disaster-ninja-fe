@@ -10,6 +10,6 @@ export const LoginButton = () => (
     dark
     className={s.loginButton}
   >
-    {i18n.t('Login')}
+    {i18n.t('login.login_button')}
   </Button>
 );

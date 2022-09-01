@@ -1,11 +1,4 @@
-import {
-  forwardRef,
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-} from 'react';
+import { forwardRef, memo, useCallback, useContext, useEffect, useMemo } from 'react';
 import { MatrixRedrawContext } from '~features/bivariate_manager/utils/useMatrixRedraw';
 import {
   calculateHeadingsStyle,
@@ -58,18 +51,12 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
     let selectedColIndex = selectedCell?.x ?? -1;
     let selectedRowIndex = selectedCell?.y ?? -1;
 
-    function updateBounds(
-      left: number,
-      top: number,
-      right: number,
-      bottom: number,
-    ) {
+    function updateBounds(left: number, top: number, right: number, bottom: number) {
       //cellRowReferences[5][5].checkBounds(left, top, right, bottom);
       if (cellRowReferences) {
         cellRowReferences.forEach((row) => {
           row.forEach(
-            (ref) =>
-              ref.checkBounds && ref.checkBounds(left, top, right, bottom),
+            (ref) => ref.checkBounds && ref.checkBounds(left, top, right, bottom),
           );
         });
       }
@@ -225,11 +212,7 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
     );
 
     const baseDimension = useBaseMatrixDimension(xHeadings, yHeadings);
-    const gridStyle = useGridStyle(
-      xHeadings.length + 1,
-      yHeadings.length + 1,
-      cellSize,
-    );
+    const gridStyle = useGridStyle(xHeadings.length + 1, yHeadings.length + 1, cellSize);
 
     const cellStyles = useMemo(() => {
       return generateCellStyles(
@@ -242,24 +225,16 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
       if (selectedCell && (selectedCell.x !== -1 || selectedCell.y !== -1)) {
         onSelect(selectedCell.x, selectedCell.y);
       }
-    }, []);
+    }, [matrix]);
 
     return (
-      <div
-        ref={ref}
-        base-dimension={baseDimension}
-        className={styles.rotatedMatrix}
-      >
+      <div ref={ref} base-dimension={baseDimension} className={styles.rotatedMatrix}>
         <div style={gridStyle}>
           {matrix.map((row, rowIndex) => (
             <BivariateMatrixCellConnector
               key={`${rowIndex}_row_connector`}
               type="horizontal"
-              style={
-                cellStyles[-1 + CELL_INDEX_X_OFFSET][
-                  rowIndex + CELL_INDEX_Y_OFFSET
-                ]
-              }
+              style={cellStyles[-1 + CELL_INDEX_X_OFFSET][rowIndex + CELL_INDEX_Y_OFFSET]}
               ref={(rf) => setCellReference(rf, rowIndex, -1)}
             />
           ))}
@@ -267,11 +242,7 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
             <BivariateMatrixCellConnector
               key={`${colIndex}_col_connector`}
               type="vertical"
-              style={
-                cellStyles[colIndex + CELL_INDEX_X_OFFSET][
-                  -1 + CELL_INDEX_Y_OFFSET
-                ]
-              }
+              style={cellStyles[colIndex + CELL_INDEX_X_OFFSET][-1 + CELL_INDEX_Y_OFFSET]}
               ref={(rf) => setCellReference(rf, -1, colIndex)}
             />
           ))}
@@ -316,9 +287,7 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
               onSelectQuotient={selectQuotientY}
               baseDimension={baseDimension}
               calculateHeadingsStyle={calculateHeadingsStyle}
-              ref={(rf) =>
-                setCellReference(rf, yHeadings.length - 1 - index, -1)
-              }
+              ref={(rf) => setCellReference(rf, yHeadings.length - 1 - index, -1)}
             />
           ))}
           {xHeadings.map((entry, index) => (

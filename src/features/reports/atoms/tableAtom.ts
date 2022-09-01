@@ -1,69 +1,60 @@
 import papa from 'papaparse';
 import { createAtom } from '~utils/atoms';
-import { reportsClient } from '~core/apiClientInstance';
-import type { Report } from '~features/reports/atoms/reportsAtom';
+import { reportResourceAtom } from './reportResource';
 
 export const limit = 100;
 
 type TableState = {
-  meta: Report | null;
   sortIndex: number;
   thead?: string[];
-  data?: string[][];
+  data?: string[][] | null;
   ascending: boolean | null;
   initialData?: string[][];
+  isSorting?: boolean;
+  _defaultSortedData?: string[][];
 };
-
-async function fetchTable(link: string) {
-  const responseData = await reportsClient.get<string>(link, undefined, false);
-  if (responseData === undefined) throw new Error('No data received');
-  return responseData;
-}
 
 export const tableAtom = createAtom(
   {
-    setReport: (report: Report) => report,
     sortBy: (sorter: string) => sorter,
     setState: (state: TableState) => state,
+    reportResourceAtom,
     sort: () => {
       // noop
     },
+    search: (query: string, columnIndexes: number[]) => {
+      return { query, columnIndexes };
+    },
   },
   (
-    { onAction, schedule, create },
-    state: TableState = { meta: null, sortIndex: 0, ascending: null },
+    { onAction, onChange, schedule, create },
+    state: TableState = { sortIndex: 0, ascending: null },
   ) => {
-    onAction('setReport', async (report) => {
-      if (state.meta?.id === report.id) return;
+    onChange('reportResourceAtom', (resource) => {
+      if (!resource.data)
+        return (state = { sortIndex: 0, ascending: null, isSorting: false });
 
-      schedule(async (dispatch) => {
-        const csv = await fetchTable(report.link);
-        const parsed = papa.parse<string[]>(csv, {
-          delimiter: ';',
-          fastMode: true,
-          skipEmptyLines: true,
-        });
-
-        dispatch(
-          tableAtom.setState({
-            meta: report,
-            sortIndex: 0,
-            thead: parsed.data[0],
-            data: parsed.data.slice(1),
-            ascending: null,
-            initialData: parsed.data.slice(1),
-          }),
-        );
+      const csv = resource.data;
+      const parsed = papa.parse<string[]>(csv, {
+        delimiter: ';',
+        fastMode: true,
+        skipEmptyLines: true,
       });
+
+      state = {
+        sortIndex: 0,
+        thead: parsed.data[0],
+        data: parsed.data.slice(1),
+        ascending: null,
+        initialData: parsed.data.slice(1),
+      };
+      if (!state.data!.length) state.data = null;
     });
 
     onAction('sortBy', (sorter) => {
-      if (!state.meta || state.meta.sortable === false || !state.initialData)
-        return;
       const newSortIndex = state.thead?.findIndex((val) => val === sorter);
 
-      if (newSortIndex === undefined || newSortIndex < 0)
-        throw 'error when sorting #1';
+      if (newSortIndex === undefined || newSortIndex < 0) throw 'error when sorting #1';
 
       const ascending = (function () {
         if (state.ascending === null) return true;
@@ -71,7 +62,7 @@ export const tableAtom = createAtom(
         return null;
       })();
 
-      state = { ...state, ascending, sortIndex: newSortIndex, data: [] };
+      state = { ...state, ascending, sortIndex: newSortIndex, isSorting: true };
 
       schedule((dispatch) => {
         setTimeout(() => {
@@ -84,17 +75,16 @@ export const tableAtom = createAtom(
 
     onAction('sort', () => {
       const sorted = (function sortTable() {
-        if (!state.initialData) return;
-        // ascneding === null means we can return initial data
-        if (state.ascending === null) return state.initialData;
+        // ascending === null means we want to deactivate sorting
+        if (state.ascending === null || !state.data?.length)
+          return state._defaultSortedData!;
 
         // make copy of initial data to prevent mutating
-        return [...state.initialData].sort((a, b) => {
+        return [...state.data].sort((a, b) => {
           let res: number;
           const numeric_a = Number(a[state.sortIndex]);
           const numeric_b = Number(b[state.sortIndex]);
-          const isNumeric =
-            !Number.isNaN(numeric_a) && !Number.isNaN(numeric_b);
+          const isNumeric = !Number.isNaN(numeric_a) && !Number.isNaN(numeric_b);
 
           // CASE - comparing numbers
           if (isNumeric && state.ascending) res = numeric_a - numeric_b;
@@ -107,9 +97,32 @@ export const tableAtom = createAtom(
         });
       })();
 
-      if (!sorted) throw 'error when sorting #2';
+      if (!sorted) {
+        state = { ...state, data: state.initialData, isSorting: false };
+        throw 'error when sorting #2';
+      }
 
-      state = { ...state, data: sorted };
+      state = {
+        ...state,
+        data: sorted,
+        isSorting: false,
+        _defaultSortedData: state.data?.length ? state.data : state._defaultSortedData,
+      };
+    });
+
+    onAction('search', ({ query, columnIndexes }) => {
+      if (!query || !columnIndexes.length || !state.initialData)
+        return (state = { ...state, data: state.initialData });
+
+      const filtered = state.initialData.filter((row) => {
+        for (let i = 0; i < columnIndexes.length; i++) {
+          const index = columnIndexes[i];
+          if (row[index].toLocaleLowerCase().includes(query.toLocaleLowerCase())) {
+            return true;
+          }
+        }
+      });
+      state = { ...state, data: filtered, isSorting: false };
     });
 
     return state;

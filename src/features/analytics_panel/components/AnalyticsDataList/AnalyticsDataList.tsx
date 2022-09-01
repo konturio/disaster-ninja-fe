@@ -1,5 +1,5 @@
 import { i18n } from '~core/localization';
-import { Tooltip } from '~components/Tooltip/Tooltip';
+import { Tooltip } from '~components/Tooltip';
 import s from './AnalyticsData.module.css';
 import type { AnalyticsData } from '~core/types';
 
@@ -39,8 +39,7 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
             <div className={s.statContent}>
               {typeof dataItem.percentValue !== 'undefined' ? (
                 <>
-                  {dataItem.percentValue}%
-                  <span className={s.statSplitter}>|</span>
+                  {dataItem.percentValue}%<span className={s.statSplitter}>|</span>
                 </>
               ) : null}
               {textFormatter(dataItem.text)}
@@ -49,7 +48,7 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
         ))}
       {links && links.length ? (
         <div className={s.stat}>
-          <div className={s.statHead}>{i18n.t('Details')}</div>
+          <div className={s.statHead}>{i18n.t('details')}</div>
           <div className={s.statContent}>
             {links.map((link) => (
               <a

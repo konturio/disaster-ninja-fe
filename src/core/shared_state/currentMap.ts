@@ -7,10 +7,11 @@ import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
  */
 export const currentMapAtom = createAtom(
   {
-    setMap: (map?: ApplicationMap) => map,
+    setMap: (map: ApplicationMap) => map,
+    resetMap: () => null,
   },
-  ({ onAction, schedule }, state: ApplicationMap | undefined = undefined) => {
-    onAction('setMap', (map?: ApplicationMap) => {
+  ({ onAction, schedule }, state: ApplicationMap | null = null) => {
+    onAction('setMap', (map: ApplicationMap) => {
       state = map;
 
       // dismount all layers on map change
@@ -18,6 +19,11 @@ export const currentMapAtom = createAtom(
         dispatch(mountedLayersAtom.clear());
       });
     });
+
+    onAction('resetMap', () => {
+      state = null;
+    });
+
     return state;
   },
   '[Shared state] currentMapAtom',

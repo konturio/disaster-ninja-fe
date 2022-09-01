@@ -11,6 +11,8 @@ html,
 body,
 #root {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 *,
@@ -20,8 +22,7 @@ body,
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 /* ScrollBar */
@@ -50,9 +51,17 @@ code {
   }
 }
 
+/* Map scale control */
+.mapboxgl-ctrl-bottom-right {
+  display: flex;
+}
+
 .intercom-launcher-frame,
 .intercom-lightweight-app-launcher {
   transform: scale(0.8) !important;
+}
+.intercom-lightweight-app-launcher.intercom-launcher {
+  bottom: 28px;
 }
 
 /* handling app header here bacause 
@@ -67,7 +76,7 @@ code {
   }
   .intercom-lightweight-app-launcher.intercom-launcher {
     right: 6px;
-    bottom: 24px;
+    bottom: 36px;
   }
 }
 

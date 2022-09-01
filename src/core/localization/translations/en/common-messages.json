@@ -1,7 +1,171 @@
 {
   "common": {
-    "Request Timeout": "Request Timeout!",
-    "No administrative boundaries": "No administrative boundaries here!",
-    "Self intersections are not supported": "Self intersections are not supported!"
+    "km": "km",
+    "m": "m",
+    "to": "to",
+    "save": "Save",
+    "cancel": "Cancel",
+    "create": "Create",
+    "disasters": "Disasters",
+    "loading": "Loading...",
+    "loading_events": "Loading events",
+    "about": "About",
+    "to_main_page": "to main page",
+    "legend": "Legend",
+    "maps": "maps",
+    "vertical_direction": "Vertical direction",
+    "horizontal_direction": "Horizontal direction",
+    "legend_presentation": "Legend presentation",
+    "layers": "Layers",
+    "feed": "Feed",
+    "details": "Details",
+    "deselect": "Deselect",
+    "spinner_text": "Gathering data",
+    "errors": {
+      "timeout": "Request Timeout",
+      "cannot_connect": "Can't connect to server",
+      "forbidden": "Forbidden",
+      "not_found": "Not found",
+      "unknown": "Unknown",
+      "server_error": "Server Error"
+    },
+    "event_list": {
+      "title": "Focus to disasters",
+      "warning_title": "Can't use map as filter",
+      "warning_description": "Map not ready yet, try later",
+      "bbox_filter_button": "Use map view as filter",
+      "analytics": {
+        "affected_people": {
+          "tooltip": "Affected People",
+          "value": "No humanitarian impact"
+        },
+        "settled_area.tooltip": "Settled Area",
+        "osm_gaps_percentage.tooltip": "OSM Gaps Percentage (lower is better)",
+        "loss.tooltip": "Estimated loss"
+      }
+    },
+    "create_layer": {
+      "edit_layer": "Edit Layer",
+      "edit_features": "Edit Features",
+      "delete_layer": "Delete Layer",
+      "create_layer": "Create Layer",
+      "saving_layer": "Saving layer...",
+      "field_name": "Field name",
+      "layer_name": "Layer name",
+      "marker_icon": "Marker icon",
+      "type": "Type",
+      "select": "Select",
+      "short_text": "Short Text",
+      "long_text": "Long Text",
+      "link": "Link",
+      "image": "Image",
+      "fields": "Fields",
+      "add_field": "Add field",
+      "location": "Location",
+      "edit_feature_placeholder": "Select some feature for start edit feature properties"
+    },
+    "analytics_panel": {
+      "init": "Select Geometry",
+      "loading": "Loading analytics...",
+      "error": "Error",
+      "other": "Analytics",
+      "info_tab": "INFO"
+    },
+    "advanced_analytics_panel": {
+      "loading": "Loading advanced analytics...",
+      "other": "Advanced analytics",
+      "analytics_tab": "Advanced Analytics"
+    },
+    "advanced_analytics_empty": {
+      "not_found": "Sorry, requested event not found.",
+      "error": "An error occured!",
+      "please_select": "Please, select an area again",
+      "to_see_map": "to see state of the map",
+      "pick": "Pick disaster from the list",
+      "draw": "Draw polygon on the map",
+      "select": "Select boundary on the map",
+      "upload": "Upload your own geoJSON"
+    },
+    "draw_tools": {
+      "area": "Area",
+      "line": "Line",
+      "point": "Point",
+      "finish_drawing": "Finish Drawing",
+      "caption": "Click on the map to begin drawing",
+      "no_geometry_error": "No drawn geometry to download",
+      "overlap_error": "Polygon should not overlap itself",
+      "save_features": "Save features"
+    },
+    "boundary_selector.title": "Focus to administrative boundary",
+    "geometry_uploader": {
+      "title": "Focus to uploaded geometry",
+      "warning": "Not a valid geojson file",
+      "error": "Error while reading uploaded file"
+    },
+    "focus_geometry.title": "Focus to freehand geometry",
+    "focus_geometry_layer.settings.name": "Selected Area",
+    "drawings.self_directions_not_supported": "Self intersections are not supported!",
+    "bivariate": {
+      "matrix": {
+        "icon.population": "Value divided by Population",
+        "icon.area_km2": "Value divided by Area",
+        "icon.total_building_count": "Value divided by Total Buildings Estimate",
+        "icon.populated_area_km2": "Value divided by Populated Area",
+        "icon.one": "Without divider",
+        "icon.roads": "Value divided by Total Roads Length"
+      },
+      "legend": {
+        "high": "High",
+        "low": "Low"
+      },
+      "color_manager": {
+        "sentiments_combinations_filter": "Sentiments combinations",
+        "layers_filter": "Layers",
+        "title": "Appearance administration",
+        "no_legends": "There are no legends satisfying the conditions.",
+        "no_data": "No Data.",
+        "sentiments_tab": "Sentiments",
+        "color_legends_tab": "Color Legends",
+        "layers_tab": "Layers (indicators)"
+      }
+    },
+    "sidebar": {
+      "biv_color_manager": "Bivariate color manager",
+      "reports": "Reports",
+      "edit_osm": "Edit in OpenStreetMap",
+      "ruler": "Ruler",
+      "collapse": "Collapse"
+    },
+    "login": {
+      "email": "Email",
+      "password": "Password",
+      "login_button": "Login",
+      "sign_up": "Sign up",
+      "logging_in": "Logging in...",
+      "log_in": "Log in",
+      "error": {
+        "email_empty": "Email has not to be empty!",
+        "email_invalid": "Email has to be valid!",
+        "password": "Password has not to be empty!",
+        "connect": "Couldn't connect to authentication service"
+      }
+    },
+    "reports": {
+      "title": "Disaster Ninja Reports",
+      "no_data": "No data for this report",
+      "sorting": "Sorting data...",
+      "loading": "Loading data",
+      "search_location": "Search location",
+      "open_josm": "Open via JOSM remote control",
+      "josm_logo_alt": "JOSM logo",
+      "updated": "Updated",
+      "see_all": "See all reports",
+      "wrong_id": "Wrong report ID"
+    },
+    "modes": {
+      "map": "Map",
+      "event": "Event",
+      "reports": "Reports"
+    }
   }
 }

@@ -6,7 +6,7 @@ import type { ColorTuple } from 'hsluv';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
-import type { ColorCombination } from '~utils/bivariate/types/stat.types';
+import type { Axis, ColorCombination, Meta, Direction } from '~utils/bivariate';
 
 type BivariateLayerSource = {
   type: 'vector';
@@ -51,11 +51,9 @@ function convertToRgbaWithOpacity(hexColor: string): string {
       clr = [clr[0], clr[0], clr[1], clr[1], clr[2], clr[2]];
     }
     const hexNum: number = parseInt(`0x${clr.join('')}`, 0);
-    return `rgba(${[
-      (hexNum >> 16) & 255,
-      (hexNum >> 8) & 255,
-      hexNum & 255,
-    ].join(',')},0.5)`;
+    return `rgba(${[(hexNum >> 16) & 255, (hexNum >> 8) & 255, hexNum & 255].join(
+      ',',
+    )},0.5)`;
   }
   throw new Error('Bad Hex');
 }
@@ -67,8 +65,8 @@ function findColors(
   },
   crn: [CornerRange[], CornerRange[]],
 ): string {
-  const corner1 = (Array.isArray(crn[0]) ? crn[0] : [crn[0]]).sort();
-  const corner2 = (Array.isArray(crn[1]) ? crn[1] : [crn[1]]).sort();
+  const corner1 = (Array.isArray(crn[0]) ? [...crn[0]] : [crn[0]]).sort();
+  const corner2 = (Array.isArray(crn[1]) ? [...crn[1]] : [crn[1]]).sort();
 
   const mergedCorner = Array.from(new Set(corner1.concat(corner2)));
 
@@ -91,7 +89,7 @@ export function generateColorThemeAndBivariateStyle(
   yNumerator: string,
   yDenominator: string,
   stats: Stat,
-) {
+): [ColorTheme, BivariateLayerStyle] | undefined {
   const { indicators, colors, axis } = stats;
 
   const xAxis = axis.find(
@@ -104,15 +102,52 @@ export function generateColorThemeAndBivariateStyle(
   if (!xAxis || !yAxis) return;
 
   /* Color theme generation */
-  const xAxisDirection = indicators.find(
-    (ind) => ind.name === xNumerator,
-  )?.direction;
-  const yAxisDirection = indicators.find(
-    (ind) => ind.name === yNumerator,
-  )?.direction;
+  const xAxisDirection = indicators.find((ind) => ind.name === xNumerator)?.direction;
+  const yAxisDirection = indicators.find((ind) => ind.name === yNumerator)?.direction;
 
   if (!xAxisDirection || !yAxisDirection) return;
 
+  // put colors in specific way because x and y axises are swapped here
+  const colorTheme: ColorTheme = generateColorTheme(
+    colors,
+    xAxisDirection,
+    yAxisDirection,
+  );
+
+  const bivariateStyle = generateBivariateStyle(xAxis, yAxis, colorTheme, stats?.meta);
+
+  return [colorTheme, bivariateStyle];
+}
+
+export const generateBivariateStyle = (
+  xAxis: Axis,
+  yAxis: Axis,
+  colorTheme: ColorTheme,
+  meta: Meta,
+) =>
+  generateBivariateStyleForAxis({
+    id: `${xAxis.quotient.join('&')}|${yAxis.quotient.join('&')}`,
+    x: xAxis,
+    y: yAxis,
+    colors: colorTheme,
+    sourceLayer: 'stats',
+    source: {
+      type: 'vector',
+      tiles: [
+        `${adaptTileUrl(
+          config.bivariateTilesRelativeUrl,
+        )}{z}/{x}/{y}.mvt?indicatorsClass=${config.bivariateTilesIndicatorsClass}`,
+      ],
+      maxzoom: meta.max_zoom,
+      minzoom: 0,
+    },
+  });
+
+export const generateColorTheme = (
+  colors: Stat['colors'],
+  xAxisDirection: Direction,
+  yAxisDirection: Direction,
+) => {
   const corner00 = findColors(colors, [xAxisDirection[0], yAxisDirection[0]]);
   const corner10 = findColors(colors, [xAxisDirection[1], yAxisDirection[0]]);
   const corner01 = findColors(colors, [xAxisDirection[0], yAxisDirection[1]]);
@@ -142,28 +177,8 @@ export function generateColorThemeAndBivariateStyle(
     { id: 'C3', color: convertToRgbaWithOpacity(corner11) },
   ];
 
-  const bivariateStyle = generateBivariateStyleForAxis({
-    id: `${xAxis.quotient.join('&')}|${yAxis.quotient.join('&')}`,
-    x: xAxis,
-    y: yAxis,
-    colors: colorTheme,
-    sourceLayer: 'stats',
-    source: {
-      type: 'vector',
-      tiles: [
-        `${adaptTileUrl(
-          config.bivariateTilesRelativeUrl,
-        )}{z}/{x}/{y}.mvt?indicatorsClass=${
-          config.bivariateTilesIndicatorsClass
-        }`,
-      ],
-      maxzoom: stats?.meta.max_zoom,
-      minzoom: 0,
-    },
-  });
-
-  return [colorTheme, bivariateStyle];
-}
+  return colorTheme;
+};
 
 export function generateLayerStyleFromBivariateLegend(
   bl: BivariateLegend,

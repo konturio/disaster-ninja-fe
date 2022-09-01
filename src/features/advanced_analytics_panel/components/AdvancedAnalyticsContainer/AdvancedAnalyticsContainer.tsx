@@ -1,7 +1,5 @@
 import { useAtom } from '@reatom/react';
-import { useCallback, useState } from 'react';
-import { Tabs } from '@konturio/ui-kit';
-import { Tab } from '@konturio/ui-kit/tslib/Tabs';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@konturio/ui-kit';
 import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
@@ -10,6 +8,7 @@ import { focusedGeometryAtom } from '~core/shared_state';
 import { advancedAnalyticsResourceAtom } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsResource';
 import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsEmptyState/AdvancedAnalyticsEmptyState';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
+import { i18n } from '~core/localization';
 
 const AdvancedAnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(advancedAnalyticsResourceAtom);
@@ -20,15 +19,6 @@ const AdvancedAnalyticsContainer = () => {
     loading,
     data,
   });
-
-  const [currentTab, setCurrentTab] = useState<string>('data');
-
-  const setTab = useCallback(
-    (tabId: string) => {
-      setCurrentTab(tabId);
-    },
-    [setCurrentTab],
-  );
 
   return statesToComponents({
     init: <AdvancedAnalyticsEmptyState />,
@@ -43,10 +33,15 @@ const AdvancedAnalyticsContainer = () => {
         return <AdvancedAnalyticsEmptyState />;
       }
       return (
-        <Tabs onTabChange={setTab} current={currentTab}>
-          <Tab name="Advanced Analytics" id="data">
-            <AdvancedAnalyticsDataList data={dataList} />
-          </Tab>
+        <Tabs>
+          <TabList style={{ display: 'none' }}>
+            <Tab>{i18n.t('advanced_analytics_panel.analytics_tab')}</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <AdvancedAnalyticsDataList data={dataList} />
+            </TabPanel>
+          </TabPanels>
         </Tabs>
       );
     },

@@ -19,7 +19,7 @@
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=2.0.22">
   <meta name="theme-color" content="#ffffff">
-
+  <meta property="og:image" content="/active/preview.png?{{.CurrentQueries}}">
   <!-- Manifest -->
   <link rel="manifest" href="/manifest.webmanifest?v=2.0.22">
 
@@ -29,29 +29,12 @@
   <% if (VITE_SPACING_JS===true) { %>
     <script src="https://unpkg.com/spacingjs" async></script>
     <% } %>
-      <% if (mode==='production') { %>
-        <!-- Google Tag Manager -->
-        <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-              'gtm.start':
-                new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-              j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-          })(window, document, 'script', 'dataLayer', 'GTM-5LD2Z3D');</script>
-        <!-- End Google Tag Manager -->
-        <% } %>
 </head>
 
 <body>
-  <% if (mode==='production' ) { %>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LD2Z3D" height="0" width="0"
-        style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <% } %>
-      <div id="root"></div>
-      <script type="module" src="/src/index.ts"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/index.ts"></script>
+
 </body>
 
 </html>

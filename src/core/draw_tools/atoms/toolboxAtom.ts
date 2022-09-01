@@ -1,3 +1,8 @@
+import { downloadObject } from '~utils/file/download';
+import { i18n } from '~core/localization';
+import { createAtom } from '~utils/atoms';
+import { toolbarControlsAtom } from '~core/shared_state';
+import { currentNotificationAtom } from '~core/shared_state';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '../constants';
 import { activeDrawModeAtom } from './activeDrawMode';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
@@ -6,11 +11,6 @@ import { selectedIndexesAtom } from './selectedIndexesAtom';
 import { temporaryGeometryAtom } from './temporaryGeometryAtom';
 import type { DrawModeType } from '../constants';
 import type { Action } from '@reatom/core';
-import { downloadObject } from '~utils/file/download';
-import { i18n } from '~core/localization';
-import { createAtom } from '~utils/atoms';
-import { sideControlsBarAtom } from '~core/shared_state';
-import { currentNotificationAtom } from '~core/shared_state';
 
 interface DrawToolBoxSettings {
   availableModes?: DrawModeType[];
@@ -64,9 +64,7 @@ export const toolboxAtom = createAtom(
     });
 
     onAction('finishDrawing', () => {
-      actions.push(
-        sideControlsBarAtom.disable(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID),
-      );
+      actions.push(toolbarControlsAtom.disable(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID));
       actions.push(activeDrawModeAtom.setDrawMode(null));
     });
 
@@ -82,7 +80,7 @@ export const toolboxAtom = createAtom(
         return actions.push(
           currentNotificationAtom.showNotification(
             'info',
-            { title: i18n.t('No drawn geometry to download') },
+            { title: i18n.t('draw_tools.no_geometry_error') },
             5,
           ),
         );

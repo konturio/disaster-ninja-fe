@@ -22,7 +22,6 @@
 .env.test.local
 .env.production.local
 
-dist
 web_modules
 
 npm-debug.log*
@@ -38,7 +37,7 @@ stats.html
 template.config.js
 .eslintcache
 configs/config.local.json
-public/appconfig.js
-public/config/appconfig.js
+configs/proxy-config.local.js
+public/config/appconfig.json
 cosmos/dist/
 cosmos-export/

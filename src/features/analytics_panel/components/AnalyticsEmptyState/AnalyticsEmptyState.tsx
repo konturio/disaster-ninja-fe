@@ -1,9 +1,4 @@
-import {
-  SelectArea24,
-  DisastersListIcon,
-  Poly24,
-  Plus24,
-} from '@konturio/default-icons';
+import { SelectArea24, DisastersListIcon, Poly24, Plus24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import s from './AnalyticsEmptyState.module.css';
 
@@ -18,25 +13,25 @@ export const AnalyticsEmptyState = ({
     <div className={s.stateContainer}>
       {stateType === 'not-found' && (
         <>
-          {i18n.t('Sorry, requested event not found.')}
+          {i18n.t('advanced_analytics_empty.not_found')}
           <br />
         </>
       )}
-      {i18n.t('Please, select an area')}
+      {i18n.t('advanced_analytics_empty.please_select')}
       <br />
-      {i18n.t('to see state of the map')}
+      {i18n.t('advanced_analytics_empty.to_see_map')}
       <div className={s.iconsContainer}>
         <div className={s.iconRow}>
-          <DisastersListIcon /> {i18n.t('Pick disaster from the list')}
+          <DisastersListIcon /> {i18n.t('advanced_analytics_empty.pick')}
         </div>
         <div className={s.iconRow}>
-          <Poly24 /> {i18n.t('Draw polygon on the map')}
+          <Poly24 /> {i18n.t('advanced_analytics_empty.draw')}
         </div>
         <div className={s.iconRow}>
-          <SelectArea24 /> {i18n.t('Select boundary on the map')}
+          <SelectArea24 /> {i18n.t('advanced_analytics_empty.select')}
         </div>
         <div className={s.iconRow}>
-          <Plus24 /> {i18n.t('Upload your own geoJSON')}
+          <Plus24 /> {i18n.t('advanced_analytics_empty.upload')}
         </div>
       </div>
     </div>

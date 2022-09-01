@@ -19,10 +19,7 @@ export const editableLayersDetailsParamsAtom = createAtom(
     enabledLayersAtom,
     editableLayersResourceAtom: editableLayersListResource,
   },
-  (
-    { get },
-    state: DetailsRequestParams | null = null,
-  ): DetailsRequestParams | null => {
+  ({ get }, state: DetailsRequestParams | null = null): DetailsRequestParams | null => {
     const editableLayersResource = get('editableLayersResourceAtom');
     if (editableLayersResource.loading || editableLayersResource.data === null)
       return state;
@@ -39,9 +36,7 @@ export const editableLayersDetailsParamsAtom = createAtom(
     }
 
     const requestParams: DetailsRequestParams = {
-      layersToRetrieveWithoutGeometryFilter: enabledEditableLAyers.map(
-        (l) => l.id,
-      ),
+      layersToRetrieveWithoutGeometryFilter: enabledEditableLAyers.map((l) => l.id),
       layersToRetrieveWithGeometryFilter: [],
     };
 
@@ -53,12 +48,8 @@ export const editableLayersDetailsParamsAtom = createAtom(
 export const editableLayersDetailsResourceAtom = createResourceAtom(
   async (params) => {
     if (params === null) return null;
-    return await apiClient.post<LayerInAreaDetails[]>(
-      '/layers/details',
-      params,
-      true,
-    );
+    return await apiClient.post<LayerInAreaDetails[]>('/layers/details', params, true);
   },
-  editableLayersDetailsParamsAtom,
   'editableLayersDetailsResourceAtom',
+  editableLayersDetailsParamsAtom,
 );

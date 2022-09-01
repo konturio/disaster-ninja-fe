@@ -1,0 +1,12 @@
+.feedSelectorContainer {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+
+  & .feedsSelect {
+    border: none;
+    padding-right: var(--unit);
+    background-color: transparent;
+  }
+}
