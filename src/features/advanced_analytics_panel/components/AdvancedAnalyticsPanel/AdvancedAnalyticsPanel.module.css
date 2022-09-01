@@ -1,10 +1,18 @@
 .panelContainer {
   position: relative;
+  /* REMOVE # 11728 */
+
+  top: 55px;
+  left: var(--unit);
 }
 
 .panelIcon {
   position: absolute;
   z-index: 1;
+
+  /* REMOVE # 11728 */
+  top: 55px;
+  left: var(--unit);
 
   &.show {
     transition: visibility 0s linear 0s, opacity 0.33s linear 0s;
