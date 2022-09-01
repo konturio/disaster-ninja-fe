@@ -4,6 +4,11 @@
 
 .panelIcon {
   z-index: 1;
+  /* REMOVE # 11728 */
+
+  position: absolute;
+  top: var(--unit);
+  left: var(--unit);
 
   &.show {
     transition: visibility 0s linear 0s, opacity 0.33s linear 0s;
@@ -21,10 +26,18 @@
 }
 
 .sidePanel {
+  /* RESTORE # 11728 */
+  /* position: relative;  
+border-radius: var(--border-radius-unit); */
+
   z-index: 3; /* Show shadow over map */
-  position: relative;
   align-self: flex-start;
   left: -100px;
+
+  /* REMOVE # 11728 */
+  position: absolute;
+  margin-left: var(--unit);
+  margin-top: var(--unit);
   border-radius: var(--border-radius-unit);
 
   &.show {
