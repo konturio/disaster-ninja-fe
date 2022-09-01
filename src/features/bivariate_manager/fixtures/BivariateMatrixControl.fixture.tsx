@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { PopupTooltip } from '~features/tooltip';
-import { BivariateMatrixControlComponent } from '../index';
+import { BivariateMatrixControlComponent } from '../components/BivariateMatrixControl';
 import { mock } from './mocks/mock-20';
 import styles from './BivariateMatrixControlFixture.module.css';
-import type { Indicator } from '../types';
+import type { Indicator } from '../components/BivariateMatrixControl/types';
 
 type AxisGroup = {
   parent: string | null;
@@ -13,19 +13,17 @@ type AxisGroup = {
 
 const mapHeaderCell = (group: AxisGroup, indicators: Indicator[]) => ({
   label:
-    indicators.find((indicator) => indicator.name === group.selectedQuotient[0])
-      ?.label || '',
+    indicators.find((indicator) => indicator.name === group.selectedQuotient[0])?.label ||
+    '',
   selectedQuotient: {
     id: group.selectedQuotient,
-    label: indicators.find(
-      (indicator) => indicator.name === group.selectedQuotient[1],
-    )?.label,
+    label: indicators.find((indicator) => indicator.name === group.selectedQuotient[1])
+      ?.label,
   },
   quality: 1,
   quotients: group.quotients.map((quotient) => ({
     id: quotient,
-    label: indicators.find((indicator) => indicator.name === quotient[0])
-      ?.label,
+    label: indicators.find((indicator) => indicator.name === quotient[0])?.label,
     quality: 1,
   })),
 });
