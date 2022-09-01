@@ -20,7 +20,7 @@ interface LegendPanelProps {
 export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
   // isOpen - is an overall state of panel. Was closed stores wether the panel was closed by user -> preferred to be closed
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [wasClosed, setWasClosed] = useState<boolean>(false);
+  const [wasClosed, setWasClosed] = useState<boolean>(true);
 
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);

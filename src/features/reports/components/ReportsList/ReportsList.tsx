@@ -20,22 +20,13 @@ export function ReportsList() {
     (async function () {
       if (!reports.length) getReports();
     })();
-  }, []);
+  }, [reports.length, getReports]);
 
   return (
     <div className={styles.mainWrap}>
       <div className={styles.titleRow}>
         <Text type="heading-l">
           <span className={styles.pageTitle}>{i18n.t('reports.title')}</span>
-        </Text>
-        <Text type="heading-l">
-          <Link
-            to={config.baseUrl}
-            className={clsx(styles.linkToMain, styles.link)}
-          >
-            disaster.ninja
-            <img src={arrowIcon} />
-          </Link>
         </Text>
       </div>
 
@@ -48,10 +39,9 @@ export function ReportsList() {
             >
               Kontur{' '}
             </a>{' '}
-            generates several reports that help validate OpenStreetMap quality.
-            They have links to OpenStreetMap objects on osm.org as well as links
-            to OpenStreetMap remote control so that you can use them within the
-            JOSM editor.
+            generates several reports that help validate OpenStreetMap quality. They have
+            links to OpenStreetMap objects on osm.org as well as links to OpenStreetMap
+            remote control so that you can use them within the JOSM editor.
           </Trans>
         </div>
       </Text>
@@ -64,11 +54,7 @@ export function ReportsList() {
               history.push(config.baseUrl + 'reports/' + report.id);
             };
             return (
-              <div
-                className={styles.reportWrap}
-                key={report.id}
-                onClick={goToReport}
-              >
+              <div className={styles.reportWrap} key={report.id} onClick={goToReport}>
                 <Text type="heading-m">
                   <div className={clsx(styles.link, styles.reportTitle)}>
                     {report.name}
