@@ -19,11 +19,12 @@ export function SideBar() {
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
   const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
 
-  function onMouseEnter(e: React.MouseEvent<HTMLDivElement, MouseEvent>, title: string) {
+  function onMouseEnter(target: HTMLDivElement, title: string) {
+    // place tooltip right and vertically aligned to the element
     !isOpen &&
       setTooltip({
         popup: title,
-        position: { x: e.clientX + 5, y: e.clientY },
+        position: { x: target.offsetLeft + 40, y: target.offsetTop },
         hoverBehavior: true,
       });
   }
@@ -55,8 +56,10 @@ export function SideBar() {
             <div
               className={s.buttonWrap}
               onClick={() => control.onClick()}
-              onPointerEnter={(e) => onMouseEnter(e, control.title)}
               onPointerLeave={onMouseLeave}
+              onPointerEnter={(e) =>
+                onMouseEnter(e.target as HTMLDivElement, control.title)
+              }
             >
               <ActionsBarBTN
                 active={control.active}
