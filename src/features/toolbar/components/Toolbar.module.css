@@ -73,4 +73,8 @@
   .toolbar {
     flex-direction: column;
   }
+
+  .hoverHint {
+    display: none;
+  }
 }
