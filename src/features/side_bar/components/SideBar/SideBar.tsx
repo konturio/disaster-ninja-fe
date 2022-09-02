@@ -55,7 +55,7 @@ export function SideBar() {
           >
             <div
               className={s.buttonWrap}
-              onClick={() => control.onClick()}
+              onClick={control.onClick}
               onPointerLeave={onMouseLeave}
               onPointerEnter={(e) =>
                 onMouseEnter(e.target as HTMLDivElement, control.title)
