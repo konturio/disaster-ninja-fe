@@ -36,14 +36,45 @@
   box-shadow: none;
   outline: 0;
 }
+
 .toolbarItem {
   box-shadow: var(--elevation-1);
   border-radius: var(--border-radius);
+  position: relative;
+  align-items: center;
+}
+
+.hoverHint {
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+
+  position: absolute;
+  top: calc(0px - var(--unit));
+  left: 50%;
+  transform: translate(-50%, -100%);
+  background-color: var(--base-strong);
+  border-radius: var(--border-radius);
+  color: var(--neutral-neutral-10);
+  padding: var(--unit);
+  width: max-content;
+}
+
+.toolbarItem:hover .hoverHint {
+  height: unset;
+  z-index: 1;
+  opacity: 1;
+  pointer-events: all;
 }
 
 /* stylelint-enable */
 @media screen and (max-width: 960px) {
   .toolbar {
     flex-direction: column;
+  }
+
+  .hoverHint {
+    display: none;
   }
 }

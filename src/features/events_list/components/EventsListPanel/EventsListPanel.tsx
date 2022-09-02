@@ -58,7 +58,7 @@ export function EventsListPanel({
       id: EVENT_LIST_CONTROL_ID,
       name: EVENT_LIST_CONTROL_NAME,
       title: i18n.t('event_list.title'),
-      active: false,
+      active: true,
       visualGroup: controlVisualGroup.withAnalytics,
       icon: <Disasters24 />,
       onClick: (becomesActive) => {

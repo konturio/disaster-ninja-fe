@@ -4,6 +4,7 @@ import type { ApplicationMode } from './currentMode';
 
 export interface ModeControl {
   id: ApplicationMode;
+  title: string;
   icon: JSX.Element;
   active: boolean;
   onClick: () => void;

@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
 import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
@@ -9,12 +9,29 @@ import { APP_ROUTES } from '~core/app_config/appRoutes';
 import { MODES_LABELS } from '~core/modes/constants';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
+import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import s from './SideBar.module.css';
 
 export function SideBar() {
   const [controls] = useAtom(modesControlsAtom);
   const [isOpen, setIsOpen] = useState(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
+  const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
+
+  function onMouseEnter(target: HTMLDivElement, title: string) {
+    // place tooltip right and vertically aligned to the element
+    !isOpen &&
+      setTooltip({
+        popup: title,
+        position: { x: target.offsetLeft + 50, y: target.offsetTop },
+        hoverBehavior: true,
+      });
+  }
+
+  function onMouseLeave() {
+    resetTooltip();
+  }
 
   useEffect(() => {
     if (isMobile) {
@@ -36,7 +53,14 @@ export function SideBar() {
             to={APP_ROUTES[control.id]}
             tabIndex={-1}
           >
-            <div className={s.buttonWrap} onClick={() => control.onClick()}>
+            <div
+              className={s.buttonWrap}
+              onClick={control.onClick}
+              onPointerLeave={onMouseLeave}
+              onPointerEnter={(e) =>
+                onMouseEnter(e.target as HTMLDivElement, control.title)
+              }
+            >
               <ActionsBarBTN
                 active={control.active}
                 iconBefore={control.icon}
