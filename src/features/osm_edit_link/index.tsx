@@ -1,8 +1,5 @@
 import { EditOsm24 } from '@konturio/default-icons';
-import {
-  currentMapPositionAtom,
-  toolbarControlsAtom,
-} from '~core/shared_state';
+import { currentMapPositionAtom, toolbarControlsAtom } from '~core/shared_state';
 import { controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
 import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';

@@ -8,9 +8,7 @@ import {
 } from './constants';
 import type { useHistory } from 'react-router';
 
-export function initBivariateColorManagerIcon(
-  history: ReturnType<typeof useHistory>,
-) {
+export function initBivariateColorManagerIcon(history: ReturnType<typeof useHistory>) {
   toolbarControlsAtom.addControl.dispatch({
     id: BIVARIATE_COLOR_MANAGER_CONTROL_ID,
     name: BIVARIATE_COLOR_MANAGER_CONTROL_NAME,

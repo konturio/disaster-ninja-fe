@@ -23,10 +23,7 @@ You must call the `initEditableLayer` from the root `index.ts` file to activate 
 and place `<LayerEditorPanel />` somewhere in the app
 
 ```ts
-import {
-  initEditableLayer,
-  EditFeaturesOrLayerPanel,
-} from '~features/create_layer';
+import { initEditableLayer, EditFeaturesOrLayerPanel } from '~features/create_layer';
 
 function App() {
   useEffect(() => {

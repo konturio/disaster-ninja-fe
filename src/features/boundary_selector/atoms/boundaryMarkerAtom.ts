@@ -14,9 +14,7 @@ import { getSelectorWithOptions } from './../components/getSelectorWithOptions';
 import type { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
 import type { Action } from '@reatom/core';
 
-const LOADING_OPTIONS = [
-  { label: i18n.t('loading'), value: 'loading', disabled: true },
-];
+const LOADING_OPTIONS = [{ label: i18n.t('loading'), value: 'loading', disabled: true }];
 
 interface BoundaryMarkerAtomState {
   marker: null | ApplicationMapMarker;
@@ -76,9 +74,7 @@ export const boundaryMarkerAtom = createAtom(
       fc: GeoJSON.FeatureCollection,
       boundaryId: string,
     ) => {
-      const feature = fc.features.find(
-        (boundary) => boundary.id === boundaryId,
-      )!;
+      const feature = fc.features.find((boundary) => boundary.id === boundaryId)!;
       return highlightedGeometry.set(feature);
     };
 
@@ -118,10 +114,7 @@ export const boundaryMarkerAtom = createAtom(
               if (typeof geometryCamera === 'object')
                 actions.push(
                   currentMapPositionAtom.setCurrentMapPosition({
-                    zoom: Math.min(
-                      geometryCamera.zoom,
-                      app_config.autoFocus.maxZoom,
-                    ),
+                    zoom: Math.min(geometryCamera.zoom, app_config.autoFocus.maxZoom),
                     ...geometryCamera.center,
                   }),
                 );
@@ -132,9 +125,7 @@ export const boundaryMarkerAtom = createAtom(
             // onOptionHover:
             (boundaryId) => {
               if (!featureCollection) return;
-              dispatch(
-                updateBoundaryLayerAction(featureCollection, boundaryId),
-              );
+              dispatch(updateBoundaryLayerAction(featureCollection, boundaryId));
             },
           );
 

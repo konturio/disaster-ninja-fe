@@ -128,9 +128,7 @@ export const bivariateColorManagerDataAtom = createAtom(
       if (!filters) return;
       const filterFunctionsToApply = Object.entries(filters)
         .map(([key, value]) =>
-          value !== null && value !== undefined
-            ? [filterFunctions[key], value]
-            : null,
+          value !== null && value !== undefined ? [filterFunctions[key], value] : null,
         )
         .filter(Boolean) as [FilterFunction, FiltersValues][];
 
