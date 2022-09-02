@@ -6,7 +6,18 @@
 
   & .toolButton {
     background-color: var(--base-weak);
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--base-strong-down);
+    box-shadow: none;
+  }
+
+  & .active .toolButton {
+    background-color: var(--brand-strong-down);
+    color: var(--accent-strong-down);
+  }
+
+  & .toolButton:focus-visible {
+    outline: var(--primary-focus-outline-regular);
+    box-shadow: var(--button-box-shadow);
   }
 
   & .toolButton:hover {
@@ -15,13 +26,21 @@
   }
 }
 
-.toolButton {
-  color: var(--base-strong-down);
+.toolbar .active button:active {
+  background-color: var(--brand-strong-down);
 }
 
-.toolButton:focus {
-  border: 1px solid var(--complimentary-strong);
+.toolButton {
+  background-color: var(--base-weak);
+  color: var(--base-strong-down);
+  box-shadow: none;
+  outline: 0;
 }
+.toolbarItem {
+  box-shadow: var(--elevation-1);
+  border-radius: var(--border-radius);
+}
+
 /* stylelint-enable */
 @media screen and (max-width: 960px) {
   .toolbar {

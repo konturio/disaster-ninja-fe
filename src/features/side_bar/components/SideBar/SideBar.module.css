@@ -29,3 +29,11 @@
 .toggler {
   margin-top: auto;
 }
+
+.toggler button:focus {
+  box-shadow: none;
+}
+
+.toggler button:focus-visible {
+  box-shadow: var(--button-box-shadow);
+}

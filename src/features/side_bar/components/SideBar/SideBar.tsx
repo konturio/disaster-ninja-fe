@@ -34,6 +34,7 @@ export function SideBar() {
             key={nanoid(4)}
             className={s.sidebarItemContainer}
             to={APP_ROUTES[control.id]}
+            tabIndex={-1}
           >
             <div className={s.buttonWrap} onClick={() => control.onClick()}>
               <ActionsBarBTN
@@ -54,9 +55,9 @@ export function SideBar() {
       <div className={s.togglerContainer}>
         <div className={s.toggler}>
           {isOpen ? (
-            <div className={s.buttonWrap} onClick={toggleIsOpen}>
+            <div className={s.buttonWrap} onClick={toggleIsOpen} tabIndex={-1}>
               <ActionsBarBTN
-                iconBefore={<DoubleChevronRight24 />}
+                iconBefore={<DoubleChevronLeft24 />}
                 className={s.controlButton}
               >
                 <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
@@ -65,9 +66,9 @@ export function SideBar() {
           ) : (
             <div className={s.buttonWrap} onClick={toggleIsOpen}>
               <ActionsBarBTN
-                iconBefore={<DoubleChevronLeft24 />}
+                iconBefore={<DoubleChevronRight24 />}
                 className={s.controlButton}
-              ></ActionsBarBTN>
+              />
             </div>
           )}
         </div>

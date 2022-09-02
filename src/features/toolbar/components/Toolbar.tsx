@@ -1,6 +1,7 @@
 import { useAction, useAtom } from '@reatom/react';
 import { Button } from '@konturio/ui-kit';
 import { nanoid } from 'nanoid';
+import clsx from 'clsx';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { controlsOrder } from '../constants';
@@ -31,9 +32,9 @@ export function Toolbar() {
   return (
     <div className={s.toolbar}>
       {sortByPredefinedOrder(Object.values(controls), controlsOrder).map((control) => (
-        <div key={control.id} className={s.sideBarContainer}>
+        <div key={control.id} className={s.toolbarItem}>
           <div
-            className={s.buttonWrap}
+            className={clsx([s.buttonWrap, control.active && s.active])}
             onClick={() => control.onClick && control.onClick(!control.active)}
             onPointerEnter={(e) => onMouseEnter(e, control.title)}
             onPointerLeave={onMouseLeave}
