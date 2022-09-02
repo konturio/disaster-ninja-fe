@@ -17,7 +17,7 @@ export function Toolbar() {
           <div key={control.id} className={s.toolbarItem}>
             <div
               className={clsx([s.buttonWrap, control.active && s.active])}
-              onClick={() => control.onClick && control.onClick(!control.active)}
+              onClick={() => control.onClick?.(!control.active)}
             >
               <Button
                 active={control.active}
