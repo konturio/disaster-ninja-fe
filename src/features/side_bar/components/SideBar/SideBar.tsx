@@ -24,7 +24,7 @@ export function SideBar() {
     !isOpen &&
       setTooltip({
         popup: title,
-        position: { x: target.offsetLeft + 40, y: target.offsetTop },
+        position: { x: target.offsetLeft + 50, y: target.offsetTop },
         hoverBehavior: true,
       });
   }
