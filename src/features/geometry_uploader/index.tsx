@@ -32,8 +32,9 @@ export function initFileUploader() {
        */
       askGeoJSONFile((geoJSON) => {
         const map = currentMapAtom.getState();
-        if (!map) return;
+        if (!map || !geoJSON) return;
 
+        toolbarControlsAtom.enable.dispatch(GEOMETRY_UPLOADER_CONTROL_ID);
         const geometryCamera = getCameraForGeometry(geoJSON, map);
         if (!geometryCamera || typeof geometryCamera === 'string') {
           currentNotificationAtom.showNotification.dispatch(
@@ -41,6 +42,7 @@ export function initFileUploader() {
             { title: i18n.t('geometry_uploader.title') },
             6,
           );
+          toolbarControlsAtom.disable.dispatch(GEOMETRY_UPLOADER_CONTROL_ID);
           throw new Error('Not geoJSON format');
         }
 
@@ -51,6 +53,9 @@ export function initFileUploader() {
           zoom: Math.min(zoom, app_config.autoFocus.maxZoom),
           ...center,
         });
+        setTimeout(() => {
+          toolbarControlsAtom.disable.dispatch(GEOMETRY_UPLOADER_CONTROL_ID);
+        }, 300);
       });
     },
   });
