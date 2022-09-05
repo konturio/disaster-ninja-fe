@@ -6,6 +6,7 @@ import { useLocation } from 'react-router';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { parseLinksAsTags } from '~utils/markdown/parser';
 import s from './Tooltip.module.css';
+import type { MutableRefObject } from 'react';
 import type { TooltipData } from '~core/shared_state/currentTooltip';
 
 type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
@@ -15,8 +16,7 @@ function findTooltipPosition(clickPosition?: Coords | null): Position | null {
   const { height, width } = window.visualViewport;
   if (!clickPosition) return null;
   // click was on the bottom right side
-  if (clickPosition.y > height / 2 && clickPosition.x > width / 2)
-    return 'top-left';
+  if (clickPosition.y > height / 2 && clickPosition.x > width / 2) return 'top-left';
   // click was on the bottom left side
   if (clickPosition.y > height / 2) return 'top-right';
   // click was on the top right side
@@ -28,9 +28,11 @@ function findTooltipPosition(clickPosition?: Coords | null): Position | null {
 export function Tooltip({
   properties,
   closeTooltip,
+  transitionRef,
 }: {
   properties: TooltipData | null;
   closeTooltip: () => void;
+  transitionRef: MutableRefObject<null>;
 }) {
   const [position, setPosition] = useState<Position | null>(null);
   const [prevCoords, setPrevCoords] = useState<Coords | null | undefined>(null);
@@ -73,10 +75,8 @@ export function Tooltip({
 
   return (
     <div
-      className={clsx(
-        s.tooltipContainer,
-        properties.hoverBehavior && s.hoverTooltip,
-      )}
+      ref={transitionRef}
+      className={clsx(s.tooltipContainer, properties.hoverBehavior && s.hoverTooltip)}
       onClick={onOuterClick}
     >
       <div
@@ -90,10 +90,7 @@ export function Tooltip({
           <div className={clsx(s.popup, s[position])}>
             <div className={s.popupContent} onClick={stopPropagation}>
               {typeof properties.popup === 'string' ? (
-                <ReactMarkdown
-                  components={{ a: LinkRenderer }}
-                  className={s.markdown}
-                >
+                <ReactMarkdown components={{ a: LinkRenderer }} className={s.markdown}>
                   {parseLinksAsTags(properties.popup)}
                 </ReactMarkdown>
               ) : (

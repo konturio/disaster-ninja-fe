@@ -10,13 +10,14 @@ import styles from './style.module.css';
 import { BivariateMatrixCellConnector } from './components/BivariateMatrixConnector/BivariateMatrixCellConnector';
 import { BivariateMatrixHeadingEntry } from './components/BivariateMatrixHeadingEntry/BivariateMatrixHeadingEntry';
 import type { BivariateMatrixHeadingType } from './types';
+import type { MouseEvent } from 'react';
 
 const CELL_INDEX_X_OFFSET = 3;
 const CELL_INDEX_Y_OFFSET = 3;
 
 interface BivariateMatrixControlProps {
   angle?: number;
-  onSelectCell: (x: number, y: number) => void;
+  onSelectCell: (x: number, y: number, e?: MouseEvent<Element>) => void;
   selectedCell?: { x: number; y: number };
   cellSize?: number;
   matrix: (number | null)[][];
@@ -27,6 +28,7 @@ interface BivariateMatrixControlProps {
     index: number,
     numId: string,
     denId: string,
+    e?: MouseEvent<Element>,
   ) => void;
 }
 
@@ -128,7 +130,7 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
       }
     };
 
-    const onSelect = (x: number, y: number) => {
+    const onSelect = (x: number, y: number, e?: MouseEvent<Element>) => {
       if (selectedColIndex !== -1) {
         const columns = cellColumnReferences[selectedColIndex];
         if (columns) {
@@ -169,37 +171,33 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
         }
       }
 
-      onSelectCell(x, y);
+      onSelectCell(x, y, e);
     };
 
-    const onCellSelectX = (cellIndex: number) => {
-      onSelect(cellIndex, selectedRowIndex);
+    const onCellSelectX = (cellIndex: number, e: MouseEvent<Element>) => {
+      onSelect(cellIndex, selectedRowIndex, e);
     };
 
-    const onCellSelectY = (cellIndex: number) => {
-      onSelect(selectedColIndex, cellIndex);
+    const onCellSelectY = (cellIndex: number, e: MouseEvent<Element>) => {
+      onSelect(selectedColIndex, cellIndex, e);
     };
 
     const selectQuotientX = useCallback(
-      (index: number, numId: string, denId: string) => {
-        onSelectQuotient(false, index, numId, denId);
+      (index: number, numId: string, denId: string, e?: MouseEvent<Element>) => {
+        onSelectQuotient(false, index, numId, denId, e);
       },
       [onSelectQuotient],
     );
 
     const selectQuotientY = useCallback(
-      (index: number, numId: string, denId: string) => {
-        onSelectQuotient(true, index, numId, denId);
+      (index: number, numId: string, denId: string, e?: MouseEvent<Element>) => {
+        onSelectQuotient(true, index, numId, denId, e);
       },
       [onSelectQuotient],
     );
 
     const baseDimension = useBaseMatrixDimension(xHeadings, yHeadings);
-    const gridStyle = useGridStyle(
-      xHeadings.length + 1,
-      yHeadings.length + 1,
-      cellSize,
-    );
+    const gridStyle = useGridStyle(xHeadings.length + 1, yHeadings.length + 1, cellSize);
 
     const cellStyles = useMemo(() => {
       return generateCellStyles(
@@ -215,21 +213,13 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
     }, [matrix]);
 
     return (
-      <div
-        ref={ref}
-        base-dimension={baseDimension}
-        className={styles.rotatedMatrix}
-      >
+      <div ref={ref} base-dimension={baseDimension} className={styles.rotatedMatrix}>
         <div style={gridStyle}>
           {matrix.map((row, rowIndex) => (
             <BivariateMatrixCellConnector
               key={`${rowIndex}_row_connector`}
               type="horizontal"
-              style={
-                cellStyles[-1 + CELL_INDEX_X_OFFSET][
-                  rowIndex + CELL_INDEX_Y_OFFSET
-                ]
-              }
+              style={cellStyles[-1 + CELL_INDEX_X_OFFSET][rowIndex + CELL_INDEX_Y_OFFSET]}
               ref={(rf) => setCellReference(rf, rowIndex, -1)}
             />
           ))}
@@ -237,11 +227,7 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
             <BivariateMatrixCellConnector
               key={`${colIndex}_col_connector`}
               type="vertical"
-              style={
-                cellStyles[colIndex + CELL_INDEX_X_OFFSET][
-                  -1 + CELL_INDEX_Y_OFFSET
-                ]
-              }
+              style={cellStyles[colIndex + CELL_INDEX_X_OFFSET][-1 + CELL_INDEX_Y_OFFSET]}
               ref={(rf) => setCellReference(rf, -1, colIndex)}
             />
           ))}
@@ -286,9 +272,7 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
               onSelectQuotient={selectQuotientY}
               baseDimension={baseDimension}
               calculateHeadingsStyle={calculateHeadingsStyle}
-              ref={(rf) =>
-                setCellReference(rf, yHeadings.length - 1 - index, -1)
-              }
+              ref={(rf) => setCellReference(rf, yHeadings.length - 1 - index, -1)}
             />
           ))}
           {xHeadings.map((entry, index) => (
