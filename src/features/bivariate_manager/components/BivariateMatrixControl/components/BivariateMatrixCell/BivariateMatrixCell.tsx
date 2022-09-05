@@ -1,6 +1,7 @@
 import cn from 'clsx';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import styles from './BivariateMatrixCell.module.css';
+import type { MouseEvent } from 'react';
 
 interface CellProps {
   value?: number;
@@ -8,7 +9,7 @@ interface CellProps {
   y: number;
   onMouseOver: (x: number, y: number) => void;
   onMouseOut: () => void;
-  onClick: (x: number, y: number) => void;
+  onClick: (x: number, y: number, e: MouseEvent<Element>) => void;
   className?: string;
   disabled?: boolean;
   style?: Record<string, any>;
@@ -43,11 +44,7 @@ export const BivariateMatrixCell = forwardRef(
     let isFromSelectedRow = false;
     let isFromSelectedCol = false;
 
-    const baseClassNames = cn(
-      styles.valueCell,
-      className,
-      disabled && styles.disabled,
-    );
+    const baseClassNames = cn(styles.valueCell, className, disabled && styles.disabled);
 
     function generateClassNames(): string {
       return `${baseClassNames} ${cn({
@@ -56,8 +53,7 @@ export const BivariateMatrixCell = forwardRef(
         [styles.selectedRow]: isFromSelectedRow,
         [styles.first]:
           (firstRow && isFromSelectedCol) || (firstCol && isFromSelectedRow),
-        [styles.last]:
-          (lastRow && isFromSelectedCol) || (lastCol && isFromSelectedRow),
+        [styles.last]: (lastRow && isFromSelectedCol) || (lastCol && isFromSelectedRow),
       })}`;
     }
 
@@ -108,8 +104,8 @@ export const BivariateMatrixCell = forwardRef(
         onMouseOver={() => {
           onMouseOver(x, y);
         }}
-        onClick={() => {
-          onClick(x, y);
+        onClick={(e) => {
+          onClick(x, y, e);
         }}
         onMouseOut={onMouseOut}
       >

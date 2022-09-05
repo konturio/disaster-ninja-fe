@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { PopupTooltip } from '~features/tooltip';
 import { BivariateMatrixControlComponent } from '../components/BivariateMatrixControl';
 import { mock } from './mocks/mock-20';
@@ -58,9 +59,9 @@ export default function BivariateMatrixControlFixture() {
     y: number;
   } | null>(null);
 
-  const onSelectCellHandler = useCallback((x, y) => {
+  const onSelectCellHandler = useCallback((x, y, e) => {
     /* eslint-disable */
-    console.log('onSelectCellHandler', x, y);
+    console.log('onSelectCellHandler', x, y, e);
     setSelectedCell({ x, y });
   }, []);
 
@@ -74,16 +75,18 @@ export default function BivariateMatrixControlFixture() {
 
   return (
     <div className={styles.axisMatrix}>
-      <BivariateMatrixControlComponent
-        ref={ref}
-        matrix={mock.matrix}
-        xHeadings={headings?.x}
-        yHeadings={headings?.y}
-        onSelectCell={onSelectCellHandler}
-        selectedCell={selectedCell}
-        onSelectDenominator={onSelectDenominator}
-      />
-      <PopupTooltip />
+      <Router>
+        <BivariateMatrixControlComponent
+          ref={ref}
+          matrix={mock.matrix}
+          xHeadings={headings?.x}
+          yHeadings={headings?.y}
+          onSelectCell={onSelectCellHandler}
+          selectedCell={selectedCell}
+          onSelectDenominator={onSelectDenominator}
+        />
+        <PopupTooltip />
+      </Router>
     </div>
   );
 }

@@ -112,7 +112,9 @@
         "icon.total_building_count": "Value divided by Total Buildings Estimate",
         "icon.populated_area_km2": "Value divided by Populated Area",
         "icon.one": "Without divider",
-        "icon.roads": "Value divided by Total Roads Length"
+        "icon.roads": "Value divided by Total Roads Length",
+        "progress.rendering": "Rendering",
+        "progress.applied": "Applied on the map"
       },
       "legend": {
         "high": "High",
