@@ -13,4 +13,4 @@ export const IMPORTANT_BIVARIATE_LAYERS = [
   ['view_count', 'area_km2'],
 ];
 
-export const GREETINGS_DISABLED_COOKIE = 'bivariate-greetings-disabled';
+export const GREETINGS_DISABLED_LS_KEY = 'bivariate-greetings-disabled';

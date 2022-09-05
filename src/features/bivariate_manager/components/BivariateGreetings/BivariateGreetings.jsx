@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-
+// file is generated with this tool: https://www.svgator.com/help/getting-started/add-animated-svgs-to-react-website
 export const BivariateGreetings = () => {
   useEffect(() => {
     /* eslint-disable */
