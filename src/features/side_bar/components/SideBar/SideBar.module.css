@@ -5,8 +5,16 @@
   padding: 0 var(--unit);
   margin: var(--unit) 0;
   text-decoration: none;
-  & .buttonWrap {
-    margin: 0 auto;
+}
+
+.buttonWrap {
+  margin: 0 auto;
+
+  & button:focus {
+    box-shadow: none;
+  }
+  & button:focus-visible {
+    box-shadow: var(--button-box-shadow);
   }
 }
 
