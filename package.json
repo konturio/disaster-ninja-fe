@@ -65,7 +65,7 @@
     "@deck.gl/layers": "^8.5.4",
     "@deck.gl/mapbox": "^8.8.4",
     "@deck.gl/mesh-layers": "^8.5.4",
-    "@konturio/default-icons": "^2.0.0-alpha.28",
+    "@konturio/default-icons": "^2.0.0-alpha.30",
     "@konturio/default-theme": "^2.4.0-alpha.12",
     "@konturio/ui-kit": "^3.0.0-alpha.73",
     "@loaders.gl/core": "^3.2.3",

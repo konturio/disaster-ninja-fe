@@ -3,7 +3,7 @@ import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import {
   CSSTransitionWrapper,
   fadeClassNames,
-} from '~features/bivariate_color_manager/components/CssTransitionWrapper/CssTransitionWrapper';
+} from '~components/CssTransitionWrapper/CssTransitionWrapper';
 import { Tooltip } from './Tooltip/Tooltip';
 
 export function PopupTooltip() {
