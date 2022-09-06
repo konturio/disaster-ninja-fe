@@ -3,7 +3,7 @@ import { sortByKey } from '~utils/common';
 import {
   CSSTransitionWrapper,
   fadeClassNames,
-} from '../CssTransitionWrapper/CssTransitionWrapper';
+} from '~components/CssTransitionWrapper/CssTransitionWrapper';
 import s from './CombinationsSublist.module.css';
 import type {
   BivariateColorManagerData,
@@ -21,10 +21,7 @@ type SentimentsCombinationsListProps = {
   layersSelection: BivariateColorManagerDataAtomState['layersSelection'];
 };
 
-const sortDescendingByQuality = sortByKey<TableDataValue>(
-  'correlationLevel',
-  'desc',
-);
+const sortDescendingByQuality = sortByKey<TableDataValue>('correlationLevel', 'desc');
 
 type SublistProps = {
   open: boolean;
@@ -45,13 +42,8 @@ const CombinationsSublist = ({
 }: SublistProps) => {
   const { vertical, horizontal } = rowData;
   const verticalList = Object.values(vertical).sort(sortDescendingByQuality);
-  const horizontalList = Object.values(horizontal).sort(
-    sortDescendingByQuality,
-  );
-  const selectlayer = (
-    plane: Plane,
-    quotientIndicator: TableDataValue,
-  ): void => {
+  const horizontalList = Object.values(horizontal).sort(sortDescendingByQuality);
+  const selectlayer = (plane: Plane, quotientIndicator: TableDataValue): void => {
     setLayersSelection({
       key,
       [plane]: quotientIndicator,
@@ -59,8 +51,7 @@ const CombinationsSublist = ({
   };
 
   const isLayerSelected = (plane: Plane, quotientIndicator: TableDataValue) =>
-    layersSelection &&
-    quotientIndicator.label === layersSelection?.[plane]?.label;
+    layersSelection && quotientIndicator.label === layersSelection?.[plane]?.label;
 
   // eslint-disable-next-line react/display-name
   const renderItem = (plane: Plane) => (quotientIndicator: TableDataValue) =>
