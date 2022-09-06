@@ -26,8 +26,11 @@
   }
 }
 
-.toolbar .active button:active {
-  background-color: var(--brand-strong-down);
+.toolbar .active {
+  & button:active,
+  & .toolButton:hover {
+    background-color: var(--brand-strong-down);
+  }
 }
 
 .toolButton {

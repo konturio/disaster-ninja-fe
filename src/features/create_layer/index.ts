@@ -7,7 +7,8 @@ export { EditFeaturesOrLayerPanel } from './components/EditFeaturesOrLayerPanel/
 
 export function initEditableLayer() {
   forceRun([
-    layerSideBarButtonControllerAtom,
+    // Temporary turned off for task #11733
+    // layerSideBarButtonControllerAtom,
     editableLayersControlsAtom, // Adds layers in layers panel
     editableLayersLegendsAndSources,
     openDrawToolsInFeatureEditMode,
