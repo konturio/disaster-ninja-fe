@@ -29,7 +29,8 @@
 .toolbar .active {
   & button:active,
   & .toolButton:hover {
-  background-color: var(--brand-strong-down);
+    background-color: var(--brand-strong-down);
+  }
 }
 
 .toolButton {
