@@ -107,6 +107,10 @@
     "drawings.self_directions_not_supported": "Self intersections are not supported!",
     "bivariate": {
       "matrix": {
+        "header": {
+          "title": "Choose two layers to explore correlations",
+          "hint": "Layers and correlations are displayed for the current Selected Area"
+        },
         "icon.population": "Value divided by Population",
         "icon.area_km2": "Value divided by Area",
         "icon.total_building_count": "Value divided by Total Buildings Estimate",
