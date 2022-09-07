@@ -1,0 +1,180 @@
+{
+  "common": {
+    "km": "km",
+    "m": "m",
+    "to": "a",
+
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "create": "Crear",
+
+    "disasters": "Desastres",
+    "loading": "Cargando...",
+    "loading_events": "Cargando eventos",
+    "about": "Acerca de",
+    "to_main_page": "a la página principal",
+    "legend": "Leyenda",
+    "maps": "mapas",
+    "vertical_direction": "Dirección vertical",
+    "horizontal_direction": "Dirección horizontal",
+    "legend_presentation": "Presentación de la leyenda",
+    "layers": "Capas",
+    "feed": "Fuente",
+    "details": "Detalles",
+    "deselect": "Anular la selección",
+    "spinner_text": "Recopilación de datos",
+
+    "errors": {
+      "timeout": "Se agotó el tiempo de espera de la solicitud",
+      "cannot_connect": "No se puede conectar al servidor",
+      "forbidden": "Prohibido",
+      "not_found": "No encontrado",
+      "unknown": "Desconocido",
+      "server_error": "Error del servidor"
+    },
+
+    "event_list": {
+      "title": "Enfoque en los desastres",
+      "warning_title": "No se puede utilizar el mapa como filtro",
+      "warning_description": "El mapa aún no está listo, inténtelo más tarde",
+      "bbox_filter_button": "Usar la vista del mapa como filtro",
+
+      "analytics": {
+        "affected_people": {
+          "tooltip": "Personas afectadas",
+          "value": "Sin impacto humanitario"
+        },
+        "settled_area.tooltip": "Área habitada",
+        "osm_gaps_percentage.tooltip": "Porcentaje de brechas de OSM (cuanto más bajo, mejor)",
+        "loss.tooltip": "Pérdida estimada"
+      }
+    },
+
+    "create_layer": {
+      "edit_layer": "Editar capa",
+      "edit_features": "Editar características",
+      "delete_layer": "Eliminar capa",
+      "create_layer": "Crear capa",
+      "saving_layer": "Guardando capa...",
+      "field_name": "Nombre de campo",
+      "layer_name": "Nombre de la capa",
+      "marker_icon": "Icono de marcador",
+      "type": "Tipo",
+      "select": "Seleccionar",
+      "short_text": "Texto corto",
+      "long_text": "Texto largo",
+      "link": "Enlace",
+      "image": "Imagen",
+      "fields": "Campos",
+      "add_field": "Agregar campo",
+      "location": "Ubicación",
+      "edit_feature_placeholder": "Seleccione una característica para comenzar a editar las propiedades de la misma"
+    },
+
+    "advanced_analytics_panel_header": {
+      "loading": "Cargando análisis avanzado...",
+      "other": "Análisis avanzado"
+    },
+
+    "analytics_panel_header": {
+      "init": "Seleccionar geometría",
+      "loading": "Cargando análisis...",
+      "error": "Error",
+      "other": "Análisis"
+    },
+
+    "advanced_analytics_empty": {
+      "not_found": "Lo sentimos, el evento solicitado no se ha encontrado.",
+      "error": "¡Se produjo un error!",
+      "please_select": " Vuelva a seleccionar un área",
+      "to_see_map": " para ver el estado del mapa",
+      "pick": "Elija el desastre de la lista",
+      "draw": "Dibuje un polígono en el mapa",
+      "select": "Seleccione el límite en el mapa",
+      "upload": "Cargue su propio geoJSON"
+    },
+
+    "draw_tools": {
+      "area": "Área",
+      "line": "Línea",
+      "point": "Punto",
+      "finish_drawing": "Terminar el dibujo",
+      "caption": "Haga clic en el mapa para empezar a dibujar",
+      "no_geometry_error": "No hay geometría dibujada para descargar",
+      "overlap_error": "El polígono no debe superponerse a sí mismo",
+      "save_features": "Guardar características"
+    },
+
+    "boundary_selector.title": "Enfoque en el límite administrativo",
+
+    "geometry_uploader": {
+      "title": "Enfoque en la geometría cargada",
+      "warning": "No es un archivo geojson válido",
+      "error": "Error al leer el archivo cargado"
+    },
+
+    "focus_geometry.title": "Enfoque en la geometría a mano alzada",
+
+    "focus_geometry_layer.settings.name": "Área seleccionada",
+
+    "drawings.self_directions_not_supported": "¡No se admiten las autointersecciones!",
+
+    "bivariate": {
+      "matrix": {
+        "icon.population": "Valor dividido por la población",
+        "icon.area_km2": "Valor dividido por el área",
+        "icon.total_building_count": "Valor dividido por la estimación total de edificios",
+        "icon.populated_area_km2": "Valor dividido por el área poblada",
+        "icon.one": "Sin divisor",
+        "icon.roads": "Valor dividido por la longitud total de las carreteras"
+      },
+
+      "legend": {
+        "high": "Alto",
+        "low": "Bajo"
+      },
+
+      "color_manager": {
+        "layers_filter": "Capas",
+        "title": "Administración de la apariencia",
+        "no_legends": "No hay leyendas que cumplan las condiciones.",
+        "no_data": "No hay datos."
+      }
+    },
+
+    "sidebar": {
+      "biv_color_manager": "Administrador de color bivariado",
+      "reports": "Informes",
+      "edit_osm": "Editar en OpenStreetMap",
+      "ruler": "Regla"
+    },
+
+    "login": {
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "login_button": "Inicio de sesión",
+      "sign_up": "Registrarse",
+      "logging_in": "Iniciando sesión...",
+      "log_in": "Iniciar sesión",
+      "error": {
+        "email_empty": "¡El correo electrónico no debe estar vacío!",
+        "email_invalid": "¡El correo electrónico debe ser válido! ",
+        "password": "¡La contraseña no debe estar vacía!",
+        "connect": "No se pudo conectar con el servicio de autenticación"
+      }
+    },
+
+    "reports": {
+      "title": "Informes de Disaster Ninja",
+      "no_data": "No hay datos para este informe",
+      "sorting": "Ordenando datos...",
+      "loading": "Cargando datos",
+      "search_location": "Buscar ubicación",
+      "open_josm": "Abrir a través del control remoto JOSM",
+      "josm_logo_alt": "Logotipo de JOSM",
+      "updated": "Actualizado",
+      "see_all": "Ver todos los informes",
+      "wrong_id": "ID de informe incorrecto"
+    }
+  }
+}
