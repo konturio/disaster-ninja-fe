@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { useAtom } from '@reatom/react';
+import { Text } from '@konturio/ui-kit';
 import ConnectedBivariateMatrix from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { createStateMap } from '~utils/atoms';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { BivariateGreetingsContainer } from '~features/bivariate_manager/components/BivariateGreetings/BivariateGreetingsContainer';
+import { i18n } from '~core/localization';
+import { focusedGeometryAtom } from '~core/shared_state';
+import { isGeometryEmpty } from '~features/bivariate_manager/utils/createBivariateGraphQLQuery';
 import s from './BivariateMatrixContainer.module.css';
 
 interface BivariateMatrixContainerProps {
@@ -48,7 +52,7 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
   return (
     <div
       id="bivariate-matrix-container"
-      className={clsx(s.bivariatecContainer, className)}
+      className={clsx(s.bivariateContainer, className)}
       ref={containerRef}
     >
       <div>
@@ -65,6 +69,7 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
           ),
           ready: () => (
             <>
+              <PanelHeader />
               <div className={s.matrixContainer}>
                 <ConnectedBivariateMatrix ref={onRefChange} />
               </div>
@@ -72,9 +77,21 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
             </>
           ),
         })}
-        <div className={s.topRightCorner} />
-        <div className={s.bottomRightCorner} />
       </div>
+    </div>
+  );
+};
+
+const PanelHeader = () => {
+  const [focusedGeometry] = useAtom(focusedGeometryAtom);
+  const haveGeometry = !isGeometryEmpty(focusedGeometry);
+
+  return (
+    <div className={s.header}>
+      <Text type="heading-l">{i18n.t('bivariate.matrix.header.title')}</Text>
+      {haveGeometry && (
+        <div className={s.hint}>{i18n.t('bivariate.matrix.header.hint')}</div>
+      )}
     </div>
   );
 };

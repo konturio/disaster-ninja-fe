@@ -1,5 +1,24 @@
-.bivariatecContainer {
+.bivariateContainer {
   overflow: hidden;
+}
+
+.header {
+  position: absolute;
+  right: 12px;
+  top: 0px;
+  left: 16px;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 9px 16px 24px;
+  background-color: var(--base-weak);
+  z-index: 1;
+
+  & .hint {
+    width: 205px;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--faint-strong-up);
+  }
 }
 
 .matrixContainer {
@@ -11,26 +30,6 @@
   position: relative;
   left: 100px;
   top: 40px;
-}
-
-.topRightCorner {
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  width: 50px;
-  height: 15px;
-  border-right: 2px solid #00d2ff;
-  border-top: 2px solid #00d2ff;
-}
-
-.bottomRightCorner {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  width: 50px;
-  height: 15px;
-  border-right: 2px solid #00d2ff;
-  border-bottom: 2px solid #00d2ff;
 }
 
 .loadingContainer {
