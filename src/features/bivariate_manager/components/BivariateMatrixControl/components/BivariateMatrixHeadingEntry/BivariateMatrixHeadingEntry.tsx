@@ -3,7 +3,7 @@ import cn from 'clsx';
 import DenominatorIcon from '../DenominatorIcon/DenominatorIcon';
 import { QuotientSelector } from '../QuotientSelector/QuotientSelector';
 import styles from './BivariateMatrixHeadingEntry.module.css';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, MouseEvent } from 'react';
 
 const getHeadingPositionStyle = (isColum: boolean, index: number) => {
   const styles: any = {
@@ -34,8 +34,13 @@ interface BivariateMatrixHeadingEntry {
   };
   id: string;
   onCellHover: (cellIndex: number | null) => void;
-  onCellClick: (cellIndex: number) => void;
-  onSelectQuotient: (index: number, numId: string, denId: string) => void;
+  onCellClick: (cellIndex: number, e: MouseEvent<Element>) => void;
+  onSelectQuotient: (
+    index: number,
+    numId: string,
+    denId: string,
+    e?: MouseEvent<Element>,
+  ) => void;
   baseDimension: number;
   calculateHeadingsStyle: (
     baseDimension: number,
@@ -82,7 +87,7 @@ export const BivariateMatrixHeadingEntry = forwardRef(
       )
         return;
 
-      onCellClick(index);
+      onCellClick(index, ev);
     };
 
     const selectQuotient = useCallback(

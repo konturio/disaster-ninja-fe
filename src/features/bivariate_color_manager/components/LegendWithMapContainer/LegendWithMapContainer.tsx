@@ -2,7 +2,7 @@ import { useAtom } from '@reatom/react';
 import {
   CSSTransitionWrapper,
   fadeClassNames,
-} from '~features/bivariate_color_manager/components/CssTransitionWrapper/CssTransitionWrapper';
+} from '~components/CssTransitionWrapper/CssTransitionWrapper';
 import { LegendWithMap } from '~features/bivariate_color_manager/components/LegendWithMap/LegendWithMap';
 import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import style from './LegendWithMapContainer.module.css';

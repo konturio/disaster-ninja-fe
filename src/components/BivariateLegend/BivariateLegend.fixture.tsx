@@ -1,4 +1,5 @@
 import { Legend as BiLegend } from '@konturio/ui-kit';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { PopupTooltip } from '~features/tooltip';
 import { BIVARIATE_LEGEND_SIZE } from './const';
 import { CornerTooltipWrapper } from './CornerTooltipWrapper';
@@ -107,7 +108,7 @@ const cells = [
 
 export default function BivariateLegendFixture() {
   return (
-    <>
+    <Router>
       <PopupTooltip />
       {/* @ts-ignore - FIXME */}
       <CornerTooltipWrapper meta={meta}>
@@ -118,6 +119,6 @@ export default function BivariateLegendFixture() {
           cells={cells}
         />
       </CornerTooltipWrapper>
-    </>
+    </Router>
   );
 }
