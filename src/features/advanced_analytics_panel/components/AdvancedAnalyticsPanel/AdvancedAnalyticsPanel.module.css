@@ -54,7 +54,7 @@
 .panelBody {
   width: 790px;
   height: 640px;
-  padding: 0 var(--double-unit) var(--double-unit) var(--double-unit);
+  padding: var(--double-unit);
   resize: both;
   overflow: auto;
 }

@@ -59,7 +59,7 @@ border-radius: var(--border-radius-unit); */
 
 .panelBody {
   width: 320px;
-  padding: 0 var(--double-unit) var(--double-unit) var(--double-unit);
+  padding: var(--double-unit);
 }
 
 .header {
