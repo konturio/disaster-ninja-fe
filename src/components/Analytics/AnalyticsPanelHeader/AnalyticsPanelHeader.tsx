@@ -27,17 +27,12 @@ function PanelHeading({ event }: PanelHeadingProps) {
 
 interface AnalyticsPanelHeaderParams {
   resourceAtom: ResourceAtomType<any, any>;
-  messages: {
-    init: string;
-    loading: string;
-    error: string;
-    other: string;
-  };
+  loadingMessage: string;
 }
 
 const AnalyticsPanelHeader = ({
   resourceAtom,
-  messages,
+  loadingMessage,
 }: AnalyticsPanelHeaderParams) => {
   const [{ error, loading, data }] = useAtom(resourceAtom);
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
@@ -56,16 +51,12 @@ const AnalyticsPanelHeader = ({
       : 'other';
 
   return statesToComponents({
-    init: () => <Text type="heading-m">{i18n.t(messages.init)}</Text>,
-    loading: () => <Text type="heading-m">{i18n.t(messages.loading)}</Text>,
-    error: () => <Text type="heading-m">{i18n.t(messages.error)}</Text>,
+    loading: () => <Text type="heading-m">{i18n.t(loadingMessage)}</Text>,
+    error: () => null,
     ready: () =>
       ({
         event: <PanelHeading event={(focusedGeometry?.source as any).meta} />,
-        boundaries: (
-          <Text type="heading-m">{(focusedGeometry?.source as any).meta}</Text>
-        ),
-        other: <Text type="heading-m">{i18n.t(messages.other)}</Text>,
+        boundaries: <Text type="heading-m">{(focusedGeometry?.source as any).meta}</Text>,
       }[sourceType]),
   }) as JSX.Element;
 };

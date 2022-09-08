@@ -68,12 +68,12 @@
       "init": "Select Geometry",
       "loading": "Loading analytics...",
       "error": "Error",
-      "other": "Analytics",
+      "header_title": "Analytics",
       "info_tab": "INFO"
     },
     "advanced_analytics_panel": {
       "loading": "Loading advanced analytics...",
-      "other": "Advanced analytics",
+      "header_title": "Advanced analytics",
       "analytics_tab": "Advanced Analytics"
     },
     "advanced_analytics_empty": {

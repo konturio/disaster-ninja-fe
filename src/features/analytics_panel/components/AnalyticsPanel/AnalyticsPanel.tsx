@@ -1,16 +1,16 @@
-import { Panel, PanelIcon } from '@konturio/ui-kit';
+import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Analytics24 } from '@konturio/default-icons';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { i18n } from '~core/localization';
 import styles from './AnalyticsPanel.module.css';
 
 const LazyLoadedAnalyticsContainer = lazy(
   () => import('../AnalyticsContainer/AnalyticsContainer'),
 );
 const LazyLoadedAnalyticsPanelHeader = lazy(
-  () =>
-    import('../AnalyticsPanelHeaderContainer/AnalyticsPanelHeaderContainer'),
+  () => import('../AnalyticsPanelHeaderContainer/AnalyticsPanelHeaderContainer'),
 );
 
 export function AnalyticsPanel() {
@@ -33,29 +33,28 @@ export function AnalyticsPanel() {
 
   return (
     <div className={styles.panelContainer}>
-      <Panel
-        header={isOpen ? <LazyLoadedAnalyticsPanelHeader /> : undefined}
-        onClose={onPanelClose}
-        className={clsx(
-          styles.sidePanel,
-          isOpen && styles.show,
-          !isOpen && styles.hide,
-        )}
-        classes={{
-          header: styles.header,
-        }}
-      >
-        <div className={styles.panelBody}>
-          {isOpen && <LazyLoadedAnalyticsContainer />}
-        </div>
-      </Panel>
+      {isOpen && (
+        <Panel
+          header={<Text type="heading-m">{i18n.t('analytics_panel.header_title')}</Text>}
+          onClose={onPanelClose}
+          className={clsx(
+            styles.sidePanel,
+            isOpen && styles.show,
+            !isOpen && styles.hide,
+          )}
+          classes={{
+            header: styles.header,
+          }}
+        >
+          <div className={styles.panelBody}>
+            <LazyLoadedAnalyticsPanelHeader />
+            <LazyLoadedAnalyticsContainer />
+          </div>
+        </Panel>
+      )}
       <PanelIcon
         clickHandler={onPanelOpen}
-        className={clsx(
-          styles.panelIcon,
-          isOpen && styles.hide,
-          !isOpen && styles.show,
-        )}
+        className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
         icon={<Analytics24 />}
       />
     </div>

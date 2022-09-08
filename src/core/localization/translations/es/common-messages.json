@@ -73,14 +73,14 @@
 
     "advanced_analytics_panel_header": {
       "loading": "Cargando análisis avanzado...",
-      "other": "Análisis avanzado"
+      "header_title": "Análisis avanzado"
     },
 
     "analytics_panel_header": {
       "init": "Seleccionar geometría",
       "loading": "Cargando análisis...",
       "error": "Error",
-      "other": "Análisis"
+      "header_title": "Análisis"
     },
 
     "advanced_analytics_empty": {
