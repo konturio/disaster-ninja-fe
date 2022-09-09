@@ -1,7 +1,7 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { Bi24 as BivariatePanelIcon } from '@konturio/default-icons';
+import { BivariateMatrix24 } from '@konturio/default-icons';
 import ReactDOM from 'react-dom';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
@@ -19,7 +19,9 @@ const CustomClosePanelBtn = () => (
   </svg>
 );
 
-const LazyLoadedBivariateMatrixContainer = lazy(() => import('../BivariateMatrixContainer/BivariateMatrixContainer'));
+const LazyLoadedBivariateMatrixContainer = lazy(
+  () => import('../BivariateMatrixContainer/BivariateMatrixContainer'),
+);
 
 export function BivariatePanel({
   iconsContainerRef,
@@ -71,8 +73,12 @@ export function BivariatePanel({
         ReactDOM.createPortal(
           <PanelIcon
             clickHandler={onPanelOpen}
-            className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
-            icon={<BivariatePanelIcon />}
+            className={clsx(
+              styles.panelIcon,
+              isOpen && styles.hide,
+              !isOpen && styles.show,
+            )}
+            icon={<BivariateMatrix24 />}
           />,
           iconsContainerRef.current,
         )}
