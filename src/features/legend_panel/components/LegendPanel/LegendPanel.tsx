@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
-import { Info24 } from '@konturio/default-icons';
+import { Legend24 } from '@konturio/default-icons';
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useAction } from '@reatom/react';
 import { i18n } from '~core/localization';
@@ -71,7 +71,7 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
           <PanelIcon
             clickHandler={onPanelOpen}
             className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
-            icon={<Info24 />}
+            icon={<Legend24 />}
           />,
           iconsContainerRef.current,
         )}

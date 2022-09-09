@@ -1,7 +1,7 @@
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { lazy, useCallback, useState } from 'react';
 import clsx from 'clsx';
-import { Bi24 as BivariatePanelIcon } from '@konturio/default-icons';
+import { AdvancedAnalytics24, Bi24 as BivariatePanelIcon } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import s from './AdvancedAnalyticsPanel.module.css';
 
@@ -50,7 +50,7 @@ export function AdvancedAnalyticsPanel() {
       <PanelIcon
         clickHandler={onPanelOpen}
         className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
-        icon={<BivariatePanelIcon />}
+        icon={<AdvancedAnalytics24 />}
       />
     </div>
   );
