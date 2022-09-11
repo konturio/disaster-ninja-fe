@@ -1,4 +1,4 @@
-.sidePanel {
+.legendPanel {
   pointer-events: auto;
   position: relative;
   z-index: 1; /* Show shadow over map */
@@ -43,8 +43,7 @@
   display: flex;
 
   &.show {
-    transition: display 0s linear 0s, visibility 0s linear 0s,
-      opacity 0.33s linear 0s;
+    transition: display 0s linear 0s, visibility 0s linear 0s, opacity 0.33s linear 0s;
     visibility: visible;
     display: flex;
     opacity: 1;
@@ -91,4 +90,26 @@
 
 .alignRight {
   margin-left: auto;
+}
+
+@media screen and (max-width: 960px) {
+  .modalCover,
+  .modalCover * {
+    z-index: var(--modal);
+  }
+  .modalCover > section {
+    top: 44px; /* header offset */
+    left: 0;
+  }
+  .legendPanel {
+    position: absolute;
+    margin: 0;
+    width: 100vw;
+    max-height: unset;
+    height: calc(100vh - 40px);
+    align-items: center;
+  }
+  .legendPanel > div {
+    width: 100%;
+  }
 }

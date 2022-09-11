@@ -1,9 +1,13 @@
-import { Panel, PanelIcon } from '@konturio/ui-kit';
+import { Modal, Panel, PanelIcon } from '@konturio/ui-kit';
 import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { BivariateMatrix24 } from '@konturio/default-icons';
 import ReactDOM from 'react-dom';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import {
+  COLLAPSE_PANEL_QUERY,
+  IS_MOBILE_QUERY,
+  useMediaQuery,
+} from '~utils/hooks/useMediaQuery';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
 import styles from './BivariatePanel.module.css';
 
@@ -30,12 +34,13 @@ export function BivariatePanel({
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const shouldCollapse = useMediaQuery(COLLAPSE_PANEL_QUERY);
 
   useEffect(() => {
-    if (isMobile) {
+    if (shouldCollapse) {
       setIsOpen(false);
     }
-  }, [isMobile]);
+  }, [shouldCollapse, setIsOpen]);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
@@ -54,20 +59,34 @@ export function BivariatePanel({
     }
   }, [setIsOpen]);
 
+  const panel = (
+    <Panel
+      onClose={onPanelClose}
+      className={clsx(
+        styles.bivariatePanel,
+        isOpen && styles.show,
+        !isOpen && styles.hide,
+      )}
+      classes={{
+        closeBtn: styles.customCloseBtn,
+      }}
+      customCloseBtn={<CustomClosePanelBtn />}
+    >
+      <div className={styles.panelBody}>
+        {isOpen && <LazyLoadedBivariateMatrixContainer />}
+      </div>
+    </Panel>
+  );
+
   return (
     <>
-      <Panel
-        onClose={onPanelClose}
-        className={clsx(styles.sidePanel, isOpen && styles.show, !isOpen && styles.hide)}
-        classes={{
-          closeBtn: styles.customCloseBtn,
-        }}
-        customCloseBtn={<CustomClosePanelBtn />}
-      >
-        <div className={styles.panelBody}>
-          {isOpen && <LazyLoadedBivariateMatrixContainer />}
-        </div>
-      </Panel>
+      {isOpen && isMobile ? (
+        <Modal onModalCloseCallback={onPanelClose} className={styles.modalCover}>
+          {panel}
+        </Modal>
+      ) : (
+        panel
+      )}
 
       {iconsContainerRef.current &&
         ReactDOM.createPortal(

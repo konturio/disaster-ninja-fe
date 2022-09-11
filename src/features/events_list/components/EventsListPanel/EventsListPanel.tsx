@@ -1,12 +1,16 @@
 import { Virtuoso } from 'react-virtuoso';
-import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
+import { Modal, Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import {
+  COLLAPSE_PANEL_QUERY,
+  IS_MOBILE_QUERY,
+  useMediaQuery,
+} from '~utils/hooks/useMediaQuery';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import { i18n } from '~core/localization';
 import { toolbarControlsAtom } from '~core/shared_state';
@@ -38,16 +42,17 @@ export function EventsListPanel({
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const virtuoso = useRef(null);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const shouldCollapse = useMediaQuery(COLLAPSE_PANEL_QUERY);
   // TEMP files. Remove when #11728 or #11710 will be implemented
   const [wasClosed, setWasClosed] = useState<null | boolean>(null);
   const [, { enable, disable, addControl, toggleActiveState }] =
     useAtom(toolbarControlsAtom);
 
   useEffect(() => {
-    if (isMobile) {
+    if (shouldCollapse) {
       disable(EVENT_LIST_CONTROL_ID);
     }
-  }, [isMobile, disable]);
+  }, [shouldCollapse, disable]);
 
   const onPanelClose = useCallback(() => {
     disable(EVENT_LIST_CONTROL_ID);
@@ -114,15 +119,13 @@ export function EventsListPanel({
     data: eventsList,
   });
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <Panel
-        header={isOpen ? <Text type="heading-l">{i18n.t('disasters')}</Text> : undefined}
-        className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
-        onClose={onPanelClose}
-      >
-        {/* RESTORE # 11728 */}
-        {/* <div className={s.panelBody}> */}
+  const panel = (
+    <Panel
+      header={isOpen ? <Text type="heading-l">{i18n.t('disasters')}</Text> : undefined}
+      className={clsx(s.eventsPanel, isOpen && s.show, !isOpen && s.hide)}
+      onClose={onPanelClose}
+    >
+      <div className={s.panelBody}>
         <EventListSettingsRow>
           <FeedSelector />
           <BBoxFilterToggle />
@@ -147,8 +150,19 @@ export function EventsListPanel({
             ),
           })}
         </div>
-        {/* </div> */}
-      </Panel>
+      </div>
+    </Panel>
+  );
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {isOpen && isMobile ? (
+        <Modal onModalCloseCallback={onPanelClose} className={s.modalCover}>
+          {panel}
+        </Modal>
+      ) : (
+        panel
+      )}
       {/* RESTORE  #11728 
       <PanelIcon
         clickHandler={onPanelOpen}

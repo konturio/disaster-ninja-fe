@@ -27,7 +27,7 @@
   }
 }
 
-.sidePanel {
+.panel {
   z-index: 1; /* Show shadow over map */
   position: absolute;
   align-self: flex-start;
@@ -62,4 +62,26 @@
 .header {
   border-bottom: none;
   padding-bottom: 0;
+}
+
+@media screen and (max-width: 960px) {
+  .modalCover,
+  .modalCover * {
+    z-index: var(--modal);
+  }
+  .modalCover > section {
+    top: 44px; /* header offset */
+    left: 0;
+  }
+  .panel {
+    position: absolute;
+    margin: 0;
+    width: 100vw;
+    max-height: unset;
+    height: calc(100vh - 40px);
+    align-items: center;
+  }
+  .panel > div {
+    width: 100%;
+  }
 }

@@ -2,10 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
-import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
+import { Modal, Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useAction } from '@reatom/react';
 import { i18n } from '~core/localization';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import {
+  COLLAPSE_PANEL_QUERY,
+  IS_MOBILE_QUERY,
+  useMediaQuery,
+} from '~utils/hooks/useMediaQuery';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { LEGEND_PANEL_FEATURE_ID } from '~features/legend_panel/constants';
 import s from './LegendPanel.module.css';
@@ -23,14 +27,15 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
   const [wasClosed, setWasClosed] = useState<boolean>(true);
 
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const shouldCollapse = useMediaQuery(COLLAPSE_PANEL_QUERY);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
 
   useEffect(() => {
-    if (isMobile) {
+    if (shouldCollapse) {
       setIsOpen(false);
       turnOffTooltip(LEGEND_PANEL_FEATURE_ID);
     }
-  }, [isMobile]);
+  }, [shouldCollapse, turnOffTooltip, LEGEND_PANEL_FEATURE_ID]);
 
   useEffect(() => {
     if (layers.length && !isMobile && !wasClosed && !isOpen) {
@@ -50,22 +55,32 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
     setWasClosed(false);
   }, [setIsOpen]);
 
+  const panel = (
+    <Panel
+      header={<Text type="heading-l">{i18n.t('legend')}</Text>}
+      onClose={onPanelClose}
+      className={clsx(s.legendPanel, isOpen && s.show, !isOpen && s.hide)}
+      classes={{
+        header: s.header,
+      }}
+    >
+      <div className={s.panelBody}>
+        {layers.map((layer) => (
+          <LegendsList layer={layer} key={layer.id} />
+        ))}
+      </div>
+    </Panel>
+  );
+
   return (
     <>
-      <Panel
-        header={<Text type="heading-l">{i18n.t('legend')}</Text>}
-        onClose={onPanelClose}
-        className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
-        classes={{
-          header: s.header,
-        }}
-      >
-        <div className={s.panelBody}>
-          {layers.map((layer) => (
-            <LegendsList layer={layer} key={layer.id} />
-          ))}
-        </div>
-      </Panel>
+      {isOpen && isMobile ? (
+        <Modal onModalCloseCallback={onPanelClose} className={s.modalCover}>
+          {panel}
+        </Modal>
+      ) : (
+        panel
+      )}
       {iconsContainerRef.current &&
         ReactDOM.createPortal(
           <PanelIcon
