@@ -1,17 +1,17 @@
 import { createAtom } from '~utils/atoms';
 
-type CurrentEpisodeAtomState = {
+export type CurrentEpisodeAtomState = {
   id: string;
 } | null;
 
 export const currentEpisodeAtom = createAtom(
   {
-    setCurrentEpisodeId: (episodeId: string) => episodeId,
-    resetCurrentEpisodeId: () => null,
+    set: (episodeId: string) => episodeId,
+    reset: () => null,
   },
   ({ onAction }, state: CurrentEpisodeAtomState = null) => {
-    onAction('setCurrentEpisodeId', (episodeId) => (state = { id: episodeId }));
-    onAction('resetCurrentEpisodeId', () => (state = null));
+    onAction('set', (episodeId) => (state = { id: episodeId }));
+    onAction('reset', () => (state = null));
     return state;
   },
   '[Shared state] currentEpisodeAtom',

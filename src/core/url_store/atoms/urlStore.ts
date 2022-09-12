@@ -1,6 +1,5 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
 import {
-  currentEpisodeAtom,
   currentEventAtom,
   currentMapPositionAtom,
   currentApplicationAtom,
@@ -40,7 +39,6 @@ export const urlStoreAtom = createAtom(
     initFlag: initFlagAtom,
     currentMapPositionAtom,
     currentEventAtom,
-    currentEpisodeAtom,
     enabledLayersAtom,
     currentApplicationAtom,
     currentEventFeedAtom,
@@ -117,11 +115,6 @@ export const urlStoreAtom = createAtom(
           actions.push(currentEventFeedAtom.setCurrentFeed(state.feed));
         }
 
-        // Apply episode
-        if (state.episode) {
-          actions.push(currentEpisodeAtom.setCurrentEpisodeId(state.episode));
-        }
-
         // Apply application id
         actions.push(currentApplicationAtom.init(state.app));
 
@@ -146,9 +139,6 @@ export const urlStoreAtom = createAtom(
 
       const currentFeed = get('currentEventFeedAtom');
       newState.feed = currentFeed ? currentFeed.id : undefined;
-
-      const currentEpisode = get('currentEpisodeAtom');
-      newState.episode = currentEpisode ? currentEpisode.id : undefined;
 
       const enabledLayers = get('enabledLayersAtom');
       newState.layers = Array.from(enabledLayers ?? []);
