@@ -29,7 +29,7 @@
   overflow-y: auto;
   width: 320px;
   height: 100%;
-  min-height: 80vh;
+  flex: 1;
   padding-bottom: var(--double-unit);
 }
 
@@ -39,6 +39,7 @@
   align-self: flex-start;
   left: -100px;
   border-radius: var(--border-radius-unit);
+  flex: 1;
 
   &.show {
     transition: visibility 0s linear 0s, opacity 0.33s linear 0s, left 0.1s linear 0s;
