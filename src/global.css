@@ -1,5 +1,9 @@
 @import-normalize;
 
+:root {
+  --header-height: 40px;
+}
+
 html,
 body {
   box-sizing: border-box;

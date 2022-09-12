@@ -71,7 +71,7 @@ border-radius: var(--border-radius-unit); */
   .analyticsPanel {
     margin: 0;
     width: 100vw;
-    height: calc(100vh - 40px);
+    height: calc(100vh - var(--header-height));
     align-items: center;
   }
   .analyticsPanel > div {

@@ -98,7 +98,7 @@
     margin: 0;
     width: 100vw;
     max-height: unset;
-    height: calc(100vh - 40px);
+    height: calc(100vh - var(--header-height));
     align-items: center;
   }
   .legendPanel > div {
