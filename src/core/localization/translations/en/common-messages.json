@@ -141,7 +141,8 @@
       "reports": "Reports",
       "edit_osm": "Edit in OpenStreetMap",
       "ruler": "Ruler",
-      "collapse": "Collapse"
+      "collapse": "Collapse",
+      "expand": "Expand"
     },
     "login": {
       "email": "Email",

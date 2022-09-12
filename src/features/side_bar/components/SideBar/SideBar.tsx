@@ -88,7 +88,14 @@ export function SideBar() {
               </ActionsBarBTN>
             </div>
           ) : (
-            <div className={s.buttonWrap} onClick={toggleIsOpen}>
+            <div
+              className={s.buttonWrap}
+              onClick={toggleIsOpen}
+              onPointerLeave={onMouseLeave}
+              onPointerEnter={(e) =>
+                onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
+              }
+            >
               <ActionsBarBTN
                 iconBefore={<DoubleChevronRight24 />}
                 className={s.controlButton}
