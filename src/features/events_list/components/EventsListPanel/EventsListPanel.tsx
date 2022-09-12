@@ -108,7 +108,7 @@ export function EventsListPanel({
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className={s.eventsPanelComponent}>
       <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
           header={

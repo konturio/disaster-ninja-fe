@@ -1,3 +1,8 @@
+.eventsPanelComponent {
+  display: flex;
+  flex-direction: column;
+}
+
 .panelContainer {
   position: relative;
 }
