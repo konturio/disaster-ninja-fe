@@ -9,20 +9,20 @@
   width: 284px;
 
   &.show {
-     transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
-     margin-right 0.1s linear 0s;
-     visibility: visible;
-     opacity: 1;
-     margin-right: 0;
-   }
+    transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
+      margin-right 0.1s linear 0s;
+    visibility: visible;
+    opacity: 1;
+    margin-right: 0;
+  }
 
   &.hide {
-     transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
-     margin-right 0.15s linear 0s;
-     visibility: hidden;
-     opacity: 0;
-     margin-right: -292px;
-   }
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
+      margin-right 0.15s linear 0s;
+    visibility: hidden;
+    opacity: 0;
+    margin-right: -292px;
+  }
 }
 
 .header {
@@ -33,19 +33,20 @@
   display: flex;
 
   &.show {
-     transition: display 0s linear 0s, visibility 0s linear 0s, opacity 0.33s linear 0s;
-     visibility: visible;
-     display: flex;
-     opacity: 1;
-   }
+    transition: display 0s linear 0s, visibility 0s linear 0s, opacity 0.33s linear 0s;
+    visibility: visible;
+    display: flex;
+    opacity: 1;
+  }
 
   &.hide {
-     transition: display 0s linear 0.33s, visibility 0s linear 0.33s, opacity 0.33s linear 0s;
-     visibility: hidden;
-     display: none;
-     opacity: 0;
-     width: 0;
-   }
+    transition: display 0s linear 0.33s, visibility 0s linear 0.33s,
+      opacity 0.33s linear 0s;
+    visibility: hidden;
+    display: none;
+    opacity: 0;
+    width: 0;
+  }
 }
 
 .iconContainerShown {
@@ -54,4 +55,29 @@
 
 .iconContainerHidden {
   display: none;
+}
+
+@media screen and (max-width: 960px) {
+  .modalCover,
+  .modalCover * {
+    z-index: var(--modal);
+  }
+  .modalCover > section {
+    top: 44px; /* header offset */
+    left: 0;
+  }
+  .panel {
+    position: absolute;
+    margin: 0;
+    width: 100vw;
+    max-height: unset;
+    height: calc(100vh - var(--header-height));
+    align-items: center;
+  }
+  .panel > div {
+    width: 100%;
+  }
+  .scrollable {
+    width: 100%;
+  }
 }

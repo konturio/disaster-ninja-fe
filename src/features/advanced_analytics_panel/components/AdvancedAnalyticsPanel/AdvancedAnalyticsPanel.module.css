@@ -27,7 +27,7 @@
   }
 }
 
-.sidePanel {
+.panel {
   z-index: 1; /* Show shadow over map */
   position: absolute;
   align-self: flex-start;
@@ -62,4 +62,18 @@
 .header {
   border-bottom: none;
   padding-bottom: 0;
+}
+
+@media screen and (max-width: 960px) {
+  .panel {
+    position: absolute;
+    margin: 0;
+    width: 100vw;
+    max-height: unset;
+    height: calc(100vh - var(--header-height));
+    align-items: center;
+  }
+  .panel > div {
+    width: 100%;
+  }
 }

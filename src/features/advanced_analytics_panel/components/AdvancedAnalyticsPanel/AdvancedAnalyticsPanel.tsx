@@ -1,8 +1,10 @@
-import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
+import { Modal, Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { lazy, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { AdvancedAnalytics24, Bi24 as BivariatePanelIcon } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
 import s from './AdvancedAnalyticsPanel.module.css';
 
 const LazyLoadedAdvancedAnalyticsContainer = lazy(
@@ -28,7 +30,7 @@ export function AdvancedAnalyticsPanel() {
 
   return (
     <div className={s.panelContainer}>
-      {isOpen && (
+      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
           header={
             <Text type="heading-m">
@@ -36,7 +38,7 @@ export function AdvancedAnalyticsPanel() {
             </Text>
           }
           onClose={onPanelClose}
-          className={clsx(s.sidePanel, isOpen && s.show, !isOpen && s.hide)}
+          className={clsx(s.panel, isOpen && s.show, !isOpen && s.hide)}
           classes={{
             header: s.header,
           }}
@@ -46,7 +48,8 @@ export function AdvancedAnalyticsPanel() {
             <LazyLoadedAdvancedAnalyticsContainer />
           </div>
         </Panel>
-      )}
+      </PanelWrap>
+
       <PanelIcon
         clickHandler={onPanelOpen}
         className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}

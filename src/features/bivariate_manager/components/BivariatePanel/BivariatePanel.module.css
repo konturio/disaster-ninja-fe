@@ -1,4 +1,4 @@
-.sidePanel {
+.bivariatePanel {
   pointer-events: auto;
   position: relative;
   z-index: 1; /* Show shadow over map */
@@ -48,8 +48,7 @@
   display: flex;
 
   &.show {
-    transition: display 0s linear 0s, visibility 0s linear 0s,
-      opacity 0.33s linear 0s;
+    transition: display 0s linear 0s, visibility 0s linear 0s, opacity 0.33s linear 0s;
     visibility: visible;
     display: flex;
     opacity: 1;
@@ -85,4 +84,21 @@
 
 .iconContainerHidden {
   display: none;
+}
+
+@media screen and (max-width: 960px) {
+  .bivariatePanel {
+    position: absolute;
+    margin: 0;
+    width: 100vw;
+    max-height: unset;
+    height: calc(100vh - var(--header-height));
+    align-items: center;
+  }
+  .bivariatePanel > div {
+    width: 100%;
+  }
+  .customCloseBtn {
+    left: 0;
+  }
 }

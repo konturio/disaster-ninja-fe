@@ -34,3 +34,16 @@
 .panelBody :first-child {
   margin-top: 0;
 }
+
+@media screen and (max-width: 960px) {
+  .sidePanel {
+    position: absolute;
+    margin: 0;
+    width: 100vw;
+    height: calc(100vh - var(--header-height));
+    align-items: center;
+  }
+  .sidePanel > div {
+    width: 100%;
+  }
+}

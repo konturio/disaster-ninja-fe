@@ -1,9 +1,9 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { lazy, useCallback, useEffect, useState } from 'react';
+import { lazy, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { BivariateMatrix24 } from '@konturio/default-icons';
 import ReactDOM from 'react-dom';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
 import styles from './BivariatePanel.module.css';
 
@@ -29,13 +29,6 @@ export function BivariatePanel({
   iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-
-  useEffect(() => {
-    if (isMobile) {
-      setIsOpen(false);
-    }
-  }, [isMobile]);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
@@ -56,18 +49,24 @@ export function BivariatePanel({
 
   return (
     <>
-      <Panel
-        onClose={onPanelClose}
-        className={clsx(styles.sidePanel, isOpen && styles.show, !isOpen && styles.hide)}
-        classes={{
-          closeBtn: styles.customCloseBtn,
-        }}
-        customCloseBtn={<CustomClosePanelBtn />}
-      >
-        <div className={styles.panelBody}>
-          {isOpen && <LazyLoadedBivariateMatrixContainer />}
-        </div>
-      </Panel>
+      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
+        <Panel
+          onClose={onPanelClose}
+          className={clsx(
+            styles.bivariatePanel,
+            isOpen && styles.show,
+            !isOpen && styles.hide,
+          )}
+          classes={{
+            closeBtn: styles.customCloseBtn,
+          }}
+          customCloseBtn={<CustomClosePanelBtn />}
+        >
+          <div className={styles.panelBody}>
+            {isOpen && <LazyLoadedBivariateMatrixContainer />}
+          </div>
+        </Panel>
+      </PanelWrap>
 
       {iconsContainerRef.current &&
         ReactDOM.createPortal(

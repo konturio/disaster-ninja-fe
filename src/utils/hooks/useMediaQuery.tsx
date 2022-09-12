@@ -16,4 +16,5 @@ export const useMediaQuery = (query: string) => {
   return matches;
 };
 
-export const IS_MOBILE_QUERY = '(max-width: 1280px)';
+export const IS_MOBILE_QUERY = '(max-width: 960px)';
+export const COLLAPSE_PANEL_QUERY = '(max-width: 1280px)';
