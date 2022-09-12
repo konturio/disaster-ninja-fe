@@ -68,14 +68,6 @@ border-radius: var(--border-radius-unit); */
 }
 
 @media screen and (max-width: 960px) {
-  .modalCover,
-  .modalCover * {
-    z-index: var(--modal);
-  }
-  .modalCover > section {
-    top: 44px; /* header offset */
-    left: 0;
-  }
   .analyticsPanel {
     margin: 0;
     width: 100vw;

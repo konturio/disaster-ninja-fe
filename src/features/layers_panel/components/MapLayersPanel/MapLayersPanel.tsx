@@ -1,17 +1,13 @@
-import { Modal, Panel, PanelIcon, Text } from '@konturio/ui-kit';
-import { useCallback, useEffect, useState } from 'react';
+import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
+import { useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Layers24 } from '@konturio/default-icons';
 import { useAction } from '@reatom/react';
 import { i18n } from '~core/localization';
-import {
-  COLLAPSE_PANEL_QUERY,
-  IS_MOBILE_QUERY,
-  useMediaQuery,
-} from '~utils/hooks/useMediaQuery';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
+import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
 import { LayersTree } from '../LayersTree/LayersTree';
 import s from './MapLayersPanel.module.css';
 
@@ -21,46 +17,31 @@ export function MapLayerPanel({
   iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const shouldCollapse = useMediaQuery(COLLAPSE_PANEL_QUERY);
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
-
-  useEffect(() => {
-    if (shouldCollapse) {
-      setIsOpen(false);
-      turnOffTooltip(LAYERS_PANEL_FEATURE_ID);
-    }
-  }, [shouldCollapse, turnOffTooltip, setIsOpen]);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
+    turnOffTooltip(LAYERS_PANEL_FEATURE_ID);
   }, [setIsOpen]);
 
   const onPanelOpen = useCallback(() => {
     setIsOpen(true);
   }, [setIsOpen]);
 
-  const panel = (
-    <Panel
-      className={clsx(s.panel, isOpen && s.show, !isOpen && s.hide)}
-      header={<Text type="heading-l">{i18n.t('layers')}</Text>}
-      onClose={onPanelClose}
-    >
-      <div className={s.scrollable}>
-        <LayersTree />
-      </div>
-    </Panel>
-  );
-
   return (
     <>
-      {isOpen && isMobile ? (
-        <Modal onModalCloseCallback={onPanelClose} className={s.modalCover}>
-          {panel}
-        </Modal>
-      ) : (
-        panel
-      )}
+      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
+        <Panel
+          className={clsx(s.panel, isOpen && s.show, !isOpen && s.hide)}
+          header={<Text type="heading-l">{i18n.t('layers')}</Text>}
+          onClose={onPanelClose}
+        >
+          <div className={s.scrollable}>
+            <LayersTree />
+          </div>
+        </Panel>
+      </PanelWrap>
+
       {iconsContainerRef.current &&
         ReactDOM.createPortal(
           <div className={!isOpen ? s.iconContainerShown : s.iconContainerHidden}>

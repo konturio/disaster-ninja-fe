@@ -4,6 +4,7 @@ import { useAction, useAtom } from '@reatom/react';
 import { Panel, Text } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { toolbarControlsAtom } from '~core/shared_state';
+import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
 import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
 import { currentEditedLayerFeatures } from '../../atoms/currentEditedLayerFeatures';
 import { currentSelectedPoint } from '../../atoms/currentSelectedPoint';
@@ -49,24 +50,26 @@ export function EditFeaturesPanel() {
   if (!settings) return null;
 
   return (
-    <Panel
-      header={<Text type="heading-l">{i18n.t('create_layer.edit_features')}</Text>}
-      onClose={onPanelClose}
-      className={clsx(s.sidePanel)}
-    >
-      <div className={s.panelBody}>
-        {selectedFeature?.properties ? (
-          <EditFeatureForm
-            featureProperties={selectedFeature.properties}
-            fieldsSettings={settings}
-            geometry={selectedFeature.geometry}
-            changeProperty={changeProperty}
-            onSave={onSave}
-          />
-        ) : (
-          <EditFeaturePlaceholder />
-        )}
-      </div>
-    </Panel>
+    <PanelWrap onPanelClose={onPanelClose} isPanelOpen={true}>
+      <Panel
+        header={<Text type="heading-l">{i18n.t('create_layer.edit_features')}</Text>}
+        onClose={onPanelClose}
+        className={clsx(s.sidePanel)}
+      >
+        <div className={s.panelBody}>
+          {selectedFeature?.properties ? (
+            <EditFeatureForm
+              featureProperties={selectedFeature.properties}
+              fieldsSettings={settings}
+              geometry={selectedFeature.geometry}
+              changeProperty={changeProperty}
+              onSave={onSave}
+            />
+          ) : (
+            <EditFeaturePlaceholder />
+          )}
+        </div>
+      </Panel>
+    </PanelWrap>
   );
 }

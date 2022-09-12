@@ -87,14 +87,6 @@
 }
 
 @media screen and (max-width: 960px) {
-  .modalCover,
-  .modalCover * {
-    z-index: var(--modal);
-  }
-  .modalCover > section {
-    top: 44px; /* header offset */
-    left: 0;
-  }
   .bivariatePanel {
     position: absolute;
     margin: 0;
