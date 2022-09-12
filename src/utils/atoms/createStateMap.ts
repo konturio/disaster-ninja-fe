@@ -14,7 +14,7 @@ export function createStateMap<T>({
   error: string | null;
   data: T | null;
 }) {
-  return ({ loading, error, ready, init }: AtomStatesHandlers<T>) => {
+  return ({ loading, error, ready, init = null }: AtomStatesHandlers<T>) => {
     if (LoadingState && loading)
       return typeof loading === 'function' ? loading() : loading;
     if (errorMessage && error)
