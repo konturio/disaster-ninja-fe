@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { createAtom, createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
@@ -26,8 +27,13 @@ export const episodesResource = createResourceAtom(
       const responseData = await apiClient.get<Episode[]>(
         `/events/${deps.feed.id}/${deps.event.id}/episodes`,
       );
-      if (responseData === undefined) throw 'No data received';
-      return responseData;
+      if (!responseData) throw 'No data received';
+
+      // Episodes not have any ids
+      return responseData.map((e) => {
+        if (!e.id) e.id = 'temp_' + nanoid(6);
+        return e;
+      });
     }
     return null;
   },
