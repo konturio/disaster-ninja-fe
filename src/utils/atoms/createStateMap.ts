@@ -1,7 +1,7 @@
 export interface AtomStatesHandlers<T> {
   loading?: (() => JSX.Element | null) | JSX.Element | null;
   error?: ((errorMessage?: string) => JSX.Element | null) | JSX.Element | null;
-  ready: (data: T) => JSX.Element | JSX.Element[] | null;
+  ready: (data: T) => JSX.Element | null;
   init?: (() => JSX.Element) | JSX.Element | null;
 }
 
