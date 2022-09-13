@@ -36,6 +36,8 @@ const { Toolbar } = lazily(() => import('~features/toolbar'));
 
 const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
 
+const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
+
 type MainViewProps = {
   userModel?: UserDataModel | null;
 };
@@ -163,6 +165,9 @@ export function MainView({ userModel }: MainViewProps) {
           <DrawToolsToolbox />
         </div>
       </Row>
+      <div>
+        {userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />}
+      </div>
     </>
   );
 }
