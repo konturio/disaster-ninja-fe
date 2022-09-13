@@ -1,5 +1,5 @@
 import { Virtuoso } from 'react-virtuoso';
-import { Panel, Text } from '@konturio/ui-kit';
+import { Panel } from '@konturio/ui-kit';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
@@ -15,6 +15,7 @@ import {
 } from '~features/events_list/constants';
 import { controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
+import { PanelHeader } from '~components/Panel/Header/Header';
 import { FeedSelector } from '../FeedSelector/FeedSelector';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
@@ -22,6 +23,7 @@ import { EventCard } from '../EventCard/EventCard';
 import s from './EventsListPanel.module.css';
 import type { Event } from '~core/types';
 
+const classes = { header: s.header };
 export function EventsListPanel({
   current,
   onCurrentChange,
@@ -111,11 +113,10 @@ export function EventsListPanel({
     <div className={s.eventsPanelComponent}>
       <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
-          header={
-            isOpen ? <Text type="heading-l">{i18n.t('disasters')}</Text> : undefined
-          }
+          header={<PanelHeader icon={<Disasters24 />} title={i18n.t('disasters')} />}
           className={clsx(s.eventsPanel, isOpen && s.show, !isOpen && s.hide)}
           onClose={onPanelClose}
+          classes={classes}
         >
           <div className={s.panelBody}>
             <EventListSettingsRow>

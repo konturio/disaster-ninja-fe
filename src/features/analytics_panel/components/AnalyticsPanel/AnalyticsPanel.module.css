@@ -57,14 +57,15 @@ border-radius: var(--border-radius-unit); */
   }
 }
 
+.header {
+  padding: 10px var(--double-unit);
+  display: flex;
+  align-items: center;
+}
+
 .panelBody {
   width: 320px;
   padding: var(--double-unit);
-}
-
-.header {
-  border-bottom: none;
-  padding-bottom: 0;
 }
 
 @media screen and (max-width: 960px) {

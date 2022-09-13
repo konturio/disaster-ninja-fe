@@ -1,0 +1,9 @@
+.headerTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--unit);
+  & svg {
+    width: 20px;
+    height: 20px;
+  }
+}

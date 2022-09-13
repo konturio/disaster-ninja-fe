@@ -60,6 +60,16 @@
   }
 }
 
+.panelBody {
+  flex: 1;
+}
+
+.header {
+  padding: 10px var(--double-unit);
+  display: flex;
+  align-items: center;
+}
+
 @media screen and (max-width: 960px) {
   .eventsPanel {
     position: absolute;

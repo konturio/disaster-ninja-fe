@@ -60,8 +60,9 @@
 }
 
 .header {
-  border-bottom: none;
-  padding-bottom: 0;
+  padding: 10px var(--double-unit);
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (max-width: 960px) {

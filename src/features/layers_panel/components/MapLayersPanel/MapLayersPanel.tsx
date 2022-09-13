@@ -8,9 +8,11 @@ import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
+import { PanelHeader } from '~components/Panel/Header/Header';
 import { LayersTree } from '../LayersTree/LayersTree';
 import s from './MapLayersPanel.module.css';
 
+const classes = { header: s.header };
 export function MapLayerPanel({
   iconsContainerRef,
 }: {
@@ -33,8 +35,9 @@ export function MapLayerPanel({
       <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
           className={clsx(s.panel, isOpen && s.show, !isOpen && s.hide)}
-          header={<Text type="heading-l">{i18n.t('layers')}</Text>}
+          header={<PanelHeader icon={<Layers24 />} title={i18n.t('layers')} />}
           onClose={onPanelClose}
+          classes={classes}
         >
           <div className={s.scrollable}>
             <LayersTree />

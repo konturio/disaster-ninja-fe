@@ -8,6 +8,7 @@ import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { LEGEND_PANEL_FEATURE_ID } from '~features/legend_panel/constants';
 import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
+import { PanelHeader } from '~components/Panel/Header/Header';
 import s from './LegendPanel.module.css';
 import { LegendsList } from './LegendsList';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
@@ -17,6 +18,7 @@ interface LegendPanelProps {
   iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
+const classes = { header: s.header };
 export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -35,12 +37,10 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
     <>
       <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
-          header={<Text type="heading-l">{i18n.t('legend')}</Text>}
+          header={<PanelHeader icon={<Legend24 />} title={i18n.t('legend')} />}
           onClose={onPanelClose}
           className={clsx(s.legendPanel, isOpen && s.show, !isOpen && s.hide)}
-          classes={{
-            header: s.header,
-          }}
+          classes={classes}
         >
           <div className={s.panelBody}>
             {layers.map((layer) => (

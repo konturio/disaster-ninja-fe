@@ -1,10 +1,10 @@
-import { Modal, Panel, PanelIcon, Text } from '@konturio/ui-kit';
+import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { lazy, useCallback, useState } from 'react';
 import clsx from 'clsx';
-import { AdvancedAnalytics24, Bi24 as BivariatePanelIcon } from '@konturio/default-icons';
+import { AdvancedAnalytics24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
+import { PanelHeader } from '~components/Panel/Header/Header';
 import s from './AdvancedAnalyticsPanel.module.css';
 
 const LazyLoadedAdvancedAnalyticsContainer = lazy(
@@ -16,6 +16,7 @@ const LazyLoadedAdvancedAnalyticsPanelHeader = lazy(
       '../AdvancedAnalyticsPanelHeaderContainer/AdvancedAnalyticsPanelHeaderContainer'
     ),
 );
+const classes = { header: s.header };
 
 export function AdvancedAnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -33,15 +34,14 @@ export function AdvancedAnalyticsPanel() {
       <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
           header={
-            <Text type="heading-m">
-              {i18n.t('advanced_analytics_panel.header_title')}
-            </Text>
+            <PanelHeader
+              icon={<AdvancedAnalytics24 />}
+              title={i18n.t('advanced_analytics_panel.header_title')}
+            />
           }
           onClose={onPanelClose}
           className={clsx(s.panel, isOpen && s.show, !isOpen && s.hide)}
-          classes={{
-            header: s.header,
-          }}
+          classes={classes}
         >
           <div className={s.panelBody}>
             <LazyLoadedAdvancedAnalyticsPanelHeader />
