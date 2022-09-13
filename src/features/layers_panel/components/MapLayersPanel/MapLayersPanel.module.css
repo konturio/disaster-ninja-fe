@@ -5,9 +5,8 @@
 }
 
 .panel {
-  max-height: calc(100vh - 140px);
   width: 284px;
-
+  height: 100%;
   &.show {
     transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
       margin-right 0.1s linear 0s;
