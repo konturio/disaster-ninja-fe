@@ -8,6 +8,6 @@ export const eventEpisodesController = createFeatureController({
   closeEpisodesTimeline: () => episodesPanelState.close(),
   openEpisodesTimeline: () => episodesPanelState.open(),
   resetTimelineZoom: () => episodesTimeline.resetZoom(),
-  toggleTimelinePacking: () => episodesTimeline.patchSettings({ pack: true }),
+  toggleTimelinePacking: () => episodesTimeline.patchSettings({ stack: true }),
   setTimelineImperativeApi: (api) => episodesTimeline.setImperativeApi(api),
 });
