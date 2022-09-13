@@ -23,10 +23,12 @@ export function EventCard({
   event,
   isActive,
   onClick,
+  alternativeActionControl,
 }: {
   event: Event;
   isActive: boolean;
   onClick: (id: string) => void;
+  alternativeActionControl: JSX.Element | null;
 }) {
   const formattedTime = useMemo(
     () => formatTime(parseISO(event.updatedAt)),
@@ -55,6 +57,7 @@ export function EventCard({
 
       <div className={s.footer}>
         <Text type="caption">Updated {formattedTime}</Text>
+        {alternativeActionControl}
       </div>
     </button>
   );
