@@ -6,8 +6,7 @@ export const UserStateStatus = {
   PASSWORD_RESET: 'password_reset',
 } as const;
 
-export type UserStateType =
-  typeof UserStateStatus[keyof typeof UserStateStatus];
+export type UserStateType = typeof UserStateStatus[keyof typeof UserStateStatus];
 
 export const AppFeature = {
   APP_LOGIN: 'app_login',
@@ -46,6 +45,7 @@ export const AppFeature = {
   HEADER: 'header',
   INTERCOM: 'intercom',
   BIVARIATE_COLOR_MANAGER: 'bivariate_color_manager',
+  EPISODES_TIMELINE: 'episodes_timeline',
 } as const;
 
 export type AppFeatureType = typeof AppFeature[keyof typeof AppFeature];

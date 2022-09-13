@@ -16,7 +16,11 @@ export const currentEventAtom = createAtom(
   ({ onAction, onChange }, state: CurrentEventAtomState = null) => {
     onChange('focusedGeometryAtom', (focusedGeometry) => {
       const currentGeometrySource = focusedGeometry?.source;
-      if (currentGeometrySource && currentGeometrySource.type !== 'event') {
+      if (
+        currentGeometrySource &&
+        currentGeometrySource.type !== 'event' &&
+        currentGeometrySource.type !== 'episode'
+      ) {
         // if focused geometry is no longer represents event, user stopped work with events
         // following state specifies that
         state = { id: null };
@@ -30,11 +34,5 @@ export const currentEventAtom = createAtom(
   '[Shared state] currentEventAtom',
 );
 
-export const scheduledAutoSelect = createBooleanAtom(
-  false,
-  'scheduledAutoSelect',
-);
-export const scheduledAutoFocus = createBooleanAtom(
-  false,
-  'scheduledAutoFocus',
-);
+export const scheduledAutoSelect = createBooleanAtom(false, 'scheduledAutoSelect');
+export const scheduledAutoFocus = createBooleanAtom(false, 'scheduledAutoFocus');

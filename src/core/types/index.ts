@@ -92,3 +92,5 @@ export type LegendStepStyle = {
 };
 
 export type LegendIconSize = 'normal' | 'small';
+
+export type { Episode } from './episode';

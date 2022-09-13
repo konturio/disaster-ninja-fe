@@ -1,11 +1,16 @@
 import { crc32 } from 'hash-wasm';
 import { createAtom } from '~utils/atoms';
 import { currentUserAtom } from '~core/shared_state/currentUser';
-import type { EventWithGeometry } from '~core/types';
+import type { Episode, EventWithGeometry } from '~core/types';
 
 interface GeometrySourceEvent {
   type: 'event';
   meta: EventWithGeometry;
+}
+
+interface GeometrySourceEpisode {
+  type: 'episode';
+  meta: Episode;
 }
 
 interface GeometrySourceCustom {
@@ -26,6 +31,7 @@ interface GeometrySourceDrawn {
 }
 
 type GeometrySource =
+  | GeometrySourceEpisode
   | GeometrySourceEvent
   | GeometrySourceCustom
   | GeometrySourceBoundaries
