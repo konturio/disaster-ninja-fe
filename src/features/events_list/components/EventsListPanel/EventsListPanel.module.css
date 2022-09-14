@@ -71,10 +71,6 @@
   }
 }
 
-.panelBody {
-  flex: 1;
-}
-
 .header {
   padding: 10px var(--double-unit);
   display: flex;
