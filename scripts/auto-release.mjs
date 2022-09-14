@@ -41,7 +41,6 @@ async function createRelease() {
   if (haveUnmergedRelease) throw new Error('You should merge or close previous release');
 
   const packageJSON = projectPackageJSON.read();
-  console.log(semver.inc(packageJSON.version, 'minor'));
   const { version, versionConfirmed } = await prompts([
     {
       type: 'select',
