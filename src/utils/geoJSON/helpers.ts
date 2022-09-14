@@ -1,3 +1,5 @@
+import union from '@turf/union';
+
 // eslint-disable-next-line import/prefer-default-export
 export function createGeoJSONSource(
   featureCollection: GeoJSON.FeatureCollection | GeoJSON.Feature = {
@@ -40,4 +42,32 @@ export function readGeoJSON(file): Promise<GeoJSON.GeoJSON> {
     reader.onerror = (error) => rej(error);
     reader.readAsText(file);
   });
+}
+
+const isPolygonLike = (
+  f: GeoJSON.Feature,
+): f is GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon> =>
+  f.geometry.type === 'Polygon' || f.geometry.type === 'MultiPolygon';
+
+export function mergeFeatureCollection(fc: GeoJSON.FeatureCollection) {
+  let acc: GeoJSON.Feature<
+    GeoJSON.Polygon | GeoJSON.MultiPolygon,
+    GeoJSON.GeoJsonProperties
+  > | null = null;
+  for (let i = 0; i < fc.features.length; i++) {
+    const poly = fc.features[i];
+    if (poly.geometry) {
+      if (isPolygonLike(poly)) {
+        if (acc === null) {
+          acc = poly;
+        } else {
+          const mergeResult = union(acc, poly);
+          if (mergeResult !== null) {
+            acc = mergeResult;
+          }
+        }
+      }
+    }
+  }
+  return acc;
 }
