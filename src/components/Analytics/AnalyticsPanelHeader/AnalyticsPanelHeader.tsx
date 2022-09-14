@@ -58,7 +58,7 @@ const AnalyticsPanelHeader = ({
         event: <PanelHeading event={(focusedGeometry?.source as any).meta} />,
         boundaries: <Text type="heading-m">{(focusedGeometry?.source as any).meta}</Text>,
       }[sourceType]),
-  }) as JSX.Element;
+  }) || <></>;
 };
 
 export default AnalyticsPanelHeader;

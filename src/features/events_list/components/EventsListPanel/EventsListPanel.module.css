@@ -1,3 +1,9 @@
+.panelBody {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1;
+}
+
 .eventsPanelComponent {
   display: flex;
   flex-direction: column;
@@ -26,11 +32,16 @@
 }
 
 .scrollable {
+  display: flex;
   overflow-y: auto;
   width: 320px;
   height: 100%;
   flex: 1;
   padding-bottom: var(--double-unit);
+}
+
+.scrollable > div {
+  width: 100%;
 }
 
 .eventsPanel {

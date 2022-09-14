@@ -5,7 +5,7 @@ import {
   TabPanel,
   TabPanels,
 } from '@konturio/ui-kit/tslib/Tabs/components';
-import { ColumnWidth16, Tags16, TwoXTwo16 } from '@konturio/default-icons';
+import { ColumnWidth16, Tags16, Twoxtwo16 } from '@konturio/default-icons';
 import { ColorLegendsView } from '~views/BivariateManager/sub_views/ColorLegends/ColorLegendsView';
 import { i18n } from '~core/localization';
 import style from './BivariateManager.module.css';
@@ -29,7 +29,7 @@ export function BivariateManagerPage() {
         <Tab className={style.Tab} classes={tabsClasses}>
           <div className={style.TabItem}>
             <span className={style.TabIcon}>
-              <TwoXTwo16 />
+              <Twoxtwo16 />
             </span>
             {i18n.t('bivariate.color_manager.color_legends_tab')}
           </div>
