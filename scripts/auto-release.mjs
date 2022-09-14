@@ -79,7 +79,7 @@ async function createRelease() {
   });
   fixLockFile();
   git.pushAll(`Version ${version}`);
-  console.log(`Success! Now you can create Pull request: https://github.com/konturio/disaster-ninja-fe/compare/${branchName}?expand=1`)
+  console.log(chalk.greenBright(`Success! You can now open a pull request by the link above`))
 }
 
 try {
