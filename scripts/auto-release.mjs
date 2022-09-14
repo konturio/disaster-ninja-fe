@@ -70,6 +70,7 @@ async function createRelease() {
     return;
   }
 
+  console.log('Adding changes to repo, please wait\n')
   git.createAndCheckoutToBranch(`${release}-version`);
   projectPackageJSON.save({
     ...packageJSON,
