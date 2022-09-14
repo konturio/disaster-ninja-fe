@@ -15,7 +15,10 @@ import {
 } from '~features/events_list/constants';
 import { controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
+import { userResourceAtom } from '~core/auth';
+import { AppFeature } from '~core/auth/types';
 import { FeedSelector } from '../FeedSelector/FeedSelector';
+import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { EventCard } from '../EventCard/EventCard';
@@ -41,6 +44,7 @@ export function EventsListPanel({
   const [wasClosed, setWasClosed] = useState<null | boolean>(null);
   const [, { enable, disable, addControl, toggleActiveState }] =
     useAtom(toolbarControlsAtom);
+  const [{ data: userModel }] = useAtom(userResourceAtom);
 
   const onPanelClose = useCallback(() => {
     disable(EVENT_LIST_CONTROL_ID);
@@ -135,6 +139,11 @@ export function EventsListPanel({
                         event={event}
                         isActive={event.eventId === current}
                         onClick={onCurrentChange}
+                        alternativeActionControl={
+                          userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) ? (
+                            <EpisodeTimelineToggle isActive={event.eventId === current} />
+                          ) : null
+                        }
                       />
                     )}
                     ref={virtuoso}

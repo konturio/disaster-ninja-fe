@@ -24,5 +24,8 @@
 }
 
 .footer {
+  display: flex;
   color: var(--text-faint-strong);
+  justify-content: space-between;
+  width: 100%;
 }
