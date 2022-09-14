@@ -70,14 +70,16 @@ async function createRelease() {
     return;
   }
 
-  console.log('Adding changes to repo, please wait\n')
-  git.createAndCheckoutToBranch(`${release}-version`);
+  console.log('Creating release branch, please wait\n')
+  const branchName = `${release}-version`;
+  git.createAndCheckoutToBranch(branchName);
   projectPackageJSON.save({
     ...packageJSON,
     version,
   });
   fixLockFile();
   git.pushAll(`Version ${version}`);
+  console.log(`Success! Now you can create Pull request: https://github.com/konturio/disaster-ninja-fe/compare/${branchName}?expand=1`)
 }
 
 try {
