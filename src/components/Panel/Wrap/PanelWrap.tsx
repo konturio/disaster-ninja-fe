@@ -25,7 +25,7 @@ export function PanelWrap({
   const shouldCollapse = useMediaQuery(COLLAPSE_PANEL_QUERY);
 
   useEffect(() => {
-    if (shouldCollapse && !restrictAutoCollapsing) {
+    if (shouldCollapse && !restrictAutoCollapsing && !isPanelOpen) {
       onPanelClose();
       onAutoCollapse?.();
     }

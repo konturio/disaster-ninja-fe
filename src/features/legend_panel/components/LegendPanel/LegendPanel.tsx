@@ -9,6 +9,7 @@ import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { LEGEND_PANEL_FEATURE_ID } from '~features/legend_panel/constants';
 import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
 import { PanelHeader } from '~components/Panel/Header/Header';
+import { PanelCloseButton } from '~components/Panel/CloseButton/CloseButton';
 import s from './LegendPanel.module.css';
 import { LegendsList } from './LegendsList';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
@@ -24,8 +25,8 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
 
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
 
-  const onPanelClose = useCallback(() => {
-    setIsOpen(false);
+  const togglePanel = useCallback(() => {
+    setIsOpen((prevState) => !prevState);
     turnOffTooltip(LEGEND_PANEL_FEATURE_ID);
   }, [setIsOpen]);
 
@@ -35,12 +36,13 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
 
   return (
     <>
-      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
+      <PanelWrap onPanelClose={() => setIsOpen(false)} isPanelOpen={isOpen}>
         <Panel
           header={<PanelHeader icon={<Legend24 />} title={i18n.t('legend')} />}
-          onClose={onPanelClose}
-          className={clsx(s.legendPanel, isOpen && s.show, !isOpen && s.hide)}
+          onClose={togglePanel}
+          className={clsx(s.legendPanel, isOpen && s.show, !isOpen && s.collapse)}
           classes={classes}
+          customCloseBtn={<PanelCloseButton isOpen={isOpen} />}
         >
           <div className={s.panelBody}>
             {layers.map((layer) => (

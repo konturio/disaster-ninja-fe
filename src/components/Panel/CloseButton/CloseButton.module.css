@@ -1,0 +1,6 @@
+.closeBtn {
+  display: flex;
+  position: absolute;
+  right: var(--double-unit);
+  top: var(--unit);
+}

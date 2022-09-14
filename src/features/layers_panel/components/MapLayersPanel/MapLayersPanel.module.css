@@ -6,21 +6,18 @@
 
 .panel {
   width: 284px;
-  height: 100%;
+  height: 0;
   &.show {
-    transition: visibility 0s linear 0s, opacity 0.33s linear 0s,
-      margin-right 0.1s linear 0s;
+    transition: visibility 0s linear 0s, height 0.1s linear 0s;
     visibility: visible;
-    opacity: 1;
-    margin-right: 0;
+    height: 100%;
   }
 
-  &.hide {
-    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s,
-      margin-right 0.15s linear 0s;
-    visibility: hidden;
-    opacity: 0;
-    margin-right: -292px;
+  &.collapse {
+    transition: visibility 0s linear 0s, height 0.1s linear 0s;
+    visibility: visible;
+    height: var(--panel-header-height);
+    overflow: hidden;
   }
 }
 
@@ -31,23 +28,7 @@
 }
 
 .panelIcon {
-  display: flex;
-
-  &.show {
-    transition: display 0s linear 0s, visibility 0s linear 0s, opacity 0.33s linear 0s;
-    visibility: visible;
-    display: flex;
-    opacity: 1;
-  }
-
-  &.hide {
-    transition: display 0s linear 0.33s, visibility 0s linear 0.33s,
-      opacity 0.33s linear 0s;
-    visibility: hidden;
-    display: none;
-    opacity: 0;
-    width: 0;
-  }
+  display: none;
 }
 
 .iconContainerShown {
@@ -59,26 +40,40 @@
 }
 
 @media screen and (max-width: 960px) {
-  .modalCover,
-  .modalCover * {
-    z-index: var(--modal);
-  }
-  .modalCover > section {
-    top: 44px; /* header offset */
-    left: 0;
-  }
-  .panel {
+  .panel.show {
     position: absolute;
     margin: 0;
     width: 100vw;
     max-height: unset;
     height: calc(100vh - var(--header-height));
     align-items: center;
+    & > div {
+      width: 100%;
+    }
   }
-  .panel > div {
-    width: 100%;
+  .panel.collapse {
+    display: none;
   }
+
   .scrollable {
     width: 100%;
+  }
+
+  .panelIcon {
+    &.show {
+      transition: display 0s linear 0s, visibility 0s linear 0s, opacity 0.33s linear 0s;
+      visibility: visible;
+      display: flex;
+      opacity: 1;
+    }
+
+    &.hide {
+      transition: display 0s linear 0.33s, visibility 0s linear 0.33s,
+        opacity 0.33s linear 0s;
+      visibility: hidden;
+      display: none;
+      opacity: 0;
+      width: 0;
+    }
   }
 }

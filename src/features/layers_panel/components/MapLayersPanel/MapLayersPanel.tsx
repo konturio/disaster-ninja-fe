@@ -9,6 +9,7 @@ import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
 import { PanelHeader } from '~components/Panel/Header/Header';
+import { PanelCloseButton } from '~components/Panel/CloseButton/CloseButton';
 import { LayersTree } from '../LayersTree/LayersTree';
 import s from './MapLayersPanel.module.css';
 
@@ -21,8 +22,8 @@ export function MapLayerPanel({
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
 
-  const onPanelClose = useCallback(() => {
-    setIsOpen(false);
+  const togglePanel = useCallback(() => {
+    setIsOpen((prevState) => !prevState);
     turnOffTooltip(LAYERS_PANEL_FEATURE_ID);
   }, [setIsOpen]);
 
@@ -32,12 +33,13 @@ export function MapLayerPanel({
 
   return (
     <>
-      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
+      <PanelWrap onPanelClose={() => setIsOpen(false)} isPanelOpen={isOpen}>
         <Panel
-          className={clsx(s.panel, isOpen && s.show, !isOpen && s.hide)}
+          className={clsx(s.panel, isOpen && s.show, !isOpen && s.collapse)}
           header={<PanelHeader icon={<Layers24 />} title={i18n.t('layers')} />}
-          onClose={onPanelClose}
+          onClose={togglePanel}
           classes={classes}
+          customCloseBtn={<PanelCloseButton isOpen={isOpen} />}
         >
           <div className={s.scrollable}>
             <LayersTree />

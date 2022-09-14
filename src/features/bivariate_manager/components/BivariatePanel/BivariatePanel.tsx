@@ -4,24 +4,30 @@ import clsx from 'clsx';
 import { BivariateMatrix24 } from '@konturio/default-icons';
 import ReactDOM from 'react-dom';
 import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
+import { PanelCloseButton } from '~components/Panel/CloseButton/CloseButton';
+import { PanelHeader } from '~components/Panel/Header/Header';
+import { i18n } from '~core/localization';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
 import styles from './BivariatePanel.module.css';
 
-const CustomClosePanelBtn = () => (
-  <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
-    <path
-      d="M1 1L7 7L1 13"
-      stroke="white"
-      strokeWidth="1.3"
-      strokeLinecap="square"
-      strokeLinejoin="bevel"
-    />
-  </svg>
-);
+const classes = { header: styles.header, closeBtn: styles.customCloseBtn };
 
 const LazyLoadedBivariateMatrixContainer = lazy(
   () => import('../BivariateMatrixContainer/BivariateMatrixContainer'),
 );
+
+function showIntercom() {
+  const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
+  if (intercomApp && intercomApp.length) {
+    (intercomApp[0] as HTMLDivElement).style.display = '';
+  }
+}
+function hideIntercom() {
+  const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
+  if (intercomApp && intercomApp.length) {
+    (intercomApp[0] as HTMLDivElement).style.display = 'none';
+  }
+}
 
 export function BivariatePanel({
   iconsContainerRef,
@@ -32,35 +38,41 @@ export function BivariatePanel({
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
-    const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
-    if (intercomApp && intercomApp.length) {
-      (intercomApp[0] as HTMLDivElement).style.display = '';
-    }
+    showIntercom();
   }, [setIsOpen]);
 
   const onPanelOpen = useCallback(() => {
     setIsOpen(true);
     // need this to temporary hide intercom when showing bivariate
-    const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
-    if (intercomApp && intercomApp.length) {
-      (intercomApp[0] as HTMLDivElement).style.display = 'none';
-    }
+    hideIntercom();
+  }, [setIsOpen]);
+
+  const togglePanel = useCallback(() => {
+    setIsOpen((wasOpen) => {
+      if (wasOpen) showIntercom();
+      else hideIntercom();
+      return !wasOpen;
+    });
   }, [setIsOpen]);
 
   return (
     <>
       <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
-          onClose={onPanelClose}
+          onClose={togglePanel}
           className={clsx(
             styles.bivariatePanel,
             isOpen && styles.show,
-            !isOpen && styles.hide,
+            !isOpen && styles.collapse,
           )}
-          classes={{
-            closeBtn: styles.customCloseBtn,
-          }}
-          customCloseBtn={<CustomClosePanelBtn />}
+          classes={classes}
+          customCloseBtn={<PanelCloseButton isOpen={isOpen} />}
+          header={
+            <PanelHeader
+              icon={<BivariateMatrix24 />}
+              title={i18n.t('bivariate.panel.header')}
+            />
+          }
         >
           <div className={styles.panelBody}>
             {isOpen && <LazyLoadedBivariateMatrixContainer />}

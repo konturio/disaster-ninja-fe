@@ -5,6 +5,7 @@ import { Analytics24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
 import { PanelHeader } from '~components/Panel/Header/Header';
+import { PanelCloseButton } from '~components/Panel/CloseButton/CloseButton';
 import styles from './AnalyticsPanel.module.css';
 
 const LazyLoadedAnalyticsContainer = lazy(
@@ -18,8 +19,8 @@ const classes = { header: styles.header };
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  const onPanelClose = useCallback(() => {
-    setIsOpen(false);
+  const togglePanel = useCallback(() => {
+    setIsOpen((prevState) => !prevState);
   }, [setIsOpen]);
 
   const onPanelOpen = useCallback(() => {
@@ -28,7 +29,7 @@ export function AnalyticsPanel() {
 
   return (
     <div className={styles.panelContainer}>
-      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
+      <PanelWrap onPanelClose={() => setIsOpen(false)} isPanelOpen={isOpen}>
         <Panel
           header={
             <PanelHeader
@@ -36,13 +37,14 @@ export function AnalyticsPanel() {
               title={i18n.t('analytics_panel.header_title')}
             />
           }
-          onClose={onPanelClose}
+          onClose={togglePanel}
           className={clsx(
             styles.analyticsPanel,
             isOpen && styles.show,
-            !isOpen && styles.hide,
+            !isOpen && styles.collapse,
           )}
           classes={classes}
+          customCloseBtn={<PanelCloseButton isOpen={isOpen} />}
         >
           <div className={styles.panelBody}>
             <LazyLoadedAnalyticsPanelHeader />
