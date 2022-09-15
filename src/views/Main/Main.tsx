@@ -116,7 +116,7 @@ export function MainView({ userModel }: MainViewProps) {
     <>
       <Row>
         <Suspense fallback={null}>
-          {/* RESTORE #11728 */}
+          {/* RESTORE #11729 */}
           {/* <div className={s.leftButtonsContainer}> */}
           {/* <div className={s.iconColumn}> */}
           {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (

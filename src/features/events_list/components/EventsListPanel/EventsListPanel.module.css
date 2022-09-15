@@ -72,7 +72,8 @@
 }
 
 .header {
-  padding: 10px var(--double-unit);
+  /* Temp padding right. Remove at #12405 */
+  padding: var(--unit) var(--double-unit);
   display: flex;
   align-items: center;
 }

@@ -42,7 +42,7 @@ export function EventsListPanel({
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const virtuoso = useRef(null);
-  // TEMP files. Remove when #11728 or #11710 will be implemented
+  // TEMP files. Remove when #11729 or #11710 will be implemented
   const [wasClosed, setWasClosed] = useState<null | boolean>(null);
   const [, { enable, disable, addControl, toggleActiveState }] =
     useAtom(toolbarControlsAtom);
@@ -77,7 +77,7 @@ export function EventsListPanel({
     };
   }, []);
 
-  // RESTORE when #11728 or #11710 will be implemented
+  // RESTORE when #11729 or #11710 will be implemented
   /*useEffect(() => {
     if (isMobile) {
       setIsOpen(false);
@@ -156,7 +156,7 @@ export function EventsListPanel({
         </Panel>
       </PanelWrap>
 
-      {/* RESTORE  #11728 
+      {/* RESTORE  #11729 
       <PanelIcon
         clickHandler={onPanelOpen}
         className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
