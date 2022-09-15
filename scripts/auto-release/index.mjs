@@ -4,15 +4,15 @@ import prompts from './prompts.mjs';
 import npm from './npm-utils.mjs';
 
 /**
- * This script allow you create release branch by npm run release command only when
- * • you on main
+ * This script allows you to create release branch by npm run release command only when
+ * • you're on main
  * • main is sync with remote
  * • no unmerged releases right now
  * also it:
- * • create branch
- * • increase version in package.lock and package.js
- * • create commit
- * • push branch
+ * • creates branch
+ * • increases version in package.lock and package.json
+ * • creates commit
+ * • pushes branch
  */
 async function createRelease() {
   // Check branch
