@@ -1,5 +1,5 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { lazy, useCallback, useState } from 'react';
+import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { BivariateMatrix24 } from '@konturio/default-icons';
 import ReactDOM from 'react-dom';
@@ -48,12 +48,12 @@ export function BivariatePanel({
   }, [setIsOpen]);
 
   const togglePanel = useCallback(() => {
-    setIsOpen((wasOpen) => {
-      if (wasOpen) intercomButton().show();
-      else intercomButton().hide();
-      return !wasOpen;
-    });
+    setIsOpen((prevState) => !prevState);
   }, [setIsOpen]);
+
+  useEffect(() => {
+    isOpen ? intercomButton().show() : intercomButton().hide();
+  }, [isOpen]);
 
   return (
     <>
