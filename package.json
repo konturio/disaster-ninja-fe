@@ -34,7 +34,7 @@
     "auto:cosmos:renderer": "vite --config cosmos.vite.config.ts --force serve --port=8080",
     "auto:cosmos:renderer:export": "vite build --config cosmos.vite.config.ts",
     "link:ui-kit": "npm link @konturio/ui-kit @konturio/default-theme @konturio/default-icons",
-    "release": "node ./scripts/auto-release.mjs"
+    "release": "node ./scripts/auto-release/index.mjs"
   },
   "lint-staged": {
     "*/**/*.{ts,tsx}": [
