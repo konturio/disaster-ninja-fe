@@ -40,7 +40,7 @@ export function ReportsList() {
               Kontur{' '}
             </a>{' '}
             generates several reports that help validate OpenStreetMap quality. 
-            They contain links to objects on 
+            They contain links to objects on {' '}
             <a
               href="https://www.openstreetmap.org/"
               className={clsx(styles.paragraphLink, styles.link)}
