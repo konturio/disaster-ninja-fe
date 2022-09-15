@@ -13,14 +13,20 @@ async function askConfirmation(question) {
   ]);
   return answers.haveUnmergedRelease
 }
-
+/**
+ * @param {string} question
+ * @param {Array} variants
+ * @param {Object} options
+ * @param {string} options.currentVersion
+ * @param {string} options.default
+ */
 async function askVersion(question, variants, options) {
   const { version, versionConfirmed } = await prompts([
     {
       type: 'select',
       name: 'version',
       message: question,
-      initial: variants.find(v => v.value === options.default) ?? 0,
+      initial: variants.findIndex(v => v.value === options.default) ?? 0,
       choices: variants,
       format: (releaseType) => semver.inc(options.currentVersion, releaseType),
     },
