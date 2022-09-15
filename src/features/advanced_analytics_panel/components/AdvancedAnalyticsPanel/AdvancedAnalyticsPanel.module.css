@@ -20,7 +20,7 @@
   &.show {
     transition: visibility 0s linear 0s, height 0.1s linear 0s;
     visibility: visible;
-    height: 100%;
+    height: auto;
   }
 
   &.collapse {
