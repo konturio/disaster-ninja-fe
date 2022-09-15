@@ -39,7 +39,7 @@ async function askVersion(question, variants, options) {
         )} to ${chalk.yellowBright(nextVersion)} ?`,
     },
   ]);
-  if (versionConfirmed) {
+  if (!versionConfirmed) {
     throw new Error('Canceled by user');
   }
 
