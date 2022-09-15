@@ -1,3 +1,4 @@
+// @ts-check
 import chalk from 'chalk';
 import git from './git-utils.mjs';
 import prompts from './prompts.mjs';
@@ -40,7 +41,7 @@ async function createRelease() {
 
   // Create release branch
   console.log('Creating release branch, please wait\n');
-  const branchName = `${release}-version`;
+  const branchName = `${version}-version`;
   git.createAndCheckoutToBranch(branchName);
 
   // Update package.json

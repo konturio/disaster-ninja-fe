@@ -1,3 +1,4 @@
+// @ts-check
 import prompts from 'prompts';
 import semver from 'semver';
 import chalk from 'chalk';
