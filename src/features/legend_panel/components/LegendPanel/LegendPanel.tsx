@@ -26,8 +26,10 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
 
   const togglePanel = useCallback(() => {
-    setIsOpen((prevState) => !prevState);
-    turnOffTooltip(LEGEND_PANEL_FEATURE_ID);
+    setIsOpen((wasOpen) => {
+      if (wasOpen) turnOffTooltip(LEGEND_PANEL_FEATURE_ID);
+      return !wasOpen;
+    });
   }, [setIsOpen]);
 
   const onPanelOpen = useCallback(() => {

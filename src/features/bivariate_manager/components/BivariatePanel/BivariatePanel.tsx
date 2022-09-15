@@ -16,18 +16,18 @@ const LazyLoadedBivariateMatrixContainer = lazy(
   () => import('../BivariateMatrixContainer/BivariateMatrixContainer'),
 );
 
-function showIntercom() {
-  const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
-  if (intercomApp && intercomApp.length) {
-    (intercomApp[0] as HTMLDivElement).style.display = '';
-  }
-}
-function hideIntercom() {
-  const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
-  if (intercomApp && intercomApp.length) {
-    (intercomApp[0] as HTMLDivElement).style.display = 'none';
-  }
-}
+const intercomButton = () => {
+  const setStyleDisplay = (displayValue) => {
+    const intercomApp = document.getElementsByClassName(INTERCOM_ELEMENT_ID);
+    if (intercomApp && intercomApp.length) {
+      (intercomApp[0] as HTMLDivElement).style.display = displayValue;
+    }
+  };
+  return {
+    show: () => setStyleDisplay('block'),
+    hide: () => setStyleDisplay('none'),
+  };
+};
 
 export function BivariatePanel({
   iconsContainerRef,
@@ -38,19 +38,19 @@ export function BivariatePanel({
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
-    showIntercom();
+    intercomButton().show();
   }, [setIsOpen]);
 
   const onPanelOpen = useCallback(() => {
     setIsOpen(true);
     // need this to temporary hide intercom when showing bivariate
-    hideIntercom();
+    intercomButton().hide();
   }, [setIsOpen]);
 
   const togglePanel = useCallback(() => {
     setIsOpen((wasOpen) => {
-      if (wasOpen) showIntercom();
-      else hideIntercom();
+      if (wasOpen) intercomButton().show();
+      else intercomButton().hide();
       return !wasOpen;
     });
   }, [setIsOpen]);

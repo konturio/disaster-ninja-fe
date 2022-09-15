@@ -14,21 +14,15 @@
   z-index: 1; /* Show shadow over map */
   position: absolute;
   align-self: flex-start;
-  height: 0;
   border-radius: var(--border-radius);
 
-  &.show {
-    transition: visibility 0s linear 0s, height 0.1s linear 0s;
-    visibility: visible;
-    height: auto;
-  }
+  height: auto;
 
   &.collapse {
-    transition: visibility 0s linear 0s, height 0.1s linear 0s;
-    visibility: visible;
-    height: var(--panel-header-height);
-    overflow: hidden;
     max-width: 300px;
+    & div:not(:first-child) {
+      display: none;
+    }
   }
 }
 
@@ -41,7 +35,9 @@
 }
 
 .header {
-  padding: 10px var(--double-unit);
+  /* Temp padding right. Remove at #12405 */
+  padding: var(--unit) calc(var(--double-unit) + var(--icon-l) + var(--half-unit))
+    var(--unit) var(--double-unit);
   display: flex;
   align-items: center;
 }

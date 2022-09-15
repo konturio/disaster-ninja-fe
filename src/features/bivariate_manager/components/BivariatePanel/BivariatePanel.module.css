@@ -15,7 +15,7 @@
     transition: visibility 0s linear 0s, height 0.1s linear 0s;
     visibility: visible;
     height: 100%;
-    z-index: 10; /* Show over all other panels */
+    z-index: var(--hishest-panel-z-index); /* Show over all other panels */
   }
 
   &.collapse {
@@ -40,7 +40,9 @@
 }
 
 .header {
-  padding: 10px var(--double-unit);
+  /* Temp padding right. Remove at #12405 */
+  padding: var(--unit) calc(var(--double-unit) + var(--icon-l) + var(--half-unit))
+    var(--unit) var(--double-unit);
 }
 
 .panelBody :first-child {

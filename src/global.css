@@ -6,6 +6,8 @@
   --icon-s: 16px;
   --icon-m: 20px;
   --icon-l: 24px;
+
+  --hishest-panel-z-index: 10;
 }
 
 html,
