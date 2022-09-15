@@ -17,11 +17,14 @@ import npm from './npm-utils.mjs';
  */
 async function createRelease() {
   // Check branch
-  if (git.currentBrunch() !== 'main')
+  if (git.currentBrunch() !== 'main') {
     throw new Error('You should create release from main branch');
+  }
   // Check status
-  if (!git.status().includes('nothing to commit, working tree clean'))
+  if (!git.status().includes('nothing to commit, working tree clean')) {
     throw new Error('You should pull/push changes before');
+  }
+  console.log('✔ Branch check passed');
   // Check PR
   if (await prompts.askConfirmation('The repository has an unmerged release?')) {
     throw new Error('You should merge or close previous release');
