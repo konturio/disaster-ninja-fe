@@ -52,7 +52,7 @@
     margin: 0;
     width: 100vw;
     max-height: unset;
-    height: calc(100vh - var(--header-height));
+    height: calc(100vh - var(--app-panel-header-height));
     align-items: center;
     & > div {
       width: 100%;
@@ -73,13 +73,13 @@
     left: var(--unit);
 
     &.show {
-      transition: visibility 0s linear 0s, opacity 0.33s linear 0s;
+      transition: opacity 0.33s linear 0s;
       visibility: visible;
       opacity: 1;
     }
 
     &.hide {
-      transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s;
+      transition: opacity 0.33s linear 0s;
       visibility: hidden;
       opacity: 0;
     }

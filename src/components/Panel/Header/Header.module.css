@@ -5,7 +5,7 @@
   max-width: 220px;
   min-width: 180px;
   & svg {
-    width: var(icon-m);
-    height: var(icon-m);
+    width: var(--icon-m);
+    height: var(--icon-m);
   }
 }

@@ -1,7 +1,7 @@
 @import-normalize;
 
 :root {
-  --header-height: 40px;
+  --app-header-height: 40px;
   --panel-header-height: 40px;
   --icon-s: 16px;
   --icon-m: 20px;
