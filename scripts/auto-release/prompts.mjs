@@ -19,7 +19,7 @@ async function askVersion(question, variants, options) {
       type: 'select',
       name: 'version',
       message: question,
-      initial: options.variants.find(v => v.value === options.default) ?? 0,
+      initial: variants.find(v => v.value === options.default) ?? 0,
       choices: variants,
       format: (releaseType) => semver.inc(options.currentVersion, releaseType),
     },
