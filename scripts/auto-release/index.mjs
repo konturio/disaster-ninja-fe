@@ -3,7 +3,17 @@ import git from './git-utils.mjs';
 import prompts from './prompts.mjs';
 import npm from './npm-utils.mjs';
 
-/* This script help us with creating frontend releases */
+/**
+ * This script allow you create release branch by npm run release command only when
+ * • you on main
+ * • main is sync with remote
+ * • no unmerged releases right now
+ * also it:
+ * • create branch
+ * • increase version in package.lock and package.js
+ * • create commit
+ * • push branch
+ */
 async function createRelease() {
   // Check branch
   if (git.currentBrunch() !== 'main')
