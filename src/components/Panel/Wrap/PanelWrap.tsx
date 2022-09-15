@@ -1,5 +1,5 @@
 import { Modal } from '@konturio/ui-kit';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   COLLAPSE_PANEL_QUERY,
   IS_MOBILE_QUERY,
@@ -23,13 +23,22 @@ export function PanelWrap({
 }: React.PropsWithChildren<PanelWrap>): JSX.Element {
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const shouldCollapse = useMediaQuery(COLLAPSE_PANEL_QUERY);
+  const [wasCollapsed, setWasCollapsed] = useState(false);
 
   useEffect(() => {
-    if (shouldCollapse && !restrictAutoCollapsing && !isPanelOpen) {
+    if (isPanelOpen && shouldCollapse && !restrictAutoCollapsing && !wasCollapsed) {
       onPanelClose();
       onAutoCollapse?.();
+      setWasCollapsed(true);
     }
-  }, [shouldCollapse, restrictAutoCollapsing, onPanelClose, onAutoCollapse]);
+  }, [
+    shouldCollapse,
+    restrictAutoCollapsing,
+    onPanelClose,
+    onAutoCollapse,
+    isPanelOpen,
+    wasCollapsed,
+  ]);
 
   if (isPanelOpen && isMobile)
     return (
