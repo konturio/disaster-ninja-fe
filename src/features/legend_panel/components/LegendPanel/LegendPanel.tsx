@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
@@ -26,10 +26,7 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
 
   const togglePanel = useCallback(() => {
-    setIsOpen((wasOpen) => {
-      if (wasOpen) turnOffTooltip(LEGEND_PANEL_FEATURE_ID);
-      return !wasOpen;
-    });
+    setIsOpen((prevState) => !prevState);
   }, [setIsOpen]);
 
   const onPanelOpen = useCallback(() => {
@@ -39,6 +36,10 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
   }, [setIsOpen]);
+
+  useEffect(() => {
+    if (!isOpen) turnOffTooltip(LEGEND_PANEL_FEATURE_ID);
+  }, [isOpen]);
 
   return (
     <>
