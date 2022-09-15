@@ -3,6 +3,7 @@ import prompts from 'prompts';
 import semver from 'semver';
 import chalk from 'chalk';
 
+/** @param {string} question */
 async function askConfirmation(question) {
   const answers = await prompts([
     {
@@ -46,7 +47,13 @@ async function askVersion(question, variants, options) {
   return version;
 }
 
+/** @param {string} message */
+export function checkPassed(message) {
+  console.log(`${chalk.greenBright('✔')} ${chalk.whiteBright(message)}`);
+}
+
 export default {
   askConfirmation,
-  askVersion
+  askVersion,
+  checkPassed
 }

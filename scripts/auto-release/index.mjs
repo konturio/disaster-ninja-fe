@@ -24,7 +24,7 @@ async function createRelease() {
   if (!git.status().includes('nothing to commit, working tree clean')) {
     throw new Error('You should pull/push changes before');
   }
-  console.log('✔ Branch check passed');
+  prompts.checkPassed('Branch check passed');
   // Check PR
   if (await prompts.askConfirmation('The repository has an unmerged release?')) {
     throw new Error('You should merge or close previous release');
@@ -43,8 +43,8 @@ async function createRelease() {
   );
 
   // Create release branch
-  console.log('Creating release branch, please wait\n');
-  const branchName = `${version}-version`;
+  console.log('\nCreating release branch, please wait\n');
+  const branchName = `release-${version}`;
   git.createAndCheckoutToBranch(branchName);
 
   // Update package.json
