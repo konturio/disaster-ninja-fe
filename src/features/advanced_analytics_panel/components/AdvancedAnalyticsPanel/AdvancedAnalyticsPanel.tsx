@@ -30,9 +30,13 @@ export function AdvancedAnalyticsPanel() {
     setIsOpen(true);
   }, [setIsOpen]);
 
+  const onPanelClose = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
   return (
     <div className={s.panelContainer}>
-      <PanelWrap onPanelClose={() => setIsOpen(false)} isPanelOpen={isOpen}>
+      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
           header={
             <PanelHeader

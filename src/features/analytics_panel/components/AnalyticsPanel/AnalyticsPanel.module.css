@@ -46,11 +46,8 @@ border-radius: var(--border-radius-unit); */
   .analyticsPanel.show {
     margin: 0;
     width: 100vw;
-    height: calc(100vh - var(--app-panel-header-height));
+    height: 100%;
     align-items: center;
-    & .header {
-      height: var(--panel-header-height-mobile);
-    }
     & > div {
       width: 100%;
     }

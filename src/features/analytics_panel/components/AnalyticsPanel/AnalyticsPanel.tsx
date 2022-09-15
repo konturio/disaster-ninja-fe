@@ -27,9 +27,13 @@ export function AnalyticsPanel() {
     setIsOpen(true);
   }, [setIsOpen]);
 
+  const onPanelClose = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
   return (
     <div className={styles.panelContainer}>
-      <PanelWrap onPanelClose={() => setIsOpen(false)} isPanelOpen={isOpen}>
+      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
           header={
             <PanelHeader

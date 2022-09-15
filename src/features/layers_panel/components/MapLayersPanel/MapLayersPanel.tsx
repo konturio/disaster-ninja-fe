@@ -31,9 +31,13 @@ export function MapLayerPanel({
     setIsOpen(true);
   }, [setIsOpen]);
 
+  const onPanelClose = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
   return (
     <>
-      <PanelWrap onPanelClose={() => setIsOpen(false)} isPanelOpen={isOpen}>
+      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
           className={clsx(s.panel, isOpen && s.show, !isOpen && s.collapse)}
           header={<PanelHeader icon={<Layers24 />} title={i18n.t('layers')} />}

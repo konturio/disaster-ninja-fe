@@ -48,7 +48,7 @@
     margin: 0;
     width: 100vw;
     max-height: unset;
-    height: calc(100vh - var(--app-panel-header-height));
+    height: 100%;
     align-items: center;
     & > div {
       width: 100%;

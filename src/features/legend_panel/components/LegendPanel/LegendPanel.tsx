@@ -36,13 +36,17 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
     setIsOpen(true);
   }, [setIsOpen]);
 
+  const onPanelClose = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
   return (
     <>
-      <PanelWrap onPanelClose={() => setIsOpen(false)} isPanelOpen={isOpen}>
+      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
         <Panel
           header={<PanelHeader icon={<Legend24 />} title={i18n.t('legend')} />}
           onClose={togglePanel}
-          className={clsx(s.legendPanel, isOpen && s.show, !isOpen && s.collapse)}
+          className={clsx(s.legendPanel, isOpen ? s.show : s.collapse)}
           classes={classes}
           customCloseBtn={<PanelCloseButton isOpen={isOpen} />}
         >

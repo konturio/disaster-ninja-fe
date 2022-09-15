@@ -39,8 +39,7 @@
     position: absolute;
     margin: 0;
     width: 100vw;
-    max-height: unset;
-    height: calc(100vh - var(--app-panel-header-height));
+    height: 100%;
     align-items: center;
     & > div {
       width: 100%;
@@ -56,18 +55,8 @@
 
   .panelIcon {
     &.show {
-      transition: opacity 0.33s linear 0s;
       visibility: visible;
       display: flex;
-      opacity: 1;
-    }
-
-    &.hide {
-      transition: opacity 0.33s linear 0s;
-      visibility: hidden;
-      display: none;
-      opacity: 0;
-      width: 0;
     }
   }
 }

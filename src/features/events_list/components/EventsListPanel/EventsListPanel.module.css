@@ -82,15 +82,12 @@
   .eventsPanel {
     position: absolute;
     margin: 0;
-    height: calc(100vh - var(--app-panel-header-height));
+    height: 100%;
     width: 100vw;
     align-items: center;
   }
   .eventsPanel > div {
     width: 100%;
-  }
-  .panelBody {
-    align-items: center;
   }
   .scrollable {
     width: 100%;
