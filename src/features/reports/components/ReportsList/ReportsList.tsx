@@ -39,9 +39,16 @@ export function ReportsList() {
             >
               Kontur{' '}
             </a>{' '}
-            generates several reports that help validate OpenStreetMap quality. They have
-            links to OpenStreetMap objects on osm.org as well as links to OpenStreetMap
-            remote control so that you can use them within the JOSM editor.
+            generates several reports that help validate OpenStreetMap quality. 
+            They contain links to objects on {' '}
+            <a
+              href="https://www.openstreetmap.org/"
+              className={clsx(styles.paragraphLink, styles.link)}
+            >
+              osm.org{' '}
+            </a>{' '}
+             and OpenStreetMap remote control in the JOSM editor. 
+            Use the links to open the exact area specified in the report and edit it.
           </Trans>
         </div>
       </Text>
