@@ -1,7 +1,0 @@
-.headerTitle {
-  display: flex;
-  align-items: center;
-  gap: var(--unit);
-  max-width: 220px;
-  min-width: 180px;
-}

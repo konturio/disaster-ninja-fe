@@ -55,6 +55,10 @@
     }
   }
 
+  .panelBody {
+    width: 100vw;
+  }
+
   .panel.collapse {
     display: none;
   }

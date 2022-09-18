@@ -26,14 +26,6 @@
   margin-top: 0;
 }
 
-.header {
-  /* Temp padding right. Remove at #12405 */
-  padding: var(--unit) calc(var(--double-unit) + var(--icon-l) + var(--half-unit))
-    var(--unit) var(--double-unit);
-  display: flex;
-  align-items: center;
-}
-
 .panelIcon {
   display: none;
 }

@@ -15,7 +15,6 @@
     transition: visibility 0s linear 0s, height 0.1s linear 0s;
     visibility: visible;
     height: 100%;
-    z-index: var(--hishest-panel-z-index); /* Show over all other panels */
   }
 
   &.collapse {
@@ -86,7 +85,9 @@
   .bivariatePanel.collapse {
     display: none;
   }
-
+  .panelBody {
+    width: 100vw;
+  }
   .panelIcon {
     display: flex;
 

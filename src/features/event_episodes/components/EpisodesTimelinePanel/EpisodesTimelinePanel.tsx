@@ -19,8 +19,8 @@ export function EpisodesTimelinePanel() {
 
   return (
     <Panel
-      header={<Text type="heading-l">{i18n.t('Episode')}</Text>}
-      onClose={eventEpisodesController.closeEpisodesTimeline}
+      header={String(i18n.t('Episode'))}
+      onHeaderClick={eventEpisodesController.closeEpisodesTimeline}
     >
       <div>
         {statesToComponents({

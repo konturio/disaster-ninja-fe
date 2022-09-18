@@ -1,4 +1,4 @@
-import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
+import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
@@ -7,13 +7,12 @@ import { useAction } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
-import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
-import { PanelHeader } from '~components/Panel/Header/Header';
-import { PanelCloseButton } from '~components/Panel/CloseButton/CloseButton';
+import { panelClasses } from '~components/Panel';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { LayersTree } from '../LayersTree/LayersTree';
 import s from './MapLayersPanel.module.css';
 
-const classes = { header: s.header };
 export function MapLayerPanel({
   iconsContainerRef,
 }: {
@@ -21,6 +20,7 @@ export function MapLayerPanel({
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -35,21 +35,26 @@ export function MapLayerPanel({
     setIsOpen(false);
   }, [setIsOpen]);
 
+  useAutoCollapsePanel(isOpen, onPanelClose);
+
   return (
     <>
-      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
-        <Panel
-          className={clsx(s.panel, isOpen && s.show, !isOpen && s.collapse)}
-          header={<PanelHeader icon={<Layers24 />} title={i18n.t('layers')} />}
-          onClose={togglePanel}
-          classes={classes}
-          customCloseBtn={<PanelCloseButton isOpen={isOpen} />}
-        >
-          <div className={s.scrollable}>
-            <LayersTree />
-          </div>
-        </Panel>
-      </PanelWrap>
+      <Panel
+        header={String(i18n.t('layers'))}
+        headerIcon={<Layers24 />}
+        onHeaderClick={togglePanel}
+        className={clsx(s.panel, isOpen ? s.show : s.collapse)}
+        classes={panelClasses}
+        isOpen={isOpen}
+        modal={{
+          onModalClick: onPanelClose,
+          showInModal: isMobile,
+        }}
+      >
+        <div className={s.scrollable}>
+          <LayersTree />
+        </div>
+      </Panel>
 
       {iconsContainerRef.current &&
         ReactDOM.createPortal(

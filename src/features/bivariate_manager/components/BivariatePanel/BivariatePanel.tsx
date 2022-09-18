@@ -3,14 +3,11 @@ import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { BivariateMatrix24 } from '@konturio/default-icons';
 import ReactDOM from 'react-dom';
-import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
-import { PanelCloseButton } from '~components/Panel/CloseButton/CloseButton';
-import { PanelHeader } from '~components/Panel/Header/Header';
 import { i18n } from '~core/localization';
+import { panelClasses } from '~components/Panel';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
 import styles from './BivariatePanel.module.css';
-
-const classes = { header: styles.header, closeBtn: styles.customCloseBtn };
 
 const LazyLoadedBivariateMatrixContainer = lazy(
   () => import('../BivariateMatrixContainer/BivariateMatrixContainer'),
@@ -35,6 +32,7 @@ export function BivariatePanel({
   iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
@@ -57,28 +55,26 @@ export function BivariatePanel({
 
   return (
     <>
-      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
-        <Panel
-          onClose={togglePanel}
-          className={clsx(
-            styles.bivariatePanel,
-            isOpen && styles.show,
-            !isOpen && styles.collapse,
-          )}
-          classes={classes}
-          customCloseBtn={<PanelCloseButton isOpen={isOpen} />}
-          header={
-            <PanelHeader
-              icon={<BivariateMatrix24 />}
-              title={i18n.t('bivariate.panel.header')}
-            />
-          }
-        >
-          <div className={styles.panelBody}>
-            {isOpen && <LazyLoadedBivariateMatrixContainer />}
-          </div>
-        </Panel>
-      </PanelWrap>
+      <Panel
+        onHeaderClick={togglePanel}
+        classes={panelClasses}
+        className={clsx(
+          styles.bivariatePanel,
+          isOpen && styles.show,
+          !isOpen && styles.collapse,
+        )}
+        header={String(i18n.t('bivariate.panel.header'))}
+        headerIcon={<BivariateMatrix24 />}
+        modal={{
+          onModalClick: onPanelClose,
+          showInModal: isMobile,
+        }}
+        isOpen={isOpen}
+      >
+        <div className={styles.panelBody}>
+          {isOpen && <LazyLoadedBivariateMatrixContainer />}
+        </div>
+      </Panel>
 
       {iconsContainerRef.current &&
         ReactDOM.createPortal(

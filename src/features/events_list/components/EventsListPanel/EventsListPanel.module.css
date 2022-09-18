@@ -69,13 +69,10 @@
     opacity: 0.2;
     left: -150px;
   }
-}
 
-.header {
-  /* Temp padding right. Remove at #12405 */
-  padding: var(--unit) var(--double-unit);
-  display: flex;
-  align-items: center;
+  & > div:first-child {
+    display: flex;
+  }
 }
 
 @media screen and (max-width: 960px) {

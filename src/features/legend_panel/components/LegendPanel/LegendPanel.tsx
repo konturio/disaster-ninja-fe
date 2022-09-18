@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
-import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
+import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useAction } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { LEGEND_PANEL_FEATURE_ID } from '~features/legend_panel/constants';
-import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
-import { PanelHeader } from '~components/Panel/Header/Header';
-import { PanelCloseButton } from '~components/Panel/CloseButton/CloseButton';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { panelClasses } from '~components/Panel';
+import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import s from './LegendPanel.module.css';
 import { LegendsList } from './LegendsList';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
@@ -19,10 +19,9 @@ interface LegendPanelProps {
   iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
-const classes = { header: s.header };
 export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
 
   const togglePanel = useCallback(() => {
@@ -41,23 +40,28 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
     if (!isOpen) turnOffTooltip(LEGEND_PANEL_FEATURE_ID);
   }, [isOpen]);
 
+  useAutoCollapsePanel(isOpen, onPanelClose);
+
   return (
     <>
-      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
-        <Panel
-          header={<PanelHeader icon={<Legend24 />} title={i18n.t('legend')} />}
-          onClose={togglePanel}
-          className={clsx(s.legendPanel, isOpen ? s.show : s.collapse)}
-          classes={classes}
-          customCloseBtn={<PanelCloseButton isOpen={isOpen} />}
-        >
-          <div className={s.panelBody}>
-            {layers.map((layer) => (
-              <LegendsList layer={layer} key={layer.id} />
-            ))}
-          </div>
-        </Panel>
-      </PanelWrap>
+      <Panel
+        header={String(i18n.t('legend'))}
+        headerIcon={<Legend24 />}
+        onHeaderClick={togglePanel}
+        className={clsx(s.legendPanel, isOpen ? s.show : s.collapse)}
+        classes={panelClasses}
+        isOpen={isOpen}
+        modal={{
+          onModalClick: onPanelClose,
+          showInModal: isMobile,
+        }}
+      >
+        <div className={s.panelBody}>
+          {layers.map((layer) => (
+            <LegendsList layer={layer} key={layer.id} />
+          ))}
+        </div>
+      </Panel>
 
       {iconsContainerRef.current &&
         ReactDOM.createPortal(

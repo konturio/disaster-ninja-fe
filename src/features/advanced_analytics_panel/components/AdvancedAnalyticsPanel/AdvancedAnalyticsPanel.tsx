@@ -1,11 +1,11 @@
-import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
+import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { lazy, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { AdvancedAnalytics24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
-import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
-import { PanelHeader } from '~components/Panel/Header/Header';
-import { PanelCloseButton } from '~components/Panel/CloseButton/CloseButton';
+import { panelClasses } from '~components/Panel';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import s from './AdvancedAnalyticsPanel.module.css';
 
 const LazyLoadedAdvancedAnalyticsContainer = lazy(
@@ -17,10 +17,10 @@ const LazyLoadedAdvancedAnalyticsPanelHeader = lazy(
       '../AdvancedAnalyticsPanelHeaderContainer/AdvancedAnalyticsPanelHeaderContainer'
     ),
 );
-const classes = { header: s.header };
 
 export function AdvancedAnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -34,27 +34,27 @@ export function AdvancedAnalyticsPanel() {
     setIsOpen(false);
   }, [setIsOpen]);
 
+  useAutoCollapsePanel(isOpen, onPanelClose);
+
   return (
     <div className={s.panelContainer}>
-      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
-        <Panel
-          header={
-            <PanelHeader
-              icon={<AdvancedAnalytics24 />}
-              title={i18n.t('advanced_analytics_panel.header_title')}
-            />
-          }
-          onClose={togglePanel}
-          className={clsx(s.panel, isOpen && s.show, !isOpen && s.collapse)}
-          classes={classes}
-          customCloseBtn={<PanelCloseButton isOpen={isOpen} />}
-        >
-          <div className={s.panelBody}>
-            <LazyLoadedAdvancedAnalyticsPanelHeader />
-            <LazyLoadedAdvancedAnalyticsContainer />
-          </div>
-        </Panel>
-      </PanelWrap>
+      <Panel
+        header={String(i18n.t('advanced_analytics_panel.header_title'))}
+        headerIcon={<AdvancedAnalytics24 />}
+        onHeaderClick={togglePanel}
+        className={clsx(s.panel, isOpen && s.show, !isOpen && s.collapse)}
+        classes={panelClasses}
+        modal={{
+          onModalClick: onPanelClose,
+          showInModal: true,
+        }}
+        isOpen={isOpen}
+      >
+        <div className={s.panelBody}>
+          <LazyLoadedAdvancedAnalyticsPanelHeader />
+          <LazyLoadedAdvancedAnalyticsContainer />
+        </div>
+      </Panel>
 
       <PanelIcon
         clickHandler={onPanelOpen}

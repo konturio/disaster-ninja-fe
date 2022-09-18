@@ -3,9 +3,9 @@ import { lazy, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { Analytics24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
-import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
-import { PanelHeader } from '~components/Panel/Header/Header';
-import { PanelCloseButton } from '~components/Panel/CloseButton/CloseButton';
+import { panelClasses } from '~components/Panel';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import styles from './AnalyticsPanel.module.css';
 
 const LazyLoadedAnalyticsContainer = lazy(
@@ -14,10 +14,10 @@ const LazyLoadedAnalyticsContainer = lazy(
 const LazyLoadedAnalyticsPanelHeader = lazy(
   () => import('../AnalyticsPanelHeaderContainer/AnalyticsPanelHeaderContainer'),
 );
-const classes = { header: styles.header };
 
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -31,31 +31,29 @@ export function AnalyticsPanel() {
     setIsOpen(false);
   }, [setIsOpen]);
 
+  useAutoCollapsePanel(isOpen, onPanelClose);
   return (
     <div className={styles.panelContainer}>
-      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
-        <Panel
-          header={
-            <PanelHeader
-              icon={<Analytics24 />}
-              title={i18n.t('analytics_panel.header_title')}
-            />
-          }
-          onClose={togglePanel}
-          className={clsx(
-            styles.analyticsPanel,
-            isOpen && styles.show,
-            !isOpen && styles.collapse,
-          )}
-          classes={classes}
-          customCloseBtn={<PanelCloseButton isOpen={isOpen} />}
-        >
-          <div className={styles.panelBody}>
-            <LazyLoadedAnalyticsPanelHeader />
-            <LazyLoadedAnalyticsContainer />
-          </div>
-        </Panel>
-      </PanelWrap>
+      <Panel
+        header={String(i18n.t('analytics_panel.header_title'))}
+        onHeaderClick={togglePanel}
+        className={clsx(
+          styles.analyticsPanel,
+          isOpen && styles.show,
+          !isOpen && styles.collapse,
+        )}
+        classes={panelClasses}
+        isOpen={isOpen}
+        modal={{
+          onModalClick: onPanelClose,
+          showInModal: isMobile,
+        }}
+      >
+        <div className={styles.panelBody}>
+          <LazyLoadedAnalyticsPanelHeader />
+          <LazyLoadedAnalyticsContainer />
+        </div>
+      </Panel>
 
       <PanelIcon
         clickHandler={onPanelOpen}

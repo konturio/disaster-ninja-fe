@@ -29,14 +29,6 @@ border-radius: var(--border-radius-unit); */
   }
 }
 
-.header {
-  /* Temp padding right. Remove at #12405 */
-  padding: var(--unit) calc(var(--double-unit) + var(--icon-l) + var(--half-unit))
-    var(--unit) var(--double-unit);
-  display: flex;
-  align-items: center;
-}
-
 .panelBody {
   width: 320px;
   padding: var(--double-unit);
@@ -54,6 +46,9 @@ border-radius: var(--border-radius-unit); */
   }
   .analyticsPanel.collapse {
     display: none;
+  }
+  .panelBody {
+    margin: 0 auto;
   }
 
   .panelIcon {

@@ -2,6 +2,7 @@
   overflow-y: auto;
   width: 284px;
   height: 100%;
+  max-height: 100vh;
 }
 
 .panel {
@@ -13,14 +14,6 @@
       display: none;
     }
   }
-}
-
-.header {
-  /* Temp padding right. Remove at #12405 */
-  padding: var(--unit) calc(var(--double-unit) + var(--icon-l) + var(--half-unit))
-    var(--unit) var(--double-unit);
-  display: flex;
-  align-items: center;
 }
 
 .panelIcon {
