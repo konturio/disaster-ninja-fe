@@ -5,7 +5,6 @@ import { BivariateMatrix24 } from '@konturio/default-icons';
 import ReactDOM from 'react-dom';
 import { i18n } from '~core/localization';
 import { panelClasses } from '~components/Panel';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
 import styles from './BivariatePanel.module.css';
 
@@ -32,7 +31,6 @@ export function BivariatePanel({
   iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
@@ -57,7 +55,7 @@ export function BivariatePanel({
     <>
       <Panel
         onHeaderClick={togglePanel}
-        classes={panelClasses}
+        classes={{ ...panelClasses, modal: styles.bivModal }}
         className={clsx(
           styles.bivariatePanel,
           isOpen && styles.show,
@@ -67,7 +65,7 @@ export function BivariatePanel({
         headerIcon={<BivariateMatrix24 />}
         modal={{
           onModalClick: onPanelClose,
-          showInModal: isMobile,
+          showInModal: true,
         }}
         isOpen={isOpen}
       >

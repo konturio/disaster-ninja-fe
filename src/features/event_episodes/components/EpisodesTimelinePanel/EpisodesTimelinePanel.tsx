@@ -1,4 +1,4 @@
-import { Panel, Text } from '@konturio/ui-kit';
+import { Panel } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';

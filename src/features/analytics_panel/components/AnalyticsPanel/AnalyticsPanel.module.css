@@ -11,7 +11,7 @@
   /* position: relative;  
 border-radius: var(--border-radius-unit); */
 
-  z-index: 3; /* Show shadow over map */
+  z-index: 1; /* Show shadow over map */
   align-self: flex-start;
 
   /* REMOVE # 11729 */
