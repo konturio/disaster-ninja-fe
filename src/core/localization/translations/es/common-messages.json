@@ -23,6 +23,7 @@
     "details": "Detalles",
     "deselect": "Anular la selección",
     "spinner_text": "Recopilación de datos",
+    "updated": "Actualizado",
 
     "errors": {
       "timeout": "Se agotó el tiempo de espera de la solicitud",
@@ -172,7 +173,6 @@
       "search_location": "Buscar ubicación",
       "open_josm": "Abrir a través del control remoto JOSM",
       "josm_logo_alt": "Logotipo de JOSM",
-      "updated": "Actualizado",
       "see_all": "Ver todos los informes",
       "wrong_id": "ID de informe incorrecto"
     }

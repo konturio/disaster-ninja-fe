@@ -3,6 +3,7 @@ import cn from 'clsx';
 import { parseISO } from 'date-fns';
 import { Text } from '@konturio/ui-kit';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
+import { i18n } from '~core/localization';
 import { Analytics } from './Analytics/Analytics';
 import s from './EventCard.module.css';
 import type { Event } from '~core/types';
@@ -56,7 +57,7 @@ export function EventCard({
       />
 
       <div className={s.footer}>
-        <Text type="caption">Updated {formattedTime}</Text>
+        <Text type="caption">{i18n.t('updated') + ` ${formattedTime}`}</Text>
         {alternativeActionControl}
       </div>
     </button>

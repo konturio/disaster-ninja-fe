@@ -110,6 +110,7 @@ export const CommonRoutesFeatures = ({
       <Suspense fallback={null}>
         {userModel.hasFeature(AppFeature.HEADER) && (
           <AppHeader
+            chatBtnText={i18n.t('app_header.title')}
             title={headerTitle}
             logo={VisibleLogo()}
             afterChatContent={afterChatContent(
