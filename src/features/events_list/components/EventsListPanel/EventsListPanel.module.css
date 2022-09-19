@@ -1,4 +1,6 @@
 .panelContainer {
+  position: absolute;
+  height: 100%;
   display: flex;
   flex-flow: column nowrap;
 }
@@ -58,6 +60,8 @@
   }
 
   &.collapse {
+    display: none;
+
     transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s, left 0.15s linear 0s;
     visibility: hidden;
     width: 0;
