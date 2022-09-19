@@ -42,7 +42,7 @@ export function AnalyticsPanel() {
           isOpen && styles.show,
           !isOpen && styles.collapse,
         )}
-        classes={panelClasses}
+        classes={{ ...panelClasses, modal: styles.analyticsModal }}
         isOpen={isOpen}
         modal={{
           onModalClick: onPanelClose,
