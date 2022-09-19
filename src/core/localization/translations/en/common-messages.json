@@ -106,6 +106,9 @@
     "focus_geometry_layer.settings.name": "Selected Area",
     "drawings.self_directions_not_supported": "Self intersections are not supported!",
     "bivariate": {
+      "panel": {
+        "header": "Bivariate Matrix"
+      },
       "matrix": {
         "header": {
           "title": "Choose two layers to explore correlations",

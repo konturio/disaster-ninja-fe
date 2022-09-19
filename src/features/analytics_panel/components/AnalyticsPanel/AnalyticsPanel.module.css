@@ -3,57 +3,29 @@
 }
 
 .panelIcon {
-  z-index: 1;
-  /* REMOVE # 11728 */
-
-  position: absolute;
-  top: var(--unit);
-  left: var(--unit);
-
-  &.show {
-    transition: visibility 0s linear 0s, opacity 0.33s linear 0s;
-    visibility: visible;
-    opacity: 1;
-  }
-
-  &.hide {
-    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s;
-    visibility: hidden;
-    opacity: 0;
-    height: 0;
-    width: 0;
-  }
+  display: none;
 }
 
 .analyticsPanel {
-  /* RESTORE # 11728 */
+  /* RESTORE # 11729 */
   /* position: relative;  
 border-radius: var(--border-radius-unit); */
 
-  z-index: 3; /* Show shadow over map */
+  z-index: 1; /* Show shadow over map */
   align-self: flex-start;
-  left: -100px;
 
-  /* REMOVE # 11728 */
+  /* REMOVE # 11729 */
   position: absolute;
   margin-left: var(--unit);
   margin-top: var(--unit);
   border-radius: var(--border-radius-unit);
+  /* . */
 
-  &.show {
-    transition: visibility 0s linear 0s, opacity 0.33s linear 0s, left 0.1s linear 0s;
-    visibility: visible;
-    opacity: 1;
-    left: 0;
-  }
-
-  &.hide {
-    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s, left 0.15s linear 0s;
-    visibility: hidden;
-    opacity: 0;
-    left: -150px;
-    height: 0;
-    width: 0;
+  height: auto;
+  &.collapse {
+    & div:not(:first-child) {
+      display: none;
+    }
   }
 }
 
@@ -62,19 +34,42 @@ border-radius: var(--border-radius-unit); */
   padding: var(--double-unit);
 }
 
-.header {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
 @media screen and (max-width: 960px) {
-  .analyticsPanel {
+  .analyticsPanel.show {
     margin: 0;
     width: 100vw;
-    height: calc(100vh - var(--header-height));
+    height: 100%;
     align-items: center;
+    & > div {
+      width: 100%;
+    }
   }
-  .analyticsPanel > div {
-    width: 100%;
+  .analyticsPanel.collapse {
+    display: none;
+  }
+  .panelBody {
+    margin: 0 auto;
+  }
+
+  .panelIcon {
+    z-index: 1;
+    display: flex;
+    /* REMOVE # 11729 */
+
+    position: absolute;
+    top: var(--unit);
+    left: var(--unit);
+
+    &.show {
+      transition: opacity 0.33s linear 0s;
+      visibility: visible;
+      opacity: 1;
+    }
+
+    &.hide {
+      transition: opacity 0.33s linear 0s;
+      visibility: hidden;
+      opacity: 0;
+    }
   }
 }

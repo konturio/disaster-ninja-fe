@@ -1,4 +1,4 @@
-import { Panel, Text } from '@konturio/ui-kit';
+import { Panel } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
@@ -19,8 +19,8 @@ export function EpisodesTimelinePanel() {
 
   return (
     <Panel
-      header={<Text type="heading-l">{i18n.t('Episode')}</Text>}
-      onClose={eventEpisodesController.closeEpisodesTimeline}
+      header={String(i18n.t('Episode'))}
+      onHeaderClick={eventEpisodesController.closeEpisodesTimeline}
     >
       <div>
         {statesToComponents({

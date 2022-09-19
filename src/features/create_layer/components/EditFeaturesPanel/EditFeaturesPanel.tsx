@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import clsx from 'clsx';
 import { useAction, useAtom } from '@reatom/react';
-import { Panel, Text } from '@konturio/ui-kit';
+import { Panel } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { toolbarControlsAtom } from '~core/shared_state';
-import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
 import { currentEditedLayerFeatures } from '../../atoms/currentEditedLayerFeatures';
 import { currentSelectedPoint } from '../../atoms/currentSelectedPoint';
@@ -20,6 +20,7 @@ export function EditFeaturesPanel() {
   const [selectedFeature, { updateProperties }] = useAtom(currentSelectedPoint);
   const [{ layerId }] = useAtom(editTargetAtom);
   const [layersSettings] = useAtom(editableLayerSettingsAtom);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const disableSideBarControl = useAction(
     () => toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
     [],
@@ -50,26 +51,28 @@ export function EditFeaturesPanel() {
   if (!settings) return null;
 
   return (
-    <PanelWrap onPanelClose={onPanelClose} isPanelOpen={true}>
-      <Panel
-        header={<Text type="heading-l">{i18n.t('create_layer.edit_features')}</Text>}
-        onClose={onPanelClose}
-        className={clsx(s.sidePanel)}
-      >
-        <div className={s.panelBody}>
-          {selectedFeature?.properties ? (
-            <EditFeatureForm
-              featureProperties={selectedFeature.properties}
-              fieldsSettings={settings}
-              geometry={selectedFeature.geometry}
-              changeProperty={changeProperty}
-              onSave={onSave}
-            />
-          ) : (
-            <EditFeaturePlaceholder />
-          )}
-        </div>
-      </Panel>
-    </PanelWrap>
+    <Panel
+      header={String(i18n.t('create_layer.edit_features'))}
+      onHeaderClick={onPanelClose}
+      className={clsx(s.sidePanel)}
+      modal={{
+        onModalClick: onPanelClose,
+        showInModal: isMobile,
+      }}
+    >
+      <div className={s.panelBody}>
+        {selectedFeature?.properties ? (
+          <EditFeatureForm
+            featureProperties={selectedFeature.properties}
+            fieldsSettings={settings}
+            geometry={selectedFeature.geometry}
+            changeProperty={changeProperty}
+            onSave={onSave}
+          />
+        ) : (
+          <EditFeaturePlaceholder />
+        )}
+      </div>
+    </Panel>
   );
 }

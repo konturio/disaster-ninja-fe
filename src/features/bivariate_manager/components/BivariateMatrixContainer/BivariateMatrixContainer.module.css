@@ -3,13 +3,9 @@
 }
 
 .header {
-  position: absolute;
-  right: 12px;
-  top: 0px;
-  left: 16px;
   display: flex;
   justify-content: space-between;
-  padding: 16px 9px 16px 24px;
+  padding: var(--unit) 0;
   background-color: var(--base-weak);
   z-index: 1;
 

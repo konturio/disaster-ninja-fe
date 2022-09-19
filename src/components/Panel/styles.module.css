@@ -1,0 +1,24 @@
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.headerTitle {
+  max-width: 260px;
+  min-width: 200px;
+}
+.closeBtn {
+  & svg {
+    color: var(--icon-base-strong);
+  }
+  &:hover svg {
+    color: var(--base-strong);
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .modal > section {
+    top: calc(50% + var(--app-header-height)); /* header offset */
+    height: 100vh;
+  }
+}
