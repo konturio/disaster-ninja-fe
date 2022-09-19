@@ -47,6 +47,11 @@
 
   &.collapse {
     transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s, left 0.15s linear 0s;
+    display: block;
+    flex: none;
+    & > div:nth-child(2) {
+      display: none;
+    }
   }
 }
 
