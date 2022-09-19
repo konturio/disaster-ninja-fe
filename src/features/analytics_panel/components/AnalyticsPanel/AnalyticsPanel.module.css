@@ -52,9 +52,6 @@
   .panelIcon {
     z-index: 1;
     display: flex;
-    /* REMOVE # 11729 */
-
-    position: absolute;
 
     &.show {
       transition: opacity 0.33s linear 0s;
