@@ -54,9 +54,7 @@ function valueFormatter(_value) {
   } else return <br />;
 }
 
-export const AdvancedAnalyticsDataList = ({
-  data,
-}: AdvancedAnalyticsDataListProps) => {
+export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListProps) => {
   const [listData, setList] = useState(data);
   //used to aware all world data being watched
   const [activeList, setActiveList] = useState(data);
@@ -73,7 +71,7 @@ export const AdvancedAnalyticsDataList = ({
     { checked: false, value: median },
   ]);
 
-  function onNominatorFilterChange(e) {
+  const onNominatorFilterChange = (e) => {
     //check if all world loaded
     let filteredData;
     if (data === activeList) {
@@ -91,9 +89,9 @@ export const AdvancedAnalyticsDataList = ({
 
     setList(filteredData);
     setNumerator(numerator);
-  }
+  };
 
-  function onDenominatorFilterChange(e) {
+  const onDenominatorFilterChange = (e) => {
     //check if all world loaded
     let filteredData;
     if (data === activeList) {
@@ -111,7 +109,7 @@ export const AdvancedAnalyticsDataList = ({
 
     setList(filteredData);
     setDenominator(denominator);
-  }
+  };
 
   function doCheckFilter() {
     setList(data);
@@ -142,29 +140,29 @@ export const AdvancedAnalyticsDataList = ({
     doCheckFilter();
   }
 
-  function sumClick(e) {
+  const sumClick = (e) => {
     setFilterChecked(e.target.checked, sum);
-  }
+  };
 
-  function minClick(e) {
+  const minClick = (e) => {
     setFilterChecked(e.target.checked, min);
-  }
+  };
 
-  function maxClick(e) {
+  const maxClick = (e) => {
     setFilterChecked(e.target.checked, max);
-  }
+  };
 
-  function meanClick(e) {
+  const meanClick = (e) => {
     setFilterChecked(e.target.checked, mean);
-  }
+  };
 
-  function stddevClick(e) {
+  const stddevClick = (e) => {
     setFilterChecked(e.target.checked, stddev);
-  }
+  };
 
-  function medianClick(e) {
+  const medianClick = (e) => {
     setFilterChecked(e.target.checked, median);
-  }
+  };
 
   function getWorlData() {
     setSeeWorld(true);
@@ -209,7 +207,7 @@ export const AdvancedAnalyticsDataList = ({
                 className={s.filter_text}
                 placeholder="Filter Nominator"
                 type="text"
-                onChange={onNominatorFilterChange.bind(this)}
+                onChange={onNominatorFilterChange}
               />
             </td>
             <td>
@@ -217,53 +215,29 @@ export const AdvancedAnalyticsDataList = ({
                 className={s.filter_text}
                 placeholder="Filter Denominator"
                 type="text"
-                onChange={onDenominatorFilterChange.bind(this)}
+                onChange={onDenominatorFilterChange}
               />
             </td>
             <td>
-              <input
-                className={s.switch}
-                type="checkbox"
-                onClick={sumClick.bind(this)}
-              />
+              <input className={s.switch} type="checkbox" onClick={sumClick} />
             </td>
 
             <td>
-              <input
-                className={s.switch}
-                type="checkbox"
-                onClick={minClick.bind(this)}
-              />
+              <input className={s.switch} type="checkbox" onClick={minClick} />
             </td>
             <td>
-              <input
-                className={s.switch}
-                type="checkbox"
-                onClick={maxClick.bind(this)}
-              />
+              <input className={s.switch} type="checkbox" onClick={maxClick} />
             </td>
 
             <td>
-              <input
-                className={s.switch}
-                type="checkbox"
-                onClick={meanClick.bind(this)}
-              />
+              <input className={s.switch} type="checkbox" onClick={meanClick} />
             </td>
 
             <td>
-              <input
-                className={s.switch}
-                type="checkbox"
-                onClick={stddevClick.bind(this)}
-              />
+              <input className={s.switch} type="checkbox" onClick={stddevClick} />
             </td>
             <td>
-              <input
-                className={s.switch}
-                type="checkbox"
-                onClick={medianClick.bind(this)}
-              />
+              <input className={s.switch} type="checkbox" onClick={medianClick} />
             </td>
           </tr>
           {listData &&
