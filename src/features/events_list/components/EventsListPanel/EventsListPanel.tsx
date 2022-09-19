@@ -1,5 +1,5 @@
 import { Virtuoso } from 'react-virtuoso';
-import { Panel, Text } from '@konturio/ui-kit';
+import { Panel } from '@konturio/ui-kit';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
@@ -14,9 +14,11 @@ import {
   EVENT_LIST_CONTROL_NAME,
 } from '~features/events_list/constants';
 import { controlVisualGroup } from '~core/shared_state/toolbarControls';
-import { PanelWrap } from '~components/Panel/Wrap/PanelWrap';
 import { userResourceAtom } from '~core/auth';
 import { AppFeature } from '~core/auth/types';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
+import { panelClasses } from '~components/Panel';
 import { FeedSelector } from '../FeedSelector/FeedSelector';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
@@ -40,11 +42,12 @@ export function EventsListPanel({
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const virtuoso = useRef(null);
-  // TEMP files. Remove when #11728 or #11710 will be implemented
+  // TEMP files. Remove when #11729 or #11710 will be implemented
   const [wasClosed, setWasClosed] = useState<null | boolean>(null);
   const [, { enable, disable, addControl, toggleActiveState }] =
     useAtom(toolbarControlsAtom);
   const [{ data: userModel }] = useAtom(userResourceAtom);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const onPanelClose = useCallback(() => {
     disable(EVENT_LIST_CONTROL_ID);
@@ -75,7 +78,7 @@ export function EventsListPanel({
     };
   }, []);
 
-  // RESTORE when #11728 or #11710 will be implemented
+  // RESTORE when #11729 or #11710 will be implemented
   /*useEffect(() => {
     if (isMobile) {
       setIsOpen(false);
@@ -105,6 +108,8 @@ export function EventsListPanel({
     }
   }, [current, eventsList, virtuoso]);
 
+  useAutoCollapsePanel(isOpen, onPanelClose);
+
   const statesToComponents = createStateMap({
     error,
     loading,
@@ -113,49 +118,49 @@ export function EventsListPanel({
 
   return (
     <div className={s.eventsPanelComponent}>
-      <PanelWrap onPanelClose={onPanelClose} isPanelOpen={isOpen}>
-        <Panel
-          header={
-            isOpen ? <Text type="heading-l">{i18n.t('disasters')}</Text> : undefined
-          }
-          className={clsx(s.eventsPanel, isOpen && s.show, !isOpen && s.hide)}
-          onClose={onPanelClose}
-        >
-          <div className={s.panelBody}>
-            <EventListSettingsRow>
-              <FeedSelector />
-              <BBoxFilterToggle />
-            </EventListSettingsRow>
-            <div className={s.scrollable}>
-              {statesToComponents({
-                loading: <LoadingSpinner message={i18n.t('loading_events')} />,
-                error: (errorMessage) => <ErrorMessage message={errorMessage} />,
-                ready: (eventsList) => (
-                  <Virtuoso
-                    data={eventsList}
-                    itemContent={(index, event) => (
-                      <EventCard
-                        key={event.eventId}
-                        event={event}
-                        isActive={event.eventId === current}
-                        onClick={onCurrentChange}
-                        alternativeActionControl={
-                          userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) ? (
-                            <EpisodeTimelineToggle isActive={event.eventId === current} />
-                          ) : null
-                        }
-                      />
-                    )}
-                    ref={virtuoso}
-                  />
-                ),
-              })}
-            </div>
+      <Panel
+        header={String(i18n.t('disasters'))}
+        headerIcon={<Disasters24 />}
+        className={clsx(s.eventsPanel, isOpen ? s.show : s.hide)}
+        onHeaderClick={onPanelClose}
+        classes={panelClasses}
+        isOpen={isOpen}
+        modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
+      >
+        <div className={s.panelBody}>
+          <EventListSettingsRow>
+            <FeedSelector />
+            <BBoxFilterToggle />
+          </EventListSettingsRow>
+          <div className={s.scrollable}>
+            {statesToComponents({
+              loading: <LoadingSpinner message={i18n.t('loading_events')} />,
+              error: (errorMessage) => <ErrorMessage message={errorMessage} />,
+              ready: (eventsList) => (
+                <Virtuoso
+                  data={eventsList}
+                  itemContent={(index, event) => (
+                    <EventCard
+                      key={event.eventId}
+                      event={event}
+                      isActive={event.eventId === current}
+                      onClick={onCurrentChange}
+                      alternativeActionControl={
+                        userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) ? (
+                          <EpisodeTimelineToggle isActive={event.eventId === current} />
+                        ) : null
+                      }
+                    />
+                  )}
+                  ref={virtuoso}
+                />
+              ),
+            })}
           </div>
-        </Panel>
-      </PanelWrap>
+        </div>
+      </Panel>
 
-      {/* RESTORE  #11728 
+      {/* RESTORE  #11729 
       <PanelIcon
         clickHandler={onPanelOpen}
         className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}

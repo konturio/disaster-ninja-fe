@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAtom } from '@reatom/react';
-import { LocaleNumber } from '~core/localization';
+import { LocaleNumber, i18n } from '~core/localization';
 import { worldAnalyticsResource } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsWorldResource';
-import { capitalize } from '~utils/common';
 import s from './AdvancedAnalyticsData.module.css';
 import type { AdvancedAnalyticsData } from '~core/types';
 
@@ -18,14 +17,14 @@ const sum = 'sum',
   median = 'median';
 
 const calculations = [
-  'Numerator',
-  'Normalized By',
-  capitalize(sum),
-  capitalize(min),
-  capitalize(max),
-  capitalize(mean),
-  capitalize(stddev),
-  capitalize(median),
+  i18n.t('advanced_analytics_data_list.numerator'),
+  i18n.t('advanced_analytics_data_list.normalized_by'),
+  i18n.t('advanced_analytics_data_list.sum'),
+  i18n.t('advanced_analytics_data_list.min'),
+  i18n.t('advanced_analytics_data_list.max'),
+  i18n.t('advanced_analytics_data_list.mean'),
+  i18n.t('advanced_analytics_data_list.stddev'),
+  i18n.t('advanced_analytics_data_list.median'),
 ];
 
 const badQualityColor = '#ff453b',
@@ -189,7 +188,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
   return (
     <div className={s.table_scroll}>
       <a href="#" onClick={getWorlData}>
-        Load World Data
+        {i18n.t('advanced_analytics_data_list.load_world_data')}
       </a>
       <table className={s.table_in_panel}>
         <tbody>
@@ -205,7 +204,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input
                 className={s.filter_text}
-                placeholder="Filter Nominator"
+                placeholder={i18n.t('advanced_analytics_data_list.filter_nominator')}
                 type="text"
                 onChange={onNominatorFilterChange}
               />
@@ -213,7 +212,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input
                 className={s.filter_text}
-                placeholder="Filter Denominator"
+                placeholder={i18n.t('advanced_analytics_data_list.filter_denominator')}
                 type="text"
                 onChange={onDenominatorFilterChange}
               />
@@ -225,6 +224,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input className={s.switch} type="checkbox" onClick={minClick} />
             </td>
+            
             <td>
               <input className={s.switch} type="checkbox" onClick={maxClick} />
             </td>
@@ -236,6 +236,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input className={s.switch} type="checkbox" onClick={stddevClick} />
             </td>
+            
             <td>
               <input className={s.switch} type="checkbox" onClick={medianClick} />
             </td>

@@ -1,53 +1,28 @@
 .panelContainer {
   position: relative;
-  /* REMOVE # 11728 */
+  /* REMOVE # 11729 */
 
   top: 55px;
   left: var(--unit);
 }
 
 .panelIcon {
-  position: absolute;
-  z-index: 1;
-
-  /* REMOVE # 11728 */
-  top: 55px;
-  left: var(--unit);
-
-  &.show {
-    transition: visibility 0s linear 0s, opacity 0.33s linear 0s;
-    visibility: visible;
-    opacity: 1;
-  }
-
-  &.hide {
-    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s;
-    visibility: hidden;
-    opacity: 0;
-  }
+  display: none;
 }
 
 .panel {
   z-index: 1; /* Show shadow over map */
   position: absolute;
   align-self: flex-start;
-  left: -100px;
-  border-radius: var(--half-unit);
+  border-radius: var(--border-radius);
 
-  &.show {
-    transition: visibility 0s linear 0s, opacity 0.33s linear 0s, left 0.1s linear 0s;
-    visibility: visible;
-    opacity: 1;
-    left: 0;
-  }
+  height: auto;
 
-  &.hide {
-    transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s, left 0.15s linear 0s;
-    visibility: hidden;
-    opacity: 0;
-    left: -150px;
-    width: 0;
-    height: 0;
+  &.collapse {
+    max-width: 300px;
+    & div:not(:first-child) {
+      display: none;
+    }
   }
 }
 
@@ -60,20 +35,53 @@
 }
 
 .header {
-  border-bottom: none;
-  padding-bottom: 0;
+  /* Temp padding right. Remove at #12405 */
+  padding: var(--unit) calc(var(--double-unit) + var(--icon-l) + var(--half-unit))
+    var(--unit) var(--double-unit);
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (max-width: 960px) {
-  .panel {
+  .panel.show {
     position: absolute;
     margin: 0;
     width: 100vw;
     max-height: unset;
-    height: calc(100vh - var(--header-height));
+    height: 100%;
     align-items: center;
+    & > div {
+      width: 100%;
+    }
   }
-  .panel > div {
-    width: 100%;
+
+  .panelBody {
+    width: 100vw;
+  }
+
+  .panel.collapse {
+    display: none;
+  }
+
+  .panelIcon {
+    position: absolute;
+    display: flex;
+    z-index: 1;
+
+    /* REMOVE # 11729 */
+    top: 55px;
+    left: var(--unit);
+
+    &.show {
+      transition: opacity 0.33s linear 0s;
+      visibility: visible;
+      opacity: 1;
+    }
+
+    &.hide {
+      transition: opacity 0.33s linear 0s;
+      visibility: hidden;
+      opacity: 0;
+    }
   }
 }

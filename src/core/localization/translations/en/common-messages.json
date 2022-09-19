@@ -3,6 +3,7 @@
     "km": "km",
     "m": "m",
     "to": "to",
+    "logout": "Logout",
     "save": "Save",
     "cancel": "Cancel",
     "create": "Create",
@@ -21,6 +22,7 @@
     "details": "Details",
     "deselect": "Deselect",
     "spinner_text": "Gathering data",
+    "updated": "Updated",
     "errors": {
       "timeout": "Request Timeout",
       "cannot_connect": "Can't connect to server",
@@ -29,6 +31,35 @@
       "unknown": "Unknown",
       "server_error": "Server Error"
     },
+    "categories": {
+      "overlays": "Overlays",
+      "basemap": "Basemap"
+    },
+    "groups": {
+      "layers_in_selected_area": "Layers in selected area",
+      "your_layers": "Your Layers",
+      "kontur_analytics": "Kontur Analytics",
+      "qa": "QA",
+      "osmbasedmap": "OpenStreetMap Based",
+      "other": "Other",
+      "elevation": "Elevation",
+      "photo": "Photo",
+      "map": "Map"
+    },
+    "advanced_analytics_data_list": {
+      "load_world_data": "Load World Data",
+      "numerator": "Numerator",
+      "normalized_by": "Normalized By",
+      "sum": "Sum",
+      "min": "Min",
+      "max": "Max",
+      "mean": "Mean",
+      "stddev": "Stddev",
+      "median": "Median",
+      "filter_nominator": "Filter Nominator",
+      "filter_denominator": "Filter Denominator"
+    },
+    "app_header.title": "Chat with us",
     "event_list": {
       "title": "Focus to disasters",
       "warning_title": "Can't use map as filter",
@@ -106,6 +137,9 @@
     "focus_geometry_layer.settings.name": "Selected Area",
     "drawings.self_directions_not_supported": "Self intersections are not supported!",
     "bivariate": {
+      "panel": {
+        "header": "Bivariate Matrix"
+      },
       "matrix": {
         "header": {
           "title": "Choose two layers to explore correlations",
@@ -166,7 +200,6 @@
       "search_location": "Search location",
       "open_josm": "Open via JOSM remote control",
       "josm_logo_alt": "JOSM logo",
-      "updated": "Updated",
       "see_all": "See all reports",
       "wrong_id": "Wrong report ID"
     },

@@ -1,5 +1,4 @@
 .layersTree {
-  padding-top: var(--unit);
+  padding: var(--unit) var(--half-unit);
   overflow-x: hidden;
-  padding-bottom: var(--unit);
 }

@@ -48,18 +48,13 @@ export function ReportInfo() {
   return (
     <div className={styles.mainWrap}>
       <Text type="short-l">
-        <Link
-          to={'../reports'}
-          className={clsx(commonStyles.link, styles.seeAllLink)}
-        >
+        <Link to={'../reports'} className={clsx(commonStyles.link, styles.seeAllLink)}>
           {i18n.t('reports.see_all')}
         </Link>
       </Text>
 
       <Text type="heading-m">
-        <span className={clsx(commonStyles.pageTitle, styles.title)}>
-          {report?.name}
-        </span>
+        <span className={clsx(commonStyles.pageTitle, styles.title)}>{report?.name}</span>
       </Text>
 
       {report?.description_full && (
@@ -76,7 +71,7 @@ export function ReportInfo() {
       {Boolean(report?.last_updated) && (
         <Text type="caption">
           <div className={styles.lastUpdated}>
-            {i18n.t('reports.updated') + ` ${report?.last_updated}`}
+            {i18n.t('updated') + ` ${report?.last_updated}`}
           </div>
         </Text>
       )}

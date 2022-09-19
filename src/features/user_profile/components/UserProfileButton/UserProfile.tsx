@@ -4,6 +4,7 @@ import { Selector } from '@konturio/ui-kit/tslib/Selector';
 import clsx from 'clsx';
 import { Button } from '@konturio/ui-kit';
 import { User24 } from '@konturio/default-icons';
+import { i18n } from '~core/localization';
 import { authClientInstance } from '~core/authClientInstance';
 import { userStateAtom } from '~core/auth/atoms/userState';
 import { LoginButton } from '../LoginButton/LoginButton';
@@ -12,8 +13,8 @@ import type { OptionType } from '@konturio/ui-kit/tslib/Selector';
 
 const userMenu: OptionType[] = [
   {
-    label: 'Logout',
-    hint: 'Logout',
+    label: i18n.t('logout'),
+    hint: i18n.t('logout'),
     value: 'logout',
   },
 ];
