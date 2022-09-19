@@ -121,7 +121,7 @@ export function EventsListPanel({
       <Panel
         header={String(i18n.t('disasters'))}
         headerIcon={<Disasters24 />}
-        className={clsx(s.eventsPanel, isOpen && s.show, !isOpen && s.hide)}
+        className={clsx(s.eventsPanel, isOpen ? s.show : s.hide)}
         onHeaderClick={onPanelClose}
         classes={panelClasses}
         isOpen={isOpen}

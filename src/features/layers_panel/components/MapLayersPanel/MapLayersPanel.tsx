@@ -1,5 +1,5 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Layers24 } from '@konturio/default-icons';
@@ -24,8 +24,11 @@ export function MapLayerPanel({
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
-    turnOffTooltip(LAYERS_PANEL_FEATURE_ID);
   }, [setIsOpen]);
+
+  useEffect(() => {
+    !isOpen && turnOffTooltip(LAYERS_PANEL_FEATURE_ID);
+  }, [isOpen]);
 
   const onPanelOpen = useCallback(() => {
     setIsOpen(true);

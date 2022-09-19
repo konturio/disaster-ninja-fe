@@ -3,10 +3,6 @@
 :root {
   --app-header-height: 44px;
   --panel-header-height: 40px;
-  --icon-s: 16px;
-  --icon-l: 24px;
-
-  --hishest-panel-z-index: 10;
 }
 
 html,
