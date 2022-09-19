@@ -1,4 +1,4 @@
-.panelBody {
+.panelContainer {
   display: flex;
   flex-flow: column nowrap;
   flex: 1;
@@ -7,10 +7,6 @@
 .eventsPanelComponent {
   display: flex;
   flex-direction: column;
-}
-
-.panelContainer {
-  position: relative;
 }
 
 .panelIcon {
@@ -57,9 +53,12 @@
     visibility: visible;
     opacity: 1;
     left: 0;
+    & > div:nth-child(2) {
+      display: flex;
+    }
   }
 
-  &.hide {
+  &.collapse {
     transition: visibility 0s linear 0.33s, opacity 0.33s linear 0s, left 0.15s linear 0s;
     visibility: hidden;
     width: 0;
@@ -68,10 +67,6 @@
     z-index: -1;
     opacity: 0.2;
     left: -150px;
-  }
-
-  & > div:first-child {
-    display: flex;
   }
 }
 
@@ -87,6 +82,6 @@
     width: 100%;
   }
   .scrollable {
-    width: 100%;
+    width: 100vw;
   }
 }

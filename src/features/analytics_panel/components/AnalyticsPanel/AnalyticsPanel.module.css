@@ -58,7 +58,7 @@ border-radius: var(--border-radius-unit); */
 
     position: absolute;
     top: var(--unit);
-    left: var(--unit);
+    left: calc(var(--double-unit) + 24px + var(--unit));
 
     &.show {
       transition: opacity 0.33s linear 0s;
