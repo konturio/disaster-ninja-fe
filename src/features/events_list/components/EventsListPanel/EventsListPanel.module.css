@@ -12,7 +12,6 @@
 
 .scrollable {
   overflow-y: auto;
-  width: 320px;
   height: 100%;
   padding-bottom: var(--double-unit);
   align-items: center;
@@ -40,6 +39,10 @@
       display: none;
     }
   }
+}
+
+.panelBody {
+  width: 100%;
 }
 
 @media screen and (max-width: 960px) {

@@ -33,7 +33,7 @@
 .contentWrap {
   display: grid;
   /* layers+analytics, advanced analytics, map column, layers&legends column */
-  grid-template-columns: minmax(320px, 1fr) minmax(0px, 1.2fr) minmax(440px, 3fr) minmax(
+  grid-template-columns: minmax(320px, 1fr) fit-content(400px) minmax(440px, 3fr) minmax(
       320px,
       1fr
     );
@@ -50,6 +50,7 @@
   position: relative;
   grid-column: 1 / -1;
   z-index: 1;
+  pointer-events: auto;
 }
 
 .analyticsColumn {
@@ -74,11 +75,9 @@
 .layersColumn {
   display: flex;
   flex-direction: column;
+  /* force panels elements to hold minimum height */
+  flex: 0 0 auto;
   gap: var(--unit);
-
-  & > div {
-    z-index: 1;
-  }
 }
 
 .logo {
@@ -88,8 +87,9 @@
 }
 
 .toolbarContainer {
+  z-index: 1;
   position: absolute;
-  bottom: 5%;
+  bottom: 0;
   left: 50%;
   transform: translate(-50%, 0);
 }

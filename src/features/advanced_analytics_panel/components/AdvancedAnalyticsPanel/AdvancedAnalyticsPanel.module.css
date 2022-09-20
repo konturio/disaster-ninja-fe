@@ -1,9 +1,5 @@
 .panelContainer {
   position: relative;
-  /* REMOVE # 11729 */
-
-  top: 55px;
-  left: var(--unit);
 }
 
 .panelIcon {
@@ -12,14 +8,12 @@
 
 .panel {
   z-index: 1; /* Show shadow over map */
-  position: absolute;
   align-self: flex-start;
   border-radius: var(--border-radius);
-
-  height: auto;
+  height: 100%;
 
   &.collapse {
-    max-width: 300px;
+    height: auto;
     & div:not(:first-child) {
       display: none;
     }

@@ -34,7 +34,7 @@
     visibility: visible;
     height: var(--panel-header-height);
     overflow: hidden;
-    max-width: 260px;
+    width: 100%;
   }
 }
 
