@@ -10,13 +10,6 @@
   }
 }
 
-.root {
-  display: flex;
-  flex-flow: row nowrap;
-  height: 100%;
-  margin: 0;
-}
-
 .mainWrap {
   margin: 0;
   display: flex;
@@ -24,40 +17,66 @@
   flex-flow: column nowrap;
 }
 
-.leftButtonsContainer {
-  position: relative;
-  width: 0;
-  display: flex;
-  flex-direction: row;
-  gap: var(--unit);
-  top: var(--unit);
-  left: var(--unit);
-}
-
-.iconColumn {
+.mainView {
   display: flex;
   flex-direction: column;
-  padding-bottom: 36px;
+  margin: 0;
+  height: 100%;
 }
 
-.iconColumn > div {
-  margin-bottom: var(--unit);
-}
-
-.floating {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  top: 8px;
+.mapWrap {
   display: flex;
-  gap: 8px;
-  pointer-events: none;
-  align-items: flex-start;
-  z-index: 2;
+  flex-flow: row nowrap;
+  z-index: 1;
 }
 
-.floating > * {
-  pointer-events: auto;
+.contentWrap {
+  display: grid;
+  /* layers+analytics, advanced analytics, map column, layers&legends column */
+  grid-template-columns: minmax(320px, 1fr) minmax(0px, 1.2fr) minmax(440px, 3fr) minmax(
+      320px,
+      1fr
+    );
+  /* 1 row - content, 2 row -  */
+  /* grid-template-rows: 1fr auto; */
+  height: 100%;
+  gap: var(--unit);
+  padding: var(--unit);
+}
+
+.footer {
+  height: 40px;
+  width: 100%;
+  position: relative;
+}
+
+.analyticsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit);
+}
+
+.advancedAnalyticsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit);
+}
+
+.mapColumn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit);
+}
+
+.layersColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit);
+
+  & > div {
+    z-index: 1;
+  }
 }
 
 .logo {

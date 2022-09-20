@@ -113,61 +113,76 @@ export function MainView({ userModel }: MainViewProps) {
   }, [userModel]);
 
   return (
-    <>
-      <Row>
+    <div className={s.mainView}>
+      <div className={s.mapWrap}>
         <Suspense fallback={null}>
-          {/* RESTORE #11729 */}
-          <div className={s.leftButtonsContainer}>
-            <div className={s.iconColumn}>
-              {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
-              {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
-                <EventListPanel />
-              )}
+          <ConnectedMap className={s.Map} />
+        </Suspense>
+      </div>
+
+      <div className={s.contentWrap}>
+        {/* 1st column */}
+
+        <Suspense fallback={null}>
+          <div className={s.analyticsColumn}>
+            {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
+            {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
+              <EventListPanel />
+            )}
+          </div>
+        </Suspense>
+
+        {/* 2nd column */}
+
+        <Suspense fallback={null}>
+          <div className={s.advancedAnalyticsColumn}>
+            {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+              <AdvancedAnalyticsPanel />
+            )}
+          </div>
+        </Suspense>
+
+        {/* "Map" column */}
+
+        <Suspense fallback={null}>
+          <div className={s.mapColumn}>
+            <div className={s.toolbarContainer}>
+              <Toolbar />
             </div>
 
-            <div className={s.iconColumn}>
-              {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-                <AdvancedAnalyticsPanel />
-              )}
+            <DrawToolsToolbox />
+
+            <div>
+              {userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />}
             </div>
           </div>
         </Suspense>
-        <div className={s.root} style={{ flex: 1, position: 'relative' }}>
-          <Suspense fallback={null}>
-            <ConnectedMap className={s.Map} />
-          </Suspense>
-          <div className={s.logo}>
-            <Logo height={24} palette={'contrast'} />
+
+        {/* 4th column */}
+
+        <Suspense fallback={null}>
+          <div className={s.layersColumn}>
+            {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
+              <Legend iconsContainerRef={iconsContainerRef} />
+            )}
+            {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
+              <EditFeaturesOrLayerPanel />
+            )}
+            {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
+              <MapLayersList iconsContainerRef={iconsContainerRef} />
+            )}
+            {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
+              <BivariatePanel iconsContainerRef={iconsContainerRef} />
+            )}
           </div>
-          <div className={s.toolbarContainer}>
-            <Toolbar />
-          </div>
-          <Suspense fallback={null}>
-            <div className={s.floating}>
-              <div
-                className={s.rightButtonsContainer}
-                ref={setIconsContainerRefCallback}
-              ></div>
-              {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
-                <Legend iconsContainerRef={iconsContainerRef} />
-              )}
-              {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
-                <EditFeaturesOrLayerPanel />
-              )}
-              {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
-                <MapLayersList iconsContainerRef={iconsContainerRef} />
-              )}
-              {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
-                <BivariatePanel iconsContainerRef={iconsContainerRef} />
-              )}
-            </div>
-          </Suspense>
-          <DrawToolsToolbox />
-        </div>
-      </Row>
-      <div>
-        {userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />}
+        </Suspense>
       </div>
-    </>
+
+      <div className={s.footer}>
+        <div className={s.logo}>
+          <Logo height={24} palette={'contrast'} />
+        </div>
+      </div>
+    </div>
   );
 }
