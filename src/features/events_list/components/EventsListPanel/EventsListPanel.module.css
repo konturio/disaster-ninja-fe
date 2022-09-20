@@ -15,10 +15,12 @@
   width: 320px;
   height: 100%;
   padding-bottom: var(--double-unit);
+  align-items: center;
 }
 
 .scrollable > div {
   width: 100%;
+  margin: 0;
 }
 
 .eventsPanel {
