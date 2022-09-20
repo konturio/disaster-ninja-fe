@@ -38,7 +38,7 @@
       1fr
     );
   /* 1 row - content, 2 row -  */
-  /* grid-template-rows: 1fr auto; */
+  grid-template-rows: calc(100% - var(--app-header-height)) 40px;
   height: 100%;
   gap: var(--unit);
   padding: var(--unit);
@@ -48,6 +48,8 @@
   height: 40px;
   width: 100%;
   position: relative;
+  grid-column: 1 / -1;
+  z-index: 1;
 }
 
 .analyticsColumn {

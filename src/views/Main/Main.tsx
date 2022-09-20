@@ -176,11 +176,13 @@ export function MainView({ userModel }: MainViewProps) {
             )}
           </div>
         </Suspense>
-      </div>
 
-      <div className={s.footer}>
-        <div className={s.logo}>
-          <Logo height={24} palette={'contrast'} />
+        {/* Footer */}
+
+        <div className={s.footer}>
+          <div className={s.logo}>
+            <Logo height={24} palette={'contrast'} />
+          </div>
         </div>
       </div>
     </div>
