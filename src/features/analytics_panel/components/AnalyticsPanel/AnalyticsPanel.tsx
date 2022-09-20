@@ -36,13 +36,14 @@ export function AnalyticsPanel() {
     <div className={styles.panelContainer}>
       <Panel
         header={String(i18n.t('analytics_panel.header_title'))}
+        headerIcon={<Analytics24 />}
         onHeaderClick={togglePanel}
         className={clsx(
           styles.analyticsPanel,
           isOpen && styles.show,
           !isOpen && styles.collapse,
         )}
-        classes={panelClasses}
+        classes={{ ...panelClasses, modal: styles.analyticsModal }}
         isOpen={isOpen}
         modal={{
           onModalClick: onPanelClose,

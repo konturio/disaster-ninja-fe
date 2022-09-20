@@ -16,6 +16,10 @@
   }
 }
 
+.modal {
+  z-index: var(--modal);
+}
+
 @media screen and (max-width: 960px) {
   .modal > section {
     top: calc(50% + var(--app-header-height)); /* header offset */

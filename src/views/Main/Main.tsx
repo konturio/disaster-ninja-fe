@@ -117,20 +117,20 @@ export function MainView({ userModel }: MainViewProps) {
       <Row>
         <Suspense fallback={null}>
           {/* RESTORE #11729 */}
-          {/* <div className={s.leftButtonsContainer}> */}
-          {/* <div className={s.iconColumn}> */}
-          {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
-            <EventListPanel />
-          )}
-          {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
-          {/* </div> */}
+          <div className={s.leftButtonsContainer}>
+            <div className={s.iconColumn}>
+              {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
+              {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
+                <EventListPanel />
+              )}
+            </div>
 
-          {/* <div className={s.iconColumn}> */}
-          {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-            <AdvancedAnalyticsPanel />
-          )}
-          {/* </div> */}
-          {/* </div> */}
+            <div className={s.iconColumn}>
+              {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+                <AdvancedAnalyticsPanel />
+              )}
+            </div>
+          </div>
         </Suspense>
         <div className={s.root} style={{ flex: 1, position: 'relative' }}>
           <Suspense fallback={null}>

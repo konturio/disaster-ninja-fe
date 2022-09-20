@@ -7,19 +7,10 @@
 }
 
 .analyticsPanel {
-  /* RESTORE # 11729 */
-  /* position: relative;  
-border-radius: var(--border-radius-unit); */
-
   z-index: 1; /* Show shadow over map */
   align-self: flex-start;
 
-  /* REMOVE # 11729 */
-  position: absolute;
-  margin-left: var(--unit);
-  margin-top: var(--unit);
   border-radius: var(--border-radius-unit);
-  /* . */
 
   height: auto;
   &.collapse {
@@ -35,6 +26,13 @@ border-radius: var(--border-radius-unit); */
 }
 
 @media screen and (max-width: 960px) {
+  .analyticsModal > section {
+    top: calc(50% + var(--app-header-height)); /* header offset */
+    height: 100vh;
+    left: 50%;
+    z-index: var(--modal);
+  }
+
   .analyticsPanel.show {
     margin: 0;
     width: 100vw;
@@ -49,16 +47,12 @@ border-radius: var(--border-radius-unit); */
   }
   .panelBody {
     margin: 0 auto;
+    width: 100%;
   }
 
   .panelIcon {
     z-index: 1;
     display: flex;
-    /* REMOVE # 11729 */
-
-    position: absolute;
-    top: var(--unit);
-    left: var(--unit);
 
     &.show {
       transition: opacity 0.33s linear 0s;
@@ -67,7 +61,6 @@ border-radius: var(--border-radius-unit); */
     }
 
     &.hide {
-      transition: opacity 0.33s linear 0s;
       visibility: hidden;
       opacity: 0;
     }

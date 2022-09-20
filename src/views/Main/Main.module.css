@@ -25,17 +25,19 @@
 }
 
 .leftButtonsContainer {
-  position: absolute;
+  position: relative;
+  width: 0;
   display: flex;
   flex-direction: row;
   gap: var(--unit);
-  margin-left: var(--unit);
-  margin-top: var(--unit);
+  top: var(--unit);
+  left: var(--unit);
 }
 
 .iconColumn {
   display: flex;
   flex-direction: column;
+  padding-bottom: 36px;
 }
 
 .iconColumn > div {

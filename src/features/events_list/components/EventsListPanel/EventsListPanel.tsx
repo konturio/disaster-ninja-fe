@@ -1,5 +1,5 @@
 import { Virtuoso } from 'react-virtuoso';
-import { Panel } from '@konturio/ui-kit';
+import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
@@ -8,12 +8,6 @@ import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import { i18n } from '~core/localization';
-import { toolbarControlsAtom } from '~core/shared_state';
-import {
-  EVENT_LIST_CONTROL_ID,
-  EVENT_LIST_CONTROL_NAME,
-} from '~features/events_list/constants';
-import { controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { userResourceAtom } from '~core/auth';
 import { AppFeature } from '~core/auth/types';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
@@ -41,51 +35,14 @@ export function EventsListPanel({
   eventsList: Event[] | null;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const virtuoso = useRef(null);
-  // TEMP files. Remove when #11729 or #11710 will be implemented
-  const [wasClosed, setWasClosed] = useState<null | boolean>(null);
-  const [, { enable, disable, addControl, toggleActiveState }] =
-    useAtom(toolbarControlsAtom);
-  const [{ data: userModel }] = useAtom(userResourceAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const virtuoso = useRef(null);
+  const [{ data: userModel }] = useAtom(userResourceAtom);
 
-  const onPanelClose = useCallback(() => {
-    disable(EVENT_LIST_CONTROL_ID);
+  const togglePanel = useCallback(() => {
+    setIsOpen((prevState) => !prevState);
   }, [setIsOpen]);
 
-  useEffect(() => {
-    addControl({
-      id: EVENT_LIST_CONTROL_ID,
-      name: EVENT_LIST_CONTROL_NAME,
-      title: i18n.t('event_list.title'),
-      active: true,
-      visualGroup: controlVisualGroup.withAnalytics,
-      icon: <Disasters24 />,
-      onClick: (becomesActive) => {
-        toggleActiveState(EVENT_LIST_CONTROL_ID);
-      },
-      onChange: (isActive) => {
-        setIsOpen(isActive);
-        setWasClosed((wasPreviouslyClosed) => {
-          if (wasPreviouslyClosed === null) return false;
-          return !isActive;
-        });
-      },
-    });
-
-    return () => {
-      disable(EVENT_LIST_CONTROL_ID);
-    };
-  }, []);
-
-  // RESTORE when #11729 or #11710 will be implemented
-  /*useEffect(() => {
-    if (isMobile) {
-      setIsOpen(false);
-    }
-  }, [isMobile, setIsOpen]);
-
-  
   const onPanelOpen = useCallback(() => {
     setIsOpen(true);
   }, [setIsOpen]);
@@ -93,8 +50,8 @@ export function EventsListPanel({
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
   }, [setIsOpen]);
-  */
 
+  // Virtual event list rendering effect
   useEffect(() => {
     // type any is used because virtuoso types doesn't have scrollToIndex method, but it's described in docs https://virtuoso.dev/scroll-to-index
     const ref: any = virtuoso.current;
@@ -117,12 +74,12 @@ export function EventsListPanel({
   });
 
   return (
-    <div className={s.eventsPanelComponent}>
+    <div className={s.panelContainer}>
       <Panel
         header={String(i18n.t('disasters'))}
         headerIcon={<Disasters24 />}
-        className={clsx(s.eventsPanel, isOpen ? s.show : s.hide)}
-        onHeaderClick={onPanelClose}
+        className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
+        onHeaderClick={togglePanel}
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
@@ -160,12 +117,11 @@ export function EventsListPanel({
         </div>
       </Panel>
 
-      {/* RESTORE  #11729 
       <PanelIcon
         clickHandler={onPanelOpen}
         className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
         icon={<Disasters24 />}
-      /> */}
+      />
     </div>
   );
 }
