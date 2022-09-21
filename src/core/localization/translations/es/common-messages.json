@@ -3,10 +3,11 @@
     "km": "km",
     "m": "m",
     "to": "a",
-    "logout": "XXXXXX",
+
     "save": "Guardar",
     "cancel": "Cancelar",
     "create": "Crear",
+
     "disasters": "Desastres",
     "loading": "Cargando...",
     "loading_events": "Cargando eventos",
@@ -23,6 +24,7 @@
     "deselect": "Anular la selección",
     "spinner_text": "Recopilación de datos",
     "updated": "Actualizado",
+
     "errors": {
       "timeout": "Se agotó el tiempo de espera de la solicitud",
       "cannot_connect": "No se puede conectar al servidor",
@@ -31,35 +33,7 @@
       "unknown": "Desconocido",
       "server_error": "Error del servidor"
     },
-    "categories": {
-      "overlays": "XXXXXX",
-      "basemap": "XXXXXX"
-    },
-    "groups": {
-      "layers_in_selected_area": "XXXXXX XXXXXX XXXXXX",
-      "your_layers": "XXXXXX XXXXXX",
-      "kontur_analytics": "XXXXXX XXXXXX",
-      "qa": "XXXXXX",
-      "osmbasedmap": "XXXXXX XXXXXX",
-      "other": "XXXXXX",
-      "elevation": "XXXXXX",
-      "photo": "XXXXXX",
-      "map": "XXXXXX"
-    },
-    "advanced_analytics_data_list": {
-      "load_world_data": "XXXXXX",
-      "numerator": "XXXXXX",
-      "normalized_by": "XXXXXX",
-      "sum": "XXXXXX",
-      "min": "XXXXXX",
-      "max": "XXXXXX",
-      "mean": "XXXXXX",
-      "stddev": "XXXXXX",
-      "median": "XXXXXX",
-      "filter_nominator": "XXXXXX",
-      "filter_denominator": "XXXXXX"
-    },
-    "app_header.title": "XXXXXX",
+
     "event_list": {
       "title": "Enfoque en los desastres",
       "warning_title": "No se puede utilizar el mapa como filtro",
