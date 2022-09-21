@@ -13,6 +13,8 @@
 .scrollable {
   overflow-y: auto;
   height: 100%;
+  /* a space to see at least one card */
+  min-height: 110px;
   padding-bottom: var(--double-unit);
   align-items: center;
 }
