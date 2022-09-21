@@ -137,7 +137,7 @@ export function MainView({ userModel }: MainViewProps) {
 
         <Suspense fallback={null}>
           <div className={s.advancedAnalyticsColumn}>
-            {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+            {!userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
               <AdvancedAnalyticsPanel />
             )}
           </div>
@@ -173,7 +173,7 @@ export function MainView({ userModel }: MainViewProps) {
             {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
               <MapLayersList iconsContainerRef={iconsContainerRef} />
             )}
-            {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
+            {!userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
               <BivariatePanel iconsContainerRef={iconsContainerRef} />
             )}
             <div className={s.intercomPlaceholder}></div>

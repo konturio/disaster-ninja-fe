@@ -137,7 +137,7 @@
       fit-content(calc(100% - 280px))
       fit-content(calc(100% - 280px))
       auto
-      40px;
+      0px;
     max-height: 100%;
   }
 
@@ -159,8 +159,13 @@
     overflow: hidden;
   }
   .footer {
+    position: relative;
     grid-column: 1/2;
     grid-row: 5;
+    & > div {
+      position: absolute;
+      bottom: 100%;
+    }
   }
 }
 
