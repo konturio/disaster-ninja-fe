@@ -119,6 +119,38 @@
   flex: 1 0 auto;
 }
 
+@media screen and (max-width: 1440px) {
+  .contentWrap {
+    /* panel columns column, map column */
+    grid-template-columns: minmax(320px, 1fr) minmax(440px, 100vw);
+    /* 1 row - content, 2 row - footer */
+    grid-template-rows: auto fit-content(40px) 40px;
+  }
+
+  .analyticsColumn {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .advancedAnalyticsColumn {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .mapColumn {
+    /* grid-column: 2/-1; */
+    grid-column: 2;
+    grid-row: 1/-1;
+  }
+  .layersColumn {
+    display: none;
+    grid-column: 1;
+    grid-row: 3 / 5;
+  }
+  .footer {
+    grid-column: 1/-2;
+    grid-row: 3/4;
+  }
+}
+
 @media screen and (max-width: 960px) {
   .toolbarContainer {
     position: absolute;
