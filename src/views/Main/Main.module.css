@@ -53,6 +53,12 @@
   pointer-events: auto;
 }
 
+.logo {
+  position: absolute;
+  left: var(--unit);
+  bottom: var(--unit);
+}
+
 .analyticsColumn {
   display: flex;
   flex-direction: column;
@@ -72,26 +78,28 @@
   gap: var(--unit);
 }
 
+.bottomMapContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit);
+  z-index: 1;
+  width: 100%;
+  bottom: 0;
+}
+.toolbarContainer {
+  position: relative;
+  & > div {
+    justify-content: center;
+  }
+}
+
 .layersColumn {
   display: flex;
   flex-direction: column;
   /* force panels elements to hold minimum height */
   flex: 0 0 auto;
   gap: var(--unit);
-}
-
-.logo {
-  position: absolute;
-  left: 8px;
-  bottom: 8px;
-}
-
-.toolbarContainer {
-  z-index: 1;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
 }
 
 @media screen and (max-width: 960px) {

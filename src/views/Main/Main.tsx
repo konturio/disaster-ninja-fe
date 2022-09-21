@@ -5,6 +5,7 @@ import { Row } from '~components/Layout/Layout';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager';
+import { EpisodesTimelinePanel } from '~features/event_episodes/components/EpisodesTimelinePanel/EpisodesTimelinePanel';
 import s from './Main.module.css';
 import type { UserDataModel } from '~core/auth';
 import type { MutableRefObject } from 'react';
@@ -146,13 +147,12 @@ export function MainView({ userModel }: MainViewProps) {
 
         <Suspense fallback={null}>
           <div className={s.mapColumn}>
-            <div className={s.toolbarContainer}>
-              <Toolbar />
-            </div>
-
             <DrawToolsToolbox />
 
-            <div>
+            <div className={s.bottomMapContainer}>
+              <div className={s.toolbarContainer}>
+                <Toolbar />
+              </div>
               {userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />}
             </div>
           </div>
