@@ -1,6 +1,7 @@
 import { createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
+import { i18n } from '~core/localization';
 import type { AnalyticsData } from '~core/types';
 
 export const analyticsResourceAtom = createResourceAtom(
@@ -17,11 +18,11 @@ export const analyticsResourceAtom = createResourceAtom(
         { errorsConfig: { dontShowErrors: true } },
       );
     } catch (e: unknown) {
-      throw new Error('Error while fetching analytics data');
+      throw new Error(i18n.t('analytics_panel.error_loading'));
     }
 
     // in case there is no error but response data is empty
-    if (responseData === undefined) throw new Error('No data received');
+    if (responseData === undefined) throw new Error(i18n.t('no_data_received'));
 
     return responseData;
   },
