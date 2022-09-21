@@ -120,12 +120,21 @@
 }
 
 @media screen and (max-width: 1440px) {
+  /* panel height is 40px, gap is 8px. 6 possible columns with 5 gap = 240px + 40px, 280px */
   .contentWrap {
     /* panel columns column, map column */
     grid-template-columns: minmax(320px, 1fr) minmax(440px, 100vw);
-    /* 1 row 1 col - analytics, 2 row 1 col - advancedAnalytics, 3 row 1 col - layersCol, 4 row 1,2 col - footer */
+    /* 
+      1 row 1 col - analytics, 2 row 1 col - advancedAnalytics, 
+      3 row 1 col - layersCol, 4-5 row 1-2 col - footer 
+    */
     /* 1 - 3 row 2 col - map */
-    grid-template-rows: auto fit-content(40px) auto 40px;
+    grid-template-rows:
+      fit-content(calc(100% - 280px))
+      fit-content(calc(100% - 280px))
+      fit-content(calc(100% - 280px))
+      auto
+      40px;
     max-height: 100%;
   }
 
@@ -139,7 +148,7 @@
   }
   .mapColumn {
     grid-column: 2;
-    grid-row: 1/4;
+    grid-row: 1/5;
   }
   .layersColumn {
     grid-column: 1;
@@ -148,7 +157,7 @@
   }
   .footer {
     grid-column: 1/2;
-    grid-row: 4;
+    grid-row: 5;
   }
 }
 
