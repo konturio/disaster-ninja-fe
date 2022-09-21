@@ -58,13 +58,8 @@
   }
 
   .panelIcon {
-    position: absolute;
     display: flex;
     z-index: 1;
-
-    /* REMOVE # 11729 */
-    top: 55px;
-    left: var(--unit);
 
     &.show {
       transition: opacity 0.33s linear 0s;

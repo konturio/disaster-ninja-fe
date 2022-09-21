@@ -13,11 +13,7 @@ import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { LayersTree } from '../LayersTree/LayersTree';
 import s from './MapLayersPanel.module.css';
 
-export function MapLayerPanel({
-  iconsContainerRef,
-}: {
-  iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
-}) {
+export function MapLayerPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -59,17 +55,13 @@ export function MapLayerPanel({
         </div>
       </Panel>
 
-      {iconsContainerRef.current &&
-        ReactDOM.createPortal(
-          <div className={!isOpen ? s.iconContainerShown : s.iconContainerHidden}>
-            <PanelIcon
-              clickHandler={onPanelOpen}
-              className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
-              icon={<Layers24 />}
-            />
-          </div>,
-          iconsContainerRef.current,
-        )}
+      <div className={!isOpen ? s.iconContainerShown : s.iconContainerHidden}>
+        <PanelIcon
+          clickHandler={onPanelOpen}
+          className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+          icon={<Layers24 />}
+        />
+      </div>
     </>
   );
 }

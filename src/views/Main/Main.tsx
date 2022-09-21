@@ -44,13 +44,6 @@ type MainViewProps = {
 };
 export function MainView({ userModel }: MainViewProps) {
   const history = useHistory();
-  const [iconsContainerRef, setIconsContainerRef] = useState<
-    MutableRefObject<HTMLDivElement | null>
-  >({ current: null });
-
-  const setIconsContainerRefCallback = useCallback((ref) => {
-    setIconsContainerRef({ current: ref });
-  }, []);
 
   useEffect(() => {
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
@@ -122,6 +115,7 @@ export function MainView({ userModel }: MainViewProps) {
       </div>
 
       <div className={s.contentWrap}>
+        <div className={s.mobileColumnsOffset} />
         {/* 1st column */}
 
         <Suspense fallback={null}>
@@ -137,7 +131,7 @@ export function MainView({ userModel }: MainViewProps) {
 
         <Suspense fallback={null}>
           <div className={s.advancedAnalyticsColumn}>
-            {!userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+            {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
               <AdvancedAnalyticsPanel />
             )}
           </div>
@@ -164,18 +158,12 @@ export function MainView({ userModel }: MainViewProps) {
 
         <Suspense fallback={null}>
           <div className={s.layersColumn}>
-            {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
-              <Legend iconsContainerRef={iconsContainerRef} />
-            )}
+            {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
             {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
               <EditFeaturesOrLayerPanel />
             )}
-            {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
-              <MapLayersList iconsContainerRef={iconsContainerRef} />
-            )}
-            {!userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
-              <BivariatePanel iconsContainerRef={iconsContainerRef} />
-            )}
+            {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && <MapLayersList />}
+            {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && <BivariatePanel />}
             <div className={s.intercomPlaceholder}></div>
           </div>
         </Suspense>

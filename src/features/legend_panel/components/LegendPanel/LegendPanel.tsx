@@ -16,10 +16,9 @@ import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
 
 interface LegendPanelProps {
   layers: LayerAtom[];
-  iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
-export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
+export function LegendPanel({ layers }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
@@ -63,15 +62,11 @@ export function LegendPanel({ layers, iconsContainerRef }: LegendPanelProps) {
         </div>
       </Panel>
 
-      {iconsContainerRef.current &&
-        ReactDOM.createPortal(
-          <PanelIcon
-            clickHandler={onPanelOpen}
-            className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
-            icon={<Legend24 />}
-          />,
-          iconsContainerRef.current,
-        )}
+      <PanelIcon
+        clickHandler={onPanelOpen}
+        className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+        icon={<Legend24 />}
+      />
     </>
   );
 }
