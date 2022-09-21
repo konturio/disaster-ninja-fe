@@ -3,6 +3,11 @@
   display: flex;
   flex-direction: row;
   gap: var(--unit);
+  pointer-events: none;
+
+  & > * {
+    pointer-events: all;
+  }
 
   & .toolButton {
     background-color: var(--base-weak);

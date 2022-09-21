@@ -1,7 +1,7 @@
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
-import { Row } from '~components/Layout/Layout';
+import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager';
@@ -150,10 +150,12 @@ export function MainView({ userModel }: MainViewProps) {
             <DrawToolsToolbox />
 
             <div className={s.bottomMapContainer}>
-              <div className={s.toolbarContainer}>
+              <div className={clsx(s.toolbarContainer, s.clickThrough)}>
                 <Toolbar />
               </div>
-              {userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />}
+              <div className={clsx(s.timelineContainer, s.clickThrough)}>
+                {userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />}
+              </div>
             </div>
           </div>
         </Suspense>
@@ -174,12 +176,13 @@ export function MainView({ userModel }: MainViewProps) {
             {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
               <BivariatePanel iconsContainerRef={iconsContainerRef} />
             )}
+            <div className={s.intercomPlaceholder}></div>
           </div>
         </Suspense>
 
         {/* Footer */}
 
-        <div className={s.footer}>
+        <div className={clsx(s.footer, s.clickThrough)}>
           <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
           </div>

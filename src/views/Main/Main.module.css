@@ -10,6 +10,13 @@
   }
 }
 
+.clickThrough {
+  pointer-events: none;
+  & > * {
+    pointer-events: auto;
+  }
+}
+
 .mainWrap {
   margin: 0;
   display: flex;
@@ -32,12 +39,12 @@
 
 .contentWrap {
   display: grid;
-  /* layers+analytics, advanced analytics, map column, layers&legends column */
-  grid-template-columns: minmax(320px, 1fr) fit-content(400px) minmax(440px, 3fr) minmax(
+  /* analytics+layers column, advanced analytics column, map column, layers&legends column */
+  grid-template-columns: minmax(320px, 1fr) fit-content(400px) minmax(440px, 100vw) minmax(
       320px,
       1fr
     );
-  /* 1 row - content, 2 row -  */
+  /* 1 row - content, 2 row - footer */
   grid-template-rows: calc(100% - var(--app-header-height)) 40px;
   height: 100%;
   gap: var(--unit);
@@ -50,7 +57,6 @@
   position: relative;
   grid-column: 1 / -1;
   z-index: 1;
-  pointer-events: auto;
 }
 
 .logo {
@@ -86,12 +92,18 @@
   z-index: 1;
   width: 100%;
   bottom: 0;
+  pointer-events: none;
 }
+
 .toolbarContainer {
   position: relative;
   & > div {
     justify-content: center;
   }
+}
+
+.timelineContainer {
+  pointer-events: auto;
 }
 
 .layersColumn {
@@ -100,6 +112,11 @@
   /* force panels elements to hold minimum height */
   flex: 0 0 auto;
   gap: var(--unit);
+}
+
+.intercomPlaceholder {
+  height: 26px;
+  flex: 1 0 auto;
 }
 
 @media screen and (max-width: 960px) {
