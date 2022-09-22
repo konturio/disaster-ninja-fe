@@ -23,7 +23,7 @@
     visibility: visible;
     width: 100vw;
     margin: 0;
-    height: 100%;
+    height: calc(100vh - 44px);
     align-items: center;
     & > div {
       width: 100%;
