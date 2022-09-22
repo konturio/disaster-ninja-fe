@@ -134,7 +134,7 @@
   display: none;
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1900px) {
   /* panel height is 40px, gap is 8px. 6 possible columns with 5 gap = 240px + 40px, 280px */
   .contentWrap {
     /* panel columns column, map column */
