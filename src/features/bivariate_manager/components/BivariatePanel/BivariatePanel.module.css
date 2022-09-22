@@ -1,5 +1,5 @@
 .bivModal > section {
-  left: 0;
+  right: 0;
   top: calc(50% + var(--app-header-height)); /* header offset */
   height: 100vh;
   z-index: var(--modal);
@@ -21,9 +21,9 @@
   &.show {
     position: absolute;
     visibility: visible;
-    width: 100vw;
+    width: 75vw;
     margin: 0;
-    height: 100%;
+    height: calc(100vh - 44px);
     align-items: center;
     & > div {
       width: 100%;
@@ -39,8 +39,8 @@
 }
 
 .panelBody {
-  height: 100%;
-  width: 100vw;
+  height: calc(100vh - 44px - 41px);
+  width: 75vw;
   padding: 0 var(--double-unit) var(--double-unit) var(--double-unit);
   overflow: auto;
 
