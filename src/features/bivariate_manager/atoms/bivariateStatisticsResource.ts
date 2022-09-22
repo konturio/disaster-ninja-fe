@@ -1,10 +1,7 @@
 import { createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
-import {
-  createBivariateGraphQLQuery,
-  isGeometryEmpty,
-} from '~features/bivariate_manager/utils/createBivariateGraphQLQuery';
+import { createBivariateQuery, isGeometryEmpty } from '~core/bivariate';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { isApiError } from '~core/api_client/apiClientError';
 import { i18n } from '~core/localization';
@@ -27,20 +24,14 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       const abortController = new AbortController();
       abortControllers.push(abortController);
       try {
+        const body = createBivariateQuery(geom);
         responseData = await apiClient.post<{
           data: BivariateStatisticsResponse;
           errors?: unknown;
-        }>(
-          '/bivariate_matrix',
-          {
-            query: createBivariateGraphQLQuery(geom),
-          },
-          true,
-          {
-            signal: abortController.signal,
-            errorsConfig: { dontShowErrors: true },
-          },
-        );
+        }>('/bivariate_matrix', body, true, {
+          signal: abortController.signal,
+          errorsConfig: { dontShowErrors: true },
+        });
       } catch (e) {
         if (isApiError(e) && e.problem.kind === 'canceled') {
           return null;

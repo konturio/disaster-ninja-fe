@@ -10,7 +10,7 @@ import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { BivariateGreetingsContainer } from '~features/bivariate_manager/components/BivariateGreetings/BivariateGreetingsContainer';
 import { i18n } from '~core/localization';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { isGeometryEmpty } from '~features/bivariate_manager/utils/createBivariateGraphQLQuery';
+import { isGeometryEmpty } from '~core/bivariate';
 import s from './BivariateMatrixContainer.module.css';
 
 interface BivariateMatrixContainerProps {

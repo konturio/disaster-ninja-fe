@@ -5,7 +5,7 @@ import { isApiError } from '~core/api_client/apiClientError';
 import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { i18n } from '~core/localization';
-import { createBivariateColorsGraphQLQuery } from '../utils/createBivariateColorsGraphQLQuery';
+import { createBivariateQuery } from '~core/bivariate';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 import type { Axis, Direction, Indicator } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
@@ -67,19 +67,13 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
       abortControllers.push(abortController);
 
       try {
+        const body = createBivariateQuery();
         responseData = await apiClient.post<{
           data: BivariateStatisticsResponse;
-        }>(
-          '/bivariate_matrix',
-          {
-            query: createBivariateColorsGraphQLQuery(),
-          },
-          true,
-          {
-            signal: abortController.signal,
-            errorsConfig: { dontShowErrors: true },
-          },
-        );
+        }>('/bivariate_matrix', body, true, {
+          signal: abortController.signal,
+          errorsConfig: { dontShowErrors: true },
+        });
       } catch (e) {
         if (isApiError(e) && e.problem.kind === 'canceled') {
           return null;
