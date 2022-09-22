@@ -74,7 +74,7 @@ export function EventsListPanel({
   });
 
   return (
-    <div className={s.panelContainer}>
+    <div className={clsx(s.panelContainer, isOpen && s.open)}>
       <Panel
         header={String(i18n.t('disasters'))}
         headerIcon={<Disasters24 />}

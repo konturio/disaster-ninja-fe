@@ -22,6 +22,7 @@
   padding: var(--double-unit);
   overflow-y: auto;
   overflow-x: hidden;
+  resize: vertical;
 }
 .panelBody :first-child {
   margin-top: 0;

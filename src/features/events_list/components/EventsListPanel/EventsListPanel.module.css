@@ -1,8 +1,12 @@
 .panelContainer {
-  height: 100%;
   display: flex;
   flex-flow: column nowrap;
   overflow: hidden;
+  box-shadow: var(--elevation-1);
+  z-index: 1;
+  &.open {
+    height: 100%;
+  }
 }
 
 .panelIcon {
@@ -17,6 +21,7 @@
   min-height: 110px;
   padding-bottom: var(--double-unit);
   align-items: center;
+  resize: vertical;
 }
 
 .scrollable > div {
