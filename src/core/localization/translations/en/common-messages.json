@@ -23,6 +23,7 @@
     "deselect": "Deselect",
     "spinner_text": "Gathering data",
     "updated": "Updated",
+    "no_data_received": "No data received",
     "errors": {
       "timeout": "Request Timeout",
       "cannot_connect": "Can't connect to server",
@@ -100,12 +101,14 @@
       "loading": "Loading analytics...",
       "error": "Error",
       "header_title": "Analytics",
-      "info_tab": "INFO"
+      "info_tab": "INFO",
+      "error_loading": "Error while fetching analytics data"
     },
     "advanced_analytics_panel": {
       "loading": "Loading advanced analytics...",
       "header_title": "Advanced analytics",
-      "analytics_tab": "Advanced Analytics"
+      "analytics_tab": "Advanced Analytics",
+      "error": "Error while fetching advanced analytics data"
     },
     "advanced_analytics_empty": {
       "not_found": "Sorry, requested event not found.",

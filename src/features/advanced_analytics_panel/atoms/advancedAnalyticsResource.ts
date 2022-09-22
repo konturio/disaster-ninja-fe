@@ -2,6 +2,7 @@ import { createResourceAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { isApiError } from '~core/api_client/apiClientError';
+import { i18n } from '~core/localization';
 import type { AdvancedAnalyticsData } from '~core/types';
 
 const abortControllers: AbortController[] = [];
@@ -27,12 +28,12 @@ export const advancedAnalyticsResourceAtom = createResourceAtom(
         if (isApiError(e) && e.problem.kind === 'canceled') {
           return null;
         } else {
-          throw new Error('Error while fetching advanced analytics data');
+          throw new Error(i18n.t('advanced_analytics_panel.error'));
         }
       }
 
       // in case there is no error but response data is empty
-      if (responseData === undefined) throw new Error('No data received');
+      if (responseData === undefined) throw new Error(i18n.t('no_data_received'));
 
       return responseData;
     }

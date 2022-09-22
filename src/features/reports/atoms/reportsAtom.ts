@@ -1,5 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { reportsClient } from '~core/apiClientInstance';
+import { i18n } from '~core/localization';
 
 export type Report = {
   id: string;
@@ -33,7 +34,7 @@ export const reportsAtom = createAtom(
           undefined,
           false,
         );
-        if (responseData === null) throw new Error('No data received');
+        if (responseData === null) throw new Error(i18n.t('no_data_received'));
         dispatch(reportsAtom.setReports(responseData));
       });
     });

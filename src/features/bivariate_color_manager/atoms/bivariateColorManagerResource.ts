@@ -4,6 +4,7 @@ import { generateColorTheme } from '~utils/bivariate/bivariateColorThemeUtils';
 import { isApiError } from '~core/api_client/apiClientError';
 import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
+import { i18n } from '~core/localization';
 import { createBivariateColorsGraphQLQuery } from '../utils/createBivariateColorsGraphQLQuery';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 import type { Axis, Direction, Indicator } from '~utils/bivariate';
@@ -87,11 +88,11 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
       }
 
       if (!responseData) {
-        throw new Error('No data received');
+        throw new Error(i18n.t('no_data_received'));
       }
       if (!responseData?.data) {
         const msg = parseGraphQLErrors(responseData);
-        throw new Error(msg || 'No data received');
+        throw new Error(msg || i18n.t('no_data_received'));
       }
 
       const stats = responseData.data.polygonStatistic.bivariateStatistic;
@@ -99,7 +100,7 @@ export const bivariateColorManagerResourceAtom = createResourceAtom(
 
       if (!correlationRates || !indicators || !axis) {
         const msg = parseGraphQLErrors(responseData);
-        throw new Error(msg || 'No part of data received');
+        throw new Error(msg || i18n.t('no_data_received'));
       }
 
       const indicatorsMap = indicators.reduce<IndicatorsMap>((acc, value) => {

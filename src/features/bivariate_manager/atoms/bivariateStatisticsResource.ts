@@ -7,6 +7,7 @@ import {
 } from '~features/bivariate_manager/utils/createBivariateGraphQLQuery';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { isApiError } from '~core/api_client/apiClientError';
+import { i18n } from '~core/localization';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 
 let allMapStats: BivariateStatisticsResponse;
@@ -48,11 +49,11 @@ export const bivariateStatisticsResourceAtom = createResourceAtom(
       }
 
       if (!responseData) {
-        throw new Error('No data received');
+        throw new Error(i18n.t('no_data_received'));
       }
       if (!responseData?.data) {
         const msg = parseGraphQLErrors(responseData);
-        throw new Error(msg || 'No data received');
+        throw new Error(msg || i18n.t('no_data_received'));
       }
 
       if (isGeometryEmpty(geom) && !allMapStats) {
