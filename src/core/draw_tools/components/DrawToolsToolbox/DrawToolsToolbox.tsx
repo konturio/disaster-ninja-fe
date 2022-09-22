@@ -1,11 +1,6 @@
 import { Button, ButtonGroup, Text } from '@konturio/ui-kit';
 import { useCallback, useMemo } from 'react';
-import {
-  Line24,
-  PointOutline24,
-  Area24,
-  Trash24,
-} from '@konturio/default-icons';
+import { Line24, PointOutline24, Area24, Trash24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
 import { Download24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
@@ -13,7 +8,6 @@ import { drawModes } from '../../constants';
 import { combinedAtom } from '../../atoms/combinedAtom';
 import { toolboxAtom } from '../../atoms/toolboxAtom';
 import s from './DrawToolToolbox.module.css';
-import type { DrawModeType } from '../../constants';
 
 const btnGroupClasses = {
   groupContainer: s.toolBox,
@@ -47,7 +41,8 @@ export const DrawToolsToolbox = () => {
           onClick={() => toggleDrawMode(drawModes.DrawPolygonMode)}
         >
           <div className={s.btnContent}>
-            <Area24 /> {i18n.t('draw_tools.area')}
+            <Area24 />
+            <span className={s.btnText}>{i18n.t('draw_tools.area')}</span>
           </div>
         </Button>
       ),
@@ -59,7 +54,8 @@ export const DrawToolsToolbox = () => {
           onClick={() => toggleDrawMode(drawModes.DrawLineMode)}
         >
           <div className={s.btnContent}>
-            <Line24 /> {i18n.t('draw_tools.line')}
+            <Line24 />
+            <span className={s.btnText}>{i18n.t('draw_tools.line')}</span>
           </div>
         </Button>
       ),
@@ -71,7 +67,8 @@ export const DrawToolsToolbox = () => {
           onClick={() => toggleDrawMode(drawModes.DrawPointMode)}
         >
           <div className={s.btnContent}>
-            <PointOutline24 /> {i18n.t('draw_tools.point')}
+            <PointOutline24 />
+            <span className={s.btnText}>{i18n.t('draw_tools.point')}</span>
           </div>
         </Button>
       ),
@@ -84,12 +81,7 @@ export const DrawToolsToolbox = () => {
       >
         <Trash24 />
       </Button>,
-      <Button
-        key="download"
-        dark
-        variant="invert"
-        onClick={downloadDrawGeometry}
-      >
+      <Button key="download" dark variant="invert" onClick={downloadDrawGeometry}>
         <Download24 />
       </Button>,
       <Button key="finish" onClick={onFinishClick}>
@@ -110,13 +102,15 @@ export const DrawToolsToolbox = () => {
         </div>
       )}
 
-      <ButtonGroup
-        current={activeDrawMode}
-        classes={btnGroupClasses}
-        borderWrap={false}
-      >
-        {buttons}
-      </ButtonGroup>
+      <div className={s.bGroupWrap}>
+        <ButtonGroup
+          current={activeDrawMode}
+          classes={btnGroupClasses}
+          borderWrap={false}
+        >
+          {buttons}
+        </ButtonGroup>
+      </div>
     </div>
   ) : null;
 };

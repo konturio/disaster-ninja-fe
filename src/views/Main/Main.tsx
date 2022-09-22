@@ -141,7 +141,9 @@ export function MainView({ userModel }: MainViewProps) {
 
         <Suspense fallback={null}>
           <div className={s.mapColumn}>
-            <DrawToolsToolbox />
+            <div className={s.topMapContainer}>
+              <DrawToolsToolbox />
+            </div>
 
             <div className={s.bottomMapContainer}>
               <div className={clsx(s.toolbarContainer, s.clickThrough)}>
