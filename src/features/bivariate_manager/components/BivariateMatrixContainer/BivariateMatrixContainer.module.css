@@ -3,6 +3,10 @@
 }
 
 .header {
+  position: absolute;
+  right: 10px;
+  top: 41px;
+  left: 12px;
   display: flex;
   justify-content: space-between;
   padding: var(--unit) 0;

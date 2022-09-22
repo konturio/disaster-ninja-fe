@@ -50,35 +50,37 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
   useEffect(updateDimensions, [containerRef]);
 
   return (
-    <div
-      id="bivariate-matrix-container"
-      className={clsx(s.bivariateContainer, className)}
-      ref={containerRef}
-    >
-      <div>
-        {statesToComponents({
-          loading: (
-            <div className={s.loadingContainer}>
-              <LoadingSpinner />
-            </div>
-          ),
-          error: () => (
-            <div className={s.errorContainer}>
-              <ErrorMessage message="Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." />
-            </div>
-          ),
-          ready: () => (
-            <>
-              <PanelHeader />
-              <div className={s.matrixContainer}>
-                <ConnectedBivariateMatrix ref={onRefChange} />
+    <>
+      <PanelHeader />
+      <div
+        id="bivariate-matrix-container"
+        className={clsx(s.bivariateContainer, className)}
+        ref={containerRef}
+      >
+        <div>
+          {statesToComponents({
+            loading: (
+              <div className={s.loadingContainer}>
+                <LoadingSpinner />
               </div>
-              <BivariateGreetingsContainer className={s.greetings} />
-            </>
-          ),
-        })}
+            ),
+            error: () => (
+              <div className={s.errorContainer}>
+                <ErrorMessage message="Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." />
+              </div>
+            ),
+            ready: () => (
+              <>
+                <div className={s.matrixContainer}>
+                  <ConnectedBivariateMatrix ref={onRefChange} />
+                </div>
+                <BivariateGreetingsContainer className={s.greetings} />
+              </>
+            ),
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
