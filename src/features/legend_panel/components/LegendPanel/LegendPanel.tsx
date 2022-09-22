@@ -42,7 +42,7 @@ export function LegendPanel({ layers }: LegendPanelProps) {
   useAutoCollapsePanel(isOpen, onPanelClose);
 
   return (
-    <>
+    <div className={s.panelContainer}>
       <Panel
         header={String(i18n.t('legend'))}
         headerIcon={<Legend24 />}
@@ -67,6 +67,6 @@ export function LegendPanel({ layers }: LegendPanelProps) {
         className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
         icon={<Legend24 />}
       />
-    </>
+    </div>
   );
 }

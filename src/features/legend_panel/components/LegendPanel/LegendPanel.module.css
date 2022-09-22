@@ -83,6 +83,7 @@
 
   .panelIcon {
     display: flex;
+    z-index: 1;
 
     &.show {
       transition: opacity 0.33s linear 0s;

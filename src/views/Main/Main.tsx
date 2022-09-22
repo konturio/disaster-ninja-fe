@@ -148,6 +148,7 @@ export function MainView({ userModel }: MainViewProps) {
                 <Toolbar />
               </div>
               <div className={clsx(s.timelineContainer, s.clickThrough)}>
+                {/* TO REMOVE <EpisodesTimelinePanel /> */}
                 {userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />}
               </div>
             </div>

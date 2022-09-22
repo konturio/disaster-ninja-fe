@@ -37,7 +37,7 @@ export function MapLayerPanel() {
   useAutoCollapsePanel(isOpen, onPanelClose);
 
   return (
-    <>
+    <div className={s.panelContainer}>
       <Panel
         header={String(i18n.t('layers'))}
         headerIcon={<Layers24 />}
@@ -62,6 +62,6 @@ export function MapLayerPanel() {
           icon={<Layers24 />}
         />
       </div>
-    </>
+    </div>
   );
 }

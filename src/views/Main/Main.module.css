@@ -173,10 +173,11 @@
   }
 }
 
+/* Mobile view */
 @media screen and (max-width: 960px) {
   .contentWrap {
     /* panel columns column, map column */
-    grid-template-columns: 40px minmax(440px, 100%);
+    grid-template-columns: 40px minmax(440px, 100vw);
     /* 
       1 row 1 col - analytics, 2 row 1 col - advancedAnalytics, 
       3 row 1 col - layersCol, 4-5 row 1-2 col - footer 
@@ -188,7 +189,7 @@
       fit-content(calc(100% - 280px))
       fit-content(calc(100% - 280px))
       auto
-      0px;
+      30px;
     max-height: 100%;
   }
 
@@ -208,17 +209,13 @@
     grid-column: 1;
     grid-row: 4;
     overflow: hidden;
-    & > div {
-      z-index: 1;
-    }
   }
   .footer {
     position: relative;
     grid-column: 1/2;
     grid-row: 6;
-    & > div {
-      position: absolute;
-      bottom: 100%;
+    & .logo {
+      position: static;
     }
   }
 
@@ -239,6 +236,14 @@
     grid-column: 1;
     grid-row: 1;
     height: 120px;
+  }
+
+  .bottomMapContainer {
+    bottom: unset;
+    & .toolbarContainer {
+      top: 120px;
+      bottom: unset;
+    }
   }
 }
 

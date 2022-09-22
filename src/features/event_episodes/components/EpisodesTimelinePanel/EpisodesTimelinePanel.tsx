@@ -4,12 +4,16 @@ import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms/createStateMap';
 import { i18n } from '~core/localization';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { panelClasses } from '~components/Panel';
 import { eventEpisodesController } from '../../controller';
 import { eventEpisodesModel } from '../../model';
 import { EpisodesTimeline } from '../EpisodesTimeline/EpisodesTimeline';
+import s from './Episodes.module.css';
 
 export function EpisodesTimelinePanel() {
   const [episodes] = useAtom(eventEpisodesModel.currentEventEpisodes);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const statesToComponents = createStateMap({
     error: episodes.error,
@@ -21,6 +25,11 @@ export function EpisodesTimelinePanel() {
     <Panel
       header={String(i18n.t('Episode'))}
       onHeaderClick={eventEpisodesController.closeEpisodesTimeline}
+      modal={{
+        onModalClick: eventEpisodesController.closeEpisodesTimeline,
+        showInModal: isMobile,
+      }}
+      classes={{ ...panelClasses, modal: s.episodesModal }}
     >
       <div>
         {statesToComponents({
