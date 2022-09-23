@@ -158,6 +158,7 @@
   .analyticsColumn {
     grid-column: 1;
     grid-row: 1;
+    z-index: 1;
   }
   .advancedAnalyticsColumn {
     grid-column: 1;
@@ -211,6 +212,7 @@
   .analyticsColumn {
     grid-column: 1;
     grid-row: 2;
+    z-index: auto;
   }
   .advancedAnalyticsColumn {
     grid-column: 1;
