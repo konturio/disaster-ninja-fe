@@ -1,6 +1,6 @@
 .panel {
-  width: 100%;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   z-index: 1;
   &.collapse {
@@ -13,7 +13,7 @@
 
 .scrollable {
   overflow-y: auto;
-  max-height: 100vh;
+  height: calc(100% - 41px);
 }
 
 .panelIcon {
