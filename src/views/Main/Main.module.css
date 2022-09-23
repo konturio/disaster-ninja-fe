@@ -170,7 +170,7 @@
   }
   .layersColumn {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 3/5;
     overflow: hidden;
     /* allow shadow of last element to be visible */
     padding-bottom: 1px;
