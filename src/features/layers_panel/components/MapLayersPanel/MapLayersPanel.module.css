@@ -3,6 +3,11 @@
   flex-direction: column;
   overflow: hidden;
   z-index: 1;
+
+  & > div {
+    overflow: hidden;
+  }
+
   &.collapse {
     height: auto;
     & div:not(:first-child) {
@@ -13,7 +18,7 @@
 
 .scrollable {
   overflow-y: auto;
-  height: calc(100% - 41px);
+  height: 100%;
 }
 
 .panelIcon {
