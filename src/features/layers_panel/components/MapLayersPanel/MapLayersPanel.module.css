@@ -48,7 +48,6 @@
   }
 
   .panelIcon {
-    z-index: 1;
     &.show {
       visibility: visible;
       display: flex;
