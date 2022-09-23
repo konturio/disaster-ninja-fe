@@ -123,13 +123,6 @@
   flex: 0 0 auto;
   gap: var(--unit);
   grid-column: 4;
-
-  /* what if feature turned off */
-  & > div:nth-child(2) {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
 }
 
 .intercomPlaceholder {
