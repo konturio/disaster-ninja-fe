@@ -171,6 +171,8 @@
     grid-column: 1;
     grid-row: 3;
     overflow: hidden;
+    /* allow shadow of last element to be visible */
+    padding-bottom: 1px;
   }
   .footer {
     position: relative;
@@ -221,6 +223,8 @@
   .layersColumn {
     grid-column: 1;
     grid-row: 4;
+    /* allow shadow of last element to be visible */
+    padding-bottom: 1px;
   }
   .footer {
     position: relative;

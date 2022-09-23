@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: var(--elevation-1);
+  z-index: 1;
 }
 .panel {
   display: flex;
@@ -11,6 +13,15 @@
 
   & > div {
     overflow: hidden;
+  }
+
+  /* allow resize second child which is content wrap */
+  & > div:nth-child(2) {
+    resize: vertical;
+  }
+
+  &.show > div:nth-child(1) {
+    min-height: 40px;
   }
 
   &.collapse {
@@ -27,14 +38,6 @@
 }
 
 .panelIcon {
-  display: none;
-}
-
-.iconContainerShown {
-  display: block;
-}
-
-.iconContainerHidden {
   display: none;
 }
 
