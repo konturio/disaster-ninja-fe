@@ -33,7 +33,6 @@
   &.collapse {
     visibility: visible;
     height: var(--panel-header-height);
-    overflow: hidden;
     width: 100%;
   }
 }
