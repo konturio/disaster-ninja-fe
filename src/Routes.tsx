@@ -28,11 +28,7 @@ export function RoutedApp() {
         <CommonRoutesFeatures userModel={userModel}>
           {userModel && !loading && (
             <CacheSwitch>
-              <CacheRoute
-                className={s.mainWrap}
-                exact
-                path={[APP_ROUTES.map, APP_ROUTES.eventExplorer]}
-              >
+              <CacheRoute exact path={[APP_ROUTES.map, APP_ROUTES.eventExplorer]}>
                 <Suspense fallback={null}>
                   <MainView userModel={userModel} />
                 </Suspense>

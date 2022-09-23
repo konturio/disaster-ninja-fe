@@ -1,8 +1,11 @@
 .panelContainer {
-  height: 100%;
   display: flex;
   flex-flow: column nowrap;
   overflow: hidden;
+  box-shadow: var(--elevation-1);
+  &.open {
+    height: 100%;
+  }
 }
 
 .panelIcon {
@@ -12,8 +15,9 @@
 
 .scrollable {
   overflow-y: auto;
-  width: 320px;
   height: 100%;
+  /* a space to see at least one card */
+  min-height: 110px;
   padding-bottom: var(--double-unit);
   align-items: center;
 }
@@ -24,7 +28,6 @@
 }
 
 .eventsPanel {
-  z-index: 1; /* Show shadow over map */
   position: relative;
   border-radius: var(--border-radius-unit);
   flex: 1;
@@ -38,6 +41,24 @@
     flex: none;
     & > div:nth-child(2) {
       display: none;
+    }
+  }
+}
+
+.panelBody {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* laptop */
+@media screen and (max-width: 1900px) {
+  .eventsPanel {
+    /* allow resize second child which is content wrap */
+    & > div:nth-child(2) {
+      resize: vertical;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 }

@@ -1,17 +1,21 @@
 .drawToolsContainer {
   z-index: 100;
+  position: relative;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.bGroupWrap {
+  width: 100%;
 }
 
 .toolBox {
-  position: absolute;
-  top: 4%;
-  left: 50%;
-  transform: translate(-50%, 0);
   display: flex;
   border-radius: var(--half-unit);
   overflow: hidden;
   box-shadow: var(--elevation-1);
   height: 40px;
+  max-width: 560px;
 }
 
 .btnContent {
@@ -46,5 +50,25 @@
   color: var(--accent-strong);
   padding: var(--half-unit) var(--unit);
   border-radius: var(--border-radius);
-  top: 12%;
+  top: calc(40px + var(--double-unit));
+}
+
+/* Mobile view */
+@media screen and (max-width: 960px) {
+  .toolBox {
+    min-width: 300px;
+  }
+  .toolBoxBtn {
+    & > button {
+      padding: var(--unit);
+      & > div {
+        padding: 0;
+      }
+    }
+  }
+  .btnContent {
+    & .btnText {
+      display: none;
+    }
+  }
 }

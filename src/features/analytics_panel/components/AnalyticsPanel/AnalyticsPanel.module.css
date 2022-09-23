@@ -12,6 +12,13 @@
 
   border-radius: var(--border-radius-unit);
 
+  /* allow resize second child which is content wrap */
+  & > div:nth-child(2) {
+    resize: vertical;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
   height: auto;
   &.collapse {
     & div:not(:first-child) {
@@ -25,6 +32,15 @@
   padding: var(--double-unit);
 }
 
+/* laptop */
+@media screen and (max-width: 1900px) {
+  .panelBody {
+    height: 260px;
+    width: 320px;
+    padding: var(--double-unit);
+    overflow-y: auto;
+  }
+}
 @media screen and (max-width: 960px) {
   .analyticsModal > section {
     top: calc(50% + var(--app-header-height)); /* header offset */
@@ -46,6 +62,7 @@
     display: none;
   }
   .panelBody {
+    height: 100%;
     margin: 0 auto;
     width: 100%;
   }

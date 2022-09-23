@@ -7,6 +7,7 @@
   border-radius: var(--border-radius);
   height: auto;
   max-height: calc(100vh - 140px);
+  width: 100%;
 
   &.collapse {
     & div:not(:first-child) {
@@ -17,10 +18,11 @@
 
 .panelBody {
   height: 100%;
-  width: 260px;
+  width: 100%;
   padding: var(--double-unit);
   overflow-y: auto;
   overflow-x: hidden;
+  resize: vertical;
 }
 .panelBody :first-child {
   margin-top: 0;
@@ -82,6 +84,7 @@
 
   .panelIcon {
     display: flex;
+    z-index: 1;
 
     &.show {
       transition: opacity 0.33s linear 0s;

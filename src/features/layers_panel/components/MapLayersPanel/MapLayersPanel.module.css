@@ -1,30 +1,43 @@
-.scrollable {
-  overflow-y: auto;
-  width: 284px;
-  height: 100%;
-  max-height: 100vh;
+.panelContainer {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--elevation-1);
 }
-
 .panel {
-  width: 284px;
-  height: auto;
-  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1;
+
+  & > div {
+    overflow: hidden;
+  }
+
+  /* allow resize second child which is content wrap */
+  & > div:nth-child(2) {
+    resize: vertical;
+    min-height: 60px;
+  }
+
+  &.show > div:nth-child(1) {
+    min-height: 40px;
+  }
+
   &.collapse {
+    height: auto;
     & div:not(:first-child) {
       display: none;
     }
   }
 }
 
+.scrollable {
+  overflow-y: auto;
+  height: 100%;
+}
+
 .panelIcon {
-  display: none;
-}
-
-.iconContainerShown {
-  display: block;
-}
-
-.iconContainerHidden {
   display: none;
 }
 

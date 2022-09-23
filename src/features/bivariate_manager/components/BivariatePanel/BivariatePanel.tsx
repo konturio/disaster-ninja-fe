@@ -25,11 +25,7 @@ const intercomButton = () => {
   };
 };
 
-export function BivariatePanel({
-  iconsContainerRef,
-}: {
-  iconsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
-}) {
+export function BivariatePanel() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onPanelClose = useCallback(() => {
@@ -74,19 +70,11 @@ export function BivariatePanel({
         </div>
       </Panel>
 
-      {iconsContainerRef.current &&
-        ReactDOM.createPortal(
-          <PanelIcon
-            clickHandler={onPanelOpen}
-            className={clsx(
-              styles.panelIcon,
-              isOpen && styles.hide,
-              !isOpen && styles.show,
-            )}
-            icon={<BivariateMatrix24 />}
-          />,
-          iconsContainerRef.current,
-        )}
+      <PanelIcon
+        clickHandler={onPanelOpen}
+        className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
+        icon={<BivariateMatrix24 />}
+      />
     </>
   );
 }

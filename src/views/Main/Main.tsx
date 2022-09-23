@@ -1,10 +1,11 @@
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { lazily } from 'react-lazily';
 import { useHistory } from 'react-router';
-import { Row } from '~components/Layout/Layout';
+import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager';
+import { EpisodesTimelinePanel } from '~features/event_episodes/components/EpisodesTimelinePanel/EpisodesTimelinePanel';
 import s from './Main.module.css';
 import type { UserDataModel } from '~core/auth';
 import type { MutableRefObject } from 'react';
@@ -43,13 +44,6 @@ type MainViewProps = {
 };
 export function MainView({ userModel }: MainViewProps) {
   const history = useHistory();
-  const [iconsContainerRef, setIconsContainerRef] = useState<
-    MutableRefObject<HTMLDivElement | null>
-  >({ current: null });
-
-  const setIconsContainerRefCallback = useCallback((ref) => {
-    setIconsContainerRef({ current: ref });
-  }, []);
 
   useEffect(() => {
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
@@ -113,61 +107,78 @@ export function MainView({ userModel }: MainViewProps) {
   }, [userModel]);
 
   return (
-    <>
-      <Row>
+    <div className={s.mainView}>
+      <div className={s.mapWrap}>
         <Suspense fallback={null}>
-          {/* RESTORE #11729 */}
-          <div className={s.leftButtonsContainer}>
-            <div className={s.iconColumn}>
-              {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
-              {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
-                <EventListPanel />
-              )}
+          <ConnectedMap className={s.Map} />
+        </Suspense>
+      </div>
+
+      <div className={s.contentWrap}>
+        <div className={s.mobileColumnsOffset} />
+        {/* 1st column */}
+
+        <Suspense fallback={null}>
+          <div className={s.analyticsColumn}>
+            {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
+            {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
+              <EventListPanel />
+            )}
+          </div>
+        </Suspense>
+
+        {/* 2nd column */}
+
+        <Suspense fallback={null}>
+          <div className={s.advancedAnalyticsColumn}>
+            {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+              <AdvancedAnalyticsPanel />
+            )}
+          </div>
+        </Suspense>
+
+        {/* "Map" column */}
+
+        <Suspense fallback={null}>
+          <div className={s.mapColumn}>
+            <div className={s.topMapContainer}>
+              <DrawToolsToolbox />
             </div>
 
-            <div className={s.iconColumn}>
-              {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-                <AdvancedAnalyticsPanel />
-              )}
+            <div className={s.bottomMapContainer}>
+              <div className={clsx(s.toolbarContainer, s.clickThrough)}>
+                <Toolbar />
+              </div>
+              <div className={clsx(s.timelineContainer, s.clickThrough)}>
+                {/* TO REMOVE <EpisodesTimelinePanel /> */}
+                {userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />}
+              </div>
             </div>
           </div>
         </Suspense>
-        <div className={s.root} style={{ flex: 1, position: 'relative' }}>
-          <Suspense fallback={null}>
-            <ConnectedMap className={s.Map} />
-          </Suspense>
+
+        {/* 4th column */}
+
+        <Suspense fallback={null}>
+          <div className={s.layersColumn}>
+            {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
+            {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
+              <EditFeaturesOrLayerPanel />
+            )}
+            {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && <MapLayersList />}
+            {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && <BivariatePanel />}
+            <div className={s.intercomPlaceholder}></div>
+          </div>
+        </Suspense>
+
+        {/* Footer */}
+
+        <div className={clsx(s.footer, s.clickThrough)}>
           <div className={s.logo}>
             <Logo height={24} palette={'contrast'} />
           </div>
-          <div className={s.toolbarContainer}>
-            <Toolbar />
-          </div>
-          <Suspense fallback={null}>
-            <div className={s.floating}>
-              <div
-                className={s.rightButtonsContainer}
-                ref={setIconsContainerRefCallback}
-              ></div>
-              {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && (
-                <Legend iconsContainerRef={iconsContainerRef} />
-              )}
-              {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
-                <EditFeaturesOrLayerPanel />
-              )}
-              {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && (
-                <MapLayersList iconsContainerRef={iconsContainerRef} />
-              )}
-              {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && (
-                <BivariatePanel iconsContainerRef={iconsContainerRef} />
-              )}
-            </div>
-          </Suspense>
-          <DrawToolsToolbox />
         </div>
-      </Row>
-      <div>
-        {userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />}
       </div>
-    </>
+    </div>
   );
 }
