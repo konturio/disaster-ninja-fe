@@ -6,9 +6,9 @@ import process from 'process';
 const relativePath = path => resolve(dirname(fileURLToPath(import.meta.url)), path);
 
 
-export function useConfig(pathToConfig, dest, isSelfInvoked = false) {
+export function useConfig(pathToConfig, dest) {
   // Create dir for config
-  const publicFolder = isSelfInvoked ? relativePath('../public/config') : relativePath('./public/config');
+  const publicFolder = relativePath('../public/config');
   const pathToDest = dest ?? resolve(publicFolder, 'appconfig.json');
   if (!existsSync(dirname(pathToDest))){
     mkdirSync(dirname(pathToDest), { recursive: true });
@@ -26,9 +26,9 @@ export function useConfig(pathToConfig, dest, isSelfInvoked = false) {
  * This script select right config depending on env.
  * In production mode in will use default config, in development it prefer to use local config
  */
-export function selectConfig(mode, isSelfInvoked = false) {
+export function selectConfig(mode) {
   // Setup path
-  const configsFolder = isSelfInvoked ? relativePath('../configs') : relativePath('./configs');
+  const configsFolder = relativePath('../configs');
   const knownConfigs = {
     local: resolve(configsFolder, 'config.local.json'),
     default: resolve(configsFolder, 'config.default.json')

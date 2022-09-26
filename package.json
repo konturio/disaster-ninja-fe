@@ -5,6 +5,9 @@
   "homepage": "/active/",
   "type": "module",
   "license": "MIT",
+  "engines": {
+    "node": ">=17"
+  },
   "scripts": {
     "dev": "vite",
     "cosmos": "run-p auto:cosmos:renderer auto:cosmos auto:open",
@@ -160,8 +163,8 @@
     "stylelint-config-recommended": "^6.0.0",
     "ts-json-schema-generator": "^1.0.0",
     "typescript": "4.8.3",
-    "vite": "^2.6.14",
-    "vite-plugin-html": "^2.1.1",
-    "vitest": "^0.14.1"
+    "vite": "^3.1.3",
+    "vite-plugin-html": "^3.2.0",
+    "vitest": "^0.23.4"
   }
 }
