@@ -31,25 +31,28 @@ export const tableAtom = createAtom(
     state: TableState = { sortIndex: 0, ascending: null },
   ) => {
     onChange('reportResourceAtom', (resource) => {
-      if (!resource.data)
-        return (state = { sortIndex: 0, ascending: null, isSorting: false });
-
+      if (!resource.data) {
+        state = { sortIndex: 0, ascending: null, isSorting: false };
+        return;
+      }
       const csv = resource.data;
-      const parsed = papa.parse<string[]>(csv, {
-        delimiter: ';',
-        fastMode: true,
-        skipEmptyLines: true,
-      });
 
-      state = {
-        sortIndex: 0,
-        thead: parsed.data[0],
-        data: parsed.data.slice(1),
-        ascending: null,
-        initialData: parsed.data.slice(1),
-      };
-      if (!state.data!.length) state.data = null;
       schedule((dispatch) => {
+        const parsed = papa.parse<string[]>(csv, {
+          delimiter: ';',
+          fastMode: true,
+          skipEmptyLines: true,
+        });
+
+        state = {
+          sortIndex: 0,
+          thead: parsed.data[0],
+          data: parsed.data.slice(1),
+          ascending: null,
+          initialData: parsed.data.slice(1),
+        };
+        if (!state.data!.length) state.data = null;
+
         dispatch(create('setState', state));
       });
     });
