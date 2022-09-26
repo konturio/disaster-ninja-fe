@@ -11,5 +11,4 @@ function recursiveCopy(src) {
   return target;
 }
 
-// @ts-expect-error - structuredClone is a new feature released on february 2022
 export const deepCopy = window.structuredClone ?? recursiveCopy;

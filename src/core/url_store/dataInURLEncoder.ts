@@ -22,7 +22,8 @@ export class URLDataInSearchEncoder {
     }
   }
 
-  encode<T = Record<string, string | number | string[] | number[]>>(data: T) {
+  // encode<T extends { [s: string]: string | number | string[] | number[]; }>(data: T) {
+  encode<T extends Record<string, string | number | string[] | number[]>>(data: T) {
     const dataEntries = Object.entries(data);
 
     // Sort according preferred order
@@ -36,9 +37,7 @@ export class URLDataInSearchEncoder {
     }
 
     const notInvalidValue = (v: unknown) =>
-      (typeof v === 'number' ? !isNaN(v) : true) &&
-      v !== undefined &&
-      v !== null;
+      (typeof v === 'number' ? !isNaN(v) : true) && v !== undefined && v !== null;
 
     // Omit invalid values, apply custom transformers, convert to string
     const normalized = dataEntries.reduce((acc, [key, val]) => {

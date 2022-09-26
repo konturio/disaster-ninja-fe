@@ -2,7 +2,7 @@ type Zoom = number;
 type Lat = number;
 type Lng = number;
 
-export interface UrlData {
+export type UrlData = {
   map?: [Zoom, Lng, Lat];
   event?: string;
   episode?: string;
@@ -10,4 +10,4 @@ export interface UrlData {
   bv?: string; // bivariate state hash
   app?: string;
   feed?: string;
-}
+};

@@ -1,8 +1,6 @@
 import type { UrlData } from './types';
 
-interface UrlEncoder<
-  T = Record<string, string | number | string[] | number[]>,
-> {
+interface UrlEncoder<T extends Record<string, string | number | string[] | number[]>> {
   encode: (data: T) => string;
   decode: (url: string) => T;
 }
@@ -23,11 +21,7 @@ export class URLStore {
   }
 
   updateUrl(data: UrlData) {
-    window.history.pushState(
-      data,
-      document.title,
-      '?' + this._encoder.encode(data),
-    );
+    window.history.pushState(data, document.title, '?' + this._encoder.encode(data));
   }
 
   onUrlChange(listener: (nesSate: UrlData) => void) {

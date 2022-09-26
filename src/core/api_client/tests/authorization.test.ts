@@ -4,12 +4,8 @@
 import { test, expect, beforeEach } from 'vitest';
 import sinon from 'sinon';
 import './_configMock';
-import { ApiClientError } from '../apiClientError';
-import {
-  createContext,
-  setTimeOffset,
-  setTokenExp,
-} from './_clientTestsContext';
+import { isApiError, getApiErrorKind, getApiErrorMessage } from '../apiClientError';
+import { createContext, setTimeOffset, setTokenExp } from './_clientTestsContext';
 
 beforeEach((context) => {
   context.ctx = createContext();
@@ -44,9 +40,7 @@ test('can login with username and password', async ({ ctx }) => {
   );
 
   expect(res.token, 'response contain new accessToken').toBe(ctx.token);
-  expect(res.refreshToken, 'response contain new refreshToken').toBe(
-    ctx.refreshToken,
-  );
+  expect(res.refreshToken, 'response contain new refreshToken').toBe(ctx.refreshToken);
 });
 
 /**
@@ -70,14 +64,9 @@ test('invalid token error', async ({ ctx }) => {
   try {
     await ctx.loginFunc();
   } catch (e) {
-    expect(e).toMatchObject(
-      new ApiClientError("Can't decode token!", {
-        kind: 'bad-data',
-      }),
-    );
-    expect(e.problem).toMatchObject({
-      kind: 'bad-data',
-    });
+    expect(isApiError(e)).toBe(true);
+    expect(getApiErrorKind(e) === 'bad-data');
+    expect(getApiErrorMessage(e) === "Can't decode token!");
   }
 });
 
@@ -99,14 +88,9 @@ test('expired token error', async ({ ctx }) => {
   try {
     await ctx.loginFunc();
   } catch (e) {
-    expect(e).toMatchObject(
-      new ApiClientError('Wrong token expire time!', {
-        kind: 'bad-data',
-      }),
-    );
-    expect(e.problem).toMatchObject({
-      kind: 'bad-data',
-    });
+    expect(isApiError(e)).toBe(true);
+    expect(getApiErrorKind(e) === 'bad-data');
+    expect(getApiErrorMessage(e) === 'Wrong token expire time!');
   }
 });
 
@@ -121,15 +105,9 @@ test('204 auth error', async ({ ctx }) => {
   try {
     await ctx.loginFunc();
   } catch (e) {
-    expect(e).toMatchObject(
-      new ApiClientError('No data received!', {
-        kind: 'unauthorized',
-        data: 'Wrong token expire time!',
-      }),
-    );
-    expect(e.problem).toMatchObject({
-      kind: 'no-data',
-    });
+    expect(isApiError(e)).toBe(true);
+    expect(getApiErrorKind(e) === 'no-data');
+    expect(getApiErrorMessage(e) === 'No data received!'); // Wrong token expire time?
   }
 });
 
@@ -144,19 +122,14 @@ test('no auth data error', async ({ ctx }) => {
   try {
     await ctx.loginFunc();
   } catch (e) {
-    expect(e).toMatchObject(
-      new ApiClientError('Wrong data received!', {
-        kind: 'bad-data',
-      }),
-    );
-    expect(e.problem).toMatchObject({
-      kind: 'bad-data',
-    });
+    expect(isApiError(e)).toBe(true);
+    expect(getApiErrorKind(e) === 'bad-data');
+    expect(getApiErrorMessage(e) === 'Wrong data received!');
   }
 });
 
 test('refreshToken called when token is expired', async ({ ctx }) => {
-  expect.assertions(3);
+  expect.assertions(4);
 
   // set private field token with new token
   const apiClientObj = ctx.apiClient as any;
@@ -171,15 +144,9 @@ test('refreshToken called when token is expired', async ({ ctx }) => {
   try {
     await ctx.apiClient.get('/test');
   } catch (e) {
-    expect(e).toMatchObject(
-      new ApiClientError('Not authorized or session has expired.', {
-        kind: 'bad-data',
-      }),
-    );
-    expect(e.problem).toMatchObject({
-      kind: 'unauthorized',
-      data: 'Not authorized or session has expired.',
-    });
+    expect(isApiError(e)).toBe(true);
+    expect(getApiErrorKind(e) === 'bad-data');
+    expect(getApiErrorMessage(e) === 'Not authorized or session has expired.');
   }
 
   expect(refreshFn.callCount, 'Refresh api has been called').toBe(1);
@@ -265,9 +232,7 @@ test('Calls api without authorization', async ({ ctx }) => {
   ).not.toBe(`Bearer ${ctx.token}`);
 });
 
-test('Not add authorization header to api without authorization', async ({
-  ctx,
-}) => {
+test('Not add authorization header to api without authorization', async ({ ctx }) => {
   // Mock backend
   const loginRequestMock = sinon.fake.returns([
     200,

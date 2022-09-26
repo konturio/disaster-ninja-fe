@@ -2,7 +2,7 @@ import turfBbox from '@turf/bbox';
 import type { PaddingOptions } from 'maplibre-gl';
 
 function getPaddings(): PaddingOptions {
-  const width = window.visualViewport.width;
+  const width = window.visualViewport?.width ?? Infinity;
   // mobile
   if (width < 960) return { left: 64, top: 44, right: 115, bottom: 0 };
   // laptop
