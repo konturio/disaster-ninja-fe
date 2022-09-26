@@ -5,6 +5,9 @@
   "homepage": "/active/",
   "type": "module",
   "license": "MIT",
+  "engines": {
+    "node": ">=17"
+  },
   "scripts": {
     "dev": "vite",
     "cosmos": "run-p auto:cosmos:renderer auto:cosmos auto:open",
