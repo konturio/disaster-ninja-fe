@@ -26,7 +26,7 @@ export const reportsAtom = createAtom(
     },
   },
   ({ onAction, schedule }, state: Report[] = []) => {
-    onAction('setReports', (reports) => (state = reports));
+    onAction('setReports', (reports) => (state = [...reports]));
     onAction('getReports', async () => {
       schedule(async (dispatch) => {
         const responseData = await reportsClient.get<Report[]>(

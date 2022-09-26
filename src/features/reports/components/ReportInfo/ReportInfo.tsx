@@ -7,13 +7,10 @@ import ReactMarkdown from 'react-markdown';
 import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
-import { reportsAtom } from '~features/reports/atoms/reportsAtom';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
-import {
-  currentReportAtom,
-  reportResourceAtom,
-} from '~features/reports/atoms/reportResource';
+import { reportsAtom } from '../../atoms/reportsAtom';
+import { currentReportAtom, reportResourceAtom } from '../../atoms/reportResource';
 import commonStyles from '../ReportsList/ReportsList.module.css';
 import { ReportTable } from '../ReportTable/ReportTable';
 import { Searchbar } from '../search/Searchbar';

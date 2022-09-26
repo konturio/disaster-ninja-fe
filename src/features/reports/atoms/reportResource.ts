@@ -6,7 +6,7 @@ import type { Report } from './reportsAtom';
 export const currentReportAtom = createAtom(
   { setReport: (report: Report) => report },
   ({ onAction }, state: Report | null = null) => {
-    onAction('setReport', (report) => (state = report));
+    onAction('setReport', (report) => (state = { ...report }));
     return state;
   },
 );
