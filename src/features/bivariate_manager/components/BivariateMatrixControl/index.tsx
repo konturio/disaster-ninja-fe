@@ -235,7 +235,7 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
     }, [matrix]);
 
     return (
-      <div ref={ref} base-dimension={baseDimension} className={styles.rotatedMatrix}>
+      <div ref={ref} data-base-dimension={baseDimension} className={styles.rotatedMatrix}>
         <div style={gridStyle}>
           {matrix.map((row, rowIndex) => (
             <BivariateMatrixCellConnector
