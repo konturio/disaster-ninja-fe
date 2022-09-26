@@ -2,34 +2,26 @@ import { useEffect } from 'react';
 import { useAtom } from '@reatom/react';
 import i18next from 'i18next';
 import { Text } from '@konturio/ui-kit';
-import { currentReportAtom } from '~features/reports/atoms/reportResource';
 import { i18n } from '~core/localization';
+import { currentReportAtom } from '../../atoms/reportResource';
 import { tableAtom } from '../../atoms/tableAtom';
 import sortIcon from '../../icons/sort_triangle.svg';
 import styles from './ReportTable.module.css';
 import { TableCell } from './TableCell';
 
-function jOSMRedirect(
-  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-  link: string,
-) {
+function jOSMRedirect(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, link: string) {
   e.preventDefault();
   fetch(link, { method: 'GET' });
 }
 
-function openOSMID(
-  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-  link: string,
-) {
+function openOSMID(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, link: string) {
   e.preventDefault();
   window.open(link);
 }
 
 export function ReportTable() {
-  const [
-    { data, thead, ascending, sortIndex, isSorting },
-    { sortBy, setState },
-  ] = useAtom(tableAtom);
+  const [{ data, thead, ascending, sortIndex, isSorting }, { sortBy, setState }] =
+    useAtom(tableAtom);
   const [meta] = useAtom(currentReportAtom);
 
   useEffect(() => {

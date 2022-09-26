@@ -49,13 +49,15 @@ export const tableAtom = createAtom(
         initialData: parsed.data.slice(1),
       };
       if (!state.data!.length) state.data = null;
+      schedule((dispatch) => {
+        dispatch(create('setState', state));
+      });
     });
 
     onAction('sortBy', (sorter) => {
       const newSortIndex = state.thead?.findIndex((val) => val === sorter);
 
-      if (newSortIndex === undefined || newSortIndex < 0)
-        throw 'error when sorting #1';
+      if (newSortIndex === undefined || newSortIndex < 0) throw 'error when sorting #1';
 
       const ascending = (function () {
         if (state.ascending === null) return true;
@@ -85,8 +87,7 @@ export const tableAtom = createAtom(
           let res: number;
           const numeric_a = Number(a[state.sortIndex]);
           const numeric_b = Number(b[state.sortIndex]);
-          const isNumeric =
-            !Number.isNaN(numeric_a) && !Number.isNaN(numeric_b);
+          const isNumeric = !Number.isNaN(numeric_a) && !Number.isNaN(numeric_b);
 
           // CASE - comparing numbers
           if (isNumeric && state.ascending) res = numeric_a - numeric_b;
@@ -108,9 +109,7 @@ export const tableAtom = createAtom(
         ...state,
         data: sorted,
         isSorting: false,
-        _defaultSortedData: state.data?.length
-          ? state.data
-          : state._defaultSortedData,
+        _defaultSortedData: state.data?.length ? state.data : state._defaultSortedData,
       };
     });
 
@@ -121,9 +120,7 @@ export const tableAtom = createAtom(
       const filtered = state.initialData.filter((row) => {
         for (let i = 0; i < columnIndexes.length; i++) {
           const index = columnIndexes[i];
-          if (
-            row[index].toLocaleLowerCase().includes(query.toLocaleLowerCase())
-          ) {
+          if (row[index].toLocaleLowerCase().includes(query.toLocaleLowerCase())) {
             return true;
           }
         }

@@ -5,10 +5,10 @@ import { Trans } from 'react-i18next';
 import { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useAtom } from '@reatom/react';
-import { reportsAtom } from '~features/reports/atoms/reportsAtom';
 import { i18n } from '~core/localization';
 import config from '~core/app_config';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
+import { reportsAtom } from '../../atoms/reportsAtom';
 import arrowIcon from '../../icons/arrow.svg';
 import styles from './ReportsList.module.css';
 
@@ -39,16 +39,16 @@ export function ReportsList() {
             >
               Kontur{' '}
             </a>{' '}
-            generates several reports that help validate OpenStreetMap quality. 
-            They contain links to objects on {' '}
+            generates several reports that help validate OpenStreetMap quality. They
+            contain links to objects on{' '}
             <a
               href="https://www.openstreetmap.org/"
               className={clsx(styles.paragraphLink, styles.link)}
             >
               osm.org{' '}
             </a>{' '}
-             and OpenStreetMap remote control in the JOSM editor. 
-            Use the links to open the exact area specified in the report and edit it.
+            and OpenStreetMap remote control in the JOSM editor. Use the links to open the
+            exact area specified in the report and edit it.
           </Trans>
         </div>
       </Text>
