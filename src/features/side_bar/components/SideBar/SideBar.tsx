@@ -21,10 +21,11 @@ export function SideBar() {
 
   function onMouseEnter(target: HTMLDivElement, title: string) {
     // place tooltip right and vertically aligned to the element
+    const targetMiddle = target.offsetTop + target.offsetHeight / 2;
     !isOpen &&
       setTooltip({
         popup: title,
-        position: { x: target.offsetLeft + 50, y: target.offsetTop },
+        position: { x: target.offsetLeft + 50, y: targetMiddle + 14 },
         hoverBehavior: true,
       });
   }
@@ -41,69 +42,72 @@ export function SideBar() {
 
   const toggleIsOpen = useCallback(() => {
     setIsOpen((prevState) => !prevState);
+    resetTooltip();
   }, [setIsOpen]);
 
   return (
-    <ActionsBar>
-      {Object.values(controls).map((control) => {
-        return (
-          <Link
-            key={nanoid(4)}
-            className={s.sidebarItemContainer}
-            to={APP_ROUTES[control.id]}
-            tabIndex={-1}
-          >
-            <div
-              className={s.buttonWrap}
-              onClick={control.onClick}
-              onPointerLeave={onMouseLeave}
-              onPointerEnter={(e) =>
-                onMouseEnter(e.target as HTMLDivElement, control.title)
-              }
+    <div className={s.sidebar}>
+      <ActionsBar>
+        {Object.values(controls).map((control) => {
+          return (
+            <Link
+              key={nanoid(4)}
+              className={s.sidebarItemContainer}
+              to={APP_ROUTES[control.id]}
+              tabIndex={-1}
             >
-              <ActionsBarBTN
-                active={control.active}
-                iconBefore={control.icon}
-                value={control.id}
-                className={s.controlButton}
+              <div
+                className={s.buttonWrap}
+                onClick={control.onClick}
+                onPointerLeave={onMouseLeave}
+                onPointerEnter={(e) =>
+                  onMouseEnter(e.target as HTMLDivElement, control.title)
+                }
               >
-                {isOpen ? (
-                  <span className={s.modeName}>{MODES_LABELS[control.id]}</span>
-                ) : null}
-              </ActionsBarBTN>
-            </div>
-          </Link>
-        );
-      })}
+                <ActionsBarBTN
+                  active={control.active}
+                  iconBefore={control.icon}
+                  value={control.id}
+                  className={s.controlButton}
+                >
+                  {isOpen ? (
+                    <span className={s.modeName}>{MODES_LABELS[control.id]}</span>
+                  ) : null}
+                </ActionsBarBTN>
+              </div>
+            </Link>
+          );
+        })}
 
-      <div className={s.togglerContainer}>
-        <div className={s.toggler}>
-          {isOpen ? (
-            <div className={s.buttonWrap} onClick={toggleIsOpen} tabIndex={-1}>
-              <ActionsBarBTN
-                iconBefore={<DoubleChevronLeft24 />}
-                className={s.controlButton}
+        <div className={s.togglerContainer}>
+          <div className={s.toggler}>
+            {isOpen ? (
+              <div className={s.buttonWrap} onClick={toggleIsOpen} tabIndex={-1}>
+                <ActionsBarBTN
+                  iconBefore={<DoubleChevronLeft24 />}
+                  className={s.controlButton}
+                >
+                  <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
+                </ActionsBarBTN>
+              </div>
+            ) : (
+              <div
+                className={s.buttonWrap}
+                onClick={toggleIsOpen}
+                onPointerLeave={onMouseLeave}
+                onPointerEnter={(e) =>
+                  onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
+                }
               >
-                <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
-              </ActionsBarBTN>
-            </div>
-          ) : (
-            <div
-              className={s.buttonWrap}
-              onClick={toggleIsOpen}
-              onPointerLeave={onMouseLeave}
-              onPointerEnter={(e) =>
-                onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
-              }
-            >
-              <ActionsBarBTN
-                iconBefore={<DoubleChevronRight24 />}
-                className={s.controlButton}
-              />
-            </div>
-          )}
+                <ActionsBarBTN
+                  iconBefore={<DoubleChevronRight24 />}
+                  className={s.controlButton}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </ActionsBar>
+      </ActionsBar>
+    </div>
   );
 }
