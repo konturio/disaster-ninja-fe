@@ -2,7 +2,7 @@ import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import react from '@vitejs/plugin-react';
-import { injectHtml } from 'vite-plugin-html';
+import { createHtmlPlugin } from 'vite-plugin-html';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
 // @ts-ignore
 import { selectConfig, useConfig } from './scripts/select-config.mjs';
@@ -13,9 +13,7 @@ import postcssConfig from './postcss.config';
 import { proxyConfig } from './vite.proxy';
 
 const relative = (folder: string) => path.resolve(__dirname, folder);
-const parseEnv = (
-  env: Record<string, string>,
-): Record<string, string> =>
+const parseEnv = (env: Record<string, string>): Record<string, string> =>
   Object.entries(env).reduce((acc, [k, v]) => {
     try {
       acc[k] = JSON.parse(v);
@@ -40,10 +38,12 @@ export default ({ mode }) => {
     plugins: [
       react(),
       mode === 'production' && viteBuildInfoPlugin(),
-      injectHtml({
-        data: {
-          ...env,
-          mode,
+      createHtmlPlugin({
+        inject: {
+          data: {
+            ...env,
+            mode,
+          },
         },
       }),
     ],
