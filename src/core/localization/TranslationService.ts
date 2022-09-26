@@ -21,4 +21,11 @@ i18n
     },
   });
 
-export const TranslationService = i18n;
+export const TranslationService = {
+  t: (key: string) => {
+    const translation = i18n.t(key);
+    if (typeof translation === 'string') return translation;
+    console.error(`Not supported translation result for key: ${key}`);
+    return key;
+  },
+};
