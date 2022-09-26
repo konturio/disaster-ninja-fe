@@ -13,6 +13,7 @@ type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 type Coords = { x: number; y: number };
 
 function findTooltipPosition(clickPosition?: Coords | null): Position | null {
+  if (window.visualViewport === null) return null;
   const { height, width } = window.visualViewport;
   if (!clickPosition) return null;
   // click was on the bottom right side
@@ -83,7 +84,7 @@ export function Tooltip({
         className={s.tooltipAnchor}
         style={{
           top: properties.position.y || 0,
-          right: window.visualViewport.width - properties.position.x || 0,
+          right: (window.visualViewport?.width || 0) - properties.position.x || 0,
         }}
       >
         {position && (

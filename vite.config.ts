@@ -29,7 +29,7 @@ export default ({ mode }) => {
   const config = useConfig(selectConfig(mode), env.DEST_PATH);
   validateConfig(config, buildScheme());
   return defineConfig({
-    base: env.VITE_BASE_PATH + env.VITE_STATIC_PATH,
+    base: `${env.VITE_BASE_PATH}${env.VITE_STATIC_PATH}`,
     build: {
       minify: mode !== 'development',
       sourcemap: true,

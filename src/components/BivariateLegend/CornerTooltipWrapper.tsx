@@ -15,10 +15,7 @@ export type CornerTooltipWrapperProps = {
   children: ReactNode;
 };
 
-const CornerTooltipWrapper = ({
-  children,
-  hints,
-}: CornerTooltipWrapperProps) => {
+const CornerTooltipWrapper = ({ children, hints }: CornerTooltipWrapperProps) => {
   const renderTooltip = (
     e: PointerEvent<Element>,
     setTooltip: (tooltipData: TooltipData) => void,
@@ -28,12 +25,7 @@ const CornerTooltipWrapper = ({
     const cornerIndex = CORNER_POINTS_INDEXES.indexOf(i);
     if (hints && cornerIndex >= 0) {
       setTooltip({
-        popup: (
-          <BivariateLegendCornerTooltip
-            cornerIndex={cornerIndex}
-            hints={hints}
-          />
-        ),
+        popup: <BivariateLegendCornerTooltip cornerIndex={cornerIndex} hints={hints} />,
         position: { x: e.clientX, y: e.clientY },
         hoverBehavior: true,
       });
@@ -44,6 +36,7 @@ const CornerTooltipWrapper = ({
     <TooltipWrapper renderTooltip={renderTooltip}>
       {({ showTooltip, hideTooltip }) =>
         cloneElement(children, {
+          // @ts-expect-error - react version update should fix that
           onCellPointerOver: showTooltip,
           onCellPointerLeave: hideTooltip,
         })
