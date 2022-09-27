@@ -209,7 +209,8 @@
     "modes": {
       "map": "Map",
       "event": "Event",
-      "reports": "Reports"
+      "reports": "Reports",
+      "profile": "Profile"
     }
   }
 }
