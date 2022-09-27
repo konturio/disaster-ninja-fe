@@ -177,7 +177,7 @@
     grid-row: 3/5;
     overflow: hidden;
     /* allow shadow of last element to be visible */
-    padding-bottom: 1px;
+    padding-bottom: 3px;
   }
   .footer {
     position: relative;
