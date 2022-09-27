@@ -1,7 +1,10 @@
 import { createAtom } from '~utils/atoms';
 
+export type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+export type Coords = { x: number; y: number; predefinedPosition?: Position };
+
 export type TooltipData = {
-  position: { x: number; y: number };
+  position: Coords;
   popup: string | JSX.Element;
   onOuterClick?: (event, closeTooltip: () => void) => void;
   hoverBehavior?: boolean;
