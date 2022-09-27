@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  margin: -25px -25px;
+  padding: 25px 25px;
   box-shadow: var(--elevation-1);
 }
 .panel {

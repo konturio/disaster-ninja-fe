@@ -170,6 +170,9 @@
     grid-row: 1/-1;
   }
   .layersColumn {
+    margin: 0px -25px;
+    padding: 0px 25px;
+
     grid-column: 1;
     grid-row: 3/5;
     overflow: hidden;
