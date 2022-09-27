@@ -1,5 +1,5 @@
 import { expect, test, describe } from 'vitest';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useArrayDiff } from './useArrayDiff';
 
 describe('useArrayDiff effect must return difference between arrays', () => {

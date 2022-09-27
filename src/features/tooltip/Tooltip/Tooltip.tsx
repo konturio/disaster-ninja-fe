@@ -6,8 +6,8 @@ import { useLocation } from 'react-router';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { parseLinksAsTags } from '~utils/markdown/parser';
 import s from './Tooltip.module.css';
-import type { MutableRefObject } from 'react';
 import type { TooltipData } from '~core/shared_state/currentTooltip';
+import type { LegacyRef } from 'react';
 
 type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 type Coords = { x: number; y: number };
@@ -33,7 +33,7 @@ export function Tooltip({
 }: {
   properties: TooltipData | null;
   closeTooltip: () => void;
-  transitionRef: MutableRefObject<null>;
+  transitionRef: LegacyRef<any>;
 }) {
   const [position, setPosition] = useState<Position | null>(null);
   const [prevCoords, setPrevCoords] = useState<Coords | null | undefined>(null);
