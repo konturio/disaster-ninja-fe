@@ -23,8 +23,8 @@ test('Ignore response of previous request after new request created (lazy mode)'
       await wait(0.3);
       return i++;
     },
-    deps,
     'testResource',
+    deps,
     true,
   );
   // Record state changes
@@ -54,13 +54,13 @@ test.todo('Send abort signal when request canceled', () => {
 describe('Resource atom without deps', () => {
   test('Auto fetch data when created by default', () => {
     const fetcher = vi.fn(async () => null);
-    createResourceAtom(fetcher);
+    createResourceAtom(fetcher, 'testResource');
     expect(fetcher).toHaveBeenCalledTimes(1);
   });
 
   test('Fetch data only when have subscribers (lazy)', () => {
     const fetcher = vi.fn(async () => null);
-    createResourceAtom(fetcher, null, 'testResource', true);
+    createResourceAtom(fetcher, 'testResource', null, true);
     expect(fetcher).toHaveBeenCalledTimes(0);
   });
 });
@@ -69,15 +69,19 @@ describe('Resource atom with deps', () => {
   test('Auto fetch data when created by default', () =>
     new Promise((done) => {
       const deps = createBooleanAtom(false);
-      createResourceAtom(async () => {
-        done(true);
-      }, deps);
+      createResourceAtom(
+        async () => {
+          done(true);
+        },
+        'testResource',
+        deps,
+      );
     }));
 
   test('Fetch data only when have subscribers (lazy)', async () => {
     const fetcher = vi.fn(async () => null);
     const deps = createBooleanAtom();
-    const atom = createResourceAtom(fetcher, deps, 'testResource', true);
+    const atom = createResourceAtom(fetcher, 'testResource', deps, true);
     await wait(0.1);
     expect(fetcher).toHaveBeenCalledTimes(0);
     atom.subscribe(() => null);
@@ -87,12 +91,7 @@ describe('Resource atom with deps', () => {
   test('Re-run fetcher when deps changed', async () => {
     const [fetcher, hasBeenCalled] = waitCallbackBeenCalled(() => null);
     const deps = createBooleanAtom(false);
-    const atom = createResourceAtom(
-      async () => fetcher(),
-      deps,
-      'testResource',
-      true,
-    );
+    const atom = createResourceAtom(async () => fetcher(), 'testResource', deps, true);
     atom.subscribe(() => null); // +1
     deps.setTrue.dispatch(); // +1
     await hasBeenCalled;
