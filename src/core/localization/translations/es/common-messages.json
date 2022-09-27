@@ -3,6 +3,7 @@
     "km": "km",
     "m": "m",
     "to": "a",
+    "logout": "Cierre de sesión",
     "save": "Guardar",
     "cancel": "Cancelar",
     "create": "Crear",
@@ -22,6 +23,7 @@
     "deselect": "Anular la selección",
     "spinner_text": "Recopilación de datos",
     "updated": "Actualizado",
+    "no_data_received": "No se han recibido datos",
     "errors": {
       "timeout": "Se agotó el tiempo de espera de la solicitud",
       "cannot_connect": "No se puede conectar al servidor",
@@ -30,6 +32,35 @@
       "unknown": "Desconocido",
       "server_error": "Error del servidor"
     },
+    "categories": {
+      "overlays": "Superposiciones",
+      "basemap": "Mapa base"
+    },
+    "groups": {
+      "layers_in_selected_area": "Capas en el área seleccionada",
+      "your_layers": "Sus capas",
+      "kontur_analytics": "Analíticas de Kontur",
+      "qa": "Certificación de calidad",
+      "osmbasedmap": "Basado en OpenStreetMap",
+      "other": "Otros",
+      "elevation": "Elevación",
+      "photo": "Foto",
+      "map": "Mapa"
+    },
+    "advanced_analytics_data_list": {
+      "load_world_data": "Cargar datos mundiales",
+      "numerator": "Numerador",
+      "normalized_by": "Normalizado por",
+      "sum": "Suma",
+      "min": "Mín.",
+      "max": "Máx.",
+      "mean": "Media",
+      "stddev": "Desv. est.",
+      "median": "Mediana",
+      "filter_nominator": "Filtrar Nominador",
+      "filter_denominator": "Filtrar Denominador"
+    },
+    "app_header.title": "Chatear con nosotros",
     "event_list": {
       "title": "Enfoque en los desastres",
       "warning_title": "No se puede utilizar el mapa como filtro",
@@ -69,11 +100,15 @@
       "init": "Seleccionar geometría",
       "loading": "Cargando análisis...",
       "error": "Error",
-      "header_title": "Análisis"
+      "header_title": "Análisis",
+      "info_tab": "INFORMACIÓN",
+      "error_loading": "Error en la obtención de datos de analítica"
     },
     "advanced_analytics_panel": {
       "loading": "Cargando análisis avanzado...",
-      "header_title": "Análisis avanzado"
+      "header_title": "Análisis avanzado",
+      "analytics_tab": "Analíticas avanzadas",
+      "error": "Error en la obtención de datos de analíticas avanzadas"
     },
     "advanced_analytics_empty": {
       "not_found": "Lo sentimos, el evento solicitado no se ha encontrado.",
@@ -105,30 +140,46 @@
     "focus_geometry_layer.settings.name": "Área seleccionada",
     "drawings.self_directions_not_supported": "¡No se admiten las autointersecciones!",
     "bivariate": {
+      "panel": {
+        "header": "Matriz bivariada"
+      },
       "matrix": {
+        "header": {
+          "title": "Elija dos capas para explorar las correlaciones",
+          "hint": "Las capas y correlaciones se muestran para el área seleccionada actual"
+        },
         "icon.population": "Valor dividido por la población",
         "icon.area_km2": "Valor dividido por el área",
         "icon.total_building_count": "Valor dividido por la estimación total de edificios",
         "icon.populated_area_km2": "Valor dividido por el área poblada",
         "icon.one": "Sin divisor",
-        "icon.roads": "Valor dividido por la longitud total de las carreteras"
+        "icon.roads": "Valor dividido por la longitud total de las carreteras",
+        "progress.rendering": "Renderizado",
+        "progress.applied": "Aplicado en el mapa"
       },
       "legend": {
         "high": "Alto",
         "low": "Bajo"
       },
       "color_manager": {
+        "not_defined": "No definido",
+        "sentiments_combinations_filter": "Combinaciones de sentimientos",
         "layers_filter": "Capas",
         "title": "Administración de la apariencia",
         "no_legends": "No hay leyendas que cumplan las condiciones.",
-        "no_data": "No hay datos."
+        "no_data": "No hay datos.",
+        "sentiments_tab": "Sentimientos",
+        "color_legends_tab": "Leyendas de colores",
+        "layers_tab": "Capas (indicadores)"
       }
     },
     "sidebar": {
       "biv_color_manager": "Administrador de color bivariado",
       "reports": "Informes",
       "edit_osm": "Editar en OpenStreetMap",
-      "ruler": "Regla"
+      "ruler": "Regla",
+      "collapse": "Contraer",
+      "expand": "Expandir"
     },
     "login": {
       "email": "Correo electrónico",
@@ -154,6 +205,11 @@
       "josm_logo_alt": "Logotipo de JOSM",
       "see_all": "Ver todos los informes",
       "wrong_id": "ID de informe incorrecto"
+    },
+    "modes": {
+      "map": "Mapa",
+      "event": "Evento",
+      "reports": "Informes"
     }
   }
 }
