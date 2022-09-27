@@ -1,12 +1,13 @@
 import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
 import cn from 'clsx';
+import { ChevronDown16 } from '@konturio/default-icons';
 import DenominatorIcon from '../DenominatorIcon/DenominatorIcon';
 import { QuotientSelector } from '../QuotientSelector/QuotientSelector';
 import styles from './BivariateMatrixHeadingEntry.module.css';
 import type { CSSProperties, MouseEvent } from 'react';
 
 const getHeadingPositionStyle = (isColum: boolean, index: number) => {
-  const styles: any = {
+  const styles = {
     gridColumn: isColum ? `${index + 3} / ${index + 4}` : '1',
     gridRow: isColum ? '1' : `${index + 3} / ${index + 4}`,
   };
@@ -77,6 +78,7 @@ export const BivariateMatrixHeadingEntry = forwardRef(
     const onClick = (ev) => {
       // hack to not select axis on denominators menu open
       // TODO: find less cheating way implement this functionality and get rid of hack
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const target: any = ev.target;
       if (
         target.tagName === 'svg' ||
@@ -101,6 +103,7 @@ export const BivariateMatrixHeadingEntry = forwardRef(
       headerCell.quotients.length > 1 ? (
         <div className={styles.quotientsCountLabel}>
           +{headerCell.quotients.length - 1} layers
+          <ChevronDown16 />
         </div>
       ) : null;
 
@@ -182,18 +185,27 @@ export const BivariateMatrixHeadingEntry = forwardRef(
         >
           <div className={styles.corner}></div>
           <DenominatorIcon iconId={headerCell.selectedQuotient.id[1]} />
-          <div className="qualityLabel">
-            {headerCell.quality ? headerCell.quality : '&nbsp;'}
-          </div>
-          <QuotientSelector
-            id={`quotient_${id}`}
-            onSelectQuotient={selectQuotient}
-            selectedQuotient={headerCell.selectedQuotient}
-            quotients={headerCell.quotients}
-            type={type}
-          />
+
+          {/* do no needed on prod, only for testing purposes */}
+          {sessionStorage.getItem('BIVARIATE_QA_MOD') && (
+            <div className="qualityLabel">
+              {headerCell.quality ? headerCell.quality : '&nbsp;'}
+            </div>
+          )}
+
           {headerCell.label}
-          {numberOfAdditionalQuotientsInGroup}
+
+          {numberOfAdditionalQuotientsInGroup && (
+            <QuotientSelector
+              id={`quotient_${id}`}
+              onSelectQuotient={selectQuotient}
+              selectedQuotient={headerCell.selectedQuotient}
+              quotients={headerCell.quotients}
+              type={type}
+            >
+              {numberOfAdditionalQuotientsInGroup}
+            </QuotientSelector>
+          )}
         </div>
       </div>
     );
