@@ -4,7 +4,7 @@ If you want to display your reports on the Disaster Ninja Reports page, you must
 - report file in CSV format (1 for report).
 - osm_reports_list.json - file describing reports (1 for any number of reports).
 
-## osm_reports_list.json inner structure description
+## Description of the internal structure of the osm_reports_list.json
 
 - **id**, *string* - your report id;
 - **link**, *string* - relative link to your report, for example '/your_report.csv';
