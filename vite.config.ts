@@ -74,6 +74,7 @@ export default ({ mode }) => {
     },
     server: {
       proxy: proxyConfig,
+      port: 3000,
     },
     define:
       mode === 'development'
