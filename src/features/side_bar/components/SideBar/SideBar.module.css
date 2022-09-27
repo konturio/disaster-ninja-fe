@@ -31,6 +31,9 @@
   width: 100%;
   justify-content: left;
   margin: 0;
+  & * {
+    pointer-events: none;
+  }
 }
 
 .togglerContainer {
