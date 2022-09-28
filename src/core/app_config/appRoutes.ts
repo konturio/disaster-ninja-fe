@@ -8,6 +8,7 @@ export const APP_ROUTES = {
   bivariateManager: config.baseUrl + 'bivariate-manager',
   eventExplorer: config.baseUrl + 'event',
   profile: config.baseUrl + 'profile',
+  about: config.baseUrl + 'about',
 };
 
 export function findCurrentMode(path: string): ApplicationMode {
@@ -16,5 +17,6 @@ export function findCurrentMode(path: string): ApplicationMode {
   if (path.indexOf('reports') > -1) mode = 'reports';
   if (path.indexOf('profile') > -1) mode = 'profile';
   if (path.indexOf('bivariate-manager') > -1) mode = 'bivariateManager';
+  if (path.indexOf('about') > -1) mode = 'about';
   return mode;
 }

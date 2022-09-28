@@ -5,6 +5,7 @@ export type ApplicationMode =
   | 'reports'
   | 'event'
   | 'bivariateManager'
+  | 'about'
   | 'profile';
 
 export const currentModeAtom = createAtom(
