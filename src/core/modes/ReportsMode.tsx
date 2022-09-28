@@ -1,4 +1,4 @@
-import { Reports24 } from '@konturio/default-icons';
+import { Alarm24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { currentModeAtom } from './currentMode';
 import type { ModesControlsAtom } from './modesControls';
@@ -8,7 +8,7 @@ export function registerReportsMode(modesControlAtom: ModesControlsAtom) {
     id: 'reports',
     title: i18n.t('modes.reports'),
     active: false,
-    icon: <Reports24 />,
+    icon: <Alarm24 />,
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('reports');
     },
