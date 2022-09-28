@@ -14,6 +14,7 @@ import { CommonRoutesFeatures } from './RoutesWrap';
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
+const { AboutPage } = lazily(() => import('~views/About/About'));
 const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
@@ -37,6 +38,12 @@ export function RoutedApp() {
               <Route exact path={APP_ROUTES.reports}>
                 <Suspense fallback={null}>
                   <Reports />
+                </Suspense>
+              </Route>
+
+              <Route exact path={APP_ROUTES.about}>
+                <Suspense fallback={null}>
+                  <AboutPage />
                 </Suspense>
               </Route>
 
