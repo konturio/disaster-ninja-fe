@@ -68,7 +68,6 @@ export function RoutedApp() {
           )}
         </CommonRoutesFeatures>
       </Router>
-      <LoginForm />
     </StrictMode>
   );
 }
