@@ -12,11 +12,12 @@
 
   border-radius: var(--border-radius-unit);
 
-  /* allow resize second child which is content wrap */
+  /* content wrap */
   & > div:nth-child(2) {
     resize: vertical;
     overflow-y: auto;
     overflow-x: hidden;
+    min-height: 100px;
   }
 
   height: auto;

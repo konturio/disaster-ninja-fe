@@ -1,9 +1,7 @@
 .panelContainer {
   height: var(--panel-header-height);
-  min-height: var(--panel-header-height);
   &.open {
     height: auto;
-    min-height: calc(var(--panel-header-height) + 60px);
   }
 }
 .legendPanel {
@@ -18,7 +16,7 @@
 
   /* Allow resize for content container */
   & > div:nth-child(2) {
-    min-height: 60px;
+    min-height: 40px;
     overflow-y: auto;
     resize: vertical;
   }

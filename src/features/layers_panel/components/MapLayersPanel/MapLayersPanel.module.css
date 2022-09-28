@@ -17,7 +17,7 @@
   /* allow resize second child which is content wrap */
   & > div:nth-child(2) {
     resize: vertical;
-    min-height: 60px;
+    min-height: 40px;
   }
 
   &.show > div:nth-child(1) {
