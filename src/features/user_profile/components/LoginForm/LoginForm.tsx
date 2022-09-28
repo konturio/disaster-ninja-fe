@@ -101,6 +101,9 @@ export function LoginForm() {
         </div>
       )}
       <Text type="heading-xl">{i18n.t('login.log_in')}</Text>
+      <div className={s.loginDescription}>
+        <Text type="short-m">{i18n.t('login.description')}</Text>
+      </div>
       {/*<div className={s.socialLoginContainer}>*/}
       {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='google' />}>{i18n.t('Google')}</Button>*/}
       {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='github' />}>{i18n.t('Github')}</Button>*/}
@@ -130,6 +133,11 @@ export function LoginForm() {
       </div>
       {error.general && <div className={s.errorMessageContainer}>{error.general}</div>}
       {/*<div className={clsx(s.link, s.forgotPasswordContainer)}>{i18n.t('Forgot password?')}</div>*/}
+      <div className={s.loginButtonContainer}>
+        <Button onClick={onLoginClick} className={s.loginButton}>
+          {i18n.t('login.log_in')}
+        </Button>
+      </div>
       <div className={clsx(s.link, s.registerContainter)}>
         <a
           href="https://www.kontur.io/portfolio/event-feed-draft/#publicfeed"
@@ -138,11 +146,6 @@ export function LoginForm() {
         >
           {i18n.t('login.sign_up')}
         </a>
-      </div>
-      <div className={s.loginButtonContainer}>
-        <Button onClick={onLoginClick} className={s.loginButton}>
-          {i18n.t('login.log_in')}
-        </Button>
       </div>
       {/*<div className={s.signUpContainer}>*/}
       {/*  <span>{i18n.t('Don\'t have an account?')}</span>*/}

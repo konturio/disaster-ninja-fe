@@ -1,4 +1,11 @@
 .modeWrap {
   width: 100%;
   align-items: center;
+  margin: auto;
+  --section: 280px;
+}
+
+.loginWrap {
+  margin: auto;
+  max-width: var(--section);
 }
