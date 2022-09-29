@@ -1,3 +1,11 @@
+.panelContainer {
+  height: var(--panel-header-height);
+  min-height: var(--panel-header-height);
+  &.open {
+    height: auto;
+    min-height: calc(var(--panel-header-height) + 60px);
+  }
+}
 .legendPanel {
   pointer-events: auto;
   position: relative;
@@ -5,9 +13,15 @@
   margin-right: var(--unit);
   align-self: flex-start;
   border-radius: var(--border-radius);
-  height: auto;
-  max-height: calc(100vh - 140px);
+  height: 100%;
   width: 100%;
+
+  /* Allow resize for content container */
+  & > div:nth-child(2) {
+    min-height: 60px;
+    overflow-y: auto;
+    resize: vertical;
+  }
 
   &.collapse {
     & div:not(:first-child) {
@@ -17,12 +31,9 @@
 }
 
 .panelBody {
-  height: 100%;
   width: 100%;
   padding: var(--double-unit);
-  overflow-y: auto;
   overflow-x: hidden;
-  resize: vertical;
 }
 .panelBody :first-child {
   margin-top: 0;
