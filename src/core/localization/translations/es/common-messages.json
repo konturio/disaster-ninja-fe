@@ -174,7 +174,7 @@
       }
     },
     "sidebar": {
-      "biv_color_manager": "Administrador de color bivariado",
+      "biv_color_manager": "Administrador de color",
       "reports": "Informes",
       "edit_osm": "Editar en OpenStreetMap",
       "ruler": "Regla",
