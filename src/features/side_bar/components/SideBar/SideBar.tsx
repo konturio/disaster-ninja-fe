@@ -21,11 +21,14 @@ export function SideBar() {
 
   function onMouseEnter(target: HTMLDivElement, title: string) {
     // place tooltip right and vertically aligned to the element
-    const targetMiddle = target.offsetTop + target.offsetHeight / 2;
     !isOpen &&
       setTooltip({
         popup: title,
-        position: { x: target.offsetLeft + 50, y: targetMiddle + 14 },
+        position: {
+          x: target.offsetLeft + 50,
+          y: target.offsetTop,
+          predefinedPosition: 'bottom-right',
+        },
         hoverBehavior: true,
       });
   }
