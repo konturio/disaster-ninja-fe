@@ -97,8 +97,8 @@ export const CommonRoutesFeatures = ({
   const headerTitle = getHeaderTitle(pathname);
 
   useEffect(() => {
-    initModes();
-  }, []);
+    initModes(userModel);
+  }, [userModel]);
 
   if (!userModel) return null;
 

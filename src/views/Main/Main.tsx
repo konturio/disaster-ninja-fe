@@ -4,7 +4,6 @@ import { useHistory } from 'react-router';
 import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
-import { initBivariateColorManagerIcon } from '~features/bivariate_color_manager';
 import { EpisodesTimelinePanel } from '~features/event_episodes/components/EpisodesTimelinePanel/EpisodesTimelinePanel';
 import s from './Main.module.css';
 import type { UserDataModel } from '~core/auth';
@@ -78,9 +77,6 @@ export function MainView({ userModel }: MainViewProps) {
       );
     }
 
-    if (userModel?.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)) {
-      initBivariateColorManagerIcon(history);
-    }
     if (userModel?.hasFeature(AppFeature.OSM_EDIT_LINK)) {
       import('~features/osm_edit_link/').then(({ initOsmEditLink }) => initOsmEditLink());
     }
