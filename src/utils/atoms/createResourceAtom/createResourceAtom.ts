@@ -30,7 +30,6 @@ type Deps<D extends AtomBinded, F extends Fetcher<AtomState<D> | null, any>> = {
     error: string,
   ) => { params: typeof params; error: typeof error };
   _loading: (params: AtomState<D>) => { params: typeof params };
-  _finally: () => null;
   depsAtom?: Atom<ResourceAtomState<unknown, unknown>> | Atom<unknown>;
 };
 
@@ -56,7 +55,6 @@ export function createResourceAtom<
     _done: (params, data) => ({ params, data }),
     _error: (params, error) => ({ params, error }),
     _loading: (params) => ({ params }),
-    _finally: () => null,
   };
 
   if (atom) {
@@ -75,18 +73,21 @@ export function createResourceAtom<
         data: null,
         error: null,
         lastParams: null,
-        dirty: true,
+        dirty: false,
       },
     ) => {
       type Context = ResourceCtx;
       const newState = { ...state };
 
       onAction('request', (params) => {
-        newState.dirty = false; // For unblock refetch
+        // console.log('request')
+        newState.dirty = true; // For unblock refetch
         schedule(async (dispatch, ctx: Context) => {
+          // console.log('schedule')
           // Before making new request we should abort previous request
           // If some request active right now we have abortController
           if (ctx.abortController) {
+            // console.log('need cancel prev')
             ctx.abortController.abort();
             ctx.abortController = null;
             /**
@@ -107,26 +108,28 @@ export function createResourceAtom<
               isAbortError(e),
             );
             if (isAfterAbort) {
+              // console.log('repeat new request in next trans')
+              // This is abort transaction just for abort previous request.
+              // Move this request to next transaction
               dispatch(create('request', params));
-            }
+            } // else - just regular error, no additional actions
             return;
           }
           dispatch(create('_loading', params));
           const abortController = new AbortController();
-          let requestAction: Action | null = null;
           try {
             ctx.abortController = abortController;
             ctx.activeRequest = fetcher(params, abortController);
             const fetcherResult = await ctx.activeRequest;
-
             abortController.signal.throwIfAborted(); // Alow set canceled state, even if abort error was catched inside fetcher
             if (ctx.abortController === abortController) {
+              // console.log('request ended')
               // Check that new request was not created
-              requestAction = create('_done', params, fetcherResult);
+              dispatch(create('_done', params, fetcherResult));
             }
           } catch (e) {
             if (isAbortError(e)) {
-              requestAction = create('_error', params, ABORT_ERROR_MESSAGE);
+              dispatch(create('_error', params, ABORT_ERROR_MESSAGE));
             } else if (ctx.abortController === abortController) {
               console.error(`[${name}]:`, e);
               const errorMessage = isErrorWithMessage(e)
@@ -134,11 +137,7 @@ export function createResourceAtom<
                 : typeof e === 'string'
                 ? e
                 : 'Unknown';
-              requestAction = create('_error', params, errorMessage);
-            }
-          } finally {
-            if (requestAction) {
-              dispatch([requestAction, create('_finally')]);
+              dispatch(create('_error', params, errorMessage));
             }
           }
         });
@@ -155,25 +154,36 @@ export function createResourceAtom<
         });
       });
 
+      onAction('cancel', () => {
+        schedule(async (dispatch, ctx: Context) => {
+          if (ctx.abortController) {
+            // console.log('need cancel prev')
+            ctx.abortController.abort();
+            ctx.abortController = null;
+          }
+        });
+      });
+
       onAction('_loading', ({ params }) => {
+        // console.log('>> set loading state')
         newState.loading = true;
         newState.error = null;
         newState.lastParams = params;
       });
 
       onAction('_error', ({ params, error }) => {
+        // console.log('>> set error state')
         newState.error = error;
         newState.lastParams = params;
+        newState.loading = false;
       });
 
       onAction('_done', ({ data, params }) => {
+        // console.log('>> set done state')
         newState.data = data;
         newState.error = null;
-        newState.lastParams = params;
-      });
-
-      onAction('_finally', () => {
         newState.loading = false;
+        newState.lastParams = params;
       });
 
       if (deps.depsAtom) {
@@ -181,6 +191,7 @@ export function createResourceAtom<
           if (isObject(depsAtomState)) {
             // Deps is resource atom-like object
             if (options.inheritState) {
+              // console.log('deps change')
               newState.loading = depsAtomState.loading || newState.loading;
               newState.error = depsAtomState.error || newState.error;
             }
@@ -194,6 +205,7 @@ export function createResourceAtom<
           }
         });
       }
+      // console.log('>>>', JSON.stringify(newState, null, 2))
       return newState;
     },
     {

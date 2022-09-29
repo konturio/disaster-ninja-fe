@@ -4,6 +4,15 @@ import { createResourceAtom } from './createResourceAtom';
 import { ABORT_ERROR_MESSAGE } from './abort-error';
 import type { Store } from '@reatom/core';
 
+const id = (() => {
+  const idCreator = function* () {
+    let i = 0;
+    while (true) yield i++;
+  };
+  const idsGenerator = idCreator();
+  return () => String(idsGenerator.next().value);
+})();
+
 const wait = (sec = 1, opt: { failWithMessage?: string } = {}) =>
   new Promise((res, rej) =>
     setTimeout(
@@ -33,16 +42,14 @@ describe('Resource atom add resource state structure', () => {
       data: null,
       error: null,
       lastParams: null,
+      dirty: false,
     });
   });
 
   test('have correct loading state', ({ store }) => {
-    const resAtomA = createResourceAtom(
-      null,
-      async () => await wait(1),
-      'resAtomA',
-      { store },
-    );
+    const resAtomA = createResourceAtom(null, async () => await wait(1), 'resAtomA', {
+      store,
+    });
     resAtomA.request.dispatch(null);
     expect(resAtomA.getState()).toMatchObject({
       loading: true,
@@ -51,12 +58,9 @@ describe('Resource atom add resource state structure', () => {
   });
 
   test('have correct lastParams state', async ({ store }) => {
-    const resAtomA = createResourceAtom(
-      null,
-      async () => await wait(1),
-      'resAtomA',
-      { store },
-    );
+    const resAtomA = createResourceAtom(null, async () => await wait(1), 'resAtomA', {
+      store,
+    });
     resAtomA.request.dispatch('foo');
     expect(resAtomA.getState()).toMatchObject({
       lastParams: 'foo',
@@ -74,6 +78,23 @@ describe('Resource atom add resource state structure', () => {
     await wait(1);
     expect(resAtomA.getState().error).toBe('Test error');
   });
+
+  test('have correct data state', async ({ store }) => {
+    const resAtomA = createResourceAtom(
+      null,
+      async () => {
+        await wait(1);
+        return 1;
+      },
+      id(),
+      { store },
+    );
+    resAtomA.request.dispatch('foo');
+    await wait(1);
+    expect(resAtomA.getState()).toMatchObject({
+      data: 1,
+    });
+  });
 });
 
 describe('Resource canceling', () => {
@@ -88,7 +109,7 @@ describe('Resource canceling', () => {
         await wait(1);
         return value;
       },
-      'resAtomA',
+      id(),
       {
         store,
       },
@@ -108,7 +129,7 @@ describe('Resource canceling', () => {
       null,
       async (value, abortController) => {
         await Promise.race([
-          wait(3),
+          wait(5),
           new Promise((res, rej) =>
             abortController.signal.addEventListener('abort', () => {
               const error = new Error();
@@ -120,7 +141,7 @@ describe('Resource canceling', () => {
         ]);
         return value;
       },
-      'resAtomAA',
+      id(),
       {
         store,
       },
@@ -141,67 +162,118 @@ describe('Resource canceling', () => {
     // 4) second request loading state
 
     // wait 3 state changes
-    while (stateChangesLog.mock.calls.length < 3) {
-      // console.log(stateChangesLog.mock.calls)
+    // * Currently reatom generate +1 extra update before error state because of internal bug
+    while (stateChangesLog.mock.calls.length < 4) {
       await wait(1);
     }
-    expect(stateChangesLog).toHaveBeenNthCalledWith(3, {
+
+    expect(stateChangesLog).toHaveBeenNthCalledWith(4, {
       error: ABORT_ERROR_MESSAGE,
+      data: null,
+      lastParams: 1, // should have parameters of request that was canceled
+      loading: false, // should out from loading state
+      dirty: true,
+    });
+  });
+
+  test('Resource set error state after canceled by cancel action', async ({ store }) => {
+    const stateChangesLog = vi.fn(async (arg) => null);
+
+    const resAtomA = createResourceAtom(
+      null,
+      async (value, abortController) => {
+        await Promise.race([
+          wait(5),
+          new Promise((res, rej) =>
+            abortController.signal.addEventListener('abort', () => {
+              const error = new Error();
+              // @ts-expect-error - this custom error of our api client
+              error.problem = { kind: 'canceled' };
+              rej(error);
+            }),
+          ),
+        ]);
+        return value;
+      },
+      id(),
+      {
+        store,
+      },
+    );
+
+    resAtomA.subscribe((s) => stateChangesLog(s));
+
+    resAtomA.request.dispatch(1);
+    await wait(1);
+    resAtomA.cancel.dispatch();
+
+    // State change with error should be - 3
+    // 1) initial state
+    //    (first request)
+    // 2) first request loading state
+    //    (second request)
+    // 3) first request canceled state <- this is we looking for!
+    // 4) second request loading state
+
+    // wait 3 state changes
+    // * Currently reatom generate +1 extra update before error state because of internal bug
+    while (stateChangesLog.mock.calls.length < 4) {
+      await wait(1);
+    }
+    expect(stateChangesLog).toHaveBeenNthCalledWith(4, {
+      error: ABORT_ERROR_MESSAGE,
+      data: null,
+      lastParams: 1, // should have parameters of request that was canceled
+      loading: false, // should out from loading state
+      dirty: true,
+    });
+  });
+
+  test('Resource set error:canceled state after canceled by other request when fetcher use try catch', async ({
+    store,
+  }) => {
+    const stateChangesLog = vi.fn(async (arg) => null);
+
+    const resAtomA = createResourceAtom(
+      null,
+      async (value) => {
+        // I'am not rise any error in fetcher on cancel
+        // It's the similar to wrap real fetcher in try catch
+        await wait(5);
+        return value;
+      },
+      id(),
+      {
+        store,
+      },
+    );
+
+    resAtomA.subscribe((s) => stateChangesLog(s));
+
+    resAtomA.request.dispatch(1);
+    await wait(1);
+    resAtomA.request.dispatch(2);
+
+    // State change with error should be - 3
+    // 1) initial state
+    //    (first request)
+    // 2) first request loading state
+    //    (second request)
+    // 3) first request canceled state <- this is we looking for!
+    // 4) second request loading state
+
+    // wait 3 state changes
+    while (stateChangesLog.mock.calls.length < 4) {
+      await wait(1);
+    }
+    expect(stateChangesLog).toHaveBeenNthCalledWith(4, {
+      error: ABORT_ERROR_MESSAGE,
+      dirty: true,
       data: null,
       lastParams: 1, // should have parameters of request that was canceled
       loading: false, // should out from loading state
     });
   });
-
-  test.todo('Resource set error state after canceled by cancel action', () => {
-    // TODO
-  });
-
-  test.todo(
-    'Resource set error:canceled state after canceled by other request when fetcher use try catch',
-    async ({ store }) => {
-      const stateChangesLog = vi.fn(async (arg) => null);
-
-      const resAtomA = createResourceAtom(
-        null,
-        async (value) => {
-          // I'am not rise any error in fetcher on cancel
-          // It's the similar to wrap real fetcher in try catch
-          await wait(5);
-          return value;
-        },
-        'resAtomAA',
-        {
-          store,
-        },
-      );
-
-      resAtomA.subscribe((s) => stateChangesLog(s));
-
-      resAtomA.request.dispatch(1);
-      await wait(1);
-      resAtomA.request.dispatch(2);
-
-      // State change with error should be - 3
-      // 1) initial state
-      //    (first request)
-      // 2) first request loading state
-      //    (second request)
-      // 3) first request canceled state <- this is we looking for!
-      // 4) second request loading state
-
-      // wait 3 state changes
-      while (stateChangesLog.mock.calls.length < 3) {
-        await wait(1);
-      }
-      expect(stateChangesLog).toHaveBeenNthCalledWith(3, {
-        error: ABORT_ERROR_MESSAGE,
-        data: null,
-        lastParams: 1, // should have parameters of request that was canceled
-        loading: false, // should out from loading state
-      });
-    },
-  );
 });
 
 describe('Resource refetch', () => {
@@ -225,7 +297,7 @@ describe('Resource atoms chaining state', () => {
       async () => {
         await wait(1);
       },
-      'resAtomA',
+      id(),
       { store },
     );
 
@@ -234,7 +306,7 @@ describe('Resource atoms chaining state', () => {
       async () => {
         await wait(1);
       },
-      'resAtomB',
+      id(),
       { store },
     );
 
@@ -249,7 +321,7 @@ describe('Resource atoms chaining state', () => {
       async () => {
         await wait(1, { failWithMessage: 'Test error' });
       },
-      'resAtomA',
+      id(),
       { store },
     );
 
@@ -258,7 +330,7 @@ describe('Resource atoms chaining state', () => {
       async () => {
         await wait(1);
       },
-      'resAtomB',
+      id(),
       { store, inheritState: true },
     );
 
@@ -267,35 +339,32 @@ describe('Resource atoms chaining state', () => {
     expect(resAtomB.getState().error).toBe('Test error');
   });
 
-  test.todo(
-    'Not inherit loading state when chaining disabled',
-    async ({ store }) => {
-      const resAtomA = createResourceAtom(
-        null,
-        async () => {
-          await wait(1);
-          return 'result';
-        },
-        'resAtomA',
-        { store },
-      );
-      resAtomA.subscribe(() => null);
-      await wait(1);
+  test.todo('Not inherit loading state when chaining disabled', async ({ store }) => {
+    const resAtomA = createResourceAtom(
+      null,
+      async () => {
+        await wait(1);
+        return 'result';
+      },
+      id(),
+      { store },
+    );
+    resAtomA.subscribe(() => null);
+    await wait(1);
 
-      const resAtomB = createResourceAtom(
-        resAtomA,
-        async () => {
-          await wait(1);
-        },
-        'resAtomB',
-        { store, inheritState: false },
-      );
-      resAtomB.subscribe(() => null);
+    const resAtomB = createResourceAtom(
+      resAtomA,
+      async () => {
+        await wait(1);
+      },
+      id(),
+      { store, inheritState: false },
+    );
+    resAtomB.subscribe(() => null);
 
-      await wait(1);
+    await wait(1);
 
-      expect(resAtomA.getState().loading).toBe(true);
-      expect(resAtomB.getState().loading).toBe(false);
-    },
-  );
+    expect(resAtomA.getState().loading).toBe(true);
+    expect(resAtomB.getState().loading).toBe(false);
+  });
 });
