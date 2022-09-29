@@ -1,9 +1,6 @@
 import type { Atom, AtomState, Store, AtomSelfBinded } from '@reatom/core';
 
-export type Fetcher<I, O> = (
-  params: I,
-  abortController: AbortController,
-) => Promise<O>;
+export type Fetcher<I, O> = (params: I, abortController: AbortController) => Promise<O>;
 
 export interface ResourceAtomState<P, D> {
   loading: boolean;
@@ -11,6 +8,8 @@ export interface ResourceAtomState<P, D> {
   data: D | null;
   /* Params that used for request last time */
   lastParams: P | null;
+  /* Is this even been requested? False after first request action */
+  dirty: boolean;
 }
 
 export type ResourceAtomOptions = {

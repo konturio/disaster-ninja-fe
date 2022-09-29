@@ -5,13 +5,7 @@ import { store } from '~core/store/store';
 import { isErrorWithMessage } from '~utils/common';
 import { ABORT_ERROR_MESSAGE, isAbortError } from './abort-error';
 import type { ResourceAtomOptions, ResourceAtomState, Fetcher } from './types';
-import type {
-  Action,
-  Atom,
-  AtomBinded,
-  AtomSelfBinded,
-  AtomState,
-} from '@reatom/core';
+import type { Action, Atom, AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
 
 type ResourceCtx = {
   abortController?: null | AbortController;
@@ -48,18 +42,12 @@ export function createResourceAtom<
   fetcher: F,
   name: string,
   resourceAtomOptions: ResourceAtomOptions = {},
-): AtomSelfBinded<
-  ResourceAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
-  Deps<D, F>
-> {
+): AtomSelfBinded<ResourceAtomState<AtomState<D>, Awaited<ReturnType<F>>>, Deps<D, F>> {
   const options: ResourceAtomOptions = {
     lazy: resourceAtomOptions.lazy ?? defaultOptions.lazy,
-    inheritState:
-      resourceAtomOptions.inheritState ?? defaultOptions.inheritState,
+    inheritState: resourceAtomOptions.inheritState ?? defaultOptions.inheritState,
     store: resourceAtomOptions.store ?? defaultOptions.store,
   };
-
-  let wasNeverRequested = true; // Is this even been requested? False after first request action
 
   const deps: Deps<D, F> = {
     request: (params) => params,
@@ -87,13 +75,14 @@ export function createResourceAtom<
         data: null,
         error: null,
         lastParams: null,
+        dirty: true,
       },
     ) => {
       type Context = ResourceCtx;
       const newState = { ...state };
 
       onAction('request', (params) => {
-        wasNeverRequested = false; // For unblock refetch
+        newState.dirty = false; // For unblock refetch
         schedule(async (dispatch, ctx: Context) => {
           // Before making new request we should abort previous request
           // If some request active right now we have abortController
@@ -158,7 +147,7 @@ export function createResourceAtom<
       // Force refetch, useful for polling
       onAction('refetch', () => {
         schedule((dispatch, ctx: Context) => {
-          if (wasNeverRequested) {
+          if (!state.dirty) {
             console.error(`[${name}]:`, 'Do not call refetch before request');
             return;
           }
@@ -197,15 +186,11 @@ export function createResourceAtom<
             }
 
             if (!depsAtomState.loading && !depsAtomState.error) {
-              schedule((dispatch) =>
-                dispatch(create('request', depsAtomState as any)),
-              );
+              schedule((dispatch) => dispatch(create('request', depsAtomState as any)));
             }
           } else {
             // Deps is primitive
-            schedule((dispatch) =>
-              dispatch(create('request', depsAtomState as any)),
-            );
+            schedule((dispatch) => dispatch(create('request', depsAtomState as any)));
           }
         });
       }
