@@ -192,11 +192,11 @@
   .contentWrap {
     /* panel columns column, map column */
     grid-template-columns: 40px minmax(40px, 100vw);
-    /* 
-      1 row 1 col - analytics, 
-      2 row 1 col - advancedAnalytics, 
-      3 row 1 col - layersCol, 
-      4-5 row 1-2 col - footer 
+    /*
+      1 row 1 col - analytics,
+      2 row 1 col - advancedAnalytics,
+      3 row 1 col - layersCol,
+      4-5 row 1-2 col - footer
 
       1 - 3 row 2 col - map
     */
@@ -289,23 +289,4 @@
 
 .afterChatContentWrap {
   display: flex;
-}
-.link {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-style: normal;
-  font-family: var(--font-family);
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  text-decoration: none;
-  color: var(--button-invert-color);
-
-  &:hover {
-    color: var(--primary-focus-outline-regular);
-  }
-
-  & span {
-    line-height: 0;
-  }
 }
