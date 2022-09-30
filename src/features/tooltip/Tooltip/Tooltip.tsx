@@ -89,7 +89,10 @@ export function Tooltip({
       >
         {position && (
           <div className={clsx(s.popup, s[position])}>
-            <div className={s.popupContent} onClick={stopPropagation}>
+            <div
+              className={clsx(s.popupContent, properties.popupClasses?.popupContent)}
+              onClick={stopPropagation}
+            >
               {typeof properties.popup === 'string' ? (
                 <ReactMarkdown components={{ a: LinkRenderer }} className={s.markdown}>
                   {parseLinksAsTags(properties.popup)}
