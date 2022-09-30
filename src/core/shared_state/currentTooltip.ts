@@ -6,6 +6,7 @@ export type Coords = { x: number; y: number; predefinedPosition?: Position };
 export type TooltipData = {
   position: Coords;
   popup: string | JSX.Element;
+  popupClasses?: { popupContent?: string };
   onOuterClick?: (event, closeTooltip: () => void) => void;
   hoverBehavior?: boolean;
   initiatorId?: string;

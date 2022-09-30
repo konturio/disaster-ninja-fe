@@ -5,7 +5,7 @@ import { TooltipWrapper } from '~components/Tooltip';
 import { formatSentimentDirection } from '~utils/bivariate';
 import { CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';
-import type { ReactNode, PointerEvent } from 'react';
+import type { ReactNode, MouseEvent } from 'react';
 import type { Cell } from '@konturio/ui-kit/tslib/Legend/types';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { TooltipData } from '~core/shared_state/currentTooltip';
@@ -17,7 +17,7 @@ export type CornerTooltipWrapperProps = {
 
 const CornerTooltipWrapper = ({ children, hints }: CornerTooltipWrapperProps) => {
   const renderTooltip = (
-    e: PointerEvent<Element>,
+    e: MouseEvent<Element>,
     setTooltip: (tooltipData: TooltipData) => void,
     _cell: Cell,
     i: number,
