@@ -1,25 +1,11 @@
 import { createStore } from '@reatom/core';
 import { expect, test, describe, vi, beforeEach } from 'vitest';
-import { createResourceAtom } from './createResourceAtom';
+import { incrementId, wait } from '~utils/test';
+import { createAsyncAtom } from './createAsyncAtom';
 import { ABORT_ERROR_MESSAGE } from './abort-error';
 import type { Store } from '@reatom/core';
 
-const id = (() => {
-  const idCreator = function* () {
-    let i = 0;
-    while (true) yield i++;
-  };
-  const idsGenerator = idCreator();
-  return () => String(idsGenerator.next().value);
-})();
-
-const wait = (sec = 1, opt: { failWithMessage?: string } = {}) =>
-  new Promise((res, rej) =>
-    setTimeout(
-      opt?.failWithMessage ? () => rej({ message: opt.failWithMessage }) : res,
-      sec,
-    ),
-  );
+const id = incrementId;
 
 declare module 'vitest' {
   export interface TestContext {
@@ -33,7 +19,7 @@ beforeEach(async (context) => {
 
 describe('Resource atom add resource state structure', () => {
   test('have correct initial state', ({ store }) => {
-    const resAtomA = createResourceAtom(null, async () => null, 'resAtomA', {
+    const resAtomA = createAsyncAtom(null, async () => null, 'resAtomA', {
       store,
     });
 
@@ -47,7 +33,7 @@ describe('Resource atom add resource state structure', () => {
   });
 
   test('have correct loading state', ({ store }) => {
-    const resAtomA = createResourceAtom(null, async () => await wait(1), 'resAtomA', {
+    const resAtomA = createAsyncAtom(null, async () => await wait(1), 'resAtomA', {
       store,
     });
     store.dispatch(resAtomA.request(null));
@@ -58,7 +44,7 @@ describe('Resource atom add resource state structure', () => {
   });
 
   test('have correct lastParams state', async ({ store }) => {
-    const resAtomA = createResourceAtom(null, async () => await wait(1), 'resAtomA', {
+    const resAtomA = createAsyncAtom(null, async () => await wait(1), 'resAtomA', {
       store,
     });
     store.dispatch(resAtomA.request('foo'));
@@ -68,7 +54,7 @@ describe('Resource atom add resource state structure', () => {
   });
 
   test('have correct error state', async ({ store }) => {
-    const resAtomA = createResourceAtom(
+    const resAtomA = createAsyncAtom(
       null,
       async () => await wait(1, { failWithMessage: 'Test error' }),
       'resAtomA',
@@ -80,7 +66,7 @@ describe('Resource atom add resource state structure', () => {
   });
 
   test('have correct data state', async ({ store }) => {
-    const resAtomA = createResourceAtom(
+    const resAtomA = createAsyncAtom(
       null,
       async () => {
         await wait(1);
@@ -102,7 +88,7 @@ describe('Resource canceling', () => {
     store,
   }) => {
     const onAbort = vi.fn(async () => null);
-    const resAtomA = createResourceAtom(
+    const resAtomA = createAsyncAtom(
       null,
       async (value, abortController) => {
         abortController.signal.addEventListener('abort', onAbort);
@@ -125,7 +111,7 @@ describe('Resource canceling', () => {
   }) => {
     const stateChangesLog = vi.fn(async (arg) => null);
 
-    const resAtomA = createResourceAtom(
+    const resAtomA = createAsyncAtom(
       null,
       async (value, abortController) => {
         await Promise.race([
@@ -194,7 +180,7 @@ describe('Resource canceling', () => {
   test('Resource set error state after canceled by cancel action', async ({ store }) => {
     const stateChangesLog = vi.fn(async (arg) => null);
 
-    const resAtomA = createResourceAtom(
+    const resAtomA = createAsyncAtom(
       null,
       async (value, abortController) => {
         await Promise.race([
@@ -248,7 +234,7 @@ describe('Resource canceling', () => {
   }) => {
     const stateChangesLog = vi.fn(async (arg) => null);
 
-    const resAtomA = createResourceAtom(
+    const resAtomA = createAsyncAtom(
       null,
       async (value) => {
         // I'am not rise any error in fetcher on cancel
@@ -298,7 +284,7 @@ describe('Resource refetch', () => {
 
 describe('Resource atoms chaining state', () => {
   test('Inherit loading state', async ({ store }) => {
-    const resAtomA = createResourceAtom(
+    const resAtomA = createAsyncAtom(
       null,
       async () => {
         await wait(1);
@@ -307,7 +293,7 @@ describe('Resource atoms chaining state', () => {
       { store },
     );
 
-    const resAtomB = createResourceAtom(
+    const resAtomB = createAsyncAtom(
       resAtomA,
       async () => {
         await wait(1);
@@ -322,7 +308,7 @@ describe('Resource atoms chaining state', () => {
   });
 
   test('Inherit error state', async ({ store }) => {
-    const resAtomA = createResourceAtom(
+    const resAtomA = createAsyncAtom(
       null,
       async () => {
         await wait(1, { failWithMessage: 'Test error' });
@@ -331,7 +317,7 @@ describe('Resource atoms chaining state', () => {
       { store },
     );
 
-    const resAtomB = createResourceAtom(
+    const resAtomB = createAsyncAtom(
       resAtomA,
       async () => {
         await wait(1);
@@ -346,7 +332,7 @@ describe('Resource atoms chaining state', () => {
   });
 
   test.todo('Not inherit loading state when chaining disabled', async ({ store }) => {
-    const resAtomA = createResourceAtom(
+    const resAtomA = createAsyncAtom(
       null,
       async () => {
         await wait(1);
@@ -358,7 +344,7 @@ describe('Resource atoms chaining state', () => {
     resAtomA.subscribe(() => null);
     await wait(1);
 
-    const resAtomB = createResourceAtom(
+    const resAtomB = createAsyncAtom(
       resAtomA,
       async () => {
         await wait(1);

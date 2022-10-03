@@ -12,3 +12,19 @@ export function setupDefaultLayersMocking(axiosInstance: AxiosInstance) {
 
   setupMocking(axiosInstance);
 }
+
+export function mockClient(
+  axiosInstance: AxiosInstance,
+  overrides: Record<string, () => any>,
+) {
+  const { baseURL } = axiosInstance.defaults;
+  if (baseURL === undefined) return;
+
+  Object.entries(overrides).forEach(([url, cb]) => {
+    addMock(getMockKey(baseURL, url), {
+      data: cb(),
+    });
+  });
+
+  setupMocking(axiosInstance);
+}

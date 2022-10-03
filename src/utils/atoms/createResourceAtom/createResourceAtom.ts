@@ -1,211 +1,280 @@
 import { isObject } from '@reatom/core';
-import { memo } from '@reatom/core/experiments';
+import { memo } from '@reatom/core/experiments/memo';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { store } from '~core/store/store';
-import { isErrorWithMessage } from '~utils/common';
-import { ABORT_ERROR_MESSAGE, isAbortError } from './abort-error';
-import type { ResourceAtomOptions, ResourceAtomState, Fetcher } from './types';
-import type { Atom, AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
+import { isApiError } from '~core/api_client/apiClientError';
+import type { Atom, AtomSelfBinded, Action } from '@reatom/core';
 
-type ResourceCtx = {
-  abortController?: null | AbortController;
-  activeRequest?: Promise<any>;
+export type ResourceAtom<P, T> = AtomSelfBinded<
+  ResourceAtomState<T, P>,
+  {
+    request: (params?: P | undefined) => T | undefined;
+    refetch: () => undefined;
+    done: (data: T) => P;
+    error: (error: string) => string;
+    finally: () => null;
+  }
+>;
+
+interface ResourceAtomState<T, P> {
+  loading: boolean;
+  error: string | null;
+  data: T | null;
+  canceled: boolean;
+  lastParams: P | null;
+  nextParams?: P | null;
+}
+
+type FetcherFunc<P, T> = (params?: P | null) => Promise<T>;
+type FetcherProcessor<T> = () => Promise<T>;
+type FetcherCanceller<P> = (context: ResourceCtx<P>) => void;
+type FetcherFabric<P, T> = (params?: P | null) => {
+  processor: FetcherProcessor<T>;
+  canceller?: FetcherCanceller<P>;
+  allowCancel?: boolean;
 };
 
-const defaultOptions: ResourceAtomOptions = {
-  inheritState: false,
-  store: store,
+export type ResourceCtx<P> = {
+  version?: number;
+  lastParams?: P | null;
+  _refetchable?: boolean;
+  canceller?: FetcherCanceller<P>;
+  allowCancel?: boolean;
 };
 
-type Deps<D extends AtomBinded, F extends Fetcher<AtomState<D> | null, any>> = {
-  request: (params: AtomState<D>) => typeof params;
-  refetch: () => null;
-  cancel: () => null;
-  _done: (
-    params: AtomState<D>,
-    data: Awaited<ReturnType<F>>,
-  ) => { params: typeof params; data: typeof data };
-  _error: (
-    params: AtomState<D>,
-    error: string,
-  ) => { params: typeof params; error: typeof error };
-  _loading: (params: AtomState<D>) => { params: typeof params };
-  depsAtom?: Atom<ResourceAtomState<unknown, unknown>> | Atom<unknown>;
-};
-
-export function createResourceAtom<
-  F extends Fetcher<AtomState<D> | null, any>,
-  D extends AtomBinded,
->(
-  atom: D | null,
-  fetcher: F,
+function createResourceFetcherAtom<P, T>(
+  fetcher: FetcherFunc<P, T> | FetcherFabric<P, T>,
   name: string,
-  resourceAtomOptions: ResourceAtomOptions = {},
-): AtomSelfBinded<ResourceAtomState<AtomState<D>, Awaited<ReturnType<F>>>, Deps<D, F>> {
-  const options: ResourceAtomOptions = {
-    lazy: resourceAtomOptions.lazy ?? defaultOptions.lazy,
-    inheritState: resourceAtomOptions.inheritState ?? defaultOptions.inheritState,
-    store: resourceAtomOptions.store ?? defaultOptions.store,
+  autoFetchAtom?: Atom,
+): ResourceAtomType<P, T> {
+  const deps = {
+    request: (params: P | null) => params,
+    refetch: () => undefined,
+    done: (data: T) => data,
+    error: (error: string) => error,
+    cancel: (nextParams: P | null, prevParams: P | null) => {
+      return { nextParams, prevParams };
+    },
+    loading: () => undefined,
+    finally: () => null,
   };
 
-  const deps: Deps<D, F> = {
-    request: (params) => params,
-    refetch: () => null,
-    cancel: () => null,
-    _done: (params, data) => ({ params, data }),
-    _error: (params, error) => ({ params, error }),
-    _loading: (params) => ({ params }),
-  };
-
-  if (atom) {
-    deps.depsAtom = atom;
+  if (autoFetchAtom) {
+    deps['autoFetch'] = autoFetchAtom;
   }
 
-  const resourceAtom: AtomSelfBinded<
-    ResourceAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
-    Deps<D, F>
-  > = createAtom(
+  return createAtom(
     deps,
     (
       { onAction, schedule, create, onChange },
-      state: ResourceAtomState<AtomState<D>, Awaited<ReturnType<F>>> = {
+      state: ResourceAtomState<T, P> = {
         loading: false,
         data: null,
         error: null,
+        canceled: false,
         lastParams: null,
-        dirty: false,
       },
     ) => {
-      type Context = ResourceCtx;
       const newState = { ...state };
 
+      if (autoFetchAtom) {
+        // Use this hack to provide lazy resourceAtoms to depend on autofetch atom
+        // So, because autofetch atom is in dependency now, no need to manually trigger autofetch atom
+        // to start working with atom.subscribe(() => null) (see line 238). Atom will start working automatically when resourceFetcher
+        // atom is needed and stop working when all features that require resourceFetcher are off
+        // @ts-ignore
+        onChange('autoFetch', () => null);
+      }
+
       onAction('request', (params) => {
-        newState.dirty = true; // For unblock refetch
-        schedule(async (dispatch, ctx: Context) => {
-          // Before making new request we should abort previous request
-          // If some request active right now we have abortController
-          if (ctx.abortController) {
-            ctx.abortController.abort();
-            ctx.abortController = null;
-            /**
-             * In case when we cancel active request by another request
-             * without this lines we have wrong sequence
-             * 1) Loading A
-             *    (new request)
-             * 2) Loading B
-             * 3) Error - A canceled
-             *
-             * This hackish solution the only way I found to make order correct
-             * 1) Loading A
-             *    (new request)
-             * 2) Error - A canceled
-             * 3) Loading B
-             */
-            const isAfterAbort = await ctx.activeRequest!.catch((e: unknown) =>
-              isAbortError(e),
-            );
-            if (isAfterAbort) {
-              // This is abort transaction just for abort previous request.
-              // Move this request to next transaction
-              dispatch(create('request', params));
-            } // else - just regular error, no additional actions
-            return;
+        newState.lastParams = params ? { ...params } : params;
+        newState.loading = true;
+        newState.error = null;
+        newState.canceled = false;
+        schedule(async (dispatch, ctx: ResourceCtx<P>) => {
+          const version = (ctx.version ?? 0) + 1;
+          ctx._refetchable = true;
+          ctx.version = version;
+          ctx.lastParams = params; // explicit set that request no have any parameters
+
+          // cancel previous request if we have a special function for it
+          if (ctx.canceller) {
+            ctx.canceller(ctx);
+            ctx.canceller = undefined;
           }
-          dispatch(create('_loading', params));
-          const abortController = new AbortController();
+
+          let requestAction: Action | null = null;
           try {
-            ctx.abortController = abortController;
-            ctx.activeRequest = fetcher(params, abortController);
-            const fetcherResult = await ctx.activeRequest;
-            abortController.signal.throwIfAborted(); // Alow set canceled state, even if abort error was catched inside fetcher
-            if (ctx.abortController === abortController) {
-              // Check that new request was not created
-              dispatch(create('_done', params, fetcherResult));
+            let response: T;
+            const fetcherResult = params === undefined ? fetcher() : fetcher(params);
+            if ('processor' in fetcherResult) {
+              const { processor, canceller, allowCancel } = fetcherResult;
+              ctx.canceller = canceller;
+              ctx.allowCancel = allowCancel || Boolean(canceller);
+              try {
+                response = await processor();
+              } catch (e) {
+                if (isApiError(e) && e.problem.kind === 'canceled') {
+                  return;
+                }
+                throw e;
+              }
+            } else {
+              response = await fetcherResult;
             }
-          } catch (e) {
-            if (isAbortError(e)) {
-              dispatch(create('_error', params, ABORT_ERROR_MESSAGE));
-            } else if (ctx.abortController === abortController) {
-              console.error(`[${name}]:`, e);
-              const errorMessage = isErrorWithMessage(e)
-                ? e.message
-                : typeof e === 'string'
-                ? e
-                : 'Unknown';
-              dispatch(create('_error', params, errorMessage));
+            if (ctx.version === version) {
+              if (ctx.canceller) {
+                ctx.canceller = undefined;
+              }
+              requestAction = create('done', response);
+            }
+          } catch (e: any) {
+            console.error(`[${name}]:`, e);
+            if (ctx.version === version) {
+              requestAction = create('error', e.message ?? e ?? true);
+            }
+          } finally {
+            // that's when request was canceled
+            if (version !== ctx.version) {
+              // extra dispatch allows resource subscribers to proccess cancel event and then
+              // process the response of the next event
+              if (ctx.allowCancel) {
+                // if another request was fired - ctx.lastParams would be overwritten with latest params
+                // so on the cancel we'd be able to compare those two if needed
+                dispatch(create('cancel', ctx.lastParams, params));
+              }
+            }
+            if (requestAction) {
+              dispatch([requestAction, create('finally')]);
             }
           }
         });
       });
 
-      // Force refetch, useful for polling
+      // Force refetch, usefull for polling
       onAction('refetch', () => {
-        schedule((dispatch, ctx: Context) => {
-          if (!state.dirty) {
+        schedule((dispatch, ctx: ResourceCtx<P>) => {
+          if (ctx._refetchable === false) {
             console.error(`[${name}]:`, 'Do not call refetch before request');
             return;
           }
-          dispatch(create('request', newState.lastParams!));
+          dispatch(create('request', ctx.lastParams as P | null));
         });
       });
 
-      onAction('cancel', () => {
-        schedule(async (dispatch, ctx: Context) => {
-          if (ctx.abortController) {
-            // console.log('need cancel prev')
-            ctx.abortController.abort();
-            ctx.abortController = null;
-          }
-        });
-      });
-
-      onAction('_loading', ({ params }) => {
+      onAction('loading', () => {
         newState.loading = true;
         newState.error = null;
-        newState.lastParams = params;
+        newState.canceled = false;
       });
 
-      onAction('_error', ({ params, error }) => {
-        newState.error = error;
-        newState.lastParams = params;
-        newState.loading = false;
+      onAction('cancel', ({ nextParams, prevParams }) => {
+        newState.canceled = true;
+        newState.nextParams = nextParams;
+        newState.lastParams = prevParams;
       });
 
-      onAction('_done', ({ data, params }) => {
+      onAction('error', (error) => (newState.error = error));
+      onAction('done', (data) => {
         newState.data = data;
-        newState.error = null;
-        newState.loading = false;
-        newState.lastParams = params;
+        newState.canceled = false;
+        newState.nextParams = null;
       });
+      onAction('finally', () => (newState.loading = false));
 
-      if (deps.depsAtom) {
-        onChange('depsAtom', (depsAtomState: unknown) => {
-          if (isObject(depsAtomState)) {
-            // Deps is resource atom-like object
-            if (options.inheritState) {
-              // console.log('deps change')
-              newState.loading = depsAtomState.loading || newState.loading;
-              newState.error = depsAtomState.error || newState.error;
-            }
-
-            if (!depsAtomState.loading && !depsAtomState.error) {
-              schedule((dispatch) => dispatch(create('request', depsAtomState as any)));
-            }
-          } else {
-            // Deps is primitive
-            schedule((dispatch) => dispatch(create('request', depsAtomState as any)));
-          }
-        });
-      }
-      // return notDeepMemo(newState);
+      // Significant reduce renders count
+      // Replace it with memo decorator if it cause of bugs
       return newState;
     },
     {
       id: name,
-      store: options.store,
-      decorators: [memo()], // This prevent updates when prev state and next state deeply equal
+      decorators: [memo()],
     },
   );
+}
 
-  return resourceAtom;
+/**
+ * You can chain this resources!
+ * The demo:
+ * https://codesandbox.io/s/reatom-resource-atom-complex-qwi3h
+ */
+
+export type ResourceAtomType<P, T> = AtomSelfBinded<
+  ResourceAtomState<T, P>,
+  {
+    request: (params: P | null) => P | null;
+    refetch: () => undefined;
+    done: (data: T) => T;
+    error: (error: string) => string;
+    cancel: (
+      nextParams: P | null,
+      prevParams: P | null,
+    ) => { nextParams: P | null; prevParams: P | null };
+    loading: () => undefined;
+    finally: () => null;
+  }
+>;
+
+const voidCallback = () => null;
+
+export function createResourceAtom<P, T>(
+  fetcher: FetcherFunc<P, T> | FetcherFabric<P, T>,
+  name: string,
+  paramsAtom?: Atom<P> | ResourceAtom<any, any> | null,
+  isLazy = false,
+): ResourceAtomType<P, T> {
+  let resourceFetcherAtom: ResourceAtomType<P, T>;
+
+  if (paramsAtom) {
+    const autoFetchAtom = createAtom({ paramsAtom }, ({ onChange, schedule }) => {
+      onChange('paramsAtom', (newParams, prevParams) => {
+        schedule((dispatch) => {
+          if (isObject(newParams)) {
+            // Check states than we can be escalated
+            if ('canceled' in newParams && newParams.canceled) {
+              dispatch(
+                resourceFetcherAtom.cancel(
+                  newParams as unknown as P,
+                  prevParams as unknown as P,
+                ),
+              );
+              return;
+            }
+            if ('loading' in newParams && newParams.loading) {
+              dispatch(resourceFetcherAtom.loading());
+              return;
+            }
+            if ('error' in newParams && newParams.error !== null) {
+              dispatch([
+                resourceFetcherAtom.error(newParams.error),
+                resourceFetcherAtom.finally(),
+              ]);
+              return;
+            }
+            if ('data' in newParams) {
+              dispatch(resourceFetcherAtom.request(newParams.data));
+              return;
+            }
+          }
+          // If not, just pass data to fetcher
+          dispatch(resourceFetcherAtom.request(newParams));
+        });
+      });
+    });
+
+    if (isLazy) {
+      resourceFetcherAtom = createResourceFetcherAtom<P, T>(fetcher, name, autoFetchAtom);
+    } else {
+      resourceFetcherAtom = createResourceFetcherAtom<P, T>(fetcher, name);
+      // Start after core modules loaded
+      setTimeout(() => {
+        autoFetchAtom.subscribe(voidCallback);
+      });
+    }
+  } else {
+    resourceFetcherAtom = createResourceFetcherAtom<P, T>(fetcher, name);
+    // auto start resource atom that has no params atom controlling it's flow
+    resourceFetcherAtom.request.dispatch(null);
+  }
+
+  return resourceFetcherAtom;
 }
