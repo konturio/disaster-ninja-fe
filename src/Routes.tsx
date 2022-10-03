@@ -1,4 +1,4 @@
-import { StrictMode, Suspense } from 'react';
+import { StrictMode, Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
 import { Router, Route, Redirect } from 'react-router-dom';
@@ -21,6 +21,34 @@ const { BivariateManagerPage } = lazily(
 
 export function RoutedApp() {
   const [{ data: userModel, loading }] = useAtom(userResourceAtom);
+
+  function isFirstTimeVisit() {
+    const firstTimeVisit =
+      userModel &&
+      !loading &&
+      location.pathname == '/' &&
+      location.search == '' &&
+      !localStorage.getItem('landed');
+    if (firstTimeVisit) {
+      localStorage.setItem('landed', 'yes');
+      return true;
+    }
+    return false;
+  }
+
+  useEffect(() => {
+    // redirect first-time visitor "/" -> "/about"
+    if (!isFirstTimeVisit()) {
+      return;
+    }
+    const timeoutId = setTimeout(() => {
+      history.push(APP_ROUTES.about);
+    }, 999);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [loading]);
+
   return (
     <StrictMode>
       <OriginalLogo />
