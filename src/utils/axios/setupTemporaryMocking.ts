@@ -1,4 +1,9 @@
-import { addMock, setupMocking, getMockKey } from '~utils/axios/axiosMockUtils';
+import {
+  addMock,
+  deleteMock,
+  setupMocking,
+  getMockKey,
+} from '~utils/axios/axiosMockUtils';
 import appConfig from '~core/app_config';
 import type { AxiosInstance } from 'axios';
 
@@ -18,7 +23,6 @@ export function mockClient(
   overrides: Record<string, () => any>,
 ) {
   const { baseURL } = axiosInstance.defaults;
-  if (baseURL === undefined) return;
 
   Object.entries(overrides).forEach(([url, cb]) => {
     addMock(getMockKey(baseURL, url), {
@@ -27,4 +31,9 @@ export function mockClient(
   });
 
   setupMocking(axiosInstance);
+  return () => {
+    Object.entries(overrides).forEach(([url, cb]) => {
+      deleteMock(getMockKey(baseURL, url));
+    });
+  };
 }
