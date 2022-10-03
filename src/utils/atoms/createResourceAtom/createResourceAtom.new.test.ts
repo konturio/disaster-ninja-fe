@@ -50,7 +50,7 @@ describe('Resource atom add resource state structure', () => {
     const resAtomA = createResourceAtom(null, async () => await wait(1), 'resAtomA', {
       store,
     });
-    resAtomA.request.dispatch(null);
+    store.dispatch(resAtomA.request(null));
     expect(resAtomA.getState()).toMatchObject({
       loading: true,
       error: null,
@@ -61,7 +61,7 @@ describe('Resource atom add resource state structure', () => {
     const resAtomA = createResourceAtom(null, async () => await wait(1), 'resAtomA', {
       store,
     });
-    resAtomA.request.dispatch('foo');
+    store.dispatch(resAtomA.request('foo'));
     expect(resAtomA.getState()).toMatchObject({
       lastParams: 'foo',
     });
@@ -74,7 +74,7 @@ describe('Resource atom add resource state structure', () => {
       'resAtomA',
       { store },
     );
-    resAtomA.request.dispatch('foo');
+    store.dispatch(resAtomA.request('foo'));
     await wait(1);
     expect(resAtomA.getState().error).toBe('Test error');
   });
@@ -89,7 +89,7 @@ describe('Resource atom add resource state structure', () => {
       id(),
       { store },
     );
-    resAtomA.request.dispatch('foo');
+    store.dispatch(resAtomA.request('foo'));
     await wait(1);
     expect(resAtomA.getState()).toMatchObject({
       data: 1,
@@ -114,9 +114,9 @@ describe('Resource canceling', () => {
         store,
       },
     );
-    resAtomA.request.dispatch(1);
+    store.dispatch(resAtomA.request(1));
     await wait(0.5);
-    resAtomA.request.dispatch(2);
+    store.dispatch(resAtomA.request(2));
     expect(onAbort).toHaveBeenCalledTimes(1);
   });
 
@@ -149,29 +149,44 @@ describe('Resource canceling', () => {
 
     resAtomA.subscribe((s) => stateChangesLog(s));
 
-    resAtomA.request.dispatch(1);
+    store.dispatch(resAtomA.request(1));
     await wait(1);
-    resAtomA.request.dispatch(2);
+    store.dispatch(resAtomA.request(2));
 
-    // State change with error should be - 3
-    // 1) initial state
-    //    (first request)
-    // 2) first request loading state
-    //    (second request)
-    // 3) first request canceled state <- this is we looking for!
-    // 4) second request loading state
-
-    // wait 3 state changes
-    // * Currently reatom generate +1 extra update before error state because of internal bug
-    while (stateChangesLog.mock.calls.length < 4) {
+    while (stateChangesLog.mock.calls.length < 5) {
       await wait(1);
     }
 
-    expect(stateChangesLog).toHaveBeenNthCalledWith(4, {
-      error: ABORT_ERROR_MESSAGE,
+    // first request loading state
+    expect(stateChangesLog).toHaveBeenNthCalledWith(2, {
+      loading: true,
       data: null,
-      lastParams: 1, // should have parameters of request that was canceled
+      error: null,
+      lastParams: 1,
+      dirty: true,
+    });
+
+    expect(stateChangesLog).toHaveBeenNthCalledWith(3, {
       loading: false, // should out from loading state
+      data: null,
+      error: ABORT_ERROR_MESSAGE,
+      lastParams: 1, // should have parameters of request that was canceled
+      dirty: true,
+    });
+
+    expect(stateChangesLog).toHaveBeenNthCalledWith(4, {
+      loading: true,
+      data: null,
+      error: null, // reset error on new request
+      lastParams: 2,
+      dirty: true,
+    });
+
+    expect(stateChangesLog).toHaveBeenNthCalledWith(5, {
+      loading: false,
+      data: 2,
+      error: null,
+      lastParams: 2,
       dirty: true,
     });
   });
@@ -203,28 +218,27 @@ describe('Resource canceling', () => {
 
     resAtomA.subscribe((s) => stateChangesLog(s));
 
-    resAtomA.request.dispatch(1);
+    store.dispatch(resAtomA.request(1));
     await wait(1);
-    resAtomA.cancel.dispatch();
+    store.dispatch(resAtomA.cancel());
 
-    // State change with error should be - 3
-    // 1) initial state
-    //    (first request)
-    // 2) first request loading state
-    //    (second request)
-    // 3) first request canceled state <- this is we looking for!
-    // 4) second request loading state
-
-    // wait 3 state changes
-    // * Currently reatom generate +1 extra update before error state because of internal bug
-    while (stateChangesLog.mock.calls.length < 4) {
+    while (stateChangesLog.mock.calls.length < 3) {
       await wait(1);
     }
-    expect(stateChangesLog).toHaveBeenNthCalledWith(4, {
-      error: ABORT_ERROR_MESSAGE,
+
+    expect(stateChangesLog).toHaveBeenNthCalledWith(2, {
+      loading: true,
       data: null,
-      lastParams: 1, // should have parameters of request that was canceled
+      error: null,
+      lastParams: 1,
+      dirty: true,
+    });
+
+    expect(stateChangesLog).toHaveBeenNthCalledWith(3, {
       loading: false, // should out from loading state
+      data: null,
+      error: ABORT_ERROR_MESSAGE,
+      lastParams: 1, // should have parameters of request that was canceled
       dirty: true,
     });
   });
@@ -239,6 +253,7 @@ describe('Resource canceling', () => {
       async (value) => {
         // I'am not rise any error in fetcher on cancel
         // It's the similar to wrap real fetcher in try catch
+        // Because our client rise error on cancel signal automatically
         await wait(5);
         return value;
       },
@@ -250,23 +265,14 @@ describe('Resource canceling', () => {
 
     resAtomA.subscribe((s) => stateChangesLog(s));
 
-    resAtomA.request.dispatch(1);
+    store.dispatch(resAtomA.request(1));
     await wait(1);
-    resAtomA.request.dispatch(2);
+    store.dispatch(resAtomA.request(2));
 
-    // State change with error should be - 3
-    // 1) initial state
-    //    (first request)
-    // 2) first request loading state
-    //    (second request)
-    // 3) first request canceled state <- this is we looking for!
-    // 4) second request loading state
-
-    // wait 3 state changes
-    while (stateChangesLog.mock.calls.length < 4) {
+    while (stateChangesLog.mock.calls.length < 3) {
       await wait(1);
     }
-    expect(stateChangesLog).toHaveBeenNthCalledWith(4, {
+    expect(stateChangesLog).toHaveBeenNthCalledWith(3, {
       error: ABORT_ERROR_MESSAGE,
       dirty: true,
       data: null,
@@ -310,7 +316,7 @@ describe('Resource atoms chaining state', () => {
       { store },
     );
 
-    resAtomA.request.dispatch(null);
+    store.dispatch(resAtomA.request(null));
     await wait(0.1);
     expect(resAtomB.getState().loading).toBe(true);
   });
@@ -334,7 +340,7 @@ describe('Resource atoms chaining state', () => {
       { store, inheritState: true },
     );
 
-    resAtomA.request.dispatch(null);
+    store.dispatch(resAtomA.request(null));
     await wait(0.1);
     expect(resAtomB.getState().error).toBe('Test error');
   });

@@ -37,7 +37,8 @@
     "auto:cosmos:renderer": "vite --config cosmos.vite.config.ts --force serve --port=8080",
     "auto:cosmos:renderer:export": "vite build --config cosmos.vite.config.ts",
     "link:ui-kit": "npm link @konturio/ui-kit @konturio/default-theme @konturio/default-icons",
-    "release": "node ./scripts/auto-release/index.mjs"
+    "release": "node ./scripts/auto-release/index.mjs",
+    "link:ui": "node ./scripts/auto-link/index.mjs"
   },
   "lint-staged": {
     "*/**/*.{ts,tsx}": [
@@ -75,7 +76,7 @@
     "@loaders.gl/core": "^3.2.3",
     "@nebula.gl/edit-modes": "1.0.3",
     "@nebula.gl/layers": "1.0.3",
-    "@reatom/core": "^2.0.20",
+    "@reatom/core": "^2.0.22",
     "@reatom/react": "^2.0.15",
     "@turf/area": "6.x",
     "@turf/bbox": "^6.0.1",

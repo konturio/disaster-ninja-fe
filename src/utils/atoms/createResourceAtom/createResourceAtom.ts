@@ -1,11 +1,11 @@
 import { isObject } from '@reatom/core';
 import { memo } from '@reatom/core/experiments';
-import { createAtom, createPrimitiveAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~utils/atoms/createPrimitives';
 import { store } from '~core/store/store';
 import { isErrorWithMessage } from '~utils/common';
 import { ABORT_ERROR_MESSAGE, isAbortError } from './abort-error';
 import type { ResourceAtomOptions, ResourceAtomState, Fetcher } from './types';
-import type { Action, Atom, AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
+import type { Atom, AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
 
 type ResourceCtx = {
   abortController?: null | AbortController;
@@ -80,14 +80,11 @@ export function createResourceAtom<
       const newState = { ...state };
 
       onAction('request', (params) => {
-        // console.log('request')
         newState.dirty = true; // For unblock refetch
         schedule(async (dispatch, ctx: Context) => {
-          // console.log('schedule')
           // Before making new request we should abort previous request
           // If some request active right now we have abortController
           if (ctx.abortController) {
-            // console.log('need cancel prev')
             ctx.abortController.abort();
             ctx.abortController = null;
             /**
@@ -108,7 +105,6 @@ export function createResourceAtom<
               isAbortError(e),
             );
             if (isAfterAbort) {
-              // console.log('repeat new request in next trans')
               // This is abort transaction just for abort previous request.
               // Move this request to next transaction
               dispatch(create('request', params));
@@ -123,7 +119,6 @@ export function createResourceAtom<
             const fetcherResult = await ctx.activeRequest;
             abortController.signal.throwIfAborted(); // Alow set canceled state, even if abort error was catched inside fetcher
             if (ctx.abortController === abortController) {
-              // console.log('request ended')
               // Check that new request was not created
               dispatch(create('_done', params, fetcherResult));
             }
@@ -165,21 +160,18 @@ export function createResourceAtom<
       });
 
       onAction('_loading', ({ params }) => {
-        // console.log('>> set loading state')
         newState.loading = true;
         newState.error = null;
         newState.lastParams = params;
       });
 
       onAction('_error', ({ params, error }) => {
-        // console.log('>> set error state')
         newState.error = error;
         newState.lastParams = params;
         newState.loading = false;
       });
 
       onAction('_done', ({ data, params }) => {
-        // console.log('>> set done state')
         newState.data = data;
         newState.error = null;
         newState.loading = false;
@@ -205,11 +197,12 @@ export function createResourceAtom<
           }
         });
       }
-      // console.log('>>>', JSON.stringify(newState, null, 2))
+      // return notDeepMemo(newState);
       return newState;
     },
     {
       id: name,
+      store: options.store,
       decorators: [memo()], // This prevent updates when prev state and next state deeply equal
     },
   );
