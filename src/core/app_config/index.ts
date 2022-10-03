@@ -29,6 +29,31 @@ declare global {
   }
 }
 
+export const mockKonturAppConfig = (overrides: Record<string, any>) => {
+  const original = window.konturAppConfig;
+  // @ts-expect-error if for test env only
+  window.konturAppConfig = new Proxy(overrides, {
+    get(target, prop, receiver) {
+      const originalValue = Reflect.get(target, prop, receiver);
+      if (originalValue) return originalValue;
+      return {
+        name: prop,
+        openByDefault: true,
+        mutuallyExclusive: false,
+        order: 100,
+      };
+    },
+    set(target, prop, val, receiver) {
+      return Reflect.set(target, prop, val, receiver);
+    },
+  });
+  return () => (window.konturAppConfig = original);
+};
+
+if (import.meta.env.MODE === 'test') {
+  mockKonturAppConfig({});
+}
+
 export default {
   apiGateway: window.konturAppConfig.API_GATEWAY,
   boundariesApi: window.konturAppConfig.BOUNDARIES_API,
