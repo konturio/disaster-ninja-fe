@@ -1,8 +1,9 @@
-import type { Atom, AtomState, Store, AtomSelfBinded } from '@reatom/core';
+import type { Store } from '@reatom/core';
+import type { Atom, AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
 
 export type Fetcher<I, O> = (params: I, abortController: AbortController) => Promise<O>;
 
-export interface ResourceAtomState<P, D> {
+export interface AsyncAtomState<P, D> {
   loading: boolean;
   error: string | null;
   data: D | null;
@@ -12,7 +13,7 @@ export interface ResourceAtomState<P, D> {
   dirty: boolean;
 }
 
-export type ResourceAtomOptions = {
+export type AsyncAtomOptions = {
   /** If true - fetcher will be triggered only if atom have subscribers */
   lazy?: boolean;
   /**
@@ -22,3 +23,30 @@ export type ResourceAtomOptions = {
   inheritState?: boolean;
   store?: Store;
 };
+
+export type AsyncAtomDeps<
+  D extends AtomBinded,
+  F extends Fetcher<AtomState<D> | null, any>,
+> = {
+  request: (params: AtomState<D>) => typeof params;
+  refetch: () => null;
+  cancel: () => null;
+  _done: (
+    params: AtomState<D>,
+    data: Awaited<ReturnType<F>>,
+  ) => { params: typeof params; data: typeof data };
+  _error: (
+    params: AtomState<D>,
+    error: string,
+  ) => { params: typeof params; error: typeof error };
+  _loading: (params: AtomState<D>) => { params: typeof params };
+  depsAtom?: Atom<AsyncAtomState<unknown, unknown>> | Atom<unknown>;
+};
+
+export type AsyncAnyAtom<
+  F extends Fetcher<AtomState<D> | null, any>,
+  D extends AtomBinded,
+> = AtomSelfBinded<
+  AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
+  AsyncAtomDeps<D, F>
+>;

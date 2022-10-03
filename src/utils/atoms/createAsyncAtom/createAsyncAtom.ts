@@ -4,7 +4,7 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { store } from '~core/store/store';
 import { isErrorWithMessage } from '~utils/common';
 import { ABORT_ERROR_MESSAGE, isAbortError } from './abort-error';
-import type { ResourceAtomOptions, ResourceAtomState, Fetcher } from './types';
+import type { AsyncAtomOptions, AsyncAtomState, Fetcher, AsyncAtomDeps } from './types';
 import type { Atom, AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
 
 type ResourceCtx = {
@@ -12,25 +12,9 @@ type ResourceCtx = {
   activeRequest?: Promise<any>;
 };
 
-const defaultOptions: ResourceAtomOptions = {
+const defaultOptions: AsyncAtomOptions = {
   inheritState: false,
   store: store,
-};
-
-type Deps<D extends AtomBinded, F extends Fetcher<AtomState<D> | null, any>> = {
-  request: (params: AtomState<D>) => typeof params;
-  refetch: () => null;
-  cancel: () => null;
-  _done: (
-    params: AtomState<D>,
-    data: Awaited<ReturnType<F>>,
-  ) => { params: typeof params; data: typeof data };
-  _error: (
-    params: AtomState<D>,
-    error: string,
-  ) => { params: typeof params; error: typeof error };
-  _loading: (params: AtomState<D>) => { params: typeof params };
-  depsAtom?: Atom<ResourceAtomState<unknown, unknown>> | Atom<unknown>;
 };
 
 export function createAsyncAtom<
@@ -40,15 +24,18 @@ export function createAsyncAtom<
   atom: D | null,
   fetcher: F,
   name: string,
-  resourceAtomOptions: ResourceAtomOptions = {},
-): AtomSelfBinded<ResourceAtomState<AtomState<D>, Awaited<ReturnType<F>>>, Deps<D, F>> {
-  const options: ResourceAtomOptions = {
+  resourceAtomOptions: AsyncAtomOptions = {},
+): AtomSelfBinded<
+  AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
+  AsyncAtomDeps<D, F>
+> {
+  const options: AsyncAtomOptions = {
     lazy: resourceAtomOptions.lazy ?? defaultOptions.lazy,
     inheritState: resourceAtomOptions.inheritState ?? defaultOptions.inheritState,
     store: resourceAtomOptions.store ?? defaultOptions.store,
   };
 
-  const deps: Deps<D, F> = {
+  const deps: AsyncAtomDeps<D, F> = {
     request: (params) => params,
     refetch: () => null,
     cancel: () => null,
@@ -62,13 +49,13 @@ export function createAsyncAtom<
   }
 
   const resourceAtom: AtomSelfBinded<
-    ResourceAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
-    Deps<D, F>
+    AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
+    AsyncAtomDeps<D, F>
   > = createAtom(
     deps,
     (
       { onAction, schedule, create, onChange },
-      state: ResourceAtomState<AtomState<D>, Awaited<ReturnType<F>>> = {
+      state: AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>> = {
         loading: false,
         data: null,
         error: null,
