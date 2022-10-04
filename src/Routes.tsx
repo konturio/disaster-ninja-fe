@@ -26,7 +26,7 @@ export function RoutedApp() {
     const firstTimeVisit =
       userModel &&
       !loading &&
-      location.pathname == '/' &&
+      location.pathname === '/' &&
       location.search == '' &&
       !localStorage.getItem('landed');
     if (firstTimeVisit) {
