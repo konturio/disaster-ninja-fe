@@ -30,7 +30,7 @@ export function RoutedApp() {
       location.search === '' &&
       !localStorage.getItem('landed');
     if (firstTimeVisit) {
-      localStorage.setItem('landed', 'yes');
+      localStorage.setItem('landed', 'true');
       return true;
     }
     return false;
