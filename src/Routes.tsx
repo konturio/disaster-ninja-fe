@@ -27,7 +27,7 @@ export function RoutedApp() {
       userModel &&
       !loading &&
       location.pathname === '/' &&
-      location.search == '' &&
+      location.search === '' &&
       !localStorage.getItem('landed');
     if (firstTimeVisit) {
       localStorage.setItem('landed', 'yes');
