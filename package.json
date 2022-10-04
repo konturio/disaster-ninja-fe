@@ -6,7 +6,7 @@
   "type": "module",
   "license": "MIT",
   "engines": {
-    "node": ">=17"
+    "node": ">=18"
   },
   "scripts": {
     "dev": "vite",

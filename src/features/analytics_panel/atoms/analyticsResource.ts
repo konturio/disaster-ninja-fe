@@ -1,10 +1,11 @@
-import { createResourceAtom } from '~utils/atoms';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import type { AnalyticsData } from '~core/types';
 
-export const analyticsResourceAtom = createResourceAtom(
+export const analyticsResourceAtom = createAsyncAtom(
+  focusedGeometryAtom,
   async (fGeo) => {
     if (!fGeo) return null;
     const geometry = fGeo?.geometry as GeoJSON.FeatureCollection;
@@ -27,5 +28,4 @@ export const analyticsResourceAtom = createResourceAtom(
     return responseData;
   },
   'analyticsResource',
-  focusedGeometryAtom,
 );

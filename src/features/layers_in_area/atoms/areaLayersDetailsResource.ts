@@ -3,8 +3,8 @@ import { apiClient } from '~core/apiClientInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { currentEventFeedAtom } from '~core/shared_state';
-import { createResourceAtom } from '~utils/atoms';
 import { arraysAreEqual } from '~utils/array/arraysAreEqual';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { areaLayersListResource } from './areaLayersListResource';
 import type { LayerInAreaDetails } from '../types';
 
@@ -16,7 +16,7 @@ export interface DetailsRequestParams {
   eventFeed?: string;
 }
 
-/* This atom subscribes to all data that required for request layer details  */
+/* This atom subscribes to all data that required for request layer details */
 export const areaLayersDetailsParamsAtom = createAtom(
   {
     enabledLayersAtom,
@@ -111,24 +111,16 @@ export const areaLayersDetailsParamsAtom = createAtom(
 );
 
 // Call api
-export const areaLayersDetailsResourceAtom = createResourceAtom(
-  (params) => {
-    async function processor(): Promise<LayerInAreaDetails[] | null> {
-      if (params === null) return null;
-      try {
-        const request = await apiClient.post<LayerInAreaDetails[]>(
-          '/layers/details',
-          params,
-          true,
-        );
-        return request ?? null;
-      } catch (e) {
-        throw e;
-      }
-    }
-
-    return { processor, allowCancel: true };
+export const areaLayersDetailsResourceAtom = createAsyncAtom(
+  areaLayersDetailsParamsAtom,
+  async (params) => {
+    if (params === null) return null;
+    const request = await apiClient.post<LayerInAreaDetails[]>(
+      '/layers/details',
+      params,
+      true,
+    );
+    return request ?? null;
   },
   'areaLayersDetailsResourceAtom',
-  areaLayersDetailsParamsAtom,
 );

@@ -1,4 +1,4 @@
-import { createResourceAtom } from '~utils/atoms/createResourceAtom';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { apiClient } from '~core/apiClientInstance';
 import { currentApplicationAtom } from '~core/shared_state';
@@ -29,7 +29,8 @@ const editableLayersListDependencyAtom = createAtom(
   'editableLayersListDependencyAtom',
 );
 
-export const editableLayersListResource = createResourceAtom(
+export const editableLayersListResource = createAsyncAtom(
+  editableLayersListDependencyAtom,
   async (params) => {
     const body = params?.appId ? { appId: params?.appId } : {};
 
@@ -44,5 +45,4 @@ export const editableLayersListResource = createResourceAtom(
     return responseData.filter((l) => l.group === EDITABLE_LAYERS_GROUP);
   },
   'editableLayersListResource',
-  editableLayersListDependencyAtom,
 );

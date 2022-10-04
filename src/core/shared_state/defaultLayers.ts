@@ -1,6 +1,7 @@
-import { createAtom, createResourceAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 import { apiClient } from '~core/apiClientInstance';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 
 type DefaultLayers = string[];
 
@@ -19,7 +20,8 @@ export const defaultLayersParamsAtom = createAtom(
   },
 );
 
-export const defaultAppLayersAtom = createResourceAtom(
+export const defaultAppLayersAtom = createAsyncAtom(
+  defaultLayersParamsAtom,
   async (params) => {
     if (!params) return null;
     const { appId } = params;
@@ -28,10 +30,8 @@ export const defaultAppLayersAtom = createResourceAtom(
       { appId },
       false,
     );
-    if (responseData === undefined)
-      throw new Error('No default layers received');
+    if (responseData === undefined) throw new Error('No default layers received');
     return responseData;
   },
   'defaultAppLayersAtom',
-  defaultLayersParamsAtom,
 );
