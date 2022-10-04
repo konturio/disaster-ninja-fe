@@ -1,11 +1,11 @@
 import { createAtom } from '@reatom/core';
-import type { Atom } from '@reatom/core';
+import type { Atom, AtomBinded } from '@reatom/core';
 
 type AtomsMap = { [key: string]: Atom<any> };
 
 export function combineAtoms<T extends AtomsMap>(
   shape: T,
-): Atom<{ [key in keyof T]: T[key] extends Atom<infer S> ? S : unknown }> {
+): AtomBinded<{ [key in keyof T]: T[key] extends Atom<infer S> ? S : unknown }> {
   return createAtom(shape, ({ get }, state = {}) => {
     return Object.keys(shape).reduce((acc, key) => {
       acc[key as keyof T] = get(key);

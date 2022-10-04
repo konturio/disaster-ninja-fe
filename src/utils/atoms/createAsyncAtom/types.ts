@@ -14,8 +14,12 @@ export interface AsyncAtomState<P, D> {
 }
 
 export type AsyncAtomOptions = {
-  /** If true - fetcher will be triggered only if atom have subscribers */
-  lazy?: boolean;
+  /**
+   * Affect only atoms with null in deps.
+   * If true - atom will requested on first read / subscribe
+   * If false - atom will requested only after 'request' action
+   */
+  auto?: boolean;
   /**
    * Should this atom inherit states (like loading, error and canceled) from parent atom or not.
    * Useful in case when you chain resource atoms.
