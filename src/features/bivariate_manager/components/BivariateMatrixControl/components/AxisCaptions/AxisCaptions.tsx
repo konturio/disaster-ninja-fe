@@ -1,4 +1,5 @@
 import { InfoOutline16 } from '@konturio/default-icons';
+import { useLayoutEffect, useRef } from 'react';
 import { i18n } from '~core/localization';
 import { TooltipWrapper } from '~components/Tooltip';
 import s from './AxisCaptions.module.css';
@@ -19,34 +20,42 @@ const AXIS_CAPTIONS_TOOTIP_TEXT = (
 
 const popupClasses = { popupContent: s.popupContent };
 
-export const AxisCaptions = ({ baseDimension = 0 }: { baseDimension: number }) => (
-  <div className={s.axisCaptionRoot}>
-    <div className={s.axisCaptionAnchor} style={{ left: -baseDimension }}>
-      <TooltipWrapper
-        hoverBehavior={false}
-        tooltipId="axis_caption"
-        tooltipText={AXIS_CAPTIONS_TOOTIP_TEXT}
-        popupClasses={popupClasses}
-      >
-        {({ showTooltip }) => (
-          <div className={s.axisCaptionBody}>
-            <LongArrow position="left" />
-            <br />
+export const AxisCaptions = ({ baseDimension = 0 }: { baseDimension: number }) => {
+  const rootRef = useRef<HTMLDivElement>(null);
+  // we want to scroll to the center of the matrix when it's opened
+  useLayoutEffect(() => {
+    rootRef.current?.scrollIntoView({ block: 'center' });
+  }, []);
 
-            <div className={s.tooltipHover} onClick={showTooltip}>
-              <span>{i18n.t('bivariate.matrix.caption.base_axis')}</span>
-              <InfoOutline16 />
-              <span>{i18n.t('bivariate.matrix.caption.annex_axis')}</span>
+  return (
+    <div className={s.axisCaptionRoot} ref={rootRef}>
+      <div className={s.axisCaptionAnchor} style={{ left: -baseDimension }}>
+        <TooltipWrapper
+          hoverBehavior={false}
+          tooltipId="axis_caption"
+          tooltipText={AXIS_CAPTIONS_TOOTIP_TEXT}
+          popupClasses={popupClasses}
+        >
+          {({ showTooltip }) => (
+            <div className={s.axisCaptionBody}>
+              <LongArrow position="left" />
+              <br />
+
+              <div className={s.tooltipHover} onClick={showTooltip}>
+                <span>{i18n.t('bivariate.matrix.caption.base_axis')}</span>
+                <InfoOutline16 />
+                <span>{i18n.t('bivariate.matrix.caption.annex_axis')}</span>
+              </div>
+
+              <br />
+              <LongArrow position="right" />
             </div>
-
-            <br />
-            <LongArrow position="right" />
-          </div>
-        )}
-      </TooltipWrapper>
+          )}
+        </TooltipWrapper>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const LongArrow = ({ position = 'left' }: { position: 'left' | 'right' }) => (
   <svg
