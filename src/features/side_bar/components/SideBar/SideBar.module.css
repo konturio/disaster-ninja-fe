@@ -31,9 +31,16 @@
   width: 100%;
   justify-content: left;
   margin: 0;
+  & > svg {
+    min-width: 24px;
+  }
   & * {
     pointer-events: none;
   }
+}
+
+.modeName {
+  white-space: nowrap;
 }
 
 .togglerContainer {

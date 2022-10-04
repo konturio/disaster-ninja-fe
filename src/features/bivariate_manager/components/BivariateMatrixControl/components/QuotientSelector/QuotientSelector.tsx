@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import cn from 'clsx';
 import DenominatorIcon from '../DenominatorIcon/DenominatorIcon';
 import { useHeadingGlobalState } from '../../utils/globalState';
@@ -9,6 +9,7 @@ interface QuotientItemProps {
   denominatorId: string;
   numeratorLabel?: string;
   quality?: number | null;
+  isSelected?: boolean;
   onSelectQuotient: (numId: string, denId: string) => void;
 }
 
@@ -18,6 +19,7 @@ const QuotientItem = ({
   numeratorLabel,
   quality,
   onSelectQuotient,
+  isSelected = false,
 }: QuotientItemProps) => {
   const onClick = (ev) => {
     ev.stopPropagation();
@@ -25,105 +27,41 @@ const QuotientItem = ({
   };
 
   return (
-    <div onClick={onClick}>
+    <div className={cn(isSelected && styles.selected)} onClick={onClick}>
       <DenominatorIcon iconId={denominatorId} />
-      <div className="qualityLabel">
-        {quality !== null && quality !== undefined ? quality : '&nbsp;'}
-      </div>
+
+      {/* do no needed on prod, only for testing purposes */}
+      {sessionStorage.getItem('BIVARIATE_QA_MOD') && (
+        <div className="qualityLabel">
+          {quality !== null && quality !== undefined ? quality : '&nbsp;'}
+        </div>
+      )}
+
       <div className="quotientLabel">{numeratorLabel}</div>
     </div>
   );
 };
 
+type Quotient = {
+  id: [string, string];
+  label?: string;
+  quality?: number;
+};
+
 interface QuotientSelectorProps {
   id: string;
-  quotients: {
-    id: [string, string];
-    label?: string;
-    quality?: number;
-  }[];
+  quotients: Quotient[];
   selectedQuotient: {
     id: [string, string];
     label?: string;
   };
   onSelectQuotient: (numId: string, denId: string) => void;
   type: 'horizontal' | 'vertical';
+  children?: JSX.Element;
 }
 
-const QuotientSelectorEnabled = ({
-  id,
-  quotients,
-  selectedQuotient,
-  onSelectQuotient,
-  type,
-}: QuotientSelectorProps) => {
-  const [headingState, setHeadingState] = useHeadingGlobalState();
-
-  const toggleVisibility = () => {
-    if (headingState.headingId === id) {
-      setHeadingState({ headingId: '' });
-    } else {
-      setHeadingState({ headingId: id });
-    }
-  };
-
-  const selectQuotient = useCallback(
-    (numId: string, denId: string) => {
-      setHeadingState({ headingId: '' });
-      onSelectQuotient(numId, denId);
-    },
-    [setHeadingState, onSelectQuotient],
-  );
-
-  return (
-    <div
-      className={cn({
-        [styles.denominators]: true,
-        [styles.row]: type === 'horizontal',
-        [styles.column]: type === 'vertical',
-      })}
-    >
-      <div className={styles.denominatorSelector} onClick={toggleVisibility}>
-        <i className="fas fa-caret-down" />
-      </div>
-      {headingState.headingId === id && (
-        <div className={styles.denominatorsContainer}>
-          {quotients.map(({ id, label: numeratorLabel, quality }) =>
-            id[0] !== selectedQuotient.id[0] ||
-            id[1] !== selectedQuotient.id[1] ? (
-              <QuotientItem
-                key={JSON.stringify(id)}
-                onSelectQuotient={selectQuotient}
-                quality={quality}
-                numeratorId={id[0]}
-                denominatorId={id[1]}
-                numeratorLabel={numeratorLabel}
-              />
-            ) : null,
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const QuotientSelectorDisabled = ({
-  type,
-}: {
-  type: 'horizontal' | 'vertical';
-}) => (
-  <div
-    className={cn({
-      [styles.denominators]: true,
-      [styles.row]: type === 'horizontal',
-      [styles.column]: type === 'vertical',
-    })}
-  >
-    <div className={cn(styles.denominatorSelector, styles.disabled)}>
-      <i className="fas fa-caret-down" />
-    </div>
-  </div>
-);
+const SCALING_BACK = 100 / 70; // to go back from 70% to 100%
+const MODAL_MARGIN = 5;
 
 export const QuotientSelector = memo(
   ({
@@ -132,17 +70,90 @@ export const QuotientSelector = memo(
     selectedQuotient,
     onSelectQuotient,
     type,
+    children,
   }: QuotientSelectorProps) => {
-    return quotients.length > 1 ? (
-      <QuotientSelectorEnabled
-        id={id}
-        quotients={quotients}
-        selectedQuotient={selectedQuotient}
-        onSelectQuotient={onSelectQuotient}
-        type={type}
+    const [headingState, setHeadingState] = useHeadingGlobalState();
+
+    const toggleVisibility = (e) => {
+      e.stopPropagation();
+      if (headingState.headingId === id) {
+        setHeadingState({ headingId: '', width: 0 });
+      } else {
+        const selectorPosition = e.currentTarget.getBoundingClientRect();
+        const wholeRowPosition =
+          e.currentTarget.parentElement.parentElement.getBoundingClientRect();
+        const width = Math.ceil(
+          (selectorPosition.left - wholeRowPosition.left) * SCALING_BACK + MODAL_MARGIN,
+        );
+        setHeadingState({ headingId: id, width });
+      }
+    };
+
+    const selectQuotient = useCallback(
+      (numId: string, denId: string) => {
+        setHeadingState({ headingId: '' });
+        onSelectQuotient(numId, denId);
+      },
+      [setHeadingState, onSelectQuotient],
+    );
+
+    const [selected, notSelected] = useMemo(() => {
+      const selectedIndex = quotients.findIndex(
+        ({ id }) => id[0] === selectedQuotient.id[0] && id[1] === selectedQuotient.id[1],
+      );
+      if (selectedIndex >= 0) {
+        return [
+          quotients[selectedIndex],
+          quotients.filter((_, i) => i !== selectedIndex),
+        ];
+      }
+      return [null, quotients];
+    }, [quotients, selectedQuotient.id]);
+
+    const renderQuotientItem = (
+      { id, label: numeratorLabel, quality }: Quotient,
+      isSelected: boolean,
+    ) => (
+      <QuotientItem
+        key={JSON.stringify(id)}
+        onSelectQuotient={selectQuotient}
+        quality={quality}
+        numeratorId={id[0]}
+        denominatorId={id[1]}
+        numeratorLabel={numeratorLabel}
+        isSelected={isSelected}
       />
-    ) : (
-      <QuotientSelectorDisabled type={type} />
+    );
+
+    return (
+      <div
+        className={cn({
+          [styles.denominators]: true,
+          [styles.row]: type === 'horizontal',
+          [styles.column]: type === 'vertical',
+        })}
+      >
+        <div onClick={toggleVisibility}>{children}</div>
+        {headingState.headingId === id && (
+          <div
+            className={styles.denominatorsContainer}
+            style={
+              type === 'horizontal'
+                ? {
+                    left: -headingState.width,
+                    right: 0,
+                  }
+                : {
+                    top: -headingState.width,
+                    bottom: 0,
+                  }
+            }
+          >
+            {selected && renderQuotientItem(selected, true)}
+            {notSelected.map((item) => renderQuotientItem(item, false))}
+          </div>
+        )}
+      </div>
     );
   },
 );

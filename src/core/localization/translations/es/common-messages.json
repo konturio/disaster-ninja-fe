@@ -60,7 +60,6 @@
       "filter_nominator": "Filtrar Nominador",
       "filter_denominator": "Filtrar Denominador"
     },
-    "app_header.title": "Chatear con nosotros",
     "event_list": {
       "title": "Enfoque en los desastres",
       "warning_title": "No se puede utilizar el mapa como filtro",
@@ -174,7 +173,7 @@
       }
     },
     "sidebar": {
-      "biv_color_manager": "Administrador de color bivariado",
+      "biv_color_manager": "Administrador de color",
       "reports": "Informes",
       "edit_osm": "Editar en OpenStreetMap",
       "ruler": "Regla",
