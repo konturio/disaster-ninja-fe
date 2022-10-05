@@ -1,5 +1,5 @@
 import { useCallback, useLayoutEffect, useEffect, useRef } from 'react';
-import { useColumnContext } from '~views/Main/Layouts/SmartColumn';
+import { useColumnContext } from '~views/Main/Layouts/Laptop/SmartColumn';
 import type { SetStateAction } from 'react';
 
 // Returns a callback that would handle element's height

@@ -1,13 +1,6 @@
-import {
-  useRef,
-  createContext,
-  useContext,
-  useLayoutEffect,
-  useState
-} from 'react';
-import s from './Layout.module.css';
-import type {
-  MutableRefObject} from 'react';
+import { useRef, createContext, useContext, useLayoutEffect, useState } from 'react';
+import s from './Laptop.module.css';
+import type { MutableRefObject } from 'react';
 
 type DynamicDivRef = MutableRefObject<null | HTMLDivElement>;
 export type PanelMeta = {
