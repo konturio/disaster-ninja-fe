@@ -5,6 +5,7 @@ import { Router, Route, Redirect } from 'react-router-dom';
 import { useAtom } from '@reatom/react';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import history from '~core/history';
+import config from '~core/app_config';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LoginForm } from '~features/user_profile';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
@@ -22,32 +23,20 @@ const { BivariateManagerPage } = lazily(
 export function RoutedApp() {
   const [{ data: userModel, loading }] = useAtom(userResourceAtom);
 
-  function isFirstTimeVisit() {
-    const firstTimeVisit =
+  useEffect(() => {
+    const isFirstTimeVisit = () =>
       userModel &&
       !loading &&
-      location.pathname === '/' &&
+      location.pathname === config.baseUrl &&
       location.search === '' &&
       !localStorage.getItem('landed');
-    if (firstTimeVisit) {
-      localStorage.setItem('landed', 'true');
-      return true;
-    }
-    return false;
-  }
 
-  useEffect(() => {
     // redirect first-time visitor "/" -> "/about"
-    if (!isFirstTimeVisit()) {
-      return;
-    }
-    const timeoutId = setTimeout(() => {
+    if (isFirstTimeVisit()) {
+      localStorage.setItem('landed', 'true');
       history.push(APP_ROUTES.about);
-    }, 999);
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [loading]);
+    }
+  }, [loading, userModel]);
 
   return (
     <StrictMode>
