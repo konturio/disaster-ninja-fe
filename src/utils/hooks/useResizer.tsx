@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect, useEffect, useRef } from 'react';
-import { useColumnContext } from '~views/Main/Layouts/Laptop/SmartColumn';
+import { useColumnContext } from '~core/store/columnContext';
+import type { PanelMeta} from '~core/store/columnContext';
 import type { SetStateAction } from 'react';
 
 // Returns a callback that would handle element's height
@@ -38,14 +39,14 @@ export const useHeightResizer = (
       if (cleanup.current) cleanup.current();
       if (typeof columnContext === 'string') return;
       if (node) {
-        const card = {
+        const panel: PanelMeta = {
           resizableNode: node,
           closeCb: () => setIsOpen(false),
           minHeight,
           getOpenState: () => openStateRef.current,
         };
         // UseCallback not have cleanup like useEffect, this is workaround
-        cleanup.current = columnContext.addCard(card);
+        cleanup.current = columnContext.addPanel(panel);
       }
     },
     [columnContext, setIsOpen, minHeight],
