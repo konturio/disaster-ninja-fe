@@ -7,17 +7,6 @@ import { DesktopLayout } from './Desktop/Desktop';
 import { LaptopLayout as LaptopAndMobileLayout } from './Laptop/Laptop';
 import { MobileLayout } from './Mobile/Mobile';
 
-type Props = {
-  disasters: () => JSX.Element;
-  analytics: () => JSX.Element;
-  advancedAnalytics: () => JSX.Element;
-  toolbar: () => JSX.Element;
-  timeline: () => JSX.Element;
-  layers: () => JSX.Element;
-  legend: () => JSX.Element;
-  matrix: () => JSX.Element;
-  footer: () => JSX.Element;
-};
 export function Layout({
   disasters,
   analytics,

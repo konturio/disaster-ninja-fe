@@ -1,21 +1,19 @@
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
-import { useHistory } from 'react-router';
 import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
-import { EpisodesTimelinePanel } from '~features/event_episodes/components/EpisodesTimelinePanel/EpisodesTimelinePanel';
 import s from './Main.module.css';
 import { Layout } from './Layouts/Layout';
 import type { UserDataModel } from '~core/auth';
-import type { MutableRefObject } from 'react';
 
-const { EditFeaturesOrLayerPanel } = lazily(
-  () =>
-    import(
-      '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
-    ),
-);
+// To be restored later
+// const { EditFeaturesOrLayerPanel } = lazily(
+//   () =>
+//     import(
+//       '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
+//     ),
+// );
 
 const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
@@ -43,8 +41,6 @@ type MainViewProps = {
   userModel?: UserDataModel | null;
 };
 export function MainView({ userModel }: MainViewProps) {
-  const history = useHistory();
-
   useEffect(() => {
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
 
