@@ -20,7 +20,7 @@ beforeEach(async (context) => {
 
 describe('Resource atom add resource state structure', () => {
   test('have correct initial state', ({ store }) => {
-    const resAtomA = createAsyncAtom(null, async () => null, 'resAtomA', {
+    const resAtomA = createAsyncAtom(null, async () => null, id(), {
       store,
       auto: false,
     });
@@ -35,7 +35,7 @@ describe('Resource atom add resource state structure', () => {
   });
 
   test('have correct loading state', ({ store }) => {
-    const resAtomA = createAsyncAtom(null, async () => await wait(1), 'resAtomA', {
+    const resAtomA = createAsyncAtom(null, async () => await wait(1), id(), {
       store,
     });
     store.dispatch(resAtomA.request(null));
@@ -46,7 +46,7 @@ describe('Resource atom add resource state structure', () => {
   });
 
   test('have correct lastParams state', async ({ store }) => {
-    const resAtomA = createAsyncAtom(null, async () => await wait(1), 'resAtomA', {
+    const resAtomA = createAsyncAtom(null, async () => await wait(1), id(), {
       store,
     });
     store.dispatch(resAtomA.request('foo'));

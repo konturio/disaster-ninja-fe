@@ -29,7 +29,7 @@ declare global {
   }
 }
 
-const { konturAppConfig } = globalThis.window ?? {};
+const { konturAppConfig } = globalThis.window ?? { konturAppConfig: {} };
 
 export default {
   apiGateway: konturAppConfig.API_GATEWAY,
