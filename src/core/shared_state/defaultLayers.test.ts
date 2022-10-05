@@ -21,8 +21,8 @@ beforeEach(async (context) => {
 });
 
 test.skip('Default layers', async ({ store }) => {
-  // @ts-ignore
   const unMockClient = mockClient(
+    // @ts-ignore
     ApiClient.getInstance().apiSauceInstance.axiosInstance,
     {
       ['/layers/defaults/']: () => ['foo_layer'],

@@ -1,8 +1,12 @@
 import { isApiError } from '~core/api_client/apiClientError';
 
 export const ABORT_ERROR_MESSAGE = 'Abort error';
+
 export const isAbortError = (e: unknown) => {
   if (!e) return false;
+  if (typeof e === 'string') {
+    return e === ABORT_ERROR_MESSAGE;
+  }
   if (isApiError(e)) {
     return e.problem.kind === 'canceled';
   } else if (e instanceof DOMException) {

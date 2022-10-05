@@ -216,6 +216,7 @@ export type ResourceAtomType<P, T> = AtomSelfBinded<
 
 const voidCallback = () => null;
 
+/** @deprecated use createAsyncAtom instead */
 export function createResourceAtom<P, T>(
   fetcher: FetcherFunc<P, T> | FetcherFabric<P, T>,
   name: string,
