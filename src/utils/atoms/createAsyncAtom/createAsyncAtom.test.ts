@@ -269,16 +269,98 @@ describe('Resource canceling', () => {
 });
 
 describe('Resource refetch', () => {
-  test.todo('Resource can be re-fetched with last parameters', () => {
-    // TODO
+  test('Resource can be re-fetched with last parameters', async ({ store }) => {
+    const stateChangesLog = vi.fn(async (arg) => null);
+
+    let i = 0;
+    const resAtomA = createAsyncAtom(
+      null,
+      async (value) => {
+        await wait(0.5);
+        return value + ++i;
+      },
+      id(),
+      {
+        store,
+        auto: false,
+      },
+    );
+
+    resAtomA.subscribe((s) => stateChangesLog(s));
+
+    store.dispatch(resAtomA.request(42));
+    await waitMockCalls(stateChangesLog, 3);
+    expect(stateChangesLog).toHaveBeenNthCalledWith(3, {
+      error: null,
+      dirty: true,
+      data: 43,
+      lastParams: 42,
+      loading: false,
+    });
+    store.dispatch(resAtomA.refetch());
+    await waitMockCalls(stateChangesLog, 5);
+    expect(stateChangesLog).toHaveBeenNthCalledWith(5, {
+      error: null,
+      dirty: true,
+      data: 44,
+      lastParams: 42,
+      loading: false,
+    });
   });
 
-  test.todo('Resource ignore refetch if in already in loading state', () => {
-    // TODO
+  test('Resource ignore refetch if in already in loading state', async ({ store }) => {
+    const stateChangesLog = vi.fn(async (arg) => null);
+
+    let i = 0;
+    const resAtomA = createAsyncAtom(
+      null,
+      async (value) => {
+        await wait(3);
+        return value + ++i;
+      },
+      id(),
+      {
+        store,
+        auto: false,
+      },
+    );
+
+    resAtomA.subscribe((s) => stateChangesLog(s));
+
+    store.dispatch(resAtomA.request(42));
+    await waitMockCalls(stateChangesLog, 2);
+    expect(stateChangesLog.mock.calls[1][0]).toMatchObject({
+      loading: true,
+    });
+
+    store.dispatch(resAtomA.refetch());
+    await wait(0.5);
+    expect(stateChangesLog).toHaveBeenCalledTimes(2);
   });
 
-  test.todo('Resource ignore refetch if it never fetched before', () => {
-    // TODO
+  test('Resource ignore refetch if it never fetched before', async ({ store }) => {
+    const stateChangesLog = vi.fn(async (arg) => null);
+
+    let i = 0;
+    const resAtomA = createAsyncAtom(
+      null,
+      async (value) => {
+        await wait(3);
+        return value + ++i;
+      },
+      id(),
+      {
+        store,
+        auto: false,
+      },
+    );
+
+    resAtomA.subscribe((s) => stateChangesLog(s));
+
+    expect(store.getState(resAtomA).dirty).toBe(false);
+    store.dispatch(resAtomA.refetch());
+    await wait(1);
+    expect(store.getState(resAtomA).dirty).toBe(false);
   });
 });
 
@@ -478,7 +560,7 @@ describe('Resource atoms chaining state', () => {
     expect(resAtomB.getState().error).toBe('Test error');
   });
 
-  test.todo('Not inherit loading state when chaining disabled', async ({ store }) => {
+  test('Not inherit loading state when chaining disabled', async ({ store }) => {
     const resAtomA = createAsyncAtom(
       null,
       async () => {
@@ -488,8 +570,6 @@ describe('Resource atoms chaining state', () => {
       id(),
       { store },
     );
-    resAtomA.subscribe(() => null);
-    await wait(1);
 
     const resAtomB = createAsyncAtom(
       resAtomA,
@@ -499,7 +579,6 @@ describe('Resource atoms chaining state', () => {
       id(),
       { store, inheritState: false },
     );
-    resAtomB.subscribe(() => null);
 
     await wait(1);
 

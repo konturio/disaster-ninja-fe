@@ -5,6 +5,6 @@ export async function waitMockCalls(
   count: number,
 ) {
   while (mockedFn.mock.calls.length < count) {
-    await wait(1);
+    await wait(0.1);
   }
 }

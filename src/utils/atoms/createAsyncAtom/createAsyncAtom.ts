@@ -150,7 +150,7 @@ export function createAsyncAtom<
             // Check that new request was not created
             if (ctx.abortController === abortController) {
               log('5.1.A.1. Done');
-              // delete ctx.abortController;
+              delete ctx.abortController;
               dispatch(create('_done', params, fetcherResult));
             }
           } catch (e) {
@@ -174,11 +174,11 @@ export function createAsyncAtom<
       // Force refetch, useful for polling
       onAction('refetch', () => {
         schedule((dispatch, ctx: Context) => {
-          if (!state.dirty) {
+          if (state.dirty && !state.loading) {
+            dispatch(create('request', newState.lastParams!));
+          } else {
             console.error(`[${name}]:`, 'Do not call refetch before request');
-            return;
           }
-          dispatch(create('request', newState.lastParams!));
         });
       });
 
