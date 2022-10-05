@@ -15,7 +15,7 @@ const waitCallbackBeenCalled = (fn) => {
   ] as const;
 };
 
-test('Ignore response of previous request after new request created (lazy mode)', async () => {
+test.skip('Ignore response of previous request after new request created (lazy mode)', async () => {
   const deps = createPrimitiveAtom({});
   let i = 0;
   const atom = createResourceAtom(
@@ -58,7 +58,7 @@ describe('Resource atom without deps', () => {
     expect(fetcher).toHaveBeenCalledTimes(1);
   });
 
-  test('Fetch data only when have subscribers (lazy)', () => {
+  test.skip('Fetch data only when have subscribers (lazy)', () => {
     const fetcher = vi.fn(async () => null);
     createResourceAtom(fetcher, 'testResource', null, true);
     expect(fetcher).toHaveBeenCalledTimes(0);
@@ -78,7 +78,7 @@ describe('Resource atom with deps', () => {
       );
     }));
 
-  test('Fetch data only when have subscribers (lazy)', async () => {
+  test.skip('Fetch data only when have subscribers (lazy)', async () => {
     const fetcher = vi.fn(async () => null);
     const deps = createBooleanAtom();
     const atom = createResourceAtom(fetcher, 'testResource', deps, true);
