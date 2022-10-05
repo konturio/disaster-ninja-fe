@@ -38,7 +38,7 @@ const userResourceRequestParamsAtom = createAtom(
 
 export const userResourceAtom = createAsyncAtom(
   userResourceRequestParamsAtom,
-  async (params) => {
+  async (params, abortController) => {
     if (!params?.applicationId) return;
     const { userData, applicationId } = params;
 
@@ -46,7 +46,7 @@ export const userResourceAtom = createAsyncAtom(
       `/features`,
       { appId: applicationId },
       userData?.id !== PUBLIC_USER_ID,
-      { errorsConfig: { dontShowErrors: true } },
+      { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
     );
 
     let feedsResponse: Promise<BackendFeed[] | null>;

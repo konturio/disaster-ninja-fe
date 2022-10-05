@@ -24,10 +24,13 @@ const episodesResourceDependencyAtom = createAtom(
 
 export const episodesResource = createAsyncAtom(
   episodesResourceDependencyAtom,
-  async (deps) => {
+  async (deps, abortController) => {
     if (deps && deps.event?.id && deps.feed?.id) {
       const responseData = await apiClient.get<Episode[]>(
         `/events/${deps.feed.id}/${deps.event.id}/episodes`,
+        undefined,
+        undefined,
+        { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
       );
       if (!responseData) throw 'No data received';
 

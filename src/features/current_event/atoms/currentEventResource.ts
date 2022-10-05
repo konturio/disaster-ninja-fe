@@ -23,10 +23,13 @@ const eventDependencyAtom = createAtom(
 
 export const currentEventResourceAtom = createAsyncAtom(
   eventDependencyAtom,
-  async (deps) => {
+  async (deps, abortController) => {
     if (deps && deps.event?.id && deps.feed?.id) {
       const responseData = await apiClient.get<EventWithGeometry>(
         `/events/${deps.feed.id}/${deps.event.id}`,
+        undefined,
+        undefined,
+        { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
       );
       if (responseData === undefined) throw 'No data received';
       return responseData;

@@ -47,9 +47,12 @@ export const editableLayersDetailsParamsAtom = createAtom(
 // Call api
 export const editableLayersDetailsResourceAtom = createAsyncAtom(
   editableLayersDetailsParamsAtom,
-  async (params) => {
+  async (params, abortController) => {
     if (params === null) return null;
-    return await apiClient.post<LayerInAreaDetails[]>('/layers/details', params, true);
+    return await apiClient.post<LayerInAreaDetails[]>('/layers/details', params, true, {
+      signal: abortController.signal,
+      errorsConfig: { dontShowErrors: true },
+    });
   },
   'editableLayersDetailsResourceAtom',
 );

@@ -6,7 +6,7 @@ import type { AnalyticsData } from '~core/types';
 
 export const analyticsResourceAtom = createAsyncAtom(
   focusedGeometryAtom,
-  async (fGeo) => {
+  async (fGeo, abortController) => {
     if (!fGeo) return null;
     const geometry = fGeo?.geometry as GeoJSON.FeatureCollection;
     if (geometry.features && geometry.features.length == 0) return null;
@@ -16,7 +16,7 @@ export const analyticsResourceAtom = createAsyncAtom(
         `/polygon_details`,
         fGeo?.geometry,
         false,
-        { errorsConfig: { dontShowErrors: true } },
+        { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
       );
     } catch (e: unknown) {
       throw new Error(i18n.t('analytics_panel.error_loading'));

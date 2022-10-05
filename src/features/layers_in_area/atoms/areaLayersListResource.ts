@@ -65,7 +65,7 @@ const areaLayersListDependencyAtom = createAtom(
 
 export const areaLayersListResource = createAsyncAtom(
   areaLayersListDependencyAtom,
-  async (params) => {
+  async (params, abortController) => {
     if (!params) return;
     if (params.createLayerFeatureActivated === null) return; // Avoid double request
     const body: {
@@ -93,7 +93,8 @@ export const areaLayersListResource = createAsyncAtom(
     let responseData: LayerInArea[] | null;
     try {
       responseData = await apiClient.post<LayerInArea[]>('/layers/search/', body, true, {
-        errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR },
+        errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR, dontShowErrors: true },
+        signal: abortController.signal,
       });
     } catch (e: unknown) {
       throw new Error('Error while fetching area layers data');

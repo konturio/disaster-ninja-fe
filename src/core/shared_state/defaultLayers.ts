@@ -22,13 +22,14 @@ export const defaultLayersParamsAtom = createAtom(
 
 export const defaultAppLayersAtom = createAsyncAtom(
   defaultLayersParamsAtom,
-  async (params) => {
+  async (params, abortController) => {
     if (!params) return null;
     const { appId } = params;
     const responseData = await apiClient.get<DefaultLayers | null>(
       `/layers/defaults/`,
       { appId },
       false,
+      { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
     );
     if (responseData === undefined) throw new Error('No default layers received');
     return responseData;
