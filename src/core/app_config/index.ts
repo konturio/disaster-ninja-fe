@@ -29,66 +29,43 @@ declare global {
   }
 }
 
-export const mockKonturAppConfig = (overrides: Record<string, any>) => {
-  const original = window.konturAppConfig;
-  // @ts-expect-error if for test env only
-  window.konturAppConfig = new Proxy(overrides, {
-    get(target, prop, receiver) {
-      const originalValue = Reflect.get(target, prop, receiver);
-      if (originalValue) return originalValue;
-      return {
-        name: prop,
-        openByDefault: true,
-        mutuallyExclusive: false,
-        order: 100,
-      };
-    },
-    set(target, prop, val, receiver) {
-      return Reflect.set(target, prop, val, receiver);
-    },
-  });
-  return () => (window.konturAppConfig = original);
-};
-
-if (import.meta.env.MODE === 'test') {
-  mockKonturAppConfig({});
-}
+const { konturAppConfig } = globalThis.window ?? {};
 
 export default {
-  apiGateway: window.konturAppConfig.API_GATEWAY,
-  boundariesApi: window.konturAppConfig.BOUNDARIES_API,
-  reportsApi: window.konturAppConfig.REPORTS_API,
-  bivariateTilesRelativeUrl: window.konturAppConfig.BIVARIATE_TILES_RELATIVE_URL,
-  bivariateTilesServer: window.konturAppConfig.BIVARIATE_TILES_SERVER,
-  bivariateTilesIndicatorsClass: window.konturAppConfig.BIVARIATE_TILES_INDICATORS_CLASS,
-  refreshIntervalSec: window.konturAppConfig.REFRESH_INTERVAL_SEC,
-  mapAccessToken: window.konturAppConfig.MAP_ACCESS_TOKEN,
-  mapBaseStyle: window.konturAppConfig.MAP_BASE_STYLE,
-  layersByDefault: window.konturAppConfig.LAYERS_BY_DEFAULT,
-  featuresByDefault: window.konturAppConfig.FEATURES_BY_DEFAULT,
-  defaultFeed: window.konturAppConfig.DEFAULT_FEED,
-  defaultFeedDescription: window.konturAppConfig.DEFAULT_FEED_DESCRIPTION || '',
-  keycloakUrl: window.konturAppConfig.KEYCLOAK_URL,
-  keycloakRealm: window.konturAppConfig.KEYCLOAK_REALM,
-  keycloakClientId: window.konturAppConfig.KEYCLOAK_CLIENT_ID,
-  yandexMetricaId: window.konturAppConfig.YANDEX_METRICA_ID,
+  apiGateway: konturAppConfig.API_GATEWAY,
+  boundariesApi: konturAppConfig.BOUNDARIES_API,
+  reportsApi: konturAppConfig.REPORTS_API,
+  bivariateTilesRelativeUrl: konturAppConfig.BIVARIATE_TILES_RELATIVE_URL,
+  bivariateTilesServer: konturAppConfig.BIVARIATE_TILES_SERVER,
+  bivariateTilesIndicatorsClass: konturAppConfig.BIVARIATE_TILES_INDICATORS_CLASS,
+  refreshIntervalSec: konturAppConfig.REFRESH_INTERVAL_SEC,
+  mapAccessToken: konturAppConfig.MAP_ACCESS_TOKEN,
+  mapBaseStyle: konturAppConfig.MAP_BASE_STYLE,
+  layersByDefault: konturAppConfig.LAYERS_BY_DEFAULT,
+  featuresByDefault: konturAppConfig.FEATURES_BY_DEFAULT,
+  defaultFeed: konturAppConfig.DEFAULT_FEED,
+  defaultFeedDescription: konturAppConfig.DEFAULT_FEED_DESCRIPTION || '',
+  keycloakUrl: konturAppConfig.KEYCLOAK_URL,
+  keycloakRealm: konturAppConfig.KEYCLOAK_REALM,
+  keycloakClientId: konturAppConfig.KEYCLOAK_CLIENT_ID,
+  yandexMetricaId: konturAppConfig.YANDEX_METRICA_ID,
   baseUrl: import.meta.env?.VITE_BASE_PATH,
   isDevBuild: import.meta.env?.DEV,
   isProdBuild: import.meta.env?.PROD,
   appVersion: import.meta.env?.PACKAGE_VERSION as string,
   autoFocus: {
     desktopPaddings: {
-      top: window.konturAppConfig.AUTOFOCUS_PADDINGS?.[0] ?? 0,
-      right: window.konturAppConfig.AUTOFOCUS_PADDINGS?.[1] ?? 0, // Layers list panel
-      bottom: window.konturAppConfig.AUTOFOCUS_PADDINGS?.[2] ?? 0,
-      left: window.konturAppConfig.AUTOFOCUS_PADDINGS?.[3] ?? 0, // communities/analytics panel + paddings
+      top: konturAppConfig.AUTOFOCUS_PADDINGS?.[0] ?? 0,
+      right: konturAppConfig.AUTOFOCUS_PADDINGS?.[1] ?? 0, // Layers list panel
+      bottom: konturAppConfig.AUTOFOCUS_PADDINGS?.[2] ?? 0,
+      left: konturAppConfig.AUTOFOCUS_PADDINGS?.[3] ?? 0, // communities/analytics panel + paddings
     },
-    maxZoom: window.konturAppConfig.AUTOFOCUS_ZOOM,
+    maxZoom: konturAppConfig.AUTOFOCUS_ZOOM,
   },
   intercom: {
-    name: window.konturAppConfig.INTERCOM_DEFAULT_NAME,
-    app_id: window.konturAppConfig.INTERCOM_APP_ID,
-    custom_launcher_selector: window.konturAppConfig.INTERCOM_SELECTOR,
+    name: konturAppConfig.INTERCOM_DEFAULT_NAME,
+    app_id: konturAppConfig.INTERCOM_APP_ID,
+    custom_launcher_selector: konturAppConfig.INTERCOM_SELECTOR,
   },
 };
 
