@@ -4,7 +4,7 @@
   gap: var(--unit);
   padding: var(--unit);
   grid-template-columns: minmax(320px, 1fr) minmax(440px, 4fr);
-  grid-template-rows: 1fr;
+  grid-template-rows: calc(100% - 40px) 40px;
 }
 
 .mapWrap {

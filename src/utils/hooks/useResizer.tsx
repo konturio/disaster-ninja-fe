@@ -1,6 +1,6 @@
 import { useCallback, useLayoutEffect, useEffect, useRef } from 'react';
 import { useColumnContext } from '~views/Main/Layouts/SmartColumn';
-import type { SetStateAction} from 'react';
+import type { SetStateAction } from 'react';
 
 // Returns a callback that would handle element's height
 export const useHeightResizer = (
@@ -15,8 +15,8 @@ export const useHeightResizer = (
   const persistedCustomHeight = useRef<string | null>(null);
   /* Restore custom size */
   useLayoutEffect(() => {
-    if (contentRef.current) {
-      contentRef.current.style.height = persistedCustomHeight.current || '0px';
+    if (contentRef.current && persistedCustomHeight.current) {
+      contentRef.current.style.height = persistedCustomHeight.current || 'auto';
     }
   }, [isOpen]);
 
@@ -44,7 +44,7 @@ export const useHeightResizer = (
           minHeight,
           getOpenState: () => openStateRef.current,
         };
-        // UseCallback not have cleanup like useEffect, this is woraround
+        // UseCallback not have cleanup like useEffect, this is workaround
         cleanup.current = columnContext.addCard(card);
       }
     },

@@ -1,8 +1,6 @@
 .panelContainer {
   display: flex;
   flex-flow: column nowrap;
-  overflow: hidden;
-  box-shadow: var(--elevation-1);
   &.open {
     height: 100%;
   }
