@@ -1,0 +1,27 @@
+.contentWrap {
+  display: grid;
+  height: 100%;
+  gap: var(--unit);
+  padding: var(--unit);
+  grid-template-columns: minmax(320px, 1fr) minmax(440px, 4fr);
+  grid-template-rows: 1fr;
+}
+
+.mapWrap {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.mapSpaceBlank {
+  flex: 1;
+}
+
+.mapSpaceBottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--unit);
+  & > * {
+    flex: 1 0 auto;
+  }
+}

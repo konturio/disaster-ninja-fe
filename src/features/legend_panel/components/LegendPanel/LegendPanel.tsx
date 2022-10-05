@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { Panel, PanelIcon } from '@konturio/ui-kit';
@@ -10,6 +9,7 @@ import { LEGEND_PANEL_FEATURE_ID } from '~features/legend_panel/constants';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { panelClasses } from '~components/Panel';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
+import { useHeightResizer } from '~utils/hooks/useResizer';
 import s from './LegendPanel.module.css';
 import { LegendsList } from './LegendsList';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
@@ -22,6 +22,8 @@ export function LegendPanel({ layers }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
+  const minHeight = 100;
+  const handleRefChange = useHeightResizer(setIsOpen, isOpen, minHeight);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -37,7 +39,7 @@ export function LegendPanel({ layers }: LegendPanelProps) {
 
   useEffect(() => {
     if (!isOpen) turnOffTooltip(LEGEND_PANEL_FEATURE_ID);
-  }, [isOpen]);
+  }, [isOpen, turnOffTooltip]);
 
   useAutoCollapsePanel(isOpen, onPanelClose);
 
@@ -54,6 +56,9 @@ export function LegendPanel({ layers }: LegendPanelProps) {
           onModalClick: onPanelClose,
           showInModal: isMobile,
         }}
+        minContentHeightPx={minHeight}
+        resize="vertical"
+        contentContainerRef={handleRefChange}
       >
         <div className={s.panelBody}>
           {layers.map((layer) => (

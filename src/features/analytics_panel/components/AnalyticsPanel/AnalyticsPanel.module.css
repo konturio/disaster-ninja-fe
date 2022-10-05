@@ -12,13 +12,6 @@
 
   border-radius: var(--border-radius-unit);
 
-  /* allow resize second child which is content wrap */
-  & > div:nth-child(2) {
-    resize: vertical;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
   height: auto;
   &.collapse {
     & div:not(:first-child) {
@@ -28,20 +21,13 @@
 }
 
 .panelBody {
-  width: 320px;
+  width: 100%;
   padding: var(--double-unit);
 }
 
 /* laptop */
 @media screen and (max-width: 1900px) {
-  .analyticsPanel {
-    /* Temporary restrict height to fit all panels until  #12580 is done */
-    & > div:nth-child(2) {
-      height: 260px;
-    }
-  }
   .panelBody {
-    width: 320px;
     padding: var(--double-unit);
     overflow-y: auto;
   }

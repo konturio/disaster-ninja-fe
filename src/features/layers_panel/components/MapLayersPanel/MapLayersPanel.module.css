@@ -14,16 +14,6 @@
     overflow: hidden;
   }
 
-  /* allow resize second child which is content wrap */
-  & > div:nth-child(2) {
-    resize: vertical;
-    min-height: 60px;
-  }
-
-  &.show > div:nth-child(1) {
-    min-height: 40px;
-  }
-
   &.collapse {
     height: auto;
     & div:not(:first-child) {

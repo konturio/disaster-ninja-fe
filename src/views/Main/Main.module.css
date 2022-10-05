@@ -1,6 +1,10 @@
 .Map {
+  /* Make map fill only it's content width to show controlers */
   height: 100%;
+  height: stretch;
   width: 100%;
+  width: stretch;
+
   min-width: 100px;
   flex: 1;
   position: absolute !important;
@@ -16,19 +20,13 @@
     pointer-events: auto;
   }
 }
-
-.mainWrap {
-  margin: 0;
-  display: flex;
+.mainViewWrap {
   flex-grow: 1;
-  flex-flow: column nowrap;
 }
 
 .mainView {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
   height: 100%;
+  width: 100%;
 }
 
 .mapWrap {
