@@ -1,5 +1,6 @@
 import { Trans } from 'react-i18next';
 import { i18n } from '~core/localization';
+import config from '~core/app_config';
 import s from './About.module.css';
 
 export function AboutPage() {
@@ -37,13 +38,7 @@ function AboutText() {
             </Trans>
           </p>
           <h3>{i18n.t('about.l2')}</h3>
-          <p>
-            <Trans i18nKey="about.p2">
-              The Drawing Tools panel allows you to draw or upload your own geometry on
-              the map. You can also focus on a disaster-exposed area or an administrative
-              unit — a country, city, or region.
-            </Trans>
-          </p>
+          <p>{i18n.t('about.p2')}</p>
           <h3>{i18n.t('about.l3')}</h3>
           <p>
             <Trans i18nKey="about.p3">
@@ -68,16 +63,10 @@ function AboutText() {
           </p>
         </blockquote>
 
-        <p>
-          <Trans i18nKey="about.p5">
-            In addition, you can switch to Reports in the left panel to access data on
-            potential errors and inconsistencies in OpenStreetMap and help fix them by
-            mapping the respective area with the JOSM editor.
-          </Trans>
-        </p>
+        <p>{i18n.t('about.p5')}</p>
 
         <p className={s.linkToMain}>
-          <a href="/">{i18n.t('about.goToMap')} ⭢ </a>
+          <a href={config.baseUrl}>{i18n.t('about.goToMap')} ⭢ </a>
         </p>
 
         <p>
