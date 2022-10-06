@@ -1,4 +1,4 @@
-import { createResourceAtom } from '~utils/atoms/createResourceAtom';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { apiClient } from '~core/apiClientInstance';
 import { currentApplicationAtom } from '~core/shared_state';
@@ -29,14 +29,16 @@ const editableLayersListDependencyAtom = createAtom(
   'editableLayersListDependencyAtom',
 );
 
-export const editableLayersListResource = createResourceAtom(
-  async (params) => {
+export const editableLayersListResource = createAsyncAtom(
+  editableLayersListDependencyAtom,
+  async (params, abortController) => {
     const body = params?.appId ? { appId: params?.appId } : {};
 
     const responseData = await apiClient.post<EditableLayers[]>(
       '/layers/search/',
       body,
       true,
+      { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
     );
     if (responseData === null) return [];
 
@@ -44,5 +46,4 @@ export const editableLayersListResource = createResourceAtom(
     return responseData.filter((l) => l.group === EDITABLE_LAYERS_GROUP);
   },
   'editableLayersListResource',
-  editableLayersListDependencyAtom,
 );

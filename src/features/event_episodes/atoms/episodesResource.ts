@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
-import { createAtom, createResourceAtom } from '~utils/atoms';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { createAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
 import type { Episode } from '~core/types';
@@ -21,11 +22,15 @@ const episodesResourceDependencyAtom = createAtom(
   },
 );
 
-export const episodesResource = createResourceAtom(
-  async (deps) => {
+export const episodesResource = createAsyncAtom(
+  episodesResourceDependencyAtom,
+  async (deps, abortController) => {
     if (deps && deps.event?.id && deps.feed?.id) {
       const responseData = await apiClient.get<Episode[]>(
         `/events/${deps.feed.id}/${deps.event.id}/episodes`,
+        undefined,
+        undefined,
+        { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
       );
       if (!responseData) throw 'No data received';
 
@@ -38,6 +43,4 @@ export const episodesResource = createResourceAtom(
     return null;
   },
   'episodesResource',
-  episodesResourceDependencyAtom,
-  true,
 );
