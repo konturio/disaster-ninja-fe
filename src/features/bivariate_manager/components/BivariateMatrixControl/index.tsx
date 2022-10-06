@@ -173,8 +173,6 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
     };
 
     const onSelectRowCol = (x: number, y: number) => {
-      if (x === -1 || y === -1) return;
-
       if (x !== -1 && selectedColIndex.current !== x) {
         selectedColIndex.current = x;
         const columns = cellColumnReferences[selectedColIndex.current];
