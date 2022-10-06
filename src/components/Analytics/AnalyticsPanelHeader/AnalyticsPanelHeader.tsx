@@ -5,8 +5,10 @@ import { createStateMap } from '~utils/atoms';
 import { i18n } from '~core/localization';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 import styles from './AnalyticsPanelHeader.module.css';
-import type { Severity } from '~core/types';
-import type { ResourceAtomType } from '~utils/atoms/createResourceAtom';
+import type { AdvancedAnalyticsData, AnalyticsData, Severity } from '~core/types';
+import type { AsyncAtomState } from '~utils/atoms/createAsyncAtom/types';
+import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
+import type { Atom } from '@reatom/core';
 
 interface PanelHeadingProps {
   event: {
@@ -26,7 +28,9 @@ function PanelHeading({ event }: PanelHeadingProps) {
 }
 
 interface AnalyticsPanelHeaderParams {
-  resourceAtom: ResourceAtomType<any, any>;
+  resourceAtom:
+    Atom<AsyncAtomState<FocusedGeometry | null, AnalyticsData[] | null>>
+    | Atom<AsyncAtomState<FocusedGeometry | null, AdvancedAnalyticsData[] | null>>;
   loadingMessage: string;
 }
 
@@ -50,15 +54,19 @@ const AnalyticsPanelHeader = ({
       ? 'boundaries'
       : 'other';
 
-  return statesToComponents({
-    loading: () => <Text type="heading-m">{i18n.t(loadingMessage)}</Text>,
-    error: () => null,
-    ready: () =>
-      ({
-        event: <PanelHeading event={(focusedGeometry?.source as any).meta} />,
-        boundaries: <Text type="heading-m">{(focusedGeometry?.source as any).meta}</Text>,
-      }[sourceType]),
-  }) || <></>;
+  return (
+    statesToComponents({
+      loading: () => <Text type="heading-m">{i18n.t(loadingMessage)}</Text>,
+      error: () => null,
+      ready: () =>
+        ({
+          event: <PanelHeading event={(focusedGeometry?.source as any).meta} />,
+          boundaries: (
+            <Text type="heading-m">{(focusedGeometry?.source as any).meta}</Text>
+          ),
+        }[sourceType]),
+    }) || <></>
+  );
 };
 
 export default AnalyticsPanelHeader;

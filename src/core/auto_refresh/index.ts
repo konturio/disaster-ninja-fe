@@ -1,5 +1,6 @@
 import type { Unsubscribe } from '@reatom/core';
-import type { ResourceAtom } from '~utils/atoms/createResourceAtom';
+
+type SubscribeFn = (callback: (state: { loading: boolean }) => void) => () => void;
 
 class AutoRefreshService {
   private resources: Record<
@@ -29,12 +30,15 @@ class AutoRefreshService {
     if (this.timer) clearInterval(this.timer);
   }
 
-  addWatcher(id: string, atom: ResourceAtom<any, any>) {
-    const unsubscribe = atom.subscribe(({ loading }) => {
+  addWatcher(
+    id: string,
+    atom: { refetch: { dispatch: () => void }; subscribe: SubscribeFn },
+  ) {
+    const unsubscribe = atom.subscribe((state) => {
       this.resources[id] = {
         refetch: () => atom.refetch.dispatch(),
         unsubscribe: () => null,
-        loading,
+        loading: state.loading,
       };
     });
     this.resources[id].unsubscribe = unsubscribe;

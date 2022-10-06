@@ -1,4 +1,4 @@
-export { createResourceAtom } from './createResourceAtom';
+export * from './createResourceAtom';
 export { createStateMap } from './createStateMap';
 export {
   createAtom,

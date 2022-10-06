@@ -4,8 +4,12 @@ let mockingEnabled = false;
 
 const mocks = {};
 
-export function addMock(url, data) {
+export function addMock(url: string, data) {
   mocks[url] = data;
+}
+
+export function deleteMock(url: string) {
+  delete mocks[url];
 }
 
 export function enableMocking(state) {
@@ -48,18 +52,7 @@ const getMockResponse = (mockError) => {
   );
 };
 
-export function getOrigin() {
-  try {
-    return location.origin;
-  } catch (e) {
-    return '';
-  }
-}
-
-export function getMockKey(
-  baseURL: string | undefined,
-  targetUrl: string | undefined,
-) {
+export function getMockKey(baseURL: string | undefined, targetUrl: string | undefined) {
   return (baseURL ?? '') + (targetUrl ?? '');
 }
 

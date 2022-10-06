@@ -110,7 +110,7 @@ export const areaLayersDetailsParamsAtom = createAtom(
   },
 );
 
-// Call api
+// TODO: remove last createResourceAtom usage (#12801)
 export const areaLayersDetailsResourceAtom = createResourceAtom(
   (params) => {
     async function processor(): Promise<LayerInAreaDetails[] | null> {
@@ -126,7 +126,6 @@ export const areaLayersDetailsResourceAtom = createResourceAtom(
         throw e;
       }
     }
-
     return { processor, allowCancel: true };
   },
   'areaLayersDetailsResourceAtom',

@@ -11,6 +11,7 @@ import { BivariateMatrixCell } from './components/BivariateMatrixCell/BivariateM
 import styles from './style.module.css';
 import { BivariateMatrixCellConnector } from './components/BivariateMatrixConnector/BivariateMatrixCellConnector';
 import { BivariateMatrixHeadingEntry } from './components/BivariateMatrixHeadingEntry/BivariateMatrixHeadingEntry';
+import { AxisCaptions } from './components/AxisCaptions/AxisCaptions';
 import type { BivariateMatrixHeadingType } from './types';
 import type { MouseEvent } from 'react';
 
@@ -172,8 +173,6 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
     };
 
     const onSelectRowCol = (x: number, y: number) => {
-      if (x === -1 || y === -1) return;
-
       if (x !== -1 && selectedColIndex.current !== x) {
         selectedColIndex.current = x;
         const columns = cellColumnReferences[selectedColIndex.current];
@@ -297,6 +296,9 @@ const BivariateMatrixControl = forwardRef<HTMLDivElement | null, any>(
               ref={(rf) => setCellReference(rf, yHeadings.length - 1 - index, -1)}
             />
           ))}
+
+          <AxisCaptions baseDimension={baseDimension} />
+
           {xHeadings.map((entry, index) => (
             <BivariateMatrixHeadingEntry
               key={`vert_${index}`}

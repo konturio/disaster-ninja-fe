@@ -1,6 +1,5 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useCallback, useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Layers24 } from '@konturio/default-icons';
 import { useAction } from '@reatom/react';
@@ -10,6 +9,7 @@ import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { panelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
+import { useHeightResizer } from '~utils/hooks/useResizer';
 import { LayersTree } from '../LayersTree/LayersTree';
 import s from './MapLayersPanel.module.css';
 
@@ -17,6 +17,8 @@ export function MapLayerPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const minHeight = 40;
+  const handleRefChange = useHeightResizer(setIsOpen, isOpen, minHeight);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -24,7 +26,7 @@ export function MapLayerPanel() {
 
   useEffect(() => {
     !isOpen && turnOffTooltip(LAYERS_PANEL_FEATURE_ID);
-  }, [isOpen]);
+  }, [isOpen, turnOffTooltip]);
 
   const onPanelOpen = useCallback(() => {
     setIsOpen(true);
@@ -49,6 +51,9 @@ export function MapLayerPanel() {
           onModalClick: onPanelClose,
           showInModal: isMobile,
         }}
+        minContentHeightPx={minHeight}
+        resize={!isMobile ? 'vertical' : 'none'}
+        contentContainerRef={handleRefChange}
       >
         <div className={s.scrollable}>
           <LayersTree />

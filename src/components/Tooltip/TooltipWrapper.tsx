@@ -1,8 +1,8 @@
 import { useAction } from '@reatom/react';
 import { memo } from 'react';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import type { PointerEvent } from 'react';
 import type { TooltipData } from '~core/shared_state/currentTooltip';
+import type { MouseEvent } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Args = any[];
@@ -12,17 +12,18 @@ interface TooltipWrapperProps {
     showTooltip,
     hideTooltip,
   }: {
-    showTooltip: (e: PointerEvent<Element>, ...args: Args) => void;
+    showTooltip: (e: MouseEvent<Element>, ...args: Args) => void;
     hideTooltip: () => void;
   }) => JSX.Element;
-  tooltipText?: string;
+  tooltipText?: string | JSX.Element;
   renderTooltip?: (
-    e: PointerEvent<Element>,
+    e: MouseEvent<Element>,
     setTooltip: (tooltipData: TooltipData) => void,
     ...args: Args
   ) => void;
   tooltipId?: string;
   hoverBehavior?: boolean;
+  popupClasses?: { popupContent?: string };
 }
 
 const TooltipWrapper = memo(
@@ -32,13 +33,15 @@ const TooltipWrapper = memo(
     renderTooltip,
     tooltipId,
     hoverBehavior = true,
+    popupClasses,
   }: TooltipWrapperProps) => {
     const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
     const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
 
-    const renderTextTooltip = (e: PointerEvent<Element>) => {
+    const renderTextTooltip = (e: MouseEvent<Element>) => {
       if (tooltipText) {
         setTooltip({
+          popupClasses,
           popup: tooltipText,
           position: { x: e.clientX, y: e.clientY },
           onOuterClick(e, close) {
@@ -50,7 +53,7 @@ const TooltipWrapper = memo(
       }
     };
 
-    const showTooltip = (e: PointerEvent<Element>, ...args) => {
+    const showTooltip = (e: MouseEvent<Element>, ...args) => {
       if (!renderTooltip) {
         renderTextTooltip(e);
       } else {

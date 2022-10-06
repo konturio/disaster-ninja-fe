@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { createResourceAtom } from '~utils/atoms/createResourceAtom';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { editableLayersListResource } from './editableLayersListResource';
@@ -19,10 +19,7 @@ export const editableLayersDetailsParamsAtom = createAtom(
     enabledLayersAtom,
     editableLayersResourceAtom: editableLayersListResource,
   },
-  (
-    { get },
-    state: DetailsRequestParams | null = null,
-  ): DetailsRequestParams | null => {
+  ({ get }, state: DetailsRequestParams | null = null): DetailsRequestParams | null => {
     const editableLayersResource = get('editableLayersResourceAtom');
     if (editableLayersResource.loading || editableLayersResource.data === null)
       return state;
@@ -39,9 +36,7 @@ export const editableLayersDetailsParamsAtom = createAtom(
     }
 
     const requestParams: DetailsRequestParams = {
-      layersToRetrieveWithoutGeometryFilter: enabledEditableLAyers.map(
-        (l) => l.id,
-      ),
+      layersToRetrieveWithoutGeometryFilter: enabledEditableLAyers.map((l) => l.id),
       layersToRetrieveWithGeometryFilter: [],
     };
 
@@ -50,15 +45,14 @@ export const editableLayersDetailsParamsAtom = createAtom(
 );
 
 // Call api
-export const editableLayersDetailsResourceAtom = createResourceAtom(
-  async (params) => {
+export const editableLayersDetailsResourceAtom = createAsyncAtom(
+  editableLayersDetailsParamsAtom,
+  async (params, abortController) => {
     if (params === null) return null;
-    return await apiClient.post<LayerInAreaDetails[]>(
-      '/layers/details',
-      params,
-      true,
-    );
+    return await apiClient.post<LayerInAreaDetails[]>('/layers/details', params, true, {
+      signal: abortController.signal,
+      errorsConfig: { dontShowErrors: true },
+    });
   },
   'editableLayersDetailsResourceAtom',
-  editableLayersDetailsParamsAtom,
 );

@@ -35,7 +35,7 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
     const dim = ref.getClientRects()[0];
     // coeff 0.7 here is because of transform: scale(0.7) applied to matrix
     const baseDim = parseFloat(ref.getAttribute('data-base-dimension') || '0') * 0.7;
-    const newWidth = baseDim + dim.width + 18;
+    const newWidth = baseDim + dim.width + 58;
     const newHeight = dim.height + 105;
     if (
       !dimensions.current ||

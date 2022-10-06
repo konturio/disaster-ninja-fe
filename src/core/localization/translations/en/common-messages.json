@@ -142,6 +142,18 @@
         "header": "Bivariate Matrix"
       },
       "matrix": {
+        "caption": {
+          "base_axis": "Base axis",
+          "annex_axis": "Annex axis",
+          "tooltip": {
+            "p1": "Charts involving the Base and Annex axes help establish a relationship between two data sets.",
+            "li1": "Annex axis - parameters that we analyse",
+            "li2": "Base axis - reference point in the analysis",
+            "b": "Ex: the best location to open a cafe",
+            "p2": "We can explore the number of eatery places (Annex axis) against Population density (Base axis).",
+            "p3": "In this scenario, we are first interested in a small number of eatery places, and the number of people in that place gives us additional information."
+          }
+        },
         "header": {
           "title": "Choose two layers to explore correlations",
           "hint": "Layers and correlations are displayed for the current Selected Area"
