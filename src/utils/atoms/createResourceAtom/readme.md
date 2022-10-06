@@ -1,6 +1,6 @@
 /\*\*
 
-- You can chain this resources!
+- You can chain these resources!
 - The demo:
 - https://codesandbox.io/s/reatom-resource-atom-complex-qwi3h
   \*/

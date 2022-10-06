@@ -19,7 +19,7 @@ declare module 'vitest' {
 beforeEach(async (context) => {
   context.store = createStore();
 });
-
+// TODO:  #12819: default layers request use empty string as id
 test.skip('Default layers', async ({ store }) => {
   const unMockClient = mockClient(
     // @ts-ignore

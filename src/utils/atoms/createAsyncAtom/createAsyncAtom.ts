@@ -240,7 +240,6 @@ export function createAsyncAtom<
         }
       }
 
-      // return notDeepMemo(newState);
       return newState;
     },
     {
