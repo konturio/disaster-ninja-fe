@@ -1,6 +1,6 @@
 import { apiClient } from '~core/apiClientInstance';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { createAtom, createResourceAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { currentUserAtom } from '~core/shared_state/currentUser';
 import { currentApplicationAtom } from '~core/shared_state/currentApplication';
 import appConfig from '~core/app_config';
