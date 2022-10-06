@@ -10,11 +10,6 @@
     minmax(320px, 1fr);
   grid-template-rows: calc(100% - 40px) 40px;
 }
-/* .firstColumn, .secondColumn, .thirdColumn, .fourthColumn{
-  display: flex;
-  gap: var(--unit);
-  flex-flow: column nowrap;
-} */
 
 .analyticsColumn {
   display: flex;
@@ -55,5 +50,4 @@
 .footer {
   height: 40px;
   width: 100%;
-  /* grid-column: ; */
 }
