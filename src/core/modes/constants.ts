@@ -5,5 +5,6 @@ export const MODES_LABELS: Record<ApplicationMode, string> = {
   map: i18n.t('modes.map'),
   event: i18n.t('modes.event'),
   reports: i18n.t('modes.reports'),
-  bivariateManager: i18n.t('sidebar.biv_color_manager'),
+  bivariateManager: i18n.t('bivariate.color_manager.title'),
+  about: i18n.t('modes.about'),
 };

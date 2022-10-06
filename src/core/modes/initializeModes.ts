@@ -3,9 +3,12 @@ import { registerBivariateColorManagerMode } from './BivariateColorManagerMode';
 import { registerMapMode } from './MapMode';
 import { modesControlsAtom } from './modesControls';
 import { registerReportsMode } from './ReportsMode';
+import { registerAboutMode } from './registrations/AboutMode';
+
 import type { UserDataModel } from '~core/auth';
 
 export function initModes(userModel?: UserDataModel | null) {
+  registerAboutMode(modesControlsAtom);
   registerMapMode(modesControlsAtom);
   registerReportsMode(modesControlsAtom);
   if (userModel?.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)) {

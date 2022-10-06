@@ -60,6 +60,7 @@
 
 /* Mobile view */
 @media screen and (max-width: 960px) {
+
   .footer {
     position: relative;
     grid-column: 1/2;
@@ -82,23 +83,4 @@
 
 .afterChatContentWrap {
   display: flex;
-}
-.link {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-style: normal;
-  font-family: var(--font-family);
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  text-decoration: none;
-  color: var(--button-invert-color);
-
-  &:hover {
-    color: var(--primary-focus-outline-regular);
-  }
-
-  & span {
-    line-height: 0;
-  }
 }

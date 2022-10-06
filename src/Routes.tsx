@@ -1,10 +1,11 @@
-import { StrictMode, Suspense } from 'react';
+import { StrictMode, Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
 import { Router, Route, Redirect } from 'react-router-dom';
 import { useAtom } from '@reatom/react';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import history from '~core/history';
+import config from '~core/app_config';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LoginForm } from '~features/user_profile';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
@@ -14,12 +15,29 @@ import { CommonRoutesFeatures } from './RoutesWrap';
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
+const { AboutPage } = lazily(() => import('~views/About/About'));
 const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
 
 export function RoutedApp() {
   const [{ data: userModel, loading }] = useAtom(userResourceAtom);
+
+  useEffect(() => {
+    const isFirstTimeVisit = () =>
+      userModel &&
+      !loading &&
+      location.pathname === config.baseUrl &&
+      location.search === '' &&
+      !localStorage.getItem('landed');
+
+    // redirect first-time visitor "/" -> "/about"
+    if (isFirstTimeVisit()) {
+      localStorage.setItem('landed', 'true');
+      history.push(APP_ROUTES.about);
+    }
+  }, [loading, userModel]);
+
   return (
     <StrictMode>
       <OriginalLogo />
@@ -41,6 +59,12 @@ export function RoutedApp() {
               <Route exact path={APP_ROUTES.reports}>
                 <Suspense fallback={null}>
                   <Reports />
+                </Suspense>
+              </Route>
+
+              <Route exact path={APP_ROUTES.about}>
+                <Suspense fallback={null}>
+                  <AboutPage />
                 </Suspense>
               </Route>
 

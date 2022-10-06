@@ -41,19 +41,7 @@ type CommonRoutesFeaturesProps = {
 };
 
 const afterChatContent = (loginFeature: boolean) => {
-  return (
-    <div className={s.afterChatContentWrap}>
-      <a
-        href="https://www.kontur.io/portfolio/disaster-ninja/"
-        target="_blank"
-        className={s.link}
-        rel="noreferrer"
-      >
-        <Text type="heading-m">{i18n.t('about')}</Text>
-      </a>
-      {loginFeature && <UserProfile />}
-    </div>
-  );
+  return <div className={s.afterChatContentWrap}>{loginFeature && <UserProfile />}</div>;
 };
 
 export const CommonRoutesFeatures = ({
