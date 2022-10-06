@@ -6,7 +6,7 @@ import { isErrorWithMessage } from '~utils/common';
 import { abortable, ABORT_ERROR_MESSAGE, isAbortError } from './abort-error';
 import { isAtomLike } from './is-atom-like';
 import type { AsyncAtomOptions, AsyncAtomState, Fetcher, AsyncAtomDeps } from './types';
-import type { Atom, AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
+import type { AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
 
 const verbose = false;
 const log = (...args) => {
