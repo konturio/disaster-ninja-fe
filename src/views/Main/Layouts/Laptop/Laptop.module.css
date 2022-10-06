@@ -1,0 +1,43 @@
+.contentWrap {
+  display: grid;
+  height: 100%;
+  gap: var(--unit);
+  padding: var(--unit);
+  grid-template-columns: minmax(320px, 1fr) minmax(440px, 4fr);
+  grid-template-rows: calc(100% - 40px) 40px;
+}
+
+.mapWrap {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.mapSpaceBlank {
+  flex: 1;
+}
+
+.mapSpaceBottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--unit);
+  & > * {
+    flex: 1 0 auto;
+  }
+}
+
+.smartColumn {
+  position: relative;
+  pointer-events: none;
+}
+
+.smartColumnContent {
+  position: absolute;
+  display: flex;
+  top: 0;
+  right: 0;
+  left: 0;
+  gap: var(--unit);
+  flex-flow: column nowrap;
+  pointer-events: all;
+}

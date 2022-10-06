@@ -1,6 +1,10 @@
 .Map {
+  /* Make map fill only it's content width to show controlers */
   height: 100%;
+  height: stretch;
   width: 100%;
+  width: stretch;
+
   min-width: 100px;
   flex: 1;
   position: absolute !important;
@@ -16,39 +20,19 @@
     pointer-events: auto;
   }
 }
-
-.mainWrap {
-  margin: 0;
-  display: flex;
+.mainViewWrap {
   flex-grow: 1;
-  flex-flow: column nowrap;
 }
 
 .mainView {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
   height: 100%;
+  width: 100%;
 }
 
 .mapWrap {
   display: flex;
   flex-flow: row nowrap;
   z-index: 1;
-}
-
-.contentWrap {
-  display: grid;
-  /* analytics+layers column, advanced analytics column, map column, layers&legends column */
-  grid-template-columns: minmax(320px, 1fr) fit-content(400px) minmax(440px, 100vw) minmax(
-      320px,
-      1fr
-    );
-  /* 1 row - content, 2 row - footer + map, 3 row - map */
-  grid-template-rows: calc(100% - var(--app-header-height)) 40px;
-  height: 100%;
-  gap: var(--unit);
-  padding: var(--unit);
 }
 
 .footer {
@@ -65,171 +49,17 @@
   bottom: var(--unit);
 }
 
-.analyticsColumn {
-  display: flex;
-  flex-direction: column;
-  gap: var(--unit);
-  z-index: 1;
-}
-
-.advancedAnalyticsColumn {
-  display: flex;
-  flex-direction: column;
-  gap: var(--unit);
-}
-
-.mapColumn {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--unit);
-  grid-row: 1/3;
-  grid-column: 3;
-}
-
-.bottomMapContainer {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  gap: var(--unit);
-  z-index: 1;
-  width: 100%;
-  bottom: 0;
-  pointer-events: none;
-}
-
-.topMapContainer {
-  position: absolute;
-  top: calc(var(--app-header-height) + var(--unit));
-  left: 50%;
-  transform: translate(-50%, -100%);
-  z-index: 1;
-}
-
-.toolbarContainer {
-  position: relative;
-  & > div {
-    justify-content: center;
-  }
-}
-
-.timelineContainer {
-  pointer-events: auto;
-}
-
-.layersColumn {
-  display: flex;
-  flex-direction: column;
-  /* force panels elements to hold minimum height */
-  flex: 0 0 auto;
-  gap: var(--unit);
-  grid-column: 4;
-}
-
-.intercomPlaceholder {
-  height: 26px;
-  flex: 1 0 auto;
-}
-
-.mobileColumnsOffset {
-  display: none;
-}
-
 /* laptop viewport */
 @media screen and (max-width: 1900px) {
-  /* panel height is 40px, gap is 8px. 6 possible columns with 5 gap = 240px + 40px, 280px */
-  .contentWrap {
-    /* panel columns column, map column */
-    grid-template-columns: minmax(320px, 1fr) minmax(440px, 100vw);
-    grid-template-rows:
-      /* 1 row, 1 col - analytics, 2 col - map */
-      fit-content(calc(100% - 280px))
-      /* 2 row, 1 col - advancedAnalytics, 2 col - map */
-      fit-content(calc(100% - 280px))
-      /* 3 row, 1 col - layers, 2 col - map */
-      fit-content(calc(100% - 280px))
-      /* 4 row, 2 col - map */
-      auto
-      /* 5 row, 1,2 col - footer */
-      40px;
-    /* 6th row, 2 col - map (so it can reach bottom of the map) */
-    max-height: calc(100vh - var(--app-header-height));
-  }
-
-  .analyticsColumn {
-    grid-column: 1;
-    grid-row: 1;
-    z-index: 1;
-  }
-  .advancedAnalyticsColumn {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .mapColumn {
-    grid-column: 2;
-    grid-row: 1/-1;
-  }
-  .layersColumn {
-    grid-column: 1;
-    grid-row: 3/5;
-    overflow: hidden;
-    /* allow shadow of last element to be visible */
-    padding-bottom: 1px;
-  }
   .footer {
     position: relative;
     grid-column: 1/2;
     grid-row: -2;
   }
-
-  .intercomPlaceholder {
-    display: none;
-  }
 }
 
 /* Mobile view */
 @media screen and (max-width: 960px) {
-  .contentWrap {
-    /* panel columns column, map column */
-    grid-template-columns: 40px minmax(40px, 100vw);
-    /* 
-      1 row 1 col - analytics, 
-      2 row 1 col - advancedAnalytics, 
-      3 row 1 col - layersCol, 
-      4-5 row 1-2 col - footer 
-
-      1 - 3 row 2 col - map
-    */
-    grid-template-rows:
-      120px
-      fit-content(calc(100% - 280px))
-      fit-content(calc(100% - 280px))
-      fit-content(calc(100% - 280px))
-      auto
-      30px;
-    max-height: 100%;
-  }
-
-  .analyticsColumn {
-    grid-column: 1;
-    grid-row: 2;
-    z-index: auto;
-  }
-  .advancedAnalyticsColumn {
-    grid-column: 1;
-    grid-row: 3;
-  }
-  .mapColumn {
-    grid-column: 2;
-    grid-row: 1/7;
-  }
-  .layersColumn {
-    z-index: 1;
-    grid-column: 1;
-    grid-row: 4;
-    /* allow shadow of last element to be visible */
-    padding-bottom: 1px;
-  }
   .footer {
     position: relative;
     grid-column: 1/2;
@@ -237,43 +67,6 @@
     & .logo {
       position: static;
     }
-  }
-
-  .toolbarContainer {
-    position: absolute;
-    top: 25%;
-    right: var(--unit);
-    left: unset;
-    bottom: unset;
-    transform: translate(0%, 0%);
-  }
-
-  .intercomPlaceholder {
-    display: none;
-  }
-
-  .mobileColumnsOffset {
-    grid-column: 1;
-    grid-row: 1;
-    height: 120px;
-  }
-
-  .bottomMapContainer {
-    bottom: unset;
-    & .toolbarContainer {
-      top: 120px;
-      bottom: unset;
-    }
-  }
-}
-
-/* tight mobile view */
-@media screen and (max-width: 560px) {
-  .topMapContainer {
-    position: fixed;
-    transform: none;
-    top: calc(var(--app-header-height) + var(--unit));
-    left: 60px;
   }
 }
 

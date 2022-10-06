@@ -1,9 +1,9 @@
 .panelContainer {
   height: var(--panel-header-height);
   min-height: var(--panel-header-height);
+  flex: 1 0 auto;
   &.open {
     height: auto;
-    min-height: calc(var(--panel-header-height) + 60px);
   }
 }
 .legendPanel {
@@ -15,13 +15,6 @@
   border-radius: var(--border-radius);
   height: 100%;
   width: 100%;
-
-  /* Allow resize for content container */
-  & > div:nth-child(2) {
-    min-height: 60px;
-    overflow-y: auto;
-    resize: vertical;
-  }
 
   &.collapse {
     & div:not(:first-child) {
@@ -77,12 +70,15 @@
 }
 
 @media screen and (max-width: 960px) {
+  .panelContainer {
+    flex: 0 1 auto;
+  }
   .legendPanel.show {
     position: absolute;
     margin: 0;
     width: 100vw;
     max-height: unset;
-    height: 100%;
+    height: calc(100% - var(--app-header-height));
     align-items: center;
     & > div {
       width: 100%;

@@ -1,13 +1,11 @@
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
-import { useHistory } from 'react-router';
 import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
-import { EpisodesTimelinePanel } from '~features/event_episodes/components/EpisodesTimelinePanel/EpisodesTimelinePanel';
 import s from './Main.module.css';
+import { Layout } from './Layouts/Layout';
 import type { UserDataModel } from '~core/auth';
-import type { MutableRefObject } from 'react';
 
 const { EditFeaturesOrLayerPanel } = lazily(
   () =>
@@ -42,8 +40,6 @@ type MainViewProps = {
   userModel?: UserDataModel | null;
 };
 export function MainView({ userModel }: MainViewProps) {
-  const history = useHistory();
-
   useEffect(() => {
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
 
@@ -110,71 +106,36 @@ export function MainView({ userModel }: MainViewProps) {
         </Suspense>
       </div>
 
-      <div className={s.contentWrap}>
-        <div className={s.mobileColumnsOffset} />
-        {/* 1st column */}
-
-        <Suspense fallback={null}>
-          <div className={s.analyticsColumn}>
-            {userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />}
-            {userModel?.hasFeature(AppFeature.EVENTS_LIST) && userModel?.feeds && (
-              <EventListPanel />
-            )}
-          </div>
-        </Suspense>
-
-        {/* 2nd column */}
-
-        <Suspense fallback={null}>
-          <div className={s.advancedAnalyticsColumn}>
-            {userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-              <AdvancedAnalyticsPanel />
-            )}
-          </div>
-        </Suspense>
-
-        {/* "Map" column */}
-
-        <Suspense fallback={null}>
-          <div className={s.mapColumn}>
-            <div className={s.topMapContainer}>
-              <DrawToolsToolbox />
-            </div>
-
-            <div className={s.bottomMapContainer}>
-              <div className={clsx(s.toolbarContainer, s.clickThrough)}>
-                <Toolbar />
-              </div>
-              <div className={clsx(s.timelineContainer, s.clickThrough)}>
-                {/* TO REMOVE <EpisodesTimelinePanel /> */}
-                {userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />}
-              </div>
+      <Layout
+        advancedAnalytics={
+          userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+            <AdvancedAnalyticsPanel />
+          )
+        }
+        analytics={
+          userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />
+        }
+        disasters={
+          userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
+          userModel?.feeds && <EventListPanel />
+        }
+        layers={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && <MapLayersList />}
+        legend={userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
+        matrix={userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && <BivariatePanel />}
+        timeline={
+          userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />
+        }
+        toolbar={<Toolbar />}
+        footer={
+          <div className={clsx(s.footer, s.clickThrough)}>
+            <div className={s.logo}>
+              <Logo height={24} palette={'contrast'} />
             </div>
           </div>
-        </Suspense>
-
-        {/* 4th column */}
-
-        <Suspense fallback={null}>
-          <div className={s.layersColumn}>
-            {userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
-            {userModel?.hasFeature(AppFeature.CREATE_LAYER) && (
-              <EditFeaturesOrLayerPanel />
-            )}
-            {userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && <MapLayersList />}
-            {userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && <BivariatePanel />}
-            <div className={s.intercomPlaceholder}></div>
-          </div>
-        </Suspense>
-
-        {/* Footer */}
-
-        <div className={clsx(s.footer, s.clickThrough)}>
-          <div className={s.logo}>
-            <Logo height={24} palette={'contrast'} />
-          </div>
-        </div>
-      </div>
+        }
+        editPanel={<EditFeaturesOrLayerPanel />}
+        drawToolbox={<DrawToolsToolbox />}
+      />
     </div>
   );
 }
