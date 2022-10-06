@@ -133,7 +133,7 @@ const weatherResource = createResourceAtom<WeatherUnits, WeatherState>(
 );
 ```
 
-3. Pass abort controller to feather, for cancel request automatically.
+3. Pass abort controller to fetcher, for cancel request automatically.
 
 - and remove error throwing after request aborted
 
