@@ -7,13 +7,12 @@ import s from './Main.module.css';
 import { Layout } from './Layouts/Layout';
 import type { UserDataModel } from '~core/auth';
 
-// To be restored later
-// const { EditFeaturesOrLayerPanel } = lazily(
-//   () =>
-//     import(
-//       '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
-//     ),
-// );
+const { EditFeaturesOrLayerPanel } = lazily(
+  () =>
+    import(
+      '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
+    ),
+);
 
 const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
@@ -134,6 +133,7 @@ export function MainView({ userModel }: MainViewProps) {
             </div>
           </div>
         }
+        editPanel={<EditFeaturesOrLayerPanel />}
         drawToolbox={<DrawToolsToolbox />}
       />
     </div>

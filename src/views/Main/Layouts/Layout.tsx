@@ -4,7 +4,7 @@ import {
   useMediaQuery,
 } from '~utils/hooks/useMediaQuery';
 import { DesktopLayout } from './Desktop/Desktop';
-import { LaptopLayout as LaptopAndMobileLayout } from './Laptop/Laptop';
+import { LaptopLayout } from './Laptop/Laptop';
 import { MobileLayout } from './Mobile/Mobile';
 
 export function Layout({
@@ -18,6 +18,7 @@ export function Layout({
   matrix,
   drawToolbox,
   footer,
+  editPanel,
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -31,6 +32,7 @@ export function Layout({
             {disasters}
             {advancedAnalytics}
             {legend}
+            {editPanel}
             {layers}
             {matrix}
           </>
@@ -48,13 +50,14 @@ export function Layout({
 
   if (isLaptop)
     return (
-      <LaptopAndMobileLayout
+      <LaptopLayout
         firstColumn={
           <>
             {analytics}
             {disasters}
             {advancedAnalytics}
             {legend}
+            {editPanel}
             {layers}
             {matrix}
           </>
@@ -89,6 +92,7 @@ export function Layout({
       layersColumn={
         <>
           {legend}
+          {editPanel}
           {layers}
         </>
       }

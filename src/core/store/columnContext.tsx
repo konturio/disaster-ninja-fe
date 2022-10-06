@@ -116,6 +116,6 @@ export class Resizer {
   }
 
   destroy() {
-    // TODO
+    // noop
   }
 }
