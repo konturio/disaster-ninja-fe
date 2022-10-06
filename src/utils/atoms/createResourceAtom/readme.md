@@ -1,9 +1,8 @@
-/\*\*
+You can chain resources - they inherit state from parent
+The demo:
 
-- You can chain these resources!
-- The demo:
 - https://codesandbox.io/s/reatom-resource-atom-complex-qwi3h
-  \*/
+  On demo you see a list of atoms' states, every atom is the child of previous. Cancelling atom will cancel all its children.
 
 Now we have next createResourceAtom signature
 
