@@ -1,7 +1,7 @@
 import { useContext, createContext } from 'react';
 import type { MutableRefObject } from 'react';
 
-export const ColumnContext = createContext<Resizer | string>('no provider was given');
+export const ColumnContext = createContext<Resizer | null>(null);
 
 export function useColumnContext() {
   return useContext(ColumnContext);

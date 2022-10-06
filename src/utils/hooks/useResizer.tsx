@@ -1,6 +1,6 @@
 import { useCallback, useLayoutEffect, useEffect, useRef } from 'react';
 import { useColumnContext } from '~core/store/columnContext';
-import type { PanelMeta} from '~core/store/columnContext';
+import type { PanelMeta } from '~core/store/columnContext';
 import type { SetStateAction } from 'react';
 
 // Returns a callback that would handle element's height
@@ -37,7 +37,7 @@ export const useHeightResizer = (
     (node: HTMLDivElement) => {
       contentRef.current = node;
       if (cleanup.current) cleanup.current();
-      if (typeof columnContext === 'string') return;
+      if (!columnContext) return;
       if (node) {
         const panel: PanelMeta = {
           resizableNode: node,
