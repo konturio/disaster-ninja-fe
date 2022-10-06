@@ -111,7 +111,7 @@ const weatherResource = createResourceAtom<WeatherUnits, WeatherState>(
 
 ```ts
 const weatherResource = createResourceAtom<WeatherUnits, WeatherState>(
-  weatherUnitsAtom, // Now it closer to feather function arguments
+  weatherUnitsAtom, // Now it closer to fetcher function arguments
   (weatherUnits) => {
     return apiClient.get<WeatherState[]>(`/weather?units=${weatherUnits}`);
   },
