@@ -78,7 +78,7 @@
     margin: 0;
     width: 100vw;
     max-height: unset;
-    height: 100%;
+    height: calc(100% - var(--app-header-height));
     align-items: center;
     & > div {
       width: 100%;

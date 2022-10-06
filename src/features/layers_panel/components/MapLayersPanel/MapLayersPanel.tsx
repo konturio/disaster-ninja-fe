@@ -52,7 +52,7 @@ export function MapLayerPanel() {
           showInModal: isMobile,
         }}
         minContentHeightPx={minHeight}
-        resize="vertical"
+        resize={!isMobile ? 'vertical' : 'none'}
         contentContainerRef={handleRefChange}
       >
         <div className={s.scrollable}>
