@@ -230,7 +230,7 @@ export function createResourceAtom<P, T>(
       onChange('paramsAtom', (newParams, prevParams) => {
         schedule((dispatch) => {
           if (isObject(newParams)) {
-            // Check states than we can be escalated
+            // Check states than can be escalated
             if ('canceled' in newParams && newParams.canceled) {
               dispatch(
                 resourceFetcherAtom.cancel(
