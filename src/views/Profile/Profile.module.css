@@ -5,6 +5,31 @@
   --section: 280px;
 }
 
+.flexWrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.profileWrap {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.divider {
+  flex: 1 1 auto;
+  max-width: 160px;
+}
+
+.settingsWrap {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
 .loginWrap {
   margin: auto;
   max-width: var(--section);
