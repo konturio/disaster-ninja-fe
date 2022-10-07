@@ -1,15 +1,3 @@
-.Map {
-  /* Make map fill only it's content width to show controlers */
-  height: 100%;
-  width: 100%;
-  min-width: 100px;
-  flex: 1;
-
-  & .maplibregl-canvas {
-    width: 100% !important;
-  }
-}
-
 .clickThrough {
   pointer-events: none;
   & > * {
@@ -23,13 +11,28 @@
 .mainView {
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
 .mapWrap {
   display: flex;
   flex-flow: row nowrap;
-  z-index: 1;
   height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.Map {
+  /* Make map fill only it's content width to show controlers */
+  height: 100%;
+  width: 100%;
+
+  min-width: 100px;
+  flex: 1;
+
+  & .maplibregl-canvas {
+    width: 100% !important;
+  }
 }
 
 .footer {
