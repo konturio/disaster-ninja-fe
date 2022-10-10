@@ -44,7 +44,7 @@ export function EventsListPanel({
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const virtuoso = useRef(null);
   const [{ data: userModel }] = useAtom(userResourceAtom);
-  const minHeight = 190;
+  const minHeight = 279;
   const handleRefChange = useHeightResizer(setIsOpen, isOpen, minHeight);
 
   const togglePanel = useCallback(() => {

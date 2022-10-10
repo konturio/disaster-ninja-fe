@@ -17,7 +17,7 @@ export function MapLayerPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const minHeight = 40;
+  const minHeight = 79;
   const handleRefChange = useHeightResizer(setIsOpen, isOpen, minHeight);
 
   const togglePanel = useCallback(() => {

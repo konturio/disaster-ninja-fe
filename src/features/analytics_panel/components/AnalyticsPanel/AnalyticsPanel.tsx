@@ -19,7 +19,7 @@ const LazyLoadedAnalyticsPanelHeader = lazy(
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const minHeight = 100;
+  const minHeight = 119;
   const handleRefChange = useHeightResizer(setIsOpen, isOpen, minHeight);
 
   const togglePanel = useCallback(() => {

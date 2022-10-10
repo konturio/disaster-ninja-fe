@@ -22,7 +22,7 @@ export function LegendPanel({ layers }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
-  const minHeight = 100;
+  const minHeight = 79;
   const handleRefChange = useHeightResizer(setIsOpen, isOpen, minHeight);
 
   const togglePanel = useCallback(() => {
