@@ -1,7 +1,7 @@
 import { Info24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
-import { currentModeAtom } from '../currentMode';
-import type { ModesControlsAtom } from '../modesControls';
+import { currentModeAtom } from '~core/modes/currentMode';
+import type { ModesControlsAtom } from '~core/modes/modesControls';
 
 export function registerAboutMode(modesControlAtom: ModesControlsAtom) {
   modesControlAtom.addControl.dispatch({

@@ -8,7 +8,6 @@ export const currentModeAtom = createAtom(
   },
   ({ onAction }, state: ApplicationMode = 'map') => {
     onAction('setCurrentMode', (mode) => (state = mode));
-
     return state;
   },
   'currentModeAtom',

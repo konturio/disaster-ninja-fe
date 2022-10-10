@@ -9,12 +9,11 @@ import { i18n } from '~core/localization';
 import config from '~core/app_config';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { AppFeature } from '~core/auth/types';
-import { currentApplicationAtom } from '~core/shared_state';
-import { initUrlStore } from '~core/url_store';
+import { urlStoreAtom } from '~core/url_store/atoms/urlStore';
+import { forceRun } from '~utils/atoms/forceRun';
 import { initModes } from '~core/modes/initializeModes';
 import { Row } from '~components/Layout/Layout';
 import { APP_ROUTES, findCurrentMode } from '~core/app_config/appRoutes';
-import { urlStoreAtom } from '~core/url_store/atoms/urlStore';
 import { currentModeAtom } from '~core/modes/currentMode';
 import s from './views/Main/Main.module.css';
 import type { UserDataModel } from '~core/auth';
@@ -49,7 +48,6 @@ export const CommonRoutesFeatures = ({
   children,
 }: CommonRoutesFeaturesProps) => {
   const { pathname } = useLocation();
-  const refreshURL = useAction(urlStoreAtom.refreshUrl);
   const setApplicationMode = useAction(currentModeAtom.setCurrentMode);
 
   useEffect(() => {
@@ -60,27 +58,13 @@ export const CommonRoutesFeatures = ({
     }
   }, [userModel]);
 
-  // TODO: this is needed to get features from routes other than '/', as features need /apps/default_id
-  // Remove currentApplicationAtom.init.dispatch(); right after we don't need /apps/default_id for features request
   useEffect(() => {
-    if (
-      matchPath(pathname, {
-        path: APP_ROUTES.map,
-        exact: true,
-      }) ||
-      matchPath(pathname, {
-        path: APP_ROUTES.eventExplorer,
-        exact: true,
-      })
-    ) {
-      initUrlStore();
-      refreshURL();
-    } else {
-      currentApplicationAtom.init.dispatch();
-    }
+    return forceRun(urlStoreAtom);
+  }, []);
+
+  useEffect(() => {
     setApplicationMode(findCurrentMode(pathname));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, setApplicationMode, refreshURL]);
+  }, [pathname, setApplicationMode]);
 
   const headerTitle = getHeaderTitle(pathname);
 

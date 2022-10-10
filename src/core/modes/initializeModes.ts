@@ -1,10 +1,9 @@
 import { AppFeature } from '~core/auth/types';
-import { registerBivariateColorManagerMode } from './BivariateColorManagerMode';
-import { registerMapMode } from './MapMode';
+import { registerBivariateColorManagerMode } from './registrations/bivariateColorManagerMode';
+import { registerMapMode } from './registrations/mapMode';
 import { modesControlsAtom } from './modesControls';
-import { registerReportsMode } from './ReportsMode';
-import { registerAboutMode } from './registrations/AboutMode';
-
+import { registerReportsMode } from './registrations/reportsMode';
+import { registerAboutMode } from './registrations/aboutMode';
 import type { UserDataModel } from '~core/auth';
 
 export function initModes(userModel?: UserDataModel | null) {

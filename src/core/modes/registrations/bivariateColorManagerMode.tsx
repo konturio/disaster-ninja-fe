@@ -1,7 +1,7 @@
 import { Prefs24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { currentModeAtom } from '~core/modes/currentMode';
-import type { ModesControlsAtom } from './modesControls';
+import type { ModesControlsAtom } from '~core/modes/modesControls';
 
 export function registerBivariateColorManagerMode(modesControlsAtom: ModesControlsAtom) {
   modesControlsAtom.addControl.dispatch({
