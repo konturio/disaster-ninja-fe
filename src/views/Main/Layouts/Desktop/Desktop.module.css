@@ -11,7 +11,8 @@
   grid-template-rows: calc(100% - 40px) 40px;
 }
 
-.analyticsColumn {
+.analyticsColumn,
+.layersColumn {
   display: flex;
   flex-direction: column;
   gap: var(--unit);
@@ -39,12 +40,6 @@
 .intercomPlaceholder {
   height: 30px;
   flex: 1 0 auto;
-}
-
-.layersColumn {
-  display: flex;
-  flex-direction: column;
-  gap: var(--unit);
 }
 
 .footer {
