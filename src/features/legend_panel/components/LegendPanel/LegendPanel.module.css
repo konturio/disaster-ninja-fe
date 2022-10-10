@@ -61,6 +61,18 @@
   margin-left: auto;
 }
 
+/* Desktop only */
+@media screen and (min-width: 1900px) {
+  /* Prevent resizing out of parent container */
+  .panelContainer.isOpen {
+    min-height: 120px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: var(--elevation-1);
+  }
+}
+
+/* Mobile */
 @media screen and (max-width: 960px) {
   .legendPanel.show {
     position: absolute;

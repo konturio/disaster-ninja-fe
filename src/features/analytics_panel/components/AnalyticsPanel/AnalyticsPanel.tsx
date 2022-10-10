@@ -36,7 +36,7 @@ export function AnalyticsPanel() {
 
   useAutoCollapsePanel(isOpen, onPanelClose);
   return (
-    <div className={styles.panelContainer}>
+    <div className={clsx(styles.panelContainer, isOpen && styles.isOpen)}>
       <Panel
         header={String(i18n.t('analytics_panel.header_title'))}
         headerIcon={<Analytics24 />}
