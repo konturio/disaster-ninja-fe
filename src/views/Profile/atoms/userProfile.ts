@@ -1,8 +1,7 @@
 import { apiClient } from '~core/apiClientInstance';
-import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { currentUserAtom } from '~core/shared_state';
-import { createResourceAtom } from '~utils/atoms';
+import { createAtom, createResourceAtom } from '~utils/atoms';
 
 // Atoms we might need
 // userStateAtom
@@ -42,9 +41,10 @@ export const currentProfileAtom = createAtom(
 );
 
 export const profileResourceAtom = createResourceAtom(
-  (profile) => {
+  async (profile) => {
+    // TODO - change to createAsyncAtom
     if (!profile) return null;
-    const responseData = await userProfileClient.get<profileGetResponse>(
+    const responseData = await apiClient.get<profileGetResponse>(
       '/users/current_user',
       undefined,
       true,

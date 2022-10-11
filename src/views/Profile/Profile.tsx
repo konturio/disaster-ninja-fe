@@ -1,10 +1,13 @@
 import { Button, Input, Radio, Select, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react';
+import clsx from 'clsx';
 import { userStateAtom } from '~core/auth';
 import { LoginForm } from '~features/user_profile';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
+import { Textarea } from '~components/Textarea/Textarea';
 import s from './Profile.module.css';
+const authInputClasses = { input: clsx(s.authInput) };
 
 export function ProfileMode() {
   // login if no auth
@@ -24,12 +27,9 @@ export function ProfileMode() {
 
             {/* Full Name */}
             <Input
-              error={i18n.t('profile.fullNameError')}
+              classes={authInputClasses}
               showTopPlaceholder
-              value={''}
-              onChange={() => {
-                // noop
-              }}
+              value={'formData.email'}
               placeholder={i18n.t('profile.fullName')}
             />
 
@@ -43,8 +43,9 @@ export function ProfileMode() {
               placeholder={i18n.t('profile.email')}
               disabled
             />
-
-            <textarea placeholder="Bio" className={s.biography}></textarea>
+            <div className={s.biography}>
+              <Textarea placeholder="Bio" showTopPlaceholder />
+            </div>
 
             <Button title="Logout" onClick={logout}>
               Logout
