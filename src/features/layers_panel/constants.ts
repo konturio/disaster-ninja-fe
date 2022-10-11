@@ -21,3 +21,4 @@ export const CONTEXT_MENU_ITEMS: ContextMenuItemType[] = [
 ];
 
 export const LAYERS_PANEL_FEATURE_ID = 'layers-panel';
+export const MIN_HEIGHT = 79;

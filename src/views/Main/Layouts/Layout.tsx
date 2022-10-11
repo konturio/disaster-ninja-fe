@@ -91,6 +91,7 @@ export function Layout({
       }
       layersColumn={
         <>
+          {matrix}
           {legend}
           {editPanel}
           {layers}

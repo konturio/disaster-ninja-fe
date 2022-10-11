@@ -5,11 +5,11 @@ import { Layers24 } from '@konturio/default-icons';
 import { useAction } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { panelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
+import { LAYERS_PANEL_FEATURE_ID, MIN_HEIGHT } from '../../constants';
 import { LayersTree } from '../LayersTree/LayersTree';
 import s from './MapLayersPanel.module.css';
 
@@ -17,8 +17,7 @@ export function MapLayerPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const minHeight = 40;
-  const handleRefChange = useHeightResizer(setIsOpen, isOpen, minHeight);
+  const handleRefChange = useHeightResizer(setIsOpen, isOpen, MIN_HEIGHT);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -51,7 +50,7 @@ export function MapLayerPanel() {
           onModalClick: onPanelClose,
           showInModal: isMobile,
         }}
-        minContentHeightPx={minHeight}
+        minContentHeightPx={MIN_HEIGHT}
         resize={!isMobile ? 'vertical' : 'none'}
         contentContainerRef={handleRefChange}
       >

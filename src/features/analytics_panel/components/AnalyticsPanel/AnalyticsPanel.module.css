@@ -25,6 +25,13 @@
   padding: var(--double-unit);
 }
 
+/* Desktop only */
+@media screen and (min-width: 1900px) {
+  .contentWrap {
+    max-height: 460px;
+  }
+}
+
 /* laptop */
 @media screen and (max-width: 1900px) {
   .panelBody {
