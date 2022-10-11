@@ -37,10 +37,8 @@ func renderTemplate(response http.ResponseWriter, request *http.Request) {
 func handleStaticFiles(fs http.Handler) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 		url := request.URL.Path
-		log.Println("url", url)
 		switch {
 		case strings.Contains(url, "/config/"):
-			log.Println("reset cache")
 			response.Header().Add("Expires", "-1")
 			response.Header().Add("Cache-Control", "no-cache")
 		default:
