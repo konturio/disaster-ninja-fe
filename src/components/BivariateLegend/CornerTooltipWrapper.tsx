@@ -1,9 +1,8 @@
 import { cloneElement, isValidElement } from 'react';
 import clsx from 'clsx';
-import { i18n } from '~core/localization';
 import { TooltipWrapper } from '~components/Tooltip';
 import { formatSentimentDirection } from '~utils/bivariate';
-import { CORNER_POINTS_INDEXES } from './const';
+import { LOW, HIGH, isBottomSide, isLeftSide, CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';
 import type { ReactNode, MouseEvent } from 'react';
 import type { Cell } from '@konturio/ui-kit/tslib/Legend/types';
@@ -22,10 +21,9 @@ const CornerTooltipWrapper = ({ children, hints }: CornerTooltipWrapperProps) =>
     _cell: Cell,
     i: number,
   ) => {
-    const cornerIndex = CORNER_POINTS_INDEXES.indexOf(i);
-    if (hints && cornerIndex >= 0) {
+    if (hints && CORNER_POINTS_INDEXES.includes(i)) {
       setTooltip({
-        popup: <BivariateLegendCornerTooltip cornerIndex={cornerIndex} hints={hints} />,
+        popup: <BivariateLegendCornerTooltip cellIndex={i} hints={hints} />,
         position: { x: e.clientX, y: e.clientY },
         hoverBehavior: true,
       });
@@ -45,33 +43,24 @@ const CornerTooltipWrapper = ({ children, hints }: CornerTooltipWrapperProps) =>
   ) : null;
 };
 
-const isBottomCornerPoint = (cornerIndex: number): boolean =>
-  cornerIndex === 2 || cornerIndex === 3;
-
-const isLeftCornerPoint = (cornerIndex: number): boolean =>
-  cornerIndex === 0 || cornerIndex === 2;
-
-const LOW = `↓${i18n.t('bivariate.legend.low')}`;
-const HIGH = `↑${i18n.t('bivariate.legend.high')}`;
-
 const BivariateLegendCornerTooltip = ({
   hints,
-  cornerIndex,
+  cellIndex,
 }: {
   hints: LayerMeta['hints'];
-  cornerIndex: number;
+  cellIndex: number;
 }) => {
   if (!hints) return null;
   const rows = [
     {
       label: hints.x?.label,
-      direction: hints.x?.direction?.[isBottomCornerPoint(cornerIndex) ? 0 : 1],
-      indicator: isBottomCornerPoint(cornerIndex) ? LOW : HIGH,
+      direction: hints.x?.direction?.[isBottomSide(cellIndex) ? 0 : 1],
+      indicator: isBottomSide(cellIndex) ? LOW : HIGH,
     },
     {
       label: hints.y?.label,
-      direction: hints.y?.direction?.[isLeftCornerPoint(cornerIndex) ? 0 : 1],
-      indicator: isLeftCornerPoint(cornerIndex) ? LOW : HIGH,
+      direction: hints.y?.direction?.[isLeftSide(cellIndex) ? 0 : 1],
+      indicator: isLeftSide(cellIndex) ? LOW : HIGH,
     },
   ];
 

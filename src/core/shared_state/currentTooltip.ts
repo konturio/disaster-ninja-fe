@@ -8,6 +8,7 @@ export type TooltipData = {
   popup: string | JSX.Element;
   popupClasses?: { popupContent?: string };
   onOuterClick?: (event, closeTooltip: () => void) => void;
+  onClose?: (event, closeTooltip: () => void) => void;
   hoverBehavior?: boolean;
   initiatorId?: string;
 };

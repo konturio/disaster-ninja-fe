@@ -70,6 +70,10 @@ export function Tooltip({
         : closeTooltip();
   }
 
+  function onCloseTooltip(e) {
+    properties?.onClose ? properties.onClose(e, closeTooltip) : closeTooltip();
+  }
+
   function stopPropagation(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     e.stopPropagation();
   }
@@ -101,7 +105,7 @@ export function Tooltip({
                 properties.popup
               )}
               {!properties.hoverBehavior && (
-                <div className={s.closeIcon} onClick={() => closeTooltip()}>
+                <div className={s.closeIcon} onClick={onCloseTooltip}>
                   <Close16 />
                 </div>
               )}

@@ -2,17 +2,19 @@ import { createAtom } from '~utils/atoms';
 import type mapLibre from 'maplibre-gl';
 
 // listener that returns `true` allows next listener to run. If returns `false`, no listeners will be executed after
-type MapListener = (
+export type MapListener = (
   event: mapLibre.MapMouseEvent & mapLibre.EventData,
   map?: mapLibre.Map,
 ) => boolean;
 type MapListenersAtomState = {
   click: { listener: MapListener; priority: number }[];
+  mousemove: { listener: MapListener; priority: number }[];
 };
 type MapEvent = keyof MapListenersAtomState;
 
 const defaultListeners = {
   click: [],
+  mousemove: [],
 };
 
 export function registerMapListener(
@@ -28,11 +30,7 @@ export function registerMapListener(
 
 export const mapListenersAtom = createAtom(
   {
-    addMapListener: (
-      eventType: MapEvent,
-      listener: MapListener,
-      priority: number,
-    ) => ({
+    addMapListener: (eventType: MapEvent, listener: MapListener, priority: number) => ({
       eventType,
       listener,
       priority,
@@ -47,8 +45,7 @@ export const mapListenersAtom = createAtom(
       const listenerCategory = [...state[eventType]];
 
       // Push listener by priorities or just push it if it's firt
-      if (!listenerCategory.length)
-        listenerCategory.push({ listener, priority });
+      if (!listenerCategory.length) listenerCategory.push({ listener, priority });
       else
         for (let i = 0; i < listenerCategory.length; i++) {
           const listenerWrap = listenerCategory[i];
@@ -76,9 +73,7 @@ export const mapListenersAtom = createAtom(
     onAction(
       'removeMapListener',
       ({ eventType, listener }) =>
-        (state[eventType] = state[eventType].filter(
-          (l) => l.listener !== listener,
-        )),
+        (state[eventType] = state[eventType].filter((l) => l.listener !== listener)),
     );
     return state;
   },
