@@ -7,6 +7,7 @@ import { panelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
+import { MIN_HEIGHT } from '../../constants';
 import styles from './AnalyticsPanel.module.css';
 
 const LazyLoadedAnalyticsContainer = lazy(
@@ -19,8 +20,7 @@ const LazyLoadedAnalyticsPanelHeader = lazy(
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const minHeight = 119;
-  const handleRefChange = useHeightResizer(setIsOpen, isOpen, minHeight);
+  const handleRefChange = useHeightResizer(setIsOpen, isOpen, MIN_HEIGHT);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -52,7 +52,7 @@ export function AnalyticsPanel() {
           onModalClick: onPanelClose,
           showInModal: isMobile,
         }}
-        minContentHeightPx={minHeight}
+        minContentHeightPx={MIN_HEIGHT}
         resize="vertical"
         contentClassName={styles.contentWrap}
         contentContainerRef={handleRefChange}

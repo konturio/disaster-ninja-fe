@@ -23,6 +23,7 @@ import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineT
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { EventCard } from '../EventCard/EventCard';
+import { MIN_HEIGHT } from '../../constants';
 import s from './EventsListPanel.module.css';
 import type { Event } from '~core/types';
 
@@ -44,8 +45,7 @@ export function EventsListPanel({
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const virtuoso = useRef(null);
   const [{ data: userModel }] = useAtom(userResourceAtom);
-  const minHeight = 279;
-  const handleRefChange = useHeightResizer(setIsOpen, isOpen, minHeight);
+  const handleRefChange = useHeightResizer(setIsOpen, isOpen, MIN_HEIGHT);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -91,7 +91,7 @@ export function EventsListPanel({
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        minContentHeightPx={minHeight}
+        minContentHeightPx={MIN_HEIGHT}
         resize={isLaptop ? 'vertical' : 'none'}
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
