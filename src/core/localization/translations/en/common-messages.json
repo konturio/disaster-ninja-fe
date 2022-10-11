@@ -172,7 +172,8 @@
       },
       "legend": {
         "high": "High",
-        "low": "Low"
+        "low": "Low",
+        "medium": "Medium"
       },
       "color_manager": {
         "not_defined": "Not defined",

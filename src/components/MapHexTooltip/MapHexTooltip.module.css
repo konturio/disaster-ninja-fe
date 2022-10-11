@@ -1,0 +1,50 @@
+.tootipRoot {
+  display: flex;
+}
+
+.hexagon {
+  height: 45px;
+  width: 45px;
+  background: var(--base-weak);
+
+  clip-path: polygon(
+    25% 5%,
+    75% 5%,
+    100% 50%,
+    75% 95%,
+    25% 95%,
+    0% 50%
+  ); /* https://stackoverflow.com/a/60967560 */
+
+  & > div {
+    color: var(--base-strong);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+}
+
+.labels {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: var(--font);
+
+  & .axisLabels {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    padding-left: var(--unit);
+  }
+
+  & .indicatorsLabels {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.popupContentRoot {
+  max-width: none;
+  padding: 8px 8px 8px 12px;
+}

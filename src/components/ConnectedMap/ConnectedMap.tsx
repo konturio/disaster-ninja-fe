@@ -71,18 +71,27 @@ export function ConnectedMap({ className }: { className?: string }) {
   useEffect(() => {
     // for starters lets add click handlers only. It's also easier to read
 
-    const handlers = (event: mapLibre.MapMouseEvent & mapLibre.EventData) => {
+    const clickHandlers = (event: mapLibre.MapMouseEvent & mapLibre.EventData) => {
       for (let i = 0; i < mapListeners.click.length; i++) {
         const { listener } = mapListeners.click[i];
         const passToNextListener = listener(event, mapRef.current);
         if (!passToNextListener) break;
       }
     };
+    const mousemoveHandlers = (event: mapLibre.MapMouseEvent & mapLibre.EventData) => {
+      for (let i = 0; i < mapListeners.mousemove.length; i++) {
+        const { listener } = mapListeners.mousemove[i];
+        const passToNextListener = listener(event, mapRef.current);
+        if (!passToNextListener) break;
+      }
+    };
     if (mapRef.current) {
-      mapRef.current.on('click', handlers);
+      mapRef.current.on('click', clickHandlers);
+      mapRef.current.on('mousemove', mousemoveHandlers);
     }
     return () => {
-      mapRef.current?.off('click', handlers);
+      mapRef.current?.off('click', clickHandlers);
+      mapRef.current?.off('mousemove', mousemoveHandlers);
     };
   }, [mapRef, mapListeners]);
 
