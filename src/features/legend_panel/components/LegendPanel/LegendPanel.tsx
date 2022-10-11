@@ -58,8 +58,9 @@ export function LegendPanel({ layers }: LegendPanelProps) {
         minContentHeightPx={MIN_HEIGHT}
         resize={!isMobile ? 'vertical' : 'none'}
         contentContainerRef={handleRefChange}
+        contentClassName={s.content}
       >
-        <div className={s.panelBody}>
+        <div className={s.scrollable}>
           {layers.map((layer) => (
             <LegendsList layer={layer} key={layer.id} />
           ))}

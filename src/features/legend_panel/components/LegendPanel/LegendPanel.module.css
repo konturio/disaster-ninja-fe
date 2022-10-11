@@ -1,104 +1,68 @@
+.panelContainer {
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--elevation-1);
+  &.open {
+    overflow: auto;
+  }
+}
 .legendPanel {
-  pointer-events: auto;
-  position: relative;
-  z-index: 1; /* Show shadow over map */
-  margin-right: var(--unit);
-  align-self: flex-start;
-  border-radius: var(--border-radius);
-  height: 100%;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
   &.collapse {
+    height: auto;
     & div:not(:first-child) {
       display: none;
     }
   }
 }
-
-.panelBody {
-  width: 100%;
-  padding: var(--double-unit);
-  overflow-x: hidden;
+.content {
+  height: auto;
 }
-.panelBody :first-child {
-  margin-top: 0;
+.scrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--unit) var(--double-unit);
 }
 
 .panelIcon {
   display: none;
 }
 
-.iconContainerShown {
-  display: block;
-}
-
-.iconContainerHidden {
-  display: none;
-}
-
-.legendContainer {
-  margin-bottom: var(--unit);
-  & .layerControl {
-    padding: 0;
-    &:hover {
-      background: none;
-    }
+/* laptop and below */
+@media screen and (max-width: 1900px) {
+  .panelContainer {
+    overflow: unset;
+    box-shadow: none;
   }
 }
 
-.legendLabel {
-  display: flex;
-  flex-flow: row;
-  gap: var(--half-unit);
-  margin-bottom: var(--half-unit);
-}
-
-.legendBody {
-  margin-left: var(--double-unit);
-}
-
-.alignRight {
-  margin-left: auto;
-}
-
-/* Desktop only */
-@media screen and (min-width: 1900px) {
-  /* Prevent resizing out of parent container */
-  .panelContainer.isOpen {
-    min-height: 120px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-shadow: var(--elevation-1);
-  }
-}
-
-/* Mobile */
+/* mobile */
 @media screen and (max-width: 960px) {
   .legendPanel.show {
     position: absolute;
     margin: 0;
     width: 100vw;
-    max-height: unset;
     height: calc(100% - var(--app-header-height));
     align-items: center;
     & > div {
       width: 100%;
     }
   }
-
   .legendPanel.collapse {
     display: none;
   }
 
-  .panelIcon {
-    display: flex;
-    z-index: 1;
+  .scrollable {
+    width: 100%;
+  }
 
+  .panelIcon {
     &.show {
-      transition: opacity 0.33s linear 0s;
       visibility: visible;
       display: flex;
-      opacity: 1;
     }
   }
 }
