@@ -184,12 +184,28 @@
 
 .quotientsCountLabel {
   background-color: var(--faint-weak);
-  border-radius: 8px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+
+  & svg {
+    height: 10px;
+    width: 14px;
+    stroke-width: 2px;
+    color: var(--faint-strong-down);
+  }
+  &:hover {
+    background-color: var(--faint-weak-up);
+  }
 }
 
 .column .quotientsCountLabel {
   padding: 5px 0;
   margin-top: 5px;
+
+  & svg {
+    transform: rotate(90deg);
+  }
 }
 
 .row .quotientsCountLabel {

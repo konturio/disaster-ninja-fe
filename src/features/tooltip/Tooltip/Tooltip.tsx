@@ -6,11 +6,8 @@ import { useLocation } from 'react-router';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { parseLinksAsTags } from '~utils/markdown/parser';
 import s from './Tooltip.module.css';
-import type { TooltipData } from '~core/shared_state/currentTooltip';
 import type { LegacyRef } from 'react';
-
-type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-type Coords = { x: number; y: number };
+import type { Coords, Position, TooltipData } from '~core/shared_state/currentTooltip';
 
 function findTooltipPosition(clickPosition?: Coords | null): Position | null {
   if (window.visualViewport === null) return null;
@@ -51,14 +48,17 @@ export function Tooltip({
   if (!properties) return null;
 
   if (
-    prevCoords?.x !== properties.position.x &&
+    prevCoords?.x !== properties.position.x ||
     prevCoords?.y !== properties.position.y
   ) {
     if (!properties.position) {
       setPosition(null);
       setPrevCoords(null);
     } else {
-      setPosition(findTooltipPosition(properties.position));
+      setPosition(
+        properties.position.predefinedPosition ||
+          findTooltipPosition(properties.position),
+      );
       setPrevCoords(properties.position);
     }
   }
@@ -89,7 +89,10 @@ export function Tooltip({
       >
         {position && (
           <div className={clsx(s.popup, s[position])}>
-            <div className={s.popupContent} onClick={stopPropagation}>
+            <div
+              className={clsx(s.popupContent, properties.popupClasses?.popupContent)}
+              onClick={stopPropagation}
+            >
               {typeof properties.popup === 'string' ? (
                 <ReactMarkdown components={{ a: LinkRenderer }} className={s.markdown}>
                   {parseLinksAsTags(properties.popup)}

@@ -1,15 +1,12 @@
-import { createResourceAtom } from '~utils/atoms/createResourceAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
 import { apiClient } from '~core/apiClientInstance';
-import {
-  currentApplicationAtom,
-  currentEventFeedAtom,
-} from '~core/shared_state';
+import { currentApplicationAtom, currentEventFeedAtom } from '~core/shared_state';
 import { EDITABLE_LAYERS_GROUP } from '~core/constants';
 import { userResourceAtom } from '~core/auth';
 import { LAYERS_IN_AREA_API_ERROR } from '~features/layers_in_area/constants';
 import { AppFeature } from '~core/auth/types';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import type { LayerInArea } from '../types';
 import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 
@@ -66,8 +63,9 @@ const areaLayersListDependencyAtom = createAtom(
   'areaLayersListDependencyAtom',
 );
 
-export const areaLayersListResource = createResourceAtom(
-  async (params) => {
+export const areaLayersListResource = createAsyncAtom(
+  areaLayersListDependencyAtom,
+  async (params, abortController) => {
     if (!params) return;
     if (params.createLayerFeatureActivated === null) return; // Avoid double request
     const body: {
@@ -92,19 +90,17 @@ export const areaLayersListResource = createResourceAtom(
       body.appId = params.appId;
     }
 
-  let responseData: LayerInArea[] | null;
-  try {
-    responseData = await apiClient.post<LayerInArea[]>(
-      '/layers/search/',
-      body,
-      true,
-      { errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR } },
-    );
-  } catch (e: unknown) {
-    throw new Error('Error while fetching area layers data');
-  }
+    let responseData: LayerInArea[] | null;
+    try {
+      responseData = await apiClient.post<LayerInArea[]>('/layers/search/', body, true, {
+        errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR, dontShowErrors: true },
+        signal: abortController.signal,
+      });
+    } catch (e: unknown) {
+      throw new Error('Error while fetching area layers data');
+    }
 
-  if (responseData === null) return [];
+    if (responseData === null) return [];
 
     /* Performance optimization - editable layers updated in create_layer feature */
     if (params.createLayerFeatureActivated) {
@@ -114,5 +110,4 @@ export const areaLayersListResource = createResourceAtom(
     return responseData;
   },
   'areaLayersListResource',
-  areaLayersListDependencyAtom,
 );

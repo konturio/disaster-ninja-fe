@@ -5,7 +5,8 @@ export type ApplicationMode =
   | 'reports'
   | 'event'
   | 'bivariateManager'
-  | 'profile';
+  | 'profile'
+  | 'about';
 
 export const currentModeAtom = createAtom(
   {
@@ -13,7 +14,6 @@ export const currentModeAtom = createAtom(
   },
   ({ onAction }, state: ApplicationMode = 'map') => {
     onAction('setCurrentMode', (mode) => (state = mode));
-
     return state;
   },
   'currentModeAtom',

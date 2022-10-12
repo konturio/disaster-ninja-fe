@@ -105,8 +105,7 @@ function createResourceFetcherAtom<P, T>(
           let requestAction: Action | null = null;
           try {
             let response: T;
-            const fetcherResult =
-              params === undefined ? fetcher() : fetcher(params);
+            const fetcherResult = params === undefined ? fetcher() : fetcher(params);
             if ('processor' in fetcherResult) {
               const { processor, canceller, allowCancel } = fetcherResult;
               ctx.canceller = canceller;
@@ -194,7 +193,7 @@ function createResourceFetcherAtom<P, T>(
 }
 
 /**
- * You can chain this resources!
+ * You can chain these resources!
  * The demo:
  * https://codesandbox.io/s/reatom-resource-atom-complex-qwi3h
  */
@@ -217,6 +216,7 @@ export type ResourceAtomType<P, T> = AtomSelfBinded<
 
 const voidCallback = () => null;
 
+/** @deprecated use createAsyncAtom instead */
 export function createResourceAtom<P, T>(
   fetcher: FetcherFunc<P, T> | FetcherFabric<P, T>,
   name: string,
@@ -226,51 +226,44 @@ export function createResourceAtom<P, T>(
   let resourceFetcherAtom: ResourceAtomType<P, T>;
 
   if (paramsAtom) {
-    const autoFetchAtom = createAtom(
-      { paramsAtom },
-      ({ onChange, schedule }) => {
-        onChange('paramsAtom', (newParams, prevParams) => {
-          schedule((dispatch) => {
-            if (isObject(newParams)) {
-              // Check states than we can be escalated
-              if ('canceled' in newParams && newParams.canceled) {
-                dispatch(
-                  resourceFetcherAtom.cancel(
-                    newParams as unknown as P,
-                    prevParams as unknown as P,
-                  ),
-                );
-                return;
-              }
-              if ('loading' in newParams && newParams.loading) {
-                dispatch(resourceFetcherAtom.loading());
-                return;
-              }
-              if ('error' in newParams && newParams.error !== null) {
-                dispatch([
-                  resourceFetcherAtom.error(newParams.error),
-                  resourceFetcherAtom.finally(),
-                ]);
-                return;
-              }
-              if ('data' in newParams) {
-                dispatch(resourceFetcherAtom.request(newParams.data));
-                return;
-              }
+    const autoFetchAtom = createAtom({ paramsAtom }, ({ onChange, schedule }) => {
+      onChange('paramsAtom', (newParams, prevParams) => {
+        schedule((dispatch) => {
+          if (isObject(newParams)) {
+            // Check states than can be escalated
+            if ('canceled' in newParams && newParams.canceled) {
+              dispatch(
+                resourceFetcherAtom.cancel(
+                  newParams as unknown as P,
+                  prevParams as unknown as P,
+                ),
+              );
+              return;
             }
-            // If not, just pass data to fetcher
-            dispatch(resourceFetcherAtom.request(newParams));
-          });
+            if ('loading' in newParams && newParams.loading) {
+              dispatch(resourceFetcherAtom.loading());
+              return;
+            }
+            if ('error' in newParams && newParams.error !== null) {
+              dispatch([
+                resourceFetcherAtom.error(newParams.error),
+                resourceFetcherAtom.finally(),
+              ]);
+              return;
+            }
+            if ('data' in newParams) {
+              dispatch(resourceFetcherAtom.request(newParams.data));
+              return;
+            }
+          }
+          // If not, just pass data to fetcher
+          dispatch(resourceFetcherAtom.request(newParams));
         });
-      },
-    );
+      });
+    });
 
     if (isLazy) {
-      resourceFetcherAtom = createResourceFetcherAtom<P, T>(
-        fetcher,
-        name,
-        autoFetchAtom,
-      );
+      resourceFetcherAtom = createResourceFetcherAtom<P, T>(fetcher, name, autoFetchAtom);
     } else {
       resourceFetcherAtom = createResourceFetcherAtom<P, T>(fetcher, name);
       // Start after core modules loaded

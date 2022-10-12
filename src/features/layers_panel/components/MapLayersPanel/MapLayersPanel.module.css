@@ -1,7 +1,7 @@
 .panelContainer {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
   box-shadow: var(--elevation-1);
 }
 .panel {
@@ -12,16 +12,6 @@
 
   & > div {
     overflow: hidden;
-  }
-
-  /* allow resize second child which is content wrap */
-  & > div:nth-child(2) {
-    resize: vertical;
-    min-height: 60px;
-  }
-
-  &.show > div:nth-child(1) {
-    min-height: 40px;
   }
 
   &.collapse {
@@ -40,13 +30,28 @@
 .panelIcon {
   display: none;
 }
+/* desktop only */
+@media screen and (min-width: 1900px) {
+  .panelContainer.open {
+    flex: 1 2 auto;
+  }
+}
 
+/* laptop and below */
+@media screen and (max-width: 1900px) {
+  .panelContainer {
+    overflow: unset;
+    box-shadow: none;
+  }
+}
+
+/* mobile */
 @media screen and (max-width: 960px) {
   .panel.show {
     position: absolute;
     margin: 0;
     width: 100vw;
-    height: 100%;
+    height: calc(100% - var(--app-header-height));
     align-items: center;
     & > div {
       width: 100%;

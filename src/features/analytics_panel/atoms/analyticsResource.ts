@@ -1,11 +1,12 @@
-import { createResourceAtom } from '~utils/atoms';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import type { AnalyticsData } from '~core/types';
 
-export const analyticsResourceAtom = createResourceAtom(
-  async (fGeo) => {
+export const analyticsResourceAtom = createAsyncAtom(
+  focusedGeometryAtom,
+  async (fGeo, abortController) => {
     if (!fGeo) return null;
     const geometry = fGeo?.geometry as GeoJSON.FeatureCollection;
     if (geometry.features && geometry.features.length == 0) return null;
@@ -15,7 +16,7 @@ export const analyticsResourceAtom = createResourceAtom(
         `/polygon_details`,
         fGeo?.geometry,
         false,
-        { errorsConfig: { dontShowErrors: true } },
+        { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
       );
     } catch (e: unknown) {
       throw new Error(i18n.t('analytics_panel.error_loading'));
@@ -27,5 +28,4 @@ export const analyticsResourceAtom = createResourceAtom(
     return responseData;
   },
   'analyticsResource',
-  focusedGeometryAtom,
 );

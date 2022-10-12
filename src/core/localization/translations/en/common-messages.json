@@ -10,7 +10,6 @@
     "disasters": "Disasters",
     "loading": "Loading...",
     "loading_events": "Loading events",
-    "about": "About",
     "to_main_page": "to main page",
     "legend": "Legend",
     "maps": "maps",
@@ -60,7 +59,6 @@
       "filter_nominator": "Filter Nominator",
       "filter_denominator": "Filter Denominator"
     },
-    "app_header.title": "Chat with us",
     "event_list": {
       "title": "Focus to disasters",
       "warning_title": "Can't use map as filter",
@@ -144,6 +142,18 @@
         "header": "Bivariate Matrix"
       },
       "matrix": {
+        "caption": {
+          "base_axis": "Base axis",
+          "annex_axis": "Annex axis",
+          "tooltip": {
+            "p1": "Charts involving the Base and Annex axes help establish a relationship between two data sets.",
+            "li1": "Annex axis - parameters that we analyse",
+            "li2": "Base axis - reference point in the analysis",
+            "b": "Ex: the best location to open a cafe",
+            "p2": "We can explore the number of eatery places (Annex axis) against Population density (Base axis).",
+            "p3": "In this scenario, we are first interested in a small number of eatery places, and the number of people in that place gives us additional information."
+          }
+        },
         "header": {
           "title": "Choose two layers to explore correlations",
           "hint": "Layers and correlations are displayed for the current Selected Area"
@@ -174,7 +184,7 @@
       }
     },
     "sidebar": {
-      "biv_color_manager": "Bivariate color manager",
+      "biv_color_manager": "Сolor manager",
       "reports": "Reports",
       "edit_osm": "Edit in OpenStreetMap",
       "ruler": "Ruler",
@@ -209,9 +219,25 @@
     },
     "modes": {
       "map": "Map",
+      "about": "About",
       "event": "Event",
       "reports": "Reports",
       "profile": "Profile"
+    },
+    "about": {
+      "title": "Welcome to Disaster Ninja!",
+      "intro": "Do you want to be notified about ongoing disasters? Are you interested in instant population data and other analytics for any region in the world? Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing these needs.<br /><br /> We initially designed it as a decision support tool for humanitarian mappers. Now it has grown in functionality and use cases. Whether you work in disaster management, build a smart city, or perform research on climate change, Disaster Ninja can help you to:",
+      "l1": "1. Stay up to date with the latest hazard events globally.",
+      "p1": "The Disasters panel continually refreshes to inform you about ongoing events. It consumes data from the <2>Kontur Event Feed</2>, which you can also access via an API.",
+      "l2": "2. Focus on your area of interest.",
+      "p2": "The Drawing Tools panel allows you to draw or upload your own geometry on the map. You can also focus on a disaster-exposed area or an administrative unit — a country, city, or region.",
+      "l3": "3. Get analytics for the focused area.",
+      "p3": "The Analytics panel shows the number of people living in that area per <2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. Kontur’s customers have access to hundreds of other indicators through Advanced Analytics.",
+      "l4": "4. Explore data on the map and make conclusions.",
+      "p4": "The Layers panel gives you various options to display two indicators simultaneously on a bivariate map, e.g., population density and distance to the nearest fire station. Use the color legend to assess which areas require attention. <br /> Hint: in general, green indicates low risk / few gaps, red — high risk / many gaps.",
+      "p5": "In addition, you can switch to Reports in the left panel to access data on potential errors and inconsistencies in OpenStreetMap and help fix them by mapping the respective area with the JOSM editor.",
+      "goToMap": "Go to the map now",
+      "p6": "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for any questions about the functionality, and we will be happy to guide you. You can also contact us by email at <1>hello@kontur.io</1> if you have feedback or suggestions on improving the tool.<br /><br />Disaster Ninja is an open-source project. Find the code in <7>Kontur’s GitHub account</7>."
     }
   }
 }

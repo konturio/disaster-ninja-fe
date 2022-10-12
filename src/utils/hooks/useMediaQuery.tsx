@@ -18,3 +18,4 @@ export const useMediaQuery = (query: string) => {
 
 export const IS_MOBILE_QUERY = '(max-width: 960px)';
 export const COLLAPSE_PANEL_QUERY = '(max-width: 1280px)';
+export const IS_LAPTOP_QUERY = '(max-width: 1900px) and (min-width: 961px)';

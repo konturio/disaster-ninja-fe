@@ -1,6 +1,7 @@
-import { createAtom, createResourceAtom } from '~utils/atoms';
+import { createAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import type { EventWithGeometry } from '~core/types';
 
 const eventDependencyAtom = createAtom(
@@ -20,11 +21,15 @@ const eventDependencyAtom = createAtom(
   },
 );
 
-export const currentEventResourceAtom = createResourceAtom(
-  async (deps) => {
+export const currentEventResourceAtom = createAsyncAtom(
+  eventDependencyAtom,
+  async (deps, abortController) => {
     if (deps && deps.event?.id && deps.feed?.id) {
       const responseData = await apiClient.get<EventWithGeometry>(
         `/events/${deps.feed.id}/${deps.event.id}`,
+        undefined,
+        undefined,
+        { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
       );
       if (responseData === undefined) throw 'No data received';
       return responseData;
@@ -32,5 +37,4 @@ export const currentEventResourceAtom = createResourceAtom(
     return null;
   },
   'currentEventResource',
-  eventDependencyAtom,
 );

@@ -2,34 +2,38 @@ import { createAtom as createAtomOriginal } from '@reatom/core';
 import {
   createBooleanAtom as createBooleanAtomOriginal,
   createPrimitiveAtom as createPrimitiveAtomOriginal,
+  createNumberAtom as createNumberAtomOriginal,
+  createStringAtom as createStringAtomOriginal,
 } from '@reatom/core/primitives';
 import { store } from '~core/store/store';
 import type { PrimitiveAtom } from '@reatom/core/primitives';
 import type { AtomOptions } from '@reatom/core';
 
 const addStoreInOptions = (options) => ({
-  ...(typeof options === 'string' ? { id: options } : options),
   store,
+  ...(typeof options === 'string' ? { id: options } : options),
 });
 
 export const createAtom: typeof createAtomOriginal = (deps, reducer, options) =>
   createAtomOriginal(deps, reducer, addStoreInOptions(options));
 
-export const createBooleanAtom: typeof createBooleanAtomOriginal = (
-  initState,
-  options,
-) => createBooleanAtomOriginal(initState, addStoreInOptions(options));
+export const createBooleanAtom: typeof createBooleanAtomOriginal = (initState, options) =>
+  createBooleanAtomOriginal(initState, addStoreInOptions(options));
+
+export const createNumberAtom: typeof createNumberAtomOriginal = (initState, options) =>
+  createNumberAtomOriginal(initState, addStoreInOptions(options));
+
+export const createStringAtom: typeof createStringAtomOriginal = (
+  initState: string | undefined,
+  options: AtomOptions<any> | undefined,
+) => createStringAtomOriginal(initState, addStoreInOptions(options));
 
 export function createPrimitiveAtom<State>(
   initState: State,
   actions?: null | undefined,
   options?: AtomOptions<State>,
 ): PrimitiveAtom<State> {
-  return createPrimitiveAtomOriginal(
-    initState,
-    actions,
-    addStoreInOptions(options),
-  );
+  return createPrimitiveAtomOriginal(initState, actions, addStoreInOptions(options));
 }
 
 let count = 0;
@@ -51,8 +55,7 @@ export function createSetAtom<Element>(
         return newState;
       },
       clear: (): State => new Set(),
-      change: (state, cb: (stateCopy: State) => State): State =>
-        cb(new Set(state)),
+      change: (state, cb: (stateCopy: State) => State): State => cb(new Set(state)),
     },
     addStoreInOptions(options),
   );

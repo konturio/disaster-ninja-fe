@@ -1,8 +1,6 @@
 .panelContainer {
   display: flex;
   flex-flow: column nowrap;
-  overflow: hidden;
-  box-shadow: var(--elevation-1);
   &.open {
     height: 100%;
   }
@@ -31,14 +29,15 @@
   border-radius: var(--border-radius-unit);
   flex: 1;
 
-  &.show > div:nth-child(2) {
+  &.show > .contentWrap {
     display: flex;
+    height: 100%;
   }
 
   &.collapse {
     display: block;
     flex: none;
-    & > div:nth-child(2) {
+    & > .contentWrap {
       display: none;
     }
   }
@@ -50,23 +49,12 @@
   flex-direction: column;
 }
 
-/* laptop */
-@media screen and (max-width: 1900px) {
-  .eventsPanel {
-    /* allow resize second child which is content wrap */
-    & > div:nth-child(2) {
-      resize: vertical;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-  }
-}
-
+/* mobile */
 @media screen and (max-width: 960px) {
   .eventsPanel.show {
     position: absolute;
     margin: 0;
-    height: 100%;
+    height: calc(100% - var(--app-header-height));
     width: 100vw;
     & > div {
       width: 100%;

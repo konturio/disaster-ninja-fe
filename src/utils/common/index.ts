@@ -1,9 +1,9 @@
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-const toCapitalizedList = (arr: string[]): string =>
+export const toCapitalizedList = (arr: string[]): string =>
   arr.map(capitalize).join(', ');
 
-const sortByKey =
+export const sortByKey =
   <T extends Record<string, unknown>>(key: string, direction: 'asc' | 'desc') =>
   (a: T, b: T) => {
     const aVal = a[key];
@@ -14,4 +14,11 @@ const sortByKey =
     return 0;
   };
 
-export { capitalize, toCapitalizedList, sortByKey };
+export const isErrorWithMessage = (
+  e: unknown,
+): e is {
+  message: string;
+  [key: string]: any;
+} => {
+  return e !== null && typeof e === 'object' && 'message' in e;
+};

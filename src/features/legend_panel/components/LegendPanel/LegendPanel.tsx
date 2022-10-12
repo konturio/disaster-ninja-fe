@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useAction } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import { LEGEND_PANEL_FEATURE_ID } from '~features/legend_panel/constants';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { panelClasses } from '~components/Panel';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
+import { useHeightResizer } from '~utils/hooks/useResizer';
+import { LEGEND_PANEL_FEATURE_ID, MIN_HEIGHT } from '../../constants';
 import s from './LegendPanel.module.css';
 import { LegendsList } from './LegendsList';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
@@ -22,6 +22,7 @@ export function LegendPanel({ layers }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
+  const handleRefChange = useHeightResizer(setIsOpen, isOpen, MIN_HEIGHT);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -37,12 +38,12 @@ export function LegendPanel({ layers }: LegendPanelProps) {
 
   useEffect(() => {
     if (!isOpen) turnOffTooltip(LEGEND_PANEL_FEATURE_ID);
-  }, [isOpen]);
+  }, [isOpen, turnOffTooltip]);
 
   useAutoCollapsePanel(isOpen, onPanelClose);
 
   return (
-    <div className={s.panelContainer}>
+    <div className={clsx(s.panelContainer, isOpen && s.open)}>
       <Panel
         header={String(i18n.t('legend'))}
         headerIcon={<Legend24 />}
@@ -54,8 +55,12 @@ export function LegendPanel({ layers }: LegendPanelProps) {
           onModalClick: onPanelClose,
           showInModal: isMobile,
         }}
+        minContentHeightPx={MIN_HEIGHT}
+        resize={!isMobile ? 'vertical' : 'none'}
+        contentContainerRef={handleRefChange}
+        contentClassName={s.content}
       >
-        <div className={s.panelBody}>
+        <div className={s.scrollable}>
           {layers.map((layer) => (
             <LegendsList layer={layer} key={layer.id} />
           ))}

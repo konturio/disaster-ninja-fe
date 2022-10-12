@@ -10,6 +10,7 @@ import { MODES_LABELS } from '~core/modes/constants';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import { searchStringAtom } from '~core/url_store/atoms/urlStore';
 import s from './SideBar.module.css';
 
 export function SideBar() {
@@ -18,14 +19,18 @@ export function SideBar() {
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
   const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
+  const [searchString] = useAtom(searchStringAtom);
 
   function onMouseEnter(target: HTMLDivElement, title: string) {
     // place tooltip right and vertically aligned to the element
-    const targetMiddle = target.offsetTop + target.offsetHeight / 2;
     !isOpen &&
       setTooltip({
         popup: title,
-        position: { x: target.offsetLeft + 50, y: targetMiddle + 14 },
+        position: {
+          x: target.offsetLeft + 50,
+          y: target.offsetTop,
+          predefinedPosition: 'bottom-right',
+        },
         hoverBehavior: true,
       });
   }
@@ -53,7 +58,7 @@ export function SideBar() {
             <Link
               key={nanoid(4)}
               className={s.sidebarItemContainer}
-              to={APP_ROUTES[control.id]}
+              to={APP_ROUTES[control.id] + searchString}
               tabIndex={-1}
             >
               <div

@@ -8,13 +8,14 @@ export const APP_ROUTES = {
   bivariateManager: config.baseUrl + 'bivariate-manager',
   eventExplorer: config.baseUrl + 'event',
   profile: config.baseUrl + 'profile',
+  about: config.baseUrl + 'about',
 };
 
 export function findCurrentMode(path: string): ApplicationMode {
-  let mode: ApplicationMode = 'map';
-  if (path.indexOf('event') > -1) mode = 'event';
-  if (path.indexOf('reports') > -1) mode = 'reports';
-  if (path.indexOf('profile') > -1) mode = 'profile';
-  if (path.indexOf('bivariate-manager') > -1) mode = 'bivariateManager';
-  return mode;
+  if (path.includes('event')) return 'event';
+  if (path.includes('reports')) return 'reports';
+  if (path.includes('bivariate-manager')) return 'bivariateManager';
+  if (path.includes('about')) return 'about';
+  if (path.includes('profile')) return 'profile';
+  return 'map';
 }

@@ -10,14 +10,18 @@ class MetricMarker {
 }
 
 class SessionSettings<F extends string> {
+  storage = globalThis.window?.sessionStorage;
+
   toggle(setting: F) {
-    window.sessionStorage.getItem(setting)
-      ? window.sessionStorage.removeItem(setting)
-      : window.sessionStorage.setItem(setting, 'true');
+    if (!this.storage) return;
+    this.storage.getItem(setting)
+      ? this.storage.removeItem(setting)
+      : this.storage.setItem(setting, 'true');
   }
 
   isEnabled(setting: F) {
-    return window.sessionStorage.getItem(setting) !== null;
+    if (!this.storage) return false;
+    return this.storage.getItem(setting) !== null;
   }
 }
 

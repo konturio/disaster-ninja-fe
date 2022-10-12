@@ -12,8 +12,5 @@ export function registerMapMode(modesControlAtom: ModesControlsAtom) {
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('map');
     },
-    onChange(isActive) {
-      // noop
-    },
   });
 }

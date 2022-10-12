@@ -1,3 +1,5 @@
+import { apiClient } from '~core/apiClientInstance';
+import type { ApiClient } from '~core/api_client';
 import type { UrlData } from './types';
 
 interface UrlEncoder<T extends Record<string, string | number | string[] | number[]>> {
@@ -10,9 +12,45 @@ export class URLStore {
     /* noop */
   };
   _encoder: UrlEncoder<UrlData>;
+  _client: ApiClient;
 
+  getDefaults = {
+    app: async () => {
+      try {
+        return await this._client.get<string>('/apps/default_id');
+      } catch (e) {
+        console.error('[URLStore]: Failed to get default app id');
+        console.debug(e);
+      }
+    },
+    layers: async (appId: string) => {
+      return await this._client.get<string[] | null>(
+        `/layers/defaults/`,
+        { appId },
+        false,
+      );
+    },
+  };
   constructor(encoder: UrlEncoder<UrlData>) {
     this._encoder = encoder;
+    this._client = apiClient;
+  }
+
+  async getInitialState() {
+    const initialUrl = this.readCurrentState();
+
+    if (initialUrl.app === undefined) {
+      const appId = await this.getDefaults.app();
+      if (appId) initialUrl.app = appId;
+    }
+
+    if (initialUrl.layers === undefined && initialUrl.app) {
+      const layers = await this.getDefaults.layers(initialUrl.app);
+      if (layers) initialUrl.layers = layers;
+    }
+
+    this.updateUrl(initialUrl);
+    return initialUrl;
   }
 
   readCurrentState() {
@@ -28,5 +66,9 @@ export class URLStore {
     window.addEventListener('popstate', ({ state }) => {
       listener(state);
     });
+  }
+
+  toSearchSting(data: UrlData) {
+    return '?' + this._encoder.encode(data);
   }
 }

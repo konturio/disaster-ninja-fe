@@ -1,4 +1,5 @@
-import { createResourceAtom, combineAtoms } from '~utils/atoms';
+import { combineAtoms } from '~utils/atoms';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
 import { currentEventFeedAtom } from '~core/shared_state';
@@ -10,41 +11,32 @@ const depsAtom = combineAtoms({
   filters: eventListFilters,
 });
 
-export const eventListResourceAtom = createResourceAtom(
-  (deps) => {
-    const abortController = new AbortController();
-    async function processor() {
-      const params: {
-        feed?: string;
-        bbox?: string;
-      } = {
-        feed: deps?.currentFeed?.id,
-        bbox: deps?.filters.bbox?.join(','),
-      };
+export const eventListResourceAtom = createAsyncAtom(
+  depsAtom,
+  async (deps, abortController) => {
+    const params: {
+      feed?: string;
+      bbox?: string;
+    } = {
+      feed: deps?.currentFeed?.id,
+      bbox: deps?.filters.bbox?.join(','),
+    };
 
-      const responseData =
-        (await apiClient.get<Event[]>('/events/', params, true, {
-          signal: abortController.signal,
-          errorsConfig: { dontShowErrors: true },
-        })) ?? ([] as Event[]);
+    const responseData =
+      (await apiClient.get<Event[]>('/events/', params, true, {
+        signal: abortController.signal,
+        errorsConfig: { dontShowErrors: true },
+      })) ?? ([] as Event[]);
 
-      if (responseData.length === 0) {
-        if (params.bbox) throw new Error('No disasters in this area');
-        if (params.feed) throw new Error('No disasters in this feed');
-        throw new Error('No disasters');
-      }
-
-      return responseData;
+    if (responseData.length === 0) {
+      if (params.bbox) throw new Error('No disasters in this area');
+      if (params.feed) throw new Error('No disasters in this feed');
+      throw new Error('No disasters');
     }
 
-    function canceller() {
-      abortController.abort();
-    }
-
-    return { processor, canceller };
+    return responseData;
   },
   'eventListResource',
-  depsAtom,
 );
 
 autoRefreshService.addWatcher('eventList', eventListResourceAtom);

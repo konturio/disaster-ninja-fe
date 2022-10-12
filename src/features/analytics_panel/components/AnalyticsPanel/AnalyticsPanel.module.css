@@ -12,13 +12,6 @@
 
   border-radius: var(--border-radius-unit);
 
-  /* allow resize second child which is content wrap */
-  & > div:nth-child(2) {
-    resize: vertical;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
   height: auto;
   &.collapse {
     & div:not(:first-child) {
@@ -28,15 +21,20 @@
 }
 
 .panelBody {
-  width: 320px;
+  width: 100%;
   padding: var(--double-unit);
+}
+
+/* Desktop only */
+@media screen and (min-width: 1900px) {
+  .contentWrap {
+    max-height: 460px;
+  }
 }
 
 /* laptop */
 @media screen and (max-width: 1900px) {
   .panelBody {
-    height: 260px;
-    width: 320px;
     padding: var(--double-unit);
     overflow-y: auto;
   }

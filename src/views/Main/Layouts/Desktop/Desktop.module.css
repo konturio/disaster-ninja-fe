@@ -1,0 +1,48 @@
+.contentWrap {
+  display: grid;
+  height: 100%;
+  gap: var(--unit);
+  padding: var(--unit);
+
+  /* analytics+layers column, advanced analytics column, map column, layers&legends column */
+  grid-template-columns:
+    minmax(320px, 1fr) fit-content(400px) minmax(440px, 10fr)
+    minmax(320px, 1fr);
+  grid-template-rows: calc(100% - 40px) 40px;
+}
+
+.analyticsColumn,
+.layersColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit);
+  z-index: 1;
+}
+
+.mapWrap {
+  display: flex;
+  flex-flow: column nowrap;
+  grid-column: 3;
+  grid-row: 1/2;
+}
+
+.mapSpaceBlank {
+  flex: 1;
+}
+
+.mapSpaceBottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--unit);
+}
+
+.intercomPlaceholder {
+  height: 30px;
+  flex: 1 0 auto;
+}
+
+.footer {
+  height: 40px;
+  width: 100%;
+}

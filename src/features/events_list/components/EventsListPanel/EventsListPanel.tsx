@@ -10,14 +10,20 @@ import { createStateMap } from '~utils/atoms/createStateMap';
 import { i18n } from '~core/localization';
 import { userResourceAtom } from '~core/auth';
 import { AppFeature } from '~core/auth/types';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import {
+  IS_LAPTOP_QUERY,
+  IS_MOBILE_QUERY,
+  useMediaQuery,
+} from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
+import { useHeightResizer } from '~utils/hooks/useResizer';
 import { FeedSelector } from '../FeedSelector/FeedSelector';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { EventCard } from '../EventCard/EventCard';
+import { MIN_HEIGHT } from '../../constants';
 import s from './EventsListPanel.module.css';
 import type { Event } from '~core/types';
 
@@ -36,8 +42,10 @@ export function EventsListPanel({
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const virtuoso = useRef(null);
   const [{ data: userModel }] = useAtom(userResourceAtom);
+  const handleRefChange = useHeightResizer(setIsOpen, isOpen, MIN_HEIGHT);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -83,6 +91,10 @@ export function EventsListPanel({
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
+        minContentHeightPx={MIN_HEIGHT}
+        resize={isLaptop ? 'vertical' : 'none'}
+        contentClassName={s.contentWrap}
+        contentContainerRef={handleRefChange}
       >
         <div className={s.panelBody}>
           <EventListSettingsRow>
