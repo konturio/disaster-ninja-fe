@@ -1,7 +1,13 @@
 import { Trans } from 'react-i18next';
 import { i18n } from '~core/localization';
 import config from '~core/app_config';
+import history from '~core/history';
+import { APP_ROUTES } from '~core/app_config/appRoutes';
 import s from './About.module.css';
+
+function gotoMap() {
+  history.push(APP_ROUTES.map);
+}
 
 export function AboutPage() {
   return <AboutText />;
@@ -16,8 +22,11 @@ function AboutText() {
           <Trans i18nKey="about.intro">
             Do you want to be notified about ongoing disasters? Are you interested in
             instant population data and other analytics for any region in the world?
-            Disaster Ninja showcases some of <a href="https://www.kontur.io/">Kontur</a>’s
-            capabilities in addressing these needs.
+            Disaster Ninja showcases some of{' '}
+            <a href="https://www.kontur.io/" target="_blank" rel="noreferrer">
+              Kontur
+            </a>
+            ’s capabilities in addressing these needs.
             <br />
             <br />
             We initially designed it as a decision support tool for humanitarian mappers.
@@ -33,8 +42,10 @@ function AboutText() {
             <Trans i18nKey="about.p1">
               The Disasters panel continually refreshes to inform you about ongoing
               events. It consumes data from the{' '}
-              <a href="https://www.kontur.io/portfolio/event-feed/">Kontur Event Feed</a>,
-              which you can also access via an API.
+              <a href="https://www.kontur.io/portfolio/event-feed/" target="_blank" rel="noreferrer">
+                Kontur Event Feed
+              </a>
+              , which you can also access via an API.
             </Trans>
           </p>
           <h3>{i18n.t('about.l2')}</h3>
@@ -43,7 +54,10 @@ function AboutText() {
           <p>
             <Trans i18nKey="about.p3">
               The Analytics panel shows the number of people living in that area per{' '}
-              <a href="https://data.humdata.org/dataset/kontur-population-dataset">
+              <a
+                href="https://data.humdata.org/dataset/kontur-population-dataset"
+                target="_blank" rel="noreferrer"
+              >
                 Kontur Population
               </a>{' '}
               and estimated mapping gaps in OpenStreetMap. Kontur’s customers have access
@@ -65,20 +79,26 @@ function AboutText() {
 
         <p>{i18n.t('about.p5')}</p>
 
-        <p className={s.linkToMain}>
-          <a href={config.baseUrl}>{i18n.t('about.goToMap')} ⭢ </a>
+        <p>
+          <span className={s.linkToMain} onClick={gotoMap}>
+            {i18n.t('about.goToMap')} ⭢
+          </span>
         </p>
 
         <p>
           <Trans i18nKey="about.p6">
             We hope you find this tool valuable. Use the chatbox on Disaster Ninja for any
             questions about the functionality, and we will be happy to guide you. You can
-            also <a href="mailto:hello@kontur.io">contact us by email</a> if you have
-            feedback or suggestions on improving the tool.
+            also contact us by email at
+            <a href="mailto:hello@kontur.io">hello@kontur.io</a> if you have feedback or
+            suggestions on improving the tool.
             <br />
             <br />
             Disaster Ninja is an open-source project. Find the code in{' '}
-            <a href="https://github.com/konturio">Kontur’s GitHub account</a>.
+            <a href="https://github.com/konturio" target="_blank" rel="noreferrer">
+              Kontur’s GitHub account
+            </a>
+            .
           </Trans>
         </p>
       </div>
