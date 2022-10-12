@@ -38,7 +38,7 @@
     "groups": {
       "layers_in_selected_area": "Capas en el área seleccionada",
       "your_layers": "Sus capas",
-      "kontur_analytics": "Analíticas de Kontur",
+      "kontur_analytics": "Análisis de Kontur",
       "qa": "Certificación de calidad",
       "osmbasedmap": "Basado en OpenStreetMap",
       "other": "Otros",
@@ -100,13 +100,13 @@
       "error": "Error",
       "header_title": "Análisis",
       "info_tab": "INFORMACIÓN",
-      "error_loading": "Error en la obtención de datos de analítica"
+      "error_loading": "Error en la obtención de datos de análisis"
     },
     "advanced_analytics_panel": {
       "loading": "Cargando análisis avanzado...",
       "header_title": "Análisis avanzado",
       "analytics_tab": "Analíticas avanzadas",
-      "error": "Error en la obtención de datos de analíticas avanzadas"
+      "error": "Error en la obtención de datos de análisis Avanzado"
     },
     "advanced_analytics_empty": {
       "not_found": "Lo sentimos, el evento solicitado no se ha encontrado.",
@@ -125,7 +125,7 @@
       "finish_drawing": "Terminar el dibujo",
       "caption": "Haga clic en el mapa para empezar a dibujar",
       "no_geometry_error": "No hay geometría dibujada para descargar",
-      "overlap_error": "El polígono no debe superponerse a sí mismo",
+      "overlap_error": "El polígono no debe superponerse sobre sí mismo",
       "save_features": "Guardar características"
     },
     "boundary_selector.title": "Enfoque en el límite administrativo",
@@ -134,7 +134,7 @@
       "warning": "No es un archivo geojson válido",
       "error": "Error al leer el archivo cargado"
     },
-    "focus_geometry.title": "Enfoque en la geometría a mano alzada",
+    "focus_geometry.title": "Enfoque en la geometría a mano",
     "focus_geometry_layer.settings.name": "Área seleccionada",
     "drawings.self_directions_not_supported": "¡No se admiten las autointersecciones!",
     "bivariate": {
