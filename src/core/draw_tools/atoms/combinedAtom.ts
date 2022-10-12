@@ -28,8 +28,7 @@ type CombinedAtomCallbacksType = {
 
 export const combinedAtom = createAtom(
   {
-    hookWithAtom: (description: [DrawModeHooks, (data) => typeof data]) =>
-      description,
+    hookWithAtom: (description: [DrawModeHooks, (data) => typeof data]) => description,
     activeDrawModeAtom,
     drawModeLogicalLayerAtom,
     currentMapAtom,
@@ -55,7 +54,7 @@ export const combinedAtom = createAtom(
     ) => ({ type, message, lifetimeSec }),
   },
   (
-    { onAction, schedule, onChange, get },
+    { onAction, schedule, onChange, get, getUnlistedState },
     state: CombinedAtomCallbacksType = {},
   ) => {
     const actions: Action[] = [];
@@ -67,7 +66,10 @@ export const combinedAtom = createAtom(
       if (map) setMapInteractivity(map, true);
 
       if (!mode) {
-        actions.push(drawModeLogicalLayerAtom.disable());
+        const layer = getUnlistedState(drawModeLogicalLayerAtom);
+        if (layer.isEnabled) {
+          actions.push(drawModeLogicalLayerAtom.disable());
+        }
       } else {
         drawModeRenderer.addClickListener();
         drawModeRenderer.setMode(mode);
@@ -98,9 +100,7 @@ export const combinedAtom = createAtom(
     );
 
     onChange('temporaryGeometryAtom', (featureCollection) => {
-      (state.temporaryGeometryAtom ?? []).forEach((cb) =>
-        cb(featureCollection),
-      );
+      (state.temporaryGeometryAtom ?? []).forEach((cb) => cb(featureCollection));
     });
 
     onAction('setIndexes', (indexes) => {
@@ -116,9 +116,7 @@ export const combinedAtom = createAtom(
     );
 
     onAction('showNotification', ({ type, message, lifetimeSec }) => {
-      actions.push(
-        currentNotificationAtom.showNotification(type, message, lifetimeSec),
-      );
+      actions.push(currentNotificationAtom.showNotification(type, message, lifetimeSec));
     });
 
     actions.length &&
