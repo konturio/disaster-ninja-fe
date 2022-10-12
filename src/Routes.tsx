@@ -20,6 +20,8 @@ const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
 
+const initialUrl = new URL(localStorage.getItem('initialUrl') || '');
+
 export function RoutedApp() {
   const [{ data: userModel, loading }] = useAtom(userResourceAtom);
 
@@ -28,7 +30,7 @@ export function RoutedApp() {
       userModel &&
       !loading &&
       location.pathname === config.baseUrl &&
-      location.search === '' &&
+      initialUrl.search === '' &&
       !localStorage.getItem('landed');
 
     // redirect first-time visitor "/" -> "/about"
