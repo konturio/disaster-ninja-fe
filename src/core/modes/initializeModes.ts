@@ -4,7 +4,7 @@ import { registerMapMode } from './registrations/mapMode';
 import { modesControlsAtom } from './modesControls';
 import { registerReportsMode } from './registrations/reportsMode';
 import { registerAboutMode } from './registrations/aboutMode';
-import { registerProfileMode } from './registrations/ProfileMode';
+import { registerProfileMode } from './registrations/profileMode';
 import type { UserDataModel } from '~core/auth';
 
 export function initModes(userModel?: UserDataModel | null) {
