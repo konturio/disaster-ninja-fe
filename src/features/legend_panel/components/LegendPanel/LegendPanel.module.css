@@ -24,13 +24,37 @@
 .scrollable {
   overflow-y: auto;
   overflow-x: hidden;
-  padding: var(--unit) var(--double-unit);
+  padding: var(--double-unit);
 }
 
 .panelIcon {
   display: none;
 }
 
+.legendContainer {
+  margin-bottom: var(--unit);
+  & .layerControl {
+    padding: 0;
+    &:hover {
+      background: none;
+    }
+  }
+}
+
+.legendLabel {
+  display: flex;
+  flex-flow: row;
+  gap: var(--half-unit);
+  margin-bottom: var(--half-unit);
+}
+
+.legendBody {
+  margin-left: var(--double-unit);
+}
+
+.alignRight {
+  margin-left: auto;
+}
 /* laptop and below */
 @media screen and (max-width: 1900px) {
   .panelContainer {
