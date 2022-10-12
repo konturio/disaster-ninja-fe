@@ -12,8 +12,5 @@ export function registerBivariateColorManagerMode(modesControlsAtom: ModesContro
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('bivariateManager');
     },
-    onChange(_isActive) {
-      // noop
-    },
   });
 }

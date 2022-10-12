@@ -12,8 +12,5 @@ export function registerAboutMode(modesControlAtom: ModesControlsAtom) {
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('about');
     },
-    onChange(isActive) {
-      // noop
-    },
   });
 }
