@@ -2,10 +2,14 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { apiClient } from '~core/apiClientInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
-import { currentEventFeedAtom } from '~core/shared_state';
-import { createResourceAtom } from '~utils/atoms';
-import { arraysAreEqual } from '~utils/array/arraysAreEqual';
-import { areaLayersListResource } from './areaLayersListResource';
+import {
+  currentApplicationAtom,
+  currentEventFeedAtom,
+  currentUserAtom,
+} from '~core/shared_state';
+import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { layersGlobalResource } from './layersGlobalResource';
+import { layersInAreaAndEventLayerResource } from './layersInAreaAndEventLayerResource';
 import type { LayerInAreaDetails } from '../types';
 
 export interface DetailsRequestParams {
@@ -15,45 +19,71 @@ export interface DetailsRequestParams {
   eventId?: string;
   eventFeed?: string;
 }
+/* Store all prev request */
+const areaLayersDetailsResourceAtomCache = createAtom(
+  {
+    app: currentApplicationAtom,
+    user: currentUserAtom,
+    add: (details: LayerInAreaDetails[]) => details,
+  },
+  ({ onAction, onChange }, state = new Map<string, LayerInAreaDetails>()) => {
+    onChange('app', () => {
+      state = new Map();
+    });
 
-/* This atom subscribes to all data that required for request layer details  */
+    onChange('user', () => {
+      state = new Map();
+    });
+
+    onAction('add', (newData) => {
+      state = new Map(state);
+      newData.forEach((details) => {
+        state.set(details.id, details);
+      });
+    });
+    return state;
+  },
+  'areaLayersDetailsResourceAtomCache',
+);
+
 export const areaLayersDetailsParamsAtom = createAtom(
   {
     enabledLayersAtom,
-    areaLayersResourceAtom: areaLayersListResource,
+    layersGlobalResource,
+    layersInAreaAndEventLayerResource,
   },
   (
     { get, getUnlistedState },
     state: DetailsRequestParams | null = null,
   ): DetailsRequestParams | null => {
-    const areaLayersResource = get('areaLayersResourceAtom');
-    if (areaLayersResource.loading || areaLayersResource.data === null) return state;
-    const availableLayersInArea = areaLayersResource.data;
-    if (availableLayersInArea === undefined) return null;
-
+    const layersGlobal = get('layersGlobalResource');
+    const layersInAreaAndEventLayer = get('layersInAreaAndEventLayerResource');
+    const allLayers = [
+      ...(layersGlobal.data ?? []),
+      ...(layersInAreaAndEventLayer.data ?? []),
+    ];
     const enabledLayers = get('enabledLayersAtom');
+    const cache = getUnlistedState(areaLayersDetailsResourceAtomCache);
+    const mustBeRequested = allLayers.filter((layer) => {
+      const isEnabled = enabledLayers.has(layer.id);
+      const isNotInCache = !cache.has(layer.id);
+      return isEnabled && isNotInCache;
+    });
+
+    if (mustBeRequested.length === 0) return state; // Do not request anything
+
     let hasEventIdRequiredForRetrieval = false;
     const [layersToRetrieveWithGeometryFilter, layersToRetrieveWithoutGeometryFilter] =
-      availableLayersInArea.reduce(
+      mustBeRequested.reduce(
         (acc, layer) => {
-          if (enabledLayers.has(layer.id)) {
-            acc[layer.boundaryRequiredForRetrieval ? 0 : 1].push(layer.id);
-            if (!hasEventIdRequiredForRetrieval && layer.eventIdRequiredForRetrieval) {
-              hasEventIdRequiredForRetrieval = true;
-            }
+          acc[layer.boundaryRequiredForRetrieval ? 0 : 1].push(layer.id);
+          if (!hasEventIdRequiredForRetrieval && layer.eventIdRequiredForRetrieval) {
+            hasEventIdRequiredForRetrieval = true;
           }
           return acc;
         },
         [[], []] as [string[], string[]],
       );
-
-    if (
-      layersToRetrieveWithGeometryFilter.length +
-        layersToRetrieveWithoutGeometryFilter.length ===
-      0
-    ) {
-      return null;
-    }
 
     const newState: DetailsRequestParams = {
       layersToRetrieveWithGeometryFilter,
@@ -75,26 +105,6 @@ export const areaLayersDetailsParamsAtom = createAtom(
       }
     }
 
-    /**
-     * After we select area layers from changed `enabledLayers` set
-     * we can check - do we have a difference from the last request?
-     * If not - just return previous result!
-     */
-    if (
-      state &&
-      newState.eventId === state.eventId &&
-      arraysAreEqual(
-        newState.layersToRetrieveWithGeometryFilter,
-        state.layersToRetrieveWithGeometryFilter,
-      ) &&
-      arraysAreEqual(
-        newState.layersToRetrieveWithoutGeometryFilter,
-        state.layersToRetrieveWithoutGeometryFilter,
-      )
-    ) {
-      return state;
-    }
-
     if (focusedGeometry) {
       newState.geoJSON = focusedGeometry.geometry;
     }
@@ -110,24 +120,26 @@ export const areaLayersDetailsParamsAtom = createAtom(
   },
 );
 
-// TODO: remove last createResourceAtom usage (#12801)
-export const areaLayersDetailsResourceAtom = createResourceAtom(
-  (params) => {
-    async function processor(): Promise<LayerInAreaDetails[] | null> {
-      if (params === null) return null;
-      try {
-        const request = await apiClient.post<LayerInAreaDetails[]>(
-          '/layers/details',
-          params,
-          true,
-        );
-        return request ?? null;
-      } catch (e) {
-        throw e;
-      }
-    }
-    return { processor, allowCancel: true };
+export const areaLayersDetailsResourceAtom = createAsyncAtom(
+  areaLayersDetailsParamsAtom,
+  async (params, abortController) => {
+    if (params === null) return null;
+    const request = await apiClient.post<LayerInAreaDetails[]>(
+      '/layers/details',
+      params,
+      true,
+      {
+        signal: abortController.signal,
+        errorsConfig: {
+          dontShowErrors: true,
+        },
+      },
+    );
+    return request ?? null;
   },
   'areaLayersDetailsResourceAtom',
-  areaLayersDetailsParamsAtom,
+  {
+    onSuccess: (dispatch, response) =>
+      response && dispatch(areaLayersDetailsResourceAtomCache.add(response)),
+  },
 );

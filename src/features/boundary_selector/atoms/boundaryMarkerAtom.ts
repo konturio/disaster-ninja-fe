@@ -64,7 +64,7 @@ export const boundaryMarkerAtom = createAtom(
       return focusedGeometryAtom.setFocusedGeometry(
         {
           type: 'boundaries',
-          meta: name,
+          meta: { name },
         },
         feature,
       );

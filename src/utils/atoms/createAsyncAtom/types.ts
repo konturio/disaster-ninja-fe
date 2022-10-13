@@ -13,7 +13,7 @@ export interface AsyncAtomState<P, D> {
   dirty: boolean;
 }
 
-export type AsyncAtomOptions = {
+export type AsyncAtomOptions<R> = {
   /**
    * Affect only atoms with null in deps.
    * If true - atom will requested on first read / subscribe
@@ -26,6 +26,7 @@ export type AsyncAtomOptions = {
    */
   inheritState?: boolean;
   store?: Store;
+  onSuccess?: (dispatch: Store['dispatch'], result: R) => void;
 };
 
 export type AsyncAtomDeps<
@@ -48,8 +49,8 @@ export type AsyncAtomDeps<
 };
 
 export type AsyncAnyAtom<
-  F extends Fetcher<AtomState<D> | null, any>,
-  D extends AtomBinded,
+  D extends AtomBinded<any> = AtomBinded<any>,
+  F extends Fetcher<AtomState<D> | null, any> = () => Promise<AtomState<D>>,
 > = AtomSelfBinded<
   AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
   AsyncAtomDeps<D, F>

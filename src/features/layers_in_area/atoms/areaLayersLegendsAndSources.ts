@@ -24,9 +24,7 @@ function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
   }
 }
 
-function convertDetailsToLegends(
-  response: LayerInAreaDetails,
-): LayerLegend | null {
+function convertDetailsToLegends(response: LayerInAreaDetails): LayerLegend | null {
   if (!response.legend) return null;
   return legendFormatter(response);
 }
@@ -38,80 +36,65 @@ export const areaLayersLegendsAndSources = createAtom(
   ({ get, schedule, getUnlistedState }) => {
     const layersDetails = get('areaLayersDetailsResourceAtom');
     const actions: Action[] = [];
-    // Set loading state for details
-    if (layersDetails.canceled) {
-      if (!layersDetails.nextParams || !layersDetails.lastParams) return;
-      // find layers we won't need after request was canceled
-      const canceledLayers: string[] = [];
-      const canceledLayersIds1 =
-        layersDetails.lastParams.layersToRetrieveWithGeometryFilter.filter(
-          (prevLayerId) =>
-            !layersDetails.nextParams!.layersToRetrieveWithGeometryFilter.includes(
-              prevLayerId,
-            ),
-        ) || [];
-      const canceledLayersIds2 =
-        layersDetails.lastParams.layersToRetrieveWithoutGeometryFilter.filter(
-          (prevLayerId) =>
-            !layersDetails.nextParams!.layersToRetrieveWithoutGeometryFilter.includes(
-              prevLayerId,
-            ),
-        ) || [];
-      canceledLayers.push(...canceledLayersIds1, ...canceledLayersIds2);
+    const requestedLayers = [
+      ...(layersDetails.lastParams?.layersToRetrieveWithGeometryFilter ?? []),
+      ...(layersDetails.lastParams?.layersToRetrieveWithoutGeometryFilter ?? []),
+    ];
 
-      // remove them
-      canceledLayers.forEach((layerId) => {
-        actions.push(
-          layersSourcesAtom.delete(layerId),
-          layersLegendsAtom.delete(layerId),
-        );
-      });
-    }
-    // Loading case
-    else if (layersDetails.loading && layersDetails.lastParams) {
-      const requestedLayers = [
-        ...(layersDetails.lastParams?.layersToRetrieveWithGeometryFilter ?? []),
-        ...(layersDetails.lastParams?.layersToRetrieveWithoutGeometryFilter ??
-          []),
-      ];
+    // Loading started
+    if (layersDetails.loading) {
       const layersSources = getUnlistedState(layersSourcesAtom);
       requestedLayers.forEach((id) => {
+        // I am not reset source while new srs loading to reduce map blinking
         const source = layersSources.get(id);
         if (source)
           actions.push(
-            layersSourcesAtom.set(id, { ...source, isLoading: true }),
+            layersSourcesAtom.set(id, { ...source, error: null, isLoading: true }),
           );
       });
-    } else if (layersDetails.data) {
-      const layersDetailsData = layersDetails.data;
-      actions.push(
-        // Update sources
-        layersSourcesAtom.change((state) => {
-          const newState = new Map(state);
-          layersDetailsData.forEach((layerDetails) => {
-            const layerSource = convertDetailsToSource(layerDetails);
-            newState.set(layerDetails.id, {
-              error: null,
-              data: layerSource,
-              isLoading: false,
-            });
+      return;
+    }
+
+    // Loading finished
+    if (!layersDetails.loading) {
+      // Create index for data
+      const layersDetailsData = (layersDetails.data ?? []).reduce((acc, layerDetails) => {
+        acc.set(layerDetails.id, layerDetails);
+        return acc;
+      }, new Map<string, LayerInAreaDetails>());
+
+      // One error for all requested details
+      const layersDetailsError = layersDetails.error ? Error(layersDetails.error) : null;
+
+      const updateSourcesAction = layersSourcesAtom.change((state) => {
+        const newState = new Map(state);
+        requestedLayers.forEach((layerId) => {
+          const layerDetails = layersDetailsData.get(layerId);
+          const layerSource = layerDetails ? convertDetailsToSource(layerDetails) : null;
+          newState.set(layerId, {
+            error: layersDetailsError,
+            data: layerSource,
+            isLoading: false,
           });
-          return newState;
-        }),
-        // Update legends
-        layersLegendsAtom.change((state) => {
-          const newState = new Map(state);
-          layersDetailsData.forEach((layerDetails) => {
-            const layerLegend = convertDetailsToLegends(layerDetails);
-            newState.set(layerDetails.id, {
-              error: null,
-              data: layerLegend,
-              isLoading: false,
-            });
+        });
+        return newState;
+      });
+
+      const updateLegendsAction = layersLegendsAtom.change((state) => {
+        const newState = new Map(state);
+        requestedLayers.forEach((layerId) => {
+          const layerDetails = layersDetailsData.get(layerId);
+          const layerLegend = layerDetails ? convertDetailsToLegends(layerDetails) : null;
+          newState.set(layerId, {
+            error: layersDetailsError,
+            data: layerLegend,
+            isLoading: false,
           });
-          return newState;
-        }),
-      );
+        });
+        return newState;
+      });
+
+      actions.push(updateSourcesAction, updateLegendsAction);
     }
 
     if (actions?.length) {
