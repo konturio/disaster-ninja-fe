@@ -8,6 +8,7 @@ import {
   currentUserAtom,
 } from '~core/shared_state';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { NO_CACHE_LAYERS } from '../constants';
 import { layersGlobalResource } from './layersGlobalResource';
 import { layersInAreaAndEventLayerResource } from './layersInAreaAndEventLayerResource';
 import type { LayerInAreaDetails } from '../types';
@@ -139,7 +140,10 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
   },
   'areaLayersDetailsResourceAtom',
   {
-    onSuccess: (dispatch, response) =>
-      response && dispatch(areaLayersDetailsResourceAtomCache.add(response)),
+    onSuccess: (dispatch, response) => {
+      if (response === null) return;
+      const toCache = response.filter((l) => !NO_CACHE_LAYERS.includes(l.id));
+      dispatch(areaLayersDetailsResourceAtomCache.add(toCache));
+    },
   },
 );
