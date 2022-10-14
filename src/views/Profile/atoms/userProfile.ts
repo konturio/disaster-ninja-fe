@@ -80,21 +80,12 @@ export const currentProfileAtom = createAtom(
     onAction('getUserProfile', () => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
-        // let responseData = await apiClient.get<profileGetResponse>(
-        //   '/users/current_user',
-        //   {},
-        //   true
-        // );
-        // temp dummy data
-        await new Promise((res) => {
-          setTimeout(() => {
-            res('');
-          }, 2000);
-        });
-        const responseData = dummyResponse;
-        // if (!responseData)
-        // throw new Error(i18n.t('no_data_received'));
-        // console.log('%c⧭', 'color: #f27999', responseData);
+        const responseData = await apiClient.get<profileGetResponse>(
+          '/users/current_user',
+          {},
+          true,
+        );
+        if (!responseData) throw new Error(i18n.t('no_data_received'));
         dispatch(create('setUser', responseData));
       });
     });
@@ -108,7 +99,14 @@ export const currentProfileAtom = createAtom(
             res('');
           }, 2000);
         });
-        dispatch(create('setUser', user));
+
+        const responseData = await apiClient.put<profileGetResponse>(
+          '/users/current_user',
+          user,
+          true,
+        );
+        if (!responseData) throw new Error(i18n.t('no_data_received'));
+        dispatch(create('setUser', responseData));
       });
     });
 
@@ -125,7 +123,6 @@ export const currentProfileAtom = createAtom(
       schedule((dispatch) => dispatch(actions));
     });
 
-    // console.log('%c⧭ state', 'color: #00736b', state);
     return state;
   },
 );
