@@ -23,6 +23,9 @@ function showCriticalError(e: Error) {
   }
 }
 
+// keep initial url before overwriting by router
+localStorage.setItem('initialUrl', location.href);
+
 loadConfig()
   .then(() => {
     import('./App');

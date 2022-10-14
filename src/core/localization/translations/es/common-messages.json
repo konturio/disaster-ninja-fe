@@ -38,7 +38,7 @@
     "groups": {
       "layers_in_selected_area": "Capas en el área seleccionada",
       "your_layers": "Sus capas",
-      "kontur_analytics": "Analíticas de Kontur",
+      "kontur_analytics": "Análisis de Kontur",
       "qa": "Certificación de calidad",
       "osmbasedmap": "Basado en OpenStreetMap",
       "other": "Otros",
@@ -100,13 +100,13 @@
       "error": "Error",
       "header_title": "Análisis",
       "info_tab": "INFORMACIÓN",
-      "error_loading": "Error en la obtención de datos de analítica"
+      "error_loading": "Error en la obtención de datos de análisis"
     },
     "advanced_analytics_panel": {
       "loading": "Cargando análisis avanzado...",
       "header_title": "Análisis avanzado",
       "analytics_tab": "Analíticas avanzadas",
-      "error": "Error en la obtención de datos de analíticas avanzadas"
+      "error": "Error en la obtención de datos de análisis Avanzado"
     },
     "advanced_analytics_empty": {
       "not_found": "Lo sentimos, el evento solicitado no se ha encontrado.",
@@ -125,7 +125,7 @@
       "finish_drawing": "Terminar el dibujo",
       "caption": "Haga clic en el mapa para empezar a dibujar",
       "no_geometry_error": "No hay geometría dibujada para descargar",
-      "overlap_error": "El polígono no debe superponerse a sí mismo",
+      "overlap_error": "El polígono no debe superponerse sobre sí mismo",
       "save_features": "Guardar características"
     },
     "boundary_selector.title": "Enfoque en el límite administrativo",
@@ -134,7 +134,7 @@
       "warning": "No es un archivo geojson válido",
       "error": "Error al leer el archivo cargado"
     },
-    "focus_geometry.title": "Enfoque en la geometría a mano alzada",
+    "focus_geometry.title": "Enfoque en la geometría a mano",
     "focus_geometry_layer.settings.name": "Área seleccionada",
     "drawings.self_directions_not_supported": "¡No se admiten las autointersecciones!",
     "bivariate": {
@@ -210,21 +210,6 @@
       "event": "Evento",
       "reports": "Informes",
       "profile": "Perfil"
-    },
-    "about": {
-      "title": "Welcome to Disaster Ninja!",
-      "intro": "Do you want to be notified about ongoing disasters? Are you interested in instant population data and other analytics for any region in the world? Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing these needs.<br /><br /> We initially designed it as a decision support tool for humanitarian mappers. Now it has grown in functionality and use cases. Whether you work in disaster management, build a smart city, or perform research on climate change, Disaster Ninja can help you to:",
-      "l1": "1. Stay up to date with the latest hazard events globally.",
-      "p1": "The Disasters panel continually refreshes to inform you about ongoing events. It consumes data from the <2>Kontur Event Feed</2>, which you can also access via an API.",
-      "l2": "2. Focus on your area of interest.",
-      "p2": "The Drawing Tools panel allows you to draw or upload your own geometry on the map. You can also focus on a disaster-exposed area or an administrative unit — a country, city, or region.",
-      "l3": "3. Get analytics for the focused area.",
-      "p3": "The Analytics panel shows the number of people living in that area per <2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. Kontur’s customers have access to hundreds of other indicators through Advanced Analytics.",
-      "l4": "4. Explore data on the map and make conclusions.",
-      "p4": "The Layers panel gives you various options to display two indicators simultaneously on a bivariate map, e.g., population density and distance to the nearest fire station. Use the color legend to assess which areas require attention. <br /> Hint: in general, green indicates low risk / few gaps, red — high risk / many gaps.",
-      "p5": "In addition, you can switch to Reports in the left panel to access data on potential errors and inconsistencies in OpenStreetMap and help fix them by mapping the respective area with the JOSM editor.",
-      "goToMap": "Go to the map now",
-      "p6": "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for any questions about the functionality, and we will be happy to guide you. You can also contact us by email at <1>hello@kontur.io</1> if you have feedback or suggestions on improving the tool.<br /><br />Disaster Ninja is an open-source project. Find the code in <7>Kontur’s GitHub account</7>."
     }
   }
 }
