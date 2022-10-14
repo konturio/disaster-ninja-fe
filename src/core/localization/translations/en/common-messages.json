@@ -238,6 +238,16 @@
       "p5": "In addition, you can switch to Reports in the left panel to access data on potential errors and inconsistencies in OpenStreetMap and help fix them by mapping the respective area with the JOSM editor.",
       "goToMap": "Go to the map now",
       "p6": "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for any questions about the functionality, and we will be happy to guide you. You can also contact us by email at <1>hello@kontur.io</1> if you have feedback or suggestions on improving the tool.<br /><br />Disaster Ninja is an open-source project. Find the code in <7>Kontur’s GitHub account</7>."
+    },
+    "profile": {
+      "interfaceTheme": "Theme",
+      "interfaceLanguage": "Language",
+      "units": "Units",
+      "fullName": "Full Name",
+      "email": "Email",
+      "metric": "metric",
+      "imperialBeta": "imperial (beta)",
+      "imperial": "imperial"
     }
   }
 }

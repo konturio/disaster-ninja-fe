@@ -1,21 +1,35 @@
 .modeWrap {
-  width: 100%;
-  align-items: center;
-  margin: auto;
   --section: 280px;
+  --min-section: 220px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: var(--unit);
+}
+.contentWrap {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+}
+.notFlexParent {
+  width: 100%;
 }
 
 .flexWrap {
+  flex: 1 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin: auto 0;
 }
 
 .profileWrap {
-  /* width: 100%; */
   display: flex;
   flex-direction: column;
   gap: 40px;
+  max-width: var(--section);
+  min-width: var(--min-section);
 }
 
 .divider {
@@ -24,10 +38,11 @@
 }
 
 .settingsWrap {
-  /* width: 100%; */
   display: flex;
   flex-direction: column;
   gap: 40px;
+  max-width: var(--section);
+  min-width: var(--min-section);
 }
 
 .loginWrap {
@@ -41,4 +56,33 @@
 
 .biography {
   max-width: var(--section);
+}
+
+.saveWrap {
+  margin-top: var(--double-unit);
+  text-align: end;
+}
+
+.spinnerContainer {
+  /* same height as button it's replacing, cosmetic addition */
+  height: 42px;
+  & > svg {
+    height: 32px;
+  }
+}
+
+.logoutWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  & > button {
+    margin: var(--unit);
+  }
+}
+
+/* Mobile view */
+@media screen and (max-width: 550px) {
+  .divider {
+    display: none;
+  }
 }
