@@ -21,7 +21,7 @@ type ResourceCtx = {
   activeRequest?: Promise<any>;
 };
 
-const defaultOptions: AsyncAtomOptions<never> = {
+const defaultOptions: AsyncAtomOptions<never, never> = {
   inheritState: false,
   store: store,
   auto: true,
@@ -49,12 +49,12 @@ export function createAsyncAtom<
   atom: D | null,
   fetcher: F,
   name: string,
-  resourceAtomOptions: AsyncAtomOptions<Awaited<ReturnType<F>>> = {},
+  resourceAtomOptions: AsyncAtomOptions<Awaited<ReturnType<F>>, AtomState<D>> = {},
 ): AtomSelfBinded<
   AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
   AsyncAtomDeps<D, F>
 > {
-  const options: AsyncAtomOptions<Awaited<ReturnType<F>>> = {
+  const options: AsyncAtomOptions<Awaited<ReturnType<F>>, AtomState<D>> = {
     ...resourceAtomOptions,
     auto: resourceAtomOptions.auto ?? defaultOptions.auto,
     inheritState: resourceAtomOptions.inheritState ?? defaultOptions.inheritState,
@@ -154,7 +154,7 @@ export function createAsyncAtom<
               delete ctx.abortController;
               dispatch(create('_done', params, fetcherResult));
               if (options.onSuccess) {
-                options.onSuccess(dispatch, fetcherResult);
+                options.onSuccess(dispatch, params, fetcherResult);
               }
             }
           } catch (e) {
