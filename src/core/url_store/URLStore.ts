@@ -24,11 +24,12 @@ export class URLStore {
       }
     },
     layers: async (appId: string) => {
-      return await this._client.get<string[] | null>(
-        `/layers/defaults/`,
-        { appId },
+      const layers = await this._client.get<{ id: string }[] | null>(
+        `/apps/${appId}/layers/`,
+        undefined,
         false,
       );
+      return layers?.map((l) => l.id) ?? null;
     },
   };
   constructor(encoder: UrlEncoder<UrlData>) {
