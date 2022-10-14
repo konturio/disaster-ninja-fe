@@ -65,7 +65,7 @@ export function combineAsyncAtoms<T extends AsyncAtomsMap>(shape: T) {
 
         return acc;
       },
-      { dirty: true.valueOf, data: {} } as unknown as CombinedAsyncAtomsState<T>,
+      { dirty: true, data: {} } as unknown as CombinedAsyncAtomsState<T>,
     );
   });
 }

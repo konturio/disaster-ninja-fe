@@ -39,7 +39,7 @@ const layersInAreaAndEventLayerResourceParametersAtom = createAtom(
 
     const geoJSON = focusedGeometry.geometry;
     const eventId = getEventId(focusedGeometry);
-    // getUnlistedState for avoid extra request when layer if
+    // getUnlistedState for avoid extra request when eventId changed
     // Updates flow:
     // 1. eventId changed (ignoring)
     // 2. focusedGeometry start loading for new event
