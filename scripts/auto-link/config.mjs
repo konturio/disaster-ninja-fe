@@ -1,19 +1,17 @@
-import { readFile } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import prompts from './prompts.mjs';
+import { logger } from './logger.mjs';
 
+const log = logger('Config reader')
 // @ts-check
-export async function getLinksConfig() {
-  const configPath = '';
-  if (configExists(configPath)) {
-    return readFile(configPath)
-  } else {
-    const { konturioRepo } = await prompts([
-      {
-        type: 'text',
-        name: 'konturioRepo',
-        message: 'Path to @kontur',
-      },
-    ]);
-    return { konturioRepo };
+export async function geConfig(pathToConfig = './scripts/auto-link/.path') {
+  try {
+    const pathToUIKitRepo = readFileSync(pathToConfig, { encoding: 'utf8' })
+    return { pathToUIKitRepo };
+  } catch(e) {
+    log.debug(e)
+    const pathToUIKitRepo = await prompts.askPathToFile('Path to folder with @kontur/ui repo');
+    writeFileSync(pathToConfig, pathToUIKitRepo)
+    return { pathToUIKitRepo };
   }
 }
