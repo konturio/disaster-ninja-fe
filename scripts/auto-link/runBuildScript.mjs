@@ -17,24 +17,32 @@ export function runCommandInDir(command, args = [], dir) {
       stdio: ['ignore', 'pipe', 'pipe'],
     });
 
-    const stopProcess = () => {
-      log.info('Stopping script');
+    const stopProcessCb = () => {
+      log.info('Stopping build');
       commandProcess.kill();
     };
 
-    log.info('Running script');
+    let watcherStarted = false;
+
+    log.info('Start build');
     commandProcess.stdout.on('data', (stdout) => {
       if (isClearCommand(stdout)) return;
-      log.debug(stdout);
-      if (isInitFinished(stdout)) {
-        res(stopProcess);
+      if (watcherStarted) {
+        log.info(stdout)
+      } else {
+        log.debug(stdout);
+      }
+      if (!watcherStarted && isInitFinished(stdout)) {
+        log.info('Build finished, looking for changes');
+        watcherStarted = true
+        res(stopProcessCb);
       }
     });
     commandProcess.stderr.on('data', (stderr) => log.debug(stderr));
     commandProcess.stderr.on('close', (code) => {
-      log.info('Script was stopped');
+      log.info('Build was stopped');
       rej('Script was stopped');
-      log.debug('Exit code:', code);
+      log.debug(`Exit code: "${code}"`);
     });
   });
 }

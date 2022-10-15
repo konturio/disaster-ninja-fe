@@ -31,10 +31,12 @@ async function findPackages(packagesRoot) {
         return { packageJson: pckJson, fullPath, name: pckJson.name };
       }),
     )
-  ).filter((r) => r.status === 'fulfilled').map(r => r.value);
+  )
+    .filter((r) => r.status === 'fulfilled')
+    .map((r) => r.value);
 
-  log.debug(`Founded packages: \n - ${packages.map(({ name }) => name).join('\n - ')}`);
-  
+  log.info(`Founded packages: \n - ${packages.map(({ name }) => name).join('\n - ')}`);
+
   return packages;
 }
 
@@ -53,44 +55,60 @@ async function createLinks(packages) {
   });
 }
 
+const splitNpmWarnings = (stderr, warnsCb, errorsCb) => {
+  let warns = '';
+  let errors = '';
+
+  stderr
+    .split('\n')
+    .forEach((s) =>
+      s.startsWith('npm WARN') ? (warns += s + '\n') : (errors += s + '\n'),
+    );
+
+  if (warns.length > 0) {
+    warnsCb(warns);
+  }
+
+  errors = errors.trim();
+  if (errors.length > 0) {
+    errorsCb(errors);
+  }
+};
+
 async function applyLinks(packages) {
   log.debug('Applying packages links');
-  const linksApplying = await Promise.allSettled(
-    packages.map(({ name }) => {
-      return exec(`npm link "${name}"`);
-    }),
+  const command = `npm link ${packages.map(({ name }) => `"${name}"`).join(' ')}`;
+  const { stdout, stderr } = await exec(command);
+  log.debug(stdout);
+  splitNpmWarnings(
+    stderr,
+    (warns) => log.debug(warns),
+    (err) => log.error(command + '\n' + err),
   );
-  linksApplying.forEach((r, i) => {
-    if (r.status == 'fulfilled') {
-      log.debug(`Link ${packages[i].name}`);
-    } else {
-      log.error(`Fail to link ${packages[i].name}`);
-      log.debug(r.reason);
-    }
-  });
 }
 
 async function removeLinks(packages) {
-  log.debug('Unlink packages');
-  const linksApplying = await Promise.allSettled(
-    packages.map(({ name }) => {
-      return exec(`npm unlink "${name}" --no-save`);
-    }),
+  log.info('Unlink packages');
+  const command = `npm unlink ${packages
+    .map(({ name }) => `"${name}"`)
+    .join(' ')} --no-save`;
+  const unlinkCmd = await exec(command);
+  log.debug(unlinkCmd.stdout);
+  splitNpmWarnings(
+    unlinkCmd.stderr,
+    (warns) => log.debug(warns),
+    (err) => log.error(command + '\n' + err),
   );
-  linksApplying.forEach((r, i) => {
-    if (r.status == 'fulfilled') {
-      log.debug(`Unlink ${packages[i].name}`);
-    } else {
-      log.error(`Fail to unlink ${packages[i].name}`);
-      log.debug(r.reason);
-    }
-  });
   log.debug('Links removed');
+
   log.debug('Reinstall original packages');
-  const { stderr } = await exec(`npm install`);
-  if (stderr) {
-    log.error(stderr);
-  }
+  const installCmd = await exec('npm install');
+  log.debug(installCmd.stdout);
+  splitNpmWarnings(
+    installCmd.stderr,
+    (warns) => log.debug(warns),
+    (err) => log.error(command + '\n' + err),
+  );
 }
 
 /**
@@ -99,11 +117,11 @@ async function removeLinks(packages) {
 export async function linkPackages(pathToPackages) {
   log.info('Register new links');
   const packagesRoot = path.resolve(pathToPackages, packagesDir);
-  const packages = await findPackages(packagesRoot)
+  const packages = await findPackages(packagesRoot);
   await createLinks(packages);
   await applyLinks(packages);
   log.info('Links registered');
   return async () => {
     await removeLinks(packages);
-  }
+  };
 }
