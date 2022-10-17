@@ -247,7 +247,14 @@
       "email": "Email",
       "metric": "metric",
       "imperialBeta": "imperial (beta)",
-      "imperial": "imperial"
+      "imperial": "imperial",
+      "profileSettingsHeader": "Profile",
+      "appSettingsHeader": "Settings",
+      "englishLanguageOption": "English",
+      "spanishLanguageOption": "Spanish",
+      "saveButton": "Save",
+      "konturTheme": "Kontur",
+      "HOTTheme": "HOT"
     }
   }
 }

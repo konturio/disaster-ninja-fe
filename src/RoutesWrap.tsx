@@ -39,10 +39,6 @@ type CommonRoutesFeaturesProps = {
   children?: JSX.Element | null | false;
 };
 
-const afterChatContent = (loginFeature: boolean) => {
-  return <div className={s.afterChatContentWrap}>{loginFeature && <UserProfile />}</div>;
-};
-
 export const CommonRoutesFeatures = ({
   userModel,
   children,
@@ -81,13 +77,7 @@ export const CommonRoutesFeatures = ({
       </Suspense>
       <Suspense fallback={null}>
         {userModel.hasFeature(AppFeature.HEADER) && (
-          <AppHeader
-            title={headerTitle}
-            logo={VisibleLogo()}
-            afterChatContent={afterChatContent(
-              userModel.hasFeature(AppFeature.APP_LOGIN),
-            )}
-          />
+          <AppHeader title={headerTitle} logo={VisibleLogo()} />
         )}
       </Suspense>
 

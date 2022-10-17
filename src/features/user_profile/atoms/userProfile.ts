@@ -56,8 +56,8 @@ export type UserProfileState = {
   email?: string;
   fullName?: string;
   language?: string;
-  useMetricUnits?: true;
-  subscribedToKonturUpdates?: true;
+  useMetricUnits?: boolean;
+  subscribedToKonturUpdates?: boolean;
   bio?: string;
   osmEditor?: string;
   defaultFeed?: string;

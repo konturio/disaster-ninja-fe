@@ -7,14 +7,10 @@ import { Textarea } from '~components/Textarea/Textarea';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { simpleObjectsAreEqual } from '~utils/common';
-import {
-  currentProfileAtom,
-  pageStatusAtom
-} from '../../atoms/userProfile';
+import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
-import type {
-  UserProfileState} from '../../atoms/userProfile';
-import type { ChangeEvent} from 'react';
+import type { UserProfileState } from '../../atoms/userProfile';
+import type { ChangeEvent } from 'react';
 
 const authInputClasses = { input: clsx(s.authInput) };
 
@@ -62,7 +58,11 @@ export function SettingsForm() {
   }
   function onLanguageChange(e) {
     // TODO that would be done in #12287
-    // i18nLibrary.changeLanguage(e.value);
+  }
+  function toggleUnits() {
+    setLocalSettings((prevSettings) => {
+      return { ...prevSettings, useMetricUnits: !prevSettings?.useMetricUnits };
+    });
   }
 
   return (
@@ -71,9 +71,9 @@ export function SettingsForm() {
         <div className={s.notFlexParent}>
           <div className={s.flexWrap}>
             <div className={s.profileWrap}>
-              <Text type="heading-xl">Profile</Text>
-
+              <Text type="heading-xl">{i18n.t('profile.profileSettingsHeader')}</Text>
               {/* Full Name */}
+
               <Input
                 classes={authInputClasses}
                 showTopPlaceholder
@@ -105,14 +105,14 @@ export function SettingsForm() {
             <div className={s.divider}></div>
 
             <div className={s.settingsWrap}>
-              <Text type="heading-xl">Settings</Text>
+              <Text type="heading-xl">{i18n.t('profile.appSettingsHeader')}</Text>
 
               <Select
                 value={localSettings?.theme}
                 placeholder={i18n.t('profile.interfaceTheme')}
                 items={[
-                  { title: 'Kontur', value: 'kontur' },
-                  { title: 'HOT', value: 'hot' },
+                  { title: i18n.t('profile.konturTheme'), value: 'kontur' },
+                  { title: i18n.t('profile.HOTTheme'), value: 'hot' },
                 ]}
                 withResetButton={false}
               />
@@ -121,8 +121,8 @@ export function SettingsForm() {
                 placeholder={i18n.t('profile.interfaceLanguage')}
                 value={localSettings?.language}
                 items={[
-                  { title: 'English', value: 'en' },
-                  { title: 'Spanish', value: 'es' },
+                  { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
+                  { title: i18n.t('profile.spanishLanguageOption'), value: 'es' },
                 ]}
                 withResetButton={false}
                 onSelect={onLanguageChange}
@@ -131,8 +131,20 @@ export function SettingsForm() {
               <div className={s.unitsSelection}>
                 <Text type="short-l">{i18n.t('profile.units')}</Text>
 
-                <Radio as="input" id="bpoba" label={i18n.t('profile.metric')} />
-                <Radio as="input" id="ssss" label={i18n.t('profile.imperialBeta')} />
+                <Radio
+                  as="input"
+                  id="metric"
+                  label={i18n.t('profile.metric')}
+                  checked={localSettings?.useMetricUnits}
+                  onChange={toggleUnits}
+                />
+                <Radio
+                  as="input"
+                  id="imperial"
+                  label={i18n.t('profile.imperialBeta')}
+                  checked={!localSettings?.useMetricUnits}
+                  onChange={toggleUnits}
+                />
               </div>
 
               <div className={s.saveWrap}>
@@ -142,7 +154,7 @@ export function SettingsForm() {
                   </div>
                 ) : (
                   <Button onClick={onSave} disabled={status === 'init'}>
-                    <Text type="short-m">Save</Text>
+                    <Text type="short-m">{i18n.t('profile.saveButton')}</Text>
                   </Button>
                 )}
               </div>
