@@ -1,4 +1,3 @@
-export * from './createResourceAtom';
 export { createStateMap } from './createStateMap';
 export {
   createAtom,
@@ -7,4 +6,4 @@ export {
   createSetAtom,
 } from './createPrimitives';
 export type { AtomStatesHandlers } from './createStateMap';
-export { combineAtoms } from './combineAtoms';
+export { combineAtoms, combineAsyncAtoms } from './combineAtoms';

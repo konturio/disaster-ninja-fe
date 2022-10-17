@@ -2,9 +2,23 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateActionsFromLayersDTO } from '../utils/createUpdateActionsFromLayersDTO';
-import { areaLayersListResource } from './areaLayersListResource';
+import { layersInAreaAndEventLayerResource } from './layersInAreaAndEventLayerResource';
+import { layersGlobalResource } from './layersGlobalResource';
 import type { LayerInArea } from '../types';
 import type { Action } from '@reatom/core';
+
+const allLayers = createAtom(
+  {
+    layersGlobalResource,
+    layersInAreaAndEventLayerResource,
+  },
+  ({ get }) => {
+    return [
+      ...(get('layersGlobalResource').data ?? []),
+      ...(get('layersInAreaAndEventLayerResource').data ?? []),
+    ];
+  },
+);
 
 /**
  * This atom responsibilities:
@@ -15,16 +29,13 @@ import type { Action } from '@reatom/core';
  */
 export const areaLayersControlsAtom = createAtom(
   {
-    areaLayersResourceAtom: areaLayersListResource,
+    allLayers,
   },
   ({ onChange, schedule, getUnlistedState }) => {
-    onChange('areaLayersResourceAtom', (nextData, prevData) => {
+    onChange('allLayers', (nextLayers, prevLayers) => {
       /* Prepare data */
-      if (nextData.loading) return null;
-      const { data: nextLayers } = nextData;
-      const { data: prevLayers } = prevData ?? {};
       const allLayers = new Set([
-        ...(nextLayers ?? []).map((l) => l.id),
+        ...nextLayers.map((l) => l.id),
         ...(prevLayers ?? []).map((l) => l.id),
       ]);
 
