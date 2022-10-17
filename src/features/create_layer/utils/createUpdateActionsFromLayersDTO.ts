@@ -2,11 +2,13 @@ import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdat
 import type { Action } from '@reatom/core';
 import type { EditableLayers } from '../types';
 
+type LayerId = string;
+
 export function createUpdateActionsFromLayersDTO(
-  layerId: string,
-  layer: EditableLayers,
+  layers: [LayerId, EditableLayers][],
 ): Action[][] {
-  return createUpdateLayerActions(layerId, {
+  const updates = layers.map(([layerId, layer]) => ({
+    id: layerId,
     meta: {
       description: layer.description,
       copyrights: layer.copyrights,
@@ -19,5 +21,7 @@ export function createUpdateActionsFromLayersDTO(
       boundaryRequiredForRetrieval: layer.boundaryRequiredForRetrieval ?? false,
       ownedByUser: layer.ownedByUser,
     },
-  });
+  }));
+
+  return createUpdateLayerActions(updates);
 }

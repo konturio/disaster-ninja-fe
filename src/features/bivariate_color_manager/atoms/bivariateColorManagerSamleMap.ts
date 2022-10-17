@@ -40,9 +40,7 @@ export const bivariateColorManagerSamleMap = createAtom(
     });
 
     onAction('generateLayerStyles', (selection) => {
-      const { _initialData, meta } = getUnlistedState(
-        bivariateColorManagerDataAtom,
-      );
+      const { _initialData, meta } = getUnlistedState(bivariateColorManagerDataAtom);
       if (!_initialData || !meta || !state.map) return;
 
       const { key, vertical, horizontal } = selection;
@@ -83,10 +81,13 @@ export const bivariateColorManagerSamleMap = createAtom(
           }
         : undefined;
 
-      const [updateActions, cleanUpActions] = createUpdateLayerActions(id, {
-        legend,
-        source,
-      });
+      const [updateActions, cleanUpActions] = createUpdateLayerActions([
+        {
+          id,
+          legend,
+          source,
+        },
+      ]);
 
       const currentRegistry = getUnlistedState(bivariateregistry);
       if (!currentRegistry.has(id)) {

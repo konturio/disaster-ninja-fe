@@ -302,27 +302,31 @@ export const bivariateMatrixSelectionAtom = createAtom(
               }
             : undefined;
 
-          const [updateActions, cleanUpActions] = createUpdateLayerActions(id, {
-            legend,
-            meta,
-            source,
-          });
+          const [updateActions, cleanUpActions] = createUpdateLayerActions([
+            {
+              id,
+              legend,
+              meta,
+              source,
+            },
+          ]);
 
           // Setup only (because it static)
           const currentSettings = getUnlistedState(layersSettingsAtom);
           if (!currentSettings.has(id)) {
-            createUpdateLayerActions(
-              id,
-              {
-                settings: {
+            updateActions.push(
+              ...createUpdateLayerActions([
+                {
                   id,
-                  name: 'Bivariate Layer',
-                  category: 'overlay' as const,
-                  group: 'bivariate',
-                  ownedByUser: true,
+                  settings: {
+                    id,
+                    name: 'Bivariate Layer',
+                    category: 'overlay' as const,
+                    group: 'bivariate',
+                    ownedByUser: true,
+                  },
                 },
-              },
-              [updateActions, cleanUpActions],
+              ]).flat(),
             );
           }
 

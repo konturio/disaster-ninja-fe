@@ -1,17 +1,17 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { reatomContext } from '@reatom/react';
 import { store } from '~core/store/store';
 import { AuthWrapper } from '~core/auth';
 import { runGoogleTagManager } from '~utils/metrics/tagManager';
 import { RoutedApp } from './Routes';
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root')!);
+root.render(
   <reatomContext.Provider value={store}>
     <AuthWrapper>
       <RoutedApp />
     </AuthWrapper>
   </reatomContext.Provider>,
-  document.getElementById('root'),
 );
 
 // delayed run of statistics
