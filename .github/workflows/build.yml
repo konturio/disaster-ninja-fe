@@ -62,6 +62,7 @@ jobs:
 
   publish:
     needs: build
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (startsWith(github.ref_name, 'release') || github.ref_name == 'main')) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
