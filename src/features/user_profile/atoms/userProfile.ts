@@ -76,17 +76,6 @@ export const currentProfileAtom = createAtom(
       schedule((dispatch) => dispatch(actions));
     });
 
-    onChange('userResourceAtom', async (newUser, prevUser) => {
-      const actions: Action[] = [];
-
-      console.debug('userResourceAtom newUser:', newUser);
-
-      // if (newUser.id === 'public') return actions.push(create('setUser', {}));
-
-      // actions.push(create('getUserProfile'));
-      // schedule((dispatch) => dispatch(actions));
-    });
-
     return state;
   },
 );

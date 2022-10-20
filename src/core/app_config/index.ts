@@ -23,6 +23,13 @@ export interface AppConfig {
   FEATURES_BY_DEFAULT: string[];
   DEFAULT_FEED: string;
   DEFAULT_FEED_OBJECT: BackendFeed;
+  OSM_EDITORS: OsmEditorConfig[];
+}
+
+export interface OsmEditorConfig {
+  id: string;
+  title: string;
+  url: string;
 }
 
 declare global {
@@ -69,6 +76,7 @@ export default (() => {
       app_id: konturAppConfig.INTERCOM_APP_ID,
       custom_launcher_selector: konturAppConfig.INTERCOM_SELECTOR,
     },
+    osmEditors: konturAppConfig.OSM_EDITORS,
   };
 })();
 
