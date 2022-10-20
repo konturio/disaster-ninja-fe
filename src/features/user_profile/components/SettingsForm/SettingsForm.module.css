@@ -1,8 +1,3 @@
-.contentWrap,
-.logoutWrap {
-  --section: 280px;
-  --min-section: 220px;
-}
 .contentWrap {
   flex: 1 1 auto;
   display: flex;
@@ -72,6 +67,7 @@
 }
 
 .textArea {
+  width: 100%;
   & textarea {
     resize: vertical;
   }
