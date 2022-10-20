@@ -1,3 +1,5 @@
+import type { BackendFeed } from '~core/auth/types';
+
 export interface AppConfig {
   API_GATEWAY: string;
   BOUNDARIES_API: string;
@@ -20,7 +22,7 @@ export interface AppConfig {
   INTERCOM_SELECTOR?: string;
   FEATURES_BY_DEFAULT: string[];
   DEFAULT_FEED: string;
-  DEFAULT_FEED_DESCRIPTION?: string;
+  DEFAULT_FEED_OBJECT: BackendFeed;
 }
 
 declare global {
@@ -44,7 +46,7 @@ export default (() => {
     layersByDefault: konturAppConfig.LAYERS_BY_DEFAULT,
     featuresByDefault: konturAppConfig.FEATURES_BY_DEFAULT,
     defaultFeed: konturAppConfig.DEFAULT_FEED,
-    defaultFeedDescription: konturAppConfig.DEFAULT_FEED_DESCRIPTION || '',
+    defaultFeedObject: konturAppConfig.DEFAULT_FEED_OBJECT,
     keycloakUrl: konturAppConfig.KEYCLOAK_URL,
     keycloakRealm: konturAppConfig.KEYCLOAK_REALM,
     keycloakClientId: konturAppConfig.KEYCLOAK_CLIENT_ID,

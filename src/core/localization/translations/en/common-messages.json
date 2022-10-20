@@ -255,7 +255,9 @@
       "saveButton": "Save",
       "konturTheme": "Kontur",
       "HOTTheme": "HOT",
-      "userBio(about)": "Bio"
+      "userBio(about)": "Bio",
+      "defaultDisasterFeed": "Default disaster feed",
+      "defaultOSMeditor": "Default OpenStreetMap editor (beta)"
     }
   }
 }
