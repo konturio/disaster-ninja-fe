@@ -62,8 +62,14 @@ export type BackendFeature = {
 
 export type BackendFeed = {
   feed: string;
+  name: string;
   description: string;
   default: boolean;
 };
 
-export type UserFeed = { feed: string; isDefault?: boolean };
+export type UserFeed = {
+  feed: string;
+  name: string;
+  description: string;
+  default: boolean;
+};

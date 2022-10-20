@@ -52,13 +52,7 @@ export const userResourceAtom = createAsyncAtom(
     let feedsResponse: Promise<BackendFeed[] | null>;
     // if user not logged in - avoid extra request for feed
     if (userData?.id === PUBLIC_USER_ID) {
-      feedsResponse = (async () => [
-        {
-          feed: appConfig.defaultFeed,
-          description: appConfig.defaultFeedDescription,
-          default: true,
-        },
-      ])();
+      feedsResponse = (async () => [appConfig.defaultFeedObject])();
     } else {
       feedsResponse = apiClient.get<BackendFeed[]>('/events/user_feeds', undefined, true);
     }
@@ -82,14 +76,15 @@ export const userResourceAtom = createAsyncAtom(
     }
 
     let feeds: UserFeed[] | null = null;
-    if (feedsSettled.status === 'fulfilled' && Array.isArray(feedsSettled.value)) {
-      feeds = feedsSettled.value.map((fd: { feed: string; default: boolean }) => ({
-        feed: fd.feed,
-        isDefault: fd.default,
-      }));
+    if (
+      feedsSettled.status === 'fulfilled' &&
+      Array.isArray(feedsSettled.value) &&
+      feedsSettled.value.length > 0
+    ) {
+      feeds = [...feedsSettled.value];
     } else if (feedsSettled.status === 'rejected') {
       console.error('User feeds call failed. Applying default feed...');
-      feeds = [{ feed: appConfig.defaultFeed, isDefault: true }];
+      feeds = [appConfig.defaultFeedObject];
     }
 
     // check features override from .env and .env.local files.

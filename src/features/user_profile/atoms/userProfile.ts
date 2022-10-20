@@ -3,6 +3,7 @@ import { i18n } from '~core/localization';
 import { currentUserAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
+import { userResourceAtom } from '~core/auth/atoms/userResource';
 import type { Action } from '@reatom/core';
 
 export type UserProfileState = {
@@ -26,6 +27,7 @@ export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>('
 export const currentProfileAtom = createAtom(
   {
     currentUserAtom,
+    userResourceAtom,
     setUser: (user: UserProfileState) => user,
     getUserProfile: () => {
       // noop
@@ -72,6 +74,17 @@ export const currentProfileAtom = createAtom(
 
       actions.push(create('getUserProfile'));
       schedule((dispatch) => dispatch(actions));
+    });
+
+    onChange('userResourceAtom', async (newUser, prevUser) => {
+      const actions: Action[] = [];
+
+      console.debug('userResourceAtom newUser:', newUser);
+
+      // if (newUser.id === 'public') return actions.push(create('setUser', {}));
+
+      // actions.push(create('getUserProfile'));
+      // schedule((dispatch) => dispatch(actions));
     });
 
     return state;

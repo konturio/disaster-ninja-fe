@@ -6,6 +6,7 @@ import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { flatObjectsAreEqual } from '~utils/common';
+import { userResourceAtom } from '~core/auth';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserProfileState } from '../../atoms/userProfile';
@@ -19,6 +20,7 @@ export function SettingsForm() {
     userProfile,
   );
   const [status, { set }] = useAtom(pageStatusAtom);
+  const [{ data: userModel }] = useAtom(userResourceAtom);
 
   function logout() {
     authClientInstance.logout();
@@ -63,7 +65,12 @@ export function SettingsForm() {
       return { ...prevSettings, useMetricUnits: !prevSettings?.useMetricUnits };
     });
   }
-
+  function onFeedChange(e) {
+    // TODO that would be done in #12290
+  }
+  function onOSMeditorChange(e) {
+    // TODO that would be done in #12302
+  }
   return (
     <>
       <div className={s.contentWrap}>
@@ -149,6 +156,36 @@ export function SettingsForm() {
                   onChange={toggleUnits}
                 />
               </div>
+
+              {/* disaster feed selector */}
+              <Select
+                alwaysShowPlaceholder
+                value={localSettings?.defaultFeed || 'kontur-public'}
+                items={[
+                  { title: 'Kontur Public', value: 'kontur-public' },
+                  { title: 'Kontur A', value: 'kontur-a' },
+                  { title: 'Kontur B', value: 'kontur-b' },
+                ]}
+                withResetButton={false}
+                onSelect={onFeedChange}
+              >
+                {i18n.t('profile.defaultDisasterFeed')}
+              </Select>
+
+              {/* OSMeditor selector */}
+              <Select
+                alwaysShowPlaceholder
+                value={localSettings?.osmEditor || 'JOSM'}
+                items={[
+                  { title: 'JOSM', value: 'JOSM' },
+                  { title: 'iD', value: 'iD' },
+                  { title: 'RapiD', value: 'RapiD' },
+                ]}
+                withResetButton={false}
+                onSelect={onOSMeditorChange}
+              >
+                {i18n.t('profile.defaultOSMeditor')}
+              </Select>
 
               <div className={s.saveWrap}>
                 {status === 'loading' ? (
