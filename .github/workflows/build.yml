@@ -11,13 +11,13 @@ on:
       - ready_for_review
       - synchronize
   workflow_dispatch:
-  
+
 env:
   NODE_ENV: production
   AVA_FORCE_CI: 'not-ci'
   REGISTRY: ghcr.io
   IMAGE_REPO: ${{ github.repository }}
-  
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -62,7 +62,7 @@ jobs:
 
   publish:
     needs: build
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'release')) }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (startsWith(github.ref_name, 'release') || github.ref_name == 'main')) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -87,8 +87,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}
           tags: |
-            type=semver,pattern={{version}}
-            type=raw,value=${{ github.ref_name }}
+            type=raw,value=${{ github.ref_name }}.{{sha}}.${{ github.run_attempt }},enable=${{github.event_name == 'push' || github.event_name == 'workflow_dispatch'}}
+            type=raw,value=${{ github.head_ref }}.{{sha}}.${{ github.run_attempt }},enable=${{github.event_name == 'pull_request'}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
@@ -98,7 +98,5 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}:${{ github.ref_name }}
           labels: ${{ steps.meta.outputs.labels }}
 

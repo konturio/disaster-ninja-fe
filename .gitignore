@@ -44,3 +44,6 @@ cosmos-export/
 
 # vite temp
 vite.config.ts.js
+
+# scripts
+.path

@@ -55,69 +55,49 @@ export const editableLayersControlsAtom = createAtom(
       const actions: Action[] = [];
 
       /* Update layers */
-      const layerUpdateActions = Array.from(updated).reduce(
-        (acc, [layerId, layer]) => {
-          const [updateActions] = createUpdateActionsFromLayersDTO(
-            layerId,
-            layer,
-          );
-          acc.push(...updateActions);
-          return acc;
-        },
-        [] as Action[],
+      const [updateLayersSubAtoms] = createUpdateActionsFromLayersDTO(
+        Array.from(updated),
       );
-
-      actions.push(...layerUpdateActions);
+      actions.push(...updateLayersSubAtoms);
 
       /* Register added layers */
-      const layerRegisterActions = Array.from(added).reduce(
-        (acc, [layerId, layer]) => {
-          const [updateActions, cleanUpActions] =
-            createUpdateActionsFromLayersDTO(layerId, layer);
-          acc.push(...updateActions);
-          acc.push(
-            layersRegistryAtom.register({
-              id: layerId,
-              renderer: getLayerRenderer(layer),
-              cleanUpActions,
-            }),
-          );
-          return acc;
-        },
-        [] as Action[],
+      const [setupLayersSubAtoms, cleanUpActions] = createUpdateActionsFromLayersDTO(
+        Array.from(added),
       );
+      actions.push(...setupLayersSubAtoms);
 
-      actions.push(...layerRegisterActions);
+      const registerLayers = Array.from(added).map(([layerId, layer]) => ({
+        id: layerId,
+        renderer: getLayerRenderer(layer),
+        cleanUpActions,
+      }));
+      if (registerLayers.length) {
+        actions.push(layersRegistryAtom.register(registerLayers));
+      }
 
       /* Add context menus */
-      const layerContextMenusActions = Array.from(added)
-        .map(([layerId]) => {
-          const [updateActions] = createUpdateLayerActions(layerId, {
-            menu: [
-              {
-                id: 'edit_layer',
-                name: i18n.t('create_layer.edit_layer'),
-                callback: () =>
-                  editableLayerControllerAtom.editLayer.dispatch(layerId),
-              },
-              {
-                id: 'edit_features',
-                name: i18n.t('create_layer.edit_features'),
-                callback: () =>
-                  featurePanelControllerAtom.editFeatures.dispatch(layerId),
-              },
-              {
-                id: 'delete_layer',
-                name: i18n.t('create_layer.delete_layer'),
-                callback: () =>
-                  editableLayerControllerAtom.deleteLayer.dispatch(layerId),
-              },
-            ],
-          });
-          return updateActions;
-        })
-        .flat();
-
+      const layerContextMenusActions = createUpdateLayerActions(
+        Array.from(added).map(([layerId, layer]) => ({
+          id: layerId,
+          menu: [
+            {
+              id: 'edit_layer',
+              name: i18n.t('create_layer.edit_layer'),
+              callback: () => editableLayerControllerAtom.editLayer.dispatch(layerId),
+            },
+            {
+              id: 'edit_features',
+              name: i18n.t('create_layer.edit_features'),
+              callback: () => featurePanelControllerAtom.editFeatures.dispatch(layerId),
+            },
+            {
+              id: 'delete_layer',
+              name: i18n.t('create_layer.delete_layer'),
+              callback: () => editableLayerControllerAtom.deleteLayer.dispatch(layerId),
+            },
+          ],
+        })),
+      ).flat();
       actions.push(...layerContextMenusActions);
 
       /* Unregister removed layers */

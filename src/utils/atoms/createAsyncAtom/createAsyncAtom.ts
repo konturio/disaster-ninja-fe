@@ -21,7 +21,7 @@ type ResourceCtx = {
   activeRequest?: Promise<any>;
 };
 
-const defaultOptions: AsyncAtomOptions = {
+const defaultOptions: AsyncAtomOptions<never, never> = {
   inheritState: false,
   store: store,
   auto: true,
@@ -43,18 +43,19 @@ const getUniqueId = ((mem) => {
 })(new Set());
 
 export function createAsyncAtom<
-  F extends Fetcher<AtomState<D> | null, any>,
+  F extends Fetcher<AtomState<D> | null, Awaited<ReturnType<F>>>,
   D extends AtomBinded,
 >(
   atom: D | null,
   fetcher: F,
   name: string,
-  resourceAtomOptions: AsyncAtomOptions = {},
+  resourceAtomOptions: AsyncAtomOptions<Awaited<ReturnType<F>>, AtomState<D>> = {},
 ): AtomSelfBinded<
   AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
   AsyncAtomDeps<D, F>
 > {
-  const options: AsyncAtomOptions = {
+  const options: AsyncAtomOptions<Awaited<ReturnType<F>>, AtomState<D>> = {
+    ...resourceAtomOptions,
     auto: resourceAtomOptions.auto ?? defaultOptions.auto,
     inheritState: resourceAtomOptions.inheritState ?? defaultOptions.inheritState,
     store: resourceAtomOptions.store ?? defaultOptions.store,
@@ -152,6 +153,9 @@ export function createAsyncAtom<
               log('5.1.A.1. Done');
               delete ctx.abortController;
               dispatch(create('_done', params, fetcherResult));
+              if (options.onSuccess) {
+                options.onSuccess(dispatch, params, fetcherResult);
+              }
             }
           } catch (e) {
             if (isAbortError(e)) {

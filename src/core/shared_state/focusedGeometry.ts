@@ -23,7 +23,7 @@ interface GeometrySourceFromFile {
 
 interface GeometrySourceBoundaries {
   type: 'boundaries';
-  meta: string;
+  meta: { name: string };
 }
 
 interface GeometrySourceDrawn {

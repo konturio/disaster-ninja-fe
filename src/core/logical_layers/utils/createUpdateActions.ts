@@ -9,8 +9,10 @@ import type { LayerMeta } from '../types/meta';
 import type { LayerSettings } from '../types/settings';
 import type { LayerSource } from '../types/source';
 import type { LayerContextMenu } from '../types/contextMenu';
+import type { AsyncState } from '../types/asyncState';
 
 export interface LayersUpdate {
+  id: string;
   legend?: LayerLegend;
   source?: LayerSource;
   meta?: LayerMeta;
@@ -18,69 +20,86 @@ export interface LayersUpdate {
   menu?: LayerContextMenu;
 }
 
+type LayerId = string;
+type LayersBatchedUpdate = {
+  legend: [LayerId, LayerLegend][];
+  source: [LayerId, LayerSource][];
+  meta: [LayerId, LayerMeta][];
+  settings: [LayerId, LayerSettings][];
+  menu: [LayerId, LayerContextMenu][];
+};
+
+const createBatchedUpdateMap = (): LayersBatchedUpdate => ({
+  legend: [],
+  source: [],
+  meta: [],
+  settings: [],
+  menu: [],
+});
+
+const wrapInAsyncState = <T>([id, data]: [string, T]): [string, AsyncState<T>] => [
+  id,
+  { data, isLoading: false, error: null },
+];
+
 /**
  * Util for fast generate bunch of update various layer data
-   @param id layer id
- * @param update object with data wor layer atoms
-   @param actions - actions arrays that will be extended
  * @returns Bunch of update and cleanup actions
  * */
-export function createUpdateLayerActions(
-  id: string,
-  update: LayersUpdate,
-  // Extend existing actions
-  actions?: [Action[], Action[]],
-) {
-  const updateActions: Action[] = actions ? actions[0] : [];
-  const cleanupActions: Action[] = actions ? actions[1] : [];
+export function createUpdateLayerActions(updates: LayersUpdate[]) {
+  const batchedUpdates = updates.reduce((acc, { id, ...update }) => {
+    Object.keys(update).forEach((key) => {
+      acc[key].push([id, update[key]]);
+    });
+    return acc;
+  }, createBatchedUpdateMap());
 
-  if (update.legend) {
+  const updateActions: Action[] = [];
+  const cleanupActions: Action[] = [];
+
+  if (batchedUpdates.legend.length) {
+    const update = batchedUpdates.legend.map(wrapInAsyncState);
     updateActions.push(
-      layersLegendsAtom.set(id, {
-        isLoading: false,
-        error: null,
-        data: update.legend,
+      layersLegendsAtom.change((state) => {
+        return new Map([...state, ...update]);
       }),
     );
-    cleanupActions.push(layersLegendsAtom.delete(id));
   }
 
-  if (update.source) {
+  if (batchedUpdates.source.length) {
+    const update = batchedUpdates.source.map(wrapInAsyncState);
     updateActions.push(
-      layersSourcesAtom.set(id, {
-        isLoading: false,
-        error: null,
-        data: update.source,
+      layersSourcesAtom.change((state) => {
+        return new Map([...state, ...update]);
       }),
     );
-    cleanupActions.push(layersSourcesAtom.delete(id));
   }
 
-  if (update.meta) {
+  if (batchedUpdates.meta.length) {
+    const update = batchedUpdates.meta.map(wrapInAsyncState);
     updateActions.push(
-      layersMetaAtom.set(id, {
-        isLoading: false,
-        error: null,
-        data: update.meta,
+      layersMetaAtom.change((state) => {
+        return new Map([...state, ...update]);
       }),
     );
-    cleanupActions.push(layersMetaAtom.delete(id));
   }
 
-  if (update.settings) {
+  if (batchedUpdates.settings.length) {
+    const update = batchedUpdates.settings.map(wrapInAsyncState);
     updateActions.push(
-      layersSettingsAtom.set(id, {
-        isLoading: false,
-        error: null,
-        data: update.settings,
+      layersSettingsAtom.change((state) => {
+        return new Map([...state, ...update]);
       }),
     );
-    cleanupActions.push(layersSettingsAtom.delete(id));
   }
 
-  if (update.menu) {
-    updateActions.push(layersMenusAtom.set(id, update.menu));
-    cleanupActions.push(layersSettingsAtom.delete(id));
+  if (batchedUpdates.menu.length) {
+    const update = batchedUpdates.menu;
+    updateActions.push(
+      layersMenusAtom.change((state) => {
+        return new Map([...state, ...update]);
+      }),
+    );
   }
 
   return [updateActions, cleanupActions];

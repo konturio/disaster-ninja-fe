@@ -2,9 +2,23 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateActionsFromLayersDTO } from '../utils/createUpdateActionsFromLayersDTO';
-import { areaLayersListResource } from './areaLayersListResource';
+import { layersInAreaAndEventLayerResource } from './layersInAreaAndEventLayerResource';
+import { layersGlobalResource } from './layersGlobalResource';
 import type { LayerInArea } from '../types';
 import type { Action } from '@reatom/core';
+
+const allLayers = createAtom(
+  {
+    layersGlobalResource,
+    layersInAreaAndEventLayerResource,
+  },
+  ({ get }) => {
+    return [
+      ...(get('layersGlobalResource').data ?? []),
+      ...(get('layersInAreaAndEventLayerResource').data ?? []),
+    ];
+  },
+);
 
 /**
  * This atom responsibilities:
@@ -15,16 +29,13 @@ import type { Action } from '@reatom/core';
  */
 export const areaLayersControlsAtom = createAtom(
   {
-    areaLayersResourceAtom: areaLayersListResource,
+    allLayers,
   },
   ({ onChange, schedule, getUnlistedState }) => {
-    onChange('areaLayersResourceAtom', (nextData, prevData) => {
+    onChange('allLayers', (nextLayers, prevLayers) => {
       /* Prepare data */
-      if (nextData.loading) return null;
-      const { data: nextLayers } = nextData;
-      const { data: prevLayers } = prevData ?? {};
       const allLayers = new Set([
-        ...(nextLayers ?? []).map((l) => l.id),
+        ...nextLayers.map((l) => l.id),
         ...(prevLayers ?? []).map((l) => l.id),
       ]);
 
@@ -52,39 +63,25 @@ export const areaLayersControlsAtom = createAtom(
       const actions: Action[] = [];
 
       /* Update layers */
-      const layerUpdateActions = Array.from(updated).reduce(
-        (acc, [layerId, layer]) => {
-          const [updateActions] = createUpdateActionsFromLayersDTO(
-            layerId,
-            layer,
-          );
-          acc.push(...updateActions);
-          return acc;
-        },
-        [] as Action[],
+      const [updateLayersSubAtoms] = createUpdateActionsFromLayersDTO(
+        Array.from(updated),
       );
-
-      actions.push(...layerUpdateActions);
+      actions.push(...updateLayersSubAtoms);
 
       /* Register added layers */
-      const layerRegisterActions = Array.from(added).reduce(
-        (acc, [layerId, layer]) => {
-          const [updateActions, cleanUpActions] =
-            createUpdateActionsFromLayersDTO(layerId, layer);
-          acc.push(...updateActions);
-          acc.push(
-            layersRegistryAtom.register({
-              id: layerId,
-              renderer: getLayerRenderer(layer),
-              cleanUpActions,
-            }),
-          );
-          return acc;
-        },
-        [] as Action[],
+      const [setupLayersSubAtoms, cleanUpActions] = createUpdateActionsFromLayersDTO(
+        Array.from(added),
       );
+      actions.push(...setupLayersSubAtoms);
 
-      actions.push(...layerRegisterActions);
+      const registerLayers = Array.from(added).map(([layerId, layer]) => ({
+        id: layerId,
+        renderer: getLayerRenderer(layer),
+        cleanUpActions,
+      }));
+      if (registerLayers.length) {
+        actions.push(layersRegistryAtom.register(registerLayers));
+      }
 
       /* Unregister removed layers */
       const layersRegistry = getUnlistedState(layersRegistryAtom);

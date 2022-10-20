@@ -23,11 +23,12 @@ export const isErrorWithMessage = (
   return e !== null && typeof e === 'object' && 'message' in e;
 };
 
-type simpleObject = Record<string, string | boolean | number | undefined | null>;
+
+type flatObject = Record<string, string | boolean | number | undefined | null>;
 
 export function flatObjectsAreEqual(
-  objectA: simpleObject | null,
-  objectB: simpleObject | null,
+  objectA: flatObject | null,
+  objectB: flatObject | null,
 ) {
   if (objectA === null || objectB === null) return false;
   const aKeys = Object.keys(objectA);
@@ -42,3 +43,17 @@ export function flatObjectsAreEqual(
   }
   return true;
 }
+
+type NoUndefinedField<T> = {
+  [P in keyof T]-?: Exclude<T[P], null | undefined>;
+};
+
+export const removeEmpty = <T extends Record<string, unknown | null | undefined>>(
+  obj: T,
+): NoUndefinedField<T> =>
+  Object.keys(obj).reduce((acc, key: keyof T) => {
+    if (obj[key] !== undefined && obj[key] !== null) {
+      acc[key] = obj[key] as NoUndefinedField<T>[keyof T];
+    }
+    return acc;
+  }, {} as NoUndefinedField<T>);
