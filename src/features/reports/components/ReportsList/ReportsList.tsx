@@ -1,5 +1,5 @@
 import { Text } from '@konturio/ui-kit';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import { Trans } from 'react-i18next';
 import { useEffect } from 'react';
@@ -9,7 +9,6 @@ import { i18n } from '~core/localization';
 import config from '~core/app_config';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { reportsAtom } from '../../atoms/reportsAtom';
-import arrowIcon from '../../icons/arrow.svg';
 import styles from './ReportsList.module.css';
 
 export function ReportsList() {
@@ -39,15 +38,16 @@ export function ReportsList() {
             >
               Kontur{' '}
             </a>{' '}
-            generates several reports that help validate OpenStreetMap quality. 
-            They contain links to areas on{' '}
+            generates several reports that help validate OpenStreetMap quality. They
+            contain links to areas on{' '}
             <a
               href="https://www.openstreetmap.org/"
               className={clsx(styles.paragraphLink, styles.link)}
             >
               osm.org{' '}
             </a>{' '}
-            and links to open them in the JOSM editor with enabled remote control for editing.
+            and links to open them in the JOSM editor with enabled remote control for
+            editing.
           </Trans>
         </div>
       </Text>

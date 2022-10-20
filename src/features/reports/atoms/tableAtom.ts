@@ -77,7 +77,9 @@ export const tableAtom = createAtom(
       });
     });
 
-    onAction('setState', (newState) => (state = newState));
+    onAction('setState', (newState) => {
+      state = newState;
+    });
 
     onAction('sort', () => {
       const sorted = (function sortTable() {

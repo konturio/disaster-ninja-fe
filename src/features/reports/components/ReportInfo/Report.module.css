@@ -7,9 +7,9 @@
 }
 
 .mainWrap {
-  padding: 88px 0 20px 0;
+  padding: 88px var(--double-unit) 20px var(--double-unit);
   margin: 0 auto;
-  width: 90vw;
+  width: 100%;
   max-height: calc(100vh - 44px);
   overflow-y: auto;
 }
@@ -66,7 +66,7 @@
 
 @media screen and (max-width: 1200px) {
   .mainWrap {
-    padding: 44px 0.5vw 44px 0.5vw;
+    padding: 44px var(--unit) 44px var(--unit);
     width: 99vw;
     max-height: 100vh;
     overflow-y: auto;
