@@ -25,7 +25,7 @@ export const isErrorWithMessage = (
 
 type simpleObject = Record<string, string | boolean | number | undefined | null>;
 
-export function simpleObjectsAreEqual(
+export function flatObjectsAreEqual(
   objectA: simpleObject | null,
   objectB: simpleObject | null,
 ) {

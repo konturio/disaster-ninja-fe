@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
-import { simpleObjectsAreEqual } from '~utils/common';
+import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserProfileState } from '../../atoms/userProfile';
@@ -41,7 +41,7 @@ export function SettingsForm() {
     if (
       localSettings &&
       userProfile &&
-      !simpleObjectsAreEqual(localSettings, userProfile)
+      !flatObjectsAreEqual(localSettings, userProfile)
     ) {
       set('changed');
     } else if (localSettings && userProfile) {
