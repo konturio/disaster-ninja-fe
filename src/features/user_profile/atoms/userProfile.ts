@@ -2,54 +2,8 @@ import { apiClient } from '~core/apiClientInstance';
 import { i18n } from '~core/localization';
 import { currentUserAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import type { Action } from '@reatom/core';
-
-// Atoms we might need
-// userStateAtom
-// authClientInstance
-
-// authClientInstance
-type currentProfile = {
-  token?: string;
-  email?: string;
-  fullName?: string;
-  bio?: string;
-};
-
-const dummyUser: currentProfile = {
-  token: 'dumdudmdudn',
-  email: 'disasterNinja@kontur.io',
-  fullName: 'Daemon Ninjaki',
-  bio: 'I am the disaster',
-};
-
-const dummyResponse: profileGetResponse = {
-  email: 'disasterNinja@kontur.io',
-  fullName: 'Daemon Ninjaki',
-  bio: 'Disaster creator',
-  defaultFeed: 'kontur-public',
-  language: 'en',
-  osmEditor: 'josm',
-  subscribedToKonturUpdates: true,
-  theme: 'kontur',
-  useMetricUnits: true,
-  username: 'dummyUser',
-};
-
-type profileGetResponse = {
-  username: string;
-  email: string;
-  fullName: string;
-  language: string;
-  useMetricUnits: true;
-  subscribedToKonturUpdates: true;
-  bio: string;
-  osmEditor: string;
-  defaultFeed: string;
-  theme: string;
-};
 
 export type UserProfileState = {
   username?: string;
@@ -64,6 +18,8 @@ export type UserProfileState = {
   theme?: string;
   loading?: boolean;
 };
+
+type profileResponse = UserProfileState;
 
 export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>('init');
 
@@ -80,7 +36,8 @@ export const currentProfileAtom = createAtom(
     onAction('getUserProfile', () => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
-        const responseData = await apiClient.get<profileGetResponse>(
+
+        const responseData = await apiClient.get<profileResponse>(
           '/users/current_user',
           {},
           true,
@@ -93,14 +50,8 @@ export const currentProfileAtom = createAtom(
     onAction('updateUserProfile', (user) => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
-        // temp dummy data
-        await new Promise((res) => {
-          setTimeout(() => {
-            res('');
-          }, 2000);
-        });
 
-        const responseData = await apiClient.put<profileGetResponse>(
+        const responseData = await apiClient.put<profileResponse>(
           '/users/current_user',
           user,
           true,
