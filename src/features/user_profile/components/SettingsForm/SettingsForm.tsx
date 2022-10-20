@@ -1,9 +1,8 @@
-import { Button, Input, Radio, Select, Text } from '@konturio/ui-kit';
+import { Button, Input, Radio, Select, Text, Textarea } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
-import { Textarea } from '~components/Textarea/Textarea';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { simpleObjectsAreEqual } from '~utils/common';
@@ -72,8 +71,8 @@ export function SettingsForm() {
           <div className={s.flexWrap}>
             <div className={s.profileWrap}>
               <Text type="heading-xl">{i18n.t('profile.profileSettingsHeader')}</Text>
-              {/* Full Name */}
 
+              {/* Full Name */}
               <Input
                 classes={authInputClasses}
                 showTopPlaceholder
@@ -86,18 +85,18 @@ export function SettingsForm() {
               <Input
                 showTopPlaceholder
                 value={localSettings?.email}
-                onChange={() => {
-                  // noop
-                }}
                 placeholder={i18n.t('profile.email')}
                 disabled
               />
               <div className={s.biography}>
                 <Textarea
-                  placeholder="Bio"
+                  placeholder={i18n.t('profile.userBio(about)')}
                   showTopPlaceholder
                   value={localSettings?.bio}
                   onChange={onBioChange}
+                  className={s.textArea}
+                  width="100%"
+                  minHeight="40px"
                 />
               </div>
             </div>
@@ -109,16 +108,18 @@ export function SettingsForm() {
 
               <Select
                 value={localSettings?.theme}
-                placeholder={i18n.t('profile.interfaceTheme')}
+                alwaysShowPlaceholder
                 items={[
                   { title: i18n.t('profile.konturTheme'), value: 'kontur' },
                   { title: i18n.t('profile.HOTTheme'), value: 'hot' },
                 ]}
                 withResetButton={false}
-              />
+              >
+                {i18n.t('profile.interfaceTheme')}
+              </Select>
 
               <Select
-                placeholder={i18n.t('profile.interfaceLanguage')}
+                alwaysShowPlaceholder
                 value={localSettings?.language}
                 items={[
                   { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
@@ -126,7 +127,9 @@ export function SettingsForm() {
                 ]}
                 withResetButton={false}
                 onSelect={onLanguageChange}
-              />
+              >
+                {i18n.t('profile.interfaceLanguage')}
+              </Select>
 
               <div className={s.unitsSelection}>
                 <Text type="short-l">{i18n.t('profile.units')}</Text>

@@ -71,6 +71,12 @@
   }
 }
 
+.textArea {
+  & textarea {
+    resize: vertical;
+  }
+}
+
 /* Mobile view */
 @media screen and (max-width: 550px) {
   .divider {
