@@ -38,15 +38,24 @@ export const AdvancedAnalyticsEmptyState = ({
             <DisastersListIcon /> {i18n.t('advanced_analytics_empty.pickDisaster')}
           </div>
         )}
-        <div className={s.iconRow}>
-          <Poly24 /> {i18n.t('advanced_analytics_empty.draw')}
-        </div>
-        <div className={s.iconRow}>
-          <SelectArea24 /> {i18n.t('advanced_analytics_empty.select')}
-        </div>
-        <div className={s.iconRow}>
-          <Plus24 /> {i18n.t('advanced_analytics_empty.upload')}
-        </div>
+
+        {userModel?.hasFeature(AppFeature.FOCUSED_GEOMETRY_EDITOR) && (
+          <div className={s.iconRow}>
+            <Poly24 /> {i18n.t('advanced_analytics_empty.draw')}
+          </div>
+        )}
+
+        {userModel?.hasFeature(AppFeature.BOUNDARY_SELECTOR) && (
+          <div className={s.iconRow}>
+            <SelectArea24 /> {i18n.t('advanced_analytics_empty.select')}
+          </div>
+        )}
+
+        {userModel?.hasFeature(AppFeature.GEOMETRY_UPLOADER) && (
+          <div className={s.iconRow}>
+            <Plus24 /> {i18n.t('advanced_analytics_empty.upload')}
+          </div>
+        )}
       </div>
     </div>
   );
