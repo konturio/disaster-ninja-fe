@@ -29,7 +29,7 @@ function PanelHeading({ event }: PanelHeadingProps) {
 
 interface AnalyticsPanelHeaderParams {
   resourceAtom:
-    Atom<AsyncAtomState<FocusedGeometry | null, AnalyticsData[] | null>>
+    | Atom<AsyncAtomState<FocusedGeometry | null, AnalyticsData[] | null>>
     | Atom<AsyncAtomState<FocusedGeometry | null, AdvancedAnalyticsData[] | null>>;
   loadingMessage: string;
 }

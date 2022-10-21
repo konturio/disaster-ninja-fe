@@ -1,6 +1,12 @@
 import { createAtom } from '~utils/atoms';
 
-export type ApplicationMode = 'map' | 'about' | 'reports' | 'event' | 'bivariateManager';
+export type ApplicationMode =
+  | 'map'
+  | 'reports'
+  | 'event'
+  | 'bivariateManager'
+  | 'profile'
+  | 'about';
 
 export const currentModeAtom = createAtom(
   {

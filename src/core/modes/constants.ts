@@ -6,5 +6,6 @@ export const MODES_LABELS: Record<ApplicationMode, string> = {
   event: i18n.t('modes.event'),
   reports: i18n.t('modes.reports'),
   bivariateManager: i18n.t('bivariate.color_manager.title'),
+  profile: i18n.t('modes.profile'),
   about: i18n.t('modes.about'),
 };

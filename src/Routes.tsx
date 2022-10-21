@@ -15,6 +15,7 @@ import { CommonRoutesFeatures } from './RoutesWrap';
 const { MainView } = lazily(() => import('~views/Main/Main'));
 const { Reports } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
+const { ProfileMode } = lazily(() => import('~views/Profile/Profile'));
 const { AboutPage } = lazily(() => import('~views/About/About'));
 const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
@@ -86,12 +87,17 @@ export function RoutedApp() {
                 </Protected>
               </Route>
 
+              <Route path={APP_ROUTES.profile}>
+                <Suspense fallback={null}>
+                  <ProfileMode />
+                </Suspense>
+              </Route>
+
               <Redirect to={APP_ROUTES.map} />
             </CacheSwitch>
           )}
         </CommonRoutesFeatures>
       </Router>
-      <LoginForm />
     </StrictMode>
   );
 }

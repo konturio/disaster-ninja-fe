@@ -2,11 +2,11 @@
   z-index: var(--modal);
 }
 .modalCard {
-  box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04),
-    0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04),
-    0px 0px 1px rgba(0, 0, 0, 0.04);
-  border-radius: 12px;
-  padding: 48px 56px;
+  box-shadow: none;
+}
+
+.loginDescription {
+  margin-top: 40px;
 }
 
 .socialLoginContainer {
@@ -63,7 +63,7 @@
 }
 
 .inputsContainer {
-  margin-top: 24px;
+  margin-top: var(--double-unit);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -91,14 +91,14 @@
 }
 
 .registerContainter {
-  margin: var(--unit) auto 0 auto;
+  margin: var(--double-unit) auto 0 auto;
   & a {
     color: var(--accent-strong);
   }
 }
 
 .loginButtonContainer {
-  margin-top: 24px;
+  margin-top: var(--double-unit);
 }
 
 .loginButton {

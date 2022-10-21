@@ -42,7 +42,11 @@ function AboutText() {
             <Trans i18nKey="about.p1">
               The Disasters panel continually refreshes to inform you about ongoing
               events. It consumes data from the{' '}
-              <a href="https://www.kontur.io/portfolio/event-feed/" target="_blank" rel="noreferrer">
+              <a
+                href="https://www.kontur.io/portfolio/event-feed/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 Kontur Event Feed
               </a>
               , which you can also access via an API.
@@ -56,7 +60,8 @@ function AboutText() {
               The Analytics panel shows the number of people living in that area per{' '}
               <a
                 href="https://data.humdata.org/dataset/kontur-population-dataset"
-                target="_blank" rel="noreferrer"
+                target="_blank"
+                rel="noreferrer"
               >
                 Kontur Population
               </a>{' '}
