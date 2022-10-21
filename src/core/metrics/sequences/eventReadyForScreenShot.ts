@@ -4,7 +4,7 @@ export function eventReadyForScreenShot(mtr: AppMetrics) {
   mtr
     .addSequence('eventReadyForScreenShot')
     .on('appConfig_loaded')
-    .on('done_userResourceAtom')
+    .on('_done_userResourceAtom')
     .on('setMap_[Shared state] currentMapAtom', (ctx, map: maplibregl.Map) => {
       ctx.map = map;
     })

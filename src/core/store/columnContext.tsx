@@ -56,8 +56,9 @@ class PanelsRepository {
 
 export class Resizer {
   panels = new PanelsRepository();
-  column: DynamicDivRef | null = null;
+  public column: DynamicDivRef;
   public limiter: DynamicDivRef;
+  cleanUpEffects = new Set<() => void>();
 
   constructor(columnRef: DynamicDivRef, limiterRef: DynamicDivRef) {
     this.column = columnRef;
@@ -66,49 +67,88 @@ export class Resizer {
   }
 
   getMaxColumnHeight() {
-    if (!this.limiter.current) return null;
-    return this.limiter.current.getBoundingClientRect().height;
+    const limiter = this.limiter.current;
+    if (!limiter) return null;
+    return limiter.getBoundingClientRect().height;
+  }
+
+  getContentHeight() {
+    const column = this.column.current;
+    if (!column) return null;
+    return column.getBoundingClientRect().height;
   }
 
   runSizeAdjuster() {
-    if (!this.column?.current)
-      return console.warn('no element provided via ref', this.column?.current);
-    const resizeObserver = new ResizeObserver((columnElements) => {
-      const maxHeight = this.getMaxColumnHeight();
-      if (!this.column?.current)
-        return console.warn('no element provided via ref', this.column?.current);
-      if (maxHeight === null)
-        return console.warn('no element provided via ref', this.limiter.current);
-      const column = columnElements[0]; // should always contain 1 element
-      // Find how much space out of size
-      const diff = column.contentRect.height - maxHeight;
-      if (diff > 0) {
-        // Stop observing while applying size changes
-        resizeObserver.unobserve(this.column.current);
-        // Get all children with height more than minimal
-        const panelsWithExtraSpace = this.panels.getPanelsWithExtraSpace();
-        if (panelsWithExtraSpace.length > 0) {
-          // Reduce panels height
-          const reduceSize = Math.ceil(diff / panelsWithExtraSpace.length);
-          panelsWithExtraSpace.forEach(([panel, currentHeight]) => {
-            this.panels.adjustToHeight(panel, currentHeight - reduceSize);
-          });
-          // In case no children with extra space
-        } else {
-          // Close first opened panel
-          const openedPanels = this.panels.getPanelsWithOpenState();
-          if (openedPanels[0]) {
-            this.panels.closePanel(openedPanels[0]);
-          } else {
-            console.error('Not enough space for panels');
-          }
+    /* 1. Adjust size when card size changed */
+    const columnEl = this.column.current;
+    if (columnEl !== null) {
+      const contentObserver = new ResizeObserver((columnElements) => {
+        const column = columnElements[0]; // should always contain 1 element
+        const maxHeight = this.getMaxColumnHeight();
+        const contentHeight = column.contentRect.height;
+        // Find how much space out of size
+        const diff = maxHeight ? contentHeight - maxHeight : 0;
+        if (diff > 0) {
+          // Stop observing while applying size changes
+          contentObserver.unobserve(columnEl);
+          this._adjustPanelsHeight(diff);
+          // Restore observing
+          contentObserver.observe(columnEl);
         }
-        // Restore observing
-        resizeObserver.observe(this.column.current);
+      });
+      contentObserver.observe(columnEl);
+      this.cleanUpEffects.add(() => contentObserver.unobserve(columnEl));
+    } else {
+      console.warn(
+        '[ColumnContext]: Fail to adjust content size. Column ref not available',
+      );
+    }
+
+    /* 1. Adjust size when column size changed (window resize) */
+    const containerEl = this.limiter.current;
+    if (containerEl !== null) {
+      const containerObserver = new ResizeObserver((containerElements) => {
+        const container = containerElements[0]; // should always contain 1 element
+        const maxHeight = container.contentRect.height;
+        const contentHeight = this.getContentHeight();
+        // Find how much space out of size
+        const diff = contentHeight ? contentHeight - maxHeight : 0;
+        if (diff > 0) {
+          // Stop observing while apllying size changes
+          containerObserver.unobserve(containerEl);
+          this._adjustPanelsHeight(diff);
+          // Restore observing
+          containerObserver.observe(containerEl);
+        }
+      });
+      containerObserver.observe(containerEl);
+      this.cleanUpEffects.add(() => containerObserver.unobserve(containerEl));
+    } else {
+      console.warn(
+        '[ColumnContext]: Fail to adjust container size. Container ref not available',
+      );
+    }
+  }
+
+  _adjustPanelsHeight(diff: number) {
+    // Get all children with height more than minimal
+    const cardsWithExtraSpace = this.panels.getPanelsWithExtraSpace();
+    if (cardsWithExtraSpace.length > 0) {
+      // Reduce cards height
+      const reduceSize = Math.ceil(diff / cardsWithExtraSpace.length);
+      cardsWithExtraSpace.forEach(([card, currentHeight]) => {
+        this.panels.adjustToHeight(card, currentHeight - reduceSize);
+      });
+      // In case no children with extra space
+    } else {
+      // Close first opened card
+      const openedPanels = this.panels.getPanelsWithOpenState();
+      if (openedPanels[0]) {
+        this.panels.closePanel(openedPanels[0]);
+      } else {
+        console.error('Not enough space for cards');
       }
-    });
-    resizeObserver.observe(this.column.current);
-    this.destroy = () => resizeObserver.unobserve(this.column!.current!);
+    }
   }
 
   addPanel(panel: PanelMeta) {
@@ -116,6 +156,8 @@ export class Resizer {
   }
 
   destroy() {
-    // noop
+    this.cleanUpEffects.forEach((effect) => {
+      effect();
+    });
   }
 }

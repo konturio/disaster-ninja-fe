@@ -1,7 +1,5 @@
 import { matchPath } from 'react-router';
-import { enableMocking } from '~utils/axios/axiosMockUtils';
 import history from '~core/history';
-import { setupDefaultLayersMocking } from '~utils/axios/setupTemporaryMocking';
 import { ApiClient } from './api_client';
 import config from './app_config';
 import { i18n } from './localization';
@@ -19,10 +17,6 @@ ApiClient.init({
 });
 const apiClientInstance = ApiClient.getInstance();
 
-// @ts-ignore TODO: implement more legal way
-setupDefaultLayersMocking(apiClientInstance.apiSauceInstance.axiosInstance);
-enableMocking(true);
-
 export const apiClient = apiClientInstance;
 // initialize boundaries client
 ApiClient.init({
@@ -32,6 +26,7 @@ ApiClient.init({
   disableAuth: true,
   translationService: i18n,
 });
+
 export const boundariesClient = ApiClient.getInstance('boundaries');
 // initialize reports client
 ApiClient.init({

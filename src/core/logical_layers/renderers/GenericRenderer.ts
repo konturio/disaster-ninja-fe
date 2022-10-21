@@ -14,17 +14,9 @@ import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { layerByOrder } from '~utils/map/layersOrder';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
-import {
-  addZoomFilter,
-  onActiveContributorsClick,
-} from './activeContributorsLayers';
+import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import type {
-  AnyLayer,
-  GeoJSONSourceRaw,
-  RasterSource,
-  VectorSource,
-} from 'maplibre-gl';
+import type { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
 import type maplibregl from 'maplibre-gl';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import type { LayersType } from '~core/logical_layers/utils/layersOrder/layersOrder';
@@ -201,12 +193,10 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     /* Create source */
     const mapSource: VectorSource | RasterSource = {
       type: layer.source.type,
-      tiles: layer.source.urls.map((url) =>
-        this._adaptUrl(url, layer.source.apiKey),
-      ),
+      tiles: layer.source.urls.map((url) => this._adaptUrl(url, layer.source.apiKey)),
       tileSize: layer.source.tileSize || 256,
       minzoom: layer.minZoom || 0,
-      maxzoom: layer.maxZoom || 22,
+      maxzoom: layer.maxZoom || 24,
     };
     // I expect that all servers provide url with same scheme
     this._setTileScheme(layer.source.urls[0], mapSource);
@@ -225,7 +215,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         type: 'raster' as const,
         source: this._sourceId,
         minzoom: 0,
-        maxzoom: 22,
+        maxzoom: 24,
       };
       layerByOrder(map).addAboveLayerWithSameType(mapLayer);
       this._layerIds.add(mapLayer.id);
@@ -256,9 +246,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         });
       } else {
         // We don't known source-layer id
-        throw new Error(
-          `[GenericLayer ${this.id}] Vector layers must have legend`,
-        );
+        throw new Error(`[GenericLayer ${this.id}] Vector layers must have legend`);
       }
     }
   }
@@ -298,8 +286,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     }
 
     if (legend) {
-      const linkProperty =
-        'linkProperty' in legend ? legend.linkProperty : null;
+      const linkProperty = 'linkProperty' in legend ? legend.linkProperty : null;
       if (linkProperty) {
         const handler = (e) => {
           this.onMapClick(map, e, linkProperty);
@@ -372,25 +359,13 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
 
   /* ========== Hooks ========== */
 
-  willLegendUpdate({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  willLegendUpdate({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
       this._updateMap(map, state.source, state.legend, state.isVisible);
     }
   }
 
-  willSourceUpdate({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  willSourceUpdate({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
       this._updateMap(map, state.source, state.legend, state.isVisible);
     }
@@ -422,9 +397,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(id) !== undefined) {
         map.setLayoutProperty(id, 'visibility', 'none');
       } else {
-        console.warn(
-          `Can't hide layer with ID: ${id}. Layer doesn't exist on the map`,
-        );
+        console.warn(`Can't hide layer with ID: ${id}. Layer doesn't exist on the map`);
       }
     });
   }
@@ -456,9 +429,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(id) !== undefined) {
         map.removeLayer(id);
       } else {
-        console.warn(
-          `Can't remove layer with ID: ${id}. Layer does't exist in map`,
-        );
+        console.warn(`Can't remove layer with ID: ${id}. Layer does't exist in map`);
       }
     });
     this._layerIds = new Set();
