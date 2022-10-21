@@ -14,5 +14,7 @@ export function initModes(userModel?: UserDataModel | null) {
   if (userModel?.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)) {
     registerBivariateColorManagerMode(modesControlsAtom);
   }
-  registerProfileMode(modesControlsAtom);
+  if (userModel?.hasFeature(AppFeature.APP_LOGIN)) {
+    registerProfileMode(modesControlsAtom);
+  }
 }
