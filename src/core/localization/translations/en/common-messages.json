@@ -113,7 +113,7 @@
       "error": "An error occured!",
       "please_select": "Please, select an area again",
       "to_see_map": "to see state of the map",
-      "pick": "Pick disaster from the list",
+      "pickDisaster": "Pick disaster from the list",
       "draw": "Draw polygon on the map",
       "select": "Select boundary on the map",
       "upload": "Upload your own geoJSON"

@@ -10,7 +10,9 @@ import type { UserDataModel } from '~core/auth';
 export function initModes(userModel?: UserDataModel | null) {
   registerAboutMode(modesControlsAtom);
   registerMapMode(modesControlsAtom);
-  registerReportsMode(modesControlsAtom);
+  if (userModel?.hasFeature(AppFeature.REPORTS)) {
+    registerReportsMode(modesControlsAtom);
+  }
   if (userModel?.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)) {
     registerBivariateColorManagerMode(modesControlsAtom);
   }

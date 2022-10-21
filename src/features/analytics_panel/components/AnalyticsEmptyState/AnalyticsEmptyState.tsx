@@ -1,9 +1,7 @@
-import {
-  SelectArea24,
-  DisastersListIcon,
-  Poly24,
-  Plus24,
-} from '@konturio/default-icons';
+import { SelectArea24, DisastersListIcon, Poly24, Plus24 } from '@konturio/default-icons';
+import { useAtom } from '@reatom/react';
+import { userResourceAtom } from '~core/auth';
+import { AppFeature } from '~core/auth/types';
 import { i18n } from '~core/localization';
 import s from './AnalyticsEmptyState.module.css';
 
@@ -14,6 +12,7 @@ interface AnalyticsEmptyStateProps {
 export const AnalyticsEmptyState = ({
   stateType = 'initial',
 }: AnalyticsEmptyStateProps) => {
+  const [{ data: userModel }] = useAtom(userResourceAtom);
   return (
     <div className={s.stateContainer}>
       {stateType === 'not-found' && (
@@ -26,9 +25,11 @@ export const AnalyticsEmptyState = ({
       <br />
       {i18n.t('advanced_analytics_empty.to_see_map')}
       <div className={s.iconsContainer}>
-        <div className={s.iconRow}>
-          <DisastersListIcon /> {i18n.t('advanced_analytics_empty.pick')}
-        </div>
+        {userModel?.hasFeature(AppFeature.EVENTS_LIST) && (
+          <div className={s.iconRow}>
+            <DisastersListIcon /> {i18n.t('advanced_analytics_empty.pickDisaster')}
+          </div>
+        )}
         <div className={s.iconRow}>
           <Poly24 /> {i18n.t('advanced_analytics_empty.draw')}
         </div>
