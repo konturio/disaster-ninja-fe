@@ -15,5 +15,6 @@ export function registerProfileMode(modesControlAtom: ModesControlsAtom) {
     onChange(isActive) {
       // noop
     },
+    order: 20,
   });
 }

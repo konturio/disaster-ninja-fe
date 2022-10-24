@@ -1,6 +1,7 @@
 import { useAction, useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
 import { nanoid } from 'nanoid';
+import sortBy from 'lodash/sortBy';
 import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
@@ -63,7 +64,7 @@ export function SideBar() {
   return (
     <div className={s.sidebar}>
       <ActionsBar>
-        {Object.values(controls).map((control) => {
+        {sortBy(controls, 'order').map((control) => {
           return (
             <Link
               key={nanoid(4)}

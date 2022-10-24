@@ -9,6 +9,7 @@ export interface ModeControl {
   active: boolean;
   onClick: () => void;
   onChange?: (isActive: boolean) => void;
+  order: number;
 }
 
 type ModesControlsAtomState = Record<string, ModeControl>;

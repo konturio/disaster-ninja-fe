@@ -12,5 +12,6 @@ export function registerMapMode(modesControlAtom: ModesControlsAtom) {
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('map');
     },
+    order: 30,
   });
 }

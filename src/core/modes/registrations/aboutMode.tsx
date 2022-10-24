@@ -12,5 +12,6 @@ export function registerAboutMode(modesControlAtom: ModesControlsAtom) {
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('about');
     },
+    order: 10,
   });
 }

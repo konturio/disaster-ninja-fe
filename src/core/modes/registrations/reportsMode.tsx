@@ -12,5 +12,6 @@ export function registerReportsMode(modesControlAtom: ModesControlsAtom) {
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('reports');
     },
+    order: 40,
   });
 }
