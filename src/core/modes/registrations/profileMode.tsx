@@ -1,12 +1,14 @@
 import { User24 } from '@konturio/default-icons';
+import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
+import { userStateAtom } from '~core/auth/atoms/userState';
 import { currentModeAtom } from '../currentMode';
 import type { ModesControlsAtom } from '../modesControls';
 
 export function registerProfileMode(modesControlAtom: ModesControlsAtom) {
   modesControlAtom.addControl.dispatch({
     id: 'profile',
-    title: i18n.t('modes.profile'),
+    title: (<ATitle />) as unknown as string,
     active: false,
     icon: <User24 />,
     onClick() {
@@ -17,4 +19,11 @@ export function registerProfileMode(modesControlAtom: ModesControlsAtom) {
     },
     order: 20,
   });
+}
+
+function ATitle() {
+  const [userState] = useAtom(userStateAtom);
+  return userState === 'authorized'
+    ? i18n.t('modes.profile')
+    : i18n.t('login.login_button');
 }
