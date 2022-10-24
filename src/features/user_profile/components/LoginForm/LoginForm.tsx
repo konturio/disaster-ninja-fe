@@ -112,18 +112,18 @@ export function LoginForm() {
       {/*</div>*/}
       <div className={s.inputsContainer}>
         <Input
-          error={error.email}
+          error={error.email || ''}
           classes={authInputClasses}
           showTopPlaceholder
-          value={formData.email}
+          value={formData.email || ''}
           onChange={onEmailInputChange}
           placeholder={i18n.t('login.email')}
         />
         <Input
-          error={error.password}
+          error={error.password || ''}
           classes={authInputClasses}
           showTopPlaceholder
-          value={formData.password}
+          value={formData.password || ''}
           onChange={onPasswordInputChange}
           placeholder={i18n.t('login.password')}
           type="password"
