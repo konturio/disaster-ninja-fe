@@ -24,8 +24,12 @@
 }
 
 .divider {
-  flex: 1 1 auto;
-  max-width: 160px;
+  min-height: 100%;
+  max-height: 100vh;
+  margin: 0 80px 80px 80px;
+  background-color: #eceeef;
+  border-width: 0;
+  width: 1px;
 }
 
 .settingsWrap {
