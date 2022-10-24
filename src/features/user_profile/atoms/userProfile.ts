@@ -4,6 +4,8 @@ import { currentUserAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
+import appConfig from '~core/app_config';
+import { currentNotificationAtom } from '~core/shared_state';
 import type { Action } from '@reatom/core';
 
 export type UserProfileState = {
@@ -45,20 +47,41 @@ export const currentProfileAtom = createAtom(
           true,
         );
         if (!responseData) throw new Error(i18n.t('no_data_received'));
-        dispatch(create('setUser', responseData));
+
+        // defaults, not provided by api/missing in profile?
+        const defaultUserProfile: UserProfileState = {
+          username: '',
+          email: '',
+          fullName: '',
+          language: 'en',
+          useMetricUnits: true,
+          subscribedToKonturUpdates: false,
+          bio: '',
+          osmEditor: appConfig.osmEditors[0].id,
+          defaultFeed: appConfig.defaultFeedObject.feed,
+          theme: 'kontur',
+        };
+
+        const res = { ...defaultUserProfile, ...responseData };
+
+        dispatch(create('setUser', res));
       });
     });
 
     onAction('updateUserProfile', (user) => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
-
         const responseData = await apiClient.put<profileResponse>(
           '/users/current_user',
           user,
           true,
         );
         if (!responseData) throw new Error(i18n.t('no_data_received'));
+        currentNotificationAtom.showNotification.dispatch(
+          'success',
+          { title: 'All changes have been applied successfully' }, //i18n.t('geometry_uploader.error')
+          5,
+        );
         dispatch(create('setUser', responseData));
       });
     });
