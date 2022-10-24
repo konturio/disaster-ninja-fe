@@ -12,10 +12,11 @@ import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { searchStringAtom } from '~core/url_store/atoms/urlStore';
 import s from './SideBar.module.css';
+const wasClosed = 'sidebarClosed';
 
 export function SideBar() {
   const [controls] = useAtom(modesControlsAtom);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(localStorage.getItem(wasClosed) ? false : true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
   const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
@@ -49,6 +50,15 @@ export function SideBar() {
     setIsOpen((prevState) => !prevState);
     resetTooltip();
   }, [setIsOpen]);
+
+  // store locally user preferation to close sidebar
+  useEffect(() => {
+    if (!isOpen) {
+      localStorage.setItem(wasClosed, 'true');
+    } else {
+      localStorage.removeItem(wasClosed);
+    }
+  }, [isOpen]);
 
   return (
     <div className={s.sidebar}>

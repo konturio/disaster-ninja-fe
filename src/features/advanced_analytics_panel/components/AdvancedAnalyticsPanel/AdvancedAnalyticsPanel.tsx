@@ -20,7 +20,6 @@ const LazyLoadedAdvancedAnalyticsPanelHeader = lazy(
 
 export function AdvancedAnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
