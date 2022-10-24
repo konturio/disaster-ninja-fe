@@ -24,12 +24,6 @@ export function ReportTable() {
     useAtom(tableAtom);
   const [meta] = useAtom(currentReportAtom);
 
-  useEffect(() => {
-    return () => {
-      setState({ sortIndex: 0, ascending: null });
-    };
-  }, []);
-
   if (data === null) {
     return <Text type="heading-xl">{i18n.t('reports.no_data')}</Text>;
   }

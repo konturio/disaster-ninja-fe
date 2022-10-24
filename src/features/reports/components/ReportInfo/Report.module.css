@@ -7,9 +7,9 @@
 }
 
 .mainWrap {
-  padding: 88px 0 20px 0;
-  margin: 0 auto;
-  width: 90vw;
+  padding: 88px 176px 20px 176px;
+  margin: 0;
+  width: 100%;
   max-height: calc(100vh - 44px);
   overflow-y: auto;
 }
@@ -34,9 +34,10 @@
 .lastUpdated {
   font-size: 18px;
   line-height: 23px;
-  color: #8c949b;
+  color: var(--neutral-neutral-60);
 }
 
+/* designated design for big screens with lots of width -> big paddings */
 @media screen and (min-width: 1921px) {
   .mainWrap {
     padding: 100px 216px 100px 216px;
@@ -62,23 +63,30 @@
     font-size: 22px;
     line-height: 28.6px;
   }
+
+  thead {
+    top: -100px;
+  }
 }
 
-@media screen and (max-width: 1200px) {
+/* below desktop */
+@media screen and (max-width: 1900px) {
   .mainWrap {
-    padding: 44px 0.5vw 44px 0.5vw;
-    width: 99vw;
-    max-height: 100vh;
-    overflow-y: auto;
+    padding: 44px 1vw 44px 1vw;
   }
 
+  thead {
+    top: -44px;
+  }
+}
+/* laptop and below */
+@media screen and (max-width: 1200px) {
   table {
     display: block;
-    overflow-x: auto;
     white-space: nowrap;
   }
   thead tr {
-    border-bottom: 1px solid #b9b9b9;
+    border-bottom: 1px solid var(--primary-border-disabled);
   }
   th {
     padding: var(--double-unit) var(--unit);
