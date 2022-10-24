@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { createAtom } from '~utils/atoms';
 
-export type NotificationType = 'error' | 'warning' | 'info';
+export type NotificationType = 'error' | 'warning' | 'info' | 'success';
 
 interface NotificationMessage {
   title: string;
@@ -27,8 +27,7 @@ export const currentNotificationAtom = createAtom(
   ({ onAction, schedule, create }, state: Notification[] = []) => {
     onAction('showNotification', ({ type, message, lifetimeSec }) => {
       const id = nanoid(4);
-      const onClose = () =>
-        currentNotificationAtom.removeNotification.dispatch(id);
+      const onClose = () => currentNotificationAtom.removeNotification.dispatch(id);
       state = [...state, { id, type, message, lifetimeSec, onClose }];
       schedule((dispatch) => {
         setTimeout(onClose, lifetimeSec * 1000);

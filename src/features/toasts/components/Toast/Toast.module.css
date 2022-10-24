@@ -51,3 +51,7 @@
 .toast-info {
   background-color: var(--base-strong-down) !important;
 }
+
+.toast-success {
+  background-color: var(--success-strong) !important;
+}
