@@ -113,7 +113,7 @@
       "error": "¡Se produjo un error!",
       "please_select": " Vuelva a seleccionar un área",
       "to_see_map": " para ver el estado del mapa",
-      "pick": "Elija el desastre de la lista",
+      "pickDisaster": "Elija el desastre de la lista",
       "draw": "Dibuje un polígono en el mapa",
       "select": "Seleccione el límite en el mapa",
       "upload": "Cargue su propio geoJSON"
