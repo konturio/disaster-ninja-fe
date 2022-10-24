@@ -257,7 +257,8 @@
       "HOTTheme": "HOT",
       "userBio(about)": "Bio",
       "defaultDisasterFeed": "Default disaster feed",
-      "defaultOSMeditor": "Default OpenStreetMap editor (beta)"
+      "defaultOSMeditor": "Default OpenStreetMap editor (beta)",
+      "successNotification": "All changes have been applied successfully"
     }
   }
 }

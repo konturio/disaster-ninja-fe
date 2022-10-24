@@ -79,7 +79,7 @@ export const currentProfileAtom = createAtom(
         if (!responseData) throw new Error(i18n.t('no_data_received'));
         currentNotificationAtom.showNotification.dispatch(
           'success',
-          { title: 'All changes have been applied successfully' }, //i18n.t('geometry_uploader.error')
+          { title: i18n.t('profile.successNotification') },
           5,
         );
         dispatch(create('setUser', responseData));

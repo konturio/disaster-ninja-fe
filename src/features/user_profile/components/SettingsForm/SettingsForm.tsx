@@ -7,7 +7,9 @@ import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { flatObjectsAreEqual } from '~utils/common';
 import { userResourceAtom } from '~core/auth';
+import appConfig from '~core/app_config';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
+import { UserProfile } from '../UserProfileButton/UserProfile';
 import s from './SettingsForm.module.css';
 import type { UserProfileState } from '../../atoms/userProfile';
 import type { ChangeEvent } from 'react';
@@ -24,13 +26,6 @@ export function SettingsForm() {
 
   function logout() {
     authClientInstance.logout();
-  }
-
-  function onSave() {
-    // do async put request
-    // set loading state for it
-    // put response to the currentProfileAtom
-    updateUserProfile(localSettings || {});
   }
 
   // apply userProfile incoming settings to local settings
@@ -51,26 +46,66 @@ export function SettingsForm() {
     }
   }, [localSettings, userProfile]);
 
+  if (!localSettings)
+    return (
+      <div className={s.spinnerContainer}>
+        <KonturSpinner />
+      </div>
+    );
+
+  function onSave() {
+    // do async put request
+    // set loading state for it
+    // put response to the currentProfileAtom
+    updateUserProfile(localSettings || {});
+  }
+
   function onFullnameChange(e: ChangeEvent<HTMLInputElement>) {
     setLocalSettings({ ...localSettings, fullName: e.target.value });
   }
   function onBioChange(e: ChangeEvent<HTMLTextAreaElement>) {
     setLocalSettings({ ...localSettings, bio: e.target.value });
   }
+
+  function onThemeChange(e) {
+    setLocalSettings({ ...localSettings, defaultFeed: e.value });
+  }
   function onLanguageChange(e) {
-    // TODO that would be done in #12287
+    setLocalSettings({ ...localSettings, language: e.value });
   }
   function toggleUnits() {
     setLocalSettings((prevSettings) => {
       return { ...prevSettings, useMetricUnits: !prevSettings?.useMetricUnits };
     });
   }
+
   function onFeedChange(e) {
-    // TODO that would be done in #12290
+    setLocalSettings({ ...localSettings, defaultFeed: e.value });
   }
+
   function onOSMeditorChange(e) {
-    // TODO that would be done in #12302
+    setLocalSettings({ ...localSettings, osmEditor: e.value });
   }
+
+  const OPTIONS_THEME = [
+    { title: i18n.t('profile.konturTheme'), value: 'kontur' },
+    { title: i18n.t('profile.HOTTheme'), value: 'hot' },
+  ];
+  const OPTIONS_LANGUAGE = [
+    { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
+    { title: i18n.t('profile.spanishLanguageOption'), value: 'es' },
+  ];
+
+  const OPTIONS_FEED = (userModel?.feeds || [appConfig.defaultFeedObject]).map((o) => ({
+    title: o.name,
+    value: o.feed,
+  }));
+
+  const OPTIONS_OSM = appConfig.osmEditors.map((o) => ({
+    title: o.title,
+    value: o.id,
+  }));
+
   return (
     <>
       <div className={s.contentWrap}>
@@ -84,14 +119,14 @@ export function SettingsForm() {
                 classes={authInputClasses}
                 showTopPlaceholder
                 placeholder={i18n.t('profile.fullName')}
-                value={localSettings?.fullName}
+                value={localSettings.fullName}
                 onChange={onFullnameChange}
               />
 
               {/* Email */}
               <Input
                 showTopPlaceholder
-                value={localSettings?.email}
+                value={localSettings.email}
                 placeholder={i18n.t('profile.email')}
                 disabled
               />
@@ -99,39 +134,33 @@ export function SettingsForm() {
                 <Textarea
                   placeholder={i18n.t('profile.userBio(about)')}
                   showTopPlaceholder
-                  value={localSettings?.bio}
+                  value={localSettings.bio}
                   onChange={onBioChange}
                   className={s.textArea}
                   width="100%"
-                  minHeight="40px"
+                  minHeight="80px"
                 />
               </div>
             </div>
 
-            <div className={s.divider}></div>
+            <div className={s.divider} />
 
             <div className={s.settingsWrap}>
               <Text type="heading-xl">{i18n.t('profile.appSettingsHeader')}</Text>
-
               <Select
-                value={localSettings?.theme}
+                value={localSettings.theme}
                 alwaysShowPlaceholder
-                items={[
-                  { title: i18n.t('profile.konturTheme'), value: 'kontur' },
-                  { title: i18n.t('profile.HOTTheme'), value: 'hot' },
-                ]}
+                items={OPTIONS_THEME}
                 withResetButton={false}
+                onSelect={onThemeChange}
               >
                 {i18n.t('profile.interfaceTheme')}
               </Select>
 
               <Select
                 alwaysShowPlaceholder
-                value={localSettings?.language}
-                items={[
-                  { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
-                  { title: i18n.t('profile.spanishLanguageOption'), value: 'es' },
-                ]}
+                value={localSettings.language}
+                items={OPTIONS_LANGUAGE}
                 withResetButton={false}
                 onSelect={onLanguageChange}
               >
@@ -145,42 +174,32 @@ export function SettingsForm() {
                   as="input"
                   id="metric"
                   label={i18n.t('profile.metric')}
-                  checked={localSettings?.useMetricUnits}
+                  checked={localSettings.useMetricUnits}
                   onChange={toggleUnits}
                 />
                 <Radio
                   as="input"
                   id="imperial"
                   label={i18n.t('profile.imperialBeta')}
-                  checked={!localSettings?.useMetricUnits}
+                  checked={!localSettings.useMetricUnits}
                   onChange={toggleUnits}
                 />
               </div>
 
-              {/* disaster feed selector */}
               <Select
                 alwaysShowPlaceholder
-                value={localSettings?.defaultFeed || 'kontur-public'}
-                items={[
-                  { title: 'Kontur Public', value: 'kontur-public' },
-                  { title: 'Kontur A', value: 'kontur-a' },
-                  { title: 'Kontur B', value: 'kontur-b' },
-                ]}
+                value={localSettings.defaultFeed}
+                items={OPTIONS_FEED}
                 withResetButton={false}
                 onSelect={onFeedChange}
               >
                 {i18n.t('profile.defaultDisasterFeed')}
               </Select>
 
-              {/* OSMeditor selector */}
               <Select
                 alwaysShowPlaceholder
-                value={localSettings?.osmEditor || 'JOSM'}
-                items={[
-                  { title: 'JOSM', value: 'JOSM' },
-                  { title: 'iD', value: 'iD' },
-                  { title: 'RapiD', value: 'RapiD' },
-                ]}
+                value={localSettings.osmEditor}
+                items={OPTIONS_OSM}
                 withResetButton={false}
                 onSelect={onOSMeditorChange}
               >
