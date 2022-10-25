@@ -8,7 +8,8 @@ import type { ModesControlsAtom } from '../modesControls';
 export function registerProfileMode(modesControlAtom: ModesControlsAtom) {
   modesControlAtom.addControl.dispatch({
     id: 'profile',
-    title: (<ATitle />) as unknown as string,
+    // @ts-expect-error - Fix me - allow react component
+    title: <ATitle />,
     active: false,
     icon: <User24 />,
     onClick() {

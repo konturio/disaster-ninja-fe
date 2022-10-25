@@ -77,6 +77,7 @@ export class AuthClient {
       firstName: response.jwtData.given_name,
       lastName: response.jwtData.family_name,
     };
+    // @ts-expect-error - Fix me - load profile in better place
     const mergedUserdata = { ...jwtUserdata, ...profileUserdata };
     currentUserAtom.setUser.dispatch(mergedUserdata);
     userStateAtom.authorize.dispatch();
