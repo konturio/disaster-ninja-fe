@@ -26,6 +26,20 @@ type profileResponse = UserProfileState;
 
 export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>('init');
 
+// defaults, not provided by api/missing in profile
+export const defaultUserProfileData = {
+  username: '',
+  email: '',
+  fullName: '',
+  language: 'en',
+  useMetricUnits: true,
+  subscribedToKonturUpdates: false,
+  bio: '',
+  osmEditor: appConfig.osmEditors[0].id,
+  defaultFeed: appConfig.defaultFeedObject.feed,
+  theme: 'kontur',
+};
+
 export const currentProfileAtom = createAtom(
   {
     currentUserAtom,
@@ -48,21 +62,7 @@ export const currentProfileAtom = createAtom(
         );
         if (!responseData) throw new Error(i18n.t('no_data_received'));
 
-        // defaults, not provided by api/missing in profile?
-        const defaultUserProfile: UserProfileState = {
-          username: '',
-          email: '',
-          fullName: '',
-          language: 'en',
-          useMetricUnits: true,
-          subscribedToKonturUpdates: false,
-          bio: '',
-          osmEditor: appConfig.osmEditors[0].id,
-          defaultFeed: appConfig.defaultFeedObject.feed,
-          theme: 'kontur',
-        };
-
-        const res = { ...defaultUserProfile, ...responseData };
+        const res = { ...defaultUserProfileData, ...responseData };
 
         dispatch(create('setUser', res));
       });
@@ -82,6 +82,16 @@ export const currentProfileAtom = createAtom(
           { title: i18n.t('profile.successNotification') },
           5,
         );
+
+        i18n.instance
+          .changeLanguage(user.language)
+          .then((r) => {
+            location.reload();
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+
         dispatch(create('setUser', responseData));
       });
     });

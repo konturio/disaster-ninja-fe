@@ -2,6 +2,7 @@ import { createAtom } from '~utils/atoms';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { PUBLIC_USER_ID } from '~core/auth/constants';
+import appConfig from '~core/app_config';
 
 export type CurrentUser = {
   id?: string;
@@ -17,25 +18,34 @@ const publicUser: CurrentUser = {
   id: PUBLIC_USER_ID,
 };
 
+// defaults, not provided by api/missing in profile
+export const defaultUserProfileData = {
+  username: '',
+  email: '',
+  fullName: '',
+  language: 'en',
+  useMetricUnits: true,
+  subscribedToKonturUpdates: false,
+  bio: '',
+  osmEditor: appConfig.osmEditors[0].id,
+  defaultFeed: appConfig.defaultFeedObject.feed,
+  theme: 'kontur',
+};
+
 export const currentUserAtom = createAtom(
   {
     setUser: (user?: CurrentUser) => user,
   },
-  (
-    { onAction, schedule, getUnlistedState },
-    state: CurrentUser = publicUser,
-  ) => {
+  ({ onAction, schedule, getUnlistedState }, state: CurrentUser = publicUser) => {
     onAction('setUser', (usr) => {
       if (usr) {
         state = usr;
       } else {
         state = publicUser;
       }
-
+      state = { ...defaultUserProfileData, ...state };
       // remove all ownByUser layers from map
-      const settingsRegistryKeys = Array.from(
-        getUnlistedState(layersSettingsAtom),
-      )
+      const settingsRegistryKeys = Array.from(getUnlistedState(layersSettingsAtom))
         .filter(([, val]) => val?.data?.ownedByUser)
         .map(([key]) => key);
 

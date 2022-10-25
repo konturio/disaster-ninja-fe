@@ -63,18 +63,22 @@ export class AuthClient {
     this.logout();
   }
 
-  private processAuthResponse(response: {
+  private async processAuthResponse(response: {
     token: string;
     refreshToken: string;
     jwtData: JWTData;
   }) {
-    currentUserAtom.setUser.dispatch({
+    // const profile = await this._apiClient.get<profileResponse>(
+    const profileUserdata = await this._apiClient.get('/users/current_user', {}, true);
+    const jwtUserdata = {
       username: response.jwtData.preferred_username,
       token: response.token,
       email: response.jwtData.email,
       firstName: response.jwtData.given_name,
       lastName: response.jwtData.family_name,
-    });
+    };
+    const mergedUserdata = { ...jwtUserdata, ...profileUserdata };
+    currentUserAtom.setUser.dispatch(mergedUserdata);
     userStateAtom.authorize.dispatch();
     // now when intercom is a feature it can be saved in window after this check happens
     if (window['Intercom']) {
@@ -95,7 +99,7 @@ export class AuthClient {
   ): Promise<true | string | undefined> {
     const response = await this._apiClient.login(user, password);
     if (response && typeof response === 'object' && 'token' in response) {
-      this.processAuthResponse(response);
+      await this.processAuthResponse(response);
       return true;
     }
     return response;
