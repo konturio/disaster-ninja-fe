@@ -23,6 +23,10 @@
     "spinner_text": "Gathering data",
     "updated": "Updated",
     "no_data_received": "No data received",
+    "configs": {
+      "Kontur_public_feed": "Kontur Public",
+      "Kontur_public_feed_description": "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires."
+    },
     "errors": {
       "timeout": "Request Timeout",
       "cannot_connect": "Can't connect to server",
@@ -255,7 +259,10 @@
       "saveButton": "Save",
       "konturTheme": "Kontur",
       "HOTTheme": "HOT",
-      "userBio(about)": "Bio"
+      "userBio(about)": "Bio",
+      "defaultDisasterFeed": "Default disaster feed",
+      "defaultOSMeditor": "Default OpenStreetMap editor (beta)",
+      "successNotification": "All changes have been applied successfully"
     }
   }
 }

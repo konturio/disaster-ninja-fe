@@ -1,7 +1,7 @@
 import { Card, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useMemo } from 'react';
-import { Alarm24, Close24, Error24, Info24 } from '@konturio/default-icons';
+import { Alarm24, Close24, Error24, Info24, Finish24 } from '@konturio/default-icons';
 import styles from './Toast.module.css';
 import type { Notification } from '~core/shared_state/currentNotifications';
 
@@ -19,6 +19,7 @@ export function Toast({
   const icon = useMemo(() => {
     if (notification.type === 'warning') return <Alarm24 />;
     if (notification.type === 'info') return <Info24 />;
+    if (notification.type === 'success') return <Finish24 />;
     return <Error24 />;
   }, [notification]);
 

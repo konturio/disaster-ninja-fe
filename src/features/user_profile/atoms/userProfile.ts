@@ -3,6 +3,9 @@ import { i18n } from '~core/localization';
 import { currentUserAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
+import { userResourceAtom } from '~core/auth/atoms/userResource';
+import appConfig from '~core/app_config';
+import { currentNotificationAtom } from '~core/shared_state';
 import type { Action } from '@reatom/core';
 
 export type UserProfileState = {
@@ -23,9 +26,24 @@ type profileResponse = UserProfileState;
 
 export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>('init');
 
+// defaults, not provided by api/missing in profile
+export const defaultUserProfileData = {
+  username: '',
+  email: '',
+  fullName: '',
+  language: 'en',
+  useMetricUnits: true,
+  subscribedToKonturUpdates: false,
+  bio: '',
+  osmEditor: appConfig.osmEditors[0].id,
+  defaultFeed: appConfig.defaultFeedObject.feed,
+  theme: 'kontur',
+};
+
 export const currentProfileAtom = createAtom(
   {
     currentUserAtom,
+    userResourceAtom,
     setUser: (user: UserProfileState) => user,
     getUserProfile: () => {
       // noop
@@ -43,20 +61,37 @@ export const currentProfileAtom = createAtom(
           true,
         );
         if (!responseData) throw new Error(i18n.t('no_data_received'));
-        dispatch(create('setUser', responseData));
+
+        const res = { ...defaultUserProfileData, ...responseData };
+
+        dispatch(create('setUser', res));
       });
     });
 
     onAction('updateUserProfile', (user) => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
-
         const responseData = await apiClient.put<profileResponse>(
           '/users/current_user',
           user,
           true,
         );
         if (!responseData) throw new Error(i18n.t('no_data_received'));
+        currentNotificationAtom.showNotification.dispatch(
+          'success',
+          { title: i18n.t('profile.successNotification') },
+          5,
+        );
+
+        i18n.instance
+          .changeLanguage(user.language)
+          .then((r) => {
+            location.reload();
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+
         dispatch(create('setUser', responseData));
       });
     });

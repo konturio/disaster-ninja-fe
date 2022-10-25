@@ -36,7 +36,7 @@ const FeedSelectorComp = () => {
         >
           {userModel.feeds.map((fd) => (
             <option key={fd.feed} value={fd.feed}>
-              {fd.feed}
+              {fd.name}
             </option>
           ))}
         </select>

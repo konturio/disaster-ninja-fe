@@ -16,7 +16,7 @@ export class UserDataModel {
   }
 
   public get defaultFeed(): UserFeed | undefined {
-    return this._feeds?.find((fd) => fd.isDefault);
+    return this._feeds?.find((fd) => fd.default);
   }
 
   public checkFeed(feedId?: string): string | undefined {

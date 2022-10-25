@@ -29,4 +29,5 @@ export const TranslationService = {
     console.error(`Not supported translation result for key: ${key}`);
     return key;
   },
+  instance: i18n,
 };
