@@ -1,4 +1,4 @@
-import type { BackendFeed } from '~core/auth/types';
+import { i18n } from '~core/localization';
 
 export interface AppConfig {
   API_GATEWAY: string;
@@ -22,7 +22,6 @@ export interface AppConfig {
   INTERCOM_SELECTOR?: string;
   FEATURES_BY_DEFAULT: string[];
   DEFAULT_FEED: string;
-  DEFAULT_FEED_OBJECT: BackendFeed;
   OSM_EDITORS: OsmEditorConfig[];
 }
 
@@ -53,7 +52,7 @@ export default (() => {
     layersByDefault: konturAppConfig.LAYERS_BY_DEFAULT,
     featuresByDefault: konturAppConfig.FEATURES_BY_DEFAULT,
     defaultFeed: konturAppConfig.DEFAULT_FEED,
-    defaultFeedObject: konturAppConfig.DEFAULT_FEED_OBJECT,
+    defaultFeedObject: getDefaultFeedObject(konturAppConfig.DEFAULT_FEED),
     keycloakUrl: konturAppConfig.KEYCLOAK_URL,
     keycloakRealm: konturAppConfig.KEYCLOAK_REALM,
     keycloakClientId: konturAppConfig.KEYCLOAK_CLIENT_ID,
@@ -90,4 +89,16 @@ if (import.meta.env?.PROD) {
   `,
     'color: #bada55',
   );
+}
+
+function getDefaultFeedObject(feed?: string) {
+  // Change this solution when new default feed will be added
+  if (!feed || feed !== 'kontur-public')
+    console.warn('WARNING! Default feed provided via config is incorrect or absent');
+  return {
+    feed: 'kontur-public',
+    name: i18n.t('configs.Kontur_public_feed'),
+    description: i18n.t('configs.Kontur_public_feed_description'),
+    default: true,
+  };
 }

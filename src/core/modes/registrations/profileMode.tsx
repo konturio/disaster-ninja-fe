@@ -8,7 +8,6 @@ import type { ModesControlsAtom } from '../modesControls';
 export function registerProfileMode(modesControlAtom: ModesControlsAtom) {
   modesControlAtom.addControl.dispatch({
     id: 'profile',
-    // @ts-expect-error - Fix me - allow react component
     title: <ATitle />,
     active: false,
     icon: <User24 />,
@@ -24,7 +23,7 @@ export function registerProfileMode(modesControlAtom: ModesControlsAtom) {
 
 function ATitle() {
   const [userState] = useAtom(userStateAtom);
-  return userState === 'authorized'
-    ? i18n.t('modes.profile')
-    : i18n.t('login.login_button');
+  const title =
+    userState === 'authorized' ? i18n.t('modes.profile') : i18n.t('login.login_button');
+  return <>{title}</>;
 }

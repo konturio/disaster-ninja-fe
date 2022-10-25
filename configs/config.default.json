@@ -44,12 +44,6 @@
     "tooltip"
   ],
   "DEFAULT_FEED": "kontur-public",
-  "DEFAULT_FEED_OBJECT": {
-    "feed": "kontur-public",
-    "name": "Kontur Public",
-    "description": "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires.",
-    "default": true
-  },
   "OSM_EDITORS": [
     {
       "id": "josm",

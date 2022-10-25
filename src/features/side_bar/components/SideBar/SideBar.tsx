@@ -22,7 +22,7 @@ export function SideBar() {
   const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
   const [searchString] = useAtom(searchStringAtom);
 
-  function onMouseEnter(target: HTMLDivElement, title: string) {
+  function onMouseEnter(target: HTMLDivElement, title: string | JSX.Element) {
     // place tooltip right and vertically aligned to the element
     !isOpen &&
       setTooltip({
