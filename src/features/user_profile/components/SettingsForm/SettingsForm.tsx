@@ -68,7 +68,7 @@ export function SettingsForm() {
   }
 
   function onThemeChange(e) {
-    setLocalSettings({ ...localSettings, defaultFeed: e.value });
+    setLocalSettings({ ...localSettings, theme: e.value });
   }
   function onLanguageChange(e) {
     setLocalSettings({ ...localSettings, language: e.value });
