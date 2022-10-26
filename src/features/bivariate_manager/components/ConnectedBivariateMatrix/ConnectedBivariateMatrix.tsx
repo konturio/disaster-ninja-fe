@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useEffect, useMemo } from 'react';
 import { useAction, useAtom } from '@reatom/react';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { bivariateCorrelationMatrixAtom } from '~features/bivariate_manager/atoms/bivatiateCorrelationMatrix';

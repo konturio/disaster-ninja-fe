@@ -44,7 +44,23 @@
     "tooltip"
   ],
   "DEFAULT_FEED": "kontur-public",
-  "DEFAULT_FEED_DESCRIPTION": "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires.",
+  "OSM_EDITORS": [
+    {
+      "id": "josm",
+      "title": "JOSM",
+      "url": "https://www.openstreetmap.org/edit?editor=remote#map="
+    },
+    {
+      "id": "id",
+      "title": "iD",
+      "url": "https://www.openstreetmap.org/edit?editor=id&node=2188188227#map="
+    },
+    {
+      "id": "rapid",
+      "title": "RapiD",
+      "url": "https://mapwith.ai/rapid#map="
+    }
+  ],
   "KEYCLOAK_URL": "https://keycloak01.kontur.io",
   "KEYCLOAK_REALM": "kontur",
   "KEYCLOAK_CLIENT_ID": "kontur_platform"

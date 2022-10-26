@@ -12,5 +12,6 @@ export function registerBivariateColorManagerMode(modesControlsAtom: ModesContro
     onClick() {
       currentModeAtom.setCurrentMode.dispatch('bivariateManager');
     },
+    order: 50,
   });
 }
