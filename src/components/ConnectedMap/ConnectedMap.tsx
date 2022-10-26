@@ -49,11 +49,8 @@ export function ConnectedMap({ className }: { className?: string }) {
   );
 
   useEffect(() => {
-    if (mapRef.current) {
-      console.info(
-        'Map instance available by window.KONTUR_MAP',
-        mapRef.current,
-      );
+    if (mapRef.current && !globalThis.KONTUR_MAP) {
+      console.info('Map instance available by window.KONTUR_MAP', mapRef.current);
       globalThis.KONTUR_MAP = mapRef.current;
       // @ts-expect-error Fix for react dev tools
       mapRef.current.toJSON = () => '[Mapbox Object]';
