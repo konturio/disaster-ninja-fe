@@ -3,71 +3,23 @@ import { i18n } from '~core/localization';
 import { currentUserAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
-import { userResourceAtom } from '~core/auth/atoms/userResource';
-import appConfig from '~core/app_config';
 import { currentNotificationAtom } from '~core/shared_state';
-import type { Action } from '@reatom/core';
+import type { CurrentUser } from '~core/shared_state/currentUser';
 
-export type UserProfileState = {
-  username?: string;
-  email?: string;
-  fullName?: string;
-  language?: string;
-  useMetricUnits?: boolean;
-  subscribedToKonturUpdates?: boolean;
-  bio?: string;
-  osmEditor?: string;
-  defaultFeed?: string;
-  theme?: string;
-  loading?: boolean;
-};
-
+export type UserProfileState = Omit<CurrentUser, 'loading' | 'defaultLayers' | 'token'>;
 type profileResponse = UserProfileState;
 
 export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>('init');
 
-// defaults, not provided by api/missing in profile
-export const defaultUserProfileData = {
-  username: '',
-  email: '',
-  fullName: '',
-  language: 'en',
-  useMetricUnits: true,
-  subscribedToKonturUpdates: false,
-  bio: '',
-  osmEditor: appConfig.osmEditors[0].id,
-  defaultFeed: appConfig.defaultFeedObject.feed,
-  theme: 'kontur',
-};
-
 export const currentProfileAtom = createAtom(
   {
     currentUserAtom,
-    userResourceAtom,
-    setUser: (user: UserProfileState) => user,
-    getUserProfile: () => {
-      // noop
-    },
     updateUserProfile: (user: UserProfileState) => user,
   },
-  ({ onChange, onAction, schedule, create }, state: UserProfileState | null = null) => {
-    onAction('getUserProfile', () => {
-      schedule(async (dispatch) => {
-        dispatch(pageStatusAtom.set('loading'));
-
-        const responseData = await apiClient.get<profileResponse>(
-          '/users/current_user',
-          {},
-          true,
-        );
-        if (!responseData) throw new Error(i18n.t('no_data_received'));
-
-        const res = { ...defaultUserProfileData, ...responseData };
-
-        dispatch(create('setUser', res));
-      });
-    });
-
+  (
+    { onChange, onAction, schedule, create, getUnlistedState },
+    state: UserProfileState | null = null,
+  ) => {
     onAction('updateUserProfile', (user) => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
@@ -91,22 +43,15 @@ export const currentProfileAtom = createAtom(
           .catch((e) => {
             console.error(e);
           });
-
-        dispatch(create('setUser', responseData));
       });
     });
 
-    onAction('setUser', (user) => {
-      pageStatusAtom.set('init');
-      state = user;
-    });
-
     onChange('currentUserAtom', async (newUser, prevUser) => {
-      const actions: Action[] = [];
-      if (newUser.id === 'public') return actions.push(create('setUser', {}));
-
-      actions.push(create('getUserProfile'));
-      schedule((dispatch) => dispatch(actions));
+      const newState = { ...newUser };
+      delete newState.token;
+      delete newState.loading;
+      delete newState.defaultLayers;
+      state = newState;
     });
 
     return state;

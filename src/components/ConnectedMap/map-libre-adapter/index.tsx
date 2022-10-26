@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { useAtom } from '@reatom/react';
+import { currentUserAtom } from '~core/shared_state';
 import { useMarkers } from './useMarkers';
 import { useArrayDiff } from './useArrayDiff';
 import type { Marker } from './types';
@@ -96,6 +98,7 @@ function MapboxMap(
   const [map, setMap] = useState<Map | null>(null);
   const mapEl = useRef<HTMLDivElement | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [currentUserData] = useAtom(currentUserAtom);
 
   /* On map instance */
   useEffect(() => {
@@ -156,8 +159,7 @@ function MapboxMap(
 
   /* Set markers effect */
   const mapBoxMarkers = useMarkers(markers);
-  const { added: addedMarkers, deleted: deletedMarkers } =
-    useArrayDiff(mapBoxMarkers);
+  const { added: addedMarkers, deleted: deletedMarkers } = useArrayDiff(mapBoxMarkers);
 
   useEffect(() => {
     if (!map) return;
@@ -195,9 +197,7 @@ function MapboxMap(
             filtered[prop] = feature[prop];
             return filtered;
           }, {});
-      const filteredFeatures = features.map(
-        extractProperties(activeFeature.properties),
-      );
+      const filteredFeatures = features.map(extractProperties(activeFeature.properties));
       activeFeature.callback(filteredFeatures);
     };
     map.on(activeFeature.eventType, clickHandler);
@@ -207,8 +207,7 @@ function MapboxMap(
   }, [mapLoaded, activeFeature, map]);
 
   /* Feature state effect */
-  const { added: addedStates, deleted: deletedStates } =
-    useArrayDiff(featuresState);
+  const { added: addedStates, deleted: deletedStates } = useArrayDiff(featuresState);
 
   useEffect(() => {
     if (!map) return;
@@ -369,7 +368,7 @@ function MapboxMap(
     if (!map || !mapLoaded) return;
     const scale = new mapLibre.ScaleControl({
       maxWidth: 120,
-      unit: 'metric',
+      unit: currentUserData.useMetricUnits ? 'metric' : 'imperial',
     });
     map.addControl(scale, 'bottom-right');
   }, [map, mapLoaded]);
