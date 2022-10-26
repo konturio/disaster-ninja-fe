@@ -75,7 +75,13 @@ export default (() => {
       app_id: konturAppConfig.INTERCOM_APP_ID,
       custom_launcher_selector: konturAppConfig.INTERCOM_SELECTOR,
     },
-    osmEditors: konturAppConfig.OSM_EDITORS,
+    osmEditors: konturAppConfig.OSM_EDITORS || [
+      {
+        id: 'josm',
+        title: 'JOSM',
+        url: 'https://www.openstreetmap.org/edit?editor=remote#map=',
+      },
+    ],
   };
 })();
 
