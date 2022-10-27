@@ -19,10 +19,7 @@ export const currentProfileAtom = createAtom(
     currentUserAtom,
     updateUserProfile: (user: UserProfileState) => user,
   },
-  (
-    { onChange, onAction, schedule, create, getUnlistedState },
-    state: UserProfileState | null = null,
-  ) => {
+  ({ onChange, onAction, schedule }, state: UserProfileState | null = null) => {
     onAction('updateUserProfile', (user) => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
