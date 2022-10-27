@@ -56,6 +56,14 @@ code {
   }
 }
 
+/* remove first control container that doesn't have added scale control */
+.maplibregl-control-container {
+  display: none;
+}
+.maplibregl-control-container ~ .maplibregl-control-container {
+  display: block;
+}
+
 /* Map scale control */
 .mapboxgl-ctrl-bottom-right {
   display: flex;
