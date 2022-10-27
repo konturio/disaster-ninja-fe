@@ -9,7 +9,6 @@ import { flatObjectsAreEqual } from '~utils/common';
 import { userResourceAtom } from '~core/auth';
 import appConfig from '~core/app_config';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
-import { UserProfile } from '../UserProfileButton/UserProfile';
 import s from './SettingsForm.module.css';
 import type { UserProfileState } from '../../atoms/userProfile';
 import type { ChangeEvent } from 'react';
@@ -21,7 +20,7 @@ export function SettingsForm() {
   const [localSettings, setLocalSettings] = useState<UserProfileState | null>(
     userProfile,
   );
-  const [status, { set }] = useAtom(pageStatusAtom);
+  const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [{ data: userModel }] = useAtom(userResourceAtom);
 
   function logout() {
@@ -40,9 +39,9 @@ export function SettingsForm() {
       userProfile &&
       !flatObjectsAreEqual(localSettings, userProfile)
     ) {
-      set('changed');
+      setPageStatus('changed');
     } else if (localSettings && userProfile) {
-      set('init');
+      setPageStatus('init');
     }
   }, [localSettings, userProfile]);
 
@@ -89,7 +88,7 @@ export function SettingsForm() {
 
   const OPTIONS_THEME = [
     { title: i18n.t('profile.konturTheme'), value: 'kontur' },
-    { title: i18n.t('profile.HOTTheme'), value: 'hot' },
+    // { title: i18n.t('profile.HOTTheme'), value: 'hot' },
   ];
   const OPTIONS_LANGUAGE = [
     { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
@@ -224,7 +223,7 @@ export function SettingsForm() {
 
       <div className={s.logoutWrap}>
         <Button onClick={logout} variant="invert">
-          <Text type="short-m">Logout</Text>
+          <Text type="short-m">{i18n.t('logout')}</Text>
         </Button>
       </div>
     </>

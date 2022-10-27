@@ -12,6 +12,15 @@ export type CurrentUser = {
   token?: string;
   firstName?: string;
   lastName?: string;
+  fullName?: string;
+  language?: string;
+  useMetricUnits?: boolean;
+  subscribedToKonturUpdates?: boolean;
+  bio?: string;
+  osmEditor?: string;
+  defaultFeed?: string;
+  theme?: string;
+  loading?: boolean;
 };
 
 const publicUser: CurrentUser = {
