@@ -3,9 +3,10 @@ import { createDevtoolsLogger } from '~utils/debug/reatom-redux-devtools';
 import { appMetrics } from '~core/metrics';
 
 // enable with localStorage.setItem('KONTUR_DEBUG', 'true')
-const KONTUR_DEBUG = !!localStorage.getItem('KONTUR_DEBUG');
+const KONTUR_DEBUG = !!globalThis.window?.localStorage.getItem('KONTUR_DEBUG');
 // enable with localStorage.setItem('KONTUR_TRACE_ERROR', 'true')
-const KONTUR_TRACE_ERROR = !!localStorage.getItem('KONTUR_TRACE_ERROR');
+const KONTUR_TRACE_ERROR =
+  !!globalThis.window?.localStorage.getItem('KONTUR_TRACE_ERROR');
 
 function configureStore() {
   const devtoolsLogger = createDevtoolsLogger();
