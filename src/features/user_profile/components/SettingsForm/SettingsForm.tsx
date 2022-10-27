@@ -138,6 +138,7 @@ export function SettingsForm() {
                   className={s.textArea}
                   width="100%"
                   minHeight="80px"
+                  maxHeight="200px"
                 />
               </div>
             </div>
