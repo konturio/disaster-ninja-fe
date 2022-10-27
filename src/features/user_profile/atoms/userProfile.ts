@@ -111,4 +111,5 @@ export const currentProfileAtom = createAtom(
 
     return state;
   },
+  'currentProfileAtom',
 );

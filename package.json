@@ -41,7 +41,7 @@
   },
   "lint-staged": {
     "*/**/*.{ts,tsx}": [
-      "eslint --cache --fix --rule 'no-console: [error, { allow: [warn, error, info, assert, debug] }]'"
+      "eslint --cache --fix --rule 'no-console: [error, { allow: [warn, error, info, assert, debug, trace] }]'"
     ],
     "*/**/*.css": [
       "stylelint"
