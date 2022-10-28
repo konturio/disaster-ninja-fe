@@ -24,16 +24,12 @@ const { BivariateManagerPage } = lazily(
 const initialUrl = new URL(localStorage.getItem('initialUrl') || '');
 
 export function RoutedApp() {
-  // const [{ data: userModel, loading }] = useAtom(userResourceAtom);
-  const res = useAtom(userResourceAtom);
-  const [{ data, loading }] = res;
+  const [{ data, loading }] = useAtom(userResourceAtom);
   const userModel = data && !loading ? data : null;
-  // console.warn('RoutedApp:userResourceAtom', userModel, res);
 
   useEffect(() => {
     const isFirstTimeVisit = () =>
       userModel &&
-      !loading &&
       location.pathname === config.baseUrl &&
       initialUrl.search === '' &&
       !localStorage.getItem('landed');
@@ -43,7 +39,7 @@ export function RoutedApp() {
       localStorage.setItem('landed', 'true');
       history.push(APP_ROUTES.about);
     }
-  }, [loading, userModel]);
+  }, [userModel]);
 
   return (
     <StrictMode>
@@ -51,55 +47,53 @@ export function RoutedApp() {
 
       <Router history={history}>
         <CommonRoutesFeatures userModel={userModel}>
-          {userModel && !loading && (
-            <CacheSwitch>
-              <CacheRoute
-                exact
-                path={[APP_ROUTES.map, APP_ROUTES.eventExplorer]}
-                className={s.mainViewWrap}
+          <CacheSwitch>
+            <CacheRoute
+              exact
+              path={[APP_ROUTES.map, APP_ROUTES.eventExplorer]}
+              className={s.mainViewWrap}
+            >
+              <Suspense fallback={null}>
+                <MainView userModel={userModel} />
+              </Suspense>
+            </CacheRoute>
+
+            <Route exact path={APP_ROUTES.reports}>
+              <Suspense fallback={null}>
+                <Reports />
+              </Suspense>
+            </Route>
+
+            <Route exact path={APP_ROUTES.about}>
+              <Suspense fallback={null}>
+                <AboutPage />
+              </Suspense>
+            </Route>
+
+            <Route path={APP_ROUTES.reportPage}>
+              <Suspense fallback={null}>
+                <ReportPage />
+              </Suspense>
+            </Route>
+
+            <Route path={APP_ROUTES.bivariateManager}>
+              <Protected
+                pass={!!userModel?.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)}
               >
                 <Suspense fallback={null}>
-                  <MainView userModel={userModel} />
+                  <BivariateManagerPage />
                 </Suspense>
-              </CacheRoute>
+              </Protected>
+            </Route>
 
-              <Route exact path={APP_ROUTES.reports}>
-                <Suspense fallback={null}>
-                  <Reports />
-                </Suspense>
-              </Route>
+            <Route path={APP_ROUTES.profile}>
+              <Suspense fallback={null}>
+                <ProfileMode />
+              </Suspense>
+            </Route>
 
-              <Route exact path={APP_ROUTES.about}>
-                <Suspense fallback={null}>
-                  <AboutPage />
-                </Suspense>
-              </Route>
-
-              <Route path={APP_ROUTES.reportPage}>
-                <Suspense fallback={null}>
-                  <ReportPage />
-                </Suspense>
-              </Route>
-
-              <Route path={APP_ROUTES.bivariateManager}>
-                <Protected
-                  pass={userModel.hasFeature(AppFeature.BIVARIATE_COLOR_MANAGER)}
-                >
-                  <Suspense fallback={null}>
-                    <BivariateManagerPage />
-                  </Suspense>
-                </Protected>
-              </Route>
-
-              <Route path={APP_ROUTES.profile}>
-                <Suspense fallback={null}>
-                  <ProfileMode />
-                </Suspense>
-              </Route>
-
-              <Redirect to={APP_ROUTES.map} />
-            </CacheSwitch>
-          )}
+            <Redirect to={APP_ROUTES.map} />
+          </CacheSwitch>
         </CommonRoutesFeatures>
       </Router>
     </StrictMode>

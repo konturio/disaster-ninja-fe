@@ -37,7 +37,7 @@ const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/comp
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
 type MainViewProps = {
-  userModel?: UserDataModel | null;
+  userModel: UserDataModel | null;
 };
 export function MainView({ userModel }: MainViewProps) {
   useEffect(() => {
@@ -105,37 +105,40 @@ export function MainView({ userModel }: MainViewProps) {
           <ConnectedMap className={s.Map} />
         </Suspense>
       </div>
-
-      <Layout
-        advancedAnalytics={
-          userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-            <AdvancedAnalyticsPanel />
-          )
-        }
-        analytics={
-          userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />
-        }
-        disasters={
-          userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
-          userModel?.feeds && <EventListPanel />
-        }
-        layers={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && <MapLayersList />}
-        legend={userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
-        matrix={userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && <BivariatePanel />}
-        timeline={
-          userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />
-        }
-        toolbar={<Toolbar />}
-        footer={
-          <div className={clsx(s.footer, s.clickThrough)}>
-            <div className={s.logo}>
-              <Logo height={24} palette={'contrast'} />
+      {userModel && (
+        <Layout
+          advancedAnalytics={
+            userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+              <AdvancedAnalyticsPanel />
+            )
+          }
+          analytics={
+            userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />
+          }
+          disasters={
+            userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
+            userModel?.feeds && <EventListPanel />
+          }
+          layers={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && <MapLayersList />}
+          legend={userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
+          matrix={
+            userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && <BivariatePanel />
+          }
+          timeline={
+            userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) && <EventEpisodes />
+          }
+          toolbar={<Toolbar />}
+          footer={
+            <div className={clsx(s.footer, s.clickThrough)}>
+              <div className={s.logo}>
+                <Logo height={24} palette={'contrast'} />
+              </div>
             </div>
-          </div>
-        }
-        editPanel={<EditFeaturesOrLayerPanel />}
-        drawToolbox={<DrawToolsToolbox />}
-      />
+          }
+          editPanel={<EditFeaturesOrLayerPanel />}
+          drawToolbox={<DrawToolsToolbox />}
+        />
+      )}
     </div>
   );
 }
