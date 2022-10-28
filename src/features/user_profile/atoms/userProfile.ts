@@ -24,7 +24,10 @@ export type UserProfileState = {
 
 type profileResponse = UserProfileState;
 
-export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>('init');
+export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>(
+  'init',
+  'user_profile:pageStatusAtom',
+);
 
 // defaults, not provided by api/missing in profile
 export const defaultUserProfileData = {
@@ -111,5 +114,5 @@ export const currentProfileAtom = createAtom(
 
     return state;
   },
-  'currentProfileAtom',
+  'user_profile:currentProfileAtom',
 );

@@ -7,7 +7,7 @@ import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import history from '~core/history';
 import config from '~core/app_config';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { LoginForm } from '~features/user_profile';
+// import { LoginForm } from '~features/user_profile';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
 import { AppFeature } from '~core/auth/types';
 import s from './views/Main/Main.module.css';
@@ -24,7 +24,11 @@ const { BivariateManagerPage } = lazily(
 const initialUrl = new URL(localStorage.getItem('initialUrl') || '');
 
 export function RoutedApp() {
-  const [{ data: userModel, loading }] = useAtom(userResourceAtom);
+  // const [{ data: userModel, loading }] = useAtom(userResourceAtom);
+  const res = useAtom(userResourceAtom);
+  const [{ data, loading }] = res;
+  const userModel = data && !loading ? data : null;
+  // console.warn('RoutedApp:userResourceAtom', userModel, res);
 
   useEffect(() => {
     const isFirstTimeVisit = () =>
