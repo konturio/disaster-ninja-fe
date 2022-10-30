@@ -86,7 +86,7 @@ function AboutText() {
 
         <p>
           <span className={s.linkToMain} onClick={gotoMap}>
-            {i18n.t('about.goToMap')} ⭢
+            {i18n.t('about.goToMap')} ➜
           </span>
         </p>
 
