@@ -25,6 +25,9 @@ export type CurrentUser = {
 
 const publicUser: CurrentUser = {
   id: PUBLIC_USER_ID,
+  osmEditor: appConfig.osmEditors[0].id,
+  defaultFeed: appConfig.defaultFeedObject.feed,
+  useMetricUnits: true,
 };
 
 // defaults, not provided by api/missing in profile
