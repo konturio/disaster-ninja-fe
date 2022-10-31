@@ -4,6 +4,7 @@ import { CustomMeasureDistanceMode } from '~core/draw_tools/map-daw-tools/custom
 import { i18n } from '~core/localization';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { layerByOrder } from '~utils/map/layersOrder';
+import { registerMapListener } from '~core/shared_state/mapListeners';
 import type {
   NullableMap,
   CommonHookArgs,
@@ -30,6 +31,7 @@ function getCyrillicCharacterSet() {
 export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
   private _deckLayer?: MapboxLayer<unknown>;
+  private _removeClickListener: null | (() => void) = null;
   public constructor(id: string) {
     super();
     this.id = id;
@@ -82,11 +84,22 @@ export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
     }
 
     layerByOrder(map).addAboveLayerWithSameType(this._deckLayer!);
+    this.addClickListener();
   }
 
   willUnMount(args: NotNullableMap & CommonHookArgs): void {
     if (this._deckLayer) {
       args.map.removeLayer(this._deckLayer.id);
     }
+    this._removeClickListener?.();
+  }
+
+  public addClickListener() {
+    if (this._removeClickListener !== null) return;
+    function preventClicking(e) {
+      e.preventDefault();
+      return false;
+    }
+    this._removeClickListener = registerMapListener('click', preventClicking, 1);
   }
 }

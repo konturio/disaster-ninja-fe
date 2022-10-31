@@ -98,6 +98,10 @@ export const toolbarControlsAtom = createAtom(
     });
 
     onAction('reset', () => {
+      // trigger disable callbacks before reseting
+      Object.entries(state).forEach(([key, control]) => {
+        if (control.active) control.onChange?.(false);
+      });
       state = {};
     });
 

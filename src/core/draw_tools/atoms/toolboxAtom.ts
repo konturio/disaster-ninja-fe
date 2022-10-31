@@ -3,6 +3,7 @@ import { i18n } from '~core/localization';
 import { createAtom } from '~utils/atoms';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { currentNotificationAtom } from '~core/shared_state';
+import { currentModeAtom } from '~core/modes/currentMode';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '../constants';
 import { activeDrawModeAtom } from './activeDrawMode';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
@@ -35,9 +36,10 @@ export const toolboxAtom = createAtom(
     isDrawingStartedAtom,
     setSettings: (settings: DrawToolBoxSettings) => settings,
     downloadDrawGeometry: () => null,
+    currentModeAtom,
   },
   (
-    { onAction, schedule, get, getUnlistedState },
+    { onAction, schedule, get, getUnlistedState, onChange, create },
     state: ToolboxState = {
       mode: null,
       selectedIndexes: [],
@@ -95,6 +97,10 @@ export const toolboxAtom = createAtom(
         cleared,
         `Disaster_Ninja_custom_geometry_${new Date().toISOString()}.json`,
       );
+    });
+
+    onChange('currentModeAtom', (appMode) => {
+      if (state.mode) actions.push(create('finishDrawing'));
     });
 
     actions.length &&
