@@ -12,7 +12,12 @@ function configureStore() {
   // Must be cutted out in production by terser
   if (import.meta.env.VITE_REDUX_DEV_TOOLS === 'true') {
     return createStore({
-      onError: (error, t) => devtoolsLogger(t),
+      onError: (error, t) => {
+        if (KONTUR_DEBUG) {
+          console.error('STORE error:', error, t);
+        }
+        devtoolsLogger(t);
+      },
       onPatch: (t) => devtoolsLogger(t),
       now: globalThis.performance?.now.bind(performance) ?? Date.now,
     });
