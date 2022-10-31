@@ -18,7 +18,6 @@ import { currentModeAtom } from '~core/modes/currentMode';
 import s from './views/Main/Main.module.css';
 import type { UserDataModel } from '~core/auth';
 
-const { UserProfile } = lazily(() => import('~features/user_profile'));
 const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { PopupTooltip } = lazily(() => import('~features/tooltip'));
