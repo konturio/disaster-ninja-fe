@@ -7,7 +7,6 @@ import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import history from '~core/history';
 import config from '~core/app_config';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
-// import { LoginForm } from '~features/user_profile';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
 import { AppFeature } from '~core/auth/types';
 import s from './views/Main/Main.module.css';
