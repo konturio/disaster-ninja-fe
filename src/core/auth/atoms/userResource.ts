@@ -16,7 +16,7 @@ import type { CurrentUser } from '~core/shared_state/currentUser';
 
 type UserResourceRequestParams = {
   userData?: CurrentUser;
-  applicationId?: string | null;
+  applicationId: string;
 } | null;
 
 const userResourceRequestParamsAtom = createAtom(
@@ -27,7 +27,7 @@ const userResourceRequestParamsAtom = createAtom(
   ({ get }, state: UserResourceRequestParams = null): UserResourceRequestParams => {
     const applicationId = get('currentApplicationAtom');
     const userData = get('currentUserAtom');
-
+    if (!applicationId) return null;
     return {
       userData,
       applicationId,
@@ -39,7 +39,6 @@ const userResourceRequestParamsAtom = createAtom(
 export const userResourceAtom = createAsyncAtom(
   userResourceRequestParamsAtom,
   async (params, abortController) => {
-    if (!params?.applicationId) return;
     const { userData, applicationId } = params;
 
     const featuresResponse = apiClient.get<BackendFeature[]>(

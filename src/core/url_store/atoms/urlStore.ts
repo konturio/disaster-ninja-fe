@@ -29,10 +29,10 @@ const urlStore = new URLStore(
     },
   }),
 );
-const initFlagAtom = createBooleanAtom(false);
+const initFlagAtom = createBooleanAtom(false, 'urlStore:initFlagAtom');
 let lastVersion = 0;
 
-export const searchStringAtom = createStringAtom('');
+export const searchStringAtom = createStringAtom('', 'urlStore:searchStringAtom');
 
 /* Compose shared state values into one atom */
 export const urlStoreAtom = createAtom(
@@ -50,6 +50,11 @@ export const urlStoreAtom = createAtom(
       schedule(async (dispatch) => {
         const initialState = await urlStore.getInitialState();
         const actions: Action[] = [create('_setState', initialState)];
+
+        // Apply application id
+        if (initialState.app) {
+          actions.push(currentApplicationAtom.set(initialState.app));
+        }
 
         if (initialState.event === undefined && !initialState.map) {
           // Auto select event from event list when url is empty
@@ -85,11 +90,6 @@ export const urlStoreAtom = createAtom(
         // Apply feed
         if (initialState.feed) {
           actions.push(currentEventFeedAtom.setCurrentFeed(initialState.feed));
-        }
-
-        // Apply application id
-        if (initialState.app) {
-          actions.push(currentApplicationAtom.set(initialState.app));
         }
 
         // Done

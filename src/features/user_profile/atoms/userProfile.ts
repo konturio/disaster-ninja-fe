@@ -9,7 +9,10 @@ import type { CurrentUser } from '~core/shared_state/currentUser';
 export type UserProfileState = Omit<CurrentUser, 'loading' | 'defaultLayers' | 'token'>;
 type profileResponse = UserProfileState;
 
-export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>('init');
+export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>(
+  'init',
+  'user_profile:pageStatusAtom',
+);
 
 export const currentProfileAtom = createAtom(
   {
@@ -53,4 +56,5 @@ export const currentProfileAtom = createAtom(
 
     return state;
   },
+  'user_profile:currentProfileAtom',
 );
