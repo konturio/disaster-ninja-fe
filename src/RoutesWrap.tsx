@@ -67,8 +67,6 @@ export const CommonRoutesFeatures = ({
     if (userModel) initModes(userModel);
   }, [userModel]);
 
-  // if (!userModel) return null;
-
   return (
     <>
       <Suspense fallback={null}>
