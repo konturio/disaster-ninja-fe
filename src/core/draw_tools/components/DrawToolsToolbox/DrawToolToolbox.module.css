@@ -14,8 +14,10 @@
   border-radius: var(--half-unit);
   overflow: hidden;
   box-shadow: var(--elevation-1);
+  width: fit-content;
   height: 40px;
   max-width: 560px;
+  align-self: center;
 }
 
 .btnContent {

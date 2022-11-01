@@ -43,7 +43,7 @@ const getUniqueId = ((mem) => {
 })(new Set());
 
 export function createAsyncAtom<
-  F extends Fetcher<AtomState<D> | null, Awaited<ReturnType<F>>>,
+  F extends Fetcher<Exclude<AtomState<D>, null>, Awaited<ReturnType<F>>>,
   D extends AtomBinded,
 >(
   atom: D | null,
@@ -144,6 +144,8 @@ export function createAsyncAtom<
             );
             log('4. Wait result');
             const fetcherResult = await ctx.activeRequest;
+            if (fetcherResult === undefined)
+              console.warn('resourceAtom: fetcherResult undefined');
             delete ctx.activeRequest;
             log('5. Check that it was aborted:');
             abortController.signal.throwIfAborted(); // Alow set canceled state, even if abort error was catched inside fetcher
@@ -235,7 +237,8 @@ export function createAsyncAtom<
             }
           } else {
             // Deps is primitive
-            schedule((dispatch) => dispatch(create('request', depsAtomState as any)));
+            if (depsAtomState !== null)
+              schedule((dispatch) => dispatch(create('request', depsAtomState as any)));
           }
         });
       } else {

@@ -36,6 +36,7 @@ export const DrawToolsToolbox = () => {
       settings.availableModes?.includes('DrawPolygonMode') && (
         <Button
           id={drawModes.DrawPolygonMode}
+          key={drawModes.DrawPolygonMode}
           dark
           variant="invert"
           onClick={() => toggleDrawMode(drawModes.DrawPolygonMode)}
@@ -49,6 +50,7 @@ export const DrawToolsToolbox = () => {
       settings.availableModes?.includes('DrawLineMode') && (
         <Button
           id={drawModes.DrawLineMode}
+          key={drawModes.DrawLineMode}
           dark
           variant="invert"
           onClick={() => toggleDrawMode(drawModes.DrawLineMode)}
@@ -62,6 +64,7 @@ export const DrawToolsToolbox = () => {
       settings.availableModes?.includes('DrawPointMode') && (
         <Button
           id={drawModes.DrawPointMode}
+          key={drawModes.DrawPointMode}
           dark
           variant="invert"
           onClick={() => toggleDrawMode(drawModes.DrawPointMode)}

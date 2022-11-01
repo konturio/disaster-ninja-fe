@@ -18,7 +18,6 @@ import { currentModeAtom } from '~core/modes/currentMode';
 import s from './views/Main/Main.module.css';
 import type { UserDataModel } from '~core/auth';
 
-const { UserProfile } = lazily(() => import('~features/user_profile'));
 const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { PopupTooltip } = lazily(() => import('~features/tooltip'));
@@ -35,7 +34,7 @@ const PAGE_TITLES_BY_ROUTE = {
 };
 
 type CommonRoutesFeaturesProps = {
-  userModel?: UserDataModel | null;
+  userModel: UserDataModel | null;
   children?: JSX.Element | null | false;
 };
 
@@ -65,10 +64,8 @@ export const CommonRoutesFeatures = ({
   const headerTitle = getHeaderTitle(pathname);
 
   useEffect(() => {
-    initModes(userModel);
+    if (userModel) initModes(userModel);
   }, [userModel]);
-
-  if (!userModel) return null;
 
   return (
     <>
@@ -76,7 +73,7 @@ export const CommonRoutesFeatures = ({
         {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
       </Suspense>
       <Suspense fallback={null}>
-        {userModel.hasFeature(AppFeature.HEADER) && (
+        {userModel?.hasFeature(AppFeature.HEADER) && (
           <AppHeader title={headerTitle} logo={VisibleLogo()} />
         )}
       </Suspense>
@@ -89,7 +86,7 @@ export const CommonRoutesFeatures = ({
       </Row>
 
       <Suspense fallback={null}>
-        {userModel.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
+        {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
       </Suspense>
     </>
   );
