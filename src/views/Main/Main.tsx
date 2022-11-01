@@ -131,7 +131,7 @@ export function MainView({ userModel }: MainViewProps) {
           footer={
             <div className={clsx(s.footer, s.clickThrough)}>
               <div className={s.logo}>
-                <Logo height={24} palette={'contrast'} />
+                <Logo height={24} palette="contrast" />
               </div>
             </div>
           }
