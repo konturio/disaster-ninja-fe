@@ -70,7 +70,6 @@
           "value": "Sin impacto humanitario"
         },
         "settled_area.tooltip": "Área habitada",
-        "osm_gaps_percentage.tooltip": "Porcentaje de brechas de OSM (cuanto más bajo, mejor)",
         "loss.tooltip": "Pérdida estimada"
       }
     },

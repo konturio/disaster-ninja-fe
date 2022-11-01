@@ -74,7 +74,6 @@
           "value": "No humanitarian impact"
         },
         "settled_area.tooltip": "Settled Area",
-        "osm_gaps_percentage.tooltip": "OSM Gaps Percentage (lower is better)",
         "loss.tooltip": "Estimated loss"
       }
     },

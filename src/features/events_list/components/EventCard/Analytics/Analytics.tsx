@@ -21,12 +21,10 @@ type Statistics = {
 export function Analytics({
   settledArea,
   affectedPeople,
-  osmGapsPercentage,
   loss,
 }: {
   settledArea: number;
   affectedPeople: number;
-  osmGapsPercentage: number | null;
   loss?: number;
 }) {
   const statistics = useMemo((): Statistics => {
@@ -58,12 +56,6 @@ export function Analytics({
         icon: <Area16 />,
       });
 
-    if (typeof osmGapsPercentage === 'number')
-      result.push({
-        tooltip: i18n.t('event_list.analytics.osm_gaps_percentage.tooltip'),
-        value: `${osmGapsPercentage}% gaps`,
-      });
-
     if (typeof loss === 'number')
       result.push({
         tooltip: i18n.t('event_list.analytics.loss.tooltip'),
@@ -71,7 +63,7 @@ export function Analytics({
       });
 
     return result;
-  }, [settledArea, affectedPeople, osmGapsPercentage]);
+  }, [settledArea, affectedPeople]);
 
   return (
     <div className={s.analytics}>
