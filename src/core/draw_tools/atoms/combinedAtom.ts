@@ -5,7 +5,10 @@ import { activeDrawModeAtom } from './activeDrawMode';
 import { temporaryGeometryAtom } from './temporaryGeometryAtom';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { drawModeLogicalLayerAtom } from './logicalLayerAtom';
-import { selectedIndexesAtom } from './selectedIndexesAtom';
+import {
+  selectedIndexesAtom,
+  selIndexesForCurrentGeometryAtom,
+} from './selectedIndexesAtom';
 import { isDrawingStartedAtom } from './isDrawingStartedAtom';
 import { drawModeRenderer } from './logicalLayerAtom';
 import type { NotificationMessage } from '~core/types/notification';
@@ -44,6 +47,7 @@ export const combinedAtom = createAtom(
 
     selectedIndexesAtom,
     setIndexes: (indexes: number[]) => indexes,
+    selIndexesForCurrentGeometryAtom,
 
     setDrawingIsStarted: (isStarted: boolean) => isStarted,
 
@@ -58,6 +62,7 @@ export const combinedAtom = createAtom(
     state: CombinedAtomCallbacksType = {},
   ) => {
     const actions: Action[] = [];
+    const selectCurrentGeometryWasRequested = get('selIndexesForCurrentGeometryAtom');
 
     onChange('activeDrawModeAtom', (mode) => {
       const map = get('currentMapAtom');
@@ -95,9 +100,17 @@ export const combinedAtom = createAtom(
       actions.push(temporaryGeometryAtom.setFeatures(features, indexes));
     });
 
-    onChange('drawnGeometryAtom', (featureCollection) =>
-      (state.drawnGeometryAtom ?? []).forEach((cb) => cb(featureCollection)),
-    );
+    onChange('drawnGeometryAtom', (featureCollection, prevCollection) => {
+      if (selectCurrentGeometryWasRequested) {
+        actions.push(selIndexesForCurrentGeometryAtom.set(false));
+        const indexes: number[] = [];
+        for (let i = 0; i < featureCollection.features.length; i++) {
+          indexes.push(i);
+        }
+        actions.push(selectedIndexesAtom.setIndexes(indexes));
+      }
+      (state.drawnGeometryAtom ?? []).forEach((cb) => cb(featureCollection));
+    });
 
     onChange('temporaryGeometryAtom', (featureCollection) => {
       (state.temporaryGeometryAtom ?? []).forEach((cb) => cb(featureCollection));

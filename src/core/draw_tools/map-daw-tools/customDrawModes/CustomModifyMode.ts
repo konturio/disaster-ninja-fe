@@ -20,8 +20,8 @@ type SubmodeType = GeoJsonEditMode | CompositeMode;
 
 export class CustomModifyMode extends GeoJsonEditMode {
   _submodesCache: { [key: string]: SubmodeType } = {};
-  _currentSubMode: SubmodeType | null = null;
-  _currentSubModeName = '';
+  _currentSubMode: SubmodeType | null = this.createSubmode('Modify');
+  _currentSubModeName = 'Modify';
   _selectedIndex = -1;
 
   // on click
@@ -85,9 +85,7 @@ export class CustomModifyMode extends GeoJsonEditMode {
   }
 
   // @ts-expect-error we need to handle null here
-  getGuides(
-    props: ModeProps<FeatureCollection>,
-  ): GuideFeatureCollection | null {
+  getGuides(props: ModeProps<FeatureCollection>): GuideFeatureCollection | null {
     return this._currentSubMode ? this._currentSubMode.getGuides(props) : null;
   }
 
@@ -97,28 +95,19 @@ export class CustomModifyMode extends GeoJsonEditMode {
     }
   }
 
-  handleStartDragging(
-    event: StartDraggingEvent,
-    props: ModeProps<FeatureCollection>,
-  ) {
+  handleStartDragging(event: StartDraggingEvent, props: ModeProps<FeatureCollection>) {
     if (this._currentSubMode) {
       this._currentSubMode.handleStartDragging(event, props);
     }
   }
 
-  handleStopDragging(
-    event: StopDraggingEvent,
-    props: ModeProps<FeatureCollection>,
-  ) {
+  handleStopDragging(event: StopDraggingEvent, props: ModeProps<FeatureCollection>) {
     if (this._currentSubMode) {
       this._currentSubMode.handleStopDragging(event, props);
     }
   }
 
-  handlePointerMove(
-    event: PointerMoveEvent,
-    props: ModeProps<FeatureCollection>,
-  ) {
+  handlePointerMove(event: PointerMoveEvent, props: ModeProps<FeatureCollection>) {
     if (this._currentSubMode) {
       this._currentSubMode.handlePointerMove(event, props);
     }
@@ -128,10 +117,7 @@ export class CustomModifyMode extends GeoJsonEditMode {
     event.stopPropagation();
     const { key } = event;
 
-    if (
-      (key === 'Delete' || key === 'Backspace') &&
-      this._selectedIndex !== -1
-    ) {
+    if ((key === 'Delete' || key === 'Backspace') && this._selectedIndex !== -1) {
       const updatedData = new ImmutableFeatureCollection(props.data)
         .deleteFeature(this._selectedIndex)
         .getObject();

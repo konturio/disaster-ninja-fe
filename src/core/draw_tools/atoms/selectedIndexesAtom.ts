@@ -1,4 +1,5 @@
 import { createAtom } from '~utils/atoms';
+import { createPrimitiveAtom } from '~utils/atoms/createPrimitives';
 
 export const selectedIndexesAtom = createAtom(
   {
@@ -13,3 +14,5 @@ export const selectedIndexesAtom = createAtom(
   },
   'selectedIndexesAtom',
 );
+
+export const selIndexesForCurrentGeometryAtom = createPrimitiveAtom(false);
