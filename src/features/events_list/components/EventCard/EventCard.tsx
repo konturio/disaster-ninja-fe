@@ -52,7 +52,6 @@ export function EventCard({
       <Analytics
         settledArea={event.settledArea}
         affectedPeople={event.affectedPopulation}
-        osmGapsPercentage={event.osmGaps}
         loss={event.loss}
       />
 

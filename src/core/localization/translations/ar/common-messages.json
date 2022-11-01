@@ -70,7 +70,6 @@
           "value": "لا أثر إنساني"
         },
         "settled_area.tooltip": "منطقة مستوطنة",
-        "osm_gaps_percentage.tooltip": "نسبة فجوات OSM (كلما كانت منخفضة كان أفضل)",
         "loss.tooltip": "الخسارة المقدرة"
       }
     },
