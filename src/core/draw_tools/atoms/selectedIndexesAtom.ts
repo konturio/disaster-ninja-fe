@@ -15,4 +15,4 @@ export const selectedIndexesAtom = createAtom(
   'selectedIndexesAtom',
 );
 
-export const selIndexesForCurrentGeometryAtom = createPrimitiveAtom(false);
+export const setIndexesForCurrentGeometryAtom = createPrimitiveAtom(false);

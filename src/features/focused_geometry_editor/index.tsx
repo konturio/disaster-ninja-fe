@@ -12,7 +12,7 @@ import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAto
 import { forceRun } from '~utils/atoms/forceRun';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { store } from '~core/store/store';
-import { selIndexesForCurrentGeometryAtom } from '~core/draw_tools/atoms/selectedIndexesAtom';
+import { setIndexesForCurrentGeometryAtom } from '~core/draw_tools/atoms/selectedIndexesAtom';
 import { isEditorActiveAtom } from './atoms/isEditorActive';
 import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
 
@@ -44,7 +44,7 @@ export function initFocusedGeometry() {
           }),
           drawModeLogicalLayerAtom.enable(),
           activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
-          selIndexesForCurrentGeometryAtom.set(true),
+          setIndexesForCurrentGeometryAtom.set(true),
         ]);
       } else {
         store.dispatch([

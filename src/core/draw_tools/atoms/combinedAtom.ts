@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createAtom } from '~utils/atoms';
 import { currentMapAtom, currentNotificationAtom } from '~core/shared_state';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
@@ -7,7 +8,7 @@ import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { drawModeLogicalLayerAtom } from './logicalLayerAtom';
 import {
   selectedIndexesAtom,
-  selIndexesForCurrentGeometryAtom,
+  setIndexesForCurrentGeometryAtom,
 } from './selectedIndexesAtom';
 import { isDrawingStartedAtom } from './isDrawingStartedAtom';
 import { drawModeRenderer } from './logicalLayerAtom';
@@ -47,7 +48,7 @@ export const combinedAtom = createAtom(
 
     selectedIndexesAtom,
     setIndexes: (indexes: number[]) => indexes,
-    selIndexesForCurrentGeometryAtom,
+    setIndexesForCurrentGeometryAtom,
 
     setDrawingIsStarted: (isStarted: boolean) => isStarted,
 
@@ -62,7 +63,7 @@ export const combinedAtom = createAtom(
     state: CombinedAtomCallbacksType = {},
   ) => {
     const actions: Action[] = [];
-    const selectCurrentGeometryWasRequested = get('selIndexesForCurrentGeometryAtom');
+    const selectCurrentGeometryWasRequested = get('setIndexesForCurrentGeometryAtom');
 
     onChange('activeDrawModeAtom', (mode) => {
       const map = get('currentMapAtom');
@@ -102,11 +103,10 @@ export const combinedAtom = createAtom(
 
     onChange('drawnGeometryAtom', (featureCollection, prevCollection) => {
       if (selectCurrentGeometryWasRequested) {
-        actions.push(selIndexesForCurrentGeometryAtom.set(false));
+        // add indexes to select and disable request for setting indexes
+        actions.push(setIndexesForCurrentGeometryAtom.set(false));
         const indexes: number[] = [];
-        for (let i = 0; i < featureCollection.features.length; i++) {
-          indexes.push(i);
-        }
+        _.times(featureCollection.features.length, (index) => indexes.push(index));
         actions.push(selectedIndexesAtom.setIndexes(indexes));
       }
       (state.drawnGeometryAtom ?? []).forEach((cb) => cb(featureCollection));
