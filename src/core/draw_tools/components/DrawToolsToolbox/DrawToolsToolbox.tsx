@@ -97,13 +97,14 @@ export const DrawToolsToolbox = () => {
 
   return activeDrawMode ? (
     <div className={s.drawToolsContainer}>
-      {!drawingIsStarted && (
+      {/* This logic and elements might reapper on draw tools refactor so i'm keeping them */}
+      {/* {!drawingIsStarted && (
         <div className={s.drawHint}>
           <Text type="caption">
             <span>{i18n.t('draw_tools.caption')}</span>
           </Text>
         </div>
-      )}
+      )} */}
 
       <div className={s.bGroupWrap}>
         <ButtonGroup

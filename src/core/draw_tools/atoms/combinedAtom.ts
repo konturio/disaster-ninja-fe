@@ -1,3 +1,4 @@
+import times from 'lodash/times';
 import { createAtom } from '~utils/atoms';
 import { currentMapAtom, currentNotificationAtom } from '~core/shared_state';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
@@ -5,7 +6,10 @@ import { activeDrawModeAtom } from './activeDrawMode';
 import { temporaryGeometryAtom } from './temporaryGeometryAtom';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { drawModeLogicalLayerAtom } from './logicalLayerAtom';
-import { selectedIndexesAtom } from './selectedIndexesAtom';
+import {
+  selectedIndexesAtom,
+  setIndexesForCurrentGeometryAtom,
+} from './selectedIndexesAtom';
 import { isDrawingStartedAtom } from './isDrawingStartedAtom';
 import { drawModeRenderer } from './logicalLayerAtom';
 import type { NotificationMessage } from '~core/types/notification';
@@ -44,6 +48,7 @@ export const combinedAtom = createAtom(
 
     selectedIndexesAtom,
     setIndexes: (indexes: number[]) => indexes,
+    setIndexesForCurrentGeometryAtom,
 
     setDrawingIsStarted: (isStarted: boolean) => isStarted,
 
@@ -58,6 +63,7 @@ export const combinedAtom = createAtom(
     state: CombinedAtomCallbacksType = {},
   ) => {
     const actions: Action[] = [];
+    const selectCurrentGeometryWasRequested = get('setIndexesForCurrentGeometryAtom');
 
     onChange('activeDrawModeAtom', (mode) => {
       const map = get('currentMapAtom');
@@ -95,9 +101,16 @@ export const combinedAtom = createAtom(
       actions.push(temporaryGeometryAtom.setFeatures(features, indexes));
     });
 
-    onChange('drawnGeometryAtom', (featureCollection) =>
-      (state.drawnGeometryAtom ?? []).forEach((cb) => cb(featureCollection)),
-    );
+    onChange('drawnGeometryAtom', (featureCollection, prevCollection) => {
+      if (selectCurrentGeometryWasRequested) {
+        // add indexes to select and disable request for setting indexes
+        actions.push(setIndexesForCurrentGeometryAtom.set(false));
+        const indexes: number[] = [];
+        times(featureCollection.features.length, (index) => indexes.push(index));
+        actions.push(selectedIndexesAtom.setIndexes(indexes));
+      }
+      (state.drawnGeometryAtom ?? []).forEach((cb) => cb(featureCollection));
+    });
 
     onChange('temporaryGeometryAtom', (featureCollection) => {
       (state.temporaryGeometryAtom ?? []).forEach((cb) => cb(featureCollection));

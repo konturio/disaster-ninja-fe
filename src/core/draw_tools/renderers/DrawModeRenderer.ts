@@ -9,10 +9,7 @@ import { layersConfigs } from '../configs';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { DrawModeType } from '../constants';
 import type { FeatureCollection, Feature } from 'geojson';
-import type {
-  NotNullableMap,
-  CommonHookArgs,
-} from '~core/logical_layers/types/renderer';
+import type { NotNullableMap, CommonHookArgs } from '~core/logical_layers/types/renderer';
 import type { CombinedAtom } from '../atoms/combinedAtom';
 import type { NotificationType } from '~core/shared_state/currentNotifications';
 import type { NotificationMessage } from '~core/types/notification';
@@ -53,14 +50,12 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
   private _updateTempFeaturesAction: (
     features: Feature[],
     updateIndexes: number[],
-  ) => void = () =>
-    console.error('updateTempFeatures action isn`t available yet');
+  ) => void = () => console.error('updateTempFeatures action isn`t available yet');
   private _showNotificationAction: (
     type: NotificationType,
     message: NotificationMessage,
     lifetimeSec: number,
-  ) => void = () =>
-    console.error('showNotification action isn`t available yet');
+  ) => void = () => console.error('showNotification action isn`t available yet');
 
   private _setSelectedIndexes: (indexes: number[]) => void = () =>
     console.error('setIndexes action isn`t available yet');
@@ -99,10 +94,8 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
   }
 
   setupExtension(extentionAtom: CombinedAtom): void {
-    this._setFeaturesAction = (features) =>
-      extentionAtom.setFeatures.dispatch(features);
-    this._addFeatureAction = (feature) =>
-      extentionAtom.addFeature.dispatch(feature);
+    this._setFeaturesAction = (features) => extentionAtom.setFeatures.dispatch(features);
+    this._addFeatureAction = (feature) => extentionAtom.addFeature.dispatch(feature);
     extentionAtom.hookWithAtom.dispatch([
       'drawnGeometryAtom',
       (featureCollection) => {
@@ -117,15 +110,21 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
       (featureCollection) => {
         // temporary geometry clears out after every deletion of any amount of features
         // if we cleared temporaryGeometry, there's no need to clear all displayed geometry (geometry from drawnGeometryAtom)
-        if (featureCollection.features.length)
-          this._updateData(featureCollection);
+        if (featureCollection.features.length) this._updateData(featureCollection);
       },
     ]);
-    this._setSelectedIndexes = (indexes) =>
-      extentionAtom.setIndexes.dispatch(indexes);
+    this._setSelectedIndexes = (indexes) => extentionAtom.setIndexes.dispatch(indexes);
     extentionAtom.hookWithAtom.dispatch([
       'selectedIndexesAtom',
-      (indexes) => (this.selectedIndexes = [...indexes]),
+      (indexes) => {
+        this.selectedIndexes = [...indexes];
+        if (this.mode) {
+          const layer = this.mountedDeckLayers[this.mode];
+          layer?.setProps({
+            selectedFeatureIndexes: this.selectedIndexes,
+          });
+        }
+      },
     ]);
 
     this._setDrawingStarted = (isStarted) =>
@@ -189,15 +188,13 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
         )
           return 'pointIcon';
         if (!('featureIndex' in d.properties)) return null;
-        const featureToHandle =
-          this.drawnData.features[d.properties.featureIndex];
+        const featureToHandle = this.drawnData.features[d.properties.featureIndex];
         if (featureToHandle.geometry.type !== 'Point') return 'pointIcon';
         return 'selectedIcon';
       };
       config.getEditHandleIconSize = (d) => {
         if (!('featureIndex' in d.properties)) return 1.8;
-        const featureToHandle =
-          this.drawnData.features[d.properties.featureIndex];
+        const featureToHandle = this.drawnData.features[d.properties.featureIndex];
         if (featureToHandle.geometry.type !== 'Point') return 1.8;
         return 6;
       };
@@ -212,16 +209,17 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
     config._subLayerProps.guides.pointRadiusMinPixels = 4;
     config._subLayerProps.guides.pointRadiusMaxPixels = 4;
     const deckLayer = new MapboxLayer({ ...config });
+
     if (!this._map.getLayer(deckLayer.id)) {
       this._map.addLayer(deckLayer);
     }
+
     this.mountedDeckLayers[mode] = deckLayer;
   }
 
   _removeDeckLayer(mode: DrawModeType): void {
     const deckLayer = this.mountedDeckLayers[mode];
-    if (!deckLayer)
-      return console.error(`cannot remove ${mode} as it wasn't mounted`);
+    if (!deckLayer) return console.error(`cannot remove ${mode} as it wasn't mounted`);
     this._map.removeLayer(deckLayer.id);
     delete this.mountedDeckLayers[mode];
   }

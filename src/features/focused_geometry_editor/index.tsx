@@ -12,6 +12,7 @@ import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAto
 import { forceRun } from '~utils/atoms/forceRun';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { store } from '~core/store/store';
+import { setIndexesForCurrentGeometryAtom } from '~core/draw_tools/atoms/selectedIndexesAtom';
 import { isEditorActiveAtom } from './atoms/isEditorActive';
 import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
 
@@ -43,9 +44,8 @@ export function initFocusedGeometry() {
           }),
           drawModeLogicalLayerAtom.enable(),
           activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
+          setIndexesForCurrentGeometryAtom.set(true),
         ]);
-        // TODO fix that logic in layer.setMode() in #9782
-        store.dispatch(activeDrawModeAtom.setDrawMode(drawModes.DrawPolygonMode));
       } else {
         store.dispatch([
           isEditorActiveAtom.set(false),
