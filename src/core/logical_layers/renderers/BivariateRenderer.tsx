@@ -37,6 +37,8 @@ const HEX_SELECTED_LAYER_ID = 'hex-selected-layer';
 const HEX_SELECTED_SOURCE_ID = 'hex-selected-source';
 const HEX_HOVER_SOURCE_ID = 'hex-hover-source';
 const HEX_HOVER_LAYER_ID = 'hex-hover-layer';
+
+const TOOLTIP_ID = 'bivariate-renderer';
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
  * I found that if i call setLayer by requestAnimationFrame callback - UI becomes much more responsive!
@@ -145,6 +147,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       const cellIndex = cells.findIndex((i) => i.color === rgba);
 
       currentTooltipAtom.setCurrentTooltip.dispatch({
+        initiatorId: TOOLTIP_ID,
         popup: (
           <MapHexTooltip
             cellLabel={cells[cellIndex].label}
@@ -167,6 +170,8 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
           cleanSelection();
         },
       });
+
+      cleanHover();
 
       if (!map.getSource(HEX_SELECTED_SOURCE_ID)) {
         map.addSource(HEX_SELECTED_SOURCE_ID, {
@@ -248,6 +253,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     map.on('zoom', () => {
       cleanHover();
       cleanSelection();
+      currentTooltipAtom.turnOffById.dispatch(TOOLTIP_ID);
     });
 
     const cleanHover = () => {
