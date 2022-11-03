@@ -264,11 +264,19 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       }
     };
 
+    if (this._removeMouseMoveListener) {
+      this._removeMouseMoveListener();
+      this._removeMouseMoveListener = null;
+    }
     this._removeMouseMoveListener = registerMapListener(
       'mousemove',
       mousemoveHandler,
       60,
     );
+    if (this._removeClickListener) {
+      this._removeClickListener();
+      this._removeClickListener = null;
+    }
     this._removeClickListener = registerMapListener('click', clickHandler, 60);
 
     if (!isVisible) this.willHide({ map });
