@@ -39,6 +39,15 @@ const HEX_HOVER_SOURCE_ID = 'hex-hover-source';
 const HEX_HOVER_LAYER_ID = 'hex-hover-layer';
 
 const TOOLTIP_ID = 'bivariate-renderer';
+
+const isFillColorEmpty = (fillColor: FillColor): boolean =>
+  fillColor.a === 0 && fillColor.r === 0 && fillColor.g === 0 && fillColor.b === 0;
+
+const convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): string =>
+  `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${
+    withTransparency ? ',' + fillColor.a : ''
+  })`;
+
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
  * I found that if i call setLayer by requestAnimationFrame callback - UI becomes much more responsive!
@@ -117,11 +126,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): string =>
-    `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${
-      withTransparency ? ',' + fillColor.a : ''
-    })`;
-
   private _updateMap(
     map: ApplicationMap,
     layerData: LayerTileSource,
@@ -140,9 +144,9 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       const feature = features[0];
       const geometry = feature.geometry;
       const fillColor: FillColor = feature.layer.paint?.['fill-color'];
-      if (!fillColor) return true;
+      if (!fillColor || isFillColorEmpty(fillColor)) return true;
 
-      const rgba = this.convertFillColorToRGBA(fillColor);
+      const rgba = convertFillColorToRGBA(fillColor);
       const cells: BivariateLegendStep[] = invertClusters(legend.steps, 'label');
       const cellIndex = cells.findIndex((i) => i.color === rgba);
 
@@ -216,6 +220,8 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
           return true;
         const feature = features[0];
         const geometry = feature.geometry;
+        const fillColor: FillColor = feature.layer.paint?.['fill-color'];
+        if (!fillColor || isFillColorEmpty(fillColor)) return true;
 
         if (!map.getSource(HEX_HOVER_SOURCE_ID)) {
           map.addSource(HEX_HOVER_SOURCE_ID, {
