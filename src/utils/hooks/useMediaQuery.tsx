@@ -22,6 +22,6 @@ export const IS_MOBILE_QUERY = `(max-width: ${MOBILE_WIDTH_PX}px)`;
 export const COLLAPSE_PANEL_QUERY = IS_MOBILE_QUERY;
 
 export const LAPTOP_WIDTH_PX = 1530;
-export const IS_LAPTOP_QUERY = `(max-width: ${LAPTOP_WIDTH_PX}px) and (min-width: ${
-  MOBILE_WIDTH_PX + 1
-}px)`;
+export const IS_LAPTOP_QUERY = `
+  (max-width: ${LAPTOP_WIDTH_PX}px) and (min-width: ${MOBILE_WIDTH_PX + 1}px)
+`;
