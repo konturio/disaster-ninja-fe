@@ -11,19 +11,18 @@ export function DesktopLayout({
   return (
     <div className={s.contentWrap}>
       <SmartColumn>{analyticsColumn}</SmartColumn>
-      {/* <div className={s.analyticsColumn}>{analyticsColumn}</div> */}
+
       <div className={s.advancedAnalyticsColumn}>{advancedAnalyticsColumn}</div>
+
       <div className={s.mapWrap}>
         <div className={s.mapSpaceBlank}></div>
         <div className={s.mapSpaceBottom}>{mapColumn}</div>
       </div>
 
-      {/* <div className={s.layersColumn}>
+      <SmartColumn>
         {layersColumn}
         <div className={s.intercomPlaceholder}></div>
-      </div> */}
-
-      <SmartColumn>{layersColumn}</SmartColumn>
+      </SmartColumn>
 
       <div className={s.footer}>{footer}</div>
     </div>
