@@ -6,10 +6,11 @@
         content="Disaster Ninja is a platform for assesment of mapping needs in case of natural disaster. See what's happening, what are available map sources, explore coverage quality of OpenStreetMap, chart the area of interest, export and import as geojson.">
   <meta http-equiv="refresh" content="0; url=/active/"/>
   <script>
+    // This script takes DN1 url hash, transforms it to DN2 url format and initiates redirect to DN2 with those params
     const hash = window.location.hash.substring(1);
     let params = {};
-    hash.split(';').map(hk => {
-      let temp = hk.split('=');
+    hash.split(';').map(kv => {
+      const temp = kv.split('=');
       params[temp[0]] = temp[1];
     });
     let queryUrl = "";
