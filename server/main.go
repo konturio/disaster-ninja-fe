@@ -34,7 +34,7 @@ func renderTemplate(response http.ResponseWriter, request *http.Request) {
 	}
 }
 
-func redirectWithDn1Params(response http.ResponseWriter) {
+func redirectWithDn1Params(response http.ResponseWriter, request *http.Request) {
 	parsedTemplate, _ := template.ParseFiles("./live/index.html")
 	err := parsedTemplate.Execute(response, nil)
 	if err != nil {
