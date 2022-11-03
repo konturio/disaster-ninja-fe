@@ -1,3 +1,13 @@
+/* 
+  We have desktop-first design. It means all the styles for not desktop resolution
+  must be specified under media query
+  
+  4k viewport: > 1921px
+  desktop viewport: > 1530px (but usually not specified)
+  laptop viewport: < 1530px
+  mobile viewport: < 960px
+*/
+
 @import-normalize;
 
 :root {

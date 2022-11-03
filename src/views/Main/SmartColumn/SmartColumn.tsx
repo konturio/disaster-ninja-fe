@@ -1,6 +1,6 @@
 import { useRef, useLayoutEffect, useState } from 'react';
 import { ColumnContext, Resizer } from '~core/store/columnContext';
-import s from './Laptop.module.css';
+import s from './SmartColumn.module.css';
 
 export function SmartColumn({ children }) {
   const columnRef = useRef<null | HTMLDivElement>(null);
