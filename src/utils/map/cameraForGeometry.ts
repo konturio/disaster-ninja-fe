@@ -1,14 +1,16 @@
 import turfBbox from '@turf/bbox';
+import { LAPTOP_WIDTH_PX, MOBILE_WIDTH_PX } from '~utils/hooks/useMediaQuery';
 import type { PaddingOptions } from 'maplibre-gl';
 
+// autofocus actual paddings
 function getPaddings(): PaddingOptions {
   const width = window.visualViewport?.width ?? Infinity;
   // mobile
-  if (width < 960) return { left: 64, top: 44, right: 115, bottom: 0 };
+  if (width < MOBILE_WIDTH_PX + 1) return { left: 64, top: 44, right: 115, bottom: 0 };
   // laptop
-  if (width < 1920) return { left: 348, top: 44, right: 110, bottom: 60 };
+  if (width < LAPTOP_WIDTH_PX + 1) return { left: 348, top: 44, right: 110, bottom: 60 };
   // desktop
-  return { left: 340, top: 44, right: 460, bottom: 60 };
+  return { left: 340, top: 44, right: 465, bottom: 95 };
 }
 
 export function getCameraForGeometry(

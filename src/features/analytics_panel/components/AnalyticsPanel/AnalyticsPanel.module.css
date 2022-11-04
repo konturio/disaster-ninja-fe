@@ -26,14 +26,14 @@
 }
 
 /* Desktop only */
-@media screen and (min-width: 1900px) {
+@media screen and (min-width: 1530px) {
   .contentWrap {
     max-height: 460px;
   }
 }
 
 /* laptop */
-@media screen and (max-width: 1900px) {
+@media screen and (max-width: 1530px) {
   .panelBody {
     padding: var(--double-unit);
     overflow-y: auto;

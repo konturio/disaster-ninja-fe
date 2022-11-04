@@ -31,14 +31,14 @@
   display: none;
 }
 /* desktop only */
-@media screen and (min-width: 1900px) {
+@media screen and (min-width: 1530px) {
   .panelContainer.open {
     flex: 1 2 auto;
   }
 }
 
 /* laptop and below */
-@media screen and (max-width: 1900px) {
+@media screen and (max-width: 1530px) {
   .panelContainer {
     overflow: unset;
     box-shadow: none;

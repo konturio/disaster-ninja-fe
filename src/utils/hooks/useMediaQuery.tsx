@@ -16,6 +16,12 @@ export const useMediaQuery = (query: string) => {
   return matches;
 };
 
-export const IS_MOBILE_QUERY = '(max-width: 960px)';
+export const MOBILE_WIDTH_PX = 960;
+export const IS_MOBILE_QUERY = `(max-width: ${MOBILE_WIDTH_PX}px)`;
+
 export const COLLAPSE_PANEL_QUERY = IS_MOBILE_QUERY;
-export const IS_LAPTOP_QUERY = '(max-width: 1900px) and (min-width: 961px)';
+
+export const LAPTOP_WIDTH_PX = 1530;
+export const IS_LAPTOP_QUERY = `
+  (max-width: ${LAPTOP_WIDTH_PX}px) and (min-width: ${MOBILE_WIDTH_PX + 1}px)
+`;

@@ -1,4 +1,4 @@
-import { SmartColumn } from './SmartColumn';
+import { SmartColumn } from '../../SmartColumn/SmartColumn';
 import s from './Laptop.module.css';
 
 export function LaptopLayout({ firstColumn, mapColumn, footer }) {
