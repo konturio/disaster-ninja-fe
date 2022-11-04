@@ -31,6 +31,8 @@ type FillColor = {
   a: number;
 };
 
+const MAX_BIVARIATE_GENERATED_RESOLUTION = 8; // keep in sync with backend
+
 const HOVER_HEXAGON_BORDER = 'rgba(5, 22, 38, 0.4)';
 const ACTIVE_HEXAGON_BORDER = 'rgb(5, 22, 38)';
 
@@ -50,7 +52,11 @@ const convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): 
   })`;
 
 const getH3GeoByLatLng = (lngLat: LngLat, resolution: number): GeoJSON.Geometry => {
-  const h3 = geoToH3(lngLat.lat, lngLat.lng, resolution);
+  const h3 = geoToH3(
+    lngLat.lat,
+    lngLat.lng,
+    Math.min(resolution, MAX_BIVARIATE_GENERATED_RESOLUTION),
+  );
   const h3Boundary = h3ToGeoBoundary(h3, true);
   fixTransmeridianLoop(h3Boundary);
 
