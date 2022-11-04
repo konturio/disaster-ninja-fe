@@ -56,7 +56,7 @@ export function LegendPanel({ layers }: LegendPanelProps) {
           showInModal: isMobile,
         }}
         minContentHeightPx={MIN_HEIGHT}
-        resize={!isMobile ? 'vertical' : 'none'}
+        resize={isMobile ? 'none' : 'vertical'}
         contentContainerRef={handleRefChange}
         contentClassName={s.content}
       >
