@@ -7,22 +7,15 @@ import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicat
 import styles from './AnalyticsPanelHeader.module.css';
 import type { AdvancedAnalyticsData, AnalyticsData, Severity } from '~core/types';
 import type { AsyncAtomState } from '~utils/atoms/createAsyncAtom/types';
-import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
+import type { FocusedGeometry, GeometrySource } from '~core/shared_state/focusedGeometry';
 import type { Atom } from '@reatom/core';
 
-interface PanelHeadingProps {
-  event: {
-    eventName: string;
-    severity: Severity;
-    externalUrls: string[];
-  };
-}
-
-function PanelHeading({ event }: PanelHeadingProps) {
+function PanelHeading({ source }: { source?: GeometrySource }) {
+  if (source?.type !== 'event') return null;
   return (
     <div className={styles.head}>
-      <Text type="heading-m">{event.eventName}</Text>
-      <SeverityIndicator severity={event.severity} />
+      <Text type="heading-m">{source.meta.eventName}</Text>
+      <SeverityIndicator severity={source.meta.severity} />
     </div>
   );
 }
@@ -32,6 +25,12 @@ interface AnalyticsPanelHeaderParams {
     | Atom<AsyncAtomState<FocusedGeometry | null, AnalyticsData[] | null>>
     | Atom<AsyncAtomState<FocusedGeometry | null, AdvancedAnalyticsData[] | null>>;
   loadingMessage: string;
+}
+
+function getBoundaryName(source?: GeometrySource) {
+  if (!source || source.type !== 'boundaries') return '';
+  if (source.type === 'boundaries') return source.meta.name;
+  return '';
 }
 
 const AnalyticsPanelHeader = ({
@@ -60,9 +59,9 @@ const AnalyticsPanelHeader = ({
       error: () => null,
       ready: () =>
         ({
-          event: <PanelHeading event={(focusedGeometry?.source as any).meta} />,
+          event: <PanelHeading source={focusedGeometry?.source} />,
           boundaries: (
-            <Text type="heading-m">{(focusedGeometry?.source as any).meta}</Text>
+            <Text type="heading-m">{getBoundaryName(focusedGeometry?.source)}</Text>
           ),
         }[sourceType]),
     }) || <></>

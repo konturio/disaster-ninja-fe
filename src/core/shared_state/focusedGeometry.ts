@@ -30,7 +30,7 @@ interface GeometrySourceDrawn {
   type: 'drawn';
 }
 
-type GeometrySource =
+export type GeometrySource =
   | GeometrySourceEpisode
   | GeometrySourceEvent
   | GeometrySourceCustom
