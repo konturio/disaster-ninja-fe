@@ -10,14 +10,6 @@ import type { AsyncAtomState } from '~utils/atoms/createAsyncAtom/types';
 import type { FocusedGeometry, GeometrySource } from '~core/shared_state/focusedGeometry';
 import type { Atom } from '@reatom/core';
 
-interface PanelHeadingProps {
-  event: {
-    eventName: string;
-    severity: Severity;
-    externalUrls: string[];
-  };
-}
-
 function PanelHeading({ source }: { source?: GeometrySource }) {
   if (source?.type !== 'event') return null;
   return (
@@ -36,10 +28,8 @@ interface AnalyticsPanelHeaderParams {
 }
 
 function getBoundaryName(source?: GeometrySource) {
-  if (!source) return '';
+  if (!source || source.type !== 'boundaries') return '';
   if (source.type === 'boundaries') return source.meta.name;
-  if (source.type === 'event') return source.meta.eventName;
-  if (source.type === 'episode') return source.meta.name;
   return '';
 }
 
