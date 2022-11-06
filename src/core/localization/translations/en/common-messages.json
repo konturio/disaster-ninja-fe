@@ -264,6 +264,9 @@
       "defaultDisasterFeed": "Default disaster feed",
       "defaultOSMeditor": "Default OpenStreetMap editor (beta)",
       "successNotification": "All changes have been applied successfully"
+    },
+    "current_event": {
+      "not_found_request": "Sorry, requested event not found."
     }
   }
 }

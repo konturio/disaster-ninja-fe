@@ -2,6 +2,7 @@ import { createAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { i18n } from '~core/localization';
 import type { EventWithGeometry } from '~core/types';
 
 const eventDependencyAtom = createAtom(
@@ -29,7 +30,13 @@ export const currentEventResourceAtom = createAsyncAtom(
         `/events/${deps.feed.id}/${deps.event.id}`,
         undefined,
         undefined,
-        { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
+        {
+          signal: abortController.signal,
+          errorsConfig: {
+            dontShowErrors: false,
+            messages: i18n.t('current_event.not_found_request'),
+          },
+        },
       );
       if (responseData === undefined) throw 'No data received';
       return responseData;

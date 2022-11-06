@@ -28,7 +28,7 @@ export const autoSelectEvent = createAtom(
           schedule((dispatch) =>
             dispatch(
               currentNotificationAtom.showNotification(
-                'error',
+                'warning',
                 { title: i18n.t('event_list.no_event_in_feed') },
                 5,
               ),
