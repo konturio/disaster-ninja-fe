@@ -1,4 +1,5 @@
 import throttle from 'lodash/throttle';
+import { h3ToGeoBoundary, geoToH3 } from 'h3-js';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
 import {
@@ -14,7 +15,7 @@ import { MapHexTooltip, popupContentRoot } from '~components/MapHexTooltip/MapHe
 import { invertClusters } from '~utils/bivariate';
 import type { MapListener } from '~core/shared_state/mapListeners';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import type { AnyLayer, RasterSource, VectorSource } from 'maplibre-gl';
+import type { AnyLayer, LngLat, RasterSource, VectorSource } from 'maplibre-gl';
 import type {
   BivariateLegend,
   BivariateLegendStep,
@@ -30,6 +31,8 @@ type FillColor = {
   a: number;
 };
 
+const MAX_BIVARIATE_GENERATED_RESOLUTION = 8; // keep in sync with backend
+
 const HOVER_HEXAGON_BORDER = 'rgba(5, 22, 38, 0.4)';
 const ACTIVE_HEXAGON_BORDER = 'rgb(5, 22, 38)';
 
@@ -37,6 +40,51 @@ const HEX_SELECTED_LAYER_ID = 'hex-selected-layer';
 const HEX_SELECTED_SOURCE_ID = 'hex-selected-source';
 const HEX_HOVER_SOURCE_ID = 'hex-hover-source';
 const HEX_HOVER_LAYER_ID = 'hex-hover-layer';
+
+const TOOLTIP_ID = 'bivariate-renderer';
+
+const isFillColorEmpty = (fillColor: FillColor): boolean =>
+  fillColor.a === 0 && fillColor.r === 0 && fillColor.g === 0 && fillColor.b === 0;
+
+const convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): string =>
+  `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${
+    withTransparency ? ',' + fillColor.a : ''
+  })`;
+
+const getH3GeoByLatLng = (lngLat: LngLat, resolution: number): GeoJSON.Geometry => {
+  const h3 = geoToH3(
+    lngLat.lat,
+    lngLat.lng,
+    Math.min(resolution, MAX_BIVARIATE_GENERATED_RESOLUTION),
+  );
+  const h3Boundary = h3ToGeoBoundary(h3, true);
+  fixTransmeridianLoop(h3Boundary);
+
+  return {
+    type: 'Polygon',
+    coordinates: [h3Boundary],
+  };
+};
+
+// https://observablehq.com/@nrabinowitz/mapbox-utils
+function fixTransmeridianLoop(loop: number[][]) {
+  let isTransmeridian = false;
+  for (let i = 0; i < loop.length; i++) {
+    // check for arcs > 180 degrees longitude, flagging as transmeridian
+    if (Math.abs(loop[0][0] - loop[(i + 1) % loop.length][0]) > 180) {
+      isTransmeridian = true;
+      break;
+    }
+  }
+  if (isTransmeridian) {
+    loop.forEach(fixTransmeridianCoord);
+  }
+}
+function fixTransmeridianCoord(coord: number[]) {
+  const lng = coord[0];
+  coord[0] = lng < 0 ? lng + 360 : lng;
+}
+
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
  * I found that if i call setLayer by requestAnimationFrame callback - UI becomes much more responsive!
@@ -115,11 +163,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): string =>
-    `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${
-      withTransparency ? ',' + fillColor.a : ''
-    })`;
-
   private _updateMap(
     map: ApplicationMap,
     layerData: LayerTileSource,
@@ -136,15 +179,16 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       if (!features.length || !legend || !features[0].geometry) return true;
 
       const feature = features[0];
-      const geometry = feature.geometry;
+      const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
       const fillColor: FillColor = feature.layer.paint?.['fill-color'];
-      if (!fillColor) return true;
+      if (!fillColor || isFillColorEmpty(fillColor)) return true;
 
-      const rgba = this.convertFillColorToRGBA(fillColor);
+      const rgba = convertFillColorToRGBA(fillColor);
       const cells: BivariateLegendStep[] = invertClusters(legend.steps, 'label');
       const cellIndex = cells.findIndex((i) => i.color === rgba);
 
       currentTooltipAtom.setCurrentTooltip.dispatch({
+        initiatorId: TOOLTIP_ID,
         popup: (
           <MapHexTooltip
             cellLabel={cells[cellIndex].label}
@@ -167,6 +211,8 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
           cleanSelection();
         },
       });
+
+      cleanHover();
 
       if (!map.getSource(HEX_SELECTED_SOURCE_ID)) {
         map.addSource(HEX_SELECTED_SOURCE_ID, {
@@ -210,7 +256,9 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         )
           return true;
         const feature = features[0];
-        const geometry = feature.geometry;
+        const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
+        const fillColor: FillColor = feature.layer.paint?.['fill-color'];
+        if (!fillColor || isFillColorEmpty(fillColor)) return true;
 
         if (!map.getSource(HEX_HOVER_SOURCE_ID)) {
           map.addSource(HEX_HOVER_SOURCE_ID, {
@@ -248,6 +296,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     map.on('zoom', () => {
       cleanHover();
       cleanSelection();
+      currentTooltipAtom.turnOffById.dispatch(TOOLTIP_ID);
     });
 
     const cleanHover = () => {
@@ -264,11 +313,19 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       }
     };
 
+    if (this._removeMouseMoveListener) {
+      this._removeMouseMoveListener();
+      this._removeMouseMoveListener = null;
+    }
     this._removeMouseMoveListener = registerMapListener(
       'mousemove',
       mousemoveHandler,
       60,
     );
+    if (this._removeClickListener) {
+      this._removeClickListener();
+      this._removeClickListener = null;
+    }
     this._removeClickListener = registerMapListener('click', clickHandler, 60);
 
     if (!isVisible) this.willHide({ map });
