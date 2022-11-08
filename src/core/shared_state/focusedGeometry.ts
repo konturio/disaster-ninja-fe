@@ -86,4 +86,10 @@ export const focusedGeometryAtom = createAtom(
   '[Shared state] focusedGeometryAtom',
 );
 
+export function getEvendId(focusedGeometry: FocusedGeometry | null) {
+  return focusedGeometry?.source?.type === 'event'
+    ? focusedGeometry.source.meta.eventId
+    : null;
+}
+
 export const FOCUSED_GEOMETRY_LOGICAL_LAYER_ID = 'focused-geometry';
