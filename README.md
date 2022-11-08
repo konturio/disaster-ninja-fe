@@ -35,6 +35,18 @@ npm i
 npm run dev
 ```
 
+## How to i18n
+
+We use 18next + gettext convertion approach in our development toolchain. 
+There are 2 tasks in package.json: 
+- i18n:export converts i18next to gettext
+- i18n:import converts gettext to i18next
+But you don't need to manually run them. 
+As a developer you only need to interact with i18next en file. (`src/core/localization/translations/en/common-messages.json`)
+It will be converted to .pot file on pre-commit hook and added to commit.
+Later translators will add new translations to .po files comparing them with .pot file. 
+When you run or build a project .po files convert to i18next .json files, so new translations become available on frontend.
+
 ## Available Scripts
 
 ### npm start

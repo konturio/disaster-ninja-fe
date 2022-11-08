@@ -9,9 +9,11 @@
     "node": ">=18"
   },
   "scripts": {
+    "predev": "npm run i18n:import",
     "dev": "vite",
     "cosmos": "run-p auto:cosmos:renderer auto:cosmos auto:open",
     "cosmos:build": "run-s auto:cosmos:export auto:cosmos:renderer:export",
+    "prebuild": "npm run i18n:import",
     "build": "vite build",
     "serve": "vite preview",
     "typecheck": "tsc --noEmit",
@@ -37,7 +39,9 @@
     "auto:cosmos:renderer": "vite --config cosmos.vite.config.ts --force serve --port=8080",
     "auto:cosmos:renderer:export": "vite build --config cosmos.vite.config.ts",
     "release": "node ./scripts/auto-release/index.mjs",
-    "link:packages": "node ./scripts/auto-link/index.mjs"
+    "link:packages": "node ./scripts/auto-link/index.mjs",
+    "i18n:export": "node ./scripts/i18n/convertion.mjs --to-gettext",
+    "i18n:import": "node ./scripts/i18n/convertion.mjs --to-i18next"
   },
   "lint-staged": {
     "*/**/*.{ts,tsx}": [
@@ -48,6 +52,10 @@
     ],
     "*/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write"
+    ],
+    "*/**/en/common-messages.json": [
+      "npm run i18n:export",
+      "git add *.pot"
     ]
   },
   "browserslist": {
@@ -106,8 +114,8 @@
     "hash-wasm": "^4.9.0",
     "history": "^4.9.0",
     "hsluv": "^0.1.0",
-    "i18next": "^20.4.0",
-    "i18next-browser-languagedetector": "^6.1.2",
+    "i18next": "^22.0.4",
+    "i18next-browser-languagedetector": "^7.0.1",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "maplibre-gl": "^1.15.2",
@@ -118,7 +126,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-gtm-module": "^2.0.11",
-    "react-i18next": "^11.18.6",
+    "react-i18next": "^12.0.0",
     "react-lazily": "^0.9.1",
     "react-markdown": "^8.0.3",
     "react-router": "^5.2.1",
@@ -146,6 +154,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "happy-dom": "^5.2.0",
     "husky": "^8.0.1",
+    "i18next-conv": "13.1.0",
     "lint-staged": "^13.0.0",
     "npm-run-all": "^4.1.5",
     "open-cli": "^7.0.0",

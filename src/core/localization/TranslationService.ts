@@ -15,6 +15,8 @@ i18n
     interpolation: {
       escapeValue: false,
     },
+    contextSeparator: ':',
+    pluralSeparator: ':',
     resources: {
       en,
       es,
