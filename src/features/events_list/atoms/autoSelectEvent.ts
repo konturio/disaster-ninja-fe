@@ -21,7 +21,7 @@ export const autoSelectEvent = createAtom(
       ) {
         const currentEvent = getUnlistedState(currentEventAtom);
         const currentEventNotInNewList =
-          eventListResource.data.findIndex((e) => e.eventId === currentEvent?.id) === -1;
+          !eventListResource.data.some((e) => e.eventId === currentEvent?.id);
 
         if (currentEvent?.id && currentEventNotInNewList) {
           // This case happens when call for event by provided url id didn't return event
