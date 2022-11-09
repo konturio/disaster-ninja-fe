@@ -267,6 +267,10 @@
     },
     "current_event": {
       "not_found_request": "Sorry, requested event not found."
+    },
+    "locate_me": {
+      "get_location_error": "Error while getting location",
+      "feature_title": "Locate me"
     }
   }
 }

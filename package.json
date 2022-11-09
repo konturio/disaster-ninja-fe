@@ -1,6 +1,6 @@
 {
   "name": "disaster-ninja-fe",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "private": true,
   "homepage": "/active/",
   "type": "module",
@@ -102,6 +102,7 @@
     "dnd-core": "^16.0.1",
     "file-saver": "^2.0.5",
     "geojson-polygon-self-intersections": "^1.2.1",
+    "h3-js": "^3.7.2",
     "hash-wasm": "^4.9.0",
     "history": "^4.9.0",
     "hsluv": "^0.1.0",
