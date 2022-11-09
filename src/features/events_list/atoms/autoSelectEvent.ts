@@ -25,7 +25,7 @@ export const autoSelectEvent = createAtom(
         );
 
         // do nothing
-        if (!currentEventNotInTheList) return;
+        if (!currentEventNotInTheList) return state;
 
         if (currentEvent?.id) {
           // This case happens when call for event by provided eventId didn't return event
