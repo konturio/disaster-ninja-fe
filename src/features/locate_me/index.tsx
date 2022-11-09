@@ -6,20 +6,28 @@ import {
 } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
-import { LOCATE_ME_CONTROL_ID, LOCATE_ME_CONTROL_NAME } from './constants';
+import {
+  LOCATE_ME_CONTROL_ID,
+  LOCATE_ME_CONTROL_NAME,
+  LOCATE_ME_ZOOM,
+} from './constants';
 
 function successCb(location: GeolocationPosition) {
   const { coords } = location;
   const { latitude: lat, longitude: lng } = coords;
 
-  currentMapPositionAtom.setCurrentMapPosition.dispatch({ lat, lng, zoom: 14 });
+  currentMapPositionAtom.setCurrentMapPosition.dispatch({
+    lat,
+    lng,
+    zoom: LOCATE_ME_ZOOM,
+  });
   disableControl();
 }
 
 function errorCb(error: GeolocationPositionError) {
   currentNotificationAtom.showNotification.dispatch(
     'warning',
-    { title: i18n.t('locate_me.get_location_error' + ': ' + error.message) },
+    { title: error.message || i18n.t('locate_me.get_location_error') },
     3,
   );
   disableControl();
