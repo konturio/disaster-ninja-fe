@@ -24,7 +24,6 @@ export const autoSelectEvent = createAtom(
           (e) => e.eventId === currentEvent?.id,
         );
 
-        // do nothing
         if (!currentEventNotInTheList) return state;
 
         if (currentEvent?.id) {
