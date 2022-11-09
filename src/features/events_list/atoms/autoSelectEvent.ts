@@ -1,9 +1,7 @@
 import { createAtom } from '~utils/atoms';
-import { currentEventAtom } from '~core/shared_state';
-import {
-  scheduledAutoFocus,
-  scheduledAutoSelect,
-} from '~core/shared_state/currentEvent';
+import { currentEventAtom, currentNotificationAtom } from '~core/shared_state';
+import { scheduledAutoFocus, scheduledAutoSelect } from '~core/shared_state/currentEvent';
+import { i18n } from '~core/localization';
 import { eventListResourceAtom } from './eventListResource';
 
 export const autoSelectEvent = createAtom(
@@ -22,11 +20,24 @@ export const autoSelectEvent = createAtom(
         eventListResource.data.length
       ) {
         const currentEvent = getUnlistedState(currentEventAtom);
-        const currentEventNotInNewList =
-          eventListResource.data.findIndex(
-            (e) => e.eventId === currentEvent?.id,
-          ) === -1;
-        if (currentEventNotInNewList) {
+        const currentEventNotInTheList = !eventListResource.data.some(
+          (e) => e.eventId === currentEvent?.id,
+        );
+
+        if (!currentEventNotInTheList) return state;
+
+        if (currentEvent?.id) {
+          // This case happens when call for event by provided eventId didn't return event
+          schedule((dispatch) =>
+            dispatch(
+              currentNotificationAtom.showNotification(
+                'warning',
+                { title: i18n.t('event_list.no_event_in_feed') },
+                5,
+              ),
+            ),
+          );
+        } else {
           const firstEventInList = eventListResource.data[0];
           schedule((dispatch) => {
             dispatch([
