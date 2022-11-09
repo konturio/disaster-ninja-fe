@@ -4,6 +4,8 @@ import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useAtom } from '@reatom/react';
 import { currentUserAtom } from '~core/shared_state';
+import { currentMapPositionAtom } from '~core/shared_state';
+import { mapIdle } from '~core/shared_state/currentMapPosition';
 import { useMarkers } from './useMarkers';
 import { useArrayDiff } from './useArrayDiff';
 import type { Marker } from './types';
@@ -99,14 +101,24 @@ function MapboxMap(
   const mapEl = useRef<HTMLDivElement | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [currentUserData] = useAtom(currentUserAtom);
-
+  const [, { setTrue: markMapIdle }] = useAtom(mapIdle);
   /* On map instance */
   useEffect(() => {
     const { current } = mapEl;
     if (current === null) return;
+    const currentMapPosition = currentMapPositionAtom.getState();
+    //LngLatLike
+    const mapLocation = {
+      center: [currentMapPosition?.lng || 60, currentMapPosition?.lat || 0] as [
+        number,
+        number,
+      ],
+      zoom: currentMapPosition?.zoom || 18,
+    };
     const mapInstance = new mapLibre.Map({
       container: current,
       style: externalStyleLink,
+      ...mapLocation,
       ...options,
     });
 
@@ -122,6 +134,9 @@ function MapboxMap(
     if (ref) {
       ref.current = mapInstance;
     }
+    mapInstance.on('idle', (ev) => {
+      markMapIdle();
+    });
     setMap(mapInstance);
   }, [mapEl, externalStyleLink, options, ref]);
 

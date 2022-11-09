@@ -1,17 +1,13 @@
 import { useEffect } from 'react';
 import { useAtom } from '@reatom/react';
 import { currentMapPositionAtom } from '~core/shared_state';
-import { mapIdle } from '~core/shared_state/currentMapPosition';
 
 /**
  * This effect allow to listen state changes, and fly to position that set externally in atom
  * And allow to read current map position and update atom state with actual data.
  * */
 export function useMapPositionSmoothSync(mapRef) {
-  const [currentMapPosition, currentMapPositionActions] = useAtom(
-    currentMapPositionAtom,
-  );
-  const [, { setTrue: markMapIdle }] = useAtom(mapIdle);
+  const [currentMapPosition, currentMapPositionActions] = useAtom(currentMapPositionAtom);
 
   useEffect(() => {
     if (mapRef.current && currentMapPosition !== null) {
@@ -27,9 +23,6 @@ export function useMapPositionSmoothSync(mapRef) {
               center: [newMapPosition.lng, newMapPosition.lat],
               zoom: newMapPosition.zoom,
               duration: 0,
-            });
-            map.once('idle', () => {
-              markMapIdle();
             });
           });
         });
@@ -52,7 +45,7 @@ export function useMapPositionSmoothSync(mapRef) {
         };
       }
     }
-  }, [mapRef, currentMapPosition, markMapIdle]);
+  }, [mapRef, currentMapPosition]);
 
   useEffect(() => {
     if (mapRef.current) {
