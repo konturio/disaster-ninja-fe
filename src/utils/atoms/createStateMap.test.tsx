@@ -43,7 +43,7 @@ test('Replace init state with loading after delay', async () => {
     container: createIsolatedContainer(),
   });
   expect(screen.getByText(/Init/i)).toBeDefined();
-  await wait(1);
+  await wait(2);
   expect(screen.getByText(/Loading spinner/i)).toBeDefined();
 });
 
