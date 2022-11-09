@@ -4,6 +4,11 @@ import { appMetrics } from '~core/metrics';
 
 // enable with localStorage.setItem('KONTUR_DEBUG', 'true')
 const KONTUR_DEBUG = !!globalThis.window?.localStorage.getItem('KONTUR_DEBUG');
+
+// enable with localStorage.setItem('KONTUR_WARN', 'true')
+// will add stacktrace
+const KONTUR_WARN = !!globalThis.window?.localStorage.getItem('KONTUR_WARN');
+
 // enable with localStorage.setItem('KONTUR_TRACE_ERROR', '_error')
 const KONTUR_TRACE_TYPE = globalThis.window?.localStorage.getItem('KONTUR_TRACE_TYPE');
 
@@ -35,6 +40,9 @@ function configureStore() {
             }
             if (KONTUR_DEBUG) {
               console.debug(action.type, action.payload);
+            }
+            if (KONTUR_WARN) {
+              console.warn(action.type, action.payload);
             }
           }
         }

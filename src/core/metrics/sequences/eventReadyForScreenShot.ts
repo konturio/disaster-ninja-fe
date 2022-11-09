@@ -13,7 +13,7 @@ export function eventReadyForScreenShot(mtr: AppMetrics) {
         return { continueSq: false };
       }
     })
-    .on('done_areaLayersDetailsResourceAtom')
+    .on('_done_areaLayersDetailsResourceAtom')
     .on('change_layersLegends')
     .on('setTrue_mapIdle', () => {
       setTimeout(() => {
