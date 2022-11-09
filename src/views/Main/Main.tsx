@@ -95,6 +95,11 @@ export function MainView({ userModel }: MainViewProps) {
         initIntercom();
       });
     }
+    if (userModel?.hasFeature(AppFeature.LOCATE_ME)) {
+      import('~features/locate_me').then(({ initLocateMe }) => {
+        initLocateMe();
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userModel]);
 

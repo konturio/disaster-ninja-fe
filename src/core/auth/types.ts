@@ -46,6 +46,7 @@ export const AppFeature = {
   INTERCOM: 'intercom',
   BIVARIATE_COLOR_MANAGER: 'bivariate_color_manager',
   EPISODES_TIMELINE: 'episodes_timeline',
+  LOCATE_ME: 'locate_me',
 } as const;
 
 export type AppFeatureType = typeof AppFeature[keyof typeof AppFeature];
