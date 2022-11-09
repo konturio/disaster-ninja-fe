@@ -20,11 +20,15 @@ export const autoSelectEvent = createAtom(
         eventListResource.data.length
       ) {
         const currentEvent = getUnlistedState(currentEventAtom);
-        const currentEventNotInNewList =
-          !eventListResource.data.some((e) => e.eventId === currentEvent?.id);
+        const currentEventNotInTheList = !eventListResource.data.some(
+          (e) => e.eventId === currentEvent?.id,
+        );
 
-        if (currentEvent?.id && currentEventNotInNewList) {
-          // This case happens when call for event by provided url id didn't return event
+        // do nothing
+        if (!currentEventNotInTheList) return;
+
+        if (currentEvent?.id) {
+          // This case happens when call for event by provided eventId didn't return event
           schedule((dispatch) =>
             dispatch(
               currentNotificationAtom.showNotification(
@@ -34,7 +38,7 @@ export const autoSelectEvent = createAtom(
               ),
             ),
           );
-        } else if (currentEventNotInNewList) {
+        } else {
           const firstEventInList = eventListResource.data[0];
           schedule((dispatch) => {
             dispatch([
