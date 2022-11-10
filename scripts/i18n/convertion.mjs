@@ -31,7 +31,7 @@ const convertion = async () => {
   const gettextFolder = path.join(localizationFolder, 'gettext');
   const getI18nbyLang = (lang) => path.join(i18nFolder, lang, 'common-messages.json');
   const getPobyLang = (lang) => path.join(gettextFolder, lang, 'common-messages.po');
-  const potFile = path.join(gettextFolder, 'common-messages.pot');
+  const potFile = path.join(gettextFolder, 'template', 'common-messages.pot');
   const potOptions = {
     compatibilityJSON: 'v4',
     ctxSeparator: ':',
@@ -47,7 +47,9 @@ const convertion = async () => {
 
   const sourceLanguagesFolder =
     arg === toGettext ? i18nFolder : arg === toi18next ? gettextFolder : null;
-  const allLanguages = getDirectories(sourceLanguagesFolder);
+  const allLanguages = getDirectories(sourceLanguagesFolder).filter(
+    (lang) => !['en', 'template'].includes(lang),
+  ); // we don't need en .po files as translation is already a key + ignore template folder
   console.info(allLanguages, ' languages detected...');
 
   return Promise.all([
@@ -59,25 +61,25 @@ const convertion = async () => {
         )
       : null,
 
-    ...allLanguages
-      .filter((lang) => lang !== 'en') // we don't need en .po files as translation is already a key
-      .map((lang) => {
-        const [i18nFile, poFile] = [getI18nbyLang(lang), getPobyLang(lang)];
-        if (arg === toGettext) {
-          // here we generate .po files for all locales (excluding en) only if they are missing
-          if (!existsSync(getPobyLang(lang))) {
-            return i18nextToPo(lang, readFileSync(i18nFile), {
-              ...poOptions,
-              language: lang,
-            }).then(save(poFile));
-          }
-        } else if (arg === toi18next) {
-          // here we convert .po files to i18next for every locale
-          return gettextToI18next(lang, readFileSync(poFile), poOptions).then(
-            save(i18nFile),
-          );
+    ...allLanguages.map((lang) => {
+      const [i18nFile, poFile] = [getI18nbyLang(lang), getPobyLang(lang)];
+      if (arg === toGettext) {
+        // here we generate .po files for all locales (excluding en) only if they are missing
+        if (!existsSync(getPobyLang(lang))) {
+          return i18nextToPo(lang, readFileSync(i18nFile), {
+            ...poOptions,
+            language: lang,
+          }).then(save(poFile));
         }
-      }),
+      } else if (arg === toi18next) {
+        // here we convert .po files to i18next for every locale
+        // really we need to perform it only first time to get .po files from our existing i18next files
+        // if you want to regenerate .po files, you need to have i18n files
+        return gettextToI18next(lang, readFileSync(poFile), poOptions).then(
+          save(i18nFile),
+        );
+      }
+    }),
   ]);
 };
 
