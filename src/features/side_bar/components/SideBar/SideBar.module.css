@@ -65,3 +65,20 @@
 .toggler button:focus-visible {
   box-shadow: var(--button-box-shadow);
 }
+
+.logoWrap .buttonWrap {
+  border-bottom: 1px solid var(--faint-strong-up);
+}
+
+.appIcon {
+  width: 24px;
+  height: 24px;
+  text-align: center;
+}
+
+.logoButton {
+  pointer-events: none;
+  & div {
+    text-align: start;
+  }
+}
