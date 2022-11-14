@@ -15,6 +15,7 @@ import { initModes } from '~core/modes/initializeModes';
 import { Row } from '~components/Layout/Layout';
 import { APP_ROUTES, findCurrentMode } from '~core/app_config/appRoutes';
 import { currentModeAtom } from '~core/modes/currentMode';
+import { initLanguageWatcher } from '~core/auth/atoms/languageWatcher';
 import s from './views/Main/Main.module.css';
 import type { UserDataModel } from '~core/auth';
 
@@ -54,6 +55,7 @@ export const CommonRoutesFeatures = ({
   }, [userModel]);
 
   useEffect(() => {
+    initLanguageWatcher();
     return forceRun(urlStoreAtom);
   }, []);
 
