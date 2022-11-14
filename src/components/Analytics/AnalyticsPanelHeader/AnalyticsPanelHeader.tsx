@@ -2,7 +2,6 @@ import { useAtom } from '@reatom/react';
 import { Text } from '@konturio/ui-kit';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
-import { i18n } from '~core/localization';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 import styles from './AnalyticsPanelHeader.module.css';
 import type { AdvancedAnalyticsData, AnalyticsData, Severity } from '~core/types';
@@ -55,7 +54,7 @@ const AnalyticsPanelHeader = ({
 
   return (
     statesToComponents({
-      loading: () => <Text type="heading-m">{i18n.t(loadingMessage)}</Text>,
+      loading: () => <Text type="heading-m">{loadingMessage}</Text>,
       error: () => null,
       ready: () =>
         ({

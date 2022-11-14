@@ -1,3 +1,4 @@
+import { i18n } from '~core/localization';
 export const CREATE_LAYER_CONTROL_ID = 'EditableLayer' as const;
 
 export const FieldTypes = {
@@ -16,23 +17,23 @@ export const EditTargets = {
 
 export const USER_LAYER_FIELDS = [
   {
-    label: 'create_layer.select',
+    label: i18n.t('create_layer.select'),
     type: FieldTypes.None,
   },
   {
-    label: 'create_layer.short_text',
+    label: i18n.t('create_layer.short_text'),
     type: FieldTypes.ShortText,
   },
   {
-    label: 'create_layer.long_text',
+    label: i18n.t('create_layer.long_text'),
     type: FieldTypes.LongText,
   },
   {
-    label: 'create_layer.link',
+    label: i18n.t('create_layer.link'),
     type: FieldTypes.Link,
   },
   {
-    label: 'create_layer.image',
+    label: i18n.t('create_layer.image'),
     type: FieldTypes.Image,
   },
 ];

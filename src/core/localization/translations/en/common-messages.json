@@ -28,6 +28,7 @@
       "Kontur_public_feed_description": "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires."
     },
     "errors": {
+      "default": "Sorry, we are having issues, which will be fixed soon",
       "timeout": "Request Timeout",
       "cannot_connect": "Can't connect to server",
       "forbidden": "Forbidden",

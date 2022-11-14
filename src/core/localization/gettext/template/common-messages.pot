@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-11T06:01:04.818Z\n"
-"PO-Revision-Date: 2022-11-11T06:01:04.818Z\n"
+"POT-Creation-Date: 2022-11-14T06:57:31.949Z\n"
+"PO-Revision-Date: 2022-11-14T06:57:31.949Z\n"
 
 #: common##km
 msgid "km"
@@ -109,6 +109,10 @@ msgstr ""
 msgid ""
 "The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
 "Floods, Volcanoes, Wildfires."
+msgstr ""
+
+#: common##errors##default
+msgid "Sorry, we are having issues, which will be fixed soon"
 msgstr ""
 
 #: common##errors##timeout
