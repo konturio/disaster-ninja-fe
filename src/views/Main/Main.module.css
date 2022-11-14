@@ -39,35 +39,12 @@
   height: 40px;
   width: 100%;
   position: relative;
-  grid-column: 1 / 2;
-  z-index: 1;
 }
 
 .logo {
   position: absolute;
-  left: var(--unit);
+  right: var(--unit);
   bottom: var(--unit);
-}
-
-/* laptop viewport */
-@media screen and (max-width: 1530px) {
-  .footer {
-    position: relative;
-    grid-column: 1/2;
-    grid-row: -2;
-  }
-}
-
-/* Mobile view */
-@media screen and (max-width: 960px) {
-  .footer {
-    position: relative;
-    grid-column: 1/2;
-    grid-row: 6;
-    & .logo {
-      position: static;
-    }
-  }
 }
 
 .customAppTitle {

@@ -70,6 +70,9 @@ code {
 .mapboxgl-ctrl-bottom-right {
   display: flex;
 }
+.maplibregl-control-container .maplibregl-ctrl-bottom-right {
+  right: 100px;
+}
 
 .intercom-launcher-frame,
 .intercom-lightweight-app-launcher {
