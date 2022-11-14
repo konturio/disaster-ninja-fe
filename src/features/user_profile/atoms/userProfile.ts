@@ -35,18 +35,14 @@ export const currentProfileAtom = createAtom(
           5,
         );
 
-        i18n.instance
-          .changeLanguage(user.language)
-          .then((r) => {
-            location.reload();
-          })
-          .catch((e) => {
-            console.error(e);
-          });
+        dispatch(currentUserAtom.setUser(user));
       });
     });
 
     onChange('currentUserAtom', async (newUser, prevUser) => {
+      // reload to simply apply all the settings if implementation is difficult
+      // if (prevUser) location.reload()
+
       const newState = { ...newUser };
       delete newState.token;
       delete newState.loading;

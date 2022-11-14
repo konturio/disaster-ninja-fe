@@ -15,11 +15,14 @@ export function EpisodesTimelinePanel() {
   const [episodes] = useAtom(eventEpisodesModel.currentEventEpisodes);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
-  const statesToComponents = createStateMap({
-    error: episodes.error,
-    loading: episodes.loading,
-    data: episodes,
-  });
+  const statesToComponents = createStateMap(
+    {
+      error: episodes.error,
+      loading: episodes.loading,
+      data: episodes,
+    },
+    { loadingStateDelayMs: 500 },
+  );
 
   return (
     <Panel
