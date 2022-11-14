@@ -82,3 +82,9 @@
     text-align: start;
   }
 }
+
+.konturLogo {
+  & a svg {
+    margin: var(--unit) auto;
+  }
+}

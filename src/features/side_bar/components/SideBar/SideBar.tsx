@@ -1,5 +1,5 @@
 import { useAction, useAtom } from '@reatom/react';
-import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
+import { ActionsBar, ActionsBarBTN, Logo } from '@konturio/ui-kit';
 import { nanoid } from 'nanoid';
 import sortBy from 'lodash/sortBy';
 import { Link } from 'react-router-dom';
@@ -12,8 +12,8 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { searchStringAtom } from '~core/url_store/atoms/urlStore';
+import { SidebarAppIcon } from '../AppIcon/AppIcon';
 import s from './SideBar.module.css';
-import { SidebarAppIcon } from './AppIcon';
 const wasClosed = 'sidebarClosed';
 
 export function SideBar() {
@@ -137,6 +137,10 @@ export function SideBar() {
               </div>
             )}
           </div>
+        </div>
+
+        <div className={s.konturLogo}>
+          <Logo compact={!isOpen} palette="grey" height={32} />
         </div>
       </ActionsBar>
     </div>
