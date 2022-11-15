@@ -1,9 +1,8 @@
 import { createAtom } from '~utils/atoms';
 import { currentUserAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
-import { forceRun } from '~utils/atoms/forceRun';
 
-const languageWatcher = createAtom(
+const languageWatcherAtom = createAtom(
   {
     currentUserAtom,
   },
@@ -18,9 +17,5 @@ const languageWatcher = createAtom(
     });
     return state;
   },
-  '[Shared state] userStateAtom',
+  'languageWatcher',
 );
-
-export function initLanguageWatcher() {
-  forceRun(languageWatcher);
-}

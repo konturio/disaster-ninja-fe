@@ -1,0 +1,27 @@
+import { matchPath } from 'react-router';
+import { createAtom } from '~utils/atoms';
+import { getAbsoluteRoute } from '../routes';
+import { availableRoutesAtom } from './availableRoutes';
+import { currentLocationAtom } from './currentLocation';
+import type { AppRoute } from '../types';
+
+export const currentRouteAtom = createAtom(
+  {
+    availableRoutesAtom,
+    currentLocationAtom,
+  },
+  ({ get }, state: null | AppRoute = null): null | AppRoute => {
+    const routesConfig = get('availableRoutesAtom');
+    if (routesConfig === null) return null;
+    const location = get('currentLocationAtom');
+    return (
+      routesConfig.routes.find((route) =>
+        matchPath(location.pathname, {
+          path: getAbsoluteRoute(route.slug),
+          exact: true,
+        }),
+      ) ?? null
+    );
+  },
+  'currentRouteAtom',
+);
