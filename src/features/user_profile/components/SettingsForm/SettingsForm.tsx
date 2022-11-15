@@ -93,6 +93,7 @@ export function SettingsForm() {
   const OPTIONS_LANGUAGE = [
     { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
     { title: i18n.t('profile.spanishLanguageOption'), value: 'es' },
+    { title: i18n.t('profile.arabicLanguageOption'), value: 'ar' },
   ];
 
   const OPTIONS_FEED = (userModel?.feeds || [appConfig.defaultFeedObject]).map((o) => ({
