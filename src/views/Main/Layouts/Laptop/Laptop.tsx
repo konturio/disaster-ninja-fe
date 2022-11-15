@@ -9,7 +9,7 @@ export function LaptopLayout({ firstColumn, mapColumn, footer }) {
         <div className={s.mapSpaceBlank}></div>
         <div className={s.mapSpaceBottom}>{mapColumn}</div>
       </div>
-      <div>{footer}</div>
+      <div className={s.footerWrap}>{footer}</div>
     </div>
   );
 }

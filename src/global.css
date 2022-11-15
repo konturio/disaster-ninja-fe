@@ -70,6 +70,10 @@ code {
 .mapboxgl-ctrl-bottom-right {
   display: flex;
 }
+/* move map controls to the right so kontur logo wouldn't be overlapped */
+.maplibregl-control-container .maplibregl-ctrl-bottom-right {
+  right: 100px;
+}
 
 .intercom-launcher-frame,
 .intercom-lightweight-app-launcher {

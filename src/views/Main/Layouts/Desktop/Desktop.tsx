@@ -24,7 +24,7 @@ export function DesktopLayout({
         <div className={s.intercomPlaceholder}></div>
       </SmartColumn>
 
-      <div className={s.footer}>{footer}</div>
+      <div className={s.footerWrap}>{footer}</div>
     </div>
   );
 }

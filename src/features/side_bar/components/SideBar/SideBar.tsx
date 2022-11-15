@@ -1,16 +1,18 @@
 import { useAction, useAtom } from '@reatom/react';
-import { ActionsBar, ActionsBarBTN } from '@konturio/ui-kit';
+import { ActionsBar, ActionsBarBTN, Logo } from '@konturio/ui-kit';
 import { nanoid } from 'nanoid';
 import sortBy from 'lodash/sortBy';
 import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
+import clsx from 'clsx';
 import { modesControlsAtom } from '~core/modes/modesControls';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { searchStringAtom } from '~core/url_store/atoms/urlStore';
+import { SidebarAppIcon } from '../AppIcon/AppIcon';
 import s from './SideBar.module.css';
 const wasClosed = 'sidebarClosed';
 
@@ -63,6 +65,22 @@ export function SideBar() {
   return (
     <div className={s.sidebar}>
       <ActionsBar>
+        <div className={clsx(s.logoWrap, s.sidebarItemContainer)} tabIndex={-1}>
+          <div className={s.buttonWrap}>
+            <ActionsBarBTN
+              active={false}
+              iconBefore={<SidebarAppIcon />}
+              className={clsx(s.controlButton, s.logoButton)}
+            >
+              {isOpen ? (
+                <span className={s.modeName}>
+                  Disaster <br /> Ninja
+                </span>
+              ) : null}
+            </ActionsBarBTN>
+          </div>
+        </div>
+
         {sortBy(controls, 'order').map((control) => {
           return (
             <Link
@@ -119,6 +137,10 @@ export function SideBar() {
               </div>
             )}
           </div>
+        </div>
+
+        <div className={s.konturLogo}>
+          <Logo compact={!isOpen} palette="grey" height={32} />
         </div>
       </ActionsBar>
     </div>
