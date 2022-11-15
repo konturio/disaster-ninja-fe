@@ -4,7 +4,7 @@ import { LoginForm } from '~features/user_profile';
 import { SettingsForm } from '~features/user_profile/components/SettingsForm/SettingsForm';
 import s from './Profile.module.css';
 
-export function ProfileMode() {
+export function ProfilePage() {
   const [userState] = useAtom(userStateAtom);
 
   if (userState === 'authorized')
@@ -14,7 +14,6 @@ export function ProfileMode() {
       </div>
     );
 
-  // Standart login form
   return (
     <div className={s.modeWrap}>
       <div className={s.loginWrap}>

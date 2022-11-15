@@ -1,15 +1,18 @@
 import { createRoot } from 'react-dom/client';
 import { reatomContext } from '@reatom/react';
+import { StrictMode } from 'react';
 import { store } from '~core/store/store';
 import { AuthWrapper } from '~core/auth';
 import { runGoogleTagManager } from '~utils/metrics/tagManager';
-import { RoutedApp } from './Routes';
+import { Routes } from './core/router/components/Routes';
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
   <reatomContext.Provider value={store}>
     <AuthWrapper>
-      <RoutedApp />
+      <StrictMode>
+        <Routes />
+      </StrictMode>
     </AuthWrapper>
   </reatomContext.Provider>,
 );
