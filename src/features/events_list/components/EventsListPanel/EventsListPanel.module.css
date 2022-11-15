@@ -12,16 +12,14 @@
 }
 
 .scrollable {
-  overflow-y: auto;
+  overflow: hidden;
   height: 100%;
   /* a space to see at least one card */
-  min-height: 110px;
   align-items: center;
 }
 
-.scrollable > div {
-  width: 100%;
-  margin: 0;
+.nonVirtualHeightElement {
+  height: 100vh;
 }
 
 .eventsPanel {

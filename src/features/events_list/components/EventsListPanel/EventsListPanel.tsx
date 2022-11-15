@@ -86,7 +86,6 @@ export function EventsListPanel({
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        minContentHeightPx={MIN_HEIGHT}
         resize={isMobile ? 'none' : 'vertical'}
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
@@ -101,23 +100,27 @@ export function EventsListPanel({
               loading: <LoadingSpinner message={i18n.t('loading_events')} />,
               error: (errorMessage) => <ErrorMessage message={errorMessage} />,
               ready: (eventsList) => (
-                <Virtuoso
-                  data={eventsList}
-                  itemContent={(index, event) => (
-                    <EventCard
-                      key={event.eventId}
-                      event={event}
-                      isActive={event.eventId === current}
-                      onClick={onCurrentChange}
-                      alternativeActionControl={
-                        userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) ? (
-                          <EpisodeTimelineToggle isActive={event.eventId === current} />
-                        ) : null
-                      }
-                    />
-                  )}
-                  ref={virtuoso}
-                />
+                <>
+                  <Virtuoso
+                    data={eventsList}
+                    itemContent={(index, event) => (
+                      <EventCard
+                        key={event.eventId}
+                        event={event}
+                        isActive={event.eventId === current}
+                        onClick={onCurrentChange}
+                        alternativeActionControl={
+                          userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) ? (
+                            <EpisodeTimelineToggle isActive={event.eventId === current} />
+                          ) : null
+                        }
+                      />
+                    )}
+                    ref={virtuoso}
+                  />
+                  {/* this element won't take visual or scroll space */}
+                  <div className={s.nonVirtualHeightElement} />
+                </>
               ),
             })}
           </div>
