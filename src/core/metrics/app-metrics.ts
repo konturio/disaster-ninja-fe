@@ -1,5 +1,9 @@
+import { defer, every } from 'lodash';
+import appConfig from '~core/app_config';
 import { Sequence } from './sequence';
 
+const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
+const EVENT_MAP_IDLE = 'setTrue_mapIdle';
 class MetricMarker {
   readonly event: string;
   readonly timestamp: number;
@@ -32,14 +36,37 @@ export class AppMetrics {
   private completed: Record<string, number> = {};
   private eventLog: string[] = [];
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
+  reportTemplate: {
+    name: string;
+    value: number;
+    type: string;
+    appId: string;
+    userId: string | null;
+    buildVersion: string;
+  } = {
+    name: '', // metric name, e.g. full-load-time, map-load-time, disasters-panel-load-time, etc.
+    value: 0, // time to full load in ms
+    type: 'SUMMARY',
+    appId: '',
+    userId: '', // null if user is not authenticated
+    buildVersion: `${import.meta.env.PACKAGE_VERSION}-${import.meta.env.MODE}`,
+  };
 
   constructor() {
     globalThis.KONTUR_METRICS = {
+      watchList: this.watchList,
+      markers: this.markers,
       sequences: this.sequences,
       events: this.eventLog,
       toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
       toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
     };
+  }
+
+  init(appId: string, userId: string | null) {
+    this.reportTemplate.appId = appId ?? '';
+    this.reportTemplate.userId = userId === 'public' ? null : userId ?? null;
+    console.info('appMetrics.init', this.reportTemplate);
   }
 
   recordEventToLog(name: string) {
@@ -67,9 +94,11 @@ export class AppMetrics {
     this.markers.push(new MetricMarker(name));
     // Mark was created event
     this.processEvent(name, payload);
+    this.watch(name);
   }
 
   processEvent(name: string, payload?: unknown) {
+    this.watch(name);
     this.recordEventToLog(name);
     this.sequences.forEach((s) => {
       s.update(name, payload);
@@ -81,6 +110,57 @@ export class AppMetrics {
           alert(`Sequence ${name} ended`);
         }
       }
+    });
+  }
+
+  watchList = {
+    // _done_userResourceAtom: null, // should be done before init
+    _done_currentEventResource: null,
+    _done_layersGlobalResource: null,
+    _done_analyticsResource: null,
+    // _done_areaLayersDetailsResourceAtom: null, // can be disable in url
+    _done_layersInAreaAndEventLayerResource: null,
+    // _done_eventListResource: null,
+    [EVENT_MAP_IDLE]: null,
+  };
+
+  watch(name: string) {
+    if (this.watchList[name] === null) {
+      const timing = performance.now();
+      this.watchList[name] = timing;
+      if (every(this.watchList, Boolean)) {
+        // last event should be EVENT_MAP_IDLE
+        if (name !== EVENT_MAP_IDLE) {
+          this.watchList[EVENT_MAP_IDLE] = null;
+          return;
+        }
+
+        setTimeout(() => {
+          this.report('ready', timing);
+          const eventReadyEvent = new Event('event_ready_for_screenshot');
+          window.dispatchEvent(eventReadyEvent);
+        }, 299);
+        return;
+      }
+      this.report(name, timing);
+    }
+  }
+
+  report(name: string, timing: number) {
+    // Endpoint: POST /active/api/rum/metrics
+
+    const payload = {
+      ...this.reportTemplate,
+      name,
+      value: timing,
+    };
+    console.warn('metrics', payload);
+    fetch(APP_METRICS_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify([payload]),
+    }).catch((error) => {
+      console.error('sent metrics error:', error, payload);
     });
   }
 }

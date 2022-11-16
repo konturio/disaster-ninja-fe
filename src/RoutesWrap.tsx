@@ -39,7 +39,7 @@ export const CommonRoutesFeatures = ({
 
   useEffect(() => {
     initLanguageWatcher();
-    return forceRun(urlStoreAtom);
+    // return forceRun(urlStoreAtom);
   }, []);
 
   useEffect(() => {

@@ -9,6 +9,7 @@ import {
 import { scheduledAutoSelect, scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
+import { URL_ZOOM_OFFSET } from '~core/constants';
 import { URLStore } from '../URLStore';
 import { URLDataInSearchEncoder } from '../dataInURLEncoder';
 import type { UrlData } from '../types';
@@ -75,9 +76,9 @@ export const urlStoreAtom = createAtom(
         if (initialState.map) {
           actions.push(
             currentMapPositionAtom.setCurrentMapPosition({
-              zoom: Number(initialState.map[0]),
-              lng: Number(initialState.map[1]),
-              lat: Number(initialState.map[2]),
+              zoom: Number(initialState.map[0]) - URL_ZOOM_OFFSET,
+              lat: Number(initialState.map[1]),
+              lng: Number(initialState.map[2]),
             }),
           );
         }
@@ -111,9 +112,9 @@ export const urlStoreAtom = createAtom(
     const currentMapPosition = get('currentMapPositionAtom');
     if (currentMapPosition) {
       newState.map = [
-        Number(currentMapPosition.zoom.toFixed(3)),
-        Number(currentMapPosition.lng.toFixed(3)),
+        Number(currentMapPosition.zoom.toFixed(3)) + URL_ZOOM_OFFSET,
         Number(currentMapPosition.lat.toFixed(3)),
+        Number(currentMapPosition.lng.toFixed(3)),
       ];
     }
 

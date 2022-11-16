@@ -12,3 +12,4 @@ export { toolbarControlsAtom } from './toolbarControls';
 export { currentMapAtom } from './currentMap';
 export { currentApplicationAtom } from './currentApplication';
 export { episodesPanelState } from './episodesPanelState';
+export * from './toolbarControls';

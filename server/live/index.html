@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Disaster Ninja by kontur.io</title>
-  <meta name="description"
-        content="Disaster Ninja is a platform for assesment of mapping needs in case of natural disaster. See what's happening, what are available map sources, explore coverage quality of OpenStreetMap, chart the area of interest, export and import as geojson.">
-  <meta http-equiv="refresh" content="1; url=/active/"/>
-  <script>
-    // This script takes DN1 url hash, transforms it to DN2 url format and initiates redirect to DN2 with those params
-    const hash = window.location.hash.substring(1);
-    let params = {};
-    hash.split(';').map(kv => {
-      const temp = kv.split('=');
-      params[temp[0]] = temp[1];
-    });
-    let queryUrl = "";
-    if (params.id) {
-      queryUrl += "event=" + params.id;
-    }
-    if (params.position && params.zoom) {
-      if (queryUrl !== "") {
-        queryUrl = queryUrl + "&";
+  <head>
+    <title>Disaster Ninja by kontur.io</title>
+    <meta
+      name="description"
+      content="Disaster Ninja is a platform for assesment of mapping needs in case of natural disaster. See what's happening, what are available map sources, explore coverage quality of OpenStreetMap, chart the area of interest, export and import as geojson."
+    />
+    <meta http-equiv="refresh" content="1; url=/active/" />
+    <script>
+      // This script takes DN1 url hash, transforms it to DN2 url format and initiates redirect to DN2 with those params
+      const hash = window.location.hash.substring(1);
+      let params = {};
+      hash.split(';').map((kv) => {
+        const temp = kv.split('=');
+        params[temp[0]] = temp[1];
+      });
+      let queryUrl = '';
+      if (params.id) {
+        queryUrl += 'event=' + params.id;
       }
-      queryUrl += "map=" + params.zoom + "/" + params.position.replace(",", "/");
-    }
-    if (queryUrl !== "") {
-      queryUrl = "?" + queryUrl;
-    }
-    document.querySelector('meta[http-equiv="refresh"]').setAttribute("content", "0; url=/active/" + queryUrl);
-  </script>
-</head>
-<body>
-</body>
+      if (params.position && params.zoom) {
+        if (queryUrl !== '') {
+          queryUrl = queryUrl + '&';
+        }
+        const position = params.position.split(',');
+        const zoom = params.zoom + 1;
+        queryUrl += `map=${zoom}/${position[1]}/${position[0]}`;
+      }
+      if (queryUrl !== '') {
+        queryUrl = '?' + queryUrl;
+      }
+      document
+        .querySelector('meta[http-equiv="refresh"]')
+        .setAttribute('content', '0; url=/active/' + queryUrl);
+    </script>
+  </head>
+  <body></body>
 </html>
