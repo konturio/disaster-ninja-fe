@@ -1,4 +1,0 @@
-// TODO: move this to main view:
-// className={s.mainViewWrap}
-// TODO: check that user redirected after re-login
-// TODO: check that user can open routes that required auth, and user redirected after logout
