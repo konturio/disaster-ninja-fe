@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { userResourceAtom } from '~core/auth';
-import { config } from '../routes';
+import { routerConfig } from '../routes';
 import type { AppRouterConfig } from '../types';
 
 export const availableRoutesAtom = createAtom(
@@ -13,8 +13,8 @@ export const availableRoutesAtom = createAtom(
 
     /* Remove not available routes */
     return {
-      ...config,
-      routes: config.routes.filter((route) =>
+      ...routerConfig,
+      routes: routerConfig.routes.filter((route) =>
         route.requiredPermission ? userModel.hasFeature(route.requiredPermission) : true,
       ),
     };

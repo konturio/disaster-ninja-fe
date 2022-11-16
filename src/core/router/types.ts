@@ -16,6 +16,8 @@ export interface AppRoute {
   requiredPermission?: AppFeatureType;
   /** Nest routes to each other */
   parentRoute?: string;
+  /** Don't show route in navigation */
+  hidden?: boolean;
 }
 
 export interface AppRouterConfig {

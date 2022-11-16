@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
-import s from './Main.module.css';
+import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
 const { EditFeaturesOrLayerPanel } = lazily(

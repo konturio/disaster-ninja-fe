@@ -1,5 +1,4 @@
 // TODO: move this to main view:
 // className={s.mainViewWrap}
 // TODO: check that user redirected after re-login
-
-const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
+// TODO: check that user can open routes that required auth, and user redirected after logout
