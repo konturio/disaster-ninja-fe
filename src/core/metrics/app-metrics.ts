@@ -1,6 +1,8 @@
 import { defer, every } from 'lodash';
 import appConfig from '~core/app_config';
+import { METRICS_EVENT } from './dispatch';
 import { Sequence } from './sequence';
+import type { MetricsEvent } from './dispatch';
 
 const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
 const EVENT_MAP_IDLE = 'setTrue_mapIdle';
@@ -51,6 +53,7 @@ export class AppMetrics {
     userId: '', // null if user is not authenticated
     buildVersion: `${import.meta.env.PACKAGE_VERSION}-${import.meta.env.MODE}`,
   };
+  listener: void;
 
   constructor() {
     globalThis.KONTUR_METRICS = {
@@ -61,6 +64,9 @@ export class AppMetrics {
       toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
       toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
     };
+    this.listener = globalThis.addEventListener(METRICS_EVENT, ((e: MetricsEvent) => {
+      this.processEvent(e.detail.name, e.detail.payload);
+    }) as EventListener);
   }
 
   init(appId: string, userId: string | null) {
@@ -94,10 +100,9 @@ export class AppMetrics {
     this.markers.push(new MetricMarker(name));
     // Mark was created event
     this.processEvent(name, payload);
-    this.watch(name);
   }
 
-  processEvent(name: string, payload?: unknown) {
+  private processEvent(name: string, payload?: unknown) {
     this.watch(name);
     this.recordEventToLog(name);
     this.sequences.forEach((s) => {
