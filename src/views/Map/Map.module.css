@@ -4,9 +4,6 @@
     pointer-events: auto;
   }
 }
-.mainViewWrap {
-  flex-grow: 1;
-}
 
 .mainView {
   height: 100%;

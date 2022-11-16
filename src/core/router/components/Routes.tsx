@@ -17,7 +17,7 @@ const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'
           path={getAbsoluteRoute(r.parentRoute ? `${r.parentRoute}/${r.slug}` : r.slug)}
           as={r.cached ? CacheRoute : Route}
         >
-          <Suspense fallback={null}>{r.view}</Suspense>
+          <Suspense fallback={<h1>Fallback</h1>}>{r.view}</Suspense>
         </UniversalRoute>
       ))}
     </>
@@ -26,7 +26,7 @@ const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'
 
 export function Routes() {
   const [availableRoutes] = useAtom(availableRoutesAtom);
-  if (availableRoutes === null) return null; // Maybe some loading screen needed?
+  if (availableRoutes === null) return <h1>Loading</h1>; // Maybe some loading screen needed?
   return (
     <>
       <RouterStateToReactRouter routes={availableRoutes.routes} />
