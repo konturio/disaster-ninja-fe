@@ -2,7 +2,7 @@ import { createAtom } from '~utils/atoms';
 import { currentUserAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
 
-const languageWatcherAtom = createAtom(
+export const languageWatcherAtom = createAtom(
   {
     currentUserAtom,
   },
@@ -17,5 +17,5 @@ const languageWatcherAtom = createAtom(
     });
     return state;
   },
-  'languageWatcher',
+  'languageWatcherAtom',
 );
