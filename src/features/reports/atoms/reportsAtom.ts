@@ -40,4 +40,5 @@ export const reportsAtom = createAtom(
     });
     return state;
   },
+  'reports:reportsAtom',
 );
