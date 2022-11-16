@@ -103,12 +103,12 @@ export function LoginForm() {
         <Text type="short-m">{i18n.t('login.description')}</Text>
       </div>
       {/*<div className={s.socialLoginContainer}>*/}
-      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='google' />}>{i18n.t('Google')}</Button>*/}
-      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='github' />}>{i18n.t('Github')}</Button>*/}
-      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='osm' />}>{i18n.t('OSM')}</Button>*/}
+      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='google' />}>Google</Button>*/}
+      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='github' />}>Github</Button>*/}
+      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='osm' />}>OSM</Button>*/}
       {/*</div>*/}
       {/*<div className={s.useEmailLabelContainer}>*/}
-      {/*  <div className={s.useEmailLabel}>{i18n.t('or use email')}</div>*/}
+      {/*  <div className={s.useEmailLabel}>or use email</div>*/}
       {/*</div>*/}
       <div className={s.inputsContainer}>
         <Input
@@ -130,7 +130,7 @@ export function LoginForm() {
         />
       </div>
       {error.general && <div className={s.errorMessageContainer}>{error.general}</div>}
-      {/*<div className={clsx(s.link, s.forgotPasswordContainer)}>{i18n.t('Forgot password?')}</div>*/}
+      {/*<div className={clsx(s.link, s.forgotPasswordContainer)}>Forgot password?</div>*/}
       <div className={s.loginButtonContainer}>
         <Button onClick={onLoginClick} className={s.loginButton}>
           {i18n.t('login.log_in')}
@@ -145,11 +145,6 @@ export function LoginForm() {
           {i18n.t('login.sign_up')}
         </a>
       </div>
-      {/*<div className={s.signUpContainer}>*/}
-      {/*  <span>{i18n.t('Don\'t have an account?')}</span>*/}
-      {/*  &nbsp;&nbsp;*/}
-      {/*  <span className={s.link}>{i18n.t('Sign up')}</span>*/}
-      {/*</div>*/}
     </Card>
   );
 }

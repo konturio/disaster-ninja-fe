@@ -5,7 +5,8 @@
     "react",
     "react-hooks",
     "eslint-plugin-import",
-    "i18n-checker"
+    "i18n-checker",
+    "i18n-json"
   ],
   "env": {
     "browser": true
@@ -54,7 +55,14 @@
     "i18n-checker/key-must-be-literal": [
       2,
       {
-        "functionNames": ["i18n.t", "t"]
+        "functionNames": ["i18n.t"]
+      }
+    ],
+    "i18n-checker/json-key-exists": [
+      2,
+      {
+        "functionNames": ["i18n.t"],
+        "localesPath": "src/core/localization/translations/en"
       }
     ]
   },
