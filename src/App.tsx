@@ -4,17 +4,17 @@ import { StrictMode } from 'react';
 import { store } from '~core/store/store';
 import { AuthWrapper } from '~core/auth';
 import { runGoogleTagManager } from '~utils/metrics/tagManager';
-import { Routes } from './core/router/components/Routes';
+import { Router } from './core/router';
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
-  <reatomContext.Provider value={store}>
-    <AuthWrapper>
-      <StrictMode>
-        <Routes />
-      </StrictMode>
-    </AuthWrapper>
-  </reatomContext.Provider>,
+  <StrictMode>
+    <reatomContext.Provider value={store}>
+      <AuthWrapper>
+        <Router />
+      </AuthWrapper>
+    </reatomContext.Provider>
+  </StrictMode>,
 );
 
 // delayed run of statistics

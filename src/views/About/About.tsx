@@ -1,12 +1,11 @@
 import { Trans } from 'react-i18next';
 import { i18n } from '~core/localization';
-import config from '~core/app_config';
 import history from '~core/history';
-import { APP_ROUTES } from '~core/app_config/appRoutes';
+import { routerConfig } from '~core/router';
 import s from './About.module.css';
 
 function gotoMap() {
-  history.push(APP_ROUTES.map);
+  history.push(routerConfig.defaultRoute);
 }
 
 export function AboutPage() {

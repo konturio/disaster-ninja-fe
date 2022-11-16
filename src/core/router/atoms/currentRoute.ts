@@ -17,7 +17,9 @@ export const currentRouteAtom = createAtom(
     return (
       routesConfig.routes.find((route) =>
         matchPath(location.pathname, {
-          path: getAbsoluteRoute(route.slug),
+          path: getAbsoluteRoute(
+            route.parentRoute ? `${route.parentRoute}/${route.slug}` : route.slug,
+          ),
           exact: true,
         }),
       ) ?? null

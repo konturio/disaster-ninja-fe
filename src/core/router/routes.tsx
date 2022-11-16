@@ -1,5 +1,12 @@
 import { lazily } from 'react-lazily';
-import { Alarm24, Info24, Map24, Prefs24, User24 } from '@konturio/default-icons';
+import {
+  Alarm24,
+  Info24,
+  Map24,
+  Prefs24,
+  User24,
+  Reports16,
+} from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { HeaderTitle } from '~components/HeaderTitle/HeaderTitle';
@@ -18,7 +25,7 @@ const { BivariateManagerPage } = lazily(
 
 export const getAbsoluteRoute = (slug: string) => appConfig.baseUrl + slug;
 
-export const config: AppRouterConfig = {
+export const routerConfig: AppRouterConfig = {
   defaultRoute: 'map',
   routes: [
     {
@@ -57,12 +64,13 @@ export const config: AppRouterConfig = {
     },
     {
       slug: ':reportId',
-      title: i18n.t('modes.reports'),
-      icon: <Alarm24 />,
+      title: i18n.t('modes.report'),
+      icon: <Reports16 />,
       view: <ReportPage />,
       customHeader: <HeaderTitle>{i18n.t('sidebar.reports')}</HeaderTitle>,
       requiredPermission: AppFeature.REPORTS,
       parentRoute: 'reports',
+      hidden: true,
     },
     {
       slug: 'bivariate-manager',
