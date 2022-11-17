@@ -1,18 +1,12 @@
 import { Trans } from 'react-i18next';
 import { i18n } from '~core/localization';
-import history from '~core/history';
-import { routerConfig } from '~core/router';
 import s from './About.module.css';
 
-function gotoMap() {
-  history.push(routerConfig.defaultRoute);
+export function AboutPage({ toHomePage }: { toHomePage: () => void }) {
+  return <AboutText toHomePage={toHomePage} />;
 }
 
-export function AboutPage() {
-  return <AboutText />;
-}
-
-function AboutText() {
+function AboutText({ toHomePage }: { toHomePage: () => void }) {
   return (
     <div className={s.mainWrap}>
       <div className={s.content}>
@@ -84,7 +78,7 @@ function AboutText() {
         <p>{i18n.t('about.p5')}</p>
 
         <p>
-          <span className={s.linkToMain} onClick={gotoMap}>
+          <span className={s.linkToMain} onClick={toHomePage}>
             {i18n.t('about.goToMap')} ➜
           </span>
         </p>

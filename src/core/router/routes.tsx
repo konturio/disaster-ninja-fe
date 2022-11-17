@@ -12,6 +12,7 @@ import { AppFeature } from '~core/auth/types';
 import { HeaderTitle } from '~components/HeaderTitle/HeaderTitle';
 import { UserStateToComponents } from '~core/auth';
 import appConfig from '~core/app_config';
+import history from './history';
 import type { AppRouterConfig } from './types';
 
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -24,7 +25,7 @@ const { BivariateManagerPage } = lazily(
 );
 
 export const getAbsoluteRoute = (slug: string) => appConfig.baseUrl + slug;
-
+export const toHomePage = () => history.push(routerConfig.defaultRoute);
 export const routerConfig: AppRouterConfig = {
   defaultRoute: 'map',
   routes: [
@@ -32,7 +33,7 @@ export const routerConfig: AppRouterConfig = {
       slug: 'about',
       title: i18n.t('modes.about'),
       icon: <Info24 />,
-      view: <AboutPage />,
+      view: <AboutPage toHomePage={toHomePage} />,
       showForNewUsers: true,
     },
     {

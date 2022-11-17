@@ -1,6 +1,6 @@
 import { createAtom } from '@reatom/core';
 import { userWasLandedAtom } from '~core/auth/atoms/userWasLanded';
-import history from '~core/history';
+import history from '../history';
 import { getAbsoluteRoute } from '../routes';
 import { availableRoutesAtom } from './availableRoutes';
 
