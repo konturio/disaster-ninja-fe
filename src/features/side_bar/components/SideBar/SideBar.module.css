@@ -13,6 +13,30 @@
   user-select: none;
 }
 
+.sidebar .controlButton {
+  width: 100%;
+  justify-content: left;
+  margin: 0;
+  & > svg {
+    min-width: 24px;
+  }
+  & * {
+    pointer-events: none;
+  }
+}
+
+.sidebar.open {
+  & .konturLogo a svg {
+    margin: var(--unit);
+  }
+}
+
+.sidebar:not(.open) {
+  & .konturLogo a svg {
+    margin: var(--unit) auto;
+  }
+}
+
 .sidebar > div {
   padding-top: var(--half-unit);
 }
@@ -33,16 +57,9 @@
   margin: var(--unit);
 }
 
-.controlButton {
-  width: 100%;
-  justify-content: left;
-  margin: 0;
-  & > svg {
-    min-width: 24px;
-  }
-  & * {
-    pointer-events: none;
-  }
+.logoWrap button img {
+  /* not using var() because design requires exactly 4px */
+  margin: 4px 0;
 }
 
 .modeName {
@@ -80,11 +97,5 @@
   pointer-events: none;
   & div {
     text-align: start;
-  }
-}
-
-.konturLogo {
-  & a svg {
-    margin: var(--unit) auto;
   }
 }

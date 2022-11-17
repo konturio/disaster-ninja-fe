@@ -63,7 +63,7 @@ export function SideBar() {
   }, [isOpen]);
 
   return (
-    <div className={s.sidebar}>
+    <div className={clsx(s.sidebar, isOpen && s.open)}>
       <ActionsBar>
         <div className={clsx(s.logoWrap, s.sidebarItemContainer)} tabIndex={-1}>
           <div className={s.buttonWrap}>
@@ -110,33 +110,31 @@ export function SideBar() {
           );
         })}
 
-        <div className={s.togglerContainer}>
-          <div className={s.toggler}>
-            {isOpen ? (
-              <div className={s.buttonWrap} onClick={toggleIsOpen} tabIndex={-1}>
-                <ActionsBarBTN
-                  iconBefore={<DoubleChevronLeft24 />}
-                  className={s.controlButton}
-                >
-                  <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
-                </ActionsBarBTN>
-              </div>
-            ) : (
-              <div
-                className={s.buttonWrap}
-                onClick={toggleIsOpen}
-                onPointerLeave={onMouseLeave}
-                onPointerEnter={(e) =>
-                  onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
-                }
+        <div className={s.toggler}>
+          {isOpen ? (
+            <div className={s.buttonWrap} onClick={toggleIsOpen} tabIndex={-1}>
+              <ActionsBarBTN
+                iconBefore={<DoubleChevronLeft24 />}
+                className={s.controlButton}
               >
-                <ActionsBarBTN
-                  iconBefore={<DoubleChevronRight24 />}
-                  className={s.controlButton}
-                />
-              </div>
-            )}
-          </div>
+                <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
+              </ActionsBarBTN>
+            </div>
+          ) : (
+            <div
+              className={s.buttonWrap}
+              onClick={toggleIsOpen}
+              onPointerLeave={onMouseLeave}
+              onPointerEnter={(e) =>
+                onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
+              }
+            >
+              <ActionsBarBTN
+                iconBefore={<DoubleChevronRight24 />}
+                className={s.controlButton}
+              />
+            </div>
+          )}
         </div>
 
         <div className={s.konturLogo}>
