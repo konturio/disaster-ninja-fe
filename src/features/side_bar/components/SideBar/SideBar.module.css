@@ -58,8 +58,9 @@
 }
 
 .logoWrap button img {
-  /* not using var() because design requires exactly 4px */
-  margin: 4px 0;
+  /* not using var() because design requires exactly 8px */
+  margin: 0px;
+  margin-bottom: 8px;
 }
 
 .modeName {
@@ -85,17 +86,16 @@
 
 .logoWrap .buttonWrap {
   border-bottom: 1px solid var(--faint-strong-up);
+  & .logoButton {
+    pointer-events: none;
+    & div {
+      text-align: start;
+    }
+  }
 }
 
 .appIcon {
   width: 24px;
   height: 24px;
   text-align: center;
-}
-
-.logoButton {
-  pointer-events: none;
-  & div {
-    text-align: start;
-  }
 }
