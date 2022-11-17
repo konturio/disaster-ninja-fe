@@ -9,6 +9,7 @@ import { Row } from '~components/Layout/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { currentRouteAtom } from '~core/router/atoms/currentRoute';
 import { userResourceAtom } from '~core/auth';
+import { Router } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
 const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
@@ -18,7 +19,7 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 
-export function CommonRoutesFeatures({ children }: PropsWithChildren) {
+function CommonRoutesFeatures({ children }: PropsWithChildren) {
   const [{ data, loading }] = useAtom(userResourceAtom);
   const userModel = data && !loading ? data : null;
   const [currentRoute] = useAtom(currentRouteAtom);
@@ -61,5 +62,13 @@ export function CommonRoutesFeatures({ children }: PropsWithChildren) {
         {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
       </Suspense>
     </>
+  );
+}
+
+export function Views() {
+  return (
+    <CommonRoutesFeatures>
+      <Router />
+    </CommonRoutesFeatures>
   );
 }

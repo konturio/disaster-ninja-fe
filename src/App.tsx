@@ -4,14 +4,14 @@ import { StrictMode } from 'react';
 import { store } from '~core/store/store';
 import { AuthWrapper } from '~core/auth';
 import { runGoogleTagManager } from '~utils/metrics/tagManager';
-import { Router } from './core/router';
+import { Views } from '~views/Common';
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
   <StrictMode>
     <reatomContext.Provider value={store}>
       <AuthWrapper>
-        <Router />
+        <Views />
       </AuthWrapper>
     </reatomContext.Provider>
   </StrictMode>,
