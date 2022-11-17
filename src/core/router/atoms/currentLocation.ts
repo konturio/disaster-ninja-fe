@@ -1,5 +1,5 @@
-import history from '~core/history';
 import { createAtom } from '~utils/atoms';
+import history from '../history';
 import type { Location } from 'history';
 
 export const currentLocationAtom = createAtom(

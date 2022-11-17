@@ -1,5 +1,5 @@
 import { useAtom } from '@reatom/react';
-import { userStateAtom } from '~core/auth';
+import { userStateAtom } from '../../atoms/userState';
 import type { UserStateType } from '~core/auth/types';
 
 export function UserStateToComponents(
