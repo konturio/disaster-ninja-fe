@@ -118,8 +118,11 @@ export function EventsListPanel({
                     )}
                     ref={virtuoso}
                   />
-                  {/* this element won't take visual or scroll space */}
-                  <div className={s.nonVirtualHeightElement} />
+                  <div className={s.height100vh}>
+                    {/* it helps expand panel to full height 
+                    despite that virtual element has no height 
+                    without braking scroll */}
+                  </div>
                 </>
               ),
             })}
