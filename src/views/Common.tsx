@@ -9,7 +9,6 @@ import { Row } from '~components/Layout/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { currentRouteAtom } from '~core/router/atoms/currentRoute';
 import { userResourceAtom } from '~core/auth';
-import { initLanguageWatcher } from '~core/auth/atoms/languageWatcher';
 import type { PropsWithChildren } from 'react';
 
 const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
@@ -25,7 +24,6 @@ export function CommonRoutesFeatures({ children }: PropsWithChildren) {
   const [currentRoute] = useAtom(currentRouteAtom);
 
   useEffect(() => {
-    initLanguageWatcher()
     if (userModel?.hasFeature(AppFeature.INTERCOM)) {
       import('~features/intercom').then(({ initIntercom }) => {
         initIntercom();
