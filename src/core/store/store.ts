@@ -1,54 +1,58 @@
 import { createStore } from '@reatom/core';
 import { createDevtoolsLogger } from '~utils/debug/reatom-redux-devtools';
-import { appMetrics } from '~core/metrics';
+import type { AppMetricsI } from '..';
 
-// enable with localStorage.setItem('KONTUR_DEBUG', 'true')
-const KONTUR_DEBUG = !!globalThis.window?.localStorage.getItem('KONTUR_DEBUG');
-
-// enable with localStorage.setItem('KONTUR_WARN', 'true')
-// will add stacktrace
-const KONTUR_WARN = !!globalThis.window?.localStorage.getItem('KONTUR_WARN');
-
-// enable with localStorage.setItem('KONTUR_TRACE_ERROR', '_error')
-const KONTUR_TRACE_TYPE = globalThis.window?.localStorage.getItem('KONTUR_TRACE_TYPE');
-
-function configureStore() {
-  const devtoolsLogger = createDevtoolsLogger();
-  // Must be cutted out in production by terser
-  if (import.meta.env.VITE_REDUX_DEV_TOOLS === 'true') {
-    return createStore({
-      onError: (error, t) => {
-        if (KONTUR_DEBUG) {
-          console.error('STORE error:', error, t);
-        }
-        devtoolsLogger(t);
-      },
-      onPatch: (t) => devtoolsLogger(t),
-      now: globalThis.performance?.now.bind(performance) ?? Date.now,
-    });
+export class Store {
+  /** Enable with localStorage.setItem('KONTUR_DEBUG', 'true') */
+  private debug = !!globalThis.window?.localStorage.getItem('KONTUR_DEBUG');
+  /**
+   * Enable with localStorage.setItem('KONTUR_WARN', 'true')
+   * will add stacktrace
+   */
+  private warn = !!globalThis.window?.localStorage.getItem('KONTUR_WARN');
+  /** Enable with localStorage.setItem('KONTUR_TRACE_ERROR', '_error') */
+  private traceType = globalThis.window?.localStorage.getItem('KONTUR_TRACE_TYPE');
+  private metrics: AppMetricsI;
+  constructor(metrics: AppMetricsI) {
+    this.metrics = metrics;
   }
-  return createStore({
-    onPatch: (t) => {
-      if (import.meta.env.MODE !== 'test') {
-        for (const action of t.actions) {
-          if (!action.type.includes('invalidate')) {
-            appMetrics.processEvent(action.type, action.payload);
-            if (KONTUR_TRACE_TYPE) {
-              if (action.type.includes(KONTUR_TRACE_TYPE)) {
-                console.trace('TRACE:', action.type, t);
+
+  init() {
+    const devtoolsLogger = createDevtoolsLogger();
+    // Must be cutted out in production by terser
+    if (import.meta.env.VITE_REDUX_DEV_TOOLS === 'true') {
+      return createStore({
+        onError: (error, t) => {
+          if (this.debug) {
+            console.error('STORE error:', error, t);
+          }
+          devtoolsLogger(t);
+        },
+        onPatch: (t) => devtoolsLogger(t),
+        now: globalThis.performance?.now.bind(performance) ?? Date.now,
+      });
+    }
+    return createStore({
+      onPatch: (t) => {
+        if (import.meta.env.MODE !== 'test') {
+          for (const action of t.actions) {
+            if (!action.type.includes('invalidate')) {
+              this.metrics.processEvent(action.type, action.payload);
+              if (this.traceType) {
+                if (action.type.includes(this.traceType)) {
+                  console.trace('TRACE:', action.type, t);
+                }
               }
-            }
-            if (KONTUR_DEBUG) {
-              console.debug(action.type, action.payload);
-            }
-            if (KONTUR_WARN) {
-              console.warn(action.type, action.payload);
+              if (this.debug) {
+                console.debug(action.type, action.payload);
+              }
+              if (this.warn) {
+                console.warn(action.type, action.payload);
+              }
             }
           }
         }
-      }
-    },
-  });
+      },
+    });
+  }
 }
-
-export const store = configureStore();

@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect, useState } from 'react';
-import { ColumnContext, Resizer } from '~core/store/columnContext';
+import { ColumnContext, Resizer } from './columnContext';
 import s from './SmartColumn.module.css';
 
 export function SmartColumn({ children }) {

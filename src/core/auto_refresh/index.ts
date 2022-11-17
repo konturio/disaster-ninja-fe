@@ -2,7 +2,7 @@ import type { Unsubscribe } from '@reatom/core';
 
 type SubscribeFn = (callback: (state: { loading: boolean }) => void) => () => void;
 
-class AutoRefreshService {
+export class AutoRefreshService {
   private resources: Record<
     string,
     {
@@ -48,5 +48,3 @@ class AutoRefreshService {
     delete this.resources[id];
   }
 }
-
-export const autoRefreshService = new AutoRefreshService();

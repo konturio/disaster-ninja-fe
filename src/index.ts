@@ -4,8 +4,7 @@ import '@konturio/default-theme/defaults.css';
 import '@konturio/default-theme/typography.css';
 import '~utils/atoms/disableDefaultStore';
 import './global.css';
-import { loadConfig } from '~core/app_config/loader';
-import { appMetrics } from '~core/metrics';
+import { bootLoader } from '~core/index';
 
 function showCriticalError(e: Error) {
   const root = document.getElementById('root');
@@ -26,10 +25,11 @@ function showCriticalError(e: Error) {
 // keep initial url before overwriting by router
 localStorage.setItem('initialUrl', location.href);
 
-loadConfig()
-  .then(() => {
+bootLoader
+  .load()
+  .then((core) => {
     import('./App');
-    appMetrics.mark('appConfig_loaded');
+    core.appMetrics.mark('appConfig_loaded');
   })
   .catch((e: Error) => {
     console.error(e);

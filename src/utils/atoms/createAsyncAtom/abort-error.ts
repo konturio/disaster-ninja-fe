@@ -1,4 +1,4 @@
-import { isApiError } from '~core/api_client/apiClientError';
+import { isApiError } from '~core/api_client';
 
 export const ABORT_ERROR_MESSAGE = 'Abort error';
 

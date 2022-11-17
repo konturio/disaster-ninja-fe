@@ -1,12 +1,14 @@
 import { currentNotificationAtom } from '~core/shared_state/currentNotifications';
 import type { NotificationMessage } from '~core/types/notification';
+import type { AppStore } from '..';
 
 export class NotificationService {
+  store: AppStore;
+  constructor(store: AppStore) {
+    this.store = store;
+  }
   private static instance: NotificationService;
   private defaultLifetimeSec = 10;
-  private constructor() {
-    /* noop */
-  }
 
   public static getInstance(): NotificationService {
     if (!NotificationService.instance) {
@@ -16,31 +18,33 @@ export class NotificationService {
     }
   }
 
-  public static init() {
-    NotificationService.instance = new NotificationService();
-  }
-
   error(message: NotificationMessage, lifetimeSec?: number) {
-    currentNotificationAtom.showNotification.dispatch(
-      'error',
-      message,
-      lifetimeSec || this.defaultLifetimeSec,
+    this.store.dispatch(
+      currentNotificationAtom.showNotification(
+        'error',
+        message,
+        lifetimeSec || this.defaultLifetimeSec,
+      ),
     );
   }
 
   warning(message: NotificationMessage, lifetimeSec?: number) {
-    currentNotificationAtom.showNotification.dispatch(
-      'warning',
-      message,
-      lifetimeSec || this.defaultLifetimeSec,
+    this.store.dispatch(
+      currentNotificationAtom.showNotification(
+        'warning',
+        message,
+        lifetimeSec || this.defaultLifetimeSec,
+      ),
     );
   }
 
   info(message: NotificationMessage, lifetimeSec?: number) {
-    currentNotificationAtom.showNotification.dispatch(
-      'info',
-      message,
-      lifetimeSec || this.defaultLifetimeSec,
+    this.store.dispatch(
+      currentNotificationAtom.showNotification(
+        'info',
+        message,
+        lifetimeSec || this.defaultLifetimeSec,
+      ),
     );
   }
 }

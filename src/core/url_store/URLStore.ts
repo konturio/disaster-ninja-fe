@@ -1,24 +1,29 @@
-import { apiClient } from '~core/apiClientInstance';
-import app_config from '~core/app_config';
-import type { ApiClient } from '~core/api_client';
+import { createUrlStoreAtom } from './atoms/urlStore';
+import type { ApiService, AppConfigParsedI } from '..';
 import type { UrlData } from './types';
+import type { NonNullableField } from 'types/typeUtils';
 
 interface UrlEncoder<T extends Record<string, string | number | string[] | number[]>> {
   encode: (data: T) => string;
   decode: (url: string) => T;
 }
 
+export type URLStoreInited = NonNullableField<URLStore, 'atom'>;
+
 export class URLStore {
+  config: AppConfigParsedI;
+  client: ApiService['apiClient'];
+  encoder: UrlEncoder<UrlData>;
+  atom: ReturnType<typeof createUrlStoreAtom> | null = null;
+
   _listener: (nesSate: UrlData) => void = () => {
     /* noop */
   };
-  _encoder: UrlEncoder<UrlData>;
-  _client: ApiClient;
 
   getDefaults = {
     app: async () => {
       try {
-        return await this._client.get<string>('/apps/default_id');
+        return await this.client.get<string>('/apps/default_id');
       } catch (e) {
         console.error('[URLStore]: Failed to get default app id');
         console.debug(e);
@@ -31,12 +36,12 @@ export class URLStore {
       // Until that moment we take static list of default layers
       // * That similar for all applications *
       // Ask Alexander Zapasnik before remove this
-      if (app_config.layersByDefault) {
+      if (this.config.layersByDefault) {
         return new Promise<string[]>((res) => {
-          res(app_config.layersByDefault);
+          res(this.config.layersByDefault);
         });
       } else {
-        const layers = await this._client.get<{ id: string }[] | null>(
+        const layers = await this.client.get<{ id: string }[] | null>(
           `/apps/${appId}/layers/`,
           undefined,
           false,
@@ -45,9 +50,20 @@ export class URLStore {
       }
     },
   };
-  constructor(encoder: UrlEncoder<UrlData>) {
-    this._encoder = encoder;
-    this._client = apiClient;
+
+  constructor({
+    encoder,
+    config,
+    api,
+  }: {
+    encoder: UrlEncoder<UrlData>;
+    config: AppConfigParsedI;
+    api: ApiService;
+  }) {
+    this.config = config;
+    this.encoder = encoder;
+    this.client = api.apiClient;
+    this.createAtom();
   }
 
   async getInitialState() {
@@ -68,12 +84,12 @@ export class URLStore {
   }
 
   readCurrentState() {
-    const urlState = this._encoder.decode(document.location.search.slice(1));
+    const urlState = this.encoder.decode(document.location.search.slice(1));
     return urlState;
   }
 
   updateUrl(data: UrlData) {
-    window.history.pushState(data, document.title, '?' + this._encoder.encode(data));
+    window.history.pushState(data, document.title, '?' + this.encoder.encode(data));
   }
 
   onUrlChange(listener: (nesSate: UrlData) => void) {
@@ -83,6 +99,11 @@ export class URLStore {
   }
 
   toSearchSting(data: UrlData) {
-    return '?' + this._encoder.encode(data);
+    return '?' + this.encoder.encode(data);
+  }
+
+  createAtom() {
+    this.atom = createUrlStoreAtom(this);
+    return this as URLStoreInited;
   }
 }

@@ -1,11 +1,11 @@
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { createBivariateQuery, isGeometryEmpty } from '~core/bivariate';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
-import { isApiError } from '~core/api_client/apiClientError';
+import { isApiError } from '~core/api_client';
 import { i18n } from '~core/localization';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
+import { apiClient } from '~core/apiClientInstance';
 
 let allMapStats: BivariateStatisticsResponse;
 

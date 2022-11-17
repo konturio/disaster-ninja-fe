@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useAtom } from '@reatom/react';
-import { LocaleNumber, i18n } from '~core/localization';
+import core from '~core/index';
 import { worldAnalyticsResource } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsWorldResource';
+import { LocaleNumber } from '~components/LocaleNumber/LocaleNumber';
 import s from './AdvancedAnalyticsData.module.css';
 import type { AdvancedAnalyticsData } from '~core/types';
 
@@ -17,14 +18,14 @@ const sum = 'sum',
   median = 'median';
 
 const calculations = [
-  i18n.t('advanced_analytics_data_list.numerator'),
-  i18n.t('advanced_analytics_data_list.normalized_by'),
-  i18n.t('advanced_analytics_data_list.sum'),
-  i18n.t('advanced_analytics_data_list.min'),
-  i18n.t('advanced_analytics_data_list.max'),
-  i18n.t('advanced_analytics_data_list.mean'),
-  i18n.t('advanced_analytics_data_list.stddev'),
-  i18n.t('advanced_analytics_data_list.median'),
+  core.i18n.t('advanced_analytics_data_list.numerator'),
+  core.i18n.t('advanced_analytics_data_list.normalized_by'),
+  core.i18n.t('advanced_analytics_data_list.sum'),
+  core.i18n.t('advanced_analytics_data_list.min'),
+  core.i18n.t('advanced_analytics_data_list.max'),
+  core.i18n.t('advanced_analytics_data_list.mean'),
+  core.i18n.t('advanced_analytics_data_list.stddev'),
+  core.i18n.t('advanced_analytics_data_list.median'),
 ];
 
 const badQualityColor = '#ff453b',
@@ -188,7 +189,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
   return (
     <div className={s.table_scroll}>
       <a href="#" onClick={getWorlData}>
-        {i18n.t('advanced_analytics_data_list.load_world_data')}
+        {core.i18n.t('advanced_analytics_data_list.load_world_data')}
       </a>
       <table className={s.table_in_panel}>
         <tbody>
@@ -204,7 +205,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input
                 className={s.filter_text}
-                placeholder={i18n.t('advanced_analytics_data_list.filter_nominator')}
+                placeholder={core.i18n.t('advanced_analytics_data_list.filter_nominator')}
                 type="text"
                 onChange={onNominatorFilterChange}
               />
@@ -212,7 +213,9 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input
                 className={s.filter_text}
-                placeholder={i18n.t('advanced_analytics_data_list.filter_denominator')}
+                placeholder={core.i18n.t(
+                  'advanced_analytics_data_list.filter_denominator',
+                )}
                 type="text"
                 onChange={onDenominatorFilterChange}
               />
@@ -224,7 +227,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input className={s.switch} type="checkbox" onClick={minClick} />
             </td>
-            
+
             <td>
               <input className={s.switch} type="checkbox" onClick={maxClick} />
             </td>
@@ -236,7 +239,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input className={s.switch} type="checkbox" onClick={stddevClick} />
             </td>
-            
+
             <td>
               <input className={s.switch} type="checkbox" onClick={medianClick} />
             </td>

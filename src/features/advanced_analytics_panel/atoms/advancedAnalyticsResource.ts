@@ -1,9 +1,9 @@
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { isApiError } from '~core/api_client/apiClientError';
+import { isApiError } from '~core/api_client';
 import { i18n } from '~core/localization';
 import type { AdvancedAnalyticsData } from '~core/types';
+import { apiClient } from '~core/apiClientInstance';
 
 const abortControllers: AbortController[] = [];
 

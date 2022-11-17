@@ -1,6 +1,5 @@
-import { apiClient } from '~core/apiClientInstance';
 import { generateColorTheme } from '~utils/bivariate/bivariateColorThemeUtils';
-import { isApiError } from '~core/api_client/apiClientError';
+import { isApiError } from '~core/api_client';
 import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { i18n } from '~core/localization';
@@ -11,6 +10,7 @@ import type { Axis, Direction, Indicator } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { ColorTheme } from '~core/types';
+import { apiClient } from '~core/apiClientInstance';
 
 export type TableDataValue = {
   label: string;
