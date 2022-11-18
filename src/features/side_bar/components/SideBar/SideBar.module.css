@@ -88,7 +88,8 @@
   border-bottom: 1px solid var(--faint-strong-up);
   & .logoButton {
     pointer-events: none;
-    & div {
+    & div,
+    span {
       text-align: start;
     }
   }
