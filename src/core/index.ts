@@ -78,18 +78,15 @@ class BootLoader {
   }
 
   async load() {
-    /* Load metrics */
     const metrics = new AppMetrics();
     addAllSequences(metrics);
-
-    /* Load config and translations */
     const configParser = new AppConfigParser();
     const localization = new LocalizationService();
-    const [configData, i18n] = await Promise.all([
-      configParser.readConfig(),
+    const [i18n, configData] = await Promise.all([
       localization.init(),
+      configParser.readConfig(),
     ]);
-    const config = configParser.init(i18n, configData);
+    const config = configParser.init(configData, i18n);
     const store = new Store(metrics).init();
     const notifications = new NotificationService(store);
     const api = new Api({ i18n, config, notifications });
@@ -130,3 +127,9 @@ class BootLoader {
 export const bootLoader = new BootLoader();
 export default bootLoader.core;
 export * from './types';
+
+// currentUserAtom.subscribe(({ language }) => {
+//   i18n
+//     .changeLanguage(language)
+//     .catch((e) => console.warn(`Attempt to change language to ${language} failed`));
+// });

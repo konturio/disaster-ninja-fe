@@ -26,9 +26,3 @@ export class LocalizationService {
     return i18n;
   }
 }
-
-currentUserAtom.subscribe(({ language }) => {
-  i18n
-    .changeLanguage(language)
-    .catch((e) => console.warn(`Attempt to change language to ${language} failed`));
-});
