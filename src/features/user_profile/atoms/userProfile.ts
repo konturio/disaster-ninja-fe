@@ -1,5 +1,4 @@
-import { apiClient } from '~core/apiClientInstance';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { currentUserAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
@@ -23,15 +22,15 @@ export const currentProfileAtom = createAtom(
     onAction('updateUserProfile', (user) => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
-        const responseData = await apiClient.put<profileResponse>(
+        const responseData = await core.api.apiClient.put<profileResponse>(
           '/users/current_user',
           user,
           true,
         );
-        if (!responseData) throw new Error(i18n.t('no_data_received'));
+        if (!responseData) throw new Error(core.i18n.t('no_data_received'));
         currentNotificationAtom.showNotification.dispatch(
           'success',
-          { title: i18n.t('profile.successNotification') },
+          { title: core.i18n.t('profile.successNotification') },
           5,
         );
 

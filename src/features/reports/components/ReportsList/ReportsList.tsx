@@ -5,8 +5,7 @@ import { Trans } from 'react-i18next';
 import { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useAtom } from '@reatom/react';
-import { i18n } from '~core/localization';
-import config from '~core/app_config';
+import core from '~core/index';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { reportsAtom } from '../../atoms/reportsAtom';
 import styles from './ReportsList.module.css';
@@ -25,7 +24,7 @@ export function ReportsList() {
     <div className={styles.mainWrap}>
       <div className={styles.titleRow}>
         <Text type="heading-l">
-          <span className={styles.pageTitle}>{i18n.t('reports.title')}</span>
+          <span className={styles.pageTitle}>{core.i18n.t('reports.title')}</span>
         </Text>
       </div>
 
@@ -57,7 +56,7 @@ export function ReportsList() {
           reports.map?.((report) => {
             const goToReport = (e: React.MouseEvent<HTMLElement>) => {
               e.preventDefault();
-              history.push(config.baseUrl + 'reports/' + report.id);
+              history.push(core.config.baseUrl + 'reports/' + report.id);
             };
             return (
               <div className={styles.reportWrap} key={report.id} onClick={goToReport}>

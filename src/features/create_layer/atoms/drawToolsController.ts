@@ -1,5 +1,4 @@
-import { i18n } from '~core/localization';
-import { store } from '~core/store/store';
+import core from '~core/index';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
@@ -16,7 +15,7 @@ function onFinishDrawing() {
   return new Promise<boolean>((res, rej) => {
     currentEditedLayerFeatures.save.dispatch({
       onSuccess: () => {
-        store.dispatch([
+        core.store.dispatch([
           toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
           editTargetAtom.set({ type: EditTargets.none }),
         ]);
@@ -46,7 +45,7 @@ export const openDrawToolsInFeatureEditMode = createAtom(
               drawModeLogicalLayerAtom.enable(),
               toolboxAtom.setSettings({
                 availableModes: ['DrawPointMode', 'ModifyMode'],
-                finishButtonText: i18n.t('draw_tools.save_features'),
+                finishButtonText: core.i18n.t('draw_tools.save_features'),
                 finishButtonCallback: onFinishDrawing,
               }),
               activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),

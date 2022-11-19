@@ -2,7 +2,7 @@ import { MapboxLayer } from '@deck.gl/mapbox';
 import gpsi from 'geojson-polygon-self-intersections';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
 import { registerMapListener } from '~core/shared_state/mapListeners';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { createDrawingLayers, drawModes } from '../constants';
 import { layersConfigs } from '../configs';

@@ -1,13 +1,11 @@
 import { combineAtoms } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { apiClient } from '~core/apiClientInstance';
-import { autoRefreshService } from '~core/autoRefreshServiceInstance';
-import { currentEventFeedAtom } from '~core/shared_state';
+import core from '~core/index';
 import { eventListFilters } from './eventListFilters';
 import type { Event } from '~core/types';
 
 const depsAtom = combineAtoms({
-  currentFeed: currentEventFeedAtom,
+  currentFeed: core.sharedState.currentEventFeedAtom,
   filters: eventListFilters,
 });
 
@@ -23,7 +21,7 @@ export const eventListResourceAtom = createAsyncAtom(
     };
 
     const responseData =
-      (await apiClient.get<Event[]>('/events/', params, true, {
+      (await core.api.apiClient.get<Event[]>('/events/', params, true, {
         signal: abortController.signal,
         errorsConfig: { dontShowErrors: true },
       })) ?? ([] as Event[]);
@@ -39,4 +37,4 @@ export const eventListResourceAtom = createAsyncAtom(
   'eventListResource',
 );
 
-autoRefreshService.addWatcher('eventList', eventListResourceAtom);
+core.autoRefresh.addWatcher('eventList', eventListResourceAtom);

@@ -1,7 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { currentMapAtom } from '~core/shared_state';
-import { notificationServiceInstance as notification } from '~core/notificationServiceInstance';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 
 export const eventListFilters = createAtom(
   {
@@ -28,9 +27,9 @@ export const eventListFilters = createAtom(
           ],
         };
       } else {
-        notification.warning({
-          title: i18n.t('event_list.warning_title'),
-          description: i18n.t('event_list.warning_description'),
+        core.notifications.warning({
+          title: core.i18n.t('event_list.warning_title'),
+          description: core.i18n.t('event_list.warning_description'),
         });
       }
     });

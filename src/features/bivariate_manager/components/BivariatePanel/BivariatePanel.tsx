@@ -2,8 +2,7 @@ import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { BivariateMatrix24 } from '@konturio/default-icons';
-import ReactDOM from 'react-dom';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { panelClasses } from '~components/Panel';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
 import styles from './BivariatePanel.module.css';
@@ -57,7 +56,7 @@ export function BivariatePanel() {
           isOpen && styles.show,
           !isOpen && styles.collapse,
         )}
-        header={String(i18n.t('bivariate.panel.header'))}
+        header={String(core.i18n.t('bivariate.panel.header'))}
         headerIcon={<BivariateMatrix24 />}
         modal={{
           onModalClick: onPanelClose,

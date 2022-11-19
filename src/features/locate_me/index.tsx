@@ -5,7 +5,7 @@ import {
   toolbarControlsAtom,
 } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import {
   LOCATE_ME_CONTROL_ID,
   LOCATE_ME_CONTROL_NAME,
@@ -27,7 +27,7 @@ function successCb(location: GeolocationPosition) {
 function errorCb(error: GeolocationPositionError) {
   currentNotificationAtom.showNotification.dispatch(
     'warning',
-    { title: error.message || i18n.t('locate_me.get_location_error') },
+    { title: error.message || core.i18n.t('locate_me.get_location_error') },
     3,
   );
   disableControl();
@@ -37,7 +37,7 @@ export function initLocateMe() {
   toolbarControlsAtom.addControl.dispatch({
     id: LOCATE_ME_CONTROL_ID,
     name: LOCATE_ME_CONTROL_NAME,
-    title: i18n.t('locate_me.feature_title'),
+    title: core.i18n.t('locate_me.feature_title'),
     active: false,
     visualGroup: controlVisualGroup.noAnalytics,
     exclusiveGroup: controlGroup.mapTools,

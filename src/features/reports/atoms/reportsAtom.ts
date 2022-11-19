@@ -1,6 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { reportsClient } from '~core/apiClientInstance';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 
 export type Report = {
   id: string;
@@ -29,12 +28,12 @@ export const reportsAtom = createAtom(
     onAction('setReports', (reports) => (state = [...reports]));
     onAction('getReports', async () => {
       schedule(async (dispatch) => {
-        const responseData = await reportsClient.get<Report[]>(
+        const responseData = await core.api.reportsClient.get<Report[]>(
           `/osm_reports_list.json`,
           undefined,
           false,
         );
-        if (responseData === null) throw new Error(i18n.t('no_data_received'));
+        if (responseData === null) throw new Error(core.i18n.t('no_data_received'));
         dispatch(reportsAtom.setReports(responseData));
       });
     });

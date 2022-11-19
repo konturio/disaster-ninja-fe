@@ -2,10 +2,9 @@ import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { lazy, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { AdvancedAnalytics24 } from '@konturio/default-icons';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { panelClasses } from '~components/Panel';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
+import { useAutoCollapsePanel } from '~components/SmartColumn';
 import s from './AdvancedAnalyticsPanel.module.css';
 
 const LazyLoadedAdvancedAnalyticsContainer = lazy(
@@ -38,7 +37,7 @@ export function AdvancedAnalyticsPanel() {
   return (
     <div className={s.panelContainer}>
       <Panel
-        header={String(i18n.t('advanced_analytics_panel.header_title'))}
+        header={String(core.i18n.t('advanced_analytics_panel.header_title'))}
         headerIcon={<AdvancedAnalytics24 />}
         onHeaderClick={togglePanel}
         className={clsx(s.panel, isOpen && s.show, !isOpen && s.collapse)}

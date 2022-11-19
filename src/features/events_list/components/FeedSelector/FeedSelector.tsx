@@ -1,7 +1,7 @@
 import { useAction, useAtom } from '@reatom/react';
 import { Text } from '@konturio/ui-kit';
 import { memo, useCallback } from 'react';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { userResourceAtom } from '~core/auth';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
@@ -27,7 +27,7 @@ const FeedSelectorComp = () => {
     userModel.feeds &&
     userModel.feeds.length > 1 ? (
     <div className={s.feedSelectorContainer}>
-      <Text type="short-m">{i18n.t('feed')}:</Text>
+      <Text type="short-m">{core.i18n.t('feed')}:</Text>
       <div>
         <select
           onChange={onFeedChange}

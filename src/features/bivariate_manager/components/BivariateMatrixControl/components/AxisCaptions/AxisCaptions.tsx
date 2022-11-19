@@ -1,20 +1,20 @@
 import { InfoOutline16 } from '@konturio/default-icons';
 import { useLayoutEffect, useRef } from 'react';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { TooltipWrapper } from '~components/Tooltip';
 import s from './AxisCaptions.module.css';
 
 const AXIS_CAPTIONS_TOOTIP_TEXT = (
   <div className={s.axisCaptionText}>
-    <p>{i18n.t('bivariate.matrix.caption.tooltip.p1')}</p>
+    <p>{core.i18n.t('bivariate.matrix.caption.tooltip.p1')}</p>
     <ul>
-      <li>{i18n.t('bivariate.matrix.caption.tooltip.li1')}</li>
-      <li>{i18n.t('bivariate.matrix.caption.tooltip.li2')}</li>
+      <li>{core.i18n.t('bivariate.matrix.caption.tooltip.li1')}</li>
+      <li>{core.i18n.t('bivariate.matrix.caption.tooltip.li2')}</li>
     </ul>
     <br />
-    <b>{i18n.t('bivariate.matrix.caption.tooltip.b')}</b>
-    <p>{i18n.t('bivariate.matrix.caption.tooltip.p2')}</p>
-    <p>{i18n.t('bivariate.matrix.caption.tooltip.p3')}</p>
+    <b>{core.i18n.t('bivariate.matrix.caption.tooltip.b')}</b>
+    <p>{core.i18n.t('bivariate.matrix.caption.tooltip.p2')}</p>
+    <p>{core.i18n.t('bivariate.matrix.caption.tooltip.p3')}</p>
   </div>
 );
 
@@ -42,9 +42,9 @@ export const AxisCaptions = ({ baseDimension = 0 }: { baseDimension: number }) =
               <br />
 
               <div className={s.tooltipHover} onClick={showTooltip}>
-                <span>{i18n.t('bivariate.matrix.caption.base_axis')}</span>
+                <span>{core.i18n.t('bivariate.matrix.caption.base_axis')}</span>
                 <InfoOutline16 />
-                <span>{i18n.t('bivariate.matrix.caption.annex_axis')}</span>
+                <span>{core.i18n.t('bivariate.matrix.caption.annex_axis')}</span>
               </div>
 
               <br />

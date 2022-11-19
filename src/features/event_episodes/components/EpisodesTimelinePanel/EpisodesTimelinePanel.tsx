@@ -3,7 +3,7 @@ import { useAtom } from '@reatom/react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms/createStateMap';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { panelClasses } from '~components/Panel';
 import { eventEpisodesController } from '../../controller';
@@ -26,7 +26,7 @@ export function EpisodesTimelinePanel() {
 
   return (
     <Panel
-      header={String(i18n.t('Episode'))}
+      header={String(core.i18n.t('Episode'))}
       onHeaderClick={eventEpisodesController.closeEpisodesTimeline}
       modal={{
         onModalClick: eventEpisodesController.closeEpisodesTimeline,
@@ -37,7 +37,7 @@ export function EpisodesTimelinePanel() {
       <div>
         {statesToComponents({
           loading: (
-            <LoadingSpinner marginTop="16px" message={i18n.t('loading_episodes')} />
+            <LoadingSpinner marginTop="16px" message={core.i18n.t('loading_episodes')} />
           ),
           error: (errorMessage) => (
             <ErrorMessage marginTop="16px" message={errorMessage} />

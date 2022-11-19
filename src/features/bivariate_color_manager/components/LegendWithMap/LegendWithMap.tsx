@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Text } from '@konturio/ui-kit';
 import { useState } from 'react';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { BivariateLegend as BivariateLegendComponent } from '~components/BivariateLegend/BivariateLegend';
 import { formatSentimentDirection } from '~utils/bivariate';
 import { BivariateSampleMap } from '../BivariateSampleMap/BivariateSampleMap';
@@ -24,10 +24,7 @@ export type LegendWithMapProps = {
   layersSelection: LayerSelectionFull;
 };
 
-export const LegendWithMap = ({
-  selectedData,
-  layersSelection,
-}: LegendWithMapProps) => {
+export const LegendWithMap = ({ selectedData, layersSelection }: LegendWithMapProps) => {
   const { legend, directions } = selectedData;
   const { horizontal, vertical } = layersSelection;
   const verticalMostQualityDenominator = vertical?.mostQualityDenominator;
@@ -75,7 +72,7 @@ export const LegendWithMap = ({
   return (
     <div className={s.legendWithMapContainer}>
       <div className={clsx(fullscreen && s.LegendFullscreen)}>
-        <Text type="heading-m">{i18n.t('legend_presentation')}</Text>
+        <Text type="heading-m">{core.i18n.t('legend_presentation')}</Text>
         <BivariateLegendComponent
           showDescription={false}
           meta={meta}

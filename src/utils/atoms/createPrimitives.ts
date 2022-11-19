@@ -5,12 +5,12 @@ import {
   createNumberAtom as createNumberAtomOriginal,
   createStringAtom as createStringAtomOriginal,
 } from '@reatom/core/primitives';
-import { store } from '~core/store/store';
+import core from '~core/index';
 import type { PrimitiveAtom } from '@reatom/core/primitives';
 import type { AtomOptions } from '@reatom/core';
 
 const addStoreInOptions = (options) => ({
-  store,
+  store: core.store,
   ...(typeof options === 'string' ? { id: options } : options),
 });
 

@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { createAtom } from '~utils/atoms';
-import { apiClient } from '~core/apiClientInstance';
 import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
+import core from '~core/index';
 import type { Episode } from '~core/types';
 
 const episodesResourceDependencyAtom = createAtom(
@@ -26,7 +26,7 @@ export const episodesResource = createAsyncAtom(
   episodesResourceDependencyAtom,
   async (deps, abortController) => {
     if (deps && deps.event?.id && deps.feed?.id) {
-      const responseData = await apiClient.get<Episode[]>(
+      const responseData = await core.api.apiClient.get<Episode[]>(
         `/events/${deps.feed.id}/${deps.event.id}/episodes`,
         undefined,
         undefined,

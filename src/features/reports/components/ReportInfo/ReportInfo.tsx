@@ -5,8 +5,7 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { useAtom } from '@reatom/react';
-import { i18n } from '~core/localization';
-import { notificationServiceInstance } from '~core/notificationServiceInstance';
+import core from '~core/index';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { reportsAtom } from '../../atoms/reportsAtom';
@@ -35,8 +34,8 @@ export function ReportInfo() {
     if (reports.length) {
       const report = reports.find((report) => report.id === reportId);
       if (!report)
-        notificationServiceInstance.error({
-          title: i18n.t('reports.wrong_id'),
+        core.notifications.error({
+          title: core.i18n.t('reports.wrong_id'),
         });
       else setReport(report);
     }
@@ -46,7 +45,7 @@ export function ReportInfo() {
     <div className={styles.mainWrap}>
       <Text type="short-l">
         <Link to={'../reports'} className={clsx(commonStyles.link, styles.seeAllLink)}>
-          {i18n.t('reports.see_all')}
+          {core.i18n.t('reports.see_all')}
         </Link>
       </Text>
 
@@ -68,14 +67,14 @@ export function ReportInfo() {
       {Boolean(report?.last_updated) && (
         <Text type="caption">
           <div className={styles.lastUpdated}>
-            {i18n.t('updated') + ` ${report?.last_updated}`}
+            {core.i18n.t('updated') + ` ${report?.last_updated}`}
           </div>
         </Text>
       )}
 
       {reportResource.loading ? (
         <div className={styles.loadingContainer}>
-          <LoadingSpinner message={i18n.t('reports.loading')} />
+          <LoadingSpinner message={core.i18n.t('reports.loading')} />
         </div>
       ) : (
         <div className={clsx(!reportResource.data && styles.invisible)}>

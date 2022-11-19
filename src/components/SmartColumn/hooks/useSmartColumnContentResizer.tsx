@@ -1,19 +1,19 @@
 import { useCallback, useLayoutEffect, useEffect, useRef } from 'react';
-import { useColumnContext } from '~core/store/columnContext';
-import type { PanelMeta } from '~core/store/columnContext';
+import { useColumnContext } from './useColumnContext';
 import type { SetStateAction } from 'react';
+import type { PanelProps } from '../types';
 
 // Returns a callback that would handle element's height
-export const useHeightResizer = (
+export const useSmartColumnContentResizer = (
   setIsOpen: (value: SetStateAction<boolean>) => void,
   isOpen: boolean,
   minHeight: number,
 ) => {
-  const columnContext = useColumnContext();
   const openStateRef = useRef(isOpen);
   const cleanup = useRef<() => void>();
   const contentRef = useRef<HTMLDivElement | null>(null);
   const persistedCustomHeight = useRef<string | null>(null);
+  const resizer = useColumnContext();
   /* Restore custom size */
   useLayoutEffect(() => {
     if (contentRef.current && persistedCustomHeight.current) {
@@ -37,19 +37,19 @@ export const useHeightResizer = (
     (node: HTMLDivElement) => {
       contentRef.current = node;
       if (cleanup.current) cleanup.current();
-      if (!columnContext) return;
+      if (!resizer) return;
       if (node) {
-        const panel: PanelMeta = {
+        const panel: PanelProps = {
           resizableNode: node,
           closeCb: () => setIsOpen(false),
           minHeight,
           getOpenState: () => openStateRef.current,
         };
         // UseCallback not have cleanup like useEffect, this is workaround
-        cleanup.current = columnContext.addPanel(panel);
+        cleanup.current = resizer.addPanel(panel);
       }
     },
-    [columnContext, setIsOpen, minHeight],
+    [resizer, setIsOpen, minHeight],
   );
 
   return handleRefChange;

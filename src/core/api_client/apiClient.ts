@@ -1,6 +1,5 @@
 import jwtDecode from 'jwt-decode';
-import { i18n } from '~core/localization';
-import config from '~core/app_config';
+import core from '~core/index';
 import { create } from '~utils/axios/apisauce/apisauce';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { ApiMethodTypes, getGeneralApiProblem } from './types';
@@ -294,17 +293,17 @@ export class ApiClient {
 
     switch (errorResponse.kind) {
       case 'timeout':
-        return i18n.t('errors.timeout');
+        return core.i18n.t('errors.timeout');
       case 'cannot-connect':
-        return i18n.t('errors.cannot_connect');
+        return core.i18n.t('errors.cannot_connect');
       case 'forbidden':
-        return i18n.t('errors.forbidden');
+        return core.i18n.t('errors.forbidden');
       case 'not-found':
-        return i18n.t('errors.not_found');
+        return core.i18n.t('errors.not_found');
       case 'unknown':
-        return i18n.t('errors.unknown');
+        return core.i18n.t('errors.unknown');
       default:
-        return i18n.t('errors.server_error');
+        return core.i18n.t('errors.server_error');
     }
   }
 
@@ -343,7 +342,7 @@ export class ApiClient {
     const params = new URLSearchParams();
     params.append('username', username);
     params.append('password', password);
-    params.append('client_id', config.keycloakClientId);
+    params.append('client_id', core.config.keycloakClientId);
     params.append('grant_type', 'password');
 
     const response = await this.apiSauceInstance.post<KeycloakAuthResponse>(
@@ -402,7 +401,7 @@ export class ApiClient {
     { token: string; refreshToken: string; jwtData: JWTData } | string | undefined
   > {
     const params = new URLSearchParams();
-    params.append('client_id', config.keycloakClientId);
+    params.append('client_id', core.config.keycloakClientId);
     params.append('refresh_token', this.refreshToken);
     params.append('grant_type', 'refresh_token');
 

@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { apiClient } from '~core/apiClientInstance';
+import core from '~core/index';
 import type { AdvancedAnalyticsData } from '~core/types';
 
 interface ResourceState {
@@ -24,7 +24,7 @@ export const worldAnalyticsResource = createAtom(
       schedule(async (dispatch) => {
         try {
           // 4. Call api
-          const response = await apiClient.post<AdvancedAnalyticsData[] | null>(
+          const response = await core.api.apiClient.post<AdvancedAnalyticsData[] | null>(
             `/advanced_polygon_details/`,
             null,
             false,
@@ -38,9 +38,7 @@ export const worldAnalyticsResource = createAtom(
             }),
           );
         } catch (e) {
-          dispatch(
-            create('_setState', { loading: false, error: e, data: null }),
-          );
+          dispatch(create('_setState', { loading: false, error: e, data: null }));
         }
       });
     });

@@ -1,4 +1,5 @@
-import { store } from '~core/store/store';
+import core from '~core/index';
+
 type Fn<Args extends any[] = any[], Return = any> = (...a: Args) => Return;
 
 export function createFeatureController<T extends Record<string, Fn>>(actions: T) {
@@ -7,9 +8,9 @@ export function createFeatureController<T extends Record<string, Fn>>(actions: T
     acc[actionName] = (payload) => {
       const action = actionCreator(payload);
       if (typeof action === 'function') {
-        action(store.dispatch);
+        action(core.store.dispatch);
       } else {
-        store.dispatch(action);
+        core.store.dispatch(action);
       }
     };
     return acc;

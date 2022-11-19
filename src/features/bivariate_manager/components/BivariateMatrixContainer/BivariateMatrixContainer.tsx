@@ -8,9 +8,9 @@ import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/ato
 import { createStateMap } from '~utils/atoms';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { BivariateGreetingsContainer } from '~features/bivariate_manager/components/BivariateGreetings/BivariateGreetingsContainer';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { isGeometryEmpty } from '~core/bivariate';
+import { isGeometryEmpty } from '~utils/bivariate';
 import s from './BivariateMatrixContainer.module.css';
 
 interface BivariateMatrixContainerProps {
@@ -90,9 +90,9 @@ const PanelHeader = () => {
 
   return (
     <div className={s.header}>
-      <Text type="heading-l">{i18n.t('bivariate.matrix.header.title')}</Text>
+      <Text type="heading-l">{core.i18n.t('bivariate.matrix.header.title')}</Text>
       {haveGeometry && (
-        <div className={s.hint}>{i18n.t('bivariate.matrix.header.hint')}</div>
+        <div className={s.hint}>{core.i18n.t('bivariate.matrix.header.hint')}</div>
       )}
     </div>
   );

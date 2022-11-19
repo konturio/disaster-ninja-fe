@@ -1,6 +1,6 @@
 import { utils } from '@nebula.gl/edit-modes';
 import { currentNotificationAtom } from '~core/shared_state';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { CustomDrawPolygonMode } from '../map-daw-tools/customDrawModes/CustomDrawPolygonMode';
 import type {
   ClickEvent,
@@ -105,8 +105,7 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       clickedEditHandle &&
       Array.isArray(clickedEditHandle.properties.positionIndexes) &&
       (clickedEditHandle.properties.positionIndexes[0] === 0 ||
-        clickedEditHandle.properties.positionIndexes[0] ===
-          clickSequence.length - 1)
+        clickedEditHandle.properties.positionIndexes[0] === clickSequence.length - 1)
     ) {
       // They clicked the first or last point (or double-clicked), so complete the polygon
 
@@ -140,10 +139,7 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
           type: 'FeatureCollection',
         };
 
-      const editAction = this['getAddFeatureOrBooleanPolygonAction'](
-        polygonToAdd,
-        props,
-      );
+      const editAction = this['getAddFeatureOrBooleanPolygonAction'](polygonToAdd, props);
 
       if (editAction) {
         props.onEdit(editAction);

@@ -1,6 +1,6 @@
 import { Button, Input, Text } from '@konturio/ui-kit';
 import { Label } from '~components/Label/Label';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import s from './EditFeatureForm.module.css';
 import type { ChangeEvent } from 'react';
 import type { Geometry } from 'geojson';
@@ -18,7 +18,7 @@ function ButtonPanel({ onSave }: { onSave: () => void }) {
   return (
     <div className={s.buttonsContainer}>
       <Button onClick={onSave} className={s.saveBtn}>
-        {i18n.t('draw_tools.save_features')}
+        {core.i18n.t('draw_tools.save_features')}
       </Button>
     </div>
   );
@@ -39,12 +39,8 @@ export function EditFeatureForm({
       <Input
         disabled={true}
         className={s.formParam}
-        renderLabel={<Label>{i18n.t('create_layer.location')}</Label>}
-        value={
-          geometry
-            ? `${geometry.coordinates[0]}, ${geometry.coordinates[1]}`
-            : ''
-        }
+        renderLabel={<Label>{core.i18n.t('create_layer.location')}</Label>}
+        value={geometry ? `${geometry.coordinates[0]}, ${geometry.coordinates[1]}` : ''}
       />
       {Object.entries(fieldsSettings.featureProperties).map(([key, type]) => {
         function onPropertyChange(ev: ChangeEvent<HTMLInputElement>) {
@@ -68,9 +64,7 @@ export function EditFeatureForm({
 export function EditFeaturePlaceholder() {
   return (
     <div className={s.formContainer}>
-      <Text type="short-m">
-        {i18n.t('create_layer.edit_feature_placeholder')}
-      </Text>
+      <Text type="short-m">{core.i18n.t('create_layer.edit_feature_placeholder')}</Text>
     </div>
   );
 }

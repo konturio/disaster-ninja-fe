@@ -6,8 +6,7 @@ import {
   toolbarControlsAtom,
 } from '~core/shared_state';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
-import app_config from '~core/app_config';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { currentNotificationAtom } from '~core/shared_state';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
 import {
@@ -20,7 +19,7 @@ export function initFileUploader() {
   toolbarControlsAtom.addControl.dispatch({
     id: GEOMETRY_UPLOADER_CONTROL_ID,
     name: GEOMETRY_UPLOADER_CONTROL_NAME,
-    title: i18n.t('geometry_uploader.title'),
+    title: core.i18n.t('geometry_uploader.title'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,
@@ -39,7 +38,7 @@ export function initFileUploader() {
         if (!geometryCamera || typeof geometryCamera === 'string') {
           currentNotificationAtom.showNotification.dispatch(
             'warning',
-            { title: i18n.t('geometry_uploader.title') },
+            { title: core.i18n.t('geometry_uploader.title') },
             6,
           );
           toolbarControlsAtom.disable.dispatch(GEOMETRY_UPLOADER_CONTROL_ID);
@@ -50,7 +49,7 @@ export function initFileUploader() {
 
         const { zoom, center } = geometryCamera;
         currentMapPositionAtom.setCurrentMapPosition.dispatch({
-          zoom: Math.min(zoom, app_config.autoFocus.maxZoom),
+          zoom: Math.min(zoom, core.config.autoFocus.maxZoom),
           ...center,
         });
         setTimeout(() => {

@@ -1,8 +1,7 @@
 import { createAtom } from '~utils/atoms';
-import { apiClient } from '~core/apiClientInstance';
 import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import type { EventWithGeometry } from '~core/types';
 
 const eventDependencyAtom = createAtom(
@@ -26,7 +25,7 @@ export const currentEventResourceAtom = createAsyncAtom(
   eventDependencyAtom,
   async (deps, abortController) => {
     if (deps && deps.event?.id && deps.feed?.id) {
-      const responseData = await apiClient.get<EventWithGeometry>(
+      const responseData = await core.api.apiClient.get<EventWithGeometry>(
         `/events/${deps.feed.id}/${deps.event.id}`,
         undefined,
         undefined,
@@ -34,7 +33,7 @@ export const currentEventResourceAtom = createAsyncAtom(
           signal: abortController.signal,
           errorsConfig: {
             dontShowErrors: false,
-            messages: { 404: i18n.t('current_event.not_found_request') },
+            messages: { 404: core.i18n.t('current_event.not_found_request') },
           },
         },
       );

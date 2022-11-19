@@ -1,4 +1,4 @@
-import { SmartColumn } from '../../SmartColumn/SmartColumn';
+import { SmartColumn } from '../../../../components/SmartColumn/SmartColumn';
 import s from './Desktop.module.css';
 
 export function DesktopLayout({

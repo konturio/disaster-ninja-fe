@@ -1,5 +1,5 @@
 import { downloadObject } from '~utils/file/download';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { createAtom } from '~utils/atoms';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { currentNotificationAtom } from '~core/shared_state';
@@ -82,7 +82,7 @@ export const toolboxAtom = createAtom(
         return actions.push(
           currentNotificationAtom.showNotification(
             'info',
-            { title: i18n.t('draw_tools.no_geometry_error') },
+            { title: core.i18n.t('draw_tools.no_geometry_error') },
             5,
           ),
         );

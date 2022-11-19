@@ -29,7 +29,7 @@ bootLoader
   .load()
   .then((core) => {
     import('./App');
-    core.appMetrics.mark('appConfig_loaded');
+    core.metrics.mark('appConfig_loaded');
   })
   .catch((e: Error) => {
     console.error(e);

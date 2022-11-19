@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import clsx from 'clsx';
 import { useAction, useAtom } from '@reatom/react';
 import { Panel } from '@konturio/ui-kit';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
@@ -52,7 +52,7 @@ export function EditFeaturesPanel() {
 
   return (
     <Panel
-      header={String(i18n.t('create_layer.edit_features'))}
+      header={core.i18n.t('create_layer.edit_features')}
       onHeaderClick={onPanelClose}
       className={clsx(s.sidePanel)}
       modal={{

@@ -1,7 +1,7 @@
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
 import { MapboxLayer } from '@deck.gl/mapbox';
 import { CustomMeasureDistanceMode } from '~core/draw_tools/map-daw-tools/customDrawModes/CustomMeasureDistanceMode';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { layerByOrder } from '~utils/map/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
@@ -69,8 +69,8 @@ export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
           multipoint: true,
           turfOptions: { units: 'kilometers' },
           formatTooltip: (distance: number) => {
-            const km = i18n.t('km');
-            const m = i18n.t('m');
+            const km = core.i18n.t('km');
+            const m = core.i18n.t('m');
             const distanceLabel =
               distance > 1
                 ? `${distance.toFixed(1)} ${km}.`

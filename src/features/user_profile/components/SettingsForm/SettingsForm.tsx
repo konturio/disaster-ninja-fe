@@ -3,11 +3,9 @@ import { useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
-import { authClientInstance } from '~core/authClientInstance';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { flatObjectsAreEqual } from '~utils/common';
 import { userResourceAtom } from '~core/auth';
-import appConfig from '~core/app_config';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserProfileState } from '../../atoms/userProfile';
@@ -24,7 +22,7 @@ export function SettingsForm() {
   const [{ data: userModel }] = useAtom(userResourceAtom);
 
   function logout() {
-    authClientInstance.logout();
+    core.api.authClient.logout();
   }
 
   // apply userProfile incoming settings to local settings
@@ -87,21 +85,21 @@ export function SettingsForm() {
   }
 
   const OPTIONS_THEME = [
-    { title: i18n.t('profile.konturTheme'), value: 'kontur' },
-    // { title: i18n.t('profile.HOTTheme'), value: 'hot' },
+    { title: core.i18n.t('profile.konturTheme'), value: 'kontur' },
+    // { title: core.i18n.t('profile.HOTTheme'), value: 'hot' },
   ];
   const OPTIONS_LANGUAGE = [
-    { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
-    { title: i18n.t('profile.spanishLanguageOption'), value: 'es' },
-    { title: i18n.t('profile.arabicLanguageOption'), value: 'ar' },
+    { title: core.i18n.t('profile.englishLanguageOption'), value: 'en' },
+    { title: core.i18n.t('profile.spanishLanguageOption'), value: 'es' },
+    { title: core.i18n.t('profile.arabicLanguageOption'), value: 'ar' },
   ];
 
-  const OPTIONS_FEED = (userModel?.feeds || [appConfig.defaultFeedObject]).map((o) => ({
+  const OPTIONS_FEED = (userModel?.feeds || [core.config.defaultFeedObject]).map((o) => ({
     title: o.name,
     value: o.feed,
   }));
 
-  const OPTIONS_OSM = appConfig.osmEditors.map((o) => ({
+  const OPTIONS_OSM = core.config.osmEditors.map((o) => ({
     title: o.title,
     value: o.id,
   }));
@@ -112,13 +110,15 @@ export function SettingsForm() {
         <div className={s.notFlexParent}>
           <div className={s.flexWrap}>
             <div className={s.profileWrap}>
-              <Text type="heading-xl">{i18n.t('profile.profileSettingsHeader')}</Text>
+              <Text type="heading-xl">
+                {core.i18n.t('profile.profileSettingsHeader')}
+              </Text>
 
               {/* Full Name */}
               <Input
                 classes={authInputClasses}
                 showTopPlaceholder
-                placeholder={i18n.t('profile.fullName')}
+                placeholder={core.i18n.t('profile.fullName')}
                 value={localSettings.fullName}
                 onChange={onFullnameChange}
               />
@@ -127,12 +127,12 @@ export function SettingsForm() {
               <Input
                 showTopPlaceholder
                 value={localSettings.email}
-                placeholder={i18n.t('profile.email')}
+                placeholder={core.i18n.t('profile.email')}
                 disabled
               />
               <div className={s.biography}>
                 <Textarea
-                  placeholder={i18n.t('profile.userBio(about)')}
+                  placeholder={core.i18n.t('profile.userBio(about)')}
                   showTopPlaceholder
                   value={localSettings.bio}
                   onChange={onBioChange}
@@ -147,7 +147,7 @@ export function SettingsForm() {
             <div className={s.divider} />
 
             <div className={s.settingsWrap}>
-              <Text type="heading-xl">{i18n.t('profile.appSettingsHeader')}</Text>
+              <Text type="heading-xl">{core.i18n.t('profile.appSettingsHeader')}</Text>
               <Select
                 value={localSettings.theme}
                 alwaysShowPlaceholder
@@ -155,7 +155,7 @@ export function SettingsForm() {
                 withResetButton={false}
                 onSelect={onThemeChange}
               >
-                {i18n.t('profile.interfaceTheme')}
+                {core.i18n.t('profile.interfaceTheme')}
               </Select>
 
               <Select
@@ -165,23 +165,23 @@ export function SettingsForm() {
                 withResetButton={false}
                 onSelect={onLanguageChange}
               >
-                {i18n.t('profile.interfaceLanguage')}
+                {core.i18n.t('profile.interfaceLanguage')}
               </Select>
 
               <div className={s.unitsSelection}>
-                <Text type="short-l">{i18n.t('profile.units')}</Text>
+                <Text type="short-l">{core.i18n.t('profile.units')}</Text>
 
                 <Radio
                   as="input"
                   id="metric"
-                  label={i18n.t('profile.metric')}
+                  label={core.i18n.t('profile.metric')}
                   checked={localSettings.useMetricUnits}
                   onChange={toggleUnits}
                 />
                 <Radio
                   as="input"
                   id="imperial"
-                  label={i18n.t('profile.imperialBeta')}
+                  label={core.i18n.t('profile.imperialBeta')}
                   checked={!localSettings.useMetricUnits}
                   onChange={toggleUnits}
                 />
@@ -194,7 +194,7 @@ export function SettingsForm() {
                 withResetButton={false}
                 onSelect={onFeedChange}
               >
-                {i18n.t('profile.defaultDisasterFeed')}
+                {core.i18n.t('profile.defaultDisasterFeed')}
               </Select>
 
               <Select
@@ -204,7 +204,7 @@ export function SettingsForm() {
                 withResetButton={false}
                 onSelect={onOSMeditorChange}
               >
-                {i18n.t('profile.defaultOSMeditor')}
+                {core.i18n.t('profile.defaultOSMeditor')}
               </Select>
 
               <div className={s.saveWrap}>
@@ -214,7 +214,7 @@ export function SettingsForm() {
                   </div>
                 ) : (
                   <Button onClick={onSave} disabled={status === 'init'}>
-                    <Text type="short-m">{i18n.t('profile.saveButton')}</Text>
+                    <Text type="short-m">{core.i18n.t('profile.saveButton')}</Text>
                   </Button>
                 )}
               </div>
@@ -225,7 +225,7 @@ export function SettingsForm() {
 
       <div className={s.logoutWrap}>
         <Button onClick={logout} variant="invert">
-          <Text type="short-m">{i18n.t('logout')}</Text>
+          <Text type="short-m">{core.i18n.t('logout')}</Text>
         </Button>
       </div>
     </>

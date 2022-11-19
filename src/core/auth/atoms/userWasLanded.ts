@@ -1,4 +1,4 @@
-import config from '~core/app_config';
+import core from '~core/index';
 import { createAtom } from '~utils/atoms';
 import { userResourceAtom } from './userResource';
 
@@ -12,7 +12,7 @@ export const userWasLandedAtom = createAtom(
     if (userLoaded) {
       const initialUrl = new URL(localStorage.getItem('initialUrl') || '');
       const noSettingUrl =
-        location.pathname === config.baseUrl && initialUrl.search === '';
+        location.pathname === core.config.baseUrl && initialUrl.search === '';
       const userHaveLandedMark = localStorage.getItem('landed');
       if (noSettingUrl && !userHaveLandedMark) {
         localStorage.setItem('landed', 'true');

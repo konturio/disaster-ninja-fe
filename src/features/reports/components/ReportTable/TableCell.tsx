@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import jOSMLogo from '~features/reports/icons/JOSM.svg';
 import styles from './ReportTable.module.css';
 
@@ -9,17 +9,10 @@ type TableCellProps = {
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     link: string,
   ) => void;
-  openOSMID: (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    link: string,
-  ) => void;
+  openOSMID: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, link: string) => void;
 };
 
-export function TableCellComponent({
-  cell,
-  jOSMRedirect,
-  openOSMID,
-}: TableCellProps) {
+export function TableCellComponent({ cell, jOSMRedirect, openOSMID }: TableCellProps) {
   if (cell.startsWith('subrow_')) cell = cell.substring(7);
 
   if (cell.startsWith('hrefIcon_')) {
@@ -35,9 +28,9 @@ export function TableCellComponent({
         <a
           onClick={(e) => jOSMRedirect(e, link)}
           href={link}
-          title={i18n.t('reports.open_josm')}
+          title={core.i18n.t('reports.open_josm')}
         >
-          <img src={jOSMLogo} alt={i18n.t('reports.josm_logo_alt')} /> {name}
+          <img src={jOSMLogo} alt={core.i18n.t('reports.josm_logo_alt')} /> {name}
         </a>
       </td>
     );

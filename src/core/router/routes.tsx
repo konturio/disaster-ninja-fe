@@ -7,7 +7,6 @@ import {
   User24,
   Reports16,
 } from '@konturio/default-icons';
-import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { HeaderTitle } from '~components/HeaderTitle/HeaderTitle';
 import { UserStateToComponents } from '~core/auth';

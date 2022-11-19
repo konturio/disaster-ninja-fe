@@ -1,6 +1,6 @@
 import { currentNotificationAtom } from '~core/shared_state';
 import { readGeoJSON } from '~utils/geoJSON/helpers';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 
 const input = (() => {
   const input = document.createElement('input');
@@ -19,7 +19,7 @@ export function askGeoJSONFile(onSuccess: (geoJSON: GeoJSON.GeoJSON) => void) {
       } catch (error) {
         currentNotificationAtom.showNotification.dispatch(
           'error',
-          { title: i18n.t('geometry_uploader.error') },
+          { title: core.i18n.t('geometry_uploader.error') },
           5,
         );
       } finally {

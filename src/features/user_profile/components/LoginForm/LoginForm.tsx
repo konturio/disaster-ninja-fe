@@ -1,8 +1,7 @@
 import { Button, Card, Input, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { authClientInstance } from '~core/authClientInstance';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { testEmail } from '~utils/form/validators';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import s from './LoginForm.module.css';
@@ -46,20 +45,20 @@ export function LoginForm() {
   const onLoginClick = async () => {
     const err: { email?: string; password?: string; general?: string } = {};
     if (!formData.email?.length) {
-      err.email = i18n.t('login.error.email_empty');
+      err.email = core.i18n.t('login.error.email_empty');
     } else {
       if (!testEmail(formData.email)) {
-        err.email = i18n.t('login.error.email_invalid');
+        err.email = core.i18n.t('login.error.email_invalid');
       }
     }
     if (!formData.password?.length) {
-      err.password = i18n.t('login.error.password');
+      err.password = core.i18n.t('login.error.password');
     }
     if (err.email || err.password) {
       setError(err);
     } else {
       setLoading(true);
-      const authResponse = await authClientInstance.authenticate(
+      const authResponse = await core.api.authClient.authenticate(
         formData.email || '',
         formData.password || '',
       );
@@ -69,7 +68,7 @@ export function LoginForm() {
           setError({ general: authResponse });
         } else {
           setError({
-            general: i18n.t('login.error.connect'),
+            general: core.i18n.t('login.error.connect'),
           });
         }
       }
@@ -95,20 +94,20 @@ export function LoginForm() {
     <Card ref={formRef} className={s.modalCard}>
       {loading && (
         <div className={s.loadingContainer}>
-          <LoadingSpinner message={i18n.t('login.logging_in')} />
+          <LoadingSpinner message={core.i18n.t('login.logging_in')} />
         </div>
       )}
-      <Text type="heading-xl">{i18n.t('login.log_in')}</Text>
+      <Text type="heading-xl">{core.i18n.t('login.log_in')}</Text>
       <div className={s.loginDescription}>
-        <Text type="short-m">{i18n.t('login.description')}</Text>
+        <Text type="short-m">{core.i18n.t('login.description')}</Text>
       </div>
       {/*<div className={s.socialLoginContainer}>*/}
-      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='google' />}>{i18n.t('Google')}</Button>*/}
-      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='github' />}>{i18n.t('Github')}</Button>*/}
-      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='osm' />}>{i18n.t('OSM')}</Button>*/}
+      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='google' />}>{core.i18n.t('Google')}</Button>*/}
+      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='github' />}>{core.i18n.t('Github')}</Button>*/}
+      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='osm' />}>{core.i18n.t('OSM')}</Button>*/}
       {/*</div>*/}
       {/*<div className={s.useEmailLabelContainer}>*/}
-      {/*  <div className={s.useEmailLabel}>{i18n.t('or use email')}</div>*/}
+      {/*  <div className={s.useEmailLabel}>{core.i18n.t('or use email')}</div>*/}
       {/*</div>*/}
       <div className={s.inputsContainer}>
         <Input
@@ -117,7 +116,7 @@ export function LoginForm() {
           showTopPlaceholder
           value={formData.email || ''}
           onChange={onEmailInputChange}
-          placeholder={i18n.t('login.email')}
+          placeholder={core.i18n.t('login.email')}
         />
         <Input
           error={error.password || ''}
@@ -125,15 +124,15 @@ export function LoginForm() {
           showTopPlaceholder
           value={formData.password || ''}
           onChange={onPasswordInputChange}
-          placeholder={i18n.t('login.password')}
+          placeholder={core.i18n.t('login.password')}
           type="password"
         />
       </div>
       {error.general && <div className={s.errorMessageContainer}>{error.general}</div>}
-      {/*<div className={clsx(s.link, s.forgotPasswordContainer)}>{i18n.t('Forgot password?')}</div>*/}
+      {/*<div className={clsx(s.link, s.forgotPasswordContainer)}>{core.i18n.t('Forgot password?')}</div>*/}
       <div className={s.loginButtonContainer}>
         <Button onClick={onLoginClick} className={s.loginButton}>
-          {i18n.t('login.log_in')}
+          {core.i18n.t('login.log_in')}
         </Button>
       </div>
       <div className={clsx(s.link, s.registerContainter)}>
@@ -142,13 +141,13 @@ export function LoginForm() {
           target="_blank"
           rel="noreferrer"
         >
-          {i18n.t('login.sign_up')}
+          {core.i18n.t('login.sign_up')}
         </a>
       </div>
       {/*<div className={s.signUpContainer}>*/}
-      {/*  <span>{i18n.t('Don\'t have an account?')}</span>*/}
+      {/*  <span>{core.i18n.t('Don\'t have an account?')}</span>*/}
       {/*  &nbsp;&nbsp;*/}
-      {/*  <span className={s.link}>{i18n.t('Sign up')}</span>*/}
+      {/*  <span className={s.link}>{core.i18n.t('Sign up')}</span>*/}
       {/*</div>*/}
     </Card>
   );

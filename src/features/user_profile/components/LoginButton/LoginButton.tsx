@@ -1,15 +1,14 @@
 import { Button } from '@konturio/ui-kit';
-import { i18n } from '~core/localization';
-import { authClientInstance } from '~core/authClientInstance';
+import core from '~core/index';
 import s from './LoginButton.module.css';
 
 export const LoginButton = () => (
   <Button
-    onClick={authClientInstance.showLoginForm}
+    onClick={core.api.authClient.showLoginForm}
     size="small"
     dark
     className={s.loginButton}
   >
-    {i18n.t('login.login_button')}
+    {core.i18n.t('login.login_button')}
   </Button>
 );

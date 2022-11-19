@@ -7,13 +7,15 @@ import { useAtom } from '@reatom/react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms/createStateMap';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { userResourceAtom } from '~core/auth';
 import { AppFeature } from '~core/auth/types';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
-import { useHeightResizer } from '~utils/hooks/useResizer';
+import {
+  useAutoCollapsePanel,
+  useSmartColumnContentResizer,
+} from '~components/SmartColumn';
 import { FeedSelector } from '../FeedSelector/FeedSelector';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
@@ -40,7 +42,7 @@ export function EventsListPanel({
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const virtuoso = useRef(null);
   const [{ data: userModel }] = useAtom(userResourceAtom);
-  const handleRefChange = useHeightResizer(setIsOpen, isOpen, MIN_HEIGHT);
+  const contentRef = useSmartColumnContentResizer(setIsOpen, isOpen, MIN_HEIGHT);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -79,7 +81,7 @@ export function EventsListPanel({
   return (
     <div className={clsx(s.panelContainer, isOpen && s.open)}>
       <Panel
-        header={String(i18n.t('disasters'))}
+        header={core.i18n.t('disasters')}
         headerIcon={<Disasters24 />}
         className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
         onHeaderClick={togglePanel}
@@ -89,7 +91,7 @@ export function EventsListPanel({
         minContentHeightPx={MIN_HEIGHT}
         resize={isMobile ? 'none' : 'vertical'}
         contentClassName={s.contentWrap}
-        contentContainerRef={handleRefChange}
+        contentContainerRef={contentRef}
       >
         <div className={s.panelBody}>
           <EventListSettingsRow>
@@ -98,7 +100,7 @@ export function EventsListPanel({
           </EventListSettingsRow>
           <div className={s.scrollable}>
             {statesToComponents({
-              loading: <LoadingSpinner message={i18n.t('loading_events')} />,
+              loading: <LoadingSpinner message={core.i18n.t('loading_events')} />,
               error: (errorMessage) => <ErrorMessage message={errorMessage} />,
               ready: (eventsList) => (
                 <Virtuoso

@@ -1,4 +1,4 @@
-import { apiClient } from '~core/apiClientInstance';
+import core from '~core/index';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { LAYERS_IN_AREA_API_ERROR } from '../constants';
 import type { LayerInArea } from '../types';
@@ -6,7 +6,7 @@ import type { LayerInArea } from '../types';
 export const layersGlobalResource = createAsyncAtom(
   null,
   async (_, abortController) => {
-    const layers = await apiClient.post<LayerInArea[]>(
+    const layers = await core.api.apiClient.post<LayerInArea[]>(
       '/layers/search/global',
       undefined,
       true,

@@ -8,7 +8,7 @@ import { focusedGeometryAtom } from '~core/shared_state';
 import { advancedAnalyticsResourceAtom } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsResource';
 import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsEmptyState/AdvancedAnalyticsEmptyState';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 
 const AdvancedAnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(advancedAnalyticsResourceAtom);
@@ -35,7 +35,7 @@ const AdvancedAnalyticsContainer = () => {
       return (
         <Tabs>
           <TabList style={{ display: 'none' }}>
-            <Tab>{i18n.t('advanced_analytics_panel.analytics_tab')}</Tab>
+            <Tab>{core.i18n.t('advanced_analytics_panel.analytics_tab')}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

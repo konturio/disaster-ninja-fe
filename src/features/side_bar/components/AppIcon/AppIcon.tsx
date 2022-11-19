@@ -1,5 +1,5 @@
 import { useAtom } from '@reatom/react';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { currentAppPropertiesResourceAtom } from '~core/shared_state/currentApplication';
 
 export function SidebarAppIcon() {
@@ -10,7 +10,7 @@ export function SidebarAppIcon() {
       src={appParams?.sidebarIconUrl}
       width={24}
       height={24}
-      alt={i18n.t('sidebar.icon_alt')}
+      alt={core.i18n.t('sidebar.icon_alt')}
     />
   );
   const asyncIcon = appParams?.sidebarIconUrl ? appIcon : null;

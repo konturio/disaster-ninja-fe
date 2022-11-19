@@ -1,5 +1,5 @@
 import { Trans } from 'react-i18next';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import s from './About.module.css';
 
 export function AboutPage({ toHomePage }: { toHomePage: () => void }) {
@@ -10,7 +10,7 @@ function AboutText({ toHomePage }: { toHomePage: () => void }) {
   return (
     <div className={s.mainWrap}>
       <div className={s.content}>
-        <h1 className={s.pageTitle}>{i18n.t('about.title')}</h1>
+        <h1 className={s.pageTitle}>{core.i18n.t('about.title')}</h1>
         <p>
           <Trans i18nKey="about.intro">
             Do you want to be notified about ongoing disasters? Are you interested in
@@ -30,7 +30,7 @@ function AboutText({ toHomePage }: { toHomePage: () => void }) {
         </p>
 
         <blockquote>
-          <h3>{i18n.t('about.l1')}</h3>
+          <h3>{core.i18n.t('about.l1')}</h3>
           <p>
             <Trans i18nKey="about.p1">
               The Disasters panel continually refreshes to inform you about ongoing
@@ -45,9 +45,9 @@ function AboutText({ toHomePage }: { toHomePage: () => void }) {
               , which you can also access via an API.
             </Trans>
           </p>
-          <h3>{i18n.t('about.l2')}</h3>
-          <p>{i18n.t('about.p2')}</p>
-          <h3>{i18n.t('about.l3')}</h3>
+          <h3>{core.i18n.t('about.l2')}</h3>
+          <p>{core.i18n.t('about.p2')}</p>
+          <h3>{core.i18n.t('about.l3')}</h3>
           <p>
             <Trans i18nKey="about.p3">
               The Analytics panel shows the number of people living in that area per{' '}
@@ -62,7 +62,7 @@ function AboutText({ toHomePage }: { toHomePage: () => void }) {
               to hundreds of other indicators through Advanced Analytics.
             </Trans>
           </p>
-          <h3>{i18n.t('about.l4')}</h3>
+          <h3>{core.i18n.t('about.l4')}</h3>
           <p>
             <Trans i18nKey="about.p4">
               The Layers panel gives you various options to display two indicators
@@ -75,11 +75,11 @@ function AboutText({ toHomePage }: { toHomePage: () => void }) {
           </p>
         </blockquote>
 
-        <p>{i18n.t('about.p5')}</p>
+        <p>{core.i18n.t('about.p5')}</p>
 
         <p>
           <span className={s.linkToMain} onClick={toHomePage}>
-            {i18n.t('about.goToMap')} ➜
+            {core.i18n.t('about.goToMap')} ➜
           </span>
         </p>
 

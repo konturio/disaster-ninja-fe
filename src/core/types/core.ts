@@ -1,4 +1,3 @@
-import type { Action } from '@reatom/core';
 import type { ApiClient } from '~core/api_client';
 import type { AuthClient } from '~core/auth';
 
@@ -61,9 +60,7 @@ export interface AppMetricsI {
   processEvent: (type: string, payload: any) => void;
 }
 
-export interface AppStore {
-  dispatch: (actions: Action | Action[]) => void;
-}
+export type { Store as AppStore } from '@reatom/core';
 
 export type { NotificationService } from '~core/notifications';
 export interface ApiService {
@@ -72,3 +69,14 @@ export interface ApiService {
   reportsClient: ApiClient;
   authClient: AuthClient;
 }
+
+export type AppInfoResponse = {
+  id: string;
+  name: string;
+  description: string;
+  ownedByUser: boolean;
+  features: string[];
+  sidebarIconUrl: string;
+  faviconUrl: string;
+  public: boolean;
+};

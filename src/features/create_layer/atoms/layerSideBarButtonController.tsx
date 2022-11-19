@@ -1,7 +1,7 @@
 import { AddLayer24 } from '@konturio/default-icons';
 import { createAtom } from '~utils/atoms';
 import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import {
   controlGroup,
   controlVisualGroup,
@@ -14,7 +14,7 @@ import { editableLayerControllerAtom } from './editableLayerController';
 const sidebarButtonParams = {
   id: CREATE_LAYER_CONTROL_ID,
   name: CREATE_LAYER_CONTROL_ID,
-  title: i18n.t('create_layer.create_layer'),
+  title: core.i18n.t('create_layer.create_layer'),
   active: false,
   exclusiveGroup: controlGroup.mapTools,
   visualGroup: controlVisualGroup.noAnalytics,

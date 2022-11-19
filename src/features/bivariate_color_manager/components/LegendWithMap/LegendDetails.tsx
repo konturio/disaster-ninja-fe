@@ -1,5 +1,5 @@
 import { EditLine24 } from '@konturio/default-icons';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { convertDirectionsArrayToLabel } from '~utils/bivariate';
 import s from './LegendDetails.module.css';
 import type { Direction } from '~utils/bivariate';
@@ -18,9 +18,7 @@ export const LegendDetails = ({
   <div>
     <div className={s.LegendDetailsLabel}>
       {label +
-        (mostQualityDenominator
-          ? ` ${i18n.t('to')} ${mostQualityDenominator}`
-          : '')}
+        (mostQualityDenominator ? ` ${core.i18n.t('to')} ${mostQualityDenominator}` : '')}
     </div>
     <div className={s.LegendDetailsDirection}>
       {convertDirectionsArrayToLabel(direction)}

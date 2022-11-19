@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useAtom } from '@reatom/react';
 import { Button, Input } from '@konturio/ui-kit';
 import { PointFilled24 } from '@konturio/default-icons';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { LabelWithTooltip } from '~components/LabelWithTooltip/LabelWithTooltip';
 import { EditableLayerFieldsPlaceholder } from '../EditableLayerFieldsPlaceholder/EditableLayerFieldsPlaceholder';
 import s from './EditLayerForm.module.css';
@@ -15,13 +15,8 @@ interface EditLayerFormFormProps {
   onCancel: () => void;
 }
 
-export function EditLayerForm({
-  data,
-  onSave,
-  onCancel,
-}: EditLayerFormFormProps) {
-  const [formState, { addField, removeField, reorderFields, updateName }] =
-    useAtom(data);
+export function EditLayerForm({ data, onSave, onCancel }: EditLayerFormFormProps) {
+  const [formState, { addField, removeField, reorderFields, updateName }] = useAtom(data);
 
   const onNameChange = useCallback(
     (ev: ChangeEvent<HTMLInputElement>) => {
@@ -38,21 +33,17 @@ export function EditLayerForm({
         className={s.formInputContainer}
         renderLabel={
           <LabelWithTooltip
-            text={i18n.t('create_layer.layer_name')}
-            description={i18n.t('create_layer.layer_name')}
+            text={core.i18n.t('create_layer.layer_name')}
+            description={core.i18n.t('create_layer.layer_name')}
           />
         }
       />
       <div className={s.formParam}>
         <LabelWithTooltip
-          text={i18n.t('create_layer.marker_icon')}
-          description={i18n.t('create_layer.marker_icon')}
+          text={core.i18n.t('create_layer.marker_icon')}
+          description={core.i18n.t('create_layer.marker_icon')}
         />
-        <Button
-          iconBefore={<PointFilled24 />}
-          size="small"
-          variant="invert-outline"
-        />
+        <Button iconBefore={<PointFilled24 />} size="small" variant="invert-outline" />
       </div>
       <EditableLayerFieldsPlaceholder
         fieldModels={formState.fields}
@@ -62,10 +53,10 @@ export function EditLayerForm({
       />
       <div className={s.buttonsContainer}>
         <Button onClick={onSave} variant="primary" size="small">
-          {i18n.t(formState.id ? 'save' : 'create')}
+          {core.i18n.t(formState.id ? 'save' : 'create')}
         </Button>
         <Button onClick={onCancel} variant="invert-outline" size="small">
-          {i18n.t('cancel')}
+          {core.i18n.t('cancel')}
         </Button>
       </div>
     </div>

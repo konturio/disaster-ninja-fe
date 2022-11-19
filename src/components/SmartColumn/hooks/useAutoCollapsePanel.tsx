@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { COLLAPSE_PANEL_QUERY, useMediaQuery } from './useMediaQuery';
+import { COLLAPSE_PANEL_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 
 export const useAutoCollapsePanel = (isOpen: boolean, onPanelClose: () => void) => {
   const shouldCollapse = useMediaQuery(COLLAPSE_PANEL_QUERY);

@@ -1,4 +1,4 @@
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { TooltipWrapper } from '~components/Tooltip';
 import styles from './style.module.css';
 
@@ -128,17 +128,17 @@ const iconMapper = {
 };
 
 const tooltipTextMapper = {
-  population: i18n.t('bivariate.matrix.icon.population'),
-  area_km2: i18n.t('bivariate.matrix.icon.area_km2'),
-  total_building_count: i18n.t('bivariate.matrix.icon.total_building_count'),
-  populated_area_km2: i18n.t('bivariate.matrix.icon.populated_area_km2'),
-  one: i18n.t('bivariate.matrix.icon.one'),
+  population: core.i18n.t('bivariate.matrix.icon.population'),
+  area_km2: core.i18n.t('bivariate.matrix.icon.area_km2'),
+  total_building_count: core.i18n.t('bivariate.matrix.icon.total_building_count'),
+  populated_area_km2: core.i18n.t('bivariate.matrix.icon.populated_area_km2'),
+  one: core.i18n.t('bivariate.matrix.icon.one'),
 };
 
 const DenominatorIcon = ({ iconId }: DenominatorIconProps) => {
   const icon = iconMapper[iconId] || <TotalRoadsIcon />;
   const tooltipText =
-    tooltipTextMapper[iconId] || i18n.t('bivariate.matrix.icon.roads');
+    tooltipTextMapper[iconId] || core.i18n.t('bivariate.matrix.icon.roads');
 
   return (
     <TooltipWrapper tooltipText={tooltipText}>

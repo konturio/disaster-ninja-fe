@@ -1,6 +1,6 @@
 import { Finish16, Loading16 } from '@konturio/default-icons';
 import { useEffect, useState } from 'react';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import s from './ProgressTooltip.module.css';
 
 export const ProgressTooltip = ({ close }) => {
@@ -22,13 +22,13 @@ export const ProgressTooltip = ({ close }) => {
 const renderingContent = (
   <>
     <Loading16 className={s.LoadingSpinner} />
-    {i18n.t('bivariate.matrix.progress.rendering')}
+    {core.i18n.t('bivariate.matrix.progress.rendering')}
   </>
 );
 
 const doneContent = (
   <>
     <Finish16 className={s.DoneIcon} />
-    {i18n.t('bivariate.matrix.progress.applied')}
+    {core.i18n.t('bivariate.matrix.progress.applied')}
   </>
 );

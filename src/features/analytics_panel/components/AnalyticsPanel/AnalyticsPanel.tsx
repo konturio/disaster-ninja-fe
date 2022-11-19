@@ -2,11 +2,13 @@ import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { lazy, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { Analytics24 } from '@konturio/default-icons';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { panelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
-import { useHeightResizer } from '~utils/hooks/useResizer';
+import {
+  useSmartColumnContentResizer,
+  useAutoCollapsePanel,
+} from '~components/SmartColumn';
 import { MIN_HEIGHT } from '../../constants';
 import styles from './AnalyticsPanel.module.css';
 
@@ -20,7 +22,7 @@ const LazyLoadedAnalyticsPanelHeader = lazy(
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const handleRefChange = useHeightResizer(setIsOpen, isOpen, MIN_HEIGHT);
+  const contentRef = useSmartColumnContentResizer(setIsOpen, isOpen, MIN_HEIGHT);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -38,7 +40,7 @@ export function AnalyticsPanel() {
   return (
     <div className={clsx(styles.panelContainer, isOpen && styles.isOpen)}>
       <Panel
-        header={String(i18n.t('analytics_panel.header_title'))}
+        header={String(core.i18n.t('analytics_panel.header_title'))}
         headerIcon={<Analytics24 />}
         onHeaderClick={togglePanel}
         className={clsx(
@@ -55,7 +57,7 @@ export function AnalyticsPanel() {
         minContentHeightPx={MIN_HEIGHT}
         resize="vertical"
         contentClassName={styles.contentWrap}
-        contentContainerRef={handleRefChange}
+        contentContainerRef={contentRef}
       >
         <div className={styles.panelBody}>
           <LazyLoadedAnalyticsPanelHeader />

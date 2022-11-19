@@ -1,7 +1,7 @@
 import { Text } from '@konturio/ui-kit';
 import { useMemo } from 'react';
 import { People16, Area16 } from '@konturio/default-icons';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import s from './Analytics.module.css';
 
 const Sub = ({ children }) => (
@@ -32,21 +32,21 @@ export function Analytics({
 
     if (affectedPeople === 0)
       result.push({
-        tooltip: i18n.t('event_list.analytics.affected_people.tooltip'),
-        value: i18n.t('event_list.analytics.affected_people.value'),
+        tooltip: core.i18n.t('event_list.analytics.affected_people.tooltip'),
+        value: core.i18n.t('event_list.analytics.affected_people.value'),
         icon: <People16 />,
       });
 
     if (typeof affectedPeople === 'number')
       result.push({
-        tooltip: i18n.t('event_list.analytics.affected_people.tooltip'),
+        tooltip: core.i18n.t('event_list.analytics.affected_people.tooltip'),
         value: formatNumber(affectedPeople),
         icon: <People16 />,
       });
 
     if (typeof settledArea === 'number')
       result.push({
-        tooltip: i18n.t('event_list.analytics.settled_area.tooltip'),
+        tooltip: core.i18n.t('event_list.analytics.settled_area.tooltip'),
 
         value: (
           <span>
@@ -58,7 +58,7 @@ export function Analytics({
 
     if (typeof loss === 'number')
       result.push({
-        tooltip: i18n.t('event_list.analytics.loss.tooltip'),
+        tooltip: core.i18n.t('event_list.analytics.loss.tooltip'),
         value: `$${formatNumber(loss)} estimated loss`,
       });
 

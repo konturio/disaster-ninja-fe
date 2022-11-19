@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
@@ -82,17 +82,17 @@ export const editableLayersControlsAtom = createAtom(
           menu: [
             {
               id: 'edit_layer',
-              name: i18n.t('create_layer.edit_layer'),
+              name: core.i18n.t('create_layer.edit_layer'),
               callback: () => editableLayerControllerAtom.editLayer.dispatch(layerId),
             },
             {
               id: 'edit_features',
-              name: i18n.t('create_layer.edit_features'),
+              name: core.i18n.t('create_layer.edit_features'),
               callback: () => featurePanelControllerAtom.editFeatures.dispatch(layerId),
             },
             {
               id: 'delete_layer',
-              name: i18n.t('create_layer.delete_layer'),
+              name: core.i18n.t('create_layer.delete_layer'),
               callback: () => editableLayerControllerAtom.deleteLayer.dispatch(layerId),
             },
           ],

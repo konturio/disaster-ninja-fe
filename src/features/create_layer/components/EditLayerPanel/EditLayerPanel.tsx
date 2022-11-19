@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useAction, useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { Panel } from '@konturio/ui-kit';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
@@ -38,7 +38,7 @@ export function EditLayerPanel() {
 
   return (
     <Panel
-      header={String(i18n.t('create_layer.create_layer'))}
+      header={String(core.i18n.t('create_layer.create_layer'))}
       onHeaderClick={onPanelClose}
       className={clsx(
         s.sidePanel,
@@ -53,7 +53,9 @@ export function EditLayerPanel() {
       <div className={s.panelBody}>
         {statesToComponents &&
           statesToComponents({
-            loading: <LoadingSpinner message={i18n.t('create_layer.saving_layer')} />,
+            loading: (
+              <LoadingSpinner message={core.i18n.t('create_layer.saving_layer')} />
+            ),
             error: (errorMessage) => <ErrorMessage message={errorMessage} />,
             ready: (data) => {
               return (

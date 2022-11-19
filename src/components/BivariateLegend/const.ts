@@ -1,4 +1,4 @@
-import { i18n } from '~core/localization';
+import core from '~core/index';
 
 export const BIVARIATE_LEGEND_SIZE = 3;
 
@@ -9,9 +9,9 @@ export const CORNER_POINTS_INDEXES = [
   BIVARIATE_LEGEND_SIZE * BIVARIATE_LEGEND_SIZE - 1,
 ];
 
-export const LOW = `↓${i18n.t('bivariate.legend.low')}`;
-export const HIGH = `↑${i18n.t('bivariate.legend.high')}`;
-export const MEDIUM = i18n.t('bivariate.legend.medium');
+export const LOW = `↓${core.i18n.t('bivariate.legend.low')}`;
+export const HIGH = `↑${core.i18n.t('bivariate.legend.high')}`;
+export const MEDIUM = core.i18n.t('bivariate.legend.medium');
 
 // functions below are needed to check if cell is located on any side of the bivariate legend matrix
 export const isTopSide = (index: number): boolean =>

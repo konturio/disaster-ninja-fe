@@ -1,5 +1,5 @@
-import { apiClient } from '~core/apiClientInstance';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import core from '~core/index';
 import { areaLayersDetailsParamsAtom } from './areaLayersDetailsParamsAtom';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResourceAtomCache';
 import type { LayerInAreaDetails } from '../../types';
@@ -10,7 +10,7 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
     if (params === null) return null;
     // exclude layersToRetrieveWithEventId from body - in needed just for cache invalidation
     const { layersToRetrieveWithEventId, ...body } = params;
-    const request = await apiClient.post<LayerInAreaDetails[]>(
+    const request = await core.api.apiClient.post<LayerInAreaDetails[]>(
       '/layers/details',
       body,
       true,

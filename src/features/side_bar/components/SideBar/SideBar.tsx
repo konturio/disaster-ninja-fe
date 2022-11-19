@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { searchStringAtom } from '~core/url_store/atoms/urlStore';
 import { availableRoutesAtom, getAbsoluteRoute } from '~core/router';
@@ -156,7 +156,7 @@ export function SideBar() {
                     iconBefore={<DoubleChevronLeft24 />}
                     className={s.controlButton}
                   >
-                    <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
+                    <span className={s.modeName}>{core.i18n.t('sidebar.collapse')}</span>
                   </ActionsBarBTN>
                 </div>
               ) : (
@@ -165,7 +165,10 @@ export function SideBar() {
                   onClick={toggleIsOpen}
                   onPointerLeave={onMouseLeave}
                   onPointerEnter={(e) =>
-                    onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
+                    onMouseEnter(
+                      e.target as HTMLDivElement,
+                      core.i18n.t('sidebar.expand'),
+                    )
                   }
                 >
                   <ActionsBarBTN

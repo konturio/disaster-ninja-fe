@@ -1,5 +1,5 @@
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
-import { IMPORTANT_BIVARIATE_LAYERS } from './constants';
+import { IMPORTANT_BIVARIATE_LAYERS } from '../../core/constants';
 
 // we need this function to get rid of "properties" param in geojson geom cause
 // sometimes it contains inappropriate symbols like ":" which causes server side errors

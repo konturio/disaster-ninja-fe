@@ -7,7 +7,7 @@ import {
 } from '@konturio/ui-kit/tslib/Tabs/components';
 import { ColumnWidth16, Tags16, Twoxtwo16 } from '@konturio/default-icons';
 import { ColorLegendsView } from '~views/BivariateManager/sub_views/ColorLegends/ColorLegendsView';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import style from './BivariateManager.module.css';
 
 export function BivariateManagerPage() {
@@ -23,7 +23,7 @@ export function BivariateManagerPage() {
             <span className={style.TabIcon}>
               <ColumnWidth16 />
             </span>
-            {i18n.t('bivariate.color_manager.sentiments_tab')}
+            {core.i18n.t('bivariate.color_manager.sentiments_tab')}
           </div>
         </Tab>
         <Tab className={style.Tab} classes={tabsClasses}>
@@ -31,7 +31,7 @@ export function BivariateManagerPage() {
             <span className={style.TabIcon}>
               <Twoxtwo16 />
             </span>
-            {i18n.t('bivariate.color_manager.color_legends_tab')}
+            {core.i18n.t('bivariate.color_manager.color_legends_tab')}
           </div>
         </Tab>
         <Tab className={style.Tab} classes={tabsClasses}>
@@ -39,7 +39,7 @@ export function BivariateManagerPage() {
             <span className={style.TabIcon}>
               <Tags16 />
             </span>
-            {i18n.t('bivariate.color_manager.layers_tab')}
+            {core.i18n.t('bivariate.color_manager.layers_tab')}
           </div>
         </Tab>
       </TabList>

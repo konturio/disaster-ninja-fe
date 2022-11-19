@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAtom } from '@reatom/react';
 import i18next from 'i18next';
 import { Text } from '@konturio/ui-kit';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { currentReportAtom } from '../../atoms/reportResource';
 import { tableAtom } from '../../atoms/tableAtom';
 import sortIcon from '../../icons/sort_triangle.svg';
@@ -25,11 +25,11 @@ export function ReportTable() {
   const [meta] = useAtom(currentReportAtom);
 
   if (data === null) {
-    return <Text type="heading-xl">{i18n.t('reports.no_data')}</Text>;
+    return <Text type="heading-xl">{core.i18n.t('reports.no_data')}</Text>;
   }
 
   if (isSorting) {
-    return <Text type="heading-xl">{i18n.t('reports.sorting')}</Text>;
+    return <Text type="heading-xl">{core.i18n.t('reports.sorting')}</Text>;
   }
 
   return (

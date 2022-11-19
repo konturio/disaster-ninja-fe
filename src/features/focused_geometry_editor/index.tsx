@@ -7,11 +7,10 @@ import {
 } from '~core/draw_tools/constants';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { forceRun } from '~utils/atoms/forceRun';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
-import { store } from '~core/store/store';
 import { setIndexesForCurrentGeometryAtom } from '~core/draw_tools/atoms/selectedIndexesAtom';
 import { isEditorActiveAtom } from './atoms/isEditorActive';
 import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
@@ -22,7 +21,7 @@ export function initFocusedGeometry() {
   toolbarControlsAtom.addControl.dispatch({
     id: FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
     name: FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
-    title: i18n.t('focus_geometry.title'),
+    title: core.i18n.t('focus_geometry.title'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,
@@ -32,7 +31,7 @@ export function initFocusedGeometry() {
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
-        store.dispatch([
+        core.store.dispatch([
           isEditorActiveAtom.set(true),
           toolboxAtom.setSettings({
             availableModes: ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode'],
@@ -47,7 +46,7 @@ export function initFocusedGeometry() {
           setIndexesForCurrentGeometryAtom.set(true),
         ]);
       } else {
-        store.dispatch([
+        core.store.dispatch([
           isEditorActiveAtom.set(false),
           drawModeLogicalLayerAtom.disable(),
           activeDrawModeAtom.setDrawMode(null),

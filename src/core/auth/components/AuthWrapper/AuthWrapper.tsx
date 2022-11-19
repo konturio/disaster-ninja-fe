@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react';
-import { authClientInstance } from '~core/authClientInstance';
+import core from '~core/index';
 import type { ReactNode } from 'react';
 
-export function AuthWrapper({
-  children,
-}: {
-  children: ReactNode | ReactNode[];
-}) {
+export function AuthWrapper({ children }: { children: ReactNode | ReactNode[] }) {
   const [initialized, setInitialized] = useState<boolean>(false);
 
   useEffect(() => {
     async function initApp() {
-      await authClientInstance.checkAuth();
+      await core.api.authClient.checkAuth();
       setInitialized(true);
     }
 

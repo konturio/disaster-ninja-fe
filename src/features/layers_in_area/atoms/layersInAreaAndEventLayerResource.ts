@@ -1,4 +1,3 @@
-import { apiClient } from '~core/apiClientInstance';
 import {
   currentApplicationAtom,
   currentEventFeedAtom,
@@ -7,6 +6,7 @@ import {
 import { createAtom } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { removeEmpty } from '~utils/common';
+import core from '~core/index';
 import { LAYERS_IN_AREA_API_ERROR } from '../constants';
 import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
 import type { LayerInArea } from '../types';
@@ -60,7 +60,7 @@ export const layersInAreaAndEventLayerResource = createAsyncAtom(
   layersInAreaAndEventLayerResourceParametersAtom,
   async (layersInAreaAndEventLayerResourceParameters, abortController) => {
     if (layersInAreaAndEventLayerResourceParameters === null) return null;
-    const layers = await apiClient.post<LayerInArea[]>(
+    const layers = await core.api.apiClient.post<LayerInArea[]>(
       '/layers/search/selected_area',
       layersInAreaAndEventLayerResourceParameters,
       true,

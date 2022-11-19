@@ -8,8 +8,7 @@ import {
   HOVERED_BOUNDARIES_SOURCE_ID,
 } from '~features/boundary_selector/constants';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
-import { i18n } from '~core/localization';
-import { store } from '~core/store/store';
+import core from '~core/index';
 import { forceRun } from '~utils/atoms/forceRun';
 import { BoundarySelectorRenderer } from './renderers/BoundarySelectorRenderer';
 import { createBoundaryRegistryAtom } from './atoms/boundaryRegistryAtom';
@@ -35,7 +34,7 @@ export function initBoundarySelector() {
   toolbarControlsAtom.addControl.dispatch({
     id: BOUNDARY_SELECTOR_CONTROL_ID,
     name: BOUNDARY_SELECTOR_CONTROL_NAME,
-    title: i18n.t('boundary_selector.title'),
+    title: core.i18n.t('boundary_selector.title'),
     active: false,
     exclusiveGroup: controlGroup.mapTools,
     visualGroup: controlVisualGroup.withAnalytics,
@@ -46,13 +45,13 @@ export function initBoundarySelector() {
     onChange: (becomesActive) => {
       if (becomesActive) {
         stopAll = forceRun([boundaryMarkerAtom, boundaryRegistryAtom]);
-        store.dispatch([
+        core.store.dispatch([
           boundaryRegistryAtom.start(),
           clickCoordinatesAtom.start(),
           boundaryMarkerAtom.start(),
         ]);
       } else {
-        store.dispatch([
+        core.store.dispatch([
           boundaryRegistryAtom.stop(),
           clickCoordinatesAtom.stop(),
           boundaryMarkerAtom.stop(),

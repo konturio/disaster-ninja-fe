@@ -1,5 +1,4 @@
-import { notificationServiceInstance } from '~core/notificationServiceInstance';
-import { apiClient } from '~core/apiClientInstance';
+import core from '~core/index';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
@@ -21,10 +20,10 @@ export const currentEditedLayerFeatures = createAtom(
     drawnGeometryAtom,
     reset: () => null,
     save: (safeCallbacks?: SafeCallbacks) => safeCallbacks,
-    setFeatureProperty: (
-      featureIdx: number,
-      properties: GeoJSON.GeoJsonProperties,
-    ) => ({ featureIdx, properties }),
+    setFeatureProperty: (featureIdx: number, properties: GeoJSON.GeoJsonProperties) => ({
+      featureIdx,
+      properties,
+    }),
   },
   (
     { onAction, getUnlistedState, schedule, get },
@@ -100,20 +99,17 @@ export const currentEditedLayerFeatures = createAtom(
       schedule(async (dispatch, ctx) => {
         if (ctx.layerId && stateSnapshot) {
           try {
-            await apiClient.put<unknown>(
+            await core.api.apiClient.put<unknown>(
               `/layers/${ctx.layerId}/items/`,
               new FeatureCollection(stateSnapshot),
               true,
             );
-            notificationServiceInstance.info(
-              { title: 'Features was saved' },
-              3,
-            );
+            core.notifications.info({ title: 'Features was saved' }, 3);
             if (safeCallbacks) safeCallbacks.onSuccess();
             dispatch(editableLayersListResource.refetch());
           } catch (e) {
             if (safeCallbacks) safeCallbacks.onError();
-            notificationServiceInstance.error({
+            core.notifications.error({
               title: 'Failed to save features',
             });
             console.error(e);

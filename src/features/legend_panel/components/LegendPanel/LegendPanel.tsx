@@ -3,12 +3,14 @@ import clsx from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useAction } from '@reatom/react';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { panelClasses } from '~components/Panel';
-import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
-import { useHeightResizer } from '~utils/hooks/useResizer';
+import {
+  useAutoCollapsePanel,
+  useSmartColumnContentResizer,
+} from '~components/SmartColumn';
 import { LEGEND_PANEL_FEATURE_ID, MIN_HEIGHT } from '../../constants';
 import s from './LegendPanel.module.css';
 import { LegendsList } from './LegendsList';
@@ -22,7 +24,7 @@ export function LegendPanel({ layers }: LegendPanelProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const turnOffTooltip = useAction(currentTooltipAtom.turnOffById);
-  const handleRefChange = useHeightResizer(setIsOpen, isOpen, MIN_HEIGHT);
+  const contentRef = useSmartColumnContentResizer(setIsOpen, isOpen, MIN_HEIGHT);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -45,7 +47,7 @@ export function LegendPanel({ layers }: LegendPanelProps) {
   return (
     <div className={clsx(s.panelContainer, isOpen && s.open)}>
       <Panel
-        header={String(i18n.t('legend'))}
+        header={core.i18n.t('legend')}
         headerIcon={<Legend24 />}
         onHeaderClick={togglePanel}
         className={clsx(s.legendPanel, isOpen ? s.show : s.collapse)}
@@ -57,7 +59,7 @@ export function LegendPanel({ layers }: LegendPanelProps) {
         }}
         minContentHeightPx={MIN_HEIGHT}
         resize={isMobile ? 'none' : 'vertical'}
-        contentContainerRef={handleRefChange}
+        contentContainerRef={contentRef}
         contentClassName={s.content}
       >
         <div className={s.scrollable}>

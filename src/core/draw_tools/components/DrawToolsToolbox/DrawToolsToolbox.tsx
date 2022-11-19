@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { Line24, PointOutline24, Area24, Trash24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
 import { Download24 } from '@konturio/default-icons';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { drawModes } from '../../constants';
 import { combinedAtom } from '../../atoms/combinedAtom';
 import { toolboxAtom } from '../../atoms/toolboxAtom';

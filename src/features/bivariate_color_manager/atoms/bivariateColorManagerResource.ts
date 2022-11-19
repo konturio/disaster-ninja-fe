@@ -2,15 +2,14 @@ import { generateColorTheme } from '~utils/bivariate/bivariateColorThemeUtils';
 import { isApiError } from '~core/api_client';
 import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
-import { i18n } from '~core/localization';
-import { createBivariateQuery } from '~core/bivariate';
+import core from '~core/index';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
+import { createBivariateQuery } from '~utils/bivariate';
 import type { Axis, Direction, Indicator } from '~utils/bivariate';
+import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { ColorTheme } from '~core/types';
-import { apiClient } from '~core/apiClientInstance';
 
 export type TableDataValue = {
   label: string;
@@ -63,7 +62,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
 
     try {
       const body = createBivariateQuery();
-      responseData = await apiClient.post<{
+      responseData = await core.api.apiClient.post<{
         data: BivariateStatisticsResponse;
       }>('/bivariate_matrix', body, true, {
         signal: abortController.signal,
@@ -77,11 +76,11 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
     }
 
     if (!responseData) {
-      throw new Error(i18n.t('no_data_received'));
+      throw new Error(core.i18n.t('no_data_received'));
     }
     if (!responseData?.data) {
       const msg = parseGraphQLErrors(responseData);
-      throw new Error(msg || i18n.t('no_data_received'));
+      throw new Error(msg || core.i18n.t('no_data_received'));
     }
 
     const stats = responseData.data.polygonStatistic.bivariateStatistic;
@@ -89,7 +88,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
 
     if (!correlationRates || !indicators || !axis) {
       const msg = parseGraphQLErrors(responseData);
-      throw new Error(msg || i18n.t('no_data_received'));
+      throw new Error(msg || core.i18n.t('no_data_received'));
     }
 
     const indicatorsMap = indicators.reduce<IndicatorsMap>((acc, value) => {

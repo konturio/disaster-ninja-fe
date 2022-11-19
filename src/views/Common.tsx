@@ -3,13 +3,13 @@ import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
 import { AppFeature } from '~core/auth/types';
-import { urlStoreAtom } from '~core/url_store/atoms/urlStore';
 import { forceRun } from '~utils/atoms/forceRun';
 import { Row } from '~components/Layout/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { currentRouteAtom } from '~core/router/atoms/currentRoute';
 import { userResourceAtom } from '~core/auth';
 import { Router } from '~core/router';
+import core from '~core/index';
 import type { PropsWithChildren } from 'react';
 
 const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
@@ -33,7 +33,7 @@ export function Views() {
   }, [userModel]);
 
   useEffect(() => {
-    return forceRun(urlStoreAtom);
+    return forceRun(core.urlStore.atom);
   }, []);
 
   return (

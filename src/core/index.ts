@@ -23,6 +23,7 @@ class Core {
   store: AppStore;
   notifications: NotificationService;
   sharedState: typeof sharedState;
+  api: ApiService;
   autoRefresh: AutoRefreshService;
   urlStore: URLStoreInited;
 
@@ -32,6 +33,7 @@ class Core {
     metrics,
     notifications,
     store,
+    api,
     autoRefresh,
     urlStore,
   }: {
@@ -48,8 +50,9 @@ class Core {
     this.i18n = i18n;
     this.config = config;
     this.metrics = metrics;
-    this.store = store;
     this.notifications = notifications;
+    this.store = store;
+    this.api = api;
     this.sharedState = sharedState;
     this.autoRefresh = autoRefresh;
     this.urlStore = urlStore;
@@ -97,9 +100,12 @@ class BootLoader {
       api,
     }).createAtom();
 
+    // default layers
+    // default appId
+    // `/apps/${appId}`
+
     /**
      * TODO:
-     * - bivariate
      * - draw_tools
      * - logical_layers
      * - router

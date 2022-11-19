@@ -4,7 +4,7 @@ import { useAtom } from '@reatom/react';
 import { Plus16 } from '@konturio/default-icons';
 import { nanoid } from 'nanoid';
 import cn from 'clsx';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { bivariateColorManagerResourceAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
 import { capitalize } from '~utils/common';
 import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
@@ -165,7 +165,7 @@ export const ColorLegendFilters = () => {
         <div className={style.FiltersContainer}>
           <Checkbox
             id="not_defined_sentiments_filter"
-            label={i18n.t('bivariate.color_manager.not_defined') as string}
+            label={core.i18n.t('bivariate.color_manager.not_defined') as string}
             className={style.NotDefinedCheckbox}
             onChange={onSelectNotDefinedSentimentsFilter}
             checked={notDefinedFilter}
@@ -196,7 +196,7 @@ export const ColorLegendFilters = () => {
               multiselect="aggregate"
             >
               {index === 0 ? (
-                i18n.t('bivariate.color_manager.sentiments_combinations_filter')
+                core.i18n.t('bivariate.color_manager.sentiments_combinations_filter')
               ) : (
                 <Plus16 />
               )}
@@ -209,7 +209,7 @@ export const ColorLegendFilters = () => {
             items={selectIndicatorsData}
             value={layersFilter}
           >
-            {i18n.t('bivariate.color_manager.layers_filter')}
+            {core.i18n.t('bivariate.color_manager.layers_filter')}
           </Autocomplete>
         </div>
       )}

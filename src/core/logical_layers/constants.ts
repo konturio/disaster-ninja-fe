@@ -1,4 +1,4 @@
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import type { CategorySettings, GroupSettings } from '../types/layers';
 
 export const LAYER_BIVARIATE_PREFIX = 'bivariate-layer-';

@@ -1,7 +1,7 @@
 import { createAtom } from '~utils/atoms';
 import { currentEventAtom, currentNotificationAtom } from '~core/shared_state';
 import { scheduledAutoFocus, scheduledAutoSelect } from '~core/shared_state/currentEvent';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { eventListResourceAtom } from './eventListResource';
 
 export const autoSelectEvent = createAtom(
@@ -32,7 +32,7 @@ export const autoSelectEvent = createAtom(
             dispatch(
               currentNotificationAtom.showNotification(
                 'warning',
-                { title: i18n.t('event_list.no_event_in_feed') },
+                { title: core.i18n.t('event_list.no_event_in_feed') },
                 5,
               ),
             ),

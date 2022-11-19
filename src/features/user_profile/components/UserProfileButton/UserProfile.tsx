@@ -4,8 +4,7 @@ import { Selector } from '@konturio/ui-kit/tslib/Selector';
 import clsx from 'clsx';
 import { Button } from '@konturio/ui-kit';
 import { User24 } from '@konturio/default-icons';
-import { i18n } from '~core/localization';
-import { authClientInstance } from '~core/authClientInstance';
+import core from '~core/index';
 import { userStateAtom } from '~core/auth/atoms/userState';
 import { LoginButton } from '../LoginButton/LoginButton';
 import s from './UserProfile.module.css';
@@ -13,8 +12,8 @@ import type { OptionType } from '@konturio/ui-kit/tslib/Selector';
 
 const userMenu: OptionType[] = [
   {
-    label: i18n.t('logout'),
-    hint: i18n.t('logout'),
+    label: core.i18n.t('logout'),
+    hint: core.i18n.t('logout'),
     value: 'logout',
   },
 ];
@@ -45,7 +44,7 @@ function UserAvatar() {
   const onMenuSelect = useCallback((val: string) => {
     switch (val) {
       case 'logout':
-        authClientInstance.logout();
+        core.api.authClient.logout();
         break;
     }
   }, []);

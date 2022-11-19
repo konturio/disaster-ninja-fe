@@ -1,7 +1,7 @@
 import { Button } from '@konturio/ui-kit';
 import { CloseFilled16, Update16 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { userResourceAtom } from '~core/auth';
 import { AppFeature } from '~core/auth/types';
 import { eventListFilters } from '../../atoms/eventListFilters';
@@ -15,8 +15,7 @@ export function BBoxFilterToggle() {
     [],
   );
   const isActive = bbox !== null;
-  return userModel &&
-    userModel.hasFeature(AppFeature.EVENTS_LIST__BBOX_FILTER) ? (
+  return userModel && userModel.hasFeature(AppFeature.EVENTS_LIST__BBOX_FILTER) ? (
     <div className={s.bBoxFilterToggle}>
       <Button
         variant="invert-outline"
@@ -25,7 +24,7 @@ export function BBoxFilterToggle() {
         onClick={isActive ? resetBboxFilter : setBBoxFilterFromCurrentMapView}
         iconAfter={isActive ? <CloseFilled16 /> : null}
       >
-        {i18n.t('event_list.bbox_filter_button')}
+        {core.i18n.t('event_list.bbox_filter_button')}
       </Button>
       {isActive && (
         <Button

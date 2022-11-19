@@ -1,46 +1,30 @@
-import { useContext, createContext } from 'react';
-import type { MutableRefObject } from 'react';
-
-export const ColumnContext = createContext<Resizer | null>(null);
-
-export function useColumnContext() {
-  return useContext(ColumnContext);
-}
-
-type DynamicDivRef = MutableRefObject<null | HTMLDivElement>;
-
-export type PanelMeta = {
-  resizableNode: HTMLDivElement;
-  closeCb: () => void;
-  minHeight: number;
-  getOpenState: () => boolean;
-};
+import type { PanelProps, DynamicDivRef } from './types';
 
 class PanelsRepository {
-  panels = new Set<PanelMeta>();
+  panels = new Set<PanelProps>();
 
-  add(panel: PanelMeta) {
+  add(panel: PanelProps) {
     this.panels.add(panel);
     return () => this.remove(panel);
   }
 
-  remove(panel: PanelMeta) {
+  remove(panel: PanelProps) {
     this.panels.delete(panel);
   }
 
-  closePanel(panel: PanelMeta) {
+  closePanel(panel: PanelProps) {
     panel.resizableNode.style.display = 'none'; // Prevent hide for remove flickering
     panel.closeCb();
   }
 
-  adjustToHeight(panel: PanelMeta, desiredHeight: number) {
+  adjustToHeight(panel: PanelProps, desiredHeight: number) {
     const newHeight = desiredHeight >= panel.minHeight ? desiredHeight : panel.minHeight;
     panel.resizableNode.style.height = newHeight + 'px';
   }
 
   /* Returns array with [panel, panelHeight] entries */
   getPanelsWithExtraSpace() {
-    return Array.from(this.panels).reduce((acc: [PanelMeta, number][], c) => {
+    return Array.from(this.panels).reduce((acc: [PanelProps, number][], c) => {
       const height = c.resizableNode.getBoundingClientRect().height;
       if (height > c.minHeight) {
         acc.push([c, height]);
@@ -151,7 +135,7 @@ export class Resizer {
     }
   }
 
-  addPanel(panel: PanelMeta) {
+  addPanel(panel: PanelProps) {
     return this.panels.add(panel);
   }
 

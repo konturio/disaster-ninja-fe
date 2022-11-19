@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { reatomContext } from '@reatom/react';
 import { StrictMode } from 'react';
-import { store } from '~core/store/store';
+import core from '~core/index';
 import { AuthWrapper } from '~core/auth';
 import { runGoogleTagManager } from '~utils/metrics/tagManager';
 import { Views } from '~views/Common';
@@ -9,7 +9,7 @@ import { Views } from '~views/Common';
 const root = createRoot(document.getElementById('root')!);
 root.render(
   <StrictMode>
-    <reatomContext.Provider value={store}>
+    <reatomContext.Provider value={core.store}>
       <AuthWrapper>
         <Views />
       </AuthWrapper>

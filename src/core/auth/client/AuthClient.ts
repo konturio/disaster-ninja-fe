@@ -1,6 +1,6 @@
 import { currentUserAtom } from '~core/shared_state';
 import { callYm } from '~utils/metrics/yandexCounter';
-import appConfig from '~core/app_config';
+import core from '~core/index';
 import { userStateAtom } from '~core/auth/atoms/userState';
 import type { JWTData } from '~core/api_client/types';
 import type { ApiClient } from '~core/api_client';
@@ -49,11 +49,11 @@ export class AuthClient {
     userStateAtom.logout.dispatch();
 
     if (window['Intercom']) {
-      appConfig.intercom.name = window.konturAppConfig.INTERCOM_DEFAULT_NAME;
-      appConfig.intercom['email'] = null;
+      core.config.intercom.name = window.konturAppConfig.INTERCOM_DEFAULT_NAME;
+      core.config.intercom['email'] = null;
       window['Intercom']('update', {
-        name: appConfig.intercom.name,
-        email: appConfig.intercom['email'],
+        name: core.config.intercom.name,
+        email: core.config.intercom['email'],
       });
     }
   }
@@ -89,8 +89,8 @@ export class AuthClient {
       });
     }
     // in case we do have intercom - lets store right credentials for when it will be ready
-    appConfig.intercom.name = response.jwtData.preferred_username;
-    appConfig.intercom['email'] = response.jwtData.email;
+    core.config.intercom.name = response.jwtData.preferred_username;
+    core.config.intercom['email'] = response.jwtData.email;
     callYm('setUserID', response.jwtData.email);
   }
 

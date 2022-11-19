@@ -1,7 +1,7 @@
-import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { currentApplicationAtom } from '~core/shared_state';
+import core from '~core/index';
 import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
 import { createLayerEditorFormAtom } from './layerEditorForm';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
@@ -57,8 +57,8 @@ export const editableLayerControllerAtom = createAtom(
             id: layerId,
             name: layerUserData.name ?? '',
             marker: 'default' as const,
-            fields: Object.entries(layerUserData.featureProperties).map(
-              ([name, type]) => createLayerEditorFormFieldAtom({ name, type }),
+            fields: Object.entries(layerUserData.featureProperties).map(([name, type]) =>
+              createLayerEditorFormFieldAtom({ name, type }),
             ),
           };
           dispatch([
@@ -113,13 +113,13 @@ export const editableLayerControllerAtom = createAtom(
           try {
             let responseData: EditableLayers | null;
             if (data.id) {
-              responseData = await apiClient.put<EditableLayers>(
+              responseData = await core.api.apiClient.put<EditableLayers>(
                 `/layers/${data.id}`,
                 data,
                 true,
               );
             } else {
-              responseData = await apiClient.post<EditableLayers>(
+              responseData = await core.api.apiClient.post<EditableLayers>(
                 `/layers`,
                 data,
                 true,
@@ -159,7 +159,7 @@ export const editableLayerControllerAtom = createAtom(
         const layer = registeredLayers.get(layerId)!;
         schedule(async (dispatch) => {
           try {
-            await apiClient.delete<unknown>(`/layers/${layerId}`, true);
+            await core.api.apiClient.delete<unknown>(`/layers/${layerId}`, true);
             dispatch([
               create('_update', {
                 loading: false,

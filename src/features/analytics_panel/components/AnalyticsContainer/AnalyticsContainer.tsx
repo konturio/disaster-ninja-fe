@@ -6,7 +6,7 @@ import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms';
 import { analyticsResourceAtom } from '~features/analytics_panel/atoms/analyticsResource';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { i18n } from '~core/localization';
+import core from '~core/index';
 import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
 
 const AnalyticsContainer = () => {
@@ -31,19 +31,13 @@ const AnalyticsContainer = () => {
       return (
         <Tabs>
           <TabList style={{ display: 'none' }}>
-            <Tab>{i18n.t('analytics_panel.info_tab')}</Tab>
-            {/*<Tab>*/}
-            {/*  {i18n.t('COMMUNITIES')}*/}
-            {/*</Tab>*/}
+            <Tab>{core.i18n.t('analytics_panel.info_tab')}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
               <AnalyticsDataList
                 data={dataList}
-                links={
-                  (focusedGeometry?.source as any)?.meta?.externalUrls ??
-                  undefined
-                }
+                links={(focusedGeometry?.source as any)?.meta?.externalUrls ?? undefined}
               />
             </TabPanel>
           </TabPanels>
