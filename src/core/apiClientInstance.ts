@@ -1,5 +1,3 @@
-import { matchPath } from 'react-router';
-import history from '~core/history';
 import { ApiClient } from './api_client';
 import config from './app_config';
 import { i18n } from './localization';
