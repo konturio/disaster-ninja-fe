@@ -100,21 +100,21 @@ export function SideBar() {
     <div className={s.sidebar}>
       {availableRoutes && (
         <ActionsBar>
-             <div className={cn(s.logoWrap, s.sidebarItemContainer)} tabIndex={-1}>
-          <div className={s.buttonWrap}>
-            <ActionsBarBTN
-              active={false}
-              iconBefore={<SidebarAppIcon />}
-              className={cn(s.controlButton, s.logoButton)}
-            >
-              {isOpen ? (
-                <span className={s.modeName}>
-                  Disaster <br /> Ninja
-                </span>
-              ) : null}
-            </ActionsBarBTN>
+          <div className={cn(s.logoWrap, s.sidebarItemContainer)} tabIndex={-1}>
+            <div className={s.buttonWrap}>
+              <ActionsBarBTN
+                active={false}
+                iconBefore={<SidebarAppIcon />}
+                className={cn(s.controlButton, s.logoButton)}
+              >
+                {isOpen ? (
+                  <span className={s.modeName}>
+                    Disaster <br /> Ninja
+                  </span>
+                ) : null}
+              </ActionsBarBTN>
+            </div>
           </div>
-        </div>
           {availableRoutes.routes.map((route) => {
             return checkRouteVisibility(route, currentRoute) ? (
               <Link

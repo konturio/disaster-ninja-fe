@@ -19,7 +19,7 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 
-function CommonRoutesFeatures({ children }: PropsWithChildren) {
+export function Views() {
   const [{ data, loading }] = useAtom(userResourceAtom);
   const userModel = data && !loading ? data : null;
   const [currentRoute] = useAtom(currentRouteAtom);
@@ -39,9 +39,7 @@ function CommonRoutesFeatures({ children }: PropsWithChildren) {
   return (
     <>
       <OriginalLogo />
-      <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
-      </Suspense>
+
       <Suspense fallback={null}>
         {userModel?.hasFeature(AppFeature.HEADER) && (
           <AppHeader
@@ -52,23 +50,20 @@ function CommonRoutesFeatures({ children }: PropsWithChildren) {
       </Suspense>
 
       <Row>
-        <Suspense fallback={null}>
-          {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
-        </Suspense>
-        {children}
+        <Router>
+          <Suspense fallback={null}>
+            {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
+          </Suspense>
+        </Router>
       </Row>
 
       <Suspense fallback={null}>
         {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
       </Suspense>
-    </>
-  );
-}
 
-export function Views() {
-  return (
-    <CommonRoutesFeatures>
-      <Router />
-    </CommonRoutesFeatures>
+      <Suspense fallback={null}>
+        {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
+      </Suspense>
+    </>
   );
 }

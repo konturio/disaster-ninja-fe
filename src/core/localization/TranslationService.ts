@@ -1,7 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { currentUserAtom } from '~core/shared_state/currentUser';
 import en from './translations/en/common-messages.json';
 import es from './translations/es/common-messages.json';
 import ar from './translations/ar/common-messages.json';
@@ -32,9 +31,3 @@ export const TranslationService = {
   },
   instance: i18n,
 };
-
-currentUserAtom.subscribe(({ language }) => {
-  i18n
-    .changeLanguage(language)
-    .catch((e) => console.warn(`Attempt to change language to ${language} failed`));
-});
