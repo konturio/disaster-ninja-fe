@@ -34,11 +34,9 @@ export const editableLayersListResource = createAsyncAtom(
   async (params, abortController) => {
     if (!params?.appId) return null;
 
-    const body = { appId: params.appId };
-
     const responseData = await apiClient.post<EditableLayers[]>(
       '/layers/search/user',
-      body,
+      { appId: params.appId },
       true,
       { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
     );
