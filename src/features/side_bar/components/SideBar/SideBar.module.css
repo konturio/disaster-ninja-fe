@@ -56,14 +56,15 @@
   margin-top: 0;
 
   & button img {
-    margin: auto;
+    margin: 0;
+    /* same height as 2 lines of Disaste /n Ninja */
+    height: 32px;
   }
 
   & .buttonWrap {
     border-bottom: 1px solid var(--faint-strong-up);
     & .logoButton {
       pointer-events: none;
-      padding-top: var(--half-unit);
       & div,
       span {
         text-align: start;
