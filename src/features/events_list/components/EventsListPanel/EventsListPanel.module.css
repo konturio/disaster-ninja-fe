@@ -1,8 +1,9 @@
 .panelContainer {
   display: flex;
   flex-flow: column nowrap;
-  &.open {
-    height: 100%;
+  &.short .contentWrap {
+    /* overwrite inline panel height left from resizing */
+    height: min-content !important;
   }
 }
 

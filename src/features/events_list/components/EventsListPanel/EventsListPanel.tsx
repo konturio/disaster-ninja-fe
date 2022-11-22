@@ -1,6 +1,6 @@
 import { Virtuoso } from 'react-virtuoso';
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
@@ -20,7 +20,9 @@ import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { EventCard } from '../EventCard/EventCard';
 import { MIN_HEIGHT } from '../../constants';
+import { ShortPanel } from '../ShortPanel/ShortPanel';
 import s from './EventsListPanel.module.css';
+import type { ShortStateListenersType } from '@konturio/ui-kit/tslib/Panel';
 import type { Event } from '~core/types';
 
 export function EventsListPanel({
@@ -37,6 +39,23 @@ export function EventsListPanel({
   eventsList: Event[] | null;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isShortStateOpen, setIsShortStateOpen] = useState(false);
+
+  const shortStateListeners: ShortStateListenersType = {
+    onClose: () => {
+      setIsOpen(false);
+      setIsShortStateOpen(false);
+    },
+    onFullStateOpen: () => {
+      setIsOpen(true);
+      setIsShortStateOpen(false);
+    },
+    onShortStateOpen: () => {
+      setIsOpen(true);
+      setIsShortStateOpen(true);
+    },
+  };
+
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const virtuoso = useRef(null);
   const [{ data: userModel }] = useAtom(userResourceAtom);
@@ -77,18 +96,25 @@ export function EventsListPanel({
   });
 
   return (
-    <div className={clsx(s.panelContainer, isOpen && s.open)}>
+    <div className={clsx(s.panelContainer, isShortStateOpen && s.short)}>
       <Panel
         header={String(i18n.t('disasters'))}
         headerIcon={<Disasters24 />}
         className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
-        onHeaderClick={togglePanel}
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        resize={isMobile ? 'none' : 'vertical'}
+        resize={isMobile || isShortStateOpen ? 'none' : 'vertical'}
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
+        shortStateContent={
+          <ShortPanel
+            hasTimeline={userModel?.hasFeature(AppFeature.EPISODES_TIMELINE)}
+            openFullState={shortStateListeners.onFullStateOpen}
+          />
+        }
+        shortStateListeners={shortStateListeners}
+        isShortStateOpen={isShortStateOpen}
       >
         <div className={s.panelBody}>
           <EventListSettingsRow>

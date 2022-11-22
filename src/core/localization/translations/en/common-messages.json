@@ -76,7 +76,9 @@
         "settled_area.tooltip": "Settled Area",
         "loss.tooltip": "Estimated loss"
       },
-      "no_event_in_feed": "Event not found in the current event feed"
+      "no_event_in_feed": "Event not found in the current event feed",
+      "no_selected_disaster": "No disaster selected",
+      "chose_disaster": "Choose disaster"
     },
     "create_layer": {
       "edit_layer": "Edit Layer",
