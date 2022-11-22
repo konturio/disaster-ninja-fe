@@ -31,16 +31,14 @@
   gap: 12px;
   font: var(--font);
 
-  & .axisLabels {
+  & > .column {
     display: flex;
     flex-direction: column;
     white-space: nowrap;
-    padding-left: var(--unit);
-  }
 
-  & .indicatorsLabels {
-    display: flex;
-    flex-direction: column;
+    &:first-child {
+      padding-left: var(--unit);
+    }
   }
 }
 

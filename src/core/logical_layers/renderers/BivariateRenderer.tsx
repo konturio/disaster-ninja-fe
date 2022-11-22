@@ -1,4 +1,5 @@
 import throttle from 'lodash/throttle';
+import isNil from 'lodash/isNil';
 import { h3ToGeoBoundary, geoToH3 } from 'h3-js';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
@@ -13,6 +14,8 @@ import { registerMapListener } from '~core/shared_state/mapListeners';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { MapHexTooltip, popupContentRoot } from '~components/MapHexTooltip/MapHexTooltip';
 import { invertClusters } from '~utils/bivariate';
+import { userResourceAtom } from '~core/auth';
+import { AppFeature } from '~core/auth/types';
 import type { MapListener } from '~core/shared_state/mapListeners';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { AnyLayer, LngLat, RasterSource, VectorSource } from 'maplibre-gl';
@@ -23,6 +26,7 @@ import type {
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../utils/layersOrder/layersOrder';
+import type { GeoJsonProperties } from 'geojson';
 
 type FillColor = {
   r: number;
@@ -85,6 +89,19 @@ function fixTransmeridianCoord(coord: number[]) {
   coord[0] = lng < 0 ? lng + 360 : lng;
 }
 
+const calcValueByNumeratorDenominator = (
+  cellValues: Exclude<GeoJsonProperties, null>,
+  numerator: string,
+  denominator: string,
+): string => {
+  const numeratorValue = cellValues[numerator];
+  const denominatorValue = cellValues[denominator];
+
+  if (isNil(numeratorValue) || isNil(denominatorValue)) return '0.00';
+  if (denominatorValue === 0) return '-';
+
+  return (numeratorValue / denominatorValue).toFixed(2);
+};
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
  * I found that if i call setLayer by requestAnimationFrame callback - UI becomes much more responsive!
@@ -186,6 +203,26 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       const rgba = convertFillColorToRGBA(fillColor);
       const cells: BivariateLegendStep[] = invertClusters(legend.steps, 'label');
       const cellIndex = cells.findIndex((i) => i.color === rgba);
+      const showValues = userResourceAtom
+        .getState()
+        .data?.hasFeature(AppFeature.BIVARIATE_MANAGER);
+      const [xNumerator, xDenominator] = legend.axis.x.quotient;
+      const [yNumerator, yDenominator] = legend.axis.y.quotient;
+      const valuesByQuotients =
+        showValues && feature.properties
+          ? {
+              x: calcValueByNumeratorDenominator(
+                feature.properties,
+                xNumerator,
+                xDenominator,
+              ),
+              y: calcValueByNumeratorDenominator(
+                feature.properties,
+                yNumerator,
+                yDenominator,
+              ),
+            }
+          : undefined;
 
       currentTooltipAtom.setCurrentTooltip.dispatch({
         initiatorId: TOOLTIP_ID,
@@ -194,6 +231,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
             cellLabel={cells[cellIndex].label}
             cellIndex={cellIndex}
             axis={legend.axis}
+            values={valuesByQuotients}
             hexagonColor={rgba}
           />
         ),
