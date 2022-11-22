@@ -52,15 +52,29 @@
   }
 }
 
+.sidebar .logoWrap {
+  margin-top: 0;
+
+  & button img {
+    margin: auto;
+  }
+
+  & .buttonWrap {
+    border-bottom: 1px solid var(--faint-strong-up);
+    & .logoButton {
+      pointer-events: none;
+      padding-top: var(--half-unit);
+      & div,
+      span {
+        text-align: start;
+      }
+    }
+  }
+}
+
 .collapsed .sidebarItemContainer {
   padding: 0;
   margin: var(--unit);
-}
-
-.logoWrap button img {
-  /* not using var() because design requires exactly 8px */
-  margin: 0px;
-  margin-bottom: 8px;
 }
 
 .modeName {
@@ -82,17 +96,6 @@
 
 .toggler button:focus-visible {
   box-shadow: var(--button-box-shadow);
-}
-
-.logoWrap .buttonWrap {
-  border-bottom: 1px solid var(--faint-strong-up);
-  & .logoButton {
-    pointer-events: none;
-    & div,
-    span {
-      text-align: start;
-    }
-  }
 }
 
 .appIcon {
