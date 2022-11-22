@@ -8,8 +8,7 @@ import history from '~core/history';
 import config from '~core/app_config';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { urlStoreAtom } from '~core/url_store/atoms/urlStore';
-import { currentApplicationAtom, currentUserAtom } from '~core/shared_state';
-import { appMetrics } from '~core/metrics';
+import { metricsInit } from '~core/metrics/init';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
 import { AppFeature } from '~core/auth/types';
 import s from './views/Main/Main.module.css';
@@ -32,10 +31,7 @@ export function RoutedApp() {
 
   useEffect(() => {
     if (userModel) {
-      const user = currentUserAtom.getState();
-      const appId = currentApplicationAtom.getState();
-      // metrics starts here because now we have true user id and app id
-      appMetrics.init(appId ?? '', user?.username ?? null);
+      metricsInit();
     }
   }, [userModel]);
 
