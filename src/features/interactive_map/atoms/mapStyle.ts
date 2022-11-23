@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { focusedGeometryAtom } from '~core/shared_state';
 import type { MapBoxStyle } from '~components/ConnectedMap/map-libre-adapter';
 

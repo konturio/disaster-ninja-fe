@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { currentEventAtom, currentNotificationAtom } from '~core/shared_state';
 import { scheduledAutoFocus, scheduledAutoSelect } from '~core/shared_state/currentEvent';
 import core from '~core/index';

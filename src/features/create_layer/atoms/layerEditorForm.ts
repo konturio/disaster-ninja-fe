@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
 import type { LayerEditorFormModel } from '../types';
 

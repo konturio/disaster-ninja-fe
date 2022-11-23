@@ -1,11 +1,10 @@
 import core from '~core/index';
-import { toolbarControlsAtom } from '~core/shared_state';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawModes } from '~core/draw_tools/constants';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../constants';
 import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
 import { editTargetAtom } from './editTarget';
@@ -16,7 +15,7 @@ function onFinishDrawing() {
     currentEditedLayerFeatures.save.dispatch({
       onSuccess: () => {
         core.store.dispatch([
-          toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
+          core.sharedState.toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
           editTargetAtom.set({ type: EditTargets.none }),
         ]);
         res(true);

@@ -8,7 +8,7 @@ import {
   SOURCE_IN_AREA_PREFIX,
 } from '~features/layers_in_area/constants';
 import { layerTypesOrdered } from '~core/logical_layers/utils/layersOrder/layersOrder';
-import { registerMapListener } from '~core/shared_state/mapListeners';
+import { registerMapListener } from '~core/map/atoms/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { layerByOrder } from '~utils/map/layersOrder';

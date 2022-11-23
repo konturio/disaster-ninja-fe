@@ -2,15 +2,11 @@ import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react';
 import { VisibleLogo } from '~components/KonturLogo/KonturLogo';
-import { AppFeature } from '~core/auth/types';
-import { forceRun } from '~utils/atoms/forceRun';
 import { Row } from '~components/Layout/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
-import { currentRouteAtom } from '~core/router/atoms/currentRoute';
-import { userResourceAtom } from '~core/auth';
-import { Router } from '~core/router';
+import { RouterContext } from '~core/router';
 import core from '~core/index';
-import type { PropsWithChildren } from 'react';
+import { AppFeature } from '~core/app_features';
 
 const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
 const { NotificationToast } = lazily(() => import('~features/toasts'));
@@ -20,28 +16,28 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 
 export function Views() {
-  const [{ data, loading }] = useAtom(userResourceAtom);
-  const userModel = data && !loading ? data : null;
-  const [currentRoute] = useAtom(currentRouteAtom);
+  useAtom(core.urlStore.atom)
+  const [features] = useAtom(core.features.atom);
+  const [currentRoute] = useAtom(core.router.atoms.currentRouteAtom);
 
   useEffect(() => {
-    if (userModel?.hasFeature(AppFeature.INTERCOM)) {
-      import('~features/intercom').then(({ initIntercom }) => {
-        initIntercom();
-      });
+    if (features.has(AppFeature.INTERCOM)) {
+      core.intercom.init();
     }
-  }, [userModel]);
+  }, [features]);
 
   useEffect(() => {
-    return forceRun(core.urlStore.atom);
-  }, []);
+    if (core.currentUser.userWasLanded()) {
+      core.router.showIntro()
+    }
+  }, [])
 
   return (
     <>
       <OriginalLogo />
 
       <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.HEADER) && (
+        {features.has(AppFeature.HEADER) && (
           <AppHeader
             title={currentRoute?.customHeader ?? DEFAULT_HEADER_TITLE}
             logo={VisibleLogo()}
@@ -50,19 +46,19 @@ export function Views() {
       </Suspense>
 
       <Row>
-        <Router>
+        <RouterContext>
           <Suspense fallback={null}>
-            {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
+            {features.has(AppFeature.SIDE_BAR) && <SideBar />}
           </Suspense>
-        </Router>
+        </RouterContext>
       </Row>
 
       <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
+        {features.has(AppFeature.TOASTS) && <NotificationToast />}
       </Suspense>
 
       <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
+        {features.has(AppFeature.TOOLTIP) && <PopupTooltip />}
       </Suspense>
     </>
   );

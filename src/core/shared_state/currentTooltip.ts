@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 
 export type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 export type Coords = { x: number; y: number; predefinedPosition?: Position };

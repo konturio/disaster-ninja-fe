@@ -5,24 +5,23 @@ import { useEffect, useState } from 'react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import core from '~core/index';
 import { flatObjectsAreEqual } from '~utils/common';
-import { userResourceAtom } from '~core/auth';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
-import type { UserProfileState } from '../../atoms/userProfile';
 import type { ChangeEvent } from 'react';
+import type { UserProfile } from '~core/current_user';
 
 const authInputClasses = { input: clsx(s.authInput) };
 
 export function SettingsForm() {
   const [userProfile, { updateUserProfile }] = useAtom(currentProfileAtom);
-  const [localSettings, setLocalSettings] = useState<UserProfileState | null>(
+  const [localSettings, setLocalSettings] = useState<Partial<UserProfile> | null>(
     userProfile,
   );
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
-  const [{ data: userModel }] = useAtom(userResourceAtom);
+  const [feeds] = useAtom(core.feeds.atom);
 
   function logout() {
-    core.api.authClient.logout();
+    core.auth.logout();
   }
 
   // apply userProfile incoming settings to local settings
@@ -35,6 +34,9 @@ export function SettingsForm() {
     if (
       localSettings &&
       userProfile &&
+      localSettings &&
+      // TODO: replace it with lodash deepEqual
+      // @ts-ignore 
       !flatObjectsAreEqual(localSettings, userProfile)
     ) {
       setPageStatus('changed');
@@ -51,37 +53,39 @@ export function SettingsForm() {
     );
 
   function onSave() {
+    if (!localSettings) return;
     // do async put request
     // set loading state for it
     // put response to the currentProfileAtom
-    updateUserProfile(localSettings || {});
+    updateUserProfile({ ...userProfile!, ...localSettings });
   }
 
   function onFullnameChange(e: ChangeEvent<HTMLInputElement>) {
-    setLocalSettings({ ...localSettings, fullName: e.target.value });
+    setLocalSettings((settings) => ({ ...settings, fullName: e.target.value }));
   }
   function onBioChange(e: ChangeEvent<HTMLTextAreaElement>) {
-    setLocalSettings({ ...localSettings, bio: e.target.value });
+    setLocalSettings((settings) => ({ ...settings, bio: e.target.value }));
   }
 
   function onThemeChange(e) {
-    setLocalSettings({ ...localSettings, theme: e.value });
+    setLocalSettings((settings) => ({ ...settings, theme: e.value }));
   }
   function onLanguageChange(e) {
-    setLocalSettings({ ...localSettings, language: e.value });
+    setLocalSettings((settings) => ({ ...settings, language: e.value }));
   }
   function toggleUnits() {
-    setLocalSettings((prevSettings) => {
-      return { ...prevSettings, useMetricUnits: !prevSettings?.useMetricUnits };
-    });
+    setLocalSettings((settings) => ({
+      ...settings,
+      useMetricUnits: !settings?.useMetricUnits,
+    }));
   }
 
   function onFeedChange(e) {
-    setLocalSettings({ ...localSettings, defaultFeed: e.value });
+    setLocalSettings((settings) => ({ ...settings, defaultFeed: e.value }));
   }
 
   function onOSMeditorChange(e) {
-    setLocalSettings({ ...localSettings, osmEditor: e.value });
+    setLocalSettings((settings) => ({ ...settings, osmEditor: e.value }));
   }
 
   const OPTIONS_THEME = [
@@ -94,12 +98,12 @@ export function SettingsForm() {
     { title: core.i18n.t('profile.arabicLanguageOption'), value: 'ar' },
   ];
 
-  const OPTIONS_FEED = (userModel?.feeds || [core.config.defaultFeedObject]).map((o) => ({
+  const OPTIONS_FEED = (feeds.data ?? []).map((o) => ({
     title: o.name,
     value: o.feed,
   }));
 
-  const OPTIONS_OSM = core.config.osmEditors.map((o) => ({
+  const OPTIONS_OSM = core.app.config.osmEditors.map((o) => ({
     title: o.title,
     value: o.id,
   }));

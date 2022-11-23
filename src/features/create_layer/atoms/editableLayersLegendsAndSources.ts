@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';

@@ -1,5 +1,4 @@
 import { utils } from '@nebula.gl/edit-modes';
-import { currentNotificationAtom } from '~core/shared_state';
 import core from '~core/index';
 import { CustomDrawPolygonMode } from '../map-daw-tools/customDrawModes/CustomDrawPolygonMode';
 import type {
@@ -26,9 +25,8 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
             clickSequence[0],
           ];
           if (this.intersectionsTest(props, polygonCoords)) {
-            currentNotificationAtom.showNotification.dispatch(
-              'error',
-              { title: i18n.t('draw_tools.overlap_error') },
+            core.notifications.error(
+              { title: core.i18n.t('draw_tools.overlap_error') },
               5,
             );
             this['resetClickSequence']();
@@ -114,11 +112,7 @@ export class LocalDrawPolygonMode extends CustomDrawPolygonMode {
       const polygonCoords = [...clickSequence, clickSequence[0]];
 
       if (this.intersectionsTest(props, polygonCoords)) {
-        currentNotificationAtom.showNotification.dispatch(
-          'error',
-          { title: i18n.t('draw_tools.overlap_error') },
-          5,
-        );
+        core.notifications.error({ title: core.i18n.t('draw_tools.overlap_error') }, 5);
         this['resetClickSequence']();
         return;
       }

@@ -1,10 +1,9 @@
 import {
-  currentApplicationAtom,
   currentEventFeedAtom,
   focusedGeometryAtom,
 } from '~core/shared_state';
-import { createAtom } from '~utils/atoms';
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { createAtom } from '~core/store/atoms';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import { removeEmpty } from '~utils/common';
 import core from '~core/index';
 import { LAYERS_IN_AREA_API_ERROR } from '../constants';
@@ -26,12 +25,11 @@ const getEventId = (focusedGeometry: FocusedGeometry) => {
 
 const layersInAreaAndEventLayerResourceParametersAtom = createAtom(
   {
-    currentApplicationAtom,
     focusedGeometryAtom,
   },
   ({ get, getUnlistedState }): LayersInAreaAndEventLayerResourceParameters | null => {
     const focusedGeometry = get('focusedGeometryAtom');
-    const appId = get('currentApplicationAtom');
+    const appId = core.app.readId();
 
     // Check required
     if (focusedGeometry === null) return null;

@@ -1,9 +1,9 @@
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
-import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
+import { createAsyncWrapper } from '~core/store/atoms/createAsyncWrapper';
 import core from '~core/index';
-import { forceRun } from '~utils/atoms/forceRun';
+import { forceRun } from '~core/store/atoms/forceRun';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/shared_state/focusedGeometry';
 import {
   FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY,

@@ -1,11 +1,11 @@
 import { useAtom } from '@reatom/react';
-import { userStateAtom } from '../../atoms/userState';
+import core from '~core/index';
 import type { UserStateType } from '~core/auth/types';
 
 export function UserStateToComponents(
   props: Partial<Record<UserStateType | 'other', string | JSX.Element>>,
 ) {
-  const [userState] = useAtom(userStateAtom);
+  const [userState] = useAtom(core.auth.atom);
   const fallback = props.other ?? null;
   const selection = props[userState];
   const component = selection === undefined ? fallback : selection;

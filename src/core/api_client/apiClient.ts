@@ -19,18 +19,17 @@ import type {
   KeycloakAuthResponse,
   RequestErrorsConfig,
   RequestParams,
-  ITranslationService,
-  INotificationService,
 } from './types';
+import type { I18n, NotificationService } from '..';
 
-const LOCALSTORAGE_AUTH_KEY = 'auth_token';
+const LOCAL_STORAGE_AUTH_KEY = 'auth_token';
 
 export class ApiClient {
   private static instances: Record<string, ApiClient> = {};
 
   private readonly instanceId: string;
-  private readonly translationService: ITranslationService;
-  private readonly notificationService: INotificationService;
+  private readonly translationService: I18n;
+  private readonly notificationService: NotificationService;
   private readonly unauthorizedCallback?: () => void;
   private readonly loginApiPath: string;
   private readonly refreshTokenApiPath: string;
@@ -125,7 +124,7 @@ export class ApiClient {
         this.refreshToken = refreshTkn;
         this.tokenWillExpire = expiringDate;
         this.storage.setItem(
-          LOCALSTORAGE_AUTH_KEY,
+          LOCAL_STORAGE_AUTH_KEY,
           JSON.stringify({ token: tkn, refreshToken: refreshTkn }),
         );
         return decodedToken;
@@ -137,18 +136,19 @@ export class ApiClient {
     return 'Wrong data received!';
   }
 
-  async checkAuth(
-    callback: () => void,
-  ): Promise<{ token: string; refreshToken: string; jwtData: JWTData } | undefined> {
+  onTokenExpired(callback: () => void) {
     this.expiredTokenCallback = callback;
-    const authStr = localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
+  }
+
+  async authenticate(): Promise<{ token: string; refreshToken: string; jwtData: JWTData } | undefined> {
+    const authStr = localStorage.getItem(LOCAL_STORAGE_AUTH_KEY);
     if (authStr) {
       const auth = JSON.parse(authStr);
       if (auth.token && auth.refreshToken) {
         const setAuthResult = this.setAuth(auth.token, auth.refreshToken);
         if (typeof setAuthResult === 'string') {
-          localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-          throw new ApiClientError(this.translationService.t(setAuthResult), {
+          localStorage.removeItem(LOCAL_STORAGE_AUTH_KEY);
+          throw new ApiClientError(setAuthResult, {
             kind: 'bad-data',
           });
         }
@@ -165,7 +165,7 @@ export class ApiClient {
     this.token = '';
     this.refreshToken = '';
     this.tokenWillExpire = undefined;
-    this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
+    this.storage.removeItem(LOCAL_STORAGE_AUTH_KEY);
   }
 
   private async checkTokenIsExpired(): Promise<boolean> {
@@ -342,7 +342,7 @@ export class ApiClient {
     const params = new URLSearchParams();
     params.append('username', username);
     params.append('password', password);
-    params.append('client_id', core.config.keycloakClientId);
+    params.append('client_id', core.app.config.keycloakClientId);
     params.append('grant_type', 'password');
 
     const response = await this.apiSauceInstance.post<KeycloakAuthResponse>(
@@ -401,7 +401,7 @@ export class ApiClient {
     { token: string; refreshToken: string; jwtData: JWTData } | string | undefined
   > {
     const params = new URLSearchParams();
-    params.append('client_id', core.config.keycloakClientId);
+    params.append('client_id', core.app.config.keycloakClientId);
     params.append('refresh_token', this.refreshToken);
     params.append('grant_type', 'refresh_token');
 

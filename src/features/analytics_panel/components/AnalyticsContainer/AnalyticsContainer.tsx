@@ -3,15 +3,14 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@konturio/ui-kit';
 import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { createStateMap } from '~utils/atoms';
+import { createStateMap } from '~core/store/atoms';
 import { analyticsResourceAtom } from '~features/analytics_panel/atoms/analyticsResource';
-import { focusedGeometryAtom } from '~core/shared_state';
 import core from '~core/index';
 import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
 
 const AnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(analyticsResourceAtom);
-  const [focusedGeometry] = useAtom(focusedGeometryAtom);
+  const [focusedGeometry] = useAtom(core.sharedState.focusedGeometryAtom);
 
   const statesToComponents = createStateMap({
     error,

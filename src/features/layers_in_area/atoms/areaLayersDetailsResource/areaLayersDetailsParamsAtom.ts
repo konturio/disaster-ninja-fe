@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { focusedGeometryAtom, getEvendId } from '~core/shared_state/focusedGeometry';
 import { currentEventFeedAtom } from '~core/shared_state';

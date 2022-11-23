@@ -3,8 +3,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@konturio/ui-kit';
 import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { createStateMap } from '~utils/atoms';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { createStateMap } from '~core/store/atoms';
 import { advancedAnalyticsResourceAtom } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsResource';
 import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsEmptyState/AdvancedAnalyticsEmptyState';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
@@ -12,7 +11,7 @@ import core from '~core/index';
 
 const AdvancedAnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(advancedAnalyticsResourceAtom);
-  const [focusedGeometry] = useAtom(focusedGeometryAtom);
+  const [focusedGeometry] = useAtom(core.sharedState.focusedGeometryAtom);
 
   const statesToComponents = createStateMap({
     error,

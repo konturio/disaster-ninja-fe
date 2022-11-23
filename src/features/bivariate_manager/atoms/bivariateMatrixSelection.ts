@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';

@@ -1,6 +1,6 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { currentNotificationAtom } from '~core/shared_state';
-import type { Notification } from '~core/shared_state/currentNotifications';
+import type { Notification } from '~core/notifications/atoms/currentNotifications';
 
 export const toastsStackAtom = createAtom(
   {

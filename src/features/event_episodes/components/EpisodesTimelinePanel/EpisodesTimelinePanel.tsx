@@ -2,7 +2,7 @@ import { Panel } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { createStateMap } from '~utils/atoms/createStateMap';
+import { createStateMap } from '~core/store/atoms/createStateMap';
 import core from '~core/index';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { panelClasses } from '~components/Panel';

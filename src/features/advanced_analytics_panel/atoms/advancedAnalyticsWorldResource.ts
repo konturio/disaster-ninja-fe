@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import core from '~core/index';
 import type { AdvancedAnalyticsData } from '~core/types';
 

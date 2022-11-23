@@ -1,5 +1,5 @@
-import { createAtom } from '~utils/atoms';
-import { currentUserAtom } from '~core/shared_state/currentUser';
+import { createAtom } from '~core/store/atoms';
+import core from '..';
 import type { Action } from '@reatom/core';
 
 export interface SideControl {
@@ -31,7 +31,7 @@ export const toolbarControlsAtom = createAtom(
     enable: (controlId: string) => controlId,
     disable: (controlId: string) => controlId,
     reset: () => null,
-    currentUserAtom,
+    currentUserAtom: core.currentUser.atom,
   },
   ({ onAction, onChange, schedule, create }, state: Record<string, SideControl> = {}) => {
     onChange('currentUserAtom', (user, prevUser) => {

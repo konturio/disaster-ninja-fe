@@ -43,7 +43,7 @@ export const DrawToolsToolbox = () => {
         >
           <div className={s.btnContent}>
             <Area24 />
-            <span className={s.btnText}>{i18n.t('draw_tools.area')}</span>
+            <span className={s.btnText}>{core.i18n.t('draw_tools.area')}</span>
           </div>
         </Button>
       ),
@@ -57,7 +57,7 @@ export const DrawToolsToolbox = () => {
         >
           <div className={s.btnContent}>
             <Line24 />
-            <span className={s.btnText}>{i18n.t('draw_tools.line')}</span>
+            <span className={s.btnText}>{core.i18n.t('draw_tools.line')}</span>
           </div>
         </Button>
       ),
@@ -71,7 +71,7 @@ export const DrawToolsToolbox = () => {
         >
           <div className={s.btnContent}>
             <PointOutline24 />
-            <span className={s.btnText}>{i18n.t('draw_tools.point')}</span>
+            <span className={s.btnText}>{core.i18n.t('draw_tools.point')}</span>
           </div>
         </Button>
       ),
@@ -88,7 +88,7 @@ export const DrawToolsToolbox = () => {
         <Download24 />
       </Button>,
       <Button key="finish" onClick={onFinishClick}>
-        {settings.finishButtonText || i18n.t('draw_tools.finish_drawing')}
+        {settings.finishButtonText || core.i18n.t('draw_tools.finish_drawing')}
       </Button>,
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,7 +101,7 @@ export const DrawToolsToolbox = () => {
       {/* {!drawingIsStarted && (
         <div className={s.drawHint}>
           <Text type="caption">
-            <span>{i18n.t('draw_tools.caption')}</span>
+            <span>{.core.i18n.t('draw_tools.caption')}</span>
           </Text>
         </div>
       )} */}

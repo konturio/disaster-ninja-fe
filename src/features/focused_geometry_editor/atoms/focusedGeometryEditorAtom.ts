@@ -1,12 +1,12 @@
 import { point as createPointFeature } from '@turf/helpers';
-import { focusedGeometryAtom } from '~core/shared_state';
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/shared_state/focusedGeometry';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
+import core from '~core/index';
 import { isEditorActiveAtom } from './isEditorActive';
 import type { Feature, FeatureCollection } from 'geojson';
 import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
@@ -20,7 +20,7 @@ const defaultState: FeatureCollection = {
 export const focusedGeometryEditorAtom = createAtom(
   {
     isEditorActiveAtom,
-    focusedGeometryAtom,
+    focusedGeometryAtom: core.sharedState.focusedGeometryAtom,
     activeDrawModeAtom,
     toolboxAtom,
     updateGeometry: () => null,
@@ -54,7 +54,7 @@ export const focusedGeometryEditorAtom = createAtom(
       const drawnFeatures = getUnlistedState(drawnGeometryAtom);
       schedule((dispatch) => {
         dispatch([
-          focusedGeometryAtom.setFocusedGeometry(
+          core.sharedState.focusedGeometryAtom.setFocusedGeometry(
             { type: 'drawn' },
             drawnFeatures,
           ),
@@ -65,7 +65,7 @@ export const focusedGeometryEditorAtom = createAtom(
 
     /* Disable focused geometry layer when editing was enabled */
     onChange('activeDrawModeAtom', (activeMode, previousActiveMode) => {
-      const focusedFeatures = getUnlistedState(focusedGeometryAtom);
+      const focusedFeatures = getUnlistedState(core.sharedState.focusedGeometryAtom);
       if (activeMode && !previousActiveMode && focusedFeatures) {
         schedule((dispatch) => {
           const actions: Action[] = [

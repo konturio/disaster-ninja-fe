@@ -1,9 +1,8 @@
 import { useAtom } from '@reatom/react';
 import core from '~core/index';
-import { currentAppPropertiesResourceAtom } from '~core/shared_state/currentApplication';
 
 export function SidebarAppIcon() {
-  const [{ data: appParams }] = useAtom(currentAppPropertiesResourceAtom);
+  const [{ data: appParams }] = useAtom(core.app.atom);
 
   const appIcon = (
     <img

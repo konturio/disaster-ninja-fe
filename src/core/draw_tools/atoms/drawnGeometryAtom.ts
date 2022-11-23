@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { activeDrawModeAtom } from './activeDrawMode';
 import type { Feature, FeatureCollection } from 'geojson';
 

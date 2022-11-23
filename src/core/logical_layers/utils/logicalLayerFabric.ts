@@ -1,7 +1,7 @@
 // https://beta.plectica.com/maps/I6JK50E2F/edit/4NE4TFESC
 import { memo } from '@reatom/core/experiments';
-import { currentMapAtom } from '~core/shared_state/currentMap';
-import { createAtom } from '~utils/atoms';
+import { currentMapAtom } from '~core/map/atoms/currentMap';
+import { createAtom } from '~core/store/atoms';
 import { downloadObject } from '~utils/file/download';
 import { layersSettingsAtom } from '../atoms/layersSettings';
 import { enabledLayersAtom } from '../atoms/enabledLayers';

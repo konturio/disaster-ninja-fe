@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { layersCategoriesSettingsAtom } from '~core/shared_state/layersCategoriesSettings';
 import { layersGroupsSettingsAtom } from '~core/shared_state/layersGroupsSettings';
 import { logicalLayersHierarchyAtom } from '../layersHierarchy';

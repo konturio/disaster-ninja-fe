@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { useAction, useAtom } from '@reatom/react';
 import { Panel } from '@konturio/ui-kit';
 import core from '~core/index';
-import { toolbarControlsAtom } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
 import { currentEditedLayerFeatures } from '../../atoms/currentEditedLayerFeatures';
@@ -22,7 +21,7 @@ export function EditFeaturesPanel() {
   const [layersSettings] = useAtom(editableLayerSettingsAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const disableSideBarControl = useAction(
-    () => toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
+    () => core.sharedState.toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
     [],
   );
   const disableEditing = useAction(

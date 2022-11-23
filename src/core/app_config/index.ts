@@ -1,1 +1,0 @@
-export { AppConfigParser } from './AppConfigParser';

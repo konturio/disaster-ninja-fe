@@ -1,6 +1,6 @@
 import core from '~core/index';
-import { createAtom } from '~utils/atoms';
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { createAtom } from '~core/store/atoms';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import type { Report } from './reportsAtom';
 
 export const currentReportAtom = createAtom(

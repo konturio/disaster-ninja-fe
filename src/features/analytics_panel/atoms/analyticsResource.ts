@@ -1,10 +1,9 @@
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import core from '~core/index';
 import type { AnalyticsData } from '~core/types';
 
 export const analyticsResourceAtom = createAsyncAtom(
-  focusedGeometryAtom,
+  core.sharedState.focusedGeometryAtom,
   async (fGeo, abortController) => {
     if (!fGeo) return null;
     const geometry = fGeo?.geometry as GeoJSON.FeatureCollection;

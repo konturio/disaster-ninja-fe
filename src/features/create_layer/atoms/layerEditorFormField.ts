@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { FieldTypes } from '../constants';
 import type { LayerFieldModel } from '~features/create_layer/types';
 import type { EditableLayerFieldType } from '../types';

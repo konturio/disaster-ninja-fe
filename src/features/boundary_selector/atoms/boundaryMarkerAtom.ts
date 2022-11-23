@@ -1,8 +1,6 @@
-import { createAtom } from '~utils/atoms';
-import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
+import { createAtom } from '~core/store/atoms';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { convertToAppMarker } from '~utils/map/markers';
-import { toolbarControlsAtom, focusedGeometryAtom } from '~core/shared_state';
 import core from '~core/index';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
 import { BOUNDARY_MARKER_ID } from '../constants';
@@ -24,7 +22,7 @@ interface BoundaryMarkerAtomState {
 
 export const boundaryMarkerAtom = createAtom(
   {
-    currentMapAtom,
+    currentMapAtom: core.sharedState.currentMapAtom,
     clickCoordinatesAtom,
     boundaryResourceAtom,
     start: () => null,
@@ -62,7 +60,7 @@ export const boundaryMarkerAtom = createAtom(
     // Marker callbacks
     const updateFocusedGeometryAction = (feature: GeoJSON.Feature) => {
       const name = (feature.properties?.name as string) || 'Boundary geometry';
-      return focusedGeometryAtom.setFocusedGeometry(
+      return core.sharedState.focusedGeometryAtom.setFocusedGeometry(
         {
           type: 'boundaries',
           meta: { name },
@@ -104,7 +102,7 @@ export const boundaryMarkerAtom = createAtom(
 
               const actions: Action[] = [
                 updateFocusedGeometryAction(selectedFeature),
-                toolbarControlsAtom.disable('BoundarySelector'),
+                core.sharedState.toolbarControlsAtom.disable('BoundarySelector'),
                 updateBoundaryLayerAction(
                   { type: 'FeatureCollection', features: [] },
                   boundaryId,
@@ -114,8 +112,11 @@ export const boundaryMarkerAtom = createAtom(
               const geometryCamera = getCameraForGeometry(selectedFeature, map);
               if (typeof geometryCamera === 'object')
                 actions.push(
-                  currentMapPositionAtom.setCurrentMapPosition({
-                    zoom: Math.min(geometryCamera.zoom, core.config.autoFocus.maxZoom),
+                  core.sharedState.currentMapPositionAtom.setCurrentMapPosition({
+                    zoom: Math.min(
+                      geometryCamera.zoom,
+                      core.app.config.autoFocus.maxZoom,
+                    ),
                     ...geometryCamera.center,
                   }),
                 );

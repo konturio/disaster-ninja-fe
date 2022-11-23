@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import mapLibre from 'maplibre-gl';
 import { useAction, useAtom } from '@reatom/react';
-import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import core from '~core/index';
 import Map from './map-libre-adapter';
@@ -33,16 +32,16 @@ const LAYERS_ON_TOP = [
 ];
 
 export function ConnectedMap({ className }: { className?: string }) {
-  const mapBaseStyle = core.config.mapBaseStyle;
-  const accessToken = core.config.mapAccessToken;
+  const mapBaseStyle = core.app.config.mapBaseStyle;
+  const accessToken = core.app.config.mapAccessToken;
   const mapRef = useRef<ApplicationMap>();
   useMapPositionSmoothSync(mapRef);
 
   // init current MapRefAtom
-  const setCurrentMap = useAction(currentMapAtom.setMap);
-  const resetCurrentMap = useAction(currentMapAtom.resetMap);
+  const setCurrentMap = useAction(core.sharedState.currentMapAtom.setMap);
+  const resetCurrentMap = useAction(core.sharedState.currentMapAtom.resetMap);
 
-  const [mapListeners] = useAtom(mapListenersAtom);
+  const [mapListeners] = useAtom(core.sharedState.mapListenersAtom);
   const initLayersOrderManager = useCallback(
     (map) => layersOrderManager.init(mapRef.current!),
     [],

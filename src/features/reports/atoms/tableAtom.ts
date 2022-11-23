@@ -1,5 +1,5 @@
 import papa from 'papaparse';
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { reportResourceAtom } from './reportResource';
 
 export const limit = 100;

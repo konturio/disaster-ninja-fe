@@ -1,5 +1,4 @@
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import { isApiError } from '~core/api_client';
 import core from '~core/index';
 import type { AdvancedAnalyticsData } from '~core/types';
@@ -7,7 +6,7 @@ import type { AdvancedAnalyticsData } from '~core/types';
 const abortControllers: AbortController[] = [];
 
 export const advancedAnalyticsResourceAtom = createAsyncAtom(
-  focusedGeometryAtom,
+  core.sharedState.focusedGeometryAtom,
   async (fGeo, abortController) => {
     if (!fGeo) return null;
     let responseData: AdvancedAnalyticsData[] | null | undefined;

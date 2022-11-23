@@ -1,7 +1,7 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
-import { currentMapAtom } from '~core/shared_state';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
-import { registerMapListener } from '~core/shared_state/mapListeners';
+import { registerMapListener } from '~core/map/atoms/mapListeners';
+import core from '~core/index';
 
 interface ScheduleContext {
   removeClickListener?: () => void;
@@ -10,7 +10,7 @@ interface ScheduleContext {
 let isAtomEnabled = false;
 export const clickCoordinatesAtom = createAtom(
   {
-    currentMapAtom,
+    currentMapAtom: core.sharedState.currentMapAtom,
     _set: (coords: { lng: number; lat: number }) => coords,
     start: () => null,
     stop: () => null,

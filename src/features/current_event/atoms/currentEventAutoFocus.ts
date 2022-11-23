@@ -1,6 +1,4 @@
-import { createAtom } from '~utils/atoms';
-import { currentMapPositionAtom } from '~core/shared_state';
-import { currentMapAtom } from '~core/shared_state';
+import { createAtom } from '~core/store/atoms';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import core from '~core/index';
@@ -9,7 +7,7 @@ import { currentEventGeometryAtom } from './currentEventGeometry';
 export const currentEventAutoFocusAtom = createAtom(
   {
     currentEventGeometryAtom,
-    map: currentMapAtom,
+    map: core.sharedState.currentMapAtom,
   },
   ({ onChange, get, schedule, getUnlistedState }) => {
     onChange('currentEventGeometryAtom', (currentEventGeometry, lastEventGeometry) => {
@@ -24,8 +22,8 @@ export const currentEventAutoFocusAtom = createAtom(
         schedule((dispatch) => {
           dispatch([
             scheduledAutoFocus.setFalse(),
-            currentMapPositionAtom.setCurrentMapPosition({
-              zoom: Math.min(zoom, core.config.autoFocus.maxZoom),
+            core.sharedState.currentMapPositionAtom.setCurrentMapPosition({
+              zoom: Math.min(zoom, core.app.config.autoFocus.maxZoom),
               ...center,
             }),
           ]);

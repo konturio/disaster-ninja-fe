@@ -5,11 +5,10 @@ import { Text } from '@konturio/ui-kit';
 import ConnectedBivariateMatrix from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
-import { createStateMap } from '~utils/atoms';
+import { createStateMap } from '~core/store/atoms';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { BivariateGreetingsContainer } from '~features/bivariate_manager/components/BivariateGreetings/BivariateGreetingsContainer';
 import core from '~core/index';
-import { focusedGeometryAtom } from '~core/shared_state';
 import { isGeometryEmpty } from '~utils/bivariate';
 import s from './BivariateMatrixContainer.module.css';
 
@@ -85,7 +84,7 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
 };
 
 const PanelHeader = () => {
-  const [focusedGeometry] = useAtom(focusedGeometryAtom);
+  const [focusedGeometry] = useAtom(core.sharedState.focusedGeometryAtom);
   const haveGeometry = !isGeometryEmpty(focusedGeometry);
 
   return (

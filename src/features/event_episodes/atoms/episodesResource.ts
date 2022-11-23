@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { createAtom } from '~utils/atoms';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
+import { createAtom } from '~core/store/atoms';
 import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
 import core from '~core/index';
 import type { Episode } from '~core/types';

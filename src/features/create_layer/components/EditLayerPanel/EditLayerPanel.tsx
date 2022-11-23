@@ -3,8 +3,7 @@ import { useAction, useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { Panel } from '@konturio/ui-kit';
 import core from '~core/index';
-import { toolbarControlsAtom } from '~core/shared_state';
-import { createStateMap } from '~utils/atoms';
+import { createStateMap } from '~core/store/atoms';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { editTargetAtom } from '~features/create_layer/atoms/editTarget';
@@ -18,7 +17,7 @@ import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
 export function EditLayerPanel() {
   const [createLayerState, { saveLayer }] = useAtom(editableLayerControllerAtom);
   const disableSideBarControl = useAction(
-    () => toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
+    () => core.sharedState.toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
     [],
   );
   const disableEditing = useAction(

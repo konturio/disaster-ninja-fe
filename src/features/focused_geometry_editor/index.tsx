@@ -1,5 +1,4 @@
 import { Poly24 } from '@konturio/default-icons';
-import { toolbarControlsAtom } from '~core/shared_state';
 import {
   drawModes,
   FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
@@ -9,7 +8,7 @@ import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import core from '~core/index';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
-import { forceRun } from '~utils/atoms/forceRun';
+import { forceRun } from '~core/store/atoms/forceRun';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { setIndexesForCurrentGeometryAtom } from '~core/draw_tools/atoms/selectedIndexesAtom';
 import { isEditorActiveAtom } from './atoms/isEditorActive';
@@ -18,7 +17,7 @@ import { focusedGeometryEditorAtom } from './atoms/focusedGeometryEditorAtom';
 export function initFocusedGeometry() {
   forceRun(focusedGeometryEditorAtom);
 
-  toolbarControlsAtom.addControl.dispatch({
+  core.sharedState.toolbarControlsAtom.addControl.dispatch({
     id: FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
     name: FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,
     title: core.i18n.t('focus_geometry.title'),
@@ -27,7 +26,7 @@ export function initFocusedGeometry() {
     visualGroup: controlVisualGroup.withAnalytics,
     icon: <Poly24 />,
     onClick: () => {
-      toolbarControlsAtom.toggleActiveState.dispatch(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID);
+      core.sharedState.toolbarControlsAtom.toggleActiveState.dispatch(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID);
     },
     onChange: (becomesActive) => {
       if (becomesActive) {

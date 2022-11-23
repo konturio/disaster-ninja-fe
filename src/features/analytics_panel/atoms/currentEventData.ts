@@ -1,10 +1,10 @@
-import { focusedGeometryAtom } from '~core/shared_state';
-import { createAtom } from '~utils/atoms';
+import core from '~core/index';
+import { createAtom } from '~core/store/atoms';
 import type { Event } from '~core/types';
 
 export const currentEventDataAtom = createAtom(
   {
-    focusedGeometry: focusedGeometryAtom,
+    focusedGeometry: core.sharedState.focusedGeometryAtom,
   },
   ({ get }, state: Event | null = null) => {
     const focusedGeometry = get('focusedGeometry');

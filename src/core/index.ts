@@ -1,62 +1,69 @@
 import { LocalizationService } from '~core/localization';
-import { AppConfigParser } from './app_config';
+import { Application } from './application';
 import { AppMetrics, addAllSequences } from './metrics';
 import { NotificationService } from './notifications';
 import { Store } from './store';
-import * as sharedState from './shared_state';
+import { SharedState } from './shared_state';
 import { Api } from './api_client';
 import { AutoRefreshService } from './auto_refresh';
 import { URLStore, URLDataInSearchEncoder, defaultEncoderSettings } from './url_store';
-import type { URLStoreInited } from './url_store';
-import type {
-  LocalizationServiceI,
-  AppConfigParsedI,
-  AppMetricsI,
-  AppStore,
-  ApiService,
-} from './types';
+import { Router } from './router';
+import { AuthenticationService } from './auth';
+import { Intercom } from './intercom/Intertcom';
+import { CurrentUser } from './current_user';
+import { AppFeatures } from './app_features';
+import { Feeds } from './feeds';
+import type { I18n } from '~core/localization';
+import type { AppMetricsI, AppStore, ApiService } from './types';
 
 class Core {
-  i18n: LocalizationServiceI;
-  config: AppConfigParsedI;
+  intercom: Intercom;
+  i18n: I18n;
+  app: Application;
   metrics: AppMetricsI;
   store: AppStore;
   notifications: NotificationService;
-  sharedState: typeof sharedState;
+  sharedState!: SharedState;
   api: ApiService;
   autoRefresh: AutoRefreshService;
-  urlStore: URLStoreInited;
+  urlStore: URLStore;
+  router: Router;
+  auth: AuthenticationService;
+  currentUser: CurrentUser;
+  features: AppFeatures;
+  feeds: Feeds;
 
-  constructor({
-    i18n,
-    config,
-    metrics,
-    notifications,
-    store,
-    api,
-    autoRefresh,
-    urlStore,
-  }: {
-    i18n: LocalizationServiceI;
-    config: AppConfigParsedI;
+  constructor(services: {
+    intercom: Intercom;
+    i18n: I18n;
+    app: Application;
     metrics: AppMetricsI;
     store: AppStore;
     notifications: NotificationService;
-    sharedState: typeof sharedState;
     api: ApiService;
     autoRefresh: AutoRefreshService;
-    urlStore: URLStoreInited;
+    urlStore: URLStore;
+    router: Router;
+    auth: AuthenticationService;
+    currentUser: CurrentUser;
+    features: AppFeatures;
+    feeds: Feeds;
   }) {
-    this.i18n = i18n;
-    this.config = config;
-    this.metrics = metrics;
-    this.notifications = notifications;
-    this.store = store;
-    this.api = api;
-    this.sharedState = sharedState;
-    this.autoRefresh = autoRefresh;
-    this.urlStore = urlStore;
-    this.autoRefresh.start(config.refreshIntervalSec);
+    this.intercom = services.intercom;
+    this.i18n = services.i18n;
+    this.app = services.app;
+    this.metrics = services.metrics;
+    this.notifications = services.notifications;
+    this.store = services.store;
+    this.api = services.api;
+    this.autoRefresh = services.autoRefresh;
+    this.urlStore = services.urlStore;
+    this.router = services.router;
+    this.auth = services.auth;
+    this.currentUser = services.currentUser;
+    this.features = services.features;
+    this.feeds = services.feeds;
+    this.autoRefresh.start(services.app.config.refreshIntervalSec);
   }
 }
 
@@ -78,58 +85,78 @@ class BootLoader {
   }
 
   async load() {
-    const metrics = new AppMetrics();
-    addAllSequences(metrics);
-    const configParser = new AppConfigParser();
-    const localization = new LocalizationService();
-    const [i18n, configData] = await Promise.all([
-      localization.init(),
-      configParser.readConfig(),
-    ]);
-    const config = configParser.init(configData, i18n);
-    const store = new Store(metrics).init();
-    const notifications = new NotificationService(store);
-    const api = new Api({ i18n, config, notifications });
     const autoRefresh = new AutoRefreshService();
+    const metrics = new AppMetrics();
+    const localization = new LocalizationService();
+    addAllSequences(metrics);
+    const store = new Store({ metrics }).eject();
+    const notifications = new NotificationService({ store });
     const urlStore = new URLStore({
       encoder: new URLDataInSearchEncoder(defaultEncoderSettings),
-      config,
+      store,
+    });
+    const i18n = await localization.init();
+    const application = new Application({ i18n, urlStore, store });
+    await application.init();
+    const intercom = new Intercom(application);
+    const api = new Api({ i18n, config: application.config, notifications });
+    application.setClient(api);
+    await application.getId();
+    application.prepareAtom();
+    const auth = new AuthenticationService({
       api,
-    }).createAtom();
-
-    // default layers
-    // default appId
-    // `/apps/${appId}`
-
-    /**
-     * TODO:
-     * - draw_tools
-     * - logical_layers
-     * - router
-     */
-
-    this.core = new Core({
+      store,
+      metrics,
+      intercom,
       i18n,
-      config,
+      config: application.config,
+    });
+    await auth.init();
+    const currentUser = new CurrentUser({
+      store,
+      api,
+      auth,
+      application,
+      urlStore
+    });
+    const features = new AppFeatures({
+      store,
+      api,
+      auth,
+      application,
+    });
+    const feeds = new Feeds({
+      store,
+      api,
+      auth,
+      application,
+    });
+    const router = new Router().init({ i18n, config: application.config, features });
+    this.core = new Core({
+      intercom,
+      i18n,
+      app: application,
       metrics,
       store,
       notifications,
-      sharedState,
       api,
       autoRefresh,
       urlStore,
+      router,
+      auth,
+      currentUser,
+      features,
+      feeds,
     });
 
     return this.core;
+  }
+
+  initSharedState() {
+    this.core.sharedState = new SharedState();
   }
 }
 
 export const bootLoader = new BootLoader();
 export default bootLoader.core;
 export * from './types';
-
-// currentUserAtom.subscribe(({ language }) => {
-//   i18n
-//     .changeLanguage(language)
-//     .catch((e) => console.warn(`Attempt to change language to ${language} failed`));
-// });

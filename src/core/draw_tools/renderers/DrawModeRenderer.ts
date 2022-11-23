@@ -1,7 +1,7 @@
 import { MapboxLayer } from '@deck.gl/mapbox';
 import gpsi from 'geojson-polygon-self-intersections';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
-import { registerMapListener } from '~core/shared_state/mapListeners';
+import { registerMapListener } from '~core/map/atoms/mapListeners';
 import core from '~core/index';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { createDrawingLayers, drawModes } from '../constants';
@@ -11,7 +11,7 @@ import type { DrawModeType } from '../constants';
 import type { FeatureCollection, Feature } from 'geojson';
 import type { NotNullableMap, CommonHookArgs } from '~core/logical_layers/types/renderer';
 import type { CombinedAtom } from '../atoms/combinedAtom';
-import type { NotificationType } from '~core/shared_state/currentNotifications';
+import type { NotificationType } from '~core/notifications/atoms/currentNotifications';
 import type { NotificationMessage } from '~core/types/notification';
 
 type mountedDeckLayersType = {
@@ -267,7 +267,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
           if (hasIntersections(feature)) {
             this._showNotificationAction(
               'error',
-              { title: i18n.t('draw_tools.overlap_error') },
+              { title: core.i18n.t('draw_tools.overlap_error') },
               5,
             );
             return this._updateData(this._previousValidGeometry);

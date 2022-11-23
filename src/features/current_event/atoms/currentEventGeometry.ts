@@ -1,5 +1,5 @@
-import { createAtom } from '~utils/atoms';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { createAtom } from '~core/store/atoms';
+import core from '~core/index';
 import { currentEventResourceAtom } from './currentEventResource';
 import type { EventWithGeometry } from '~core/types';
 
@@ -13,7 +13,7 @@ export const currentEventGeometryAtom = createAtom(
         state = data;
         schedule((dispatch) => {
           dispatch(
-            focusedGeometryAtom.setFocusedGeometry(
+            core.sharedState.focusedGeometryAtom.setFocusedGeometry(
               {
                 type: 'event',
                 meta: data,

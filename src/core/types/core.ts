@@ -1,9 +1,4 @@
 import type { ApiClient } from '~core/api_client';
-import type { AuthClient } from '~core/auth';
-
-export interface LocalizationServiceI {
-  t: (key: string) => string;
-}
 
 export interface AppConfigParsedI {
   apiGateway: string;
@@ -56,6 +51,7 @@ export interface AppConfigParsedI {
 }
 
 export interface AppMetricsI {
+  changeUser: (user: { email: string }) => void;
   mark: (label: string) => void;
   processEvent: (type: string, payload: any) => void;
 }
@@ -67,7 +63,6 @@ export interface ApiService {
   apiClient: ApiClient;
   boundariesClient: ApiClient;
   reportsClient: ApiClient;
-  authClient: AuthClient;
 }
 
 export type AppInfoResponse = {
@@ -80,3 +75,5 @@ export type AppInfoResponse = {
   faviconUrl: string;
   public: boolean;
 };
+
+export type { LocalizationService, I18n } from '../localization';

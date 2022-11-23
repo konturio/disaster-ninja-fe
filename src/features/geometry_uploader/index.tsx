@@ -49,7 +49,7 @@ export function initFileUploader() {
 
         const { zoom, center } = geometryCamera;
         currentMapPositionAtom.setCurrentMapPosition.dispatch({
-          zoom: Math.min(zoom, core.config.autoFocus.maxZoom),
+          zoom: Math.min(zoom, core.app.config.autoFocus.maxZoom),
           ...center,
         });
         setTimeout(() => {

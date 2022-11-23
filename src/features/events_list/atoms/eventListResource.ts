@@ -1,5 +1,5 @@
-import { combineAtoms } from '~utils/atoms';
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { combineAtoms } from '~core/store/atoms';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import core from '~core/index';
 import { eventListFilters } from './eventListFilters';
 import type { Event } from '~core/types';

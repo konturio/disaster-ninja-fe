@@ -9,11 +9,11 @@ import {
 import { layerByOrder } from '~utils/map/layersOrder';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { mapLoaded } from '~utils/map/waitMapEvent';
-import { registerMapListener } from '~core/shared_state/mapListeners';
+import { registerMapListener } from '~core/map/atoms/mapListeners';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { MapHexTooltip, popupContentRoot } from '~components/MapHexTooltip/MapHexTooltip';
 import { invertClusters } from '~utils/bivariate';
-import type { MapListener } from '~core/shared_state/mapListeners';
+import type { MapListener } from '~core/map/atoms/mapListeners';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { AnyLayer, LngLat, RasterSource, VectorSource } from 'maplibre-gl';
 import type {

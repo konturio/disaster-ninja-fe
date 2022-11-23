@@ -1,4 +1,4 @@
-import { forceRun } from '~utils/atoms/forceRun';
+import { forceRun } from '~core/store/atoms/forceRun';
 import { areaLayersControlsAtom } from './atoms/areaLayersControls';
 import { areaLayersLegendsAndSources } from './atoms/areaLayersLegendsAndSources';
 

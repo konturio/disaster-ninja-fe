@@ -1,6 +1,5 @@
 import times from 'lodash/times';
-import { createAtom } from '~utils/atoms';
-import { currentMapAtom, currentNotificationAtom } from '~core/shared_state';
+import { createAtom } from '~core/store/atoms';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
 import { activeDrawModeAtom } from './activeDrawMode';
 import { temporaryGeometryAtom } from './temporaryGeometryAtom';
@@ -13,9 +12,10 @@ import {
 import { isDrawingStartedAtom } from './isDrawingStartedAtom';
 import { drawModeRenderer } from './logicalLayerAtom';
 import type { NotificationMessage } from '~core/types/notification';
-import type { NotificationType } from '~core/shared_state/currentNotifications';
+import type { NotificationType } from '~core/notifications/atoms/currentNotifications';
 import type { Feature } from 'geojson';
 import type { Action } from '@reatom/core';
+import core from '~core/index';
 
 export type DrawModeHooks =
   | 'drawnGeometryAtom'
@@ -35,7 +35,7 @@ export const combinedAtom = createAtom(
     hookWithAtom: (description: [DrawModeHooks, (data) => typeof data]) => description,
     activeDrawModeAtom,
     drawModeLogicalLayerAtom,
-    currentMapAtom,
+    currentMapAtom: core.sharedState.currentMapAtom,
 
     drawnGeometryAtom,
     setFeatures: (features: Feature[]) => features,
@@ -129,7 +129,7 @@ export const combinedAtom = createAtom(
     );
 
     onAction('showNotification', ({ type, message, lifetimeSec }) => {
-      actions.push(currentNotificationAtom.showNotification(type, message, lifetimeSec));
+      actions.push(core.sharedState.currentNotificationAtom.showNotification(type, message, lifetimeSec));
     });
 
     actions.length &&

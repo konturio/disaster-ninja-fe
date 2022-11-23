@@ -1,4 +1,4 @@
-import { forceRun } from '~utils/atoms/forceRun';
+import { forceRun } from '~core/store/atoms/forceRun';
 import { layerSideBarButtonControllerAtom } from './atoms/layerSideBarButtonController';
 import { editableLayersControlsAtom } from './atoms/editableLayersControls';
 import { editableLayersLegendsAndSources } from './atoms/editableLayersLegendsAndSources';

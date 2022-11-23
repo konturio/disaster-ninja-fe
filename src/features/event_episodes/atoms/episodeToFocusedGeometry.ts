@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { mergeFeatureCollection } from '~utils/geoJSON/helpers';
 import { focusedGeometryAtom, currentEpisodeAtom } from '~core/shared_state';
 import { episodesResource } from './episodesResource';

@@ -7,12 +7,11 @@ import {
   User24,
   Reports16,
 } from '@konturio/default-icons';
-import { AppFeature } from '~core/auth/types';
 import { HeaderTitle } from '~components/HeaderTitle/HeaderTitle';
 import { UserStateToComponents } from '~core/auth';
-import appConfig from '~core/app_config';
-import history from './history';
+import { AppFeature } from '~core/app_features';
 import type { AppRouterConfig } from './types';
+import type { I18n } from '..';
 
 const { MapPage } = lazily(() => import('~views/Map/Map'));
 const { ReportsPage } = lazily(() => import('~views/Reports/Reports'));
@@ -23,16 +22,14 @@ const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
 
-export const getAbsoluteRoute = (slug: string) => appConfig.baseUrl + slug;
-export const toHomePage = () => history.push(routerConfig.defaultRoute);
-export const routerConfig: AppRouterConfig = {
+export const createRoutes = (i18n: I18n): AppRouterConfig => ({
   defaultRoute: 'map',
   routes: [
     {
       slug: 'about',
       title: i18n.t('modes.about'),
       icon: <Info24 />,
-      view: <AboutPage toHomePage={toHomePage} />,
+      view: <AboutPage />,
       showForNewUsers: true,
     },
     {
@@ -81,4 +78,4 @@ export const routerConfig: AppRouterConfig = {
       requiredPermission: AppFeature.BIVARIATE_COLOR_MANAGER,
     },
   ],
-};
+});

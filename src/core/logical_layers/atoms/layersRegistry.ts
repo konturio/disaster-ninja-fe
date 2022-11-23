@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { createLogicalLayerAtom } from '../utils/logicalLayerFabric';
 import { hiddenLayersAtom } from './hiddenLayers';
 import { mountedLayersAtom } from './mountedLayers';

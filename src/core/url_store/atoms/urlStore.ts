@@ -1,14 +1,8 @@
 import { memo } from '@reatom/core/experiments';
-import { createAtom, createBooleanAtom } from '~utils/atoms';
-import {
-  currentEventAtom,
-  currentMapPositionAtom,
-  currentApplicationAtom,
-  currentEventFeedAtom,
-} from '~core/shared_state';
+import { createAtom, createBooleanAtom } from '~core/store/atoms';
 import { scheduledAutoSelect, scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { createStringAtom } from '~utils/atoms/createPrimitives';
+import core from '~core/index';
 import type { UrlData } from '../types';
 import type { Action } from '@reatom/core';
 import type { URLStore } from '../URLStore';
@@ -16,30 +10,23 @@ import type { URLStore } from '../URLStore';
 const initFlagAtom = createBooleanAtom(false, 'urlStore:initFlagAtom');
 let lastVersion = 0;
 
-export const searchStringAtom = createStringAtom('', 'urlStore:searchStringAtom');
 
 /* Compose shared state values into one atom */
-export const createUrlStoreAtom = (urlStore: URLStore) =>
+export const createUrlStoreAtom = (urlStore: URLStore, store) =>
   createAtom(
     {
       initFlag: initFlagAtom,
-      currentMapPositionAtom,
-      currentEventAtom,
+      currentMapPositionAtom: core.sharedState.currentMapPositionAtom,
+      currentEventAtom: core.sharedState.currentEventAtom,
       enabledLayersAtom,
-      currentApplicationAtom,
-      currentEventFeedAtom,
+      currentEventFeedAtom: core.sharedState.currentEventFeedAtom,
       _setState: (state: UrlData | null) => state,
     },
     ({ get, schedule, onAction, onInit, create }, state: UrlData | null = null) => {
       onInit(() => {
         schedule(async (dispatch) => {
-          const initialState = await urlStore.getInitialState();
+          const initialState = urlStore.readCurrentState();
           const actions: Action[] = [create('_setState', initialState)];
-
-          // Apply application id
-          if (initialState.app) {
-            actions.push(currentApplicationAtom.set(initialState.app));
-          }
 
           if (initialState.event === undefined && !initialState.map) {
             // Auto select event from event list when url is empty
@@ -59,7 +46,7 @@ export const createUrlStoreAtom = (urlStore: URLStore) =>
           // Apply map position
           if (initialState.map) {
             actions.push(
-              currentMapPositionAtom.setCurrentMapPosition({
+              core.sharedState.currentMapPositionAtom.setCurrentMapPosition({
                 zoom: Number(initialState.map[0]),
                 lng: Number(initialState.map[1]),
                 lat: Number(initialState.map[2]),
@@ -69,12 +56,12 @@ export const createUrlStoreAtom = (urlStore: URLStore) =>
 
           // Apply event
           if (initialState.event) {
-            actions.push(currentEventAtom.setCurrentEventId(initialState.event));
+            actions.push(core.sharedState.currentEventAtom.setCurrentEventId(initialState.event));
           }
 
           // Apply feed
           if (initialState.feed) {
-            actions.push(currentEventFeedAtom.setCurrentFeed(initialState.feed));
+            actions.push(core.sharedState.currentEventFeedAtom.setCurrentFeed(initialState.feed));
           }
 
           // Done
@@ -111,9 +98,6 @@ export const createUrlStoreAtom = (urlStore: URLStore) =>
       const enabledLayers = get('enabledLayersAtom');
       newState.layers = Array.from(enabledLayers ?? []);
 
-      const currentApplication = get('currentApplicationAtom');
-      newState.app = currentApplication ?? undefined;
-
       state = newState;
       const currentVersion = ++lastVersion;
 
@@ -129,7 +113,6 @@ export const createUrlStoreAtom = (urlStore: URLStore) =>
         ctx.debounceTimer = setTimeout(() => {
           if (state !== null) {
             urlStore.updateUrl(state);
-            dispatch(searchStringAtom.set(urlStore.toSearchSting(state)));
           }
         }, 300);
       });
@@ -139,5 +122,6 @@ export const createUrlStoreAtom = (urlStore: URLStore) =>
     {
       id: 'urlStoreAtom',
       decorators: [memo()],
+      store
     },
   );

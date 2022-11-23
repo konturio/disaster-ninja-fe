@@ -4,7 +4,7 @@ import { CustomMeasureDistanceMode } from '~core/draw_tools/map-daw-tools/custom
 import core from '~core/index';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { layerByOrder } from '~utils/map/layersOrder';
-import { registerMapListener } from '~core/shared_state/mapListeners';
+import { registerMapListener } from '~core/map/atoms/mapListeners';
 import type {
   NullableMap,
   CommonHookArgs,

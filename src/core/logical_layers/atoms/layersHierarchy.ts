@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { layersRegistryAtom } from '../atoms/layersRegistry';
 import { layersSettingsAtom } from '../atoms/layersSettings';
 import type { LayerAtom } from '../types/logicalLayer';

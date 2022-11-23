@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { categoriesSettings } from '~core/logical_layers/constants';
 import type { CategorySettings } from '../types/layers';
 

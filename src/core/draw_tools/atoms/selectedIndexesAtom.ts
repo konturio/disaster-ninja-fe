@@ -1,5 +1,5 @@
-import { createAtom } from '~utils/atoms';
-import { createPrimitiveAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms';
+import { createPrimitiveAtom } from '~core/store/atoms/createPrimitives';
 
 export const selectedIndexesAtom = createAtom(
   {

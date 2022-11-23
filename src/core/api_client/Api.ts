@@ -1,19 +1,17 @@
-import { AuthClient } from '../auth/client/AuthClient';
 import { ApiClient } from './apiClient';
-import type { LocalizationServiceI, AppConfigParsedI, NotificationService } from '..';
+import type { AppConfigParsedI, I18n, LocalizationService, NotificationService } from '..';
 
 export class Api {
   public apiClient: ApiClient;
   public boundariesClient: ApiClient;
   public reportsClient: ApiClient;
-  public authClient: AuthClient;
 
   constructor({
     i18n,
     config,
     notifications,
   }: {
-    i18n: LocalizationServiceI;
+    i18n: I18n;
     config: AppConfigParsedI;
     notifications: NotificationService;
   }) {
@@ -47,8 +45,5 @@ export class Api {
     });
     this.reportsClient = ApiClient.getInstance('reports');
 
-    // initialize user client
-    AuthClient.init({ apiClient: this.apiClient });
-    this.authClient = AuthClient.getInstance();
   }
 }

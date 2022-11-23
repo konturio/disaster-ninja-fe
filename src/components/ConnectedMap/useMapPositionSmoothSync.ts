@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useAtom } from '@reatom/react';
-import { currentMapPositionAtom } from '~core/shared_state';
+import core from '~core/index';
 
 /**
  * This effect allow to listen state changes, and fly to position that set externally in atom
  * And allow to read current map position and update atom state with actual data.
  * */
 export function useMapPositionSmoothSync(mapRef) {
-  const [currentMapPosition, currentMapPositionActions] = useAtom(currentMapPositionAtom);
+  const [currentMapPosition, currentMapPositionActions] = useAtom(core.sharedState.currentMapPositionAtom);
 
   useEffect(() => {
     if (mapRef.current && currentMapPosition !== null) {

@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 
 export type CurrentEpisodeAtomState = {
   id: string;

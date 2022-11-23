@@ -1,7 +1,6 @@
 import { EditOsm24 } from '@konturio/default-icons';
 import {
   currentMapPositionAtom,
-  currentUserAtom,
   toolbarControlsAtom,
 } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
@@ -25,10 +24,9 @@ export function initOsmEditLink() {
       const position = currentMapPositionAtom.getState();
       if (!position) return;
       const { lat, lng, zoom } = position;
-      const { osmEditor } = currentUserAtom.getState();
-      if (!osmEditor) return;
+      const { osmEditor } = core.currentUser.atom.getState() ?? {};
       const baseLink =
-        core.config.osmEditors.find((editor) => editor.id === osmEditor)?.url ||
+        core.app.config.osmEditors.find((editor) => editor.id === osmEditor)?.url ||
         'https://www.openstreetmap.org/edit?#map=';
 
       const url = `${baseLink}${zoom}/${lat}/${lng}`;

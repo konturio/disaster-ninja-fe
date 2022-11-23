@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { logicalLayersHierarchyAtom } from '~core/logical_layers/atoms/layersHierarchy';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 

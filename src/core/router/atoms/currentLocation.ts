@@ -1,8 +1,7 @@
-import { createAtom } from '~utils/atoms';
-import history from '../history';
-import type { Location } from 'history';
+import { createAtom } from '~core/store/atoms';
+import type { History, Location } from 'history';
 
-export const currentLocationAtom = createAtom(
+export const createCurrentLocationAtom = (history: History) => createAtom(
   {
     _set: (location: Location) => location,
   },
@@ -20,3 +19,5 @@ export const currentLocationAtom = createAtom(
   },
   'currentLocationAtom',
 );
+
+export type CurrentLocationAtom = ReturnType<typeof createCurrentLocationAtom>;

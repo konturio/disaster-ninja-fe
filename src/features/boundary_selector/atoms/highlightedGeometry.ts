@@ -1,4 +1,4 @@
-import { createPrimitiveAtom, createAtom } from '~utils/atoms/createPrimitives';
+import { createPrimitiveAtom, createAtom } from '~core/store/atoms/createPrimitives';
 import type { Feature, FeatureCollection } from 'geojson';
 
 export const highlightedGeometry = createPrimitiveAtom<

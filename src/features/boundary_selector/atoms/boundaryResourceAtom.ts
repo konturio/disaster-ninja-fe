@@ -1,5 +1,5 @@
 import core from '~core/index';
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 
 export const boundaryResourceAtom = createAsyncAtom(

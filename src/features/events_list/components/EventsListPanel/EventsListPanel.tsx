@@ -6,16 +6,15 @@ import { Disasters24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { createStateMap } from '~utils/atoms/createStateMap';
+import { createStateMap } from '~core/store/atoms/createStateMap';
 import core from '~core/index';
-import { userResourceAtom } from '~core/auth';
-import { AppFeature } from '~core/auth/types';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { panelClasses } from '~components/Panel';
 import {
   useAutoCollapsePanel,
   useSmartColumnContentResizer,
 } from '~components/SmartColumn';
+import { AppFeature } from '~core/app_features';
 import { FeedSelector } from '../FeedSelector/FeedSelector';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
@@ -41,7 +40,7 @@ export function EventsListPanel({
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const virtuoso = useRef(null);
-  const [{ data: userModel }] = useAtom(userResourceAtom);
+  const [features] = useAtom(core.features.atom);
   const contentRef = useSmartColumnContentResizer(setIsOpen, isOpen, MIN_HEIGHT);
 
   const togglePanel = useCallback(() => {
@@ -112,7 +111,7 @@ export function EventsListPanel({
                       isActive={event.eventId === current}
                       onClick={onCurrentChange}
                       alternativeActionControl={
-                        userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) ? (
+                        features.has(AppFeature.EPISODES_TIMELINE) ? (
                           <EpisodeTimelineToggle isActive={event.eventId === current} />
                         ) : null
                       }

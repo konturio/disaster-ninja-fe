@@ -1,2 +1,2 @@
-export { AppMetrics } from './app-metrics';
+export { AppMetrics } from './AppMetrics';
 export { addAllSequences } from './sequences';

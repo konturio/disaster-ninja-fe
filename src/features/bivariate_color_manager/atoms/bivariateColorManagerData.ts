@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { arraysAreEqualWithStrictOrder } from '~utils/array/arraysAreEqual';
 import { bivariateColorManagerResourceAtom } from './bivariateColorManagerResource';
 import type {

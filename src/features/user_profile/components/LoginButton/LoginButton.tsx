@@ -4,7 +4,7 @@ import s from './LoginButton.module.css';
 
 export const LoginButton = () => (
   <Button
-    onClick={core.api.authClient.showLoginForm}
+    onClick={core.auth.showLoginForm}
     size="small"
     dark
     className={s.loginButton}

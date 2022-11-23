@@ -1,5 +1,5 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { createAtom } from '~core/store/atoms/createPrimitives';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import core from '~core/index';
 import { editableLayersListResource } from './editableLayersListResource';

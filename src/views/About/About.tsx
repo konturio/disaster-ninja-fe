@@ -2,11 +2,11 @@ import { Trans } from 'react-i18next';
 import core from '~core/index';
 import s from './About.module.css';
 
-export function AboutPage({ toHomePage }: { toHomePage: () => void }) {
-  return <AboutText toHomePage={toHomePage} />;
+export function AboutPage() {
+  return <AboutText />;
 }
 
-function AboutText({ toHomePage }: { toHomePage: () => void }) {
+function AboutText() {
   return (
     <div className={s.mainWrap}>
       <div className={s.content}>
@@ -78,7 +78,7 @@ function AboutText({ toHomePage }: { toHomePage: () => void }) {
         <p>{core.i18n.t('about.p5')}</p>
 
         <p>
-          <span className={s.linkToMain} onClick={toHomePage}>
+          <span className={s.linkToMain} onClick={core.router.toHomePage}>
             {core.i18n.t('about.goToMap')} ➜
           </span>
         </p>

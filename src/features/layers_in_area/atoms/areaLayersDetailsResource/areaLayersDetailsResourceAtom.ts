@@ -1,4 +1,4 @@
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import core from '~core/index';
 import { areaLayersDetailsParamsAtom } from './areaLayersDetailsParamsAtom';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResourceAtomCache';

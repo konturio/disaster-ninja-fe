@@ -2,7 +2,7 @@ import '@reatom/react/react-dom-batched-updates';
 import '@konturio/default-theme/variables.css';
 import '@konturio/default-theme/defaults.css';
 import '@konturio/default-theme/typography.css';
-import '~utils/atoms/disableDefaultStore';
+import '~core/store/atoms/disableDefaultStore';
 import './global.css';
 import { bootLoader } from '~core/index';
 
@@ -28,6 +28,7 @@ localStorage.setItem('initialUrl', location.href);
 bootLoader
   .load()
   .then((core) => {
+    bootLoader.initSharedState();
     import('./App');
     core.metrics.mark('appConfig_loaded');
   })

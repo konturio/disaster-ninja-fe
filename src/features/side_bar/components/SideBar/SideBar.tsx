@@ -2,15 +2,12 @@ import { useAction, useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN, Logo } from '@konturio/ui-kit';
 import { nanoid } from 'nanoid';
 import cn from 'clsx';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import core from '~core/index';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import { searchStringAtom } from '~core/url_store/atoms/urlStore';
-import { availableRoutesAtom, getAbsoluteRoute } from '~core/router';
-import { currentRouteAtom } from '~core/router/atoms/currentRoute';
 import { SidebarAppIcon } from '../AppIcon/AppIcon';
 import s from './SideBar.module.css';
 import type { AppRoute } from '~core/router/types';
@@ -49,10 +46,10 @@ export function SideBar() {
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
   const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
-  const [searchString] = useAtom(searchStringAtom);
-  const [availableRoutes] = useAtom(availableRoutesAtom);
-  const [currentRoute] = useAtom(currentRouteAtom);
-
+  const [availableRoutes] = useAtom(core.router.atoms.availableRoutesAtom);
+  const [currentRoute] = useAtom(core.router.atoms.currentRouteAtom);
+  const { search } = useLocation();
+  
   const checkRouteVisibility = useMemo(
     () => (availableRoutes ? routeVisibilityChecker(availableRoutes.routes) : () => true),
     [availableRoutes],
@@ -120,10 +117,10 @@ export function SideBar() {
               <Link
                 key={nanoid(4)}
                 className={s.sidebarItemContainer}
-                to={getAbsoluteRoute(
+                to={core.router.getAbsoluteRoute(
                   route.parentRoute
-                    ? `${route.parentRoute}/${route.slug}${searchString}`
-                    : `${route.slug}${searchString}`,
+                    ? `${route.parentRoute}/${route.slug}${search}`
+                    : `${route.slug}${search}`,
                 )}
                 tabIndex={-1}
               >

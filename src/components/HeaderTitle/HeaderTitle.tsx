@@ -6,7 +6,7 @@ import type { PropsWithChildren } from 'react';
 
 export function HeaderTitle({ children }: PropsWithChildren) {
   const history = useHistory();
-  const toHomePage = () => history.push(core.config.baseUrl);
+  const toHomePage = () => history.push(core.app.config.baseUrl);
 
   return (
     <Text type="short-l">

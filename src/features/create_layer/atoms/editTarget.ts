@@ -1,4 +1,4 @@
-import { createPrimitiveAtom } from '~utils/atoms/createPrimitives';
+import { createPrimitiveAtom } from '~core/store/atoms/createPrimitives';
 import { EditTargets } from '../constants';
 import type { EditTargetsType } from '../types';
 

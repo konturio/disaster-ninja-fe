@@ -1,11 +1,10 @@
-import { createAtom } from '~utils/atoms';
-import { currentEventAtom } from '~core/shared_state';
+import { createAtom } from '~core/store/atoms';
 import core from '~core/index';
 import { currentEventResourceAtom } from './currentEventResource';
 
 export const currentEventRefresherAtom = createAtom(
   {
-    currentEventAtom,
+    currentEventAtom: core.sharedState.currentEventAtom,
   },
   ({ onChange, schedule }) => {
     onChange('currentEventAtom', (event, prev) => {

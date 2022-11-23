@@ -1,4 +1,4 @@
-import { createMapAtom } from '~utils/atoms/createPrimitives';
+import { createMapAtom } from '~core/store/atoms/createPrimitives';
 import type { LayerContextMenu } from '../types/contextMenu';
 
 export const layersMenusAtom = createMapAtom(

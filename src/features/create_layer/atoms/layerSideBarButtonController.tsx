@@ -1,5 +1,5 @@
 import { AddLayer24 } from '@konturio/default-icons';
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { CREATE_LAYER_CONTROL_ID } from '~features/create_layer/constants';
 import core from '~core/index';
 import {
@@ -7,8 +7,7 @@ import {
   controlVisualGroup,
   toolbarControlsAtom,
 } from '~core/shared_state/toolbarControls';
-import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { AppFeature } from '~core/auth/types';
+import { AppFeature } from '~core/app_features';
 import { editableLayerControllerAtom } from './editableLayerController';
 
 const sidebarButtonParams = {
@@ -36,20 +35,16 @@ const sidebarButtonParams = {
  */
 export const layerSideBarButtonControllerAtom = createAtom(
   {
-    userResourceAtom,
+    features: core.features.atom,
   },
   ({ getUnlistedState, schedule, onChange }) => {
-    onChange('userResourceAtom', (userResource) => {
-      const { data: userModel, loading, error } = userResource;
-      if (loading === true || error || userModel === null || userModel === undefined)
-        return;
-
+    onChange('features', (features) => {
       const currentControls = getUnlistedState(toolbarControlsAtom);
       // This flag already checked in Main.js, when user logout
       // I need to remove this button, if default user not contain that feature.
       // TODO: Add cleanup hooks for features
 
-      if (userModel.hasFeature(AppFeature.CREATE_LAYER)) {
+      if (features.has(AppFeature.CREATE_LAYER)) {
         // But not added
         if (!currentControls[sidebarButtonParams.id]) {
           schedule((dispatch) => {

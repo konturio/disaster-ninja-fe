@@ -1,6 +1,5 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
-import { currentApplicationAtom } from '~core/shared_state';
 import core from '~core/index';
 import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
 import { createLayerEditorFormAtom } from './layerEditorForm';
@@ -104,10 +103,8 @@ export const editableLayerControllerAtom = createAtom(
             },
             {} as Record<string, EditableLayerFieldType>,
           ),
+          appId: core.app.id
         };
-
-        // @ts-expect-error temporary code
-        data.appId = getUnlistedState(currentApplicationAtom);
 
         schedule(async (dispatch) => {
           try {

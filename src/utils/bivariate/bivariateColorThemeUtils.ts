@@ -141,8 +141,8 @@ export const generateBivariateStyle = (
       type: 'vector',
       tiles: [
         `${adaptTileUrl(
-          core.config.bivariateTilesRelativeUrl,
-        )}{z}/{x}/{y}.mvt?indicatorsClass=${core.config.bivariateTilesIndicatorsClass}`,
+          core.app.config.bivariateTilesRelativeUrl,
+        )}{z}/{x}/{y}.mvt?indicatorsClass=${core.app.config.bivariateTilesIndicatorsClass}`,
       ],
       maxzoom: meta.max_zoom,
       minzoom: 0,

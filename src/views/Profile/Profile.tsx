@@ -1,11 +1,11 @@
 import { useAtom } from '@reatom/react';
-import { userStateAtom } from '~core/auth';
+import core from '~core/index';
 import { LoginForm } from '~features/user_profile';
 import { SettingsForm } from '~features/user_profile/components/SettingsForm/SettingsForm';
 import s from './Profile.module.css';
 
 export function ProfilePage() {
-  const [userState] = useAtom(userStateAtom);
+  const [userState] = useAtom(core.auth.atom);
 
   if (userState === 'authorized')
     return (

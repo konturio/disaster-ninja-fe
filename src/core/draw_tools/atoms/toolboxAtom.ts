@@ -1,9 +1,6 @@
 import { downloadObject } from '~utils/file/download';
 import core from '~core/index';
-import { createAtom } from '~utils/atoms';
-import { toolbarControlsAtom } from '~core/shared_state';
-import { currentNotificationAtom } from '~core/shared_state';
-import { currentLocationAtom } from '~core/router/atoms/currentLocation';
+import { createAtom } from '~core/store/atoms';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '../constants';
 import { activeDrawModeAtom } from './activeDrawMode';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
@@ -36,7 +33,7 @@ export const toolboxAtom = createAtom(
     isDrawingStartedAtom,
     setSettings: (settings: DrawToolBoxSettings) => settings,
     downloadDrawGeometry: () => null,
-    currentLocationAtom,
+    currentLocationAtom: core.router.atoms.currentLocationAtom,
   },
   (
     { onAction, schedule, get, getUnlistedState, onChange, create },
@@ -66,7 +63,7 @@ export const toolboxAtom = createAtom(
     });
 
     onAction('finishDrawing', () => {
-      actions.push(toolbarControlsAtom.disable(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID));
+      actions.push(core.sharedState.toolbarControlsAtom.disable(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID));
       actions.push(activeDrawModeAtom.setDrawMode(null));
     });
 
@@ -80,7 +77,7 @@ export const toolboxAtom = createAtom(
 
       if (!data.features.length)
         return actions.push(
-          currentNotificationAtom.showNotification(
+          core.sharedState.currentNotificationAtom.showNotification(
             'info',
             { title: core.i18n.t('draw_tools.no_geometry_error') },
             5,

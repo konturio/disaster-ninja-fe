@@ -3,7 +3,7 @@ import { isApiError } from '~core/api_client';
 import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import core from '~core/index';
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import { createBivariateQuery } from '~utils/bivariate';
 import type { Axis, Direction, Indicator } from '~utils/bivariate';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';

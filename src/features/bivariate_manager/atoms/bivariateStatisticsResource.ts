@@ -1,5 +1,4 @@
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { isApiError } from '~core/api_client';
 import core from '~core/index';
@@ -9,7 +8,7 @@ import type { BivariateStatisticsResponse } from '~features/bivariate_manager/ty
 let allMapStats: BivariateStatisticsResponse;
 
 export const bivariateStatisticsResourceAtom = createAsyncAtom(
-  focusedGeometryAtom,
+  core.sharedState.focusedGeometryAtom,
   async (geom, abortController) => {
     if (!geom && allMapStats) {
       return allMapStats;

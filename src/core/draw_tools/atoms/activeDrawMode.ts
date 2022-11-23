@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { drawModes } from '../constants';
 import type { DrawModeType } from '../constants';
 

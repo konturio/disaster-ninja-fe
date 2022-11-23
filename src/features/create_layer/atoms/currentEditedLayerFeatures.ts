@@ -1,5 +1,5 @@
 import core from '~core/index';
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';

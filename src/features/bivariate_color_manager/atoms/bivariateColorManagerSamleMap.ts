@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 import { generateBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';

@@ -13,11 +13,14 @@ export class Store {
   /** Enable with localStorage.setItem('KONTUR_TRACE_ERROR', '_error') */
   private traceType = globalThis.window?.localStorage.getItem('KONTUR_TRACE_TYPE');
   private metrics: AppMetricsI;
-  constructor(metrics: AppMetricsI) {
+  private store!: ReturnType<typeof createStore>;
+
+  constructor({ metrics }: { metrics: AppMetricsI }) {
     this.metrics = metrics;
+    this.createStore();
   }
 
-  init() {
+  private createStore() {
     const devtoolsLogger = createDevtoolsLogger();
     // Must be cutted out in production by terser
     if (import.meta.env.VITE_REDUX_DEV_TOOLS === 'true') {
@@ -32,7 +35,7 @@ export class Store {
         now: globalThis.performance?.now.bind(performance) ?? Date.now,
       });
     }
-    return createStore({
+    this.store = createStore({
       onPatch: (t) => {
         if (import.meta.env.MODE !== 'test') {
           for (const action of t.actions) {
@@ -55,4 +58,10 @@ export class Store {
       },
     });
   }
+
+  eject() {
+    return this.store;
+  }
+
+  
 }

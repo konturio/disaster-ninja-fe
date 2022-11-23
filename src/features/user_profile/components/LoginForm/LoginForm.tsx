@@ -58,10 +58,10 @@ export function LoginForm() {
       setError(err);
     } else {
       setLoading(true);
-      const authResponse = await core.api.authClient.authenticate(
-        formData.email || '',
-        formData.password || '',
-      );
+      const authResponse = await core.auth.login({
+        user: formData.email || '',
+        password: formData.password || '',
+      });
       setLoading(false);
       if (authResponse !== true) {
         if (typeof authResponse === 'string') {

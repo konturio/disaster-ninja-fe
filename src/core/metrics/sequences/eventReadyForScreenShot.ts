@@ -1,4 +1,4 @@
-import type { AppMetrics } from '../app-metrics';
+import type { AppMetrics } from '../AppMetrics';
 
 export function eventReadyForScreenShot(mtr: AppMetrics) {
   mtr

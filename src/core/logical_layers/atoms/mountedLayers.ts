@@ -1,4 +1,4 @@
-import { createMapAtom } from '~utils/atoms/createPrimitives';
+import { createMapAtom } from '~core/store/atoms/createPrimitives';
 import type { LayerAtom } from '../types/logicalLayer';
 
 export const mountedLayersAtom = createMapAtom(

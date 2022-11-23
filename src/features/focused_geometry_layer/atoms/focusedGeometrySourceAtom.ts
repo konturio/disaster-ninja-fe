@@ -1,6 +1,6 @@
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
-import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
-import { createAtom } from '~utils/atoms';
+import { createAsyncWrapper } from '~core/store/atoms/createAsyncWrapper';
+import { createAtom } from '~core/store/atoms';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import type { LayerGeoJSONSource } from '~core/logical_layers/types/source';
 

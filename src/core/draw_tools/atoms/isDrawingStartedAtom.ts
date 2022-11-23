@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { createAtom } from '~core/store/atoms';
 
 export const isDrawingStartedAtom = createAtom(
   { setIsStarted: (isStarted: boolean) => isStarted },

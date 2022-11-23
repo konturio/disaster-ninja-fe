@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { editableLayersListResource } from './editableLayersListResource';
 import type { EditableLayerSettings } from '../types';
 

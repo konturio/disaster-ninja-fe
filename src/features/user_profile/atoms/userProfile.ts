@@ -1,12 +1,8 @@
 import core from '~core/index';
-import { currentUserAtom } from '~core/shared_state';
-import { createAtom } from '~utils/atoms';
-import { createStringAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms';
+import { createStringAtom } from '~core/store/atoms/createPrimitives';
 import { currentNotificationAtom } from '~core/shared_state';
-import type { CurrentUser } from '~core/shared_state/currentUser';
-
-export type UserProfileState = Omit<CurrentUser, 'loading' | 'defaultLayers' | 'token'>;
-type profileResponse = UserProfileState;
+import type { UserProfile, UserProfilesResponse } from '~core/current_user/types';
 
 export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>(
   'init',
@@ -15,14 +11,14 @@ export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>(
 
 export const currentProfileAtom = createAtom(
   {
-    currentUserAtom,
-    updateUserProfile: (user: UserProfileState) => user,
+    currentUserAtom: core.currentUser.atom,
+    updateUserProfile: (user: UserProfile) => user,
   },
-  ({ onChange, onAction, schedule }, state: UserProfileState | null = null) => {
+  ({ onAction, schedule, get }, state: UserProfile | null = null) => {
     onAction('updateUserProfile', (user) => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
-        const responseData = await core.api.apiClient.put<profileResponse>(
+        const responseData = await core.api.apiClient.put<UserProfilesResponse>(
           '/users/current_user',
           user,
           true,
@@ -34,22 +30,11 @@ export const currentProfileAtom = createAtom(
           5,
         );
 
-        dispatch(currentUserAtom.setUser(user));
+        dispatch(core.currentUser.atom.setUserProfile(user));
       });
     });
 
-    onChange('currentUserAtom', async (newUser, prevUser) => {
-      // reload to simply apply all the settings if implementation is difficult
-      // if (prevUser) location.reload()
-
-      const newState = { ...newUser };
-      delete newState.token;
-      delete newState.loading;
-      delete newState.defaultLayers;
-      state = newState;
-    });
-
-    return state;
+    return get('currentUserAtom');
   },
   'user_profile:currentProfileAtom',
 );

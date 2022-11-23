@@ -1,10 +1,10 @@
-import { currentNotificationAtom } from '~core/shared_state/currentNotifications';
+import { currentNotificationAtom } from '~core/notifications/atoms/currentNotifications';
 import type { NotificationMessage } from '~core/types/notification';
 import type { AppStore } from '..';
 
 export class NotificationService {
   store: AppStore;
-  constructor(store: AppStore) {
+  constructor({ store }: { store: AppStore }) {
     this.store = store;
   }
   private static instance: NotificationService;

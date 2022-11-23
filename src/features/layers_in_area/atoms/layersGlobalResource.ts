@@ -1,5 +1,5 @@
 import core from '~core/index';
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import { LAYERS_IN_AREA_API_ERROR } from '../constants';
 import type { LayerInArea } from '../types';
 

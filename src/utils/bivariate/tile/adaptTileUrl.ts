@@ -16,8 +16,8 @@ export function adaptTileUrl(url: string): string {
     url = window.location.protocol + url.replace(protocolRegexp, '');
   } else {
     const baseUrl =
-      core.config.bivariateTilesServer ??
-      `${window.location.protocol}${window.location.host}${core.config.baseUrl}`;
+      core.app.config.bivariateTilesServer ??
+      `${window.location.protocol}${window.location.host}${core.app.config.baseUrl}`;
     url = `${baseUrl}${url}`;
   }
 

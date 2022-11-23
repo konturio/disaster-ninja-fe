@@ -3,9 +3,7 @@ import ReactDOMServer from 'react-dom/server';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useAtom } from '@reatom/react';
-import { currentUserAtom } from '~core/shared_state';
-import { currentMapPositionAtom } from '~core/shared_state';
-import { mapIdle } from '~core/shared_state/currentMapPosition';
+import { mapIdle } from '~core/map/atoms/currentMapPosition';
 import { useMarkers } from './useMarkers';
 import { useArrayDiff } from './useArrayDiff';
 import type { Marker } from './types';
@@ -18,6 +16,7 @@ import type {
   GeoJSONSource,
   GeoJSONSourceOptions,
 } from 'maplibre-gl';
+import core from '~core/index';
 
 interface FeatureState {
   source: string; // source id
@@ -100,13 +99,13 @@ function MapboxMap(
   const [map, setMap] = useState<Map | null>(null);
   const mapEl = useRef<HTMLDivElement | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [currentUserData] = useAtom(currentUserAtom);
+  const [currentUserData] = useAtom(core.currentUser.atom);
   const [, { setTrue: markMapIdle }] = useAtom(mapIdle);
   /* On map instance */
   useEffect(() => {
     const { current } = mapEl;
     if (current === null) return;
-    const currentMapPosition = currentMapPositionAtom.getState();
+    const currentMapPosition = core.sharedState.currentMapPositionAtom.getState();
     //LngLatLike
     const mapLocation = {
       center: [currentMapPosition?.lng || 60, currentMapPosition?.lat || 0] as [

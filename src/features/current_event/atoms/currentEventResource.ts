@@ -1,11 +1,10 @@
-import { createAtom } from '~utils/atoms';
-import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { createAtom } from '~core/store/atoms';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import core from '~core/index';
 import type { EventWithGeometry } from '~core/types';
 
 const eventDependencyAtom = createAtom(
-  { currentEventAtom },
+  { currentEventAtom: core.sharedState.currentEventAtom },
   (
     { get, getUnlistedState },
     state: { event: { id: string } | null; feed: { id: string } | null } = {
@@ -16,7 +15,7 @@ const eventDependencyAtom = createAtom(
     const event = get('currentEventAtom');
     if (!event) return { event: null, feed: state.feed };
 
-    const feed = getUnlistedState(currentEventFeedAtom);
+    const feed = getUnlistedState(core.sharedState.currentEventFeedAtom);
     return { event, feed };
   },
 );

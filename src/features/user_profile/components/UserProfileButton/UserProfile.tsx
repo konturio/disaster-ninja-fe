@@ -5,7 +5,6 @@ import clsx from 'clsx';
 import { Button } from '@konturio/ui-kit';
 import { User24 } from '@konturio/default-icons';
 import core from '~core/index';
-import { userStateAtom } from '~core/auth/atoms/userState';
 import { LoginButton } from '../LoginButton/LoginButton';
 import s from './UserProfile.module.css';
 import type { OptionType } from '@konturio/ui-kit/tslib/Selector';
@@ -44,7 +43,7 @@ function UserAvatar() {
   const onMenuSelect = useCallback((val: string) => {
     switch (val) {
       case 'logout':
-        core.api.authClient.logout();
+        core.auth.logout();
         break;
     }
   }, []);
@@ -73,7 +72,7 @@ function UserAvatar() {
 }
 
 export function UserProfile() {
-  const [userState] = useAtom(userStateAtom);
+  const [userState] = useAtom(core.auth.atom);
 
   return userState === 'authorized' ? <UserAvatar /> : <LoginButton />;
 }

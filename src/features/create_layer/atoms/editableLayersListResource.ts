@@ -1,44 +1,15 @@
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { createAtom } from '~utils/atoms/createPrimitives';
-import { currentApplicationAtom } from '~core/shared_state';
+import { createAsyncAtom } from '~core/store/atoms/createAsyncAtom';
 import { EDITABLE_LAYERS_GROUP } from '~core/constants';
 import core from '~core/index';
 import type { EditableLayers } from '../types';
 
-/**
- * This resource atom get editable user layers
- */
-const editableLayersListDependencyAtom = createAtom(
-  {
-    currentApplicationAtom,
-  },
-  (
-    { onChange },
-    state: {
-      appId: string | null;
-    } = {
-      appId: null,
-    },
-  ) => {
-    onChange('currentApplicationAtom', (currentApplication) => {
-      state = { appId: currentApplication };
-    });
-
-    return state;
-  },
-  'editableLayersListDependencyAtom',
-);
-
 export const editableLayersListResource = createAsyncAtom(
-  editableLayersListDependencyAtom,
-  async (params, abortController) => {
-    const body = params?.appId ? { appId: params?.appId } : {};
-
+  null,
+  async () => {
     const responseData = await core.api.apiClient.post<EditableLayers[]>(
       '/layers/search/',
-      body,
+      { appId: core.app.id },
       true,
-      { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
     );
     if (responseData === null) return [];
 

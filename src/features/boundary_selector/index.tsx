@@ -1,5 +1,4 @@
 import { SelectArea24 } from '@konturio/default-icons';
-import { toolbarControlsAtom } from '~core/shared_state';
 import {
   BOUNDARY_SELECTOR_CONTROL_ID,
   BOUNDARY_SELECTOR_CONTROL_NAME,
@@ -9,7 +8,7 @@ import {
 } from '~features/boundary_selector/constants';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import core from '~core/index';
-import { forceRun } from '~utils/atoms/forceRun';
+import { forceRun } from '~core/store/atoms/forceRun';
 import { BoundarySelectorRenderer } from './renderers/BoundarySelectorRenderer';
 import { createBoundaryRegistryAtom } from './atoms/boundaryRegistryAtom';
 import { boundaryMarkerAtom } from './atoms/boundaryMarkerAtom';
@@ -31,7 +30,7 @@ export function initBoundarySelector() {
     renderer,
   );
 
-  toolbarControlsAtom.addControl.dispatch({
+  core.sharedState.toolbarControlsAtom.addControl.dispatch({
     id: BOUNDARY_SELECTOR_CONTROL_ID,
     name: BOUNDARY_SELECTOR_CONTROL_NAME,
     title: core.i18n.t('boundary_selector.title'),
@@ -40,7 +39,7 @@ export function initBoundarySelector() {
     visualGroup: controlVisualGroup.withAnalytics,
     icon: <SelectArea24 />,
     onClick: (becomesActive) => {
-      toolbarControlsAtom.toggleActiveState.dispatch(BOUNDARY_SELECTOR_CONTROL_ID);
+      core.sharedState.toolbarControlsAtom.toggleActiveState.dispatch(BOUNDARY_SELECTOR_CONTROL_ID);
     },
     onChange: (becomesActive) => {
       if (becomesActive) {

@@ -31,8 +31,8 @@ export function BivariateSampleMap({
   fullscreen: boolean;
   setFullscreen: (flag: boolean) => void;
 }) {
-  const mapBaseStyle = core.config.mapBaseStyle;
-  const accessToken = core.config.mapAccessToken;
+  const mapBaseStyle = core.app.config.mapBaseStyle;
+  const accessToken = core.app.config.mapAccessToken;
   const mapRef = useRef<mapLibre.Map>();
   useMapPositionSmoothSync(mapRef);
 

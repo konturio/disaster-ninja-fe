@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { createAtom } from '~core/store/atoms/createPrimitives';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateActionsFromLayersDTO } from '../utils/createUpdateActionsFromLayersDTO';

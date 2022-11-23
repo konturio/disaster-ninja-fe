@@ -3,15 +3,7 @@ import type {
   ApisauceConfig,
 } from '~utils/axios/apisauce/apisauce';
 import type { AxiosRequestConfig } from 'axios';
-import type { NotificationMessage } from '~core/types/notification';
-
-export interface INotificationService {
-  error: (message: NotificationMessage, lifetimeSec?: number) => void;
-}
-
-export interface ITranslationService {
-  t: (message: string) => string;
-}
+import type { I18n, NotificationService } from '..';
 
 export const ApiMethodTypes = {
   GET: 'get',
@@ -25,8 +17,8 @@ export type ApiMethod = typeof ApiMethodTypes[keyof typeof ApiMethodTypes];
 
 export interface ApiClientConfig extends ApisauceConfig {
   instanceId?: string;
-  notificationService: INotificationService;
-  translationService: ITranslationService;
+  notificationService: NotificationService;
+  translationService: I18n;
   loginApiPath?: string;
   refreshTokenApiPath?: string;
   unauthorizedCallback?: () => void;

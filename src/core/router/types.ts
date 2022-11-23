@@ -1,4 +1,4 @@
-import type { AppFeatureType } from '~core/auth/types';
+import type { AppFeatureType } from '~core/app_features';
 
 export interface AppRoute {
   slug: string;

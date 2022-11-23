@@ -56,7 +56,7 @@ export function ReportsList() {
           reports.map?.((report) => {
             const goToReport = (e: React.MouseEvent<HTMLElement>) => {
               e.preventDefault();
-              history.push(core.config.baseUrl + 'reports/' + report.id);
+              history.push(core.app.config.baseUrl + 'reports/' + report.id);
             };
             return (
               <div className={styles.reportWrap} key={report.id} onClick={goToReport}>

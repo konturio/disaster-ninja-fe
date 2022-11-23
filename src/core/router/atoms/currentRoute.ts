@@ -1,11 +1,18 @@
 import { matchPath } from 'react-router';
-import { createAtom } from '~utils/atoms';
-import { getAbsoluteRoute } from '../routes';
-import { availableRoutesAtom } from './availableRoutes';
-import { currentLocationAtom } from './currentLocation';
+import { createAtom } from '~core/store/atoms';
+import type { AvailableRoutesAtom } from './availableRoutes';
+import type { CurrentLocationAtom } from './currentLocation';
 import type { AppRoute } from '../types';
 
-export const currentRouteAtom = createAtom(
+export const createCurrentRouteAtom = ({
+  availableRoutesAtom,
+  currentLocationAtom,
+  getAbsoluteRoute
+}: {
+  availableRoutesAtom: AvailableRoutesAtom,
+  currentLocationAtom: CurrentLocationAtom,
+  getAbsoluteRoute: (slug: string) => string
+}) => createAtom(
   {
     availableRoutesAtom,
     currentLocationAtom,
@@ -27,3 +34,5 @@ export const currentRouteAtom = createAtom(
   },
   'currentRouteAtom',
 );
+
+export type CurrentRouteAtom = ReturnType<typeof createCurrentRouteAtom>
