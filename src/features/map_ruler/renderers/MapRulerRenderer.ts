@@ -32,6 +32,7 @@ export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
   private _deckLayer?: MapboxLayer<unknown>;
   private _removeClickListener: null | (() => void) = null;
+  private _removeMousemoveListener: null | (() => void) = null;
   public constructor(id: string) {
     super();
     this.id = id;
@@ -92,6 +93,9 @@ export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
       args.map.removeLayer(this._deckLayer.id);
     }
     this._removeClickListener?.();
+    this._removeMousemoveListener?.();
+    this._removeClickListener = null;
+    this._removeMousemoveListener = null;
   }
 
   public addClickListener() {
@@ -100,6 +104,10 @@ export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
       e.preventDefault();
       return false;
     }
+    function preventMousemove(e) {
+      return false;
+    }
     this._removeClickListener = registerMapListener('click', preventClicking, 1);
+    this._removeMousemoveListener = registerMapListener('mousemove', preventMousemove, 1);
   }
 }

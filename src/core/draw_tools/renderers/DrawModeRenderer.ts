@@ -38,6 +38,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
   private _createDrawingLayer: DrawModeType | null;
   private _editDrawingLayer: DrawModeType | null;
   private _removeClickListener: null | (() => void) = null;
+  private _removeMousemoveListener: null | (() => void) = null;
   private _previousValidGeometry: FeatureCollection = {
     type: 'FeatureCollection',
     features: [],
@@ -87,6 +88,8 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
     this._removeAllDeckLayers(args.map);
     this._removeClickListener?.();
     this._removeClickListener = null;
+    this._removeMousemoveListener?.();
+    this._removeMousemoveListener = null;
   }
 
   willHide(args: NotNullableMap & CommonHookArgs): void {
@@ -163,11 +166,19 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
 
   public addClickListener() {
     if (this._removeClickListener !== null) return;
-    function listener(e) {
+    function preventClicking(e) {
       e.preventDefault();
       return false;
     }
-    this._removeClickListener = registerMapListener('click', listener, 10);
+    function preventMousemove(e) {
+      return false;
+    }
+    this._removeClickListener = registerMapListener('click', preventClicking, 10);
+    this._removeMousemoveListener = registerMapListener(
+      'mousemove',
+      preventMousemove,
+      10,
+    );
   }
 
   // Private methods
