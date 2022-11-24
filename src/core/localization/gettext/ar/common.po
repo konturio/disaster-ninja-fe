@@ -50,10 +50,6 @@ msgstr "جارٍ التحميل..."
 msgid "Loading events"
 msgstr "جارٍ تحميل الأحداث"
 
-#: to_main_page
-msgid "to main page"
-msgstr "إلى الصفحة الرئيسية"
-
 #: legend
 msgid "Legend"
 msgstr "عنوان تفسيري"
@@ -86,10 +82,6 @@ msgstr "غير معرف"
 #: bivariate##color_manager##sentiments_combinations_filter
 msgid "Sentiments combinations"
 msgstr "تركيبات المشاعر"
-
-#: bivariate##color_manager##title
-msgid "Appearance administration"
-msgstr "إدارة المظهر."
 
 #: bivariate##color_manager##no_legends
 msgid "There are no legends satisfying the conditions."

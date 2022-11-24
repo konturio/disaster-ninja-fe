@@ -6,7 +6,7 @@ interface EpisodesTimeline {
   [timelineKey]: unknown | null;
   settings: {
     stack: boolean;
-    cluster: boolean;
+    cluster: false | { fitOnDoubleClick: true };
   };
 }
 
@@ -23,7 +23,7 @@ export const episodesTimeline = createAtom(
       [timelineKey]: null,
       settings: {
         stack: false,
-        cluster: true,
+        cluster: { fitOnDoubleClick: true },
       },
     },
   ) => {

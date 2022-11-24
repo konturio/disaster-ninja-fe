@@ -34,7 +34,7 @@
   margin-left: auto;
 }
 
-.footer {
-  grid-row: 3;
-  grid-column: 1/2;
+.footerWrap {
+  grid-row: -1;
+  grid-column: 1/-1;
 }

@@ -113,7 +113,8 @@ export class Resizer {
         const contentHeight = this.getContentHeight();
         // Find how much space out of size
         const diff = contentHeight ? contentHeight - maxHeight : 0;
-        if (diff > 0) {
+        // diff can be for example 0.0093994140625
+        if (diff > 0.1) {
           // Stop observing while apllying size changes
           containerObserver.unobserve(containerEl);
           this._adjustPanelsHeight(diff);

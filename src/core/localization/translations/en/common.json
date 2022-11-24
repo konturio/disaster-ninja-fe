@@ -9,7 +9,6 @@
   "disasters": "Disasters",
   "loading": "Loading...",
   "loading_events": "Loading events",
-  "to_main_page": "to main page",
   "legend": "Legend",
   "maps": "maps",
   "vertical_direction": "Vertical direction",
@@ -193,7 +192,6 @@
       "not_defined": "Not defined",
       "sentiments_combinations_filter": "Sentiments combinations",
       "layers_filter": "Layers",
-      "title": "Appearance administration",
       "no_legends": "There are no legends satisfying the conditions.",
       "no_data": "No Data.",
       "sentiments_tab": "Sentiments",
@@ -207,7 +205,8 @@
     "edit_osm": "Edit in OpenStreetMap",
     "ruler": "Ruler",
     "collapse": "Collapse",
-    "expand": "Expand"
+    "expand": "Expand",
+    "icon_alt": "Application logo"
   },
   "login": {
     "email": "Email",
@@ -269,6 +268,7 @@
     "appSettingsHeader": "Settings",
     "englishLanguageOption": "English",
     "spanishLanguageOption": "Spanish",
+    "arabicLanguageOption": "Arabic",
     "saveButton": "Save changes",
     "konturTheme": "Kontur",
     "HOTTheme": "HOT",

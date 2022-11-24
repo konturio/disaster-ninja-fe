@@ -49,10 +49,6 @@ msgstr "Cargando..."
 msgid "Loading events"
 msgstr "Cargando eventos"
 
-#: to_main_page
-msgid "to main page"
-msgstr "a la página principal"
-
 #: legend
 msgid "Legend"
 msgstr "Leyenda"
@@ -85,10 +81,6 @@ msgstr "No definido"
 #: bivariate##color_manager##sentiments_combinations_filter
 msgid "Sentiments combinations"
 msgstr "Combinaciones de sentimientos"
-
-#: bivariate##color_manager##title
-msgid "Appearance administration"
-msgstr "Administración de la apariencia"
 
 #: bivariate##color_manager##no_legends
 msgid "There are no legends satisfying the conditions."

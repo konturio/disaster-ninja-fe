@@ -378,17 +378,25 @@ function MapboxMap(
     });
   }, [map, mapLoaded]);
 
-  /* Deck GL cursor updates */
+  // Add single scale control
+  const [scaleControl, setScaleControl] = useState<mapLibre.ScaleControl | null>(null);
   useEffect(() => {
     if (!map || !mapLoaded) return;
-    const scale = new mapLibre.ScaleControl({
-      maxWidth: 120,
-      unit: currentUserData.useMetricUnits ? 'metric' : 'imperial',
-    });
-    map.addControl(scale, 'bottom-right');
-  }, [map, mapLoaded]);
+    scaleControl && map.hasControl(scaleControl) && map.removeControl(scaleControl);
+    const newControl = getMapControl(currentUserData?.useMetricUnits);
+    map.addControl(newControl, 'bottom-right');
+    setScaleControl(newControl);
+  }, [map, currentUserData, mapLoaded]);
 
   return <div className={className} ref={mapEl} />;
 }
 
 export default forwardRef(MapboxMap);
+
+function getMapControl(useMetricUnits?: boolean) {
+  const scale = new mapLibre.ScaleControl({
+    maxWidth: 120,
+    unit: useMetricUnits ? 'metric' : 'imperial',
+  });
+  return scale;
+}

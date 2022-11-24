@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-22T06:28:39.160Z\n"
-"PO-Revision-Date: 2022-11-22T06:28:39.160Z\n"
+"POT-Creation-Date: 2022-11-24T16:01:32.347Z\n"
+"PO-Revision-Date: 2022-11-24T16:01:32.347Z\n"
 
 #: km
 msgid "km"
@@ -46,10 +46,6 @@ msgstr ""
 
 #: loading_events
 msgid "Loading events"
-msgstr ""
-
-#: to_main_page
-msgid "to main page"
 msgstr ""
 
 #: legend
@@ -568,10 +564,6 @@ msgstr ""
 msgid "Sentiments combinations"
 msgstr ""
 
-#: bivariate##color_manager##title
-msgid "Appearance administration"
-msgstr ""
-
 #: bivariate##color_manager##no_legends
 msgid "There are no legends satisfying the conditions."
 msgstr ""
@@ -615,6 +607,10 @@ msgstr ""
 
 #: sidebar##expand
 msgid "Expand"
+msgstr ""
+
+#: sidebar##icon_alt
+msgid "Application logo"
 msgstr ""
 
 #: login##email
@@ -830,6 +826,10 @@ msgstr ""
 
 #: profile##spanishLanguageOption
 msgid "Spanish"
+msgstr ""
+
+#: profile##arabicLanguageOption
+msgid "Arabic"
 msgstr ""
 
 #: profile##saveButton
