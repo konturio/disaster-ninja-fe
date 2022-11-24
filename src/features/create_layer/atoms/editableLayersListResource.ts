@@ -32,11 +32,11 @@ const editableLayersListDependencyAtom = createAtom(
 export const editableLayersListResource = createAsyncAtom(
   editableLayersListDependencyAtom,
   async (params, abortController) => {
-    const body = params?.appId ? { appId: params?.appId } : {};
+    if (!params?.appId) return null;
 
     const responseData = await apiClient.post<EditableLayers[]>(
-      '/layers/search/',
-      body,
+      '/layers/search/user',
+      { appId: params.appId },
       true,
       { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
     );
