@@ -76,6 +76,7 @@ export const urlStoreAtom = createAtom(
         if (initialState.map) {
           actions.push(
             currentMapPositionAtom.setCurrentMapPosition({
+              // TODO: move to URLDataInSearchEncoder
               zoom: Number(initialState.map[0]) - URL_ZOOM_OFFSET,
               lat: Number(initialState.map[1]),
               lng: Number(initialState.map[2]),
@@ -111,6 +112,7 @@ export const urlStoreAtom = createAtom(
     const newState = { ...state };
     const currentMapPosition = get('currentMapPositionAtom');
     if (currentMapPosition) {
+      // TODO: move to URLDataInSearchEncoder
       newState.map = [
         Number(currentMapPosition.zoom.toFixed(3)) + URL_ZOOM_OFFSET,
         Number(currentMapPosition.lat.toFixed(3)),

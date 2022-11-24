@@ -9,28 +9,32 @@
     <meta http-equiv="refresh" content="1; url=/active/" />
     <script>
       // This script takes DN1 url hash, transforms it to DN2 url format and initiates redirect to DN2 with those params
-      const hash = window.location.hash.substring(1);
-      let params = {};
-      hash.split(';').map((kv) => {
-        const temp = kv.split('=');
-        params[temp[0]] = temp[1];
-      });
-      let queryUrl = '';
-      if (params.id) {
-        queryUrl += 'event=' + params.id;
-      }
-      if (params.position && params.zoom) {
-        if (queryUrl !== '') {
-          queryUrl = queryUrl + '&';
+      const params = (() => {
+        const hash = window.location.hash.substring(1);
+        let p = '';
+        hash.split(';').map((kv) => {
+          const temp = kv.split('=');
+          p[temp[0]] = temp[1];
+        });
+        if (p.position) {
+          p.position = p.position.split(',');
         }
-        const position = params.position.split(',');
-        const zoom = params.zoom + 1;
-       // flip the coords to be in /lat/lng format
-        queryUrl += `map=${zoom}/${position[1]}/${position[0]}`;
+        return p;
+      })();
+
+      const dn2query = [
+        params.id && `event=${params.id}`,
+        params.zoom &&
+          params.position &&
+          `map=${params.zoom + 1}/${position[1]}/${position[0]}`, // flip the coords to be in z/lat/lng format
+      ]
+        .filter((q) => !!q[1])
+        .join('&');
+
+      if (dn2query.length > 0) {
+        dn2query = '?' + queryUrl;
       }
-      if (queryUrl !== '') {
-        queryUrl = '?' + queryUrl;
-      }
+
       document
         .querySelector('meta[http-equiv="refresh"]')
         .setAttribute('content', '0; url=/active/' + queryUrl);
