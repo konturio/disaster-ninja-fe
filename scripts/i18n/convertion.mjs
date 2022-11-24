@@ -29,9 +29,9 @@ const convertion = async () => {
   const localizationFolder = path.join(projectRoot, './src/core/localization');
   const i18nFolder = path.join(localizationFolder, 'translations');
   const gettextFolder = path.join(localizationFolder, 'gettext');
-  const getI18nbyLang = (lang) => path.join(i18nFolder, lang, 'common-messages.json');
-  const getPobyLang = (lang) => path.join(gettextFolder, lang, 'common-messages.po');
-  const potFile = path.join(gettextFolder, 'template', 'common-messages.pot');
+  const getI18nbyLang = (lang) => path.join(i18nFolder, lang, 'common.json');
+  const getPobyLang = (lang) => path.join(gettextFolder, lang, 'common.po');
+  const potFile = path.join(gettextFolder, 'template', 'common.pot');
   const potOptions = {
     compatibilityJSON: 'v4',
     ctxSeparator: ':',

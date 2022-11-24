@@ -31,7 +31,7 @@ export function ReportsList() {
 
       <Text type="long-l">
         <div className={clsx(styles.description, styles.reportsIntro)}>
-          <Trans i18nKey="description">
+          <Trans i18nKey="reports.description">
             <a
               href="https://www.kontur.io/"
               className={clsx(styles.paragraphLink, styles.link)}

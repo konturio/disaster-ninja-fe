@@ -9,19 +9,17 @@ import s from './EditLayerForm.module.css';
 import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
 import type { ChangeEvent } from 'react';
 
+const SAVE = i18n.t('save');
+const CREATE = i18n.t('create');
+
 interface EditLayerFormFormProps {
   data: LayerEditorFormAtomType;
   onSave: () => void;
   onCancel: () => void;
 }
 
-export function EditLayerForm({
-  data,
-  onSave,
-  onCancel,
-}: EditLayerFormFormProps) {
-  const [formState, { addField, removeField, reorderFields, updateName }] =
-    useAtom(data);
+export function EditLayerForm({ data, onSave, onCancel }: EditLayerFormFormProps) {
+  const [formState, { addField, removeField, reorderFields, updateName }] = useAtom(data);
 
   const onNameChange = useCallback(
     (ev: ChangeEvent<HTMLInputElement>) => {
@@ -48,11 +46,7 @@ export function EditLayerForm({
           text={i18n.t('create_layer.marker_icon')}
           description={i18n.t('create_layer.marker_icon')}
         />
-        <Button
-          iconBefore={<PointFilled24 />}
-          size="small"
-          variant="invert-outline"
-        />
+        <Button iconBefore={<PointFilled24 />} size="small" variant="invert-outline" />
       </div>
       <EditableLayerFieldsPlaceholder
         fieldModels={formState.fields}
@@ -62,7 +56,7 @@ export function EditLayerForm({
       />
       <div className={s.buttonsContainer}>
         <Button onClick={onSave} variant="primary" size="small">
-          {i18n.t(formState.id ? 'save' : 'create')}
+          {formState.id ? SAVE : CREATE}
         </Button>
         <Button onClick={onCancel} variant="invert-outline" size="small">
           {i18n.t('cancel')}

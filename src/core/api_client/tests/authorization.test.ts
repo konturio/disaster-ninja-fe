@@ -107,7 +107,7 @@ test('204 auth error', async ({ ctx }) => {
   } catch (e) {
     expect(isApiError(e)).toBe(true);
     expect(getApiErrorKind(e) === 'no-data');
-    expect(getApiErrorMessage(e) === 'No data received!'); // Wrong token expire time?
+    expect(getApiErrorMessage(e) === 'No data received'); // Wrong token expire time?
   }
 });
 
@@ -124,7 +124,7 @@ test('no auth data error', async ({ ctx }) => {
   } catch (e) {
     expect(isApiError(e)).toBe(true);
     expect(getApiErrorKind(e) === 'bad-data');
-    expect(getApiErrorMessage(e) === 'Wrong data received!');
+    expect(getApiErrorMessage(e) === 'Wrong data received');
   }
 });
 
