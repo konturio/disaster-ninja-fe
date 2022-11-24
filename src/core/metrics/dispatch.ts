@@ -1,7 +1,4 @@
-//
-
-export type MetricsEventDetail = { name: string; payload?: unknown };
-export type MetricsEvent = CustomEvent<MetricsEventDetail>;
+import type { MetricsEventDetail } from './types';
 
 export const METRICS_EVENT = 'METRICS';
 

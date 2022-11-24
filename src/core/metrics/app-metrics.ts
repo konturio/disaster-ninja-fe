@@ -1,8 +1,8 @@
-import { defer, every } from 'lodash';
+import every from 'lodash/every';
 import appConfig from '~core/app_config';
 import { METRICS_EVENT } from './dispatch';
 import { Sequence } from './sequence';
-import type { MetricsEvent } from './dispatch';
+import type { MetricsReportTemplate, MetricsEvent } from './types';
 
 const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
 const EVENT_MAP_IDLE = 'setTrue_mapIdle';
@@ -38,19 +38,12 @@ export class AppMetrics {
   private completed: Record<string, number> = {};
   private eventLog: string[] = [];
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
-  reportTemplate: {
-    name: string;
-    value: number;
-    type: 'SUMMARY' | 'SOMETHING_ELSE';
-    appId: string;
-    userId: string | null;
-    buildVersion: string;
-  } = {
-    name: '', // metric name, e.g. full-load-time, map-load-time, disasters-panel-load-time, etc.
-    value: 0, // time to full load in ms
+  reportTemplate: MetricsReportTemplate = {
+    name: '',
+    value: 0,
     type: 'SUMMARY',
     appId: '',
-    userId: '', // null if user is not authenticated
+    userId: '',
     buildVersion: `${import.meta.env.PACKAGE_VERSION}-${import.meta.env.MODE}`,
   };
   listener: void;
@@ -72,7 +65,9 @@ export class AppMetrics {
   init(appId: string, userId: string | null) {
     this.reportTemplate.appId = appId ?? '';
     this.reportTemplate.userId = userId === 'public' ? null : userId ?? null;
-    console.info('appMetrics.init', this.reportTemplate);
+    if (this.settings.isEnabled('KONTUR_SQ_LOG')) {
+      console.info('appMetrics.init', this.reportTemplate);
+    }
   }
 
   recordEventToLog(name: string) {
@@ -123,7 +118,7 @@ export class AppMetrics {
     _done_currentEventResource: null,
     _done_layersGlobalResource: null,
     _done_analyticsResource: null,
-    // _done_areaLayersDetailsResourceAtom: null, // can be disable in url
+    // _done_areaLayersDetailsResourceAtom: null, // can be disabled in url
     _done_layersInAreaAndEventLayerResource: null,
     // _done_eventListResource: null,
     [EVENT_MAP_IDLE]: null,
@@ -134,7 +129,8 @@ export class AppMetrics {
       const timing = performance.now();
       this.watchList[name] = timing;
       if (every(this.watchList, Boolean)) {
-        // last event should be EVENT_MAP_IDLE
+        // we need to wait EVENT_MAP_IDLE after all events from watchList
+        // to determite that app is ready
         if (name !== EVENT_MAP_IDLE) {
           this.watchList[EVENT_MAP_IDLE] = null;
           return;
@@ -152,14 +148,15 @@ export class AppMetrics {
   }
 
   report(name: string, timing: number) {
-    // Endpoint: POST /active/api/rum/metrics
-
     const payload = {
       ...this.reportTemplate,
       name,
       value: timing,
     };
-    console.warn('metrics', payload);
+    if (this.settings.isEnabled('KONTUR_SQ_LOG')) {
+      console.warn('metrics', payload);
+    }
+    // TODO: use apiClientInstance after app init refactor
     fetch(APP_METRICS_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
