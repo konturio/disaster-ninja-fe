@@ -37,7 +37,7 @@ export default ({ mode }) => {
       ]
     : [];
 
-  const hmr = env.VITE_DEBUG_HMR;
+  const hmr = !!env.VITE_DEBUG_HMR;
 
   return defineConfig({
     base: `${env.VITE_BASE_PATH}${env.VITE_STATIC_PATH}`,
