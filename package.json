@@ -10,8 +10,8 @@
   },
   "scripts": {
     "dev": "npm run i18n:import && vite",
-    "cosmos": "run-p auto:cosmos:renderer auto:cosmos auto:open",
-    "cosmos:build": "run-s auto:cosmos:export auto:cosmos:renderer:export",
+    "cosmos": "npm run i18n:import && run-p auto:cosmos:renderer auto:cosmos auto:open",
+    "cosmos:build": "run-s i18n:import auto:cosmos:export auto:cosmos:renderer:export",
     "build": "npm run i18n:import && vite build",
     "serve": "vite preview",
     "typecheck": "tsc --noEmit",
