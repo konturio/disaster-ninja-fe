@@ -65,7 +65,6 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
         stack={timelineState.settings.stack}
         cluster={timelineState.settings.cluster}
         onSelect={onSelect}
-        timelineEntryComponent={() => <div></div>}
       />
     </div>
   );

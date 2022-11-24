@@ -194,7 +194,8 @@
       "edit_osm": "Edit in OpenStreetMap",
       "ruler": "Ruler",
       "collapse": "Collapse",
-      "expand": "Expand"
+      "expand": "Expand",
+      "icon_alt": "Application logo"
     },
     "login": {
       "email": "Email",
@@ -257,6 +258,7 @@
       "appSettingsHeader": "Settings",
       "englishLanguageOption": "English",
       "spanishLanguageOption": "Spanish",
+      "arabicLanguageOption": "Arabic",
       "saveButton": "Save changes",
       "konturTheme": "Kontur",
       "HOTTheme": "HOT",

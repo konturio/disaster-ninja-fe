@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-11T06:01:04.818Z\n"
-"PO-Revision-Date: 2022-11-11T06:01:04.818Z\n"
+"POT-Creation-Date: 2022-11-24T13:32:22.872Z\n"
+"PO-Revision-Date: 2022-11-24T13:32:22.872Z\n"
 
 #: common##km
 msgid "km"
@@ -617,6 +617,10 @@ msgstr ""
 msgid "Expand"
 msgstr ""
 
+#: common##sidebar##icon_alt
+msgid "Application logo"
+msgstr ""
+
 #: common##login##email
 #: common##profile##email
 msgid "Email"
@@ -831,6 +835,10 @@ msgstr ""
 
 #: common##profile##spanishLanguageOption
 msgid "Spanish"
+msgstr ""
+
+#: common##profile##arabicLanguageOption
+msgid "Arabic"
 msgstr ""
 
 #: common##profile##saveButton
