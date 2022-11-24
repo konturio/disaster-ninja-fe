@@ -52,10 +52,10 @@ function patchTracer(t: TransactionData) {
     .filter((a) => !a.type.startsWith('invalidate '))
     ?.map((a) => {
       if (a.targets?.length === 1) {
-        const targ = '' + a.targets[0].id;
-        if (a.type.endsWith(targ)) {
-          const action = a.type.substring(0, a.type.length - targ.length - 1);
-          return targ + ' <' + action + '> ';
+        const target = String(a.targets[0].id)
+        if (a.type.endsWith(target)) {
+          const action = a.type.substring(0, a.type.length - target.length - 1);
+          return target+ ' <' + action + '> ';
         }
       }
       return a.targets?.map((t) => t.id).join(',') + ' <-- ' + a.type;
