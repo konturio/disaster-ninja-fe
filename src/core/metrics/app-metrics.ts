@@ -41,7 +41,7 @@ export class AppMetrics {
   reportTemplate: {
     name: string;
     value: number;
-    type: string;
+    type: 'SUMMARY' | 'SOMETHING_ELSE';
     appId: string;
     userId: string | null;
     buildVersion: string;
