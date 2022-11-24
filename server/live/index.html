@@ -25,6 +25,7 @@
         }
         const position = params.position.split(',');
         const zoom = params.zoom + 1;
+       // flip the coords to be in /lat/lng format
         queryUrl += `map=${zoom}/${position[1]}/${position[0]}`;
       }
       if (queryUrl !== '') {
