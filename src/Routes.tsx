@@ -8,6 +8,7 @@ import history from '~core/history';
 import config from '~core/app_config';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { urlStoreAtom } from '~core/url_store/atoms/urlStore';
+import { forceRun } from '~utils/atoms/forceRun';
 import { metricsInit } from '~core/metrics/init';
 import { APP_ROUTES } from '~core/app_config/appRoutes';
 import { AppFeature } from '~core/auth/types';
@@ -25,13 +26,13 @@ const { BivariateManagerPage } = lazily(
 const initialUrl = new URL(localStorage.getItem('initialUrl') || '');
 
 export function RoutedApp() {
-  const [urlStore] = useAtom(urlStoreAtom);
   const [{ data, loading }] = useAtom(userResourceAtom);
   const userModel = data && !loading ? data : null;
 
   useEffect(() => {
     if (userModel) {
       metricsInit();
+      return forceRun(urlStoreAtom);
     }
   }, [userModel]);
 

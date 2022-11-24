@@ -3,14 +3,11 @@ import { lazily } from 'react-lazily';
 import { useLocation } from 'react-router-dom';
 import { useAction } from '@reatom/react';
 import { AppFeature } from '~core/auth/types';
-import { urlStoreAtom } from '~core/url_store/atoms/urlStore';
-import { forceRun } from '~utils/atoms/forceRun';
 import { initModes } from '~core/modes/initializeModes';
 import { Row } from '~components/Layout/Layout';
 import { findCurrentMode } from '~core/app_config/appRoutes';
 import { currentModeAtom } from '~core/modes/currentMode';
 import { initLanguageWatcher } from '~core/auth/atoms/languageWatcher';
-import s from './views/Main/Main.module.css';
 import type { UserDataModel } from '~core/auth';
 
 const { NotificationToast } = lazily(() => import('~features/toasts'));
@@ -39,7 +36,6 @@ export const CommonRoutesFeatures = ({
 
   useEffect(() => {
     initLanguageWatcher();
-    // return forceRun(urlStoreAtom);
   }, []);
 
   useEffect(() => {
