@@ -5,7 +5,6 @@ import '@konturio/default-theme/typography.css';
 import '~utils/atoms/disableDefaultStore';
 import './global.css';
 import { loadConfig } from '~core/app_config/loader';
-import { appMetrics } from '~core/metrics';
 
 function showCriticalError(e: Error) {
   const root = document.getElementById('root');
@@ -29,9 +28,9 @@ localStorage.setItem('initialUrl', location.href);
 loadConfig()
   .then(() => {
     import('./App');
-    appMetrics.mark('appConfig_loaded');
   })
   .catch((e: Error) => {
+    // TODO: FE error reporting
     console.error(e);
     showCriticalError(e);
   });

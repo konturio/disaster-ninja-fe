@@ -3,7 +3,7 @@ type Lat = number;
 type Lng = number;
 
 export type UrlData = {
-  map?: [Zoom, Lng, Lat];
+  map?: [Zoom, Lat, Lng];
   event?: string;
   episode?: string;
   layers?: string[];

@@ -44,6 +44,7 @@ cosmos-export/
 
 # vite temp
 vite.config.ts.js
+vite.config.ts.timestamp-*
 
 # scripts
 .path
