@@ -1,0 +1,893 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5)\n"
+"POT-Creation-Date: 2022-11-10T05:45:37.260Z\n"
+"PO-Revision-Date: 2022-11-10T05:45:37.260Z\n"
+"Language: ar\n"
+
+#: common##km
+msgid "km"
+msgstr "كم"
+
+#: common##m
+msgid "m"
+msgstr "م"
+
+#: common##to
+msgid "to"
+msgstr "إلى"
+
+#: common##logout
+msgid "Logout"
+msgstr "تسجيل خروج"
+
+#: common##save
+msgid "Save"
+msgstr "حفظ"
+
+#: common##cancel
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: common##create
+msgid "Create"
+msgstr "إنشاء"
+
+#: common##disasters
+msgid "Disasters"
+msgstr "كوارث"
+
+#: common##loading
+msgid "Loading..."
+msgstr "جارٍ التحميل..."
+
+#: common##loading_events
+msgid "Loading events"
+msgstr "جارٍ تحميل الأحداث"
+
+#: common##to_main_page
+msgid "to main page"
+msgstr "إلى الصفحة الرئيسية"
+
+#: common##legend
+msgid "Legend"
+msgstr "عنوان تفسيري"
+
+#: common##maps
+msgid "maps"
+msgstr "خرائط"
+
+#: common##vertical_direction
+msgid "Vertical direction"
+msgstr "الاتجاه الرأسي"
+
+#: common##horizontal_direction
+msgid "Horizontal direction"
+msgstr "الاتجاه الأفقي"
+
+#: common##legend_presentation
+msgid "Legend presentation"
+msgstr "عرض العنوان التفسيري"
+
+#: common##layers
+#: common##bivariate##color_manager##layers_filter
+msgid "Layers"
+msgstr "طبقات"
+
+#: common##bivariate##color_manager##not_defined
+msgid "Not defined"
+msgstr "غير معرف"
+
+#: common##bivariate##color_manager##sentiments_combinations_filter
+msgid "Sentiments combinations"
+msgstr "تركيبات المشاعر"
+
+#: common##bivariate##color_manager##title
+msgid "Appearance administration"
+msgstr "إدارة المظهر."
+
+#: common##bivariate##color_manager##no_legends
+msgid "There are no legends satisfying the conditions."
+msgstr "لا توجد ملاحظات تفي بالشروط."
+
+#: common##bivariate##color_manager##no_data
+msgid "No Data."
+msgstr "لايوجد بيانات."
+
+#: common##bivariate##color_manager##sentiments_tab
+msgid "Sentiments"
+msgstr "المشاعر"
+
+#: common##bivariate##color_manager##color_legends_tab
+msgid "Color Legends"
+msgstr "مؤشرات اللون"
+
+#: common##bivariate##color_manager##layers_tab
+msgid "Layers (indicators)"
+msgstr "الطبقات (المؤشرات)"
+
+#: common##bivariate##panel##header
+msgid "Bivariate Matrix"
+msgstr "مصفوفة ثنائية المتغير"
+
+#: common##bivariate##matrix##caption##base_axis
+msgid "Base axis"
+msgstr "المحور الأساسي"
+
+#: common##bivariate##matrix##caption##annex_axis
+msgid "Annex axis"
+msgstr "المحور الملحق"
+
+#: common##bivariate##matrix##caption##tooltip##p1
+msgid ""
+"Charts involving the Base and Annex axes help establish a relationship "
+"between two data sets."
+msgstr ""
+"تساعد المخططات التي تتضمن محوري القاعدة والملحق في إنشاء علاقة بين مجموعتي "
+"بيانات."
+
+#: common##bivariate##matrix##caption##tooltip##li1
+msgid "Annex axis - parameters that we analyse"
+msgstr "محور الملحق - المعلمات التي نقوم بتحليلها"
+
+#: common##bivariate##matrix##caption##tooltip##li2
+msgid "Base axis - reference point in the analysis"
+msgstr "المحور الأساسي - النقطة المرجعية في التحليل"
+
+#: common##bivariate##matrix##caption##tooltip##b
+msgid "Ex: the best location to open a cafe"
+msgstr "مثال: أفضل موقع لفتح مقهى"
+
+#: common##bivariate##matrix##caption##tooltip##p2
+msgid ""
+"We can explore the number of eatery places (Annex axis) against Population "
+"density (Base axis)."
+msgstr ""
+"يمكننا استكشاف عدد أماكن المطاعم (المحور الملحق) مقابل الكثافة السكانية "
+"(المحور الأساسي)."
+
+#: common##bivariate##matrix##caption##tooltip##p3
+msgid ""
+"In this scenario, we are first interested in a small number of eatery "
+"places, and the number of people in that place gives us additional "
+"information."
+msgstr ""
+"في هذا السيناريو، نهتم أولاً بعدد صغير من أماكن تناول الطعام ويعطينا عدد "
+"الأشخاص في هذا المكان معلومات إضافية."
+
+#: common##bivariate##matrix##header##title
+msgid "Choose two layers to explore correlations"
+msgstr "اختر طبقتين لاستكشاف الارتباطات"
+
+#: common##bivariate##matrix##header##hint
+msgid "Layers and correlations are displayed for the current Selected Area"
+msgstr "يتم عرض الطبقات والارتباطات للمنطقة المحددة الحالية"
+
+#: common##bivariate##matrix##icon.population
+msgid "Value divided by Population"
+msgstr "القيمة مقسومة على عدد السكان"
+
+#: common##bivariate##matrix##icon.area_km2
+msgid "Value divided by Area"
+msgstr "القيمة مقسومة على المنطقة"
+
+#: common##bivariate##matrix##icon.total_building_count
+msgid "Value divided by Total Buildings Estimate"
+msgstr "القيمة مقسومة على تقدير إجمالي المباني"
+
+#: common##bivariate##matrix##icon.populated_area_km2
+msgid "Value divided by Populated Area"
+msgstr "القيمة مقسومة على المنطقة المأهولة"
+
+#: common##bivariate##matrix##icon.one
+msgid "Without divider"
+msgstr "بدون فاصل"
+
+#: common##bivariate##matrix##icon.roads
+msgid "Value divided by Total Roads Length"
+msgstr "القيمة مقسومة على إجمالي طول الطرق"
+
+#: common##bivariate##matrix##progress.rendering
+msgid "Rendering"
+msgstr "استدعاء"
+
+#: common##bivariate##matrix##progress.applied
+msgid "Applied on the map"
+msgstr "مطبق على الخريطة"
+
+#: common##bivariate##legend##high
+msgid "High"
+msgstr "مرتفع"
+
+#: common##bivariate##legend##low
+msgid "Low"
+msgstr "منخفض"
+
+#: common##bivariate##legend##medium
+msgid "Medium"
+msgstr ""
+
+#: common##feed
+msgid "Feed"
+msgstr "تغذية"
+
+#: common##details
+msgid "Details"
+msgstr "تفاصيل"
+
+#: common##deselect
+msgid "Deselect"
+msgstr "إلغاء"
+
+#: common##spinner_text
+msgid "Gathering data"
+msgstr "جمع البيانات"
+
+#: common##updated
+msgid "Updated"
+msgstr "تحديث"
+
+#: common##no_data_received
+msgid "No data received"
+msgstr "لم تُستقبل أي بيانات"
+
+#: common##configs##Kontur_public_feed
+msgid "Kontur Public"
+msgstr ""
+
+#: common##configs##Kontur_public_feed_description
+msgid ""
+"The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
+"Floods, Volcanoes, Wildfires."
+msgstr ""
+
+#: common##errors##timeout
+msgid "Request Timeout"
+msgstr "انتهت مهلة الطلب"
+
+#: common##errors##cannot_connect
+msgid "Can't connect to server"
+msgstr "لا يمكن الاتصال بالخادم"
+
+#: common##errors##forbidden
+msgid "Forbidden"
+msgstr "محظور"
+
+#: common##errors##not_found
+msgid "Not found"
+msgstr "لم يتم العثور على"
+
+#: common##errors##unknown
+msgid "Unknown"
+msgstr "غير معروف"
+
+#: common##errors##server_error
+msgid "Server Error"
+msgstr "خطأ في الخادم"
+
+#: common##categories##overlays
+msgid "Overlays"
+msgstr "تراكميات"
+
+#: common##categories##basemap
+msgid "Basemap"
+msgstr "الخريطة الأساسية"
+
+#: common##groups##layers_in_selected_area
+msgid "Layers in selected area"
+msgstr "طبقات في المنطقة المختارة"
+
+#: common##groups##your_layers
+msgid "Your Layers"
+msgstr "طبقاتك"
+
+#: common##groups##kontur_analytics
+msgid "Kontur Analytics"
+msgstr "تحليلات كونتور"
+
+#: common##groups##qa
+msgid "QA"
+msgstr "تأكيد الجودة"
+
+#: common##groups##osmbasedmap
+msgid "OpenStreetMap Based"
+msgstr "فتح خريطة الشارع على أساس"
+
+#: common##groups##other
+msgid "Other"
+msgstr "آخر"
+
+#: common##groups##elevation
+msgid "Elevation"
+msgstr "ارتفاع"
+
+#: common##groups##photo
+msgid "Photo"
+msgstr "صورة"
+
+#: common##groups##map
+#: common##modes##map
+msgid "Map"
+msgstr "الخريطة"
+
+#: common##modes##reports
+#: common##sidebar##reports
+msgid "Reports"
+msgstr "التقارير"
+
+#: common##modes##about
+msgid "About"
+msgstr "عن"
+
+#: common##modes##event
+msgid "Event"
+msgstr "الحدث"
+
+#: common##modes##profile
+#: common##profile##profileSettingsHeader
+msgid "Profile"
+msgstr ""
+
+#: common##sidebar##biv_color_manager
+msgid "Сolor manager"
+msgstr "مدير الألوان"
+
+#: common##sidebar##edit_osm
+msgid "Edit in OpenStreetMap"
+msgstr "التعديل في OpenStreetMap"
+
+#: common##sidebar##ruler
+msgid "Ruler"
+msgstr "المسطرة"
+
+#: common##sidebar##collapse
+msgid "Collapse"
+msgstr "إغلاق"
+
+#: common##sidebar##expand
+msgid "Expand"
+msgstr "فتح"
+
+#: common##profile##email
+#: common##login##email
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: common##profile##interfaceTheme
+msgid "Theme"
+msgstr ""
+
+#: common##profile##interfaceLanguage
+msgid "Language"
+msgstr ""
+
+#: common##profile##units
+msgid "Units"
+msgstr ""
+
+#: common##profile##fullName
+msgid "Full Name"
+msgstr ""
+
+#: common##profile##metric
+msgid "metric"
+msgstr ""
+
+#: common##profile##imperialBeta
+msgid "imperial (beta)"
+msgstr ""
+
+#: common##profile##imperial
+msgid "imperial"
+msgstr ""
+
+#: common##profile##appSettingsHeader
+msgid "Settings"
+msgstr ""
+
+#: common##profile##englishLanguageOption
+msgid "English"
+msgstr ""
+
+#: common##profile##spanishLanguageOption
+msgid "Spanish"
+msgstr ""
+
+#: common##profile##saveButton
+msgid "Save changes"
+msgstr ""
+
+#: common##profile##konturTheme
+msgid "Kontur"
+msgstr ""
+
+#: common##profile##HOTTheme
+msgid "HOT"
+msgstr ""
+
+#: common##profile##userBio(about)
+msgid "Bio"
+msgstr ""
+
+#: common##profile##defaultDisasterFeed
+msgid "Default disaster feed"
+msgstr ""
+
+#: common##profile##defaultOSMeditor
+msgid "Default OpenStreetMap editor (beta)"
+msgstr ""
+
+#: common##profile##successNotification
+msgid "All changes have been applied successfully"
+msgstr ""
+
+#: common##login##password
+msgid "Password"
+msgstr "كلمة السر"
+
+#: common##login##login_button
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+#: common##login##sign_up
+msgid "Sign up"
+msgstr "إنشاء حساب"
+
+#: common##login##logging_in
+msgid "Logging in..."
+msgstr "جارٍ تسجيل الدخول..."
+
+#: common##login##log_in
+msgid "Log in"
+msgstr "تسجيل الدخول"
+
+#: common##login##description
+msgid "Please log in to change your settings"
+msgstr ""
+
+#: common##login##error##email_empty
+msgid "Email has not to be empty!"
+msgstr "يجب أن لا يكون البريد الإلكتروني فارغًا!"
+
+#: common##login##error##email_invalid
+msgid "Email has to be valid!"
+msgstr "يجب أن يكون البريد الإلكتروني صالحًا!"
+
+#: common##login##error##password
+msgid "Password has not to be empty!"
+msgstr "يجب أن لا تكون كلمة السر فارغة!"
+
+#: common##login##error##connect
+msgid "Couldn't connect to authentication service"
+msgstr "تعذّر الوصول إلى خادم المصادقة"
+
+#: common##advanced_analytics_data_list##load_world_data
+msgid "Load World Data"
+msgstr "تحميل بيانات العالم"
+
+#: common##advanced_analytics_data_list##numerator
+msgid "Numerator"
+msgstr "البسط"
+
+#: common##advanced_analytics_data_list##normalized_by
+msgid "Normalized By"
+msgstr "تطبيع بواسطة"
+
+#: common##advanced_analytics_data_list##sum
+msgid "Sum"
+msgstr "مجموع"
+
+#: common##advanced_analytics_data_list##min
+msgid "Min"
+msgstr "الحد الأدنى"
+
+#: common##advanced_analytics_data_list##max
+msgid "Max"
+msgstr "الحد الأقصى"
+
+#: common##advanced_analytics_data_list##mean
+msgid "Mean"
+msgstr "المتوسط"
+
+#: common##advanced_analytics_data_list##stddev
+msgid "Stddev"
+msgstr "Stddev"
+
+#: common##advanced_analytics_data_list##median
+msgid "Median"
+msgstr "الوسيط"
+
+#: common##advanced_analytics_data_list##filter_nominator
+msgid "Filter Nominator"
+msgstr "بسط المرشح"
+
+#: common##advanced_analytics_data_list##filter_denominator
+msgid "Filter Denominator"
+msgstr "مقام المرشح"
+
+#: common##event_list##title
+msgid "Focus to disasters"
+msgstr "التركيز على الكوارث"
+
+#: common##event_list##warning_title
+msgid "Can't use map as filter"
+msgstr "لا يمكن استخدام الخريطة كعامل تصفية"
+
+#: common##event_list##warning_description
+msgid "Map not ready yet, try later"
+msgstr "الخريطة ليست جاهزة بعد، حاول لاحقًا"
+
+#: common##event_list##bbox_filter_button
+msgid "Use map view as filter"
+msgstr "استخدم عرض الخريطة كعامل تصفية"
+
+#: common##event_list##analytics##affected_people##tooltip
+msgid "Affected People"
+msgstr "الأشخاص المتأثرون"
+
+#: common##event_list##analytics##affected_people##value
+msgid "No humanitarian impact"
+msgstr "لا أثر إنساني"
+
+#: common##event_list##analytics##settled_area.tooltip
+msgid "Settled Area"
+msgstr "منطقة مستوطنة"
+
+#: common##event_list##analytics##loss.tooltip
+msgid "Estimated loss"
+msgstr "الخسارة المقدرة"
+
+#: common##create_layer##edit_layer
+msgid "Edit Layer"
+msgstr "تعديل الطبقة"
+
+#: common##create_layer##edit_features
+msgid "Edit Features"
+msgstr "تعديل الميزات"
+
+#: common##create_layer##delete_layer
+msgid "Delete Layer"
+msgstr "حذف الطبقة"
+
+#: common##create_layer##create_layer
+msgid "Create Layer"
+msgstr "خلق الطبقة"
+
+#: common##create_layer##saving_layer
+msgid "Saving layer..."
+msgstr "حفظ الطبقة..."
+
+#: common##create_layer##field_name
+msgid "Field name"
+msgstr "اسم المجال"
+
+#: common##create_layer##layer_name
+msgid "Layer name"
+msgstr "اسم الطبقة"
+
+#: common##create_layer##marker_icon
+msgid "Marker icon"
+msgstr "رمز العلامة"
+
+#: common##create_layer##type
+msgid "Type"
+msgstr "النوع"
+
+#: common##create_layer##select
+msgid "Select"
+msgstr "تحديد"
+
+#: common##create_layer##short_text
+msgid "Short Text"
+msgstr "نص قصير"
+
+#: common##create_layer##long_text
+msgid "Long Text"
+msgstr "نص طويل"
+
+#: common##create_layer##link
+msgid "Link"
+msgstr "رابط"
+
+#: common##create_layer##image
+msgid "Image"
+msgstr "صورة"
+
+#: common##create_layer##fields
+msgid "Fields"
+msgstr "مجالات"
+
+#: common##create_layer##add_field
+msgid "Add field"
+msgstr "إضافة مجال"
+
+#: common##create_layer##location
+msgid "Location"
+msgstr "موقع"
+
+#: common##create_layer##edit_feature_placeholder
+msgid "Select some feature for start edit feature properties"
+msgstr "حدد بعض الميزات لبدء تحرير خصائص الميزة"
+
+#: common##analytics_panel##init
+msgid "Select Geometry"
+msgstr "حدد المجسم"
+
+#: common##analytics_panel##loading
+msgid "Loading analytics..."
+msgstr "جارٍ تحميل التحليلات..."
+
+#: common##analytics_panel##error
+msgid "Error"
+msgstr "خطأ"
+
+#: common##analytics_panel##header_title
+msgid "Analytics"
+msgstr "التحليلات"
+
+#: common##analytics_panel##info_tab
+msgid "INFO"
+msgstr "معلومات"
+
+#: common##analytics_panel##error_loading
+msgid "Error while fetching analytics data"
+msgstr "خطأ أثناء جلب بيانات التحليلات"
+
+#: common##advanced_analytics_panel##loading
+msgid "Loading advanced analytics..."
+msgstr "جارٍ تحميل التحليلات المتقدمة..."
+
+#: common##advanced_analytics_panel##header_title
+msgid "Advanced analytics"
+msgstr "تحليلات متقدمة"
+
+#: common##advanced_analytics_panel##analytics_tab
+msgid "Advanced Analytics"
+msgstr "تحليلات متقدمة"
+
+#: common##advanced_analytics_panel##error
+msgid "Error while fetching advanced analytics data"
+msgstr "خطأ أثناء جلب بيانات التحليلات المتقدمة"
+
+#: common##advanced_analytics_empty##not_found
+msgid "Sorry, requested event not found."
+msgstr "عذرًا، الحدث المطلوب غير موجود."
+
+#: common##advanced_analytics_empty##error
+msgid "An error occured!"
+msgstr "حدث خطأ!"
+
+#: common##advanced_analytics_empty##please_select
+msgid "Please, select an area again"
+msgstr "من فضلك، حدد منطقة مرة أخرى"
+
+#: common##advanced_analytics_empty##to_see_map
+msgid "to see state of the map"
+msgstr "لمعرفة حالة الخريطة"
+
+#: common##advanced_analytics_empty##pickDisaster
+msgid "Pick disaster from the list"
+msgstr "حدد الكارثة في القائمة"
+
+#: common##advanced_analytics_empty##draw
+msgid "Draw polygon on the map"
+msgstr "ارسم مضلعًا على الخريطة"
+
+#: common##advanced_analytics_empty##select
+msgid "Select boundary on the map"
+msgstr "حدد الحدود على الخريطة"
+
+#: common##advanced_analytics_empty##upload
+msgid "Upload your own geoJSON"
+msgstr "قم بتحميل ملف geoJSON الخاص بك"
+
+#: common##draw_tools##area
+msgid "Area"
+msgstr "منطقة"
+
+#: common##draw_tools##line
+msgid "Line"
+msgstr "خط"
+
+#: common##draw_tools##point
+msgid "Point"
+msgstr "نقطة"
+
+#: common##draw_tools##finish_drawing
+msgid "Finish Drawing"
+msgstr "إنهاء الرسم"
+
+#: common##draw_tools##caption
+msgid "Click on the map to begin drawing"
+msgstr "انقر على الخريطة لبدء الرسم"
+
+#: common##draw_tools##no_geometry_error
+msgid "No drawn geometry to download"
+msgstr "لا يوجد مجسم مرسوم للتنزيل"
+
+#: common##draw_tools##overlap_error
+msgid "Polygon should not overlap itself"
+msgstr "يجب ألا يتداخل المضلع مع نفسه"
+
+#: common##draw_tools##save_features
+msgid "Save features"
+msgstr "حفظ الميزات"
+
+#: common##boundary_selector.title
+msgid "Focus to administrative boundary"
+msgstr "التركيز على الحدود الإدارية"
+
+#: common##geometry_uploader##title
+msgid "Focus to uploaded geometry"
+msgstr "التركيز على المجسم المحمل"
+
+#: common##geometry_uploader##warning
+msgid "Not a valid geojson file"
+msgstr "ملف geojson غير صالح"
+
+#: common##geometry_uploader##error
+msgid "Error while reading uploaded file"
+msgstr "خطأ أثناء قراءة الملف الذي تم تحميله"
+
+#: common##focus_geometry.title
+msgid "Focus to freehand geometry"
+msgstr "ركز على المجسم الحر"
+
+#: common##focus_geometry_layer.settings.name
+msgid "Selected Area"
+msgstr "منطقة مختارة"
+
+#: common##drawings.self_directions_not_supported
+msgid "Self intersections are not supported!"
+msgstr "التقاطعات الذاتية غير مدعومة!"
+
+#: common##reports##title
+msgid "Disaster Ninja Reports"
+msgstr "تقارير Disaster Ninja"
+
+#: common##reports##no_data
+msgid "No data for this report"
+msgstr "لا توجد بيانات لهذا التقرير"
+
+#: common##reports##sorting
+msgid "Sorting data..."
+msgstr "جارٍ ترتيب البيانات..."
+
+#: common##reports##loading
+msgid "Loading data"
+msgstr "جارٍ تحميل البيانات"
+
+#: common##reports##search_location
+msgid "Search location"
+msgstr "البحث عن الموقع"
+
+#: common##reports##open_josm
+msgid "Open via JOSM remote control"
+msgstr "الفتح من خلال وحدة تحكم JOSM عن بعد"
+
+#: common##reports##josm_logo_alt
+msgid "JOSM logo"
+msgstr "شعار JOSM"
+
+#: common##reports##see_all
+msgid "See all reports"
+msgstr "عرض جميع التقارير"
+
+#: common##reports##wrong_id
+msgid "Wrong report ID"
+msgstr "معرف التقرير خاطئ"
+
+#: common##about##title
+msgid "Welcome to Disaster Ninja!"
+msgstr "مرحبًا في Disaster Ninja!"
+
+#: common##about##intro
+msgid ""
+"Do you want to be notified about ongoing disasters? Are you interested in "
+"instant population data and other analytics for any region in the world? "
+"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
+"these needs.<br /><br /> We initially designed it as a decision support "
+"tool for humanitarian mappers. Now it has grown in functionality and use "
+"cases. Whether you work in disaster management, build a smart city, or "
+"perform research on climate change, Disaster Ninja can help you to:"
+msgstr ""
+"هل تريد أن يتم إخطارك بالكوارث المستمرة؟  هل أنت مهتم بالبيانات السكانية "
+"الفورية والتحليلات الأخرى لأي منطقة في العالم؟  يعرض Disaster Ninja بعض "
+"قدرات <2>Kontur</2> في تلبية هذه الاحتياجات.<br /> <br /> لقد صممناه في "
+"البداية ليكون أداة لدعم القرار لمصممي الخرائط الإنسانية. الآن ازدادت وظائفه "
+"وحالات استخدامه. سواء كنت تعمل في إدارة الكوارث، أو تبني مدينة ذكية، أو "
+"تجري بحثًا عن تغير المناخ، يمكن أن يساعدك Disaster Ninja على:"
+
+#: common##about##l1
+msgid "1. Stay up to date with the latest hazard events globally."
+msgstr "1. البقاء على اطلاع بآخر التطورات للأحداث الخطرة على مستوى العالم."
+
+#: common##about##p1
+msgid ""
+"The Disasters panel continually refreshes to inform you about ongoing "
+"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
+"also access via an API."
+msgstr ""
+"يتم تحديث لوحة الكوارث باستمرار لإبلاغك بالأحداث الجارية. إنها تستهلك "
+"البيانات من <2>Kontur Event Feed</2> والتي يمكنك أيضًا الوصول إليها عبر "
+"واجهة برمجة التطبيقات."
+
+#: common##about##l2
+msgid "2. Focus on your area of interest."
+msgstr "2. التركيز على مجال اهتمامك."
+
+#: common##about##p2
+msgid ""
+"The Drawing Tools panel allows you to draw or upload your own geometry on "
+"the map. You can also focus on a disaster-exposed area or an administrative "
+"unit — a country, city, or region."
+msgstr ""
+"تتيح لك لوحة أدوات الرسم رسم أو تحميل الشكل الهندسي الخاص بك على الخريطة. "
+"يمكنك أيضًا التركيز على منطقة معرضة للكوارث أو وحدة إدارية - بلد أو مدينة "
+"أو منطقة."
+
+#: common##about##l3
+msgid "3. Get analytics for the focused area."
+msgstr "3. الحصول على تحليلات لمنطقة الاهتمام."
+
+#: common##about##p3
+msgid ""
+"The Analytics panel shows the number of people living in that area per "
+"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
+"Kontur’s customers have access to hundreds of other indicators through "
+"Advanced Analytics."
+msgstr ""
+"تعرض لوحة التحليلات عدد الأشخاص الذين يعيشون في تلك المنطقة حسب <2>Kontur "
+"Population</2> وفجوات الخرائط المقدرة في OpenStreetMap. يمكن لعملاء Kontur "
+"الوصول إلى مئات المؤشرات الأخرى من خلال التحليلات المتقدمة."
+
+#: common##about##l4
+msgid "4. Explore data on the map and make conclusions."
+msgstr "4. استكشاف البيانات على الخريطة والتوصل إلى استنتاجات."
+
+#: common##about##p4
+msgid ""
+"The Layers panel gives you various options to display two indicators "
+"simultaneously on a bivariate map, e.g., population density and distance to "
+"the nearest fire station. Use the color legend to assess which areas "
+"require attention. <br /> Hint: in general, green indicates low risk / few "
+"gaps, red — high risk / many gaps."
+msgstr ""
+"تمنحك لوحة Layers خيارات متنوعة لعرض مؤشرين في وقت واحد على خريطة ثنائية "
+"المتغير على سبيل المثال الكثافة السكانية والمسافة إلى أقرب محطة إطفاء. "
+"استخدم وسيلة إيضاح اللون لتقييم المناطق التي تتطلب الانتباه. <br /> بشكل "
+"عام، يشير اللون الأخضر إلى مخاطر منخفضة / فجوات قليلة، والأحمر - مخاطر "
+"عالية / العديد من الفجوات."
+
+#: common##about##p5
+msgid ""
+"In addition, you can switch to Reports in the left panel to access data on "
+"potential errors and inconsistencies in OpenStreetMap and help fix them by "
+"mapping the respective area with the JOSM editor."
+msgstr ""
+"بالإضافة إلى ذلك ، يمكنك التبديل إلى التقارير في اللوحة اليمنى للوصول إلى "
+"البيانات المتعلقة بالأخطاء والتناقضات المحتملة في OpenStreetMap والمساعدة "
+"في إصلاحها عن طريق رسم خريطة المنطقة المعنية باستخدام محرر JOSM."
+
+#: common##about##goToMap
+msgid "Go to the map now"
+msgstr "الانتقال إلى الخريطة الآن"
+
+#: common##about##p6
+msgid ""
+"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
+"any questions about the functionality, and we will be happy to guide you. "
+"You can also contact us by email at <1>hello@kontur.io</1> if you have "
+"feedback or suggestions on improving the tool.<br /><br />Disaster Ninja is "
+"an open-source project. Find the code in <7>Kontur’s GitHub account</7>."
+msgstr ""
+"نأمل أن تجد هذه الأداة ذات قيمة. استخدم مربع الدردشة على Disaster Ninja "
+"لأية أسئلة حول وظائفه، وسنكون سعداء بإرشادك. يمكنك أيضًا <1> التواصل معنا "
+"عبر البريد الإلكتروني </1> إذا كان لديك ملاحظات أو اقتراحات بشأن تحسين "
+"الأداة. <br /> <br /> يُعدّ Disaster Ninja مشروعًا مفتوح المصدر. تحقق من "
+"الكود في <7>حساب Kontur في GitHub</7>."

@@ -47,3 +47,8 @@ vite.config.ts.js
 
 # scripts
 .path
+
+#i18next - ignore all locales instead of en (https://gist.github.com/hieblmedia/9318457)
+!src/core/localization/translations
+src/core/localization/translations/**
+!src/core/localization/translations/en

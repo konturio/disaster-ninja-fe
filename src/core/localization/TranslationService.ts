@@ -2,7 +2,10 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './translations/en/common-messages.json';
+// As files are generated only before dev/build, so from start we don't have them
+// @ts-ignore
 import es from './translations/es/common-messages.json';
+// @ts-ignore
 import ar from './translations/ar/common-messages.json';
 
 i18n
@@ -15,6 +18,8 @@ i18n
     interpolation: {
       escapeValue: false,
     },
+    contextSeparator: ':',
+    pluralSeparator: ':',
     resources: {
       en,
       es,
