@@ -14,12 +14,12 @@ export function parseLinksAsTags(text?: string): string {
   const matchIterable = text.matchAll(regex);
 
   // After pasting in link in markdown format text length will increase
-  // pointer will help us follow that to paste next link in the right place
-  let pointer = 0;
+  // offset will help us follow that to paste next link in the right place
+  let offset = 0;
 
   [...matchIterable].forEach((matchEntity) => {
     const [match, protocol, , domain, path] = matchEntity;
-    const matchIndex = matchEntity.index!;
+    const matchIndex = matchEntity.index ?? 0;
     const matchLength = match.length;
     // skip links in propper markdown format
     if (match.startsWith('](') || match.indexOf('[http') > -1) return;
@@ -27,16 +27,17 @@ export function parseLinksAsTags(text?: string): string {
     const linkStartIndex = match.indexOf('http');
     const fullLink = match.substring(linkStartIndex);
     const beforeLink = match.substring(0, linkStartIndex);
+    const minimalisticDomain = domain.replace('www.', '');
 
     const finalText = spliceString(parsed)(
-      matchIndex + pointer,
-      matchLength + pointer,
-      `${beforeLink}[${domain}${path ?? ''}](${fullLink})`,
+      matchIndex + offset,
+      matchLength,
+      `${beforeLink}[${minimalisticDomain}${path ?? ''}](${fullLink})`,
     );
 
-    pointer +=
-      `[${domain}${path ?? ''}](${fullLink})`.length -
-      (matchLength - beforeLink.length);
+    offset +=
+      `${beforeLink}[${minimalisticDomain}${path ?? ''}](${fullLink})`.length -
+      matchLength;
     parsed = finalText;
   });
 

@@ -1,5 +1,9 @@
+import ReactMarkdown from 'react-markdown';
+import { nanoid } from 'nanoid';
 import { i18n } from '~core/localization';
 import { Tooltip } from '~components/Tooltip';
+import { parseLinksAsTags } from '~utils/markdown/parser';
+import { LinkRendererShort } from '~components/LinkRenderer/LinkRenderer';
 import s from './AnalyticsData.module.css';
 import type { AnalyticsData } from '~core/types';
 
@@ -39,8 +43,7 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
             <div className={s.statContent}>
               {typeof dataItem.percentValue !== 'undefined' ? (
                 <>
-                  {dataItem.percentValue}%
-                  <span className={s.statSplitter}>|</span>
+                  {dataItem.percentValue}%<span className={s.statSplitter}>|</span>
                 </>
               ) : null}
               {textFormatter(dataItem.text)}
@@ -52,15 +55,13 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
           <div className={s.statHead}>{i18n.t('details')}</div>
           <div className={s.statContent}>
             {links.map((link) => (
-              <a
-                className={s.link}
-                href={link}
-                key={link}
-                target="_blank"
-                rel="noreferrer"
+              <ReactMarkdown
+                components={{ a: LinkRendererShort }}
+                className={s.markdown}
+                key={nanoid(4)}
               >
-                {link}
-              </a>
+                {parseLinksAsTags(link)}
+              </ReactMarkdown>
             ))}
           </div>
         </div>

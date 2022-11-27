@@ -29,12 +29,19 @@ export function RoutedApp() {
   const [{ data, loading }] = useAtom(userResourceAtom);
   const userModel = data && !loading ? data : null;
 
+  // FIXME: this logic will be removed on PR #262 or by demand - to be discussed
+  // written as is it wouldn't even allow to start page
   useEffect(() => {
     if (userModel) {
       metricsInit();
-      return forceRun(urlStoreAtom);
+      // This one never runs initially
+      // return forceRun(urlStoreAtom);
     }
   }, [userModel]);
+
+  useEffect(() => {
+    forceRun(urlStoreAtom);
+  }, []);
 
   useEffect(() => {
     const isFirstTimeVisit = () =>
