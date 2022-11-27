@@ -32,9 +32,10 @@ export function RoutedApp() {
   useEffect(() => {
     if (userModel) {
       metricsInit();
-      return forceRun(urlStoreAtom);
     }
   }, [userModel]);
+
+  useEffect(() => forceRun(urlStoreAtom), []);
 
   useEffect(() => {
     const isFirstTimeVisit = () =>
