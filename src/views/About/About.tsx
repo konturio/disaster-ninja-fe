@@ -3,10 +3,6 @@ import { i18n } from '~core/localization';
 import s from './About.module.css';
 
 export function AboutPage({ toHomePage }: { toHomePage: () => void }) {
-  return <AboutText toHomePage={toHomePage} />;
-}
-
-function AboutText({ toHomePage }: { toHomePage: () => void }) {
   return (
     <div className={s.mainWrap}>
       <div className={s.content}>
