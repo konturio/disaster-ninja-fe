@@ -24,7 +24,7 @@ const { BivariateManagerPage } = lazily(
 
 export const toHomePage = () => history.push(routerConfig.defaultRoute);
 export const routerConfig: AppRouterConfig = {
-  defaultRoute: 'map',
+  defaultRoute: '',
   routes: [
     {
       slug: 'about',
@@ -46,7 +46,7 @@ export const routerConfig: AppRouterConfig = {
       requiredFeature: AppFeature.APP_LOGIN,
     },
     {
-      slug: 'map',
+      slug: '',
       title: i18n.t('modes.map'),
       icon: <Map24 />,
       view: <MapPage />,

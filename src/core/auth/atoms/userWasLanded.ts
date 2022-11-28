@@ -15,7 +15,6 @@ export const userWasLandedAtom = createAtom(
         location.pathname === config.baseUrl && initialUrl.search === '';
       const userHaveLandedMark = localStorage.getItem('landed');
       if (noSettingUrl && !userHaveLandedMark) {
-        localStorage.setItem('landed', 'true');
         state = 'no';
       } else {
         state = 'yes';
@@ -25,3 +24,5 @@ export const userWasLandedAtom = createAtom(
   },
   'userWasLandedAtom',
 );
+
+export const landUser = () => localStorage.setItem('landed', 'true');

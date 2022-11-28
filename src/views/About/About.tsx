@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
+import { landUser } from '~core/auth';
 import { i18n } from '~core/localization';
 import s from './About.module.css';
 
 export function AboutPage({ toHomePage }: { toHomePage: () => void }) {
+  useEffect(() => {
+    landUser();
+  }, []);
   return (
     <div className={s.mainWrap}>
       <div className={s.content}>

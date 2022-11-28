@@ -14,8 +14,6 @@ const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 const { SideBar } = lazily(() => import('~features/side_bar'));
 
-const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
-
 export function CommonView({
   children,
   currentRouteAtom,
@@ -28,7 +26,6 @@ export function CommonView({
 }>) {
   const [{ data, loading }] = useAtom(userResourceAtom);
   const userModel = data && !loading ? data : null;
-  const [currentRoute] = useAtom(currentRouteAtom);
 
   useEffect(() => {
     if (userModel?.hasFeature(AppFeature.INTERCOM)) {

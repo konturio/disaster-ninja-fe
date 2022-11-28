@@ -8,15 +8,21 @@ export const showAboutForNewUsersAtom = createAtom(
   {
     userWasLandedAtom,
     availableRoutesAtom,
+    showAboutForNewUsers: () => null,
   },
-  ({ get }) => {
-    const userWasLanded = get('userWasLandedAtom');
-    if (userWasLanded === 'no') {
-      const routesConfig = get('availableRoutesAtom');
-      if (!routesConfig) return;
-      const greetingsRoute = routesConfig.routes.find((r) => r.showForNewUsers);
-      if (!greetingsRoute) return;
-      history.push(getAbsoluteRoute(greetingsRoute.slug));
-    }
+  ({ get, schedule, onAction }) => {
+    onAction('showAboutForNewUsers', () => {
+      const userWasLanded = get('userWasLandedAtom');
+      if (userWasLanded === 'no') {
+        const routesConfig = get('availableRoutesAtom');
+        if (!routesConfig) return;
+        const greetingsRoute = routesConfig.routes.find((r) => r.showForNewUsers);
+
+        if (!greetingsRoute) return;
+        schedule(() => {
+          history.push(getAbsoluteRoute(greetingsRoute.slug));
+        });
+      }
+    });
   },
 );

@@ -1,15 +1,22 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { CacheRoute } from 'react-router-cache-route';
 import { Route, Redirect } from 'react-router-dom';
-import { useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { availableRoutesAtom } from '../atoms/availableRoutes';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
+import { showAboutForNewUsersAtom } from '../atoms/showAboutForNewUsers';
 import { UniversalRoute } from './UniversalRoute';
 import s from './Router.module.css';
 import type { AppRouterConfig } from '../types';
 
 const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'] }) => {
+  const showAboutForNewUsers = useAction(showAboutForNewUsersAtom.showAboutForNewUsers);
+  /* Router must be synchronized with react-render lifecycle */
+  useEffect(() => {
+    showAboutForNewUsers();
+  }, [showAboutForNewUsers]);
+
   return (
     <>
       {routes.map((r) => (
