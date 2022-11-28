@@ -1,18 +1,15 @@
 import { Text } from '@konturio/ui-kit';
-import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import { Trans } from 'react-i18next';
 import { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
-import config from '~core/app_config';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { reportsAtom } from '../../atoms/reportsAtom';
 import styles from './ReportsList.module.css';
 
-export function ReportsList() {
-  const history = useHistory();
+export function ReportsList({ goToReport }: { goToReport: (id: string) => void }) {
   const [reports, { getReports }] = useAtom(reportsAtom);
 
   useEffect(() => {
@@ -55,12 +52,12 @@ export function ReportsList() {
       <div className={styles.reportCards}>
         {Boolean(reports.length) &&
           reports.map?.((report) => {
-            const goToReport = (e: React.MouseEvent<HTMLElement>) => {
+            const onClick = (e: React.MouseEvent<HTMLElement>) => {
               e.preventDefault();
-              history.push(config.baseUrl + 'reports/' + report.id);
+              goToReport(report.id);
             };
             return (
-              <div className={styles.reportWrap} key={report.id} onClick={goToReport}>
+              <div className={styles.reportWrap} key={report.id} onClick={onClick}>
                 <Text type="heading-m">
                   <div className={clsx(styles.link, styles.reportTitle)}>
                     {report.name}

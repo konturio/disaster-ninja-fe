@@ -20,7 +20,9 @@ export const showAboutForNewUsersAtom = createAtom(
 
         if (!greetingsRoute) return;
         schedule(() => {
-          history.push(getAbsoluteRoute(greetingsRoute.slug));
+          history.push(
+            getAbsoluteRoute(greetingsRoute.slug) + globalThis.location.search,
+          );
         });
       }
     });

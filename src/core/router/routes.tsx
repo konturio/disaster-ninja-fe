@@ -12,6 +12,7 @@ import { AppFeature } from '~core/auth/types';
 import { UserStateToComponents } from '~core/auth';
 import history from './history';
 import type { AppRouterConfig } from './types';
+// import app_config from '~core/app_config';
 
 const { MapPage } = lazily(() => import('~views/Map/Map'));
 const { ReportsPage } = lazily(() => import('~views/Reports/Reports'));
@@ -22,7 +23,10 @@ const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
 
-export const toHomePage = () => history.push(routerConfig.defaultRoute);
+export const toHomePage = () => {
+  history.push('/', globalThis.location.search);
+};
+
 export const routerConfig: AppRouterConfig = {
   defaultRoute: '',
   routes: [
@@ -56,7 +60,11 @@ export const routerConfig: AppRouterConfig = {
       slug: 'reports',
       title: i18n.t('modes.reports'),
       icon: <Alarm24 />,
-      view: <ReportsPage />,
+      view: (
+        <ReportsPage
+          goToReport={(id) => history.push(`/report/${id}${globalThis.location.search}`)}
+        />
+      ),
       requiredFeature: AppFeature.REPORTS,
     },
     {
