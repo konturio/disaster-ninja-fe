@@ -10,7 +10,6 @@ const root = createRoot(document.getElementById('root')!);
 root.render(
   <StrictMode>
     <reatomContext.Provider value={store}>
-      тщз
       <AuthWrapper>
         <Router />
       </AuthWrapper>

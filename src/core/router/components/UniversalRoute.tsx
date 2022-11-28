@@ -3,7 +3,7 @@ import type { CacheRoute } from 'react-router-cache-route';
 import type { ComponentProps } from 'react';
 
 export function UniversalRoute(
-  props: ComponentProps<typeof Route> & { as: typeof Route },
+  props: ComponentProps<typeof Route> & { as: typeof Route; className?: string },
 ): JSX.Element;
 export function UniversalRoute(
   props: ComponentProps<typeof CacheRoute> & { as: typeof CacheRoute },

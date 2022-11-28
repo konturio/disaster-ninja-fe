@@ -2,9 +2,11 @@ import { Suspense } from 'react';
 import { CacheRoute } from 'react-router-cache-route';
 import { Route, Redirect } from 'react-router-dom';
 import { useAtom } from '@reatom/react';
+import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { availableRoutesAtom } from '../atoms/availableRoutes';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { UniversalRoute } from './UniversalRoute';
+import s from './Router.module.css';
 import type { AppRouterConfig } from '../types';
 
 const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'] }) => {
@@ -12,12 +14,13 @@ const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'
     <>
       {routes.map((r) => (
         <UniversalRoute
+          className={r.cached ? s.fullWidth : undefined}
           key={r.slug}
           exact
           path={getAbsoluteRoute(r.parentRoute ? `${r.parentRoute}/${r.slug}` : r.slug)}
           as={r.cached ? CacheRoute : Route}
         >
-          <Suspense fallback={<h1>Fallback</h1>}>{r.view}</Suspense>
+          <Suspense fallback={<LoadingSpinner message={null} />}>{r.view}</Suspense>
         </UniversalRoute>
       ))}
     </>
@@ -26,7 +29,13 @@ const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'
 
 export function Routes() {
   const [availableRoutes] = useAtom(availableRoutesAtom);
-  if (availableRoutes === null) return <h1>Loading</h1>; // Maybe some loading screen needed?
+  if (availableRoutes === null) {
+    return (
+      <div className={s.fullWidth}>
+        <LoadingSpinner message={null} />
+      </div>
+    );
+  }
   return (
     <>
       <RouterStateToReactRouter routes={availableRoutes.routes} />
