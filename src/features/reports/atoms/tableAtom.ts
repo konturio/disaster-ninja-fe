@@ -135,4 +135,5 @@ export const tableAtom = createAtom(
 
     return state;
   },
+  'reports:tableAtom',
 );

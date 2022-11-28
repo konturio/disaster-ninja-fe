@@ -46,7 +46,7 @@ export function Analytics({
 
     if (typeof settledArea === 'number')
       result.push({
-        tooltip: i18n.t('event_list.analytics.settled_area.tooltip'),
+        tooltip: i18n.t('event_list.analytics.settled_area_tooltip'),
 
         value: (
           <span>
@@ -58,7 +58,7 @@ export function Analytics({
 
     if (typeof loss === 'number')
       result.push({
-        tooltip: i18n.t('event_list.analytics.loss.tooltip'),
+        tooltip: i18n.t('event_list.analytics.loss_tooltip'),
         value: `$${formatNumber(loss)} estimated loss`,
       });
 

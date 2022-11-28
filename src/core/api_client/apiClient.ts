@@ -251,7 +251,7 @@ export class ApiClient {
 
     if (!errorsConfig || !errorsConfig.dontShowErrors) {
       this.notificationService.error({
-        title: this.translationService.t('Error'),
+        title: this.translationService.t('error'),
         description: this.translationService.t(errorMessage),
       });
     }
@@ -382,11 +382,11 @@ export class ApiClient {
         }
       } else {
         if (response.status === 204) {
-          throw new ApiClientError(this.translationService.t('No data received!'), {
+          throw new ApiClientError(this.translationService.t('no_data_received'), {
             kind: 'no-data',
           });
         } else {
-          throw new ApiClientError(this.translationService.t('Wrong data received!'), {
+          throw new ApiClientError(this.translationService.t('wrong_data_received'), {
             kind: 'bad-data',
           });
         }

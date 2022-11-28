@@ -29,6 +29,7 @@ type MapHexTooltipProps = {
   axis: BivariateLegend['axis'];
   cellIndex: number;
   cellLabel: string;
+  values?: { x: string; y: string };
 };
 
 export const MapHexTooltip = ({
@@ -36,6 +37,7 @@ export const MapHexTooltip = ({
   axis,
   cellIndex,
   cellLabel,
+  values,
 }: MapHexTooltipProps) => {
   return (
     <div className={s.tootipRoot}>
@@ -44,12 +46,19 @@ export const MapHexTooltip = ({
       </div>
 
       <div className={s.labels}>
-        <div className={s.axisLabels}>
+        <div className={s.column}>
           <span>{axis.x.label}</span>
           <span>{axis.y.label}</span>
         </div>
 
-        <div className={s.indicatorsLabels}>
+        {values && (
+          <div className={s.column}>
+            <span>{values?.x}</span>
+            <span>{values?.y}</span>
+          </div>
+        )}
+
+        <div className={s.column}>
           <span>{getXIndicatorLabelByindex(cellIndex)}</span>
           <span>{getYIndicatorLabelByindex(cellIndex)}</span>
         </div>

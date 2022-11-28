@@ -5,6 +5,7 @@ import { registerMapListener } from '~core/shared_state/mapListeners';
 
 interface ScheduleContext {
   removeClickListener?: () => void;
+  removeMousemoveListener?: () => void;
 }
 
 let isAtomEnabled = false;
@@ -34,6 +35,14 @@ export const clickCoordinatesAtom = createAtom(
           },
           10,
         );
+        function preventMousemove(e) {
+          return false;
+        }
+        ctx.removeMousemoveListener ??= registerMapListener(
+          'mousemove',
+          preventMousemove,
+          10,
+        );
         setMapInteractivity(map, false);
       });
 
@@ -41,7 +50,9 @@ export const clickCoordinatesAtom = createAtom(
       schedule((dispatch, ctx: ScheduleContext = {}) => {
         setMapInteractivity(map, true);
         ctx.removeClickListener?.();
+        ctx.removeMousemoveListener?.();
         delete ctx.removeClickListener;
+        delete ctx.removeMousemoveListener;
       });
 
     onAction('_set', (coords) => {

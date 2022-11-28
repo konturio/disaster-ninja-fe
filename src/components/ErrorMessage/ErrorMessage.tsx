@@ -12,9 +12,7 @@ export function ErrorMessage({
 }) {
   return (
     <div className={s.spinner} style={{ marginTop }}>
-      <Text type="short-l">
-        {i18n.t(message ?? 'Sorry, we are having issues, which will be fixed soon')}
-      </Text>
+      <Text type="short-l">{message ?? i18n.t('errors.default')}</Text>
       <img src={errorImage} alt="" className={s.icon} />
     </div>
   );

@@ -4,15 +4,14 @@
     "@typescript-eslint",
     "react",
     "react-hooks",
-    "eslint-plugin-import"
+    "eslint-plugin-import",
+    "i18n-checker",
+    "i18n-json"
   ],
   "env": {
     "browser": true
   },
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended"
-  ],
+  "extends": ["plugin:@typescript-eslint/recommended", "plugin:react/recommended"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
@@ -51,7 +50,21 @@
     ],
     "react/prop-types": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+
+    "i18n-checker/key-must-be-literal": [
+      2,
+      {
+        "functionNames": ["i18n.t"]
+      }
+    ],
+    "i18n-checker/json-key-exists": [
+      2,
+      {
+        "functionNames": ["i18n.t"],
+        "localesPath": "src/core/localization/translations/en"
+      }
+    ]
   },
   "settings": {
     "react": {

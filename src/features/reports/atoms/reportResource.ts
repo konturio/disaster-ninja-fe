@@ -10,6 +10,7 @@ export const currentReportAtom = createAtom(
     onAction('setReport', (report) => (state = { ...report }));
     return state;
   },
+  'reports:currentReportAtom',
 );
 
 export const reportResourceAtom = createAsyncAtom(
@@ -23,5 +24,5 @@ export const reportResourceAtom = createAsyncAtom(
     if (responseData === undefined) throw new Error(i18n.t('no_data_received'));
     return responseData;
   },
-  'reportResourceAtom',
+  'reports:reportResourceAtom',
 );

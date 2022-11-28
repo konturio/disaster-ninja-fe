@@ -1,5 +1,5 @@
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, HtmlTagDescriptor, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import react from '@vitejs/plugin-react';
 import { createHtmlPlugin } from 'vite-plugin-html';
@@ -26,6 +26,19 @@ export default ({ mode }) => {
   const env = parseEnv(loadEnv(mode, process.cwd()));
   const config = useConfig(selectConfig(mode), env.DEST_PATH);
   validateConfig(config, buildScheme());
+
+  const injectRRT: HtmlTagDescriptor[] = env.VITE_DEBUG_RENDER_TRACKER
+    ? [
+        {
+          attrs: { src: 'https://cdn.jsdelivr.net/npm/react-render-tracker' },
+          injectTo: 'head',
+          tag: 'script',
+        },
+      ]
+    : [];
+
+  const hmr = !!env.VITE_DEBUG_HMR;
+
   return defineConfig({
     base: `${env.VITE_BASE_PATH}${env.VITE_STATIC_PATH}`,
     build: {
@@ -37,13 +50,15 @@ export default ({ mode }) => {
     },
     plugins: [
       react(),
-      mode === 'production' && viteBuildInfoPlugin(),
+      // mode === 'production' &&
+      viteBuildInfoPlugin(),
       createHtmlPlugin({
         inject: {
           data: {
             ...env,
             mode,
           },
+          tags: [...injectRRT],
         },
       }),
     ],
@@ -75,6 +90,7 @@ export default ({ mode }) => {
     server: {
       proxy: proxyConfig,
       port: 3000,
+      hmr,
     },
     define:
       mode === 'development'

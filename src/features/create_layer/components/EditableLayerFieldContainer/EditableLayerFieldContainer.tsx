@@ -44,49 +44,46 @@ export function EditableLayerFieldContainer({
     onRemove(index);
   }, [index, onRemove]);
 
-  const [{ handlerId }, drop] = useDrop<
-    DragItem,
-    void,
-    { handlerId: Identifier | null }
-  >({
-    accept: ITEM_TYPE,
-    collect(monitor) {
-      return {
-        handlerId: monitor.getHandlerId(),
-      };
+  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>(
+    {
+      accept: ITEM_TYPE,
+      collect(monitor) {
+        return {
+          handlerId: monitor.getHandlerId(),
+        };
+      },
+      hover(item: DragItem, monitor) {
+        if (!ref.current) {
+          return;
+        }
+        const dragIndex = item.index;
+        const hoverIndex = index;
+
+        if (dragIndex === hoverIndex) {
+          return;
+        }
+
+        const hoverBoundingRect = ref.current?.getBoundingClientRect();
+
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
+        const clientOffset = monitor.getClientOffset();
+        const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+          return;
+        }
+
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+          return;
+        }
+
+        onReorder(dragIndex, hoverIndex);
+
+        item.index = hoverIndex;
+      },
     },
-    hover(item: DragItem, monitor) {
-      if (!ref.current) {
-        return;
-      }
-      const dragIndex = item.index;
-      const hoverIndex = index;
-
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-      const clientOffset = monitor.getClientOffset();
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-
-      onReorder(dragIndex, hoverIndex);
-
-      item.index = hoverIndex;
-    },
-  });
+  );
 
   const [{ isDragging }, drag] = useDrag({
     type: ITEM_TYPE,
@@ -135,14 +132,10 @@ export function EditableLayerFieldContainer({
       </div>
       <div className={s.fieldPlaceholder}>
         <div className={s.fieldLabel}>{i18n.t('create_layer.type')}</div>
-        <select
-          className={s.input}
-          value={atomState.type}
-          onChange={updateAtomType}
-        >
+        <select className={s.input} value={atomState.type} onChange={updateAtomType}>
           {USER_LAYER_FIELDS.map((fldParams) => (
             <option key={fldParams.label} value={fldParams.type}>
-              {i18n.t(fldParams.label)}
+              {fldParams.label}
             </option>
           ))}
         </select>

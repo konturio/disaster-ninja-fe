@@ -35,6 +35,22 @@ npm i
 npm run dev
 ```
 
+## How to i18n
+
+We use 18next + gettext convertion approach in our development toolchain. 
+There are several tasks in package.json: 
+- i18n:export converts i18next to gettext
+- i18n:import converts gettext to i18next
+- i18n:update extracts new translation keys from code to common.json (i18n.t, <Trans/>) and removes unused keys.
+- lint:i18n:keys:identity is needed to see untranslated keys for all locales (make sure you ran i18n:import before, it compares i18n files)
+But you don't need to manually run all of them. 
+As a developer you only need to interact with i18next en file by i18n:update command. (`src/core/localization/translations/en/common.json`)
+So whenever you add new key in your code - run i18n:update, you'll see common.json updated.
+Then fill the translation, it's obligatory by our eslint rules.
+It will be converted to .pot file on pre-commit hook and added to commit.
+Later translators will add new translations to .po files comparing them with .pot file. 
+When you run or build a project .po files convert to i18next .json files, so new translations become available on frontend.
+
 ## Available Scripts
 
 ### npm start

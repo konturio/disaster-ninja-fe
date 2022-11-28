@@ -53,7 +53,7 @@ export function ReportTable() {
               return (
                 <th key={title} onClick={onClick} className={cName()}>
                   <span className={styles.columnTitle}>{title}</span>
-                  <img src={sortIcon} alt={i18next.t('sort icon')} />
+                  <img src={sortIcon} alt={i18next.t('sort_icon')} />
                 </th>
               );
             })}

@@ -1,4 +1,16 @@
+import every from 'lodash/every';
+import appConfig from '~core/app_config';
+import { KONTUR_METRICS_DEBUG } from '~utils/debug';
+import {
+  METRICS_EVENT,
+  METRICS_REPORT_TEMPLATE,
+  METRICS_WATCH_LIST,
+  EVENT_MAP_IDLE,
+} from './constants';
 import { Sequence } from './sequence';
+import type { MetricsReportTemplate, MetricsEvent } from './types';
+
+const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
 
 class MetricMarker {
   readonly event: string;
@@ -25,21 +37,48 @@ class SessionSettings<F extends string> {
   }
 }
 
+/**
+ * Singleton, use AppMetrics.getInstance()
+ */
 export class AppMetrics {
+  static _instance: AppMetrics;
   markers: MetricMarker[] = [];
   maxLogSize = 100;
   private sequences: Set<Sequence> = new Set();
   private completed: Record<string, number> = {};
   private eventLog: string[] = [];
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
+  reportTemplate: MetricsReportTemplate = METRICS_REPORT_TEMPLATE;
+  listener: void;
 
-  constructor() {
+  static getInstance() {
+    if (this._instance) {
+      return this._instance;
+    }
+    this._instance = new AppMetrics();
+    return this._instance;
+  }
+
+  private constructor() {
     globalThis.KONTUR_METRICS = {
+      watchList: this.watchList,
+      markers: this.markers,
       sequences: this.sequences,
       events: this.eventLog,
       toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
       toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
     };
+    this.listener = globalThis.addEventListener(METRICS_EVENT, ((e: MetricsEvent) => {
+      this.processEvent(e.detail.name, e.detail.payload);
+    }) as EventListener);
+  }
+
+  init(appId: string, userId: string | null) {
+    this.reportTemplate.appId = appId ?? '';
+    this.reportTemplate.userId = userId === 'public' ? null : userId ?? null;
+    if (KONTUR_METRICS_DEBUG) {
+      console.info('appMetrics.init', this.reportTemplate);
+    }
   }
 
   recordEventToLog(name: string) {
@@ -69,7 +108,8 @@ export class AppMetrics {
     this.processEvent(name, payload);
   }
 
-  processEvent(name: string, payload?: unknown) {
+  private processEvent(name: string, payload?: unknown) {
+    this.watch(name);
     this.recordEventToLog(name);
     this.sequences.forEach((s) => {
       s.update(name, payload);
@@ -81,6 +121,50 @@ export class AppMetrics {
           alert(`Sequence ${name} ended`);
         }
       }
+    });
+  }
+
+  watchList = METRICS_WATCH_LIST;
+
+  watch(name: string) {
+    if (this.watchList[name] === null) {
+      const timing = performance.now();
+      this.watchList[name] = timing;
+      if (every(this.watchList, Boolean)) {
+        // we need to wait EVENT_MAP_IDLE after all events from watchList
+        // to determite that app is ready
+        if (name !== EVENT_MAP_IDLE) {
+          this.watchList[EVENT_MAP_IDLE] = null;
+          return;
+        }
+
+        setTimeout(() => {
+          this.report('ready', timing);
+          const eventReadyEvent = new Event('event_ready_for_screenshot');
+          window.dispatchEvent(eventReadyEvent);
+        }, 299);
+        return;
+      }
+      this.report(name, timing);
+    }
+  }
+
+  report(name: string, timing: number) {
+    const payload = {
+      ...this.reportTemplate,
+      name,
+      value: timing,
+    };
+    if (KONTUR_METRICS_DEBUG) {
+      console.warn('metrics', payload);
+    }
+    // TODO: use apiClientInstance after app init refactor
+    fetch(APP_METRICS_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify([payload]),
+    }).catch((error) => {
+      console.error('sent metrics error:', error, payload);
     });
   }
 }

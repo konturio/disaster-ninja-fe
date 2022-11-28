@@ -2,7 +2,6 @@ import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
-import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { forceRun } from '~utils/atoms/forceRun';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/shared_state/focusedGeometry';
@@ -27,7 +26,7 @@ export function initFocusedGeometryLayer() {
     layersSettingsAtom.set(
       FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
       createAsyncWrapper({
-        name: i18n.t(FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY),
+        name: FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY,
         id: FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
         boundaryRequiredForRetrieval: false,
         ownedByUser: false,
@@ -38,11 +37,11 @@ export function initFocusedGeometryLayer() {
       FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
       createAsyncWrapper({
         type: 'simple',
-        name: i18n.t(FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY),
+        name: FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY,
         steps: [
           {
             stepShape: 'circle',
-            stepName: i18n.t(FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY),
+            stepName: FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY,
             style: {
               color: FOCUSED_GEOMETRY_COLOR,
             },

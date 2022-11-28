@@ -26,7 +26,7 @@ export function EpisodesTimelinePanel() {
 
   return (
     <Panel
-      header={String(i18n.t('Episode'))}
+      header={String(i18n.t('episode'))}
       onHeaderClick={eventEpisodesController.closeEpisodesTimeline}
       modal={{
         onModalClick: eventEpisodesController.closeEpisodesTimeline,
