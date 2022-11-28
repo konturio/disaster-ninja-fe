@@ -1,6 +1,6 @@
 import { Suspense, useEffect } from 'react';
 import { CacheRoute } from 'react-router-cache-route';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { useAction, useAtom } from '@reatom/react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { availableRoutesAtom } from '../atoms/availableRoutes';
@@ -8,6 +8,7 @@ import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { showAboutForNewUsersAtom } from '../atoms/showAboutForNewUsers';
 import { UniversalRoute } from './UniversalRoute';
 import s from './Router.module.css';
+import { use404Redirect } from './user404Redirect';
 import type { AppRouterConfig } from '../types';
 
 const FullScreenLoader = () => (
@@ -16,7 +17,11 @@ const FullScreenLoader = () => (
   </div>
 );
 
-const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'] }) => {
+const RouterStateToReactRouter = ({
+  availableRoutes,
+}: {
+  availableRoutes: AppRouterConfig;
+}) => {
   const showAboutForNewUsers = useAction(showAboutForNewUsersAtom.showAboutForNewUsers);
   /* Router must be synchronized with react-render lifecycle */
   useEffect(() => {
@@ -25,7 +30,7 @@ const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'
 
   return (
     <>
-      {routes.map((r) => (
+      {availableRoutes.routes.map((r) => (
         <UniversalRoute
           className={r.cached ? s.fullWidth : undefined}
           key={r.slug}
@@ -42,13 +47,11 @@ const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'
 
 export function Routes() {
   const [availableRoutes] = useAtom(availableRoutesAtom);
+  use404Redirect(availableRoutes);
+
   if (availableRoutes === null) {
     return <FullScreenLoader />;
   }
-  return (
-    <>
-      <RouterStateToReactRouter routes={availableRoutes.routes} />
-      <Redirect to={getAbsoluteRoute(availableRoutes.defaultRoute)} />
-    </>
-  );
+
+  return <RouterStateToReactRouter availableRoutes={availableRoutes} />;
 }
