@@ -8,6 +8,7 @@ import { Row } from '~components/Layout/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth';
 import { initLanguageWatcher } from '~core/auth/atoms/languageWatcher';
+import { metricsInit } from '~core/metrics/init';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
@@ -27,6 +28,12 @@ export function CommonView({
 }>) {
   const [{ data, loading }] = useAtom(userResourceAtom);
   const userModel = data && !loading ? data : null;
+
+  useEffect(() => {
+    if (userModel) {
+      metricsInit();
+    }
+  }, [userModel]);
 
   useEffect(() => {
     if (userModel?.hasFeature(AppFeature.INTERCOM)) {
