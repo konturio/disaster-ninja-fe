@@ -61,7 +61,7 @@ export const routerConfig: AppRouterConfig = {
     },
     {
       slug: ':reportId',
-      title: i18n.t('modes.report'),
+      title: 'modes.report',
       icon: <Reports16 />,
       view: <ReportPage />,
       requiredFeature: AppFeature.REPORTS,

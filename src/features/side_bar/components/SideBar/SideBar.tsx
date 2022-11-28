@@ -37,7 +37,7 @@ function routeVisibilityChecker(routes: AppRoute[]) {
       ? currentRoute?.slug === route.parentRoute
       : false;
     const neighbors = route.parentRoute ? Object.keys(routesTree[route.parentRoute]) : [];
-    const haveActiveNeighbor = neighbors.indexOf(currentRoute.slug) !== -1;
+    const haveActiveNeighbor = neighbors.includes(currentRoute.slug);
 
     return isActive || haveActiveParentRoute || haveActiveNeighbor;
   };
