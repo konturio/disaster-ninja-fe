@@ -27,17 +27,17 @@ export function parseLinksAsTags(text?: string): string {
     const linkStartIndex = match.indexOf('http');
     const fullLink = match.substring(linkStartIndex);
     const beforeLink = match.substring(0, linkStartIndex);
-    const minimalisticDomain = domain.replace('www.', '');
+    const noW3domain = domain.replace('www.', '');
+
+    const mdLinkWithPrefix = `${beforeLink}[${noW3domain}${path ?? ''}](${fullLink})`;
 
     const finalText = spliceString(parsed)(
       matchIndex + offset,
       matchLength,
-      `${beforeLink}[${minimalisticDomain}${path ?? ''}](${fullLink})`,
+      mdLinkWithPrefix,
     );
 
-    offset +=
-      `${beforeLink}[${minimalisticDomain}${path ?? ''}](${fullLink})`.length -
-      matchLength;
+    offset += mdLinkWithPrefix.length - matchLength;
     parsed = finalText;
   });
 

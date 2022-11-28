@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { i18n } from '~core/localization';
 import { Tooltip } from '~components/Tooltip';
 import { parseLinksAsTags } from '~utils/markdown/parser';
-import { LinkRendererShort } from '~components/LinkRenderer/LinkRenderer';
+import { getShortLinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import s from './AnalyticsData.module.css';
 import type { AnalyticsData } from '~core/types';
 
@@ -56,7 +56,7 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
           <div className={s.statContent}>
             {links.map((link) => (
               <ReactMarkdown
-                components={{ a: LinkRendererShort }}
+                components={{ a: getShortLinkRenderer() }}
                 className={s.markdown}
                 key={nanoid(4)}
               >
