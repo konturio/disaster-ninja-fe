@@ -3,7 +3,7 @@ import type { TransactionData } from '@reatom/core';
 // enable with localStorage.setItem('KONTUR_DEBUG', 'true')
 export const KONTUR_DEBUG = !!globalThis.window?.localStorage.getItem('KONTUR_DEBUG');
 
-// enable with localStorage.setItem('KONTUR_DEBUG', 'true')
+// enable with localStorage.setItem('KONTUR_METRICS_DEBUG', 'true')
 export const KONTUR_METRICS_DEBUG =
   !!globalThis.window?.localStorage.getItem('KONTUR_METRICS_DEBUG');
 
