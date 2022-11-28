@@ -1,5 +1,6 @@
 import { Button, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react';
+import noop from 'lodash/noop';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { i18n } from '~core/localization';
@@ -52,8 +53,4 @@ export function ShortPanel({
   );
 
   return <div className={s.shortPanel}>{panelContent}</div>;
-}
-
-function noop() {
-  // noop
 }
