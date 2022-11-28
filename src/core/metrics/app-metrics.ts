@@ -1,11 +1,17 @@
 import every from 'lodash/every';
 import appConfig from '~core/app_config';
-import { METRICS_EVENT } from './dispatch';
+import { KONTUR_METRICS_DEBUG } from '~utils/debug';
+import {
+  METRICS_EVENT,
+  METRICS_REPORT_TEMPLATE,
+  METRICS_WATCH_LIST,
+  EVENT_MAP_IDLE,
+} from './constants';
 import { Sequence } from './sequence';
 import type { MetricsReportTemplate, MetricsEvent } from './types';
 
 const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
-const EVENT_MAP_IDLE = 'setTrue_mapIdle';
+
 class MetricMarker {
   readonly event: string;
   readonly timestamp: number;
@@ -31,24 +37,29 @@ class SessionSettings<F extends string> {
   }
 }
 
+/**
+ * Singleton, use AppMetrics.getInstance()
+ */
 export class AppMetrics {
+  static _instance: AppMetrics;
   markers: MetricMarker[] = [];
   maxLogSize = 100;
   private sequences: Set<Sequence> = new Set();
   private completed: Record<string, number> = {};
   private eventLog: string[] = [];
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
-  reportTemplate: MetricsReportTemplate = {
-    name: '',
-    value: 0,
-    type: 'SUMMARY',
-    appId: '',
-    userId: '',
-    buildVersion: `${import.meta.env.PACKAGE_VERSION}-${import.meta.env.MODE}`,
-  };
+  reportTemplate: MetricsReportTemplate = METRICS_REPORT_TEMPLATE;
   listener: void;
 
-  constructor() {
+  static getInstance() {
+    if (this._instance) {
+      return this._instance;
+    }
+    this._instance = new AppMetrics();
+    return this._instance;
+  }
+
+  private constructor() {
     globalThis.KONTUR_METRICS = {
       watchList: this.watchList,
       markers: this.markers,
@@ -65,7 +76,7 @@ export class AppMetrics {
   init(appId: string, userId: string | null) {
     this.reportTemplate.appId = appId ?? '';
     this.reportTemplate.userId = userId === 'public' ? null : userId ?? null;
-    if (this.settings.isEnabled('KONTUR_SQ_LOG')) {
+    if (KONTUR_METRICS_DEBUG) {
       console.info('appMetrics.init', this.reportTemplate);
     }
   }
@@ -113,16 +124,7 @@ export class AppMetrics {
     });
   }
 
-  watchList = {
-    // _done_userResourceAtom: null, // should be done before init
-    _done_currentEventResource: null,
-    _done_layersGlobalResource: null,
-    _done_analyticsResource: null,
-    // _done_areaLayersDetailsResourceAtom: null, // can be disabled in url
-    _done_layersInAreaAndEventLayerResource: null,
-    // _done_eventListResource: null,
-    [EVENT_MAP_IDLE]: null,
-  };
+  watchList = METRICS_WATCH_LIST;
 
   watch(name: string) {
     if (this.watchList[name] === null) {
@@ -153,7 +155,7 @@ export class AppMetrics {
       name,
       value: timing,
     };
-    if (this.settings.isEnabled('KONTUR_SQ_LOG')) {
+    if (KONTUR_METRICS_DEBUG) {
       console.warn('metrics', payload);
     }
     // TODO: use apiClientInstance after app init refactor
