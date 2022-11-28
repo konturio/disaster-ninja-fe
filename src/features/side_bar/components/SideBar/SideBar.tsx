@@ -1,6 +1,5 @@
 import { useAction, useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN, Logo } from '@konturio/ui-kit';
-import { nanoid } from 'nanoid';
 import cn from 'clsx';
 import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -125,7 +124,7 @@ export function SideBar({
           {availableRoutes.routes.map((route) => {
             return checkRouteVisibility(route, currentRoute) ? (
               <Link
-                key={nanoid(4)}
+                key={route.slug}
                 className={s.sidebarItemContainer}
                 to={getAbsoluteRoute(
                   route.parentRoute
