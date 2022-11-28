@@ -50,7 +50,7 @@ export default ({ mode }) => {
     },
     plugins: [
       react(),
-      // mode === 'production' &&
+      // vite env data used in metrics, should be available in all environments
       viteBuildInfoPlugin(),
       createHtmlPlugin({
         inject: {

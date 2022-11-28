@@ -1,6 +1,7 @@
 import every from 'lodash/every';
 import appConfig from '~core/app_config';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
+import { currentModeAtom } from '~core/modes/currentMode';
 import {
   METRICS_EVENT,
   METRICS_REPORT_TEMPLATE,
@@ -127,6 +128,11 @@ export class AppMetrics {
   watchList = METRICS_WATCH_LIST;
 
   watch(name: string) {
+    // TODO: implement watchlists for other modes if necessary
+    // currently only map mode supported
+    const mode = currentModeAtom.getState();
+    if (mode !== 'map') return;
+
     if (this.watchList[name] === null) {
       const timing = performance.now();
       this.watchList[name] = timing;
