@@ -10,6 +10,12 @@ import { UniversalRoute } from './UniversalRoute';
 import s from './Router.module.css';
 import type { AppRouterConfig } from '../types';
 
+const FullScreenLoader = () => (
+  <div className={s.fullWidth}>
+    <LoadingSpinner message={null} />
+  </div>
+);
+
 const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'] }) => {
   const showAboutForNewUsers = useAction(showAboutForNewUsersAtom.showAboutForNewUsers);
   /* Router must be synchronized with react-render lifecycle */
@@ -27,7 +33,7 @@ const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'
           path={getAbsoluteRoute(r.parentRoute ? `${r.parentRoute}/${r.slug}` : r.slug)}
           as={r.cached ? CacheRoute : Route}
         >
-          <Suspense fallback={<LoadingSpinner message={null} />}>{r.view}</Suspense>
+          <Suspense fallback={<FullScreenLoader />}>{r.view}</Suspense>
         </UniversalRoute>
       ))}
     </>
@@ -37,11 +43,7 @@ const RouterStateToReactRouter = ({ routes }: { routes: AppRouterConfig['routes'
 export function Routes() {
   const [availableRoutes] = useAtom(availableRoutesAtom);
   if (availableRoutes === null) {
-    return (
-      <div className={s.fullWidth}>
-        <LoadingSpinner message={null} />
-      </div>
-    );
+    return <FullScreenLoader />;
   }
   return (
     <>
