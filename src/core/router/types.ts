@@ -13,7 +13,7 @@ export interface AppRoute {
   /** Replace default content of application header */
   customHeader?: JSX.Element;
   /** What features must be enabled to show this route */
-  requiredPermission?: AppFeatureType;
+  requiredFeature?: AppFeatureType;
   /** Nest routes to each other */
   parentRoute?: string;
   /** Don't show route in navigation */

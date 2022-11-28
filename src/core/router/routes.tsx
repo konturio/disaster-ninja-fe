@@ -44,7 +44,7 @@ export const routerConfig: AppRouterConfig = {
       ),
       icon: <User24 />,
       view: <ProfilePage />,
-      requiredPermission: AppFeature.APP_LOGIN,
+      requiredFeature: AppFeature.APP_LOGIN,
     },
     {
       slug: 'map',
@@ -59,7 +59,7 @@ export const routerConfig: AppRouterConfig = {
       icon: <Alarm24 />,
       view: <ReportsPage />,
       customHeader: <HeaderTitle>{i18n.t('sidebar.reports')}</HeaderTitle>,
-      requiredPermission: AppFeature.REPORTS,
+      requiredFeature: AppFeature.REPORTS,
     },
     {
       slug: ':reportId',
@@ -67,7 +67,7 @@ export const routerConfig: AppRouterConfig = {
       icon: <Reports16 />,
       view: <ReportPage />,
       customHeader: <HeaderTitle>{i18n.t('sidebar.reports')}</HeaderTitle>,
-      requiredPermission: AppFeature.REPORTS,
+      requiredFeature: AppFeature.REPORTS,
       parentRoute: 'reports',
       hidden: true,
     },
@@ -77,7 +77,7 @@ export const routerConfig: AppRouterConfig = {
       icon: <Prefs24 />,
       view: <BivariateManagerPage />,
       customHeader: <HeaderTitle>{i18n.t('bivariate.color_manager.title')}</HeaderTitle>,
-      requiredPermission: AppFeature.BIVARIATE_COLOR_MANAGER,
+      requiredFeature: AppFeature.BIVARIATE_COLOR_MANAGER,
     },
   ],
 };

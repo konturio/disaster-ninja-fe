@@ -15,7 +15,7 @@ export const availableRoutesAtom = createAtom(
     return {
       ...routerConfig,
       routes: routerConfig.routes.filter((route) =>
-        route.requiredPermission ? userModel.hasFeature(route.requiredPermission) : true,
+        route.requiredFeature ? userModel.hasFeature(route.requiredFeature) : true,
       ),
     };
   },
