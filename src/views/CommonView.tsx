@@ -7,6 +7,7 @@ import { forceRun } from '~utils/atoms/forceRun';
 import { Row } from '~components/Layout/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth';
+import { initLanguageWatcher } from '~core/auth/atoms/languageWatcher';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
@@ -34,6 +35,10 @@ export function CommonView({
       });
     }
   }, [userModel]);
+
+  useEffect(() => {
+    initLanguageWatcher();
+  }, []);
 
   useEffect(() => {
     return forceRun(urlStoreAtom);
