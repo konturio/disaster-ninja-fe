@@ -1,16 +1,24 @@
 import { CacheSwitch } from 'react-router-cache-route';
 import { Router as ReactRouter } from 'react-router-dom';
+import { CommonView } from '~views/CommonView';
+import { availableRoutesAtom } from '../atoms/availableRoutes';
+import { currentRouteAtom } from '../atoms/currentRoute';
+import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import history from '../history';
 import { Routes } from './Routes';
-import type { PropsWithChildren } from 'react';
 
-export function Router({ children }: PropsWithChildren) {
+export function Router() {
   return (
     <ReactRouter history={history}>
-      {children}
-      <CacheSwitch>
-        <Routes />
-      </CacheSwitch>
+      <CommonView
+        availableRoutesAtom={availableRoutesAtom}
+        currentRouteAtom={currentRouteAtom}
+        getAbsoluteRoute={getAbsoluteRoute}
+      >
+        <CacheSwitch>
+          <Routes />
+        </CacheSwitch>
+      </CommonView>
     </ReactRouter>
   );
 }

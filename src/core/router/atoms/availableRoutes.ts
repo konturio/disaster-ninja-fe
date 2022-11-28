@@ -21,3 +21,5 @@ export const availableRoutesAtom = createAtom(
   },
   'availableRoutesAtom',
 );
+
+export type AvailableRoutesAtom = typeof availableRoutesAtom;

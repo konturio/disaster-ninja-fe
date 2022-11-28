@@ -1,3 +1,7 @@
 export { Router } from './components/Router';
-export { getAbsoluteRoute, routerConfig } from './routes';
+export { getAbsoluteRoute } from './getAbsoluteRoute';
+export { routerConfig } from './routes';
 export { availableRoutesAtom } from './atoms/availableRoutes';
+export type { CurrentRouteAtom } from './atoms/currentRoute';
+export type { AvailableRoutesAtom } from './atoms/availableRoutes';
+export type { AppRoute } from './types';

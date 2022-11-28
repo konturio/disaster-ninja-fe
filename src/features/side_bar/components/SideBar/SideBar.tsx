@@ -9,11 +9,10 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { searchStringAtom } from '~core/url_store/atoms/urlStore';
-import { availableRoutesAtom, getAbsoluteRoute } from '~core/router';
-import { currentRouteAtom } from '~core/router/atoms/currentRoute';
 import { SidebarAppIcon } from '../AppIcon/AppIcon';
 import s from './SideBar.module.css';
-import type { AppRoute } from '~core/router/types';
+import type { AvailableRoutesAtom, CurrentRouteAtom, AppRoute } from '~core/router';
+
 const wasClosed = 'sidebarClosed';
 
 /* We want to hide children routes if parent route and his children inactive */
@@ -44,7 +43,15 @@ function routeVisibilityChecker(routes: AppRoute[]) {
   };
 }
 
-export function SideBar() {
+export function SideBar({
+  currentRouteAtom,
+  availableRoutesAtom,
+  getAbsoluteRoute,
+}: {
+  currentRouteAtom: CurrentRouteAtom;
+  availableRoutesAtom: AvailableRoutesAtom;
+  getAbsoluteRoute: (path: string) => string;
+}) {
   const [isOpen, setIsOpen] = useState(localStorage.getItem(wasClosed) ? false : true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
@@ -101,18 +108,18 @@ export function SideBar() {
       {availableRoutes && (
         <ActionsBar>
           <div className={cn(s.logoWrap, s.sidebarItemContainer)} tabIndex={-1}>
-          <div className={s.buttonWrap}>
-            <ActionsBarBTN
-              active={false}
-              iconBefore={<SidebarAppIcon />}
-              className={cn(s.controlButton, s.logoButton)}
-            >
-              {isOpen ? (
-                <span className={s.modeName}>
-                  Disaster <br /> Ninja
-                </span>
-              ) : null}
-            </ActionsBarBTN>
+            <div className={s.buttonWrap}>
+              <ActionsBarBTN
+                active={false}
+                iconBefore={<SidebarAppIcon />}
+                className={cn(s.controlButton, s.logoButton)}
+              >
+                {isOpen ? (
+                  <span className={s.modeName}>
+                    Disaster <br /> Ninja
+                  </span>
+                ) : null}
+              </ActionsBarBTN>
             </div>
           </div>
           {availableRoutes.routes.map((route) => {
@@ -148,40 +155,40 @@ export function SideBar() {
             ) : null;
           })}
 
-        <div className={s.togglerContainer}>
-          <div className={s.toggler}>
-            {isOpen ? (
-              <div className={s.buttonWrap} onClick={toggleIsOpen} tabIndex={-1}>
-                <ActionsBarBTN
-                  iconBefore={<DoubleChevronLeft24 />}
-                  className={s.controlButton}
+          <div className={s.togglerContainer}>
+            <div className={s.toggler}>
+              {isOpen ? (
+                <div className={s.buttonWrap} onClick={toggleIsOpen} tabIndex={-1}>
+                  <ActionsBarBTN
+                    iconBefore={<DoubleChevronLeft24 />}
+                    className={s.controlButton}
+                  >
+                    <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
+                  </ActionsBarBTN>
+                </div>
+              ) : (
+                <div
+                  className={s.buttonWrap}
+                  onClick={toggleIsOpen}
+                  onPointerLeave={onMouseLeave}
+                  onPointerEnter={(e) =>
+                    onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
+                  }
                 >
-                  <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
-                </ActionsBarBTN>
-              </div>
-            ) : (
-              <div
-                className={s.buttonWrap}
-                onClick={toggleIsOpen}
-                onPointerLeave={onMouseLeave}
-                onPointerEnter={(e) =>
-                  onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
-                }
-              >
-                <ActionsBarBTN
-                  iconBefore={<DoubleChevronRight24 />}
-                  className={s.controlButton}
-                />
-              </div>
-            )}
+                  <ActionsBarBTN
+                    iconBefore={<DoubleChevronRight24 />}
+                    className={s.controlButton}
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
 
-        <div className={s.konturLogo}>
-          <Logo compact={!isOpen} palette="grey" height={32} />
-        </div>
-      </ActionsBar>
-           )}
+          <div className={s.konturLogo}>
+            <Logo compact={!isOpen} palette="grey" height={32} />
+          </div>
+        </ActionsBar>
+      )}
     </div>
   );
 }

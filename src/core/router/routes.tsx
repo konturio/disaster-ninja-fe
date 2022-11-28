@@ -11,7 +11,6 @@ import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { HeaderTitle } from '~components/HeaderTitle/HeaderTitle';
 import { UserStateToComponents } from '~core/auth';
-import appConfig from '~core/app_config';
 import history from './history';
 import type { AppRouterConfig } from './types';
 
@@ -24,7 +23,6 @@ const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
 
-export const getAbsoluteRoute = (slug: string) => appConfig.baseUrl + slug;
 export const toHomePage = () => history.push(routerConfig.defaultRoute);
 export const routerConfig: AppRouterConfig = {
   defaultRoute: 'map',

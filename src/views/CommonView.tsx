@@ -7,9 +7,8 @@ import { urlStoreAtom } from '~core/url_store/atoms/urlStore';
 import { forceRun } from '~utils/atoms/forceRun';
 import { Row } from '~components/Layout/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
-import { currentRouteAtom } from '~core/router/atoms/currentRoute';
 import { userResourceAtom } from '~core/auth';
-import { Router } from '~core/router';
+import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
 const { AppHeader } = lazily(() => import('@konturio/ui-kit'));
@@ -19,7 +18,16 @@ const { SideBar } = lazily(() => import('~features/side_bar'));
 
 const DEFAULT_HEADER_TITLE = 'Disaster Ninja';
 
-export function Views() {
+export function CommonView({
+  children,
+  currentRouteAtom,
+  availableRoutesAtom,
+  getAbsoluteRoute,
+}: PropsWithChildren<{
+  currentRouteAtom: CurrentRouteAtom;
+  availableRoutesAtom: AvailableRoutesAtom;
+  getAbsoluteRoute: (path: string) => string;
+}>) {
   const [{ data, loading }] = useAtom(userResourceAtom);
   const userModel = data && !loading ? data : null;
   const [currentRoute] = useAtom(currentRouteAtom);
@@ -50,11 +58,16 @@ export function Views() {
       </Suspense>
 
       <Row>
-        <Router>
-          <Suspense fallback={null}>
-            {userModel?.hasFeature(AppFeature.SIDE_BAR) && <SideBar />}
-          </Suspense>
-        </Router>
+        <Suspense fallback={null}>
+          {userModel?.hasFeature(AppFeature.SIDE_BAR) && (
+            <SideBar
+              availableRoutesAtom={availableRoutesAtom}
+              currentRouteAtom={currentRouteAtom}
+              getAbsoluteRoute={getAbsoluteRoute}
+            />
+          )}
+        </Suspense>
+        {children}
       </Row>
 
       <Suspense fallback={null}>

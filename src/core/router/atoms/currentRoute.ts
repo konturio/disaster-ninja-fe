@@ -27,3 +27,5 @@ export const currentRouteAtom = createAtom(
   },
   'currentRouteAtom',
 );
+
+export type CurrentRouteAtom = typeof currentRouteAtom;
