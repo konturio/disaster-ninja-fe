@@ -9,7 +9,6 @@ import {
 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
-import { HeaderTitle } from '~components/HeaderTitle/HeaderTitle';
 import { UserStateToComponents } from '~core/auth';
 import history from './history';
 import type { AppRouterConfig } from './types';
@@ -58,7 +57,6 @@ export const routerConfig: AppRouterConfig = {
       title: i18n.t('modes.reports'),
       icon: <Alarm24 />,
       view: <ReportsPage />,
-      customHeader: <HeaderTitle>{i18n.t('sidebar.reports')}</HeaderTitle>,
       requiredFeature: AppFeature.REPORTS,
     },
     {
@@ -66,17 +64,15 @@ export const routerConfig: AppRouterConfig = {
       title: i18n.t('modes.report'),
       icon: <Reports16 />,
       view: <ReportPage />,
-      customHeader: <HeaderTitle>{i18n.t('sidebar.reports')}</HeaderTitle>,
       requiredFeature: AppFeature.REPORTS,
       parentRoute: 'reports',
       hidden: true,
     },
     {
       slug: 'bivariate-manager',
-      title: <HeaderTitle>{i18n.t('sidebar.biv_color_manager')}</HeaderTitle>,
+      title: i18n.t('sidebar.biv_color_manager'),
       icon: <Prefs24 />,
       view: <BivariateManagerPage />,
-      customHeader: <HeaderTitle>{i18n.t('bivariate.color_manager.title')}</HeaderTitle>,
       requiredFeature: AppFeature.BIVARIATE_COLOR_MANAGER,
     },
   ],

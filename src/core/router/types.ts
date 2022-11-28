@@ -10,8 +10,6 @@ export interface AppRoute {
   showForNewUsers?: boolean;
   /** Should we unmount (false) or just hide (true) route when it deactivated */
   cached?: boolean;
-  /** Replace default content of application header */
-  customHeader?: JSX.Element;
   /** What features must be enabled to show this route */
   requiredFeature?: AppFeatureType;
   /** Nest routes to each other */
