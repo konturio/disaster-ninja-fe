@@ -1,7 +1,7 @@
 import { createAtom } from '@reatom/core';
 import { userWasLandedAtom } from '~core/auth/atoms/userWasLanded';
 import history from '../history';
-import { getAbsoluteRoute } from '../routes';
+import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { availableRoutesAtom } from './availableRoutes';
 
 export const showAboutForNewUsersAtom = createAtom(

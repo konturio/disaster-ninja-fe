@@ -3,7 +3,7 @@ import { CacheRoute } from 'react-router-cache-route';
 import { Route, Redirect } from 'react-router-dom';
 import { useAtom } from '@reatom/react';
 import { availableRoutesAtom } from '../atoms/availableRoutes';
-import { getAbsoluteRoute } from '../routes';
+import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { UniversalRoute } from './UniversalRoute';
 import type { AppRouterConfig } from '../types';
 

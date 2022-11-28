@@ -1,6 +1,6 @@
 import { matchPath } from 'react-router';
 import { createAtom } from '~utils/atoms';
-import { getAbsoluteRoute } from '../routes';
+import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { availableRoutesAtom } from './availableRoutes';
 import { currentLocationAtom } from './currentLocation';
 import type { AppRoute } from '../types';
