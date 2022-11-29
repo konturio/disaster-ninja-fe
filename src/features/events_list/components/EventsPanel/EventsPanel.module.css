@@ -12,17 +12,6 @@
   z-index: 1;
 }
 
-.scrollable {
-  overflow: hidden;
-  height: 100%;
-  /* a space to see at least one card */
-  align-items: center;
-}
-
-.height100vh {
-  height: 100vh;
-}
-
 .eventsPanel {
   position: relative;
   border-radius: var(--border-radius-unit);
@@ -42,12 +31,6 @@
   }
 }
 
-.panelBody {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 /* mobile */
 @media screen and (max-width: 960px) {
   .eventsPanel.show {
@@ -61,9 +44,6 @@
   }
   .eventsPanel.collapse {
     display: none;
-  }
-  .scrollable {
-    width: 100vw;
   }
 
   .panelIcon {
