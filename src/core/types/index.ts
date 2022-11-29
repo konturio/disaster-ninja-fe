@@ -79,7 +79,6 @@ export type EventWithGeometry = {
   externalUrls: string[];
   severity: Severity;
   geojson: GeoJSON.GeoJSON;
-
   affectedPopulation: number;
   settledArea: number;
   osmGaps: number | null;

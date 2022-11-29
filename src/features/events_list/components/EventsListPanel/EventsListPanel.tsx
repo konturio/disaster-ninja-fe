@@ -115,6 +115,7 @@ export function EventsListPanel({
         }
         shortStateListeners={shortStateListeners}
         isShortStateOpen={isShortStateOpen}
+        minContentHeight={isShortStateOpen ? 'min-content' : undefined}
       >
         <div className={s.panelBody}>
           <EventListSettingsRow>

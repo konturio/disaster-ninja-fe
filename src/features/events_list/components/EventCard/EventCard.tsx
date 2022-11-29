@@ -28,7 +28,7 @@ export function EventCard({
 }: {
   event: Event;
   isActive: boolean;
-  onClick: (id: string) => void;
+  onClick?: (id: string) => void;
   alternativeActionControl: JSX.Element | null;
 }) {
   const formattedTime = useMemo(
@@ -38,7 +38,7 @@ export function EventCard({
   return (
     <button
       className={cn(s.eventCard, { [s.active]: isActive })}
-      onClick={() => onClick(event.eventId)}
+      onClick={() => onClick?.(event.eventId)}
     >
       <div className={s.head}>
         <Text type="heading-m">{event.eventName}</Text>
