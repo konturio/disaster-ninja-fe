@@ -1,3 +1,4 @@
+import { i18n } from '~core/localization';
 import type { AppConfig } from './types';
 
 declare global {
@@ -5,14 +6,6 @@ declare global {
     konturAppConfig: AppConfig;
   }
 }
-
-const DEFAULT_FEED_OBJECT = {
-  feed: 'kontur-public',
-  name: 'Kontur Public',
-  description:
-    'The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires.',
-  default: true,
-};
 
 export default (() => {
   const konturAppConfig = globalThis.window.konturAppConfig ?? {};
@@ -29,7 +22,7 @@ export default (() => {
     layersByDefault: konturAppConfig.LAYERS_BY_DEFAULT,
     featuresByDefault: konturAppConfig.FEATURES_BY_DEFAULT,
     defaultFeed: konturAppConfig.DEFAULT_FEED,
-    defaultFeedObject: DEFAULT_FEED_OBJECT, // translation should occur later after i18n init, getDefaultFeedObject(konturAppConfig.DEFAULT_FEED),
+    defaultFeedObject: getDefaultFeedObject(konturAppConfig.DEFAULT_FEED), // translation should occur later after i18n init, getDefaultFeedObject(konturAppConfig.DEFAULT_FEED),
     keycloakUrl: konturAppConfig.KEYCLOAK_URL,
     keycloakRealm: konturAppConfig.KEYCLOAK_REALM,
     keycloakClientId: konturAppConfig.KEYCLOAK_CLIENT_ID,
@@ -72,4 +65,16 @@ if (import.meta.env?.PROD) {
   `,
     'color: #bada55',
   );
+}
+
+export function getDefaultFeedObject(feed?: string) {
+  // Change this solution when new default feed will be added
+  if (!feed || feed !== 'kontur-public')
+    console.warn('WARNING! Default feed provided via config is incorrect or absent');
+  return {
+    feed: 'kontur-public',
+    name: i18n.t('configs.Kontur_public_feed'),
+    description: i18n.t('configs.Kontur_public_feed_description'),
+    default: true,
+  };
 }

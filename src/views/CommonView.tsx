@@ -9,6 +9,8 @@ import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth';
 import { initLanguageWatcher } from '~core/auth/atoms/languageWatcher';
 import { metricsInit } from '~core/metrics/init';
+import { currentUserAtom } from '~core/shared_state';
+import { i18n } from '~core/localization';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
@@ -32,6 +34,11 @@ export function CommonView({
   useEffect(() => {
     if (userModel) {
       metricsInit();
+      return currentUserAtom.subscribe(({ language }) => {
+        i18n.instance
+          .changeLanguage(language)
+          .catch((e) => console.warn(`Attempt to change language to ${language} failed`));
+      });
     }
   }, [userModel]);
 
