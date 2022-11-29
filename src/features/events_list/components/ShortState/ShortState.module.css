@@ -5,7 +5,7 @@
 
 .noDisasters {
   text-align: center;
-  height: 75px;
+  padding: var(--unit) 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
