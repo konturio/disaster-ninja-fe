@@ -56,7 +56,7 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
           <div className={s.statContent}>
             {links.map((link) => (
               <ReactMarkdown
-                components={{ a: ShortLinkRenderer }}
+                components={{ a: ShortLinkRenderer, p: (props) => <div {...props} /> }}
                 className={s.markdown}
                 key={nanoid(4)}
               >
