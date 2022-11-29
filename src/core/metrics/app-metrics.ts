@@ -51,6 +51,7 @@ export class AppMetrics {
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
   reportTemplate: MetricsReportTemplate = METRICS_REPORT_TEMPLATE;
   listener: void;
+  private mode = '';
 
   static getInstance() {
     if (this._instance) {
@@ -72,11 +73,13 @@ export class AppMetrics {
     this.listener = globalThis.addEventListener(METRICS_EVENT, ((e: MetricsEvent) => {
       this.processEvent(e.detail.name, e.detail.payload);
     }) as EventListener);
+    currentModeAtom.subscribe((mode) => (this.mode = mode));
   }
 
-  init(appId: string, userId: string | null) {
+  init(appId: string, userEmail: string | null) {
     this.reportTemplate.appId = appId ?? '';
-    this.reportTemplate.userId = userId === 'public' ? null : userId ?? null;
+    this.reportTemplate.userId = userEmail === 'public' ? null : userEmail ?? null;
+
     if (KONTUR_METRICS_DEBUG) {
       console.info('appMetrics.init', this.reportTemplate);
     }
@@ -130,8 +133,8 @@ export class AppMetrics {
   watch(name: string) {
     // TODO: implement watchlists for other modes if necessary
     // currently only map mode supported
-    const mode = currentModeAtom.getState();
-    if (mode !== 'map') return;
+
+    if (this.mode !== 'map') return;
 
     if (this.watchList[name] === null) {
       const timing = performance.now();
