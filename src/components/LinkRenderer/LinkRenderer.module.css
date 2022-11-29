@@ -1,6 +1,5 @@
 .linkWidthWrap {
   position: relative;
-  max-width: 192px;
   & .linkOverflowWrap {
     white-space: nowrap;
     text-overflow: ellipsis;

@@ -16,27 +16,28 @@ export const LinkRenderer = memo(function (props: ElementWrapProps) {
 });
 
 // 192 and 12 are the values proposed by the task #8798
-export function getShortLinkRenderer(
-  maxWidth: number | null = 192,
+export function ShortLinkRenderer({
+  children: linksArr,
+  maxWidth = 192,
   truncateAmount = 12,
-) {
-  return function ShortLinkRenderer({ children: linkArr }: ElementWrapProps) {
-    const style = { maxWidth: maxWidth || 'unset' };
-    return (
-      <div className={s.linkWidthWrap} style={style}>
-        <div className={s.linkOverflowWrap}>
-          <a
-            className={s.link}
-            target="_blank"
-            rel="noreferrer"
-            data-truncate={linkArr?.[0].slice(-truncateAmount)}
-          >
-            {linkArr?.[0]}
-          </a>
-        </div>
+}: ElementWrapProps & { maxWidth?: number; truncateAmount?: number }) {
+  const style = { maxWidth: maxWidth || 'unset' };
+  const passedLink: string | undefined = linksArr?.[0];
+  const truncatedData = passedLink?.slice(-truncateAmount);
+  return (
+    <div className={s.linkWidthWrap} style={style}>
+      <div className={s.linkOverflowWrap}>
+        <a
+          className={s.link}
+          target="_blank"
+          rel="noreferrer"
+          data-truncate={truncatedData}
+        >
+          {passedLink}
+        </a>
       </div>
-    );
-  };
+    </div>
+  );
 }
 
 function stopPropagation(e) {
