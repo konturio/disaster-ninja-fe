@@ -22,6 +22,9 @@ export function ShortLinkRenderer({
   truncateAmount = 12,
 }: ElementWrapProps & { maxWidth?: number; truncateAmount?: number }) {
   const style = { maxWidth: maxWidth || 'unset' };
+  // react-markdown passes links like that ['link'].
+  // If several links were provided in .md source like [label1](link1)[label2](link2)
+  // still each one of them would have it's own wrapper
   const passedLink: string | undefined = linksArr?.[0];
   const truncatedData = passedLink?.slice(-truncateAmount);
   return (
