@@ -114,7 +114,9 @@ export function MainView({ userModel }: MainViewProps) {
       legendPanelContent={
         userModel?.hasFeature(AppFeature.LEGEND_PANEL) ? <LegendPanelContent /> : null
       }
-      layersPanelContent={<LayersPanelContent />}
+      layersPanelContent={
+        userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) ? <LayersPanelContent /> : null
+      }
       layersMinHeight={LAYERS_MIN_HEIGHT}
     />
   );
