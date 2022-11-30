@@ -20,6 +20,7 @@ export function ShortLinkRenderer({
   children: linksArr,
   maxWidth = 192,
   truncateAmount = 12,
+  href,
 }: ElementWrapProps & { maxWidth?: number; truncateAmount?: number }) {
   const style = { maxWidth: maxWidth || 'unset' };
   // react-markdown passes links like that ['link'].
@@ -35,6 +36,7 @@ export function ShortLinkRenderer({
           target="_blank"
           rel="noreferrer"
           data-truncate={truncatedData}
+          href={href}
         >
           {passedLink}
         </a>
