@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import path from 'path';
 import { defineConfig, HtmlTagDescriptor, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -98,5 +99,10 @@ export default ({ mode }) => {
             viteProxyConfig: JSON.stringify(proxyConfig),
           }
         : undefined,
+    test: {
+      coverage: {
+        all: true
+      }
+    }
   });
 };
