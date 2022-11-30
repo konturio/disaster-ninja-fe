@@ -13,6 +13,7 @@ export const METRICS_REPORT_TEMPLATE: MetricsReportTemplate = {
   buildVersion: `${import.meta.env.PACKAGE_VERSION}-${import.meta.env.MODE}`,
 };
 
+// ! Relevant only for map mode
 export const METRICS_WATCH_LIST = {
   // _done_userResourceAtom: null, // should be done before init
   _done_currentEventResource: null,
