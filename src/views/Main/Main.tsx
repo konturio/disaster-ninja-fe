@@ -5,6 +5,8 @@ import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/D
 import { AppFeature } from '~core/auth/types';
 import { MIN_HEIGHT as LEGEND_MIN_HEIGHT } from '~features/legend_panel/constants';
 import { LegendPanelContent } from '~features/legend_panel';
+import { LayersPanelContent } from '~features/layers_panel';
+import { MIN_HEIGHT as LAYERS_MIN_HEIGHT } from '~features/layers_panel/constants';
 import { LayersAndLegends } from '../../widgets/LayersAndLegends/LayersAndLegends';
 import s from './Main.module.css';
 import { Layout } from './Layouts/Layout';
@@ -112,6 +114,8 @@ export function MainView({ userModel }: MainViewProps) {
       legendPanelContent={
         userModel?.hasFeature(AppFeature.LEGEND_PANEL) ? <LegendPanelContent /> : null
       }
+      layersPanelContent={<LayersPanelContent />}
+      layersMinHeight={LAYERS_MIN_HEIGHT}
     />
   );
 
