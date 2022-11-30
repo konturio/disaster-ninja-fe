@@ -9,6 +9,7 @@ import {
   EVENT_MAP_IDLE,
 } from './constants';
 import { Sequence } from './sequence';
+import type { Unsubscribe } from '@reatom/core';
 import type { MetricsReportTemplate, MetricsEvent } from './types';
 
 const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
@@ -50,8 +51,8 @@ export class AppMetrics {
   private eventLog: string[] = [];
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
   reportTemplate: MetricsReportTemplate = METRICS_REPORT_TEMPLATE;
-  listener: void;
   private mode = '';
+  private unsubscribeCurrentModeAtom: Unsubscribe;
 
   static getInstance() {
     if (this._instance) {
@@ -70,10 +71,10 @@ export class AppMetrics {
       toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
       toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
     };
-    this.listener = globalThis.addEventListener(METRICS_EVENT, ((e: MetricsEvent) => {
-      this.processEvent(e.detail.name, e.detail.payload);
-    }) as EventListener);
-    currentModeAtom.subscribe((mode) => (this.mode = mode));
+    globalThis.addEventListener(METRICS_EVENT, this.listener as EventListener);
+    this.unsubscribeCurrentModeAtom = currentModeAtom.subscribe(
+      (mode) => (this.mode = mode),
+    );
   }
 
   init(appId: string, userEmail: string | null) {
@@ -83,6 +84,12 @@ export class AppMetrics {
     if (KONTUR_METRICS_DEBUG) {
       console.info('appMetrics.init', this.reportTemplate);
     }
+  }
+
+  // remove listeners and unsubscribe from atoms
+  cleanup() {
+    globalThis.removeEventListener(METRICS_EVENT, this.listener as EventListener);
+    this.unsubscribeCurrentModeAtom();
   }
 
   recordEventToLog(name: string) {
@@ -126,6 +133,10 @@ export class AppMetrics {
         }
       }
     });
+  }
+
+  listener(e: MetricsEvent) {
+    this.processEvent(e.detail.name, e.detail.payload);
   }
 
   watchList = METRICS_WATCH_LIST;
