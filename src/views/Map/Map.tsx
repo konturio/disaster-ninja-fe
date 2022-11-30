@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
+import { metricsInit } from '~core/metrics/init';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -40,6 +41,11 @@ const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 export function MapPage() {
   const [{ data, loading }] = useAtom(userResourceAtom);
   const userModel = data && !loading ? data : null;
+
+  useEffect(() => {
+    metricsInit();
+  }, []);
+
   useEffect(() => {
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
 

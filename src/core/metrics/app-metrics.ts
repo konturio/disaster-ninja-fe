@@ -1,7 +1,6 @@
 import every from 'lodash/every';
 import appConfig from '~core/app_config';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
-import { getAbsoluteRoute, routerConfig } from '~core/router';
 import {
   METRICS_EVENT,
   METRICS_REPORT_TEMPLATE,
@@ -71,10 +70,6 @@ export class AppMetrics {
   }
 
   init(appId: string, userEmail: string | null) {
-    // currently only map mode supported
-    if (globalThis.location.pathname !== getAbsoluteRoute(routerConfig.defaultRoute))
-      return;
-
     this.reportTemplate.appId = appId ?? '';
     this.reportTemplate.userId = userEmail === 'public' ? null : userEmail ?? null;
     globalThis.addEventListener(METRICS_EVENT, this.listener.bind(this) as EventListener);
@@ -138,11 +133,6 @@ export class AppMetrics {
   watchList = METRICS_WATCH_LIST;
 
   watch(name: string) {
-    // TODO: implement watchlists for other modes if necessary
-    // currently only map mode supported
-    if (globalThis.location.pathname !== getAbsoluteRoute(routerConfig.defaultRoute))
-      return;
-
     if (this.watchList[name] === null) {
       const timing = performance.now();
       this.watchList[name] = timing;
