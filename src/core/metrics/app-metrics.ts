@@ -1,7 +1,7 @@
 import every from 'lodash/every';
 import appConfig from '~core/app_config';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
-import { currentModeAtom } from '~core/modes/currentMode';
+import { getAbsoluteRoute, routerConfig } from '~core/router';
 import {
   METRICS_EVENT,
   METRICS_REPORT_TEMPLATE,
@@ -9,7 +9,6 @@ import {
   EVENT_MAP_IDLE,
 } from './constants';
 import { Sequence } from './sequence';
-import type { Unsubscribe } from '@reatom/core';
 import type { MetricsReportTemplate, MetricsEvent } from './types';
 
 const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
@@ -51,8 +50,6 @@ export class AppMetrics {
   private eventLog: string[] = [];
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
   reportTemplate: MetricsReportTemplate = METRICS_REPORT_TEMPLATE;
-  private mode = '';
-  private unsubscribeCurrentModeAtom: Unsubscribe;
 
   static getInstance() {
     if (this._instance) {
@@ -71,14 +68,12 @@ export class AppMetrics {
       toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
       toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
     };
-    this.unsubscribeCurrentModeAtom = currentModeAtom.subscribe(
-      (mode) => (this.mode = mode),
-    );
   }
 
   init(appId: string, userEmail: string | null) {
     // currently only map mode supported
-    if (this.mode !== 'map') return;
+    if (globalThis.location.pathname !== getAbsoluteRoute(routerConfig.defaultRoute))
+      return;
 
     this.reportTemplate.appId = appId ?? '';
     this.reportTemplate.userId = userEmail === 'public' ? null : userEmail ?? null;
@@ -91,7 +86,6 @@ export class AppMetrics {
   // remove listeners and unsubscribe from atoms
   cleanup() {
     globalThis.removeEventListener(METRICS_EVENT, this.listener as EventListener);
-    this.unsubscribeCurrentModeAtom();
   }
 
   recordEventToLog(name: string) {
@@ -146,7 +140,8 @@ export class AppMetrics {
   watch(name: string) {
     // TODO: implement watchlists for other modes if necessary
     // currently only map mode supported
-    if (this.mode !== 'map') return;
+    if (globalThis.location.pathname !== getAbsoluteRoute(routerConfig.defaultRoute))
+      return;
 
     if (this.watchList[name] === null) {
       const timing = performance.now();
