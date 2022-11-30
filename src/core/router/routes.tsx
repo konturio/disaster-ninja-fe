@@ -28,7 +28,7 @@ export const routerConfig: AppRouterConfig = {
       slug: 'about',
       title: i18n.t('modes.about'),
       icon: <Info24 />,
-      view: <AboutPage toHomePage={() => goTo('/')} />,
+      view: <AboutPage toHomePage={() => goTo('')} />,
       showForNewUsers: true,
     },
     {
