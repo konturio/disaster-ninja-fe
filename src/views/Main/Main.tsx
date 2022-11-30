@@ -3,6 +3,9 @@ import { lazily } from 'react-lazily';
 import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
+import { MIN_HEIGHT as LEGEND_MIN_HEIGHT } from '~features/legend_panel/constants';
+import { LegendPanelContent } from '~features/legend_panel';
+import { LayersAndLegends } from '../../widgets/LayersAndLegends/LayersAndLegends';
 import s from './Main.module.css';
 import { Layout } from './Layouts/Layout';
 import type { UserDataModel } from '~core/auth';
@@ -103,6 +106,15 @@ export function MainView({ userModel }: MainViewProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userModel]);
 
+  const layersAndLegends = (
+    <LayersAndLegends
+      legendMinHeight={LEGEND_MIN_HEIGHT}
+      legendPanelContent={
+        userModel?.hasFeature(AppFeature.LEGEND_PANEL) ? <LegendPanelContent /> : null
+      }
+    />
+  );
+
   return (
     <div className={s.mainView}>
       <div className={s.mapWrap}>
@@ -124,8 +136,9 @@ export function MainView({ userModel }: MainViewProps) {
             userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
             userModel?.feeds && <EventListPanel />
           }
-          layers={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && <MapLayersList />}
-          legend={userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
+          layersAndLegends={layersAndLegends}
+          // layers={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && <MapLayersList />}
+          // legend={userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
           matrix={
             userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && <BivariatePanel />
           }
