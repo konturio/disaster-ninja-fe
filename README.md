@@ -1,5 +1,7 @@
 # Disaster Ninja 2.0
 
+[![codecov](https://codecov.io/github/konturio/disaster-ninja-fe/branch/main/graph/badge.svg?token=ZGBNM8GA5A)](https://codecov.io/github/konturio/disaster-ninja-fe)
+
 Disaster Ninja is a tool specifically designed for humanitarian mappers. It is complete critical event management solution that visualizes mapping gaps, provides information about recent natural disasters, and helps connect with local mappers for ground truth verification.
 
 Improving and updating OpenStreetMap data has proven to be an effective way to help international response efforts when disasters strike. An active contributor to the OpenStreetMap community, Kontur partnered with [the Humanitarian OpenStreetMap Team (HOT)](https://www.hotosm.org/) to create a tool to support the rapid deployment of emergency mapping campaigns.
@@ -37,18 +39,18 @@ npm run dev
 
 ## How to i18n
 
-We use 18next + gettext convertion approach in our development toolchain. 
-There are several tasks in package.json: 
+We use 18next + gettext convertion approach in our development toolchain.
+There are several tasks in package.json:
 - i18n:export converts i18next to gettext
 - i18n:import converts gettext to i18next
 - i18n:update extracts new translation keys from code to common.json (i18n.t, <Trans/>) and removes unused keys.
 - lint:i18n:keys:identity is needed to see untranslated keys for all locales (make sure you ran i18n:import before, it compares i18n files)
-But you don't need to manually run all of them. 
+But you don't need to manually run all of them.
 As a developer you only need to interact with i18next en file by i18n:update command. (`src/core/localization/translations/en/common.json`)
 So whenever you add new key in your code - run i18n:update, you'll see common.json updated.
 Then fill the translation, it's obligatory by our eslint rules.
 It will be converted to .pot file on pre-commit hook and added to commit.
-Later translators will add new translations to .po files comparing them with .pot file. 
+Later translators will add new translations to .po files comparing them with .pot file.
 When you run or build a project .po files convert to i18next .json files, so new translations become available on frontend.
 
 ## Available Scripts
@@ -84,15 +86,15 @@ This will fix deck-gl types
 Update @konturio to last versions
 
 ## Configuration
-This app have few source of configuration:  
+This app have few source of configuration:
 
-**Buildtime env variables**  
+**Buildtime env variables**
 Need for store data that used in build time. This mostly internal glue stuff as env 'production' / 'development' variables, describe variables that rule build process (special build modes, hot reload, minification, mocks, etc.). Avoid to use it in src/* files.
 - When used: At buildtime (node.js)
 - How to set: use [.env](https://vitejs.dev/guide/env-and-mode.html#env-files) files
 - How to read: `import.meta.env.VARIABLE_NAME`
 
-**Runtime variables**  
+**Runtime variables**
 Can be different for every environment.
 Must describe - api endpoints, feature flags, base url, path to s3 with images, etc.
 Available via AppConfig alias, in runtime in browser environment

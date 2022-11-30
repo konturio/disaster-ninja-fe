@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import path from 'path';
 import { defineConfig, HtmlTagDescriptor, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -50,7 +51,7 @@ export default ({ mode }) => {
     },
     plugins: [
       react(),
-      // mode === 'production' &&
+      // vite env data used in metrics, should be available in all environments
       viteBuildInfoPlugin(),
       createHtmlPlugin({
         inject: {
@@ -98,5 +99,10 @@ export default ({ mode }) => {
             viteProxyConfig: JSON.stringify(proxyConfig),
           }
         : undefined,
+    test: {
+      coverage: {
+        all: true
+      }
+    }
   });
 };
