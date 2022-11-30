@@ -14,6 +14,7 @@ import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { EventCard } from '../EventCard/EventCard';
 import s from './FullState.module.css';
+import type { VirtuosoHandle } from 'react-virtuoso';
 
 export function FullState({
   currentEventId,
@@ -24,7 +25,7 @@ export function FullState({
 }) {
   const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
   const [{ data: userModel }] = useAtom(userResourceAtom);
-  const virtuoso = useRef(null);
+  const virtuoso = useRef<VirtuosoHandle>(null);
 
   const statesToComponents = createStateMap({
     error,
@@ -34,8 +35,7 @@ export function FullState({
 
   // Virtual event list rendering effect
   useEffect(() => {
-    // type any is used because virtuoso types doesn't have scrollToIndex method, but it's described in docs https://virtuoso.dev/scroll-to-index
-    const ref: any = virtuoso.current;
+    const ref = virtuoso.current;
     if (ref && currentEventId && eventsList?.length) {
       const currentEventIndex = eventsList.findIndex(
         (event) => event.eventId === currentEventId,
