@@ -71,16 +71,18 @@ export class AppMetrics {
       toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
       toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
     };
-    globalThis.addEventListener(METRICS_EVENT, this.listener as EventListener);
     this.unsubscribeCurrentModeAtom = currentModeAtom.subscribe(
       (mode) => (this.mode = mode),
     );
   }
 
   init(appId: string, userEmail: string | null) {
+    // currently only map mode supported
+    if (this.mode !== 'map') return;
+
     this.reportTemplate.appId = appId ?? '';
     this.reportTemplate.userId = userEmail === 'public' ? null : userEmail ?? null;
-
+    globalThis.addEventListener(METRICS_EVENT, this.listener.bind(this) as EventListener);
     if (KONTUR_METRICS_DEBUG) {
       console.info('appMetrics.init', this.reportTemplate);
     }
@@ -144,7 +146,6 @@ export class AppMetrics {
   watch(name: string) {
     // TODO: implement watchlists for other modes if necessary
     // currently only map mode supported
-
     if (this.mode !== 'map') return;
 
     if (this.watchList[name] === null) {
