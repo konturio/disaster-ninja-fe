@@ -27,9 +27,7 @@ test('do not transform propper marked link', () => {
 
 test('have trailing slash', () => {
   const result = parseLinksAsTags('Lets have https://some.link/with-slash/');
-  expect(result).toBe(
-    'Lets have [some.link/with-slash/](https://some.link/with-slash/)',
-  );
+  expect(result).toBe('Lets have [some.link/with-slash/](https://some.link/with-slash/)');
 });
 
 test('Transform inline links to markdown link format', () => {
@@ -41,9 +39,7 @@ test('Transform inline links to markdown link format', () => {
   const result2 = parseLinksAsTags('https://some.link lorem lorem');
   expect(result2).toBe('[some.link](https://some.link) lorem lorem');
 
-  const result3 = parseLinksAsTags(
-    'https://some.link/with-path and following text',
-  );
+  const result3 = parseLinksAsTags('https://some.link/with-path and following text');
   expect(result3).toBe(
     '[some.link/with-path](https://some.link/with-path) and following text',
   );
@@ -66,12 +62,19 @@ test('Transform multiple links to markdown link format', () => {
     'Lorem lorem [some.link](https://some.link) and [with.some/other-link](http://with.some/other-link)',
   );
 
-  const result2 = parseLinksAsTags(
-    'https://some.link http://another.link/with-path',
-  );
+  const result2 = parseLinksAsTags('https://some.link http://another.link/with-path');
   expect(result2).toBe(
     '[some.link](https://some.link) [another.link/with-path](http://another.link/with-path)',
   );
+});
+
+test('cut off `www.` for link label', () => {
+  const result = parseLinksAsTags(
+    `Some link (https://www.some.link/) ...was passed.
+    Also check https://www.some.link/1 and https://www.some.link/2`,
+  );
+  expect(result).toBe(`Some link ([some.link/](https://www.some.link/)) ...was passed.
+    Also check [some.link/1](https://www.some.link/1) and [some.link/2](https://www.some.link/2)`);
 });
 
 test('real life case - newline, parenthesis and repeating', () => {
@@ -80,6 +83,6 @@ test('real life case - newline, parenthesis and repeating', () => {
     https://www.iom.int, https://displacement.iom.int/reports`,
   );
   expect(result)
-    .toBe(`This map shows visualization of survey results conducted by IOM ([www.iom.int/](https://www.iom.int/)) ...end of paragraph.
-    [www.iom.int](https://www.iom.int), [displacement.iom.int/reports](https://displacement.iom.int/reports)`);
+    .toBe(`This map shows visualization of survey results conducted by IOM ([iom.int/](https://www.iom.int/)) ...end of paragraph.
+    [iom.int](https://www.iom.int), [displacement.iom.int/reports](https://displacement.iom.int/reports)`);
 });
