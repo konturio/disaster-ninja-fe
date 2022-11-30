@@ -53,3 +53,6 @@ vite.config.ts.timestamp-*
 !src/core/localization/translations
 src/core/localization/translations/**
 !src/core/localization/translations/en
+
+#typescript-coverage-report
+coverage-ts

@@ -41,7 +41,8 @@
     "link:packages": "node ./scripts/auto-link/index.mjs",
     "i18n:export": "node ./scripts/i18n/convertion.mjs --to-gettext",
     "i18n:import": "node ./scripts/i18n/convertion.mjs --to-i18next",
-    "i18n:update": "i18next-scanner --config i18next-scanner.config.cjs"
+    "i18n:update": "i18next-scanner --config i18next-scanner.config.cjs",
+    "ts-coverage": "typescript-coverage-report"
   },
   "lint-staged": {
     "*/**/*.{ts,tsx}": [
@@ -176,6 +177,7 @@
     "stylelint-config-recommended": "^6.0.0",
     "ts-json-schema-generator": "^1.0.0",
     "typescript": "4.8.3",
+    "typescript-coverage-report": "^0.7.0",
     "vite": "^3.1.3",
     "vite-plugin-html": "^3.2.0",
     "vitest": "^0.23.4"
