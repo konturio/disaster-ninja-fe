@@ -163,7 +163,10 @@ export class AppMetrics {
           this.report('ready', timing);
           const eventReadyEvent = new Event('event_ready_for_screenshot');
           window.dispatchEvent(eventReadyEvent);
-        }, 299);
+        }, 299); // extra time to prevent rendering glitches
+
+        // watchList done
+        this.cleanup();
         return;
       }
       this.report(name, timing);
