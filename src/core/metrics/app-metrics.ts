@@ -1,6 +1,7 @@
 import every from 'lodash/every';
 import appConfig from '~core/app_config';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
+import { currentModeAtom } from '~core/modes/currentMode';
 import {
   METRICS_EVENT,
   METRICS_REPORT_TEMPLATE,
@@ -8,6 +9,7 @@ import {
   EVENT_MAP_IDLE,
 } from './constants';
 import { Sequence } from './sequence';
+import type { Unsubscribe } from '@reatom/core';
 import type { MetricsReportTemplate, MetricsEvent } from './types';
 
 const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
@@ -49,7 +51,8 @@ export class AppMetrics {
   private eventLog: string[] = [];
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
   reportTemplate: MetricsReportTemplate = METRICS_REPORT_TEMPLATE;
-  listener: void;
+  private mode = '';
+  private unsubscribeCurrentModeAtom: Unsubscribe;
 
   static getInstance() {
     if (this._instance) {
@@ -68,17 +71,27 @@ export class AppMetrics {
       toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
       toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
     };
-    this.listener = globalThis.addEventListener(METRICS_EVENT, ((e: MetricsEvent) => {
-      this.processEvent(e.detail.name, e.detail.payload);
-    }) as EventListener);
+    this.unsubscribeCurrentModeAtom = currentModeAtom.subscribe(
+      (mode) => (this.mode = mode),
+    );
   }
 
-  init(appId: string, userId: string | null) {
+  init(appId: string, userEmail: string | null) {
+    // currently only map mode supported
+    if (this.mode !== 'map') return;
+
     this.reportTemplate.appId = appId ?? '';
-    this.reportTemplate.userId = userId === 'public' ? null : userId ?? null;
+    this.reportTemplate.userId = userEmail === 'public' ? null : userEmail ?? null;
+    globalThis.addEventListener(METRICS_EVENT, this.listener.bind(this) as EventListener);
     if (KONTUR_METRICS_DEBUG) {
       console.info('appMetrics.init', this.reportTemplate);
     }
+  }
+
+  // remove listeners and unsubscribe from atoms
+  cleanup() {
+    globalThis.removeEventListener(METRICS_EVENT, this.listener as EventListener);
+    this.unsubscribeCurrentModeAtom();
   }
 
   recordEventToLog(name: string) {
@@ -124,9 +137,17 @@ export class AppMetrics {
     });
   }
 
+  listener(e: MetricsEvent) {
+    this.processEvent(e.detail.name, e.detail.payload);
+  }
+
   watchList = METRICS_WATCH_LIST;
 
   watch(name: string) {
+    // TODO: implement watchlists for other modes if necessary
+    // currently only map mode supported
+    if (this.mode !== 'map') return;
+
     if (this.watchList[name] === null) {
       const timing = performance.now();
       this.watchList[name] = timing;
@@ -142,7 +163,10 @@ export class AppMetrics {
           this.report('ready', timing);
           const eventReadyEvent = new Event('event_ready_for_screenshot');
           window.dispatchEvent(eventReadyEvent);
-        }, 299);
+        }, 299); // extra time to prevent rendering glitches
+
+        // watchList done
+        this.cleanup();
         return;
       }
       this.report(name, timing);

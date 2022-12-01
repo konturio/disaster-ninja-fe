@@ -26,16 +26,8 @@
   }
 }
 
-.link {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 100%;
-  display: block;
-  text-decoration: none;
-  color: var(--accent-strong);
-}
-
-.link:hover {
-  text-decoration: underline;
+.markdown {
+  & p {
+    margin: 0;
+  }
 }
