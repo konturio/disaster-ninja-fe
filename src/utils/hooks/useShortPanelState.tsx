@@ -9,12 +9,11 @@ import type { PanelCustomControl } from '@konturio/ui-kit';
 
 export const useShortPanelState = () => {
   const [panelState, setPanelState] = useState<'full' | 'short' | 'closed'>('full');
-  function openFullState() {
-    setPanelState('full');
-  }
+  const [panelControls, setPanelControls] = useState<PanelCustomControl[]>([]);
+
   const openFullControl: PanelCustomControl = {
     icon: <DoubleChevronDown24 />,
-    onWrapperClick: openFullState,
+    onWrapperClick: () => setPanelState('full'),
   };
   const openHalfwayControl: PanelCustomControl = {
     icon: <ChevronDown24 />,
@@ -30,7 +29,6 @@ export const useShortPanelState = () => {
     icon: <DoubleChevronUp24 />,
     onWrapperClick: () => setPanelState('closed'),
   };
-  const [panelControls, setPanelControls] = useState<PanelCustomControl[]>([]);
 
   useEffect(() => {
     panelState === 'full' && setPanelControls([closeHalfwayControl, closeControl]);
@@ -38,5 +36,5 @@ export const useShortPanelState = () => {
     panelState === 'closed' && setPanelControls([openFullControl, openHalfwayControl]);
   }, [panelState]);
 
-  return { panelState, panelControls, openFullState, setPanelState };
+  return { panelState, panelControls, setPanelState };
 };
