@@ -58,7 +58,7 @@ export function EventsPanel({
   };
 
   return (
-    <div className={clsx(s.panelContainer, s[panelState])}>
+    <div className={clsx(s.panelContainer)}>
       <Panel
         header={String(i18n.t('disasters'))}
         headerIcon={<Disasters24 />}
@@ -69,8 +69,8 @@ export function EventsPanel({
         resize={isMobile || panelState === 'short' ? 'none' : 'vertical'}
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
-        minContentHeight={panelState === 'short' ? 'min-content' : undefined}
         customControls={panelControls}
+        contentHeight={panelState === 'short' ? 'min-content' : undefined}
       >
         {panelContent[panelState]}
       </Panel>
