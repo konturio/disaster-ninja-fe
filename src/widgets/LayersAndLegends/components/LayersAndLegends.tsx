@@ -1,11 +1,12 @@
 import { Layers24, Legend24 } from '@konturio/default-icons';
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import clsx from 'clsx';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { i18n } from '~core/localization';
 import { panelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
+import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import s from './LayersAndLegends.module.css';
 
 type PanelProps = {
@@ -22,7 +23,9 @@ export function LayersAndLegends({
   layersMinHeight,
   legendMinHeight,
 }: PanelProps) {
-  const [panelState, setPanelState] = useState<'full' | 'short' | 'closed'>('full');
+  const { panelState, panelControls, setPanelState } = useShortPanelState(
+    Boolean(!layersPanelContent || !legendPanelContent),
+  );
   const isOpen = panelState !== 'closed';
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
@@ -33,12 +36,6 @@ export function LayersAndLegends({
       ? layersMinHeight
       : legendMinHeight || 0,
   );
-
-  const shortStateListeners = {
-    onClose: () => setPanelState('closed'),
-    onFullStateOpen: () => setPanelState('full'),
-    onShortStateOpen: () => setPanelState('short'),
-  };
 
   const onPanelIconClick = useCallback(() => {
     setPanelState('full');
@@ -53,6 +50,12 @@ export function LayersAndLegends({
   const header = !layersPanelContent ? i18n.t('legend') : i18n.t('layers');
   const headerIcon = !layersPanelContent ? <Legend24 /> : <Layers24 />;
 
+  const panelContent = {
+    full: (panelState === 'full' && layersPanelContent) || legendPanelContent,
+    short: legendPanelContent,
+    closed: null,
+  };
+
   return (
     <div className={clsx(s.panelContainer, s[panelState])}>
       <Panel
@@ -65,13 +68,10 @@ export function LayersAndLegends({
         resize={isMobile || panelState === 'short' ? 'none' : 'vertical'}
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
-        // Temp. Will be fixed
-        shortStateContent={legendPanelContent || undefined}
-        shortStateListeners={shortStateListeners}
-        isShortStateOpen={panelState === 'short'}
-        minContentHeight={panelState === 'short' ? 'min-content' : undefined}
+        customControls={panelControls}
+        contentHeight={panelState === 'short' ? 'min-content' : undefined}
       >
-        {(panelState === 'full' && layersPanelContent) || legendPanelContent}
+        {panelContent[panelState]}
       </Panel>
 
       <PanelIcon

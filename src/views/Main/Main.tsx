@@ -7,7 +7,7 @@ import { MIN_HEIGHT as LEGEND_MIN_HEIGHT } from '~features/legend_panel/constant
 import { LegendPanelContent } from '~features/legend_panel';
 import { LayersPanelContent } from '~features/layers_panel';
 import { MIN_HEIGHT as LAYERS_MIN_HEIGHT } from '~features/layers_panel/constants';
-import { LayersAndLegends } from '../../widgets/LayersAndLegends/LayersAndLegends';
+import { LayersAndLegends } from '../../widgets/LayersAndLegends/components/LayersAndLegends';
 import s from './Main.module.css';
 import { Layout } from './Layouts/Layout';
 import type { UserDataModel } from '~core/auth';
@@ -108,7 +108,7 @@ export function MainView({ userModel }: MainViewProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userModel]);
 
-  const layersAndLegends = (
+  const layersAndLegendsWidget = (
     <LayersAndLegends
       legendMinHeight={LEGEND_MIN_HEIGHT}
       legendPanelContent={
@@ -142,9 +142,7 @@ export function MainView({ userModel }: MainViewProps) {
             userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
             userModel?.feeds && <EventListPanel />
           }
-          layersAndLegends={layersAndLegends}
-          // layers={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && <MapLayersList />}
-          // legend={userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
+          layersAndLegends={layersAndLegendsWidget}
           matrix={
             userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && <BivariatePanel />
           }
