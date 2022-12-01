@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Legend as BiLegend, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
-import { invertClusters } from '~utils/bivariate';
+import { formatBivariateAxisLabel, invertClusters } from '~utils/bivariate';
 import { Tooltip } from '~components/Tooltip';
 import s from './BivariateLegend.module.css';
 import { CornerTooltipWrapper } from './CornerTooltipWrapper';
@@ -52,13 +52,11 @@ export function BivariateLegend({
       return {
         x: {
           ...axis.x,
-          label:
-            axis.x.label || `${axis.x.quotient[0]} to ${axis.x.quotient[1]}`,
+          label: axis.x.label || formatBivariateAxisLabel(axis.x.quotients),
         },
         y: {
           ...axis.y,
-          label:
-            axis.y.label || `${axis.y.quotient[0]} to ${axis.y.quotient[1]}`,
+          label: axis.y.label || formatBivariateAxisLabel(axis.y.quotients),
         },
       };
     }

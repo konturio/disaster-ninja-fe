@@ -1,11 +1,6 @@
 /** Full docs: https://gist.github.com/Akiyamka/8ad19a8de3c955ac1f27f67281c12fdf#correlationrate */
 
-export type CornerRange =
-  | 'good'
-  | 'bad'
-  | 'important'
-  | 'unimportant'
-  | 'neutral';
+export type CornerRange = 'good' | 'bad' | 'important' | 'unimportant' | 'neutral';
 
 export type OverlayColor = {
   id: string; // A1 - C3
@@ -17,12 +12,14 @@ export type Step = {
   value: number;
 };
 
-/* Divisor and denominator pair */
+/* Nominator and denominator pair */
+type Unit = { id: string | null; longName: string | null; shortName: string | null };
 export type Quotient = [string, string]; // this field will be removed in next tickets, only Quotients will stay
 export type Quotients = {
   name: string;
   label: string;
   direction: Direction;
+  unit: Unit;
 };
 
 export type Axis = {
