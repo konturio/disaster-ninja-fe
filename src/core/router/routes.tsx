@@ -54,7 +54,7 @@ export const routerConfig: AppRouterConfig = {
       slug: 'reports',
       title: i18n.t('modes.reports'),
       icon: <Alarm24 />,
-      view: <ReportsPage goToReport={(id) => goTo(`/reports/${id}`)} />,
+      view: <ReportsPage goToReport={(id) => goTo(`reports/${id}`)} />,
       requiredFeature: AppFeature.REPORTS,
     },
     {
