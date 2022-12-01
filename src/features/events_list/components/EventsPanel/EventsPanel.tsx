@@ -23,8 +23,7 @@ export function EventsPanel({
   currentEventId?: string | null;
   onCurrentChange: (id: string) => void;
 }) {
-  const { panelState, panelControls, openFullState, setPanelState } =
-    useShortPanelState();
+  const { panelState, panelControls, setPanelState } = useShortPanelState();
 
   const isOpen = panelState !== 'closed';
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -34,6 +33,7 @@ export function EventsPanel({
     isOpen,
     MIN_HEIGHT,
   );
+  const openFullState = () => setPanelState('full');
 
   const onPanelIconClick = useCallback(() => {
     setPanelState('full');
