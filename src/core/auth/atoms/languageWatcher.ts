@@ -3,7 +3,7 @@ import { currentUserAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { forceRun } from '~utils/atoms/forceRun';
 
-const languageWatcher = createAtom(
+export const languageWatcherAtom = createAtom(
   {
     currentUserAtom,
   },
@@ -11,16 +11,18 @@ const languageWatcher = createAtom(
     onChange('currentUserAtom', (newUser, prevUser) => {
       const userLanguage = newUser.language;
       if (userLanguage && i18n.instance.language !== userLanguage) {
-        i18n.instance.changeLanguage(userLanguage).catch((e) => {
-          console.error(e);
-        });
+        i18n.instance
+          .changeLanguage(userLanguage)
+          .catch((e) =>
+            console.warn(`Attempt to change language to ${userLanguage} failed`),
+          );
       }
     });
     return state;
   },
-  '[Shared state] userStateAtom',
+  'languageWatcherAtom',
 );
 
 export function initLanguageWatcher() {
-  forceRun(languageWatcher);
+  forceRun(languageWatcherAtom);
 }

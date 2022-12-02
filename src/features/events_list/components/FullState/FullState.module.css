@@ -1,0 +1,23 @@
+.panelBody {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable {
+  overflow: hidden;
+  height: 100%;
+  /* a space to see at least one card */
+  align-items: center;
+}
+
+.height100vh {
+  height: 100vh;
+}
+
+/* mobile */
+@media screen and (max-width: 960px) {
+  .scrollable {
+    width: 100vw;
+  }
+}

@@ -4,9 +4,6 @@
     pointer-events: auto;
   }
 }
-.mainViewWrap {
-  flex-grow: 1;
-}
 
 .mainView {
   height: 100%;
@@ -47,14 +44,25 @@
   bottom: var(--unit);
 }
 
-.customAppTitle {
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  font-size: 14px;
+/* laptop viewport */
+@media screen and (max-width: 1530px) {
+  .footer {
+    position: relative;
+    grid-column: 1/2;
+    grid-row: -2;
+  }
 }
 
-.clickable {
-  cursor: pointer;
+/* Mobile view */
+@media screen and (max-width: 960px) {
+  .footer {
+    position: relative;
+    grid-column: 1/2;
+    grid-row: 6;
+    & .logo {
+      position: static;
+    }
+  }
 }
 
 .afterChatContentWrap {

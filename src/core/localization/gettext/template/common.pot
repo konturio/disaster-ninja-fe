@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-12-02T14:55:50.542Z\n"
-"PO-Revision-Date: 2022-12-02T14:55:50.542Z\n"
+"POT-Creation-Date: 2022-12-02T14:57:54.792Z\n"
+"PO-Revision-Date: 2022-12-02T14:57:54.792Z\n"
 
 #: km
 msgid "km"
@@ -266,6 +266,14 @@ msgstr ""
 
 #: event_list##no_event_in_feed
 msgid "Event not found in the current event feed"
+msgstr ""
+
+#: event_list##no_selected_disaster
+msgid "No disaster selected"
+msgstr ""
+
+#: event_list##chose_disaster
+msgid "Choose disaster"
 msgstr ""
 
 #: create_layer##edit_layer

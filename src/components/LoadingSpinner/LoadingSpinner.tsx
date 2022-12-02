@@ -7,12 +7,12 @@ export function LoadingSpinner({
   message = i18n.t('spinner_text'),
   marginTop = '30%',
 }: {
-  message?: string;
+  message?: string | null;
   marginTop?: string;
 }) {
   return (
     <div className={s.spinner} style={{ marginTop: marginTop ?? 'inherit' }}>
-      <Text type="short-l">{message}</Text>
+      {message && <Text type="short-l">{message}</Text>}
       <div className={s.animationContainer}>
         <KonturSpinner />
       </div>

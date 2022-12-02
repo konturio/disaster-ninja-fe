@@ -9,7 +9,6 @@ export const METRICS_REPORT_TEMPLATE: MetricsReportTemplate = {
   value: 0,
   type: 'SUMMARY',
   appId: '',
-  userId: '',
   buildVersion: `${import.meta.env.PACKAGE_VERSION}-${import.meta.env.MODE}`,
 };
 

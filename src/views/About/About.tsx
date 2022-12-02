@@ -1,19 +1,13 @@
+import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
+import { landUser } from '~core/auth';
 import { i18n } from '~core/localization';
-import config from '~core/app_config';
-import history from '~core/history';
-import { APP_ROUTES } from '~core/app_config/appRoutes';
 import s from './About.module.css';
 
-function gotoMap() {
-  history.push(APP_ROUTES.map);
-}
-
-export function AboutPage() {
-  return <AboutText />;
-}
-
-function AboutText() {
+export function AboutPage({ toHomePage }: { toHomePage: () => void }) {
+  useEffect(() => {
+    landUser();
+  }, []);
   return (
     <div className={s.mainWrap}>
       <div className={s.content}>
@@ -85,7 +79,7 @@ function AboutText() {
         <p>{i18n.t('about.p5')}</p>
 
         <p>
-          <span className={s.linkToMain} onClick={gotoMap}>
+          <span className={s.linkToMain} onClick={toHomePage}>
             {i18n.t('about.goToMap')} ➜
           </span>
         </p>
