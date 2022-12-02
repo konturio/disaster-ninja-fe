@@ -12,7 +12,7 @@ export type Step = {
   value: number;
 };
 
-/* Nominator and denominator pair */
+/* Numerator and denominator pair */
 type Unit = { id: string | null; longName: string | null; shortName: string | null };
 export type Quotient = [string, string]; // this field will be removed in next tickets, only Quotients will stay
 export type Quotients = {

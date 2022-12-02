@@ -62,7 +62,7 @@
     "mean": "Mean",
     "stddev": "Stddev",
     "median": "Median",
-    "filter_nominator": "Filter Nominator",
+    "filter_numerator": "Filter Numerator",
     "filter_denominator": "Filter Denominator"
   },
   "event_list": {
