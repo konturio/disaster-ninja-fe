@@ -2,14 +2,9 @@ import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react';
 import { AppFeature } from '~core/auth/types';
-import { urlStoreAtom } from '~core/url_store/atoms/urlStore';
-import { forceRun } from '~utils/atoms/forceRun';
 import { Row } from '~components/Layout/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth';
-import { initLanguageWatcher } from '~core/auth/atoms/languageWatcher';
-import { currentUserAtom } from '~core/shared_state';
-import { i18n } from '~core/localization';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
@@ -31,30 +26,12 @@ export function CommonView({
   const userModel = data && !loading ? data : null;
 
   useEffect(() => {
-    if (userModel) {
-      return currentUserAtom.subscribe(({ language }) => {
-        i18n.instance
-          .changeLanguage(language)
-          .catch((e) => console.warn(`Attempt to change language to ${language} failed`));
-      });
-    }
-  }, [userModel]);
-
-  useEffect(() => {
     if (userModel?.hasFeature(AppFeature.INTERCOM)) {
       import('~features/intercom').then(({ initIntercom }) => {
         initIntercom();
       });
     }
   }, [userModel]);
-
-  useEffect(() => {
-    initLanguageWatcher();
-  }, []);
-
-  useEffect(() => {
-    return forceRun(urlStoreAtom);
-  }, []);
 
   return (
     <>

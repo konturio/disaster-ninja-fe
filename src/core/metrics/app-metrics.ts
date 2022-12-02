@@ -69,12 +69,18 @@ export class AppMetrics {
     };
   }
 
-  init(appId: string, userEmail: string | null) {
+  init(appId: string, route: string) {
+    console.info('appMetrics.init with', appId, route);
+    // currently we support metrics only for map page
+    if (route !== '') {
+      // '' is route for map
+      return;
+    }
+
     this.reportTemplate.appId = appId ?? '';
-    this.reportTemplate.userId = userEmail === 'public' ? null : userEmail ?? null;
     globalThis.addEventListener(METRICS_EVENT, this.listener.bind(this) as EventListener);
     if (KONTUR_METRICS_DEBUG) {
-      console.info('appMetrics.init', this.reportTemplate);
+      console.info('appMetrics.init ready', this.reportTemplate);
     }
   }
 
