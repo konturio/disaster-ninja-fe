@@ -1,17 +1,20 @@
 import { createRoot } from 'react-dom/client';
 import { reatomContext } from '@reatom/react';
+import { StrictMode } from 'react';
 import { store } from '~core/store/store';
 import { AuthWrapper } from '~core/auth';
 import { runGoogleTagManager } from '~utils/metrics/tagManager';
-import { RoutedApp } from './Routes';
+import { Router } from '~core/router';
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
-  <reatomContext.Provider value={store}>
-    <AuthWrapper>
-      <RoutedApp />
-    </AuthWrapper>
-  </reatomContext.Provider>,
+  <StrictMode>
+    <reatomContext.Provider value={store}>
+      <AuthWrapper>
+        <Router />
+      </AuthWrapper>
+    </reatomContext.Provider>
+  </StrictMode>,
 );
 
 // delayed run of statistics
