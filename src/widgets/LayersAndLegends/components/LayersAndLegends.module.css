@@ -31,20 +31,6 @@
 .panelIcon {
   display: none;
 }
-/* desktop only */
-@media screen and (min-width: 1530px) {
-  .panelContainer.open {
-    flex: 1 2 auto;
-  }
-}
-
-/* laptop and below */
-@media screen and (max-width: 1530px) {
-  .panelContainer {
-    overflow: unset;
-    box-shadow: none;
-  }
-}
 
 /* mobile */
 @media screen and (max-width: 960px) {

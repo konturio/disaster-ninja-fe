@@ -4,8 +4,6 @@ import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { MIN_HEIGHT as LEGEND_MIN_HEIGHT } from '~features/legend_panel/constants';
-import { LegendPanelContent } from '~features/legend_panel';
-import { LayersPanelContent } from '~features/layers_panel';
 import { MIN_HEIGHT as LAYERS_MIN_HEIGHT } from '~features/layers_panel/constants';
 import { LayersAndLegends } from '../../widgets/LayersAndLegends/components/LayersAndLegends';
 import s from './Main.module.css';
@@ -31,9 +29,9 @@ const { AdvancedAnalyticsPanel } = lazily(
   () => import('~features/advanced_analytics_panel'),
 );
 
-const { Legend } = lazily(() => import('~features/legend_panel'));
+const { LegendPanelContent } = lazily(() => import('~features/legend_panel'));
 
-const { MapLayersList } = lazily(() => import('~features/layers_panel'));
+const { LayersPanelContent } = lazily(() => import('~features/layers_panel'));
 
 const { Toolbar } = lazily(() => import('~features/toolbar'));
 

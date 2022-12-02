@@ -1,7 +1,8 @@
 .header {
-  display: flex;
-  align-items: center;
   min-height: 40px;
+  & > div {
+    width: 100%;
+  }
 }
 
 .headerTitle {
@@ -25,5 +26,8 @@
   .modal > section {
     top: calc(50% + var(--app-header-height)); /* header offset */
     height: 100vh;
+  }
+  .headerTitle {
+    max-width: unset;
   }
 }
