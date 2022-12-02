@@ -1,9 +1,9 @@
 import { apiClient } from '~core/apiClientInstance';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { createAtom } from '~utils/atoms';
+import { currentApplicationAtom } from '~core/shared_state';
 import { LAYERS_IN_AREA_API_ERROR } from '../constants';
 import type { LayerInArea } from '../types';
-import { createAtom } from "~utils/atoms";
-import { currentApplicationAtom } from "~core/shared_state";
 
 const layersGlobalResourceParametersAtom = createAtom(
   {

@@ -1,1 +1,1 @@
-export { EventsListPanel } from './EventsListPanel/EventsListPanel';
+export { EventsPanel } from './EventsPanel/EventsPanel';

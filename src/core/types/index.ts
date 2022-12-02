@@ -73,11 +73,16 @@ export interface AdvancedAnalyticsDataValues {
   quality: number;
 }
 export type EventWithGeometry = {
+  location: string;
   eventId: string;
   eventName: string;
   externalUrls: string[];
   severity: Severity;
   geojson: GeoJSON.GeoJSON;
+  affectedPopulation: number;
+  settledArea: number;
+  osmGaps: number | null;
+  updatedAt: string;
 };
 
 export type LegendStepStyle = {

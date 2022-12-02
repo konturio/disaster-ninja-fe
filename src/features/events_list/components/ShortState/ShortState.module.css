@@ -1,0 +1,22 @@
+.shortPanel {
+  width: 100%;
+  height: min-content;
+}
+
+.noDisasters {
+  text-align: center;
+  padding: var(--unit) 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  gap: var(--unit);
+}
+
+.noDisasterMsg {
+  width: 100%;
+}
+
+.callToAction {
+  width: 100%;
+}
