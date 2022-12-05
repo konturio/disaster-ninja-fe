@@ -7,7 +7,7 @@ import { AppFeature } from '~core/auth/types';
 import { legendPanelInterface } from '~features/legend_panel';
 import { layersPanelInterface } from '~features/layers_panel';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { LayersAndLegends } from '../../widgets/LayersAndLegends/components/LayersAndLegends';
+import { LayersAndLegendsWidget } from 'widgets/LayersAndLegends';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -103,28 +103,6 @@ export function MapPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userModel]);
 
-  const layersAndLegendsWidget = (
-    <LayersAndLegends
-      legendMinHeight={legendPanelInterface.minHeight}
-      legendPanelContent={
-        userModel?.hasFeature(AppFeature.LEGEND_PANEL) && legendPanelInterface.content
-      }
-      legendIcon={
-        userModel?.hasFeature(AppFeature.LEGEND_PANEL) && legendPanelInterface.panelIcon
-      }
-      legendHeader={legendPanelInterface.header}
-      layersPanelContent={
-        userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && layersPanelInterface.content
-      }
-      layersIcon={
-        userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) &&
-        layersPanelInterface.panelIcon
-      }
-      layersMinHeight={layersPanelInterface.minHeight}
-      layersHeader={layersPanelInterface.header}
-    />
-  );
-
   return (
     <div className={s.mainView}>
       <div className={s.mapWrap}>
@@ -146,7 +124,14 @@ export function MapPage() {
             userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
             userModel?.feeds && <EventListPanel />
           }
-          layersAndLegends={layersAndLegendsWidget}
+          layersAndLegends={
+            <LayersAndLegendsWidget
+              layersPanelInterface={layersPanelInterface}
+              legendPanelInterface={legendPanelInterface}
+              legendFeatureIsOn={userModel?.hasFeature(AppFeature.LEGEND_PANEL)}
+              layersFeatureIsOn={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL)}
+            />
+          }
           matrix={
             userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && <BivariatePanel />
           }
