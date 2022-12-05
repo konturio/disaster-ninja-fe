@@ -362,6 +362,10 @@ msgstr "Desv. est."
 msgid "Median"
 msgstr "Mediana"
 
+#: advanced_analytics_data_list##filter_nominator
+#~ msgid "Filter Nominator"
+#~ msgstr "Filtrar Nominador"
+
 #: advanced_analytics_data_list##filter_denominator
 msgid "Filter Denominator"
 msgstr "Filtrar Denominador"

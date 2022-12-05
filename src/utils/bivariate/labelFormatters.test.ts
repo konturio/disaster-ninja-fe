@@ -1,15 +1,15 @@
 import { expect, describe, it } from 'vitest';
-import { isNilOrOther, formatBivariateAxisLabel } from './labelFormatters';
+import { hasUnits, formatBivariateAxisLabel } from './labelFormatters';
 import type { Axis } from '~utils/bivariate';
 
 describe('BivariateLegend labels formatting', () => {
-  it('isNilOrOther', () => {
-    expect(isNilOrOther(null)).toEqual(true);
-    expect(isNilOrOther('other')).toEqual(true);
-    expect(isNilOrOther('area')).toEqual(false);
+  it('hasUnits', () => {
+    expect(hasUnits(null)).toEqual(false);
+    expect(hasUnits('other')).toEqual(false);
+    expect(hasUnits('area')).toEqual(true);
   });
 
-  it('formatBivariateAxisLabel', () => {
+  describe('formatBivariateAxisLabel', () => {
     it('no numerator unit - hide units', () => {
       const quotients: Axis['quotients'] = [
         {
@@ -94,7 +94,7 @@ describe('BivariateLegend labels formatting', () => {
       const quotients: Axis['quotients'] = [
         {
           name: 'highway_length_6_months',
-          label: 'OSM: new road length (last 6 qmonths)',
+          label: 'OSM: new road length (last 6 months)',
           direction: [['bad'], ['good']],
           unit: {
             id: 'km',
