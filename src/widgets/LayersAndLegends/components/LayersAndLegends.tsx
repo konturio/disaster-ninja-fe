@@ -6,20 +6,11 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import s from './LayersAndLegends.module.css';
+import type { PanelFeatureInterface } from 'types/featuresTypes';
 
 type PanelProps = {
-  legendProps?: {
-    content?: JSX.Element | null | false;
-    panelIcon?: JSX.Element | false;
-    header?: string | JSX.Element;
-    minHeight?: number;
-  };
-  layersProps?: {
-    content?: JSX.Element | null | false;
-    panelIcon?: JSX.Element | false;
-    header?: string | JSX.Element;
-    minHeight?: number;
-  };
+  legendProps?: PanelFeatureInterface;
+  layersProps?: PanelFeatureInterface;
 };
 
 export function LayersAndLegends({ layersProps, legendProps }: PanelProps) {
