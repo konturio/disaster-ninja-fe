@@ -3,8 +3,8 @@ import { lazily } from 'react-lazily';
 import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
-import { MIN_HEIGHT as LEGEND_MIN_HEIGHT } from '~features/legend_panel/constants';
-import { MIN_HEIGHT as LAYERS_MIN_HEIGHT } from '~features/layers_panel/constants';
+import { legendPanelInterface } from '~features/legend_panel';
+import { layersPanelInterface } from '~features/layers_panel';
 import { LayersAndLegends } from '../../widgets/LayersAndLegends/components/LayersAndLegends';
 import s from './Main.module.css';
 import { Layout } from './Layouts/Layout';
@@ -28,10 +28,6 @@ const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
 const { AdvancedAnalyticsPanel } = lazily(
   () => import('~features/advanced_analytics_panel'),
 );
-
-const { LegendPanelContent } = lazily(() => import('~features/legend_panel'));
-
-const { LayersPanelContent } = lazily(() => import('~features/layers_panel'));
 
 const { Toolbar } = lazily(() => import('~features/toolbar'));
 
@@ -108,14 +104,23 @@ export function MainView({ userModel }: MainViewProps) {
 
   const layersAndLegendsWidget = (
     <LayersAndLegends
-      legendMinHeight={LEGEND_MIN_HEIGHT}
+      legendMinHeight={legendPanelInterface.minHeight}
       legendPanelContent={
-        userModel?.hasFeature(AppFeature.LEGEND_PANEL) ? <LegendPanelContent /> : null
+        userModel?.hasFeature(AppFeature.LEGEND_PANEL) && legendPanelInterface.content
       }
+      legendIcon={
+        userModel?.hasFeature(AppFeature.LEGEND_PANEL) && legendPanelInterface.panelIcon
+      }
+      legendHeader={legendPanelInterface.header}
       layersPanelContent={
-        userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) ? <LayersPanelContent /> : null
+        userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && layersPanelInterface.content
       }
-      layersMinHeight={LAYERS_MIN_HEIGHT}
+      layersIcon={
+        userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) &&
+        layersPanelInterface.panelIcon
+      }
+      layersMinHeight={layersPanelInterface.minHeight}
+      layersHeader={layersPanelInterface.header}
     />
   );
 
