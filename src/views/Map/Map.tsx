@@ -7,7 +7,7 @@ import { AppFeature } from '~core/auth/types';
 import { legendPanelInterface } from '~features/legend_panel';
 import { layersPanelInterface } from '~features/layers_panel';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { LayersAndLegendsWidget } from 'widgets/LayersAndLegends';
+import { LayersAndLegendsWidget } from '~widgets/LayersAndLegends';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
