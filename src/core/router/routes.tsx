@@ -10,6 +10,7 @@ import {
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { UserStateToComponents } from '~core/auth';
+import { PrivacyPage } from '~views/Privacy/Privacy';
 import { goTo } from './goTo';
 import type { AppRouterConfig } from './types';
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -30,6 +31,14 @@ export const routerConfig: AppRouterConfig = {
       icon: <Info24 />,
       view: <AboutPage toHomePage={() => goTo('')} />,
       showForNewUsers: true,
+    },
+    {
+      slug: 'privacy',
+      title: i18n.t('modes.privacy'),
+      icon: <Reports16 />,
+      view: <PrivacyPage />,
+      parentRoute: 'about',
+      visibility: 'always',
     },
     {
       slug: 'profile',
@@ -64,7 +73,7 @@ export const routerConfig: AppRouterConfig = {
       view: <ReportPage />,
       requiredFeature: AppFeature.REPORTS,
       parentRoute: 'reports',
-      hidden: true,
+      visibility: 'never',
     },
     {
       slug: 'bivariate-manager',
