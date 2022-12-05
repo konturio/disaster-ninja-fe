@@ -50,11 +50,11 @@ export function BivariateLegend({
     // fallback axis description for bivariate layers
     if (!axis.x.label || !axis.y.label) {
       return {
-        x: {
+        y: {
           ...axis.x,
           label: axis.x.label || formatBivariateAxisLabel(axis.x.quotients),
         },
-        y: {
+        x: {
           ...axis.y,
           label: axis.y.label || formatBivariateAxisLabel(axis.y.quotients),
         },
