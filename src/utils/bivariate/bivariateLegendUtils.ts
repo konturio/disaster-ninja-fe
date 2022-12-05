@@ -16,35 +16,10 @@ export function createBivariateLegend(
   const xAxis = stats.axis.find(
     (ax) => ax.quotient[0] === xNumerator && ax.quotient[1] === xDenominator,
   );
-  if (xAxis && !xAxis.label) {
-    const xAxisNominatorIndicator = stats.indicators.find(
-      (ind) => ind.name === xNumerator,
-    );
-    const xAxisDenominatorIndicator = stats.indicators.find(
-      (ind) => ind.name === xDenominator,
-    );
-
-    xAxis.label = `${xAxisNominatorIndicator?.label || xNumerator} to ${
-      xAxisDenominatorIndicator?.label || xDenominator
-    }`;
-  }
 
   const yAxis = stats.axis.find(
     (ax) => ax.quotient[0] === yNumerator && ax.quotient[1] === yDenominator,
   );
-
-  if (yAxis && !yAxis.label) {
-    const yAxisNominatorIndicator = stats.indicators.find(
-      (ind) => ind.name === yNumerator,
-    );
-    const yAxisDenominatorIndicator = stats.indicators.find(
-      (ind) => ind.name === yDenominator,
-    );
-
-    yAxis.label = `${yAxisNominatorIndicator?.label || yNumerator} to ${
-      yAxisDenominatorIndicator?.label || yDenominator
-    }`;
-  }
 
   if (!xAxis || !yAxis) return;
 
@@ -74,16 +49,12 @@ export function createBivariateMeta(
   yDenominator: string,
   stats: Stat,
 ): LayerMeta {
-  const xAxisNominatorIndicator = stats.indicators.find(
-    (ind) => ind.name === xNumerator,
-  );
+  const xAxisNumeratorIndicator = stats.indicators.find((ind) => ind.name === xNumerator);
 
-  const yAxisNominatorIndicator = stats.indicators.find(
-    (ind) => ind.name === yNumerator,
-  );
+  const yAxisNumeratorIndicator = stats.indicators.find((ind) => ind.name === yNumerator);
 
-  const xNominatorLabel = xAxisNominatorIndicator?.label;
-  const yNominatorLabel = yAxisNominatorIndicator?.label;
+  const xNumeratorLabel = xAxisNumeratorIndicator?.label;
+  const yNumeratorLabel = yAxisNumeratorIndicator?.label;
   const xDenominatorLabel = stats.indicators.find(
     (ind) => ind.name === xDenominator,
   )?.label;
@@ -92,26 +63,26 @@ export function createBivariateMeta(
   )?.label;
 
   let copyrights: string[] = [];
-  if (xAxisNominatorIndicator?.copyrights?.length) {
-    copyrights = copyrights.concat(xAxisNominatorIndicator.copyrights);
+  if (xAxisNumeratorIndicator?.copyrights?.length) {
+    copyrights = copyrights.concat(xAxisNumeratorIndicator.copyrights);
   }
-  if (yAxisNominatorIndicator?.copyrights?.length) {
-    copyrights = copyrights.concat(yAxisNominatorIndicator.copyrights);
+  if (yAxisNumeratorIndicator?.copyrights?.length) {
+    copyrights = copyrights.concat(yAxisNumeratorIndicator.copyrights);
   }
 
-  const description = `This map shows relation of ${xNominatorLabel} (normalized by ${xDenominatorLabel}) to the base of ${yNominatorLabel} (normalized by ${yDenominatorLabel}).`;
+  const description = `This map shows relation of ${xNumeratorLabel} (normalized by ${xDenominatorLabel}) to the base of ${yNumeratorLabel} (normalized by ${yDenominatorLabel}).`;
 
   return {
     description,
     copyrights,
     hints: {
       x: {
-        label: xNominatorLabel,
-        direction: xAxisNominatorIndicator?.direction,
+        label: xNumeratorLabel,
+        direction: xAxisNumeratorIndicator?.direction,
       },
       y: {
-        label: yNominatorLabel,
-        direction: yAxisNominatorIndicator?.direction,
+        label: yNumeratorLabel,
+        direction: yAxisNumeratorIndicator?.direction,
       },
     },
   };

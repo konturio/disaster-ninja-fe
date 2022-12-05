@@ -87,5 +87,5 @@ try {
   await convertion();
   console.info('convertion done!');
 } catch (e) {
-  (e) => console.error('convertion failed: ', e);
+  console.error('convertion failed: ', e);
 }

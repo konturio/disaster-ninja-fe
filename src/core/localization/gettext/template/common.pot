@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-28T17:15:49.862Z\n"
-"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
+"POT-Creation-Date: 2022-12-02T14:57:54.792Z\n"
+"PO-Revision-Date: 2022-12-02T14:57:54.792Z\n"
 
 #: km
 msgid "km"
@@ -228,8 +228,8 @@ msgstr ""
 msgid "Median"
 msgstr ""
 
-#: advanced_analytics_data_list##filter_nominator
-msgid "Filter Nominator"
+#: advanced_analytics_data_list##filter_numerator
+msgid "Filter Numerator"
 msgstr ""
 
 #: advanced_analytics_data_list##filter_denominator
