@@ -82,6 +82,7 @@
     "@konturio/default-theme": "3.1.1",
     "@konturio/ui-kit": "^3.5.2",
     "@loaders.gl/core": "^3.2.3",
+    "@mdx-js/rollup": "^2.1.5",
     "@nebula.gl/edit-modes": "1.0.3",
     "@nebula.gl/layers": "1.0.3",
     "@reatom/core": "^2.0.22",
@@ -135,7 +136,8 @@
     "react-router-cache-route": "^1.11.1",
     "react-router-dom": "^5.3.0",
     "react-transition-group": "^4.4.5",
-    "react-virtuoso": "^2.19.0"
+    "react-virtuoso": "^2.19.0",
+    "remark-gfm": "^3.0.1"
   },
   "devDependencies": {
     "@testing-library/react": "^13.4.0",

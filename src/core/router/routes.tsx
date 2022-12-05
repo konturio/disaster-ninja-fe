@@ -18,6 +18,7 @@ const { ReportPage } = lazily(() => import('~views/Report/Report'));
 const { ProfilePage } = lazily(() => import('~views/Profile/Profile'));
 const { AboutPage } = lazily(() => import('~views/About/About'));
 const { PrivacyPage } = lazily(() => import('~views/Privacy/Privacy'));
+const { CookiesPage } = lazily(() => import('~views/Cookies/Cookies'));
 const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
@@ -39,6 +40,14 @@ export const routerConfig: AppRouterConfig = {
       view: <PrivacyPage />,
       parentRoute: 'about',
       visibility: 'always',
+    },
+    {
+      slug: 'cookies',
+      title: 'modes.cookies',
+      icon: <Reports16 />,
+      view: <CookiesPage />,
+      parentRoute: 'about',
+      visibility: 'never',
     },
     {
       slug: 'profile',
