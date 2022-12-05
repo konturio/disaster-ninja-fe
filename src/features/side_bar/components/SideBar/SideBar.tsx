@@ -9,6 +9,7 @@ import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { searchStringAtom } from '~core/url_store/atoms/urlStore';
 import { SidebarAppIcon } from '../AppIcon/AppIcon';
+import { SmallIconSlot } from '../SmallIconSlot/SmallIconSlot';
 import s from './SideBar.module.css';
 import type { AvailableRoutesAtom, CurrentRouteAtom, AppRoute } from '~core/router';
 
@@ -36,8 +37,9 @@ function routeVisibilityChecker(routes: AppRoute[]) {
         return true;
 
       case 'auto':
-      default: // always show top level routes
-      // hide nested routes if no selected routes
+      default:
+        // always show top level routes
+        // hide nested routes if no selected routes
         if (!route.parentRoute) return true;
         if (currentRoute === null) return false;
         const isActive = route.slug === currentRoute.slug;
@@ -155,7 +157,13 @@ export function SideBar({
                   <ActionsBarBTN
                     size={route.parentRoute ? 'small-xs' : 'small'}
                     active={currentRoute?.slug === route.slug}
-                    iconBefore={route.icon}
+                    iconBefore={
+                      route.parentRoute ? (
+                        <SmallIconSlot>{route.icon}</SmallIconSlot>
+                      ) : (
+                        route.icon
+                      )
+                    }
                     value={route.slug}
                     className={s.controlButton}
                   >

@@ -10,7 +10,6 @@ import {
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { UserStateToComponents } from '~core/auth';
-import { PrivacyPage } from '~views/Privacy/Privacy';
 import { goTo } from './goTo';
 import type { AppRouterConfig } from './types';
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -18,6 +17,7 @@ const { ReportsPage } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
 const { ProfilePage } = lazily(() => import('~views/Profile/Profile'));
 const { AboutPage } = lazily(() => import('~views/About/About'));
+const { PrivacyPage } = lazily(() => import('~views/Privacy/Privacy'));
 const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
