@@ -2,27 +2,21 @@ import { LayersAndLegends } from './components/LayersAndLegends';
 import type { PanelFeatureInterface } from 'types/featuresTypes';
 
 type WidgetProps = {
-  legendFeatureIsOn?: boolean;
-  legendPanelInterface: PanelFeatureInterface;
-  layersFeatureIsOn?: boolean;
-  layersPanelInterface: PanelFeatureInterface;
+  isLegendOn?: boolean;
+  legend: PanelFeatureInterface;
+  isLayersOn?: boolean;
+  layers: PanelFeatureInterface;
 };
 export const LayersAndLegendsWidget = ({
-  legendPanelInterface,
-  layersPanelInterface,
-  legendFeatureIsOn,
-  layersFeatureIsOn,
+  legend,
+  layers,
+  isLegendOn,
+  isLayersOn,
 }: WidgetProps) => {
   return (
     <LayersAndLegends
-      legendMinHeight={legendPanelInterface.minHeight}
-      legendPanelContent={legendFeatureIsOn && legendPanelInterface.content}
-      legendIcon={legendFeatureIsOn && legendPanelInterface.panelIcon}
-      legendHeader={legendPanelInterface.header}
-      layersPanelContent={layersFeatureIsOn && layersPanelInterface.content}
-      layersIcon={layersFeatureIsOn && layersPanelInterface.panelIcon}
-      layersMinHeight={layersPanelInterface.minHeight}
-      layersHeader={layersPanelInterface.header}
+      layersProps={isLayersOn ? layers : undefined}
+      legendProps={isLegendOn ? legend : undefined}
     />
   );
 };

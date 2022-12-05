@@ -1,8 +1,5 @@
 .header {
   min-height: 40px;
-  & > div {
-    width: 100%;
-  }
 }
 
 .headerTitle {

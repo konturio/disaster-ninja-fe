@@ -6,7 +6,7 @@ import type { PanelFeatureInterface } from 'types/featuresTypes';
 const { PanelContent } = lazily(() => import('./components'));
 const { Layers24 } = lazily(() => import('@konturio/default-icons'));
 
-export const layersPanelInterface: PanelFeatureInterface = {
+export const layersPanel: PanelFeatureInterface = {
   content: <PanelContent />,
   panelIcon: <Layers24 />,
   header: i18n.t('layers'),

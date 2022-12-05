@@ -4,8 +4,8 @@ import { lazily } from 'react-lazily';
 import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
-import { legendPanelInterface } from '~features/legend_panel';
-import { layersPanelInterface } from '~features/layers_panel';
+import { legendPanel } from '~features/legend_panel';
+import { layersPanel } from '~features/layers_panel';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LayersAndLegendsWidget } from '~widgets/LayersAndLegends';
 import s from './Map.module.css';
@@ -126,10 +126,10 @@ export function MapPage() {
           }
           layersAndLegends={
             <LayersAndLegendsWidget
-              layersPanelInterface={layersPanelInterface}
-              legendPanelInterface={legendPanelInterface}
-              legendFeatureIsOn={userModel?.hasFeature(AppFeature.LEGEND_PANEL)}
-              layersFeatureIsOn={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL)}
+              layers={layersPanel}
+              legend={legendPanel}
+              isLegendOn={userModel?.hasFeature(AppFeature.LEGEND_PANEL)}
+              isLayersOn={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL)}
             />
           }
           matrix={
