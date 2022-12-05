@@ -28,17 +28,29 @@ function routeVisibilityChecker(routes: AppRoute[]) {
   }, {} as RoutesTree);
 
   return (route: AppRoute, currentRoute: AppRoute | null): boolean => {
-    if (route.hidden) return false;
-    if (!route.parentRoute) return true; // always show top level routes
-    if (currentRoute === null) return false; // hide nested routes if no selected routes
-    const isActive = route.slug === currentRoute.slug;
-    const haveActiveParentRoute = route.parentRoute
-      ? currentRoute?.slug === route.parentRoute
-      : false;
-    const neighbors = route.parentRoute ? Object.keys(routesTree[route.parentRoute]) : [];
-    const haveActiveNeighbor = neighbors.includes(currentRoute.slug);
+    switch (route.visibility) {
+      case 'never':
+        return false;
 
-    return isActive || haveActiveParentRoute || haveActiveNeighbor;
+      case 'always':
+        return true;
+
+      case 'auto':
+      default: // always show top level routes
+      // hide nested routes if no selected routes
+        if (!route.parentRoute) return true;
+        if (currentRoute === null) return false;
+        const isActive = route.slug === currentRoute.slug;
+        const haveActiveParentRoute = route.parentRoute
+          ? currentRoute?.slug === route.parentRoute
+          : false;
+        const neighbors = route.parentRoute
+          ? Object.keys(routesTree[route.parentRoute])
+          : [];
+        const haveActiveNeighbor = neighbors.includes(currentRoute.slug);
+
+        return isActive || haveActiveParentRoute || haveActiveNeighbor;
+    }
   };
 }
 
