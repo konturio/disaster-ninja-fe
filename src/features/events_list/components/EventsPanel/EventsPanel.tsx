@@ -33,9 +33,8 @@ export function EventsPanel({
     isOpen,
     MIN_HEIGHT,
   );
-  const openFullState = () => setPanelState('full');
 
-  const onPanelIconClick = useCallback(() => {
+  const openFullState = useCallback(() => {
     setPanelState('full');
   }, [setPanelState]);
 
@@ -76,7 +75,7 @@ export function EventsPanel({
       </Panel>
 
       <PanelIcon
-        clickHandler={onPanelIconClick}
+        clickHandler={openFullState}
         className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
         icon={<Disasters24 />}
       />

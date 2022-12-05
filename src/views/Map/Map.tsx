@@ -1,14 +1,15 @@
 import { Suspense, useEffect } from 'react';
+import { useAtom } from '@reatom/react';
 import { lazily } from 'react-lazily';
 import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
 import { legendPanelInterface } from '~features/legend_panel';
 import { layersPanelInterface } from '~features/layers_panel';
+import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LayersAndLegends } from '../../widgets/LayersAndLegends/components/LayersAndLegends';
-import s from './Main.module.css';
+import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
-import type { UserDataModel } from '~core/auth';
 
 const { EditFeaturesOrLayerPanel } = lazily(
   () =>
@@ -35,10 +36,10 @@ const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/comp
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
-type MainViewProps = {
-  userModel: UserDataModel | null;
-};
-export function MainView({ userModel }: MainViewProps) {
+export function MapPage() {
+  const [{ data, loading }] = useAtom(userResourceAtom);
+  const userModel = data && !loading ? data : null;
+
   useEffect(() => {
     import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
 

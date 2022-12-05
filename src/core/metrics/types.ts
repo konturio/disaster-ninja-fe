@@ -3,7 +3,6 @@ export interface MetricsReportTemplate {
   value: number; // time to full load in ms
   type: 'SUMMARY';
   appId: string;
-  userId: string | null; // null if user is not authenticated or user email according to BE
   buildVersion: string;
 }
 

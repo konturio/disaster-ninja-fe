@@ -3,7 +3,7 @@ import { i18n } from '~core/localization';
 import { createAtom } from '~utils/atoms';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { currentNotificationAtom } from '~core/shared_state';
-import { currentModeAtom } from '~core/modes/currentMode';
+import { currentLocationAtom } from '~core/router/atoms/currentLocation';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '../constants';
 import { activeDrawModeAtom } from './activeDrawMode';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
@@ -36,7 +36,7 @@ export const toolboxAtom = createAtom(
     isDrawingStartedAtom,
     setSettings: (settings: DrawToolBoxSettings) => settings,
     downloadDrawGeometry: () => null,
-    currentModeAtom,
+    currentLocationAtom,
   },
   (
     { onAction, schedule, get, getUnlistedState, onChange, create },
@@ -99,7 +99,7 @@ export const toolboxAtom = createAtom(
       );
     });
 
-    onChange('currentModeAtom', (appMode) => {
+    onChange('currentLocationAtom', () => {
       if (state.mode) actions.push(create('finishDrawing'));
     });
 
