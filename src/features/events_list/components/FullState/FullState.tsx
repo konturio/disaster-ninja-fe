@@ -73,6 +73,7 @@ export function FullState({
                         />
                       ) : null
                     }
+                    externalUrls={event.externalUrls}
                   />
                 )}
                 ref={virtuoso}

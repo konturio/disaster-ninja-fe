@@ -10,7 +10,7 @@ import { eventListResourceAtom } from '~features/events_list/atoms/eventListReso
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { EventCard } from '../EventCard/EventCard';
 import s from './ShortState.module.css';
-import type { MouseEventHandler} from 'react';
+import type { MouseEventHandler } from 'react';
 import type { Event } from '~core/types';
 
 const SingleEventCard = ({
@@ -26,6 +26,7 @@ const SingleEventCard = ({
     alternativeActionControl={
       hasTimeline ? <EpisodeTimelineToggle isActive={true} /> : null
     }
+    externalUrls={event.externalUrls}
   />
 );
 
