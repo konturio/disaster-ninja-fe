@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import cn, { clsx } from 'clsx';
+import cn from 'clsx';
 import { parseISO } from 'date-fns';
 import { Text } from '@konturio/ui-kit';
 import ReactMarkdown from 'react-markdown';
@@ -62,7 +62,7 @@ export function EventCard({
       />
 
       {isActive && externalUrls?.length ? (
-        <div className={clsx(s.linkContainer)}>
+        <div className={s.linkContainer}>
           {externalUrls.map((link) => (
             <ReactMarkdown
               components={{ a: ShortLinkRenderer, p: (props) => <div {...props} /> }}
