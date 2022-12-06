@@ -26,6 +26,7 @@ const SingleEventCard = ({
     alternativeActionControl={
       hasTimeline ? <EpisodeTimelineToggle isActive={true} /> : null
     }
+    externalUrls={event.externalUrls}
   />
 );
 
