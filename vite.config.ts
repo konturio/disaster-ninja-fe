@@ -86,6 +86,7 @@ export default ({ mode }) => {
         '~appModule': relative('./src/redux-modules/appModule'),
         '~core': relative('./src/core'),
         '~features': relative('./src/features'),
+        '~widgets': relative('./src/widgets'),
       },
     },
     server: {

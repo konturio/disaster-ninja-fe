@@ -1,3 +1,4 @@
+/* copy paste from Layers panel styles for the demo */
 .panelContainer {
   display: flex;
   flex-direction: column;
@@ -29,20 +30,6 @@
 
 .panelIcon {
   display: none;
-}
-/* desktop only */
-@media screen and (min-width: 1530px) {
-  .panelContainer.open {
-    flex: 1 2 auto;
-  }
-}
-
-/* laptop and below */
-@media screen and (max-width: 1530px) {
-  .panelContainer {
-    overflow: unset;
-    box-shadow: none;
-  }
 }
 
 /* mobile */
