@@ -10,51 +10,11 @@ import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { searchStringAtom } from '~core/url_store/atoms/urlStore';
 import { SidebarAppIcon } from '../AppIcon/AppIcon';
 import { SmallIconSlot } from '../SmallIconSlot/SmallIconSlot';
+import { routeVisibilityChecker } from './routeVisibilityChecker';
 import s from './SideBar.module.css';
 import type { AvailableRoutesAtom, CurrentRouteAtom, AppRoute } from '~core/router';
 
 const wasClosed = 'sidebarClosed';
-
-/* We want to hide children routes if parent route and his children inactive */
-function routeVisibilityChecker(routes: AppRoute[]) {
-  type RoutesTree = { [key: string]: RoutesTree };
-  const routesTree = routes.reduce((tree, route) => {
-    if (route.parentRoute) {
-      if (!tree[route.parentRoute]) tree[route.parentRoute] = {};
-      tree[route.parentRoute][route.slug] = {};
-      return tree;
-    }
-    tree[route.slug] = {};
-    return tree;
-  }, {} as RoutesTree);
-
-  return (route: AppRoute, currentRoute: AppRoute | null): boolean => {
-    switch (route.visibility) {
-      case 'never':
-        return false;
-
-      case 'always':
-        return true;
-
-      case 'auto':
-      default:
-        // always show top level routes
-        // hide nested routes if no selected routes
-        if (!route.parentRoute) return true;
-        if (currentRoute === null) return false;
-        const isActive = route.slug === currentRoute.slug;
-        const haveActiveParentRoute = route.parentRoute
-          ? currentRoute?.slug === route.parentRoute
-          : false;
-        const neighbors = route.parentRoute
-          ? Object.keys(routesTree[route.parentRoute])
-          : [];
-        const haveActiveNeighbor = neighbors.includes(currentRoute.slug);
-
-        return isActive || haveActiveParentRoute || haveActiveNeighbor;
-    }
-  };
-}
 
 export function SideBar({
   currentRouteAtom,
