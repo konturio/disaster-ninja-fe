@@ -13,8 +13,7 @@ export function Layout({
   advancedAnalytics,
   toolbar,
   timeline,
-  layers,
-  legend,
+  layersAndLegends,
   matrix,
   drawToolbox,
   footer,
@@ -31,9 +30,8 @@ export function Layout({
             {analytics}
             {disasters}
             {advancedAnalytics}
-            {legend}
             {editPanel}
-            {layers}
+            {layersAndLegends}
             {matrix}
           </>
         }
@@ -56,9 +54,8 @@ export function Layout({
             {analytics}
             {disasters}
             {advancedAnalytics}
-            {legend}
             {editPanel}
-            {layers}
+            {layersAndLegends}
             {matrix}
           </>
         }
@@ -92,9 +89,8 @@ export function Layout({
       layersColumn={
         <>
           {matrix}
-          {legend}
+          {layersAndLegends}
           {editPanel}
-          {layers}
         </>
       }
       footer={footer}

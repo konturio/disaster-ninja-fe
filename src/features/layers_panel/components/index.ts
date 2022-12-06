@@ -1,1 +1,1 @@
-export { MapLayerPanel } from './MapLayersPanel/MapLayersPanel';
+export { PanelContent } from './PanelContent/PanelContent';

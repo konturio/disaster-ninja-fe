@@ -4,7 +4,10 @@ import { lazily } from 'react-lazily';
 import clsx from 'clsx';
 import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { AppFeature } from '~core/auth/types';
+import { legendPanel } from '~features/legend_panel';
+import { layersPanel } from '~features/layers_panel';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
+import { LayersAndLegendsWidget } from '~widgets/LayersAndLegends';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -26,10 +29,6 @@ const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
 const { AdvancedAnalyticsPanel } = lazily(
   () => import('~features/advanced_analytics_panel'),
 );
-
-const { Legend } = lazily(() => import('~features/legend_panel'));
-
-const { MapLayersList } = lazily(() => import('~features/layers_panel'));
 
 const { Toolbar } = lazily(() => import('~features/toolbar'));
 
@@ -125,8 +124,16 @@ export function MapPage() {
             userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
             userModel?.feeds && <EventListPanel />
           }
-          layers={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) && <MapLayersList />}
-          legend={userModel?.hasFeature(AppFeature.LEGEND_PANEL) && <Legend />}
+          layersAndLegends={
+            <LayersAndLegendsWidget
+              layersProps={
+                userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) ? layersPanel : null
+              }
+              legendProps={
+                userModel?.hasFeature(AppFeature.LEGEND_PANEL) ? legendPanel : null
+              }
+            />
+          }
           matrix={
             userModel?.hasFeature(AppFeature.BIVARIATE_MANAGER) && <BivariatePanel />
           }

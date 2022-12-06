@@ -8,7 +8,7 @@ import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { BivariateLegend } from '~components/BivariateLegend/BivariateLegend';
 import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
 import { LEGEND_PANEL_FEATURE_ID } from '~features/legend_panel/constants';
-import s from './LegendPanel.module.css';
+import s from './LegendsList.module.css';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
 import type { SimpleLegendStep } from '~core/logical_layers/types/legends';
 
