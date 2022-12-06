@@ -13,7 +13,7 @@ import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineT
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { EventCard } from '../EventCard/EventCard';
-import { OutdatedEvent } from '../OutdatedEvent/OutdatedEvent';
+import { EventFromResource } from '../EventFromResource/EventFromResource';
 import s from './FullState.module.css';
 import type { VirtuosoHandle } from 'react-virtuoso';
 
@@ -29,7 +29,7 @@ export function FullState({
   const hasTimeline = userModel?.hasFeature(AppFeature.EPISODES_TIMELINE);
   const virtuoso = useRef<VirtuosoHandle>(null);
 
-  const [outdatedEventId, setOutdatedEventId] = useState<null | string>(null);
+  const [hasEventFromResource, setHasEventFromResource] = useState(false);
 
   const statesToComponents = createStateMap({
     error,
@@ -47,18 +47,16 @@ export function FullState({
       // behavior: 'smooth' breaks this method as documentation warns https://virtuoso.dev/scroll-to-index
       if (currentEventIndex > -1) {
         ref.scrollToIndex({ index: currentEventIndex, align: 'center' });
-        setOutdatedEventId(null);
+        setHasEventFromResource(false);
       } else {
-        setOutdatedEventId(currentEventId);
+        setHasEventFromResource(true);
       }
     }
-  }, [currentEventId, eventsList, virtuoso]);
-
-  // todo add selectedEventIndexAtom? state: atomIndex | 'not found' | null (show )
+  }, [currentEventId, eventsList, virtuoso, setHasEventFromResource]);
 
   return (
     <div className={s.panelBody}>
-      {outdatedEventId && <OutdatedEvent hasTimeline={hasTimeline} />}
+      {hasEventFromResource && <EventFromResource hasTimeline={hasTimeline} />}
       <EventListSettingsRow>
         <FeedSelector />
         <BBoxFilterToggle />
