@@ -25,9 +25,3 @@
     margin-top: var(--half-unit);
   }
 }
-
-.markdown {
-  & p {
-    margin: 0;
-  }
-}

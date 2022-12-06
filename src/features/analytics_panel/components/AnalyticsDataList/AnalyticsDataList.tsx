@@ -1,15 +1,9 @@
-import ReactMarkdown from 'react-markdown';
-import { nanoid } from 'nanoid';
-import { i18n } from '~core/localization';
 import { Tooltip } from '~components/Tooltip';
-import { parseLinksAsTags } from '~utils/markdown/parser';
-import { ShortLinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import s from './AnalyticsData.module.css';
 import type { AnalyticsData } from '~core/types';
 
 interface AnalyticsDataListProps {
   data?: AnalyticsData[] | null;
-  links?: string[];
 }
 
 const Sub = ({ children }) => (
@@ -30,7 +24,7 @@ function textFormatter(txt: string) {
   }
 }
 
-export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
+export const AnalyticsDataList = ({ data }: AnalyticsDataListProps) => {
   return (
     <>
       {data &&
@@ -50,22 +44,6 @@ export const AnalyticsDataList = ({ data, links }: AnalyticsDataListProps) => {
             </div>
           </div>
         ))}
-      {links && links.length ? (
-        <div className={s.stat}>
-          <div className={s.statHead}>{i18n.t('details')}</div>
-          <div className={s.statContent}>
-            {links.map((link) => (
-              <ReactMarkdown
-                components={{ a: ShortLinkRenderer, p: (props) => <div {...props} /> }}
-                className={s.markdown}
-                key={nanoid(4)}
-              >
-                {parseLinksAsTags(link)}
-              </ReactMarkdown>
-            ))}
-          </div>
-        </div>
-      ) : null}
     </>
   );
 };
