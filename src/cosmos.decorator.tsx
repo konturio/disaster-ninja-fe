@@ -31,7 +31,7 @@ const style = css`
   }
 `;
 
-export default function ComsosDecorator({ children }) {
+export default function CosmosDecorator({ children }) {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: style }}></style>
