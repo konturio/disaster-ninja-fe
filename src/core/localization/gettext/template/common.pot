@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-12-02T14:57:54.792Z\n"
-"PO-Revision-Date: 2022-12-02T14:57:54.792Z\n"
+"POT-Creation-Date: 2022-12-06T14:07:27.258Z\n"
+"PO-Revision-Date: 2022-12-06T14:07:27.258Z\n"
 
 #: km
 msgid "km"
@@ -596,11 +596,6 @@ msgstr ""
 msgid "Сolor manager"
 msgstr ""
 
-#: sidebar##reports
-#: modes##reports
-msgid "Reports"
-msgstr ""
-
 #: sidebar##edit_osm
 msgid "Edit in OpenStreetMap"
 msgstr ""
@@ -713,6 +708,10 @@ msgstr ""
 msgid "About"
 msgstr ""
 
+#: modes##reports
+msgid "Reports"
+msgstr ""
+
 #: modes##profile
 #: profile##profileSettingsHeader
 msgid "Profile"
@@ -795,9 +794,9 @@ msgstr ""
 msgid ""
 "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
 "any questions about the functionality, and we will be happy to guide you. "
-"You can also contact us by email at<1>hello@kontur.io</1> if you have "
+"You can also contact us by email at <2>hello@kontur.io</2> if you have "
 "feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
-"an open-source project. Find the code in <7>Kontur’s GitHub account</7>."
+"an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
 msgstr ""
 
 #: profile##interfaceTheme
