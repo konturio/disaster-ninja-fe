@@ -99,7 +99,10 @@ export function SideBar({
             return checkRouteVisibility(route, currentRoute) ? (
               <Link
                 key={route.slug}
-                className={s.sidebarItemContainer}
+                className={cn(
+                  s.sidebarItemContainer,
+                  route.parentRoute ? s.nestedRoute : s.topLevelRoute,
+                )}
                 to={getAbsoluteRoute(
                   route.parentRoute
                     ? `${route.parentRoute}/${route.slug}${searchString}`

@@ -13,6 +13,14 @@
   user-select: none;
 }
 
+.nestedRoute + .topLevelRoute {
+  margin-top: var(--unit);
+}
+
+.topLevelRoute + .nestedRoute {
+  margin-top: 0;
+}
+
 .sidebar .controlButton {
   width: 100%;
   justify-content: left;
