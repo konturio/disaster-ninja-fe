@@ -126,10 +126,12 @@ export function MapPage() {
           }
           layersAndLegends={
             <LayersAndLegendsWidget
-              layers={layersPanel}
-              legend={legendPanel}
-              isLegendOn={userModel?.hasFeature(AppFeature.LEGEND_PANEL)}
-              isLayersOn={userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL)}
+              layersProps={
+                userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) ? layersPanel : null
+              }
+              legendProps={
+                userModel?.hasFeature(AppFeature.LEGEND_PANEL) ? legendPanel : null
+              }
             />
           }
           matrix={

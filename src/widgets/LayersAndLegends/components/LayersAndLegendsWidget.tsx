@@ -9,24 +9,11 @@ import s from './LayersAndLegends.module.css';
 import type { PanelFeatureInterface } from 'types/featuresTypes';
 
 type PanelProps = {
-  legendProps?: PanelFeatureInterface;
-  layersProps?: PanelFeatureInterface;
+  layersProps?: PanelFeatureInterface | null;
+  legendProps?: PanelFeatureInterface | null;
 };
 
-export function LayersAndLegends({ layersProps, legendProps }: PanelProps) {
-  const {
-    content: layersPanelContent,
-    minHeight: layersMinHeight,
-    header: layersHeader,
-    panelIcon: layersIcon,
-  } = layersProps || {};
-  const {
-    content: legendPanelContent,
-    minHeight: legendMinHeight,
-    header: legendHeader,
-    panelIcon: legendIcon,
-  } = legendProps || {};
-
+export function LayersAndLegendsWidget({ layersProps, legendProps }: PanelProps) {
   const { panelState, panelControls, setPanelState } = useShortPanelState(
     Boolean(!layersProps || !legendProps),
   );
@@ -34,13 +21,14 @@ export function LayersAndLegends({ layersProps, legendProps }: PanelProps) {
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const minHeight = isShort
+    ? legendProps?.minHeight || 0
+    : (layersProps?.minHeight || legendProps?.minHeight)!;
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
-    panelState === 'short' && layersPanelContent && layersMinHeight
-      ? layersMinHeight
-      : legendMinHeight || 0,
+    minHeight,
   );
 
   const onPanelIconClick = useCallback(() => {
@@ -51,14 +39,14 @@ export function LayersAndLegends({ layersProps, legendProps }: PanelProps) {
     setPanelState('closed');
   }, [setPanelState]);
 
-  if (!layersPanelContent && !legendPanelContent) return null;
+  if (!layersProps && !legendProps) return null;
 
-  const header = !layersPanelContent ? legendHeader : layersHeader;
-  const panelIcon = !layersPanelContent ? legendIcon : layersIcon;
+  const header = !layersProps ? legendProps!.header : layersProps.header;
+  const panelIcon = !layersProps ? legendProps!.panelIcon : layersProps.panelIcon;
 
   const panelContent = {
-    full: (panelState === 'full' && layersPanelContent) || legendPanelContent,
-    short: legendPanelContent,
+    full: layersProps?.content || legendProps!.content,
+    short: legendProps?.content,
     closed: null,
   };
 
@@ -76,6 +64,7 @@ export function LayersAndLegends({ layersProps, legendProps }: PanelProps) {
         contentContainerRef={handleRefChange}
         customControls={panelControls}
         contentHeight={isShort ? 'min-content' : undefined}
+        minContentHeight={minHeight}
       >
         {panelContent[panelState]}
       </Panel>

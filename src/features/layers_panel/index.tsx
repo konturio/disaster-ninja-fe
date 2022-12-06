@@ -1,10 +1,10 @@
 import { lazily } from 'react-lazily';
+import { Layers24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { MIN_HEIGHT } from './constants';
 import type { PanelFeatureInterface } from 'types/featuresTypes';
 
 const { PanelContent } = lazily(() => import('./components'));
-const { Layers24 } = lazily(() => import('@konturio/default-icons'));
 
 export const layersPanel: PanelFeatureInterface = {
   content: <PanelContent />,
