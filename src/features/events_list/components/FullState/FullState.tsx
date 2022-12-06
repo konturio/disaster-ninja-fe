@@ -29,7 +29,7 @@ export function FullState({
   const hasTimeline = userModel?.hasFeature(AppFeature.EPISODES_TIMELINE);
   const virtuoso = useRef<VirtuosoHandle>(null);
 
-  const [hasEventFromResource, setHasEventFromResource] = useState(false);
+  const [hasUnlistedEvent, setHasUnlistedEvent] = useState(false);
 
   const statesToComponents = createStateMap({
     error,
@@ -47,16 +47,16 @@ export function FullState({
       // behavior: 'smooth' breaks this method as documentation warns https://virtuoso.dev/scroll-to-index
       if (currentEventIndex > -1) {
         ref.scrollToIndex({ index: currentEventIndex, align: 'center' });
-        setHasEventFromResource(false);
+        setHasUnlistedEvent(false);
       } else {
-        setHasEventFromResource(true);
+        setHasUnlistedEvent(true);
       }
     }
-  }, [currentEventId, eventsList, virtuoso, setHasEventFromResource]);
+  }, [currentEventId, eventsList, virtuoso, setHasUnlistedEvent]);
 
   return (
     <div className={s.panelBody}>
-      {hasEventFromResource && <EventFromResource hasTimeline={hasTimeline} />}
+      {hasUnlistedEvent && <EventFromResource hasTimeline={hasTimeline} />}
       <EventListSettingsRow>
         <FeedSelector />
         <BBoxFilterToggle />
