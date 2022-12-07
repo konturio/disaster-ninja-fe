@@ -46,7 +46,6 @@
 }
 
 .content table {
-  margin-top: calc(var(--double-unit) * 4);
   border-collapse: collapse;
 }
 
