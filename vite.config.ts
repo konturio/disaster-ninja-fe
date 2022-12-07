@@ -9,7 +9,6 @@ import viteBuildInfoPlugin from './scripts/build-info-plugin';
 import { selectConfig, useConfig } from './scripts/select-config.mjs';
 // @ts-ignore
 import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
-import mdx from '@mdx-js/rollup'
 import postcssConfig from './postcss.config';
 import { proxyConfig } from './vite.proxy';
 
@@ -51,7 +50,6 @@ export default ({ mode }) => {
     },
     plugins: [
       react(),
-      mdx(),
       // vite env data used in metrics, should be available in all environments
       viteBuildInfoPlugin(),
       createHtmlPlugin({
