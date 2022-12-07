@@ -240,7 +240,8 @@
     "map": "Map",
     "about": "About",
     "reports": "Reports",
-    "profile": "Profile"
+    "profile": "Profile",
+    "privacy": "Privacy"
   },
   "about": {
     "title": "Welcome to Disaster Ninja!",

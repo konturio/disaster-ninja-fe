@@ -1,0 +1,8 @@
+.smallIconSlot {
+  width: 24px;
+  padding-left: var(--unit);
+}
+
+.smallIconSlot svg {
+  display: block;
+}

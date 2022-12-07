@@ -14,8 +14,13 @@ export interface AppRoute {
   requiredFeature?: AppFeatureType;
   /** Nest routes to each other */
   parentRoute?: string;
-  /** Don't show route in navigation */
-  hidden?: boolean;
+  /**
+   * Visibility in navigation sidebar
+   * - auto (default) - show when route or it's parent is active
+   * - never - never show it in navigation
+   * - always - always show it in navigation
+   * */
+  visibilityInNavigation?: 'always' | 'never' | 'auto';
 }
 
 export interface AppRouterConfig {

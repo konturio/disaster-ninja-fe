@@ -9,38 +9,12 @@ import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { searchStringAtom } from '~core/url_store/atoms/urlStore';
 import { SidebarAppIcon } from '../AppIcon/AppIcon';
+import { SmallIconSlot } from '../SmallIconSlot/SmallIconSlot';
+import { routeVisibilityChecker } from './routeVisibilityChecker';
 import s from './SideBar.module.css';
 import type { AvailableRoutesAtom, CurrentRouteAtom, AppRoute } from '~core/router';
 
 const wasClosed = 'sidebarClosed';
-
-/* We want to hide children routes if parent route and his children inactive */
-function routeVisibilityChecker(routes: AppRoute[]) {
-  type RoutesTree = { [key: string]: RoutesTree };
-  const routesTree = routes.reduce((tree, route) => {
-    if (route.parentRoute) {
-      if (!tree[route.parentRoute]) tree[route.parentRoute] = {};
-      tree[route.parentRoute][route.slug] = {};
-      return tree;
-    }
-    tree[route.slug] = {};
-    return tree;
-  }, {} as RoutesTree);
-
-  return (route: AppRoute, currentRoute: AppRoute | null): boolean => {
-    if (route.hidden) return false;
-    if (!route.parentRoute) return true; // always show top level routes
-    if (currentRoute === null) return false; // hide nested routes if no selected routes
-    const isActive = route.slug === currentRoute.slug;
-    const haveActiveParentRoute = route.parentRoute
-      ? currentRoute?.slug === route.parentRoute
-      : false;
-    const neighbors = route.parentRoute ? Object.keys(routesTree[route.parentRoute]) : [];
-    const haveActiveNeighbor = neighbors.includes(currentRoute.slug);
-
-    return isActive || haveActiveParentRoute || haveActiveNeighbor;
-  };
-}
 
 export function SideBar({
   currentRouteAtom,
@@ -125,7 +99,10 @@ export function SideBar({
             return checkRouteVisibility(route, currentRoute) ? (
               <Link
                 key={route.slug}
-                className={s.sidebarItemContainer}
+                className={cn(
+                  s.sidebarItemContainer,
+                  route.parentRoute ? s.nestedRoute : s.topLevelRoute,
+                )}
                 to={getAbsoluteRoute(
                   route.parentRoute
                     ? `${route.parentRoute}/${route.slug}${searchString}`
@@ -143,7 +120,13 @@ export function SideBar({
                   <ActionsBarBTN
                     size={route.parentRoute ? 'small-xs' : 'small'}
                     active={currentRoute?.slug === route.slug}
-                    iconBefore={route.icon}
+                    iconBefore={
+                      route.parentRoute ? (
+                        <SmallIconSlot>{route.icon}</SmallIconSlot>
+                      ) : (
+                        route.icon
+                      )
+                    }
                     value={route.slug}
                     className={s.controlButton}
                   >

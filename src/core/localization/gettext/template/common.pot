@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-12-06T14:07:27.258Z\n"
-"PO-Revision-Date: 2022-12-06T14:07:27.258Z\n"
+"POT-Creation-Date: 2022-12-07T18:32:47.235Z\n"
+"PO-Revision-Date: 2022-12-07T18:32:47.235Z\n"
 
 #: km
 msgid "km"
@@ -715,6 +715,10 @@ msgstr ""
 #: modes##profile
 #: profile##profileSettingsHeader
 msgid "Profile"
+msgstr ""
+
+#: modes##privacy
+msgid "Privacy"
 msgstr ""
 
 #: about##title

@@ -2,7 +2,7 @@ import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react';
 import { AppFeature } from '~core/auth/types';
-import { Row } from '~components/Layout/Layout';
+import { Row } from '~components/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';

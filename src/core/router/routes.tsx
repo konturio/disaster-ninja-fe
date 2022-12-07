@@ -17,6 +17,8 @@ const { ReportsPage } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
 const { ProfilePage } = lazily(() => import('~views/Profile/Profile'));
 const { AboutPage } = lazily(() => import('~views/About/About'));
+const { PrivacyPage } = lazily(() => import('~views/Privacy/Privacy'));
+const { CookiesPage } = lazily(() => import('~views/Cookies/Cookies'));
 const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
@@ -30,6 +32,22 @@ export const routerConfig: AppRouterConfig = {
       icon: <Info24 />,
       view: <AboutPage toHomePage={() => goTo('')} />,
       showForNewUsers: true,
+    },
+    {
+      slug: 'privacy',
+      title: i18n.t('modes.privacy'),
+      icon: <Reports16 />,
+      view: <PrivacyPage />,
+      parentRoute: 'about',
+      visibilityInNavigation: 'always',
+    },
+    {
+      slug: 'cookies',
+      title: 'modes.cookies',
+      icon: <Reports16 />,
+      view: <CookiesPage />,
+      parentRoute: 'about',
+      visibilityInNavigation: 'never',
     },
     {
       slug: 'profile',
@@ -64,7 +82,7 @@ export const routerConfig: AppRouterConfig = {
       view: <ReportPage />,
       requiredFeature: AppFeature.REPORTS,
       parentRoute: 'reports',
-      hidden: true,
+      visibilityInNavigation: 'never',
     },
     {
       slug: 'bivariate-manager',

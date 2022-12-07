@@ -9,7 +9,6 @@ import viteBuildInfoPlugin from './scripts/build-info-plugin';
 import { selectConfig, useConfig } from './scripts/select-config.mjs';
 // @ts-ignore
 import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
-
 import postcssConfig from './postcss.config';
 import { proxyConfig } from './vite.proxy';
 
