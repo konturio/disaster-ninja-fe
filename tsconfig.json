@@ -28,7 +28,8 @@
       "~services/*": ["services/*"],
       "~appModule/*": ["redux-modules/appModule/*"],
       "~core/*": ["core/*"],
-      "~features/*": ["features/*"]
+      "~features/*": ["features/*"],      
+      "~widgets/*": ["widgets/*"]
     }
   },
   "include": [

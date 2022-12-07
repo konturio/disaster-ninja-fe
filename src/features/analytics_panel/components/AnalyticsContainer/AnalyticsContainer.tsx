@@ -38,10 +38,7 @@ const AnalyticsContainer = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <AnalyticsDataList
-                data={dataList}
-                links={(focusedGeometry?.source as any)?.meta?.externalUrls ?? undefined}
-              />
+              <AnalyticsDataList data={dataList} />
             </TabPanel>
           </TabPanels>
         </Tabs>

@@ -62,7 +62,7 @@
     "mean": "Mean",
     "stddev": "Stddev",
     "median": "Median",
-    "filter_nominator": "Filter Nominator",
+    "filter_numerator": "Filter Numerator",
     "filter_denominator": "Filter Denominator"
   },
   "event_list": {
@@ -203,7 +203,6 @@
   },
   "sidebar": {
     "biv_color_manager": "Сolor manager",
-    "reports": "Reports",
     "edit_osm": "Edit in OpenStreetMap",
     "ruler": "Ruler",
     "collapse": "Collapse",
@@ -257,7 +256,7 @@
     "p4": "The Layers panel gives you various options to display two indicators simultaneously on a bivariate map, e.g., population density and distance to the nearest fire station. Use the color legend to assess which areas require attention. <br/>Hint: in general, green indicates low risk / few gaps, red — high risk / many gaps.",
     "p5": "In addition, you can switch to Reports in the left panel to access data on potential errors and inconsistencies in OpenStreetMap and help fix them by mapping the respective area with the JOSM editor.",
     "goToMap": "Go to the map now",
-    "p6": "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for any questions about the functionality, and we will be happy to guide you. You can also contact us by email at<1>hello@kontur.io</1> if you have feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an open-source project. Find the code in <7>Kontur’s GitHub account</7>."
+    "p6": "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for any questions about the functionality, and we will be happy to guide you. You can also contact us by email at <2>hello@kontur.io</2> if you have feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
   },
   "profile": {
     "interfaceTheme": "Theme",

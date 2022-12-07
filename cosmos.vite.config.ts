@@ -1,4 +1,5 @@
 import * as path from 'path';
+import react from '@vitejs/plugin-react';
 import postcssConfig from './postcss.config';
 import type { UserConfig, UserConfigFn } from 'vite';
 
@@ -16,6 +17,7 @@ const { BROWSER, PORT } = process.env;
 const config: UserConfigFn = async () => {
   const config: UserConfig = {
     plugins: [
+      react(),
       // Uncomment after merge https://github.com/fi3ework/vite-plugin-checker/pull/66
       // checker({
       //   typescript: {
@@ -57,6 +59,7 @@ const config: UserConfigFn = async () => {
         '~appModule': relative('./src/redux-modules/appModule'),
         '~core': relative('./src/core'),
         '~features': relative('./src/features'),
+        '~widgets': relative('./src/widgets'),
       },
     },
     base: '',

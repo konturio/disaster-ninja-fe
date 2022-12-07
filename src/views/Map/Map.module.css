@@ -44,8 +44,6 @@
   bottom: var(--unit);
 }
 
-
-
 /* laptop viewport */
 @media screen and (max-width: 1530px) {
   .footer {

@@ -7,6 +7,7 @@ import {
   LOW,
   MEDIUM,
 } from '~components/BivariateLegend/const';
+import { formatBivariateAxisLabel } from '~utils/bivariate';
 import s from './MapHexTooltip.module.css';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 
@@ -47,8 +48,8 @@ export const MapHexTooltip = ({
 
       <div className={s.labels}>
         <div className={s.column}>
-          <span>{axis.x.label}</span>
-          <span>{axis.y.label}</span>
+          <span>{axis.x.label || formatBivariateAxisLabel(axis.x.quotients)}</span>
+          <span>{axis.y.label || formatBivariateAxisLabel(axis.y.quotients)}</span>
         </div>
 
         {values && (

@@ -1,11 +1,14 @@
-import { useAtom } from '@reatom/react';
-import { useMemo } from 'react';
-import { LegendPanel } from '~features/legend_panel/components/LegendPanel/LegendPanel';
-import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
+import { lazily } from 'react-lazily';
+import { Legend24 } from '@konturio/default-icons';
+import { i18n } from '~core/localization';
+import { MIN_HEIGHT } from './constants';
+import type { PanelFeatureInterface } from 'types/featuresTypes';
 
-export function Legend() {
-  const [layers] = useAtom(mountedLayersAtom);
-  const layersAtoms = useMemo(() => Array.from(layers.values()), [layers]);
+const { PanelContent } = lazily(() => import('./components/PanelContent/PanelContent'));
 
-  return <LegendPanel layers={layersAtoms} />;
-}
+export const legendPanel: PanelFeatureInterface = {
+  content: <PanelContent />,
+  panelIcon: <Legend24 />,
+  header: i18n.t('legend'),
+  minHeight: MIN_HEIGHT,
+};

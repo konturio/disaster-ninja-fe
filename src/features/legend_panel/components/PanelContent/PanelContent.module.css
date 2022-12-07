@@ -1,0 +1,11 @@
+.scrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--double-unit);
+}
+/* mobile */
+@media screen and (max-width: 960px) {
+  .scrollable {
+    width: 100%;
+  }
+}

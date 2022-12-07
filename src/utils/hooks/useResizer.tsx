@@ -26,7 +26,7 @@ export const useHeightResizer = (
     openStateRef.current = isOpen;
     if (isOpen) {
       /* Save custom size */
-      persistedCustomHeight.current = contentRef.current!.style.height;
+      persistedCustomHeight.current = contentRef.current?.style.height || null;
     }
   }, [isOpen]);
 

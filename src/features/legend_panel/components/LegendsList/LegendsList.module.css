@@ -1,0 +1,12 @@
+.legendContainer {
+  margin-bottom: var(--unit);
+  & .layerControl {
+    padding: 0;
+    &:hover {
+      background: none;
+    }
+  }
+}
+.legendBody {
+  margin-left: var(--double-unit);
+}

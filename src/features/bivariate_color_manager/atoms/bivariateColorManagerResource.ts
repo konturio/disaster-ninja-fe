@@ -44,7 +44,7 @@ export type BivariateColorManagerData = {
 type IndicatorsMap = { [key: string]: Indicator };
 export type NumeratorCorellationMap = { [key: string]: number | undefined };
 
-type AxisNominatorInfo = {
+type AxisNumeratorInfo = {
   [numerator: string]: {
     mostQualityDenominator: string;
     quality: number;
@@ -97,7 +97,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
       return acc;
     }, {});
 
-    const axisNominatorInfo = axis.reduce<AxisNominatorInfo>((acc, axis) => {
+    const axisNumeratorInfo = axis.reduce<AxisNumeratorInfo>((acc, axis) => {
       if (!axis.quality || axis.quality < 0.5) return acc; // we don't need low quality axises
 
       const [numerator, denominator] = axis.quotient;
@@ -124,12 +124,12 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
       return acc;
     }, {});
 
-    const getMostQualityDenominatorForNumenator = (
-      numenator: string,
-    ): string | undefined => axisNominatorInfo?.[numenator]?.mostQualityDenominator;
+    const getMostQualityDenominatorForNumerator = (
+      numerator: string,
+    ): string | undefined => axisNumeratorInfo?.[numerator]?.mostQualityDenominator;
 
-    const getMostQualityAxisByNumerator = (numenator: string): Axis =>
-      axisNominatorInfo?.[numenator].mostQualityAxis;
+    const getMostQualityAxisByNumerator = (numerator: string): Axis =>
+      axisNumeratorInfo?.[numerator].mostQualityAxis;
 
     const numeratorCorellationMap: NumeratorCorellationMap = {};
 
@@ -185,7 +185,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
 
         if (!acc[key].vertical[xQuotientIndicator.name]) {
           const mostQualityDenominator =
-            getMostQualityDenominatorForNumenator(xNumerator);
+            getMostQualityDenominatorForNumerator(xNumerator);
           const xAxis = getMostQualityAxisByNumerator(xNumerator);
           acc[key].vertical[xQuotientIndicator.name] = {
             label: xQuotientIndicator.label,
@@ -197,7 +197,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
 
         if (!acc[key].horizontal[yQuotientIndicator.name]) {
           const mostQualityDenominator =
-            getMostQualityDenominatorForNumenator(yNumerator);
+            getMostQualityDenominatorForNumerator(yNumerator);
           const yAxis = getMostQualityAxisByNumerator(yNumerator);
           acc[key].horizontal[yQuotientIndicator.name] = {
             label: yQuotientIndicator.label,
@@ -215,7 +215,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
     fillLayersWithCorrelationLevelAndMaps(
       bivariateColorManagerData,
       numeratorCorellationMap,
-      axisNominatorInfo,
+      axisNumeratorInfo,
     );
 
     const sortedIndicators = indicators
@@ -235,7 +235,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
 const fillLayersWithCorrelationLevelAndMaps = (
   bivariateColorManagerData: BivariateColorManagerData,
   numeratorCorellationMap: NumeratorCorellationMap,
-  axisNominatorInfo: AxisNominatorInfo,
+  axisNumeratorInfo: AxisNumeratorInfo,
 ): void => {
   Object.values(bivariateColorManagerData).forEach((row) => {
     let horizontalLayersSum = 0;
@@ -243,11 +243,11 @@ const fillLayersWithCorrelationLevelAndMaps = (
 
     Object.values(row.horizontal).forEach((layer) => {
       layer.correlationLevel = numeratorCorellationMap[layer.name] || 0;
-      horizontalLayersSum += axisNominatorInfo[layer.name].layersCount;
+      horizontalLayersSum += axisNumeratorInfo[layer.name].layersCount;
     });
     Object.values(row.vertical).forEach((layer) => {
       layer.correlationLevel = numeratorCorellationMap[layer.name] || 0;
-      verticalLayersSum += axisNominatorInfo[layer.name].layersCount;
+      verticalLayersSum += axisNumeratorInfo[layer.name].layersCount;
     });
 
     row.maps = horizontalLayersSum * verticalLayersSum;

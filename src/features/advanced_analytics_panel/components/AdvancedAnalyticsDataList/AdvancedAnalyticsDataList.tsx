@@ -70,7 +70,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
     { checked: false, value: median },
   ]);
 
-  const onNominatorFilterChange = (e) => {
+  const onNumeratorFilterChange = (e) => {
     //check if all world loaded
     let filteredData;
     if (data === activeList) {
@@ -204,9 +204,9 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input
                 className={s.filter_text}
-                placeholder={i18n.t('advanced_analytics_data_list.filter_nominator')}
+                placeholder={i18n.t('advanced_analytics_data_list.filter_numerator')}
                 type="text"
-                onChange={onNominatorFilterChange}
+                onChange={onNumeratorFilterChange}
               />
             </td>
             <td>
@@ -224,7 +224,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input className={s.switch} type="checkbox" onClick={minClick} />
             </td>
-            
+
             <td>
               <input className={s.switch} type="checkbox" onClick={maxClick} />
             </td>
@@ -236,7 +236,7 @@ export const AdvancedAnalyticsDataList = ({ data }: AdvancedAnalyticsDataListPro
             <td>
               <input className={s.switch} type="checkbox" onClick={stddevClick} />
             </td>
-            
+
             <td>
               <input className={s.switch} type="checkbox" onClick={medianClick} />
             </td>

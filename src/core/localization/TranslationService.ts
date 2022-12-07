@@ -8,7 +8,6 @@ import es_common from './translations/es/common.json';
 // @ts-ignore
 import ar_common from './translations/ar/common.json';
 
-
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)

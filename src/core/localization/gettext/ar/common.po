@@ -298,7 +298,6 @@ msgid "Map"
 msgstr "الخريطة"
 
 #: modes##reports
-#: sidebar##reports
 msgid "Reports"
 msgstr "التقارير"
 
@@ -404,8 +403,8 @@ msgid "Median"
 msgstr "الوسيط"
 
 #: advanced_analytics_data_list##filter_nominator
-msgid "Filter Nominator"
-msgstr "بسط المرشح"
+#~ msgid "Filter Nominator"
+#~ msgstr "بسط المرشح"
 
 #: advanced_analytics_data_list##filter_denominator
 msgid "Filter Denominator"
@@ -767,12 +766,12 @@ msgstr "الانتقال إلى الخريطة الآن"
 msgid ""
 "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
 "any questions about the functionality, and we will be happy to guide you. "
-"You can also contact us by email at<1>hello@kontur.io</1> if you have "
+"You can also contact us by email at <2>hello@kontur.io</2> if you have "
 "feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
-"an open-source project. Find the code in <7>Kontur’s GitHub account</7>."
+"an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
 msgstr ""
 "نأمل أن تجد هذه الأداة ذات قيمة. استخدم مربع الدردشة على Disaster Ninja "
-"لأية أسئلة حول وظائفه، وسنكون سعداء بإرشادك. يمكنك أيضًا <1> التواصل معنا "
-"عبر البريد الإلكتروني </1> إذا كان لديك ملاحظات أو اقتراحات بشأن تحسين "
+"لأية أسئلة حول وظائفه، وسنكون سعداء بإرشادك. يمكنك أيضًا <2> التواصل معنا "
+"عبر البريد الإلكتروني </2> إذا كان لديك ملاحظات أو اقتراحات بشأن تحسين "
 "الأداة. <br /> <br /> يُعدّ Disaster Ninja مشروعًا مفتوح المصدر. تحقق من "
-"الكود في <7>حساب Kontur في GitHub</7>."
+"الكود في <8>حساب Kontur في GitHub</8>."

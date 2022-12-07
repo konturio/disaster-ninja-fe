@@ -7,7 +7,7 @@ import {
 import { useEffect, useState } from 'react';
 import type { PanelCustomControl } from '@konturio/ui-kit';
 
-export const useShortPanelState = () => {
+export const useShortPanelState = (skipShortState?: boolean) => {
   const [panelState, setPanelState] = useState<'full' | 'short' | 'closed'>('full');
   const [panelControls, setPanelControls] = useState<PanelCustomControl[]>([]);
 
@@ -35,6 +35,18 @@ export const useShortPanelState = () => {
     panelState === 'short' && setPanelControls([closeHalfwayControl, openHalfwayControl]);
     panelState === 'closed' && setPanelControls([openFullControl, openHalfwayControl]);
   }, [panelState]);
+
+  if (skipShortState) {
+    const singleControl: PanelCustomControl[] = [
+      {
+        icon: panelState === 'full' ? <ChevronUp24 /> : <ChevronDown24 />,
+        onWrapperClick: () =>
+          setPanelState((prevState) => (prevState === 'closed' ? 'full' : 'closed')),
+      },
+    ];
+    // hooks must not be skipped - therefore it's late return
+    return { panelState, panelControls: singleControl, setPanelState };
+  }
 
   return { panelState, panelControls, setPanelState };
 };
