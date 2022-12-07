@@ -1,6 +1,6 @@
 import { useAction, useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN, Logo } from '@konturio/ui-kit';
-import cn from 'clsx';
+import cn, { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
@@ -8,7 +8,7 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { searchStringAtom } from '~core/url_store/atoms/urlStore';
-import { SidebarAppIcon } from '../AppIcon/AppIcon';
+import { AppNameAndIcon } from '../AppNameAndIcon/AppNameAndIcon';
 import { SmallIconSlot } from '../SmallIconSlot/SmallIconSlot';
 import { routeVisibilityChecker } from './routeVisibilityChecker';
 import s from './SideBar.module.css';
@@ -82,17 +82,11 @@ export function SideBar({
         <ActionsBar>
           <div className={cn(s.logoWrap, s.sidebarItemContainer)} tabIndex={-1}>
             <div className={s.buttonWrap}>
-              <ActionsBarBTN
-                active={false}
-                iconBefore={<SidebarAppIcon />}
-                className={cn(s.controlButton, s.logoButton)}
-              >
-                {isOpen ? (
-                  <span className={s.modeName}>
-                    Disaster <br /> Ninja
-                  </span>
-                ) : null}
-              </ActionsBarBTN>
+              <AppNameAndIcon
+                isOpen={isOpen}
+                wrapClassName={cn(s.controlButton, s.logoButton)}
+                appNameClassName={s.modeName}
+              />
             </div>
           </div>
           {availableRoutes.routes.map((route) => {
@@ -138,32 +132,36 @@ export function SideBar({
           })}
 
           <div className={s.togglerContainer}>
-            <div className={s.toggler}>
-              {isOpen ? (
-                <div className={s.buttonWrap} onClick={toggleIsOpen} tabIndex={-1}>
-                  <ActionsBarBTN
-                    iconBefore={<DoubleChevronLeft24 />}
-                    className={s.controlButton}
-                  >
-                    <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
-                  </ActionsBarBTN>
-                </div>
-              ) : (
-                <div
-                  className={s.buttonWrap}
-                  onClick={toggleIsOpen}
-                  onPointerLeave={onMouseLeave}
-                  onPointerEnter={(e) =>
-                    onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
-                  }
+            {/* <div className={s.toggler}> */}
+            {isOpen ? (
+              <div
+                className={clsx(s.buttonWrap, s.togglerButton)}
+                onClick={toggleIsOpen}
+                tabIndex={-1}
+              >
+                <ActionsBarBTN
+                  iconBefore={<DoubleChevronLeft24 />}
+                  className={s.controlButton}
                 >
-                  <ActionsBarBTN
-                    iconBefore={<DoubleChevronRight24 />}
-                    className={s.controlButton}
-                  />
-                </div>
-              )}
-            </div>
+                  <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
+                </ActionsBarBTN>
+              </div>
+            ) : (
+              <div
+                className={clsx(s.buttonWrap, s.togglerButton)}
+                onClick={toggleIsOpen}
+                onPointerLeave={onMouseLeave}
+                onPointerEnter={(e) =>
+                  onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
+                }
+              >
+                <ActionsBarBTN
+                  iconBefore={<DoubleChevronRight24 />}
+                  className={s.controlButton}
+                />
+              </div>
+            )}
+            {/* </div> */}
           </div>
 
           <div className={s.konturLogo}>
