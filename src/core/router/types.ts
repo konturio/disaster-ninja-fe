@@ -20,7 +20,7 @@ export interface AppRoute {
    * - never - never show it in navigation
    * - always - always show it in navigation
    * */
-  visibility?: 'always' | 'never' | 'auto';
+  visibilityInNavigation?: 'always' | 'never' | 'auto';
 }
 
 export interface AppRouterConfig {

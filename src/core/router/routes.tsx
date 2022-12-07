@@ -39,7 +39,7 @@ export const routerConfig: AppRouterConfig = {
       icon: <Reports16 />,
       view: <PrivacyPage />,
       parentRoute: 'about',
-      visibility: 'always',
+      visibilityInNavigation: 'always',
     },
     {
       slug: 'cookies',
@@ -47,7 +47,7 @@ export const routerConfig: AppRouterConfig = {
       icon: <Reports16 />,
       view: <CookiesPage />,
       parentRoute: 'about',
-      visibility: 'never',
+      visibilityInNavigation: 'never',
     },
     {
       slug: 'profile',
@@ -82,7 +82,7 @@ export const routerConfig: AppRouterConfig = {
       view: <ReportPage />,
       requiredFeature: AppFeature.REPORTS,
       parentRoute: 'reports',
-      visibility: 'never',
+      visibilityInNavigation: 'never',
     },
     {
       slug: 'bivariate-manager',
