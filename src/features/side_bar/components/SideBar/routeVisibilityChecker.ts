@@ -13,7 +13,7 @@ export function routeVisibilityChecker(routes: AppRoute[]) {
   }, {} as RoutesTree);
 
   return (route: AppRoute, currentRoute: AppRoute | null): boolean => {
-    switch (route.visibility) {
+    switch (route.visibilityInNavigation) {
       case 'never':
         return false;
 
