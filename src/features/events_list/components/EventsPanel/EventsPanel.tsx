@@ -65,9 +65,7 @@ export function EventsPanel({
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        resize={isMobile || panelState === 'short' ? 'none' : 'vertical'}
         contentClassName={s.contentWrap}
-        contentContainerRef={handleRefChange}
         customControls={panelControls}
         contentHeight={panelState === 'short' ? 'min-content' : undefined}
       >

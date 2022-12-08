@@ -78,11 +78,6 @@ export function FullState({
                 )}
                 ref={virtuoso}
               />
-              <div className={s.height100vh}>
-                {/* it helps expand panel to full height 
-                despite that virtual element has no height 
-                without braking scroll */}
-              </div>
             </>
           ),
         })}

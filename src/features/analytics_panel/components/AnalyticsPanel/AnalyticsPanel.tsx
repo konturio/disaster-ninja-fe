@@ -53,7 +53,6 @@ export function AnalyticsPanel() {
           showInModal: isMobile,
         }}
         minContentHeight={MIN_HEIGHT}
-        resize="vertical"
         contentClassName={styles.contentWrap}
         contentContainerRef={handleRefChange}
       >

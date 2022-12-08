@@ -59,7 +59,6 @@ export function LayersAndLegendsWidget({ layersProps, legendProps }: PanelProps)
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        resize={isMobile || isShort ? 'none' : 'vertical'}
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
         customControls={panelControls}
