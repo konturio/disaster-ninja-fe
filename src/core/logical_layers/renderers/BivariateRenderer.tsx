@@ -1,6 +1,8 @@
 import throttle from 'lodash/throttle';
 import isNil from 'lodash/isNil';
 import { h3ToGeoBoundary, geoToH3 } from 'h3-js';
+import { Popup } from 'maplibre-gl';
+import { createRoot } from 'react-dom/client';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
 import {
@@ -11,14 +13,13 @@ import { layerByOrder } from '~utils/map/layersOrder';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { registerMapListener } from '~core/shared_state/mapListeners';
-import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import { MapHexTooltip, popupContentRoot } from '~components/MapHexTooltip/MapHexTooltip';
+import { MapHexTooltip } from '~components/MapHexTooltip/MapHexTooltip';
 import { invertClusters } from '~utils/bivariate';
 import { userResourceAtom } from '~core/auth';
 import { AppFeature } from '~core/auth/types';
+import type { AnyLayer, LngLat, RasterSource, VectorSource } from 'maplibre-gl';
 import type { MapListener } from '~core/shared_state/mapListeners';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import type { AnyLayer, LngLat, RasterSource, VectorSource } from 'maplibre-gl';
 import type {
   BivariateLegend,
   BivariateLegendStep,
@@ -44,8 +45,6 @@ const HEX_SELECTED_LAYER_ID = 'hex-selected-layer';
 const HEX_SELECTED_SOURCE_ID = 'hex-selected-source';
 const HEX_HOVER_SOURCE_ID = 'hex-hover-source';
 const HEX_HOVER_LAYER_ID = 'hex-hover-layer';
-
-const TOOLTIP_ID = 'bivariate-renderer';
 
 const isFillColorEmpty = (fillColor: FillColor): boolean =>
   fillColor.a === 0 && fillColor.r === 0 && fillColor.g === 0 && fillColor.b === 0;
@@ -113,6 +112,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   private _removeClickListener: null | (() => void) = null;
   private _removeMouseMoveListener: null | (() => void) = null;
   private _layersOrderManager?: LayersOrderManager;
+  private _popup?: Popup | null;
 
   public constructor({
     id,
@@ -224,30 +224,31 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
             }
           : undefined;
 
-      currentTooltipAtom.setCurrentTooltip.dispatch({
-        initiatorId: TOOLTIP_ID,
-        popup: (
-          <MapHexTooltip
-            cellLabel={cells[cellIndex].label}
-            cellIndex={cellIndex}
-            axis={legend.axis}
-            values={valuesByQuotients}
-            hexagonColor={rgba}
-          />
-        ),
-        popupClasses: { popupContent: popupContentRoot },
-        position: {
-          x: ev.originalEvent.clientX,
-          y: ev.originalEvent.clientY,
-        },
-        onClose(_e, close) {
-          close();
-          cleanSelection();
-        },
-        onOuterClick(_e, close) {
-          close();
-          cleanSelection();
-        },
+      const popupNode = document.createElement('div');
+      createRoot(popupNode).render(
+        <MapHexTooltip
+          cellLabel={cells[cellIndex].label}
+          cellIndex={cellIndex}
+          axis={legend.axis}
+          values={valuesByQuotients}
+          hexagonColor={rgba}
+        />,
+      );
+
+      if (this._popup) cleanPopup();
+      this._popup = new Popup({
+        closeOnClick: true,
+        className: 'bivariateHexagonPopupContentRoot',
+        maxWidth: 'none',
+        focusAfterOpen: false,
+        offset: 15,
+      })
+        .setLngLat(ev.lngLat)
+        .setDOMContent(popupNode)
+        .addTo(map);
+
+      this._popup.once('close', () => {
+        cleanSelection();
       });
 
       cleanHover();
@@ -334,8 +335,15 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     map.on('zoom', () => {
       cleanHover();
       cleanSelection();
-      currentTooltipAtom.turnOffById.dispatch(TOOLTIP_ID);
+      cleanPopup();
     });
+
+    const cleanPopup = () => {
+      if (this._popup) {
+        this._popup.remove();
+        this._popup = null;
+      }
+    };
 
     const cleanHover = () => {
       if (map.getSource(HEX_HOVER_SOURCE_ID)) {
