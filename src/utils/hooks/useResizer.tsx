@@ -8,6 +8,7 @@ export const useHeightResizer = (
   setIsOpen: (value: SetStateAction<boolean>) => void,
   isOpen: boolean,
   minHeight: number,
+  debug_caller?: string
 ) => {
   const columnContext = useColumnContext();
   const openStateRef = useRef(isOpen);
@@ -44,6 +45,7 @@ export const useHeightResizer = (
           closeCb: () => setIsOpen(false),
           minHeight,
           getOpenState: () => openStateRef.current,
+          debug_caller 
         };
         // UseCallback not have cleanup like useEffect, this is workaround
         cleanup.current = columnContext.addPanel(panel);

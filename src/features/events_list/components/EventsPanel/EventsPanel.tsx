@@ -32,6 +32,7 @@ export function EventsPanel({
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
     MIN_HEIGHT,
+    'event_list'
   );
 
   const openFullState = useCallback(() => {
@@ -70,6 +71,7 @@ export function EventsPanel({
         contentContainerRef={handleRefChange}
         customControls={panelControls}
         contentHeight={panelState === 'short' ? 'min-content' : undefined}
+        minContentHeight={MIN_HEIGHT}
       >
         {panelContent[panelState]}
       </Panel>
