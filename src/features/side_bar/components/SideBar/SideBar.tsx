@@ -1,6 +1,6 @@
 import { useAction, useAtom } from '@reatom/react';
 import { ActionsBar, ActionsBarBTN, Logo } from '@konturio/ui-kit';
-import cn, { clsx } from 'clsx';
+import cn from 'clsx';
 import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
@@ -134,7 +134,7 @@ export function SideBar({
           <div className={s.togglerContainer}>
             {isOpen ? (
               <div
-                className={clsx(s.buttonWrap, s.togglerButton)}
+                className={cn(s.buttonWrap, s.togglerButton)}
                 onClick={toggleIsOpen}
                 tabIndex={-1}
               >
@@ -147,7 +147,7 @@ export function SideBar({
               </div>
             ) : (
               <div
-                className={clsx(s.buttonWrap, s.togglerButton)}
+                className={cn(s.buttonWrap, s.togglerButton)}
                 onClick={toggleIsOpen}
                 onPointerLeave={onMouseLeave}
                 onPointerEnter={(e) =>

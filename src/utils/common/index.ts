@@ -23,7 +23,6 @@ export const isErrorWithMessage = (
   return e !== null && typeof e === 'object' && 'message' in e;
 };
 
-
 type flatObject = Record<string, string | boolean | number | undefined | null>;
 
 export function flatObjectsAreEqual(
@@ -57,3 +56,11 @@ export const removeEmpty = <T extends Record<string, unknown | null | undefined>
     }
     return acc;
   }, {} as NoUndefinedField<T>);
+
+export function trimLinkIfInDev(isDevBuild: boolean, link: string) {
+  // trim beginning of url designed for builded apps that serve static files via '/active/static'
+  if (isDevBuild && link?.startsWith('/active/static')) {
+    return link.replace('/active/static', '');
+  }
+  return link;
+}
