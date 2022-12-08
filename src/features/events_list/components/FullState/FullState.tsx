@@ -13,7 +13,7 @@ import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineT
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { EventCard } from '../EventCard/EventCard';
-import { EventFromResource } from '../EventFromResource/EventFromResource';
+import { CurrentEventFromResource } from '../CurrentEventFromResource/CurrentEventFromResource';
 import s from './FullState.module.css';
 import type { VirtuosoHandle } from 'react-virtuoso';
 
@@ -56,7 +56,7 @@ export function FullState({
 
   return (
     <div className={s.panelBody}>
-      {hasUnlistedEvent && <EventFromResource hasTimeline={hasTimeline} />}
+      {hasUnlistedEvent && <CurrentEventFromResource hasTimeline={hasTimeline} />}
       <EventListSettingsRow>
         <FeedSelector />
         <BBoxFilterToggle />

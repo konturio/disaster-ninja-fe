@@ -7,7 +7,7 @@ import { createStateMap } from '~utils/atoms';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { EventCard } from '../EventCard/EventCard';
 
-export function EventFromResource({ hasTimeline }: { hasTimeline?: boolean }) {
+export function CurrentEventFromResource({ hasTimeline }: { hasTimeline?: boolean }) {
   const [{ data, error, loading }] = useAtom(currentEventResourceAtom);
 
   const statesToComponents = createStateMap({

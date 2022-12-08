@@ -6,7 +6,7 @@ import { currentEventResourceAtom } from '~features/current_event/atoms/currentE
 import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { EventCard } from '../EventCard/EventCard';
-import { EventFromResource } from '../EventFromResource/EventFromResource';
+import { CurrentEventFromResource } from '../CurrentEventFromResource/CurrentEventFromResource';
 import s from './ShortState.module.css';
 import type { MouseEventHandler } from 'react';
 import type { Event } from '~core/types';
@@ -57,7 +57,7 @@ export function ShortState({
   const eventInfo = event ? (
     <SingleEventCard event={event} hasTimeline={hasTimeline} />
   ) : (
-    <EventFromResource hasTimeline={hasTimeline} />
+    <CurrentEventFromResource hasTimeline={hasTimeline} />
   );
 
   const panelContent = eventInfo || (
