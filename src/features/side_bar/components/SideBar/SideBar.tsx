@@ -132,7 +132,6 @@ export function SideBar({
           })}
 
           <div className={s.togglerContainer}>
-            {/* <div className={s.toggler}> */}
             {isOpen ? (
               <div
                 className={clsx(s.buttonWrap, s.togglerButton)}
@@ -161,7 +160,6 @@ export function SideBar({
                 />
               </div>
             )}
-            {/* </div> */}
           </div>
 
           <div className={s.konturLogo}>
