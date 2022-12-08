@@ -4,21 +4,21 @@
   flex-direction: column;
   overflow: auto;
   box-shadow: var(--elevation-1);
-}
-.panel {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  z-index: 1;
-
-  & > div {
+  & .panel {
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-  }
+    z-index: 1;
 
-  &.collapse {
-    height: auto;
-    & div:not(:first-child) {
-      display: none;
+    & > div {
+      overflow: hidden;
+    }
+
+    &.collapse {
+      height: auto;
+      & div:not(:first-child) {
+        display: none;
+      }
     }
   }
 }

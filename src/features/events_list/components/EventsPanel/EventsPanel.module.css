@@ -1,28 +1,28 @@
 .panelContainer {
   display: flex;
   flex-flow: column nowrap;
-}
 
-.panelIcon {
-  display: none;
-  z-index: 1;
-}
-
-.eventsPanel {
-  position: relative;
-  border-radius: var(--border-radius-unit);
-  flex: 1;
-
-  &.show > .contentWrap {
-    display: flex;
-    height: 100%;
+  & .panelIcon {
+    display: none;
+    z-index: 1;
   }
 
-  &.collapse {
-    display: block;
-    flex: none;
-    & > .contentWrap {
-      display: none;
+  & .eventsPanel {
+    position: relative;
+    border-radius: var(--border-radius-unit);
+    flex: 1;
+
+    &.show > .contentWrap {
+      display: flex;
+      height: 100%;
+    }
+
+    &.collapse {
+      display: block;
+      flex: none;
+      & > .contentWrap {
+        display: none;
+      }
     }
   }
 }
