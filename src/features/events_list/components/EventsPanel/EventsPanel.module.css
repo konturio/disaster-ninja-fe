@@ -1,28 +1,23 @@
-.panelContainer {
-  display: flex;
-  flex-flow: column nowrap;
+.panelIcon.desktop {
+  display: none;
+  z-index: 1;
+}
 
-  & .panelIcon {
-    display: none;
-    z-index: 1;
+.eventsPanel {
+  position: relative;
+  border-radius: var(--border-radius-unit);
+  flex: 1;
+
+  &.show > .contentWrap {
+    display: flex;
+    height: 100%;
   }
 
-  & .eventsPanel {
-    position: relative;
-    border-radius: var(--border-radius-unit);
-    flex: 1;
-
-    &.show > .contentWrap {
-      display: flex;
-      height: 100%;
-    }
-
-    &.collapse {
-      display: block;
-      flex: none;
-      & > .contentWrap {
-        display: none;
-      }
+  &.collapse {
+    display: block;
+    flex: none;
+    & > .contentWrap {
+      display: none;
     }
   }
 }
@@ -42,7 +37,7 @@
     display: none;
   }
 
-  .panelIcon {
+  .panelIcon.mobile {
     display: flex;
     &.show {
       transition: opacity 0.33s linear 0s;

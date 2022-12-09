@@ -1,28 +1,25 @@
-.panelContainer {
-  position: relative;
+.panelIcon.desktop {
+  display: none;
+}
 
-  & .panelIcon {
-    display: none;
-  }
+.analyticsPanel {
+  z-index: 1; /* Show shadow over map */
+  align-self: flex-start;
+  width: 100%;
 
-  & .analyticsPanel {
-    z-index: 1; /* Show shadow over map */
-    align-self: flex-start;
+  border-radius: var(--border-radius-unit);
 
-    border-radius: var(--border-radius-unit);
-
-    height: auto;
-    &.collapse {
-      & div:not(:first-child) {
-        display: none;
-      }
+  height: auto;
+  &.collapse {
+    & div:not(:first-child) {
+      display: none;
     }
   }
+}
 
-  & .panelBody {
-    width: 100%;
-    padding: var(--double-unit);
-  }
+.panelBody {
+  width: 100%;
+  padding: var(--double-unit);
 }
 
 /* Desktop only */
@@ -65,8 +62,7 @@
     width: 100%;
   }
 
-  .panelIcon {
-    z-index: 1;
+  .panelIcon.mobile {
     display: flex;
 
     &.show {

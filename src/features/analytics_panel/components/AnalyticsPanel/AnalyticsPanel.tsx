@@ -33,7 +33,7 @@ export function AnalyticsPanel() {
 
   useAutoCollapsePanel(isOpen, onPanelClose);
   return (
-    <div className={clsx(styles.panelContainer, isOpen && styles.isOpen)}>
+    <>
       <Panel
         header={String(i18n.t('analytics_panel.header_title'))}
         headerIcon={<Analytics24 />}
@@ -61,9 +61,14 @@ export function AnalyticsPanel() {
 
       <PanelIcon
         clickHandler={onPanelOpen}
-        className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
+        className={clsx(
+          styles.panelIcon,
+          isOpen && styles.hide,
+          !isOpen && styles.show,
+          isMobile ? styles.mobile : styles.desktop,
+        )}
         icon={<Analytics24 />}
       />
-    </div>
+    </>
   );
 }

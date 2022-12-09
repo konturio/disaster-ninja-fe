@@ -5,6 +5,7 @@ import { panelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
+import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import s from './LayersAndLegends.module.css';
 import type { PanelFeatureInterface } from 'types/featuresTypes';
 
@@ -39,6 +40,8 @@ export function LayersAndLegendsWidget({ layersProps, legendProps }: PanelProps)
     setPanelState('closed');
   }, [setPanelState]);
 
+  useAutoCollapsePanel(isOpen, onPanelClose);
+
   if (!layersProps && !legendProps) return null;
 
   const header = !layersProps ? legendProps!.header : layersProps.header;
@@ -51,7 +54,7 @@ export function LayersAndLegendsWidget({ layersProps, legendProps }: PanelProps)
   };
 
   return (
-    <div className={clsx(s.panelContainer, s[panelState])}>
+    <>
       <Panel
         header={header}
         headerIcon={panelIcon || undefined}
@@ -71,9 +74,14 @@ export function LayersAndLegendsWidget({ layersProps, legendProps }: PanelProps)
 
       <PanelIcon
         clickHandler={onPanelIconClick}
-        className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+        className={clsx(
+          s.panelIcon,
+          isOpen && s.hide,
+          !isOpen && s.show,
+          isMobile ? s.mobile : s.desktop,
+        )}
         icon={panelIcon || <></>}
       />
-    </div>
+    </>
   );
 }
