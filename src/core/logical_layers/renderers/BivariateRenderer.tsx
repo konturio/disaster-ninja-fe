@@ -1,7 +1,7 @@
 import throttle from 'lodash/throttle';
 import isNil from 'lodash/isNil';
 import { h3ToGeoBoundary, geoToH3 } from 'h3-js';
-import { Popup } from 'maplibre-gl';
+import { Popup as MapPopup } from 'maplibre-gl';
 import { createRoot } from 'react-dom/client';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
@@ -13,11 +13,20 @@ import { layerByOrder } from '~utils/map/layersOrder';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { registerMapListener } from '~core/shared_state/mapListeners';
-import { MapHexTooltip } from '~components/MapHexTooltip/MapHexTooltip';
+import {
+  bivariateHexagonPopupContentRoot,
+  MapHexTooltip,
+} from '~components/MapHexTooltip/MapHexTooltip';
 import { invertClusters } from '~utils/bivariate';
 import { userResourceAtom } from '~core/auth';
 import { AppFeature } from '~core/auth/types';
-import type { AnyLayer, LngLat, RasterSource, VectorSource } from 'maplibre-gl';
+import type {
+  AnyLayer,
+  LngLat,
+  RasterSource,
+  VectorSource,
+  MapBoxZoomEvent,
+} from 'maplibre-gl';
 import type { MapListener } from '~core/shared_state/mapListeners';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type {
@@ -112,7 +121,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   private _removeClickListener: null | (() => void) = null;
   private _removeMouseMoveListener: null | (() => void) = null;
   private _layersOrderManager?: LayersOrderManager;
-  private _popup?: Popup | null;
+  private _popup?: MapPopup | null;
 
   public constructor({
     id,
@@ -235,10 +244,10 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         />,
       );
 
-      if (this._popup) cleanPopup();
-      this._popup = new Popup({
+      this.cleanPopup();
+      this._popup = new MapPopup({
         closeOnClick: true,
-        className: 'bivariateHexagonPopupContentRoot',
+        className: bivariateHexagonPopupContentRoot,
         maxWidth: 'none',
         focusAfterOpen: false,
         offset: 15,
@@ -248,10 +257,10 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         .addTo(map);
 
       this._popup.once('close', () => {
-        cleanSelection();
+        this.cleanSelection(map);
       });
 
-      cleanHover();
+      this.cleanHover(map);
 
       if (!map.getSource(HEX_SELECTED_SOURCE_ID)) {
         map.addSource(HEX_SELECTED_SOURCE_ID, {
@@ -332,32 +341,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       100,
     ) as MapListener;
 
-    map.on('zoom', () => {
-      cleanHover();
-      cleanSelection();
-      cleanPopup();
-    });
-
-    const cleanPopup = () => {
-      if (this._popup) {
-        this._popup.remove();
-        this._popup = null;
-      }
-    };
-
-    const cleanHover = () => {
-      if (map.getSource(HEX_HOVER_SOURCE_ID)) {
-        map.removeLayer(HEX_HOVER_LAYER_ID);
-        map.removeSource(HEX_HOVER_SOURCE_ID);
-      }
-    };
-
-    const cleanSelection = () => {
-      if (map.getSource(HEX_SELECTED_SOURCE_ID)) {
-        map.removeLayer(HEX_SELECTED_LAYER_ID);
-        map.removeSource(HEX_SELECTED_SOURCE_ID);
-      }
-    };
+    map.on('zoom', this.onMapZoom);
 
     if (this._removeMouseMoveListener) {
       this._removeMouseMoveListener();
@@ -375,6 +359,37 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._removeClickListener = registerMapListener('click', clickHandler, 60);
 
     if (!isVisible) this.willHide({ map });
+  }
+
+  onMapZoom = (ev: maplibregl.MapboxEvent<MapBoxZoomEvent>) => {
+    this.cleanPopupWithDeps(ev.target);
+  };
+
+  cleanPopup() {
+    if (this._popup) {
+      this._popup.remove();
+      this._popup = null;
+    }
+  }
+
+  cleanHover(map: ApplicationMap) {
+    if (map.getSource(HEX_HOVER_SOURCE_ID)) {
+      map.removeLayer(HEX_HOVER_LAYER_ID);
+      map.removeSource(HEX_HOVER_SOURCE_ID);
+    }
+  }
+
+  cleanSelection(map: ApplicationMap) {
+    if (map.getSource(HEX_SELECTED_SOURCE_ID)) {
+      map.removeLayer(HEX_SELECTED_LAYER_ID);
+      map.removeSource(HEX_SELECTED_SOURCE_ID);
+    }
+  }
+
+  cleanPopupWithDeps(map: ApplicationMap) {
+    this.cleanPopup();
+    this.cleanHover(map);
+    this.cleanSelection(map);
   }
 
   /* ========== Hooks ========== */
@@ -409,6 +424,9 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
     }
 
+    this.cleanPopupWithDeps(map);
+    map.off('zoom', this.onMapZoom);
+
     this._layerId = undefined;
 
     if (this._sourceId) {
@@ -429,6 +447,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     if (map.getLayer(this._layerId) !== undefined) {
       map.setLayoutProperty(this._layerId, 'visibility', 'none');
+      this.cleanPopupWithDeps(map);
     } else {
       console.warn(
         `Can't hide layer with ID: ${this._layerId}. Layer doesn't exist on the map`,
