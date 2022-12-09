@@ -10,10 +10,6 @@
     overflow: hidden;
     z-index: 1;
 
-    & > div {
-      overflow: hidden;
-    }
-
     &.collapse {
       height: auto;
       & div:not(:first-child) {
