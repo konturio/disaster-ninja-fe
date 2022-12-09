@@ -22,6 +22,8 @@
   flex-flow: row nowrap;
   gap: var(--unit);
   align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .footer {
