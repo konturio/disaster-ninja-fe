@@ -15,10 +15,10 @@ export const LinkRenderer = memo(function (props: ElementWrapProps) {
   );
 });
 
-// 192 and 12 are the values proposed by the task #8798
+// 190 and 12 are the values proposed by the task #8798
 export function ShortLinkRenderer({
   children: linksArr,
-  maxWidth = 192,
+  maxWidth = 190,
   truncateAmount = 12,
   href,
 }: ElementWrapProps & { maxWidth?: number; truncateAmount?: number }) {

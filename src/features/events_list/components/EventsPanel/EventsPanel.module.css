@@ -1,9 +1,4 @@
-.panelContainer {
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.panelIcon {
+.panelIcon.desktop {
   display: none;
   z-index: 1;
 }
@@ -42,7 +37,7 @@
     display: none;
   }
 
-  .panelIcon {
+  .panelIcon.mobile {
     display: flex;
     &.show {
       transition: opacity 0.33s linear 0s;
