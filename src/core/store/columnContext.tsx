@@ -14,7 +14,7 @@ export type PanelMeta = {
   closeCb: () => void;
   minHeight: number;
   getOpenState: () => boolean;
-  debug_caller?: string
+  debug_caller?: string;
 };
 
 class PanelsRepository {
@@ -35,23 +35,27 @@ class PanelsRepository {
   }
 
   adjustToHeight(panel: PanelMeta, desiredHeight: number) {
-
-    console.log('%c⧭ adjustToHeight', 'color: #99614d', panel.debug_caller, ...arguments);
-
     const newHeight = desiredHeight >= panel.minHeight ? desiredHeight : panel.minHeight;
-    console.log('%c⧭ newHeight for ', 'color: #cc0036', panel.debug_caller, newHeight + ' of ' + panel.minHeight);
     panel.resizableNode.style.height = newHeight + 'px';
   }
 
-  /* Returns array with [panel, panelHeight] entries */
-  getPanelsWithExtraSpace() {
-    return Array.from(this.panels).reduce((acc: [PanelMeta, number][], c) => {
-      const height = c.resizableNode.getBoundingClientRect().height;
-      if (height > c.minHeight) {
-        acc.push([c, height]);
-      }
-      return acc;
-    }, []);
+  getPanelsWithExtraSpace(): [[PanelMeta, number, number][], number] {
+    let totalExtraSpace = 0;
+    /* Returns array with [panel, panelHeight, availableExtraSpace ] entries */
+    const panelsWithSizes = Array.from(this.panels).reduce(
+      (acc: [PanelMeta, number, number][], c) => {
+        const height = c.resizableNode.getBoundingClientRect().height;
+        if (height > c.minHeight) {
+          const extraSpace = height - c.minHeight;
+          acc.push([c, height, extraSpace]);
+          totalExtraSpace += extraSpace;
+        }
+        return acc;
+      },
+      [],
+    );
+
+    return [panelsWithSizes, totalExtraSpace];
   }
 
   getPanelsWithOpenState() {
@@ -91,7 +95,6 @@ export class Resizer {
         const column = columnElements[0]; // should always contain 1 element
         const maxHeight = this.getMaxColumnHeight();
         const contentHeight = column.contentRect.height;
-        console.log('%c⧭ contentHeight', 'color: #514080', contentHeight);
         // Find how much space out of size
         const diff = maxHeight ? contentHeight - maxHeight : 0;
         if (diff > 0) {
@@ -137,31 +140,30 @@ export class Resizer {
     }
   }
 
-  _adjustPanelsHeight(diff: number,) {
+  // why not resize first and close only after?
+  // then we have scenario when we shrinked all the panels and still have to close some
+  // after closing free space left but the panels are already shrinked
+  _adjustPanelsHeight(diff: number) {
     // Get all children with height more than minimal
-    const cardsWithExtraSpace = this.panels.getPanelsWithExtraSpace();
-    console.log('%c⧭ cardsWithExtraSpace', 'color: #d0bfff', cardsWithExtraSpace);
-    // solution 1:
-    // check if resizing will help adjust to height. Panel can return how much space it can give away. Rely on that
-    // if yes - resize panels. if no - start closing panels
+    const [cardsWithExtraSpace, totalExtraSpace] = this.panels.getPanelsWithExtraSpace();
+    // If it's possible to free all the space needed by resizing - start resizing
+    if (totalExtraSpace > diff) {
+      // store the amount left to reduce
+      let leftToReduce = diff;
 
-    // solution 2:
-    // after resize was done - start strething panels
-    // things to make sure - stretching is limited by panel content
-    // it will help remove 100vh from fullstate of event_list (and that resizing not breaking autoscroll)
-    if (cardsWithExtraSpace.length > 0) {
-      // Reduce cards height
-      const reduceSize = Math.ceil(diff / cardsWithExtraSpace.length);
-      console.log('%c⧭ from each column need to reduce ', 'color: #8c0038', reduceSize + 'px');
-      cardsWithExtraSpace.forEach(([card, currentHeight]) => {
-        this.panels.adjustToHeight(card, currentHeight - reduceSize);
+      cardsWithExtraSpace.forEach(([card, currentHeight, availableExtraSpace]) => {
+        // Reduce first card as much as needed
+        if (leftToReduce) {
+          const reduceAmount =
+            availableExtraSpace > leftToReduce ? leftToReduce : availableExtraSpace;
+          this.panels.adjustToHeight(card, currentHeight - reduceAmount);
+          leftToReduce = leftToReduce - reduceAmount;
+        }
       });
-      // In case no children with extra space
     } else {
       // Close first opened card
       const openedPanels = this.panels.getPanelsWithOpenState();
       if (openedPanels[0]) {
-        console.log('%c⧭ closing', 'color: #00736b', openedPanels[0].debug_caller, openedPanels[0]);
         this.panels.closePanel(openedPanels[0]);
       } else {
         console.error('Not enough space for cards');
