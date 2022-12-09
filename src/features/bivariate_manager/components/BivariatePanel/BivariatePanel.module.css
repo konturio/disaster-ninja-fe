@@ -37,7 +37,7 @@
   }
 }
 
-& .panelBody {
+.panelBody {
   height: calc(100vh - 44px - 41px);
   width: 75vw;
   padding: 0 var(--double-unit) var(--double-unit) var(--double-unit);
@@ -54,31 +54,31 @@
       var(--unit) var(--double-unit);
   }
 
-  & .panelBody :first-child {
+  & :first-child {
     margin-top: 0;
   }
+}
 
-  & .panelIcon {
-    display: none;
-  }
+.panelIcon {
+  display: none;
+}
 
-  & .iconContainerShown {
-    display: block;
-  }
+.iconContainerShown {
+  display: block;
+}
 
-  & .iconContainerHidden {
-    display: none;
-  }
+.iconContainerHidden {
+  display: none;
+}
 
-  & .customCloseBtn {
-    position: absolute;
-    right: 0;
-    cursor: pointer;
-    z-index: 2;
+.customCloseBtn {
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  z-index: 2;
 
-    &:hover {
-      background: #5e7080;
-    }
+  &:hover {
+    background: #5e7080;
   }
 }
 
