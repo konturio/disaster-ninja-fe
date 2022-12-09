@@ -13,8 +13,7 @@ export function useBrowserTabUpdateEffect(iconPath?: string) {
     linkElements.forEach((linkEl) => {
       // keep url icons versions
       const linkUrl = new URL(linkEl.href);
-      linkUrl.pathname = link!;
-      linkEl.href = linkUrl.pathname + linkUrl.search;
+      linkEl.href = link + linkUrl.search;
     });
   }, [iconPath]);
 }
