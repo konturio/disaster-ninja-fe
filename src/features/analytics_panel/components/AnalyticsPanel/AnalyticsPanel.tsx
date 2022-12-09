@@ -13,6 +13,9 @@ import styles from './AnalyticsPanel.module.css';
 const LazyLoadedAnalyticsContainer = lazy(
   () => import('../AnalyticsContainer/AnalyticsContainer'),
 );
+const LazyLoadedAnalyticsPanelHeader = lazy(
+  () => import('../AnalyticsPanelHeaderContainer/AnalyticsPanelHeaderContainer'),
+);
 
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -60,6 +63,7 @@ export function AnalyticsPanel() {
         contentContainerRef={handleRefChange}
       >
         <div className={styles.panelBody}>
+          <LazyLoadedAnalyticsPanelHeader />
           <LazyLoadedAnalyticsContainer />
         </div>
       </Panel>
