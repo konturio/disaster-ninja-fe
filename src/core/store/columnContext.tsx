@@ -14,10 +14,10 @@ export type PanelMeta = {
   closeCb: () => void;
   minHeight: number;
   getOpenState: () => boolean;
-  debug_caller?: string;
+  panelId?: string;
 };
 
-class PanelsRepository {
+export class PanelsRepository {
   panels = new Set<PanelMeta>();
 
   add(panel: PanelMeta) {
@@ -41,19 +41,16 @@ class PanelsRepository {
 
   getPanelsWithExtraSpace(): [[PanelMeta, number, number][], number] {
     let totalExtraSpace = 0;
-    /* Returns array with [panel, panelHeight, availableExtraSpace ] entries */
-    const panelsWithSizes = Array.from(this.panels).reduce(
-      (acc: [PanelMeta, number, number][], c) => {
-        const height = c.resizableNode.getBoundingClientRect().height;
-        if (height > c.minHeight) {
-          const extraSpace = height - c.minHeight;
-          acc.push([c, height, extraSpace]);
-          totalExtraSpace += extraSpace;
-        }
-        return acc;
-      },
-      [],
-    );
+    const panelsWithSizes: [PanelMeta, number, number][] = [];
+
+    this.panels.forEach((panel) => {
+      const height = panel.resizableNode.getBoundingClientRect().height;
+      if (height > panel.minHeight) {
+        const extraSpace = height - panel.minHeight;
+        panelsWithSizes.push([panel, height, extraSpace]);
+        totalExtraSpace += extraSpace;
+      }
+    });
 
     return [panelsWithSizes, totalExtraSpace];
   }
@@ -180,4 +177,8 @@ export class Resizer {
       effect();
     });
   }
+}
+
+export function PanelForTest() {
+  return <div></div>;
 }
