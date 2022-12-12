@@ -21,7 +21,7 @@
   margin-top: 0;
 }
 
-.sidebar .controlButton {
+.sidebar button.controlButton {
   width: 100%;
   justify-content: left;
   margin: 0;

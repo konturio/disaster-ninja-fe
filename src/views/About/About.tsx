@@ -88,9 +88,8 @@ export function AboutPage({ toHomePage }: { toHomePage: () => void }) {
         <Trans i18nKey="about.p6">
           We hope you find this tool valuable. Use the chatbox on Disaster Ninja for any
           questions about the functionality, and we will be happy to guide you. You can
-          also contact us by email at
-          <a href="mailto:hello@kontur.io">hello@kontur.io</a> if you have feedback or
-          suggestions on improving the tool.
+          also contact us by email at <a href="mailto:hello@kontur.io">hello@kontur.io</a>{' '}
+          if you have feedback or suggestions on improving the tool.
           <br />
           <br />
           Disaster Ninja is an open-source project. Find the code in{' '}

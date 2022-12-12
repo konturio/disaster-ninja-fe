@@ -1,19 +1,8 @@
-/* copy paste from Layers panel styles for the demo */
-.panelContainer {
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  box-shadow: var(--elevation-1);
-}
 .panel {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   z-index: 1;
-
-  & > div {
-    overflow: hidden;
-  }
 
   &.collapse {
     height: auto;
@@ -28,7 +17,7 @@
   height: 100%;
 }
 
-.panelIcon {
+.panelIcon.desktop {
   display: none;
 }
 
@@ -52,10 +41,17 @@
     width: 100%;
   }
 
-  .panelIcon {
+  .panelIcon.mobile {
+    display: flex;
     &.show {
+      transition: opacity 0.33s linear 0s;
       visibility: visible;
-      display: flex;
+      opacity: 1;
+    }
+
+    &.hide {
+      visibility: hidden;
+      opacity: 0;
     }
   }
 }

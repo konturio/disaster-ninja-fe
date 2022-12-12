@@ -32,7 +32,7 @@ export function EventsPanel({
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
     MIN_HEIGHT,
-    'event_list'
+    'event_list',
   );
 
   const openFullState = useCallback(() => {
@@ -58,7 +58,7 @@ export function EventsPanel({
   };
 
   return (
-    <div className={clsx(s.panelContainer)}>
+    <>
       <Panel
         header={String(i18n.t('disasters'))}
         headerIcon={<Disasters24 />}
@@ -78,9 +78,14 @@ export function EventsPanel({
 
       <PanelIcon
         clickHandler={openFullState}
-        className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+        className={clsx(
+          s.panelIcon,
+          isOpen && s.hide,
+          !isOpen && s.show,
+          isMobile ? s.mobile : s.desktop,
+        )}
         icon={<Disasters24 />}
       />
-    </div>
+    </>
   );
 }

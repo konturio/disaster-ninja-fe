@@ -13,9 +13,6 @@ import styles from './AnalyticsPanel.module.css';
 const LazyLoadedAnalyticsContainer = lazy(
   () => import('../AnalyticsContainer/AnalyticsContainer'),
 );
-const LazyLoadedAnalyticsPanelHeader = lazy(
-  () => import('../AnalyticsPanelHeaderContainer/AnalyticsPanelHeaderContainer'),
-);
 
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -43,7 +40,7 @@ export function AnalyticsPanel() {
 
   useAutoCollapsePanel(isOpen, onPanelClose);
   return (
-    <div className={clsx(styles.panelContainer, isOpen && styles.isOpen)}>
+    <>
       <Panel
         header={String(i18n.t('analytics_panel.header_title'))}
         headerIcon={<Analytics24 />}
@@ -65,16 +62,20 @@ export function AnalyticsPanel() {
         contentContainerRef={handleRefChange}
       >
         <div className={styles.panelBody} ref={contentRef}>
-          <LazyLoadedAnalyticsPanelHeader />
           <LazyLoadedAnalyticsContainer />
         </div>
       </Panel>
 
       <PanelIcon
         clickHandler={onPanelOpen}
-        className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
+        className={clsx(
+          styles.panelIcon,
+          isOpen && styles.hide,
+          !isOpen && styles.show,
+          isMobile ? styles.mobile : styles.desktop,
+        )}
         icon={<Analytics24 />}
       />
-    </div>
+    </>
   );
 }
