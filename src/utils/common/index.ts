@@ -57,7 +57,7 @@ export const removeEmpty = <T extends Record<string, unknown | null | undefined>
     return acc;
   }, {} as NoUndefinedField<T>);
 
-export function trimLinkIfInDev(isDevBuild: boolean, link: string) {
+export function transformLinkIfInDev(isDevBuild: boolean, link: string) {
   // trim beginning of url designed for builded apps that serve static files via '/active/static'
   if (isDevBuild && link?.startsWith('/active/static')) {
     return link.replace('/active/static', '');

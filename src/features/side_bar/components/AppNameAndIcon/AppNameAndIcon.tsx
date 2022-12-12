@@ -3,7 +3,7 @@ import { useAtom } from '@reatom/react';
 import app_config from '~core/app_config';
 import { i18n } from '~core/localization';
 import { currentAppPropertiesResourceAtom } from '~core/shared_state/currentApplication';
-import { trimLinkIfInDev } from '~utils/common';
+import { transformLinkIfInDev } from '~utils/common';
 
 type AppNameAndIconProps = {
   wrapClassName?: string;
@@ -19,7 +19,7 @@ export function AppNameAndIcon({
   const [{ data: appParams }] = useAtom(currentAppPropertiesResourceAtom);
   const iconPath =
     appParams?.sidebarIconUrl &&
-    trimLinkIfInDev(app_config.isDevBuild, appParams?.sidebarIconUrl);
+    transformLinkIfInDev(app_config.isDevBuild, appParams?.sidebarIconUrl);
 
   const appIcon = iconPath ? (
     <img src={iconPath} width={24} height={24} alt={i18n.t('sidebar.icon_alt')} />
