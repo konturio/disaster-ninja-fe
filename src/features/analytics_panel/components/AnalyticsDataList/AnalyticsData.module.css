@@ -1,6 +1,9 @@
 .stat {
-  color: #051626;
+  color: var(--base-strong);
   margin-top: 12px;
+  &:first-child {
+    margin-top: 0;
+  }
 
   & .statHead {
     font-weight: bold;
