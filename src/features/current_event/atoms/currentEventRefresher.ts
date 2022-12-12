@@ -1,7 +1,7 @@
 import { createAtom } from '~utils/atoms';
 import { currentEventAtom } from '~core/shared_state';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
-import { currentEventResourceAtom } from '../../../core/shared_state/currentEventResource';
+import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
 
 export const currentEventRefresherAtom = createAtom(
   {
