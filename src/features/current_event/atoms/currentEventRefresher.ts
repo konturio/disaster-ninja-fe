@@ -1,7 +1,7 @@
 import { createAtom } from '~utils/atoms';
 import { currentEventAtom } from '~core/shared_state';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
-import { currentEventResourceAtom } from './currentEventResource';
+import { currentEventResourceAtom } from '../../../core/shared_state/currentEventResource';
 
 export const currentEventRefresherAtom = createAtom(
   {
@@ -15,10 +15,7 @@ export const currentEventRefresherAtom = createAtom(
         });
       } else if (prev === null || prev === undefined) {
         schedule((dispatch) => {
-          autoRefreshService.addWatcher(
-            'currentEvent',
-            currentEventResourceAtom,
-          );
+          autoRefreshService.addWatcher('currentEvent', currentEventResourceAtom);
         });
       }
     });

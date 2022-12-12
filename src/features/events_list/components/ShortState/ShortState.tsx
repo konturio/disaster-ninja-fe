@@ -2,11 +2,11 @@ import { Button, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react';
 import { useEffect, useState } from 'react';
 import { i18n } from '~core/localization';
-import { currentEventResourceAtom } from '~features/current_event/atoms/currentEventResource';
+import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
 import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { EventCard } from '../EventCard/EventCard';
-import { CurrentEventFromResource } from '../CurrentEventFromResource/CurrentEventFromResource';
+import { CurrentEvent } from '../CurrentEvent/CurrentEvent';
 import s from './ShortState.module.css';
 import type { MouseEventHandler } from 'react';
 import type { Event } from '~core/types';
@@ -57,7 +57,7 @@ export function ShortState({
   const eventInfo = event ? (
     <SingleEventCard event={event} hasTimeline={hasTimeline} />
   ) : (
-    <CurrentEventFromResource hasTimeline={hasTimeline} />
+    <CurrentEvent hasTimeline={hasTimeline} />
   );
 
   const panelContent = eventInfo || (
