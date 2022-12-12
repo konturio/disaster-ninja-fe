@@ -39,7 +39,7 @@ export function patchTracer(t: TransactionData) {
       }
       return a.targets?.map((t) => t.id).join(',') + ' <-- ' + a.type;
     })
-    .join('\n\t');
+    .join('\n\t\t');
 
-  dump && console.warn(`${performance.now()}:>`, dump, t);
+  dump && console.warn(`${~~performance.now()}>`, dump, t);
 }
