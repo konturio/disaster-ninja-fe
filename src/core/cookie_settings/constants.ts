@@ -5,7 +5,7 @@ export const permissionStatuses = {
 } as const;
 
 export const permissionStrategy = {
-  resolveAll: 'resolveAll',
+  applyAll: 'applyAll',
   rejectAll: 'rejectAll',
   prompt: 'prompt',
 } as const;

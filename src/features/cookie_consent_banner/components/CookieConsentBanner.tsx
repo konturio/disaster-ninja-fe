@@ -1,11 +1,14 @@
 import { useAtom } from '@reatom/react';
 import { cookieSettingsAtom } from '../atoms/cookieSettingsAtom';
+import s from './CookieConsentBanner.module.css';
 
 export function CookieConsentBanner() {
-  const [cookieSettings, { applyAll, rejectAll }] = useAtom(cookieSettingsAtom);
+  const [havePrompts, { acceptAll, rejectAll }] = useAtom(cookieSettingsAtom);
 
-  return <div>
-    <button onClick={rejectAll}>Reject</button>
-    <button onClick={applyAll}>AcceptAll</button>
-  </div>;
+  return havePrompts ? (
+    <div className={s.cookieBanner}>
+      <button onClick={rejectAll}>Reject</button>
+      <button onClick={acceptAll}>AcceptAll</button>
+    </div>
+  ) : null;
 }
