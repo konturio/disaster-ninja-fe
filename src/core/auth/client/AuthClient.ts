@@ -1,7 +1,7 @@
 import { currentUserAtom } from '~core/shared_state';
-import { callYm } from '~utils/metrics/yandexCounter';
 import appConfig from '~core/app_config';
 import { userStateAtom } from '~core/auth/atoms/userState';
+import { yandexMetrics } from '~core/metrics';
 import type { JWTData } from '~core/api_client/types';
 import type { ApiClient } from '~core/api_client';
 
@@ -91,7 +91,7 @@ export class AuthClient {
     // in case we do have intercom - lets store right credentials for when it will be ready
     appConfig.intercom.name = response.jwtData.preferred_username;
     appConfig.intercom['email'] = response.jwtData.email;
-    callYm('setUserID', response.jwtData.email);
+    yandexMetrics.mark('setUserID', response.jwtData.email);
   }
 
   public async authenticate(

@@ -8,3 +8,8 @@ export interface MetricsReportTemplate {
 
 export type MetricsEventDetail = { name: string; payload?: unknown };
 export type MetricsEvent = CustomEvent<MetricsEventDetail>;
+
+export interface Metric {
+  init: (appId: string, route: string) => void;
+  mark: (name: string, payload: any) => void;
+}
