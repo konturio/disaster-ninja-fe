@@ -11,7 +11,7 @@ import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
-import { MIN_HEIGHT } from '../../constants';
+import { MIN_HEIGHT, MIN_SHORT_STATE_HEIGHT } from '../../constants';
 import { FullState } from '../FullState/FullState';
 import { ShortState } from '../ShortState/ShortState';
 import s from './EventsPanel.module.css';
@@ -26,12 +26,13 @@ export function EventsPanel({
   const { panelState, panelControls, setPanelState } = useShortPanelState();
 
   const isOpen = panelState !== 'closed';
+  const isShort = panelState === 'short';
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const [{ data: userModel }] = useAtom(userResourceAtom);
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
-    MIN_HEIGHT,
+    isShort ? MIN_SHORT_STATE_HEIGHT : MIN_HEIGHT,
   );
 
   const openFullState = useCallback(() => {
@@ -65,11 +66,12 @@ export function EventsPanel({
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        resize={isMobile || panelState === 'short' ? 'none' : 'vertical'}
+        resize={isMobile || isShort ? 'none' : 'vertical'}
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
         customControls={panelControls}
-        contentHeight={panelState === 'short' ? 'min-content' : undefined}
+        contentHeight={isShort ? 'min-content' : undefined}
+        minContentHeight={isShort ? 'min-content' : MIN_HEIGHT}
       >
         {panelContent[panelState]}
       </Panel>
