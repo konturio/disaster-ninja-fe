@@ -178,7 +178,3 @@ export class Resizer {
     });
   }
 }
-
-export function PanelForTest() {
-  return <div></div>;
-}

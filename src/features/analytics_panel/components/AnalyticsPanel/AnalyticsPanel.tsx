@@ -2,12 +2,14 @@ import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { lazy, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Analytics24 } from '@konturio/default-icons';
+import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { panelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { MIN_HEIGHT } from '../../constants';
+import { analyticsResourceAtom } from '../../atoms/analyticsResource';
 import styles from './AnalyticsPanel.module.css';
 
 const LazyLoadedAnalyticsContainer = lazy(
@@ -17,6 +19,7 @@ const LazyLoadedAnalyticsContainer = lazy(
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const [analyticsResourceState] = useAtom(analyticsResourceAtom);
   const contentRef = useRef<null | HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(MIN_HEIGHT);
 
@@ -24,7 +27,7 @@ export function AnalyticsPanel() {
 
   useLayoutEffect(() => {
     contentRef.current && setContentHeight(contentRef.current.scrollHeight);
-  }, [contentRef]);
+  }, [contentRef, analyticsResourceState]);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
