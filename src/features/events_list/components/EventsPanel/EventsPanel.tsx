@@ -65,8 +65,8 @@ export function EventsPanel({
     <div className={s.combinedHeader}>
       <div>{i18n.t('disasters')}</div>
       {focusedGeometry?.source.type === 'event' && (
-        <div className={s.eventNameLabel}>
-          <Text type="heading-m">{focusedGeometry.source.meta.eventName}</Text>
+        <div className={clsx(s.eventNameLabel, s.truncated)}>
+          <Text type="short-m">{focusedGeometry.source.meta.eventName}</Text>
         </div>
       )}
     </div>
@@ -76,7 +76,11 @@ export function EventsPanel({
     <>
       <Panel
         header={header}
-        headerIcon={<Disasters24 />}
+        headerIcon={
+          <div className={s.iconWrap}>
+            <Disasters24 />
+          </div>
+        }
         className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
         classes={panelClasses}
         isOpen={isOpen}
