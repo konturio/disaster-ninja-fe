@@ -1,5 +1,8 @@
 .bivariateContainer {
   overflow: hidden;
+  margin-top: 50px; /* panel header offset */
+  display: flex;
+  justify-content: flex-end;
 }
 
 .header {
@@ -20,17 +23,6 @@
     line-height: 16px;
     color: var(--faint-strong-up);
   }
-}
-
-.matrixContainer {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: scale(0.7);
-  position: relative;
-  left: 100px;
-  top: 40px;
 }
 
 .loadingContainer {

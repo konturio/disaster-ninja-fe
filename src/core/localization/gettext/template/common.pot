@@ -552,6 +552,12 @@ msgstr ""
 msgid "Applied on the map"
 msgstr ""
 
+#: bivariate##matrix##loading_error
+msgid ""
+"Unfortunately, we cannot display the matrix. Try refreshing the page or "
+"come back later."
+msgstr ""
+
 #: bivariate##legend##high
 msgid "High"
 msgstr ""
