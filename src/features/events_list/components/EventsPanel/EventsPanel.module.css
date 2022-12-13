@@ -3,6 +3,17 @@
   z-index: 1;
 }
 
+.combinedHeader {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  & .eventNameLabel {
+    border-radius: calc(var(--border-radius-unit) * 3);
+    background-color: var(--faint-weak);
+    padding: 0 var(--unit);
+  }
+}
+
 .eventsPanel {
   position: relative;
   border-radius: var(--border-radius-unit);

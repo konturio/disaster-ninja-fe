@@ -1,4 +1,4 @@
-import { Panel, PanelIcon } from '@konturio/ui-kit';
+import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useCallback } from 'react';
 import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
@@ -11,6 +11,7 @@ import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
+import { focusedGeometryAtom } from '~core/shared_state';
 import { MIN_HEIGHT, MIN_SHORT_STATE_HEIGHT } from '../../constants';
 import { FullState } from '../FullState/FullState';
 import { ShortState } from '../ShortState/ShortState';
@@ -24,6 +25,7 @@ export function EventsPanel({
   onCurrentChange: (id: string) => void;
 }) {
   const { panelState, panelControls, setPanelState } = useShortPanelState();
+  const [focusedGeometry] = useAtom(focusedGeometryAtom);
 
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
@@ -57,10 +59,23 @@ export function EventsPanel({
     closed: null,
   };
 
+  const header = isOpen ? (
+    i18n.t('disasters')
+  ) : (
+    <div className={s.combinedHeader}>
+      <div>{i18n.t('disasters')}</div>
+      {focusedGeometry?.source.type === 'event' && (
+        <div className={s.eventNameLabel}>
+          <Text type="heading-m">{focusedGeometry.source.meta.eventName}</Text>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <>
       <Panel
-        header={String(i18n.t('disasters'))}
+        header={header}
         headerIcon={<Disasters24 />}
         className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
         classes={panelClasses}
