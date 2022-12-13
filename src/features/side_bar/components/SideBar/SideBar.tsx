@@ -107,9 +107,7 @@ export function SideBar({
                 <div
                   className={s.buttonWrap}
                   onPointerLeave={onMouseLeave}
-                  onPointerEnter={(e) =>
-                    onMouseEnter(e.target as HTMLDivElement, route.title)
-                  }
+                  onPointerEnter={(e) => onMouseEnter(e.currentTarget, route.title)}
                 >
                   <ActionsBarBTN
                     size={route.parentRoute ? 'small-xs' : 'small'}
@@ -151,7 +149,7 @@ export function SideBar({
                 onClick={toggleIsOpen}
                 onPointerLeave={onMouseLeave}
                 onPointerEnter={(e) =>
-                  onMouseEnter(e.target as HTMLDivElement, i18n.t('sidebar.expand'))
+                  onMouseEnter(e.currentTarget, i18n.t('sidebar.expand'))
                 }
               >
                 <ActionsBarBTN

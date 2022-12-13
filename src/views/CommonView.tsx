@@ -6,7 +6,7 @@ import { Row } from '~components/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth';
 import { currentAppPropertiesResourceAtom } from '~core/shared_state/currentApplication';
-import { useBrowserTabUpdateEffect } from '~utils/hooks/useBrowserTabUpdate';
+import { useFavicon } from '~utils/hooks/useFavicon';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
@@ -28,7 +28,7 @@ export function CommonView({
   const userModel = data && !loading ? data : null;
   const [{ data: appParams }] = useAtom(currentAppPropertiesResourceAtom);
 
-  useBrowserTabUpdateEffect(appParams?.faviconUrl);
+  useFavicon(appParams?.faviconUrl);
 
   useEffect(() => {
     if (userModel?.hasFeature(AppFeature.INTERCOM)) {

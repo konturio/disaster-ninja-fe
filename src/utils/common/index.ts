@@ -57,10 +57,15 @@ export const removeEmpty = <T extends Record<string, unknown | null | undefined>
     return acc;
   }, {} as NoUndefinedField<T>);
 
-export function transformLinkIfInDev(isDevBuild: boolean, link: string) {
-  // trim beginning of url designed for builded apps that serve static files via '/active/static'
-  if (isDevBuild && link?.startsWith('/active/static')) {
-    return link.replace('/active/static', '');
-  }
-  return link;
+export function transformIconLink(iconPath: string) {
+  if (iconPath.startsWith('http')) return iconPath;
+
+  const iconLocations = iconPath.split('/');
+  const iconName = iconLocations[iconLocations.length - 1];
+  const iconStaticPath =
+    import.meta.env?.VITE_BASE_PATH +
+    import.meta.env?.VITE_STATIC_PATH +
+    'favicon/' +
+    iconName;
+  return iconStaticPath;
 }
