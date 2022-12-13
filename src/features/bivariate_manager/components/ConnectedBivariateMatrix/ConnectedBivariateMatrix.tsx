@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useAction, useAtom } from '@reatom/react';
 import debounce from 'lodash/debounce';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
@@ -48,7 +48,8 @@ const mapHeaderCell = (
     ),
   })),
 });
-const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(({}, ref) => {
+
+const ConnectedBivariateMatrix = () => {
   const [{ selectedCell }, { setMatrixSelection, setPreselectMode }] = useAtom(
     bivariateMatrixSelectionAtom,
   );
@@ -166,7 +167,6 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(({}, ref
 
   return matrix && headings ? (
     <BivariateMatrixControlComponent
-      ref={ref}
       matrix={matrix}
       xHeadings={headings.x}
       yHeadings={headings.y}
@@ -175,7 +175,7 @@ const ConnectedBivariateMatrix = forwardRef<HTMLDivElement | null, any>(({}, ref
       onSelectQuotient={onSelectQuotient}
     />
   ) : null;
-});
+};
 
 ConnectedBivariateMatrix.displayName = 'ConnectedBivariateMatrix';
 

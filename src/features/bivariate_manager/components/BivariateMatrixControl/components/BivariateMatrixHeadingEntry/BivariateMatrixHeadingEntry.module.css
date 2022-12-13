@@ -60,9 +60,9 @@
   content: '';
   position: absolute;
   top: 100%;
-  left: -1.5px;
-  width: 24px;
-  height: 23px;
+  left: 100%;
+  width: 1px;
+  height: 22px;
   border-right: var(--header-border-style);
   z-index: 1;
 }
@@ -90,8 +90,8 @@
   content: '';
   position: absolute;
   left: 100%;
-  width: 21px;
-  height: 24px;
+  width: 22px;
+  height: 23px;
   border-bottom: var(--header-border-style);
   z-index: 1;
 }

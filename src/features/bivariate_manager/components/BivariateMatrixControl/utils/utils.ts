@@ -16,12 +16,8 @@ export function useGridStyle(x, y, cellSize = 0) {
     () => ({
       display: 'inline-grid',
       '--cell-size': cellSize === 0 ? 'initial' : `${cellSize}px`,
-      gridTemplateRows: `repeat(${y}, ${
-        cellSize === 0 ? 'auto' : cellSize + 'px'
-      })`,
-      gridTemplateColumns: `repeat(${x}, ${
-        cellSize === 0 ? 'auto' : cellSize + 'px'
-      })`,
+      gridTemplateRows: `repeat(${y}, ${cellSize === 0 ? 'auto' : cellSize + 'px'})`,
+      gridTemplateColumns: `repeat(${x}, ${cellSize === 0 ? 'auto' : cellSize + 'px'})`,
     }),
     [x, y, cellSize],
   );
@@ -49,8 +45,7 @@ export function generateCellStyles(
 export function useBaseMatrixDimension(xHeadings, yHeadings) {
   // calculate base width of header item
   const memoizedBaseDimension = useMemo(() => {
-    if (!xHeadings || !xHeadings.length || !yHeadings || !yHeadings.length)
-      return 0;
+    if (!xHeadings || !xHeadings.length || !yHeadings || !yHeadings.length) return 0;
 
     let xLength = calculateStringWidth(xHeadings[0].label);
     for (let i = 1; i < xHeadings.length; i++) {
@@ -80,9 +75,10 @@ const canvas = document.createElement('canvas');
 const context: any = canvas.getContext('2d') || {};
 context.font = 'normal 13px Roboto';
 
+const QUOTIENT_ICON_SIZE = 30;
+const QUOTIENTS_DROPDOWN_SIZE = 90;
 export function calculateStringWidth(str: string): number {
-  // coeff 0.85 here is because of transform: scale(0.85) applied to matrix
-  return (context.measureText(str).width + 80) / 0.85;
+  return context.measureText(str).width + QUOTIENT_ICON_SIZE + QUOTIENTS_DROPDOWN_SIZE;
 }
 
 export function calculateHeadingsStyle(

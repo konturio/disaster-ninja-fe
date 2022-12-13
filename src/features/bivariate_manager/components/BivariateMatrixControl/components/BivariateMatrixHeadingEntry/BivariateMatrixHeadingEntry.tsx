@@ -26,11 +26,11 @@ interface BivariateMatrixHeadingEntry {
       id: [string, string];
       label?: string;
     };
-    quality?: number;
+    quality?: string;
     quotients: {
       id: [string, string];
       label?: string;
-      quality?: number;
+      quality?: string;
     }[];
   };
   id: string;

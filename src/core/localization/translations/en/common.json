@@ -183,7 +183,8 @@
       "progress": {
         "rendering": "Rendering",
         "applied": "Applied on the map"
-      }
+      },
+      "loading_error": "Unfortunately, we cannot display the matrix. Try refreshing the page or come back later."
     },
     "legend": {
       "high": "High",
