@@ -11,7 +11,7 @@ import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
-import { MIN_HEIGHT, MIN_SHORT_STATE_HEIGHT } from '../../constants';
+import { MIN_HEIGHT } from '../../constants';
 import { FullState } from '../FullState/FullState';
 import { ShortState } from '../ShortState/ShortState';
 import s from './EventsPanel.module.css';
