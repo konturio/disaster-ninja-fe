@@ -1,13 +1,16 @@
 import every from 'lodash/every';
 import appConfig from '~core/app_config';
+import { apiClient } from '~core/apiClientInstance';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
+import { AppFeature } from '~core/auth/types';
 import {
   METRICS_EVENT,
   METRICS_REPORT_TEMPLATE,
-  METRICS_WATCH_LIST,
   EVENT_MAP_IDLE,
+  buildWatchList,
 } from './constants';
 import { Sequence } from './sequence';
+import type { AppFeatureType } from '~core/auth/types';
 import type { MetricsReportTemplate, MetricsEvent } from './types';
 
 const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
@@ -49,6 +52,7 @@ export class AppMetrics {
   private eventLog: string[] = [];
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
   reportTemplate: MetricsReportTemplate = METRICS_REPORT_TEMPLATE;
+  watchList: Record<string, null | number> = {};
 
   static getInstance() {
     if (this._instance) {
@@ -69,8 +73,7 @@ export class AppMetrics {
     };
   }
 
-  init(appId: string, route: string) {
-    console.info('appMetrics.init with', appId, route);
+  init(appId: string, route: string, hasFeature: (f: AppFeatureType) => boolean): void {
     // currently we support metrics only for map page
     if (route !== '') {
       // '' is route for map
@@ -78,9 +81,13 @@ export class AppMetrics {
     }
 
     this.reportTemplate.appId = appId ?? '';
+
+    // add available features to metrics
+    this.watchList = buildWatchList(hasFeature);
+
     globalThis.addEventListener(METRICS_EVENT, this.listener.bind(this) as EventListener);
     if (KONTUR_METRICS_DEBUG) {
-      console.info('appMetrics.init ready', this.reportTemplate);
+      console.info(`appMetrics.init route:${route}`, this.reportTemplate, this.watchList);
     }
   }
 
@@ -117,7 +124,7 @@ export class AppMetrics {
   }
 
   private processEvent(name: string, payload?: unknown) {
-    this.watch(name);
+    this.watch(name, payload);
     this.recordEventToLog(name);
     this.sequences.forEach((s) => {
       s.update(name, payload);
@@ -136,9 +143,14 @@ export class AppMetrics {
     this.processEvent(e.detail.name, e.detail.payload);
   }
 
-  watchList = METRICS_WATCH_LIST;
+  watch(name: string, payload?: unknown) {
+    // if current_event not available do not wait analytics etc
+    // TODO: use runtimeDepsTree after further analysis
+    if (name === AppFeature.CURRENT_EVENT && payload === false) {
+      delete this.watchList[AppFeature.ANALYTICS_PANEL];
+      delete this.watchList['_done_layersInAreaAndEventLayerResource'];
+    }
 
-  watch(name: string) {
     if (this.watchList[name] === null) {
       const timing = performance.now();
       this.watchList[name] = timing;
@@ -170,16 +182,13 @@ export class AppMetrics {
       name,
       value: timing,
     };
+
     if (KONTUR_METRICS_DEBUG) {
       console.warn('metrics', payload);
     }
-    // TODO: use apiClientInstance after app init refactor
-    fetch(APP_METRICS_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify([payload]),
-    }).catch((error) => {
-      console.error('sent metrics error:', error, payload);
+
+    apiClient.post(APP_METRICS_ENDPOINT, [payload], true).catch((error) => {
+      console.error('error posting metrics :', error, payload);
     });
   }
 }

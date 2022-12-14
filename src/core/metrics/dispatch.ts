@@ -10,3 +10,10 @@ export function dispatchMetricsEvent(name: string, payload: unknown) {
   });
   globalThis.dispatchEvent(evt);
 }
+
+const dispatched = {};
+export const dispatchMetricsEventOnce = (name: string, payload: unknown) => {
+  if (dispatched[name]) return;
+  dispatched[name] = true;
+  dispatchMetricsEvent(name, payload);
+};
