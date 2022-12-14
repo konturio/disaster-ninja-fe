@@ -30,6 +30,7 @@ export function LayersAndLegendsWidget({ layersProps, legendProps }: PanelProps)
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
     minHeight,
+    'legend_and_layers',
   );
 
   const onPanelIconClick = useCallback(() => {

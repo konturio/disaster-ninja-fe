@@ -11,7 +11,7 @@ import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
-import { MIN_HEIGHT, MIN_SHORT_STATE_HEIGHT } from '../../constants';
+import { MIN_HEIGHT } from '../../constants';
 import { FullState } from '../FullState/FullState';
 import { ShortState } from '../ShortState/ShortState';
 import s from './EventsPanel.module.css';
@@ -32,7 +32,8 @@ export function EventsPanel({
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
-    isShort ? MIN_SHORT_STATE_HEIGHT : MIN_HEIGHT,
+    MIN_HEIGHT,
+    'event_list',
   );
 
   const openFullState = useCallback(() => {
