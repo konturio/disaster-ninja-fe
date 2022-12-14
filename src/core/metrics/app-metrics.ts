@@ -53,6 +53,7 @@ export class AppMetrics {
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
   reportTemplate: MetricsReportTemplate = METRICS_REPORT_TEMPLATE;
   watchList: Record<string, null | number> = {};
+  reports: MetricsReportTemplate[] = [];
 
   static getInstance() {
     if (this._instance) {
@@ -63,14 +64,7 @@ export class AppMetrics {
   }
 
   private constructor() {
-    globalThis.KONTUR_METRICS = {
-      watchList: this.watchList,
-      markers: this.markers,
-      sequences: this.sequences,
-      events: this.eventLog,
-      toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
-      toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
-    };
+    //
   }
 
   init(appId: string, route: string, hasFeature: (f: AppFeatureType) => boolean): void {
@@ -86,14 +80,30 @@ export class AppMetrics {
     this.watchList = buildWatchList(hasFeature);
 
     globalThis.addEventListener(METRICS_EVENT, this.listener.bind(this) as EventListener);
+
     if (KONTUR_METRICS_DEBUG) {
       console.info(`appMetrics.init route:${route}`, this.reportTemplate, this.watchList);
     }
+
+    this.exposeMetrics();
   }
 
   // remove listeners and unsubscribe from atoms
   cleanup() {
     globalThis.removeEventListener(METRICS_EVENT, this.listener as EventListener);
+    this.watch = () => null;
+  }
+
+  exposeMetrics() {
+    globalThis.KONTUR_METRICS = {
+      watchList: this.watchList,
+      reports: this.reports,
+      markers: this.markers,
+      sequences: this.sequences,
+      events: this.eventLog,
+      toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
+      toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
+    };
   }
 
   recordEventToLog(name: string) {
@@ -154,23 +164,33 @@ export class AppMetrics {
     if (this.watchList[name] === null) {
       const timing = performance.now();
       this.watchList[name] = timing;
-      if (every(this.watchList, Boolean)) {
-        // we need to wait EVENT_MAP_IDLE after all events from watchList
+
+      const { [EVENT_MAP_IDLE]: mapIdleWatch, ...tempList } = this.watchList;
+      if (every(tempList, Boolean)) {
+        // watchList completed
+
+        // we need to wait (again) EVENT_MAP_IDLE after all events from watchList
         // to determite that app is ready
         if (name !== EVENT_MAP_IDLE) {
+          if (KONTUR_METRICS_DEBUG) {
+            console.warn('metrics waiting final mapidle', this.watchList);
+          }
+
           this.watchList[EVENT_MAP_IDLE] = null;
+          // FIXME: replace globalThis?.KONTUR_MAP after init refactor
+          globalThis?.KONTUR_MAP.triggerRepaint();
+        } else {
+          if (!mapIdleWatch) {
+            // report mapidle if it was last watch
+            this.report(EVENT_MAP_IDLE, timing);
+          }
+
+          // watchList done
+          this.cleanup();
+          this.report('ready', timing);
+          readyForScreenshot();
           return;
         }
-
-        setTimeout(() => {
-          this.report('ready', timing);
-          const eventReadyEvent = new Event('event_ready_for_screenshot');
-          window.dispatchEvent(eventReadyEvent);
-        }, 299); // extra time to prevent rendering glitches
-
-        // watchList done
-        this.cleanup();
-        return;
       }
       this.report(name, timing);
     }
@@ -187,8 +207,23 @@ export class AppMetrics {
       console.warn('metrics', payload);
     }
 
+    this.reports.push(payload);
+
     apiClient.post(APP_METRICS_ENDPOINT, [payload], true).catch((error) => {
       console.error('error posting metrics :', error, payload);
     });
   }
+}
+
+function readyForScreenshot() {
+  // Still no reliable ways to detect when map is fully rendered, related issues are hanging for years
+  // TODO: implement better map ready detection when possible
+  globalThis?.KONTUR_MAP.once('idle', function () {
+    setTimeout(() => {
+      const eventReadyEvent = new Event('event_ready_for_screenshot');
+      globalThis.dispatchEvent(eventReadyEvent);
+      // debugger;
+    }, 99); // extra time to prevent rendering glitches
+  });
+  globalThis?.KONTUR_MAP.triggerRepaint();
 }
