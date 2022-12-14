@@ -32,7 +32,7 @@ export function EventsPanel({
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
-    isShort ? MIN_SHORT_STATE_HEIGHT : MIN_HEIGHT,
+    MIN_HEIGHT,
     'event_list',
   );
 

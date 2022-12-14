@@ -3,30 +3,11 @@ import { useAtom } from '@reatom/react';
 import { useEffect, useState } from 'react';
 import { i18n } from '~core/localization';
 import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
-import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
-import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
-import { EventCard } from '../EventCard/EventCard';
+import { eventListResourceAtom } from '../../atoms/eventListResource';
 import { CurrentEvent } from '../CurrentEvent/CurrentEvent';
 import s from './ShortState.module.css';
 import type { MouseEventHandler } from 'react';
 import type { Event } from '~core/types';
-
-const SingleEventCard = ({
-  event,
-  hasTimeline,
-}: {
-  event: Event;
-  hasTimeline?: boolean;
-}) => (
-  <EventCard
-    event={event}
-    isActive={true}
-    alternativeActionControl={
-      hasTimeline ? <EpisodeTimelineToggle isActive={true} /> : null
-    }
-    externalUrls={event.externalUrls}
-  />
-);
 
 export function ShortState({
   hasTimeline,
@@ -54,11 +35,7 @@ export function ShortState({
     if (!event && currentEvent) setEvent(currentEvent);
   }, [currentEvent, event, setEvent]);
 
-  const eventInfo = event ? (
-    <SingleEventCard event={event} hasTimeline={hasTimeline} />
-  ) : (
-    <CurrentEvent hasTimeline={hasTimeline} />
-  );
+  const eventInfo = event ? <CurrentEvent hasTimeline={hasTimeline} /> : null;
 
   const panelContent = eventInfo || (
     <div className={s.noDisasters}>
