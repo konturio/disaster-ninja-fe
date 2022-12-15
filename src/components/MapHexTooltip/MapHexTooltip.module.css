@@ -42,7 +42,30 @@
   }
 }
 
-.popupContentRoot {
-  max-width: none;
-  padding: 8px 8px 8px 12px;
+.bivariateHexagonPopupContentRoot {
+  color: var(--base-weak);
+  border-radius: var(--border-radius);
+
+  & :global(.maplibregl-popup-tip) {
+    display: none;
+  }
+
+  & :global(.maplibregl-popup-content) {
+    padding: 8px 12px;
+    background: var(--base-strong);
+  }
+
+  & :global(.maplibregl-popup-close-button) {
+    color: var(--base-weak);
+    width: 20px;
+    height: 20px;
+    user-select: none;
+    font-size: 0;
+
+    &:before {
+      color: var(--faint-strong);
+      content: '\2715';
+      font-size: 16px;
+    }
+  }
 }

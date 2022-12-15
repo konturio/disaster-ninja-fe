@@ -14,9 +14,10 @@ export type PanelMeta = {
   closeCb: () => void;
   minHeight: number;
   getOpenState: () => boolean;
+  panelId?: string;
 };
 
-class PanelsRepository {
+export class PanelsRepository {
   panels = new Set<PanelMeta>();
 
   add(panel: PanelMeta) {
@@ -38,15 +39,20 @@ class PanelsRepository {
     panel.resizableNode.style.height = newHeight + 'px';
   }
 
-  /* Returns array with [panel, panelHeight] entries */
-  getPanelsWithExtraSpace() {
-    return Array.from(this.panels).reduce((acc: [PanelMeta, number][], c) => {
-      const height = c.resizableNode.getBoundingClientRect().height;
-      if (height > c.minHeight) {
-        acc.push([c, height]);
+  getPanelsWithExtraSpace(): [[PanelMeta, number, number][], number] {
+    let totalExtraSpace = 0;
+    const panelsWithSizes: [PanelMeta, number, number][] = [];
+
+    this.panels.forEach((panel) => {
+      const height = panel.resizableNode.getBoundingClientRect().height;
+      if (height > panel.minHeight) {
+        const extraSpace = height - panel.minHeight;
+        panelsWithSizes.push([panel, height, extraSpace]);
+        totalExtraSpace += extraSpace;
       }
-      return acc;
-    }, []);
+    });
+
+    return [panelsWithSizes, totalExtraSpace];
   }
 
   getPanelsWithOpenState() {
@@ -104,7 +110,7 @@ export class Resizer {
       );
     }
 
-    /* 1. Adjust size when column size changed (window resize) */
+    /* 2. Adjust size when column size changed (window resize) */
     const containerEl = this.limiter.current;
     if (containerEl !== null) {
       const containerObserver = new ResizeObserver((containerElements) => {
@@ -131,16 +137,26 @@ export class Resizer {
     }
   }
 
+  // why not resize first and close only after?
+  // then we have scenario when we shrinked all the panels and still have to close some
+  // after closing free space left but the panels are already shrinked
   _adjustPanelsHeight(diff: number) {
     // Get all children with height more than minimal
-    const cardsWithExtraSpace = this.panels.getPanelsWithExtraSpace();
-    if (cardsWithExtraSpace.length > 0) {
-      // Reduce cards height
-      const reduceSize = Math.ceil(diff / cardsWithExtraSpace.length);
-      cardsWithExtraSpace.forEach(([card, currentHeight]) => {
-        this.panels.adjustToHeight(card, currentHeight - reduceSize);
+    const [cardsWithExtraSpace, totalExtraSpace] = this.panels.getPanelsWithExtraSpace();
+    // If it's possible to free all the space needed by resizing - start resizing
+    if (totalExtraSpace > diff) {
+      // store the amount left to reduce
+      let leftToReduce = diff;
+
+      cardsWithExtraSpace.forEach(([card, currentHeight, availableExtraSpace]) => {
+        // Reduce first card as much as needed
+        if (leftToReduce) {
+          const reduceAmount =
+            availableExtraSpace > leftToReduce ? leftToReduce : availableExtraSpace;
+          this.panels.adjustToHeight(card, currentHeight - reduceAmount);
+          leftToReduce = leftToReduce - reduceAmount;
+        }
       });
-      // In case no children with extra space
     } else {
       // Close first opened card
       const openedPanels = this.panels.getPanelsWithOpenState();

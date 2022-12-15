@@ -1,6 +1,6 @@
 import { Virtuoso } from 'react-virtuoso';
 import { useAtom } from '@reatom/react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { i18n } from '~core/localization';
@@ -13,6 +13,7 @@ import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineT
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { EventCard } from '../EventCard/EventCard';
+import { CurrentEvent } from '../CurrentEvent/CurrentEvent';
 import s from './FullState.module.css';
 import type { VirtuosoHandle } from 'react-virtuoso';
 
@@ -25,7 +26,10 @@ export function FullState({
 }) {
   const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
   const [{ data: userModel }] = useAtom(userResourceAtom);
+  const hasTimeline = userModel?.hasFeature(AppFeature.EPISODES_TIMELINE);
   const virtuoso = useRef<VirtuosoHandle>(null);
+
+  const [hasUnlistedEvent, setHasUnlistedEvent] = useState(false);
 
   const statesToComponents = createStateMap({
     error,
@@ -41,13 +45,18 @@ export function FullState({
         (event) => event.eventId === currentEventId,
       );
       // behavior: 'smooth' breaks this method as documentation warns https://virtuoso.dev/scroll-to-index
-      if (currentEventIndex > -1)
+      if (currentEventIndex > -1) {
         ref.scrollToIndex({ index: currentEventIndex, align: 'center' });
+        setHasUnlistedEvent(false);
+      } else {
+        setHasUnlistedEvent(true);
+      }
     }
-  }, [currentEventId, eventsList, virtuoso]);
+  }, [currentEventId, eventsList, virtuoso, setHasUnlistedEvent]);
 
   return (
     <div className={s.panelBody}>
+      {hasUnlistedEvent && <CurrentEvent hasTimeline={hasTimeline} />}
       <EventListSettingsRow>
         <FeedSelector />
         <BBoxFilterToggle />
@@ -67,7 +76,7 @@ export function FullState({
                     isActive={event.eventId === currentEventId}
                     onClick={onCurrentChange}
                     alternativeActionControl={
-                      userModel?.hasFeature(AppFeature.EPISODES_TIMELINE) ? (
+                      hasTimeline ? (
                         <EpisodeTimelineToggle
                           isActive={event.eventId === currentEventId}
                         />

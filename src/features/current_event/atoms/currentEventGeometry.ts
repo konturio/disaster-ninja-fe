@@ -2,7 +2,7 @@ import { createAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/auth/types';
-import { currentEventResourceAtom } from './currentEventResource';
+import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
 import type { EventWithGeometry } from '~core/types';
 
 export const currentEventGeometryAtom = createAtom(

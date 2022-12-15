@@ -23,7 +23,6 @@ export const isErrorWithMessage = (
   return e !== null && typeof e === 'object' && 'message' in e;
 };
 
-
 type flatObject = Record<string, string | boolean | number | undefined | null>;
 
 export function flatObjectsAreEqual(
@@ -57,3 +56,16 @@ export const removeEmpty = <T extends Record<string, unknown | null | undefined>
     }
     return acc;
   }, {} as NoUndefinedField<T>);
+
+export function transformIconLink(iconPath: string) {
+  if (iconPath.startsWith('http')) return iconPath;
+
+  const iconLocations = iconPath.split('/');
+  const iconName = iconLocations[iconLocations.length - 1];
+  const iconStaticPath =
+    import.meta.env?.VITE_BASE_PATH +
+    import.meta.env?.VITE_STATIC_PATH +
+    'favicon/' +
+    iconName;
+  return iconStaticPath;
+}

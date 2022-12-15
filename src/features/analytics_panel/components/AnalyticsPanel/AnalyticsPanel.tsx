@@ -1,26 +1,33 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { lazy, useCallback, useState } from 'react';
+import { lazy, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Analytics24 } from '@konturio/default-icons';
+import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { panelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { MIN_HEIGHT } from '../../constants';
+import { analyticsResourceAtom } from '../../atoms/analyticsResource';
 import styles from './AnalyticsPanel.module.css';
 
 const LazyLoadedAnalyticsContainer = lazy(
   () => import('../AnalyticsContainer/AnalyticsContainer'),
 );
-const LazyLoadedAnalyticsPanelHeader = lazy(
-  () => import('../AnalyticsPanelHeaderContainer/AnalyticsPanelHeaderContainer'),
-);
 
 export function AnalyticsPanel() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const handleRefChange = useHeightResizer(setIsOpen, isOpen, MIN_HEIGHT);
+  const [analyticsResourceState] = useAtom(analyticsResourceAtom);
+  const contentRef = useRef<null | HTMLDivElement>(null);
+  const [contentHeight, setContentHeight] = useState(MIN_HEIGHT);
+
+  const handleRefChange = useHeightResizer(setIsOpen, isOpen, contentHeight, 'analytics');
+
+  useLayoutEffect(() => {
+    contentRef.current && setContentHeight(contentRef.current.scrollHeight);
+  }, [contentRef, analyticsResourceState]);
 
   const togglePanel = useCallback(() => {
     setIsOpen((prevState) => !prevState);
@@ -36,7 +43,7 @@ export function AnalyticsPanel() {
 
   useAutoCollapsePanel(isOpen, onPanelClose);
   return (
-    <div className={clsx(styles.panelContainer, isOpen && styles.isOpen)}>
+    <>
       <Panel
         header={String(i18n.t('analytics_panel.header_title'))}
         headerIcon={<Analytics24 />}
@@ -57,17 +64,21 @@ export function AnalyticsPanel() {
         contentClassName={styles.contentWrap}
         contentContainerRef={handleRefChange}
       >
-        <div className={styles.panelBody}>
-          <LazyLoadedAnalyticsPanelHeader />
+        <div className={styles.panelBody} ref={contentRef}>
           <LazyLoadedAnalyticsContainer />
         </div>
       </Panel>
 
       <PanelIcon
         clickHandler={onPanelOpen}
-        className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
+        className={clsx(
+          styles.panelIcon,
+          isOpen && styles.hide,
+          !isOpen && styles.show,
+          isMobile ? styles.mobile : styles.desktop,
+        )}
         icon={<Analytics24 />}
       />
-    </div>
+    </>
   );
 }

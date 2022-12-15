@@ -1,34 +1,13 @@
 import { Button, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react';
 import { useEffect, useState } from 'react';
-import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { i18n } from '~core/localization';
-import { currentEventResourceAtom } from '~features/current_event/atoms/currentEventResource';
-import { createStateMap } from '~utils/atoms';
-import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
-import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
-import { EventCard } from '../EventCard/EventCard';
+import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
+import { eventListResourceAtom } from '../../atoms/eventListResource';
+import { CurrentEvent } from '../CurrentEvent/CurrentEvent';
 import s from './ShortState.module.css';
 import type { MouseEventHandler } from 'react';
 import type { Event } from '~core/types';
-
-const SingleEventCard = ({
-  event,
-  hasTimeline,
-}: {
-  event: Event;
-  hasTimeline?: boolean;
-}) => (
-  <EventCard
-    event={event}
-    isActive={true}
-    alternativeActionControl={
-      hasTimeline ? <EpisodeTimelineToggle isActive={true} /> : null
-    }
-    externalUrls={event.externalUrls}
-  />
-);
 
 export function ShortState({
   hasTimeline,
@@ -40,7 +19,7 @@ export function ShortState({
   currentEventId?: string | null;
 }) {
   const [event, setEvent] = useState<Event | null>(null);
-  const [{ data: currentEvent, error, loading }] = useAtom(currentEventResourceAtom);
+  const [{ data: currentEvent }] = useAtom(currentEventResourceAtom);
   const [eventsList] = useAtom(eventListResourceAtom);
 
   // Try get event from event list
@@ -56,23 +35,7 @@ export function ShortState({
     if (!event && currentEvent) setEvent(currentEvent);
   }, [currentEvent, event, setEvent]);
 
-  const statesToComponents = createStateMap({
-    error,
-    loading,
-    data: event,
-  });
-
-  const eventInfo = event ? (
-    <SingleEventCard event={event} hasTimeline={hasTimeline} />
-  ) : (
-    statesToComponents({
-      loading: <LoadingSpinner message={i18n.t('loading_events')} />,
-      error: (errorMessage) => <ErrorMessage message={errorMessage} />,
-      ready: (currentEvent) => (
-        <SingleEventCard event={currentEvent} hasTimeline={hasTimeline} />
-      ),
-    })
-  );
+  const eventInfo = event ? <CurrentEvent hasTimeline={hasTimeline} /> : null;
 
   const panelContent = eventInfo || (
     <div className={s.noDisasters}>

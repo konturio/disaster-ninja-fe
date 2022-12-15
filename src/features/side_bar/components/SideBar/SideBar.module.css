@@ -21,7 +21,7 @@
   margin-top: 0;
 }
 
-.sidebar .controlButton {
+.sidebar button.controlButton {
   width: 100%;
   justify-content: left;
   margin: 0;
@@ -95,15 +95,17 @@
   display: flex;
 }
 
-.toggler {
+.togglerButton {
   margin-top: auto;
+  width: 100%;
+  padding: 0 var(--unit);
 }
 
-.toggler button:focus {
+.togglerButton button:focus {
   box-shadow: none;
 }
 
-.toggler button:focus-visible {
+.togglerButton button:focus-visible {
   box-shadow: var(--button-box-shadow);
 }
 

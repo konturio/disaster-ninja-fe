@@ -1,6 +1,7 @@
 import { Text } from '@konturio/ui-kit';
 import { useMemo } from 'react';
 import { People16, Area16 } from '@konturio/default-icons';
+import { nanoid } from 'nanoid';
 import { i18n } from '~core/localization';
 import s from './Analytics.module.css';
 
@@ -68,7 +69,7 @@ export function Analytics({
   return (
     <div className={s.analytics}>
       {statistics.map(({ tooltip, icon, value }) => (
-        <div key={tooltip} className={s.analyticsBadge} title={tooltip}>
+        <div key={nanoid(5)} className={s.analyticsBadge} title={tooltip}>
           {icon && icon}
           <span className={s.analyticsValue}>
             <Text type="caption">{value}</Text>

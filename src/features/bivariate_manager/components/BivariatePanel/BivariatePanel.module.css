@@ -47,16 +47,16 @@
     width: 10px;
     height: 10px;
   }
-}
 
-.header {
-  /* Temp padding right. Remove at #12405 */
-  padding: var(--unit) calc(var(--double-unit) + var(--icon-l) + var(--half-unit))
-    var(--unit) var(--double-unit);
-}
+  & .header {
+    /* Temp padding right. Remove at #12405 */
+    padding: var(--unit) calc(var(--double-unit) + var(--icon-l) + var(--half-unit))
+      var(--unit) var(--double-unit);
+  }
 
-.panelBody :first-child {
-  margin-top: 0;
+  & :first-child {
+    margin-top: 0;
+  }
 }
 
 .panelIcon {

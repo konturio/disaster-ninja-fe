@@ -2,7 +2,6 @@ import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { BivariateMatrix24 } from '@konturio/default-icons';
-import ReactDOM from 'react-dom';
 import { i18n } from '~core/localization';
 import { panelClasses } from '~components/Panel';
 import { INTERCOM_ELEMENT_ID } from '../../constants';

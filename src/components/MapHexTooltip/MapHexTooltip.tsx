@@ -11,7 +11,7 @@ import { formatBivariateAxisLabel } from '~utils/bivariate';
 import s from './MapHexTooltip.module.css';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 
-export const popupContentRoot = s.popupContentRoot;
+export const bivariateHexagonPopupContentRoot = s.bivariateHexagonPopupContentRoot;
 
 const getXIndicatorLabelByindex = (index: number): string => {
   if (isBottomSide(index)) return LOW;

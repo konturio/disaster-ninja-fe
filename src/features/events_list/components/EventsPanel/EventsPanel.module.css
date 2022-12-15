@@ -1,11 +1,36 @@
-.panelContainer {
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.panelIcon {
+.panelIcon.desktop {
   display: none;
   z-index: 1;
+}
+
+.truncated {
+  max-width: 100px;
+  & > span {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.combinedHeader {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  & .eventNameLabel {
+    display: flex;
+    align-items: center;
+    border-radius: calc(var(--border-radius-unit) * 3);
+    background-color: var(--faint-weak);
+    padding: 0 var(--unit);
+    & > span {
+      font: var(--font-xs);
+      font-weight: 500;
+    }
+  }
+}
+
+.iconWrap {
+  display: flex;
 }
 
 .eventsPanel {
@@ -42,7 +67,7 @@
     display: none;
   }
 
-  .panelIcon {
+  .panelIcon.mobile {
     display: flex;
     &.show {
       transition: opacity 0.33s linear 0s;
