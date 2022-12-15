@@ -1,5 +1,6 @@
 import forEach from 'lodash/forEach';
 import castArray from 'lodash/castArray';
+import every from 'lodash/every';
 import { AppFeature } from '~core/auth/types';
 import type { AppFeatureType } from '~core/auth/types';
 import type { MetricsReportTemplate } from './types';
@@ -16,31 +17,27 @@ export const METRICS_REPORT_TEMPLATE: MetricsReportTemplate = {
   buildVersion: `${import.meta.env.PACKAGE_VERSION}-${import.meta.env.MODE}`,
 };
 
+const APPEVENT_TO_FEATURE = {
+  [AppFeature.CURRENT_EVENT]: AppFeature.CURRENT_EVENT, // can be error
+  _done_layersGlobalResource: AppFeature.LAYERS_IN_AREA, // list of layers
+  [AppFeature.ANALYTICS_PANEL]: [AppFeature.ANALYTICS_PANEL, AppFeature.CURRENT_EVENT], // not in EPIG, depends on CURRENT_EVENT
+  // _done_areaLayersDetailsResourceAtom: null, // can be disabled in url
+  _done_layersInAreaAndEventLayerResource: [
+    AppFeature.LAYERS_IN_AREA,
+    AppFeature.CURRENT_EVENT,
+  ], // depends on CURRENT_EVENT
+  [AppFeature.EVENTS_LIST]: AppFeature.EVENTS_LIST,
+};
+
 // ! Relevant only for map mode
 // WIP implementation
-// list format {eventToWatch: null, ...}
+// WatchList format {eventToWatch: null, ...}
 export function buildWatchList(hasFeature: (f: AppFeatureType) => boolean) {
   const o = {};
 
-  const checkAvailability = (f: AppFeatureType | AppFeatureType[]) =>
-    castArray(f).reduce((prev, cur) => prev && hasFeature(cur), true);
-
-  const APPEVENT_TO_FEATURE = {
-    [AppFeature.CURRENT_EVENT]: AppFeature.CURRENT_EVENT, // can be error
-    _done_layersGlobalResource: AppFeature.LAYERS_IN_AREA, // list of layers
-    [AppFeature.ANALYTICS_PANEL]: [AppFeature.ANALYTICS_PANEL, AppFeature.CURRENT_EVENT], // not in EPIG, depends on CURRENT_EVENT
-    // _done_areaLayersDetailsResourceAtom: null, // can be disabled in url
-    _done_layersInAreaAndEventLayerResource: [
-      AppFeature.LAYERS_IN_AREA,
-      AppFeature.CURRENT_EVENT,
-    ], // depends on CURRENT_EVENT
-    [AppFeature.EVENTS_LIST]: AppFeature.EVENTS_LIST,
-  };
-
-  forEach(APPEVENT_TO_FEATURE, (value, key, collection) => {
-    const enable = value === null || checkAvailability(value);
-    if (enable) {
-      o[key] = null;
+  forEach(APPEVENT_TO_FEATURE, (value, appEvent) => {
+    if (value === null || every(castArray(value), (f) => hasFeature(f))) {
+      o[appEvent] = null;
     }
   });
 
