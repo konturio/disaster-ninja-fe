@@ -184,6 +184,8 @@ export class AppMetrics {
           // app is ready
           this.cleanup();
           this.report('ready', timing);
+          this.sendReports();
+
           // if timing > 9000 it's too late
           readyForScreenshot(globalThis?.KONTUR_MAP);
           return;
@@ -205,9 +207,11 @@ export class AppMetrics {
     }
 
     this.reports.push(payload);
+  }
 
-    apiClient.post(APP_METRICS_ENDPOINT, [payload], true).catch((error) => {
-      console.error('error posting metrics :', error, payload);
+  sendReports() {
+    apiClient.post(APP_METRICS_ENDPOINT, this.reports, true).catch((error) => {
+      console.error('error posting metrics :', error, this.reports);
     });
   }
 }
@@ -219,7 +223,6 @@ function readyForScreenshot(map) {
     setTimeout(() => {
       const eventReadyEvent = new Event('event_ready_for_screenshot');
       globalThis.dispatchEvent(eventReadyEvent);
-      // debugger;
     }, 99); // extra time to prevent rendering glitches
   });
   map.triggerRepaint();

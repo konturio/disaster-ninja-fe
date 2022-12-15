@@ -26,7 +26,6 @@ export function buildWatchList(hasFeature: (f: AppFeatureType) => boolean) {
     castArray(f).reduce((prev, cur) => prev && hasFeature(cur), true);
 
   const APPEVENT_TO_FEATURE = {
-    // _done_userResourceAtom: null, // should be done before init
     [AppFeature.CURRENT_EVENT]: AppFeature.CURRENT_EVENT, // can be error
     _done_layersGlobalResource: AppFeature.LAYERS_IN_AREA, // list of layers
     [AppFeature.ANALYTICS_PANEL]: [AppFeature.ANALYTICS_PANEL, AppFeature.CURRENT_EVENT], // not in EPIG, depends on CURRENT_EVENT
