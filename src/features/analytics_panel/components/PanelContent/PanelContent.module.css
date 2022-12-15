@@ -1,0 +1,79 @@
+.panelIcon.desktop {
+  display: none;
+}
+
+.analyticsPanel {
+  z-index: 1; /* Show shadow over map */
+  align-self: flex-start;
+  width: 100%;
+
+  border-radius: var(--border-radius-unit);
+
+  height: auto;
+  &.collapse {
+    & div:not(:first-child) {
+      display: none;
+    }
+  }
+}
+
+.panelBody {
+  width: 100%;
+  padding: var(--double-unit);
+}
+
+/* Desktop only */
+@media screen and (min-width: 1530px) {
+  .contentWrap {
+    max-height: 460px;
+  }
+}
+
+/* laptop */
+@media screen and (max-width: 1530px) {
+  .panelBody {
+    padding: var(--double-unit);
+    overflow-y: auto;
+  }
+}
+@media screen and (max-width: 960px) {
+  .analyticsModal > section {
+    top: calc(50% + var(--app-header-height)); /* header offset */
+    height: 100vh;
+    left: 50%;
+    z-index: var(--modal);
+  }
+
+  .analyticsPanel.show {
+    margin: 0;
+    width: 100vw;
+    height: 100%;
+    align-items: center;
+    & > div {
+      width: 100%;
+    }
+  }
+  .analyticsPanel.collapse {
+    display: none;
+  }
+  .panelBody {
+    height: 100%;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .panelIcon.mobile {
+    display: flex;
+
+    &.show {
+      transition: opacity 0.33s linear 0s;
+      visibility: visible;
+      opacity: 1;
+    }
+
+    &.hide {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+}

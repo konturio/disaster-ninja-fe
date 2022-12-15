@@ -15,6 +15,7 @@ export type PanelMeta = {
   minHeight: number;
   getOpenState: () => boolean;
   panelId?: string;
+  noResize?: boolean;
 };
 
 export class PanelsRepository {
@@ -44,6 +45,7 @@ export class PanelsRepository {
     const panelsWithSizes: [PanelMeta, number, number][] = [];
 
     this.panels.forEach((panel) => {
+      if (panel.noResize) return;
       const height = panel.resizableNode.getBoundingClientRect().height;
       if (height > panel.minHeight) {
         const extraSpace = height - panel.minHeight;

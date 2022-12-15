@@ -8,6 +8,8 @@ import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LayersAndLegendsWidget } from '~widgets/LayersAndLegends';
+import { PrimaryAndSecondaryPanelWidget } from '~widgets/PrimaryAndSecondaryPanel';
+import { analyticsPanel } from '~features/analytics_panel';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -24,7 +26,7 @@ const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/Connected
 
 const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
 
-const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
+// const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
 
 const { AdvancedAnalyticsPanel } = lazily(
   () => import('~features/advanced_analytics_panel'),
@@ -112,13 +114,19 @@ export function MapPage() {
       </div>
       {userModel && (
         <Layout
-          advancedAnalytics={
-            userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-              <AdvancedAnalyticsPanel />
-            )
-          }
+          // advancedAnalytics={
+          //   userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
+          //     <AdvancedAnalyticsPanel />
+          //   )
+          // }
           analytics={
-            userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />
+            <PrimaryAndSecondaryPanelWidget
+              primaryProps={
+                userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) ? analyticsPanel : null
+              }
+              key="analytics"
+            />
+            // userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />
           }
           disasters={
             userModel?.hasFeature(AppFeature.EVENTS_LIST) &&

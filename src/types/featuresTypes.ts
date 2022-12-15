@@ -3,4 +3,6 @@ export type PanelFeatureInterface = {
   panelIcon?: JSX.Element;
   content?: JSX.Element | null;
   minHeight?: number;
+  // noShrinking?
+  skipAutoResize?: boolean;
 };
