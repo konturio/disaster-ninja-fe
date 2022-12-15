@@ -165,30 +165,27 @@ export class AppMetrics {
       const timing = performance.now();
       this.watchList[name] = timing;
 
-      const { [EVENT_MAP_IDLE]: mapIdleWatch, ...tempList } = this.watchList;
-      if (every(tempList, Boolean)) {
+      if (every(this.watchList, Boolean)) {
         // watchList completed
 
         // we need to wait (again) EVENT_MAP_IDLE after all events from watchList
         // to determite that app is ready
         if (name !== EVENT_MAP_IDLE) {
           if (KONTUR_METRICS_DEBUG) {
-            console.warn('metrics waiting final mapidle', this.watchList);
+            console.warn('metrics waiting final mapIdle', this.watchList);
           }
 
           this.watchList[EVENT_MAP_IDLE] = null;
+
+          // repaint to ensure EVENT_MAP_IDLE will be triggered
           // FIXME: replace globalThis?.KONTUR_MAP after init refactor
           globalThis?.KONTUR_MAP.triggerRepaint();
         } else {
-          if (!mapIdleWatch) {
-            // report mapidle if it was last watch
-            this.report(EVENT_MAP_IDLE, timing);
-          }
-
-          // watchList done
+          // app is ready
           this.cleanup();
           this.report('ready', timing);
-          readyForScreenshot();
+          // if timing > 9000 it's too late
+          readyForScreenshot(globalThis?.KONTUR_MAP);
           return;
         }
       }
@@ -215,15 +212,15 @@ export class AppMetrics {
   }
 }
 
-function readyForScreenshot() {
+function readyForScreenshot(map) {
   // Still no reliable ways to detect when map is fully rendered, related issues are hanging for years
-  // TODO: implement better map ready detection when possible
-  globalThis?.KONTUR_MAP.once('idle', function () {
+  // TODO: implement better map rendered detection when possible
+  map.once('idle', function () {
     setTimeout(() => {
       const eventReadyEvent = new Event('event_ready_for_screenshot');
       globalThis.dispatchEvent(eventReadyEvent);
       // debugger;
     }, 99); // extra time to prevent rendering glitches
   });
-  globalThis?.KONTUR_MAP.triggerRepaint();
+  map.triggerRepaint();
 }

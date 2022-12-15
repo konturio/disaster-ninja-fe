@@ -36,7 +36,6 @@ export function buildWatchList(hasFeature: (f: AppFeatureType) => boolean) {
       AppFeature.CURRENT_EVENT,
     ], // depends on CURRENT_EVENT
     [AppFeature.EVENTS_LIST]: AppFeature.EVENTS_LIST,
-    [EVENT_MAP_IDLE]: null,
   };
 
   forEach(APPEVENT_TO_FEATURE, (value, key, collection) => {
