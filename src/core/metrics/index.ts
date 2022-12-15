@@ -12,7 +12,6 @@ export const yandexMetrics = new YandexMetrics();
 addAllSequences(appMetrics);
 
 export const initMetricsOnce = once(async (appId: string, route: string) => {
-  // TODO: Check metrics flag
   appMetrics.init(appId, route);
 
   /* Enabling / Disabling GTM */
