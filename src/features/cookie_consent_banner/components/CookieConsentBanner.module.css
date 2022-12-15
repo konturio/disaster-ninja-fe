@@ -1,4 +1,23 @@
 .cookieBanner {
   display: flex;
-  margin: 10px;
+  position: fixed;
+  bottom: var(--unit);
+  right: var(--unit);
+  padding: 40px;
+  z-index: var(--modal);
+  max-width: 680px;
+}
+
+.cookieBanner h4 {
+  margin: 0;
+}
+
+.body {
+  margin-bottom: var(--double-unit);
+}
+
+.buttonsRow {
+  margin-top: var(--unit);
+  display: flex;
+  gap: var(--double-unit);
 }

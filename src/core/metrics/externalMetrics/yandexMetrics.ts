@@ -14,7 +14,7 @@ export class YandexMetrics implements Metric {
   }
 
   mark(name: string, payload: unknown) {
-    if (!this.ready) console.debug('Mark skipped. Yandex metric not loaded.');
+    if (!this.ready) console.warn('Mark skipped. Yandex metric not loaded.');
     this.ym(this.yandexAccountId, name, payload);
   }
 }

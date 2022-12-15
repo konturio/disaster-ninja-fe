@@ -11,12 +11,9 @@ export class PermissionStatusWatcher {
     this.permission = permission;
   }
 
-  statusChanged(newStatus: CookiePermissionStatus) {
-    this.listeners.forEach((cb) => cb(newStatus));
-  }
-
   onStatusChange(statusChangeCb: (status: CookiePermissionStatus) => void) {
     this.listeners.add(statusChangeCb);
+    statusChangeCb(this.permission.status);
     return () => this.listeners.delete(statusChangeCb);
   }
 

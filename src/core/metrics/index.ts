@@ -1,5 +1,5 @@
 import once from 'lodash/once';
-import { cookieManagementService } from '~core/cookie_settings';
+import { cookieManagementService, permissionStatuses } from '~core/cookie_settings';
 import { AppMetrics } from './app-metrics';
 import { GoogleMetrics } from './externalMetrics/googleMetrics';
 import { YandexMetrics } from './externalMetrics/yandexMetrics';
@@ -19,7 +19,7 @@ export const initMetricsOnce = once(async (appId: string, route: string) => {
   const externalMetrics = [googleMetrics, yandexMetrics];
   const gtmPermission = cookieManagementService.requestPermission('GTM');
   gtmPermission.onStatusChange((status) => {
-    if (status === 'granted') {
+    if (status === permissionStatuses.granted) {
       externalMetrics.forEach((metric) => metric.init(appId, route));
     }
   });

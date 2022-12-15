@@ -5,10 +5,19 @@ export const cookieSettingsAtom = createAtom(
   {
     acceptAll: () => null,
     rejectAll: () => null,
+    _set: (havePrompts: boolean) => havePrompts,
   },
-  ({ onAction, onInit, get, schedule }, state = false) => {
+  ({ onAction, onInit, schedule, create }, state = false) => {
     onInit(() => {
-      state = cookieManagementService.havePrompts();
+      schedule((dispatch) => {
+        cookieManagementService.onPermissionsChange(() => {
+          dispatch(create('_set', cookieManagementService.havePrompts()));
+        });
+      });
+    });
+
+    onAction('_set', (newState) => {
+      state = newState;
     });
 
     onAction('acceptAll', () => {
