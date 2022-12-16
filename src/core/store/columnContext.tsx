@@ -60,6 +60,10 @@ export class PanelsRepository {
   getPanelsWithOpenState() {
     return Array.from(this.panels).filter((c) => c.getOpenState());
   }
+
+  getById(id: string) {
+    return Array.from(this.panels).find((panel) => panel.panelId === id);
+  }
 }
 
 export class Resizer {
@@ -172,6 +176,10 @@ export class Resizer {
 
   addPanel(panel: PanelMeta) {
     return this.panels.add(panel);
+  }
+
+  getPanelById(id: string) {
+    return this.panels.getById(id);
   }
 
   destroy() {

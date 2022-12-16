@@ -10,7 +10,7 @@ import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
 import { i18n } from '~core/localization';
 
-const AdvancedAnalyticsContainer = () => {
+export const AdvancedAnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(advancedAnalyticsResourceAtom);
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
 
@@ -47,5 +47,3 @@ const AdvancedAnalyticsContainer = () => {
     },
   }) as JSX.Element;
 };
-
-export default AdvancedAnalyticsContainer;

@@ -8,7 +8,7 @@ export const useHeightResizer = (
   setIsOpen: (value: SetStateAction<boolean>) => void,
   isOpen: boolean,
   minHeight: number,
-  panelId?: string,
+  panelId: string,
   noResize?: boolean,
 ) => {
   const columnContext = useColumnContext();
@@ -53,7 +53,7 @@ export const useHeightResizer = (
         cleanup.current = columnContext.addPanel(panel);
       }
     },
-    [columnContext, setIsOpen, minHeight, panelId],
+    [columnContext, setIsOpen, minHeight, panelId, noResize],
   );
 
   return handleRefChange;

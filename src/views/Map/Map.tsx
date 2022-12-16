@@ -10,6 +10,7 @@ import { userResourceAtom } from '~core/auth/atoms/userResource';
 import { LayersAndLegendsWidget } from '~widgets/LayersAndLegends';
 import { PrimaryAndSecondaryPanelWidget } from '~widgets/PrimaryAndSecondaryPanel';
 import { analyticsPanel } from '~features/analytics_panel';
+import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -25,12 +26,6 @@ const { Logo } = lazily(() => import('@konturio/ui-kit'));
 const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/ConnectedMap'));
 
 const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
-
-// const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
-
-const { AdvancedAnalyticsPanel } = lazily(
-  () => import('~features/advanced_analytics_panel'),
-);
 
 const { Toolbar } = lazily(() => import('~features/toolbar'));
 
@@ -114,19 +109,19 @@ export function MapPage() {
       </div>
       {userModel && (
         <Layout
-          // advancedAnalytics={
-          //   userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-          //     <AdvancedAnalyticsPanel />
-          //   )
-          // }
           analytics={
             <PrimaryAndSecondaryPanelWidget
               primaryProps={
                 userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) ? analyticsPanel : null
               }
+              secondaryProps={
+                // TODO feature flag
+                !userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL)
+                  ? advancedAnalyticsPanel
+                  : null
+              }
               key="analytics"
             />
-            // userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />
           }
           disasters={
             userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
