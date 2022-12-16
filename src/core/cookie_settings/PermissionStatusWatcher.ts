@@ -26,6 +26,7 @@ export class PermissionStatusWatcher {
   }
 
   set status(newStatus: CookiePermissionStatus) {
+    if (newStatus === this.permission.status) return;
     this.permission.status = newStatus;
     this.listeners.forEach((cb) => cb(newStatus));
   }

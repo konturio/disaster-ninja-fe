@@ -1,7 +1,8 @@
 import { permissionStatuses, permissionStrategy } from './constants';
 import { Permission } from './Permission';
 import { PermissionStatusWatcher } from './PermissionStatusWatcher';
-import { PermissionStorage, StrategyStorage } from './Storage';
+import { PermissionStorage } from './Storages/PermissionStorage';
+import { StrategyStorage } from './Storages/StrategyStorage';
 import type { CookiePermissionResolveStrategy, CookiePermissionStatus } from './types';
 
 type SettingsListener = (p: Map<string, Permission>) => void;
@@ -27,6 +28,12 @@ export class CookieManagementService {
     }
   }
 
+  readonly debounceTime: number;
+
+  constructor(debounceTime = 300) {
+    this.debounceTime = debounceTime;
+  }
+
   /**
    * Strategy it kind of "fallback behavior"
    * For example - when user choose "Apply all"
@@ -39,14 +46,18 @@ export class CookieManagementService {
     permission.status = CookieManagementService.statusFromStrategy(strategy);
   }
 
+  debounceTimer?: NodeJS.Timeout;
+  callListeners() {
+    this.debounceTimer && clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => {
+      this.cookieSettingsListeners.forEach((listener) => listener(this.permissions));
+    }, this.debounceTime);
+  }
+
   private cookieSettingsListeners = new Set<SettingsListener>();
-  watchTimer;
   private watch(permission: PermissionStatusWatcher) {
     permission.onStatusChange(() => {
-      this.watchTimer && clearTimeout(this.watchTimer);
-      this.watchTimer = setTimeout(() => {
-        this.cookieSettingsListeners.forEach((listener) => listener(this.permissions));
-      }, 300);
+      this.callListeners();
     });
   }
 
@@ -69,6 +80,7 @@ export class CookieManagementService {
       this.watch(watchedPermission);
       this.strategy = this.strategyStorage.restoreStrategy() ?? this.strategy;
       this.applyStrategy(watchedPermission, this.strategy);
+      this.callListeners();
       return watchedPermission;
     } else {
       return this.permissions.get(id)!;

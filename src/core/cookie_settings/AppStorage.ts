@@ -1,7 +1,4 @@
-import type { PermissionStatusWatcher } from './PermissionStatusWatcher';
-import type { CookiePermissionResolveStrategy, CookiePermissionStatus } from './types';
-
-class Storage<T> {
+export class AppStorage<T> {
   state: Record<string, T> = {};
   namespace: string;
 
@@ -42,32 +39,5 @@ class Storage<T> {
   remove(key: string) {
     delete this.state[key];
     this.persistState();
-  }
-}
-
-export class PermissionStorage {
-  private storage = new Storage<CookiePermissionStatus>('kontur_ccs');
-
-  restorePermission(watchedPermission: PermissionStatusWatcher) {
-    const savedStatus = this.storage.get(watchedPermission.id);
-    if (savedStatus) watchedPermission.status = savedStatus;
-  }
-
-  persistPermission(watchedPermission: PermissionStatusWatcher) {
-    watchedPermission.onStatusChange((status) => {
-      this.storage.set(watchedPermission.id, status);
-    });
-  }
-}
-
-export class StrategyStorage {
-  private storage = new Storage<CookiePermissionResolveStrategy>('kontur_ccs_strategy');
-
-  restoreStrategy() {
-    return this.storage.get('strategy');
-  }
-
-  persistStrategy(strategy: CookiePermissionResolveStrategy) {
-    return this.storage.set('strategy', strategy);
   }
 }
