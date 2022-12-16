@@ -116,7 +116,7 @@ export function MapPage() {
               }
               secondaryProps={
                 // TODO feature flag
-                !userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL)
+                userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL)
                   ? advancedAnalyticsPanel
                   : null
               }
