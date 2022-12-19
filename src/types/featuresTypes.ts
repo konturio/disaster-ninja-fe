@@ -3,6 +3,7 @@ export type PanelFeatureInterface = {
   panelIcon?: JSX.Element;
   content?: JSX.Element | null;
   minHeight?: number;
-  maxHeight?: number;
+  maxHeight?: number | string;
+  contentheight?: number | string;
   skipAutoResize?: boolean;
 };

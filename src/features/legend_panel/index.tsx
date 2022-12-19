@@ -16,4 +16,5 @@ export const legendPanel: PanelFeatureInterface = {
   panelIcon: <Legend24 />,
   header: i18n.t('legend'),
   minHeight: MIN_HEIGHT,
+  contentheight: 'min-content',
 };

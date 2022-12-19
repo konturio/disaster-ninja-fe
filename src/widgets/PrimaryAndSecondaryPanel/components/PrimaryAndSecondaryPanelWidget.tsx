@@ -27,12 +27,16 @@ export function PrimaryAndSecondaryPanelWidget({
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const getProperty = useCallback(
+    function <K extends keyof PanelFeatureInterface>(property: K) {
+      return isShort ? secondaryProps?.[property] : primaryProps?.[property];
+    },
+    [isShort, primaryProps, secondaryProps],
+  );
 
-  const minHeight = isShort
-    ? secondaryProps?.minHeight || 0
-    : (primaryProps?.minHeight || secondaryProps?.minHeight)!;
-
-  const maxHeight = isShort ? secondaryProps?.maxHeight : primaryProps?.maxHeight;
+  const minHeight = getProperty('minHeight') || secondaryProps?.minHeight || 0;
+  const maxHeight = getProperty('maxHeight');
+  const contentHeight = getProperty('contentheight');
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
@@ -77,8 +81,9 @@ export function PrimaryAndSecondaryPanelWidget({
         contentContainerRef={handleRefChange}
         customControls={panelControls}
         // TODO look at it
-        contentHeight={isShort ? 'min-content' : undefined}
+        contentHeight={contentHeight}
         minContentHeight={minHeight}
+        maxContentHeight={maxHeight}
       >
         {panelContent[panelState]}
       </Panel>
