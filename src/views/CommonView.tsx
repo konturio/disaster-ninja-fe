@@ -63,12 +63,10 @@ export function CommonView({
         {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
       </Suspense>
 
-      <Suspense fallback={null}>
-        {/* FIXME: Since this banner also blocks intercom in should check something more common */}
-        {userModel?.hasFeature(AppFeature.USE_3RDPARTY_ANALYTICS) && (
-          <CookieConsentBanner />
-        )}
-      </Suspense>
+      {/* FIXME: Since this banner also blocks intercom in should check something more common */}
+      {userModel?.hasFeature(AppFeature.USE_3RDPARTY_ANALYTICS) && (
+        <CookieConsentBanner />
+      )}
     </>
   );
 }
