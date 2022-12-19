@@ -7,7 +7,6 @@ import { AppFeature } from '~core/auth/types';
 import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { LayersAndLegendsWidget } from '~widgets/LayersAndLegends';
 import { PrimaryAndSecondaryPanelWidget } from '~widgets/PrimaryAndSecondaryPanel';
 import { analyticsPanel } from '~features/analytics_panel';
 import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
@@ -115,12 +114,12 @@ export function MapPage() {
                 userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) ? analyticsPanel : null
               }
               secondaryProps={
-                // TODO feature flag
                 userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL)
                   ? advancedAnalyticsPanel
                   : null
               }
               key="analytics"
+              id="analytics"
             />
           }
           disasters={
@@ -128,13 +127,15 @@ export function MapPage() {
             userModel?.feeds && <EventListPanel />
           }
           layersAndLegends={
-            <LayersAndLegendsWidget
-              layersProps={
+            <PrimaryAndSecondaryPanelWidget
+              primaryProps={
                 userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) ? layersPanel : null
               }
-              legendProps={
+              secondaryProps={
                 userModel?.hasFeature(AppFeature.LEGEND_PANEL) ? legendPanel : null
               }
+              key="layers_and_legends"
+              id="layers_and_legends"
             />
           }
           matrix={

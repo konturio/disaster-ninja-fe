@@ -32,6 +32,8 @@ export function PrimaryAndSecondaryPanelWidget({
     ? secondaryProps?.minHeight || 0
     : (primaryProps?.minHeight || secondaryProps?.minHeight)!;
 
+  const maxHeight = isShort ? secondaryProps?.maxHeight : primaryProps?.maxHeight;
+
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
