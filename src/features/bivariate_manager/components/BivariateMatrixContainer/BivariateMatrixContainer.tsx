@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
 import { useAtom } from '@reatom/react';
 import { Text } from '@konturio/ui-kit';
@@ -11,7 +11,10 @@ import { BivariateGreetingsContainer } from '~features/bivariate_manager/compone
 import { i18n } from '~core/localization';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { isGeometryEmpty } from '~core/bivariate';
+import { AXIS_CAPTIONS_WIDTH, MATRIX_SCALE } from '../BivariateMatrixControl/constants';
 import s from './BivariateMatrixContainer.module.css';
+import { BivariateMatrixContext } from './bivariateMatrixContext';
+import type { BivariateMatrixContextInterface } from './bivariateMatrixContext';
 
 interface BivariateMatrixContainerProps {
   className?: string;
@@ -29,23 +32,24 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
     containerRef.current.style.height = `${dimensions.current.h}px`;
   }
 
-  const onRefChange = useCallback((ref: HTMLDivElement | null) => {
-    if (!ref) return;
-
-    const dim = ref.getClientRects()[0];
-    // coeff 0.7 here is because of transform: scale(0.7) applied to matrix
-    const baseDim = parseFloat(ref.getAttribute('data-base-dimension') || '0') * 0.7;
-    const newWidth = baseDim + dim.width + 58;
-    const newHeight = dim.height + 105;
-    if (
-      !dimensions.current ||
-      Math.abs(dimensions.current.w - newWidth) > 3 ||
-      Math.abs(dimensions.current.h - newHeight) > 3
-    ) {
-      dimensions.current = { w: newWidth, h: newHeight };
-      updateDimensions();
-    }
-  }, []);
+  const contextValues = useMemo<BivariateMatrixContextInterface>(
+    () => ({
+      onMatrixPositionRecalculated: (baseDimension, matrixSize) => {
+        const baseDim = baseDimension * MATRIX_SCALE;
+        const newWidth = baseDim + matrixSize + AXIS_CAPTIONS_WIDTH;
+        const newHeight = matrixSize;
+        if (
+          !dimensions.current ||
+          Math.abs(dimensions.current.w - newWidth) > 3 ||
+          Math.abs(dimensions.current.h - newHeight) > 3
+        ) {
+          dimensions.current = { w: newWidth, h: newHeight };
+          updateDimensions();
+        }
+      },
+    }),
+    [],
+  );
 
   useEffect(updateDimensions, [containerRef]);
 
@@ -57,28 +61,27 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
         className={clsx(s.bivariateContainer, className)}
         ref={containerRef}
       >
-        <div>
-          {statesToComponents({
-            loading: (
-              <div className={s.loadingContainer}>
-                <LoadingSpinner />
-              </div>
-            ),
-            error: () => (
-              <div className={s.errorContainer}>
-                <ErrorMessage message="Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." />
-              </div>
-            ),
-            ready: () => (
-              <>
-                <div className={s.matrixContainer}>
-                  <ConnectedBivariateMatrix ref={onRefChange} />
-                </div>
-                <BivariateGreetingsContainer className={s.greetings} />
-              </>
-            ),
-          })}
-        </div>
+        {statesToComponents({
+          loading: (
+            <div className={s.loadingContainer}>
+              <LoadingSpinner />
+            </div>
+          ),
+          error: () => (
+            <div className={s.errorContainer}>
+              <ErrorMessage message={i18n.t('bivariate.matrix.loading_error')} />
+            </div>
+          ),
+          ready: () => (
+            <>
+              <BivariateMatrixContext.Provider value={contextValues}>
+                <ConnectedBivariateMatrix />
+              </BivariateMatrixContext.Provider>
+
+              <BivariateGreetingsContainer className={s.greetings} />
+            </>
+          ),
+        })}
       </div>
     </>
   );

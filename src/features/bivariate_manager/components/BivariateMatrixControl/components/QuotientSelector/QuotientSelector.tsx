@@ -8,7 +8,7 @@ interface QuotientItemProps {
   numeratorId: string;
   denominatorId: string;
   numeratorLabel?: string;
-  quality?: number | null;
+  quality?: string | null;
   isSelected?: boolean;
   onSelectQuotient: (numId: string, denId: string) => void;
 }
@@ -45,7 +45,7 @@ const QuotientItem = ({
 type Quotient = {
   id: [string, string];
   label?: string;
-  quality?: number;
+  quality?: string;
 };
 
 interface QuotientSelectorProps {

@@ -12,6 +12,8 @@
   font-size: 12px;
   cursor: pointer;
   border: 1px dashed #eee;
+  height: 37px;
+  width: 37px;
 }
 
 .rotatedCell {

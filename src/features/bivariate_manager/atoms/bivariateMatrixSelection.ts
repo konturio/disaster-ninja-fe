@@ -12,17 +12,12 @@ import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivar
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
+import { onCalculateSelectedCell, selectQuotientInGroupByNumDen } from './utils';
+import type { SelectionInput } from './utils';
 import type { AxisGroup, ColorTheme } from '~core/types';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
-
-type SelectionInput = {
-  xNumerator: string | null;
-  xDenominator: string | null;
-  yNumerator: string | null;
-  yDenominator: string | null;
-};
 
 type SelectCellCallback = (x: number, y: number) => void;
 
@@ -380,48 +375,3 @@ export const bivariateMatrixSelectionAtom = createAtom(
   },
   'bivariateMatrixSelection',
 );
-
-const selectQuotientInGroupByNumDen = (
-  groups: AxisGroup[],
-  numId: string,
-  denId: string,
-): AxisGroup[] => {
-  const newGroups = [...groups];
-
-  let selectedQuotient;
-  const groupIndex = newGroups.findIndex(({ quotients }) => {
-    selectedQuotient = quotients.find(
-      (q: [string, string]) => q[0] === numId && q[1] === denId,
-    );
-    return selectedQuotient;
-  });
-
-  if (selectedQuotient) {
-    newGroups[groupIndex] = { ...newGroups[groupIndex], selectedQuotient };
-  }
-
-  return newGroups;
-};
-
-const onCalculateSelectedCell = (
-  xGroups: AxisGroup[],
-  yGroups: AxisGroup[],
-  matrixSelection: SelectionInput,
-): { x: number; y: number } => {
-  const xIndex = xGroups
-    ? xGroups.findIndex(
-        (group) =>
-          group.selectedQuotient[0] === matrixSelection?.xNumerator &&
-          group.selectedQuotient[1] === matrixSelection?.xDenominator,
-      )
-    : -1;
-  const yIndex = yGroups
-    ? yGroups.findIndex(
-        (group) =>
-          group.selectedQuotient[0] === matrixSelection?.yNumerator &&
-          group.selectedQuotient[1] === matrixSelection?.yDenominator,
-      )
-    : -1;
-
-  return { x: xIndex, y: yIndex };
-};

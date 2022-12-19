@@ -8,6 +8,7 @@ import { userResourceAtom } from '~core/auth';
 import { currentAppPropertiesResourceAtom } from '~core/shared_state/currentApplication';
 import { useFavicon } from '~utils/hooks/useFavicon';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
+import { useTabNameUpdate } from '~utils/hooks/useTabNameUpdate';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
@@ -30,6 +31,7 @@ export function CommonView({
   const [{ data: appParams }] = useAtom(currentAppPropertiesResourceAtom);
 
   useFavicon(appParams?.faviconUrl);
+  useTabNameUpdate(appParams?.name);
 
   useEffect(() => {
     if (userModel?.hasFeature(AppFeature.INTERCOM)) {
