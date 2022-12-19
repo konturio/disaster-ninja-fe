@@ -182,7 +182,7 @@ export class AppMetrics {
           this.report('ready', timing);
           this.sendReports();
 
-          readyForScreenshot(globalThis?.KONTUR_MAP);
+          emitReadyForScreenshot(globalThis?.KONTUR_MAP);
           return;
         }
       }
@@ -211,7 +211,7 @@ export class AppMetrics {
   }
 }
 
-function readyForScreenshot(map) {
+function emitReadyForScreenshot(map) {
   // Still no reliable ways to detect when map is fully rendered, related issues are hanging for years
   // TODO: implement better map rendered detection when possible
   map.once('idle', function () {
@@ -220,5 +220,6 @@ function readyForScreenshot(map) {
       globalThis.dispatchEvent(eventReadyEvent);
     }, 99); // extra time to prevent rendering glitches
   });
+  // repaint to ensure EVENT_MAP_IDLE will be triggered after map render events
   map.triggerRepaint();
 }
