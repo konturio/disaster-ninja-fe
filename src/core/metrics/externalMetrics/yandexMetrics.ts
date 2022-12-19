@@ -6,6 +6,7 @@ export class YandexMetrics implements Metric {
   private ym!: (id: string, name: string, payload: any) => void;
 
   init(appId: string, route: string) {
+    console.assert(this.ready === false, 'Unexpected double init');
     this.yandexAccountId = globalThis.yandexAccountId;
     this.ym = globalThis.ym;
     if (this.yandexAccountId !== undefined && typeof this.ym === 'function') {
