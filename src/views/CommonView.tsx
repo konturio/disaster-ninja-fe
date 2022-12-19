@@ -7,6 +7,7 @@ import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth';
 import { currentAppPropertiesResourceAtom } from '~core/shared_state/currentApplication';
 import { useFavicon } from '~utils/hooks/useFavicon';
+import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
@@ -61,6 +62,8 @@ export function CommonView({
       <Suspense fallback={null}>
         {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
       </Suspense>
+
+      <CookieConsentBanner />
     </>
   );
 }

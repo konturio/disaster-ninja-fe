@@ -6,7 +6,6 @@ export class YandexMetrics implements Metric {
   private ym!: (id: string, name: string, payload: any) => void;
 
   init(appId: string, route: string) {
-    console.assert(this.ready === false, 'Unexpected double init');
     this.yandexAccountId = globalThis.yandexAccountId;
     this.ym = globalThis.ym;
     if (this.yandexAccountId !== undefined && typeof this.ym === 'function') {
@@ -15,7 +14,10 @@ export class YandexMetrics implements Metric {
   }
 
   mark(name: string, payload: unknown) {
-    if (!this.ready) console.warn('Mark skipped. Yandex metric not loaded.');
+    if (!this.ready) {
+      console.warn('Mark skipped. Yandex metric not loaded.');
+      return;
+    }
     this.ym(this.yandexAccountId, name, payload);
   }
 }
