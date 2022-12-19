@@ -63,10 +63,6 @@ export class AppMetrics {
     return this._instance;
   }
 
-  private constructor() {
-    //
-  }
-
   init(appId: string, route: string, hasFeature: (f: AppFeatureType) => boolean): void {
     // currently we support metrics only for map page
     if (route !== '') {
@@ -186,7 +182,6 @@ export class AppMetrics {
           this.report('ready', timing);
           this.sendReports();
 
-          // if timing > 9000 it's too late
           readyForScreenshot(globalThis?.KONTUR_MAP);
           return;
         }

@@ -41,5 +41,5 @@ export function patchTracer(t: TransactionData) {
     })
     .join('\n\t\t');
 
-  dump && console.warn(`${~~performance.now()}>`, dump, t);
+  dump && console.warn(`${Math.trunc(performance.now())}>`, dump, t);
 }
