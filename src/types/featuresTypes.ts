@@ -4,6 +4,5 @@ export type PanelFeatureInterface = {
   content?: JSX.Element | null;
   minHeight?: number;
   maxHeight?: number;
-  // noShrinking?
   skipAutoResize?: boolean;
 };

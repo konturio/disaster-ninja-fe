@@ -10,7 +10,6 @@ const { PanelContent } = lazily(() => import('./components/PanelContent/PanelCon
 export const legendPanel: PanelFeatureInterface = {
   content: (
     <Suspense>
-      {' '}
       <PanelContent />
     </Suspense>
   ),
