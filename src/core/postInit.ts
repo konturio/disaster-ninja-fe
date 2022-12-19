@@ -5,7 +5,9 @@ import { currentApplicationAtom } from '~core/shared_state';
 import { appMetrics } from '~core/metrics';
 import { languageWatcherAtom } from '~core/auth/atoms/languageWatcher';
 import { urlStoreAtom } from '~core/url_store/atoms/urlStore';
-import { currentRouteAtom } from './router/atoms/currentRoute';
+import { currentRouteAtom } from '~core/router/atoms/currentRoute';
+import { userResourceAtom } from '~core/auth';
+import type { AppFeatureType } from '~core/auth/types';
 
 const initMetricsOnce = once(appMetrics.init.bind(appMetrics));
 
@@ -16,13 +18,19 @@ export function PostInit() {
   const [route] = useAtom(currentRouteAtom);
   const [languageWatcher] = useAtom(languageWatcherAtom);
   const [url] = useAtom(urlStoreAtom);
+  const [{ data, loading }] = useAtom(userResourceAtom);
+  const userModel = data && !loading ? data : null;
 
   useEffect(() => {
-    if (appId && route) {
+    if (appId && route && userModel) {
       // at this point must be ready: appconfig, i18n, appId, current route
-      initMetricsOnce(appId ?? '', route?.slug);
+
+      // TODO: use better approach for getEffectiveFeature from #13368
+      const getEffectiveFeature = (f: AppFeatureType) => userModel.hasFeature(f);
+
+      initMetricsOnce(appId ?? '', route?.slug, getEffectiveFeature);
     }
-  }, [appId, route]);
+  }, [appId, route, userModel]);
 
   return null;
 }

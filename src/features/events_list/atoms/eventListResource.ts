@@ -3,6 +3,8 @@ import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
 import { currentEventFeedAtom } from '~core/shared_state';
+import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
+import { AppFeature } from '~core/auth/types';
 import { eventListFilters } from './eventListFilters';
 import type { Event } from '~core/types';
 
@@ -27,6 +29,8 @@ export const eventListResourceAtom = createAsyncAtom(
         signal: abortController.signal,
         errorsConfig: { dontShowErrors: true },
       })) ?? ([] as Event[]);
+
+    dispatchMetricsEventOnce(AppFeature.EVENTS_LIST, responseData.length > 0);
 
     if (responseData.length === 0) {
       if (params.bbox) throw new Error('No disasters in this area');

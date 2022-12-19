@@ -90,11 +90,6 @@ export function MapPage() {
         initEditableLayer(),
       );
     }
-    if (userModel?.hasFeature(AppFeature.INTERCOM)) {
-      import('~features/intercom').then(({ initIntercom }) => {
-        initIntercom();
-      });
-    }
     if (userModel?.hasFeature(AppFeature.LOCATE_ME)) {
       import('~features/locate_me').then(({ initLocateMe }) => {
         initLocateMe();
