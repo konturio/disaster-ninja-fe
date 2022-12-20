@@ -58,11 +58,11 @@ export function PrimaryAndSecondaryPanelWidget({
 
   if (!primaryProps && !secondaryProps) return null;
 
-  const header = !primaryProps ? secondaryProps!.header : primaryProps.header;
-  const panelIcon = !primaryProps ? secondaryProps!.panelIcon : primaryProps.panelIcon;
+  const header = !primaryProps ? secondaryProps?.header : primaryProps.header;
+  const panelIcon = !primaryProps ? secondaryProps?.panelIcon : primaryProps.panelIcon;
 
   const panelContent = {
-    full: primaryProps?.content || secondaryProps!.content,
+    full: primaryProps?.content || secondaryProps?.content,
     short: secondaryProps?.content,
     closed: <></>,
   };
@@ -80,7 +80,6 @@ export function PrimaryAndSecondaryPanelWidget({
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
         customControls={panelControls}
-        // TODO look at it
         contentHeight={contentHeight}
         minContentHeight={minHeight}
         maxContentHeight={maxHeight}
