@@ -2,6 +2,8 @@ import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
+import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
+import { AppFeature } from '~core/auth/types';
 import type { AnalyticsData } from '~core/types';
 
 export const analyticsResourceAtom = createAsyncAtom(
@@ -19,9 +21,10 @@ export const analyticsResourceAtom = createAsyncAtom(
         { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
       );
     } catch (e: unknown) {
+      dispatchMetricsEventOnce(AppFeature.ANALYTICS_PANEL, false);
       throw new Error(i18n.t('analytics_panel.error_loading'));
     }
-
+    dispatchMetricsEventOnce(AppFeature.ANALYTICS_PANEL, !!responseData);
     // in case there is no error but response data is empty
     if (responseData === undefined) throw new Error(i18n.t('no_data_received'));
 

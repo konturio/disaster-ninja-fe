@@ -1,14 +1,17 @@
 import every from 'lodash/every';
 import appConfig from '~core/app_config';
+import { apiClient } from '~core/apiClientInstance';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
+import { AppFeature } from '~core/auth/types';
 import {
   METRICS_EVENT,
   METRICS_REPORT_TEMPLATE,
-  METRICS_WATCH_LIST,
   EVENT_MAP_IDLE,
+  buildWatchList,
 } from './constants';
 import { Sequence } from './sequence';
 import type { MetricsReportTemplate, MetricsEvent, Metric } from './types';
+import type { AppFeatureType } from '~core/auth/types';
 
 const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
 
@@ -49,6 +52,8 @@ export class AppMetrics implements Metric {
   private eventLog: string[] = [];
   private settings = new SessionSettings<'KONTUR_SQ_ALERT' | 'KONTUR_SQ_LOG'>();
   reportTemplate: MetricsReportTemplate = METRICS_REPORT_TEMPLATE;
+  watchList: Record<string, null | number> = {};
+  reports: MetricsReportTemplate[] = [];
 
   static getInstance() {
     if (this._instance) {
@@ -58,19 +63,7 @@ export class AppMetrics implements Metric {
     return this._instance;
   }
 
-  private constructor() {
-    globalThis.KONTUR_METRICS = {
-      watchList: this.watchList,
-      markers: this.markers,
-      sequences: this.sequences,
-      events: this.eventLog,
-      toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
-      toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
-    };
-  }
-
-  init(appId: string, route: string) {
-    console.info('appMetrics.init with', appId, route);
+  init(appId: string, route: string, hasFeature: (f: AppFeatureType) => boolean): void {
     // currently we support metrics only for map page
     if (route !== '') {
       // '' is route for map
@@ -78,15 +71,35 @@ export class AppMetrics implements Metric {
     }
 
     this.reportTemplate.appId = appId ?? '';
+
+    // add available features to metrics
+    this.watchList = buildWatchList(hasFeature);
+
     globalThis.addEventListener(METRICS_EVENT, this.listener.bind(this) as EventListener);
+
     if (KONTUR_METRICS_DEBUG) {
-      console.info('appMetrics.init ready', this.reportTemplate);
+      console.info(`appMetrics.init route:${route}`, this.reportTemplate, this.watchList);
     }
+
+    this.exposeMetrics();
   }
 
   // remove listeners and unsubscribe from atoms
   cleanup() {
     globalThis.removeEventListener(METRICS_EVENT, this.listener as EventListener);
+    this.watch = () => null;
+  }
+
+  exposeMetrics() {
+    globalThis.KONTUR_METRICS = {
+      watchList: this.watchList,
+      reports: this.reports,
+      markers: this.markers,
+      sequences: this.sequences,
+      events: this.eventLog,
+      toggleAlert: () => this.settings.toggle('KONTUR_SQ_ALERT'),
+      toggleLog: () => this.settings.toggle('KONTUR_SQ_LOG'),
+    };
   }
 
   recordEventToLog(name: string) {
@@ -117,7 +130,7 @@ export class AppMetrics implements Metric {
   }
 
   private processEvent(name: string, payload?: unknown) {
-    this.watch(name);
+    this.watch(name, payload);
     this.recordEventToLog(name);
     this.sequences.forEach((s) => {
       s.update(name, payload);
@@ -136,29 +149,42 @@ export class AppMetrics implements Metric {
     this.processEvent(e.detail.name, e.detail.payload);
   }
 
-  watchList = METRICS_WATCH_LIST;
+  watch(name: string, payload?: unknown) {
+    // if current_event not available do not wait analytics etc
+    // TODO: use runtimeDepsTree after further analysis
+    if (name === AppFeature.CURRENT_EVENT && payload === false) {
+      delete this.watchList[AppFeature.ANALYTICS_PANEL];
+      delete this.watchList['_done_layersInAreaAndEventLayerResource'];
+    }
 
-  watch(name: string) {
     if (this.watchList[name] === null) {
       const timing = performance.now();
       this.watchList[name] = timing;
+
       if (every(this.watchList, Boolean)) {
-        // we need to wait EVENT_MAP_IDLE after all events from watchList
+        // watchList completed
+
+        // we need to wait (again) EVENT_MAP_IDLE after all events from watchList
         // to determite that app is ready
         if (name !== EVENT_MAP_IDLE) {
+          if (KONTUR_METRICS_DEBUG) {
+            console.warn('metrics waiting final mapIdle', this.watchList);
+          }
+
           this.watchList[EVENT_MAP_IDLE] = null;
+
+          // repaint to ensure EVENT_MAP_IDLE will be triggered
+          // FIXME: replace globalThis?.KONTUR_MAP after init refactor
+          globalThis?.KONTUR_MAP.triggerRepaint();
+        } else {
+          // app is ready
+          this.cleanup();
+          this.report('ready', timing);
+          this.sendReports();
+
+          emitReadyForScreenshot(globalThis?.KONTUR_MAP);
           return;
         }
-
-        setTimeout(() => {
-          this.report('ready', timing);
-          const eventReadyEvent = new Event('event_ready_for_screenshot');
-          window.dispatchEvent(eventReadyEvent);
-        }, 299); // extra time to prevent rendering glitches
-
-        // watchList done
-        this.cleanup();
-        return;
       }
       this.report(name, timing);
     }
@@ -170,16 +196,30 @@ export class AppMetrics implements Metric {
       name,
       value: timing,
     };
+
     if (KONTUR_METRICS_DEBUG) {
       console.warn('metrics', payload);
     }
-    // TODO: use apiClientInstance after app init refactor
-    fetch(APP_METRICS_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify([payload]),
-    }).catch((error) => {
-      console.error('sent metrics error:', error, payload);
+
+    this.reports.push(payload);
+  }
+
+  sendReports() {
+    apiClient.post(APP_METRICS_ENDPOINT, this.reports, true).catch((error) => {
+      console.error('error posting metrics :', error, this.reports);
     });
   }
+}
+
+function emitReadyForScreenshot(map) {
+  // Still no reliable ways to detect when map is fully rendered, related issues are hanging for years
+  // TODO: implement better map rendered detection when possible
+  map.once('idle', function () {
+    setTimeout(() => {
+      const eventReadyEvent = new Event('event_ready_for_screenshot');
+      globalThis.dispatchEvent(eventReadyEvent);
+    }, 99); // extra time to prevent rendering glitches
+  });
+  // repaint to ensure EVENT_MAP_IDLE will be triggered after map render events
+  map.triggerRepaint();
 }

@@ -426,8 +426,6 @@ export class ApiClient {
     useAuth = !this.disableAuth,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    let response: ApiResponse<T, GeneralApiProblem>;
-
     if (!requestConfig) {
       requestConfig = {};
     }
@@ -446,11 +444,13 @@ export class ApiClient {
           Authorization: `Bearer ${this.token}`,
         };
       }
-
-      response = await this.apiSauceInstance[method](path, requestParams, requestConfig);
-    } else {
-      response = await this.apiSauceInstance[method](path, requestParams, requestConfig);
     }
+
+    const response = await this.apiSauceInstance[method]<T, GeneralApiProblem>(
+      path,
+      requestParams,
+      requestConfig,
+    );
 
     return this.processResponse<T>(response, requestConfig?.errorsConfig);
   }
