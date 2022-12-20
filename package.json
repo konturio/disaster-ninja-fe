@@ -167,7 +167,7 @@
     "open-cli": "^7.0.0",
     "patch-package": "^6.4.7",
     "postcss-custom-media": "^8.0.0",
-    "postcss-loader": "^6.1.1",
+    "postcss-loader": "^7.0.2",
     "postcss-nested": "^5.0.6",
     "postcss-normalize": "8.0.1",
     "prettier": "^2.3.2",
