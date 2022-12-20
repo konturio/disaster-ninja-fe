@@ -10,8 +10,8 @@ import {
   buildWatchList,
 } from './constants';
 import { Sequence } from './sequence';
+import type { MetricsReportTemplate, MetricsEvent, Metric } from './types';
 import type { AppFeatureType } from '~core/auth/types';
-import type { MetricsReportTemplate, MetricsEvent } from './types';
 
 const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
 
@@ -43,7 +43,7 @@ class SessionSettings<F extends string> {
 /**
  * Singleton, use AppMetrics.getInstance()
  */
-export class AppMetrics {
+export class AppMetrics implements Metric {
   static _instance: AppMetrics;
   markers: MetricMarker[] = [];
   maxLogSize = 100;

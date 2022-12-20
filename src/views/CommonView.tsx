@@ -7,6 +7,7 @@ import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth';
 import { currentAppPropertiesResourceAtom } from '~core/shared_state/currentApplication';
 import { useFavicon } from '~utils/hooks/useFavicon';
+import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { useTabNameUpdate } from '~utils/hooks/useTabNameUpdate';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
@@ -63,6 +64,11 @@ export function CommonView({
       <Suspense fallback={null}>
         {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
       </Suspense>
+
+      {/* FIXME: Since this banner also blocks intercom in should check something more common */}
+      {userModel?.hasFeature(AppFeature.USE_3RDPARTY_ANALYTICS) && (
+        <CookieConsentBanner />
+      )}
     </>
   );
 }

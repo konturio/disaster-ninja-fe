@@ -47,6 +47,7 @@ export const AppFeature = {
   BIVARIATE_COLOR_MANAGER: 'bivariate_color_manager',
   EPISODES_TIMELINE: 'episodes_timeline',
   LOCATE_ME: 'locate_me',
+  USE_3RDPARTY_ANALYTICS: 'use_3rdparty_analytics',
 } as const;
 
 export type AppFeatureType = typeof AppFeature[keyof typeof AppFeature];
