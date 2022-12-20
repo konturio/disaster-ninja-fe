@@ -1,8 +1,9 @@
+import { getCharByIndex } from './bivariate_style/styleGen';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
 import type { Stat } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
-import type { Axis } from '~utils/bivariate';
+import type { Axis, Step } from '~utils/bivariate';
 
 export function createBivariateLegend(
   name: string,
@@ -86,4 +87,21 @@ export function createBivariateMeta(
       },
     },
   };
+}
+
+// same logic as in classResolver method in styleGen.ts, but here we do it manually
+export function getCellLabelByValue(
+  xSteps: Step[],
+  ySteps: Step[],
+  xValue: number,
+  yValue: number,
+) {
+  const charIndex = xSteps.findIndex((xStep) => {
+    if (xValue < xStep.value) return true;
+  });
+  const char = getCharByIndex(charIndex);
+  const number = ySteps.findIndex((yStep) => {
+    if (yValue < yStep.value) return true;
+  });
+  return char + number;
 }
