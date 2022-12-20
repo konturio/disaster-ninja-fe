@@ -54,8 +54,8 @@ export const MapHexTooltip = ({
 
         {values && (
           <div className={s.column}>
-            <span>{values?.x}</span>
-            <span>{values?.y}</span>
+            <span>{values.x}</span>
+            <span>{values.y}</span>
           </div>
         )}
 
