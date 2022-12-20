@@ -18,4 +18,5 @@ export const analyticsPanel: PanelFeatureInterface = {
   minHeight: MIN_HEIGHT,
   maxHeight: MAX_HEIGHT,
   skipAutoResize: true,
+  resize: 'vertical',
 };

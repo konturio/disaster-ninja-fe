@@ -37,6 +37,7 @@ export function PrimaryAndSecondaryPanelWidget({
   const minHeight = getProperty('minHeight') || secondaryProps?.minHeight || 0;
   const maxHeight = getProperty('maxHeight');
   const contentHeight = getProperty('contentheight');
+  const resize = isMobile ? 'none' : getProperty('resize');
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
@@ -76,7 +77,7 @@ export function PrimaryAndSecondaryPanelWidget({
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        resize={isMobile || isShort ? 'none' : 'vertical'}
+        resize={resize}
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
         customControls={panelControls}
