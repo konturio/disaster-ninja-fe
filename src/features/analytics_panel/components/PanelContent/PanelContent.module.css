@@ -10,6 +10,7 @@
     overflow-y: auto;
   }
 }
+/* mobile */
 @media screen and (max-width: 960px) {
   .panelBody {
     height: 100%;

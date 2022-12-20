@@ -6,6 +6,7 @@
   overflow: auto;
 }
 
+/* mobile */
 @media screen and (max-width: 960px) {
   .panelBody {
     width: 100vw;
