@@ -1,3 +1,5 @@
+import type { AppFeatureType } from '~core/auth/types';
+
 export interface MetricsReportTemplate {
   name: string; // metric name, e.g. full-load-time, map-load-time, disasters-panel-load-time, etc.
   value: number; // time to full load in ms
@@ -10,6 +12,10 @@ export type MetricsEventDetail = { name: string; payload?: unknown };
 export type MetricsEvent = CustomEvent<MetricsEventDetail>;
 
 export interface Metric {
-  init: (appId: string, route: string) => void;
+  init: (
+    appId: string,
+    route: string,
+    hasFeature: (f: AppFeatureType) => boolean,
+  ) => void;
   mark: (name: string, payload: any) => void;
 }
