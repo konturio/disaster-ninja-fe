@@ -17,6 +17,14 @@
   height: 100%;
 }
 
+.horConnector > div {
+  transform: skewY(22.5deg);
+}
+
+.vertConnector > div {
+  transform: skewX(22.5deg);
+}
+
 .horConnector > div.hovered,
 .vertConnector > div.hovered {
   background: var(--hover-bg-color);

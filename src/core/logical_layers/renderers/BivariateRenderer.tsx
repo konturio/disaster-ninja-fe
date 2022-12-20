@@ -20,6 +20,7 @@ import {
 import { invertClusters } from '~utils/bivariate';
 import { userResourceAtom } from '~core/auth';
 import { AppFeature } from '~core/auth/types';
+import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import type {
   AnyLayer,
   LngLat,
@@ -101,12 +102,12 @@ const calcValueByNumeratorDenominator = (
   cellValues: Exclude<GeoJsonProperties, null>,
   numerator: string,
   denominator: string,
-): string => {
+): string | undefined => {
   const numeratorValue = cellValues[numerator];
   const denominatorValue = cellValues[denominator];
 
   if (isNil(numeratorValue) || isNil(denominatorValue)) return '0.00';
-  if (denominatorValue === 0) return '-';
+  if (denominatorValue === 0) return undefined;
 
   return (numeratorValue / denominatorValue).toFixed(2);
 };
@@ -207,31 +208,36 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       const feature = features[0];
       const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
       const fillColor: FillColor = feature.layer.paint?.['fill-color'];
-      if (!fillColor || isFillColorEmpty(fillColor)) return true;
 
-      const rgba = convertFillColorToRGBA(fillColor);
-      const cells: BivariateLegendStep[] = invertClusters(legend.steps, 'label');
-      const cellIndex = cells.findIndex((i) => i.color === rgba);
+      if (!fillColor || isFillColorEmpty(fillColor) || !feature.properties) return true;
+
       const showValues = userResourceAtom
         .getState()
         .data?.hasFeature(AppFeature.BIVARIATE_MANAGER);
       const [xNumerator, xDenominator] = legend.axis.x.quotient;
       const [yNumerator, yDenominator] = legend.axis.y.quotient;
-      const valuesByQuotients =
-        showValues && feature.properties
-          ? {
-              x: calcValueByNumeratorDenominator(
-                feature.properties,
-                xNumerator,
-                xDenominator,
-              ),
-              y: calcValueByNumeratorDenominator(
-                feature.properties,
-                yNumerator,
-                yDenominator,
-              ),
-            }
-          : undefined;
+      const xValue = calcValueByNumeratorDenominator(
+        feature.properties,
+        xNumerator,
+        xDenominator,
+      );
+      const yValue = calcValueByNumeratorDenominator(
+        feature.properties,
+        yNumerator,
+        yDenominator,
+      );
+
+      if (!xValue || !yValue) return true;
+
+      const rgba = convertFillColorToRGBA(fillColor);
+      const cells: BivariateLegendStep[] = invertClusters(legend.steps, 'label');
+      const cellLabel = getCellLabelByValue(
+        legend.axis.x.steps,
+        legend.axis.y.steps,
+        Number(xValue),
+        Number(yValue),
+      );
+      const cellIndex = cells.findIndex((i) => i.label === cellLabel);
 
       const popupNode = document.createElement('div');
       createRoot(popupNode).render(
@@ -239,7 +245,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
           cellLabel={cells[cellIndex].label}
           cellIndex={cellIndex}
           axis={legend.axis}
-          values={valuesByQuotients}
+          values={showValues ? { x: xValue, y: yValue } : undefined}
           hexagonColor={rgba}
         />,
       );

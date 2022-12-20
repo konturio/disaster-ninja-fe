@@ -57,13 +57,14 @@ function stringsToFeatureProp(expression) {
   }
   if (Array.isArray(expression)) {
     // ignore first item in array - it's operator
-    return expression.map((exp, i) =>
-      i === 0 ? exp : stringsToFeatureProp(exp),
-    );
+    return expression.map((exp, i) => (i === 0 ? exp : stringsToFeatureProp(exp)));
   }
 
   return expression;
 }
+
+const AT_CHAR_CODE = 64; // '@'.charCodeAt(0);
+export const getCharByIndex = (i: number) => String.fromCharCode(AT_CHAR_CODE + i); //get A - C by index
 
 /**
  * Generate class A1 - C3 resolver based on borders in mapbox style resolver
@@ -73,7 +74,6 @@ function stringsToFeatureProp(expression) {
  * @param {Array}  yValue.borders  - yValue class borders
  */
 export function classResolver(xValue, yValue) {
-  const atCharCode = 64; // '@'.charCodeAt(0);
   const xAxisValue = stringsToFeatureProp(xValue.propName);
   const yAxisValue = stringsToFeatureProp(yValue.propName);
 
@@ -81,10 +81,10 @@ export function classResolver(xValue, yValue) {
     switchFn(
       // cases for a, b, c ...
       xValue.borders.map((border, i) =>
-        caseFn(less(xAxisValue, border), String.fromCharCode(atCharCode + i)),
+        caseFn(less(xAxisValue, border), getCharByIndex(i)),
       ),
       // default case required
-      String.fromCharCode(atCharCode + xValue.borders.length),
+      getCharByIndex(xValue.borders.length),
     ),
     switchFn(
       // cases for 1, 2, 3 ...

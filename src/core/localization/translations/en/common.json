@@ -183,7 +183,8 @@
       "progress": {
         "rendering": "Rendering",
         "applied": "Applied on the map"
-      }
+      },
+      "loading_error": "Unfortunately, we cannot display the matrix. Try refreshing the page or come back later."
     },
     "legend": {
       "high": "High",
@@ -287,5 +288,11 @@
     "feature_title": "Locate me"
   },
   "episode": "Episode",
-  "loading_episodes": "Loading Episodes"
+  "loading_episodes": "Loading Episodes",
+  "cookie_banner": {
+    "header": "We value your privacy",
+    "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve Disaster Ninja and your experience. You can manage cookies settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](/about/privacy)",
+    "decline_all": "Decline optional cookies",
+    "accept_all": "Accept optional cookies"
+  }
 }

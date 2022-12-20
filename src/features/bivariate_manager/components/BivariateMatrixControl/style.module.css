@@ -11,6 +11,13 @@
   align-items: flex-end;
 }
 
+.matrixContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+}
+
 .rotatedMatrix {
-  transform: rotate(-45deg);
+  transform: scale(0.7) rotate(-45deg);
 }

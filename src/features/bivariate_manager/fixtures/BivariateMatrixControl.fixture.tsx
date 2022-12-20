@@ -21,17 +21,15 @@ const mapHeaderCell = (group: AxisGroup, indicators: Indicator[]) => ({
     label: indicators.find((indicator) => indicator.name === group.selectedQuotient[1])
       ?.label,
   },
-  quality: 1,
+  quality: '1',
   quotients: group.quotients.map((quotient) => ({
     id: quotient,
     label: indicators.find((indicator) => indicator.name === quotient[0])?.label,
-    quality: 1,
+    quality: '1',
   })),
 });
 
 export default function BivariateMatrixControlFixture() {
-  const ref = useRef(null);
-
   const headings = useMemo(() => {
     if (
       !mock.indicators ||
@@ -65,10 +63,10 @@ export default function BivariateMatrixControlFixture() {
     setSelectedCell({ x, y });
   }, []);
 
-  const onSelectDenominator = useCallback(
+  const onSelectQuotient = useCallback(
     (horizontal: boolean, index: number, numId: string, denId: string) => {
       /* eslint-disable */
-      console.log('onSelectDenominator', horizontal, index, numId, denId);
+      console.log('onSelectQuotient', horizontal, index, numId, denId);
     },
     [],
   );
@@ -77,13 +75,12 @@ export default function BivariateMatrixControlFixture() {
     <div className={styles.axisMatrix}>
       <Router>
         <BivariateMatrixControlComponent
-          ref={ref}
           matrix={mock.matrix}
-          xHeadings={headings?.x}
-          yHeadings={headings?.y}
+          xHeadings={headings?.x!}
+          yHeadings={headings?.y!}
           onSelectCell={onSelectCellHandler}
           selectedCell={selectedCell}
-          onSelectDenominator={onSelectDenominator}
+          onSelectQuotient={onSelectQuotient}
         />
         <PopupTooltip />
       </Router>

@@ -1,22 +1,17 @@
 export type BivariateMatrixQuotientType = {
   id: [string, string];
   label?: string;
-  quality?: number;
+  quality?: string;
 };
 
 export type BivariateMatrixHeadingType = {
   label: string;
   selectedQuotient: BivariateMatrixQuotientType;
-  quality?: number;
+  quality?: string;
   quotients: BivariateMatrixQuotientType[];
 };
 
-export type CornerRange =
-  | 'good'
-  | 'bad'
-  | 'important'
-  | 'unimportant'
-  | 'neutral';
+export type CornerRange = 'good' | 'bad' | 'important' | 'unimportant' | 'neutral';
 
 export type Copyright = string;
 

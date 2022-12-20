@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-12-12T16:48:08.625Z\n"
-"PO-Revision-Date: 2022-12-12T16:48:08.625Z\n"
+"POT-Creation-Date: 2022-12-20T12:08:30.986Z\n"
+"PO-Revision-Date: 2022-12-20T12:08:30.986Z\n"
 
 #: km
 msgid "km"
@@ -552,6 +552,12 @@ msgstr ""
 msgid "Applied on the map"
 msgstr ""
 
+#: bivariate##matrix##loading_error
+msgid ""
+"Unfortunately, we cannot display the matrix. Try refreshing the page or "
+"come back later."
+msgstr ""
+
 #: bivariate##legend##high
 msgid "High"
 msgstr ""
@@ -885,4 +891,25 @@ msgstr ""
 
 #: loading_episodes
 msgid "Loading Episodes"
+msgstr ""
+
+#: cookie_banner##header
+msgid "We value your privacy"
+msgstr ""
+
+#: cookie_banner##body
+msgid ""
+"We use absolutely necessary cookies to provide you personalized services "
+"and optional cookies to improve Disaster Ninja and your experience. You can "
+"manage cookies settings or withdraw consent to optional cookies at any "
+"time.\n"
+"For more information, please, check our [Privacy Policy](/about/privacy)"
+msgstr ""
+
+#: cookie_banner##decline_all
+msgid "Decline optional cookies"
+msgstr ""
+
+#: cookie_banner##accept_all
+msgid "Accept optional cookies"
 msgstr ""
