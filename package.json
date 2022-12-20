@@ -77,7 +77,7 @@
     "@deck.gl/geo-layers": "^8.8.20",
     "@deck.gl/layers": "^8.5.4",
     "@deck.gl/mapbox": "^8.8.4",
-    "@deck.gl/mesh-layers": "^8.5.4",
+    "@deck.gl/mesh-layers": "^8.8.20",
     "@konturio/default-icons": "^2.2.0",
     "@konturio/default-theme": "3.1.1",
     "@konturio/ui-kit": "^3.5.3",
