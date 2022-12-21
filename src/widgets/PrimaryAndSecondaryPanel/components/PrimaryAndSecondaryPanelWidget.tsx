@@ -6,31 +6,45 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
-import s from './LayersAndLegends.module.css';
+import s from './PrimaryAndSecondaryPanel.module.css';
 import type { PanelFeatureInterface } from 'types/featuresTypes';
 
 type PanelProps = {
-  layersProps?: PanelFeatureInterface | null;
-  legendProps?: PanelFeatureInterface | null;
+  primaryProps?: PanelFeatureInterface | null;
+  secondaryProps?: PanelFeatureInterface | null;
+  id?: string;
 };
 
-export function LayersAndLegendsWidget({ layersProps, legendProps }: PanelProps) {
+export function PrimaryAndSecondaryPanelWidget({
+  primaryProps,
+  secondaryProps,
+  id,
+}: PanelProps) {
   const { panelState, panelControls, setPanelState } = useShortPanelState(
-    Boolean(!layersProps || !legendProps),
+    Boolean(!primaryProps || !secondaryProps),
   );
 
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const minHeight = isShort
-    ? legendProps?.minHeight || 0
-    : (layersProps?.minHeight || legendProps?.minHeight)!;
+  const getProperty = useCallback(
+    function <K extends keyof PanelFeatureInterface>(property: K) {
+      return isShort ? secondaryProps?.[property] : primaryProps?.[property];
+    },
+    [isShort, primaryProps, secondaryProps],
+  );
+
+  const minHeight = getProperty('minHeight') || secondaryProps?.minHeight || 0;
+  const maxHeight = getProperty('maxHeight');
+  const contentHeight = getProperty('contentheight');
+  const resize = isMobile ? 'none' : getProperty('resize');
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
     minHeight,
-    'legend_and_layers',
+    id || 'primary_and_secondary',
+    isShort ? secondaryProps?.skipAutoResize : primaryProps?.skipAutoResize,
   );
 
   const onPanelIconClick = useCallback(() => {
@@ -43,15 +57,15 @@ export function LayersAndLegendsWidget({ layersProps, legendProps }: PanelProps)
 
   useAutoCollapsePanel(isOpen, onPanelClose);
 
-  if (!layersProps && !legendProps) return null;
+  if (!primaryProps && !secondaryProps) return null;
 
-  const header = !layersProps ? legendProps!.header : layersProps.header;
-  const panelIcon = !layersProps ? legendProps!.panelIcon : layersProps.panelIcon;
+  const header = !primaryProps ? secondaryProps?.header : primaryProps.header;
+  const panelIcon = !primaryProps ? secondaryProps?.panelIcon : primaryProps.panelIcon;
 
   const panelContent = {
-    full: layersProps?.content || legendProps!.content,
-    short: legendProps?.content,
-    closed: null,
+    full: primaryProps?.content || secondaryProps?.content,
+    short: secondaryProps?.content,
+    closed: <></>,
   };
 
   return (
@@ -63,12 +77,13 @@ export function LayersAndLegendsWidget({ layersProps, legendProps }: PanelProps)
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        resize={isMobile || isShort ? 'none' : 'vertical'}
+        resize={resize}
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
         customControls={panelControls}
-        contentHeight={isShort ? 'min-content' : undefined}
+        contentHeight={contentHeight}
         minContentHeight={minHeight}
+        maxContentHeight={maxHeight}
       >
         {panelContent[panelState]}
       </Panel>

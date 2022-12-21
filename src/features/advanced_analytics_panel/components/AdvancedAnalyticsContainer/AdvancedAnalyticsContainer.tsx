@@ -1,5 +1,4 @@
 import { useAtom } from '@reatom/react';
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@konturio/ui-kit';
 import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
@@ -8,9 +7,8 @@ import { focusedGeometryAtom } from '~core/shared_state';
 import { advancedAnalyticsResourceAtom } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsResource';
 import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsEmptyState/AdvancedAnalyticsEmptyState';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
-import { i18n } from '~core/localization';
 
-const AdvancedAnalyticsContainer = () => {
+export const AdvancedAnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(advancedAnalyticsResourceAtom);
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
 
@@ -32,20 +30,7 @@ const AdvancedAnalyticsContainer = () => {
       if (dataList?.length == 0) {
         return <AdvancedAnalyticsEmptyState />;
       }
-      return (
-        <Tabs>
-          <TabList style={{ display: 'none' }}>
-            <Tab>{i18n.t('advanced_analytics_panel.analytics_tab')}</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <AdvancedAnalyticsDataList data={dataList} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      );
+      return <AdvancedAnalyticsDataList data={dataList} />;
     },
   }) as JSX.Element;
 };
-
-export default AdvancedAnalyticsContainer;

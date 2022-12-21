@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-12-15T16:22:20.446Z\n"
-"PO-Revision-Date: 2022-12-15T16:22:20.446Z\n"
+"POT-Creation-Date: 2022-12-20T12:08:30.986Z\n"
+"PO-Revision-Date: 2022-12-20T12:08:30.986Z\n"
 
 #: km
 msgid "km"

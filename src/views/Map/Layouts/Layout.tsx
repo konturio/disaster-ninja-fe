@@ -10,7 +10,6 @@ import { MobileLayout } from './Mobile/Mobile';
 export function Layout({
   disasters,
   analytics,
-  advancedAnalytics,
   toolbar,
   timeline,
   layersAndLegends,
@@ -29,7 +28,6 @@ export function Layout({
           <>
             {analytics}
             {disasters}
-            {advancedAnalytics}
             {editPanel}
             {layersAndLegends}
             {matrix}
@@ -53,7 +51,6 @@ export function Layout({
           <>
             {analytics}
             {disasters}
-            {advancedAnalytics}
             {editPanel}
             {layersAndLegends}
             {matrix}
@@ -78,7 +75,6 @@ export function Layout({
           {disasters}
         </>
       }
-      advancedAnalyticsColumn={advancedAnalytics}
       mapColumn={
         <>
           {toolbar}
