@@ -35,7 +35,9 @@ export function ShortState({
     if (!event && currentEvent) setEvent(currentEvent);
   }, [currentEvent, event, setEvent]);
 
-  const eventInfo = event ? <CurrentEvent hasTimeline={hasTimeline} /> : null;
+  const eventInfo = event ? (
+    <CurrentEvent hasTimeline={hasTimeline} showDescription={true} />
+  ) : null;
 
   const panelContent = eventInfo || (
     <div className={s.noDisasters}>

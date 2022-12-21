@@ -7,7 +7,13 @@ import { createStateMap } from '~utils/atoms';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { EventCard } from '../EventCard/EventCard';
 
-export function CurrentEvent({ hasTimeline }: { hasTimeline?: boolean }) {
+export function CurrentEvent({
+  hasTimeline,
+  showDescription,
+}: {
+  hasTimeline?: boolean;
+  showDescription?: boolean;
+}) {
   const [{ data, error, loading }] = useAtom(currentEventResourceAtom);
 
   const statesToComponents = createStateMap({
@@ -28,6 +34,7 @@ export function CurrentEvent({ hasTimeline }: { hasTimeline?: boolean }) {
           hasTimeline ? <EpisodeTimelineToggle isActive={true} /> : null
         }
         externalUrls={event.externalUrls}
+        showDescription={showDescription}
       />
     ),
   });
