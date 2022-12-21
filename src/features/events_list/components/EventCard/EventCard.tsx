@@ -53,17 +53,15 @@ export function EventCard({
         <SeverityIndicator severity={event.severity} />
       </div>
 
-      <div>
-        <div className={s.location}>
-          <Text type="caption">{event.location}</Text>
-        </div>
-
-        {showDescription && event.description && (
-          <div className={s.description}>
-            <Text type="caption">{event.description}</Text>
-          </div>
-        )}
+      <div className={s.location}>
+        <Text type="caption">{event.location}</Text>
       </div>
+
+      {showDescription && event.description && (
+        <div className={s.description}>
+          <Text type="caption">{event.description}</Text>
+        </div>
+      )}
 
       <Analytics
         settledArea={event.settledArea}
