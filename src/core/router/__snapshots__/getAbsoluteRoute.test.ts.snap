@@ -1,0 +1,17 @@
+// Vitest Snapshot v1
+
+exports[`Correct url for '/' + '' 1`] = `"/"`;
+
+exports[`Correct url for '/' + '/' 1`] = `"/"`;
+
+exports[`Correct url for '/' + '/nested/slug' 1`] = `"/nested/slug"`;
+
+exports[`Correct url for '/' + '/slug' 1`] = `"/slug"`;
+
+exports[`Correct url for '/active' + '' 1`] = `"/active"`;
+
+exports[`Correct url for '/active' + '/' 1`] = `"/active"`;
+
+exports[`Correct url for '/active' + '/nested/slug' 1`] = `"/active/nested/slug"`;
+
+exports[`Correct url for '/active' + '/slug' 1`] = `"/active/slug"`;
