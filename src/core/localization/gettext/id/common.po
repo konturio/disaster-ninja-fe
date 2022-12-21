@@ -5,505 +5,509 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-12-20T12:08:30.986Z\n"
-"PO-Revision-Date: 2022-12-20T12:08:30.986Z\n"
+"POT-Creation-Date: 2022-11-28T17:15:49.862Z\n"
+"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
 
 #: km
 msgid "km"
-msgstr ""
+msgstr "km"
 
 #: m
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: to
 msgid "to"
-msgstr ""
+msgstr "ke"
 
 #: logout
 msgid "Logout"
-msgstr ""
+msgstr "Keluar"
 
 #: save
 msgid "Save"
-msgstr ""
+msgstr "Simpan"
 
 #: cancel
 msgid "Cancel"
-msgstr ""
+msgstr "Batalkan"
 
 #: create
 msgid "Create"
-msgstr ""
+msgstr "Buat"
 
 #: disasters
 msgid "Disasters"
-msgstr ""
+msgstr "Bencana"
 
 #: loading
 msgid "Loading..."
-msgstr ""
+msgstr "Memuat..."
 
 #: loading_events
 msgid "Loading events"
-msgstr ""
+msgstr "Memuat kejadian"
 
 #: legend
 msgid "Legend"
-msgstr ""
+msgstr "Legenda"
 
 #: maps
 msgid "maps"
-msgstr ""
+msgstr "peta"
 
 #: vertical_direction
 msgid "Vertical direction"
-msgstr ""
+msgstr "Arah vertikal"
 
 #: horizontal_direction
 msgid "Horizontal direction"
-msgstr ""
+msgstr "Arah horizontal"
 
 #: legend_presentation
 msgid "Legend presentation"
-msgstr ""
+msgstr "Penyajian legenda"
 
 #: layers
 #: bivariate##color_manager##layers_filter
 msgid "Layers"
-msgstr ""
+msgstr "Lapisan"
 
 #: feed
 msgid "Feed"
-msgstr ""
+msgstr "Feed"
 
 #: details
 msgid "Details"
-msgstr ""
+msgstr "Detail"
 
 #: deselect
 msgid "Deselect"
-msgstr ""
+msgstr "Batalkan Pilihan"
 
 #: spinner_text
 msgid "Gathering data"
-msgstr ""
+msgstr "Mengumpulkan data"
 
 #: updated
 msgid "Updated"
-msgstr ""
+msgstr "Diperbarui"
 
 #: no_data_received
 msgid "No data received"
-msgstr ""
+msgstr "Tidak ada data yang diterima"
 
 #: wrong_data_received
 msgid "Wrong data received"
-msgstr ""
+msgstr "Data yang diterima salah"
 
 #: error
 msgid "Error"
-msgstr ""
+msgstr "Kesalahan"
 
 #: sort_icon
 msgid "Sort Icon"
-msgstr ""
+msgstr "Sortir Ikon"
 
 #: configs##Kontur_public_feed
 msgid "Kontur Public"
-msgstr ""
+msgstr "Publik Kontur"
 
 #: configs##Kontur_public_feed_description
 msgid ""
 "The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
 "Floods, Volcanoes, Wildfires."
 msgstr ""
+"Feed berisi data waktu-nyata tentang Angin Topan, Kekeringan, Gempa, Banjir, Gunung Meletus, Kebakaran Hutan."
 
 #: errors##default
 msgid "Sorry, we are having issues, which will be fixed soon"
-msgstr ""
+msgstr "Maaf, kami mengalami masalah yang akan segera diperbaiki"
 
 #: errors##timeout
 msgid "Request Timeout"
-msgstr ""
+msgstr "Waktu Permintaan Habis"
 
 #: errors##cannot_connect
 msgid "Can't connect to server"
-msgstr ""
+msgstr "Tidak dapat terhubung ke server"
 
 #: errors##forbidden
 msgid "Forbidden"
-msgstr ""
+msgstr "Terlarang"
 
 #: errors##not_found
 msgid "Not found"
-msgstr ""
+msgstr "Tidak ditemukan"
 
 #: errors##unknown
 msgid "Unknown"
-msgstr ""
+msgstr "Tidak diketahui"
 
 #: errors##server_error
 msgid "Server Error"
-msgstr ""
+msgstr "Kesalahan Server"
 
 #: categories##overlays
 msgid "Overlays"
-msgstr ""
+msgstr "Tumpang Susun"
 
 #: categories##basemap
 msgid "Basemap"
-msgstr ""
+msgstr "Peta Dasar"
 
 #: groups##layers_in_selected_area
 msgid "Layers in selected area"
-msgstr ""
+msgstr "Lapisan di area pilihan"
 
 #: groups##your_layers
 msgid "Your Layers"
-msgstr ""
+msgstr "Lapisan Anda"
 
 #: groups##kontur_analytics
 msgid "Kontur Analytics"
-msgstr ""
+msgstr "Analitik Kontur"
 
 #: groups##qa
 msgid "QA"
-msgstr ""
+msgstr "QA"
 
 #: groups##osmbasedmap
 msgid "OpenStreetMap Based"
-msgstr ""
+msgstr "Berbasis OpenStreetMap"
 
 #: groups##other
 msgid "Other"
-msgstr ""
+msgstr "Lainnya"
 
 #: groups##elevation
 msgid "Elevation"
-msgstr ""
+msgstr "Elevasi"
 
 #: groups##photo
 msgid "Photo"
-msgstr ""
+msgstr "Foto"
 
 #: groups##map
 #: modes##map
 msgid "Map"
-msgstr ""
+msgstr "Peta"
 
 #: advanced_analytics_data_list##load_world_data
 msgid "Load World Data"
-msgstr ""
+msgstr "Memuat Data Dunia"
 
 #: advanced_analytics_data_list##numerator
 msgid "Numerator"
-msgstr ""
+msgstr "Pembilang"
 
 #: advanced_analytics_data_list##normalized_by
 msgid "Normalized By"
-msgstr ""
+msgstr "Dinormalkan Dengan"
 
 #: advanced_analytics_data_list##sum
 msgid "Sum"
-msgstr ""
+msgstr "Jumlah"
 
 #: advanced_analytics_data_list##min
 msgid "Min"
-msgstr ""
+msgstr "Min"
 
 #: advanced_analytics_data_list##max
 msgid "Max"
-msgstr ""
+msgstr "Maks"
 
 #: advanced_analytics_data_list##mean
 msgid "Mean"
-msgstr ""
+msgstr "Rerata"
 
 #: advanced_analytics_data_list##stddev
 msgid "Stddev"
-msgstr ""
+msgstr "Simpangan baku"
 
 #: advanced_analytics_data_list##median
 msgid "Median"
-msgstr ""
+msgstr "Median"
 
 #: advanced_analytics_data_list##filter_numerator
+#, fuzzy
 msgid "Filter Numerator"
-msgstr ""
+msgstr "Filter Pembilang"
 
 #: advanced_analytics_data_list##filter_denominator
 msgid "Filter Denominator"
-msgstr ""
+msgstr "Filter Penyebut"
 
 #: event_list##warning_title
 msgid "Can't use map as filter"
-msgstr ""
+msgstr "Tidak dapat menggunakan peta sebagai filter"
 
 #: event_list##warning_description
 msgid "Map not ready yet, try later"
-msgstr ""
+msgstr "Peta belum siap, coba nanti"
 
 #: event_list##bbox_filter_button
 msgid "Use map view as filter"
-msgstr ""
+msgstr "Gunakan tampilan peta sebagai filter"
 
 #: event_list##analytics##affected_people##tooltip
 msgid "Affected People"
-msgstr ""
+msgstr "Orang yang Terdampak"
 
 #: event_list##analytics##affected_people##value
 msgid "No humanitarian impact"
-msgstr ""
+msgstr "Tidak berdampak kemanusiaan"
 
 #: event_list##analytics##settled_area_tooltip
 msgid "Settled Area"
-msgstr ""
+msgstr "Area yang Ditempati"
 
 #: event_list##analytics##loss_tooltip
 msgid "Estimated loss"
-msgstr ""
+msgstr "Estimasi kerugian"
 
 #: event_list##no_event_in_feed
 msgid "Event not found in the current event feed"
-msgstr ""
+msgstr "Kejadian tidak ditemukan di feed kejadian terkini"
 
 #: event_list##no_selected_disaster
 msgid "No disaster selected"
-msgstr ""
+msgstr "Tidak ada bencana yang dipilih"
 
 #: event_list##chose_disaster
 msgid "Choose disaster"
-msgstr ""
+msgstr "Pilih bencana"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
-msgstr ""
+msgstr "Edit Lapisan"
 
 #: create_layer##edit_features
 msgid "Edit Features"
-msgstr ""
+msgstr "Edit Fitur"
 
 #: create_layer##delete_layer
 msgid "Delete Layer"
-msgstr ""
+msgstr "Hapus Lapisan"
 
 #: create_layer##create_layer
 msgid "Create Layer"
-msgstr ""
+msgstr "Buat Lapisan"
 
 #: create_layer##saving_layer
 msgid "Saving layer..."
-msgstr ""
+msgstr "Menyimpan lapisan..."
 
 #: create_layer##field_name
 msgid "Field name"
-msgstr ""
+msgstr "Nama bidang"
 
 #: create_layer##layer_name
 msgid "Layer name"
-msgstr ""
+msgstr "Nama lapisan"
 
 #: create_layer##marker_icon
 msgid "Marker icon"
-msgstr ""
+msgstr "Ikon penanda"
 
 #: create_layer##type
 msgid "Type"
-msgstr ""
+msgstr "Jenis"
 
 #: create_layer##select
 msgid "Select"
-msgstr ""
+msgstr "Pilih"
 
 #: create_layer##short_text
 msgid "Short Text"
-msgstr ""
+msgstr "Teks Singkat"
 
 #: create_layer##long_text
 msgid "Long Text"
-msgstr ""
+msgstr "Teks Panjang"
 
 #: create_layer##link
 msgid "Link"
-msgstr ""
+msgstr "Tautan"
 
 #: create_layer##image
 msgid "Image"
-msgstr ""
+msgstr "Gambar"
 
 #: create_layer##fields
 msgid "Fields"
-msgstr ""
+msgstr "Bidang"
 
 #: create_layer##add_field
 msgid "Add field"
-msgstr ""
+msgstr "Tambahkan bidang"
 
 #: create_layer##location
 msgid "Location"
-msgstr ""
+msgstr "Lokasi"
 
 #: create_layer##edit_feature_placeholder
 msgid "Select some feature for start edit feature properties"
-msgstr ""
+msgstr "Pilih beberapa fitur untuk mulai mengedit properti fitur"
 
 #: analytics_panel##loading
 msgid "Loading analytics..."
-msgstr ""
+msgstr "Memuat analitik..."
 
 #: analytics_panel##header_title
 msgid "Analytics"
-msgstr ""
+msgstr "Analitik"
 
 #: analytics_panel##info_tab
 msgid "INFO"
-msgstr ""
+msgstr "INFO"
 
 #: analytics_panel##error_loading
 msgid "Error while fetching analytics data"
-msgstr ""
+msgstr "Kesalahan saat mengambil data analitik"
 
 #: advanced_analytics_panel##loading
 msgid "Loading advanced analytics..."
-msgstr ""
+msgstr "Memuat analitik tingkat lanjut..."
 
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
-msgstr ""
+msgstr "Analitik tingkat lanjut"
 
 #: advanced_analytics_panel##analytics_tab
 msgid "Advanced Analytics"
-msgstr ""
+msgstr "Analitik Tingkat Lanjut"
 
 #: advanced_analytics_panel##error
 msgid "Error while fetching advanced analytics data"
-msgstr ""
+msgstr "Kesalahan saat mengambil data analitik tingkat lanjut"
 
 #: advanced_analytics_empty##not_found
 #: current_event##not_found_request
 msgid "Sorry, requested event not found."
-msgstr ""
+msgstr "Maaf, kejadian yang diminta tidak ditemukan."
 
 #: advanced_analytics_empty##error
 msgid "An error occured!"
-msgstr ""
+msgstr "Terjadi kesalahan!"
 
 #: advanced_analytics_empty##please_select
 msgid "Please, select an area again"
-msgstr ""
+msgstr "Pilih sebuah area"
 
 #: advanced_analytics_empty##to_see_map
 msgid "to see state of the map"
-msgstr ""
+msgstr "untuk melihat keadaan peta"
 
 #: advanced_analytics_empty##pickDisaster
 msgid "Pick disaster from the list"
-msgstr ""
+msgstr "Pilih bencana dari daftar"
 
 #: advanced_analytics_empty##draw
 msgid "Draw polygon on the map"
-msgstr ""
+msgstr "Gambar poligon pada peta"
 
 #: advanced_analytics_empty##select
 msgid "Select boundary on the map"
-msgstr ""
+msgstr "Pilih batas pada peta"
 
 #: advanced_analytics_empty##upload
 msgid "Upload your own geoJSON"
-msgstr ""
+msgstr "Unggah geoJSON Anda sendiri"
 
 #: draw_tools##area
 msgid "Area"
-msgstr ""
+msgstr "Area"
 
 #: draw_tools##line
 msgid "Line"
-msgstr ""
+msgstr "Garis"
 
 #: draw_tools##point
 msgid "Point"
-msgstr ""
+msgstr "Titik"
 
 #: draw_tools##finish_drawing
 msgid "Finish Drawing"
-msgstr ""
+msgstr "Selesai Menggambar"
 
 #: draw_tools##caption
 msgid "Click on the map to begin drawing"
-msgstr ""
+msgstr "Klik peta untuk mulai menggambar"
 
 #: draw_tools##no_geometry_error
 msgid "No drawn geometry to download"
-msgstr ""
+msgstr "Tidak ada gambar geometri untuk diunduh"
 
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
-msgstr ""
+msgstr "Poligon tidak boleh bertumpang-tindih sendiri"
 
 #: draw_tools##save_features
 msgid "Save features"
-msgstr ""
+msgstr "Simpan fitur"
 
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
-msgstr ""
+msgstr "Fokus ke batas administratif"
 
 #: geometry_uploader##title
 msgid "Focus to uploaded geometry"
-msgstr ""
+msgstr "Fokus ke geometri unggahan"
 
 #: geometry_uploader##error
 msgid "Error while reading uploaded file"
-msgstr ""
+msgstr "Kesalahan saat membaca file unggahan"
 
 #: focus_geometry##title
 msgid "Focus to freehand geometry"
-msgstr ""
+msgstr "Fokus ke geometri bebas"
 
 #: focus_geometry_layer##settings##name
 msgid "Selected Area"
-msgstr ""
+msgstr "Area Pilihan"
 
 #: drawings##self_directions_not_supported
 msgid "Self intersections are not supported!"
-msgstr ""
+msgstr "Tidak mendukung perpotongan dengan dirinya sendiri!"
 
 #: bivariate##panel##header
 msgid "Bivariate Matrix"
-msgstr ""
+msgstr "Matriks Bivariat"
 
 #: bivariate##matrix##caption##base_axis
 msgid "Base axis"
-msgstr ""
+msgstr "Sumbu Dasar"
 
 #: bivariate##matrix##caption##annex_axis
 msgid "Annex axis"
-msgstr ""
+msgstr "Sumbu Tambahan"
 
 #: bivariate##matrix##caption##tooltip##p1
 msgid ""
 "Charts involving the Base and Annex axes help establish a relationship "
 "between two data sets."
 msgstr ""
+"Diagram yang mencakup sumbu Dasar dan sumbu Tambahan membantu menetapkan hubungan antara dua kumpulan data."
 
 #: bivariate##matrix##caption##tooltip##li1
 msgid "Annex axis - parameters that we analyse"
-msgstr ""
+msgstr "Sumbu Tambahan - parameter yang kita analisis"
 
 #: bivariate##matrix##caption##tooltip##li2
 msgid "Base axis - reference point in the analysis"
-msgstr ""
+msgstr "Sumbu Dasar - titik referensi dalam analisis"
 
 #: bivariate##matrix##caption##tooltip##b
 msgid "Ex: the best location to open a cafe"
-msgstr ""
+msgstr "Contoh: lokasi terbaik untuk membuka kafe"
 
 #: bivariate##matrix##caption##tooltip##p2
 msgid ""
 "We can explore the number of eatery places (Annex axis) against Population "
 "density (Base axis)."
 msgstr ""
+"Kita dapat menyelidiki jumlah tempat makan (sumbu Tambahan) terhadap Kerapatan populasi (sumbu Dasar)."
 
 #: bivariate##matrix##caption##tooltip##p3
 msgid ""
@@ -511,197 +515,197 @@ msgid ""
 "places, and the number of people in that place gives us additional "
 "information."
 msgstr ""
+"Dalam skenario ini, pada awalnya kita tertarik dengan beberapa tempat makan, lalu kita mendapatkan informasi tambahan dari jumlah orang di tempat itu."
 
 #: bivariate##matrix##header##title
 msgid "Choose two layers to explore correlations"
-msgstr ""
+msgstr "Pilih dua lapisan untuk menyelidiki korelasi"
 
 #: bivariate##matrix##header##hint
 msgid "Layers and correlations are displayed for the current Selected Area"
-msgstr ""
+msgstr "Lapisan dan korelasi ditampilkan untuk Area Pilihan terkini"
 
 #: bivariate##matrix##icon##population
 msgid "Value divided by Population"
-msgstr ""
+msgstr "Nilai dibagi dengan Populasi"
 
 #: bivariate##matrix##icon##area_km2
 msgid "Value divided by Area"
-msgstr ""
+msgstr "Nilai dibagi dengan Area"
 
 #: bivariate##matrix##icon##total_building_count
 msgid "Value divided by Total Buildings Estimate"
-msgstr ""
+msgstr "Nilai dibagi dengan Perkiraan Jumlah Bangunan"
 
 #: bivariate##matrix##icon##populated_area_km2
 msgid "Value divided by Populated Area"
-msgstr ""
+msgstr "Nilai dibagi dengan Area Berpenduduk"
 
 #: bivariate##matrix##icon##one
 msgid "Without divider"
-msgstr ""
+msgstr "Tanpa pembagi"
 
 #: bivariate##matrix##icon##roads
 msgid "Value divided by Total Roads Length"
-msgstr ""
+msgstr "Nilai dibagi dengan Total Panjang Jalan"
 
 #: bivariate##matrix##progress##rendering
 msgid "Rendering"
-msgstr ""
+msgstr "Merender"
 
 #: bivariate##matrix##progress##applied
 msgid "Applied on the map"
-msgstr ""
-
-#: bivariate##matrix##loading_error
-msgid ""
-"Unfortunately, we cannot display the matrix. Try refreshing the page or "
-"come back later."
-msgstr ""
+msgstr "Diterapkan pada peta"
 
 #: bivariate##legend##high
 msgid "High"
-msgstr ""
+msgstr "Tinggi"
 
 #: bivariate##legend##low
 msgid "Low"
-msgstr ""
+msgstr "Rendah"
 
 #: bivariate##legend##medium
 msgid "Medium"
-msgstr ""
+msgstr "Sedang"
 
 #: bivariate##color_manager##not_defined
 msgid "Not defined"
-msgstr ""
+msgstr "Tidak terdefinisi"
 
 #: bivariate##color_manager##sentiments_combinations_filter
 msgid "Sentiments combinations"
-msgstr ""
+msgstr "Gabungan sentimen"
 
 #: bivariate##color_manager##no_legends
 msgid "There are no legends satisfying the conditions."
-msgstr ""
+msgstr "Tidak ada legenda yang memenuhi kondisi ini."
 
 #: bivariate##color_manager##no_data
 msgid "No Data."
-msgstr ""
+msgstr "Tidak Ada Data."
 
 #: bivariate##color_manager##sentiments_tab
 msgid "Sentiments"
-msgstr ""
+msgstr "Sentimen"
 
 #: bivariate##color_manager##color_legends_tab
 msgid "Color Legends"
-msgstr ""
+msgstr "Legenda Warna"
 
 #: bivariate##color_manager##layers_tab
 msgid "Layers (indicators)"
-msgstr ""
+msgstr "Lapisan (indikator)"
 
 #: sidebar##biv_color_manager
 msgid "Сolor manager"
-msgstr ""
+msgstr "Pengelola warna"
+
+#: sidebar##reports
+#: modes##reports
+msgid "Reports"
+msgstr "Laporan"
 
 #: sidebar##edit_osm
 msgid "Edit in OpenStreetMap"
-msgstr ""
+msgstr "Edit di OpenStreetMap"
 
 #: sidebar##ruler
 msgid "Ruler"
-msgstr ""
+msgstr "Penggaris"
 
 #: sidebar##collapse
 msgid "Collapse"
-msgstr ""
+msgstr "Ciutkan"
 
 #: sidebar##expand
 msgid "Expand"
-msgstr ""
+msgstr "Bentangkan"
 
 #: sidebar##icon_alt
 msgid "Application logo"
-msgstr ""
+msgstr "Logo aplikasi"
 
 #: login##email
 #: profile##email
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: login##password
 msgid "Password"
-msgstr ""
+msgstr "Kata Sandi"
 
 #: login##login_button
 msgid "Login"
-msgstr ""
+msgstr "Masuk"
 
 #: login##sign_up
 msgid "Sign up"
-msgstr ""
+msgstr "Daftar"
 
 #: login##logging_in
 msgid "Logging in..."
-msgstr ""
+msgstr "Masuk..."
 
 #: login##log_in
 msgid "Log in"
-msgstr ""
+msgstr "Masuk"
 
 #: login##description
 msgid "Please log in to change your settings"
-msgstr ""
+msgstr "Masuk untuk mengubah pengaturan Anda"
 
 #: login##error##email_empty
 msgid "Email has not to be empty!"
-msgstr ""
+msgstr "Email tidak boleh kosong!"
 
 #: login##error##email_invalid
 msgid "Email has to be valid!"
-msgstr ""
+msgstr "Email harus valid!"
 
 #: login##error##password
 msgid "Password has not to be empty!"
-msgstr ""
+msgstr "Kata sandi tidak boleh kosong!"
 
 #: login##error##connect
 msgid "Couldn't connect to authentication service"
-msgstr ""
+msgstr "Tidak dapat terhubung ke layanan autentikasi"
 
 #: reports##title
 msgid "Disaster Ninja Reports"
-msgstr ""
+msgstr "Laporan Disaster Ninja"
 
 #: reports##no_data
 msgid "No data for this report"
-msgstr ""
+msgstr "Tidak ada data untuk laporan ini"
 
 #: reports##sorting
 msgid "Sorting data..."
-msgstr ""
+msgstr "Menyortir data..."
 
 #: reports##loading
 msgid "Loading data"
-msgstr ""
+msgstr "Memuat data"
 
 #: reports##search_location
 msgid "Search location"
-msgstr ""
+msgstr "Cari lokasi"
 
 #: reports##open_josm
 msgid "Open via JOSM remote control"
-msgstr ""
+msgstr "Buka melalui kendali jarak jaruh JOSM"
 
 #: reports##josm_logo_alt
 msgid "JOSM logo"
-msgstr ""
+msgstr "Logo JOSM"
 
 #: reports##see_all
 msgid "See all reports"
-msgstr ""
+msgstr "Lihat semua laporan"
 
 #: reports##wrong_id
 msgid "Wrong report ID"
-msgstr ""
+msgstr "ID laporan salah"
 
 #: reports##description
 msgid ""
@@ -709,27 +713,20 @@ msgid ""
 "quality. They contain links to areas on <4>osm.org </4> and links to open "
 "them in the JOSM editor with enabled remote control for editing."
 msgstr ""
+"<0>Kontur </0> menghasilkan beberapa laporan yang membantu memvalidasi kualitas OpenStreetMap. Laporan tersebut berisi tautan ke area di <4>osm.org </4> dan tautan untuk membukanya di editor JOSM dengan kendali jarak jauh untuk pengeditan yang diaktifkan."
 
 #: modes##about
 msgid "About"
-msgstr ""
-
-#: modes##reports
-msgid "Reports"
-msgstr ""
+msgstr "Tentang"
 
 #: modes##profile
 #: profile##profileSettingsHeader
 msgid "Profile"
-msgstr ""
-
-#: modes##privacy
-msgid "Privacy"
-msgstr ""
+msgstr "Profil"
 
 #: about##title
 msgid "Welcome to Disaster Ninja!"
-msgstr ""
+msgstr "Selamat datang di Disaster Ninja!"
 
 #: about##intro
 msgid ""
@@ -741,10 +738,11 @@ msgid ""
 "Whether you work in disaster management, build a smart city, or perform "
 "research on climate change, Disaster Ninja can help you to:"
 msgstr ""
+"Apakah Anda ingin menerima kabar tentang bencana yang sedang terjadi? Anda tertarik dengan data populasi dan analitik lainnya yang tersaji seketika untuk wilayah mana pun di dunia? Disaster Ninja menampilkan beberapa kemampuan dari <2>Kontur</2> dalam mengatasi berbagai kebutuhan ini.<br/><br/>Pada awalnya, kami merancang alat ini sebagai alat bantu untuk pemetaan kemanusiaan. Kini, fungsionalitas dan kasus penggunaannya telah bertambah. Apakah Anda bekerja pada pengelolaan bencana, membangun kota cerdas, ataupun meneliti perubahan iklim, Disaster Ninja dapat membantu Anda untuk:"
 
 #: about##l1
 msgid "1. Stay up to date with the latest hazard events globally."
-msgstr ""
+msgstr "1. Selalu mendapatkan kabar terbaru tentang kejadian berbahaya terkini di seluruh dunia."
 
 #: about##p1
 msgid ""
@@ -752,10 +750,11 @@ msgid ""
 "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
 "also access via an API."
 msgstr ""
+"Panel Bencana disegarkan secara terus-menerus untuk memberi tahu Anda kejadian yang sedang berlangsung. Panel ini memakai data dari <2>Feed Kejadian Kontur</2>, yang juga dapat diakses melalui API."
 
 #: about##l2
 msgid "2. Focus on your area of interest."
-msgstr ""
+msgstr "2. Fokus pada area perhatian Anda."
 
 #: about##p2
 msgid ""
@@ -763,10 +762,11 @@ msgid ""
 "the map. You can also focus on a disaster-exposed area or an administrative "
 "unit — a country, city, or region."
 msgstr ""
+"Panel Peralatan Gambar memungkinkan Anda menggambar atau mengunggah geometri Anda sendiri pada peta. Anda juga dapat berfokus pada area yang terpapar bencana atau satuan administratif — negara, kota, atau wilayah."
 
 #: about##l3
 msgid "3. Get analytics for the focused area."
-msgstr ""
+msgstr "3. Dapatkan analitik untuk area yang menjadi fokus."
 
 #: about##p3
 msgid ""
@@ -775,10 +775,11 @@ msgid ""
 "Kontur’s customers have access to hundreds of other indicators through "
 "Advanced Analytics."
 msgstr ""
+"Panel Analitik memperlihatkan jumlah orang yang tinggal di area tersebut untuk setiap <2>Populasi Kontur</2> dan perkiraan kesenjangan pemetaan di OpenStreetMap. Pelanggan Kontur memiliki akses ke ratusan indikator lainnya melalui Analitik Lanjut."
 
 #: about##l4
 msgid "4. Explore data on the map and make conclusions."
-msgstr ""
+msgstr "4. Selidiki data pada peta dan buat kesimpulan."
 
 #: about##p4
 msgid ""
@@ -788,6 +789,7 @@ msgid ""
 "require attention. <br/>Hint: in general, green indicates low risk / few "
 "gaps, red — high risk / many gaps."
 msgstr ""
+"Panel Lapisan memberi Anda berbagai opsi untuk menampilkan dua indikator secara serentak pada peta bivariat, misalnya kepadatan populasi dan jarak ke stasiun pemadam kebakaran terdekat. Gunakan legenda warna untuk menilai area mana yang perlu diperhatikan. <br/>Petunjuk: secara umum, warna hijau menunjukkan risiko rendah/sedikit kesenjangan, warna merah — risiko tinggi/banyak kesenjangan."
 
 #: about##p5
 msgid ""
@@ -795,10 +797,11 @@ msgid ""
 "potential errors and inconsistencies in OpenStreetMap and help fix them by "
 "mapping the respective area with the JOSM editor."
 msgstr ""
+"Selain itu, Anda dapat beralih ke Laporan di panel kiri untuk mengakses data tentang potensi kesalahan dan inkonsistensi di OpenStreetMap serta membantu memperbaikinya dengan memetakan masing-masing area menggunakan editor JOSM."
 
 #: about##goToMap
 msgid "Go to the map now"
-msgstr ""
+msgstr "Buka peta sekarang"
 
 #: about##p6
 msgid ""
@@ -808,120 +811,88 @@ msgid ""
 "feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
 "an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
 msgstr ""
+"Kami berharap agar alat ini bermanfaat bagi Anda. Gunakan kotak obrolan di Disaster Ninja untuk setiap pertanyaan tentang fungsionalitas, dan kami dengan senang hati akan memandu Anda. Anda juga dapat menghubungi kami melalui email di <1>hello@kontur.io</1> jika Anda memiliki tanggapan atau saran untuk meningkatkan alat ini.<br/><br/>Disaster Ninja adalah proyek sumber terbuka. Temukan kodenya di <8>akun GitHub Kontur</8>."
 
 #: profile##interfaceTheme
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: profile##interfaceLanguage
 msgid "Language"
-msgstr ""
+msgstr "Bahasa"
 
 #: profile##units
 msgid "Units"
-msgstr ""
+msgstr "Satuan"
 
 #: profile##fullName
 msgid "Full Name"
-msgstr ""
+msgstr "Nama Lengkap"
 
 #: profile##metric
 msgid "metric"
-msgstr ""
+msgstr "metrik"
 
 #: profile##imperialBeta
 msgid "imperial (beta)"
-msgstr ""
+msgstr "imperial (beta)"
 
 #: profile##appSettingsHeader
 msgid "Settings"
-msgstr ""
+msgstr "Pengaturan"
 
 #: profile##englishLanguageOption
 msgid "English"
-msgstr ""
+msgstr "Inggris"
 
 #: profile##spanishLanguageOption
 msgid "Spanish"
-msgstr ""
+msgstr "Spanyol"
 
 #: profile##arabicLanguageOption
 msgid "Arabic"
-msgstr ""
-
-#: profile##koreanLanguageOption
-msgid "Korean"
-msgstr ""
-
-#: profile##indonesianLanguageOption
-msgid "Indonesian"
-msgstr ""
-
-#: profile##germanLanguageOption
-msgid "German"
-msgstr ""
+msgstr "Arab"
 
 #: profile##saveButton
 msgid "Save changes"
-msgstr ""
+msgstr "Simpan perubahan"
 
 #: profile##konturTheme
 msgid "Kontur"
-msgstr ""
+msgstr "Kontur"
 
 #: profile##HOTTheme
 msgid "HOT"
-msgstr ""
+msgstr "HANGAT"
 
 #: profile##userBio(about)
 msgid "Bio"
-msgstr ""
+msgstr "Bio"
 
 #: profile##defaultDisasterFeed
 msgid "Default disaster feed"
-msgstr ""
+msgstr "Feed bencana bawaan"
 
 #: profile##defaultOSMeditor
 msgid "Default OpenStreetMap editor (beta)"
-msgstr ""
+msgstr "Editor OpenStreetMap bawaan (beta)"
 
 #: profile##successNotification
 msgid "All changes have been applied successfully"
-msgstr ""
+msgstr "Semua perubahan telah berhasil diterapkan"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
-msgstr ""
+msgstr "Kesalahan saat memperoleh lokasi"
 
 #: locate_me##feature_title
 msgid "Locate me"
-msgstr ""
+msgstr "Temukan saya"
 
 #: episode
 msgid "Episode"
-msgstr ""
+msgstr "Episode"
 
 #: loading_episodes
 msgid "Loading Episodes"
-msgstr ""
-
-#: cookie_banner##header
-msgid "We value your privacy"
-msgstr ""
-
-#: cookie_banner##body
-msgid ""
-"We use absolutely necessary cookies to provide you personalized services "
-"and optional cookies to improve Disaster Ninja and your experience. You can "
-"manage cookies settings or withdraw consent to optional cookies at any "
-"time.\n"
-"For more information, please, check our [Privacy Policy](/about/privacy)"
-msgstr ""
-
-#: cookie_banner##decline_all
-msgid "Decline optional cookies"
-msgstr ""
-
-#: cookie_banner##accept_all
-msgid "Accept optional cookies"
-msgstr ""
+msgstr "Memuat Episode"
