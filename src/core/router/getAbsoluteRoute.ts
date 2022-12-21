@@ -5,7 +5,7 @@ const trimSlash = (str: string) => {
     str = str.slice(1);
   }
   if (str.endsWith('/')) {
-    str = str.slice(-1);
+    str = str.slice(0, -1);
   }
   return str;
 };

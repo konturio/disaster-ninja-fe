@@ -15,3 +15,11 @@ exports[`Correct url for '/active' + '/' 1`] = `"/active"`;
 exports[`Correct url for '/active' + '/nested/slug' 1`] = `"/active/nested/slug"`;
 
 exports[`Correct url for '/active' + '/slug' 1`] = `"/active/slug"`;
+
+exports[`Correct url for '/active/' + '' 1`] = `"/active"`;
+
+exports[`Correct url for '/active/' + '/' 1`] = `"/active"`;
+
+exports[`Correct url for '/active/' + '/nested/slug' 1`] = `"/active/nested/slug"`;
+
+exports[`Correct url for '/active/' + '/slug' 1`] = `"/active/slug"`;

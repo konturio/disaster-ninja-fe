@@ -1,7 +1,7 @@
 import { test, expect } from 'vitest';
 import { getAbsoluteRoute } from './getAbsoluteRoute';
 
-const basePathCases = ['/', '/active'];
+const basePathCases = ['/', '/active', '/active/'];
 const slugCases = ['', '/', '/slug', '/nested/slug'];
 
 basePathCases.forEach((base) => {
