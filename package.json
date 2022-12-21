@@ -169,7 +169,7 @@
     "patch-package": "^6.5.0",
     "postcss-custom-media": "^8.0.0",
     "postcss-loader": "^7.0.2",
-    "postcss-nested": "^5.0.6",
+    "postcss-nested": "^6.0.0",
     "postcss-normalize": "8.0.1",
     "prettier": "^2.3.2",
     "react-cosmos": "5.7.2",
