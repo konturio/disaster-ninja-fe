@@ -41,7 +41,8 @@
     "link:packages": "node ./scripts/auto-link/index.mjs",
     "i18n:export": "node ./scripts/i18n/convertion.mjs --to-gettext",
     "i18n:import": "node ./scripts/i18n/convertion.mjs --to-i18next",
-    "i18n:update": "i18next-scanner --config i18next-scanner.config.cjs"
+    "i18n:update": "i18next-scanner --config i18next-scanner.config.cjs",
+    "i18n:msgmerge": "sh ./scripts/i18n/msgmerge.sh"
   },
   "lint-staged": {
     "*/**/*.{ts,tsx}": [

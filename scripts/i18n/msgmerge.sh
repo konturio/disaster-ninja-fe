@@ -1,0 +1,1 @@
+for file in ./src/core/localization/gettext/**/*.po; do msgmerge --backup=off --update ${file} src/core/localization/gettext/template/common.pot; done
