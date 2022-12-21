@@ -94,6 +94,9 @@ export function SettingsForm() {
     { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
     { title: i18n.t('profile.spanishLanguageOption'), value: 'es' },
     { title: i18n.t('profile.arabicLanguageOption'), value: 'ar' },
+    { title: i18n.t('profile.koreanLanguageOption'), value: 'ko' },
+    { title: i18n.t('profile.indonesianLanguageOption'), value: 'id' },
+    { title: i18n.t('profile.germanLanguageOption'), value: 'de' },
   ];
 
   const OPTIONS_FEED = (userModel?.feeds || [appConfig.defaultFeedObject]).map((o) => ({

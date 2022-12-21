@@ -5,9 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-10T05:45:37.265Z\n"
-"PO-Revision-Date: 2022-11-10T05:45:37.265Z\n"
-"Language: es\n"
+"POT-Creation-Date: 2022-11-28T17:15:49.862Z\n"
+"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
 
 #: km
 msgid "km"
@@ -74,86 +73,6 @@ msgstr "Presentación de la leyenda"
 msgid "Layers"
 msgstr "Capas"
 
-#: bivariate##color_manager##not_defined
-msgid "Not defined"
-msgstr "No definido"
-
-#: bivariate##color_manager##sentiments_combinations_filter
-msgid "Sentiments combinations"
-msgstr "Combinaciones de sentimientos"
-
-#: bivariate##color_manager##no_legends
-msgid "There are no legends satisfying the conditions."
-msgstr "No hay leyendas que cumplan las condiciones."
-
-#: bivariate##color_manager##no_data
-msgid "No Data."
-msgstr "No hay datos."
-
-#: bivariate##color_manager##sentiments_tab
-msgid "Sentiments"
-msgstr "Sentimientos"
-
-#: bivariate##color_manager##color_legends_tab
-msgid "Color Legends"
-msgstr "Leyendas de colores"
-
-#: bivariate##color_manager##layers_tab
-msgid "Layers (indicators)"
-msgstr "Capas (indicadores)"
-
-#: bivariate##panel##header
-msgid "Bivariate Matrix"
-msgstr "Matriz bivariada"
-
-#: bivariate##matrix##header##title
-msgid "Choose two layers to explore correlations"
-msgstr "Elija dos capas para explorar las correlaciones"
-
-#: bivariate##matrix##header##hint
-msgid "Layers and correlations are displayed for the current Selected Area"
-msgstr "Las capas y correlaciones se muestran para el área seleccionada actual"
-
-#: bivariate##matrix##icon##population
-msgid "Value divided by Population"
-msgstr "Valor dividido por la población"
-
-#: bivariate##matrix##icon##area_km2
-msgid "Value divided by Area"
-msgstr "Valor dividido por el área"
-
-#: bivariate##matrix##icon##total_building_count
-msgid "Value divided by Total Buildings Estimate"
-msgstr "Valor dividido por la estimación total de edificios"
-
-#: bivariate##matrix##icon##populated_area_km2
-msgid "Value divided by Populated Area"
-msgstr "Valor dividido por el área poblada"
-
-#: bivariate##matrix##icon##one
-msgid "Without divider"
-msgstr "Sin divisor"
-
-#: bivariate##matrix##icon##roads
-msgid "Value divided by Total Roads Length"
-msgstr "Valor dividido por la longitud total de las carreteras"
-
-#: bivariate##matrix##progress##rendering
-msgid "Rendering"
-msgstr "Renderizado"
-
-#: bivariate##matrix##progress##applied
-msgid "Applied on the map"
-msgstr "Aplicado en el mapa"
-
-#: bivariate##legend##high
-msgid "High"
-msgstr "Alto"
-
-#: bivariate##legend##low
-msgid "Low"
-msgstr "Bajo"
-
 #: feed
 msgid "Feed"
 msgstr "Fuente"
@@ -178,9 +97,32 @@ msgstr "Actualizado"
 msgid "No data received"
 msgstr "No se han recibido datos"
 
+#: wrong_data_received
+msgid "Wrong data received"
+msgstr "Se han recibido datos erróneos"
+
 #: error
 msgid "Error"
 msgstr "Error"
+
+#: sort_icon
+msgid "Sort Icon"
+msgstr "Icono de ordenar"
+
+#: configs##Kontur_public_feed
+msgid "Kontur Public"
+msgstr "Kontur Public"
+
+#: configs##Kontur_public_feed_description
+msgid ""
+"The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
+"Floods, Volcanoes, Wildfires."
+msgstr ""
+"El feed contiene datos en tiempo real sobre Ciclones, Sequías, Terremotos, Inundaciones, Volcanes, Incendios forestales."
+
+#: errors##default
+msgid "Sorry, we are having issues, which will be fixed soon"
+msgstr "Lo sentimos, estamos teniendo problemas, que pronto se solucionarán"
 
 #: errors##timeout
 msgid "Request Timeout"
@@ -251,80 +193,6 @@ msgstr "Foto"
 msgid "Map"
 msgstr "Mapa"
 
-#: modes##reports
-msgid "Reports"
-msgstr "Informes"
-
-#: modes##about
-msgid "About"
-msgstr "Acerca de"
-
-#: modes##profile
-#: profile##profileSettingsHeader
-msgid "Profile"
-msgstr "Perfil"
-
-#: sidebar##biv_color_manager
-msgid "Сolor manager"
-msgstr "Administrador de color"
-
-#: sidebar##edit_osm
-msgid "Edit in OpenStreetMap"
-msgstr "Editar en OpenStreetMap"
-
-#: sidebar##ruler
-msgid "Ruler"
-msgstr "Regla"
-
-#: sidebar##collapse
-msgid "Collapse"
-msgstr "Contraer"
-
-#: sidebar##expand
-msgid "Expand"
-msgstr "Expandir"
-
-#: profile##email
-#: login##email
-msgid "Email"
-msgstr "Correo electrónico"
-
-#: login##password
-msgid "Password"
-msgstr "Contraseña"
-
-#: login##login_button
-msgid "Login"
-msgstr "Inicio de sesión"
-
-#: login##sign_up
-msgid "Sign up"
-msgstr "Registrarse"
-
-#: login##logging_in
-msgid "Logging in..."
-msgstr "Iniciando sesión..."
-
-#: login##log_in
-msgid "Log in"
-msgstr "Iniciar sesión"
-
-#: login##error##email_empty
-msgid "Email has not to be empty!"
-msgstr "¡El correo electrónico no debe estar vacío!"
-
-#: login##error##email_invalid
-msgid "Email has to be valid!"
-msgstr "¡El correo electrónico debe ser válido! "
-
-#: login##error##password
-msgid "Password has not to be empty!"
-msgstr "¡La contraseña no debe estar vacía!"
-
-#: login##error##connect
-msgid "Couldn't connect to authentication service"
-msgstr "No se pudo conectar con el servicio de autenticación"
-
 #: advanced_analytics_data_list##load_world_data
 msgid "Load World Data"
 msgstr "Cargar datos mundiales"
@@ -361,9 +229,10 @@ msgstr "Desv. est."
 msgid "Median"
 msgstr "Mediana"
 
-#: advanced_analytics_data_list##filter_nominator
-#~ msgid "Filter Nominator"
-#~ msgstr "Filtrar Nominador"
+#: advanced_analytics_data_list##filter_numerator
+#, fuzzy
+msgid "Filter Numerator"
+msgstr "Filtrar Nominador"
 
 #: advanced_analytics_data_list##filter_denominator
 msgid "Filter Denominator"
@@ -396,6 +265,18 @@ msgstr "Área habitada"
 #: event_list##analytics##loss_tooltip
 msgid "Estimated loss"
 msgstr "Pérdida estimada"
+
+#: event_list##no_event_in_feed
+msgid "Event not found in the current event feed"
+msgstr "Evento no encontrado en el feed de eventos actual"
+
+#: event_list##no_selected_disaster
+msgid "No disaster selected"
+msgstr "No se ha seleccionado ningún desastre"
+
+#: event_list##chose_disaster
+msgid "Choose disaster"
+msgstr "Seleccione el desastre"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
@@ -467,9 +348,7 @@ msgstr "Ubicación"
 
 #: create_layer##edit_feature_placeholder
 msgid "Select some feature for start edit feature properties"
-msgstr ""
-"Seleccione una característica para comenzar a editar las propiedades de la "
-"misma"
+msgstr "Seleccione una característica para comenzar a editar las propiedades de la misma"
 
 #: analytics_panel##loading
 msgid "Loading analytics..."
@@ -504,6 +383,7 @@ msgid "Error while fetching advanced analytics data"
 msgstr "Error en la obtención de datos de análisis Avanzado"
 
 #: advanced_analytics_empty##not_found
+#: current_event##not_found_request
 msgid "Sorry, requested event not found."
 msgstr "Lo sentimos, el evento solicitado no se ha encontrado."
 
@@ -513,11 +393,11 @@ msgstr "¡Se produjo un error!"
 
 #: advanced_analytics_empty##please_select
 msgid "Please, select an area again"
-msgstr " Vuelva a seleccionar un área"
+msgstr "Vuelva a seleccionar un área"
 
 #: advanced_analytics_empty##to_see_map
 msgid "to see state of the map"
-msgstr " para ver el estado del mapa"
+msgstr "para ver el estado del mapa"
 
 #: advanced_analytics_empty##pickDisaster
 msgid "Pick disaster from the list"
@@ -591,6 +471,206 @@ msgstr "Área seleccionada"
 msgid "Self intersections are not supported!"
 msgstr "¡No se admiten las autointersecciones!"
 
+#: bivariate##panel##header
+msgid "Bivariate Matrix"
+msgstr "Matriz bivariada"
+
+#: bivariate##matrix##caption##base_axis
+msgid "Base axis"
+msgstr "Eje base"
+
+#: bivariate##matrix##caption##annex_axis
+msgid "Annex axis"
+msgstr "Eje anexo"
+
+#: bivariate##matrix##caption##tooltip##p1
+msgid ""
+"Charts involving the Base and Annex axes help establish a relationship "
+"between two data sets."
+msgstr ""
+"Las gráficas que incluyen los ejes base y anexo ayudan a establecer una relación entre dos conjuntos de datos."
+
+#: bivariate##matrix##caption##tooltip##li1
+msgid "Annex axis - parameters that we analyse"
+msgstr "Eje anexo: parámetros que analizamos"
+
+#: bivariate##matrix##caption##tooltip##li2
+msgid "Base axis - reference point in the analysis"
+msgstr "Eje base: punto de referencia en el análisis"
+
+#: bivariate##matrix##caption##tooltip##b
+msgid "Ex: the best location to open a cafe"
+msgstr "Ej.: la mejor ubicación para abrir una cafetería"
+
+#: bivariate##matrix##caption##tooltip##p2
+msgid ""
+"We can explore the number of eatery places (Annex axis) against Population "
+"density (Base axis)."
+msgstr ""
+"Podemos explorar el número de locales de comida (eje anexo) frente a la densidad de población (eje base)."
+
+#: bivariate##matrix##caption##tooltip##p3
+msgid ""
+"In this scenario, we are first interested in a small number of eatery "
+"places, and the number of people in that place gives us additional "
+"information."
+msgstr ""
+"En este escenario, en primer lugar nos interesa un número reducido de locales de comida, y la cantidad de personas presentes nos da información adicional."
+
+#: bivariate##matrix##header##title
+msgid "Choose two layers to explore correlations"
+msgstr "Elija dos capas para explorar las correlaciones"
+
+#: bivariate##matrix##header##hint
+msgid "Layers and correlations are displayed for the current Selected Area"
+msgstr "Las capas y correlaciones se muestran para el área seleccionada actual"
+
+#: bivariate##matrix##icon##population
+msgid "Value divided by Population"
+msgstr "Valor dividido por la población"
+
+#: bivariate##matrix##icon##area_km2
+msgid "Value divided by Area"
+msgstr "Valor dividido por el área"
+
+#: bivariate##matrix##icon##total_building_count
+msgid "Value divided by Total Buildings Estimate"
+msgstr "Valor dividido por la estimación total de edificios"
+
+#: bivariate##matrix##icon##populated_area_km2
+msgid "Value divided by Populated Area"
+msgstr "Valor dividido por el área poblada"
+
+#: bivariate##matrix##icon##one
+msgid "Without divider"
+msgstr "Sin divisor"
+
+#: bivariate##matrix##icon##roads
+msgid "Value divided by Total Roads Length"
+msgstr "Valor dividido por la longitud total de las carreteras"
+
+#: bivariate##matrix##progress##rendering
+msgid "Rendering"
+msgstr "Renderizado"
+
+#: bivariate##matrix##progress##applied
+msgid "Applied on the map"
+msgstr "Aplicado en el mapa"
+
+#: bivariate##legend##high
+msgid "High"
+msgstr "Alto"
+
+#: bivariate##legend##low
+msgid "Low"
+msgstr "Bajo"
+
+#: bivariate##legend##medium
+msgid "Medium"
+msgstr "Medio"
+
+#: bivariate##color_manager##not_defined
+msgid "Not defined"
+msgstr "No definido"
+
+#: bivariate##color_manager##sentiments_combinations_filter
+msgid "Sentiments combinations"
+msgstr "Combinaciones de sentimientos"
+
+#: bivariate##color_manager##no_legends
+msgid "There are no legends satisfying the conditions."
+msgstr "No hay leyendas que cumplan las condiciones."
+
+#: bivariate##color_manager##no_data
+msgid "No Data."
+msgstr "No hay datos."
+
+#: bivariate##color_manager##sentiments_tab
+msgid "Sentiments"
+msgstr "Sentimientos"
+
+#: bivariate##color_manager##color_legends_tab
+msgid "Color Legends"
+msgstr "Leyendas de colores"
+
+#: bivariate##color_manager##layers_tab
+msgid "Layers (indicators)"
+msgstr "Capas (indicadores)"
+
+#: sidebar##biv_color_manager
+msgid "Сolor manager"
+msgstr "Administrador de color"
+
+#: sidebar##reports
+#: modes##reports
+msgid "Reports"
+msgstr "Informes"
+
+#: sidebar##edit_osm
+msgid "Edit in OpenStreetMap"
+msgstr "Editar en OpenStreetMap"
+
+#: sidebar##ruler
+msgid "Ruler"
+msgstr "Regla"
+
+#: sidebar##collapse
+msgid "Collapse"
+msgstr "Contraer"
+
+#: sidebar##expand
+msgid "Expand"
+msgstr "Expandir"
+
+#: sidebar##icon_alt
+msgid "Application logo"
+msgstr "Logotipo de la aplicación"
+
+#: login##email
+#: profile##email
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: login##password
+msgid "Password"
+msgstr "Contraseña"
+
+#: login##login_button
+msgid "Login"
+msgstr "Inicio de sesión"
+
+#: login##sign_up
+msgid "Sign up"
+msgstr "Registrarse"
+
+#: login##logging_in
+msgid "Logging in..."
+msgstr "Iniciando sesión..."
+
+#: login##log_in
+msgid "Log in"
+msgstr "Iniciar sesión"
+
+#: login##description
+msgid "Please log in to change your settings"
+msgstr "Acceda a su cuenta para cambiar los ajustes"
+
+#: login##error##email_empty
+msgid "Email has not to be empty!"
+msgstr "¡El correo electrónico no debe estar vacío!"
+
+#: login##error##email_invalid
+msgid "Email has to be valid!"
+msgstr "¡El correo electrónico debe ser válido!"
+
+#: login##error##password
+msgid "Password has not to be empty!"
+msgstr "¡La contraseña no debe estar vacía!"
+
+#: login##error##connect
+msgid "Couldn't connect to authentication service"
+msgstr "No se pudo conectar con el servicio de autenticación"
+
 #: reports##title
 msgid "Disaster Ninja Reports"
 msgstr "Informes de Disaster Ninja"
@@ -627,6 +707,23 @@ msgstr "Ver todos los informes"
 msgid "Wrong report ID"
 msgstr "ID de informe incorrecto"
 
+#: reports##description
+msgid ""
+"<0>Kontur </0> generates several reports that help validate OpenStreetMap "
+"quality. They contain links to areas on <4>osm.org </4> and links to open "
+"them in the JOSM editor with enabled remote control for editing."
+msgstr ""
+"<0>Kontur </0> genera una serie de informes útiles para validar la calidad de OpenStreetMap. Contienen enlaces a zonas en <4>osm.org </4> y enlaces para abrirlas en el editor JOSM con control remoto habilitado para la edición."
+
+#: modes##about
+msgid "About"
+msgstr "Acerca de"
+
+#: modes##profile
+#: profile##profileSettingsHeader
+msgid "Profile"
+msgstr "Perfil"
+
 #: about##title
 msgid "Welcome to Disaster Ninja!"
 msgstr "¡Bienvenido a Disaster Ninja!"
@@ -641,15 +738,7 @@ msgid ""
 "Whether you work in disaster management, build a smart city, or perform "
 "research on climate change, Disaster Ninja can help you to:"
 msgstr ""
-"¿Desea recibir notificaciones sobre desastres en curso? ¿Le interesan los "
-"datos de población instantáneos y otros datos analíticos de alguna región "
-"del mundo? Disaster Ninja muestra algunas de las capacidades de "
-"<2>Kontur</2> para ocuparse de estas necesidades.<br /><br /> Inicialmente "
-"la diseñamos como una herramienta de apoyo a los mapeadores de servicios "
-"humanitarios. Ahora ha ampliado sus funcionalidades y aplicaciones "
-"prácticas. Ya sea que usted trabaje en la gestión de desastres, diseñe una "
-"ciudad inteligente o esté realizando una investigación sobre el cambio "
-"climático, Disaster Ninja le puede ayudar a:"
+"¿Desea recibir notificaciones sobre desastres en curso? ¿Le interesan los datos de población instantáneos y otros datos analíticos de alguna región del mundo? Disaster Ninja muestra algunas de las capacidades de <2>Kontur</2> para ocuparse de estas necesidades.<br/><br/> Inicialmente la diseñamos como una herramienta de apoyo a los mapeadores de servicios humanitarios. Ahora ha ampliado sus funcionalidades y aplicaciones prácticas. Tanto si trabaja en la gestión de desastres como si construye una ciudad inteligente o realiza investigaciones sobre el cambio climático, Disaster Ninja puede ayudarle a:"
 
 #: about##l1
 msgid "1. Stay up to date with the latest hazard events globally."
@@ -661,10 +750,7 @@ msgid ""
 "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
 "also access via an API."
 msgstr ""
-"El panel de Desastres se actualiza continuamente para informarle sobre los "
-"acontecimientos en curso. Utiliza la información proporcionada por "
-"<2>Kontur Event Feed</2>, a la que también puede acceder a través de la "
-"interfaz de la aplicación."
+"El panel de Desastres se actualiza continuamente para informarle sobre los acontecimientos en curso. Utiliza la información proporcionada por <2>Kontur Event Feed</2>, a la que también puede acceder a través de la interfaz de la aplicación."
 
 #: about##l2
 msgid "2. Focus on your area of interest."
@@ -676,9 +762,7 @@ msgid ""
 "the map. You can also focus on a disaster-exposed area or an administrative "
 "unit — a country, city, or region."
 msgstr ""
-"El panel de Herramientas de Dibujo le permite dibujar o subir su propia "
-"geometría en el mapa. También puede centrarse en un área o en una unidad "
-"administrativa - país, ciudad o región — expuesta a desastres."
+"El panel de Herramientas de Dibujo le permite dibujar o subir su propia geometría en el mapa. También puede centrarse en un área o en una unidad administrativa - país, ciudad o región — expuesta a desastres."
 
 #: about##l3
 msgid "3. Get analytics for the focused area."
@@ -691,10 +775,7 @@ msgid ""
 "Kontur’s customers have access to hundreds of other indicators through "
 "Advanced Analytics."
 msgstr ""
-"El panel de Análisis le muestra el número de personas que viven en la zona "
-"según <2>Kontur Population</2> y según una estimación de las zonas sin "
-"mapear en OpenStreetMap. Los clientes de Kontur tienen acceso a cientos de "
-"otros indicadores a través de Advance Analytics."
+"El panel de Análisis le muestra el número de personas que viven en la zona según <2>Kontur Population</2> y según una estimación de las zonas sin mapear en OpenStreetMap. Los clientes de Kontur tienen acceso a cientos de otros indicadores a través de Advance Analytics."
 
 #: about##l4
 msgid "4. Explore data on the map and make conclusions."
@@ -708,12 +789,7 @@ msgid ""
 "require attention. <br/>Hint: in general, green indicates low risk / few "
 "gaps, red — high risk / many gaps."
 msgstr ""
-"El panel Capas le ofrece varias opciones para mostrar dos indicadores en "
-"simultáneo en un mapa bivariado, p. ej:, la densidad de población y la "
-"distancia a la estación de bomberos más cercana. Utilice la leyenda de "
-"color para evaluar qué áreas requieren atención. <br/>Consejo: en "
-"general, el verde indica riesgo bajo / pocas zonas sin mapear, el rojo — "
-"riesgo alto / muchas zonas sin mapear."
+"El panel Capas le ofrece varias opciones para mostrar dos indicadores en simultáneo en un mapa bivariado, p. ej:, la densidad de población y la distancia a la estación de bomberos más cercana. Utilice la leyenda de color para evaluar qué áreas requieren atención. <br/>Consejo: en general, el verde indica riesgo bajo / pocas zonas sin mapear, el rojo — riesgo alto / muchas zonas sin mapear."
 
 #: about##p5
 msgid ""
@@ -721,10 +797,7 @@ msgid ""
 "potential errors and inconsistencies in OpenStreetMap and help fix them by "
 "mapping the respective area with the JOSM editor."
 msgstr ""
-"Además, puede cambiar a Informes en el panel de la izquierda para acceder a "
-"los datos sobre posibles errores e inconsistencias en OpenStreetMap y "
-"ayudarle a realizar correcciones mapeando la zona correspondiente con el "
-"editor JOSM."
+"Además, puede cambiar a Informes en el panel de la izquierda para acceder a los datos sobre posibles errores e inconsistencias en OpenStreetMap y ayudarle a realizar correcciones mapeando la zona correspondiente con el editor JOSM."
 
 #: about##goToMap
 msgid "Go to the map now"
@@ -738,10 +811,88 @@ msgid ""
 "feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
 "an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
 msgstr ""
-"Esperamos que esta herramienta le resulte valiosa. Utilice el chat de "
-"Disaster Ninja si tiene alguna pregunta sobre sus funcionalidades y "
-"estaremos encantados de ayudarle. También puede contactarnos por correo "
-"electrónico en <1>hello@kontur.io</1> si tiene algún comentario o "
-"sugerencia para mejorar la herramienta.<br /><br />Disaster Ninja es un "
-"proyecto de código abierto. Busque el código en la <8>cuenta GitHub de "
-"Kontur</8>."
+"Esperamos que esta herramienta le resulte valiosa. Utilice el chat de Disaster Ninja si tiene alguna pregunta sobre sus funcionalidades y estaremos encantados de ayudarle. También puede contactarnos por correo electrónico en <1>hello@kontur.io</1> si tiene algún comentario o sugerencia para mejorar la herramienta.<br/><br/> Disaster Ninja es un proyecto de código abierto. Encuentre el código en la <8>cuenta de GitHub de Kontur</8>."
+
+#: profile##interfaceTheme
+msgid "Theme"
+msgstr "Tema"
+
+#: profile##interfaceLanguage
+msgid "Language"
+msgstr "Idioma"
+
+#: profile##units
+msgid "Units"
+msgstr "Unidades"
+
+#: profile##fullName
+msgid "Full Name"
+msgstr "Nombre completo"
+
+#: profile##metric
+msgid "metric"
+msgstr "métricas"
+
+#: profile##imperialBeta
+msgid "imperial (beta)"
+msgstr "imperiales (beta)"
+
+#: profile##appSettingsHeader
+msgid "Settings"
+msgstr "Ajustes"
+
+#: profile##englishLanguageOption
+msgid "English"
+msgstr "Inglés"
+
+#: profile##spanishLanguageOption
+msgid "Spanish"
+msgstr "Español"
+
+#: profile##arabicLanguageOption
+msgid "Arabic"
+msgstr "Árabe"
+
+#: profile##saveButton
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+#: profile##konturTheme
+msgid "Kontur"
+msgstr "Kontur"
+
+#: profile##HOTTheme
+msgid "HOT"
+msgstr "HOT"
+
+#: profile##userBio(about)
+msgid "Bio"
+msgstr "Bio"
+
+#: profile##defaultDisasterFeed
+msgid "Default disaster feed"
+msgstr "Feed de desastres predeterminado"
+
+#: profile##defaultOSMeditor
+msgid "Default OpenStreetMap editor (beta)"
+msgstr "Editor predeterminado de OpenStreetMap (beta)"
+
+#: profile##successNotification
+msgid "All changes have been applied successfully"
+msgstr "Todos los cambios se han aplicado correctamente"
+
+#: locate_me##get_location_error
+msgid "Error while getting location"
+msgstr "Error al obtener la ubicación"
+
+#: locate_me##feature_title
+msgid "Locate me"
+msgstr "Localizarme"
+
+#: episode
+msgid "Episode"
+msgstr "Episodio"
+
+#: loading_episodes
+msgid "Loading Episodes"
+msgstr "Cargando episodios"
