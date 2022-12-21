@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"mime-version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"POT-Creation-Date: 2022-12-20T12:08:30.986Z\n"
+"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-28T17:15:49.862Z\n"
-"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
 
 #: km
 msgid "km"
@@ -68,8 +68,7 @@ msgstr "الاتجاه الأفقي"
 msgid "Legend presentation"
 msgstr "عرض العنوان التفسيري"
 
-#: layers
-#: bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
 msgstr "طبقات"
 
@@ -118,7 +117,8 @@ msgid ""
 "The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
 "Floods, Volcanoes, Wildfires."
 msgstr ""
-"يحتوي الموجز على بيانات فورية عن الأعاصير والجفاف والزلازل والفيضانات والبراكين وحرائق الغابات."
+"يحتوي الموجز على بيانات فورية عن الأعاصير والجفاف والزلازل والفيضانات "
+"والبراكين وحرائق الغابات."
 
 #: errors##default
 msgid "Sorry, we are having issues, which will be fixed soon"
@@ -188,8 +188,7 @@ msgstr "ارتفاع"
 msgid "Photo"
 msgstr "صورة"
 
-#: groups##map
-#: modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr "الخريطة"
 
@@ -382,8 +381,7 @@ msgstr "تحليلات متقدمة"
 msgid "Error while fetching advanced analytics data"
 msgstr "خطأ أثناء جلب بيانات التحليلات المتقدمة"
 
-#: advanced_analytics_empty##not_found
-#: current_event##not_found_request
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, requested event not found."
 msgstr "عذرًا، الحدث المطلوب غير موجود."
 
@@ -488,7 +486,8 @@ msgid ""
 "Charts involving the Base and Annex axes help establish a relationship "
 "between two data sets."
 msgstr ""
-"تساعد المخططات التي تتضمن محوري القاعدة والملحق في إنشاء علاقة بين مجموعتي بيانات."
+"تساعد المخططات التي تتضمن محوري القاعدة والملحق في إنشاء علاقة بين مجموعتي "
+"بيانات."
 
 #: bivariate##matrix##caption##tooltip##li1
 msgid "Annex axis - parameters that we analyse"
@@ -507,7 +506,8 @@ msgid ""
 "We can explore the number of eatery places (Annex axis) against Population "
 "density (Base axis)."
 msgstr ""
-"يمكننا استكشاف عدد أماكن المطاعم (المحور الملحق) مقابل الكثافة السكانية (المحور الأساسي)."
+"يمكننا استكشاف عدد أماكن المطاعم (المحور الملحق) مقابل الكثافة السكانية "
+"(المحور الأساسي)."
 
 #: bivariate##matrix##caption##tooltip##p3
 msgid ""
@@ -515,7 +515,8 @@ msgid ""
 "places, and the number of people in that place gives us additional "
 "information."
 msgstr ""
-"في هذا السيناريو، نهتم أولاً بعدد صغير من أماكن تناول الطعام ويعطينا عدد الأشخاص في هذا المكان معلومات إضافية."
+"في هذا السيناريو، نهتم أولاً بعدد صغير من أماكن تناول الطعام ويعطينا عدد "
+"الأشخاص في هذا المكان معلومات إضافية."
 
 #: bivariate##matrix##header##title
 msgid "Choose two layers to explore correlations"
@@ -556,6 +557,12 @@ msgstr "استدعاء"
 #: bivariate##matrix##progress##applied
 msgid "Applied on the map"
 msgstr "مطبق على الخريطة"
+
+#: bivariate##matrix##loading_error
+msgid ""
+"Unfortunately, we cannot display the matrix. Try refreshing the page or come "
+"back later."
+msgstr ""
 
 #: bivariate##legend##high
 msgid "High"
@@ -601,11 +608,6 @@ msgstr "الطبقات (المؤشرات)"
 msgid "Сolor manager"
 msgstr "مدير الألوان"
 
-#: sidebar##reports
-#: modes##reports
-msgid "Reports"
-msgstr "التقارير"
-
 #: sidebar##edit_osm
 msgid "Edit in OpenStreetMap"
 msgstr "التعديل في OpenStreetMap"
@@ -626,8 +628,7 @@ msgstr "فتح"
 msgid "Application logo"
 msgstr "شعار التطبيق"
 
-#: login##email
-#: profile##email
+#: login##email profile##email
 msgid "Email"
 msgstr "البريد الإلكتروني"
 
@@ -713,16 +714,25 @@ msgid ""
 "quality. They contain links to areas on <4>osm.org </4> and links to open "
 "them in the JOSM editor with enabled remote control for editing."
 msgstr ""
-"ينشئ <0> Kontur</0> عدة تقارير تساعد في التحقق من جودة OpenStreetMap. تحتوي هذه التقارير على روابط لمناطق على <4> osm.org </4> وروابط يمكن فتحها في محرر JOSM مع تمكين التحكم عن بعد للتحرير."
+"ينشئ <0> Kontur</0> عدة تقارير تساعد في التحقق من جودة OpenStreetMap. تحتوي "
+"هذه التقارير على روابط لمناطق على <4> osm.org </4> وروابط يمكن فتحها في محرر "
+"JOSM مع تمكين التحكم عن بعد للتحرير."
 
 #: modes##about
 msgid "About"
 msgstr "عن"
 
-#: modes##profile
-#: profile##profileSettingsHeader
+#: modes##reports
+msgid "Reports"
+msgstr "التقارير"
+
+#: modes##profile profile##profileSettingsHeader
 msgid "Profile"
 msgstr "الملف الشخصي"
+
+#: modes##privacy
+msgid "Privacy"
+msgstr ""
 
 #: about##title
 msgid "Welcome to Disaster Ninja!"
@@ -738,7 +748,12 @@ msgid ""
 "Whether you work in disaster management, build a smart city, or perform "
 "research on climate change, Disaster Ninja can help you to:"
 msgstr ""
-"هل تريد أن يتم إخطارك بالكوارث الجارية؟ هل أنت مهتم بالبيانات السكانية الفورية والتحليلات الأخرى لأي منطقة في العالم؟ يعرض Disaster Ninja بعض قدرات <2>Kontur</2> في تلبية هذه الاحتياجات.<br/><br/>لقد صممناه في البداية ليكون أداة دعم قرار لمصممي الخرائط الإنسانية. الآن، ازدادت وظائفه وحالات استخدامه. سواء كنت تعمل في إدارة الكوارث، أو تبني مدينة ذكية، أو تجري بحثًا عن تغير المناخ، يمكن أن يساعدك Disaster Ninja على:"
+"هل تريد أن يتم إخطارك بالكوارث الجارية؟ هل أنت مهتم بالبيانات السكانية "
+"الفورية والتحليلات الأخرى لأي منطقة في العالم؟ يعرض Disaster Ninja بعض قدرات "
+"<2>Kontur</2> في تلبية هذه الاحتياجات.<br/><br/>لقد صممناه في البداية ليكون "
+"أداة دعم قرار لمصممي الخرائط الإنسانية. الآن، ازدادت وظائفه وحالات استخدامه. "
+"سواء كنت تعمل في إدارة الكوارث، أو تبني مدينة ذكية، أو تجري بحثًا عن تغير "
+"المناخ، يمكن أن يساعدك Disaster Ninja على:"
 
 #: about##l1
 msgid "1. Stay up to date with the latest hazard events globally."
@@ -750,7 +765,9 @@ msgid ""
 "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
 "also access via an API."
 msgstr ""
-"يتم تحديث لوحة الكوارث باستمرار لإبلاغك بالأحداث الجارية. إنها تستهلك البيانات من <2>Kontur Event Feed</2> والتي يمكنك أيضًا الوصول إليها عبر واجهة برمجة التطبيقات."
+"يتم تحديث لوحة الكوارث باستمرار لإبلاغك بالأحداث الجارية. إنها تستهلك "
+"البيانات من <2>Kontur Event Feed</2> والتي يمكنك أيضًا الوصول إليها عبر واجهة "
+"برمجة التطبيقات."
 
 #: about##l2
 msgid "2. Focus on your area of interest."
@@ -762,7 +779,9 @@ msgid ""
 "the map. You can also focus on a disaster-exposed area or an administrative "
 "unit — a country, city, or region."
 msgstr ""
-"تتيح لك لوحة أدوات الرسم رسم أو تحميل الشكل الهندسي الخاص بك على الخريطة. يمكنك أيضًا التركيز على منطقة معرضة للكوارث أو وحدة إدارية - بلد أو مدينة أو منطقة."
+"تتيح لك لوحة أدوات الرسم رسم أو تحميل الشكل الهندسي الخاص بك على الخريطة. "
+"يمكنك أيضًا التركيز على منطقة معرضة للكوارث أو وحدة إدارية - بلد أو مدينة أو "
+"منطقة."
 
 #: about##l3
 msgid "3. Get analytics for the focused area."
@@ -775,7 +794,9 @@ msgid ""
 "Kontur’s customers have access to hundreds of other indicators through "
 "Advanced Analytics."
 msgstr ""
-"تعرض لوحة التحليلات عدد الأشخاص الذين يعيشون في تلك المنطقة حسب <2>Kontur Population</2> وفجوات الخرائط المقدرة في OpenStreetMap. يمكن لعملاء Kontur الوصول إلى مئات المؤشرات الأخرى من خلال التحليلات المتقدمة."
+"تعرض لوحة التحليلات عدد الأشخاص الذين يعيشون في تلك المنطقة حسب <2>Kontur "
+"Population</2> وفجوات الخرائط المقدرة في OpenStreetMap. يمكن لعملاء Kontur "
+"الوصول إلى مئات المؤشرات الأخرى من خلال التحليلات المتقدمة."
 
 #: about##l4
 msgid "4. Explore data on the map and make conclusions."
@@ -785,11 +806,15 @@ msgstr "4. استكشاف البيانات على الخريطة والتوصل 
 msgid ""
 "The Layers panel gives you various options to display two indicators "
 "simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas "
-"require attention. <br/>Hint: in general, green indicates low risk / few "
-"gaps, red — high risk / many gaps."
+"the nearest fire station. Use the color legend to assess which areas require "
+"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
+"high risk / many gaps."
 msgstr ""
-"تمنحك لوحة Layers خيارات متنوعة لعرض مؤشرين في وقت واحد على خريطة ثنائية المتغير على سبيل المثال الكثافة السكانية والمسافة إلى أقرب محطة إطفاء. استخدم وسيلة إيضاح اللون لتقييم المناطق التي تتطلب الانتباه. <br/>بشكل عام، يشير اللون الأخضر إلى مخاطر منخفضة / فجوات قليلة، والأحمر - مخاطر عالية / العديد من الفجوات."
+"تمنحك لوحة Layers خيارات متنوعة لعرض مؤشرين في وقت واحد على خريطة ثنائية "
+"المتغير على سبيل المثال الكثافة السكانية والمسافة إلى أقرب محطة إطفاء. "
+"استخدم وسيلة إيضاح اللون لتقييم المناطق التي تتطلب الانتباه. <br/>بشكل عام، "
+"يشير اللون الأخضر إلى مخاطر منخفضة / فجوات قليلة، والأحمر - مخاطر عالية / "
+"العديد من الفجوات."
 
 #: about##p5
 msgid ""
@@ -797,7 +822,9 @@ msgid ""
 "potential errors and inconsistencies in OpenStreetMap and help fix them by "
 "mapping the respective area with the JOSM editor."
 msgstr ""
-"بالإضافة إلى ذلك ، يمكنك التبديل إلى التقارير في اللوحة اليمنى للوصول إلى البيانات المتعلقة بالأخطاء والتناقضات المحتملة في OpenStreetMap والمساعدة في إصلاحها عن طريق رسم خريطة المنطقة المعنية باستخدام محرر JOSM."
+"بالإضافة إلى ذلك ، يمكنك التبديل إلى التقارير في اللوحة اليمنى للوصول إلى "
+"البيانات المتعلقة بالأخطاء والتناقضات المحتملة في OpenStreetMap والمساعدة في "
+"إصلاحها عن طريق رسم خريطة المنطقة المعنية باستخدام محرر JOSM."
 
 #: about##goToMap
 msgid "Go to the map now"
@@ -808,10 +835,14 @@ msgid ""
 "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
 "any questions about the functionality, and we will be happy to guide you. "
 "You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
-"an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
+"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
+"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
 msgstr ""
-"نأمل أن تجد هذه الأداة ذات قيمة. استخدم مربع الدردشة على Disaster Ninja لأية أسئلة حول وظائفه، وسنكون سعداء بإرشادك. يمكنك أيضًا التواصل معنا عبر البريد الإلكتروني<1>hello@kontur.io</1> إذا كان لديك ملاحظات أو اقتراحات بشأن تحسين الأداة.<br/><br/>يُعدّ Disaster Ninja مشروعًا مفتوح المصدر. تحقق من الكود في <8>حساب Kontur على GitHub</8>."
+"نأمل أن تجد هذه الأداة ذات قيمة. استخدم مربع الدردشة على Disaster Ninja لأية "
+"أسئلة حول وظائفه، وسنكون سعداء بإرشادك. يمكنك أيضًا التواصل معنا عبر البريد "
+"الإلكتروني<1>hello@kontur.io</1> إذا كان لديك ملاحظات أو اقتراحات بشأن تحسين "
+"الأداة.<br/><br/>يُعدّ Disaster Ninja مشروعًا مفتوح المصدر. تحقق من الكود في "
+"<8>حساب Kontur على GitHub</8>."
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -852,6 +883,18 @@ msgstr "الإسبانية"
 #: profile##arabicLanguageOption
 msgid "Arabic"
 msgstr "العربية"
+
+#: profile##koreanLanguageOption
+msgid "Korean"
+msgstr ""
+
+#: profile##indonesianLanguageOption
+msgid "Indonesian"
+msgstr ""
+
+#: profile##germanLanguageOption
+msgid "German"
+msgstr ""
 
 #: profile##saveButton
 msgid "Save changes"
@@ -896,3 +939,24 @@ msgstr "الحلقة"
 #: loading_episodes
 msgid "Loading Episodes"
 msgstr "جارٍ تجميل الحلقات"
+
+#: cookie_banner##header
+msgid "We value your privacy"
+msgstr ""
+
+#: cookie_banner##body
+msgid ""
+"We use absolutely necessary cookies to provide you personalized services and "
+"optional cookies to improve Disaster Ninja and your experience. You can "
+"manage cookies settings or withdraw consent to optional cookies at any "
+"time.\n"
+"For more information, please, check our [Privacy Policy](/about/privacy)"
+msgstr ""
+
+#: cookie_banner##decline_all
+msgid "Decline optional cookies"
+msgstr ""
+
+#: cookie_banner##accept_all
+msgid "Accept optional cookies"
+msgstr ""

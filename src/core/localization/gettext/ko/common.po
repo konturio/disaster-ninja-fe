@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"mime-version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"POT-Creation-Date: 2022-12-20T12:08:30.986Z\n"
+"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-28T17:15:49.862Z\n"
-"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
 
 #: km
 msgid "km"
@@ -68,8 +68,7 @@ msgstr "수평 방향"
 msgid "Legend presentation"
 msgstr "범례 표시"
 
-#: layers
-#: bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
 msgstr "레이어"
 
@@ -118,7 +117,8 @@ msgid ""
 "The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
 "Floods, Volcanoes, Wildfires."
 msgstr ""
-"피드에는 사이클론, 가뭄, 지진, 홍수, 화산 폭발, 산불에 대한 실시간 데이터가 포함됩니다."
+"피드에는 사이클론, 가뭄, 지진, 홍수, 화산 폭발, 산불에 대한 실시간 데이터가 "
+"포함됩니다."
 
 #: errors##default
 msgid "Sorry, we are having issues, which will be fixed soon"
@@ -188,8 +188,7 @@ msgstr "입면도"
 msgid "Photo"
 msgstr "사진"
 
-#: groups##map
-#: modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr "지도"
 
@@ -382,8 +381,7 @@ msgstr "고급 분석"
 msgid "Error while fetching advanced analytics data"
 msgstr "고급 분석 데이터를 가져오는 중에 오류가 발생했습니다."
 
-#: advanced_analytics_empty##not_found
-#: current_event##not_found_request
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, requested event not found."
 msgstr "죄송합니다. 요청하신 이벤트를 찾을 수 없습니다."
 
@@ -488,7 +486,8 @@ msgid ""
 "Charts involving the Base and Annex axes help establish a relationship "
 "between two data sets."
 msgstr ""
-"기본 축과 보조 축이 포함된 차트를 통해 두 데이터 세트 간의 관계를 설정할 수 있습니다."
+"기본 축과 보조 축이 포함된 차트를 통해 두 데이터 세트 간의 관계를 설정할 수 "
+"있습니다."
 
 #: bivariate##matrix##caption##tooltip##li1
 msgid "Annex axis - parameters that we analyse"
@@ -506,8 +505,7 @@ msgstr "예: 카페 개업에 최적의 위치"
 msgid ""
 "We can explore the number of eatery places (Annex axis) against Population "
 "density (Base axis)."
-msgstr ""
-"인구 밀도(기본 축)에 대한 음식점 개수(보조 축)를 알아볼 수 있습니다."
+msgstr "인구 밀도(기본 축)에 대한 음식점 개수(보조 축)를 알아볼 수 있습니다."
 
 #: bivariate##matrix##caption##tooltip##p3
 msgid ""
@@ -515,7 +513,8 @@ msgid ""
 "places, and the number of people in that place gives us additional "
 "information."
 msgstr ""
-"이 경우에는 주로 소수의 음식점에 관심이 있는 것이며, 추가적으로 그 장소에 있는 사람 수를 알아볼 수 있습니다."
+"이 경우에는 주로 소수의 음식점에 관심이 있는 것이며, 추가적으로 그 장소에 있"
+"는 사람 수를 알아볼 수 있습니다."
 
 #: bivariate##matrix##header##title
 msgid "Choose two layers to explore correlations"
@@ -556,6 +555,12 @@ msgstr "렌더링"
 #: bivariate##matrix##progress##applied
 msgid "Applied on the map"
 msgstr "지도에 적용됨"
+
+#: bivariate##matrix##loading_error
+msgid ""
+"Unfortunately, we cannot display the matrix. Try refreshing the page or come "
+"back later."
+msgstr ""
 
 #: bivariate##legend##high
 msgid "High"
@@ -601,11 +606,6 @@ msgstr "레이어(지표)"
 msgid "Сolor manager"
 msgstr "색상 관리자"
 
-#: sidebar##reports
-#: modes##reports
-msgid "Reports"
-msgstr "보고서"
-
 #: sidebar##edit_osm
 msgid "Edit in OpenStreetMap"
 msgstr "OpenStreetMap에서 편집"
@@ -626,8 +626,7 @@ msgstr "펼치기"
 msgid "Application logo"
 msgstr "애플리케이션 로고"
 
-#: login##email
-#: profile##email
+#: login##email profile##email
 msgid "Email"
 msgstr "이메일"
 
@@ -713,16 +712,26 @@ msgid ""
 "quality. They contain links to areas on <4>osm.org </4> and links to open "
 "them in the JOSM editor with enabled remote control for editing."
 msgstr ""
-"<0>Kontur</0>는 몇 가지 보고서를 생성하여 OpenStreetMap 품질을 평가하도록 지원합니다. 보고서에는 <4>osm.org </4>의 영역으로 연결되는 링크, 원격 제어가 활성화된 JOSM 편집기에서 해당 영역을 열어 편집할 수 있는 링크가 포함되어 있습니다."
+"<0>Kontur</0>는 몇 가지 보고서를 생성하여 OpenStreetMap 품질을 평가하도록 지"
+"원합니다. 보고서에는 <4>osm.org </4>의 영역으로 연결되는 링크, 원격 제어가 활"
+"성화된 JOSM 편집기에서 해당 영역을 열어 편집할 수 있는 링크가 포함되어 있습니"
+"다."
 
 #: modes##about
 msgid "About"
 msgstr "정보"
 
-#: modes##profile
-#: profile##profileSettingsHeader
+#: modes##reports
+msgid "Reports"
+msgstr "보고서"
+
+#: modes##profile profile##profileSettingsHeader
 msgid "Profile"
 msgstr "프로필"
+
+#: modes##privacy
+msgid "Privacy"
+msgstr ""
 
 #: about##title
 msgid "Welcome to Disaster Ninja!"
@@ -738,7 +747,13 @@ msgid ""
 "Whether you work in disaster management, build a smart city, or perform "
 "research on climate change, Disaster Ninja can help you to:"
 msgstr ""
-"현재 진행 중인 재난에 대해 알림을 받아보시겠습니까? 전 세계 모든 지역의 인구 데이터와 기타 분석 사항을 즉시 알아보고 싶으신가요? Disaster Ninja에서는 이러한 요구 사항을 해결하기 위해 몇 가지 <2>Kontur</2> 기능을 사용합니다.<br/><br/>처음에는 인도주의적인 문제를 다루기 위한 의사 결정 지원 도구로 고안되었지만, 이제는 기능과 용법이 여러 가지로 늘어났습니다. 재난 관리, 스마트 시티 구축, 기후 변화에 관한 연구 수행 등 어떤 업무를 하더라도 다음과 같은 도움을 드릴 수 있습니다."
+"현재 진행 중인 재난에 대해 알림을 받아보시겠습니까? 전 세계 모든 지역의 인구 "
+"데이터와 기타 분석 사항을 즉시 알아보고 싶으신가요? Disaster Ninja에서는 이러"
+"한 요구 사항을 해결하기 위해 몇 가지 <2>Kontur</2> 기능을 사용합니다.<br/"
+"><br/>처음에는 인도주의적인 문제를 다루기 위한 의사 결정 지원 도구로 고안되었"
+"지만, 이제는 기능과 용법이 여러 가지로 늘어났습니다. 재난 관리, 스마트 시티 "
+"구축, 기후 변화에 관한 연구 수행 등 어떤 업무를 하더라도 다음과 같은 도움을 "
+"드릴 수 있습니다."
 
 #: about##l1
 msgid "1. Stay up to date with the latest hazard events globally."
@@ -750,7 +765,9 @@ msgid ""
 "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
 "also access via an API."
 msgstr ""
-"재난 패널이 지속적으로 새로 고침 되어 현재 일어나는 이벤트에 대한 정보를 제공합니다. <2>Kontur 이벤트 피드</2>의 데이터를 사용하며, API를 통해서도 해당 데이터에 액세스할 수 있습니다."
+"재난 패널이 지속적으로 새로 고침 되어 현재 일어나는 이벤트에 대한 정보를 제공"
+"합니다. <2>Kontur 이벤트 피드</2>의 데이터를 사용하며, API를 통해서도 해당 데"
+"이터에 액세스할 수 있습니다."
 
 #: about##l2
 msgid "2. Focus on your area of interest."
@@ -762,7 +779,9 @@ msgid ""
 "the map. You can also focus on a disaster-exposed area or an administrative "
 "unit — a country, city, or region."
 msgstr ""
-"그리기 도구 패널을 사용하면 자체 기하 도형을 지도에 그리거나 업로드할 수 있습니다. 재난에 노출된 영역이나 행정 단위(예: 국가, 도시, 지역)에 초점을 맞출 수도 있습니다."
+"그리기 도구 패널을 사용하면 자체 기하 도형을 지도에 그리거나 업로드할 수 있습"
+"니다. 재난에 노출된 영역이나 행정 단위(예: 국가, 도시, 지역)에 초점을 맞출 수"
+"도 있습니다."
 
 #: about##l3
 msgid "3. Get analytics for the focused area."
@@ -775,7 +794,9 @@ msgid ""
 "Kontur’s customers have access to hundreds of other indicators through "
 "Advanced Analytics."
 msgstr ""
-"분석 패널은 <2>Kontur 인구</2>당 해당 영역에 거주하는 사람의 수와 OpenStreetMap 내 예상 매핑 갭을 보여줍니다. 그 외에도 Kontur 고객은 고급 분석을 통해 수백 가지 지표에 액세스할 수 있습니다."
+"분석 패널은 <2>Kontur 인구</2>당 해당 영역에 거주하는 사람의 수와 "
+"OpenStreetMap 내 예상 매핑 갭을 보여줍니다. 그 외에도 Kontur 고객은 고급 분석"
+"을 통해 수백 가지 지표에 액세스할 수 있습니다."
 
 #: about##l4
 msgid "4. Explore data on the map and make conclusions."
@@ -785,11 +806,14 @@ msgstr "4. 지도의 데이터를 탐색하여 결론을 내릴 수 있습니다
 msgid ""
 "The Layers panel gives you various options to display two indicators "
 "simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas "
-"require attention. <br/>Hint: in general, green indicates low risk / few "
-"gaps, red — high risk / many gaps."
+"the nearest fire station. Use the color legend to assess which areas require "
+"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
+"high risk / many gaps."
 msgstr ""
-"레이어 패널을 사용하면 이변수 지도에서 두 가지 지표를 동시에 표시하는 다양한 옵션을 사용할 수 있게 됩니다(예: 인구 밀도, 가장 가까운 소방서까지의 거리). 색상 범례를 사용하여 주의가 필요한 영역을 평가하세요. <br/>힌트: 일반적으로 녹색은 저위험/적은 갭을 의미하고 빨간색은 고위험/많은 갭을 의미합니다."
+"레이어 패널을 사용하면 이변수 지도에서 두 가지 지표를 동시에 표시하는 다양한 "
+"옵션을 사용할 수 있게 됩니다(예: 인구 밀도, 가장 가까운 소방서까지의 거리). "
+"색상 범례를 사용하여 주의가 필요한 영역을 평가하세요. <br/>힌트: 일반적으로 "
+"녹색은 저위험/적은 갭을 의미하고 빨간색은 고위험/많은 갭을 의미합니다."
 
 #: about##p5
 msgid ""
@@ -797,7 +821,9 @@ msgid ""
 "potential errors and inconsistencies in OpenStreetMap and help fix them by "
 "mapping the respective area with the JOSM editor."
 msgstr ""
-"또한, 왼쪽 패널의 보고서로 이동하여 OpenStreetMap의 잠재적인 오류 및 불일치 데이터에 액세스하고, JOSM 편집기를 통해 각 영역을 매핑하여 해당 데이터를 수정할 수도 있습니다."
+"또한, 왼쪽 패널의 보고서로 이동하여 OpenStreetMap의 잠재적인 오류 및 불일치 "
+"데이터에 액세스하고, JOSM 편집기를 통해 각 영역을 매핑하여 해당 데이터를 수정"
+"할 수도 있습니다."
 
 #: about##goToMap
 msgid "Go to the map now"
@@ -808,10 +834,14 @@ msgid ""
 "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
 "any questions about the functionality, and we will be happy to guide you. "
 "You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
-"an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
+"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
+"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
 msgstr ""
-"이 도구가 많은 도움이 되기를 바랍니다. 기능에 대해 궁금한 점은 Disaster Ninja의 챗박스를 통해 언제든지 문의해 주시면 도와 드리겠습니다. 도구 개선에 대한 피드백이나 제안 사항이 있을 경우, <1>hello@kontur.io</1> 로 이메일 주셔도 됩니다.<br/><br/>Disaster Ninja는 오픈 소스 프로젝트입니다. <8>Kontur의 GitHub 계정</8>에서 코드를 찾아보세요."
+"이 도구가 많은 도움이 되기를 바랍니다. 기능에 대해 궁금한 점은 Disaster Ninja"
+"의 챗박스를 통해 언제든지 문의해 주시면 도와 드리겠습니다. 도구 개선에 대한 "
+"피드백이나 제안 사항이 있을 경우, <1>hello@kontur.io</1> 로 이메일 주셔도 됩"
+"니다.<br/><br/>Disaster Ninja는 오픈 소스 프로젝트입니다. <8>Kontur의 GitHub "
+"계정</8>에서 코드를 찾아보세요."
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -852,6 +882,18 @@ msgstr "스페인어"
 #: profile##arabicLanguageOption
 msgid "Arabic"
 msgstr "아랍어"
+
+#: profile##koreanLanguageOption
+msgid "Korean"
+msgstr ""
+
+#: profile##indonesianLanguageOption
+msgid "Indonesian"
+msgstr ""
+
+#: profile##germanLanguageOption
+msgid "German"
+msgstr ""
 
 #: profile##saveButton
 msgid "Save changes"
@@ -896,3 +938,24 @@ msgstr "에피소드"
 #: loading_episodes
 msgid "Loading Episodes"
 msgstr "에피소드 로딩 중"
+
+#: cookie_banner##header
+msgid "We value your privacy"
+msgstr ""
+
+#: cookie_banner##body
+msgid ""
+"We use absolutely necessary cookies to provide you personalized services and "
+"optional cookies to improve Disaster Ninja and your experience. You can "
+"manage cookies settings or withdraw consent to optional cookies at any "
+"time.\n"
+"For more information, please, check our [Privacy Policy](/about/privacy)"
+msgstr ""
+
+#: cookie_banner##decline_all
+msgid "Decline optional cookies"
+msgstr ""
+
+#: cookie_banner##accept_all
+msgid "Accept optional cookies"
+msgstr ""

@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"mime-version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"POT-Creation-Date: 2022-12-20T12:08:30.986Z\n"
+"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-28T17:15:49.862Z\n"
-"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
 
 #: km
 msgid "km"
@@ -68,8 +68,7 @@ msgstr "Arah horizontal"
 msgid "Legend presentation"
 msgstr "Penyajian legenda"
 
-#: layers
-#: bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
 msgstr "Lapisan"
 
@@ -118,7 +117,8 @@ msgid ""
 "The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
 "Floods, Volcanoes, Wildfires."
 msgstr ""
-"Feed berisi data waktu-nyata tentang Angin Topan, Kekeringan, Gempa, Banjir, Gunung Meletus, Kebakaran Hutan."
+"Feed berisi data waktu-nyata tentang Angin Topan, Kekeringan, Gempa, Banjir, "
+"Gunung Meletus, Kebakaran Hutan."
 
 #: errors##default
 msgid "Sorry, we are having issues, which will be fixed soon"
@@ -188,8 +188,7 @@ msgstr "Elevasi"
 msgid "Photo"
 msgstr "Foto"
 
-#: groups##map
-#: modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr "Peta"
 
@@ -382,8 +381,7 @@ msgstr "Analitik Tingkat Lanjut"
 msgid "Error while fetching advanced analytics data"
 msgstr "Kesalahan saat mengambil data analitik tingkat lanjut"
 
-#: advanced_analytics_empty##not_found
-#: current_event##not_found_request
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, requested event not found."
 msgstr "Maaf, kejadian yang diminta tidak ditemukan."
 
@@ -488,7 +486,8 @@ msgid ""
 "Charts involving the Base and Annex axes help establish a relationship "
 "between two data sets."
 msgstr ""
-"Diagram yang mencakup sumbu Dasar dan sumbu Tambahan membantu menetapkan hubungan antara dua kumpulan data."
+"Diagram yang mencakup sumbu Dasar dan sumbu Tambahan membantu menetapkan "
+"hubungan antara dua kumpulan data."
 
 #: bivariate##matrix##caption##tooltip##li1
 msgid "Annex axis - parameters that we analyse"
@@ -507,7 +506,8 @@ msgid ""
 "We can explore the number of eatery places (Annex axis) against Population "
 "density (Base axis)."
 msgstr ""
-"Kita dapat menyelidiki jumlah tempat makan (sumbu Tambahan) terhadap Kerapatan populasi (sumbu Dasar)."
+"Kita dapat menyelidiki jumlah tempat makan (sumbu Tambahan) terhadap "
+"Kerapatan populasi (sumbu Dasar)."
 
 #: bivariate##matrix##caption##tooltip##p3
 msgid ""
@@ -515,7 +515,8 @@ msgid ""
 "places, and the number of people in that place gives us additional "
 "information."
 msgstr ""
-"Dalam skenario ini, pada awalnya kita tertarik dengan beberapa tempat makan, lalu kita mendapatkan informasi tambahan dari jumlah orang di tempat itu."
+"Dalam skenario ini, pada awalnya kita tertarik dengan beberapa tempat makan, "
+"lalu kita mendapatkan informasi tambahan dari jumlah orang di tempat itu."
 
 #: bivariate##matrix##header##title
 msgid "Choose two layers to explore correlations"
@@ -556,6 +557,12 @@ msgstr "Merender"
 #: bivariate##matrix##progress##applied
 msgid "Applied on the map"
 msgstr "Diterapkan pada peta"
+
+#: bivariate##matrix##loading_error
+msgid ""
+"Unfortunately, we cannot display the matrix. Try refreshing the page or come "
+"back later."
+msgstr ""
 
 #: bivariate##legend##high
 msgid "High"
@@ -601,11 +608,6 @@ msgstr "Lapisan (indikator)"
 msgid "Сolor manager"
 msgstr "Pengelola warna"
 
-#: sidebar##reports
-#: modes##reports
-msgid "Reports"
-msgstr "Laporan"
-
 #: sidebar##edit_osm
 msgid "Edit in OpenStreetMap"
 msgstr "Edit di OpenStreetMap"
@@ -626,8 +628,7 @@ msgstr "Bentangkan"
 msgid "Application logo"
 msgstr "Logo aplikasi"
 
-#: login##email
-#: profile##email
+#: login##email profile##email
 msgid "Email"
 msgstr "Email"
 
@@ -713,16 +714,26 @@ msgid ""
 "quality. They contain links to areas on <4>osm.org </4> and links to open "
 "them in the JOSM editor with enabled remote control for editing."
 msgstr ""
-"<0>Kontur </0> menghasilkan beberapa laporan yang membantu memvalidasi kualitas OpenStreetMap. Laporan tersebut berisi tautan ke area di <4>osm.org </4> dan tautan untuk membukanya di editor JOSM dengan kendali jarak jauh untuk pengeditan yang diaktifkan."
+"<0>Kontur </0> menghasilkan beberapa laporan yang membantu memvalidasi "
+"kualitas OpenStreetMap. Laporan tersebut berisi tautan ke area di <4>osm.org "
+"</4> dan tautan untuk membukanya di editor JOSM dengan kendali jarak jauh "
+"untuk pengeditan yang diaktifkan."
 
 #: modes##about
 msgid "About"
 msgstr "Tentang"
 
-#: modes##profile
-#: profile##profileSettingsHeader
+#: modes##reports
+msgid "Reports"
+msgstr "Laporan"
+
+#: modes##profile profile##profileSettingsHeader
 msgid "Profile"
 msgstr "Profil"
+
+#: modes##privacy
+msgid "Privacy"
+msgstr ""
 
 #: about##title
 msgid "Welcome to Disaster Ninja!"
@@ -738,11 +749,20 @@ msgid ""
 "Whether you work in disaster management, build a smart city, or perform "
 "research on climate change, Disaster Ninja can help you to:"
 msgstr ""
-"Apakah Anda ingin menerima kabar tentang bencana yang sedang terjadi? Anda tertarik dengan data populasi dan analitik lainnya yang tersaji seketika untuk wilayah mana pun di dunia? Disaster Ninja menampilkan beberapa kemampuan dari <2>Kontur</2> dalam mengatasi berbagai kebutuhan ini.<br/><br/>Pada awalnya, kami merancang alat ini sebagai alat bantu untuk pemetaan kemanusiaan. Kini, fungsionalitas dan kasus penggunaannya telah bertambah. Apakah Anda bekerja pada pengelolaan bencana, membangun kota cerdas, ataupun meneliti perubahan iklim, Disaster Ninja dapat membantu Anda untuk:"
+"Apakah Anda ingin menerima kabar tentang bencana yang sedang terjadi? Anda "
+"tertarik dengan data populasi dan analitik lainnya yang tersaji seketika "
+"untuk wilayah mana pun di dunia? Disaster Ninja menampilkan beberapa "
+"kemampuan dari <2>Kontur</2> dalam mengatasi berbagai kebutuhan ini.<br/><br/"
+">Pada awalnya, kami merancang alat ini sebagai alat bantu untuk pemetaan "
+"kemanusiaan. Kini, fungsionalitas dan kasus penggunaannya telah bertambah. "
+"Apakah Anda bekerja pada pengelolaan bencana, membangun kota cerdas, ataupun "
+"meneliti perubahan iklim, Disaster Ninja dapat membantu Anda untuk:"
 
 #: about##l1
 msgid "1. Stay up to date with the latest hazard events globally."
-msgstr "1. Selalu mendapatkan kabar terbaru tentang kejadian berbahaya terkini di seluruh dunia."
+msgstr ""
+"1. Selalu mendapatkan kabar terbaru tentang kejadian berbahaya terkini di "
+"seluruh dunia."
 
 #: about##p1
 msgid ""
@@ -750,7 +770,9 @@ msgid ""
 "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
 "also access via an API."
 msgstr ""
-"Panel Bencana disegarkan secara terus-menerus untuk memberi tahu Anda kejadian yang sedang berlangsung. Panel ini memakai data dari <2>Feed Kejadian Kontur</2>, yang juga dapat diakses melalui API."
+"Panel Bencana disegarkan secara terus-menerus untuk memberi tahu Anda "
+"kejadian yang sedang berlangsung. Panel ini memakai data dari <2>Feed "
+"Kejadian Kontur</2>, yang juga dapat diakses melalui API."
 
 #: about##l2
 msgid "2. Focus on your area of interest."
@@ -762,7 +784,9 @@ msgid ""
 "the map. You can also focus on a disaster-exposed area or an administrative "
 "unit — a country, city, or region."
 msgstr ""
-"Panel Peralatan Gambar memungkinkan Anda menggambar atau mengunggah geometri Anda sendiri pada peta. Anda juga dapat berfokus pada area yang terpapar bencana atau satuan administratif — negara, kota, atau wilayah."
+"Panel Peralatan Gambar memungkinkan Anda menggambar atau mengunggah geometri "
+"Anda sendiri pada peta. Anda juga dapat berfokus pada area yang terpapar "
+"bencana atau satuan administratif — negara, kota, atau wilayah."
 
 #: about##l3
 msgid "3. Get analytics for the focused area."
@@ -775,7 +799,10 @@ msgid ""
 "Kontur’s customers have access to hundreds of other indicators through "
 "Advanced Analytics."
 msgstr ""
-"Panel Analitik memperlihatkan jumlah orang yang tinggal di area tersebut untuk setiap <2>Populasi Kontur</2> dan perkiraan kesenjangan pemetaan di OpenStreetMap. Pelanggan Kontur memiliki akses ke ratusan indikator lainnya melalui Analitik Lanjut."
+"Panel Analitik memperlihatkan jumlah orang yang tinggal di area tersebut "
+"untuk setiap <2>Populasi Kontur</2> dan perkiraan kesenjangan pemetaan di "
+"OpenStreetMap. Pelanggan Kontur memiliki akses ke ratusan indikator lainnya "
+"melalui Analitik Lanjut."
 
 #: about##l4
 msgid "4. Explore data on the map and make conclusions."
@@ -785,11 +812,16 @@ msgstr "4. Selidiki data pada peta dan buat kesimpulan."
 msgid ""
 "The Layers panel gives you various options to display two indicators "
 "simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas "
-"require attention. <br/>Hint: in general, green indicates low risk / few "
-"gaps, red — high risk / many gaps."
+"the nearest fire station. Use the color legend to assess which areas require "
+"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
+"high risk / many gaps."
 msgstr ""
-"Panel Lapisan memberi Anda berbagai opsi untuk menampilkan dua indikator secara serentak pada peta bivariat, misalnya kepadatan populasi dan jarak ke stasiun pemadam kebakaran terdekat. Gunakan legenda warna untuk menilai area mana yang perlu diperhatikan. <br/>Petunjuk: secara umum, warna hijau menunjukkan risiko rendah/sedikit kesenjangan, warna merah — risiko tinggi/banyak kesenjangan."
+"Panel Lapisan memberi Anda berbagai opsi untuk menampilkan dua indikator "
+"secara serentak pada peta bivariat, misalnya kepadatan populasi dan jarak ke "
+"stasiun pemadam kebakaran terdekat. Gunakan legenda warna untuk menilai area "
+"mana yang perlu diperhatikan. <br/>Petunjuk: secara umum, warna hijau "
+"menunjukkan risiko rendah/sedikit kesenjangan, warna merah — risiko tinggi/"
+"banyak kesenjangan."
 
 #: about##p5
 msgid ""
@@ -797,7 +829,9 @@ msgid ""
 "potential errors and inconsistencies in OpenStreetMap and help fix them by "
 "mapping the respective area with the JOSM editor."
 msgstr ""
-"Selain itu, Anda dapat beralih ke Laporan di panel kiri untuk mengakses data tentang potensi kesalahan dan inkonsistensi di OpenStreetMap serta membantu memperbaikinya dengan memetakan masing-masing area menggunakan editor JOSM."
+"Selain itu, Anda dapat beralih ke Laporan di panel kiri untuk mengakses data "
+"tentang potensi kesalahan dan inkonsistensi di OpenStreetMap serta membantu "
+"memperbaikinya dengan memetakan masing-masing area menggunakan editor JOSM."
 
 #: about##goToMap
 msgid "Go to the map now"
@@ -808,10 +842,15 @@ msgid ""
 "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
 "any questions about the functionality, and we will be happy to guide you. "
 "You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
-"an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
+"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
+"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
 msgstr ""
-"Kami berharap agar alat ini bermanfaat bagi Anda. Gunakan kotak obrolan di Disaster Ninja untuk setiap pertanyaan tentang fungsionalitas, dan kami dengan senang hati akan memandu Anda. Anda juga dapat menghubungi kami melalui email di <1>hello@kontur.io</1> jika Anda memiliki tanggapan atau saran untuk meningkatkan alat ini.<br/><br/>Disaster Ninja adalah proyek sumber terbuka. Temukan kodenya di <8>akun GitHub Kontur</8>."
+"Kami berharap agar alat ini bermanfaat bagi Anda. Gunakan kotak obrolan di "
+"Disaster Ninja untuk setiap pertanyaan tentang fungsionalitas, dan kami "
+"dengan senang hati akan memandu Anda. Anda juga dapat menghubungi kami "
+"melalui email di <1>hello@kontur.io</1> jika Anda memiliki tanggapan atau "
+"saran untuk meningkatkan alat ini.<br/><br/>Disaster Ninja adalah proyek "
+"sumber terbuka. Temukan kodenya di <8>akun GitHub Kontur</8>."
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -852,6 +891,18 @@ msgstr "Spanyol"
 #: profile##arabicLanguageOption
 msgid "Arabic"
 msgstr "Arab"
+
+#: profile##koreanLanguageOption
+msgid "Korean"
+msgstr ""
+
+#: profile##indonesianLanguageOption
+msgid "Indonesian"
+msgstr ""
+
+#: profile##germanLanguageOption
+msgid "German"
+msgstr ""
 
 #: profile##saveButton
 msgid "Save changes"
@@ -896,3 +947,24 @@ msgstr "Episode"
 #: loading_episodes
 msgid "Loading Episodes"
 msgstr "Memuat Episode"
+
+#: cookie_banner##header
+msgid "We value your privacy"
+msgstr ""
+
+#: cookie_banner##body
+msgid ""
+"We use absolutely necessary cookies to provide you personalized services and "
+"optional cookies to improve Disaster Ninja and your experience. You can "
+"manage cookies settings or withdraw consent to optional cookies at any "
+"time.\n"
+"For more information, please, check our [Privacy Policy](/about/privacy)"
+msgstr ""
+
+#: cookie_banner##decline_all
+msgid "Decline optional cookies"
+msgstr ""
+
+#: cookie_banner##accept_all
+msgid "Accept optional cookies"
+msgstr ""
