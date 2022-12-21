@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import { useAtom } from '@reatom/react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Heading, Animation } from '@konturio/ui-kit';
-import { getAbsoluteRoute } from '~core/router';
+import { getAbsoluteRoute } from '~core/router/getAbsoluteRoute';
 import { i18n } from '~core/localization';
 import { cookieSettingsAtom } from '../atoms/cookieSettingsAtom';
 import s from './CookieConsentBanner.module.css';
