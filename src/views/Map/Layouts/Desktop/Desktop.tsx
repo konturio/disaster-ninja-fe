@@ -1,18 +1,10 @@
 import { SmartColumn } from '../../SmartColumn/SmartColumn';
 import s from './Desktop.module.css';
 
-export function DesktopLayout({
-  analyticsColumn,
-  advancedAnalyticsColumn,
-  layersColumn,
-  mapColumn,
-  footer,
-}) {
+export function DesktopLayout({ analyticsColumn, layersColumn, mapColumn, footer }) {
   return (
     <div className={s.contentWrap}>
       <SmartColumn>{analyticsColumn}</SmartColumn>
-
-      <div className={s.advancedAnalyticsColumn}>{advancedAnalyticsColumn}</div>
 
       <div className={s.mapWrap}>
         <div className={s.mapSpaceBlank}></div>

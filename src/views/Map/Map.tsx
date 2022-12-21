@@ -7,7 +7,9 @@ import { AppFeature } from '~core/auth/types';
 import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
 import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { LayersAndLegendsWidget } from '~widgets/LayersAndLegends';
+import { PrimaryAndSecondaryPanelWidget } from '~widgets/PrimaryAndSecondaryPanel';
+import { analyticsPanel } from '~features/analytics_panel';
+import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -23,12 +25,6 @@ const { Logo } = lazily(() => import('@konturio/ui-kit'));
 const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/ConnectedMap'));
 
 const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
-
-const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
-
-const { AdvancedAnalyticsPanel } = lazily(
-  () => import('~features/advanced_analytics_panel'),
-);
 
 const { Toolbar } = lazily(() => import('~features/toolbar'));
 
@@ -107,26 +103,34 @@ export function MapPage() {
       </div>
       {userModel && (
         <Layout
-          advancedAnalytics={
-            userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL) && (
-              <AdvancedAnalyticsPanel />
-            )
-          }
           analytics={
-            userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) && <AnalyticsPanel />
+            <PrimaryAndSecondaryPanelWidget
+              primaryProps={
+                userModel?.hasFeature(AppFeature.ANALYTICS_PANEL) ? analyticsPanel : null
+              }
+              secondaryProps={
+                userModel?.hasFeature(AppFeature.ADVANCED_ANALYTICS_PANEL)
+                  ? advancedAnalyticsPanel
+                  : null
+              }
+              key="analytics"
+              id="analytics"
+            />
           }
           disasters={
             userModel?.hasFeature(AppFeature.EVENTS_LIST) &&
             userModel?.feeds && <EventListPanel />
           }
           layersAndLegends={
-            <LayersAndLegendsWidget
-              layersProps={
+            <PrimaryAndSecondaryPanelWidget
+              primaryProps={
                 userModel?.hasFeature(AppFeature.MAP_LAYERS_PANEL) ? layersPanel : null
               }
-              legendProps={
+              secondaryProps={
                 userModel?.hasFeature(AppFeature.LEGEND_PANEL) ? legendPanel : null
               }
+              key="layers_and_legends"
+              id="layers_and_legends"
             />
           }
           matrix={

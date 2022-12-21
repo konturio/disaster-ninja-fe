@@ -24,7 +24,6 @@ export function PostInit() {
       // TODO: use better approach for getEffectiveFeature from #13368
       const getEffectiveFeature = (f: AppFeatureType) => userModel.hasFeature(f);
       initMetricsOnce(appId ?? '', route?.slug, getEffectiveFeature);
-
     }
   }, [appId, route, userModel]);
 
