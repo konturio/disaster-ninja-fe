@@ -8,11 +8,11 @@ import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineT
 import { EventCard } from '../EventCard/EventCard';
 
 export function CurrentEvent({
-  hasTimeline,
-  showDescription,
+  hasTimeline = false,
+  showDescription = false,
 }: {
-  hasTimeline?: boolean;
-  showDescription?: boolean;
+  hasTimeline: boolean;
+  showDescription: boolean;
 }) {
   const [{ data, error, loading }] = useAtom(currentEventResourceAtom);
 
