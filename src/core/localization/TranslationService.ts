@@ -7,6 +7,12 @@ import en_common from './translations/en/common.json';
 import es_common from './translations/es/common.json';
 // @ts-ignore
 import ar_common from './translations/ar/common.json';
+// @ts-ignore
+import ko_common from './translations/ko/common.json';
+// @ts-ignore
+import id_common from './translations/id/common.json';
+// @ts-ignore
+import de_common from './translations/de/common.json';
 
 i18n
   .use(LanguageDetector)
@@ -24,6 +30,9 @@ i18n
       en: { common: en_common },
       es: { common: es_common },
       ar: { common: ar_common },
+      ko: { common: ko_common },
+      id: { common: id_common },
+      de: { common: de_common },
     },
   });
 

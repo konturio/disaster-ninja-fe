@@ -1,14 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"mime-version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"POT-Creation-Date: 2022-12-20T12:08:30.986Z\n"
+"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5)\n"
-"POT-Creation-Date: 2022-11-10T05:45:37.260Z\n"
-"PO-Revision-Date: 2022-11-10T05:45:37.260Z\n"
-"Language: ar\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: km
 msgid "km"
@@ -70,135 +68,9 @@ msgstr "الاتجاه الأفقي"
 msgid "Legend presentation"
 msgstr "عرض العنوان التفسيري"
 
-#: layers
-#: bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
 msgstr "طبقات"
-
-#: bivariate##color_manager##not_defined
-msgid "Not defined"
-msgstr "غير معرف"
-
-#: bivariate##color_manager##sentiments_combinations_filter
-msgid "Sentiments combinations"
-msgstr "تركيبات المشاعر"
-
-#: bivariate##color_manager##no_legends
-msgid "There are no legends satisfying the conditions."
-msgstr "لا توجد ملاحظات تفي بالشروط."
-
-#: bivariate##color_manager##no_data
-msgid "No Data."
-msgstr "لايوجد بيانات."
-
-#: bivariate##color_manager##sentiments_tab
-msgid "Sentiments"
-msgstr "المشاعر"
-
-#: bivariate##color_manager##color_legends_tab
-msgid "Color Legends"
-msgstr "مؤشرات اللون"
-
-#: bivariate##color_manager##layers_tab
-msgid "Layers (indicators)"
-msgstr "الطبقات (المؤشرات)"
-
-#: bivariate##panel##header
-msgid "Bivariate Matrix"
-msgstr "مصفوفة ثنائية المتغير"
-
-#: bivariate##matrix##caption##base_axis
-msgid "Base axis"
-msgstr "المحور الأساسي"
-
-#: bivariate##matrix##caption##annex_axis
-msgid "Annex axis"
-msgstr "المحور الملحق"
-
-#: bivariate##matrix##caption##tooltip##p1
-msgid ""
-"Charts involving the Base and Annex axes help establish a relationship "
-"between two data sets."
-msgstr ""
-"تساعد المخططات التي تتضمن محوري القاعدة والملحق في إنشاء علاقة بين مجموعتي "
-"بيانات."
-
-#: bivariate##matrix##caption##tooltip##li1
-msgid "Annex axis - parameters that we analyse"
-msgstr "محور الملحق - المعلمات التي نقوم بتحليلها"
-
-#: bivariate##matrix##caption##tooltip##li2
-msgid "Base axis - reference point in the analysis"
-msgstr "المحور الأساسي - النقطة المرجعية في التحليل"
-
-#: bivariate##matrix##caption##tooltip##b
-msgid "Ex: the best location to open a cafe"
-msgstr "مثال: أفضل موقع لفتح مقهى"
-
-#: bivariate##matrix##caption##tooltip##p2
-msgid ""
-"We can explore the number of eatery places (Annex axis) against Population "
-"density (Base axis)."
-msgstr ""
-"يمكننا استكشاف عدد أماكن المطاعم (المحور الملحق) مقابل الكثافة السكانية "
-"(المحور الأساسي)."
-
-#: bivariate##matrix##caption##tooltip##p3
-msgid ""
-"In this scenario, we are first interested in a small number of eatery "
-"places, and the number of people in that place gives us additional "
-"information."
-msgstr ""
-"في هذا السيناريو، نهتم أولاً بعدد صغير من أماكن تناول الطعام ويعطينا عدد "
-"الأشخاص في هذا المكان معلومات إضافية."
-
-#: bivariate##matrix##header##title
-msgid "Choose two layers to explore correlations"
-msgstr "اختر طبقتين لاستكشاف الارتباطات"
-
-#: bivariate##matrix##header##hint
-msgid "Layers and correlations are displayed for the current Selected Area"
-msgstr "يتم عرض الطبقات والارتباطات للمنطقة المحددة الحالية"
-
-#: bivariate##matrix##icon##population
-msgid "Value divided by Population"
-msgstr "القيمة مقسومة على عدد السكان"
-
-#: bivariate##matrix##icon##area_km2
-msgid "Value divided by Area"
-msgstr "القيمة مقسومة على المنطقة"
-
-#: bivariate##matrix##icon##total_building_count
-msgid "Value divided by Total Buildings Estimate"
-msgstr "القيمة مقسومة على تقدير إجمالي المباني"
-
-#: bivariate##matrix##icon##populated_area_km2
-msgid "Value divided by Populated Area"
-msgstr "القيمة مقسومة على المنطقة المأهولة"
-
-#: bivariate##matrix##icon##one
-msgid "Without divider"
-msgstr "بدون فاصل"
-
-#: bivariate##matrix##icon##roads
-msgid "Value divided by Total Roads Length"
-msgstr "القيمة مقسومة على إجمالي طول الطرق"
-
-#: bivariate##matrix##progress##rendering
-msgid "Rendering"
-msgstr "استدعاء"
-
-#: bivariate##matrix##progress##applied
-msgid "Applied on the map"
-msgstr "مطبق على الخريطة"
-
-#: bivariate##legend##high
-msgid "High"
-msgstr "مرتفع"
-
-#: bivariate##legend##low
-msgid "Low"
-msgstr "منخفض"
 
 #: feed
 msgid "Feed"
@@ -224,9 +96,33 @@ msgstr "تحديث"
 msgid "No data received"
 msgstr "لم تُستقبل أي بيانات"
 
+#: wrong_data_received
+msgid "Wrong data received"
+msgstr "تم استلام بيانات خاطئة"
+
 #: error
 msgid "Error"
 msgstr "خطأ"
+
+#: sort_icon
+msgid "Sort Icon"
+msgstr "أيقونة الترتيب"
+
+#: configs##Kontur_public_feed
+msgid "Kontur Public"
+msgstr "Kontur Public"
+
+#: configs##Kontur_public_feed_description
+msgid ""
+"The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
+"Floods, Volcanoes, Wildfires."
+msgstr ""
+"يحتوي الموجز على بيانات فورية عن الأعاصير والجفاف والزلازل والفيضانات "
+"والبراكين وحرائق الغابات."
+
+#: errors##default
+msgid "Sorry, we are having issues, which will be fixed soon"
+msgstr "عذرًا، حدثت مشكلات، سيتم إصلاحها قريبًا"
 
 #: errors##timeout
 msgid "Request Timeout"
@@ -292,79 +188,9 @@ msgstr "ارتفاع"
 msgid "Photo"
 msgstr "صورة"
 
-#: groups##map
-#: modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr "الخريطة"
-
-#: modes##reports
-msgid "Reports"
-msgstr "التقارير"
-
-#: modes##about
-msgid "About"
-msgstr "عن"
-
-#: sidebar##biv_color_manager
-msgid "Сolor manager"
-msgstr "مدير الألوان"
-
-#: sidebar##edit_osm
-msgid "Edit in OpenStreetMap"
-msgstr "التعديل في OpenStreetMap"
-
-#: sidebar##ruler
-msgid "Ruler"
-msgstr "المسطرة"
-
-#: sidebar##collapse
-msgid "Collapse"
-msgstr "إغلاق"
-
-#: sidebar##expand
-msgid "Expand"
-msgstr "فتح"
-
-#: profile##email
-#: login##email
-msgid "Email"
-msgstr "البريد الإلكتروني"
-
-#: login##password
-msgid "Password"
-msgstr "كلمة السر"
-
-#: login##login_button
-msgid "Login"
-msgstr "تسجيل الدخول"
-
-#: login##sign_up
-msgid "Sign up"
-msgstr "إنشاء حساب"
-
-#: login##logging_in
-msgid "Logging in..."
-msgstr "جارٍ تسجيل الدخول..."
-
-#: login##log_in
-msgid "Log in"
-msgstr "تسجيل الدخول"
-
-#: login##error##email_empty
-msgid "Email has not to be empty!"
-msgstr "يجب أن لا يكون البريد الإلكتروني فارغًا!"
-
-#: login##error##email_invalid
-msgid "Email has to be valid!"
-msgstr "يجب أن يكون البريد الإلكتروني صالحًا!"
-
-#: login##error##password
-msgid "Password has not to be empty!"
-msgstr "يجب أن لا تكون كلمة السر فارغة!"
-
-#: login##error##connect
-msgid "Couldn't connect to authentication service"
-msgstr "تعذّر الوصول إلى خادم المصادقة"
 
 #: advanced_analytics_data_list##load_world_data
 msgid "Load World Data"
@@ -402,9 +228,10 @@ msgstr "Stddev"
 msgid "Median"
 msgstr "الوسيط"
 
-#: advanced_analytics_data_list##filter_nominator
-#~ msgid "Filter Nominator"
-#~ msgstr "بسط المرشح"
+#: advanced_analytics_data_list##filter_numerator
+#, fuzzy
+msgid "Filter Numerator"
+msgstr "بسط المرشح"
 
 #: advanced_analytics_data_list##filter_denominator
 msgid "Filter Denominator"
@@ -437,6 +264,18 @@ msgstr "منطقة مستوطنة"
 #: event_list##analytics##loss_tooltip
 msgid "Estimated loss"
 msgstr "الخسارة المقدرة"
+
+#: event_list##no_event_in_feed
+msgid "Event not found in the current event feed"
+msgstr "لم يتم العثور على الحدث في موجز الأحداث الحالية"
+
+#: event_list##no_selected_disaster
+msgid "No disaster selected"
+msgstr "لم يتم اختيار كارثة"
+
+#: event_list##chose_disaster
+msgid "Choose disaster"
+msgstr "اختر كارثة"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
@@ -542,7 +381,7 @@ msgstr "تحليلات متقدمة"
 msgid "Error while fetching advanced analytics data"
 msgstr "خطأ أثناء جلب بيانات التحليلات المتقدمة"
 
-#: advanced_analytics_empty##not_found
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, requested event not found."
 msgstr "عذرًا، الحدث المطلوب غير موجود."
 
@@ -630,6 +469,209 @@ msgstr "منطقة مختارة"
 msgid "Self intersections are not supported!"
 msgstr "التقاطعات الذاتية غير مدعومة!"
 
+#: bivariate##panel##header
+msgid "Bivariate Matrix"
+msgstr "مصفوفة ثنائية المتغير"
+
+#: bivariate##matrix##caption##base_axis
+msgid "Base axis"
+msgstr "المحور الأساسي"
+
+#: bivariate##matrix##caption##annex_axis
+msgid "Annex axis"
+msgstr "المحور الملحق"
+
+#: bivariate##matrix##caption##tooltip##p1
+msgid ""
+"Charts involving the Base and Annex axes help establish a relationship "
+"between two data sets."
+msgstr ""
+"تساعد المخططات التي تتضمن محوري القاعدة والملحق في إنشاء علاقة بين مجموعتي "
+"بيانات."
+
+#: bivariate##matrix##caption##tooltip##li1
+msgid "Annex axis - parameters that we analyse"
+msgstr "محور الملحق - المعلمات التي نقوم بتحليلها"
+
+#: bivariate##matrix##caption##tooltip##li2
+msgid "Base axis - reference point in the analysis"
+msgstr "المحور الأساسي - النقطة المرجعية في التحليل"
+
+#: bivariate##matrix##caption##tooltip##b
+msgid "Ex: the best location to open a cafe"
+msgstr "مثال: أفضل موقع لفتح مقهى"
+
+#: bivariate##matrix##caption##tooltip##p2
+msgid ""
+"We can explore the number of eatery places (Annex axis) against Population "
+"density (Base axis)."
+msgstr ""
+"يمكننا استكشاف عدد أماكن المطاعم (المحور الملحق) مقابل الكثافة السكانية "
+"(المحور الأساسي)."
+
+#: bivariate##matrix##caption##tooltip##p3
+msgid ""
+"In this scenario, we are first interested in a small number of eatery "
+"places, and the number of people in that place gives us additional "
+"information."
+msgstr ""
+"في هذا السيناريو، نهتم أولاً بعدد صغير من أماكن تناول الطعام ويعطينا عدد "
+"الأشخاص في هذا المكان معلومات إضافية."
+
+#: bivariate##matrix##header##title
+msgid "Choose two layers to explore correlations"
+msgstr "اختر طبقتين لاستكشاف الارتباطات"
+
+#: bivariate##matrix##header##hint
+msgid "Layers and correlations are displayed for the current Selected Area"
+msgstr "يتم عرض الطبقات والارتباطات للمنطقة المحددة الحالية"
+
+#: bivariate##matrix##icon##population
+msgid "Value divided by Population"
+msgstr "القيمة مقسومة على عدد السكان"
+
+#: bivariate##matrix##icon##area_km2
+msgid "Value divided by Area"
+msgstr "القيمة مقسومة على المنطقة"
+
+#: bivariate##matrix##icon##total_building_count
+msgid "Value divided by Total Buildings Estimate"
+msgstr "القيمة مقسومة على تقدير إجمالي المباني"
+
+#: bivariate##matrix##icon##populated_area_km2
+msgid "Value divided by Populated Area"
+msgstr "القيمة مقسومة على المنطقة المأهولة"
+
+#: bivariate##matrix##icon##one
+msgid "Without divider"
+msgstr "بدون فاصل"
+
+#: bivariate##matrix##icon##roads
+msgid "Value divided by Total Roads Length"
+msgstr "القيمة مقسومة على إجمالي طول الطرق"
+
+#: bivariate##matrix##progress##rendering
+msgid "Rendering"
+msgstr "استدعاء"
+
+#: bivariate##matrix##progress##applied
+msgid "Applied on the map"
+msgstr "مطبق على الخريطة"
+
+#: bivariate##matrix##loading_error
+msgid ""
+"Unfortunately, we cannot display the matrix. Try refreshing the page or come "
+"back later."
+msgstr ""
+
+#: bivariate##legend##high
+msgid "High"
+msgstr "مرتفع"
+
+#: bivariate##legend##low
+msgid "Low"
+msgstr "منخفض"
+
+#: bivariate##legend##medium
+msgid "Medium"
+msgstr "متوسط"
+
+#: bivariate##color_manager##not_defined
+msgid "Not defined"
+msgstr "غير معرف"
+
+#: bivariate##color_manager##sentiments_combinations_filter
+msgid "Sentiments combinations"
+msgstr "تركيبات المشاعر"
+
+#: bivariate##color_manager##no_legends
+msgid "There are no legends satisfying the conditions."
+msgstr "لا توجد ملاحظات تفي بالشروط."
+
+#: bivariate##color_manager##no_data
+msgid "No Data."
+msgstr "لايوجد بيانات."
+
+#: bivariate##color_manager##sentiments_tab
+msgid "Sentiments"
+msgstr "المشاعر"
+
+#: bivariate##color_manager##color_legends_tab
+msgid "Color Legends"
+msgstr "مؤشرات اللون"
+
+#: bivariate##color_manager##layers_tab
+msgid "Layers (indicators)"
+msgstr "الطبقات (المؤشرات)"
+
+#: sidebar##biv_color_manager
+msgid "Сolor manager"
+msgstr "مدير الألوان"
+
+#: sidebar##edit_osm
+msgid "Edit in OpenStreetMap"
+msgstr "التعديل في OpenStreetMap"
+
+#: sidebar##ruler
+msgid "Ruler"
+msgstr "المسطرة"
+
+#: sidebar##collapse
+msgid "Collapse"
+msgstr "إغلاق"
+
+#: sidebar##expand
+msgid "Expand"
+msgstr "فتح"
+
+#: sidebar##icon_alt
+msgid "Application logo"
+msgstr "شعار التطبيق"
+
+#: login##email profile##email
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: login##password
+msgid "Password"
+msgstr "كلمة السر"
+
+#: login##login_button
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+#: login##sign_up
+msgid "Sign up"
+msgstr "إنشاء حساب"
+
+#: login##logging_in
+msgid "Logging in..."
+msgstr "جارٍ تسجيل الدخول..."
+
+#: login##log_in
+msgid "Log in"
+msgstr "تسجيل الدخول"
+
+#: login##description
+msgid "Please log in to change your settings"
+msgstr "يرجى تسجيل الدخول لتغيير إعداداتك"
+
+#: login##error##email_empty
+msgid "Email has not to be empty!"
+msgstr "يجب أن لا يكون البريد الإلكتروني فارغًا!"
+
+#: login##error##email_invalid
+msgid "Email has to be valid!"
+msgstr "يجب أن يكون البريد الإلكتروني صالحًا!"
+
+#: login##error##password
+msgid "Password has not to be empty!"
+msgstr "يجب أن لا تكون كلمة السر فارغة!"
+
+#: login##error##connect
+msgid "Couldn't connect to authentication service"
+msgstr "تعذّر الوصول إلى خادم المصادقة"
+
 #: reports##title
 msgid "Disaster Ninja Reports"
 msgstr "تقارير Disaster Ninja"
@@ -666,6 +708,32 @@ msgstr "عرض جميع التقارير"
 msgid "Wrong report ID"
 msgstr "معرف التقرير خاطئ"
 
+#: reports##description
+msgid ""
+"<0>Kontur </0> generates several reports that help validate OpenStreetMap "
+"quality. They contain links to areas on <4>osm.org </4> and links to open "
+"them in the JOSM editor with enabled remote control for editing."
+msgstr ""
+"ينشئ <0> Kontur</0> عدة تقارير تساعد في التحقق من جودة OpenStreetMap. تحتوي "
+"هذه التقارير على روابط لمناطق على <4> osm.org </4> وروابط يمكن فتحها في محرر "
+"JOSM مع تمكين التحكم عن بعد للتحرير."
+
+#: modes##about
+msgid "About"
+msgstr "عن"
+
+#: modes##reports
+msgid "Reports"
+msgstr "التقارير"
+
+#: modes##profile profile##profileSettingsHeader
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+#: modes##privacy
+msgid "Privacy"
+msgstr ""
+
 #: about##title
 msgid "Welcome to Disaster Ninja!"
 msgstr "مرحبًا في Disaster Ninja!"
@@ -680,12 +748,12 @@ msgid ""
 "Whether you work in disaster management, build a smart city, or perform "
 "research on climate change, Disaster Ninja can help you to:"
 msgstr ""
-"هل تريد أن يتم إخطارك بالكوارث المستمرة؟  هل أنت مهتم بالبيانات السكانية "
-"الفورية والتحليلات الأخرى لأي منطقة في العالم؟  يعرض Disaster Ninja بعض "
-"قدرات <2>Kontur</2> في تلبية هذه الاحتياجات.<br /> <br /> لقد صممناه في "
-"البداية ليكون أداة لدعم القرار لمصممي الخرائط الإنسانية. الآن ازدادت وظائفه "
-"وحالات استخدامه. سواء كنت تعمل في إدارة الكوارث، أو تبني مدينة ذكية، أو "
-"تجري بحثًا عن تغير المناخ، يمكن أن يساعدك Disaster Ninja على:"
+"هل تريد أن يتم إخطارك بالكوارث الجارية؟ هل أنت مهتم بالبيانات السكانية "
+"الفورية والتحليلات الأخرى لأي منطقة في العالم؟ يعرض Disaster Ninja بعض قدرات "
+"<2>Kontur</2> في تلبية هذه الاحتياجات.<br/><br/>لقد صممناه في البداية ليكون "
+"أداة دعم قرار لمصممي الخرائط الإنسانية. الآن، ازدادت وظائفه وحالات استخدامه. "
+"سواء كنت تعمل في إدارة الكوارث، أو تبني مدينة ذكية، أو تجري بحثًا عن تغير "
+"المناخ، يمكن أن يساعدك Disaster Ninja على:"
 
 #: about##l1
 msgid "1. Stay up to date with the latest hazard events globally."
@@ -698,8 +766,8 @@ msgid ""
 "also access via an API."
 msgstr ""
 "يتم تحديث لوحة الكوارث باستمرار لإبلاغك بالأحداث الجارية. إنها تستهلك "
-"البيانات من <2>Kontur Event Feed</2> والتي يمكنك أيضًا الوصول إليها عبر "
-"واجهة برمجة التطبيقات."
+"البيانات من <2>Kontur Event Feed</2> والتي يمكنك أيضًا الوصول إليها عبر واجهة "
+"برمجة التطبيقات."
 
 #: about##l2
 msgid "2. Focus on your area of interest."
@@ -712,8 +780,8 @@ msgid ""
 "unit — a country, city, or region."
 msgstr ""
 "تتيح لك لوحة أدوات الرسم رسم أو تحميل الشكل الهندسي الخاص بك على الخريطة. "
-"يمكنك أيضًا التركيز على منطقة معرضة للكوارث أو وحدة إدارية - بلد أو مدينة "
-"أو منطقة."
+"يمكنك أيضًا التركيز على منطقة معرضة للكوارث أو وحدة إدارية - بلد أو مدينة أو "
+"منطقة."
 
 #: about##l3
 msgid "3. Get analytics for the focused area."
@@ -738,15 +806,15 @@ msgstr "4. استكشاف البيانات على الخريطة والتوصل 
 msgid ""
 "The Layers panel gives you various options to display two indicators "
 "simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas "
-"require attention. <br/>Hint: in general, green indicates low risk / few "
-"gaps, red — high risk / many gaps."
+"the nearest fire station. Use the color legend to assess which areas require "
+"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
+"high risk / many gaps."
 msgstr ""
 "تمنحك لوحة Layers خيارات متنوعة لعرض مؤشرين في وقت واحد على خريطة ثنائية "
 "المتغير على سبيل المثال الكثافة السكانية والمسافة إلى أقرب محطة إطفاء. "
-"استخدم وسيلة إيضاح اللون لتقييم المناطق التي تتطلب الانتباه. <br/>بشكل "
-"عام، يشير اللون الأخضر إلى مخاطر منخفضة / فجوات قليلة، والأحمر - مخاطر "
-"عالية / العديد من الفجوات."
+"استخدم وسيلة إيضاح اللون لتقييم المناطق التي تتطلب الانتباه. <br/>بشكل عام، "
+"يشير اللون الأخضر إلى مخاطر منخفضة / فجوات قليلة، والأحمر - مخاطر عالية / "
+"العديد من الفجوات."
 
 #: about##p5
 msgid ""
@@ -755,8 +823,8 @@ msgid ""
 "mapping the respective area with the JOSM editor."
 msgstr ""
 "بالإضافة إلى ذلك ، يمكنك التبديل إلى التقارير في اللوحة اليمنى للوصول إلى "
-"البيانات المتعلقة بالأخطاء والتناقضات المحتملة في OpenStreetMap والمساعدة "
-"في إصلاحها عن طريق رسم خريطة المنطقة المعنية باستخدام محرر JOSM."
+"البيانات المتعلقة بالأخطاء والتناقضات المحتملة في OpenStreetMap والمساعدة في "
+"إصلاحها عن طريق رسم خريطة المنطقة المعنية باستخدام محرر JOSM."
 
 #: about##goToMap
 msgid "Go to the map now"
@@ -767,11 +835,128 @@ msgid ""
 "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
 "any questions about the functionality, and we will be happy to guide you. "
 "You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
-"an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
+"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
+"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
 msgstr ""
-"نأمل أن تجد هذه الأداة ذات قيمة. استخدم مربع الدردشة على Disaster Ninja "
-"لأية أسئلة حول وظائفه، وسنكون سعداء بإرشادك. يمكنك أيضًا <1> التواصل معنا "
-"عبر البريد الإلكتروني </1> إذا كان لديك ملاحظات أو اقتراحات بشأن تحسين "
-"الأداة. <br /> <br /> يُعدّ Disaster Ninja مشروعًا مفتوح المصدر. تحقق من "
-"الكود في <8>حساب Kontur في GitHub</8>."
+"نأمل أن تجد هذه الأداة ذات قيمة. استخدم مربع الدردشة على Disaster Ninja لأية "
+"أسئلة حول وظائفه، وسنكون سعداء بإرشادك. يمكنك أيضًا التواصل معنا عبر البريد "
+"الإلكتروني<1>hello@kontur.io</1> إذا كان لديك ملاحظات أو اقتراحات بشأن تحسين "
+"الأداة.<br/><br/>يُعدّ Disaster Ninja مشروعًا مفتوح المصدر. تحقق من الكود في "
+"<8>حساب Kontur على GitHub</8>."
+
+#: profile##interfaceTheme
+msgid "Theme"
+msgstr "النسق"
+
+#: profile##interfaceLanguage
+msgid "Language"
+msgstr "اللغة"
+
+#: profile##units
+msgid "Units"
+msgstr "الوحدات"
+
+#: profile##fullName
+msgid "Full Name"
+msgstr "الاسم الكامل"
+
+#: profile##metric
+msgid "metric"
+msgstr "المقياس"
+
+#: profile##imperialBeta
+msgid "imperial (beta)"
+msgstr "إمبريالي (بيتا)"
+
+#: profile##appSettingsHeader
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: profile##englishLanguageOption
+msgid "English"
+msgstr "الإنجليزية"
+
+#: profile##spanishLanguageOption
+msgid "Spanish"
+msgstr "الإسبانية"
+
+#: profile##arabicLanguageOption
+msgid "Arabic"
+msgstr "العربية"
+
+#: profile##koreanLanguageOption
+msgid "Korean"
+msgstr ""
+
+#: profile##indonesianLanguageOption
+msgid "Indonesian"
+msgstr ""
+
+#: profile##germanLanguageOption
+msgid "German"
+msgstr ""
+
+#: profile##saveButton
+msgid "Save changes"
+msgstr "حفظ التغييرات"
+
+#: profile##konturTheme
+msgid "Kontur"
+msgstr "Kontur"
+
+#: profile##HOTTheme
+msgid "HOT"
+msgstr "حار"
+
+#: profile##userBio(about)
+msgid "Bio"
+msgstr "السيرة"
+
+#: profile##defaultDisasterFeed
+msgid "Default disaster feed"
+msgstr "موجز الكوارث الافتراضي"
+
+#: profile##defaultOSMeditor
+msgid "Default OpenStreetMap editor (beta)"
+msgstr "محرر OpenStreetMap الافتراضي (بيتا)"
+
+#: profile##successNotification
+msgid "All changes have been applied successfully"
+msgstr "تم تطبيق جميع التغييرات بنجاح"
+
+#: locate_me##get_location_error
+msgid "Error while getting location"
+msgstr "حدث خطأ أثناء الحصول على الموقع"
+
+#: locate_me##feature_title
+msgid "Locate me"
+msgstr "حدد موقعي"
+
+#: episode
+msgid "Episode"
+msgstr "الحلقة"
+
+#: loading_episodes
+msgid "Loading Episodes"
+msgstr "جارٍ تجميل الحلقات"
+
+#: cookie_banner##header
+msgid "We value your privacy"
+msgstr ""
+
+#: cookie_banner##body
+msgid ""
+"We use absolutely necessary cookies to provide you personalized services and "
+"optional cookies to improve Disaster Ninja and your experience. You can "
+"manage cookies settings or withdraw consent to optional cookies at any "
+"time.\n"
+"For more information, please, check our [Privacy Policy](/about/privacy)"
+msgstr ""
+
+#: cookie_banner##decline_all
+msgid "Decline optional cookies"
+msgstr ""
+
+#: cookie_banner##accept_all
+msgid "Accept optional cookies"
+msgstr ""
