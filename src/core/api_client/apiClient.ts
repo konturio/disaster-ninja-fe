@@ -32,7 +32,7 @@ export class ApiClient {
   private readonly instanceId: string;
   private readonly translationService: ITranslationService;
   private readonly notificationService: INotificationService;
-  private readonly unauthorizedCallback?: () => void;
+  private readonly unauthorizedCallback?: (a: this) => void;
   private readonly loginApiPath: string;
   private readonly refreshTokenApiPath: string;
   private readonly apiSauceInstance: ApisauceInstance;
@@ -58,7 +58,7 @@ export class ApiClient {
     disableAuth = false,
     storage = window.localStorage,
     ...apiSauceConfig
-  }: ApiClientConfig) {
+  }: ApiClientConfig<ApiClient>) {
     this.instanceId = instanceId;
     this.translationService = translationService;
     this.notificationService = notificationService;
@@ -97,7 +97,7 @@ export class ApiClient {
     }
   }
 
-  public static init(config: ApiClientConfig): ApiClient {
+  public static init(config: ApiClientConfig<ApiClient>): ApiClient {
     const instanceId = config.instanceId || 'default';
     if (ApiClient.instances[instanceId]) {
       throw new Error(`Api client instance with Id: ${instanceId} already initialized`);
@@ -227,7 +227,7 @@ export class ApiClient {
       this.unauthorizedCallback &&
       (response.status === 401 || response.status === 403)
     ) {
-      this.unauthorizedCallback();
+      this.unauthorizedCallback(this);
     }
 
     const problem = getGeneralApiProblem(response);
