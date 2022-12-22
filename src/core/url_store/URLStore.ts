@@ -22,7 +22,7 @@ export class URLStore {
       } catch (e) {
         console.error('[URLStore]: Failed to get default app id');
         console.debug(e);
-        // if auth error(/bad token) was the reason to not to get appId - make it without it anyway
+        // if auth error(or bad token) was the reason to not to get appId - make it without it anyway
         return await this._client.get<string>('/apps/default_id', undefined, false);
       }
     },

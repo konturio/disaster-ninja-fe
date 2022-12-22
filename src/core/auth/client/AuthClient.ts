@@ -69,12 +69,7 @@ export class AuthClient {
     jwtData: JWTData;
   }) {
     // const profile = await this._apiClient.get<profileResponse>(
-    let profileUserdata: unknown;
-    try {
-      profileUserdata = await this._apiClient.get('/users/current_user', {}, true);
-    } catch (error) {
-      console.error('error while gathering /users/current_user', error);
-    }
+    const profileUserdata = await this._apiClient.get('/users/current_user', {}, true);
     const jwtUserdata = {
       username: response.jwtData.preferred_username,
       token: response.token,
@@ -105,7 +100,7 @@ export class AuthClient {
   ): Promise<true | string | undefined> {
     const response = await this._apiClient.login(user, password);
     if (response && typeof response === 'object' && 'token' in response) {
-      await this.processAuthResponse(response);
+      this.processAuthResponse(response);
       return true;
     }
     return response;
