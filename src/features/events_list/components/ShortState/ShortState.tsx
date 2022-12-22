@@ -10,11 +10,11 @@ import type { MouseEventHandler } from 'react';
 import type { Event } from '~core/types';
 
 export function ShortState({
-  hasTimeline,
+  hasTimeline = false,
   openFullState,
   currentEventId,
 }: {
-  hasTimeline?: boolean;
+  hasTimeline: boolean;
   openFullState: MouseEventHandler<HTMLButtonElement | HTMLDivElement>;
   currentEventId?: string | null;
 }) {

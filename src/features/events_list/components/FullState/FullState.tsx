@@ -57,7 +57,7 @@ export function FullState({
   return (
     <div className={s.panelBody}>
       {hasUnlistedEvent && (
-        <CurrentEvent hasTimeline={hasTimeline} showDescription={true} />
+        <CurrentEvent hasTimeline={Boolean(hasTimeline)} showDescription={true} />
       )}
       <EventListSettingsRow>
         <FeedSelector />
