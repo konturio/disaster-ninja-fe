@@ -69,7 +69,13 @@ export class AuthClient {
     jwtData: JWTData;
   }) {
     // const profile = await this._apiClient.get<profileResponse>(
-    const profileUserdata = await this._apiClient.get('/users/current_user', {}, true);
+    let profileUserdata: unknown;
+    try {
+      profileUserdata = await this._apiClient.get('/users/current_user', {}, true);
+    } catch (error) {
+      console.error('error while gathering /users/current_user', error);
+      return 'error while proccessing';
+    }
     const jwtUserdata = {
       username: response.jwtData.preferred_username,
       token: response.token,
@@ -110,7 +116,8 @@ export class AuthClient {
     try {
       const response = await this._apiClient.checkAuth(this.onTokenExpired);
       if (response && typeof response === 'object' && 'token' in response) {
-        this.processAuthResponse(response);
+        const res = await this.processAuthResponse(response);
+        if (res === 'error while proccessing') throw 'could not fetch user data';
       }
     } catch (e) {
       console.warn('Auth has been expired');
