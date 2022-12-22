@@ -100,7 +100,7 @@ export class AuthClient {
   ): Promise<true | string | undefined> {
     const response = await this._apiClient.login(user, password);
     if (response && typeof response === 'object' && 'token' in response) {
-      this.processAuthResponse(response);
+      await this.processAuthResponse(response);
       return true;
     }
     return response;
@@ -110,7 +110,7 @@ export class AuthClient {
     try {
       const response = await this._apiClient.checkAuth(this.onTokenExpired);
       if (response && typeof response === 'object' && 'token' in response) {
-        await this.processAuthResponse(response);
+        this.processAuthResponse(response);
       }
     } catch (e) {
       console.warn('Auth has been expired');
