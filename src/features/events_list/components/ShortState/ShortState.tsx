@@ -10,11 +10,11 @@ import type { MouseEventHandler } from 'react';
 import type { Event } from '~core/types';
 
 export function ShortState({
-  hasTimeline = false,
+  hasTimeline,
   openFullState,
   currentEventId,
 }: {
-  hasTimeline: boolean;
+  hasTimeline?: boolean;
   openFullState: MouseEventHandler<HTMLButtonElement | HTMLDivElement>;
   currentEventId?: string | null;
 }) {
@@ -36,7 +36,7 @@ export function ShortState({
   }, [currentEvent, event, setEvent]);
 
   const eventInfo = event ? (
-    <CurrentEvent hasTimeline={hasTimeline} showDescription={true} />
+    <CurrentEvent hasTimeline={Boolean(hasTimeline)} showDescription={true} />
   ) : null;
 
   const panelContent = eventInfo || (
