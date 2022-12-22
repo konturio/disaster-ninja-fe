@@ -50,6 +50,8 @@ export interface Event {
   /** Time in UTC (ISO8601) */
   updatedAt: string;
   externalUrls: string[];
+  /** Additional info about event if presented*/
+  description?: string;
 }
 
 export interface AnalyticsData {
