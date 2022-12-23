@@ -10,6 +10,9 @@ ApiClient.init({
   loginApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
   refreshTokenApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
   translationService: i18n,
+  unauthorizedCallback(apiClient) {
+    apiClient.logout();
+  },
 });
 const apiClientInstance = ApiClient.getInstance();
 
