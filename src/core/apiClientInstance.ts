@@ -1,5 +1,6 @@
 import { ApiClient } from './api_client';
 import config from './app_config';
+import { authClientInstance } from './authClientInstance';
 import { i18n } from './localization';
 import { notificationServiceInstance } from './notificationServiceInstance';
 
@@ -12,6 +13,7 @@ ApiClient.init({
   translationService: i18n,
   unauthorizedCallback(apiClient) {
     apiClient.logout();
+    authClientInstance.logout();
   },
 });
 const apiClientInstance = ApiClient.getInstance();
