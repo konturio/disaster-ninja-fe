@@ -69,29 +69,39 @@ export class AuthClient {
     jwtData: JWTData;
   }) {
     // const profile = await this._apiClient.get<profileResponse>(
-    const profileUserdata = await this._apiClient.get('/users/current_user', {}, true);
+    const profileUserdata = await this._apiClient.get(
+      '/users/current_user',
+      undefined,
+      true,
+    );
     const jwtUserdata = {
       username: response.jwtData.preferred_username,
       token: response.token,
       email: response.jwtData.email,
       firstName: response.jwtData.given_name,
       lastName: response.jwtData.family_name,
+      id: response.jwtData.sub,
     };
     // @ts-expect-error - Fix me - load profile in better place
     const mergedUserdata = { ...jwtUserdata, ...profileUserdata };
-    currentUserAtom.setUser.dispatch(mergedUserdata);
+    this.postAuth(mergedUserdata);
+    return mergedUserdata;
+  }
+
+  postAuth(user) {
+    currentUserAtom.setUser.dispatch(user);
     userStateAtom.authorize.dispatch();
     // now when intercom is a feature it can be saved in window after this check happens
     if (window['Intercom']) {
       window['Intercom']('update', {
-        name: response.jwtData.preferred_username,
-        email: response.jwtData.email,
+        name: user.username,
+        email: user.email,
       });
     }
     // in case we do have intercom - lets store right credentials for when it will be ready
-    appConfig.intercom.name = response.jwtData.preferred_username;
-    appConfig.intercom['email'] = response.jwtData.email;
-    yandexMetrics.mark('setUserID', response.jwtData.email);
+    appConfig.intercom.name = user.username;
+    appConfig.intercom['email'] = user.email;
+    yandexMetrics.mark('setUserID', user.email);
   }
 
   public async authenticate(

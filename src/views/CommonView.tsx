@@ -1,14 +1,16 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react';
+import appConfig from '~core/app_config';
 import { AppFeature } from '~core/auth/types';
 import { Row } from '~components/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { userResourceAtom } from '~core/auth';
-import { currentAppPropertiesResourceAtom } from '~core/shared_state/currentApplication';
 import { useFavicon } from '~utils/hooks/useFavicon';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { useTabNameUpdate } from '~utils/hooks/useTabNameUpdate';
+import { currentLanguageAtom } from '~core/shared_state/currentLanguage';
+import { featuresAtom } from '~core/shared_state/features';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
@@ -26,12 +28,12 @@ export function CommonView({
   availableRoutesAtom: AvailableRoutesAtom;
   getAbsoluteRoute: (path: string) => string;
 }>) {
+  const [features] = useAtom(featuresAtom);
   const [{ data, loading }] = useAtom(userResourceAtom);
   const userModel = data && !loading ? data : null;
-  const [{ data: appParams }] = useAtom(currentAppPropertiesResourceAtom);
-
-  useFavicon(appParams?.faviconUrl);
-  useTabNameUpdate(appParams?.name);
+  const [currentLanguage] = useAtom(currentLanguageAtom);
+  useFavicon(appConfig.faviconUrl);
+  useTabNameUpdate(appConfig.name);
 
   useEffect(() => {
     if (userModel?.hasFeature(AppFeature.INTERCOM)) {

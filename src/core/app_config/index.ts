@@ -1,5 +1,10 @@
 import { i18n } from '~core/localization';
-import type { AppConfig } from './types';
+import type {
+  AppConfig,
+  AppInfoResponse,
+  AppConfigEffective,
+  AppConfigGlobal,
+} from '~core/app/types';
 
 declare global {
   interface Window {
@@ -7,9 +12,20 @@ declare global {
   }
 }
 
-export default (() => {
-  const konturAppConfig = globalThis.window.konturAppConfig ?? {};
-  return {
+const configs = {
+  global: {} as AppConfigGlobal,
+  custom: {} as AppInfoResponse,
+  merged: {} as AppConfigEffective,
+};
+
+export function updateAppConfig(appInfo: AppInfoResponse) {
+  configs.custom = appInfo;
+  getEffectiveConfig();
+}
+
+function getGlobalConfig(): AppConfigGlobal {
+  const konturAppConfig: AppConfig = globalThis.konturAppConfig ?? {};
+  const globalAppConfig = {
     apiGateway: konturAppConfig.API_GATEWAY,
     boundariesApi: konturAppConfig.BOUNDARIES_API,
     reportsApi: konturAppConfig.REPORTS_API,
@@ -52,8 +68,32 @@ export default (() => {
         url: 'https://www.openstreetmap.org/edit?editor=remote#map=',
       },
     ],
+    effectiveFeatures: {},
   };
-})();
+  configs['global'] = globalAppConfig;
+  return globalAppConfig;
+}
+
+function getEffectiveFeatures(appConfig: AppConfigEffective) {
+  return Object.fromEntries(
+    [...appConfig.featuresByDefault, ...(appConfig.features ?? [])].map((k) => [k, true]),
+  );
+}
+
+function getEffectiveConfig(): AppConfigEffective {
+  getGlobalConfig();
+  const mergedAppConfig = { ...configs.global, ...configs.custom };
+  mergedAppConfig.effectiveFeatures = getEffectiveFeatures(mergedAppConfig);
+  // mutate object to keep reference for export
+  Object.assign(configs.merged, mergedAppConfig);
+  return mergedAppConfig;
+}
+
+getEffectiveConfig();
+
+const effectiveConfig = configs.merged;
+
+export default effectiveConfig;
 
 if (import.meta.env?.PROD) {
   console.info(

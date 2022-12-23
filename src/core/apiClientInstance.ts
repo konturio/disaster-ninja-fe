@@ -11,9 +11,8 @@ ApiClient.init({
   refreshTokenApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
   translationService: i18n,
 });
-const apiClientInstance = ApiClient.getInstance();
+export const apiClient = ApiClient.getInstance();
 
-export const apiClient = apiClientInstance;
 // initialize boundaries client
 ApiClient.init({
   instanceId: 'boundaries',
@@ -24,6 +23,7 @@ ApiClient.init({
 });
 
 export const boundariesClient = ApiClient.getInstance('boundaries');
+
 // initialize reports client
 ApiClient.init({
   instanceId: 'reports',

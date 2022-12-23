@@ -149,6 +149,7 @@ export class ApiClient {
         const setAuthResult = this.setAuth(auth.token, auth.refreshToken);
         if (typeof setAuthResult === 'string') {
           localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+          // FIXME: implement correct i18n usage for errors, do not translationService.t(var) !!!
           throw new ApiClientError(this.translationService.t(setAuthResult), {
             kind: 'bad-data',
           });

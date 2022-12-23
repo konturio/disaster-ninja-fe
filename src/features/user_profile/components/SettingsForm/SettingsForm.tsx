@@ -17,9 +17,7 @@ const authInputClasses = { input: clsx(s.authInput) };
 
 export function SettingsForm() {
   const [userProfile, { updateUserProfile }] = useAtom(currentProfileAtom);
-  const [localSettings, setLocalSettings] = useState<UserProfileState | null>(
-    userProfile,
-  );
+  const [localSettings, setLocalSettings] = useState<UserProfileState>(userProfile);
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [{ data: userModel }] = useAtom(userResourceAtom);
 
@@ -56,7 +54,7 @@ export function SettingsForm() {
     // do async put request
     // set loading state for it
     // put response to the currentProfileAtom
-    updateUserProfile(localSettings || {});
+    updateUserProfile(localSettings);
   }
 
   function onFullnameChange(e: ChangeEvent<HTMLInputElement>) {
