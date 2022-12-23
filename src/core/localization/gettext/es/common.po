@@ -962,7 +962,7 @@ msgid ""
 "optional cookies to improve Disaster Ninja and your experience. You can "
 "manage cookies settings or withdraw consent to optional cookies at any "
 "time.\n"
-"For more information, please, check our [Privacy Policy](/about/privacy)"
+"For more information, please, check our [Privacy Policy](about/privacy)"
 msgstr ""
 
 #: cookie_banner##decline_all

@@ -41,7 +41,7 @@ export const currentProfileAtom = createAtom(
 
     onChange('currentUserAtom', async (newUser, prevUser) => {
       // reload to simply apply all the settings if implementation is difficult
-      // if (prevUser) location.reload()
+      if (prevUser) location.reload();
 
       const newState = { ...newUser };
       delete newState.token;
