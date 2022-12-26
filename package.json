@@ -147,7 +147,7 @@
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
     "@uiw/react-github-corners": "1.5.15",
-    "@vitejs/plugin-react": "^2.1.0",
+    "@vitejs/plugin-react": "^2.2.0",
     "ajv": "^8.11.0",
     "autoprefixer": "^10.4.13",
     "axios-mock-adapter": "^1.20.0",
