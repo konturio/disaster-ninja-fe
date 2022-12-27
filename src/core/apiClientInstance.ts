@@ -12,8 +12,10 @@ ApiClient.init({
   translationService: i18n,
   unauthorizedCallback(apiClient) {
     apiClient.logout();
+    apiClient.expiredTokenCallback?.();
   },
 });
+
 const apiClientInstance = ApiClient.getInstance();
 
 export const apiClient = apiClientInstance;

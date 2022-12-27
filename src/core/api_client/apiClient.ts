@@ -42,7 +42,7 @@ export class ApiClient {
   private refreshToken = '';
   private tokenWillExpire: Date | undefined;
   private checkTokenPromise: Promise<boolean> | undefined;
-  private expiredTokenCallback?: () => void;
+  public expiredTokenCallback?: () => void;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -138,9 +138,9 @@ export class ApiClient {
     return 'Wrong data received!';
   }
 
-  async checkAuth(
+  getLocalAuthToken(
     callback: () => void,
-  ): Promise<{ token: string; refreshToken: string; jwtData: JWTData } | undefined> {
+  ): { token: string; refreshToken: string; jwtData: JWTData } | undefined {
     this.expiredTokenCallback = callback;
     const authStr = localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
     if (authStr) {

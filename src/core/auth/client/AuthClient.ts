@@ -108,8 +108,8 @@ export class AuthClient {
 
   public async checkAuth(): Promise<void> {
     try {
-      const response = await this._apiClient.checkAuth(this.onTokenExpired);
-      if (response && typeof response === 'object' && 'token' in response) {
+      const response = this._apiClient.getLocalAuthToken(this.onTokenExpired);
+      if (response?.token) {
         this.processAuthResponse(response);
       }
     } catch (e) {
