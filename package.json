@@ -153,7 +153,7 @@
     "axios-mock-adapter": "^1.20.0",
     "cpr": "^3.0.1",
     "dependency-cruiser": "^11.16.1",
-    "eslint": "^8.24.0",
+    "eslint": "^8.30.0",
     "eslint-import-resolver-typescript": "^3.5.1",
     "eslint-plugin-i18n-checker": "^1.4.0",
     "eslint-plugin-i18n-json": "^4.0.0",
