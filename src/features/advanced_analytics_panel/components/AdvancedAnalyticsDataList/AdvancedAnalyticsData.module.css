@@ -3,9 +3,6 @@ tr:nth-child(odd) {
 }
 
 .table_scroll {
-  height: 90%;
-  max-height: 700px;
-  overflow: auto;
   font-size: 11px;
   white-space: nowrap;
 }
@@ -29,8 +26,9 @@ tr:nth-child(odd) {
 
 .table_scroll th {
   position: sticky;
-  top: 0;
-  background: #eeecec;
+  top: -1.5em;
+  z-index: 1;
+  background: var(--neutral-neutral-40);
 }
 
 .sticky_div {

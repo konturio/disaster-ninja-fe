@@ -55,7 +55,9 @@ export function FullState({
 
   return (
     <div className={s.panelBody}>
-      {hasUnlistedEvent && <CurrentEvent hasTimeline={hasTimeline} />}
+      {hasUnlistedEvent && (
+        <CurrentEvent hasTimeline={Boolean(hasTimeline)} showDescription={true} />
+      )}
       <EventListSettingsRow>
         <FeedSelector />
         <BBoxFilterToggle />
@@ -82,6 +84,7 @@ export function FullState({
                       ) : null
                     }
                     externalUrls={event.externalUrls}
+                    showDescription={event.eventId === currentEventId}
                   />
                 )}
                 ref={virtuoso}

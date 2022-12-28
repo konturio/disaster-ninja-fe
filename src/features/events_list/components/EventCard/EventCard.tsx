@@ -30,12 +30,14 @@ export function EventCard({
   onClick,
   alternativeActionControl,
   externalUrls,
+  showDescription,
 }: {
   event: Event;
   isActive: boolean;
   onClick?: (id: string) => void;
   alternativeActionControl: JSX.Element | null;
   externalUrls?: string[];
+  showDescription?: boolean;
 }) {
   const formattedTime = useMemo(
     () => formatTime(parseISO(event.updatedAt)),
@@ -54,6 +56,12 @@ export function EventCard({
       <div className={s.location}>
         <Text type="caption">{event.location}</Text>
       </div>
+
+      {showDescription && event.description && (
+        <div className={s.description}>
+          <Text type="caption">{event.description}</Text>
+        </div>
+      )}
 
       <Analytics
         settledArea={event.settledArea}

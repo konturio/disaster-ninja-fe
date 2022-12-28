@@ -9,7 +9,7 @@ import { focusedGeometryAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
 
-const AnalyticsContainer = () => {
+export const AnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(analyticsResourceAtom);
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
 
@@ -44,7 +44,5 @@ const AnalyticsContainer = () => {
         </Tabs>
       );
     },
-  }) as JSX.Element;
+  });
 };
-
-export default AnalyticsContainer;

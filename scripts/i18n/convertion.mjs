@@ -18,6 +18,26 @@ const getDirectories = (source) =>
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name);
 
+// filter option from https://github.com/i18next/i18next-gettext-converter#usage
+// we need this because multiple references in one line is not supported by gettext-parser https://github.com/smhg/gettext-parser/issues/29
+const referenceMultilineFormatter = function (gt, locale, callback) {
+  const domain = 'messages';
+  const translations = gt.catalogs[locale][domain].translations;
+  gt.setLocale(locale);
+  // replace all spaces with \n
+  // layers bivariate##color_manager##layers_filter -> layers\nbivariate##color_manager##layers_filter
+  Object.keys(translations).forEach((ctxt) => {
+    Object.keys(translations[ctxt]).forEach((key) => {
+      const comment = gt.getComment('messages', ctxt, key);
+      if (comment && comment.reference && comment.reference.includes(' ')) {
+        comment.reference = comment.reference.replace(' ', '\n');
+      }
+    });
+  });
+
+  callback(null, translations);
+};
+
 const convertion = async () => {
   const arg = process.argv.slice(2)?.[0];
   if (!arg || ![toGettext, toi18next].includes(arg)) {
@@ -37,6 +57,7 @@ const convertion = async () => {
     ctxSeparator: ':',
     keyasareference: true,
     skipUntranslated: true,
+    noDate: true, // as we don't need POT-Creation-Date and PO-Revision-Date
   };
 
   const poOptions = {
@@ -75,9 +96,10 @@ const convertion = async () => {
         // here we convert .po files to i18next for every locale
         // really we need to perform it only first time to get .po files from our existing i18next files
         // if you want to regenerate .po files, you need to have i18n files
-        return gettextToI18next(lang, readFileSync(poFile), poOptions).then(
-          save(i18nFile),
-        );
+        return gettextToI18next(lang, readFileSync(poFile), {
+          ...poOptions,
+          filter: referenceMultilineFormatter,
+        }).then(save(i18nFile));
       }
     }),
   ]);

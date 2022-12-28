@@ -3,4 +3,8 @@ export type PanelFeatureInterface = {
   panelIcon?: JSX.Element;
   content?: JSX.Element | null;
   minHeight?: number;
+  maxHeight?: number | string;
+  contentheight?: number | string;
+  skipAutoResize?: boolean;
+  resize?: 'vertical' | 'horizontal' | 'both' | 'none';
 };

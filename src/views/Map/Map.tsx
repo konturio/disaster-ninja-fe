@@ -6,7 +6,9 @@ import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/D
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
-import { LayersAndLegendsWidget } from '~widgets/LayersAndLegends';
+import { PrimaryAndSecondaryPanelWidget } from '~widgets/PrimaryAndSecondaryPanel';
+import { analyticsPanel } from '~features/analytics_panel';
+import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -22,12 +24,6 @@ const { Logo } = lazily(() => import('@konturio/ui-kit'));
 const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/ConnectedMap'));
 
 const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
-
-const { AnalyticsPanel } = lazily(() => import('~features/analytics_panel'));
-
-const { AdvancedAnalyticsPanel } = lazily(
-  () => import('~features/advanced_analytics_panel'),
-);
 
 const { Toolbar } = lazily(() => import('~features/toolbar'));
 
@@ -105,20 +101,30 @@ export function MapPage() {
       </div>
       {featureFlags && (
         <Layout
-          advancedAnalytics={
-            featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL] && (
-              <AdvancedAnalyticsPanel />
-            )
+          analytics={
+            <PrimaryAndSecondaryPanelWidget
+              primaryProps={
+                featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanel : null
+              }
+              secondaryProps={
+                featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL]
+                  ? advancedAnalyticsPanel
+                  : null
+              }
+              key="analytics"
+              id="analytics"
+            />
           }
-          analytics={featureFlags[FeatureFlag.ANALYTICS_PANEL] && <AnalyticsPanel />}
           // if EVENTS_LIST is enabled, we always have default feed
           disasters={featureFlags[FeatureFlag.EVENTS_LIST] && <EventListPanel />}
           layersAndLegends={
-            <LayersAndLegendsWidget
-              layersProps={
+            <PrimaryAndSecondaryPanelWidget
+              primaryProps={
                 featureFlags[FeatureFlag.MAP_LAYERS_PANEL] ? layersPanel : null
               }
-              legendProps={featureFlags[FeatureFlag.LEGEND_PANEL] ? legendPanel : null}
+              secondaryProps={featureFlags[FeatureFlag.LEGEND_PANEL] ? legendPanel : null}
+              key="layers_and_legends"
+              id="layers_and_legends"
             />
           }
           matrix={featureFlags[FeatureFlag.BIVARIATE_MANAGER] && <BivariatePanel />}

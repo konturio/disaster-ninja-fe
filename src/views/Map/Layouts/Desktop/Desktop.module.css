@@ -4,9 +4,9 @@
   gap: var(--unit);
   padding: var(--unit);
 
-  /* analytics+layers column, advanced analytics column, map column, layers&legends column */
+  /* analytics+layers column, map column, layers&legends column */
   grid-template-columns:
-    minmax(320px, 1fr) fit-content(400px) minmax(440px, 10fr)
+    minmax(320px, 1fr) minmax(440px, 10fr)
     minmax(320px, 1fr);
   grid-template-rows: calc(100% - 40px) 40px;
 }
@@ -22,7 +22,7 @@
 .mapWrap {
   display: flex;
   flex-flow: column nowrap;
-  grid-column: 3;
+  grid-column: 2;
   grid-row: 1/2;
 }
 
