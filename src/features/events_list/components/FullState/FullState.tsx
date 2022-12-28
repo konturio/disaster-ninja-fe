@@ -4,10 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { i18n } from '~core/localization';
-import { AppFeature } from '~core/auth/types';
+import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
-import { userResourceAtom } from '~core/auth';
 import { FeedSelector } from '../FeedSelector/FeedSelector';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
@@ -25,8 +24,8 @@ export function FullState({
   onCurrentChange: (id: string) => void;
 }) {
   const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
-  const [{ data: userModel }] = useAtom(userResourceAtom);
-  const hasTimeline = userModel?.hasFeature(AppFeature.EPISODES_TIMELINE);
+  const [featureFlags] = useAtom(featureFlagsAtom);
+  const hasTimeline = featureFlags[FeatureFlag.EPISODES_TIMELINE];
   const virtuoso = useRef<VirtuosoHandle>(null);
 
   const [hasUnlistedEvent, setHasUnlistedEvent] = useState(false);
@@ -88,8 +87,8 @@ export function FullState({
                 ref={virtuoso}
               />
               <div className={s.height100vh}>
-                {/* it helps expand panel to full height 
-                despite that virtual element has no height 
+                {/* it helps expand panel to full height
+                despite that virtual element has no height
                 without braking scroll */}
               </div>
             </>

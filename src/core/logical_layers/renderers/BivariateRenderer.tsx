@@ -18,8 +18,7 @@ import {
   MapHexTooltip,
 } from '~components/MapHexTooltip/MapHexTooltip';
 import { invertClusters } from '~utils/bivariate';
-import { userResourceAtom } from '~core/auth';
-import { AppFeature } from '~core/auth/types';
+import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import type {
   AnyLayer,
@@ -211,9 +210,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
       if (!fillColor || isFillColorEmpty(fillColor) || !feature.properties) return true;
 
-      const showValues = userResourceAtom
-        .getState()
-        .data?.hasFeature(AppFeature.BIVARIATE_MANAGER);
+      const showValues = featureFlagsAtom.getState()[FeatureFlag.BIVARIATE_MANAGER];
       const [xNumerator, xDenominator] = legend.axis.x.quotient;
       const [yNumerator, yDenominator] = legend.axis.y.quotient;
       const xValue = calcValueByNumeratorDenominator(

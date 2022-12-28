@@ -1,4 +1,4 @@
-import appConfig from '~core/app_config';
+import { appConfig } from '~core/app_config';
 
 export type CurrentUser = {
   id: string | null;

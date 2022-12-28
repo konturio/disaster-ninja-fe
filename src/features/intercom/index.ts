@@ -1,4 +1,4 @@
-import appConfig from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import { cookieManagementService, permissionStatuses } from '~core/cookie_settings';
 
 export function initIntercom() {

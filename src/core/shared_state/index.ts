@@ -13,3 +13,5 @@ export { currentMapAtom } from './currentMap';
 export { currentApplicationAtom } from './currentApplication';
 export { episodesPanelState } from './episodesPanelState';
 export * from './toolbarControls';
+export * from './featureFlags';
+export * from './eventFeeds';

@@ -6,8 +6,8 @@ import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { flatObjectsAreEqual } from '~utils/common';
-import { userResourceAtom } from '~core/auth';
-import appConfig from '~core/app_config';
+import { appConfig } from '~core/app_config';
+import { eventFeedsAtom } from '~core/shared_state';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserProfileState } from '../../atoms/userProfile';
@@ -19,7 +19,7 @@ export function SettingsForm() {
   const [userProfile, { updateUserProfile }] = useAtom(currentProfileAtom);
   const [localSettings, setLocalSettings] = useState<UserProfileState>(userProfile);
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
-  const [{ data: userModel }] = useAtom(userResourceAtom);
+  const [eventFeeds] = useAtom(eventFeedsAtom);
 
   function logout() {
     authClientInstance.logout();
@@ -94,7 +94,7 @@ export function SettingsForm() {
     { title: i18n.t('profile.arabicLanguageOption'), value: 'ar' },
   ];
 
-  const OPTIONS_FEED = (userModel?.feeds || [appConfig.defaultFeedObject]).map((o) => ({
+  const OPTIONS_FEED = eventFeeds.map((o) => ({
     title: o.name,
     value: o.feed,
   }));

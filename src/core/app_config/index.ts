@@ -76,11 +76,14 @@ function getGlobalConfig(): AppConfigGlobal {
 
 function getEffectiveFeatures(appConfig: AppConfigEffective) {
   return Object.fromEntries(
-    [...appConfig.featuresByDefault, ...(appConfig.features ?? [])].map((k) => [k, true]),
+    [...(appConfig.featuresByDefault ?? []), ...(appConfig.features ?? [])].map((k) => [
+      k,
+      true,
+    ]),
   );
 }
 
-function getEffectiveConfig(): AppConfigEffective {
+export function getEffectiveConfig(): AppConfigEffective {
   getGlobalConfig();
   const mergedAppConfig = { ...configs.global, ...configs.custom };
   mergedAppConfig.effectiveFeatures = getEffectiveFeatures(mergedAppConfig);
@@ -91,9 +94,17 @@ function getEffectiveConfig(): AppConfigEffective {
 
 getEffectiveConfig();
 
-const effectiveConfig = configs.merged;
+// export const appConfig = configs.merged;
 
-export default effectiveConfig;
+export const appConfig = new Proxy(configs.merged, {
+  get(target, property, receiver) {
+    console.warn('appConfig get', property, target[property]);
+    return target[property];
+  },
+});
+export default appConfig;
+
+console.info('appConfig', appConfig);
 
 if (import.meta.env?.PROD) {
   console.info(

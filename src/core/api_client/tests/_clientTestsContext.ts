@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
 import './_configMock';
+// eslint-disable-next-line import/order
 import { ApiClient } from '../apiClient';
 import {
   createNotificationServiceMock,
@@ -58,9 +59,7 @@ export const createContext = () => {
 
   // setup token expiration time
   (apiClient as any).token = token;
-  (apiClient as any).tokenWillExpire = new Date(
-    new Date().getTime() + 1000 * 60 * 30,
-  );
+  (apiClient as any).tokenWillExpire = new Date(new Date().getTime() + 1000 * 60 * 30);
 
   return {
     apiClient,

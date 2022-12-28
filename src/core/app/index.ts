@@ -1,16 +1,16 @@
 import type { AtomBinded } from '@reatom/core';
-
-export const registry = {
+export type { AppConfig } from './types';
+export const appRegistry = {
   atoms: {},
   listeners: {},
 };
 
 export function runAtom(atom: AtomBinded) {
-  registry.atoms[atom.id] = {
+  appRegistry.atoms[atom.id] = {
     ref: atom,
     cb: () => null,
   };
-  registry.atoms[atom.id].unsubscribe = atom.subscribe((...args) =>
-    registry.atoms[atom.id].cb(...args),
+  appRegistry.atoms[atom.id].unsubscribe = atom.subscribe((...args) =>
+    appRegistry.atoms[atom.id].cb(...args),
   );
 }

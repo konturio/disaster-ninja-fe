@@ -1,9 +1,10 @@
 import { memo } from '@reatom/core/experiments';
 import { createAtom, createBooleanAtom } from '~utils/atoms';
-import appConfig from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import {
   currentEventAtom,
   currentMapPositionAtom,
+  currentApplicationAtom,
   currentEventFeedAtom,
 } from '~core/shared_state';
 import { scheduledAutoSelect, scheduledAutoFocus } from '~core/shared_state/currentEvent';
@@ -29,6 +30,7 @@ export const urlStoreAtom = createAtom(
     currentMapPositionAtom,
     currentEventAtom,
     enabledLayersAtom,
+    currentApplicationAtom,
     currentEventFeedAtom,
     _setState: (state: UrlData | null) => state,
     init: (initialState: UrlData) => initialState,
@@ -37,6 +39,11 @@ export const urlStoreAtom = createAtom(
     onAction('init', (initialState) => {
       schedule(async (dispatch) => {
         const actions: Action[] = [create('_setState', initialState)];
+
+        // Apply application id
+        if (initialState.app) {
+          // actions.push(currentApplicationAtom.set(initialState.app));
+        }
 
         if (initialState.event === undefined && !initialState.map) {
           // Auto select event from event list when url is empty

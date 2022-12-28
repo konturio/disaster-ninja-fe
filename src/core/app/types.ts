@@ -29,6 +29,13 @@ export interface OsmEditorConfig {
   url: string;
 }
 
+export interface EventFeedConfig {
+  feed: string;
+  name: string;
+  description: string;
+  default: boolean;
+}
+
 export interface AppConfigGlobal {
   apiGateway: string;
   boundariesApi: string;
@@ -42,12 +49,7 @@ export interface AppConfigGlobal {
   layersByDefault: string[];
   featuresByDefault: string[];
   defaultFeed: string;
-  defaultFeedObject: {
-    feed: string;
-    name: string;
-    description: string;
-    default: boolean;
-  }; // translation should occur later after i18n init, getDefaultFeedObject(konturAppConfig.DEFAULT_FEED),
+  defaultFeedObject: EventFeedConfig; // translation should occur later after i18n init, getDefaultFeedObject(konturAppConfig.DEFAULT_FEED),
   keycloakUrl: string;
   keycloakRealm: string;
   keycloakClientId: string;

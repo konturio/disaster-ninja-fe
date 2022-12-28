@@ -1,16 +1,14 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react';
-import appConfig from '~core/app_config';
-import { AppFeature } from '~core/auth/types';
+import { appConfig } from '~core/app_config';
 import { Row } from '~components/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
-import { userResourceAtom } from '~core/auth';
 import { useFavicon } from '~utils/hooks/useFavicon';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { useTabNameUpdate } from '~utils/hooks/useTabNameUpdate';
 import { currentLanguageAtom } from '~core/shared_state/currentLanguage';
-import { featuresAtom } from '~core/shared_state/features';
+import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
@@ -28,27 +26,25 @@ export function CommonView({
   availableRoutesAtom: AvailableRoutesAtom;
   getAbsoluteRoute: (path: string) => string;
 }>) {
-  const [features] = useAtom(featuresAtom);
-  const [{ data, loading }] = useAtom(userResourceAtom);
-  const userModel = data && !loading ? data : null;
+  const [featureFlags] = useAtom(featureFlagsAtom);
   const [currentLanguage] = useAtom(currentLanguageAtom);
   useFavicon(appConfig.faviconUrl);
   useTabNameUpdate(appConfig.name);
 
   useEffect(() => {
-    if (userModel?.hasFeature(AppFeature.INTERCOM)) {
+    if (featureFlags[FeatureFlag.INTERCOM]) {
       import('~features/intercom').then(({ initIntercom }) => {
         initIntercom();
       });
     }
-  }, [userModel]);
+  }, [featureFlags]);
 
   return (
     <>
       <OriginalLogo />
       <Row>
         <Suspense fallback={null}>
-          {userModel?.hasFeature(AppFeature.SIDE_BAR) && (
+          {featureFlags[FeatureFlag.SIDE_BAR] && (
             <SideBar
               availableRoutesAtom={availableRoutesAtom}
               currentRouteAtom={currentRouteAtom}
@@ -60,17 +56,15 @@ export function CommonView({
       </Row>
 
       <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.TOASTS) && <NotificationToast />}
+        {featureFlags[FeatureFlag.TOASTS] && <NotificationToast />}
       </Suspense>
 
       <Suspense fallback={null}>
-        {userModel?.hasFeature(AppFeature.TOOLTIP) && <PopupTooltip />}
+        {featureFlags[FeatureFlag.TOOLTIP] && <PopupTooltip />}
       </Suspense>
 
       {/* FIXME: Since this banner also blocks intercom in should check something more common */}
-      {userModel?.hasFeature(AppFeature.USE_3RDPARTY_ANALYTICS) && (
-        <CookieConsentBanner />
-      )}
+      {featureFlags[FeatureFlag.USE_3RDPARTY_ANALYTICS] && <CookieConsentBanner />}
     </>
   );
 }

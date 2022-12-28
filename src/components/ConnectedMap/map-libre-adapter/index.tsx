@@ -106,6 +106,8 @@ function MapboxMap(
   useEffect(() => {
     const { current } = mapEl;
     if (current === null) return;
+    if (ref?.current) return;
+
     const currentMapPosition = currentMapPositionAtom.getState();
     //LngLatLike
     const mapLocation = {
