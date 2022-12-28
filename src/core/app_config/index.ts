@@ -98,13 +98,11 @@ getEffectiveConfig();
 
 export const appConfig = new Proxy(configs.merged, {
   get(target, property, receiver) {
-    console.warn('appConfig get', property, target[property]);
+    // console.warn('appConfig get', property, target[property]);
     return target[property];
   },
 });
 export default appConfig;
-
-console.info('appConfig', appConfig);
 
 if (import.meta.env?.PROD) {
   console.info(
