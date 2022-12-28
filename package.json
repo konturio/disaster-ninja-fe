@@ -145,7 +145,7 @@
     "@testing-library/react": "^13.4.0",
     "@types/sinon": "^10.0.6",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
-    "@typescript-eslint/parser": "^5.38.0",
+    "@typescript-eslint/parser": "^5.47.1",
     "@uiw/react-github-corners": "1.5.15",
     "@vitejs/plugin-react": "^2.2.0",
     "ajv": "^8.11.2",
