@@ -1,5 +1,4 @@
 import forEach from 'lodash/forEach';
-import castArray from 'lodash/castArray';
 import every from 'lodash/every';
 import { AppFeature } from '~core/auth/types';
 import type { AppFeatureType } from '~core/auth/types';

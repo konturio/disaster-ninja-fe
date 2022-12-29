@@ -6,7 +6,7 @@ import {
 } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state';
 import { i18n } from '~core/localization';
-import app_config from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import { URL_ZOOM_OFFSET } from '~core/constants';
 import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';
 
@@ -30,7 +30,7 @@ export function initOsmEditLink() {
       const { osmEditor } = currentUserAtom.getState();
       if (!osmEditor) return;
       const baseLink =
-        app_config.osmEditors.find((editor) => editor.id === osmEditor)?.url ||
+        appConfig.osmEditors.find((editor) => editor.id === osmEditor)?.url ||
         'https://www.openstreetmap.org/edit?#map=';
 
       const url = `${baseLink}${zoom + URL_ZOOM_OFFSET}/${lat}/${lng}`;

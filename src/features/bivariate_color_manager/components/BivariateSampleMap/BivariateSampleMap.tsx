@@ -3,7 +3,7 @@ import cn from 'clsx';
 import { useAction } from '@reatom/react';
 import { Button } from '@konturio/ui-kit';
 import { Close24, Expand24 } from '@konturio/default-icons';
-import config from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import Map from '~components/ConnectedMap/map-libre-adapter';
 import { useMapPositionSmoothSync } from '~components/ConnectedMap/useMapPositionSmoothSync';
 import {
@@ -31,8 +31,8 @@ export function BivariateSampleMap({
   fullscreen: boolean;
   setFullscreen: (flag: boolean) => void;
 }) {
-  const mapBaseStyle = config.mapBaseStyle;
-  const accessToken = config.mapAccessToken;
+  const mapBaseStyle = appConfig.mapBaseStyle;
+  const accessToken = appConfig.mapAccessToken;
   const mapRef = useRef<mapLibre.Map>();
   useMapPositionSmoothSync(mapRef);
 
@@ -48,10 +48,7 @@ export function BivariateSampleMap({
 
   useEffect(() => {
     if (mapRef.current) {
-      console.info(
-        'Map instance available by window.KONTUR_MAP',
-        mapRef.current,
-      );
+      console.info('Map instance available by window.KONTUR_MAP', mapRef.current);
       globalThis.KONTUR_MAP = mapRef.current;
       // @ts-expect-error Fix for react dev tools
       mapRef.current.toJSON = () => '[Mapbox Object]';
@@ -86,8 +83,7 @@ export function BivariateSampleMap({
   );
 
   useEffect(() => {
-    if (fullscreen === true)
-      document.addEventListener('keydown', escFunction, false);
+    if (fullscreen === true) document.addEventListener('keydown', escFunction, false);
     else document.removeEventListener('keydown', escFunction, false);
 
     return () => {

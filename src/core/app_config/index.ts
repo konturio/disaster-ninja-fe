@@ -94,8 +94,6 @@ export function getEffectiveConfig(): AppConfigEffective {
 
 getEffectiveConfig();
 
-// export const appConfig = configs.merged;
-
 export const appConfig = new Proxy(configs.merged, {
   get(target, property, receiver) {
     // console.warn('appConfig get', property, target[property]);

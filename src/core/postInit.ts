@@ -1,6 +1,6 @@
 import { useAtom } from '@reatom/react';
 import { useEffect } from 'react';
-import appConfig from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import { initMetricsOnce } from '~core/metrics';
 import { currentRouteAtom } from '~core/router/atoms/currentRoute';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';

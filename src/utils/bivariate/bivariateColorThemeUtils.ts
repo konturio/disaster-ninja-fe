@@ -1,6 +1,6 @@
 import { hexToHsluv, hsluvToHex } from 'hsluv';
 import { generateBivariateStyleForAxis } from '~utils/bivariate';
-import config from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import type { ColorTuple } from 'hsluv';
 import type { CornerRange, Stat } from '~utils/bivariate';
@@ -51,11 +51,9 @@ function convertToRgbaWithOpacity(hexColor: string): string {
       clr = [clr[0], clr[0], clr[1], clr[1], clr[2], clr[2]];
     }
     const hexNum: number = parseInt(`0x${clr.join('')}`, 0);
-    return `rgba(${[
-      (hexNum >> 16) & 255,
-      (hexNum >> 8) & 255,
-      hexNum & 255,
-    ].join(',')},0.5)`;
+    return `rgba(${[(hexNum >> 16) & 255, (hexNum >> 8) & 255, hexNum & 255].join(
+      ',',
+    )},0.5)`;
   }
   throw new Error('Bad Hex');
 }
@@ -110,12 +108,8 @@ export function generateColorThemeAndBivariateStyle(
   if (!xAxis || !yAxis) return;
 
   /* Color theme generation */
-  const xAxisDirection = indicators.find(
-    (ind) => ind.name === xNumerator,
-  )?.direction;
-  const yAxisDirection = indicators.find(
-    (ind) => ind.name === yNumerator,
-  )?.direction;
+  const xAxisDirection = indicators.find((ind) => ind.name === xNumerator)?.direction;
+  const yAxisDirection = indicators.find((ind) => ind.name === yNumerator)?.direction;
 
   if (!xAxisDirection || !yAxisDirection) return;
 
@@ -126,12 +120,7 @@ export function generateColorThemeAndBivariateStyle(
     yAxisDirection,
   );
 
-  const bivariateStyle = generateBivariateStyle(
-    xAxis,
-    yAxis,
-    colorTheme,
-    stats?.meta,
-  );
+  const bivariateStyle = generateBivariateStyle(xAxis, yAxis, colorTheme, stats?.meta);
 
   return [colorTheme, bivariateStyle];
 }
@@ -152,10 +141,8 @@ export const generateBivariateStyle = (
       type: 'vector',
       tiles: [
         `${adaptTileUrl(
-          config.bivariateTilesRelativeUrl,
-        )}{z}/{x}/{y}.mvt?indicatorsClass=${
-          config.bivariateTilesIndicatorsClass
-        }`,
+          appConfig.bivariateTilesRelativeUrl,
+        )}{z}/{x}/{y}.mvt?indicatorsClass=${appConfig.bivariateTilesIndicatorsClass}`,
       ],
       maxzoom: meta.max_zoom,
       minzoom: 0,

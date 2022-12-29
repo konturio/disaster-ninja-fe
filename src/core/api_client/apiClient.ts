@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { i18n } from '~core/localization';
-import config from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import { create } from '~utils/axios/apisauce/apisauce';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { ApiMethodTypes, getGeneralApiProblem } from './types';
@@ -344,7 +344,7 @@ export class ApiClient {
     const params = new URLSearchParams();
     params.append('username', username);
     params.append('password', password);
-    params.append('client_id', config.keycloakClientId);
+    params.append('client_id', appConfig.keycloakClientId);
     params.append('grant_type', 'password');
 
     const response = await this.apiSauceInstance.post<KeycloakAuthResponse>(
@@ -403,7 +403,7 @@ export class ApiClient {
     { token: string; refreshToken: string; jwtData: JWTData } | string | undefined
   > {
     const params = new URLSearchParams();
-    params.append('client_id', config.keycloakClientId);
+    params.append('client_id', appConfig.keycloakClientId);
     params.append('refresh_token', this.refreshToken);
     params.append('grant_type', 'refresh_token');
 

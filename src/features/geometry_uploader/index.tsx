@@ -6,7 +6,7 @@ import {
   toolbarControlsAtom,
 } from '~core/shared_state';
 import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
-import app_config from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
@@ -50,7 +50,7 @@ export function initFileUploader() {
 
         const { zoom, center } = geometryCamera;
         currentMapPositionAtom.setCurrentMapPosition.dispatch({
-          zoom: Math.min(zoom, app_config.autoFocus.maxZoom),
+          zoom: Math.min(zoom, appConfig.autoFocus.maxZoom),
           ...center,
         });
         setTimeout(() => {
