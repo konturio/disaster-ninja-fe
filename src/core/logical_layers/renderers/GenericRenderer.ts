@@ -14,6 +14,7 @@ import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { layerByOrder } from '~utils/map/layersOrder';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
+import { generatedMapboxLayersParents } from '../atoms/generatedMapboxLayers';
 import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
@@ -105,10 +106,10 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         if (layer) {
           map.removeLayer(layer.id);
         }
+        generatedMapboxLayersParents.set.dispatch(mapLayer.id, this.id);
         layerByOrder(map).addAboveLayerWithSameType(mapLayer);
         this._layerIds.add(mapLayer.id);
       });
-
       // cleanup unused layers
       this._layerIds.forEach((id) => {
         if (!layers.find((layer) => layer.id === id)) {
@@ -132,6 +133,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         },
       };
 
+      generatedMapboxLayersParents.set.dispatch(mapLayer.id, this.id);
       layerByOrder(map).addAboveLayerWithSameType(mapLayer);
       this._layerIds.add(mapLayer.id);
       // cleanup unused layers
@@ -217,6 +219,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         minzoom: 0,
         maxzoom: 24,
       };
+      generatedMapboxLayersParents.set.dispatch(mapLayer.id, this.id);
       layerByOrder(map).addAboveLayerWithSameType(mapLayer);
       this._layerIds.add(mapLayer.id);
     } else {
@@ -241,6 +244,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
           if (map.getLayer(mapLayer.id)) {
             map.removeLayer(mapLayer.id);
           }
+          generatedMapboxLayersParents.set.dispatch(mapLayer.id, this.id);
           layerByOrder(map).addAboveLayerWithSameType(mapLayer);
           this._layerIds.add(mapLayer.id);
         });

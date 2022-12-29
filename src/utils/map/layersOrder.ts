@@ -7,12 +7,12 @@ export function layerByOrder(
   layersOrderManager: LayersOrderManager = defaultLayersOrderManager,
 ) {
   function addAboveLayerWithSameType(layer: maplibregl.AnyLayer) {
-    layersOrderManager.getIdToMountOnTypesTop(layer.type, (id) =>
+    layersOrderManager.getIdToMountOnTypesTop(layer.type, layer.id, (id) =>
       map.addLayer(layer, id),
     );
   }
   function addUnderLayerWithSameType(layer: maplibregl.AnyLayer) {
-    layersOrderManager.getIdToMountOnTypesBottom(layer.type, (id) =>
+    layersOrderManager.getIdToMountOnTypesBottom(layer.type, layer.id, (id) =>
       map.addLayer(layer, id),
     );
   }

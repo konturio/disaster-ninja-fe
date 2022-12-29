@@ -109,6 +109,13 @@ export function ConnectedMap({ className }: { className?: string }) {
     }
   }, [mapRef]);
 
+  // cleanup
+  useEffect(() => {
+    return () => {
+      layersOrderManager.destroy();
+    };
+  }, []);
+
   return (
     <Map
       accessToken={accessToken}
