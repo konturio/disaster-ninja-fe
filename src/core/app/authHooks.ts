@@ -3,12 +3,7 @@ import { currentUserAtom, eventFeedsAtom, featureFlagsAtom } from '~core/shared_
 import { yandexMetrics } from '~core/metrics';
 import type { CurrentUser } from './user';
 import type { ApiClient } from '~core/api_client';
-import type {
-  AppFeatureType,
-  BackendFeature,
-  BackendFeed,
-  UserFeed,
-} from '~core/auth/types';
+import type { BackendFeature, BackendFeed } from '~core/auth/types';
 
 export async function onPublicLogin(apiClient: ApiClient) {
   // load user features

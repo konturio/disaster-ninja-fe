@@ -1,5 +1,5 @@
 import mapLibre from 'maplibre-gl';
-import { appConfig, updateAppConfig, getEffectiveConfig } from '~core/app_config';
+import { appConfig, updateAppConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { urlEncoder, urlStoreAtom } from '~core/url_store';
 import { authClientInstance } from '~core/authClientInstance';
@@ -41,12 +41,13 @@ export async function appInit() {
 
   updateAppConfig(appInfo);
 
+  // FIXME: refactor remove currentApplicationAtom dependency in other atoms
+  currentApplicationAtom.set.dispatch(initialState.app);
+
   postAppInit(initialState);
 }
 
-async function postAppInit(initialState) {
-  currentApplicationAtom.set.dispatch(initialState.app);
-
+async function postAppInit(initialState: UrlData) {
   if (initialState.layers === undefined) {
     initialState.layers = await getDefaultLayers();
   }

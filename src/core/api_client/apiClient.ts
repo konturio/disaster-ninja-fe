@@ -1,6 +1,5 @@
 import jwtDecode from 'jwt-decode';
 import { i18n } from '~core/localization';
-import { appConfig } from '~core/app_config';
 import { create } from '~utils/axios/apisauce/apisauce';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { ApiMethodTypes, getGeneralApiProblem } from './types';
@@ -43,6 +42,7 @@ export class ApiClient {
   private tokenWillExpire: Date | undefined;
   private checkTokenPromise: Promise<boolean> | undefined;
   public expiredTokenCallback?: () => void;
+  private readonly keycloakClientId: string;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -54,6 +54,7 @@ export class ApiClient {
     translationService,
     loginApiPath = '',
     refreshTokenApiPath = '',
+    keycloakClientId = '',
     unauthorizedCallback,
     disableAuth = false,
     storage = window.localStorage,
@@ -64,6 +65,7 @@ export class ApiClient {
     this.notificationService = notificationService;
     this.loginApiPath = loginApiPath;
     this.refreshTokenApiPath = refreshTokenApiPath;
+    this.keycloakClientId = keycloakClientId;
     this.disableAuth = disableAuth;
     this.storage = storage;
     this.unauthorizedCallback = unauthorizedCallback;
@@ -344,7 +346,7 @@ export class ApiClient {
     const params = new URLSearchParams();
     params.append('username', username);
     params.append('password', password);
-    params.append('client_id', appConfig.keycloakClientId);
+    params.append('client_id', this.keycloakClientId);
     params.append('grant_type', 'password');
 
     const response = await this.apiSauceInstance.post<KeycloakAuthResponse>(
@@ -403,7 +405,7 @@ export class ApiClient {
     { token: string; refreshToken: string; jwtData: JWTData } | string | undefined
   > {
     const params = new URLSearchParams();
-    params.append('client_id', appConfig.keycloakClientId);
+    params.append('client_id', this.keycloakClientId);
     params.append('refresh_token', this.refreshToken);
     params.append('grant_type', 'refresh_token');
 

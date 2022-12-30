@@ -6,10 +6,7 @@ export const FeatureFlag = AppFeature;
 
 export const featureFlagsAtom = createAtom(
   { set: (state = appConfig.effectiveFeatures) => state },
-  (
-    { onAction, onChange, schedule, create, get },
-    state = {}, //appConfig.effectiveFeatures,
-  ) => {
+  ({ onAction }, state = {}) => {
     onAction('set', (f) => {
       if (f) {
         state = f;

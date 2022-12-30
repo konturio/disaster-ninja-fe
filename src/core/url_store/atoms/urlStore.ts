@@ -40,11 +40,6 @@ export const urlStoreAtom = createAtom(
       schedule(async (dispatch) => {
         const actions: Action[] = [create('_setState', initialState)];
 
-        // Apply application id
-        if (initialState.app) {
-          // actions.push(currentApplicationAtom.set(initialState.app));
-        }
-
         if (initialState.event === undefined && !initialState.map) {
           // Auto select event from event list when url is empty
           actions.push(scheduledAutoSelect.setTrue());

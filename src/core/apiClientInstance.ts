@@ -9,6 +9,7 @@ ApiClient.init({
   baseURL: appConfig.apiGateway,
   loginApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
   refreshTokenApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
+  keycloakClientId: appConfig.keycloakClientId,
   translationService: i18n,
   unauthorizedCallback(apiClient) {
     apiClient.logout();

@@ -1,8 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
+import { ApiClient } from '../apiClient';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
 import './_configMock';
-// eslint-disable-next-line import/order
-import { ApiClient } from '../apiClient';
 import {
   createNotificationServiceMock,
   createTranslationServiceMock,
