@@ -1,4 +1,7 @@
-const userLocale = window.navigator.language;
-export const LocaleNumber = ({ children }: { children: number }) => (
-  <span>{children.toLocaleString(userLocale)}</span>
-);
+const userLocale = globalThis?.navigator?.language;
+export const LocaleNumber = ({ children }: { children: number }) =>
+  userLocale ? (
+    <span>{children.toLocaleString(userLocale)}</span>
+  ) : (
+    <span>{children}</span>
+  );
