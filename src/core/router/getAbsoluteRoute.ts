@@ -1,13 +1,7 @@
 import appConfig from '~core/app_config';
 
 const trimSlash = (str: string) => {
-  if (str.startsWith('/')) {
-    str = str.slice(1);
-  }
-  if (str.endsWith('/')) {
-    str = str.slice(0, -1);
-  }
-  return str;
+  return str.replace(/^\/|\/$/g, '');
 };
 
 const pathJoin = (...path: Array<string>) => {
