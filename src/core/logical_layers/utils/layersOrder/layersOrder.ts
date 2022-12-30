@@ -140,7 +140,7 @@ export class LayersOrderManager {
     id: string,
   ): string | undefined {
     const orderedLayers = this._getMountedOrderedLayers(map);
-    if (!orderedLayers?.keys.length) return;
+    if (!orderedLayers?.size) return;
     const mountedLayersOfGivenType = orderedLayers.get(type);
     const givenLayerParentKey = this._layersParentsIds?.get(id);
     const givenLayerSettings = this._layersSettings?.get(givenLayerParentKey || '')?.data;
