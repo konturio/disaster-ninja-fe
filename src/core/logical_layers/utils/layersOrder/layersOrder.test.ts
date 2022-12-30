@@ -1,24 +1,7 @@
 import { test, expect } from 'vitest';
-import { LayerCategory, LayersOrderManager, LayersType } from './layersOrder';
+import { LayersOrderManager } from './layersOrder';
 import type { AsyncState } from '~core/logical_layers/types/asyncState';
 import type { LayerSettings } from '~core/logical_layers/types/settings';
-
-const mountedLayersExample = {
-  background: {
-    base: {},
-    overlay: {},
-    undefined: {},
-    // undefined: {}
-  },
-  circle: {
-    base: {},
-    undefined: {},
-  },
-  fill: {
-    base: {},
-    overlay: {},
-  },
-};
 
 function generateFakeSettingsAndParentsIds() {
   const layersSettings: Map<string, AsyncState<LayerSettings, Error>> = new Map();
@@ -336,4 +319,112 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
       'test for the last/top type of the type set'
     ).toBeUndefined()
   });
+});
+
+test('Return correct beforeId when some layer types have multiple layers', (t) => {
+  const layersOrderManager = new LayersOrderManager();
+  const map = new FakeMapWithBaseLayers([]);
+  layersOrderManager.init(map as any);
+  const layersSet = [
+    { type: 'background', id: 'background-layer-fallback', category: 'base' },
+    { type: 'background', id: 'background-layer', category: 'base' },
+
+    { type: 'raster', id: 'raster-layer', category: 'overlay' },
+    { type: 'raster', id: 'satelite-shots' },
+
+    { type: 'fill', id: 'fill-layer', category: 'base' },
+    { type: 'fill', id: 'fill-layer-top', category: 'overlay' },
+
+    { type: 'custom', id: 'custom-layer', category: 'overlay' },
+  ];
+  map.setLayers(layersSet);
+
+  const { layersParentsIds, layersSettings } = generateFakeSettingsAndParentsIds();
+  // Mock settings for set of dummy layers
+  layersSet.forEach((layer) => {
+    layersSettings.set(
+      layer.id,
+      getDummySettings(layer.id, layer.category as LayerSettings['category']),
+    );
+    layersParentsIds.set(layer.id, layer.id);
+  });
+  // Mock settings for testing layers
+  layersParentsIds.set('no-category-layer', 'no-category-layer');
+  layersSettings.set('no-category-layer', getDummySettings('no-category-layer'));
+  layersParentsIds.set('base-layer', 'base-layer');
+  layersSettings.set('base-layer', getDummySettings('base-layer', 'base'));
+  layersParentsIds.set('overlay-layer', 'overlay-layer');
+  layersSettings.set('overlay-layer', getDummySettings('overlay-layer', 'overlay'));
+  // Apply mocked settings
+  layersOrderManager._initForTests(layersSettings, layersParentsIds);
+
+  expect.assertions(7);
+
+  layersOrderManager.getIdToMountOnTypesBottom(
+    'background',
+    'no-category-layer',
+    (beforeId) => {
+      // prettier-ignore
+      expect(
+      beforeId,
+      'test to mount on top of background layers of base category but under next (higher) type'
+    ).toBe('raster-layer');
+    },
+  );
+
+  layersOrderManager.getIdToMountOnTypesBottom('background', 'base-layer', (beforeId) => {
+    // prettier-ignore
+    expect(
+      beforeId,
+      'test to mount base background layer under all other bg layers'
+    ).toBe('background-layer-fallback');
+  });
+
+  layersOrderManager.getIdToMountOnTypesBottom(
+    'background',
+    'overlay-layer',
+    (beforeId) => {
+      // prettier-ignore
+      expect(
+      beforeId,
+      'test to mount overlay background layer under next type'
+    ).toBe('raster-layer');
+    },
+  );
+
+  layersOrderManager.getIdToMountOnTypesTop('raster', 'overlay-layer', (beforeId) => {
+    // prettier-ignore
+    expect(
+      beforeId,
+      'test to mount overlay raster layer under raser layer without category'
+    ).toBe('satelite-shots');
+  });
+
+  layersOrderManager.getIdToMountOnTypesTop('raster', 'no-category-layer', (beforeId) => {
+    // prettier-ignore
+    expect(
+      beforeId,
+      'test to mount no category raster layer under next type and over all other raster layers'
+    ).toBe('fill-layer');
+  });
+
+  layersOrderManager.getIdToMountOnTypesTop('custom', 'base-layer', (beforeId) => {
+    // prettier-ignore
+    expect(
+      beforeId,
+      'test to mount base custom layer under any presented custom layers but over layers of lower type'
+    ).toBe('custom-layer');
+  });
+
+  layersOrderManager.getIdToMountOnTypesBottom(
+    'custom',
+    'no-category-layer',
+    (beforeId) => {
+      // prettier-ignore
+      expect(
+      beforeId,
+      'test to mount custom layer over custom layers with any category'
+    ).toBe(undefined);
+    },
+  );
 });

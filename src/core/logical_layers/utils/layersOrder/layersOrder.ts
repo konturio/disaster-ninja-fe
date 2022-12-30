@@ -134,7 +134,7 @@ export class LayersOrderManager {
     }
   }
 
-  _getIdToMountOnTypesBottomSync(
+  private _getIdToMountOnTypesBottomSync(
     map: MapLibre,
     type: LayersType,
     id: string,
@@ -150,7 +150,19 @@ export class LayersOrderManager {
     }
     const givenCategory = givenLayerSettings.category;
 
-    if (!mountedLayersOfGivenType?.length) {
+    const firstLayerOfNextCategory = mountedLayersOfGivenType?.find((searchingLayer) => {
+      if (givenCategory === 'base') return true;
+      if (givenCategory === 'overlay')
+        return (
+          searchingLayer.category === 'overlay' || searchingLayer.category === undefined
+        );
+      // TODO check
+      if (givenCategory === undefined) return searchingLayer.category === undefined;
+    });
+
+    if (firstLayerOfNextCategory) return firstLayerOfNextCategory.layer.id;
+
+    if (!mountedLayersOfGivenType?.length || !firstLayerOfNextCategory) {
       const higherMountedType = this._typesOrder
         // get all higher types
         .slice(this._typesOrder.indexOf(type) + 1)
@@ -162,17 +174,6 @@ export class LayersOrderManager {
       const higherMountedLayer = orderedLayers.get(higherMountedType)?.[0].layer.id;
       return higherMountedLayer;
     }
-
-    const firstLayerOfNextCategory = mountedLayersOfGivenType.find((searchingLayer) => {
-      if (givenCategory === 'base') return true;
-      if (givenCategory === 'overlay')
-        return (
-          searchingLayer.category === 'overlay' || searchingLayer.category === undefined
-        );
-      if (givenCategory === undefined) return searchingLayer.category === undefined;
-    });
-
-    return firstLayerOfNextCategory?.layer.id;
   }
 
   private _getMountedOrderedLayers(map: MapLibre) {
@@ -190,7 +191,6 @@ export class LayersOrderManager {
     // return undefined so it wouldn't draw under the basemap
     if (!customLayers.length) return undefined;
 
-    // const mountedOrderedLayers: { layer: maplibregl.AnyLayer, category?: LayerCategory }[] = [];
     const mountedOrderedLayers = new Map<
       LayersType,
       { layer: maplibregl.AnyLayer; category?: LayerCategory }[]
