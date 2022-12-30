@@ -1,4 +1,5 @@
 import { i18n } from '~core/localization';
+import { KONTUR_DEBUG } from '~utils/debug';
 import type {
   AppConfig,
   AppInfoResponse,
@@ -94,10 +95,13 @@ export function getEffectiveConfig(): AppConfigEffective {
 
 getEffectiveConfig();
 
+// implement as getter
 export const appConfig = new Proxy(configs.merged, {
-  get(target, property, receiver) {
-    // console.warn('appConfig get', property, target[property]);
-    return target[property];
+  get(target, property) {
+    if (KONTUR_DEBUG) {
+      console.warn('\u001b[1;35m appConfig\u001b[0m', property, configs.merged[property]);
+    }
+    return configs.merged[property];
   },
 });
 export default appConfig;

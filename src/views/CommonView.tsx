@@ -37,7 +37,7 @@ export function CommonView({
         initIntercom();
       });
     }
-  }, [featureFlags]);
+  }, [featureFlags[FeatureFlag.INTERCOM]]);
 
   return (
     <>

@@ -13,7 +13,7 @@ export function PostInit() {
   const [featureFlags] = useAtom(featureFlagsAtom);
 
   useEffect(() => {
-    if (route) {
+    if (route && Object.keys(featureFlags).length) {
       // at this point must be ready: appconfig, i18n, appId, current route
       // TODO: use better approach for getEffectiveFeature from #13368
       const getEffectiveFeature = (f: AppFeatureType) => featureFlags[f];

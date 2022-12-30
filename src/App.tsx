@@ -9,10 +9,16 @@ const root = createRoot(document.getElementById('root')!);
 
 appInit().then(() => {
   root.render(
-    <StrictMode>
+    import.meta.env?.VITE_DEBUG_DISABLE_REACTSTRICTMODE ? (
       <reatomContext.Provider value={store}>
         <Router />
       </reatomContext.Provider>
-    </StrictMode>,
+    ) : (
+      <StrictMode>
+        <reatomContext.Provider value={store}>
+          <Router />
+        </reatomContext.Provider>
+      </StrictMode>
+    ),
   );
 });

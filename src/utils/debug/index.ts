@@ -27,6 +27,7 @@ export const KONTUR_TRACE_PATCH =
  * @param t
  */
 export function patchTracer(t: TransactionData) {
+  const now = `\x1b[94m${Math.trunc(performance.now())}\x1b[m `;
   const dump = t.actions
     .filter((a) => !a.type.startsWith('invalidate '))
     ?.map((a) => {
@@ -34,12 +35,15 @@ export function patchTracer(t: TransactionData) {
         const target = String(a.targets[0].id);
         if (a.type.endsWith(target)) {
           const action = a.type.substring(0, a.type.length - target.length - 1);
-          return target + ' <' + action + '> ';
+          const prefix =
+            { _error: '\x1b[30;101m', _done: '\x1b[30;102m' }[action] ?? '\x1b[22;31m';
+          console.warn(`${now}\x1b[1;32m${target} ${prefix}${action}\x1b[m`, a.payload, {
+            '+': t.causes,
+          });
         }
-      }
-      return a.targets?.map((t) => t.id).join(',') + ' <-- ' + a.type;
-    })
-    .join('\n\t\t');
-
-  dump && console.warn(`${Math.trunc(performance.now())}>`, dump, t);
+      } else
+        console.warn(`${now}\x1b[1;32m${a.type}\x1b[m`, a.payload, a.targets, {
+          '+': t.causes,
+        });
+    });
 }

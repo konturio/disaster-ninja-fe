@@ -21,12 +21,7 @@ export const currentMapPositionAtom = createAtom(
       }
     });
 
-    if (state !== prevState) {
-      schedule((dispatch) => dispatch(mapIdle.setFalse()));
-    }
     return state;
   },
   '[Shared state] currentMapPositionAtom',
 );
-
-export const mapIdle = createBooleanAtom(false, 'mapIdle');

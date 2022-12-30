@@ -17,7 +17,7 @@ export const currentEventFeedAtom = createAtom(
   },
   (
     { onAction, onChange, schedule, getUnlistedState },
-    state: CurrentEventFeedAtomState = { id: appConfig.defaultFeedObject?.feed },
+    state: CurrentEventFeedAtomState = { id: appConfig.defaultFeed },
   ) => {
     onAction('setCurrentFeed', (feedId) => {
       if (state?.id !== feedId) {
