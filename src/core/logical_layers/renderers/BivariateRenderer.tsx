@@ -21,6 +21,7 @@ import { invertClusters } from '~utils/bivariate';
 import { userResourceAtom } from '~core/auth';
 import { AppFeature } from '~core/auth/types';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
+import { generatedMapboxLayersParents } from '../atoms/generatedMapboxLayers';
 import type {
   AnyLayer,
   LngLat,
@@ -180,6 +181,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         return;
       }
       const layer = { ...layerStyle, id: layerId, source: this._sourceId };
+      generatedMapboxLayersParents.set.dispatch(layerId, this.id);
       layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
         layer as AnyLayer,
       );

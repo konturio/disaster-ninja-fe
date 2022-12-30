@@ -2,6 +2,7 @@ import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/Defa
 import { mapLoaded, waitMapEvent } from '~utils/map/waitMapEvent';
 import { loadImageOnMap } from '~utils/map/loadImageOnMap';
 import { layerByOrder } from '~utils/map/layersOrder';
+import { generatedMapboxLayersParents } from '~core/logical_layers/atoms/generatedMapboxLayers';
 import Icon from '../icons/marker_black.png';
 import { FOCUSED_GEOMETRY_COLOR } from '../constants';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
@@ -16,10 +17,7 @@ const icons = {
  * TODO:
  * rewrite it to mapcss and create layers from legendAtom in willLegendUpdate
  */
-const getLayersConfig = (
-  id: string,
-  sourceId: string,
-): maplibregl.AnyLayer[] => {
+const getLayersConfig = (id: string, sourceId: string): maplibregl.AnyLayer[] => {
   const iconsKeys = Object.keys(icons).reduce(
     (acc, k) => ((acc[k] = k), acc),
     {} as unknown as Record<keyof typeof icons, string>,
@@ -158,13 +156,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
   }
 
   /* ======== Hooks ========== */
-  async willMount({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  async willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     const sourceAdded = await this.updateOrSetSource({
       map,
       state,
@@ -175,6 +167,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     );
     if (sourceAdded) {
       this.layerConfigs.map(async (layerConfig) => {
+        generatedMapboxLayersParents.set.dispatch(layerConfig.id, this.id);
         layerByOrder(map).addUnderLayerWithSameType(layerConfig);
       });
     }

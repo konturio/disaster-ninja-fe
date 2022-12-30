@@ -5,6 +5,7 @@ import { i18n } from '~core/localization';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { layerByOrder } from '~utils/map/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
+import { generatedMapboxLayersParents } from '~core/logical_layers/atoms/generatedMapboxLayers';
 import type {
   NullableMap,
   CommonHookArgs,
@@ -84,7 +85,8 @@ export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
       this._deckLayer = new MapboxLayer(deckGLLayer);
     }
 
-    layerByOrder(map).addAboveLayerWithSameType(this._deckLayer!);
+    generatedMapboxLayersParents.set.dispatch(this._deckLayer.id, this.id);
+    layerByOrder(map).addAboveLayerWithSameType(this._deckLayer);
     this.addClickListener();
   }
 
