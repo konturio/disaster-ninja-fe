@@ -8,7 +8,7 @@ declare global {
 }
 
 export default (() => {
-  const konturAppConfig = globalThis.window.konturAppConfig ?? {};
+  const konturAppConfig = globalThis.konturAppConfig ?? {};
   return {
     apiGateway: konturAppConfig.API_GATEWAY,
     boundariesApi: konturAppConfig.BOUNDARIES_API,
