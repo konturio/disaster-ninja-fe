@@ -1,7 +1,4 @@
-import type {
-  ApiResponse,
-  ApisauceConfig,
-} from '~utils/axios/apisauce/apisauce';
+import type { ApiResponse, ApisauceConfig } from '~utils/axios/apisauce/apisauce';
 import type { AxiosRequestConfig } from 'axios';
 import type { NotificationMessage } from '~core/types/notification';
 
@@ -23,13 +20,13 @@ export const ApiMethodTypes = {
 
 export type ApiMethod = typeof ApiMethodTypes[keyof typeof ApiMethodTypes];
 
-export interface ApiClientConfig extends ApisauceConfig {
+export interface ApiClientConfig<ClassContext> extends ApisauceConfig {
   instanceId?: string;
   notificationService: INotificationService;
   translationService: ITranslationService;
   loginApiPath?: string;
   refreshTokenApiPath?: string;
-  unauthorizedCallback?: () => void;
+  unauthorizedCallback?: (classContext: ClassContext) => void;
   disableAuth?: boolean;
   storage?: WindowLocalStorage['localStorage'];
 }
