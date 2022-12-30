@@ -1,30 +1,19 @@
 import { appConfig } from '~core/app_config';
 import { currentUserAtom, eventFeedsAtom, featureFlagsAtom } from '~core/shared_state';
 import { yandexMetrics } from '~core/metrics';
+import { loadFeatures, setFeatures } from './features';
+import type { AuthSuccessResponse } from '~core/auth/client/AuthClient';
 import type { CurrentUser } from './user';
 import type { ApiClient } from '~core/api_client';
-import type { BackendFeature, BackendFeed } from '~core/auth/types';
+import type { BackendFeed } from '~core/auth/types';
 
 export async function onPublicLogin(apiClient: ApiClient) {
-  // load user features
-  const featuresResponse = await apiClient.get<BackendFeature[]>(
-    `/features`,
-    { appId: appConfig.id },
-    false,
-  );
+  // load features for public user, without token
+  const featuresResponse = await loadFeatures(apiClient, false);
   setFeatures(featuresResponse);
 }
 
-function setFeatures(value) {
-  // FIXME: investigate proper app and user feature merge
-  const newFeatures = {};
-  value?.forEach((ft) => {
-    newFeatures[ft.name] = true;
-  });
-  featureFlagsAtom.set.dispatch(newFeatures);
-}
-
-export async function onLogin(apiClient: ApiClient, response) {
+export async function onLogin(apiClient: ApiClient, response: AuthSuccessResponse) {
   const jwtUserdata = {
     username: response.jwtData.preferred_username,
     token: response.token,
@@ -44,11 +33,7 @@ export async function onLogin(apiClient: ApiClient, response) {
   );
 
   // load user features
-  const featuresResponse = apiClient.get<BackendFeature[]>(
-    `/features`,
-    { appId: appConfig.id },
-    true,
-  );
+  const featuresResponse = loadFeatures(apiClient, true);
 
   // load user feeds
   const feedsResponse = apiClient.get<BackendFeed[]>(
@@ -78,7 +63,7 @@ export async function onLogin(apiClient: ApiClient, response) {
   }
 }
 
-function extLoginTasks(user) {
+function extLoginTasks(user: { username: string; email: string }) {
   // now when intercom is a feature it can be saved in window after this check happens
   if (window['Intercom']) {
     window['Intercom']('update', {

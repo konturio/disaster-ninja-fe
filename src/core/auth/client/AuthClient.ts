@@ -1,6 +1,7 @@
 import over from 'lodash/over';
 import { userStateAtom } from '~core/auth/atoms/userState';
-import type { JWTData } from '~core/api_client/types';
+import type { ApiOkResponse } from '~utils/axios/apisauce/apisauce';
+import type { JWTData, KeycloakAuthResponse } from '~core/api_client/types';
 import type { ApiClient } from '~core/api_client';
 
 interface AuthClientConfig {
@@ -17,6 +18,12 @@ export type AuthLoginHook = (
 ) => Promise<unknown>;
 
 export type AuthLogoutHook = (...args: unknown[]) => unknown;
+
+export type AuthSuccessResponse = {
+  token: string;
+  refreshToken: string;
+  jwtData: JWTData;
+};
 
 export class AuthClient {
   private static instance: AuthClient;
@@ -66,11 +73,7 @@ export class AuthClient {
     this.logout();
   }
 
-  private async processAuthResponse(response: {
-    token: string;
-    refreshToken: string;
-    jwtData: JWTData;
-  }) {
+  private async processAuthResponse(response: AuthSuccessResponse) {
     over(this.loginHooks)(this._apiClient, response);
     userStateAtom.authorize.dispatch();
   }

@@ -26,7 +26,9 @@ export const featureFlagsAtom = createAtom(
         if (featuresOverride) {
           state = { ...state, ...featuresOverride };
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error('Local features override error', e);
+      }
     }
 
     return state;
