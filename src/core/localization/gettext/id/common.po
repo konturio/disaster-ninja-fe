@@ -520,7 +520,7 @@ msgstr ""
 
 #: bivariate##matrix##header##title
 msgid "Choose two layers to explore correlations"
-msgstr "Pilih dua lapisan untuk menyelidiki korelasi"
+msgstr "Pilih dua lapisan untuk memeriksa korelasi"
 
 #: bivariate##matrix##header##hint
 msgid "Layers and correlations are displayed for the current Selected Area"
@@ -898,7 +898,7 @@ msgstr ""
 
 #: profile##indonesianLanguageOption
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonesia"
 
 #: profile##germanLanguageOption
 msgid "German"
