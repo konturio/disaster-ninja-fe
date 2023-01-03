@@ -77,10 +77,9 @@ function getGlobalConfig(): AppConfigGlobal {
 
 function getEffectiveFeatures(appConfig: AppConfigEffective) {
   return Object.fromEntries(
-    [...(appConfig.featuresByDefault ?? []), ...(appConfig.features ?? [])].map((k) => [
-      k,
-      true,
-    ]),
+    [...(appConfig.featuresByDefault ?? []), ...(appConfig.features ?? [])].map(
+      (featureName) => [featureName, true],
+    ),
   );
 }
 

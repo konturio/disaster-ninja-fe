@@ -7,6 +7,7 @@ import type { CurrentUser } from './user';
 import type { ApiClient } from '~core/api_client';
 import type { BackendFeed } from '~core/auth/types';
 
+// TODO: rework unauthenticated flow and naming
 export async function onPublicLogin(apiClient: ApiClient) {
   // load features for public user, without token
   const featuresResponse = await loadFeatures(apiClient, false);
@@ -23,7 +24,7 @@ export async function onLogin(apiClient: ApiClient, response: AuthSuccessRespons
     id: response.jwtData.sub,
   };
 
-  extLoginTasks(jwtUserdata);
+  externalLoginTasks(jwtUserdata);
 
   // load profile
   const profileResponse = apiClient.get<CurrentUser>(
@@ -63,7 +64,7 @@ export async function onLogin(apiClient: ApiClient, response: AuthSuccessRespons
   }
 }
 
-function extLoginTasks(user: { username: string; email: string }) {
+function externalLoginTasks(user: { username: string; email: string }) {
   // now when intercom is a feature it can be saved in window after this check happens
   if (window['Intercom']) {
     window['Intercom']('update', {
@@ -77,14 +78,15 @@ function extLoginTasks(user: { username: string; email: string }) {
   yandexMetrics.mark('setUserID', user.email);
 }
 
+// TODO: rework logout flow and naming
 export function onLogout() {
   eventFeedsAtom.set.dispatch();
   featureFlagsAtom.set.dispatch();
   currentUserAtom.setUser.dispatch();
-  extLogoutTasks();
+  externalLogoutTasks();
 }
 
-function extLogoutTasks() {
+function externalLogoutTasks() {
   if (window['Intercom']) {
     appConfig.intercom.name = window.konturAppConfig.INTERCOM_DEFAULT_NAME;
     appConfig.intercom['email'] = null;

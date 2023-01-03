@@ -1,12 +1,12 @@
 import { createAtom } from '~utils/atoms';
 import { currentUserAtom } from '~core/shared_state';
-import { i18n } from '~core/localization';
+import { i18n, I18N_FALLBACK_LANGUAGE } from '~core/localization';
 
 export const currentLanguageAtom = createAtom(
   {
     currentUserAtom,
   },
-  ({ onChange }, state = 'en') => {
+  ({ onChange }, state = I18N_FALLBACK_LANGUAGE) => {
     onChange('currentUserAtom', (newUser, prevUser) => {
       const userLanguage = newUser.language;
       if (userLanguage && i18n.instance.language !== userLanguage) {

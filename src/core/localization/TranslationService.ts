@@ -14,11 +14,13 @@ import id_common from './translations/id/common.json';
 // @ts-ignore
 import de_common from './translations/de/common.json';
 
+export const I18N_FALLBACK_LANGUAGE = 'en';
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en',
+    fallbackLng: I18N_FALLBACK_LANGUAGE,
     debug: false,
     defaultNS: 'common',
     interpolation: {
