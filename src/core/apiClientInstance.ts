@@ -1,39 +1,39 @@
+import { appConfig } from '~core/app_config';
 import { ApiClient } from './api_client';
-import config from './app_config';
 import { i18n } from './localization';
 import { notificationServiceInstance } from './notificationServiceInstance';
 
 // initialize main api client
 ApiClient.init({
   notificationService: notificationServiceInstance,
-  baseURL: config.apiGateway,
-  loginApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
-  refreshTokenApiPath: `${config.keycloakUrl}/auth/realms/${config.keycloakRealm}/protocol/openid-connect/token`,
+  baseURL: appConfig.apiGateway,
+  loginApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
+  refreshTokenApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
+  keycloakClientId: appConfig.keycloakClientId,
   translationService: i18n,
   unauthorizedCallback(apiClient) {
     apiClient.logout();
     apiClient.expiredTokenCallback?.();
   },
 });
+export const apiClient = ApiClient.getInstance();
 
-const apiClientInstance = ApiClient.getInstance();
-
-export const apiClient = apiClientInstance;
 // initialize boundaries client
 ApiClient.init({
   instanceId: 'boundaries',
   notificationService: notificationServiceInstance,
-  baseURL: config.boundariesApi,
+  baseURL: appConfig.boundariesApi,
   disableAuth: true,
   translationService: i18n,
 });
 
 export const boundariesClient = ApiClient.getInstance('boundaries');
+
 // initialize reports client
 ApiClient.init({
   instanceId: 'reports',
   notificationService: notificationServiceInstance,
-  baseURL: config.reportsApi,
+  baseURL: appConfig.reportsApi,
   disableAuth: true,
   translationService: i18n,
 });

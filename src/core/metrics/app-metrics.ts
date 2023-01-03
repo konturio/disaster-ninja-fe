@@ -1,5 +1,5 @@
 import every from 'lodash/every';
-import appConfig from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
 import { AppFeature } from '~core/auth/types';

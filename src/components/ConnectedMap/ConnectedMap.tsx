@@ -3,7 +3,7 @@ import mapLibre from 'maplibre-gl';
 import { useAction, useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
-import config from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import Map from './map-libre-adapter';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 
@@ -33,8 +33,8 @@ const LAYERS_ON_TOP = [
 ];
 
 export function ConnectedMap({ className }: { className?: string }) {
-  const mapBaseStyle = config.mapBaseStyle;
-  const accessToken = config.mapAccessToken;
+  const mapBaseStyle = appConfig.mapBaseStyle;
+  const accessToken = appConfig.mapAccessToken;
   const mapRef = useRef<ApplicationMap>();
   useMapPositionSmoothSync(mapRef);
 

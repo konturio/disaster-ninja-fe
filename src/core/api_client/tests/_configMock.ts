@@ -1,2 +1,2 @@
 // @ts-ignore
-window.konturAppConfig = {};
+window.konturAppConfig = { DEFAULT_FEED: 'kontur-public' };

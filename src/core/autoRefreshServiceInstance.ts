@@ -1,6 +1,6 @@
-import config from './app_config';
+import { appConfig } from '~core/app_config';
 import { autoRefreshService } from './auto_refresh';
 
-autoRefreshService.start(config.refreshIntervalSec);
+autoRefreshService.start(appConfig.refreshIntervalSec);
 
 export { autoRefreshService } from './auto_refresh';

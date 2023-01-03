@@ -1,5 +1,5 @@
 import { apiClient } from '~core/apiClientInstance';
-import app_config from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import type { ApiClient } from '~core/api_client';
 import type { UrlData } from './types';
 
@@ -33,9 +33,9 @@ export class URLStore {
       // Until that moment we take static list of default layers
       // * That similar for all applications *
       // Ask Alexander Zapasnik before remove this
-      if (app_config.layersByDefault) {
+      if (appConfig.layersByDefault) {
         return new Promise<string[]>((res) => {
-          res(app_config.layersByDefault);
+          res(appConfig.layersByDefault);
         });
       } else {
         const layers = await this._client.get<{ id: string }[] | null>(

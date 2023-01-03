@@ -1,5 +1,6 @@
 import { memo } from '@reatom/core/experiments';
 import { createAtom, createBooleanAtom } from '~utils/atoms';
+import { appConfig } from '~core/app_config';
 import {
   currentEventAtom,
   currentMapPositionAtom,
@@ -11,25 +12,12 @@ import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { URL_ZOOM_OFFSET } from '~core/constants';
 import { URLStore } from '../URLStore';
-import { URLDataInSearchEncoder } from '../dataInURLEncoder';
+import { urlEncoder } from '../encoder';
 import type { UrlData } from '../types';
 import type { Action } from '@reatom/core';
 
-const urlStore = new URLStore(
-  new URLDataInSearchEncoder({
-    order: ['map', 'app', 'event', 'feed', 'layers'], // Doc #1168
-    transformers: {
-      map: {
-        decode: (str: string) => str.split('/').map((s) => Number(s)),
-        encode: (position: [number, number, number]) => position.join('/'),
-      },
-      layers: {
-        decode: (str: string) => str.split(','),
-        encode: (layers: string[]) => (layers.length ? layers.join(',') : null), // null means - not add this parameter
-      },
-    },
-  }),
-);
+const urlStore = new URLStore(urlEncoder);
+
 const initFlagAtom = createBooleanAtom(false, 'urlStore:initFlagAtom');
 let lastVersion = 0;
 
@@ -45,17 +33,12 @@ export const urlStoreAtom = createAtom(
     currentApplicationAtom,
     currentEventFeedAtom,
     _setState: (state: UrlData | null) => state,
+    init: (initialState: UrlData) => initialState,
   },
   ({ get, schedule, onAction, onInit, create }, state: UrlData | null = null) => {
-    onInit(() => {
+    onAction('init', (initialState) => {
       schedule(async (dispatch) => {
-        const initialState = await urlStore.getInitialState();
         const actions: Action[] = [create('_setState', initialState)];
-
-        // Apply application id
-        if (initialState.app) {
-          actions.push(currentApplicationAtom.set(initialState.app));
-        }
 
         if (initialState.event === undefined && !initialState.map) {
           // Auto select event from event list when url is empty
@@ -129,8 +112,7 @@ export const urlStoreAtom = createAtom(
     const enabledLayers = get('enabledLayersAtom');
     newState.layers = Array.from(enabledLayers ?? []);
 
-    const currentApplication = get('currentApplicationAtom');
-    newState.app = currentApplication ?? undefined;
+    newState.app = appConfig.id;
 
     state = newState;
     const currentVersion = ++lastVersion;

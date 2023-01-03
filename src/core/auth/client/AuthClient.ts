@@ -1,19 +1,38 @@
-import { currentUserAtom } from '~core/shared_state';
-import appConfig from '~core/app_config';
+import over from 'lodash/over';
 import { userStateAtom } from '~core/auth/atoms/userState';
-import { yandexMetrics } from '~core/metrics';
-import type { JWTData } from '~core/api_client/types';
+import type { ApiOkResponse } from '~utils/axios/apisauce/apisauce';
+import type { JWTData, KeycloakAuthResponse } from '~core/api_client/types';
 import type { ApiClient } from '~core/api_client';
 
 interface AuthClientConfig {
   apiClient: ApiClient;
 }
+export type AuthPublicLoginHook = (apiClient: ApiClient) => Promise<unknown>;
+export type AuthLoginHook = (
+  apiClient: ApiClient,
+  response: {
+    token: string;
+    refreshToken: string;
+    jwtData: JWTData;
+  },
+) => Promise<unknown>;
+
+export type AuthLogoutHook = (...args: unknown[]) => unknown;
+
+export type AuthSuccessResponse = {
+  token: string;
+  refreshToken: string;
+  jwtData: JWTData;
+};
 
 export class AuthClient {
   private static instance: AuthClient;
 
   private readonly _apiClient: ApiClient;
 
+  publicLoginHooks: AuthPublicLoginHook[] = [];
+  loginHooks: AuthLoginHook[] = [];
+  logoutHooks: AuthLogoutHook[] = [];
   private constructor({ apiClient }: AuthClientConfig) {
     this._apiClient = apiClient;
   }
@@ -45,17 +64,8 @@ export class AuthClient {
 
   public logout() {
     this._apiClient.logout();
-    currentUserAtom.setUser.dispatch();
+    over(this.logoutHooks)();
     userStateAtom.logout.dispatch();
-
-    if (window['Intercom']) {
-      appConfig.intercom.name = window.konturAppConfig.INTERCOM_DEFAULT_NAME;
-      appConfig.intercom['email'] = null;
-      window['Intercom']('update', {
-        name: appConfig.intercom.name,
-        email: appConfig.intercom['email'],
-      });
-    }
   }
 
   private onTokenExpired() {
@@ -63,35 +73,9 @@ export class AuthClient {
     this.logout();
   }
 
-  private async processAuthResponse(response: {
-    token: string;
-    refreshToken: string;
-    jwtData: JWTData;
-  }) {
-    // const profile = await this._apiClient.get<profileResponse>(
-    const profileUserdata = await this._apiClient.get('/users/current_user', {}, true);
-    const jwtUserdata = {
-      username: response.jwtData.preferred_username,
-      token: response.token,
-      email: response.jwtData.email,
-      firstName: response.jwtData.given_name,
-      lastName: response.jwtData.family_name,
-    };
-    // @ts-expect-error - Fix me - load profile in better place
-    const mergedUserdata = { ...jwtUserdata, ...profileUserdata };
-    currentUserAtom.setUser.dispatch(mergedUserdata);
+  private async processAuthResponse(response: AuthSuccessResponse) {
+    over(this.loginHooks)(this._apiClient, response);
     userStateAtom.authorize.dispatch();
-    // now when intercom is a feature it can be saved in window after this check happens
-    if (window['Intercom']) {
-      window['Intercom']('update', {
-        name: response.jwtData.preferred_username,
-        email: response.jwtData.email,
-      });
-    }
-    // in case we do have intercom - lets store right credentials for when it will be ready
-    appConfig.intercom.name = response.jwtData.preferred_username;
-    appConfig.intercom['email'] = response.jwtData.email;
-    yandexMetrics.mark('setUserID', response.jwtData.email);
   }
 
   public async authenticate(
@@ -106,15 +90,23 @@ export class AuthClient {
     return response;
   }
 
-  public async checkAuth(): Promise<void> {
+  public async checkAuth(): Promise<boolean> {
     try {
       const response = this._apiClient.getLocalAuthToken(this.onTokenExpired);
       if (response?.token) {
         this.processAuthResponse(response);
+        return true;
+      } else {
+        this.publicLogin();
       }
     } catch (e) {
       console.warn('Auth has been expired');
       this.logout();
     }
+    return false;
+  }
+
+  public async publicLogin() {
+    over(this.publicLoginHooks)(this._apiClient);
   }
 }

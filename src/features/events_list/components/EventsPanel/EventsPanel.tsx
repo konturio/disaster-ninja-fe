@@ -4,8 +4,7 @@ import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
-import { userResourceAtom } from '~core/auth';
-import { AppFeature } from '~core/auth/types';
+import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
@@ -30,7 +29,8 @@ export function EventsPanel({
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const [{ data: userModel }] = useAtom(userResourceAtom);
+  const [featureFlags] = useAtom(featureFlagsAtom);
+
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
@@ -52,7 +52,7 @@ export function EventsPanel({
     full: <FullState currentEventId={currentEventId} onCurrentChange={onCurrentChange} />,
     short: (
       <ShortState
-        hasTimeline={userModel?.hasFeature(AppFeature.EPISODES_TIMELINE)}
+        hasTimeline={featureFlags[FeatureFlag.EPISODES_TIMELINE]}
         openFullState={openFullState}
         currentEventId={currentEventId}
       />

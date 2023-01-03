@@ -105,6 +105,6 @@ You can your own for override default config, it should have name `./configs/con
 
 - When used: At runtime (browser)
 - How to set: by configs in `./configs/`
-- How to read: `import appConfig from '~core/app_config'`
+- How to read: `import { appConfig } from '~core/app_config'`
 
 > If you want use some build time variables in browser - re-export them from app_config

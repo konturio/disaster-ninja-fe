@@ -1,7 +1,7 @@
-import appConfig from '~core/app_config';
+import { appConfig } from '~core/app_config';
 
 const trimSlash = (str: string) => {
-  // Trim leading and trailing slashes 
+  // Trim leading and trailing slashes
   return str.replace(/^\/|\/$/g, '');
 };
 

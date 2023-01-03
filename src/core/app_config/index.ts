@@ -1,5 +1,11 @@
 import { i18n } from '~core/localization';
-import type { AppConfig } from './types';
+import { KONTUR_DEBUG } from '~utils/debug';
+import type {
+  AppConfig,
+  AppInfoResponse,
+  AppConfigEffective,
+  AppConfigGlobal,
+} from '~core/app/types';
 
 declare global {
   interface Window {
@@ -7,9 +13,20 @@ declare global {
   }
 }
 
-export default (() => {
-  const konturAppConfig = globalThis.konturAppConfig ?? {};
-  return {
+const configs = {
+  global: {} as AppConfigGlobal,
+  custom: {} as AppInfoResponse,
+  merged: {} as AppConfigEffective,
+};
+
+export function updateAppConfig(appInfo: AppInfoResponse) {
+  configs.custom = appInfo;
+  getEffectiveConfig();
+}
+
+function getGlobalConfig(): AppConfigGlobal {
+  const konturAppConfig: AppConfig = globalThis.konturAppConfig ?? {};
+  const globalAppConfig = {
     apiGateway: konturAppConfig.API_GATEWAY,
     boundariesApi: konturAppConfig.BOUNDARIES_API,
     reportsApi: konturAppConfig.REPORTS_API,
@@ -52,8 +69,41 @@ export default (() => {
         url: 'https://www.openstreetmap.org/edit?editor=remote#map=',
       },
     ],
+    effectiveFeatures: {},
   };
-})();
+  configs['global'] = globalAppConfig;
+  return globalAppConfig;
+}
+
+function getEffectiveFeatures(appConfig: AppConfigEffective) {
+  return Object.fromEntries(
+    [...(appConfig.featuresByDefault ?? []), ...(appConfig.features ?? [])].map(
+      (featureName) => [featureName, true],
+    ),
+  );
+}
+
+export function getEffectiveConfig(): AppConfigEffective {
+  getGlobalConfig();
+  const mergedAppConfig = { ...configs.global, ...configs.custom };
+  mergedAppConfig.effectiveFeatures = getEffectiveFeatures(mergedAppConfig);
+  // mutate object to keep reference for export
+  Object.assign(configs.merged, mergedAppConfig);
+  return mergedAppConfig;
+}
+
+getEffectiveConfig();
+
+// implement as getter
+export const appConfig = new Proxy(configs.merged, {
+  get(target, property) {
+    if (KONTUR_DEBUG) {
+      console.warn('\u001b[1;35m appConfig\u001b[0m', property, configs.merged[property]);
+    }
+    return configs.merged[property];
+  },
+});
+export default appConfig;
 
 if (import.meta.env?.PROD) {
   console.info(

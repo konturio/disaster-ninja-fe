@@ -7,8 +7,7 @@ import {
   controlVisualGroup,
   toolbarControlsAtom,
 } from '~core/shared_state/toolbarControls';
-import { userResourceAtom } from '~core/auth/atoms/userResource';
-import { AppFeature } from '~core/auth/types';
+import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { editableLayerControllerAtom } from './editableLayerController';
 
 const sidebarButtonParams = {
@@ -36,20 +35,16 @@ const sidebarButtonParams = {
  */
 export const layerSideBarButtonControllerAtom = createAtom(
   {
-    userResourceAtom,
+    featureFlagsAtom,
   },
   ({ getUnlistedState, schedule, onChange }) => {
-    onChange('userResourceAtom', (userResource) => {
-      const { data: userModel, loading, error } = userResource;
-      if (loading === true || error || userModel === null || userModel === undefined)
-        return;
-
+    onChange('featureFlagsAtom', (featureFlags) => {
       const currentControls = getUnlistedState(toolbarControlsAtom);
       // This flag already checked in Main.js, when user logout
-      // I need to remove this button, if default user not contain that feature.
+      // FIXME: remove this button, if default user not contain that feature.
       // TODO: Add cleanup hooks for features
 
-      if (userModel.hasFeature(AppFeature.CREATE_LAYER)) {
+      if (featureFlags[FeatureFlag.CREATE_LAYER]) {
         // But not added
         if (!currentControls[sidebarButtonParams.id]) {
           schedule((dispatch) => {

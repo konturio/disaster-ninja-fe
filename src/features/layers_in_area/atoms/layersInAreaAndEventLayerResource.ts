@@ -1,9 +1,6 @@
+import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
-import {
-  currentApplicationAtom,
-  currentEventFeedAtom,
-  focusedGeometryAtom,
-} from '~core/shared_state';
+import { currentEventFeedAtom, focusedGeometryAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { removeEmpty } from '~utils/common';
@@ -26,16 +23,13 @@ const getEventId = (focusedGeometry: FocusedGeometry) => {
 
 const layersInAreaAndEventLayerResourceParametersAtom = createAtom(
   {
-    currentApplicationAtom,
     focusedGeometryAtom,
   },
   ({ get, getUnlistedState }): LayersInAreaAndEventLayerResourceParameters | null => {
     const focusedGeometry = get('focusedGeometryAtom');
-    const appId = get('currentApplicationAtom');
 
     // Check required
     if (focusedGeometry === null) return null;
-    if (appId === null) return null;
 
     const geoJSON = focusedGeometry.geometry;
     const eventId = getEventId(focusedGeometry);
@@ -48,7 +42,7 @@ const layersInAreaAndEventLayerResourceParametersAtom = createAtom(
     const eventFeed = getUnlistedState(currentEventFeedAtom)?.id;
 
     return removeEmpty({
-      appId,
+      appId: appConfig.id,
       eventFeed,
       eventId,
       geoJSON,
