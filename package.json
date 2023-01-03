@@ -81,7 +81,7 @@
     "@deck.gl/mesh-layers": "^8.8.20",
     "@konturio/default-icons": "^2.2.0",
     "@konturio/default-theme": "3.2.0",
-    "@konturio/ui-kit": "^3.6.2",
+    "@konturio/ui-kit": "^3.7.0",
     "@loaders.gl/core": "^3.2.3",
     "@mdx-js/rollup": "^2.2.1",
     "@nebula.gl/edit-modes": "1.0.3",

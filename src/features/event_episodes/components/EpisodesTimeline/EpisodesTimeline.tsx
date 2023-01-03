@@ -8,6 +8,8 @@ import type { Episode } from '~core/types';
 
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
+const timelineMargins = { axis: 2 };
+
 export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
   const [selectedEpisode] = useAtom(eventEpisodesModel.currentEpisode);
   const [timelineState] = useAtom(eventEpisodesModel.episodesTimelineState);
@@ -65,6 +67,7 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
         stack={timelineState.settings.stack}
         cluster={timelineState.settings.cluster}
         onSelect={onSelect}
+        margin={timelineMargins}
       />
     </div>
   );
