@@ -37,7 +37,7 @@ export const selectQuotientInGroupByNumDen = (
 ): AxisGroup[] => {
   const newGroups = [...groups];
 
-  let selectedQuotient;
+  let selectedQuotient: [string, string] | undefined;
   const groupIndex = newGroups.findIndex(({ quotients }) => {
     selectedQuotient = quotients.find(
       (q: [string, string]) => q[0] === numId && q[1] === denId,
