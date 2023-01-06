@@ -1,7 +1,6 @@
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { createGeoJSONSource } from '~utils/geoJSON/helpers';
 import { layerByOrder } from '~utils/map/layersOrder';
-import { generatedMapboxLayersParents } from '~core/logical_layers/atoms/generatedMapboxLayers';
 import type {
   ApplicationLayer,
   ApplicationMap,
@@ -44,8 +43,7 @@ export class BoundarySelectorRenderer extends LogicalLayerDefaultRenderer {
 
     const geoJsonSource = createGeoJSONSource(source ? source.source.data : undefined);
     map.addSource(this.sourceId, geoJsonSource);
-    generatedMapboxLayersParents.set.dispatch(this.hoveredLayerConfig.id, this.layerId);
-    layerByOrder(map).addAboveLayerWithSameType(this.hoveredLayerConfig);
+    layerByOrder(map).addAboveLayerWithSameType(this.hoveredLayerConfig, this.layerId);
   }
 
   public willUnMount({ map }: { map: ApplicationMap }) {

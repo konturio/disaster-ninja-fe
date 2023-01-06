@@ -2,7 +2,6 @@ import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/Defa
 import { mapLoaded, waitMapEvent } from '~utils/map/waitMapEvent';
 import { loadImageOnMap } from '~utils/map/loadImageOnMap';
 import { layerByOrder } from '~utils/map/layersOrder';
-import { generatedMapboxLayersParents } from '~core/logical_layers/atoms/generatedMapboxLayers';
 import Icon from '../icons/marker_black.png';
 import { FOCUSED_GEOMETRY_COLOR } from '../constants';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
@@ -167,8 +166,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     );
     if (sourceAdded) {
       this.layerConfigs.map(async (layerConfig) => {
-        generatedMapboxLayersParents.set.dispatch(layerConfig.id, this.id);
-        layerByOrder(map).addUnderLayerWithSameType(layerConfig);
+        layerByOrder(map).addUnderLayerWithSameType(layerConfig, this.id);
       });
     }
   }

@@ -156,7 +156,6 @@ export class LayersOrderManager {
         return (
           searchingLayer.category === 'overlay' || searchingLayer.category === undefined
         );
-      // TODO check
       if (givenCategory === undefined) return searchingLayer.category === undefined;
     });
 
