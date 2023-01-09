@@ -27,7 +27,10 @@ const QuotientItem = ({
   };
 
   return (
-    <div className={cn(isSelected && styles.selected)} onClick={onClick}>
+    <div
+      className={cn(styles.quotientItem, isSelected && styles.selected)}
+      onClick={onClick}
+    >
       <DenominatorIcon iconId={denominatorId} />
 
       {/* do no needed on prod, only for testing purposes */}
