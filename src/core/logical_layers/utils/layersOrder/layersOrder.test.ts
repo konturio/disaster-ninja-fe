@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { createMapAtom } from '~utils/atoms';
+import { createMapAtom } from '@reatom/core/primitives';
 import { LayersOrderManager } from './layersOrder';
 import type { AsyncState } from '~core/logical_layers/types/asyncState';
 import type { LayerSettings } from '~core/logical_layers/types/settings';
