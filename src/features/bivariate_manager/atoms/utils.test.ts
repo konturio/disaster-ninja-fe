@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { onCalculateSelectedCell } from './utils';
+import { onCalculateSelectedCell, selectQuotientInGroupByNumDen } from './utils';
 import type { AxisGroup } from '~core/types';
 
 test('onCalculateSelectedCell', () => {
@@ -108,4 +108,37 @@ test('onCalculateSelectedCell', () => {
     x: -1,
     y: 3,
   });
+});
+
+test('selectQuotientInGroupByNumDen', () => {
+  const groups: AxisGroup[] = [
+    {
+      parent: '["population","area_km2"]',
+      quotients: [
+        ['population', 'area_km2'],
+        ['covid19_confirmed', 'area_km2'],
+        ['gdp', 'area_km2'],
+        ['population_prev', 'area_km2'],
+        ['mandays_maxtemp_over_32c_1c', 'area_km2'],
+        ['man_distance_to_bomb_shelters', 'area_km2'],
+      ],
+      selectedQuotient: ['covid19_confirmed', 'area_km2'],
+    },
+  ];
+  const groupAfterSelection = selectQuotientInGroupByNumDen(
+    groups,
+    'population',
+    'area_km2',
+  );
+  expect(groupAfterSelection[0].selectedQuotient).toEqual(['population', 'area_km2']);
+
+  const groupAfterWrongSelection = selectQuotientInGroupByNumDen(
+    groups,
+    'population',
+    'one',
+  );
+  expect(groupAfterWrongSelection[0].selectedQuotient).toEqual([
+    'covid19_confirmed',
+    'area_km2',
+  ]);
 });
