@@ -181,6 +181,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       const layer = { ...layerStyle, id: layerId, source: this._sourceId };
       layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
         layer as AnyLayer,
+        this.id,
       );
       this._layerId = layer.id;
     } else {

@@ -6,6 +6,8 @@ import { Close24, Expand24 } from '@konturio/default-icons';
 import { appConfig } from '~core/app_config';
 import Map from '~components/ConnectedMap/map-libre-adapter';
 import { useMapPositionSmoothSync } from '~components/ConnectedMap/useMapPositionSmoothSync';
+import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
+import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import {
   bivariateColorManagerSamleMap,
   bivariateSampleMapLayersOrderManager,
@@ -42,7 +44,12 @@ export function BivariateSampleMap({
   const setCurrentMap = useAction(bivariateColorManagerSamleMap.setCurrentMap);
 
   const initLayersOrderManager = useCallback(
-    (map) => bivariateSampleMapLayersOrderManager.init(mapRef.current!),
+    (map) =>
+      bivariateSampleMapLayersOrderManager.init(
+        mapRef.current!,
+        mapLibreParentsIds,
+        layersSettingsAtom,
+      ),
     [],
   );
 

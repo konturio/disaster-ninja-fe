@@ -37,21 +37,13 @@ export class BoundarySelectorRenderer extends LogicalLayerDefaultRenderer {
     };
   }
 
-  public willMount({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  public willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     /* I cast this type because I known backend response me with geojson source */
     const source = state.source as LayerGeoJSONSource | null;
 
-    const geoJsonSource = createGeoJSONSource(
-      source ? source.source.data : undefined,
-    );
+    const geoJsonSource = createGeoJSONSource(source ? source.source.data : undefined);
     map.addSource(this.sourceId, geoJsonSource);
-    layerByOrder(map).addAboveLayerWithSameType(this.hoveredLayerConfig);
+    layerByOrder(map).addAboveLayerWithSameType(this.hoveredLayerConfig, this.layerId);
   }
 
   public willUnMount({ map }: { map: ApplicationMap }) {

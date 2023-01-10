@@ -84,7 +84,7 @@ export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
       this._deckLayer = new MapboxLayer(deckGLLayer);
     }
 
-    layerByOrder(map).addAboveLayerWithSameType(this._deckLayer!);
+    layerByOrder(map).addAboveLayerWithSameType(this._deckLayer, this.id);
     this.addClickListener();
   }
 

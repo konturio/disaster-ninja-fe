@@ -16,10 +16,7 @@ const icons = {
  * TODO:
  * rewrite it to mapcss and create layers from legendAtom in willLegendUpdate
  */
-const getLayersConfig = (
-  id: string,
-  sourceId: string,
-): maplibregl.AnyLayer[] => {
+const getLayersConfig = (id: string, sourceId: string): maplibregl.AnyLayer[] => {
   const iconsKeys = Object.keys(icons).reduce(
     (acc, k) => ((acc[k] = k), acc),
     {} as unknown as Record<keyof typeof icons, string>,
@@ -158,13 +155,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
   }
 
   /* ======== Hooks ========== */
-  async willMount({
-    map,
-    state,
-  }: {
-    map: ApplicationMap;
-    state: LogicalLayerState;
-  }) {
+  async willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     const sourceAdded = await this.updateOrSetSource({
       map,
       state,
@@ -175,7 +166,7 @@ export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
     );
     if (sourceAdded) {
       this.layerConfigs.map(async (layerConfig) => {
-        layerByOrder(map).addUnderLayerWithSameType(layerConfig);
+        layerByOrder(map).addUnderLayerWithSameType(layerConfig, this.id);
       });
     }
   }

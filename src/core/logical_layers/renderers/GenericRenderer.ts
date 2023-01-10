@@ -105,10 +105,9 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         if (layer) {
           map.removeLayer(layer.id);
         }
-        layerByOrder(map).addAboveLayerWithSameType(mapLayer);
+        layerByOrder(map).addAboveLayerWithSameType(mapLayer, this.id);
         this._layerIds.add(mapLayer.id);
       });
-
       // cleanup unused layers
       this._layerIds.forEach((id) => {
         if (!layers.find((layer) => layer.id === id)) {
@@ -132,7 +131,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         },
       };
 
-      layerByOrder(map).addAboveLayerWithSameType(mapLayer);
+      layerByOrder(map).addAboveLayerWithSameType(mapLayer, this.id);
       this._layerIds.add(mapLayer.id);
       // cleanup unused layers
       this._layerIds.forEach((id) => {
@@ -217,7 +216,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         minzoom: 0,
         maxzoom: 24,
       };
-      layerByOrder(map).addAboveLayerWithSameType(mapLayer);
+      layerByOrder(map).addAboveLayerWithSameType(mapLayer, this.id);
       this._layerIds.add(mapLayer.id);
     } else {
       // Vector tiles
@@ -241,7 +240,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
           if (map.getLayer(mapLayer.id)) {
             map.removeLayer(mapLayer.id);
           }
-          layerByOrder(map).addAboveLayerWithSameType(mapLayer);
+          layerByOrder(map).addAboveLayerWithSameType(mapLayer, this.id);
           this._layerIds.add(mapLayer.id);
         });
       } else {

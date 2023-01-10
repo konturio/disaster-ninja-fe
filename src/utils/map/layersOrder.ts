@@ -1,4 +1,5 @@
 import { layersOrderManager as defaultLayersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
+import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import type maplibregl from 'maplibre-gl';
 import type { LayersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 
@@ -6,18 +7,34 @@ export function layerByOrder(
   map: maplibregl.Map,
   layersOrderManager: LayersOrderManager = defaultLayersOrderManager,
 ) {
-  function addAboveLayerWithSameType(layer: maplibregl.AnyLayer) {
-    layersOrderManager.getIdToMountOnTypesTop(layer.type, (id) =>
-      map.addLayer(layer, id),
+  function addAboveLayerWithSameType(
+    maplibreLayer: maplibregl.AnyLayer,
+    uiLayerId: string,
+  ) {
+    mapLibreParentsIds.set(maplibreLayer.id, uiLayerId);
+    layersOrderManager.getIdToMountOnTypesTop(
+      maplibreLayer.type,
+      maplibreLayer.id,
+      (id) => map.addLayer(maplibreLayer, id),
     );
   }
-  function addUnderLayerWithSameType(layer: maplibregl.AnyLayer) {
-    layersOrderManager.getIdToMountOnTypesBottom(layer.type, (id) =>
-      map.addLayer(layer, id),
+  function addUnderLayerWithSameType(
+    maplibreLayer: maplibregl.AnyLayer,
+    uiLayerId: string,
+  ) {
+    mapLibreParentsIds.set(maplibreLayer.id, uiLayerId);
+    layersOrderManager.getIdToMountOnTypesBottom(
+      maplibreLayer.type,
+      maplibreLayer.id,
+      (id) => map.addLayer(maplibreLayer, id),
     );
   }
-  function addAboveAllExistingLayers(layer: maplibregl.AnyLayer) {
-    map.addLayer(layer, undefined);
+  function addAboveAllExistingLayers(
+    maplibreLayer: maplibregl.AnyLayer,
+    uiLayerId: string,
+  ) {
+    mapLibreParentsIds.set(maplibreLayer.id, uiLayerId);
+    map.addLayer(maplibreLayer, undefined);
   }
   return {
     addAboveLayerWithSameType,

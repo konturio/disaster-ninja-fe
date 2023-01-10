@@ -3,6 +3,8 @@ import mapLibre from 'maplibre-gl';
 import { useAction, useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
+import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
+import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { appConfig } from '~core/app_config';
 import Map from './map-libre-adapter';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
@@ -44,7 +46,8 @@ export function ConnectedMap({ className }: { className?: string }) {
 
   const [mapListeners] = useAtom(mapListenersAtom);
   const initLayersOrderManager = useCallback(
-    (map) => layersOrderManager.init(mapRef.current!),
+    (map) =>
+      layersOrderManager.init(mapRef.current!, mapLibreParentsIds, layersSettingsAtom),
     [],
   );
 
@@ -108,6 +111,13 @@ export function ConnectedMap({ className }: { className?: string }) {
       };
     }
   }, [mapRef]);
+
+  // cleanup
+  useEffect(() => {
+    return () => {
+      layersOrderManager.destroy();
+    };
+  }, []);
 
   return (
     <Map
