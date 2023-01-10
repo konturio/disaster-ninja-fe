@@ -144,14 +144,21 @@ export class LayersOrderManager {
     }
     const givenCategory = givenLayerSettings.category;
 
-    const firstLayerOfNextCategory = mountedLayersOfGivenType?.find((searchingLayer) => {
-      if (givenCategory === 'base') return true;
+    const firstLayerOfNextCategory = (() => {
+      if (givenCategory === 'base') return mountedLayersOfGivenType?.[0];
+
       if (givenCategory === 'overlay')
-        return (
-          searchingLayer.category === 'overlay' || searchingLayer.category === undefined
+        return mountedLayersOfGivenType?.find(
+          (searchingLayer) =>
+            searchingLayer.category === 'overlay' ||
+            searchingLayer.category === undefined,
         );
-      if (givenCategory === undefined) return searchingLayer.category === undefined;
-    });
+
+      if (givenCategory === undefined)
+        return mountedLayersOfGivenType?.find(
+          (searchingLayer) => searchingLayer.category === undefined,
+        );
+    })();
 
     if (firstLayerOfNextCategory) return firstLayerOfNextCategory.layer.id;
 
