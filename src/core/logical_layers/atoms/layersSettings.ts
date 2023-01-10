@@ -6,3 +6,5 @@ export const layersSettingsAtom = createMapAtom(
   new Map<string, AsyncState<LayerSettings>>(),
   'layersSettings',
 );
+
+export type LayersSettingsAtomType = typeof layersSettingsAtom;

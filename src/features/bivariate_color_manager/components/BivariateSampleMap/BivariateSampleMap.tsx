@@ -7,6 +7,7 @@ import config from '~core/app_config';
 import Map from '~components/ConnectedMap/map-libre-adapter';
 import { useMapPositionSmoothSync } from '~components/ConnectedMap/useMapPositionSmoothSync';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
+import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import {
   bivariateColorManagerSamleMap,
   bivariateSampleMapLayersOrderManager,
@@ -44,7 +45,11 @@ export function BivariateSampleMap({
 
   const initLayersOrderManager = useCallback(
     (map) =>
-      bivariateSampleMapLayersOrderManager.init(mapRef.current!, mapLibreParentsIds),
+      bivariateSampleMapLayersOrderManager.init(
+        mapRef.current!,
+        mapLibreParentsIds,
+        layersSettingsAtom,
+      ),
     [],
   );
 

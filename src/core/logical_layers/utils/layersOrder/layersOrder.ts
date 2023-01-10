@@ -1,4 +1,4 @@
-import { layersSettingsAtom } from '../../atoms/layersSettings';
+import type { LayersSettingsAtomType } from '../../atoms/layersSettings';
 import type { AsyncState } from '~core/logical_layers/types/asyncState';
 import type { LayerSettings } from '~core/logical_layers/types/settings';
 import type { Unsubscribe } from '@reatom/core';
@@ -43,7 +43,11 @@ export class LayersOrderManager {
 
   private _awaitingTasks = new Set<(map: MapLibre) => void>();
 
-  init(map: MapLibre, mapLibreParentsIds: Map<string, string>) {
+  init(
+    map: MapLibre,
+    mapLibreParentsIds: Map<string, string>,
+    layersSettingsAtom: LayersSettingsAtomType,
+  ) {
     this._map = map;
     this._unsubscribe.push(
       layersSettingsAtom.subscribe(
@@ -59,9 +63,6 @@ export class LayersOrderManager {
         task(map);
       });
     });
-  }
-  _initForTests(layersSettings: Map<string, AsyncState<LayerSettings, Error>>) {
-    this._layersSettings = layersSettings;
   }
 
   destroy() {

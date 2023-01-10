@@ -5,6 +5,7 @@ import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import config from '~core/app_config';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
+import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import Map from './map-libre-adapter';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 
@@ -45,7 +46,8 @@ export function ConnectedMap({ className }: { className?: string }) {
 
   const [mapListeners] = useAtom(mapListenersAtom);
   const initLayersOrderManager = useCallback(
-    (map) => layersOrderManager.init(mapRef.current!, mapLibreParentsIds),
+    (map) =>
+      layersOrderManager.init(mapRef.current!, mapLibreParentsIds, layersSettingsAtom),
     [],
   );
 
