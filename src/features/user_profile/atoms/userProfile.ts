@@ -4,7 +4,8 @@ import { currentUserAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { currentNotificationAtom } from '~core/shared_state';
-import type { CurrentUser } from '~core/shared_state/currentUser';
+import { publicUser } from '~core/app/user';
+import type { CurrentUser } from '~core/app/user';
 
 export type UserProfileState = Omit<CurrentUser, 'loading' | 'defaultLayers' | 'token'>;
 type profileResponse = UserProfileState;
@@ -19,7 +20,7 @@ export const currentProfileAtom = createAtom(
     currentUserAtom,
     updateUserProfile: (user: UserProfileState) => user,
   },
-  ({ onChange, onAction, schedule }, state: UserProfileState | null = null) => {
+  ({ onChange, onAction, schedule }, state: UserProfileState = publicUser) => {
     onAction('updateUserProfile', (user) => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
@@ -43,10 +44,7 @@ export const currentProfileAtom = createAtom(
       // reload to simply apply all the settings if implementation is difficult
       if (prevUser) location.reload();
 
-      const newState = { ...newUser };
-      delete newState.token;
-      delete newState.loading;
-      delete newState.defaultLayers;
+      const { token, loading, defaultLayers, ...newState } = newUser;
       state = newState;
     });
 

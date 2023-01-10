@@ -35,12 +35,16 @@ function fromBase64(base64: string): string {
   return base64.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 }
 
-export function base64UrlEncode(input: string, encoding = 'utf8'): string {
-  return fromBase64(
-    Buffer.from(input, encoding as BufferEncoding).toString('base64'),
-  );
+export function base64UrlEncode(
+  input: string,
+  encoding: BufferEncoding = 'utf8',
+): string {
+  return fromBase64(Buffer.from(input, encoding).toString('base64'));
 }
 
-export function base64UrlDecode(base64url: string, encoding = 'utf8'): string {
+export function base64UrlDecode(
+  base64url: string,
+  encoding: BufferEncoding = 'utf8',
+): string {
   return Buffer.from(toBase64(base64url), 'base64').toString(encoding);
 }

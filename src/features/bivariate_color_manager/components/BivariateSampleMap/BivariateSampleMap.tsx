@@ -3,7 +3,7 @@ import cn from 'clsx';
 import { useAction } from '@reatom/react';
 import { Button } from '@konturio/ui-kit';
 import { Close24, Expand24 } from '@konturio/default-icons';
-import config from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import Map from '~components/ConnectedMap/map-libre-adapter';
 import { useMapPositionSmoothSync } from '~components/ConnectedMap/useMapPositionSmoothSync';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
@@ -33,8 +33,8 @@ export function BivariateSampleMap({
   fullscreen: boolean;
   setFullscreen: (flag: boolean) => void;
 }) {
-  const mapBaseStyle = config.mapBaseStyle;
-  const accessToken = config.mapAccessToken;
+  const mapBaseStyle = appConfig.mapBaseStyle;
+  const accessToken = appConfig.mapAccessToken;
   const mapRef = useRef<mapLibre.Map>();
   useMapPositionSmoothSync(mapRef);
 

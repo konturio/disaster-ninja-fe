@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { currentApplicationAtom, currentUserAtom } from '~core/shared_state';
+import { currentUserAtom } from '~core/shared_state';
 import type { LayerInAreaDetails } from '../../types';
 import type { DetailsRequestParams } from './types';
 
@@ -17,7 +17,6 @@ const createDefaultCacheState = (state?) => {
 /* Store all prev request */
 export const areaLayersDetailsResourceAtomCache = createAtom(
   {
-    app: currentApplicationAtom,
     user: currentUserAtom,
     update: (request: DetailsRequestParams, response: LayerInAreaDetails[]) => ({
       request,
@@ -25,10 +24,6 @@ export const areaLayersDetailsResourceAtomCache = createAtom(
     }),
   },
   ({ onAction, onChange }, state = createDefaultCacheState()) => {
-    onChange('app', () => {
-      state = createDefaultCacheState();
-    });
-
     onChange('user', () => {
       state = createDefaultCacheState();
     });

@@ -1,16 +1,21 @@
 import { useAction, useAtom } from '@reatom/react';
 import { Text } from '@konturio/ui-kit';
 import { memo, useCallback } from 'react';
+import { appConfig } from '~core/app_config';
 import { i18n } from '~core/localization';
-import { userResourceAtom } from '~core/auth';
-import { currentEventFeedAtom } from '~core/shared_state';
 import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
-import { AppFeature } from '~core/auth/types';
+import {
+  currentEventFeedAtom,
+  eventFeedsAtom,
+  featureFlagsAtom,
+  FeatureFlag,
+} from '~core/shared_state';
 import s from './FeedSelector.module.css';
 import type { ChangeEvent } from 'react';
 
 const FeedSelectorComp = () => {
-  const [{ data: userModel }] = useAtom(userResourceAtom);
+  const [featureFlags] = useAtom(featureFlagsAtom);
+  const [eventFeeds] = useAtom(eventFeedsAtom);
   const [currentFeed, { setCurrentFeed }] = useAtom(currentEventFeedAtom);
   const scheduleAutoSelect = useAction(scheduledAutoSelect.setTrue);
   const onFeedChange = useCallback(
@@ -21,20 +26,19 @@ const FeedSelectorComp = () => {
     [setCurrentFeed, scheduleAutoSelect],
   );
 
-  return userModel &&
-    (userModel.hasFeature(AppFeature.FEED_SELECTOR) ||
-      userModel.hasFeature(AppFeature.EVENTS_LIST__FEED_SELECTOR)) &&
-    userModel.feeds &&
-    userModel.feeds.length > 1 ? (
+  return (featureFlags[FeatureFlag.FEED_SELECTOR] ||
+    featureFlags[FeatureFlag.EVENTS_LIST__FEED_SELECTOR]) &&
+    eventFeeds &&
+    eventFeeds.length > 1 ? (
     <div className={s.feedSelectorContainer}>
       <Text type="short-m">{i18n.t('feed')}:</Text>
       <div>
         <select
           onChange={onFeedChange}
-          value={currentFeed?.id || userModel.defaultFeed?.feed}
+          value={currentFeed?.id || appConfig.defaultFeedObject.feed}
           className={s.feedsSelect}
         >
-          {userModel.feeds.map((fd) => (
+          {eventFeeds.map((fd) => (
             <option key={fd.feed} value={fd.feed}>
               {fd.name}
             </option>

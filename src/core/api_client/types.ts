@@ -26,6 +26,7 @@ export interface ApiClientConfig<ClassContext> extends ApisauceConfig {
   translationService: ITranslationService;
   loginApiPath?: string;
   refreshTokenApiPath?: string;
+  keycloakClientId?: string;
   unauthorizedCallback?: (classContext: ClassContext) => void;
   disableAuth?: boolean;
   storage?: WindowLocalStorage['localStorage'];

@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
-import app_config from '~core/app_config';
+import { appConfig } from '~core/app_config';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { convertToAppMarker } from '~utils/map/markers';
 import { toolbarControlsAtom, focusedGeometryAtom } from '~core/shared_state';
@@ -114,7 +114,7 @@ export const boundaryMarkerAtom = createAtom(
               if (typeof geometryCamera === 'object')
                 actions.push(
                   currentMapPositionAtom.setCurrentMapPosition({
-                    zoom: Math.min(geometryCamera.zoom, app_config.autoFocus.maxZoom),
+                    zoom: Math.min(geometryCamera.zoom, appConfig.autoFocus.maxZoom),
                     ...geometryCamera.center,
                   }),
                 );

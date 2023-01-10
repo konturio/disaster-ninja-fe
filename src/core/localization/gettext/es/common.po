@@ -449,11 +449,11 @@ msgstr "Guardar características"
 
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
-msgstr "Enfoque en el límite administrativo"
+msgstr "Enfocar en el límite administrativo"
 
 #: geometry_uploader##title
 msgid "Focus to uploaded geometry"
-msgstr "Enfoque en la geometría cargada"
+msgstr "Enfocar en la geometría cargada"
 
 #: geometry_uploader##error
 msgid "Error while reading uploaded file"
@@ -461,7 +461,7 @@ msgstr "Error al leer el archivo cargado"
 
 #: focus_geometry##title
 msgid "Focus to freehand geometry"
-msgstr "Enfoque en la geometría a mano"
+msgstr "Enfocar en la geometría a mano"
 
 #: focus_geometry_layer##settings##name
 msgid "Selected Area"
@@ -819,12 +819,7 @@ msgid ""
 "attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
 "high risk / many gaps."
 msgstr ""
-"El panel Capas le ofrece varias opciones para mostrar dos indicadores en "
-"simultáneo en un mapa bivariado, p. ej:, la densidad de población y la "
-"distancia a la estación de bomberos más cercana. Utilice la leyenda de color "
-"para evaluar qué áreas requieren atención. <br/>Consejo: en general, el "
-"verde indica riesgo bajo / pocas zonas sin mapear, el rojo — riesgo alto / "
-"muchas zonas sin mapear."
+"El panel Capas le ofrece varias opciones para mostrar dos indicadores en simultáneo en un mapa bivariado, p. ej:, la densidad de población y la distancia a la estación de bomberos más cercana. Utilice las leyendas de colores para evaluar qué áreas requieren atención. <br/>Consejo: en general, el verde indica riesgo bajo / pocas zonas sin mapear, el rojo — riesgo alto / muchas zonas sin mapear."
 
 #: about##p5
 msgid ""
@@ -839,7 +834,7 @@ msgstr ""
 
 #: about##goToMap
 msgid "Go to the map now"
-msgstr "Vaya al mapa ahora"
+msgstr "Ir al mapa ahora"
 
 #: about##p6
 msgid ""
