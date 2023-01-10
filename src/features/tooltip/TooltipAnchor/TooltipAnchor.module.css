@@ -16,23 +16,11 @@
   }
 }
 
-.tooltipBody {
-  position: absolute;
-  display: flex;
-  padding: var(--unit) var(--unit) var(--half-unit) var(--unit);
-  max-width: 268px;
-  max-height: 200px;
-  overflow-y: auto;
-  background-color: var(--base-strong);
-  color: var(--base-weak);
-  border-radius: var(--border-radius);
-}
-
 .top-left {
   margin-left: calc(0px - var(--half-unit));
   margin-bottom: var(--half-unit);
 
-  & .tooltipBody {
+  & > div {
     transform: translate(-100%, -100%);
   }
 }
@@ -41,7 +29,7 @@
   margin-left: var(--half-unit);
   margin-bottom: var(--half-unit);
 
-  & .tooltipBody {
+  & > div {
     transform: translate(0, -100%);
   }
 }
@@ -50,7 +38,7 @@
   margin-left: calc(0px - var(--half-unit));
   margin-top: var(--half-unit);
 
-  & .tooltipBody {
+  & > div {
     transform: translate(-100%, 0);
   }
 }
@@ -67,21 +55,7 @@
     height: 100%;
   }
 
-  .tooltipBody {
+  & > div {
     transform: translate(0, 0);
-    position: absolute;
-    display: flex;
-    z-index: var(--tooltip);
-    left: 0;
-    bottom: calc(0px - var(--half-unit));
-    width: 100%;
-    padding: var(--double-unit);
-    max-height: 90%;
-    max-width: 100%;
-    background-color: var(--base-weak);
-    color: var(--base-strong);
-    font-weight: 400;
-    font-size: 16px;
-    border-radius: var(--unit) var(--unit) 0 0;
   }
 }

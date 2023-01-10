@@ -1,9 +1,7 @@
 import clsx from 'clsx';
 import { useCallback } from 'react';
-import { TooltipView } from '../TooltipView/TooltipView';
+import { TooltipAnchor } from '../TooltipAnchor/TooltipAnchor';
 import { TooltipContent } from '../TooltipContent/TooltipContent';
-import { findTooltipCorner } from './findTooltipCorner';
-import { useCorner } from './useCorner';
 import s from './Tooltip.module.css';
 import type { LegacyRef } from 'react';
 import type { CornerFn, TooltipCoords, TooltipCorner } from '../types';
@@ -16,9 +14,9 @@ export function Tooltip({
   transitionRef,
   position,
   content,
-  getCorner = findTooltipCorner,
+  getCorner,
   classes,
-  hoverBehavior,
+  hoverBehavior = false,
   onOuterClick,
   onClose,
 }: {
@@ -31,12 +29,9 @@ export function Tooltip({
   classes?: { popupContent?: string };
   onOuterClick?: (e: MouseClickEvent) => void;
 }) {
-  const corner = useCorner(getCorner, position);
-
   const onClickOuter = useCallback(
     (e: MouseClickEvent) => {
-      if (onOuterClick && hoverBehavior !== true) {
-        console.error('`onOuterClick` ignored when `hoverBehavior` disabled');
+      if (onOuterClick && hoverBehavior === true) {
         return;
       }
 
@@ -57,18 +52,18 @@ export function Tooltip({
       onClick={onClickOuter}
     >
       {position && (
-        <TooltipView
-          anchor={{
-            top: position.y || 0,
-            right: (window.visualViewport?.width || 0) - position.x || 0,
-          }}
-          corner={corner}
+        <TooltipAnchor
+          position={position}
           onClick={stopPropagation}
+          getCorner={getCorner}
         >
-          <TooltipContent className={classes?.popupContent} onClose={onClose}>
+          <TooltipContent
+            className={classes?.popupContent}
+            onClose={hoverBehavior ? undefined : onClose}
+          >
             {content}
           </TooltipContent>
-        </TooltipView>
+        </TooltipAnchor>
       )}
     </div>
   );
