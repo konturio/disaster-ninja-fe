@@ -6,6 +6,7 @@ import { Close24, Expand24 } from '@konturio/default-icons';
 import config from '~core/app_config';
 import Map from '~components/ConnectedMap/map-libre-adapter';
 import { useMapPositionSmoothSync } from '~components/ConnectedMap/useMapPositionSmoothSync';
+import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import {
   bivariateColorManagerSamleMap,
   bivariateSampleMapLayersOrderManager,
@@ -42,16 +43,14 @@ export function BivariateSampleMap({
   const setCurrentMap = useAction(bivariateColorManagerSamleMap.setCurrentMap);
 
   const initLayersOrderManager = useCallback(
-    (map) => bivariateSampleMapLayersOrderManager.init(mapRef.current!),
+    (map) =>
+      bivariateSampleMapLayersOrderManager.init(mapRef.current!, mapLibreParentsIds),
     [],
   );
 
   useEffect(() => {
     if (mapRef.current) {
-      console.info(
-        'Map instance available by window.KONTUR_MAP',
-        mapRef.current,
-      );
+      console.info('Map instance available by window.KONTUR_MAP', mapRef.current);
       globalThis.KONTUR_MAP = mapRef.current;
       // @ts-expect-error Fix for react dev tools
       mapRef.current.toJSON = () => '[Mapbox Object]';
@@ -86,8 +85,7 @@ export function BivariateSampleMap({
   );
 
   useEffect(() => {
-    if (fullscreen === true)
-      document.addEventListener('keydown', escFunction, false);
+    if (fullscreen === true) document.addEventListener('keydown', escFunction, false);
     else document.removeEventListener('keydown', escFunction, false);
 
     return () => {

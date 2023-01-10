@@ -54,14 +54,14 @@ test('Return undefined if only base map layers are available', (t) => {
     { type: 'fill', id: 'base-fill' },
     { type: 'line', id: 'base-line-top' },
   ]);
-  layersOrderManager.init(map as any);
 
   const { layersParentsIds, layersSettings } = generateFakeSettingsAndParentsIds();
   // Mock settings for testing layer
   layersParentsIds.set('testing-layer', 'testing-layer');
   layersSettings.set('testing-layer', getDummySettings('testing-layer'));
   // Apply mocked settings
-  layersOrderManager._initForTests(layersSettings, layersParentsIds);
+  layersOrderManager.init(map as any, layersParentsIds);
+  layersOrderManager._initForTests(layersSettings);
 
   expect.assertions(4);
 
@@ -93,7 +93,6 @@ test('Return undefined if only base map layers are available', (t) => {
 test('Returns id of layer with type that must be rendered above passed type', (t) => {
   const layersOrderManager = new LayersOrderManager();
   const map = new FakeMapWithBaseLayers([]);
-  layersOrderManager.init(map as any);
   const layersSet = [
     { type: 'background', id: 'background-layer' },
     { type: 'raster', id: 'raster-layer' },
@@ -106,7 +105,6 @@ test('Returns id of layer with type that must be rendered above passed type', (t
     { type: 'symbol', id: 'symbol-layer' },
     { type: 'custom', id: 'custom-layer' },
   ];
-  map.setLayers(layersSet);
 
   const { layersParentsIds, layersSettings } = generateFakeSettingsAndParentsIds();
   // Mock settings for set of dummy layers
@@ -118,7 +116,9 @@ test('Returns id of layer with type that must be rendered above passed type', (t
   layersParentsIds.set('testing-layer', 'testing-layer');
   layersSettings.set('testing-layer', getDummySettings('testing-layer'));
   // Apply mocked settings
-  layersOrderManager._initForTests(layersSettings, layersParentsIds);
+  layersOrderManager.init(map as any, layersParentsIds);
+  layersOrderManager._initForTests(layersSettings);
+  map.setLayers(layersSet);
 
   expect.assertions(4);
   {
@@ -161,7 +161,6 @@ test('Returns id of layer with type that must be rendered above passed type', (t
 test('Return correct beforeId when some layer types are missing', (t) => {
   const layersOrderManager = new LayersOrderManager();
   const map = new FakeMapWithBaseLayers([]);
-  layersOrderManager.init(map as any);
   const layersSet = [
     { type: 'raster', id: 'raster-layer' },
     { type: 'hillshade', id: 'hillshade-layer' },
@@ -169,7 +168,6 @@ test('Return correct beforeId when some layer types are missing', (t) => {
     { type: 'fill-extrusion', id: 'fill-extrusion-layer' },
     { type: 'symbol', id: 'symbol-layer1' },
   ];
-  map.setLayers(layersSet);
 
   const { layersParentsIds, layersSettings } = generateFakeSettingsAndParentsIds();
   // Mock settings for set of dummy layers
@@ -181,7 +179,10 @@ test('Return correct beforeId when some layer types are missing', (t) => {
   layersParentsIds.set('testing-layer', 'testing-layer');
   layersSettings.set('testing-layer', getDummySettings('testing-layer'));
   // Apply mocked settings
-  layersOrderManager._initForTests(layersSettings, layersParentsIds);
+  layersOrderManager.init(map as any, layersParentsIds);
+  layersOrderManager._initForTests(layersSettings);
+
+  map.setLayers(layersSet);
 
   expect.assertions(7);
 
@@ -238,7 +239,6 @@ test('Return correct beforeId when some layer types are missing', (t) => {
 test('Return correct beforeId when some layer types have multiple layers', (t) => {
   const layersOrderManager = new LayersOrderManager();
   const map = new FakeMapWithBaseLayers([]);
-  layersOrderManager.init(map as any);
   const layersSet = [
     { type: 'background', id: 'background-layer' },
     { type: 'raster', id: 'raster-layer' },
@@ -252,7 +252,6 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
     { type: 'fill-extrusion', id: 'fill-extrusion-layer-1' },
     { type: 'fill-extrusion', id: 'fill-extrusion-layer-2' },
   ];
-  map.setLayers(layersSet);
 
   const { layersParentsIds, layersSettings } = generateFakeSettingsAndParentsIds();
   // Mock settings for set of dummy layers
@@ -264,7 +263,10 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
   layersParentsIds.set('testing-layer', 'testing-layer');
   layersSettings.set('testing-layer', getDummySettings('testing-layer'));
   // Apply mocked settings
-  layersOrderManager._initForTests(layersSettings, layersParentsIds);
+  layersOrderManager.init(map as any, layersParentsIds);
+  layersOrderManager._initForTests(layersSettings);
+
+  map.setLayers(layersSet);
 
   expect.assertions(6);
 
@@ -324,7 +326,6 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
 test('Return correct beforeId when some layer types have multiple layers', (t) => {
   const layersOrderManager = new LayersOrderManager();
   const map = new FakeMapWithBaseLayers([]);
-  layersOrderManager.init(map as any);
   const layersSet = [
     { type: 'background', id: 'background-layer-fallback', category: 'base' },
     { type: 'background', id: 'background-layer', category: 'base' },
@@ -337,7 +338,6 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
 
     { type: 'custom', id: 'custom-layer', category: 'overlay' },
   ];
-  map.setLayers(layersSet);
 
   const { layersParentsIds, layersSettings } = generateFakeSettingsAndParentsIds();
   // Mock settings for set of dummy layers
@@ -356,7 +356,10 @@ test('Return correct beforeId when some layer types have multiple layers', (t) =
   layersParentsIds.set('overlay-layer', 'overlay-layer');
   layersSettings.set('overlay-layer', getDummySettings('overlay-layer', 'overlay'));
   // Apply mocked settings
-  layersOrderManager._initForTests(layersSettings, layersParentsIds);
+  layersOrderManager.init(map as any, layersParentsIds);
+  layersOrderManager._initForTests(layersSettings);
+
+  map.setLayers(layersSet);
 
   expect.assertions(7);
 

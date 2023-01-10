@@ -1,4 +1,3 @@
-import { generatedMapboxLayersParents } from '~core/logical_layers/atoms/generatedMapboxLayers';
 import { layersSettingsAtom } from '../../atoms/layersSettings';
 import type { AsyncState } from '~core/logical_layers/types/asyncState';
 import type { LayerSettings } from '~core/logical_layers/types/settings';
@@ -44,16 +43,14 @@ export class LayersOrderManager {
 
   private _awaitingTasks = new Set<(map: MapLibre) => void>();
 
-  init(map: MapLibre) {
+  init(map: MapLibre, mapLibreParentsIds: Map<string, string>) {
     this._map = map;
     this._unsubscribe.push(
       layersSettingsAtom.subscribe(
         (layersSetting) => (this._layersSettings = layersSetting),
       ),
-      generatedMapboxLayersParents.subscribe(
-        (_layersParentsIds) => (this._layersParentsIds = _layersParentsIds),
-      ),
     );
+    this._layersParentsIds = mapLibreParentsIds;
 
     map.once('load', () => {
       this._baseMapFirstLayerIdx = (map.getStyle().layers ?? []).length - 1;
@@ -63,12 +60,8 @@ export class LayersOrderManager {
       });
     });
   }
-  _initForTests(
-    layersSettings: Map<string, AsyncState<LayerSettings, Error>>,
-    layersParentsIds: Map<string, string>,
-  ) {
+  _initForTests(layersSettings: Map<string, AsyncState<LayerSettings, Error>>) {
     this._layersSettings = layersSettings;
-    this._layersParentsIds = layersParentsIds;
   }
 
   destroy() {
