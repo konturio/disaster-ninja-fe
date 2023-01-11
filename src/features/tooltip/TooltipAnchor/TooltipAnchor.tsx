@@ -1,21 +1,21 @@
 import clsx from 'clsx';
 import s from './TooltipAnchor.module.css';
-import { useCorner } from './useCorner';
-import { findTooltipCorner } from './findTooltipCorner';
+import { usePlacement } from './usePlacement';
+import { findTooltipPlacement } from './findTooltipPlacement';
 import type { PropsWithChildren } from 'react';
-import type { CornerFn, TooltipCoords, TooltipCorner } from '../types';
+import type { PlacementFn, TooltipCoords, TooltipPlacement } from '../types';
 
 export function TooltipAnchor({
   position,
   onClick,
   children,
-  getCorner = findTooltipCorner,
+  getPlacement = findTooltipPlacement,
 }: PropsWithChildren<{
   position: TooltipCoords;
   onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  getCorner?: TooltipCorner | CornerFn;
+  getPlacement?: TooltipPlacement | PlacementFn;
 }>) {
-  const corner = useCorner(getCorner, position);
+  const corner = usePlacement(getPlacement, position);
   const top = position.y;
   const right = (globalThis.visualViewport?.width ?? 0) - position.x;
 

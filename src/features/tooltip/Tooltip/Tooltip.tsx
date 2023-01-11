@@ -4,7 +4,7 @@ import { TooltipAnchor } from '../TooltipAnchor/TooltipAnchor';
 import { TooltipContent } from '../TooltipContent/TooltipContent';
 import s from './Tooltip.module.css';
 import type { LegacyRef } from 'react';
-import type { CornerFn, TooltipCoords, TooltipCorner } from '../types';
+import type { PlacementFn, TooltipCoords, TooltipPlacement } from '../types';
 
 type MouseClickEvent = React.MouseEvent<HTMLDivElement, MouseEvent>;
 
@@ -14,7 +14,7 @@ export function Tooltip({
   transitionRef,
   position,
   content,
-  getCorner,
+  getPlacement,
   classes,
   hoverBehavior = false,
   onOuterClick,
@@ -24,7 +24,7 @@ export function Tooltip({
   transitionRef: LegacyRef<any>;
   position: TooltipCoords;
   content: string | JSX.Element;
-  getCorner?: TooltipCorner | CornerFn;
+  getPlacement?: TooltipPlacement | PlacementFn;
   hoverBehavior?: boolean;
   classes?: { popupContent?: string };
   onOuterClick?: (e: MouseClickEvent) => void;
@@ -55,7 +55,7 @@ export function Tooltip({
         <TooltipAnchor
           position={position}
           onClick={stopPropagation}
-          getCorner={getCorner}
+          getPlacement={getPlacement}
         >
           <TooltipContent
             className={classes?.popupContent}

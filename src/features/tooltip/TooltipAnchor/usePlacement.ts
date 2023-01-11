@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import type { CornerFn, TooltipCoords, TooltipCorner } from '../types';
+import type { PlacementFn, TooltipCoords, TooltipPlacement } from '../types';
 
-export function useCorner(getCorner: CornerFn | TooltipCorner, position: TooltipCoords) {
+export function usePlacement(
+  getCorner: PlacementFn | TooltipPlacement,
+  position: TooltipCoords,
+) {
   const { x, y } = position;
-  const [corner, setCorner] = useState<TooltipCorner>(() =>
+  const [corner, setCorner] = useState<TooltipPlacement>(() =>
     typeof getCorner === 'function' ? getCorner({ x, y }) : getCorner,
   );
 

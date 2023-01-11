@@ -1,11 +1,11 @@
 import { createAtom } from '~utils/atoms';
 
-export type TooltipCorner = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+export type TooltipPlacement = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 export type Coords = {
   x: number;
   y: number;
-  // TODO: rename to `corner`
-  predefinedPosition?: TooltipCorner;
+  // TODO: rename to `placement`
+  predefinedPosition?: TooltipPlacement;
 };
 
 export type TooltipData = {

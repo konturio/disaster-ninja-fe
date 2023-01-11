@@ -36,7 +36,7 @@ export function PopupTooltip() {
           transitionRef={transitionRef}
           position={tooltip.position}
           hoverBehavior={tooltip.hoverBehavior}
-          getCorner={tooltip.position.predefinedPosition}
+          getPlacement={tooltip.position.predefinedPosition}
           content={tooltip.popup}
           classes={tooltip.popupClasses}
           onClose={closeHandler}
