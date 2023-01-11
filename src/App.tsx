@@ -1,9 +1,10 @@
 import { createRoot } from 'react-dom/client';
 import { reatomContext } from '@reatom/react';
-import { StrictMode } from 'react';
+import { StrictMode, Suspense } from 'react';
+import { lazily } from 'react-lazily';
 import { appInit } from '~core/app/init';
 import { store } from '~core/store/store';
-import { Router } from '~core/router';
+const { Router } = lazily(() => import('~core/router'));
 
 const root = createRoot(document.getElementById('root')!);
 
@@ -11,12 +12,16 @@ appInit().then(() => {
   root.render(
     import.meta.env?.VITE_DEBUG_DISABLE_REACTSTRICTMODE ? (
       <reatomContext.Provider value={store}>
-        <Router />
+        <Suspense>
+          <Router />
+        </Suspense>
       </reatomContext.Provider>
     ) : (
       <StrictMode>
         <reatomContext.Provider value={store}>
-          <Router />
+          <Suspense>
+            <Router />
+          </Suspense>
         </reatomContext.Provider>
       </StrictMode>
     ),
