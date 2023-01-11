@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { appConfig } from '~core/app_config';
 import { initMetricsOnce } from '~core/metrics';
 import { currentRouteAtom } from '~core/router/atoms/currentRoute';
-import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
+import { featureFlagsAtom } from '~core/shared_state';
 import type { AppFeatureType } from '~core/auth/types';
 
 // Temporary solution till we refactor init and move it to proper place

@@ -4,7 +4,10 @@ import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { goTo } from '../goTo';
 import type { AppRouterConfig } from '../types';
 
-export function use404Redirect(availableRoutes: AppRouterConfig | null) {
+export function use404Redirect(
+  availableRoutes: AppRouterConfig | null,
+  featuresWereSet: boolean,
+) {
   const location = useLocation();
   useEffect(() => {
     if (!availableRoutes) return;
@@ -16,7 +19,7 @@ export function use404Redirect(availableRoutes: AppRouterConfig | null) {
       });
     });
 
-    if (!match) {
+    if (!match && featuresWereSet) {
       goTo(availableRoutes.defaultRoute);
     }
   }, [location, availableRoutes]);

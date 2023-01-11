@@ -1,5 +1,7 @@
 import { appConfig } from '~core/app_config';
 import { featureFlagsAtom } from '~core/shared_state';
+import { createBooleanAtom } from '~utils/atoms';
+import { store } from '~core/store/store';
 import type { BackendFeature } from '~core/auth/types';
 import type { ApiClient } from '~core/api_client';
 
@@ -15,6 +17,8 @@ export function loadFeatures(
   return featuresResponse;
 }
 
+export const featuresWereSetAtom = createBooleanAtom(false);
+
 export function setFeatures(value: BackendFeature[] | null) {
   // FIXME: investigate proper app and user feature merge
   const newFeatures = {};
@@ -22,4 +26,8 @@ export function setFeatures(value: BackendFeature[] | null) {
     newFeatures[ft.name] = true;
   });
   featureFlagsAtom.set.dispatch(newFeatures);
+  store.dispatch([
+    featureFlagsAtom.set.dispatch(newFeatures),
+    featuresWereSetAtom.setTrue.dispatch(),
+  ]);
 }

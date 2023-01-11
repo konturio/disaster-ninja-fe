@@ -27,7 +27,7 @@ export function CommonView({
   getAbsoluteRoute: (path: string) => string;
 }>) {
   const [featureFlags] = useAtom(featureFlagsAtom);
-  const [currentLanguage] = useAtom(currentLanguageAtom);
+  useAtom(currentLanguageAtom);
   useFavicon(appConfig.faviconUrl);
   useTabNameUpdate(appConfig.name);
 
