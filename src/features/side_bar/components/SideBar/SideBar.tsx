@@ -12,7 +12,7 @@ import { AppNameAndIcon } from '../AppNameAndIcon/AppNameAndIcon';
 import { SmallIconSlot } from '../SmallIconSlot/SmallIconSlot';
 import { routeVisibilityChecker } from './routeVisibilityChecker';
 import s from './SideBar.module.css';
-import type { AvailableRoutesAtom, CurrentRouteAtom, AppRoute } from '~core/router';
+import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 
 const wasClosed = 'sidebarClosed';
 
