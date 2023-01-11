@@ -76,7 +76,7 @@
   }
 }
 
-.denominatorsContainer > div {
+.denominatorsContainer > .quotientItem {
   display: flex;
   flex-direction: row;
   cursor: pointer;
@@ -87,24 +87,16 @@
   }
 }
 
-.denominatorsContainer > div:hover {
+.denominatorsContainer > .quotientItem:hover {
   background: var(--faint-weak-down);
   box-shadow: inset 0px 0px 0px 1px var(--faint-weak);
   color: var(--base-strong);
 }
 
-.denominatorsContainer > div:hover :global(.qualityLabel) {
-  color: #eee;
-}
-
-.denominatorsContainer > div:hover > span {
-  color: #eee;
-  fill: #eee;
-}
-.row .denominatorsContainer > div {
+.row .denominatorsContainer > .quotientItem {
   padding-right: 10px;
 }
 
-.column .denominatorsContainer > div {
+.column .denominatorsContainer > .quotientItem {
   padding-bottom: 10px;
 }

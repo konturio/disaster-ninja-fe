@@ -1,6 +1,6 @@
 import { i18n } from '~core/localization';
 import { TooltipWrapper } from '~components/Tooltip';
-import styles from './style.module.css';
+import styles from './DenominatorIcon.module.css';
 
 interface DenominatorIconProps {
   iconId: string;
@@ -137,8 +137,7 @@ const tooltipTextMapper = {
 
 const DenominatorIcon = ({ iconId }: DenominatorIconProps) => {
   const icon = iconMapper[iconId] || <TotalRoadsIcon />;
-  const tooltipText =
-    tooltipTextMapper[iconId] || i18n.t('bivariate.matrix.icon.roads');
+  const tooltipText = tooltipTextMapper[iconId] || i18n.t('bivariate.matrix.icon.roads');
 
   return (
     <TooltipWrapper tooltipText={tooltipText}>

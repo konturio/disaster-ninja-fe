@@ -26,7 +26,6 @@ type State = {
   xDenominator: SelectionInput['xDenominator'];
   yNumerator: SelectionInput['yNumerator'];
   yDenominator: SelectionInput['yDenominator'];
-  preselectMode: boolean | false;
   selectedCell: { x: number; y: number } | null;
   selectCellCallback: SelectCellCallback | null;
 };
@@ -36,8 +35,6 @@ const DEFAULT_STATE = {
   xDenominator: null,
   yNumerator: null,
   yDenominator: null,
-
-  preselectMode: false,
   selectedCell: null,
   selectCellCallback: null,
 };
@@ -55,7 +52,7 @@ export const bivariateMatrixSelectionAtom = createAtom(
     layersLegendsAtom,
 
     calculateSelectedCell: () => null,
-    setPreselectMode: (flag: boolean) => flag,
+    resetSelection: () => null,
     setSelectCellCallback: (cb: SelectCellCallback) => cb,
     runPreselection: () => null,
     setMatrixSelection: formatSelection,
@@ -90,33 +87,6 @@ export const bivariateMatrixSelectionAtom = createAtom(
       }
     });
 
-    // in these 2 onChange callbacks we react on selection of overlays
-    // enabledLayersAtom we need when we select layer already selected before - it has legend downloaded
-    onChange('enabledLayersAtom', () => {
-      if (state.preselectMode) {
-        schedule((dispatch) => {
-          dispatch(create('runPreselection'));
-        });
-      }
-    });
-    // layersLegendsAtom we need when we select layer first time, it has no legend, so we need to wait until it's ready
-    onChange('layersLegendsAtom', () => {
-      if (state.preselectMode) {
-        schedule((dispatch) => {
-          dispatch(create('runPreselection'));
-        });
-      }
-    });
-    // when matrix component mounted we set this mode and need to run selection first time
-    onAction('setPreselectMode', (preselectMode) => {
-      state = { ...state, preselectMode };
-      if (preselectMode) {
-        schedule((dispatch) => {
-          dispatch(create('runPreselection'));
-        });
-      }
-    });
-
     // this is onSelect method from BivariateMatrixControl
     onAction('setSelectCellCallback', (selectCellCallback) => {
       state = { ...state, selectCellCallback };
@@ -134,22 +104,28 @@ export const bivariateMatrixSelectionAtom = createAtom(
       return layer;
     };
 
+    onAction('resetSelection', () => {
+      state = {
+        ...state,
+
+        xNumerator: null,
+        xDenominator: null,
+        yNumerator: null,
+        yDenominator: null,
+        selectedCell: null,
+      };
+
+      schedule((_dispatch) => {
+        state?.selectCellCallback?.(-1, -1);
+      });
+    });
+
     onAction('runPreselection', () => {
       const layer = getEnabledBivariateLayer();
       if (!layer || !layer?.legend) {
         // it happens when overlays are deselected and we have no active bivariate layer - just deselect all
-        state = {
-          ...state,
-
-          xNumerator: null,
-          xDenominator: null,
-          yNumerator: null,
-          yDenominator: null,
-          selectedCell: null,
-        };
-
-        schedule((_dispatch) => {
-          state?.selectCellCallback?.(-1, -1);
+        schedule((dispatch) => {
+          dispatch(create('resetSelection'));
         });
         return;
       }
@@ -164,14 +140,6 @@ export const bivariateMatrixSelectionAtom = createAtom(
           axis.y.quotient[0] || null,
           axis.y.quotient[1] || null,
         );
-
-        if (
-          preselectionFormatted.xDenominator === state.xDenominator &&
-          preselectionFormatted.xNumerator === state.xNumerator &&
-          preselectionFormatted.yDenominator === state.yDenominator &&
-          preselectionFormatted.yNumerator === state.yNumerator
-        )
-          return;
 
         const { xGroups, yGroups } = getUnlistedState(bivariateNumeratorsAtom);
         const nextSelectedCell = onCalculateSelectedCell(
@@ -214,14 +182,15 @@ export const bivariateMatrixSelectionAtom = createAtom(
           newYGroups,
           preselectionFormatted,
         );
-
-        if (finishSelection.x >= 0 && finishSelection.y >= 0) {
-          schedule((dispatch) => {
+        schedule((dispatch) => {
+          if (finishSelection.x >= 0 && finishSelection.y >= 0) {
             dispatch(bivariateNumeratorsAtom.setNumerators(newXGroups, newYGroups));
             dispatch(create('presetMatrixSelection', preselectionFormatted));
             state?.selectCellCallback?.(finishSelection.x, finishSelection.y);
-          });
-        }
+          } else {
+            dispatch(create('resetSelection'));
+          }
+        });
       }
     });
 

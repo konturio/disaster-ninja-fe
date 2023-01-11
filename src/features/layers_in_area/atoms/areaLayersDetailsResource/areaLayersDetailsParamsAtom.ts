@@ -69,7 +69,9 @@ export const areaLayersDetailsParamsAtom = createAtom(
         const eventFeed = getUnlistedState(currentEventFeedAtom);
         if (eventFeed) newState.eventFeed = eventFeed.id;
       } else {
-        throw Error('Current geometry not from event, event related layer was selected');
+        console.error(
+          'Current geometry not from event, event related layer was selected',
+        );
       }
     }
 

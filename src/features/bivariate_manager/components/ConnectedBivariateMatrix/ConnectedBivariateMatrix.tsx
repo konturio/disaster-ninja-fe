@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useAction, useAtom } from '@reatom/react';
 import debounce from 'lodash/debounce';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
@@ -50,9 +50,10 @@ const mapHeaderCell = (
 });
 
 const ConnectedBivariateMatrix = () => {
-  const [{ selectedCell }, { setMatrixSelection, setPreselectMode }] = useAtom(
+  const [{ selectedCell }, { setMatrixSelection, runPreselection }] = useAtom(
     bivariateMatrixSelectionAtom,
   );
+  const selectedCellRef = useRef(selectedCell);
   const [matrix] = useAtom(bivariateCorrelationMatrixAtom);
 
   const [{ xGroups, yGroups }, { setNumerators }] = useAtom(bivariateNumeratorsAtom);
@@ -65,12 +66,12 @@ const ConnectedBivariateMatrix = () => {
   const stats = statisticsData?.polygonStatistic.bivariateStatistic;
 
   useEffect(() => {
-    setPreselectMode(true);
+    selectedCellRef.current = selectedCell;
+  }, [selectedCell]);
 
-    return () => {
-      setPreselectMode(false);
-    };
-  }, [setPreselectMode]);
+  useEffect(() => {
+    runPreselection();
+  }, []);
 
   const headings = useMemo(() => {
     if (
@@ -108,10 +109,11 @@ const ConnectedBivariateMatrix = () => {
 
   const onSelectCellHandler = useCallback(
     (x, y, e) => {
+      const previousCell = selectedCellRef.current;
       if (
         !xGroups ||
         !yGroups ||
-        (selectedCell && x === selectedCell.x && y === selectedCell.y)
+        (previousCell && x === previousCell.x && y === previousCell.y)
       )
         return;
       setMatrixSelection(
@@ -125,7 +127,7 @@ const ConnectedBivariateMatrix = () => {
         debouncedShowTooltip({ x: e.clientX, y: e.clientY });
       }
     },
-    [xGroups, yGroups, setMatrixSelection, debouncedShowTooltip, selectedCell],
+    [xGroups, yGroups, setMatrixSelection, debouncedShowTooltip],
   );
 
   const onSelectQuotient = useCallback(
@@ -145,24 +147,25 @@ const ConnectedBivariateMatrix = () => {
 
         setNumerators(newXGroups, newYGroups);
 
+        const previousCell = selectedCellRef.current;
         // refresh colors
         if (
-          selectedCell &&
-          selectedCell?.x >= 0 &&
-          selectedCell?.y >= 0 &&
-          ((horizontal && selectedCell.y === index) ||
-            (!horizontal && selectedCell.x === index))
+          previousCell &&
+          previousCell?.x >= 0 &&
+          previousCell?.y >= 0 &&
+          ((horizontal && previousCell.y === index) ||
+            (!horizontal && previousCell.x === index))
         ) {
           setMatrixSelection(
-            newXGroups[selectedCell.x].selectedQuotient[0],
-            newXGroups[selectedCell.x].selectedQuotient[1],
-            newYGroups[selectedCell.y].selectedQuotient[0],
-            newYGroups[selectedCell.y].selectedQuotient[1],
+            newXGroups[previousCell.x].selectedQuotient[0],
+            newXGroups[previousCell.x].selectedQuotient[1],
+            newYGroups[previousCell.y].selectedQuotient[0],
+            newYGroups[previousCell.y].selectedQuotient[1],
           );
         }
       }
     },
-    [selectedCell, setMatrixSelection, setNumerators, xGroups, yGroups],
+    [setMatrixSelection, setNumerators, xGroups, yGroups],
   );
 
   return matrix && headings ? (

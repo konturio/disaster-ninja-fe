@@ -13,7 +13,7 @@ export const BivariateMatrixCellConnector = forwardRef(
 
     let isHovered = false;
     let isSelected = false;
-    const baseClassNames = '';
+    const baseClassNames = styles.connectorBody;
 
     function generateClassNames(): string {
       return `${baseClassNames} ${cn({
@@ -63,12 +63,10 @@ export const BivariateMatrixCellConnector = forwardRef(
 
     return (
       <div
-        className={
-          type === 'horizontal' ? styles.horConnector : styles.vertConnector
-        }
+        className={type === 'horizontal' ? styles.horConnector : styles.vertConnector}
         style={style}
       >
-        <div ref={containerRef}></div>
+        <div className={styles.connectorBody} ref={containerRef}></div>
       </div>
     );
   },
