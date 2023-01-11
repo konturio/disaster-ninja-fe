@@ -2,6 +2,7 @@ import { METRICS_EVENT } from './constants';
 import type { MetricsEventDetail } from './types';
 
 export function dispatchMetricsEvent(name: string, payload: unknown) {
+  if (!globalThis.CustomEvent) return;
   const evt = new CustomEvent<MetricsEventDetail>(METRICS_EVENT, {
     detail: {
       name,
