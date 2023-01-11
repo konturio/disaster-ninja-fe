@@ -1,0 +1,61 @@
+@custom-media --mobile (max-width: 960px);
+
+.tooltipAnchor {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  width: 268px;
+  @media (--mobile) {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+}
+
+.top-left {
+  margin-left: calc(0px - var(--half-unit));
+  margin-bottom: var(--half-unit);
+
+  & > div {
+    transform: translate(-100%, -100%);
+  }
+}
+
+.top-right {
+  margin-left: var(--half-unit);
+  margin-bottom: var(--half-unit);
+
+  & > div {
+    transform: translate(0, -100%);
+  }
+}
+
+.bottom-left {
+  margin-left: calc(0px - var(--half-unit));
+  margin-top: var(--half-unit);
+
+  & > div {
+    transform: translate(-100%, 0);
+  }
+}
+
+.bottom-right {
+  margin-left: var(--half-unit);
+  margin-top: var(--half-unit);
+}
+
+@media (--mobile) {
+  .tooltipAnchor {
+    position: static;
+    width: 100%;
+    height: 100%;
+  }
+
+  & > div {
+    transform: translate(0, 0);
+  }
+}

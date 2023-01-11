@@ -7,7 +7,7 @@ type LayerInfoProps = {
   tooltipId?: string;
 };
 
-const Component = React.memo(function ({ meta, tooltipId }: LayerInfoProps) {
+export const LayerInfo = React.memo(({ meta, tooltipId }: LayerInfoProps) => {
   const { copyrights, description } = meta;
   if (copyrights || description) {
     const tipText = [description, copyrights]
@@ -20,6 +20,4 @@ const Component = React.memo(function ({ meta, tooltipId }: LayerInfoProps) {
   }
 });
 
-Component.displayName = 'LayerInfo';
-
-export const LayerInfo = Component;
+LayerInfo.displayName = 'LayerInfo';
