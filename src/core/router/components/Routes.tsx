@@ -3,6 +3,7 @@ import { CacheRoute } from 'react-router-cache-route';
 import { Route } from 'react-router-dom';
 import { useAction, useAtom } from '@reatom/react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { featuresWereSetAtom } from '~core/app/features';
 import { availableRoutesAtom } from '../atoms/availableRoutes';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { showAboutForNewUsersAtom } from '../atoms/showAboutForNewUsers';
@@ -47,7 +48,9 @@ const RouterStateToReactRouter = ({
 
 export function Routes() {
   const [availableRoutes] = useAtom(availableRoutesAtom);
-  use404Redirect(availableRoutes);
+  const [featuresWereSet] = useAtom(featuresWereSetAtom);
+
+  use404Redirect(availableRoutes, featuresWereSet);
 
   if (availableRoutes === null) {
     return <FullScreenLoader />;

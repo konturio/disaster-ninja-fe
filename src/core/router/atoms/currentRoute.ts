@@ -5,6 +5,7 @@ import { availableRoutesAtom } from './availableRoutes';
 import { currentLocationAtom } from './currentLocation';
 import type { AppRoute } from '../types';
 
+// Describes current route, but cannot change it
 export const currentRouteAtom = createAtom(
   {
     availableRoutesAtom,
