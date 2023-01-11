@@ -16,8 +16,9 @@ export function TooltipAnchor({
   getPlacement?: TooltipPlacement | PlacementFn;
 }>) {
   const corner = usePlacement(getPlacement, position);
+  const width = globalThis.visualViewport?.width;
   const top = position.y;
-  const right = (globalThis.visualViewport?.width ?? 0) - position.x;
+  const right = width !== undefined ? width - position.x : 0;
 
   return (
     <div className={s.tooltipAnchor} style={{ top, right }}>
