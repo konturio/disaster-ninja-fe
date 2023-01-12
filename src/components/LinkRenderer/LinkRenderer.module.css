@@ -1,9 +1,11 @@
 .linkWidthWrap {
   position: relative;
-  & .linkOverflowWrap {
+  & .truncate,
+  .tail {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    display: inline-block;
   }
 
   & .link {
@@ -15,14 +17,6 @@
     text-decoration: none;
     color: var(--accent-strong);
     cursor: pointer;
-  }
-
-  & .link::after {
-    content: attr(data-truncate);
-    position: absolute;
-    left: 100%;
-    top: 0;
-    white-space: nowrap;
   }
 
   & .link:hover {
