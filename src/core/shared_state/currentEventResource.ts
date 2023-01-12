@@ -33,7 +33,6 @@ export const currentEventResourceAtom = createAsyncAtom(
         {
           signal: abortController.signal,
           errorsConfig: {
-            dontShowErrors: false,
             messages: { 404: i18n.t('current_event.not_found_request') },
           },
         },

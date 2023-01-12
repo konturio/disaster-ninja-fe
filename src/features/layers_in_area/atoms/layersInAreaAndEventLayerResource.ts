@@ -59,7 +59,7 @@ export const layersInAreaAndEventLayerResource = createAsyncAtom(
       layersInAreaAndEventLayerResourceParameters,
       true,
       {
-        errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR, dontShowErrors: true },
+        errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR },
         signal: abortController.signal,
       },
     );

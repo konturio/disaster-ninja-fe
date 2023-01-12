@@ -232,7 +232,6 @@ export class ApiClient {
     ) {
       this.unauthorizedCallback(this);
     }
-
     const problem = getGeneralApiProblem(response);
 
     // if there is custom error messages config use it do define error message
@@ -253,10 +252,13 @@ export class ApiClient {
     }
 
     if (!errorsConfig || !errorsConfig.dontShowErrors) {
-      this.notificationService.error({
-        title: this.translationService.t('error'),
-        description: this.translationService.t(errorMessage),
-      });
+      if (problem.kind !== 'canceled') {
+        this.notificationService.error({
+          title: this.translationService.t('error'),
+          description: this.translationService.t(errorMessage),
+        });
+      }
+      console.debug(`Request was canceled`);
     }
 
     throw new ApiClientError(errorMessage, problem);

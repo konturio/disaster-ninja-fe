@@ -36,7 +36,7 @@ export const layersGlobalResource = createAsyncAtom(
       { appId: params.appId },
       true,
       {
-        errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR, dontShowErrors: true },
+        errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR },
         signal: abortController.signal,
       },
     );

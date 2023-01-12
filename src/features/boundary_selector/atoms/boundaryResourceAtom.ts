@@ -11,7 +11,7 @@ export const boundaryResourceAtom = createAsyncAtom(
       '/layers/collections/bounds/itemsByMultipoint',
       { geom: `MULTIPOINT(${lng} ${lat})` },
       false,
-      { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
+      { signal: abortController.signal },
     );
     if (!responseData) throw 'No data received';
     return responseData;
