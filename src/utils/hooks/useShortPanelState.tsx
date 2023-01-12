@@ -7,8 +7,17 @@ import {
 import { useEffect, useState } from 'react';
 import type { PanelCustomControl } from '@konturio/ui-kit';
 
-export const useShortPanelState = (skipShortState?: boolean) => {
-  const [panelState, setPanelState] = useState<'full' | 'short' | 'closed'>('full');
+export type PanelState = 'full' | 'short' | 'closed';
+
+interface UseShortPanelStateProps {
+  initialState?: PanelState | null;
+  skipShortState?: boolean;
+}
+
+export const useShortPanelState = (props?: UseShortPanelStateProps) => {
+  const initialState = props?.initialState ?? 'full';
+  const skipShortState = props?.skipShortState ?? false;
+  const [panelState, setPanelState] = useState<PanelState>(initialState);
   const [panelControls, setPanelControls] = useState<PanelCustomControl[]>([]);
 
   const openFullControl: PanelCustomControl = {

@@ -7,22 +7,26 @@ import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import s from './PrimaryAndSecondaryPanel.module.css';
+import type { PanelState } from '~utils/hooks/useShortPanelState';
 import type { PanelFeatureInterface } from 'types/featuresTypes';
 
 type PanelProps = {
   primaryProps?: PanelFeatureInterface | null;
   secondaryProps?: PanelFeatureInterface | null;
   id?: string;
+  initialState?: PanelState | null;
 };
 
 export function PrimaryAndSecondaryPanelWidget({
   primaryProps,
   secondaryProps,
   id,
+  initialState,
 }: PanelProps) {
-  const { panelState, panelControls, setPanelState } = useShortPanelState(
-    Boolean(!primaryProps || !secondaryProps),
-  );
+  const { panelState, panelControls, setPanelState } = useShortPanelState({
+    initialState,
+    skipShortState: Boolean(!primaryProps || !secondaryProps),
+  });
 
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
