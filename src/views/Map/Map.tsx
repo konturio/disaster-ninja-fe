@@ -104,13 +104,14 @@ export function MapPage() {
           analytics={
             <PrimaryAndSecondaryPanelWidget
               primaryProps={
-                featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanel : null
-              }
-              secondaryProps={
                 featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL]
                   ? advancedAnalyticsPanel
                   : null
               }
+              secondaryProps={
+                featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanel : null
+              }
+              initialState={featureFlags[FeatureFlag.ANALYTICS_PANEL] ? 'short' : null}
               key="analytics"
               id="analytics"
             />
