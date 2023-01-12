@@ -1,0 +1,28 @@
+.markdown {
+  & p {
+    margin: 0;
+  }
+  & a {
+    word-break: break-all;
+    &:visited,
+    &:link,
+    &:active,
+    &:hover {
+      color: var(--accent-strong);
+    }
+  }
+}
+
+@media (--mobile) {
+  .markdown {
+    flex: 1 1 0;
+    & a {
+      &:visited,
+      &:link,
+      &:active,
+      &:hover {
+        color: var(--accent-strong);
+      }
+    }
+  }
+}
