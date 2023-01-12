@@ -137,7 +137,7 @@
     "react-router-cache-route": "^1.12.11",
     "react-router-dom": "^5.3.4",
     "react-transition-group": "^4.4.5",
-    "react-virtuoso": "^3.1.5",
+    "react-virtuoso": "^4.0.3",
     "remark-gfm": "^3.0.1",
     "utility-types": "^3.10.0"
   },
