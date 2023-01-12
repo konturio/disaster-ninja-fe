@@ -239,6 +239,11 @@ export function createAsyncAtom<
             // Deps is primitive
             if (depsAtomState !== null)
               schedule((dispatch) => dispatch(create('request', depsAtomState as any)));
+            else {
+              console.info(
+                `Resource atom with name ${name} skips running as its dependency state ${deps?.depsAtom?.id} is null`,
+              );
+            }
           }
         });
       } else {
