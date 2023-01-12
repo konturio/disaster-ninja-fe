@@ -2,16 +2,18 @@ import clsx from 'clsx';
 import { useAction } from '@reatom/react';
 import { InfoOutline16 } from '@konturio/default-icons';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import s from './Tooltip.module.css';
+import s from './TooltipTrigger.module.css';
 
 interface TooltipProps {
   tipText: string;
   className?: string;
   showedOnHover?: boolean;
   tooltipId?: string;
+  icon?: JSX.Element;
 }
 
-export const Tooltip = ({
+export const TooltipTrigger = ({
+  icon = <InfoOutline16 />,
   tipText,
   className,
   showedOnHover,
@@ -51,7 +53,7 @@ export const Tooltip = ({
       onPointerEnter={onPointerEnter}
       onPointerLeave={onPointerLeave}
     >
-      <InfoOutline16 />
+      {icon}
     </div>
   );
 };

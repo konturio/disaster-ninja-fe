@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Legend as BiLegend, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { formatBivariateAxisLabel, invertClusters } from '~utils/bivariate';
-import { Tooltip } from '~components/Tooltip';
+import { TooltipTrigger } from '~components/TooltipTrigger';
 import s from './BivariateLegend.module.css';
 import { CornerTooltipWrapper } from './CornerTooltipWrapper';
 import { BIVARIATE_LEGEND_SIZE } from './const';
@@ -94,7 +94,7 @@ export function BivariateLegend({
 
           <div className={s.controlsBar}>
             {controls}
-            {tipText && <Tooltip tipText={tipText} />}
+            {tipText && <TooltipTrigger tipText={tipText} />}
           </div>
         </div>
       )}
