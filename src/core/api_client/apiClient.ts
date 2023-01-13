@@ -253,7 +253,7 @@ export class ApiClient {
 
     if (problem.kind === 'canceled') {
       console.debug('Request was canceled');
-    } else if (errorsConfig === undefined || errorsConfig.dontShowErrors !== true) {
+    } else if (errorsConfig === undefined || errorsConfig.hideErrors !== true) {
       this.notificationService.error({
         title: this.translationService.t('error'),
         description: this.translationService.t(errorMessage),
