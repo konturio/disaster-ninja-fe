@@ -27,41 +27,6 @@ export const routerConfig: AppRouterConfig = {
   defaultRoute: '',
   routes: [
     {
-      slug: 'about',
-      title: i18n.t('modes.about'),
-      icon: <Info24 />,
-      view: <AboutPage toHomePage={() => goTo('')} />,
-      showForNewUsers: true,
-    },
-    {
-      slug: 'privacy',
-      title: i18n.t('modes.privacy'),
-      icon: <Reports16 />,
-      view: <PrivacyPage />,
-      parentRoute: 'about',
-      visibilityInNavigation: 'always',
-    },
-    {
-      slug: 'cookies',
-      title: 'modes.cookies',
-      icon: <Reports16 />,
-      view: <CookiesPage />,
-      parentRoute: 'about',
-      visibilityInNavigation: 'never',
-    },
-    {
-      slug: 'profile',
-      title: (
-        <UserStateToComponents
-          authorized={i18n.t('modes.profile')}
-          other={i18n.t('login.login_button')}
-        />
-      ),
-      icon: <User24 />,
-      view: <ProfilePage />,
-      requiredFeature: AppFeature.APP_LOGIN,
-    },
-    {
       slug: '',
       title: i18n.t('modes.map'),
       icon: <Map24 />,
@@ -90,6 +55,41 @@ export const routerConfig: AppRouterConfig = {
       icon: <Prefs24 />,
       view: <BivariateManagerPage />,
       requiredFeature: AppFeature.BIVARIATE_COLOR_MANAGER,
+    },
+    {
+      slug: 'profile',
+      title: (
+        <UserStateToComponents
+          authorized={i18n.t('modes.profile')}
+          other={i18n.t('login.login_button')}
+        />
+      ),
+      icon: <User24 />,
+      view: <ProfilePage />,
+      requiredFeature: AppFeature.APP_LOGIN,
+    },
+    {
+      slug: 'about',
+      title: i18n.t('modes.about'),
+      icon: <Info24 />,
+      view: <AboutPage toHomePage={() => goTo('')} />,
+      showForNewUsers: true,
+    },
+    {
+      slug: 'privacy',
+      title: i18n.t('modes.privacy'),
+      icon: <Reports16 />,
+      view: <PrivacyPage />,
+      parentRoute: 'about',
+      visibilityInNavigation: 'always',
+    },
+    {
+      slug: 'cookies',
+      title: 'modes.cookies',
+      icon: <Reports16 />,
+      view: <CookiesPage />,
+      parentRoute: 'about',
+      visibilityInNavigation: 'never',
     },
   ],
 };
