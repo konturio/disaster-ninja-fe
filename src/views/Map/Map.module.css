@@ -33,15 +33,15 @@
 }
 
 .footer {
-  height: 40px;
+  height: 100%;
   width: 100%;
   position: relative;
 }
 
 .logo {
   position: absolute;
-  right: var(--unit);
-  bottom: var(--unit);
+  bottom: 0;
+  right: calc(54px + var(--half-unit));
 }
 
 /* laptop viewport */
@@ -56,11 +56,8 @@
 /* Mobile view */
 @media screen and (max-width: 960px) {
   .footer {
-    position: relative;
-    grid-column: 1/2;
-    grid-row: 6;
     & .logo {
-      position: static;
+      right: calc(58px + var(--half-unit));
     }
   }
 }

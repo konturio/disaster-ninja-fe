@@ -3,12 +3,12 @@
   width: 100%;
   height: 100%;
   grid-template-columns: calc(40px + var(--double-unit)) minmax(40px, 100vw);
-  grid-template-rows: 180px 1fr 30px;
+  grid-template-rows: 180px 1fr 10px var(--unit);
 }
 
 .toolbox {
   grid-row: 1;
-  grid-column: 1/3;
+  grid-column: 1/-1;
   padding: var(--unit);
 }
 
@@ -35,6 +35,13 @@
 }
 
 .footerWrap {
-  grid-row: -1;
   grid-column: 1/-1;
+  grid-row: 3;
+  height: calc(10px + var(--unit));
+}
+
+.fakeFooter {
+  grid-column: 1/-1;
+  grid-row: -1;
+  height: var(--unit);
 }

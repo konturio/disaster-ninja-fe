@@ -1,8 +1,15 @@
+import clsx from 'clsx';
 import { useRef, useLayoutEffect, useState } from 'react';
 import { ColumnContext, Resizer } from '~core/store/columnContext';
 import s from './SmartColumn.module.css';
 
-export function SmartColumn({ children }) {
+export function SmartColumn({
+  children,
+  className,
+}: {
+  className?: string;
+  children: JSX.Element;
+}) {
   const columnRef = useRef<null | HTMLDivElement>(null);
   const limiterRef = useRef<null | HTMLDivElement>(null);
 
@@ -14,7 +21,7 @@ export function SmartColumn({ children }) {
     return () => resizer.destroy();
   }, [setResizer]);
   return (
-    <div className={s.smartColumn} ref={limiterRef}>
+    <div className={clsx(s.smartColumn, className)} ref={limiterRef}>
       <div className={s.smartColumnContent} ref={columnRef}>
         {resizer && (
           <ColumnContext.Provider value={resizer}>{children}</ColumnContext.Provider>

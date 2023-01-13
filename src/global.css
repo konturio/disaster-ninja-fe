@@ -72,7 +72,13 @@ code {
 }
 /* move map controls to the right so kontur logo wouldn't be overlapped */
 .maplibregl-control-container .maplibregl-ctrl-bottom-right {
-  right: 100px;
+  right: 150px;
+  display: flex;
+  align-items: center;
+  bottom: calc(2px + var(--unit));
+  & .mapboxgl-ctrl-scale {
+    margin: 0;
+  }
 }
 
 .intercom-launcher-frame,
@@ -80,7 +86,8 @@ code {
   transform: scale(0.8) !important;
 }
 .intercom-lightweight-app-launcher.intercom-launcher {
-  bottom: 28px;
+  bottom: var(--half-unit);
+  right: calc(10px + var(--half-unit));
 }
 
 /* handling app header here bacause 
@@ -94,8 +101,17 @@ code {
     display: none;
   }
   .intercom-lightweight-app-launcher.intercom-launcher {
-    right: 6px;
-    bottom: 36px;
+    bottom: var(--half-unit);
+    right: calc(10px + var(--half-unit));
+  }
+  /* move map controls to the right so kontur logo wouldn't be overlapped */
+  .maplibregl-control-container .maplibregl-ctrl-bottom-right {
+    right: 140px;
+    flex-wrap: wrap;
+    bottom: 0;
+    & .mapboxgl-ctrl-scale {
+      margin: 0;
+    }
   }
 }
 
