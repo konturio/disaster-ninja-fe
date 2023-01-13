@@ -63,7 +63,7 @@ const weatherResource = createAsyncAtom(
       `/weather?units=${weatherUnits}`,
       undefined,
       undefined,
-      { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
+      { signal: abortController.signal },
     ),
   'weatherResource',
 );

@@ -30,7 +30,7 @@ export const episodesResource = createAsyncAtom(
         `/events/${deps.feed.id}/${deps.event.id}/episodes`,
         undefined,
         undefined,
-        { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
+        { signal: abortController.signal },
       );
       if (!responseData) throw 'No data received';
 

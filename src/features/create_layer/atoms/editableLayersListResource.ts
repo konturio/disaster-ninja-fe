@@ -38,7 +38,7 @@ export const editableLayersListResource = createAsyncAtom(
       '/layers/search/user',
       { appId: params.appId },
       true,
-      { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
+      { signal: abortController.signal },
     );
     if (responseData === null) return [];
 

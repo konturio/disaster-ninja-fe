@@ -1,6 +1,6 @@
 import { Virtuoso } from 'react-virtuoso';
 import { useAtom } from '@reatom/react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { i18n } from '~core/localization';
@@ -53,6 +53,17 @@ export function FullState({
     }
   }, [currentEventId, eventsList, virtuoso, setHasUnlistedEvent]);
 
+  const currentEventRef = useRef(currentEventId);
+  currentEventRef.current = currentEventId;
+  const eventClickHandler = useCallback(
+    (id: string) => {
+      if (id !== currentEventRef.current) {
+        onCurrentChange(id);
+      }
+    },
+    [onCurrentChange, currentEventRef],
+  );
+
   return (
     <div className={s.panelBody}>
       {hasUnlistedEvent && (
@@ -75,7 +86,7 @@ export function FullState({
                     key={event.eventId}
                     event={event}
                     isActive={event.eventId === currentEventId}
-                    onClick={onCurrentChange}
+                    onClick={eventClickHandler}
                     alternativeActionControl={
                       hasTimeline ? (
                         <EpisodeTimelineToggle

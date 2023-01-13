@@ -20,7 +20,6 @@ export const advancedAnalyticsResourceAtom = createAsyncAtom(
         true,
         {
           signal: abortController.signal,
-          errorsConfig: { dontShowErrors: true },
         },
       );
     } catch (e) {

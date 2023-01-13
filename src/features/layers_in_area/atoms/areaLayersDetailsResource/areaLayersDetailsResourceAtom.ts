@@ -16,9 +16,6 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
       true,
       {
         signal: abortController.signal,
-        errorsConfig: {
-          dontShowErrors: true,
-        },
       },
     );
     return request ?? null;

@@ -18,7 +18,7 @@ export const analyticsResourceAtom = createAsyncAtom(
         `/polygon_details`,
         fGeo?.geometry,
         false,
-        { signal: abortController.signal, errorsConfig: { dontShowErrors: true } },
+        { signal: abortController.signal },
       );
     } catch (e: unknown) {
       dispatchMetricsEventOnce(AppFeature.ANALYTICS_PANEL, false);

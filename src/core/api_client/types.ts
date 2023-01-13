@@ -71,7 +71,7 @@ export type JWTData = {
 export type RequestParams = Record<string, any>;
 
 export type RequestErrorsConfig = {
-  dontShowErrors?: boolean;
+  hideErrors?: boolean;
   messages?: Record<number, string> | string;
 };
 

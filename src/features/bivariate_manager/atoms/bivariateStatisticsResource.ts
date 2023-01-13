@@ -47,7 +47,6 @@ export const bivariateStatisticsResourceAtom = createAsyncAtom(
         errors?: unknown;
       }>('/bivariate_matrix', body, true, {
         signal: abortController.signal,
-        errorsConfig: { dontShowErrors: true },
       });
     } catch (e) {
       if (isApiError(e) && e.problem.kind === 'canceled') {
