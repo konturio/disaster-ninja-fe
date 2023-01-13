@@ -1,8 +1,13 @@
 import { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import s from './CssTransitionWrapper.module.css';
+import type {
+  LegacyRef,
+  JSXElementConstructor,
+  ReactElement,
+  ReactFragment,
+} from 'react';
 import type { CSSTransitionProps } from 'react-transition-group/CSSTransition';
-import type { ReactNode, LegacyRef } from 'react';
 
 export const fadeClassNames = {
   enter: s.fadeEnter,
@@ -11,7 +16,9 @@ export const fadeClassNames = {
   exitActive: s.fadeExitActive,
 };
 
-type ChildrenFunction = (ref: LegacyRef<any>) => ReactNode;
+type ChildrenFunction = (
+  ref: LegacyRef<any>,
+) => ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment;
 
 type CSSTransitionWrapperProps = CSSTransitionProps & {
   children: ChildrenFunction;

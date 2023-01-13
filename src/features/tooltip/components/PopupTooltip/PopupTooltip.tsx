@@ -33,27 +33,29 @@ export function PopupTooltip() {
 
   return (
     <CSSTransitionWrapper in={Boolean(tooltip)} timeout={300} classNames={fadeClassNames}>
-      {(transitionRef) =>
-        tooltip && (
-          <Tooltip
-            transitionRef={transitionRef}
-            position={tooltip.position}
-            hoverBehavior={tooltip.hoverBehavior}
-            getPlacement={tooltip.position.predefinedPosition}
-            classes={tooltip.popupClasses}
-            onClose={closeHandler}
-            onOuterClick={outerClickHandler}
-          >
-            {typeof tooltip.popup === 'string' ? (
-              <ReactMarkdown components={{ a: LinkRenderer }} className={s.markdown}>
-                {parseLinksAsTags(tooltip.popup)}
-              </ReactMarkdown>
-            ) : (
-              tooltip.popup
-            )}
-          </Tooltip>
-        )
-      }
+      {(transitionRef) => (
+        <>
+          {tooltip && (
+            <Tooltip
+              transitionRef={transitionRef}
+              position={tooltip.position}
+              hoverBehavior={tooltip.hoverBehavior}
+              getPlacement={tooltip.position.predefinedPosition}
+              classes={tooltip.popupClasses}
+              onClose={closeHandler}
+              onOuterClick={outerClickHandler}
+            >
+              {typeof tooltip.popup === 'string' ? (
+                <ReactMarkdown components={{ a: LinkRenderer }} className={s.markdown}>
+                  {parseLinksAsTags(tooltip.popup)}
+                </ReactMarkdown>
+              ) : (
+                tooltip.popup
+              )}
+            </Tooltip>
+          )}
+        </>
+      )}
     </CSSTransitionWrapper>
   );
 }
