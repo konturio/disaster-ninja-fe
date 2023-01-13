@@ -34,7 +34,7 @@ export function PopupTooltip() {
   return (
     <CSSTransitionWrapper in={Boolean(tooltip)} timeout={300} classNames={fadeClassNames}>
       {(transitionRef) =>
-        tooltip && (
+        tooltip ? (
           <Tooltip
             transitionRef={transitionRef}
             position={tooltip.position}
@@ -52,6 +52,8 @@ export function PopupTooltip() {
               tooltip.popup
             )}
           </Tooltip>
+        ) : (
+          <></>
         )
       }
     </CSSTransitionWrapper>
