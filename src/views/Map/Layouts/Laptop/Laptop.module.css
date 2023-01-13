@@ -4,7 +4,7 @@
   gap: var(--unit);
   padding: var(--unit);
   grid-template-columns: minmax(320px, 1fr) minmax(440px, 4fr);
-  grid-template-rows: calc(100% - 20px - var(--unit)) 20px var(--unit);
+  grid-template-rows: calc(100% - 20px - var(--unit) - var(--unit)) 20px var(--unit);
 }
 
 .panelsColumn {
@@ -35,8 +35,5 @@
   width: 100%;
   grid-row: 2;
   grid-column: 1/-1;
-  height: 20px;
-  & > div {
-    height: 20px;
-  }
+  height: 100%;
 }

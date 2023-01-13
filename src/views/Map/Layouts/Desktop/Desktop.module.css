@@ -35,8 +35,8 @@
 }
 
 .footerWrap {
-  height: 40px;
   width: 100%;
+  height: calc(100% - var(--unit));
   grid-row: 2;
   grid-column: 1/-1;
 }

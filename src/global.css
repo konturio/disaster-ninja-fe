@@ -75,9 +75,10 @@ code {
   right: 150px;
   display: flex;
   align-items: center;
-  bottom: calc(2px + var(--unit));
+  bottom: calc(10px + var(--unit));
   & .mapboxgl-ctrl-scale {
     margin: 0;
+    height: 20px;
   }
 }
 
@@ -107,8 +108,8 @@ code {
   /* move map controls to the right so kontur logo wouldn't be overlapped */
   .maplibregl-control-container .maplibregl-ctrl-bottom-right {
     right: 140px;
-    flex-wrap: wrap;
-    bottom: 0;
+    flex-wrap: wrap-reverse;
+    bottom: 1px;
     & .mapboxgl-ctrl-scale {
       margin: 0;
     }

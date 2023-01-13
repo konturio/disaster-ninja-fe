@@ -398,7 +398,7 @@ export default forwardRef(MapboxMap);
 
 function getMapControl(useMetricUnits?: boolean) {
   const scale = new mapLibre.ScaleControl({
-    maxWidth: 120,
+    maxWidth: 75,
     unit: useMetricUnits ? 'metric' : 'imperial',
   });
   return scale;
