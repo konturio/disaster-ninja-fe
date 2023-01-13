@@ -6,26 +6,26 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
-import s from './PrimaryAndSecondaryPanel.module.css';
+import s from './FullAndShortStatesPanelWidget.module.css';
 import type { PanelState } from '~utils/hooks/useShortPanelState';
 import type { PanelFeatureInterface } from 'types/featuresTypes';
 
 type PanelProps = {
-  primaryProps?: PanelFeatureInterface | null;
-  secondaryProps?: PanelFeatureInterface | null;
+  fullState?: PanelFeatureInterface | null;
+  shortState?: PanelFeatureInterface | null;
   id?: string;
   initialState?: PanelState | null;
 };
 
-export function PrimaryAndSecondaryPanelWidget({
-  primaryProps,
-  secondaryProps,
+export function FullAndShortStatesPanelWidget({
+  fullState,
+  shortState,
   id,
   initialState,
 }: PanelProps) {
   const { panelState, panelControls, setPanelState } = useShortPanelState({
     initialState,
-    skipShortState: Boolean(!primaryProps || !secondaryProps),
+    skipShortState: Boolean(!fullState || !shortState),
   });
 
   const isOpen = panelState !== 'closed';
@@ -33,12 +33,12 @@ export function PrimaryAndSecondaryPanelWidget({
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const getProperty = useCallback(
     function <K extends keyof PanelFeatureInterface>(property: K) {
-      return isShort ? secondaryProps?.[property] : primaryProps?.[property];
+      return isShort ? shortState?.[property] : fullState?.[property];
     },
-    [isShort, primaryProps, secondaryProps],
+    [isShort, fullState, shortState],
   );
 
-  const minHeight = getProperty('minHeight') || secondaryProps?.minHeight || 0;
+  const minHeight = getProperty('minHeight') || shortState?.minHeight || 0;
   const maxHeight = getProperty('maxHeight');
   const contentHeight = getProperty('contentheight');
   const resize = isMobile ? 'none' : getProperty('resize');
@@ -48,7 +48,7 @@ export function PrimaryAndSecondaryPanelWidget({
     isOpen,
     minHeight,
     id || 'primary_and_secondary',
-    isShort ? secondaryProps?.skipAutoResize : primaryProps?.skipAutoResize,
+    isShort ? shortState?.skipAutoResize : fullState?.skipAutoResize,
   );
 
   const onPanelIconClick = useCallback(() => {
@@ -61,14 +61,14 @@ export function PrimaryAndSecondaryPanelWidget({
 
   useAutoCollapsePanel(isOpen, onPanelClose);
 
-  if (!primaryProps && !secondaryProps) return null;
+  if (!fullState && !shortState) return null;
 
-  const header = !primaryProps ? secondaryProps?.header : primaryProps.header;
-  const panelIcon = !primaryProps ? secondaryProps?.panelIcon : primaryProps.panelIcon;
+  const header = !fullState ? shortState?.header : fullState.header;
+  const panelIcon = !fullState ? shortState?.panelIcon : fullState.panelIcon;
 
   const panelContent = {
-    full: primaryProps?.content || secondaryProps?.content,
-    short: secondaryProps?.content,
+    full: fullState?.content || shortState?.content,
+    short: shortState?.content,
     closed: <></>,
   };
 
