@@ -6,7 +6,7 @@ import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/D
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
-import { PrimaryAndSecondaryPanelWidget } from '~widgets/PrimaryAndSecondaryPanel';
+import { FullAndShortStatesPanelWidget } from '~widgets/FullAndShortStatesPanelWidget';
 import { analyticsPanel } from '~features/analytics_panel';
 import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
 import s from './Map.module.css';
@@ -101,33 +101,10 @@ export function MapPage() {
       </div>
       {featureFlags && (
         <Layout
-          analytics={
-            <PrimaryAndSecondaryPanelWidget
-              primaryProps={
-                featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL]
-                  ? advancedAnalyticsPanel
-                  : null
-              }
-              secondaryProps={
-                featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanel : null
-              }
-              initialState={featureFlags[FeatureFlag.ANALYTICS_PANEL] ? 'short' : null}
-              key="analytics"
-              id="analytics"
-            />
-          }
+          analytics={<Analytics featureFlags={featureFlags} />}
           // if EVENTS_LIST is enabled, we always have default feed
           disasters={featureFlags[FeatureFlag.EVENTS_LIST] && <EventListPanel />}
-          layersAndLegends={
-            <PrimaryAndSecondaryPanelWidget
-              primaryProps={
-                featureFlags[FeatureFlag.MAP_LAYERS_PANEL] ? layersPanel : null
-              }
-              secondaryProps={featureFlags[FeatureFlag.LEGEND_PANEL] ? legendPanel : null}
-              key="layers_and_legends"
-              id="layers_and_legends"
-            />
-          }
+          layersAndLegends={<LayersAndLegends featureFlags={featureFlags} />}
           matrix={featureFlags[FeatureFlag.BIVARIATE_MANAGER] && <BivariatePanel />}
           timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
           toolbar={<Toolbar />}
@@ -145,3 +122,38 @@ export function MapPage() {
     </div>
   );
 }
+
+const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) => {
+  const [fullState, shortState] = [
+    featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL] ? advancedAnalyticsPanel : null,
+    featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanel : null,
+  ];
+  return (
+    <FullAndShortStatesPanelWidget
+      fullState={fullState}
+      shortState={shortState}
+      initialState={featureFlags[FeatureFlag.ANALYTICS_PANEL] ? 'short' : null}
+      key="analytics"
+      id="analytics"
+    />
+  );
+};
+
+const LayersAndLegends = ({
+  featureFlags,
+}: {
+  featureFlags: Record<string, boolean>;
+}) => {
+  const [fullState, shortState] = [
+    featureFlags[FeatureFlag.MAP_LAYERS_PANEL] ? layersPanel : null,
+    featureFlags[FeatureFlag.LEGEND_PANEL] ? legendPanel : null,
+  ];
+  return (
+    <FullAndShortStatesPanelWidget
+      fullState={fullState}
+      shortState={shortState}
+      key="layers_and_legends"
+      id="layers_and_legends"
+    />
+  );
+};
