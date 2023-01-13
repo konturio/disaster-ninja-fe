@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip } from '~components/Tooltip';
+import { TooltipTrigger } from '~components/TooltipTrigger';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 
 type LayerInfoProps = {
@@ -14,7 +14,7 @@ export const LayerInfo = React.memo(({ meta, tooltipId }: LayerInfoProps) => {
       .flat()
       .filter((line) => line !== undefined)
       .join('\n');
-    return <Tooltip tipText={tipText} tooltipId={tooltipId} />;
+    return <TooltipTrigger tipText={tipText} tooltipId={tooltipId} />;
   } else {
     return null;
   }

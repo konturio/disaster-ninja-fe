@@ -1,4 +1,4 @@
-import { Tooltip } from '~components/Tooltip';
+import { TooltipTrigger } from '~components/TooltipTrigger';
 import s from './AnalyticsData.module.css';
 import type { AnalyticsData } from '~core/types';
 
@@ -32,7 +32,7 @@ export const AnalyticsDataList = ({ data }: AnalyticsDataListProps) => {
           <div key={`${dataItem.name}_${index}`} className={s.stat}>
             <div className={s.statHead}>
               {dataItem.name}
-              <Tooltip tipText={dataItem.description} showedOnHover={true} />
+              <TooltipTrigger tipText={dataItem.description} showedOnHover={true} />
             </div>
             <div className={s.statContent}>
               {typeof dataItem.percentValue !== 'undefined' ? (

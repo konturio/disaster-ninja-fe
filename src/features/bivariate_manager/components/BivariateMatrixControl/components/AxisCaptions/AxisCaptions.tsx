@@ -1,7 +1,7 @@
 import { InfoOutline16 } from '@konturio/default-icons';
 import { useLayoutEffect, useRef } from 'react';
 import { i18n } from '~core/localization';
-import { TooltipWrapper } from '~components/Tooltip';
+import { TooltipWrapper } from '~components/TooltipTrigger';
 import s from './AxisCaptions.module.css';
 
 const AXIS_CAPTIONS_TOOTIP_TEXT = (

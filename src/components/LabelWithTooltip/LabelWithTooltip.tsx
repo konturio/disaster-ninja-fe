@@ -1,4 +1,4 @@
-import { Tooltip } from '~components/Tooltip';
+import { TooltipTrigger } from '~components/TooltipTrigger';
 import { Label } from '~components/Label/Label';
 
 interface LabelWithTooltipProps {
@@ -14,6 +14,6 @@ export const LabelWithTooltip = ({
 }: LabelWithTooltipProps) => (
   <Label className={className}>
     {text}
-    <Tooltip tipText={description} showedOnHover={true} />
+    <TooltipTrigger tipText={description} showedOnHover={true} />
   </Label>
 );
