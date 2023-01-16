@@ -58,6 +58,7 @@
   .footer {
     & .logo {
       right: calc(58px + var(--half-unit));
+      bottom: var(--unit);
     }
   }
 }
