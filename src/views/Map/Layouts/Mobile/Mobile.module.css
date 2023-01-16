@@ -37,7 +37,7 @@
 .footerWrap {
   grid-column: 1/-1;
   grid-row: 3;
-  height: calc(8px + var(--unit));
+  height: calc(10px + var(--unit));
 }
 
 .fakeFooter {

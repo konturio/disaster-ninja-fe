@@ -109,7 +109,7 @@ code {
   .maplibregl-control-container .maplibregl-ctrl-bottom-right {
     right: 140px;
     flex-wrap: wrap-reverse;
-    bottom: calc(12px + var(--unit));
+    bottom: calc(10px + var(--unit));
     & .mapboxgl-ctrl-scale {
       margin: 0;
     }
