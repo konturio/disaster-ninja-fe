@@ -76,10 +76,6 @@ msgstr "Capas"
 msgid "Feed"
 msgstr "Fuente"
 
-#: details
-msgid "Details"
-msgstr "Detalles"
-
 #: deselect
 msgid "Deselect"
 msgstr "Anular la selección"
@@ -351,10 +347,6 @@ msgstr ""
 "Seleccione una característica para comenzar a editar las propiedades de la "
 "misma"
 
-#: analytics_panel##loading
-msgid "Loading analytics..."
-msgstr "Cargando análisis..."
-
 #: analytics_panel##header_title
 msgid "Analytics"
 msgstr "Análisis"
@@ -367,17 +359,9 @@ msgstr "INFORMACIÓN"
 msgid "Error while fetching analytics data"
 msgstr "Error en la obtención de datos de análisis"
 
-#: advanced_analytics_panel##loading
-msgid "Loading advanced analytics..."
-msgstr "Cargando análisis avanzado..."
-
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
 msgstr "Análisis avanzado"
-
-#: advanced_analytics_panel##analytics_tab
-msgid "Advanced Analytics"
-msgstr "Analíticas avanzadas"
 
 #: advanced_analytics_panel##error
 msgid "Error while fetching advanced analytics data"
@@ -391,29 +375,14 @@ msgstr "Lo sentimos, el evento solicitado no se ha encontrado."
 msgid "An error occured!"
 msgstr "¡Se produjo un error!"
 
-#: advanced_analytics_empty##please_select
-msgid "Please, select an area again"
-msgstr "Vuelva a seleccionar un área"
+#: advanced_analytics_empty##analytics_for_selected
+#, fuzzy
+msgid "Analytics for a selected area"
+msgstr "Capas en el área seleccionada"
 
-#: advanced_analytics_empty##to_see_map
-msgid "to see state of the map"
-msgstr "para ver el estado del mapa"
-
-#: advanced_analytics_empty##pickDisaster
-msgid "Pick disaster from the list"
-msgstr "Elija el desastre de la lista"
-
-#: advanced_analytics_empty##draw
-msgid "Draw polygon on the map"
-msgstr "Dibuje un polígono en el mapa"
-
-#: advanced_analytics_empty##select
-msgid "Select boundary on the map"
-msgstr "Seleccione el límite en el mapa"
-
-#: advanced_analytics_empty##upload
-msgid "Upload your own geoJSON"
-msgstr "Cargue su propio geoJSON"
+#: advanced_analytics_empty##will_be_provided
+msgid "will be provided here"
+msgstr ""
 
 #: draw_tools##area
 msgid "Area"
@@ -819,7 +788,12 @@ msgid ""
 "attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
 "high risk / many gaps."
 msgstr ""
-"El panel Capas le ofrece varias opciones para mostrar dos indicadores en simultáneo en un mapa bivariado, p. ej:, la densidad de población y la distancia a la estación de bomberos más cercana. Utilice las leyendas de colores para evaluar qué áreas requieren atención. <br/>Consejo: en general, el verde indica riesgo bajo / pocas zonas sin mapear, el rojo — riesgo alto / muchas zonas sin mapear."
+"El panel Capas le ofrece varias opciones para mostrar dos indicadores en "
+"simultáneo en un mapa bivariado, p. ej:, la densidad de población y la "
+"distancia a la estación de bomberos más cercana. Utilice las leyendas de "
+"colores para evaluar qué áreas requieren atención. <br/>Consejo: en general, "
+"el verde indica riesgo bajo / pocas zonas sin mapear, el rojo — riesgo "
+"alto / muchas zonas sin mapear."
 
 #: about##p5
 msgid ""
@@ -967,3 +941,33 @@ msgstr ""
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
 msgstr ""
+
+#~ msgid "Details"
+#~ msgstr "Detalles"
+
+#~ msgid "Loading analytics..."
+#~ msgstr "Cargando análisis..."
+
+#~ msgid "Loading advanced analytics..."
+#~ msgstr "Cargando análisis avanzado..."
+
+#~ msgid "Advanced Analytics"
+#~ msgstr "Analíticas avanzadas"
+
+#~ msgid "Please, select an area again"
+#~ msgstr "Vuelva a seleccionar un área"
+
+#~ msgid "to see state of the map"
+#~ msgstr "para ver el estado del mapa"
+
+#~ msgid "Pick disaster from the list"
+#~ msgstr "Elija el desastre de la lista"
+
+#~ msgid "Draw polygon on the map"
+#~ msgstr "Dibuje un polígono en el mapa"
+
+#~ msgid "Select boundary on the map"
+#~ msgstr "Seleccione el límite en el mapa"
+
+#~ msgid "Upload your own geoJSON"
+#~ msgstr "Cargue su propio geoJSON"

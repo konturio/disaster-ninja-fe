@@ -16,7 +16,6 @@
   "legend_presentation": "Legend presentation",
   "layers": "Layers",
   "feed": "Feed",
-  "details": "Details",
   "deselect": "Deselect",
   "spinner_text": "Gathering data",
   "updated": "Updated",
@@ -102,26 +101,19 @@
     "edit_feature_placeholder": "Select some feature for start edit feature properties"
   },
   "analytics_panel": {
-    "loading": "Loading analytics...",
     "header_title": "Analytics",
     "info_tab": "INFO",
     "error_loading": "Error while fetching analytics data"
   },
   "advanced_analytics_panel": {
-    "loading": "Loading advanced analytics...",
     "header_title": "Advanced analytics",
-    "analytics_tab": "Advanced Analytics",
     "error": "Error while fetching advanced analytics data"
   },
   "advanced_analytics_empty": {
     "not_found": "Sorry, requested event not found.",
     "error": "An error occured!",
-    "please_select": "Please, select an area again",
-    "to_see_map": "to see state of the map",
-    "pickDisaster": "Pick disaster from the list",
-    "draw": "Draw polygon on the map",
-    "select": "Select boundary on the map",
-    "upload": "Upload your own geoJSON"
+    "analytics_for_selected": "Analytics for a selected area",
+    "will_be_provided": "will be provided here"
   },
   "draw_tools": {
     "area": "Area",

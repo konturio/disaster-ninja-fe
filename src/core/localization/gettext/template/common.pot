@@ -75,10 +75,6 @@ msgstr ""
 msgid "Feed"
 msgstr ""
 
-#: details
-msgid "Details"
-msgstr ""
-
 #: deselect
 msgid "Deselect"
 msgstr ""
@@ -346,10 +342,6 @@ msgstr ""
 msgid "Select some feature for start edit feature properties"
 msgstr ""
 
-#: analytics_panel##loading
-msgid "Loading analytics..."
-msgstr ""
-
 #: analytics_panel##header_title
 msgid "Analytics"
 msgstr ""
@@ -362,16 +354,8 @@ msgstr ""
 msgid "Error while fetching analytics data"
 msgstr ""
 
-#: advanced_analytics_panel##loading
-msgid "Loading advanced analytics..."
-msgstr ""
-
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
-msgstr ""
-
-#: advanced_analytics_panel##analytics_tab
-msgid "Advanced Analytics"
 msgstr ""
 
 #: advanced_analytics_panel##error
@@ -387,28 +371,12 @@ msgstr ""
 msgid "An error occured!"
 msgstr ""
 
-#: advanced_analytics_empty##please_select
-msgid "Please, select an area again"
+#: advanced_analytics_empty##analytics_for_selected
+msgid "Analytics for a selected area"
 msgstr ""
 
-#: advanced_analytics_empty##to_see_map
-msgid "to see state of the map"
-msgstr ""
-
-#: advanced_analytics_empty##pickDisaster
-msgid "Pick disaster from the list"
-msgstr ""
-
-#: advanced_analytics_empty##draw
-msgid "Draw polygon on the map"
-msgstr ""
-
-#: advanced_analytics_empty##select
-msgid "Select boundary on the map"
-msgstr ""
-
-#: advanced_analytics_empty##upload
-msgid "Upload your own geoJSON"
+#: advanced_analytics_empty##will_be_provided
+msgid "will be provided here"
 msgstr ""
 
 #: draw_tools##area

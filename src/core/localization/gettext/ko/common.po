@@ -76,10 +76,6 @@ msgstr "레이어"
 msgid "Feed"
 msgstr "피드"
 
-#: details
-msgid "Details"
-msgstr "상세 정보"
-
 #: deselect
 msgid "Deselect"
 msgstr "선택 취소"
@@ -349,10 +345,6 @@ msgstr "위치"
 msgid "Select some feature for start edit feature properties"
 msgstr "일부 특성을 선택하여 특성 속성 편집을 시작하세요."
 
-#: analytics_panel##loading
-msgid "Loading analytics..."
-msgstr "분석 로딩 중..."
-
 #: analytics_panel##header_title
 msgid "Analytics"
 msgstr "분석"
@@ -365,16 +357,8 @@ msgstr "정보"
 msgid "Error while fetching analytics data"
 msgstr "분석 데이터를 가져오는 중에 오류가 발생했습니다."
 
-#: advanced_analytics_panel##loading
-msgid "Loading advanced analytics..."
-msgstr "고급 분석 로딩 중..."
-
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
-msgstr "고급 분석"
-
-#: advanced_analytics_panel##analytics_tab
-msgid "Advanced Analytics"
 msgstr "고급 분석"
 
 #: advanced_analytics_panel##error
@@ -389,29 +373,14 @@ msgstr "죄송합니다. 요청하신 이벤트를 찾을 수 없습니다."
 msgid "An error occured!"
 msgstr "오류가 발생했습니다."
 
-#: advanced_analytics_empty##please_select
-msgid "Please, select an area again"
-msgstr "지도의 상태를 보시려면"
+#: advanced_analytics_empty##analytics_for_selected
+#, fuzzy
+msgid "Analytics for a selected area"
+msgstr "선택 영역 내 레이어"
 
-#: advanced_analytics_empty##to_see_map
-msgid "to see state of the map"
-msgstr "영역을 다시 선택하세요."
-
-#: advanced_analytics_empty##pickDisaster
-msgid "Pick disaster from the list"
-msgstr "목록에서 재난 선택"
-
-#: advanced_analytics_empty##draw
-msgid "Draw polygon on the map"
-msgstr "지도에 다각형 그리기"
-
-#: advanced_analytics_empty##select
-msgid "Select boundary on the map"
-msgstr "지도에서 경계 선택"
-
-#: advanced_analytics_empty##upload
-msgid "Upload your own geoJSON"
-msgstr "자체 geoJSON 업로드"
+#: advanced_analytics_empty##will_be_provided
+msgid "will be provided here"
+msgstr ""
 
 #: draw_tools##area
 msgid "Area"
@@ -959,3 +928,33 @@ msgstr ""
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
 msgstr ""
+
+#~ msgid "Details"
+#~ msgstr "상세 정보"
+
+#~ msgid "Loading analytics..."
+#~ msgstr "분석 로딩 중..."
+
+#~ msgid "Loading advanced analytics..."
+#~ msgstr "고급 분석 로딩 중..."
+
+#~ msgid "Advanced Analytics"
+#~ msgstr "고급 분석"
+
+#~ msgid "Please, select an area again"
+#~ msgstr "지도의 상태를 보시려면"
+
+#~ msgid "to see state of the map"
+#~ msgstr "영역을 다시 선택하세요."
+
+#~ msgid "Pick disaster from the list"
+#~ msgstr "목록에서 재난 선택"
+
+#~ msgid "Draw polygon on the map"
+#~ msgstr "지도에 다각형 그리기"
+
+#~ msgid "Select boundary on the map"
+#~ msgstr "지도에서 경계 선택"
+
+#~ msgid "Upload your own geoJSON"
+#~ msgstr "자체 geoJSON 업로드"

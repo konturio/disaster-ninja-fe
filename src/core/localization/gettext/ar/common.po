@@ -76,10 +76,6 @@ msgstr "طبقات"
 msgid "Feed"
 msgstr "تغذية"
 
-#: details
-msgid "Details"
-msgstr "تفاصيل"
-
 #: deselect
 msgid "Deselect"
 msgstr "إلغاء"
@@ -349,10 +345,6 @@ msgstr "موقع"
 msgid "Select some feature for start edit feature properties"
 msgstr "حدد بعض الميزات لبدء تحرير خصائص الميزة"
 
-#: analytics_panel##loading
-msgid "Loading analytics..."
-msgstr "جارٍ تحميل التحليلات..."
-
 #: analytics_panel##header_title
 msgid "Analytics"
 msgstr "التحليلات"
@@ -365,16 +357,8 @@ msgstr "معلومات"
 msgid "Error while fetching analytics data"
 msgstr "خطأ أثناء جلب بيانات التحليلات"
 
-#: advanced_analytics_panel##loading
-msgid "Loading advanced analytics..."
-msgstr "جارٍ تحميل التحليلات المتقدمة..."
-
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
-msgstr "تحليلات متقدمة"
-
-#: advanced_analytics_panel##analytics_tab
-msgid "Advanced Analytics"
 msgstr "تحليلات متقدمة"
 
 #: advanced_analytics_panel##error
@@ -389,29 +373,14 @@ msgstr "عذرًا، الحدث المطلوب غير موجود."
 msgid "An error occured!"
 msgstr "حدث خطأ!"
 
-#: advanced_analytics_empty##please_select
-msgid "Please, select an area again"
-msgstr "من فضلك، حدد منطقة مرة أخرى"
+#: advanced_analytics_empty##analytics_for_selected
+#, fuzzy
+msgid "Analytics for a selected area"
+msgstr "طبقات في المنطقة المختارة"
 
-#: advanced_analytics_empty##to_see_map
-msgid "to see state of the map"
-msgstr "لمعرفة حالة الخريطة"
-
-#: advanced_analytics_empty##pickDisaster
-msgid "Pick disaster from the list"
-msgstr "حدد الكارثة في القائمة"
-
-#: advanced_analytics_empty##draw
-msgid "Draw polygon on the map"
-msgstr "ارسم مضلعًا على الخريطة"
-
-#: advanced_analytics_empty##select
-msgid "Select boundary on the map"
-msgstr "حدد الحدود على الخريطة"
-
-#: advanced_analytics_empty##upload
-msgid "Upload your own geoJSON"
-msgstr "قم بتحميل ملف geoJSON الخاص بك"
+#: advanced_analytics_empty##will_be_provided
+msgid "will be provided here"
+msgstr ""
 
 #: draw_tools##area
 msgid "Area"
@@ -960,3 +929,33 @@ msgstr ""
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
 msgstr ""
+
+#~ msgid "Details"
+#~ msgstr "تفاصيل"
+
+#~ msgid "Loading analytics..."
+#~ msgstr "جارٍ تحميل التحليلات..."
+
+#~ msgid "Loading advanced analytics..."
+#~ msgstr "جارٍ تحميل التحليلات المتقدمة..."
+
+#~ msgid "Advanced Analytics"
+#~ msgstr "تحليلات متقدمة"
+
+#~ msgid "Please, select an area again"
+#~ msgstr "من فضلك، حدد منطقة مرة أخرى"
+
+#~ msgid "to see state of the map"
+#~ msgstr "لمعرفة حالة الخريطة"
+
+#~ msgid "Pick disaster from the list"
+#~ msgstr "حدد الكارثة في القائمة"
+
+#~ msgid "Draw polygon on the map"
+#~ msgstr "ارسم مضلعًا على الخريطة"
+
+#~ msgid "Select boundary on the map"
+#~ msgstr "حدد الحدود على الخريطة"
+
+#~ msgid "Upload your own geoJSON"
+#~ msgstr "قم بتحميل ملف geoJSON الخاص بك"
