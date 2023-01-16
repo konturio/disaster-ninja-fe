@@ -14,10 +14,7 @@ import { layersMenusAtom } from '../atoms/layersMenus';
 import { deepFreeze } from './deepFreeze';
 import { getMutualExcludedActions } from './getMutualExcludedActions';
 import type { LayerRegistryAtom } from '../types/registry';
-import type {
-  LogicalLayerActions,
-  LogicalLayerState,
-} from '../types/logicalLayer';
+import type { LogicalLayerActions, LogicalLayerState } from '../types/logicalLayer';
 import type { LogicalLayerRenderer } from '../types/renderer';
 import type { AsyncState } from '../types/asyncState';
 import type { Action } from '@reatom/core';
@@ -76,8 +73,7 @@ export function createLogicalLayerAtom(
       },
     ) => {
       const actions: Action[] = [];
-      const map =
-        customMap || getUnlistedState<ApplicationMap | null>(currentMapAtom);
+      const map = customMap || getUnlistedState<ApplicationMap | null>(currentMapAtom);
 
       /**
        * ! Important Note! In you add new sub stores,
@@ -88,14 +84,10 @@ export function createLogicalLayerAtom(
         data: null,
         error: null,
       };
-      const asyncLayerSettings =
-        get('layersSettingsAtom').get(id) ?? fallbackAsyncState;
-      const asyncLayerMeta =
-        get('layersMetaAtom').get(id) ?? fallbackAsyncState;
-      const asyncLayerLegend =
-        get('layersLegendsAtom').get(id) ?? fallbackAsyncState;
-      const asyncLayerSource =
-        get('layersSourcesAtom').get(id) ?? fallbackAsyncState;
+      const asyncLayerSettings = get('layersSettingsAtom').get(id) ?? fallbackAsyncState;
+      const asyncLayerMeta = get('layersMetaAtom').get(id) ?? fallbackAsyncState;
+      const asyncLayerLegend = get('layersLegendsAtom').get(id) ?? fallbackAsyncState;
+      const asyncLayerSource = get('layersSourcesAtom').get(id) ?? fallbackAsyncState;
       const layersMenus = get('layersMenusAtom').get(id) ?? null;
 
       const newState = {
@@ -110,8 +102,7 @@ export function createLogicalLayerAtom(
         isEnabled: get('enabledLayersAtom').has(id),
         isMounted: get('mountedLayersAtom').has(id),
         isVisible: !get('hiddenLayersAtom').has(id),
-        isDownloadable:
-          asyncLayerSource.data?.source.type === 'geojson' ?? false, // details.data.source.type === 'geojson'
+        isDownloadable: asyncLayerSource.data?.source.type === 'geojson' ?? false, // details.data.source.type === 'geojson'
         settings: deepFreeze(asyncLayerSettings.data),
         meta: deepFreeze(asyncLayerMeta.data),
         legend: deepFreeze(asyncLayerLegend.data),
@@ -134,10 +125,7 @@ export function createLogicalLayerAtom(
 
       onAction('enable', () => {
         newState.isEnabled = true;
-        actions.push(
-          enabledLayersAtom.set(id),
-          ...getMutualExcludedActions(state),
-        );
+        actions.push(enabledLayersAtom.set(id), ...getMutualExcludedActions(state));
       });
 
       onAction('disable', () => {
@@ -180,12 +168,16 @@ export function createLogicalLayerAtom(
             console.error('Download failed, source unavailable');
             return;
           }
-          downloadObject(
-            state.source.source,
-            `${
-              state.settings?.name || state.id || 'Disaster Ninja map layer'
-            }-${new Date().toISOString()}.json`,
-          );
+          if (state.source.source.type === 'geojson') {
+            downloadObject(
+              state.source.source.data,
+              `${
+                state.settings?.name || state.id || 'Disaster Ninja map layer'
+              }-${new Date().toISOString()}.json`,
+            );
+          } else {
+            console.error('Only geojson layers can be downloaded');
+          }
         } catch (e) {
           console.error(e);
           newState.error = e;
