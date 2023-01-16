@@ -76,10 +76,6 @@ msgstr "Lapisan"
 msgid "Feed"
 msgstr "Feed"
 
-#: details
-msgid "Details"
-msgstr "Detail"
-
 #: deselect
 msgid "Deselect"
 msgstr "Batalkan Pilihan"
@@ -349,10 +345,6 @@ msgstr "Lokasi"
 msgid "Select some feature for start edit feature properties"
 msgstr "Pilih beberapa fitur untuk mulai mengedit properti fitur"
 
-#: analytics_panel##loading
-msgid "Loading analytics..."
-msgstr "Memuat analitik..."
-
 #: analytics_panel##header_title
 msgid "Analytics"
 msgstr "Analitik"
@@ -365,17 +357,9 @@ msgstr "INFO"
 msgid "Error while fetching analytics data"
 msgstr "Kesalahan saat mengambil data analitik"
 
-#: advanced_analytics_panel##loading
-msgid "Loading advanced analytics..."
-msgstr "Memuat analitik tingkat lanjut..."
-
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
 msgstr "Analitik tingkat lanjut"
-
-#: advanced_analytics_panel##analytics_tab
-msgid "Advanced Analytics"
-msgstr "Analitik Tingkat Lanjut"
 
 #: advanced_analytics_panel##error
 msgid "Error while fetching advanced analytics data"
@@ -389,29 +373,14 @@ msgstr "Maaf, kejadian yang diminta tidak ditemukan."
 msgid "An error occured!"
 msgstr "Terjadi kesalahan!"
 
-#: advanced_analytics_empty##please_select
-msgid "Please, select an area again"
-msgstr "Pilih sebuah area"
+#: advanced_analytics_empty##analytics_for_selected
+#, fuzzy
+msgid "Analytics for a selected area"
+msgstr "Lapisan di area pilihan"
 
-#: advanced_analytics_empty##to_see_map
-msgid "to see state of the map"
-msgstr "untuk melihat keadaan peta"
-
-#: advanced_analytics_empty##pickDisaster
-msgid "Pick disaster from the list"
-msgstr "Pilih bencana dari daftar"
-
-#: advanced_analytics_empty##draw
-msgid "Draw polygon on the map"
-msgstr "Gambar poligon pada peta"
-
-#: advanced_analytics_empty##select
-msgid "Select boundary on the map"
-msgstr "Pilih batas pada peta"
-
-#: advanced_analytics_empty##upload
-msgid "Upload your own geoJSON"
-msgstr "Unggah geoJSON Anda sendiri"
+#: advanced_analytics_empty##will_be_provided
+msgid "will be provided here"
+msgstr ""
 
 #: draw_tools##area
 msgid "Area"
@@ -968,3 +937,33 @@ msgstr ""
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
 msgstr ""
+
+#~ msgid "Details"
+#~ msgstr "Detail"
+
+#~ msgid "Loading analytics..."
+#~ msgstr "Memuat analitik..."
+
+#~ msgid "Loading advanced analytics..."
+#~ msgstr "Memuat analitik tingkat lanjut..."
+
+#~ msgid "Advanced Analytics"
+#~ msgstr "Analitik Tingkat Lanjut"
+
+#~ msgid "Please, select an area again"
+#~ msgstr "Pilih sebuah area"
+
+#~ msgid "to see state of the map"
+#~ msgstr "untuk melihat keadaan peta"
+
+#~ msgid "Pick disaster from the list"
+#~ msgstr "Pilih bencana dari daftar"
+
+#~ msgid "Draw polygon on the map"
+#~ msgstr "Gambar poligon pada peta"
+
+#~ msgid "Select boundary on the map"
+#~ msgstr "Pilih batas pada peta"
+
+#~ msgid "Upload your own geoJSON"
+#~ msgstr "Unggah geoJSON Anda sendiri"
