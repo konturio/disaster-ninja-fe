@@ -66,6 +66,8 @@ export class AuthClient {
     this._apiClient.logout();
     over(this.logoutHooks)();
     userStateAtom.logout.dispatch();
+    // reload to init with public config and profile
+    location.reload();
   }
 
   private onTokenExpired() {
@@ -85,6 +87,8 @@ export class AuthClient {
     const response = await this._apiClient.login(user, password);
     if (response && typeof response === 'object' && 'token' in response) {
       await this.processAuthResponse(response);
+      // reload to init with authenticated config and profile
+      location.reload();
       return true;
     }
     return response;
@@ -92,7 +96,7 @@ export class AuthClient {
 
   public async checkAuth(): Promise<boolean> {
     try {
-      const response = this._apiClient.getLocalAuthToken(this.onTokenExpired);
+      const response = this._apiClient.getLocalAuthToken(() => this.onTokenExpired());
       if (response?.token) {
         this.processAuthResponse(response);
         return true;
@@ -100,7 +104,7 @@ export class AuthClient {
         this.publicLogin();
       }
     } catch (e) {
-      console.warn('Auth has been expired');
+      console.warn('Auth has been expired', e);
       this.logout();
     }
     return false;
