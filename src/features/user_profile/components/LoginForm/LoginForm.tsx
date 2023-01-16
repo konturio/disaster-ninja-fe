@@ -1,4 +1,4 @@
-import { Button, Card, Input, Text } from '@konturio/ui-kit';
+import { Button, Card, Heading, Input, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { authClientInstance } from '~core/authClientInstance';
@@ -98,7 +98,7 @@ export function LoginForm() {
           <LoadingSpinner message={i18n.t('login.logging_in')} />
         </div>
       )}
-      <Text type="heading-xl">{i18n.t('login.log_in')}</Text>
+      <Heading type="heading-06">{i18n.t('login.log_in')}</Heading>
       <div className={s.loginDescription}>
         <Text type="short-m">{i18n.t('login.description')}</Text>
       </div>

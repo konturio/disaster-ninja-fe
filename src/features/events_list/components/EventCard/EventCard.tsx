@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import cn from 'clsx';
 import { parseISO } from 'date-fns';
-import { Text } from '@konturio/ui-kit';
+import { Heading, Text } from '@konturio/ui-kit';
 import ReactMarkdown from 'react-markdown';
 import { nanoid } from 'nanoid';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
@@ -49,7 +49,7 @@ export function EventCard({
       onClick={() => onClick?.(event.eventId)}
     >
       <div className={s.head}>
-        <Text type="heading-m">{event.eventName}</Text>
+        <Heading type="heading-02">{event.eventName}</Heading>
         <SeverityIndicator severity={event.severity} />
       </div>
 

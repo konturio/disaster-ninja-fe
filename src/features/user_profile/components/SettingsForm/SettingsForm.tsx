@@ -1,4 +1,4 @@
-import { Button, Input, Radio, Select, Text, Textarea } from '@konturio/ui-kit';
+import { Button, Input, Radio, Select, Text, Heading, Textarea } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
@@ -113,8 +113,9 @@ export function SettingsForm() {
         <div className={s.notFlexParent}>
           <div className={s.flexWrap}>
             <div className={s.profileWrap}>
-              <Text type="heading-xl">{i18n.t('profile.profileSettingsHeader')}</Text>
-
+              <Heading type="heading-06">
+                {i18n.t('profile.profileSettingsHeader')}
+              </Heading>
               {/* Full Name */}
               <Input
                 classes={authInputClasses}
@@ -148,7 +149,7 @@ export function SettingsForm() {
             <div className={s.divider} />
 
             <div className={s.settingsWrap}>
-              <Text type="heading-xl">{i18n.t('profile.appSettingsHeader')}</Text>
+              <Heading type="heading-06">{i18n.t('profile.appSettingsHeader')}</Heading>
               <Select
                 value={localSettings.theme}
                 alwaysShowPlaceholder
