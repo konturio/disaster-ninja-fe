@@ -21,7 +21,7 @@ export function ReportsList({ goToReport }: { goToReport: (id: string) => void }
   return (
     <div className={styles.mainWrap}>
       <div className={styles.titleRow}>
-        <Heading type="heading-03">
+        <Heading type="heading-04">
           <span className={styles.pageTitle}>{i18n.t('reports.title')}</span>
         </Heading>
       </div>
@@ -58,7 +58,7 @@ export function ReportsList({ goToReport }: { goToReport: (id: string) => void }
             };
             return (
               <div className={styles.reportWrap} key={report.id} onClick={onClick}>
-                <Heading type="heading-02">
+                <Heading type="heading-05">
                   <div className={clsx(styles.link, styles.reportTitle)}>
                     {report.name}
                   </div>

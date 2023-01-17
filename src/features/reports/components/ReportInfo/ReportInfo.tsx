@@ -50,7 +50,7 @@ export function ReportInfo() {
         </Link>
       </Text>
 
-      <Heading type="heading-02">
+      <Heading type="heading-05">
         <span className={clsx(commonStyles.pageTitle, styles.title)}>{report?.name}</span>
       </Heading>
 

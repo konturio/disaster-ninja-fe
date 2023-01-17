@@ -72,7 +72,7 @@ export const LegendWithMap = ({ selectedData, layersSelection }: LegendWithMapPr
   return (
     <div className={s.legendWithMapContainer}>
       <div className={clsx(fullscreen && s.LegendFullscreen)}>
-        <Heading type="heading-02">{i18n.t('legend_presentation')}</Heading>
+        <Heading type="heading-05">{i18n.t('legend_presentation')}</Heading>
         <BivariateLegendComponent
           showDescription={false}
           meta={meta}

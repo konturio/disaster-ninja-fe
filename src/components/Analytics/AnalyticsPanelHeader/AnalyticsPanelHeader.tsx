@@ -13,7 +13,7 @@ function PanelHeading({ source }: { source?: GeometrySource }) {
   if (source?.type !== 'event') return null;
   return (
     <div className={styles.head}>
-      <Heading type="heading-02">{source.meta.eventName}</Heading>
+      <Heading type="heading-05">{source.meta.eventName}</Heading>
       <SeverityIndicator severity={source.meta.severity} />
     </div>
   );
@@ -54,13 +54,13 @@ const AnalyticsPanelHeader = ({
 
   return (
     statesToComponents({
-      loading: () => <Heading type="heading-02">{loadingMessage}</Heading>,
+      loading: () => <Heading type="heading-05">{loadingMessage}</Heading>,
       error: () => null,
       ready: () =>
         ({
           event: <PanelHeading source={focusedGeometry?.source} />,
           boundaries: (
-            <Heading type="heading-02">
+            <Heading type="heading-05">
               {getBoundaryName(focusedGeometry?.source)}
             </Heading>
           ),

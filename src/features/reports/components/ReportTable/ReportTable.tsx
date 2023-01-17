@@ -24,11 +24,11 @@ export function ReportTable() {
   const [meta] = useAtom(currentReportAtom);
 
   if (data === null) {
-    return <Heading type="heading-06">{i18n.t('reports.no_data')}</Heading>;
+    return <Heading type="heading-01">{i18n.t('reports.no_data')}</Heading>;
   }
 
   if (isSorting) {
-    return <Heading type="heading-06">{i18n.t('reports.sorting')}</Heading>;
+    return <Heading type="heading-01">{i18n.t('reports.sorting')}</Heading>;
   }
 
   return (

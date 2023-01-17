@@ -93,7 +93,7 @@ const PanelHeader = () => {
 
   return (
     <div className={s.header}>
-      <Heading type="heading-03">{i18n.t('bivariate.matrix.header.title')}</Heading>
+      <Heading type="heading-04">{i18n.t('bivariate.matrix.header.title')}</Heading>
       {haveGeometry && (
         <div className={s.hint}>{i18n.t('bivariate.matrix.header.hint')}</div>
       )}
