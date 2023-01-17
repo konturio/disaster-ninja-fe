@@ -15,7 +15,15 @@
   margin: auto 0;
 }
 
-.profileWrap {
+.profileWrap,
+.settingsWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.profileForm,
+.settingsForm {
+  margin-top: var(--double-unit);
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -30,14 +38,6 @@
   background-color: #eceeef;
   border-width: 0;
   width: 1px;
-}
-
-.settingsWrap {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  max-width: var(--section);
-  min-width: var(--min-section);
 }
 
 .authInput:-webkit-autofill {

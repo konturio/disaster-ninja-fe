@@ -31,7 +31,7 @@ export function CookieConsentBanner() {
   return havePrompts ? (
     <Animation variant="fade-in">
       <Card className={s.cookieBanner}>
-        <Heading type="heading-04">{i18n.t('cookie_banner.header')}</Heading>
+        <Heading type="heading-03">{i18n.t('cookie_banner.header')}</Heading>
         <div className={s.body}>
           <ReactMarkdown components={{ a: memo(InternalLinkAdapter) }}>
             {i18n.t('cookie_banner.body')}

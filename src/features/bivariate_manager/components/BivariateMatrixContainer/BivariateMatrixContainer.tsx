@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
 import { useAtom } from '@reatom/react';
-import { Text } from '@konturio/ui-kit';
+import { Heading, Text } from '@konturio/ui-kit';
 import ConnectedBivariateMatrix from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
@@ -93,7 +93,7 @@ const PanelHeader = () => {
 
   return (
     <div className={s.header}>
-      <Text type="heading-l">{i18n.t('bivariate.matrix.header.title')}</Text>
+      <Heading type="heading-04">{i18n.t('bivariate.matrix.header.title')}</Heading>
       {haveGeometry && (
         <div className={s.hint}>{i18n.t('bivariate.matrix.header.hint')}</div>
       )}

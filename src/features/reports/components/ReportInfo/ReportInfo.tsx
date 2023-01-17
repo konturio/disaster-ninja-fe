@@ -1,4 +1,4 @@
-import { Text } from '@konturio/ui-kit';
+import { Text, Heading } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
@@ -50,9 +50,9 @@ export function ReportInfo() {
         </Link>
       </Text>
 
-      <Text type="heading-m">
+      <Heading type="heading-05">
         <span className={clsx(commonStyles.pageTitle, styles.title)}>{report?.name}</span>
-      </Text>
+      </Heading>
 
       {report?.description_full && (
         <Text type="long-l">

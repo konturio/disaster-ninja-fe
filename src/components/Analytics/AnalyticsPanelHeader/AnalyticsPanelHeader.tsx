@@ -1,5 +1,5 @@
 import { useAtom } from '@reatom/react';
-import { Text } from '@konturio/ui-kit';
+import { Heading } from '@konturio/ui-kit';
 import { focusedGeometryAtom } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
@@ -13,7 +13,7 @@ function PanelHeading({ source }: { source?: GeometrySource }) {
   if (source?.type !== 'event') return null;
   return (
     <div className={styles.head}>
-      <Text type="heading-m">{source.meta.eventName}</Text>
+      <Heading type="heading-05">{source.meta.eventName}</Heading>
       <SeverityIndicator severity={source.meta.severity} />
     </div>
   );
@@ -54,13 +54,15 @@ const AnalyticsPanelHeader = ({
 
   return (
     statesToComponents({
-      loading: () => <Text type="heading-m">{loadingMessage}</Text>,
+      loading: () => <Heading type="heading-05">{loadingMessage}</Heading>,
       error: () => null,
       ready: () =>
         ({
           event: <PanelHeading source={focusedGeometry?.source} />,
           boundaries: (
-            <Text type="heading-m">{getBoundaryName(focusedGeometry?.source)}</Text>
+            <Heading type="heading-05">
+              {getBoundaryName(focusedGeometry?.source)}
+            </Heading>
           ),
         }[sourceType]),
     }) || <></>

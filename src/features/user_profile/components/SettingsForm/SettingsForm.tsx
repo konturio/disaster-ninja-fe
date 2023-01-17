@@ -1,4 +1,4 @@
-import { Button, Input, Radio, Select, Text, Textarea } from '@konturio/ui-kit';
+import { Button, Input, Radio, Select, Text, Heading, Textarea } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
@@ -113,111 +113,114 @@ export function SettingsForm() {
         <div className={s.notFlexParent}>
           <div className={s.flexWrap}>
             <div className={s.profileWrap}>
-              <Text type="heading-xl">{i18n.t('profile.profileSettingsHeader')}</Text>
-
-              {/* Full Name */}
-              <Input
-                classes={authInputClasses}
-                showTopPlaceholder
-                placeholder={i18n.t('profile.fullName')}
-                value={localSettings.fullName}
-                onChange={onFullnameChange}
-              />
-
-              {/* Email */}
-              <Input
-                showTopPlaceholder
-                value={localSettings.email}
-                placeholder={i18n.t('profile.email')}
-                disabled
-              />
-              <div className={s.biography}>
-                <Textarea
-                  placeholder={i18n.t('profile.userBio(about)')}
+              <Heading type="heading-01">
+                {i18n.t('profile.profileSettingsHeader')}
+              </Heading>
+              <div className={s.profileForm}>
+                <Input
+                  classes={authInputClasses}
                   showTopPlaceholder
-                  value={localSettings.bio}
-                  onChange={onBioChange}
-                  className={s.textArea}
-                  width="100%"
-                  minHeight="80px"
-                  maxHeight="200px"
+                  placeholder={i18n.t('profile.fullName')}
+                  value={localSettings.fullName}
+                  onChange={onFullnameChange}
                 />
+
+                <Input
+                  showTopPlaceholder
+                  value={localSettings.email}
+                  placeholder={i18n.t('profile.email')}
+                  disabled
+                />
+                <div className={s.biography}>
+                  <Textarea
+                    placeholder={i18n.t('profile.userBio(about)')}
+                    showTopPlaceholder
+                    value={localSettings.bio}
+                    onChange={onBioChange}
+                    className={s.textArea}
+                    width="100%"
+                    minHeight="80px"
+                    maxHeight="200px"
+                  />
+                </div>
               </div>
             </div>
 
             <div className={s.divider} />
 
             <div className={s.settingsWrap}>
-              <Text type="heading-xl">{i18n.t('profile.appSettingsHeader')}</Text>
-              <Select
-                value={localSettings.theme}
-                alwaysShowPlaceholder
-                items={OPTIONS_THEME}
-                withResetButton={false}
-                onSelect={onThemeChange}
-              >
-                {i18n.t('profile.interfaceTheme')}
-              </Select>
+              <Heading type="heading-01">{i18n.t('profile.appSettingsHeader')}</Heading>
+              <div className={s.settingsForm}>
+                <Select
+                  value={localSettings.theme}
+                  alwaysShowPlaceholder
+                  items={OPTIONS_THEME}
+                  withResetButton={false}
+                  onSelect={onThemeChange}
+                >
+                  {i18n.t('profile.interfaceTheme')}
+                </Select>
 
-              <Select
-                alwaysShowPlaceholder
-                value={localSettings.language}
-                items={OPTIONS_LANGUAGE}
-                withResetButton={false}
-                onSelect={onLanguageChange}
-              >
-                {i18n.t('profile.interfaceLanguage')}
-              </Select>
+                <Select
+                  alwaysShowPlaceholder
+                  value={localSettings.language}
+                  items={OPTIONS_LANGUAGE}
+                  withResetButton={false}
+                  onSelect={onLanguageChange}
+                >
+                  {i18n.t('profile.interfaceLanguage')}
+                </Select>
 
-              <div className={s.unitsSelection}>
-                <Text type="short-l">{i18n.t('profile.units')}</Text>
+                <div className={s.unitsSelection}>
+                  <Text type="short-l">{i18n.t('profile.units')}</Text>
 
-                <Radio
-                  as="input"
-                  id="metric"
-                  label={i18n.t('profile.metric')}
-                  checked={localSettings.useMetricUnits}
-                  onChange={toggleUnits}
-                />
-                <Radio
-                  as="input"
-                  id="imperial"
-                  label={i18n.t('profile.imperialBeta')}
-                  checked={!localSettings.useMetricUnits}
-                  onChange={toggleUnits}
-                />
-              </div>
+                  <Radio
+                    as="input"
+                    id="metric"
+                    label={i18n.t('profile.metric')}
+                    checked={localSettings.useMetricUnits}
+                    onChange={toggleUnits}
+                  />
+                  <Radio
+                    as="input"
+                    id="imperial"
+                    label={i18n.t('profile.imperialBeta')}
+                    checked={!localSettings.useMetricUnits}
+                    onChange={toggleUnits}
+                  />
+                </div>
 
-              <Select
-                alwaysShowPlaceholder
-                value={localSettings.defaultFeed}
-                items={OPTIONS_FEED}
-                withResetButton={false}
-                onSelect={onFeedChange}
-              >
-                {i18n.t('profile.defaultDisasterFeed')}
-              </Select>
+                <Select
+                  alwaysShowPlaceholder
+                  value={localSettings.defaultFeed}
+                  items={OPTIONS_FEED}
+                  withResetButton={false}
+                  onSelect={onFeedChange}
+                >
+                  {i18n.t('profile.defaultDisasterFeed')}
+                </Select>
 
-              <Select
-                alwaysShowPlaceholder
-                value={localSettings.osmEditor}
-                items={OPTIONS_OSM}
-                withResetButton={false}
-                onSelect={onOSMeditorChange}
-              >
-                {i18n.t('profile.defaultOSMeditor')}
-              </Select>
+                <Select
+                  alwaysShowPlaceholder
+                  value={localSettings.osmEditor}
+                  items={OPTIONS_OSM}
+                  withResetButton={false}
+                  onSelect={onOSMeditorChange}
+                >
+                  {i18n.t('profile.defaultOSMeditor')}
+                </Select>
 
-              <div className={s.saveWrap}>
-                {status === 'loading' ? (
-                  <div className={s.spinnerContainer}>
-                    <KonturSpinner />
-                  </div>
-                ) : (
-                  <Button onClick={onSave} disabled={status === 'init'}>
-                    <Text type="short-m">{i18n.t('profile.saveButton')}</Text>
-                  </Button>
-                )}
+                <div className={s.saveWrap}>
+                  {status === 'loading' ? (
+                    <div className={s.spinnerContainer}>
+                      <KonturSpinner />
+                    </div>
+                  ) : (
+                    <Button onClick={onSave} disabled={status === 'init'}>
+                      <Text type="short-m">{i18n.t('profile.saveButton')}</Text>
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           </div>

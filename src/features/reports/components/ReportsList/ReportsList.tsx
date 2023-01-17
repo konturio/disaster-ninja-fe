@@ -1,4 +1,4 @@
-import { Text } from '@konturio/ui-kit';
+import { Text, Heading } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { Trans } from 'react-i18next';
 import { useEffect } from 'react';
@@ -21,9 +21,9 @@ export function ReportsList({ goToReport }: { goToReport: (id: string) => void }
   return (
     <div className={styles.mainWrap}>
       <div className={styles.titleRow}>
-        <Text type="heading-l">
+        <Heading type="heading-04">
           <span className={styles.pageTitle}>{i18n.t('reports.title')}</span>
-        </Text>
+        </Heading>
       </div>
 
       <Text type="long-l">
@@ -58,11 +58,11 @@ export function ReportsList({ goToReport }: { goToReport: (id: string) => void }
             };
             return (
               <div className={styles.reportWrap} key={report.id} onClick={onClick}>
-                <Text type="heading-m">
+                <Heading type="heading-05">
                   <div className={clsx(styles.link, styles.reportTitle)}>
                     {report.name}
                   </div>
-                </Text>
+                </Heading>
                 <Text type="long-l">
                   <ReactMarkdown
                     className={clsx(styles.reportDescr)}

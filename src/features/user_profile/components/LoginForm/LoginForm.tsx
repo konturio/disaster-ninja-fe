@@ -1,4 +1,4 @@
-import { Button, Card, Input, Text } from '@konturio/ui-kit';
+import { Button, Card, Heading, Input, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { authClientInstance } from '~core/authClientInstance';
@@ -98,18 +98,10 @@ export function LoginForm() {
           <LoadingSpinner message={i18n.t('login.logging_in')} />
         </div>
       )}
-      <Text type="heading-xl">{i18n.t('login.log_in')}</Text>
+      <Heading type="heading-01">{i18n.t('login.log_in')}</Heading>
       <div className={s.loginDescription}>
         <Text type="short-m">{i18n.t('login.description')}</Text>
       </div>
-      {/*<div className={s.socialLoginContainer}>*/}
-      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='google' />}>Google</Button>*/}
-      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='github' />}>Github</Button>*/}
-      {/*  <Button className={s.socialButton} iconBefore={<SocialLoginIcon type='osm' />}>OSM</Button>*/}
-      {/*</div>*/}
-      {/*<div className={s.useEmailLabelContainer}>*/}
-      {/*  <div className={s.useEmailLabel}>or use email</div>*/}
-      {/*</div>*/}
       <div className={s.inputsContainer}>
         <Input
           error={error.email || ''}
