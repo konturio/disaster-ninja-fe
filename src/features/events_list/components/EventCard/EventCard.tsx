@@ -49,7 +49,9 @@ export function EventCard({
       onClick={() => onClick?.(event.eventId)}
     >
       <div className={s.head}>
-        <Heading type="heading-05">{event.eventName}</Heading>
+        <Heading type="heading-05">
+          <span>{event.eventName}</span>
+        </Heading>
         <SeverityIndicator severity={event.severity} />
       </div>
 
