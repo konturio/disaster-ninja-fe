@@ -133,6 +133,7 @@ test('refreshToken called when token is expired', async ({ ctx }) => {
 
   // set private field token with new token
   const apiClientObj = ctx.apiClient as any;
+  // token expires in 4 minutes
   apiClientObj.tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 4);
   apiClientObj.token = ctx.token;
 
