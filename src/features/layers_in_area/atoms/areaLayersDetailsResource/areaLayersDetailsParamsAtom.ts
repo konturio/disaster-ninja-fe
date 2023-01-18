@@ -42,19 +42,22 @@ export const areaLayersDetailsParamsAtom = createAtom(
       layersToRetrieveWithEventId,
     ] = mustBeRequested.reduce(
       (acc, layer) => {
-        acc[layer.boundaryRequiredForRetrieval ? 0 : 1].push(layer.id);
+        acc[layer.boundaryRequiredForRetrieval ? 0 : 1].add(layer.id);
         if (layer.eventIdRequiredForRetrieval) {
-          acc[2].push(layer.id);
+          acc[2].add(layer.id);
         }
         return acc;
       },
-      [[], [], []] as [string[], string[], string[]],
+      // AllLayers can have duplicates, Set help to filter them
+      [new Set<string>(), new Set<string>(), new Set<string>()] as const,
     );
 
     const newState: DetailsRequestParams = {
-      layersToRetrieveWithGeometryFilter,
-      layersToRetrieveWithoutGeometryFilter,
-      layersToRetrieveWithEventId,
+      layersToRetrieveWithGeometryFilter: Array.from(layersToRetrieveWithGeometryFilter),
+      layersToRetrieveWithoutGeometryFilter: Array.from(
+        layersToRetrieveWithoutGeometryFilter,
+      ),
+      layersToRetrieveWithEventId: Array.from(layersToRetrieveWithEventId),
     };
 
     /**
@@ -63,7 +66,7 @@ export const areaLayersDetailsParamsAtom = createAtom(
      * I'm use getUnlistedState here. This atom still updated on focusedGeometryAtom changes
      * because areaLayersResourceAtom subscribed to focusedGeometryAtom
      */
-    if (layersToRetrieveWithEventId.length) {
+    if (layersToRetrieveWithEventId.size) {
       if (eventId) {
         newState.eventId = eventId;
         const eventFeed = getUnlistedState(currentEventFeedAtom);
