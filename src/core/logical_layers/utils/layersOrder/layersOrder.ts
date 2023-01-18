@@ -56,12 +56,10 @@ export class LayersOrderManager {
     );
     this._layersParentsIds = mapLibreParentsIds;
 
-    map.once('load', () => {
-      this._baseMapFirstLayerIdx = (map.getStyle().layers ?? []).length - 1;
-      this._awaitingTasks.forEach((task) => {
-        this._awaitingTasks.delete(task);
-        task(map);
-      });
+    this._baseMapFirstLayerIdx = (map.getStyle().layers ?? []).length - 1;
+    this._awaitingTasks.forEach((task) => {
+      this._awaitingTasks.delete(task);
+      task(map);
     });
   }
 

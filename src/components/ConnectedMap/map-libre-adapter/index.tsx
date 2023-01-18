@@ -169,7 +169,11 @@ function MapboxMap(
       onLoad && onLoad(true);
     };
 
-    map.on('load', loadHandler);
+    if (map.loaded()) {
+      loadHandler();
+    } else {
+      map.on('load', loadHandler);
+    }
     return () => {
       map.off('load', loadHandler);
     };
