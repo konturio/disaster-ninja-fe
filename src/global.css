@@ -115,6 +115,12 @@ code {
     }
     & .mapboxgl-ctrl-attrib.mapboxgl-compact {
       margin: 0 var(--unit);
+      /* maplibre (i) logo */
+      & button {
+        height: 20px;
+        top: unset;
+        bottom: 2px;
+      }
     }
   }
 }

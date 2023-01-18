@@ -40,7 +40,7 @@
   height: calc(10px + var(--unit));
 }
 
-.fakeFooter {
+.bottomBorder {
   grid-column: 1/-1;
   grid-row: -1;
   height: var(--unit);

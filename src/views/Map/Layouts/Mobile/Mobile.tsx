@@ -9,7 +9,7 @@ export function MobileLayout({ firstColumn, mapColumn, footer, drawToolbox }) {
         <div className={s.mapSpaceRight}>{mapColumn}</div>
       </div>
       <div className={s.footerWrap}>{footer}</div>
-      <div className={s.fakeFooter}></div>
+      <div className={s.bottomBorder}></div>
     </div>
   );
 }
