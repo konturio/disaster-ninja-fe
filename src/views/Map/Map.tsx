@@ -135,6 +135,8 @@ const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) 
       initialState={featureFlags[FeatureFlag.ANALYTICS_PANEL] ? 'short' : null}
       key="analytics"
       id="analytics"
+      panelIcon={analyticsPanel.panelIcon}
+      header={analyticsPanel.header}
     />
   );
 };
