@@ -83,4 +83,5 @@ export const clickCoordinatesAtom = createAtom(
 
     return state;
   },
+  'clickCoordinatesAtom',
 );

@@ -48,6 +48,7 @@ const layersInAreaAndEventLayerResourceParametersAtom = createAtom(
       geoJSON,
     });
   },
+  'layersInAreaAndEventLayerResourceParametersAtom',
 );
 
 export const layersInAreaAndEventLayerResource = createAsyncAtom(

@@ -27,4 +27,5 @@ export const showAboutForNewUsersAtom = createAtom(
       }
     });
   },
+  'showAboutForNewUsersAtom',
 );

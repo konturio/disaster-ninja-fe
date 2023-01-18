@@ -240,7 +240,7 @@ export function createAsyncAtom<
             if (depsAtomState !== null)
               schedule((dispatch) => dispatch(create('request', depsAtomState as any)));
             else {
-              console.info(
+              console.warn(
                 `Resource atom with name ${name} skips running as its dependency state ${deps?.depsAtom?.id} is null`,
               );
             }
