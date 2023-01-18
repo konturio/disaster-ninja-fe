@@ -76,10 +76,6 @@ msgstr "Ebenen"
 msgid "Feed"
 msgstr "Feed"
 
-#: details
-msgid "Details"
-msgstr "Details"
-
 #: deselect
 msgid "Deselect"
 msgstr "Auswahl aufheben"
@@ -350,10 +346,6 @@ msgstr "Standort"
 msgid "Select some feature for start edit feature properties"
 msgstr "Wählen Sie einige Merkmale aus, um Merkmalseigenschaften zu bearbeiten"
 
-#: analytics_panel##loading
-msgid "Loading analytics..."
-msgstr "Analytik wird geladen..."
-
 #: analytics_panel##header_title
 msgid "Analytics"
 msgstr "Analytik"
@@ -366,16 +358,8 @@ msgstr "INFO"
 msgid "Error while fetching analytics data"
 msgstr "Fehler beim Abrufen von Analysedaten"
 
-#: advanced_analytics_panel##loading
-msgid "Loading advanced analytics..."
-msgstr "Erweiterte Analytik wird geladen..."
-
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
-msgstr "Erweiterte Analytik"
-
-#: advanced_analytics_panel##analytics_tab
-msgid "Advanced Analytics"
 msgstr "Erweiterte Analytik"
 
 #: advanced_analytics_panel##error
@@ -390,29 +374,14 @@ msgstr "Leider wurde das gewünschte Ereignis nicht gefunden."
 msgid "An error occured!"
 msgstr "Es ist ein Fehler aufgetreten!"
 
-#: advanced_analytics_empty##please_select
-msgid "Please, select an area again"
-msgstr "Bitte wählen Sie erneut ein Gebiet aus,"
+#: advanced_analytics_empty##analytics_for_selected
+#, fuzzy
+msgid "Analytics for a selected area"
+msgstr "Ebenen im ausgewählten Bereich"
 
-#: advanced_analytics_empty##to_see_map
-msgid "to see state of the map"
-msgstr "um den Status der Karte zu sehen"
-
-#: advanced_analytics_empty##pickDisaster
-msgid "Pick disaster from the list"
-msgstr "Wählen Sie eine Katastrophe aus der Liste"
-
-#: advanced_analytics_empty##draw
-msgid "Draw polygon on the map"
-msgstr "Zeichnen Sie ein Polygon auf der Karte"
-
-#: advanced_analytics_empty##select
-msgid "Select boundary on the map"
-msgstr "Wählen Sie eine Grenze auf der Karte"
-
-#: advanced_analytics_empty##upload
-msgid "Upload your own geoJSON"
-msgstr "Laden Sie Ihr eigenes geoJSON hoch"
+#: advanced_analytics_empty##will_be_provided
+msgid "will be provided here"
+msgstr ""
 
 #: draw_tools##area
 msgid "Area"
@@ -976,3 +945,33 @@ msgstr ""
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
 msgstr ""
+
+#~ msgid "Details"
+#~ msgstr "Details"
+
+#~ msgid "Loading analytics..."
+#~ msgstr "Analytik wird geladen..."
+
+#~ msgid "Loading advanced analytics..."
+#~ msgstr "Erweiterte Analytik wird geladen..."
+
+#~ msgid "Advanced Analytics"
+#~ msgstr "Erweiterte Analytik"
+
+#~ msgid "Please, select an area again"
+#~ msgstr "Bitte wählen Sie erneut ein Gebiet aus,"
+
+#~ msgid "to see state of the map"
+#~ msgstr "um den Status der Karte zu sehen"
+
+#~ msgid "Pick disaster from the list"
+#~ msgstr "Wählen Sie eine Katastrophe aus der Liste"
+
+#~ msgid "Draw polygon on the map"
+#~ msgstr "Zeichnen Sie ein Polygon auf der Karte"
+
+#~ msgid "Select boundary on the map"
+#~ msgstr "Wählen Sie eine Grenze auf der Karte"
+
+#~ msgid "Upload your own geoJSON"
+#~ msgstr "Laden Sie Ihr eigenes geoJSON hoch"

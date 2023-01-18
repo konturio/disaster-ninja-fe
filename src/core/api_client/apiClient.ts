@@ -21,6 +21,7 @@ import type {
   RequestParams,
   ITranslationService,
   INotificationService,
+  LocalAuthToken,
 } from './types';
 
 const LOCALSTORAGE_AUTH_KEY = 'auth_token';
@@ -39,7 +40,7 @@ export class ApiClient {
   private readonly storage: WindowLocalStorage['localStorage'];
   private token = '';
   private refreshToken = '';
-  private tokenWillExpire: Date | undefined;
+  private tokenExpirationDate: Date | undefined;
   private checkTokenPromise: Promise<boolean> | undefined;
   public expiredTokenCallback?: () => void;
   private readonly keycloakClientId: string;
@@ -112,11 +113,11 @@ export class ApiClient {
   /**
    * Authentication
    */
-  private setAuth(tkn: string, refreshTkn: string): JWTData | string {
+  private setAuth(token: string, refreshToken: string): JWTData | string {
     let decodedToken: JWTData | undefined;
 
     try {
-      decodedToken = jwtDecode(tkn);
+      decodedToken = jwtDecode(token);
     } catch (e) {
       return "Can't decode token!";
     }
@@ -124,12 +125,12 @@ export class ApiClient {
     if (decodedToken && decodedToken.exp) {
       const expiringDate = new Date(decodedToken.exp * 1000);
       if (expiringDate > new Date()) {
-        this.token = tkn;
-        this.refreshToken = refreshTkn;
-        this.tokenWillExpire = expiringDate;
+        this.token = token;
+        this.refreshToken = refreshToken;
+        this.tokenExpirationDate = expiringDate;
         this.storage.setItem(
           LOCALSTORAGE_AUTH_KEY,
-          JSON.stringify({ token: tkn, refreshToken: refreshTkn }),
+          JSON.stringify({ token, refreshToken }),
         );
         return decodedToken;
       } else {
@@ -140,27 +141,21 @@ export class ApiClient {
     return 'Wrong data received!';
   }
 
-  getLocalAuthToken(
-    callback: () => void,
-  ): { token: string; refreshToken: string; jwtData: JWTData } | undefined {
+  getLocalAuthToken(callback: () => void): LocalAuthToken | undefined {
     this.expiredTokenCallback = callback;
-    const authStr = localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
+    const authStr = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
     if (authStr) {
-      const auth = JSON.parse(authStr);
-      if (auth.token && auth.refreshToken) {
-        const setAuthResult = this.setAuth(auth.token, auth.refreshToken);
-        if (typeof setAuthResult === 'string') {
-          localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+      const { token, refreshToken } = JSON.parse(authStr);
+      if (token && refreshToken) {
+        const jwtData = this.setAuth(token, refreshToken);
+        if (typeof jwtData === 'string') {
+          this.resetAuth();
           // FIXME: implement correct i18n usage for errors, do not translationService.t(var) !!!
-          throw new ApiClientError(this.translationService.t(setAuthResult), {
+          throw new ApiClientError(this.translationService.t(jwtData), {
             kind: 'bad-data',
           });
         }
-        return {
-          token: auth.token,
-          refreshToken: auth.refreshToken,
-          jwtData: setAuthResult,
-        };
+        return { token, refreshToken, jwtData };
       }
     }
   }
@@ -168,7 +163,7 @@ export class ApiClient {
   private resetAuth() {
     this.token = '';
     this.refreshToken = '';
-    this.tokenWillExpire = undefined;
+    this.tokenExpirationDate = undefined;
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
   }
 
@@ -177,8 +172,8 @@ export class ApiClient {
       // eslint-disable-next-line no-async-promise-executor
       this.checkTokenPromise = new Promise<boolean>(async (resolve) => {
         // if token has less then 5 minutes lifetime, refresh it
-        if (this.tokenWillExpire) {
-          const diffTime = this.tokenWillExpire.getTime() - new Date().getTime();
+        if (this.tokenExpirationDate) {
+          const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
           if (diffTime < 0) {
             this.resetAuth();
             if (this.expiredTokenCallback) {
@@ -217,6 +212,9 @@ export class ApiClient {
     return res;
   }
 
+  /**
+   * @throws {ApiClientError}
+   */
   private async processResponse<T>(
     response: ApiResponse<T, GeneralApiProblem>,
     errorsConfig?: RequestErrorsConfig,
@@ -341,9 +339,7 @@ export class ApiClient {
   public async login(
     username: string,
     password: string,
-  ): Promise<
-    { token: string; refreshToken: string; jwtData: JWTData } | string | undefined
-  > {
+  ): Promise<LocalAuthToken | string | undefined> {
     const params = new URLSearchParams();
     params.append('username', username);
     params.append('password', password);
@@ -363,9 +359,12 @@ export class ApiClient {
     }
   }
 
+  /**
+   * @throws {ApiClientError}
+   */
   private processAuthResponse(
     response: ApiResponse<KeycloakAuthResponse, GeneralApiProblem>,
-  ): { token: string; refreshToken: string; jwtData: JWTData } | undefined {
+  ): LocalAuthToken | undefined {
     if (response.ok) {
       if (response.data && response.data.access_token) {
         const setAuthResult = this.setAuth(
@@ -402,9 +401,11 @@ export class ApiClient {
     this.resetAuth();
   }
 
-  public async refreshAuthToken(): Promise<
-    { token: string; refreshToken: string; jwtData: JWTData } | string | undefined
-  > {
+  /**
+   * @returns {Promise} {LocalAuthToken} | {string} with error,
+   * @throws {ApiClientError}
+   */
+  public async refreshAuthToken(): Promise<string | LocalAuthToken | undefined> {
     const params = new URLSearchParams();
     params.append('client_id', this.keycloakClientId);
     params.append('refresh_token', this.refreshToken);
