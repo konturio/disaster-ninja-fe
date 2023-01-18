@@ -11,7 +11,7 @@ import { layerTypesOrdered } from '~core/logical_layers/utils/layersOrder/layers
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import { layerByOrder } from '~utils/map/layersOrder';
+import { layerByOrder } from '~core/logical_layers/utils/layersOrder/layerByOrder';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';

@@ -1,7 +1,7 @@
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { mapLoaded, waitMapEvent } from '~utils/map/waitMapEvent';
 import { loadImageOnMap } from '~utils/map/loadImageOnMap';
-import { layerByOrder } from '~utils/map/layersOrder';
+import { layerByOrder } from '~core/logical_layers/utils/layersOrder/layerByOrder';
 import Icon from '../icons/marker_black.png';
 import { FOCUSED_GEOMETRY_COLOR } from '../constants';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
