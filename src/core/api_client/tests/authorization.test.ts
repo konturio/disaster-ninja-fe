@@ -133,7 +133,8 @@ test('refreshToken called when token is expired', async ({ ctx }) => {
 
   // set private field token with new token
   const apiClientObj = ctx.apiClient as any;
-  apiClientObj.tokenWillExpire = new Date(new Date().getTime() + 1000 * 60 * 4);
+  // token expires in 4 minutes
+  apiClientObj.tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 4);
   apiClientObj.token = ctx.token;
 
   // mock refreshAuthToken
@@ -182,7 +183,7 @@ test('login and refresh token', async ({ ctx }) => {
 
   expect(
     // @ts-expect-error - Fix me - check expire time without reading private fields
-    ctx.apiClient.tokenWillExpire,
+    ctx.apiClient.tokenExpirationDate,
   ).toStrictEqual(new Date(expirationTime * 1000));
   // @ts-expect-error - Fix me - check expire time without reading private fields
   expect(ctx.apiClient.token).toBe(newToken);

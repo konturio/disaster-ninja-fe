@@ -129,6 +129,12 @@ export type GeneralApiProblem =
    */
   | { kind: 'canceled' };
 
+export interface LocalAuthToken {
+  token: string;
+  refreshToken: string;
+  jwtData: JWTData;
+}
+
 /**
  * Attempts to get a common cause of problems from an api response.
  *

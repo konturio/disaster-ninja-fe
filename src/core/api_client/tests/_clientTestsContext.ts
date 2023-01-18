@@ -58,7 +58,9 @@ export const createContext = () => {
 
   // setup token expiration time
   (apiClient as any).token = token;
-  (apiClient as any).tokenWillExpire = new Date(new Date().getTime() + 1000 * 60 * 30);
+  (apiClient as any).tokenExpirationDate = new Date(
+    new Date().getTime() + 1000 * 60 * 30,
+  );
 
   return {
     apiClient,
