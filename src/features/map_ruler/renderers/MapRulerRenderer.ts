@@ -3,7 +3,7 @@ import { MapboxLayer } from '@deck.gl/mapbox';
 import { CustomMeasureDistanceMode } from '~core/draw_tools/map-daw-tools/customDrawModes/CustomMeasureDistanceMode';
 import { i18n } from '~core/localization';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import { layerByOrder } from '~utils/map/layersOrder';
+import { layerByOrder } from '~core/logical_layers';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import type {
   NullableMap,

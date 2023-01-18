@@ -1,7 +1,7 @@
-import { layersOrderManager as defaultLayersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
-import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
+import { layersOrderManager as defaultLayersOrderManager } from './layersOrder';
+import { mapLibreParentsIds } from './mapLibreParentsIds';
 import type maplibregl from 'maplibre-gl';
-import type { LayersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
+import type { LayersOrderManager } from './layersOrder';
 
 export function layerByOrder(
   map: maplibregl.Map,
