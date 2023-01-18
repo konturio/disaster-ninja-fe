@@ -42,6 +42,7 @@ export const editableLayersDetailsParamsAtom = createAtom(
 
     return requestParams;
   },
+  'editableLayersDetailsParamsAtom',
 );
 
 // Call api

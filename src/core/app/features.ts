@@ -17,7 +17,7 @@ export function loadFeatures(
   return featuresResponse;
 }
 
-export const featuresWereSetAtom = createBooleanAtom(false);
+export const featuresWereSetAtom = createBooleanAtom(false, 'featuresWereSetAtom');
 
 export function setFeatures(value: BackendFeature[] | null) {
   // FIXME: investigate proper app and user feature merge

@@ -117,4 +117,5 @@ export const areaLayersLegendsAndSources = createAtom(
       });
     }
   },
+  'areaLayersLegendsAndSources',
 );

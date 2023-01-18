@@ -24,9 +24,7 @@ function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
   }
 }
 
-function convertDetailsToLegends(
-  response: LayerInAreaDetails,
-): LayerLegend | null {
+function convertDetailsToLegends(response: LayerInAreaDetails): LayerLegend | null {
   if (!response.legend) return null;
   return legendFormatter(response);
 }
@@ -42,8 +40,7 @@ export const editableLayersLegendsAndSources = createAtom(
     if (layersDetails.loading && layersDetails.lastParams) {
       const requestedLayers = [
         ...(layersDetails.lastParams?.layersToRetrieveWithGeometryFilter ?? []),
-        ...(layersDetails.lastParams?.layersToRetrieveWithoutGeometryFilter ??
-          []),
+        ...(layersDetails.lastParams?.layersToRetrieveWithoutGeometryFilter ?? []),
       ];
       requestedLayers.forEach((id) =>
         actions.push(
@@ -94,4 +91,5 @@ export const editableLayersLegendsAndSources = createAtom(
       });
     }
   },
+  'editableLayersLegendsAndSources',
 );

@@ -84,4 +84,5 @@ export const areaLayersDetailsParamsAtom = createAtom(
 
     return newState;
   },
+  'areaLayersDetailsParamsAtom',
 );
