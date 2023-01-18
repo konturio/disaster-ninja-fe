@@ -1,6 +1,6 @@
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { createGeoJSONSource } from '~utils/geoJSON/helpers';
-import { layerByOrder } from '~core/logical_layers/utils/layersOrder/layerByOrder';
+import { layerByOrder } from '~core/logical_layers';
 import type {
   ApplicationLayer,
   ApplicationMap,

@@ -9,7 +9,7 @@ import {
   LAYER_BIVARIATE_PREFIX,
   SOURCE_BIVARIATE_PREFIX,
 } from '~core/logical_layers/constants';
-import { layerByOrder } from '~core/logical_layers/utils/layersOrder/layerByOrder';
+import { layerByOrder } from '~core/logical_layers';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { registerMapListener } from '~core/shared_state/mapListeners';
