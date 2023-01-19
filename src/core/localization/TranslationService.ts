@@ -16,7 +16,7 @@ import de_common from './translations/de/common.json';
 
 export const I18N_FALLBACK_LANGUAGE = 'en';
 
-i18n
+export const i18nInitDone = i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({

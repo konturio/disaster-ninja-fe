@@ -4,12 +4,14 @@ import { apiClient } from '~core/apiClientInstance';
 import { urlEncoder, urlStoreAtom } from '~core/url_store';
 import { authClientInstance } from '~core/authClientInstance';
 import { currentApplicationAtom } from '~core/shared_state';
+import { i18nInitDone } from '~core/localization/TranslationService';
 import { onLogin, onLogout, onPublicLogin } from './authHooks';
 import { runAtom } from './index';
 import type { UrlData } from '~core/url_store';
 import type { AppInfoResponse } from '~core/app/types';
 
 export async function appInit() {
+  await i18nInitDone;
   // keep initial url before overwriting by router
   localStorage.setItem('initialUrl', location.href);
 
