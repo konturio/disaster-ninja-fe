@@ -12,6 +12,7 @@ vi.mock('maplibre-gl', () => ({
     Map: function () {
       this.fitBounds = mockFitBounds;
       this.on = () => null;
+      this.loaded = () => false;
     },
     getRTLTextPluginStatus: () => null,
   },
@@ -29,9 +30,7 @@ describe('<MapboxMap />', () => {
     const { container } = render(
       <Map style={''} accessToken={''} className={className} />,
     );
-    expect(container.getElementsByClassName('SuperDuperClassName').length).toBe(
-      1,
-    );
+    expect(container.getElementsByClassName('SuperDuperClassName').length).toBe(1);
   });
 
   test.todo('Should call fitBounds with bounds props');
