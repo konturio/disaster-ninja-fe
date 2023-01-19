@@ -46,6 +46,7 @@ There are several tasks in package.json:
 - i18n:update extracts new translation keys from code to common.json (i18n.t, <Trans/>) and removes unused keys.
 - lint:i18n:keys:identity is needed to see untranslated keys for all locales (make sure you ran i18n:import before, it compares i18n files)
 - i18n:msgmerge is needed to keep all .po files synced with .pot file (marks non-compliant msgid as 'fuzzy', renames keys in .po according keys changes in .pot)
+
 But you don't need to manually run all of them.
 As a developer you only need to interact with i18next en file by i18n:update command. (`src/core/localization/translations/en/common.json`)
 So whenever you add new key in your code - run i18n:update, you'll see common.json updated.
