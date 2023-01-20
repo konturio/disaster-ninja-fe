@@ -25,6 +25,5 @@ export function setFeatures(value: BackendFeature[] | null) {
   value?.forEach((ft) => {
     newFeatures[ft.name] = true;
   });
-  featureFlagsAtom.set.dispatch(newFeatures);
   store.dispatch([featureFlagsAtom.set(newFeatures), featuresWereSetAtom.setTrue()]);
 }

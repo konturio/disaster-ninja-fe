@@ -10,7 +10,6 @@ export { mapListenersAtom } from './mapListeners';
 export { currentNotificationAtom } from './currentNotifications';
 export { toolbarControlsAtom } from './toolbarControls';
 export { currentMapAtom } from './currentMap';
-export { currentApplicationAtom } from './currentApplication';
 export { episodesPanelState } from './episodesPanelState';
 export * from './toolbarControls';
 export * from './featureFlags';

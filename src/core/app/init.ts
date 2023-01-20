@@ -3,7 +3,6 @@ import { appConfig, updateAppConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { urlEncoder, urlStoreAtom } from '~core/url_store';
 import { authClientInstance } from '~core/authClientInstance';
-import { currentApplicationAtom } from '~core/shared_state';
 import { onLogin, onLogout, onPublicLogin } from './authHooks';
 import { runAtom } from './index';
 import type { UrlData } from '~core/url_store';
@@ -40,9 +39,6 @@ export async function appInit() {
   }
 
   updateAppConfig(appInfo);
-
-  // FIXME: refactor remove currentApplicationAtom dependency in other atoms
-  currentApplicationAtom.set.dispatch(initialState.app);
 
   postAppInit(initialState);
 }

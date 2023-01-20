@@ -15,11 +15,10 @@ type UnsubscribeFn = () => void;
 const cleanUpActionsMap = new WeakMap<LayerAtom, Action[]>();
 const unsubscribes = new WeakMap<LayerAtom, UnsubscribeFn>();
 
-export const createLayersRegistryAtom = () => {
+export const createLayersRegistryAtom = (id: string) => {
   const atom = createAtom(
     {
-      register: (r: RegisterRequest | RegisterRequest[]) =>
-        Array.isArray(r) ? r : [r],
+      register: (r: RegisterRequest | RegisterRequest[]) => (Array.isArray(r) ? r : [r]),
       unregister: (
         id: string | string[],
         { notifyLayerAboutDestroy }: { notifyLayerAboutDestroy?: boolean } = {},
@@ -80,9 +79,7 @@ export const createLayersRegistryAtom = () => {
               dispatch(actions);
             });
           } else {
-            console.error(
-              `Attempt unregister not existing layer with id: ${id}`,
-            );
+            console.error(`Attempt unregister not existing layer with id: ${id}`);
           }
         });
       });
@@ -97,10 +94,11 @@ export const createLayersRegistryAtom = () => {
 
       return state;
     },
-    'layersRegistry',
+    id,
   );
 
   return atom;
 };
 
-export const layersRegistryAtom: LayerRegistryAtom = createLayersRegistryAtom();
+export const layersRegistryAtom: LayerRegistryAtom =
+  createLayersRegistryAtom('layersRegistryAtom');
