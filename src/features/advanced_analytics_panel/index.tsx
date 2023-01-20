@@ -6,7 +6,7 @@ import type { PanelFeatureInterface } from 'types/featuresTypes';
 
 const { PanelContent } = lazily(() => import('./components/PanelContent/PanelContent'));
 
-export const advancedAnalyticsPanel: PanelFeatureInterface = {
+export const advancedAnalyticsPanel: () => PanelFeatureInterface = () => ({
   content: (
     <Suspense>
       <PanelContent />
@@ -15,4 +15,4 @@ export const advancedAnalyticsPanel: PanelFeatureInterface = {
   header: i18n.t('advanced_analytics_panel.header_title'),
   minHeight: MIN_HEIGHT,
   resize: 'vertical',
-};
+});
