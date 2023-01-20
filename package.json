@@ -75,7 +75,7 @@
   "dependencies": {
     "@deck.gl/core": "^8.8.20",
     "@deck.gl/extensions": "^8.8.22",
-    "@deck.gl/geo-layers": "^8.8.20",
+    "@deck.gl/geo-layers": "^8.8.23",
     "@deck.gl/layers": "^8.8.21",
     "@deck.gl/mapbox": "^8.8.4",
     "@deck.gl/mesh-layers": "^8.8.22",
