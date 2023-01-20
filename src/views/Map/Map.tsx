@@ -125,8 +125,8 @@ export function MapPage() {
 
 const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) => {
   const [fullState, shortState] = [
-    featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL] ? advancedAnalyticsPanel : null,
-    featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanel : null,
+    featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL] ? advancedAnalyticsPanel() : null,
+    featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanel() : null,
   ];
   return (
     <FullAndShortStatesPanelWidget
@@ -145,8 +145,8 @@ const LayersAndLegends = ({
   featureFlags: Record<string, boolean>;
 }) => {
   const [fullState, shortState] = [
-    featureFlags[FeatureFlag.MAP_LAYERS_PANEL] ? layersPanel : null,
-    featureFlags[FeatureFlag.LEGEND_PANEL] ? legendPanel : null,
+    featureFlags[FeatureFlag.MAP_LAYERS_PANEL] ? layersPanel() : null,
+    featureFlags[FeatureFlag.LEGEND_PANEL] ? legendPanel() : null,
   ];
   return (
     <FullAndShortStatesPanelWidget

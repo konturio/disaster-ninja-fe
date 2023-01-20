@@ -7,7 +7,7 @@ import type { PanelFeatureInterface } from 'types/featuresTypes';
 
 const { PanelContent } = lazily(() => import('./components'));
 
-export const layersPanel: PanelFeatureInterface = {
+export const layersPanel: () => PanelFeatureInterface = () => ({
   content: (
     <Suspense>
       <PanelContent />
@@ -17,4 +17,4 @@ export const layersPanel: PanelFeatureInterface = {
   header: i18n.t('layers'),
   minHeight: MIN_HEIGHT,
   resize: 'vertical',
-};
+});
