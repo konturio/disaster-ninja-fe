@@ -143,7 +143,7 @@
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
     "@types/sinon": "^10.0.13",
-    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.1",
     "@uiw/react-github-corners": "1.5.15",
     "@vitejs/plugin-react": "^2.2.0",
