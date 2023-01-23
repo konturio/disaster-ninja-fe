@@ -48,9 +48,11 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
   if (skipShortState) {
     const singleControl: PanelCustomControl[] = [
       {
-        icon: panelState === 'full' ? <ChevronUp24 /> : <ChevronDown24 />,
-        onWrapperClick: () =>
-          setPanelState((prevState) => (prevState === 'closed' ? 'full' : 'closed')),
+        icon: panelState === 'closed' ? <ChevronDown24 /> : <ChevronUp24 />,
+        onWrapperClick: () => {
+          const nextState = initialState === 'closed' ? 'full' : initialState;
+          setPanelState((prevState) => (prevState === 'closed' ? nextState : 'closed'));
+        },
       },
     ];
     // hooks must not be skipped - therefore it's late return
