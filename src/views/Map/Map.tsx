@@ -99,7 +99,7 @@ export function MapPage() {
           <ConnectedMap className={s.Map} />
         </Suspense>
       </div>
-      {featureFlags && (
+      {Object.keys(featureFlags).length > 0 && (
         <Layout
           analytics={<Analytics featureFlags={featureFlags} />}
           // if EVENTS_LIST is enabled, we always have default feed
