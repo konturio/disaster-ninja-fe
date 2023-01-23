@@ -15,6 +15,8 @@ type PanelProps = {
   shortState?: PanelFeatureInterface | null;
   id?: string;
   initialState?: PanelState | null;
+  header?: string;
+  panelIcon?: JSX.Element;
 };
 
 export function FullAndShortStatesPanelWidget({
@@ -22,6 +24,8 @@ export function FullAndShortStatesPanelWidget({
   shortState,
   id,
   initialState,
+  header,
+  panelIcon,
 }: PanelProps) {
   const { panelState, panelControls, setPanelState } = useShortPanelState({
     initialState,
@@ -63,8 +67,9 @@ export function FullAndShortStatesPanelWidget({
 
   if (!fullState && !shortState) return null;
 
-  const header = !fullState ? shortState?.header : fullState.header;
-  const panelIcon = !fullState ? shortState?.panelIcon : fullState.panelIcon;
+  const resultHeader = header || (!fullState ? shortState?.header : fullState.header);
+  const resultPanelIcon =
+    panelIcon || (!fullState ? shortState?.panelIcon : fullState.panelIcon);
 
   const panelContent = {
     full: fullState?.content || shortState?.content,
@@ -75,8 +80,8 @@ export function FullAndShortStatesPanelWidget({
   return (
     <>
       <Panel
-        header={header}
-        headerIcon={panelIcon || undefined}
+        header={resultHeader}
+        headerIcon={resultPanelIcon || undefined}
         className={clsx(s.panel, isOpen ? s.show : s.collapse)}
         classes={panelClasses}
         isOpen={isOpen}
@@ -100,7 +105,7 @@ export function FullAndShortStatesPanelWidget({
           !isOpen && s.show,
           isMobile ? s.mobile : s.desktop,
         )}
-        icon={panelIcon || <></>}
+        icon={resultPanelIcon || <></>}
       />
     </>
   );
