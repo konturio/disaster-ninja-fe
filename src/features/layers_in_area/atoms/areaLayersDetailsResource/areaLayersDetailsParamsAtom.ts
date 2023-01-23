@@ -29,24 +29,22 @@ export const areaLayersDetailsParamsAtom = createAtom(
     const eventId = getEventId(focusedGeometry);
     const cache = getUnlistedState(areaLayersDetailsResourceAtomCache);
 
-    const [mustBeRequested, cached] = allLayers.reduce(
-      (acc, layer) => {
-        const isEnabled = enabledLayers.has(layer.id);
-        if (isEnabled) {
-          const cacheKey = layer.eventIdRequiredForRetrieval ? eventId : null;
-          const cached = cache.get(cacheKey)?.get(layer.id) ?? null;
-          if (cached) {
-            acc[1].push(cached);
-          } else {
-            acc[0].push(layer);
-          }
-        }
-        return acc;
-      },
-      [new Array<LayerInArea>(), new Array<LayerInAreaDetails>()],
-    );
+    const mustBeRequested = allLayers.filter((layer) => {
+      const isEnabled = enabledLayers.has(layer.id);
+      if (isEnabled) {
+        const cacheKey = layer.eventIdRequiredForRetrieval ? eventId : null;
+        const cached = cache.get(cacheKey)?.get(layer.id) ?? null;
+        return !cached;
+      } else {
+        return false;
+      }
+    });
 
-    if (mustBeRequested.length === 0) return state; // Do not request anything
+    if (mustBeRequested.length === 0) {
+      // in we return null - resource atom will not updated.
+      // But we need it
+      return state ? { ...state, skip: true } : { skip: true };
+    }
 
     const [
       layersToRetrieveWithGeometryFilter,
@@ -70,7 +68,6 @@ export const areaLayersDetailsParamsAtom = createAtom(
         layersToRetrieveWithoutGeometryFilter,
       ),
       layersToRetrieveWithEventId: Array.from(layersToRetrieveWithEventId),
-      cached,
     };
 
     /**
