@@ -3,9 +3,8 @@ import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { getEvendId } from '~core/shared_state/focusedGeometry';
+import { getEventId } from '~core/shared_state/focusedGeometry';
 import { areaLayersDetailsResourceAtom } from './areaLayersDetailsResource';
-import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResource/areaLayersDetailsResourceAtomCache';
 import type { LayerInAreaDetails } from '../types';
 import type { LayerSource } from '~core/logical_layers/types/source';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
@@ -44,6 +43,7 @@ export const areaLayersLegendsAndSources = createAtom(
       ...(layersDetails.lastParams?.layersToRetrieveWithGeometryFilter ?? []),
       ...(layersDetails.lastParams?.layersToRetrieveWithoutGeometryFilter ?? []),
     ];
+    // const layersFromCache = layersDetails.lastParams?.cached ?? [];
 
     // Loading started
     if (layersDetails.loading) {
@@ -67,16 +67,6 @@ export const areaLayersLegendsAndSources = createAtom(
         return acc;
       }, new Map<string, LayerInAreaDetails>());
 
-      // apply cached layers if any are already stored for current eventId
-      const focusedGeometry = get('focusedGeometryAtom');
-      const eventId = getEvendId(focusedGeometry);
-      if (eventId) {
-        const cachedLayers = getUnlistedState(areaLayersDetailsResourceAtomCache).get(
-          eventId,
-        );
-        cachedLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
-      }
-
       // One error for all requested details
       const layersDetailsError = layersDetails.error ? Error(layersDetails.error) : null;
 
@@ -91,6 +81,16 @@ export const areaLayersLegendsAndSources = createAtom(
             isLoading: false,
           });
         });
+
+        // layersFromCache.forEach((layerDetails) => {
+        //   const layerSource = layerDetails ? convertDetailsToSource(layerDetails) : null;
+        //   newState.set(layerDetails.id, {
+        //     error: layersDetailsError,
+        //     data: layerSource,
+        //     isLoading: false,
+        //   });
+        // });
+
         return newState;
       });
 
@@ -105,6 +105,16 @@ export const areaLayersLegendsAndSources = createAtom(
             isLoading: false,
           });
         });
+
+        // layersFromCache.forEach((layerDetails) => {
+        //   const layerLegend = layerDetails ? convertDetailsToLegends(layerDetails) : null;
+        //   newState.set(layerDetails.id, {
+        //     error: layersDetailsError,
+        //     data: layerLegend,
+        //     isLoading: false,
+        //   });
+        // });
+
         return newState;
       });
 
