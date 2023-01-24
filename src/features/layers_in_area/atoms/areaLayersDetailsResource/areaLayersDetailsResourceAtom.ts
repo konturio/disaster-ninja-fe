@@ -25,6 +25,7 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
     onSuccess: (dispatch, request, response) => {
       if (response === null) return;
       if (request === null) return;
+      if (response.length === 0) return;
       dispatch(areaLayersDetailsResourceAtomCache.update(request, response));
     },
   },
