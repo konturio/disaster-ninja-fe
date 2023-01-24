@@ -3,13 +3,13 @@ import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
 import { focusedGeometryAtom } from '~core/shared_state';
-import { getEvendId } from '~core/shared_state/focusedGeometry';
+import { getEventId } from '~core/shared_state/focusedGeometry';
 import { areaLayersDetailsResourceAtom } from './areaLayersDetailsResource';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResource/areaLayersDetailsResourceAtomCache';
+import type { Action } from '@reatom/core';
 import type { LayerInAreaDetails } from '../types';
 import type { LayerSource } from '~core/logical_layers/types/source';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
-import type { Action } from '@reatom/core';
 
 function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
   /* Typescript makes me sad sometimes T.T */
@@ -69,7 +69,7 @@ export const areaLayersLegendsAndSources = createAtom(
 
       // apply cached layers if any are already stored for current eventId
       const focusedGeometry = get('focusedGeometryAtom');
-      const eventId = getEvendId(focusedGeometry);
+      const eventId = getEventId(focusedGeometry);
       if (eventId) {
         const cachedLayers = getUnlistedState(areaLayersDetailsResourceAtomCache).get(
           eventId,
@@ -91,6 +91,7 @@ export const areaLayersLegendsAndSources = createAtom(
             isLoading: false,
           });
         });
+
         return newState;
       });
 
@@ -105,6 +106,7 @@ export const areaLayersLegendsAndSources = createAtom(
             isLoading: false,
           });
         });
+
         return newState;
       });
 

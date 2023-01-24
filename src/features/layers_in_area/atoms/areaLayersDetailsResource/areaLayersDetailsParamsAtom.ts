@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { focusedGeometryAtom, getEvendId } from '~core/shared_state/focusedGeometry';
+import { focusedGeometryAtom, getEventId } from '~core/shared_state/focusedGeometry';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { layersGlobalResource } from '../layersGlobalResource';
 import { layersInAreaAndEventLayerResource } from '../layersInAreaAndEventLayerResource';
@@ -25,16 +25,25 @@ export const areaLayersDetailsParamsAtom = createAtom(
     ];
     const enabledLayers = get('enabledLayersAtom');
     const focusedGeometry = getUnlistedState(focusedGeometryAtom);
-    const eventId = getEvendId(focusedGeometry);
+    const eventId = getEventId(focusedGeometry);
     const cache = getUnlistedState(areaLayersDetailsResourceAtomCache);
 
     const mustBeRequested = allLayers.filter((layer) => {
       const isEnabled = enabledLayers.has(layer.id);
-      const isInCache = cache.get(eventId)?.has(layer.id) ?? false;
-      return isEnabled && !isInCache;
+      if (isEnabled) {
+        const cacheKey = layer.eventIdRequiredForRetrieval ? eventId : null;
+        const cached = cache.get(cacheKey)?.get(layer.id) ?? null;
+        return !cached;
+      } else {
+        return false;
+      }
     });
 
-    if (mustBeRequested.length === 0) return state; // Do not request anything
+    if (mustBeRequested.length === 0) {
+      // in we return null - resource atom will not updated.
+      // But we need it
+      return state ? { ...state, skip: true } : { skip: true };
+    }
 
     const [
       layersToRetrieveWithGeometryFilter,

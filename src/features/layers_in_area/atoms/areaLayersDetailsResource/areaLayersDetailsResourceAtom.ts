@@ -7,7 +7,7 @@ import type { LayerInAreaDetails } from '../../types';
 export const areaLayersDetailsResourceAtom = createAsyncAtom(
   areaLayersDetailsParamsAtom,
   async (params, abortController) => {
-    if (params === null) return null;
+    if (params.skip) return []; // When all 100% layers in cache we still need to trigger ResourceAtomState to run listeners
     // exclude layersToRetrieveWithEventId from body - in needed just for cache invalidation
     const { layersToRetrieveWithEventId, ...body } = params;
     const request = await apiClient.post<LayerInAreaDetails[]>(
@@ -25,6 +25,7 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
     onSuccess: (dispatch, request, response) => {
       if (response === null) return;
       if (request === null) return;
+      if (response.length === 0) return;
       dispatch(areaLayersDetailsResourceAtomCache.update(request, response));
     },
   },
