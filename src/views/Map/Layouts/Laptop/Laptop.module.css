@@ -26,9 +26,6 @@
   flex-direction: column;
   justify-content: center;
   gap: var(--unit);
-  & > * {
-    flex: 1 0 auto;
-  }
 }
 
 .footerWrap {

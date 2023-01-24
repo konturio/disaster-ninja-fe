@@ -8,9 +8,9 @@ function getPaddings(): PaddingOptions {
   // mobile
   if (width < MOBILE_WIDTH_PX + 1) return { left: 64, top: 5, right: 115, bottom: 0 };
   // laptop
-  if (width < LAPTOP_WIDTH_PX + 1) return { left: 435, top: 5, right: 110, bottom: 95 };
+  if (width < LAPTOP_WIDTH_PX + 1) return { left: 435, top: 5, right: 5, bottom: 95 };
   // desktop
-  return { left: 340, top: 5, right: 465, bottom: 95 };
+  return { left: 340, top: 5, right: 340, bottom: 105 };
 }
 
 export function getCameraForGeometry(
