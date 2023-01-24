@@ -6,7 +6,6 @@ import { layersGlobalResource } from '../layersGlobalResource';
 import { layersInAreaAndEventLayerResource } from '../layersInAreaAndEventLayerResource';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResourceAtomCache';
 import type { DetailsRequestParams } from './types';
-import type { LayerInArea, LayerInAreaDetails } from '~features/layers_in_area/types';
 
 export const areaLayersDetailsParamsAtom = createAtom(
   {
