@@ -273,6 +273,20 @@ msgstr "Tidak ada bencana yang dipilih"
 msgid "Choose disaster"
 msgstr "Pilih bencana"
 
+#: event_list##no_historical_disasters
+msgid "No historical disasters in this area"
+msgstr ""
+
+#: event_list##no_feed_disasters
+#, fuzzy
+msgid "No disasters in this feed"
+msgstr "Tidak ada bencana yang dipilih"
+
+#: event_list##no_disasters
+#, fuzzy
+msgid "No disasters"
+msgstr "Bencana"
+
 #: create_layer##edit_layer
 msgid "Edit Layer"
 msgstr "Edit Lapisan"
