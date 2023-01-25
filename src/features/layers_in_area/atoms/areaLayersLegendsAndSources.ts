@@ -84,10 +84,13 @@ export const areaLayersLegendsAndSources = createAtom(
         const newState = new Map(state);
         requestedLayers.forEach((layerId) => {
           const layerDetails = layersDetailsData.get(layerId);
-          const layerSource = layerDetails ? convertDetailsToSource(layerDetails) : null;
+          const layerSourceFromResource = layerDetails
+            ? convertDetailsToSource(layerDetails)
+            : null;
+          const existedLayerSource = state.get(layerId)?.data ?? null;
           newState.set(layerId, {
             error: layersDetailsError,
-            data: layerSource,
+            data: layerSourceFromResource || existedLayerSource,
             isLoading: false,
           });
         });
@@ -99,10 +102,13 @@ export const areaLayersLegendsAndSources = createAtom(
         const newState = new Map(state);
         requestedLayers.forEach((layerId) => {
           const layerDetails = layersDetailsData.get(layerId);
-          const layerLegend = layerDetails ? convertDetailsToLegends(layerDetails) : null;
+          const layerLegendFromResource = layerDetails
+            ? convertDetailsToLegends(layerDetails)
+            : null;
+          const existedLayerSource = state.get(layerId)?.data ?? null;
           newState.set(layerId, {
             error: layersDetailsError,
-            data: layerLegend,
+            data: layerLegendFromResource || existedLayerSource,
             isLoading: false,
           });
         });
