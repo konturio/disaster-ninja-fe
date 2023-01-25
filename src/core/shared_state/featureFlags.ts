@@ -5,14 +5,14 @@ import { AppFeature } from '~core/auth/types';
 export const FeatureFlag = AppFeature;
 
 export const featureFlagsAtom = createAtom(
-  { set: (state = appConfig.effectiveFeatures) => state },
+  { set: (state = { ...appConfig.effectiveFeatures }) => state },
   ({ onAction }, state = {}) => {
     onAction('set', (f) => {
       if (f) {
         state = f;
       } else {
         // reset to defaults
-        state = appConfig.effectiveFeatures;
+        state = { ...appConfig.effectiveFeatures };
       }
     });
 

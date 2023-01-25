@@ -99,7 +99,7 @@ export function MapPage() {
           <ConnectedMap className={s.Map} />
         </Suspense>
       </div>
-      {featureFlags && (
+      {Object.keys(featureFlags).length > 0 && (
         <Layout
           analytics={<Analytics featureFlags={featureFlags} />}
           // if EVENTS_LIST is enabled, we always have default feed
@@ -124,9 +124,13 @@ export function MapPage() {
 }
 
 const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) => {
+  const analyticsPanelState = analyticsPanel();
+  const advancedAnalyticsPanelState = advancedAnalyticsPanel();
   const [fullState, shortState] = [
-    featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL] ? advancedAnalyticsPanel : null,
-    featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanel : null,
+    featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL]
+      ? advancedAnalyticsPanelState
+      : null,
+    featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanelState : null,
   ];
   return (
     <FullAndShortStatesPanelWidget
@@ -135,8 +139,8 @@ const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) 
       initialState={featureFlags[FeatureFlag.ANALYTICS_PANEL] ? 'short' : null}
       key="analytics"
       id="analytics"
-      panelIcon={analyticsPanel.panelIcon}
-      header={analyticsPanel.header}
+      panelIcon={analyticsPanelState.panelIcon}
+      header={analyticsPanelState.header}
     />
   );
 };
@@ -147,8 +151,8 @@ const LayersAndLegends = ({
   featureFlags: Record<string, boolean>;
 }) => {
   const [fullState, shortState] = [
-    featureFlags[FeatureFlag.MAP_LAYERS_PANEL] ? layersPanel : null,
-    featureFlags[FeatureFlag.LEGEND_PANEL] ? legendPanel : null,
+    featureFlags[FeatureFlag.MAP_LAYERS_PANEL] ? layersPanel() : null,
+    featureFlags[FeatureFlag.LEGEND_PANEL] ? legendPanel() : null,
   ];
   return (
     <FullAndShortStatesPanelWidget

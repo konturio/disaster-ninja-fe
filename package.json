@@ -160,7 +160,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "happy-dom": "^8.1.4",
+    "happy-dom": "^8.1.5",
     "husky": "^8.0.3",
     "i18next-conv": "13.1.0",
     "i18next-scanner": "^4.1.0",

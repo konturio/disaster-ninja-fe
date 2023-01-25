@@ -18,6 +18,7 @@ const allLayers = createAtom(
       ...(get('layersInAreaAndEventLayerResource').data ?? []),
     ];
   },
+  'allLayers',
 );
 
 /**
