@@ -7,8 +7,6 @@ import type { LayerInArea } from '../types';
 export const layersGlobalResource = createAsyncAtom(
   null,
   async (_, abortController) => {
-    if (!appConfig.id) return null;
-
     const layers = await apiClient.post<LayerInArea[]>(
       '/layers/search/global',
       { appId: appConfig.id },
