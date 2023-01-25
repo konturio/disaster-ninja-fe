@@ -40,7 +40,6 @@ This feature uses next core modules:
 
 - logical_layers
 - draw_tools
-- currentApplicationAtom
 - userResourceAtom
 - notificationsService
 - translationService
@@ -81,7 +80,6 @@ flowchart TD
   editableLayersControlsAtom ---> logical_layers:::coreAtom
   editableLayersLegendsAndSources ---> logical_layers:::coreAtom
   editableLayersLegendsAndSources --> editableLayersDetailsResourceAtom
-  editableLayersListResource ---> currentApplicationAtom:::coreAtom
   editableLayersDetailsResourceAtom ---> enabledLayersAtom:::coreAtom
   openDrawToolsInFeatureEditMode ---> editTargetAtom
   openDrawToolsInFeatureEditMode ---> draw_tools:::coreAtom
