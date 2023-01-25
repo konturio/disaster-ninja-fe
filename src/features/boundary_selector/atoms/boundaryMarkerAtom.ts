@@ -24,8 +24,6 @@ interface BoundaryMarkerAtomState {
   isEnabled: boolean;
 }
 
-let version = 0;
-
 export const boundaryMarkerAtom = createAtom(
   {
     currentMapAtom,
@@ -148,14 +146,11 @@ export const boundaryMarkerAtom = createAtom(
             },
           );
 
-          const marker = convertToAppMarker(BOUNDARY_MARKER_ID + version, {
+          const marker = convertToAppMarker(BOUNDARY_MARKER_ID, {
             coordinates: [coordinates.lng, coordinates.lat],
             el: markerData,
             id: BOUNDARY_MARKER_ID,
           });
-
-          // increment marker version to debug
-          version++;
 
           dispatch(create('_refreshMarker', marker, map));
         });
