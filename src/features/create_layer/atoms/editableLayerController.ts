@@ -1,7 +1,7 @@
+import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
-import { currentApplicationAtom } from '~core/shared_state';
 import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
 import { createLayerEditorFormAtom } from './layerEditorForm';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
@@ -57,8 +57,8 @@ export const editableLayerControllerAtom = createAtom(
             id: layerId,
             name: layerUserData.name ?? '',
             marker: 'default' as const,
-            fields: Object.entries(layerUserData.featureProperties).map(
-              ([name, type]) => createLayerEditorFormFieldAtom({ name, type }),
+            fields: Object.entries(layerUserData.featureProperties).map(([name, type]) =>
+              createLayerEditorFormFieldAtom({ name, type }),
             ),
           };
           dispatch([
@@ -107,7 +107,7 @@ export const editableLayerControllerAtom = createAtom(
         };
 
         // @ts-expect-error temporary code
-        data.appId = getUnlistedState(currentApplicationAtom);
+        data.appId = appConfig.id;
 
         schedule(async (dispatch) => {
           try {
@@ -119,11 +119,7 @@ export const editableLayerControllerAtom = createAtom(
                 true,
               );
             } else {
-              responseData = await apiClient.post<EditableLayers>(
-                `/layers`,
-                data,
-                true,
-              );
+              responseData = await apiClient.post<EditableLayers>(`/layers`, data, true);
             }
 
             if (responseData) {

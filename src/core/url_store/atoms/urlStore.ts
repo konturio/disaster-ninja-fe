@@ -4,7 +4,6 @@ import { appConfig } from '~core/app_config';
 import {
   currentEventAtom,
   currentMapPositionAtom,
-  currentApplicationAtom,
   currentEventFeedAtom,
 } from '~core/shared_state';
 import { scheduledAutoSelect, scheduledAutoFocus } from '~core/shared_state/currentEvent';
@@ -29,7 +28,6 @@ export const urlStoreAtom = createAtom(
     currentMapPositionAtom,
     currentEventAtom,
     enabledLayersAtom,
-    currentApplicationAtom,
     currentEventFeedAtom,
     _setState: (state: UrlData | null) => state,
     init: (initialState: UrlData) => initialState,

@@ -77,6 +77,11 @@ export class AppMetrics implements Metric {
 
     globalThis.addEventListener(METRICS_EVENT, this.listener.bind(this) as EventListener);
 
+    globalThis.addEventListener(
+      'visibilitychange',
+      this.visibilityListener.bind(this) as EventListener,
+    );
+
     if (KONTUR_METRICS_DEBUG) {
       console.info(`appMetrics.init route:${route}`, this.reportTemplate, this.watchList);
     }
@@ -87,7 +92,18 @@ export class AppMetrics implements Metric {
   // remove listeners and unsubscribe from atoms
   cleanup() {
     globalThis.removeEventListener(METRICS_EVENT, this.listener as EventListener);
+    globalThis.removeEventListener(
+      'visibilitychange',
+      this.visibilityListener.bind(this) as EventListener,
+    );
     this.watch = () => null;
+  }
+
+  visibilityListener() {
+    if (globalThis.document.visibilityState === 'hidden') {
+      // stop metrics processing when page is hidden because of irrelevant timing
+      this.cleanup();
+    }
   }
 
   exposeMetrics() {

@@ -11,7 +11,7 @@ import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUt
 import type maplibregl from 'maplibre-gl';
 
 export const bivariateSampleMapLayersOrderManager = new LayersOrderManager();
-export const bivariateregistry = createLayersRegistryAtom();
+export const bivariateregistry = createLayersRegistryAtom('bivariateregistry');
 
 export type BivariateColorManagerAtomState = {
   map: maplibregl.Map | null;
