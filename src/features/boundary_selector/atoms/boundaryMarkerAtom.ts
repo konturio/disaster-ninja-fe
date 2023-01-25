@@ -14,12 +14,17 @@ import { getSelectorWithOptions } from './../components/getSelectorWithOptions';
 import type { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
 import type { Action } from '@reatom/core';
 
-const LOADING_OPTIONS = [{ label: i18n.t('loading'), value: 'loading', disabled: true }];
+const LOADING_OPTION = [{ label: i18n.t('loading'), value: 'loading', disabled: true }];
+const NO_DATA_OPTION = [
+  { label: i18n.t('no_data_received'), value: 'no_data_received', disabled: true },
+];
 
 interface BoundaryMarkerAtomState {
   marker: null | ApplicationMapMarker;
   isEnabled: boolean;
 }
+
+let version = 0;
 
 export const boundaryMarkerAtom = createAtom(
   {
@@ -28,7 +33,9 @@ export const boundaryMarkerAtom = createAtom(
     boundaryResourceAtom,
     start: () => null,
     stop: () => null,
-    _setMarker: (marker: ApplicationMapMarker) => marker,
+    _refreshMarker: (marker: ApplicationMapMarker, map: maplibregl.Map) => {
+      return { marker, map };
+    },
   },
   (
     { get, onAction, schedule, onChange, create },
@@ -54,8 +61,13 @@ export const boundaryMarkerAtom = createAtom(
       state = { ...state, isEnabled: false, marker: null };
     });
 
-    onAction('_setMarker', (marker) => {
-      state = { ...state, marker };
+    onAction('_refreshMarker', ({ marker: newMarker, map }) => {
+      // The only way to update marker content?
+      const previousMarker = state.marker;
+      previousMarker?.remove();
+      newMarker.addTo(map);
+
+      state = { ...state, marker: newMarker };
     });
 
     // Marker callbacks
@@ -74,35 +86,38 @@ export const boundaryMarkerAtom = createAtom(
       fc: GeoJSON.FeatureCollection,
       boundaryId: string,
     ) => {
-      const feature = fc.features.find((boundary) => boundary.id === boundaryId)!;
-      return highlightedGeometry.set(feature);
+      const feature = fc.features.find((boundary) => boundary.id === boundaryId);
+      return highlightedGeometry.set(
+        feature || { type: 'FeatureCollection', features: [] },
+      );
     };
 
     // Marker creation
     if (state.isEnabled) {
       onChange('boundaryResourceAtom', (resource) => {
-        const { data: featureCollection } = resource;
+        const { data: featureCollection, loading } = resource;
+
         const coordinates = get('clickCoordinatesAtom');
         const map = get('currentMapAtom');
         if (!coordinates || !map) return;
 
         schedule((dispatch) => {
-          const options = resource.data
-            ? constructOptionsFromBoundaries(resource.data)
-            : LOADING_OPTIONS;
+          let selectOptions =
+            resource.data && constructOptionsFromBoundaries(resource.data);
+          if (!selectOptions?.length)
+            selectOptions = loading ? LOADING_OPTION : NO_DATA_OPTION;
 
           const markerData = getSelectorWithOptions(
-            options,
+            selectOptions,
 
             // onOptionSelect:
             (boundaryId) => {
               if (!featureCollection) return;
               const selectedFeature = featureCollection.features.find(
                 (f) => f.id === boundaryId,
-              )!;
+              );
 
               const actions: Action[] = [
-                updateFocusedGeometryAction(selectedFeature),
                 toolbarControlsAtom.disable('BoundarySelector'),
                 updateBoundaryLayerAction(
                   { type: 'FeatureCollection', features: [] },
@@ -110,15 +125,19 @@ export const boundaryMarkerAtom = createAtom(
                 ),
               ];
 
+              if (!selectedFeature) return dispatch(actions);
+
+              actions.push(updateFocusedGeometryAction(selectedFeature));
+
               const geometryCamera = getCameraForGeometry(selectedFeature, map);
-              if (typeof geometryCamera === 'object')
+              if (typeof geometryCamera === 'object') {
                 actions.push(
                   currentMapPositionAtom.setCurrentMapPosition({
                     zoom: Math.min(geometryCamera.zoom, appConfig.autoFocus.maxZoom),
                     ...geometryCamera.center,
                   }),
                 );
-
+              }
               dispatch(actions);
             },
 
@@ -129,16 +148,16 @@ export const boundaryMarkerAtom = createAtom(
             },
           );
 
-          const marker = convertToAppMarker(BOUNDARY_MARKER_ID, {
+          const marker = convertToAppMarker(BOUNDARY_MARKER_ID + version, {
             coordinates: [coordinates.lng, coordinates.lat],
             el: markerData,
             id: BOUNDARY_MARKER_ID,
           });
 
-          // The only way to update marker content?
-          state.marker && state.marker.remove();
-          marker.addTo(map);
-          dispatch(create('_setMarker', marker));
+          // increment marker version to debug
+          version++;
+
+          dispatch(create('_refreshMarker', marker, map));
         });
       });
     }
