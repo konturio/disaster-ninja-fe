@@ -60,12 +60,14 @@ export const boundaryMarkerAtom = createAtom(
     });
 
     onAction('_refreshMarker', ({ marker: newMarker, map }) => {
-      // The only way to update marker content?
       const previousMarker = state.marker;
-      previousMarker?.remove();
-      newMarker.addTo(map);
-
       state = { ...state, marker: newMarker };
+
+      schedule(() => {
+        // The only way to update marker content?
+        previousMarker?.remove();
+        newMarker.addTo(map);
+      });
     });
 
     // Marker callbacks
@@ -123,12 +125,15 @@ export const boundaryMarkerAtom = createAtom(
                 ),
               ];
 
-              if (!selectedFeature) return dispatch(actions);
+              if (!selectedFeature) {
+                dispatch(actions);
+                return;
+              }
 
               actions.push(updateFocusedGeometryAction(selectedFeature));
 
               const geometryCamera = getCameraForGeometry(selectedFeature, map);
-              if (typeof geometryCamera === 'object') {
+              if (geometryCamera && typeof geometryCamera === 'object') {
                 actions.push(
                   currentMapPositionAtom.setCurrentMapPosition({
                     zoom: Math.min(geometryCamera.zoom, appConfig.autoFocus.maxZoom),
