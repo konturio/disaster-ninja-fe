@@ -67,14 +67,17 @@ export const areaLayersLegendsAndSources = createAtom(
         return acc;
       }, new Map<string, LayerInAreaDetails>());
 
-      // apply cached layers if any are already stored for current eventId
+      const cachedLayersByEventId = getUnlistedState(areaLayersDetailsResourceAtomCache);
+      // apply global cached layers
+      const cachedGlobalLayers = cachedLayersByEventId.get(null);
+      cachedGlobalLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
+
       const focusedGeometry = get('focusedGeometryAtom');
       const eventId = getEventId(focusedGeometry);
+      // apply cached layers if any are already stored for current eventId
+      const cachedEventLayers = cachedLayersByEventId.get(eventId);
       if (eventId) {
-        const cachedLayers = getUnlistedState(areaLayersDetailsResourceAtomCache).get(
-          eventId,
-        );
-        cachedLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
+        cachedEventLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
       }
 
       // One error for all requested details
@@ -87,10 +90,9 @@ export const areaLayersLegendsAndSources = createAtom(
           const layerSourceFromResource = layerDetails
             ? convertDetailsToSource(layerDetails)
             : null;
-          const existedLayerSource = state.get(layerId)?.data ?? null;
           newState.set(layerId, {
             error: layersDetailsError,
-            data: layerSourceFromResource || existedLayerSource,
+            data: layerSourceFromResource,
             isLoading: false,
           });
         });
@@ -105,10 +107,9 @@ export const areaLayersLegendsAndSources = createAtom(
           const layerLegendFromResource = layerDetails
             ? convertDetailsToLegends(layerDetails)
             : null;
-          const existedLayerSource = state.get(layerId)?.data ?? null;
           newState.set(layerId, {
             error: layersDetailsError,
-            data: layerLegendFromResource || existedLayerSource,
+            data: layerLegendFromResource,
             isLoading: false,
           });
         });
