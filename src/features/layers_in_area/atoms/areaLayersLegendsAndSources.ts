@@ -67,19 +67,15 @@ export const areaLayersLegendsAndSources = createAtom(
         return acc;
       }, new Map<string, LayerInAreaDetails>());
 
-      const cachedLayersByEventId = getUnlistedState(areaLayersDetailsResourceAtomCache);
-      // apply global cached layers
-      const cachedGlobalLayers = cachedLayersByEventId.get(null);
-      cachedGlobalLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
-
+      // apply cached layers if any are already stored for current eventId
       const focusedGeometry = get('focusedGeometryAtom');
       const eventId = getEventId(focusedGeometry);
-      // apply cached layers if any are already stored for current eventId
-      const cachedEventLayers = cachedLayersByEventId.get(eventId);
       if (eventId) {
-        cachedEventLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
+        const cachedLayers = getUnlistedState(areaLayersDetailsResourceAtomCache).get(
+          eventId,
+        );
+        cachedLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
       }
-
       // One error for all requested details
       const layersDetailsError = layersDetails.error ? Error(layersDetails.error) : null;
 
