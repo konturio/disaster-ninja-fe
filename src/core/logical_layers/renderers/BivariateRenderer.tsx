@@ -420,8 +420,9 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   }
 
   willUnMount({ map }: { map: ApplicationMap }) {
-    if (this._layerId !== undefined && map.getLayer(this._layerId) !== undefined) {
+    if (this._layerId && map.getLayer(this._layerId)) {
       map.removeLayer(this._layerId);
+      this._layerId = undefined;
     } else {
       console.warn(
         `Can't remove layer with ID: ${this._layerId}. Layer does't exist in map`,
@@ -431,17 +432,14 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this.cleanPopupWithDeps(map);
     map.off('zoom', this.onMapZoom);
 
-    this._layerId = undefined;
-
-    if (this._sourceId) {
-      if (map.getSource(this._sourceId) !== undefined) {
-        map.removeSource(this._sourceId);
-      } else {
-        console.warn(
-          `Can't remove source with ID: ${this._sourceId}. Source does't exist in map`,
-        );
-      }
+    if (map.getSource(this._sourceId)) {
+      map.removeSource(this._sourceId);
+    } else {
+      console.warn(
+        `Can't remove source with ID: ${this._sourceId}. Source does't exist in map`,
+      );
     }
+
     this._removeClickListener?.();
     this._removeMouseMoveListener?.();
   }

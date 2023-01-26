@@ -76,7 +76,6 @@ export const areaLayersLegendsAndSources = createAtom(
         );
         cachedLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
       }
-
       // One error for all requested details
       const layersDetailsError = layersDetails.error ? Error(layersDetails.error) : null;
 
