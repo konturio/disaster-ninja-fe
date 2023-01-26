@@ -42,7 +42,7 @@ export const areaLayersDetailsParamsAtom = createAtom(
     if (mustBeRequested.length === 0) {
       // in we return null - resource atom will not updated.
       // But we need it
-      return state ? { ...state, skip: true } : { skip: true };
+      return { skip: true };
     }
 
     const [
