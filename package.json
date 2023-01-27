@@ -146,7 +146,7 @@
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.1",
     "@uiw/react-github-corners": "1.5.15",
-    "@vitejs/plugin-react": "^2.2.0",
+    "@vitejs/plugin-react": "^3.0.1",
     "@vitest/coverage-c8": "^0.27.2",
     "ajv": "^8.12.0",
     "autoprefixer": "^10.4.13",
@@ -181,7 +181,7 @@
     "stylelint-config-recommended": "^6.0.0",
     "ts-json-schema-generator": "^1.2.0",
     "typescript": "4.9.4",
-    "vite": "^3.2.5",
+    "vite": "^4.0.4",
     "vite-plugin-html": "^3.2.0",
     "vitest": "^0.27.2"
   }
