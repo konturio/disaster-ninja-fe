@@ -1,3 +1,4 @@
+import { i18n } from '~core/localization';
 import { combineAtoms } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
@@ -32,9 +33,9 @@ export const eventListResourceAtom = createAsyncAtom(
     dispatchMetricsEventOnce(AppFeature.EVENTS_LIST, responseData.length > 0);
 
     if (responseData.length === 0) {
-      if (params.bbox) throw new Error('No disasters in this area');
-      if (params.feed) throw new Error('No disasters in this feed');
-      throw new Error('No disasters');
+      if (params.bbox) throw new Error(i18n.t('event_list.no_historical_disasters'));
+      if (params.feed) throw new Error(i18n.t('event_list.no_feed_disasters'));
+      throw new Error(i18n.t('event_list.no_disasters'));
     }
 
     return responseData;

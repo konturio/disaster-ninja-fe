@@ -273,6 +273,20 @@ msgstr "선택된 재난 없음"
 msgid "Choose disaster"
 msgstr "재난 선택"
 
+#: event_list##no_historical_disasters
+msgid "No historical disasters in this area"
+msgstr ""
+
+#: event_list##no_feed_disasters
+#, fuzzy
+msgid "No disasters in this feed"
+msgstr "선택된 재난 없음"
+
+#: event_list##no_disasters
+#, fuzzy
+msgid "No disasters"
+msgstr "재난"
+
 #: create_layer##edit_layer
 msgid "Edit Layer"
 msgstr "레이어 편집"

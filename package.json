@@ -18,7 +18,7 @@
     "typecheck:watch": "tsc --noEmit --watch",
     "preupgrade:kontur": "node ./scripts/updateKonturPackages.mjs",
     "upgrade:kontur": "npm cache clean --force && npm update $(node ./scripts/updateKonturPackages.mjs)",
-    "lint-staged": "lint-staged",
+    "lint-staged": "lint-staged --concurrent false",
     "test:unit": "npm run i18n:import && vitest",
     "coverage": "npm run i18n:import && vitest run --coverage",
     "lint": "npm-run-all lint:js lint:css depcruise",
