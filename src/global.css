@@ -118,7 +118,11 @@ code {
     flex-wrap: wrap-reverse;
     bottom: calc(9px + var(--unit));
     & .mapboxgl-ctrl-attrib.mapboxgl-compact {
+      display: flex;
       margin: 0;
+      background-color: unset;
+      /* mapbox default background for non-compact element. Feel free to change when needed */
+      background-color: hsla(0, 0%, 100%, 0.5);
       /* maplibre (i) logo */
       & button {
         position: relative;
