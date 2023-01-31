@@ -1,11 +1,10 @@
 import { appConfig } from '~core/app_config';
-import { currentUserAtom, eventFeedsAtom, featureFlagsAtom } from '~core/shared_state';
+import { currentUserAtom, featureFlagsAtom } from '~core/shared_state';
 import { yandexMetrics } from '~core/metrics';
 import { loadFeatures, setFeatures } from './features';
 import type { AuthSuccessResponse } from '~core/auth/client/AuthClient';
 import type { CurrentUser } from './user';
 import type { ApiClient } from '~core/api_client';
-import type { BackendFeed } from '~core/auth/types';
 
 // TODO: rework unauthenticated flow and naming
 export async function onPublicLogin(apiClient: ApiClient) {
@@ -36,17 +35,9 @@ export async function onLogin(apiClient: ApiClient, response: AuthSuccessRespons
   // load user features
   const featuresResponse = loadFeatures(apiClient, true);
 
-  // load user feeds
-  const feedsResponse = apiClient.get<BackendFeed[]>(
-    '/events/user_feeds',
-    undefined,
-    true,
-  );
-
-  const [profileSettled, featuresSettled, feedsSettled] = await Promise.allSettled([
+  const [profileSettled, featuresSettled] = await Promise.allSettled([
     profileResponse,
     featuresResponse,
-    feedsResponse,
   ]);
   if (profileSettled.status === 'fulfilled' && profileSettled.value) {
     const mergedUserdata = {
@@ -58,9 +49,6 @@ export async function onLogin(apiClient: ApiClient, response: AuthSuccessRespons
   }
   if (featuresSettled.status === 'fulfilled' && featuresSettled.value) {
     setFeatures(featuresSettled.value);
-  }
-  if (feedsSettled.status === 'fulfilled' && feedsSettled.value) {
-    eventFeedsAtom.set.dispatch(feedsSettled.value);
   }
 }
 
@@ -80,7 +68,6 @@ function externalLoginTasks(user: { username: string; email: string }) {
 
 // TODO: rework logout flow and naming
 export function onLogout() {
-  eventFeedsAtom.set.dispatch();
   featureFlagsAtom.set.dispatch();
   currentUserAtom.setUser.dispatch();
   externalLogoutTasks();

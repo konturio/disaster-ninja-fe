@@ -1,24 +1,26 @@
 import { createAtom } from '~utils/atoms';
 import { appConfig } from '~core/app_config';
+import { eventFeedsResourceAtom } from '~core/resources/eventFeedsResource';
 
 const defaultFeeds = [appConfig.defaultFeedObject];
 
 export const eventFeedsAtom = createAtom(
   {
-    set: (state = defaultFeeds) => state,
+    eventFeedsResourceAtom,
   },
-  ({ onAction }, state = defaultFeeds) => {
-    onAction('set', (f) => {
-      if (f) {
-        state = f;
+  ({ get }, state = defaultFeeds) => {
+    const { data, error, loading } = get('eventFeedsResourceAtom');
+    if (!loading && !error) {
+      if (data) {
+        console.assert(
+          data.map((d) => d.feed).includes(appConfig.defaultFeedObject.feed),
+          'default feed not included in response',
+        );
+        return data;
       } else {
-        // reset to defaults
-        state = defaultFeeds;
+        return [...defaultFeeds];
       }
-    });
-
-    // TODO: fetch user feeds on login
-
+    }
     return state;
   },
   '[Shared state] eventFeeds',
