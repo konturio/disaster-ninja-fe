@@ -30,13 +30,27 @@ export const areaLayersDetailsParamsAtom = createAtom(
 
     const mustBeRequested = allLayers.filter((layer) => {
       const isEnabled = enabledLayers.has(layer.id);
-      if (isEnabled) {
-        const cacheKey = layer.eventIdRequiredForRetrieval ? eventId : null;
-        const cached = cache.get(cacheKey)?.get(layer.id) ?? null;
+      if (!isEnabled) return false;
+
+      if (layer.boundaryRequiredForRetrieval) {
+        const cacheKey: string | undefined = focusedGeometry?.geometry['hash'];
+        const cached = cacheKey ? cache.get(cacheKey) : false;
         return !cached;
-      } else {
+      }
+
+      if (layer.eventIdRequiredForRetrieval && !eventId) {
+        console.warn(
+          `Layer ${layer.id} request is skipped, as eventIdRequiredForRetrieval is true but evenntId is empty.`,
+        );
         return false;
       }
+      const cacheKey = layer.eventIdRequiredForRetrieval ? eventId : null;
+      const cacheValue = cache.get(cacheKey);
+
+      if (!(cacheValue instanceof Map)) return true;
+
+      const cached = cacheValue.get(layer.id) ?? null;
+      return !cached;
     });
 
     if (mustBeRequested.length === 0) {
