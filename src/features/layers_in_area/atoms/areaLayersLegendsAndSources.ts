@@ -74,7 +74,9 @@ export const areaLayersLegendsAndSources = createAtom(
         const cachedLayers = getUnlistedState(areaLayersDetailsResourceAtomCache).get(
           eventId,
         );
-        cachedLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
+        if (cachedLayers instanceof Map) {
+          cachedLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
+        }
       }
       // One error for all requested details
       const layersDetailsError = layersDetails.error ? Error(layersDetails.error) : null;
