@@ -29,10 +29,19 @@ This is how these layers nested:
     - source layer
 
 For the user of an application, the logical layer is the layer he interacts with.
-For example, the logical layer "active contributors" includes:
+For example, the logical layer "active contributors" looks like this:
 
-- a vector data source with multiple data layers (hexagon geometry h3, and coordinates with nicknames)
-- three style layers - text style, hexagon display style, glow style under the text.
+- logical layers:
+  - activeContributors:
+    - layer styles (legend + GenericRenderer):
+      - in-area-layer-activeContributors-0 (not locals names)
+      - in-area-layer-activeContributors-1 (locals names)
+      - in-area-layer-activeContributors-2 (hexes)
+    - layers source:
+      - in-area-layer-activeContributors:
+        - source layers:
+          - hexagon
+          - users
 
 # Structure of a logical layer
 
