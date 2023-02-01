@@ -41,7 +41,7 @@ The internal logic of the logical layer is described in [utils/logicalLayerFabri
 
 ## Layers registry
 
-Depending on the application's task, you need to track changes in _all_ states of _one_ layer, or _specified_ state of _all_ layers. For example, an item in the Layer List tracks all changes in its layer, while a legend panel tracks changes in the legends of all layers.
+Depending on the application's task, you need to track changes in _all_ states of _one_ layer, or _specific_ state of _all_ layers. For example, an item in the Layer List tracks all changes in its layer, while a legend panel tracks changes in the legends of all layers.
 
 For this reason, states are stored in separate lists (layersMeta, layersLegends, layersMenus, enabledLayers, mountedLayers, etc.) from which each layer selects the state relevant to it.
 
