@@ -16,7 +16,7 @@ At the same time, the vector data source type also has layers, which we call sou
 
 ## Logical layers
 
-And, at the top of the list are the logical layers. A logical layer is a concatenation of several data and style layers linked together by a common theme.
+Finally - the `logical layer` is a concatenation of several data and style layers linked together by a common theme.
 
 This is how these layers look like a tree:
 
