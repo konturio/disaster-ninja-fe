@@ -64,7 +64,7 @@ The layer has such a property as a legend. The legend gives the user a hint abou
 
 ## Layers hierarchy
 
-layersHierarchy contains a list of layers containing only those layer properties that are needed to build the tree and define the position of the layer in the hierarchy
+layersHierarchy contains a list of layers having only properties that are needed to build the tree and define the position of the layer in the hierarchy
 
 ## Layers renderers
 
