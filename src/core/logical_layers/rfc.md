@@ -25,7 +25,7 @@ This is how these layers look like a tree:
   - layer source
     - source layer
 
-For the user of an application, the logical layer is the layer with which he interacts.
+For the user of an application, the logical layer is the layer he interacts with.
 For example, the logical layer "active contributors" includes:
 
 - a vector data source with multiple data layers (hexagon geometry h3, and coordinates with nicknames)
