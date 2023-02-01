@@ -60,7 +60,7 @@ This mechanism is described inside logical layer atom [utils/logicalLayerFabric.
 
 ### Style and Legend
 
-The layer has such a property as a legend. The legend gives the user a hint about how the data is labeled on the map. However - we use _the same data_ to generate style layers, which allows us to have one source of truth
+The layer has `legend` property. The legend gives user a hint about how the data is labeled on the map. However - we also use _the same data_ to generate style layers, which allows us to have one source of truth
 
 ## Layers hierarchy
 
