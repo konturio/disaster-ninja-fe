@@ -1,6 +1,6 @@
 # Layer types
 
-Before answering the question what are logical layers, we should first consider what kind of layers we have in the context of a map.
+Before answering the question what logical layers are, we should at first consider what kind of layers we have in the context of a map.
 
 ## Map Style Layers
 
