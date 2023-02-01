@@ -69,4 +69,4 @@ layersHierarchy contains a list of layers containing only those layer properties
 ## Layers renderers
 
 Every logical layer must be rendered on the map sooner or later.
-Layer renderer is a class that describes how to do this. By default [GenericRenderer] (renderers/GenericRenderer.ts) is used, but in case it is not suitable - another renderer can be defined for the layer, which implements [Renderer](renderers/DefaultRenderer.ts) interface, the essence of which is to describe the map reaction to various events of the logical layer life cycle
+Layer renderer is a class that describes how to do this. By default [GenericRenderer](renderers/GenericRenderer.ts) is used, but in case it is not suitable - another renderer can be defined for the layer, which implements [Renderer](renderers/DefaultRenderer.ts) interface, the essence of which is to describe the map reaction to various events of the logical layer life cycle
