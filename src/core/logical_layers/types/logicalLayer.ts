@@ -7,7 +7,9 @@ import type { LayerContextMenu } from './contextMenu';
 
 export type LogicalLayerState = Readonly<{
   id: string;
+  /* isEnabled tells if we need to show this layer */
   isEnabled: boolean;
+  /* isMounted means the layer is already shown on the map */
   isMounted: boolean;
   isVisible: boolean;
   isLoading: boolean;
