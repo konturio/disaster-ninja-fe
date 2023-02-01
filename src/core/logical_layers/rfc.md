@@ -5,7 +5,7 @@ Before answering the question what are logical layers, we should first consider 
 ## Map Style Layers
 
 The [Style Specification](https://maplibre.org/maplibre-gl-js-docs/style-spec/) defines a map layer as a way of representing data.
-Such a layer is part of the map style and can be of type "fill", "line", "symbol", "circle" and so on.
+Such layer is part of the map style and can be of type "fill", "line", "symbol", "circle" and so on.
 In the context of our application, we refer to such layers as map style layers, or just a style layer
 
 ## Sources of layers
