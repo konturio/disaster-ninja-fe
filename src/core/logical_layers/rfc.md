@@ -45,7 +45,7 @@ Depending on the application's task, you need to track changes in _all_ states o
 
 For this reason, states are stored in separate lists (layersMeta, layersLegends, layersMenus, enabledLayers, mountedLayers, etc.) from which each layer selects the state relevant to it.
 
-Separately stands layersRegistry - a list that contains all the logical layers, knows how to create and delete them.
+`layersRegistry` is a special list, that contains all the logical layers and knows how to create and delete them.
 It is important to note that you do not need to add a logical layer to it, this should be done only if you want to allow the user to manage this layer in a standard way through the panel with the layers
 
 ### isEnabled and isMounted
