@@ -38,7 +38,7 @@ import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../utils/layersOrder/layersOrder';
 import type { GeoJsonProperties } from 'geojson';
 
-type FillColor = {
+export type FillColor = {
   r: number;
   g: number;
   b: number;
@@ -47,15 +47,15 @@ type FillColor = {
 
 const MAX_BIVARIATE_GENERATED_RESOLUTION = 8; // keep in sync with backend
 
-const HOVER_HEXAGON_BORDER = 'rgba(5, 22, 38, 0.4)';
-const ACTIVE_HEXAGON_BORDER = 'rgb(5, 22, 38)';
+export const HOVER_HEXAGON_BORDER = 'rgba(5, 22, 38, 0.4)';
+export const ACTIVE_HEXAGON_BORDER = 'rgb(5, 22, 38)';
 
-const HEX_SELECTED_LAYER_ID = 'hex-selected-layer';
-const HEX_SELECTED_SOURCE_ID = 'hex-selected-source';
-const HEX_HOVER_SOURCE_ID = 'hex-hover-source';
-const HEX_HOVER_LAYER_ID = 'hex-hover-layer';
+export const HEX_SELECTED_LAYER_ID = 'hex-selected-layer';
+export const HEX_SELECTED_SOURCE_ID = 'hex-selected-source';
+export const HEX_HOVER_SOURCE_ID = 'hex-hover-source';
+export const HEX_HOVER_LAYER_ID = 'hex-hover-layer';
 
-const isFillColorEmpty = (fillColor: FillColor): boolean =>
+export const isFillColorEmpty = (fillColor: FillColor): boolean =>
   fillColor.a === 0 && fillColor.r === 0 && fillColor.g === 0 && fillColor.b === 0;
 
 const convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): string =>
@@ -63,7 +63,10 @@ const convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): 
     withTransparency ? ',' + fillColor.a : ''
   })`;
 
-const getH3GeoByLatLng = (lngLat: LngLat, resolution: number): GeoJSON.Geometry => {
+export const getH3GeoByLatLng = (
+  lngLat: LngLat,
+  resolution: number,
+): GeoJSON.Geometry => {
   const h3 = geoToH3(
     lngLat.lat,
     lngLat.lng,
@@ -116,12 +119,12 @@ const calcValueByNumeratorDenominator = (
  */
 export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
-  private _layerId?: string;
-  private _sourceId: string;
-  private _removeClickListener: null | (() => void) = null;
-  private _removeMouseMoveListener: null | (() => void) = null;
-  private _layersOrderManager?: LayersOrderManager;
-  private _popup?: MapPopup | null;
+  protected _layerId?: string;
+  protected _sourceId: string;
+  protected _removeClickListener: null | (() => void) = null;
+  protected _removeMouseMoveListener: null | (() => void) = null;
+  protected _layersOrderManager?: LayersOrderManager;
+  protected _popup?: MapPopup | null;
 
   public constructor({
     id,
@@ -133,7 +136,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     super();
     this.id = id;
     this._layersOrderManager = layersOrderManager;
-    /* private */
     this._sourceId = SOURCE_BIVARIATE_PREFIX + this.id;
   }
 
@@ -190,7 +192,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  private _updateMap(
+  _updateMap(
     map: ApplicationMap,
     layerData: LayerTileSource,
     legend: BivariateLegend | null,
