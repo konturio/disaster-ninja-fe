@@ -53,9 +53,8 @@ It is important to note that you do not need to add a logical layer to it, this 
 The isEnabled and isMounted states deserves special mention. The layer gets `isEnabled` state if we want to show the layer to the user but for some reason cannot do it right now. Its main purpose is to _remember the choices made by the user_.
 The moment we managed to get all the necessary data and layer can be showed on the map - layer calls the hook `willMount` from its renderer and becomes `isMounted`
 
-For example - if the user enable logical layer "X", then limited the search area of layers to a certain geometry,
-which it does not fall into this area - the layer will disappear from the list of available layers, and it will be removed from the map.
-However, as soon as the conditions change and we have enough data to display the layer - the layer will appear in the list and map again, without secondary "enable" action from the user
+For example - if user enables logical layer "X", then limits the search area out of layer's scope - the layer will disappear from the list of available layers, and it will be removed from the map.
+However, as soon as the conditions change and we have enough data to display the layer - the layer will appear in the list and on the map again, without secondary "enable" action from the user
 
 This mechanism is described inside logical layer atom [utils/logicalLayerFabric.ts](utils/logicalLayerFabric.ts#L189)
 
