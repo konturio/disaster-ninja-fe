@@ -1,0 +1,8 @@
+.result {
+  border: 1px solid var(--base-weak);
+  padding: 3px;
+}
+
+.tableBody td {
+  text-align: center;
+}

@@ -26,6 +26,7 @@ export interface BivariateLayerStyle {
     'fill-opacity': number;
     'fill-antialias': boolean;
   };
+  'source-layer'?: string;
 }
 
 function interpolate360(start: number, end: number): number {
