@@ -51,7 +51,7 @@ It is important to note that you do not need to add a logical layer to it, this 
 ### isEnabled and isMounted
 
 The isEnabled and isMounted states deserves special mention. The layer gets `isEnabled` state if we want to show the layer to the user but for some reason cannot do it right now. Its main purpose is to _remember the choices made by the user_.
-The moment we managed to get all the necessary data and layer can be showed on the map - layer calls the hook willMount from its renderer and becomes isMounted
+The moment we managed to get all the necessary data and layer can be showed on the map - layer calls the hook `willMount` from its renderer and becomes `isMounted`
 
 For example - if the user enable logical layer "X", then limited the search area of layers to a certain geometry,
 which it does not fall into this area - the layer will disappear from the list of available layers, and it will be removed from the map.
