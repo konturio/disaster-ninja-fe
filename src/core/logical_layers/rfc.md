@@ -6,19 +6,22 @@ Before answering the question what logical layers are, we should at first consid
 
 The [Style Specification](https://maplibre.org/maplibre-gl-js-docs/style-spec/) defines a map layer as a way of representing data.
 Such layer is part of the map style and can be of type "fill", "line", "symbol", "circle" and so on.
-In the context of our application, we refer to such layers as map style layers, or just a style layer
+In the context of our application, we refer to such layers as `map style layers`, or just a `style layer`
 
 ## Sources of layers
 
-If we divide layers by data delivery format, we can identify "vector", "raster" and "geojson" layers.
-However, this is a simplification - despite the fact that it directly affects the way the layer style is described, this division still refers to _layer sources_.
-At the same time, the vector data source type also has layers, which we call source-layer
+Every style layer "colorize" some data. We called this data - `layer-source`
+We can identify "vector", "raster" and "geojson" layer sources.
+Few layer styles can use same layer source, but not vice-versa. Keep in mind that type of layer source affects what we do or not with layer style or logical layer
+For example - only geojson source can be downloaded, or - most layer style properties cannot be applied to a layer with a raster source.
+
+Note: It's easy to confuse `layer source` and `source layer`. Source layer it's layers inside vector layer source. Simply put, source layers is something like layers inside a svg file, each of which contains its own geometry
 
 ## Logical layers
 
 Finally - the `logical layer` is a concatenation of several data and style layers linked together by a common theme.
 
-This is how these layers look like a tree:
+This is how these layers nested:
 
 - logical layer
   - style layers
@@ -60,7 +63,7 @@ This mechanism is described inside logical layer atom [utils/logicalLayerFabric.
 
 ### Style and Legend
 
-The layer has `legend` property. The legend gives user a hint about how the data is labeled on the map. However - we also use _the same data_ to generate style layers, which allows us to have one source of truth
+The layer has `legend` property. The legend gives user a hint about how the data is labeled on the map. However - we also use _the same data_ to generate style layers, which allows us to have single source of truth
 
 ## Layers hierarchy
 
