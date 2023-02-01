@@ -20,7 +20,7 @@ export function FeedSelector() {
     [setCurrentFeed, scheduleAutoSelect],
   );
 
-  return eventFeeds && eventFeeds.length > 1 ? (
+  return eventFeeds?.length > 1 ? (
     <div className={s.feedSelectorContainer}>
       <Text type="short-m">{i18n.t('feed')}:</Text>
       <div>
