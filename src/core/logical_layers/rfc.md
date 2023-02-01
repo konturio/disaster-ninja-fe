@@ -36,7 +36,7 @@ For example, the logical layer "active contributors" includes:
 Each logical layer has additional data not related to the map, but necessary for other parts of the interface interacting with it.
 
 The logical layer interface can be found in the file [types/logicalLayers.ts](types/logicalLayer.ts).
-You can notice that we can divide them conditionally into two halves: data and states.
+You can notice it's properties can be seen as two semantic parts: data and states.
 The internal logic of the logical layer is described in [utils/logicalLayerFabric.ts](utils/logicalLayerFabric.ts)
 
 ## Layers registry
