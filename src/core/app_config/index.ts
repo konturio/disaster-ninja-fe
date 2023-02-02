@@ -2,9 +2,9 @@ import { i18n } from '~core/localization';
 import { KONTUR_DEBUG } from '~utils/debug';
 import type {
   AppConfig,
-  AppInfoResponse,
   AppConfigEffective,
   AppConfigGlobal,
+  AppConfiguration,
 } from '~core/app/types';
 
 declare global {
@@ -15,11 +15,11 @@ declare global {
 
 const configs = {
   global: {} as AppConfigGlobal,
-  custom: {} as AppInfoResponse,
+  custom: {} as AppConfiguration,
   merged: {} as AppConfigEffective,
 };
 
-export function updateAppConfig(appInfo: AppInfoResponse) {
+export function updateAppConfig(appInfo: AppConfiguration) {
   configs.custom = appInfo;
   getEffectiveConfig();
 }
@@ -36,7 +36,6 @@ function getGlobalConfig(): AppConfigGlobal {
     refreshIntervalSec: konturAppConfig.REFRESH_INTERVAL_SEC,
     mapAccessToken: konturAppConfig.MAP_ACCESS_TOKEN,
     mapBaseStyle: konturAppConfig.MAP_BASE_STYLE,
-    layersByDefault: konturAppConfig.LAYERS_BY_DEFAULT,
     featuresByDefault: konturAppConfig.FEATURES_BY_DEFAULT,
     defaultFeed: konturAppConfig.DEFAULT_FEED,
     defaultFeedObject: getDefaultFeedObject(konturAppConfig.DEFAULT_FEED), // translation should occur later after i18n init, getDefaultFeedObject(konturAppConfig.DEFAULT_FEED),
@@ -76,11 +75,13 @@ function getGlobalConfig(): AppConfigGlobal {
 }
 
 function getEffectiveFeatures(appConfig: AppConfigEffective) {
-  return Object.fromEntries(
-    [...(appConfig.featuresByDefault ?? []), ...(appConfig.features ?? [])].map(
-      (featureName) => [featureName, true],
-    ),
-  );
+  if (appConfig.features && appConfig.features.length > 0) {
+    return Object.fromEntries(
+      (appConfig.features ?? []).map((f) => [f.name, f.configuration || true]),
+    );
+  }
+  // use defaults when got no features from api
+  return Object.fromEntries((appConfig.featuresByDefault ?? []).map((f) => [f, true]));
 }
 
 export function getEffectiveConfig(): AppConfigEffective {
