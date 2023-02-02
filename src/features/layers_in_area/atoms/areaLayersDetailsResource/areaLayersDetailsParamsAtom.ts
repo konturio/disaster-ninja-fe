@@ -18,11 +18,9 @@ export const areaLayersDetailsParamsAtom = createAtom(
     state: DetailsRequestParams | null = null,
   ): DetailsRequestParams | null => {
     const layersGlobal = get('layersGlobalResource');
-    const layersInAreaAndEventLayer = get('layersInAreaAndEventLayerResource');
-    const allLayers = [
-      ...(layersGlobal.data ?? []),
-      ...(layersInAreaAndEventLayer.data ?? []),
-    ];
+    const { loading, error, data } = get('layersInAreaAndEventLayerResource');
+    const layersInAreaAndEventLayer = loading || error || !data ? [] : data;
+    const allLayers = [...(layersGlobal.data ?? []), ...layersInAreaAndEventLayer];
     const enabledLayers = get('enabledLayersAtom');
     const focusedGeometry = getUnlistedState(focusedGeometryAtom);
     const eventId = getEventId(focusedGeometry);
