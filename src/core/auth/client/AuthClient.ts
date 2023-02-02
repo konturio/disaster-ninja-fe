@@ -94,11 +94,11 @@ export class AuthClient {
       return true;
     }
     // anon init flow
-    this.startPublic();
+    this.startAnonymosly();
     return false;
   }
 
-  startPublic() {
+  startAnonymosly() {
     over(this.loginHooks)();
   }
 

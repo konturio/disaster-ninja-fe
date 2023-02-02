@@ -54,7 +54,7 @@ export interface AppConfigGlobal {
   keycloakRealm: string;
   keycloakClientId: string;
   yandexMetricaId: number[] | undefined;
-  baseUrl: any;
+  baseUrl: string;
   isDevBuild: boolean;
   isProdBuild: boolean;
   appVersion: string;

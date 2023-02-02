@@ -1,5 +1,5 @@
 import mapLibre from 'maplibre-gl';
-import { appConfig, updateAppConfig } from '~core/app_config';
+import { updateAppConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { urlEncoder, urlStoreAtom } from '~core/url_store';
 import { authClientInstance } from '~core/authClientInstance';
@@ -19,25 +19,26 @@ export async function appInit() {
 
   const initialState = urlEncoder.decode<UrlData>(document.location.search.slice(1));
 
-  const localAuthToken = authClientInstance.checkLocalAuthToken();
+  authClientInstance.checkLocalAuthToken();
 
-  const appInfo = await apiClient.get<AppConfiguration>(
+  const appConfigResponse = await apiClient.get<AppConfiguration>(
     '/apps/configuration',
     { appId: initialState.app },
     true,
   );
 
-  if (!appInfo) {
+  if (!appConfigResponse) {
     // cannot continue without custom app config
     throw new Error('Error getting application config');
   }
 
-  initialState.app = appInfo.id;
-  if (!appConfig.user) {
-    appConfig.user = defaultUserProfileData;
+  // BE returns default appId if it wasn't set in url
+  initialState.app = appConfigResponse.id;
+  if (!appConfigResponse.user) {
+    appConfigResponse.user = defaultUserProfileData;
   }
 
-  setAppLanguage(appConfig.user.language);
+  setAppLanguage(appConfigResponse.user.language);
 
   if (initialState.layers === undefined) {
     initialState.layers = await getDefaultLayers(initialState.app);
@@ -46,7 +47,7 @@ export async function appInit() {
     initialState.layers = initialState.layers.map((l) => l.replace(/^KLA__/, ''));
   }
 
-  updateAppConfig(appInfo);
+  updateAppConfig(appConfigResponse);
 
   postAppInit(initialState);
 }
