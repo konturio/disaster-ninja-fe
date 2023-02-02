@@ -52,6 +52,8 @@ export interface Event {
   externalUrls: string[];
   /** Additional info about event if presented*/
   description?: string;
+  /** Event geometry bbox */
+  bbox: [number, number, number, number];
 }
 
 export interface AnalyticsData {
