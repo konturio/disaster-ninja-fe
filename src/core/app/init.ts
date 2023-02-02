@@ -1,12 +1,14 @@
 import mapLibre from 'maplibre-gl';
-import { appConfig, updateAppConfig } from '~core/app_config';
+import { updateAppConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { urlEncoder, urlStoreAtom } from '~core/url_store';
 import { authClientInstance } from '~core/authClientInstance';
-import { onLogin, onLogout, onPublicLogin } from './authHooks';
+import { i18n } from '~core/localization';
+import { onLogin } from './authHooks';
+import { defaultUserProfileData } from './user';
 import { runAtom } from './index';
 import type { UrlData } from '~core/url_store';
-import type { AppInfoResponse } from '~core/app/types';
+import type { AppConfiguration } from '~core/app/types';
 
 export async function appInit() {
   // keep initial url before overwriting by router
@@ -17,56 +19,60 @@ export async function appInit() {
 
   const initialState = urlEncoder.decode<UrlData>(document.location.search.slice(1));
 
-  // Stage - 1
-  // get application ID from URL or API
-  // load custom app config from api
-  const appId = initialState.app || (await apiClient.get<string>('/apps/default_id'));
-  if (!appId) {
-    // cannot continue without appId
-    throw new Error('Error getting application ID');
-  }
-  initialState.app = appId;
+  authClientInstance.checkLocalAuthToken();
 
-  const appInfo = await apiClient.get<AppInfoResponse>(
-    `/apps/${appId}`,
-    undefined,
-    false,
+  const appConfigResponse = await apiClient.get<AppConfiguration>(
+    '/apps/configuration',
+    { appId: initialState.app },
+    true,
   );
 
-  if (!appInfo) {
+  if (!appConfigResponse) {
     // cannot continue without custom app config
     throw new Error('Error getting application config');
   }
 
-  updateAppConfig(appInfo);
+  // BE returns default appId if it wasn't set in url
+  initialState.app = appConfigResponse.id;
+  if (!appConfigResponse.user) {
+    appConfigResponse.user = defaultUserProfileData;
+  }
+
+  setAppLanguage(appConfigResponse.user.language);
+
+  if (initialState.layers === undefined) {
+    initialState.layers = await getDefaultLayers(initialState.app);
+  } else {
+    // Remove KLA__ prefix from layers ids
+    initialState.layers = initialState.layers.map((l) => l.replace(/^KLA__/, ''));
+  }
+
+  updateAppConfig(appConfigResponse);
 
   postAppInit(initialState);
 }
 
 async function postAppInit(initialState: UrlData) {
-  if (initialState.layers === undefined) {
-    initialState.layers = await getDefaultLayers();
-  }
-
-  authClientInstance.publicLoginHooks.push(onPublicLogin);
   authClientInstance.loginHooks.push(onLogin);
-  authClientInstance.logoutHooks.push(onLogout);
   authClientInstance.checkAuth();
 
   urlStoreAtom.init.dispatch(initialState);
   runAtom(urlStoreAtom);
 }
 
-async function getDefaultLayers() {
-  // FIXME: get default layers from Layers API when it will be supported, ask A.Zapasnik
-  if (appConfig.layersByDefault) {
-    return appConfig.layersByDefault;
-  } else {
-    const layers = await apiClient.get<{ id: string }[] | null>(
-      `/apps/${appConfig.id}/layers/`,
-      undefined,
-      false,
-    );
-    return layers?.map((l) => l.id) ?? [];
-  }
+async function getDefaultLayers(appId) {
+  const layers = await apiClient.get<{ id: string }[] | null>(
+    `/apps/${appId}/layers`,
+    undefined,
+    true,
+  );
+  // TODO: use layers source configs to cache layer data
+  return layers?.map((l) => l.id) ?? [];
+}
+
+function setAppLanguage(language: string) {
+  // TODO: set <html lang= dir=
+  i18n.instance
+    .changeLanguage(language)
+    .catch((e) => console.warn(`Attempt to change language to ${language} failed`, e));
 }

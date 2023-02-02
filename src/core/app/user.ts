@@ -1,25 +1,33 @@
 import { appConfig } from '~core/app_config';
 
-export type CurrentUser = {
-  id: string | null;
+export type UserProfileMain = {
   username?: string;
   email?: string;
   firstName?: string;
   lastName?: string;
   fullName?: string;
+  bio?: string;
+};
+
+export type UserProfileSettings = {
   language: string;
   useMetricUnits: boolean;
   subscribedToKonturUpdates: boolean;
-  bio?: string;
   osmEditor: string;
   defaultFeed: string;
   theme: string;
+};
+
+export type UserProfileApi = UserProfileMain & UserProfileSettings;
+
+export type CurrentUser = UserProfileApi & {
+  id: string | null;
   defaultLayers?: string[];
   loading?: boolean;
   token?: string;
 };
 
-export const defaultUserProfileData = {
+export const defaultUserProfileData: UserProfileApi = {
   username: '',
   email: '',
   fullName: '',
