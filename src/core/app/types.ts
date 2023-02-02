@@ -1,3 +1,5 @@
+import type { UserProfileApi } from './user';
+
 export interface AppConfig {
   API_GATEWAY: string;
   BOUNDARIES_API: string;
@@ -8,7 +10,6 @@ export interface AppConfig {
   REFRESH_INTERVAL_SEC: number;
   MAP_ACCESS_TOKEN: string;
   MAP_BASE_STYLE: string;
-  LAYERS_BY_DEFAULT: string[];
   KEYCLOAK_URL: string;
   KEYCLOAK_REALM: string;
   KEYCLOAK_CLIENT_ID: string;
@@ -46,7 +47,6 @@ export interface AppConfigGlobal {
   refreshIntervalSec: number;
   mapAccessToken: string;
   mapBaseStyle: string;
-  layersByDefault: string[];
   featuresByDefault: string[];
   defaultFeed: string;
   defaultFeedObject: EventFeedConfig; // translation should occur later after i18n init, getDefaultFeedObject(konturAppConfig.DEFAULT_FEED),
@@ -73,19 +73,28 @@ export interface AppConfigGlobal {
     custom_launcher_selector: string | undefined;
   };
   osmEditors: OsmEditorConfig[];
-  effectiveFeatures: Record<string, boolean>;
+  effectiveFeatures: Record<string, object | boolean>;
 }
 
-// from api
-export type AppInfoResponse = {
+export type AppConfigEffective = AppConfigGlobal & AppConfiguration;
+
+// Unified config from /app/configuration
+export type AppConfiguration = {
   id: string;
   name: string;
   description: string;
   ownedByUser: boolean;
-  features?: string[];
+  features?: AppConfigurationFeature[];
   sidebarIconUrl: string;
   faviconUrl: string;
   public: boolean;
+  extent: [number, number, number, number];
+  user?: UserProfileApi;
 };
 
-export type AppConfigEffective = AppConfigGlobal & AppInfoResponse;
+export type AppConfigurationFeature = {
+  name: string;
+  description: string;
+  type: string;
+  configuration: object;
+};

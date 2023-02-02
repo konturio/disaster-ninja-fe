@@ -101,8 +101,8 @@ export default ({ mode }) => {
         : undefined,
     test: {
       coverage: {
-        all: true
-      }
-    }
+        all: true,
+      },
+    },
   });
 };

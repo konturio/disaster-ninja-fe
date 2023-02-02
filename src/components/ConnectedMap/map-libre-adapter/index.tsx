@@ -7,6 +7,7 @@ import { currentUserAtom } from '~core/shared_state';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { EVENT_MAP_IDLE } from '~core/metrics/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import appConfig from '~core/app_config';
 import { useMarkers } from './useMarkers';
 import { useArrayDiff } from './useArrayDiff';
 import type { Marker } from './types';
@@ -141,6 +142,10 @@ function MapboxMap(
       dispatchMetricsEvent(EVENT_MAP_IDLE, true);
     });
     setMap(mapInstance);
+    // use initial extent if no coords in url
+    if (!currentMapPosition && appConfig.extent) {
+      mapInstance.fitBounds(appConfig.extent, { animate: false });
+    }
   }, [mapEl, externalStyleLink, options, ref]);
 
   /* On fit bounds effect */
