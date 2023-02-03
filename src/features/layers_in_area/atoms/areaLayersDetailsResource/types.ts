@@ -1,3 +1,4 @@
+import type { GeometryWithHash } from '~core/shared_state/focusedGeometry';
 import type { LayerSource } from '~core/logical_layers/types/source';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 
@@ -5,7 +6,7 @@ export interface DetailsRequestParams {
   layersToRetrieveWithGeometryFilter?: string[];
   layersToRetrieveWithoutGeometryFilter?: string[];
   layersToRetrieveWithEventId?: string[];
-  geoJSON?: GeoJSON.GeoJSON;
+  geoJSON?: GeometryWithHash;
   eventId?: string;
   eventFeed?: string;
   skip?: true;

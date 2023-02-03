@@ -33,7 +33,7 @@ export const areaLayersDetailsParamsAtom = createAtom(
       if (!isEnabled) return false;
 
       if (layer.boundaryRequiredForRetrieval) {
-        const cacheKey: string | undefined = focusedGeometry?.geometry['hash'];
+        const cacheKey = focusedGeometry?.geometry.hash;
         const cached = cacheKey ? cache.get(cacheKey) : false;
         return !cached;
       }
