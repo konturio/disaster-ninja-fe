@@ -1,4 +1,5 @@
 import { apiClient } from '~core/apiClientInstance';
+import { appConfig } from '~core/app_config';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { areaLayersDetailsParamsAtom } from './areaLayersDetailsParamsAtom';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResourceAtomCache';
@@ -12,7 +13,7 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
     const { layersToRetrieveWithEventId, ...body } = params;
     const request = await apiClient.post<LayerInAreaDetails[]>(
       '/layers/details',
-      body,
+      { ...body, appId: appConfig.id },
       true,
       {
         signal: abortController.signal,
