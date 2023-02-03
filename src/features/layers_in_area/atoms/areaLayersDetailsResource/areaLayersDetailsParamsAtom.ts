@@ -4,7 +4,10 @@ import { focusedGeometryAtom, getEventId } from '~core/shared_state/focusedGeome
 import { currentEventFeedAtom } from '~core/shared_state';
 import { layersGlobalResource } from '../layersGlobalResource';
 import { layersInAreaAndEventLayerResource } from '../layersInAreaAndEventLayerResource';
-import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResourceAtomCache';
+import {
+  areaLayersDetailsResourceAtomCache,
+  getLayersDetailsCacheKey,
+} from './areaLayersDetailsResourceAtomCache';
 import type { DetailsRequestParams } from './types';
 
 export const areaLayersDetailsParamsAtom = createAtom(
@@ -32,24 +35,21 @@ export const areaLayersDetailsParamsAtom = createAtom(
       const isEnabled = enabledLayers.has(layer.id);
       if (!isEnabled) return false;
 
-      if (layer.boundaryRequiredForRetrieval) {
-        const cacheKey = focusedGeometry?.geometry.hash;
-        const cached = cacheKey ? cache.get(cacheKey) : false;
-        return !cached;
-      }
-
       if (layer.eventIdRequiredForRetrieval && !eventId) {
         console.warn(
           `Layer ${layer.id} request is skipped, as eventIdRequiredForRetrieval is true but evenntId is empty.`,
         );
         return false;
       }
-      const cacheKey = layer.eventIdRequiredForRetrieval ? eventId : null;
-      const cacheValue = cache.get(cacheKey);
 
-      if (!(cacheValue instanceof Map)) return true;
+      const cacheKey = getLayersDetailsCacheKey({
+        boundaryRequiredForRetrieval: layer.boundaryRequiredForRetrieval,
+        eventIdRequiredForRetrieval: layer.eventIdRequiredForRetrieval,
+        hash: focusedGeometry?.geometry.hash,
+        eventId: eventId,
+      });
 
-      const cached = cacheValue.get(layer.id) ?? null;
+      const cached = cache.get(cacheKey)?.get(layer.id) ?? null;
       return !cached;
     });
 
