@@ -10,6 +10,7 @@ test('createBivariateQuery - cleans prefilled properties', () => {
   const geometry: FocusedGeometry = {
     geometry: {
       type: 'FeatureCollection',
+      hash: 'test_hash',
       features: [
         {
           type: 'Feature',

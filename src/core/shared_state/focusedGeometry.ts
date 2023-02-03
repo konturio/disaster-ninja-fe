@@ -38,9 +38,11 @@ export type GeometrySource =
   | GeometrySourceFromFile
   | GeometrySourceDrawn;
 
+export type GeometryWithHash = GeoJSON.GeoJSON & { hash: string };
+
 export interface FocusedGeometry {
   source: GeometrySource;
-  geometry: GeoJSON.GeoJSON;
+  geometry: GeometryWithHash;
 }
 
 export const focusedGeometryAtom = createAtom(
