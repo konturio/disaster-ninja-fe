@@ -46,7 +46,7 @@ export const areaLayersDetailsResourceAtomCache = createAtom(
       );
       response.forEach((layer) => {
         if (layersToRetrieveWithGeometryFilter.has(layer.id)) {
-          const geometryHash: string | undefined = request?.geoJSON?.['hash'];
+          const geometryHash = request?.geoJSON?.hash;
           if (geometryHash && !state.get(geometryHash)) {
             state.set(geometryHash, true);
           }
