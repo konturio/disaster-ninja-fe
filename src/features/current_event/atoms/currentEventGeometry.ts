@@ -15,8 +15,9 @@ export const currentEventGeometryAtom = createAtom(
         state = data;
         const focusedGeometry = getUnlistedState(focusedGeometryAtom);
         if (
-          focusedGeometry === null || // Initial
-          focusedGeometry.source.type === 'event' // Auto refreshes
+          // Episode and event can be selected at the same time,
+          // in that case the geometry of the episode is more important
+          focusedGeometry?.source.type !== 'episode'
         ) {
           schedule((dispatch) => {
             dispatch(
