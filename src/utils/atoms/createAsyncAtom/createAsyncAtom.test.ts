@@ -58,13 +58,18 @@ describe('Resource atom add resource state structure', () => {
   test('have correct error state', async ({ store }) => {
     const resAtomA = createAsyncAtom(
       null,
-      async () => await wait(1, { failWithMessage: 'Test error' }),
+      async (params) =>
+        /* Throw error when 'bad' in params */
+        await wait(1, params === 'bad' ? { failWithMessage: 'Test error' } : {}),
       'resAtomA',
       { store },
     );
-    store.dispatch(resAtomA.request('foo'));
+    store.dispatch(resAtomA.request('bad'));
     await wait(1);
     expect(resAtomA.getState().error).toBe('Test error');
+    store.dispatch(resAtomA.request('good'));
+    await wait(1);
+    expect(resAtomA.getState().error).toBe(null);
   });
 
   test('have correct data state', async ({ store }) => {
