@@ -66,16 +66,24 @@ export const areaLayersLegendsAndSources = createAtom(
         acc.set(layerDetails.id, layerDetails);
         return acc;
       }, new Map<string, LayerInAreaDetails>());
+      const boundaryRequiredLayersDetailsData = new Map<string, LayerInAreaDetails>();
 
       // apply cached layers if any are already stored for current eventId
       const focusedGeometry = get('focusedGeometryAtom');
       const eventId = getEventId(focusedGeometry);
       if (eventId) {
-        const cachedLayers = getUnlistedState(areaLayersDetailsResourceAtomCache).get(
-          eventId,
+        const cache = getUnlistedState(areaLayersDetailsResourceAtomCache);
+        const cachedEventIdRequiredLayers = cache.get(eventId);
+        cachedEventIdRequiredLayers?.forEach((layer) =>
+          layersDetailsData.set(layer.id, layer),
         );
-        if (cachedLayers instanceof Map) {
-          cachedLayers?.forEach((layer) => layersDetailsData.set(layer.id, layer));
+
+        const hash = focusedGeometry?.geometry.hash;
+        if (hash) {
+          const cachedBoundaryRequiredLayers = cache.get(hash);
+          cachedBoundaryRequiredLayers?.forEach((layer) => {
+            boundaryRequiredLayersDetailsData.set(layer.id, layer);
+          });
         }
       }
       // One error for all requested details
@@ -85,6 +93,14 @@ export const areaLayersLegendsAndSources = createAtom(
         const newState = new Map(state);
         requestedLayers.forEach((layerId) => {
           const layerDetails = layersDetailsData.get(layerId);
+          const layerSource = layerDetails ? convertDetailsToSource(layerDetails) : null;
+          newState.set(layerId, {
+            error: layersDetailsError,
+            data: layerSource,
+            isLoading: false,
+          });
+        });
+        boundaryRequiredLayersDetailsData.forEach((layerDetails, layerId) => {
           const layerSource = layerDetails ? convertDetailsToSource(layerDetails) : null;
           newState.set(layerId, {
             error: layersDetailsError,
