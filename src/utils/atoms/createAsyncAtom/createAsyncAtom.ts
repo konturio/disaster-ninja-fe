@@ -198,7 +198,7 @@ export function createAsyncAtom<
         schedule(async (dispatch, ctx: Context) => {
           if (ctx.abortController) {
             ctx.abortController.abort();
-            ctx.abortController = null;
+            delete ctx.abortController;
           }
         });
       });
