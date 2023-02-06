@@ -46,7 +46,7 @@ There are several scripts in package.json:
 - i18n:import converts gettext to i18next
 - i18n:update extracts new translation keys from code to common.json (```i18n.t``` or ```<Trans/>```) and also removes unused keys
 - lint:i18n:keys:identity is needed to see untranslated keys for all locales (make sure you ran i18n:import before as it compares i18next .json files)
-- i18n:msgmerge is needed to keep all .po files synced with .pot file (marks non-compliant msgid as 'fuzzy', renames keys in .po according keys changes in .pot)
+- i18n:gettext-sync is needed to keep all .po files synced with .pot file (marks non-compliant msgid as 'fuzzy', renames keys in .po according keys changes in .pot)
 
 ### Keys format rules
 We are able to use all i18next abilities while creating keys: contexts, plurals, nesting, namespaces. ([More info ==>](https://www.i18next.com/translation-function/essentials))
@@ -76,6 +76,7 @@ or
 ```
 import { Trans } from 'react-i18next';
 ```
+Key difference between ```i18n.t``` and ```<Trans/>``` - last one tracks current language and changes translation right after language changed.
 2. Then create translation keys for each translation with [rules](###keys-format-rules).
 The result will be like this:
 ```
@@ -102,16 +103,16 @@ Or in case of ```<Trans/>``` component:
 npm run i18n:update
 ```
 And then fill translations for extracted keys to src/core/localization/translations/en/common.json.
-If you use ```<Trans/>``` translation will be extracted automatically: ```"p4": "Some content before<1>Kontur Event Feed</1>Some content after"```
+If you use ```<Trans/>``` translations from it will be extracted automatically: ```"p4": "Some content before<1>Kontur Event Feed</1>Some content after"```
 
 4. If key is new - just commit changes. It will be converted from .json to .pot file on pre-commit hook and added to commit. If you edit/remove existing key you need to sync it with other languages translations, so you need to run: 
 ```
 npm run run i18n:export
-npm run run i18n:msgmerge
+npm run run i18n:gettext-sync
 ```
 
 Later translators will add new translations to .po files comparing them with .pot file.
-After you get new .po files from translators please run i18n:msgmerge to keep them synced with .pot (because you may updated .pot when it was in translation)
+After you get new .po files from translators please run i18n:gettext-sync to keep them synced with .pot (because you may updated .pot when it was in translation)
 When you run or build a project .po files convert to i18next .json files, so new translations become available on frontend.
 
 ## Available Scripts
