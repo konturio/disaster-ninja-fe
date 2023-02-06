@@ -274,6 +274,20 @@ msgstr "Keine Katastrophe ausgewählt"
 msgid "Choose disaster"
 msgstr "Katastrophe auswählen"
 
+#: event_list##no_historical_disasters
+msgid "No historical disasters in this area"
+msgstr ""
+
+#: event_list##no_feed_disasters
+#, fuzzy
+msgid "No disasters in this feed"
+msgstr "Keine Katastrophe ausgewählt"
+
+#: event_list##no_disasters
+#, fuzzy
+msgid "No disasters"
+msgstr "Katastrophen"
+
 #: create_layer##edit_layer
 msgid "Edit Layer"
 msgstr "Ebene bearbeiten"

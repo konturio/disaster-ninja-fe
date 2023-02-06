@@ -270,6 +270,18 @@ msgstr ""
 msgid "Choose disaster"
 msgstr ""
 
+#: event_list##no_historical_disasters
+msgid "No historical disasters in this area"
+msgstr ""
+
+#: event_list##no_feed_disasters
+msgid "No disasters in this feed"
+msgstr ""
+
+#: event_list##no_disasters
+msgid "No disasters"
+msgstr ""
+
 #: create_layer##edit_layer
 msgid "Edit Layer"
 msgstr ""

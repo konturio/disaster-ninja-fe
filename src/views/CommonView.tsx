@@ -7,7 +7,6 @@ import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { useFavicon } from '~utils/hooks/useFavicon';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { useTabNameUpdate } from '~utils/hooks/useTabNameUpdate';
-import { currentLanguageAtom } from '~core/shared_state/currentLanguage';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
@@ -27,7 +26,6 @@ export function CommonView({
   getAbsoluteRoute: (path: string) => string;
 }>) {
   const [featureFlags] = useAtom(featureFlagsAtom);
-  useAtom(currentLanguageAtom);
   useFavicon(appConfig.faviconUrl);
   useTabNameUpdate(appConfig.name);
 

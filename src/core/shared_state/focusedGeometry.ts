@@ -38,9 +38,11 @@ export type GeometrySource =
   | GeometrySourceFromFile
   | GeometrySourceDrawn;
 
+export type GeometryWithHash = GeoJSON.GeoJSON & { hash: string };
+
 export interface FocusedGeometry {
   source: GeometrySource;
-  geometry: GeoJSON.GeoJSON;
+  geometry: GeometryWithHash;
 }
 
 export const focusedGeometryAtom = createAtom(
@@ -65,7 +67,8 @@ export const focusedGeometryAtom = createAtom(
           // update only in case if geometry source or hash has changed
           if (!state || !ctx.hash || ctx.hash !== hash) {
             ctx.hash = hash;
-            dispatch(create('_update', { source, geometry }));
+            const geometryWithHash = { ...geometry, hash };
+            dispatch(create('_update', { source, geometry: geometryWithHash }));
           }
         });
       } else {

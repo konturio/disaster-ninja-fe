@@ -61,17 +61,3 @@ export type BackendFeature = {
   description: string;
   type: typeof BackendFeatureType[keyof typeof BackendFeatureType];
 };
-
-export type BackendFeed = {
-  feed: string;
-  name: string;
-  description: string;
-  default: boolean;
-};
-
-export type UserFeed = {
-  feed: string;
-  name: string;
-  description: string;
-  default: boolean;
-};

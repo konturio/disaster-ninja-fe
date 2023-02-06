@@ -78,7 +78,10 @@
     },
     "no_event_in_feed": "Event not found in the current event feed",
     "no_selected_disaster": "No disaster selected",
-    "chose_disaster": "Choose disaster"
+    "chose_disaster": "Choose disaster",
+    "no_historical_disasters": "No historical disasters in this area",
+    "no_feed_disasters": "No disasters in this feed",
+    "no_disasters": "No disasters"
   },
   "create_layer": {
     "edit_layer": "Edit Layer",

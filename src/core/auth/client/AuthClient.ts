@@ -1,20 +1,14 @@
 import over from 'lodash/over';
 import { userStateAtom } from '~core/auth/atoms/userState';
-import type { ApiOkResponse } from '~utils/axios/apisauce/apisauce';
-import type { JWTData, KeycloakAuthResponse } from '~core/api_client/types';
+import type { JWTData, LocalAuthToken } from '~core/api_client/types';
 import type { ApiClient } from '~core/api_client';
 
 interface AuthClientConfig {
   apiClient: ApiClient;
 }
-export type AuthPublicLoginHook = (apiClient: ApiClient) => Promise<unknown>;
 export type AuthLoginHook = (
-  apiClient: ApiClient,
-  response: {
-    token: string;
-    refreshToken: string;
-    jwtData: JWTData;
-  },
+  // response field provided if authenticated
+  response?: AuthSuccessResponse,
 ) => Promise<unknown>;
 
 export type AuthLogoutHook = (...args: unknown[]) => unknown;
@@ -30,7 +24,6 @@ export class AuthClient {
 
   private readonly _apiClient: ApiClient;
 
-  publicLoginHooks: AuthPublicLoginHook[] = [];
   loginHooks: AuthLoginHook[] = [];
   logoutHooks: AuthLogoutHook[] = [];
   private constructor({ apiClient }: AuthClientConfig) {
@@ -75,8 +68,8 @@ export class AuthClient {
     this.logout();
   }
 
-  private async processAuthResponse(response: AuthSuccessResponse) {
-    over(this.loginHooks)(this._apiClient, response);
+  private startAuthenticated(response: AuthSuccessResponse) {
+    over(this.loginHooks)(response);
     userStateAtom.authorize.dispatch();
   }
 
@@ -86,7 +79,6 @@ export class AuthClient {
   ): Promise<true | string | undefined> {
     const response = await this._apiClient.login(user, password);
     if (response && typeof response === 'object' && 'token' in response) {
-      await this.processAuthResponse(response);
       // reload to init with authenticated config and profile
       location.reload();
       return true;
@@ -94,23 +86,29 @@ export class AuthClient {
     return response;
   }
 
-  public async checkAuth(): Promise<boolean> {
+  public checkAuth() {
+    const response = this.checkLocalAuthToken();
+    if (response?.token) {
+      // auth init flow
+      this.startAuthenticated(response);
+      return true;
+    }
+    // anon init flow
+    this.startAnonymosly();
+    return false;
+  }
+
+  startAnonymosly() {
+    over(this.loginHooks)();
+  }
+
+  public checkLocalAuthToken(): LocalAuthToken | undefined {
     try {
       const response = this._apiClient.getLocalAuthToken(() => this.onTokenExpired());
-      if (response?.token) {
-        this.processAuthResponse(response);
-        return true;
-      } else {
-        this.publicLogin();
-      }
+      return response;
     } catch (e) {
       console.warn('Auth has been expired', e);
       this.logout();
     }
-    return false;
-  }
-
-  public async publicLogin() {
-    over(this.publicLoginHooks)(this._apiClient);
   }
 }

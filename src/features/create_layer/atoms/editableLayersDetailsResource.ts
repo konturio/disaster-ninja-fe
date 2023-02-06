@@ -1,5 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { editableLayersListResource } from './editableLayersListResource';
@@ -50,9 +51,14 @@ export const editableLayersDetailsResourceAtom = createAsyncAtom(
   editableLayersDetailsParamsAtom,
   async (params, abortController) => {
     if (params === null) return null;
-    return await apiClient.post<LayerInAreaDetails[]>('/layers/details', params, true, {
-      signal: abortController.signal,
-    });
+    return await apiClient.post<LayerInAreaDetails[]>(
+      '/layers/details',
+      { ...params, appId: appConfig.id },
+      true,
+      {
+        signal: abortController.signal,
+      },
+    );
   },
   'editableLayersDetailsResourceAtom',
 );

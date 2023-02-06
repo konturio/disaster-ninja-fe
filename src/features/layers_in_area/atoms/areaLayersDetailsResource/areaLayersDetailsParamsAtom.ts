@@ -4,7 +4,10 @@ import { focusedGeometryAtom, getEventId } from '~core/shared_state/focusedGeome
 import { currentEventFeedAtom } from '~core/shared_state';
 import { layersGlobalResource } from '../layersGlobalResource';
 import { layersInAreaAndEventLayerResource } from '../layersInAreaAndEventLayerResource';
-import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResourceAtomCache';
+import {
+  areaLayersDetailsResourceAtomCache,
+  getLayersDetailsCacheKey,
+} from './areaLayersDetailsResourceAtomCache';
 import type { DetailsRequestParams } from './types';
 
 export const areaLayersDetailsParamsAtom = createAtom(
@@ -18,11 +21,9 @@ export const areaLayersDetailsParamsAtom = createAtom(
     state: DetailsRequestParams | null = null,
   ): DetailsRequestParams | null => {
     const layersGlobal = get('layersGlobalResource');
-    const layersInAreaAndEventLayer = get('layersInAreaAndEventLayerResource');
-    const allLayers = [
-      ...(layersGlobal.data ?? []),
-      ...(layersInAreaAndEventLayer.data ?? []),
-    ];
+    const { loading, error, data } = get('layersInAreaAndEventLayerResource');
+    const layersInAreaAndEventLayer = loading || error || !data ? [] : data;
+    const allLayers = [...(layersGlobal.data ?? []), ...layersInAreaAndEventLayer];
     const enabledLayers = get('enabledLayersAtom');
     const focusedGeometry = getUnlistedState(focusedGeometryAtom);
     const eventId = getEventId(focusedGeometry);
@@ -30,13 +31,24 @@ export const areaLayersDetailsParamsAtom = createAtom(
 
     const mustBeRequested = allLayers.filter((layer) => {
       const isEnabled = enabledLayers.has(layer.id);
-      if (isEnabled) {
-        const cacheKey = layer.eventIdRequiredForRetrieval ? eventId : null;
-        const cached = cache.get(cacheKey)?.get(layer.id) ?? null;
-        return !cached;
-      } else {
+      if (!isEnabled) return false;
+
+      if (layer.eventIdRequiredForRetrieval && !eventId) {
+        console.warn(
+          `Layer ${layer.id} request is skipped, as eventIdRequiredForRetrieval is true but evenntId is empty.`,
+        );
         return false;
       }
+
+      const cacheKey = getLayersDetailsCacheKey({
+        boundaryRequiredForRetrieval: layer.boundaryRequiredForRetrieval,
+        eventIdRequiredForRetrieval: layer.eventIdRequiredForRetrieval,
+        hash: focusedGeometry?.geometry.hash,
+        eventId: eventId,
+      });
+
+      const cached = cache.get(cacheKey)?.get(layer.id) ?? null;
+      return !cached;
     });
 
     if (mustBeRequested.length === 0) {

@@ -7,7 +7,7 @@ import { i18n } from '~core/localization';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
-import { FeedSelector } from '../FeedSelector/FeedSelector';
+import { FeedSelectorFlagged } from '../FeedSelector';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
@@ -70,7 +70,7 @@ export function FullState({
         <CurrentEvent hasTimeline={Boolean(hasTimeline)} showDescription={true} />
       )}
       <EventListSettingsRow>
-        <FeedSelector />
+        <FeedSelectorFlagged />
         <BBoxFilterToggle />
       </EventListSettingsRow>
       <div className={s.scrollable}>

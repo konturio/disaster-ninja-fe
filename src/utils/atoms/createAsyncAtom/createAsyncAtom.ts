@@ -8,13 +8,15 @@ import { isAtomLike } from './is-atom-like';
 import type { AsyncAtomOptions, AsyncAtomState, Fetcher, AsyncAtomDeps } from './types';
 import type { AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
 
-const verbose = false;
-const log = (...args) => {
-  if (verbose) {
+const verbose = true;
+const filterByAtomName = '';
+const logger =
+  (name: string) =>
+  (...args) => {
+    if (!verbose || name !== filterByAtomName) return;
     // eslint-disable-next-line
-    console.log('\x1b[36m', ...args, '\x1b[0m');
-  }
-};
+    console.log(...args);
+  };
 
 type ResourceCtx = {
   abortController?: null | AbortController;
@@ -54,6 +56,8 @@ export function createAsyncAtom<
   AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
   AsyncAtomDeps<D, F>
 > {
+  const log = logger(name);
+
   const options: AsyncAtomOptions<Awaited<ReturnType<F>>, AtomState<D>> = {
     ...resourceAtomOptions,
     auto: resourceAtomOptions.auto ?? defaultOptions.auto,
@@ -165,6 +169,8 @@ export function createAsyncAtom<
               log('5.1.B.1. Error');
               dispatch(create('_error', params, ABORT_ERROR_MESSAGE));
             } else if (ctx.abortController === abortController) {
+              delete ctx.abortController;
+              log('5.1.C Not abort error');
               console.error(`[${name}]:`, e);
               const errorMessage = isErrorWithMessage(e)
                 ? e.message
@@ -192,7 +198,7 @@ export function createAsyncAtom<
         schedule(async (dispatch, ctx: Context) => {
           if (ctx.abortController) {
             ctx.abortController.abort();
-            ctx.abortController = null;
+            delete ctx.abortController;
           }
         });
       });

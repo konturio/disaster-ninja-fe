@@ -273,6 +273,20 @@ msgstr "No se ha seleccionado ningún desastre"
 msgid "Choose disaster"
 msgstr "Seleccione el desastre"
 
+#: event_list##no_historical_disasters
+msgid "No historical disasters in this area"
+msgstr ""
+
+#: event_list##no_feed_disasters
+#, fuzzy
+msgid "No disasters in this feed"
+msgstr "No se ha seleccionado ningún desastre"
+
+#: event_list##no_disasters
+#, fuzzy
+msgid "No disasters"
+msgstr "Desastres"
+
 #: create_layer##edit_layer
 msgid "Edit Layer"
 msgstr "Editar capa"
