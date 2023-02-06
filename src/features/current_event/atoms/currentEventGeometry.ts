@@ -9,21 +9,27 @@ export const currentEventGeometryAtom = createAtom(
   {
     currentEventResourceAtom,
   },
-  ({ onChange, schedule }, state: null | EventWithGeometry = null) => {
+  ({ onChange, schedule, getUnlistedState }, state: null | EventWithGeometry = null) => {
     onChange('currentEventResourceAtom', ({ error, loading, data }) => {
       if (!loading && !error && data) {
         state = data;
-        schedule((dispatch) => {
-          dispatch(
-            focusedGeometryAtom.setFocusedGeometry(
-              {
-                type: 'event',
-                meta: data,
-              },
-              data.geojson,
-            ),
-          );
-        });
+        const focusedGeometry = getUnlistedState(focusedGeometryAtom);
+        if (
+          focusedGeometry === null || // Initial
+          focusedGeometry.source.type === 'event' // Auto refreshes
+        ) {
+          schedule((dispatch) => {
+            dispatch(
+              focusedGeometryAtom.setFocusedGeometry(
+                {
+                  type: 'event',
+                  meta: data,
+                },
+                data.geojson,
+              ),
+            );
+          });
+        }
       }
       // Case resource didn't call for event because event id or feed id was absent
       else if (!loading && !error && data === null) {
