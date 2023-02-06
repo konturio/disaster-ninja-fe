@@ -169,7 +169,7 @@ export function createAsyncAtom<
               log('5.1.B.1. Error');
               dispatch(create('_error', params, ABORT_ERROR_MESSAGE));
             } else if (ctx.abortController === abortController) {
-              ctx.abortController = null;
+              delete ctx.abortController;
               log('5.1.C Not abort error');
               console.error(`[${name}]:`, e);
               const errorMessage = isErrorWithMessage(e)
