@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createAtom } from './createPrimitives';
 import type { Atom, AtomBinded, AtomState } from '@reatom/core';
 import type { AsyncAtomState, AsyncAnyAtom } from './createAsyncAtom/types';
 
