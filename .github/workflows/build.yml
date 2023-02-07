@@ -34,12 +34,12 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: npm run i18n:msgmerge
+      - run: npm run i18n:gettext-sync
       - shell: bash
         run: |
           status=$(git status --porcelain)
           if [ -n "$status" ]; then
-            echo "You have gettext translation files unsynced. Please run i18n:msgmerge locally."
+            echo "You have gettext translation files unsynced. Please run i18n:gettext-sync locally."
             exit 1
           else
             echo "Translations are synced."
