@@ -5,7 +5,6 @@ export { currentMapPositionAtom } from './currentMapPosition';
 export { currentUserAtom } from './currentUser';
 export { layersCategoriesSettingsAtom } from './layersCategoriesSettings';
 export { layersGroupsSettingsAtom } from './layersGroupsSettings';
-export { focusedGeometryAtom } from './focusedGeometry';
 export { mapListenersAtom } from './mapListeners';
 export { currentNotificationAtom } from './currentNotifications';
 export { toolbarControlsAtom } from './toolbarControls';

@@ -1,4 +1,4 @@
-import type { GeometryWithHash } from '~core/shared_state/focusedGeometry';
+import type { GeometryWithHash } from '~core/focused_geometry/types';
 import type { LayerSource } from '~core/logical_layers/types/source';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 

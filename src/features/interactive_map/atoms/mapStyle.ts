@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import type { MapBoxStyle } from '~components/ConnectedMap/map-libre-adapter';
 
 export const mapStyleAtom = createAtom(

@@ -4,7 +4,7 @@
 import { test, expect } from 'vitest';
 import { createBivariateQuery } from './createBivariateGraphQLQuery';
 import type { FeatureCollection } from 'geojson';
-import type { FocusedGeometry, GeometrySource } from '~core/shared_state/focusedGeometry';
+import type { FocusedGeometry, GeometrySource } from '~core/focused_geometry/types';
 
 test('createBivariateQuery - cleans prefilled properties', () => {
   const geometry: FocusedGeometry = {
