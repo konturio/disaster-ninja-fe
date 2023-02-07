@@ -9,6 +9,7 @@ import { layersPanel } from '~features/layers_panel';
 import { FullAndShortStatesPanelWidget } from '~widgets/FullAndShortStatesPanelWidget';
 import { analyticsPanel } from '~features/analytics_panel';
 import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
+import { DemoSensorCoords } from '~features/live_sensor';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -89,6 +90,11 @@ export function MapPage() {
         initLocateMe();
       });
     }
+    if (true) {
+      import('~features/live_sensor').then(({ initSensor }) => {
+        initSensor();
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [featureFlags]);
 
@@ -112,6 +118,7 @@ export function MapPage() {
             <div className={clsx(s.footer, s.clickThrough)}>
               <div className={s.logo}>
                 <Logo height={24} palette="contrast" />
+                <DemoSensorCoords />
               </div>
             </div>
           }
