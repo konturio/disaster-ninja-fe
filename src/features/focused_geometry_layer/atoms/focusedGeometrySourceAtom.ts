@@ -1,4 +1,4 @@
-import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
 import { createAtom } from '~utils/atoms';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
@@ -26,21 +26,12 @@ export const createFocusedGeometrySourceAtom = (sourceId: string) =>
       const focusedGeometryAtom = get('focusedGeometryAtom');
       if (focusedGeometryAtom) {
         const { geometry } = focusedGeometryAtom;
-        if (
-          geometry.type === 'FeatureCollection' ||
-          geometry.type === 'Feature'
-        ) {
+        if (geometry.type === 'FeatureCollection' || geometry.type === 'Feature') {
           schedule((dispatch) => {
-            const focusedLayerSource = createGeoJSONLayerSource(
-              sourceId,
-              geometry,
-            );
+            const focusedLayerSource = createGeoJSONLayerSource(sourceId, geometry);
 
             dispatch(
-              layersSourcesAtom.set(
-                sourceId,
-                createAsyncWrapper(focusedLayerSource),
-              ),
+              layersSourcesAtom.set(sourceId, createAsyncWrapper(focusedLayerSource)),
             );
           });
         } else {
@@ -56,10 +47,7 @@ export const createFocusedGeometrySourceAtom = (sourceId: string) =>
           });
 
           dispatch(
-            layersSourcesAtom.set(
-              sourceId,
-              createAsyncWrapper(focusedLayerSource),
-            ),
+            layersSourcesAtom.set(sourceId, createAsyncWrapper(focusedLayerSource)),
           );
         });
       }

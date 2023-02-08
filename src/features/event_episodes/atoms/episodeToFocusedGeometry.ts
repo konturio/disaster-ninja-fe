@@ -1,6 +1,7 @@
 import { createAtom } from '~utils/atoms';
 import { mergeFeatureCollection } from '~utils/geoJSON/helpers';
-import { focusedGeometryAtom, currentEpisodeAtom } from '~core/shared_state';
+import { currentEpisodeAtom } from '~core/shared_state';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { episodesResource } from './episodesResource';
 import type { Episode } from '~core/types';
 
