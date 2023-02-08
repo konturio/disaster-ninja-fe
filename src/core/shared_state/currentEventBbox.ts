@@ -24,10 +24,7 @@ export const currentEventBbox = createAtom(
 
     if (!eventData) throw new Error('Event not found');
 
-    // TODO: replace with eventData.bbox when it will be available
-    const bbox = [
-      98.1518468440795, -0.9460759217858339, 130.028802343343, 24.717955428485666,
-    ];
+    const bbox = eventData.bbox;
 
     onAction('fitBounds', () => {
       const map = globalThis.KONTUR_MAP;
