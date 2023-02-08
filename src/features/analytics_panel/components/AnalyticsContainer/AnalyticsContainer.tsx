@@ -5,9 +5,9 @@ import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms';
 import { analyticsResourceAtom } from '~features/analytics_panel/atoms/analyticsResource';
-import { focusedGeometryAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 
 export const AnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(analyticsResourceAtom);

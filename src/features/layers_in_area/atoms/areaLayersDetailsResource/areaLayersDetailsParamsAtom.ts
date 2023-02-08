@@ -1,6 +1,7 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { focusedGeometryAtom, getEventId } from '~core/shared_state/focusedGeometry';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import { getEventId } from '~core/focused_geometry/utils';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { layersGlobalResource } from '../layersGlobalResource';
 import { layersInAreaAndEventLayerResource } from '../layersInAreaAndEventLayerResource';

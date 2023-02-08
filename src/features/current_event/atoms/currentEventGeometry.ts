@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/auth/types';
 import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
