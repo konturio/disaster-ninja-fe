@@ -103,8 +103,7 @@ export const areaLayersLegendsAndSources = createAtom(
 
       const updateLegendsAction = layersLegendsAtom.change((state) => {
         const newState = new Map(state);
-        requestedLayers.forEach((layerId) => {
-          const layerDetails = layersDetailsData.get(layerId);
+        layersDetailsData.forEach((layerDetails, layerId) => {
           const layerLegend = layerDetails ? convertDetailsToLegends(layerDetails) : null;
           newState.set(layerId, {
             error: layersDetailsError,
