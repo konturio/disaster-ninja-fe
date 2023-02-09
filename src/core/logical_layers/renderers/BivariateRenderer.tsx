@@ -1,5 +1,5 @@
-import throttle from 'lodash/throttle';
-import isNil from 'lodash/isNil';
+import throttle from 'lodash-es/throttle';
+import isNil from 'lodash-es/isNil';
 import { h3ToGeoBoundary, geoToH3 } from 'h3-js';
 import { Popup as MapPopup } from 'maplibre-gl';
 import { createRoot } from 'react-dom/client';

@@ -1,4 +1,4 @@
-import over from 'lodash/over';
+import over from 'lodash-es/over';
 import { userStateAtom } from '~core/auth/atoms/userState';
 import type { JWTData, LocalAuthToken } from '~core/api_client/types';
 import type { ApiClient } from '~core/api_client';

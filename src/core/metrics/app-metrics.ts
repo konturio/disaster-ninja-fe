@@ -1,4 +1,4 @@
-import every from 'lodash/every';
+import every from 'lodash-es/every';
 import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';

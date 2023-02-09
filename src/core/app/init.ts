@@ -1,9 +1,10 @@
-import mapLibre from 'maplibre-gl';
+// import mapLibre from 'maplibre-gl';
 import { updateAppConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { urlEncoder, urlStoreAtom } from '~core/url_store';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
+import { loadConfig } from '~core/app_config/loader';
 import { onLogin } from './authHooks';
 import { defaultUserProfileData } from './user';
 import { runAtom } from './index';
@@ -11,11 +12,12 @@ import type { UrlData } from '~core/url_store';
 import type { AppConfiguration } from '~core/app/types';
 
 export async function appInit() {
+  await loadConfig();
   // keep initial url before overwriting by router
   localStorage.setItem('initialUrl', location.href);
 
   // TODO: start map in center
-  mapLibre.prewarm();
+  // mapLibre.prewarm();
 
   const initialState = urlEncoder.decode<UrlData>(document.location.search.slice(1));
 
@@ -43,7 +45,7 @@ export async function appInit() {
   if (initialState.layers === undefined) {
     initialState.layers = await getDefaultLayers(initialState.app);
   } else {
-    // Remove KLA__ prefix from layers ids
+    // HACK: Remove KLA__ prefix from layers ids coming from url
     initialState.layers = initialState.layers.map((l) => l.replace(/^KLA__/, ''));
   }
 

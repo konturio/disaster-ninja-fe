@@ -1,5 +1,5 @@
-import forEach from 'lodash/forEach';
-import every from 'lodash/every';
+import forEach from 'lodash-es/forEach';
+import every from 'lodash-es/every';
 import { AppFeature } from '~core/auth/types';
 import type { AppFeatureType } from '~core/auth/types';
 import type { MetricsReportTemplate } from './types';

@@ -1,4 +1,4 @@
-import times from 'lodash/times';
+import times from 'lodash-es/times';
 import { createAtom } from '~utils/atoms';
 import { currentMapAtom, currentNotificationAtom } from '~core/shared_state';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';

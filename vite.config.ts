@@ -4,6 +4,7 @@ import { defineConfig, HtmlTagDescriptor, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import react from '@vitejs/plugin-react';
 import { createHtmlPlugin } from 'vite-plugin-html';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
 // @ts-ignore
 import { selectConfig, useConfig } from './scripts/select-config.mjs';
@@ -45,10 +46,37 @@ export default ({ mode }) => {
       minify: mode !== 'development',
       sourcemap: true,
       rollupOptions: {
-        plugins: [!!env.VITE_ANALYZE_BUNDLE && visualizer({ open: true })],
+        plugins: [
+          !!env.VITE_ANALYZE_BUNDLE &&
+            visualizer({
+              open: true,
+              template: 'treemap', //'list',
+              gzipSize: true,
+              brotliSize: true,
+              // sourcemap: true,
+            }),
+        ],
+        output: {
+          // hoistTransitiveImports: true,
+          // experimentalMinChunkSize: 16000,
+          // experimentalDeepDynamicChunkOptimization: true,
+          manualChunks: (id: string, { getModuleInfo, getModuleIds }) => {
+            // if (/lodash/.test(id)) return 'lodash';
+            // if (/@deck/.test(id)) return 'deckgl';
+            // if (/@loaders/.test(id)) return 'loaders';
+            if (/@konturio\/default\-icons/.test(id)) return 'konturicons';
+          },
+        },
+        treeshake: {
+          propertyReadSideEffects: false,
+          tryCatchDeoptimization: false,
+          // moduleSideEffects: false,
+          preset: 'recommended',
+        },
       },
     },
     plugins: [
+      tsconfigPaths(),
       react(),
       // vite env data used in metrics, should be available in all environments
       viteBuildInfoPlugin(),
@@ -64,29 +92,36 @@ export default ({ mode }) => {
     ],
     // was fixed in plugin-react to 3.0.0-alpha.2. so after 3.0.0 release this workaround can be removed
     optimizeDeps: {
-      include: ['react/jsx-runtime'],
+      // include: ['react/jsx-runtime'],
+      // disabled: false,
     },
     css: {
       postcss: postcssConfig,
     },
     esbuild: {
       // Avoid conflicting with "import React"
-      jsxInject: 'import { createElement, Fragment } from "react"',
-      jsxFactory: 'createElement',
-      jsxFragment: 'Fragment',
+      // jsxInject: 'import { createElement, Fragment } from "react"',
+      // jsxFactory: 'createElement',
+      // jsxFragment: 'Fragment',
     },
     resolve: {
-      alias: {
-        '~components': relative('./src/components'),
-        '~views': relative('./src/views'),
-        '~config': relative('./src/config'),
-        '~utils': relative('./src/utils'),
-        '~services': relative('./src/services'),
-        '~appModule': relative('./src/redux-modules/appModule'),
-        '~core': relative('./src/core'),
-        '~features': relative('./src/features'),
-        '~widgets': relative('./src/widgets'),
-      },
+      alias: [
+        {
+          find: /lodash\.(.+?)/,
+          replacement: 'lodash-es/$1',
+        },
+        {
+          find: 'lodash',
+          replacement: 'lodash-es',
+        },
+      ],
+      mainFields: ['browser', 'module', 'jsnext:main', 'jsnext'],
+      dedupe: [
+        '@loaders.gl/*',
+        // '@loaders.gl/worker-utils',
+        // '@loaders.gl/loader-utils',
+        '@turf/*',
+      ],
     },
     server: {
       proxy: proxyConfig,
