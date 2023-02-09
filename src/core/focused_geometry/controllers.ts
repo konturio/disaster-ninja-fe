@@ -11,6 +11,7 @@ export const episodesPanelStateHandler = createAtom(
   ({ onChange, schedule, getUnlistedState }) => {
     onChange('episodesPanelState', (newState) => {
       if (!newState.isOpen) {
+        // Back to event
         const currentEvent = getUnlistedState(currentEventResourceAtom);
         if (!currentEvent.loading && !currentEvent.error && currentEvent.data) {
           const event = currentEvent.data;
