@@ -43,4 +43,12 @@ export class NotificationService {
       lifetimeSec || this.defaultLifetimeSec,
     );
   }
+
+  success(message: NotificationMessage, lifetimeSec?: number) {
+    currentNotificationAtom.showNotification.dispatch(
+      'success',
+      message,
+      lifetimeSec || this.defaultLifetimeSec,
+    );
+  }
 }
