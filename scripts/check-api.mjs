@@ -1,44 +1,4 @@
 const apis = [
-  {
-    id: 'api/events',
-    fetcher: () =>
-      fetch(
-        'https://test-apps-ninja01.konturlabs.com/active/api/events/?feed=kontur-public',
-        {
-          credentials: 'include',
-          headers: {
-            'User-Agent':
-              'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0',
-            Accept: 'application/json',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Sec-Fetch-Dest': 'empty',
-            'Sec-Fetch-Mode': 'cors',
-            'Sec-Fetch-Site': 'same-origin',
-          },
-          referrer:
-            'https://test-apps-ninja01.konturlabs.com/active/?map=6.610/12.282/121.356&app=58851b50-9574-4aec-a3a6-425fa18dcb54&event=078df105-2d7d-474a-82ce-8bf0ecdc91d3&feed=kontur-public&layers=BIV__Kontur+OpenStreetMap+Quantity%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cfocused-geometry',
-          method: 'GET',
-          mode: 'cors',
-        },
-      ),
-  },
-  {
-    id: 'event',
-    fetcher: () => fetch("https://test-apps-ninja01.konturlabs.com/active/api/events/kontur-public/078df105-2d7d-474a-82ce-8bf0ecdc91d3", {
-      "credentials": "include",
-      "headers": {
-          "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0",
-          "Accept": "application/json",
-          "Accept-Language": "en-US,en;q=0.5",
-          "Sec-Fetch-Dest": "empty",
-          "Sec-Fetch-Mode": "cors",
-          "Sec-Fetch-Site": "same-origin"
-      },
-      "referrer": "https://test-apps-ninja01.konturlabs.com/active/?map=6.610/12.282/121.356&app=58851b50-9574-4aec-a3a6-425fa18dcb54&event=078df105-2d7d-474a-82ce-8bf0ecdc91d3&feed=kontur-public&layers=BIV__Kontur+OpenStreetMap+Quantity%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cfocused-geometry",
-      "method": "GET",
-      "mode": "cors"
-  })
-  }
 ];
 
 async function measure({ id, fetcher }) {
