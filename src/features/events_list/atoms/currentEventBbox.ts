@@ -1,7 +1,7 @@
 import { createAtom } from '@reatom/core';
-import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
 import { getPaddings } from '~utils/map/cameraForGeometry';
-import { currentEventAtom } from './currentEvent';
+import { currentEventAtom } from '~core/shared_state/currentEvent';
+import { eventListResourceAtom } from './eventListResource';
 
 export const currentEventBbox = createAtom(
   {
@@ -22,14 +22,22 @@ export const currentEventBbox = createAtom(
       (event) => event.eventId === currentEvent.id,
     );
 
-    if (!eventData) throw new Error('Event not found');
+    if (!eventData) {
+      console.error(
+        `Error while fitting event bounds, event with id ${currentEvent.id} not found in event list`,
+      );
+      return;
+    }
 
     const bbox = eventData.bbox;
 
     onAction('fitBounds', () => {
       const map = globalThis.KONTUR_MAP;
 
-      if (!map) throw new Error('Map not found');
+      if (!map) {
+        console.error(`Error while fitting event bounds, map not found`);
+        return;
+      }
 
       map.fitBounds(bbox, { padding: getPaddings() });
     });

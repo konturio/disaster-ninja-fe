@@ -87,6 +87,7 @@ export type EventWithGeometry = {
   settledArea: number;
   osmGaps: number | null;
   updatedAt: string;
+  bbox: [number, number, number, number];
 };
 
 export type LegendStepStyle = {
