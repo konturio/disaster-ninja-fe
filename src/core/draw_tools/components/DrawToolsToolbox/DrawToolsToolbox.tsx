@@ -1,8 +1,13 @@
 import { Button, ButtonGroup, Text } from '@konturio/ui-kit';
 import { useCallback, useMemo } from 'react';
-import { Line24, PointOutline24, Area24, Trash24 } from '@konturio/default-icons';
+import {
+  Line24,
+  PointOutline24,
+  Area24,
+  Trash24,
+  Download24,
+} from '@konturio/default-icons';
 import { useAtom } from '@reatom/react';
-import { Download24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { drawModes } from '../../constants';
 import { combinedAtom } from '../../atoms/combinedAtom';
