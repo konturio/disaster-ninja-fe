@@ -66,3 +66,5 @@ export const sensorDataAtom = createAtom(
   },
   'sensorDataAtom',
 );
+
+export type SensorDataAtomExportType = typeof sensorDataAtom;

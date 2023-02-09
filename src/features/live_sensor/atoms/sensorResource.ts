@@ -10,7 +10,8 @@ import type { FeatureCollection } from '~utils/geoJSON/helpers';
 // Why not send it on every sensor update?
 // Consider situation - we have sensors A, B
 // Sensor A setted update, in 10 milliseconds sensor B setted update - we have 2 requests
-// and exceeded expected requests interval
+// and exceeded expected requests interval.
+// Also sensors have at least 60 updates per minute
 
 export const resourceTriggerAtom = createNumberAtom(0, 'resourceTriggerAtom');
 
@@ -23,8 +24,6 @@ const resourceDepsAtom = createAtom(
     if (trigger === 0) return state;
 
     state = getUnlistedState(collectedPointsAtom);
-    // debug TODO remove
-    if (!(trigger % 5)) alert(JSON.stringify(state || {}));
 
     return state;
   },

@@ -10,9 +10,9 @@ import {
   REQUESTS_INTERVAL,
   SENSOR_CONTROL,
   SENSOR_CONTROL_NAME,
-  SENSOR_PRESICION,
 } from './constants';
 import { collectedPointsAtom } from './atoms/collectedPoints';
+import { getOnErrorFunction, hookGeolocation, hookSensors } from './utils';
 import type { Unsubscribe } from '@reatom/core';
 
 export function initSensor() {
@@ -48,15 +48,7 @@ export function initSensor() {
     resourceUnsubscribe?.();
   }
 
-  function onError(event: SensorErrorEvent | GeolocationPositionError) {
-    const eventName = 'code' in event ? event.code + event.message : event.error.name;
-    const eventMessage = 'message' in event ? event.message : event.error.message;
-    notificationServiceInstance.warning({
-      title: eventName || "Can't connect to server",
-      description: eventMessage,
-    });
-    stopRecording();
-  }
+  const onError = getOnErrorFunction(notificationServiceInstance, stopRecording);
 
   toolbarControlsAtom.addControl.dispatch({
     id: SENSOR_CONTROL,
@@ -105,63 +97,18 @@ export function initSensor() {
         }, REQUESTS_INTERVAL),
       );
 
-      // Describe accelerometer
-      accelerometer.onreading = () => {
-        sensorDataAtom.updateSensor.dispatch('accelerometer', {
-          x: lowerTheNumber(accelerometer.x),
-          y: lowerTheNumber(accelerometer.y),
-          z: lowerTheNumber(accelerometer.z),
-        });
-      };
-      accelerometer.onerror = onError;
-
-      // Describe orientationSensor
-      orientationSensor.onreading = () => {
-        const quaternion = orientationSensor.quaternion || [];
-        sensorDataAtom.updateSensor.dispatch('orientation', {
-          x: lowerTheNumber(quaternion[0]),
-          y: lowerTheNumber(quaternion[1]),
-          z: lowerTheNumber(quaternion[2]),
-          w: lowerTheNumber(quaternion[3]),
-        });
-      };
-      orientationSensor.onerror = onError;
-
-      // Describe gyroscope
-      gyroscope.onreading = () => {
-        sensorDataAtom.updateSensor.dispatch('gyroscope', {
-          x: lowerTheNumber(gyroscope.x),
-          y: lowerTheNumber(gyroscope.y),
-          z: lowerTheNumber(gyroscope.z),
-        });
-      };
-      orientationSensor.onerror = onError;
+      hookSensors(sensorDataAtom, onError, accelerometer, orientationSensor, gyroscope);
 
       // start sensors
       accelerometer.start();
       orientationSensor.start();
       gyroscope.start();
-      // Describe geolocation (and call prompt window to share location)
-      watchId = geolocation.watchPosition((pos) => {
-        // This function runs each second after user allowed sharing navigation
-        sensorDataAtom.updateSensor.dispatch('coordinates', {
-          lng: pos.coords.longitude,
-          lat: pos.coords.longitude,
-          alt: pos.coords.altitude,
-          accuracy: pos.coords.accuracy,
-          speed: pos.coords.speed,
-          course: pos.coords.heading,
-        });
-      }, onError);
+      // start geolocation afterwards because it has preactivation prompt window
+      watchId = hookGeolocation(sensorDataAtom, onError, geolocation);
 
       notificationServiceInstance.info({
         title: 'Recording has been started',
       });
     },
   });
-}
-
-function lowerTheNumber(number: number | undefined) {
-  if (!number) return null;
-  return +number.toPrecision(SENSOR_PRESICION);
 }

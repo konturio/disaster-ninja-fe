@@ -4,6 +4,10 @@ import type { FeatureCollection } from '~utils/geoJSON/helpers';
 
 const defaultState = { type: 'FeatureCollection', features: [] };
 
+// This atom responsible for collecting sensor data as geojson points entities
+// We need that due to our process of building analytical geospatial layers
+// It can either add a new feature formed from current sensor data (triggered on arbitrary interval)
+// or reset itself
 export const collectedPointsAtom = createAtom(
   {
     addFeature: () => null,
@@ -23,7 +27,7 @@ export const collectedPointsAtom = createAtom(
           type: 'Point',
           coordinates: [coordinates.lng, coordinates.lat],
         },
-        properties: otherProps,
+        properties: { ...otherProps, timestamp: sensorData.timestamp },
       };
 
       state.features = [...state.features, feature];
