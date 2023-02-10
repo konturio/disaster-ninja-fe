@@ -1,25 +1,11 @@
+import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { SENSOR_PRESICION } from './constants';
 import type { SensorDataAtomExportType } from './atoms/sensorData';
-import type { NotificationService } from '~core/notifications';
-
-export function getOnErrorFunction(
-  notificationServiceInstance: NotificationService,
-  stopRecording: () => void,
-) {
-  return function onError(event: SensorErrorEvent | GeolocationPositionError) {
-    const eventName = 'code' in event ? event.code + event.message : event.error.name;
-    const eventMessage = 'message' in event ? event.message : event.error.message;
-    notificationServiceInstance.warning({
-      title: eventName || "Can't connect to server",
-      description: eventMessage,
-    });
-    stopRecording();
-  };
-}
+import type { TriggerRequestActionType } from './atoms/sensorResource';
 
 export function hookSensors(
   sensorDataAtom: SensorDataAtomExportType,
-  onError: (event: SensorErrorEvent | GeolocationPositionError) => void,
+  stopRecording: () => void,
   accelerometer: Accelerometer,
   orientationSensor: AbsoluteOrientationSensor,
   gyroscope: Gyroscope,
@@ -32,7 +18,7 @@ export function hookSensors(
       z: lowerTheNumber(accelerometer.z),
     });
   };
-  accelerometer.onerror = onError;
+  accelerometer.onerror = getOnErrorFunction(stopRecording, 'accelerometer');
 
   // Describe orientationSensor
   orientationSensor.onreading = () => {
@@ -44,7 +30,7 @@ export function hookSensors(
       w: lowerTheNumber(quaternion[3]),
     });
   };
-  orientationSensor.onerror = onError;
+  orientationSensor.onerror = getOnErrorFunction(stopRecording, 'orientation');
 
   // Describe gyroscope
   gyroscope.onreading = () => {
@@ -54,30 +40,47 @@ export function hookSensors(
       z: lowerTheNumber(gyroscope.z),
     });
   };
-  gyroscope.onerror = onError;
+  gyroscope.onerror = getOnErrorFunction(undefined, 'gyroscope');
 }
 
 export function hookGeolocation(
   sensorDataAtom: SensorDataAtomExportType,
-  onError: (event: SensorErrorEvent | GeolocationPositionError) => void,
+  stopRecording: () => void,
   geolocation: Geolocation,
+  requestAction: TriggerRequestActionType,
 ) {
   // It calls prompt window to allow sharing location for the first time
   const watchId = geolocation.watchPosition((pos) => {
     // This function runs each second after user allowed sharing navigation
+    // Run updating sensor first
     sensorDataAtom.updateSensor.dispatch('coordinates', {
       lng: pos.coords.longitude,
       lat: pos.coords.longitude,
       alt: pos.coords.altitude,
       accuracy: pos.coords.accuracy,
       speed: pos.coords.speed,
-      course: pos.coords.heading,
+      heading: pos.coords.heading,
     });
-  }, onError);
+    // Then run request and following reset
+    requestAction.dispatch();
+  }, getOnErrorFunction(stopRecording, 'geolocation'));
   return watchId;
 }
 
-export function lowerTheNumber(number: number | undefined) {
+function getOnErrorFunction(stopRecording?: () => void, sensorName?: string) {
+  return function onError(event: SensorErrorEvent | GeolocationPositionError) {
+    const eventName = 'code' in event ? event.code + event.message : event.error.name;
+    const eventMessage = 'message' in event ? event.message : event.error.message;
+    notificationServiceInstance.warning({
+      title: eventName || `Can't connect to sensor ${sensorName}`,
+      description: eventMessage,
+    });
+    // optional. Not needed for non crucial sensors like gyroscope
+    stopRecording?.();
+  };
+}
+
+function lowerTheNumber(number: number | undefined) {
   if (!number) return null;
   return +number.toPrecision(SENSOR_PRESICION);
 }

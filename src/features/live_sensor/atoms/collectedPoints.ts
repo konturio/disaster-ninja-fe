@@ -33,7 +33,9 @@ export const collectedPointsAtom = createAtom(
       state.features = [...state.features, feature];
     });
 
-    onAction('reset', () => (state = defaultState));
+    onAction('reset', () => {
+      state = defaultState;
+    });
 
     return state;
   },

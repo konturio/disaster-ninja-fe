@@ -15,7 +15,7 @@ type Coordinates = {
   alt: uncertainNumber;
   speed: uncertainNumber;
   accuracy: uncertainNumber;
-  course: uncertainNumber;
+  heading: uncertainNumber;
 };
 
 export type SensorDataAtomType = {

@@ -6,25 +6,27 @@ import { UPDATE_ENDPOINT_PATH } from '../constants';
 import { collectedPointsAtom } from './collectedPoints';
 import type { FeatureCollection } from '~utils/geoJSON/helpers';
 
-// Here we want to send data every each REQUESTS_INTERVAL
-// Why not send it on every sensor update?
-// Consider situation - we have sensors A, B
-// Sensor A setted update, in 10 milliseconds sensor B setted update - we have 2 requests
-// and exceeded expected requests interval.
-// Also sensors have at least 60 updates per minute
+// Here from those 3 atom block we want to send data at arbitrary intervals
 
 export const resourceTriggerAtom = createNumberAtom(0, 'resourceTriggerAtom');
+export const triggerRequestAction = resourceTriggerAtom.increment;
+export type TriggerRequestActionType = typeof triggerRequestAction;
 
 const resourceDepsAtom = createAtom(
   {
     resourceTriggerAtom,
   },
-  ({ get, getUnlistedState }, state: FeatureCollection | null = null) => {
+  ({ get, getUnlistedState, schedule }, state: FeatureCollection | null = null) => {
     const trigger = get('resourceTriggerAtom');
     if (trigger === 0) return state;
 
-    state = getUnlistedState(collectedPointsAtom);
+    const newState = getUnlistedState(collectedPointsAtom);
+    state = { ...newState };
 
+    if (state?.features.length) {
+      // schedule an effect to clear collected points after request was triggered
+      schedule((dispatch) => dispatch(collectedPointsAtom.reset()));
+    }
     return state;
   },
 );
@@ -32,6 +34,8 @@ const resourceDepsAtom = createAtom(
 export const sensorResourceAtom = createAsyncAtom(
   resourceDepsAtom,
   async (sensorFeatures, abortController) => {
+    if (!sensorFeatures.features.length) return null;
+
     return await apiClient.post(
       UPDATE_ENDPOINT_PATH,
       {
@@ -43,5 +47,5 @@ export const sensorResourceAtom = createAsyncAtom(
       },
     );
   },
-  'Sensor resource atom',
+  'Sensor_resource_atom',
 );

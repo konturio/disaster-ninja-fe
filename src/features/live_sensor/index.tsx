@@ -3,16 +3,20 @@ import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { store } from '~core/store/store';
+import { i18n } from '~core/localization';
 import { sensorDataAtom } from './atoms/sensorData';
-import { resourceTriggerAtom, sensorResourceAtom } from './atoms/sensorResource';
 import {
-  ADDING_POINTS_INTERVAL,
-  REQUESTS_INTERVAL,
+  resourceTriggerAtom,
+  sensorResourceAtom,
+  triggerRequestAction,
+} from './atoms/sensorResource';
+import {
+  RECORD_UPDATES_INTERVAL,
   SENSOR_CONTROL,
   SENSOR_CONTROL_NAME,
 } from './constants';
 import { collectedPointsAtom } from './atoms/collectedPoints';
-import { getOnErrorFunction, hookGeolocation, hookSensors } from './utils';
+import { hookGeolocation, hookSensors } from './utils';
 import type { Unsubscribe } from '@reatom/core';
 
 export function initSensor() {
@@ -32,15 +36,16 @@ export function initSensor() {
     featureInitializingFailed = true;
   }
 
-  let intervals: NodeJS.Timer[] = [];
+  let interval: NodeJS.Timer;
   let watchId: number;
 
   function stopRecording() {
-    collectedPointsAtom.reset.dispatch();
-    resourceTriggerAtom.set.dispatch(0);
-    sensorDataAtom.resetSensorData.dispatch();
-    intervals.forEach((i) => clearInterval(i));
-    intervals = [];
+    store.dispatch([
+      collectedPointsAtom.reset(),
+      resourceTriggerAtom.set(0),
+      sensorDataAtom.resetSensorData(),
+    ]);
+    clearInterval(interval);
     accelerometer.stop();
     orientationSensor.stop();
     gyroscope.stop();
@@ -48,12 +53,10 @@ export function initSensor() {
     resourceUnsubscribe?.();
   }
 
-  const onError = getOnErrorFunction(notificationServiceInstance, stopRecording);
-
   toolbarControlsAtom.addControl.dispatch({
     id: SENSOR_CONTROL,
     name: SENSOR_CONTROL_NAME,
-    title: 'Start sensor recording',
+    title: i18n.t('live_sensor.start'),
     active: false,
     visualGroup: controlVisualGroup.noAnalytics,
     exclusiveGroup: controlGroup.mapTools,
@@ -66,48 +69,51 @@ export function initSensor() {
     onChange(isActive) {
       if (featureInitializingFailed && isActive) {
         notificationServiceInstance.error({
-          title: "Your device don't have needed sensors",
+          title: i18n.t('live_sensor.noSensorsError'),
         });
       }
       if (featureInitializingFailed) return;
 
       if (!isActive) {
-        this.title = 'Start sensor recording';
+        this.title = i18n.t('live_sensor.start');
         stopRecording();
         notificationServiceInstance.info({
-          title: 'Recording has been finished',
+          title: i18n.t('live_sensor.finishMessage'),
         });
         return;
       }
 
-      this.title = 'Stop sensor recording';
+      this.title = i18n.t('live_sensor.finish');
       resourceUnsubscribe = sensorResourceAtom.subscribe(() => {
         /*noop*/
       });
-      intervals.push(
-        setInterval(() => {
-          collectedPointsAtom.addFeature.dispatch();
-        }, ADDING_POINTS_INTERVAL),
 
-        setInterval(() => {
-          store.dispatch([
-            resourceTriggerAtom.increment.dispatch(),
-            collectedPointsAtom.reset.dispatch(),
-          ]);
-        }, REQUESTS_INTERVAL),
+      interval = setInterval(() => {
+        collectedPointsAtom.addFeature.dispatch();
+      }, RECORD_UPDATES_INTERVAL);
+
+      hookSensors(
+        sensorDataAtom,
+        stopRecording,
+        accelerometer,
+        orientationSensor,
+        gyroscope,
       );
-
-      hookSensors(sensorDataAtom, onError, accelerometer, orientationSensor, gyroscope);
 
       // start sensors
       accelerometer.start();
       orientationSensor.start();
       gyroscope.start();
       // start geolocation afterwards because it has preactivation prompt window
-      watchId = hookGeolocation(sensorDataAtom, onError, geolocation);
+      watchId = hookGeolocation(
+        sensorDataAtom,
+        stopRecording,
+        geolocation,
+        triggerRequestAction,
+      );
 
       notificationServiceInstance.info({
-        title: 'Recording has been started',
+        title: i18n.t('live_sensor.startMessage'),
       });
     },
   });
