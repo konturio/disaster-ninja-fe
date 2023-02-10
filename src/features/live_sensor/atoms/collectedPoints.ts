@@ -18,7 +18,7 @@ export const collectedPointsAtom = createAtom(
 
     onAction('addFeature', () => {
       if (!sensorData) return state;
-      const { coordinates, ...otherProps } = sensorData.data;
+      const { coordinates, ...otherProps } = sensorData;
       if (!coordinates?.lng || !coordinates.lat) return state;
 
       const feature: GeoJSON.Feature = {
@@ -27,7 +27,7 @@ export const collectedPointsAtom = createAtom(
           type: 'Point',
           coordinates: [coordinates.lng, coordinates.lat],
         },
-        properties: { ...otherProps, timestamp: sensorData.timestamp },
+        properties: { ...otherProps, geolocation: { ...coordinates } },
       };
 
       state.features = [...state.features, feature];

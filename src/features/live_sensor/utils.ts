@@ -16,6 +16,7 @@ export function hookSensors(
       x: lowerTheNumber(accelerometer.x),
       y: lowerTheNumber(accelerometer.y),
       z: lowerTheNumber(accelerometer.z),
+      timestamp: accelerometer.timestamp,
     });
   };
   accelerometer.onerror = getOnErrorFunction(stopRecording, 'accelerometer');
@@ -28,6 +29,7 @@ export function hookSensors(
       y: lowerTheNumber(quaternion[1]),
       z: lowerTheNumber(quaternion[2]),
       w: lowerTheNumber(quaternion[3]),
+      timestamp: orientationSensor.timestamp,
     });
   };
   orientationSensor.onerror = getOnErrorFunction(stopRecording, 'orientation');
@@ -38,6 +40,7 @@ export function hookSensors(
       x: lowerTheNumber(gyroscope.x),
       y: lowerTheNumber(gyroscope.y),
       z: lowerTheNumber(gyroscope.z),
+      timestamp: gyroscope.timestamp,
     });
   };
   gyroscope.onerror = getOnErrorFunction(undefined, 'gyroscope');
@@ -60,6 +63,7 @@ export function hookGeolocation(
       accuracy: pos.coords.accuracy,
       speed: pos.coords.speed,
       heading: pos.coords.heading,
+      timestamp: pos.timestamp,
     });
     // Then run request and following reset
     requestAction.dispatch();
