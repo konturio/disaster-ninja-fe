@@ -68,7 +68,7 @@ msgstr "الاتجاه الأفقي"
 msgid "Legend presentation"
 msgstr "عرض العنوان التفسيري"
 
-#: layers bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
 msgstr "طبقات"
 
@@ -184,7 +184,7 @@ msgstr "ارتفاع"
 msgid "Photo"
 msgstr "صورة"
 
-#: groups##map modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr "الخريطة"
 
@@ -379,7 +379,7 @@ msgstr "تحليلات متقدمة"
 msgid "Error while fetching advanced analytics data"
 msgstr "خطأ أثناء جلب بيانات التحليلات المتقدمة"
 
-#: advanced_analytics_empty##not_found current_event##not_found_request
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, requested event not found."
 msgstr "عذرًا، الحدث المطلوب غير موجود."
 
@@ -611,7 +611,7 @@ msgstr "فتح"
 msgid "Application logo"
 msgstr "شعار التطبيق"
 
-#: login##email profile##email
+#: login##email profile##email
 msgid "Email"
 msgstr "البريد الإلكتروني"
 
@@ -709,7 +709,7 @@ msgstr "عن"
 msgid "Reports"
 msgstr "التقارير"
 
-#: modes##profile profile##profileSettingsHeader
+#: modes##profile profile##profileSettingsHeader
 msgid "Profile"
 msgstr "الملف الشخصي"
 
@@ -942,6 +942,26 @@ msgstr ""
 
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
+msgstr ""
+
+#: live_sensor##start
+msgid "Start sensor recording"
+msgstr ""
+
+#: live_sensor##finish
+msgid "Stop sensor recording"
+msgstr ""
+
+#: live_sensor##finishMessage
+msgid "Recording has been finished"
+msgstr ""
+
+#: live_sensor##startMessage
+msgid "Recording has been started"
+msgstr ""
+
+#: live_sensor##noSensorsError
+msgid "Your device don't have needed sensors"
 msgstr ""
 
 #~ msgid "Details"

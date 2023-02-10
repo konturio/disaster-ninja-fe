@@ -68,7 +68,7 @@ msgstr "Horizontale Richtung"
 msgid "Legend presentation"
 msgstr "Darstellung der Legende"
 
-#: layers bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
 msgstr "Ebenen"
 
@@ -185,7 +185,7 @@ msgstr "Höhe"
 msgid "Photo"
 msgstr "Foto"
 
-#: groups##map modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr "Karte"
 
@@ -380,7 +380,7 @@ msgstr "Erweiterte Analytik"
 msgid "Error while fetching advanced analytics data"
 msgstr "Fehler beim Abrufen von erweiterten Analysedaten"
 
-#: advanced_analytics_empty##not_found current_event##not_found_request
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, requested event not found."
 msgstr "Leider wurde das gewünschte Ereignis nicht gefunden."
 
@@ -615,7 +615,7 @@ msgstr "Erweitern"
 msgid "Application logo"
 msgstr "Logo der Anwendung"
 
-#: login##email profile##email
+#: login##email profile##email
 msgid "Email"
 msgstr "E-Mail"
 
@@ -715,7 +715,7 @@ msgstr "Über uns"
 msgid "Reports"
 msgstr "Berichte"
 
-#: modes##profile profile##profileSettingsHeader
+#: modes##profile profile##profileSettingsHeader
 msgid "Profile"
 msgstr "Profil"
 
@@ -958,6 +958,26 @@ msgstr ""
 
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
+msgstr ""
+
+#: live_sensor##start
+msgid "Start sensor recording"
+msgstr ""
+
+#: live_sensor##finish
+msgid "Stop sensor recording"
+msgstr ""
+
+#: live_sensor##finishMessage
+msgid "Recording has been finished"
+msgstr ""
+
+#: live_sensor##startMessage
+msgid "Recording has been started"
+msgstr ""
+
+#: live_sensor##noSensorsError
+msgid "Your device don't have needed sensors"
 msgstr ""
 
 #~ msgid "Details"
