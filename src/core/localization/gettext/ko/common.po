@@ -68,7 +68,7 @@ msgstr "수평 방향"
 msgid "Legend presentation"
 msgstr "범례 표시"
 
-#: layers bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
 msgstr "레이어"
 
@@ -184,7 +184,7 @@ msgstr "입면도"
 msgid "Photo"
 msgstr "사진"
 
-#: groups##map modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr "지도"
 
@@ -379,7 +379,7 @@ msgstr "고급 분석"
 msgid "Error while fetching advanced analytics data"
 msgstr "고급 분석 데이터를 가져오는 중에 오류가 발생했습니다."
 
-#: advanced_analytics_empty##not_found current_event##not_found_request
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, requested event not found."
 msgstr "죄송합니다. 요청하신 이벤트를 찾을 수 없습니다."
 
@@ -609,7 +609,7 @@ msgstr "펼치기"
 msgid "Application logo"
 msgstr "애플리케이션 로고"
 
-#: login##email profile##email
+#: login##email profile##email
 msgid "Email"
 msgstr "이메일"
 
@@ -708,7 +708,7 @@ msgstr "정보"
 msgid "Reports"
 msgstr "보고서"
 
-#: modes##profile profile##profileSettingsHeader
+#: modes##profile profile##profileSettingsHeader
 msgid "Profile"
 msgstr "프로필"
 

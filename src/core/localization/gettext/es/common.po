@@ -68,7 +68,7 @@ msgstr "Dirección horizontal"
 msgid "Legend presentation"
 msgstr "Presentación de la leyenda"
 
-#: layers bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
 msgstr "Capas"
 
@@ -184,7 +184,7 @@ msgstr "Elevación"
 msgid "Photo"
 msgstr "Foto"
 
-#: groups##map modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr "Mapa"
 
@@ -381,7 +381,7 @@ msgstr "Análisis avanzado"
 msgid "Error while fetching advanced analytics data"
 msgstr "Error en la obtención de datos de análisis Avanzado"
 
-#: advanced_analytics_empty##not_found current_event##not_found_request
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, requested event not found."
 msgstr "Lo sentimos, el evento solicitado no se ha encontrado."
 
@@ -614,7 +614,7 @@ msgstr "Expandir"
 msgid "Application logo"
 msgstr "Logotipo de la aplicación"
 
-#: login##email profile##email
+#: login##email profile##email
 msgid "Email"
 msgstr "Correo electrónico"
 
@@ -713,7 +713,7 @@ msgstr "Acerca de"
 msgid "Reports"
 msgstr "Informes"
 
-#: modes##profile profile##profileSettingsHeader
+#: modes##profile profile##profileSettingsHeader
 msgid "Profile"
 msgstr "Perfil"
 
