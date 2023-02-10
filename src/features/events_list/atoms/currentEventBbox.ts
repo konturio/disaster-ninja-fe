@@ -1,6 +1,7 @@
 import { createAtom } from '@reatom/core';
 import { getPaddings } from '~utils/map/cameraForGeometry';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
+import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
 import { eventListResourceAtom } from './eventListResource';
 
 export const currentEventBbox = createAtom(
@@ -9,14 +10,14 @@ export const currentEventBbox = createAtom(
     eventListResourceAtom,
     fitBounds: () => null,
   },
-  ({ get, onAction }) => {
+  ({ get, onAction, getUnlistedState, schedule }) => {
     const currentEvent = get('currentEventAtom');
 
     if (!currentEvent) return null;
 
     const eventListResource = get('eventListResourceAtom');
 
-    if (!eventListResource || !eventListResource.data) return null;
+    if (!eventListResource.data) return null;
 
     const eventData = eventListResource.data.find(
       (event) => event.eventId === currentEvent.id,
@@ -26,13 +27,13 @@ export const currentEventBbox = createAtom(
       console.error(
         `Error while fitting event bounds, event with id ${currentEvent.id} not found in event list`,
       );
-      return;
+      return null;
     }
 
     const bbox = eventData.bbox;
 
     onAction('fitBounds', () => {
-      const map = globalThis.KONTUR_MAP;
+      const map = getUnlistedState(currentMapAtom);
 
       if (!map) {
         console.error(`Error while fitting event bounds, map not found`);
@@ -40,6 +41,17 @@ export const currentEventBbox = createAtom(
       }
 
       map.fitBounds(bbox, { padding: getPaddings() });
+
+      schedule((dispatch) => {
+        map.once('moveend', () => {
+          dispatch(
+            currentMapPositionAtom.setCurrentMapPosition({
+              zoom: map.getZoom(),
+              ...map.getCenter(),
+            }),
+          );
+        });
+      });
     });
 
     return bbox;
