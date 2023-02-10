@@ -17,12 +17,14 @@ export const initMetricsOnce = once(
     appMetrics.init(appId, route, hasFeature);
 
     /* Enabling / Disabling GTM */
-    const externalMetrics = [googleMetrics, yandexMetrics];
-    const gtmPermission = cookieManagementService.requestPermission('GTM');
-    gtmPermission.onStatusChange((status) => {
-      if (status === permissionStatuses.granted) {
-        externalMetrics.forEach((metric) => metric.init(appId, route));
-      }
-    });
+    if (import.meta.env.MODE !== 'development') {
+      const externalMetrics = [googleMetrics, yandexMetrics];
+      const gtmPermission = cookieManagementService.requestPermission('GTM');
+      gtmPermission.onStatusChange((status) => {
+        if (status === permissionStatuses.granted) {
+          externalMetrics.forEach((metric) => metric.init(appId, route));
+        }
+      });
+    }
   },
 );

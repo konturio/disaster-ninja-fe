@@ -11,6 +11,7 @@ export const focusedGeometryAtom = createAtom(
       geometry: GeoJSON.GeoJSON | null,
     ) => ({ source, geometry }),
     _update: (fGeometry: FocusedGeometry) => fGeometry,
+    reset: () => null,
     currentUserAtom,
     episodesPanelState,
   },
@@ -34,6 +35,9 @@ export const focusedGeometryAtom = createAtom(
       } else {
         state = null;
       }
+    });
+    onAction('reset', () => {
+      state = null;
     });
     onAction('_update', (fGeometry) => {
       state = fGeometry;
