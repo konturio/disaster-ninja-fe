@@ -24,8 +24,11 @@ export const AnalyticsContainer = () => {
     loading: <LoadingSpinner />,
     error: (errorMessage) => <ErrorMessage message={errorMessage} />,
     ready: (dataList) => {
-      const geometry = focusedGeometry?.geometry as GeoJSON.FeatureCollection;
-      if (geometry.features && geometry.features.length == 0) {
+      const geometry = focusedGeometry?.geometry;
+      if (
+        geometry === undefined ||
+        ('features' in geometry && geometry.features.length == 0)
+      ) {
         return <AnalyticsEmptyState />;
       }
       return (

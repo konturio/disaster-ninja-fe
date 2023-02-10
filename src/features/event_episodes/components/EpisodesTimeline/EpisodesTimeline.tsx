@@ -13,6 +13,7 @@ const timelineMargins = { axis: 2 };
 export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
   const [selectedEpisode] = useAtom(eventEpisodesModel.currentEpisode);
   const [timelineState] = useAtom(eventEpisodesModel.episodesTimelineState);
+  useAtom(eventEpisodesModel.autoClearCurrentEpisode);
 
   const timelineSelection = useMemo(
     () => (selectedEpisode ? [selectedEpisode.id] : []),
@@ -57,7 +58,6 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
   // Timeline library have imperative api that provided trough useImperativeHandle handle
   // Here I pass this api to atom.
   const onRefChange = eventEpisodesController.setTimelineImperativeApi;
-
   return (
     <div>
       <Timeline
