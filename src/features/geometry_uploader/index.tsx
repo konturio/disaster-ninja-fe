@@ -5,7 +5,7 @@ import {
   currentMapPositionAtom,
   toolbarControlsAtom,
 } from '~core/shared_state';
-import { focusedGeometryAtom } from '~core/shared_state/focusedGeometry';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { appConfig } from '~core/app_config';
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';

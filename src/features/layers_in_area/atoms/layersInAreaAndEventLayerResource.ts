@@ -1,11 +1,12 @@
 import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
-import { currentEventFeedAtom, focusedGeometryAtom } from '~core/shared_state';
+import { currentEventFeedAtom } from '~core/shared_state';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createAtom } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { removeEmpty } from '~utils/common';
 import { LAYERS_IN_AREA_API_ERROR } from '../constants';
-import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
+import type { FocusedGeometry } from '~core/focused_geometry/types';
 import type { LayerInArea } from '../types';
 
 type LayersInAreaAndEventLayerResourceParameters = {

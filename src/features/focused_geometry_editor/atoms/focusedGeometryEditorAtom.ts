@@ -1,7 +1,7 @@
 import { point as createPointFeature } from '@turf/helpers';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createAtom } from '~utils/atoms';
-import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/shared_state/focusedGeometry';
+import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
@@ -9,7 +9,7 @@ import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { isEditorActiveAtom } from './isEditorActive';
 import type { Feature, FeatureCollection } from 'geojson';
-import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
+import type { FocusedGeometry } from '~core/focused_geometry/types';
 import type { Action } from '@reatom/core';
 
 const defaultState: FeatureCollection = {
@@ -54,10 +54,7 @@ export const focusedGeometryEditorAtom = createAtom(
       const drawnFeatures = getUnlistedState(drawnGeometryAtom);
       schedule((dispatch) => {
         dispatch([
-          focusedGeometryAtom.setFocusedGeometry(
-            { type: 'drawn' },
-            drawnFeatures,
-          ),
+          focusedGeometryAtom.setFocusedGeometry({ type: 'drawn' }, drawnFeatures),
           enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
         ]);
       });
@@ -98,9 +95,7 @@ function updateFromGeometry(focusedGeometry: FocusedGeometry, actions: any[]) {
 
     actions.push(drawnGeometryAtom.setFeatures(noMultipoints));
   } else if (focusedGeometry.geometry.type === 'Feature') {
-    actions.push(
-      drawnGeometryAtom.setFeatures([deepCopy(focusedGeometry.geometry)]),
-    );
+    actions.push(drawnGeometryAtom.setFeatures([deepCopy(focusedGeometry.geometry)]));
   } else {
     console.warn('wrong type of data imported or the type is not supported');
   }

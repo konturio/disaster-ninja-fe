@@ -1,6 +1,6 @@
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { isApiError } from '~core/api_client/apiClientError';
 import { i18n } from '~core/localization';
 import type { AdvancedAnalyticsData } from '~core/types';

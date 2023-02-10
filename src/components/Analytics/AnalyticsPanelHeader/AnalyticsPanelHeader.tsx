@@ -1,12 +1,12 @@
 import { useAtom } from '@reatom/react';
 import { Heading } from '@konturio/ui-kit';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createStateMap } from '~utils/atoms';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 import styles from './AnalyticsPanelHeader.module.css';
 import type { AdvancedAnalyticsData, AnalyticsData, Severity } from '~core/types';
 import type { AsyncAtomState } from '~utils/atoms/createAsyncAtom/types';
-import type { FocusedGeometry, GeometrySource } from '~core/shared_state/focusedGeometry';
+import type { FocusedGeometry, GeometrySource } from '~core/focused_geometry/types';
 import type { Atom } from '@reatom/core';
 
 function PanelHeading({ source }: { source?: GeometrySource }) {

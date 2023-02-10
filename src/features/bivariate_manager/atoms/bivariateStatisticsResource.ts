@@ -1,13 +1,13 @@
 import { createAtom } from '@reatom/core';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
-import { focusedGeometryAtom } from '~core/shared_state';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createBivariateQuery, isGeometryEmpty } from '~core/bivariate';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { isApiError } from '~core/api_client/apiClientError';
 import { i18n } from '~core/localization';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
-import type { FocusedGeometry } from '~core/shared_state/focusedGeometry';
+import type { FocusedGeometry } from '~core/focused_geometry/types';
 
 const bivariateStatisticsDependencyAtom = createAtom(
   { focusedGeometryAtom },

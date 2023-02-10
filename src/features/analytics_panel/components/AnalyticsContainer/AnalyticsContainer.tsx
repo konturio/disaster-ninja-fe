@@ -5,9 +5,9 @@ import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms';
 import { analyticsResourceAtom } from '~features/analytics_panel/atoms/analyticsResource';
-import { focusedGeometryAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 
 export const AnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(analyticsResourceAtom);
@@ -24,8 +24,11 @@ export const AnalyticsContainer = () => {
     loading: <LoadingSpinner />,
     error: (errorMessage) => <ErrorMessage message={errorMessage} />,
     ready: (dataList) => {
-      const geometry = focusedGeometry?.geometry as GeoJSON.FeatureCollection;
-      if (geometry.features && geometry.features.length == 0) {
+      const geometry = focusedGeometry?.geometry;
+      if (
+        geometry === undefined ||
+        ('features' in geometry && geometry.features.length == 0)
+      ) {
         return <AnalyticsEmptyState />;
       }
       return (
