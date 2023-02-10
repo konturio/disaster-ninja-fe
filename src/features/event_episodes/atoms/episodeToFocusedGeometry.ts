@@ -12,7 +12,12 @@ export const episodeToFocusedGeometry = createAtom(
   },
   ({ onChange, get, schedule }, state: null | Episode = null) => {
     onChange('currentEpisodeAtom', (selection) => {
-      if (!selection) return;
+      if (!selection) {
+        schedule((dispatch) => {
+          dispatch(focusedGeometryAtom.reset());
+        });
+        return;
+      }
       const episodesResource = get('episodesResource');
       if (episodesResource.loading || episodesResource.error) return;
       if (episodesResource.data === null) {
