@@ -68,7 +68,7 @@ msgstr "Arah horizontal"
 msgid "Legend presentation"
 msgstr "Penyajian legenda"
 
-#: layers bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
 msgstr "Lapisan"
 
@@ -184,7 +184,7 @@ msgstr "Elevasi"
 msgid "Photo"
 msgstr "Foto"
 
-#: groups##map modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr "Peta"
 
@@ -379,7 +379,7 @@ msgstr "Analitik tingkat lanjut"
 msgid "Error while fetching advanced analytics data"
 msgstr "Kesalahan saat mengambil data analitik tingkat lanjut"
 
-#: advanced_analytics_empty##not_found current_event##not_found_request
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, requested event not found."
 msgstr "Maaf, kejadian yang diminta tidak ditemukan."
 
@@ -611,7 +611,7 @@ msgstr "Bentangkan"
 msgid "Application logo"
 msgstr "Logo aplikasi"
 
-#: login##email profile##email
+#: login##email profile##email
 msgid "Email"
 msgstr "Email"
 
@@ -710,7 +710,7 @@ msgstr "Tentang"
 msgid "Reports"
 msgstr "Laporan"
 
-#: modes##profile profile##profileSettingsHeader
+#: modes##profile profile##profileSettingsHeader
 msgid "Profile"
 msgstr "Profil"
 
