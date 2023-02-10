@@ -1,5 +1,5 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
-import { focusedGeometryAtom } from './focusedGeometry';
+import { focusedGeometryAtom } from '../focused_geometry/model';
 
 // * CurrentEventAtomState *
 // null represents the initial state of event - we need that state for cases of autoselecting event

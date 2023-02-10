@@ -2,8 +2,8 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
-import { focusedGeometryAtom } from '~core/shared_state';
-import { getEventId } from '~core/shared_state/focusedGeometry';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import { getEventId } from '~core/focused_geometry/utils';
 import { areaLayersDetailsResourceAtom } from './areaLayersDetailsResource';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResource/areaLayersDetailsResourceAtomCache';
 import type { Action } from '@reatom/core';
@@ -66,7 +66,6 @@ export const areaLayersLegendsAndSources = createAtom(
         acc.set(layerDetails.id, layerDetails);
         return acc;
       }, new Map<string, LayerInAreaDetails>());
-      const boundaryRequiredLayersDetailsData = new Map<string, LayerInAreaDetails>();
 
       // apply cached layers if any are already stored for current eventId
       const focusedGeometry = get('focusedGeometryAtom');
@@ -82,7 +81,7 @@ export const areaLayersLegendsAndSources = createAtom(
         if (hash) {
           const cachedBoundaryRequiredLayers = cache.get(hash);
           cachedBoundaryRequiredLayers?.forEach((layer) => {
-            boundaryRequiredLayersDetailsData.set(layer.id, layer);
+            layersDetailsData.set(layer.id, layer);
           });
         }
       }
@@ -91,8 +90,7 @@ export const areaLayersLegendsAndSources = createAtom(
 
       const updateSourcesAction = layersSourcesAtom.change((state) => {
         const newState = new Map(state);
-        requestedLayers.forEach((layerId) => {
-          const layerDetails = layersDetailsData.get(layerId);
+        layersDetailsData.forEach((layerDetails, layerId) => {
           const layerSource = layerDetails ? convertDetailsToSource(layerDetails) : null;
           newState.set(layerId, {
             error: layersDetailsError,
@@ -100,22 +98,12 @@ export const areaLayersLegendsAndSources = createAtom(
             isLoading: false,
           });
         });
-        boundaryRequiredLayersDetailsData.forEach((layerDetails, layerId) => {
-          const layerSource = layerDetails ? convertDetailsToSource(layerDetails) : null;
-          newState.set(layerId, {
-            error: layersDetailsError,
-            data: layerSource,
-            isLoading: false,
-          });
-        });
-
         return newState;
       });
 
       const updateLegendsAction = layersLegendsAtom.change((state) => {
         const newState = new Map(state);
-        requestedLayers.forEach((layerId) => {
-          const layerDetails = layersDetailsData.get(layerId);
+        layersDetailsData.forEach((layerDetails, layerId) => {
           const layerLegend = layerDetails ? convertDetailsToLegends(layerDetails) : null;
           newState.set(layerId, {
             error: layersDetailsError,

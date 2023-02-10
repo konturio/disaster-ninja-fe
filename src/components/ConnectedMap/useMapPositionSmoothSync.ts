@@ -52,7 +52,7 @@ export function useMapPositionSmoothSync(mapRef) {
       const map = mapRef.current;
       const onMapPositionChangedByUser = (e) => {
         if (e.originalEvent) {
-          // only user events hve original event
+          // only user events have original event
           const zoom = map.getZoom();
           const { lng, lat } = map.getCenter();
           currentMapPositionActions.setCurrentMapPosition({ zoom, lat, lng });

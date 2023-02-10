@@ -1,49 +1,8 @@
 import { crc32 } from 'hash-wasm';
 import { createAtom } from '~utils/atoms';
 import { currentUserAtom } from '~core/shared_state/currentUser';
-import type { Episode, EventWithGeometry } from '~core/types';
-
-interface GeometrySourceEvent {
-  type: 'event';
-  meta: EventWithGeometry;
-}
-
-interface GeometrySourceEpisode {
-  type: 'episode';
-  meta: Episode;
-}
-
-interface GeometrySourceCustom {
-  type: 'custom';
-}
-
-interface GeometrySourceFromFile {
-  type: 'uploaded';
-}
-
-interface GeometrySourceBoundaries {
-  type: 'boundaries';
-  meta: { name: string };
-}
-
-interface GeometrySourceDrawn {
-  type: 'drawn';
-}
-
-export type GeometrySource =
-  | GeometrySourceEpisode
-  | GeometrySourceEvent
-  | GeometrySourceCustom
-  | GeometrySourceBoundaries
-  | GeometrySourceFromFile
-  | GeometrySourceDrawn;
-
-export type GeometryWithHash = GeoJSON.GeoJSON & { hash: string };
-
-export interface FocusedGeometry {
-  source: GeometrySource;
-  geometry: GeometryWithHash;
-}
+import { episodesPanelState } from '../shared_state/episodesPanelState';
+import type { FocusedGeometry, GeometrySource } from './types';
 
 export const focusedGeometryAtom = createAtom(
   {
@@ -52,7 +11,9 @@ export const focusedGeometryAtom = createAtom(
       geometry: GeoJSON.GeoJSON | null,
     ) => ({ source, geometry }),
     _update: (fGeometry: FocusedGeometry) => fGeometry,
+    reset: () => null,
     currentUserAtom,
+    episodesPanelState,
   },
   (
     { onAction, schedule, create, getUnlistedState, onChange },
@@ -75,6 +36,9 @@ export const focusedGeometryAtom = createAtom(
         state = null;
       }
     });
+    onAction('reset', () => {
+      state = null;
+    });
     onAction('_update', (fGeometry) => {
       state = fGeometry;
     });
@@ -88,11 +52,3 @@ export const focusedGeometryAtom = createAtom(
   },
   '[Shared state] focusedGeometryAtom',
 );
-
-export function getEventId(focusedGeometry: FocusedGeometry | null) {
-  return focusedGeometry?.source?.type === 'event'
-    ? focusedGeometry.source.meta.eventId
-    : null;
-}
-
-export const FOCUSED_GEOMETRY_LOGICAL_LAYER_ID = 'focused-geometry';
