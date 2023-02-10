@@ -1,6 +1,6 @@
 import { Virtuoso } from 'react-virtuoso';
 import { useAtom } from '@reatom/react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { i18n } from '~core/localization';
@@ -37,7 +37,7 @@ export function FullState({
   });
 
   // Virtual event list rendering effect
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ref = virtuoso.current;
     if (ref && currentEventId && eventsList?.length) {
       const currentEventIndex = eventsList.findIndex(
