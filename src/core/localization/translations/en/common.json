@@ -298,6 +298,6 @@
     "finish": "Stop sensor recording",
     "finishMessage": "Recording has been finished",
     "startMessage": "Recording has been started",
-    "noSensorsError": "Your device don't have needed sensors"
+    "noSensorsError": "Your device desn't have the required sensors"
   }
 }
