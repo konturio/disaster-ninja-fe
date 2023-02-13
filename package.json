@@ -81,7 +81,7 @@
     "@deck.gl/mesh-layers": "^8.8.24",
     "@konturio/default-icons": "^2.2.2",
     "@konturio/default-theme": "3.2.4",
-    "@konturio/ui-kit": "^3.12.2",
+    "@konturio/ui-kit": "3.12.2",
     "@loaders.gl/core": "^3.2.13",
     "@mdx-js/rollup": "^2.3.0",
     "@nebula.gl/edit-modes": "1.0.4",
@@ -144,11 +144,11 @@
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
     "@types/sinon": "^10.0.13",
-    "@typescript-eslint/eslint-plugin": "^5.51.0",
-    "@typescript-eslint/parser": "^5.51.0",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "@typescript-eslint/parser": "^5.52.0",
     "@uiw/react-github-corners": "1.5.15",
     "@vitejs/plugin-react": "^3.1.0",
-    "@vitest/coverage-c8": "^0.28.4",
+    "@vitest/coverage-c8": "^0.28.5",
     "ajv": "^8.12.0",
     "autoprefixer": "^10.4.13",
     "axios-mock-adapter": "^1.21.2",
@@ -161,7 +161,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "happy-dom": "^8.2.6",
+    "happy-dom": "^8.3.0",
     "husky": "^8.0.3",
     "i18next-conv": "13.1.1",
     "i18next-scanner": "^4.1.1",
@@ -185,6 +185,6 @@
     "vite": "^4.1.1",
     "vite-plugin-html": "^3.2.0",
     "vite-tsconfig-paths": "^4.0.5",
-    "vitest": "^0.28.4"
+    "vitest": "^0.28.5"
   }
 }
