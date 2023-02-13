@@ -1,12 +1,13 @@
 import { TooltipTrigger } from '~components/TooltipTrigger';
 import s from './AnalyticsData.module.css';
 import type { AnalyticsData } from '~core/types';
+import type { PropsWithChildren } from 'react';
 
 interface AnalyticsDataListProps {
   data?: AnalyticsData[] | null;
 }
 
-const Sub = ({ children }) => (
+const Sub = ({ children }: PropsWithChildren) => (
   <span style={{ fontSize: '.7em', verticalAlign: 'super' }}>{children}</span>
 );
 
