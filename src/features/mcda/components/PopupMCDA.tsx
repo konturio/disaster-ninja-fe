@@ -21,8 +21,9 @@ export const PopupMCDA = ({ json, normalized, resultMCDA }: PopupMCDAProps) => (
       </tr>
     </thead>
     <tbody className={s.tableBody}>
-      {json.axes.map(([num, den], i) => {
-        const [min, max] = json.ranges[i];
+      {json.layers.map(({ axis, range, coefficient }) => {
+        const [min, max] = range;
+        const [num, den] = axis;
 
         return (
           <tr key={`${num}-${den}`}>
@@ -32,7 +33,7 @@ export const PopupMCDA = ({ json, normalized, resultMCDA }: PopupMCDAProps) => (
             <td>
               {min} - {max}
             </td>
-            <td>{json.coefficients[i]}</td>
+            <td>{coefficient}</td>
             <td>{normalized[`${num}-${den}`].val.toFixed(2)}</td>
             <td>{normalized[`${num}-${den}`].norm.toFixed(2)}</td>
           </tr>

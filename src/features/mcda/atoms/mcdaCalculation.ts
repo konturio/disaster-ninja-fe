@@ -1,5 +1,5 @@
 import isEqual from 'lodash/isEqual';
-import sum from 'lodash/sum';
+import { sumBy } from 'lodash';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
@@ -16,15 +16,20 @@ import {
   sentimentDefault,
   sentimentReversed,
 } from '../renderers/MCDARenderer';
-import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
+import type {
+  BivariateLayerSource,
+  BivariateLayerStyle,
+} from '~utils/bivariate/bivariateColorThemeUtils';
 import type { Quotient } from '~utils/bivariate';
 
 export interface JsonMCDA {
   id?: string;
-  axes: [string, string][];
-  ranges: [number, number][];
-  sentiments: [string, string][];
-  coefficients: number[];
+  layers: {
+    axis: [string, string];
+    range: [number, number];
+    sentiment: [string, string];
+    coefficient: number;
+  }[];
   colors: {
     good: string;
     bad: string;
@@ -34,10 +39,10 @@ export interface JsonMCDA {
 const DEFAULT_GREEN = 'rgba(90, 200, 127, 0.5)';
 const DEFAULT_RED = 'rgba(228, 26, 28, 0.5)';
 
-const filterSetup = (quotients: Quotient[]) =>
+const filterSetup = (layers: JsonMCDA['layers']) =>
   anyCondition(
-    ...quotients.map((quotient) =>
-      notEqual(['/', featureProp(quotient[0]), featureProp(quotient[1])], 0),
+    ...layers.map(({ axis }) =>
+      notEqual(['/', featureProp(axis[0]), featureProp(axis[1])], 0),
     ),
   );
 
@@ -61,29 +66,21 @@ const layerNormalized = (
 };
 
 const linearNormalization = (json: JsonMCDA) => {
-  const layersCount = json.axes.length;
+  const layersCount = json.layers.length;
   if (layersCount === 1) {
-    return layerNormalized(
-      json.axes[0],
-      json.ranges[0],
-      json.sentiments[0],
-      json.coefficients[0],
-    );
+    const { axis, range, sentiment, coefficient } = json.layers[0];
+
+    return layerNormalized(axis, range, sentiment, coefficient);
   } else if (layersCount > 1) {
     return [
       '/',
       [
         '+',
-        ...json.axes.map((_, i) =>
-          layerNormalized(
-            json.axes[i],
-            json.ranges[i],
-            json.sentiments[i],
-            json.coefficients[i],
-          ),
+        ...json.layers.map(({ axis, range, sentiment, coefficient }) =>
+          layerNormalized(axis, range, sentiment, coefficient),
         ),
       ],
-      sum(json.coefficients),
+      sumBy(json.layers, 'coefficient'),
     ];
   }
 };
@@ -102,7 +99,7 @@ export const mcdaCalculationAtom = createAtom(
         id,
         type: 'fill',
         layout: {},
-        filter: filterSetup(json.axes),
+        filter: filterSetup(json.layers),
         paint: {
           'fill-color': [
             'let',
@@ -111,7 +108,7 @@ export const mcdaCalculationAtom = createAtom(
             [
               'case',
               ['all', ['>=', ['var', 'mcdaResult'], 0], ['<=', ['var', 'mcdaResult'], 1]],
-              ['interpolate', ['linear'], ['var', 'mcdaResult'], 0, bad, 1, good],
+              ['interpolate-hcl', ['linear'], ['var', 'mcdaResult'], 0, bad, 1, good],
               'transparent', // all values outside of range [0,1] will be painted as transparent
             ],
           ],
@@ -132,68 +129,64 @@ export const mcdaCalculationAtom = createAtom(
         'source-layer': 'stats',
       };
 
-      if (layerStyle) {
-        const layerSource = layerStyle.source;
-        const source = layerSource
-          ? {
+      const layerSource: BivariateLayerSource = layerStyle.source!;
+      const source = {
+        id,
+        maxZoom: layerSource.maxzoom,
+        minZoom: layerSource.minzoom,
+        source: {
+          type: layerSource.type,
+          urls: layerSource.tiles,
+          tileSize: 512,
+          apiKey: '',
+        },
+      };
+
+      const [updateActions, cleanUpActions] = createUpdateLayerActions([
+        {
+          id,
+          legend: undefined,
+          meta: undefined,
+          source,
+        },
+      ]);
+
+      const currentSettings = getUnlistedState(layersSettingsAtom);
+      if (!currentSettings.has(id)) {
+        updateActions.push(
+          ...createUpdateLayerActions([
+            {
               id,
-              maxZoom: layerSource.maxzoom,
-              minZoom: layerSource.minzoom,
-              source: {
-                type: layerSource.type,
-                urls: layerSource.tiles,
-                tileSize: 512,
-                apiKey: '',
-              },
-            }
-          : undefined;
-
-        const [updateActions, cleanUpActions] = createUpdateLayerActions([
-          {
-            id,
-            legend: undefined,
-            meta: undefined,
-            source,
-          },
-        ]);
-
-        const currentSettings = getUnlistedState(layersSettingsAtom);
-        if (!currentSettings.has(id)) {
-          updateActions.push(
-            ...createUpdateLayerActions([
-              {
+              settings: {
                 id,
-                settings: {
-                  id,
-                  name: id,
-                  category: 'overlay' as const,
-                  group: 'bivariate',
-                  ownedByUser: true,
-                },
+                name: id,
+                category: 'overlay' as const,
+                group: 'bivariate',
+                ownedByUser: true,
               },
-            ]).flat(),
-          );
-        }
+            },
+          ]).flat(),
+        );
+      }
 
-        // Register and Enable
-        const currentRegistry = getUnlistedState(layersRegistryAtom);
-        if (!currentRegistry.has(id)) {
-          updateActions.push(
-            layersRegistryAtom.register({
-              id,
-              renderer: new MCDARenderer({ id, layerStyle, json }),
-              cleanUpActions,
-            }),
-            create('enableMCDALayer', id),
-          );
-        }
+      // Register and Enable
+      const currentRegistry = getUnlistedState(layersRegistryAtom);
+      if (!currentRegistry.has(id)) {
+        updateActions.push(
+          layersRegistryAtom.register({
+            id,
+            renderer: new MCDARenderer({ id, layerStyle, json }),
+            cleanUpActions,
+          }),
+          create('enableMCDALayer', id),
+        );
+      }
 
-        if (updateActions.length) {
-          schedule((dispatch, ctx: { mcdaLayerAtomId?: string } = {}) => {
-            dispatch(updateActions);
-            ctx.mcdaLayerAtomId = id;
-          });
-        }
+      if (updateActions.length) {
+        schedule((dispatch, ctx: { mcdaLayerAtomId?: string } = {}) => {
+          dispatch(updateActions);
+          ctx.mcdaLayerAtomId = id;
+        });
       }
     });
 

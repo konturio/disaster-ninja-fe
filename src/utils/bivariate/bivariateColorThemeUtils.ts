@@ -8,7 +8,7 @@ import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
 import type { Axis, ColorCombination, Meta, Direction } from '~utils/bivariate';
 
-type BivariateLayerSource = {
+export type BivariateLayerSource = {
   type: 'vector';
   tiles: string[];
   maxzoom: number;
