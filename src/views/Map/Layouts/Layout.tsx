@@ -17,6 +17,16 @@ export function Layout({
   drawToolbox,
   footer,
   editPanel,
+}: {
+  disasters: JSX.Element;
+  analytics: JSX.Element;
+  toolbar: JSX.Element;
+  timeline: JSX.Element;
+  layersAndLegends: JSX.Element;
+  matrix: JSX.Element;
+  drawToolbox: JSX.Element;
+  footer: JSX.Element;
+  editPanel: JSX.Element;
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);

@@ -1,7 +1,15 @@
 import { SmartColumn } from '../../SmartColumn/SmartColumn';
 import s from './Laptop.module.css';
 
-export function LaptopLayout({ firstColumn, mapColumn, footer }) {
+export function LaptopLayout({
+  firstColumn,
+  mapColumn,
+  footer,
+}: {
+  firstColumn: JSX.Element;
+  mapColumn: JSX.Element;
+  footer: JSX.Element;
+}) {
   return (
     <div className={s.contentWrap}>
       <SmartColumn className={s.panelsColumn}>{firstColumn}</SmartColumn>

@@ -12,7 +12,7 @@ const verbose = true;
 const filterByAtomName = '';
 const logger =
   (name: string) =>
-  (...args) => {
+  (...args: Array<string>) => {
     if (!verbose || name !== filterByAtomName) return;
     // eslint-disable-next-line
     console.log(...args);
@@ -31,7 +31,7 @@ const defaultOptions: AsyncAtomOptions<never, never> = {
 
 /* Check that name unique */
 const getUniqueId = ((mem) => {
-  return (newId: string) => {
+  return (newId: string): string => {
     if (!mem.has(newId)) {
       mem.add(newId);
       return newId;

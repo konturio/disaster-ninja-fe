@@ -28,13 +28,21 @@ function getDummySettings(id: string, category?: LayerSettings['category']) {
 }
 
 class FakeMapWithBaseLayers {
-  #baseLayers = [];
-  #layers = [];
-  constructor(baseLayers) {
+  #baseLayers = new Array<{
+    type: string;
+    id: string;
+  }>();
+
+  #layers = new Array<{
+    type: string;
+    id: string;
+  }>();
+
+  constructor(baseLayers: Array<{ type: string; id: string }>) {
     this.#baseLayers = baseLayers;
   }
 
-  once(type, cb) {
+  once(type: string, cb: () => void) {
     cb();
   }
 
@@ -44,7 +52,7 @@ class FakeMapWithBaseLayers {
     };
   }
 
-  setLayers(layers) {
+  setLayers(layers: Array<{ type: string; id: string }>) {
     this.#layers = layers;
   }
 }
