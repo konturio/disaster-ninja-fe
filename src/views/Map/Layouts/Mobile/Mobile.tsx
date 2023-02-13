@@ -1,6 +1,16 @@
 import s from './Mobile.module.css';
 
-export function MobileLayout({ firstColumn, mapColumn, footer, drawToolbox }) {
+export function MobileLayout({
+  firstColumn,
+  mapColumn,
+  footer,
+  drawToolbox,
+}: {
+  firstColumn: JSX.Element;
+  mapColumn: JSX.Element;
+  footer: JSX.Element;
+  drawToolbox: JSX.Element;
+}) {
   return (
     <div className={s.contentWrap}>
       <div className={s.toolbox}>{drawToolbox}</div>

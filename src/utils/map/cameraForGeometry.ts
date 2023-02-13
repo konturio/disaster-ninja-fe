@@ -3,7 +3,7 @@ import { LAPTOP_WIDTH_PX, MOBILE_WIDTH_PX } from '~utils/hooks/useMediaQuery';
 import type { PaddingOptions } from 'maplibre-gl';
 
 // autofocus actual paddings
-function getPaddings(): PaddingOptions {
+export function getPaddings(): PaddingOptions {
   const width = window.visualViewport?.width ?? Infinity;
   // mobile
   if (width < MOBILE_WIDTH_PX + 1) return { left: 64, top: 5, right: 115, bottom: 0 };
