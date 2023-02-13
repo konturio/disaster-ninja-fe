@@ -1,5 +1,3 @@
-import forEach from 'lodash-es/forEach';
-import every from 'lodash-es/every';
 import { AppFeature } from '~core/auth/types';
 import type { AppFeatureType } from '~core/auth/types';
 import type { MetricsReportTemplate } from './types';
@@ -34,8 +32,8 @@ const APPEVENT_TO_FEATURE = {
 export function buildWatchList(hasFeature: (f: AppFeatureType) => boolean) {
   const effectiveWatchList = {};
 
-  forEach(APPEVENT_TO_FEATURE, (value, appEvent) => {
-    if (value === null || every(value, (f) => hasFeature(f))) {
+  Object.entries(APPEVENT_TO_FEATURE).forEach(([appEvent, value]) => {
+    if (value === null || value.every((f) => hasFeature(f))) {
       effectiveWatchList[appEvent] = null;
     }
   });

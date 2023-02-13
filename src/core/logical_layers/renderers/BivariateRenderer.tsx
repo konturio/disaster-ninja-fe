@@ -104,8 +104,8 @@ const calcValueByNumeratorDenominator = (
 ): string | undefined => {
   const numeratorValue = cellValues[numerator];
   const denominatorValue = cellValues[denominator];
-
-  if (isNil(numeratorValue) || isNil(denominatorValue)) return '0.00';
+  // is null or undefined
+  if (numeratorValue == null || denominatorValue == null) return '0.00';
   if (denominatorValue === 0) return undefined;
 
   return (numeratorValue / denominatorValue).toFixed(2);

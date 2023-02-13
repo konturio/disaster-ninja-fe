@@ -40,7 +40,7 @@ export default ({ mode }) => {
 
   const hmr = !!env.VITE_DEBUG_HMR;
 
-  return defineConfig({
+  const cfg = defineConfig({
     base: `${env.VITE_BASE_PATH}${env.VITE_STATIC_PATH}`,
     build: {
       minify: mode !== 'development',
@@ -57,25 +57,21 @@ export default ({ mode }) => {
             }),
         ],
         output: {
-          // hoistTransitiveImports: true,
-          // experimentalMinChunkSize: 16000,
-          // experimentalDeepDynamicChunkOptimization: true,
-          manualChunks: (id: string, { getModuleInfo, getModuleIds }) => {
-            // if (/lodash/.test(id)) return 'lodash';
-            // if (/@deck/.test(id)) return 'deckgl';
-            // if (/@loaders/.test(id)) return 'loaders';
-            if (/@konturio\/default\-icons/.test(id)) return 'konturicons';
-          },
+          hoistTransitiveImports: false,
+          // experimentalMinChunkSize: 640000,
+          experimentalDeepDynamicChunkOptimization: true,
         },
         treeshake: {
           propertyReadSideEffects: false,
           tryCatchDeoptimization: false,
-          // moduleSideEffects: false,
-          preset: 'recommended',
+          moduleSideEffects: 'no-external',
+          // preset: 'recommended',
+          manualPureFunctions: ['forwardRef', 'createContext', 'noop'],
         },
       },
     },
     plugins: [
+      // use path resolve config from ts
       tsconfigPaths(),
       react(),
       // vite env data used in metrics, should be available in all environments
@@ -90,22 +86,12 @@ export default ({ mode }) => {
         },
       }),
     ],
-    // was fixed in plugin-react to 3.0.0-alpha.2. so after 3.0.0 release this workaround can be removed
-    optimizeDeps: {
-      // include: ['react/jsx-runtime'],
-      // disabled: false,
-    },
     css: {
       postcss: postcssConfig,
     },
-    esbuild: {
-      // Avoid conflicting with "import React"
-      // jsxInject: 'import { createElement, Fragment } from "react"',
-      // jsxFactory: 'createElement',
-      // jsxFragment: 'Fragment',
-    },
     resolve: {
       alias: [
+        // lodash treeshaking improvements
         {
           find: /lodash\.(.+?)/,
           replacement: 'lodash-es/$1',
@@ -117,10 +103,9 @@ export default ({ mode }) => {
       ],
       mainFields: ['browser', 'module', 'jsnext:main', 'jsnext'],
       dedupe: [
-        '@loaders.gl/*',
-        // '@loaders.gl/worker-utils',
-        // '@loaders.gl/loader-utils',
-        '@turf/*',
+        '@loaders.gl/core',
+        '@loaders.gl/worker-utils',
+        '@loaders.gl/loader-utils',
       ],
     },
     server: {
@@ -133,11 +118,13 @@ export default ({ mode }) => {
         ? {
             viteProxyConfig: JSON.stringify(proxyConfig),
           }
-        : undefined,
+        : {},
     test: {
       coverage: {
         all: true,
       },
     },
   });
+
+  return cfg;
 };

@@ -1,4 +1,4 @@
-import over from 'lodash-es/over';
+import { noop } from '@reatom/core';
 import { userStateAtom } from '~core/auth/atoms/userState';
 import type { JWTData, LocalAuthToken } from '~core/api_client/types';
 import type { ApiClient } from '~core/api_client';
@@ -24,8 +24,8 @@ export class AuthClient {
 
   private readonly _apiClient: ApiClient;
 
-  loginHooks: AuthLoginHook[] = [];
-  logoutHooks: AuthLogoutHook[] = [];
+  loginHook: AuthLoginHook = noop;
+  logoutHook: AuthLogoutHook = noop;
   private constructor({ apiClient }: AuthClientConfig) {
     this._apiClient = apiClient;
   }
@@ -57,7 +57,7 @@ export class AuthClient {
 
   public logout() {
     this._apiClient.logout();
-    over(this.logoutHooks)();
+    this.logoutHook();
     userStateAtom.logout.dispatch();
     // reload to init with public config and profile
     location.reload();
@@ -69,7 +69,7 @@ export class AuthClient {
   }
 
   private startAuthenticated(response: AuthSuccessResponse) {
-    over(this.loginHooks)(response);
+    this.loginHook(response);
     userStateAtom.authorize.dispatch();
   }
 
@@ -99,7 +99,7 @@ export class AuthClient {
   }
 
   startAnonymosly() {
-    over(this.loginHooks)();
+    this.loginHook();
   }
 
   public checkLocalAuthToken(): LocalAuthToken | undefined {

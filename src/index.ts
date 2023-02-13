@@ -4,10 +4,8 @@ import '@konturio/default-theme/defaults.css';
 import '@konturio/default-theme/typography.css';
 import '~utils/atoms/disableDefaultStore';
 import './global.css';
-// import { loadConfig } from '~core/app_config/loader';
-import './App';
+import { loadConfig } from '~core/app_config/loader';
 
-/*
 function showCriticalError(e: Error) {
   const root = document.getElementById('root');
   if (root) {
@@ -33,4 +31,3 @@ loadConfig()
     console.error(e);
     showCriticalError(e);
   });
-/** */
