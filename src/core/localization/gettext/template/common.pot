@@ -921,5 +921,5 @@ msgid "Recording has been started"
 msgstr ""
 
 #: live_sensor##noSensorsError
-msgid "Your device don't have needed sensors"
+msgid "Your device desn't have the required sensors"
 msgstr ""

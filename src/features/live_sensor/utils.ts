@@ -19,7 +19,7 @@ export function hookSensors(
       timestamp: accelerometer.timestamp,
     });
   };
-  accelerometer.onerror = getOnErrorFunction(stopRecording, 'accelerometer');
+  accelerometer.onerror = getOnErrorFunction(stopRecording);
 
   // Describe orientationSensor
   orientationSensor.onreading = () => {
@@ -32,7 +32,7 @@ export function hookSensors(
       timestamp: orientationSensor.timestamp,
     });
   };
-  orientationSensor.onerror = getOnErrorFunction(stopRecording, 'orientation');
+  orientationSensor.onerror = getOnErrorFunction(stopRecording);
 
   // Describe gyroscope
   gyroscope.onreading = () => {
@@ -43,7 +43,7 @@ export function hookSensors(
       timestamp: gyroscope.timestamp,
     });
   };
-  gyroscope.onerror = getOnErrorFunction(undefined, 'gyroscope');
+  gyroscope.onerror = getOnErrorFunction(undefined);
 }
 
 export function hookGeolocation(
@@ -64,19 +64,20 @@ export function hookGeolocation(
       speed: pos.coords.speed,
       heading: pos.coords.heading,
       timestamp: pos.timestamp,
+      systemTimestamp: new Date().getTime(),
     });
     // Then run request and following reset
     requestAction.dispatch();
-  }, getOnErrorFunction(stopRecording, 'geolocation'));
+  }, getOnErrorFunction(stopRecording));
   return watchId;
 }
 
-function getOnErrorFunction(stopRecording?: () => void, sensorName?: string) {
+function getOnErrorFunction(stopRecording?: () => void) {
   return function onError(event: SensorErrorEvent | GeolocationPositionError) {
     const eventName = 'code' in event ? event.code + event.message : event.error.name;
     const eventMessage = 'message' in event ? event.message : event.error.message;
     notificationServiceInstance.warning({
-      title: eventName || `Can't connect to sensor ${sensorName}`,
+      title: eventName,
       description: eventMessage,
     });
     // optional. Not needed for non crucial sensors like gyroscope

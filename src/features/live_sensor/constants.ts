@@ -1,7 +1,6 @@
 export const SENSOR_CONTROL = 'sensorControl';
 export const SENSOR_CONTROL_NAME = 'Live sensor control';
 
-export const UPDATES_PER_MINUTE = 60;
 // in milliseconds
 export const RECORD_UPDATES_INTERVAL = 100;
 

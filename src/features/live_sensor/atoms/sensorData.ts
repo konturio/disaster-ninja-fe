@@ -23,6 +23,7 @@ type Coordinates = {
   accuracy: uncertainNumber;
   heading: uncertainNumber;
   timestamp: number;
+  systemTimestamp: number;
 };
 
 export type SensorDataAtomType = {
