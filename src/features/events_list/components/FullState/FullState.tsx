@@ -28,33 +28,38 @@ export function FullState({
   const hasTimeline = featureFlags[FeatureFlag.EPISODES_TIMELINE];
   const virtuoso = useRef<VirtuosoHandle>(null);
 
+  const [currentEventIndex, setCurrentEventIndex] = useState<number | null>(() =>
+    !currentEventId ? 0 : null,
+  );
+
   const [hasUnlistedEvent, setHasUnlistedEvent] = useState(false);
 
   const statesToComponents = createStateMap({
     error,
-    loading,
+    loading: loading || currentEventIndex === null,
     data: eventsList,
   });
 
-  // Virtual event list rendering effect
   useLayoutEffect(() => {
-    const ref = virtuoso.current;
-    if (ref && currentEventId && eventsList?.length) {
+    if (currentEventId && eventsList?.length) {
       const currentEventIndex = eventsList.findIndex(
         (event) => event.eventId === currentEventId,
       );
-      // behavior: 'smooth' breaks this method as documentation warns https://virtuoso.dev/scroll-to-index
+
       if (currentEventIndex > -1) {
-        ref.scrollToIndex({ index: currentEventIndex, align: 'center' });
+        setCurrentEventIndex(currentEventIndex);
         setHasUnlistedEvent(false);
+        return;
       } else {
         setHasUnlistedEvent(true);
       }
     }
-  }, [currentEventId, eventsList, virtuoso, setHasUnlistedEvent]);
+    setCurrentEventIndex(0);
+  }, [currentEventId, eventsList]);
 
   const currentEventRef = useRef(currentEventId);
   currentEventRef.current = currentEventId;
+
   const eventClickHandler = useCallback(
     (id: string) => {
       if (id !== currentEventRef.current) {
@@ -81,6 +86,7 @@ export function FullState({
             <>
               <Virtuoso
                 data={eventsList}
+                initialTopMostItemIndex={currentEventIndex ?? 0}
                 itemContent={(index, event) => (
                   <EventCard
                     key={event.eventId}
