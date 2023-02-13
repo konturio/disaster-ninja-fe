@@ -192,7 +192,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  _updateMap(
+  protected _updateMap(
     map: ApplicationMap,
     layerData: LayerTileSource,
     legend: BivariateLegend | null,

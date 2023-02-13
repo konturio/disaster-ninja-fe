@@ -5,30 +5,30 @@ import type { JsonMCDA } from './atoms/mcdaCalculation';
 
 const example = `
 {
-  "id": "MCDA",
-  "axes":[
-    ["population", "area_km2"],
-    ["hazardous_days_count", "one"],
-    ["highway_length", "total_road_length"]
+  "id":"MCDA",
+  "layers":[
+     {
+        "axis":["population", "area_km2"],
+        "range":[0, 46200],
+        "sentiment":["good", "bad"],
+        "coefficient":1
+     },
+     {
+        "axis":["hazardous_days_count", "one"],
+        "range":[0, 365],
+        "sentiment":["good", "bad"],
+        "coefficient":1
+     },
+     {
+        "axis":["highway_length", "total_road_length"],
+        "range":[0, 1],
+        "sentiment":["bad", "good"],
+        "coefficient":1
+     }
   ],
-  "ranges":[
-    [0, 46200],
-    [0, 365],
-    [0, 1]
-  ],
-  "sentiments":[
-    ["good", "bad"],
-    ["good", "bad"],
-    ["bad", "good"]
-  ],
-  "coefficients":[
-    1,
-    1,
-    1
-  ],
-  "colors": {
-    "good": "rgba(90, 200, 127, 0.5)",
-    "bad": "rgba(228, 26, 28, 0.5)"
+  "colors":{
+     "good":"rgba(90, 200, 127, 0.5)",
+     "bad":"rgba(228, 26, 28, 0.5)"
   }
 }
 `;
@@ -70,11 +70,9 @@ export function initMCDA() {
       }
 
       if (jsonParsed) {
-        const { axes, ranges, sentiments, coefficients, colors } = jsonParsed;
-        if (!(axes && ranges && sentiments && coefficients && colors)) {
-          alert(
-            'JSON must have axes, ranges, sentiments, colors and coefficients fields inside',
-          );
+        const { layers, colors } = jsonParsed;
+        if (!(layers && colors)) {
+          alert('JSON must have layers and colors fields inside');
           return;
         }
         try {

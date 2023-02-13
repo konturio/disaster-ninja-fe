@@ -1,7 +1,6 @@
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import sumBy from 'lodash/sumBy';
-import sum from 'lodash/sum';
 import { Popup as MapPopup } from 'maplibre-gl';
 import { createRoot } from 'react-dom/client';
 import { LAYER_BIVARIATE_PREFIX } from '~core/logical_layers/constants';
@@ -90,7 +89,7 @@ export class MCDARenderer extends BivariateRenderer {
     this._layerId = layerId;
   }
 
-  _updateMap(
+  protected _updateMap(
     map: ApplicationMap,
     layerData: LayerTileSource,
     legend: BivariateLegend | null,
@@ -112,16 +111,15 @@ export class MCDARenderer extends BivariateRenderer {
       if (!fillColor || isFillColorEmpty(fillColor) || !feature.properties) return true;
 
       const popupNode = document.createElement('div');
-      const normalized = this._json.axes.reduce<PopupMCDAProps['normalized']>(
-        (acc, [num, den], i) => {
-          const direction = this._json.sentiments[i];
-          const [min, max] = this._json.ranges[i];
+      const normalized = this._json.layers.reduce<PopupMCDAProps['normalized']>(
+        (acc, { axis, range, sentiment, coefficient }) => {
+          const [min, max] = range;
+          const [num, den] = axis;
           const value = feature.properties?.[num] / feature.properties?.[den];
-          const coeff = this._json.coefficients[i];
-          const normalizedValue = coeff * ((value - min) / (max - min));
-          if (isEqual(direction, sentimentDefault)) {
+          const normalizedValue = coefficient * ((value - min) / (max - min));
+          if (isEqual(sentiment, sentimentDefault)) {
             acc[`${num}-${den}`] = { norm: normalizedValue, val: value };
-          } else if (isEqual(direction, sentimentReversed)) {
+          } else if (isEqual(sentiment, sentimentReversed)) {
             acc[`${num}-${den}`] = { norm: 1 - normalizedValue, val: value };
           }
           return acc;
@@ -129,7 +127,7 @@ export class MCDARenderer extends BivariateRenderer {
         {},
       );
       const sumNormalized = sumBy(Object.values(normalized), 'norm');
-      const coeffsSum = sum(this._json.coefficients);
+      const coeffsSum = sumBy(this._json.layers, 'coefficient');
       const resultMCDA = sumNormalized / coeffsSum;
 
       createRoot(popupNode).render(
