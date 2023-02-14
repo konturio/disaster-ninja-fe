@@ -13,6 +13,7 @@ import ko_common from './translations/ko/common.json';
 import id_common from './translations/id/common.json';
 // @ts-ignore
 import de_common from './translations/de/common.json';
+import type { TOptions } from 'i18next';
 
 export const I18N_FALLBACK_LANGUAGE = 'en';
 
@@ -38,11 +39,13 @@ i18n
     },
   });
 
+type I18nOptions = TOptions<object>;
+
 export const TranslationService = {
-  t: (key: string) => {
+  t: (key: string, options?: I18nOptions) => {
     // the only one place we need to pass a variable to i18n.t function
     // eslint-disable-next-line i18n-checker/key-must-be-literal
-    const translation = i18n.t(key);
+    const translation = i18n.t(key, options);
     if (typeof translation === 'string') return translation;
     console.error(`Not supported translation result for key: ${key}`);
     return key;

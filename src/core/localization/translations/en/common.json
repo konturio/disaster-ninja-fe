@@ -264,19 +264,14 @@
     "imperialBeta": "imperial (beta)",
     "profileSettingsHeader": "Profile",
     "appSettingsHeader": "Settings",
-    "englishLanguageOption": "English",
-    "spanishLanguageOption": "Spanish",
-    "arabicLanguageOption": "Arabic",
-    "koreanLanguageOption": "Korean",
-    "indonesianLanguageOption": "Indonesian",
-    "germanLanguageOption": "German",
     "saveButton": "Save changes",
     "konturTheme": "Kontur",
     "HOTTheme": "HOT",
     "userBio(about)": "Bio",
     "defaultDisasterFeed": "Default disaster feed",
     "defaultOSMeditor": "Default OpenStreetMap editor (beta)",
-    "successNotification": "All changes have been applied successfully"
+    "successNotification": "All changes have been applied successfully",
+    "languageOption": "English"
   },
   "current_event": {
     "not_found_request": "Sorry, requested event not found."

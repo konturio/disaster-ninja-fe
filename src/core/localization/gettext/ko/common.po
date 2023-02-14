@@ -854,30 +854,6 @@ msgstr "영국식 단위(베타)"
 msgid "Settings"
 msgstr "설정"
 
-#: profile##englishLanguageOption
-msgid "English"
-msgstr "영어"
-
-#: profile##spanishLanguageOption
-msgid "Spanish"
-msgstr "스페인어"
-
-#: profile##arabicLanguageOption
-msgid "Arabic"
-msgstr "아랍어"
-
-#: profile##koreanLanguageOption
-msgid "Korean"
-msgstr ""
-
-#: profile##indonesianLanguageOption
-msgid "Indonesian"
-msgstr ""
-
-#: profile##germanLanguageOption
-msgid "German"
-msgstr ""
-
 #: profile##saveButton
 msgid "Save changes"
 msgstr "변경 사항 저장"
@@ -905,6 +881,11 @@ msgstr "기본 OpenStreetMap 편집기(베타)"
 #: profile##successNotification
 msgid "All changes have been applied successfully"
 msgstr "모든 변경 사항이 성공적으로 적용되었습니다."
+
+# it's a current locale's language - Korean, pls ignore msgid
+#: profile##languageOption
+msgid "English"
+msgstr "한국어"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
@@ -942,6 +923,12 @@ msgstr ""
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
 msgstr ""
+
+#~ msgid "Spanish"
+#~ msgstr "스페인어"
+
+#~ msgid "Arabic"
+#~ msgstr "아랍어"
 
 #~ msgid "Details"
 #~ msgstr "상세 정보"
