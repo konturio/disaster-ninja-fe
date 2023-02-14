@@ -18,7 +18,7 @@ When user decides to stop collecting data, several cleanups and resets must be c
 
 #### Output
 
-For the request we'll sent following JSON:
+For the request we'll sent roughly following JSON:
 
 ```js
 {
@@ -35,15 +35,19 @@ For the request we'll sent following JSON:
         accelX: [1, .9, .8, .9],
         accelY: [1, .9, .8, .9],
         accelZ: [1, .9, .8, .9],
+        accelTime: [12424119, 12424120, 12424121, 12424122],
 ,
         orientX: [1, .9, .8, .9],
         orientY: [1, .9, .8, .9],
         orientZ: [1, .9, .8, .9],
         orientW: [1, .9, .8, .9],
+        orientTime: [12424116, 12424119, 12424121, 12424122],
 ,
-        gyroX: [1],
-        gyroY: [1],
-        gyroZ: [1],
+        gyroX: [1, 1, 1, 1],
+        gyroY: [1, 1, .9, 1],
+        gyroZ: [1, .9, .9, 1],
+        gyroTime: [12424117, 12424118, 12424121, 12424122],
+
         lng: [22.11],
         lat: [5.22],
         alt: [22],

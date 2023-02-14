@@ -19,7 +19,7 @@ export function hookSensors(
       accelX: lowerTheNumber(accelerometer.x),
       accelY: lowerTheNumber(accelerometer.y),
       accelZ: lowerTheNumber(accelerometer.z),
-      timestamp: accelerometer.timestamp || getTime(),
+      accelTime: accelerometer.timestamp || getTime(),
     });
   };
   accelerometer.onerror = getOnErrorFunction(stopRecording);
@@ -32,7 +32,7 @@ export function hookSensors(
       orientY: lowerTheNumber(quaternion[1]),
       orientZ: lowerTheNumber(quaternion[2]),
       orientW: lowerTheNumber(quaternion[3]),
-      timestamp: orientationSensor.timestamp || getTime(),
+      orientTime: orientationSensor.timestamp || getTime(),
     });
   };
   orientationSensor.onerror = getOnErrorFunction(stopRecording);
@@ -43,7 +43,7 @@ export function hookSensors(
       gyroX: lowerTheNumber(gyroscope.x),
       gyroY: lowerTheNumber(gyroscope.y),
       gyroZ: lowerTheNumber(gyroscope.z),
-      timestamp: gyroscope.timestamp || getTime(),
+      gyroTime: gyroscope.timestamp || getTime(),
     });
   };
   gyroscope.onerror = getOnErrorFunction(undefined);
@@ -60,8 +60,9 @@ export function hookGeolocation(
     // This function runs each second or more after user allowed sharing navigation
     collectedPointsAtom.addFeature.dispatch({
       lng: pos.coords.longitude,
-      lat: pos.coords.longitude,
+      lat: pos.coords.latitude,
       alt: pos.coords.altitude,
+      altAccuracy: pos.coords.altitudeAccuracy,
       accuracy: pos.coords.accuracy,
       speed: pos.coords.speed,
       heading: pos.coords.heading,

@@ -10,6 +10,7 @@ export type CoordinatesData = {
   lng: UncertainNumber;
   lat: UncertainNumber;
   alt: UncertainNumber;
+  altAccuracy: UncertainNumber;
   speed: UncertainNumber;
   accuracy: UncertainNumber;
   heading: UncertainNumber;
@@ -39,7 +40,11 @@ export const collectedPointsAtom = createAtom(
           type: 'Point',
           coordinates: [lng, lat],
         },
-        properties: { ...sensorData, ...data },
+        properties: {
+          ...sensorData,
+          ...data,
+          userAgent: navigator.userAgent,
+        },
       };
 
       state.features = [...state.features, feature];

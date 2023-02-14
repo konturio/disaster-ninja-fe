@@ -6,20 +6,20 @@ type Accelerometer = {
   accelX: UncertainNumber;
   accelY: UncertainNumber;
   accelZ: UncertainNumber;
-  timestamp: number;
+  accelTime: number;
 };
 type Orientation = {
   orientX: UncertainNumber;
   orientY: UncertainNumber;
   orientZ: UncertainNumber;
   orientW: UncertainNumber;
-  timestamp: number;
+  orientTime: number;
 };
 type Gyroscope = {
   gyroX: UncertainNumber;
   gyroY: UncertainNumber;
   gyroZ: UncertainNumber;
-  timestamp: number;
+  gyroTime: number;
 };
 
 // every value refers to timestamp by it's index
@@ -28,18 +28,20 @@ type SensorDataAtomType = {
   accelX?: UncertainNumber[];
   accelY?: UncertainNumber[];
   accelZ?: UncertainNumber[];
+  accelTime?: UncertainNumber[];
 
   orientX?: UncertainNumber[];
   orientY?: UncertainNumber[];
   orientZ?: UncertainNumber[];
   orientW?: UncertainNumber[];
+  orientTime?: UncertainNumber[];
 
   gyroX?: UncertainNumber[];
   gyroY?: UncertainNumber[];
   gyroZ?: UncertainNumber[];
-
-  timestamp?: UncertainNumber[];
+  gyroTime?: UncertainNumber[];
 };
+type PayloadKey = keyof SensorDataAtomType;
 
 // this atom stores and updates sensor data
 // we want to store data for last second because geolocation update happens every second
@@ -54,73 +56,67 @@ export const sensorDataAtom = createAtom(
   ({ onAction }, state: SensorDataAtomType | null = null) => {
     const newState = { ...state };
 
-    onAction('updateAccelerometer', (data) => updateSensor(data));
-    onAction('updateOrientation', (data) => updateSensor(data));
-    onAction('updateGyroscope', (data) => updateSensor(data));
+    onAction('updateAccelerometer', (data) =>
+      updateSensor(
+        data,
+        ['accelX', 'accelY', 'accelZ', 'accelTime'],
+        newState.accelTime,
+        data.accelTime,
+      ),
+    );
+    onAction('updateOrientation', (data) =>
+      updateSensor(
+        data,
+        ['orientX', 'orientY', 'orientZ', 'orientW', 'orientTime'],
+        newState.orientTime,
+        data.orientTime,
+      ),
+    );
+    onAction('updateGyroscope', (data) =>
+      updateSensor(
+        data,
+        ['gyroX', 'gyroY', 'gyroZ', 'gyroTime'],
+        newState.gyroTime,
+        data.gyroTime,
+      ),
+    );
     onAction('resetAllData', () => (state = null));
 
-    function updateSensor(data: Accelerometer | Orientation | Gyroscope) {
-      const { timestamp } = newState;
-      let indexToInsertAt = timestamp?.length || 0;
-      // we store everything from this index and afterwards, cut it and paste it after insertion
-      let indexOfNewerData = 0;
-      const newerData = {};
+    function updateSensor(
+      data: Accelerometer | Orientation | Gyroscope,
+      sensorKeys: PayloadKey[],
+      sensorTimes: UncertainNumber[] | undefined,
+      incomingTime?: number,
+    ) {
+      if (!incomingTime) {
+        console.error('no timestamp provided', data);
+        return;
+      }
 
-      if (timestamp?.length) {
+      let outdatedDataIndex: number | null = null;
+
+      if (sensorTimes?.length) {
         // Find if older parts of array are older than SENSOR_DATA_LIFETIME
-        let outdatedDataIndex: number | null = null;
-        for (let i = 0; i < timestamp.length; i++) {
-          const currentTime = timestamp[i] || 0;
-          const incomingTime = data.timestamp;
-          if (incomingTime - currentTime > SENSOR_DATA_LIFETIME) {
+        for (let i = 0; i < sensorTimes.length; i++) {
+          const featuredTime = sensorTimes[i] || 0;
+          if (incomingTime - featuredTime > SENSOR_DATA_LIFETIME) {
             outdatedDataIndex = i;
           } else break;
         }
-        // and delete if so
-        if (outdatedDataIndex)
-          Object.entries(newState).forEach(([key, val]) => {
-            outdatedDataIndex !== null &&
-              (newState[key] = val.slice(outdatedDataIndex + 1));
-          });
+      }
 
-        // Find if incoming timestamp misses in between values or already exists
-        for (let i = timestamp.length; i > -1; i--) {
-          const currentTimestamp = timestamp[i] || 0;
-          const previousTimestamp = timestamp[i - 1];
-          if (data.timestamp > currentTimestamp) break;
+      // push data for each sensor key
+      sensorKeys.forEach((sensorKey) => {
+        let sensorData = newState[sensorKey];
 
-          if (currentTimestamp === data.timestamp) {
-            indexToInsertAt = i;
-            break;
-          }
-
-          if (previousTimestamp && data.timestamp > previousTimestamp) {
-            indexToInsertAt = i - 1;
-            indexOfNewerData = i;
-            break;
-          }
+        // delete old records for each sensors
+        if (sensorData && outdatedDataIndex) {
+          sensorData = sensorData.slice(outdatedDataIndex + 1);
         }
-      }
+        if (sensorData) sensorData.push(data[sensorKey]);
 
-      // cut off and store newer data if any
-      if (indexOfNewerData) {
-        Object.entries(newState).forEach(([key, val]) => {
-          const olderValuesPerStateKey = [...val].splice(
-            indexOfNewerData,
-            (timestamp?.length || 0) - indexOfNewerData,
-          );
-          newerData[key] = olderValuesPerStateKey;
-        });
-      }
-
-      insertDataMutable(newState, data, indexToInsertAt);
-
-      // paste in newer data afterwards if it existed
-      if (Object.keys(newerData).length) {
-        Object.entries(newState).forEach(([key, val]) => {
-          newState[key] = [...val, ...newerData[key]];
-        });
-      }
+        newState[sensorKey] = sensorData || [data[sensorKey]];
+      });
 
       state = newState;
     }
@@ -129,16 +125,5 @@ export const sensorDataAtom = createAtom(
   },
   'sensorDataAtom',
 );
-
-function insertDataMutable(
-  state: SensorDataAtomType,
-  data: Accelerometer | Orientation | Gyroscope,
-  index: number,
-) {
-  Object.keys(data).forEach((key) => {
-    if (!state[key]) state[key] = [];
-    else state[key][index] = data[key];
-  });
-}
 
 export type SensorDataAtomExportType = typeof sensorDataAtom;
