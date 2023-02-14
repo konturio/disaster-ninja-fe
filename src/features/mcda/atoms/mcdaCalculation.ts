@@ -1,5 +1,5 @@
-import isEqual from 'lodash/isEqual';
-import { sumBy } from 'lodash';
+import isEqual from 'lodash-es/isEqual';
+import sumBy from 'lodash-es/sumBy';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';

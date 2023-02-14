@@ -1,6 +1,6 @@
-import throttle from 'lodash/throttle';
-import isEqual from 'lodash/isEqual';
-import sumBy from 'lodash/sumBy';
+import throttle from 'lodash-es/throttle';
+import isEqual from 'lodash-es/isEqual';
+import sumBy from 'lodash-es/sumBy';
 import { Popup as MapPopup } from 'maplibre-gl';
 import { createRoot } from 'react-dom/client';
 import { LAYER_BIVARIATE_PREFIX } from '~core/logical_layers/constants';

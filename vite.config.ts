@@ -57,15 +57,14 @@ export default ({ mode }) => {
             }),
         ],
         output: {
-          hoistTransitiveImports: false,
-          // experimentalMinChunkSize: 640000,
           experimentalDeepDynamicChunkOptimization: true,
+          interop: 'compat',
         },
         treeshake: {
           propertyReadSideEffects: false,
           tryCatchDeoptimization: false,
           moduleSideEffects: 'no-external',
-          // preset: 'recommended',
+          preset: 'recommended',
           manualPureFunctions: ['forwardRef', 'createContext', 'noop'],
         },
       },
@@ -93,7 +92,7 @@ export default ({ mode }) => {
       alias: [
         // lodash treeshaking improvements
         {
-          find: /lodash\.(.+?)/,
+          find: /^lodash\.(.+?)/,
           replacement: 'lodash-es/$1',
         },
         {
@@ -101,7 +100,6 @@ export default ({ mode }) => {
           replacement: 'lodash-es',
         },
       ],
-      mainFields: ['browser', 'module', 'jsnext:main', 'jsnext'],
       dedupe: [
         '@loaders.gl/core',
         '@loaders.gl/worker-utils',
