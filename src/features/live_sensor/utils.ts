@@ -79,12 +79,19 @@ function getOnErrorFunction(stopRecording?: () => void) {
   return function onError(event: SensorErrorEvent | GeolocationPositionError) {
     const eventName = 'code' in event ? event.code + event.message : event.error.name;
     const eventMessage = 'message' in event ? event.message : event.error.message;
-    notificationServiceInstance.warning({
-      title: eventName,
-      description: eventMessage,
-    });
-    // optional. Not needed for non crucial sensors like gyroscope
-    stopRecording?.();
+    if (stopRecording) {
+      // optional. Not needed for non crucial sensors like gyroscope
+      notificationServiceInstance.warning({
+        title: eventName,
+        description: eventMessage,
+      });
+      stopRecording();
+    } else {
+      notificationServiceInstance.info({
+        title: eventName,
+        description: eventMessage,
+      });
+    }
   };
 }
 
