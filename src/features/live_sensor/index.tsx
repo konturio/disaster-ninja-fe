@@ -10,11 +10,7 @@ import {
   sensorResourceAtom,
   triggerRequestAction,
 } from './atoms/sensorResource';
-import {
-  RECORD_UPDATES_INTERVAL,
-  SENSOR_CONTROL,
-  SENSOR_CONTROL_NAME,
-} from './constants';
+import { SENSOR_CONTROL, SENSOR_CONTROL_NAME } from './constants';
 import { collectedPointsAtom } from './atoms/collectedPoints';
 import { hookGeolocation, hookSensors } from './utils';
 import type { Unsubscribe } from '@reatom/core';
@@ -43,7 +39,7 @@ export function initSensor() {
     store.dispatch([
       collectedPointsAtom.reset(),
       resourceTriggerAtom.set(0),
-      sensorDataAtom.resetSensorData(),
+      sensorDataAtom.resetAllData(),
     ]);
     clearInterval(interval);
     accelerometer.stop();
@@ -88,10 +84,6 @@ export function initSensor() {
         /*noop*/
       });
 
-      interval = setInterval(() => {
-        collectedPointsAtom.addFeature.dispatch();
-      }, RECORD_UPDATES_INTERVAL);
-
       hookSensors(
         sensorDataAtom,
         stopRecording,
@@ -106,7 +98,7 @@ export function initSensor() {
       gyroscope.start();
       // start geolocation afterwards because it has preactivation prompt window
       watchId = hookGeolocation(
-        sensorDataAtom,
+        collectedPointsAtom,
         stopRecording,
         geolocation,
         triggerRequestAction,

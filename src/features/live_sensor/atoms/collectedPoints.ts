@@ -1,36 +1,51 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { sensorDataAtom } from './sensorData';
+import { triggerRequestAction } from './sensorResource';
 import type { FeatureCollection } from '~utils/geoJSON/helpers';
+import type { UncertainNumber } from '../utils';
 
 const defaultState = { type: 'FeatureCollection', features: [] };
 
+export type CoordinatesData = {
+  lng: UncertainNumber;
+  lat: UncertainNumber;
+  alt: UncertainNumber;
+  speed: UncertainNumber;
+  accuracy: UncertainNumber;
+  heading: UncertainNumber;
+  coordTimestamp: number;
+  coordSystTimestamp: number;
+};
+
 // This atom responsible for collecting sensor data as geojson points entities
 // We need that due to our process of building analytical geospatial layers
-// It can either add a new feature formed from current sensor data (triggered on arbitrary interval)
-// or reset itself
+// It can either add a new feature formed from current sensor data or reset itself
 export const collectedPointsAtom = createAtom(
   {
-    addFeature: () => null,
+    addFeature: (data: CoordinatesData) => data,
     reset: () => null,
   },
-  ({ onAction, getUnlistedState }, state: FeatureCollection = defaultState) => {
+  ({ onAction, getUnlistedState, schedule }, state: FeatureCollection = defaultState) => {
     const sensorData = getUnlistedState(sensorDataAtom);
 
-    onAction('addFeature', () => {
+    onAction('addFeature', (data) => {
       if (!sensorData) return state;
-      const { coordinates, ...otherProps } = sensorData;
-      if (!coordinates?.lng || !coordinates.lat) return state;
+      const { lat, lng } = data;
+      if (lng === null || lat === null) return state;
 
       const feature: GeoJSON.Feature = {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [coordinates.lng, coordinates.lat],
+          coordinates: [lng, lat],
         },
-        properties: { ...otherProps, geolocation: { ...coordinates } },
+        properties: { ...sensorData, ...data },
       };
 
       state.features = [...state.features, feature];
+
+      // Trigger request after each new feature was added
+      schedule((dispatch) => dispatch(triggerRequestAction()));
     });
 
     onAction('reset', () => {
@@ -39,5 +54,7 @@ export const collectedPointsAtom = createAtom(
 
     return state;
   },
-  'collected live sensor points atom',
+  'collectedPointsAtom',
 );
+
+export type CollectedPointsAtomType = typeof collectedPointsAtom;

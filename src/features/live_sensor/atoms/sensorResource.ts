@@ -4,6 +4,7 @@ import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { createNumberAtom } from '~utils/atoms/createPrimitives';
 import { UPDATE_ENDPOINT_PATH } from '../constants';
 import { collectedPointsAtom } from './collectedPoints';
+import { sensorDataAtom } from './sensorData';
 import type { FeatureCollection } from '~utils/geoJSON/helpers';
 
 // Here from those 3 atom block we want to send data at arbitrary intervals
@@ -24,8 +25,8 @@ const resourceDepsAtom = createAtom(
     state = { ...newState };
 
     if (state?.features.length) {
-      // schedule an effect to clear collected points after request was triggered
-      schedule((dispatch) => dispatch(collectedPointsAtom.reset()));
+      // schedule an effect to clear collected data after request was triggered
+      schedule((dispatch) => dispatch(sensorDataAtom.resetAllData()));
     }
     return state;
   },
@@ -36,16 +37,25 @@ export const sensorResourceAtom = createAsyncAtom(
   async (sensorFeatures, abortController) => {
     if (!sensorFeatures.features.length) return null;
 
-    return await apiClient.post(
-      UPDATE_ENDPOINT_PATH,
-      {
-        ...sensorFeatures,
-      },
-      true,
-      {
-        signal: abortController.signal,
-      },
-    );
+    try {
+      const res = await apiClient.post(
+        UPDATE_ENDPOINT_PATH,
+        {
+          ...sensorFeatures,
+        },
+        true,
+        {
+          signal: abortController.signal,
+        },
+      );
+
+      // reset on successful request
+      collectedPointsAtom.reset.dispatch();
+      return res;
+    } catch (error) {
+      console.warn(error);
+      // don't reset on error (keep collection)
+    }
   },
   'Sensor_resource_atom',
 );

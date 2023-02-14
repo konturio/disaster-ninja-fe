@@ -2,6 +2,9 @@ import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { SENSOR_PRESICION } from './constants';
 import type { SensorDataAtomExportType } from './atoms/sensorData';
 import type { TriggerRequestActionType } from './atoms/sensorResource';
+import type { CollectedPointsAtomType } from './atoms/collectedPoints';
+
+export type UncertainNumber = number | null;
 
 export function hookSensors(
   sensorDataAtom: SensorDataAtomExportType,
@@ -12,11 +15,11 @@ export function hookSensors(
 ) {
   // Describe accelerometer
   accelerometer.onreading = () => {
-    sensorDataAtom.updateSensor.dispatch('accelerometer', {
-      x: lowerTheNumber(accelerometer.x),
-      y: lowerTheNumber(accelerometer.y),
-      z: lowerTheNumber(accelerometer.z),
-      timestamp: accelerometer.timestamp,
+    sensorDataAtom.updateAccelerometer.dispatch({
+      accelX: lowerTheNumber(accelerometer.x),
+      accelY: lowerTheNumber(accelerometer.y),
+      accelZ: lowerTheNumber(accelerometer.z),
+      timestamp: accelerometer.timestamp || getTime(),
     });
   };
   accelerometer.onerror = getOnErrorFunction(stopRecording);
@@ -24,47 +27,46 @@ export function hookSensors(
   // Describe orientationSensor
   orientationSensor.onreading = () => {
     const quaternion = orientationSensor.quaternion || [];
-    sensorDataAtom.updateSensor.dispatch('orientation', {
-      x: lowerTheNumber(quaternion[0]),
-      y: lowerTheNumber(quaternion[1]),
-      z: lowerTheNumber(quaternion[2]),
-      w: lowerTheNumber(quaternion[3]),
-      timestamp: orientationSensor.timestamp,
+    sensorDataAtom.updateOrientation.dispatch({
+      orientX: lowerTheNumber(quaternion[0]),
+      orientY: lowerTheNumber(quaternion[1]),
+      orientZ: lowerTheNumber(quaternion[2]),
+      orientW: lowerTheNumber(quaternion[3]),
+      timestamp: orientationSensor.timestamp || getTime(),
     });
   };
   orientationSensor.onerror = getOnErrorFunction(stopRecording);
 
   // Describe gyroscope
   gyroscope.onreading = () => {
-    sensorDataAtom.updateSensor.dispatch('gyroscope', {
-      x: lowerTheNumber(gyroscope.x),
-      y: lowerTheNumber(gyroscope.y),
-      z: lowerTheNumber(gyroscope.z),
-      timestamp: gyroscope.timestamp,
+    sensorDataAtom.updateGyroscope.dispatch({
+      gyroX: lowerTheNumber(gyroscope.x),
+      gyroY: lowerTheNumber(gyroscope.y),
+      gyroZ: lowerTheNumber(gyroscope.z),
+      timestamp: gyroscope.timestamp || getTime(),
     });
   };
   gyroscope.onerror = getOnErrorFunction(undefined);
 }
 
 export function hookGeolocation(
-  sensorDataAtom: SensorDataAtomExportType,
+  collectedPointsAtom: CollectedPointsAtomType,
   stopRecording: () => void,
   geolocation: Geolocation,
   requestAction: TriggerRequestActionType,
 ) {
   // It calls prompt window to allow sharing location for the first time
   const watchId = geolocation.watchPosition((pos) => {
-    // This function runs each second after user allowed sharing navigation
-    // Run updating sensor first
-    sensorDataAtom.updateSensor.dispatch('coordinates', {
+    // This function runs each second or more after user allowed sharing navigation
+    collectedPointsAtom.addFeature.dispatch({
       lng: pos.coords.longitude,
       lat: pos.coords.longitude,
       alt: pos.coords.altitude,
       accuracy: pos.coords.accuracy,
       speed: pos.coords.speed,
       heading: pos.coords.heading,
-      timestamp: pos.timestamp,
-      systemTimestamp: new Date().getTime(),
+      coordTimestamp: pos.timestamp,
+      coordSystTimestamp: new Date().getTime(),
     });
     // Then run request and following reset
     requestAction.dispatch();
@@ -88,4 +90,8 @@ function getOnErrorFunction(stopRecording?: () => void) {
 function lowerTheNumber(number: number | undefined) {
   if (!number) return null;
   return +number.toPrecision(SENSOR_PRESICION);
+}
+
+export function getTime() {
+  return new Date().getTime();
 }

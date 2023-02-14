@@ -6,21 +6,15 @@ This is a feature in development. It designed to collect user sensor data and se
 
 Feature is added to user interface throughout sidebar component.
 For the first activation user will have to accept permissions for sensors.
-After that each sensor will populate `sensorDataAtom` whenever possible.
-Meanwhile `collectedPointsAtom` will collect geojson points created from sensor data in a given interval of `RECORD_UPDATES_INTERVAL`.
-`SensorResourceAtom` will be triggered to PUT request by `resourceTriggerAtom`, and populate it's payload from `collectedPointsAtom`. `resourceTriggerAtom` will be poked on another interval `REQUESTS_INTERVAL`
+After that each sensor except geolocation will populate `sensorDataAtom` whenever possible.
+Meanwhile `collectedPointsAtom` will add geojson point created from sensor data and geolocation on each geolocation update. After adding point, `triggerRequestAction` will be called to PUT request by `resourceTriggerAtom`, and populate it's payload from `collectedPointsAtom`. If no error occurs - `collectedPointsAtom` and `sensorDataAtom` will be reset
 
 When user decides to stop collecting data, several cleanups and resets must be called to out feature back into initial state. `SensorResourceAtom` must not send data after that. Feature will become inactive.
 
 [See diagram in figma](https://www.figma.com/file/GRMz4BnDfr5qFXafmrMt9Y/Live-sensor-feature?node-id=0%3A1&t=w2FGK3oikxVbA5QU-1)
 
-#### In-time structure
-
-1. User starts recording
-2. `collectedPointsAtom` set to add new point each `RECORD_UPDATES_INTERVAL`. Point being created with latest `sensorDataAtom` values based on latest coordinates data. No coordinates = no point added
-3. Sensors set to store data in `sensorDataAtom`. Sensors started.
-4. Geolocation set to store data in `sensorDataAtom` and trigger a request on each update. Geolocation started.
-5. When request triggered - all collected points sent away. `collectedPointsAtom` resets to empty array and collect points based on new coordinates
+`sensorDataAtom` collects buffer of data and cleans itself up from data older than `SENSOR_DATA_LIFETIME`
+`collectedPointsAtom` collects points until they're successfully sent away.
 
 #### Output
 
@@ -38,25 +32,28 @@ For the request we'll sent following JSON:
         coordinates: [coordinates.lng, coordinates.lat],
       },
       properties: {
-        accelerometer: { ...accelerometerSensorData },
-        orientation: { ...orientationSensorData },
-        gyroscope: { ...gyroscopeSensorData },
-        geolocation: { ...coordinatesData },
-      }
-    },
+        accelX: {1, .9, .8, .9},
+        accelY: {1, .9, .8, .9},
+        accelZ: {1, .9, .8, .9},
+,
+        orientX: {1, .9, .8, .9},
+        orientY: {1, .9, .8, .9},
+        orientZ: {1, .9, .8, .9},
+        orientW: {1, .9, .8, .9},
+,
+        gyroX: {1, .9, null, null},
+        gyroY: {1, .9, null, null},
+        gyroZ: {1, .9, null, null},
+        lng: {22.11, 22.1155, 22.11556, 22.11531},
+        lat: {5.22, 5.23, 5.224, 5.2264},
+        alt: {22, 22, 22, 22},
+        speed: {6, 8, 9, 8},
+        accuracy: {.3, .5, .5, .5},
+        heading: {0, 0, 0, 0},
+        coordTimestamp: {12424122, 12424123, 12424126, 12424127},
+        coordSystTimestamp: {12424124, 12424125, 12424126, 12424127},
 
-    // point created on second 100ms
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [coordinates.lng, coordinates.lat],
-      },
-      properties: {
-        accelerometer: { ...accelerometerSensorData },
-        orientation: { ...orientationSensorData },
-        gyroscope: { ...gyroscopeSensorData },
-        geolocation: { ...coordinatesData },
+        timestamp: {12424124, 12424125, 12424126, 12424127},
       }
     },
 
