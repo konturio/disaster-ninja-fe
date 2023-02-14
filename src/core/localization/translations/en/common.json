@@ -292,5 +292,13 @@
     "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve Disaster Ninja and your experience. You can manage cookies settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)",
     "decline_all": "Decline optional cookies",
     "accept_all": "Accept optional cookies"
+  },
+  "common": {
+    "severity_unknown": "Unknown",
+    "severity_termination": "Termination",
+    "severity_minor": "Minor",
+    "severity_moderate": "Moderate",
+    "severity_severe": "Severe",
+    "severity_extreme": "Extreme"
   }
 }

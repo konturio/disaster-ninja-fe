@@ -107,8 +107,8 @@ If you use ```<Trans/>``` translations from it will be extracted automatically: 
 
 4. If key is new - just commit changes. It will be converted from .json to .pot file on pre-commit hook and added to commit. If you edit/remove existing key you need to sync it with other languages translations, so you need to run: 
 ```
-npm run run i18n:export
-npm run run i18n:gettext-sync
+npm run i18n:export
+npm run i18n:gettext-sync
 ```
 
 Later translators will add new translations to .po files comparing them with .pot file.

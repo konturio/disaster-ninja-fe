@@ -136,7 +136,7 @@ msgstr "محظور"
 msgid "Not found"
 msgstr "لم يتم العثور على"
 
-#: errors##unknown
+#: errors##unknown common##severity_unknown
 msgid "Unknown"
 msgstr "غير معروف"
 
@@ -942,6 +942,27 @@ msgstr ""
 
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
+msgstr ""
+
+#: common##severity_termination
+#, fuzzy
+msgid "Termination"
+msgstr "ارتفاع"
+
+#: common##severity_minor
+msgid "Minor"
+msgstr ""
+
+#: common##severity_moderate
+msgid "Moderate"
+msgstr ""
+
+#: common##severity_severe
+msgid "Severe"
+msgstr ""
+
+#: common##severity_extreme
+msgid "Extreme"
 msgstr ""
 
 #~ msgid "Details"

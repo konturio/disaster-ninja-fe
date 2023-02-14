@@ -137,7 +137,7 @@ msgstr "Verboten"
 msgid "Not found"
 msgstr "Nicht gefunden"
 
-#: errors##unknown
+#: errors##unknown common##severity_unknown
 msgid "Unknown"
 msgstr "Unbekannt"
 
@@ -958,6 +958,27 @@ msgstr ""
 
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
+msgstr ""
+
+#: common##severity_termination
+#, fuzzy
+msgid "Termination"
+msgstr "Höhe"
+
+#: common##severity_minor
+msgid "Minor"
+msgstr ""
+
+#: common##severity_moderate
+msgid "Moderate"
+msgstr ""
+
+#: common##severity_severe
+msgid "Severe"
+msgstr ""
+
+#: common##severity_extreme
+msgid "Extreme"
 msgstr ""
 
 #~ msgid "Details"
