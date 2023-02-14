@@ -22,8 +22,8 @@ type Gyroscope = {
   timestamp: number;
 };
 
-// every value refers to updatedAt by it's index
-// accelY[55] was set at updatedAt[55]
+// every value refers to timestamp by it's index
+// accelY[55] was set at timestamp[55]
 type SensorDataAtomType = {
   accelX?: UncertainNumber[];
   accelY?: UncertainNumber[];

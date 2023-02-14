@@ -66,7 +66,7 @@ export function hookGeolocation(
       speed: pos.coords.speed,
       heading: pos.coords.heading,
       coordTimestamp: pos.timestamp,
-      coordSystTimestamp: new Date().getTime(),
+      coordSystTimestamp: getTime(),
     });
     // Then run request and following reset
     requestAction.dispatch();
