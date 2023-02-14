@@ -1,17 +1,11 @@
 import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { createNumberAtom } from '~utils/atoms/createPrimitives';
 import { UPDATE_ENDPOINT_PATH } from '../constants';
 import { collectedPointsAtom } from './collectedPoints';
 import { sensorDataAtom } from './sensorData';
+import { resourceTriggerAtom } from './triggerResource';
 import type { FeatureCollection } from '~utils/geoJSON/helpers';
-
-// Here from those 3 atom block we want to send data at arbitrary intervals
-
-export const resourceTriggerAtom = createNumberAtom(0, 'resourceTriggerAtom');
-export const triggerRequestAction = resourceTriggerAtom.increment;
-export type TriggerRequestActionType = typeof triggerRequestAction;
 
 const resourceDepsAtom = createAtom(
   {

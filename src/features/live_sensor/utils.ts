@@ -1,8 +1,8 @@
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { SENSOR_PRESICION } from './constants';
 import type { SensorDataAtomExportType } from './atoms/sensorData';
-import type { TriggerRequestActionType } from './atoms/sensorResource';
 import type { CollectedPointsAtomType } from './atoms/collectedPoints';
+import type { TriggerRequestActionType } from './atoms/triggerResource';
 
 export type UncertainNumber = number | null;
 

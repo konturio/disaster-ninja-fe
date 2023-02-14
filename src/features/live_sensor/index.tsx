@@ -5,14 +5,11 @@ import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarCont
 import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
 import { sensorDataAtom } from './atoms/sensorData';
-import {
-  resourceTriggerAtom,
-  sensorResourceAtom,
-  triggerRequestAction,
-} from './atoms/sensorResource';
+import { sensorResourceAtom } from './atoms/sensorResource';
 import { SENSOR_CONTROL, SENSOR_CONTROL_NAME } from './constants';
 import { collectedPointsAtom } from './atoms/collectedPoints';
 import { hookGeolocation, hookSensors } from './utils';
+import { resourceTriggerAtom, triggerRequestAction } from './atoms/triggerResource';
 import type { Unsubscribe } from '@reatom/core';
 
 export function initSensor() {

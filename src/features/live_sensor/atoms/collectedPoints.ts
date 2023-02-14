@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { sensorDataAtom } from './sensorData';
-import { triggerRequestAction } from './sensorResource';
+import { triggerRequestAction } from './triggerResource';
 import type { FeatureCollection } from '~utils/geoJSON/helpers';
 import type { UncertainNumber } from '../utils';
 
