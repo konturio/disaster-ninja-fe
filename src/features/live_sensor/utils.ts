@@ -1,5 +1,5 @@
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
-import { SENSOR_PRESICION } from './constants';
+import { SENSOR_PRECISION } from './constants';
 import type { SensorDataAtomExportType } from './atoms/sensorData';
 import type { CollectedPointsAtomType } from './atoms/collectedPoints';
 import type { TriggerRequestActionType } from './atoms/triggerResource';
@@ -89,7 +89,7 @@ function getOnErrorFunction(stopRecording?: () => void) {
 
 function lowerTheNumber(number: number | undefined) {
   if (!number) return null;
-  return +number.toPrecision(SENSOR_PRESICION);
+  return +number.toPrecision(SENSOR_PRECISION);
 }
 
 export function getTime() {
