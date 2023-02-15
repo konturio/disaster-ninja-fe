@@ -96,7 +96,7 @@ function getOnErrorFunction(stopRecording?: () => void) {
 }
 
 function lowerTheNumber(number: number | undefined) {
-  if (!number) return null;
+  if (number === undefined) return null;
   return +number.toPrecision(SENSOR_PRECISION);
 }
 
