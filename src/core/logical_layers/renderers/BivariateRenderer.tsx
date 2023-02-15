@@ -1,5 +1,4 @@
-import throttle from 'lodash/throttle';
-import isNil from 'lodash/isNil';
+import throttle from 'lodash-es/throttle';
 import { h3ToGeoBoundary, geoToH3 } from 'h3-js';
 import { Popup as MapPopup } from 'maplibre-gl';
 import { createRoot } from 'react-dom/client';
@@ -107,8 +106,8 @@ const calcValueByNumeratorDenominator = (
 ): string | undefined => {
   const numeratorValue = cellValues[numerator];
   const denominatorValue = cellValues[denominator];
-
-  if (isNil(numeratorValue) || isNil(denominatorValue)) return '0.00';
+  // is null or undefined
+  if (numeratorValue == null || denominatorValue == null) return '0.00';
   if (denominatorValue === 0) return undefined;
 
   return (numeratorValue / denominatorValue).toFixed(2);

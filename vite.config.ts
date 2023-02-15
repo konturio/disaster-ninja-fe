@@ -4,6 +4,7 @@ import { defineConfig, HtmlTagDescriptor, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import react from '@vitejs/plugin-react';
 import { createHtmlPlugin } from 'vite-plugin-html';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
 // @ts-ignore
 import { selectConfig, useConfig } from './scripts/select-config.mjs';
@@ -39,16 +40,38 @@ export default ({ mode }) => {
 
   const hmr = !!env.VITE_DEBUG_HMR;
 
-  return defineConfig({
+  const cfg = defineConfig({
     base: `${env.VITE_BASE_PATH}${env.VITE_STATIC_PATH}`,
     build: {
       minify: mode !== 'development',
       sourcemap: true,
       rollupOptions: {
-        plugins: [!!env.VITE_ANALYZE_BUNDLE && visualizer({ open: true })],
+        plugins: [
+          !!env.VITE_ANALYZE_BUNDLE &&
+            visualizer({
+              open: true,
+              template: 'treemap', //'list',
+              gzipSize: true,
+              brotliSize: true,
+              // sourcemap: true,
+            }),
+        ],
+        output: {
+          experimentalDeepDynamicChunkOptimization: true,
+          interop: 'compat',
+        },
+        treeshake: {
+          propertyReadSideEffects: false,
+          tryCatchDeoptimization: false,
+          moduleSideEffects: 'no-external',
+          preset: 'recommended',
+          manualPureFunctions: ['forwardRef', 'createContext', 'noop'],
+        },
       },
     },
     plugins: [
+      // use path resolve config from ts
+      tsconfigPaths(),
       react(),
       // vite env data used in metrics, should be available in all environments
       viteBuildInfoPlugin(),
@@ -62,31 +85,26 @@ export default ({ mode }) => {
         },
       }),
     ],
-    // was fixed in plugin-react to 3.0.0-alpha.2. so after 3.0.0 release this workaround can be removed
-    optimizeDeps: {
-      include: ['react/jsx-runtime'],
-    },
     css: {
       postcss: postcssConfig,
     },
-    esbuild: {
-      // Avoid conflicting with "import React"
-      jsxInject: 'import { createElement, Fragment } from "react"',
-      jsxFactory: 'createElement',
-      jsxFragment: 'Fragment',
-    },
     resolve: {
-      alias: {
-        '~components': relative('./src/components'),
-        '~views': relative('./src/views'),
-        '~config': relative('./src/config'),
-        '~utils': relative('./src/utils'),
-        '~services': relative('./src/services'),
-        '~appModule': relative('./src/redux-modules/appModule'),
-        '~core': relative('./src/core'),
-        '~features': relative('./src/features'),
-        '~widgets': relative('./src/widgets'),
-      },
+      alias: [
+        // lodash treeshaking improvements
+        {
+          find: /^lodash\.(.+?)/,
+          replacement: 'lodash-es/$1',
+        },
+        {
+          find: 'lodash',
+          replacement: 'lodash-es',
+        },
+      ],
+      dedupe: [
+        '@loaders.gl/core',
+        '@loaders.gl/worker-utils',
+        '@loaders.gl/loader-utils',
+      ],
     },
     server: {
       proxy: proxyConfig,
@@ -98,11 +116,13 @@ export default ({ mode }) => {
         ? {
             viteProxyConfig: JSON.stringify(proxyConfig),
           }
-        : undefined,
+        : {},
     test: {
       coverage: {
         all: true,
       },
     },
   });
+
+  return cfg;
 };

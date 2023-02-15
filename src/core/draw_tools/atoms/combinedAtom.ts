@@ -1,4 +1,3 @@
-import times from 'lodash/times';
 import { createAtom } from '~utils/atoms';
 import { currentMapAtom, currentNotificationAtom } from '~core/shared_state';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
@@ -106,7 +105,7 @@ export const combinedAtom = createAtom(
         // add indexes to select and disable request for setting indexes
         actions.push(setIndexesForCurrentGeometryAtom.set(false));
         const indexes: number[] = [];
-        times(featureCollection.features.length, (index) => indexes.push(index));
+        featureCollection.features.map((_, index) => indexes.push(index));
         actions.push(selectedIndexesAtom.setIndexes(indexes));
       }
       (state.drawnGeometryAtom ?? []).forEach((cb) => cb(featureCollection));

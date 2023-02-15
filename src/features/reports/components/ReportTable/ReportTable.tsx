@@ -1,5 +1,4 @@
 import { useAtom } from '@reatom/react';
-import i18next from 'i18next';
 import { Heading } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { currentReportAtom } from '../../atoms/reportResource';
@@ -52,7 +51,7 @@ export function ReportTable() {
               return (
                 <th key={title} onClick={onClick} className={cName()}>
                   <span className={styles.columnTitle}>{title}</span>
-                  <img src={sortIcon} alt={i18next.t('sort_icon')} />
+                  <img src={sortIcon} alt={i18n.t('sort_icon')} />
                 </th>
               );
             })}

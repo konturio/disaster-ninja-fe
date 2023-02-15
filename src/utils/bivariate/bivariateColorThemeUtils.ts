@@ -224,7 +224,7 @@ export function convertRGBtoObj(colorString: string): {
   a: number;
 } {
   const rgbKeys = ['r', 'g', 'b', 'a'] as const;
-  const rgbObj: { [K in typeof rgbKeys[number]]?: number } = {};
+  const rgbObj: { [K in (typeof rgbKeys)[number]]?: number } = {};
   // rgba(number, number, number, number) => [number, number, number, number];
   const color = colorString.replace(/^rgba?\(|\s+|\)$/g, '').split(',');
 
@@ -232,5 +232,5 @@ export function convertRGBtoObj(colorString: string): {
     rgbObj[colorKey] = parseFloat(color[colorIndex]) || 1;
   });
 
-  return rgbObj as { [K in typeof rgbKeys[number]]: number };
+  return rgbObj as { [K in (typeof rgbKeys)[number]]: number };
 }

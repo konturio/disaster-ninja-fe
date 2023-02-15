@@ -1,4 +1,3 @@
-import every from 'lodash/every';
 import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
@@ -177,7 +176,7 @@ export class AppMetrics implements Metric {
       const timing = performance.now();
       this.watchList[name] = timing;
 
-      if (every(this.watchList, Boolean)) {
+      if (Object.values(this.watchList).every(Boolean)) {
         // watchList completed
 
         // we need to wait (again) EVENT_MAP_IDLE after all events from watchList
