@@ -980,6 +980,7 @@ msgstr ""
 msgid "Your device desn't have the required sensors"
 msgstr ""
 
+#: common##severity_termination
 #, fuzzy
 msgid "Termination"
 msgstr "Höhe"
