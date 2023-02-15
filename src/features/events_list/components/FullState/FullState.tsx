@@ -1,6 +1,6 @@
 import { Virtuoso } from 'react-virtuoso';
 import { useAtom } from '@reatom/react';
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { i18n } from '~core/localization';
@@ -32,29 +32,25 @@ export function FullState({
 
   const statesToComponents = createStateMap({
     error,
-    loading,
+    loading: loading,
     data: eventsList,
   });
 
-  // Virtual event list rendering effect
-  useLayoutEffect(() => {
-    const ref = virtuoso.current;
-    if (ref && currentEventId && eventsList?.length) {
-      const currentEventIndex = eventsList.findIndex(
-        (event) => event.eventId === currentEventId,
-      );
-      // behavior: 'smooth' breaks this method as documentation warns https://virtuoso.dev/scroll-to-index
-      if (currentEventIndex > -1) {
-        ref.scrollToIndex({ index: currentEventIndex, align: 'center' });
-        setHasUnlistedEvent(false);
-      } else {
-        setHasUnlistedEvent(true);
-      }
-    }
-  }, [currentEventId, eventsList, virtuoso, setHasUnlistedEvent]);
+  const currentEventIndex = useMemo(() => {
+    if (!currentEventId) return 0;
+    if (eventsList === null || eventsList.length === 0) return 0;
+    const index = eventsList.findIndex((event) => event.eventId === currentEventId);
+    return Math.max(index, 0);
+  }, [currentEventId, eventsList]);
+
+  const eventListIncludesCurrentEvent: true | false | 'unknown' = useMemo(() => {
+    if (error || loading || eventsList === null) return 'unknown';
+    return !!eventsList.find((event) => event.eventId === currentEventId);
+  }, [currentEventId, eventsList, error, loading]);
 
   const currentEventRef = useRef(currentEventId);
   currentEventRef.current = currentEventId;
+
   const eventClickHandler = useCallback(
     (id: string) => {
       if (id !== currentEventRef.current) {
@@ -66,7 +62,7 @@ export function FullState({
 
   return (
     <div className={s.panelBody}>
-      {hasUnlistedEvent && (
+      {eventListIncludesCurrentEvent === false && (
         <CurrentEvent hasTimeline={Boolean(hasTimeline)} showDescription={true} />
       )}
       <EventListSettingsRow>
@@ -81,6 +77,7 @@ export function FullState({
             <>
               <Virtuoso
                 data={eventsList}
+                initialTopMostItemIndex={currentEventIndex}
                 itemContent={(index, event) => (
                   <EventCard
                     key={event.eventId}
