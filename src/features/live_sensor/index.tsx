@@ -5,11 +5,10 @@ import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarCont
 import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
 import { sensorDataAtom } from './atoms/sensorData';
-import { sensorResourceAtom } from './atoms/sensorResource';
+import { requestHandlingAtom } from './atoms/sensorResource';
 import { SENSOR_CONTROL, SENSOR_CONTROL_NAME } from './constants';
 import { collectedPointsAtom } from './atoms/collectedPoints';
 import { hookGeolocation, hookSensors } from './utils';
-import { resourceTriggerAtom, triggerRequestAction } from './atoms/triggerResource';
 import type { Unsubscribe } from '@reatom/core';
 
 export function initSensor() {
@@ -18,7 +17,7 @@ export function initSensor() {
   let geolocation: Geolocation;
   let gyroscope: Gyroscope;
   let featureInitializingFailed = false;
-  let resourceUnsubscribe: Unsubscribe;
+  let atomUnsubscribe: Unsubscribe;
 
   try {
     accelerometer = new Accelerometer();
@@ -33,17 +32,13 @@ export function initSensor() {
   let watchId: number;
 
   function stopRecording() {
-    store.dispatch([
-      collectedPointsAtom.reset(),
-      resourceTriggerAtom.set(0),
-      sensorDataAtom.resetAllData(),
-    ]);
+    store.dispatch([collectedPointsAtom.resetFeatures(), sensorDataAtom.resetAllData()]);
     clearInterval(interval);
     accelerometer.stop();
     orientationSensor.stop();
     gyroscope.stop();
     geolocation.clearWatch(watchId);
-    resourceUnsubscribe?.();
+    atomUnsubscribe?.();
   }
 
   toolbarControlsAtom.addControl.dispatch({
@@ -77,7 +72,7 @@ export function initSensor() {
       }
 
       this.title = i18n.t('live_sensor.finish');
-      resourceUnsubscribe = sensorResourceAtom.subscribe(() => {
+      atomUnsubscribe = requestHandlingAtom.subscribe(() => {
         /*noop*/
       });
 
@@ -94,12 +89,7 @@ export function initSensor() {
       orientationSensor.start();
       gyroscope.start();
       // start geolocation afterwards because it has preactivation prompt window
-      watchId = hookGeolocation(
-        collectedPointsAtom,
-        stopRecording,
-        geolocation,
-        triggerRequestAction,
-      );
+      watchId = hookGeolocation(collectedPointsAtom, stopRecording, geolocation);
 
       notificationServiceInstance.info({
         title: i18n.t('live_sensor.startMessage'),

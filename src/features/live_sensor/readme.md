@@ -66,3 +66,7 @@ For the request we'll sent roughly following JSON:
   ]
 }
 ```
+
+#### Todos
+
+- one can wrap sensors into controller since they have identical api

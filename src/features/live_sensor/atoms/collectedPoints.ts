@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { sensorDataAtom } from './sensorData';
-import { triggerRequestAction } from './triggerResource';
+import { requestHandlingAtom } from './sensorResource';
 import type { FeatureCollection } from '~utils/geoJSON/helpers';
 import type { UncertainNumber } from '../utils';
 
@@ -24,7 +24,7 @@ export type CoordinatesData = {
 export const collectedPointsAtom = createAtom(
   {
     addFeature: (data: CoordinatesData) => data,
-    reset: () => null,
+    resetFeatures: () => null,
   },
   ({ onAction, getUnlistedState, schedule }, state: FeatureCollection = defaultState) => {
     const sensorData = getUnlistedState(sensorDataAtom);
@@ -50,10 +50,10 @@ export const collectedPointsAtom = createAtom(
       state.features = [...state.features, feature];
 
       // Trigger request after each new feature was added
-      schedule((dispatch) => dispatch(triggerRequestAction()));
+      schedule((dispatch) => dispatch(requestHandlingAtom.triggerRequest()));
     });
 
-    onAction('reset', () => {
+    onAction('resetFeatures', () => {
       state = defaultState;
     });
 

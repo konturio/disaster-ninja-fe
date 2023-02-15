@@ -2,7 +2,6 @@ import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { SENSOR_PRECISION } from './constants';
 import type { SensorDataAtomExportType } from './atoms/sensorData';
 import type { CollectedPointsAtomType } from './atoms/collectedPoints';
-import type { TriggerRequestActionType } from './atoms/triggerResource';
 
 export type UncertainNumber = number | null;
 
@@ -53,7 +52,6 @@ export function hookGeolocation(
   collectedPointsAtom: CollectedPointsAtomType,
   stopRecording: () => void,
   geolocation: Geolocation,
-  requestAction: TriggerRequestActionType,
 ) {
   // It calls prompt window to allow sharing location for the first time
   const watchId = geolocation.watchPosition((pos) => {
@@ -69,8 +67,6 @@ export function hookGeolocation(
       coordTimestamp: pos.timestamp,
       coordSystTimestamp: getTime(),
     });
-    // Then run request and following reset
-    requestAction.dispatch();
   }, getOnErrorFunction(stopRecording));
   return watchId;
 }
