@@ -29,13 +29,16 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
     [selectedEpisode],
   );
 
-  const timelineEntryClassName = useCallback((entry: DataEntry) => {
-    if (entry.forecasted) {
-      return s.forecasted;
-    }
+  const timelineEntryClassName = useCallback(
+    (entry: DataEntry, defaultClassName?: string) => {
+      if (entry.forecasted) {
+        return s.forecasted;
+      }
 
-    return 'test';
-  }, []);
+      return defaultClassName;
+    },
+    [],
+  );
 
   const dataSet = useMemo(() => {
     if (episodes.length) {
@@ -62,19 +65,16 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
     }
   }, [episodes]);
 
-  const onSelect = useCallback<WithRequired<TimelineProps, 'onSelect'>['onSelect']>(
-    (selection) => {
-      if (selection.length > 1) {
-        return; // its cluster
-      }
-      if (selection[0] !== undefined) {
-        eventEpisodesController.setCurrentEpisode(String(selection[0].id));
-      } else {
-        eventEpisodesController.resetCurrentEpisode();
-      }
-    },
-    [],
-  );
+  const onSelect = useCallback((selection) => {
+    if (selection.length > 1) {
+      return; // its cluster
+    }
+    if (selection[0] !== undefined) {
+      eventEpisodesController.setCurrentEpisode(String(selection[0].id));
+    } else {
+      eventEpisodesController.resetCurrentEpisode();
+    }
+  }, []);
 
   // Timeline library have imperative api that provided trough useImperativeHandle handle
   // Here I pass this api to atom.

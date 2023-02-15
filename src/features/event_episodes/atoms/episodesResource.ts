@@ -40,7 +40,7 @@ export const episodesResource = createAsyncAtom(
       return responseData.map((e) => {
         const cp = { ...e };
         if (!cp.id) cp.id = 'temp_' + nanoid(6);
-        if (!cp.forecasted) cp.forecasted = true;
+        if (!cp.forecasted) cp.forecasted = false;
         return cp;
       });
     }
