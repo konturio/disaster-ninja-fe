@@ -56,74 +56,90 @@ export const sensorDataAtom = createAtom(
   ({ onAction }, state: SensorDataAtomType | null = null) => {
     const newState = { ...state };
 
-    onAction('updateAccelerometer', (data) =>
-      updateSensor(
+    onAction('updateAccelerometer', (data) => {
+      updateSensor({
         data,
-        ['accelX', 'accelY', 'accelZ', 'accelTime'],
-        newState.accelTime,
-        data.accelTime,
-      ),
-    );
-    onAction('updateOrientation', (data) =>
-      updateSensor(
-        data,
-        ['orientX', 'orientY', 'orientZ', 'orientW', 'orientTime'],
-        newState.orientTime,
-        data.orientTime,
-      ),
-    );
-    onAction('updateGyroscope', (data) =>
-      updateSensor(
-        data,
-        ['gyroX', 'gyroY', 'gyroZ', 'gyroTime'],
-        newState.gyroTime,
-        data.gyroTime,
-      ),
-    );
-    onAction('resetAllData', () => (state = null));
-
-    function updateSensor(
-      data: Accelerometer | Orientation | Gyroscope,
-      sensorKeys: PayloadKey[],
-      sensorTimes: UncertainNumber[] | undefined,
-      incomingTime?: number,
-    ) {
-      if (!incomingTime) {
-        console.error('no timestamp provided', data);
-        return;
-      }
-
-      let outdatedDataIndex: number | null = null;
-
-      if (sensorTimes?.length) {
-        // Find if older parts of array are older than SENSOR_DATA_LIFETIME
-        for (let i = 0; i < sensorTimes.length; i++) {
-          const featuredTime = sensorTimes[i] || 0;
-          if (incomingTime - featuredTime > SENSOR_DATA_LIFETIME) {
-            outdatedDataIndex = i;
-          } else break;
-        }
-      }
-
-      // push data for each sensor key
-      sensorKeys.forEach((sensorKey) => {
-        let sensorData = newState[sensorKey];
-
-        // delete old records for each sensors
-        if (sensorData && outdatedDataIndex) {
-          sensorData = sensorData.slice(outdatedDataIndex + 1);
-        }
-        if (sensorData) sensorData.push(data[sensorKey]);
-
-        newState[sensorKey] = sensorData || [data[sensorKey]];
+        sensorKeys: ['accelX', 'accelY', 'accelZ', 'accelTime'],
+        sensorTimes: newState.accelTime,
+        incomingTime: data.accelTime,
+        mutableState: newState,
       });
-
       state = newState;
-    }
+    });
+
+    onAction('updateOrientation', (data) => {
+      updateSensor({
+        data,
+        sensorKeys: ['orientX', 'orientY', 'orientZ', 'orientW', 'orientTime'],
+        sensorTimes: newState.orientTime,
+        incomingTime: data.orientTime,
+        mutableState: newState,
+      });
+      state = newState;
+    });
+
+    onAction('updateGyroscope', (data) => {
+      updateSensor({
+        data,
+        sensorKeys: ['gyroX', 'gyroY', 'gyroZ', 'gyroTime'],
+        sensorTimes: newState.gyroTime,
+        incomingTime: data.gyroTime,
+        mutableState: newState,
+      });
+      state = newState;
+    });
+
+    onAction('resetAllData', () => (state = null));
 
     return state;
   },
   'sensorDataAtom',
 );
+
+function updateSensor({
+  data,
+  sensorKeys,
+  sensorTimes,
+  incomingTime,
+  mutableState,
+}: {
+  data: Accelerometer | Orientation | Gyroscope;
+  sensorKeys: PayloadKey[];
+  sensorTimes: UncertainNumber[] | undefined;
+  incomingTime?: number;
+  mutableState: SensorDataAtomType;
+}) {
+  if (!incomingTime) {
+    console.error('no timestamp provided', data);
+    return;
+  }
+
+  let outdatedDataIndex: number | null = null;
+
+  if (sensorTimes?.length) {
+    // Find if older parts of array are older than SENSOR_DATA_LIFETIME
+    for (let i = 0; i < sensorTimes.length; i++) {
+      const featuredTime = sensorTimes[i] || 0;
+      if (incomingTime - featuredTime > SENSOR_DATA_LIFETIME) {
+        outdatedDataIndex = i;
+      } else break;
+    }
+  }
+
+  // push data for each sensor key
+  sensorKeys.forEach((sensorKey) => {
+    let sensorData = mutableState[sensorKey];
+
+    // delete old records for each sensors
+    if (sensorData && outdatedDataIndex) {
+      sensorData = sensorData.slice(outdatedDataIndex + 1);
+    }
+    if (sensorData) sensorData.push(data[sensorKey]);
+
+    mutableState[sensorKey] = sensorData || [data[sensorKey]];
+  });
+
+  return mutableState;
+}
 
 export type SensorDataAtomExportType = typeof sensorDataAtom;
