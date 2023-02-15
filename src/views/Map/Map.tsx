@@ -56,6 +56,12 @@ export function MapPage() {
         initBoundarySelector(),
       );
     }
+    if (
+      localStorage.getItem('KONTUR_MCDA') &&
+      featureFlags[FeatureFlag.BIVARIATE_MANAGER]
+    ) {
+      import('~features/mcda').then(({ initMCDA }) => initMCDA());
+    }
     if (featureFlags[FeatureFlag.LAYERS_IN_AREA]) {
       import('~features/layers_in_area').then(({ initLayersInArea }) =>
         initLayersInArea(),

@@ -1,6 +1,6 @@
 {
   "name": "disaster-ninja-fe",
-  "version": "2.2.13",
+  "version": "2.2.14",
   "private": true,
   "homepage": "/active/",
   "type": "module",
@@ -81,7 +81,7 @@
     "@deck.gl/mesh-layers": "^8.8.22",
     "@konturio/default-icons": "^2.2.2",
     "@konturio/default-theme": "3.2.4",
-    "@konturio/ui-kit": "^3.12.2",
+    "@konturio/ui-kit": "^3.15.0",
     "@loaders.gl/core": "^3.2.3",
     "@mdx-js/rollup": "^2.2.1",
     "@nebula.gl/edit-modes": "1.0.3",

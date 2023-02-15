@@ -299,5 +299,13 @@
     "finishMessage": "Recording has been finished",
     "startMessage": "Recording has been started",
     "noSensorsError": "Your device desn't have the required sensors"
+  },
+  "common": {
+    "severity_unknown": "Unknown",
+    "severity_termination": "Termination",
+    "severity_minor": "Minor",
+    "severity_moderate": "Moderate",
+    "severity_severe": "Severe",
+    "severity_extreme": "Extreme"
   }
 }

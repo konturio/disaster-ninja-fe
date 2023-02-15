@@ -11,7 +11,7 @@ export function setOffset(offsetX = 0, offsetY = 0) {
   };
 }
 
-export function useGridStyle(x, y, cellSize = 0) {
+export function useGridStyle(x: number, y: number, cellSize = 0) {
   const memoizedGridStyle = useMemo(
     () => ({
       display: 'inline-grid',

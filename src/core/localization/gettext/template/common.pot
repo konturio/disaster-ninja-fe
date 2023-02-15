@@ -134,6 +134,7 @@ msgid "Not found"
 msgstr ""
 
 #: errors##unknown
+#: common##severity_unknown
 msgid "Unknown"
 msgstr ""
 
@@ -922,4 +923,24 @@ msgstr ""
 
 #: live_sensor##noSensorsError
 msgid "Your device desn't have the required sensors"
+msgstr ""
+
+#: common##severity_termination
+msgid "Termination"
+msgstr ""
+
+#: common##severity_minor
+msgid "Minor"
+msgstr ""
+
+#: common##severity_moderate
+msgid "Moderate"
+msgstr ""
+
+#: common##severity_severe
+msgid "Severe"
+msgstr ""
+
+#: common##severity_extreme
+msgid "Extreme"
 msgstr ""

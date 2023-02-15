@@ -137,7 +137,7 @@ msgstr "Verboten"
 msgid "Not found"
 msgstr "Nicht gefunden"
 
-#: errors##unknown
+#: errors##unknown common##severity_unknown
 msgid "Unknown"
 msgstr "Unbekannt"
 
@@ -978,6 +978,25 @@ msgstr ""
 
 #: live_sensor##noSensorsError
 msgid "Your device desn't have the required sensors"
+#: common##severity_termination
+#, fuzzy
+msgid "Termination"
+msgstr "Höhe"
+
+#: common##severity_minor
+msgid "Minor"
+msgstr ""
+
+#: common##severity_moderate
+msgid "Moderate"
+msgstr ""
+
+#: common##severity_severe
+msgid "Severe"
+msgstr ""
+
+#: common##severity_extreme
+msgid "Extreme"
 msgstr ""
 
 #~ msgid "Details"
