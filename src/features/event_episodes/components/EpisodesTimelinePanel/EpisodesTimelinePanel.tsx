@@ -9,7 +9,7 @@ import { panelClasses } from '~components/Panel';
 import { eventEpisodesController } from '../../controller';
 import { eventEpisodesModel } from '../../model';
 import { EpisodesTimeline } from '../EpisodesTimeline/EpisodesTimeline';
-import s from './Episodes.module.css';
+import s from './EpisodesTimelinePanel.module.css';
 
 export function EpisodesTimelinePanel() {
   const [episodes] = useAtom(eventEpisodesModel.currentEventEpisodes);
