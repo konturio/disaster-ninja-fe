@@ -974,7 +974,8 @@ msgstr ""
 
 #: live_sensor##noSensorsError
 msgid "Your device desn't have the required sensors"
-#: common##severity_termination
+msgstr ""
+
 #, fuzzy
 msgid "Termination"
 msgstr "Elevación"
