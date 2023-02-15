@@ -50,7 +50,7 @@ export const collectedPointsAtom = createAtom(
       state.features = [...state.features, feature];
 
       // Trigger request after each new feature was added
-      // schedule((dispatch) => dispatch(resourceHandlingAtom.triggerRequest()));
+      // schedule((dispatch) => dispatch(resourceWatcherAtom.triggerRequest()));
 
       // Trigger request after each new feature was added
       schedule((dispatch) =>

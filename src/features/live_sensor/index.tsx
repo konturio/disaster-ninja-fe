@@ -8,7 +8,7 @@ import { sensorDataAtom } from './atoms/sensorData';
 import { SENSOR_CONTROL, SENSOR_CONTROL_NAME } from './constants';
 import { collectedPointsAtom } from './atoms/collectedPoints';
 import { hookGeolocation, hookSensors } from './utils';
-import { resourceHandlingAtom } from './atoms/resourceHandling';
+import { resourceWatcherAtom } from './atoms/resourceWatcherAtom';
 import type { Unsubscribe } from '@reatom/core';
 
 export function initSensor() {
@@ -52,7 +52,9 @@ export function initSensor() {
     onClick: (isActive) => {
       if (isActive) {
         toolbarControlsAtom.enable.dispatch(SENSOR_CONTROL);
-      } else toolbarControlsAtom.disable.dispatch(SENSOR_CONTROL);
+      } else {
+        toolbarControlsAtom.disable.dispatch(SENSOR_CONTROL);
+      }
     },
     onChange(isActive) {
       if (featureInitializingFailed && isActive) {
@@ -72,7 +74,7 @@ export function initSensor() {
       }
 
       this.title = i18n.t('live_sensor.finish');
-      atomUnsubscribe = resourceHandlingAtom.subscribe(() => {
+      atomUnsubscribe = resourceWatcherAtom.subscribe(() => {
         /*noop*/
       });
 

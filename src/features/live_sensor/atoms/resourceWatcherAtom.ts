@@ -2,7 +2,7 @@ import { createAtom } from '~utils/atoms';
 import { collectedPointsAtom } from './collectedPoints';
 import { sensorResourceAtom } from './sensorResource';
 
-export const resourceHandlingAtom = createAtom(
+export const resourceWatcherAtom = createAtom(
   {
     sensorResourceAtom,
   },
@@ -16,5 +16,5 @@ export const resourceHandlingAtom = createAtom(
 
     return state;
   },
-  'resourceHandlingAtom',
+  'resourceWatcherAtom',
 );
