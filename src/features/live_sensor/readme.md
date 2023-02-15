@@ -53,6 +53,7 @@ For the request we'll sent roughly following JSON:
         alt: [22],
         speed: [6],
         accuracy: [.3],
+        altAccuracy: [1],
         heading: [0],
         coordTimestamp: [12424122],
         coordSystTimestamp: [12424124],
