@@ -28,12 +28,10 @@ export function initSensor() {
     featureInitializingFailed = true;
   }
 
-  let interval: NodeJS.Timer;
   let watchId: number;
 
   function stopRecording() {
     store.dispatch([collectedPointsAtom.resetFeatures(), sensorDataAtom.resetAllData()]);
-    clearInterval(interval);
     accelerometer.stop();
     orientationSensor.stop();
     gyroscope.stop();
