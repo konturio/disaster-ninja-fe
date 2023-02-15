@@ -1,8 +1,6 @@
 export const SENSOR_CONTROL = 'sensorControl';
 export const SENSOR_CONTROL_NAME = 'Live sensor control';
 
-export const UPDATE_ENDPOINT_PATH = '/features/live-sensor';
-
 export const SENSOR_PRECISION = 6;
 
 // in ms

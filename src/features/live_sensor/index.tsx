@@ -5,10 +5,10 @@ import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarCont
 import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
 import { sensorDataAtom } from './atoms/sensorData';
-import { requestHandlingAtom } from './atoms/sensorResource';
 import { SENSOR_CONTROL, SENSOR_CONTROL_NAME } from './constants';
 import { collectedPointsAtom } from './atoms/collectedPoints';
 import { hookGeolocation, hookSensors } from './utils';
+import { resourceHandlingAtom } from './atoms/resourceHandling';
 import type { Unsubscribe } from '@reatom/core';
 
 export function initSensor() {
@@ -72,7 +72,7 @@ export function initSensor() {
       }
 
       this.title = i18n.t('live_sensor.finish');
-      atomUnsubscribe = requestHandlingAtom.subscribe(() => {
+      atomUnsubscribe = resourceHandlingAtom.subscribe(() => {
         /*noop*/
       });
 
