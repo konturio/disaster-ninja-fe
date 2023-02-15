@@ -88,14 +88,14 @@ export function SettingsForm() {
     { title: i18n.t('profile.konturTheme'), value: 'kontur' },
     // { title: i18n.t('profile.HOTTheme'), value: 'hot' },
   ];
-  const OPTIONS_LANGUAGE = [
+  const SORTED_OPTIONS_LANGUAGE = [
     { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
     { title: i18n.t('profile.spanishLanguageOption'), value: 'es' },
     { title: i18n.t('profile.arabicLanguageOption'), value: 'ar' },
     { title: i18n.t('profile.koreanLanguageOption'), value: 'ko' },
     { title: i18n.t('profile.indonesianLanguageOption'), value: 'id' },
     { title: i18n.t('profile.germanLanguageOption'), value: 'de' },
-  ];
+  ].sort((a, b) => (a.value > b.value ? 1 : -1));
 
   const OPTIONS_FEED = eventFeeds.map((o) => ({
     title: o.name,
@@ -164,7 +164,7 @@ export function SettingsForm() {
                 <Select
                   alwaysShowPlaceholder
                   value={localSettings.language}
-                  items={OPTIONS_LANGUAGE}
+                  items={SORTED_OPTIONS_LANGUAGE}
                   withResetButton={false}
                   onSelect={onLanguageChange}
                 >
