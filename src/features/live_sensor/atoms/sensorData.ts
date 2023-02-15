@@ -24,7 +24,7 @@ type Gyroscope = {
 
 // every value refers to timestamp by it's index
 // accelY[55] was set at timestamp[55]
-type SensorDataAtomType = {
+export type SensorDataAtomType = {
   accelX?: UncertainNumber[];
   accelY?: UncertainNumber[];
   accelZ?: UncertainNumber[];
@@ -96,19 +96,20 @@ export const sensorDataAtom = createAtom(
   'sensorDataAtom',
 );
 
-function updateSensor({
-  data,
-  sensorKeys,
-  sensorTimes,
-  incomingTime,
-  mutableState,
-}: {
+export type UpdateSensorArguments = {
   data: Accelerometer | Orientation | Gyroscope;
   sensorKeys: PayloadKey[];
   sensorTimes: UncertainNumber[] | undefined;
   incomingTime?: number;
   mutableState: SensorDataAtomType;
-}) {
+};
+export function updateSensor({
+  data,
+  sensorKeys,
+  sensorTimes,
+  incomingTime,
+  mutableState,
+}: UpdateSensorArguments) {
   if (!incomingTime) {
     console.error('no timestamp provided', data);
     return;
