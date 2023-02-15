@@ -43,7 +43,7 @@ export const TranslationService = {
   t: (key: string, options?: TOptionsBase) => {
     // the only one place we need to pass a variable to i18n.t function
     // eslint-disable-next-line i18n-checker/key-must-be-literal
-    const translation = i18n.t(key, options);
+    const translation = i18n.t(key, options!);
     if (typeof translation === 'string') return translation;
     console.error(`Not supported translation result for key: ${key}`);
     return key;
