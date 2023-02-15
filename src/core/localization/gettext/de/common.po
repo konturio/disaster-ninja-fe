@@ -873,27 +873,27 @@ msgstr "Einstellungen"
 
 #: profile##englishLanguageOption
 msgid "English"
-msgstr "Englisch"
+msgstr "English"
 
 #: profile##spanishLanguageOption
-msgid "Spanish"
-msgstr "Spanisch"
+msgid "Spanish - Español"
+msgstr "Spanish - Español"
 
 #: profile##arabicLanguageOption
-msgid "Arabic"
-msgstr "Arabisch"
+msgid "Arabic - العربية"
+msgstr "Arabic - العربية"
 
 #: profile##koreanLanguageOption
-msgid "Korean"
-msgstr ""
+msgid "Korean - 한국어"
+msgstr "Korean - 한국어"
 
 #: profile##indonesianLanguageOption
-msgid "Indonesian"
-msgstr ""
+msgid "Indonesian - Indonesia"
+msgstr "Indonesian - Indonesia"
 
 #: profile##germanLanguageOption
-msgid "German"
-msgstr ""
+msgid "German - Deutsch"
+msgstr "German - Deutsch"
 
 #: profile##saveButton
 msgid "Save changes"
@@ -959,6 +959,12 @@ msgstr ""
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
 msgstr ""
+
+#~ msgid "Spanish"
+#~ msgstr "Spanisch"
+
+#~ msgid "Arabic"
+#~ msgstr "Arabisch"
 
 #~ msgid "Details"
 #~ msgstr "Details"

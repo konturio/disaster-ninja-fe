@@ -820,23 +820,23 @@ msgid "English"
 msgstr ""
 
 #: profile##spanishLanguageOption
-msgid "Spanish"
+msgid "Spanish - Español"
 msgstr ""
 
 #: profile##arabicLanguageOption
-msgid "Arabic"
+msgid "Arabic - العربية"
 msgstr ""
 
 #: profile##koreanLanguageOption
-msgid "Korean"
+msgid "Korean - 한국어"
 msgstr ""
 
 #: profile##indonesianLanguageOption
-msgid "Indonesian"
+msgid "Indonesian - Indonesia"
 msgstr ""
 
 #: profile##germanLanguageOption
-msgid "German"
+msgid "German - Deutsch"
 msgstr ""
 
 #: profile##saveButton
