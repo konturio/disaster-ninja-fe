@@ -7,16 +7,9 @@ export const sensorResourceAtom = createAsyncAtom(
     if (!sensorFeatures.features.length) return null;
 
     try {
-      await apiClient.post(
-        '/features/live-sensor',
-        {
-          ...sensorFeatures,
-        },
-        true,
-        {
-          signal: abortController.signal,
-        },
-      );
+      await apiClient.post('/features/live-sensor', sensorFeatures, true, {
+        signal: abortController.signal,
+      });
 
       return 'ok';
     } catch (error) {

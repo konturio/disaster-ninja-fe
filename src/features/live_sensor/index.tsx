@@ -17,7 +17,7 @@ export function initSensor() {
   let geolocation: Geolocation;
   let gyroscope: Gyroscope;
   let featureInitializingFailed = false;
-  let atomUnsubscribe: Unsubscribe;
+  let unsubscribeWatcherAtom: Unsubscribe;
 
   try {
     accelerometer = new Accelerometer();
@@ -36,7 +36,7 @@ export function initSensor() {
     orientationSensor.stop();
     gyroscope.stop();
     geolocation.clearWatch(watchId);
-    atomUnsubscribe?.();
+    unsubscribeWatcherAtom?.();
   }
 
   toolbarControlsAtom.addControl.dispatch({
@@ -72,7 +72,7 @@ export function initSensor() {
       }
 
       this.title = i18n.t('live_sensor.finish');
-      atomUnsubscribe = resourceWatcherAtom.subscribe(() => {
+      unsubscribeWatcherAtom = resourceWatcherAtom.subscribe(() => {
         /*noop*/
       });
 
