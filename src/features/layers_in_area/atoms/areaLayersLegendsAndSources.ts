@@ -11,9 +11,13 @@ import type { LayerInAreaDetails } from '../types';
 import type { LayerSource } from '~core/logical_layers/types/source';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 
-function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
-  /* Typescript makes me sad sometimes T.T */
-  if ('url' in response.source) {
+function convertDetailsToSource(response: LayerInAreaDetails): LayerSource | null {
+  if (!('source' in response)) {
+    console.error('layer without source incoming', response);
+    return null;
+  }
+
+  if (response.source.type === 'vector' || response.source.type === 'raster') {
     const { url, ...restSource } = response.source;
     return {
       ...response,
@@ -28,7 +32,7 @@ function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
 }
 
 function convertDetailsToLegends(response: LayerInAreaDetails): LayerLegend | null {
-  if (!response.legend) return null;
+  if (!('legend' in response) || !response.legend) return null;
   return legendFormatter(response);
 }
 
@@ -92,6 +96,8 @@ export const areaLayersLegendsAndSources = createAtom(
         const newState = new Map(state);
         layersDetailsData.forEach((layerDetails, layerId) => {
           const layerSource = layerDetails ? convertDetailsToSource(layerDetails) : null;
+          const prevSource = newState.get(layerId);
+          if (prevSource?.data && !layerSource) return;
           newState.set(layerId, {
             error: layersDetailsError,
             data: layerSource,
@@ -105,6 +111,12 @@ export const areaLayersLegendsAndSources = createAtom(
         const newState = new Map(state);
         layersDetailsData.forEach((layerDetails, layerId) => {
           const layerLegend = layerDetails ? convertDetailsToLegends(layerDetails) : null;
+          const prevLegend = newState.get(layerId);
+          if (prevLegend?.data && !layerLegend) {
+            // console.log('%c⧭ assign ', 'color: #ff6600', layersDetailsData);
+            // hope we're not masking some problem here
+            return;
+          }
           newState.set(layerId, {
             error: layersDetailsError,
             data: layerLegend,
