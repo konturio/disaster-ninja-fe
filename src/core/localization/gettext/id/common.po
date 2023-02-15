@@ -136,7 +136,7 @@ msgstr "Terlarang"
 msgid "Not found"
 msgstr "Tidak ditemukan"
 
-#: errors##unknown
+#: errors##unknown common##severity_unknown
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
@@ -950,6 +950,27 @@ msgstr ""
 
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
+msgstr ""
+
+#: common##severity_termination
+#, fuzzy
+msgid "Termination"
+msgstr "Elevasi"
+
+#: common##severity_minor
+msgid "Minor"
+msgstr ""
+
+#: common##severity_moderate
+msgid "Moderate"
+msgstr ""
+
+#: common##severity_severe
+msgid "Severe"
+msgstr ""
+
+#: common##severity_extreme
+msgid "Extreme"
 msgstr ""
 
 #~ msgid "Spanish"

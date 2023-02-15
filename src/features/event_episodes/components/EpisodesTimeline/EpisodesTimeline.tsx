@@ -29,11 +29,13 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
               id: episode.id,
               start: new Date(episode.startedAt),
               end: new Date(episode.endedAt),
+              content: '',
             }
           : // Point
             {
               id: episode.id,
               start: new Date(episode.startedAt),
+              content: '',
             },
       );
     } else {

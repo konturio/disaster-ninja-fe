@@ -134,6 +134,7 @@ msgid "Not found"
 msgstr ""
 
 #: errors##unknown
+#: common##severity_unknown
 msgid "Unknown"
 msgstr ""
 
@@ -902,4 +903,24 @@ msgstr ""
 
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
+msgstr ""
+
+#: common##severity_termination
+msgid "Termination"
+msgstr ""
+
+#: common##severity_minor
+msgid "Minor"
+msgstr ""
+
+#: common##severity_moderate
+msgid "Moderate"
+msgstr ""
+
+#: common##severity_severe
+msgid "Severe"
+msgstr ""
+
+#: common##severity_extreme
+msgid "Extreme"
 msgstr ""
