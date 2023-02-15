@@ -863,6 +863,30 @@ msgstr "imperial (beta)"
 msgid "Settings"
 msgstr "Pengaturan"
 
+#: profile##englishLanguageOption
+msgid "English"
+msgstr "Inggris"
+
+#: profile##spanishLanguageOption
+msgid "Spanish"
+msgstr "Spanyol"
+
+#: profile##arabicLanguageOption
+msgid "Arabic"
+msgstr "Arab"
+
+#: profile##koreanLanguageOption
+msgid "Korean"
+msgstr ""
+
+#: profile##indonesianLanguageOption
+msgid "Indonesian"
+msgstr "Indonesia"
+
+#: profile##germanLanguageOption
+msgid "German"
+msgstr ""
+
 #: profile##saveButton
 msgid "Save changes"
 msgstr "Simpan perubahan"
@@ -890,11 +914,6 @@ msgstr "Editor OpenStreetMap bawaan (beta)"
 #: profile##successNotification
 msgid "All changes have been applied successfully"
 msgstr "Semua perubahan telah berhasil diterapkan"
-
-# it's a current locale's language - Indonesian, pls ignore msgid
-#: profile##languageOption
-msgid "English"
-msgstr "Indonesia"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
@@ -932,15 +951,6 @@ msgstr ""
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
 msgstr ""
-
-#~ msgid "Spanish"
-#~ msgstr "Spanyol"
-
-#~ msgid "Arabic"
-#~ msgstr "Arab"
-
-#~ msgid "Indonesian"
-#~ msgstr "Indonesia"
 
 #~ msgid "Details"
 #~ msgstr "Detail"

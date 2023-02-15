@@ -88,25 +88,14 @@ export function SettingsForm() {
     { title: i18n.t('profile.konturTheme'), value: 'kontur' },
     // { title: i18n.t('profile.HOTTheme'), value: 'hot' },
   ];
-
-  const LANGUAGES_AVAILABLE = ['en', 'es', 'ar', 'ko', 'id', 'de'];
-  const LANGUAGES_TRANSLATION_FALLBACKS = {
-    en: 'English',
-    es: 'Spanish',
-    ar: 'Arabic',
-    ko: 'Korean',
-    id: 'Indonesian',
-    de: 'German',
-  };
-  const OPTIONS_LANGUAGE = LANGUAGES_AVAILABLE.map((lng) => ({
-    title: i18n.t('profile.languageOption', {
-      lng,
-      // disable fallback to have a particular provided fallback value
-      fallbackLng: lng,
-      defaultValue: LANGUAGES_TRANSLATION_FALLBACKS[lng],
-    }),
-    value: lng,
-  }));
+  const OPTIONS_LANGUAGE = [
+    { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
+    { title: i18n.t('profile.spanishLanguageOption'), value: 'es' },
+    { title: i18n.t('profile.arabicLanguageOption'), value: 'ar' },
+    { title: i18n.t('profile.koreanLanguageOption'), value: 'ko' },
+    { title: i18n.t('profile.indonesianLanguageOption'), value: 'id' },
+    { title: i18n.t('profile.germanLanguageOption'), value: 'de' },
+  ];
 
   const OPTIONS_FEED = eventFeeds.map((o) => ({
     title: o.name,

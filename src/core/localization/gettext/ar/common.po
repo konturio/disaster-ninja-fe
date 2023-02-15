@@ -855,6 +855,30 @@ msgstr "إمبريالي (بيتا)"
 msgid "Settings"
 msgstr "الإعدادات"
 
+#: profile##englishLanguageOption
+msgid "English"
+msgstr "الإنجليزية"
+
+#: profile##spanishLanguageOption
+msgid "Spanish"
+msgstr "الإسبانية"
+
+#: profile##arabicLanguageOption
+msgid "Arabic"
+msgstr "العربية"
+
+#: profile##koreanLanguageOption
+msgid "Korean"
+msgstr ""
+
+#: profile##indonesianLanguageOption
+msgid "Indonesian"
+msgstr ""
+
+#: profile##germanLanguageOption
+msgid "German"
+msgstr ""
+
 #: profile##saveButton
 msgid "Save changes"
 msgstr "حفظ التغييرات"
@@ -882,11 +906,6 @@ msgstr "محرر OpenStreetMap الافتراضي (بيتا)"
 #: profile##successNotification
 msgid "All changes have been applied successfully"
 msgstr "تم تطبيق جميع التغييرات بنجاح"
-
-# it's a current locale's language - Arabic, pls ignore msgid
-#: profile##languageOption
-msgid "English"
-msgstr "العربية"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
@@ -924,12 +943,6 @@ msgstr ""
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
 msgstr ""
-
-#~ msgid "Spanish"
-#~ msgstr "الإسبانية"
-
-#~ msgid "Arabic"
-#~ msgstr "العربية"
 
 #~ msgid "Details"
 #~ msgstr "تفاصيل"
