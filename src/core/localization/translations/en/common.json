@@ -293,6 +293,13 @@
     "decline_all": "Decline optional cookies",
     "accept_all": "Accept optional cookies"
   },
+  "live_sensor": {
+    "start": "Start sensor recording",
+    "finish": "Stop sensor recording",
+    "finishMessage": "Recording has been finished",
+    "startMessage": "Recording has been started",
+    "noSensorsError": "Your device desn't have the required sensors"
+  },
   "common": {
     "severity_unknown": "Unknown",
     "severity_termination": "Termination",

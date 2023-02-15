@@ -944,6 +944,26 @@ msgstr ""
 msgid "Accept optional cookies"
 msgstr ""
 
+#: live_sensor##start
+msgid "Start sensor recording"
+msgstr ""
+
+#: live_sensor##finish
+msgid "Stop sensor recording"
+msgstr ""
+
+#: live_sensor##finishMessage
+msgid "Recording has been finished"
+msgstr ""
+
+#: live_sensor##startMessage
+msgid "Recording has been started"
+msgstr ""
+
+#: live_sensor##noSensorsError
+msgid "Your device desn't have the required sensors"
+msgstr ""
+
 #: common##severity_termination
 #, fuzzy
 msgid "Termination"

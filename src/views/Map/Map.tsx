@@ -95,6 +95,11 @@ export function MapPage() {
         initLocateMe();
       });
     }
+    if (featureFlags[FeatureFlag.LIVE_SENSOR]) {
+      import('~features/live_sensor').then(({ initSensor }) => {
+        initSensor();
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [featureFlags]);
 

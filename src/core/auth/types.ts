@@ -48,6 +48,7 @@ export const AppFeature = {
   EPISODES_TIMELINE: 'episodes_timeline',
   LOCATE_ME: 'locate_me',
   USE_3RDPARTY_ANALYTICS: 'use_3rdparty_analytics',
+  LIVE_SENSOR: 'live_sensor',
 } as const;
 
 export type AppFeatureType = typeof AppFeature[keyof typeof AppFeature];
