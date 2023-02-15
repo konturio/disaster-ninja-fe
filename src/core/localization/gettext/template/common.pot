@@ -816,30 +816,6 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: profile##englishLanguageOption
-msgid "English"
-msgstr ""
-
-#: profile##spanishLanguageOption
-msgid "Spanish - Español"
-msgstr ""
-
-#: profile##arabicLanguageOption
-msgid "Arabic - العربية"
-msgstr ""
-
-#: profile##koreanLanguageOption
-msgid "Korean - 한국어"
-msgstr ""
-
-#: profile##indonesianLanguageOption
-msgid "Indonesian - Indonesia"
-msgstr ""
-
-#: profile##germanLanguageOption
-msgid "German - Deutsch"
-msgstr ""
-
 #: profile##saveButton
 msgid "Save changes"
 msgstr ""
@@ -866,6 +842,30 @@ msgstr ""
 
 #: profile##successNotification
 msgid "All changes have been applied successfully"
+msgstr ""
+
+#: profile##languageOption##en
+msgid "English"
+msgstr ""
+
+#: profile##languageOption##es
+msgid "Spanish"
+msgstr ""
+
+#: profile##languageOption##ar
+msgid "Arabic"
+msgstr ""
+
+#: profile##languageOption##ko
+msgid "Korean"
+msgstr ""
+
+#: profile##languageOption##id
+msgid "Indonesian"
+msgstr ""
+
+#: profile##languageOption##de
+msgid "German"
 msgstr ""
 
 #: locate_me##get_location_error

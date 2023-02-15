@@ -854,30 +854,6 @@ msgstr "영국식 단위(베타)"
 msgid "Settings"
 msgstr "설정"
 
-#: profile##englishLanguageOption
-msgid "English"
-msgstr "English"
-
-#: profile##spanishLanguageOption
-msgid "Spanish - Español"
-msgstr "Spanish - Español"
-
-#: profile##arabicLanguageOption
-msgid "Arabic - العربية"
-msgstr "Arabic - العربية"
-
-#: profile##koreanLanguageOption
-msgid "Korean - 한국어"
-msgstr "Korean - 한국어"
-
-#: profile##indonesianLanguageOption
-msgid "Indonesian - Indonesia"
-msgstr "Indonesian - Indonesia"
-
-#: profile##germanLanguageOption
-msgid "German - Deutsch"
-msgstr "German - Deutsch"
-
 #: profile##saveButton
 msgid "Save changes"
 msgstr "변경 사항 저장"
@@ -905,6 +881,33 @@ msgstr "기본 OpenStreetMap 편집기(베타)"
 #: profile##successNotification
 msgid "All changes have been applied successfully"
 msgstr "모든 변경 사항이 성공적으로 적용되었습니다."
+
+#: profile##languageOption##en
+msgid "English"
+msgstr "영어"
+
+#: profile##languageOption##es
+msgid "Spanish"
+msgstr "스페인어"
+
+#: profile##languageOption##ar
+msgid "Arabic"
+msgstr "아랍어"
+
+# to recheck
+#: profile##languageOption##ko
+msgid "Korean"
+msgstr "한국어"
+
+# to recheck
+#: profile##languageOption##id
+msgid "Indonesian"
+msgstr "인도네시아 인"
+
+# to recheck
+#: profile##languageOption##de
+msgid "German"
+msgstr "독일 말"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
@@ -963,12 +966,6 @@ msgstr ""
 #: common##severity_extreme
 msgid "Extreme"
 msgstr ""
-
-#~ msgid "Spanish"
-#~ msgstr "스페인어"
-
-#~ msgid "Arabic"
-#~ msgstr "아랍어"
 
 #~ msgid "Details"
 #~ msgstr "상세 정보"

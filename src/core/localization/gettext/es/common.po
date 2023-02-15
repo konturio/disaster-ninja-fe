@@ -867,30 +867,6 @@ msgstr "imperiales (beta)"
 msgid "Settings"
 msgstr "Ajustes"
 
-#: profile##englishLanguageOption
-msgid "English"
-msgstr "English"
-
-#: profile##spanishLanguageOption
-msgid "Spanish - Español"
-msgstr "Spanish - Español"
-
-#: profile##arabicLanguageOption
-msgid "Arabic - العربية"
-msgstr "Arabic - العربية"
-
-#: profile##koreanLanguageOption
-msgid "Korean - 한국어"
-msgstr "Korean - 한국어"
-
-#: profile##indonesianLanguageOption
-msgid "Indonesian - Indonesia"
-msgstr "Indonesian - Indonesia"
-
-#: profile##germanLanguageOption
-msgid "German - Deutsch"
-msgstr "German - Deutsch"
-
 #: profile##saveButton
 msgid "Save changes"
 msgstr "Guardar cambios"
@@ -918,6 +894,33 @@ msgstr "Editor predeterminado de OpenStreetMap (beta)"
 #: profile##successNotification
 msgid "All changes have been applied successfully"
 msgstr "Todos los cambios se han aplicado correctamente"
+
+#: profile##languageOption##en
+msgid "English"
+msgstr "Inglés"
+
+#: profile##languageOption##es
+msgid "Spanish"
+msgstr "Español"
+
+#: profile##languageOption##ar
+msgid "Arabic"
+msgstr "Árabe"
+
+# to recheck
+#: profile##languageOption##ko
+msgid "Korean"
+msgstr "Сoreano"
+
+# to recheck
+#: profile##languageOption##id
+msgid "Indonesian"
+msgstr "Indonesio"
+
+# to recheck
+#: profile##languageOption##de
+msgid "German"
+msgstr "Alemán"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
@@ -976,12 +979,6 @@ msgstr ""
 #: common##severity_extreme
 msgid "Extreme"
 msgstr ""
-
-#~ msgid "Spanish"
-#~ msgstr "Español"
-
-#~ msgid "Arabic"
-#~ msgstr "Árabe"
 
 #~ msgid "Details"
 #~ msgstr "Detalles"

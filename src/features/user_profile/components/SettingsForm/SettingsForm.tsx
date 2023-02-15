@@ -88,14 +88,21 @@ export function SettingsForm() {
     { title: i18n.t('profile.konturTheme'), value: 'kontur' },
     // { title: i18n.t('profile.HOTTheme'), value: 'hot' },
   ];
-  const SORTED_OPTIONS_LANGUAGE = [
-    { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
-    { title: i18n.t('profile.spanishLanguageOption'), value: 'es' },
-    { title: i18n.t('profile.arabicLanguageOption'), value: 'ar' },
-    { title: i18n.t('profile.koreanLanguageOption'), value: 'ko' },
-    { title: i18n.t('profile.indonesianLanguageOption'), value: 'id' },
-    { title: i18n.t('profile.germanLanguageOption'), value: 'de' },
-  ].sort((a, b) => (a.value > b.value ? 1 : -1));
+
+  const SORTED_LOCALES = ['en', 'es', 'ar', 'ko', 'id', 'de'].sort();
+  const OPTIONS_LANGUAGE = SORTED_LOCALES.map((lng) => {
+    const i18nKey = `profile.languageOption.${lng}`;
+
+    return {
+      title:
+        lng === i18n.instance.language
+          ? // eslint-disable-next-line i18n-checker/key-must-be-literal
+            i18n.t(i18nKey)
+          : // eslint-disable-next-line i18n-checker/key-must-be-literal
+            `${i18n.t(i18nKey)} - ${i18n.t(i18nKey, { lng })} `,
+      value: lng,
+    };
+  });
 
   const OPTIONS_FEED = eventFeeds.map((o) => ({
     title: o.name,
@@ -164,7 +171,7 @@ export function SettingsForm() {
                 <Select
                   alwaysShowPlaceholder
                   value={localSettings.language}
-                  items={SORTED_OPTIONS_LANGUAGE}
+                  items={OPTIONS_LANGUAGE}
                   withResetButton={false}
                   onSelect={onLanguageChange}
                 >
