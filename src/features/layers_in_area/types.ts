@@ -38,6 +38,12 @@ export interface TileSourceContainer {
   legend?: LayerDetailsLegend;
 }
 
+export interface NoSourceContainer {
+  id: string;
+  ownedByUser: boolean;
+}
+
 export type LayerInAreaDetails =
   | GeoJSONSourceSourceContainer
-  | TileSourceContainer;
+  | TileSourceContainer
+  | NoSourceContainer;

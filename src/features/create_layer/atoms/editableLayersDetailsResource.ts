@@ -50,6 +50,7 @@ export const editableLayersDetailsParamsAtom = createAtom(
 export const editableLayersDetailsResourceAtom = createAsyncAtom(
   editableLayersDetailsParamsAtom,
   async (params, abortController) => {
+    // console.log('%c⧭ params', 'color: #40fff2', params);
     if (params === null) return null;
     return await apiClient.post<LayerInAreaDetails[]>(
       '/layers/details',
