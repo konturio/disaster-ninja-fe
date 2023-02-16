@@ -136,7 +136,7 @@ msgstr "محظور"
 msgid "Not found"
 msgstr "لم يتم العثور على"
 
-#: errors##unknown common##severity_unknown
+#: errors##unknown event_list##severity_unknown
 msgid "Unknown"
 msgstr "غير معروف"
 
@@ -286,6 +286,32 @@ msgstr "لم يتم اختيار كارثة"
 #, fuzzy
 msgid "No disasters"
 msgstr "كوارث"
+
+#: event_list##severity_termination
+#, fuzzy
+msgid "Termination"
+msgstr "ارتفاع"
+
+#: event_list##severity_minor
+msgid "Minor"
+msgstr ""
+
+#: event_list##severity_moderate
+msgid "Moderate"
+msgstr ""
+
+#: event_list##severity_severe
+msgid "Severe"
+msgstr ""
+
+#: event_list##severity_extreme
+msgid "Extreme"
+msgstr ""
+
+#: event_list##open_timeline_button
+#, fuzzy
+msgid "Open timeline"
+msgstr "المشاعر"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
@@ -965,27 +991,6 @@ msgstr ""
 
 #: live_sensor##noSensorsError
 msgid "Your device desn't have the required sensors"
-msgstr ""
-
-#: common##severity_termination
-#, fuzzy
-msgid "Termination"
-msgstr "ارتفاع"
-
-#: common##severity_minor
-msgid "Minor"
-msgstr ""
-
-#: common##severity_moderate
-msgid "Moderate"
-msgstr ""
-
-#: common##severity_severe
-msgid "Severe"
-msgstr ""
-
-#: common##severity_extreme
-msgid "Extreme"
 msgstr ""
 
 #~ msgid "Details"

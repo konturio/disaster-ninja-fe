@@ -136,7 +136,7 @@ msgstr "Terlarang"
 msgid "Not found"
 msgstr "Tidak ditemukan"
 
-#: errors##unknown common##severity_unknown
+#: errors##unknown event_list##severity_unknown
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
@@ -286,6 +286,32 @@ msgstr "Tidak ada bencana yang dipilih"
 #, fuzzy
 msgid "No disasters"
 msgstr "Bencana"
+
+#: event_list##severity_termination
+#, fuzzy
+msgid "Termination"
+msgstr "Elevasi"
+
+#: event_list##severity_minor
+msgid "Minor"
+msgstr ""
+
+#: event_list##severity_moderate
+msgid "Moderate"
+msgstr ""
+
+#: event_list##severity_severe
+msgid "Severe"
+msgstr ""
+
+#: event_list##severity_extreme
+msgid "Extreme"
+msgstr ""
+
+#: event_list##open_timeline_button
+#, fuzzy
+msgid "Open timeline"
+msgstr "Sentimen"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
@@ -972,27 +998,6 @@ msgstr ""
 
 #: live_sensor##noSensorsError
 msgid "Your device desn't have the required sensors"
-msgstr ""
-
-#: common##severity_termination
-#, fuzzy
-msgid "Termination"
-msgstr "Elevasi"
-
-#: common##severity_minor
-msgid "Minor"
-msgstr ""
-
-#: common##severity_moderate
-msgid "Moderate"
-msgstr ""
-
-#: common##severity_severe
-msgid "Severe"
-msgstr ""
-
-#: common##severity_extreme
-msgid "Extreme"
 msgstr ""
 
 #~ msgid "Details"

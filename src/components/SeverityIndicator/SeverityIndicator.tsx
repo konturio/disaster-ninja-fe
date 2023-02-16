@@ -6,12 +6,12 @@ import s from './SeverityIndicator.module.css';
 const COLORS = ['#FFDF35', '#FFB800', '#FF8A00', '#FF3D00', '#EA2A00'];
 
 const SEVERITY_TO_TEXT = {
-  UNKNOWN: i18n.t('common.severity_unknown'),
-  TERMINATION: i18n.t('common.severity_termination'),
-  MINOR: i18n.t('common.severity_minor'),
-  MODERATE: i18n.t('common.severity_moderate'),
-  SEVERE: i18n.t('common.severity_severe'),
-  EXTREME: i18n.t('common.severity_extreme'),
+  UNKNOWN: i18n.t('event_list.severity_unknown'),
+  TERMINATION: i18n.t('event_list.severity_termination'),
+  MINOR: i18n.t('event_list.severity_minor'),
+  MODERATE: i18n.t('event_list.severity_moderate'),
+  SEVERE: i18n.t('event_list.severity_severe'),
+  EXTREME: i18n.t('event_list.severity_extreme'),
 };
 
 function SeverityIndicatorGenerator({

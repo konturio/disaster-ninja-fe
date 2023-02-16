@@ -134,7 +134,7 @@ msgid "Not found"
 msgstr ""
 
 #: errors##unknown
-#: common##severity_unknown
+#: event_list##severity_unknown
 msgid "Unknown"
 msgstr ""
 
@@ -281,6 +281,30 @@ msgstr ""
 
 #: event_list##no_disasters
 msgid "No disasters"
+msgstr ""
+
+#: event_list##severity_termination
+msgid "Termination"
+msgstr ""
+
+#: event_list##severity_minor
+msgid "Minor"
+msgstr ""
+
+#: event_list##severity_moderate
+msgid "Moderate"
+msgstr ""
+
+#: event_list##severity_severe
+msgid "Severe"
+msgstr ""
+
+#: event_list##severity_extreme
+msgid "Extreme"
+msgstr ""
+
+#: event_list##open_timeline_button
+msgid "Open timeline"
 msgstr ""
 
 #: create_layer##edit_layer
@@ -925,22 +949,3 @@ msgstr ""
 msgid "Your device desn't have the required sensors"
 msgstr ""
 
-#: common##severity_termination
-msgid "Termination"
-msgstr ""
-
-#: common##severity_minor
-msgid "Minor"
-msgstr ""
-
-#: common##severity_moderate
-msgid "Moderate"
-msgstr ""
-
-#: common##severity_severe
-msgid "Severe"
-msgstr ""
-
-#: common##severity_extreme
-msgid "Extreme"
-msgstr ""
