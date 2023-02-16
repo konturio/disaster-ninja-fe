@@ -88,15 +88,7 @@ export function SettingsForm() {
     { title: i18n.t('profile.konturTheme'), value: 'kontur' },
     // { title: i18n.t('profile.HOTTheme'), value: 'hot' },
   ];
-  const OPTIONS_LANGUAGE = [
-    { title: i18n.t('profile.englishLanguageOption'), value: 'en' },
-    { title: i18n.t('profile.spanishLanguageOption'), value: 'es' },
-    { title: i18n.t('profile.arabicLanguageOption'), value: 'ar' },
-    { title: i18n.t('profile.koreanLanguageOption'), value: 'ko' },
-    { title: i18n.t('profile.indonesianLanguageOption'), value: 'id' },
-    { title: i18n.t('profile.germanLanguageOption'), value: 'de' },
-  ];
-
+  const OPTIONS_LANGUAGE = getLanguageOptions();
   const OPTIONS_FEED = eventFeeds.map((o) => ({
     title: o.name,
     value: o.feed,
@@ -235,3 +227,54 @@ export function SettingsForm() {
     </>
   );
 }
+
+const LANGUAGES = ['en', 'es', 'ar', 'ko', 'id', 'de'] as const;
+type Lng = typeof LANGUAGES[number];
+
+const getLanguageOptions = () =>
+  [...LANGUAGES].sort().map((lng) => {
+    const [currentTranslation, destinationTranslation] = getLocaleTranslations(lng);
+
+    return {
+      title:
+        lng === i18n.instance.language
+          ? currentTranslation
+          : `${currentTranslation} - ${destinationTranslation}`,
+      value: lng,
+    };
+  });
+
+const getLocaleTranslations = (lng: Lng): [string, string] => {
+  switch (lng) {
+    case 'en':
+      return [
+        i18n.t('profile.languageOption.en'),
+        i18n.t('profile.languageOption.en', { lng }),
+      ];
+    case 'es':
+      return [
+        i18n.t('profile.languageOption.es'),
+        i18n.t('profile.languageOption.es', { lng }),
+      ];
+    case 'ar':
+      return [
+        i18n.t('profile.languageOption.ar'),
+        i18n.t('profile.languageOption.ar', { lng }),
+      ];
+    case 'ko':
+      return [
+        i18n.t('profile.languageOption.ko'),
+        i18n.t('profile.languageOption.ko', { lng }),
+      ];
+    case 'id':
+      return [
+        i18n.t('profile.languageOption.id'),
+        i18n.t('profile.languageOption.id', { lng }),
+      ];
+    case 'de':
+      return [
+        i18n.t('profile.languageOption.de'),
+        i18n.t('profile.languageOption.de', { lng }),
+      ];
+  }
+};

@@ -855,30 +855,6 @@ msgstr "إمبريالي (بيتا)"
 msgid "Settings"
 msgstr "الإعدادات"
 
-#: profile##englishLanguageOption
-msgid "English"
-msgstr "الإنجليزية"
-
-#: profile##spanishLanguageOption
-msgid "Spanish"
-msgstr "الإسبانية"
-
-#: profile##arabicLanguageOption
-msgid "Arabic"
-msgstr "العربية"
-
-#: profile##koreanLanguageOption
-msgid "Korean"
-msgstr ""
-
-#: profile##indonesianLanguageOption
-msgid "Indonesian"
-msgstr ""
-
-#: profile##germanLanguageOption
-msgid "German"
-msgstr ""
-
 #: profile##saveButton
 msgid "Save changes"
 msgstr "حفظ التغييرات"
@@ -906,6 +882,33 @@ msgstr "محرر OpenStreetMap الافتراضي (بيتا)"
 #: profile##successNotification
 msgid "All changes have been applied successfully"
 msgstr "تم تطبيق جميع التغييرات بنجاح"
+
+#: profile##languageOption##en
+msgid "English"
+msgstr "الإنجليزية"
+
+#: profile##languageOption##es
+msgid "Spanish"
+msgstr "الإسبانية"
+
+#: profile##languageOption##ar
+msgid "Arabic"
+msgstr "العربية"
+
+# to recheck
+#: profile##languageOption##ko
+msgid "Korean"
+msgstr "الكورية"
+
+# to recheck
+#: profile##languageOption##id
+msgid "Indonesian"
+msgstr "الأندونيسية"
+
+# to recheck
+#: profile##languageOption##de
+msgid "German"
+msgstr "ألمانية"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"

@@ -867,30 +867,6 @@ msgstr "imperiales (beta)"
 msgid "Settings"
 msgstr "Ajustes"
 
-#: profile##englishLanguageOption
-msgid "English"
-msgstr "Inglés"
-
-#: profile##spanishLanguageOption
-msgid "Spanish"
-msgstr "Español"
-
-#: profile##arabicLanguageOption
-msgid "Arabic"
-msgstr "Árabe"
-
-#: profile##koreanLanguageOption
-msgid "Korean"
-msgstr ""
-
-#: profile##indonesianLanguageOption
-msgid "Indonesian"
-msgstr ""
-
-#: profile##germanLanguageOption
-msgid "German"
-msgstr ""
-
 #: profile##saveButton
 msgid "Save changes"
 msgstr "Guardar cambios"
@@ -918,6 +894,33 @@ msgstr "Editor predeterminado de OpenStreetMap (beta)"
 #: profile##successNotification
 msgid "All changes have been applied successfully"
 msgstr "Todos los cambios se han aplicado correctamente"
+
+#: profile##languageOption##en
+msgid "English"
+msgstr "Inglés"
+
+#: profile##languageOption##es
+msgid "Spanish"
+msgstr "Español"
+
+#: profile##languageOption##ar
+msgid "Arabic"
+msgstr "Árabe"
+
+# to recheck
+#: profile##languageOption##ko
+msgid "Korean"
+msgstr "Сoreano"
+
+# to recheck
+#: profile##languageOption##id
+msgid "Indonesian"
+msgstr "Indonesio"
+
+# to recheck
+#: profile##languageOption##de
+msgid "German"
+msgstr "Alemán"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
