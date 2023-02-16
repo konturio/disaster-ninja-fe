@@ -38,10 +38,10 @@ export const episodesResource = createAsyncAtom(
       // - add missing ids
       // - set default value for forecasted flag;
       return responseData.map((e) => {
-        const cp = { ...e };
-        if (!cp.id) cp.id = 'temp_' + nanoid(6);
-        if (!cp.forecasted) cp.forecasted = false;
-        return cp;
+        const copy = { ...e };
+        if (!copy.hasOwnProperty('id')) copy.id = 'temp_' + nanoid(6);
+        if (!copy.hasOwnProperty('forecasted')) copy.forecasted = false;
+        return copy;
       });
     }
     return null;
