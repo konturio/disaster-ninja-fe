@@ -77,7 +77,6 @@ map.on('click', (event) => {
 
 ```ts
 interface TooltipService {
-  init(mountPoint: Element) => void;
   showTooltip: ({ x: number, y: number }, content: string) => number);
   updateTooltip: ({ x: number, y: number }, content: string) => number);
   closeTooltip: (tooltipId: number) => void;
