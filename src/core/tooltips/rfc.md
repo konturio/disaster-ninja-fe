@@ -28,7 +28,7 @@ function Sidebar() {
         <TooltipTrigger>
           <button>Some button with tip</button>
         </TooltipTrigger>
-        {/* What show */}
+        {/* What to show */}
         <TooltipContent>Text hint</TooltipContent>
       </Tooltip>
     </nav>
