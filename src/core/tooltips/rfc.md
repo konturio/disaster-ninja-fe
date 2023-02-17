@@ -5,7 +5,7 @@ Underhood it uses `@konturio/ui-kit` tooltip component for show tooltip in theme
 
 Tooltip:
 
-- shows by hover-in and hides by hover-out events (after delay)
+- Shows by hover-in and hides by hover-out events (after delay)
 - Not interactive
 - Can contain only text
 
