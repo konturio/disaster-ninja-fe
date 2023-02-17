@@ -4,6 +4,7 @@ import { Trans } from 'react-i18next';
 import { Play24, PlayActive24 } from '@konturio/default-icons';
 import { Tooltip } from '@konturio/ui-kit';
 import { episodesPanelState } from '~core/shared_state';
+import { i18n } from '~core/localization';
 import s from './EpisodeTimelineToggle.module.css';
 
 export function EpisodeTimelineToggle({ isActive }) {
@@ -24,7 +25,7 @@ export function EpisodeTimelineToggle({ isActive }) {
         {isActive && panelState.isOpen ? <PlayActive24 /> : <Play24 />}
       </span>
       <Tooltip open={showTooltip} hoverBehavior>
-        <Trans i18nKey="event_list.open_timeline_button">Open timeline</Trans>
+        {i18n.t('event_list.open_timeline_button')}
       </Tooltip>
     </>
   );

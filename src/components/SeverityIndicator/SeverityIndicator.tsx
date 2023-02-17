@@ -2,23 +2,24 @@ import { Tooltip } from '@konturio/ui-kit';
 import { memo, useRef, useState } from 'react';
 import { i18n } from '~core/localization';
 import s from './SeverityIndicator.module.css';
+import type { Severity } from '~core/types';
 
 const COLORS = ['#FFDF35', '#FFB800', '#FF8A00', '#FF3D00', '#EA2A00'];
 
-const SEVERITY_TO_TEXT = {
-  UNKNOWN: i18n.t('event_list.severity_unknown'),
-  TERMINATION: i18n.t('event_list.severity_termination'),
-  MINOR: i18n.t('event_list.severity_minor'),
-  MODERATE: i18n.t('event_list.severity_moderate'),
-  SEVERE: i18n.t('event_list.severity_severe'),
-  EXTREME: i18n.t('event_list.severity_extreme'),
+const severityToText = (severity: Severity) => {
+  const translations = {
+    UNKNOWN: i18n.t('event_list.severity_unknown'),
+    TERMINATION: i18n.t('event_list.severity_termination'),
+    MINOR: i18n.t('event_list.severity_minor'),
+    MODERATE: i18n.t('event_list.severity_moderate'),
+    SEVERE: i18n.t('event_list.severity_severe'),
+    EXTREME: i18n.t('event_list.severity_extreme'),
+  };
+
+  return translations[severity];
 };
 
-function SeverityIndicatorGenerator({
-  severity,
-}: {
-  severity: 'TERMINATION' | 'MINOR' | 'MODERATE' | 'SEVERE' | 'EXTREME' | 'UNKNOWN';
-}) {
+function SeverityIndicatorGenerator({ severity }: { severity: Severity }) {
   const ref = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -31,6 +32,7 @@ function SeverityIndicatorGenerator({
     SEVERE: 4,
     EXTREME: 5,
   }[severity];
+
   return (
     <>
       <div
@@ -50,7 +52,7 @@ function SeverityIndicatorGenerator({
         ))}
       </div>
       <Tooltip placement="bottom" triggerRef={ref} hoverBehavior open={isHovered}>
-        {SEVERITY_TO_TEXT[severity]}
+        {severityToText(severity)}
       </Tooltip>
     </>
   );
