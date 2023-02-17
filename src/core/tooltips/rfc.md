@@ -24,7 +24,7 @@ function Sidebar() {
   return (
     <nav>
       <Tooltip>
-        {/* Where show */}
+        {/* Where to show */}
         <TooltipTrigger>
           <button>Some button with tip</button>
         </TooltipTrigger>
