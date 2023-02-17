@@ -13,7 +13,6 @@ import type { LayerLegend } from '~core/logical_layers/types/legends';
 
 function convertDetailsToSource(response: LayerInAreaDetails): LayerSource | null {
   if (!('source' in response)) {
-    console.error('layer without source incoming', response);
     return null;
   }
 
@@ -97,7 +96,16 @@ export const areaLayersLegendsAndSources = createAtom(
         layersDetailsData.forEach((layerDetails, layerId) => {
           const layerSource = layerDetails ? convertDetailsToSource(layerDetails) : null;
           const prevSource = newState.get(layerId);
-          if (prevSource?.data && !layerSource) return;
+          if (prevSource?.data && !layerSource) {
+            console.warn(
+              `
+            Attempt to remove source for layer ${layerDetails.id}. 
+            Previous source: 
+            `,
+              prevSource,
+            );
+            return;
+          }
           newState.set(layerId, {
             error: layersDetailsError,
             data: layerSource,
@@ -113,8 +121,13 @@ export const areaLayersLegendsAndSources = createAtom(
           const layerLegend = layerDetails ? convertDetailsToLegends(layerDetails) : null;
           const prevLegend = newState.get(layerId);
           if (prevLegend?.data && !layerLegend) {
-            // console.log('%c⧭ assign ', 'color: #ff6600', layersDetailsData);
-            // hope we're not masking some problem here
+            console.warn(
+              `
+            Attempt to remove legend for layer ${layerDetails.id}. 
+            Previous legend: 
+            `,
+              prevLegend,
+            );
             return;
           }
           newState.set(layerId, {

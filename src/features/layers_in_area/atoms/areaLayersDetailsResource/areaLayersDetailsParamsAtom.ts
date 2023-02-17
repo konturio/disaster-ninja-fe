@@ -11,6 +11,7 @@ import {
 } from './areaLayersDetailsResourceAtomCache';
 import type { DetailsRequestParams } from './types';
 
+// Why we add layersToRetrieveWithGeometryFilter if no geometry provided?
 export const areaLayersDetailsParamsAtom = createAtom(
   {
     enabledLayersAtom,
@@ -102,6 +103,11 @@ export const areaLayersDetailsParamsAtom = createAtom(
 
     if (focusedGeometry) {
       newState.geoJSON = focusedGeometry.geometry;
+    } else if (newState.layersToRetrieveWithoutGeometryFilter?.length) {
+      console.warn(
+        'missing geometry for layers ',
+        newState.layersToRetrieveWithoutGeometryFilter,
+      );
     }
 
     return newState;
