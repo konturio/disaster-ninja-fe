@@ -15,7 +15,7 @@ We assume that all cases of using a tooltip can be reduced to two cases
 
 ### We have an element around which a tooltip should be shown
 
-In that case you need import special components and use them
+In that case you need to import special components and use them
 
 ```jsx
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltip';
