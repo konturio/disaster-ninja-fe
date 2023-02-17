@@ -38,7 +38,7 @@ export interface TileSourceContainer {
   legend?: LayerDetailsLegend;
 }
 
-export interface NoSourceContainer {
+export interface MinimalResponse {
   id: string;
   ownedByUser: boolean;
 }
@@ -46,4 +46,4 @@ export interface NoSourceContainer {
 export type LayerInAreaDetails =
   | GeoJSONSourceSourceContainer
   | TileSourceContainer
-  | NoSourceContainer;
+  | MinimalResponse;
