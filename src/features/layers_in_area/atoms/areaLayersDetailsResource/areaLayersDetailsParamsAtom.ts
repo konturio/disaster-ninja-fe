@@ -11,7 +11,6 @@ import {
 } from './areaLayersDetailsResourceAtomCache';
 import type { DetailsRequestParams } from './types';
 
-// Why we add layersToRetrieveWithGeometryFilter if no geometry provided?
 export const areaLayersDetailsParamsAtom = createAtom(
   {
     enabledLayersAtom,
