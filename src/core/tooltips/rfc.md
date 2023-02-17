@@ -1,6 +1,6 @@
 ## Tooltip Service
 
-This service allow us show tooltips in different places of our application.
+This service allows us to show tooltips in different places of our application.
 Underhood it uses `@konturio/ui-kit` tooltip component for show tooltip in theme style
 
 Tooltip:
