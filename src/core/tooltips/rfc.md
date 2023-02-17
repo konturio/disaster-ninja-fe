@@ -65,9 +65,9 @@ map.on('click', (event) => {
 
   // Show new tooltip
   currentTooltipId = tooltips.showTooltip(
-    // Where show
+    // Where to show
     { x: event.point.x, y: event.point.y },
-    // What show
+    // What to show
     selectedFeatures.map((f) => f.properties.countryName).join(' ,'),
   );
 });
