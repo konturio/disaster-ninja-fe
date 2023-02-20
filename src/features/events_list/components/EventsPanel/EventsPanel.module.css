@@ -36,6 +36,7 @@
 .eventsPanel {
   position: relative;
   border-radius: var(--border-radius-unit);
+  overflow: hidden;
   flex: 1;
 
   &.show > .contentWrap {
