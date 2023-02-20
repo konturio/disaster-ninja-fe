@@ -8,6 +8,7 @@ import { analyticsResourceAtom } from '~features/analytics_panel/atoms/analytics
 import { i18n } from '~core/localization';
 import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import s from './AnalyticsContainer.module.css';
 
 export const AnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(analyticsResourceAtom);
@@ -40,7 +41,7 @@ export const AnalyticsContainer = () => {
             {/*</Tab>*/}
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel className={s.tabPanel}>
               <AnalyticsDataList data={dataList} />
             </TabPanel>
           </TabPanels>
