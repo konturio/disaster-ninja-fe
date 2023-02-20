@@ -1,5 +1,5 @@
-import { Text } from '@konturio/ui-kit';
-import { useMemo } from 'react';
+import { Text, Tooltip } from '@konturio/ui-kit';
+import { useMemo, useRef, useState } from 'react';
 import { People16, Area16 } from '@konturio/default-icons';
 import { nanoid } from 'nanoid';
 import { i18n } from '~core/localization';
@@ -13,11 +13,35 @@ const Sub = ({ children }) => (
 
 const formatNumber = new Intl.NumberFormat().format;
 
-type Statistics = {
+type StatisticProps = {
   tooltip: string;
   value: string | JSX.Element | null;
   icon?: JSX.Element;
-}[];
+};
+
+function Statistic({ tooltip, value, icon }: StatisticProps) {
+  const ref = useRef(null);
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <>
+      <div
+        ref={ref}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className={s.analyticsBadge}
+      >
+        {icon && icon}
+        <span className={s.analyticsValue}>
+          <Text type="caption">{value}</Text>
+        </span>
+      </div>
+      <Tooltip placement="bottom" triggerRef={ref} open={hovered} hoverBehavior>
+        {tooltip}
+      </Tooltip>
+    </>
+  );
+}
 
 export function Analytics({
   settledArea,
@@ -28,8 +52,8 @@ export function Analytics({
   affectedPeople: number;
   loss?: number;
 }) {
-  const statistics = useMemo((): Statistics => {
-    const result: Statistics = [];
+  const statistics = useMemo((): StatisticProps[] => {
+    const result: StatisticProps[] = [];
 
     if (affectedPeople === 0)
       result.push({
@@ -68,13 +92,8 @@ export function Analytics({
 
   return (
     <div className={s.analytics}>
-      {statistics.map(({ tooltip, icon, value }) => (
-        <div key={nanoid(5)} className={s.analyticsBadge} title={tooltip}>
-          {icon && icon}
-          <span className={s.analyticsValue}>
-            <Text type="caption">{value}</Text>
-          </span>
-        </div>
+      {statistics.map((props) => (
+        <Statistic key={nanoid(5)} {...props} />
       ))}
     </div>
   );
