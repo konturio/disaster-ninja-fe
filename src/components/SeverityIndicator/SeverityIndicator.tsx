@@ -7,16 +7,20 @@ import type { Severity } from '~core/types';
 const COLORS = ['#FFDF35', '#FFB800', '#FF8A00', '#FF3D00', '#EA2A00'];
 
 const severityToText = (severity: Severity) => {
-  const translations = {
-    UNKNOWN: i18n.t('event_list.severity_unknown'),
-    TERMINATION: i18n.t('event_list.severity_termination'),
-    MINOR: i18n.t('event_list.severity_minor'),
-    MODERATE: i18n.t('event_list.severity_moderate'),
-    SEVERE: i18n.t('event_list.severity_severe'),
-    EXTREME: i18n.t('event_list.severity_extreme'),
-  };
-
-  return translations[severity];
+  switch (severity) {
+    case 'UNKNOWN':
+      return i18n.t('event_list.severity_unknown');
+    case 'TERMINATION':
+      return i18n.t('event_list.severity_termination');
+    case 'MINOR':
+      return i18n.t('event_list.severity_minor');
+    case 'MODERATE':
+      return i18n.t('event_list.severity_moderate');
+    case 'SEVERE':
+      return i18n.t('event_list.severity_severe');
+    case 'EXTREME':
+      return i18n.t('event_list.severity_extreme');
+  }
 };
 
 function SeverityIndicatorGenerator({ severity }: { severity: Severity }) {
