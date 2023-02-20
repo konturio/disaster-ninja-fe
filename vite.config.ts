@@ -12,6 +12,7 @@ import { selectConfig, useConfig } from './scripts/select-config.mjs';
 import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
 import postcssConfig from './postcss.config';
 import { proxyConfig } from './vite.proxy';
+import { buildReporterPlugin as reporter } from './vite-plugin-reporter';
 
 const relative = (folder: string) => path.resolve(__dirname, folder);
 const parseEnv = (env: Record<string, string>): Record<string, string> =>
@@ -53,7 +54,10 @@ export default ({ mode }) => {
               template: 'treemap', //'list',
               gzipSize: true,
               brotliSize: true,
-              // sourcemap: true,
+            }),
+          mode !== 'development' &&
+            reporter({
+              filename: './size-report.json',
             }),
         ],
         output: {

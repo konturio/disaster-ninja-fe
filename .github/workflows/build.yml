@@ -51,10 +51,6 @@ jobs:
       - run: env NODE_ENV=test npm run coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
-      - name: Compute JS Bundle size
-        uses: sarthak-saxena/JSBundleSize@3.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
 
   build:
