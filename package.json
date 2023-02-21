@@ -108,6 +108,7 @@
     "@types/react-transition-group": "^4.4.5",
     "@types/w3c-generic-sensor": "^1.0.6",
     "axios": "^0.27.2",
+    "bundle-size-diff": "github:konturio/bundle-size-diff",
     "clsx": "^1.2.1",
     "color-interpolate": "^1.0.5",
     "date-fns": "^2.29.3",
