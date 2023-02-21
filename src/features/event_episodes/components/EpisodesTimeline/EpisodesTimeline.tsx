@@ -69,8 +69,9 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
     if (selection.length > 1) {
       return; // its cluster
     }
-    if (selection[0] !== undefined) {
-      eventEpisodesController.setCurrentEpisode(String(selection[0].id));
+    const [item] = selection
+    if (item !== undefined) {
+      eventEpisodesController.setCurrentEpisode(String(item.id));
     } else {
       eventEpisodesController.resetCurrentEpisode();
     }
