@@ -110,6 +110,7 @@
     "axios": "^0.27.2",
     "clsx": "^1.2.1",
     "color-interpolate": "^1.0.5",
+    "cowsay": "^1.5.0",
     "date-fns": "^2.29.3",
     "dnd-core": "^16.0.1",
     "file-saver": "^2.0.5",
@@ -143,7 +144,6 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "bundle-size-diff": "github:konturio/bundle-size-diff#v1.0.1",
     "@testing-library/react": "^13.4.0",
     "@types/sinon": "^10.0.13",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
@@ -154,6 +154,7 @@
     "ajv": "^8.12.0",
     "autoprefixer": "^10.4.13",
     "axios-mock-adapter": "^1.21.2",
+    "bundle-size-diff": "github:konturio/bundle-size-diff#v1.0.1",
     "cpr": "^3.0.1",
     "dependency-cruiser": "^12.9.0",
     "eslint": "^8.34.0",
