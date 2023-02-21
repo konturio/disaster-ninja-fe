@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         ref: ${{ github.base_ref }}
 
@@ -22,7 +22,7 @@ jobs:
       run: npm run build
 
     - name: Upload base size-report.json
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: base
         path: ./size-report.json
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Install dependencies
       run: npm ci
@@ -44,7 +44,7 @@ jobs:
       run: npm run build
 
     - name: Upload base size-report.json
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: pr
         path: ./size-report.json
@@ -57,16 +57,16 @@ jobs:
 
     steps:
     - name: Checkout PR
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Download base size-report.json
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: base
         path: base
 
     - name: Download PR size-report.json
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: pr
         path: pr
