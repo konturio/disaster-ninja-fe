@@ -1,13 +1,13 @@
 ## Tooltip Service
 
 This service allows us to show tooltips in different places of our application.
-Underhood it uses `@konturio/ui-kit` tooltip component for show tooltip in theme style
+Underhood it uses `@konturio/ui-kit` tooltip component for show tooltips
 
 Tooltip:
 
 - Shows by hover-in and hides by hover-out events (after delay)
 - Not interactive
-- Can contain only text
+- Can contain only text\markdown
 
 ## How to use
 
@@ -44,8 +44,11 @@ For example, let's show countries under cursor
 
 ```ts
 import { tooltips } from '~core/tooltips';
+import type { TooltipId } from '~core/tooltips';
 
-let currentTooltipId: number | null = null;
+const tooltip = tooltips.createTooltip({
+  size: 'bigger',
+});
 
 map.on('click', (event) => {
   const bbox = [
@@ -58,13 +61,12 @@ map.on('click', (event) => {
   });
 
   // Close previous tooltip
-  if (currentTooltipId !== null) {
-    tooltips.closeTooltip(currentTooltipId);
-    currentTooltipId = null;
+  if (tooltip.isOpen) {
+    tooltip.close();
   }
 
   // Show new tooltip
-  currentTooltipId = tooltips.showTooltip(
+  currentTooltipId = tooltip.show(
     // Where to show
     { x: event.point.x, y: event.point.y },
     // What to show
@@ -73,14 +75,27 @@ map.on('click', (event) => {
 });
 ```
 
-### How service works
+### Types
 
 ```ts
-interface TooltipService {
-  showTooltip: ({ x: number, y: number }, content: string) => number);
-  updateTooltip: ({ x: number, y: number }, content: string) => number);
-  closeTooltip: (tooltipId: number) => void;
+interface Position {
+  x: number;
+  y: number;
 }
 
-export const tooltips = new TooltipService();
+interface Tooltip {
+  show: (position: Position | Element, content: string) => void;
+  close: () => void;
+  isOpen: boolean;
+}
+
+// <TooltipContent /> props should have type PropsWithChildren<TooltipSettings>
+
+interface TooltipSettings {
+  size?: 'default' | 'bigger';
+}
+
+interface TooltipService {
+  createTooltip: (settings?: TooltipSettings) => Tooltip;
+}
 ```
