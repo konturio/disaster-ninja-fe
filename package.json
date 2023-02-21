@@ -143,6 +143,7 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
+    "bundle-size-diff": "github:konturio/bundle-size-diff#v1.0.1",
     "@testing-library/react": "^13.4.0",
     "@types/sinon": "^10.0.13",
     "@typescript-eslint/eslint-plugin": "^5.52.0",

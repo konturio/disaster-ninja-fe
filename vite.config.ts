@@ -12,6 +12,7 @@ import { selectConfig, useConfig } from './scripts/select-config.mjs';
 import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
 import postcssConfig from './postcss.config';
 import { proxyConfig } from './vite.proxy';
+import buildSizeReport from 'bundle-size-diff/plugin';
 
 const relative = (folder: string) => path.resolve(__dirname, folder);
 const parseEnv = (env: Record<string, string>): Record<string, string> =>
@@ -53,7 +54,6 @@ export default ({ mode }) => {
               template: 'treemap', //'list',
               gzipSize: true,
               brotliSize: true,
-              // sourcemap: true,
             }),
         ],
         output: {
@@ -83,6 +83,9 @@ export default ({ mode }) => {
           },
           tags: [...injectRRT],
         },
+      }),
+      buildSizeReport({
+        filename: './size-report.json',
       }),
     ],
     css: {
