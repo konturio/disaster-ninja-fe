@@ -73,7 +73,7 @@ jobs:
 
     - name: Get diff
       id: get-diff
-      uses: Konturio/bundle-size-diff@v1.0.2
+      uses: Konturio/bundle-size-diff@v1.0.3
       with:
         base_path: './base/size-report.json'
         pr_path: './pr/size-report.json'
