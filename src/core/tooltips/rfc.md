@@ -50,18 +50,8 @@ const tooltip = tooltips.createTooltip({
   size: 'bigger',
 });
 
-map.on('click', (event) => {
-  const bbox = [
-    [e.point.x - 5, e.point.y - 5],
-    [e.point.x + 5, e.point.y + 5],
-  ];
-
-  const selectedFeatures = map.queryRenderedFeatures(bbox, {
-    layers: ['counties'],
-  });
-
-  // Close previous tooltip
-  if (tooltip.isOpen) {
+map.on('mouseenter', 'counties', (event) => {
+  if (selectedFeatures.length === 0 && tooltip.isOpen) {
     tooltip.close();
   }
 
@@ -70,8 +60,13 @@ map.on('click', (event) => {
     // Where to show
     { x: event.point.x, y: event.point.y },
     // What to show
-    selectedFeatures.map((f) => f.properties.countryName).join(' ,'),
+    event.features.map((f) => f.properties.countryName).join(' ,'),
   );
+});
+
+map.on('mouseleave', 'counties', () => {
+  // Close previous tooltip
+  tooltip.close();
 });
 ```
 
