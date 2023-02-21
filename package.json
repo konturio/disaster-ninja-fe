@@ -153,6 +153,7 @@
     "ajv": "^8.12.0",
     "autoprefixer": "^10.4.13",
     "axios-mock-adapter": "^1.21.2",
+    "bundle-size-diff": "github:konturio/bundle-size-diff#v1.0.6",
     "cpr": "^3.0.1",
     "dependency-cruiser": "^12.9.0",
     "eslint": "^8.34.0",
