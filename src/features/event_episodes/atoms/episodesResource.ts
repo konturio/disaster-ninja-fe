@@ -34,10 +34,14 @@ export const episodesResource = createAsyncAtom(
       );
       if (!responseData) throw 'No data received';
 
-      // Episodes not have any ids
+      // Adapter:
+      // - add missing ids
+      // - set default value for forecasted flag;
       return responseData.map((e) => {
-        if (!e.id) e.id = 'temp_' + nanoid(6);
-        return e;
+        const copy = { ...e };
+        if (!copy.hasOwnProperty('id')) copy.id = 'temp_' + nanoid(6);
+        if (!copy.hasOwnProperty('forecasted')) copy.forecasted = false;
+        return copy;
       });
     }
     return null;

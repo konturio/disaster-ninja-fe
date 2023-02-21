@@ -3,8 +3,17 @@ import { useAtom } from '@reatom/react';
 import { useCallback, useMemo } from 'react';
 import { eventEpisodesController } from '../../controller';
 import { eventEpisodesModel } from '../../model';
+import s from './EpisodesTimeline.module.css';
 import type { TimelineProps } from '@konturio/ui-kit';
 import type { Episode } from '~core/types';
+
+interface DataEntry {
+  id: string | number;
+  start: Date;
+  end?: Date;
+  group?: string;
+  forecasted: boolean;
+}
 
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
@@ -20,7 +29,18 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
     [selectedEpisode],
   );
 
-  const dataSet: TimelineProps['dataset'] = useMemo(() => {
+  const timelineEntryClassName = useCallback(
+    (entry: DataEntry, defaultClassName?: string) => {
+      if (entry.forecasted) {
+        return s.forecasted;
+      }
+
+      return defaultClassName;
+    },
+    [],
+  );
+
+  const dataSet = useMemo(() => {
     if (episodes.length) {
       return episodes.map((episode) =>
         episode.startedAt !== episode.endedAt
@@ -29,12 +49,14 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
               id: episode.id,
               start: new Date(episode.startedAt),
               end: new Date(episode.endedAt),
+              forecasted: episode.forecasted,
               content: '',
             }
           : // Point
             {
               id: episode.id,
               start: new Date(episode.startedAt),
+              forecasted: episode.forecasted,
               content: '',
             },
       );
@@ -43,19 +65,17 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
     }
   }, [episodes]);
 
-  const onSelect = useCallback<WithRequired<TimelineProps, 'onSelect'>['onSelect']>(
-    (selection) => {
-      if (selection.length > 1) {
-        return; // its cluster
-      }
-      if (selection[0] !== undefined) {
-        eventEpisodesController.setCurrentEpisode(String(selection[0].id));
-      } else {
-        eventEpisodesController.resetCurrentEpisode();
-      }
-    },
-    [],
-  );
+  const onSelect = useCallback((selection) => {
+    if (selection.length > 1) {
+      return; // its cluster
+    }
+    const [item] = selection
+    if (item !== undefined) {
+      eventEpisodesController.setCurrentEpisode(String(item.id));
+    } else {
+      eventEpisodesController.resetCurrentEpisode();
+    }
+  }, []);
 
   // Timeline library have imperative api that provided trough useImperativeHandle handle
   // Here I pass this api to atom.
@@ -70,6 +90,7 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
         cluster={timelineState.settings.cluster}
         onSelect={onSelect}
         margin={timelineMargins}
+        getEntryClassName={timelineEntryClassName}
       />
     </div>
   );

@@ -11,4 +11,5 @@ export interface Episode {
   updatedAt: string;
   geojson: GeoJSON.FeatureCollection;
   location: string;
+  forecasted: boolean;
 }
