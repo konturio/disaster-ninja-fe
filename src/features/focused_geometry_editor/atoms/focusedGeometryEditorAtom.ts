@@ -79,7 +79,7 @@ export const focusedGeometryEditorAtom = createAtom(
 );
 
 // here I use deepCopy to modify feature.properties object later
-function updateFromGeometry(focusedGeometry: FocusedGeometry, actions: any[]) {
+function updateFromGeometry(focusedGeometry: FocusedGeometry, actions: Action[]) {
   if (focusedGeometry.geometry.type === 'FeatureCollection') {
     const noMultipoints: Feature[] = focusedGeometry.geometry.features.reduce(
       (result: Feature[], currentFeature) => {
