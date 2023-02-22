@@ -40,7 +40,6 @@ It requires feature `bivariate_manager` turned on.
 
    It's a renderer of bivariate layers. It's selected if type of layer is 'overlay'.
    Paints a layer, generating style from the legend, that has colorTheme.
-   Also has a hexagon selection logic with popup.
 
 6. bivariateColorThemeUtils
 
