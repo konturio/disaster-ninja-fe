@@ -38,7 +38,7 @@ It requires feature `bivariate_manager` turned on.
    Selection in matrix component processed here.
 
    - runPreselection is called when you open matrix, to set up initial selection (in case if bivariate layer was selected before matrix opening)
-   - setMatrixSelection happens after selection of x and y layers pair, it creates a legend, colorTheme and a layer, then registers it in layersRegistryAtom and activates it.
+   - `runPreselection` is called when you open matrix, to set up initial selection (in case if bivariate layer was selected before matrix opening)
 
 5. BivariateRenderer
 
