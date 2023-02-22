@@ -11,7 +11,7 @@ It requires feature `bivariate_manager` turned on.
 1. bivariateStatisticsResourceAtom
 
    Loads data from /bivariate_matrix, if focusedGeometry is empty - make a full world data request.
-
+   Loads data from `/bivariate_matrix`, if focusedGeometry is empty - make a full world data request.
 2. bivariateNumeratorsAtom
 
    Extracts all available numerators with denominators after bivariateStatisticsResourceAtom is loaded.
