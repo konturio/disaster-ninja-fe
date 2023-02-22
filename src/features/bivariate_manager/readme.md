@@ -39,7 +39,7 @@ It requires feature `bivariate_manager` turned on.
 
    - runPreselection is called when you open matrix, to set up initial selection (in case if bivariate layer was selected before matrix opening)
    - `runPreselection` is called when you open matrix, to set up initial selection (in case if bivariate layer was selected before matrix opening)
-
+   - `setMatrixSelection` happens after selection of x and y layers pair, it creates a legend, colorTheme and a layer, then registers it in layersRegistryAtom and activates it.
 5. BivariateRenderer
 
    It's a renderer of bivariate layers. It's selected if type of layer is 'overlay'.
