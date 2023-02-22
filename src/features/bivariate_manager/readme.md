@@ -1,0 +1,52 @@
+## Bivariate Manager
+
+Bivariate manager is a tool for analyzing and finding new insights from a set of suggested layers.
+
+### How to activate
+
+It requires feature bivariate_manager turned on.
+
+### What's inside
+
+1. bivariateStatisticsResourceAtom
+
+   Loads data from /bivariate_matrix, if focusedGeometry is empty - make a full world data request.
+
+2. bivariateNumeratorsAtom
+
+   Extracts all available numerators with denominators after bivariateStatisticsResourceAtom is loaded.
+
+3. bivariateCorrelationMatrixAtom
+
+   Creates matrix from bivariateNumeratorsAtom and fills it will rates from bivariateStatisticsResourceAtom response.
+   Matrix is needed to paint a bivariate matrix in ui.
+
+4. bivariateMatrixSelectionAtom
+
+   Selection in matrix component processed here.
+
+   - runPreselection is called when you open matrix, to set up initial selection (in case if bivariate layer was selected before matrix opening)
+   - setMatrixSelection happens after selection of x and y layers pair, it creates a legend, colorTheme and a layer, then registers it in layersRegistryAtom and activates it.
+
+5. BivariateRenderer
+
+   It's a renderer of bivariate layers. It's selected if type of layer is 'overlay'.
+   Paints a layer, generating style from the legend, that has colorTheme.
+   Also has a hexagon selection logic with popup.
+
+6. bivariateColorThemeUtils
+
+   Important part of bivariate, that is used for colorTheme and legend generation. It includes logic of setting colors for legend (A1 - C3) and painting rules for mapbox using these colors.
+
+   How layer coloring works:
+
+   In `bivariateMatrixSelectionAtom.setMatrixSelection` calls `generateColorThemeAndBivariateStyle` method, that returns colorTheme and bivariateStyle.
+
+   - colorTheme is {id: "A1", color: "rgba(232,232,157,0.5)"}[] format
+   - bivariateStyle is needed for producing tiles source
+
+   Then colorTheme is used to produce a legend. (`<BivariateLegend/>` component data)
+
+   Later on layer mount in BivariateRenderer method `_generateLayerFromLegend` is called to create an object with the rules for mapbox, it has case block with value intervals for every step. (it's core painting logic)
+
+   For reference use [mapbox documentation](https://docs.mapbox.com/mapbox-gl-js/style-spec/expressions/)
