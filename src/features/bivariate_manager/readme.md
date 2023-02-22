@@ -15,7 +15,7 @@ It requires feature `bivariate_manager` turned on.
 2. bivariateNumeratorsAtom
 
    Extracts all available numerators with denominators after bivariateStatisticsResourceAtom is loaded.
-
+   Extracts all available numerators with denominators after `bivariateStatisticsResourceAtom` is loaded.
 3. bivariateCorrelationMatrixAtom
 
    Creates matrix from bivariateNumeratorsAtom and fills it will rates from bivariateStatisticsResourceAtom response.
