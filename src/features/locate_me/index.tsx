@@ -40,7 +40,6 @@ export function initLocateMe() {
     title: i18n.t('locate_me.feature_title'),
     active: false,
     visualGroup: controlVisualGroup.noAnalytics,
-    exclusiveGroup: controlGroup.mapTools,
     icon: <Locate24 />,
     onClick: () => {
       toolbarControlsAtom.enable.dispatch(LOCATE_ME_CONTROL_ID);
