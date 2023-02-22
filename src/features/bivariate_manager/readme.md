@@ -2,6 +2,16 @@
 
 Bivariate manager is a tool for analyzing and finding new insights from a set of suggested layers.
 
+Some terms:
+
+Indicator - any value at a cell. For example, a number of people at hexagon cell.
+
+Axis - a pair of indicators where one is divided by another one. For example, a number of people per square kilometer in a hexagon cell.
+
+Numerator (in axis) - a dividend indicator in axis.
+
+Denominator (in axis) - a divisor indicator in axis.
+
 ### How to activate
 
 It requires feature `bivariate_manager` turned on.
@@ -12,10 +22,12 @@ It requires feature `bivariate_manager` turned on.
 
    Loads data from /bivariate_matrix, if focusedGeometry is empty - make a full world data request.
    Loads data from `/bivariate_matrix`, if focusedGeometry is empty - make a full world data request.
+
 2. bivariateNumeratorsAtom
 
    Extracts all available numerators with denominators after bivariateStatisticsResourceAtom is loaded.
    Extracts all available numerators with denominators after `bivariateStatisticsResourceAtom` is loaded.
+
 3. bivariateCorrelationMatrixAtom
 
    Creates matrix from bivariateNumeratorsAtom and fills it will rates from bivariateStatisticsResourceAtom response.
