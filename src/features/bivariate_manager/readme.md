@@ -19,7 +19,7 @@ It requires feature `bivariate_manager` turned on.
 3. bivariateCorrelationMatrixAtom
 
    Creates matrix from bivariateNumeratorsAtom and fills it will rates from bivariateStatisticsResourceAtom response.
-   Matrix is needed to paint a bivariate matrix in ui.
+   Creates matrix from `bivariateNumeratorsAtom` and fills it will rates from `bivariateStatisticsResourceAtom` response.
 
 4. bivariateMatrixSelectionAtom
 
