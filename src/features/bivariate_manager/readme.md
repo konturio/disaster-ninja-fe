@@ -19,27 +19,23 @@ It requires feature `bivariate_manager` turned on.
 ### What's inside
 
 1. bivariateStatisticsResourceAtom
-
-   Loads data from /bivariate_matrix, if focusedGeometry is empty - make a full world data request.
    Loads data from `/bivariate_matrix`, if focusedGeometry is empty - make a full world data request.
 
 2. bivariateNumeratorsAtom
 
-   Extracts all available numerators with denominators after bivariateStatisticsResourceAtom is loaded.
    Extracts all available numerators with denominators after `bivariateStatisticsResourceAtom` is loaded.
 
 3. bivariateCorrelationMatrixAtom
 
-   Creates matrix from bivariateNumeratorsAtom and fills it will rates from bivariateStatisticsResourceAtom response.
    Creates matrix from `bivariateNumeratorsAtom` and fills it will rates from `bivariateStatisticsResourceAtom` response.
 
 4. bivariateMatrixSelectionAtom
 
    Selection in matrix component processed here.
 
-   - runPreselection is called when you open matrix, to set up initial selection (in case if bivariate layer was selected before matrix opening)
    - `runPreselection` is called when you open matrix, to set up initial selection (in case if bivariate layer was selected before matrix opening)
    - `setMatrixSelection` happens after selection of x and y layers pair, it creates a legend, colorTheme and a layer, then registers it in layersRegistryAtom and activates it.
+
 5. BivariateRenderer
 
    It's a renderer of bivariate layers. It's selected if type of layer is 'overlay'.
