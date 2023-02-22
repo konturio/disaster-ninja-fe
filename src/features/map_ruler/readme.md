@@ -19,7 +19,7 @@ Then toolbars control being described, and the control logic is simple - enable 
 
 #### Map ruler renderer
 
-This features renderer is a custom renderer ([read more about renders](https://github.com/konturio/disaster-ninja-fe/blob/main/src/core/logical_layers/rfc.md#layers-renderers)).
+This features renderer is a custom renderer ([read more about renderers](https://github.com/konturio/disaster-ninja-fe/blob/main/src/core/logical_layers/rfc.md#layers-renderers)).
 On mount:
 
 1. DeckGl config is used to create new map layer. The point of this is to describe what to draw, which way and how to handle user interaction events. You can read more about (Deck Gl geojson layer props)[https://deck.gl/docs/api-reference/layers/geojson-layer], (Composite layer props)[https://deck.gl/docs/api-reference/core/composite-layer] to understand configs described in `MapRulerRenderer`. You can also read about [NebulaGl geojson layer](https://nebula.gl/docs/api-reference/layers/editable-geojson-layer) we're alterating and see it's [source code](https://github.com/uber/nebula.gl/blob/master/modules/layers/src/layers/editable-geojson-layer.ts) to see what methods we're changing
