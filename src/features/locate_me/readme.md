@@ -12,4 +12,4 @@ import('~features/locate_me').then(({ initLocateMe }) => {
 
 ### How it works
 
-It uses `navigator.geolocation.getCurrentPosition` method to ask for user position once and then updates `currentMapPositionAtom` in case of success. Shows error message in case of errors/denail.
+It uses `navigator.geolocation.getCurrentPosition` method to ask for user position once and then updates `currentMapPositionAtom` in case of success. Shows error message in case of errors/denial.
