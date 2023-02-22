@@ -4,7 +4,7 @@ Bivariate manager is a tool for analyzing and finding new insights from a set of
 
 ### How to activate
 
-It requires feature bivariate_manager turned on.
+It requires feature `bivariate_manager` turned on.
 
 ### What's inside
 
