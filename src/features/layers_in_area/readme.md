@@ -31,7 +31,7 @@ if (featureFlags[FeatureFlag.LAYERS_IN_AREA]) {
 They load only info about what layers available, but not layers itself.
 
 When info about available layers loaded - `areaLayersControlsAtom` creates logical layers for each,
-so after that user/other features can enable or disable those layers.
+so after that user or other features can enable or disable those layers.
 
 `areaLayersDetailsResource` - load data for **enabled** layers from above resources,
 that required for show layers legend, draw them on map, and so on.
