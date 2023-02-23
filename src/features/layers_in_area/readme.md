@@ -5,8 +5,8 @@ Every time when geometry changes - this feature:
 
 - generates and sends requests to the api
 - saves responses to a special cache
-- creates new logical layers
-- deletes the irrelevant layers
+- creates new logical layers if needed
+- deletes the irrelevant layers if any
 
 Despite the name, this feature is also responsible for:
 
