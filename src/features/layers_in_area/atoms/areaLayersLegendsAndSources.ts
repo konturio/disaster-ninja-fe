@@ -12,7 +12,7 @@ import type { LayerSource } from '~core/logical_layers/types/source';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 
 function convertDetailsToSource(response: LayerInAreaDetails): LayerSource | null {
-  if (!('source' in response)) {
+  if (!response.source) {
     return null;
   }
 
@@ -23,6 +23,7 @@ function convertDetailsToSource(response: LayerInAreaDetails): LayerSource | nul
       source: {
         ...restSource,
         urls: url,
+        apiKey: '',
       },
     } as LayerSource;
   } else {
