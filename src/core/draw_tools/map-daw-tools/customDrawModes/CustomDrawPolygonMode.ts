@@ -10,18 +10,14 @@ import type {
   FeatureCollection,
   Position,
 } from '@nebula.gl/edit-modes';
-import type { TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
+import type { TentativeFeature } from '@nebula.gl/edit-modes';
 
 export class CustomDrawPolygonMode extends GeoJsonEditMode {
-  createTentativeFeature(
-    props: ModeProps<FeatureCollection>,
-  ): TentativeFeature {
+  createTentativeFeature(props: ModeProps<FeatureCollection>): TentativeFeature {
     const { lastPointerMoveEvent } = props;
     const clickSequence = this['getClickSequence']();
 
-    const lastCoords = lastPointerMoveEvent
-      ? [lastPointerMoveEvent.mapCoords]
-      : [];
+    const lastCoords = lastPointerMoveEvent ? [lastPointerMoveEvent.mapCoords] : [];
 
     let tentativeFeature;
     if (clickSequence.length === 1 || clickSequence.length === 2) {
@@ -51,10 +47,7 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
     return tentativeFeature;
   }
 
-  intersectionsTest(
-    props: ModeProps<FeatureCollection>,
-    coords: Position[],
-  ): boolean {
+  intersectionsTest(props: ModeProps<FeatureCollection>, coords: Position[]): boolean {
     if (props.modeConfig && props.modeConfig.disableSelfIntersections) {
       const k = kinks({
         type: 'Polygon',
@@ -126,8 +119,7 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
       clickedEditHandle &&
       Array.isArray(clickedEditHandle.properties.positionIndexes) &&
       (clickedEditHandle.properties.positionIndexes[0] === 0 ||
-        clickedEditHandle.properties.positionIndexes[0] ===
-          clickSequence.length - 1)
+        clickedEditHandle.properties.positionIndexes[0] === clickSequence.length - 1)
     ) {
       // They clicked the first or last point (or double-clicked), so complete the polygon
 
@@ -143,10 +135,7 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
 
       this['resetClickSequence']();
 
-      const editAction = this['getAddFeatureOrBooleanPolygonAction'](
-        polygonToAdd,
-        props,
-      );
+      const editAction = this['getAddFeatureOrBooleanPolygonAction'](polygonToAdd, props);
       if (editAction) {
         props.onEdit(editAction);
       }
@@ -226,10 +215,7 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
     }
   }
 
-  handlePointerMove(
-    event: PointerMoveEvent,
-    props: ModeProps<FeatureCollection>,
-  ) {
+  handlePointerMove(event: PointerMoveEvent, props: ModeProps<FeatureCollection>) {
     super.handlePointerMove(event, props);
     props.onUpdateCursor('cell');
   }

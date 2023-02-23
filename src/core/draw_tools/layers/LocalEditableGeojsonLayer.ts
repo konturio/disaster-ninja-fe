@@ -1,5 +1,5 @@
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
-import { GeoJsonLayer, IconLayer } from '@deck.gl/layers';
+import { GeoJsonLayer, IconLayer } from '@deck.gl/layers/typed';
 import type { FeatureCollection } from '@nebula.gl/edit-modes';
 
 function guideAccessor(accessor) {
@@ -86,6 +86,7 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
       type: 'FeatureCollection',
       features: [],
     };
+    // @ts-expect-error - deckgl types
     data.features = this.props.data?.features?.map((feature, index) => {
       if (feature.geometry.type !== 'Point')
         return {
@@ -102,7 +103,7 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
     const { editHandleIconSizeUnits } = this.props;
 
     // TODO: contribute type fix in nebula
-    // @ts-ignore - it's error in nebula typings
+    // @ts-expect-error - it's error in nebula typings
     if (!data || !data.features.length || !this.props.geojsonIcons) {
       return [];
     }
@@ -114,7 +115,7 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
       getIcon,
       getSize,
       // TODO: contribute type fix in nebula
-      // @ts-ignore - it's error in nebula typings
+      // @ts-expect-error - it's error in nebula typings
     } = this.props.geojsonIcons;
 
     const subLayerProps = {};
