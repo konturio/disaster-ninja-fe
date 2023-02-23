@@ -9,23 +9,20 @@ import type {
   PointerMoveEvent,
   FeatureCollection,
   Position,
+  GuideFeature,
 } from '@nebula.gl/edit-modes';
-import type { TentativeFeature } from '@nebula.gl/edit-modes/dist-types/types';
+import type { TentativeFeature } from '@nebula.gl/edit-modes';
 
 const DEFAULT_TOOLTIPS = [];
 
 export class CustomMeasureAreaMode extends GeoJsonEditMode {
   _isMeasuringSessionFinished = false;
 
-  _createTentativeFeature(
-    props: ModeProps<FeatureCollection>,
-  ): TentativeFeature {
+  _createTentativeFeature(props: ModeProps<FeatureCollection>): TentativeFeature {
     const { lastPointerMoveEvent } = props;
     const clickSequence = this['getClickSequence']();
 
-    const lastCoords = lastPointerMoveEvent
-      ? [lastPointerMoveEvent.mapCoords]
-      : [];
+    const lastCoords = lastPointerMoveEvent ? [lastPointerMoveEvent.mapCoords] : [];
 
     let tentativeFeature;
     if (clickSequence.length === 1 || clickSequence.length === 2) {
@@ -93,7 +90,7 @@ export class CustomMeasureAreaMode extends GeoJsonEditMode {
 
     const guides = {
       type: 'FeatureCollection' as const,
-      features: new Array<any>(),
+      features: new Array<GuideFeature>(),
     };
 
     const clickSequence = this['getClickSequence']();
@@ -133,7 +130,7 @@ export class CustomMeasureAreaMode extends GeoJsonEditMode {
       guides.features.push(tentativeFeature);
     }
 
-    const editHandles = clickSequence.map((clickedCoord, index) => ({
+    const editHandles: GuideFeature[] = clickSequence.map((clickedCoord, index) => ({
       type: 'Feature',
       properties: {
         guideType: 'editHandle',
@@ -175,8 +172,7 @@ export class CustomMeasureAreaMode extends GeoJsonEditMode {
       clickedEditHandle &&
       Array.isArray(clickedEditHandle.properties.positionIndexes) &&
       (clickedEditHandle.properties.positionIndexes[0] === 0 ||
-        clickedEditHandle.properties.positionIndexes[0] ===
-          clickSequence.length - 1)
+        clickedEditHandle.properties.positionIndexes[0] === clickSequence.length - 1)
     ) {
       // They clicked the first or last point (or double-clicked), so complete the polygon
       this._isMeasuringSessionFinished = true;
@@ -218,10 +214,7 @@ export class CustomMeasureAreaMode extends GeoJsonEditMode {
     }
   }
 
-  handlePointerMove(
-    event: PointerMoveEvent,
-    props: ModeProps<FeatureCollection>,
-  ) {
+  handlePointerMove(event: PointerMoveEvent, props: ModeProps<FeatureCollection>) {
     props.onUpdateCursor('cell');
   }
 }

@@ -53,3 +53,5 @@ vite.config.ts.timestamp-*
 !src/core/localization/translations
 src/core/localization/translations/**
 !src/core/localization/translations/en
+
+size-report.json
