@@ -24,7 +24,7 @@ function App() {
 
 When you want to show notification:
 
-- form another atom - you must create action for 'currentNotificationAtom':
+- from another atom - you must create action for 'currentNotificationAtom':
 
 ```ts
 ({ schedule }) => {
@@ -40,7 +40,7 @@ When you want to show notification:
 };
 ```
 
-- Form other places
+- From other places
 
 ```ts
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
@@ -51,4 +51,4 @@ notificationServiceInstance.info({ title: i18n.t('some_text_translation_key') },
 ### How it works
 
 `toastsStackAtom` looks at `currentNotificationAtom` from core, and accumulate incoming notifications for show them in stack
-(in case app want to show more than once toast in short time);
+(in case app wants to show more than one toast in short time);
