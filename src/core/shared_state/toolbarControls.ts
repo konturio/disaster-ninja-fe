@@ -2,17 +2,20 @@ import { createAtom } from '~utils/atoms';
 import { currentUserAtom } from '~core/shared_state/currentUser';
 import type { Action } from '@reatom/core';
 
-export interface SideControl {
+type SideControl = {
   id: string;
   name: string;
   icon: JSX.Element | null;
   active: boolean;
   title: string;
+  // only one control of a given group can be enabled.
+  // Enabling 2nd control from the same group will run `disable` action for the first enabled control
   exclusiveGroup?: string;
-  visualGroup: string;
+  // allows toolbar component to group controls into sections
+  visualGroup?: string;
   onClick?: (isActive: boolean) => void;
   onChange?: (isActive: boolean) => void;
-}
+};
 
 export const controlGroup = {
   mapTools: 'mapTools',
