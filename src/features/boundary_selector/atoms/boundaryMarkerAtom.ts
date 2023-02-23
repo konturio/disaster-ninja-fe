@@ -10,7 +10,7 @@ import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
 import { BOUNDARY_MARKER_ID } from '../constants';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 import { boundaryResourceAtom } from './boundaryResourceAtom';
-import { highlightedGeometry } from './highlightedGeometry';
+import { highlightedGeometryAtom } from './highlightedGeometry';
 import { getSelectorWithOptions } from './../components/getSelectorWithOptions';
 import type { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
 import type { Action } from '@reatom/core';
@@ -88,7 +88,7 @@ export const boundaryMarkerAtom = createAtom(
       boundaryId: string,
     ) => {
       const feature = fc.features.find((boundary) => boundary.id === boundaryId);
-      return highlightedGeometry.set(
+      return highlightedGeometryAtom.set(
         feature || { type: 'FeatureCollection', features: [] },
       );
     };

@@ -139,7 +139,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
 
   // Public methods
 
-  public setMode(mode: DrawModeType): any {
+  public setMode(mode: DrawModeType) {
     this.mode = mode;
     // Case setting mode to create drawings
     if (createDrawingLayers.includes(mode)) {
