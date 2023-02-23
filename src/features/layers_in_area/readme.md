@@ -34,4 +34,4 @@ When info about available layers loaded - `areaLayersControlsAtom` creates logic
 so after that user or other features can enable or disable those layers.
 
 `areaLayersDetailsResource` - load data for **enabled** layers from above resources,
-that required for show layers legend, draw them on map, and so on.
+that required to show layers legend, draw them on map, and so on.
