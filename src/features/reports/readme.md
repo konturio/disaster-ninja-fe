@@ -69,8 +69,9 @@ function ReportInfo() {
 
 There are 2 dynamic configs we receive from the back-end.
 
-1. Let's call it `"Reports List"`. It's an array of available reports containing all the info about each one of them. On of it's properties is the link to `.csv` file. All the keys stored in `./atoms/reportsAtom.ts` `Report` type.
-2. The data received from `.csv` link is the second data model. Let's call it `"Report Content"`.
+1. `"Reports List"` - array of available reports containing all info about them including link to `.csv` file with report data (all the keys stored in `./atoms/reportsAtom.ts` `Report` type).
+
+2. `"Report Content"` - data received from `.csv` link is the second data model.
 
 #### Components
 
