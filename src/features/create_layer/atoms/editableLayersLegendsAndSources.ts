@@ -17,7 +17,6 @@ function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
       source: {
         ...restSource,
         urls: url,
-        apiKey: '',
       },
     } as LayerSource;
   } else {

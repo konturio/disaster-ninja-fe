@@ -32,7 +32,7 @@ function convertDetailsToSource(response: LayerInAreaDetails): LayerSource | nul
 }
 
 function convertDetailsToLegends(response: LayerInAreaDetails): LayerLegend | null {
-  if (!('legend' in response) || !response.legend) return null;
+  if (!response.legend) return null;
   return legendFormatter(response);
 }
 

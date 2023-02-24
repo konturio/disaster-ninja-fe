@@ -2,7 +2,7 @@ interface TileSource {
   type: 'vector' | 'raster';
   tileSize: number;
   urls: string[];
-  apiKey: string;
+  apiKey?: string;
 }
 
 interface GeoJSONSource {
