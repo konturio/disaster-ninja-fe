@@ -26,18 +26,18 @@ export interface LayerInArea {
 
 export interface GeoJSONSourceSourceContainer {
   id: string;
-  source: GeoJSONSource;
-  legend: LayerDetailsLegend;
+  source?: GeoJSONSource;
+  legend?: LayerDetailsLegend;
+  ownedByUser: boolean;
 }
 
 export interface TileSourceContainer {
   id: string;
-  maxZoom: number;
-  minZoom: number;
-  source: TileSource;
+  maxZoom?: number;
+  minZoom?: number;
+  source?: TileSource;
   legend?: LayerDetailsLegend;
+  ownedByUser: boolean;
 }
 
-export type LayerInAreaDetails =
-  | GeoJSONSourceSourceContainer
-  | TileSourceContainer;
+export type LayerInAreaDetails = GeoJSONSourceSourceContainer | TileSourceContainer;

@@ -11,15 +11,19 @@ import type { LayerInAreaDetails } from '../types';
 import type { LayerSource } from '~core/logical_layers/types/source';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 
-function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
-  /* Typescript makes me sad sometimes T.T */
-  if ('url' in response.source) {
+function convertDetailsToSource(response: LayerInAreaDetails): LayerSource | null {
+  if (!response.source) {
+    return null;
+  }
+
+  if (response.source.type === 'vector' || response.source.type === 'raster') {
     const { url, ...restSource } = response.source;
     return {
       ...response,
       source: {
         ...restSource,
         urls: url,
+        apiKey: '',
       },
     } as LayerSource;
   } else {
@@ -92,6 +96,17 @@ export const areaLayersLegendsAndSources = createAtom(
         const newState = new Map(state);
         layersDetailsData.forEach((layerDetails, layerId) => {
           const layerSource = layerDetails ? convertDetailsToSource(layerDetails) : null;
+          const prevSource = newState.get(layerId);
+          if (prevSource?.data && !layerSource) {
+            console.warn(
+              `
+            Attempt to remove source for layer ${layerDetails.id}. 
+            Previous source: 
+            `,
+              prevSource,
+            );
+            return;
+          }
           newState.set(layerId, {
             error: layersDetailsError,
             data: layerSource,
@@ -105,6 +120,17 @@ export const areaLayersLegendsAndSources = createAtom(
         const newState = new Map(state);
         layersDetailsData.forEach((layerDetails, layerId) => {
           const layerLegend = layerDetails ? convertDetailsToLegends(layerDetails) : null;
+          const prevLegend = newState.get(layerId);
+          if (prevLegend?.data && !layerLegend) {
+            console.warn(
+              `
+            Attempt to remove legend for layer ${layerDetails.id}. 
+            Previous legend: 
+            `,
+              prevLegend,
+            );
+            return;
+          }
           newState.set(layerId, {
             error: layersDetailsError,
             data: layerLegend,

@@ -143,7 +143,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       });
     }
   }
-  _adaptUrl(url: string, apiKey: string) {
+  _adaptUrl(url: string, apiKey?: string) {
     /** Fix cors in local development */
     if (import.meta.env.DEV) {
       url = replaceUrlWithProxy(url);

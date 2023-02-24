@@ -102,6 +102,11 @@ export const areaLayersDetailsParamsAtom = createAtom(
 
     if (focusedGeometry) {
       newState.geoJSON = focusedGeometry.geometry;
+    } else if (newState.layersToRetrieveWithoutGeometryFilter?.length) {
+      console.warn(
+        'Layers require geometry, but geometry missing in payload',
+        newState.layersToRetrieveWithoutGeometryFilter,
+      );
     }
 
     return newState;

@@ -21,9 +21,7 @@ function convertBivariateColorsToSteps(
     });
 }
 
-export function legendFormatter(
-  details: LayerInAreaDetails,
-): LayerLegend | null {
+export function legendFormatter(details: LayerInAreaDetails): LayerLegend | null {
   if (!details.legend) {
     return null;
   }

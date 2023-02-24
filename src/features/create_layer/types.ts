@@ -17,13 +17,10 @@ export type LayerEditorFormModel = {
 
 /* Backend layer DTO received from /search endpoint */
 
-export type EditableLayerFieldType = typeof FieldTypes[keyof typeof FieldTypes];
-export type EditTargetsType = typeof EditTargets[keyof typeof EditTargets];
+export type EditableLayerFieldType = (typeof FieldTypes)[keyof typeof FieldTypes];
+export type EditTargetsType = (typeof EditTargets)[keyof typeof EditTargets];
 
-export type EditableLayerFeaturePropertiesType = Record<
-  string,
-  EditableLayerFieldType
->;
+export type EditableLayerFeaturePropertiesType = Record<string, EditableLayerFieldType>;
 
 export interface EditableLayerSettings {
   name: string;
@@ -59,6 +56,7 @@ export interface GeoJSONSourceSourceContainer {
   id: string;
   source: GeoJSONSource;
   legend: LayerDetailsLegend;
+  ownedByUser: boolean;
 }
 
 export interface TileSourceContainer {
@@ -67,8 +65,7 @@ export interface TileSourceContainer {
   minZoom: number;
   source: TileSource;
   legend?: LayerDetailsLegend;
+  ownedByUser: boolean;
 }
 
-export type LayerInAreaDetails =
-  | GeoJSONSourceSourceContainer
-  | TileSourceContainer;
+export type LayerInAreaDetails = GeoJSONSourceSourceContainer | TileSourceContainer;
