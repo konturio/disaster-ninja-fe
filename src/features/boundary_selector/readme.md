@@ -1,6 +1,6 @@
 ## Boundary selector
 
-This feature alow set `focusedGeometry` (a.k.a Selected area) by using administrative boundaries.
+This feature allows us to set `focusedGeometry` (a.k.a Selected area) by using administrative boundaries.
 
 ### How to use
 
@@ -26,6 +26,6 @@ The common registry is not used because these layers are "private" - in terms of
 `boundaryMarkerAtom` - Main controller of this feature. Responsibility:
 
 - Create a drop-down list as a marker on the map by position from `clickCoordinatesAtom`
-- Show data from `boundaryResourceAtom` inside the drop-down list and on the map
+- Show boundaries names from `boundaryResourceAtom` inside the drop-down list and related contours on the map
 - Panning the map to the selected geometry
 - When the user makes the final choice - update `focusedGeometry`
