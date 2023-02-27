@@ -13,4 +13,4 @@ import('~features/intercom').then(({ initIntercom }) => {
 ### How it works
 
 `initIntercom` function check permission for use cookies that intercom require.
-If it allowed - we set intercom related cookie, settings, and execute intercom sniped that integrate chat in application
+If it is allowed - we set intercom related cookie, settings, and execute intercom snippet that integrate chat in application
