@@ -23,4 +23,5 @@ export const layersTreeAtom = createAtom(
     });
     return tree;
   },
+  'layersTreeAtom',
 );
