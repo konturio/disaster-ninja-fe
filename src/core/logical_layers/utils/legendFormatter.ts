@@ -1,9 +1,9 @@
 import { convertRGBtoObj } from '~utils/bivariate/bivariateColorThemeUtils';
+import type { LayerDetailsDTO } from '~core/logical_layers/types/source';
 import type {
   BivariateLegendStep,
   LayerLegend,
 } from '~core/logical_layers/types/legends';
-import type { LayerInAreaDetails } from '../types';
 
 function convertBivariateColorsToSteps(
   colors: { id: string; color: string }[],
@@ -21,7 +21,7 @@ function convertBivariateColorsToSteps(
     });
 }
 
-export function legendFormatter(details: LayerInAreaDetails): LayerLegend | null {
+export function legendFormatter(details: LayerDetailsDTO): LayerLegend | null {
   if (!details.legend) {
     return null;
   }

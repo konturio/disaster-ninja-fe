@@ -4,7 +4,7 @@ import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { editableLayersListResource } from './editableLayersListResource';
-import type { LayerInAreaDetails } from '../types';
+import type { LayerDetailsDTO } from '~core/logical_layers/types/source';
 
 export interface DetailsRequestParams {
   layersToRetrieveWithGeometryFilter: string[];
@@ -51,7 +51,7 @@ export const editableLayersDetailsResourceAtom = createAsyncAtom(
   editableLayersDetailsParamsAtom,
   async (params, abortController) => {
     if (params === null) return null;
-    return await apiClient.post<LayerInAreaDetails[]>(
+    return await apiClient.post<LayerDetailsDTO[]>(
       '/layers/details',
       { ...params, appId: appConfig.id },
       true,

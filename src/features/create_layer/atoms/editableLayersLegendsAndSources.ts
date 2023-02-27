@@ -1,22 +1,21 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
-import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
+import { legendFormatter } from '~core/logical_layers/utils/legendFormatter';
 import { editableLayersDetailsResourceAtom } from './editableLayersDetailsResource';
-import type { LayerInAreaDetails } from '../types';
-import type { LayerSource } from '~core/logical_layers/types/source';
+import type { LayerSource, LayerDetailsDTO } from '~core/logical_layers/types/source';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import type { Action } from '@reatom/core';
 
-function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
+function convertDetailsToSource(response: LayerDetailsDTO): LayerSource {
   /* Typescript makes me sad sometimes T.T */
-  if ('url' in response.source) {
-    const { url, ...restSource } = response.source;
+  if ('urls' in response.source) {
+    const { urls, ...restSource } = response.source;
     return {
       ...response,
       source: {
         ...restSource,
-        urls: url,
+        urls: urls,
       },
     } as LayerSource;
   } else {
@@ -24,7 +23,7 @@ function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
   }
 }
 
-function convertDetailsToLegends(response: LayerInAreaDetails): LayerLegend | null {
+function convertDetailsToLegends(response: LayerDetailsDTO): LayerLegend | null {
   if (!response.legend) return null;
   return legendFormatter(response);
 }

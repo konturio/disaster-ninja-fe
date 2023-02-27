@@ -3,7 +3,7 @@ import { appConfig } from '~core/app_config';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { areaLayersDetailsParamsAtom } from './areaLayersDetailsParamsAtom';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResourceAtomCache';
-import type { LayerInAreaDetails } from '../../types';
+import type { LayerDetailsDTO } from '~core/logical_layers/types/source';
 
 export const areaLayersDetailsResourceAtom = createAsyncAtom(
   areaLayersDetailsParamsAtom,
@@ -11,7 +11,7 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
     if (params.skip) return []; // When all 100% layers in cache we still need to trigger ResourceAtomState to run listeners
     // exclude layersToRetrieveWithEventId from body - in needed just for cache invalidation
     const { layersToRetrieveWithEventId, ...body } = params;
-    const request = await apiClient.post<LayerInAreaDetails[]>(
+    const request = await apiClient.post<LayerDetailsDTO[]>(
       '/layers/details',
       { ...body, appId: appConfig.id },
       true,
