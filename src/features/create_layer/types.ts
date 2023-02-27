@@ -1,4 +1,4 @@
-import type { TileSource, GeoJSONSource } from '~core/logical_layers/types/source';
+import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
 import type { FieldTypes, EditTargets } from './constants';
 
@@ -27,16 +27,6 @@ export interface EditableLayerSettings {
   featureProperties: EditableLayerFeaturePropertiesType;
 }
 
-export interface EditableLayers {
-  id: string;
-  name: string;
-  source: TileSource | GeoJSONSource;
-  description?: string;
-  category?: 'base' | 'overlay';
-  group?: string;
-  copyrights?: string[];
-  boundaryRequiredForRetrieval: boolean;
-  eventIdRequiredForRetrieval?: boolean;
-  ownedByUser: boolean;
+export interface EditableLayers extends LayerSummaryDto {
   featureProperties?: EditableLayerFeaturePropertiesType;
 }
