@@ -22,6 +22,7 @@ export const clickCoordinatesAtom = createAtom(
   ) => {
     const enableListeners = (map: maplibregl.Map) =>
       schedule((dispatch, ctx: ScheduleContext = {}) => {
+        // Record map clicks
         ctx.removeClickListener ??= registerMapListener(
           'click',
           (e) => {
@@ -35,15 +36,13 @@ export const clickCoordinatesAtom = createAtom(
           },
           10,
         );
-        function preventMousemove(e) {
-          return false;
-        }
+        // Disable active listeners of mouse move
         ctx.removeMousemoveListener ??= registerMapListener(
           'mousemove',
-          preventMousemove,
+          () => false, // Catch mouse move event. False stop event propagation
           10,
         );
-        setMapInteractivity(map, false);
+        setMapInteractivity(map, false); // Disable default map interactivity
       });
 
     const disableListeners = (map: maplibregl.Map) =>

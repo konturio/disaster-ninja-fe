@@ -16,7 +16,7 @@ import { createBoundaryRegistryAtom } from './atoms/boundaryRegistryAtom';
 import { boundaryMarkerAtom } from './atoms/boundaryMarkerAtom';
 import { clickCoordinatesAtom } from './atoms/clickCoordinatesAtom';
 
-let stopAll = () => {
+let unsubscribe = () => {
   /* noop */
 };
 
@@ -45,7 +45,7 @@ export function initBoundarySelector() {
     },
     onChange: (becomesActive) => {
       if (becomesActive) {
-        stopAll = forceRun([boundaryMarkerAtom, boundaryRegistryAtom]);
+        unsubscribe = forceRun([boundaryMarkerAtom, boundaryRegistryAtom]);
         store.dispatch([
           boundaryRegistryAtom.start(),
           clickCoordinatesAtom.start(),
@@ -57,7 +57,7 @@ export function initBoundarySelector() {
           clickCoordinatesAtom.stop(),
           boundaryMarkerAtom.stop(),
         ]);
-        stopAll();
+        unsubscribe();
       }
     },
   });
