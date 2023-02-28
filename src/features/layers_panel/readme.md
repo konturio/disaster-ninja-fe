@@ -1,6 +1,6 @@
 ## Layers Panel
 
-This feature adds layers panel UI with layers tree.
+This feature adds layers panel UI with layers tree, generated from layers that was added to layers registry.
 Currently it's used as part of combined LayersAndLegends panel, rendered inside [FullAndShortStatesPanelWidget](/src/widgets/FullAndShortStatesPanelWidget/index.tsx) container in fullState.
 
 ### Feature Flag
