@@ -16,7 +16,7 @@ export function validateConfig(config, schema) {
   const ajv = new Ajv();
   const valid = ajv.validate(schema, config);
   if (!valid) {
-    console.error(ajv.errors);
+    console.dir(ajv.errors, { depth: null });
     throw Error('Configuration is not valid');
   }
 }
