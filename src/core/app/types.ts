@@ -1,4 +1,5 @@
 import type { UserProfileApi } from './user';
+import type { AppFeatureType } from '~core/auth/types';
 
 export interface AppConfig {
   API_GATEWAY: string;
@@ -19,7 +20,7 @@ export interface AppConfig {
   INTERCOM_DEFAULT_NAME?: string;
   INTERCOM_APP_ID?: string;
   INTERCOM_SELECTOR?: string;
-  FEATURES_BY_DEFAULT: string[];
+  FEATURES_BY_DEFAULT: AppFeatureType[];
   DEFAULT_FEED: string;
   OSM_EDITORS: OsmEditorConfig[];
 }
@@ -37,6 +38,8 @@ export interface EventFeedConfig {
   default: boolean;
 }
 
+export type EffectiveFeatures = Record<AppFeatureType, object | boolean>;
+
 export interface AppConfigGlobal {
   apiGateway: string;
   boundariesApi: string;
@@ -47,7 +50,7 @@ export interface AppConfigGlobal {
   refreshIntervalSec: number;
   mapAccessToken: string;
   mapBaseStyle: string;
-  featuresByDefault: string[];
+  featuresByDefault: AppFeatureType[];
   defaultFeed: string;
   defaultFeedObject: EventFeedConfig; // translation should occur later after i18n init, getDefaultFeedObject(konturAppConfig.DEFAULT_FEED),
   keycloakUrl: string;
@@ -73,10 +76,8 @@ export interface AppConfigGlobal {
     custom_launcher_selector: string | undefined;
   };
   osmEditors: OsmEditorConfig[];
-  effectiveFeatures: Record<string, object | boolean>;
+  effectiveFeatures: EffectiveFeatures;
 }
-
-export type AppConfigEffective = AppConfigGlobal & AppConfiguration;
 
 // Unified config from /app/configuration
 export type AppConfiguration = {
@@ -98,3 +99,5 @@ export type AppConfigurationFeature = {
   type: string;
   configuration: object;
 };
+
+export type AppConfigEffective = AppConfigGlobal & AppConfiguration;

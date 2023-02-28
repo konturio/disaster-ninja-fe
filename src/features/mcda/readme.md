@@ -9,8 +9,7 @@ In MCDA feature we can allow users to select as many layers as they need.
 
 To start using this feature user needs:
 
-- feature flag "bivariate_manager" is turned on for current user
-- flag "KONTUR_MCDA": true in localstorage
+- feature flag "mcda" is turned on for current user
 
 ### Activation
 

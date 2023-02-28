@@ -6,7 +6,7 @@ export const UserStateStatus = {
   PASSWORD_RESET: 'password_reset',
 } as const;
 
-export type UserStateType = typeof UserStateStatus[keyof typeof UserStateStatus];
+export type UserStateType = (typeof UserStateStatus)[keyof typeof UserStateStatus];
 
 export const AppFeature = {
   APP_LOGIN: 'app_login',
@@ -49,9 +49,10 @@ export const AppFeature = {
   LOCATE_ME: 'locate_me',
   USE_3RDPARTY_ANALYTICS: 'use_3rdparty_analytics',
   LIVE_SENSOR: 'live_sensor',
+  MCDA: 'mcda',
 } as const;
 
-export type AppFeatureType = typeof AppFeature[keyof typeof AppFeature];
+export type AppFeatureType = (typeof AppFeature)[keyof typeof AppFeature];
 
 export const BackendFeatureType = {
   UI_PANEL: 'UI_PANEL',
@@ -60,5 +61,5 @@ export const BackendFeatureType = {
 export type BackendFeature = {
   name: string;
   description: string;
-  type: typeof BackendFeatureType[keyof typeof BackendFeatureType];
+  type: (typeof BackendFeatureType)[keyof typeof BackendFeatureType];
 };
