@@ -5,6 +5,7 @@ import type {
   AppConfigEffective,
   AppConfigGlobal,
   AppConfiguration,
+  EffectiveFeatures,
 } from '~core/app/types';
 
 declare global {
@@ -68,20 +69,24 @@ function getGlobalConfig(): AppConfigGlobal {
         url: 'https://www.openstreetmap.org/edit?editor=remote#map=',
       },
     ],
-    effectiveFeatures: {},
+    effectiveFeatures: {} as EffectiveFeatures,
   };
   configs['global'] = globalAppConfig;
   return globalAppConfig;
 }
 
-function getEffectiveFeatures(appConfig: AppConfigEffective) {
+function getEffectiveFeatures(appConfig: AppConfigEffective): EffectiveFeatures {
   if (appConfig.features && appConfig.features.length > 0) {
+    // @ts-expect-error - need to add validation that all features correct
     return Object.fromEntries(
       (appConfig.features ?? []).map((f) => [f.name, f.configuration || true]),
     );
   }
   // use defaults when got no features from api
-  return Object.fromEntries((appConfig.featuresByDefault ?? []).map((f) => [f, true]));
+  // @ts-expect-error - fromEntries in typescript broken - need to add this fix https://dev.to/svehla/typescript-object-fromentries-389c
+  return Object.fromEntries(
+    (appConfig.featuresByDefault ?? []).map((f) => [f, true] as const),
+  );
 }
 
 export function getEffectiveConfig(): AppConfigEffective {
