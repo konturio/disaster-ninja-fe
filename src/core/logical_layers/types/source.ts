@@ -1,57 +1,54 @@
 import type { LayerDetailsLegend } from '~core/logical_layers/types/legends';
 
-export interface TileSource {
-  type: 'vector' | 'raster';
-  tileSize: number;
-  urls: string[];
+export interface LayerSourceDto {
+  type: 'vector' | 'raster' | 'geojson';
+  urls?: string[];
+  tileSize?: number;
+  data?: unknown; // only for GeoJSON
   apiKey?: string;
 }
 
-export interface GeoJSONSource {
+export interface LayerDetailsDto {
+  id: string;
+  maxZoom?: number;
+  minZoom?: number;
+  source: LayerSourceDto;
+  legend?: LayerDetailsLegend;
+  ownedByUser?: boolean;
+}
+
+export interface TileSource extends LayerSourceDto {
+  type: 'vector' | 'raster';
+  tileSize: number;
+  urls: string[];
+}
+
+export interface GeoJSONSource extends LayerSourceDto {
   type: 'geojson';
   data: GeoJSON.FeatureCollection | GeoJSON.Feature;
 }
 
-export interface LayerGeoJSONSource {
-  id: string;
+export interface LayerGeoJSONSource extends LayerDetailsDto {
   source: GeoJSONSource;
 }
 
-export interface LayerTileSource {
-  id: string;
-  maxZoom: number;
-  minZoom: number;
+export interface LayerTileSource extends LayerDetailsDto {
   source: TileSource;
 }
 
+// LayerSource is actually LayerDetailsDto
 export type LayerSource = LayerGeoJSONSource | LayerTileSource;
-
-export interface GeoJSONSourceSourceContainer {
-  id: string;
-  source: GeoJSONSource;
-  legend: LayerDetailsLegend;
-  ownedByUser: boolean;
-}
-
-export interface TileSourceContainer {
-  id: string;
-  maxZoom: number;
-  minZoom: number;
-  source: TileSource;
-  legend?: LayerDetailsLegend;
-  ownedByUser: boolean;
-}
-export type LayerDetailsDTO = GeoJSONSourceSourceContainer | TileSourceContainer;
 
 export interface LayerSummaryDto {
   id: string;
   name: string;
-  source: TileSource | GeoJSONSource;
   description?: string;
   category?: 'base' | 'overlay';
   group?: string;
-  copyrights?: string[];
   boundaryRequiredForRetrieval: boolean;
   eventIdRequiredForRetrieval?: boolean;
+  copyrights?: string[];
   ownedByUser: boolean;
+  featureProperties?: object;
+  mapboxStyle?: string;
 }

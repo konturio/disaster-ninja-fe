@@ -3,37 +3,14 @@ import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { getEventId } from '~core/focused_geometry/utils';
-import { legendFormatter } from '~core/logical_layers/utils/legendFormatter';
+import {
+  convertDetailsToSource,
+  convertDetailsToLegends,
+} from '~core/logical_layers/utils/convert';
 import { areaLayersDetailsResourceAtom } from './areaLayersDetailsResource';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResource/areaLayersDetailsResourceAtomCache';
 import type { Action } from '@reatom/core';
-import type { LayerSource, LayerDetailsDTO } from '~core/logical_layers/types/source';
-import type { LayerLegend } from '~core/logical_layers/types/legends';
-
-function convertDetailsToSource(response: LayerDetailsDTO): LayerSource | null {
-  if (!response.source) {
-    return null;
-  }
-
-  if (response.source.type === 'vector' || response.source.type === 'raster') {
-    const { urls, ...restSource } = response.source;
-    return {
-      ...response,
-      source: {
-        ...restSource,
-        urls: urls,
-        apiKey: '',
-      },
-    } as LayerSource;
-  } else {
-    return response as LayerSource;
-  }
-}
-
-function convertDetailsToLegends(response: LayerDetailsDTO): LayerLegend | null {
-  if (!response.legend) return null;
-  return legendFormatter(response);
-}
+import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 
 export const areaLayersLegendsAndSources = createAtom(
   {
@@ -68,7 +45,7 @@ export const areaLayersLegendsAndSources = createAtom(
       const layersDetailsData = (layersDetails.data ?? []).reduce((acc, layerDetails) => {
         acc.set(layerDetails.id, layerDetails);
         return acc;
-      }, new Map<string, LayerDetailsDTO>());
+      }, new Map<string, LayerDetailsDto>());
 
       // apply cached layers if any are already stored for current eventId
       const focusedGeometry = get('focusedGeometryAtom');

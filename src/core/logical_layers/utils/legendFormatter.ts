@@ -1,5 +1,5 @@
 import { convertRGBtoObj } from '~utils/bivariate/bivariateColorThemeUtils';
-import type { LayerDetailsDTO } from '~core/logical_layers/types/source';
+import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 import type {
   BivariateLegendStep,
   LayerLegend,
@@ -21,7 +21,7 @@ function convertBivariateColorsToSteps(
     });
 }
 
-export function legendFormatter(details: LayerDetailsDTO): LayerLegend | null {
+export function legendFormatter(details: LayerDetailsDto): LayerLegend | null {
   if (!details.legend) {
     return null;
   }
