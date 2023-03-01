@@ -1,5 +1,5 @@
+import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
-import type { LayerDetailsLegend } from '~core/logical_layers/types/legends';
 import type { FieldTypes, EditTargets } from './constants';
 
 export type LayerFieldModel = {
@@ -27,45 +27,6 @@ export interface EditableLayerSettings {
   featureProperties: EditableLayerFeaturePropertiesType;
 }
 
-export interface TileSource {
-  type: 'vector' | 'raster';
-  tileSize: number;
-  url: string[];
-}
-
-export interface GeoJSONSource {
-  type: 'geojson';
-  data: GeoJSON.FeatureCollection | GeoJSON.Feature;
-}
-
-export interface EditableLayers {
-  id: string;
-  name: string;
-  source: TileSource | GeoJSONSource;
-  description?: string;
-  category?: 'base' | 'overlay';
-  group?: string;
-  copyrights?: string[];
-  boundaryRequiredForRetrieval: boolean;
-  eventIdRequiredForRetrieval?: boolean;
-  ownedByUser: boolean;
+export interface EditableLayers extends LayerSummaryDto {
   featureProperties?: EditableLayerFeaturePropertiesType;
 }
-
-export interface GeoJSONSourceSourceContainer {
-  id: string;
-  source: GeoJSONSource;
-  legend: LayerDetailsLegend;
-  ownedByUser: boolean;
-}
-
-export interface TileSourceContainer {
-  id: string;
-  maxZoom: number;
-  minZoom: number;
-  source: TileSource;
-  legend?: LayerDetailsLegend;
-  ownedByUser: boolean;
-}
-
-export type LayerInAreaDetails = GeoJSONSourceSourceContainer | TileSourceContainer;

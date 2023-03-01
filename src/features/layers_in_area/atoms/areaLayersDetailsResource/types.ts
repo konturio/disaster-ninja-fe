@@ -1,6 +1,4 @@
 import type { GeometryWithHash } from '~core/focused_geometry/types';
-import type { LayerSource } from '~core/logical_layers/types/source';
-import type { LayerLegend } from '~core/logical_layers/types/legends';
 
 export interface DetailsRequestParams {
   layersToRetrieveWithGeometryFilter?: string[];
@@ -10,9 +8,4 @@ export interface DetailsRequestParams {
   eventId?: string;
   eventFeed?: string;
   skip?: true;
-}
-
-export interface LayerData {
-  source: LayerSource;
-  legend: LayerLegend | null;
 }

@@ -1,11 +1,11 @@
-import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
+import { createUpdateLayerActions } from './createUpdateActions';
+import type { LayerSummaryDto } from '../types/source';
 import type { Action } from '@reatom/core';
-import type { LayerInArea } from '../types';
 
 type LayerId = string;
 
 export function createUpdateActionsFromLayersDTO(
-  layers: [LayerId, LayerInArea][],
+  layers: [LayerId, LayerSummaryDto][],
 ): Action[][] {
   const updates = layers.map(([layerId, layer]) => ({
     id: layerId,
@@ -22,5 +22,6 @@ export function createUpdateActionsFromLayersDTO(
       ownedByUser: layer.ownedByUser,
     },
   }));
+
   return createUpdateLayerActions(updates);
 }

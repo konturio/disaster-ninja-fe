@@ -1,10 +1,10 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
-import { createUpdateActionsFromLayersDTO } from '../utils/createUpdateActionsFromLayersDTO';
+import { createUpdateActionsFromLayersDTO } from '~core/logical_layers/utils/createUpdateActionsFromLayersDTO';
 import { layersInAreaAndEventLayerResource } from './layersInAreaAndEventLayerResource';
 import { layersGlobalResource } from './layersGlobalResource';
-import type { LayerInArea } from '../types';
+import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { Action } from '@reatom/core';
 
 const allLayers = createAtom(
@@ -55,9 +55,9 @@ export const areaLayersControlsAtom = createAtom(
           return acc;
         },
         [
-          new Map<string, LayerInArea>(),
+          new Map<string, LayerSummaryDto>(),
           new Set<string>(),
-          new Map<string, LayerInArea>(),
+          new Map<string, LayerSummaryDto>(),
         ],
       );
 

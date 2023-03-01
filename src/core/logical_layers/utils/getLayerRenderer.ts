@@ -1,11 +1,9 @@
 import { GenericRenderer } from '~core/logical_layers/renderers/GenericRenderer';
 import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
-import type { LayerInArea } from '~features/layers_in_area/types';
+import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 
-export function getLayerRenderer(
-  layer: LayerInArea,
-): LogicalLayerDefaultRenderer {
+export function getLayerRenderer(layer: LayerSummaryDto): LogicalLayerDefaultRenderer {
   if (layer.group === 'bivariate' && layer.category === 'overlay') {
     return new BivariateRenderer({ id: layer.id });
   }
