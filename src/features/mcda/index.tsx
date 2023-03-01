@@ -1,7 +1,7 @@
 import { toolbarControlsAtom } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { mcdaCalculationAtom } from './atoms/mcdaCalculation';
-import type { JsonMCDA } from './atoms/mcdaCalculation';
+import { parseMCDA } from './parser';
 
 const example = `
 {
@@ -57,27 +57,18 @@ export function initMCDA() {
         example,
       );
 
-      if (!jsonString) {
-        alert('Empty input');
+      if (jsonString === null) {
+        console.warn('MCDA Prompt canceled');
         return;
       }
 
-      let jsonParsed = null;
       try {
-        jsonParsed = JSON.parse(jsonString.trim());
+        const jsonParsed = parseMCDA(jsonString);
+        mcdaCalculationAtom.calcMCDA.dispatch(jsonParsed);
       } catch (e) {
-        alert(`JSON parsing failed: ${e}`);
-      }
-
-      if (jsonParsed) {
-        const { layers, colors } = jsonParsed;
-        if (!(layers && colors)) {
-          alert('JSON must have layers and colors fields inside');
-          return;
-        }
-        try {
-          mcdaCalculationAtom.calcMCDA.dispatch(jsonParsed as JsonMCDA);
-        } catch (e) {
+        if (e instanceof Error && 'message' in e) {
+          alert(e.message);
+        } else {
           alert('JSON processing failed');
         }
       }
