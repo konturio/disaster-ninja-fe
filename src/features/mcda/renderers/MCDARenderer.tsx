@@ -32,8 +32,8 @@ import type { LayersOrderManager } from '../../../core/logical_layers/utils/laye
 import type { JsonMCDA } from '~features/mcda/atoms/mcdaCalculation';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 
-export const sentimentDefault = ['bad', 'good'];
-export const sentimentReversed = ['good', 'bad'];
+export const sentimentDefault = ['bad', 'good'] as const;
+export const sentimentReversed = ['good', 'bad'] as const;
 
 export class MCDARenderer extends BivariateRenderer {
   private _layerStyle: BivariateLayerStyle;

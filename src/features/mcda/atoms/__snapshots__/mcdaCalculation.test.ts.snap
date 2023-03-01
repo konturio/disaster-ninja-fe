@@ -1,0 +1,57 @@
+// Vitest Snapshot v1
+
+exports[`layerNormalized calculations is correct for bad good sentiments 1`] = `
+[
+  "*",
+  [
+    "/",
+    [
+      "-",
+      [
+        "/",
+        [
+          "get",
+          "axisA",
+        ],
+        [
+          "get",
+          "axisB",
+        ],
+      ],
+      111,
+    ],
+    222,
+  ],
+  7,
+]
+`;
+
+exports[`layerNormalized calculations is correct for good bad sentiments 1`] = `
+[
+  "*",
+  [
+    "-",
+    1,
+    [
+      "/",
+      [
+        "-",
+        [
+          "/",
+          [
+            "get",
+            "axisA",
+          ],
+          [
+            "get",
+            "axisB",
+          ],
+        ],
+        111,
+      ],
+      222,
+    ],
+  ],
+  7,
+]
+`;
