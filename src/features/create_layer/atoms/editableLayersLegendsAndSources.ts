@@ -1,33 +1,12 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
-import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
+import {
+  convertDetailsToSource,
+  convertDetailsToLegends,
+} from '~core/logical_layers/utils/convert';
 import { editableLayersDetailsResourceAtom } from './editableLayersDetailsResource';
-import type { LayerInAreaDetails } from '../types';
-import type { LayerSource } from '~core/logical_layers/types/source';
-import type { LayerLegend } from '~core/logical_layers/types/legends';
 import type { Action } from '@reatom/core';
-
-function convertDetailsToSource(response: LayerInAreaDetails): LayerSource {
-  /* Typescript makes me sad sometimes T.T */
-  if ('url' in response.source) {
-    const { url, ...restSource } = response.source;
-    return {
-      ...response,
-      source: {
-        ...restSource,
-        urls: url,
-      },
-    } as LayerSource;
-  } else {
-    return response as LayerSource;
-  }
-}
-
-function convertDetailsToLegends(response: LayerInAreaDetails): LayerLegend | null {
-  if (!response.legend) return null;
-  return legendFormatter(response);
-}
 
 export const editableLayersLegendsAndSources = createAtom(
   {

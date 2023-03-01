@@ -3,7 +3,7 @@ import { i18n } from '~core/localization';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
-import { createUpdateActionsFromLayersDTO } from '../utils/createUpdateActionsFromLayersDTO';
+import { createUpdateActionsFromLayersDTO } from '~core/logical_layers/utils/createUpdateActionsFromLayersDTO';
 import { editableLayersListResource } from './editableLayersListResource';
 import { editableLayerControllerAtom } from './editableLayerController';
 import { featurePanelControllerAtom } from './featurePanelController';

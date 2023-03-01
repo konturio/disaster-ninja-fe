@@ -6,8 +6,8 @@ import { createAtom } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { removeEmpty } from '~utils/common';
 import { LAYERS_IN_AREA_API_ERROR } from '../constants';
+import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { FocusedGeometry } from '~core/focused_geometry/types';
-import type { LayerInArea } from '../types';
 
 type LayersInAreaAndEventLayerResourceParameters = {
   appId: string;
@@ -56,7 +56,7 @@ export const layersInAreaAndEventLayerResource = createAsyncAtom(
   layersInAreaAndEventLayerResourceParametersAtom,
   async (layersInAreaAndEventLayerResourceParameters, abortController) => {
     if (layersInAreaAndEventLayerResourceParameters === null) return null;
-    const layers = await apiClient.post<LayerInArea[]>(
+    const layers = await apiClient.post<LayerSummaryDto[]>(
       '/layers/search/selected_area',
       layersInAreaAndEventLayerResourceParameters,
       true,

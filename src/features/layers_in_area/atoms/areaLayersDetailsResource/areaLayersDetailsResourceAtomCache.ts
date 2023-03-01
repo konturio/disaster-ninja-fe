@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { currentUserAtom } from '~core/shared_state';
-import type { LayerInAreaDetails } from '../../types';
+import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 import type { DetailsRequestParams } from './types';
 
 type EventId = string | null;
@@ -8,7 +8,7 @@ type Hash = string;
 type LayerId = string;
 type AreaLayersDetailsResourceAtomCache = Map<
   EventId | Hash,
-  Map<LayerId, LayerInAreaDetails>
+  Map<LayerId, LayerDetailsDto>
 >;
 
 const createDefaultCacheState = (state?) => {
@@ -16,10 +16,10 @@ const createDefaultCacheState = (state?) => {
   return cache;
 };
 
-/* 
+/*
 Store all prev request
-Cache structure: 
-  Map 
+Cache structure:
+  Map
   - key: focusedGeometry hash, value: Map | For layer with boundaryRequiredForRetrieval=true flag
   - key: eventId, value: Map | For layer with eventIdRequiredForRetrieval=true flag
   - key: null, value: Map | For layer with eventIdRequiredForRetrieval=false flag
@@ -28,7 +28,7 @@ Cache structure:
 export const areaLayersDetailsResourceAtomCache = createAtom(
   {
     user: currentUserAtom,
-    update: (request: DetailsRequestParams, response: LayerInAreaDetails[]) => ({
+    update: (request: DetailsRequestParams, response: LayerDetailsDto[]) => ({
       request,
       response,
     }),

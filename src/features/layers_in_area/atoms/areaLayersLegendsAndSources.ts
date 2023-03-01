@@ -1,40 +1,16 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
-import { legendFormatter } from '~features/layers_in_area/utils/legendFormatter';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { getEventId } from '~core/focused_geometry/utils';
+import {
+  convertDetailsToSource,
+  convertDetailsToLegends,
+} from '~core/logical_layers/utils/convert';
 import { areaLayersDetailsResourceAtom } from './areaLayersDetailsResource';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResource/areaLayersDetailsResourceAtomCache';
 import type { Action } from '@reatom/core';
-import type { LayerInAreaDetails } from '../types';
-import type { LayerSource } from '~core/logical_layers/types/source';
-import type { LayerLegend } from '~core/logical_layers/types/legends';
-
-function convertDetailsToSource(response: LayerInAreaDetails): LayerSource | null {
-  if (!response.source) {
-    return null;
-  }
-
-  if (response.source.type === 'vector' || response.source.type === 'raster') {
-    const { url, ...restSource } = response.source;
-    return {
-      ...response,
-      source: {
-        ...restSource,
-        urls: url,
-        apiKey: '',
-      },
-    } as LayerSource;
-  } else {
-    return response as LayerSource;
-  }
-}
-
-function convertDetailsToLegends(response: LayerInAreaDetails): LayerLegend | null {
-  if (!response.legend) return null;
-  return legendFormatter(response);
-}
+import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 
 export const areaLayersLegendsAndSources = createAtom(
   {
@@ -69,7 +45,7 @@ export const areaLayersLegendsAndSources = createAtom(
       const layersDetailsData = (layersDetails.data ?? []).reduce((acc, layerDetails) => {
         acc.set(layerDetails.id, layerDetails);
         return acc;
-      }, new Map<string, LayerInAreaDetails>());
+      }, new Map<string, LayerDetailsDto>());
 
       // apply cached layers if any are already stored for current eventId
       const focusedGeometry = get('focusedGeometryAtom');
@@ -100,8 +76,8 @@ export const areaLayersLegendsAndSources = createAtom(
           if (prevSource?.data && !layerSource) {
             console.warn(
               `
-            Attempt to remove source for layer ${layerDetails.id}. 
-            Previous source: 
+            Attempt to remove source for layer ${layerDetails.id}.
+            Previous source:
             `,
               prevSource,
             );
@@ -124,8 +100,8 @@ export const areaLayersLegendsAndSources = createAtom(
           if (prevLegend?.data && !layerLegend) {
             console.warn(
               `
-            Attempt to remove legend for layer ${layerDetails.id}. 
-            Previous legend: 
+            Attempt to remove legend for layer ${layerDetails.id}.
+            Previous legend:
             `,
               prevLegend,
             );
