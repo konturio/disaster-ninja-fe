@@ -7,8 +7,11 @@ export const urlEncoder = new URLDataInSearchEncoder({
     map: {
       decode: (str: string) => {
         const position = str.split('/').map((s) => Number(s));
-        const zoom = position[0] - URL_ZOOM_OFFSET
-        position[0] = zoom;
+        const [zoom, lat, lng] = position;
+        if (lat < -90 || lat > 90) return undefined;
+        if (lng < -180 || lng > 180) return undefined;
+        if (zoom < 0 || zoom > 24) return undefined;
+        position[0] = zoom - URL_ZOOM_OFFSET;
         return position;
       },
       encode: (position: [number, number, number]) => {
