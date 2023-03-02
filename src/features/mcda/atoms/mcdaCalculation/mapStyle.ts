@@ -11,6 +11,7 @@ import { calculateLayerPipeline, inStyleCalculations } from '../../calculations'
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import type { MCDAConfig } from '../../types';
 
+//@ts-expect-error - not clear how to type this right, but this compromise do the trick
 const calculateLayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
   num: ['get', axis.num],
   den: ['get', axis.den],

@@ -1,106 +1,86 @@
 import isEqual from 'lodash-es/isEqual';
 import { sentimentDefault, sentimentReversed } from './constants';
+import { JsMath, MapMath } from './operations';
+import type { IsomorphMath } from './operations';
 import type { MCDAConfig, TransformationFunction } from '../types';
 
-type MapExpression = string | number | Array<string | number | MapExpression>;
-
-interface Operations<T> {
+interface IsomorphCalculations<T> {
   rate: (args: { num: T; den: T }) => T;
   /** (x - min) / (max - min) */
-  normalize: (args: { x: T; min: number; max: number }) => T;
+  normalize: (args: { x: T; min: T; max: T }) => T;
   transform: (args: {
     x: T;
     transformation: TransformationFunction;
-    min: number;
-    max: number;
+    min: T;
+    max: T;
   }) => T;
   /** 1 - x */
   invert: (x: T) => T;
   /** x * coefficient (a.k.a. weight) */
-  scale: (x: T, coefficient: number) => T;
+  scale: (x: T, coefficient: T) => T;
 }
 
-export const inStyleCalculations: Operations<MapExpression> = {
-  rate: ({ num, den }: { num: MapExpression; den: MapExpression }) => ['/', num, den],
-  normalize: ({ x, min, max }: { x: MapExpression; min: number; max: number }) => [
-    '/',
-    ['-', x, min],
-    max - min,
-  ],
-  transform: ({
+class Calculations<T> implements IsomorphCalculations<T> {
+  math: IsomorphMath<T>;
+
+  constructor(operations: IsomorphMath<T>) {
+    this.math = operations;
+  }
+
+  rate({ num, den }: { num: T; den: T }) {
+    return this.math.div(num, den);
+  }
+
+  normalize({ x, min, max }: { x: T; min: T; max: T }) {
+    return this.math.div(this.math.sub(x, min), this.math.sub(max, min));
+  }
+
+  transform({
     x,
     transformation,
     min,
     max,
   }: {
-    x: MapExpression;
+    x: T;
     transformation: TransformationFunction;
-    min: number;
-    max: number;
-  }) => {
+    min: T;
+    max: T;
+  }) {
     switch (transformation) {
       case 'no':
         return x;
 
       /* square_root: (sqrt(x) - sqrt(min)) / (sqrt(max) - sqrt(min)) */
       case 'square_root':
-        // prettier-ignore
-        return [
-          '/',
-          ['-', ['sqrt', x], ['sqrt', min]],
-          ['-', ['sqrt', max], ['sqrt', min]],
-        ];
+        return this.math.div(
+          this.math.sub(this.math.sqrt(x), this.math.sqrt(min)),
+          this.math.sub(this.math.sqrt(max), this.math.sqrt(min)),
+        );
 
       /* natural_logarithm: (ln(x) - ln(min)) / (ln(max) - ln(min)) */
       case 'natural_logarithm':
-        // prettier-ignore
-        return ['/',
-          ['-', ['ln', x], ['ln', min]],
-          ['-', ['ln', max], ['ln', min]]
-        ];
+        return this.math.div(
+          this.math.sub(this.math.log(x), this.math.log(min)),
+          this.math.sub(this.math.log(max), this.math.log(min)),
+        );
     }
-  },
-  invert: (x: MapExpression) => ['-', 1, x],
-  scale: (x: MapExpression, coefficient = 1) => ['*', x, coefficient],
-};
+  }
 
-export const inViewCalculations: Operations<number> = {
-  rate: ({ num, den }: { num: number; den: number }) => num / den,
-  normalize: ({ x, min, max }: { x: number; min: number; max: number }) =>
-    (x - min) / (max - min),
-  transform: ({
-    x,
-    transformation,
-    min,
-    max,
-  }: {
-    x: number;
-    transformation: TransformationFunction;
-    min: number;
-    max: number;
-  }) => {
-    switch (transformation) {
-      case 'no':
-        return x;
+  invert(x: T) {
+    return this.math.sub(1 as T, x);
+  }
 
-      /* square_root: (sqrt(x) - sqrt(min)) / (sqrt(max) - sqrt(min)) */
-      case 'square_root':
-        // prettier-ignore
-        return (Math.sqrt(x) - Math.sqrt(min)) / (Math.sqrt(max) - Math.sqrt(min));
+  scale(x: T, coefficient: T) {
+    return this.math.mult(x, coefficient);
+  }
+}
 
-      /* natural_logarithm: (ln(x) - ln(min)) / (ln(max) - ln(min)) */
-      case 'natural_logarithm':
-        // prettier-ignore
-        return (Math.log(x) - Math.log(min)) / (Math.log(max) - Math.log(min))
-    }
-  },
-  invert: (x: number) => 1 - x,
-  scale: (x: number, coefficient = 1) => x * coefficient,
-};
+export const inStyleCalculations = new Calculations(new MapMath());
+export const inViewCalculations = new Calculations(new JsMath());
 
 export const calculateLayerPipeline =
-  <T>(
-    operations: Operations<T>,
+  <T extends number>(
+    operations: IsomorphCalculations<number>,
     getValue: (axis: { num: string; den: string }) => { num: T; den: T },
   ) =>
   ({
