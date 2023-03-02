@@ -6,29 +6,33 @@ import { parseMCDA } from './parser';
 const example = `
 {
   "id":"MCDA",
+  "version": 2,
   "layers":[
      {
-        "axis":["population", "area_km2"],
-        "range":[0, 46200],
-        "sentiment":["good", "bad"],
-        "coefficient":1
+        "axis": ["population", "area_km2"],
+        "range": [0, 46200],
+        "sentiment": ["good", "bad"],
+        "coefficient": 1,
+        transformationFunction: "no"
      },
      {
-        "axis":["hazardous_days_count", "one"],
-        "range":[0, 365],
-        "sentiment":["good", "bad"],
-        "coefficient":1
+        "axis": ["hazardous_days_count", "one"],
+        "range": [0, 365],
+        "sentiment": ["good", "bad"],
+        "coefficient": 1,
+        transformationFunction: "natural_logarithm"
      },
      {
-        "axis":["highway_length", "total_road_length"],
-        "range":[0, 1],
-        "sentiment":["bad", "good"],
-        "coefficient":1
+        "axis": ["highway_length", "total_road_length"],
+        "range": [0, 1],
+        "sentiment": ["bad", "good"],
+        "coefficient": 1,
+        transformationFunction: "square_root"
      }
   ],
   "colors":{
-     "good":"rgba(90, 200, 127, 0.5)",
-     "bad":"rgba(228, 26, 28, 0.5)"
+     "good": "rgba(90, 200, 127, 0.5)",
+     "bad": "rgba(228, 26, 28, 0.5)"
   }
 }
 `;
