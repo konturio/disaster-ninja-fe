@@ -1,7 +1,6 @@
 import { useAtom } from '@reatom/react';
 import { userStateAtom } from '~core/auth';
-import { LoginForm } from '~features/user_profile';
-import { SettingsForm } from '~features/user_profile/components/SettingsForm/SettingsForm';
+import { LoginForm, SettingsForm } from '~features/user_profile';
 import s from './Profile.module.css';
 
 export function ProfilePage() {
