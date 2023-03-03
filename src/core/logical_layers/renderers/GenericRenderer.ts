@@ -358,21 +358,45 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
 
   /* ========== Hooks ========== */
 
-  willLegendUpdate({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
+  async willLegendUpdate({
+    map,
+    state,
+  }: {
+    map: ApplicationMap;
+    state: LogicalLayerState;
+  }) {
     if (state.source) {
-      this._updateMap(map, state.source, state.legend, state.isVisible);
+      try {
+        await this._updateMap(map, state.source, state.legend, state.isVisible);
+      } catch (e) {
+        this.onError(e);
+      }
     }
   }
 
-  willSourceUpdate({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
+  async willSourceUpdate({
+    map,
+    state,
+  }: {
+    map: ApplicationMap;
+    state: LogicalLayerState;
+  }) {
     if (state.source) {
-      this._updateMap(map, state.source, state.legend, state.isVisible);
+      try {
+        await this._updateMap(map, state.source, state.legend, state.isVisible);
+      } catch (e) {
+        this.onError(e);
+      }
     }
   }
 
-  willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
+  async willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
-      this._updateMap(map, state.source, state.legend, state.isVisible);
+      try {
+        await this._updateMap(map, state.source, state.legend, state.isVisible);
+      } catch (e) {
+        this.onError(e);
+      }
     }
   }
 

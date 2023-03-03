@@ -15,6 +15,7 @@ export type CommonHookArgs = {
 
 export interface LogicalLayerRenderer<T = any> {
   setupExtension: (extensionAtom: T) => void;
+  setErrorState: (cb: (e: Error) => void) => void;
   willInit: (args: NullableMap & CommonHookArgs) => void;
   willMount: (args: NotNullableMap & CommonHookArgs) => void;
   willUnMount: (args: NotNullableMap & CommonHookArgs) => void;

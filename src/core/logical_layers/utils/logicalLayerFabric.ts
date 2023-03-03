@@ -36,6 +36,11 @@ const logicalLayerActions: LogicalLayerActions = {
   destroy: () => null,
 };
 
+const annotatedError =
+  (id: string) =>
+  (...e) =>
+    console.error(`[Logical layer: ${id}]:`, ...e);
+
 export function createLogicalLayerAtom(
   id: string,
   renderer: LogicalLayerRenderer,
@@ -54,9 +59,10 @@ export function createLogicalLayerAtom(
       mountedLayersAtom,
       hiddenLayersAtom,
       layersMenusAtom,
+      _patchState: (newState: Partial<LogicalLayerState>) => newState,
     },
     (
-      { get, onAction, getUnlistedState, onInit, schedule, onChange },
+      { get, onAction, getUnlistedState, onInit, schedule, create },
       state: LogicalLayerState = {
         id,
         error: null,
@@ -89,7 +95,7 @@ export function createLogicalLayerAtom(
       const asyncLayerLegend = get('layersLegendsAtom').get(id) ?? fallbackAsyncState;
       const asyncLayerSource = get('layersSourcesAtom').get(id) ?? fallbackAsyncState;
       const layersMenus = get('layersMenusAtom').get(id) ?? null;
-
+      const logError = annotatedError(state.id);
       const newState = {
         id: state.id,
         error: state.error,
@@ -116,7 +122,7 @@ export function createLogicalLayerAtom(
         try {
           renderer.willInit({ map, state: { ...newState } });
         } catch (e) {
-          console.error(e);
+          logError(e);
           newState.error = e;
         }
       });
@@ -142,7 +148,7 @@ export function createLogicalLayerAtom(
           newState.isVisible = false;
           actions.push(hiddenLayersAtom.set(id));
         } catch (e) {
-          console.error(e);
+          logError(e);
           newState.error = e;
         }
       });
@@ -154,7 +160,7 @@ export function createLogicalLayerAtom(
           newState.isVisible = true;
           actions.push(hiddenLayersAtom.delete(id));
         } catch (e) {
-          console.error(e);
+          logError(e);
           newState.error = e;
         }
       });
@@ -165,7 +171,7 @@ export function createLogicalLayerAtom(
         try {
           if (!state.isDownloadable) return;
           if (!state.source?.source) {
-            console.error('Download failed, source unavailable');
+            logError('Download failed, source unavailable');
             return;
           }
           if (state.source.source.type === 'geojson') {
@@ -176,10 +182,10 @@ export function createLogicalLayerAtom(
               }-${new Date().toISOString()}.json`,
             );
           } else {
-            console.error('Only geojson layers can be downloaded');
+            logError('Only geojson layers can be downloaded');
           }
         } catch (e) {
-          console.error(e);
+          logError(e);
           newState.error = e;
         }
       });
@@ -210,7 +216,7 @@ export function createLogicalLayerAtom(
             }
           }
         } catch (e) {
-          console.error(e);
+          logError(e);
           newState.error = e;
         }
       }
@@ -221,19 +227,29 @@ export function createLogicalLayerAtom(
         const legendHaveUpdate = state.legend !== newState.legend;
         if (legendHaveUpdate) {
           if (map)
-            renderer.willLegendUpdate({
-              map,
-              state: { ...newState },
-            });
+            try {
+              renderer.willLegendUpdate({
+                map,
+                state: { ...newState },
+              });
+            } catch (e) {
+              logError(e);
+              newState.error = e;
+            }
         }
 
         const sourceHaveUpdate = state.source !== newState.source;
         if (sourceHaveUpdate) {
           if (map)
-            renderer.willSourceUpdate({
-              map,
-              state: { ...newState },
-            });
+            try {
+              renderer.willSourceUpdate({
+                map,
+                state: { ...newState },
+              });
+            } catch (e) {
+              logError(e);
+              newState.error = e;
+            }
         }
       }
       /* Destroy */
@@ -258,15 +274,24 @@ export function createLogicalLayerAtom(
             );
           }
         } catch (e) {
-          console.error(e);
+          logError(e);
           newState.error = e;
         }
       });
 
+      onAction('_patchState', (patch) => {
+        Object.assign(newState, patch);
+      });
       /* Schedule batched side effects */
 
       if (actions.length) {
-        schedule((dispatch) => dispatch(actions));
+        schedule((dispatch) => {
+          dispatch(actions);
+          renderer.setErrorState((e) => {
+            logError(e);
+            dispatch(create('_patchState', { error: e.message }));
+          });
+        });
       }
 
       // Update state only it have changes
