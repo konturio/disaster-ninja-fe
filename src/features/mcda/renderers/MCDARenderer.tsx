@@ -1,6 +1,4 @@
 import throttle from 'lodash-es/throttle';
-import isEqual from 'lodash-es/isEqual';
-import sumBy from 'lodash-es/sumBy';
 import { Popup as MapPopup } from 'maplibre-gl';
 import { createRoot } from 'react-dom/client';
 import { LAYER_BIVARIATE_PREFIX } from '~core/logical_layers/constants';
@@ -20,8 +18,10 @@ import {
   HOVER_HEXAGON_BORDER,
   isFillColorEmpty,
 } from '~core/logical_layers/renderers/BivariateRenderer';
+import { sumBy } from '~utils/common';
 import { PopupMCDA } from '../components/PopupMCDA';
-import type { PopupMCDAProps } from '../components/PopupMCDA';
+import { calculateLayerPipeline, inViewCalculations } from '../calculations';
+import type { MCDAConfig, PopupMCDAProps } from '../types';
 import type { FillColor } from '~core/logical_layers/renderers/BivariateRenderer';
 import type { AnyLayer, VectorSource } from 'maplibre-gl';
 import type { MapListener } from '~core/shared_state/mapListeners';
@@ -29,15 +29,11 @@ import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../../../core/logical_layers/utils/layersOrder/layersOrder';
-import type { JsonMCDA } from '~features/mcda/atoms/mcdaCalculation';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
-
-export const sentimentDefault = ['bad', 'good'] as const;
-export const sentimentReversed = ['good', 'bad'] as const;
 
 export class MCDARenderer extends BivariateRenderer {
   private _layerStyle: BivariateLayerStyle;
-  private _json: JsonMCDA;
+  private _json: MCDAConfig;
 
   public constructor({
     id,
@@ -48,7 +44,7 @@ export class MCDARenderer extends BivariateRenderer {
     id: string;
     layersOrderManager?: LayersOrderManager;
     layerStyle: BivariateLayerStyle;
-    json: JsonMCDA;
+    json: MCDAConfig;
   }) {
     super({ id, layersOrderManager });
     this._layerStyle = layerStyle;
@@ -111,17 +107,19 @@ export class MCDARenderer extends BivariateRenderer {
       if (!fillColor || isFillColorEmpty(fillColor) || !feature.properties) return true;
 
       const popupNode = document.createElement('div');
+      const calculateLayer = calculateLayerPipeline(
+        inViewCalculations,
+        ({ num, den }) => ({
+          num: feature.properties?.[num],
+          den: feature.properties?.[den],
+        }),
+      );
+
       const normalized = this._json.layers.reduce<PopupMCDAProps['normalized']>(
-        (acc, { axis, range, sentiment, coefficient }) => {
-          const [min, max] = range;
-          const [num, den] = axis;
+        (acc, layer) => {
+          const [num, den] = layer.axis;
           const value = feature.properties?.[num] / feature.properties?.[den];
-          const normalizedValue = coefficient * ((value - min) / (max - min));
-          if (isEqual(sentiment, sentimentDefault)) {
-            acc[`${num}-${den}`] = { norm: normalizedValue, val: value };
-          } else if (isEqual(sentiment, sentimentReversed)) {
-            acc[`${num}-${den}`] = { norm: 1 - normalizedValue, val: value };
-          }
+          acc[`${num}-${den}`] = { val: value, norm: calculateLayer(layer) };
           return acc;
         },
         {},

@@ -1,13 +1,5 @@
 import s from './PopupMCDA.module.css';
-import type { JsonMCDA } from '../atoms/mcdaCalculation';
-
-export type PopupMCDAProps = {
-  json: JsonMCDA;
-  normalized: {
-    [key: string]: { norm: number; val: number };
-  };
-  resultMCDA: number;
-};
+import type { PopupMCDAProps } from '../types';
 
 export const PopupMCDA = ({ json, normalized, resultMCDA }: PopupMCDAProps) => (
   <table>
@@ -15,7 +7,7 @@ export const PopupMCDA = ({ json, normalized, resultMCDA }: PopupMCDAProps) => (
       <tr>
         <th>Layer</th>
         <th>Range</th>
-        <th>Coeffitient</th>
+        <th>Coefficient</th>
         <th>Value</th>
         <th>Normalized Value</th>
       </tr>

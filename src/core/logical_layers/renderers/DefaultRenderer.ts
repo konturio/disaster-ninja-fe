@@ -6,9 +6,29 @@ import type {
   CommonHookArgs,
 } from '../types/renderer';
 
-export class LogicalLayerDefaultRenderer<T = Atom>
-  implements LogicalLayerRenderer<T>
-{
+export class LogicalLayerDefaultRenderer<T = Atom> implements LogicalLayerRenderer<T> {
+  private errorSetter = (e: Error) => {
+    console.warn(
+      'Hook for renderer errors not installed. You must add it in logical layer by setErrorState method',
+    );
+  };
+
+  /** Call it in renderer */
+  protected onError = (e: unknown) => {
+    if (e instanceof Error) {
+      this.errorSetter(e);
+    } else if (typeof e === 'string') {
+      this.errorSetter(new Error(e));
+    } else {
+      this.errorSetter(new Error('unknown'));
+    }
+  };
+
+  /** Call it in logical layer atom */
+  setErrorState(cb: (e: Error) => void) {
+    this.errorSetter = cb;
+  }
+
   setupExtension(atom: T) {
     return;
   }

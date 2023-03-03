@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`layerNormalized calculations is correct for bad good sentiments 1`] = `
+exports[`style correct for bad good sentiments 1`] = `
 [
   "*",
   [
@@ -20,13 +20,17 @@ exports[`layerNormalized calculations is correct for bad good sentiments 1`] = `
       ],
       111,
     ],
-    222,
+    [
+      "-",
+      333,
+      111,
+    ],
   ],
   7,
 ]
 `;
 
-exports[`layerNormalized calculations is correct for good bad sentiments 1`] = `
+exports[`style correct for good bad sentiments 1`] = `
 [
   "*",
   [
@@ -49,7 +53,11 @@ exports[`layerNormalized calculations is correct for good bad sentiments 1`] = `
         ],
         111,
       ],
-      222,
+      [
+        "-",
+        333,
+        111,
+      ],
     ],
   ],
   7,
