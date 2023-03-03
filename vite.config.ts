@@ -92,17 +92,6 @@ export default ({ mode }) => {
       postcss: postcssConfig,
     },
     resolve: {
-      alias: [
-        // lodash treeshaking improvements
-        {
-          find: /^lodash\.(.+?)/,
-          replacement: 'lodash-es/$1',
-        },
-        {
-          find: 'lodash',
-          replacement: 'lodash-es',
-        },
-      ],
       dedupe: [
         '@loaders.gl/core',
         '@loaders.gl/worker-utils',
