@@ -1,7 +1,7 @@
 import { ActionsBarBTN } from '@konturio/ui-kit';
 import { appConfig } from '~core/app_config';
 import { i18n } from '~core/localization';
-import { transformIconLink } from '~utils/transformIconLink';
+import { transformIconLink } from '~utils/common';
 
 type AppNameAndIconProps = {
   wrapClassName?: string;

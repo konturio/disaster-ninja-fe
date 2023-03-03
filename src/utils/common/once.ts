@@ -1,6 +1,9 @@
-const set = new WeakSet();
-export const once = <X, T extends () => X>(cb: T): X | undefined => {
-  if (set.has(cb)) return undefined;
-  set.add(cb);
-  return cb();
+export const once = <T extends (...args: any) => any>(cb: T) => {
+  let called = false;
+  return (...args: Parameters<T>) => {
+    if (called) return undefined;
+    called = true;
+    // @ts-ignore
+    return cb(...args);
+  };
 };

@@ -2,11 +2,11 @@ import { isObject } from '@reatom/core';
 import { memo } from '@reatom/core/experiments';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { store } from '~core/store/store';
+import { isErrorWithMessage } from '~utils/common';
 import { abortable, ABORT_ERROR_MESSAGE, isAbortError } from './abort-error';
 import { isAtomLike } from './is-atom-like';
 import type { AsyncAtomOptions, AsyncAtomState, Fetcher, AsyncAtomDeps } from './types';
 import type { AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
-import { isErrorWithMessage } from '~utils/isErrorWithMessage';
 
 const verbose = true;
 const filterByAtomName = '';

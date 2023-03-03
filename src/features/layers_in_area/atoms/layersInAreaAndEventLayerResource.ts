@@ -4,10 +4,10 @@ import { currentEventFeedAtom } from '~core/shared_state';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createAtom } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { removeEmpty } from '~utils/common';
 import { LAYERS_IN_AREA_API_ERROR } from '../constants';
 import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { FocusedGeometry } from '~core/focused_geometry/types';
-import { removeEmpty } from '~utils/NoUndefinedField';
 
 type LayersInAreaAndEventLayerResourceParameters = {
   appId: string;

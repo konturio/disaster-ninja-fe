@@ -7,11 +7,11 @@ import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { appConfig } from '~core/app_config';
 import { eventFeedsAtom } from '~core/shared_state';
+import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserProfileState } from '../../atoms/userProfile';
 import type { ChangeEvent } from 'react';
-import { flatObjectsAreEqual } from '~utils/flatObject';
 
 const authInputClasses = { input: clsx(s.authInput) };
 

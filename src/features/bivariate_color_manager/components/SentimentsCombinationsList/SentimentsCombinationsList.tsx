@@ -5,6 +5,7 @@ import { i18n } from '~core/localization';
 import { MiniLegend } from '~features/bivariate_color_manager/components/MiniLegend/MiniLegend';
 import { invertClusters } from '~utils/bivariate';
 import { convertDirectionsArrayToLabel } from '~utils/bivariate';
+import { sortByKey } from '~utils/common';
 import { CombinationsSublist } from './CombinationsSublist';
 import s from './SentimentsCombinationsList.module.css';
 import type { BivariateColorManagerData } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
@@ -13,7 +14,6 @@ import type {
   BivariateColorManagerDataAtomState,
   LayerSelectionInput,
 } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
-import { sortByKey } from '~utils/sortByKey';
 
 type Row = {
   key: string;
