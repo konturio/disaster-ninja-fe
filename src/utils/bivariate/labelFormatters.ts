@@ -1,5 +1,6 @@
-import { capitalize, toCapitalizedList } from '~utils/common';
+import { toCapitalizedList } from '~utils/common';
 import type { Axis } from '~utils/bivariate';
+import { capitalize } from '~utils/capitalize';
 
 export const formatSentimentDirection = (input: string[] | string): string =>
   Array.isArray(input) ? toCapitalizedList(input) : capitalize(input);

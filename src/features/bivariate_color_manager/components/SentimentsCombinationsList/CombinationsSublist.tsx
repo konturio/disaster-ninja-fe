@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { sortByKey } from '~utils/common';
 import {
   CSSTransitionWrapper,
   fadeClassNames,
@@ -14,6 +13,7 @@ import type {
   BivariateColorManagerDataAtomState,
   LayerSelectionInput,
 } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
+import { sortByKey } from '~utils/sortByKey';
 
 type SentimentsCombinationsListProps = {
   data: BivariateColorManagerData;

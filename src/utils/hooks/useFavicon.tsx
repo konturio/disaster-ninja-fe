@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { transformIconLink } from '~utils/common';
+import { transformIconLink } from '~utils/transformIconLink';
 
 export function useFavicon(iconPath?: string) {
   // change tab icon (not expected to work in Safari https://stackoverflow.com/questions/63781987/cant-change-favicon-with-javascript-in-safari)

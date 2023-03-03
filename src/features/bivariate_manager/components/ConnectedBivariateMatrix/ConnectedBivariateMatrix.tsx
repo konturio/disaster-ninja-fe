@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useAction, useAtom } from '@reatom/react';
-import debounce from 'lodash-es/debounce';
+import { debounce } from '~utils/common';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { bivariateCorrelationMatrixAtom } from '~features/bivariate_manager/atoms/bivatiateCorrelationMatrix';
@@ -59,7 +59,6 @@ const ConnectedBivariateMatrix = () => {
   const [{ xGroups, yGroups }, { setNumerators }] = useAtom(bivariateNumeratorsAtom);
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
   const turnOffById = useAction(currentTooltipAtom.turnOffById);
-  const resetTooltip = () => turnOffById(TOOLTIP_ID);
 
   const [{ data: statisticsData }] = useAtom(bivariateStatisticsResourceAtom);
 
@@ -95,7 +94,8 @@ const ConnectedBivariateMatrix = () => {
   }, [stats, xGroups, yGroups]);
 
   const debouncedShowTooltip = useCallback(
-    debounce((position) => {
+    debounce((position: { x: number; y: number }) => {
+      const resetTooltip = () => turnOffById(TOOLTIP_ID);
       resetTooltip();
       setTooltip({
         popup: <ProgressTooltip close={resetTooltip} />,
@@ -104,7 +104,7 @@ const ConnectedBivariateMatrix = () => {
         hoverBehavior: true,
       });
     }, 400),
-    [resetTooltip, setTooltip],
+    [turnOffById, setTooltip],
   );
 
   const onSelectCellHandler = useCallback(

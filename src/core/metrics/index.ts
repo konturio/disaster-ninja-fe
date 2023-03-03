@@ -1,4 +1,4 @@
-import once from 'lodash-es/once';
+import { once } from '~utils/common';
 import { cookieManagementService, permissionStatuses } from '~core/cookie_settings';
 import { AppMetrics } from './app-metrics';
 import { GoogleMetrics } from './externalMetrics/googleMetrics';

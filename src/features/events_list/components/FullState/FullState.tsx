@@ -7,6 +7,7 @@ import { i18n } from '~core/localization';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
+import { useUnlistedRef } from '~utils/hooks/useUnlistedRef';
 import { FeedSelectorFlagged } from '../FeedSelector';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
@@ -28,8 +29,6 @@ export function FullState({
   const hasTimeline = featureFlags[FeatureFlag.EPISODES_TIMELINE];
   const virtuoso = useRef<VirtuosoHandle>(null);
 
-  const [hasUnlistedEvent, setHasUnlistedEvent] = useState(false);
-
   const statesToComponents = createStateMap({
     error,
     loading: loading,
@@ -48,16 +47,16 @@ export function FullState({
     return !!eventsList.find((event) => event.eventId === currentEventId);
   }, [currentEventId, eventsList, error, loading]);
 
-  const currentEventRef = useRef(currentEventId);
-  currentEventRef.current = currentEventId;
+  const unlistedState = useUnlistedRef({ currentEventId });
 
   const eventClickHandler = useCallback(
     (id: string) => {
-      if (id !== currentEventRef.current) {
+      const { currentEventId } = unlistedState.current;
+      if (id !== currentEventId) {
         onCurrentChange(id);
       }
     },
-    [onCurrentChange, currentEventRef],
+    [onCurrentChange, unlistedState],
   );
 
   return (

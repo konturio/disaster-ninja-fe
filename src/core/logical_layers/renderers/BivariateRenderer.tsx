@@ -1,7 +1,7 @@
-import throttle from 'lodash-es/throttle';
 import { h3ToGeoBoundary, geoToH3 } from 'h3-js';
 import { Popup as MapPopup } from 'maplibre-gl';
 import { createRoot } from 'react-dom/client';
+import { throttle } from '~utils/common';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
 import {
@@ -299,52 +299,53 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       return true;
     };
 
-    const mousemoveHandler = throttle(
-      (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
-        const features = ev.target.queryRenderedFeatures(ev.point);
-        if (
-          !features.length ||
-          !features[0].geometry ||
-          !features[0]?.source.includes(this._sourceId) // we want to process hover only if top layer is bivariate
-        )
-          return true;
-        const feature = features[0];
-        const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
-        const fillColor: FillColor = feature.layer.paint?.['fill-color'];
-        if (!fillColor || isFillColorEmpty(fillColor)) return true;
+    const hoverEffect = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+      const features = ev.target.queryRenderedFeatures(ev.point);
+      if (
+        !features.length ||
+        !features[0].geometry ||
+        !features[0]?.source.includes(this._sourceId) // we want to process hover only if top layer is bivariate
+      ) {
+        return;
+      }
 
-        if (!map.getSource(HEX_HOVER_SOURCE_ID)) {
-          map.addSource(HEX_HOVER_SOURCE_ID, {
-            type: 'geojson',
-            data: {
-              type: 'Feature',
-              geometry,
-              properties: {},
-            },
-          });
-          map.addLayer({
-            id: HEX_HOVER_LAYER_ID,
-            type: 'line',
-            source: HEX_HOVER_SOURCE_ID,
-            layout: {},
-            paint: {
-              'line-color': HOVER_HEXAGON_BORDER,
-              'line-width': 1,
-            },
-          });
-        } else {
-          const source = map.getSource(HEX_HOVER_SOURCE_ID) as mapboxgl.GeoJSONSource;
-          source.setData({
+      const feature = features[0];
+      const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
+      const fillColor: FillColor = feature.layer.paint?.['fill-color'];
+      if (!fillColor || isFillColorEmpty(fillColor)) {
+        return;
+      }
+
+      if (!map.getSource(HEX_HOVER_SOURCE_ID)) {
+        map.addSource(HEX_HOVER_SOURCE_ID, {
+          type: 'geojson',
+          data: {
             type: 'Feature',
             geometry,
             properties: {},
-          });
-        }
+          },
+        });
+        map.addLayer({
+          id: HEX_HOVER_LAYER_ID,
+          type: 'line',
+          source: HEX_HOVER_SOURCE_ID,
+          layout: {},
+          paint: {
+            'line-color': HOVER_HEXAGON_BORDER,
+            'line-width': 1,
+          },
+        });
+      } else {
+        const source = map.getSource(HEX_HOVER_SOURCE_ID) as mapboxgl.GeoJSONSource;
+        source.setData({
+          type: 'Feature',
+          geometry,
+          properties: {},
+        });
+      }
+    };
 
-        return true;
-      },
-      100,
-    ) as MapListener;
+    const throttledHoverEffect = throttle(hoverEffect, 100);
 
     map.on('zoom', this.onMapZoom);
 
@@ -352,11 +353,18 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       this._removeMouseMoveListener();
       this._removeMouseMoveListener = null;
     }
+
+    const mousemoveHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+      throttledHoverEffect(ev);
+      return true;
+    };
+
     this._removeMouseMoveListener = registerMapListener(
       'mousemove',
       mousemoveHandler,
       60,
     );
+
     if (this._removeClickListener) {
       this._removeClickListener();
       this._removeClickListener = null;

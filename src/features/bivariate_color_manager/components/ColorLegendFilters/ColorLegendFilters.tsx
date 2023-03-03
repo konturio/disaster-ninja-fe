@@ -6,10 +6,10 @@ import { nanoid } from 'nanoid';
 import cn from 'clsx';
 import { i18n } from '~core/localization';
 import { bivariateColorManagerResourceAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';
-import { capitalize } from '~utils/common';
 import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import style from './ColorLegendFilters.module.css';
 import type { SelectItemType } from '@konturio/ui-kit';
+import { capitalize } from '~utils/capitalize';
 
 const SentimentFiltersClasses = {
   noValue: style.NoValue,

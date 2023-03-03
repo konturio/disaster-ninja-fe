@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import React, { memo } from 'react';
 import { EyeOff24 } from '@konturio/default-icons';
-import { sortByKey } from '~utils/common';
 import { i18n } from '~core/localization';
 import { MiniLegend } from '~features/bivariate_color_manager/components/MiniLegend/MiniLegend';
 import { invertClusters } from '~utils/bivariate';
@@ -14,6 +13,7 @@ import type {
   BivariateColorManagerDataAtomState,
   LayerSelectionInput,
 } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
+import { sortByKey } from '~utils/sortByKey';
 
 type Row = {
   key: string;
@@ -55,9 +55,7 @@ const SentimentsCombinationsList = memo(
         const { maps, legend } = value;
         const keyParsed = JSON.parse(key);
         const verticalLabel = convertDirectionsArrayToLabel(keyParsed.vertical);
-        const horizontalLabel = convertDirectionsArrayToLabel(
-          keyParsed.horizontal,
-        );
+        const horizontalLabel = convertDirectionsArrayToLabel(keyParsed.horizontal);
 
         return {
           key,
@@ -84,52 +82,43 @@ const SentimentsCombinationsList = memo(
         <tbody>
           {rows.length === 0
             ? showEmptyResultsTable(anyFilterActivated)
-            : rows.map(
-                ({ key, legend, maps, verticalLabel, horizontalLabel }) => {
-                  const rowSelected = selectedRows[key];
-                  const selectRow = () => setSelectedRows(key);
+            : rows.map(({ key, legend, maps, verticalLabel, horizontalLabel }) => {
+                const rowSelected = selectedRows[key];
+                const selectRow = () => setSelectedRows(key);
 
-                  let layersSelectionData;
-                  if (layersSelection?.key === key)
-                    layersSelectionData = layersSelection;
+                let layersSelectionData;
+                if (layersSelection?.key === key) layersSelectionData = layersSelection;
 
-                  return (
-                    <React.Fragment key={key}>
-                      <tr
-                        onClick={selectRow}
-                        className={clsx(
-                          s.rowSelectable,
-                          rowSelected && s.rowSeleted,
-                        )}
-                      >
-                        <td>
-                          <div className={s.legendWrapper}>
-                            {legend && (
-                              <MiniLegend
-                                legendSteps={invertClusters(
-                                  legend.steps,
-                                  'label',
-                                )}
-                              />
-                            )}
-                          </div>
-                        </td>
-                        <td className={s.centered}>{maps}</td>
-                        <td className={s.label}>{verticalLabel}</td>
-                        <td className={s.label}>{horizontalLabel}</td>
-                      </tr>
+                return (
+                  <React.Fragment key={key}>
+                    <tr
+                      onClick={selectRow}
+                      className={clsx(s.rowSelectable, rowSelected && s.rowSeleted)}
+                    >
+                      <td>
+                        <div className={s.legendWrapper}>
+                          {legend && (
+                            <MiniLegend
+                              legendSteps={invertClusters(legend.steps, 'label')}
+                            />
+                          )}
+                        </div>
+                      </td>
+                      <td className={s.centered}>{maps}</td>
+                      <td className={s.label}>{verticalLabel}</td>
+                      <td className={s.label}>{horizontalLabel}</td>
+                    </tr>
 
-                      <CombinationsSublist
-                        open={rowSelected}
-                        rowData={data[key]}
-                        rowKey={key}
-                        setLayersSelection={setLayersSelection}
-                        layersSelection={layersSelectionData}
-                      />
-                    </React.Fragment>
-                  );
-                },
-              )}
+                    <CombinationsSublist
+                      open={rowSelected}
+                      rowData={data[key]}
+                      rowKey={key}
+                      setLayersSelection={setLayersSelection}
+                      layersSelection={layersSelectionData}
+                    />
+                  </React.Fragment>
+                );
+              })}
         </tbody>
       </table>
     );
