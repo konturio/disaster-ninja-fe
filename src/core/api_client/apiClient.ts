@@ -58,7 +58,7 @@ export class ApiClient {
     keycloakClientId = '',
     unauthorizedCallback,
     disableAuth = false,
-    storage = window.localStorage,
+    storage = globalThis.localStorage,
     ...apiSauceConfig
   }: ApiClientConfig<ApiClient>) {
     this.instanceId = instanceId;

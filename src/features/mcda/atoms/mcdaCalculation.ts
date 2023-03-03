@@ -36,54 +36,68 @@ export interface JsonMCDA {
   };
 }
 
+const queries = {
+  /** ((num / den) - min) / (max - min) */
+  normalize: ({ num, den, min, max }) => [
+    '/',
+    ['-', ['/', ['get', num], ['get', den]], min],
+    max - min,
+  ],
+  /** 1 - x */
+  invert: <T = unknown>(expression: Array<T>) => ['-', 1, expression],
+  /** x * coefficient (a.k.a. weight) */
+  scale: <T = unknown>(expression: Array<T>, coefficient = 1) => [
+    '*',
+    expression,
+    coefficient,
+  ],
+};
+
 const DEFAULT_GREEN = 'rgba(90, 200, 127, 0.5)';
 const DEFAULT_RED = 'rgba(228, 26, 28, 0.5)';
 
-const filterSetup = (layers: JsonMCDA['layers']) =>
-  anyCondition(
+function filterSetup(layers: JsonMCDA['layers']) {
+  return anyCondition(
     ...layers.map(({ axis }) =>
       notEqual(['/', featureProp(axis[0]), featureProp(axis[1])], 0),
     ),
   );
+}
 
-const layerNormalized = (
-  [num, den]: Quotient,
-  [min, max]: [number, number],
-  sentiment: [string, string],
-  coefficient: number,
-) => {
-  const layerNormalizedFormula = [
-    '*',
-    coefficient,
-    ['/', ['-', ['/', ['get', num], ['get', den]], min], max - min],
-  ];
+export function layerNormalized({
+  axis,
+  range,
+  sentiment,
+  coefficient,
+}: {
+  axis: Quotient;
+  range: [number, number];
+  sentiment: [string, string];
+  coefficient: number;
+}) {
+  const [num, den] = axis;
+  const [min, max] = range;
+  const inverted = isEqual(sentiment, sentimentReversed);
+  if (!inverted)
+    console.assert(isEqual(sentiment, sentimentDefault), 'Not inverted equals default');
 
-  if (isEqual(sentiment, sentimentDefault)) {
-    return layerNormalizedFormula;
-  } else if (isEqual(sentiment, sentimentReversed)) {
-    return ['-', 1, layerNormalizedFormula];
-  }
-};
+  /**
+   * (1 - ((((num / den) - min) / (max - min)))) * coefficient
+   */
+  const normalized = queries.normalize({ num, den, min, max });
+  const orientated = inverted ? queries.invert(normalized) : normalized;
+  const scaled = queries.scale(orientated, coefficient);
+  return scaled;
+}
 
-const linearNormalization = (json: JsonMCDA) => {
-  const layersCount = json.layers.length;
+export function linearNormalization(layers: JsonMCDA['layers']) {
+  const layersCount = layers.length;
   if (layersCount === 1) {
-    const { axis, range, sentiment, coefficient } = json.layers[0];
-
-    return layerNormalized(axis, range, sentiment, coefficient);
+    return layerNormalized(layers.at(0)!);
   } else if (layersCount > 1) {
-    return [
-      '/',
-      [
-        '+',
-        ...json.layers.map(({ axis, range, sentiment, coefficient }) =>
-          layerNormalized(axis, range, sentiment, coefficient),
-        ),
-      ],
-      sumBy(json.layers, 'coefficient'),
-    ];
+    return ['/', ['+', ...layers.map(layerNormalized)], sumBy(layers, 'coefficient')];
   }
-};
+}
 
 export const mcdaCalculationAtom = createAtom(
   {
@@ -104,7 +118,7 @@ export const mcdaCalculationAtom = createAtom(
           'fill-color': [
             'let',
             'mcdaResult',
-            ['to-number', linearNormalization(json), -1], // falsy values become -1
+            ['to-number', linearNormalization(json.layers), -1], // falsy values become -1
             [
               'case',
               ['all', ['>=', ['var', 'mcdaResult'], 0], ['<=', ['var', 'mcdaResult'], 1]],
