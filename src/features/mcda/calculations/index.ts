@@ -1,8 +1,10 @@
-import isEqual from 'lodash-es/isEqual';
 import { sentimentDefault, sentimentReversed } from './constants';
 import { JsMath, MapMath } from './operations';
 import type { IsomorphMath } from './operations';
 import type { MCDAConfig, TransformationFunction } from '../types';
+
+const equalSentiments = (a: Array<string>, b: Array<string>) =>
+  a.length === b.length && a.every((x, i) => x === b[i]);
 
 interface IsomorphCalculations<T> {
   rate: (args: { num: T; den: T }) => T;
@@ -92,9 +94,12 @@ export const calculateLayerPipeline =
   }: MCDAConfig['layers'][0]) => {
     const [num, den] = axis;
     const [min, max] = range;
-    const inverted = isEqual(sentiment, sentimentReversed);
+    const inverted = equalSentiments(sentiment, sentimentReversed);
     if (!inverted)
-      console.assert(isEqual(sentiment, sentimentDefault), 'Not inverted equals default');
+      console.assert(
+        equalSentiments(sentiment, sentimentDefault),
+        'Not inverted equals default',
+      );
 
     const values = getValue({ num, den });
     const rate = operations.rate(values);

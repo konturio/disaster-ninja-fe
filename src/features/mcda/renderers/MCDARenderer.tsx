@@ -1,5 +1,4 @@
 import throttle from 'lodash-es/throttle';
-import sumBy from 'lodash-es/sumBy';
 import { Popup as MapPopup } from 'maplibre-gl';
 import { createRoot } from 'react-dom/client';
 import { LAYER_BIVARIATE_PREFIX } from '~core/logical_layers/constants';
@@ -19,6 +18,7 @@ import {
   HOVER_HEXAGON_BORDER,
   isFillColorEmpty,
 } from '~core/logical_layers/renderers/BivariateRenderer';
+import { sumBy } from '~utils/common';
 import { PopupMCDA } from '../components/PopupMCDA';
 import { calculateLayerPipeline, inViewCalculations } from '../calculations';
 import type { MCDAConfig, PopupMCDAProps } from '../types';

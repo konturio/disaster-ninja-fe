@@ -1,4 +1,3 @@
-import sumBy from 'lodash-es/sumBy';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import appConfig from '~core/app_config';
 import {
@@ -6,6 +5,7 @@ import {
   featureProp,
   notEqual,
 } from '~utils/bivariate/bivariate_style/styleGen';
+import { sumBy } from '~utils/common';
 import { DEFAULT_GREEN, DEFAULT_RED } from '../../calculations/constants';
 import { calculateLayerPipeline, inStyleCalculations } from '../../calculations';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
