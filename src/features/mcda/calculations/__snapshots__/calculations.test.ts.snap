@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`calculateLayer calculations is correct for bad good sentiments 1`] = `
+exports[`style correct for bad good sentiments 1`] = `
 [
   "*",
   [
@@ -30,7 +30,7 @@ exports[`calculateLayer calculations is correct for bad good sentiments 1`] = `
 ]
 `;
 
-exports[`calculateLayer calculations is correct for good bad sentiments 1`] = `
+exports[`style correct for good bad sentiments 1`] = `
 [
   "*",
   [

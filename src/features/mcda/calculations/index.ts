@@ -10,12 +10,11 @@ interface IsomorphCalculations<T> {
   rate: (args: { num: T; den: T }) => T;
   /** (x - min) / (max - min) */
   normalize: (args: { x: T; min: T; max: T }) => T;
-  transform: (args: {
-    x: T;
-    transformation: TransformationFunction;
-    min: T;
-    max: T;
-  }) => T;
+  transform: (args: { x: T; transformation: TransformationFunction; min: T; max: T }) => {
+    tX: T;
+    tMin: T;
+    tMax: T;
+  };
   /** 1 - x */
   invert: (x: T) => T;
   /** x * coefficient (a.k.a. weight) */
@@ -39,9 +38,9 @@ class Calculations<T> implements IsomorphCalculations<T> {
 
   transform({
     x,
-    transformation,
     min,
     max,
+    transformation,
   }: {
     x: T;
     transformation: TransformationFunction;
@@ -50,21 +49,27 @@ class Calculations<T> implements IsomorphCalculations<T> {
   }) {
     switch (transformation) {
       case 'no':
-        return x;
+        return {
+          tX: x,
+          tMin: min,
+          tMax: max,
+        };
 
       /* square_root: (sqrt(x) - sqrt(min)) / (sqrt(max) - sqrt(min)) */
       case 'square_root':
-        return this.math.div(
-          this.math.sub(this.math.sqrt(x), this.math.sqrt(min)),
-          this.math.sub(this.math.sqrt(max), this.math.sqrt(min)),
-        );
+        return {
+          tX: this.math.sqrt(x),
+          tMin: this.math.sqrt(min),
+          tMax: this.math.sqrt(max),
+        };
 
       /* natural_logarithm: (ln(x) - ln(min)) / (ln(max) - ln(min)) */
       case 'natural_logarithm':
-        return this.math.div(
-          this.math.sub(this.math.log(x), this.math.log(min)),
-          this.math.sub(this.math.log(max), this.math.log(min)),
-        );
+        return {
+          tX: this.math.log(this.math.add(x, 1 as T)),
+          tMin: this.math.log(this.math.add(min, 1 as T)),
+          tMax: this.math.log(this.math.add(max, 1 as T)),
+        };
     }
   }
 
@@ -103,13 +108,14 @@ export const calculateLayerPipeline =
 
     const values = getValue({ num, den });
     const rate = operations.rate(values);
-    const transformed = operations.transform({
+    // tX - shortcut for transformedX
+    const { tX, tMin, tMax } = operations.transform({
       x: rate,
-      transformation: transformationFunction,
       min,
       max,
+      transformation: transformationFunction,
     });
-    const normalized = operations.normalize({ x: transformed, min, max });
+    const normalized = operations.normalize({ x: tX, min: tMin, max: tMax });
     const orientated = inverted ? operations.invert(normalized) : normalized;
     const scaled = operations.scale(orientated, coefficient);
     return scaled;

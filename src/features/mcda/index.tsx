@@ -13,21 +13,21 @@ const example = `
         "range": [0, 46200],
         "sentiment": ["good", "bad"],
         "coefficient": 1,
-        transformationFunction: "no"
+        "transformationFunction": "no"
      },
      {
         "axis": ["hazardous_days_count", "one"],
         "range": [0, 365],
         "sentiment": ["good", "bad"],
         "coefficient": 1,
-        transformationFunction: "natural_logarithm"
+        "transformationFunction": "natural_logarithm"
      },
      {
         "axis": ["highway_length", "total_road_length"],
         "range": [0, 1],
         "sentiment": ["bad", "good"],
         "coefficient": 1,
-        transformationFunction: "square_root"
+        "transformationFunction": "square_root"
      }
   ],
   "colors":{
