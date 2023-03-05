@@ -40,7 +40,7 @@ export default ({ mode }) => {
     : [];
 
   const hmr = !!env.VITE_DEBUG_HMR;
-
+      console.log('env.VITE_ANALYZE_BUNDLE', env.VITE_ANALYZE_BUNDLE)
   const cfg = defineConfig({
     base: `${env.VITE_BASE_PATH}${env.VITE_STATIC_PATH}`,
     build: {

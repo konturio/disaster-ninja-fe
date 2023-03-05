@@ -1,6 +1,6 @@
 import { createUpdateLayerActions } from './createUpdateActions';
 import type { LayerSummaryDto } from '../types/source';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 type LayerId = string;
 

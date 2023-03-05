@@ -1,7 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { CacheRoute } from 'react-router-cache-route';
 import { Route } from 'react-router-dom';
-import { useAction, useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react-v2';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { featuresWereSetAtom } from '~core/app/features';
 import { availableRoutesAtom } from '../atoms/availableRoutes';

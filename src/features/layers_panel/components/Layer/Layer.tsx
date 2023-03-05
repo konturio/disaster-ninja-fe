@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAction, useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react-v2';
 import {
   SimpleLegend as SimpleLegendComponent,
   SimpleLegendStep as SimpleLegendStepComponent,
@@ -31,8 +31,7 @@ export function Layer({
 }) {
   const [layerState, layerActions] = useAtom(layerAtom);
   const onChange = useAction(
-    () =>
-      layerState.isMounted ? layerActions.disable() : layerActions.enable(),
+    () => (layerState.isMounted ? layerActions.disable() : layerActions.enable()),
     [layerState.isMounted],
   );
 
@@ -52,8 +51,7 @@ export function Layer({
   }, [delegateLegendRender, layerState]);
 
   const hasOneStepSimpleLegend =
-    layerState.legend?.type === 'simple' &&
-    layerState.legend.steps?.length === 1;
+    layerState.legend?.type === 'simple' && layerState.legend.steps?.length === 1;
 
   const hasMultiStepSimpleLegend =
     layerState.legend?.type === 'simple' && layerState.legend.steps?.length > 1;

@@ -10,7 +10,7 @@ import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { isEditorActiveAtom } from './isEditorActive';
 import type { Feature, FeatureCollection } from 'geojson';
 import type { FocusedGeometry } from '~core/focused_geometry/types';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 const defaultState: FeatureCollection = {
   type: 'FeatureCollection',

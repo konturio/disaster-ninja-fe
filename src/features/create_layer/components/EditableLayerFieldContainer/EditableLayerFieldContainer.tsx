@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
 import { SortDrag16, Trash16 } from '@konturio/default-icons';
 import { Input } from '@konturio/ui-kit';

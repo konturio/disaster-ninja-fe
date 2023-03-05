@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { useCallback, useEffect, useState } from 'react';
 import { Selector } from '@konturio/ui-kit/tslib/Selector';
 import clsx from 'clsx';

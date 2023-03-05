@@ -1,6 +1,6 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { appConfig } from '~core/app_config';
 import { Row } from '~components/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';

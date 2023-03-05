@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { currentUserAtom } from '~core/shared_state';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { EVENT_MAP_IDLE } from '~core/metrics/constants';

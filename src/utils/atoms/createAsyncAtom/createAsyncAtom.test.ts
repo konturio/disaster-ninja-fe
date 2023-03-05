@@ -1,10 +1,10 @@
-import { createAtom, createStore } from '@reatom/core';
+import { createAtom, createStore } from '@reatom/core-v2';
 import { expect, test, describe, vi, beforeEach } from 'vitest';
-import { createBooleanAtom } from '@reatom/core/primitives';
+import { createBooleanAtom } from '@reatom/core-v2/primitives';
 import { incrementId, wait, waitMockCalls } from '~utils/test';
 import { createAsyncAtom } from './createAsyncAtom';
 import { ABORT_ERROR_MESSAGE } from './abort-error';
-import type { Store } from '@reatom/core';
+import type { Store } from '@reatom/core-v2';
 
 const id = incrementId;
 

@@ -1,7 +1,7 @@
 import { SearchIcon } from '@konturio/default-icons';
 import { Input } from '@konturio/ui-kit';
 import { useEffect, useState } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
 import { tableAtom } from '~features/reports/atoms/tableAtom';
 import { useUnlistedRef } from '~utils/hooks/useUnlistedRef';

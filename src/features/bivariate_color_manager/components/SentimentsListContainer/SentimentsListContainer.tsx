@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { SentimentsCombinationsList } from '~features/bivariate_color_manager/components';
 import { bivariateColorManagerResourceAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerResource';

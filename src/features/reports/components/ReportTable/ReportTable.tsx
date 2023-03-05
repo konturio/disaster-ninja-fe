@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { Heading } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { currentReportAtom } from '../../atoms/reportResource';

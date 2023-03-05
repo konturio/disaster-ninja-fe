@@ -2,7 +2,7 @@ import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useCallback } from 'react';
 import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';

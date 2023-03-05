@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { Button } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { toolbarControlsAtom } from '~core/shared_state';

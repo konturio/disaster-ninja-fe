@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { useEffect } from 'react';
 import { appConfig } from '~core/app_config';
 import { initMetricsOnce } from '~core/metrics';

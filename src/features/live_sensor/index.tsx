@@ -9,7 +9,7 @@ import { SENSOR_CONTROL, SENSOR_CONTROL_NAME } from './constants';
 import { collectedPointsAtom } from './atoms/collectedPoints';
 import { hookGeolocation, hookSensors } from './utils';
 import { resourceWatcherAtom } from './atoms/resourceWatcherAtom';
-import type { Unsubscribe } from '@reatom/core';
+import type { Unsubscribe } from '@reatom/core-v2';
 
 export function initSensor() {
   let accelerometer: Accelerometer;

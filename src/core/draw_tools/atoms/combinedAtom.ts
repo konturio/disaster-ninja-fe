@@ -14,7 +14,7 @@ import { drawModeRenderer } from './logicalLayerAtom';
 import type { NotificationMessage } from '~core/types/notification';
 import type { NotificationType } from '~core/shared_state/currentNotifications';
 import type { Feature } from 'geojson';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 export type DrawModeHooks =
   | 'drawnGeometryAtom'

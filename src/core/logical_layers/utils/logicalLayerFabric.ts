@@ -1,5 +1,5 @@
 // https://beta.plectica.com/maps/I6JK50E2F/edit/4NE4TFESC
-import { memo } from '@reatom/core/experiments';
+// import { memo } from '@reatom/core-v2/experiments';
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { createAtom } from '~utils/atoms';
 import { downloadObject } from '~utils/file/download';
@@ -17,7 +17,7 @@ import type { LayerRegistryAtom } from '../types/registry';
 import type { LogicalLayerActions, LogicalLayerState } from '../types/logicalLayer';
 import type { LogicalLayerRenderer } from '../types/renderer';
 import type { AsyncState } from '../types/asyncState';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 /**
@@ -297,7 +297,8 @@ export function createLogicalLayerAtom(
       // Update state only it have changes
       return newState;
     },
-    { id, decorators: [memo()] }, // memo do first level compartment for recognize state changed or not
+    { id, decorators: [] }, // memo do first level compartment for recognize state changed or not
+    // memo()
   );
 
   return logicalLayerAtom;

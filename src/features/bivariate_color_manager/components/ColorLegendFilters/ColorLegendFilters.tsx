@@ -1,6 +1,6 @@
 import { Autocomplete, Checkbox, Select } from '@konturio/ui-kit';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { Plus16 } from '@konturio/default-icons';
 import { nanoid } from 'nanoid';
 import cn from 'clsx';

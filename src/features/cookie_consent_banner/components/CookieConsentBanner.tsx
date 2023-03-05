@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { Link } from 'react-router-dom';
 import { Button, Card, Heading, Animation } from '@konturio/ui-kit';
 import { getAbsoluteRoute } from '~core/router/getAbsoluteRoute';

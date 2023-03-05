@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Trans } from 'react-i18next';
 import { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { reportsAtom } from '../../atoms/reportsAtom';

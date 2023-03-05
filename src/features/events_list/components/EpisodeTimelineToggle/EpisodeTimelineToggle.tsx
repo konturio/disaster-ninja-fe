@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { Trans } from 'react-i18next';
 import { Play24, PlayActive24 } from '@konturio/default-icons';
 import { Tooltip } from '@konturio/ui-kit';

@@ -1,4 +1,4 @@
-import { noop } from '@reatom/core';
+// import { noop } from '@reatom/core-v2';
 import { userStateAtom } from '~core/auth/atoms/userState';
 import type { JWTData, LocalAuthToken } from '~core/api_client/types';
 import type { ApiClient } from '~core/api_client';
@@ -24,8 +24,12 @@ export class AuthClient {
 
   private readonly _apiClient: ApiClient;
 
-  loginHook: AuthLoginHook = noop;
-  logoutHook: AuthLogoutHook = noop;
+  loginHook: AuthLoginHook = async () => {
+    /* noop */
+  };
+  logoutHook: AuthLogoutHook = () => {
+    /* noop */
+  };
   private constructor({ apiClient }: AuthClientConfig) {
     this._apiClient = apiClient;
   }

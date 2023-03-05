@@ -13,7 +13,7 @@ import { boundaryResourceAtom } from './boundaryResourceAtom';
 import { highlightedGeometryAtom } from './highlightedGeometry';
 import { getSelectorWithOptions } from './../components/getSelectorWithOptions';
 import type { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 const LOADING_OPTION = [{ label: i18n.t('loading'), value: 'loading', disabled: true }];
 const NO_DATA_OPTION = [

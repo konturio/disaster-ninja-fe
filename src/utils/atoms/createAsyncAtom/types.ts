@@ -1,5 +1,5 @@
-import type { Store } from '@reatom/core';
-import type { Atom, AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
+import type { Store } from '@reatom/core-v2';
+import type { Atom, AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core-v2';
 
 export type Fetcher<I, O> = (params: I, abortController: AbortController) => Promise<O>;
 

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { Heading, Text } from '@konturio/ui-kit';
 import ConnectedBivariateMatrix from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';

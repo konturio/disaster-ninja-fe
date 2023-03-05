@@ -1,4 +1,4 @@
-import { useAction, useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react-v2';
 import { useCallback } from 'react';
 import { currentEventAtom } from '~core/shared_state';
 import { currentEventBbox } from './atoms/currentEventBbox';

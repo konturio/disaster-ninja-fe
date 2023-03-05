@@ -6,7 +6,7 @@ import {
   convertDetailsToLegends,
 } from '~core/logical_layers/utils/convert';
 import { editableLayersDetailsResourceAtom } from './editableLayersDetailsResource';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 export const editableLayersLegendsAndSources = createAtom(
   {

@@ -1,5 +1,5 @@
 import { createAtom } from './createPrimitives';
-import type { Atom, AtomBinded, AtomState } from '@reatom/core';
+import type { Atom, AtomBinded, AtomState } from '@reatom/core-v2';
 import type { AsyncAtomState, AsyncAnyAtom } from './createAsyncAtom/types';
 
 type AtomsMap = { [key: string]: Atom<any> };

@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Tooltip } from '@konturio/ui-kit';

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAction } from '@reatom/react';
+import { useAction } from '@reatom/react-v2';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { BivariateLegend as BivariateLegendComponent } from '~components/BivariateLegend/BivariateLegend';
 import { Layer } from '../Layer/Layer';
@@ -42,9 +42,7 @@ export function Group({
         open={isOpen}
         title={<span className={s.groupTitle}>{group.name}</span>}
         controls={
-          group.mutuallyExclusive && (
-            <DeselectControl onClick={onGroupDeselect} />
-          )
+          group.mutuallyExclusive && <DeselectControl onClick={onGroupDeselect} />
         }
         onStateChange={(newState) => setOpenState(!newState)}
       >

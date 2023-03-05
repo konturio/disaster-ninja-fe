@@ -1,12 +1,12 @@
-import { isObject } from '@reatom/core';
-import { memo } from '@reatom/core/experiments';
+import { isObject } from '@reatom/core-v2';
+// import { memo } from '@reatom/core-v2/experiments';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { store } from '~core/store/store';
 import { isErrorWithMessage } from '~utils/common';
 import { abortable, ABORT_ERROR_MESSAGE, isAbortError } from './abort-error';
 import { isAtomLike } from './is-atom-like';
 import type { AsyncAtomOptions, AsyncAtomState, Fetcher, AsyncAtomDeps } from './types';
-import type { AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
+import type { AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core-v2';
 
 const verbose = true;
 const filterByAtomName = '';
@@ -263,7 +263,8 @@ export function createAsyncAtom<
     {
       id: getUniqueId(name),
       store: options.store,
-      decorators: [memo()], // This prevent updates when prev state and next state deeply equal
+      decorators: [],
+      //decorators: [memo()] // This prevent updates when prev state and next state deeply equal
     },
   );
 

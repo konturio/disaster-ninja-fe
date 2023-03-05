@@ -7,7 +7,7 @@ import {
   Trash24,
   Download24,
 } from '@konturio/default-icons';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
 import { drawModes } from '../../constants';
 import { combinedAtom } from '../../atoms/combinedAtom';

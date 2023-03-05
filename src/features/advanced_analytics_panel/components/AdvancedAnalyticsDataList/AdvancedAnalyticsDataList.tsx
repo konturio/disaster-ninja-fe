@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { LocaleNumber, i18n } from '~core/localization';
 import { worldAnalyticsResource } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsWorldResource';
 import s from './AdvancedAnalyticsData.module.css';

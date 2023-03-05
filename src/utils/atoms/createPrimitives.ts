@@ -1,13 +1,13 @@
-import { createAtom as createAtomOriginal } from '@reatom/core';
+import { createAtom as createAtomOriginal } from '@reatom/core-v2';
 import {
   createBooleanAtom as createBooleanAtomOriginal,
   createPrimitiveAtom as createPrimitiveAtomOriginal,
   createNumberAtom as createNumberAtomOriginal,
   createStringAtom as createStringAtomOriginal,
-} from '@reatom/core/primitives';
+} from '@reatom/core-v2/primitives';
 import { store } from '~core/store/store';
-import type { PrimitiveAtom } from '@reatom/core/primitives';
-import type { AtomOptions } from '@reatom/core';
+import type { PrimitiveAtom } from '@reatom/core-v2/primitives';
+import type { AtomOptions } from '@reatom/core-v2';
 
 const addStoreInOptions = (options) => ({
   store,

@@ -1,5 +1,5 @@
 import { Button, Input, Radio, Select, Text, Heading, Textarea } from '@konturio/ui-kit';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';

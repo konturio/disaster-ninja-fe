@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { episodesPanelStateHandler } from '~core/focused_geometry/controllers';
 import { eventEpisodesModel } from './model';
 import { EpisodesTimelinePanel } from './components/EpisodesTimelinePanel/EpisodesTimelinePanel';

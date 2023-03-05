@@ -1,4 +1,4 @@
-import type { AtomBinded } from '@reatom/core';
+import type { AtomBinded } from '@reatom/core-v2';
 export type { AppConfig } from './types';
 export const appRegistry = {
   atoms: {},

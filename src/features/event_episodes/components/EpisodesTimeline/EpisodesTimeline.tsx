@@ -1,5 +1,5 @@
 import { Timeline } from '@konturio/ui-kit';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { useCallback, useMemo } from 'react';
 import { eventEpisodesController } from '../../controller';
 import { eventEpisodesModel } from '../../model';
@@ -69,7 +69,7 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
     if (selection.length > 1) {
       return; // its cluster
     }
-    const [item] = selection
+    const [item] = selection;
     if (item !== undefined) {
       eventEpisodesController.setCurrentEpisode(String(item.id));
     } else {

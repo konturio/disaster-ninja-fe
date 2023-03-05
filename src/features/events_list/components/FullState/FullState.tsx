@@ -1,5 +1,5 @@
 import { Virtuoso } from 'react-virtuoso';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';

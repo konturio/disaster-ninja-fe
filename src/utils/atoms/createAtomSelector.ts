@@ -1,5 +1,5 @@
-import { createAtom } from '@reatom/core';
-import type { Atom, AtomState, Fn } from '@reatom/core';
+import { createAtom } from '@reatom/core-v2';
+import type { Atom, AtomState, Fn } from '@reatom/core-v2';
 
 export function createAtomSelector<T extends Atom, Res>(
   atom: T,

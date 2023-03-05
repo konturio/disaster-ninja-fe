@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { userStateAtom } from '../../atoms/userState';
 import type { UserStateType } from '~core/auth/types';
 

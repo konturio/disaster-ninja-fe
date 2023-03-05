@@ -1,4 +1,4 @@
-import type { TransactionData } from '@reatom/core';
+import type { TransactionData } from '@reatom/core-v2';
 
 // enable with localStorage.setItem('KONTUR_DEBUG', 'true')
 export const KONTUR_DEBUG = !!globalThis.window?.localStorage.getItem('KONTUR_DEBUG');

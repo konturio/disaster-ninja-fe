@@ -5,7 +5,7 @@ import { createUpdateActionsFromLayersDTO } from '~core/logical_layers/utils/cre
 import { layersInAreaAndEventLayerResource } from './layersInAreaAndEventLayerResource';
 import { layersGlobalResource } from './layersGlobalResource';
 import type { LayerSummaryDto } from '~core/logical_layers/types/source';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 const allLayers = createAtom(
   {
