@@ -14,6 +14,7 @@ test('style correct for good bad sentiments', () => {
     sentiment: ['good', 'bad'],
     coefficient: 7,
     transformationFunction: 'no',
+    normalization: 'max-min',
   });
 
   expect(result).toMatchSnapshot();
@@ -26,6 +27,7 @@ test('style correct for bad good sentiments', () => {
     sentiment: ['bad', 'good'],
     coefficient: 7,
     transformationFunction: 'no',
+    normalization: 'max-min',
   });
 
   expect(result).toMatchSnapshot();
@@ -43,6 +45,7 @@ test('Transformations correct: square_root', () => {
     sentiment: ['bad', 'good'],
     coefficient: 1,
     transformationFunction: 'square_root',
+    normalization: 'max-min',
   });
 
   expect(result).toBe(0.31622776601683794);
@@ -55,6 +58,7 @@ test('Transformations correct: natural_logarithm', () => {
     sentiment: ['bad', 'good'],
     coefficient: 1,
     transformationFunction: 'natural_logarithm',
+    normalization: 'max-min',
   });
 
   expect(result).toBe(0.5195737064824407);
