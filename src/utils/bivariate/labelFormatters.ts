@@ -1,4 +1,5 @@
-import { capitalize, toCapitalizedList } from '~utils/common';
+import { toCapitalizedList } from '~utils/common';
+import { capitalize } from '~utils/common';
 import type { Axis } from '~utils/bivariate';
 
 export const formatSentimentDirection = (input: string[] | string): string =>

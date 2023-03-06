@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
-import { flatObjectsAreEqual } from '~utils/common';
 import { appConfig } from '~core/app_config';
 import { eventFeedsAtom } from '~core/shared_state';
+import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserProfileState } from '../../atoms/userProfile';
@@ -229,7 +229,7 @@ export function SettingsForm() {
 }
 
 const LANGUAGES = ['en', 'es', 'ar', 'ko', 'id', 'de'] as const;
-type Lng = typeof LANGUAGES[number];
+type Lng = (typeof LANGUAGES)[number];
 
 const getLanguageOptions = () =>
   [...LANGUAGES].sort().map((lng) => {

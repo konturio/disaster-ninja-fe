@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAtom } from '@reatom/react';
 import { i18n } from '~core/localization';
 import { tableAtom } from '~features/reports/atoms/tableAtom';
+import { useUnlistedRef } from '~utils/hooks/useUnlistedRef';
 import s from './search.module.css';
 import type { FormEvent } from 'react';
 
@@ -18,12 +19,15 @@ export function Searchbar({ searchIndexes = [] }: { searchIndexes: number[] }) {
     setQuery('');
   }
 
+  const unlistedState = useUnlistedRef({ searchIndexes, search });
+
   useEffect(() => {
+    const { searchIndexes, search } = unlistedState.current;
     const delayDebounceFn = setTimeout(() => {
       search(query, searchIndexes);
     }, 300);
     return () => clearTimeout(delayDebounceFn);
-  }, [query]);
+  }, [query, unlistedState]);
 
   return (
     <div className={s.searchContainer}>

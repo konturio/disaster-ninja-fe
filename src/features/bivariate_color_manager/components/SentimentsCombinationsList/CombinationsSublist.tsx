@@ -1,9 +1,9 @@
 import clsx from 'clsx';
-import { sortByKey } from '~utils/common';
 import {
   CSSTransitionWrapper,
   fadeClassNames,
 } from '~components/CssTransitionWrapper/CssTransitionWrapper';
+import { sortByKey } from '~utils/common';
 import s from './CombinationsSublist.module.css';
 import type {
   BivariateColorManagerData,
