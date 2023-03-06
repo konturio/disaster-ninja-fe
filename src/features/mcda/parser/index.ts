@@ -1,24 +1,30 @@
-import { firstVersionAdapter, secondVersionAdapter } from './adapters';
+import {
+  firstVersionAdapter,
+  secondVersionAdapter,
+  thirdVersionAdapter,
+} from './adapters';
 import { createValidator } from './validator';
 import type { MCDAConfig } from '../types';
-import type { JsonMCDAv2 } from './types';
 
-export function parseMCDA(jsonString: string): MCDAConfig {
-  const [isJsonMCDA, errors] = createValidator();
+export async function parseMCDA(jsonString: string): Promise<MCDAConfig> {
+  const validate = await createValidator();
   const object = JSON.parse(jsonString.trim());
-  if (isJsonMCDA(object)) {
-    const version = 'version' in object ? object.version : 1;
-    switch (version) {
+  if (validate(object)) {
+    switch (object?.version) {
       case 1:
+      case undefined:
         return firstVersionAdapter(object);
 
       case 2:
-        return secondVersionAdapter(object as JsonMCDAv2);
+        return secondVersionAdapter(object);
+
+      case 3:
+        return thirdVersionAdapter(object);
 
       default:
-        throw Error(`Not supported version: ${version}`);
+        // @ts-expect-error - this check case with broken json
+        throw Error(`Not supported version: ${object?.version}`);
     }
-  } else {
-    throw Error(['Json is not valid', ...errors].join('\n'));
   }
+  throw Error('Json not valid');
 }

@@ -96,6 +96,7 @@ export const calculateLayerPipeline =
     coefficient,
     sentiment,
     transformationFunction,
+    normalization,
   }: MCDAConfig['layers'][0]) => {
     const [num, den] = axis;
     const [min, max] = range;
@@ -115,7 +116,10 @@ export const calculateLayerPipeline =
       max,
       transformation: transformationFunction,
     });
-    const normalized = operations.normalize({ x: tX, min: tMin, max: tMax });
+    const normalized =
+      normalization === 'max-min'
+        ? operations.normalize({ x: tX, min: tMin, max: tMax })
+        : tX;
     const orientated = inverted ? operations.invert(normalized) : normalized;
     const scaled = operations.scale(orientated, coefficient);
     return scaled;
