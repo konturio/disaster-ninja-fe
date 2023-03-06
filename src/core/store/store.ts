@@ -47,21 +47,23 @@ if (import.meta.env.MODE !== 'test') {
 
       if (name.includes('invalidate')) continue;
 
-      const { payload } = patch.state.at(-1)!;
+      patch.state.forEach((s) => {
+        const { payload } = patch.state.at(-1)!;
 
-      dispatchMetricsEvent(name, payload);
+        dispatchMetricsEvent(name, payload);
 
-      if (KONTUR_TRACE_TYPE) {
-        if (name.includes(KONTUR_TRACE_TYPE)) {
-          console.trace('TRACE:', name, logs);
+        if (KONTUR_TRACE_TYPE) {
+          if (name.includes(KONTUR_TRACE_TYPE)) {
+            console.trace('TRACE:', name, logs);
+          }
         }
-      }
-      if (KONTUR_DEBUG) {
-        console.debug(name, payload);
-      }
-      if (KONTUR_WARN) {
-        console.warn(name, payload);
-      }
+        if (KONTUR_DEBUG) {
+          console.debug(name, payload);
+        }
+        if (KONTUR_WARN) {
+          console.warn(name, payload);
+        }
+      });
     }
   });
 }
