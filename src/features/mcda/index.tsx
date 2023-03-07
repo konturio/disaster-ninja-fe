@@ -6,29 +6,40 @@ import { parseMCDA } from './parser';
 const example = `
 {
   "id":"MCDA",
-  "version": 2,
+  "version": 3,
   "layers":[
      {
         "axis": ["population", "area_km2"],
         "range": [0, 46200],
         "sentiment": ["good", "bad"],
         "coefficient": 1,
-        "transformationFunction": "no"
+        "transformationFunction": "no",
+        "normalization": "max-min"
      },
      {
         "axis": ["hazardous_days_count", "one"],
         "range": [0, 365],
         "sentiment": ["good", "bad"],
         "coefficient": 1,
-        "transformationFunction": "natural_logarithm"
+        "transformationFunction": "natural_logarithm",
+        "normalization": "max-min"
      },
      {
         "axis": ["highway_length", "total_road_length"],
         "range": [0, 1],
         "sentiment": ["bad", "good"],
         "coefficient": 1,
-        "transformationFunction": "square_root"
-     }
+        "transformationFunction": "square_root",
+        "normalization": "max-min"
+     },
+     {
+      "axis": ["population", "area_km2"],
+      "range": [0, 46200],
+      "sentiment": ["good", "bad"],
+      "coefficient": 1,
+      "transformationFunction": "no",
+      "normalization": "no"
+   }
   ],
   "colors":{
      "good": "rgba(90, 200, 127, 0.5)",
@@ -48,7 +59,7 @@ export function initMCDA() {
     icon: (
       <div style={{ height: '24px', display: 'flex', alignItems: 'center' }}>MCDA</div>
     ),
-    onClick: () => {
+    onClick: async () => {
       const jsonString = prompt(
         `
         Enter MCDA json
@@ -67,7 +78,7 @@ export function initMCDA() {
       }
 
       try {
-        const jsonParsed = parseMCDA(jsonString);
+        const jsonParsed = await parseMCDA(jsonString);
         mcdaCalculationAtom.calcMCDA.dispatch(jsonParsed);
       } catch (e) {
         if (e instanceof Error && 'message' in e) {

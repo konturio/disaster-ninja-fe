@@ -139,6 +139,7 @@
     "react-transition-group": "^4.4.5",
     "react-virtuoso": "^4.1.0",
     "remark-gfm": "^3.0.1",
+    "superstruct": "^1.0.3",
     "utility-types": "^3.10.0"
   },
   "devDependencies": {

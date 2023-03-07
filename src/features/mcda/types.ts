@@ -1,3 +1,6 @@
+export type Normalization = 'max-min' | 'no';
+export type TransformationFunction = 'no' | 'natural_logarithm' | 'square_root';
+
 export interface MCDAConfig {
   id: string;
   version: number;
@@ -7,14 +10,13 @@ export interface MCDAConfig {
     sentiment: [string, string];
     coefficient: number;
     transformationFunction: TransformationFunction;
+    normalization: Normalization;
   }>;
   colors: {
     good: string;
     bad: string;
   };
 }
-
-export type TransformationFunction = 'no' | 'natural_logarithm' | 'square_root';
 
 export type PopupMCDAProps = {
   json: MCDAConfig;
