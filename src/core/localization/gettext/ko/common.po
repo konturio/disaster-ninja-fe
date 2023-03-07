@@ -935,6 +935,10 @@ msgstr "인도네시아 인"
 msgid "German"
 msgstr "독일 말"
 
+#: profile##languageOption##uk
+msgid "Ukrainian"
+msgstr "우크라이나 인"
+
 #: locate_me##get_location_error
 msgid "Error while getting location"
 msgstr "위치를 가져오는 중에 오류가 발생했습니다."

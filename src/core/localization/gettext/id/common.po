@@ -943,6 +943,10 @@ msgstr "Indonesia"
 msgid "German"
 msgstr "Jerman"
 
+#: profile##languageOption##uk
+msgid "Ukrainian"
+msgstr "Orang Ukraina"
+
 #: locate_me##get_location_error
 msgid "Error while getting location"
 msgstr "Kesalahan saat memperoleh lokasi"

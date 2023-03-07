@@ -936,6 +936,10 @@ msgstr "الأندونيسية"
 msgid "German"
 msgstr "ألمانية"
 
+#: profile##languageOption##uk
+msgid "Ukrainian"
+msgstr "الأوكرانية"
+
 #: locate_me##get_location_error
 msgid "Error while getting location"
 msgstr "حدث خطأ أثناء الحصول على الموقع"
