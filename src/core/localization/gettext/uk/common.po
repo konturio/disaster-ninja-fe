@@ -1,0 +1,951 @@
+msgid ""
+msgstr "Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: km
+msgid "km"
+msgstr "км"
+
+#: m
+msgid "m"
+msgstr "м"
+
+#: to
+msgid "to"
+msgstr "до"
+
+#: logout
+msgid "Logout"
+msgstr "Вийти"
+
+#: save
+msgid "Save"
+msgstr "Зберегти"
+
+#: cancel
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: create
+msgid "Create"
+msgstr "Створити"
+
+#: disasters
+msgid "Disasters"
+msgstr "Катастрофа"
+
+#: loading
+msgid "Loading..."
+msgstr "Завантаження..."
+
+#: loading_events
+msgid "Loading events"
+msgstr "Завантажуємо події"
+
+#: legend
+msgid "Legend"
+msgstr "Легенда"
+
+#: maps
+msgid "maps"
+msgstr "мапи"
+
+#: vertical_direction
+msgid "Vertical direction"
+msgstr "По вертикалі"
+
+#: horizontal_direction
+msgid "Horizontal direction"
+msgstr "По горизонталі"
+
+#: legend_presentation
+msgid "Legend presentation"
+msgstr "Презентація легенди"
+
+#: layers
+#: bivariate##color_manager##layers_filter
+msgid "Layers"
+msgstr "Шари"
+
+#: feed
+msgid "Feed"
+msgstr "Стрічка"
+
+#: deselect
+msgid "Deselect"
+msgstr "Зняти вибір"
+
+#: spinner_text
+msgid "Gathering data"
+msgstr "Збираємо дані"
+
+#: updated
+msgid "Updated"
+msgstr "Оновлено"
+
+#: no_data_received
+msgid "No data received"
+msgstr "Немає даних"
+
+#: wrong_data_received
+msgid "Wrong data received"
+msgstr "Отримано неправильні дані"
+
+#: error
+msgid "Error"
+msgstr "Помилка"
+
+#: sort_icon
+msgid "Sort Icon"
+msgstr "Значок сортування"
+
+#: configs##Kontur_public_feed
+msgid "Kontur Public"
+msgstr ""
+
+#: configs##Kontur_public_feed_description
+msgid ""
+"The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
+"Floods, Volcanoes, Wildfires."
+msgstr "Стрічка містить дані в реальному часі про циклони, посухи, землетруси, повені, вулкани, лісові пожежі."
+
+#: errors##default
+msgid "Sorry, we are having issues, which will be fixed soon"
+msgstr "Вибачте, у нас виникли проблеми, які незабаром будуть вирішені"
+
+#: errors##timeout
+msgid "Request Timeout"
+msgstr "Час очікування запиту минув"
+
+#: errors##cannot_connect
+msgid "Can't connect to server"
+msgstr "Не вдається під'єднатися до сервера"
+
+#: errors##forbidden
+msgid "Forbidden"
+msgstr "Заборонено"
+
+#: errors##not_found
+msgid "Not found"
+msgstr "Не знайдено"
+
+#: errors##unknown
+#: event_list##severity_unknown
+msgid "Unknown"
+msgstr "Невідомий"
+
+#: errors##server_error
+msgid "Server Error"
+msgstr "Помилка серверу"
+
+#: categories##overlays
+msgid "Overlays"
+msgstr "Оверлеї"
+
+#: categories##basemap
+msgid "Basemap"
+msgstr "Базова карта"
+
+#: groups##layers_in_selected_area
+msgid "Layers in selected area"
+msgstr "Шари у вибраній області"
+
+#: groups##your_layers
+msgid "Your Layers"
+msgstr "Ваші шари"
+
+#: groups##kontur_analytics
+msgid "Kontur Analytics"
+msgstr "Аналітика Kontur"
+
+#: groups##qa
+msgid "QA"
+msgstr "Аналітика якості"
+
+#: groups##osmbasedmap
+msgid "OpenStreetMap Based"
+msgstr "На основі OpenStreetMap"
+
+#: groups##other
+msgid "Other"
+msgstr "Інше"
+
+#: groups##elevation
+msgid "Elevation"
+msgstr "Рел'єф"
+
+#: groups##photo
+msgid "Photo"
+msgstr "Фото"
+
+#: groups##map
+#: modes##map
+msgid "Map"
+msgstr "Мапа"
+
+#: advanced_analytics_data_list##load_world_data
+msgid "Load World Data"
+msgstr "Завантажити дані на всю планету"
+
+#: advanced_analytics_data_list##numerator
+msgid "Numerator"
+msgstr "Чисельник"
+
+#: advanced_analytics_data_list##normalized_by
+msgid "Normalized By"
+msgstr "Нормалізовано за"
+
+#: advanced_analytics_data_list##sum
+msgid "Sum"
+msgstr "Сума"
+
+#: advanced_analytics_data_list##min
+msgid "Min"
+msgstr "Мін."
+
+#: advanced_analytics_data_list##max
+msgid "Max"
+msgstr "Макс."
+
+#: advanced_analytics_data_list##mean
+msgid "Mean"
+msgstr "Середнє"
+
+#: advanced_analytics_data_list##stddev
+msgid "Stddev"
+msgstr "Стандартне відхилення"
+
+#: advanced_analytics_data_list##median
+msgid "Median"
+msgstr "Медіана"
+
+#: advanced_analytics_data_list##filter_numerator
+msgid "Filter Numerator"
+msgstr "Фільтр чисельника"
+
+#: advanced_analytics_data_list##filter_denominator
+msgid "Filter Denominator"
+msgstr "Фільтр знаменника"
+
+#: event_list##warning_title
+msgid "Can't use map as filter"
+msgstr "Не можливо використовувати карту як фільтр"
+
+#: event_list##warning_description
+msgid "Map not ready yet, try later"
+msgstr "Карта ще не готова, спробуйте пізніше"
+
+#: event_list##bbox_filter_button
+msgid "Use map view as filter"
+msgstr "Використовуйте перегляд карти як фільтр"
+
+#: event_list##analytics##affected_people##tooltip
+msgid "Affected People"
+msgstr "Люди які постраждали"
+
+#: event_list##analytics##affected_people##value
+msgid "No humanitarian impact"
+msgstr "Жодного гуманітарного впливу"
+
+#: event_list##analytics##settled_area_tooltip
+msgid "Settled Area"
+msgstr "Заселений район"
+
+#: event_list##analytics##loss_tooltip
+msgid "Estimated loss"
+msgstr "Орієнтовні збитки"
+
+#: event_list##no_event_in_feed
+msgid "Event not found in the current event feed"
+msgstr "Подія не знайдена у вибраній стрічці подій"
+
+#: event_list##no_selected_disaster
+msgid "No disaster selected"
+msgstr "Катастрофа не вибрана"
+
+#: event_list##chose_disaster
+msgid "Choose disaster"
+msgstr "Виберіть катастрофу"
+
+#: event_list##no_historical_disasters
+msgid "No historical disasters in this area"
+msgstr "Катастроф на цій території не знайдено"
+
+#: event_list##no_feed_disasters
+msgid "No disasters in this feed"
+msgstr "У стрічці немає катастроф"
+
+#: event_list##no_disasters
+msgid "No disasters"
+msgstr "Ніяких катастроф"
+
+#: event_list##severity_termination
+msgid "Termination"
+msgstr "Припинення"
+
+#: event_list##severity_minor
+msgid "Minor"
+msgstr "Незначний"
+
+#: event_list##severity_moderate
+msgid "Moderate"
+msgstr "Помірний"
+
+#: event_list##severity_severe
+msgid "Severe"
+msgstr "Сильний"
+
+#: event_list##severity_extreme
+msgid "Extreme"
+msgstr "Екстримальний"
+
+#: event_list##open_timeline_button
+msgid "Open timeline"
+msgstr "Відкрити темпоральну шкалу"
+
+#: create_layer##edit_layer
+msgid "Edit Layer"
+msgstr "Редагувати шар"
+
+#: create_layer##edit_features
+msgid "Edit Features"
+msgstr "Редагувати об'єкт"
+
+#: create_layer##delete_layer
+msgid "Delete Layer"
+msgstr "Видалити шар"
+
+#: create_layer##create_layer
+msgid "Create Layer"
+msgstr "Створити шар"
+
+#: create_layer##saving_layer
+msgid "Saving layer..."
+msgstr "Зберігаємо зміни..."
+
+#: create_layer##field_name
+msgid "Field name"
+msgstr "Назва поля"
+
+#: create_layer##layer_name
+msgid "Layer name"
+msgstr "Назва шару"
+
+#: create_layer##marker_icon
+msgid "Marker icon"
+msgstr "Значок маркера"
+
+#: create_layer##type
+msgid "Type"
+msgstr "Тип"
+
+#: create_layer##select
+msgid "Select"
+msgstr "Вибрати"
+
+#: create_layer##short_text
+msgid "Short Text"
+msgstr "Текст(короткий)"
+
+#: create_layer##long_text
+msgid "Long Text"
+msgstr "Текст(довгий)"
+
+#: create_layer##link
+msgid "Link"
+msgstr "Посилання"
+
+#: create_layer##image
+msgid "Image"
+msgstr "Зображення"
+
+#: create_layer##fields
+msgid "Fields"
+msgstr "Поля"
+
+#: create_layer##add_field
+msgid "Add field"
+msgstr "Додати поле"
+
+#: create_layer##location
+msgid "Location"
+msgstr "Позиція"
+
+#: create_layer##edit_feature_placeholder
+msgid "Select some feature for start edit feature properties"
+msgstr "Виберіть об’єкт для редагування його значень"
+
+#: analytics_panel##header_title
+msgid "Analytics"
+msgstr "Аналітика"
+
+#: analytics_panel##info_tab
+msgid "INFO"
+msgstr "ІНФО"
+
+#: analytics_panel##error_loading
+msgid "Error while fetching analytics data"
+msgstr "Помилка під час отримання даних аналітики"
+
+#: advanced_analytics_panel##header_title
+msgid "Advanced analytics"
+msgstr "Розширена аналітика"
+
+#: advanced_analytics_panel##error
+msgid "Error while fetching advanced analytics data"
+msgstr "Помилка під час отримання даних розширеної аналітики"
+
+#: advanced_analytics_empty##not_found
+#: current_event##not_found_request
+msgid "Sorry, requested event not found."
+msgstr "Вибачте, подію не знайдено."
+
+#: advanced_analytics_empty##error
+msgid "An error occured!"
+msgstr "Сталася помилка!"
+
+#: advanced_analytics_empty##analytics_for_selected
+msgid "Analytics for a selected area"
+msgstr "Аналітика для обраної території"
+
+#: advanced_analytics_empty##will_be_provided
+msgid "will be provided here"
+msgstr "буде надано тут"
+
+#: draw_tools##area
+msgid "Area"
+msgstr "Полігон"
+
+#: draw_tools##line
+msgid "Line"
+msgstr "Лінія"
+
+#: draw_tools##point
+msgid "Point"
+msgstr "Точка"
+
+#: draw_tools##finish_drawing
+msgid "Finish Drawing"
+msgstr "Закінчити малювання"
+
+#: draw_tools##caption
+msgid "Click on the map to begin drawing"
+msgstr "Натисніть на карту, щоб почати малювати"
+
+#: draw_tools##no_geometry_error
+msgid "No drawn geometry to download"
+msgstr "Немає геометрії для завантаження"
+
+#: draw_tools##overlap_error
+msgid "Polygon should not overlap itself"
+msgstr "Полігон не має перетинати сам себе"
+
+#: draw_tools##save_features
+msgid "Save features"
+msgstr "Зберегти об'єкти"
+
+#: boundary_selector##title
+msgid "Focus to administrative boundary"
+msgstr "Фокусувати на адміністративну одиницю"
+
+#: geometry_uploader##title
+msgid "Focus to uploaded geometry"
+msgstr "Фокусувати на завантажену геометрію"
+
+#: geometry_uploader##error
+msgid "Error while reading uploaded file"
+msgstr "Помилка під час завантаження файлу"
+
+#: focus_geometry##title
+msgid "Focus to freehand geometry"
+msgstr "Фокусувати на намальовану геометрію"
+
+#: focus_geometry_layer##settings##name
+msgid "Selected Area"
+msgstr "Вибраний полігон"
+
+#: drawings##self_directions_not_supported
+msgid "Self intersections are not supported!"
+msgstr "Самоперетин не підтримується!"
+
+#: bivariate##panel##header
+msgid "Bivariate Matrix"
+msgstr "Біваріативна Матриця"
+
+#: bivariate##matrix##caption##base_axis
+msgid "Base axis"
+msgstr "Базова вісь"
+
+#: bivariate##matrix##caption##annex_axis
+msgid "Annex axis"
+msgstr "Додаткова вісь"
+
+#: bivariate##matrix##caption##tooltip##p1
+msgid ""
+"Charts involving the Base and Annex axes help establish a relationship "
+"between two data sets."
+msgstr "Діаграми, що містять базову та додаткову осі, допомагають встановити зв’язок між двома наборами даних."
+
+#: bivariate##matrix##caption##tooltip##li1
+msgid "Annex axis - parameters that we analyse"
+msgstr "Додаткова вісь - параметри, які ми аналізуємо"
+
+#: bivariate##matrix##caption##tooltip##li2
+msgid "Base axis - reference point in the analysis"
+msgstr "Базова вісь - орієнтир при аналізі"
+
+#: bivariate##matrix##caption##tooltip##b
+msgid "Ex: the best location to open a cafe"
+msgstr "Наприклад: найкраще місце щоб відкрити кафе"
+
+#: bivariate##matrix##caption##tooltip##p2
+msgid ""
+"We can explore the number of eatery places (Annex axis) against Population "
+"density (Base axis)."
+msgstr "Ми можемо дослідити кількість закладів харчування (додаткова вісь) проти щільності населення (базова вісь)."
+
+#: bivariate##matrix##caption##tooltip##p3
+msgid ""
+"In this scenario, we are first interested in a small number of eatery "
+"places, and the number of people in that place gives us additional "
+"information."
+msgstr "У цьому сценарії нас спочатку цікавить невелика кількість закладів харчування, а кількість людей у цьому місці дає нам додаткову інформацію."
+
+#: bivariate##matrix##header##title
+msgid "Choose two layers to explore correlations"
+msgstr "Виберіть два шари, щоб дослідити їх кореляції"
+
+#: bivariate##matrix##header##hint
+msgid "Layers and correlations are displayed for the current Selected Area"
+msgstr "Шари та кореляції показані для виділеної області"
+
+#: bivariate##matrix##icon##population
+msgid "Value divided by Population"
+msgstr "Значення, поділене на кількість населення"
+
+#: bivariate##matrix##icon##area_km2
+msgid "Value divided by Area"
+msgstr "Значення, поділене на площу"
+
+#: bivariate##matrix##icon##total_building_count
+msgid "Value divided by Total Buildings Estimate"
+msgstr "Значення, поділене на загальну кількість будівель"
+
+#: bivariate##matrix##icon##populated_area_km2
+msgid "Value divided by Populated Area"
+msgstr "Значення, поділене на заселену площу"
+
+#: bivariate##matrix##icon##one
+msgid "Without divider"
+msgstr "Без знаменника"
+
+#: bivariate##matrix##icon##roads
+msgid "Value divided by Total Roads Length"
+msgstr "Значення, поділене на загальну довжину доріг"
+
+#: bivariate##matrix##progress##rendering
+msgid "Rendering"
+msgstr "Візуалізація"
+
+#: bivariate##matrix##progress##applied
+msgid "Applied on the map"
+msgstr "Нанесено на карту"
+
+#: bivariate##matrix##loading_error
+msgid ""
+"Unfortunately, we cannot display the matrix. Try refreshing the page or "
+"come back later."
+msgstr "На жаль, ми не можемо показати матрицю. Спробуйте оновити сторінку або зачекать."
+
+#: bivariate##legend##high
+msgid "High"
+msgstr "Високий"
+
+#: bivariate##legend##low
+msgid "Low"
+msgstr "Низький"
+
+#: bivariate##legend##medium
+msgid "Medium"
+msgstr "Середній"
+
+#: bivariate##color_manager##not_defined
+msgid "Not defined"
+msgstr "Не задано"
+
+#: bivariate##color_manager##sentiments_combinations_filter
+msgid "Sentiments combinations"
+msgstr "Комбінація сентиментів"
+
+#: bivariate##color_manager##no_legends
+msgid "There are no legends satisfying the conditions."
+msgstr "Немає легенд, що задовольняють умовам."
+
+#: bivariate##color_manager##no_data
+msgid "No Data."
+msgstr "Немає даних."
+
+#: bivariate##color_manager##sentiments_tab
+msgid "Sentiments"
+msgstr "Сентименти"
+
+#: bivariate##color_manager##color_legends_tab
+msgid "Color Legends"
+msgstr "Легенда кольорів"
+
+#: bivariate##color_manager##layers_tab
+msgid "Layers (indicators)"
+msgstr "Шари (індикатори)"
+
+#: sidebar##biv_color_manager
+msgid "Сolor manager"
+msgstr "Редактор кольорів"
+
+#: sidebar##edit_osm
+msgid "Edit in OpenStreetMap"
+msgstr "Редагувати в OpenStreetMap"
+
+#: sidebar##ruler
+msgid "Ruler"
+msgstr "Лінійка"
+
+#: sidebar##collapse
+msgid "Collapse"
+msgstr "Згорнути"
+
+#: sidebar##expand
+msgid "Expand"
+msgstr "Розгорнути"
+
+#: sidebar##icon_alt
+msgid "Application logo"
+msgstr "Логотип аплікації"
+
+#: login##email
+#: profile##email
+msgid "Email"
+msgstr "Електронна пошта"
+
+#: login##password
+msgid "Password"
+msgstr "Пароль"
+
+#: login##login_button
+msgid "Login"
+msgstr "Логін"
+
+#: login##sign_up
+msgid "Sign up"
+msgstr "Зареєструватися"
+
+#: login##logging_in
+msgid "Logging in..."
+msgstr "Входимо..."
+
+#: login##log_in
+msgid "Log in"
+msgstr "Увійти"
+
+#: login##description
+msgid "Please log in to change your settings"
+msgstr "Увійдіть, щоб змінити налаштування"
+
+#: login##error##email_empty
+msgid "Email has not to be empty!"
+msgstr "Електронна пошта не може бути пустою!"
+
+#: login##error##email_invalid
+msgid "Email has to be valid!"
+msgstr "Електронна пошта має бути коректною!"
+
+#: login##error##password
+msgid "Password has not to be empty!"
+msgstr "Пароль не може бути пустим!"
+
+#: login##error##connect
+msgid "Couldn't connect to authentication service"
+msgstr "Не вдалося під'єднатися до служби аутентифікації"
+
+#: reports##title
+msgid "Disaster Ninja Reports"
+msgstr "Звіти Disaster Ninja"
+
+#: reports##no_data
+msgid "No data for this report"
+msgstr "Нема даних для звіту"
+
+#: reports##sorting
+msgid "Sorting data..."
+msgstr "Сортуємо дані..."
+
+#: reports##loading
+msgid "Loading data"
+msgstr "Завантажуємо дані"
+
+#: reports##search_location
+msgid "Search location"
+msgstr "Знайти місцеположення"
+
+#: reports##open_josm
+msgid "Open via JOSM remote control"
+msgstr "Відкрити в JOSM"
+
+#: reports##josm_logo_alt
+msgid "JOSM logo"
+msgstr "Логотип JOSM"
+
+#: reports##see_all
+msgid "See all reports"
+msgstr "Дивитися всі звіти"
+
+#: reports##wrong_id
+msgid "Wrong report ID"
+msgstr "Неправильний ID звіту"
+
+#: reports##description
+msgid ""
+"<0>Kontur </0> generates several reports that help validate OpenStreetMap "
+"quality. They contain links to areas on <4>osm.org </4> and links to open "
+"them in the JOSM editor with enabled remote control for editing."
+msgstr "<0>Kontur </0> генерує декілька звітів які допомагають перевіряти якість даних OpenStreetMap. Вони містять посилання на <4>osm.org</4> і посилання, щоб відкрити їх у редакторі JOSM для редагування."
+
+#: modes##about
+msgid "About"
+msgstr "Про нас"
+
+#: modes##reports
+msgid "Reports"
+msgstr "Звіти"
+
+#: modes##profile
+#: profile##profileSettingsHeader
+msgid "Profile"
+msgstr "Профіль"
+
+#: modes##privacy
+msgid "Privacy"
+msgstr "Конфіденційність"
+
+#: about##title
+msgid "Welcome to Disaster Ninja!"
+msgstr "Вітаємо на Disaster Ninja!"
+
+#: about##intro
+msgid ""
+"Do you want to be notified about ongoing disasters? Are you interested in "
+"instant population data and other analytics for any region in the world? "
+"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
+"these needs.<br/><br/>We initially designed it as a decision support tool "
+"for humanitarian mappers. Now it has grown in functionality and use cases. "
+"Whether you work in disaster management, build a smart city, or perform "
+"research on climate change, Disaster Ninja can help you to:"
+msgstr "Ви хочете отримувати повідомлення про катастрофи? Вас цікавлять миттєві дані про населення та інша аналітика для будь-якого регіону світу? Disaster Ninja від <2>Kontur</2> може задовольнити ці потреби.<br/><br/> Ми розробили це як інструмент підтримки прийняття рішень для гуманітарних картографів. Тепер його функціональність зросла. Незалежно від того, чи працюєте ви в сфері боротьби зі стихійними лихами, будуєте розумне місто чи проводите дослідження щодо зміни клімату, Disaster Ninja може вам допомогти:"
+
+#: about##l1
+msgid "1. Stay up to date with the latest hazard events globally."
+msgstr "1. Будьте в курсі останніх катастроф у всьому світі."
+
+#: about##p1
+msgid ""
+"The Disasters panel continually refreshes to inform you about ongoing "
+"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
+"also access via an API."
+msgstr "Панель Катастроф постійно оновлюється, щоб інформувати вас про поточні події. Дані отримані з каналу подій <2>Kontur</2>, до якого також можна отримати доступ через API."
+
+#: about##l2
+msgid "2. Focus on your area of interest."
+msgstr "2. Фокусуйтеся на вашій сфері інтересів."
+
+#: about##p2
+msgid ""
+"The Drawing Tools panel allows you to draw or upload your own geometry on "
+"the map. You can also focus on a disaster-exposed area or an administrative "
+"unit — a country, city, or region."
+msgstr "Панель \"Інструменти малювання\" дозволяє малювати або завантажувати власну геометрію на карту. Ви також можете фокусуватися на області, що постраждала від стихійного лиха, або на адміністративній одиниці — країна, район чи місто."
+
+#: about##l3
+msgid "3. Get analytics for the focused area."
+msgstr "3. Отримайте аналітику для вибраної області."
+
+#: about##p3
+msgid ""
+"The Analytics panel shows the number of people living in that area per "
+"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
+"Kontur’s customers have access to hundreds of other indicators through "
+"Advanced Analytics."
+msgstr "Панель Аналітика показує кількість людей, які проживають у цьому регіоні на основі <2>населення Kontur</2> і потенційні прогалини картографування в OpenStreetMap. Клієнти Kontur мають доступ до сотень інших показників за допомогою Детальної Аналітики."
+
+#: about##l4
+msgid "4. Explore data on the map and make conclusions."
+msgstr "4. Досліджуйте дані на карті та робіть висновки."
+
+#: about##p4
+msgid ""
+"The Layers panel gives you various options to display two indicators "
+"simultaneously on a bivariate map, e.g., population density and distance to "
+"the nearest fire station. Use the color legend to assess which areas "
+"require attention. <br/>Hint: in general, green indicates low risk / few "
+"gaps, red — high risk / many gaps."
+msgstr "Панель \"Шари\" надає різні параметри для одночасного відображення двох індикаторів на карті, наприклад, щільність населення та відстань до найближчої пожежної частини. Використовуйте легенду кольорів, щоб визначити, які області потребують уваги. <br/>Підказка: загалом зелений колір означає низький ризик / мало прогалин, червоний — високий ризик / багато прогалин."
+
+#: about##p5
+msgid ""
+"In addition, you can switch to Reports in the left panel to access data on "
+"potential errors and inconsistencies in OpenStreetMap and help fix them by "
+"mapping the respective area with the JOSM editor."
+msgstr "Крім того, ви можете перейти до звітів на лівій панелі, щоб отримати доступ до даних про потенційні помилки та невідповідності в даних OpenStreetMap і допомогти їх виправити, наприклад за допомогою редактора JOSM."
+
+#: about##goToMap
+msgid "Go to the map now"
+msgstr "Перейти до мапи"
+
+#: about##p6
+msgid ""
+"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
+"any questions about the functionality, and we will be happy to guide you. "
+"You can also contact us by email at <1>hello@kontur.io</1> if you have "
+"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
+"an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
+msgstr "Ми сподіваємося, що цей інструмент буде корисний. Використовуйте вікно чату на Disaster Ninja, щоб задати будь-які запитання щодо функціональності, і ми з радістю допоможемо вам. Ви також можете зв’язатися з нами електронною поштою <1>hello@kontur.io</1> якщо у вас є відгуки чи пропозиції щодо вдосконалення інструменту.<br/><br/> Disaster Ninja є проєктом з відкритим кодом. Дивіться код в обліковому записі GitHub <8>Kontur</8>."
+
+#: profile##interfaceTheme
+msgid "Theme"
+msgstr "Тема"
+
+#: profile##interfaceLanguage
+msgid "Language"
+msgstr "Мова"
+
+#: profile##units
+msgid "Units"
+msgstr "Одиниці вимірювання"
+
+#: profile##fullName
+msgid "Full Name"
+msgstr "Прізвище Ім'я"
+
+#: profile##metric
+msgid "metric"
+msgstr "метрична система"
+
+#: profile##imperialBeta
+msgid "imperial (beta)"
+msgstr "англійська система (бета)"
+
+#: profile##appSettingsHeader
+msgid "Settings"
+msgstr "Налаштування"
+
+#: profile##saveButton
+msgid "Save changes"
+msgstr "Зберегти зміни"
+
+#: profile##konturTheme
+msgid "Kontur"
+msgstr ""
+
+#: profile##HOTTheme
+msgid "HOT"
+msgstr ""
+
+#: profile##userBio(about)
+msgid "Bio"
+msgstr "Про себе"
+
+#: profile##defaultDisasterFeed
+msgid "Default disaster feed"
+msgstr "Стрічка катастроф за замовчуванням"
+
+#: profile##defaultOSMeditor
+msgid "Default OpenStreetMap editor (beta)"
+msgstr "Редактор OpenStreetMap за замовчуванням (бета)"
+
+#: profile##successNotification
+msgid "All changes have been applied successfully"
+msgstr "Усі зміни успішно застосовано"
+
+#: profile##languageOption##en
+msgid "English"
+msgstr "Англійська"
+
+#: profile##languageOption##es
+msgid "Spanish"
+msgstr "Іспанська"
+
+#: profile##languageOption##ar
+msgid "Arabic"
+msgstr "Арабська"
+
+#: profile##languageOption##ko
+msgid "Korean"
+msgstr "Корейська"
+
+#: profile##languageOption##id
+msgid "Indonesian"
+msgstr "Індонезійська"
+
+#: profile##languageOption##de
+msgid "German"
+msgstr "Німецька"
+
+#: locate_me##get_location_error
+msgid "Error while getting location"
+msgstr "Помилка під час визначення місцеположення"
+
+#: locate_me##feature_title
+msgid "Locate me"
+msgstr "Знайти мене"
+
+#: episode
+msgid "Episode"
+msgstr "Епізод"
+
+#: loading_episodes
+msgid "Loading Episodes"
+msgstr "Завантаження епізодів"
+
+#: cookie_banner##header
+msgid "We value your privacy"
+msgstr "Ми цінуємо вашу приватність"
+
+#: cookie_banner##body
+msgid ""
+"We use absolutely necessary cookies to provide you personalized services "
+"and optional cookies to improve Disaster Ninja and your experience. You can "
+"manage cookies settings or withdraw consent to optional cookies at any "
+"time.\n"
+"For more information, please, check our [Privacy Policy](about/privacy)"
+msgstr "Ми використовуємо абсолютно необхідні файли cookies, щоб надавати вам персоналізовані послуги, і додаткові файли cookies, щоб покращити Disaster Ninja та ваш досвід. Ви можете будь-коли змінити налаштування файлів cookies або відкликати згоду на використання додаткових файлів cookies.\n"
+"Щоб дізнатися більше, перегляньте нашу [Політику конфіденційності](Про нас/Конфіденційність)"
+
+#: cookie_banner##decline_all
+msgid "Decline optional cookies"
+msgstr "Відхилити файли cookies"
+
+#: cookie_banner##accept_all
+msgid "Accept optional cookies"
+msgstr "Прийняти файли cookies"
+
+#: live_sensor##start
+msgid "Start sensor recording"
+msgstr "Почати запис даних з сенсорів"
+
+#: live_sensor##finish
+msgid "Stop sensor recording"
+msgstr "Зупинити запис даних з сенсорів"
+
+#: live_sensor##finishMessage
+msgid "Recording has been finished"
+msgstr "Запис даних завершенно"
+
+#: live_sensor##startMessage
+msgid "Recording has been started"
+msgstr "Запис даних розпочато"
+
+#: live_sensor##noSensorsError
+msgid "Your device desn't have the required sensors"
+msgstr "Ваш пристрій не має необхідних сенсорів"
+
