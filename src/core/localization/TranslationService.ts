@@ -14,7 +14,7 @@ import id_common from './translations/id/common.json';
 // @ts-ignore
 import de_common from './translations/de/common.json';
 // @ts-ignore
-import ua_common from './translations/ua/common.json';
+import uk_common from './translations/uk/common.json';
 import type { TOptionsBase } from 'i18next';
 
 export const I18N_FALLBACK_LANGUAGE = 'en';
@@ -38,7 +38,7 @@ i18n
       ko: { common: ko_common },
       id: { common: id_common },
       de: { common: de_common },
-      ua: { common: ua_common },
+      uk: { common: uk_common },
     },
   });
 
