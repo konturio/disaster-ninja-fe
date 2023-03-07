@@ -391,6 +391,17 @@ msgstr ""
 msgid "Error while fetching analytics data"
 msgstr ""
 
+#: analytics_panel##info_short
+msgid "Calculations are made for the selected area."
+msgstr ""
+
+#: analytics_panel##info_long
+msgid ""
+"Calculations are made for the selected area.\n"
+"Sort by interest: values with a higher normalized difference from the world "
+"values are higher in the list."
+msgstr ""
+
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
 msgstr ""

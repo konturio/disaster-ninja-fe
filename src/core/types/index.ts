@@ -57,10 +57,16 @@ export interface Event {
 }
 
 export interface AnalyticsData {
-  name: string;
-  description: string;
-  text: string;
-  percentValue?: number;
+  formula: string;
+  value: number;
+  unit: {
+    id: string;
+    shortName: string;
+    longName: string;
+  };
+  prefix: string;
+  xlabel: string;
+  ylabel: string;
 }
 
 export interface AdvancedAnalyticsData {
