@@ -892,6 +892,10 @@ msgstr ""
 msgid "German"
 msgstr ""
 
+#: profile##languageOption##uk
+msgid "Ukrainian"
+msgstr ""
+
 #: locate_me##get_location_error
 msgid "Error while getting location"
 msgstr ""
@@ -948,4 +952,3 @@ msgstr ""
 #: live_sensor##noSensorsError
 msgid "Your device desn't have the required sensors"
 msgstr ""
-
