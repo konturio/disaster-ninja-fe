@@ -382,13 +382,14 @@ msgstr "Виберіть об’єкт для редагування його з
 msgid "Analytics"
 msgstr "Аналітика"
 
-#: analytics_panel##info_tab
-msgid "INFO"
-msgstr "ІНФО"
-
 #: analytics_panel##error_loading
 msgid "Error while fetching analytics data"
 msgstr "Помилка під час отримання даних аналітики"
+
+#: analytics_panel##info_short
+#, fuzzy
+msgid "Calculations are made for the selected area."
+msgstr "Аналітика для обраної території"
 
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
@@ -997,3 +998,6 @@ msgstr "Запис даних розпочато"
 #: live_sensor##noSensorsError
 msgid "Your device desn't have the required sensors"
 msgstr "Ваш пристрій не має необхідних сенсорів"
+
+#~ msgid "INFO"
+#~ msgstr "ІНФО"
