@@ -112,10 +112,8 @@
   },
   "analytics_panel": {
     "header_title": "Analytics",
-    "info_tab": "INFO",
     "error_loading": "Error while fetching analytics data",
-    "info_short": "Calculations are made for the selected area.",
-    "info_long": "Calculations are made for the selected area.\nSort by interest: values with a higher normalized difference from the world values are higher in the list."
+    "info_short": "Calculations are made for the selected area."
   },
   "advanced_analytics_panel": {
     "header_title": "Advanced analytics",

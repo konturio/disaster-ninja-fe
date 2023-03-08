@@ -399,6 +399,18 @@ msgstr "INFORMACIÓN"
 msgid "Error while fetching analytics data"
 msgstr "Error en la obtención de datos de análisis"
 
+#: analytics_panel##info_short
+#, fuzzy
+msgid "Calculations are made for the selected area."
+msgstr "Capas en el área seleccionada"
+
+#: analytics_panel##info_long
+msgid ""
+"Calculations are made for the selected area.\n"
+"Sort by interest: values with a higher normalized difference from the world "
+"values are higher in the list."
+msgstr ""
+
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
 msgstr "Análisis avanzado"

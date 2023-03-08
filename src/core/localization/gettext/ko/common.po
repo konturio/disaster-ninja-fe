@@ -397,6 +397,18 @@ msgstr "정보"
 msgid "Error while fetching analytics data"
 msgstr "분석 데이터를 가져오는 중에 오류가 발생했습니다."
 
+#: analytics_panel##info_short
+#, fuzzy
+msgid "Calculations are made for the selected area."
+msgstr "선택 영역 내 레이어"
+
+#: analytics_panel##info_long
+msgid ""
+"Calculations are made for the selected area.\n"
+"Sort by interest: values with a higher normalized difference from the world "
+"values are higher in the list."
+msgstr ""
+
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
 msgstr "고급 분석"
