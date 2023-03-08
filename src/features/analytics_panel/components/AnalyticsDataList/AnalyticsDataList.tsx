@@ -11,8 +11,13 @@ interface AnalyticsDataListProps {
   data?: AnalyticsData[] | null;
 }
 
-const formatFractionalNumbers = (num: number) =>
-  Number.isInteger(num) ? num : num.toFixed(2);
+/**
+ * `undefined` locale means - delegate detection to browser
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument
+ */
+const intl = new Intl.NumberFormat(undefined, {
+  maximumFractionDigits: 2,
+});
 
 export function AnalyticsDataList({ data }: AnalyticsDataListProps) {
   const [analytics] = useAtom(analyticsResourceAtom);
@@ -38,9 +43,7 @@ export function AnalyticsDataList({ data }: AnalyticsDataListProps) {
                 </Text>
               </div>
               <div className={s.values}>
-                <Text type="long-m">
-                  {formatFractionalNumbers(value).toLocaleString()}
-                </Text>
+                <Text type="long-m">{intl.format(value)}</Text>
                 <Text type="caption">
                   <span className={s.unitLabel}>{unit.shortName}</span>
                 </Text>
