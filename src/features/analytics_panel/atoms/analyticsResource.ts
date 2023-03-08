@@ -2,6 +2,7 @@ import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { i18n } from '~core/localization';
+import { appConfig } from '~core/app_config';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/auth/types';
 import type { AnalyticsData } from '~core/types';
@@ -15,8 +16,11 @@ export const analyticsResourceAtom = createAsyncAtom(
     let responseData: AnalyticsData[] | null | undefined;
     try {
       responseData = await apiClient.post<AnalyticsData[] | null>(
-        `/polygon_details`,
-        fGeo?.geometry,
+        `/polygon_details/v2`,
+        {
+          appId: appConfig.id,
+          features: geometry,
+        },
         false,
         { signal: abortController.signal },
       );

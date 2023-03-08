@@ -1,13 +1,11 @@
 import { useAtom } from '@reatom/react';
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@konturio/ui-kit';
-import { AnalyticsEmptyState } from '~features/analytics_panel/components/AnalyticsEmptyState/AnalyticsEmptyState';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms';
-import { analyticsResourceAtom } from '~features/analytics_panel/atoms/analyticsResource';
-import { i18n } from '~core/localization';
-import { AnalyticsDataList } from '~features/analytics_panel/components/AnalyticsDataList/AnalyticsDataList';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import { AnalyticsEmptyState } from '../AnalyticsEmptyState/AnalyticsEmptyState';
+import { analyticsResourceAtom } from '../../atoms/analyticsResource';
+import { AnalyticsDataList } from '../AnalyticsDataList/AnalyticsDataList';
 
 export const AnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(analyticsResourceAtom);
@@ -31,21 +29,7 @@ export const AnalyticsContainer = () => {
       ) {
         return <AnalyticsEmptyState />;
       }
-      return (
-        <Tabs>
-          <TabList style={{ display: 'none' }}>
-            <Tab>{i18n.t('analytics_panel.info_tab')}</Tab>
-            {/*<Tab>*/}
-            {/*  COMMUNITIES */}
-            {/*</Tab>*/}
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <AnalyticsDataList data={dataList} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      );
+      return <AnalyticsDataList data={dataList} />;
     },
   });
 };

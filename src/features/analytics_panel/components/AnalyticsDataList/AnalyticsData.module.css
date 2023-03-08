@@ -1,30 +1,32 @@
+.info {
+  display: flex;
+  gap: 5px;
+  background: var(--accent-weak);
+  border-radius: 4px;
+  padding: 9px 10px;
+  margin-bottom: var(--double-unit);
+}
+
 .stat {
-  color: var(--base-strong);
-  margin-top: 12px;
-  &:first-child {
-    margin-top: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: var(--half-unit) 0;
+
+  & .labels,
+  & .values {
+    display: flex;
+    flex-direction: column;
+
+    & span:first-child {
+      font-weight: bold;
+    }
   }
 
-  & .statHead {
-    font-weight: bold;
-    display: inline-flex;
-    flex-flow: row nowrap;
-    position: relative;
-    gap: var(--half-unit);
-    align-items: center;
-    justify-content: center;
-  }
+  & .values {
+    text-align: right;
 
-  & .statSplitter {
-    display: inline-block;
-    margin: 0 var(--unit);
-  }
-
-  & .detailsLink {
-    display: block;
-    color: var(--accent-strong);
-    text-decoration: none;
-    font-size: 13px;
-    margin-top: var(--half-unit);
+    & .unitLabel {
+      color: var(--faint-strong-up);
+    }
   }
 }
