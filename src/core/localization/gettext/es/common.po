@@ -948,6 +948,10 @@ msgstr "Indonesio"
 msgid "German"
 msgstr "Alemán"
 
+#: profile##languageOption##uk
+msgid "Ukrainian"
+msgstr "Ucranio"
+
 #: locate_me##get_location_error
 msgid "Error while getting location"
 msgstr "Error al obtener la ubicación"

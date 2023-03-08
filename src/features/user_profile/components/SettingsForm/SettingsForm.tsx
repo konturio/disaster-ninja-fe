@@ -228,7 +228,7 @@ export function SettingsForm() {
   );
 }
 
-const LANGUAGES = ['en', 'es', 'ar', 'ko', 'id', 'de'] as const;
+const LANGUAGES = ['en', 'es', 'ar', 'ko', 'id', 'de', 'uk'] as const;
 type Lng = (typeof LANGUAGES)[number];
 
 const getLanguageOptions = () =>
@@ -275,6 +275,11 @@ const getLocaleTranslations = (lng: Lng): [string, string] => {
       return [
         i18n.t('profile.languageOption.de'),
         i18n.t('profile.languageOption.de', { lng }),
+      ];
+    case 'uk':
+      return [
+        i18n.t('profile.languageOption.uk'),
+        i18n.t('profile.languageOption.uk', { lng }),
       ];
   }
 };
