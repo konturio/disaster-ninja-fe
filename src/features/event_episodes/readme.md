@@ -18,7 +18,10 @@ A component that displays the timeline of episodes. It receives a list of episod
 
 ### episodesResource
 
-An atom that stores a list of episodes associated with the selected disaster. The atom loads data from the server and provides an interface for getting this data. `episodesResource` depends on `currentEventAtom` trough the `episodesResourceDependencyAtom`.
+An atom that stores a list of episodes associated with the selected disaster. The atom loads data from the server and provides an interface for getting this data. `episodesResource` depends on `currentEventAtom` through the `episodesResourceDependencyAtom`.
+
+`currentEventAtom` stores the ID of the current (selected) event.
+
 When the `episodesResourceDependencyAtom` changes, the `episodesResource` atom is invalidated and the data is reloaded from the server.
 
 ### episodesTimeline
@@ -42,4 +45,4 @@ The `autoClearCurrentEpisode` function subscribes to the `episodesResource` atom
 
 ### eventEpisodesController
 
-A controller that provides methods for managing the selected episode, EpisodesTimelinePanel, and timeline. The controller links methods provided by various atoms and provides them as a single interface.
+A controller that provides methods for managing the selected episode, EpisodesTimelinePanel, and timeline. The controller links methods are provided by various atoms and are collected into a single interface.
