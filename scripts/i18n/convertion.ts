@@ -1,14 +1,12 @@
 import path from 'path';
-import minimist from 'minimist';
 import { readFileSync, existsSync } from 'fs';
 import { i18nextToPo, gettextToI18next, i18nextToPot } from 'i18next-conv';
 import { getDirectories } from './utils/getDirectories';
 import { save } from './utils/save';
 import { withBase } from './utils/withBase';
+import { readArgs } from './utils/readArgs';
 
-const args = minimist<{ 'to-gettext': boolean; 'to-i18next': boolean }>(
-  process.argv.slice(2),
-);
+const args = readArgs({ 'to-gettext': false, 'to-i18next': false });
 // filter option from https://github.com/i18next/i18next-gettext-converter#usage
 // we need this because multiple references in one line is not supported by gettext-parser https://github.com/smhg/gettext-parser/issues/29
 function referenceMultilineFormatter(gt, locale: string, callback, domain = 'messages') {
@@ -74,11 +72,10 @@ async function conversion() {
     (lang) => !['en', 'template'].includes(lang),
   ); // we don't need en .po files as translation is already a key + ignore template folder
   console.info(allLanguages, ' languages detected...');
-
   return Promise.all([
     // here we generate .pot file from src/core/localization/translations/en/common-messages.json
     // as developers modify only this file
-    args.toGettext
+    args['to-gettext']
       ? i18nextToPot('en', readFileSync(getI18nbyLang('en')), potOptions).then(
           save(dirs.pot),
         )
@@ -86,7 +83,7 @@ async function conversion() {
 
     ...allLanguages.map((lang) => {
       const [i18nFile, poFile] = [getI18nbyLang(lang), getPobyLang(lang)];
-      if (args.toGettext) {
+      if (args['to-gettext']) {
         // here we generate .po files for all locales (excluding en) only if they are missing
         if (!existsSync(getPobyLang(lang))) {
           return i18nextToPo(lang, readFileSync(i18nFile), {
@@ -94,7 +91,7 @@ async function conversion() {
             language: lang,
           }).then(save(poFile)); // if import/export new language it will create a destination folder automatically
         }
-      } else if (args.toi18next) {
+      } else if (args['to-i18next']) {
         // here we convert .po files to i18next for every locale
         // really we need to perform it only first time to get .po files from our existing i18next files
         // if you want to regenerate .po files, you need to have i18n files

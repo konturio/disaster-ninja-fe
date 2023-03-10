@@ -1,15 +1,12 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import minimist from 'minimist';
 import { getDirectories, getFiles } from './utils/getDirectories';
 import { withBase } from './utils/withBase';
 import { Block, parse } from './utils/parser';
-import { report } from 'node:process';
+import { readArgs } from './utils/readArgs';
 
-const args = minimist<{ out: 'md' | 'js' | 'json' }>(process.argv.slice(2), {
-  default: {
-    out: 'js',
-  },
+const args = readArgs<{ out: 'md' | 'js' | 'json' }>({
+  out: 'js',
 });
 
 interface Counts {
