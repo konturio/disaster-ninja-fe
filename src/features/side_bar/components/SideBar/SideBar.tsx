@@ -1,17 +1,13 @@
-import { useAction, useAtom } from '@reatom/react';
-import { ActionsBar, ActionsBarBTN, Logo } from '@konturio/ui-kit';
+import { useAtom } from '@reatom/react';
+import { ActionsBar, Logo } from '@konturio/ui-kit';
 import cn from 'clsx';
-import { Link } from 'react-router-dom';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
+import { useEffect, useMemo, useState } from 'react';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { i18n } from '~core/localization';
-import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import { searchStringAtom } from '~core/url_store/atoms/urlStore';
 import { AppNameAndIcon } from '../AppNameAndIcon/AppNameAndIcon';
-import { SmallIconSlot } from '../SmallIconSlot/SmallIconSlot';
 import { routeVisibilityChecker } from './routeVisibilityChecker';
 import s from './SideBar.module.css';
+import { ToggleButton } from './ToggleButton';
+import { NavButton } from './NavButton';
 import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 
 const wasClosed = 'sidebarClosed';
@@ -27,45 +23,18 @@ export function SideBar({
 }) {
   const [isOpen, setIsOpen] = useState(localStorage.getItem(wasClosed) ? false : true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
-  const resetTooltip = useAction(currentTooltipAtom.resetCurrentTooltip);
-  const [searchString] = useAtom(searchStringAtom);
   const [availableRoutes] = useAtom(availableRoutesAtom);
-  const [currentRoute] = useAtom(currentRouteAtom);
 
   const checkRouteVisibility = useMemo(
     () => (availableRoutes ? routeVisibilityChecker(availableRoutes.routes) : () => true),
     [availableRoutes],
   );
 
-  function onMouseEnter(target: HTMLDivElement, title: string | JSX.Element) {
-    // place tooltip right and vertically aligned to the element
-    !isOpen &&
-      setTooltip({
-        popup: title,
-        position: {
-          x: target.offsetLeft + 50,
-          y: target.offsetTop,
-          predefinedPosition: 'bottom-right',
-        },
-        hoverBehavior: true,
-      });
-  }
-
-  function onMouseLeave() {
-    resetTooltip();
-  }
-
   useEffect(() => {
     if (isMobile) {
       setIsOpen(false);
     }
   }, [isMobile, setIsOpen]);
-
-  const toggleIsOpen = useCallback(() => {
-    setIsOpen((prevState) => !prevState);
-    resetTooltip();
-  }, [setIsOpen]);
 
   // store locally user preferation to close sidebar
   useEffect(() => {
@@ -89,75 +58,20 @@ export function SideBar({
               />
             </div>
           </div>
-          {availableRoutes.routes.map((route) => {
-            return checkRouteVisibility(route, currentRoute) ? (
-              <Link
-                key={route.slug}
-                className={cn(
-                  s.sidebarItemContainer,
-                  route.parentRoute ? s.nestedRoute : s.topLevelRoute,
-                )}
-                to={getAbsoluteRoute(
-                  route.parentRoute
-                    ? `${route.parentRoute}/${route.slug}${searchString}`
-                    : `${route.slug}${searchString}`,
-                )}
-                tabIndex={-1}
-              >
-                <div
-                  className={s.buttonWrap}
-                  onPointerLeave={onMouseLeave}
-                  onPointerEnter={(e) => onMouseEnter(e.currentTarget, route.title)}
-                >
-                  <ActionsBarBTN
-                    size={route.parentRoute ? 'small-xs' : 'small'}
-                    active={currentRoute?.slug === route.slug}
-                    iconBefore={
-                      route.parentRoute ? (
-                        <SmallIconSlot>{route.icon}</SmallIconSlot>
-                      ) : (
-                        route.icon
-                      )
-                    }
-                    value={route.slug}
-                    className={s.controlButton}
-                  >
-                    {isOpen ? <span className={s.modeName}>{route.title}</span> : null}
-                  </ActionsBarBTN>
-                </div>
-              </Link>
-            ) : null;
-          })}
+          {availableRoutes.routes.map((route) => (
+            <NavButton
+              key={route.slug}
+              minified={!isOpen}
+              showTooltip={!isOpen}
+              checkRouteVisibility={checkRouteVisibility}
+              route={route}
+              currentRouteAtom={currentRouteAtom}
+              getAbsoluteRoute={getAbsoluteRoute}
+            />
+          ))}
 
           <div className={s.togglerContainer}>
-            {isOpen ? (
-              <div
-                className={cn(s.buttonWrap, s.togglerButton)}
-                onClick={toggleIsOpen}
-                tabIndex={-1}
-              >
-                <ActionsBarBTN
-                  iconBefore={<DoubleChevronLeft24 />}
-                  className={s.controlButton}
-                >
-                  <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
-                </ActionsBarBTN>
-              </div>
-            ) : (
-              <div
-                className={cn(s.buttonWrap, s.togglerButton)}
-                onClick={toggleIsOpen}
-                onPointerLeave={onMouseLeave}
-                onPointerEnter={(e) =>
-                  onMouseEnter(e.currentTarget, i18n.t('sidebar.expand'))
-                }
-              >
-                <ActionsBarBTN
-                  iconBefore={<DoubleChevronRight24 />}
-                  className={s.controlButton}
-                />
-              </div>
-            )}
+            <ToggleButton isOpen={isOpen} setIsOpen={setIsOpen} />
           </div>
 
           <div className={s.konturLogo}>
