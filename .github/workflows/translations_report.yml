@@ -1,0 +1,41 @@
+name: Translations Report
+
+on:
+  pull_request:
+
+jobs:
+  build-base:
+    name: Build base
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.base_ref }}
+
+    - name: Install dependencies
+      run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.TOKEN_REPO}}
+
+
+  report:
+    name: Generate report
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout PR
+      uses: actions/checkout@v3
+
+    - name: Generate report
+      run: npm run --silent i18n:report -- --out md > ./.github/workflows/translations-report.md 
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.TOKEN_REPO}}
+
+    - name: Comment
+      uses: NejcZdovc/comment-pr@v1
+      with:
+        file: "translations-report.md"
+        identifier: "GITHUB_COMMENT_TRANSLATION"
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

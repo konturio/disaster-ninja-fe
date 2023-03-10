@@ -82,6 +82,7 @@ jobs:
       uses: NejcZdovc/comment-pr@v1
       with:
         file: 'comment.md'
+        identifier: "GITHUB_COMMENT_SIZE"
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         OLD: ${{steps.get-diff.outputs.base_file_string}}

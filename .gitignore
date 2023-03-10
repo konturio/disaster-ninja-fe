@@ -55,3 +55,4 @@ src/core/localization/translations/**
 !src/core/localization/translations/en
 
 size-report.json
+translations-report.md
