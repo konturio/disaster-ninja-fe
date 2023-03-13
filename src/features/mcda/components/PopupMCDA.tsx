@@ -1,7 +1,7 @@
 import s from './PopupMCDA.module.css';
 import type { PopupMCDAProps } from '../types';
 
-export const PopupMCDA = ({ json, normalized, resultMCDA }: PopupMCDAProps) => (
+export const PopupMCDA = ({ layers, normalized, resultMCDA }: PopupMCDAProps) => (
   <table>
     <thead>
       <tr>
@@ -13,7 +13,7 @@ export const PopupMCDA = ({ json, normalized, resultMCDA }: PopupMCDAProps) => (
       </tr>
     </thead>
     <tbody className={s.tableBody}>
-      {json.layers.map(({ axis, range, coefficient }) => {
+      {layers.map(({ axis, range, coefficient }) => {
         const [min, max] = range;
         const [num, den] = axis;
 
