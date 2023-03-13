@@ -8,7 +8,7 @@ import { routeVisibilityChecker } from './routeVisibilityChecker';
 import s from './SideBar.module.css';
 import { ToggleButton } from './ToggleButton';
 import { NavButton } from './NavButton';
-import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
+import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 
 const wasClosed = 'sidebarClosed';
 
@@ -19,11 +19,12 @@ export function SideBar({
 }: {
   currentRouteAtom: CurrentRouteAtom;
   availableRoutesAtom: AvailableRoutesAtom;
-  getAbsoluteRoute: (path: string) => string;
+  getAbsoluteRoute: (path: string | AppRoute) => string;
 }) {
   const [isOpen, setIsOpen] = useState(localStorage.getItem(wasClosed) ? false : true);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const [availableRoutes] = useAtom(availableRoutesAtom);
+  const [currentRoute] = useAtom(currentRouteAtom);
 
   const checkRouteVisibility = useMemo(
     () => (availableRoutes ? routeVisibilityChecker(availableRoutes.routes) : () => true),
@@ -63,6 +64,7 @@ export function SideBar({
               key={route.slug}
               minified={!isOpen}
               showTooltip={!isOpen}
+              isVisible={checkRouteVisibility(route, currentRoute)}
               checkRouteVisibility={checkRouteVisibility}
               route={route}
               currentRouteAtom={currentRouteAtom}

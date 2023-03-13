@@ -10,45 +10,39 @@ import type { AppRoute, CurrentRouteAtom } from '~core/router';
 
 type NavButtonProps = {
   route: AppRoute;
+  isVisible: boolean;
   minified: boolean;
   checkRouteVisibility: (route: AppRoute, currentRoute: AppRoute | null) => boolean;
   showTooltip?: boolean;
   currentRouteAtom: CurrentRouteAtom;
-  getAbsoluteRoute: (path: string) => string;
+  getAbsoluteRoute: (path: string | AppRoute) => string;
 };
 
 export function NavButton({
   route,
+  isVisible,
   minified,
-  checkRouteVisibility,
   showTooltip,
   currentRouteAtom,
-
   getAbsoluteRoute,
 }: NavButtonProps) {
   const [searchString] = useAtom(searchStringAtom);
   const [currentRoute] = useAtom(currentRouteAtom);
-
-  const isVisible = checkRouteVisibility(route, currentRoute);
 
   const ref = useRef<HTMLDivElement>(null);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
   if (!isVisible) return null;
 
-  const to = getAbsoluteRoute(
-    route.parentRoute
-      ? `${route.parentRoute}/${route.slug}${searchString}`
-      : `${route.slug}${searchString}`,
-  );
+  const to = `${getAbsoluteRoute(route)}${searchString}}`;
 
-  const className = cn(
+  const navButtonClassName = cn(
     s.sidebarItemContainer,
     route.parentRoute ? s.nestedRoute : s.topLevelRoute,
   );
 
   return (
-    <Link className={className} to={to} tabIndex={-1}>
+    <Link className={navButtonClassName} to={to} tabIndex={-1}>
       <div
         ref={ref}
         className={s.buttonWrap}

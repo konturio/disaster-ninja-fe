@@ -8,7 +8,7 @@ import { useFavicon } from '~utils/hooks/useFavicon';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { useTabNameUpdate } from '~utils/hooks/useTabNameUpdate';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
-import type { AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
+import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
 const { NotificationToast } = lazily(() => import('~features/toasts'));
@@ -23,7 +23,7 @@ export function CommonView({
 }: PropsWithChildren<{
   currentRouteAtom: CurrentRouteAtom;
   availableRoutesAtom: AvailableRoutesAtom;
-  getAbsoluteRoute: (path: string) => string;
+  getAbsoluteRoute: (path: string | AppRoute) => string;
 }>) {
   const [featureFlags] = useAtom(featureFlagsAtom);
   useFavicon(appConfig.faviconUrl);
