@@ -1,4 +1,5 @@
 import { appConfig } from '~core/app_config';
+import type { AppRoute } from './types';
 
 const trimSlash = (str: string) => {
   // Trim leading and trailing slashes
@@ -12,6 +13,16 @@ const pathJoin = (...path: Array<string>) => {
     .join('/');
 };
 
-export const getAbsoluteRoute = (slug: string, base = appConfig.baseUrl) => {
-  return '/' + pathJoin(base, slug);
+export const getAbsoluteRoute = (
+  slugOrRoute: string | AppRoute,
+  base = appConfig.baseUrl,
+) => {
+  if (typeof slugOrRoute === 'string') return '/' + pathJoin(base, slugOrRoute);
+
+  return getAbsoluteRoute(
+    slugOrRoute.parentRoute
+      ? `${slugOrRoute.parentRoute}/${slugOrRoute.slug}`
+      : slugOrRoute.slug,
+    base,
+  );
 };
