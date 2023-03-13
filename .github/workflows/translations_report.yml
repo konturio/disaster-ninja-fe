@@ -1,0 +1,30 @@
+name: Translations Report
+
+on:
+  pull_request:
+
+jobs:
+  report:
+    name: Generate report
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: npm ci --include=dev
+      - run: npm run --silent i18n:report -- --out md > ./.github/workflows/translations-report.md 
+      - name: Comment
+        uses: NejcZdovc/comment-pr@v1
+        with:
+          file: "translations-report.md"
+          identifier: "GITHUB_COMMENT_TRANSLATION"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

@@ -2,18 +2,11 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import en_common from './translations/en/common.json';
-// As files are generated only before dev/build, so from start we don't have them
-// @ts-ignore
 import es_common from './translations/es/common.json';
-// @ts-ignore
 import ar_common from './translations/ar/common.json';
-// @ts-ignore
 import ko_common from './translations/ko/common.json';
-// @ts-ignore
 import id_common from './translations/id/common.json';
-// @ts-ignore
 import de_common from './translations/de/common.json';
-// @ts-ignore
 import uk_common from './translations/uk/common.json';
 import type { TOptionsBase } from 'i18next';
 
