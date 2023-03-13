@@ -233,6 +233,14 @@ msgstr "Filtrar Nominador"
 msgid "Filter Denominator"
 msgstr "Filtrar Denominador"
 
+#: mcda##title
+msgid "Multi-criteria decision analysis"
+msgstr ""
+
+#: mcda##name
+msgid "MCDA"
+msgstr ""
+
 #: event_list##warning_title
 msgid "Can't use map as filter"
 msgstr "No se puede utilizar el mapa como filtro"

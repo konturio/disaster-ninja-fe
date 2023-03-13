@@ -233,6 +233,14 @@ msgstr "Filter Pembilang"
 msgid "Filter Denominator"
 msgstr "Filter Penyebut"
 
+#: mcda##title
+msgid "Multi-criteria decision analysis"
+msgstr ""
+
+#: mcda##name
+msgid "MCDA"
+msgstr ""
+
 #: event_list##warning_title
 msgid "Can't use map as filter"
 msgstr "Tidak dapat menggunakan peta sebagai filter"

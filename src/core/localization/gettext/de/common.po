@@ -234,6 +234,14 @@ msgstr "Filter Zähler"
 msgid "Filter Denominator"
 msgstr "Filter Nenner"
 
+#: mcda##title
+msgid "Multi-criteria decision analysis"
+msgstr ""
+
+#: mcda##name
+msgid "MCDA"
+msgstr ""
+
 #: event_list##warning_title
 msgid "Can't use map as filter"
 msgstr "Die Karte kann nicht als Filter verwendet werden"
