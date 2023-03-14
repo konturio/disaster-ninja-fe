@@ -53,7 +53,7 @@ export function createMCDAStyle(config: MCDAConfig) {
       'fill-color': [
         'let',
         'mcdaResult',
-        ['to-number', linearNormalization(config.layers), -9999], // falsy values become -1
+        ['to-number', linearNormalization(config.layers), -9999], // falsy values become -9999
         [
           'case',
           [
