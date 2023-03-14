@@ -13,3 +13,5 @@ import('~features/locate_me').then(({ initLocateMe }) => {
 ### How it works
 
 It uses `navigator.geolocation.getCurrentPosition` method to ask for user position once and then updates `currentMapPositionAtom` in case of success. Shows error message in case of errors/denial.
+
+If you need to use the feature in the IFRAME embedded mode, make sure to pass `allow="geolocation"` to pass the persmissions from root window to the iframe.
