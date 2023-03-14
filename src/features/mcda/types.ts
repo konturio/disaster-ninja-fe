@@ -19,7 +19,7 @@ export interface MCDAConfig {
 }
 
 export type PopupMCDAProps = {
-  json: MCDAConfig;
+  layers: MCDAConfig['layers'];
   normalized: {
     [key: string]: { norm: number; val: number };
   };

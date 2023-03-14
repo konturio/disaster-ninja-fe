@@ -1,5 +1,4 @@
 import { Popup as MapPopup } from 'maplibre-gl';
-import { createRoot } from 'react-dom/client';
 import { throttle } from '~utils/common';
 import { LAYER_BIVARIATE_PREFIX } from '~core/logical_layers/constants';
 import { layerByOrder } from '~core/logical_layers';
@@ -18,13 +17,10 @@ import {
   HOVER_HEXAGON_BORDER,
   isFillColorEmpty,
 } from '~core/logical_layers/renderers/BivariateRenderer';
-import { sumBy } from '~utils/common';
-import { PopupMCDA } from '../components/PopupMCDA';
-import { calculateLayerPipeline, inViewCalculations } from '../calculations';
-import type { MCDAConfig, PopupMCDAProps } from '../types';
+import { generatePopupContent } from './popup';
+import type { MCDAConfig } from '../types';
 import type { FillColor } from '~core/logical_layers/renderers/BivariateRenderer';
 import type { AnyLayer, VectorSource } from 'maplibre-gl';
-import type { MapListener } from '~core/shared_state/mapListeners';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
@@ -98,40 +94,18 @@ export class MCDARenderer extends BivariateRenderer {
       const features = ev.target
         .queryRenderedFeatures(ev.point)
         .filter((f) => f.source.includes(this._sourceId));
+
+      // Don't show popup when click in empty place
       if (!features.length || !features[0].geometry) return true;
 
-      const feature = features[0];
-      const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
+      const [feature] = features;
       const fillColor: FillColor = feature.layer.paint?.['fill-color'];
 
+      // Don't show popup when click on feature that filtered by map style
       if (!fillColor || isFillColorEmpty(fillColor) || !feature.properties) return true;
 
-      const popupNode = document.createElement('div');
-      const calculateLayer = calculateLayerPipeline(
-        inViewCalculations,
-        ({ num, den }) => ({
-          num: feature.properties?.[num],
-          den: feature.properties?.[den],
-        }),
-      );
-
-      const normalized = this._json.layers.reduce<PopupMCDAProps['normalized']>(
-        (acc, layer) => {
-          const [num, den] = layer.axis;
-          const value = feature.properties?.[num] / feature.properties?.[den];
-          acc[`${num}-${den}`] = { val: value, norm: calculateLayer(layer) };
-          return acc;
-        },
-        {},
-      );
-      const sumNormalized = sumBy(Object.values(normalized), 'norm');
-      const coeffsSum = sumBy(this._json.layers, 'coefficient');
-      const resultMCDA = sumNormalized / coeffsSum;
-
-      createRoot(popupNode).render(
-        PopupMCDA({ json: this._json, normalized, resultMCDA }),
-      );
-
+      // Show popup on click
+      const popupNode = generatePopupContent(feature, this._json.layers);
       this.cleanPopup();
       this._popup = new MapPopup({
         closeOnClick: true,
@@ -147,9 +121,10 @@ export class MCDARenderer extends BivariateRenderer {
       this._popup.once('close', () => {
         this.cleanSelection(map);
       });
-
       this.cleanHover(map);
 
+      // Create map style
+      const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
       if (!map.getSource(HEX_SELECTED_SOURCE_ID)) {
         map.addSource(HEX_SELECTED_SOURCE_ID, {
           type: 'geojson',

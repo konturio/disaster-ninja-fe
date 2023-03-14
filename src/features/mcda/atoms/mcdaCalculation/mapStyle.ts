@@ -36,6 +36,14 @@ export function linearNormalization(layers: MCDAConfig['layers']) {
 
 export function createMCDAStyle(config: MCDAConfig) {
   const { good = DEFAULT_GREEN, bad = DEFAULT_RED } = config.colors;
+  const [absoluteMin = 0, absoluteMax = 1] = config.layers.reduce((acc, l) => {
+    // Show full range of values between min max if normalization not enabled
+    const range: [number, number] = l.normalization === 'no' ? l.range : [0, 1];
+    if (acc.length === 0) return range;
+    acc[0] = Math.min(acc[0], range[0]);
+    acc[1] = Math.min(acc[1], range[1]);
+    return acc;
+  }, [] as [number, number] | []);
   const layerStyle: BivariateLayerStyle = {
     id: config.id,
     type: 'fill',
@@ -45,10 +53,14 @@ export function createMCDAStyle(config: MCDAConfig) {
       'fill-color': [
         'let',
         'mcdaResult',
-        ['to-number', linearNormalization(config.layers), -1], // falsy values become -1
+        ['to-number', linearNormalization(config.layers), -9999], // falsy values become -9999
         [
           'case',
-          ['all', ['>=', ['var', 'mcdaResult'], 0], ['<=', ['var', 'mcdaResult'], 1]],
+          [
+            'all',
+            ['>=', ['var', 'mcdaResult'], absoluteMin],
+            ['<=', ['var', 'mcdaResult'], absoluteMax],
+          ],
           ['interpolate-hcl', ['linear'], ['var', 'mcdaResult'], 0, bad, 1, good],
           'transparent', // all values outside of range [0,1] will be painted as transparent
         ],
