@@ -1,3 +1,4 @@
+import { i18n } from '~core/localization';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { mcdaCalculationAtom } from './atoms/mcdaCalculation';
@@ -51,13 +52,15 @@ const example = `
 export function initMCDA() {
   toolbarControlsAtom.addControl.dispatch({
     id: 'MCDA',
-    name: 'MCDA',
-    title: 'MCDA',
+    name: i18n.t('mcda.name'),
+    title: i18n.t('mcda.title'),
     active: false,
     visualGroup: controlVisualGroup.noAnalytics,
     exclusiveGroup: controlGroup.mapTools,
     icon: (
-      <div style={{ height: '24px', display: 'flex', alignItems: 'center' }}>MCDA</div>
+      <div style={{ height: '24px', display: 'flex', alignItems: 'center' }}>
+        {i18n.t('mcda.name')}
+      </div>
     ),
     onClick: async () => {
       const jsonString = prompt(

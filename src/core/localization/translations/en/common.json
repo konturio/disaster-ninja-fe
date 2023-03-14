@@ -64,6 +64,10 @@
     "filter_numerator": "Filter Numerator",
     "filter_denominator": "Filter Denominator"
   },
+  "mcda": {
+    "title": "Multi-criteria decision analysis",
+    "name": "MCDA"
+  },
   "event_list": {
     "warning_title": "Can't use map as filter",
     "warning_description": "Map not ready yet, try later",
