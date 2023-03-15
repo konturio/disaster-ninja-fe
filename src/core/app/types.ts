@@ -9,7 +9,6 @@ export interface AppConfig {
   BIVARIATE_TILES_SERVER?: string;
   BIVARIATE_TILES_INDICATORS_CLASS: string;
   REFRESH_INTERVAL_SEC: number;
-  MAP_ACCESS_TOKEN: string;
   MAP_BASE_STYLE: string;
   KEYCLOAK_URL: string;
   KEYCLOAK_REALM: string;
@@ -48,7 +47,6 @@ export interface AppConfigGlobal {
   bivariateTilesServer: string | undefined;
   bivariateTilesIndicatorsClass: string;
   refreshIntervalSec: number;
-  mapAccessToken: string;
   mapBaseStyle: string;
   featuresByDefault: AppFeatureType[];
   defaultFeed: string;

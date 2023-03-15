@@ -35,7 +35,6 @@ function getGlobalConfig(): AppConfigGlobal {
     bivariateTilesServer: konturAppConfig.BIVARIATE_TILES_SERVER,
     bivariateTilesIndicatorsClass: konturAppConfig.BIVARIATE_TILES_INDICATORS_CLASS,
     refreshIntervalSec: konturAppConfig.REFRESH_INTERVAL_SEC,
-    mapAccessToken: konturAppConfig.MAP_ACCESS_TOKEN,
     mapBaseStyle: konturAppConfig.MAP_BASE_STYLE,
     featuresByDefault: konturAppConfig.FEATURES_BY_DEFAULT,
     defaultFeed: konturAppConfig.DEFAULT_FEED,

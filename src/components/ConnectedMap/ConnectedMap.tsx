@@ -36,7 +36,6 @@ const LAYERS_ON_TOP = [
 
 export function ConnectedMap({ className }: { className?: string }) {
   const mapBaseStyle = appConfig.mapBaseStyle;
-  const accessToken = appConfig.mapAccessToken;
   const mapRef = useRef<ApplicationMap>();
   useMapPositionSmoothSync(mapRef);
 
@@ -121,7 +120,7 @@ export function ConnectedMap({ className }: { className?: string }) {
 
   return (
     <Map
-      accessToken={accessToken}
+      accessToken={''}
       ref={mapRef}
       onLoad={initLayersOrderManager}
       layersOnTop={LAYERS_ON_TOP}
