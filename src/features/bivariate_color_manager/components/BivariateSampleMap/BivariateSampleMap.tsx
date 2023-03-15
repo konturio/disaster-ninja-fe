@@ -34,7 +34,6 @@ export function BivariateSampleMap({
   setFullscreen: (flag: boolean) => void;
 }) {
   const mapBaseStyle = appConfig.mapBaseStyle;
-  const accessToken = appConfig.mapAccessToken;
   const mapRef = useRef<mapLibre.Map>();
   useMapPositionSmoothSync(mapRef);
 
@@ -120,7 +119,7 @@ export function BivariateSampleMap({
   return (
     <div className={s.mapContainer}>
       <Map
-        accessToken={accessToken}
+        accessToken={''}
         ref={mapRef}
         style={mapBaseStyle}
         onLoad={initLayersOrderManager}
