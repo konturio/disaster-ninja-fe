@@ -18,17 +18,6 @@ ApiClient.init({
 });
 export const apiClient = ApiClient.getInstance();
 
-// initialize boundaries client
-ApiClient.init({
-  instanceId: 'boundaries',
-  notificationService: notificationServiceInstance,
-  baseURL: appConfig.boundariesApi,
-  disableAuth: true,
-  translationService: i18n,
-});
-
-export const boundariesClient = ApiClient.getInstance('boundaries');
-
 // initialize reports client
 ApiClient.init({
   instanceId: 'reports',

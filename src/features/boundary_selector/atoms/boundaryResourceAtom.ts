@@ -1,5 +1,6 @@
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { boundariesClient } from '~core/apiClientInstance';
+import { apiClient } from '~core/apiClientInstance';
+import { GeoJSONPoint } from '~utils/geoJSON/helpers';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 
 export const boundaryResourceAtom = createAsyncAtom(
@@ -7,9 +8,9 @@ export const boundaryResourceAtom = createAsyncAtom(
   async (params, abortController) => {
     if (!params) return null;
     const { lng, lat } = params;
-    const responseData = await boundariesClient.get<GeoJSON.FeatureCollection | null>(
-      '/layers/collections/bounds/itemsByMultipoint',
-      { geom: `MULTIPOINT(${lng} ${lat})` },
+    const responseData = await apiClient.get<GeoJSON.FeatureCollection | null>(
+      '/boundaries',
+      { geom: new GeoJSONPoint([lng, lat]) },
       false,
       { signal: abortController.signal },
     );
