@@ -3,7 +3,6 @@ import type { AppFeatureType } from '~core/auth/types';
 
 export interface AppConfig {
   API_GATEWAY: string;
-  BOUNDARIES_API: string;
   REPORTS_API: string;
   BIVARIATE_TILES_RELATIVE_URL: string;
   BIVARIATE_TILES_SERVER?: string;
@@ -41,7 +40,6 @@ export type EffectiveFeatures = Record<AppFeatureType, object | boolean>;
 
 export interface AppConfigGlobal {
   apiGateway: string;
-  boundariesApi: string;
   reportsApi: string;
   bivariateTilesRelativeUrl: string;
   bivariateTilesServer: string | undefined;

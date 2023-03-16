@@ -29,7 +29,6 @@ function getGlobalConfig(): AppConfigGlobal {
   const konturAppConfig: AppConfig = globalThis.konturAppConfig ?? {};
   const globalAppConfig = {
     apiGateway: konturAppConfig.API_GATEWAY,
-    boundariesApi: konturAppConfig.BOUNDARIES_API,
     reportsApi: konturAppConfig.REPORTS_API,
     bivariateTilesRelativeUrl: konturAppConfig.BIVARIATE_TILES_RELATIVE_URL,
     bivariateTilesServer: konturAppConfig.BIVARIATE_TILES_SERVER,

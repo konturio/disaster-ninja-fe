@@ -1,4 +1,5 @@
 import union from '@turf/union';
+import type { Position, BBox } from 'geojson';
 
 // eslint-disable-next-line import/prefer-default-export
 export function createGeoJSONSource(
@@ -70,4 +71,15 @@ export function mergeFeatureCollection(fc: GeoJSON.FeatureCollection) {
     }
   }
   return acc;
+}
+
+export class GeoJSONPoint implements GeoJSON.Point {
+  type = 'Point' as const;
+  coordinates: Position;
+  bbox?: BBox | undefined;
+
+  constructor(coordinates: Position, bbox?: BBox) {
+    this.coordinates = coordinates;
+    this.bbox = bbox;
+  }
 }
