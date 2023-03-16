@@ -5,7 +5,6 @@
   "BIVARIATE_TILES_RELATIVE_URL": "api/tiles/bivariate/v1/",
   "BIVARIATE_TILES_INDICATORS_CLASS": "all",
   "REFRESH_INTERVAL_SEC": 300,
-  "MAP_ACCESS_TOKEN": "",
   "MAP_BASE_STYLE": "https://disaster.ninja/tiles/basemap/style_ninja.json",
   "AUTOFOCUS_PADDINGS": [16, 300, 16, 336],
   "AUTOFOCUS_ZOOM": 13,
