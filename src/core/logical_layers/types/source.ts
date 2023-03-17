@@ -1,7 +1,7 @@
 import type { LayerDetailsLegend } from '~core/logical_layers/types/legends';
 
 export interface LayerSourceDto {
-  type: 'vector' | 'raster' | 'geojson';
+  type: 'vector' | 'raster' | 'geojson' | 'maplibre-style-url';
   urls?: string[];
   tileSize?: number;
   data?: unknown; // only for GeoJSON
@@ -12,7 +12,7 @@ export interface LayerDetailsDto {
   id: string;
   maxZoom?: number;
   minZoom?: number;
-  source: LayerSourceDto;
+  source?: LayerSourceDto;
   legend?: LayerDetailsLegend;
   ownedByUser?: boolean;
 }
@@ -50,5 +50,5 @@ export interface LayerSummaryDto {
   copyrights?: string[];
   ownedByUser: boolean;
   featureProperties?: object;
-  mapboxStyle?: string;
+  type?: string;
 }

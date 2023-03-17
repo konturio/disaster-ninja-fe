@@ -44,4 +44,5 @@ export const eventListFilters = createAtom(
 
     return state;
   },
+  'eventListFiltersAtom',
 );

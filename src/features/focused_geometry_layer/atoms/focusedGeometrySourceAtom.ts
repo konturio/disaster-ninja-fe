@@ -52,4 +52,5 @@ export const createFocusedGeometrySourceAtom = (sourceId: string) =>
         });
       }
     },
+    'focusedGeometrySourceAtom:' + sourceId,
   );

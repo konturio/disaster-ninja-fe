@@ -4,7 +4,7 @@ import type {
   AppConfig,
   AppConfigEffective,
   AppConfigGlobal,
-  AppConfiguration,
+  AppDto,
   EffectiveFeatures,
 } from '~core/app/types';
 
@@ -15,13 +15,19 @@ declare global {
 }
 
 const configs = {
-  global: {} as AppConfigGlobal,
-  custom: {} as AppConfiguration,
-  merged: {} as AppConfigEffective,
+  global: {} as AppConfigGlobal, // default from static json
+  custom: {} as AppDto, // updates from api
+  overrides: {} as Partial<AppConfigEffective>,
+  merged: {} as AppConfigEffective, // final merged
 };
 
-export function updateAppConfig(appInfo: AppConfiguration) {
-  configs.custom = appInfo;
+export function updateAppConfig(appInfo: AppDto) {
+  Object.assign(configs.custom, appInfo);
+  getEffectiveConfig();
+}
+
+export function updateAppConfigOverrides(overrides: Partial<AppConfigEffective>) {
+  Object.assign(configs.overrides, overrides);
   getEffectiveConfig();
 }
 
@@ -89,7 +95,12 @@ function getEffectiveFeatures(appConfig: AppConfigEffective): EffectiveFeatures 
 
 export function getEffectiveConfig(): AppConfigEffective {
   getGlobalConfig();
-  const mergedAppConfig = { ...configs.global, ...configs.custom };
+  const mergedAppConfig = {
+    defaultLayers: [],
+    ...configs.global,
+    ...configs.custom,
+    ...configs.overrides,
+  };
   mergedAppConfig.effectiveFeatures = getEffectiveFeatures(mergedAppConfig);
   // mutate object to keep reference for export
   Object.assign(configs.merged, mergedAppConfig);

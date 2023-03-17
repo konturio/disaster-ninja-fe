@@ -20,4 +20,5 @@ export const currentEventRefresherAtom = createAtom(
       }
     });
   },
+  'currentEventRefresherAtom',
 );

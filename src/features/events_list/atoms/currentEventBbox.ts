@@ -56,4 +56,5 @@ export const currentEventBbox = createAtom(
 
     return bbox;
   },
+  'currentEventBboxAtom',
 );

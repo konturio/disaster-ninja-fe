@@ -33,5 +33,5 @@ export const currentEventAutoFocusAtom = createAtom(
       }
     });
   },
-  '[Shared state] currentEventAtom',
+  'currentEventAutoFocusAtom',
 );

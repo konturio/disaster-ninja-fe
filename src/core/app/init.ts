@@ -1,13 +1,18 @@
-import { updateAppConfig } from '~core/app_config';
+import { updateAppConfig, updateAppConfigOverrides } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { urlEncoder, urlStoreAtom } from '~core/url_store';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
+import {
+  findBasemapInLayersList,
+  getBasemapFromDetails,
+} from '~core/logical_layers/basemap';
 import { onLogin } from './authHooks';
 import { defaultUserProfileData } from './user';
 import { runAtom } from './index';
+import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 import type { UrlData } from '~core/url_store';
-import type { AppConfiguration } from '~core/app/types';
+import type { AppDto } from '~core/app/types';
 
 export async function appInit() {
   // keep initial url before overwriting by router
@@ -17,7 +22,7 @@ export async function appInit() {
 
   authClientInstance.checkLocalAuthToken();
 
-  const appConfigResponse = await apiClient.get<AppConfiguration>(
+  const appConfigResponse = await apiClient.get<AppDto>(
     '/apps/configuration',
     { appId: initialState.app },
     true,
@@ -34,16 +39,31 @@ export async function appInit() {
     appConfigResponse.user = defaultUserProfileData;
   }
 
-  setAppLanguage(appConfigResponse.user.language);
+  const language = appConfigResponse.user.language;
+  setAppLanguage(language);
+
+  const defaultLayers = await getDefaultLayers(initialState.app, language);
+
+  const { basemapLayerId, basemapLayerUrl } = getBasemapFromDetails(defaultLayers);
 
   if (initialState.layers === undefined) {
-    initialState.layers = await getDefaultLayers(initialState.app);
+    initialState.layers = defaultLayers?.map((l) => l.id) ?? [];
   } else {
     // HACK: Remove KLA__ prefix from layers ids coming from url
     initialState.layers = initialState.layers.map((l) => l.replace(/^KLA__/, ''));
+
+    const basemapInUrl = findBasemapInLayersList(initialState.layers);
+    if (!basemapInUrl) {
+      initialState.layers.push(basemapLayerId);
+    }
   }
 
   updateAppConfig(appConfigResponse);
+
+  updateAppConfigOverrides({
+    defaultLayers,
+    mapBaseStyle: basemapLayerUrl,
+  });
 
   postAppInit(initialState);
 }
@@ -56,14 +76,15 @@ async function postAppInit(initialState: UrlData) {
   runAtom(urlStoreAtom);
 }
 
-async function getDefaultLayers(appId) {
-  const layers = await apiClient.get<{ id: string }[] | null>(
+async function getDefaultLayers(appId: string, language: string) {
+  const layers = await apiClient.get<LayerDetailsDto[]>(
     `/apps/${appId}/layers`,
-    undefined,
+    { 'user-language': language },
     true,
+    { headers: { 'user-language': language } },
   );
   // TODO: use layers source configs to cache layer data
-  return layers?.map((l) => l.id) ?? [];
+  return layers ?? [];
 }
 
 function setAppLanguage(language: string) {

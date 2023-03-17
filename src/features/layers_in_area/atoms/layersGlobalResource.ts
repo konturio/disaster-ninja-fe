@@ -1,6 +1,7 @@
 import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { filterUnsupportedLayerTypes } from '~core/logical_layers/layerTypes';
 import { LAYERS_IN_AREA_API_ERROR } from '../constants';
 import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 
@@ -16,7 +17,7 @@ export const layersGlobalResource = createAsyncAtom(
         signal: abortController.signal,
       },
     );
-    return layers;
+    return filterUnsupportedLayerTypes(layers || []);
   },
   'layersGlobalResource',
 );

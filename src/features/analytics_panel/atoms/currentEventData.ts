@@ -13,4 +13,5 @@ export const currentEventDataAtom = createAtom(
     }
     return null;
   },
+  'currentEventDataAtom',
 );
