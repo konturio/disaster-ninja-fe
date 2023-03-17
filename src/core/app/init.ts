@@ -6,6 +6,7 @@ import { i18n } from '~core/localization';
 import {
   findBasemapInLayersList,
   getBasemapFromDetails,
+  MAPBOX_EMPTY_STYLE,
 } from '~core/logical_layers/basemap';
 import { onLogin } from './authHooks';
 import { defaultUserProfileData } from './user';
@@ -44,17 +45,31 @@ export async function appInit() {
 
   const defaultLayers = await getDefaultLayers(initialState.app, language);
 
+  let effectiveBasemapUrl: any = MAPBOX_EMPTY_STYLE;
+
   const { basemapLayerId, basemapLayerUrl } = getBasemapFromDetails(defaultLayers);
 
   if (initialState.layers === undefined) {
+    effectiveBasemapUrl = basemapLayerUrl;
     initialState.layers = defaultLayers?.map((l) => l.id) ?? [];
   } else {
     // HACK: Remove KLA__ prefix from layers ids coming from url
     initialState.layers = initialState.layers.map((l) => l.replace(/^KLA__/, ''));
 
+    // Enable app default basemap layer if it's not listed in url
     const basemapInUrl = findBasemapInLayersList(initialState.layers);
     if (!basemapInUrl) {
       initialState.layers.push(basemapLayerId);
+    }
+
+    // we have basemap in url and need to fetch layer details to get map style url
+    if (basemapInUrl && basemapInUrl !== basemapLayerId) {
+      const basemapInUrlDetails = await getLayersDetails(
+        [basemapInUrl],
+        initialState.app,
+        language,
+      );
+      effectiveBasemapUrl = basemapInUrlDetails[0]?.source?.urls?.at(0);
     }
   }
 
@@ -62,7 +77,7 @@ export async function appInit() {
 
   updateAppConfigOverrides({
     defaultLayers,
-    mapBaseStyle: basemapLayerUrl,
+    mapBaseStyle: effectiveBasemapUrl,
   });
 
   postAppInit(initialState);
@@ -79,7 +94,21 @@ async function postAppInit(initialState: UrlData) {
 async function getDefaultLayers(appId: string, language: string) {
   const layers = await apiClient.get<LayerDetailsDto[]>(
     `/apps/${appId}/layers`,
-    { 'user-language': language },
+    undefined,
+    true,
+    { headers: { 'user-language': language } },
+  );
+  // TODO: use layers source configs to cache layer data
+  return layers ?? [];
+}
+
+async function getLayersDetails(ids: string[], appId: string, language: string) {
+  const layers = await apiClient.post<LayerDetailsDto[]>(
+    `/layers/details`,
+    {
+      layersToRetrieveWithoutGeometryFilter: ids,
+      appId: appId,
+    },
     true,
     { headers: { 'user-language': language } },
   );
