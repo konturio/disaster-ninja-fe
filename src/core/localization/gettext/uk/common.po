@@ -942,7 +942,7 @@ msgstr "Німецька"
 
 #: profile##languageOption##uk
 msgid "Ukrainian"
-msgstr ""
+msgstr "Українська"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
