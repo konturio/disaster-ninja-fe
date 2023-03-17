@@ -46,25 +46,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     this._sourceId = SOURCE_IN_AREA_PREFIX + this.id;
   }
 
-  _generateLayersFromLegend(legend: LayerLegend): Omit<AnyLayer, 'id'>[] {
-    if (legend.type === 'simple') {
-      const layers = legend.steps
-        /**
-         * Layer filters method generate extra layers for legend steps, it simple and reliably.
-         * Find properties diff between steps and put expressions right into property value
-         * if tou need more map performance
-         * */
-        .map((step) =>
-          setSourceLayer(
-            step,
-            applyLegendConditions(step, mapCSSToMapBoxProperties(step.style)),
-          ),
-        );
-      return layers.flat();
-    }
-    throw new Error(`Unexpected legend type '${legend.type}'`);
-  }
-
   _setLayersIds(layers: Omit<AnyLayer, 'id'>[]): AnyLayer[] {
     return layers.map((layer, i) => {
       const layerId = `${LAYER_IN_AREA_PREFIX + this.id}-${i}`;
@@ -97,7 +78,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     }
     /* Create layer */
     if (legend && legend.steps.length) {
-      const layerStyles = this._generateLayersFromLegend(legend);
+      const layerStyles = _generateLayersFromLegend(legend);
       const layers = this._setLayersIds(layerStyles);
       this.highestLayerType = getHighestType(layers);
       layers.forEach((mapLayer) => {
@@ -143,46 +124,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       });
     }
   }
-  _adaptUrl(url: string, apiKey?: string) {
-    /** Fix cors in local development */
-    if (import.meta.env.DEV) {
-      url = replaceUrlWithProxy(url);
-    }
-    /**
-     * Protocol fix
-     * request from https to http failed in browser with "mixed content" error
-     * solution: cut off protocol part and replace with current page protocol
-     */
-    url = window.location.protocol + url.replace(/https?:/, '');
-    /**
-     * Some link templates use values that mapbox/maplibre do not understand
-     * solution: convert to equivalents
-     */
-    url = url
-      .replace('{bbox}', '{bbox-epsg-3857}')
-      .replace('{proj}', 'EPSG:3857')
-      .replace('{width}', '256')
-      .replace('{height}', '256')
-      .replace('{zoom}', '{z}')
-      .replace('{-y}', '{y}');
-
-    // layers that need api key to reach
-    if (apiKey) {
-      url = url.replace('{apiKey}', apiKey);
-    }
-
-    /* Some magic for remove `switch:` */
-    const domains = (url.match(/{switch:(.*?)}/) || ['', ''])[1].split(',')[0];
-    url = url.replace(/{switch:(.*?)}/, domains);
-    return url;
-  }
-  /* https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#vector-scheme */
-  _setTileScheme(rawUrl: string, mapSource: VectorSource | RasterSource) {
-    const isTMS = rawUrl.includes('{-y}');
-    if (isTMS) {
-      mapSource.scheme = 'tms';
-    }
-  }
 
   mountTileLayer(
     map: ApplicationMap,
@@ -192,13 +133,13 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     /* Create source */
     const mapSource: VectorSource | RasterSource = {
       type: layer.source.type,
-      tiles: layer.source.urls.map((url) => this._adaptUrl(url, layer.source.apiKey)),
+      tiles: layer.source.urls.map((url) => _adaptUrl(url, layer.source.apiKey)),
       tileSize: layer.source.tileSize || 256,
       minzoom: layer.minZoom || 0,
       maxzoom: layer.maxZoom || 24,
     };
     // I expect that all servers provide url with same scheme
-    this._setTileScheme(layer.source.urls[0], mapSource);
+    _setTileScheme(layer.source.urls[0], mapSource);
     const source = map.getSource(this._sourceId);
     if (source) {
       // TODO: update tile source
@@ -221,7 +162,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     } else {
       // Vector tiles
       if (legend) {
-        const layerStyles = this._generateLayersFromLegend(legend);
+        const layerStyles = _generateLayersFromLegend(legend);
         const layers = this._setLayersIds(layerStyles);
         const isAllLayersAlreadyAdded = layers.every(
           (layers) => !!map.getLayer(layers.id),
@@ -250,9 +191,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  isGeoJSONLayer = (layer: LayerSource): layer is LayerGeoJSONSource =>
-    layer.source.type === 'geojson';
-
   private async _updateMap(
     map: ApplicationMap,
     layerData: LayerSource,
@@ -262,8 +200,13 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     if (layerData == null) return;
     await mapLoaded(map);
 
-    if (this.isGeoJSONLayer(layerData)) {
+    if (isGeoJSONLayer(layerData)) {
       this.mountGeoJSONLayer(map, layerData, legend);
+    }
+    // @ts-ignore skip, unsupported
+    else if (layerData.source.type === 'maplibre-style-url') {
+      // TODO: style url
+      // map.setStyle(layerData.source.urls[0]);
     } else {
       this.mountTileLayer(map, layerData, legend);
     }
@@ -470,4 +413,69 @@ function getHighestType(layers: maplibregl.AnyLayer[]) {
     }
   });
   return result;
+}
+
+function isGeoJSONLayer(layer: LayerSource): layer is LayerGeoJSONSource {
+  return layer.source.type === 'geojson';
+}
+
+function _adaptUrl(url: string, apiKey?: string) {
+  /** Fix cors in local development */
+  if (import.meta.env.DEV) {
+    url = replaceUrlWithProxy(url);
+  }
+  /**
+   * Protocol fix
+   * request from https to http failed in browser with "mixed content" error
+   * solution: cut off protocol part and replace with current page protocol
+   */
+  url = window.location.protocol + url.replace(/https?:/, '');
+  /**
+   * Some link templates use values that mapbox/maplibre do not understand
+   * solution: convert to equivalents
+   */
+  url = url
+    .replace('{bbox}', '{bbox-epsg-3857}')
+    .replace('{proj}', 'EPSG:3857')
+    .replace('{width}', '256')
+    .replace('{height}', '256')
+    .replace('{zoom}', '{z}')
+    .replace('{-y}', '{y}');
+
+  // layers that need api key to reach
+  if (apiKey) {
+    url = url.replace('{apiKey}', apiKey);
+  }
+
+  /* Some magic for remove `switch:` */
+  const domains = (url.match(/{switch:(.*?)}/) || ['', ''])[1].split(',')[0];
+  url = url.replace(/{switch:(.*?)}/, domains);
+  return url;
+}
+
+/* https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#vector-scheme */
+function _setTileScheme(rawUrl: string, mapSource: VectorSource | RasterSource) {
+  const isTMS = rawUrl.includes('{-y}');
+  if (isTMS) {
+    mapSource.scheme = 'tms';
+  }
+}
+
+function _generateLayersFromLegend(legend: LayerLegend): Omit<AnyLayer, 'id'>[] {
+  if (legend.type === 'simple') {
+    const layers = legend.steps
+      /**
+       * Layer filters method generate extra layers for legend steps, it simple and reliably.
+       * Find properties diff between steps and put expressions right into property value
+       * if tou need more map performance
+       * */
+      .map((step) =>
+        setSourceLayer(
+          step,
+          applyLegendConditions(step, mapCSSToMapBoxProperties(step.style)),
+        ),
+      );
+    return layers.flat();
+  }
+  throw new Error(`Unexpected legend type '${legend.type}'`);
 }

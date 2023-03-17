@@ -444,10 +444,12 @@ export class ApiClient {
         );
       }
 
-      if (!requestConfig.headers || !requestConfig.headers.Authorization) {
-        requestConfig.headers = {
-          Authorization: `Bearer ${this.token}`,
-        };
+      if (!requestConfig.headers) {
+        requestConfig.headers = {};
+      }
+
+      if (!requestConfig.headers.Authorization) {
+        requestConfig.headers.Authorization = `Bearer ${this.token}`;
       }
     }
 

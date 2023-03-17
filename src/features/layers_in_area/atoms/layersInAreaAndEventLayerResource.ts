@@ -5,6 +5,7 @@ import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createAtom } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { removeEmpty } from '~utils/common';
+import { filterUnsupportedLayerTypes } from '~core/logical_layers/layerTypes';
 import { LAYERS_IN_AREA_API_ERROR } from '../constants';
 import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { FocusedGeometry } from '~core/focused_geometry/types';
@@ -65,7 +66,7 @@ export const layersInAreaAndEventLayerResource = createAsyncAtom(
         signal: abortController.signal,
       },
     );
-    return layers;
+    return filterUnsupportedLayerTypes(layers || []);
   },
   'layersInAreaAndEventLayerResource',
 );

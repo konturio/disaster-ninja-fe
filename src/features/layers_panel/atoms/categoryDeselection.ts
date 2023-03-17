@@ -10,16 +10,13 @@ export const categoryDeselection = createAtom(
     onAction('deselect', (categoryId) => {
       const enabledLayers = getUnlistedState(enabledLayersAtom);
       const layersSettings = getUnlistedState(layersSettingsAtom);
-      const enabledLayersInGroup = Array.from(enabledLayers).reduce(
-        (acc, id) => {
-          const settings = layersSettings.get(id);
-          if (settings?.data?.category === categoryId) {
-            acc.push(id);
-          }
-          return acc;
-        },
-        [] as string[],
-      );
+      const enabledLayersInGroup = Array.from(enabledLayers).reduce((acc, id) => {
+        const settings = layersSettings.get(id);
+        if (settings?.data?.category === categoryId) {
+          acc.push(id);
+        }
+        return acc;
+      }, [] as string[]);
       if (enabledLayersInGroup.length === 0) return;
 
       const disableActions = enabledLayersInGroup.map((layerId) =>
@@ -28,4 +25,5 @@ export const categoryDeselection = createAtom(
       schedule((dispatch) => dispatch(disableActions));
     });
   },
+  'categoryDeselectionAtom',
 );

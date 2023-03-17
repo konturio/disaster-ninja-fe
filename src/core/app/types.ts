@@ -1,5 +1,6 @@
 import type { UserProfileApi } from './user';
 import type { AppFeatureType } from '~core/auth/types';
+import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 
 export interface AppConfig {
   API_GATEWAY: string;
@@ -76,24 +77,28 @@ export interface AppConfigGlobal {
 }
 
 // Unified config from /app/configuration
-export type AppConfiguration = {
+export interface AppDto {
   id: string;
   name: string;
   description: string;
   ownedByUser: boolean;
-  features?: AppConfigurationFeature[];
+  features?: FeatureDto[];
   sidebarIconUrl: string;
   faviconUrl: string;
   public: boolean;
   extent: [number, number, number, number];
   user?: UserProfileApi;
-};
+}
 
-export type AppConfigurationFeature = {
+export interface FeatureDto {
   name: string;
   description: string;
   type: string;
   configuration: object;
-};
+}
 
-export type AppConfigEffective = AppConfigGlobal & AppConfiguration;
+export interface AppConfigExtras {
+  defaultLayers: LayerDetailsDto[];
+}
+
+export type AppConfigEffective = AppConfigGlobal & AppDto & AppConfigExtras;
