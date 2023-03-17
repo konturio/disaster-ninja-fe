@@ -34,7 +34,7 @@ export function NavButton({
 
   if (!isVisible) return null;
 
-  const to = `${getAbsoluteRoute(route)}${searchString}}`;
+  const to = `${getAbsoluteRoute(route)}${searchString}`;
 
   const navButtonClassName = cn(
     s.sidebarItemContainer,
