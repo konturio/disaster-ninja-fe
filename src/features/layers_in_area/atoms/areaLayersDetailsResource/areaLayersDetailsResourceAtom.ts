@@ -16,6 +16,7 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
       { ...body, appId: appConfig.id },
       true,
       {
+        headers: { 'user-language': appConfig.user.language },
         signal: abortController.signal,
       },
     );

@@ -1,4 +1,3 @@
-import { i18n } from '~core/localization';
 import { KONTUR_DEBUG } from '~utils/debug';
 import type {
   AppConfig,
@@ -43,7 +42,6 @@ function getGlobalConfig(): AppConfigGlobal {
     mapBaseStyle: konturAppConfig.MAP_BASE_STYLE,
     featuresByDefault: konturAppConfig.FEATURES_BY_DEFAULT,
     defaultFeed: konturAppConfig.DEFAULT_FEED,
-    defaultFeedObject: getDefaultFeedObject(konturAppConfig.DEFAULT_FEED), // translation should occur later after i18n init, getDefaultFeedObject(konturAppConfig.DEFAULT_FEED),
     keycloakUrl: konturAppConfig.KEYCLOAK_URL,
     keycloakRealm: konturAppConfig.KEYCLOAK_REALM,
     keycloakClientId: konturAppConfig.KEYCLOAK_CLIENT_ID,
@@ -130,16 +128,4 @@ if (import.meta.env?.PROD) {
   `,
     'color: #bada55',
   );
-}
-
-export function getDefaultFeedObject(feed?: string) {
-  // Change this solution when new default feed will be added
-  if (!feed || feed !== 'kontur-public')
-    console.warn('WARNING! Default feed provided via config is incorrect or absent');
-  return {
-    feed: 'kontur-public',
-    name: i18n.t('configs.Kontur_public_feed'),
-    description: i18n.t('configs.Kontur_public_feed_description'),
-    default: true,
-  };
 }

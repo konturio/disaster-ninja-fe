@@ -49,7 +49,6 @@ export interface AppConfigGlobal {
   mapBaseStyle: string;
   featuresByDefault: AppFeatureType[];
   defaultFeed: string;
-  defaultFeedObject: EventFeedConfig; // translation should occur later after i18n init, getDefaultFeedObject(konturAppConfig.DEFAULT_FEED),
   keycloakUrl: string;
   keycloakRealm: string;
   keycloakClientId: string;
@@ -87,7 +86,7 @@ export interface AppDto {
   faviconUrl: string;
   public: boolean;
   extent: [number, number, number, number];
-  user?: UserProfileApi;
+  user: UserProfileApi;
 }
 
 export interface FeatureDto {

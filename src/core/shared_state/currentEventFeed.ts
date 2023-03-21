@@ -49,7 +49,7 @@ export const currentEventFeedAtom = createAtom(
 );
 
 function checkFeed(eventFeeds: EventFeedConfig[], feedId?: string) {
-  if (!feedId) return appConfig.defaultFeedObject?.feed;
+  if (!feedId) return appConfig.defaultFeed;
   const feed = eventFeeds?.find((fd) => fd.feed === feedId);
-  return feed ? feed.feed : appConfig.defaultFeedObject?.feed;
+  return feed ? feed.feed : appConfig.defaultFeed;
 }
