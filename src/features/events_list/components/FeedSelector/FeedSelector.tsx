@@ -30,7 +30,7 @@ export function FeedSelector() {
       <div>
         <select
           onChange={onFeedChange}
-          value={currentFeed?.id || appConfig.defaultFeedObject.feed}
+          value={currentFeed?.id || appConfig.defaultFeed}
           className={s.feedsSelect}
         >
           {eventFeeds.map((fd) => (

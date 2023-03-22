@@ -36,7 +36,7 @@ export const defaultUserProfileData: UserProfileApi = {
   subscribedToKonturUpdates: false,
   bio: '',
   osmEditor: appConfig.osmEditors[0].id,
-  defaultFeed: appConfig.defaultFeedObject.feed,
+  defaultFeed: appConfig.defaultFeed,
   theme: 'kontur',
 };
 

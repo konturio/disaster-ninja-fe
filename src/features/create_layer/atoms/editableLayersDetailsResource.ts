@@ -56,6 +56,7 @@ export const editableLayersDetailsResourceAtom = createAsyncAtom(
       { ...params, appId: appConfig.id },
       true,
       {
+        headers: { 'user-language': appConfig.user.language },
         signal: abortController.signal,
       },
     );
