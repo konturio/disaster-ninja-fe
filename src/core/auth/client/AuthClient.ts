@@ -47,14 +47,6 @@ export class AuthClient {
     return AuthClient.instance;
   }
 
-  public showLoginForm() {
-    userStateAtom.login.dispatch();
-  }
-
-  public closeLoginForm() {
-    userStateAtom.reset.dispatch();
-  }
-
   public logout() {
     this._apiClient.logout();
     this.logoutHook();

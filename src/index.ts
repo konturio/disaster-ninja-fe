@@ -5,6 +5,7 @@ import '@konturio/default-theme/typography.css';
 import '~utils/atoms/disableDefaultStore';
 import './global.css';
 import { loadConfig } from '~core/app_config/loader';
+// import { appInit } from '~core/app/init';
 
 function showCriticalError(e: Error) {
   const root = document.getElementById('root');
@@ -22,10 +23,12 @@ function showCriticalError(e: Error) {
   }
 }
 
+// appInit()
 loadConfig()
-  .then(() => {
-    import('./App');
-  })
+  .then(() => import('./core/app/init'))
+  .then(({ appInit }) => appInit())
+  .then((initialState) => import('./App').then(({ startApp }) => startApp(initialState)))
+  // .then(() => import('./App'))
   .catch((e: Error) => {
     // TODO: FE error reporting
     console.error(e);
