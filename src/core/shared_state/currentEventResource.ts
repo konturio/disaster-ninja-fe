@@ -20,6 +20,7 @@ const eventDependencyAtom = createAtom(
     const feed = getUnlistedState(currentEventFeedAtom);
     return { event, feed };
   },
+  'eventDependencyAtom',
 );
 
 export const currentEventResourceAtom = createAsyncAtom(
