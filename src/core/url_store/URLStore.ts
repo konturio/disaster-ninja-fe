@@ -1,5 +1,3 @@
-import { apiClient } from '~core/apiClientInstance';
-import type { ApiClient } from '~core/api_client';
 import type { UrlData } from './types';
 
 interface UrlEncoder<T extends Record<string, string | number | string[] | number[]>> {
@@ -12,11 +10,9 @@ export class URLStore {
     /* noop */
   };
   _encoder: UrlEncoder<UrlData>;
-  _client: ApiClient;
 
   constructor(encoder: UrlEncoder<UrlData>) {
     this._encoder = encoder;
-    this._client = apiClient;
   }
 
   readCurrentState() {

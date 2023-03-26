@@ -1,5 +1,4 @@
 import jwtDecode from 'jwt-decode';
-import { i18n } from '~core/localization';
 import { create } from '~utils/axios/apisauce/apisauce';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { ApiMethodTypes, getGeneralApiProblem } from './types';
@@ -246,7 +245,7 @@ export class ApiClient {
     }
 
     if (!errorMessage) {
-      errorMessage = ApiClient.parseError(problem);
+      errorMessage = parseApiError(problem, this.translationService);
     }
 
     if (problem.kind === 'canceled') {
@@ -259,55 +258,6 @@ export class ApiClient {
     }
 
     throw new ApiClientError(errorMessage, problem);
-  }
-
-  private static parseError(errorResponse: GeneralApiProblem): string {
-    if (errorResponse && 'data' in errorResponse) {
-      const { data: errorData } = errorResponse;
-      if (errorData !== null) {
-        if (Array.isArray(errorData)) {
-          return errorData
-            .map((errorMsg) =>
-              errorMsg.name && errorMsg.message
-                ? `${errorMsg.name}: ${errorMsg.message}`
-                : errorMsg,
-            )
-            .join('<br/>');
-        }
-        if (errorData instanceof Object) {
-          if (errorData.hasOwnProperty('error')) return errorData['error'];
-          if (errorData.hasOwnProperty('errors') && Array.isArray(errorData['errors'])) {
-            return errorData['errors']
-              .reduce((acc, errorObj) => {
-                if (errorObj.hasOwnProperty('message')) {
-                  acc.push(errorObj['message']);
-                }
-                return acc;
-              }, [])
-              .join('<br/>');
-          }
-        }
-
-        return String(errorData);
-      }
-
-      return 'Unknown Error';
-    }
-
-    switch (errorResponse.kind) {
-      case 'timeout':
-        return i18n.t('errors.timeout');
-      case 'cannot-connect':
-        return i18n.t('errors.cannot_connect');
-      case 'forbidden':
-        return i18n.t('errors.forbidden');
-      case 'not-found':
-        return i18n.t('errors.not_found');
-      case 'unknown':
-        return i18n.t('errors.unknown');
-      default:
-        return i18n.t('errors.server_error');
-    }
   }
 
   private async checkToken(
@@ -505,5 +455,57 @@ export class ApiClient {
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
     return this.call(ApiMethodTypes.DELETE, path, undefined, useAuth, requestConfig);
+  }
+}
+
+function parseApiError(
+  errorResponse: GeneralApiProblem,
+  i18n: ITranslationService,
+): string {
+  if (errorResponse && 'data' in errorResponse) {
+    const { data: errorData } = errorResponse;
+    if (errorData !== null) {
+      if (Array.isArray(errorData)) {
+        return errorData
+          .map((errorMsg) =>
+            errorMsg.name && errorMsg.message
+              ? `${errorMsg.name}: ${errorMsg.message}`
+              : errorMsg,
+          )
+          .join('<br/>');
+      }
+      if (errorData instanceof Object) {
+        if (errorData.hasOwnProperty('error')) return errorData['error'];
+        if (errorData.hasOwnProperty('errors') && Array.isArray(errorData['errors'])) {
+          return errorData['errors']
+            .reduce((acc, errorObj) => {
+              if (errorObj.hasOwnProperty('message')) {
+                acc.push(errorObj['message']);
+              }
+              return acc;
+            }, [])
+            .join('<br/>');
+        }
+      }
+
+      return String(errorData);
+    }
+
+    return 'Unknown Error';
+  }
+
+  switch (errorResponse.kind) {
+    case 'timeout':
+      return i18n.t('errors.timeout');
+    case 'cannot-connect':
+      return i18n.t('errors.cannot_connect');
+    case 'forbidden':
+      return i18n.t('errors.forbidden');
+    case 'not-found':
+      return i18n.t('errors.not_found');
+    case 'unknown':
+      return i18n.t('errors.unknown');
+    default:
+      return i18n.t('errors.server_error');
   }
 }
