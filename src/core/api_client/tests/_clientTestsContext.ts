@@ -68,7 +68,7 @@ export const createContext = () => {
     token: actualToken,
     expiredToken: expiredToken,
     refreshToken: refreshToken,
-    mockAdapter: new MockAdapter(axiosInstance),
+    // mockAdapter: new MockAdapter(axiosInstance),
     username,
     password,
     localStorageMock,

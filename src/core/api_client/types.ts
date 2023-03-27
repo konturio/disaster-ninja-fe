@@ -1,5 +1,4 @@
-import type { ApiResponse, ApisauceConfig } from '~utils/axios/apisauce/apisauce';
-import type { AxiosRequestConfig } from 'axios';
+import type { ApiResponse } from '~utils/axios/apisauce/apisauce';
 import type { NotificationMessage } from '~core/types/notification';
 
 export interface INotificationService {
@@ -18,12 +17,13 @@ export const ApiMethodTypes = {
   DELETE: 'delete',
 } as const;
 
-export type ApiMethod = typeof ApiMethodTypes[keyof typeof ApiMethodTypes];
+export type ApiMethod = (typeof ApiMethodTypes)[keyof typeof ApiMethodTypes];
 
-export interface ApiClientConfig<ClassContext> extends ApisauceConfig {
+export interface ApiClientConfig<ClassContext> {
   instanceId?: string;
   notificationService: INotificationService;
   translationService: ITranslationService;
+  baseURL: string;
   loginApiPath?: string;
   refreshTokenApiPath?: string;
   keycloakClientId?: string;
@@ -75,8 +75,10 @@ export type RequestErrorsConfig = {
   messages?: Record<number, string> | string;
 };
 
-export interface CustomRequestConfig extends AxiosRequestConfig {
+export interface CustomRequestConfig {
+  headers?: Record<string, string>;
   errorsConfig?: RequestErrorsConfig;
+  signal?: AbortSignal;
 }
 
 /** ----------------------------------------------------------------------------

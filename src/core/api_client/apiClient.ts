@@ -1,14 +1,13 @@
+import wretch from 'wretch';
+import QueryStringAddon from 'wretch/addons/queryString';
+import FormUrlAddon from 'wretch/addons/formUrl';
+import FormDataAddon from 'wretch/addons/formData';
+import AbortAddon from 'wretch/addons/abort';
 import jwtDecode from 'jwt-decode';
-import { create } from '~utils/axios/apisauce/apisauce';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { ApiMethodTypes, getGeneralApiProblem } from './types';
 import { ApiClientError } from './apiClientError';
-import type {
-  ApiErrorResponse,
-  ApiResponse,
-  ApisauceInstance,
-} from '~utils/axios/apisauce/apisauce';
-import type { AxiosRequestConfig } from 'axios';
+import type { ApiErrorResponse, ApiResponse } from '~utils/axios/apisauce/apisauce';
 import type {
   ApiClientConfig,
   ApiMethod,
@@ -23,7 +22,7 @@ import type {
   LocalAuthToken,
 } from './types';
 
-const LOCALSTORAGE_AUTH_KEY = 'auth_token';
+export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
 
 export class ApiClient {
   private static instances: Record<string, ApiClient> = {};
@@ -34,7 +33,6 @@ export class ApiClient {
   private readonly unauthorizedCallback?: (a: this) => void;
   private readonly loginApiPath: string;
   private readonly refreshTokenApiPath: string;
-  private readonly apiSauceInstance: ApisauceInstance;
   private readonly disableAuth: boolean;
   private readonly storage: WindowLocalStorage['localStorage'];
   private token = '';
@@ -43,6 +41,7 @@ export class ApiClient {
   private checkTokenPromise: Promise<boolean> | undefined;
   public expiredTokenCallback?: () => void;
   private readonly keycloakClientId: string;
+  private baseURL: string;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -58,7 +57,7 @@ export class ApiClient {
     unauthorizedCallback,
     disableAuth = false,
     storage = globalThis.localStorage,
-    ...apiSauceConfig
+    baseURL,
   }: ApiClientConfig<ApiClient>) {
     this.instanceId = instanceId;
     this.translationService = translationService;
@@ -71,24 +70,11 @@ export class ApiClient {
     this.unauthorizedCallback = unauthorizedCallback;
 
     // Will deleted by terser
-    if (import.meta?.env?.DEV) {
-      apiSauceConfig.baseURL = replaceUrlWithProxy(apiSauceConfig.baseURL ?? '');
+    if (import.meta.env?.DEV) {
+      baseURL = replaceUrlWithProxy(baseURL ?? '');
       this.loginApiPath = replaceUrlWithProxy(this.loginApiPath);
     }
-
-    if (!apiSauceConfig.headers) {
-      apiSauceConfig.headers = {};
-    }
-
-    if (!apiSauceConfig.headers['Content-Type']) {
-      apiSauceConfig.headers['Content-Type'] = 'application/json';
-    }
-
-    if (!apiSauceConfig.headers['Accept']) {
-      apiSauceConfig.headers['Accept'] = 'application/json';
-    }
-
-    this.apiSauceInstance = create(apiSauceConfig);
+    this.baseURL = baseURL;
   }
 
   public static getInstance(instanceId = 'default'): ApiClient {
@@ -214,7 +200,7 @@ export class ApiClient {
   /**
    * @throws {ApiClientError}
    */
-  private async processResponse<T>(
+  private async getResponseDataOrThrow<T>(
     response: ApiResponse<T, GeneralApiProblem>,
     errorsConfig?: RequestErrorsConfig,
   ): Promise<T | null | never> {
@@ -290,20 +276,48 @@ export class ApiClient {
     username: string,
     password: string,
   ): Promise<LocalAuthToken | string | undefined> {
-    const params = new URLSearchParams();
-    params.append('username', username);
-    params.append('password', password);
-    params.append('client_id', this.keycloakClientId);
-    params.append('grant_type', 'password');
+    const params = {
+      username: username,
+      password: password,
+      client_id: this.keycloakClientId,
+      grant_type: 'password',
+    };
 
-    const response = await this.apiSauceInstance.post<KeycloakAuthResponse>(
-      this.loginApiPath,
-      params,
-      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
-    );
+    // : ApiResponse<KeycloakAuthResponse, GeneralApiProblem>
+    const response = await wretch(this.loginApiPath)
+      .addon(FormUrlAddon)
+      .formUrl(params)
+      .post()
+      .res();
 
     if (response.ok) {
-      return this.processAuthResponse(response);
+      response.data = await response.json();
+      return this.consumeTokenOrThrow(response);
+    } else {
+      return response.data?.error_description;
+    }
+  }
+
+  /**
+   * @returns {Promise} {LocalAuthToken} | {string} with error,
+   * @throws {ApiClientError}
+   */
+  public async refreshAuthToken(): Promise<string | LocalAuthToken | undefined> {
+    const params = {
+      client_id: this.keycloakClientId,
+      refresh_token: this.refreshToken,
+      grant_type: 'refresh_token',
+    };
+
+    const response = await wretch(this.refreshTokenApiPath)
+      .addon(FormUrlAddon)
+      .formUrl(params)
+      .post()
+      .res();
+
+    if (response.ok) {
+      response.data = await response.json();
+      return this.consumeTokenOrThrow(response);
     } else {
       return response.data?.error_description;
     }
@@ -312,7 +326,7 @@ export class ApiClient {
   /**
    * @throws {ApiClientError}
    */
-  private processAuthResponse(
+  private consumeTokenOrThrow(
     response: ApiResponse<KeycloakAuthResponse, GeneralApiProblem>,
   ): LocalAuthToken | undefined {
     if (response.ok) {
@@ -350,30 +364,6 @@ export class ApiClient {
   async logout() {
     this.resetAuth();
   }
-
-  /**
-   * @returns {Promise} {LocalAuthToken} | {string} with error,
-   * @throws {ApiClientError}
-   */
-  public async refreshAuthToken(): Promise<string | LocalAuthToken | undefined> {
-    const params = new URLSearchParams();
-    params.append('client_id', this.keycloakClientId);
-    params.append('refresh_token', this.refreshToken);
-    params.append('grant_type', 'refresh_token');
-
-    const response = await this.apiSauceInstance.post<KeycloakAuthResponse>(
-      this.refreshTokenApiPath,
-      params,
-      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
-    );
-
-    if (response.ok) {
-      return this.processAuthResponse(response);
-    } else {
-      return response.data?.error_description;
-    }
-  }
-
   public async call<T>(
     method: ApiMethod,
     path: string,
@@ -385,10 +375,12 @@ export class ApiClient {
       requestConfig = {};
     }
 
+    const RequestsWithBody = ['post', 'put', 'patch'];
+
     if (!this.disableAuth && useAuth && this.token) {
       const tokenCheckError = await this.checkToken(requestConfig);
       if (tokenCheckError) {
-        return await this.processResponse<T>(
+        return await this.getResponseDataOrThrow<T>(
           tokenCheckError,
           requestConfig?.errorsConfig,
         );
@@ -403,13 +395,39 @@ export class ApiClient {
       }
     }
 
-    const response = await this.apiSauceInstance[method]<T, GeneralApiProblem>(
-      path,
-      requestParams,
-      requestConfig,
-    );
+    let req = wretch(this.baseURL, { mode: 'cors' })
+      .addon(FormDataAddon)
+      .addon(FormUrlAddon)
+      .addon(QueryStringAddon)
+      .addon(AbortAddon());
 
-    return this.processResponse<T>(response, requestConfig?.errorsConfig);
+    if (requestParams) {
+      req = RequestsWithBody.includes(method)
+        ? req.json(requestParams)
+        : req.query(requestParams);
+    }
+
+    if (requestConfig.headers) {
+      req = req.headers(requestConfig.headers);
+    }
+
+    if (requestConfig.signal) {
+      req = req.options({ signal: requestConfig.signal });
+    }
+
+    const response = await req
+      .url(path)
+      [method]()
+      .res((res) => {
+        console.debug(res);
+        return res;
+      });
+
+    if (response.ok) {
+      response.data = await response.json();
+    }
+
+    return this.getResponseDataOrThrow<T>(response, requestConfig?.errorsConfig);
   }
 
   // method shortcuts
