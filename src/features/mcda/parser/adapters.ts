@@ -1,11 +1,14 @@
 import type { MCDAConfig } from '../types';
-import type { JsonMCDAv1, JsonMCDAv2, JsonMCDAv3 } from './types';
+import type { JsonMCDAv1, JsonMCDAv2, JsonMCDAv3, JsonMCDAv4 } from './types';
 
-export function firstVersionAdapter(json: JsonMCDAv1): MCDAConfig {
+export function firstVersionMigration(json: JsonMCDAv1): MCDAConfig {
   return {
     id: json.id ?? 'MCDA_layer',
     version: 1,
-    colors: json.colors,
+    colors: {
+      type: 'sentiments',
+      parameters: json.colors,
+    },
     layers: json.layers.map((l) => ({
       ...l,
       transformationFunction: 'no',
@@ -14,19 +17,34 @@ export function firstVersionAdapter(json: JsonMCDAv1): MCDAConfig {
   };
 }
 
-export function secondVersionAdapter(json: JsonMCDAv2): MCDAConfig {
+export function secondVersionMigration(json: JsonMCDAv2): MCDAConfig {
   return {
     id: json.id ?? 'MCDA_layer',
     version: 2,
-    colors: json.colors,
+    colors: {
+      type: 'sentiments',
+      parameters: json.colors,
+    },
     layers: json.layers.map((l) => ({ ...l, normalization: 'max-min' })),
   };
 }
 
-export function thirdVersionAdapter(json: JsonMCDAv3): MCDAConfig {
+export function thirdVersionMigration(json: JsonMCDAv3): MCDAConfig {
   return {
     id: json.id ?? 'MCDA_layer',
     version: 3,
+    colors: {
+      type: 'sentiments',
+      parameters: json.colors,
+    },
+    layers: json.layers,
+  };
+}
+
+export function fourVersionMigration(json: JsonMCDAv4): MCDAConfig {
+  return {
+    id: json.id ?? 'MCDA_layer',
+    version: 4,
     colors: json.colors,
     layers: json.layers,
   };

@@ -9,7 +9,7 @@ import { sumBy } from '~utils/common';
 import { DEFAULT_GREEN, DEFAULT_RED } from '../../calculations/constants';
 import { calculateLayerPipeline, inStyleCalculations } from '../../calculations';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
-import type { MCDAConfig } from '../../types';
+import type { ColorsBySentiments, MCDAConfig } from '../../types';
 
 //@ts-expect-error - not clear how to type this right, but this compromise do the trick
 const calculateLayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
@@ -34,8 +34,79 @@ export function linearNormalization(layers: MCDAConfig['layers']) {
   }
 }
 
+type PaintProps = {
+  colorsConfig: MCDAConfig['colors'];
+  mcdaResult: number | (string | number | (string | number)[])[];
+  absoluteMax: number;
+  absoluteMin: number;
+};
+
+function sentimentPaint({
+  colorsConfig,
+  mcdaResult,
+  absoluteMin,
+  absoluteMax,
+}: PaintProps) {
+  const { good = DEFAULT_GREEN, bad = DEFAULT_RED } = colorsConfig.parameters;
+  return {
+    'fill-color': [
+      'let',
+      'mcdaResult',
+      ['to-number', mcdaResult, -9999], // falsy values become -9999
+      [
+        'case',
+        [
+          'all',
+          ['>=', ['var', 'mcdaResult'], absoluteMin],
+          ['<=', ['var', 'mcdaResult'], absoluteMax],
+        ],
+        ['interpolate-hcl', ['linear'], ['var', 'mcdaResult'], 0, bad, 1, good],
+        'transparent', // all values outside of range [0,1] will be painted as transparent
+      ],
+    ],
+    'fill-opacity': 1,
+    'fill-antialias': false,
+  };
+}
+
+function expressionsPaint({
+  colorsConfig,
+  mcdaResult,
+  absoluteMax,
+  absoluteMin,
+}: PaintProps) {
+  return Object.entries(colorsConfig.parameters).reduce(
+    (acc, [paintProp, expression]) => {
+      acc[paintProp] = Array.isArray(expression)
+        ? [
+            'let',
+            'mcdaResult',
+            ['to-number', mcdaResult, -9999], // falsy values become -9999,
+            'absoluteMax',
+            ['to-number', absoluteMax, -9999], // falsy values become -9999,
+            'absoluteMin',
+            ['to-number', absoluteMin, -9999], // falsy values become -9999,
+            ...expression,
+          ]
+        : expression;
+
+      return acc;
+    },
+    {} as Record<any, any>,
+  );
+}
+
+function generateLayerPaint(props: PaintProps) {
+  switch (props.colorsConfig.type) {
+    case 'sentiments':
+      return sentimentPaint(props);
+
+    case 'mapLibreExpression':
+      return expressionsPaint(props);
+  }
+}
+
 export function createMCDAStyle(config: MCDAConfig) {
-  const { good = DEFAULT_GREEN, bad = DEFAULT_RED } = config.colors;
   const [absoluteMin = 0, absoluteMax = 1] = config.layers.reduce((acc, l) => {
     // Show full range of values between min max if normalization not enabled
     const range: [number, number] = l.normalization === 'no' ? l.range : [0, 1];
@@ -44,30 +115,20 @@ export function createMCDAStyle(config: MCDAConfig) {
     acc[1] = Math.min(acc[1], range[1]);
     return acc;
   }, [] as [number, number] | []);
-  const layerStyle: BivariateLayerStyle = {
+
+  const mcdaResult = linearNormalization(config.layers);
+
+  const layerStyle = {
     id: config.id,
     type: 'fill',
     layout: {},
     filter: filterSetup(config.layers),
-    paint: {
-      'fill-color': [
-        'let',
-        'mcdaResult',
-        ['to-number', linearNormalization(config.layers), -9999], // falsy values become -9999
-        [
-          'case',
-          [
-            'all',
-            ['>=', ['var', 'mcdaResult'], absoluteMin],
-            ['<=', ['var', 'mcdaResult'], absoluteMax],
-          ],
-          ['interpolate-hcl', ['linear'], ['var', 'mcdaResult'], 0, bad, 1, good],
-          'transparent', // all values outside of range [0,1] will be painted as transparent
-        ],
-      ],
-      'fill-opacity': 1,
-      'fill-antialias': false,
-    },
+    paint: generateLayerPaint({
+      colorsConfig: config.colors,
+      mcdaResult,
+      absoluteMin,
+      absoluteMax,
+    }),
 
     source: {
       type: 'vector',

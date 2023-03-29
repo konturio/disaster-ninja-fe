@@ -1,6 +1,19 @@
 export type Normalization = 'max-min' | 'no';
 export type TransformationFunction = 'no' | 'natural_logarithm' | 'square_root';
 
+export type ColorsByMapLibreExpression = {
+  type: 'mapLibreExpression';
+  parameters: Record<string, string | number | mapboxgl.Expression>;
+};
+
+export type ColorsBySentiments = {
+  type: 'sentiments';
+  parameters: {
+    good: string;
+    bad: string;
+  };
+};
+
 export interface MCDAConfig {
   id: string;
   version: number;
@@ -12,10 +25,7 @@ export interface MCDAConfig {
     transformationFunction: TransformationFunction;
     normalization: Normalization;
   }>;
-  colors: {
-    good: string;
-    bad: string;
-  };
+  colors: ColorsBySentiments | ColorsByMapLibreExpression;
 }
 
 export type PopupMCDAProps = {

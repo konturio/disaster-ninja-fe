@@ -1,4 +1,9 @@
-import type { TransformationFunction, Normalization } from '../types';
+import type {
+  TransformationFunction,
+  Normalization,
+  ColorsBySentiments,
+  ColorsByMapLibreExpression,
+} from '../types';
 
 export interface JsonMCDAv1 {
   version?: 1;
@@ -48,4 +53,18 @@ export interface JsonMCDAv3 {
   };
 }
 
-export type JsonMCDA = JsonMCDAv1 | JsonMCDAv2 | JsonMCDAv3;
+export interface JsonMCDAv4 {
+  id?: string;
+  version: 4;
+  layers: Array<{
+    axis: [string, string];
+    range: [number, number];
+    sentiment: [string, string];
+    coefficient: number;
+    transformationFunction: 'no' | 'natural_logarithm' | 'square_root';
+    normalization: 'max-min' | 'no';
+  }>;
+  colors: ColorsBySentiments | ColorsByMapLibreExpression;
+}
+
+export type JsonMCDA = JsonMCDAv1 | JsonMCDAv2 | JsonMCDAv3 | JsonMCDAv4;
