@@ -118,11 +118,13 @@ export function createMCDAStyle(config: MCDAConfig) {
 
   const mcdaResult = linearNormalization(config.layers);
 
-  const layerStyle = {
+  const layerStyle: BivariateLayerStyle = {
     id: config.id,
     type: 'fill',
     layout: {},
     filter: filterSetup(config.layers),
+    // TODO - MCDA should have separate from bivariate renderer
+    // @ts-expect-error - any style props can be here
     paint: generateLayerPaint({
       colorsConfig: config.colors,
       mcdaResult,
