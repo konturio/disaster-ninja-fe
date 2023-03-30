@@ -6,45 +6,46 @@ import { parseMCDA } from './parser';
 
 const example = `
 {
-  "id":"MCDA",
-  "version": 3,
-  "layers":[
+  "id": "MCDA",
+  "version": 4,
+  "layers": [
      {
-        "axis": ["population", "area_km2"],
-        "range": [0, 46200],
-        "sentiment": ["good", "bad"],
+        "axis": [
+           "population",
+           "area_km2"
+        ],
+        "range": [
+           0,
+           46200
+        ],
+        "sentiment": [
+           "good",
+           "bad"
+        ],
         "coefficient": 1,
         "transformationFunction": "no",
-        "normalization": "max-min"
-     },
-     {
-        "axis": ["hazardous_days_count", "one"],
-        "range": [0, 365],
-        "sentiment": ["good", "bad"],
-        "coefficient": 1,
-        "transformationFunction": "natural_logarithm",
-        "normalization": "max-min"
-     },
-     {
-        "axis": ["highway_length", "total_road_length"],
-        "range": [0, 1],
-        "sentiment": ["bad", "good"],
-        "coefficient": 1,
-        "transformationFunction": "square_root",
-        "normalization": "max-min"
-     },
-     {
-      "axis": ["population", "area_km2"],
-      "range": [0, 46200],
-      "sentiment": ["good", "bad"],
-      "coefficient": 1,
-      "transformationFunction": "no",
-      "normalization": "no"
-   }
+        "normalization": "no"
+     }
   ],
-  "colors":{
-     "good": "rgba(90, 200, 127, 0.5)",
-     "bad": "rgba(228, 26, 28, 0.5)"
+  "colors": {
+     "type": "mapLibreExpression",
+     "parameters": {
+        "fill-color": [
+           [
+              "step",
+              [
+                 "var",
+                 "mcdaResult"
+              ],
+              "#51bbd6",
+              100,
+              "#f1f075",
+              24100,
+              "#f28cb1"
+           ]
+        ],
+        "fill-opacity": 0.7
+     }
   }
 }
 `;

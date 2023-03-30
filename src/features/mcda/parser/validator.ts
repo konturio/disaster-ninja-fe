@@ -1,7 +1,11 @@
-import type { Describe } from 'superstruct';
-import type { JsonMCDA, JsonMCDAv1, JsonMCDAv2, JsonMCDAv3 } from './types';
+import type { Describe, Infer } from 'superstruct';
+import type { JsonMCDA, JsonMCDAv1, JsonMCDAv2, JsonMCDAv3, JsonMCDAv4 } from './types';
 import type * as superstruct from 'superstruct';
-import type { TransformationFunction } from '../types';
+import type {
+  ColorsByMapLibreExpression,
+  ColorsBySentiments,
+  TransformationFunction,
+} from '../types';
 type Superstruct = typeof superstruct;
 
 const validators = {
@@ -9,6 +13,39 @@ const validators = {
     s.object({
       good: s.string(),
       bad: s.string(),
+    }),
+  mapExpression: (s: Superstruct) =>
+    s.define<string>('MapExpression', (v: unknown): v is maplibregl.Expression => {
+      const docLink = `\nRead about expressions here: https://maplibre.org/maplibre-gl-js-docs/style-spec/expressions/`;
+      if (!Array.isArray(v) || v.length === 0) {
+        return `Map expression must be a non-empty array.${docLink}` as unknown as boolean;
+      }
+
+      if (typeof v.at(0) === 'string') {
+        return `Expressions must start from expressions name.${docLink}` as unknown as boolean;
+      }
+
+      return true;
+    }),
+  colorsBySentiments: (s: Superstruct): Describe<ColorsBySentiments> =>
+    s.object({
+      type: s.literal('sentiments'),
+      parameters: validators.colors(s),
+    }),
+  colorsByExpression: (s: Superstruct): Describe<ColorsByMapLibreExpression> =>
+    s.object({
+      type: s.literal('mapLibreExpression'),
+      parameters: s.record(
+        s.string(),
+        s.union([
+          s.string(),
+          s.number(),
+          validators.mapExpression(s) as unknown as superstruct.Struct<
+            mapboxgl.Expression,
+            null
+          >,
+        ]),
+      ),
     }),
   transformationFunction: (s: Superstruct) =>
     s.define<string>(
@@ -66,7 +103,30 @@ const validators = {
     });
     return shape;
   },
+  JsonMCDAShapeV4: (s: Superstruct) => {
+    // can't use Describe<JsonMCDAv4> here since some mistake in Describe generic with unions
+    const shape = s.object({
+      id: s.optional(s.string()),
+      version: s.literal(4),
+      layers: s.array(
+        s.object({
+          axis: s.tuple([s.string(), s.string()]),
+          range: s.tuple([s.number(), s.number()]),
+          sentiment: s.tuple([s.string(), s.string()]),
+          coefficient: s.number(),
+          transformationFunction: s.enums(['no', 'natural_logarithm', 'square_root']),
+          normalization: s.enums(['max-min', 'no']),
+        }),
+      ),
+      colors: s.union([
+        validators.colorsBySentiments(s),
+        validators.colorsByExpression(s),
+      ]),
+    });
+    return shape;
+  },
 };
+
 /** TODO: Use some library for check ts interface in runtime */
 export const createValidator = async () => {
   const s = await import('superstruct');
@@ -82,6 +142,9 @@ export const createValidator = async () => {
         return true;
       case 3:
         assert(obj, validators.JsonMCDAShapeV3(s));
+        return true;
+      case 4:
+        assert(obj, validators.JsonMCDAShapeV4(s));
         return true;
       default:
         throw Error(`Unknown version of config: ${obj.version}`);
