@@ -11,7 +11,7 @@ export type AuthSuccessResponse = {
   jwtData: JWTData;
 };
 
-export class AuthService {
+class AuthService {
   private readonly storage: WindowLocalStorage['localStorage'] = globalThis.localStorage;
   private token = '';
   private refreshToken = '';

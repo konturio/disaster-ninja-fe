@@ -87,24 +87,19 @@ const in500s = (n: number): boolean => isWithin(500, 599, n);
 
 export type HEADERS = { [key: string]: string };
 
-export interface ApiErrorResponse<T> {
+export interface ApiErrorResponse<T> extends Response {
   ok: false;
   problem: PROBLEM_CODE;
-  originalError: object;
-
+  originalError?: object;
   data?: T;
-  status?: number;
-  headers?: HEADERS;
   config?: object;
   duration?: number;
 }
-export interface ApiOkResponse<T> {
+export interface ApiOkResponse<T> extends Response {
   ok: true;
   problem: null;
-  originalError: null;
+  // originalError: null;
   data: T | null;
-  status?: number;
-  headers?: HEADERS;
   config?: object;
   duration?: number;
 }

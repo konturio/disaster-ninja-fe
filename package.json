@@ -146,18 +146,18 @@
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
     "@types/sinon": "^10.0.13",
-    "@typescript-eslint/eslint-plugin": "^5.56.0",
-    "@typescript-eslint/parser": "^5.56.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
     "@uiw/react-github-corners": "1.5.15",
     "@vitejs/plugin-react": "^3.1.0",
-    "@vitest/coverage-c8": "^0.29.7",
+    "@vitest/coverage-c8": "^0.29.8",
     "ajv": "^8.12.0",
     "autoprefixer": "^10.4.14",
     "bundle-size-diff": "github:konturio/bundle-size-diff#v1.0.6",
     "cpr": "^3.0.1",
     "dependency-cruiser": "^12.11.0",
-    "eslint": "^8.36.0",
-    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint": "^8.37.0",
+    "eslint-import-resolver-typescript": "^3.5.4",
     "eslint-plugin-i18n-checker": "^1.4.0",
     "eslint-plugin-i18n-json": "^4.0.0",
     "eslint-plugin-import": "^2.27.5",
@@ -185,10 +185,10 @@
     "stylelint-config-recommended": "^6.0.0",
     "ts-json-schema-generator": "^1.2.0",
     "tsx": "^3.12.6",
-    "typescript": "4.9.5",
+    "typescript": "5.0.2",
     "vite": "^4.2.1",
     "vite-plugin-html": "^3.2.0",
     "vite-tsconfig-paths": "^4.0.7",
-    "vitest": "^0.29.7"
+    "vitest": "^0.29.8"
   }
 }

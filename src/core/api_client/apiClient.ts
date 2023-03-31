@@ -2,11 +2,11 @@ import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 import FormUrlAddon from 'wretch/addons/formUrl';
 import FormDataAddon from 'wretch/addons/formData';
-import AbortAddon from 'wretch/addons/abort';
 import jwtDecode from 'jwt-decode';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { ApiMethodTypes, getGeneralApiProblem } from './types';
 import { ApiClientError } from './apiClientError';
+import { parseApiError } from './errors';
 import type { ApiErrorResponse, ApiResponse } from '~utils/axios/apisauce/apisauce';
 import type {
   ApiClientConfig,
@@ -23,7 +23,7 @@ import type {
 } from './types';
 
 export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
-
+const E_TOKEN_ERROR = 'Token error';
 export class ApiClient {
   private static instances: Record<string, ApiClient> = {};
 
@@ -38,8 +38,9 @@ export class ApiClient {
   private token = '';
   private refreshToken = '';
   private tokenExpirationDate: Date | undefined;
-  private checkTokenPromise: Promise<boolean> | undefined;
-  public expiredTokenCallback?: () => void;
+  private tokenRefreshFlowPromise: Promise<boolean> | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public expiredTokenCallback = () => {};
   private readonly keycloakClientId: string;
   private baseURL: string;
 
@@ -97,52 +98,46 @@ export class ApiClient {
 
   /**
    * Authentication
+   * @throws {ApiClientError}
    */
-  private setAuth(token: string, refreshToken: string): JWTData | string {
-    let decodedToken: JWTData | undefined;
-
+  private setAuth(token: string, refreshToken: string): JWTData {
     try {
-      decodedToken = jwtDecode(token);
-    } catch (e) {
-      return "Can't decode token!";
-    }
-
-    if (decodedToken && decodedToken.exp) {
-      const expiringDate = new Date(decodedToken.exp * 1000);
-      if (expiringDate > new Date()) {
-        this.token = token;
-        this.refreshToken = refreshToken;
-        this.tokenExpirationDate = expiringDate;
-        this.storage.setItem(
-          LOCALSTORAGE_AUTH_KEY,
-          JSON.stringify({ token, refreshToken }),
-        );
-        return decodedToken;
-      } else {
-        return 'Wrong token expire time!';
+      const decodedToken: JWTData = jwtDecode(token);
+      if (decodedToken && decodedToken.exp) {
+        const expiringDate = new Date(decodedToken.exp * 1000);
+        if (expiringDate > new Date()) {
+          this.token = token;
+          this.refreshToken = refreshToken;
+          this.tokenExpirationDate = expiringDate;
+          this.storage.setItem(
+            LOCALSTORAGE_AUTH_KEY,
+            JSON.stringify({ token, refreshToken }),
+          );
+          return decodedToken;
+        } else {
+          console.error('Wrong token expire time');
+        }
       }
+    } catch (e) {
+      console.error("Can't decode token", e);
     }
-
-    return 'Wrong data received!';
+    throw new ApiClientError(E_TOKEN_ERROR, { kind: 'bad-data' });
   }
 
   getLocalAuthToken(callback: () => void): LocalAuthToken | undefined {
     this.expiredTokenCallback = callback;
-    const authStr = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
-    if (authStr) {
-      const { token, refreshToken } = JSON.parse(authStr);
-      if (token && refreshToken) {
-        const jwtData = this.setAuth(token, refreshToken);
-        if (typeof jwtData === 'string') {
-          this.resetAuth();
-          // FIXME: implement correct i18n usage for errors, do not translationService.t(var) !!!
-          throw new ApiClientError(this.translationService.t(jwtData), {
-            kind: 'bad-data',
-          });
+    try {
+      const authStr = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
+      if (authStr) {
+        const { token, refreshToken } = JSON.parse(authStr);
+        if (token && refreshToken) {
+          const jwtData = this.setAuth(token, refreshToken);
+          return { token, refreshToken, jwtData };
         }
-        return { token, refreshToken, jwtData };
       }
-    }
+    } catch (e) {}
+    // local token absent or invalid
+    this.resetAuth();
   }
 
   private resetAuth() {
@@ -152,49 +147,45 @@ export class ApiClient {
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
   }
 
-  private async checkTokenIsExpired(): Promise<boolean> {
-    if (!this.checkTokenPromise) {
-      // eslint-disable-next-line no-async-promise-executor
-      this.checkTokenPromise = new Promise<boolean>(async (resolve) => {
-        // if token has less then 5 minutes lifetime, refresh it
-        if (this.tokenExpirationDate) {
-          const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
-          if (diffTime < 0) {
-            this.resetAuth();
-            if (this.expiredTokenCallback) {
-              this.expiredTokenCallback();
-            }
-            resolve(false);
-            return false;
-          }
-          const minutes5 = 1000 * 60 * 5;
-          if (diffTime < minutes5) {
-            const refreshResult = await this.refreshAuthToken();
-            if (refreshResult && typeof refreshResult !== 'string') {
-              resolve(true);
-              return true;
-            }
-            if (this.expiredTokenCallback) {
-              this.expiredTokenCallback();
-            }
-            resolve(false);
-            return false;
-          }
-          resolve(true);
+  /**
+   * @throws {ApiClientError}
+   */
+  private async tokenRefreshFlow() {
+    if (this.tokenExpirationDate) {
+      const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
+      if (diffTime < 0) {
+        // token expired
+        this.resetAuth();
+        return false;
+      }
+
+      const minutes5 = 1000 * 60 * 5;
+      if (diffTime < minutes5) {
+        // token expires soon - less then 5 minutes lifetime, refresh it
+        const refreshResult = await this.refreshAuthToken();
+        if (refreshResult && typeof refreshResult !== 'string') {
           return true;
         }
-
-        if (this.expiredTokenCallback) {
-          this.expiredTokenCallback();
-        }
-        resolve(false);
         return false;
-      });
+      }
+      return true;
     }
+    return false;
+  }
 
-    const res = await this.checkTokenPromise;
-    this.checkTokenPromise = undefined;
-    return res;
+  /**
+   * @throws {ApiClientError}
+   */
+  private async isTokenOk(): Promise<boolean> {
+    if (!this.tokenRefreshFlowPromise) {
+      this.tokenRefreshFlowPromise = this.tokenRefreshFlow();
+    }
+    const tokenCheck = await this.tokenRefreshFlowPromise;
+    this.tokenRefreshFlowPromise = undefined;
+    if (!tokenCheck) {
+      this.expiredTokenCallback();
+    }
+    return tokenCheck;
   }
 
   /**
@@ -213,6 +204,7 @@ export class ApiClient {
       this.unauthorizedCallback &&
       (response.status === 401 || response.status === 403)
     ) {
+      // TODO: route to login page
       this.unauthorizedCallback(this);
     }
     const problem = getGeneralApiProblem(response);
@@ -229,7 +221,6 @@ export class ApiClient {
         errorMessage = errorsConfig.messages;
       }
     }
-
     if (!errorMessage) {
       errorMessage = parseApiError(problem, this.translationService);
     }
@@ -246,36 +237,10 @@ export class ApiClient {
     throw new ApiClientError(errorMessage, problem);
   }
 
-  private async checkToken(
-    axiosConfig: AxiosRequestConfig,
-  ): Promise<ApiErrorResponse<GeneralApiProblem> | false> {
-    const tokenCheck = await this.checkTokenIsExpired();
-    if (!tokenCheck) {
-      const originalError = {
-        isAxiosError: false,
-        message: 'TOKEN ERROR',
-        name: 'Token error',
-        config: axiosConfig,
-      };
-
-      return {
-        ok: false,
-        problem: 'CLIENT_ERROR',
-        status: 401,
-        originalError: {
-          ...originalError,
-          toJSON: () => originalError,
-        },
-      };
-    }
-
-    return false;
-  }
-
-  public async login(
-    username: string,
-    password: string,
-  ): Promise<LocalAuthToken | string | undefined> {
+  /**
+   * @throws {ApiClientError}
+   */
+  public async login(username: string, password: string): Promise<LocalAuthToken> {
     const params = {
       username: username,
       password: password,
@@ -283,43 +248,33 @@ export class ApiClient {
       grant_type: 'password',
     };
 
-    // : ApiResponse<KeycloakAuthResponse, GeneralApiProblem>
     const response = await wretch(this.loginApiPath)
       .addon(FormUrlAddon)
       .formUrl(params)
       .post()
-      .res();
+      .res(parseBody) as ApiResponse<KeycloakAuthResponse>;
 
-    if (response.ok) {
-      response.data = await response.json();
-      return this.consumeTokenOrThrow(response);
-    } else {
-      return response.data?.error_description;
-    }
+    return this.consumeTokenOrThrow(response);
   }
 
   /**
-   * @returns {Promise} {LocalAuthToken} | {string} with error,
    * @throws {ApiClientError}
    */
-  public async refreshAuthToken(): Promise<string | LocalAuthToken | undefined> {
+  public async refreshAuthToken(): Promise<LocalAuthToken | undefined> {
     const params = {
       client_id: this.keycloakClientId,
       refresh_token: this.refreshToken,
       grant_type: 'refresh_token',
     };
 
-    const response = await wretch(this.refreshTokenApiPath)
+    const response = (await wretch(this.refreshTokenApiPath)
       .addon(FormUrlAddon)
       .formUrl(params)
       .post()
-      .res();
+      .res(parseBody)) as ApiResponse<KeycloakAuthResponse>;
 
     if (response.ok) {
-      response.data = await response.json();
       return this.consumeTokenOrThrow(response);
-    } else {
-      return response.data?.error_description;
     }
   }
 
@@ -327,79 +282,43 @@ export class ApiClient {
    * @throws {ApiClientError}
    */
   private consumeTokenOrThrow(
-    response: ApiResponse<KeycloakAuthResponse, GeneralApiProblem>,
-  ): LocalAuthToken | undefined {
-    if (response.ok) {
-      if (response.data && response.data.access_token) {
-        const setAuthResult = this.setAuth(
-          response.data.access_token,
-          response.data.refresh_token,
-        );
-
-        if (typeof setAuthResult === 'string') {
-          throw new ApiClientError(this.translationService.t(setAuthResult), {
-            kind: 'bad-data',
-          });
-        } else {
-          return {
-            token: response.data.access_token,
-            refreshToken: response.data.refresh_token,
-            jwtData: setAuthResult,
-          };
-        }
-      } else {
-        if (response.status === 204) {
-          throw new ApiClientError(this.translationService.t('no_data_received'), {
-            kind: 'no-data',
-          });
-        } else {
-          throw new ApiClientError(this.translationService.t('wrong_data_received'), {
-            kind: 'bad-data',
-          });
-        }
-      }
+    response: ApiResponse<KeycloakAuthResponse>,
+  ): LocalAuthToken {
+    if (response.ok && response.data && response.data.access_token) {
+      const setAuthResult = this.setAuth(
+        response.data.access_token,
+        response.data.refresh_token,
+      );
+      return {
+        token: response.data.access_token,
+        refreshToken: response.data.refresh_token,
+        jwtData: setAuthResult,
+      };
     }
+    if (response.data?.error_description) {
+      console.error(response.data?.error_description);
+    }
+    throw new ApiClientError(E_TOKEN_ERROR, { kind: 'bad-data' });
   }
 
   async logout() {
     this.resetAuth();
   }
+
   public async call<T>(
     method: ApiMethod,
     path: string,
     requestParams?: unknown,
     useAuth = !this.disableAuth,
-    requestConfig?: CustomRequestConfig,
+    requestConfig: CustomRequestConfig = {},
   ): Promise<T | null> {
-    if (!requestConfig) {
-      requestConfig = {};
-    }
-
     const RequestsWithBody = ['post', 'put', 'patch'];
-
-    if (!this.disableAuth && useAuth && this.token) {
-      const tokenCheckError = await this.checkToken(requestConfig);
-      if (tokenCheckError) {
-        return await this.getResponseDataOrThrow<T>(
-          tokenCheckError,
-          requestConfig?.errorsConfig,
-        );
-      }
-
-      if (!requestConfig.headers) {
-        requestConfig.headers = {};
-      }
-
-      if (!requestConfig.headers.Authorization) {
-        requestConfig.headers.Authorization = `Bearer ${this.token}`;
-      }
-    }
 
     let req = wretch(this.baseURL, { mode: 'cors' })
       .addon(FormDataAddon)
       .addon(FormUrlAddon)
       .addon(QueryStringAddon)
-      .addon(AbortAddon());
+      .url(path);
 
     if (requestParams) {
       req = RequestsWithBody.includes(method)
@@ -411,21 +330,21 @@ export class ApiClient {
       req = req.headers(requestConfig.headers);
     }
 
+    if (!this.disableAuth && useAuth && this.token) {
+      const tokenOk = await this.isTokenOk();
+      if (tokenOk) {
+        req = req.auth(`Bearer ${this.token}`);
+      }
+    }
+
     if (requestConfig.signal) {
       req = req.options({ signal: requestConfig.signal });
     }
 
-    const response = await req
-      .url(path)
-      [method]()
-      .res((res) => {
-        console.debug(res);
-        return res;
-      });
-
-    if (response.ok) {
-      response.data = await response.json();
-    }
+    const response = (await req[method]().res(parseBody)) as ApiResponse<
+      T,
+      GeneralApiProblem
+    >;
 
     return this.getResponseDataOrThrow<T>(response, requestConfig?.errorsConfig);
   }
@@ -475,55 +394,12 @@ export class ApiClient {
     return this.call(ApiMethodTypes.DELETE, path, undefined, useAuth, requestConfig);
   }
 }
-
-function parseApiError(
-  errorResponse: GeneralApiProblem,
-  i18n: ITranslationService,
-): string {
-  if (errorResponse && 'data' in errorResponse) {
-    const { data: errorData } = errorResponse;
-    if (errorData !== null) {
-      if (Array.isArray(errorData)) {
-        return errorData
-          .map((errorMsg) =>
-            errorMsg.name && errorMsg.message
-              ? `${errorMsg.name}: ${errorMsg.message}`
-              : errorMsg,
-          )
-          .join('<br/>');
-      }
-      if (errorData instanceof Object) {
-        if (errorData.hasOwnProperty('error')) return errorData['error'];
-        if (errorData.hasOwnProperty('errors') && Array.isArray(errorData['errors'])) {
-          return errorData['errors']
-            .reduce((acc, errorObj) => {
-              if (errorObj.hasOwnProperty('message')) {
-                acc.push(errorObj['message']);
-              }
-              return acc;
-            }, [])
-            .join('<br/>');
-        }
-      }
-
-      return String(errorData);
+async function parseBody(res) {
+  if (res.ok) {
+    const contentType = res.headers.get('content-type');
+    if (contentType === 'application/json') {
+      res.data = await res.json();
     }
-
-    return 'Unknown Error';
   }
-
-  switch (errorResponse.kind) {
-    case 'timeout':
-      return i18n.t('errors.timeout');
-    case 'cannot-connect':
-      return i18n.t('errors.cannot_connect');
-    case 'forbidden':
-      return i18n.t('errors.forbidden');
-    case 'not-found':
-      return i18n.t('errors.not_found');
-    case 'unknown':
-      return i18n.t('errors.unknown');
-    default:
-      return i18n.t('errors.server_error');
-  }
+  return res;
 }

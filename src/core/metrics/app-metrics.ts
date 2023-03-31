@@ -12,7 +12,7 @@ import { Sequence } from './sequence';
 import type { MetricsReportTemplate, MetricsEvent, Metric } from './types';
 import type { AppFeatureType } from '~core/auth/types';
 
-const APP_METRICS_ENDPOINT = appConfig.apiGateway + '/rum/metrics';
+const APP_METRICS_ENDPOINT = '/rum/metrics';
 
 class MetricMarker {
   readonly event: string;
