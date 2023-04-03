@@ -1,4 +1,3 @@
-import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
 import { AppFeature } from '~core/auth/types';
@@ -11,8 +10,6 @@ import {
 import { Sequence } from './sequence';
 import type { MetricsReportTemplate, MetricsEvent, Metric } from './types';
 import type { AppFeatureType } from '~core/auth/types';
-
-const APP_METRICS_ENDPOINT = '/rum/metrics';
 
 class MetricMarker {
   readonly event: string;
@@ -220,7 +217,7 @@ export class AppMetrics implements Metric {
   }
 
   sendReports() {
-    apiClient.post(APP_METRICS_ENDPOINT, this.reports, true).catch((error) => {
+    apiClient.post('/rum/metrics', this.reports, true).catch((error) => {
       console.error('error posting metrics :', error, this.reports);
     });
   }
