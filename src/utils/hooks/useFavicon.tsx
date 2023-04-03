@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { createElement, useEffect } from 'react';
 import { transformIconLink } from '~utils/common';
 
 export function useFavicon(iconPath?: string) {
@@ -7,12 +7,10 @@ export function useFavicon(iconPath?: string) {
     if (!iconPath) return;
     const iconLink = transformIconLink(iconPath);
 
-    const linkElements = document.querySelectorAll(
-      "link[rel~='icon']",
-    ) as NodeListOf<HTMLLinkElement>;
-
-    linkElements.forEach((linkEl) => {
-      linkEl.href = iconLink;
-    });
+    const linkElement = document.createElement('link');
+    linkElement.type = 'image/svg+xml';
+    linkElement.rel = 'icon';
+    linkElement.href = iconLink;
+    document.head.appendChild(linkElement);
   }, [iconPath]);
 }
