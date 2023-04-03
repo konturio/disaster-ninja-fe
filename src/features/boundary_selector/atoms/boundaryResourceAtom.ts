@@ -8,9 +8,9 @@ export const boundaryResourceAtom = createAsyncAtom(
   async (params, abortController) => {
     if (!params) return null;
     const { lng, lat } = params;
-    const responseData = await apiClient.get<GeoJSON.FeatureCollection | null>(
+    const responseData = await apiClient.post<GeoJSON.FeatureCollection | null>(
       '/boundaries',
-      { geom: new GeoJSONPoint([lng, lat]) },
+      new GeoJSONPoint([lng, lat]),
       false,
       { signal: abortController.signal },
     );
