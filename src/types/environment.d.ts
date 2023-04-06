@@ -6,6 +6,12 @@ declare global {
   interface RuntimeConfig {
     API_URL: string;
   }
+
+  namespace JSX {
+    interface IntrinsicElements {
+      'map-gl': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>; // Normal web component
+    }
+  }
 }
 
 interface ImportMetaEnv extends Readonly<Record<string, string>> {
