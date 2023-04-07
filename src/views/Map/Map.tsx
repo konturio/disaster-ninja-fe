@@ -9,6 +9,9 @@ import { layersPanel } from '~features/layers_panel';
 import { FullAndShortStatesPanelWidget } from '~widgets/FullAndShortStatesPanelWidget';
 import { analyticsPanel } from '~features/analytics_panel';
 import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
+import { IntercomBTN } from '~features/intercom/IntercomBTN';
+import { ScaleControl } from '~components/ConnectedMap/ScaleControl/ScaleControl';
+import { Copyrights } from '~components/Copyrights';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -118,9 +121,10 @@ export function MapPage() {
           toolbar={<Toolbar />}
           footer={
             <div className={clsx(s.footer, s.clickThrough)}>
-              <div className={s.logo}>
-                <Logo height={24} palette="contrast" />
-              </div>
+              <ScaleControl />
+              <Copyrights />
+              <Logo height={24} palette="contrast" />
+              <IntercomBTN />
             </div>
           }
           editPanel={<EditFeaturesOrLayerPanel />}

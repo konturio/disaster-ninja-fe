@@ -1,0 +1,11 @@
+.scale {
+  background-color: #ffffffbf;
+  font-size: 10px;
+  border: 2px solid #333;
+  border-top: none;
+  padding: 0 5px;
+  color: #333;
+  box-sizing: border-box;
+  margin: 0;
+  height: 20px;
+}

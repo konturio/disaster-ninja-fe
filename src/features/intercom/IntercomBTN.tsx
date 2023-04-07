@@ -1,6 +1,7 @@
 import { useAtom } from '@reatom/react';
 import { intercomVisibleAtom } from '.';
-import 'intercom.css';
+import './intercom.css';
+
 /* Just placeholder */
 export function IntercomBTN() {
   const [isVisible] = useAtom(intercomVisibleAtom);

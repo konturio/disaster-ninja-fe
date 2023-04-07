@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { arraysAreEqualWithStrictOrder } from '~utils/array/arraysAreEqual';
+import { arraysAreEqualWithStrictOrder } from '~utils/common/equality';
 import { bivariateColorManagerResourceAtom } from './bivariateColorManagerResource';
 import type {
   BivariateColorManagerData,

@@ -36,12 +36,11 @@
   height: 100%;
   width: 100%;
   position: relative;
-}
-
-.logo {
-  position: absolute;
-  bottom: 0px;
-  right: calc(54px + var(--half-unit));
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: end;
+  gap: var(--unit);
 }
 
 /* laptop viewport */
@@ -50,16 +49,6 @@
     position: relative;
     grid-column: 1/2;
     grid-row: -2;
-  }
-}
-
-/* Mobile view */
-@media screen and (max-width: 960px) {
-  .footer {
-    & .logo {
-      right: calc(58px + var(--half-unit));
-      bottom: var(--unit);
-    }
   }
 }
 
