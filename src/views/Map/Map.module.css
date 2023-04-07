@@ -39,8 +39,16 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   gap: var(--unit);
+  padding: 0 var(--unit);
+}
+
+@media screen and (max-width: 480px) {
+  .footer {
+    flex-flow: column nowrap;
+    align-items: flex-start;
+  }
 }
 
 /* laptop viewport */

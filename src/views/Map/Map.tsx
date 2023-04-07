@@ -11,7 +11,7 @@ import { analyticsPanel } from '~features/analytics_panel';
 import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
 import { IntercomBTN } from '~features/intercom/IntercomBTN';
 import { ScaleControl } from '~components/ConnectedMap/ScaleControl/ScaleControl';
-import { Copyrights } from '~components/Copyrights';
+import { Copyrights } from '~components/Copyrights/Copyrights';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 

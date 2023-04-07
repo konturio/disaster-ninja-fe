@@ -1,7 +1,9 @@
 import { useAtom } from '@reatom/react';
+import cn from 'clsx';
 import { useEffect, useState } from 'react';
 import { currentMapAtom } from '~core/shared_state';
 import { arraysAreEqual } from '~utils/common/equality';
+import s from './Copyrights.module.css';
 
 /**
  * @Akiyamka:
@@ -42,6 +44,7 @@ function collectAttributionsFromMap(map): Array<string> {
 export function Copyrights() {
   const [map] = useAtom(currentMapAtom);
   const [attributions, setAttributions] = useState(Array<string>());
+  const [showOnMobile, setShowOnMobile] = useState(false);
 
   useEffect(() => {
     if (map === null) return;
@@ -63,10 +66,20 @@ export function Copyrights() {
   }, [map]);
 
   return (
-    <div>
-      {attributions.map((attr) => (
-        <span key={attr}>{attr}</span>
-      ))}
+    <div className={s.copyrights}>
+      <button
+        onClick={() => setShowOnMobile((curr) => !curr)}
+        className={s.attributionBtn}
+        type="button"
+        title="Toggle attribution"
+        aria-label="Toggle attribution"
+        aria-pressed="false"
+      ></button>
+      <div className={cn(s.attributions, { [s.showOnMobile]: showOnMobile })}>
+        {attributions.map((attr) => (
+          <div key={attr}>{attr}</div>
+        ))}
+      </div>
     </div>
   );
 }
