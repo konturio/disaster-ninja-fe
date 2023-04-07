@@ -1,11 +1,15 @@
 import { appConfig } from '~core/app_config';
 import { cookieManagementService, permissionStatuses } from '~core/cookie_settings';
+import { createBooleanAtom } from '~utils/atoms';
+
+export const intercomVisibleAtom = createBooleanAtom(false);
 
 export function initIntercom() {
   const intercomPermission = cookieManagementService.requestPermission('Intercom');
   intercomPermission.onStatusChange((status) => {
     if (status === permissionStatuses.granted) {
       connectAndConfigureIntercom();
+      intercomVisibleAtom.setTrue.dispatch(); // Add empty space in footer for intercom
     }
   });
 }
@@ -27,7 +31,7 @@ function connectAndConfigureIntercom() {
   /* eslint-disable */
   // We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/e59cl64z'
   (function () {
-    let intercom = globalThis.Intercom;
+    const intercom = globalThis.Intercom;
     if (typeof intercom === 'function') {
       intercom('reattach_activator');
       intercom('update', globalThis.intercomSettings);
