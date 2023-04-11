@@ -76,6 +76,7 @@ export function createLogicalLayerAtom(
         legend: null,
         source: null,
         contextMenu: null,
+        style: null,
       },
     ) => {
       const actions: Action[] = [];
@@ -114,6 +115,7 @@ export function createLogicalLayerAtom(
         legend: deepFreeze(asyncLayerLegend.data),
         source: deepFreeze(asyncLayerSource.data),
         contextMenu: deepFreeze(layersMenus),
+        style: asyncLayerSource.data?.style ?? null,
       };
 
       /* Init (lazy) */
