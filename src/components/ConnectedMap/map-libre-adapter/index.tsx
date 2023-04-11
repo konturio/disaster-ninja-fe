@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useAtom } from '@reatom/react';
-import { currentUserAtom } from '~core/shared_state';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { EVENT_MAP_IDLE } from '~core/metrics/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
@@ -102,7 +100,6 @@ function MapboxMap(
   const [map, setMap] = useState<Map | null>(null);
   const mapEl = useRef<HTMLDivElement | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [currentUserData] = useAtom(currentUserAtom);
 
   /* On map instance */
   useEffect(() => {
@@ -122,6 +119,7 @@ function MapboxMap(
     const mapInstance = new mapLibre.Map({
       container: current,
       style: externalStyleLink,
+      attributionControl: false,
       ...mapLocation,
       ...options,
     });
@@ -390,25 +388,7 @@ function MapboxMap(
     });
   }, [map, mapLoaded]);
 
-  // Add single scale control
-  const [scaleControl, setScaleControl] = useState<mapLibre.ScaleControl | null>(null);
-  useEffect(() => {
-    if (!map || !mapLoaded) return;
-    scaleControl && map.hasControl(scaleControl) && map.removeControl(scaleControl);
-    const newControl = getMapControl(currentUserData?.useMetricUnits);
-    map.addControl(newControl, 'bottom-right');
-    setScaleControl(newControl);
-  }, [map, currentUserData?.useMetricUnits, mapLoaded]);
-
   return <div className={className} ref={mapEl} />;
 }
 
 export default forwardRef(MapboxMap);
-
-function getMapControl(useMetricUnits?: boolean) {
-  const scale = new mapLibre.ScaleControl({
-    maxWidth: 100,
-    unit: useMetricUnits ? 'metric' : 'imperial',
-  });
-  return scale;
-}

@@ -1,0 +1,43 @@
+.intercom-launcher-frame,
+.intercom-lightweight-app-launcher {
+  transform: scale(0.8) !important;
+}
+.intercom-lightweight-app-launcher.intercom-launcher,
+.intercom-namespace .intercom-app .intercom-dfosxs {
+  bottom: var(--half-unit);
+  right: var(--double-unit);
+  margin-bottom: var(--half-unit) !important;
+}
+
+/* handling app header here bacause 
+  a) it's global component 
+  b) following requironments are specific for this app
+  Requironments for this app is to hide chat button on mobile viewport
+  I also aligned intercom chat button with mapbox info icon to free up more map space in the middle
+*/
+@media screen and (max-width: 960px) {
+  #kontur_header_chat_btn {
+    display: none;
+  }
+  .intercom-lightweight-app-launcher.intercom-launcher {
+    bottom: var(--half-unit);
+    right: calc(10px + var(--half-unit));
+  }
+  /* move map controls to the right so kontur logo wouldn't be overlapped */
+  .maplibregl-control-container .maplibregl-ctrl-bottom-right {
+    right: calc(140px + var(--unit));
+    flex-wrap: wrap-reverse;
+    bottom: calc(9px + var(--unit));
+    & .mapboxgl-ctrl-attrib.mapboxgl-compact {
+      display: flex;
+      margin: 0;
+      background-color: unset;
+      /* mapbox default background for non-compact element. Feel free to change when needed */
+      background-color: hsla(0, 0%, 100%, 0.5);
+      /* maplibre (i) logo */
+      & button {
+        position: relative;
+      }
+    }
+  }
+}
