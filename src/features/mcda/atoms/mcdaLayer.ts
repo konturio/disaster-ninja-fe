@@ -1,13 +1,16 @@
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
-import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
-import {
-  createMCDASource,
-  createMCDAStyle,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/mcdaStyle';
-import { MCDARenderer } from '../../../core/logical_layers/renderers/MCDARenderer';
-import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
+import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
+import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
+import appConfig from '~core/app_config';
+import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
+import type {
+  JsonMCDAv4,
+  MCDAConfig,
+} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { Action } from '@reatom/core';
 
 export const mcdaLayerAtom = createAtom(
   {
@@ -18,53 +21,56 @@ export const mcdaLayerAtom = createAtom(
   ({ onAction, schedule, getUnlistedState, create }) => {
     onAction('calcMCDA', (json) => {
       const id = json.id;
-      const layerStyle = createMCDAStyle(json);
-      const source = createMCDASource(id, layerStyle.source!);
 
-      const [updateActions, cleanUpActions] = createUpdateLayerActions([
-        {
+      const actions: Array<Action> = [
+        // Set layer settings once
+        layersSettingsAtom.set(
           id,
-          legend: undefined,
-          meta: undefined,
-          source,
-        },
-      ]);
-
-      const currentSettings = getUnlistedState(layersSettingsAtom);
-      if (!currentSettings.has(id)) {
-        updateActions.push(
-          ...createUpdateLayerActions([
-            {
-              id,
-              settings: {
-                id,
-                name: id,
-                category: 'overlay' as const,
-                group: 'bivariate',
-                ownedByUser: true,
-              },
-            },
-          ]).flat(),
-        );
-      }
-
-      // Register and Enable
-      const currentRegistry = getUnlistedState(layersRegistryAtom);
-      if (!currentRegistry.has(id)) {
-        updateActions.push(
-          layersRegistryAtom.register({
+          createAsyncWrapper({
+            name: id,
             id,
-            renderer: new MCDARenderer({ id, layerStyle, json }),
-            cleanUpActions,
+            category: 'overlay' as const,
+            group: 'bivariate',
+            ownedByUser: true,
           }),
-          create('enableMCDALayer', id),
-        );
-      }
+        ),
 
-      if (updateActions.length) {
-        schedule((dispatch, ctx: { mcdaLayerAtomId?: string } = {}) => {
-          dispatch(updateActions);
-          ctx.mcdaLayerAtomId = id;
+        // Set layer source
+        layersSourcesAtom.set(
+          id,
+          createAsyncWrapper({
+            id,
+            maxZoom: 8,
+            minZoom: 0,
+            source: {
+              type: 'vector' as const,
+              urls: [
+                `${adaptTileUrl(
+                  appConfig.bivariateTilesRelativeUrl,
+                )}{z}/{x}/{y}.mvt?indicatorsClass=${
+                  appConfig.bivariateTilesIndicatorsClass
+                }`,
+              ],
+              tileSize: 512,
+              apiKey: '',
+            },
+            style: {
+              type: 'mcda',
+              config: json as JsonMCDAv4,
+            },
+          }),
+        ),
+
+        // Register and Enable
+        layersRegistryAtom.register({
+          id,
+          renderer: new BivariateRenderer({ id }),
+        }),
+      ];
+
+      if (actions.length) {
+        schedule((dispatch) => {
+          dispatch(actions);
         });
       }
     });

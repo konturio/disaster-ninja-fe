@@ -8,7 +8,6 @@ import {
 import { sumBy } from '~utils/common';
 import { DEFAULT_GREEN, DEFAULT_RED } from './calculations/constants';
 import { calculateLayerPipeline, inStyleCalculations } from './calculations';
-import type { BivariateLayerSource } from '~utils/bivariate/bivariateColorThemeUtils';
 import type { MCDAConfig } from './types';
 
 //@ts-expect-error - not clear how to type this right, but this compromise do the trick
@@ -145,18 +144,4 @@ export function createMCDAStyle(config: MCDAConfig) {
   };
 
   return layerStyle;
-}
-
-export function createMCDASource(id: string, source: BivariateLayerSource) {
-  return {
-    id,
-    maxZoom: source.maxzoom,
-    minZoom: source.minzoom,
-    source: {
-      type: source.type,
-      urls: source.tiles,
-      tileSize: 512,
-      apiKey: '',
-    },
-  };
 }
