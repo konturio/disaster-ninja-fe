@@ -30,7 +30,6 @@ export function Layout({
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-
   if (isMobile)
     return (
       <MobileLayout

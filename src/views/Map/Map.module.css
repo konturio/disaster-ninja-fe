@@ -36,12 +36,19 @@
   height: 100%;
   width: 100%;
   position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--unit);
+  padding: 0 var(--unit);
 }
 
-.logo {
-  position: absolute;
-  bottom: 0px;
-  right: calc(54px + var(--half-unit));
+@media screen and (max-width: 480px) {
+  .footer {
+    flex-flow: column nowrap;
+    align-items: flex-start;
+  }
 }
 
 /* laptop viewport */
@@ -53,16 +60,17 @@
   }
 }
 
-/* Mobile view */
-@media screen and (max-width: 960px) {
-  .footer {
-    & .logo {
-      right: calc(58px + var(--half-unit));
-      bottom: var(--unit);
-    }
-  }
-}
-
 .afterChatContentWrap {
   display: flex;
+}
+
+.footerBackground {
+  padding: 2px;
+  border-radius: 2px;
+  display: flex;
+  gap: var(--unit);
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: rgba(255, 255, 255, 0.7);
 }
