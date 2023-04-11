@@ -2,12 +2,14 @@ import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
-import { MCDARenderer } from '../../renderers/MCDARenderer';
-import { createMCDAStyle } from './mapStyle';
-import type { BivariateLayerSource } from '~utils/bivariate/bivariateColorThemeUtils';
-import type { MCDAConfig } from '../../types';
+import {
+  createMCDASource,
+  createMCDAStyle,
+} from '~core/logical_layers/renderers/stylesConfigs/mcda/mcdaStyle';
+import { MCDARenderer } from '../../../core/logical_layers/renderers/MCDARenderer';
+import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
-export const mcdaCalculationAtom = createAtom(
+export const mcdaLayerAtom = createAtom(
   {
     calcMCDA: (json: MCDAConfig) => json,
     enableMCDALayer: (layerId: string) => layerId,
@@ -17,19 +19,7 @@ export const mcdaCalculationAtom = createAtom(
     onAction('calcMCDA', (json) => {
       const id = json.id;
       const layerStyle = createMCDAStyle(json);
-
-      const layerSource: BivariateLayerSource = layerStyle.source!;
-      const source = {
-        id,
-        maxZoom: layerSource.maxzoom,
-        minZoom: layerSource.minzoom,
-        source: {
-          type: layerSource.type,
-          urls: layerSource.tiles,
-          tileSize: 512,
-          apiKey: '',
-        },
-      };
+      const source = createMCDASource(id, layerStyle.source!);
 
       const [updateActions, cleanUpActions] = createUpdateLayerActions([
         {
@@ -101,5 +91,5 @@ export const mcdaCalculationAtom = createAtom(
       });
     });
   },
-  'mcdaCalculation',
+  'mcdaLayer',
 );
