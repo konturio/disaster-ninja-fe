@@ -54,6 +54,8 @@ export function ConnectedMap({ className }: { className?: string }) {
     if (mapRef.current && !globalThis.KONTUR_MAP) {
       console.info('Map instance available by window.KONTUR_MAP', mapRef.current);
       globalThis.KONTUR_MAP = mapRef.current;
+      // https://maplibre.org/maplibre-gl-js-docs/api/handlers/#touchzoomrotatehandler#disablerotation
+      mapRef.current.touchZoomRotate.disableRotation();
       // @ts-expect-error Fix for react dev tools
       mapRef.current.toJSON = () => '[Mapbox Object]';
       // Fix - map fitBounds for incorrectly, because have incorrect internal state abut self canvas size
