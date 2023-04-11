@@ -26,7 +26,6 @@ import type {
   VectorSource,
   MapBoxZoomEvent,
 } from 'maplibre-gl';
-import type { MapListener } from '~core/shared_state/mapListeners';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type {
   BivariateLegend,
