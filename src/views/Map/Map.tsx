@@ -121,9 +121,11 @@ export function MapPage() {
           toolbar={<Toolbar />}
           footer={
             <div className={clsx(s.footer, s.clickThrough)}>
-              <ScaleControl />
-              <Copyrights />
-              <Logo height={24} palette="contrast" />
+              <div className={s.footerBackground}>
+                <ScaleControl />
+                <Copyrights />
+                <Logo height={24} palette="contrast" />
+              </div>
               <IntercomBTN />
             </div>
           }

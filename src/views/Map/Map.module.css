@@ -63,3 +63,14 @@
 .afterChatContentWrap {
   display: flex;
 }
+
+.footerBackground {
+  padding: 2px;
+  border-radius: 2px;
+  display: flex;
+  gap: var(--unit);
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: rgba(255, 255, 255, 0.7);
+}
