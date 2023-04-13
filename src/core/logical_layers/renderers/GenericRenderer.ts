@@ -15,6 +15,7 @@ import { layerByOrder } from '~core/logical_layers';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
+import { styleConfigs } from './stylesConfigs';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
 import type maplibregl from 'maplibre-gl';
@@ -26,6 +27,7 @@ import type {
   LayerSource,
   LayerTileSource,
 } from '~core/logical_layers/types/source';
+import type { LayerStyle } from '../types/style';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -58,6 +60,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     map: ApplicationMap,
     layer: LayerGeoJSONSource,
     legend: LayerLegend | null,
+    style: LayerStyle | null,
   ) {
     /* Create source */
     const mapSource: GeoJSONSourceRaw = {
@@ -76,53 +79,53 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         },
       );
     }
+
     /* Create layer */
-    if (legend && legend.steps.length) {
-      const layerStyles = _generateLayersFromLegend(legend);
-      const layers = this._setLayersIds(layerStyles);
-      this.highestLayerType = getHighestType(layers);
-      layers.forEach((mapLayer) => {
-        const layer = map.getLayer(mapLayer.id);
-        if (layer) {
-          map.removeLayer(layer.id);
-        }
-        layerByOrder(map).addAboveLayerWithSameType(mapLayer, this.id);
-        this._layerIds.add(mapLayer.id);
-      });
-      // cleanup unused layers
-      this._layerIds.forEach((id) => {
-        if (!layers.find((layer) => layer.id === id)) {
-          if (map.getLayer(id)) {
-            map.removeLayer(id);
-            this._layerIds.delete(id);
-          }
-          return;
-        }
-      });
+
+    let layerStyles = Array<AnyLayer>();
+
+    if (style && style.type in styleConfigs) {
+      // New way to describe layers - styles sended separately from legend
+      layerStyles = styleConfigs[style.type](style.config);
+    } else if (legend && legend.steps.length) {
+      // Old way - styles guessed from legend if possible
+      layerStyles = _generateLayersFromLegend(legend);
     } else {
       // Fallback layer
-      const layerId = `${LAYER_IN_AREA_PREFIX + this.id}`;
-      if (map.getLayer(layerId)) return;
-      const mapLayer = {
-        id: layerId,
-        source: this._sourceId,
+      layerStyles.push({
+        id: 'fallback',
         type: 'fill' as const,
+        source: this._sourceId,
         paint: {
           'fill-color': 'pink' as const,
         },
-      };
-
-      layerByOrder(map).addAboveLayerWithSameType(mapLayer, this.id);
-      this._layerIds.add(mapLayer.id);
-      // cleanup unused layers
-      this._layerIds.forEach((id) => {
-        if (id !== layerId) {
-          map.removeLayer(id);
-          this._layerIds.delete(id);
-          return;
-        }
       });
     }
+
+    // Setup ids
+    const layers = this._setLayersIds(layerStyles);
+
+    // Add to map in order
+    this.highestLayerType = getHighestType(layers);
+    layers.forEach((mapLayer) => {
+      const layer = map.getLayer(mapLayer.id);
+      if (layer) {
+        map.removeLayer(layer.id);
+      }
+      layerByOrder(map).addAboveLayerWithSameType(mapLayer, this.id);
+      this._layerIds.add(mapLayer.id);
+    });
+
+    // cleanup unused layers
+    this._layerIds.forEach((id) => {
+      if (!layers.find((layer) => layer.id === id)) {
+        if (map.getLayer(id)) {
+          map.removeLayer(id);
+          this._layerIds.delete(id);
+        }
+        return;
+      }
+    });
   }
 
   mountTileLayer(
@@ -196,12 +199,13 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     layerData: LayerSource,
     legend: LayerLegend | null,
     isVisible: boolean,
+    style: LayerStyle | null,
   ) {
     if (layerData == null) return;
     await mapLoaded(map);
 
     if (isGeoJSONLayer(layerData)) {
-      this.mountGeoJSONLayer(map, layerData, legend);
+      this.mountGeoJSONLayer(map, layerData, legend, style);
     }
     // @ts-ignore skip, unsupported
     else if (layerData.source.type === 'maplibre-style-url') {
@@ -310,7 +314,13 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   }) {
     if (state.source) {
       try {
-        await this._updateMap(map, state.source, state.legend, state.isVisible);
+        await this._updateMap(
+          map,
+          state.source,
+          state.legend,
+          state.isVisible,
+          state.style,
+        );
       } catch (e) {
         this.onError(e);
       }
@@ -326,7 +336,13 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   }) {
     if (state.source) {
       try {
-        await this._updateMap(map, state.source, state.legend, state.isVisible);
+        await this._updateMap(
+          map,
+          state.source,
+          state.legend,
+          state.isVisible,
+          state.style,
+        );
       } catch (e) {
         this.onError(e);
       }
@@ -336,7 +352,13 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   async willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
       try {
-        await this._updateMap(map, state.source, state.legend, state.isVisible);
+        await this._updateMap(
+          map,
+          state.source,
+          state.legend,
+          state.isVisible,
+          state.style,
+        );
       } catch (e) {
         this.onError(e);
       }
@@ -461,7 +483,7 @@ function _setTileScheme(rawUrl: string, mapSource: VectorSource | RasterSource) 
   }
 }
 
-function _generateLayersFromLegend(legend: LayerLegend): Omit<AnyLayer, 'id'>[] {
+function _generateLayersFromLegend(legend: LayerLegend): AnyLayer[] {
   if (legend.type === 'simple') {
     const layers = legend.steps
       /**
@@ -475,6 +497,7 @@ function _generateLayersFromLegend(legend: LayerLegend): Omit<AnyLayer, 'id'>[] 
           applyLegendConditions(step, mapCSSToMapBoxProperties(step.style)),
         ),
       );
+    // @ts-expect-error - render is missing
     return layers.flat();
   }
   throw new Error(`Unexpected legend type '${legend.type}'`);

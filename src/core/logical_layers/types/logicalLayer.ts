@@ -4,6 +4,7 @@ import type { LayerMeta } from './meta';
 import type { LayerSource } from './source';
 import type { LayerSettings } from './settings';
 import type { LayerContextMenu } from './contextMenu';
+import type { LayerStyle } from './style';
 
 export type LogicalLayerState = Readonly<{
   id: string;
@@ -19,6 +20,7 @@ export type LogicalLayerState = Readonly<{
   legend: LayerLegend | null;
   settings: LayerSettings | null;
   source: LayerSource | null;
+  style: LayerStyle | null;
   contextMenu: LayerContextMenu | null;
 }>;
 

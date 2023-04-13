@@ -19,6 +19,8 @@ import {
 import { invertClusters } from '~utils/bivariate';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
+import { styleConfigs } from './stylesConfigs';
+import { generatePopupContent } from './MCDARenderer/popup';
 import type {
   AnyLayer,
   LngLat,
@@ -26,7 +28,6 @@ import type {
   VectorSource,
   MapBoxZoomEvent,
 } from 'maplibre-gl';
-import type { MapListener } from '~core/shared_state/mapListeners';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type {
   BivariateLegend,
@@ -36,6 +37,7 @@ import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer'
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../utils/layersOrder/layersOrder';
 import type { GeoJsonProperties } from 'geojson';
+import type { LayerStyle } from '../types/style';
 
 export type FillColor = {
   r: number;
@@ -191,15 +193,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  protected _updateMap(
-    map: ApplicationMap,
-    layerData: LayerTileSource,
-    legend: BivariateLegend | null,
-    isVisible: boolean,
-  ) {
-    if (layerData == null) return;
-    this.mountBivariateLayer(map, layerData, legend);
-
+  addBivariatePopup(map: ApplicationMap, legend: BivariateLegend | null) {
     const clickHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
       const features = ev.target
         .queryRenderedFeatures(ev.point)
@@ -370,6 +364,190 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       this._removeClickListener = null;
     }
     this._removeClickListener = registerMapListener('click', clickHandler, 60);
+  }
+
+  async mountMCDALayer(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
+    /* Create source */
+    const mapSource: VectorSource = {
+      type: 'vector',
+      tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
+      minzoom: layer.minZoom || 0,
+      maxzoom: layer.maxZoom || 22,
+    };
+    // I expect that all servers provide url with same scheme
+    this._setTileScheme(layer.source.urls[0], mapSource);
+
+    await mapLoaded(map);
+    if (map.getSource(this._sourceId) === undefined) {
+      map.addSource(this._sourceId, mapSource);
+    }
+
+    // here is the only change in the method, we use layerStyle instead of generation it from the legend
+    const layerStyle = styleConfigs.mcda(style.config)[0];
+    const layerId = `${LAYER_BIVARIATE_PREFIX + this.id}`;
+    if (map.getLayer(layerId)) {
+      return;
+    }
+    const layerRes = { ...layerStyle, id: layerId, source: this._sourceId };
+    layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
+      layerRes as AnyLayer,
+      this.id,
+    );
+    this._layerId = layerId;
+  }
+
+  addMCDAPopup(map: ApplicationMap, style: LayerStyle) {
+    const clickHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+      const features = ev.target
+        .queryRenderedFeatures(ev.point)
+        .filter((f) => f.source.includes(this._sourceId));
+
+      // Don't show popup when click in empty place
+      if (!features.length || !features[0].geometry) return true;
+
+      const [feature] = features;
+      const fillColor: FillColor = feature.layer.paint?.['fill-color'];
+
+      // Don't show popup when click on feature that filtered by map style
+      if (!fillColor || isFillColorEmpty(fillColor) || !feature.properties) return true;
+
+      // Show popup on click
+      const popupNode = generatePopupContent(feature, style.config.layers);
+      this.cleanPopup();
+      this._popup = new MapPopup({
+        closeOnClick: true,
+        className: bivariateHexagonPopupContentRoot,
+        maxWidth: 'none',
+        focusAfterOpen: false,
+        offset: 15,
+      })
+        .setLngLat(ev.lngLat)
+        .setDOMContent(popupNode)
+        .addTo(map);
+
+      this._popup.once('close', () => {
+        this.cleanSelection(map);
+      });
+      this.cleanHover(map);
+
+      // Create map style
+      const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
+      if (!map.getSource(HEX_SELECTED_SOURCE_ID)) {
+        map.addSource(HEX_SELECTED_SOURCE_ID, {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            geometry,
+            properties: {},
+          },
+        });
+
+        map.addLayer({
+          id: HEX_SELECTED_LAYER_ID,
+          type: 'line',
+          source: HEX_SELECTED_SOURCE_ID,
+          layout: {},
+          paint: {
+            'line-color': ACTIVE_HEXAGON_BORDER,
+            'line-width': 1,
+          },
+        });
+      } else {
+        const source = map.getSource(HEX_SELECTED_SOURCE_ID) as mapboxgl.GeoJSONSource;
+        source.setData({
+          type: 'Feature',
+          geometry,
+          properties: {},
+        });
+      }
+
+      return true;
+    };
+
+    const hoverEffect = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+      const features = ev.target.queryRenderedFeatures(ev.point);
+      if (
+        !features.length ||
+        !features[0].geometry ||
+        !features[0]?.source.includes(this._sourceId) // we want to process hover only if top layer is bivariate
+      )
+        return true;
+      const feature = features[0];
+      const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
+      const fillColor: FillColor = feature.layer.paint?.['fill-color'];
+      if (!fillColor || isFillColorEmpty(fillColor)) return;
+
+      if (!map.getSource(HEX_HOVER_SOURCE_ID)) {
+        map.addSource(HEX_HOVER_SOURCE_ID, {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            geometry,
+            properties: {},
+          },
+        });
+        map.addLayer({
+          id: HEX_HOVER_LAYER_ID,
+          type: 'line',
+          source: HEX_HOVER_SOURCE_ID,
+          layout: {},
+          paint: {
+            'line-color': HOVER_HEXAGON_BORDER,
+            'line-width': 1,
+          },
+        });
+      } else {
+        const source = map.getSource(HEX_HOVER_SOURCE_ID) as mapboxgl.GeoJSONSource;
+        source.setData({
+          type: 'Feature',
+          geometry,
+          properties: {},
+        });
+      }
+    };
+
+    const throttledHoverEffect = throttle(hoverEffect, 100);
+
+    map.on('zoom', this.onMapZoom);
+
+    if (this._removeMouseMoveListener) {
+      this._removeMouseMoveListener();
+      this._removeMouseMoveListener = null;
+    }
+
+    const mousemoveHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+      throttledHoverEffect(ev);
+      return true;
+    };
+
+    this._removeMouseMoveListener = registerMapListener(
+      'mousemove',
+      mousemoveHandler,
+      60,
+    );
+    if (this._removeClickListener) {
+      this._removeClickListener();
+      this._removeClickListener = null;
+    }
+    this._removeClickListener = registerMapListener('click', clickHandler, 60);
+  }
+
+  protected _updateMap(
+    map: ApplicationMap,
+    layerData: LayerTileSource,
+    legend: BivariateLegend | null,
+    isVisible: boolean,
+    style: LayerStyle | null,
+  ) {
+    if (layerData == null) return;
+
+    if (style?.type === 'mcda') {
+      this.mountMCDALayer(map, layerData, style);
+      this.addMCDAPopup(map, style);
+    } else {
+      this.mountBivariateLayer(map, layerData, legend);
+      this.addBivariatePopup(map, legend);
+    }
 
     if (!isVisible) this.willHide({ map });
   }
@@ -413,6 +591,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         state.source as LayerTileSource,
         state.legend as BivariateLegend,
         state.isVisible,
+        state.style,
       );
     }
   }
@@ -424,6 +603,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         state.source as LayerTileSource,
         state.legend as BivariateLegend,
         state.isVisible,
+        state.style,
       );
     }
   }

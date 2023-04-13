@@ -1,4 +1,4 @@
-import type { MCDAConfig } from '../types';
+import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { JsonMCDAv1, JsonMCDAv2, JsonMCDAv3, JsonMCDAv4 } from './types';
 
 export function firstVersionMigration(json: JsonMCDAv1): MCDAConfig {

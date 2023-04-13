@@ -6,10 +6,9 @@ import {
   notEqual,
 } from '~utils/bivariate/bivariate_style/styleGen';
 import { sumBy } from '~utils/common';
-import { DEFAULT_GREEN, DEFAULT_RED } from '../../calculations/constants';
-import { calculateLayerPipeline, inStyleCalculations } from '../../calculations';
-import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
-import type { ColorsBySentiments, MCDAConfig } from '../../types';
+import { DEFAULT_GREEN, DEFAULT_RED } from './calculations/constants';
+import { calculateLayerPipeline, inStyleCalculations } from './calculations';
+import type { MCDAConfig } from './types';
 
 //@ts-expect-error - not clear how to type this right, but this compromise do the trick
 const calculateLayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
@@ -118,13 +117,12 @@ export function createMCDAStyle(config: MCDAConfig) {
 
   const mcdaResult = linearNormalization(config.layers);
 
-  const layerStyle: BivariateLayerStyle = {
+  const layerStyle = {
     id: config.id,
-    type: 'fill',
+    type: 'fill' as const,
     layout: {},
     filter: filterSetup(config.layers),
     // TODO - MCDA should have separate from bivariate renderer
-    // @ts-expect-error - any style props can be here
     paint: generateLayerPaint({
       colorsConfig: config.colors,
       mcdaResult,
@@ -133,7 +131,7 @@ export function createMCDAStyle(config: MCDAConfig) {
     }),
 
     source: {
-      type: 'vector',
+      type: 'vector' as const,
       tiles: [
         `${adaptTileUrl(
           appConfig.bivariateTilesRelativeUrl,

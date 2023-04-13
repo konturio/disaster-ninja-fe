@@ -5,7 +5,7 @@ import {
   thirdVersionMigration,
 } from './adapters';
 import { createValidator } from './validator';
-import type { MCDAConfig } from '../types';
+import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 export async function parseMCDA(jsonString: string): Promise<MCDAConfig> {
   const validate = await createValidator();

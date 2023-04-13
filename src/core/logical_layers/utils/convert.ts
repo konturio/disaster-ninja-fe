@@ -17,11 +17,11 @@ export function convertDetailsToSource(response: LayerDetailsDto) {
   }
 
   if (response.source.type === 'vector' || response.source.type === 'raster') {
-    const { ...restSource } = response.source;
+    const source = response.source;
     return {
       ...response,
       source: {
-        ...restSource,
+        ...source,
         apiKey: '',
       },
     } as LayerTileSource;
