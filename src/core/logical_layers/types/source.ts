@@ -1,4 +1,5 @@
-import type { LayerDetailsLegend } from '~core/logical_layers/types/legends';
+import type { LayerDetailsLegend } from './legends';
+import type { LayerStyle } from './style';
 
 export interface LayerSourceDto {
   type: 'vector' | 'raster' | 'geojson' | 'maplibre-style-url';
@@ -14,6 +15,7 @@ export interface LayerDetailsDto {
   minZoom?: number;
   source?: LayerSourceDto;
   legend?: LayerDetailsLegend;
+  style?: LayerStyle;
   ownedByUser?: boolean;
 }
 

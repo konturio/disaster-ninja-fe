@@ -1,1 +1,0 @@
-export { mcdaCalculationAtom } from './atom';

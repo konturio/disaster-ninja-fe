@@ -1,11 +1,12 @@
 import type { Describe, Infer } from 'superstruct';
-import type { JsonMCDA, JsonMCDAv1, JsonMCDAv2, JsonMCDAv3, JsonMCDAv4 } from './types';
+import type { JsonMCDA, JsonMCDAv1, JsonMCDAv2, JsonMCDAv3 } from './types';
 import type * as superstruct from 'superstruct';
 import type {
   ColorsByMapLibreExpression,
   ColorsBySentiments,
   TransformationFunction,
-} from '../types';
+} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+
 type Superstruct = typeof superstruct;
 
 const validators = {

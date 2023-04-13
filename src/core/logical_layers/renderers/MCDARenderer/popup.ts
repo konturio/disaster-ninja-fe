@@ -1,8 +1,12 @@
 import { createRoot } from 'react-dom/client';
 import { sumBy } from '~utils/common';
-import { PopupMCDA } from '../components/PopupMCDA';
-import { calculateLayerPipeline, inViewCalculations } from '../calculations';
-import type { MCDAConfig, PopupMCDAProps } from '../types';
+import {
+  calculateLayerPipeline,
+  inViewCalculations,
+} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations';
+import { PopupMCDA } from './components/PopupMCDA';
+import type { PopupMCDAProps } from './types';
+import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 function createTableWithCalculations(
   feature: GeoJSON.Feature,

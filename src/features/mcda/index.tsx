@@ -1,7 +1,7 @@
 import { i18n } from '~core/localization';
 import { toolbarControlsAtom } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
-import { mcdaCalculationAtom } from './atoms/mcdaCalculation';
+import { mcdaLayerAtom } from './atoms/mcdaLayer';
 import { parseMCDA } from './parser';
 
 const example = `
@@ -83,7 +83,7 @@ export function initMCDA() {
 
       try {
         const jsonParsed = await parseMCDA(jsonString);
-        mcdaCalculationAtom.calcMCDA.dispatch(jsonParsed);
+        mcdaLayerAtom.calcMCDA.dispatch(jsonParsed);
       } catch (e) {
         if (e instanceof Error && 'message' in e) {
           alert(e.message);
