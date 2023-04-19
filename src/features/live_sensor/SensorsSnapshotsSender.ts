@@ -47,7 +47,7 @@ export class SensorsSnapshotsSender {
     try {
       await apiClient.post('/features/live-sensor', snapshot, true);
     } catch (e) {
-      if (this.attempt < this.maxAttempts) {
+      if (this.attempt < this.maxAttempts && this.running) {
         console.warn(
           `Failed attempt to send snapshot. Attempts left: ${
             this.maxAttempts - this.attempt
