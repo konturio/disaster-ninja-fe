@@ -141,7 +141,8 @@
     "react-virtuoso": "^4.1.0",
     "remark-gfm": "^3.0.1",
     "superstruct": "^1.0.3",
-    "utility-types": "^3.10.0"
+    "utility-types": "^3.10.0",
+    "vite-plugin-mkcert": "^1.14.0"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
