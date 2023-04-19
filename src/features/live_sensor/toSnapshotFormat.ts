@@ -1,9 +1,14 @@
-import { nanoid } from 'nanoid';
+import { customAlphabet } from 'nanoid';
+import { alphanumeric } from 'nanoid-dictionary';
 import { isNumber } from '~utils/common';
 import { SENSOR_PRECISION } from './constants';
 import type { AbsoluteOrientationSensorData } from './sensors/AppSensorAbsoluteOrientation';
 import type { AccelerometerData } from './sensors/AppSensorAccelerometer';
 import type { SensorSnapshot } from './SensorSnapshot';
+
+// 22 five uniques equal to UUIDv4
+// Must satisfy: [\\w]* check for features id (LayerDB limitation)
+const nanoid = customAlphabet(alphanumeric + '_', 22);
 
 const geoJSONPointInFeatureCollection = ({
   coordinates,
@@ -108,7 +113,7 @@ export function toSnapshotFormat(collected: Map<string, unknown[]>): SensorSnaps
   }
 
   return geoJSONPointInFeatureCollection({
-    id: nanoid(21), // Equal to UUIDv4
+    id: nanoid(),
     coordinates: [pos.coords.longitude, pos.coords.latitude],
     properties: featureProperties,
   });
