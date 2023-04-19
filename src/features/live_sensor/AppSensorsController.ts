@@ -1,3 +1,4 @@
+import type { AppSensor } from './sensors/AppSensor';
 import type { Constructor } from './types';
 
 export class AppSensorsController<S extends Array<Constructor<AppSensor>>> {

@@ -1,6 +1,6 @@
 type UncertainNumber = number | null;
 
-interface SnapshotSensorsPayload {
+export interface SnapshotSensorsPayload {
   userAgent: string;
 
   lng: UncertainNumber;
@@ -30,4 +30,7 @@ interface SnapshotSensorsPayload {
   gyroTime?: UncertainNumber[];
 }
 
-type SensorSnapshot = GeoJSON.FeatureCollection<GeoJSON.Point, SnapshotSensorsPayload>;
+export type SensorSnapshot = GeoJSON.FeatureCollection<
+  GeoJSON.Point,
+  SnapshotSensorsPayload
+>;

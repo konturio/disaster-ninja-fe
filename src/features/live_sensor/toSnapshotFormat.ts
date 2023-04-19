@@ -3,6 +3,7 @@ import { isNumber } from '~utils/common';
 import { SENSOR_PRECISION } from './constants';
 import type { AbsoluteOrientationSensorData } from './sensors/AppSensorAbsoluteOrientation';
 import type { AccelerometerData } from './sensors/AppSensorAccelerometer';
+import type { SensorSnapshot } from './SensorSnapshot';
 
 const geoJSONPointInFeatureCollection = ({
   coordinates,

@@ -1,4 +1,5 @@
 import { SensorEventsEmitter } from './SensorEventsEmitter';
+import type { AppSensor } from './AppSensor';
 
 export type AbsoluteOrientationSensorData = {
   x: number | null;

@@ -1,5 +1,6 @@
 import { apiClient } from '~core/apiClientInstance';
 import { toSnapshotFormat } from './toSnapshotFormat';
+import type { SensorSnapshot } from './SensorSnapshot';
 
 const delay = (sec: number) => new Promise((res) => setTimeout(res, sec * 1000));
 
