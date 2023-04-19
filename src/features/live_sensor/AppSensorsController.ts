@@ -1,16 +1,19 @@
-export class AppSensorsController<S extends Array<AppSensor>> {
+import type { Constructor } from './types';
+
+export class AppSensorsController<S extends Array<Constructor<AppSensor>>> {
   mainSensor: AppSensor;
-  sensors: S;
+  sensors: Array<AppSensor>;
   /**
    * Main sensor - first sensors in sensors array
    * @param sensors - sensors
    **/
   constructor(sensors: S) {
-    if (sensors.length < 1) {
+    this.sensors = sensors.map((Sensor) => new Sensor());
+    const mainSensor = this.sensors.at(0);
+    if (!mainSensor) {
       throw Error('At least one sensor needed');
     }
-    this.sensors = sensors;
-    this.mainSensor = sensors[0];
+    this.mainSensor = mainSensor;
   }
 
   async init() {

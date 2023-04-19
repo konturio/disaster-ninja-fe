@@ -1,19 +1,20 @@
 import { apiClient } from '~core/apiClientInstance';
+import { toSnapshotFormat } from './toSnapshotFormat';
 
 const delay = (sec: number) => new Promise((res) => setTimeout(res, sec * 1000));
 
 export class SensorsSnapshotsSender {
-  private snapshotsOrder: Array<SensorSnapshot>;
+  private sensorsRecords: Array<Map<string, Array<unknown>>>;
   private maxAttempts: number;
   private timeoutSec: number;
   private attempt = 0;
 
   constructor(opt: {
-    snapshotsQueue: Array<SensorSnapshot>;
+    sensorsRecords: Array<Map<string, Array<unknown>>>;
     maxAttempts: number;
     timeoutSec: number;
   }) {
-    this.snapshotsOrder = opt.snapshotsQueue;
+    this.sensorsRecords = opt.sensorsRecords;
     this.maxAttempts = opt.maxAttempts;
     this.timeoutSec = opt.timeoutSec;
   }
@@ -25,11 +26,11 @@ export class SensorsSnapshotsSender {
   private running = true;
   async sendFromQueue() {
     // * Note: will not work in concurrent mode
-    while (this.running && this.snapshotsOrder[0]) {
-      const next = this.snapshotsOrder[0];
+    while (this.running && this.sensorsRecords[0]) {
+      const next = this.sensorsRecords[0];
       this.attempt = 1;
-      await this.send(next);
-      this.snapshotsOrder.shift();
+      await this.send(toSnapshotFormat(next));
+      this.sensorsRecords.shift();
     }
 
     if (this.running) {

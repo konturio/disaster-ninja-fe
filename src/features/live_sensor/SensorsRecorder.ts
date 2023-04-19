@@ -3,6 +3,7 @@ interface Recordable {
   ready: boolean;
   onUpdate;
 }
+
 export class SensorsRecorder<
   S extends {
     mainSensor: Recordable;
@@ -11,17 +12,13 @@ export class SensorsRecorder<
 > {
   private sensors: S;
 
-  private onRecord: (collected: Map<string, Array<unknown>>) => void;
-
   /**
    * Collect data from sensors in storage on every main sensor change.
    */
-  constructor(opt: {
-    sensors: S;
-    onRecord: (collected: Map<string, Array<unknown>>) => void;
-  }) {
+  records = new Array<Map<string, Array<unknown>>>();
+
+  constructor(opt: { sensors: S }) {
     this.sensors = opt.sensors;
-    this.onRecord = opt.onRecord;
   }
 
   public record() {
@@ -38,6 +35,10 @@ export class SensorsRecorder<
 
   public stop() {
     this.flushCollected();
+  }
+
+  private onRecord(collected: Map<string, Array<unknown>>) {
+    this.records.push(collected);
   }
 
   private sensorsData = new Map<string, Array<unknown>>();

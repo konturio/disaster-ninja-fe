@@ -4,7 +4,7 @@ import { toolbarControlsAtom } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
 import { i18n } from '~core/localization';
 import { SENSOR_CONTROL, SENSOR_CONTROL_NAME } from './constants';
-import { LiveSensor } from './new/main';
+import { LiveSensor } from './LiveSensor';
 
 const liveSensor = new LiveSensor();
 

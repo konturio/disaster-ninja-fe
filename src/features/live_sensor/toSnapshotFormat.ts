@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import { isNumber } from '~utils/common';
+import { SENSOR_PRECISION } from './constants';
 import type { AbsoluteOrientationSensorData } from './sensors/AppSensorAbsoluteOrientation';
 import type { AccelerometerData } from './sensors/AppSensorAccelerometer';
 
@@ -41,7 +42,7 @@ function squash<T>(recs: Array<T>): Squash<T> {
 }
 
 const precise = (val: number | null) =>
-  isNumber(val) ? Number(val.toPrecision(6)) : null;
+  isNumber(val) ? Number(val.toPrecision(SENSOR_PRECISION)) : null;
 
 export function toSnapshotFormat(collected: Map<string, unknown[]>): SensorSnapshot {
   // @ts-expect-error - since we use geolocation as leading sensor it must always present in snapshot

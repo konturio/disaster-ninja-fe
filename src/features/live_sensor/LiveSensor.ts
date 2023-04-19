@@ -3,17 +3,17 @@ import { AppSensorAbsoluteOrientation } from './sensors/AppSensorAbsoluteOrienta
 import { AppSensorAccelerometer } from './sensors/AppSensorAccelerometer';
 import { AppSensorGeolocation } from './sensors/AppSensorGeolocation';
 import { AppSensorGyroscope } from './sensors/AppSensorGyroscope';
-import { AppSensorsController } from './AppSensorsController';
 import { SensorsSnapshotsSender } from './SensorsSnapshotsSender';
-import { toSnapshotFormat } from './toSnapshotFormat';
+import { AppSensorsController } from './AppSensorsController';
+import type { Constructor } from './types';
 
 export class LiveSensor {
   sensors?: AppSensorsController<
     (
-      | AppSensorGeolocation
-      | AppSensorAbsoluteOrientation
-      | AppSensorAccelerometer
-      | AppSensorGyroscope
+      | Constructor<AppSensorGeolocation>
+      | Constructor<AppSensorAbsoluteOrientation>
+      | Constructor<AppSensorAccelerometer>
+      | Constructor<AppSensorGyroscope>
     )[]
   >;
   recorder?: SensorsRecorder<any>;
@@ -21,24 +21,18 @@ export class LiveSensor {
 
   async start() {
     this.sensors = new AppSensorsController([
-      new AppSensorGeolocation(), // <- Updates of first sensor used for record ticks in recorder
-      new AppSensorAbsoluteOrientation(),
-      new AppSensorAccelerometer(),
-      new AppSensorGyroscope(),
+      AppSensorGeolocation, // <- Updates of first sensor used for record ticks in recorder
+      AppSensorAbsoluteOrientation,
+      AppSensorAccelerometer,
+      AppSensorGyroscope,
     ]);
-
-    const snapshotsQueue = new Array<SensorSnapshot>();
 
     this.recorder = new SensorsRecorder({
       sensors: this.sensors,
-      onRecord(collected) {
-        const snapshot = toSnapshotFormat(collected);
-        snapshotsQueue.push(snapshot);
-      },
     });
 
     this.sender = new SensorsSnapshotsSender({
-      snapshotsQueue,
+      sensorsRecords: this.recorder.records,
       maxAttempts: 10,
       timeoutSec: 5,
     });
