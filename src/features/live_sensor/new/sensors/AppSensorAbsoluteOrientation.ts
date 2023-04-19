@@ -1,7 +1,14 @@
 import { SensorEventsEmitter } from './SensorEventsEmitter';
 
+export type AbsoluteOrientationSensorData = {
+  x: number | null;
+  y: number | null;
+  z: number | null;
+  w: number | null;
+  timestamp: number;
+};
 export class AppSensorAbsoluteOrientation
-  extends SensorEventsEmitter<[number, number, number, number]>
+  extends SensorEventsEmitter<AbsoluteOrientationSensorData>
   implements AppSensor
 {
   ready = false;
@@ -25,8 +32,18 @@ export class AppSensorAbsoluteOrientation
   private readingHandler = () => {
     if (this.sensor) {
       const quaternion = this.sensor.quaternion;
-      quaternion &&
-        this.update([quaternion[0], quaternion[1], quaternion[2], quaternion[3]]);
+      const time = this.sensor.timestamp;
+      if (time && quaternion) {
+        this.update({
+          x: quaternion[0] ?? null,
+          y: quaternion[1] ?? null,
+          z: quaternion[2] ?? null,
+          w: quaternion[3] ?? null,
+          timestamp: time,
+        });
+      } else {
+        console.error('Orientation sensor updated skipped: Bad data');
+      }
     }
   };
 

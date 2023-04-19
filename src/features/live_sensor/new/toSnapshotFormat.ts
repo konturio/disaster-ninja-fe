@@ -1,18 +1,22 @@
 import { nanoid } from 'nanoid';
 import { isNumber } from '~utils/common';
+import type { AbsoluteOrientationSensorData } from './sensors/AppSensorAbsoluteOrientation';
+import type { AccelerometerData } from './sensors/AppSensorAccelerometer';
 
 const geoJSONPointInFeatureCollection = ({
   coordinates,
   properties,
+  id,
 }: {
+  id: string;
   coordinates: SensorSnapshot['features'][number]['geometry']['coordinates'];
   properties: SensorSnapshot['features'][number]['properties'];
 }) => ({
   type: 'FeatureCollection' as const,
-  id: nanoid(21), // Equal to UUIDv4
   features: [
     {
       type: 'Feature' as const,
+      id,
       geometry: {
         type: 'Point' as const,
         coordinates,
@@ -22,74 +26,88 @@ const geoJSONPointInFeatureCollection = ({
   ],
 });
 
-function normalizeValues<T extends Record<string, string | number | undefined | null>>(
-  values: T,
-  precision = 6,
-): Record<keyof T, number | null> {
-  // @ts-expect-error - object filled later
-  const newObject: Record<keyof T, number | null> = {};
-  Object.entries(values).forEach(
-    ([key, val]: [keyof T, string | number | undefined | null]) => {
-      newObject[key] = isNumber(val) ? Number(val.toPrecision(precision)) : null;
-    },
-  );
-  return newObject;
-}
-
-function squash<T extends Record<string, unknown>>(recs: Array<T>) {
-  const result: Record<string, Array<T>> = {};
-
+type Squash<T> = {
+  [P in keyof T]: Array<T[P]>;
+};
+function squash<T>(recs: Array<T>): Squash<T> {
+  const result = {} as Squash<T>;
   recs.forEach((rec) => {
-    Object.entries(rec).forEach(([k, v]) => {
+    for (const k in rec) {
       if (!result[k]) result[k] = [];
-      result[k].push(v);
-    });
+      result[k].push(rec[k]);
+    }
   });
-
   return result;
 }
 
+const precise = (val: number | null) =>
+  isNumber(val) ? Number(val.toPrecision(6)) : null;
+
 export function toSnapshotFormat(collected: Map<string, unknown[]>): SensorSnapshot {
-  const pos = squash(
-    (collected.get('AppSensorGeolocation') as Array<GeolocationPosition> | undefined) ??
-      [],
-  );
+  // @ts-expect-error - since we use geolocation as leading sensor it must always present in snapshot
+  const pos = collected.get('AppSensorGeolocation').at(0) as GeolocationPosition;
+
+  const featureProperties: SensorSnapshot['features'][number]['properties'] = {
+    /* Geolocation */
+    lng: precise(pos.coords.longitude),
+    lat: precise(pos.coords.latitude),
+    alt: precise(pos.coords.altitude),
+    altAccuracy: pos.coords.altitudeAccuracy,
+    accuracy: precise(pos.coords.accuracy),
+    speed: precise(pos.coords.speed),
+    heading: precise(pos.coords.heading),
+    coordTimestamp: pos.timestamp,
+    /* System */
+    userAgent: navigator.userAgent,
+    coordSystTimestamp: Date.now(),
+  };
+
+  /* OrientationSensor */
+  const orient = collected.get('AppSensorAbsoluteOrientation') as
+    | Array<AbsoluteOrientationSensorData>
+    | undefined;
+  if (orient) {
+    const squashedOrient = squash(orient);
+    Object.assign(featureProperties, {
+      orientX: squashedOrient.x.map(precise),
+      orientY: squashedOrient.y.map(precise),
+      orientZ: squashedOrient.z.map(precise),
+      orientW: squashedOrient.w.map(precise),
+      orientTime: squashedOrient.timestamp,
+    });
+  }
+
+  /* Accelerometer */
+  const accel = collected.get('AppSensorAccelerometer') as
+    | Array<AccelerometerData>
+    | undefined;
+  if (accel) {
+    const squashedAccel = squash(accel);
+    Object.assign(featureProperties, {
+      accelX: squashedAccel.x.map(precise),
+      accelY: squashedAccel.y.map(precise),
+      accelZ: squashedAccel.z.map(precise),
+      accelTime: squashedAccel.timestamp,
+    });
+  }
+
+  /* Gyroscope */
+  const gyro = collected.get('AppSensorGyroscope') as
+    | Array<AccelerometerData>
+    | undefined;
+  if (gyro) {
+    const squashedGyro = squash(gyro);
+    Object.assign(featureProperties, {
+      gyroX: squashedGyro.x.map(precise),
+      gyroY: squashedGyro.y.map(precise),
+      gyroZ: squashedGyro.z.map(precise),
+      gyroTime: squashedGyro.timestamp,
+    });
+  }
 
   return geoJSONPointInFeatureCollection({
-    coordinates: [],
-    properties: Object.assign(
-      normalizeValues({
-        /* Geolocation */
-        lng: pos?.coords?.longitude,
-        lat: pos?.coords?.latitude,
-        alt: pos?.coords?.altitude,
-        altAccuracy: pos?.coords?.altitudeAccuracy,
-        accuracy: pos?.coords?.accuracy,
-        speed: pos?.coords?.speed,
-        heading: pos?.coords?.heading,
-        /* Accelerometer */
-        accelX: null,
-        accelY: null,
-        accelZ: null,
-        /* OrientationSensor */
-        orientX: null,
-        orientY: null,
-        orientZ: null,
-        orientW: null,
-        /* Gyroscope */
-        gyroX: null,
-        gyroY: null,
-        gyroZ: null,
-      }),
-      {
-        coordTimestamp: 0,
-        accelTime: 0,
-        orientTime: 0,
-        gyroTime: 0,
-        /* System */
-        userAgent: navigator.userAgent,
-        coordSystTimestamp: new Date().getTime(),
-      },
-    ),
+    id: nanoid(21), // Equal to UUIDv4
+    coordinates: [pos.coords.longitude, pos.coords.latitude],
+    properties: featureProperties,
   });
 }

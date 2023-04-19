@@ -7,46 +7,55 @@ import { AppSensorsController } from './AppSensorsController';
 import { SensorsSnapshotsSender } from './SensorsSnapshotsSender';
 import { toSnapshotFormat } from './toSnapshotFormat';
 
-export async function main() {
-  const sensors = new AppSensorsController([
-    new AppSensorGeolocation(), // <- Updates of first sensor used for record ticks in recorder
-    new AppSensorAbsoluteOrientation(),
-    new AppSensorAccelerometer(),
-    new AppSensorGyroscope(),
-  ]);
+export class LiveSensor {
+  sensors?: AppSensorsController<
+    (
+      | AppSensorGeolocation
+      | AppSensorAbsoluteOrientation
+      | AppSensorAccelerometer
+      | AppSensorGyroscope
+    )[]
+  >;
+  recorder?: SensorsRecorder<any>;
+  sender?: SensorsSnapshotsSender;
 
-  const snapshotsQueue = new Array<SensorSnapshot>();
+  async start() {
+    this.sensors = new AppSensorsController([
+      new AppSensorGeolocation(), // <- Updates of first sensor used for record ticks in recorder
+      new AppSensorAbsoluteOrientation(),
+      new AppSensorAccelerometer(),
+      new AppSensorGyroscope(),
+    ]);
 
-  const recorder = new SensorsRecorder({
-    sensors,
-    onRecord(collected) {
-      const snapshot = toSnapshotFormat(collected);
-      snapshotsQueue.push(snapshot);
-    },
-  });
+    const snapshotsQueue = new Array<SensorSnapshot>();
 
-  // const sender = new SensorsSnapshotsSender({
-  //   snapshotsQueue,
-  //   maxAttempts: 10,
-  //   timeoutSec: 5,
-  // });
+    this.recorder = new SensorsRecorder({
+      sensors: this.sensors,
+      onRecord(collected) {
+        const snapshot = toSnapshotFormat(collected);
+        snapshotsQueue.push(snapshot);
+      },
+    });
 
-  // console.log('🚀 ~ main ~ snapshotsQueue:', { snapshotsQueue })
+    this.sender = new SensorsSnapshotsSender({
+      snapshotsQueue,
+      maxAttempts: 10,
+      timeoutSec: 5,
+    });
 
-  try {
-    await sensors.init();
-    recorder.record();
-    // sender.start();
-  } catch (e) {
-    console.error(e);
-    // sender.stop();
-    recorder.stop();
-    sensors.stop();
+    try {
+      await this.sensors.init();
+      this.recorder.record();
+      this.sender.start();
+    } catch (e) {
+      console.error(e);
+      this.stop();
+    }
   }
 
-  return () => {
-    // sender.stop(); // Should we stop sending collected data after feature disabled?
-    recorder.stop();
-    sensors.stop();
-  };
+  stop() {
+    this.sender?.stop(); // TODO: Stop after snapshotsQueue became empty
+    this.recorder?.stop();
+    this.sensors?.stop();
+  }
 }

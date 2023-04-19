@@ -1,7 +1,13 @@
 import { SensorEventsEmitter } from './SensorEventsEmitter';
 
+export type AccelerometerData = {
+  x: number | null;
+  y: number | null;
+  z: number | null;
+  timestamp: number;
+};
 export class AppSensorAccelerometer
-  extends SensorEventsEmitter<{ x?: number; y?: number; z?: number }>
+  extends SensorEventsEmitter<AccelerometerData>
   implements AppSensor
 {
   ready = false;
@@ -24,8 +30,13 @@ export class AppSensorAccelerometer
 
   private readingHandler = () => {
     if (this.sensor) {
-      const { x, y, z } = this.sensor!;
-      this.update({ x, y, z });
+      const timestamp = this.sensor.timestamp;
+      const { x, y, z } = this.sensor;
+      if (timestamp) {
+        this.update({ x: x ?? null, y: y ?? null, z: z ?? null, timestamp });
+      } else {
+        console.error('Orientation sensor updated skipped: Bad data');
+      }
     }
   };
 
