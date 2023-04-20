@@ -11,9 +11,7 @@ beforeEach((context) => {
   context.ctx = createContext();
 });
 
-/* TODO: fix in scope of error handling refactor task
-
-test('can login with username and password', async ({ ctx }) => {
+test.todo('can login with username and password', async ({ ctx }) => {
   // Mock backend
   const loginRequestMock = sinon.fake.returns([
     200,
@@ -23,7 +21,7 @@ test('can login with username and password', async ({ ctx }) => {
     },
   ]);
 
-  ctx.mockAdapter.onPost('login').reply(loginRequestMock);
+  ctx.mockAdapter.onPost('login').willResolve(loginRequestMock);
 
   // Mock localStorage setItem
   const setItemFake = sinon.fake();
@@ -44,7 +42,7 @@ test('can login with username and password', async ({ ctx }) => {
   expect(res.token, 'response contain new accessToken').toBe(ctx.token);
   expect(res.refreshToken, 'response contain new refreshToken').toBe(ctx.refreshToken);
 });
-
+/** /
 test('invalid token error', async ({ ctx }) => {
   // Mock backend
   const loginRequestMock = sinon.fake.returns([

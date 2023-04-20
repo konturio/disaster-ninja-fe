@@ -1,8 +1,14 @@
+import 'vi-fetch/setup';
 import './_configMock';
+import { mockGet, mockPost } from 'vi-fetch';
 import { ApiClient } from '../apiClient';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
 import { createNotificationServiceMock } from './_servicesMocks';
 
+const mockAdapter = {
+  onGet: mockGet,
+  onPost: mockPost,
+};
 export function setTimeOffset(timeOffsetMin: number): number {
   return (new Date().getTime() + timeOffsetMin * 60 * 1000) / 1000;
 }
@@ -63,6 +69,7 @@ export const createContext = () => {
     username,
     password,
     localStorageMock,
+    mockAdapter,
   };
 };
 

@@ -372,6 +372,11 @@ export class ApiClient {
 }
 
 async function autoParseBody(res: WretchResponse) {
+  if (res.status === 204) {
+    res.data = null;
+    return res;
+  }
+
   if (res.ok) {
     const contentType = res.headers.get('content-type') ?? '';
     if (contentType.includes('application/json')) {
@@ -382,5 +387,6 @@ async function autoParseBody(res: WretchResponse) {
   } else {
     console.debug('autoParseBody', res);
   }
+
   return res;
 }
