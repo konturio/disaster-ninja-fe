@@ -13,19 +13,30 @@ import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
 import postcssConfig from './postcss.config';
 import { proxyConfig } from './vite.proxy';
 import buildSizeReport from 'bundle-size-diff/plugin';
+import mkcert from 'vite-plugin-mkcert';
 
-const relative = (folder: string) => path.resolve(__dirname, folder);
-const parseEnv = (env: Record<string, string>): Record<string, string> =>
+const parseEnv = <T extends Record<string, string | boolean>>(
+  env: Record<string, string>,
+): T =>
   Object.entries(env).reduce((acc, [k, v]) => {
     try {
       acc[k] = JSON.parse(v);
     } catch (e) {}
     return acc;
-  }, env);
+  }, env) as T;
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
-  const env = parseEnv(loadEnv(mode, process.cwd()));
+  const env = parseEnv<{
+    VITE_BASE_PATH: string;
+    VITE_STATIC_PATH: string;
+    DEST_PATH: string;
+    VITE_DEBUG_RENDER_TRACKER?: boolean;
+    VITE_DEBUG_HMR?: boolean;
+    VITE_ANALYZE_BUNDLE?: boolean;
+    VITE_HTTPS?: boolean
+  }>(loadEnv(mode, process.cwd()));
+
   const config = useConfig(selectConfig(mode), env.DEST_PATH);
   validateConfig(config, buildScheme());
 
@@ -87,6 +98,7 @@ export default ({ mode }) => {
       buildSizeReport({
         filename: './size-report.json',
       }),
+      mode === 'development' && env.VITE_HTTPS && mkcert(),
     ],
     css: {
       postcss: postcssConfig,
@@ -102,6 +114,7 @@ export default ({ mode }) => {
       proxy: proxyConfig,
       port: 3000,
       hmr,
+      https: env.VITE_HTTPS ?? false,
     },
     define:
       mode === 'development'
