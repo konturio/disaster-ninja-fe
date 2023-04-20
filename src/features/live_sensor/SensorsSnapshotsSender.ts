@@ -27,7 +27,7 @@ export class SensorsSnapshotsSender {
   private running = true;
   async sendFromQueue() {
     // * Note: will not work in concurrent mode
-    while (this.running && this.sensorsRecords[0]) {
+    while (this.running && this.sensorsRecords.length > 0) {
       const next = this.sensorsRecords[0];
       this.attempt = 1;
       await this.send(toSnapshotFormat(next));

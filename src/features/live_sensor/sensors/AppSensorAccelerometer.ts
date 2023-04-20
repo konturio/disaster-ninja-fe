@@ -13,18 +13,15 @@ export class AppSensorAccelerometer
 {
   ready = false;
   readonly id = 'AppSensorAccelerometer';
-  private options?: MotionSensorOptions;
   private sensor?: Accelerometer;
 
-  constructor(options?: MotionSensorOptions) {
+  constructor() {
     super();
-    this.options = options;
   }
 
   public async setup() {
-    this.sensor = new Accelerometer(this.options);
+    this.sensor = new Accelerometer();
     this.start();
-    this.sensor.start();
     this.ready = true;
     return this;
   }
@@ -49,6 +46,7 @@ export class AppSensorAccelerometer
     if (this.sensor) {
       this.sensor.addEventListener('reading', this.readingHandler);
       this.sensor.addEventListener('error', this.errorHandler);
+      this.sensor.start();
     }
   }
 

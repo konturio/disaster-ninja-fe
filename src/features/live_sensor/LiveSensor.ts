@@ -20,12 +20,17 @@ export class LiveSensor {
   sender?: SensorsSnapshotsSender;
 
   async start() {
-    this.sensors = new AppSensorsController([
-      AppSensorGeolocation, // <- Updates of first sensor used for record ticks in recorder
-      AppSensorAbsoluteOrientation,
-      AppSensorAccelerometer,
-      AppSensorGyroscope,
-    ]);
+    this.sensors = new AppSensorsController(
+      [
+        AppSensorGeolocation, // <- Updates of first sensor used for record ticks in recorder
+        AppSensorAbsoluteOrientation,
+        AppSensorAccelerometer,
+        AppSensorGyroscope,
+      ],
+      {
+        mainSensorRefreshRate: 1000,
+      },
+    );
 
     this.recorder = new SensorsRecorder({
       sensors: this.sensors,

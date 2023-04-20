@@ -1,3 +1,3 @@
 export interface Constructor<T> {
-  new (): T;
+  new (settings?: { timeout?: number }): T;
 }

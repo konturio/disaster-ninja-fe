@@ -14,18 +14,15 @@ export class AppSensorGyroscope
 {
   ready = false;
   readonly id = 'AppSensorGyroscope';
-  private options?: MotionSensorOptions;
   private sensor?: Gyroscope;
 
-  constructor(options?: MotionSensorOptions) {
+  constructor() {
     super();
-    this.options = options;
   }
 
   public async setup() {
-    this.sensor = new Gyroscope(this.options);
+    this.sensor = new Gyroscope();
     this.start();
-    this.sensor.start();
     this.ready = true;
     return this;
   }
@@ -50,6 +47,7 @@ export class AppSensorGyroscope
     if (this.sensor) {
       this.sensor.addEventListener('reading', this.readingHandler);
       this.sensor.addEventListener('error', this.errorHandler);
+      this.sensor.start();
     }
   }
 

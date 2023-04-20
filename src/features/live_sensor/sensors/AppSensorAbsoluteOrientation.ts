@@ -14,18 +14,15 @@ export class AppSensorAbsoluteOrientation
 {
   ready = false;
   readonly id = 'AppSensorAbsoluteOrientation';
-  private options?: MotionSensorOptions;
   private sensor?: AbsoluteOrientationSensor;
 
-  constructor(options?: MotionSensorOptions) {
+  constructor() {
     super();
-    this.options = options;
   }
 
   public async setup() {
-    this.sensor = new AbsoluteOrientationSensor(this.options);
+    this.sensor = new AbsoluteOrientationSensor();
     this.start();
-    this.sensor.start();
     this.ready = true;
     return this;
   }
@@ -56,6 +53,7 @@ export class AppSensorAbsoluteOrientation
     if (this.sensor) {
       this.sensor.addEventListener('reading', this.readingHandler);
       this.sensor.addEventListener('error', this.errorHandler);
+      this.sensor.start();
     }
   }
 
