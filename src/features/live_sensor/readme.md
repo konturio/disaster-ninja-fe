@@ -1,37 +1,39 @@
-### Live sensor feature
+# Live sensor feature
 
-This is a feature in development. It designed to collect user sensor data and send it to remote endpoint
+This feature designed to collect user sensor data and send it to remote endpoint
 
-#### Working logic
+## Working logic
 
-Feature is added to user interface throughout sidebar component.
-For the first activation user will have to accept permissions for sensors.
-After that each sensor except geolocation will populate `sensorDataAtom` whenever possible.
-Meanwhile `collectedPointsAtom` will add geojson point created from sensor data and geolocation on each geolocation update. After adding point, `triggerRequestAction` will be called to PUT request by `resourceTriggerAtom`, and populate it's payload from `collectedPointsAtom`. If no error occurs - `collectedPointsAtom` and `sensorDataAtom` will be reset
+The main controller is `LiveSensor`.
+It describe what sensors we want to listen, pass sensors to [SensorsRecorder](#sensorsrecorder) that collect data from sensors, and pass collected data from recorder to [SensorsSnapshotsSender](#sensorssnapshotssender) that prepare and sends this records to API
 
-When user decides to stop collecting data, several cleanups and resets must be called to out feature back into initial state. `SensorResourceAtom` must not send data after that. Feature will become inactive.
+### AppSensorsController
 
-[See diagram in figma](https://www.figma.com/file/GRMz4BnDfr5qFXafmrMt9Y/Live-sensor-feature?node-id=0%3A1&t=w2FGK3oikxVbA5QU-1)
+Confiture, setup, start/stop sensors and provide unified api for them, select what sensor is main (leading)
 
-`sensorDataAtom` collects buffer of data and cleans itself up from data older than `SENSOR_DATA_LIFETIME`
-`collectedPointsAtom` collects points until they're successfully sent away.
+### SensorsRecorder
+
+The SensorsSnapshotsSender takes records one by one from the recorder, starting from the beginning, converts them into API DTO, and tries to send them. If successful, the sent record is removed from the records queue, and the process is repeated.
+
+[See diagram in figma](https://www.figma.com/file/qPjefXJPvxDkbdrdtVYoKr/live-sensor?node-id=0-1&t=rajS3sg76JtIhqXg-0)
 
 #### Output
 
-For the request we'll sent roughly following JSON:
+Example of sended data
 
 ```js
 {
   type: 'FeatureCollection',
   features: [
-    // point created on first 100ms (if RECORD_UPDATES_INTERVAL === 100)
     {
       type: 'Feature',
+      id: 'asdvSADczfvadsf',
       geometry: {
         type: 'Point',
         coordinates: [coordinates.lng, coordinates.lat],
       },
       properties: {
+        // Note that updates collected in arrays, in some kind of table with rows and columns
         accelX: [1, .9, .8, .9],
         accelY: [1, .9, .8, .9],
         accelZ: [1, .9, .8, .9],
@@ -66,7 +68,3 @@ For the request we'll sent roughly following JSON:
   ]
 }
 ```
-
-#### Todos
-
-- one can wrap sensors into controller since they have identical api
