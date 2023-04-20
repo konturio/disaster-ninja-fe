@@ -95,6 +95,7 @@ export class ApiClient {
    * @throws {ApiClientError}
    */
   private storeTokens(token: string, refreshToken: string): boolean {
+    let errorMessage = '';
     try {
       const decodedToken: JWTData = jwtDecode(token);
       if (decodedToken && decodedToken.exp) {
@@ -109,13 +110,13 @@ export class ApiClient {
           );
           return true;
         } else {
-          console.error('Wrong token expire time');
+          errorMessage = 'Wrong token expire time';
         }
       }
     } catch (e) {
-      console.error("Can't decode token", e);
+      errorMessage = "Can't decode token";
     }
-    throw new ApiClientError(E_TOKEN_ERROR, { kind: 'bad-data' });
+    throw new ApiClientError(errorMessage || 'Token error', { kind: 'bad-data' });
   }
   /**
    * check and use local token, reset auth if token is absent or invalid

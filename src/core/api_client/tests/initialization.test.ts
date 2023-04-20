@@ -17,7 +17,7 @@ test('can be initialized with config object', () => {
     notificationService: createNotificationServiceMock(),
     loginApiPath: '/login',
     baseURL: 'https://localhost/api',
-    timeout: 3000,
+    // timeout: 3000,
   });
   expect(ApiClient.getInstance()).toBeTruthy();
 });

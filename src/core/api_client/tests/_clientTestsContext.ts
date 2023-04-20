@@ -1,6 +1,6 @@
+import './_configMock';
 import { ApiClient } from '../apiClient';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
-import './_configMock';
 import { createNotificationServiceMock } from './_servicesMocks';
 
 export function setTimeOffset(timeOffsetMin: number): number {
@@ -42,14 +42,11 @@ export const createContext = () => {
     loginApiPath: '/login',
     refreshTokenApiPath: '/refresh',
     baseURL: 'https://localhost/api',
-    timeout: 3000,
     instanceId,
     storage: localStorageMock,
   });
 
   const apiClient = ApiClient.getInstance(instanceId);
-  // trick to get access to private var
-  const axiosInstance = (apiClient as any).apiSauceInstance.axiosInstance;
 
   // setup token expiration time
   (apiClient as any).token = token;
@@ -63,7 +60,6 @@ export const createContext = () => {
     token: actualToken,
     expiredToken: expiredToken,
     refreshToken: refreshToken,
-    // mockAdapter: new MockAdapter(axiosInstance),
     username,
     password,
     localStorageMock,
