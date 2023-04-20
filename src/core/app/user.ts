@@ -21,10 +21,8 @@ export type UserProfileSettings = {
 export type UserProfileApi = UserProfileMain & UserProfileSettings;
 
 export type CurrentUser = UserProfileApi & {
-  id: string | null;
   defaultLayers?: string[];
   loading?: boolean;
-  token?: string;
 };
 
 export const defaultUserProfileData: UserProfileApi = {
@@ -42,6 +40,4 @@ export const defaultUserProfileData: UserProfileApi = {
 
 export const publicUser = {
   ...defaultUserProfileData,
-  // id===null means PUBLIC USER
-  id: null,
 };

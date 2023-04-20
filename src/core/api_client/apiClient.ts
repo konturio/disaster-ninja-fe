@@ -1,25 +1,22 @@
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 import FormUrlAddon from 'wretch/addons/formUrl';
-import FormDataAddon from 'wretch/addons/formData';
 import jwtDecode from 'jwt-decode';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
-import { ApiMethodTypes, getGeneralApiProblem } from './types';
+import { KONTUR_DEBUG } from '~utils/debug';
 import { ApiClientError } from './apiClientError';
-import { parseApiError } from './errors';
-import type { ApiErrorResponse, ApiResponse } from '~utils/axios/apisauce/apisauce';
+import { classifyProblem, parseApiError } from './errors';
+import { ApiMethodTypes } from './types';
+import type { WretchResponse } from 'wretch';
 import type {
   ApiClientConfig,
+  ApiResponse,
   ApiMethod,
   CustomRequestConfig,
-  GeneralApiProblem,
   JWTData,
   KeycloakAuthResponse,
-  RequestErrorsConfig,
   RequestParams,
-  ITranslationService,
   INotificationService,
-  LocalAuthToken,
 } from './types';
 
 export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
@@ -28,7 +25,6 @@ export class ApiClient {
   private static instances: Record<string, ApiClient> = {};
 
   private readonly instanceId: string;
-  private readonly translationService: ITranslationService;
   private readonly notificationService: INotificationService;
   private readonly unauthorizedCallback?: (a: this) => void;
   private readonly loginApiPath: string;
@@ -51,7 +47,6 @@ export class ApiClient {
   private constructor({
     instanceId = 'default',
     notificationService,
-    translationService,
     loginApiPath = '',
     refreshTokenApiPath = '',
     keycloakClientId = '',
@@ -61,7 +56,6 @@ export class ApiClient {
     baseURL,
   }: ApiClientConfig<ApiClient>) {
     this.instanceId = instanceId;
-    this.translationService = translationService;
     this.notificationService = notificationService;
     this.loginApiPath = loginApiPath;
     this.refreshTokenApiPath = refreshTokenApiPath;
@@ -100,7 +94,7 @@ export class ApiClient {
    * Authentication
    * @throws {ApiClientError}
    */
-  private setAuth(token: string, refreshToken: string): JWTData {
+  private storeTokens(token: string, refreshToken: string): boolean {
     try {
       const decodedToken: JWTData = jwtDecode(token);
       if (decodedToken && decodedToken.exp) {
@@ -113,7 +107,7 @@ export class ApiClient {
             LOCALSTORAGE_AUTH_KEY,
             JSON.stringify({ token, refreshToken }),
           );
-          return decodedToken;
+          return true;
         } else {
           console.error('Wrong token expire time');
         }
@@ -123,21 +117,22 @@ export class ApiClient {
     }
     throw new ApiClientError(E_TOKEN_ERROR, { kind: 'bad-data' });
   }
-
-  getLocalAuthToken(callback: () => void): LocalAuthToken | undefined {
-    this.expiredTokenCallback = callback;
+  /**
+   * check and use local token, reset auth if token is absent or invalid
+   * @returns boolean on success
+   */
+  checkLocalAuthToken(): boolean {
     try {
       const authStr = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
       if (authStr) {
         const { token, refreshToken } = JSON.parse(authStr);
         if (token && refreshToken) {
-          const jwtData = this.setAuth(token, refreshToken);
-          return { token, refreshToken, jwtData };
+          return this.storeTokens(token, refreshToken);
         }
       }
     } catch (e) {}
-    // local token absent or invalid
     this.resetAuth();
+    return false;
   }
 
   private resetAuth() {
@@ -147,10 +142,7 @@ export class ApiClient {
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
   }
 
-  /**
-   * @throws {ApiClientError}
-   */
-  private async tokenRefreshFlow() {
+  private async _tokenRefreshFlow() {
     if (this.tokenExpirationDate) {
       const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
       if (diffTime < 0) {
@@ -158,15 +150,15 @@ export class ApiClient {
         this.resetAuth();
         return false;
       }
-
       const minutes5 = 1000 * 60 * 5;
       if (diffTime < minutes5) {
-        // token expires soon - less then 5 minutes lifetime, refresh it
-        const refreshResult = await this.refreshAuthToken();
-        if (refreshResult && typeof refreshResult !== 'string') {
+        // token expires soon - in 5 minutes, refresh it
+        try {
+          const refreshResult = await this.refreshAuthToken();
           return true;
+        } catch (error) {
+          return false;
         }
-        return false;
       }
       return true;
     }
@@ -178,7 +170,7 @@ export class ApiClient {
    */
   private async isTokenOk(): Promise<boolean> {
     if (!this.tokenRefreshFlowPromise) {
-      this.tokenRefreshFlowPromise = this.tokenRefreshFlow();
+      this.tokenRefreshFlowPromise = this._tokenRefreshFlow();
     }
     const tokenCheck = await this.tokenRefreshFlowPromise;
     this.tokenRefreshFlowPromise = undefined;
@@ -191,121 +183,57 @@ export class ApiClient {
   /**
    * @throws {ApiClientError}
    */
-  private async getResponseDataOrThrow<T>(
-    response: ApiResponse<T, GeneralApiProblem>,
-    errorsConfig?: RequestErrorsConfig,
-  ): Promise<T | null | never> {
-    if (response.ok) {
-      return response.data;
-    }
-
-    // call redirection callback if user not authorized
-    if (
-      this.unauthorizedCallback &&
-      (response.status === 401 || response.status === 403)
-    ) {
-      // TODO: route to login page
-      this.unauthorizedCallback(this);
-    }
-    const problem = getGeneralApiProblem(response);
-
-    // if there is custom error messages config use it do define error message
-    // Parse error message from error body in other case
-    let errorMessage = '';
-    if (errorsConfig && errorsConfig.messages) {
-      if (typeof errorsConfig.messages !== 'string') {
-        if (response.status && response.status in errorsConfig.messages) {
-          errorMessage = errorsConfig.messages[response.status];
-        }
-      } else {
-        errorMessage = errorsConfig.messages;
-      }
-    }
-    if (!errorMessage) {
-      errorMessage = parseApiError(problem, this.translationService);
-    }
-
-    if (problem.kind === 'canceled') {
-      console.debug('Request was canceled');
-    } else if (errorsConfig === undefined || errorsConfig.hideErrors !== true) {
-      this.notificationService.error({
-        title: this.translationService.t('error'),
-        description: this.translationService.t(errorMessage),
-      });
-    }
-
-    throw new ApiClientError(errorMessage, problem);
-  }
-
-  /**
-   * @throws {ApiClientError}
-   */
-  public async login(username: string, password: string): Promise<LocalAuthToken> {
+  public async login(username: string, password: string): Promise<boolean> {
     const params = {
       username: username,
       password: password,
       client_id: this.keycloakClientId,
       grant_type: 'password',
     };
-
-    const response = await wretch(this.loginApiPath)
-      .addon(FormUrlAddon)
-      .formUrl(params)
-      .post()
-      .res(parseBody) as ApiResponse<KeycloakAuthResponse>;
-
-    return this.consumeTokenOrThrow(response);
+    return await this.requestTokenOrThrow(this.loginApiPath, params);
   }
 
   /**
    * @throws {ApiClientError}
    */
-  public async refreshAuthToken(): Promise<LocalAuthToken | undefined> {
+  private async refreshAuthToken(): Promise<boolean> {
     const params = {
       client_id: this.keycloakClientId,
       refresh_token: this.refreshToken,
       grant_type: 'refresh_token',
     };
-
-    const response = (await wretch(this.refreshTokenApiPath)
-      .addon(FormUrlAddon)
-      .formUrl(params)
-      .post()
-      .res(parseBody)) as ApiResponse<KeycloakAuthResponse>;
-
-    if (response.ok) {
-      return this.consumeTokenOrThrow(response);
-    }
+    return await this.requestTokenOrThrow(this.refreshTokenApiPath, params);
   }
 
   /**
    * @throws {ApiClientError}
    */
-  private consumeTokenOrThrow(
-    response: ApiResponse<KeycloakAuthResponse>,
-  ): LocalAuthToken {
-    if (response.ok && response.data && response.data.access_token) {
-      const setAuthResult = this.setAuth(
-        response.data.access_token,
-        response.data.refresh_token,
-      );
-      return {
-        token: response.data.access_token,
-        refreshToken: response.data.refresh_token,
-        jwtData: setAuthResult,
-      };
+  private async requestTokenOrThrow(url: string, params: object): Promise<boolean> {
+    try {
+      const response = (await wretch(url)
+        .addon(FormUrlAddon)
+        .formUrl(params)
+        .errorType('json')
+        .post()
+        .res(autoParseBody)) as ApiResponse<KeycloakAuthResponse>;
+      if (response?.data?.access_token) {
+        return this.storeTokens(response.data.access_token, response.data.refresh_token);
+      }
+      throw new ApiClientError('Token error', { kind: 'bad-data' });
+    } catch (err) {
+      if (KONTUR_DEBUG) {
+        console.error(err);
+      }
+      const { errorMessage, problem } = classifyProblem(err);
+      throw new ApiClientError(errorMessage, problem);
     }
-    if (response.data?.error_description) {
-      console.error(response.data?.error_description);
-    }
-    throw new ApiClientError(E_TOKEN_ERROR, { kind: 'bad-data' });
   }
 
   async logout() {
     this.resetAuth();
   }
 
-  public async call<T>(
+  private async call<T>(
     method: ApiMethod,
     path: string,
     requestParams?: unknown,
@@ -314,16 +242,10 @@ export class ApiClient {
   ): Promise<T | null> {
     const RequestsWithBody = ['post', 'put', 'patch'];
 
-    let req = wretch(this.baseURL, { mode: 'cors' })
-      .addon(FormDataAddon)
-      .addon(FormUrlAddon)
-      .addon(QueryStringAddon)
-      .url(path);
+    let req = wretch(this.baseURL, { mode: 'cors' }).addon(QueryStringAddon).url(path);
 
-    if (requestParams) {
-      req = RequestsWithBody.includes(method)
-        ? req.json(requestParams)
-        : req.query(requestParams);
+    if (requestConfig.signal) {
+      req = req.options({ signal: requestConfig.signal });
     }
 
     if (requestConfig.headers) {
@@ -333,20 +255,73 @@ export class ApiClient {
     if (!this.disableAuth && useAuth && this.token) {
       const tokenOk = await this.isTokenOk();
       if (tokenOk) {
-        req = req.auth(`Bearer ${this.token}`);
+        req = req
+          .auth(`Bearer ${this.token}`)
+          .catcher(401, async (_, originalRequest) => {
+            await this.refreshAuthToken();
+            // replay original request with new token
+            return originalRequest
+              .auth(`Bearer ${this.token}`)
+              .fetch()
+              .unauthorized((err) => {
+                // Redefine unauthorized hook to prevent infinite loops with multiple 401 errors
+                throw err;
+              })
+              .res(autoParseBody);
+          });
       }
     }
 
-    if (requestConfig.signal) {
-      req = req.options({ signal: requestConfig.signal });
+    if (requestParams) {
+      req = RequestsWithBody.includes(method)
+        ? req.json(requestParams)
+        : req.query(requestParams);
     }
 
-    const response = (await req[method]().res(parseBody)) as ApiResponse<
-      T,
-      GeneralApiProblem
-    >;
+    try {
+      const response = await req[method]().res(autoParseBody);
+      return response.data as T;
+    } catch (err) {
+      // eslint-disable-next-line prefer-const
+      let { errorMessage, problem, status } = classifyProblem(err);
+      if (problem.kind === 'canceled') {
+        throw new ApiClientError(errorMessage, problem);
+      }
+      if (problem.kind === 'unauthorized') {
+        // TODO: call redirection callback if user not authorized, route to login page
+        this.resetAuth();
+        this.unauthorizedCallback?.(this);
+      }
+      // use custom error messages if defined
+      const errorsConfig = requestConfig.errorsConfig;
+      if (errorsConfig && errorsConfig.messages) {
+        if (typeof errorsConfig.messages !== 'string') {
+          if (status in errorsConfig.messages) {
+            errorMessage = errorsConfig.messages[status];
+          }
+        } else {
+          errorMessage = errorsConfig.messages;
+        }
+      }
+      // Parse error message from error body in other case
+      if (!errorMessage) {
+        // @ts-expect-error any error can be parsed
+        errorMessage = parseApiError(err);
+      }
 
-    return this.getResponseDataOrThrow<T>(response, requestConfig?.errorsConfig);
+      if (errorsConfig?.hideErrors !== true) {
+        this.notificationService.error({
+          title: 'Error',
+          description: errorMessage,
+        });
+      }
+
+      if (KONTUR_DEBUG) {
+        console.error(err);
+      }
+
+      throw new ApiClientError(errorMessage || 'Unknown error', problem);
+    }
   }
 
   // method shortcuts
@@ -394,12 +369,17 @@ export class ApiClient {
     return this.call(ApiMethodTypes.DELETE, path, undefined, useAuth, requestConfig);
   }
 }
-async function parseBody(res) {
+
+async function autoParseBody(res: WretchResponse) {
   if (res.ok) {
-    const contentType = res.headers.get('content-type');
-    if (contentType === 'application/json') {
+    const contentType = res.headers.get('content-type') ?? '';
+    if (contentType.includes('application/json')) {
       res.data = await res.json();
+    } else {
+      res.data = await res.text();
     }
+  } else {
+    console.debug('autoParseBody', res);
   }
   return res;
 }

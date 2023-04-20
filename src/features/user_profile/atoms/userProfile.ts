@@ -44,7 +44,7 @@ export const currentProfileAtom = createAtom(
       // reload to simply apply all the settings if implementation is difficult
       if (prevUser) location.reload();
 
-      const { token, loading, defaultLayers, ...newState } = newUser;
+      const { loading, defaultLayers, ...newState } = newUser;
       state = newState;
     });
 

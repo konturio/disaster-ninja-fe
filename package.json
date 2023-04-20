@@ -141,7 +141,7 @@
     "remark-gfm": "^3.0.1",
     "superstruct": "^1.0.3",
     "utility-types": "^3.10.0",
-    "wretch": "^2.5.1"
+    "wretch": "^2.5.2"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",

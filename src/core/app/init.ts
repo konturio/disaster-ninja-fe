@@ -1,7 +1,6 @@
 import { updateAppConfig, updateAppConfigOverrides } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { urlEncoder } from '~core/url_store/encoder';
-import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import {
   findBasemapInLayersList,
@@ -18,7 +17,7 @@ export async function appInit() {
 
   const initialState = urlEncoder.decode<UrlData>(document.location.search.slice(1));
 
-  authClientInstance.checkLocalAuthToken();
+  apiClient.checkLocalAuthToken();
 
   const appConfigResponse = await apiClient.get<AppDto>(
     '/apps/configuration',

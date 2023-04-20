@@ -1,4 +1,7 @@
-import type { GeneralApiProblem, ITranslationService } from "./types";
+import wretch from 'wretch';
+import { ApiClientError } from './apiClientError';
+import type { WretchError } from 'wretch';
+import type { GeneralApiProblem } from './types';
 
 export function getTranslatedApiErrors(i18n: { t: (arg0: string) => string }) {
   const ApiErrors = {
@@ -7,14 +10,10 @@ export function getTranslatedApiErrors(i18n: { t: (arg0: string) => string }) {
   };
   return ApiErrors;
 }
-export type TApiErrors = keyof ReturnType<typeof getTranslatedApiErrors>;
 
-export function parseApiError(
-  errorResponse: GeneralApiProblem,
-  i18n: ITranslationService,
-): string {
-  if (errorResponse && 'data' in errorResponse) {
-    const { data: errorData } = errorResponse;
+export function parseApiError(errorObj: WretchError): string {
+  if (errorObj?.json) {
+    const errorData = errorObj?.json;
     if (errorData !== null) {
       if (Array.isArray(errorData)) {
         return errorData
@@ -25,38 +24,57 @@ export function parseApiError(
           )
           .join('<br/>');
       }
-      if (errorData instanceof Object) {
-        if (errorData.hasOwnProperty('error')) return errorData['error'];
-        if (errorData.hasOwnProperty('errors') && Array.isArray(errorData['errors'])) {
-          return errorData['errors']
-            .reduce((acc, errorObj) => {
-              if (errorObj.hasOwnProperty('message')) {
-                acc.push(errorObj['message']);
-              }
-              return acc;
-            }, [])
-            .join('<br/>');
-        }
+      if (errorData?.error) return errorData['error'];
+      if (errorData?.errors && Array.isArray(errorData['errors'])) {
+        return errorData['errors']
+          .reduce((acc, errorObj) => {
+            if (errorObj?.message) {
+              acc.push(errorObj['message']);
+            }
+            return acc;
+          }, [])
+          .join('<br/>');
       }
-
-      return String(errorData);
     }
-
-    return 'Unknown Error';
+    return String(errorData);
   }
+  return errorObj?.text ?? errorObj?.message ?? 'Unknown Error';
+}
 
-  switch (errorResponse.kind) {
-    case 'timeout':
-      return i18n.t('errors.timeout');
-    case 'cannot-connect':
-      return i18n.t('errors.cannot_connect');
-    case 'forbidden':
-      return i18n.t('errors.forbidden');
-    case 'not-found':
-      return i18n.t('errors.not_found');
-    case 'unknown':
-      return i18n.t('errors.unknown');
-    default:
-      return i18n.t('errors.server_error');
+export function classifyProblem(err: unknown) {
+  let errorMessage = '';
+  let problem: GeneralApiProblem = { kind: 'unknown', temporary: true };
+  let status = 0;
+  // Determine problem
+  if (err instanceof ApiClientError) {
+    // error already parsed
+    errorMessage = err.message;
+    problem = err.problem;
+  } else if (err instanceof wretch.WretchError) {
+    status = err.status;
+    if (status === 401) {
+      errorMessage = err.json?.error_description ?? err?.message ?? 'Auth error';
+      problem = { kind: 'unauthorized', data: err.json?.error };
+    } else if (status === 403) {
+      problem = { kind: 'forbidden' };
+    } else if (status === 404) {
+      problem = { kind: 'not-found' };
+    } else if (status === 408) {
+      problem = { kind: 'timeout', temporary: true };
+    } else if (status >= 500) {
+      problem = { kind: 'server', data: err?.json ?? err?.text };
+    }
+  } else if (isAbortError(err)) {
+    problem = { kind: 'canceled' };
+  } else {
+    // non-api, network or other fetch error
+    // 4xx/5xx without Access-Control-Allow-Origin - as generic TypeError
+    // by default classified as unknown problem
+    problem = { kind: 'client-unknown' };
   }
+  return { errorMessage, problem, status };
+}
+
+function isAbortError(e) {
+  return e?.name === 'AbortError' || e?.problem?.kind === 'canceled';
 }

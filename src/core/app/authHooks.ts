@@ -3,17 +3,11 @@ import { currentUserAtom } from '~core/shared_state';
 import { yandexMetrics } from '~core/metrics';
 import { setFeatures } from './features';
 import type { UserProfileApi } from './user';
-import type { AuthSuccessResponse } from '~core/auth/client/AuthClient';
 
-export async function onLogin(response?: AuthSuccessResponse) {
-  if (response && appConfig.user) {
+export async function onLogin() {
+  if (appConfig.user) {
     externalLoginTasks(appConfig.user);
-    const mergedUserdata = {
-      ...appConfig.user,
-      id: response.jwtData.sub,
-      token: response.token,
-    };
-    currentUserAtom.setUser.dispatch(mergedUserdata);
+    currentUserAtom.setUser.dispatch({ ...appConfig.user });
   }
   setFeatures(appConfig.effectiveFeatures);
 }
