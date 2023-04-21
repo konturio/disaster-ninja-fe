@@ -1,4 +1,5 @@
 import wretch from 'wretch';
+import { KONTUR_DEBUG } from '~utils/debug';
 import { ApiClientError } from './apiClientError';
 import type { WretchError } from 'wretch';
 import type { GeneralApiProblem } from './types';
@@ -41,16 +42,19 @@ export function parseApiError(errorObj: WretchError): string {
   return errorObj?.text ?? errorObj?.message ?? 'Unknown Error';
 }
 
-export function classifyProblem(err: unknown) {
+export function createApiError(err: unknown) {
   let errorMessage = '';
   let problem: GeneralApiProblem = { kind: 'unknown', temporary: true };
   let status = 0;
   // Determine problem
   if (err instanceof ApiClientError) {
     // error already parsed
-    errorMessage = err.message;
-    problem = err.problem;
-  } else if (err instanceof wretch.WretchError) {
+    return err;
+  }
+  if (KONTUR_DEBUG) {
+    console.error(err);
+  }
+  if (err instanceof wretch.WretchError) {
     status = err.status;
     if (status === 401) {
       errorMessage = err.json?.error_description ?? err?.message ?? 'Auth error';
@@ -72,7 +76,12 @@ export function classifyProblem(err: unknown) {
     // by default classified as unknown problem
     problem = { kind: 'client-unknown' };
   }
-  return { errorMessage, problem, status };
+  // Parse error message from error body
+  if (!errorMessage) {
+    // @ts-expect-error any error can be parsed
+    errorMessage = parseApiError(err);
+  }
+  return new ApiClientError(errorMessage || 'Unknown error', problem, status);
 }
 
 function isAbortError(e) {

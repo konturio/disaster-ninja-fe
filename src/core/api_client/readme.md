@@ -5,7 +5,7 @@ Authenticated request strategy:
 - check token expiration:
   - expiring soon -> refresh token
   - expired -> reset auth, call expiredtoken hook
-- do request, on 401 try refresh token once more
+- do request, on 401 try refresh token once more, (can happen because client time can be inaccurate)
 - on 401 reset auth, call unauthenticated hook
 
 ## Error handling

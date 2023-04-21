@@ -3,9 +3,8 @@ import QueryStringAddon from 'wretch/addons/queryString';
 import FormUrlAddon from 'wretch/addons/formUrl';
 import jwtDecode from 'jwt-decode';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
-import { KONTUR_DEBUG } from '~utils/debug';
 import { ApiClientError } from './apiClientError';
-import { classifyProblem, parseApiError } from './errors';
+import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
 import type { WretchResponse } from 'wretch';
 import type {
@@ -39,6 +38,7 @@ export class ApiClient {
   public expiredTokenCallback = () => {};
   private readonly keycloakClientId: string;
   private baseURL: string;
+  timeToRefresh: number = 1000 * 60 * 5;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -120,7 +120,7 @@ export class ApiClient {
   }
   /**
    * check and use local token, reset auth if token is absent or invalid
-   * @returns boolean on success
+   * @returns true on success
    */
   checkLocalAuthToken(): boolean {
     try {
@@ -151,8 +151,7 @@ export class ApiClient {
         this.resetAuth();
         return false;
       }
-      const minutes5 = 1000 * 60 * 5;
-      if (diffTime < minutes5) {
+      if (diffTime < this.timeToRefresh) {
         // token expires soon - in 5 minutes, refresh it
         try {
           const refreshResult = await this.refreshAuthToken();
@@ -222,11 +221,7 @@ export class ApiClient {
       }
       throw new ApiClientError('Token error', { kind: 'bad-data' });
     } catch (err) {
-      if (KONTUR_DEBUG) {
-        console.error(err);
-      }
-      const { errorMessage, problem } = classifyProblem(err);
-      throw new ApiClientError(errorMessage, problem);
+      throw createApiError(err);
     }
   }
 
@@ -283,12 +278,11 @@ export class ApiClient {
       const response = await req[method]().res(autoParseBody);
       return response.data as T;
     } catch (err) {
-      // eslint-disable-next-line prefer-const
-      let { errorMessage, problem, status } = classifyProblem(err);
-      if (problem.kind === 'canceled') {
-        throw new ApiClientError(errorMessage, problem);
+      const apiError = createApiError(err);
+      if (apiError.problem.kind === 'canceled') {
+        throw apiError;
       }
-      if (problem.kind === 'unauthorized') {
+      if (apiError.problem.kind === 'unauthorized') {
         // TODO: call redirection callback if user not authorized, route to login page
         this.resetAuth();
         this.unauthorizedCallback?.(this);
@@ -297,31 +291,22 @@ export class ApiClient {
       const errorsConfig = requestConfig.errorsConfig;
       if (errorsConfig && errorsConfig.messages) {
         if (typeof errorsConfig.messages !== 'string') {
-          if (status in errorsConfig.messages) {
-            errorMessage = errorsConfig.messages[status];
+          if (apiError.status in errorsConfig.messages) {
+            apiError.message = errorsConfig.messages[apiError.status];
           }
         } else {
-          errorMessage = errorsConfig.messages;
+          apiError.message = errorsConfig.messages;
         }
-      }
-      // Parse error message from error body in other case
-      if (!errorMessage) {
-        // @ts-expect-error any error can be parsed
-        errorMessage = parseApiError(err);
       }
 
       if (errorsConfig?.hideErrors !== true) {
         this.notificationService.error({
           title: 'Error',
-          description: errorMessage,
+          description: apiError.message,
         });
       }
 
-      if (KONTUR_DEBUG) {
-        console.error(err);
-      }
-
-      throw new ApiClientError(errorMessage || 'Unknown error', problem);
+      throw apiError;
     }
   }
 

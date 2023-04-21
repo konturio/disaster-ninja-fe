@@ -49,6 +49,9 @@ export class AuthClient {
     userStateAtom.authorize.dispatch();
   }
 
+  /**
+   * @returns true or error message
+   */
   public async authenticate(user: string, password: string) {
     try {
       const loginOk = await this._apiClient.login(user, password);
