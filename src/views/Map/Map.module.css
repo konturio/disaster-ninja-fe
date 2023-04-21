@@ -38,17 +38,10 @@
   position: relative;
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
   gap: var(--unit);
   padding: 0 var(--unit);
-}
-
-@media screen and (max-width: 480px) {
-  .footer {
-    flex-flow: column nowrap;
-    align-items: flex-start;
-  }
 }
 
 /* laptop viewport */
@@ -73,4 +66,21 @@
   align-items: center;
   justify-content: flex-end;
   background-color: rgba(255, 255, 255, 0.7);
+}
+
+@media screen and (max-width: 360px) {
+  .footer {
+    align-items: flex-end;
+    flex-flow: column nowrap;
+  }
+  .footerBackground {
+    background-color: transparent;
+    flex-flow: column nowrap;
+    align-items: flex-end;
+  }
+
+  .footerBackground > * {
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
 }
