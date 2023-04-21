@@ -5,6 +5,13 @@
   align-items: center;
   gap: var(--half-unit);
   font-size: 12px;
+  background-color: transparent !important;
+}
+
+.copyrights.visible {
+  background-color: #ffffff80 !important;
+  border-radius: 12px;
+  padding-right: 8px;
 }
 
 .attributionBtn {

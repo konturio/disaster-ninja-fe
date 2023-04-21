@@ -66,7 +66,7 @@ export function Copyrights() {
   }, [map]);
 
   return (
-    <div className={s.copyrights}>
+    <div className={cn(s.copyrights, { [s.visible]: showOnMobile })}>
       <button
         onClick={() => setShowOnMobile((curr) => !curr)}
         className={s.attributionBtn}
