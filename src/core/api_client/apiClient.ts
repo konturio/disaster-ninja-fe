@@ -144,25 +144,24 @@ export class ApiClient {
   }
 
   private async _tokenRefreshFlow() {
-    if (this.tokenExpirationDate) {
-      const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
-      if (diffTime < 0) {
-        // token expired
-        this.resetAuth();
+    if (!this.tokenExpirationDate) {
+      return false;
+    }
+    const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
+    if (diffTime < 0) {
+      // token expired
+      this.resetAuth();
+      return false;
+    }
+    if (diffTime < this.timeToRefresh) {
+      // token expires soon - in 5 minutes, refresh it
+      try {
+        await this.refreshAuthToken();
+      } catch (error) {
         return false;
       }
-      if (diffTime < this.timeToRefresh) {
-        // token expires soon - in 5 minutes, refresh it
-        try {
-          const refreshResult = await this.refreshAuthToken();
-          return true;
-        } catch (error) {
-          return false;
-        }
-      }
-      return true;
     }
-    return false;
+    return true;
   }
 
   /**
