@@ -110,11 +110,11 @@ export class ApiClient {
           );
           return true;
         } else {
-          errorMessage = 'Wrong token expire time';
+          errorMessage = 'Token is expired right after receiving, clock is out of sync';
         }
       }
     } catch (e) {
-      errorMessage = "Can't decode token";
+      errorMessage = 'Token decode error';
     }
     throw new ApiClientError(errorMessage || 'Token error', { kind: 'bad-data' });
   }
@@ -149,8 +149,9 @@ export class ApiClient {
     }
     const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
     if (diffTime < 0) {
-      // token expired
+      // token expired, need to relogin
       this.resetAuth();
+      this.expiredTokenCallback();
       return false;
     }
     if (diffTime < this.timeToRefresh) {
@@ -173,9 +174,6 @@ export class ApiClient {
     }
     const tokenCheck = await this.tokenRefreshFlowPromise;
     this.tokenRefreshFlowPromise = undefined;
-    if (!tokenCheck) {
-      this.expiredTokenCallback();
-    }
     return tokenCheck;
   }
 

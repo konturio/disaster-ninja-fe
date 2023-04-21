@@ -98,6 +98,10 @@ export type GeneralApiProblem =
    */
   | { kind: 'server'; data?: unknown }
   /**
+   * 400 Bad Request
+   */
+  | { kind: 'bad-request' }
+  /**
    * We're not allowed because we haven't identified ourself. This is 401.
    */
   | { kind: 'unauthorized'; data: string }
