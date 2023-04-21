@@ -14,8 +14,8 @@ declare module 'vitest' {
 
 beforeEach(async (ctx) => {
   ctx.sensors = new AppSensorsController([
-    makeFakeSensor(100, 'main'), // <- Updates of first sensor used for record ticks in recorder
-    makeFakeSensor(30, 'frequent'),
+    makeFakeSensor(1000, 'main'), // <- Updates of first sensor used for record ticks in recorder
+    makeFakeSensor(300, 'frequent'),
   ]);
   await ctx.sensors.init();
   return () => {
@@ -30,7 +30,7 @@ test('Recorder collect updates with main sensor frequency', async ({ sensors }) 
 
   recorder.record();
 
-  await wait(0.3);
+  await wait(3);
 
   expect(recorder.records.length, 'No more often than the first sensor').toBe(2);
   expect(recorder.records.at(0)!.get('frequent')!.length, 'All updates recorded').toBe(3);
@@ -45,7 +45,7 @@ test('Records removed after update tick', async ({ sensors }) => {
 
   recorder.record();
 
-  await wait(0.3);
+  await wait(3);
 
   //@ts-ignore
   const recordTimeInFirstSnapshot = recorder.records.at(0)!.get('main')!.at(0).updateTime;
