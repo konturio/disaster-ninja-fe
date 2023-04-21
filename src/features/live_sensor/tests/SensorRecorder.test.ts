@@ -2,20 +2,20 @@ import { test, expect, vi, beforeEach } from 'vitest';
 import { wait } from '~utils/test';
 import { AppSensorsController } from '../AppSensorsController';
 import { SensorsRecorder } from '../SensorsRecorder';
-import { fakeSensorFabric } from './FakeSensor';
-import type { FakeSensor } from './FakeSensor';
+import { makeFakeSensor } from './FakeSensor';
 import type { Constructor } from '../types';
+import type { AppSensor } from '../sensors/AppSensor';
 
 declare module 'vitest' {
   export interface TestContext {
-    sensors: AppSensorsController<Constructor<FakeSensor>[]>;
+    sensors: AppSensorsController<Constructor<AppSensor>[]>;
   }
 }
 
 beforeEach(async (ctx) => {
   ctx.sensors = new AppSensorsController([
-    fakeSensorFabric(100, 'main'), // <- Updates of first sensor used for record ticks in recorder
-    fakeSensorFabric(30, 'frequent'),
+    makeFakeSensor(100, 'main'), // <- Updates of first sensor used for record ticks in recorder
+    makeFakeSensor(30, 'frequent'),
   ]);
   await ctx.sensors.init();
   return () => {
