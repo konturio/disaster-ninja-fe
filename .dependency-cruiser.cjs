@@ -116,6 +116,7 @@ module.exports = {
         pathNot: [
           '\\.(spec|test)\\.(js|mjs|cjs|ts|tsx|ls|coffee|litcoffee|coffee\\.md)$',
           '_clientTestsContext.ts',
+          '_configMock.ts',
         ],
       },
       to: {
