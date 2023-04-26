@@ -54,9 +54,6 @@ export interface AppConfigGlobal {
   keycloakClientId: string;
   yandexMetricaId: number[] | undefined;
   baseUrl: string;
-  isDevBuild: boolean;
-  isProdBuild: boolean;
-  appVersion: string;
   autoFocus: {
     desktopPaddings: {
       top: number;

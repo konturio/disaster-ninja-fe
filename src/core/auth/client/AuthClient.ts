@@ -1,23 +1,13 @@
 import { noop } from '@reatom/core';
 import { userStateAtom } from '~core/auth/atoms/userState';
-import type { JWTData, LocalAuthToken } from '~core/api_client/types';
 import type { ApiClient } from '~core/api_client';
 
 interface AuthClientConfig {
   apiClient: ApiClient;
 }
-export type AuthLoginHook = (
-  // response field provided if authenticated
-  response?: AuthSuccessResponse,
-) => Promise<unknown>;
+export type AuthLoginHook = () => Promise<unknown>;
 
 export type AuthLogoutHook = (...args: unknown[]) => unknown;
-
-export type AuthSuccessResponse = {
-  token: string;
-  refreshToken: string;
-  jwtData: JWTData;
-};
 
 export class AuthClient {
   private static instance: AuthClient;
@@ -47,14 +37,6 @@ export class AuthClient {
     return AuthClient.instance;
   }
 
-  public showLoginForm() {
-    userStateAtom.login.dispatch();
-  }
-
-  public closeLoginForm() {
-    userStateAtom.reset.dispatch();
-  }
-
   public logout() {
     this._apiClient.logout();
     this.logoutHook();
@@ -62,35 +44,31 @@ export class AuthClient {
     // reload to init with public config and profile
     location.reload();
   }
-
-  private onTokenExpired() {
-    console.warn('User session has been expired. Logging out.');
-    this.logout();
-  }
-
-  private startAuthenticated(response: AuthSuccessResponse) {
-    this.loginHook(response);
+  private startAuthenticated() {
+    this.loginHook();
     userStateAtom.authorize.dispatch();
   }
 
-  public async authenticate(
-    user: string,
-    password: string,
-  ): Promise<true | string | undefined> {
-    const response = await this._apiClient.login(user, password);
-    if (response && typeof response === 'object' && 'token' in response) {
-      // reload to init with authenticated config and profile
-      location.reload();
+  /**
+   * @returns true or error message
+   */
+  public async authenticate(user: string, password: string) {
+    try {
+      const loginOk = await this._apiClient.login(user, password);
+      if (loginOk) {
+        // reload to init with authenticated config and profile
+        location.reload();
+      }
       return true;
+    } catch (e: any) {
+      return e?.message || 'Login error';
     }
-    return response;
   }
 
   public checkAuth() {
-    const response = this.checkLocalAuthToken();
-    if (response?.token) {
+    if (this._apiClient.checkLocalAuthToken()) {
       // auth init flow
-      this.startAuthenticated(response);
+      this.startAuthenticated();
       return true;
     }
     // anon init flow
@@ -100,15 +78,5 @@ export class AuthClient {
 
   startAnonymosly() {
     this.loginHook();
-  }
-
-  public checkLocalAuthToken(): LocalAuthToken | undefined {
-    try {
-      const response = this._apiClient.getLocalAuthToken(() => this.onTokenExpired());
-      return response;
-    } catch (e) {
-      console.warn('Auth has been expired', e);
-      this.logout();
-    }
   }
 }

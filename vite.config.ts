@@ -34,7 +34,7 @@ export default ({ mode }) => {
     VITE_DEBUG_RENDER_TRACKER?: boolean;
     VITE_DEBUG_HMR?: boolean;
     VITE_ANALYZE_BUNDLE?: boolean;
-    VITE_HTTPS?: boolean
+    VITE_HTTPS?: boolean;
   }>(loadEnv(mode, process.cwd()));
 
   const config = useConfig(selectConfig(mode), env.DEST_PATH);
@@ -68,7 +68,6 @@ export default ({ mode }) => {
             }),
         ],
         output: {
-          experimentalDeepDynamicChunkOptimization: true,
           interop: 'compat',
         },
         treeshake: {
@@ -78,6 +77,7 @@ export default ({ mode }) => {
           preset: 'recommended',
           manualPureFunctions: ['forwardRef', 'createContext', 'noop'],
         },
+        // experimentalLogSideEffects: true,
       },
     },
     plugins: [

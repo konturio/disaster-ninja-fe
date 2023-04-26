@@ -1,12 +1,16 @@
-import MockAdapter from 'axios-mock-adapter';
+import './_configMock';
+import { mockFetch, mockGet, mockPost } from 'vi-fetch';
 import { ApiClient } from '../apiClient';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
-import './_configMock';
-import {
-  createNotificationServiceMock,
-  createTranslationServiceMock,
-} from './_servicesMocks';
+import { createNotificationServiceMock } from './_servicesMocks';
 
+const baseURL = 'https://localhost/api';
+mockFetch.setOptions({ baseUrl: baseURL });
+const mockAdapter = {
+  onGet: mockGet,
+  onPost: mockPost,
+  mockFetch,
+};
 export function setTimeOffset(timeOffsetMin: number): number {
   return (new Date().getTime() + timeOffsetMin * 60 * 1000) / 1000;
 }
@@ -43,18 +47,14 @@ export const createContext = () => {
   const localStorageMock = createLocalStorageMock();
   ApiClient.init({
     notificationService: createNotificationServiceMock(),
-    translationService: createTranslationServiceMock(),
-    loginApiPath: '/login',
-    refreshTokenApiPath: '/refresh',
-    baseURL: 'https://localhost/api',
-    timeout: 3000,
+    loginApiPath: baseURL + '/login',
+    refreshTokenApiPath: baseURL + '/refresh',
+    baseURL,
     instanceId,
     storage: localStorageMock,
   });
 
   const apiClient = ApiClient.getInstance(instanceId);
-  // trick to get access to private var
-  const axiosInstance = (apiClient as any).apiSauceInstance.axiosInstance;
 
   // setup token expiration time
   (apiClient as any).token = token;
@@ -68,10 +68,10 @@ export const createContext = () => {
     token: actualToken,
     expiredToken: expiredToken,
     refreshToken: refreshToken,
-    mockAdapter: new MockAdapter(axiosInstance),
     username,
     password,
     localStorageMock,
+    mockAdapter,
   };
 };
 

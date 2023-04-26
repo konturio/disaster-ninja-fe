@@ -1,49 +1,45 @@
+import wretch from 'wretch';
+import QueryStringAddon from 'wretch/addons/queryString';
+import FormUrlAddon from 'wretch/addons/formUrl';
 import jwtDecode from 'jwt-decode';
-import { i18n } from '~core/localization';
-import { create } from '~utils/axios/apisauce/apisauce';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
-import { ApiMethodTypes, getGeneralApiProblem } from './types';
+import { KONTUR_DEBUG } from '~utils/debug';
 import { ApiClientError } from './apiClientError';
-import type {
-  ApiErrorResponse,
-  ApiResponse,
-  ApisauceInstance,
-} from '~utils/axios/apisauce/apisauce';
-import type { AxiosRequestConfig } from 'axios';
+import { createApiError } from './errors';
+import { ApiMethodTypes } from './types';
+import type { WretchResponse } from 'wretch';
 import type {
   ApiClientConfig,
+  ApiResponse,
   ApiMethod,
   CustomRequestConfig,
-  GeneralApiProblem,
   JWTData,
   KeycloakAuthResponse,
-  RequestErrorsConfig,
   RequestParams,
-  ITranslationService,
   INotificationService,
-  LocalAuthToken,
 } from './types';
 
-const LOCALSTORAGE_AUTH_KEY = 'auth_token';
-
+export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
+const E_TOKEN_ERROR = 'Token error';
 export class ApiClient {
   private static instances: Record<string, ApiClient> = {};
 
   private readonly instanceId: string;
-  private readonly translationService: ITranslationService;
   private readonly notificationService: INotificationService;
   private readonly unauthorizedCallback?: (a: this) => void;
   private readonly loginApiPath: string;
   private readonly refreshTokenApiPath: string;
-  private readonly apiSauceInstance: ApisauceInstance;
   private readonly disableAuth: boolean;
   private readonly storage: WindowLocalStorage['localStorage'];
   private token = '';
   private refreshToken = '';
   private tokenExpirationDate: Date | undefined;
-  private checkTokenPromise: Promise<boolean> | undefined;
-  public expiredTokenCallback?: () => void;
+  private tokenRefreshFlowPromise: Promise<boolean> | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public expiredTokenCallback = () => {};
   private readonly keycloakClientId: string;
+  private baseURL: string;
+  timeToRefresh: number = 1000 * 60 * 5;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -52,17 +48,15 @@ export class ApiClient {
   private constructor({
     instanceId = 'default',
     notificationService,
-    translationService,
     loginApiPath = '',
     refreshTokenApiPath = '',
     keycloakClientId = '',
     unauthorizedCallback,
     disableAuth = false,
     storage = globalThis.localStorage,
-    ...apiSauceConfig
+    baseURL,
   }: ApiClientConfig<ApiClient>) {
     this.instanceId = instanceId;
-    this.translationService = translationService;
     this.notificationService = notificationService;
     this.loginApiPath = loginApiPath;
     this.refreshTokenApiPath = refreshTokenApiPath;
@@ -72,24 +66,11 @@ export class ApiClient {
     this.unauthorizedCallback = unauthorizedCallback;
 
     // Will deleted by terser
-    if (import.meta?.env?.DEV) {
-      apiSauceConfig.baseURL = replaceUrlWithProxy(apiSauceConfig.baseURL ?? '');
+    if (import.meta.env?.DEV) {
+      baseURL = replaceUrlWithProxy(baseURL ?? '');
       this.loginApiPath = replaceUrlWithProxy(this.loginApiPath);
     }
-
-    if (!apiSauceConfig.headers) {
-      apiSauceConfig.headers = {};
-    }
-
-    if (!apiSauceConfig.headers['Content-Type']) {
-      apiSauceConfig.headers['Content-Type'] = 'application/json';
-    }
-
-    if (!apiSauceConfig.headers['Accept']) {
-      apiSauceConfig.headers['Accept'] = 'application/json';
-    }
-
-    this.apiSauceInstance = create(apiSauceConfig);
+    this.baseURL = baseURL;
   }
 
   public static getInstance(instanceId = 'default'): ApiClient {
@@ -112,52 +93,51 @@ export class ApiClient {
 
   /**
    * Authentication
+   * @throws {ApiClientError}
    */
-  private setAuth(token: string, refreshToken: string): JWTData | string {
-    let decodedToken: JWTData | undefined;
-
+  private storeTokens(token: string, refreshToken: string): boolean {
+    let errorMessage = '';
     try {
-      decodedToken = jwtDecode(token);
-    } catch (e) {
-      return "Can't decode token!";
-    }
-
-    if (decodedToken && decodedToken.exp) {
-      const expiringDate = new Date(decodedToken.exp * 1000);
-      if (expiringDate > new Date()) {
-        this.token = token;
-        this.refreshToken = refreshToken;
-        this.tokenExpirationDate = expiringDate;
-        this.storage.setItem(
-          LOCALSTORAGE_AUTH_KEY,
-          JSON.stringify({ token, refreshToken }),
-        );
-        return decodedToken;
-      } else {
-        return 'Wrong token expire time!';
+      const decodedToken: JWTData = jwtDecode(token);
+      if (KONTUR_DEBUG) {
+        console.debug({ decodedToken, now: new Date().getTime() });
       }
-    }
-
-    return 'Wrong data received!';
-  }
-
-  getLocalAuthToken(callback: () => void): LocalAuthToken | undefined {
-    this.expiredTokenCallback = callback;
-    const authStr = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
-    if (authStr) {
-      const { token, refreshToken } = JSON.parse(authStr);
-      if (token && refreshToken) {
-        const jwtData = this.setAuth(token, refreshToken);
-        if (typeof jwtData === 'string') {
-          this.resetAuth();
-          // FIXME: implement correct i18n usage for errors, do not translationService.t(var) !!!
-          throw new ApiClientError(this.translationService.t(jwtData), {
-            kind: 'bad-data',
-          });
+      if (decodedToken && decodedToken.exp) {
+        const expiringDate = new Date(decodedToken.exp * 1000);
+        if (expiringDate > new Date()) {
+          this.token = token;
+          this.refreshToken = refreshToken;
+          this.tokenExpirationDate = expiringDate;
+          this.storage.setItem(
+            LOCALSTORAGE_AUTH_KEY,
+            JSON.stringify({ token, refreshToken }),
+          );
+          return true;
+        } else {
+          errorMessage = 'Token is expired right after receiving, clock is out of sync';
         }
-        return { token, refreshToken, jwtData };
       }
+    } catch (e) {
+      errorMessage = 'Token decode error';
     }
+    throw new ApiClientError(errorMessage || 'Token error', { kind: 'bad-data' });
+  }
+  /**
+   * check and use local token, reset auth if token is absent or invalid
+   * @returns true on success
+   */
+  checkLocalAuthToken(): boolean {
+    try {
+      const authStr = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
+      if (authStr) {
+        const { token, refreshToken } = JSON.parse(authStr);
+        if (token && refreshToken) {
+          return this.storeTokens(token, refreshToken);
+        }
+      }
+    } catch (e) {}
+    this.resetAuth();
+    return false;
   }
 
   private resetAuth() {
@@ -167,233 +147,82 @@ export class ApiClient {
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
   }
 
-  private async checkTokenIsExpired(): Promise<boolean> {
-    if (!this.checkTokenPromise) {
-      // eslint-disable-next-line no-async-promise-executor
-      this.checkTokenPromise = new Promise<boolean>(async (resolve) => {
-        // if token has less then 5 minutes lifetime, refresh it
-        if (this.tokenExpirationDate) {
-          const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
-          if (diffTime < 0) {
-            this.resetAuth();
-            if (this.expiredTokenCallback) {
-              this.expiredTokenCallback();
-            }
-            resolve(false);
-            return false;
-          }
-          const minutes5 = 1000 * 60 * 5;
-          if (diffTime < minutes5) {
-            const refreshResult = await this.refreshAuthToken();
-            if (refreshResult && typeof refreshResult !== 'string') {
-              resolve(true);
-              return true;
-            }
-            if (this.expiredTokenCallback) {
-              this.expiredTokenCallback();
-            }
-            resolve(false);
-            return false;
-          }
-          resolve(true);
-          return true;
-        }
-
-        if (this.expiredTokenCallback) {
-          this.expiredTokenCallback();
-        }
-        resolve(false);
+  private async _tokenRefreshFlow() {
+    if (!this.tokenExpirationDate) {
+      return false;
+    }
+    const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
+    if (diffTime < 0) {
+      // token expired, need to relogin
+      this.resetAuth();
+      this.expiredTokenCallback();
+      return false;
+    }
+    if (diffTime < this.timeToRefresh) {
+      // token expires soon - in 5 minutes, refresh it
+      try {
+        await this.refreshAuthToken();
+      } catch (error) {
         return false;
-      });
+      }
     }
-
-    const res = await this.checkTokenPromise;
-    this.checkTokenPromise = undefined;
-    return res;
+    return true;
   }
 
   /**
    * @throws {ApiClientError}
    */
-  private async processResponse<T>(
-    response: ApiResponse<T, GeneralApiProblem>,
-    errorsConfig?: RequestErrorsConfig,
-  ): Promise<T | null | never> {
-    if (response.ok) {
-      return response.data;
+  private async isTokenOk(): Promise<boolean> {
+    if (!this.tokenRefreshFlowPromise) {
+      this.tokenRefreshFlowPromise = this._tokenRefreshFlow();
     }
-
-    // call redirection callback if user not authorized
-    if (
-      this.unauthorizedCallback &&
-      (response.status === 401 || response.status === 403)
-    ) {
-      this.unauthorizedCallback(this);
-    }
-    const problem = getGeneralApiProblem(response);
-
-    // if there is custom error messages config use it do define error message
-    // Parse error message from error body in other case
-    let errorMessage = '';
-    if (errorsConfig && errorsConfig.messages) {
-      if (typeof errorsConfig.messages !== 'string') {
-        if (response.status && response.status in errorsConfig.messages) {
-          errorMessage = errorsConfig.messages[response.status];
-        }
-      } else {
-        errorMessage = errorsConfig.messages;
-      }
-    }
-
-    if (!errorMessage) {
-      errorMessage = ApiClient.parseError(problem);
-    }
-
-    if (problem.kind === 'canceled') {
-      console.debug('Request was canceled');
-    } else if (errorsConfig === undefined || errorsConfig.hideErrors !== true) {
-      this.notificationService.error({
-        title: this.translationService.t('error'),
-        description: this.translationService.t(errorMessage),
-      });
-    }
-
-    throw new ApiClientError(errorMessage, problem);
-  }
-
-  private static parseError(errorResponse: GeneralApiProblem): string {
-    if (errorResponse && 'data' in errorResponse) {
-      const { data: errorData } = errorResponse;
-      if (errorData !== null) {
-        if (Array.isArray(errorData)) {
-          return errorData
-            .map((errorMsg) =>
-              errorMsg.name && errorMsg.message
-                ? `${errorMsg.name}: ${errorMsg.message}`
-                : errorMsg,
-            )
-            .join('<br/>');
-        }
-        if (errorData instanceof Object) {
-          if (errorData.hasOwnProperty('error')) return errorData['error'];
-          if (errorData.hasOwnProperty('errors') && Array.isArray(errorData['errors'])) {
-            return errorData['errors']
-              .reduce((acc, errorObj) => {
-                if (errorObj.hasOwnProperty('message')) {
-                  acc.push(errorObj['message']);
-                }
-                return acc;
-              }, [])
-              .join('<br/>');
-          }
-        }
-
-        return String(errorData);
-      }
-
-      return 'Unknown Error';
-    }
-
-    switch (errorResponse.kind) {
-      case 'timeout':
-        return i18n.t('errors.timeout');
-      case 'cannot-connect':
-        return i18n.t('errors.cannot_connect');
-      case 'forbidden':
-        return i18n.t('errors.forbidden');
-      case 'not-found':
-        return i18n.t('errors.not_found');
-      case 'unknown':
-        return i18n.t('errors.unknown');
-      default:
-        return i18n.t('errors.server_error');
-    }
-  }
-
-  private async checkToken(
-    axiosConfig: AxiosRequestConfig,
-  ): Promise<ApiErrorResponse<GeneralApiProblem> | false> {
-    const tokenCheck = await this.checkTokenIsExpired();
-    if (!tokenCheck) {
-      const originalError = {
-        isAxiosError: false,
-        message: 'TOKEN ERROR',
-        name: 'Token error',
-        config: axiosConfig,
-      };
-
-      return {
-        ok: false,
-        problem: 'CLIENT_ERROR',
-        status: 401,
-        originalError: {
-          ...originalError,
-          toJSON: () => originalError,
-        },
-      };
-    }
-
-    return false;
-  }
-
-  public async login(
-    username: string,
-    password: string,
-  ): Promise<LocalAuthToken | string | undefined> {
-    const params = new URLSearchParams();
-    params.append('username', username);
-    params.append('password', password);
-    params.append('client_id', this.keycloakClientId);
-    params.append('grant_type', 'password');
-
-    const response = await this.apiSauceInstance.post<KeycloakAuthResponse>(
-      this.loginApiPath,
-      params,
-      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
-    );
-
-    if (response.ok) {
-      return this.processAuthResponse(response);
-    } else {
-      return response.data?.error_description;
-    }
+    const tokenCheck = await this.tokenRefreshFlowPromise;
+    this.tokenRefreshFlowPromise = undefined;
+    return tokenCheck;
   }
 
   /**
    * @throws {ApiClientError}
    */
-  private processAuthResponse(
-    response: ApiResponse<KeycloakAuthResponse, GeneralApiProblem>,
-  ): LocalAuthToken | undefined {
-    if (response.ok) {
-      if (response.data && response.data.access_token) {
-        const setAuthResult = this.setAuth(
-          response.data.access_token,
-          response.data.refresh_token,
-        );
+  public async login(username: string, password: string): Promise<boolean> {
+    const params = {
+      username: username,
+      password: password,
+      client_id: this.keycloakClientId,
+      grant_type: 'password',
+    };
+    return await this.requestTokenOrThrow(this.loginApiPath, params);
+  }
 
-        if (typeof setAuthResult === 'string') {
-          throw new ApiClientError(this.translationService.t(setAuthResult), {
-            kind: 'bad-data',
-          });
-        } else {
-          return {
-            token: response.data.access_token,
-            refreshToken: response.data.refresh_token,
-            jwtData: setAuthResult,
-          };
-        }
-      } else {
-        if (response.status === 204) {
-          throw new ApiClientError(this.translationService.t('no_data_received'), {
-            kind: 'no-data',
-          });
-        } else {
-          throw new ApiClientError(this.translationService.t('wrong_data_received'), {
-            kind: 'bad-data',
-          });
-        }
+  /**
+   * @throws {ApiClientError}
+   */
+  private async refreshAuthToken(): Promise<boolean> {
+    const params = {
+      client_id: this.keycloakClientId,
+      refresh_token: this.refreshToken,
+      grant_type: 'refresh_token',
+    };
+    return await this.requestTokenOrThrow(this.refreshTokenApiPath, params);
+  }
+
+  /**
+   * @throws {ApiClientError}
+   */
+  private async requestTokenOrThrow(url: string, params: object): Promise<boolean> {
+    try {
+      const response = (await wretch(url)
+        .addon(FormUrlAddon)
+        .formUrl(params)
+        .errorType('json')
+        .post()
+        .res(autoParseBody)) as ApiResponse<KeycloakAuthResponse>;
+      if (response?.data?.access_token) {
+        return this.storeTokens(response.data.access_token, response.data.refresh_token);
       }
+      throw new ApiClientError('Token error', { kind: 'bad-data' });
+    } catch (err) {
+      throw createApiError(err);
     }
   }
 
@@ -401,65 +230,85 @@ export class ApiClient {
     this.resetAuth();
   }
 
-  /**
-   * @returns {Promise} {LocalAuthToken} | {string} with error,
-   * @throws {ApiClientError}
-   */
-  public async refreshAuthToken(): Promise<string | LocalAuthToken | undefined> {
-    const params = new URLSearchParams();
-    params.append('client_id', this.keycloakClientId);
-    params.append('refresh_token', this.refreshToken);
-    params.append('grant_type', 'refresh_token');
-
-    const response = await this.apiSauceInstance.post<KeycloakAuthResponse>(
-      this.refreshTokenApiPath,
-      params,
-      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
-    );
-
-    if (response.ok) {
-      return this.processAuthResponse(response);
-    } else {
-      return response.data?.error_description;
-    }
-  }
-
-  public async call<T>(
+  private async call<T>(
     method: ApiMethod,
     path: string,
     requestParams?: unknown,
     useAuth = !this.disableAuth,
-    requestConfig?: CustomRequestConfig,
+    requestConfig: CustomRequestConfig = {},
   ): Promise<T | null> {
-    if (!requestConfig) {
-      requestConfig = {};
+    const RequestsWithBody = ['post', 'put', 'patch'];
+
+    let req = wretch(this.baseURL, { mode: 'cors' }).addon(QueryStringAddon).url(path);
+
+    if (requestConfig.signal) {
+      req = req.options({ signal: requestConfig.signal });
+    }
+
+    if (requestConfig.headers) {
+      req = req.headers(requestConfig.headers);
     }
 
     if (!this.disableAuth && useAuth && this.token) {
-      const tokenCheckError = await this.checkToken(requestConfig);
-      if (tokenCheckError) {
-        return await this.processResponse<T>(
-          tokenCheckError,
-          requestConfig?.errorsConfig,
-        );
-      }
-
-      if (!requestConfig.headers) {
-        requestConfig.headers = {};
-      }
-
-      if (!requestConfig.headers.Authorization) {
-        requestConfig.headers.Authorization = `Bearer ${this.token}`;
+      const tokenOk = await this.isTokenOk();
+      if (tokenOk) {
+        req = req
+          .auth(`Bearer ${this.token}`)
+          .catcher(401, async (_, originalRequest) => {
+            await this.refreshAuthToken();
+            // replay original request with new token
+            return originalRequest
+              .auth(`Bearer ${this.token}`)
+              .fetch()
+              .unauthorized((err) => {
+                // Redefine unauthorized hook to prevent infinite loops with multiple 401 errors
+                throw err;
+              })
+              .res(autoParseBody);
+          });
       }
     }
 
-    const response = await this.apiSauceInstance[method]<T, GeneralApiProblem>(
-      path,
-      requestParams,
-      requestConfig,
-    );
+    if (requestParams) {
+      req = RequestsWithBody.includes(method)
+        ? req.json(requestParams)
+        : req.query(requestParams);
+    }
 
-    return this.processResponse<T>(response, requestConfig?.errorsConfig);
+    try {
+      const response = await req[method]().res(autoParseBody);
+      return response.data as T;
+    } catch (err) {
+      const apiError = createApiError(err);
+      if (apiError.problem.kind === 'canceled') {
+        throw apiError;
+      }
+      if (apiError.problem.kind === 'unauthorized') {
+        // TODO: call redirection callback if user not authorized, route to login page
+        this.resetAuth();
+        this.unauthorizedCallback?.(this);
+      }
+      // use custom error messages if defined
+      const errorsConfig = requestConfig.errorsConfig;
+      if (errorsConfig && errorsConfig.messages) {
+        if (typeof errorsConfig.messages !== 'string') {
+          if (apiError.status in errorsConfig.messages) {
+            apiError.message = errorsConfig.messages[apiError.status];
+          }
+        } else {
+          apiError.message = errorsConfig.messages;
+        }
+      }
+
+      if (errorsConfig?.hideErrors !== true) {
+        this.notificationService.error({
+          title: 'Error',
+          description: apiError.message,
+        });
+      }
+
+      throw apiError;
+    }
   }
 
   // method shortcuts
@@ -506,4 +355,24 @@ export class ApiClient {
   ): Promise<T | null> {
     return this.call(ApiMethodTypes.DELETE, path, undefined, useAuth, requestConfig);
   }
+}
+
+async function autoParseBody(res: WretchResponse) {
+  if (res.status === 204) {
+    res.data = null;
+    return res;
+  }
+
+  if (res.ok) {
+    const contentType = res.headers.get('content-type') ?? '';
+    if (contentType.includes('application/json')) {
+      res.data = await res.json();
+    } else {
+      res.data = await res.text();
+    }
+  } else {
+    console.debug('autoParseBody', res);
+  }
+
+  return res;
 }

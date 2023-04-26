@@ -1,21 +1,12 @@
-import { appConfig } from '~core/app_config';
-import { apiClient } from '~core/apiClientInstance';
 import { currentEventFeedAtom } from '~core/shared_state';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createAtom } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { removeEmpty } from '~utils/common';
 import { filterUnsupportedLayerTypes } from '~core/logical_layers/layerTypes';
-import { LAYERS_IN_AREA_API_ERROR } from '../constants';
-import type { LayerSummaryDto } from '~core/logical_layers/types/source';
+import { getLayersInArea } from '~core/api/layers';
+import type { LayersInAreaAndEventLayerResourceParameters } from '~core/api/layers';
 import type { FocusedGeometry } from '~core/focused_geometry/types';
-
-type LayersInAreaAndEventLayerResourceParameters = {
-  appId: string;
-  geoJSON: GeoJSON.GeoJSON;
-  eventId?: string;
-  eventFeed?: string;
-};
 
 const getEventId = (focusedGeometry: FocusedGeometry) => {
   return 'meta' in focusedGeometry.source && 'eventId' in focusedGeometry.source.meta
@@ -44,7 +35,6 @@ const layersInAreaAndEventLayerResourceParametersAtom = createAtom(
     const eventFeed = getUnlistedState(currentEventFeedAtom)?.id;
 
     return removeEmpty({
-      appId: appConfig.id,
       eventFeed,
       eventId,
       geoJSON,
@@ -57,14 +47,9 @@ export const layersInAreaAndEventLayerResource = createAsyncAtom(
   layersInAreaAndEventLayerResourceParametersAtom,
   async (layersInAreaAndEventLayerResourceParameters, abortController) => {
     if (layersInAreaAndEventLayerResourceParameters === null) return null;
-    const layers = await apiClient.post<LayerSummaryDto[]>(
-      '/layers/search/selected_area',
+    const layers = await getLayersInArea(
       layersInAreaAndEventLayerResourceParameters,
-      true,
-      {
-        errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR },
-        signal: abortController.signal,
-      },
+      abortController,
     );
     return filterUnsupportedLayerTypes(layers || []);
   },

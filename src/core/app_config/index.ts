@@ -47,9 +47,6 @@ function getGlobalConfig(): AppConfigGlobal {
     keycloakClientId: konturAppConfig.KEYCLOAK_CLIENT_ID,
     yandexMetricaId: konturAppConfig.YANDEX_METRICA_ID,
     baseUrl: import.meta.env?.VITE_BASE_PATH,
-    isDevBuild: import.meta.env?.DEV,
-    isProdBuild: import.meta.env?.PROD,
-    appVersion: import.meta.env?.PACKAGE_VERSION as string,
     autoFocus: {
       desktopPaddings: {
         top: konturAppConfig.AUTOFOCUS_PADDINGS?.[0] ?? 0,

@@ -1,15 +1,12 @@
 import { updateAppConfig, updateAppConfigOverrides } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
-import { urlEncoder, urlStoreAtom } from '~core/url_store';
-import { authClientInstance } from '~core/authClientInstance';
+import { urlEncoder } from '~core/url_store/encoder';
 import { i18n } from '~core/localization';
 import {
   findBasemapInLayersList,
   getBasemapFromDetails,
 } from '~core/logical_layers/basemap';
-import { onLogin } from './authHooks';
 import { defaultUserProfileData } from './user';
-import { runAtom } from './index';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 import type { UrlData } from '~core/url_store';
 import type { AppDto } from '~core/app/types';
@@ -20,7 +17,7 @@ export async function appInit() {
 
   const initialState = urlEncoder.decode<UrlData>(document.location.search.slice(1));
 
-  authClientInstance.checkLocalAuthToken();
+  apiClient.checkLocalAuthToken();
 
   const appConfigResponse = await apiClient.get<AppDto>(
     '/apps/configuration',
@@ -81,15 +78,7 @@ export async function appInit() {
     mapBaseStyle: effectiveBasemapUrl,
   });
 
-  postAppInit(initialState);
-}
-
-async function postAppInit(initialState: UrlData) {
-  authClientInstance.loginHook = onLogin.bind(authClientInstance);
-  authClientInstance.checkAuth();
-
-  urlStoreAtom.init.dispatch(initialState);
-  runAtom(urlStoreAtom);
+  return initialState;
 }
 
 async function getDefaultLayers(appId: string, language: string) {

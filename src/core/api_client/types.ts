@@ -1,5 +1,4 @@
-import type { ApiResponse, ApisauceConfig } from '~utils/axios/apisauce/apisauce';
-import type { AxiosRequestConfig } from 'axios';
+import type { WretchResponse } from 'wretch';
 import type { NotificationMessage } from '~core/types/notification';
 
 export interface INotificationService {
@@ -18,12 +17,12 @@ export const ApiMethodTypes = {
   DELETE: 'delete',
 } as const;
 
-export type ApiMethod = typeof ApiMethodTypes[keyof typeof ApiMethodTypes];
+export type ApiMethod = (typeof ApiMethodTypes)[keyof typeof ApiMethodTypes];
 
-export interface ApiClientConfig<ClassContext> extends ApisauceConfig {
+export interface ApiClientConfig<ClassContext> {
   instanceId?: string;
   notificationService: INotificationService;
-  translationService: ITranslationService;
+  baseURL: string;
   loginApiPath?: string;
   refreshTokenApiPath?: string;
   keycloakClientId?: string;
@@ -75,8 +74,10 @@ export type RequestErrorsConfig = {
   messages?: Record<number, string> | string;
 };
 
-export interface CustomRequestConfig extends AxiosRequestConfig {
+export interface CustomRequestConfig {
+  headers?: Record<string, string>;
   errorsConfig?: RequestErrorsConfig;
+  signal?: AbortSignal;
 }
 
 /** ----------------------------------------------------------------------------
@@ -97,6 +98,10 @@ export type GeneralApiProblem =
    */
   | { kind: 'server'; data?: unknown }
   /**
+   * 400 Bad Request
+   */
+  | { kind: 'bad-request' }
+  /**
    * We're not allowed because we haven't identified ourself. This is 401.
    */
   | { kind: 'unauthorized'; data: string }
@@ -113,10 +118,6 @@ export type GeneralApiProblem =
    */
   | { kind: 'rejected'; data: unknown }
   /**
-   * Something truly unexpected happened. Most likely can try again. This is a catch all.
-   */
-  | { kind: 'unknown'; temporary: true }
-  /**
    * The data we received is not in the expected format.
    */
   | { kind: 'bad-data' }
@@ -127,7 +128,15 @@ export type GeneralApiProblem =
   /**
    * Request canceled by using cancel token.
    */
-  | { kind: 'canceled' };
+  | { kind: 'canceled' }
+  /**
+   * Something truly unexpected happened. Most likely can try again. This is a catch all.
+   */
+  | { kind: 'unknown'; temporary: true }
+  /**
+   * Client-side catch all
+   */
+  | { kind: 'client-unknown' };
 
 export interface LocalAuthToken {
   token: string;
@@ -135,42 +144,7 @@ export interface LocalAuthToken {
   jwtData: JWTData;
 }
 
-/**
- * Attempts to get a common cause of problems from an api response.
- *
- * @param response The api response.
- */
-export function getGeneralApiProblem(response: ApiResponse<GeneralApiProblem>) {
-  switch (response.problem) {
-    case 'CONNECTION_ERROR':
-      return { kind: 'cannot-connect', temporary: true } as const;
-    case 'NETWORK_ERROR':
-      return { kind: 'cannot-connect', temporary: true } as const;
-    case 'TIMEOUT_ERROR':
-      return { kind: 'timeout', temporary: true } as const;
-    case 'SERVER_ERROR':
-      return { kind: 'server', data: response.data } as const;
-    case 'UNKNOWN_ERROR':
-      return { kind: 'unknown', temporary: true } as const;
-    case 'CLIENT_ERROR':
-      switch (response.status) {
-        case 401:
-          return {
-            kind: 'unauthorized',
-            data: 'Not authorized or session has expired.',
-          } as const;
-        case 403:
-          return { kind: 'forbidden' } as const;
-        case 404:
-          return { kind: 'not-found' } as const;
-        default:
-          return { kind: 'rejected', data: response.data } as const;
-      }
-
-    case 'CANCEL_ERROR':
-      return { kind: 'canceled' } as const;
-
-    default:
-      return { kind: 'unknown', temporary: true } as const;
-  }
+export interface ApiResponse<T> extends WretchResponse {
+  ok: true;
+  data: T | null;
 }

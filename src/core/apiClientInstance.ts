@@ -1,6 +1,5 @@
 import { appConfig } from '~core/app_config';
 import { ApiClient } from './api_client';
-import { i18n } from './localization';
 import { notificationServiceInstance } from './notificationServiceInstance';
 
 // initialize main api client
@@ -10,7 +9,6 @@ ApiClient.init({
   loginApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
   refreshTokenApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
   keycloakClientId: appConfig.keycloakClientId,
-  translationService: i18n,
   unauthorizedCallback(apiClient) {
     apiClient.logout();
     apiClient.expiredTokenCallback?.();
@@ -24,7 +22,6 @@ ApiClient.init({
   notificationService: notificationServiceInstance,
   baseURL: appConfig.reportsApi,
   disableAuth: true,
-  translationService: i18n,
 });
 
 export const reportsClient = ApiClient.getInstance('reports');

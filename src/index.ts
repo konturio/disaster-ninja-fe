@@ -23,9 +23,9 @@ function showCriticalError(e: Error) {
 }
 
 loadConfig()
-  .then(() => {
-    import('./App');
-  })
+  .then(() => import('./core/app/init'))
+  .then(({ appInit }) => appInit())
+  .then((initialState) => import('./App').then(({ startApp }) => startApp(initialState)))
   .catch((e: Error) => {
     // TODO: FE error reporting
     console.error(e);

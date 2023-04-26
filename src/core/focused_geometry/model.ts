@@ -24,7 +24,9 @@ export const focusedGeometryAtom = createAtom(
       const user = getUnlistedState(currentUserAtom);
       if (source && geometry) {
         schedule(async (dispatch, ctx: { hash?: string }) => {
-          const hash = await crc32(JSON.stringify({ geometry, source, user: user.id }));
+          const hash = await crc32(
+            JSON.stringify({ geometry, source, user: user.email }),
+          );
           // update only in case if geometry source or hash has changed
           if (!state || !ctx.hash || ctx.hash !== hash) {
             ctx.hash = hash;
