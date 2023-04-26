@@ -3,6 +3,7 @@ import QueryStringAddon from 'wretch/addons/queryString';
 import FormUrlAddon from 'wretch/addons/formUrl';
 import jwtDecode from 'jwt-decode';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
+import { KONTUR_DEBUG } from '~utils/debug';
 import { ApiClientError } from './apiClientError';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
@@ -98,6 +99,9 @@ export class ApiClient {
     let errorMessage = '';
     try {
       const decodedToken: JWTData = jwtDecode(token);
+      if (KONTUR_DEBUG) {
+        console.debug({ decodedToken, now: new Date().getTime() });
+      }
       if (decodedToken && decodedToken.exp) {
         const expiringDate = new Date(decodedToken.exp * 1000);
         if (expiringDate > new Date()) {

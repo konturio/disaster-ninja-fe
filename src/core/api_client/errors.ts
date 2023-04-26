@@ -4,11 +4,21 @@ import { ApiClientError } from './apiClientError';
 import type { WretchError } from 'wretch';
 import type { GeneralApiProblem } from './types';
 
+/**
+ * Gathering errors translations here to be used later in platform error refactor
+ */
 export function getTranslatedApiErrors(i18n: { t: (arg0: string) => string }) {
   const ApiErrors = {
     NO_DATA: i18n.t('no_data_received'),
     BAD_DATA: i18n.t('wrong_data_received'),
+    TIMEOUT: i18n.t('errors.timeout'),
+    CANNOT_CONNECT: i18n.t('errors.cannot_connect'),
+    FORBIDDEN: i18n.t('errors.forbidden'),
+    NOT_FOUND: i18n.t('errors.not_found'),
+    UNKNOWN: i18n.t('errors.unknown'),
+    SERVER: i18n.t('errors.server_error'),
   };
+
   return ApiErrors;
 }
 
