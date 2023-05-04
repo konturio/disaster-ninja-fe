@@ -64,23 +64,15 @@ const convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): 
     withTransparency ? ',' + fillColor.a : ''
   })`;
 
-export const getH3GeoByLatLng = (
-  lngLat: LngLat,
-  resolution: number,
-): GeoJSON.Geometry => {
-  const h3 = geoToH3(
-    lngLat.lat,
-    lngLat.lng,
-    Math.min(resolution, MAX_BIVARIATE_GENERATED_RESOLUTION),
-  );
-  const h3Boundary = h3ToGeoBoundary(h3, true);
+function getH3Polygon(h3Index: string): GeoJSON.Geometry {
+  const h3Boundary = h3ToGeoBoundary(h3Index, true);
   fixTransmeridianLoop(h3Boundary);
 
   return {
     type: 'Polygon',
     coordinates: [h3Boundary],
   };
-};
+}
 
 // https://observablehq.com/@nrabinowitz/mapbox-utils
 function fixTransmeridianLoop(loop: number[][]) {
@@ -96,16 +88,17 @@ function fixTransmeridianLoop(loop: number[][]) {
     loop.forEach(fixTransmeridianCoord);
   }
 }
+
 function fixTransmeridianCoord(coord: number[]) {
   const lng = coord[0];
   coord[0] = lng < 0 ? lng + 360 : lng;
 }
 
-const calcValueByNumeratorDenominator = (
+function calcValueByNumeratorDenominator(
   cellValues: Exclude<GeoJsonProperties, null>,
   numerator: string,
   denominator: string,
-): string | undefined => {
+): string | undefined {
   const numeratorValue = cellValues[numerator];
   const denominatorValue = cellValues[denominator];
   // is null or undefined
@@ -113,7 +106,8 @@ const calcValueByNumeratorDenominator = (
   if (denominatorValue === 0) return undefined;
 
   return (numeratorValue / denominatorValue).toFixed(2);
-};
+}
+
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
  * I found that if i call setLayer by requestAnimationFrame callback - UI becomes much more responsive!
@@ -198,12 +192,17 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       const features = ev.target
         .queryRenderedFeatures(ev.point)
         .filter((f) => f.source.includes(this._sourceId));
+
       if (!features.length || !legend || !features[0].geometry) return true;
 
       const feature = features[0];
-      const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
+      /* Skip when h3 missing */
+      if (feature?.properties?.h3 === undefined) return true;
+
+      const geometry = getH3Polygon(feature.properties.h3);
       const fillColor: FillColor = feature.layer.paint?.['fill-color'];
 
+      /* Skip when color empty */
       if (!fillColor || isFillColorEmpty(fillColor) || !feature.properties) return true;
 
       const showValues = featureFlagsAtom.getState()[FeatureFlag.BIVARIATE_MANAGER];
@@ -295,6 +294,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     const hoverEffect = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
       const features = ev.target.queryRenderedFeatures(ev.point);
+
       if (
         !features.length ||
         !features[0].geometry ||
@@ -304,7 +304,11 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       }
 
       const feature = features[0];
-      const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
+      if (feature?.properties?.h3 === undefined) {
+        return;
+      }
+
+      const geometry = getH3Polygon(feature.properties.h3);
       const fillColor: FillColor = feature.layer.paint?.['fill-color'];
       if (!fillColor || isFillColorEmpty(fillColor)) {
         return;
@@ -431,7 +435,9 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       this.cleanHover(map);
 
       // Create map style
-      const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
+
+      if (feature?.properties?.h3 === undefined) return true;
+      const geometry = getH3Polygon(feature.properties.h3);
       if (!map.getSource(HEX_SELECTED_SOURCE_ID)) {
         map.addSource(HEX_SELECTED_SOURCE_ID, {
           type: 'geojson',
@@ -473,7 +479,9 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       )
         return true;
       const feature = features[0];
-      const geometry = getH3GeoByLatLng(ev.lngLat, map.getZoom());
+      if (feature?.properties?.h3 === undefined) return true;
+      const geometry = getH3Polygon(feature.properties.h3);
+
       const fillColor: FillColor = feature.layer.paint?.['fill-color'];
       if (!fillColor || isFillColorEmpty(fillColor)) return;
 
