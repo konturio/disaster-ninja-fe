@@ -11,7 +11,7 @@ import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
-import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
+import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer/BivariateRenderer';
 import { onCalculateSelectedCell, selectQuotientInGroupByNumDen } from './utils';
 import type { SelectionInput } from './utils';
 import type { AxisGroup, ColorTheme } from '~core/types';

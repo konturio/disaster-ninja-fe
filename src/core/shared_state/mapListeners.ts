@@ -9,18 +9,21 @@ export type MapListener = (
 type MapListenersAtomState = {
   click: { listener: MapListener; priority: number }[];
   mousemove: { listener: MapListener; priority: number }[];
+  mouseleave: { listener: MapListener; priority: number }[];
 };
 type MapEvent = keyof MapListenersAtomState;
 
 const defaultListeners = {
   click: [],
   mousemove: [],
+  mouseleave: [],
 };
 
 export function registerMapListener(
   eventType: MapEvent,
   listener: MapListener,
   priority1to100 = 50,
+  layerId?: string,
 ): () => void {
   mapListenersAtom.addMapListener.dispatch(eventType, listener, priority1to100);
   return () => {
@@ -44,7 +47,7 @@ export const mapListenersAtom = createAtom(
     onAction('addMapListener', ({ eventType, listener, priority }) => {
       const listenerCategory = [...state[eventType]];
 
-      // Push listener by priorities or just push it if it's firt
+      // Push listener by priorities or just push it if it's first
       if (!listenerCategory.length) listenerCategory.push({ listener, priority });
       else
         for (let i = 0; i < listenerCategory.length; i++) {

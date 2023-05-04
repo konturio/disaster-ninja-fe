@@ -1,9 +1,7 @@
-import { h3ToGeoBoundary, geoToH3 } from 'h3-js';
 import { Popup as MapPopup } from 'maplibre-gl';
 import { createRoot } from 'react-dom/client';
-import { throttle } from '~utils/common';
+import { haveValue, throttle } from '~utils/common';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import { generateLayerStyleFromBivariateLegend } from '~utils/bivariate/bivariateColorThemeUtils';
 import {
   LAYER_BIVARIATE_PREFIX,
   SOURCE_BIVARIATE_PREFIX,
@@ -19,15 +17,20 @@ import {
 import { invertClusters } from '~utils/bivariate';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
-import { styleConfigs } from './stylesConfigs';
-import { generatePopupContent } from './MCDARenderer/popup';
-import type {
-  AnyLayer,
-  LngLat,
-  RasterSource,
-  VectorSource,
-  MapBoxZoomEvent,
-} from 'maplibre-gl';
+import { styleConfigs } from '../stylesConfigs';
+import { generatePopupContent } from '../MCDARenderer/popup';
+import {
+  HEX_SELECTED_SOURCE_ID,
+  HEX_SELECTED_LAYER_ID,
+  ACTIVE_HEXAGON_BORDER,
+  HEX_HOVER_SOURCE_ID,
+  HEX_HOVER_LAYER_ID,
+  HOVER_HEXAGON_BORDER,
+} from './constants';
+import { generateLayerFromLegend } from './legends';
+import { setTileScheme } from './setTileScheme';
+import { getH3Polygon } from './h3';
+import type { AnyLayer, VectorSource, MapBoxZoomEvent } from 'maplibre-gl';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type {
   BivariateLegend,
@@ -35,9 +38,9 @@ import type {
 } from '~core/logical_layers/types/legends';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
-import type { LayersOrderManager } from '../utils/layersOrder/layersOrder';
+import type { LayersOrderManager } from '../../utils/layersOrder/layersOrder';
 import type { GeoJsonProperties } from 'geojson';
-import type { LayerStyle } from '../types/style';
+import type { LayerStyle } from '../../types/style';
 
 export type FillColor = {
   r: number;
@@ -46,53 +49,13 @@ export type FillColor = {
   a: number;
 };
 
-const MAX_BIVARIATE_GENERATED_RESOLUTION = 8; // keep in sync with backend
-
-export const HOVER_HEXAGON_BORDER = 'rgba(5, 22, 38, 0.4)';
-export const ACTIVE_HEXAGON_BORDER = 'rgb(5, 22, 38)';
-
-export const HEX_SELECTED_LAYER_ID = 'hex-selected-layer';
-export const HEX_SELECTED_SOURCE_ID = 'hex-selected-source';
-export const HEX_HOVER_SOURCE_ID = 'hex-hover-source';
-export const HEX_HOVER_LAYER_ID = 'hex-hover-layer';
-
-export const isFillColorEmpty = (fillColor: FillColor): boolean =>
+const isFillColorEmpty = (fillColor: FillColor): boolean =>
   fillColor.a === 0 && fillColor.r === 0 && fillColor.g === 0 && fillColor.b === 0;
 
 const convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): string =>
   `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${
     withTransparency ? ',' + fillColor.a : ''
   })`;
-
-function getH3Polygon(h3Index: string): GeoJSON.Geometry {
-  const h3Boundary = h3ToGeoBoundary(h3Index, true);
-  fixTransmeridianLoop(h3Boundary);
-
-  return {
-    type: 'Polygon',
-    coordinates: [h3Boundary],
-  };
-}
-
-// https://observablehq.com/@nrabinowitz/mapbox-utils
-function fixTransmeridianLoop(loop: number[][]) {
-  let isTransmeridian = false;
-  for (let i = 0; i < loop.length; i++) {
-    // check for arcs > 180 degrees longitude, flagging as transmeridian
-    if (Math.abs(loop[0][0] - loop[(i + 1) % loop.length][0]) > 180) {
-      isTransmeridian = true;
-      break;
-    }
-  }
-  if (isTransmeridian) {
-    loop.forEach(fixTransmeridianCoord);
-  }
-}
-
-function fixTransmeridianCoord(coord: number[]) {
-  const lng = coord[0];
-  coord[0] = lng < 0 ? lng + 360 : lng;
-}
 
 function calcValueByNumeratorDenominator(
   cellValues: Exclude<GeoJsonProperties, null>,
@@ -115,11 +78,15 @@ function calcValueByNumeratorDenominator(
 export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
   protected _layerId?: string;
+  protected _mcdaBorderLayerId?: string;
   protected _sourceId: string;
-  protected _removeClickListener: null | (() => void) = null;
-  protected _removeMouseMoveListener: null | (() => void) = null;
   protected _layersOrderManager?: LayersOrderManager;
   protected _popup?: MapPopup | null;
+  protected _listenersCleaningTasks = new Set<() => void>();
+  private cleanUpListeners = () => {
+    this._listenersCleaningTasks.forEach((task) => task());
+    this._listenersCleaningTasks.clear();
+  };
 
   public constructor({
     id,
@@ -132,21 +99,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this.id = id;
     this._layersOrderManager = layersOrderManager;
     this._sourceId = SOURCE_BIVARIATE_PREFIX + this.id;
-  }
-
-  _generateLayerFromLegend(legend: BivariateLegend): Omit<AnyLayer, 'id'> {
-    if (legend.type === 'bivariate') {
-      return generateLayerStyleFromBivariateLegend(legend);
-    }
-    throw new Error(`Unexpected legend type '${legend.type}'`);
-  }
-
-  /* https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#vector-scheme */
-  _setTileScheme(rawUrl: string, mapSource: VectorSource | RasterSource) {
-    const isTMS = rawUrl.includes('{-y}');
-    if (isTMS) {
-      mapSource.scheme = 'tms';
-    }
   }
 
   async mountBivariateLayer(
@@ -162,7 +114,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       maxzoom: layer.maxZoom || 22,
     };
     // I expect that all servers provide url with same scheme
-    this._setTileScheme(layer.source.urls[0], mapSource);
+    setTileScheme(layer.source.urls[0], mapSource);
 
     await mapLoaded(map);
     if (map.getSource(this._sourceId) === undefined) {
@@ -170,7 +122,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
     /* Create layer */
     if (legend) {
-      const layerStyle = this._generateLayerFromLegend(legend);
+      const layerStyle = generateLayerFromLegend(legend);
       const layerId = `${LAYER_BIVARIATE_PREFIX + this.id}`;
       if (map.getLayer(layerId)) {
         return;
@@ -343,33 +295,32 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       }
     };
 
+    this.cleanUpListeners();
     const throttledHoverEffect = throttle(hoverEffect, 100);
 
     map.on('zoom', this.onMapZoom);
-
-    if (this._removeMouseMoveListener) {
-      this._removeMouseMoveListener();
-      this._removeMouseMoveListener = null;
-    }
-
+    this._listenersCleaningTasks.add(() => map.off('zoom', this.onMapZoom));
     const mousemoveHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
       throttledHoverEffect(ev);
       return true;
     };
 
-    this._removeMouseMoveListener = registerMapListener(
+    const removeMouseMoveListener = registerMapListener(
       'mousemove',
       mousemoveHandler,
       60,
     );
+    this._listenersCleaningTasks.add(removeMouseMoveListener);
 
-    if (this._removeClickListener) {
-      this._removeClickListener();
-      this._removeClickListener = null;
-    }
-    this._removeClickListener = registerMapListener('click', clickHandler, 60);
+    const removeClickListener = registerMapListener('click', clickHandler, 60);
+    this._listenersCleaningTasks.add(removeClickListener);
   }
 
+  featureStates = {
+    hover: 'hover',
+    active: 'active',
+    default: 'default',
+  } as const;
   async mountMCDALayer(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
     /* Create source */
     const mapSource: VectorSource = {
@@ -379,7 +330,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       maxzoom: layer.maxZoom || 22,
     };
     // I expect that all servers provide url with same scheme
-    this._setTileScheme(layer.source.urls[0], mapSource);
+    setTileScheme(layer.source.urls[0], mapSource);
 
     await mapLoaded(map);
     if (map.getSource(this._sourceId) === undefined) {
@@ -387,24 +338,132 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
 
     // here is the only change in the method, we use layerStyle instead of generation it from the legend
-    const layerStyle = styleConfigs.mcda(style.config)[0];
     const layerId = `${LAYER_BIVARIATE_PREFIX + this.id}`;
     if (map.getLayer(layerId)) {
       return;
     }
+    const layerStyle = styleConfigs.mcda(style.config)[0];
     const layerRes = { ...layerStyle, id: layerId, source: this._sourceId };
     layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
       layerRes as AnyLayer,
       this.id,
     );
     this._layerId = layerId;
+
+    /**
+     * TODO: move it to MCDA layer config
+     * Create layer that will used for hover and click effects
+     */
+    const mcdaBorderLayerId = layerId + '_border';
+    if (map.getLayer(mcdaBorderLayerId)) {
+      return;
+    }
+    const borderLayerStyle = {
+      type: 'line',
+      source: HEX_HOVER_SOURCE_ID,
+      layout: {},
+      paint: {
+        'line-color': [
+          'case',
+          // prettier-ignore :hover
+          ['==', ['feature-state', 'state'], this.featureStates.hover],
+          HOVER_HEXAGON_BORDER,
+          // prettier-ignore :active
+          ['==', ['feature-state', 'state'], this.featureStates.active],
+          ACTIVE_HEXAGON_BORDER,
+          // not selected
+          'rgba(0, 0, 0, 0)',
+        ],
+        'line-width': 1,
+      },
+    };
+    const borderLayerRes = {
+      ...borderLayerStyle,
+      id: mcdaBorderLayerId,
+      source: this._sourceId,
+    };
+    layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
+      borderLayerRes as AnyLayer,
+      this.id,
+    );
+    this._mcdaBorderLayerId = mcdaBorderLayerId;
+    /* end TODO */
   }
 
+  private hoveredFeatureId?: string | number | null;
   addMCDAPopup(map: ApplicationMap, style: LayerStyle) {
+    const layerId = this._layerId;
+    const sourceId = this._sourceId;
+    if (layerId === undefined || sourceId === undefined) {
+      console.error('Attempt register popup before layer created');
+      return;
+    }
+
+    this.cleanUpListeners();
+
+    let onMouseMove = (e: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+      if (e.features.length > 0) {
+        // Reset previous hover
+        if (haveValue(this.hoveredFeatureId)) {
+          map.setFeatureState(
+            { source: this._sourceId, id: this.hoveredFeatureId },
+            { state: this.featureStates.default },
+          );
+        }
+        // Setup new hover
+        this.hoveredFeatureId = e.features[0].id;
+        if (haveValue(this.hoveredFeatureId)) {
+          map.setFeatureState(
+            { source: this._sourceId, id: this.hoveredFeatureId },
+            { state: this.featureStates.hover },
+          );
+        }
+      }
+      return true;
+    };
+
+    let onMouseLeave = (_) => {
+      // Reset previous hover
+      if (haveValue(this.hoveredFeatureId)) {
+        map.setFeatureState(
+          { source: this._sourceId, id: this.hoveredFeatureId },
+          { state: this.featureStates.default },
+        );
+      }
+      // Setup new hover
+      this.hoveredFeatureId = null;
+      return true;
+    };
+
+    /**
+     * TODO: It would be better to add listener directly to layer,
+     * ```
+     * map.on('mousemove', layerId, onMouseLeave);
+     * map.on('mouseleave', layerId, onMouseLeave);
+     * ```
+     * but current logic with centralized storage for all map listeners not support it yet.
+     * Next code allow kind of emulate that behavior
+     **/
+    const forLayer =
+      (
+        layerId: string,
+        cb: (e: maplibregl.MapMouseEvent & maplibregl.EventData) => boolean,
+      ) =>
+      (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+        const features = ev.target
+          .queryRenderedFeatures(ev.point)
+          .filter((f) => f.layer.id === layerId);
+        const evCopy = Object.assign({}, ev);
+        evCopy.features = features;
+        return cb(evCopy);
+      };
+    onMouseMove = forLayer(layerId, onMouseMove);
+    onMouseLeave = forLayer(layerId, onMouseLeave);
+
+    /** TODO end */
+
     const clickHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
-      const features = ev.target
-        .queryRenderedFeatures(ev.point)
-        .filter((f) => f.source.includes(this._sourceId));
+      const features = ev.features;
 
       // Don't show popup when click in empty place
       if (!features.length || !features[0].geometry) return true;
@@ -434,110 +493,37 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       });
       this.cleanHover(map);
 
-      // Create map style
+      // Reset previous state
+      if (haveValue(this.hoveredFeatureId)) {
+        map.setFeatureState(
+          { source: this._sourceId, id: this.hoveredFeatureId },
+          { state: this.featureStates.default },
+        );
+      }
 
-      if (feature?.properties?.h3 === undefined) return true;
-      const geometry = getH3Polygon(feature.properties.h3);
-      if (!map.getSource(HEX_SELECTED_SOURCE_ID)) {
-        map.addSource(HEX_SELECTED_SOURCE_ID, {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            geometry,
-            properties: {},
-          },
-        });
-
-        map.addLayer({
-          id: HEX_SELECTED_LAYER_ID,
-          type: 'line',
-          source: HEX_SELECTED_SOURCE_ID,
-          layout: {},
-          paint: {
-            'line-color': ACTIVE_HEXAGON_BORDER,
-            'line-width': 1,
-          },
-        });
-      } else {
-        const source = map.getSource(HEX_SELECTED_SOURCE_ID) as mapboxgl.GeoJSONSource;
-        source.setData({
-          type: 'Feature',
-          geometry,
-          properties: {},
-        });
+      // Setup new state
+      this.hoveredFeatureId = features[0].id;
+      if (haveValue(this.hoveredFeatureId)) {
+        map.setFeatureState(
+          { source: this._sourceId, id: this.hoveredFeatureId },
+          { state: this.featureStates.active },
+        );
       }
 
       return true;
     };
-
-    const hoverEffect = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
-      const features = ev.target.queryRenderedFeatures(ev.point);
-      if (
-        !features.length ||
-        !features[0].geometry ||
-        !features[0]?.source.includes(this._sourceId) // we want to process hover only if top layer is bivariate
-      )
-        return true;
-      const feature = features[0];
-      if (feature?.properties?.h3 === undefined) return true;
-      const geometry = getH3Polygon(feature.properties.h3);
-
-      const fillColor: FillColor = feature.layer.paint?.['fill-color'];
-      if (!fillColor || isFillColorEmpty(fillColor)) return;
-
-      if (!map.getSource(HEX_HOVER_SOURCE_ID)) {
-        map.addSource(HEX_HOVER_SOURCE_ID, {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            geometry,
-            properties: {},
-          },
-        });
-        map.addLayer({
-          id: HEX_HOVER_LAYER_ID,
-          type: 'line',
-          source: HEX_HOVER_SOURCE_ID,
-          layout: {},
-          paint: {
-            'line-color': HOVER_HEXAGON_BORDER,
-            'line-width': 1,
-          },
-        });
-      } else {
-        const source = map.getSource(HEX_HOVER_SOURCE_ID) as mapboxgl.GeoJSONSource;
-        source.setData({
-          type: 'Feature',
-          geometry,
-          properties: {},
-        });
-      }
-    };
-
-    const throttledHoverEffect = throttle(hoverEffect, 100);
-
+    // Click
+    const removeClickListener = registerMapListener('click', clickHandler, 60);
+    this._listenersCleaningTasks.add(removeClickListener);
+    // Zoom
     map.on('zoom', this.onMapZoom);
+    this._listenersCleaningTasks.add(() => map.off('zoom', this.onMapZoom));
+    // Hover
+    const removeMouseMoveListener = registerMapListener('mousemove', onMouseMove, 60);
+    this._listenersCleaningTasks.add(removeMouseMoveListener);
 
-    if (this._removeMouseMoveListener) {
-      this._removeMouseMoveListener();
-      this._removeMouseMoveListener = null;
-    }
-
-    const mousemoveHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
-      throttledHoverEffect(ev);
-      return true;
-    };
-
-    this._removeMouseMoveListener = registerMapListener(
-      'mousemove',
-      mousemoveHandler,
-      60,
-    );
-    if (this._removeClickListener) {
-      this._removeClickListener();
-      this._removeClickListener = null;
-    }
-    this._removeClickListener = registerMapListener('click', clickHandler, 60);
+    const removeMouseLeaveListener = registerMapListener('mouseleave', onMouseLeave, 60);
+    this._listenersCleaningTasks.add(removeMouseLeaveListener);
   }
 
   protected _updateMap(
@@ -572,16 +558,32 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   }
 
   cleanHover(map: ApplicationMap) {
+    // For bivariate layer
     if (map.getSource(HEX_HOVER_SOURCE_ID)) {
       map.removeLayer(HEX_HOVER_LAYER_ID);
       map.removeSource(HEX_HOVER_SOURCE_ID);
     }
+    // For mcda layer
+    if (haveValue(this.hoveredFeatureId)) {
+      map.setFeatureState(
+        { source: this._sourceId, id: this.hoveredFeatureId },
+        { state: this.featureStates.default },
+      );
+    }
   }
 
   cleanSelection(map: ApplicationMap) {
+    // For bivariate layer
     if (map.getSource(HEX_SELECTED_SOURCE_ID)) {
       map.removeLayer(HEX_SELECTED_LAYER_ID);
       map.removeSource(HEX_SELECTED_SOURCE_ID);
+    }
+    // For mcda layer
+    if (haveValue(this.hoveredFeatureId)) {
+      map.setFeatureState(
+        { source: this._sourceId, id: this.hoveredFeatureId },
+        { state: this.featureStates.default },
+      );
     }
   }
 
@@ -626,8 +628,16 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
     }
 
+    if (this._mcdaBorderLayerId && map.getLayer(this._mcdaBorderLayerId)) {
+      map.removeLayer(this._mcdaBorderLayerId);
+      this._mcdaBorderLayerId = undefined;
+    } else {
+      console.warn(
+        `Can't remove layer with ID: ${this._mcdaBorderLayerId}. Layer does't exist in map`,
+      );
+    }
+
     this.cleanPopupWithDeps(map);
-    map.off('zoom', this.onMapZoom);
 
     if (map.getSource(this._sourceId)) {
       map.removeSource(this._sourceId);
@@ -637,8 +647,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
     }
 
-    this._removeClickListener?.();
-    this._removeMouseMoveListener?.();
+    this.cleanUpListeners();
   }
 
   willHide({ map }: { map: ApplicationMap }) {
@@ -667,10 +676,17 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   }
 
   willDestroy({ map }: { map: ApplicationMap | null }) {
-    if (this._layerId === undefined || map === null) return;
-
-    if (map.getLayer(this._layerId) === undefined) return;
-
-    this.willUnMount({ map });
+    if (
+      this._layerId === undefined ||
+      this._mcdaBorderLayerId === undefined ||
+      map === null
+    )
+      return;
+    if (
+      map.getLayer(this._layerId) !== undefined ||
+      map.getLayer(this._mcdaBorderLayerId) !== undefined
+    ) {
+      this.willUnMount({ map });
+    }
   }
 }

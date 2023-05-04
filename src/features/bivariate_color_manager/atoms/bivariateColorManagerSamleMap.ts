@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
+import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer/BivariateRenderer';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 import { generateBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';

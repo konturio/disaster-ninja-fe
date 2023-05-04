@@ -1,5 +1,5 @@
 import { GenericRenderer } from '~core/logical_layers/renderers/GenericRenderer';
-import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
+import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer/BivariateRenderer';
 import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 
