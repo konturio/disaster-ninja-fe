@@ -1,6 +1,5 @@
 import { Popup as MapPopup } from 'maplibre-gl';
 import { createRoot } from 'react-dom/client';
-import { haveValue, throttle } from '~utils/common';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import {
   LAYER_BIVARIATE_PREFIX,
@@ -20,17 +19,16 @@ import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { styleConfigs } from '../stylesConfigs';
 import { generatePopupContent } from '../MCDARenderer/popup';
 import {
-  HEX_SELECTED_SOURCE_ID,
-  HEX_SELECTED_LAYER_ID,
-  ACTIVE_HEXAGON_BORDER,
-  HEX_HOVER_SOURCE_ID,
-  HEX_HOVER_LAYER_ID,
-  HOVER_HEXAGON_BORDER,
+  FALLBACK_BIVARIATE_MIN_ZOOM,
+  FALLBACK_BIVARIATE_MAX_ZOOM,
+  H3_HOVER_LAYER,
+  SOURCE_LAYER_BIVARIATE,
 } from './constants';
 import { generateLayerFromLegend } from './legends';
 import { setTileScheme } from './setTileScheme';
-import { getH3Polygon } from './h3';
-import type { AnyLayer, VectorSource, MapBoxZoomEvent } from 'maplibre-gl';
+import { createFeatureStateHandlers } from './activeAndHoverFeatureStates';
+import { isFeatureVisible } from './featureVisibilityCheck';
+import type { AnyLayer, VectorSource, MapBoxZoomEvent, LineLayer } from 'maplibre-gl';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type {
   BivariateLegend,
@@ -41,16 +39,7 @@ import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../../utils/layersOrder/layersOrder';
 import type { GeoJsonProperties } from 'geojson';
 import type { LayerStyle } from '../../types/style';
-
-export type FillColor = {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-};
-
-const isFillColorEmpty = (fillColor: FillColor): boolean =>
-  fillColor.a === 0 && fillColor.r === 0 && fillColor.g === 0 && fillColor.b === 0;
+import type { FillColor } from './types';
 
 const convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): string =>
   `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${
@@ -71,14 +60,9 @@ function calcValueByNumeratorDenominator(
   return (numeratorValue / denominatorValue).toFixed(2);
 }
 
-/**
- * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
- * I found that if i call setLayer by requestAnimationFrame callback - UI becomes much more responsive!
- */
 export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
   protected _layerId?: string;
-  protected _mcdaBorderLayerId?: string;
   protected _sourceId: string;
   protected _layersOrderManager?: LayersOrderManager;
   protected _popup?: MapPopup | null;
@@ -101,6 +85,48 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._sourceId = SOURCE_BIVARIATE_PREFIX + this.id;
   }
 
+  /* Active and hover feature state */
+  protected _borderLayerId?: string;
+  resetFeatureStates?: () => void;
+  async addHoverAndActiveFeatureState(map: ApplicationMap, style: LayerStyle | null) {
+    await mapLoaded(map);
+    const sourceId = this._sourceId;
+
+    /* Create layer for hover / active effect and add to map */
+    const borderLayerId = sourceId + '_border';
+    if (map.getLayer(borderLayerId)) {
+      return;
+    }
+    const borderLayerStyle: LineLayer = {
+      ...H3_HOVER_LAYER,
+      id: borderLayerId,
+      source: sourceId,
+      'source-layer': SOURCE_LAYER_BIVARIATE,
+    };
+
+    layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
+      borderLayerStyle,
+      this.id,
+    );
+
+    this._borderLayerId = borderLayerId;
+
+    /* Add event listeners */
+
+    const { onClick, onMouseMove, onMouseLeave, reset } = createFeatureStateHandlers({
+      map,
+      sourceId,
+      sourceLayer: SOURCE_LAYER_BIVARIATE,
+    });
+    this._listenersCleaningTasks.add(registerMapListener('click', onClick, 60));
+    this._listenersCleaningTasks.add(registerMapListener('mousemove', onMouseMove, 60));
+    this._listenersCleaningTasks.add(registerMapListener('mouseleave', onMouseLeave, 60));
+
+    this.resetFeatureStates = reset;
+    // Reset states on zoom
+    this.onMapZoomHandlers.add(this.resetFeatureStates);
+  }
+
   async mountBivariateLayer(
     map: ApplicationMap,
     layer: LayerTileSource,
@@ -110,8 +136,8 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     const mapSource: VectorSource = {
       type: 'vector',
       tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
-      minzoom: layer.minZoom || 0,
-      maxzoom: layer.maxZoom || 22,
+      minzoom: layer.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
+      maxzoom: layer.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM,
     };
     // I expect that all servers provide url with same scheme
     setTileScheme(layer.source.urls[0], mapSource);
@@ -122,7 +148,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
     /* Create layer */
     if (legend) {
-      const layerStyle = generateLayerFromLegend(legend);
+      const layerStyle = generateLayerFromLegend(legend, SOURCE_LAYER_BIVARIATE);
       const layerId = `${LAYER_BIVARIATE_PREFIX + this.id}`;
       if (map.getLayer(layerId)) {
         return;
@@ -139,6 +165,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
+  removeBivariatePopupClickHandler?: () => void;
   addBivariatePopup(map: ApplicationMap, legend: BivariateLegend | null) {
     const clickHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
       const features = ev.target
@@ -147,15 +174,10 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
       if (!features.length || !legend || !features[0].geometry) return true;
 
-      const feature = features[0];
-      /* Skip when h3 missing */
-      if (feature?.properties?.h3 === undefined) return true;
-
-      const geometry = getH3Polygon(feature.properties.h3);
-      const fillColor: FillColor = feature.layer.paint?.['fill-color'];
-
+      const [feature] = features;
       /* Skip when color empty */
-      if (!fillColor || isFillColorEmpty(fillColor) || !feature.properties) return true;
+      if (!isFeatureVisible(feature)) return true;
+      if (!feature.properties) return true;
 
       const showValues = featureFlagsAtom.getState()[FeatureFlag.BIVARIATE_MANAGER];
       const [xNumerator, xDenominator] = legend.axis.x.quotient;
@@ -172,6 +194,8 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
 
       if (!xValue || !yValue) return true;
+      const fillColor: FillColor = feature.layer.paint?.['fill-color'];
+      if (!fillColor) return true;
 
       const rgba = convertFillColorToRGBA(fillColor);
       const cells: BivariateLegendStep[] = invertClusters(legend.steps, 'label');
@@ -207,120 +231,32 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         .addTo(map);
 
       this._popup.once('close', () => {
-        this.cleanSelection(map);
+        this.resetFeatureStates?.();
       });
 
-      this.cleanHover(map);
-
-      if (!map.getSource(HEX_SELECTED_SOURCE_ID)) {
-        map.addSource(HEX_SELECTED_SOURCE_ID, {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            geometry,
-            properties: {},
-          },
-        });
-
-        map.addLayer({
-          id: HEX_SELECTED_LAYER_ID,
-          type: 'line',
-          source: HEX_SELECTED_SOURCE_ID,
-          layout: {},
-          paint: {
-            'line-color': ACTIVE_HEXAGON_BORDER,
-            'line-width': 1,
-          },
-        });
-      } else {
-        const source = map.getSource(HEX_SELECTED_SOURCE_ID) as mapboxgl.GeoJSONSource;
-        source.setData({
-          type: 'Feature',
-          geometry,
-          properties: {},
-        });
-      }
-
       return true;
     };
 
-    const hoverEffect = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
-      const features = ev.target.queryRenderedFeatures(ev.point);
+    if (this.removeBivariatePopupClickHandler) {
+      // Remove old click handler
+      this.removeBivariatePopupClickHandler();
+      // Remove remover from scheduled for unmount tasks
+      this._listenersCleaningTasks.delete(this.removeBivariatePopupClickHandler);
+    }
 
-      if (
-        !features.length ||
-        !features[0].geometry ||
-        !features[0]?.source.includes(this._sourceId) // we want to process hover only if top layer is bivariate
-      ) {
-        return;
-      }
-
-      const feature = features[0];
-      if (feature?.properties?.h3 === undefined) {
-        return;
-      }
-
-      const geometry = getH3Polygon(feature.properties.h3);
-      const fillColor: FillColor = feature.layer.paint?.['fill-color'];
-      if (!fillColor || isFillColorEmpty(fillColor)) {
-        return;
-      }
-
-      if (!map.getSource(HEX_HOVER_SOURCE_ID)) {
-        map.addSource(HEX_HOVER_SOURCE_ID, {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            geometry,
-            properties: {},
-          },
-        });
-        map.addLayer({
-          id: HEX_HOVER_LAYER_ID,
-          type: 'line',
-          source: HEX_HOVER_SOURCE_ID,
-          layout: {},
-          paint: {
-            'line-color': HOVER_HEXAGON_BORDER,
-            'line-width': 1,
-          },
-        });
-      } else {
-        const source = map.getSource(HEX_HOVER_SOURCE_ID) as mapboxgl.GeoJSONSource;
-        source.setData({
-          type: 'Feature',
-          geometry,
-          properties: {},
-        });
-      }
-    };
-
-    this.cleanUpListeners();
-    const throttledHoverEffect = throttle(hoverEffect, 100);
-
-    map.on('zoom', this.onMapZoom);
-    this._listenersCleaningTasks.add(() => map.off('zoom', this.onMapZoom));
-    const mousemoveHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
-      throttledHoverEffect(ev);
-      return true;
-    };
-
-    const removeMouseMoveListener = registerMapListener(
-      'mousemove',
-      mousemoveHandler,
-      60,
-    );
-    this._listenersCleaningTasks.add(removeMouseMoveListener);
-
+    // Create new click handler fpr showing popup
     const removeClickListener = registerMapListener('click', clickHandler, 60);
+
+    // Schedule removing handler on unmount
     this._listenersCleaningTasks.add(removeClickListener);
+
+    // Save it for next call
+    this.removeBivariatePopupClickHandler = removeClickListener;
+
+    // Close on map zoom
+    this.onMapZoomHandlers.add(this.cleanPopup);
   }
 
-  featureStates = {
-    hover: 'hover',
-    active: 'active',
-    default: 'default',
-  } as const;
   async mountMCDALayer(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
     /* Create source */
     const mapSource: VectorSource = {
@@ -349,130 +285,21 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       this.id,
     );
     this._layerId = layerId;
-
-    /**
-     * TODO: move it to MCDA layer config
-     * Create layer that will used for hover and click effects
-     */
-    const mcdaBorderLayerId = layerId + '_border';
-    if (map.getLayer(mcdaBorderLayerId)) {
-      return;
-    }
-    const borderLayerStyle = {
-      type: 'line',
-      source: HEX_HOVER_SOURCE_ID,
-      layout: {},
-      paint: {
-        'line-color': [
-          'case',
-          // prettier-ignore :hover
-          ['==', ['feature-state', 'state'], this.featureStates.hover],
-          HOVER_HEXAGON_BORDER,
-          // prettier-ignore :active
-          ['==', ['feature-state', 'state'], this.featureStates.active],
-          ACTIVE_HEXAGON_BORDER,
-          // not selected
-          'rgba(0, 0, 0, 0)',
-        ],
-        'line-width': 1,
-      },
-    };
-    const borderLayerRes = {
-      ...borderLayerStyle,
-      id: mcdaBorderLayerId,
-      source: this._sourceId,
-    };
-    layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-      borderLayerRes as AnyLayer,
-      this.id,
-    );
-    this._mcdaBorderLayerId = mcdaBorderLayerId;
-    /* end TODO */
   }
 
-  private hoveredFeatureId?: string | number | null;
   addMCDAPopup(map: ApplicationMap, style: LayerStyle) {
-    const layerId = this._layerId;
-    const sourceId = this._sourceId;
-    if (layerId === undefined || sourceId === undefined) {
-      console.error('Attempt register popup before layer created');
-      return;
-    }
-
-    this.cleanUpListeners();
-
-    let onMouseMove = (e: maplibregl.MapMouseEvent & maplibregl.EventData) => {
-      if (e.features.length > 0) {
-        // Reset previous hover
-        if (haveValue(this.hoveredFeatureId)) {
-          map.setFeatureState(
-            { source: this._sourceId, id: this.hoveredFeatureId },
-            { state: this.featureStates.default },
-          );
-        }
-        // Setup new hover
-        this.hoveredFeatureId = e.features[0].id;
-        if (haveValue(this.hoveredFeatureId)) {
-          map.setFeatureState(
-            { source: this._sourceId, id: this.hoveredFeatureId },
-            { state: this.featureStates.hover },
-          );
-        }
-      }
-      return true;
-    };
-
-    let onMouseLeave = (_) => {
-      // Reset previous hover
-      if (haveValue(this.hoveredFeatureId)) {
-        map.setFeatureState(
-          { source: this._sourceId, id: this.hoveredFeatureId },
-          { state: this.featureStates.default },
-        );
-      }
-      // Setup new hover
-      this.hoveredFeatureId = null;
-      return true;
-    };
-
-    /**
-     * TODO: It would be better to add listener directly to layer,
-     * ```
-     * map.on('mousemove', layerId, onMouseLeave);
-     * map.on('mouseleave', layerId, onMouseLeave);
-     * ```
-     * but current logic with centralized storage for all map listeners not support it yet.
-     * Next code allow kind of emulate that behavior
-     **/
-    const forLayer =
-      (
-        layerId: string,
-        cb: (e: maplibregl.MapMouseEvent & maplibregl.EventData) => boolean,
-      ) =>
-      (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
-        const features = ev.target
-          .queryRenderedFeatures(ev.point)
-          .filter((f) => f.layer.id === layerId);
-        const evCopy = Object.assign({}, ev);
-        evCopy.features = features;
-        return cb(evCopy);
-      };
-    onMouseMove = forLayer(layerId, onMouseMove);
-    onMouseLeave = forLayer(layerId, onMouseLeave);
-
-    /** TODO end */
-
     const clickHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
-      const features = ev.features;
+      const features = ev.target
+        .queryRenderedFeatures(ev.point)
+        .filter((f) => f.source.includes(this._sourceId));
 
       // Don't show popup when click in empty place
       if (!features.length || !features[0].geometry) return true;
 
       const [feature] = features;
-      const fillColor: FillColor = feature.layer.paint?.['fill-color'];
 
       // Don't show popup when click on feature that filtered by map style
-      if (!fillColor || isFillColorEmpty(fillColor) || !feature.properties) return true;
+      if (!isFeatureVisible(feature)) return true;
 
       // Show popup on click
       const popupNode = generatePopupContent(feature, style.config.layers);
@@ -489,41 +316,17 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         .addTo(map);
 
       this._popup.once('close', () => {
-        this.cleanSelection(map);
+        this.resetFeatureStates?.();
       });
-      this.cleanHover(map);
-
-      // Reset previous state
-      if (haveValue(this.hoveredFeatureId)) {
-        map.setFeatureState(
-          { source: this._sourceId, id: this.hoveredFeatureId },
-          { state: this.featureStates.default },
-        );
-      }
-
-      // Setup new state
-      this.hoveredFeatureId = features[0].id;
-      if (haveValue(this.hoveredFeatureId)) {
-        map.setFeatureState(
-          { source: this._sourceId, id: this.hoveredFeatureId },
-          { state: this.featureStates.active },
-        );
-      }
 
       return true;
     };
+    this.cleanUpListeners();
     // Click
     const removeClickListener = registerMapListener('click', clickHandler, 60);
     this._listenersCleaningTasks.add(removeClickListener);
-    // Zoom
-    map.on('zoom', this.onMapZoom);
-    this._listenersCleaningTasks.add(() => map.off('zoom', this.onMapZoom));
-    // Hover
-    const removeMouseMoveListener = registerMapListener('mousemove', onMouseMove, 60);
-    this._listenersCleaningTasks.add(removeMouseMoveListener);
-
-    const removeMouseLeaveListener = registerMapListener('mouseleave', onMouseLeave, 60);
-    this._listenersCleaningTasks.add(removeMouseLeaveListener);
+    // Close on map zoom
+    this.onMapZoomHandlers.add(this.cleanPopup);
   }
 
   protected _updateMap(
@@ -543,11 +346,13 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       this.addBivariatePopup(map, legend);
     }
 
+    this.addHoverAndActiveFeatureState(map, style);
     if (!isVisible) this.willHide({ map });
   }
 
+  onMapZoomHandlers = new Set<() => void>();
   onMapZoom = (ev: maplibregl.MapboxEvent<MapBoxZoomEvent>) => {
-    this.cleanPopupWithDeps(ev.target);
+    this.cleanPopup();
   };
 
   cleanPopup() {
@@ -555,42 +360,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       this._popup.remove();
       this._popup = null;
     }
-  }
-
-  cleanHover(map: ApplicationMap) {
-    // For bivariate layer
-    if (map.getSource(HEX_HOVER_SOURCE_ID)) {
-      map.removeLayer(HEX_HOVER_LAYER_ID);
-      map.removeSource(HEX_HOVER_SOURCE_ID);
-    }
-    // For mcda layer
-    if (haveValue(this.hoveredFeatureId)) {
-      map.setFeatureState(
-        { source: this._sourceId, id: this.hoveredFeatureId },
-        { state: this.featureStates.default },
-      );
-    }
-  }
-
-  cleanSelection(map: ApplicationMap) {
-    // For bivariate layer
-    if (map.getSource(HEX_SELECTED_SOURCE_ID)) {
-      map.removeLayer(HEX_SELECTED_LAYER_ID);
-      map.removeSource(HEX_SELECTED_SOURCE_ID);
-    }
-    // For mcda layer
-    if (haveValue(this.hoveredFeatureId)) {
-      map.setFeatureState(
-        { source: this._sourceId, id: this.hoveredFeatureId },
-        { state: this.featureStates.default },
-      );
-    }
-  }
-
-  cleanPopupWithDeps(map: ApplicationMap) {
-    this.cleanPopup();
-    this.cleanHover(map);
-    this.cleanSelection(map);
   }
 
   /* ========== Hooks ========== */
@@ -607,6 +376,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   }
 
   willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
+    map.on('zoom', this.onMapZoom);
     if (state.source) {
       this._updateMap(
         map,
@@ -628,16 +398,16 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
     }
 
-    if (this._mcdaBorderLayerId && map.getLayer(this._mcdaBorderLayerId)) {
-      map.removeLayer(this._mcdaBorderLayerId);
-      this._mcdaBorderLayerId = undefined;
+    if (this._borderLayerId && map.getLayer(this._borderLayerId)) {
+      map.removeLayer(this._borderLayerId);
+      this._borderLayerId = undefined;
     } else {
       console.warn(
-        `Can't remove layer with ID: ${this._mcdaBorderLayerId}. Layer does't exist in map`,
+        `Can't remove layer with ID: ${this._borderLayerId}. Layer does't exist in map`,
       );
     }
 
-    this.cleanPopupWithDeps(map);
+    this.cleanPopup();
 
     if (map.getSource(this._sourceId)) {
       map.removeSource(this._sourceId);
@@ -646,8 +416,10 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         `Can't remove source with ID: ${this._sourceId}. Source does't exist in map`,
       );
     }
-
     this.cleanUpListeners();
+    map.off('zoom', this.onMapZoom);
+    this.onMapZoomHandlers.clear();
+    this.resetFeatureStates?.();
   }
 
   willHide({ map }: { map: ApplicationMap }) {
@@ -655,7 +427,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     if (map.getLayer(this._layerId) !== undefined) {
       map.setLayoutProperty(this._layerId, 'visibility', 'none');
-      this.cleanPopupWithDeps(map);
+      this.cleanPopup();
     } else {
       console.warn(
         `Can't hide layer with ID: ${this._layerId}. Layer doesn't exist on the map`,
@@ -676,15 +448,11 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   }
 
   willDestroy({ map }: { map: ApplicationMap | null }) {
-    if (
-      this._layerId === undefined ||
-      this._mcdaBorderLayerId === undefined ||
-      map === null
-    )
+    if (this._layerId === undefined || this._borderLayerId === undefined || map === null)
       return;
     if (
       map.getLayer(this._layerId) !== undefined ||
-      map.getLayer(this._mcdaBorderLayerId) !== undefined
+      map.getLayer(this._borderLayerId) !== undefined
     ) {
       this.willUnMount({ map });
     }

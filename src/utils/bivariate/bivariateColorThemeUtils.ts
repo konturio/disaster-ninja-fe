@@ -96,6 +96,7 @@ export function generateColorThemeAndBivariateStyle(
   yNumerator: string,
   yDenominator: string,
   stats: Stat,
+  sourceLayer: string,
 ): [ColorTheme, BivariateLayerStyle] | undefined {
   const { indicators, colors, axis } = stats;
 
@@ -121,7 +122,13 @@ export function generateColorThemeAndBivariateStyle(
     yAxisDirection,
   );
 
-  const bivariateStyle = generateBivariateStyle(xAxis, yAxis, colorTheme, stats?.meta);
+  const bivariateStyle = generateBivariateStyle(
+    xAxis,
+    yAxis,
+    colorTheme,
+    stats?.meta,
+    sourceLayer,
+  );
 
   return [colorTheme, bivariateStyle];
 }
@@ -131,13 +138,14 @@ export const generateBivariateStyle = (
   yAxis: Axis,
   colorTheme: ColorTheme,
   meta: Meta,
+  sourceLayer: string,
 ) =>
   generateBivariateStyleForAxis({
     id: `${xAxis.quotient.join('&')}|${yAxis.quotient.join('&')}`,
     x: xAxis,
     y: yAxis,
     colors: colorTheme,
-    sourceLayer: 'stats',
+    sourceLayer,
     source: {
       type: 'vector',
       tiles: [
@@ -205,6 +213,7 @@ export const generateColorTheme = (
 
 export function generateLayerStyleFromBivariateLegend(
   bl: BivariateLegend,
+  sourceLayer: string,
 ): BivariateLayerStyle {
   return generateBivariateStyleForAxis({
     id: `${bl.axis.x.quotient.join('&')}|${bl.axis.y.quotient.join('&')}`,
@@ -213,7 +222,7 @@ export function generateLayerStyleFromBivariateLegend(
     colors: [...bl.steps]
       .sort((stp1, stp2) => (stp1.label > stp2.label ? 1 : -1))
       .map((stp) => ({ id: stp.label, color: stp.color })),
-    sourceLayer: 'stats',
+    sourceLayer,
   });
 }
 
