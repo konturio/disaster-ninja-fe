@@ -5,6 +5,7 @@ import { generateBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtil
 import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { LayersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { createLayersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
+import { SOURCE_LAYER_BIVARIATE } from '~core/logical_layers/renderers/BivariateRenderer/constants';
 import { bivariateColorManagerDataAtom } from './bivariateColorManagerData';
 import type { LayerSelectionFull } from '../components/LegendWithMap/LegendWithMap';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
@@ -61,6 +62,7 @@ export const bivariateColorManagerSamleMap = createAtom(
         horizontalAxis,
         colorTheme,
         meta,
+        SOURCE_LAYER_BIVARIATE,
       );
 
       const bivStyle = bivariateStyle as BivariateLayerStyle;
