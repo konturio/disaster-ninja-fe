@@ -22,17 +22,18 @@ export function Layer({
 }: {
   layerAtom: LayerAtom;
   mutuallyExclusive: boolean;
-  delegateLegendRender?: (params: {
-    meta: LayerMeta | null;
-    legend: LayerLegend | null;
-    name: string;
-    isHidden: boolean;
-  }) => void;
+  delegateLegendRender?: (
+    params: {
+      meta: LayerMeta | null;
+      legend: LayerLegend | null;
+      name: string;
+      isHidden: boolean;
+    } | null,
+  ) => void;
 }) {
   const [layerState, layerActions] = useAtom(layerAtom);
   const onChange = useAction(
-    () =>
-      layerState.isMounted ? layerActions.disable() : layerActions.enable(),
+    () => (layerState.isMounted ? layerActions.disable() : layerActions.enable()),
     [layerState.isMounted],
   );
 
@@ -41,19 +42,23 @@ export function Layer({
   });
   useEffect(() => {
     if (!delegateLegendRender) return;
-    if (layerState.isEnabled && layerState.legend?.type === 'bivariate') {
-      delegateLegendRender({
-        legend: layerState.legend,
-        meta: layerState.meta,
-        name: layerState.settings?.name ?? '',
-        isHidden: !layerState.isVisible,
-      });
+    if (layerState.isEnabled) {
+      if (layerState.legend?.type === 'bivariate') {
+        delegateLegendRender({
+          legend: layerState.legend,
+          meta: layerState.meta,
+          name: layerState.settings?.name ?? '',
+          isHidden: !layerState.isVisible,
+        });
+      }
     }
+    return () => {
+      delegateLegendRender(null);
+    };
   }, [delegateLegendRender, layerState]);
 
   const hasOneStepSimpleLegend =
-    layerState.legend?.type === 'simple' &&
-    layerState.legend.steps?.length === 1;
+    layerState.legend?.type === 'simple' && layerState.legend.steps?.length === 1;
 
   const hasMultiStepSimpleLegend =
     layerState.legend?.type === 'simple' && layerState.legend.steps?.length > 1;

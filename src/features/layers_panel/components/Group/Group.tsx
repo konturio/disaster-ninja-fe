@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useAction } from '@reatom/react';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { BivariateLegend as BivariateLegendComponent } from '~components/BivariateLegend/BivariateLegend';
+import { debounce } from '~utils/common';
 import { Layer } from '../Layer/Layer';
 import { groupDeselection } from '../../atoms/groupDeselection';
 import { DeselectControl } from '../DeselectControl/DeselectControl';
@@ -36,15 +37,22 @@ export function Group({
     delegateLegendRender(null);
   }
 
+  /**
+   * OWhen layer unmounted it remove delegated legend,
+   * next layer can delegate his render right after it.
+   * To avoid flickering and renders count I debounce this renders
+   */
+  const debouncedLegendRenderer = useMemo(() => {
+    return debounce(delegateLegendRender, 300);
+  }, [delegateLegendRender]);
+
   return (
     <div className={s.group}>
       <FoldingWrap
         open={isOpen}
         title={<span className={s.groupTitle}>{group.name}</span>}
         controls={
-          group.mutuallyExclusive && (
-            <DeselectControl onClick={onGroupDeselect} />
-          )
+          group.mutuallyExclusive && <DeselectControl onClick={onGroupDeselect} />
         }
         onStateChange={(newState) => setOpenState(!newState)}
       >
@@ -54,7 +62,7 @@ export function Group({
               key={chn.id}
               layerAtom={chn.atom}
               mutuallyExclusive={mutuallyExclusive || group.mutuallyExclusive}
-              delegateLegendRender={delegateLegendRender}
+              delegateLegendRender={debouncedLegendRenderer}
             />
           ))}
           {delegatedLegend && (
