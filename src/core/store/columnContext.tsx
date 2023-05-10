@@ -165,7 +165,7 @@ export class Resizer {
       if (openedPanels[0]) {
         this.panels.closePanel(openedPanels[0]);
       } else {
-        console.error('Not enough space for cards');
+        console.debug('Not enough space for cards');
       }
     }
   }
