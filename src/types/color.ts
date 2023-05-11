@@ -1,4 +1,4 @@
-export type FillColor = {
+export type RGBAColor = {
   r: number;
   g: number;
   b: number;

@@ -39,9 +39,9 @@ import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../../utils/layersOrder/layersOrder';
 import type { GeoJsonProperties } from 'geojson';
 import type { LayerStyle } from '../../types/style';
-import type { FillColor } from './types';
+import type { RGBAColor } from 'types/color';
 
-const convertFillColorToRGBA = (fillColor: FillColor, withTransparency = true): string =>
+const convertFillColorToRGBA = (fillColor: RGBAColor, withTransparency = true): string =>
   `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${
     withTransparency ? ',' + fillColor.a : ''
   })`;
@@ -194,7 +194,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
 
       if (!xValue || !yValue) return true;
-      const fillColor: FillColor = feature.layer.paint?.['fill-color'];
+      const fillColor: RGBAColor = feature.layer.paint?.['fill-color'];
       if (!fillColor) return true;
 
       const rgba = convertFillColorToRGBA(fillColor);

@@ -1,7 +1,7 @@
-import type { FillColor } from './types';
+import type { RGBAColor } from 'types/color';
 
 function fillColorEmptyOrTransparent(feature: maplibregl.MapboxGeoJSONFeature) {
-  const fillColor: FillColor | undefined = feature.layer.paint?.['fill-color'];
+  const fillColor: RGBAColor | undefined = feature.layer.paint?.['fill-color'];
   return fillColor ? fillColor.a === 0 : true;
 }
 

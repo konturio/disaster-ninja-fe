@@ -7,6 +7,7 @@ import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
 import type { Axis, ColorCombination, Meta, Direction } from '~utils/bivariate';
+import type { RGBAColor } from 'types/color';
 
 export type BivariateLayerSource = {
   type: 'vector';
@@ -226,12 +227,7 @@ export function generateLayerStyleFromBivariateLegend(
   });
 }
 
-export function convertRGBtoObj(colorString: string): {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-} {
+export function convertRGBtoObj(colorString: string): RGBAColor {
   const rgbKeys = ['r', 'g', 'b', 'a'] as const;
   const rgbObj: { [K in (typeof rgbKeys)[number]]?: number } = {};
   // rgba(number, number, number, number) => [number, number, number, number];
