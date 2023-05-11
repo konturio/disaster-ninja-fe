@@ -2,7 +2,7 @@ import { appConfig } from '~core/app_config';
 import { cookieManagementService, permissionStatuses } from '~core/cookie_settings';
 import { createBooleanAtom } from '~utils/atoms';
 
-export const intercomVisibleAtom = createBooleanAtom(false);
+export const intercomVisibleAtom = createBooleanAtom(false, 'intercomVisibleAtom');
 
 export function initIntercom() {
   const intercomPermission = cookieManagementService.requestPermission('Intercom');

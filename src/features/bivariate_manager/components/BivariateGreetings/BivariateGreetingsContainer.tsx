@@ -2,6 +2,7 @@ import { Close24 } from '@konturio/default-icons';
 import cn from 'clsx';
 import { Suspense, useEffect, useState } from 'react';
 import { lazily } from 'react-lazily';
+import { localStorage } from '~utils/storage';
 import { GREETINGS_DISABLED_LS_KEY } from '~features/bivariate_manager/constants';
 import style from './BivariateGreetingsContainer.module.css';
 

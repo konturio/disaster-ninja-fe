@@ -24,12 +24,6 @@ function configureStore() {
                 console.trace('TRACE:', action.type, t);
               }
             }
-            if (KONTUR_DEBUG) {
-              console.debug(action.type, action.payload);
-            }
-            if (KONTUR_WARN) {
-              console.warn(action.type, action.payload);
-            }
           }
         }
       }

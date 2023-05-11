@@ -4,6 +4,7 @@ import FormUrlAddon from 'wretch/addons/formUrl';
 import jwtDecode from 'jwt-decode';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { KONTUR_DEBUG } from '~utils/debug';
+import { localStorage } from '~utils/storage';
 import { ApiClientError } from './apiClientError';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
@@ -20,7 +21,6 @@ import type {
 } from './types';
 
 export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
-const E_TOKEN_ERROR = 'Token error';
 export class ApiClient {
   private static instances: Record<string, ApiClient> = {};
 
@@ -53,7 +53,7 @@ export class ApiClient {
     keycloakClientId = '',
     unauthorizedCallback,
     disableAuth = false,
-    storage = globalThis.localStorage,
+    storage = localStorage,
     baseURL,
   }: ApiClientConfig<ApiClient>) {
     this.instanceId = instanceId;
