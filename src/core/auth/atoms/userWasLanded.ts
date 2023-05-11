@@ -1,5 +1,6 @@
 import { appConfig } from '~core/app_config';
 import { createAtom } from '~utils/atoms';
+import { localStorage } from '~utils/storage';
 
 export const userWasLandedAtom = createAtom(
   {},

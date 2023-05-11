@@ -1,3 +1,5 @@
+import { localStorage } from '~utils/storage';
+
 export class AppStorage<T> {
   state: Record<string, T> = {};
   namespace: string;
@@ -8,23 +10,19 @@ export class AppStorage<T> {
   }
 
   restoreState() {
-    if (globalThis.localStorage) {
-      const serializedState = globalThis.localStorage.getItem(this.namespace);
-      try {
-        /* When cookies rules will grow this must be moved to microtasks/worker */
-        this.state = serializedState ? JSON.parse(serializedState) : {};
-      } catch (error) {
-        console.debug('Failed to load cookies settings', error);
-      }
+    const serializedState = localStorage.getItem(this.namespace);
+    try {
+      /* When cookies rules will grow this must be moved to microtasks/worker */
+      this.state = serializedState ? JSON.parse(serializedState) : {};
+    } catch (error) {
+      console.debug('Failed to load cookies settings', error);
     }
   }
 
   persistState() {
-    if (globalThis.localStorage) {
-      /* When cookies rules will grow this must be moved to microtasks/worker */
-      const serializedState = JSON.stringify(this.state);
-      globalThis.localStorage.setItem(this.namespace, serializedState);
-    }
+    /* When cookies rules will grow this must be moved to microtasks/worker */
+    const serializedState = JSON.stringify(this.state);
+    localStorage.setItem(this.namespace, serializedState);
   }
 
   get(key: string): T | null {
