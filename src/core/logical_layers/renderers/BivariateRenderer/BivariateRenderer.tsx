@@ -18,6 +18,7 @@ import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { styleConfigs } from '../stylesConfigs';
 import { generatePopupContent } from '../MCDARenderer/popup';
+import { setTileScheme } from '../setTileScheme';
 import {
   FALLBACK_BIVARIATE_MIN_ZOOM,
   FALLBACK_BIVARIATE_MAX_ZOOM,
@@ -25,7 +26,6 @@ import {
   SOURCE_LAYER_BIVARIATE,
 } from './constants';
 import { generateLayerFromLegend } from './legends';
-import { setTileScheme } from './setTileScheme';
 import { createFeatureStateHandlers } from './activeAndHoverFeatureStates';
 import { isFeatureVisible } from './featureVisibilityCheck';
 import type { AnyLayer, VectorSource, MapBoxZoomEvent, LineLayer } from 'maplibre-gl';
