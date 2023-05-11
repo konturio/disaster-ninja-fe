@@ -8,6 +8,7 @@ import {
 import { sumBy } from '~utils/common';
 import { DEFAULT_GREEN, DEFAULT_RED } from './calculations/constants';
 import { calculateLayerPipeline, inStyleCalculations } from './calculations';
+import { SOURCE_LAYER_MCDA } from './constants';
 import type { MCDAConfig } from './types';
 
 //@ts-expect-error - not clear how to type this right, but this compromise do the trick
@@ -140,7 +141,7 @@ export function createMCDAStyle(config: MCDAConfig) {
       maxzoom: 8,
       minzoom: 0,
     },
-    'source-layer': 'stats',
+    'source-layer': SOURCE_LAYER_MCDA,
   };
 
   return layerStyle;

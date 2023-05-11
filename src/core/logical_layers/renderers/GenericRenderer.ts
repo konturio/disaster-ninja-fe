@@ -16,6 +16,7 @@ import { mapLoaded } from '~utils/map/waitMapEvent';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
 import { styleConfigs } from './stylesConfigs';
+import { setTileScheme } from './setTileScheme';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
 import type maplibregl from 'maplibre-gl';
@@ -142,7 +143,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       maxzoom: layer.maxZoom || 24,
     };
     // I expect that all servers provide url with same scheme
-    _setTileScheme(layer.source.urls[0], mapSource);
+    setTileScheme(layer.source.urls[0], mapSource);
     const source = map.getSource(this._sourceId);
     if (source) {
       // TODO: update tile source
@@ -473,14 +474,6 @@ function _adaptUrl(url: string, apiKey?: string) {
   const domains = (url.match(/{switch:(.*?)}/) || ['', ''])[1].split(',')[0];
   url = url.replace(/{switch:(.*?)}/, domains);
   return url;
-}
-
-/* https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#vector-scheme */
-function _setTileScheme(rawUrl: string, mapSource: VectorSource | RasterSource) {
-  const isTMS = rawUrl.includes('{-y}');
-  if (isTMS) {
-    mapSource.scheme = 'tms';
-  }
 }
 
 function _generateLayersFromLegend(legend: LayerLegend): AnyLayer[] {

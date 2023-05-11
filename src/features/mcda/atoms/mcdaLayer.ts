@@ -2,7 +2,7 @@ import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
+import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer/BivariateRenderer';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
 import appConfig from '~core/app_config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';

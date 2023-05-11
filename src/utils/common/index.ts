@@ -7,3 +7,4 @@ export { transformIconLink, capitalize, toCapitalizedList } from './strings';
 export { sumBy } from './sumBy';
 export { removeEmpty } from './removeEmpty';
 export { isNumber } from './isNumber';
+export { haveValue } from './haveValue';
