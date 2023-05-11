@@ -1,3 +1,4 @@
+import { localStorage } from '~utils/storage';
 import { updateAppConfig, updateAppConfigOverrides } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import { urlEncoder } from '~core/url_store/encoder';

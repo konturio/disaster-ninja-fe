@@ -1,24 +1,22 @@
+import { localStorage } from '~utils/storage';
 import type { TransactionData } from '@reatom/core';
 
 // enable with localStorage.setItem('KONTUR_DEBUG', 'true')
-export const KONTUR_DEBUG = !!globalThis.window?.localStorage.getItem('KONTUR_DEBUG');
+export const KONTUR_DEBUG = !!localStorage.getItem('KONTUR_DEBUG');
 
 // enable with localStorage.setItem('KONTUR_METRICS_DEBUG', 'true')
-export const KONTUR_METRICS_DEBUG =
-  !!globalThis.window?.localStorage.getItem('KONTUR_METRICS_DEBUG');
+export const KONTUR_METRICS_DEBUG = !!localStorage.getItem('KONTUR_METRICS_DEBUG');
 
 // enable with localStorage.setItem('KONTUR_WARN', 'true')
 // will add stacktrace
-export const KONTUR_WARN = !!globalThis.window?.localStorage.getItem('KONTUR_WARN');
+export const KONTUR_WARN = !!localStorage.getItem('KONTUR_WARN');
 
 // trace specific action
 // enable with localStorage.setItem('KONTUR_TRACE_ERROR', '_error')
-export const KONTUR_TRACE_TYPE =
-  globalThis.window?.localStorage.getItem('KONTUR_TRACE_TYPE');
+export const KONTUR_TRACE_TYPE = localStorage.getItem('KONTUR_TRACE_TYPE');
 
 // dump patch calls with extended info and stacktrace, it's noisy
-export const KONTUR_TRACE_PATCH =
-  !!globalThis.window?.localStorage.getItem('KONTUR_TRACE_PATCH');
+export const KONTUR_TRACE_PATCH = !!localStorage.getItem('KONTUR_TRACE_PATCH');
 
 /**
  * Dump reatom v2 store transaction data

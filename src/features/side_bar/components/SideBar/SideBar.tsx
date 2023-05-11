@@ -3,6 +3,7 @@ import { ActionsBar, Logo } from '@konturio/ui-kit';
 import cn from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { localStorage } from '~utils/storage';
 import { AppNameAndIcon } from '../AppNameAndIcon/AppNameAndIcon';
 import { routeVisibilityChecker } from './routeVisibilityChecker';
 import s from './SideBar.module.css';
