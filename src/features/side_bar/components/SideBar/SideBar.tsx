@@ -64,7 +64,6 @@ export function SideBar({
             <NavButton
               key={route.slug}
               minified={!isOpen}
-              showTooltip={!isOpen}
               isVisible={checkRouteVisibility(route, currentRoute)}
               checkRouteVisibility={checkRouteVisibility}
               route={route}
