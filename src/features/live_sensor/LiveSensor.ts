@@ -38,7 +38,7 @@ export class LiveSensor {
 
     this.sender = new SensorsSnapshotsSender({
       sensorsRecords: this.recorder.records,
-      maxAttempts: 10,
+      maxAttempts: Infinity,
       timeoutSec: 5,
     });
 
