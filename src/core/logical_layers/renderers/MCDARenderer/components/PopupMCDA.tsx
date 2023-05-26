@@ -32,10 +32,12 @@ function OneLayerPopup({
   return (
     <ul className={s.list}>
       <li>
-        <span className={s.entryName}>{num}:</span> {normalized[key]?.numValue.toFixed(2)}
+        <span className={s.entryName}>{num}:</span>{' '}
+        {parseFloat(normalized[key]?.numValue.toFixed(2))}
       </li>
       <li>
-        <span className={s.entryName}>{den}:</span> {normalized[key]?.denValue.toFixed(2)}
+        <span className={s.entryName}>{den}:</span>{' '}
+        {parseFloat(normalized[key]?.denValue.toFixed(2))}
       </li>
       <li>
         <span className={s.entryName}>
