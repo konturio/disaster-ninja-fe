@@ -20,7 +20,12 @@ function createTableWithCalculations(
   return layers.reduce<PopupMCDAProps['normalized']>((acc, layer) => {
     const [num, den] = layer.axis;
     const value = feature.properties?.[num] / feature.properties?.[den];
-    acc[`${num}-${den}`] = { val: value, norm: calculateLayer(layer) };
+    acc[`${num}-${den}`] = {
+      val: value,
+      norm: calculateLayer(layer),
+      numValue: feature.properties?.[num],
+      denValue: feature.properties?.[den],
+    };
     return acc;
   }, {});
 }
