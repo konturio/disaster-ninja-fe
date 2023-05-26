@@ -6,3 +6,15 @@
 .tableBody td {
   text-align: center;
 }
+
+.list {
+  padding: 0 14px;
+}
+
+.list li {
+  list-style: none;
+}
+
+.entryName {
+  opacity: 0.7;
+}
