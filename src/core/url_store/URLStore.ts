@@ -1,6 +1,6 @@
 import type { UrlData } from './types';
 
-interface UrlEncoder<T extends Record<string, string | number | string[] | number[]>> {
+interface UrlEncoder<T extends Record<string, unknown>> {
   encode: (data: T) => string;
   decode: (url: string) => T;
 }

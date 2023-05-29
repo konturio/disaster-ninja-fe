@@ -109,13 +109,16 @@ function MapboxMap(
 
     const currentMapPosition = currentMapPositionAtom.getState();
     //LngLatLike
-    const mapLocation = {
-      center: [currentMapPosition?.lng || 60, currentMapPosition?.lat || 0] as [
-        number,
-        number,
-      ],
-      zoom: currentMapPosition?.zoom || 18,
-    };
+    const mapLocation =
+      currentMapPosition && 'bbox' in currentMapPosition
+        ? { bounds: currentMapPosition.bbox }
+        : {
+            center: [currentMapPosition?.lng || 60, currentMapPosition?.lat || 0] as [
+              number,
+              number,
+            ],
+            zoom: currentMapPosition?.zoom || 18,
+          };
     const mapInstance = new mapLibre.Map({
       container: current,
       style: externalStyleLink,

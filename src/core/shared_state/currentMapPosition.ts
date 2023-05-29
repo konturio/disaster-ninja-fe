@@ -1,10 +1,12 @@
 import { createAtom } from '~utils/atoms';
 
-export interface MapPosition {
-  lat: number;
-  lng: number;
-  zoom: number;
-}
+export type MapPosition =
+  | {
+      lat: number;
+      lng: number;
+      zoom: number;
+    }
+  | { bbox: [[number, number], [number, number]] };
 
 type CurrentMapPositionAtomState = MapPosition | null;
 
@@ -12,12 +14,26 @@ export const currentMapPositionAtom = createAtom(
   {
     setCurrentMapPosition: (mapPosition: MapPosition) => mapPosition,
   },
-  ({ onAction, schedule }, state: CurrentMapPositionAtomState = null) => {
-    const prevState = state;
-    onAction('setCurrentMapPosition', ({ lat, lng, zoom }) => {
-      if (state === null) state = { lat, lng, zoom };
-      if (state.lat !== lat || state.lng !== lng || state.zoom !== zoom) {
-        state = { lat, lng, zoom };
+  ({ onAction }, state: CurrentMapPositionAtomState = null) => {
+    onAction('setCurrentMapPosition', (position) => {
+      if ('bbox' in position) {
+        if (
+          state === null ||
+          !('bbox' in state) ||
+          state.bbox.some((coord, i) => coord !== position.bbox[i])
+        ) {
+          state = { bbox: position.bbox };
+        }
+      } else {
+        const { lat, lng, zoom } = position;
+        if (state === null) state = { lat, lng, zoom };
+        if (
+          ('lat' in state && state.lat !== lat) ||
+          ('lng' in state && state.lng !== lng) ||
+          ('zoom' in state && state.zoom !== zoom)
+        ) {
+          state = { lat, lng, zoom };
+        }
       }
     });
 

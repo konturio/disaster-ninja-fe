@@ -10,4 +10,5 @@ export type UrlData = {
   bv?: string; // bivariate state hash
   app?: string;
   feed?: string;
+  bbox?: [[number, number], [number, number]];
 };

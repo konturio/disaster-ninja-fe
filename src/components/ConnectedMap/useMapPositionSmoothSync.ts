@@ -18,13 +18,15 @@ export function useMapPositionSmoothSync(mapRef) {
       const changeMapPosition = () => {
         map.resize();
         map.once('idle', () => {
-          requestAnimationFrame(() => {
-            map.easeTo({
-              center: [newMapPosition.lng, newMapPosition.lat],
-              zoom: newMapPosition.zoom,
-              duration: 0,
+          if ('lng' in newMapPosition && 'lat' in newMapPosition) {
+            requestAnimationFrame(() => {
+              map.easeTo({
+                center: [newMapPosition.lng, newMapPosition.lat],
+                zoom: newMapPosition.zoom,
+                duration: 0,
+              });
             });
-          });
+          }
         });
       };
       /**
@@ -33,9 +35,9 @@ export function useMapPositionSmoothSync(mapRef) {
        * It's allow avoid cycled updates between map and state
        *  */
       if (
-        newMapPosition.lng !== lng ||
-        newMapPosition.lat !== lat ||
-        newMapPosition.zoom !== zoom
+        ('lng' in newMapPosition && newMapPosition.lng !== lng) ||
+        ('lat' in newMapPosition && newMapPosition.lat !== lat) ||
+        ('zoom' in newMapPosition && newMapPosition.zoom !== zoom)
       ) {
         /* Allow interrupt map flying */
         const timeout = setTimeout(changeMapPosition, 1600);

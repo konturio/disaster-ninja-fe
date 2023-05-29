@@ -23,7 +23,7 @@ export class URLDataInSearchEncoder {
   }
 
   // encode<T extends { [s: string]: string | number | string[] | number[]; }>(data: T) {
-  encode<T extends Record<string, string | number | string[] | number[]>>(data: T) {
+  encode<T extends Record<string, unknown>>(data: T) {
     const dataEntries = Object.entries(data);
 
     // Sort according preferred order
