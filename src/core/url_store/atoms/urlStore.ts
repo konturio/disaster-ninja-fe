@@ -54,11 +54,7 @@ export const urlStoreAtom = createAtom(
 
         // Apply map position
         if (initialState.bbox) {
-          actions.push(
-            currentMapPositionAtom.setCurrentMapPosition({
-              bbox: initialState.bbox,
-            }),
-          );
+          actions.push(currentMapPositionAtom.setCurrentMapBbox(initialState.bbox));
         } else if (initialState.map) {
           actions.push(
             currentMapPositionAtom.setCurrentMapPosition({
@@ -97,19 +93,13 @@ export const urlStoreAtom = createAtom(
     /* After initialization finished - write new changes from state back to url */
     const newState = { ...state };
     const currentMapPosition = get('currentMapPositionAtom');
-    if (currentMapPosition) {
-      if (
-        'zoom' in currentMapPosition &&
-        'lat' in currentMapPosition &&
-        'lng' in currentMapPosition
-      ) {
-        // formatting performed in url encoder
-        newState.map = [
-          Number(currentMapPosition.zoom),
-          Number(currentMapPosition.lat),
-          Number(currentMapPosition.lng),
-        ];
-      }
+    if (currentMapPosition && currentMapPosition.type === 'centerZoom') {
+      // formatting performed in url encoder
+      newState.map = [
+        Number(currentMapPosition.zoom),
+        Number(currentMapPosition.lat),
+        Number(currentMapPosition.lng),
+      ];
     }
 
     const currentEvent = get('currentEventAtom');

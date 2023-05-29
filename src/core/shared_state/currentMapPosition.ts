@@ -1,38 +1,50 @@
 import { createAtom } from '~utils/atoms';
 
-export type MapPosition =
-  | {
-      lat: number;
-      lng: number;
-      zoom: number;
-    }
-  | { bbox: [[number, number], [number, number]] };
+type CenterZoomPosition = {
+  type: 'centerZoom';
+  lat: number;
+  lng: number;
+  zoom: number;
+};
+type Bbox = [[number, number], [number, number]];
+type BboxPosition = {
+  type: 'bbox';
+  bbox: Bbox;
+};
+
+export type MapPosition = CenterZoomPosition | BboxPosition;
 
 type CurrentMapPositionAtomState = MapPosition | null;
 
 export const currentMapPositionAtom = createAtom(
   {
-    setCurrentMapPosition: (mapPosition: MapPosition) => mapPosition,
+    setCurrentMapPosition: (mapPosition: { lat: number; lng: number; zoom: number }) => ({
+      type: 'centerZoom' as const,
+      ...mapPosition,
+    }),
+    setCurrentMapBbox: (mapBbox: Bbox) => ({
+      type: 'bbox' as const,
+      bbox: mapBbox,
+    }),
   },
   ({ onAction }, state: CurrentMapPositionAtomState = null) => {
     onAction('setCurrentMapPosition', (position) => {
-      if ('bbox' in position) {
-        if (
-          state === null ||
-          !('bbox' in state) ||
-          state.bbox.some((coord, i) => coord !== position.bbox[i])
-        ) {
-          state = { bbox: position.bbox };
-        }
+      if (state === null || state.type !== 'centerZoom') {
+        state = position;
       } else {
         const { lat, lng, zoom } = position;
-        if (state === null) state = { lat, lng, zoom };
-        if (
-          ('lat' in state && state.lat !== lat) ||
-          ('lng' in state && state.lng !== lng) ||
-          ('zoom' in state && state.zoom !== zoom)
-        ) {
-          state = { lat, lng, zoom };
+        if (state.lat !== lat || state.lng !== lng || state.zoom !== zoom) {
+          state = position;
+        }
+      }
+    });
+
+    onAction('setCurrentMapBbox', (position) => {
+      if (state === null || state.type !== 'bbox') {
+        state = position;
+      } else {
+        if (state.bbox.some((coord, i) => coord !== position.bbox[i])) {
+          state = position;
         }
       }
     });

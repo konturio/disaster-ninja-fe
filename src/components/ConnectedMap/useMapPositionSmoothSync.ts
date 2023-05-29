@@ -34,17 +34,19 @@ export function useMapPositionSmoothSync(mapRef) {
        * if map already have this position - ignore this update.
        * It's allow avoid cycled updates between map and state
        *  */
-      if (
-        ('lng' in newMapPosition && newMapPosition.lng !== lng) ||
-        ('lat' in newMapPosition && newMapPosition.lat !== lat) ||
-        ('zoom' in newMapPosition && newMapPosition.zoom !== zoom)
-      ) {
-        /* Allow interrupt map flying */
-        const timeout = setTimeout(changeMapPosition, 1600);
-        const clear = () => clearTimeout(timeout);
-        return () => {
-          clear();
-        };
+      if (newMapPosition.type === 'centerZoom') {
+        if (
+          newMapPosition.lng !== lng ||
+          newMapPosition.lat !== lat ||
+          newMapPosition.zoom !== zoom
+        ) {
+          /* Allow interrupt map flying */
+          const timeout = setTimeout(changeMapPosition, 1600);
+          const clear = () => clearTimeout(timeout);
+          return () => {
+            clear();
+          };
+        }
       }
     }
   }, [mapRef, currentMapPosition]);
@@ -57,7 +59,11 @@ export function useMapPositionSmoothSync(mapRef) {
           // only user events have original event
           const zoom = map.getZoom();
           const { lng, lat } = map.getCenter();
-          currentMapPositionActions.setCurrentMapPosition({ zoom, lat, lng });
+          currentMapPositionActions.setCurrentMapPosition({
+            zoom,
+            lat,
+            lng,
+          });
         }
       };
 
