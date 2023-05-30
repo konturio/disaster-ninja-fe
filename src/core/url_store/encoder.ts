@@ -24,6 +24,18 @@ export const urlEncoder = new URLDataInSearchEncoder({
         ].join('/');
       },
     },
+    bbox: {
+      decode: (str: string) => {
+        const coords = str.split(',').map((coord) => parseFloat(coord.trim()));
+        return [
+          [coords[0], coords[1]],
+          [coords[2], coords[3]],
+        ];
+      },
+      encode: (bbox: [[number, number], [number, number]]) => {
+        return `${bbox[0][0]},${bbox[0][1]},${bbox[1][0]},${bbox[1][1]}`;
+      },
+    },
     layers: {
       decode: (str: string) => str.split(','),
       encode: (layers: string[]) => (layers.length ? layers.join(',') : null), // null means - not add this parameter

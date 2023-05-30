@@ -53,7 +53,9 @@ export const urlStoreAtom = createAtom(
         }
 
         // Apply map position
-        if (initialState.map) {
+        if (initialState.bbox) {
+          actions.push(currentMapPositionAtom.setCurrentMapBbox(initialState.bbox));
+        } else if (initialState.map) {
           actions.push(
             currentMapPositionAtom.setCurrentMapPosition({
               // adjustments performed in url decoder
@@ -91,7 +93,7 @@ export const urlStoreAtom = createAtom(
     /* After initialization finished - write new changes from state back to url */
     const newState = { ...state };
     const currentMapPosition = get('currentMapPositionAtom');
-    if (currentMapPosition) {
+    if (currentMapPosition && currentMapPosition.type === 'centerZoom') {
       // formatting performed in url encoder
       newState.map = [
         Number(currentMapPosition.zoom),

@@ -1,6 +1,6 @@
 export type ColorsByMapLibreExpression = {
   type: 'mapLibreExpression';
-  parameters: Record<string, string | number | mapboxgl.Expression>;
+  parameters: Record<string, string | number | boolean | mapboxgl.Expression>;
 };
 
 export type ColorsBySentiments = {

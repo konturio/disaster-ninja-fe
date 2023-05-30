@@ -18,13 +18,15 @@ export function useMapPositionSmoothSync(mapRef) {
       const changeMapPosition = () => {
         map.resize();
         map.once('idle', () => {
-          requestAnimationFrame(() => {
-            map.easeTo({
-              center: [newMapPosition.lng, newMapPosition.lat],
-              zoom: newMapPosition.zoom,
-              duration: 0,
+          if ('lng' in newMapPosition && 'lat' in newMapPosition) {
+            requestAnimationFrame(() => {
+              map.easeTo({
+                center: [newMapPosition.lng, newMapPosition.lat],
+                zoom: newMapPosition.zoom,
+                duration: 0,
+              });
             });
-          });
+          }
         });
       };
       /**
@@ -32,17 +34,19 @@ export function useMapPositionSmoothSync(mapRef) {
        * if map already have this position - ignore this update.
        * It's allow avoid cycled updates between map and state
        *  */
-      if (
-        newMapPosition.lng !== lng ||
-        newMapPosition.lat !== lat ||
-        newMapPosition.zoom !== zoom
-      ) {
-        /* Allow interrupt map flying */
-        const timeout = setTimeout(changeMapPosition, 1600);
-        const clear = () => clearTimeout(timeout);
-        return () => {
-          clear();
-        };
+      if (newMapPosition.type === 'centerZoom') {
+        if (
+          newMapPosition.lng !== lng ||
+          newMapPosition.lat !== lat ||
+          newMapPosition.zoom !== zoom
+        ) {
+          /* Allow interrupt map flying */
+          const timeout = setTimeout(changeMapPosition, 1600);
+          const clear = () => clearTimeout(timeout);
+          return () => {
+            clear();
+          };
+        }
       }
     }
   }, [mapRef, currentMapPosition]);
@@ -55,7 +59,11 @@ export function useMapPositionSmoothSync(mapRef) {
           // only user events have original event
           const zoom = map.getZoom();
           const { lng, lat } = map.getCenter();
-          currentMapPositionActions.setCurrentMapPosition({ zoom, lat, lng });
+          currentMapPositionActions.setCurrentMapPosition({
+            zoom,
+            lat,
+            lng,
+          });
         }
       };
 

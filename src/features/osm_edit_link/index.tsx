@@ -31,17 +31,18 @@ export function initOsmEditLink() {
 
       const position = currentMapPositionAtom.getState();
       if (!position) return;
+      if ('lat' in position && 'lng' in position && 'zoom' in position) {
+        const { lat, lng, zoom } = position;
+        const { osmEditor } = currentUserAtom.getState();
+        if (!osmEditor) return;
 
-      const { lat, lng, zoom } = position;
-      const { osmEditor } = currentUserAtom.getState();
-      if (!osmEditor) return;
+        const baseLink =
+          appConfig.osmEditors.find((editor) => editor.id === osmEditor)?.url ||
+          'https://www.openstreetmap.org/edit?#map=';
 
-      const baseLink =
-        appConfig.osmEditors.find((editor) => editor.id === osmEditor)?.url ||
-        'https://www.openstreetmap.org/edit?#map=';
-
-      const url = `${baseLink}${zoom + URL_ZOOM_OFFSET}/${lat}/${lng}`;
-      window.open(url)?.focus();
+        const url = `${baseLink}${zoom + URL_ZOOM_OFFSET}/${lat}/${lng}`;
+        window.open(url)?.focus();
+      }
     },
   });
 }

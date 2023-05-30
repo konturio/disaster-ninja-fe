@@ -45,6 +45,7 @@ const validators = {
             mapboxgl.Expression,
             null
           >,
+          s.boolean(),
         ]),
       ),
     }),
