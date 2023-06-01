@@ -6,6 +6,10 @@ import {
   notEqual,
 } from '~utils/bivariate/bivariate_style/styleGen';
 import { sumBy } from '~utils/common';
+import {
+  FALLBACK_BIVARIATE_MAX_ZOOM,
+  FALLBACK_BIVARIATE_MIN_ZOOM,
+} from '../../BivariateRenderer/constants';
 import { DEFAULT_GREEN, DEFAULT_RED } from './calculations/constants';
 import { calculateLayerPipeline, inStyleCalculations } from './calculations';
 import { SOURCE_LAYER_MCDA } from './constants';
@@ -138,8 +142,8 @@ export function createMCDAStyle(config: MCDAConfig) {
           appConfig.bivariateTilesRelativeUrl,
         )}{z}/{x}/{y}.mvt?indicatorsClass=${appConfig.bivariateTilesIndicatorsClass}`,
       ],
-      maxzoom: 8,
-      minzoom: 0,
+      maxzoom: FALLBACK_BIVARIATE_MAX_ZOOM,
+      minzoom: FALLBACK_BIVARIATE_MIN_ZOOM,
     },
     'source-layer': SOURCE_LAYER_MCDA,
   };
