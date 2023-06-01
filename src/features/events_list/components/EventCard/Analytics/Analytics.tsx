@@ -1,8 +1,9 @@
-import { Text, Tooltip } from '@konturio/ui-kit';
-import { useMemo, useRef, useState } from 'react';
+import { Text } from '@konturio/ui-kit';
+import { useMemo } from 'react';
 import { People16, Area16 } from '@konturio/default-icons';
 import { nanoid } from 'nanoid';
 import { i18n } from '~core/localization';
+import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import s from './Analytics.module.css';
 
 const Sub = ({ children }) => (
@@ -20,26 +21,18 @@ type StatisticProps = {
 };
 
 function Statistic({ tooltip, value, icon }: StatisticProps) {
-  const ref = useRef(null);
-  const [hovered, setHovered] = useState(false);
-
   return (
-    <>
-      <div
-        ref={ref}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className={s.analyticsBadge}
-      >
-        {icon && icon}
-        <span className={s.analyticsValue}>
-          <Text type="caption">{value}</Text>
-        </span>
-      </div>
-      <Tooltip placement="bottom" triggerRef={ref} open={hovered} hoverBehavior>
-        {tooltip}
-      </Tooltip>
-    </>
+    <Tooltip placement="bottom">
+      <TooltipTrigger>
+        <div className={s.analyticsBadge}>
+          {icon && icon}
+          <span className={s.analyticsValue}>
+            <Text type="caption">{value}</Text>
+          </span>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>{tooltip}</TooltipContent>
+    </Tooltip>
   );
 }
 
