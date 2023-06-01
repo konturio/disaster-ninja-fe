@@ -1,5 +1,5 @@
-import { Tooltip } from '@konturio/ui-kit';
-import { memo, useRef, useState } from 'react';
+import { memo } from 'react';
+import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import { i18n } from '~core/localization';
 import s from './SeverityIndicator.module.css';
 import type { Severity } from '~core/types';
@@ -24,9 +24,6 @@ const severityToText = (severity: Severity) => {
 };
 
 function SeverityIndicatorGenerator({ severity }: { severity: Severity }) {
-  const ref = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
-
   // index after what all cells must be be gray
   const pivot = {
     UNKNOWN: 0,
@@ -38,27 +35,22 @@ function SeverityIndicatorGenerator({ severity }: { severity: Severity }) {
   }[severity];
 
   return (
-    <>
-      <div
-        ref={ref}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className={s.indicator}
-      >
-        {Array.from(new Array(5)).map((_, i) => (
-          <div
-            key={i}
-            className={s.indicatorCell}
-            style={{
-              backgroundColor: i < pivot ? COLORS[i] : 'var(--faint-weak)',
-            }}
-          ></div>
-        ))}
-      </div>
-      <Tooltip placement="bottom" triggerRef={ref} hoverBehavior open={isHovered}>
-        {severityToText(severity)}
-      </Tooltip>
-    </>
+    <Tooltip>
+      <TooltipTrigger>
+        <div className={s.indicator}>
+          {Array.from(new Array(5)).map((_, i) => (
+            <div
+              key={i}
+              className={s.indicatorCell}
+              style={{
+                backgroundColor: i < pivot ? COLORS[i] : 'var(--faint-weak)',
+              }}
+            ></div>
+          ))}
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>{severityToText(severity)}</TooltipContent>
+    </Tooltip>
   );
 }
 

@@ -18,7 +18,7 @@ We assume that all cases of using a tooltip can be reduced to two cases
 In that case you need to import special components and use them
 
 ```jsx
-import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltip';
+import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 
 function Sidebar() {
   return (

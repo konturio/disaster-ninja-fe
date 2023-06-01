@@ -16,4 +16,5 @@ export const closeOnLocationChangeAtom = createAtom(
       }
     });
   },
+  'closeOnLocationChangeAtom',
 );

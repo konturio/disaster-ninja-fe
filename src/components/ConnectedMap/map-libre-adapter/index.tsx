@@ -108,10 +108,10 @@ function MapboxMap(
     if (ref?.current) return;
 
     const currentMapPosition = currentMapPositionAtom.getState();
-    if (!currentMapPosition) return;
+
     //LngLatLike
     const mapLocation =
-      currentMapPosition.type === 'bbox'
+      currentMapPosition?.type === 'bbox'
         ? { bounds: currentMapPosition.bbox }
         : {
             center: [currentMapPosition?.lng || 60, currentMapPosition?.lat || 0] as [

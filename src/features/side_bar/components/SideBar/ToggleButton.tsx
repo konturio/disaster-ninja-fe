@@ -1,9 +1,10 @@
 import cn from 'clsx';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { ActionsBarBTN, Tooltip } from '@konturio/ui-kit';
+import { useCallback, useEffect } from 'react';
+import { ActionsBarBTN } from '@konturio/ui-kit';
 import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
+import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import s from './SideBar.module.css';
 
 const wasClosed = 'sidebarClosed';
@@ -14,11 +15,7 @@ type ToggleButtonProps = {
 };
 
 export function ToggleButton({ isOpen, setIsOpen }: ToggleButtonProps) {
-  const ref = useRef<HTMLDivElement>(null);
-
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-
-  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
   useEffect(() => {
     if (isMobile) setIsOpen(false);
@@ -26,7 +23,6 @@ export function ToggleButton({ isOpen, setIsOpen }: ToggleButtonProps) {
 
   const toggleIsOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
-    setIsTooltipOpen(false);
   }, []);
 
   // store locally user preferation to close sidebar
@@ -49,18 +45,16 @@ export function ToggleButton({ isOpen, setIsOpen }: ToggleButtonProps) {
     );
 
   return (
-    <div
-      ref={ref}
-      onClick={toggleIsOpen}
-      className={cn(s.buttonWrap, s.togglerButton)}
-      onPointerLeave={() => setIsTooltipOpen(false)}
-      onPointerEnter={() => setIsTooltipOpen(true)}
-    >
-      <ActionsBarBTN iconBefore={<DoubleChevronRight24 />} className={s.controlButton} />
-
-      <Tooltip triggerRef={ref} placement="right" open={isTooltipOpen} hoverBehavior>
-        {i18n.t('sidebar.expand')}
-      </Tooltip>
-    </div>
+    <Tooltip placement="right" offset={8}>
+      <div onClick={toggleIsOpen} className={cn(s.buttonWrap, s.togglerButton)}>
+        <TooltipTrigger>
+          <ActionsBarBTN
+            iconBefore={<DoubleChevronRight24 />}
+            className={s.controlButton}
+          />
+        </TooltipTrigger>
+      </div>
+      <TooltipContent>{i18n.t('sidebar.expand')}</TooltipContent>
+    </Tooltip>
   );
 }
