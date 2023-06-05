@@ -195,5 +195,10 @@
     "vite-plugin-html": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^0.29.8"
+  },
+  "overrides": {
+    "react-virtual": {
+      "react": "^18.2.0"
+    }
   }
 }
