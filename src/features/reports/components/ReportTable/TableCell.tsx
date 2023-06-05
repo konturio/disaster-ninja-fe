@@ -1,67 +1,80 @@
+import cn from 'clsx';
 import { memo } from 'react';
 import { i18n } from '~core/localization';
 import jOSMLogo from '~features/reports/icons/JOSM.svg';
 import styles from './ReportTable.module.css';
+import { PREFIX } from './constants';
+
+/* This method must redirect user to application. Used for JOSM links */
+function sendRequest(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, link: string) {
+  e.preventDefault();
+  fetch(link, { method: 'GET' });
+}
+
+const mdLinks = /(\w+)_\[([^\]]+)\]\((https?:\/\/[\w\d:./?=/#/&_]+)\)/gm;
+type ParsedCell = { before: string; prefix?: string; text?: string; link?: string };
+function parseCell(raw: string) {
+  const matches = raw.matchAll(mdLinks);
+  const result = new Array<ParsedCell>();
+  let pointer = 0;
+  for (const match of matches) {
+    const [whole, prefix, text, link] = match;
+    if (match.input) {
+      const before = match.input.slice(pointer, match.index ?? 0);
+      pointer = (match.index ?? 0) + whole.length;
+      result.push({
+        before,
+        prefix: prefix + '_',
+        text,
+        link,
+      });
+    }
+  }
+  return result.length === 0
+    ? [
+        {
+          before: raw,
+        },
+      ]
+    : result;
+}
 
 type TableCellProps = {
   cell: string;
-  jOSMRedirect: (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    link: string,
-  ) => void;
-  openOSMID: (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    link: string,
-  ) => void;
 };
 
-export function TableCellComponent({
-  cell,
-  jOSMRedirect,
-  openOSMID,
-}: TableCellProps) {
-  if (cell.startsWith('subrow_')) cell = cell.substring(7);
-
-  if (cell.startsWith('hrefIcon_')) {
-    // eslint-disable-next-line
-    let [, name, link] = cell.split(/\[([^\[\]]*)\]\((http.*?)\)/);
-    let cName = '';
-    if (name.startsWith('tab_')) {
-      cName = styles.nested;
-      name = name.substring(4);
-    }
-    return (
-      <td className={cName}>
-        <a
-          onClick={(e) => jOSMRedirect(e, link)}
-          href={link}
-          title={i18n.t('reports.open_josm')}
-        >
-          <img src={jOSMLogo} alt={i18n.t('reports.josm_logo_alt')} /> {name}
-        </a>
-      </td>
-    );
-  }
-
-  if (cell.startsWith('href_')) {
-    // eslint-disable-next-line
-    let [, name, link] = cell.split(/\[([^\[\]]*)\]\((http.*?)\)/);
-    let cName = '';
-    if (name.startsWith('tab_')) {
-      cName = styles.nested;
-      name = name.substring(4);
-    }
-    return (
-      <td className={cName}>
-        {link ? <a onClick={(e) => openOSMID(e, link)}>{name}</a> : name}
-      </td>
-    );
-  }
+export function TableCellComponent({ cell }: TableCellProps) {
+  const chunks = parseCell(cell);
+  /* Legacy support - if whole string or first link starts from "tab_" - add nested style */
+  const isTab =
+    chunks[0].before.startsWith(PREFIX.tab) ||
+    (chunks[0].text?.startsWith(PREFIX.tab) ?? false);
 
   return (
-    <td className={cell.startsWith('tab_') ? styles.nested : ''}>
-      {cell ? (cell.startsWith('tab_') ? cell.substring(4) : cell) : '-'}
+    <td className={cn({ [styles.nested]: isTab })}>
+      {chunks.map((ch) => {
+        const hasHrefIcon = ch.prefix?.includes(PREFIX.hrefIcon) ?? false;
+        const isJosmLink = hasHrefIcon;
+        return (
+          <span key={ch.link ?? ch.before} className={styles.cell}>
+            <span>{ch.before}</span>
+            {hasHrefIcon && <img src={jOSMLogo} alt={i18n.t('reports.josm_logo_alt')} />}
+            {ch.link ? (
+              <a
+                title={isJosmLink ? i18n.t('reports.open_josm') : ''}
+                href={!isJosmLink ? ch.link : '#'}
+                onClick={!isJosmLink ? (e) => sendRequest(e, ch.link!) : undefined}
+              >
+                {ch.text ?? '-'}
+              </a>
+            ) : (
+              ch.text ?? ''
+            )}
+          </span>
+        );
+      })}
     </td>
   );
 }
+
 export const TableCell = memo(TableCellComponent);
