@@ -43,12 +43,22 @@ type TableCellProps = {
   cell: string;
 };
 
+function extractTabPrefix(chunks: ParsedCell[]) {
+  if (!chunks[0]) return false;
+  return (
+    (chunks[0].before.startsWith(PREFIX.tab)
+      ? ((chunks[0].before = chunks[0].before.substring(PREFIX.tab.length)), true)
+      : false) ||
+    (chunks[0].text?.startsWith(PREFIX.tab)
+      ? ((chunks[0].text = chunks[0].text.substring(PREFIX.tab.length)), true)
+      : false)
+  );
+}
+
 export function TableCellComponent({ cell }: TableCellProps) {
   const chunks = parseCell(cell);
   /* Legacy support - if whole string or first link starts from "tab_" - add nested style */
-  const isTab =
-    chunks[0].before.startsWith(PREFIX.tab) ||
-    (chunks[0].text?.startsWith(PREFIX.tab) ?? false);
+  const isTab = extractTabPrefix(chunks);
 
   return (
     <td className={cn({ [styles.nested]: isTab })}>
