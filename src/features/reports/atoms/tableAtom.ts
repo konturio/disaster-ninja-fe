@@ -4,6 +4,19 @@ import { reportResourceAtom } from './reportResource';
 
 export const limit = 100;
 
+function asyncParser<T>(csv: string): Promise<papa.ParseResult<T>> {
+  return new Promise((res, error) => {
+    papa.parse<T>(csv, {
+      delimiter: ';',
+      fastMode: true,
+      skipEmptyLines: true,
+      worker: true,
+      complete: (parsed) => res(parsed),
+      error,
+    });
+  });
+}
+
 type TableState = {
   sortIndex: number;
   thead?: string[];
@@ -37,13 +50,8 @@ export const tableAtom = createAtom(
       }
       const csv = resource.data;
 
-      schedule((dispatch) => {
-        const parsed = papa.parse<string[]>(csv, {
-          delimiter: ';',
-          fastMode: true,
-          skipEmptyLines: true,
-        });
-
+      schedule(async (dispatch) => {
+        const parsed = await asyncParser<string[]>(csv);
         state = {
           sortIndex: 0,
           thead: parsed.data[0],
