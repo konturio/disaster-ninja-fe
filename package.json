@@ -139,7 +139,6 @@
     "react-router-cache-route": "^1.12.11",
     "react-router-dom": "^5.3.4",
     "react-transition-group": "^4.4.5",
-    "react-virtual": "^2.10.4",
     "react-virtuoso": "^4.1.0",
     "remark-gfm": "^3.0.1",
     "superstruct": "^1.0.3",
@@ -195,10 +194,5 @@
     "vite-plugin-html": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^0.29.8"
-  },
-  "overrides": {
-    "react-virtual": {
-      "react": "^18.2.0"
-    }
   }
 }
