@@ -11,7 +11,7 @@ function sendRequest(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, link: s
   fetch(link, { method: 'GET' });
 }
 
-const mdLinks = /(\w+)_\[([^\]]+)\]\((https?:\/\/[\w\d:./?=/#/&_]+)\)/gm;
+const mdLinks = /(\w+)_\[([^\]]+)\]\((https?:\/\/[\w\d:./?=/#/\-&_]+)\)/gm;
 type ParsedCell = { before: string; prefix?: string; text?: string; link?: string };
 function parseCell(raw: string) {
   const matches = raw.matchAll(mdLinks);
