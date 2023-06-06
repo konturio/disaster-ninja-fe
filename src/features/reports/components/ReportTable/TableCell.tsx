@@ -73,7 +73,9 @@ export function TableCellComponent({ cell }: TableCellProps) {
               <a
                 title={isJosmLink ? i18n.t('reports.open_josm') : ''}
                 href={!isJosmLink ? ch.link : '#'}
-                onClick={!isJosmLink ? (e) => sendRequest(e, ch.link!) : undefined}
+                target={isJosmLink ? undefined : '_blank'}
+                rel="noreferrer"
+                onClick={isJosmLink ? (e) => sendRequest(e, ch.link!) : undefined}
               >
                 {ch.text ?? '-'}
               </a>
