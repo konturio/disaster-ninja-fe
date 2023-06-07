@@ -105,9 +105,7 @@ export class ApiClient {
       if (decodedToken && decodedToken.exp) {
         const expiringDate = new Date(decodedToken.exp * 1000);
         if (expiringDate > new Date()) {
-          this.token = token;
-          this.refreshToken = refreshToken;
-          this.tokenExpirationDate = expiringDate;
+          this.setAuth(token, refreshToken, expiringDate);
           this.storage.setItem(
             LOCALSTORAGE_AUTH_KEY,
             JSON.stringify({ token, refreshToken }),
@@ -122,20 +120,29 @@ export class ApiClient {
     }
     throw new ApiClientError(errorMessage || 'Token error', { kind: 'bad-data' });
   }
+
   /**
    * check and use local token, reset auth if token is absent or invalid
    * @returns true on success
    */
   checkLocalAuthToken(): boolean {
+    if (this.token && this.refreshToken) {
+      return true;
+    }
     try {
-      const authStr = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
-      if (authStr) {
-        const { token, refreshToken } = JSON.parse(authStr);
+      const storedTokensJson = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
+      if (storedTokensJson) {
+        const { token, refreshToken } = JSON.parse(storedTokensJson);
         if (token && refreshToken) {
-          return this.storeTokens(token, refreshToken);
+          const decodedToken: JWTData = jwtDecode(token);
+          const expiringDate = new Date(decodedToken.exp * 1000);
+          this.setAuth(token, refreshToken, expiringDate);
+          return true;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      console.debug('checkLocalAuthToken:', e);
+    }
     this.resetAuth();
     return false;
   }
@@ -147,17 +154,17 @@ export class ApiClient {
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
   }
 
+  private setAuth(token: string, refreshToken: string, expiringDate: Date | undefined) {
+    this.token = token;
+    this.refreshToken = refreshToken;
+    this.tokenExpirationDate = expiringDate;
+  }
+
   private async _tokenRefreshFlow() {
     if (!this.tokenExpirationDate) {
       return false;
     }
     const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
-    if (diffTime < 0) {
-      // token expired, need to relogin
-      this.resetAuth();
-      this.expiredTokenCallback();
-      return false;
-    }
     if (diffTime < this.timeToRefresh) {
       // token expires soon - in 5 minutes, refresh it
       try {
@@ -222,6 +229,9 @@ export class ApiClient {
       }
       throw new ApiClientError('Token error', { kind: 'bad-data' });
     } catch (err) {
+      // unable to login or refresh token
+      this.resetAuth();
+      this.expiredTokenCallback?.();
       throw createApiError(err);
     }
   }
