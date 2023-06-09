@@ -15,7 +15,6 @@ import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsR
 import { EventCard } from '../EventCard/EventCard';
 import { CurrentEvent } from '../CurrentEvent/CurrentEvent';
 import s from './FullState.module.css';
-import type { VirtuosoHandle } from 'react-virtuoso';
 
 export function FullState({
   currentEventId,
@@ -27,7 +26,6 @@ export function FullState({
   const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
   const [featureFlags] = useAtom(featureFlagsAtom);
   const hasTimeline = featureFlags[FeatureFlag.EPISODES_TIMELINE];
-  const virtuoso = useRef<VirtuosoHandle>(null);
 
   const statesToComponents = createStateMap({
     error,
@@ -94,7 +92,6 @@ export function FullState({
                     showDescription={event.eventId === currentEventId}
                   />
                 )}
-                ref={virtuoso}
               />
               <div className={s.height100vh}>
                 {/* it helps expand panel to full height

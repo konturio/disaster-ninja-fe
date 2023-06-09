@@ -43,7 +43,6 @@ td {
 }
 td a {
   cursor: pointer;
-  display: flex;
 }
 
 .subRow {
@@ -82,4 +81,8 @@ td a {
 
 .defaultSort:hover img {
   opacity: 0.3;
+}
+
+.cell {
+  white-space: pre-wrap;
 }

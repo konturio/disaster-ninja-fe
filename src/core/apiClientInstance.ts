@@ -10,7 +10,7 @@ ApiClient.init({
   refreshTokenApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
   keycloakClientId: appConfig.keycloakClientId,
   unauthorizedCallback(apiClient) {
-    apiClient.logout();
+    // TODO: implement for this case special login flow without reload
     apiClient.expiredTokenCallback?.();
   },
 });
