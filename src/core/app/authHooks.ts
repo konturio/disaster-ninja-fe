@@ -2,7 +2,7 @@ import { appConfig } from '~core/app_config';
 import { currentUserAtom } from '~core/shared_state';
 import { yandexMetrics } from '~core/metrics';
 import { setFeatures } from './features';
-import type { UserProfileApi } from './user';
+import type { UserDto } from './user';
 
 export async function onLogin() {
   if (appConfig.user) {
@@ -12,7 +12,7 @@ export async function onLogin() {
   setFeatures(appConfig.effectiveFeatures);
 }
 
-function externalLoginTasks(user: UserProfileApi) {
+function externalLoginTasks(user: UserDto) {
   // now when intercom is a feature it can be saved in window after this check happens
   if (window['Intercom']) {
     window['Intercom']('update', {

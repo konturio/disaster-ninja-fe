@@ -68,9 +68,7 @@ export function LoginForm() {
         if (typeof authResponse === 'string') {
           setError({ general: authResponse });
         } else {
-          setError({
-            general: i18n.t('login.error.connect'),
-          });
+          setError({ general: i18n.t('login.error.connect') });
         }
       }
     }
