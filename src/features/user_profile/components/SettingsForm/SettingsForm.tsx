@@ -10,20 +10,25 @@ import { eventFeedsAtom } from '~core/shared_state';
 import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
-import type { UserProfileState } from '../../atoms/userProfile';
+import type { UserDto } from '~core/app/user';
 import type { ChangeEvent } from 'react';
 
 const authInputClasses = { input: clsx(s.authInput) };
 
 export function SettingsForm() {
-  const [userProfile, { updateUserProfile }] = useAtom(currentProfileAtom);
-  const [localSettings, setLocalSettings] = useState<UserProfileState>(userProfile);
+  const [userProfile, { getUserProfile, updateUserProfile }] =
+    useAtom(currentProfileAtom);
+  const [localSettings, setLocalSettings] = useState<UserDto>(userProfile);
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [eventFeeds] = useAtom(eventFeedsAtom);
 
   function logout() {
     authClientInstance.logout();
   }
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
 
   // apply userProfile incoming settings to local settings
   useEffect(() => {

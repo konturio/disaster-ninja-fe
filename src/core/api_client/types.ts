@@ -26,7 +26,8 @@ export interface ApiClientConfig<ClassContext> {
   loginApiPath?: string;
   refreshTokenApiPath?: string;
   keycloakClientId?: string;
-  unauthorizedCallback?: (classContext: ClassContext) => void;
+  expiredTokenCallback?: (classContext?: ClassContext) => void;
+  unauthorizedCallback?: (classContext?: ClassContext) => void;
   disableAuth?: boolean;
   storage?: WindowLocalStorage['localStorage'];
 }

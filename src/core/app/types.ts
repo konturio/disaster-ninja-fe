@@ -1,4 +1,4 @@
-import type { UserProfileApi } from './user';
+import type { UserDto } from './user';
 import type { AppFeatureType } from '~core/auth/types';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 
@@ -83,7 +83,7 @@ export interface AppDto {
   faviconUrl: string;
   public: boolean;
   extent: [number, number, number, number];
-  user: UserProfileApi;
+  user: UserDto;
 }
 
 export interface FeatureDto {
