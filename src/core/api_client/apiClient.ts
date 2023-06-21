@@ -26,7 +26,8 @@ export class ApiClient {
 
   private readonly instanceId: string;
   private readonly notificationService: INotificationService;
-  private readonly unauthorizedCallback?: (a: this) => void;
+  readonly expiredTokenCallback?: (a?: this) => void;
+  readonly unauthorizedCallback?: (a?: this) => void;
   private readonly loginApiPath: string;
   private readonly refreshTokenApiPath: string;
   private readonly disableAuth: boolean;
@@ -36,10 +37,9 @@ export class ApiClient {
   private tokenExpirationDate: Date | undefined;
   private tokenRefreshFlowPromise: Promise<boolean> | undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public expiredTokenCallback = () => {};
   private readonly keycloakClientId: string;
   private baseURL: string;
-  timeToRefresh: number = 1000 * 60 * 5;
+  timeToRefresh: number = 1000 * 60 * 3; // Should be less then Access Token Lifespan
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -51,6 +51,7 @@ export class ApiClient {
     loginApiPath = '',
     refreshTokenApiPath = '',
     keycloakClientId = '',
+    expiredTokenCallback,
     unauthorizedCallback,
     disableAuth = false,
     storage = localStorage,
@@ -63,6 +64,7 @@ export class ApiClient {
     this.keycloakClientId = keycloakClientId;
     this.disableAuth = disableAuth;
     this.storage = storage;
+    this.expiredTokenCallback = expiredTokenCallback;
     this.unauthorizedCallback = unauthorizedCallback;
 
     // Will deleted by terser

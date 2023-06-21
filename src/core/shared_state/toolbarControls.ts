@@ -1,5 +1,4 @@
 import { createAtom } from '~utils/atoms';
-import { currentUserAtom } from '~core/shared_state/currentUser';
 import type { Action } from '@reatom/core';
 
 type SideControl = {
@@ -34,17 +33,8 @@ export const toolbarControlsAtom = createAtom(
     enable: (controlId: string) => controlId,
     disable: (controlId: string) => controlId,
     reset: () => null,
-    currentUserAtom,
   },
-  ({ onAction, onChange, schedule, create }, state: Record<string, SideControl> = {}) => {
-    onChange('currentUserAtom', (user, prevUser) => {
-      // if previous user is undefined - atom wasn't initialized, so no user was setted before, so no need to reset
-      if (prevUser !== undefined)
-        schedule((dispatch) => {
-          dispatch(create('reset'));
-        });
-    });
-
+  ({ onAction, schedule, create }, state: Record<string, SideControl> = {}) => {
     onAction('addControl', (control) => {
       state = { ...state, [control.id]: control };
     });

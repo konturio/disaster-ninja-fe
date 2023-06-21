@@ -1,14 +1,11 @@
-import { apiClient } from '~core/apiClientInstance';
 import { i18n } from '~core/localization';
 import { currentUserAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { currentNotificationAtom } from '~core/shared_state';
 import { publicUser } from '~core/app/user';
-import type { CurrentUser } from '~core/app/user';
-
-export type UserProfileState = Omit<CurrentUser, 'loading' | 'defaultLayers' | 'token'>;
-type profileResponse = UserProfileState;
+import { getCurrentUser, updateCurrentUser } from '~core/api/users';
+import type { UserDto } from '~core/app/user';
 
 export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>(
   'init',
@@ -18,32 +15,36 @@ export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>(
 export const currentProfileAtom = createAtom(
   {
     currentUserAtom,
-    updateUserProfile: (user: UserProfileState) => user,
+    getUserProfile: () => null,
+    updateUserProfile: (user: UserDto) => user,
   },
-  ({ onChange, onAction, schedule }, state: UserProfileState = publicUser) => {
+  ({ onChange, onAction, schedule }, state: UserDto = publicUser) => {
+    onAction('getUserProfile', () => {
+      schedule(async (dispatch) => {
+        dispatch(pageStatusAtom.set('loading'));
+        const user = await getCurrentUser();
+        if (!user) throw new Error(i18n.t('no_data_received'));
+        dispatch(pageStatusAtom.set('init'));
+        dispatch(currentUserAtom.setUser(user));
+      });
+    });
+
     onAction('updateUserProfile', (user) => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('loading'));
-        const responseData = await apiClient.put<profileResponse>(
-          '/users/current_user',
-          user,
-          true,
-        );
+        const responseData = await updateCurrentUser(user);
         if (!responseData) throw new Error(i18n.t('no_data_received'));
         currentNotificationAtom.showNotification.dispatch(
           'success',
           { title: i18n.t('profile.successNotification') },
           5,
         );
-
-        dispatch(currentUserAtom.setUser(user));
+        // reload to apply all the settings
+        location.reload();
       });
     });
 
     onChange('currentUserAtom', async (newUser, prevUser) => {
-      // reload to simply apply all the settings if implementation is difficult
-      if (prevUser) location.reload();
-
       const { loading, defaultLayers, ...newState } = newUser;
       state = newState;
     });

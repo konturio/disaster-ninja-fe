@@ -1,4 +1,5 @@
 import { appConfig } from '~core/app_config';
+import { goTo } from '~core/router/goTo';
 import { ApiClient } from './api_client';
 import { notificationServiceInstance } from './notificationServiceInstance';
 
@@ -9,9 +10,13 @@ ApiClient.init({
   loginApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
   refreshTokenApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
   keycloakClientId: appConfig.keycloakClientId,
+  expiredTokenCallback() {
+    alert('Session expired. Please login again');
+    goTo('/profile');
+    location.reload();
+  },
   unauthorizedCallback(apiClient) {
-    // TODO: implement for this case special login flow without reload
-    apiClient.expiredTokenCallback?.();
+    apiClient?.expiredTokenCallback?.();
   },
 });
 export const apiClient = ApiClient.getInstance();

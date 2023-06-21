@@ -3,8 +3,6 @@ import { appConfig } from '~core/app_config';
 export type UserProfileMain = {
   username?: string;
   email?: string;
-  firstName?: string;
-  lastName?: string;
   fullName?: string;
   bio?: string;
 };
@@ -18,14 +16,14 @@ export type UserProfileSettings = {
   theme: string;
 };
 
-export type UserProfileApi = UserProfileMain & UserProfileSettings;
+export type UserDto = UserProfileMain & UserProfileSettings;
 
-export type CurrentUser = UserProfileApi & {
+export type CurrentUser = UserDto & {
   defaultLayers?: string[];
   loading?: boolean;
 };
 
-export const defaultUserProfileData: UserProfileApi = {
+export const defaultUserProfileData: UserDto = {
   username: '',
   email: '',
   fullName: '',
