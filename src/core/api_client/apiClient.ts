@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { KONTUR_DEBUG } from '~utils/debug';
 import { localStorage } from '~utils/storage';
+import { goTo } from '~core/router/goTo';
 import { ApiClientError } from './apiClientError';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
@@ -36,10 +37,9 @@ export class ApiClient {
   private tokenExpirationDate: Date | undefined;
   private tokenRefreshFlowPromise: Promise<boolean> | undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public expiredTokenCallback = () => {};
   private readonly keycloakClientId: string;
   private baseURL: string;
-  timeToRefresh: number = 1000 * 60 * 5;
+  timeToRefresh: number = 1000 * 60 * 3; // Should be less then Access Token Lifespan
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -89,6 +89,12 @@ export class ApiClient {
 
     ApiClient.instances[instanceId] = new ApiClient(config);
     return ApiClient.instances[instanceId];
+  }
+
+  expiredTokenCallback() {
+    alert('Session expired. Please login again');
+    goTo('/profile');
+    location.reload();
   }
 
   /**
