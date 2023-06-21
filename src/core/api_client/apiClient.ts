@@ -5,7 +5,6 @@ import jwtDecode from 'jwt-decode';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { KONTUR_DEBUG } from '~utils/debug';
 import { localStorage } from '~utils/storage';
-import { goTo } from '~core/router/goTo';
 import { ApiClientError } from './apiClientError';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
@@ -27,7 +26,8 @@ export class ApiClient {
 
   private readonly instanceId: string;
   private readonly notificationService: INotificationService;
-  private readonly unauthorizedCallback?: (a: this) => void;
+  readonly expiredTokenCallback?: (a?: this) => void;
+  readonly unauthorizedCallback?: (a?: this) => void;
   private readonly loginApiPath: string;
   private readonly refreshTokenApiPath: string;
   private readonly disableAuth: boolean;
@@ -51,6 +51,7 @@ export class ApiClient {
     loginApiPath = '',
     refreshTokenApiPath = '',
     keycloakClientId = '',
+    expiredTokenCallback,
     unauthorizedCallback,
     disableAuth = false,
     storage = localStorage,
@@ -63,6 +64,7 @@ export class ApiClient {
     this.keycloakClientId = keycloakClientId;
     this.disableAuth = disableAuth;
     this.storage = storage;
+    this.expiredTokenCallback = expiredTokenCallback;
     this.unauthorizedCallback = unauthorizedCallback;
 
     // Will deleted by terser
@@ -89,12 +91,6 @@ export class ApiClient {
 
     ApiClient.instances[instanceId] = new ApiClient(config);
     return ApiClient.instances[instanceId];
-  }
-
-  expiredTokenCallback() {
-    alert('Session expired. Please login again');
-    goTo('/profile');
-    location.reload();
   }
 
   /**
