@@ -7,7 +7,7 @@ import { publicUser } from '~core/app/user';
 import { getCurrentUser, updateCurrentUser } from '~core/api/users';
 import type { UserDto } from '~core/app/user';
 
-export const pageStatusAtom = createStringAtom<'init' | 'changed' | 'loading'>(
+export const pageStatusAtom = createStringAtom<'init' | 'ready' | 'changed' | 'loading'>(
   'init',
   'user_profile:pageStatusAtom',
 );
@@ -21,10 +21,11 @@ export const currentProfileAtom = createAtom(
   ({ onChange, onAction, schedule }, state: UserDto = publicUser) => {
     onAction('getUserProfile', () => {
       schedule(async (dispatch) => {
-        dispatch(pageStatusAtom.set('loading'));
+        dispatch(pageStatusAtom.set('init'));
         const user = await getCurrentUser();
         if (!user) throw new Error(i18n.t('no_data_received'));
-        dispatch(pageStatusAtom.set('init'));
+        dispatch(pageStatusAtom.set('ready'));
+        state = user;
         dispatch(currentUserAtom.setUser(user));
       });
     });

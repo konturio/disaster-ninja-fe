@@ -16,8 +16,24 @@ import type { ChangeEvent } from 'react';
 const authInputClasses = { input: clsx(s.authInput) };
 
 export function SettingsForm() {
-  const [userProfile, { getUserProfile, updateUserProfile }] =
-    useAtom(currentProfileAtom);
+  const [user, { getUserProfile, updateUserProfile }] = useAtom(currentProfileAtom);
+  const [status] = useAtom(pageStatusAtom);
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
+
+  if (status === 'init')
+    return (
+      <div className={s.spinnerContainer}>
+        <KonturSpinner />
+      </div>
+    );
+
+  return <SettingsFormGen userProfile={user} updateUserProfile={updateUserProfile} />;
+}
+
+function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [localSettings, setLocalSettings] = useState<UserDto>(userProfile);
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [eventFeeds] = useAtom(eventFeedsAtom);
@@ -25,15 +41,6 @@ export function SettingsForm() {
   function logout() {
     authClientInstance.logout();
   }
-
-  useEffect(() => {
-    getUserProfile();
-  }, []);
-
-  // apply userProfile incoming settings to local settings
-  useEffect(() => {
-    userProfile && setLocalSettings({ ...userProfile });
-  }, [userProfile, setLocalSettings]);
 
   useEffect(() => {
     // compare objects instead
@@ -44,16 +51,9 @@ export function SettingsForm() {
     ) {
       setPageStatus('changed');
     } else if (localSettings && userProfile) {
-      setPageStatus('init');
+      setPageStatus('ready');
     }
   }, [localSettings, userProfile]);
-
-  if (!localSettings)
-    return (
-      <div className={s.spinnerContainer}>
-        <KonturSpinner />
-      </div>
-    );
 
   function onSave() {
     // do async put request
@@ -65,6 +65,7 @@ export function SettingsForm() {
   function onFullnameChange(e: ChangeEvent<HTMLInputElement>) {
     setLocalSettings({ ...localSettings, fullName: e.target.value });
   }
+
   function onBioChange(e: ChangeEvent<HTMLTextAreaElement>) {
     setLocalSettings({ ...localSettings, bio: e.target.value });
   }
@@ -72,9 +73,11 @@ export function SettingsForm() {
   function onThemeChange(e) {
     setLocalSettings({ ...localSettings, theme: e.value });
   }
+
   function onLanguageChange(e) {
     setLocalSettings({ ...localSettings, language: e.value });
   }
+
   function toggleUnits() {
     setLocalSettings((prevSettings) => {
       return { ...prevSettings, useMetricUnits: !prevSettings?.useMetricUnits };
@@ -93,7 +96,9 @@ export function SettingsForm() {
     { title: i18n.t('profile.konturTheme'), value: 'kontur' },
     // { title: i18n.t('profile.HOTTheme'), value: 'hot' },
   ];
+
   const OPTIONS_LANGUAGE = getLanguageOptions();
+
   const OPTIONS_FEED = eventFeeds.map((o) => ({
     title: o.name,
     value: o.feed,
@@ -213,7 +218,7 @@ export function SettingsForm() {
                       <KonturSpinner />
                     </div>
                   ) : (
-                    <Button onClick={onSave} disabled={status === 'init'}>
+                    <Button onClick={onSave} disabled={status !== 'changed'}>
                       <Text type="short-m">{i18n.t('profile.saveButton')}</Text>
                     </Button>
                   )}
