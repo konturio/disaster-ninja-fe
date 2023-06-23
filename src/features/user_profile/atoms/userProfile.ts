@@ -16,7 +16,7 @@ export const currentProfileAtom = createAtom(
   {
     currentUserAtom,
     getUserProfile: () => null,
-    updateUserProfile: (user: UserDto) => user,
+    updateUserProfile: (user: UserDto) => user
   },
   ({ onChange, onAction, schedule }, state: UserDto = publicUser) => {
     onAction('getUserProfile', () => {
