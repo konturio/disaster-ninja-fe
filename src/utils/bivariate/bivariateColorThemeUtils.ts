@@ -1,13 +1,14 @@
-import { hexToHsluv, hsluvToHex } from 'hsluv';
+import { Hsluv } from 'hsluv';
 import { generateBivariateStyleForAxis } from '~utils/bivariate';
 import { appConfig } from '~core/app_config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
-import type { ColorTuple } from 'hsluv';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
 import type { Axis, ColorCombination, Meta, Direction } from '~utils/bivariate';
 import type { RGBAColor } from 'types/color';
+
+type ColorTuple = [number, number, number];
 
 export type BivariateLayerSource = {
   type: 'vector';
@@ -164,21 +165,39 @@ export const generateColorTheme = (
   xAxisDirection: Direction,
   yAxisDirection: Direction,
 ) => {
+  const conv = new Hsluv();
+
   const corner00 = findColors(colors, [xAxisDirection[0], yAxisDirection[0]]);
-  const corner10 = findColors(colors, [xAxisDirection[1], yAxisDirection[0]]);
   const corner01 = findColors(colors, [xAxisDirection[0], yAxisDirection[1]]);
+  const corner10 = findColors(colors, [xAxisDirection[1], yAxisDirection[0]]);
   const corner11 = findColors(colors, [xAxisDirection[1], yAxisDirection[1]]);
 
-  const corner00hsl = hexToHsluv(corner00.color);
-  const corner10hsl = hexToHsluv(corner10.color);
-  const corner01hsl = hexToHsluv(corner01.color);
-  const corner11hsl = hexToHsluv(corner11.color);
+  const cornerHsl = [corner00, corner01, corner10, corner11].map((c) => {
+    conv.hex = c.color;
+    conv.hexToHsluv();
+    return [conv.hsluv_h, conv.hsluv_s, conv.hsluv_l] as ColorTuple;
+  });
 
-  const midLeftHsl = interpolateHsl(corner00hsl, corner01hsl);
-  const midBottomHsl = interpolateHsl(corner00hsl, corner10hsl);
-  const midTopHsl = interpolateHsl(corner01hsl, corner11hsl);
-  const midRightHsl = interpolateHsl(corner10hsl, corner11hsl);
+  const midLeftHsl = interpolateHsl(cornerHsl[0b00], cornerHsl[0b01]);
+  const midBottomHsl = interpolateHsl(cornerHsl[0b00], cornerHsl[0b10]);
+  const midTopHsl = interpolateHsl(cornerHsl[0b01], cornerHsl[0b11]);
+  const midRightHsl = interpolateHsl(cornerHsl[0b10], cornerHsl[0b11]);
   const midMidHsl = interpolateHsl(midBottomHsl, midTopHsl);
+
+  // rgba colors for corresponding cells
+  const [A2, B1, B2, B3, C2] = [
+    midLeftHsl,
+    midBottomHsl,
+    midMidHsl,
+    midTopHsl,
+    midRightHsl,
+  ].map(([h, s, l]) => {
+    conv.hsluv_h = h;
+    conv.hsluv_s = s;
+    conv.hsluv_l = l;
+    conv.hsluvToHex();
+    return convertToRgbaWithOpacity(conv.hex);
+  });
 
   // put colors in specific way because x and y axises are swapped here
   const colorTheme: ColorTheme = [
@@ -187,21 +206,21 @@ export const generateColorTheme = (
       color: convertToRgbaWithOpacity(corner00.color),
       isFallbackColor: corner00.isFallbackColor,
     },
-    { id: 'A2', color: convertToRgbaWithOpacity(hsluvToHex(midLeftHsl)) },
+    { id: 'A2', color: A2 },
     {
       id: 'A3',
       color: convertToRgbaWithOpacity(corner01.color),
       isFallbackColor: corner01.isFallbackColor,
     },
-    { id: 'B1', color: convertToRgbaWithOpacity(hsluvToHex(midBottomHsl)) },
-    { id: 'B2', color: convertToRgbaWithOpacity(hsluvToHex(midMidHsl)) },
-    { id: 'B3', color: convertToRgbaWithOpacity(hsluvToHex(midTopHsl)) },
+    { id: 'B1', color: B1 },
+    { id: 'B2', color: B2 },
+    { id: 'B3', color: B3 },
     {
       id: 'C1',
       color: convertToRgbaWithOpacity(corner10.color),
       isFallbackColor: corner10.isFallbackColor,
     },
-    { id: 'C2', color: convertToRgbaWithOpacity(hsluvToHex(midRightHsl)) },
+    { id: 'C2', color: C2 },
     {
       id: 'C3',
       color: convertToRgbaWithOpacity(corner11.color),
