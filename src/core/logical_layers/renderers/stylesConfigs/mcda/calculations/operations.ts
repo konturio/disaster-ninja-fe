@@ -1,5 +1,3 @@
-import type maplibregl from 'maplibre-gl';
-
 export interface IsomorphMath<T> {
   add: (x: T, y: T) => T;
   sub: (x: T, y: T) => T;
@@ -12,12 +10,12 @@ export interface IsomorphMath<T> {
 export type MapExpression = maplibregl.Expression;
 
 export class MapMath implements IsomorphMath<MapExpression> {
-  add = (x: MapExpression, y: MapExpression) => ['+', x, y] as MapExpression;
-  sub = (x: MapExpression, y: MapExpression) => ['-', x, y] as MapExpression;
-  mult = (x: MapExpression, y: MapExpression) => ['*', x, y] as MapExpression;
-  div = (x: MapExpression, y: MapExpression) => ['/', x, y] as MapExpression;
-  log = (x: MapExpression) => ['ln', x] as MapExpression;
-  sqrt = (x: MapExpression) => ['sqrt', x] as MapExpression;
+  add = (x: MapExpression, y: MapExpression) => ['+', x, y] as unknown as MapExpression;
+  sub = (x: MapExpression, y: MapExpression) => ['-', x, y] as unknown as MapExpression;
+  mult = (x: MapExpression, y: MapExpression) => ['*', x, y] as unknown as MapExpression;
+  div = (x: MapExpression, y: MapExpression) => ['/', x, y] as unknown as MapExpression;
+  log = (x: MapExpression) => ['ln', x] as unknown as MapExpression;
+  sqrt = (x: MapExpression) => ['sqrt', x] as unknown as MapExpression;
 }
 
 export class JsMath implements IsomorphMath<number> {

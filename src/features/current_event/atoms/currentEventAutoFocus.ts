@@ -24,8 +24,12 @@ export const currentEventAutoFocusAtom = createAtom(
         schedule((dispatch) => {
           dispatch([
             scheduledAutoFocus.setFalse(),
+            // @ts-expect-error CenterZoomBearing issues
             currentMapPositionAtom.setCurrentMapPosition({
-              zoom: Math.min(zoom, appConfig.autoFocus.maxZoom),
+              zoom: Math.min(
+                zoom || appConfig.autoFocus.maxZoom,
+                appConfig.autoFocus.maxZoom,
+              ),
               ...center,
             }),
           ]);

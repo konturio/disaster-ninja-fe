@@ -134,7 +134,13 @@ export const boundaryMarkerAtom = createAtom(
               actions.push(updateFocusedGeometryAction(selectedFeature));
 
               const geometryCamera = getCameraForGeometry(selectedFeature, map);
-              if (geometryCamera && typeof geometryCamera === 'object') {
+              if (
+                typeof geometryCamera === 'object' &&
+                typeof geometryCamera.zoom === 'number' &&
+                geometryCamera.center &&
+                'lat' in geometryCamera.center &&
+                'lng' in geometryCamera.center
+              ) {
                 actions.push(
                   currentMapPositionAtom.setCurrentMapPosition({
                     zoom: Math.min(geometryCamera.zoom, appConfig.autoFocus.maxZoom),

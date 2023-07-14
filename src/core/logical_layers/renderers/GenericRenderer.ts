@@ -18,8 +18,13 @@ import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLa
 import { styleConfigs } from './stylesConfigs';
 import { setTileScheme } from './setTileScheme';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import type { AnyLayer, GeoJSONSourceRaw, RasterSource, VectorSource } from 'maplibre-gl';
-import type maplibregl from 'maplibre-gl';
+import type {
+  LayerSpecification,
+  GeoJSONSource,
+  GeoJSONSourceSpecification,
+  RasterSourceSpecification,
+  VectorSourceSpecification,
+} from 'maplibre-gl';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import type { LayersType } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
@@ -49,11 +54,11 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     this._sourceId = SOURCE_IN_AREA_PREFIX + this.id;
   }
 
-  _setLayersIds(layers: Omit<AnyLayer, 'id'>[]): AnyLayer[] {
+  _setLayersIds(layers: Omit<LayerSpecification, 'id'>[]): LayerSpecification[] {
     return layers.map((layer, i) => {
       const layerId = `${LAYER_IN_AREA_PREFIX + this.id}-${i}`;
       const mapLayer = { ...layer, id: layerId, source: this._sourceId };
-      return mapLayer as AnyLayer;
+      return mapLayer as LayerSpecification;
     });
   }
 
@@ -64,17 +69,17 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     style: LayerStyle | null,
   ) {
     /* Create source */
-    const mapSource: GeoJSONSourceRaw = {
+    const mapSource: GeoJSONSourceSpecification = {
       type: 'geojson' as const,
       data: layer.source.data,
     };
-    const source = map.getSource(this._sourceId) as maplibregl.GeoJSONSource;
+    const source = map.getSource(this._sourceId) as GeoJSONSource;
     /* Mount or update source */
     if (!source) {
       map.addSource(this._sourceId, mapSource);
     } else {
       source.setData(
-        mapSource.data || {
+        (mapSource.data as GeoJSON.GeoJSON) || {
           type: 'FeatureCollection',
           features: [],
         },
@@ -83,10 +88,11 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
 
     /* Create layer */
 
-    let layerStyles = Array<AnyLayer>();
+    let layerStyles = Array<LayerSpecification>();
 
     if (style && style.type in styleConfigs) {
       // New way to describe layers - styles sended separately from legend
+      // @ts-expect-error review LayerSpecification
       layerStyles = styleConfigs[style.type](style.config);
     } else if (legend && legend.steps.length) {
       // Old way - styles guessed from legend if possible
@@ -135,7 +141,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     legend: LayerLegend | null,
   ) {
     /* Create source */
-    const mapSource: VectorSource | RasterSource = {
+    const mapSource: VectorSourceSpecification | RasterSourceSpecification = {
       type: layer.source.type,
       tiles: layer.source.urls.map((url) => _adaptUrl(url, layer.source.apiKey)),
       tileSize: layer.source.tileSize || 256,
@@ -288,7 +294,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
 
   async onMapClick(
     map: ApplicationMap,
-    ev: maplibregl.MapMouseEvent & maplibregl.EventData,
+    ev: maplibregl.MapMouseEvent,
     linkProperty: string,
   ) {
     if (!ev || !ev.lngLat) return;
@@ -425,7 +431,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   }
 }
 
-function getHighestType(layers: maplibregl.AnyLayer[]) {
+function getHighestType(layers: maplibregl.LayerSpecification[]) {
   let result: LayersType | undefined;
   let index = -1;
   layers.forEach((layer) => {
@@ -476,7 +482,7 @@ function _adaptUrl(url: string, apiKey?: string) {
   return url;
 }
 
-function _generateLayersFromLegend(legend: LayerLegend): AnyLayer[] {
+function _generateLayersFromLegend(legend: LayerLegend): LayerSpecification[] {
   if (legend.type === 'simple') {
     const layers = legend.steps
       /**

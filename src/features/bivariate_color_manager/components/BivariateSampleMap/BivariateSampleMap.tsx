@@ -13,7 +13,7 @@ import {
   bivariateSampleMapLayersOrderManager,
 } from '../../atoms/bivariateColorManagerSamleMap';
 import s from './BivariateSampleMap.module.css';
-import type mapLibre from 'maplibre-gl';
+import type * as MapLibre from 'maplibre-gl';
 import type { LayerSelectionFull } from '../LegendWithMap/LegendWithMap';
 
 const LAYERS_ON_TOP = [
@@ -34,7 +34,7 @@ export function BivariateSampleMap({
   setFullscreen: (flag: boolean) => void;
 }) {
   const mapBaseStyle = appConfig.mapBaseStyle;
-  const mapRef = useRef<mapLibre.Map>();
+  const mapRef = useRef<MapLibre.Map>();
   useMapPositionSmoothSync(mapRef);
 
   const generateLayerStyles = useAction(
@@ -119,7 +119,6 @@ export function BivariateSampleMap({
   return (
     <div className={s.mapContainer}>
       <Map
-        accessToken={''}
         ref={mapRef}
         style={mapBaseStyle}
         onLoad={initLayersOrderManager}

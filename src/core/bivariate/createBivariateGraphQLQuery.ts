@@ -9,8 +9,10 @@ function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
   if ('properties' in newGeom) {
     newGeom.properties = {};
   }
-  if ('features' in newGeom && newGeom.features.length) {
-    newGeom.features = newGeom.features.map((feature) => cleanupGeometry(feature));
+  if ('features' in newGeom && newGeom.features?.length) {
+    newGeom.features = newGeom.features.map(
+      (feature) => cleanupGeometry(feature) as GeoJSON.Feature,
+    );
   }
 
   return newGeom;

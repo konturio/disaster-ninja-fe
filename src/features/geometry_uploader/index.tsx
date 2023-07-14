@@ -49,8 +49,12 @@ export function initFileUploader() {
         focusedGeometryAtom.setFocusedGeometry.dispatch({ type: 'uploaded' }, geoJSON);
 
         const { zoom, center } = geometryCamera;
+        // @ts-expect-error CenterZoomBearing issues
         currentMapPositionAtom.setCurrentMapPosition.dispatch({
-          zoom: Math.min(zoom, appConfig.autoFocus.maxZoom),
+          zoom: Math.min(
+            zoom || appConfig.autoFocus.maxZoom,
+            appConfig.autoFocus.maxZoom,
+          ),
           ...center,
         });
         setTimeout(() => {

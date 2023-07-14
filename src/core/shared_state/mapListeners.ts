@@ -1,11 +1,8 @@
 import { createAtom } from '~utils/atoms';
-import type mapLibre from 'maplibre-gl';
+import type * as MapLibre from 'maplibre-gl';
 
 // listener that returns `true` allows next listener to run. If returns `false`, no listeners will be executed after
-export type MapListener = (
-  event: mapLibre.MapMouseEvent & mapLibre.EventData,
-  map?: mapLibre.Map,
-) => boolean;
+export type MapListener = (event: MapLibre.MapMouseEvent, map?: MapLibre.Map) => boolean;
 type MapListenersAtomState = {
   click: { listener: MapListener; priority: number }[];
   mousemove: { listener: MapListener; priority: number }[];

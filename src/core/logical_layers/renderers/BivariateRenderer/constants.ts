@@ -18,6 +18,7 @@ export const H3_HOVER_LAYER = {
   type: 'line' as const,
   layout: {},
   paint: {
+    // @ts-expect-error issues with Expression
     'line-color': [
       'case',
       // prettier-ignore :active

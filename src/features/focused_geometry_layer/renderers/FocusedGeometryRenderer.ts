@@ -16,7 +16,10 @@ const icons = {
  * TODO:
  * rewrite it to mapcss and create layers from legendAtom in willLegendUpdate
  */
-const getLayersConfig = (id: string, sourceId: string): maplibregl.AnyLayer[] => {
+const getLayersConfig = (
+  id: string,
+  sourceId: string,
+): maplibregl.LayerSpecification[] => {
   const iconsKeys = Object.keys(icons).reduce(
     (acc, k) => ((acc[k] = k), acc),
     {} as unknown as Record<keyof typeof icons, string>,
@@ -65,7 +68,7 @@ const getLayersConfig = (id: string, sourceId: string): maplibregl.AnyLayer[] =>
 export class FocusedGeometryRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
   private sourceId: string;
-  private layerConfigs: maplibregl.AnyLayer[] = [];
+  private layerConfigs: maplibregl.LayerSpecification[] = [];
   private availableIcons: Set<string> = new Set();
 
   constructor({ id }) {
