@@ -152,7 +152,7 @@ export const boundaryMarkerAtom = createAtom(
             },
 
             // onOptionHover:
-            (boundaryId) => {
+            (boundaryId: string) => {
               if (!featureCollection) return;
               dispatch(updateBoundaryLayerAction(featureCollection, boundaryId));
             },

@@ -103,7 +103,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     if (map.getLayer(borderLayerId)) {
       return;
     }
-    // @ts-expect-error issues with Expression
     const borderLayerStyle: LineLayerSpecification = {
       ...H3_HOVER_LAYER,
       id: borderLayerId,
