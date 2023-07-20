@@ -191,7 +191,7 @@ export class LayersOrderManager {
 
     const mountedOrderedLayers = new Map<
       LayersType,
-      { layer: maplibregl.AnyLayer; category?: LayerCategory }[]
+      { layer: maplibregl.LayerSpecification; category?: LayerCategory }[]
     >();
 
     // this loop will come from bottom to top layers (from backgrounds and rasters to lines and symbols)

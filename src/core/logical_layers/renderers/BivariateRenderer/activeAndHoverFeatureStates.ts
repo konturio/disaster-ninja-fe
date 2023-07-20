@@ -2,17 +2,13 @@ import { haveValue } from '~utils/common';
 import { isFeatureVisible } from './featureVisibilityCheck';
 import type { FEATURE_STATES } from './constants';
 
-type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 function featureHaveId<T extends { id?: string | number }>(
   feature: T,
-): feature is WithRequired<T, 'id'> {
+): feature is T & { id: number | string } {
   return haveValue(feature.id);
 }
 
-function filterFeatures(
-  sourceId: string,
-  ev: maplibregl.MapMouseEvent & maplibregl.EventData,
-) {
+function filterFeatures(sourceId: string, ev: maplibregl.MapMouseEvent) {
   return (
     ev.target
       .queryRenderedFeatures(ev.point)
@@ -44,7 +40,7 @@ export function createFeatureStateHandlers(ctx: {
 
   /* Handler */
   return {
-    onClick: (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+    onClick: (ev: maplibregl.MapMouseEvent) => {
       /* Remove active feature state from previous features */
       activeFeatures.forEach((featureId) => {
         setFeatureState(featureId, { active: false });
@@ -66,7 +62,7 @@ export function createFeatureStateHandlers(ctx: {
 
       return true;
     },
-    onMouseMove: (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+    onMouseMove: (ev: maplibregl.MapMouseEvent) => {
       /* Remove hover feature state from previous features */
       hoveredFeatures.forEach((featureId) => {
         setFeatureState(featureId, { hover: false });
@@ -88,7 +84,7 @@ export function createFeatureStateHandlers(ctx: {
 
       return true;
     },
-    onMouseLeave: (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+    onMouseLeave: (ev: maplibregl.MapMouseEvent) => {
       // Reset previous hover
       hoveredFeatures.forEach((featureId) => {
         setFeatureState(featureId, { hover: false });

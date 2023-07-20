@@ -10,13 +10,17 @@ import { useMarkers } from './useMarkers';
 import { useArrayDiff } from './useArrayDiff';
 import type { Marker } from './types';
 import type {
+  CustomLayerInterface,
   MapMouseEvent,
-  MapboxOptions,
-  EventData,
+  MapOptions,
+  Event,
   Map,
+  LayerSpecification,
   LngLatBoundsLike,
+  GeoJSONFeature,
   GeoJSONSource,
   GeoJSONSourceOptions,
+  StyleSpecification,
 } from 'maplibre-gl';
 
 interface FeatureState {
@@ -33,19 +37,19 @@ interface Popup {
 }
 
 /* Omg mapbox types ... */
-type MapStyle = Omit<mapLibre.Style, 'layers'> & {
-  layers?: (mapLibre.Layer | mapLibre.CustomLayerInterface)[];
-};
+type MapStyle = Omit<StyleSpecification, 'layers' | 'sources'> &
+  Partial<Pick<StyleSpecification, 'sources'>> & {
+    layers?: (LayerSpecification | CustomLayerInterface)[];
+  };
 
 export interface MapBoxMapProps {
-  accessToken: string;
   style: string;
-  mapStyle?: MapStyle;
+  mapStyle?: StyleSpecification;
   className?: string;
-  options?: Partial<MapboxOptions>;
+  options?: Partial<MapOptions>;
   setMap?: any;
   onLoad?: (loaded: boolean) => void;
-  onClick?: (ev: MapMouseEvent & EventData) => void | undefined;
+  onClick?: (ev: MapMouseEvent & Event) => void | undefined;
   /* Call `callback` on every `eventType` with `properties` */
   activeFeature?: {
     callback: (features: unknown[]) => void;
@@ -59,8 +63,6 @@ export interface MapBoxMapProps {
   isochroneStyle?: any;
   layersOnTop?: string[];
 }
-
-export type MapBoxStyle = mapLibre.Style;
 
 function isGeoJsonSource(src): src is GeoJSONSource {
   return src.type === 'geojson';
@@ -78,10 +80,11 @@ const EMPTY_FEATURE_COLLECTION = {
 
 function MapboxMap(
   {
-    accessToken,
     style: externalStyleLink, // initial style
     mapStyle = {
-      version: 0,
+      version: 8,
+      layers: [],
+      sources: {},
     },
     options,
     className,
@@ -96,7 +99,6 @@ function MapboxMap(
   }: MapBoxMapProps,
   ref,
 ): React.ReactElement {
-  mapLibre.accessToken = accessToken;
   const [map, setMap] = useState<Map | null>(null);
   const mapEl = useRef<HTMLDivElement | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -221,7 +223,7 @@ function MapboxMap(
       const features = map.queryRenderedFeatures(e.point);
       const extractProperties =
         (props: string[]) =>
-        (feature: mapLibre.MapboxGeoJSONFeature): unknown =>
+        (feature: GeoJSONFeature): unknown =>
           props.reduce((filtered, prop) => {
             filtered[prop] = feature[prop];
             return filtered;
@@ -268,7 +270,8 @@ function MapboxMap(
           if (isGeoJsonSource(existingSource)) {
             if (isGeoJsonSourceOptions(newSource)) {
               newSource.data
-                ? existingSource.setData(newSource.data)
+                ? // @ts-expect-error review unknown casting
+                  existingSource.setData(newSource.data)
                 : existingSource.setData(EMPTY_FEATURE_COLLECTION); // reset data if new source with same id but without data
             } else {
               console.warn('Forget wrap geojson in source?');
@@ -303,9 +306,9 @@ function MapboxMap(
           map.getLayer(layersOnTop[0]) !== undefined &&
           layersOnTop.indexOf(layer.id) === -1
         ) {
-          map.addLayer(layer as mapLibre.AnyLayer, layersOnTop[0]);
+          map.addLayer(layer as LayerSpecification, layersOnTop[0]);
         } else {
-          map.addLayer(layer as mapLibre.AnyLayer);
+          map.addLayer(layer as LayerSpecification);
         }
       }
     });

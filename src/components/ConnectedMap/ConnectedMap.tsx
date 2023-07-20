@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import mapLibre from 'maplibre-gl';
+import { Marker } from 'maplibre-gl';
 import { useAction, useAtom } from '@reatom/react';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
@@ -8,22 +8,22 @@ import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { appConfig } from '~core/app_config';
 import Map from './map-libre-adapter';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
-
+import type {
+  LayerSpecification,
+  Map as MapLibreMap,
+  MapMouseEvent,
+  MarkerOptions,
+} from 'maplibre-gl';
 // temporary set generic map class to mapbox map
 // todo: change mapbox map declaration to generic map later
-export type ApplicationMap = mapLibre.Map;
-export type ApplicationLayer = mapLibre.AnyLayer;
-export type ApplicationLayerSourceData = mapLibre.AnySourceData;
+export type ApplicationMap = MapLibreMap;
+export type ApplicationLayer = LayerSpecification;
 
-export class ApplicationMapMarker extends mapLibre.Marker {
+export class ApplicationMapMarker extends Marker {
   public readonly id: string;
 
-  public constructor(
-    id: string,
-    element?: HTMLElement,
-    options?: maplibregl.MarkerOptions,
-  ) {
-    super(element, options);
+  public constructor(id: string, element?: HTMLElement, options?: MarkerOptions) {
+    super({ ...options, element });
     this.id = id;
   }
 }
@@ -75,14 +75,14 @@ export function ConnectedMap({ className }: { className?: string }) {
   useEffect(() => {
     // for starters lets add click handlers only. It's also easier to read
 
-    const clickHandlers = (event: mapLibre.MapMouseEvent & mapLibre.EventData) => {
+    const clickHandlers = (event: MapMouseEvent) => {
       for (let i = 0; i < mapListeners.click.length; i++) {
         const { listener } = mapListeners.click[i];
         const passToNextListener = listener(event, mapRef.current);
         if (!passToNextListener) break;
       }
     };
-    const mousemoveHandlers = (event: mapLibre.MapMouseEvent & mapLibre.EventData) => {
+    const mousemoveHandlers = (event: MapMouseEvent) => {
       for (let i = 0; i < mapListeners.mousemove.length; i++) {
         const { listener } = mapListeners.mousemove[i];
         const passToNextListener = listener(event, mapRef.current);
@@ -122,7 +122,6 @@ export function ConnectedMap({ className }: { className?: string }) {
 
   return (
     <Map
-      accessToken={''}
       ref={mapRef}
       onLoad={initLayersOrderManager}
       layersOnTop={LAYERS_ON_TOP}

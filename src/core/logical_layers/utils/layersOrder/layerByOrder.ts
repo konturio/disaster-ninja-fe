@@ -8,7 +8,7 @@ export function layerByOrder(
   layersOrderManager: LayersOrderManager = defaultLayersOrderManager,
 ) {
   function addAboveLayerWithSameType(
-    maplibreLayer: maplibregl.AnyLayer,
+    maplibreLayer: maplibregl.LayerSpecification,
     uiLayerId: string,
   ) {
     mapLibreParentsIds.set(maplibreLayer.id, uiLayerId);
@@ -19,7 +19,7 @@ export function layerByOrder(
     );
   }
   function addUnderLayerWithSameType(
-    maplibreLayer: maplibregl.AnyLayer,
+    maplibreLayer: maplibregl.LayerSpecification,
     uiLayerId: string,
   ) {
     mapLibreParentsIds.set(maplibreLayer.id, uiLayerId);
@@ -30,7 +30,7 @@ export function layerByOrder(
     );
   }
   function addAboveAllExistingLayers(
-    maplibreLayer: maplibregl.AnyLayer,
+    maplibreLayer: maplibregl.LayerSpecification,
     uiLayerId: string,
   ) {
     mapLibreParentsIds.set(maplibreLayer.id, uiLayerId);

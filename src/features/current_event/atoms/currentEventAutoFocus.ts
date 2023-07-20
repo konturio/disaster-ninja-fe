@@ -19,17 +19,27 @@ export const currentEventAutoFocusAtom = createAtom(
       if (currentEventGeometry?.eventId !== lastEventGeometry?.eventId) {
         const map = get('map');
         const geometryCamera = getCameraForGeometry(currentEventGeometry.geojson, map);
-        if (!geometryCamera || typeof geometryCamera === 'string') return;
-        const { zoom, center } = geometryCamera;
-        schedule((dispatch) => {
-          dispatch([
-            scheduledAutoFocus.setFalse(),
-            currentMapPositionAtom.setCurrentMapPosition({
-              zoom: Math.min(zoom, appConfig.autoFocus.maxZoom),
-              ...center,
-            }),
-          ]);
-        });
+        if (
+          typeof geometryCamera === 'object' &&
+          typeof geometryCamera.zoom === 'number' &&
+          geometryCamera.center &&
+          'lat' in geometryCamera.center &&
+          'lng' in geometryCamera.center
+        ) {
+          const pos = {
+            zoom: Math.min(
+              geometryCamera.zoom || appConfig.autoFocus.maxZoom,
+              appConfig.autoFocus.maxZoom,
+            ),
+            ...geometryCamera.center,
+          };
+          schedule((dispatch) => {
+            dispatch([
+              scheduledAutoFocus.setFalse(),
+              currentMapPositionAtom.setCurrentMapPosition(pos),
+            ]);
+          });
+        }
       }
     });
   },

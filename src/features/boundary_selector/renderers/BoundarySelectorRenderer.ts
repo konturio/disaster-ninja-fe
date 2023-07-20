@@ -62,8 +62,7 @@ export class BoundarySelectorRenderer extends LogicalLayerDefaultRenderer {
     const source = state.source as LayerGeoJSONSource;
     const data = source.source.data;
     const hoveredBoundarySource = map.getSource(this.sourceId);
-    if (hoveredBoundarySource && 'setData' in hoveredBoundarySource) {
-      hoveredBoundarySource.setData(data);
-    }
+    // @ts-expect-error optional chaining does not narrow
+    hoveredBoundarySource?.setData(data);
   }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import mapLibre from 'maplibre-gl';
+import type { Marker as MapMarker } from 'maplibre-gl';
 import type { Marker } from './types';
 
 function isReact(el: { props?: any }): boolean {
@@ -13,16 +14,16 @@ function renderInline(reactElement: React.ReactElement) {
   return container;
 }
 
-function convertToMapBoxGLMarkers(markers: Marker[] = []): mapLibre.Marker[] {
+function convertToMapBoxGLMarkers(markers: Marker[] = []): MapMarker[] {
   return markers.map((m) => {
-    return new mapLibre.Marker(
-      isReact(m.el) ? renderInline(m.el) : m.el,
-    ).setLngLat(m.coordinates);
+    return new mapLibre.Marker(isReact(m.el) ? renderInline(m.el) : m.el).setLngLat(
+      m.coordinates,
+    );
   });
 }
 
 export function useMarkers(markers?: Marker[]) {
-  const [mapMarkers, setMapMarkers] = useState<mapLibre.Marker[]>([]);
+  const [mapMarkers, setMapMarkers] = useState<MapMarker[]>([]);
 
   useEffect(() => {
     if (markers === undefined) {

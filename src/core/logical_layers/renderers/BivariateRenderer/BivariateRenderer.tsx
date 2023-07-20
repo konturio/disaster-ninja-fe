@@ -28,7 +28,13 @@ import {
 import { generateLayerFromLegend } from './legends';
 import { createFeatureStateHandlers } from './activeAndHoverFeatureStates';
 import { isFeatureVisible } from './featureVisibilityCheck';
-import type { AnyLayer, VectorSource, MapBoxZoomEvent, LineLayer } from 'maplibre-gl';
+import type {
+  LayerSpecification,
+  LineLayerSpecification,
+  MapLibreZoomEvent,
+  MapMouseEvent,
+  VectorSourceSpecification,
+} from 'maplibre-gl';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type {
   BivariateLegend,
@@ -97,7 +103,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     if (map.getLayer(borderLayerId)) {
       return;
     }
-    const borderLayerStyle: LineLayer = {
+    const borderLayerStyle: LineLayerSpecification = {
       ...H3_HOVER_LAYER,
       id: borderLayerId,
       source: sourceId,
@@ -133,7 +139,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     legend: BivariateLegend | null,
   ) {
     /* Create source */
-    const mapSource: VectorSource = {
+    const mapSource: VectorSourceSpecification = {
       type: 'vector',
       tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
       minzoom: layer.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
@@ -155,7 +161,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       }
       const layer = { ...layerStyle, id: layerId, source: this._sourceId };
       layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-        layer as AnyLayer,
+        layer as LayerSpecification,
         this.id,
       );
       this._layerId = layer.id;
@@ -167,7 +173,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
   removeBivariatePopupClickHandler?: () => void;
   addBivariatePopup(map: ApplicationMap, legend: BivariateLegend | null) {
-    const clickHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+    const clickHandler = (ev: MapMouseEvent) => {
       const features = ev.target
         .queryRenderedFeatures(ev.point)
         .filter((f) => f.source.includes(this._sourceId));
@@ -259,7 +265,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
   async mountMCDALayer(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
     /* Create source */
-    const mapSource: VectorSource = {
+    const mapSource: VectorSourceSpecification = {
       type: 'vector',
       tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
       minzoom: layer.minZoom || 0,
@@ -281,14 +287,14 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     const layerStyle = styleConfigs.mcda(style.config)[0];
     const layerRes = { ...layerStyle, id: layerId, source: this._sourceId };
     layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-      layerRes as AnyLayer,
+      layerRes as LayerSpecification,
       this.id,
     );
     this._layerId = layerId;
   }
 
   addMCDAPopup(map: ApplicationMap, style: LayerStyle) {
-    const clickHandler = (ev: maplibregl.MapMouseEvent & maplibregl.EventData) => {
+    const clickHandler = (ev: MapMouseEvent) => {
       const features = ev.target
         .queryRenderedFeatures(ev.point)
         .filter((f) => f.source.includes(this._sourceId));
@@ -351,7 +357,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   }
 
   onMapZoomHandlers = new Set<() => void>();
-  onMapZoom = (ev: maplibregl.MapboxEvent<MapBoxZoomEvent>) => {
+  onMapZoom = (ev: maplibregl.MapLibreEvent<MapLibreZoomEvent>) => {
     this.cleanPopup();
   };
 

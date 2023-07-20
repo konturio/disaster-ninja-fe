@@ -1,18 +1,18 @@
-import type { AnyLayer, LineLayer } from 'maplibre-gl';
+import type { LayerSpecification, LineLayerSpecification } from 'maplibre-gl';
 
-interface CasingLineLayer extends Omit<LineLayer, 'type'> {
+interface CasingLineLayer extends Omit<LineLayerSpecification, 'type'> {
   type: 'casing_line';
   paint: Record<string, string | number>;
 }
-type AnyLayerWithoutId = Omit<AnyLayer | CasingLineLayer, 'id'>;
+type LayerSpecificationWithoutId = Omit<LayerSpecification | CasingLineLayer, 'id'>;
 
 export function generateLayers(
   requirements,
   valueConverters,
-): Omit<AnyLayer, 'id'>[] {
+): Omit<LayerSpecification, 'id'>[] {
   const layersByType: Record<
     string,
-    Omit<AnyLayer | CasingLineLayer, 'id'>
+    Omit<LayerSpecification | CasingLineLayer, 'id'>
   > = {};
   requirements.forEach(([req, value]) => {
     /**
@@ -46,9 +46,11 @@ export function generateLayers(
 
   return Object.values(layersByType)
     .map(
-      (layer: Omit<AnyLayer | CasingLineLayer, 'id'>): Omit<AnyLayer, 'id'> => {
+      (
+        layer: Omit<LayerSpecification | CasingLineLayer, 'id'>,
+      ): Omit<LayerSpecification, 'id'> => {
         layer.type = layer.type === 'casing_line' ? 'line' : layer.type;
-        return layer as Omit<AnyLayer, 'id'>;
+        return layer as Omit<LayerSpecification, 'id'>;
       },
     )
     .filter((l) => {
