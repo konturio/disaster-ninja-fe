@@ -63,6 +63,15 @@ export const bivariateStatisticsResourceAtom = createAsyncAtom(
       throw new Error(msg || i18n.t('no_data_received'));
     }
 
+    // Check for correlationRates
+    if (
+      !Array.isArray(
+        responseData?.data?.polygonStatistic?.bivariateStatistic?.correlationRates,
+      )
+    ) {
+      throw new Error(i18n.t('wrong_data_received'));
+    }
+
     if (isGeometryEmpty(focusedGeometry) && !allMapStats) {
       allMapStats = responseData.data;
     }
