@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import mapLibre from 'maplibre-gl';
 import type { Marker as MapMarker } from 'maplibre-gl';
 import type { Marker } from './types';
@@ -10,7 +10,8 @@ function isReact(el: { props?: any }): boolean {
 
 function renderInline(reactElement: React.ReactElement) {
   const container = document.createElement('div');
-  ReactDOM.render(reactElement, container);
+  const root = createRoot(container);
+  root.render(reactElement);
   return container;
 }
 
