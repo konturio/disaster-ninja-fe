@@ -7,7 +7,7 @@ import type { PanelFeatureInterface } from 'types/featuresTypes';
 
 const { PanelContent } = lazily(() => import('./components/PanelContent/PanelContent'));
 
-export const analyticsPanel: () => PanelFeatureInterface = () => ({
+export const analyticsPanel = (): PanelFeatureInterface => ({
   content: (
     <Suspense>
       <PanelContent />

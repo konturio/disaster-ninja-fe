@@ -2,7 +2,6 @@ import { Suspense, useEffect } from 'react';
 import { useAtom } from '@reatom/react';
 import { lazily } from 'react-lazily';
 import clsx from 'clsx';
-import { DrawToolsToolbox } from '~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
@@ -33,6 +32,10 @@ const { Toolbar } = lazily(() => import('~features/toolbar'));
 const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
+
+const { DrawToolsToolbox } = lazily(
+  () => import('~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
+);
 
 export function MapPage() {
   const [featureFlags] = useAtom(featureFlagsAtom);

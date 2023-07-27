@@ -127,7 +127,8 @@
     "not_found": "Sorry, requested event not found.",
     "error": "An error occured!",
     "analytics_for_selected": "Analytics for a selected area",
-    "will_be_provided": "will be provided here"
+    "will_be_provided": "will be provided here",
+    "no_analytics": "No analytics for the selected area"
   },
   "draw_tools": {
     "area": "Area",
