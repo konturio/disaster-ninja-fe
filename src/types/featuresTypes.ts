@@ -8,3 +8,7 @@ export type PanelFeatureInterface = {
   skipAutoResize?: boolean;
   resize?: 'vertical' | 'horizontal' | 'both' | 'none';
 };
+
+export interface IPanelFeatureComponent {
+  (): PanelFeatureInterface;
+}

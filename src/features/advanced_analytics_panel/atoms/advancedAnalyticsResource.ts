@@ -1,8 +1,8 @@
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { isApiError } from '~core/api_client/apiClientError';
 import { i18n } from '~core/localization';
+import { getAdvancedPolygonDetails } from '~core/api/insights';
 import type { AdvancedAnalyticsData } from '~core/types';
 
 const abortControllers: AbortController[] = [];
@@ -14,14 +14,7 @@ export const advancedAnalyticsResourceAtom = createAsyncAtom(
     let responseData: AdvancedAnalyticsData[] | null | undefined;
     abortControllers.push(abortController);
     try {
-      responseData = await apiClient.post<AdvancedAnalyticsData[] | null>(
-        `/advanced_polygon_details/`,
-        fGeo?.geometry,
-        true,
-        {
-          signal: abortController.signal,
-        },
-      );
+      responseData = await getAdvancedPolygonDetails(fGeo?.geometry, abortController);
     } catch (e) {
       if (isApiError(e) && e.problem.kind === 'canceled') {
         return null;
@@ -29,10 +22,10 @@ export const advancedAnalyticsResourceAtom = createAsyncAtom(
         throw new Error(i18n.t('advanced_analytics_panel.error'));
       }
     }
-
     // in case there is no error but response data is empty
-    if (responseData === undefined) throw new Error(i18n.t('no_data_received'));
-
+    if (!responseData?.length) {
+      throw new Error(i18n.t('advanced_analytics_empty.no_analytics'));
+    }
     return responseData;
   },
   'advancedAnalyticsResource',
