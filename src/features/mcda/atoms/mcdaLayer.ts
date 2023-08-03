@@ -40,7 +40,7 @@ export const mcdaLayerAtom = createAtom(
           id,
           createAsyncWrapper({
             id,
-            maxZoom: 8,
+            maxZoom: 22,
             minZoom: 0,
             source: {
               type: 'vector' as const,
