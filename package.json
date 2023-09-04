@@ -116,7 +116,7 @@
     "dnd-core": "^16.0.1",
     "file-saver": "^2.0.5",
     "geojson-polygon-self-intersections": "^1.2.1",
-    "h3-js": "^3.7.2",
+    "h3-js": "^4.1.0",
     "hash-wasm": "^4.9.0",
     "history": "^4.10.1",
     "hsluv": "^1.0.0",
