@@ -1,0 +1,15 @@
+{
+  "packages": [
+    "nodejs@20"
+  ],
+  "shell": {
+    "init_hook": [
+      "npm i"
+    ],
+    "scripts": {
+      "dev":  "npm run dev",
+      "release": "npm run release",
+      "test": ["npm run test:unit", "npm run:typecheck"]
+    }
+  }
+}
