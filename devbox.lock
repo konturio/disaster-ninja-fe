@@ -1,0 +1,11 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "nodejs@20": {
+      "last_modified": "2023-09-17T10:54:49Z",
+      "resolved": "github:NixOS/nixpkgs/5148520bfab61f99fd25fb9ff7bfbb50dad3c9db#nodejs_20",
+      "source": "devbox-search",
+      "version": "20.6.1"
+    }
+  }
+}
