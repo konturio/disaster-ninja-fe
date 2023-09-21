@@ -29,7 +29,7 @@ export function getMapPaddings(map: maplibregl.Map, debug = false): PaddingOptio
 
   const top = Math.max(blankRect.top - mapRect.top, 0);
   const right = Math.max(mapRect.right - blankRect.right, 0);
-  const bottom = Math.max(blankRect.bottom - mapRect.bottom, 0);
+  const bottom = Math.max(mapRect.bottom - blankRect.bottom, 0);
   const left = Math.max(blankRect.left - mapRect.left, 0);
 
   /* Shows visually calculated paddings */
