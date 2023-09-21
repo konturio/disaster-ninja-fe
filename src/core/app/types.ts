@@ -15,7 +15,6 @@ export interface AppConfig {
   KEYCLOAK_CLIENT_ID: string;
   YANDEX_METRICA_ID?: number[];
   MAP_BLANK_SPACE_ID: string;
-  AUTOFOCUS_PADDINGS: [number, number, number, number];
   AUTOFOCUS_ZOOM: number;
   INTERCOM_DEFAULT_NAME?: string;
   INTERCOM_APP_ID?: string;
