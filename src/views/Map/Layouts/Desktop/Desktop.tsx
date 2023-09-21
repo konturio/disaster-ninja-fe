@@ -1,3 +1,4 @@
+import { appConfig } from '~core/app_config';
 import { SmartColumn } from '../../SmartColumn/SmartColumn';
 import s from './Desktop.module.css';
 
@@ -17,7 +18,7 @@ export function DesktopLayout({
       <SmartColumn className={s.analytics}>{analyticsColumn}</SmartColumn>
 
       <div className={s.mapWrap}>
-        <div className={s.mapSpaceBlank}></div>
+        <div className={s.mapSpaceBlank} id={appConfig.mapBlankSpaceId}></div>
         <div className={s.mapSpaceBottom}>{mapColumn}</div>
       </div>
 

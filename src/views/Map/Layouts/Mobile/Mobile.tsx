@@ -1,3 +1,4 @@
+import { appConfig } from '~core/app_config';
 import s from './Mobile.module.css';
 
 export function MobileLayout({
@@ -16,7 +17,9 @@ export function MobileLayout({
       <div className={s.toolbox}>{drawToolbox}</div>
       <div className={s.panelsColumn}>{firstColumn}</div>
       <div className={s.mapWrap}>
-        <div className={s.mapSpaceRight}>{mapColumn}</div>
+        <div className={s.mapSpaceRight} id={appConfig.mapBlankSpaceId}>
+          {mapColumn}
+        </div>
       </div>
       <div className={s.footerWrap}>{footer}</div>
       <div className={s.bottomBorder}></div>

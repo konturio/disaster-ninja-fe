@@ -1,6 +1,6 @@
-import type { UserDto } from './user';
 import type { AppFeatureType } from '~core/auth/types';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
+import type { UserDto } from './user';
 
 export interface AppConfig {
   API_GATEWAY: string;
@@ -14,6 +14,7 @@ export interface AppConfig {
   KEYCLOAK_REALM: string;
   KEYCLOAK_CLIENT_ID: string;
   YANDEX_METRICA_ID?: number[];
+  MAP_BLANK_SPACE_ID: string;
   AUTOFOCUS_PADDINGS: [number, number, number, number];
   AUTOFOCUS_ZOOM: number;
   INTERCOM_DEFAULT_NAME?: string;
@@ -54,13 +55,8 @@ export interface AppConfigGlobal {
   keycloakClientId: string;
   yandexMetricaId: number[] | undefined;
   baseUrl: string;
+  mapBlankSpaceId: string;
   autoFocus: {
-    desktopPaddings: {
-      top: number;
-      right: number; // Layers list panel
-      bottom: number;
-      left: number;
-    };
     maxZoom: number;
   };
   intercom: {

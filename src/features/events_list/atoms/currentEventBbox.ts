@@ -1,5 +1,5 @@
 import { createAtom } from '@reatom/core';
-import { getPaddings } from '~utils/map/cameraForGeometry';
+import { getMapPaddings } from '~utils/map/getMapPaddings';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
 import { eventListResourceAtom } from './eventListResource';
@@ -40,7 +40,7 @@ export const currentEventBbox = createAtom(
         return;
       }
 
-      map.fitBounds(bbox, { padding: getPaddings() });
+      map.fitBounds(bbox, { padding: getMapPaddings(map) });
 
       schedule((dispatch) => {
         map.once('moveend', () => {
