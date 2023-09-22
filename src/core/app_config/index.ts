@@ -47,13 +47,8 @@ function getGlobalConfig(): AppConfigGlobal {
     keycloakClientId: konturAppConfig.KEYCLOAK_CLIENT_ID,
     yandexMetricaId: konturAppConfig.YANDEX_METRICA_ID,
     baseUrl: import.meta.env?.VITE_BASE_PATH,
+    mapBlankSpaceId: konturAppConfig.MAP_BLANK_SPACE_ID,
     autoFocus: {
-      desktopPaddings: {
-        top: konturAppConfig.AUTOFOCUS_PADDINGS?.[0] ?? 0,
-        right: konturAppConfig.AUTOFOCUS_PADDINGS?.[1] ?? 0, // Layers list panel
-        bottom: konturAppConfig.AUTOFOCUS_PADDINGS?.[2] ?? 0,
-        left: konturAppConfig.AUTOFOCUS_PADDINGS?.[3] ?? 0, // communities/analytics panel + paddings
-      },
       maxZoom: konturAppConfig.AUTOFOCUS_ZOOM,
     },
     intercom: {

@@ -1,17 +1,5 @@
 import turfBbox from '@turf/bbox';
-import { LAPTOP_WIDTH_PX, MOBILE_WIDTH_PX } from '~utils/hooks/useMediaQuery';
-import type { PaddingOptions } from 'maplibre-gl';
-
-// autofocus actual paddings
-export function getPaddings(): PaddingOptions {
-  const width = window.visualViewport?.width ?? Infinity;
-  // mobile
-  if (width < MOBILE_WIDTH_PX + 1) return { left: 64, top: 5, right: 115, bottom: 0 };
-  // laptop
-  if (width < LAPTOP_WIDTH_PX + 1) return { left: 435, top: 5, right: 5, bottom: 95 };
-  // desktop
-  return { left: 340, top: 5, right: 340, bottom: 105 };
-}
+import { getMapPaddings } from './getMapPaddings';
 
 export function getCameraForGeometry(
   geojson: GeoJSON.GeoJSON,
@@ -28,7 +16,7 @@ export function getCameraForGeometry(
     return 'Not a valid geojson file';
   }
   const camera = map.cameraForBounds(bbox, {
-    padding: getPaddings(),
+    padding: getMapPaddings(map),
   });
   if (!camera) {
     // in case we didn't get camera with paddings lets try to get them at least without paddings

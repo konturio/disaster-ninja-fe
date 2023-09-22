@@ -5,7 +5,7 @@
   "BIVARIATE_TILES_INDICATORS_CLASS": "all",
   "REFRESH_INTERVAL_SEC": 300,
   "MAP_BASE_STYLE": "https://disaster.ninja/tiles/basemap/style_ninja.json",
-  "AUTOFOCUS_PADDINGS": [16, 300, 16, 336],
+  "MAP_BLANK_SPACE_ID": "map-view",
   "AUTOFOCUS_ZOOM": 13,
   "FEATURES_BY_DEFAULT": [
     "events_list",
