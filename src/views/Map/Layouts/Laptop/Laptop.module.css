@@ -3,7 +3,7 @@
   height: 100%;
   gap: var(--unit);
   padding: var(--unit);
-  grid-template-columns: minmax(320px, 1fr) minmax(440px, 4fr);
+  grid-template-columns: fit-content(320px) minmax(440px, 4fr);
   grid-template-rows: calc(100% - 32px - var(--unit) - var(--unit)) 32px var(--unit);
 }
 
