@@ -4,7 +4,7 @@ import '@konturio/default-theme/defaults.css';
 import '@konturio/default-theme/typography.css';
 import '~utils/atoms/disableDefaultStore';
 import './global.css';
-import { loadConfig } from '~core/app_config/loader';
+import { setupApplicationEnv } from './boot';
 
 function showCriticalError(e: Error) {
   const root = document.getElementById('root');
@@ -22,12 +22,18 @@ function showCriticalError(e: Error) {
   }
 }
 
-loadConfig()
-  .then(() => import('./core/app/init'))
-  .then(({ appInit }) => appInit())
-  .then((initialState) => import('./App').then(({ startApp }) => startApp(initialState)))
-  .catch((e: Error) => {
+(async function () {
+  try {
+    const config = await setupApplicationEnv();
+    const { startApp } = await import('./App');
+    startApp(config.initialUrl);
+  } catch (e) {
     // TODO: FE error reporting
     console.error(e);
-    showCriticalError(e);
-  });
+    if (e instanceof Error) {
+      showCriticalError(e);
+    } else {
+      showCriticalError(new Error('Unknown error'));
+    }
+  }
+})();
