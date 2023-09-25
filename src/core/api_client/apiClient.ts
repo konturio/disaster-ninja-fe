@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { KONTUR_DEBUG } from '~utils/debug';
 import { localStorage } from '~utils/storage';
+import { typedObjectEntries } from 'types/entry';
 import { ApiClientError } from './apiClientError';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
@@ -17,57 +18,53 @@ import type {
   JWTData,
   KeycloakAuthResponse,
   RequestParams,
-  INotificationService,
 } from './types';
 
 export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
-export class ApiClient {
-  private static instances: Record<string, ApiClient> = {};
 
-  private readonly instanceId: string;
-  private readonly notificationService: INotificationService;
-  readonly expiredTokenCallback?: (a?: this) => void;
-  readonly unauthorizedCallback?: (a?: this) => void;
-  private readonly loginApiPath: string;
-  private readonly refreshTokenApiPath: string;
-  private readonly disableAuth: boolean;
+export class ApiClient {
+  private listeners = new Map([['error', new Set<(e: ApiClientError) => void>()]]);
+  private loginApiPath!: string;
+  private refreshTokenApiPath!: string;
+  private disableAuth!: boolean;
   private readonly storage: WindowLocalStorage['localStorage'];
   private token = '';
   private refreshToken = '';
   private tokenExpirationDate: Date | undefined;
   private tokenRefreshFlowPromise: Promise<boolean> | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private readonly keycloakClientId: string;
-  private baseURL: string;
+  private keycloakClientId!: string;
+  private baseURL!: string;
   timeToRefresh: number = 1000 * 60 * 3; // Should be less then Access Token Lifespan
 
   /**
    * The Singleton's constructor should always be private to prevent direct
    * construction calls with the `new` operator.
    */
-  private constructor({
-    instanceId = 'default',
-    notificationService,
-    loginApiPath = '',
-    refreshTokenApiPath = '',
-    keycloakClientId = '',
-    expiredTokenCallback,
-    unauthorizedCallback,
-    disableAuth = false,
+  constructor({
     storage = localStorage,
-    baseURL,
-  }: ApiClientConfig<ApiClient>) {
-    this.instanceId = instanceId;
-    this.notificationService = notificationService;
-    this.loginApiPath = loginApiPath;
-    this.refreshTokenApiPath = refreshTokenApiPath;
-    this.keycloakClientId = keycloakClientId;
-    this.disableAuth = disableAuth;
+    on,
+  }: {
+    storage?: WindowLocalStorage['localStorage'];
+    on?: { error: (c: ApiClientError) => void };
+  }) {
+    if (on) {
+      typedObjectEntries(on).forEach(([event, cb]) => this.on(event, cb));
+    }
     this.storage = storage;
-    this.expiredTokenCallback = expiredTokenCallback;
-    this.unauthorizedCallback = unauthorizedCallback;
+  }
+
+  public setup(cfg: ApiClientConfig) {
+    if (!cfg.disableAuth) {
+      this.disableAuth = false;
+      this.loginApiPath = `${cfg.keycloakUrl}/auth/realms/${cfg.keycloakRealm}/protocol/openid-connect/token`;
+      this.refreshTokenApiPath = `${cfg.keycloakUrl}/auth/realms/${cfg.keycloakRealm}/protocol/openid-connect/token`;
+      this.keycloakClientId = cfg.keycloakClientId;
+    } else {
+      this.disableAuth = true;
+    }
 
     // Will deleted by terser
+    let baseURL = cfg.baseURL;
     if (import.meta.env?.DEV) {
       baseURL = replaceUrlWithProxy(baseURL ?? '');
       this.loginApiPath = replaceUrlWithProxy(this.loginApiPath);
@@ -75,22 +72,9 @@ export class ApiClient {
     this.baseURL = baseURL;
   }
 
-  public static getInstance(instanceId = 'default'): ApiClient {
-    if (!ApiClient.instances[instanceId]) {
-      throw new Error('You have to initialize api client first!');
-    } else {
-      return ApiClient.instances[instanceId];
-    }
-  }
-
-  public static init(config: ApiClientConfig<ApiClient>): ApiClient {
-    const instanceId = config.instanceId || 'default';
-    if (ApiClient.instances[instanceId]) {
-      throw new Error(`Api client instance with Id: ${instanceId} already initialized`);
-    }
-
-    ApiClient.instances[instanceId] = new ApiClient(config);
-    return ApiClient.instances[instanceId];
+  public on(event: 'error', cb: (c: ApiClientError) => void) {
+    this.listeners.get(event)?.add(cb);
+    return () => this.listeners.get(event)?.delete(cb);
   }
 
   /**
@@ -232,10 +216,14 @@ export class ApiClient {
       throw new ApiClientError('Token error', { kind: 'bad-data' });
     } catch (err) {
       // unable to login or refresh token
-      this.resetAuth();
-      this.expiredTokenCallback?.();
-      throw createApiError(err);
+      const error = createApiError(err);
+      this._emit('error', error);
+      throw error;
     }
+  }
+
+  private _emit(type: 'error', payload: ApiClientError) {
+    this.listeners.get(type)?.forEach((l) => l(payload));
   }
 
   async logout() {
@@ -298,7 +286,7 @@ export class ApiClient {
       if (apiError.problem.kind === 'unauthorized') {
         // TODO: call redirection callback if user not authorized, route to login page
         this.resetAuth();
-        this.unauthorizedCallback?.(this);
+        this._emit('error', apiError);
       }
       // use custom error messages if defined
       const errorsConfig = requestConfig.errorsConfig;
@@ -313,10 +301,7 @@ export class ApiClient {
       }
 
       if (errorsConfig?.hideErrors !== true) {
-        this.notificationService.error({
-          title: 'Error',
-          description: apiError.message,
-        });
+        this._emit('error', apiError);
       }
 
       throw apiError;

@@ -1,32 +1,39 @@
-import { appConfig } from '~core/app_config';
 import { goTo } from '~core/router/goTo';
+import { withSetupCheck } from '~utils/common/withSetupCheck';
 import { ApiClient } from './api_client';
 import { notificationServiceInstance } from './notificationServiceInstance';
 
-// initialize main api client
-ApiClient.init({
-  notificationService: notificationServiceInstance,
-  baseURL: appConfig.apiGateway,
-  loginApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
-  refreshTokenApiPath: `${appConfig.keycloakUrl}/auth/realms/${appConfig.keycloakRealm}/protocol/openid-connect/token`,
-  keycloakClientId: appConfig.keycloakClientId,
-  expiredTokenCallback() {
-    alert('Session expired. Please login again');
-    goTo('/profile');
-    location.reload();
-  },
-  unauthorizedCallback(apiClient) {
-    apiClient?.expiredTokenCallback?.();
+export const apiClient = withSetupCheck(ApiClient, {
+  on: {
+    error: (error) => {
+      switch (error.problem.kind) {
+        case 'unauthorized':
+        case 'forbidden':
+          alert('Session expired. Please login again');
+          goTo('/profile');
+          location.reload();
+          break;
+
+        default:
+          notificationServiceInstance.error({
+            title: 'Error',
+            description: error.message,
+          });
+      }
+    },
   },
 });
-export const apiClient = ApiClient.getInstance();
 
-// initialize reports client
-ApiClient.init({
-  instanceId: 'reports',
-  notificationService: notificationServiceInstance,
-  baseURL: appConfig.reportsApi,
-  disableAuth: true,
+export const reportsClient = withSetupCheck(ApiClient, {
+  on: {
+    error: (error) => {
+      switch (error.problem.kind) {
+        default:
+          notificationServiceInstance.error({
+            title: 'Error',
+            description: error.message,
+          });
+      }
+    },
+  },
 });
-
-export const reportsClient = ApiClient.getInstance('reports');

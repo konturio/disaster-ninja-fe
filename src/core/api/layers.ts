@@ -1,6 +1,6 @@
-import { appConfig } from '~core/app_config';
+import configRepository from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
-import type { LayerSummaryDto } from '~core/logical_layers/types/source';
+import type { LayerDetailsDto, LayerSummaryDto } from '~core/logical_layers/types/source';
 
 export const LAYERS_IN_AREA_API_ERROR =
   'Unfortunately, we cannot display map layers. Try refreshing the page or come back later.';
@@ -8,7 +8,7 @@ export const LAYERS_IN_AREA_API_ERROR =
 export function getGlobalLayers(abortController: AbortController) {
   return apiClient.post<LayerSummaryDto[]>(
     '/layers/search/global',
-    { appId: appConfig.id },
+    { appId: configRepository.get().id },
     true,
     {
       errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR },
@@ -30,7 +30,7 @@ export function getLayersInArea(
   return apiClient.post<LayerSummaryDto[]>(
     '/layers/search/selected_area',
     {
-      appId: appConfig.id,
+      appId: configRepository.get().id,
       ...params,
     },
     true,
@@ -39,4 +39,29 @@ export function getLayersInArea(
       signal: abortController.signal,
     },
   );
+}
+
+export async function getDefaultLayers(appId: string, language: string) {
+  const layers = await apiClient.get<LayerDetailsDto[]>(
+    `/apps/${appId}/layers`,
+    undefined,
+    true,
+    { headers: { 'user-language': language } },
+  );
+  // TODO: use layers source configs to cache layer data
+  return layers ?? [];
+}
+
+export async function getLayersDetails(ids: string[], appId: string, language: string) {
+  const layers = await apiClient.post<LayerDetailsDto[]>(
+    `/layers/details`,
+    {
+      layersToRetrieveWithoutGeometryFilter: ids,
+      appId: appId,
+    },
+    true,
+    { headers: { 'user-language': language } },
+  );
+  // TODO: use layers source configs to cache layer data
+  return layers ?? [];
 }

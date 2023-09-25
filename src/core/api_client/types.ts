@@ -19,18 +19,15 @@ export const ApiMethodTypes = {
 
 export type ApiMethod = (typeof ApiMethodTypes)[keyof typeof ApiMethodTypes];
 
-export interface ApiClientConfig<ClassContext> {
-  instanceId?: string;
-  notificationService: INotificationService;
-  baseURL: string;
-  loginApiPath?: string;
-  refreshTokenApiPath?: string;
-  keycloakClientId?: string;
-  expiredTokenCallback?: (classContext?: ClassContext) => void;
-  unauthorizedCallback?: (classContext?: ClassContext) => void;
-  disableAuth?: boolean;
-  storage?: WindowLocalStorage['localStorage'];
-}
+export type ApiClientConfig =
+  | { baseURL: string; disableAuth: true }
+  | {
+      baseURL: string;
+      keycloakUrl: string;
+      keycloakRealm: string;
+      keycloakClientId: string;
+      disableAuth?: false;
+    };
 
 export interface KeycloakAuthResponse {
   access_token: string;
