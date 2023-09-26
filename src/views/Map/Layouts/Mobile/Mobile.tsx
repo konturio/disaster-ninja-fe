@@ -1,4 +1,4 @@
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 import s from './Mobile.module.css';
 
 export function MobileLayout({
@@ -17,7 +17,7 @@ export function MobileLayout({
       <div className={s.toolbox}>{drawToolbox}</div>
       <div className={s.panelsColumn}>{firstColumn}</div>
       <div className={s.mapWrap}>
-        <div className={s.mapSpaceRight} id={appConfig.mapBlankSpaceId}>
+        <div className={s.mapSpaceRight} id={configRepo.get().mapBlankSpaceId}>
           {mapColumn}
         </div>
       </div>

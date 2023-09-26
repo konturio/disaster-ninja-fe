@@ -1,9 +1,9 @@
 import { createAtom } from '~utils/atoms';
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 import { eventFeedsResourceAtom } from '~core/resources/eventFeedsResource';
 import { i18n } from '~core/localization';
 
-const defaultFeeds = [getDefaultFeedObject(appConfig.defaultFeed)];
+const defaultFeeds = [getDefaultFeedObject(configRepo.get().defaultFeed)];
 
 export const eventFeedsAtom = createAtom(
   {
@@ -14,7 +14,7 @@ export const eventFeedsAtom = createAtom(
     if (!loading && !error) {
       if (data) {
         console.assert(
-          data.map((d) => d.feed).includes(appConfig.defaultFeed),
+          data.map((d) => d.feed).includes(configRepo.get().defaultFeed),
           'default feed not included in response',
         );
         return data;

@@ -64,7 +64,7 @@ export class ApiClient {
     }
 
     // Will deleted by terser
-    let baseURL = cfg.baseURL;
+    let baseURL = cfg.baseUrl;
     if (import.meta.env?.DEV) {
       baseURL = replaceUrlWithProxy(baseURL ?? '');
       this.loginApiPath = replaceUrlWithProxy(this.loginApiPath);

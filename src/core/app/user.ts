@@ -1,4 +1,4 @@
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 
 export type UserProfileMain = {
   username?: string;
@@ -31,8 +31,8 @@ export const defaultUserProfileData: UserDto = {
   useMetricUnits: true,
   subscribedToKonturUpdates: false,
   bio: '',
-  osmEditor: appConfig.osmEditors[0].id,
-  defaultFeed: appConfig.defaultFeed,
+  osmEditor: configRepo.get().osmEditors[0].id,
+  defaultFeed: configRepo.get().defaultFeed,
   theme: 'kontur',
 };
 

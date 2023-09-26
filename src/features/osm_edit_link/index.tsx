@@ -6,7 +6,7 @@ import {
 } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state';
 import { i18n } from '~core/localization';
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 import { URL_ZOOM_OFFSET } from '~core/constants';
 import {
   DISABLE_CONTROL_TIMEOUT,
@@ -37,7 +37,7 @@ export function initOsmEditLink() {
         if (!osmEditor) return;
 
         const baseLink =
-          appConfig.osmEditors.find((editor) => editor.id === osmEditor)?.url ||
+          configRepo.get().osmEditors.find((editor) => editor.id === osmEditor)?.url ||
           'https://www.openstreetmap.org/edit?#map=';
 
         const url = `${baseLink}${zoom + URL_ZOOM_OFFSET}/${lat}/${lng}`;

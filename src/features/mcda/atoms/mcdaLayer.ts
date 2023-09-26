@@ -4,7 +4,7 @@ import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer/BivariateRenderer';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
-import appConfig from '~core/app_config';
+import configRepo from '~core/config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import type {
   JsonMCDAv4,
@@ -46,9 +46,9 @@ export const mcdaLayerAtom = createAtom(
               type: 'vector' as const,
               urls: [
                 `${adaptTileUrl(
-                  appConfig.bivariateTilesRelativeUrl,
+                  configRepo.get().bivariateTilesRelativeUrl,
                 )}{z}/{x}/{y}.mvt?indicatorsClass=${
-                  appConfig.bivariateTilesIndicatorsClass
+                  configRepo.get().bivariateTilesIndicatorsClass
                 }`,
               ],
               tileSize: 512,

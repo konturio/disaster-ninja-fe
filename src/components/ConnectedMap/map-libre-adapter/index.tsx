@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import configRepo from '~core/config';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { EVENT_MAP_IDLE } from '~core/metrics/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
-import appConfig from '~core/app_config';
 import { useMarkers } from './useMarkers';
 import { useArrayDiff } from './useArrayDiff';
 import type { Marker } from './types';
@@ -147,8 +147,9 @@ function MapboxMap(
     });
     setMap(mapInstance);
     // use initial extent if no coords in url
-    if (!currentMapPosition && appConfig.extent) {
-      mapInstance.fitBounds(appConfig.extent, { animate: false });
+    const extent = configRepo.get().extent;
+    if (!currentMapPosition && extent) {
+      mapInstance.fitBounds(extent, { animate: false });
     }
   }, [mapEl, externalStyleLink, options, ref]);
 

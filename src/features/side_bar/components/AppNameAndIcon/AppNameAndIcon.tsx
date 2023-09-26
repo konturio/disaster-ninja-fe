@@ -1,5 +1,5 @@
 import { ActionsBarBTN } from '@konturio/ui-kit';
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 import { i18n } from '~core/localization';
 import { transformIconLink } from '~utils/common';
 
@@ -15,7 +15,7 @@ export function AppNameAndIcon({
   wrapClassName,
 }: AppNameAndIconProps) {
   const iconPath =
-    appConfig.sidebarIconUrl && transformIconLink(appConfig.sidebarIconUrl);
+    configRepo.get().sidebarIconUrl && transformIconLink(configRepo.get().sidebarIconUrl);
 
   const appIcon = iconPath ? (
     <img src={iconPath} width={24} height={24} alt={i18n.t('sidebar.icon_alt')} />
@@ -23,7 +23,7 @@ export function AppNameAndIcon({
 
   return (
     <ActionsBarBTN active={false} iconBefore={appIcon} className={wrapClassName}>
-      {isOpen ? <span className={appNameClassName}>{appConfig.name}</span> : null}
+      {isOpen ? <span className={appNameClassName}>{configRepo.get().name}</span> : null}
     </ActionsBarBTN>
   );
 }

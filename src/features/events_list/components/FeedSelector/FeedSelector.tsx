@@ -1,7 +1,7 @@
 import { useAction, useAtom } from '@reatom/react';
 import { Text } from '@konturio/ui-kit';
 import { useCallback } from 'react';
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 import { i18n } from '~core/localization';
 import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
 import { currentEventFeedAtom, eventFeedsAtom } from '~core/shared_state';
@@ -30,7 +30,7 @@ export function FeedSelector() {
       <div>
         <select
           onChange={onFeedChange}
-          value={currentFeed?.id || appConfig.defaultFeed}
+          value={currentFeed?.id || configRepo.get().defaultFeed}
           className={s.feedsSelect}
         >
           {eventFeeds.map((fd) => (

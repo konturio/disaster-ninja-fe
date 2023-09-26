@@ -4,7 +4,7 @@ import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 import type { UrlData } from '~core/url_store';
 
 export type Config = {
-  baseURL: string;
+  baseUrl: string;
   initialUrl: UrlData;
 } & StageConfig &
   AppConfig;
