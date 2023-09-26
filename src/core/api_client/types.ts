@@ -20,9 +20,9 @@ export const ApiMethodTypes = {
 export type ApiMethod = (typeof ApiMethodTypes)[keyof typeof ApiMethodTypes];
 
 export type ApiClientConfig =
-  | { baseURL: string; disableAuth: true }
+  | { baseUrl: string; disableAuth: true }
   | {
-      baseURL: string;
+      baseUrl: string;
       keycloakUrl: string;
       keycloakRealm: string;
       keycloakClientId: string;

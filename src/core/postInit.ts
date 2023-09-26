@@ -1,6 +1,6 @@
 import { useAtom } from '@reatom/react';
 import { useEffect } from 'react';
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 import { initMetricsOnce } from '~core/metrics';
 import { currentRouteAtom } from '~core/router/atoms/currentRoute';
 import { featureFlagsAtom } from '~core/shared_state';
@@ -17,7 +17,7 @@ export function PostInit() {
       // at this point must be ready: appconfig, i18n, appId, current route
       // TODO: use better approach for getEffectiveFeature from #13368
       const getEffectiveFeature = (f: AppFeatureType) => featureFlags[f];
-      initMetricsOnce(appConfig.id, route?.slug, getEffectiveFeature);
+      initMetricsOnce(configRepo.get().id, route?.slug, getEffectiveFeature);
     }
   }, [route, featureFlags]);
 

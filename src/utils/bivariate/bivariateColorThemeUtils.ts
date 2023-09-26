@@ -1,6 +1,6 @@
 import { Hsluv } from 'hsluv';
 import { generateBivariateStyleForAxis } from '~utils/bivariate';
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
@@ -152,8 +152,10 @@ export const generateBivariateStyle = (
       type: 'vector',
       tiles: [
         `${adaptTileUrl(
-          appConfig.bivariateTilesRelativeUrl,
-        )}{z}/{x}/{y}.mvt?indicatorsClass=${appConfig.bivariateTilesIndicatorsClass}`,
+          configRepo.get().bivariateTilesRelativeUrl,
+        )}{z}/{x}/{y}.mvt?indicatorsClass=${
+          configRepo.get().bivariateTilesIndicatorsClass
+        }`,
       ],
       maxzoom: meta.max_zoom,
       minzoom: 0,

@@ -1,5 +1,5 @@
 import { apiClient } from '~core/apiClientInstance';
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { areaLayersDetailsParamsAtom } from './areaLayersDetailsParamsAtom';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResourceAtomCache';
@@ -13,10 +13,10 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
     const { layersToRetrieveWithEventId, ...body } = params;
     const request = await apiClient.post<LayerDetailsDto[]>(
       '/layers/details',
-      { ...body, appId: appConfig.id },
+      { ...body, appId: configRepo.get().id },
       true,
       {
-        headers: { 'user-language': appConfig.user.language },
+        headers: { 'user-language': configRepo.get().user.language },
         signal: abortController.signal,
       },
     );

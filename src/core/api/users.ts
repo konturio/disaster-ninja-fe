@@ -1,4 +1,3 @@
-import { appConfig } from '~core/app_config';
 import { apiClient } from '~core/apiClientInstance';
 import type { UserDto } from '~core/app/user';
 

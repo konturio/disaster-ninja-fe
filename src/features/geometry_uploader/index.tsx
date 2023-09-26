@@ -6,7 +6,7 @@ import {
   toolbarControlsAtom,
 } from '~core/shared_state';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
@@ -49,12 +49,10 @@ export function initFileUploader() {
         focusedGeometryAtom.setFocusedGeometry.dispatch({ type: 'uploaded' }, geoJSON);
 
         const { zoom, center } = geometryCamera;
+        const maxZoom = configRepo.get().autofocusZoom;
         // @ts-expect-error CenterZoomBearing issues
         currentMapPositionAtom.setCurrentMapPosition.dispatch({
-          zoom: Math.min(
-            zoom || appConfig.autoFocus.maxZoom,
-            appConfig.autoFocus.maxZoom,
-          ),
+          zoom: Math.min(zoom || maxZoom, maxZoom),
           ...center,
         });
         setTimeout(() => {

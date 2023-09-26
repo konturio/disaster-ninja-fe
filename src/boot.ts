@@ -10,7 +10,7 @@ export async function setupApplicationEnv() {
   printMeta();
 
   // Build time variables
-  const baseURL: string = import.meta.env?.VITE_BASE_PATH ?? '/';
+  const baseUrl: string = import.meta.env?.VITE_BASE_PATH ?? '/';
 
   // Run time variables
   const url = readInitialUrl();
@@ -21,14 +21,14 @@ export async function setupApplicationEnv() {
   const stageConfig = await getStageConfig();
 
   apiClient.setup({
-    baseURL,
+    baseUrl,
     keycloakClientId: stageConfig.keycloakClientId,
     keycloakRealm: stageConfig.keycloakRealm,
     keycloakUrl: stageConfig.keycloakUrl,
   });
 
   reportsClient.setup({
-    baseURL,
+    baseUrl,
     disableAuth: true,
   });
 
@@ -50,7 +50,7 @@ export async function setupApplicationEnv() {
   setAppLanguage(appConfig.user.language);
 
   configsRepository.set({
-    baseURL,
+    baseUrl,
     initialUrl: url,
     ...stageConfig,
     ...appConfig,

@@ -1,7 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react';
-import { appConfig } from '~core/app_config';
+import configRepo from '~core/config';
 import { Row } from '~components/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
@@ -25,7 +25,7 @@ export function CommonView({
   getAbsoluteRoute: (path: string | AppRoute) => string;
 }>) {
   const [featureFlags] = useAtom(featureFlagsAtom);
-  useTabNameUpdate(appConfig.name);
+  useTabNameUpdate(configRepo.get().name);
 
   useEffect(() => {
     if (featureFlags[FeatureFlag.INTERCOM]) {

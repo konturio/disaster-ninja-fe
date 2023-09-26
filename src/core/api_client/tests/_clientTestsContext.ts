@@ -1,16 +1,16 @@
-import './_configMock';
+import 'vi-fetch/setup';
 import { mockFetch, mockGet, mockPost } from 'vi-fetch';
 import { ApiClient } from '../apiClient';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
-import { createNotificationServiceMock } from './_servicesMocks';
 
-const baseURL = 'https://localhost/api';
-mockFetch.setOptions({ baseUrl: baseURL });
+const baseUrl = 'https://localhost/api';
+mockFetch.setOptions({ baseUrl });
 const mockAdapter = {
   onGet: mockGet,
   onPost: mockPost,
   mockFetch,
 };
+
 export function setTimeOffset(timeOffsetMin: number): number {
   return (new Date().getTime() + timeOffsetMin * 60 * 1000) / 1000;
 }
@@ -32,9 +32,7 @@ export const createLocalStorageMock = () => ({
   length: 0,
 });
 
-let n = 0;
 export const createContext = () => {
-  const instanceId = `Instance ${n++}`;
   const token =
     'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiYWRtaW4iLCJVc2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjk3MTA2NDM0LCJpYXQiOjE2MzQwMzQ0MzR9.0GUrGfXYioalJVDRfWgWfx3oQRwk9FsOeAvULj-3ins';
   const expiredToken =
@@ -45,18 +43,19 @@ export const createContext = () => {
   const password = 'testpassword';
 
   const localStorageMock = createLocalStorageMock();
-  ApiClient.init({
-    notificationService: createNotificationServiceMock(),
-    loginApiPath: baseURL + '/login',
-    refreshTokenApiPath: baseURL + '/refresh',
-    baseURL,
-    instanceId,
+
+  const apiClient = new ApiClient({
     storage: localStorageMock,
   });
 
-  const apiClient = ApiClient.getInstance(instanceId);
+  const keycloakRealm = 'keycloak_mock_realm';
+  apiClient.setup({
+    baseUrl,
+    keycloakClientId: 'keycloak_mock_id',
+    keycloakRealm,
+    keycloakUrl: baseUrl,
+  });
 
-  // setup token expiration time
   (apiClient as any).token = token;
   (apiClient as any).tokenExpirationDate = new Date(
     new Date().getTime() + 1000 * 60 * 30,
@@ -72,6 +71,7 @@ export const createContext = () => {
     password,
     localStorageMock,
     mockAdapter,
+    keycloakRealm,
   };
 };
 

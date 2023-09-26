@@ -1,5 +1,5 @@
 import type { AtomBinded } from '@reatom/core';
-export type { AppConfig } from './types';
+
 export const appRegistry = {
   atoms: {},
   listeners: {},

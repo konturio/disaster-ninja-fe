@@ -24,5 +24,6 @@ export function withSetupCheck<T extends { setup: (cfg: any) => void }, A extend
       }
     },
   });
+
   return proxy;
 }
