@@ -26,7 +26,7 @@ function showCriticalError(e: Error) {
   try {
     const config = await setupApplicationEnv();
     const { startApp } = await import('./App');
-    startApp(config.initialUrl);
+    startApp(config);
   } catch (e) {
     // TODO: FE error reporting
     console.error(e);

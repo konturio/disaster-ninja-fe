@@ -6,6 +6,8 @@ import type { UrlData } from '~core/url_store';
 export type Config = {
   baseUrl: string;
   initialUrl: UrlData;
+  initialUser: UserDto;
+  defaultLayers: LayerDetailsDto[];
 } & StageConfig &
   AppConfig;
 
@@ -19,8 +21,7 @@ export interface AppConfig {
   faviconUrl: string;
   public: boolean;
   extent: [number, number, number, number];
-  user: UserDto;
-  defaultLayers: LayerDetailsDto[];
+  user?: UserDto;
 }
 
 export interface StageConfig {
@@ -52,6 +53,9 @@ export interface StageConfig {
   mapBaseStyle: string;
   // App Defaults
   featuresByDefault: FeaturesConfig;
+  defaultLanguage: string;
+  // Computed in boot stage
+  activeLayers: string[];
 }
 
 export interface OsmEditorConfig {

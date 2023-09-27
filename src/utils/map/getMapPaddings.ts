@@ -1,4 +1,4 @@
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import type { PaddingOptions } from 'maplibre-gl';
 
 export function getMapPaddings(map: maplibregl.Map, debug = false): PaddingOptions {

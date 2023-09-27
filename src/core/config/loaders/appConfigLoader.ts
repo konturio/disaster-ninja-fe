@@ -1,6 +1,6 @@
-import { getDefaultLayers, getLayersDetails } from '~core/api/layers';
+import { getLayersDetails } from '~core/api/layers';
 import { apiClient } from '~core/apiClientInstance';
-import { getFeaturesFromAppConfig } from './featuresConfigLoader';
+import { createFeaturesConfig } from './featuresConfigLoader';
 import type { UserDto } from '~core/app/user';
 import type { AppConfig, FeatureDto } from '../types';
 
@@ -14,7 +14,7 @@ export interface AppConfigDto {
   faviconUrl: string;
   public: boolean;
   extent: [number, number, number, number];
-  user: UserDto;
+  user?: UserDto;
 }
 
 export async function getAppConfig(appId?: string): Promise<AppConfig> {
@@ -26,14 +26,11 @@ export async function getAppConfig(appId?: string): Promise<AppConfig> {
   );
   if (appCfg === null) throw Error('App configuration unavailable');
 
-  const features = getFeaturesFromAppConfig(appCfg.features) as AppConfig['features'];
-
-  const defaultLayers = await getDefaultLayers(appCfg.id, appCfg.user.language);
+  const features = createFeaturesConfig(appCfg.features) as AppConfig['features'];
 
   return {
     ...appCfg,
     features,
-    defaultLayers,
   };
 }
 

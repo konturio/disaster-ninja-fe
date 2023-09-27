@@ -1,15 +1,51 @@
-import type { Config } from './types';
+import type { UrlData } from '~core/url_store';
+import type { AppConfig, Config, StageConfig } from './types';
+import type { UserDto } from '~core/app/user';
+import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 
 class ConfigRepository {
   #config: Config | undefined;
 
-  set(config: Config) {
-    this.#config = config;
+  set({
+    baseUrl,
+    initialUrl,
+    stageConfig,
+    appConfig,
+    baseMapUrl,
+    initialUser,
+    defaultLayers,
+    activeLayers,
+  }: {
+    baseUrl: string;
+    initialUrl: UrlData;
+    stageConfig: StageConfig;
+    appConfig: AppConfig;
+    baseMapUrl: string;
+    initialUser: UserDto;
+    defaultLayers: LayerDetailsDto[];
+    activeLayers: string[];
+  }) {
+    this.#config = {
+      baseUrl,
+      initialUrl,
+      ...stageConfig,
+      ...appConfig,
+      mapBaseStyle: baseMapUrl,
+      features:
+        Object.keys(appConfig.features).length > 0
+          ? appConfig.features
+          : stageConfig.featuresByDefault,
+      initialUser,
+      defaultLayers,
+      activeLayers,
+    };
   }
 
   get() {
     return this.#config!;
   }
+
+  /* -- Intercom staff -- */
 
   #readSessionIntercomSetting = (key: string) =>
     sessionStorage.getItem(`kontur.intercom.${key}`);
@@ -30,4 +66,4 @@ class ConfigRepository {
     Object.entries(settings).forEach(([k, v]) => this.#setIntercomSetting(k, v));
   }
 }
-export default new ConfigRepository();
+export const configRepo = new ConfigRepository();

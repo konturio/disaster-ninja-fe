@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { eventFeedsResourceAtom } from '~core/resources/eventFeedsResource';
 import { i18n } from '~core/localization';
 

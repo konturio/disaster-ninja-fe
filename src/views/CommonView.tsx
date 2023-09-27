@@ -1,7 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { Row } from '~components/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { useFavicon } from '~utils/hooks/useFavicon';

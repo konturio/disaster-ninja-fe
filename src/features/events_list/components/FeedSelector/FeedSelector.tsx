@@ -1,7 +1,7 @@
 import { useAction, useAtom } from '@reatom/react';
 import { Text } from '@konturio/ui-kit';
 import { useCallback } from 'react';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
 import { currentEventFeedAtom, eventFeedsAtom } from '~core/shared_state';

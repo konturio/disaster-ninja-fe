@@ -3,7 +3,7 @@ import cn from 'clsx';
 import { useAction } from '@reatom/react';
 import { Button } from '@konturio/ui-kit';
 import { Close24, Expand24 } from '@konturio/default-icons';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import Map from '~components/ConnectedMap/map-libre-adapter';
 import { useMapPositionSmoothSync } from '~components/ConnectedMap/useMapPositionSmoothSync';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';

@@ -5,7 +5,7 @@ import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import Map from './map-libre-adapter';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 import type {

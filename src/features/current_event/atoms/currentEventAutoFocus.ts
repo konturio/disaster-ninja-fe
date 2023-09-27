@@ -1,7 +1,7 @@
 import { createAtom } from '~utils/atoms';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { currentMapAtom } from '~core/shared_state';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { currentEventGeometryAtom } from './currentEventGeometry';

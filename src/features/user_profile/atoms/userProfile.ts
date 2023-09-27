@@ -3,8 +3,8 @@ import { currentUserAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { currentNotificationAtom } from '~core/shared_state';
-import { publicUser } from '~core/app/user';
 import { getCurrentUser, updateCurrentUser } from '~core/api/users';
+import { configRepo } from '~core/config';
 import type { UserDto } from '~core/app/user';
 
 export const pageStatusAtom = createStringAtom<'init' | 'ready' | 'changed' | 'loading'>(
@@ -16,9 +16,9 @@ export const currentProfileAtom = createAtom(
   {
     currentUserAtom,
     getUserProfile: () => null,
-    updateUserProfile: (user: UserDto) => user
+    updateUserProfile: (user: UserDto) => user,
   },
-  ({ onChange, onAction, schedule }, state: UserDto = publicUser) => {
+  ({ onChange, onAction, schedule }, state: UserDto = configRepo.get().initialUser) => {
     onAction('getUserProfile', () => {
       schedule(async (dispatch) => {
         dispatch(pageStatusAtom.set('init'));

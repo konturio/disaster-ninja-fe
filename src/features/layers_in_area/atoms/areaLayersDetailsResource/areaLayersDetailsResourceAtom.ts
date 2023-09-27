@@ -1,5 +1,5 @@
 import { apiClient } from '~core/apiClientInstance';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { areaLayersDetailsParamsAtom } from './areaLayersDetailsParamsAtom';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResourceAtomCache';
@@ -16,7 +16,7 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
       { ...body, appId: configRepo.get().id },
       true,
       {
-        headers: { 'user-language': configRepo.get().user.language },
+        headers: { 'user-language': configRepo.get().initialUser.language },
         signal: abortController.signal,
       },
     );

@@ -3,8 +3,10 @@ import { getStageConfig } from '~core/config/loaders/stageConfigLoader';
 import { getAppConfig, getLayerSourceUrl } from '~core/config/loaders/appConfigLoader';
 import { readInitialUrl } from '~core/url_store/readInitialUrl';
 import { i18n } from '~core/localization';
-import configsRepository from '~core/config';
-import type { AppConfig } from '~core/config/types';
+import { configRepo } from '~core/config';
+import { getDefaultLayers } from '~core/api/layers';
+import type { UserDto } from '~core/app/user';
+import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 
 export async function setupApplicationEnv() {
   printMeta();
@@ -12,23 +14,26 @@ export async function setupApplicationEnv() {
   // Build time variables
   const baseUrl: string = import.meta.env?.VITE_BASE_PATH ?? '/';
 
-  // Run time variables
-  const url = readInitialUrl();
+  // Shared config - comes from url
+  const sharedConfig = readInitialUrl();
 
   // TODO - initialUrl from config repository
   localStorage.setItem('initialUrl', location.href); // keep initial url before overwriting by router
 
+  // Stage config - depends from appconfig.json in CI repo
+  // (/configs/config.local.json for localhost)
   const stageConfig = await getStageConfig();
 
+  // Prepare clients for fetch additional configs from apis
   apiClient.setup({
-    baseUrl,
+    baseUrl: stageConfig.apiGateway,
     keycloakClientId: stageConfig.keycloakClientId,
     keycloakRealm: stageConfig.keycloakRealm,
     keycloakUrl: stageConfig.keycloakUrl,
   });
 
   reportsClient.setup({
-    baseUrl,
+    baseUrl: stageConfig.reportsApiGateway,
     disableAuth: true,
   });
 
@@ -36,43 +41,70 @@ export async function setupApplicationEnv() {
 
   /* -- Now you can use client -- */
 
-  // App variables
-  const appConfig = await getAppConfig(url.app);
+  // App related configs
+  const appConfig = await getAppConfig(sharedConfig.app);
 
-  // Resolve initial layers list
-  const layers = notEmpty(url.layers)
-    ? url.layers! // already checked ^^^ !
-    : appConfig.defaultLayers.map((l) => l.id);
+  // WTF moment: Sometimes user comes with app settings...
+  // Just because backend probably know user from token in request
+  // User added to this response.
+  // TODO - fix that, do not mixing things
+  // If not - we use public
+  // publicUser takes settings from stage configuration
+  // TODO - get user settings by token
+  const initialUser =
+    appConfig.user ??
+    createPublicUser({
+      language: stageConfig.defaultLanguage,
+      osmEditor: stageConfig.osmEditors[0].id,
+      defaultFeed: stageConfig.defaultFeed,
+    });
+  setAppLanguage(initialUser.language);
+  const defaultLayers = await getDefaultLayers(appConfig.id, initialUser.language);
 
-  /* Find initial base map url */
-  const baseMapUrl = (await getBaseMapUrl(layers, appConfig)) ?? stageConfig.mapBaseStyle;
+  // Resolve initially enabled layers list
+  const activeLayers = notEmpty(sharedConfig.layers)
+    ? sharedConfig.layers
+    : defaultLayers.map((l) => l.id);
 
-  setAppLanguage(appConfig.user.language);
+  /* Find initial base map url (download if needed) */
+  const baseMapUrl =
+    (await getBaseMapUrl(
+      activeLayers,
+      appConfig.id,
+      initialUser.language,
+      defaultLayers,
+    )) ?? stageConfig.mapBaseStyle;
 
-  configsRepository.set({
+  configRepo.set({
     baseUrl,
-    initialUrl: url,
-    ...stageConfig,
-    ...appConfig,
-    mapBaseStyle: baseMapUrl,
-    features:
-      Object.keys(appConfig.features).length > 0
-        ? appConfig.features
-        : stageConfig.featuresByDefault,
+    initialUrl: sharedConfig,
+    activeLayers,
+    stageConfig,
+    appConfig,
+    baseMapUrl,
+    initialUser,
+    defaultLayers,
   });
-  return configsRepository.get();
+
+  return configRepo.get();
 }
 
-const notEmpty = (arr?: Array<unknown>) => arr && arr.length > 0;
+const notEmpty = <T>(arr?: Array<T>): arr is Array<T> =>
+  Array.isArray(arr) && arr.length > 0;
 
-async function getBaseMapUrl(layers: string[], appConfig: AppConfig) {
+async function getBaseMapUrl(
+  layers: string[],
+  appId: string,
+  language: string,
+  defaultLayers: LayerDetailsDto[],
+) {
   /* Find base map by source type */
   const findBaseMap = <T extends { source?: { type: string } }>(layers: Array<T>) =>
     layers.find((l) => l.source?.type === 'maplibre-style-url');
 
   let baseMapUrl: string | undefined;
 
-  const defaultBaseMap = findBaseMap(appConfig.defaultLayers);
+  const defaultBaseMap = findBaseMap(defaultLayers);
   // If app have default base map
   if (defaultBaseMap) {
     // And this base map enabled
@@ -86,11 +118,7 @@ async function getBaseMapUrl(layers: string[], appConfig: AppConfig) {
       // if app have NOT default base map enabled
       if (notDefaultBaseMapId) {
         // fetch data from layers api
-        baseMapUrl = await getLayerSourceUrl(
-          notDefaultBaseMapId,
-          appConfig.id,
-          appConfig.user.language,
-        );
+        baseMapUrl = await getLayerSourceUrl(notDefaultBaseMapId, appId, language);
       }
     }
   }
@@ -117,4 +145,27 @@ function setAppLanguage(language: string) {
   i18n.instance
     .changeLanguage(language)
     .catch((e) => console.warn(`Attempt to change language to ${language} failed`, e));
+}
+
+function createPublicUser({
+  language,
+  osmEditor,
+  defaultFeed,
+}: {
+  language: string;
+  osmEditor: string;
+  defaultFeed: string;
+}): UserDto {
+  return {
+    username: '',
+    email: '',
+    fullName: '',
+    language,
+    useMetricUnits: true,
+    subscribedToKonturUpdates: false,
+    bio: '',
+    osmEditor,
+    defaultFeed,
+    theme: 'kontur',
+  };
 }

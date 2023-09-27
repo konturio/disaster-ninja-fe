@@ -2,7 +2,7 @@ export function getFeaturesFromStageConfig<T extends Array<string>>(features: T)
   return Object.fromEntries((features ?? []).map((f) => [f, true]));
 }
 
-export function getFeaturesFromAppConfig<
+export function createFeaturesConfig<
   T extends Array<{ name: string; configuration?: unknown }>,
 >(features: T) {
   return Object.fromEntries(

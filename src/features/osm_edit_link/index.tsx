@@ -6,7 +6,7 @@ import {
 } from '~core/shared_state';
 import { controlGroup, controlVisualGroup } from '~core/shared_state';
 import { i18n } from '~core/localization';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { URL_ZOOM_OFFSET } from '~core/constants';
 import {
   DISABLE_CONTROL_TIMEOUT,

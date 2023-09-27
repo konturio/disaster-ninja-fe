@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { eventFeedsAtom } from './eventFeeds';
 import { currentEventAtom, scheduledAutoSelect } from './currentEvent';
 import type { EventFeedConfig } from '~core/config/types';

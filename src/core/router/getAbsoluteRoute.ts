@@ -1,4 +1,4 @@
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import type { AppRoute } from './types';
 
 const trimSlash = (str: string) => {

@@ -6,7 +6,7 @@ import {
   toolbarControlsAtom,
 } from '~core/shared_state';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';

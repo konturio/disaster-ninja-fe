@@ -1,4 +1,4 @@
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { SmartColumn } from '../../SmartColumn/SmartColumn';
 import s from './Laptop.module.css';
 

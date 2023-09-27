@@ -1,4 +1,4 @@
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import s from './Mobile.module.css';
 
 export function MobileLayout({

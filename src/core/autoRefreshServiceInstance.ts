@@ -1,4 +1,4 @@
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { autoRefreshService } from './auto_refresh';
 
 autoRefreshService.start(configRepo.get().refreshIntervalSec);
