@@ -8,6 +8,7 @@ export type Config = {
   initialUrl: UrlData;
   initialUser: UserDto;
   defaultLayers: LayerDetailsDto[];
+  activeLayers: string[]; // Computed in boot stage
 } & StageConfig &
   AppConfig;
 
@@ -54,8 +55,6 @@ export interface StageConfig {
   // App Defaults
   featuresByDefault: FeaturesConfig;
   defaultLanguage: string;
-  // Computed in boot stage
-  activeLayers: string[];
 }
 
 export interface OsmEditorConfig {
