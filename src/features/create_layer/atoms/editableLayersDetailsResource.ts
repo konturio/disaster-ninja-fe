@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { editableLayersListResource } from './editableLayersListResource';
@@ -56,7 +56,7 @@ export const editableLayersDetailsResourceAtom = createAsyncAtom(
       { ...params, appId: configRepo.get().id },
       true,
       {
-        headers: { 'user-language': configRepo.get().user.language },
+        headers: { 'user-language': configRepo.get().initialUser.language },
         signal: abortController.signal,
       },
     );

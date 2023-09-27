@@ -1,6 +1,6 @@
 import { Hsluv } from 'hsluv';
 import { generateBivariateStyleForAxis } from '~utils/bivariate';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';

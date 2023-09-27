@@ -1,5 +1,5 @@
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import {
   anyCondition,
   featureProp,

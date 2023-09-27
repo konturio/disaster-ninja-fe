@@ -1,4 +1,4 @@
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import type { AdvancedAnalyticsData, AnalyticsData } from '~core/types';
 

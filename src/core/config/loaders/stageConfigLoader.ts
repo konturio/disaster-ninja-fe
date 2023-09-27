@@ -22,6 +22,7 @@ export interface StageConfigLegacy {
   FEATURES_BY_DEFAULT: AppFeatureType[];
   DEFAULT_FEED: string;
   OSM_EDITORS: OsmEditorConfig[];
+  DEFAULT_LANGUAGE: string;
 }
 
 export async function getStageConfig(): Promise<StageConfig> {
@@ -47,6 +48,7 @@ export async function getStageConfig(): Promise<StageConfig> {
     autofocusZoom: c.AUTOFOCUS_ZOOM,
     mapBlankSpaceId: c.MAP_BLANK_SPACE_ID,
     mapBaseStyle: c.MAP_BASE_STYLE,
+    defaultLanguage: c.DEFAULT_LANGUAGE,
     featuresByDefault: getFeaturesFromStageConfig(
       c.FEATURES_BY_DEFAULT,
     ) as AppConfig['features'],

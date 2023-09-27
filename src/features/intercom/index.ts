@@ -1,6 +1,6 @@
 import { cookieManagementService, permissionStatuses } from '~core/cookie_settings';
 import { createBooleanAtom } from '~utils/atoms';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 
 export const intercomVisibleAtom = createBooleanAtom(false, 'intercomVisibleAtom');
 

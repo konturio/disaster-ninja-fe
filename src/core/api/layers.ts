@@ -1,4 +1,4 @@
-import configRepository from '~core/config';
+import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import type { LayerDetailsDto, LayerSummaryDto } from '~core/logical_layers/types/source';
 
@@ -8,7 +8,7 @@ export const LAYERS_IN_AREA_API_ERROR =
 export function getGlobalLayers(abortController: AbortController) {
   return apiClient.post<LayerSummaryDto[]>(
     '/layers/search/global',
-    { appId: configRepository.get().id },
+    { appId: configRepo.get().id },
     true,
     {
       errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR },
@@ -30,7 +30,7 @@ export function getLayersInArea(
   return apiClient.post<LayerSummaryDto[]>(
     '/layers/search/selected_area',
     {
-      appId: configRepository.get().id,
+      appId: configRepo.get().id,
       ...params,
     },
     true,

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { eventFeedsAtom } from '~core/shared_state';
 import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';

@@ -1,4 +1,4 @@
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { createAtom } from '~utils/atoms';
 import { AppFeature } from '~core/auth/types';
 

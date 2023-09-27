@@ -1,5 +1,5 @@
 import { ActionsBarBTN } from '@konturio/ui-kit';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import { transformIconLink } from '~utils/common';
 

@@ -1,19 +1,22 @@
-import { publicUser } from '~core/app/user';
 import { createAtom } from '~utils/atoms';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
+import { configRepo } from '~core/config';
 import type { CurrentUser } from '~core/app/user';
 
 export const currentUserAtom = createAtom(
   {
-    setUser: (user: CurrentUser = publicUser) => user,
+    setUser: (user: CurrentUser = configRepo.get().initialUser) => user,
   },
-  ({ onAction, schedule, getUnlistedState }, state: CurrentUser = publicUser) => {
+  (
+    { onAction, schedule, getUnlistedState },
+    state: CurrentUser = configRepo.get().initialUser,
+  ) => {
     onAction('setUser', (usr) => {
       if (usr) {
         state = usr;
       } else {
-        state = publicUser;
+        state = configRepo.get().initialUser;
       }
       // remove all ownByUser layers from map
       const settingsRegistryKeys = Array.from(getUnlistedState(layersSettingsAtom))

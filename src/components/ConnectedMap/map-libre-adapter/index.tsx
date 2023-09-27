@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { EVENT_MAP_IDLE } from '~core/metrics/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';

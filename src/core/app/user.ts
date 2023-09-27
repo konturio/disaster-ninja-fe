@@ -1,5 +1,3 @@
-import configRepo from '~core/config';
-
 export type UserProfileMain = {
   username?: string;
   email?: string;
@@ -21,21 +19,4 @@ export type UserDto = UserProfileMain & UserProfileSettings;
 export type CurrentUser = UserDto & {
   defaultLayers?: string[];
   loading?: boolean;
-};
-
-export const defaultUserProfileData: UserDto = {
-  username: '',
-  email: '',
-  fullName: '',
-  language: 'en',
-  useMetricUnits: true,
-  subscribedToKonturUpdates: false,
-  bio: '',
-  osmEditor: configRepo.get().osmEditors[0].id,
-  defaultFeed: configRepo.get().defaultFeed,
-  theme: 'kontur',
-};
-
-export const publicUser = {
-  ...defaultUserProfileData,
 };

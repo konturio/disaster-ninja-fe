@@ -1,5 +1,5 @@
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import { EDITABLE_LAYERS_GROUP } from '~core/constants';
 import type { EditableLayers } from '../types';

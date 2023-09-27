@@ -1,6 +1,6 @@
 import { memo } from '@reatom/core/experiments';
 import { createAtom, createBooleanAtom } from '~utils/atoms';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import {
   currentEventAtom,
   currentMapPositionAtom,

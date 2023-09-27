@@ -1,4 +1,4 @@
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { currentUserAtom } from '~core/shared_state';
 import { yandexMetrics } from '~core/metrics';
 import { setFeatures } from './features';

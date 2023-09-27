@@ -1,4 +1,4 @@
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { createAtom } from '~utils/atoms';
 import { localStorage } from '~utils/storage';
 

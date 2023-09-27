@@ -1,4 +1,4 @@
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 
 export function adaptTileUrl(url: string): string {

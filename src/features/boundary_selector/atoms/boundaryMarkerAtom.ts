@@ -1,6 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
-import configRepo from '~core/config';
+import { configRepo } from '~core/config';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { convertToAppMarker } from '~utils/map/markers';
 import { toolbarControlsAtom } from '~core/shared_state';
