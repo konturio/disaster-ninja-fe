@@ -27,8 +27,6 @@ const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/Connected
 
 const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
 
-const { Toolbar } = lazily(() => import('~features/toolbar'));
-
 const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
@@ -121,7 +119,7 @@ export function MapPage() {
           layersAndLegends={<LayersAndLegends featureFlags={featureFlags} />}
           matrix={featureFlags[FeatureFlag.BIVARIATE_MANAGER] && <BivariatePanel />}
           timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
-          toolbar={<Toolbar />}
+          toolbar={<></>}
           footer={
             <div className={clsx(s.footer, s.clickThrough)}>
               <div className={s.footerBackground}>
