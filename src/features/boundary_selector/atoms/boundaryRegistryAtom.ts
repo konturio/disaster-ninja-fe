@@ -1,5 +1,14 @@
 import { currentMapAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
+import { forceRun } from '~utils/atoms/forceRun';
+import { store } from '~core/store/store';
+import { boundarySelectorControl } from '..';
+import { BoundarySelectorRenderer } from '../renderers/BoundarySelectorRenderer';
+import {
+  BOUNDARY_GEOMETRY_COLOR,
+  BOUNDARY_SELECTOR_LAYER_ID,
+  HOVERED_BOUNDARIES_SOURCE_ID,
+} from '../constants';
 import { highlightedGeometryAtom } from './highlightedGeometry';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LogicalLayerRenderer } from '~core/logical_layers/types/renderer';
@@ -102,3 +111,30 @@ export const createBoundaryRegistryAtom = (
     },
     layerId,
   );
+
+boundarySelectorControl.onInit((ctx) => {
+  const renderer = new BoundarySelectorRenderer({
+    layerId: BOUNDARY_SELECTOR_LAYER_ID,
+    sourceId: HOVERED_BOUNDARIES_SOURCE_ID,
+    color: BOUNDARY_GEOMETRY_COLOR,
+  });
+
+  const boundaryRegistryAtom = createBoundaryRegistryAtom(
+    BOUNDARY_SELECTOR_LAYER_ID,
+    renderer,
+  );
+
+  ctx.boundaryRegistryAtom = boundaryRegistryAtom;
+  return forceRun(boundaryRegistryAtom);
+});
+
+boundarySelectorControl.onStateChange((ctx, state) => {
+  switch (state) {
+    case 'active':
+      if (ctx.boundaryRegistryAtom) store.dispatch(ctx.boundaryRegistryAtom.start());
+      break;
+
+    default:
+      if (ctx.boundaryRegistryAtom) store.dispatch(ctx.boundaryRegistryAtom.stop());
+  }
+});

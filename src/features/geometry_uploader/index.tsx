@@ -29,11 +29,12 @@ const fileUploaderControl = toolbar.setupControl({
       el?.addEventListener('click', (e) => onClickCb());
     },
   },
-  onStateChange: (state) => {
-    if (state === 'active') {
-      store.dispatch(fileUploaderControl.setState('regular'));
-    }
-  },
+});
+
+fileUploaderControl.onStateChange((ctx, state) => {
+  if (state === 'active') {
+    store.dispatch(fileUploaderControl.setState('regular'));
+  }
 });
 
 function onClickCb() {

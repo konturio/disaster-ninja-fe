@@ -15,40 +15,36 @@ export const osmEditControl = toolbar.setupControl({
     icon: 'EditOsm24',
     preferredSize: 'small',
   },
-  onInit: () => {
-    return {};
-  },
-  onStateChange: (state) => {
-    if (state === 'active') {
-      try {
-        const position = store.getState(currentMapPositionAtom);
-        if (!position) throw Error('Unknown position');
-        const { osmEditor } = store.getState(currentUserAtom);
-        if (!osmEditor) throw Error('Unknown editor');
-
-        const editor = configRepo
-          .get()
-          .osmEditors.find((editor) => editor.id === osmEditor);
-
-        switch (position.type) {
-          case 'centerZoom':
-            openOsmLink(position, editor?.url);
-            break;
-
-          default:
-            throw Error('Unknown position type');
-        }
-      } catch (e) {
-        console.error(e);
-      } finally {
-        store.dispatch(osmEditControl.setState('regular'));
-      }
-    }
-  },
-  onRemove: () => {
-    /* noop */
-  },
 });
+
+osmEditControl.onStateChange((ctx, state) => {
+  if (state === 'active') {
+    try {
+      const position = store.getState(currentMapPositionAtom);
+      if (!position) throw Error('Unknown position');
+      const { osmEditor } = store.getState(currentUserAtom);
+      if (!osmEditor) throw Error('Unknown editor');
+
+      const editor = configRepo
+        .get()
+        .osmEditors.find((editor) => editor.id === osmEditor);
+
+      switch (position.type) {
+        case 'centerZoom':
+          openOsmLink(position, editor?.url);
+          break;
+
+        default:
+          throw Error('Unknown position type');
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      store.dispatch(osmEditControl.setState('regular'));
+    }
+  }
+});
+
 export function initOsmEditLink() {
   osmEditControl.init();
 }

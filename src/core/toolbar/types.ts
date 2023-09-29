@@ -13,12 +13,9 @@ export type ToolbarSectionSetting = {
 
 type ValueForState<T> = Record<ControlState, T>;
 
-export type ToolbarControlSettings<T = Record<string, unknown>> = {
+export type ToolbarControlSettings = {
   id: ControlID;
   type: ControlType;
-  onInit?: () => T;
-  onStateChange: (state: ControlState, ctx: T) => void;
-  onRemove?: (ctx: T) => void;
   typeSettings: {
     name: string | ValueForState<string>;
     hint: string | ValueForState<string>;
@@ -31,28 +28,33 @@ export type ToolbarControlSettings<T = Record<string, unknown>> = {
 
 export type ControlState = 'active' | 'disabled' | 'regular';
 type ControlType = 'button';
-export interface ControlController {
+export type OnRemoveCb = () => void;
+export interface ControlController<Ctx = Record<string, unknown>> {
+  // Actions
+  init: () => void;
+  remove: () => void;
   setState: (state: ControlState) => {
     payload: ControlState;
     type: string;
   };
+  // Hooks
+  onInit: (cb: (ctx: Ctx) => OnRemoveCb | void) => void;
+  onStateChange: (cb: (ctx: Ctx, state: ControlState) => void) => void;
+  onRemove: (cb: (ctx: Ctx) => void) => void;
+  // Subscriptions
   stateStream: StateStream<ControlState>;
-  init: () => void;
-  dispose: () => void;
 }
 
-export type SetupControlAction = <
-  T extends Record<string, unknown> = Record<string, unknown>,
->(
-  settings: ToolbarControlSettings<T>,
-) => ControlController;
+export type SetupControlAction<Ctx = Record<string, unknown>> = (
+  settings: ToolbarControlSettings,
+) => ControlController<Ctx>;
 
 type SteamUnsubscribe = () => void;
 export interface StateStream<T> {
   subscribe: (cb: (data: T) => void) => SteamUnsubscribe;
 }
 
-export interface Toolbar {
-  setupControl: SetupControlAction;
+export type Toolbar<Ctx = Record<string, unknown>> = {
+  setupControl: SetupControlAction<Ctx>;
   toolbarSettings: ToolbarSettings;
-}
+};

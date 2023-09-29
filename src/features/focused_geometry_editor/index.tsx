@@ -36,34 +36,32 @@ export const focusedGeometryControl = toolbar.setupControl({
     icon: 'Poly24',
     preferredSize: 'small',
   },
-  onInit: () => {
-    forceRun(focusedGeometryEditorAtom);
-    return {};
-  },
-  onStateChange: (state, ctx) => {
-    if (state === 'active') {
-      store.dispatch([
-        isEditorActiveAtom.set(true),
-        toolboxAtom.setSettings(toolboxAtomSettings),
-        drawModeLogicalLayerAtom.enable(),
-        activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
-        setIndexesForCurrentGeometryAtom.set(true),
-      ]);
-    } else {
-      store.dispatch([
-        isEditorActiveAtom.set(false),
-        drawModeLogicalLayerAtom.disable(),
-        activeDrawModeAtom.setDrawMode(null),
-      ]);
-    }
-  },
-  onRemove(ctx) {
+});
+
+focusedGeometryControl.onInit(() => forceRun(focusedGeometryEditorAtom));
+focusedGeometryControl.onStateChange((ctx, state) => {
+  if (state === 'active') {
+    store.dispatch([
+      isEditorActiveAtom.set(true),
+      toolboxAtom.setSettings(toolboxAtomSettings),
+      drawModeLogicalLayerAtom.enable(),
+      activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
+      setIndexesForCurrentGeometryAtom.set(true),
+    ]);
+  } else {
     store.dispatch([
       isEditorActiveAtom.set(false),
       drawModeLogicalLayerAtom.disable(),
       activeDrawModeAtom.setDrawMode(null),
     ]);
-  },
+  }
+});
+focusedGeometryControl.onRemove(() => {
+  store.dispatch([
+    isEditorActiveAtom.set(false),
+    drawModeLogicalLayerAtom.disable(),
+    activeDrawModeAtom.setDrawMode(null),
+  ]);
 });
 
 export function initFocusedGeometry() {
