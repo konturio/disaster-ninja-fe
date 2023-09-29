@@ -2,10 +2,8 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { currentMapAtom } from '~core/shared_state';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
 import { registerMapListener } from '~core/shared_state/mapListeners';
-import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
 import { boundarySelectorControl } from '..';
-import { boundaryMarkerAtom } from './boundaryMarkerAtom';
 
 interface ScheduleContext {
   removeClickListener?: () => void;
@@ -88,10 +86,6 @@ export const clickCoordinatesAtom = createAtom(
   },
   'clickCoordinatesAtom',
 );
-
-boundarySelectorControl.onInit((ctx) => {
-  return forceRun(boundaryMarkerAtom);
-});
 
 boundarySelectorControl.onStateChange((ctx, state) => {
   if (state === 'active') {
