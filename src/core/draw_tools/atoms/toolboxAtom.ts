@@ -1,10 +1,8 @@
 import { downloadObject } from '~utils/file/download';
 import { i18n } from '~core/localization';
 import { createAtom } from '~utils/atoms';
-import { toolbarControlsAtom } from '~core/shared_state';
 import { currentNotificationAtom } from '~core/shared_state';
 import { currentLocationAtom } from '~core/router/atoms/currentLocation';
-import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '../constants';
 import { activeDrawModeAtom } from './activeDrawMode';
 import { drawnGeometryAtom } from './drawnGeometryAtom';
 import { isDrawingStartedAtom } from './isDrawingStartedAtom';
@@ -66,7 +64,6 @@ export const toolboxAtom = createAtom(
     });
 
     onAction('finishDrawing', () => {
-      actions.push(toolbarControlsAtom.disable(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID));
       actions.push(activeDrawModeAtom.setDrawMode(null));
     });
 
