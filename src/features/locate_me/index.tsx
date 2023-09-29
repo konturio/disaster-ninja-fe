@@ -1,16 +1,30 @@
-import { Locate24 } from '@konturio/default-icons';
-import {
-  currentMapPositionAtom,
-  currentNotificationAtom,
-  toolbarControlsAtom,
-} from '~core/shared_state';
-import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
+import { currentMapPositionAtom, currentNotificationAtom } from '~core/shared_state';
+import { toolbar } from '~core/toolbar';
 import { i18n } from '~core/localization';
+import { store } from '~core/store/store';
 import {
   LOCATE_ME_CONTROL_ID,
   LOCATE_ME_CONTROL_NAME,
   LOCATE_ME_ZOOM,
 } from './constants';
+
+export const locateMeControl = toolbar.setupControl({
+  id: LOCATE_ME_CONTROL_ID,
+  type: 'button',
+  typeSettings: {
+    name: LOCATE_ME_CONTROL_NAME,
+    hint: i18n.t('locate_me.feature_title'),
+    icon: 'Locate24',
+    preferredSize: 'small',
+  },
+  onStateChange: (state) => {
+    if (state === 'active') {
+      const geolocation = navigator.geolocation;
+      // Location dialogue should appear for the user
+      geolocation.getCurrentPosition(successCb, errorCb);
+    }
+  },
+});
 
 function successCb(location: GeolocationPosition) {
   const { coords } = location;
@@ -33,25 +47,10 @@ function errorCb(error: GeolocationPositionError) {
   disableControl();
 }
 
-export function initLocateMe() {
-  toolbarControlsAtom.addControl.dispatch({
-    id: LOCATE_ME_CONTROL_ID,
-    name: LOCATE_ME_CONTROL_NAME,
-    title: i18n.t('locate_me.feature_title'),
-    active: false,
-    visualGroup: controlVisualGroup.noAnalytics,
-    icon: <Locate24 />,
-    onClick: () => {
-      toolbarControlsAtom.enable.dispatch(LOCATE_ME_CONTROL_ID);
-      const geolocation = navigator.geolocation;
-      // Location dialogue should appear for the user
-      geolocation.getCurrentPosition(successCb, errorCb);
-    },
-  });
+function disableControl() {
+  store.dispatch(locateMeControl.setState('regular'));
 }
 
-function disableControl() {
-  setTimeout(() => {
-    toolbarControlsAtom.disable.dispatch(LOCATE_ME_CONTROL_ID);
-  }, 3000);
+export function initLocateMe() {
+  locateMeControl.init();
 }

@@ -3,11 +3,11 @@ import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
 import { configRepo } from '~core/config';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { convertToAppMarker } from '~utils/map/markers';
-import { toolbarControlsAtom } from '~core/shared_state';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { i18n } from '~core/localization';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
 import { BOUNDARY_MARKER_ID } from '../constants';
+import { boundarySelectorControl } from '..';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 import { boundaryResourceAtom } from './boundaryResourceAtom';
 import { highlightedGeometryAtom } from './highlightedGeometry';
@@ -119,7 +119,7 @@ export const boundaryMarkerAtom = createAtom(
               );
 
               const actions: Action[] = [
-                toolbarControlsAtom.disable('BoundarySelector'),
+                boundarySelectorControl.setState('regular'),
                 updateBoundaryLayerAction(
                   { type: 'FeatureCollection', features: [] },
                   boundaryId,
