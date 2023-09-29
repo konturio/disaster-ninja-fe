@@ -17,13 +17,14 @@ export const locateMeControl = toolbar.setupControl({
     icon: 'Locate24',
     preferredSize: 'small',
   },
-  onStateChange: (state) => {
-    if (state === 'active') {
-      const geolocation = navigator.geolocation;
-      // Location dialogue should appear for the user
-      geolocation.getCurrentPosition(successCb, errorCb);
-    }
-  },
+});
+
+locateMeControl.onStateChange((ctx, state) => {
+  if (state === 'active') {
+    const geolocation = navigator.geolocation;
+    // Location dialogue should appear for the user
+    geolocation.getCurrentPosition(successCb, errorCb);
+  }
 });
 
 function successCb(location: GeolocationPosition) {

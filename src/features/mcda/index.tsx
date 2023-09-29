@@ -13,25 +13,20 @@ export const mcdaControl = toolbar.setupControl({
     icon: '',
     preferredSize: 'small',
   },
-  onInit: () => {
-    return {};
-  },
-  onStateChange: async (state) => {
-    if (state === 'active') {
-      const mcdaConfig = await promptMCDAConfig();
-      if (mcdaConfig) {
-        store.dispatch([
-          mcdaLayerAtom.calcMCDA(mcdaConfig),
-          mcdaControl.setState('regular'),
-        ]);
-      } else {
-        store.dispatch(mcdaControl.setState('regular'));
-      }
+});
+
+mcdaControl.onStateChange(async (ctx, state) => {
+  if (state === 'active') {
+    const mcdaConfig = await promptMCDAConfig();
+    if (mcdaConfig) {
+      store.dispatch([
+        mcdaLayerAtom.calcMCDA(mcdaConfig),
+        mcdaControl.setState('regular'),
+      ]);
+    } else {
+      store.dispatch(mcdaControl.setState('regular'));
     }
-  },
-  onRemove: () => {
-    /* noop */
-  },
+  }
 });
 
 export function initMCDA() {

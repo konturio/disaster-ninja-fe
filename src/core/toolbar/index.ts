@@ -1,12 +1,12 @@
 import { createMapAtom, createPrimitiveAtom } from '~utils/atoms/createPrimitives';
 import { store } from '~core/store/store';
 import type {
-  SetupControlAction,
   ControlID,
   ControlState,
   Toolbar,
   ToolbarControlSettings,
-  ToolbarSettings,
+  OnRemoveCb,
+  ControlController,
 } from './types';
 
 /**
@@ -26,52 +26,67 @@ import type {
  * a) Feature setup control and pass id
  * b) This id present in toolbar settings
  */
-const toolbarSettings: ToolbarSettings = {
-  sections: [],
-};
 
-/* */
 const toolbarControlsSettingsAtom = createMapAtom<ControlID, ToolbarControlSettings>();
 
-// Actions
-
-const setupControl: SetupControlAction = (settings) => {
-  // @ts-expect-error - works right, but impossible to analyze for typechecker
-  toolbarControlsSettingsAtom.set(settings.id, settings);
-
-  const controlStateAtom = createPrimitiveAtom<ControlState>(
-    'regular',
-    null,
-    `[core]controlState.${settings.id}`,
-  );
-  // @ts-expect-error - works right, but impossible to analyze for typechecker
-  let controlContext: ReturnType<typeof settings.onInit> = {};
-
-  const unsubscribe = controlStateAtom.subscribe((state) =>
-    settings.onStateChange(state, controlContext),
-  );
-
-  store.dispatch(
-    // @ts-expect-error - works right, but impossible to analyze for typechecker
-    toolbarControlsSettingsAtom.set(settings.id, settings),
-  );
-
-  return {
-    setState: (newState) => controlStateAtom.set(newState),
-    stateStream: controlStateAtom,
-    init: () => {
-      controlContext = settings.onInit?.();
-    },
-    dispose: () => {
-      unsubscribe();
-      settings.onRemove?.(controlContext);
-      store.dispatch(toolbarControlsSettingsAtom.delete(settings.id));
-    },
+class ToolbarImpl implements Toolbar {
+  toolbarSettings = {
+    sections: [],
   };
-};
 
-export const toolbar: Toolbar = {
-  setupControl,
-  toolbarSettings,
-  // toolbarControlsSettingsAtom,
-};
+  setupControl<Ctx extends Record<string, unknown>>(
+    settings: ToolbarControlSettings,
+  ): ControlController<Ctx> {
+    const onInitCbs = new Set<(ctx: Ctx) => OnRemoveCb | void>();
+    const onStateChangeCbs = new Set<(ctx: Ctx, state: ControlState) => void>();
+    const onRemoveCbs = new Set<(ctx: Ctx) => void>();
+
+    toolbarControlsSettingsAtom.set(settings.id, settings);
+
+    const controlStateAtom = createPrimitiveAtom<ControlState>(
+      'regular',
+      null,
+      `[core]controlState.${settings.id}`,
+    );
+
+    const controlContext: Ctx = {} as Ctx;
+    const cleanUpTasks = new Set<() => void>();
+
+    const unsubscribe = controlStateAtom.subscribe((state) =>
+      onStateChangeCbs.forEach((cb) => cb(controlContext, state)),
+    );
+
+    store.dispatch(toolbarControlsSettingsAtom.set(settings.id, settings));
+
+    return {
+      setState: (newState) => controlStateAtom.set(newState),
+      stateStream: controlStateAtom,
+      init: () => {
+        onInitCbs.forEach((cb) => {
+          const cleanUpTask = cb(controlContext);
+          if (cleanUpTask) cleanUpTasks.add(cleanUpTask);
+        });
+      },
+      remove: () => {
+        unsubscribe();
+        onRemoveCbs.forEach((cb) => cb(controlContext));
+        cleanUpTasks.forEach((cb) => cb());
+        store.dispatch(toolbarControlsSettingsAtom.delete(settings.id));
+      },
+      onInit: (cb) => {
+        onInitCbs.add(cb);
+        return () => onInitCbs.delete(cb);
+      },
+      onStateChange: (cb) => {
+        onStateChangeCbs.add(cb);
+        return () => onStateChangeCbs.delete(cb);
+      },
+      onRemove: (cb) => {
+        onRemoveCbs.add(cb);
+        return () => onRemoveCbs.delete(cb);
+      },
+    };
+  }
+}
+
+export const toolbar = new ToolbarImpl();

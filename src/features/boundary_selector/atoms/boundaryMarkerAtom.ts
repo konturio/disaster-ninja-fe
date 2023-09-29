@@ -6,6 +6,8 @@ import { convertToAppMarker } from '~utils/map/markers';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { i18n } from '~core/localization';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
+import { forceRun } from '~utils/atoms/forceRun';
+import { store } from '~core/store/store';
 import { BOUNDARY_MARKER_ID } from '../constants';
 import { boundarySelectorControl } from '..';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
@@ -173,3 +175,15 @@ export const boundaryMarkerAtom = createAtom(
   },
   'boundaryMarkerAtom',
 );
+
+boundarySelectorControl.onInit((ctx) => {
+  return forceRun(boundaryMarkerAtom);
+});
+
+boundarySelectorControl.onStateChange((ctx, state) => {
+  if (state === 'active') {
+    store.dispatch(boundaryMarkerAtom.start());
+  } else {
+    store.dispatch(boundaryMarkerAtom.stop());
+  }
+});
