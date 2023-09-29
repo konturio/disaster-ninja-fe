@@ -13,7 +13,7 @@ import {
   EditFeaturePlaceholder,
 } from '../EditFeatureForm/EditFeatureForm';
 import { editableLayerSettingsAtom } from '../../atoms/editableLayerSettings';
-import { createLayerController } from '../../index';
+import { createLayerController } from '../../control';
 import s from './EditFeaturesPanel.module.css';
 
 export function EditFeaturesPanel() {

@@ -6,8 +6,9 @@ import { drawModes } from '~core/draw_tools/constants';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
+import { forceRun } from '~utils/atoms/forceRun';
 import { EditTargets } from '../constants';
-import { createLayerController } from '../index';
+import { createLayerController } from '../control';
 import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
 import { editTargetAtom } from './editTarget';
 
@@ -74,3 +75,5 @@ export const openDrawToolsInFeatureEditMode = createAtom(
     });
   },
 );
+
+createLayerController.onInit(() => forceRun(openDrawToolsInFeatureEditMode));
