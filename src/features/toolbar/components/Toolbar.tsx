@@ -18,7 +18,7 @@ export function Toolbar() {
             <Tooltip>
               <TooltipTrigger>
                 <div
-                  className={clsx([s.buttonWrap, control.active && s.active])}
+                  className={clsx([control.active && s.active])}
                   onClick={() => control.onClick?.(!control.active)}
                 >
                   <Button

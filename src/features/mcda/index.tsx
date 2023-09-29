@@ -1,96 +1,39 @@
 import { i18n } from '~core/localization';
-import { toolbarControlsAtom } from '~core/shared_state';
-import { controlGroup, controlVisualGroup } from '~core/shared_state/toolbarControls';
+import { toolbar } from '~core/toolbar';
+import { store } from '~core/store/store';
 import { mcdaLayerAtom } from './atoms/mcdaLayer';
-import { parseMCDA } from './parser';
+import { promptMCDAConfig } from './prompt';
 
-const example = `
-{
-  "id": "MCDA",
-  "version": 4,
-  "layers": [
-     {
-        "axis": [
-           "population",
-           "area_km2"
-        ],
-        "range": [
-           0,
-           46200
-        ],
-        "sentiment": [
-           "good",
-           "bad"
-        ],
-        "coefficient": 1,
-        "transformationFunction": "no",
-        "normalization": "no"
-     }
-  ],
-  "colors": {
-     "type": "mapLibreExpression",
-     "parameters": {
-        "fill-color": [
-           [
-              "step",
-              [
-                 "var",
-                 "mcdaResult"
-              ],
-              "#51bbd6",
-              100,
-              "#f1f075",
-              24100,
-              "#f28cb1"
-           ]
-        ],
-        "fill-opacity": 0.7
-     }
-  }
-}
-`;
+export const mcdaControl = toolbar.setupControl({
+  id: 'MCDA',
+  type: 'button',
+  typeSettings: {
+    name: i18n.t('mcda.name'),
+    hint: i18n.t('mcda.title'),
+    icon: '',
+    preferredSize: 'small',
+  },
+  onInit: () => {
+    return {};
+  },
+  onStateChange: async (state) => {
+    if (state === 'active') {
+      const mcdaConfig = await promptMCDAConfig();
+      if (mcdaConfig) {
+        store.dispatch([
+          mcdaLayerAtom.calcMCDA(mcdaConfig),
+          mcdaControl.setState('regular'),
+        ]);
+      } else {
+        store.dispatch(mcdaControl.setState('regular'));
+      }
+    }
+  },
+  onRemove: () => {
+    /* noop */
+  },
+});
 
 export function initMCDA() {
-  toolbarControlsAtom.addControl.dispatch({
-    id: 'MCDA',
-    name: i18n.t('mcda.name'),
-    title: i18n.t('mcda.title'),
-    active: false,
-    visualGroup: controlVisualGroup.noAnalytics,
-    exclusiveGroup: controlGroup.mapTools,
-    icon: (
-      <div style={{ height: '24px', display: 'flex', alignItems: 'center' }}>
-        {i18n.t('mcda.name')}
-      </div>
-    ),
-    onClick: async () => {
-      const jsonString = prompt(
-        `
-        Enter MCDA json
-        Example:
-        - sentiments can be only ["bad", "good"] or ["good", "bad"]
-        - colors set is fixed to "good" and "bad"
-
-        ${example}
-      `,
-        example,
-      );
-
-      if (jsonString === null) {
-        console.warn('MCDA Prompt canceled');
-        return;
-      }
-
-      try {
-        const jsonParsed = await parseMCDA(jsonString);
-        mcdaLayerAtom.calcMCDA.dispatch(jsonParsed);
-      } catch (e) {
-        if (e instanceof Error && 'message' in e) {
-          alert(e.message);
-        } else {
-          alert('JSON processing failed');
-        }
-      }
-    },
-  });
+  mcdaControl.init();
 }
