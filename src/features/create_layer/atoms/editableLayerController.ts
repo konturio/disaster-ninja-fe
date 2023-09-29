@@ -3,6 +3,7 @@ import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
+import { createLayerController } from '../control';
 import { createLayerEditorFormAtom } from './layerEditorForm';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
 import { editableLayerSettingsAtom } from './editableLayerSettings';
@@ -198,3 +199,15 @@ export const editableLayerControllerAtom = createAtom(
   },
   'editableLayerControllerAtom',
 );
+
+createLayerController.onStateChange((ctx, state) => {
+  if (state === 'active') {
+    editableLayerControllerAtom.createNewLayer.dispatch();
+  } else {
+    editableLayerControllerAtom.reset.dispatch();
+  }
+});
+
+createLayerController.onRemove(() => {
+  editableLayerControllerAtom.reset.dispatch();
+});

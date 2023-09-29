@@ -4,6 +4,8 @@ import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 import { createUpdateActionsFromLayersDTO } from '~core/logical_layers/utils/createUpdateActionsFromLayersDTO';
+import { forceRun } from '~utils/atoms/forceRun';
+import { createLayerController } from '../control';
 import { editableLayersListResource } from './editableLayersListResource';
 import { editableLayerControllerAtom } from './editableLayerController';
 import { featurePanelControllerAtom } from './featurePanelController';
@@ -118,3 +120,5 @@ export const editableLayersControlsAtom = createAtom(
   },
   'editableLayersControlsAtom',
 );
+
+createLayerController.onInit(() => forceRun(editableLayersControlsAtom));
