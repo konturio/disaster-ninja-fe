@@ -11,6 +11,7 @@ export const boundarySelectorControl = toolbar.setupControl<{
 }>({
   id: BOUNDARY_SELECTOR_CONTROL_ID,
   type: 'button',
+  borrowMapInteractions: true,
   typeSettings: {
     name: BOUNDARY_SELECTOR_CONTROL_NAME,
     hint: i18n.t('boundary_selector.title'),

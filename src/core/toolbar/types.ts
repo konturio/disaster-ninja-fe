@@ -16,6 +16,8 @@ type ValueForState<T> = Record<ControlState, T>;
 export type ToolbarControlSettings = {
   id: ControlID;
   type: ControlType;
+  /** Set true if control override map interactions while active (default: false) */
+  borrowMapInteractions?: boolean;
   typeSettings: {
     name: string | ValueForState<string>;
     hint: string | ValueForState<string>;
@@ -28,6 +30,7 @@ export type ToolbarControlSettings = {
 
 export type ControlState = 'active' | 'disabled' | 'regular';
 type ControlType = 'button';
+
 export type OnRemoveCb = () => void;
 export interface ControlController<Ctx = Record<string, unknown>> {
   // Actions
