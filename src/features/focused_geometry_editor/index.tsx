@@ -29,6 +29,7 @@ const toolboxAtomSettings = {
 
 export const focusedGeometryControl = toolbar.setupControl({
   id: FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
+  borrowMapInteractions: true,
   type: 'button',
   typeSettings: {
     name: FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME,

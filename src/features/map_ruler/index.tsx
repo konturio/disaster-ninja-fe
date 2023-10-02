@@ -18,6 +18,7 @@ export const mapRulerControl = toolbar.setupControl<{
   };
 }>({
   id: MAP_RULER_CONTROL_ID,
+  borrowMapInteractions: true,
   type: 'button',
   typeSettings: {
     name: MAP_RULER_CONTROL_NAME,
