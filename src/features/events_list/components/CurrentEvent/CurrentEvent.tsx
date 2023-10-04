@@ -31,7 +31,9 @@ export function CurrentEvent({
         event={event}
         isActive={true}
         alternativeActionControl={
-          hasTimeline ? <EpisodeTimelineToggle isActive={true} /> : null
+          hasTimeline && event.episodeCount > 1 ? (
+            <EpisodeTimelineToggle isActive={true} />
+          ) : null
         }
         externalUrls={event.externalUrls}
         showDescription={showDescription}
