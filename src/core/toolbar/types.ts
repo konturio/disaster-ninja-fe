@@ -13,11 +13,18 @@ export type ToolbarSectionSetting = {
 
 type ValueForState<T> = Record<ControlState, T>;
 
-export type ToolbarControlSettings = {
+export type ToolbarControlSettings = ToolbarButtonSettings | ToolbarWidgetSettings;
+
+interface CommonToolbarControlSettings {
   id: ControlID;
-  type: ControlType;
   /** Set true if control override map interactions while active (default: false) */
   borrowMapInteractions?: boolean;
+  type: ControlType;
+  typeSettings: Record<string, unknown>;
+}
+
+interface ToolbarButtonSettings extends CommonToolbarControlSettings {
+  type: 'button';
   typeSettings: {
     name: string | ValueForState<string>;
     hint: string | ValueForState<string>;
@@ -26,10 +33,24 @@ export type ToolbarControlSettings = {
     /* Only for edge cases when you need direct access to element */
     onRef?: (el: HTMLElement) => void;
   };
-};
+}
+
+export interface WidgetProps {
+  state: ControlState;
+  controlClassName: string;
+  toolbox: {
+    button: (props: ToolbarButtonSettings['typeSettings']) => JSX.Element;
+  };
+}
+interface ToolbarWidgetSettings extends CommonToolbarControlSettings {
+  type: 'widget';
+  typeSettings: {
+    component: (props: WidgetProps) => JSX.Element | null;
+  };
+}
 
 export type ControlState = 'active' | 'disabled' | 'regular';
-type ControlType = 'button';
+type ControlType = 'button' | 'widget';
 
 export type OnRemoveCb = () => void;
 export interface ControlController<Ctx = Record<string, unknown>> {
