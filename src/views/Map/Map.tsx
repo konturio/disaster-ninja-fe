@@ -39,7 +39,7 @@ export function MapPage() {
   const [featureFlags] = useAtom(featureFlagsAtom);
 
   useEffect(() => {
-    import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
+    import('~core/draw_tools').then(({ drawTools }) => drawTools.init());
 
     /* Lazy load module */
     if (featureFlags[FeatureFlag.CURRENT_EVENT]) {
