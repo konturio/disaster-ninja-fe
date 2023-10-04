@@ -1,3 +1,5 @@
+import type { PrimitiveAtom } from '@reatom/core/primitives';
+
 export type ControlID = string;
 
 /* Whole panel settings */
@@ -35,11 +37,19 @@ interface ToolbarButtonSettings extends CommonToolbarControlSettings {
   };
 }
 
+interface ControlComponentProps {
+  state: ControlState;
+  onClick: () => void;
+}
+
 export interface WidgetProps {
   state: ControlState;
   controlClassName: string;
+  onClick: () => void;
   toolbox: {
-    button: (props: ToolbarButtonSettings['typeSettings']) => JSX.Element;
+    button: (
+      props: ToolbarButtonSettings['typeSettings'] & ControlComponentProps,
+    ) => JSX.Element;
   };
 }
 interface ToolbarWidgetSettings extends CommonToolbarControlSettings {
@@ -81,4 +91,6 @@ export interface StateStream<T> {
 export type Toolbar<Ctx = Record<string, unknown>> = {
   setupControl: SetupControlAction<Ctx>;
   toolbarSettings: ToolbarSettings;
+  controls: PrimitiveAtom<Map<string, ToolbarControlSettings>>;
+  getControlState: (id: ControlID) => PrimitiveAtom<ControlState> | undefined;
 };
