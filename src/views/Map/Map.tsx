@@ -31,10 +31,6 @@ const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/comp
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
-const { DrawToolsToolbox } = lazily(
-  () => import('~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
-);
-
 export function MapPage() {
   const [featureFlags] = useAtom(featureFlagsAtom);
 
@@ -131,7 +127,6 @@ export function MapPage() {
             </div>
           }
           editPanel={<EditFeaturesOrLayerPanel />}
-          drawToolbox={<DrawToolsToolbox />}
         />
       )}
     </div>
