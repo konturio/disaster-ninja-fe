@@ -54,6 +54,8 @@ export interface Event {
   description?: string;
   /** Event geometry bbox */
   bbox: [number, number, number, number];
+  /** Event epsode count */
+  episodeCount: number;
 }
 
 export interface AnalyticsData {
@@ -94,6 +96,7 @@ export type EventWithGeometry = {
   osmGaps: number | null;
   updatedAt: string;
   bbox: [number, number, number, number];
+  episodeCount: number;
 };
 
 export type LegendStepStyle = {

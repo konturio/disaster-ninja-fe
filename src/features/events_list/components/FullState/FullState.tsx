@@ -82,7 +82,7 @@ export function FullState({
                     isActive={event.eventId === currentEventId}
                     onClick={eventClickHandler}
                     alternativeActionControl={
-                      hasTimeline ? (
+                      hasTimeline && event.episodeCount > 1 ? (
                         <EpisodeTimelineToggle
                           isActive={event.eventId === currentEventId}
                         />
