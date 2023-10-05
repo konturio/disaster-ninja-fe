@@ -13,7 +13,7 @@ export type ToolbarSectionSetting = {
   controls: Array<ControlID>;
 };
 
-type ValueForState<T> = Record<ControlState, T>;
+export type ValueForState<T> = Record<ControlState, T>;
 
 export type ToolbarControlSettings = ToolbarButtonSettings | ToolbarWidgetSettings;
 
@@ -25,6 +25,12 @@ interface CommonToolbarControlSettings {
   typeSettings: Record<string, unknown>;
 }
 
+interface ControlComponentProps {
+  state: ControlState;
+  onClick: () => void;
+}
+
+// Button
 interface ToolbarButtonSettings extends CommonToolbarControlSettings {
   type: 'button';
   typeSettings: {
@@ -37,21 +43,13 @@ interface ToolbarButtonSettings extends CommonToolbarControlSettings {
   };
 }
 
-interface ControlComponentProps {
+// Widget
+export interface WidgetProps {
+  controlClassName: string;
   state: ControlState;
   onClick: () => void;
 }
 
-export interface WidgetProps {
-  state: ControlState;
-  controlClassName: string;
-  onClick: () => void;
-  toolbox: {
-    button: (
-      props: ToolbarButtonSettings['typeSettings'] & ControlComponentProps,
-    ) => JSX.Element;
-  };
-}
 interface ToolbarWidgetSettings extends CommonToolbarControlSettings {
   type: 'widget';
   typeSettings: {
@@ -91,6 +89,8 @@ export interface StateStream<T> {
 export type Toolbar<Ctx = Record<string, unknown>> = {
   setupControl: SetupControlAction<Ctx>;
   toolbarSettings: ToolbarSettings;
-  controls: PrimitiveAtom<Map<string, ToolbarControlSettings>>;
+  controls: PrimitiveAtom<Map<ControlID, ToolbarControlSettings>>;
   getControlState: (id: ControlID) => PrimitiveAtom<ControlState> | undefined;
 };
+
+export type ToolbarControlStateAtom = PrimitiveAtom<ControlState>;

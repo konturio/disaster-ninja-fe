@@ -1,13 +1,26 @@
+import { useRef } from 'react';
 import { i18n } from '~core/localization';
-import { drawTools } from '~core/draw_tools';
+import { useDrawTools } from '~core/draw_tools';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME } from './constants';
-import type { WidgetProps } from '~core/toolbar/types';
+import type { ValueForState, WidgetProps } from '~core/toolbar/types';
 
-export function DrawToolsWidget({ state, toolbox, onClick }: WidgetProps) {
-  const [tools] = drawTools.useDrawTools();
+const TemporaryButton = (props: {
+  name: string | ValueForState<string>;
+  hint: string | ValueForState<string>;
+  icon: string | ValueForState<string>;
+  preferredSize: 'large' | 'small' | 'medium';
+  state: 'regular' | 'disabled' | 'active';
+  onClick: () => void;
+}) => {
+  useRef(() => console.warn('TemporaryButton must be replaced with real button'));
+  return null;
+};
+
+export function DrawToolsWidget({ state, onClick, controlClassName }: WidgetProps) {
+  const [tools] = useDrawTools();
   if (state === 'regular') {
     return (
-      <toolbox.button
+      <TemporaryButton
         name={FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
         hint={i18n.t('focus_geometry.title')}
         icon={'Poly24'}
@@ -20,17 +33,17 @@ export function DrawToolsWidget({ state, toolbox, onClick }: WidgetProps) {
     return (
       <>
         {tools.map((tool) => (
-          <toolbox.button
+          <TemporaryButton
             key={tool.name}
             name={tool.name}
             hint={tool.hint}
             icon={tool.icon}
             preferredSize={'small'}
             state={tool.state}
-            onClick={tool.toggle}
+            onClick={tool.action}
           />
         ))}
-        <toolbox.button
+        <TemporaryButton
           name={FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
           hint={i18n.t('focus_geometry.title')}
           icon={'Poly24'}

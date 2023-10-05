@@ -108,16 +108,3 @@ export const useDrawTools: DrawToolsHook = () => {
 };
 
 export const drawTools: DrawToolsController = new DrawToolsControllerImpl();
-
-// const toolboxAtomSettings = {
-//   availableModes: [
-//     'DrawPolygonMode' as const,
-//     'DrawLineMode' as const,
-//     'DrawPointMode' as const,
-//   ],
-//   finishButtonCallback: (): Promise<true> =>
-//     new Promise((res) => {
-//       focusedGeometryEditorAtom.updateGeometry.dispatch();
-//       res(true);
-//     }),
-// };
