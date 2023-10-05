@@ -23,7 +23,6 @@ export function Layout({
   timeline: JSX.Element;
   layersAndLegends: JSX.Element;
   matrix: JSX.Element;
-  drawToolbox: JSX.Element;
   footer: JSX.Element;
   editPanel: JSX.Element;
 }) {
