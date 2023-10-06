@@ -14,7 +14,6 @@ export function Layout({
   timeline,
   layersAndLegends,
   matrix,
-  drawToolbox,
   footer,
   editPanel,
 }: {
@@ -24,7 +23,6 @@ export function Layout({
   timeline: JSX.Element;
   layersAndLegends: JSX.Element;
   matrix: JSX.Element;
-  drawToolbox: JSX.Element;
   footer: JSX.Element;
   editPanel: JSX.Element;
 }) {
@@ -48,7 +46,6 @@ export function Layout({
             {timeline}
           </>
         }
-        drawToolbox={drawToolbox}
         footer={footer}
       />
     );
@@ -68,7 +65,6 @@ export function Layout({
         mapColumn={
           <>
             {toolbar}
-            {drawToolbox}
             {timeline}
           </>
         }
@@ -87,7 +83,6 @@ export function Layout({
       mapColumn={
         <>
           {toolbar}
-          {drawToolbox}
           {timeline}
         </>
       }

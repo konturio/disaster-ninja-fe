@@ -1,5 +1,3 @@
-export const FOCUSED_GEOMETRY_EDITOR_CONTROL_ID = 'FreehandGeometry';
-export const FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME = 'Freehand Geometry';
 export const DRAW_TOOLS_LAYER_ID = 'draw-tools';
 
 export const DOWNLOAD_GEOMETRY_CONTROL_ID = 'DownloadGeometry';
@@ -13,11 +11,7 @@ export const drawModes = {
 } as const;
 
 export type DrawModeType = keyof typeof drawModes;
-export const createDrawingLayers = [
-  'DrawPolygonMode',
-  'DrawLineMode',
-  'DrawPointMode',
-];
+export const createDrawingLayers = ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode'];
 export const editDrawingLayers = ['ModifyMode'];
 export const iconLayer = {
   iconMapping: {
