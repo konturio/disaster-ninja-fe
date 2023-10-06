@@ -1,3 +1,5 @@
+import type { PrimitiveAtom } from '@reatom/core/primitives';
+
 export type ControlID = string;
 
 /* Whole panel settings */
@@ -11,13 +13,26 @@ export type ToolbarSectionSetting = {
   controls: Array<ControlID>;
 };
 
-type ValueForState<T> = Record<ControlState, T>;
+export type ValueForState<T> = Record<ControlState, T>;
 
-export type ToolbarControlSettings = {
+export type ToolbarControlSettings = ToolbarButtonSettings | ToolbarWidgetSettings;
+
+interface CommonToolbarControlSettings {
   id: ControlID;
-  type: ControlType;
   /** Set true if control override map interactions while active (default: false) */
   borrowMapInteractions?: boolean;
+  type: ControlType;
+  typeSettings: Record<string, unknown>;
+}
+
+interface ControlComponentProps {
+  state: ControlState;
+  onClick: () => void;
+}
+
+// Button
+interface ToolbarButtonSettings extends CommonToolbarControlSettings {
+  type: 'button';
   typeSettings: {
     name: string | ValueForState<string>;
     hint: string | ValueForState<string>;
@@ -26,10 +41,24 @@ export type ToolbarControlSettings = {
     /* Only for edge cases when you need direct access to element */
     onRef?: (el: HTMLElement) => void;
   };
-};
+}
+
+// Widget
+export interface WidgetProps {
+  controlClassName: string;
+  state: ControlState;
+  onClick: () => void;
+}
+
+interface ToolbarWidgetSettings extends CommonToolbarControlSettings {
+  type: 'widget';
+  typeSettings: {
+    component: (props: WidgetProps) => JSX.Element | null;
+  };
+}
 
 export type ControlState = 'active' | 'disabled' | 'regular';
-type ControlType = 'button';
+type ControlType = 'button' | 'widget';
 
 export type OnRemoveCb = () => void;
 export interface ControlController<Ctx = Record<string, unknown>> {
@@ -60,4 +89,8 @@ export interface StateStream<T> {
 export type Toolbar<Ctx = Record<string, unknown>> = {
   setupControl: SetupControlAction<Ctx>;
   toolbarSettings: ToolbarSettings;
+  controls: PrimitiveAtom<Map<ControlID, ToolbarControlSettings>>;
+  getControlState: (id: ControlID) => PrimitiveAtom<ControlState> | undefined;
 };
+
+export type ToolbarControlStateAtom = PrimitiveAtom<ControlState>;

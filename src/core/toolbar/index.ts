@@ -8,6 +8,7 @@ import type {
   OnRemoveCb,
   ControlController,
 } from './types';
+import type { PrimitiveAtom } from '@reatom/core/primitives';
 
 /**
  * Toolbar have config about where every tool can be places
@@ -27,9 +28,13 @@ import type {
  * b) This id present in toolbar settings
  */
 
-const toolbarControlsSettingsAtom = createMapAtom<ControlID, ToolbarControlSettings>();
-
 class ToolbarImpl implements Toolbar {
+  private toolbarControlsSettingsAtom = createMapAtom<
+    ControlID,
+    ToolbarControlSettings
+  >();
+  private toolbarControlsStatesAtom = new Map<ControlID, PrimitiveAtom<ControlState>>();
+
   toolbarSettings = {
     sections: [],
   };
@@ -41,13 +46,14 @@ class ToolbarImpl implements Toolbar {
     const onStateChangeCbs = new Set<(ctx: Ctx, state: ControlState) => void>();
     const onRemoveCbs = new Set<(ctx: Ctx) => void>();
 
-    toolbarControlsSettingsAtom.set(settings.id, settings);
+    this.toolbarControlsSettingsAtom.set(settings.id, settings);
 
     const controlStateAtom = createPrimitiveAtom<ControlState>(
       'regular',
       null,
       `[core]controlState.${settings.id}`,
     );
+    this.toolbarControlsStatesAtom.set(settings.id, controlStateAtom);
 
     const controlContext: Ctx = {} as Ctx;
     const cleanUpTasks = new Set<() => void>();
@@ -56,7 +62,7 @@ class ToolbarImpl implements Toolbar {
       onStateChangeCbs.forEach((cb) => cb(controlContext, state)),
     );
 
-    store.dispatch(toolbarControlsSettingsAtom.set(settings.id, settings));
+    store.dispatch(this.toolbarControlsSettingsAtom.set(settings.id, settings));
 
     return {
       setState: (newState) => controlStateAtom.set(newState),
@@ -67,11 +73,12 @@ class ToolbarImpl implements Toolbar {
           if (cleanUpTask) cleanUpTasks.add(cleanUpTask);
         });
       },
-      remove: () => {
+      remove: async () => {
         unsubscribe();
         onRemoveCbs.forEach((cb) => cb(controlContext));
         cleanUpTasks.forEach((cb) => cb());
-        store.dispatch(toolbarControlsSettingsAtom.delete(settings.id));
+        store.dispatch(this.toolbarControlsSettingsAtom.delete(settings.id));
+        this.toolbarControlsSettingsAtom.delete(settings.id);
       },
       onInit: (cb) => {
         onInitCbs.add(cb);
@@ -86,6 +93,16 @@ class ToolbarImpl implements Toolbar {
         return () => onRemoveCbs.delete(cb);
       },
     };
+  }
+
+  get controls() {
+    return this.toolbarControlsSettingsAtom as unknown as PrimitiveAtom<
+      Map<string, ToolbarControlSettings>
+    >;
+  }
+
+  getControlState(id: ControlID) {
+    return this.toolbarControlsStatesAtom.get(id);
   }
 }
 

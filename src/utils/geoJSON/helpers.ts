@@ -15,7 +15,7 @@ export function createGeoJSONSource(
 }
 
 export class FeatureCollection {
-  type = 'FeatureCollection';
+  type = 'FeatureCollection' as const;
   features: GeoJSON.Feature[];
   constructor(features: GeoJSON.Feature[]) {
     this.features = features;

@@ -31,15 +31,11 @@ const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/comp
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
-const { DrawToolsToolbox } = lazily(
-  () => import('~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
-);
-
 export function MapPage() {
   const [featureFlags] = useAtom(featureFlagsAtom);
 
   useEffect(() => {
-    import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
+    import('~core/draw_tools').then(({ drawTools }) => drawTools.init());
 
     /* Lazy load module */
     if (featureFlags[FeatureFlag.CURRENT_EVENT]) {
@@ -131,7 +127,6 @@ export function MapPage() {
             </div>
           }
           editPanel={<EditFeaturesOrLayerPanel />}
-          drawToolbox={<DrawToolsToolbox />}
         />
       )}
     </div>

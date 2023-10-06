@@ -16,12 +16,6 @@
   }
 }
 
-.toolbox {
-  grid-row: 1;
-  grid-column: 1/-1;
-  padding: var(--unit);
-}
-
 .panelsColumn {
   display: flex;
   flex-direction: column;
