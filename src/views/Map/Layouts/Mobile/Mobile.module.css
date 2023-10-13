@@ -1,14 +1,18 @@
+.rightPanel {
+  padding: var(--unit);
+}
+
 .contentWrap {
   display: grid;
   width: 100%;
   height: 100%;
-  grid-template-columns: calc(40px + var(--double-unit)) minmax(40px, 100vw);
-  grid-template-rows: 1fr 1fr 1fr var(--unit);
+  grid-template-columns: calc(40px + var(--double-unit)) 1fr fit-content(40px);
+  grid-template-rows: min-content 1fr min-content var(--unit);
 }
 
 @media screen and (max-width: 360px) {
   .contentWrap {
-    grid-template-rows: 1fr 1fr 1fr 0;
+    grid-template-rows: min-content 1fr min-content 0;
   }
 }
 
