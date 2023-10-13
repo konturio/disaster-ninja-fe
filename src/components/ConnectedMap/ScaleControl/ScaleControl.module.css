@@ -8,3 +8,9 @@
   margin: 0;
   margin: 2px;
 }
+
+@media screen and (max-height: 320px) {
+  .scale {
+    display: none;
+  }
+}
