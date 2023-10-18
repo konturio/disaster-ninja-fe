@@ -1,0 +1,27 @@
+.toolbarContent {
+  padding: 8px 16px 9px;
+
+  min-height: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.delimiter {
+  width: 1px;
+  min-height: inherit;
+  background-color: var(--faint-weak);
+}
+
+/* .label {
+}
+
+.tools {
+}
+
+.drawing {
+}
+
+.buttons {
+} */

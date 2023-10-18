@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useAtom } from '@reatom/react';
 import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
@@ -79,30 +80,41 @@ export const useDrawTools: DrawToolsHook = () => {
     { deleteFeatures, toggleDrawMode, finishDrawing, downloadDrawGeometry },
   ] = useAtom(toolboxAtom);
 
-  const controls: Array<DrawToolController> =
-    settings.availableModes?.map((mode) => ({
-      name: i18n.t('draw_tools.area'),
+  const controls = useMemo(() => {
+    const controlsArray: Array<DrawToolController> =
+      settings.availableModes?.map((mode) => ({
+        name: i18n.t('draw_tools.area'),
+        hint: '',
+        icon: 'Area24',
+        state: activeDrawMode === mode ? ('active' as const) : ('regular' as const),
+        action: () => toggleDrawMode(drawModes[mode]),
+      })) ?? [];
+
+    controlsArray.push({
+      name: '',
       hint: '',
-      icon: 'Area24',
-      state: activeDrawMode === mode ? ('active' as const) : ('regular' as const),
-      action: () => toggleDrawMode(drawModes[mode]),
-    })) ?? [];
+      icon: 'Trash24',
+      state: selectedIndexes.length > 0 ? ('regular' as const) : ('disabled' as const),
+      action: deleteFeatures,
+    });
 
-  controls.push({
-    name: '',
-    hint: '',
-    icon: 'Trash24',
-    state: selectedIndexes.length > 0 ? ('regular' as const) : ('disabled' as const),
-    action: deleteFeatures,
-  });
+    controlsArray.push({
+      name: '',
+      hint: '',
+      icon: 'Download24',
+      state: 'regular' as const,
+      action: downloadDrawGeometry,
+    });
 
-  controls.push({
-    name: '',
-    hint: '',
-    icon: 'Download24',
-    state: 'regular' as const,
-    action: downloadDrawGeometry,
-  });
+    return controlsArray;
+  }, [
+    settings,
+    activeDrawMode,
+    selectedIndexes,
+    toggleDrawMode,
+    deleteFeatures,
+    downloadDrawGeometry,
+  ]);
 
   return [controls, finishDrawing];
 };
