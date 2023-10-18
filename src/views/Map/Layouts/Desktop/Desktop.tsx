@@ -5,12 +5,14 @@ import s from './Desktop.module.css';
 export function DesktopLayout({
   analyticsColumn,
   layersColumn,
-  mapColumn,
+  mapColumnTop,
+  mapColumnBottom,
   footer,
 }: {
   analyticsColumn: JSX.Element;
   layersColumn: JSX.Element;
-  mapColumn: JSX.Element;
+  mapColumnTop: JSX.Element;
+  mapColumnBottom: JSX.Element;
   footer: JSX.Element;
 }) {
   return (
@@ -18,8 +20,9 @@ export function DesktopLayout({
       <SmartColumn className={s.analytics}>{analyticsColumn}</SmartColumn>
 
       <div className={s.mapWrap}>
+        <div className={s.mapSpaceTop}>{mapColumnTop}</div>
         <div className={s.mapSpaceBlank} id={configRepo.get().mapBlankSpaceId}></div>
-        <div className={s.mapSpaceBottom}>{mapColumn}</div>
+        <div className={s.mapSpaceBottom}>{mapColumnBottom}</div>
       </div>
 
       <SmartColumn>{layersColumn}</SmartColumn>

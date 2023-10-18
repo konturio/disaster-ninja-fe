@@ -11,6 +11,7 @@ import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
 import { IntercomBTN } from '~features/intercom/IntercomBTN';
 import { ScaleControl } from '~components/ConnectedMap/ScaleControl/ScaleControl';
 import { Copyrights } from '~components/Copyrights/Copyrights';
+import { shortToolbar, toolbar } from '~features/toolbar';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -115,7 +116,7 @@ export function MapPage() {
           layersAndLegends={<LayersAndLegends featureFlags={featureFlags} />}
           matrix={featureFlags[FeatureFlag.BIVARIATE_MANAGER] && <BivariatePanel />}
           timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
-          toolbar={<></>}
+          toolbar={<Toolbar />}
           footer={
             <div className={clsx(s.footer, s.clickThrough)}>
               <div className={s.footerBackground}>
@@ -132,6 +133,21 @@ export function MapPage() {
     </div>
   );
 }
+
+const Toolbar = () => {
+  return (
+    <div style={{ display: 'flex' }}>
+      <FullAndShortStatesPanelWidget
+        id="toolbar"
+        key="toolbar"
+        fullState={toolbar()}
+        shortState={shortToolbar()}
+        panelIcon={toolbar().panelIcon}
+        header={toolbar().header}
+      />
+    </div>
+  );
+};
 
 const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) => {
   const analyticsPanelState = analyticsPanel();
