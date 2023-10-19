@@ -42,7 +42,7 @@ export function NavButton({
         <TooltipTrigger>
           <div className={s.buttonWrap}>
             <ActionsBarBTN
-              size={route.parentRoute ? 'small-xs' : 'small'}
+              size={route.parentRoute ? 'tiny' : 'small'}
               active={currentRoute?.slug === route.slug}
               iconBefore={
                 route.parentRoute ? (

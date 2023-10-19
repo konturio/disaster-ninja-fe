@@ -40,12 +40,8 @@ export function Layout({
             {matrix}
           </>
         }
-        mapColumn={
-          <>
-            {toolbar}
-            {timeline}
-          </>
-        }
+        mapColumnTop={toolbar}
+        mapColumnBottom={timeline}
         footer={footer}
       />
     );
@@ -62,12 +58,8 @@ export function Layout({
             {matrix}
           </>
         }
-        mapColumn={
-          <>
-            {toolbar}
-            {timeline}
-          </>
-        }
+        mapColumnTop={toolbar}
+        mapColumnBottom={timeline}
         footer={footer}
       />
     );
@@ -80,12 +72,8 @@ export function Layout({
           {disasters}
         </>
       }
-      mapColumn={
-        <>
-          {toolbar}
-          {timeline}
-        </>
-      }
+      mapColumnTop={toolbar}
+      mapColumnBottom={timeline}
       layersColumn={
         <>
           {matrix}
