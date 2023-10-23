@@ -1,15 +1,20 @@
 {
   "packages": [
-    "nodejs@20"
+    "nodejs@20",
+    "go@latest",
+    "gopls@latest"
   ],
   "shell": {
     "init_hook": [
       "npm i"
     ],
     "scripts": {
-      "dev":  "npm run dev",
+      "dev": "npm run dev",
       "release": "npm run release",
-      "test": ["npm run test:unit", "npm run:typecheck"]
+      "test": [
+        "npm run test:unit",
+        "npm run:typecheck"
+      ]
     }
   }
 }
