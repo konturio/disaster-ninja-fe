@@ -37,7 +37,7 @@ interface ToolbarButtonSettings extends CommonToolbarControlSettings {
     name: string | ValueForState<string>;
     hint: string | ValueForState<string>;
     icon: string | ValueForState<string>;
-    preferredSize: 'large' | 'small' | 'medium';
+    preferredSize: 'tiny' | 'large' | 'small' | 'medium';
     /* Only for edge cases when you need direct access to element */
     onRef?: (el: HTMLElement) => void;
   };
