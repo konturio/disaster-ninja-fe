@@ -13,6 +13,19 @@ async function showCriticalError(e: Error) {
     const title = 'Critical error';
     const message = e.message ?? 'With unknown reason';
     const trace = e.stack;
+    if (import.meta.env.PROD) {
+      fetch('log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          timestamp: Date.now(),
+          message,
+          trace,
+        }),
+      });
+    }
     const template = html`
       <style>
         .critical-error-screen {
