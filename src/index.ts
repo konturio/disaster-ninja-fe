@@ -6,19 +6,51 @@ import '~utils/atoms/disableDefaultStore';
 import './global.css';
 import { loadConfig } from '~core/app_config/loader';
 
-function showCriticalError(e: Error) {
+async function showCriticalError(e: Error) {
   const root = document.getElementById('root');
   if (root) {
-    const wrapper = document.createElement('DIV');
-    wrapper.className = 'critical-error-screen';
-    const message = document.createElement('SPAN');
-    message.className = 'critical-error-message';
-    message.innerText = 'Application initialization failed. ';
-    if (e.message) {
-      message.innerText += e.message;
+    const { render, html } = await import('uhtml');
+    const title = 'Critical error';
+    const message = e.message ?? 'With unknown reason';
+    const trace = e.stack;
+    if (import.meta.env.PROD) {
+      fetch('log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          timestamp: Date.now(),
+          message,
+          trace,
+        }),
+      });
     }
-    wrapper.appendChild(message);
-    root.appendChild(wrapper);
+    const template = html`
+      <style>
+        .critical-error-screen {
+          margin: auto;
+          display: flex;
+          flex-flow: column;
+          margin-top: 18vh;
+          max-width: 50em;
+          padding: 1em;
+        }
+
+        .critical-error-screen code {
+          border: 1px solid #c4c4c4;
+          padding: 8px 12px;
+          border-radius: 4px;
+          font-size: smaller;
+        }
+      </style>
+      <div class="critical-error-screen">
+        <h1>${title}</h1>
+        <p>${message}</p>
+        ${trace ? html`<code>${trace}</code>` : ''}
+      </div>
+    `;
+    render(root, template);
   }
 }
 

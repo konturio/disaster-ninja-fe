@@ -61,6 +61,7 @@ func handleStaticFiles(fs http.Handler) http.HandlerFunc {
 type FELogMessage struct {
 	timestamp int
 	message   string
+	trace string
 }
 
 func writeLogs(response http.ResponseWriter, request *http.Request) {
@@ -72,7 +73,7 @@ func writeLogs(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	log.Println("[Client log]:", msg.timestamp, msg.message)
+	log.Println("[Client log]:", msg.timestamp, msg.message, msg.trace)
 }
 
 func redirect(response http.ResponseWriter, request *http.Request) {

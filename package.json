@@ -142,6 +142,7 @@
     "react-virtuoso": "^4.1.0",
     "remark-gfm": "^3.0.1",
     "superstruct": "^1.0.3",
+    "uhtml": "^3.2.2",
     "utility-types": "^3.10.0",
     "vite-plugin-mkcert": "^1.14.0",
     "wretch": "^2.5.2"
