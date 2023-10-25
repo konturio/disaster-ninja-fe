@@ -1,4 +1,4 @@
-import cn from 'clsx';
+import clsx from 'clsx';
 import { useCallback, useEffect } from 'react';
 import { ActionsBarBTN } from '@konturio/ui-kit';
 import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
@@ -33,24 +33,23 @@ export function ToggleButton({ isOpen, setIsOpen }: ToggleButtonProps) {
 
   if (isOpen)
     return (
-      <div
-        className={cn(s.buttonWrap, s.togglerButton)}
-        onClick={toggleIsOpen}
-        tabIndex={-1}
-      >
-        <ActionsBarBTN iconBefore={<DoubleChevronLeft24 />} className={s.controlButton}>
-          <span className={s.modeName}>{i18n.t('sidebar.collapse')}</span>
+      <div onClick={toggleIsOpen} tabIndex={-1}>
+        <ActionsBarBTN
+          iconBefore={<DoubleChevronLeft24 />}
+          className={clsx(s.navButton, s.sidebarButton)}
+        >
+          {i18n.t('sidebar.collapse')}
         </ActionsBarBTN>
       </div>
     );
 
   return (
-    <Tooltip placement="right" offset={8}>
-      <div onClick={toggleIsOpen} className={cn(s.buttonWrap, s.togglerButton)}>
+    <Tooltip placement="right" offset={6}>
+      <div onClick={toggleIsOpen}>
         <TooltipTrigger>
           <ActionsBarBTN
             iconBefore={<DoubleChevronRight24 />}
-            className={s.controlButton}
+            className={clsx(s.navButton, s.sidebarButton)}
           />
         </TooltipTrigger>
       </div>

@@ -1,19 +1,17 @@
 import { ActionsBarBTN } from '@konturio/ui-kit';
+import clsx from 'clsx';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import { transformIconLink } from '~utils/common';
+import s from './AppLogo.module.css';
 
-type AppNameAndIconProps = {
-  wrapClassName?: string;
-  appNameClassName?: string;
+type AppLogoProps = {
+  className?: string;
+  labelClassName?: string;
   isOpen: boolean;
 };
 
-export function AppNameAndIcon({
-  isOpen,
-  appNameClassName,
-  wrapClassName,
-}: AppNameAndIconProps) {
+export function AppLogo({ isOpen, labelClassName, className }: AppLogoProps) {
   const iconPath =
     configRepo.get().sidebarIconUrl && transformIconLink(configRepo.get().sidebarIconUrl);
 
@@ -22,8 +20,9 @@ export function AppNameAndIcon({
   ) : null;
 
   return (
-    <ActionsBarBTN active={false} iconBefore={appIcon} className={wrapClassName}>
-      {isOpen ? <span className={appNameClassName}>{configRepo.get().name}</span> : null}
-    </ActionsBarBTN>
+    <div className={clsx(s.logo, className)}>
+      {appIcon}
+      {isOpen ? <span className={labelClassName}>{configRepo.get().name}</span> : null}
+    </div>
   );
 }

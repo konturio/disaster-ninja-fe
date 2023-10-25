@@ -1,0 +1,20 @@
+.logo {
+  padding: 4px 6px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--faint-weak-up, #d2d5d8);
+
+  font: var(--font);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 128.571% */
+
+  & > span {
+    margin-left: 6px;
+  }
+
+  white-space: nowrap;
+}

@@ -1,8 +1,12 @@
-.sidebarItemContainer,
-.toggler {
-  display: inline-block;
-  padding: 0 var(--unit);
-  margin: var(--half-unit) 0;
+.sidebar > div {
+  padding: 8px 6px;
+}
+
+.toggleContainer {
+  margin-top: auto;
+}
+
+.navButton {
   text-decoration: none;
   -webkit-user-drag: none;
   -webkit-user-select: none;
@@ -10,106 +14,67 @@
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
-}
 
-.nestedRoute + .topLevelRoute {
-  margin-top: var(--unit);
-}
-
-.topLevelRoute + .nestedRoute {
-  margin-top: 0;
-}
-
-.sidebar button.controlButton {
-  width: 100%;
-  justify-content: left;
-  margin: 0;
-  & > svg {
-    min-width: 24px;
-  }
-  & * {
-    pointer-events: none;
-  }
-}
-
-.sidebar.open {
-  & .konturLogo a svg {
-    margin: var(--unit);
-  }
-}
-
-.sidebar:not(.open) {
-  & .konturLogo a svg {
-    margin: var(--unit) auto;
-  }
-}
-
-.sidebar > div {
-  padding-top: var(--half-unit);
-}
-
-.buttonWrap {
-  margin: 0 auto;
-
-  & button:focus {
-    box-shadow: none;
-  }
-  & button:focus-visible {
-    box-shadow: var(--button-box-shadow);
-  }
-}
-
-.sidebar .logoWrap {
-  margin-top: 0;
-
-  & button img {
+  &.sidebarButton {
     margin: 0;
-    /* same height as 2 lines of Disaste /n Ninja */
-    height: 32px;
-  }
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
 
-  & .buttonWrap {
-    border-bottom: 1px solid var(--faint-strong-up);
-    & .logoButton {
-      pointer-events: none;
-      & div,
-      span {
-        text-align: start;
-      }
+    & svg {
+      width: 16px;
+      height: 16px;
     }
   }
 }
 
-.collapsed .sidebarItemContainer {
-  padding: 0;
-  margin: var(--unit);
+.navButton.sidebarButton span {
+  padding-left: 6px;
 }
 
-.modeName {
-  white-space: nowrap;
+.nestedRoute .navButton.sidebarButton span {
+  padding-left: 10px;
 }
 
-.togglerContainer {
-  flex-grow: 1;
-  display: flex;
+.collapsed .navButton.sidebarButton {
+  flex-direction: column;
 }
 
-.togglerButton {
-  margin-top: auto;
+.open {
+  width: auto;
+}
+
+.logoDivider {
+  margin: 10px 0;
+  height: 1px;
+  background-color: #fff;
+  opacity: 0.3;
   width: 100%;
-  padding: 0 var(--unit);
 }
 
-.togglerButton button:focus {
-  box-shadow: none;
+.topLevelRoute {
+  margin-top: 4px;
 }
 
-.togglerButton button:focus-visible {
-  box-shadow: var(--button-box-shadow);
+.logoDivider + .topLevelRoute {
+  margin-top: 0;
 }
 
-.appIcon {
-  width: 24px;
-  height: 24px;
-  text-align: center;
+.nestedRoute {
+  margin-top: 2px;
+
+  & .sidebarButton {
+    padding-left: 24px;
+  }
+}
+
+.collapsed .nestedRoute {
+  & .sidebarButton {
+    padding-left: 0;
+  }
+}
+
+.bottomLogoContainer {
+  margin-top: 12px;
 }
