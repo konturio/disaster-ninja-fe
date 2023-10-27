@@ -7,6 +7,7 @@ import {
   findBasemapInLayersList,
   getBasemapFromDetails,
 } from '~core/logical_layers/basemap';
+import { persistLog } from 'logger';
 import { defaultUserProfileData } from './user';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 import type { UrlData } from '~core/url_store';
@@ -89,6 +90,22 @@ async function getDefaultLayers(appId: string, language: string) {
     true,
     { headers: { 'user-language': language } },
   );
+
+  try {
+    const ids = layers?.map((l) => l.id);
+  } catch (e) {
+    const error = e as Error;
+    const message = `
+${error.name}
+${error.message}
+----
+${`/apps/${appId}/layers`}
+layers: ${JSON.stringify(layers, null, 2)}
+`;
+    persistLog(message, error.stack);
+    return [];
+  }
+
   // TODO: use layers source configs to cache layer data
   return layers ?? [];
 }

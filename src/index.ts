@@ -5,6 +5,7 @@ import '@konturio/default-theme/typography.css';
 import '~utils/atoms/disableDefaultStore';
 import './global.css';
 import { loadConfig } from '~core/app_config/loader';
+import { persistLog } from 'logger';
 
 async function showCriticalError(e: Error) {
   const root = document.getElementById('root');
@@ -14,17 +15,7 @@ async function showCriticalError(e: Error) {
     const message = e.message ?? 'With unknown reason';
     const trace = e.stack;
     if (import.meta.env.PROD) {
-      fetch('log', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          timestamp: Date.now(),
-          message,
-          trace,
-        }),
-      });
+      persistLog(message, trace);
     }
     const template = html`
       <style>
