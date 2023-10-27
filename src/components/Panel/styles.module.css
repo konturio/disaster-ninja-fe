@@ -10,7 +10,12 @@
   & svg {
     color: var(--icon-base-strong);
   }
-  &:hover svg {
+
+  &:disabled svg {
+    color: var(--faint-weak-up);
+  }
+
+  &:hover:not(:disabled) svg {
     color: var(--base-strong);
   }
 }
