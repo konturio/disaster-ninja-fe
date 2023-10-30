@@ -63,6 +63,10 @@ export function FullAndShortStatesPanelWidget({
     setPanelState('closed');
   }, [setPanelState]);
 
+  const togglePanelState = useCallback(() => {
+    setPanelState(isOpen ? 'closed' : 'full');
+  }, [isOpen, setPanelState]);
+
   useAutoCollapsePanel(isOpen, onPanelClose);
 
   if (!fullState && !shortState) return null;
@@ -81,6 +85,7 @@ export function FullAndShortStatesPanelWidget({
     <>
       <Panel
         header={resultHeader}
+        onHeaderClick={togglePanelState}
         headerIcon={resultPanelIcon || undefined}
         className={clsx(s.panel, isOpen ? s.show : s.collapse)}
         classes={panelClasses}
