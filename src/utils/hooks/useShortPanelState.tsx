@@ -1,5 +1,5 @@
 import { ChevronDown24, ChevronUp24 } from '@konturio/default-icons';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { PanelCustomControl } from '@konturio/ui-kit';
 
 export type PanelState = 'full' | 'short' | 'closed';
@@ -14,24 +14,26 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
   const skipShortState = props?.skipShortState ?? false;
   const [panelState, setPanelState] = useState<PanelState>(initialState);
 
-  const openControl: PanelCustomControl = {
-    icon: <ChevronDown24 />,
-    onWrapperClick: (e) => {
-      e.stopPropagation();
-      setPanelState((prevState) => (prevState === 'closed' ? 'short' : 'full'));
-    },
-    disabled: panelState === 'full',
-  };
-  const closeControl: PanelCustomControl = {
-    icon: <ChevronUp24 />,
-    onWrapperClick: (e) => {
-      e.stopPropagation();
-      setPanelState((prevState) => (prevState === 'full' ? 'short' : 'closed'));
-    },
-    disabled: panelState === 'closed',
-  };
+  const panelControls = useMemo(() => {
+    const openControl: PanelCustomControl = {
+      icon: <ChevronDown24 />,
+      onWrapperClick: (e) => {
+        e.stopPropagation();
+        setPanelState((prevState) => (prevState === 'closed' ? 'short' : 'full'));
+      },
+      disabled: panelState === 'full',
+    };
+    const closeControl: PanelCustomControl = {
+      icon: <ChevronUp24 />,
+      onWrapperClick: (e) => {
+        e.stopPropagation();
+        setPanelState((prevState) => (prevState === 'full' ? 'short' : 'closed'));
+      },
+      disabled: panelState === 'closed',
+    };
 
-  const panelControls = [openControl, closeControl];
+    return [openControl, closeControl];
+  }, [panelState]);
 
   if (skipShortState) {
     const singleControl: PanelCustomControl[] = [
