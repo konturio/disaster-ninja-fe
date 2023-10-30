@@ -46,6 +46,10 @@ export function EventsPanel({
     setPanelState('closed');
   }, [setPanelState]);
 
+  const togglePanelState = useCallback(() => {
+    setPanelState(isOpen ? 'closed' : 'full');
+  }, [isOpen, setPanelState]);
+
   useAutoCollapsePanel(isOpen, onPanelClose);
 
   const panelContent = {
@@ -82,6 +86,7 @@ export function EventsPanel({
             <Disasters24 />
           </div>
         }
+        onHeaderClick={togglePanelState}
         className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
         classes={panelClasses}
         isOpen={isOpen}
