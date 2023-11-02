@@ -6,6 +6,14 @@
   margin-top: auto;
 }
 
+.bottomLogoContainer {
+  margin-top: 12px;
+}
+
+.collapsed .bottomLogoContainer svg {
+  width: 32px;
+}
+
 .navButton {
   text-decoration: none;
   -webkit-user-drag: none;
@@ -31,10 +39,6 @@
 
 .navButton.sidebarButton span {
   padding-left: 6px;
-}
-
-.nestedRoute .navButton.sidebarButton span {
-  padding-left: 10px;
 }
 
 .collapsed .navButton.sidebarButton {
@@ -73,8 +77,4 @@
   & .sidebarButton {
     padding-left: 0;
   }
-}
-
-.bottomLogoContainer {
-  margin-top: 12px;
 }

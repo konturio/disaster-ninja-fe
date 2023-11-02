@@ -16,7 +16,9 @@ export function AppLogo({ isOpen, labelClassName, className }: AppLogoProps) {
     configRepo.get().sidebarIconUrl && transformIconLink(configRepo.get().sidebarIconUrl);
 
   const appIcon = iconPath ? (
-    <img src={iconPath} width={24} height={24} alt={i18n.t('sidebar.icon_alt')} />
+    <div className={s.logoContainer}>
+      <img src={iconPath} alt={i18n.t('sidebar.icon_alt')} />
+    </div>
   ) : null;
 
   return (
