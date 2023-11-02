@@ -1,5 +1,5 @@
 .sidebar > div {
-  padding: 8px 6px;
+  padding: 8px;
 }
 
 .toggleContainer {
@@ -50,7 +50,7 @@
 }
 
 .logoDivider {
-  margin: 10px 0;
+  margin: 8px 0;
   height: 1px;
   background-color: #fff;
   opacity: 0.3;
