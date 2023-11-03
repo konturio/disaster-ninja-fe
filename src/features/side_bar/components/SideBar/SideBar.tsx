@@ -1,10 +1,10 @@
+import clsx from 'clsx';
 import { useAtom } from '@reatom/react';
 import { ActionsBar, Logo } from '@konturio/ui-kit';
-import cn from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { localStorage } from '~utils/storage';
-import { AppNameAndIcon } from '../AppNameAndIcon/AppNameAndIcon';
+import { AppLogo } from '../AppLogo/AppLogo';
 import { routeVisibilityChecker } from './routeVisibilityChecker';
 import s from './SideBar.module.css';
 import { ToggleButton } from './ToggleButton';
@@ -48,18 +48,13 @@ export function SideBar({
   }, [isOpen]);
 
   return (
-    <div className={cn(s.sidebar, isOpen && s.open)}>
+    <div className={clsx(s.sidebar, isOpen ? s.open : s.collapsed)}>
       {availableRoutes && (
         <ActionsBar>
-          <div className={cn(s.logoWrap, s.sidebarItemContainer)} tabIndex={-1}>
-            <div className={s.buttonWrap}>
-              <AppNameAndIcon
-                isOpen={isOpen}
-                wrapClassName={cn(s.controlButton, s.logoButton)}
-                appNameClassName={s.modeName}
-              />
-            </div>
+          <div tabIndex={-1}>
+            <AppLogo isOpen={isOpen} className={clsx(s.navButton)} />
           </div>
+          <div className={s.logoDivider}></div>
           {availableRoutes.routes.map((route) => (
             <NavButton
               key={route.slug}
@@ -72,11 +67,11 @@ export function SideBar({
             />
           ))}
 
-          <div className={s.togglerContainer}>
+          <div className={s.toggleContainer}>
             <ToggleButton isOpen={isOpen} setIsOpen={setIsOpen} />
           </div>
 
-          <div className={s.konturLogo}>
+          <div className={s.bottomLogoContainer}>
             <Logo compact={!isOpen} palette="grey" height={32} />
           </div>
         </ActionsBar>
