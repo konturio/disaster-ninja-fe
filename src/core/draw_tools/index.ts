@@ -3,6 +3,7 @@ import { useAtom } from '@reatom/react';
 import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
 import { forceRun } from '~utils/atoms/forceRun';
+import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { combinedAtom } from './atoms/combinedAtom';
 import { drawModeLogicalLayerAtom, drawModeRenderer } from './atoms/logicalLayerAtom';
 import { activeDrawModeAtom } from './atoms/activeDrawMode';
@@ -42,7 +43,7 @@ class DrawToolsControllerImpl implements DrawToolsController {
       // Some hack, idk what is it
       setIndexesForCurrentGeometryAtom.set(true),
       // Set features to editor
-      drawnGeometryAtom.setFeatures(geometryFeatures),
+      drawnGeometryAtom.setFeatures(deepCopy(geometryFeatures)),
       // Set Toolbar settings
       toolboxAtom.setSettings({
         availableModes: ['DrawPointMode', 'DrawLineMode', 'DrawPolygonMode'],
