@@ -79,7 +79,7 @@ export function MapPage() {
       featureFlags[FeatureFlag.DRAW_TOOLS] ||
       featureFlags[FeatureFlag.FOCUSED_GEOMETRY_EDITOR]
     ) {
-      import('~features/focused_geometry_editor/').then(({ initFocusedGeometry }) =>
+      import('~widgets/FocusedGeometryEditor').then(({ initFocusedGeometry }) =>
         initFocusedGeometry(),
       );
     }

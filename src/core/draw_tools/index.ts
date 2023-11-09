@@ -45,7 +45,7 @@ class DrawToolsControllerImpl implements DrawToolsController {
       drawnGeometryAtom.setFeatures(geometryFeatures),
       // Set Toolbar settings
       toolboxAtom.setSettings({
-        availableModes: ['DrawPointMode', 'ModifyMode'],
+        availableModes: ['DrawPointMode', 'DrawLineMode', 'DrawPolygonMode'],
         finishButtonCallback: () => {
           this.editPromise?.resolve(this.geometry);
           return Promise.resolve(true); // TODO - fix finishButtonCallback type
@@ -74,6 +74,17 @@ class DrawToolsControllerImpl implements DrawToolsController {
   }
 }
 
+const modeToName = {
+  DrawPointMode: i18n.t('draw_tools.point'),
+  DrawLineMode: i18n.t('draw_tools.line'),
+  DrawPolygonMode: i18n.t('draw_tools.area'),
+};
+const modeToIcon = {
+  DrawPointMode: 'PointOutline24',
+  DrawLineMode: 'Line24',
+  DrawPolygonMode: 'Area24',
+};
+
 export const useDrawTools: DrawToolsHook = () => {
   const [
     { mode: activeDrawMode, selectedIndexes, settings },
@@ -83,27 +94,30 @@ export const useDrawTools: DrawToolsHook = () => {
   const controls = useMemo(() => {
     const controlsArray: Array<DrawToolController> =
       settings.availableModes?.map((mode) => ({
-        name: i18n.t('draw_tools.area'),
+        name: modeToName[mode],
         hint: '',
-        icon: 'Area24',
+        icon: modeToIcon[mode],
         state: activeDrawMode === mode ? ('active' as const) : ('regular' as const),
         action: () => toggleDrawMode(drawModes[mode]),
+        prefferedSize: 'tiny',
       })) ?? [];
 
     controlsArray.push({
-      name: '',
+      name: 'Delete', // TODO - i18n
       hint: '',
       icon: 'Trash24',
       state: selectedIndexes.length > 0 ? ('regular' as const) : ('disabled' as const),
       action: deleteFeatures,
+      prefferedSize: 'medium',
     });
 
     controlsArray.push({
-      name: '',
+      name: 'Download', // TODO - i18n
       hint: '',
       icon: 'Download24',
       state: 'regular' as const,
       action: downloadDrawGeometry,
+      prefferedSize: 'medium',
     });
 
     return controlsArray;

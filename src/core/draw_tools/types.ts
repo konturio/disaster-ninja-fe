@@ -6,6 +6,7 @@ export interface DrawToolController {
   icon: string;
   state: DrawToolsState;
   action: () => void;
+  prefferedSize?: 'tiny' | 'small' | 'medium' | 'large';
 }
 
 export interface DrawToolsController {

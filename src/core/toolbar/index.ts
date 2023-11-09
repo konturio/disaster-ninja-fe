@@ -36,7 +36,16 @@ class ToolbarImpl implements Toolbar {
   private toolbarControlsStatesAtom = new Map<ControlID, PrimitiveAtom<ControlState>>();
 
   toolbarSettings = {
-    sections: [],
+    sections: [
+      {
+        name: 'Tools',
+        controls: ['LocateMe', 'MapRuler', 'EditInOsm', 'MCDA', 'EditableLayer'],
+      },
+      {
+        name: 'Working with selected area',
+        controls: ['BoundarySelector', 'UploadFile', 'FreehandGeometry'],
+      },
+    ],
   };
 
   setupControl<Ctx extends Record<string, unknown>>(
