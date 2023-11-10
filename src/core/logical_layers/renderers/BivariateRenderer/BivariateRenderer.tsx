@@ -371,12 +371,17 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   /* ========== Hooks ========== */
   willSourceUpdate({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
+      console.debug(`[${this.id} layer renderer]: Source updated`);
       this._updateMap(
         map,
         state.source as LayerTileSource,
         state.legend as BivariateLegend,
         state.isVisible,
         state.style,
+      );
+    } else {
+      console.debug(
+        `[${this.id} layer renderer]: Source not available, waiting for next update`,
       );
     }
   }
@@ -390,6 +395,10 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
         state.legend as BivariateLegend,
         state.isVisible,
         state.style,
+      );
+    } else {
+      console.debug(
+        `[${this.id} layer renderer]: Source not available, waiting for next update`,
       );
     }
   }
