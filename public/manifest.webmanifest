@@ -6,7 +6,7 @@
     "start_url": ".",
     "icons": [
         {
-            "src": "/active/favicon/192x192.png",
+            "src": "/active/api/favicon/192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
