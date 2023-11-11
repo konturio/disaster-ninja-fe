@@ -8,9 +8,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
   <meta property="og:image" content="/active/preview.png?{{.CurrentQueries}}">
-
-  <title>Disaster Ninja</title>
-
+  <link rel="icon" href="/active/api/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/active/api/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/active/api/apple-touch-icon.png">
+  <link rel="manifest" href="/active/static/manifest.webmanifest">
   <!-- Scripts -->
   <% if (VITE_SPACING_JS===true) { %>
     <script src="https://unpkg.com/spacingjs" async></script>
@@ -20,7 +21,6 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/index.ts"></script>
-
 </body>
 
 </html>
