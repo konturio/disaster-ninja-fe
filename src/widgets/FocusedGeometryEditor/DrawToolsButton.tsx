@@ -23,6 +23,7 @@ export const DrawToolsButton = (props: {
       iconBefore={<Icon width={16} height={16} />}
       size={props.preferredSize}
       className={clsx(s[`control-${props.preferredSize}`], props.className)}
+      active={props.state === 'active'}
       disabled={props.state === 'disabled'}
       onClick={props.onClick}
     >

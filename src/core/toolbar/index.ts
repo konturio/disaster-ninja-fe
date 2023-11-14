@@ -1,5 +1,6 @@
 import { createMapAtom, createPrimitiveAtom } from '~utils/atoms/createPrimitives';
 import { store } from '~core/store/store';
+import { i18n } from '~core/localization';
 import type {
   ControlID,
   ControlState,
@@ -38,11 +39,11 @@ class ToolbarImpl implements Toolbar {
   toolbarSettings = {
     sections: [
       {
-        name: 'Tools',
+        name: i18n.t('toolbar.tools_label'),
         controls: ['LocateMe', 'MapRuler', 'EditInOsm', 'MCDA', 'EditableLayer'],
       },
       {
-        name: 'Working with selected area',
+        name: i18n.t('toolbar.selected_area_label'),
         controls: ['BoundarySelector', 'UploadFile', 'FreehandGeometry'],
       },
     ],

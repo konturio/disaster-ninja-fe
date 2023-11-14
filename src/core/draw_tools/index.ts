@@ -46,18 +46,16 @@ class DrawToolsControllerImpl implements DrawToolsController {
       drawnGeometryAtom.setFeatures(deepCopy(geometryFeatures)),
       // Set Toolbar settings
       toolboxAtom.setSettings({
-        availableModes: ['DrawPointMode', 'DrawLineMode', 'DrawPolygonMode'],
+        availableModes: ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode'],
         finishButtonCallback: () => {
           this.editPromise?.resolve(this.geometry);
-          return Promise.resolve(true); // TODO - fix finishButtonCallback type
+          this.editPromise = null;
         },
       }),
     ]);
+
     return new Promise((resolve, reject) => {
-      this.editPromise = {
-        resolve,
-        reject,
-      };
+      this.editPromise = { resolve, reject };
     });
   }
 
@@ -98,25 +96,25 @@ export const useDrawTools: DrawToolsHook = () => {
         name: modeToName[mode],
         hint: '',
         icon: modeToIcon[mode],
-        state: activeDrawMode === mode ? ('active' as const) : ('regular' as const),
+        state: activeDrawMode === mode ? 'active' : 'regular',
         action: () => toggleDrawMode(drawModes[mode]),
         prefferedSize: 'tiny',
       })) ?? [];
 
     controlsArray.push({
-      name: 'Delete', // TODO - i18n
+      name: i18n.t('toolbar.delete'),
       hint: '',
       icon: 'Trash24',
-      state: selectedIndexes.length > 0 ? ('regular' as const) : ('disabled' as const),
+      state: selectedIndexes.length > 0 ? 'regular' : 'disabled',
       action: deleteFeatures,
       prefferedSize: 'medium',
     });
 
     controlsArray.push({
-      name: 'Download', // TODO - i18n
+      name: i18n.t('toolbar.download'),
       hint: '',
       icon: 'Download24',
-      state: 'regular' as const,
+      state: 'regular',
       action: downloadDrawGeometry,
       prefferedSize: 'medium',
     });

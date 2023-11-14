@@ -20,6 +20,11 @@ export function DrawToolsWidget({ state, onClick, controlClassName }: WidgetProp
       />
     );
   } else {
+    const onFinish = () => {
+      finishDrawing(); // order jf callings is important!
+      onClick();
+    };
+
     return (
       <>
         {tools.map((tool) => (
@@ -39,7 +44,7 @@ export function DrawToolsWidget({ state, onClick, controlClassName }: WidgetProp
           icon="Finish16"
           preferredSize="medium"
           state={state}
-          onClick={finishDrawing}
+          onClick={onFinish}
           className={s.finishButton}
           variant="primary"
         />
