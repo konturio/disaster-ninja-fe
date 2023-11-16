@@ -12,6 +12,7 @@ import { IntercomBTN } from '~features/intercom/IntercomBTN';
 import { ScaleControl } from '~components/ConnectedMap/ScaleControl/ScaleControl';
 import { Copyrights } from '~components/Copyrights/Copyrights';
 import { shortToolbar, toolbar } from '~features/toolbar';
+import { panelClasses } from '~components/Panel';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -135,6 +136,7 @@ export function MapPage() {
 }
 
 const Toolbar = () => {
+  const getPanelClasses = () => ({ ...panelClasses, headerTitle: s.toolbarHeaderTitle });
   return (
     <div style={{ display: 'flex' }}>
       <FullAndShortStatesPanelWidget
@@ -144,6 +146,7 @@ const Toolbar = () => {
         shortState={shortToolbar()}
         panelIcon={toolbar().panelIcon}
         header={toolbar().header}
+        getPanelClasses={getPanelClasses}
       />
     </div>
   );
