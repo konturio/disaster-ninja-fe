@@ -19,8 +19,8 @@ const fileUploaderControl = toolbar.setupControl({
   typeSettings: {
     name: GEOMETRY_UPLOADER_CONTROL_NAME,
     hint: i18n.t('geometry_uploader.title'),
-    icon: 'Plus24',
-    preferredSize: 'small',
+    icon: 'Upload24',
+    preferredSize: 'large',
     onRef: (el) => {
       /**
        * In webkit you can't use additional function wrapper including useCallback

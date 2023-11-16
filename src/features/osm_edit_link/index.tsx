@@ -13,7 +13,7 @@ export const osmEditControl = toolbar.setupControl({
     name: EDIT_IN_OSM_CONTROL_NAME,
     hint: i18n.t('sidebar.edit_osm'),
     icon: 'EditOsm24',
-    preferredSize: 'small',
+    preferredSize: 'tiny',
   },
 });
 

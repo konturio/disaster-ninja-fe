@@ -14,7 +14,7 @@ import type { Action } from '@reatom/core';
 interface DrawToolBoxSettings {
   availableModes?: DrawModeType[];
   finishButtonText?: string;
-  finishButtonCallback?: () => Promise<boolean>;
+  finishButtonCallback?: () => void;
 }
 
 type ToolboxState = {
@@ -65,6 +65,8 @@ export const toolboxAtom = createAtom(
 
     onAction('finishDrawing', () => {
       actions.push(activeDrawModeAtom.setDrawMode(null));
+      // call to finish drawing callback
+      newState.settings?.finishButtonCallback?.();
     });
 
     // I think we don't need to specify the need for ModifyMode

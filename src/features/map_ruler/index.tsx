@@ -24,7 +24,7 @@ export const mapRulerControl = toolbar.setupControl<{
     name: MAP_RULER_CONTROL_NAME,
     hint: i18n.t('sidebar.ruler'),
     icon: 'Ruler24',
-    preferredSize: 'small',
+    preferredSize: 'tiny',
   },
 });
 

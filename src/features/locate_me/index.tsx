@@ -15,7 +15,7 @@ export const locateMeControl = toolbar.setupControl({
     name: LOCATE_ME_CONTROL_NAME,
     hint: i18n.t('locate_me.feature_title'),
     icon: 'Locate24',
-    preferredSize: 'small',
+    preferredSize: 'tiny',
   },
 });
 

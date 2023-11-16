@@ -17,7 +17,7 @@
   text-align: center;
   color: var(--faint-strong-up, #848c94);
 
-  font: var(--font);
+  font: var(--font-xs);
   font-style: normal;
   font-weight: 400;
   line-height: 16px; /* 133.333% */
@@ -45,9 +45,11 @@
 
 .control-medium {
   grid-row: span 3;
+  align-items: flex-start;
 }
 
 .control-large {
   grid-row: span 6;
   white-space: pre-line;
+  justify-content: center !important; /* TODO: fix in ui-kit */
 }

@@ -11,7 +11,7 @@ export const mcdaControl = toolbar.setupControl({
     name: i18n.t('mcda.name'),
     hint: i18n.t('mcda.title'),
     icon: '',
-    preferredSize: 'small',
+    preferredSize: 'large',
   },
 });
 
