@@ -22,6 +22,22 @@ export class FeatureCollection {
   }
 }
 
+export class Feature {
+  type = 'Feature' as const;
+  properties = {};
+  geometry: GeoJSON.Geometry;
+  constructor({
+    geometry,
+    properties,
+  }: {
+    geometry: GeoJSON.Geometry;
+    properties?: Record<string, string | number>;
+  }) {
+    this.geometry = geometry;
+    if (properties) this.properties = properties;
+  }
+}
+
 export function readGeoJSON(file): Promise<GeoJSON.GeoJSON> {
   return new Promise((res, rej) => {
     const reader = new FileReader();

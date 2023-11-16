@@ -14,7 +14,7 @@ export const shortToolbar: () => PanelFeatureInterface = () => ({
     </Suspense>
   ),
   panelIcon: <Tools24 />,
-  header: i18n.t('toolbar'),
+  header: i18n.t('toolbar.panel_title'),
   minHeight: 56,
 });
 
@@ -25,6 +25,6 @@ export const toolbar: () => PanelFeatureInterface = () => ({
     </Suspense>
   ),
   panelIcon: <Tools24 />,
-  header: i18n.t('toolbar'),
+  header: i18n.t('toolbar.panel_title'),
   minHeight: 121,
 });

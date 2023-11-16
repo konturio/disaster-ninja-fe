@@ -16,7 +16,7 @@ export const boundarySelectorControl = toolbar.setupControl<{
     name: BOUNDARY_SELECTOR_CONTROL_NAME,
     hint: i18n.t('boundary_selector.title'),
     icon: 'SelectArea24',
-    preferredSize: 'small',
+    preferredSize: 'large',
   },
 });
 
