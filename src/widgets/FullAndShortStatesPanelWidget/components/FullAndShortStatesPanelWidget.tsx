@@ -1,7 +1,7 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback } from 'react';
-import { panelClasses } from '~components/Panel';
+import { panelClasses as defaultPanelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
@@ -17,6 +17,13 @@ type PanelProps = {
   initialState?: PanelState | null;
   header?: string;
   panelIcon?: JSX.Element;
+  getPanelClasses?: ({
+    isOpen,
+    isShort,
+  }: {
+    isOpen: boolean;
+    isShort: boolean;
+  }) => typeof defaultPanelClasses;
 };
 
 export function FullAndShortStatesPanelWidget({
@@ -26,6 +33,7 @@ export function FullAndShortStatesPanelWidget({
   initialState,
   header,
   panelIcon,
+  getPanelClasses = () => defaultPanelClasses,
 }: PanelProps) {
   const { panelState, panelControls, setPanelState } = useShortPanelState({
     initialState,
@@ -88,7 +96,7 @@ export function FullAndShortStatesPanelWidget({
         onHeaderClick={togglePanelState}
         headerIcon={resultPanelIcon || undefined}
         className={clsx(s.panel, isOpen ? s.show : s.collapse)}
-        classes={panelClasses}
+        classes={getPanelClasses({ isOpen, isShort })}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
         resize={resize}

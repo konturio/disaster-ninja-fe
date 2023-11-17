@@ -84,3 +84,8 @@
     background-color: rgba(255, 255, 255, 0.7);
   }
 }
+
+.toolbarHeaderTitle {
+  min-width: unset;
+  max-width: 260px;
+}

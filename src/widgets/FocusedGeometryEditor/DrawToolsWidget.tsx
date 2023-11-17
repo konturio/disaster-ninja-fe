@@ -1,53 +1,63 @@
+import { EditGeometry16, Finish16 } from '@konturio/default-icons';
+import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { useDrawTools } from '~core/draw_tools';
+import { ToolbarButton } from '~features/toolbar/components/ToolbarButton/ToolbarButton';
+import { ToolbarIcon } from '~features/toolbar/components/ToolbarIcon';
+import { ShortToolbarButton } from '~features/toolbar/components/ShortToolbarButton/ShortToolbarButton';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME } from './constants';
-import { DrawToolsButton } from './DrawToolsButton';
 import s from './DrawToolsWidget.module.css';
 import type { WidgetProps } from '~core/toolbar/types';
 
-export function DrawToolsWidget({ state, onClick, controlClassName }: WidgetProps) {
+export function DrawToolsWidget({
+  state,
+  onClick,
+  controlComponent: ControlComponent,
+}: WidgetProps) {
   const [tools, finishDrawing] = useDrawTools();
 
   if (state === 'regular') {
     return (
-      <DrawToolsButton
-        name={FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
-        hint={i18n.t('focus_geometry.title')}
-        icon={'EditGeometry16'}
-        preferredSize={'large'}
-        state={state}
+      <ControlComponent
+        icon={<EditGeometry16 width={16} height={16} />}
+        size="large"
         onClick={onClick}
-      />
+      >
+        {FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
+      </ControlComponent>
     );
   } else {
     const onFinish = () => {
-      finishDrawing(); // order jf callings is important!
+      finishDrawing(); // order of callings is important!
       onClick();
     };
 
     return (
       <>
-        {tools.map((tool) => (
-          <DrawToolsButton
-            key={tool.name}
-            name={tool.name}
-            hint={tool.hint}
-            icon={tool.icon}
-            preferredSize={tool.prefferedSize || 'tiny'}
-            state={tool.state}
-            onClick={tool.action}
-          />
-        ))}
-        <DrawToolsButton
-          name={'Save'}
-          hint={i18n.t('save')}
-          icon="Finish16"
-          preferredSize="medium"
-          state={state}
-          onClick={onFinish}
-          className={s.finishButton}
+        {tools.map((tool) => {
+          return (
+            <ControlComponent
+              key={tool.name}
+              icon={<ToolbarIcon width={16} height={16} icon={tool.icon} />}
+              size={tool.prefferedSize || 'tiny'}
+              onClick={tool.action}
+              active={tool.state === 'active'}
+              disabled={tool.state === 'disabled'}
+            >
+              {tool.name}
+            </ControlComponent>
+          );
+        })}
+        <ControlComponent
           variant="primary"
-        />
+          icon={<Finish16 width={16} height={16} />}
+          size="medium"
+          className={clsx(s.finishButton)}
+          disabled={state === 'disabled'}
+          onClick={onFinish}
+        >
+          {i18n.t('save')}
+        </ControlComponent>
       </>
     );
   }

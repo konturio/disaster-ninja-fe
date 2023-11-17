@@ -64,7 +64,7 @@ function ExampleControl({
     case 'widget':
       return (
         <settings.typeSettings.component
-          controlClassName="someToolbarClass"
+          controlComponent={() => null}
           onClick={toggleState}
           state={state}
         />
