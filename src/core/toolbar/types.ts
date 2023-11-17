@@ -1,3 +1,4 @@
+import type { ButtonProps } from '@konturio/ui-kit/tslib/Button';
 import type { PrimitiveAtom } from '@reatom/core/primitives';
 
 export type ControlID = string;
@@ -25,11 +26,6 @@ interface CommonToolbarControlSettings {
   typeSettings: Record<string, unknown>;
 }
 
-interface ControlComponentProps {
-  state: ControlState;
-  onClick: () => void;
-}
-
 // Button
 interface ToolbarButtonSettings extends CommonToolbarControlSettings {
   type: 'button';
@@ -37,15 +33,27 @@ interface ToolbarButtonSettings extends CommonToolbarControlSettings {
     name: string | ValueForState<string>;
     hint: string | ValueForState<string>;
     icon: string | ValueForState<string>;
-    preferredSize: 'tiny' | 'large' | 'small' | 'medium';
+    preferredSize: ButtonProps['size'];
     /* Only for edge cases when you need direct access to element */
     onRef?: (el: HTMLElement) => void;
   };
 }
 
+// Control button component props
+export interface ControlComponentProps {
+  icon: React.ReactElement;
+  onClick: () => void;
+  children: React.ReactNode;
+  disabled?: boolean;
+  active?: boolean;
+  size: ButtonProps['size'];
+  variant?: ButtonProps['variant'];
+  className?: string;
+}
+
 // Widget
 export interface WidgetProps {
-  controlClassName: string;
+  controlComponent: React.ComponentType<ControlComponentProps>;
   state: ControlState;
   onClick: () => void;
 }

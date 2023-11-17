@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import { useAtom } from '@reatom/react';
 import { toolbar } from '~core/toolbar';
 import { ToolbarControl } from '../ToolbarControl/ToolbarControl';
+import { ToolbarButton } from '../ToolbarButton/ToolbarButton';
 import s from './ToolbarContent.module.css';
 
 export const ToolbarContent = () => {
@@ -26,6 +27,7 @@ export const ToolbarContent = () => {
                     key={id}
                     settings={settings}
                     stateAtom={stateAtom}
+                    controlComponent={ToolbarButton}
                   />
                 );
               })}

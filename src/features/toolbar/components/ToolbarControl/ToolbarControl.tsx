@@ -1,24 +1,26 @@
-import { Button } from '@konturio/ui-kit';
 import { useCallback } from 'react';
-import * as icons from '@konturio/default-icons';
-import clsx from 'clsx';
 import { useAtom } from '@reatom/react';
 import { passRefToSettings, resolveValue } from '~core/toolbar/utils';
-import s from '../ToolbarContent/ToolbarContent.module.css';
+import { ToolbarIcon } from '../ToolbarIcon';
 import type {
   ControlID,
   ToolbarControlSettings,
   ToolbarControlStateAtom,
 } from '~core/toolbar/types';
+import type { ControlButttonProps } from '../ToolbarButton/ToolbarButton';
 
 export function ToolbarControl({
   id,
   settings,
   stateAtom,
+  controlComponent: ControlComponent,
 }: {
   id: ControlID;
   settings: ToolbarControlSettings;
   stateAtom: ToolbarControlStateAtom;
+  controlComponent: React.ComponentType<
+    ControlButttonProps & React.RefAttributes<HTMLButtonElement>
+  >;
 }) {
   /* Implement "onRef" toolbar setting */
   const refChangeCallback = useCallback(
@@ -40,27 +42,26 @@ export function ToolbarControl({
 
   switch (settings.type) {
     case 'button':
-      const Icon = icons[resolveValue(settings.typeSettings.icon, state)];
+      const icon = resolveValue(settings.typeSettings.icon, state);
       return (
-        <Button
+        <ControlComponent
           key={id}
           ref={refChangeCallback}
-          variant="invert-outline"
-          iconBefore={<Icon width={16} height={16} />}
+          icon={<ToolbarIcon icon={icon} width={16} height={16} />}
           size={settings.typeSettings.preferredSize}
-          className={clsx(s[`control-${settings.typeSettings.preferredSize}`])}
+          active={state === 'active'}
           disabled={state === 'disabled'}
           onClick={toggleState}
         >
           {resolveValue(settings.typeSettings.name, state)}
-        </Button>
+        </ControlComponent>
       );
 
     case 'widget':
       return (
         <settings.typeSettings.component
           key={id}
-          controlClassName=""
+          controlComponent={ControlComponent}
           onClick={toggleState}
           state={state}
         />
