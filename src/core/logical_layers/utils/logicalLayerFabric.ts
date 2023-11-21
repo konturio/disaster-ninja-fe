@@ -3,9 +3,13 @@ import { memo } from '@reatom/core/experiments';
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { createAtom } from '~utils/atoms';
 import { downloadObject } from '~utils/file/download';
+import appConfig from '~core/app_config';
 import { layersSettingsAtom } from '../atoms/layersSettings';
 import { enabledLayersAtom } from '../atoms/enabledLayers';
-import { mountedLayersAtom } from '../atoms/mountedLayers';
+import {
+  mountedLayersAtom,
+  _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
+} from '../atoms/mountedLayers';
 import { hiddenLayersAtom } from '../atoms/hiddenLayers';
 import { layersLegendsAtom } from '../atoms/layersLegends';
 import { layersMetaAtom } from '../atoms/layersMeta';
@@ -97,6 +101,15 @@ export function createLogicalLayerAtom(
       const asyncLayerSource = get('layersSourcesAtom').get(id) ?? fallbackAsyncState;
       const layersMenus = get('layersMenusAtom').get(id) ?? null;
       const logError = annotatedError(state.id);
+
+      let mounted = get('mountedLayersAtom');
+      // TODO: Temporary fix of reatom bug. Remove after migration to v3
+      if (_lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED !== mounted) {
+        if (appConfig.id === '8906feaf-fc18-4180-bb5f-ff545cf65100') {
+          console.debug('Apply workaround');
+          mounted = _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        }
+      }
       const newState = {
         id: state.id,
         error: state.error,
@@ -107,7 +120,7 @@ export function createLogicalLayerAtom(
           asyncLayerSource,
         ].some((s) => s.isLoading),
         isEnabled: get('enabledLayersAtom').has(id),
-        isMounted: get('mountedLayersAtom').has(id),
+        isMounted: mounted.has(id),
         isVisible: !get('hiddenLayersAtom').has(id),
         isDownloadable: asyncLayerSource.data?.source.type === 'geojson' ?? false, // details.data.source.type === 'geojson'
         settings: deepFreeze(asyncLayerSettings.data),
