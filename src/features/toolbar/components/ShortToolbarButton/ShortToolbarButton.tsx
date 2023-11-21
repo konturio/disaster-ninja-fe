@@ -1,8 +1,8 @@
 import { Button } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { forwardRef } from 'react';
+import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import s from './ShortToolbarButton.module.css';
-import type { ButtonProps } from '@konturio/ui-kit/tslib/Button';
 import type { ControlButttonProps } from '../ToolbarButton/ToolbarButton';
 
 export const ShortToolbarButton = forwardRef(function ToolbarButton(
@@ -13,19 +13,25 @@ export const ShortToolbarButton = forwardRef(function ToolbarButton(
     variant = 'invert',
     className,
     active,
+    children,
   }: React.PropsWithoutRef<ControlButttonProps>,
   ref: React.Ref<HTMLButtonElement>,
 ) {
   return (
-    <Button
-      ref={ref}
-      variant={variant}
-      iconBefore={icon}
-      size="tiny"
-      className={clsx(className)}
-      disabled={disabled}
-      active={active}
-      onClick={onClick}
-    />
+    <Tooltip placement="top">
+      <TooltipTrigger asChild>
+        <Button
+          ref={ref}
+          variant={variant}
+          iconBefore={icon}
+          size="tiny"
+          className={clsx(className)}
+          disabled={disabled}
+          active={active}
+          onClick={onClick}
+        />
+      </TooltipTrigger>
+      <TooltipContent>{children}</TooltipContent>
+    </Tooltip>
   );
 });
