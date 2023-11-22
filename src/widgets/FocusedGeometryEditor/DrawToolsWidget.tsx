@@ -26,6 +26,16 @@ export function DrawToolsWidget({
         {FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
       </ControlComponent>
     );
+  } else if (state === 'disabled') {
+    return (
+      <ControlComponent
+        icon={<EditGeometry16 width={16} height={16} />}
+        size="large"
+        disabled={true}
+      >
+        {FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
+      </ControlComponent>
+    );
   } else {
     const onFinish = () => {
       finishDrawing(); // order of callings is important!
@@ -53,7 +63,6 @@ export function DrawToolsWidget({
           icon={<Finish16 width={16} height={16} />}
           size="medium"
           className={clsx(s.finishButton)}
-          disabled={state === 'disabled'}
           onClick={onFinish}
         >
           {i18n.t('save')}
