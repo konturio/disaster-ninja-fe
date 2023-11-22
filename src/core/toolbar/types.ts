@@ -42,7 +42,7 @@ interface ToolbarButtonSettings extends CommonToolbarControlSettings {
 // Control button component props
 export interface ControlComponentProps {
   icon: React.ReactElement;
-  onClick: () => void;
+  onClick?: () => void;
   children: React.ReactNode;
   disabled?: boolean;
   active?: boolean;

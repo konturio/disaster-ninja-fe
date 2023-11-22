@@ -9,7 +9,7 @@ import type { ButtonProps } from '@konturio/ui-kit/tslib/Button';
 export interface ControlButttonProps {
   size: ButtonProps['size'];
   icon: React.ReactElement;
-  onClick: () => void;
+  onClick?: () => void;
   children: React.ReactNode;
   disabled?: boolean;
   active?: boolean;

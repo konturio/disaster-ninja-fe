@@ -12,30 +12,31 @@ import type {
 import type { PrimitiveAtom } from '@reatom/core/primitives';
 
 /**
- * Toolbar have config about where every tool can be places
- * Event can have some set of possible configurations
- * (toolbarSettings)
+ * ToolbarImpl class manages the toolbar's controls in the application.
+ * It handles the addition, removal, and state management of toolbar controls.
  *
- * Every time when some feature want to add control -
- * it call `addControl` action with control settings.
- * This settings added to `toolbarControlsSettingsAtom`.
+ * The toolbar has a configurable layout defined in `toolbarSettings`,
+ * which determines the placement and grouping of controls.
  *
- * Toolbar view listening `toolbarControlsSettingsAtom`.
- * When settings updated - toolbar view re-rendering to fit (or remove)
- * new control
+ * Controls are added to the toolbar using the `setupControl` method.
+ * This method registers the control and its settings in the `toolbarControlsSettingsAtom`.
  *
- * So, thats mean - control rendered in toolbar if:
- * a) Feature setup control and pass id
- * b) This id present in toolbar settings
+ * The toolbar's view component listens to changes in `toolbarControlsSettingsAtom` to dynamically
+ * update its rendering to accommodate new or removed controls.
+ *
+ * Controls are rendered in the toolbar if:
+ * a) They are setup by a feature using their id.
+ * b) Their id is present in the toolbar settings.
  */
-
 class ToolbarImpl implements Toolbar {
+  // Atoms for storing the settings and states of the toolbar controls
   private toolbarControlsSettingsAtom = createMapAtom<
     ControlID,
     ToolbarControlSettings
   >();
   private toolbarControlsStatesAtom = new Map<ControlID, PrimitiveAtom<ControlState>>();
 
+  // Configuration for the toolbar sections and their respective controls
   toolbarSettings = {
     sections: [
       {
@@ -49,6 +50,34 @@ class ToolbarImpl implements Toolbar {
     ],
   };
 
+  // Updates the state of controls that share map interactions
+  updateBorrowMapControlsState(
+    activeControlId: ControlID,
+    updateState: (stateAtom: PrimitiveAtom<ControlState>) => void,
+  ) {
+    this.toolbarControlsSettingsAtom.getState().forEach((settings, controlId) => {
+      const stateAtom = this.toolbarControlsStatesAtom.get(controlId);
+      if (stateAtom && controlId !== activeControlId && settings.borrowMapInteractions) {
+        updateState(stateAtom);
+      }
+    });
+  }
+
+  // Disables controls that borrow map interactions when a control becomes active
+  disableBorrowMapControls(activeControlId: ControlID) {
+    this.updateBorrowMapControlsState(activeControlId, (stateAtom) => {
+      if (stateAtom.getState() === 'regular') store.dispatch(stateAtom.set('disabled'));
+    });
+  }
+
+  // Enables controls that borrow map interactions when an active control returns to regular state
+  enableBorrowMapControls(activeControlId: ControlID) {
+    this.updateBorrowMapControlsState(activeControlId, (stateAtom) => {
+      if (stateAtom.getState() === 'disabled') store.dispatch(stateAtom.set('regular'));
+    });
+  }
+
+  // Sets up a control with its settings and state management logic
   setupControl<Ctx extends Record<string, unknown>>(
     settings: ToolbarControlSettings,
   ): ControlController<Ctx> {
@@ -58,6 +87,7 @@ class ToolbarImpl implements Toolbar {
 
     this.toolbarControlsSettingsAtom.set(settings.id, settings);
 
+    // Creating an atom to manage control state
     const controlStateAtom = createPrimitiveAtom<ControlState>(
       'regular',
       null,
@@ -65,15 +95,27 @@ class ToolbarImpl implements Toolbar {
     );
     this.toolbarControlsStatesAtom.set(settings.id, controlStateAtom);
 
+    // Context for the control
     const controlContext: Ctx = {} as Ctx;
     const cleanUpTasks = new Set<() => void>();
 
-    const unsubscribe = controlStateAtom.subscribe((state) =>
-      onStateChangeCbs.forEach((cb) => cb(controlContext, state)),
-    );
+    let prevState = controlStateAtom.getState();
 
+    // Subscribing to state changes to manage enabling/disabling of controls
+    const unsubscribe = controlStateAtom.subscribe((state) => {
+      if (state === 'active') this.disableBorrowMapControls(settings.id);
+
+      if (prevState === 'active' && state !== 'active')
+        this.enableBorrowMapControls(settings.id);
+
+      prevState = state;
+      onStateChangeCbs.forEach((cb) => cb(controlContext, state));
+    });
+
+    // Dispatching the initial state of the control
     store.dispatch(this.toolbarControlsSettingsAtom.set(settings.id, settings));
 
+    // Returning the control controller interface
     return {
       setState: (newState) => controlStateAtom.set(newState),
       stateStream: controlStateAtom,
@@ -105,12 +147,14 @@ class ToolbarImpl implements Toolbar {
     };
   }
 
+  // Getter for accessing the controls' settings
   get controls() {
     return this.toolbarControlsSettingsAtom as unknown as PrimitiveAtom<
       Map<string, ToolbarControlSettings>
     >;
   }
 
+  // Getter for accessing a specific control's state
   getControlState(id: ControlID) {
     return this.toolbarControlsStatesAtom.get(id);
   }
