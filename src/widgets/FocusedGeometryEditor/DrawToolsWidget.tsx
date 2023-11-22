@@ -11,76 +11,69 @@ export function DrawToolsWidget({
   state,
   onClick,
   controlComponent: ControlComponent,
-}: WidgetProps) {
+}: WidgetProps): JSX.Element {
   const [tools, { cancelDrawing, finishDrawing }] = useDrawTools();
 
-  if (state === 'regular') {
-    return (
-      <ControlComponent
-        icon={<EditGeometry16 width={16} height={16} />}
-        size="large"
-        onClick={onClick}
-      >
-        {FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
-      </ControlComponent>
-    );
-  } else if (state === 'disabled') {
-    return (
-      <ControlComponent
-        icon={<EditGeometry16 width={16} height={16} />}
-        size="large"
-        disabled={true}
-      >
-        {FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
-      </ControlComponent>
-    );
-  } else {
-    const onFinish = () => {
-      finishDrawing(); // order of callings is important!
-      onClick();
-    };
-
-    const onCancel = () => {
-      cancelDrawing(); // order of callings is important!
-      onClick();
-    };
-
-    return (
-      <>
-        {tools.map((tool) => {
-          return (
-            <ControlComponent
-              key={tool.name}
-              icon={<ToolbarIcon width={16} height={16} icon={tool.icon} />}
-              size={tool.prefferedSize || 'tiny'}
-              onClick={tool.action}
-              active={tool.state === 'active'}
-              disabled={tool.state === 'disabled'}
-            >
-              {tool.name}
-            </ControlComponent>
-          );
-        })}
-        {/* Cancel button */}
+  switch (state) {
+    case 'disabled':
+    case 'regular':
+      return (
         <ControlComponent
-          icon={<Close16 width={16} height={16} />}
-          size="medium"
-          className={clsx(s.cancelButton)}
-          onClick={onCancel}
+          icon={<EditGeometry16 width={16} height={16} />}
+          size="large"
+          onClick={onClick}
+          disabled={state === 'disabled'}
         >
-          {i18n.t('cancel')}
+          {FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
         </ControlComponent>
-        {/* Finish button */}
-        <ControlComponent
-          variant="primary"
-          icon={<Finish16 width={16} height={16} />}
-          size="medium"
-          className={clsx(s.finishButton)}
-          onClick={onFinish}
-        >
-          {i18n.t('save')}
-        </ControlComponent>
-      </>
-    );
+      );
+
+    case 'active':
+      const onFinish = () => {
+        finishDrawing(); // order of callings is important!
+        onClick();
+      };
+
+      const onCancel = () => {
+        cancelDrawing(); // order of callings is important!
+        onClick();
+      };
+
+      return (
+        <>
+          {tools.map((tool) => {
+            return (
+              <ControlComponent
+                key={tool.name}
+                icon={<ToolbarIcon width={16} height={16} icon={tool.icon} />}
+                size={tool.prefferedSize || 'tiny'}
+                onClick={tool.action}
+                active={tool.state === 'active'}
+                disabled={tool.state === 'disabled'}
+              >
+                {tool.name}
+              </ControlComponent>
+            );
+          })}
+          {/* Cancel button */}
+          <ControlComponent
+            icon={<Close16 width={16} height={16} />}
+            size="medium"
+            onClick={onCancel}
+          >
+            {i18n.t('cancel')}
+          </ControlComponent>
+          {/* Finish button */}
+          <ControlComponent
+            variant="primary"
+            icon={<Finish16 width={16} height={16} />}
+            size="medium"
+            className={clsx(s.finishButton)}
+            onClick={onFinish}
+          >
+            {i18n.t('save')}
+          </ControlComponent>
+        </>
+      );
   }
 }
