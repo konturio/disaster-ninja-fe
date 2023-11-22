@@ -40,7 +40,7 @@ export function Layout({
             {matrix}
           </>
         }
-        mapColumnTop={toolbar}
+        topColumn={toolbar}
         mapColumnBottom={timeline}
         footer={footer}
       />
