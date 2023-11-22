@@ -16,6 +16,17 @@ function normalizeGeometry(feature: GeoJSON.Feature): Array<GeoJSON.Feature> {
     case 'MultiPoint':
       return feature.geometry.coordinates.map((coords) => createPointFeature(coords));
 
+    case 'MultiPolygon':
+      return feature.geometry.coordinates.map(
+        (coords) =>
+          new Feature({
+            geometry: {
+              type: 'Polygon',
+              coordinates: coords,
+            },
+          }),
+      );
+
     case 'GeometryCollection':
       return feature.geometry.geometries
         .map((geometry) =>
@@ -28,7 +39,7 @@ function normalizeGeometry(feature: GeoJSON.Feature): Array<GeoJSON.Feature> {
         .flat(1);
 
     default:
-      console.error('Unsupported geometry type: ', feature.type);
+      console.error('Unsupported geometry type: ', feature.geometry.type);
       return [];
   }
 }
