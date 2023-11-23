@@ -13,6 +13,7 @@ import { ScaleControl } from '~components/ConnectedMap/ScaleControl/ScaleControl
 import { Copyrights } from '~components/Copyrights/Copyrights';
 import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
+import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -139,7 +140,7 @@ const Toolbar = () => {
   const getPanelClasses = () => ({ ...panelClasses, headerTitle: s.toolbarHeaderTitle });
   return (
     <div style={{ display: 'flex' }}>
-      <FullAndShortStatesPanelWidget
+      <ToolbarPanel
         id="toolbar"
         key="toolbar"
         fullState={toolbar()}

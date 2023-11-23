@@ -45,3 +45,9 @@
   grid-row: -1;
   height: var(--unit);
 }
+
+.topColumn {
+  grid-row: 1;
+  grid-column: 1/-1;
+  padding: var(--unit);
+}

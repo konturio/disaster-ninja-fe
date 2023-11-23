@@ -3,21 +3,21 @@ import s from './Mobile.module.css';
 
 export function MobileLayout({
   firstColumn,
-  mapColumnTop,
+  topColumn,
   mapColumnBottom,
   footer,
 }: {
   firstColumn: JSX.Element;
-  mapColumnTop: JSX.Element;
+  topColumn: JSX.Element;
   mapColumnBottom: JSX.Element;
   footer: JSX.Element;
 }) {
   return (
     <div className={s.contentWrap}>
       <div className={s.panelsColumn}>{firstColumn}</div>
+      <div className={s.topColumn}>{topColumn}</div>
       <div className={s.mapWrap}>
         <div className={s.mapSpaceRight} id={configRepo.get().mapBlankSpaceId}>
-          {mapColumnTop}
           {mapColumnBottom}
         </div>
       </div>

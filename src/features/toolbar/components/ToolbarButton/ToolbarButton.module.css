@@ -13,3 +13,20 @@
   white-space: pre-line;
   justify-content: center !important; /* TODO: fix in ui-kit */
 }
+
+@media screen and (max-width: 1024px) {
+  .toolbarButton_medium,
+  .toolbarButton_tiny {
+    & span {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .toolbarButton_large {
+    & span {
+      display: none;
+    }
+  }
+}
