@@ -4,7 +4,7 @@ import { CREATE_LAYER_CONTROL_ID, CREATE_LAYER_CONTROL_NAME } from './constants'
 
 export const createLayerController = toolbar.setupControl({
   id: CREATE_LAYER_CONTROL_ID,
-  borrowMapInteractions: true,
+  borrowMapInteractions: false,
   type: 'button',
   typeSettings: {
     name: CREATE_LAYER_CONTROL_NAME,
