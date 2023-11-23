@@ -1,4 +1,5 @@
 import * as icons from '@konturio/default-icons';
+import { useEffect } from 'react';
 
 export function ToolbarIcon({
   width,
@@ -10,5 +11,8 @@ export function ToolbarIcon({
   icon: string;
 }) {
   const Icon = icons[icon];
-  return <Icon width={width} height={height} />;
+  useEffect(() => {
+    if (!Icon) console.error(`Icon ${icon} not found`);
+  }, [icon, Icon]);
+  return Icon ? <Icon width={width} height={height} /> : null;
 }
