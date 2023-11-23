@@ -1,10 +1,8 @@
-import { EditGeometry16, Finish16 } from '@konturio/default-icons';
+import { Close16, EditGeometry16, Finish16 } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { useDrawTools } from '~core/draw_tools';
-import { ToolbarButton } from '~features/toolbar/components/ToolbarButton/ToolbarButton';
 import { ToolbarIcon } from '~features/toolbar/components/ToolbarIcon';
-import { ShortToolbarButton } from '~features/toolbar/components/ShortToolbarButton/ShortToolbarButton';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME } from './constants';
 import s from './DrawToolsWidget.module.css';
 import type { WidgetProps } from '~core/toolbar/types';
@@ -14,7 +12,7 @@ export function DrawToolsWidget({
   onClick,
   controlComponent: ControlComponent,
 }: WidgetProps) {
-  const [tools, finishDrawing] = useDrawTools();
+  const [tools, { cancelDrawing, finishDrawing }] = useDrawTools();
 
   if (state === 'regular') {
     return (
@@ -42,6 +40,11 @@ export function DrawToolsWidget({
       onClick();
     };
 
+    const onCancel = () => {
+      cancelDrawing(); // order of callings is important!
+      onClick();
+    };
+
     return (
       <>
         {tools.map((tool) => {
@@ -58,6 +61,16 @@ export function DrawToolsWidget({
             </ControlComponent>
           );
         })}
+        {/* Cancel button */}
+        <ControlComponent
+          icon={<Close16 width={16} height={16} />}
+          size="medium"
+          className={clsx(s.cancelButton)}
+          onClick={onCancel}
+        >
+          {i18n.t('cancel')}
+        </ControlComponent>
+        {/* Finish button */}
         <ControlComponent
           variant="primary"
           icon={<Finish16 width={16} height={16} />}

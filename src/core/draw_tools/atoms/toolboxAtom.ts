@@ -31,6 +31,7 @@ export const toolboxAtom = createAtom(
     activeDrawModeAtom,
     toggleDrawMode: (mode: DrawModeType) => mode,
     finishDrawing: () => null,
+    cancelDrawing: () => null, // New action
     isDrawingStartedAtom,
     setSettings: (settings: DrawToolBoxSettings) => settings,
     downloadDrawGeometry: () => null,
@@ -69,7 +70,12 @@ export const toolboxAtom = createAtom(
       newState.settings?.finishButtonCallback?.();
     });
 
-    // I think we don't need to specify the need for ModifyMode
+    onAction('cancelDrawing', () => {
+      actions.push(activeDrawModeAtom.setDrawMode(null));
+      actions.push(drawnGeometryAtom.resetToDefault());
+      actions.push(temporaryGeometryAtom.resetToDefault());
+    });
+
     onAction('setSettings', (settings) => {
       newState = { ...newState, settings };
     });

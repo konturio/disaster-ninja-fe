@@ -20,5 +20,8 @@ export interface DrawToolsController {
   geometry: GeoJSON.FeatureCollection;
 }
 
-type FinishDrawingAction = () => void;
-export type DrawToolsHook = () => [Array<DrawToolController>, FinishDrawingAction];
+interface Actions {
+  finishDrawing: () => void;
+  cancelDrawing: () => void;
+}
+export type DrawToolsHook = () => [Array<DrawToolController>, Actions];

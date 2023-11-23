@@ -87,7 +87,13 @@ const modeToIcon = {
 export const useDrawTools: DrawToolsHook = () => {
   const [
     { mode: activeDrawMode, selectedIndexes, settings },
-    { deleteFeatures, toggleDrawMode, finishDrawing, downloadDrawGeometry },
+    {
+      deleteFeatures,
+      toggleDrawMode,
+      finishDrawing,
+      downloadDrawGeometry,
+      cancelDrawing,
+    },
   ] = useAtom(toolboxAtom);
 
   const controls = useMemo(() => {
@@ -129,7 +135,7 @@ export const useDrawTools: DrawToolsHook = () => {
     downloadDrawGeometry,
   ]);
 
-  return [controls, finishDrawing];
+  return [controls, { cancelDrawing, finishDrawing }];
 };
 
 export const drawTools: DrawToolsController = new DrawToolsControllerImpl();
