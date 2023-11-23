@@ -12,7 +12,7 @@ export function ToolbarIcon({
 }) {
   const Icon = icons[icon];
   useEffect(() => {
-    if (!Icon) console.error(`Icon ${icon} not found`);
+    if (!Icon) console.error(`Icon "${icon}" not found`);
   }, [icon, Icon]);
   return Icon ? <Icon width={width} height={height} /> : null;
 }
