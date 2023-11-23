@@ -35,5 +35,5 @@
   display: grid;
   grid-template-rows: repeat(6, auto);
   grid-auto-flow: column;
-  grid-gap: 4px;
+  gap: 4px;
 }
