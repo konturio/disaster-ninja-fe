@@ -4,7 +4,6 @@ import { useAtom } from '@reatom/react';
 import { appConfig } from '~core/app_config';
 import { Row } from '~components/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
-import { useFavicon } from '~utils/hooks/useFavicon';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { useTabNameUpdate } from '~utils/hooks/useTabNameUpdate';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
@@ -26,7 +25,6 @@ export function CommonView({
   getAbsoluteRoute: (path: string | AppRoute) => string;
 }>) {
   const [featureFlags] = useAtom(featureFlagsAtom);
-  useFavicon(appConfig.faviconUrl);
   useTabNameUpdate(appConfig.name);
 
   useEffect(() => {

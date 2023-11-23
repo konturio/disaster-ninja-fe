@@ -6,12 +6,12 @@
     "start_url": ".",
     "icons": [
         {
-            "src": "/active/favicon/android-chrome-192x192.png?v=2.0.22",
+            "src": "/active/api/favicon/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/active/favicon/android-chrome-512x512.png?v=2.0.22",
+            "src": "/active/api/favicon/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
