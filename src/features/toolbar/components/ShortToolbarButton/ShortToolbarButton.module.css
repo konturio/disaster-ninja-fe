@@ -13,3 +13,12 @@
   white-space: pre-line;
   justify-content: center !important; /* TODO: fix in ui-kit */
 }
+
+.shortToolbarButton {
+  position: relative;
+}
+
+.active {
+  box-shadow: 0 0 0 1px var(--accent-weak-up, #9dd6f8);
+  z-index: 1;
+}

@@ -24,7 +24,7 @@
     "boundary_selector": "Select\nadmin unit",
     "create_layer": "Create\nlayer",
     "geometry_uploader": "Upload\nGeoJSON",
-    "focused_geometry_editor": "Freehand\nGeometry",
+    "focused_geometry_editor": "Draw or edit\ngeometry",
     "edit_in_osm": "Edit map in OSM",
     "tools_label": "Tools",
     "selected_area_label": "Selected area"
