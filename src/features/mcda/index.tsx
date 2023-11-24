@@ -10,7 +10,7 @@ export const mcdaControl = toolbar.setupControl({
   typeSettings: {
     name: i18n.t('mcda.name'),
     hint: i18n.t('mcda.title'),
-    icon: 'mcda',
+    icon: 'Layers24',
     preferredSize: 'large',
   },
 });
