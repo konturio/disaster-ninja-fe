@@ -3,7 +3,7 @@ import { memo } from '@reatom/core/experiments';
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { createAtom } from '~utils/atoms';
 import { downloadObject } from '~utils/file/download';
-import appConfig from '~core/app_config';
+import { configRepo } from '~core/config';
 import { layersSettingsAtom } from '../atoms/layersSettings';
 import { enabledLayersAtom } from '../atoms/enabledLayers';
 import {
@@ -105,7 +105,7 @@ export function createLogicalLayerAtom(
       let mounted = get('mountedLayersAtom');
       // TODO: Temporary fix of reatom bug. Remove after migration to v3
       if (_lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED !== mounted) {
-        if (appConfig.id === '8906feaf-fc18-4180-bb5f-ff545cf65100') {
+        if (configRepo.get().id === '8906feaf-fc18-4180-bb5f-ff545cf65100') {
           console.debug('Apply workaround');
           mounted = _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         }
