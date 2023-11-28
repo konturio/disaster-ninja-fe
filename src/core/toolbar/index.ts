@@ -51,13 +51,13 @@ class ToolbarImpl implements Toolbar {
   };
 
   // Updates the state of controls that share map interactions
-  updateBorrowMapControlsState(
-    activeControlId: ControlID,
+  updateControlsState(
     updateState: (stateAtom: PrimitiveAtom<ControlState>) => void,
+    filter?: (controlId: ControlID, settings: ToolbarControlSettings) => boolean,
   ) {
     this.toolbarControlsSettingsAtom.getState().forEach((settings, controlId) => {
       const stateAtom = this.toolbarControlsStatesAtom.get(controlId);
-      if (stateAtom && controlId !== activeControlId && settings.borrowMapInteractions) {
+      if (stateAtom && filter?.(controlId, settings)) {
         updateState(stateAtom);
       }
     });
@@ -65,16 +65,34 @@ class ToolbarImpl implements Toolbar {
 
   // Disables controls that borrow map interactions when a control becomes active
   disableBorrowMapControls(activeControlId: ControlID) {
-    this.updateBorrowMapControlsState(activeControlId, (stateAtom) => {
-      if (stateAtom.getState() === 'regular') store.dispatch(stateAtom.set('disabled'));
-    });
+    this.updateControlsState(
+      (stateAtom) => {
+        if (stateAtom.getState() === 'regular') store.dispatch(stateAtom.set('disabled'));
+      },
+      (controlId, settings) =>
+        controlId !== activeControlId && Boolean(settings.borrowMapInteractions),
+    );
   }
 
   // Enables controls that borrow map interactions when an active control returns to regular state
   enableBorrowMapControls(activeControlId: ControlID) {
-    this.updateBorrowMapControlsState(activeControlId, (stateAtom) => {
-      if (stateAtom.getState() === 'disabled') store.dispatch(stateAtom.set('regular'));
-    });
+    this.updateControlsState(
+      (stateAtom) => {
+        if (stateAtom.getState() === 'disabled') store.dispatch(stateAtom.set('regular'));
+      },
+      (controlId, settings) =>
+        controlId !== activeControlId && Boolean(settings.borrowMapInteractions),
+    );
+  }
+
+  resetOtherActiveControls(activeControlId: ControlID) {
+    this.updateControlsState(
+      (stateAtom) => {
+        if (stateAtom.getState() === 'active') store.dispatch(stateAtom.set('regular'));
+      },
+      (controlId, settings) =>
+        controlId !== activeControlId && settings.id !== 'FreehandGeometry',
+    );
   }
 
   // Sets up a control with its settings and state management logic
@@ -103,9 +121,13 @@ class ToolbarImpl implements Toolbar {
 
     // Subscribing to state changes to manage enabling/disabling of controls
     const unsubscribe = controlStateAtom.subscribe((state) => {
-      if (state === 'active') this.disableBorrowMapControls(settings.id);
+      // Order of execution is important here, resetOtherActiveControls should be called before disableBorrowMapControls
+      if (state === 'active') this.resetOtherActiveControls(settings.id);
 
-      if (prevState === 'active' && state !== 'active')
+      if (state === 'active' && settings.borrowMapInteractions)
+        this.disableBorrowMapControls(settings.id);
+
+      if (prevState === 'active' && state !== 'active' && settings.borrowMapInteractions)
         this.enableBorrowMapControls(settings.id);
 
       prevState = state;
