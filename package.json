@@ -149,7 +149,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
-    "@types/sinon": "^10.0.15",
+    "@types/sinon": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
     "@uiw/react-github-corners": "1.5.15",
@@ -184,7 +184,7 @@
     "react-cosmos": "5.7.2",
     "react-test-renderer": "^18.2.0",
     "rollup-plugin-visualizer": "^5.9.2",
-    "sinon": "^15.2.0",
+    "sinon": "^17.0.1",
     "stylelint": "^14.16.1",
     "stylelint-config-recommended": "^6.0.0",
     "ts-json-schema-generator": "^1.2.0",
