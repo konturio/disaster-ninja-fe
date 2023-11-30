@@ -139,7 +139,7 @@
     "react-router-cache-route": "^1.12.11",
     "react-router-dom": "^5.3.4",
     "react-transition-group": "^4.4.5",
-    "react-virtuoso": "^4.1.0",
+    "react-virtuoso": "^4.6.2",
     "remark-gfm": "^3.0.1",
     "superstruct": "^1.0.3",
     "uhtml": "^3.2.2",
