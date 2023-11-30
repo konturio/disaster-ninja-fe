@@ -1,8 +1,8 @@
-import { appConfig } from '~core/app_config';
+import { configRepo } from '~core/config';
 import type { PaddingOptions } from 'maplibre-gl';
 
 export function getMapPaddings(map: maplibregl.Map, debug = false): PaddingOptions {
-  const blankSpaceEl = document.getElementById(appConfig.mapBlankSpaceId);
+  const blankSpaceEl = document.getElementById(configRepo.get().mapBlankSpaceId);
   if (blankSpaceEl === null) {
     console.warn('getMapPaddings::Cannot find map blank space element');
     return {

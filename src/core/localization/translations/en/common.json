@@ -15,6 +15,20 @@
   "horizontal_direction": "Horizontal direction",
   "legend_presentation": "Legend presentation",
   "layers": "Layers",
+  "toolbar": {
+    "map_ruler": "Measure distance",
+    "locate_me": "Locate me",
+    "panel_title": "Toolbar",
+    "download": "Download",
+    "delete": "Delete",
+    "boundary_selector": "Select\nadmin unit",
+    "create_layer": "Create\nlayer",
+    "geometry_uploader": "Upload\nGeoJSON",
+    "focused_geometry_editor": "Draw or edit\ngeometry",
+    "edit_in_osm": "Edit map in OSM",
+    "tools_label": "Tools",
+    "selected_area_label": "Selected area"
+  },
   "feed": "Feed",
   "deselect": "Deselect",
   "spinner_text": "Gathering data",
@@ -131,7 +145,7 @@
     "no_analytics": "No analytics for the selected area"
   },
   "draw_tools": {
-    "area": "Area",
+    "area": "Polygon",
     "line": "Line",
     "point": "Point",
     "finish_drawing": "Finish Drawing",

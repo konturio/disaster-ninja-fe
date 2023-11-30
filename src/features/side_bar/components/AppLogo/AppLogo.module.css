@@ -1,0 +1,38 @@
+.logo {
+  padding: 4px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--faint-weak-up, #d2d5d8);
+
+  font: var(--font);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 128.571% */
+
+  & > span {
+    margin-left: 6px;
+  }
+
+  white-space: nowrap;
+}
+
+.logoContainer {
+  position: relative;
+  width: 24px;
+  height: 0px;
+  padding-bottom: 24px;
+
+  & > img {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+  }
+}

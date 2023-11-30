@@ -4,6 +4,7 @@ import { StrictMode, Suspense } from 'react';
 import { lazily } from 'react-lazily';
 import { store } from '~core/store/store';
 import { postAppInit } from '~core/app/postAppInit';
+import type { Config } from '~core/config/types';
 const { Router } = lazily(() => import('~core/router'));
 
 const root = createRoot(document.getElementById('root')!);
@@ -30,7 +31,7 @@ function renderApp() {
   );
 }
 
-export async function startApp(initialState) {
-  await postAppInit(initialState);
+export async function startApp(config: Config) {
+  await postAppInit(config);
   renderApp();
 }

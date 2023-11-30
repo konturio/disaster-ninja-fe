@@ -11,6 +11,9 @@ import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
 import { IntercomBTN } from '~features/intercom/IntercomBTN';
 import { ScaleControl } from '~components/ConnectedMap/ScaleControl/ScaleControl';
 import { Copyrights } from '~components/Copyrights/Copyrights';
+import { shortToolbar, toolbar } from '~features/toolbar';
+import { panelClasses } from '~components/Panel';
+import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -27,21 +30,15 @@ const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/Connected
 
 const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
 
-const { Toolbar } = lazily(() => import('~features/toolbar'));
-
 const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
-
-const { DrawToolsToolbox } = lazily(
-  () => import('~core/draw_tools/components/DrawToolsToolbox/DrawToolsToolbox'),
-);
 
 export function MapPage() {
   const [featureFlags] = useAtom(featureFlagsAtom);
 
   useEffect(() => {
-    import('~core/draw_tools').then(({ initDrawTools }) => initDrawTools());
+    import('~core/draw_tools').then(({ drawTools }) => drawTools.init());
 
     /* Lazy load module */
     if (featureFlags[FeatureFlag.CURRENT_EVENT]) {
@@ -84,7 +81,7 @@ export function MapPage() {
       featureFlags[FeatureFlag.DRAW_TOOLS] ||
       featureFlags[FeatureFlag.FOCUSED_GEOMETRY_EDITOR]
     ) {
-      import('~features/focused_geometry_editor/').then(({ initFocusedGeometry }) =>
+      import('~widgets/FocusedGeometryEditor').then(({ initFocusedGeometry }) =>
         initFocusedGeometry(),
       );
     }
@@ -133,12 +130,28 @@ export function MapPage() {
             </div>
           }
           editPanel={<EditFeaturesOrLayerPanel />}
-          drawToolbox={<DrawToolsToolbox />}
         />
       )}
     </div>
   );
 }
+
+const Toolbar = () => {
+  const getPanelClasses = () => ({ ...panelClasses, headerTitle: s.toolbarHeaderTitle });
+  return (
+    <div style={{ display: 'flex' }}>
+      <ToolbarPanel
+        id="toolbar"
+        key="toolbar"
+        fullState={toolbar()}
+        shortState={shortToolbar()}
+        panelIcon={toolbar().panelIcon}
+        header={toolbar().header}
+        getPanelClasses={getPanelClasses}
+      />
+    </div>
+  );
+};
 
 const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) => {
   const analyticsPanelState = analyticsPanel();

@@ -1,6 +1,6 @@
 import { memo } from '@reatom/core/experiments';
 import { createAtom, createBooleanAtom } from '~utils/atoms';
-import { appConfig } from '~core/app_config';
+import { configRepo } from '~core/config';
 import {
   currentEventAtom,
   currentMapPositionAtom,
@@ -111,7 +111,7 @@ export const urlStoreAtom = createAtom(
     const enabledLayers = get('enabledLayersAtom');
     newState.layers = Array.from(enabledLayers ?? []);
 
-    newState.app = appConfig.id;
+    newState.app = configRepo.get().id;
 
     state = newState;
     const currentVersion = ++lastVersion;

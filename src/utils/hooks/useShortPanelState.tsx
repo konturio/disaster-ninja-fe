@@ -1,10 +1,5 @@
-import {
-  ChevronDown24,
-  ChevronUp24,
-  DoubleChevronDown24,
-  DoubleChevronUp24,
-} from '@konturio/default-icons';
-import { useEffect, useState } from 'react';
+import { ChevronDown24, ChevronUp24 } from '@konturio/default-icons';
+import { useMemo, useState } from 'react';
 import type { PanelCustomControl } from '@konturio/ui-kit';
 
 export type PanelState = 'full' | 'short' | 'closed';
@@ -18,31 +13,26 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
   const initialState = props?.initialState ?? 'full';
   const skipShortState = props?.skipShortState ?? false;
   const [panelState, setPanelState] = useState<PanelState>(initialState);
-  const [panelControls, setPanelControls] = useState<PanelCustomControl[]>([]);
 
-  const openFullControl: PanelCustomControl = {
-    icon: <DoubleChevronDown24 />,
-    onWrapperClick: () => setPanelState('full'),
-  };
-  const openHalfwayControl: PanelCustomControl = {
-    icon: <ChevronDown24 />,
-    onWrapperClick: () =>
-      setPanelState((prevState) => (prevState === 'closed' ? 'short' : 'full')),
-  };
-  const closeHalfwayControl: PanelCustomControl = {
-    icon: <ChevronUp24 />,
-    onWrapperClick: () =>
-      setPanelState((prevState) => (prevState === 'full' ? 'short' : 'closed')),
-  };
-  const closeControl: PanelCustomControl = {
-    icon: <DoubleChevronUp24 />,
-    onWrapperClick: () => setPanelState('closed'),
-  };
+  const panelControls = useMemo(() => {
+    const openControl: PanelCustomControl = {
+      icon: <ChevronDown24 />,
+      onWrapperClick: (e) => {
+        e.stopPropagation();
+        setPanelState((prevState) => (prevState === 'closed' ? 'short' : 'full'));
+      },
+      disabled: panelState === 'full',
+    };
+    const closeControl: PanelCustomControl = {
+      icon: <ChevronUp24 />,
+      onWrapperClick: (e) => {
+        e.stopPropagation();
+        setPanelState((prevState) => (prevState === 'full' ? 'short' : 'closed'));
+      },
+      disabled: panelState === 'closed',
+    };
 
-  useEffect(() => {
-    panelState === 'full' && setPanelControls([closeHalfwayControl, closeControl]);
-    panelState === 'short' && setPanelControls([closeHalfwayControl, openHalfwayControl]);
-    panelState === 'closed' && setPanelControls([openFullControl, openHalfwayControl]);
+    return [openControl, closeControl];
   }, [panelState]);
 
   if (skipShortState) {

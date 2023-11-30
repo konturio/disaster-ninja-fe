@@ -1,5 +1,5 @@
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { appConfig } from '~core/app_config';
+import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import { EDITABLE_LAYERS_GROUP } from '~core/constants';
 import type { EditableLayers } from '../types';
@@ -9,7 +9,7 @@ export const editableLayersListResource = createAsyncAtom(
   async (_, abortController) => {
     const responseData = await apiClient.post<EditableLayers[]>(
       '/layers/search/user',
-      { appId: appConfig.id },
+      { appId: configRepo.get().id },
       true,
       { signal: abortController.signal },
     );

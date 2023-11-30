@@ -1,4 +1,4 @@
-import { appConfig } from '~core/app_config';
+import { configRepo } from '~core/config';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 
 export function adaptTileUrl(url: string): string {
@@ -16,8 +16,8 @@ export function adaptTileUrl(url: string): string {
     url = window.location.protocol + url.replace(protocolRegexp, '');
   } else {
     const baseUrl =
-      appConfig.bivariateTilesServer ??
-      `${window.location.protocol}${window.location.host}${appConfig.baseUrl}`;
+      configRepo.get().bivariateTilesServer ??
+      `${window.location.protocol}${window.location.host}${configRepo.get().baseUrl}`;
     url = `${baseUrl}${url}`;
   }
 

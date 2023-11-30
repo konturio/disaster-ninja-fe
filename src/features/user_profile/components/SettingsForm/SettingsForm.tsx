@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
-import { appConfig } from '~core/app_config';
+import { configRepo } from '~core/config';
 import { eventFeedsAtom } from '~core/shared_state';
 import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
@@ -104,7 +104,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
     value: o.feed,
   }));
 
-  const OPTIONS_OSM = appConfig.osmEditors.map((o) => ({
+  const OPTIONS_OSM = configRepo.get().osmEditors.map((o) => ({
     title: o.title,
     value: o.id,
   }));
@@ -173,7 +173,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   {i18n.t('profile.interfaceLanguage')}
                 </Select>
 
-                <div className={s.unitsSelection}>
+                <div>
                   <Text type="short-l">{i18n.t('profile.units')}</Text>
 
                   <Radio

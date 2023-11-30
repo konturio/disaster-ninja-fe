@@ -34,6 +34,7 @@
     "tooltip"
   ],
   "DEFAULT_FEED": "kontur-public",
+  "DEFAULT_LANGUAGE": "en",
   "OSM_EDITORS": [
     {
       "id": "josm",

@@ -1,0 +1,24 @@
+.toolbarButton_tiny {
+  align-items: flex-start;
+  grid-row: span 2;
+}
+
+.toolbarButton_medium {
+  grid-row: span 3;
+  align-items: flex-start;
+}
+
+.toolbarButton_large {
+  grid-row: span 6;
+  white-space: pre-line;
+  justify-content: center !important; /* TODO: fix in ui-kit */
+}
+
+.shortToolbarButton {
+  position: relative;
+}
+
+.active {
+  box-shadow: 0 0 0 1px var(--accent-weak-up, #9dd6f8);
+  z-index: 1;
+}

@@ -3,9 +3,9 @@ import tsj from 'ts-json-schema-generator';
 
 export function buildScheme() {
   const config = {
-    path: 'src/core/app_config/index.ts',
+    path: 'src/core/config/loaders/stageConfigLoader.ts',
     tsconfig: './tsconfig.json',
-    type: 'AppConfig',
+    type: 'StageConfigLegacy',
     skipTypeCheck: true,
   };
   const schema = tsj.createGenerator(config).createSchema(config.type);

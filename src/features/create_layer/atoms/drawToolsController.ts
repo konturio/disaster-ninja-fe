@@ -1,13 +1,14 @@
 import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
-import { toolbarControlsAtom } from '~core/shared_state';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawModes } from '~core/draw_tools/constants';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../constants';
+import { forceRun } from '~utils/atoms/forceRun';
+import { EditTargets } from '../constants';
+import { createLayerController } from '../control';
 import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
 import { editTargetAtom } from './editTarget';
 
@@ -17,7 +18,7 @@ function onFinishDrawing() {
     currentEditedLayerFeatures.save.dispatch({
       onSuccess: () => {
         store.dispatch([
-          toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
+          createLayerController.setState('regular'),
           editTargetAtom.set({ type: EditTargets.none }),
         ]);
         res(true);
@@ -74,3 +75,5 @@ export const openDrawToolsInFeatureEditMode = createAtom(
     });
   },
 );
+
+createLayerController.onInit(() => forceRun(openDrawToolsInFeatureEditMode));

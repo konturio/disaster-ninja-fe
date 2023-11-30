@@ -16,12 +16,6 @@
   }
 }
 
-.toolbox {
-  grid-row: 1;
-  grid-column: 1/-1;
-  padding: var(--unit);
-}
-
 .panelsColumn {
   display: flex;
   flex-direction: column;
@@ -54,4 +48,10 @@
   grid-column: 1/-1;
   grid-row: -1;
   height: var(--unit);
+}
+
+.topColumn {
+  grid-row: 1;
+  grid-column: 1/-1;
+  padding: var(--unit);
 }

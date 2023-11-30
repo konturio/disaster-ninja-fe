@@ -1,5 +1,5 @@
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
-import appConfig from '~core/app_config';
+import { configRepo } from '~core/config';
 import {
   anyCondition,
   featureProp,
@@ -139,8 +139,10 @@ export function createMCDAStyle(config: MCDAConfig) {
       type: 'vector' as const,
       tiles: [
         `${adaptTileUrl(
-          appConfig.bivariateTilesRelativeUrl,
-        )}{z}/{x}/{y}.mvt?indicatorsClass=${appConfig.bivariateTilesIndicatorsClass}`,
+          configRepo.get().bivariateTilesRelativeUrl,
+        )}{z}/{x}/{y}.mvt?indicatorsClass=${
+          configRepo.get().bivariateTilesIndicatorsClass
+        }`,
       ],
       maxzoom: FALLBACK_BIVARIATE_MAX_ZOOM,
       minzoom: FALLBACK_BIVARIATE_MIN_ZOOM,

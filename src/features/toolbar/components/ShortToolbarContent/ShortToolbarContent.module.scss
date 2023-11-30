@@ -1,0 +1,13 @@
+.toolbarContent {
+  padding: 16px;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 8px;
+}
+
+.section {
+  display: flex;
+  flex-flow: row nowrap;
+  border-radius: 4px;
+  border: 1px solid var(--faint-weak, #eceeef);
+}

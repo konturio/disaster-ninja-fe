@@ -1,13 +1,15 @@
 import { createAtom } from '~utils/atoms';
 import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
-import { appConfig } from '~core/app_config';
+import { configRepo } from '~core/config';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { convertToAppMarker } from '~utils/map/markers';
-import { toolbarControlsAtom } from '~core/shared_state';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { i18n } from '~core/localization';
 import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
+import { forceRun } from '~utils/atoms/forceRun';
+import { store } from '~core/store/store';
 import { BOUNDARY_MARKER_ID } from '../constants';
+import { boundarySelectorControl } from '..';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 import { boundaryResourceAtom } from './boundaryResourceAtom';
 import { highlightedGeometryAtom } from './highlightedGeometry';
@@ -119,7 +121,7 @@ export const boundaryMarkerAtom = createAtom(
               );
 
               const actions: Action[] = [
-                toolbarControlsAtom.disable('BoundarySelector'),
+                boundarySelectorControl.setState('regular'),
                 updateBoundaryLayerAction(
                   { type: 'FeatureCollection', features: [] },
                   boundaryId,
@@ -143,7 +145,7 @@ export const boundaryMarkerAtom = createAtom(
               ) {
                 actions.push(
                   currentMapPositionAtom.setCurrentMapPosition({
-                    zoom: Math.min(geometryCamera.zoom, appConfig.autoFocus.maxZoom),
+                    zoom: Math.min(geometryCamera.zoom, configRepo.get().autofocusZoom),
                     ...geometryCamera.center,
                   }),
                 );
@@ -173,3 +175,15 @@ export const boundaryMarkerAtom = createAtom(
   },
   'boundaryMarkerAtom',
 );
+
+boundarySelectorControl.onInit((ctx) => {
+  return forceRun(boundaryMarkerAtom);
+});
+
+boundarySelectorControl.onStateChange((ctx, state) => {
+  if (state === 'active') {
+    store.dispatch(boundaryMarkerAtom.start());
+  } else {
+    store.dispatch(boundaryMarkerAtom.stop());
+  }
+});

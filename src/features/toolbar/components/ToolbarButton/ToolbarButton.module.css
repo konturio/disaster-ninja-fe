@@ -1,0 +1,32 @@
+.toolbarButton_tiny {
+  align-items: flex-start;
+  grid-row: span 2;
+}
+
+.toolbarButton_medium {
+  grid-row: span 3;
+  align-items: flex-start;
+}
+
+.toolbarButton_large {
+  grid-row: span 6;
+  white-space: pre-line;
+  justify-content: center !important; /* TODO: fix in ui-kit */
+}
+
+@media screen and (max-width: 1024px) {
+  .toolbarButton_medium,
+  .toolbarButton_tiny {
+    & span {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .toolbarButton_large {
+    & span {
+      display: none;
+    }
+  }
+}

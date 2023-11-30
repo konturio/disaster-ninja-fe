@@ -1,8 +1,8 @@
 import { createAtom } from '~utils/atoms';
-import { appConfig } from '~core/app_config';
+import { configRepo } from '~core/config';
 import { eventFeedsAtom } from './eventFeeds';
 import { currentEventAtom, scheduledAutoSelect } from './currentEvent';
-import type { EventFeedConfig } from '~core/app/types';
+import type { EventFeedConfig } from '~core/config/types';
 
 type CurrentEventFeedAtomState = {
   id: string;
@@ -17,7 +17,7 @@ export const currentEventFeedAtom = createAtom(
   },
   (
     { onAction, onChange, schedule, getUnlistedState },
-    state: CurrentEventFeedAtomState = { id: appConfig.defaultFeed },
+    state: CurrentEventFeedAtomState = { id: configRepo.get().defaultFeed },
   ) => {
     onAction('setCurrentFeed', (feedId) => {
       if (state?.id !== feedId) {
@@ -49,7 +49,7 @@ export const currentEventFeedAtom = createAtom(
 );
 
 function checkFeed(eventFeeds: EventFeedConfig[], feedId?: string) {
-  if (!feedId) return appConfig.defaultFeed;
+  if (!feedId) return configRepo.get().defaultFeed;
   const feed = eventFeeds?.find((fd) => fd.feed === feedId);
-  return feed ? feed.feed : appConfig.defaultFeed;
+  return feed ? feed.feed : configRepo.get().defaultFeed;
 }

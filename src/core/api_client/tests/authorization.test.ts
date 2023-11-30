@@ -1,9 +1,9 @@
 /**
  * @vitest-environment happy-dom
  */
+import 'vi-fetch/setup';
 import { test, expect, beforeEach } from 'vitest';
 import sinon from 'sinon';
-import './_configMock';
 import { isApiError, getApiErrorKind, getApiErrorMessage } from '../apiClientError';
 import { createContext, setTimeOffset, setTokenExp } from './_clientTestsContext';
 
@@ -12,7 +12,7 @@ beforeEach((context) => {
 });
 
 test('can login with username and password', async ({ ctx }) => {
-  ctx.mockAdapter.onPost('/login').willResolve({
+  ctx.mockAdapter.onPost(new RegExp(ctx.keycloakRealm)).willResolve({
     access_token: ctx.token,
     refresh_token: ctx.refreshToken,
   });

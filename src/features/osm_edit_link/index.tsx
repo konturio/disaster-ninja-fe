@@ -1,48 +1,50 @@
-import { EditOsm24 } from '@konturio/default-icons';
-import {
-  currentMapPositionAtom,
-  currentUserAtom,
-  toolbarControlsAtom,
-} from '~core/shared_state';
-import { controlGroup, controlVisualGroup } from '~core/shared_state';
+import { currentMapPositionAtom, currentUserAtom } from '~core/shared_state';
+import { toolbar } from '~core/toolbar';
 import { i18n } from '~core/localization';
-import { appConfig } from '~core/app_config';
-import { URL_ZOOM_OFFSET } from '~core/constants';
-import {
-  DISABLE_CONTROL_TIMEOUT,
-  EDIT_IN_OSM_CONTROL_ID,
-  EDIT_IN_OSM_CONTROL_NAME,
-} from './constants';
+import { configRepo } from '~core/config';
+import { store } from '~core/store/store';
+import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';
+import { openOsmLink } from './openOsmLink';
+
+export const osmEditControl = toolbar.setupControl({
+  id: EDIT_IN_OSM_CONTROL_ID,
+  type: 'button',
+  typeSettings: {
+    name: EDIT_IN_OSM_CONTROL_NAME,
+    hint: i18n.t('sidebar.edit_osm'),
+    icon: 'EditInOsm16',
+    preferredSize: 'tiny',
+  },
+});
+
+osmEditControl.onStateChange((ctx, state) => {
+  if (state === 'active') {
+    try {
+      const position = store.getState(currentMapPositionAtom);
+      if (!position) throw Error('Unknown position');
+      const { osmEditor } = store.getState(currentUserAtom);
+      if (!osmEditor) throw Error('Unknown editor');
+
+      const editor = configRepo
+        .get()
+        .osmEditors.find((editor) => editor.id === osmEditor);
+
+      switch (position.type) {
+        case 'centerZoom':
+          openOsmLink(position, editor?.url);
+          break;
+
+        default:
+          throw Error('Unknown position type');
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      store.dispatch(osmEditControl.setState('regular'));
+    }
+  }
+});
 
 export function initOsmEditLink() {
-  toolbarControlsAtom.addControl.dispatch({
-    id: EDIT_IN_OSM_CONTROL_ID,
-    name: EDIT_IN_OSM_CONTROL_NAME,
-    title: i18n.t('sidebar.edit_osm'),
-    active: false,
-    visualGroup: controlVisualGroup.noAnalytics,
-    exclusiveGroup: controlGroup.mapTools,
-    icon: <EditOsm24 />,
-    onClick: () => {
-      toolbarControlsAtom.enable.dispatch(EDIT_IN_OSM_CONTROL_ID);
-      setTimeout(() => {
-        toolbarControlsAtom.disable.dispatch(EDIT_IN_OSM_CONTROL_ID);
-      }, DISABLE_CONTROL_TIMEOUT);
-
-      const position = currentMapPositionAtom.getState();
-      if (!position) return;
-      if ('lat' in position && 'lng' in position && 'zoom' in position) {
-        const { lat, lng, zoom } = position;
-        const { osmEditor } = currentUserAtom.getState();
-        if (!osmEditor) return;
-
-        const baseLink =
-          appConfig.osmEditors.find((editor) => editor.id === osmEditor)?.url ||
-          'https://www.openstreetmap.org/edit?#map=';
-
-        const url = `${baseLink}${zoom + URL_ZOOM_OFFSET}/${lat}/${lng}`;
-        window.open(url)?.focus();
-      }
-    },
-  });
+  osmEditControl.init();
 }

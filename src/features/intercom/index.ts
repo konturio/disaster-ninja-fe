@@ -1,6 +1,6 @@
-import { appConfig } from '~core/app_config';
 import { cookieManagementService, permissionStatuses } from '~core/cookie_settings';
 import { createBooleanAtom } from '~utils/atoms';
+import { configRepo } from '~core/config';
 
 export const intercomVisibleAtom = createBooleanAtom(false, 'intercomVisibleAtom');
 
@@ -15,17 +15,19 @@ export function initIntercom() {
 }
 
 function connectAndConfigureIntercom() {
+  const { name, email, intercomAppId, intercomSelector } =
+    configRepo.getIntercomSettings();
+
   // need this to reset intercom session for unregistered users on startup
-  document.cookie = `intercom-session-${appConfig.intercom.app_id}= ; expires = Thu, 01 Jan 1970 00:00:00 GMT`;
+  document.cookie = `intercom-session-${intercomAppId}= ; expires = Thu, 01 Jan 1970 00:00:00 GMT`;
 
   if (!globalThis.intercomSettings) {
     globalThis.intercomSettings = {
-      name: appConfig.intercom.name,
-      app_id: appConfig.intercom.app_id,
-      custom_launcher_selector: appConfig.intercom.custom_launcher_selector,
+      name: name,
+      app_id: intercomAppId,
+      custom_launcher_selector: intercomSelector,
     };
-    if (appConfig.intercom['email'])
-      globalThis.intercomSettings['email'] = appConfig.intercom['email'];
+    if (email) globalThis.intercomSettings.email = email;
   }
 
   /* eslint-disable */
@@ -49,7 +51,7 @@ function connectAndConfigureIntercom() {
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.async = true;
-        script.src = `https://widget.intercom.io/widget/${appConfig.intercom.app_id}`;
+        script.src = `https://widget.intercom.io/widget/${intercomAppId}`;
         try {
           const firstScriptElement = document.getElementsByTagName('script')[0]!;
           firstScriptElement.parentNode?.insertBefore(script, firstScriptElement);

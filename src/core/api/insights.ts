@@ -1,4 +1,4 @@
-import { appConfig } from '~core/app_config';
+import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import type { AdvancedAnalyticsData, AnalyticsData } from '~core/types';
 
@@ -9,7 +9,7 @@ export function getPolygonDetails(
   return apiClient.post<AnalyticsData[] | null>(
     `/polygon_details/v2`,
     {
-      appId: appConfig.id,
+      appId: configRepo.get().id,
       features,
     },
     false,

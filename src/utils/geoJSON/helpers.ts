@@ -15,10 +15,26 @@ export function createGeoJSONSource(
 }
 
 export class FeatureCollection {
-  type = 'FeatureCollection';
+  type = 'FeatureCollection' as const;
   features: GeoJSON.Feature[];
   constructor(features: GeoJSON.Feature[]) {
     this.features = features;
+  }
+}
+
+export class Feature {
+  type = 'Feature' as const;
+  properties = {};
+  geometry: GeoJSON.Geometry;
+  constructor({
+    geometry,
+    properties,
+  }: {
+    geometry: GeoJSON.Geometry;
+    properties?: Record<string, string | number>;
+  }) {
+    this.geometry = geometry;
+    if (properties) this.properties = properties;
   }
 }
 

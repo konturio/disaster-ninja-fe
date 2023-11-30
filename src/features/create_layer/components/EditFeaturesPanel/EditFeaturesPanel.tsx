@@ -3,9 +3,8 @@ import clsx from 'clsx';
 import { useAction, useAtom } from '@reatom/react';
 import { Panel } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
-import { toolbarControlsAtom } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
+import { EditTargets } from '../../constants';
 import { currentEditedLayerFeatures } from '../../atoms/currentEditedLayerFeatures';
 import { currentSelectedPoint } from '../../atoms/currentSelectedPoint';
 import { editTargetAtom } from '../../atoms/editTarget';
@@ -14,6 +13,7 @@ import {
   EditFeaturePlaceholder,
 } from '../EditFeatureForm/EditFeatureForm';
 import { editableLayerSettingsAtom } from '../../atoms/editableLayerSettings';
+import { createLayerController } from '../../control';
 import s from './EditFeaturesPanel.module.css';
 
 export function EditFeaturesPanel() {
@@ -22,7 +22,7 @@ export function EditFeaturesPanel() {
   const [layersSettings] = useAtom(editableLayerSettingsAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const disableSideBarControl = useAction(
-    () => toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
+    () => createLayerController.setState('regular'),
     [],
   );
   const disableEditing = useAction(

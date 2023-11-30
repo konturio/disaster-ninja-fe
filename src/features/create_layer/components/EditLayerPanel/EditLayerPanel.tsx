@@ -3,22 +3,22 @@ import { useAction, useAtom } from '@reatom/react';
 import clsx from 'clsx';
 import { Panel } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
-import { toolbarControlsAtom } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { editTargetAtom } from '~features/create_layer/atoms/editTarget';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { editTargetAtom } from '../../atoms/editTarget';
+import { createLayerController } from '../../control';
 import { EditLayerForm } from '../../components/EditLayerForm/EditLayerForm';
 import { editableLayerControllerAtom } from '../../atoms/editableLayerController';
-import { CREATE_LAYER_CONTROL_ID, EditTargets } from '../../constants';
+import { EditTargets } from '../../constants';
 import s from './EditLayerPanel.module.css';
 import type { LayerEditorFormAtomType } from '../../atoms/layerEditorForm';
 
 export function EditLayerPanel() {
   const [createLayerState, { saveLayer }] = useAtom(editableLayerControllerAtom);
   const disableSideBarControl = useAction(
-    () => toolbarControlsAtom.disable(CREATE_LAYER_CONTROL_ID),
+    () => createLayerController.setState('regular'),
     [],
   );
   const disableEditing = useAction(

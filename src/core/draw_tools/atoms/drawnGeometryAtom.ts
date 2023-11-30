@@ -13,6 +13,7 @@ export const drawnGeometryAtom = createAtom(
     setFeatures: (features: Feature[]) => features,
     updateByIndex: (feature: Feature, index: number) => ({ feature, index }),
     removeByIndexes: (indexes: number[]) => indexes,
+    resetToDefault: () => null,
     activeDrawModeAtom,
   },
   ({ onAction, schedule }, state: FeatureCollection = defaultState) => {
@@ -45,6 +46,10 @@ export const drawnGeometryAtom = createAtom(
         return !indexesToRemove.includes(featureIndex);
       });
       state = stateCopy;
+    });
+
+    onAction('resetToDefault', () => {
+      state = defaultState;
     });
 
     return state;

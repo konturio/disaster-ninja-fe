@@ -1,0 +1,39 @@
+.toolbarContent {
+  padding: 8px 16px 9px;
+
+  min-height: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 8px;
+}
+
+.sectionDivider {
+  width: 1px;
+  min-height: inherit;
+  background-color: var(--faint-weak);
+}
+
+.sectionLabel {
+  text-align: center;
+  color: var(--faint-strong-up, #848c94);
+
+  font: var(--font-xs);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+  letter-spacing: 0.038px;
+}
+
+.section {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 8px;
+}
+
+.sectionContent {
+  flex: 1;
+  display: grid;
+  grid-template-rows: repeat(6, auto);
+  grid-auto-flow: column;
+  gap: 4px;
+}
