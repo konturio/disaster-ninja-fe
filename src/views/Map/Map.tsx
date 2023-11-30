@@ -139,17 +139,15 @@ export function MapPage() {
 const Toolbar = () => {
   const getPanelClasses = () => ({ ...panelClasses, headerTitle: s.toolbarHeaderTitle });
   return (
-    <div style={{ display: 'flex' }}>
-      <ToolbarPanel
-        id="toolbar"
-        key="toolbar"
-        fullState={toolbar()}
-        shortState={shortToolbar()}
-        panelIcon={toolbar().panelIcon}
-        header={toolbar().header}
-        getPanelClasses={getPanelClasses}
-      />
-    </div>
+    <ToolbarPanel
+      id="toolbar"
+      key="toolbar"
+      fullState={toolbar()}
+      shortState={shortToolbar()}
+      panelIcon={toolbar().panelIcon}
+      header={toolbar().header}
+      getPanelClasses={getPanelClasses}
+    />
   );
 };
 

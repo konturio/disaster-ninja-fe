@@ -45,3 +45,13 @@
     }
   }
 }
+
+.panelContainer {
+  display: flex;
+}
+
+@media screen and (max-width: 420px) {
+  .panelContainer {
+    display: block;
+  }
+}
