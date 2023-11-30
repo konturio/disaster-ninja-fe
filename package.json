@@ -75,7 +75,7 @@
   },
   "dependencies": {
     "@csstools/normalize.css": "^12.0.0",
-    "@deck.gl/core": "^8.8.25",
+    "@deck.gl/core": "^8.9.32",
     "@deck.gl/extensions": "^8.8.25",
     "@deck.gl/geo-layers": "^8.8.25",
     "@deck.gl/layers": "^8.8.25",
