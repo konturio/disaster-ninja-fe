@@ -85,7 +85,7 @@
     "@konturio/default-icons": "^2.2.2",
     "@konturio/default-theme": "3.2.4",
     "@konturio/floating": "^1.1.1",
-    "@konturio/ui-kit": "^5.1.1",
+    "@konturio/ui-kit": "^5.1.2",
     "@loaders.gl/core": "^3.3.1",
     "@mdx-js/rollup": "^2.3.0",
     "@nebula.gl/edit-modes": "1.1.0-alpha.5",
