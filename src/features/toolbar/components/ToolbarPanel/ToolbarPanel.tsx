@@ -42,7 +42,7 @@ export function ToolbarPanel({
 
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
-  const isMobileQuery = `(max-width: 420px)`;
+  const isMobileQuery = `(max-width: 485px)`;
   const isMobile = useMediaQuery(isMobileQuery);
   const getProperty = useCallback(
     function <K extends keyof PanelFeatureInterface>(property: K) {
