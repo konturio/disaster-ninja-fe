@@ -13,7 +13,7 @@
   white-space: pre-line;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1164px) {
   .toolbarButton_medium,
   .toolbarButton_tiny {
     & span {
@@ -22,7 +22,7 @@
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 584px) {
   .toolbarButton_large {
     & span {
       display: none;
