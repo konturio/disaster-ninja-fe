@@ -20,6 +20,11 @@ export const boundarySelectorControl = toolbar.setupControl<{
   },
 });
 
-export function initBoundarySelector() {
+export async function initBoundarySelector() {
+  await Promise.all([
+    import('./atoms/boundaryMarkerAtom'),
+    import('./atoms/boundaryRegistryAtom'),
+  ]);
+
   boundarySelectorControl.init();
 }

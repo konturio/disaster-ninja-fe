@@ -11,3 +11,5 @@ export const removeEmpty = <T extends Record<string, unknown | null | undefined>
     }
     return acc;
   }, {} as NoUndefinedField<T>);
+
+export const withoutUndefined = (x): x is NonNullable<typeof x> => Boolean(x);
