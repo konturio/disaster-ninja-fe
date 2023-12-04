@@ -3,7 +3,7 @@ import { currentMapAtom } from '~core/shared_state';
 import { setMapInteractivity } from '~utils/map/setMapInteractivity';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { store } from '~core/store/store';
-import { boundarySelectorControl } from '..';
+import { boundarySelectorControl } from '../control';
 
 interface ScheduleContext {
   removeClickListener?: () => void;

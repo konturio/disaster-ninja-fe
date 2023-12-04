@@ -9,7 +9,7 @@ import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { withoutUndefined } from '~utils/common/removeEmpty';
-import { boundarySelectorControl } from '..';
+import { boundarySelectorControl } from '../control';
 import { createDropdownAsMarker } from '../utils/createDropdownAsMarker';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 import { boundaryResourceAtom } from './boundaryResourceAtom';
