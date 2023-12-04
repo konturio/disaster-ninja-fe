@@ -102,6 +102,7 @@ class ToolbarImpl implements Toolbar {
     const onInitCbs = new Set<(ctx: Ctx) => OnRemoveCb | void>();
     const onStateChangeCbs = new Set<(ctx: Ctx, state: ControlState) => void>();
     const onRemoveCbs = new Set<(ctx: Ctx) => void>();
+    let initialised = false;
 
     this.toolbarControlsSettingsAtom.set(settings.id, settings);
 
@@ -142,12 +143,26 @@ class ToolbarImpl implements Toolbar {
       setState: (newState) => controlStateAtom.set(newState),
       stateStream: controlStateAtom,
       init: () => {
+        /* React call in twice in Strict mode */
+        if (initialised) {
+          console.debug('[Toolbar]: Control already initialised, ignoring second call');
+          return;
+        }
+        initialised = true;
+
         onInitCbs.forEach((cb) => {
           const cleanUpTask = cb(controlContext);
           if (cleanUpTask) cleanUpTasks.add(cleanUpTask);
         });
       },
       remove: async () => {
+        /* React call in twice in Strict mode */
+        if (!initialised) {
+          console.debug('[Toolbar]: Control already removed, ignoring second call');
+          return;
+        }
+        initialised = false;
+
         unsubscribe();
         onRemoveCbs.forEach((cb) => cb(controlContext));
         cleanUpTasks.forEach((cb) => cb());
