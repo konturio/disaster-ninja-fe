@@ -6,7 +6,7 @@ import { Feature } from '~utils/geoJSON/helpers';
  * FeatureCollection and Features with type geometry type Point, LineString or Polygon.
  * Here we trying to convert other types to allowed
  */
-function normalizeGeometry(feature: GeoJSON.Feature): Array<GeoJSON.Feature> {
+function normalizeFeatureGeometry(feature: GeoJSON.Feature): Array<GeoJSON.Feature> {
   switch (feature.geometry.type) {
     case 'Point':
     case 'LineString':
@@ -30,7 +30,7 @@ function normalizeGeometry(feature: GeoJSON.Feature): Array<GeoJSON.Feature> {
     case 'GeometryCollection':
       return feature.geometry.geometries
         .map((geometry) =>
-          normalizeGeometry(
+          normalizeFeatureGeometry(
             new Feature({
               geometry,
             }),
@@ -44,18 +44,33 @@ function normalizeGeometry(feature: GeoJSON.Feature): Array<GeoJSON.Feature> {
   }
 }
 
-export function convertToFeatures(
-  geometry: GeoJSON.FeatureCollection | GeoJSON.Feature,
-): Array<GeoJSON.Feature> {
-  if (geometry.type === 'FeatureCollection') {
-    return geometry.features.map((f) => normalizeGeometry(f)).flat(1);
-  }
+export function convertToFeatures(geometry: GeoJSON.GeoJSON): Array<GeoJSON.Feature> {
+  switch (geometry.type) {
+    case 'FeatureCollection':
+      return geometry.features.map((f) => normalizeFeatureGeometry(f)).flat(1);
 
-  if (geometry.type === 'Feature') {
-    return normalizeGeometry(geometry);
-  }
+    case 'Feature':
+      return normalizeFeatureGeometry(geometry);
 
-  // @ts-expect-error check for runtime error
-  console.error('Unsupported geometry type: ', geometry.type);
-  return [];
+    case 'Point':
+    case 'LineString':
+    case 'Polygon':
+    case 'GeometryCollection':
+    case 'MultiPoint':
+    case 'MultiPolygon':
+      return normalizeFeatureGeometry(
+        new Feature({
+          geometry,
+        }),
+      );
+
+    case 'MultiLineString':
+      console.error('Unsupported geometry type: ', geometry.type);
+      return [];
+
+    default:
+      // @ts-expect-error check for runtime error
+      console.error('Unsupported geometry type: ', geometry.type);
+      return [];
+  }
 }

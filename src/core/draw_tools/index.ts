@@ -30,9 +30,7 @@ class DrawToolsControllerImpl implements DrawToolsController {
     throw Error('Not implemented');
   }
 
-  async edit(
-    geometry: GeoJSON.FeatureCollection | GeoJSON.Feature,
-  ): Promise<GeoJSON.FeatureCollection> {
+  async edit(geometry: GeoJSON.GeoJSON): Promise<GeoJSON.FeatureCollection> {
     const geometryFeatures = convertToFeatures(geometry);
     forceRun(combinedAtom); // TODO is this really needed?
     store.dispatch([
