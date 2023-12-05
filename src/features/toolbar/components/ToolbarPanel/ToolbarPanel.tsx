@@ -2,7 +2,7 @@ import { Panel, PanelIcon } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback } from 'react';
 import { panelClasses as defaultPanelClasses } from '~components/Panel';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
@@ -101,7 +101,6 @@ export function ToolbarPanel({
           classes={getPanelClasses({ isOpen, isShort })}
           isOpen={isOpen}
           resize={resize}
-          contentClassName={s.contentWrap}
           contentContainerRef={handleRefChange}
           customControls={panelControls}
           contentHeight={contentHeight}
@@ -113,12 +112,7 @@ export function ToolbarPanel({
 
         <PanelIcon
           clickHandler={onPanelIconClick}
-          className={clsx(
-            s.panelIcon,
-            isOpen && s.hide,
-            !isOpen && s.show,
-            isMobile ? s.mobile : s.desktop,
-          )}
+          className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
           icon={resultPanelIcon || <></>}
         />
       </div>
