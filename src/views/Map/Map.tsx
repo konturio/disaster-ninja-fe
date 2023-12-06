@@ -118,7 +118,7 @@ export function MapPage() {
           layersAndLegends={<LayersAndLegends featureFlags={featureFlags} />}
           matrix={featureFlags[FeatureFlag.BIVARIATE_MANAGER] && <BivariatePanel />}
           timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
-          toolbar={<Toolbar />}
+          toolbar={featureFlags[FeatureFlag.TOOLBAR] && <Toolbar />}
           footer={
             <div className={clsx(s.footer, s.clickThrough)}>
               <div className={s.footerBackground}>
