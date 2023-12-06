@@ -50,6 +50,7 @@ export const AppFeature = {
   USE_3RDPARTY_ANALYTICS: 'use_3rdparty_analytics',
   LIVE_SENSOR: 'live_sensor',
   MCDA: 'mcda',
+  TOOLBAR: 'toolbar',
 } as const;
 
 export type AppFeatureType = (typeof AppFeature)[keyof typeof AppFeature];

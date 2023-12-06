@@ -2,7 +2,7 @@ import { currentMapAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
-import { boundarySelectorControl } from '..';
+import { boundarySelectorControl } from '../control';
 import { BoundarySelectorRenderer } from '../renderers/BoundarySelectorRenderer';
 import {
   BOUNDARY_GEOMETRY_COLOR,

@@ -11,10 +11,9 @@
 .toolbarButton_large {
   grid-row: span 6;
   white-space: pre-line;
-  justify-content: center !important; /* TODO: fix in ui-kit */
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1164px) {
   .toolbarButton_medium,
   .toolbarButton_tiny {
     & span {
@@ -23,7 +22,7 @@
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 584px) {
   .toolbarButton_large {
     & span {
       display: none;

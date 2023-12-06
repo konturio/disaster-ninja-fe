@@ -2,7 +2,7 @@ import { Panel, PanelIcon } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback } from 'react';
 import { panelClasses as defaultPanelClasses } from '~components/Panel';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
+import { useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
@@ -42,7 +42,7 @@ export function ToolbarPanel({
 
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
-  const isMobileQuery = `(max-width: 385px)`;
+  const isMobileQuery = `(max-width: 485px)`;
   const isMobile = useMediaQuery(isMobileQuery);
   const getProperty = useCallback(
     function <K extends keyof PanelFeatureInterface>(property: K) {
@@ -92,34 +92,30 @@ export function ToolbarPanel({
 
   return (
     <>
-      <Panel
-        header={resultHeader}
-        onHeaderClick={togglePanelState}
-        headerIcon={resultPanelIcon || undefined}
-        className={clsx(s.panel, isOpen ? s.show : s.collapse)}
-        classes={getPanelClasses({ isOpen, isShort })}
-        isOpen={isOpen}
-        resize={resize}
-        contentClassName={s.contentWrap}
-        contentContainerRef={handleRefChange}
-        customControls={panelControls}
-        contentHeight={contentHeight}
-        minContentHeight={minHeight}
-        maxContentHeight={maxHeight}
-      >
-        {panelContent[panelState]}
-      </Panel>
+      <div className={s.panelContainer}>
+        <Panel
+          header={resultHeader}
+          onHeaderClick={togglePanelState}
+          headerIcon={resultPanelIcon || undefined}
+          className={clsx(s.panel, isOpen ? s.show : s.collapse)}
+          classes={getPanelClasses({ isOpen, isShort })}
+          isOpen={isOpen}
+          resize={resize}
+          contentContainerRef={handleRefChange}
+          customControls={panelControls}
+          contentHeight={contentHeight}
+          minContentHeight={minHeight}
+          maxContentHeight={maxHeight}
+        >
+          {panelContent[panelState]}
+        </Panel>
 
-      <PanelIcon
-        clickHandler={onPanelIconClick}
-        className={clsx(
-          s.panelIcon,
-          isOpen && s.hide,
-          !isOpen && s.show,
-          isMobile ? s.mobile : s.desktop,
-        )}
-        icon={resultPanelIcon || <></>}
-      />
+        <PanelIcon
+          clickHandler={onPanelIconClick}
+          className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
+          icon={resultPanelIcon || <></>}
+        />
+      </div>
     </>
   );
 }

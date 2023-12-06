@@ -11,6 +11,7 @@
   width: 1px;
   min-height: inherit;
   background-color: var(--faint-weak);
+  flex-shrink: 0;
 }
 
 .sectionLabel {

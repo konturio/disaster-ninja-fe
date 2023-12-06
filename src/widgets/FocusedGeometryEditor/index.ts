@@ -23,31 +23,27 @@ focusedGeometryControl.onStateChange(async (ctx, state) => {
       // Read focused geometry
       const focusedGeometry =
         focusedGeometryAtom.getState()?.geometry ?? new FeatureCollection([]);
-      if (focusedGeometry.type === 'FeatureCollection') {
-        store.dispatch(
-          // Disable focused geometry layer
-          enabledLayersAtom.delete(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
-        );
-        // Put focused geometry to editor
-        const result = await drawTools.edit(focusedGeometry);
-        if (result) {
-          store.dispatch([
-            // Update focused geometry with edited geometry
-            focusedGeometryAtom.setFocusedGeometry({ type: 'drawn' }, result),
-            // Enable focused geometry layer
-            enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
-          ]);
-          //
-        } else {
-          throw Error('Draw tools not return any geometry');
-        }
+      store.dispatch(
+        // Disable focused geometry layer
+        enabledLayersAtom.delete(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
+      );
+      // Put focused geometry to editor
+      const result = await drawTools.edit(focusedGeometry);
+      if (result) {
+        store.dispatch([
+          // Update focused geometry with edited geometry
+          focusedGeometryAtom.setFocusedGeometry({ type: 'drawn' }, result),
+          // Enable focused geometry layer
+          enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
+        ]);
+        //
       } else {
-        throw Error(
-          `Attempt to edit unsupported geometry type: "${focusedGeometry.type}"`,
-        );
+        throw Error('Draw tools not return any geometry');
       }
     } catch (e) {
       console.error('Draw tools exited with error:', e);
+      // Re-enable focused geometry layer
+      store.dispatch([enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID)]);
     }
   } else {
     // TODO

@@ -17,10 +17,6 @@
   height: 100%;
 }
 
-.panelIcon.desktop {
-  display: none;
-}
-
 /* mobile */
 @media screen and (max-width: 960px) {
   .panel.collapse {
@@ -30,18 +26,34 @@
   .scrollable {
     width: 100%;
   }
+}
 
-  .panelIcon.mobile {
-    display: flex;
-    &.show {
-      transition: opacity 0.33s linear 0s;
-      visibility: visible;
-      opacity: 1;
-    }
+.panelContainer {
+  display: flex;
+}
 
-    &.hide {
-      visibility: hidden;
-      opacity: 0;
-    }
+@media screen and (max-width: 485px) {
+  .panelContainer {
+    display: block;
+  }
+}
+
+.panelIcon {
+  display: flex;
+  &.show {
+    transition: opacity 0.33s linear 0s;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.hide {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+@media screen and (min-width: 961px) {
+  .panelIcon {
+    display: none;
   }
 }
