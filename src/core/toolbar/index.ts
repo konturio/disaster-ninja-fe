@@ -167,7 +167,6 @@ class ToolbarImpl implements Toolbar {
         onRemoveCbs.forEach((cb) => cb(controlContext));
         cleanUpTasks.forEach((cb) => cb());
         store.dispatch(this.toolbarControlsSettingsAtom.delete(settings.id));
-        this.toolbarControlsSettingsAtom.delete(settings.id);
       },
       onInit: (cb) => {
         onInitCbs.add(cb);

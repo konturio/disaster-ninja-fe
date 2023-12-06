@@ -27,6 +27,17 @@ function normalizeFeatureGeometry(feature: GeoJSON.Feature): Array<GeoJSON.Featu
           }),
       );
 
+    case 'MultiLineString':
+      return feature.geometry.coordinates.map(
+        (coords) =>
+          new Feature({
+            geometry: {
+              type: 'LineString',
+              coordinates: coords,
+            },
+          }),
+      );
+
     case 'GeometryCollection':
       return feature.geometry.geometries
         .map((geometry) =>
@@ -39,6 +50,7 @@ function normalizeFeatureGeometry(feature: GeoJSON.Feature): Array<GeoJSON.Featu
         .flat(1);
 
     default:
+      // @ts-expect-error - check for runtime error
       console.error('Unsupported geometry type: ', feature.geometry.type);
       return [];
   }
@@ -58,18 +70,15 @@ export function convertToFeatures(geometry: GeoJSON.GeoJSON): Array<GeoJSON.Feat
     case 'GeometryCollection':
     case 'MultiPoint':
     case 'MultiPolygon':
+    case 'MultiLineString':
       return normalizeFeatureGeometry(
         new Feature({
           geometry,
         }),
       );
 
-    case 'MultiLineString':
-      console.error('Unsupported geometry type: ', geometry.type);
-      return [];
-
     default:
-      // @ts-expect-error check for runtime error
+      // @ts-expect-error - check for runtime error
       console.error('Unsupported geometry type: ', geometry.type);
       return [];
   }

@@ -29,7 +29,7 @@ export function boundarySelector(
       const feature = boundaries.features.find((boundary) => boundary.id === id);
       return {
         type: 'FeatureCollection' as const,
-        features: [feature],
+        features: feature ? [feature] : [],
       };
     } else {
       const features = boundaries.id === id ? [boundaries] : [];

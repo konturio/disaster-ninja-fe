@@ -1,6 +1,6 @@
 import { convertToAppMarker } from '~utils/map/markers';
 import { BOUNDARY_MARKER_ID } from '../constants';
-import { getSelectorWithOptions } from './../components/getSelectorWithOptions';
+import { getSelectorWithOptions } from '../components/getSelectorWithOptions';
 import type { BoundaryOption } from '~utils/map/boundaries';
 
 export function createDropdownAsMarker(

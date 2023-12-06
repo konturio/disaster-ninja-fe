@@ -16,14 +16,33 @@ import type { DrawToolController, DrawToolsController, DrawToolsHook } from './t
 // a little scratch about new and previous structure https://www.figma.com/file/G8VQQ3mctz5gPkcZZvbzCl/Untitled?node-id=0%3A1
 // newest structure: https://www.figma.com/file/FcyFYb406D8zGFWxyK4zIk/Untitled?node-id=0%3A1
 
+function DeferredPromise<T>() {
+  // @ts-expect-error this values assigned later
+  const deferred: {
+    resolve: (value: T | PromiseLike<T>) => void;
+    reject: (reason?: any) => void;
+    promise: Promise<T>;
+  } = {};
+  const promise = new Promise<T>((resolve, reject) => {
+    deferred.resolve = resolve;
+    deferred.reject = reject;
+  });
+  deferred.promise = promise;
+  return deferred;
+}
+
 class DrawToolsControllerImpl implements DrawToolsController {
   isActivated = false;
-  private editPromise: null | {
+  private deferred: null | {
     resolve: (geometry: GeoJSON.FeatureCollection) => void;
     reject: (err: Error) => void;
+    promise: Promise<GeoJSON.FeatureCollection>;
   } = null;
+  private unsubscribe?: () => void;
+
   init() {
     drawModeRenderer.setupExtension(combinedAtom);
+    this.unsubscribe = forceRun(combinedAtom); // TODO is this really needed?
   }
 
   dissolve() {
@@ -31,8 +50,12 @@ class DrawToolsControllerImpl implements DrawToolsController {
   }
 
   async edit(geometry: GeoJSON.GeoJSON): Promise<GeoJSON.FeatureCollection> {
+    // Edit already in progress
+    if (this.deferred) {
+      console.warn('Unexpected attempt call edit while it already in edit state');
+      return this.deferred.promise;
+    }
     const geometryFeatures = convertToFeatures(geometry);
-    forceRun(combinedAtom); // TODO is this really needed?
     store.dispatch([
       // Enable layer for draw tools
       drawModeLogicalLayerAtom.enable(),
@@ -46,15 +69,14 @@ class DrawToolsControllerImpl implements DrawToolsController {
       toolboxAtom.setSettings({
         availableModes: ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode'],
         finishButtonCallback: () => {
-          this.editPromise?.resolve(this.geometry);
-          this.editPromise = null;
+          this.deferred?.resolve(this.geometry);
+          this.deferred = null;
         },
       }),
     ]);
 
-    return new Promise((resolve, reject) => {
-      this.editPromise = { resolve, reject };
-    });
+    this.deferred = DeferredPromise<GeoJSON.FeatureCollection>();
+    return this.deferred.promise;
   }
 
   exit() {
@@ -63,7 +85,11 @@ class DrawToolsControllerImpl implements DrawToolsController {
       activeDrawModeAtom.setDrawMode(null),
       drawnGeometryAtom.setFeatures([]),
     ]);
-    if (this.editPromise) this.editPromise.reject(Error('Force exit'));
+    this.unsubscribe?.();
+    if (this.deferred) {
+      this.deferred.reject(Error('Edit mode exited before completion.'));
+      return this.deferred;
+    }
   }
 
   get geometry(): GeoJSON.FeatureCollection {

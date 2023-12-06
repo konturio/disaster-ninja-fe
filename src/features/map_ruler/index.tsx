@@ -41,9 +41,9 @@ mapRulerControl.onInit((ctx) => {
 mapRulerControl.onStateChange((ctx, state) => {
   if (ctx.logicalLayerAtom) {
     if (state === 'active') {
-      store.dispatch(ctx.logicalLayerAtom?.enable());
+      store.dispatch(ctx.logicalLayerAtom.enable());
     } else {
-      store.dispatch(ctx.logicalLayerAtom?.disable());
+      store.dispatch(ctx.logicalLayerAtom.disable());
     }
   }
 });

@@ -42,6 +42,8 @@ focusedGeometryControl.onStateChange(async (ctx, state) => {
       }
     } catch (e) {
       console.error('Draw tools exited with error:', e);
+      // Re-enable focused geometry layer
+      store.dispatch([enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID)]);
     }
   } else {
     // TODO
