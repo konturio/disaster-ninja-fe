@@ -161,7 +161,7 @@
     "cpr": "^3.0.1",
     "dependency-cruiser": "^13.1.1",
     "eslint": "^8.45.0",
-    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-i18n-checker": "^1.4.0",
     "eslint-plugin-i18n-json": "^4.0.0",
     "eslint-plugin-import": "^2.27.5",
