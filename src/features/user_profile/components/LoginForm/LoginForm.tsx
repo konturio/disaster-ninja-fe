@@ -128,7 +128,7 @@ export function LoginForm() {
       </div>
       <div className={clsx(s.link, s.registerContainter)}>
         <a
-          href="https://keycloak01.kontur.io/auth/realms/dev/protocol/openid-connect/registrations?client_id=account&response_type=code&scope=openid&redirect_uri=https://www.kontur.io/portfolio/"
+          href="https://keycloak01.kontur.io/auth/realms/kontur/protocol/openid-connect/registrations?client_id=account&response_type=code&scope=openid&redirect_uri=https://www.kontur.io/portfolio/"
           target="_blank"
           rel="noreferrer"
         >
