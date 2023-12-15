@@ -42,7 +42,7 @@ const validators = {
           s.string(),
           s.number(),
           validators.mapExpression(s) as unknown as superstruct.Struct<
-            mapboxgl.Expression,
+            maplibregl.Expression,
             null
           >,
           s.boolean(),

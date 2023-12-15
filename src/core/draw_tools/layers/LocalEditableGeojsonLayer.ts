@@ -86,7 +86,6 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
       type: 'FeatureCollection',
       features: [],
     };
-    // @ts-expect-error - deckgl types
     data.features = this.props.data?.features?.map((feature, index) => {
       if (feature.geometry.type !== 'Point')
         return {
@@ -102,21 +101,12 @@ export class LocalEditableGeojsonLayer extends EditableGeoJsonLayer {
 
     const { editHandleIconSizeUnits } = this.props;
 
-    // TODO: contribute type fix in nebula
-    // @ts-expect-error - it's error in nebula typings
     if (!data || !data.features.length || !this.props.geojsonIcons) {
       return [];
     }
 
-    const {
-      iconAtlas,
-      iconMapping,
-      sizeScale,
-      getIcon,
-      getSize,
-      // TODO: contribute type fix in nebula
-      // @ts-expect-error - it's error in nebula typings
-    } = this.props.geojsonIcons;
+    const { iconAtlas, iconMapping, sizeScale, getIcon, getSize } =
+      this.props.geojsonIcons;
 
     const subLayerProps = {};
 
