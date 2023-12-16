@@ -12,15 +12,24 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
-      - uses: actions/cache@v3
+          node-version: "20"
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.json') }}
+          version: 8
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-pnpm-store-
       - run: pnpm ci --include=dev
-      - run: pnpm run --silent i18n:report -- --out md > ./.github/workflows/translations-report.md 
+      - run: pnpm run --silent i18n:report -- --out md > ./.github/workflows/translations-report.md
       - name: Comment
         uses: NejcZdovc/comment-pr@v1
         with:
