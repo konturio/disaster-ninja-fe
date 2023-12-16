@@ -28,14 +28,17 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "20"
+          
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         with:
           version: 8
+
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
@@ -43,6 +46,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+
       - run: pnpm run i18n:gettext-sync
       - shell: bash
         run: |

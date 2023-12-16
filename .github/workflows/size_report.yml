@@ -8,47 +8,90 @@ jobs:
     name: Build base
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.base_ref }}
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
+          
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
 
-    - name: Install dependencies
-      run: pnpm i
-      env:
-        NODE_AUTH_TOKEN: ${{secrets.TOKEN_REPO}}
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
 
-    - name: Build
-      run: pnpm run build
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-    - name: Upload base size-report.json
-      uses: actions/upload-artifact@v3
-      with:
-        name: base
-        path: ./size-report.json
-        retention-days: 1
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm i
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.TOKEN_REPO}}
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Upload base size-report.json
+        uses: actions/upload-artifact@v3
+        with:
+          name: base
+          path: ./size-report.json
+          retention-days: 1
 
   build-pr:
     name: Build PR
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: pnpm i
-      env:
-        NODE_AUTH_TOKEN: ${{secrets.TOKEN_REPO}}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
 
-    - name: Build
-      run: pnpm run build
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
 
-    - name: Upload base size-report.json
-      uses: actions/upload-artifact@v3
-      with:
-        name: pr
-        path: ./size-report.json
-        retention-days: 1
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm i
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.TOKEN_REPO}}
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Upload base size-report.json
+        uses: actions/upload-artifact@v3
+        with:
+          name: pr
+          path: ./size-report.json
+          retention-days: 1
 
   report:
     name: Generate report
@@ -56,36 +99,36 @@ jobs:
     needs: [build-base, build-pr]
 
     steps:
-    - name: Checkout PR
-      uses: actions/checkout@v3
+      - name: Checkout PR
+        uses: actions/checkout@v3
 
-    - name: Download base size-report.json
-      uses: actions/download-artifact@v3
-      with:
-        name: base
-        path: base
+      - name: Download base size-report.json
+        uses: actions/download-artifact@v3
+        with:
+          name: base
+          path: base
 
-    - name: Download PR size-report.json
-      uses: actions/download-artifact@v3
-      with:
-        name: pr
-        path: pr
+      - name: Download PR size-report.json
+        uses: actions/download-artifact@v3
+        with:
+          name: pr
+          path: pr
 
-    - name: Get diff
-      id: get-diff
-      uses: Konturio/bundle-size-diff@v1.0.6
-      with:
-        base_path: './base/size-report.json'
-        pr_path: './pr/size-report.json'
+      - name: Get diff
+        id: get-diff
+        uses: Konturio/bundle-size-diff@v1.0.6
+        with:
+          base_path: "./base/size-report.json"
+          pr_path: "./pr/size-report.json"
 
-    - name: Comment
-      uses: NejcZdovc/comment-pr@v1
-      with:
-        file: 'comment.md'
-        identifier: "GITHUB_COMMENT_SIZE"
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        OLD: ${{steps.get-diff.outputs.base_file_string}}
-        NEW: ${{steps.get-diff.outputs.pr_file_string}}
-        DIFF: ${{steps.get-diff.outputs.diff_file_string}}
-        DIFF_PERCENT: ${{steps.get-diff.outputs.percent}}
+      - name: Comment
+        uses: NejcZdovc/comment-pr@v1
+        with:
+          file: "comment.md"
+          identifier: "GITHUB_COMMENT_SIZE"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          OLD: ${{steps.get-diff.outputs.base_file_string}}
+          NEW: ${{steps.get-diff.outputs.pr_file_string}}
+          DIFF: ${{steps.get-diff.outputs.diff_file_string}}
+          DIFF_PERCENT: ${{steps.get-diff.outputs.percent}}
