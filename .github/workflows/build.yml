@@ -34,7 +34,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: npm run i18n:gettext-sync
+      - run: pnpm run i18n:gettext-sync
       - shell: bash
         run: |
           status=$(git status --porcelain)
@@ -44,11 +44,11 @@ jobs:
           else
             echo "Translations are synced."
           fi
-      - run: npm ci --include=dev
-      - run: npm run postinstall
-      - run: npm run lint
-      - run: npm run typecheck
-      - run: env NODE_ENV=test npm run coverage
+      - run: pnpm ci --include=dev
+      - run: pnpm run postinstall
+      - run: pnpm run lint
+      - run: pnpm run typecheck
+      - run: env NODE_ENV=test pnpm run coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
 
@@ -61,8 +61,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - run: npm ci --include=dev
-      - run: npm run build
+      - run: pnpm ci --include=dev
+      - run: pnpm run build
       - name: Display structure of builded files
         run: ls -R
         working-directory: .

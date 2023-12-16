@@ -19,8 +19,8 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: npm ci --include=dev
-      - run: npm run --silent i18n:report -- --out md > ./.github/workflows/translations-report.md 
+      - run: pnpm ci --include=dev
+      - run: pnpm run --silent i18n:report -- --out md > ./.github/workflows/translations-report.md 
       - name: Comment
         uses: NejcZdovc/comment-pr@v1
         with:
