@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - run: pnpm ci --include=dev
+      - run: pnpm i --include=dev
       - run: pnpm run --silent i18n:report -- --out md > ./.github/workflows/translations-report.md
       - name: Comment
         uses: NejcZdovc/comment-pr@v1

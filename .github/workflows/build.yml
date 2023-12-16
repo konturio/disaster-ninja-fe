@@ -53,7 +53,7 @@ jobs:
           else
             echo "Translations are synced."
           fi
-      - run: pnpm ci --include=dev
+      - run: pnpm i --include=dev
       - run: pnpm run postinstall
       - run: pnpm run lint
       - run: pnpm run typecheck
@@ -84,7 +84,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - run: pnpm ci --include=dev
+      - run: pnpm i --include=dev
       - run: pnpm run build
       - name: Display structure of builded files
         run: ls -R
