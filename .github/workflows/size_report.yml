@@ -17,10 +17,8 @@ jobs:
         with:
           node-version: "20"
 
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        with:
-          version: 8
+      - run: corepack enable
+      - run: corepack prepare pnpm@8 --activate
 
       - name: Get pnpm store directory
         shell: bash
@@ -60,10 +58,8 @@ jobs:
         with:
           node-version: "20"
 
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        with:
-          version: 8
+      - run: corepack enable
+      - run: corepack prepare pnpm@8 --activate
 
       - name: Get pnpm store directory
         shell: bash

@@ -54,7 +54,7 @@ jobs:
           else
             echo "Translations are synced."
           fi
-      - run: pnpm i --include=dev
+      - run: pnpm i
       - run: pnpm run postinstall
       - run: pnpm run lint
       - run: pnpm run typecheck
@@ -70,10 +70,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "20"
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        with:
-          version: 8
+      - run: corepack enable
+      - run: corepack prepare pnpm@8 --activate
       - name: Get pnpm store directory
         shell: bash
         run: |
@@ -85,7 +83,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - run: pnpm i --include=dev
+      - run: pnpm i
       - run: pnpm run build
       - name: Display structure of builded files
         run: ls -R
