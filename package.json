@@ -186,11 +186,11 @@
     "vite": "^5.0.10",
     "vite-plugin-html": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.2",
-    "vitest": "^1.0.4"
+    "vitest": "^1.0.4",
+    "rollup-plugin-visualizer": "^5.11.0"
   },
   "devDependencies": {
     "husky": "^8.0.3",
-    "open-cli": "^7.2.0",
-    "rollup-plugin-visualizer": "^5.11.0"
+    "open-cli": "^7.2.0"
   }
 }
