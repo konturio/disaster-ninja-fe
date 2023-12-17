@@ -142,9 +142,7 @@
     "uhtml": "^4.1.21",
     "utility-types": "^3.10.0",
     "vite-plugin-mkcert": "^1.17.1",
-    "wretch": "^2.7.1"
-  },
-  "devDependencies": {
+    "wretch": "^2.7.1",
     "@testing-library/react": "^14.1.2",
     "@types/sinon": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
@@ -165,13 +163,11 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "happy-dom": "^12.10.3",
-    "husky": "^8.0.3",
     "i18next-conv": "14.0.0",
     "i18next-scanner": "^4.4.0",
     "lint-staged": "^15.2.0",
-    "minimist": "^1.2.8",
     "npm-run-all": "^4.1.5",
-    "open-cli": "^7.2.0",
+    "minimist": "^1.2.8",
     "patch-package": "^8.0.0",
     "postcss-custom-media": "^8.0.2",
     "postcss-loader": "^7.3.3",
@@ -179,7 +175,6 @@
     "postcss-normalize": "^10.0.1",
     "prettier": "^3.1.1",
     "react-cosmos": "5.7.2",
-    "rollup-plugin-visualizer": "^5.11.0",
     "sinon": "^17.0.1",
     "stylelint": "^16.0.2",
     "stylelint-config-recommended": "^14.0.0",
@@ -192,5 +187,10 @@
     "vite-plugin-html": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.2",
     "vitest": "^1.0.4"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "open-cli": "^7.2.0",
+    "rollup-plugin-visualizer": "^5.11.0"
   }
 }
