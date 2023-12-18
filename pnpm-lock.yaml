@@ -44,6 +44,12 @@ dependencies:
   '@loaders.gl/core':
     specifier: ^3.4.14
     version: 3.4.14
+  '@loaders.gl/loader-utils':
+    specifier: ^3.4.14
+    version: 3.4.14
+  '@loaders.gl/worker-utils':
+    specifier: ^3.4.14
+    version: 3.4.14
   '@nebula.gl/edit-modes':
     specifier: 1.1.0-alpha.5
     version: 1.1.0-alpha.5
@@ -9688,7 +9694,7 @@ packages:
   /redux@4.2.0:
     resolution: {integrity: sha512-oSBmcKKIuIR4ME29/AeNUnl5L+hvBq7OaJWzaptTQJAntaPvxIJqfnjbaEiCzzaIz+XmVILfqAM3Ob0aXLPfjA==}
     dependencies:
-      '@babel/runtime': 7.18.3
+      '@babel/runtime': 7.23.6
     dev: false
 
   /reflect.getprototypeof@1.0.4:

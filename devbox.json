@@ -1,6 +1,7 @@
 {
   "packages": [
     "nodejs@20",
+    "nodePackages.pnpm@6",
     "go@latest",
     "gopls@latest"
   ],

@@ -34,7 +34,6 @@ export default ({ mode }) => {
     VITE_DEBUG_RENDER_TRACKER?: boolean;
     VITE_DEBUG_HMR?: boolean;
     VITE_ANALYZE_BUNDLE?: boolean;
-    VITE_HTTPS?: boolean;
   }>(loadEnv(mode, process.cwd()));
 
   const config = useConfig(selectConfig(mode), env.DEST_PATH);
@@ -98,7 +97,7 @@ export default ({ mode }) => {
       buildSizeReport({
         filename: './size-report.json',
       }),
-      mode === 'development' && env.VITE_HTTPS && mkcert(),
+      mode === 'development' && mkcert(),
     ],
     css: {
       postcss: postcssConfig,
@@ -114,7 +113,6 @@ export default ({ mode }) => {
       proxy: proxyConfig,
       port: 3000,
       hmr,
-      https: env.VITE_HTTPS ?? false,
     },
     define:
       mode === 'development'
