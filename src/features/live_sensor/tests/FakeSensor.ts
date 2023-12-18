@@ -9,7 +9,7 @@ export const makeFakeSensor = (frequency: number, id: string) => {
     id: string;
     ready = false;
     frequency: number;
-    interval: number | null = null;
+    interval: NodeJS.Timeout | null = null;
 
     constructor() {
       super();
@@ -18,7 +18,7 @@ export const makeFakeSensor = (frequency: number, id: string) => {
     }
 
     async setup() {
-      this.interval = window.setInterval(() => {
+      this.interval = globalThis.setInterval(() => {
         this.update({ id: this.id, updateTime: Date.now() });
       }, this.frequency);
       this.ready = true;
@@ -26,7 +26,7 @@ export const makeFakeSensor = (frequency: number, id: string) => {
     }
 
     stop() {
-      this.interval && window.clearInterval(this.interval);
+      this.interval && globalThis.clearInterval(this.interval);
     }
   };
 };
