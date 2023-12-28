@@ -137,7 +137,7 @@
     "geojson-polygon-self-intersections": "^1.2.1",
     "happy-dom": "^12.10.3",
     "hash-wasm": "^4.11.0",
-    "history": "^4.10.1",
+    "history": "^5.3.0",
     "hsluv": "^1.0.1",
     "i18next": "^22.5.1",
     "i18next-browser-languagedetector": "^7.2.0",
