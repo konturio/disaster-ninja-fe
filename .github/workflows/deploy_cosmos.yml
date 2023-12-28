@@ -16,8 +16,8 @@ jobs:
 
       - name: Run cosmos:build to build static
         run: |
-          npm ci --also=dev
-          npm run cosmos:build
+          pnpm ci --also=dev
+          pnpm run cosmos:build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3

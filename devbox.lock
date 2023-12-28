@@ -1,6 +1,10 @@
 {
   "lockfile_version": "1",
   "packages": {
+    "emacs28Packages.pnpm-mode": {
+      "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#emacs28Packages.pnpm-mode",
+      "source": "nixpkg"
+    },
     "go@latest": {
       "last_modified": "2023-09-27T18:02:17Z",
       "resolved": "github:NixOS/nixpkgs/517501bcf14ae6ec47efd6a17dda0ca8e6d866f9#go_1_21",

@@ -39,7 +39,6 @@ class StableStorage implements Storage {
       return true;
     } catch (e) {
       console.warn(`${type} in not available.`);
-      console.debug(e);
     }
   }
 

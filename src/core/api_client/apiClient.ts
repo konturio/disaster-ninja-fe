@@ -1,7 +1,7 @@
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 import FormUrlAddon from 'wretch/addons/formUrl';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { KONTUR_DEBUG } from '~utils/debug';
 import { localStorage } from '~utils/storage';
