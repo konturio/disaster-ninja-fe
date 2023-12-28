@@ -1,7 +1,7 @@
 {
   "packages": [
     "nodejs@20",
-    "nodePackages.pnpm@6",
+    "emacs28Packages.pnpm-mode",
     "go@latest",
     "gopls@latest"
   ],
