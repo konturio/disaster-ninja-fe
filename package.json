@@ -171,7 +171,7 @@
     "react-router-dom": "^5.3.4",
     "react-transition-group": "^4.4.5",
     "react-virtuoso": "^4.6.2",
-    "remark-gfm": "^3.0.1",
+    "remark-gfm": "^4.0.0",
     "rollup-plugin-visualizer": "^5.11.0",
     "sinon": "^17.0.1",
     "stylelint": "^16.0.2",
