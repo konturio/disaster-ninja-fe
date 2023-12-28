@@ -153,8 +153,8 @@ dependencies:
     specifier: ^3.0.1
     version: 3.0.1
   date-fns:
-    specifier: ^2.30.0
-    version: 2.30.0
+    specifier: ^3.0.6
+    version: 3.0.6
   dependency-cruiser:
     specifier: ^15.5.0
     version: 15.5.0
@@ -4367,11 +4367,8 @@ packages:
       d3-array: 1.2.4
     dev: false
 
-  /date-fns@2.30.0:
-    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
-    engines: {node: '>=0.11'}
-    dependencies:
-      '@babel/runtime': 7.23.6
+  /date-fns@3.0.6:
+    resolution: {integrity: sha512-W+G99rycpKMMF2/YD064b2lE7jJGUe+EjOES7Q8BIGY8sbNdbgcs9XFTZwvzc9Jx1f3k7LB7gZaZa7f8Agzljg==}
     dev: false
 
   /debug@2.6.9:
