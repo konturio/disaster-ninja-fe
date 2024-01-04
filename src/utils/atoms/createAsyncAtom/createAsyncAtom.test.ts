@@ -34,7 +34,7 @@ describe('Resource atom add resource state structure', () => {
     });
   });
 
-  test('have correct loading state', ({ store }) => {
+  test('have correct loading state', async ({ store }) => {
     const resAtomA = createAsyncAtom(null, async () => await wait(1), id(), {
       store,
     });
@@ -46,10 +46,16 @@ describe('Resource atom add resource state structure', () => {
   });
 
   test('have correct lastParams state', async ({ store }) => {
-    const resAtomA = createAsyncAtom(null, async () => await wait(1), id(), {
-      store,
-    });
+    const resAtomA = createAsyncAtom(
+      null,
+      async (_, abortController) => await wait(1),
+      id(),
+      {
+        store,
+      },
+    );
     store.dispatch(resAtomA.request('foo'));
+    await wait(0.1);
     expect(resAtomA.getState()).toMatchObject({
       lastParams: 'foo',
     });
@@ -62,10 +68,10 @@ describe('Resource atom add resource state structure', () => {
         /* Throw error when 'bad' in params */
         await wait(1, params === 'bad' ? { failWithMessage: 'Test error' } : {}),
       'resAtomA',
-      { store },
+      { store, auto: false },
     );
     store.dispatch(resAtomA.request('bad'));
-    await wait(1);
+    await wait(2);
     expect(resAtomA.getState().error).toBe('Test error');
     store.dispatch(resAtomA.request('good'));
     await wait(1);
@@ -80,7 +86,7 @@ describe('Resource atom add resource state structure', () => {
         return 1;
       },
       id(),
-      { store },
+      { store, auto: false },
     );
     store.dispatch(resAtomA.request('foo'));
     await wait(1);
@@ -105,6 +111,7 @@ describe('Resource canceling', () => {
       id(),
       {
         store,
+        auto: false,
       },
     );
     store.dispatch(resAtomA.request(1));
@@ -234,6 +241,40 @@ describe('Resource canceling', () => {
     });
   });
 
+  test('Resource not wait aborted request for continue work', async ({ store }) => {
+    const stateChangesLog = vi.fn(async (arg) => null);
+
+    const resAtomA = createAsyncAtom(
+      null,
+      async (value) => {
+        // timeout longer than available
+        await wait(5);
+        return value;
+      },
+      id(),
+      {
+        store,
+        auto: false,
+      },
+    );
+
+    resAtomA.subscribe((s) => stateChangesLog(s));
+
+    store.dispatch(resAtomA.request(1));
+    await wait(1);
+    store.dispatch(resAtomA.request(2));
+
+    await waitMockCalls(stateChangesLog, 3);
+
+    expect(stateChangesLog).toHaveBeenNthCalledWith(3, {
+      error: ABORT_ERROR_MESSAGE,
+      dirty: true,
+      data: null,
+      lastParams: 1, // should have parameters of request that was canceled
+      loading: false, // should out from loading state
+    });
+  });
+
   test('Resource set error:canceled state after canceled by other request when fetcher use try catch', async ({
     store,
   }) => {
@@ -245,7 +286,7 @@ describe('Resource canceling', () => {
         // I'am not rise any error in fetcher on cancel
         // It's the similar to wrap real fetcher in try catch
         // Because our client rise error on cancel signal automatically
-        await wait(5);
+        await wait(3);
         return value;
       },
       id(),
@@ -383,7 +424,7 @@ describe('Resource reactivity', () => {
         return 'updated-' + ++i;
       },
       id(),
-      { store },
+      { store, auto: false },
     );
 
     // listen changes
@@ -392,23 +433,22 @@ describe('Resource reactivity', () => {
 
     // mutate deps
     store.dispatch(deps.set(true));
-
-    expect(stateChangesLog).toHaveBeenNthCalledWith(1, {
+    expect(stateChangesLog).toHaveBeenNthCalledWith(2, {
       error: null,
       dirty: true,
       data: null,
-      lastParams: false,
+      lastParams: true,
       loading: true,
     });
+    await wait(1);
 
-    await waitMockCalls(stateChangesLog, 4);
-
+    store.dispatch(deps.set(false));
     expect(stateChangesLog).toHaveBeenNthCalledWith(4, {
       error: null,
       dirty: true,
-      data: 'updated-2',
-      lastParams: true,
-      loading: false,
+      data: 'updated-1',
+      lastParams: false,
+      loading: true,
     });
   });
 
@@ -524,7 +564,7 @@ describe('Resource atoms chaining state', () => {
         await wait(1);
       },
       id(),
-      { store },
+      { store, auto: false },
     );
 
     const resAtomB = createAsyncAtom(
@@ -533,11 +573,12 @@ describe('Resource atoms chaining state', () => {
         await wait(1);
       },
       id(),
-      { store },
+      { store, inheritState: true },
     );
 
     store.dispatch(resAtomA.request(null));
-    await wait(1);
+    await wait(0.1);
+
     expect(resAtomB.getState().loading).toBe(true);
   });
 
@@ -548,7 +589,7 @@ describe('Resource atoms chaining state', () => {
         await wait(1, { failWithMessage: 'Test error' });
       },
       id(),
-      { store },
+      { store, auto: false },
     );
 
     const resAtomB = createAsyncAtom(
@@ -562,6 +603,7 @@ describe('Resource atoms chaining state', () => {
 
     store.dispatch(resAtomA.request(null));
     await wait(1);
+
     expect(resAtomB.getState().error).toBe('Test error');
   });
 
@@ -573,7 +615,7 @@ describe('Resource atoms chaining state', () => {
         return 'result';
       },
       id(),
-      { store },
+      { store, auto: false },
     );
 
     const resAtomB = createAsyncAtom(
@@ -585,7 +627,8 @@ describe('Resource atoms chaining state', () => {
       { store, inheritState: false },
     );
 
-    await wait(1);
+    store.dispatch(resAtomA.request(null));
+    await wait(0.1);
 
     expect(resAtomA.getState().loading).toBe(true);
     expect(resAtomB.getState().loading).toBe(false);
