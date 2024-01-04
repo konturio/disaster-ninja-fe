@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { currentMapPositionAtom } from '~core/shared_state';
 
 /**

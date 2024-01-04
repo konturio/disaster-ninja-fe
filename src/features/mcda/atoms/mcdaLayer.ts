@@ -10,7 +10,7 @@ import type {
   JsonMCDAv4,
   MCDAConfig,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 export const mcdaLayerAtom = createAtom(
   {

@@ -1,4 +1,4 @@
-import { noop } from '@reatom/core';
+import { noop } from '@reatom/core-v2';
 import { userStateAtom } from '~core/auth/atoms/userState';
 import type { ApiClient } from '~core/api_client';
 

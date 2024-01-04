@@ -9,7 +9,7 @@ import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { toolbar } from '~core/toolbar';
 import { store } from '~core/store/store';
 import { MapRulerRenderer } from './renderers/MapRulerRenderer';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 export const mapRulerControl = toolbar.setupControl<{
   logicalLayerAtom: {

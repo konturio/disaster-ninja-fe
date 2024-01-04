@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { Button, Input } from '@konturio/ui-kit';
 import { PointFilled24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';

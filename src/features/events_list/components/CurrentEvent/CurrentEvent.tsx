@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { i18n } from '~core/localization';

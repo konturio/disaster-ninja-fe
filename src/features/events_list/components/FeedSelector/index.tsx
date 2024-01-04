@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { FeedSelector } from './FeedSelector';
 

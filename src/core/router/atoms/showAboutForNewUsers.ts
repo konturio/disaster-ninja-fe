@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createAtom } from '@reatom/core-v2';
 import { userWasLandedAtom } from '~core/auth/atoms/userWasLanded';
 import history from '../history';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';

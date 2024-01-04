@@ -3,7 +3,7 @@ import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersMenusAtom } from '~core/logical_layers/atoms/layersMenus';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 import type { LayerLegend } from '../types/legends';
 import type { LayerMeta } from '../types/meta';
 import type { LayerSettings } from '../types/settings';

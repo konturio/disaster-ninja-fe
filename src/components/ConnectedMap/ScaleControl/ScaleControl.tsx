@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { useEffect, useRef } from 'react';
 import { currentMapAtom, currentUserAtom } from '~core/shared_state';
 import s from './ScaleControl.module.css';

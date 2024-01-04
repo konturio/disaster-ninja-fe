@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import cn from 'clsx';
 import { useEffect, useState } from 'react';
 import { currentMapAtom } from '~core/shared_state';

@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { Text } from '@konturio/ui-kit';
 import { InfoErrorOutline16 } from '@konturio/default-icons';
 import { Trans } from 'react-i18next';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { analyticsResourceAtom } from '../../atoms/analyticsResource';
 import s from './AnalyticsData.module.css';
 import type { AnalyticsData } from '~core/types';

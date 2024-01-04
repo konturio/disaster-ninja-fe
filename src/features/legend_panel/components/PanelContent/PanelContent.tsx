@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { useMemo } from 'react';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
 import { LegendsList } from '../LegendsList/LegendsList';

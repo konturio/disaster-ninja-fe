@@ -9,7 +9,7 @@ import type {
   OnRemoveCb,
   ControlController,
 } from './types';
-import type { PrimitiveAtom } from '@reatom/core/primitives';
+import type { PrimitiveAtom } from '@reatom/core-v2/primitives';
 
 /**
  * ToolbarImpl class manages the toolbar's controls in the application.

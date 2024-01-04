@@ -1,6 +1,6 @@
 import { Button } from '@konturio/ui-kit';
 import { CloseFilled16, Update16 } from '@konturio/default-icons';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { eventListFilters } from '../../atoms/eventListFilters';

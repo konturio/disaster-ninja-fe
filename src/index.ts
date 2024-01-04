@@ -1,4 +1,4 @@
-import '@reatom/react/react-dom-batched-updates';
+import '@reatom/react-v2/react-dom-batched-updates';
 import '@konturio/default-theme/variables.css';
 import '@konturio/default-theme/defaults.css';
 import '@konturio/default-theme/typography.css';

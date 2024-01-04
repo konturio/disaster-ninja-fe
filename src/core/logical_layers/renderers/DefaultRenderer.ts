@@ -1,4 +1,4 @@
-import type { Atom } from '@reatom/core';
+import type { Atom } from '@reatom/core-v2';
 import type {
   LogicalLayerRenderer,
   NotNullableMap,

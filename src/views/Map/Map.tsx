@@ -1,5 +1,5 @@
 import { Suspense, useEffect } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { lazily } from 'react-lazily';
 import clsx from 'clsx';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';

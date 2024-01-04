@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAction, useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react-v2';
 import {
   SimpleLegend as SimpleLegendComponent,
   SimpleLegendStep as SimpleLegendStepComponent,

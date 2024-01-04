@@ -1,4 +1,4 @@
-import type { Action, AtomSelfBinded } from '@reatom/core';
+import type { Action, AtomSelfBinded } from '@reatom/core-v2';
 import type { LayerAtom } from './logicalLayer';
 import type { LogicalLayerRenderer } from './renderer';
 
@@ -16,9 +16,7 @@ export interface RegisterRequest {
 export type LayerRegistryAtom = AtomSelfBinded<
   Map<string, LayerAtom>,
   {
-    register: (
-      request: RegisterRequest | RegisterRequest[],
-    ) => RegisterRequest[];
+    register: (request: RegisterRequest | RegisterRequest[]) => RegisterRequest[];
     unregister: (
       id: string | string[],
       options?: { notifyLayerAboutDestroy?: boolean },

@@ -1,19 +1,18 @@
-import { isObject } from '@reatom/core';
-import { memo } from '@reatom/core/experiments';
+import { isObject } from '@reatom/core-v2';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { store } from '~core/store/store';
 import { isErrorWithMessage } from '~utils/common';
 import { abortable, ABORT_ERROR_MESSAGE, isAbortError } from './abort-error';
 import { isAtomLike } from './is-atom-like';
 import type { AsyncAtomOptions, AsyncAtomState, Fetcher, AsyncAtomDeps } from './types';
-import type { AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core';
+import type { AtomBinded, AtomSelfBinded, AtomState } from '@reatom/core-v2';
 
 const verbose = true;
 const filterByAtomName = '';
 const logger =
   (name: string) =>
   (...args: Array<string>) => {
-    if (!verbose || name !== filterByAtomName) return;
+    if (!verbose) return;
     // eslint-disable-next-line
     console.log(...args);
   };
@@ -175,8 +174,8 @@ export function createAsyncAtom<
               const errorMessage = isErrorWithMessage(e)
                 ? e.message
                 : typeof e === 'string'
-                ? e
-                : 'Unknown';
+                  ? e
+                  : 'Unknown';
               dispatch(create('_error', params, errorMessage));
             }
           }
@@ -263,7 +262,7 @@ export function createAsyncAtom<
     {
       id: getUniqueId(name),
       store: options.store,
-      decorators: [memo()], // This prevent updates when prev state and next state deeply equal
+      decorators: [],
     },
   );
 

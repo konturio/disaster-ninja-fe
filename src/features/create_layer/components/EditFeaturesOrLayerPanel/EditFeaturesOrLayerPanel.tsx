@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { editTargetAtom } from '~features/create_layer/atoms/editTarget';
 import { EditFeaturesPanel } from '../EditFeaturesPanel/EditFeaturesPanel';
 import { EditLayerPanel } from '../EditLayerPanel/EditLayerPanel';

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAction, useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
 import { Panel } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';

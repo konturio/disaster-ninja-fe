@@ -9,7 +9,7 @@ import { isDrawingStartedAtom } from './isDrawingStartedAtom';
 import { selectedIndexesAtom } from './selectedIndexesAtom';
 import { temporaryGeometryAtom } from './temporaryGeometryAtom';
 import type { DrawModeType } from '../constants';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 interface DrawToolBoxSettings {
   availableModes?: DrawModeType[];

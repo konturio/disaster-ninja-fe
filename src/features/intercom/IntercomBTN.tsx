@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { intercomVisibleAtom } from '.';
 import './intercom.css';
 

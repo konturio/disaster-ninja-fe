@@ -1,7 +1,7 @@
 import type { LayersSettingsAtomType } from '../../atoms/layersSettings';
 import type { AsyncState } from '~core/logical_layers/types/asyncState';
 import type { LayerSettings } from '~core/logical_layers/types/settings';
-import type { Unsubscribe } from '@reatom/core';
+import type { Unsubscribe } from '@reatom/core-v2';
 import type { Map as MapLibre } from 'maplibre-gl';
 
 export type LayerCategory = LayerSettings['category'];

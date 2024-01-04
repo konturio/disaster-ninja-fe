@@ -1,4 +1,3 @@
-import { memo } from '@reatom/core/experiments';
 import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { configRepo } from '~core/config';
 import {
@@ -12,7 +11,7 @@ import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { URLStore } from '../URLStore';
 import { urlEncoder } from '../encoder';
 import type { UrlData } from '../types';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 const urlStore = new URLStore(urlEncoder);
 
@@ -137,6 +136,6 @@ export const urlStoreAtom = createAtom(
   },
   {
     id: 'urlStoreAtom',
-    decorators: [memo()],
+    decorators: [],
   },
 );

@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { ActionsBarBTN } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';

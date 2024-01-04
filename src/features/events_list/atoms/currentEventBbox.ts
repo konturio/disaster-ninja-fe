@@ -1,4 +1,4 @@
-import { createAtom } from '@reatom/core';
+import { createAtom } from '@reatom/core-v2';
 import { getMapPaddings } from '~utils/map/getMapPaddings';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';

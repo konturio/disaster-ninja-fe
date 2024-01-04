@@ -1,4 +1,4 @@
-import type { AtomSelfBinded } from '@reatom/core';
+import type { AtomSelfBinded } from '@reatom/core-v2';
 import type { LayerLegend } from './legends';
 import type { LayerMeta } from './meta';
 import type { LayerSource } from './source';
