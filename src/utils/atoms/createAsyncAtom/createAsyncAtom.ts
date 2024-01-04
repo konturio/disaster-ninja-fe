@@ -51,16 +51,7 @@ export function createAsyncAtom<
   AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>>,
   AsyncAtomDeps<D, F>
 > {
-  const log = (...args) => console.debug(`[${name}]: `, ...args);
-  const logStateChange = (from, to) => {
-    console.debug(`[${name}] from -> to: `, from, to);
-    return to;
-  };
-
-  log('created');
-
   type State = AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>>;
-
   type Options = AsyncAtomOptions<Awaited<ReturnType<F>>, AtomState<D>>;
   const options: Options & Required<Pick<Options, 'store'>> = {
     ...resourceAtomOptions,
@@ -84,25 +75,19 @@ export function createAsyncAtom<
   let deferredCancel: DeferredPromise<void>;
 
   const requestAction = action(async (ctx, params) => {
-    log('request');
     // In case we already have request action in progress, cancel it
     if (abortController) {
-      log('wait cancel');
       await cancelAction(ctx);
-      log('after cancel');
     }
     // Set loading state
+    asyncAtom(ctx, (state) => ({
+      ...state,
+      error: null,
+      lastParams: params,
+      dirty: true, // for unblock refetch
+      loading: true,
+    }));
 
-    asyncAtom(ctx, (state) =>
-      logStateChange(state, {
-        ...state,
-        error: null,
-        lastParams: params,
-        dirty: true, // for unblock refetch
-        loading: true,
-      }),
-    );
-    log('after async atom state change');
     try {
       abortController = new AbortController();
       const data = await ctx.schedule(() => {
@@ -112,25 +97,18 @@ export function createAsyncAtom<
           throw Error('abortController was reset before it was used');
         }
       });
-      log('after fetcher');
       // Inside the fetcher's logic, abort error could have been caught accidentally
       // Here I rethrow abort error to be sure it will be processed
       abortController.signal.throwIfAborted();
       // Set done state
-      asyncAtom(ctx, (state) =>
-        logStateChange(state, { ...state, data, lastParams: params, loading: false }),
-      );
+      asyncAtom(ctx, (state) => ({ ...state, data, lastParams: params, loading: false }));
     } catch (error) {
-      log('error', error);
-      log('set error state');
-      asyncAtom(ctx, (state) =>
-        logStateChange(state, {
-          ...state,
-          lastParams: params,
-          loading: false,
-          error: generateErrorMessage(error),
-        }),
-      );
+      asyncAtom(ctx, (state) => ({
+        ...state,
+        lastParams: params,
+        loading: false,
+        error: generateErrorMessage(error),
+      }));
       if (isAbortError(error)) {
         deferredCancel?.resolve();
       }
@@ -170,10 +148,8 @@ export function createAsyncAtom<
 
   if (depsAtom) {
     const onChange = (ctx: Ctx, depsAtomState: unknown) => {
-      console.debug('onChange', depsAtomState);
       if (isObject(depsAtomState)) {
         // If Deps atom looks like resource
-        console.debug('options.inheritState', options.inheritState);
         if (options.inheritState) {
           // Use his properties for state
           asyncAtom(ctx, (state) => ({
