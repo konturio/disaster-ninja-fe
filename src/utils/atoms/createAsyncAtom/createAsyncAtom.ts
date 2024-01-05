@@ -179,7 +179,9 @@ export function createAsyncAtom<
     };
 
     // Request data with current deps state
-    onChange(options.store.v3ctx, options.store.getState(depsAtom));
+    if (options.auto) {
+      onChange(options.store.v3ctx, options.store.getState(depsAtom));
+    }
 
     // Call request action when deps changes
     depsAtom.v3atom.onChange(onChange);

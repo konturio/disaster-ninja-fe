@@ -433,6 +433,7 @@ describe('Resource reactivity', () => {
 
     // mutate deps
     store.dispatch(deps.set(true));
+    await wait(0.1);
     expect(stateChangesLog).toHaveBeenNthCalledWith(2, {
       error: null,
       dirty: true,
