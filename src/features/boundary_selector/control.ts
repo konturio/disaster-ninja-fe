@@ -4,7 +4,7 @@ import {
 } from '~features/boundary_selector/constants';
 import { i18n } from '~core/localization';
 import { toolbar } from '~core/toolbar';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 export const boundarySelectorControl = toolbar.setupControl<{
   boundaryRegistryAtom?: { start: () => Action; stop: () => Action };

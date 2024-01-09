@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useAction } from '@reatom/react';
+import { useAction } from '@reatom/react-v2';
 import { InfoOutline16 } from '@konturio/default-icons';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import s from './TooltipTrigger.module.css';

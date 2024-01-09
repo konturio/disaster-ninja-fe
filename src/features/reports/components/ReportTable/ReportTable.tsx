@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { Heading } from '@konturio/ui-kit';
 import { memo, useEffect, useRef, useState, useTransition } from 'react';
 import { i18n } from '~core/localization';

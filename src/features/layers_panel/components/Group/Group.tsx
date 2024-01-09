@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useAction } from '@reatom/react';
+import { useAction } from '@reatom/react-v2';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { BivariateLegend as BivariateLegendComponent } from '~components/BivariateLegend/BivariateLegend';
 import { debounce } from '~utils/common';

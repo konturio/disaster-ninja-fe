@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { reatomContext } from '@reatom/react';
+import { reatomContext } from '@reatom/react-v2';
 import { StrictMode, Suspense } from 'react';
 import { lazily } from 'react-lazily';
 import { store } from '~core/store/store';

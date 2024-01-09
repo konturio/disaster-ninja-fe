@@ -11,7 +11,7 @@ import {
   GEOMETRY_UPLOADER_CONTROL_NAME,
 } from './constants';
 import { askGeoJSONFile } from './askGeoJSONFile';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 const fileUploaderControl = toolbar.setupControl({
   id: GEOMETRY_UPLOADER_CONTROL_ID,

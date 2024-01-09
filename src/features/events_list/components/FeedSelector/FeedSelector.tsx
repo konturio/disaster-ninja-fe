@@ -1,4 +1,4 @@
-import { useAction, useAtom } from '@reatom/react';
+import { useAction, useAtom } from '@reatom/react-v2';
 import { Text } from '@konturio/ui-kit';
 import { useCallback } from 'react';
 import { configRepo } from '~core/config';

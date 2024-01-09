@@ -1,4 +1,4 @@
-import type { Unsubscribe } from '@reatom/core';
+import type { Unsubscribe } from '@reatom/core-v2';
 
 type SubscribeFn = (callback: (state: { loading: boolean }) => void) => () => void;
 

@@ -9,7 +9,7 @@ import {
 } from '~core/logical_layers/utils/convert';
 import { areaLayersDetailsResourceAtom } from './areaLayersDetailsResource';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResource/areaLayersDetailsResourceAtomCache';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 
 export const areaLayersLegendsAndSources = createAtom(

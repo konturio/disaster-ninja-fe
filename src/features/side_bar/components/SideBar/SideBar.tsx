@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { ActionsBar, Logo } from '@konturio/ui-kit';
 import { useEffect, useMemo, useState } from 'react';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';

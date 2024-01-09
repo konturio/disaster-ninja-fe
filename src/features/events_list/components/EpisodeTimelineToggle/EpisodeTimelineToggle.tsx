@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { Play24, PlayActive24 } from '@konturio/default-icons';
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import { episodesPanelState } from '~core/shared_state';

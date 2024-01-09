@@ -1,5 +1,5 @@
 import { Button, Text } from '@konturio/ui-kit';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { useEffect, useState } from 'react';
 import { i18n } from '~core/localization';
 import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';

@@ -1,4 +1,4 @@
-import { useAction } from '@reatom/react';
+import { useAction } from '@reatom/react-v2';
 import { memo } from 'react';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import type { TooltipData } from '~core/shared_state/currentTooltip';

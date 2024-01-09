@@ -1,5 +1,6 @@
 import type { ButtonProps } from '@konturio/ui-kit/tslib/Button';
-import type { PrimitiveAtom } from '@reatom/core/primitives';
+import type { Action } from '@reatom/core-v2';
+import type { PrimitiveAtom } from '@reatom/core-v2/primitives';
 
 export type ControlID = string;
 
@@ -73,10 +74,7 @@ export interface ControlController<Ctx = Record<string, unknown>> {
   // Actions
   init: () => void;
   remove: () => void;
-  setState: (state: ControlState) => {
-    payload: ControlState;
-    type: string;
-  };
+  setState: (state: ControlState) => Action<ControlState>;
   // Hooks
   onInit: (cb: (ctx: Ctx) => OnRemoveCb | void) => void;
   onStateChange: (cb: (ctx: Ctx, state: ControlState) => void) => void;

@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { toolbar } from '~core/toolbar';
 import { ToolbarControl } from '../ToolbarControl/ToolbarControl';
 import { ShortToolbarButton } from '../ShortToolbarButton/ShortToolbarButton';

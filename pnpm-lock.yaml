@@ -29,6 +29,9 @@ dependencies:
   '@github/mini-throttle':
     specifier: ^2.1.1
     version: 2.1.1
+  '@homer0/deferred':
+    specifier: ^3.0.1
+    version: 3.0.1
   '@konturio/default-icons':
     specifier: ^2.2.2
     version: 2.2.2(react@18.2.0)
@@ -57,11 +60,14 @@ dependencies:
     specifier: 1.1.0-alpha.5
     version: 1.1.0-alpha.5(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33)(@deck.gl/geo-layers@8.9.33)(@deck.gl/layers@8.9.33)(@deck.gl/mesh-layers@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)
   '@reatom/core':
-    specifier: ^2.0.22
-    version: 2.0.22
-  '@reatom/react':
-    specifier: ^2.0.19
-    version: 2.0.19(@reatom/core@2.0.22)(react@18.2.0)
+    specifier: ^3.6.5
+    version: 3.6.5
+  '@reatom/core-v2':
+    specifier: ^3.1.2
+    version: 3.1.2
+  '@reatom/react-v2':
+    specifier: ^3.1.0
+    version: 3.1.0(@reatom/core-v2@3.1.2)(react@18.2.0)
   '@testing-library/react':
     specifier: ^14.1.2
     version: 14.1.2(react-dom@18.2.0)(react@18.2.0)
@@ -1339,6 +1345,11 @@ packages:
       is-negated-glob: 1.0.0
     dev: false
 
+  /@homer0/deferred@3.0.1:
+    resolution: {integrity: sha512-uPQQriKDXaWTktDoVM1Tnc3S13+K0z7Y9uL4XW92sTCdkkCTmHHGdwogffK0BZxNo6B4QssVj3mqi2rIdxabiA==}
+    engines: {node: '>=18 <21'}
+    dev: false
+
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}
     engines: {node: '>=10.10.0'}
@@ -2159,17 +2170,23 @@ packages:
     resolution: {integrity: sha512-/RVXdLvJxLg4QKvMoM5WlwNR9ViO9z8B/qPcc+C0Sa/teJY7QG7kJ441DwzOjMYEY7GmU4dj5EcGHIkKZiQZCA==}
     dev: false
 
-  /@reatom/core@2.0.22:
-    resolution: {integrity: sha512-t567/VDkFRb2cBDWiJpr5QSMIpgE082S21ITzNGQfVLBCuw7DEWYscVvqzfi2XHYAFO+02hsFCCFhtMU9w4Jog==}
+  /@reatom/core-v2@3.1.2:
+    resolution: {integrity: sha512-eewEJmZQkiVKv4awJFjs2cV9XhP8ijJwnSNh4hAN5ssTKnkUOmJusf9KVG/tQOHkiNOa1fT3KellgHbkCAzI6w==}
+    dependencies:
+      '@reatom/core': 3.6.5
     dev: false
 
-  /@reatom/react@2.0.19(@reatom/core@2.0.22)(react@18.2.0):
-    resolution: {integrity: sha512-vwjM1IaDL6qZeYTP2yWqjQhMrjCLvmrl51nzU8lm3nQmILvwZlFzXkooNQc6UpaKJHs2Q8Rrgd7Xsufi9OjBtg==}
+  /@reatom/core@3.6.5:
+    resolution: {integrity: sha512-X0zUAXZPlLY9V99l4VgvYllQ63lswlAsqQYm0poNoW3KkthVrwQLkXSaZGCpV5TaOmhLaNEaJ89PlQHjjlE9rw==}
+    dev: false
+
+  /@reatom/react-v2@3.1.0(@reatom/core-v2@3.1.2)(react@18.2.0):
+    resolution: {integrity: sha512-R7COp/sUtw5LIGF7lJEX+YKhJtEo0G77lVL5KE+mv21h7yrju75nKEhmMyYZdgRQnUYyMHp6H3bgKZsIxJIBvA==}
     peerDependencies:
-      '@reatom/core': ^2.0.18
+      '@reatom/core-v2': ^3.1.0
       react: '>=16.8.0'
     dependencies:
-      '@reatom/core': 2.0.22
+      '@reatom/core-v2': 3.1.2
       react: 18.2.0
     dev: false
 

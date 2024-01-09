@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { passRefToSettings, resolveValue } from './utils';
 import { toolbar } from './index';
 import type { ControlID, ToolbarControlSettings, ToolbarControlStateAtom } from './types';

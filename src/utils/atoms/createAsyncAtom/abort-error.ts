@@ -21,7 +21,7 @@ export async function abortable<T>(
 ): Promise<T> {
   return new Promise((res, rej) => {
     if (abortController.signal.aborted) {
-      return Promise.reject(new DOMException('Aborted', 'AbortError'));
+      rej(new DOMException('Aborted', 'AbortError'));
     }
     const onAbort = () => {
       abortController.signal.removeEventListener('abort', onAbort);

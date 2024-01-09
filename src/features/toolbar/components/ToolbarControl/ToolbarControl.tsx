@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { passRefToSettings, resolveValue } from '~core/toolbar/utils';
 import { ToolbarIcon } from '../ToolbarIcon';
 import type {

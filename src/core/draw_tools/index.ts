@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
 import { forceRun } from '~utils/atoms/forceRun';

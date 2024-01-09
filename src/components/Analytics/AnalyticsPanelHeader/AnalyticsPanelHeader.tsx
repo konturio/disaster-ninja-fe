@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { Heading } from '@konturio/ui-kit';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createStateMap } from '~utils/atoms';
@@ -7,7 +7,7 @@ import styles from './AnalyticsPanelHeader.module.css';
 import type { AdvancedAnalyticsData, AnalyticsData, Severity } from '~core/types';
 import type { AsyncAtomState } from '~utils/atoms/createAsyncAtom/types';
 import type { FocusedGeometry, GeometrySource } from '~core/focused_geometry/types';
-import type { Atom } from '@reatom/core';
+import type { Atom } from '@reatom/core-v2';
 
 function PanelHeading({ source }: { source?: GeometrySource }) {
   if (source?.type !== 'event') return null;
@@ -49,8 +49,8 @@ const AnalyticsPanelHeader = ({
     focusedGeometry?.source.type === 'event'
       ? 'event'
       : focusedGeometry?.source.type === 'boundaries'
-      ? 'boundaries'
-      : 'other';
+        ? 'boundaries'
+        : 'other';
 
   return (
     statesToComponents({
@@ -64,7 +64,7 @@ const AnalyticsPanelHeader = ({
               {getBoundaryName(focusedGeometry?.source)}
             </Heading>
           ),
-        }[sourceType]),
+        })[sourceType],
     }) || <></>
   );
 };

@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { userStateAtom } from '~core/auth';
 import { LoginForm, SettingsForm } from '~features/user_profile';
 import s from './Profile.module.css';

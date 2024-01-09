@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import { useAtom } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';

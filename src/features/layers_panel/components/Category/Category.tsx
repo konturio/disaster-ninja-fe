@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAtom } from '@reatom/react';
-import { useAction } from '@reatom/react';
+import { useAtom } from '@reatom/react-v2';
+import { useAction } from '@reatom/react-v2';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { mountedLayersByCategoryAtom } from '~features/layers_panel/atoms/mountedLayersByCategory';
 import { Group } from '../Group/Group';
@@ -35,9 +35,7 @@ export function Category({ category }: { category: CategoryWithSettings }) {
           </div>
         }
         controls={
-          category.mutuallyExclusive && (
-            <DeselectControl onClick={onCategoryDeselect} />
-          )
+          category.mutuallyExclusive && <DeselectControl onClick={onCategoryDeselect} />
         }
         onStateChange={(newState) => setOpenState(!newState)}
       >

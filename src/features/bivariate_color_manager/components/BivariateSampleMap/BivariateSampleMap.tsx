@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import cn from 'clsx';
-import { useAction } from '@reatom/react';
+import { useAction } from '@reatom/react-v2';
 import { Button } from '@konturio/ui-kit';
 import { Close24, Expand24 } from '@konturio/default-icons';
 import { configRepo } from '~core/config';

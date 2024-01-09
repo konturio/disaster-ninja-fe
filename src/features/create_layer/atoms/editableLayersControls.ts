@@ -10,7 +10,7 @@ import { editableLayersListResource } from './editableLayersListResource';
 import { editableLayerControllerAtom } from './editableLayerController';
 import { featurePanelControllerAtom } from './featurePanelController';
 import type { EditableLayers } from '../types';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 /**
  * This atom load user layers

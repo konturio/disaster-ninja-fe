@@ -2,7 +2,7 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { createLogicalLayerAtom } from '../utils/logicalLayerFabric';
 import { hiddenLayersAtom } from './hiddenLayers';
 import { mountedLayersAtom } from './mountedLayers';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 import type { LayerAtom } from '../types/logicalLayer';
 import type { RegisterRequest, LayerRegistryAtom } from '../types/registry';
 

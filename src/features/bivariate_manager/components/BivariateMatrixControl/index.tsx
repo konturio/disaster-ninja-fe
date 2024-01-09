@@ -1,5 +1,5 @@
 import { memo, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
-import { useAction } from '@reatom/react';
+import { useAction } from '@reatom/react-v2';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
 import { BivariateMatrixContext } from '../BivariateMatrixContainer/bivariateMatrixContext';
 import {

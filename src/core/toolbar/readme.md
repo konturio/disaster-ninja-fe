@@ -71,7 +71,7 @@ First, define the control settings and register the control using `setupControl`
 
 ```javascript
 import { toolbar } from '~core/toolbar';
-import type { Action } from '@reatom/core';
+import type { Action } from '@reatom/core-v2';
 
 export const exampleControl =
   toolbar.setupControl <
@@ -132,4 +132,4 @@ export function initExampleControl() {
 ## Notes
 
 - Controls are only rendered in the toolbar if they are setup by a feature using their ID and their ID is present in the toolbar settings.
-- The class relies on `createMapAtom` and `createPrimitiveAtom` from `@reatom/core/primitives` for state management.
+- The class relies on `createMapAtom` and `createPrimitiveAtom` from `@reatom/core-v2/primitives` for state management.
