@@ -8,5 +8,5 @@ export default {
   /** @param {string} json */
   savePackageJSON: (json) =>
     writeFileSync(resolve('package.json'), JSON.stringify(json, null, 2)),
-  fixLockFile: () => exec('npm i --package-lock-only'),
+  fixLockFile: () => exec('pnpm i -lockfile-only'),
 };
