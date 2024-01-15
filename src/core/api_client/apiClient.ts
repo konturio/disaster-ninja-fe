@@ -198,7 +198,13 @@ export class ApiClient {
       refresh_token: this.refreshToken,
       grant_type: 'refresh_token',
     };
-    return await this.requestTokenOrThrow(this.refreshTokenApiPath, params);
+    try {
+      return await this.requestTokenOrThrow(this.refreshTokenApiPath, params);
+    } catch (error) {
+      // logout on refresh token error
+      await this.logout();
+      throw error;
+    }
   }
 
   /**
