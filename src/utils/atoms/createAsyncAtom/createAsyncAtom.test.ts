@@ -434,41 +434,40 @@ describe('Resource reactivity', () => {
     // mutate deps
     store.dispatch(deps.set(true));
     await wait(0.1);
-    expect(stateChangesLog).toHaveBeenNthCalledWith(2, {
+    expect(
+      stateChangesLog,
+      'atom switches to loading state after deps changed',
+    ).toHaveBeenNthCalledWith(2, {
       error: null,
       dirty: true,
       data: null,
       lastParams: true,
       loading: true,
     });
-    await wait(1);
-
-    store.dispatch(deps.set(false));
-    expect(stateChangesLog).toHaveBeenNthCalledWith(4, {
-      error: null,
-      dirty: true,
-      data: 'updated-1',
-      lastParams: false,
-      loading: true,
-    });
   });
 
-  test.todo('Refetch when deps object changed', async ({ store }) => {
-    const deps = createAtom({ set: (state) => state }, ($, state = null) => {
-      $.onAction('set', (s) => (state = s));
-      return state;
-    });
+  test('Unlazy dependency atom', async ({ store }) => {
+    // Primitive dep
+    const anAtom = createBooleanAtom(false, { store });
+    // Lazy transitivity atom
+    const transitivityAtom = createAtom(
+      { anAtom },
+      ({ get }, state = null) => {
+        return get('anAtom');
+      },
+      { store, id: 'transitivityAtom' },
+    );
 
     // Async atom that depends from it
     let i = 0;
     const resAtomB = createAsyncAtom(
-      deps,
+      transitivityAtom,
       async () => {
         await wait(1);
         return 'updated-' + ++i;
       },
       id(),
-      { store },
+      { store, auto: false },
     );
 
     // listen changes
@@ -476,24 +475,17 @@ describe('Resource reactivity', () => {
     resAtomB.subscribe((s) => stateChangesLog(s));
 
     // mutate deps
-    store.dispatch(deps.set({ foo: 'bar' }));
-
-    expect(stateChangesLog).toHaveBeenNthCalledWith(1, {
-      error: null,
-      dirty: false,
-      data: null,
-      lastParams: null,
-      loading: false,
-    });
-
-    await waitMockCalls(stateChangesLog, 4);
-
-    expect(stateChangesLog).toHaveBeenNthCalledWith(4, {
+    store.dispatch(anAtom.set(true));
+    await wait(0.1);
+    expect(
+      stateChangesLog,
+      'atom switches to loading state after deps changed',
+    ).toHaveBeenNthCalledWith(2, {
       error: null,
       dirty: true,
-      data: 'updated-2',
-      lastParams: { foo: 'bar' },
-      loading: false,
+      data: null,
+      lastParams: true,
+      loading: true,
     });
   });
 

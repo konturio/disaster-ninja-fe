@@ -27,6 +27,7 @@ export type AsyncAtomOptions<R, I> = {
   inheritState?: boolean;
   store?: Store;
   onSuccess?: (dispatch: Store['dispatch'], request: I, result: R) => void;
+  verbose?: boolean;
 };
 
 export type AsyncAtomDeps<
