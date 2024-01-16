@@ -1,5 +1,4 @@
 .group {
-  margin-left: calc(var(--unit) + var(--half-unit));
   margin-bottom: var(--unit);
 }
 
@@ -9,11 +8,4 @@
 
 .group > div {
   margin-top: var(--unit);
-}
-
-.childrenWrap {
-  margin-top: var(--unit);
-}
-.childrenWrap .bivariateLegendWrap {
-  padding-right: var(--double-unit);
 }

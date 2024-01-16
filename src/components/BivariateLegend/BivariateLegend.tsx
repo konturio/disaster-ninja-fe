@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { Legend as BiLegend, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { formatBivariateAxisLabel, invertClusters } from '~utils/bivariate';
-import { TooltipTrigger } from '~components/TooltipTrigger';
 import s from './BivariateLegend.module.css';
 import { CornerTooltipWrapper } from './CornerTooltipWrapper';
 import { BIVARIATE_LEGEND_SIZE } from './const';
@@ -27,9 +26,6 @@ export type BivariateLegendProps = {
 export function BivariateLegend({
   meta,
   legend,
-  name = '',
-  controls,
-  showDescription = true,
   isHidden = false,
   showSteps = true,
   showArrowHeads = true,
@@ -86,18 +82,6 @@ export function BivariateLegend({
 
   return (
     <div className={clsx(s.bivariateLegend, isHidden && s.hidden)}>
-      {showDescription && (
-        <div className={s.headline}>
-          <Text type="long-m">
-            <span className={s.layerName}>{name}</span>
-          </Text>
-
-          <div className={s.controlsBar}>
-            {controls}
-            {tipText && <TooltipTrigger tipText={tipText} />}
-          </div>
-        </div>
-      )}
       <CornerTooltipWrapper hints={hints}>
         <BiLegend
           showAxisLabels

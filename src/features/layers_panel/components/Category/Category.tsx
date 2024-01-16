@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useAtom } from '@reatom/react-v2';
 import { useAction } from '@reatom/react-v2';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
@@ -22,6 +22,7 @@ export function Category({ category }: { category: CategoryWithSettings }) {
     () => categoryDeselection.deselect(category.id),
     [category.id],
   );
+  const toggleOpenState = useCallback(() => setOpenState((state) => !state), []);
   return (
     <div className={s.category}>
       <FoldingWrap
@@ -37,7 +38,7 @@ export function Category({ category }: { category: CategoryWithSettings }) {
         controls={
           category.mutuallyExclusive && <DeselectControl onClick={onCategoryDeselect} />
         }
-        onStateChange={(newState) => setOpenState(!newState)}
+        onClick={toggleOpenState}
       >
         {category.children.map((group) => (
           <Group

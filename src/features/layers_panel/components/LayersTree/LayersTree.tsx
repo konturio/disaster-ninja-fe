@@ -13,7 +13,11 @@ export function LayersTree() {
       {tree.children.map((chn) => {
         if ('isCategory' in chn) return <Category key={chn.id} category={chn} />;
         if ('isGroup' in chn) return <Group key={chn.id} group={chn} />;
-        return <Layer key={chn.id} layerAtom={chn.atom} mutuallyExclusive={false} />;
+        return (
+          <div key={chn.id} className={s.topLevelGroup}>
+            <Layer layerAtom={chn.atom} mutuallyExclusive={false} />
+          </div>
+        );
       })}
     </div>
   );

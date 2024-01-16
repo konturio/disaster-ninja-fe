@@ -1,0 +1,30 @@
+.userLayerContext {
+  position: relative;
+
+  & .context {
+    cursor: pointer;
+    display: flex;
+    color: var(--faint-strong);
+  }
+
+  & .contextBox {
+    position: absolute;
+    background: var(--base-weak);
+    padding: var(--half-unit);
+    top: -8px;
+    right: 0;
+    box-shadow: 0px 1px 4px 0px var(--faint-strong-down);
+    z-index: 1;
+    border-radius: var(--half-unit);
+
+    & .contextItem {
+      white-space: nowrap;
+      cursor: pointer;
+      padding: var(--unit);
+
+      &:hover {
+        background: var(--faint-weak-down);
+      }
+    }
+  }
+}
