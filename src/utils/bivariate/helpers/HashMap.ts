@@ -29,6 +29,6 @@ export class HashMap<T> {
   }
 
   dump() {
-    console.log(this._hash);
+    console.debug(this._hash);
   }
 }

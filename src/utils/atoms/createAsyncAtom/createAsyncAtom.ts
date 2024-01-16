@@ -18,6 +18,10 @@ function generateErrorMessage(e: unknown): string {
   }
 }
 
+function verboseLog(name: string, verbose: boolean) {
+  return (...args) => verbose && console.debug(`[${name}]:`, ...args);
+}
+
 /* Check that name unique */
 const getUniqueId = ((mem) => {
   return (newId: string): string => {
@@ -37,6 +41,7 @@ const defaultOptions = {
   inheritState: false,
   store: defaultStore,
   auto: true,
+  verbose: false,
 };
 
 export function createAsyncAtom<
@@ -53,12 +58,14 @@ export function createAsyncAtom<
 > {
   type State = AsyncAtomState<AtomState<D>, Awaited<ReturnType<F>>>;
   type Options = AsyncAtomOptions<Awaited<ReturnType<F>>, AtomState<D>>;
-  const options: Options & Required<Pick<Options, 'store'>> = {
+  const options: Options & Required<Pick<Options, 'store' | 'verbose'>> = {
     ...resourceAtomOptions,
     auto: resourceAtomOptions.auto ?? defaultOptions.auto,
     inheritState: resourceAtomOptions.inheritState ?? defaultOptions.inheritState,
     store: resourceAtomOptions.store ?? defaultOptions.store,
+    verbose: resourceAtomOptions.verbose ?? defaultOptions.verbose,
   };
+  const debug = verboseLog(name, options.verbose);
 
   const asyncAtom = atom<State>(
     {
@@ -148,6 +155,7 @@ export function createAsyncAtom<
 
   if (depsAtom) {
     const onChange = (ctx: Ctx, depsAtomState: unknown) => {
+      debug('Deps atom changed');
       if (isObject(depsAtomState)) {
         // If Deps atom looks like resource
         if (options.inheritState) {
@@ -177,7 +185,8 @@ export function createAsyncAtom<
         }
       }
     };
-
+    // Unlazy deps atom
+    depsAtom.subscribe((s) => null);
     // Request data with current deps state
     if (options.auto) {
       onChange(options.store.v3ctx, options.store.getState(depsAtom));
@@ -185,6 +194,7 @@ export function createAsyncAtom<
 
     // Call request action when deps changes
     depsAtom.v3atom.onChange(onChange);
+
     return v3toV2<State, AsyncAtomDeps<D, F>>(asyncAtom, actions, options.store);
   } else {
     if (options.auto) {

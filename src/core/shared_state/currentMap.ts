@@ -12,16 +12,20 @@ export const currentMapAtom = createAtom(
   },
   ({ onAction, schedule }, state: ApplicationMap | null = null) => {
     onAction('setMap', (map: ApplicationMap) => {
-      state = map;
-
       // dismount all layers on map change
-      schedule((dispatch) => {
-        dispatch(mountedLayersAtom.clear());
-      });
+      if (map !== state) {
+        state = map;
+        schedule((dispatch) => {
+          dispatch(mountedLayersAtom.clear());
+        });
+      }
     });
 
     onAction('resetMap', () => {
       state = null;
+      schedule((dispatch) => {
+        dispatch(mountedLayersAtom.clear());
+      });
     });
 
     return state;
