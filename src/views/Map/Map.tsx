@@ -121,8 +121,7 @@ export function MapPage() {
           timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
           toolbar={featureFlags[FeatureFlag.TOOLBAR] && <Toolbar />}
           layerFeaturesPanel={
-            // featureFlags[FeatureFlag.LAYER_FEATURES_PANEL] &&
-            <LayerFeaturesPanel />
+            featureFlags[FeatureFlag.LAYER_FEATURES_PANEL] && <LayerFeaturesPanel />
           }
           footer={
             <div className={clsx(s.footer, s.clickThrough)}>
