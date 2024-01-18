@@ -16,6 +16,7 @@ export function Layout({
   matrix,
   footer,
   editPanel,
+  layerFeaturesPanel,
 }: {
   disasters: JSX.Element;
   analytics: JSX.Element;
@@ -25,6 +26,7 @@ export function Layout({
   matrix: JSX.Element;
   footer: JSX.Element;
   editPanel: JSX.Element;
+  layerFeaturesPanel: JSX.Element;
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -38,6 +40,7 @@ export function Layout({
             {editPanel}
             {layersAndLegends}
             {matrix}
+            {layerFeaturesPanel}
           </>
         }
         topColumn={toolbar}
@@ -56,6 +59,7 @@ export function Layout({
             {editPanel}
             {layersAndLegends}
             {matrix}
+            {layerFeaturesPanel}
           </>
         }
         mapColumnTop={toolbar}
@@ -79,6 +83,7 @@ export function Layout({
           {matrix}
           {layersAndLegends}
           {editPanel}
+          {layerFeaturesPanel}
         </>
       }
       footer={footer}

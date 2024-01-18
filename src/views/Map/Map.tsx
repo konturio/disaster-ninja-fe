@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
+import { LayerFeaturesPanel } from '~features/layer_features_panel';
 import { FullAndShortStatesPanelWidget } from '~widgets/FullAndShortStatesPanelWidget';
 import { analyticsPanel } from '~features/analytics_panel';
 import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
@@ -119,6 +120,10 @@ export function MapPage() {
           matrix={featureFlags[FeatureFlag.BIVARIATE_MANAGER] && <BivariatePanel />}
           timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
           toolbar={featureFlags[FeatureFlag.TOOLBAR] && <Toolbar />}
+          layerFeaturesPanel={
+            // featureFlags[FeatureFlag.LAYER_FEATURES_PANEL] &&
+            <LayerFeaturesPanel />
+          }
           footer={
             <div className={clsx(s.footer, s.clickThrough)}>
               <div className={s.footerBackground}>

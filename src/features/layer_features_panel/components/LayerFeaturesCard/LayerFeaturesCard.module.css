@@ -1,0 +1,34 @@
+.card {
+  border-bottom: 1px solid var(--faint-weak);
+  padding: var(--double-unit);
+  display: flex;
+  gap: var(--unit);
+  flex-direction: column;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+}
+
+.card:hover {
+  background-color: var(--base-weak-up);
+}
+
+.card:focus,
+.focused {
+  background-color: var(--base-weak-up);
+  outline: 2px solid var(--complimentary-strong);
+  outline-offset: -2px;
+}
+
+.card:active,
+.selected {
+  background-color: var(--accent-weak);
+  border-left: 4px solid var(--complimentary-strong);
+}
+
+.selected:focus,
+.selectedFocused {
+  background-color: var(--accent-weak);
+  border-left: 4px solid var(--complimentary-strong);
+  outline: 2px solid var(--complimentary-strong);
+  outline-offset: -2px;
+}

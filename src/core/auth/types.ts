@@ -51,6 +51,7 @@ export const AppFeature = {
   LIVE_SENSOR: 'live_sensor',
   MCDA: 'mcda',
   TOOLBAR: 'toolbar',
+  LAYER_FEATURES_PANEL: 'layer_features_panel',
 } as const;
 
 export type AppFeatureType = (typeof AppFeature)[keyof typeof AppFeature];

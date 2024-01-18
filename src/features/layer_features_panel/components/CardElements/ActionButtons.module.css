@@ -1,0 +1,19 @@
+.actions {
+  display: flex;
+  gap: var(--half-unit);
+}
+
+.actions > * {
+  color: var(--accent-strong);
+  font: 500 var(--font-xs);
+  text-decoration: none;
+}
+
+.actions > *:hover {
+  outline: 1px solid var(--accent-strong);
+  outline-offset: 4px;
+}
+
+.actions > * > svg {
+  vertical-align: bottom;
+}

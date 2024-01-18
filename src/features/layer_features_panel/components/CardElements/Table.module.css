@@ -1,0 +1,17 @@
+.table {
+  display: flex;
+  gap: var(--half-unit);
+  flex-direction: column;
+}
+
+.table > div {
+  display: flex;
+  gap: var(--half-unit);
+  justify-content: space-between;
+  font: 400 var(--font-xs);
+  line-height: 18px;
+}
+
+.table > div + div {
+  border-top: 1px solid var(--faint-weak);
+}
