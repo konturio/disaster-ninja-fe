@@ -13,7 +13,7 @@ export type ColorsBySentiments = {
 
 export interface MCDAConfig {
   id: string;
-  version: number;
+  version: 4;
   layers: Array<{
     axis: [string, string];
     range: [number, number];

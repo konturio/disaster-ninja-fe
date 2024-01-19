@@ -6,10 +6,11 @@ import {
 import { LayerControl } from '~components/LayerControl/LayerControl';
 import { BivariateLegend } from '~components/BivariateLegend/BivariateLegend';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
+import { LayerEditor } from './LayerEditor';
 import type { SimpleLegendStep } from '~core/logical_layers/types/legends';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 
-function MultiStepLegend({ layerState }: { layerState: LogicalLayerState }) {
+function Legend({ layerState }: { layerState: LogicalLayerState }) {
   if (!layerState.legend) return null;
   switch (layerState.legend.type) {
     case 'simple':
@@ -17,15 +18,16 @@ function MultiStepLegend({ layerState }: { layerState: LogicalLayerState }) {
 
     case 'bivariate':
       return (
-        <div>
-          <BivariateLegend
-            name={layerState.settings?.name ?? ''}
-            meta={layerState.meta}
-            legend={layerState.legend}
-            isHidden={!layerState.isVisible}
-          />
-        </div>
+        <BivariateLegend
+          name={layerState.settings?.name ?? ''}
+          meta={layerState.meta}
+          legend={layerState.legend}
+          isHidden={!layerState.isVisible}
+        />
       );
+
+    case 'mcda':
+      return <div>MCDA LEGEND PLACEHOLDER</div>;
     default:
       return null;
   }
@@ -75,6 +77,7 @@ export function Layer({
       hidden={!layerState.isVisible}
       name={layerState.settings?.name || layerState.id}
       icon={
+        // Add inline legend
         hasOneStepLegend && (
           <SimpleLegendStepComponent
             step={layerState.legend!.steps[0] as SimpleLegendStep}
@@ -94,7 +97,10 @@ export function Layer({
       childrenWithIndent={childrenWithIndent}
       withCollapseIndicator={canFold}
     >
-      <MultiStepLegend layerState={layerState} />
+      <>
+        {layerState.editor ? <LayerEditor model={layerState.editor} /> : null}
+        <Legend layerState={layerState} />
+      </>
     </FoldingWrap>
   ) : (
     Control
