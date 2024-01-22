@@ -9,7 +9,7 @@ export const apiClient = withSetupCheck(ApiClient, {
       switch (error.problem.kind) {
         case 'unauthorized':
         case 'forbidden':
-          alert('Access denied or your session expired. Please login again');
+          alert('Access denied or your session expired.');
           goTo('/profile');
           location.reload();
           break;
