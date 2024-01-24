@@ -246,8 +246,16 @@ export class ApiClient {
     requestConfig: CustomRequestConfig = {},
   ): Promise<T | null> {
     const RequestsWithBody = ['post', 'put', 'patch'];
+    let req;
 
-    let req = wretch(this.baseURL, { mode: 'cors' }).addon(QueryStringAddon).url(path);
+    if (path.startsWith('http')) {
+      const url = new URL(path);
+      req = wretch(url.origin, { mode: 'cors' })
+        .addon(QueryStringAddon)
+        .url(url.pathname);
+    } else {
+      req = wretch(this.baseURL, { mode: 'cors' }).addon(QueryStringAddon).url(path);
+    }
 
     if (requestConfig.signal) {
       req = req.options({ signal: requestConfig.signal });

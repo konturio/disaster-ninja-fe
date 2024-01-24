@@ -34,7 +34,7 @@ export type AsyncAtomDeps<
   D extends AtomBinded,
   F extends Fetcher<Exclude<AtomState<D>, null>, any>,
 > = {
-  request: (params: Exclude<AtomState<D>, null>) => typeof params;
+  request: (params?: Exclude<AtomState<D>, null>) => typeof params;
   refetch: () => null;
   cancel: () => null;
   _done: (
