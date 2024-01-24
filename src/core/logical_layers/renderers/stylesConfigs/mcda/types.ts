@@ -11,17 +11,19 @@ export type ColorsBySentiments = {
   };
 };
 
+export interface MCDALayer {
+  axis: [string, string];
+  range: [number, number];
+  sentiment: [string, string];
+  coefficient: number;
+  transformationFunction: TransformationFunction;
+  normalization: Normalization;
+}
+
 export interface MCDAConfig {
   id: string;
   version: 4;
-  layers: Array<{
-    axis: [string, string];
-    range: [number, number];
-    sentiment: [string, string];
-    coefficient: number;
-    transformationFunction: TransformationFunction;
-    normalization: Normalization;
-  }>;
+  layers: Array<MCDALayer>;
   colors: ColorsBySentiments | ColorsByMapLibreExpression;
 }
 

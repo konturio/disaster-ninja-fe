@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
+import { bivariateStatisticsResourceAtom } from './bivariateStatisticsResource';
 import type { Stat } from '~utils/bivariate';
 import type { AxisGroup } from '~core/types';
 
@@ -20,9 +20,7 @@ const extractAvailableNumeratorsWithDenominators = (stat: Stat) => {
       };
       x.push(xGroup);
     } else if (
-      !xGroup.quotients.find(
-        (q) => JSON.stringify(q) === JSON.stringify(xQuotient),
-      )
+      !xGroup.quotients.find((q) => JSON.stringify(q) === JSON.stringify(xQuotient))
     ) {
       xGroup.quotients.push(xQuotient);
     }
@@ -39,27 +37,21 @@ const extractAvailableNumeratorsWithDenominators = (stat: Stat) => {
       };
       y.push(yGroup);
     } else if (
-      !yGroup.quotients.find(
-        (q) => JSON.stringify(q) === JSON.stringify(yQuotient),
-      )
+      !yGroup.quotients.find((q) => JSON.stringify(q) === JSON.stringify(yQuotient))
     ) {
       yGroup.quotients.push(yQuotient);
     }
   }
 
   for (const group of x) {
-    const parent = group.quotients.find(
-      (q) => JSON.stringify(q) === group.parent,
-    );
+    const parent = group.quotients.find((q) => JSON.stringify(q) === group.parent);
     if (parent) {
       group.selectedQuotient = parent;
     }
   }
 
   for (const group of y) {
-    const parent = group.quotients.find(
-      (q) => JSON.stringify(q) === group.parent,
-    );
+    const parent = group.quotients.find((q) => JSON.stringify(q) === group.parent);
     if (parent) {
       group.selectedQuotient = parent;
     }
@@ -83,20 +75,16 @@ export const bivariateNumeratorsAtom = createAtom(
       yGroups: AxisGroup[];
     } = { xGroups: [], yGroups: [] },
   ) => {
-    onChange(
-      'bivariateStatisticsResourceAtom',
-      ({ data: statisticsData, loading }) => {
-        if (statisticsData && !loading) {
-          const stats: Stat =
-            statisticsData.polygonStatistic.bivariateStatistic;
+    onChange('bivariateStatisticsResourceAtom', ({ data: statisticsData, loading }) => {
+      if (statisticsData && !loading) {
+        const stats: Stat = statisticsData.polygonStatistic.bivariateStatistic;
 
-          // get all available numerators with denominators
-          const numerators = extractAvailableNumeratorsWithDenominators(stats);
+        // get all available numerators with denominators
+        const numerators = extractAvailableNumeratorsWithDenominators(stats);
 
-          state = { xGroups: numerators.x, yGroups: numerators.y };
-        }
-      },
-    );
+        state = { xGroups: numerators.x, yGroups: numerators.y };
+      }
+    });
 
     onAction('setNumerators', (nums) => {
       state = nums;
