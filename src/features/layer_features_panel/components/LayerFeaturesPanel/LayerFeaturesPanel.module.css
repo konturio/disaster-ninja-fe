@@ -1,0 +1,120 @@
+.shield {
+  display: flex;
+  gap: var(--half-unit);
+  background: var(--accent-weak);
+  border-radius: var(--half-unit);
+  padding: var(--unit);
+  margin: var(--double-unit);
+}
+
+.headerTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.panelIcon.desktop {
+  display: none;
+  z-index: 1;
+}
+
+.iconWrap {
+  display: flex;
+}
+
+.featuresPanel {
+  position: relative;
+  border-radius: var(--border-radius-unit);
+  overflow: hidden;
+  flex: 1;
+
+  &.show > .contentWrap {
+    display: flex;
+    height: 100%;
+  }
+
+  &.collapse {
+    display: block;
+    flex: none;
+    & > .contentWrap {
+      display: none;
+    }
+  }
+}
+
+/* mobile */
+@media screen and (max-width: 960px) {
+  .featuresPanel.show {
+    position: absolute;
+    margin: 0;
+    height: calc(100% - var(--app-header-height));
+    width: 100vw;
+    & > div {
+      width: 100%;
+    }
+  }
+  .featuresPanel.collapse {
+    display: none;
+  }
+
+  .panelIcon.mobile {
+    display: flex;
+    &.show {
+      transition: opacity 0.33s linear 0s;
+      visibility: visible;
+      opacity: 1;
+    }
+
+    &.hide {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+}
+
+.panelBody {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable {
+  overflow: hidden;
+  height: 100%;
+  /* a space to see at least one card */
+  align-items: center;
+}
+
+.height100vh {
+  height: 100vh;
+}
+
+/* mobile */
+@media screen and (max-width: 960px) {
+  .scrollable {
+    width: 100vw;
+  }
+}
+
+.shortPanel {
+  width: 100%;
+  height: min-content;
+}
+
+.noFeatures {
+  text-align: center;
+  padding: calc(var(--unit) * 4) 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  gap: var(--unit);
+}
+
+.noMsg {
+  width: 100%;
+}
+
+.callToAction {
+  width: 100%;
+}
