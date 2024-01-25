@@ -1,0 +1,16 @@
+.title {
+  font: bold var(--font);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.title img {
+  max-height: 32px;
+}
+
+.sub {
+  font-weight: 400;
+}
