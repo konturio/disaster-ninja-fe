@@ -9,7 +9,6 @@ import { panelClasses } from '~components/Panel';
 import { eventEpisodesController } from '../../controller';
 import { eventEpisodesModel } from '../../model';
 import { EpisodesTimeline } from '../EpisodesTimeline/EpisodesTimeline';
-import s from './EpisodesTimelinePanel.module.css';
 
 export function EpisodesTimelinePanel() {
   const [episodes] = useAtom(eventEpisodesModel.currentEventEpisodes);
@@ -32,7 +31,7 @@ export function EpisodesTimelinePanel() {
         onModalClick: eventEpisodesController.closeEpisodesTimeline,
         showInModal: isMobile,
       }}
-      classes={{ ...panelClasses, modal: s.episodesModal }}
+      classes={{ ...panelClasses }}
     >
       <div>
         {statesToComponents({
