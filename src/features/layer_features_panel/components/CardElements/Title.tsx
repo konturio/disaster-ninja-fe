@@ -9,7 +9,7 @@ export interface TitleProps {
 export function Title({ icon, title, subtitle }: TitleProps) {
   return (
     <div className={s.title}>
-      {icon && <img src={icon} alt="" />}
+      {icon && <img src={icon} alt={title} />}
       <div>{title}</div>
       {subtitle && <div className={s.sub}>{subtitle}</div>}
     </div>

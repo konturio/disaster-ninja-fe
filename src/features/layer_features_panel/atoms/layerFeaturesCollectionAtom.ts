@@ -4,10 +4,10 @@ import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { apiClient } from '~core/apiClientInstance';
 import { createNumberAtom } from '~utils/atoms/createPrimitives';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { FEATURESPANEL_LAYER_ID } from '../constants';
 import { getPanelData } from './hotProjects_outlines';
 import type { FeatureCardCfg } from '../components/CardElements';
 
-export const FEATURESPANEL_LAYER_ID = 'hotProjects_outlines';
 export const currentFeatureIdAtom = createNumberAtom(undefined, 'currentFeatureIdAtom');
 export const layerFeaturesCollectionAtom = createAtom(
   {

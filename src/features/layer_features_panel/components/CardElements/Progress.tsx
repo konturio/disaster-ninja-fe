@@ -17,7 +17,7 @@ export function Progress({ caption, items }: ProgressProps) {
       {caption && <div className={s.caption}>{caption}</div>}
       <div className={s.stack}>
         {items
-          .map(({ color, title, value }, i) => {
+          .map(({ color, value }, i) => {
             const style = {};
             if (color) style['backgroundColor'] = color;
             style['width'] = value + '%';

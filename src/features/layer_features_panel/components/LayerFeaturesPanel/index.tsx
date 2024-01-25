@@ -13,13 +13,11 @@ import {
   currentFeatureIdAtom,
   layerFeaturesCollectionAtom,
 } from '../../atoms/layerFeaturesCollectionAtom';
+import { FEATURESPANEL_MIN_HEIGHT, FEATURESPANEL_HEADER } from '../../constants';
 import { FullState } from './FullState';
 import { ShortState } from './ShortState';
 import s from './LayerFeaturesPanel.module.css';
 import type { FeatureCardCfg } from '../CardElements';
-
-const MIN_HEIGHT = 80;
-const header = 'HOT Tasking Manager Projects';
 
 export function LayerFeaturesPanel() {
   const [currentFeatureId, { set: setCurrentFeatureId }] = useAtom(currentFeatureIdAtom);
@@ -39,7 +37,7 @@ export function LayerFeaturesPanel() {
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
     isOpen,
-    MIN_HEIGHT,
+    FEATURESPANEL_MIN_HEIGHT,
     'lf_list',
   );
 
@@ -74,7 +72,7 @@ export function LayerFeaturesPanel() {
   return (
     <>
       <Panel
-        header={header}
+        header={FEATURESPANEL_HEADER}
         headerIcon={
           <div className={s.iconWrap}>
             <Legend24 />
@@ -90,7 +88,7 @@ export function LayerFeaturesPanel() {
         contentContainerRef={handleRefChange}
         customControls={panelControls}
         contentHeight={isShort ? 'min-content' : '30vh'}
-        minContentHeight={isShort ? 'min-content' : MIN_HEIGHT}
+        minContentHeight={isShort ? 'min-content' : FEATURESPANEL_MIN_HEIGHT}
       >
         {panelContent[panelState]}
       </Panel>

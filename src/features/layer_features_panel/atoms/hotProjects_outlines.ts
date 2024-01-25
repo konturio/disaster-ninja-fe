@@ -13,9 +13,9 @@ function toTitleCase(word: string) {
   return word.charAt(0).toUpperCase() + word.substring(1).toLowerCase();
 }
 
-const RED = { color: 'var(--error-strong)', backgroundColor: '#F8DDE0' }; // 'var(--error-weak)'
-const GREEN = { color: 'var(--success-strong)', backgroundColor: '#EAF6E6' }; // 'var(--success-weak)'
-const ORANGE = { color: 'var(--warning-strong)', backgroundColor: '#FFE8D4' }; // 'var(--warning-weak)'
+const RED = { color: 'var(--error-strong)', backgroundColor: '#F8DDE0' };
+const GREEN = { color: 'var(--success-strong)', backgroundColor: '#EAF6E6' };
+const ORANGE = { color: 'var(--warning-strong)', backgroundColor: '#FFE8D4' };
 const DARKGREY = {
   color: 'var(--base-strong-down)',
   backgroundColor: 'var(--faint-weak)',
@@ -37,13 +37,13 @@ then by priority (high → medium → low) and then by mapped % (low → high).
 HOT projects with high priority and low mapped % should be higher
 */
 function hotProjectsSort(a, b) {
-  const weight_status = {
+  const weightStatus = {
     // ACTIVE: 30000,
     PUBLISHED: 20000,
     ARCHIVED: 10000,
   };
 
-  const weight_projectPriority = {
+  const weightProjectPriority = {
     LOW: 1000,
     MEDIUM: 2000,
     HIGH: 3000,
@@ -51,9 +51,9 @@ function hotProjectsSort(a, b) {
   };
 
   const res =
-    weight_status[a.properties.status] - weight_status[b.properties.status] ||
-    weight_projectPriority[a.properties.projectPriority] -
-      weight_projectPriority[b.properties.projectPriority] ||
+    weightStatus[a.properties.status] - weightStatus[b.properties.status] ||
+    weightProjectPriority[a.properties.projectPriority] -
+      weightProjectPriority[b.properties.projectPriority] ||
     -a.properties.percentMapped + b.properties.percentMapped;
 
   return -res;
@@ -64,7 +64,7 @@ export function getPanelData(featuresListHOT: object) {
     const { properties: p } = f;
     return {
       id: f.id,
-      focus: p.aoiBBOX, //f.geometry.coordinates
+      focus: p.aoiBBOX,
       properties: p,
       items: [
         {
@@ -85,13 +85,10 @@ export function getPanelData(featuresListHOT: object) {
         },
         {
           type: 'title',
-          // icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAw0lEQVR4nO2WWwrCMBBFz0ezhoouxYK4IyNdkdbuR5qFiAtQKUyhP0rz0IyQA/nrzTxymwwUCn9ABTjg6bmcaKM5BgSflo0NXgM34AHsPHRb0dyBdUwCnVRyCtCeRTvuEUQTWcXUvTGJva+4Aq4iPhCOnRnShBjP+Qo/FGJ/0roUR9lJ8Avp6Jcaspllu0mYwGpJVw0wyEct6Wll7+Gdr0zuBLIfgQoTqvgNs19EKq7i7I+RiudYxUCSfSRTMZQWCnyTF73qivMHBsP9AAAAAElFTkSuQmCC',
           title: `${p.projectInfo.name}`,
-          // subtitle: 'Sub',
         },
         {
           type: 'progress',
-          // caption: 'Caption',
           items: [
             {
               title: '% Validated',

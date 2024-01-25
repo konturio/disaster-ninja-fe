@@ -5,7 +5,7 @@ import { Label } from './Label';
 import { Progress } from './Progress';
 import type { LngLatBoundsLike } from 'maplibre-gl';
 
-// TODO: add new card elements here
+// add new card elements here
 export const CardElementsMap = {
   label: Label,
   title: Title,
