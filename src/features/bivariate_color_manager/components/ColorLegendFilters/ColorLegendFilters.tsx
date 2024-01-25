@@ -9,7 +9,7 @@ import { bivariateColorManagerResourceAtom } from '~features/bivariate_color_man
 import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import { capitalize } from '~utils/common';
 import style from './ColorLegendFilters.module.css';
-import type { SelectItemType } from '@konturio/ui-kit';
+import type { SelectableItem } from '@konturio/ui-kit';
 
 const SentimentFiltersClasses = {
   noValue: style.NoValue,
@@ -33,7 +33,7 @@ export const ColorLegendFilters = () => {
 
   const [loading] = useAtom(bivariateColorManagerResourceAtom, (state) => state.loading);
 
-  const selectIndicatorsData: SelectItemType[] = useMemo(() => {
+  const selectIndicatorsData = useMemo(() => {
     return (
       indicators?.map((indicator) => ({
         title: indicator.label,
@@ -43,7 +43,7 @@ export const ColorLegendFilters = () => {
   }, [indicators]);
 
   // calculate unique direction items that are available in indicators list
-  const selectDirectionsData: SelectItemType[] = useMemo(() => {
+  const selectDirectionsData: SelectableItem[] = useMemo(() => {
     const uniqueDirectionsSet = new Set<string>();
 
     indicators?.forEach((indicator) => {
@@ -100,14 +100,14 @@ export const ColorLegendFilters = () => {
   );
 
   const onSelectSentiment = useCallback(
-    (selection: SelectItemType | SelectItemType[] | null | undefined, index: number) => {
+    (selection: SelectableItem | SelectableItem[] | null | undefined, index: number) => {
       if (selection && Array.isArray(selection) && selection?.length) {
         if (!sentimentFilterValues.current[index]?.value?.length) {
           sentimentFilterValues.current.push({ key: nanoid(4), value: [] });
           setSentimentFiltersCount(sentimentFiltersCount + 1);
         }
         sentimentFilterValues.current[index].value = selection?.map((itm) =>
-          itm.value.toString(),
+          String(itm.value),
         );
         setSentimentsFilter(
           sentimentFilterValues.current.reduce((acc, sf) => {

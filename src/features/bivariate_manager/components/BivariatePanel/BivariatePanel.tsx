@@ -50,7 +50,7 @@ export function BivariatePanel() {
     <>
       <Panel
         onHeaderClick={togglePanel}
-        classes={{ ...panelClasses, modal: styles.bivModal }}
+        classes={{ ...panelClasses }}
         className={clsx(
           styles.bivariatePanel,
           isOpen && styles.show,
