@@ -18,7 +18,7 @@
 }
 
 .panelBody {
-  height: 300px;
+  min-height: 300px;
   padding: 0 var(--double-unit) var(--double-unit) var(--double-unit);
   overflow: auto;
 
