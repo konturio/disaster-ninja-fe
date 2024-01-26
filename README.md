@@ -24,17 +24,17 @@ after that it will be available on `http://localhost/active/` url
 
 Another way is - use vite preview build
 ```
-npm i
-npm run build
-npm run serve
+pnpm i
+pnpm run build
+pnpm run serve
 ```
 
 ## How to develop
 
 For start dev server all you need is
 ```
-npm i
-npm run dev
+pnpm i
+pnpm run dev
 ```
 
 ## How to i18n
@@ -100,15 +100,15 @@ Or in case of ```<Trans/>``` component:
 ```
 3. Run update script:
 ```
-npm run i18n:update
+pnpm run i18n:update
 ```
 And then fill translations for extracted keys to src/core/localization/translations/en/common.json.
 If you use ```<Trans/>``` translations from it will be extracted automatically: ```"p4": "Some content before<1>Kontur Event Feed</1>Some content after"```
 
 4. If key is new - just commit changes. It will be converted from .json to .pot file on pre-commit hook and added to commit. If you edit/remove existing key you need to sync it with other languages translations, so you need to run: 
 ```
-npm run i18n:export
-npm run i18n:gettext-sync
+pnpm run i18n:export
+pnpm run i18n:gettext-sync
 ```
 
 Later translators will add new translations to .po files comparing them with .pot file.
@@ -117,7 +117,7 @@ When you run or build a project .po files convert to i18next .json files, so new
 
 ## Available Scripts
 
-### npm start
+### pnpm start
 
 Runs the app in the development mode.
 Open http://localhost:3000 to view it in the browser.
@@ -125,23 +125,23 @@ Open http://localhost:3000 to view it in the browser.
 The page will reload if you make edits.
 You will also see any lint errors in the console.
 
-### npm test
+### pnpm test
 
 Launches the test runner in the interactive watch mode.
 See the section about running tests for more information.
 
-### npm run build
+### pnpm run build
 
 Builds a static copy of your site to the `dist/` folder.
 
-### npm run serve
+### pnpm run serve
 Run static server for builded app
 
 ### typecheck and typecheck:watch
 Check types error in project
 
 ### postinstall
-Run this script after you run npm install
+Run this script after you run pnpm install
 This will fix deck-gl types
 
 ### upgrade:kontur
