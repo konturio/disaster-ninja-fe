@@ -24,14 +24,7 @@
 /* mobile */
 @media screen and (max-width: 960px) {
   .panel.show {
-    position: absolute;
-    margin: 0;
-    width: 100vw;
-    height: calc(100% - var(--app-header-height));
-    align-items: center;
-    & > div {
-      width: 100%;
-    }
+    max-height: calc(100vh - 60px);
   }
   .panel.collapse {
     display: none;

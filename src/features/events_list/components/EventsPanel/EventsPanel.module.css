@@ -56,13 +56,7 @@
 /* mobile */
 @media screen and (max-width: 960px) {
   .eventsPanel.show {
-    position: absolute;
-    margin: 0;
-    height: calc(100% - var(--app-header-height));
-    width: 100vw;
-    & > div {
-      width: 100%;
-    }
+    max-height: calc(100vh - 60px);
   }
   .eventsPanel.collapse {
     display: none;
