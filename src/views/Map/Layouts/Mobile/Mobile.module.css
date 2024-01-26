@@ -38,6 +38,13 @@
   margin-left: auto;
 }
 
+.greedy {
+  @media screen and (max-width: 960px) {
+    height: 100%;
+    width: 100%;
+  }
+}
+
 .footerWrap {
   display: flex;
   grid-column: 1/-1;

@@ -42,8 +42,8 @@ dependencies:
     specifier: ^1.1.1
     version: 1.1.1(clsx@1.2.1)(react-dom@18.2.0)(react@18.2.0)
   '@konturio/ui-kit':
-    specifier: ^5.1.6
-    version: 5.1.6(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1)(react-dom@18.2.0)(react@18.2.0)(uuid@8.3.2)(vis-util@5.0.7)(xss@1.0.14)
+    specifier: ^5.1.7
+    version: 5.1.7(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1)(react-dom@18.2.0)(react@18.2.0)(uuid@8.3.2)(vis-util@5.0.7)(xss@1.0.14)
   '@loaders.gl/core':
     specifier: ^3.4.14
     version: 3.4.14
@@ -248,9 +248,6 @@ dependencies:
   postcss-custom-media:
     specifier: ^8.0.2
     version: 8.0.2(postcss@8.4.33)
-  postcss-loader:
-    specifier: ^7.3.3
-    version: 7.3.4(postcss@8.4.33)(typescript@5.3.3)(webpack@5.90.0)
   postcss-nested:
     specifier: ^6.0.1
     version: 6.0.1(postcss@8.4.33)
@@ -1474,8 +1471,8 @@ packages:
       - react-dom
     dev: false
 
-  /@konturio/ui-kit@5.1.6(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1)(react-dom@18.2.0)(react@18.2.0)(uuid@8.3.2)(vis-util@5.0.7)(xss@1.0.14):
-    resolution: {integrity: sha512-WkETN2s+GZsWJHl1z67XiYuLbPqrelwJ+J16X6IXbUfrvKG+ypoIjYvvlhJ1xRtXuTIE7InZhdy25J+ItkpQBg==}
+  /@konturio/ui-kit@5.1.7(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1)(react-dom@18.2.0)(react@18.2.0)(uuid@8.3.2)(vis-util@5.0.7)(xss@1.0.14):
+    resolution: {integrity: sha512-ltOjG5XYTfQ/HzoXu8iteQRPBRx+MNN1U9QaSDEoeKYbTgQQL9GmI75hLXumuACv1jl42fcQR0zlMk8tMCMpLQ==}
     peerDependencies:
       clsx: ^1.2.1
       react: ^18.2.0
@@ -2886,8 +2883,8 @@ packages:
       undici-types: 5.26.5
     dev: false
 
-  /@types/node@20.11.6:
-    resolution: {integrity: sha512-+EOokTnksGVgip2PbYbr3xnR7kZigh4LbybAfBAw5BpnQ+FqBYUsvCEjYd70IXKlbohQ64mzEYmMtlWUY8q//Q==}
+  /@types/node@20.11.7:
+    resolution: {integrity: sha512-GPmeN1C3XAyV5uybAf4cMLWT9fDWcmQhZVtMFu7OR32WjrqGG+Wnk2V1d0bmtUyE/Zy1QJ9BxyiTih9z8Oks8A==}
     dependencies:
       undici-types: 5.26.5
     dev: false
@@ -4287,22 +4284,6 @@ packages:
 
   /core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
-    dev: false
-
-  /cosmiconfig@8.3.6(typescript@5.3.3):
-    resolution: {integrity: sha512-kcZ6+W5QzcJ3P1Mt+83OUv/oHFqZHIx8DuxG6eZ5RGMERoLqp4BuGjhHLYGK+Kf5XVkQvqBSmAy/nGWN3qDgEA==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      typescript: '>=4.9.5'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      import-fresh: 3.3.0
-      js-yaml: 4.1.0
-      parse-json: 5.2.0
-      path-type: 4.0.0
-      typescript: 5.3.3
     dev: false
 
   /cosmiconfig@9.0.0(typescript@5.3.3):
@@ -6927,14 +6908,9 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.11.6
+      '@types/node': 20.11.7
       merge-stream: 2.0.0
       supports-color: 8.1.1
-    dev: false
-
-  /jiti@1.21.0:
-    resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
-    hasBin: true
     dev: false
 
   /js-tokens@4.0.0:
@@ -8722,22 +8698,6 @@ packages:
       lilconfig: 2.1.0
       postcss: 8.4.32
       yaml: 1.10.2
-    dev: false
-
-  /postcss-loader@7.3.4(postcss@8.4.33)(typescript@5.3.3)(webpack@5.90.0):
-    resolution: {integrity: sha512-iW5WTTBSC5BfsBJ9daFMPVrLT36MrNiC6fqOZTTaHjBNX6Pfd5p+hSBqe/fEeNd7pc13QiAyGt7VdGMw4eRC4A==}
-    engines: {node: '>= 14.15.0'}
-    peerDependencies:
-      postcss: ^7.0.0 || ^8.0.1
-      webpack: ^5.0.0
-    dependencies:
-      cosmiconfig: 8.3.6(typescript@5.3.3)
-      jiti: 1.21.0
-      postcss: 8.4.33
-      semver: 7.5.4
-      webpack: 5.90.0
-    transitivePeerDependencies:
-      - typescript
     dev: false
 
   /postcss-modules-extract-imports@3.0.0(postcss@8.4.32):

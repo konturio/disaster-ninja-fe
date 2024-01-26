@@ -60,7 +60,7 @@ export function BivariatePanel() {
         headerIcon={<BivariateMatrix24 />}
         modal={{
           onModalClick: onPanelClose,
-          showInModal: true,
+          showInModal: false,
         }}
         isOpen={isOpen}
       >
