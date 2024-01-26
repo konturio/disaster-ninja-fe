@@ -12,12 +12,15 @@ export type ColorsBySentiments = {
 };
 
 export interface MCDALayer {
+  id: string;
+  name: string;
   axis: [string, string];
   range: [number, number];
   sentiment: [string, string];
   coefficient: number;
   transformationFunction: TransformationFunction;
   normalization: Normalization;
+  unit: string | null;
 }
 
 export interface MCDAConfig {
@@ -46,5 +49,5 @@ export interface JsonMCDAv4 {
 
 export interface MCDALayerStyle {
   type: 'mcda';
-  config: JsonMCDAv4;
+  config: MCDAConfig;
 }

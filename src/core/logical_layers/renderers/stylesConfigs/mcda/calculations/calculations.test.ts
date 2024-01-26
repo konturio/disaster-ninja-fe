@@ -9,6 +9,8 @@ const calculateLayerStyle = calculateLayerPipeline(inStyleCalculations, (axis) =
 
 test('style correct for good bad sentiments', () => {
   const result = calculateLayerStyle({
+    id: 'test',
+    name: 'TEST',
     axis: ['axisA', 'axisB'],
     range: [111, 333],
     sentiment: ['good', 'bad'],
@@ -22,6 +24,8 @@ test('style correct for good bad sentiments', () => {
 
 test('style correct for bad good sentiments', () => {
   const result = calculateLayerStyle({
+    id: 'test',
+    name: 'TEST',
     axis: ['axisA', 'axisB'],
     range: [111, 333],
     sentiment: ['bad', 'good'],
@@ -40,6 +44,8 @@ const calculateNumber = calculateLayerPipeline(inViewCalculations, (axis) => ({
 
 test('Transformations correct: square_root', () => {
   const result = calculateNumber({
+    id: 'test',
+    name: 'TEST',
     axis: ['axisA', 'axisB'],
     range: [0, 100],
     sentiment: ['bad', 'good'],
@@ -53,6 +59,8 @@ test('Transformations correct: square_root', () => {
 
 test('Transformations correct: natural_logarithm', () => {
   const result = calculateNumber({
+    id: 'test',
+    name: 'TEST',
     axis: ['axisA', 'axisB'],
     range: [0, 100],
     sentiment: ['bad', 'good'],

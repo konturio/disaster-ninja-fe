@@ -6,7 +6,9 @@ import { createBivariateQuery, isGeometryEmpty } from '~core/bivariate';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { isApiError } from '~core/api_client/apiClientError';
 import { i18n } from '~core/localization';
-import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
+import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axixDTOtoAxis';
+import type { Stat } from '~utils/bivariate';
+import type { BivariateStatisticsResponse } from './types';
 import type { FocusedGeometry } from '~core/focused_geometry/types';
 
 const bivariateStatisticsDependencyAtom = createAtom(
@@ -28,55 +30,57 @@ const bivariateStatisticsDependencyAtom = createAtom(
   'bivariateStatisticsDependencyAtom',
 );
 
-let allMapStats: BivariateStatisticsResponse;
+let worldStatsCache: Stat;
 
 export const bivariateStatisticsResourceAtom = createAsyncAtom(
   bivariateStatisticsDependencyAtom,
   async ({ focusedGeometry }, abortController) => {
-    if (!focusedGeometry?.geometry && allMapStats) {
-      return allMapStats;
+    if (!focusedGeometry?.geometry && worldStatsCache) {
+      return worldStatsCache;
     }
-    let responseData: {
-      data: BivariateStatisticsResponse;
-      errors?: unknown;
-    } | null;
     try {
       const body = createBivariateQuery(focusedGeometry);
-      responseData = await apiClient.post<{
+      const responseData = await apiClient.post<{
         data: BivariateStatisticsResponse;
         errors?: unknown;
       }>('/bivariate_matrix', body, true, {
         signal: abortController.signal,
       });
+
+      if (!responseData) {
+        throw new Error(i18n.t('no_data_received'));
+      }
+
+      const { data } = responseData;
+      if (!data) {
+        const msg = parseGraphQLErrors(responseData);
+        throw new Error(msg || i18n.t('no_data_received'));
+      }
+
+      const statsDTO = data.polygonStatistic.bivariateStatistic;
+
+      // Check for correlationRates
+      if (!statsDTO || !Array.isArray(statsDTO?.correlationRates)) {
+        throw new Error(i18n.t('wrong_data_received'));
+      }
+
+      // Adapt Axes
+      const stat: Stat = {
+        ...statsDTO,
+        axis: statsDTO.axis.map((ax) => axisDTOtoAxis(ax)),
+      };
+
+      if (isGeometryEmpty(focusedGeometry) && !worldStatsCache) {
+        worldStatsCache = stat;
+      }
+
+      return stat;
     } catch (e) {
       if (isApiError(e) && e.problem.kind === 'canceled') {
         return null;
       }
       throw e;
     }
-
-    if (!responseData) {
-      throw new Error(i18n.t('no_data_received'));
-    }
-    if (!responseData?.data) {
-      const msg = parseGraphQLErrors(responseData);
-      throw new Error(msg || i18n.t('no_data_received'));
-    }
-
-    // Check for correlationRates
-    if (
-      !Array.isArray(
-        responseData?.data?.polygonStatistic?.bivariateStatistic?.correlationRates,
-      )
-    ) {
-      throw new Error(i18n.t('wrong_data_received'));
-    }
-
-    if (isGeometryEmpty(focusedGeometry) && !allMapStats) {
-      allMapStats = responseData.data;
-    }
-
-    return responseData.data;
   },
   'bivariateStatisticsResource',
 );

@@ -15,10 +15,14 @@ describe('statsToMatrix convert various datasets into matrix without errors', ()
     const correlationRates: CorrelationRate[] = [
       {
         x: {
+          id: 'foo|area',
+          label: 'Foo / Area',
           steps: [{ value: 10 }, { value: 30 }, { value: 50 }],
           quotient: ['foo', 'area'],
         },
         y: {
+          id: 'bar|views',
+          label: 'Bar / Views',
           steps: [{ value: 1 }, { value: 3 }, { value: 5 }],
           quotient: ['bar', 'views'],
         },
@@ -26,10 +30,14 @@ describe('statsToMatrix convert various datasets into matrix without errors', ()
       },
       {
         x: {
+          id: 'foo|area',
+          label: 'Foo / Area',
           steps: [{ value: 10 }, { value: 30 }, { value: 50 }],
           quotient: ['foo', 'area'],
         },
         y: {
+          id: 'bar|views',
+          label: 'Bar / Views',
           steps: [{ value: 1 }, { value: 3 }, { value: 5 }],
           quotient: ['baz', 'views'],
         },
@@ -37,10 +45,14 @@ describe('statsToMatrix convert various datasets into matrix without errors', ()
       },
       {
         x: {
+          id: 'foo|area',
+          label: 'Foo / Area',
           steps: [{ value: 10 }, { value: 30 }, { value: 50 }],
           quotient: ['bar', 'area'],
         },
         y: {
+          id: 'bar|views',
+          label: 'Bar / Views',
           steps: [{ value: 1 }, { value: 3 }, { value: 5 }],
           quotient: ['baz', 'views'],
         },

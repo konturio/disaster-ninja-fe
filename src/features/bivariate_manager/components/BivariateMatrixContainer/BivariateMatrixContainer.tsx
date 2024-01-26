@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
 import { useAtom } from '@reatom/react-v2';
-import { Heading, Text } from '@konturio/ui-kit';
+import { Heading } from '@konturio/ui-kit';
 import ConnectedBivariateMatrix from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
-import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { createStateMap } from '~utils/atoms';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { BivariateGreetingsContainer } from '~features/bivariate_manager/components/BivariateGreetings/BivariateGreetingsContainer';
 import { i18n } from '~core/localization';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { isGeometryEmpty } from '~core/bivariate';
+import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import { AXIS_CAPTIONS_WIDTH, MATRIX_SCALE } from '../BivariateMatrixControl/constants';
 import s from './BivariateMatrixContainer.module.css';
 import { BivariateMatrixContext } from './bivariateMatrixContext';

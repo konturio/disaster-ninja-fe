@@ -46,6 +46,7 @@ export const createBoundaryRegistryAtom = (
         error: null,
         contextMenu: null,
         style: null,
+        editor: null,
       },
     ) => {
       const newState = {

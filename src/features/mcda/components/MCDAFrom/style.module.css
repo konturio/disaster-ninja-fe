@@ -1,0 +1,12 @@
+.MCDAForm {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: var(--double-unit);
+}
+
+.buttonsRow {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--unit);
+  justify-content: flex-end;
+}

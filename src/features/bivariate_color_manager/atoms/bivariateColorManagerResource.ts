@@ -6,6 +6,7 @@ import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { i18n } from '~core/localization';
 import { createBivariateQuery } from '~core/bivariate';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axixDTOtoAxis';
 import type { BivariateStatisticsResponse } from '~features/bivariate_manager/types';
 import type { Axis, Direction, Indicator } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
@@ -105,7 +106,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
           mostQualityDenominator: denominator,
           quality: axis.quality,
           layersCount: 1,
-          mostQualityAxis: axis,
+          mostQualityAxis: axisDTOtoAxis(axis),
         };
       } else {
         acc[numerator].layersCount++;
@@ -116,7 +117,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
             ...acc[numerator],
             mostQualityDenominator: denominator,
             quality: axis.quality,
-            mostQualityAxis: axis,
+            mostQualityAxis: axisDTOtoAxis(axis),
           };
         }
       }

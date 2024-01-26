@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { MCDALegend } from '@konturio/ui-kit';
 import {
   SimpleLegend,
   SimpleLegendStep as SimpleLegendStepComponent,
@@ -27,7 +28,8 @@ function Legend({ layerState }: { layerState: LogicalLayerState }) {
       );
 
     case 'mcda':
-      return <div>MCDA LEGEND PLACEHOLDER</div>;
+      const { type, ...legendProps } = layerState.legend;
+      return <MCDALegend {...legendProps} />;
     default:
       return null;
   }
@@ -53,7 +55,8 @@ export function Layer({
 
   const hasMultiStepLegend =
     (layerState.legend?.type === 'simple' && layerState.legend.steps?.length > 1) ||
-    layerState.legend?.type === 'bivariate';
+    layerState.legend?.type === 'bivariate' ||
+    layerState.legend?.type === 'mcda';
 
   const inputType = useMemo(() => {
     switch (mutuallyExclusive) {
@@ -98,7 +101,9 @@ export function Layer({
       withCollapseIndicator={canFold}
     >
       <>
-        {layerState.editor ? <LayerEditor model={layerState.editor} /> : null}
+        {layerState.editor ? (
+          <LayerEditor layerId={layerState.id} model={layerState.editor} />
+        ) : null}
         <Legend layerState={layerState} />
       </>
     </FoldingWrap>

@@ -23,12 +23,13 @@ export type Quotients = {
 };
 
 export type Axis = {
+  id: string;
+  label: string;
   steps: Step[];
   quotient: Quotient;
   quotients?: Quotients[];
   quality?: number;
   parent?: Quotient;
-  label?: string;
 };
 
 export type CorrelationRate = {

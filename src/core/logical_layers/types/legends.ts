@@ -48,11 +48,12 @@ export interface BivariateLegend {
 export interface BivariateLegendBackend {
   type: 'bivariate';
   name: string;
-  axis: {
+  axes: {
     x: Axis & { label?: string };
     y: Axis & { label?: string };
   };
   steps: BivariateLegendStep[];
+  colors: { id: string; color: string }[];
 }
 
 export interface MCDALegend {

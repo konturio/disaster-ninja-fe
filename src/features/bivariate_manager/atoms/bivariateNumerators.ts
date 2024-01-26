@@ -1,9 +1,9 @@
 import { createAtom } from '~utils/atoms';
-import { bivariateStatisticsResourceAtom } from './bivariateStatisticsResource';
-import type { Stat } from '~utils/bivariate';
+import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import type { AxisGroup } from '~core/types';
+import type { StatDTO } from '../types';
 
-const extractAvailableNumeratorsWithDenominators = (stat: Stat) => {
+const extractAvailableNumeratorsWithDenominators = (stat: StatDTO) => {
   const { correlationRates } = stat;
   const x: AxisGroup[] = [];
   const y: AxisGroup[] = [];
@@ -75,10 +75,8 @@ export const bivariateNumeratorsAtom = createAtom(
       yGroups: AxisGroup[];
     } = { xGroups: [], yGroups: [] },
   ) => {
-    onChange('bivariateStatisticsResourceAtom', ({ data: statisticsData, loading }) => {
-      if (statisticsData && !loading) {
-        const stats: Stat = statisticsData.polygonStatistic.bivariateStatistic;
-
+    onChange('bivariateStatisticsResourceAtom', ({ data: stats, loading }) => {
+      if (stats && !loading) {
         // get all available numerators with denominators
         const numerators = extractAvailableNumeratorsWithDenominators(stats);
 

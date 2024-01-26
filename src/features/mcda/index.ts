@@ -2,7 +2,7 @@ import { i18n } from '~core/localization';
 import { toolbar } from '~core/toolbar';
 import { store } from '~core/store/store';
 import { mcdaLayerAtom } from './atoms/mcdaLayer';
-import { promptMCDAConfig } from './prompt';
+import { createMCDAConfig } from './mcdaConfig';
 
 export const mcdaControl = toolbar.setupControl({
   id: 'MCDA',
@@ -17,10 +17,10 @@ export const mcdaControl = toolbar.setupControl({
 
 mcdaControl.onStateChange(async (ctx, state) => {
   if (state === 'active') {
-    const mcdaConfig = await promptMCDAConfig();
+    const mcdaConfig = await createMCDAConfig();
     if (mcdaConfig) {
       store.dispatch([
-        mcdaLayerAtom.calcMCDA(mcdaConfig),
+        mcdaLayerAtom.createMCDALayer(mcdaConfig),
         mcdaControl.setState('regular'),
       ]);
     } else {

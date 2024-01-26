@@ -4,8 +4,8 @@ import { debounce } from '~utils/common';
 import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { bivariateCorrelationMatrixAtom } from '~features/bivariate_manager/atoms/bivatiateCorrelationMatrix';
-import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
+import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import { BivariateMatrixControlComponent } from '../BivariateMatrixControl';
 import { ProgressTooltip } from '../ProgressTooltip/ProgressTooltip';
 import type { AxisGroup } from '~core/types';
@@ -60,9 +60,7 @@ const ConnectedBivariateMatrix = () => {
   const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
   const turnOffById = useAction(currentTooltipAtom.turnOffById);
 
-  const [{ data: statisticsData }] = useAtom(bivariateStatisticsResourceAtom);
-
-  const stats = statisticsData?.polygonStatistic.bivariateStatistic;
+  const [{ data: stats }] = useAtom(bivariateStatisticsResourceAtom);
 
   useEffect(() => {
     selectedCellRef.current = selectedCell;
