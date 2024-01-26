@@ -1,3 +1,4 @@
+import cn from 'clsx';
 import { configRepo } from '~core/config';
 import s from './Mobile.module.css';
 
@@ -17,7 +18,10 @@ export function MobileLayout({
       <div className={s.panelsColumn}>{firstColumn}</div>
       <div className={s.topColumn}>{topColumn}</div>
       <div className={s.mapWrap}>
-        <div className={s.mapSpaceRight} id={configRepo.get().mapBlankSpaceId}>
+        <div
+          className={cn(s.mapSpaceRight, s.greedy)}
+          id={configRepo.get().mapBlankSpaceId}
+        >
           {mapColumnBottom}
         </div>
       </div>
