@@ -23,7 +23,7 @@ export function v3toV2<
 >(
   v3atom: v3.Atom<State>,
   v3Actions?: V3A,
-  store?: Store,
+  store: Store = globalStore,
 ): AtomSelfBinded<State, Tov2Actions<V3A>> {
   // @ts-expect-error - actions will be assigned later
   const v2Atom = createAtom<State, Deps>({}, () => {}, { store, v3atom });
