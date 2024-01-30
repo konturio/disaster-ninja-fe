@@ -1,4 +1,5 @@
 import { createAtom } from '@reatom/core-v2';
+import { atom } from '@reatom/core';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
@@ -7,27 +8,15 @@ import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { isApiError } from '~core/api_client/apiClientError';
 import { i18n } from '~core/localization';
 import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axixDTOtoAxis';
+import { v3toV2 } from '~utils/atoms/v3tov2';
 import type { Stat } from '~utils/bivariate';
 import type { BivariateStatisticsResponse } from './types';
-import type { FocusedGeometry } from '~core/focused_geometry/types';
 
-const bivariateStatisticsDependencyAtom = createAtom(
-  { focusedGeometryAtom },
-  (
-    { onChange },
-    state: {
-      focusedGeometry: FocusedGeometry | null;
-    } = {
-      focusedGeometry: null,
-    },
-  ) => {
-    onChange('focusedGeometryAtom', (focusedGeometry) => {
-      state = { focusedGeometry };
-    });
-
-    return state;
-  },
-  'bivariateStatisticsDependencyAtom',
+const bivariateStatisticsDependencyAtom = v3toV2(
+  atom((ctx) => {
+    const focusedGeometry = ctx.spy(focusedGeometryAtom.v3atom);
+    return { focusedGeometry };
+  }),
 );
 
 let worldStatsCache: Stat;
@@ -45,6 +34,10 @@ export const bivariateStatisticsResourceAtom = createAsyncAtom(
         errors?: unknown;
       }>('/bivariate_matrix', body, true, {
         signal: abortController.signal,
+        retryAfterTimeoutError: {
+          times: 2,
+          delayMs: 1000,
+        },
       });
 
       if (!responseData) {
