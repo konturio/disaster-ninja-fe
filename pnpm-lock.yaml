@@ -42,8 +42,8 @@ dependencies:
     specifier: ^1.1.1
     version: 1.1.1(clsx@1.2.1)(react-dom@18.2.0)(react@18.2.0)
   '@konturio/ui-kit':
-    specifier: ^5.1.7
-    version: 5.1.7(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1)(react-dom@18.2.0)(react@18.2.0)(uuid@8.3.2)(vis-util@5.0.7)(xss@1.0.14)
+    specifier: ^5.1.10
+    version: 5.1.10(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1)(react-dom@18.2.0)(react@18.2.0)(uuid@8.3.2)(vis-util@5.0.7)(xss@1.0.14)
   '@loaders.gl/core':
     specifier: ^3.4.14
     version: 3.4.14
@@ -256,7 +256,7 @@ dependencies:
     version: 6.0.1(postcss@8.4.33)
   postcss-normalize:
     specifier: ^10.0.1
-    version: 10.0.1(browserslist@4.22.2)(postcss@8.4.33)
+    version: 10.0.1(browserslist@4.22.3)(postcss@8.4.33)
   prettier:
     specifier: ^3.1.1
     version: 3.1.1
@@ -1474,8 +1474,8 @@ packages:
       - react-dom
     dev: false
 
-  /@konturio/ui-kit@5.1.7(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1)(react-dom@18.2.0)(react@18.2.0)(uuid@8.3.2)(vis-util@5.0.7)(xss@1.0.14):
-    resolution: {integrity: sha512-ltOjG5XYTfQ/HzoXu8iteQRPBRx+MNN1U9QaSDEoeKYbTgQQL9GmI75hLXumuACv1jl42fcQR0zlMk8tMCMpLQ==}
+  /@konturio/ui-kit@5.1.10(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1)(react-dom@18.2.0)(react@18.2.0)(uuid@8.3.2)(vis-util@5.0.7)(xss@1.0.14):
+    resolution: {integrity: sha512-h1ra+4FVj3hCo1Ofm5QtkAf/06l3HR75d27cWwyAV/G3fgHc4vH6xmoLradeQ/y1rIpq6X8vmPuLzrspFqPg2w==}
     peerDependencies:
       clsx: ^1.2.1
       react: ^18.2.0
@@ -2925,8 +2925,8 @@ packages:
       undici-types: 5.26.5
     dev: false
 
-  /@types/node@20.11.7:
-    resolution: {integrity: sha512-GPmeN1C3XAyV5uybAf4cMLWT9fDWcmQhZVtMFu7OR32WjrqGG+Wnk2V1d0bmtUyE/Zy1QJ9BxyiTih9z8Oks8A==}
+  /@types/node@20.11.10:
+    resolution: {integrity: sha512-rZEfe/hJSGYmdfX9tvcPMYeYPW2sNl50nsw4jZmRcaG0HIAb0WYEpsB05GOb53vjqpyE9GUhlDQ4jLSoB5q9kg==}
     dependencies:
       undici-types: 5.26.5
     dev: false
@@ -3930,6 +3930,17 @@ packages:
       update-browserslist-db: 1.0.13(browserslist@4.22.2)
     dev: false
 
+  /browserslist@4.22.3:
+    resolution: {integrity: sha512-UAp55yfwNv0klWNapjs/ktHoguxuQNGnOzxYmfnXIS+8AsRDZkSDxg7R1AX3GKzn078SBI5dzwzj/Yx0Or0e3A==}
+    engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
+    dependencies:
+      caniuse-lite: 1.0.30001581
+      electron-to-chromium: 1.4.650
+      node-releases: 2.0.14
+      update-browserslist-db: 1.0.13(browserslist@4.22.3)
+    dev: false
+
   /buf-compare@1.0.1:
     resolution: {integrity: sha512-Bvx4xH00qweepGc43xFvMs5BKASXTbHaHm6+kDYIK9p/4iFwjATQkmPKHQSgJZzKbAymhztRbXUf1Nqhzl73/Q==}
     engines: {node: '>=0.10.0'}
@@ -4036,6 +4047,10 @@ packages:
 
   /caniuse-lite@1.0.30001580:
     resolution: {integrity: sha512-mtj5ur2FFPZcCEpXFy8ADXbDACuNFXg6mxVDqp7tqooX6l3zwm+d8EPoeOSIFRDvHs8qu7/SLFOGniULkcH2iA==}
+    dev: false
+
+  /caniuse-lite@1.0.30001581:
+    resolution: {integrity: sha512-whlTkwhqV2tUmP3oYhtNfaWGYHDdS3JYFQBKXxcUR9qqPWsRhFHhoISO2Xnl/g0xyKzht9mI1LZpiNWfMzHixQ==}
     dev: false
 
   /ccount@2.0.1:
@@ -4841,6 +4856,10 @@ packages:
 
   /electron-to-chromium@1.4.616:
     resolution: {integrity: sha512-1n7zWYh8eS0L9Uy+GskE0lkBUNK83cXTVJI0pU3mGprFsbfSdAc15VTFbo+A+Bq4pwstmL30AVcEU3Fo463lNg==}
+    dev: false
+
+  /electron-to-chromium@1.4.650:
+    resolution: {integrity: sha512-sYSQhJCJa4aGA1wYol5cMQgekDBlbVfTRavlGZVr3WZpDdOPcp6a6xUnFfrt8TqZhsBYYbDxJZCjGfHuGupCRQ==}
     dev: false
 
   /emoji-regex@10.3.0:
@@ -6950,7 +6969,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.11.7
+      '@types/node': 20.11.10
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: false
@@ -8704,14 +8723,14 @@ packages:
       splaytree: 3.1.2
     dev: false
 
-  /postcss-browser-comments@4.0.0(browserslist@4.22.2)(postcss@8.4.33):
+  /postcss-browser-comments@4.0.0(browserslist@4.22.3)(postcss@8.4.33):
     resolution: {integrity: sha512-X9X9/WN3KIvY9+hNERUqX9gncsgBA25XaeR+jshHz2j8+sYyHktHw1JdKuMjeLpGktXidqDhA7b/qm1mrBDmgg==}
     engines: {node: '>=8'}
     peerDependencies:
       browserslist: '>=4'
       postcss: '>=8'
     dependencies:
-      browserslist: 4.22.2
+      browserslist: 4.22.3
       postcss: 8.4.33
     dev: false
 
@@ -8783,7 +8802,7 @@ packages:
       postcss-selector-parser: 6.0.14
     dev: false
 
-  /postcss-normalize@10.0.1(browserslist@4.22.2)(postcss@8.4.33):
+  /postcss-normalize@10.0.1(browserslist@4.22.3)(postcss@8.4.33):
     resolution: {integrity: sha512-+5w18/rDev5mqERcG3W5GZNMJa1eoYYNGo8gB7tEwaos0ajk3ZXAI4mHGcNT47NE+ZnZD1pEpUOFLvltIwmeJA==}
     engines: {node: '>= 12'}
     peerDependencies:
@@ -8791,9 +8810,9 @@ packages:
       postcss: '>= 8'
     dependencies:
       '@csstools/normalize.css': 12.0.0
-      browserslist: 4.22.2
+      browserslist: 4.22.3
       postcss: 8.4.33
-      postcss-browser-comments: 4.0.0(browserslist@4.22.2)(postcss@8.4.33)
+      postcss-browser-comments: 4.0.0(browserslist@4.22.3)(postcss@8.4.33)
       sanitize.css: 13.0.0
     dev: false
 
@@ -10974,6 +10993,17 @@ packages:
       picocolors: 1.0.0
     dev: false
 
+  /update-browserslist-db@1.0.13(browserslist@4.22.3):
+    resolution: {integrity: sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==}
+    hasBin: true
+    peerDependencies:
+      browserslist: '>= 4.21.0'
+    dependencies:
+      browserslist: 4.22.3
+      escalade: 3.1.1
+      picocolors: 1.0.0
+    dev: false
+
   /uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
@@ -11431,7 +11461,7 @@ packages:
       '@webassemblyjs/wasm-parser': 1.11.6
       acorn: 8.11.3
       acorn-import-assertions: 1.9.0(acorn@8.11.3)
-      browserslist: 4.22.2
+      browserslist: 4.22.3
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.15.0
       es-module-lexer: 1.4.1
