@@ -5,4 +5,4 @@ import type { EditTargetsType } from '../types';
 export const editTargetAtom = createPrimitiveAtom<{
   type: EditTargetsType;
   layerId?: string;
-}>({ type: EditTargets.none });
+}>({ type: EditTargets.none }, null, 'editTargetAtom');

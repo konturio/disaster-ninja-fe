@@ -3,7 +3,7 @@ import { useAtom } from '@reatom/react-v2';
 import { toolbar } from '~core/toolbar';
 import { ToolbarControl } from '../ToolbarControl/ToolbarControl';
 import { ShortToolbarButton } from '../ShortToolbarButton/ShortToolbarButton';
-import s from './ShortToolbarContent.module.scss';
+import s from './ShortToolbarContent.module.css';
 
 export const ShortToolbarContent = () => {
   const [controls] = useAtom(toolbar.controls);

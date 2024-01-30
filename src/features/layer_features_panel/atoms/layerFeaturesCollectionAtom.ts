@@ -3,6 +3,7 @@ import { createAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { apiClient } from '~core/apiClientInstance';
 import { createNumberAtom } from '~utils/atoms/createPrimitives';
+import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { FEATURESPANEL_LAYER_ID } from '../constants';
 import { getPanelData } from './hotProjects_outlines';
@@ -36,8 +37,7 @@ export const layerFeaturesCollectionAtom = createAtom(
       if (!enabledLayers.has(FEATURESPANEL_LAYER_ID)) {
         return;
       }
-      // @ts-expect-error GeometryWithHash issue
-      if (fg?.geometry?.features?.length > 0)
+      if (!isGeoJSONEmpty(fg?.geometry))
         schedule(async (dispatch) => {
           const response = await getFeatureCollection(fg?.geometry);
           const panelData = getPanelData(response) as FeatureCardCfg[];

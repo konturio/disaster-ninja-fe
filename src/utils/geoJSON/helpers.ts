@@ -99,3 +99,12 @@ export class GeoJSONPoint implements GeoJSON.Point {
     this.bbox = bbox;
   }
 }
+
+// Naive check for having any geometry in geojson
+export function isGeoJSONEmpty(g) {
+  if (!g) return true;
+  if (g?.features?.length || g?.geometry?.coordinates?.length) {
+    return false;
+  }
+  return true;
+}

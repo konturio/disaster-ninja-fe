@@ -4,6 +4,7 @@ import { i18n } from '~core/localization';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/auth/types';
 import { getPolygonDetails } from '~core/api/insights';
+import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import type { AnalyticsData } from '~core/types';
 
 export const analyticsResourceAtom = createAsyncAtom(
@@ -11,7 +12,9 @@ export const analyticsResourceAtom = createAsyncAtom(
   async (fGeo, abortController) => {
     if (!fGeo) return null;
     const geometry = fGeo?.geometry as GeoJSON.FeatureCollection;
-    if (!geometry?.features?.length) return null;
+    if (isGeoJSONEmpty(geometry)) {
+      return null;
+    }
     let responseData: AnalyticsData[] | null | undefined;
     try {
       responseData = await getPolygonDetails(geometry, abortController);

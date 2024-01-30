@@ -17,13 +17,9 @@ import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
+import type { ReactElement } from 'react';
 
-const { EditFeaturesOrLayerPanel } = lazily(
-  () =>
-    import(
-      '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
-    ),
-);
+let EditFeaturesOrLayerPanel: () => ReactElement | null = () => null;
 
 const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
@@ -90,6 +86,12 @@ export function MapPage() {
       import('~features/create_layer/').then(({ initEditableLayer }) =>
         initEditableLayer(),
       );
+      EditFeaturesOrLayerPanel = lazily(
+        () =>
+          import(
+            '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
+          ),
+      ).EditFeaturesOrLayerPanel;
     }
     if (featureFlags[FeatureFlag.LOCATE_ME]) {
       import('~features/locate_me').then(({ initLocateMe }) => {
