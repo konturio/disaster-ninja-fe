@@ -15,11 +15,18 @@ import { Copyrights } from '~components/Copyrights/Copyrights';
 import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
-import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
-import type { ReactElement } from 'react';
+import s from './Map.module.css';
 
-let EditFeaturesOrLayerPanel: () => ReactElement | null = () => null;
+const EditPanel = () => {
+  const { EditFeaturesOrLayerPanel } = lazily(
+    () =>
+      import(
+        '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
+      ),
+  );
+  return <EditFeaturesOrLayerPanel />;
+};
 
 const { Logo } = lazily(() => import('@konturio/ui-kit'));
 
@@ -86,12 +93,6 @@ export function MapPage() {
       import('~features/create_layer/').then(({ initEditableLayer }) =>
         initEditableLayer(),
       );
-      EditFeaturesOrLayerPanel = lazily(
-        () =>
-          import(
-            '~features/create_layer/components/EditFeaturesOrLayerPanel/EditFeaturesOrLayerPanel'
-          ),
-      ).EditFeaturesOrLayerPanel;
     }
     if (featureFlags[FeatureFlag.LOCATE_ME]) {
       import('~features/locate_me').then(({ initLocateMe }) => {
@@ -135,7 +136,11 @@ export function MapPage() {
               <IntercomBTN />
             </div>
           }
-          editPanel={<EditFeaturesOrLayerPanel />}
+          editPanel={
+            featureFlags[FeatureFlag.CREATE_LAYER] && (
+              <Suspense fallback={null}>{EditPanel()}</Suspense>
+            )
+          }
         />
       )}
     </div>
