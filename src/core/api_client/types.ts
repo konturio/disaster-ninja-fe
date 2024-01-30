@@ -76,6 +76,10 @@ export interface CustomRequestConfig {
   headers?: Record<string, string>;
   errorsConfig?: RequestErrorsConfig;
   signal?: AbortSignal;
+  retryAfterTimeoutError?: {
+    times: number;
+    delayMs: number;
+  };
 }
 
 /** ----------------------------------------------------------------------------
