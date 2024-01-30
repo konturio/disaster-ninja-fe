@@ -8,7 +8,10 @@ import type { EventWithGeometry } from '~core/types';
 import type { AtomSelfBinded } from '@reatom/core-v2';
 
 export function autoFocusToGeometry(
-  currentEventGeometryAtom: AtomSelfBinded<EventWithGeometry | null>,
+  currentEventGeometryAtom: AtomSelfBinded<
+    EventWithGeometry | null,
+    NonNullable<unknown>
+  >,
 ) {
   const lastEventGeometryAtom = atom<EventWithGeometry | null>(null, 'lastEventGeometry');
   currentEventGeometryAtom.v3atom.onChange((ctx, currentEventGeometry) => {
