@@ -18,7 +18,8 @@
   position: relative;
 }
 
-.active {
+/* bump .active specificity to override ui-kit */
+.shortToolbarButton.active.active {
   box-shadow: 0 0 0 1px var(--accent-weak-up, #9dd6f8);
   z-index: 1;
 }
