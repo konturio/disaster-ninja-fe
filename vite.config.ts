@@ -101,6 +101,7 @@ export default ({ mode }) => {
     ],
     css: {
       postcss: postcssConfig,
+      devSourcemap: true,
     },
     resolve: {
       dedupe: [
