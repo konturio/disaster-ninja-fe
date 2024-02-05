@@ -56,8 +56,8 @@ export class ApiClient {
   public setup(cfg: ApiClientConfig) {
     if (!cfg.disableAuth) {
       this.disableAuth = false;
-      this.loginApiPath = `${cfg.keycloakUrl}/auth/realms/${cfg.keycloakRealm}/protocol/openid-connect/token`;
-      this.refreshTokenApiPath = `${cfg.keycloakUrl}/auth/realms/${cfg.keycloakRealm}/protocol/openid-connect/token`;
+      this.loginApiPath = `${cfg.keycloakUrl}/realms/${cfg.keycloakRealm}/protocol/openid-connect/token`;
+      this.refreshTokenApiPath = `${cfg.keycloakUrl}/realms/${cfg.keycloakRealm}/protocol/openid-connect/token`;
       this.keycloakClientId = cfg.keycloakClientId;
       if (import.meta.env?.DEV) {
         this.loginApiPath = replaceUrlWithProxy(this.loginApiPath);
