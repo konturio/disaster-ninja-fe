@@ -19,7 +19,7 @@ type FormState = {
   axises: Axis[];
 };
 
-export function MCDAFrom({
+export function MCDAForm({
   initialState,
   onConfirm,
 }: {

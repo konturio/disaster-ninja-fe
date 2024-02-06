@@ -1,6 +1,6 @@
 import { useAction, useAtom } from '@reatom/npm-react';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import { Sentiments } from './Santiments';
+import { Sentiments } from './Sentiments';
 import s from './style.module.css';
 import type { LayerEditorProps } from '~core/logical_layers/types/editors';
 

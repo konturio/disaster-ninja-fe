@@ -3,14 +3,14 @@ import { showModal } from '~core/modal';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { i18n } from '~core/localization';
 import { formatBivariateAxisUnit, type Axis } from '~utils/bivariate';
-import { MCDAFrom } from './components/MCDAFrom';
+import { MCDAForm } from './components/MCDAForm';
 import type {
   MCDAConfig,
   MCDALayer,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 export async function createMCDAConfig() {
-  const input = await showModal(MCDAFrom, {
+  const input = await showModal(MCDAForm, {
     initialState: {
       name: '',
       axises: [],
