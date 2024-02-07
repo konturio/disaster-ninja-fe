@@ -1,15 +1,18 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { lazy, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { BivariateMatrix24 } from '@konturio/default-icons';
+import { BivariateMatrix24, Close24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { panelClasses } from '~components/Panel';
 import { INTERCOM_ELEMENT_ID } from '../../constants';
-import styles from './BivariatePanel.module.css';
+import BivariateMatrixContainer from '../BivariateMatrixContainer/BivariateMatrixContainer';
+import s from './BivariatePanel.module.css';
 
-const LazyLoadedBivariateMatrixContainer = lazy(
-  () => import('../BivariateMatrixContainer/BivariateMatrixContainer'),
-);
+// const styles = {};
+
+// const LazyLoadedBivariateMatrixContainer = lazy(
+//   () => import('../BivariateMatrixContainer/BivariateMatrixContainer'),
+// );
 
 const intercomButton = () => {
   const setStyleDisplay = (displayValue) => {
@@ -24,8 +27,8 @@ const intercomButton = () => {
   };
 };
 
-export function BivariatePanel() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+export function BivariatePanel({ onConfirm }) {
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
   const onPanelClose = useCallback(() => {
     setIsOpen(false);
@@ -47,33 +50,17 @@ export function BivariatePanel() {
   }, [isOpen]);
 
   return (
-    <>
-      <Panel
-        onHeaderClick={togglePanel}
-        classes={{ ...panelClasses }}
-        className={clsx(
-          styles.bivariatePanel,
-          isOpen && styles.show,
-          !isOpen && styles.collapse,
-        )}
-        header={String(i18n.t('bivariate.panel.header'))}
-        headerIcon={<BivariateMatrix24 />}
-        modal={{
-          onModalClick: onPanelClose,
-          showInModal: false,
-        }}
-        isOpen={isOpen}
-      >
-        <div className={styles.panelBody}>
-          {isOpen && <LazyLoadedBivariateMatrixContainer />}
-        </div>
-      </Panel>
-
-      <PanelIcon
-        clickHandler={onPanelOpen}
-        className={clsx(styles.panelIcon, isOpen && styles.hide, !isOpen && styles.show)}
-        icon={<BivariateMatrix24 />}
-      />
-    </>
+    <Panel
+      // onHeaderClick={togglePanel}
+      className={s.bivariatePanel}
+      // classes={{ ...panelClasses }}
+      header={String(i18n.t('bivariate.panel.header'))}
+      headerIcon={<BivariateMatrix24 />}
+      customControls={[{ icon: <Close24 />, onWrapperClick: () => onConfirm(false) }]}
+    >
+      <div className={s.panelBody}>{isOpen && <BivariateMatrixContainer />}</div>
+    </Panel>
   );
 }
+
+export default BivariatePanel;

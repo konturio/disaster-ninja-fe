@@ -1,9 +1,10 @@
 .bivariatePanel {
+  height: 85vh;
+  /* top: 10vh; */
+  width: 90vw;
   pointer-events: auto;
   position: relative;
   align-self: flex-start;
-  max-height: 100%;
-  width: 100%;
   &.show {
     align-items: center;
     & > div {
@@ -20,7 +21,6 @@
 .panelBody {
   min-height: 300px;
   padding: 0 var(--double-unit) var(--double-unit) var(--double-unit);
-  overflow: auto;
 
   &::-webkit-scrollbar {
     width: 10px;

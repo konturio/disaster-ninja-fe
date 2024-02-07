@@ -7,13 +7,12 @@
 
 .header {
   position: absolute;
-  right: 10px;
-  top: 41px;
-  left: 0px;
+  right: 0;
+  top: 40px;
+  left: 0;
   display: flex;
   justify-content: space-between;
-  padding: var(--unit) 0;
-  padding-left: 12px;
+  padding: 0 var(--double-unit);
   background-color: var(--base-weak);
   z-index: 1;
 

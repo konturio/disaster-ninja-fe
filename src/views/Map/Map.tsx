@@ -34,8 +34,6 @@ const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/Connected
 
 const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
 
-const { BivariatePanel } = lazily(() => import('~features/bivariate_manager/components'));
-
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
 export function MapPage() {
@@ -104,6 +102,11 @@ export function MapPage() {
         initSensor();
       });
     }
+    if (featureFlags[FeatureFlag.BIVARIATE_MANAGER]) {
+      import('~features/bivariate_manager').then(({ initBivariateMatrix }) => {
+        initBivariateMatrix();
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [featureFlags]);
 
@@ -120,7 +123,7 @@ export function MapPage() {
           // if EVENTS_LIST is enabled, we always have default feed
           disasters={featureFlags[FeatureFlag.EVENTS_LIST] && <EventListPanel />}
           layersAndLegends={<LayersAndLegends featureFlags={featureFlags} />}
-          matrix={featureFlags[FeatureFlag.BIVARIATE_MANAGER] && <BivariatePanel />}
+          matrix={<></>}
           timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
           toolbar={featureFlags[FeatureFlag.TOOLBAR] && <Toolbar />}
           layerFeaturesPanel={

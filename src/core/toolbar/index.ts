@@ -41,7 +41,14 @@ class ToolbarImpl implements Toolbar {
     sections: [
       {
         name: i18n.t('toolbar.tools_label'),
-        controls: ['LocateMe', 'MapRuler', 'EditInOsm', 'MCDA', 'EditableLayer'],
+        controls: [
+          'LocateMe',
+          'MapRuler',
+          'EditInOsm',
+          'BivariateMatrix',
+          'MCDA',
+          'EditableLayer',
+        ],
       },
       {
         name: i18n.t('toolbar.selected_area_label'),

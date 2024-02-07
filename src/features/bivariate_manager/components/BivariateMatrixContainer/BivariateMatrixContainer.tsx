@@ -77,7 +77,6 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
               <BivariateMatrixContext.Provider value={contextValues}>
                 <ConnectedBivariateMatrix />
               </BivariateMatrixContext.Provider>
-
               <BivariateGreetingsContainer className={s.greetings} />
             </>
           ),
