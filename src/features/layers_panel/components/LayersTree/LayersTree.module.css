@@ -2,3 +2,7 @@
   padding: var(--unit) var(--half-unit);
   overflow-x: hidden;
 }
+
+.topLevelGroup {
+  margin-left: calc(var(--unit) + var(--half-unit));
+}

@@ -74,7 +74,8 @@ export function createApiError(err: unknown) {
       problem = { kind: 'forbidden' };
     } else if (status === 404) {
       problem = { kind: 'not-found' };
-    } else if (status === 408) {
+    } else if (status === 408 || status === 504) {
+      errorMessage = 'Server not available, please try later';
       problem = { kind: 'timeout', temporary: true };
     } else if (status >= 500) {
       problem = { kind: 'server', data: err?.json ?? err?.text };

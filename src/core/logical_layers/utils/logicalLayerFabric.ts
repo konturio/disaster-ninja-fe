@@ -14,6 +14,7 @@ import { layersLegendsAtom } from '../atoms/layersLegends';
 import { layersMetaAtom } from '../atoms/layersMeta';
 import { layersSourcesAtom } from '../atoms/layersSources';
 import { layersMenusAtom } from '../atoms/layersMenus';
+import { layersEditorsAtom } from '../atoms/layersEditors';
 import { deepFreeze } from './deepFreeze';
 import { getMutualExcludedActions } from './getMutualExcludedActions';
 import type { LayerRegistryAtom } from '../types/registry';
@@ -62,6 +63,7 @@ export function createLogicalLayerAtom(
       mountedLayersAtom,
       hiddenLayersAtom,
       layersMenusAtom,
+      layersEditorsAtom,
       _patchState: (newState: Partial<LogicalLayerState>) => newState,
     },
     (
@@ -80,6 +82,7 @@ export function createLogicalLayerAtom(
         source: null,
         contextMenu: null,
         style: null,
+        editor: null,
       },
     ) => {
       const actions: Action[] = [];
@@ -98,6 +101,7 @@ export function createLogicalLayerAtom(
       const asyncLayerMeta = get('layersMetaAtom').get(id) ?? fallbackAsyncState;
       const asyncLayerLegend = get('layersLegendsAtom').get(id) ?? fallbackAsyncState;
       const asyncLayerSource = get('layersSourcesAtom').get(id) ?? fallbackAsyncState;
+      const asyncLayerEditor = get('layersEditorsAtom').get(id) ?? fallbackAsyncState;
       const layersMenus = get('layersMenusAtom').get(id) ?? null;
       const logError = annotatedError(state.id);
 
@@ -128,6 +132,7 @@ export function createLogicalLayerAtom(
         source: deepFreeze(asyncLayerSource.data),
         contextMenu: deepFreeze(layersMenus),
         style: asyncLayerSource.data?.style ?? null,
+        editor: deepFreeze(asyncLayerEditor.data),
       };
 
       /* Init (lazy) */

@@ -195,12 +195,13 @@ export function createAsyncAtom<
     // Call request action when deps changes
     depsAtom.v3atom.onChange(onChange);
 
+    // @ts-expect-error
     return v3toV2<State, AsyncAtomDeps<D, F>>(asyncAtom, actions, options.store);
   } else {
     if (options.auto) {
       requestAction(options.store.v3ctx, null);
     }
   }
-
+  // @ts-expect-error
   return v3toV2<State, AsyncAtomDeps<D, F>>(asyncAtom, actions, options.store);
 }

@@ -94,7 +94,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
       // New way to describe layers - styles sended separately from legend
       // @ts-expect-error review LayerSpecification
       layerStyles = styleConfigs[style.type](style.config);
-    } else if (legend && legend.steps.length) {
+    } else if (legend && Array.isArray(legend.steps) && legend.steps.length) {
       // Old way - styles guessed from legend if possible
       layerStyles = _generateLayersFromLegend(legend);
     } else {

@@ -18,7 +18,7 @@ const meta = {
   },
 };
 
-const axis: LegendProps['axis'] = {
+const axis: LegendProps<any>['axis'] = {
   x: {
     label: 'Multi-hazard exposure PDC GRVA to 1',
     steps: [

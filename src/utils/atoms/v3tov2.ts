@@ -11,11 +11,20 @@ import type {
   Store,
 } from '@reatom/core-v2';
 
-export function v3toV2<State, Deps extends Rec<Fn | Atom>>(
-  v3atom: v3.Atom,
-  v3Actions?: Record<string, v3.Action>,
-  store?: Store,
-): AtomSelfBinded<State, Deps> {
+type Tov2Actions<V3Actions extends Record<string, v3.Action>> = {
+  [Properties in keyof V3Actions]: (args?: Parameters<V3Actions[Properties]>) => Action;
+};
+
+// [Properties in keyof Type]: Type[Properties]
+export function v3toV2<
+  State,
+  Deps extends Rec<Fn | Atom>,
+  V3A extends Record<string, v3.Action>,
+>(
+  v3atom: v3.Atom<State>,
+  v3Actions?: V3A,
+  store: Store = globalStore,
+): AtomSelfBinded<State, Tov2Actions<V3A>> {
   // @ts-expect-error - actions will be assigned later
   const v2Atom = createAtom<State, Deps>({}, () => {}, { store, v3atom });
   if (v3Actions) {

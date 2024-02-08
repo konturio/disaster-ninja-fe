@@ -6,6 +6,7 @@ import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { KONTUR_DEBUG } from '~utils/debug';
 import { localStorage } from '~utils/storage';
 import { typedObjectEntries } from 'types/entry';
+import { wait } from '~utils/test';
 import { ApiClientError } from './apiClientError';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
@@ -246,8 +247,16 @@ export class ApiClient {
     requestConfig: CustomRequestConfig = {},
   ): Promise<T | null> {
     const RequestsWithBody = ['post', 'put', 'patch'];
+    let req;
 
-    let req = wretch(this.baseURL, { mode: 'cors' }).addon(QueryStringAddon).url(path);
+    if (path.startsWith('http')) {
+      const url = new URL(path);
+      req = wretch(url.origin, { mode: 'cors' })
+        .addon(QueryStringAddon)
+        .url(url.pathname);
+    } else {
+      req = wretch(this.baseURL, { mode: 'cors' }).addon(QueryStringAddon).url(path);
+    }
 
     if (requestConfig.signal) {
       req = req.options({ signal: requestConfig.signal });
@@ -296,6 +305,23 @@ export class ApiClient {
         this.resetAuth();
         this._emit('error', apiError);
       }
+
+      // Retry after timeout error
+      if (apiError.problem.kind === 'timeout' && requestConfig.retryAfterTimeoutError) {
+        if (requestConfig.retryAfterTimeoutError.times > 0) {
+          if (requestConfig.retryAfterTimeoutError.delayMs) {
+            await wait(requestConfig.retryAfterTimeoutError.delayMs / 1000);
+          }
+          return this.call(method, path, requestParams, useAuth, {
+            ...requestConfig,
+            retryAfterTimeoutError: {
+              ...requestConfig.retryAfterTimeoutError,
+              times: requestConfig.retryAfterTimeoutError.times - 1,
+            },
+          });
+        }
+      }
+
       // use custom error messages if defined
       const errorsConfig = requestConfig.errorsConfig;
       if (errorsConfig && errorsConfig.messages) {

@@ -6,20 +6,21 @@ import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRende
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
 import { configRepo } from '~core/config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
-import type {
-  JsonMCDAv4,
-  MCDAConfig,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import { layersEditorsAtom } from '~core/logical_layers/atoms/layersEditors';
+import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
+import { i18n } from '~core/localization';
+import { MCDALayerEditor } from '../components/MCDALayerEditor';
+import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Action } from '@reatom/core-v2';
 
 export const mcdaLayerAtom = createAtom(
   {
-    calcMCDA: (json: MCDAConfig) => json,
+    createMCDALayer: (json: MCDAConfig) => json,
     enableMCDALayer: (layerId: string) => layerId,
     disableMCDALayer: () => null,
   },
   ({ onAction, schedule, getUnlistedState, create }) => {
-    onAction('calcMCDA', (json) => {
+    onAction('createMCDALayer', (json) => {
       const id = json.id;
 
       const actions: Array<Action> = [
@@ -56,8 +57,29 @@ export const mcdaLayerAtom = createAtom(
             },
             style: {
               type: 'mcda',
-              config: json as JsonMCDAv4,
+              config: json,
             },
+          }),
+        ),
+
+        // Set layer legend
+        layersLegendsAtom.set(
+          id,
+          createAsyncWrapper({
+            id,
+            type: 'mcda',
+            title: i18n.t('mcda.legend_title'),
+            subtitle: i18n.t('mcda.legend_subtitle'),
+          }),
+        ),
+
+        // Set layer editor
+        layersEditorsAtom.set(
+          id,
+          createAsyncWrapper({
+            id,
+            type: 'mcda',
+            component: MCDALayerEditor,
           }),
         ),
 

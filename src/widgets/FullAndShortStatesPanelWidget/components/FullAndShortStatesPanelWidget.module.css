@@ -6,9 +6,6 @@
 
   &.collapse {
     height: auto;
-    & div:not(:first-child) {
-      display: none;
-    }
   }
 }
 

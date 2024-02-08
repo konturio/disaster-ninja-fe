@@ -11,17 +11,22 @@ export type ColorsBySentiments = {
   };
 };
 
+export interface MCDALayer {
+  id: string;
+  name: string;
+  axis: [string, string];
+  range: [number, number];
+  sentiment: [string, string];
+  coefficient: number;
+  transformationFunction: TransformationFunction;
+  normalization: Normalization;
+  unit: string | null;
+}
+
 export interface MCDAConfig {
   id: string;
-  version: number;
-  layers: Array<{
-    axis: [string, string];
-    range: [number, number];
-    sentiment: [string, string];
-    coefficient: number;
-    transformationFunction: TransformationFunction;
-    normalization: Normalization;
-  }>;
+  version: 4;
+  layers: Array<MCDALayer>;
   colors: ColorsBySentiments | ColorsByMapLibreExpression;
 }
 
@@ -44,5 +49,5 @@ export interface JsonMCDAv4 {
 
 export interface MCDALayerStyle {
   type: 'mcda';
-  config: JsonMCDAv4;
+  config: MCDAConfig;
 }

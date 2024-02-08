@@ -12,7 +12,7 @@ interface LayerControl {
   enabled: boolean;
   hidden: boolean;
   controls?: JSX.Element[];
-  onChange: (isChecked: boolean) => void;
+  onChange?: (isChecked: boolean) => void;
   legend?: LayerLegend;
   className?: string;
 }

@@ -9,12 +9,15 @@ const calculateLayerStyle = calculateLayerPipeline(inStyleCalculations, (axis) =
 
 test('style correct for good bad sentiments', () => {
   const result = calculateLayerStyle({
+    id: 'test',
+    name: 'TEST',
     axis: ['axisA', 'axisB'],
     range: [111, 333],
     sentiment: ['good', 'bad'],
     coefficient: 7,
     transformationFunction: 'no',
     normalization: 'max-min',
+    unit: '',
   });
 
   expect(result).toMatchSnapshot();
@@ -22,12 +25,15 @@ test('style correct for good bad sentiments', () => {
 
 test('style correct for bad good sentiments', () => {
   const result = calculateLayerStyle({
+    id: 'test',
+    name: 'TEST',
     axis: ['axisA', 'axisB'],
     range: [111, 333],
     sentiment: ['bad', 'good'],
     coefficient: 7,
     transformationFunction: 'no',
     normalization: 'max-min',
+    unit: '',
   });
 
   expect(result).toMatchSnapshot();
@@ -40,12 +46,15 @@ const calculateNumber = calculateLayerPipeline(inViewCalculations, (axis) => ({
 
 test('Transformations correct: square_root', () => {
   const result = calculateNumber({
+    id: 'test',
+    name: 'TEST',
     axis: ['axisA', 'axisB'],
     range: [0, 100],
     sentiment: ['bad', 'good'],
     coefficient: 1,
     transformationFunction: 'square_root',
     normalization: 'max-min',
+    unit: '',
   });
 
   expect(result).toBe(0.31622776601683794);
@@ -53,12 +62,15 @@ test('Transformations correct: square_root', () => {
 
 test('Transformations correct: natural_logarithm', () => {
   const result = calculateNumber({
+    id: 'test',
+    name: 'TEST',
     axis: ['axisA', 'axisB'],
     range: [0, 100],
     sentiment: ['bad', 'good'],
     coefficient: 1,
     transformationFunction: 'natural_logarithm',
     normalization: 'max-min',
+    unit: '',
   });
 
   expect(result).toBe(0.5195737064824407);

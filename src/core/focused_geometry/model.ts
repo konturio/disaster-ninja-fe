@@ -38,18 +38,15 @@ export const focusedGeometryAtom = createAtom(
         state = null;
       }
     });
+
     onAction('reset', () => {
       state = null;
     });
+
     onAction('_update', (fGeometry) => {
       state = fGeometry;
     });
-    onChange('currentUserAtom', () => {
-      // immediately update focused geometry on login/logout if we are not in event context (draw tool, boundary selector)
-      if (state && state.source?.type !== 'event') {
-        state = { ...state };
-      }
-    });
+
     return state;
   },
   '[Shared state] focusedGeometryAtom',

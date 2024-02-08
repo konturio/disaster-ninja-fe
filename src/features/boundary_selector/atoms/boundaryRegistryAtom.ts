@@ -1,7 +1,9 @@
+import { action, atom } from '@reatom/core';
 import { currentMapAtom } from '~core/shared_state';
 import { createAtom } from '~utils/atoms';
 import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
+import { v3toV2 } from '~utils/atoms/v3tov2';
 import { boundarySelectorControl } from '../control';
 import { BoundarySelectorRenderer } from '../renderers/BoundarySelectorRenderer';
 import {
@@ -13,104 +15,98 @@ import { highlightedGeometryAtom } from './highlightedGeometry';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LogicalLayerRenderer } from '~core/logical_layers/types/renderer';
 
+function createBoundaryHighlightSource(
+  geometry: GeoJSON.Feature | GeoJSON.FeatureCollection,
+) {
+  return {
+    id: HOVERED_BOUNDARIES_SOURCE_ID,
+    source: {
+      type: 'geojson' as const,
+      data: geometry,
+    },
+  };
+}
+
 export const createBoundaryRegistryAtom = (
   layerId: string,
   renderer: LogicalLayerRenderer,
-) =>
-  createAtom(
+) => {
+  const logicalLayerStateAtom = atom<LogicalLayerState>(
     {
-      currentMapAtom,
-      highlightedGeometry: highlightedGeometryAtom,
-      start: () => null,
-      stop: () => null,
+      id: layerId,
+      isDownloadable: false,
+      isVisible: true,
+      isLoading: false,
+      isEnabled: false,
+      isMounted: false,
+      source: null,
+      legend: null,
+      meta: null,
+      settings: null,
+      error: null,
+      contextMenu: null,
+      style: null,
+      editor: null,
     },
-    (
-      { get, onAction, onChange },
-      state: LogicalLayerState = {
-        id: layerId,
-        isDownloadable: false,
-        isVisible: true,
-        isLoading: false,
-        isEnabled: false,
-        isMounted: false,
-        source: {
-          id: 'highlightedGeometry',
-          source: {
-            type: 'geojson',
-            data: get('highlightedGeometry'),
-          },
-        },
-        legend: null,
-        meta: null,
-        settings: null,
-        error: null,
-        contextMenu: null,
-        style: null,
-      },
-    ) => {
-      const newState = {
-        ...state,
-        source: {
-          id: 'highlightedGeometry',
-          source: {
-            type: 'geojson',
-            data: get('highlightedGeometry'),
-          },
-        },
-      };
-
-      onAction('start', () => {
-        newState.isEnabled = true;
-        const map = get('currentMapAtom');
-        if (!map) return;
-        if (newState.source) {
-          renderer.willMount({
-            map,
-            state: { ...newState } as LogicalLayerState,
-          });
-          newState.isMounted = true;
-        }
-      });
-
-      onAction('stop', () => {
-        const map = get('currentMapAtom');
-        if (map) {
-          renderer.willUnMount({
-            map,
-            state: { ...(newState as LogicalLayerState) },
-          });
-        }
-        newState.isMounted = false;
-      });
-
-      onChange('currentMapAtom', (map) => {
-        if (!map) {
-          newState.isMounted = false;
-          return;
-        }
-        if (newState.isEnabled === true && newState.isMounted === false) {
-          renderer.willMount({
-            map,
-            state: { ...(newState as LogicalLayerState) },
-          });
-          newState.isMounted = true;
-        }
-      });
-
-      onChange('highlightedGeometry', () => {
-        const map = get('currentMapAtom');
-        if (map && newState.isMounted === true) {
-          renderer.willSourceUpdate({
-            map,
-            state: { ...(newState as LogicalLayerState) },
-          });
-        }
-      });
-
-      return newState;
-    },
-    layerId,
+    `logicalLayerState:${layerId}`,
   );
+
+  const startAction = action((ctx) => {
+    const map = ctx.get(currentMapAtom.v3atom);
+    const highlightedGeometry = ctx.get(highlightedGeometryAtom.v3atom);
+
+    if (map === null) return;
+    const state = ctx.get(logicalLayerStateAtom);
+    const newState = {
+      ...state,
+      isEnabled: true,
+      source: createBoundaryHighlightSource(highlightedGeometry),
+    };
+
+    renderer.willMount({
+      map,
+      state: newState,
+    });
+
+    logicalLayerStateAtom(ctx, {
+      ...newState,
+      isMounted: true,
+    });
+  });
+
+  const stopAction = action((ctx) => {
+    const map = ctx.get(currentMapAtom.v3atom);
+    if (map === null) return;
+    const state = ctx.get(logicalLayerStateAtom);
+    renderer.willUnMount({
+      map,
+      state: { ...(state as LogicalLayerState) },
+    });
+    logicalLayerStateAtom(ctx, (oldState) => ({
+      ...oldState,
+      isMounted: false,
+    }));
+  });
+
+  highlightedGeometryAtom.v3atom.onChange((ctx, geometry) => {
+    const map = ctx.get(currentMapAtom.v3atom);
+    if (map === null) return;
+    const state = ctx.get(logicalLayerStateAtom);
+    if (map && state.isMounted === true) {
+      renderer.willSourceUpdate({
+        map,
+        state: { ...state, source: createBoundaryHighlightSource(geometry) },
+      });
+    }
+  });
+
+  const v2Atom = v3toV2(logicalLayerStateAtom, {
+    start: startAction,
+    stop: stopAction,
+  });
+
+  return v2Atom;
+};
 
 boundarySelectorControl.onInit((ctx) => {
   const renderer = new BoundarySelectorRenderer({

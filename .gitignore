@@ -31,7 +31,6 @@ yarn-error.log*
 .vscode
 env.yml
 .pnpm-debug.log
-pnpm-lock.yaml
 stats.json
 stats.html
 template.config.js

@@ -80,7 +80,18 @@
   },
   "mcda": {
     "title": "Multi-criteria decision analysis",
-    "name": "MCDA"
+    "name": "MCDA",
+    "modal_title": "Create analysis",
+    "modal_input_name": "Name",
+    "modal_input_name_placeholder": "Set layer name",
+    "modal_input_indicators": "List of layers",
+    "modal_input_indicators_placeholder": "Select layers",
+    "modal_input_indicators_no_options": "No options",
+    "btn_cancel": "Cancel",
+    "btn_save": "Save analysis",
+    "error_bad_layer_data": "Invalid mcda layer data",
+    "legend_title": "Legend",
+    "legend_subtitle": "Hexagons are colored as weighted average of normalized and transformed layers values"
   },
   "event_list": {
     "warning_title": "Can't use map as filter",
@@ -330,6 +341,7 @@
     "noSensorsError": "Your device desn't have the required sensors"
   },
   "layer_features_panel": {
+    "empty": "Layer features will be provided here",
     "noFeatureSelected": "No feature selected",
     "chooseFeature": "Choose feature",
     "listInfo": "The list is filtered by selected area and sorted by priority and mapped percentage."

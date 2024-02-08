@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { bivariateStatisticsResourceAtom } from '~features/bivariate_manager/atoms/bivariateStatisticsResource';
+import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
@@ -212,11 +212,8 @@ export const bivariateMatrixSelectionAtom = createAtom(
       if (xNumerator === null || yNumerator === null) return;
 
       const { xGroups, yGroups } = getUnlistedState(bivariateNumeratorsAtom);
-      const bivariateStatisticsResource = getUnlistedState(
-        bivariateStatisticsResourceAtom,
-      ).data;
-      if (bivariateStatisticsResource === null) return;
-      const stats = bivariateStatisticsResource.polygonStatistic.bivariateStatistic;
+      const stats = getUnlistedState(bivariateStatisticsResourceAtom).data;
+      if (stats === null) return;
 
       if (!xGroups || !yGroups || !xGroups.length || !yGroups.length) return;
 

@@ -18,9 +18,9 @@ export interface SimpleLegendStep {
 }
 
 export interface SimpleLegend {
+  type: 'simple';
   name: string;
   linkProperty?: string;
-  type: 'simple';
   steps: SimpleLegendStep[];
   tooltip?: {
     type: 'markdown';
@@ -35,9 +35,9 @@ export interface BivariateLegendStep {
 }
 
 export interface BivariateLegend {
+  type: 'bivariate';
   name: string;
   linkProperty?: string;
-  type: 'bivariate';
   axis: {
     x: Axis & { label?: string };
     y: Axis & { label?: string };
@@ -47,17 +47,31 @@ export interface BivariateLegend {
 
 export interface BivariateLegendBackend {
   type: 'bivariate';
+  name: string;
   axes: {
-    x: Axis;
-    y: Axis;
+    x: Axis & { label?: string };
+    y: Axis & { label?: string };
   };
-  colors: { id: string; color: string }[];
   steps: BivariateLegendStep[];
+  colors: { id: string; color: string }[];
+}
+
+export interface MCDALegend {
+  type: 'mcda';
+  title?: string;
+  subtitle?: string;
+  fromValue?: string;
+  toValue?: string;
+  /* Gradient colors */
+  colors?: string[];
+  /* How much sections needed on ruler */
+  steps?: number;
 }
 
 export type LayerLegend =
   | SimpleLegend
   | BivariateLegend
-  | BivariateLegendBackend;
+  | BivariateLegendBackend
+  | MCDALegend;
 
 export type LayerDetailsLegend = SimpleLegend | BivariateLegendBackend;
