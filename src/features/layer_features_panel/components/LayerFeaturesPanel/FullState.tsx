@@ -26,7 +26,7 @@ export function FullState({
   }, [currentFeatureId, featuresList]);
 
   return (
-    <div className={s.panelBody}>
+    <>
       <div className={s.shield}>
         <InfoErrorOutline16 />
         <Text type="caption">{i18n.t('layer_features_panel.listInfo')}</Text>
@@ -46,6 +46,6 @@ export function FullState({
         />
         <div className={s.height100vh}></div>
       </div>
-    </div>
+    </>
   );
 }

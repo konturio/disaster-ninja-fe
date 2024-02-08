@@ -341,6 +341,7 @@
     "noSensorsError": "Your device desn't have the required sensors"
   },
   "layer_features_panel": {
+    "empty": "Layer features will be provided here",
     "noFeatureSelected": "No feature selected",
     "chooseFeature": "Choose feature",
     "listInfo": "The list is filtered by selected area and sorted by priority and mapped percentage."

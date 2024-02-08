@@ -17,6 +17,7 @@ import { FEATURESPANEL_MIN_HEIGHT, FEATURESPANEL_HEADER } from '../../constants'
 import { FullState } from './FullState';
 import { ShortState } from './ShortState';
 import s from './LayerFeaturesPanel.module.css';
+import { EmptyState } from './EmptyState';
 import type { FeatureCardCfg } from '../CardElements';
 
 export function LayerFeaturesPanel() {
@@ -55,19 +56,27 @@ export function LayerFeaturesPanel() {
 
   useAutoCollapsePanel(isOpen, onPanelClose);
 
-  const feature = featuresList[currentFeatureId];
-
-  const panelContent = {
-    full: (
-      <FullState
-        featuresList={featuresList}
-        currentFeatureId={currentFeatureId}
-        onClick={onCurrentChange}
-      />
-    ),
-    short: <ShortState openFullState={openFullState} feature={feature} />,
-    closed: null,
-  };
+  const panelContent =
+    featuresList === null ? (
+      <EmptyState />
+    ) : (
+      {
+        full: (
+          <FullState
+            featuresList={featuresList}
+            currentFeatureId={currentFeatureId}
+            onClick={onCurrentChange}
+          />
+        ),
+        short: (
+          <ShortState
+            openFullState={openFullState}
+            feature={featuresList[currentFeatureId]}
+          />
+        ),
+        closed: null,
+      }[panelState]
+    );
 
   return (
     <>
@@ -84,13 +93,13 @@ export function LayerFeaturesPanel() {
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
         resize={isMobile || isShort ? 'none' : 'vertical'}
-        contentClassName={s.contentWrap}
+        contentClassName={s.panelBody}
         contentContainerRef={handleRefChange}
         customControls={panelControls}
         contentHeight={isShort ? 'min-content' : '30vh'}
         minContentHeight={isShort ? 'min-content' : FEATURESPANEL_MIN_HEIGHT}
       >
-        {panelContent[panelState]}
+        {panelContent}
       </Panel>
 
       <PanelIcon

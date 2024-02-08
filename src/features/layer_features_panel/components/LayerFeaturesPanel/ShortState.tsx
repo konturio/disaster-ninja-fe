@@ -15,9 +15,7 @@ export function ShortState({
 
   const panelContent = featureInfo || (
     <div className={s.noFeatures}>
-      <div className={s.noMsg}>
-        <Text type="short-l">{i18n.t('layer_features_panel.noFeatureSelected')}</Text>
-      </div>
+      <Text type="short-l">{i18n.t('layer_features_panel.noFeatureSelected')}</Text>
       <div className={s.callToAction}>
         <Button variant="invert-outline" size="small" onClick={openFullState}>
           {i18n.t('layer_features_panel.chooseFeature')}

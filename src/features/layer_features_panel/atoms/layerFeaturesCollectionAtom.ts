@@ -5,6 +5,7 @@ import { apiClient } from '~core/apiClientInstance';
 import { createNumberAtom } from '~utils/atoms/createPrimitives';
 import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
 import { FEATURESPANEL_LAYER_ID } from '../constants';
 import { getPanelData } from './hotProjects_outlines';
 import type { FeatureCardCfg } from '../components/CardElements';
@@ -13,12 +14,16 @@ export const currentFeatureIdAtom = createNumberAtom(undefined, 'currentFeatureI
 export const layerFeaturesCollectionAtom = createAtom(
   {
     enabledLayersAtom,
+    mountedLayersAtom,
     focusedGeometryAtom,
     _setState: (state: FeatureCardCfg[]) => state,
     reset: () => {},
     loadFeaturesForSelection: () => {},
   },
-  ({ get, schedule, create, onAction, onChange }, state: FeatureCardCfg[] = []) => {
+  (
+    { get, schedule, create, onAction, onChange },
+    state: FeatureCardCfg[] | null = null,
+  ) => {
     onAction('_setState', (newState) => {
       state = [...newState];
     });
@@ -26,13 +31,13 @@ export const layerFeaturesCollectionAtom = createAtom(
     onAction('reset', () => {
       // @ts-expect-error needs better atom type
       currentFeatureIdAtom.set.dispatch(undefined);
-      state = [];
+      state = null;
     });
 
     onChange('focusedGeometryAtom', (fg) => {
       // @ts-expect-error needs better atom type
       currentFeatureIdAtom.set.dispatch(undefined);
-      state = [];
+      state = null;
       const enabledLayers = get('enabledLayersAtom');
       if (!enabledLayers.has(FEATURESPANEL_LAYER_ID)) {
         return;
@@ -43,6 +48,25 @@ export const layerFeaturesCollectionAtom = createAtom(
           const panelData = getPanelData(response) as FeatureCardCfg[];
           dispatch(create('_setState', panelData));
         });
+    });
+
+    onChange('mountedLayersAtom', (ml) => {
+      if (!ml.has(FEATURESPANEL_LAYER_ID)) {
+        // @ts-expect-error needs better atom type
+        currentFeatureIdAtom.set.dispatch(undefined);
+        state = null;
+      } else if (state === null) {
+        // layer is mounted
+        const fg = get('focusedGeometryAtom');
+        if (!isGeoJSONEmpty(fg?.geometry))
+          schedule(async (dispatch) => {
+            // @ts-expect-error needs better atom type
+            currentFeatureIdAtom.set.dispatch(undefined);
+            const response = await getFeatureCollection(fg?.geometry);
+            const panelData = getPanelData(response) as FeatureCardCfg[];
+            dispatch(create('_setState', panelData));
+          });
+      }
     });
 
     return state;

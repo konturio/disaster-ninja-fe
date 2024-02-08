@@ -10,7 +10,10 @@
 .headerTitle {
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  & h4 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .panelIcon.desktop {
@@ -22,14 +25,19 @@
   display: flex;
 }
 
+.panelBody {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .featuresPanel {
   position: relative;
   border-radius: var(--border-radius-unit);
   overflow: hidden;
   flex: 1;
 
-  &.show > .contentWrap {
-    display: flex;
+  &.show > .panelBody {
     height: 100%;
   }
 
@@ -66,12 +74,6 @@
   }
 }
 
-.panelBody {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 .scrollable {
   overflow: hidden;
   height: 100%;
@@ -98,15 +100,6 @@
 .noFeatures {
   text-align: center;
   padding: calc(var(--unit) * 4) 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  align-content: center;
-  gap: var(--unit);
-}
-
-.noMsg {
-  width: 100%;
 }
 
 .callToAction {

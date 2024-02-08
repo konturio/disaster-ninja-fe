@@ -1,5 +1,3 @@
-import { ModalDialog } from '@konturio/ui-kit';
-import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { i18n } from '~core/localization';
 import { showModal } from '~core/modal';
 import { toolbar } from '~core/toolbar';
@@ -19,13 +17,9 @@ export const bivariateMatrixControl = toolbar.setupControl({
 
 bivariateMatrixControl.onStateChange(async (ctx, state) => {
   if (state === 'active') {
-    // Logic for when the control is activated
     await showModal(BivariatePanel, {});
-    store.dispatch(bivariateMatrixControl.setState('regular'));
-  } else {
-    // Logic for when the control is deactivated
-    store.dispatch(bivariateMatrixControl.setState('regular'));
   }
+  store.dispatch(bivariateMatrixControl.setState('regular'));
 });
 
 export function initBivariateMatrix() {
