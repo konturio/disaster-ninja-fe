@@ -10,7 +10,7 @@ export const mcdaControl = toolbar.setupControl({
   typeSettings: {
     name: i18n.t('toolbar.upload_analysis'),
     hint: '',
-    icon: 'Layers24',
+    icon: 'UploadAnalysis16',
     preferredSize: 'large',
   },
 });
