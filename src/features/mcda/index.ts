@@ -8,8 +8,8 @@ export const mcdaControl = toolbar.setupControl({
   id: 'MCDA',
   type: 'button',
   typeSettings: {
-    name: i18n.t('mcda.name'),
-    hint: i18n.t('mcda.title'),
+    name: i18n.t('toolbar.upload_analysis'),
+    hint: '',
     icon: 'Layers24',
     preferredSize: 'large',
   },
