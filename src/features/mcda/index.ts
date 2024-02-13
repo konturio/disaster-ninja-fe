@@ -29,6 +29,23 @@ mcdaControl.onStateChange(async (ctx, state) => {
   }
 });
 
+export const loadMcdaControl = toolbar.setupControl({
+  id: 'LoadMCDA',
+  type: 'button',
+  typeSettings: {
+    name: i18n.t('toolbar.load_mcda'),
+    hint: '',
+    icon: 'UploadAnalysis16',
+    preferredSize: 'large',
+  },
+});
+
+loadMcdaControl.onStateChange(async (ctx, state) => {
+  if (state === 'active') {
+  }
+});
+
 export function initMCDA() {
   mcdaControl.init();
+  loadMcdaControl.init();
 }

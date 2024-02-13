@@ -27,7 +27,8 @@
     "focused_geometry_editor": "Draw or edit\ngeometry",
     "edit_in_osm": "Edit map in OSM",
     "tools_label": "Tools",
-    "selected_area_label": "Selected area"
+    "selected_area_label": "Selected area",
+    "load_mcda": "Load\nMCDA"
   },
   "feed": "Feed",
   "deselect": "Deselect",

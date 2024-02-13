@@ -47,6 +47,7 @@ class ToolbarImpl implements Toolbar {
           'EditInOsm',
           'BivariateMatrix',
           'MCDA',
+          'LoadMCDA',
           'EditableLayer',
         ],
       },
