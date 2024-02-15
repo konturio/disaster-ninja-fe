@@ -1,5 +1,5 @@
 export { currentEpisodeAtom } from './currentEpisode';
-export { currentEventAtom } from './currentEvent';
+export * from './currentEvent';
 export { currentEventFeedAtom } from './currentEventFeed';
 export { currentMapPositionAtom } from './currentMapPosition';
 export { currentUserAtom } from './currentUser';

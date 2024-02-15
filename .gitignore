@@ -41,6 +41,8 @@ public/config/appconfig.json
 cosmos/dist/
 cosmos-export/
 
+~*
+
 # vite temp
 vite.config.ts.js
 vite.config.ts.timestamp-*
