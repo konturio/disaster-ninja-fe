@@ -4,7 +4,7 @@ import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
-import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
+import { getCameraForGeometry } from '~utils/map/camera';
 import { store } from '~core/store/store';
 import {
   GEOMETRY_UPLOADER_CONTROL_ID,

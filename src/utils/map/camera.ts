@@ -6,6 +6,15 @@ export function getCameraForGeometry(
   map: maplibregl.Map | null,
 ) {
   if (!map) return;
+  const bbox = getBboxForGeometry(geojson);
+  if (!bbox) return;
+  const camera = getCameraForBbox(bbox, map);
+  return camera;
+}
+
+export function getBboxForGeometry(
+  geojson: GeoJSON.GeoJSON,
+): [number, number, number, number] | undefined {
   let bbox: [number, number, number, number];
   try {
     // Turf can return 3d bbox, so we need to cut off potential extra data
@@ -13,8 +22,13 @@ export function getCameraForGeometry(
     bbox = turfBbox(geojson) as [number, number, number, number];
     bbox.length = 4;
   } catch (error) {
-    return 'Not a valid geojson file';
+    console.error('Not a valid geojson file');
+    return;
   }
+  return bbox;
+}
+
+export function getCameraForBbox(bbox: maplibregl.LngLatBoundsLike, map: maplibregl.Map) {
   const camera = map.cameraForBounds(bbox, {
     padding: getMapPaddings(map),
   });
