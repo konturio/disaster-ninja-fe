@@ -23,6 +23,7 @@ export interface StageConfigLegacy {
   DEFAULT_FEED: string;
   OSM_EDITORS: OsmEditorConfig[];
   DEFAULT_LANGUAGE: string;
+  SENTRY_DSN: string;
 }
 
 export async function getStageConfig(): Promise<StageConfig> {
@@ -36,6 +37,7 @@ export async function getStageConfig(): Promise<StageConfig> {
     bivariateTilesIndicatorsClass: c.BIVARIATE_TILES_INDICATORS_CLASS,
     bivariateTilesServer: c.BIVARIATE_TILES_SERVER,
     refreshIntervalSec: c.REFRESH_INTERVAL_SEC,
+    sentryDsn: c.SENTRY_DSN,
     keycloakUrl: c.KEYCLOAK_URL,
     keycloakRealm: c.KEYCLOAK_REALM,
     keycloakClientId: c.KEYCLOAK_CLIENT_ID,

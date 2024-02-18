@@ -55,6 +55,8 @@ export interface StageConfig {
   // App Defaults
   featuresByDefault: FeaturesConfig;
   defaultLanguage: string;
+  // Sentry
+  sentryDsn: string;
 }
 
 export interface OsmEditorConfig {
