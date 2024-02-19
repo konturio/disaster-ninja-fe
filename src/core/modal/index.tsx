@@ -15,7 +15,7 @@ interface ModalState<Value = any> {
 }
 
 const modalAtom = atom<ModalState | null>(null, 'modalAtom');
-const closeModalAction = action((ctx) => modalAtom(ctx, null));
+const closeModalAction = action((ctx) => modalAtom(ctx, null), 'closeModalAction');
 
 export type ModalResultType<Component> = Parameters<
   // @ts-expect-error - idk how to type it

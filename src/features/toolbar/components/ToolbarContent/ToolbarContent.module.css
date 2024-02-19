@@ -1,10 +1,9 @@
 .toolbarContent {
-  padding: 8px 16px 9px;
-
+  padding: var(--unit);
   min-height: inherit;
   display: flex;
   flex-flow: row nowrap;
-  gap: 8px;
+  gap: var(--unit);
 }
 
 .sectionDivider {
@@ -28,7 +27,7 @@
 .section {
   display: flex;
   flex-flow: column nowrap;
-  gap: 8px;
+  gap: var(--unit);
 }
 
 .sectionContent {
@@ -36,5 +35,5 @@
   display: grid;
   grid-template-rows: repeat(6, auto);
   grid-auto-flow: column;
-  gap: 4px;
+  gap: var(--half-unit);
 }

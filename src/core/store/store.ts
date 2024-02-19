@@ -7,6 +7,7 @@ import {
   KONTUR_WARN,
   patchTracer,
 } from '~utils/debug';
+import type { AtomCache, Logs } from '@reatom/core';
 
 function configureStore() {
   return createStore({});
@@ -15,31 +16,74 @@ function configureStore() {
 export const store = configureStore();
 
 if (import.meta.env.MODE !== 'test') {
-  store.v3ctx.subscribe((logs) => {
-    for (const patch of logs) {
-      if (!patch.proto.isAction) continue;
+  store.v3ctx.subscribe(logger);
+}
 
-      const name = patch.proto.name!;
+function logger(logs: Logs) {
+  let err: Error;
+  let group = '';
 
-      if (name.includes('invalidate')) continue;
-
-      patch.state.forEach((s) => {
-        const { payload } = patch.state.at(-1)!;
-
-        dispatchMetricsEvent(name, payload);
-
-        if (KONTUR_TRACE_TYPE) {
-          if (name.includes(KONTUR_TRACE_TYPE)) {
-            console.trace('TRACE:', name, logs);
-          }
-        }
-        if (KONTUR_DEBUG) {
-          console.debug(name, payload);
-        }
-        if (KONTUR_WARN) {
-          console.warn(name, payload);
-        }
-      });
+  if (KONTUR_TRACE_PATCH) {
+    try {
+      throw new Error();
+    } catch (e) {
+      err = e as Error;
     }
-  });
+    const stack = err?.stack
+      ?.split('\n')
+      .slice(4)
+      .filter((a) => a.includes('/src/'))
+      .map((a) =>
+        String(a)
+          .trim()
+          .replace('https://localhost:3000/src', '~')
+          .replace('at ', '')
+          .replace(/\?t=\d+/, ''),
+      );
+    if (0 < (stack?.length ?? 0)) {
+      group = `\x1b[94m${Math.trunc(performance.now())}\x1b[0m [${logs.filter((d) => d.proto.isAction).length}]: ${stack?.at(0)}`;
+      console.groupCollapsed(group);
+      console.trace();
+    }
+  }
+
+  for (const patch of logs) {
+    if (!patch.proto.isAction) continue;
+
+    const name = patch.proto.name!;
+
+    if (name.includes('invalidate')) continue;
+
+    KONTUR_TRACE_PATCH &&
+      patch?.cause?.cause &&
+      console.info(
+        `\x1b[1;32mCause: ${causeChain(patch?.cause?.cause)?.join(' 👈 ')}\x1b[m`,
+      ); // 👉
+
+    patch.state.forEach((s) => {
+      const { payload } = patch.state.at(-1)!;
+
+      dispatchMetricsEvent(name, payload);
+
+      if (KONTUR_TRACE_TYPE) {
+        if (name.includes(KONTUR_TRACE_TYPE)) {
+          console.trace('TRACE:', name, logs);
+        }
+      }
+      KONTUR_DEBUG && console.debug(name, payload);
+      KONTUR_WARN && console.warn(name, payload);
+      KONTUR_TRACE_PATCH && console.info(name, payload);
+    });
+  }
+  group && console.groupEnd();
+}
+
+function causeChain(cause: AtomCache) {
+  const res: any[] = [];
+  const cb = (e: AtomCache) => {
+    res.push(e?.proto?.name);
+    e.cause && cb(e.cause);
+  };
+  cb(cause);
+  return res;
 }

@@ -111,17 +111,21 @@ function MapboxMap(
 
     const currentMapPosition = currentMapPositionAtom.getState();
 
-    //LngLatLike
-    const mapLocation =
-      currentMapPosition?.type === 'bbox'
-        ? { bounds: currentMapPosition.bbox }
-        : {
-            center: [currentMapPosition?.lng || 60, currentMapPosition?.lat || 0] as [
-              number,
-              number,
-            ],
-            zoom: currentMapPosition?.zoom || 18,
-          };
+    let mapLocation = {};
+
+    if (currentMapPosition) {
+      mapLocation =
+        'bbox' in currentMapPosition
+          ? { bounds: currentMapPosition.bbox }
+          : {
+              center: [currentMapPosition?.lng || 60, currentMapPosition?.lat || 0] as [
+                number,
+                number,
+              ],
+              zoom: currentMapPosition?.zoom || 18,
+            };
+    }
+
     const mapInstance = new mapLibre.Map({
       container: current,
       style: externalStyleLink,
@@ -325,8 +329,8 @@ function MapboxMap(
       typeof popup.layout === 'string'
         ? popup.layout
         : typeof popup.layout === 'number'
-        ? String(popup.layout)
-        : ReactDOMServer.renderToStaticMarkup(popup.layout);
+          ? String(popup.layout)
+          : ReactDOMServer.renderToStaticMarkup(popup.layout);
 
     const popupInstance = new mapLibre.Popup(popup.options)
       .setLngLat(popup.coordinates)

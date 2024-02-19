@@ -2,6 +2,7 @@ import { Button, Card, Heading, Input, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { authClientInstance } from '~core/authClientInstance';
+import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import { testEmail } from '~utils/form/validators';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
@@ -9,6 +10,8 @@ import s from './LoginForm.module.css';
 import type { ChangeEvent } from 'react';
 
 const authInputClasses = { input: clsx(s.authInput) };
+
+const registrationUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/registrations?client_id=account&response_type=code&scope=openid&redirect_uri=https://www.kontur.io/portfolio/`;
 
 export function LoginForm() {
   const [error, setError] = useState<{
@@ -128,7 +131,7 @@ export function LoginForm() {
       </div>
       <div className={clsx(s.link, s.registerContainter)}>
         <a
-          href="https://keycloak01.kontur.io/auth/realms/kontur/protocol/openid-connect/registrations?client_id=account&response_type=code&scope=openid&redirect_uri=https://www.kontur.io/portfolio/"
+          href={registrationUrl}
           target="_blank"
           rel="noreferrer"
         >
