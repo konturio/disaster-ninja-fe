@@ -75,3 +75,14 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
     return acc;
   }, []);
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isMCDAConfig(json: any): json is MCDAConfig {
+  // TODO: full check using ajv
+  return (
+    json.id &&
+    json?.layers?.length &&
+    json?.version >= 4 &&
+    (json?.colors?.type === 'sentiments' || json?.colors?.type === 'mapLibreExpression')
+  );
+}
