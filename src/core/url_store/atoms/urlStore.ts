@@ -92,7 +92,7 @@ export const urlStoreAtom = createAtom(
     /* After initialization finished - write new changes from state back to url */
     const newState = { ...state };
     const currentMapPosition = get('currentMapPositionAtom');
-    if (currentMapPosition && currentMapPosition.type === 'centerZoom') {
+    if (currentMapPosition && 'lng' in currentMapPosition) {
       // formatting performed in url encoder
       newState.map = [
         Number(currentMapPosition.zoom),

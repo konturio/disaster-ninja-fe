@@ -122,7 +122,7 @@ export function createAsyncAtom<
     } finally {
       abortController = null;
     }
-  });
+  }, 'asyncAtom-requestAction');
 
   const cancelAction = action(async (ctx) => {
     if (abortController) {
@@ -136,7 +136,7 @@ export function createAsyncAtom<
         return await deferredCancel.promise;
       });
     }
-  });
+  }, 'asyncAtom-cancelAction');
 
   const refetchAction = action((ctx) => {
     const { lastParams, dirty, loading } = ctx.get(asyncAtom);
@@ -145,7 +145,7 @@ export function createAsyncAtom<
     } else {
       console.error(`[${name}]:`, 'Do not call refetch before request');
     }
-  });
+  }, 'asyncAtom-refetchAction');
 
   const actions = {
     request: requestAction,

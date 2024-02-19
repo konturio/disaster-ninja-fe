@@ -29,14 +29,9 @@ osmEditControl.onStateChange((ctx, state) => {
         .get()
         .osmEditors.find((editor) => editor.id === osmEditor);
 
-      switch (position.type) {
-        case 'centerZoom':
-          openOsmLink(position, editor?.url);
-          break;
-
-        default:
-          throw Error('Unknown position type');
-      }
+      if ('lng' in position) {
+        openOsmLink(position, editor?.url);
+      } else throw Error('Unknown position type');
     } catch (e) {
       console.error(e);
     } finally {

@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
 import { useAtom } from '@reatom/react-v2';
 import { currentMapPositionAtom } from '~core/shared_state';
+import type { MutableRefObject } from 'react';
+import type { Map as MapLibreMap } from 'maplibre-gl';
 
 /**
  * This effect allow to listen state changes, and fly to position that set externally in atom
  * And allow to read current map position and update atom state with actual data.
  * */
-export function useMapPositionSmoothSync(mapRef) {
+export function useMapPositionSmoothSync(
+  mapRef: MutableRefObject<MapLibreMap | undefined>,
+) {
   const [currentMapPosition, currentMapPositionActions] = useAtom(currentMapPositionAtom);
 
   useEffect(() => {
@@ -34,7 +38,7 @@ export function useMapPositionSmoothSync(mapRef) {
        * if map already have this position - ignore this update.
        * It's allow avoid cycled updates between map and state
        *  */
-      if (newMapPosition.type === 'centerZoom') {
+      if ('lng' in newMapPosition) {
         if (
           newMapPosition.lng !== lng ||
           newMapPosition.lat !== lat ||

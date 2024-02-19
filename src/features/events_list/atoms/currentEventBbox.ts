@@ -33,25 +33,7 @@ export const currentEventBbox = createAtom(
     const bbox = eventData.bbox;
 
     onAction('fitBounds', () => {
-      const map = getUnlistedState(currentMapAtom);
-
-      if (!map) {
-        console.error(`Error while fitting event bounds, map not found`);
-        return;
-      }
-
-      map.fitBounds(bbox, { padding: getMapPaddings(map) });
-
-      schedule((dispatch) => {
-        map.once('moveend', () => {
-          dispatch(
-            currentMapPositionAtom.setCurrentMapPosition({
-              zoom: map.getZoom(),
-              ...map.getCenter(),
-            }),
-          );
-        });
-      });
+      currentMapPositionAtom.setCurrentMapBbox.dispatch(bbox);
     });
 
     return bbox;

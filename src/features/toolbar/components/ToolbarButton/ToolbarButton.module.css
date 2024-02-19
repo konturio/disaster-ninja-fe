@@ -10,7 +10,8 @@
 
 .toolbarButton_large {
   grid-row: span 6;
-  white-space: pre-line;
+  text-wrap: balance;
+  width: 5rem;
 }
 
 @media screen and (max-width: 1164px) {
