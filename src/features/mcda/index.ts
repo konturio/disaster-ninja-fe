@@ -3,9 +3,10 @@ import { toolbar } from '~core/toolbar';
 import { store } from '~core/store/store';
 import { mcdaLayerAtom } from './atoms/mcdaLayer';
 import { createMCDAConfig } from './mcdaConfig';
+import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from './constants';
 
 export const mcdaControl = toolbar.setupControl({
-  id: 'MCDA',
+  id: MCDA_CONTROL_ID,
   type: 'button',
   typeSettings: {
     name: i18n.t('mcda.name'),
@@ -29,23 +30,23 @@ mcdaControl.onStateChange(async (ctx, state) => {
   }
 });
 
-export const loadMcdaControl = toolbar.setupControl({
-  id: 'LoadMCDA',
+export const uploadMcdaControl = toolbar.setupControl({
+  id: UPLOAD_MCDA_CONTROL_ID,
   type: 'button',
   typeSettings: {
-    name: i18n.t('toolbar.load_mcda'),
+    name: i18n.t('toolbar.upload_mcda'),
     hint: '',
     icon: 'UploadAnalysis16',
     preferredSize: 'large',
   },
 });
 
-loadMcdaControl.onStateChange(async (ctx, state) => {
+uploadMcdaControl.onStateChange(async (ctx, state) => {
   if (state === 'active') {
   }
 });
 
 export function initMCDA() {
   mcdaControl.init();
-  loadMcdaControl.init();
+  uploadMcdaControl.init();
 }

@@ -28,7 +28,7 @@
     "edit_in_osm": "Edit map in OSM",
     "tools_label": "Tools",
     "selected_area_label": "Selected area",
-    "load_mcda": "Load\nMCDA"
+    "upload_mcda": "Upload\nMCDA"
   },
   "feed": "Feed",
   "deselect": "Deselect",

@@ -1,6 +1,7 @@
 import { createMapAtom, createPrimitiveAtom } from '~utils/atoms/createPrimitives';
 import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
+import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from '~features/mcda/constants';
 import type {
   ControlID,
   ControlState,
@@ -46,8 +47,8 @@ class ToolbarImpl implements Toolbar {
           'MapRuler',
           'EditInOsm',
           'BivariateMatrix',
-          'MCDA',
-          'LoadMCDA',
+          MCDA_CONTROL_ID,
+          UPLOAD_MCDA_CONTROL_ID,
           'EditableLayer',
         ],
       },
