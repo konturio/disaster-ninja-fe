@@ -72,7 +72,7 @@ export const createBoundaryRegistryAtom = (
       ...newState,
       isMounted: true,
     });
-  });
+  }, 'boundary-startAction');
 
   const stopAction = action((ctx) => {
     const map = ctx.get(currentMapAtom.v3atom);
@@ -86,7 +86,7 @@ export const createBoundaryRegistryAtom = (
       ...oldState,
       isMounted: false,
     }));
-  });
+  }, 'boundary-stopAction');
 
   highlightedGeometryAtom.v3atom.onChange((ctx, geometry) => {
     const map = ctx.get(currentMapAtom.v3atom);

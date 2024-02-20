@@ -4,7 +4,7 @@ import { configRepo } from '~core/config';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { i18n } from '~core/localization';
-import { getCameraForGeometry } from '~utils/map/cameraForGeometry';
+import { getCameraForGeometry } from '~utils/map/camera';
 import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
@@ -190,8 +190,7 @@ const findCameraPositionForBoundary = (
 ) => {
   const geometryCamera = getCameraForGeometry(featureCollection, map);
   if (
-    typeof geometryCamera === 'object' &&
-    typeof geometryCamera.zoom === 'number' &&
+    typeof geometryCamera?.zoom === 'number' &&
     geometryCamera.center &&
     'lat' in geometryCamera.center &&
     'lng' in geometryCamera.center

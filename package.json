@@ -1,6 +1,6 @@
 {
   "name": "disaster-ninja-fe",
-  "version": "2.18.0",
+  "version": "2.20.0",
   "private": true,
   "homepage": "/active/",
   "type": "module",
@@ -47,7 +47,7 @@
   },
   "lint-staged": {
     "*/**/*.{ts,tsx}": [
-      "eslint --cache --fix --rule 'no-console: [error, { allow: [warn, error, info, assert, debug, trace] }]'"
+      "eslint --cache --fix --rule 'no-console: [error, { allow: [warn, error, info, assert, debug, trace, group, groupCollapsed, groupEnd] }]'"
     ],
     "*/**/*.css": [
       "stylelint"
@@ -94,7 +94,7 @@
     "@nebula.gl/layers": "1.1.0-alpha.5",
     "@reatom/core": "^3.6.6",
     "@reatom/core-v2": "^3.1.2",
-    "@reatom/npm-react": "^3.8.2",
+    "@reatom/npm-react": "^3.8.3",
     "@reatom/react-v2": "^3.1.0",
     "@testing-library/react": "^14.2.1",
     "@turf/area": "6.5.0",
@@ -107,7 +107,7 @@
     "@turf/union": "^6.5.0",
     "@types/file-saver": "^2.0.7",
     "@types/geojson": "^7946.0.14",
-    "@types/node": "^20.11.16",
+    "@types/node": "^20.11.17",
     "@types/papaparse": "^5.3.14",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
@@ -147,7 +147,7 @@
     "i18next-conv": "14.0.0",
     "i18next-scanner": "^4.4.0",
     "jwt-decode": "^4.0.0",
-    "lint-staged": "^15.2.1",
+    "lint-staged": "^15.2.2",
     "maplibre-gl": "^3.6.2",
     "minimist": "^1.2.8",
     "nanoid": "^5.0.5",
@@ -180,13 +180,13 @@
     "stylelint-config-recommended": "^14.0.0",
     "superstruct": "^1.0.3",
     "ts-json-schema-generator": "^1.5.0",
-    "tsx": "^4.7.0",
+    "tsx": "^4.7.1",
     "typescript": "5.3.3",
-    "typescript-plugin-css-modules": "^5.0.2",
-    "uhtml": "^4.4.7",
+    "typescript-plugin-css-modules": "^5.1.0",
+    "uhtml": "^4.4.9",
     "utility-types": "^3.11.0",
     "vi-fetch": "^0.8.0",
-    "vite": "^5.0.12",
+    "vite": "~5.0.12",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-mkcert": "^1.17.3",
     "vite-tsconfig-paths": "^4.3.1",

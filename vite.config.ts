@@ -1,5 +1,4 @@
 /// <reference types="vitest" />
-import path from 'path';
 import { defineConfig, HtmlTagDescriptor, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import react from '@vitejs/plugin-react';
