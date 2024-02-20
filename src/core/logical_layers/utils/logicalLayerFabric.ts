@@ -199,14 +199,14 @@ export function createLogicalLayerAtom(
             downloadObject(
               state.source.source.data,
               `${
-                state.settings?.name || state.id || 'Disaster Ninja map layer'
+                state.settings?.name || state.id || 'map layer'
               }-${new Date().toISOString()}.json`,
             );
           } else if (state.source.style?.type === 'mcda') {
             downloadObject(
               state.source.style.config,
               `${
-                state.settings?.name || state.id || 'Disaster Ninja MCDA'
+                state.settings?.name || state.id || 'MCDA'
               }-${new Date().toISOString()}.json`,
             );
           } else {
