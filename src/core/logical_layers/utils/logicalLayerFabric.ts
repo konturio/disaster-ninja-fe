@@ -125,7 +125,9 @@ export function createLogicalLayerAtom(
         isEnabled: get('enabledLayersAtom').has(id),
         isMounted: mounted.has(id),
         isVisible: !get('hiddenLayersAtom').has(id),
-        isDownloadable: asyncLayerSource.data?.source.type === 'geojson', // details.data.source.type === 'geojson'
+        isDownloadable:
+          asyncLayerSource.data?.source.type === 'geojson' || // details.data.source.type === 'geojson'
+          asyncLayerSource.data?.style?.type === 'mcda',
         settings: deepFreeze(asyncLayerSettings.data),
         meta: deepFreeze(asyncLayerMeta.data),
         legend: deepFreeze(asyncLayerLegend.data),
@@ -197,11 +199,18 @@ export function createLogicalLayerAtom(
             downloadObject(
               state.source.source.data,
               `${
-                state.settings?.name || state.id || 'Disaster Ninja map layer'
+                state.settings?.name || state.id || 'map layer'
+              }-${new Date().toISOString()}.json`,
+            );
+          } else if (state.source.style?.type === 'mcda') {
+            downloadObject(
+              state.source.style.config,
+              `${
+                state.settings?.name || state.id || 'MCDA'
               }-${new Date().toISOString()}.json`,
             );
           } else {
-            logError('Only geojson layers can be downloaded');
+            logError('Only geojson layers or MCDA can be downloaded');
           }
         } catch (e) {
           logError(e);
