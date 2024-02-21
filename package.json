@@ -96,6 +96,7 @@
     "@reatom/core-v2": "^3.1.2",
     "@reatom/npm-react": "^3.8.3",
     "@reatom/react-v2": "^3.1.0",
+    "@sentry/react": "^7.101.1",
     "@testing-library/react": "^14.2.1",
     "@turf/area": "6.5.0",
     "@turf/bbox": "^6.5.0",
