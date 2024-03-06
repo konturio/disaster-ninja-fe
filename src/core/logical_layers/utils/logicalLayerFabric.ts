@@ -38,6 +38,7 @@ const logicalLayerActions: LogicalLayerActions = {
   show: () => null,
   download: () => null,
   destroy: () => null,
+  edit: () => null,
 };
 
 const annotatedError =
@@ -74,6 +75,7 @@ export function createLogicalLayerAtom(
         isEnabled: false,
         isLoading: false,
         isMounted: false,
+        isEditable: false,
         isVisible: true,
         isDownloadable: false,
         settings: null,
@@ -128,6 +130,7 @@ export function createLogicalLayerAtom(
         isDownloadable:
           asyncLayerSource.data?.source.type === 'geojson' || // details.data.source.type === 'geojson'
           asyncLayerSource.data?.style?.type === 'mcda',
+        isEditable: asyncLayerSource.data?.style?.type === 'mcda',
         settings: deepFreeze(asyncLayerSettings.data),
         meta: deepFreeze(asyncLayerMeta.data),
         legend: deepFreeze(asyncLayerLegend.data),
@@ -211,6 +214,17 @@ export function createLogicalLayerAtom(
             );
           } else {
             logError('Only geojson layers or MCDA can be downloaded');
+          }
+        } catch (e) {
+          logError(e);
+          newState.error = e;
+        }
+      });
+
+      onAction('edit', async () => {
+        try {
+          if (!state?.isEditable) return;
+          if (state.source?.style?.type === 'mcda') {
           }
         } catch (e) {
           logError(e);

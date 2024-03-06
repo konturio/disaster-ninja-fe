@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
 import { DownloadControl } from './DownloadControl/DownloadControl';
+import { EditControl } from './EditControl/EditControl';
 import { LayerContextMenu } from './LayerContextMenu/LayerContextMenu';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 
@@ -16,6 +17,7 @@ export function useControlElements({
     hide: () => void;
     show: () => void;
     download: () => void;
+    edit: () => void;
   };
   tooltipLayerId: string;
   skipControls?: {
@@ -38,6 +40,9 @@ export function useControlElements({
           unhideLayer={layerActions.show}
         />,
       );
+    if (layerState.isEditable) {
+      elements.push(<EditControl layerState={layerState} key={layerState.id + 'edit'} />);
+    }
     if (
       layerState.isMounted &&
       layerState.isDownloadable &&

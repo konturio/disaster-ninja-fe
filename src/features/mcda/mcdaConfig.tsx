@@ -9,6 +9,29 @@ import type {
   MCDALayer,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
+export async function editMCDAConfig(
+  name: string,
+  axises: {
+    id: string;
+    label: string;
+  }[],
+) {
+  const input = await showModal(MCDAForm, {
+    initialState: {
+      name,
+      axises,
+    },
+  });
+
+  if (input === null) return null;
+
+  const config = createDefaultMCDAConfig({
+    id: input.name,
+    layers: createMCDALayersFromBivariateAxises(input.axises),
+  });
+  return config;
+}
+
 export async function createMCDAConfig() {
   const input = await showModal(MCDAForm, {
     initialState: {

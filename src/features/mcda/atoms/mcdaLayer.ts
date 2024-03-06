@@ -9,6 +9,7 @@ import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { layersEditorsAtom } from '~core/logical_layers/atoms/layersEditors';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { i18n } from '~core/localization';
+import { store } from '~core/store/store';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Action } from '@reatom/core-v2';
@@ -17,7 +18,7 @@ export const mcdaLayerAtom = createAtom(
   {
     createMCDALayer: (json: MCDAConfig) => json,
     enableMCDALayer: (layerId: string) => layerId,
-    disableMCDALayer: () => null,
+    disableMCDALayer: (id: string) => id,
   },
   ({ onAction, schedule, getUnlistedState, create }) => {
     onAction('createMCDALayer', (json) => {
