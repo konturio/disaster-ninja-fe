@@ -10,15 +10,7 @@ import type {
   LogicalLayerState,
 } from '~core/logical_layers/types/logicalLayer';
 
-export function EditControl({
-  startEdit,
-  layerState,
-  layerActions,
-}: {
-  startEdit: () => any;
-  layerState: LogicalLayerState;
-  layerActions: LogicalLayerActions;
-}) {
+export function EditControl({ layerState }: { layerState: LogicalLayerState }) {
   async function editLayer() {
     if (layerState.style?.type === 'mcda') {
       const name = layerState.id;
@@ -34,7 +26,7 @@ export function EditControl({
     }
   }
   return (
-    <div className={style.download} onClick={editLayer}>
+    <div className={style.edit} onClick={editLayer}>
       <Edit16 />
     </div>
   );

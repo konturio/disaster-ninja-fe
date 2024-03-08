@@ -61,6 +61,7 @@ function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
         good: 'rgba(228, 26, 28, 0.5)',
       },
     },
+    custom: true,
   };
 }
 

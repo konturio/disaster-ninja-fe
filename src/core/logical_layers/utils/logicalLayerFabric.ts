@@ -130,7 +130,9 @@ export function createLogicalLayerAtom(
         isDownloadable:
           asyncLayerSource.data?.source.type === 'geojson' || // details.data.source.type === 'geojson'
           asyncLayerSource.data?.style?.type === 'mcda',
-        isEditable: asyncLayerSource.data?.style?.type === 'mcda',
+        isEditable:
+          asyncLayerSource.data?.style?.type === 'mcda' &&
+          !!asyncLayerSource.data?.style?.config.custom,
         settings: deepFreeze(asyncLayerSettings.data),
         meta: deepFreeze(asyncLayerMeta.data),
         legend: deepFreeze(asyncLayerLegend.data),

@@ -38,6 +38,7 @@ export const createBoundaryRegistryAtom = (
       isVisible: true,
       isLoading: false,
       isEnabled: false,
+      isEditable: false,
       isMounted: false,
       source: null,
       legend: null,
