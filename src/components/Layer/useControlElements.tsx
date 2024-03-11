@@ -4,7 +4,10 @@ import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl'
 import { DownloadControl } from './DownloadControl/DownloadControl';
 import { EditControl } from './EditControl/EditControl';
 import { LayerContextMenu } from './LayerContextMenu/LayerContextMenu';
-import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
+import type {
+  LogicalLayerActions,
+  LogicalLayerState,
+} from '~core/logical_layers/types/logicalLayer';
 
 export function useControlElements({
   layerState,
@@ -13,12 +16,7 @@ export function useControlElements({
   skipControls,
 }: {
   layerState: LogicalLayerState;
-  layerActions: {
-    hide: () => void;
-    show: () => void;
-    download: () => void;
-    edit: () => void;
-  };
+  layerActions: LogicalLayerActions;
   tooltipLayerId: string;
   skipControls?: {
     skipVisibilityControl?: true;
@@ -41,7 +39,13 @@ export function useControlElements({
         />,
       );
     if (layerState.isEditable) {
-      elements.push(<EditControl layerState={layerState} key={layerState.id + 'edit'} />);
+      elements.push(
+        <EditControl
+          layerState={layerState}
+          layerActions={layerActions}
+          key={layerState.id + 'edit'}
+        />,
+      );
     }
     if (
       layerState.isMounted &&

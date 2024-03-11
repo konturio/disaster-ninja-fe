@@ -10,7 +10,13 @@ import type {
   LogicalLayerState,
 } from '~core/logical_layers/types/logicalLayer';
 
-export function EditControl({ layerState }: { layerState: LogicalLayerState }) {
+export function EditControl({
+  layerState,
+  layerActions,
+}: {
+  layerState: LogicalLayerState;
+  layerActions: LogicalLayerActions;
+}) {
   async function editLayer() {
     if (layerState.style?.type === 'mcda') {
       const name = layerState.id;
@@ -21,6 +27,7 @@ export function EditControl({ layerState }: { layerState: LogicalLayerState }) {
         })) ?? [];
       const config = await editMCDAConfig(name, axises);
       if (config) {
+        layerActions.destroy();
         store.dispatch([mcdaLayerAtom.createMCDALayer({ ...config, id: layerState.id })]);
       }
     }

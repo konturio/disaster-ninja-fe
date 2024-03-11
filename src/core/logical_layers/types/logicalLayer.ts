@@ -28,13 +28,13 @@ export type LogicalLayerState = Readonly<{
 }>;
 
 export type LogicalLayerActions = {
-  enable: () => null;
-  disable: () => null;
-  hide: () => null;
-  show: () => null;
-  download: () => null;
-  destroy: () => null;
-  edit: () => null;
+  enable: () => void;
+  disable: () => void;
+  hide: () => void;
+  show: () => void;
+  download: () => void;
+  destroy: () => void;
+  edit: () => void;
 };
 
 export type LayerAtom = AtomSelfBinded<LogicalLayerState, LogicalLayerActions>;
