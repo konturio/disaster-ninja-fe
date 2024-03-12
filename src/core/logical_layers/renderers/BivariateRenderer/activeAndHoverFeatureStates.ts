@@ -32,6 +32,11 @@ export function createFeatureStateHandlers(ctx: {
     featureId: string | number,
     newState: Partial<Record<keyof typeof FEATURE_STATES, boolean>>,
   ) => {
+    const s = ctx.map.getSource(ctx.sourceId);
+    if (!s) {
+      console.error('map - no source for', ctx.sourceId);
+      return;
+    }
     ctx.map.setFeatureState(
       { source: ctx.sourceId, id: featureId, sourceLayer: ctx.sourceLayer },
       newState,
