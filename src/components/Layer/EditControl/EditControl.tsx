@@ -1,9 +1,9 @@
 import { Edit16 } from '@konturio/default-icons';
-import { showModal } from '~core/modal';
-import { MCDAForm } from '~features/mcda/components/MCDAForm';
 import { store } from '~core/store/store';
 import { mcdaLayerAtom } from '~features/mcda/atoms/mcdaLayer';
 import { editMCDAConfig } from '~features/mcda/mcdaConfig';
+import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { getMutualExcludedActions } from '~core/logical_layers/utils/getMutualExcludedActions';
 import style from './EditControl.module.css';
 import type {
   LogicalLayerActions,
@@ -19,16 +19,14 @@ export function EditControl({
 }) {
   async function editLayer() {
     if (layerState.style?.type === 'mcda') {
-      const name = layerState.id;
-      const axises =
-        layerState.style.config?.layers?.map((layer) => ({
-          id: layer.id,
-          label: layer.name,
-        })) ?? [];
-      const config = await editMCDAConfig(name, axises);
-      if (config) {
+      const config = await editMCDAConfig(layerState);
+      if (config?.id) {
         layerActions.destroy();
-        store.dispatch([mcdaLayerAtom.createMCDALayer({ ...config, id: layerState.id })]);
+        store.dispatch([
+          mcdaLayerAtom.createMCDALayer({ ...config, id: config.id }),
+          enabledLayersAtom.set(config.id),
+          ...getMutualExcludedActions(layerState),
+        ]);
       }
     }
   }

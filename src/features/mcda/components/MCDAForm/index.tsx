@@ -14,8 +14,7 @@ import { availableBivariateAxisesAtom } from '../../atoms/availableBivariateAxis
 import s from './style.module.css';
 import type { Axis } from '~utils/bivariate';
 
-// TODO: use common type for input and result. Convert values!
-type FormInput = {
+type FormInitialState = {
   name: string;
   axises: { id: string; label: string }[];
 };
@@ -29,7 +28,7 @@ export function MCDAForm({
   initialState,
   onConfirm,
 }: {
-  initialState: FormInput;
+  initialState: FormInitialState;
   onConfirm: (value: FormResult | null) => void;
 }) {
   // Layer name input
@@ -110,7 +109,7 @@ export function MCDAForm({
           <Button type="reset" onClick={cancelAction} variant="invert-outline">
             {i18n.t('mcda.btn_cancel')}
           </Button>
-          <Button type="submit" onClick={saveAction}>
+          <Button disabled={!axisesResource.data} type="submit" onClick={saveAction}>
             {i18n.t('mcda.btn_save')}
           </Button>
         </div>
