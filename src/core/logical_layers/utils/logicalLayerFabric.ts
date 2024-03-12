@@ -38,7 +38,6 @@ const logicalLayerActions: LogicalLayerActions = {
   show: () => null,
   download: () => null,
   destroy: () => null,
-  edit: () => null,
 };
 
 const annotatedError =
@@ -216,17 +215,6 @@ export function createLogicalLayerAtom(
             );
           } else {
             logError('Only geojson layers or MCDA can be downloaded');
-          }
-        } catch (e) {
-          logError(e);
-          newState.error = e;
-        }
-      });
-
-      onAction('edit', async () => {
-        try {
-          if (!state?.isEditable) return;
-          if (state.source?.style?.type === 'mcda') {
           }
         } catch (e) {
           logError(e);
