@@ -12,3 +12,7 @@
   gap: var(--unit);
   justify-content: flex-end;
 }
+
+.multiselectContainer {
+  width: 450px;
+}

@@ -89,14 +89,16 @@ export function MCDAForm({
     loading: <div>{'Preparing data'}</div>,
     error: (errorMessage) => <div style={{ color: 'red' }}>{errorMessage}</div>,
     ready: () => (
-      <MultiselectChipWithSearch
-        label={i18n.t('mcda.modal_input_indicators')}
-        selectedItems={selectedIndicators}
-        items={inputItems}
-        onChange={onSelectedIndicatorsChange}
-        placeholder={i18n.t('mcda.modal_input_indicators_placeholder')}
-        noOptionsText={i18n.t('mcda.modal_input_indicators_no_options')}
-      />
+      <div className={s.multiselectContainer}>
+        <MultiselectChipWithSearch
+          label={i18n.t('mcda.modal_input_indicators')}
+          selectedItems={selectedIndicators}
+          items={inputItems}
+          onChange={onSelectedIndicatorsChange}
+          placeholder={i18n.t('mcda.modal_input_indicators_placeholder')}
+          noOptionsText={i18n.t('mcda.modal_input_indicators_no_options')}
+        />
+      </div>
     ),
   });
 
