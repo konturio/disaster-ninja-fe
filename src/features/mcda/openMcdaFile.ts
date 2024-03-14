@@ -20,7 +20,7 @@ function readMcdaJSONFile(file): Promise<MCDAConfig> {
       try {
         const json = JSON.parse(s);
         if (isMCDAConfig(json)) {
-          return res(json as MCDAConfig);
+          return res({ ...json, custom: true } as MCDAConfig);
         } else {
           throw new Error('Not an MCDA JSON format');
         }
