@@ -28,6 +28,7 @@ export interface MCDAConfig {
   version: 4;
   layers: Array<MCDALayer>;
   colors: ColorsBySentiments | ColorsByMapLibreExpression;
+  custom?: boolean;
 }
 
 export type Normalization = 'max-min' | 'no';
