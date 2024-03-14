@@ -20,7 +20,7 @@ export function FeedSelector() {
     [setCurrentFeed, scheduleAutoSelect],
   );
 
-  if (eventFeeds?.length < 2) {
+  if (eventFeeds.data?.length < 2) {
     return null;
   }
 
@@ -33,7 +33,7 @@ export function FeedSelector() {
           value={currentFeed?.id || configRepo.get().defaultFeed}
           className={s.feedsSelect}
         >
-          {eventFeeds.map((fd) => (
+          {eventFeeds.data.map((fd) => (
             <option key={fd.feed} value={fd.feed}>
               {fd.name}
             </option>

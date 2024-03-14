@@ -21,7 +21,7 @@ export function SettingsForm() {
 
   useEffect(() => {
     getUserProfile();
-  }, []);
+  }, [getUserProfile]);
 
   if (status === 'init')
     return (
@@ -53,7 +53,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
     } else if (localSettings && userProfile) {
       setPageStatus('ready');
     }
-  }, [localSettings, userProfile]);
+  }, [localSettings, setPageStatus, userProfile]);
 
   function onSave() {
     // do async put request
@@ -99,7 +99,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
 
   const OPTIONS_LANGUAGE = getLanguageOptions();
 
-  const OPTIONS_FEED = eventFeeds.map((o) => ({
+  const OPTIONS_FEED = eventFeeds.data.map((o) => ({
     title: o.name,
     value: o.feed,
   }));

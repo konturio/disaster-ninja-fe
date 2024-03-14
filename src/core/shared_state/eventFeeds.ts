@@ -9,17 +9,18 @@ export const eventFeedsAtom = createAtom(
   {
     eventFeedsResourceAtom,
   },
-  ({ get }, state = defaultFeeds) => {
+  ({ get }, state = { data: defaultFeeds, loading: false }) => {
     const { data, error, loading } = get('eventFeedsResourceAtom');
+    state = { ...state, loading };
     if (!loading && !error) {
       if (data) {
         console.assert(
           data.map((d) => d.feed).includes(configRepo.get().defaultFeed),
           'default feed not included in response',
         );
-        return data;
+        return { data, loading };
       } else {
-        return [...defaultFeeds];
+        return { data: [...defaultFeeds], loading };
       }
     }
     return state;
