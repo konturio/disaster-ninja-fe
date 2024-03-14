@@ -1,9 +1,9 @@
-import { createAtom } from '~utils/atoms';
+import { action, atom, type Ctx } from '@reatom/core';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import type { AxisGroup } from '~core/types';
 import type { StatDTO } from '../types';
 
-const extractAvailableNumeratorsWithDenominators = (stat: StatDTO) => {
+function extractAvailableNumeratorsWithDenominators(stat: StatDTO) {
   const { correlationRates } = stat;
   const x: AxisGroup[] = [];
   const y: AxisGroup[] = [];
@@ -58,37 +58,27 @@ const extractAvailableNumeratorsWithDenominators = (stat: StatDTO) => {
   }
 
   return { x, y };
-};
+}
 
-export const bivariateNumeratorsAtom = createAtom(
-  {
-    setNumerators: (numxX: AxisGroup[], numsY: AxisGroup[]) => ({
-      xGroups: numxX,
-      yGroups: numsY,
-    }),
-    bivariateStatisticsResourceAtom,
-  },
-  (
-    { get, onAction, onChange },
-    state: {
-      xGroups: AxisGroup[];
-      yGroups: AxisGroup[];
-    } = { xGroups: [], yGroups: [] },
-  ) => {
-    onChange('bivariateStatisticsResourceAtom', ({ data: stats, loading }) => {
-      if (stats && !loading) {
-        // get all available numerators with denominators
-        const numerators = extractAvailableNumeratorsWithDenominators(stats);
+interface BivariateNumerators {
+  xGroups: AxisGroup[];
+  yGroups: AxisGroup[];
+}
 
-        state = { xGroups: numerators.x, yGroups: numerators.y };
-      }
-    });
-
-    onAction('setNumerators', (nums) => {
-      state = nums;
-    });
-
+export const bivariateNumeratorsAtom = atom<BivariateNumerators>(
+  (ctx, state = { xGroups: [], yGroups: [] }) => {
+    const { data: stats, loading } = ctx.spy(bivariateStatisticsResourceAtom.v3atom);
+    if (stats && !loading) {
+      // get all available numerators with denominators
+      const numerators = extractAvailableNumeratorsWithDenominators(stats);
+      return { xGroups: numerators.x, yGroups: numerators.y };
+    }
     return state;
   },
-  'bivariateNumerators',
+  'bivariateNumeratorsAtom',
 );
+
+export const setNumeratorsAction = action((ctx, nums: BivariateNumerators) => {
+  // @ts-expect-error - v3 issues?
+  bivariateNumeratorsAtom(ctx, nums);
+}, 'setNumeratorsAction');

@@ -13,6 +13,7 @@ export type LogicalLayerState = Readonly<{
   isEnabled: boolean;
   /* isMounted means the layer is already shown on the map */
   isMounted: boolean;
+  isEditable: boolean;
   isVisible: boolean;
   isLoading: boolean;
   isDownloadable: boolean;
@@ -27,12 +28,12 @@ export type LogicalLayerState = Readonly<{
 }>;
 
 export type LogicalLayerActions = {
-  enable: () => null;
-  disable: () => null;
-  hide: () => null;
-  show: () => null;
-  download: () => null;
-  destroy: () => null;
+  enable: () => void;
+  disable: () => void;
+  hide: () => void;
+  show: () => void;
+  download: () => void;
+  destroy: () => void;
 };
 
 export type LayerAtom = AtomSelfBinded<LogicalLayerState, LogicalLayerActions>;

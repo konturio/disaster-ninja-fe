@@ -4,10 +4,42 @@ import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { i18n } from '~core/localization';
 import { formatBivariateAxisUnit, type Axis } from '~utils/bivariate';
 import { MCDAForm } from './components/MCDAForm';
+import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type {
   MCDAConfig,
   MCDALayer,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+
+export async function editMCDAConfig(layerState: LogicalLayerState) {
+  const name = layerState.id;
+  const axises =
+    layerState.style?.config?.layers?.map((layer) => ({
+      id: layer.id,
+      label: layer.name,
+    })) ?? [];
+  const input = await showModal(MCDAForm, {
+    initialState: {
+      name,
+      axises,
+    },
+  });
+
+  if (input === null) return null;
+
+  const newLayers = createMCDALayersFromBivariateAxises(input.axises);
+  const oldLayers = layerState.style?.config?.layers ?? [];
+  const resultLayers = newLayers.reduce<MCDALayer[]>((acc, layer) => {
+    const oldLayer = oldLayers.find((old) => old.id === layer.id);
+    acc.push(oldLayer ?? layer);
+    return acc;
+  }, []);
+
+  const config = createDefaultMCDAConfig({
+    id: input.name,
+    layers: resultLayers,
+  });
+  return { ...config };
+}
 
 export async function createMCDAConfig() {
   const input = await showModal(MCDAForm, {
@@ -38,6 +70,7 @@ function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
         good: 'rgba(228, 26, 28, 0.5)',
       },
     },
+    custom: true,
   };
 }
 

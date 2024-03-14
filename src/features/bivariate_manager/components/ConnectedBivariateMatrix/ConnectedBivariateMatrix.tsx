@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useAction, useAtom } from '@reatom/react-v2';
+import { useAction, useAtom } from '@reatom/npm-react';
 import { debounce } from '~utils/common';
-import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
-import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
-import { bivariateCorrelationMatrixAtom } from '~features/bivariate_manager/atoms/bivatiateCorrelationMatrix';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
+import { bivariateCorrelationMatrixAtom } from '../../atoms/bivatiateCorrelationMatrix';
+import {
+  bivariateNumeratorsAtom,
+  setNumeratorsAction,
+} from '../../atoms/bivariateNumerators';
+import * as bmSelection from '../../atoms/bivariateMatrixSelection';
 import { BivariateMatrixControlComponent } from '../BivariateMatrixControl';
 import { ProgressTooltip } from '../ProgressTooltip/ProgressTooltip';
 import type { AxisGroup } from '~core/types';
@@ -13,54 +16,58 @@ import type { Indicator, CorrelationRate } from '~utils/bivariate';
 
 const TOOLTIP_ID = 'BIVARIATE_MATRIX_CELL_TOOLTIP';
 
-const qualityFormat = (quality?) =>
-  typeof quality === 'number' ? Math.floor(quality * 100).toString() : undefined;
+function qualityFormat(quality?) {
+  return typeof quality === 'number' ? Math.floor(quality * 100).toString() : undefined;
+}
 
-const mapHeaderCell = (
+function mapHeaderCell(
   group: AxisGroup,
   indicators: Indicator[],
   correlationRates: CorrelationRate[],
   axis: 'x' | 'y',
-) => ({
-  label:
-    indicators.find((indicator) => indicator.name === group.selectedQuotient[0])?.label ||
-    '',
-  selectedQuotient: {
-    id: group.selectedQuotient,
-    label: indicators.find((indicator) => indicator.name === group.selectedQuotient[1])
-      ?.label,
-  },
-  quality: qualityFormat(
-    correlationRates.find(
-      (cr) =>
-        cr[axis].quotient[0] === group.selectedQuotient[0] &&
-        cr[axis].quotient[1] === group.selectedQuotient[1],
-    )?.[axis === 'x' ? 'avgCorrelationX' : 'avgCorrelationY'],
-  ),
-  quotients: group.quotients.map((quotient) => ({
-    id: quotient,
-    label: indicators.find((indicator) => indicator.name === quotient[0])?.label,
+) {
+  return {
+    label:
+      indicators.find((indicator) => indicator.name === group.selectedQuotient[0])
+        ?.label || '',
+    selectedQuotient: {
+      id: group.selectedQuotient,
+      label: indicators.find((indicator) => indicator.name === group.selectedQuotient[1])
+        ?.label,
+    },
     quality: qualityFormat(
       correlationRates.find(
         (cr) =>
-          cr[axis].quotient[0] === quotient[0] && cr[axis].quotient[1] === quotient[1],
+          cr[axis].quotient[0] === group.selectedQuotient[0] &&
+          cr[axis].quotient[1] === group.selectedQuotient[1],
       )?.[axis === 'x' ? 'avgCorrelationX' : 'avgCorrelationY'],
     ),
-  })),
-});
+    quotients: group.quotients.map((quotient) => ({
+      id: quotient,
+      label: indicators.find((indicator) => indicator.name === quotient[0])?.label,
+      quality: qualityFormat(
+        correlationRates.find(
+          (cr) =>
+            cr[axis].quotient[0] === quotient[0] && cr[axis].quotient[1] === quotient[1],
+        )?.[axis === 'x' ? 'avgCorrelationX' : 'avgCorrelationY'],
+      ),
+    })),
+  };
+}
 
 const ConnectedBivariateMatrix = () => {
-  const [{ selectedCell }, { setMatrixSelection, runPreselection }] = useAtom(
-    bivariateMatrixSelectionAtom,
-  );
+  const [{ selectedCell }] = useAtom(bmSelection.bivariateMatrixSelectionAtom);
+  const setMatrixSelection = useAction(bmSelection.setMatrixSelectionAction);
+  const runPreselection = useAction(bmSelection.runPreselectionAction);
   const selectedCellRef = useRef(selectedCell);
   const [matrix] = useAtom(bivariateCorrelationMatrixAtom);
 
-  const [{ xGroups, yGroups }, { setNumerators }] = useAtom(bivariateNumeratorsAtom);
-  const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip);
-  const turnOffById = useAction(currentTooltipAtom.turnOffById);
+  const [{ xGroups, yGroups }] = useAtom(bivariateNumeratorsAtom);
+  const setNumerators = useAction(setNumeratorsAction);
+  const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip.v3action);
+  const turnOffById = useAction(currentTooltipAtom.turnOffById.v3action);
 
-  const [{ data: stats }] = useAtom(bivariateStatisticsResourceAtom);
+  const [{ data: stats }] = useAtom(bivariateStatisticsResourceAtom.v3atom);
 
   useEffect(() => {
     selectedCellRef.current = selectedCell;
@@ -143,7 +150,7 @@ const ConnectedBivariateMatrix = () => {
         const newXGroups = horizontal ? xGroups : newGroups;
         const newYGroups = horizontal ? newGroups : yGroups;
 
-        setNumerators(newXGroups, newYGroups);
+        setNumerators({ xGroups: newXGroups, yGroups: newYGroups });
 
         const previousCell = selectedCellRef.current;
         // refresh colors
