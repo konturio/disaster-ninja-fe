@@ -1,18 +1,15 @@
-import { createAtom } from '~utils/atoms';
-import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
+import { action, atom, type Ctx } from '@reatom/core';
 import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
-import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import {
   createBivariateLegend,
   createBivariateMeta,
 } from '~utils/bivariate/bivariateLegendUtils';
-import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
-import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
-import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
 import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer/BivariateRenderer';
 import { SOURCE_LAYER_BIVARIATE } from '~core/logical_layers/renderers/BivariateRenderer/constants';
+import { store } from '~core/store/store';
+import * as meta from '../meta';
+import { bivariateNumeratorsAtom, setNumeratorsAction } from './bivariateNumerators';
 import { onCalculateSelectedCell, selectQuotientInGroupByNumDen } from './utils';
 import type { SelectionInput } from './utils';
 import type { AxisGroup, ColorTheme } from '~core/types';
@@ -40,198 +37,227 @@ const DEFAULT_STATE = {
   selectCellCallback: null,
 };
 
-const formatSelection = (
+function formatSelection(
   xNumerator: string | null,
   xDenominator: string | null,
   yNumerator: string | null,
   yDenominator: string | null,
-): SelectionInput => ({ xNumerator, xDenominator, yNumerator, yDenominator });
+): SelectionInput {
+  return { xNumerator, xDenominator, yNumerator, yDenominator };
+}
 
-export const bivariateMatrixSelectionAtom = createAtom(
-  {
-    enabledLayersAtom,
-    layersLegendsAtom,
+// use v3 atoms
+const enabledLayersAtom = meta.enabledLayersAtom.v3atom;
+const layersRegistryAtom = meta.layersRegistryAtom.v3atom;
+const layersRegistryAtom_register = meta.layersRegistryAtom.register.v3action;
+const layersSettingsAtom = meta.layersSettingsAtom.v3atom;
+const bivariateStatisticsResourceAtom = meta.bivariateStatisticsResourceAtom.v3atom;
 
-    calculateSelectedCell: () => null,
-    resetSelection: () => null,
-    setSelectCellCallback: (cb: SelectCellCallback) => cb,
-    runPreselection: () => null,
-    setMatrixSelection: formatSelection,
-    presetMatrixSelection: (selection: SelectionInput) => selection,
-    enableBivariateLayer: (layerId: string) => layerId,
-    disableBivariateLayer: () => null,
-  },
-  (
-    { onAction, schedule, getUnlistedState, create, onChange },
-    state: State = DEFAULT_STATE,
-  ) => {
-    onAction('calculateSelectedCell', () => {
-      const { xGroups, yGroups } = getUnlistedState(bivariateNumeratorsAtom);
-      const nextSelectedCell = onCalculateSelectedCell(
-        xGroups,
-        yGroups,
-        formatSelection(
-          state.xNumerator,
-          state.xDenominator,
-          state.yNumerator,
-          state.yDenominator,
-        ),
-      );
-      const currentCell = state.selectedCell;
+let bivariateLayerAtomId;
 
-      if (
-        !currentCell ||
-        nextSelectedCell.x !== currentCell.x ||
-        nextSelectedCell.y !== currentCell.y
-      ) {
-        state = { ...state, selectedCell: nextSelectedCell };
-      }
+export const bivariateMatrixSelectionAtom = atom<State>(
+  DEFAULT_STATE,
+  'bivariateMatrixSelectionAtom',
+);
+
+export const calculateSelectedCellAction = action((ctx) => {
+  const { xGroups, yGroups } = ctx.get(bivariateNumeratorsAtom);
+  const state = ctx.get(bivariateMatrixSelectionAtom);
+  const nextSelectedCell = onCalculateSelectedCell(
+    xGroups,
+    yGroups,
+    formatSelection(
+      state.xNumerator,
+      state.xDenominator,
+      state.yNumerator,
+      state.yDenominator,
+    ),
+  );
+  const currentCell = state.selectedCell;
+
+  if (
+    !currentCell ||
+    nextSelectedCell.x !== currentCell.x ||
+    nextSelectedCell.y !== currentCell.y
+  ) {
+    bivariateMatrixSelectionAtom(ctx, { ...state, selectedCell: nextSelectedCell });
+  }
+}, 'calculateSelectedCellAction');
+
+export const setSelectCellCallbackAction = action((ctx, selectCellCallback) => {
+  bivariateMatrixSelectionAtom(ctx, (state) => ({ ...state, selectCellCallback }));
+}, 'setSelectCellCallbackAction');
+
+export const callSelectCellCallbackAction = action((ctx, objWithXY) => {
+  const { x, y } = objWithXY;
+  ctx.get(bivariateMatrixSelectionAtom)?.selectCellCallback?.(x, y);
+}, 'callSelectCellCallbackAction');
+
+export const resetSelectionAction = action((ctx) => {
+  bivariateMatrixSelectionAtom(ctx, (state) => {
+    ctx.schedule(() => {
+      state?.selectCellCallback?.(-1, -1);
     });
-
-    // this is onSelect method from BivariateMatrixControl
-    onAction('setSelectCellCallback', (selectCellCallback) => {
-      state = { ...state, selectCellCallback };
-    });
-
-    const getEnabledBivariateLayer = () => {
-      const enabledLayers = getUnlistedState(enabledLayersAtom);
-      const registry = getUnlistedState(layersRegistryAtom);
-      const layer = [...enabledLayers]
-        .map((layer) => registry.get(layer)?.getState())
-        .find(
-          (layer) => layer && layer.isEnabled && layer.legend?.type === 'bivariate',
-        ) as (LogicalLayerState & { legend: BivariateLegend }) | undefined;
-
-      return layer;
+    return {
+      ...state,
+      xNumerator: null,
+      xDenominator: null,
+      yNumerator: null,
+      yDenominator: null,
+      selectedCell: null,
     };
+  });
+}, 'resetSelectionAction');
 
-    onAction('resetSelection', () => {
-      state = {
-        ...state,
+export const runPreselectionAction = action((ctx) => {
+  const layer = getEnabledBivariateLayer(ctx);
+  if (!layer || !layer?.legend) {
+    // it happens when overlays are deselected and we have no active bivariate layer - just deselect all
+    resetSelectionAction(ctx);
+    return;
+  }
 
-        xNumerator: null,
-        xDenominator: null,
-        yNumerator: null,
-        yDenominator: null,
-        selectedCell: null,
-      };
+  const axis = layer.legend.axis;
 
-      schedule((_dispatch) => {
-        state?.selectCellCallback?.(-1, -1);
+  if (axis) {
+    // check if we already have combination for selected items, if yes - select
+    const preselectionFormatted = formatSelection(
+      axis.x.quotient[0] || null,
+      axis.x.quotient[1] || null,
+      axis.y.quotient[0] || null,
+      axis.y.quotient[1] || null,
+    );
+
+    const { xGroups, yGroups } = ctx.get(bivariateNumeratorsAtom);
+    const nextSelectedCell = onCalculateSelectedCell(
+      xGroups,
+      yGroups,
+      preselectionFormatted,
+    );
+
+    if (nextSelectedCell.x >= 0 && nextSelectedCell.y >= 0) {
+      ctx.schedule(() => {
+        presetMatrixSelectionAction(ctx, preselectionFormatted);
+        callSelectCellCallbackAction(ctx, nextSelectedCell);
       });
-    });
 
-    onAction('runPreselection', () => {
-      const layer = getEnabledBivariateLayer();
-      if (!layer || !layer?.legend) {
-        // it happens when overlays are deselected and we have no active bivariate layer - just deselect all
-        schedule((dispatch) => {
-          dispatch(create('resetSelection'));
-        });
-        return;
-      }
+      return;
+    }
 
-      const axis = layer.legend.axis;
+    //if no - need to find and select quotients for x and y
+    let newXGroups: AxisGroup[] = xGroups;
+    let newYGroups: AxisGroup[] = yGroups;
 
-      if (axis) {
-        // check if we already have combination for selected items, if yes - select
-        const preselectionFormatted = formatSelection(
-          axis.x.quotient[0] || null,
-          axis.x.quotient[1] || null,
-          axis.y.quotient[0] || null,
-          axis.y.quotient[1] || null,
-        );
+    if (nextSelectedCell.x === -1) {
+      newXGroups = selectQuotientInGroupByNumDen(
+        xGroups,
+        axis.x.quotient[0],
+        axis.x.quotient[1],
+      );
+    }
+    if (nextSelectedCell.y === -1) {
+      newYGroups = selectQuotientInGroupByNumDen(
+        yGroups,
+        axis.y.quotient[0],
+        axis.y.quotient[1],
+      );
+    }
 
-        const { xGroups, yGroups } = getUnlistedState(bivariateNumeratorsAtom);
-        const nextSelectedCell = onCalculateSelectedCell(
-          xGroups,
-          yGroups,
-          preselectionFormatted,
-        );
-
-        if (nextSelectedCell.x >= 0 && nextSelectedCell.y >= 0) {
-          schedule((dispatch) => {
-            dispatch(create('presetMatrixSelection', preselectionFormatted));
-            state?.selectCellCallback?.(nextSelectedCell.x, nextSelectedCell.y);
-          });
-
-          return;
-        }
-
-        //if no - need to find and select quotients for x and y
-        let newXGroups: AxisGroup[] = xGroups;
-        let newYGroups: AxisGroup[] = yGroups;
-
-        if (nextSelectedCell.x === -1) {
-          newXGroups = selectQuotientInGroupByNumDen(
-            xGroups,
-            axis.x.quotient[0],
-            axis.x.quotient[1],
-          );
-        }
-        if (nextSelectedCell.y === -1) {
-          newYGroups = selectQuotientInGroupByNumDen(
-            yGroups,
-            axis.y.quotient[0],
-            axis.y.quotient[1],
-          );
-        }
-
-        // after selection of quotients we check if we can select again
-        const finishSelection = onCalculateSelectedCell(
-          newXGroups,
-          newYGroups,
-          preselectionFormatted,
-        );
-        schedule((dispatch) => {
-          if (finishSelection.x >= 0 && finishSelection.y >= 0) {
-            dispatch(bivariateNumeratorsAtom.setNumerators(newXGroups, newYGroups));
-            dispatch(create('presetMatrixSelection', preselectionFormatted));
-            state?.selectCellCallback?.(finishSelection.x, finishSelection.y);
-          } else {
-            dispatch(create('resetSelection'));
-          }
-        });
+    // after selection of quotients we check if we can select again
+    const finishSelection = onCalculateSelectedCell(
+      newXGroups,
+      newYGroups,
+      preselectionFormatted,
+    );
+    ctx.schedule(() => {
+      if (finishSelection.x >= 0 && finishSelection.y >= 0) {
+        setNumeratorsAction(ctx, { xGroups: newXGroups, yGroups: newYGroups });
+        presetMatrixSelectionAction(ctx, preselectionFormatted);
+        callSelectCellCallbackAction(ctx, finishSelection);
+      } else {
+        resetSelectionAction(ctx);
       }
     });
+  }
+}, 'runPreselectionAction');
 
-    onAction('presetMatrixSelection', (selection) => {
-      state = { ...state, ...selection };
-      schedule((dispatch) => {
-        dispatch(create('calculateSelectedCell'));
-      });
-    });
+export const presetMatrixSelectionAction = action((ctx, selection) => {
+  bivariateMatrixSelectionAtom(ctx, (state) => ({ ...state, ...selection }));
+  calculateSelectedCellAction(ctx);
+}, 'presetMatrixSelectionAction');
 
-    onAction('setMatrixSelection', (selection) => {
-      state = { ...state, ...selection };
-      schedule((dispatch) => {
-        dispatch(create('calculateSelectedCell'));
-      });
+export const enableBivariateLayerAction = action((ctx, lId: string) => {
+  const registry = ctx.get(layersRegistryAtom);
+  const layer = registry.get(lId);
+  if (layer) {
+    layer.enable.v3action(ctx); // FIX: v2 action call
+  }
+}, 'enableBivariateLayerAction');
 
-      const { xNumerator, xDenominator, yNumerator, yDenominator } = selection;
-      if (xNumerator === null || yNumerator === null) return;
+export const disableBivariateLayerAction = action(
+  (ctx, bivariateLayerAtomId?: string) => {
+    const registry = ctx.get(layersRegistryAtom);
+    if (bivariateLayerAtomId) {
+      const layerAtom = registry.get(bivariateLayerAtomId);
+      layerAtom && layerAtom.destroy.v3action(ctx); // FIX: v2 action call
+    }
+  },
+  'disableBivariateLayerAction',
+);
 
-      const { xGroups, yGroups } = getUnlistedState(bivariateNumeratorsAtom);
-      const stats = getUnlistedState(bivariateStatisticsResourceAtom).data;
-      if (stats === null) return;
+export const setMatrixSelectionAction = action(
+  (
+    ctx,
+    xNumerator: string | null,
+    xDenominator: string | null,
+    yNumerator: string | null,
+    yDenominator: string | null,
+  ) => {
+    // const { xNumerator, xDenominator, yNumerator, yDenominator } = selection;
+    bivariateMatrixSelectionAtom(ctx, (state) => ({
+      ...state,
+      xNumerator,
+      xDenominator,
+      yNumerator,
+      yDenominator,
+    }));
+    calculateSelectedCellAction(ctx);
 
-      if (!xGroups || !yGroups || !xGroups.length || !yGroups.length) return;
+    if (xNumerator === null || yNumerator === null) return;
 
-      if (!xDenominator || !yDenominator) return;
+    const { xGroups, yGroups } = ctx.get(bivariateNumeratorsAtom);
+    const stats = ctx.get(bivariateStatisticsResourceAtom).data;
+    if (stats === null) return;
 
-      const res = generateColorThemeAndBivariateStyle(
+    if (!xGroups || !yGroups || !xGroups.length || !yGroups.length) return;
+
+    if (!xDenominator || !yDenominator) return;
+
+    const res = generateColorThemeAndBivariateStyle(
+      xNumerator,
+      xDenominator,
+      yNumerator,
+      yDenominator,
+      stats,
+      SOURCE_LAYER_BIVARIATE,
+    );
+    if (res) {
+      const [colorTheme, bivariateStyle] = res;
+      const legend = createBivariateLegend(
+        'Bivariate Layer',
+        colorTheme as ColorTheme,
         xNumerator,
         xDenominator,
         yNumerator,
         yDenominator,
         stats,
-        SOURCE_LAYER_BIVARIATE,
       );
-      if (res) {
-        const [colorTheme, bivariateStyle] = res;
-        const legend = createBivariateLegend(
-          'Bivariate Layer',
-          colorTheme as ColorTheme,
+
+      if (legend) {
+        const bivStyle = bivariateStyle as BivariateLayerStyle;
+        const biSource = bivStyle.source;
+        const id = bivStyle.id;
+        const meta = createBivariateMeta(
           xNumerator,
           xDenominator,
           yNumerator,
@@ -239,107 +265,82 @@ export const bivariateMatrixSelectionAtom = createAtom(
           stats,
         );
 
-        if (legend) {
-          const bivStyle = bivariateStyle as BivariateLayerStyle;
-          const biSource = bivStyle.source;
-          const id = bivStyle.id;
-          const meta = createBivariateMeta(
-            xNumerator,
-            xDenominator,
-            yNumerator,
-            yDenominator,
-            stats,
-          );
+        const source = biSource
+          ? {
+              id,
+              maxZoom: biSource.maxzoom,
+              minZoom: biSource.minzoom,
+              source: {
+                type: biSource.type,
+                urls: biSource.tiles,
+                tileSize: 512,
+                apiKey: '',
+              },
+            }
+          : undefined;
 
-          const source = biSource
-            ? {
+        const [updateActions, cleanUpActions] = createUpdateLayerActions([
+          {
+            id,
+            legend,
+            meta,
+            source,
+          },
+        ]);
+
+        // Setup only (because it static)
+        const currentSettings = ctx.get(layersSettingsAtom);
+        if (!currentSettings.has(id)) {
+          updateActions.push(
+            ...createUpdateLayerActions([
+              {
                 id,
-                maxZoom: biSource.maxzoom,
-                minZoom: biSource.minzoom,
-                source: {
-                  type: biSource.type,
-                  urls: biSource.tiles,
-                  tileSize: 512,
-                  apiKey: '',
+                settings: {
+                  id,
+                  name: 'Bivariate Layer',
+                  category: 'overlay' as const,
+                  group: 'bivariate',
+                  ownedByUser: true,
                 },
-              }
-            : undefined;
+              },
+            ]).flat(),
+          );
+        }
 
-          const [updateActions, cleanUpActions] = createUpdateLayerActions([
+        // Register and Enable
+        const currentRegistry = ctx.get(layersRegistryAtom);
+        if (!currentRegistry.has(id)) {
+          // remove current Biv layer
+          disableBivariateLayerAction(ctx, bivariateLayerAtomId);
+          bivariateLayerAtomId = id;
+
+          layersRegistryAtom_register(ctx, [
             {
               id,
-              legend,
-              meta,
-              source,
+              renderer: new BivariateRenderer({ id }),
+              cleanUpActions,
             },
           ]);
+          enableBivariateLayerAction(ctx, id);
+        }
 
-          // Setup only (because it static)
-          const currentSettings = getUnlistedState(layersSettingsAtom);
-          if (!currentSettings.has(id)) {
-            updateActions.push(
-              ...createUpdateLayerActions([
-                {
-                  id,
-                  settings: {
-                    id,
-                    name: 'Bivariate Layer',
-                    category: 'overlay' as const,
-                    group: 'bivariate',
-                    ownedByUser: true,
-                  },
-                },
-              ]).flat(),
-            );
-          }
-
-          // Register and Enable
-          const currentRegistry = getUnlistedState(layersRegistryAtom);
-          if (!currentRegistry.has(id)) {
-            updateActions.push(
-              create('disableBivariateLayer'),
-              layersRegistryAtom.register({
-                id,
-                renderer: new BivariateRenderer({ id }),
-                cleanUpActions,
-              }),
-              create('enableBivariateLayer', id),
-            );
-          }
-
-          if (updateActions.length) {
-            schedule((dispatch, ctx: { bivariateLayerAtomId?: string } = {}) => {
-              dispatch(updateActions);
-              ctx.bivariateLayerAtomId = id;
-            });
-          }
+        if (updateActions.length) {
+          store.dispatch(updateActions);
         }
       }
-    });
-
-    onAction('enableBivariateLayer', (lId: string) => {
-      const currentRegistry = getUnlistedState(layersRegistryAtom);
-      for (const [layerId, layer] of Array.from(currentRegistry)) {
-        if (layerId === lId) {
-          schedule((dispatch) => {
-            dispatch(layer.enable());
-          });
-          break;
-        }
-      }
-    });
-
-    onAction('disableBivariateLayer', () => {
-      const currentRegistry = getUnlistedState(layersRegistryAtom);
-      schedule((dispatch, ctx: { bivariateLayerAtomId?: string } = {}) => {
-        if (ctx.bivariateLayerAtomId) {
-          const layerAtom = currentRegistry.get(ctx.bivariateLayerAtomId);
-          layerAtom && dispatch(layerAtom.destroy());
-        }
-      });
-    });
-
-    return state;
+    }
   },
-  'bivariateMatrixSelection',
+  'setMatrixSelectionAction',
 );
+
+function getEnabledBivariateLayer(ctx: Ctx) {
+  const enabledLayers = ctx.get(enabledLayersAtom);
+  const registry = ctx.get(layersRegistryAtom);
+  const layer = [...enabledLayers]
+    .map((layer) => registry.get(layer)?.getState()) // FIX: v2 action call
+    .find((layer) => layer && layer.isEnabled && layer.legend?.type === 'bivariate') as
+    | (LogicalLayerState & { legend: BivariateLegend })
+    | undefined;
+
+  return layer;
+}

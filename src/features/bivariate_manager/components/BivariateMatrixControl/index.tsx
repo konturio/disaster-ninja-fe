@@ -1,6 +1,6 @@
 import { memo, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
-import { useAction } from '@reatom/react-v2';
-import { bivariateMatrixSelectionAtom } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
+import { useAction, useAtom } from '@reatom/npm-react';
+import { setSelectCellCallbackAction } from '~features/bivariate_manager/atoms/bivariateMatrixSelection';
 import { BivariateMatrixContext } from '../BivariateMatrixContainer/bivariateMatrixContext';
 import {
   calculateHeadingsStyle,
@@ -56,9 +56,7 @@ const BivariateMatrixControl = ({
   const selectedColIndex = useRef(selectedCell?.x ?? -1);
   const selectedRowIndex = useRef(selectedCell?.y ?? -1);
 
-  const setSelectCellCallback = useAction(
-    bivariateMatrixSelectionAtom.setSelectCellCallback,
-  );
+  const setSelectCellCallback = useAction(setSelectCellCallbackAction);
 
   const setCellReference = (ref, rowIndex, colIndex) => {
     if (rowIndex >= 0) {

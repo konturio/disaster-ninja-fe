@@ -1,4 +1,4 @@
-import { createAtom } from '~utils/atoms';
+import { atom, type Ctx } from '@reatom/core';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import type { AxisGroup, CorrelationMatrix } from '~core/types';
@@ -14,15 +14,11 @@ function covertGroupToObject(groups: AxisGroup[]) {
   );
 }
 
-export const bivariateCorrelationMatrixAtom = createAtom(
-  {
-    bivariateNumeratorsAtom,
-  },
-  ({ get, getUnlistedState }, state: CorrelationMatrix | null = null) => {
-    const { xGroups, yGroups } = get('bivariateNumeratorsAtom');
-
+export const bivariateCorrelationMatrixAtom = atom<CorrelationMatrix | null>(
+  (ctx, state: CorrelationMatrix | null = null) => {
+    const { xGroups, yGroups } = ctx.spy(bivariateNumeratorsAtom);
     if (xGroups.length && yGroups.length) {
-      const { data: stats } = getUnlistedState(bivariateStatisticsResourceAtom);
+      const { data: stats } = ctx.get(bivariateStatisticsResourceAtom.v3atom);
 
       if (stats === null) return null;
       const correlationRates: CorrelationRate[] = stats.correlationRates;
@@ -59,5 +55,5 @@ export const bivariateCorrelationMatrixAtom = createAtom(
 
     return state;
   },
-  'bivariateCorrelationMatrix',
+  'bivariateCorrelationMatrixAtom',
 );

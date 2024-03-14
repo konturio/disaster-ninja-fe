@@ -47,12 +47,15 @@ function actionV3ToV2(
 ): { name: string; actionCreator: ActionCreatorBinded } {
   const type = action.__reatom.name ?? `name_${actionIdCounter++}`; // `${actionName}_${v3atom?.__reatom.name}`
 
-  const actionCreator: ActionCreatorBinded = (payload) => ({
-    payload,
-    type,
-    v3action: action,
-    targets: targets,
-  });
+  // @ts-expect-error - props will be assigned later
+  const actionCreator: ActionCreatorBinded = function (payload) {
+    return {
+      payload,
+      type,
+      v3action: action,
+      targets: targets,
+    };
+  };
 
   actionCreator.type = type;
   actionCreator.dispatch = (...a: any[]) => store.dispatch(actionCreator(...a));

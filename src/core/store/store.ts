@@ -15,7 +15,7 @@ function configureStore() {
 
 export const store = configureStore();
 
-if (import.meta.env.MODE !== 'test') {
+if (import.meta.env.DEV && import.meta.env.MODE !== 'test') {
   store.v3ctx.subscribe(logger);
 }
 
