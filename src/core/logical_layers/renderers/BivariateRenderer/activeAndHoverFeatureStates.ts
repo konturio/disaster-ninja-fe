@@ -32,8 +32,8 @@ export function createFeatureStateHandlers(ctx: {
     featureId: string | number,
     newState: Partial<Record<keyof typeof FEATURE_STATES, boolean>>,
   ) => {
-    const s = ctx.map.getSource(ctx.sourceId);
-    if (!s) {
+    const source = ctx.map.getSource(ctx.sourceId);
+    if (!source) {
       console.error('map - no source for', ctx.sourceId);
       return;
     }
