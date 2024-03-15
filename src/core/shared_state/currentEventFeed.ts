@@ -32,8 +32,8 @@ export const currentEventFeedAtom = createAtom(
     });
 
     onChange('eventFeedsAtom', (eventFeeds) => {
-      if (eventFeeds && eventFeeds.length) {
-        const newFeed = checkFeed(eventFeeds, state?.id);
+      if (eventFeeds && eventFeeds.data.length && !eventFeeds.loading) {
+        const newFeed = checkFeed(eventFeeds.data, state?.id);
         if (newFeed !== undefined && newFeed !== state?.id) {
           state = { id: newFeed };
           const currentEvent = getUnlistedState(currentEventAtom);
