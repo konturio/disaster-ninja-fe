@@ -18,14 +18,20 @@ export function Sentiments({
 }) {
   return (
     <div>
-      <Text type={'caption'} className={s.label}>
-        {right.label}
-      </Text>{' '}
+      {/* Right */}
+      <span style={{ color: right.color }}>
+        <Text type={'caption'} className={s.label}>
+          {`${right.label} `}
+        </Text>
+      </span>{' '}
       <Text type={'caption'}>({right.value})</Text>
-      {' 🠒 '}
-      <Text type={'caption'} className={s.label}>
-        {left.label}
-      </Text>{' '}
+      {' \u2192 '}
+      {/* Left */}
+      <span style={{ color: left.color }}>
+        <Text type={'caption'} className={s.label}>
+          {`${left.label} `}
+        </Text>
+      </span>
       <Text type={'caption'}>({left.value})</Text>
       {units ? (
         <Text type={'caption'} className={s.unit}>

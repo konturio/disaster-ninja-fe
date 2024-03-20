@@ -1,4 +1,5 @@
 import { useAction, useAtom } from '@reatom/npm-react';
+import { InfoOutline16, Edit16 } from '@konturio/default-icons';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { Sentiments } from './Sentiments';
 import s from './style.module.css';
@@ -22,23 +23,30 @@ export function MCDALayerEditor({ layerId }: LayerEditorProps) {
     <div className={s.editor}>
       {mcdaConfig.layers.map((layer) => (
         <div key={layer.id} className={s.layer}>
-          <div>
+          <div className={s.layerHeader}>
             <div>{layer.name}</div>
-            <Sentiments
-              right={{
-                label: layer.sentiment.at(0)!, // Sentiments name needed instead of id
-                color: 'red',
-                value: String(layer.range.at(0)),
-              }}
-              left={{
-                label: layer.sentiment.at(1)!,
-                color: 'green',
-                value: String(layer.range.at(1)),
-              }}
-              units={layer.unit}
-            />
+            <div className={s.layerButtons}>
+              <div className={s.editButton} onClick={() => {}}>
+                <Edit16 />
+              </div>
+              <div className={s.infoButton} onClick={() => {}}>
+                <InfoOutline16 />
+              </div>
+            </div>
           </div>
-          <div>Actions</div>
+          <Sentiments
+            right={{
+              label: layer.sentiment.at(0)!, // Sentiments name needed instead of id
+              color: 'red',
+              value: String(layer.range.at(0)),
+            }}
+            left={{
+              label: layer.sentiment.at(1)!,
+              color: 'green',
+              value: String(layer.range.at(1)),
+            }}
+            units={layer.unit}
+          />
         </div>
       ))}
     </div>

@@ -1,5 +1,7 @@
 .editor {
   margin-bottom: var(--unit);
+  margin-right: calc(-1 * var(--unit));
+  font-size: 12px;
 }
 .unit {
   color: var(--text-faint-strong);
@@ -11,10 +13,38 @@
 
 .layer {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column;
   padding: var(--half-unit) 0;
+}
+
+.layerHeader {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 
 .layer:hover {
   background-color: var(--accent-weak);
+}
+
+.layerButtons {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.infoButton {
+  width: 16px;
+  margin-left: 8px;
+  cursor: pointer;
+  color: var(--faint-strong);
+}
+
+.editButton {
+  cursor: pointer;
+  color: var(--accent-strong);
+  visibility: hidden;
+}
+
+.layer:hover .editButton {
+  visibility: visible;
 }
