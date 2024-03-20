@@ -54,5 +54,6 @@
   ],
   "KEYCLOAK_URL": "https://keycloak01.kontur.io",
   "KEYCLOAK_REALM": "kontur",
-  "KEYCLOAK_CLIENT_ID": "kontur_platform"
+  "KEYCLOAK_CLIENT_ID": "kontur_platform",
+  "SENTRY_DSN": "https://fixme@dsn.ingest.sentry.io/project-id"
 }
