@@ -63,9 +63,9 @@ export function MapPage() {
         initBoundarySelector(),
       );
     }
-
-    import('~features/mcda').then(({ initMCDA }) => initMCDA());
-
+    if (featureFlags[FeatureFlag.MCDA]) {
+      import('~features/mcda').then(({ initMCDA }) => initMCDA());
+    }
     if (featureFlags[FeatureFlag.LAYERS_IN_AREA]) {
       import('~features/layers_in_area').then(({ initLayersInArea }) =>
         initLayersInArea(),
