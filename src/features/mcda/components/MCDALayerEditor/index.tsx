@@ -2,7 +2,6 @@ import { useAction, useAtom } from '@reatom/npm-react';
 import { InfoOutline16, Edit16 } from '@konturio/default-icons';
 import { useCallback, useState } from 'react';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import { Sentiments } from './Sentiments';
 import s from './style.module.css';
 import { MCDALayerLegend } from './MCDALayerLegend';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';

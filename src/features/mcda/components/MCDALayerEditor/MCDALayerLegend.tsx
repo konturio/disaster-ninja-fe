@@ -1,5 +1,5 @@
 import { Edit16 } from '@konturio/default-icons';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Button, Input, Select, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { i18n } from '~core/localization';
@@ -21,7 +21,7 @@ export type MCDALayerLegendProps = {
 };
 
 const rangeDefault = ['0', '1000'];
-const sentiments: SelectableItem[] = [
+const sentimentsOptions: SelectableItem[] = [
   { title: `${i18n.t('mcda.bad')} \u2192 ${i18n.t('mcda.good')}`, value: 1 },
   { title: `${i18n.t('mcda.good')} \u2192 ${i18n.t('mcda.bad')}`, value: 2 },
 ];
@@ -41,6 +41,7 @@ const normalizationOptions: SelectableItem[] = [
 
 const NUMBER_FILTER = /[^.\-\d]/;
 const POSITIVE_NUMBER_FILTER = /[^.\d]/;
+const sentimentColors = { bad: 'red', good: 'green' };
 
 export function MCDALayerLegend({
   layer,
@@ -49,7 +50,7 @@ export function MCDALayerLegend({
 }: MCDALayerLegendProps) {
   const [editMode, setEditMode] = useState(false);
 
-  const [sentiment, setSentiment] = useState(sentiments[0]);
+  const [sentiment, setSentiment] = useState(sentimentsOptions[0]);
   const [range, setRange] = useState(rangeDefault);
   const [outliers, setOutliers] = useState(outliersOptions[0]);
   const [weight, setWeight] = useState('1.0');
@@ -76,6 +77,22 @@ export function MCDALayerLegend({
     setEditMode(false);
   }, []);
 
+  const sentiments = useMemo(() => {
+    const isGoodLeft = layer.sentiment[0] === 'good';
+    return {
+      left: {
+        label: layer.sentiment.at(0)!, // Sentiments name needed instead of id
+        color: isGoodLeft ? sentimentColors.good : sentimentColors.bad,
+        value: String(layer.range.at(0)),
+      },
+      right: {
+        label: layer.sentiment.at(1)!,
+        color: isGoodLeft ? sentimentColors.bad : sentimentColors.good,
+        value: String(layer.range.at(1)),
+      },
+    };
+  }, [layer]);
+
   return (
     <div className={s.editor}>
       <div key={layer.id} className={s.layer}>
@@ -94,27 +111,16 @@ export function MCDALayerLegend({
             )}
             <TooltipTrigger
               className={s.infoButton}
-              tipText={'A'}
+              tipText={''}
               tooltipId={LAYERS_PANEL_FEATURE_ID}
             />
-            {/* <div className={s.infoButton} onClick={() => {}}>
-              <InfoOutline16 />
-            </div> */}
           </div>
         </div>
         {!editMode ? (
           // Static mode
           <Sentiments
-            right={{
-              label: layer.sentiment.at(0)!, // Sentiments name needed instead of id
-              color: 'red',
-              value: String(layer.range.at(0)),
-            }}
-            left={{
-              label: layer.sentiment.at(1)!,
-              color: 'green',
-              value: String(layer.range.at(1)),
-            }}
+            left={sentiments.left}
+            right={sentiments.right}
             units={layer.unit}
           />
         ) : (
@@ -156,7 +162,7 @@ export function MCDALayerLegend({
                 className={s.inputSelect}
                 value={outliers.value}
                 onChange={(e) => {
-                  setSentiment(e.selectedItem ?? outliers[0]);
+                  setOutliers(e.selectedItem ?? outliers[0]);
                 }}
                 items={outliersOptions}
                 disabled={true}
@@ -168,9 +174,9 @@ export function MCDALayerLegend({
                 className={s.inputSelect}
                 value={sentiment.value}
                 onChange={(e) => {
-                  setSentiment(e.selectedItem ?? sentiments[0]);
+                  setSentiment(e.selectedItem ?? sentimentsOptions[0]);
                 }}
-                items={sentiments}
+                items={sentimentsOptions}
               />
             </MCDAParameter>
             {/* WEIGHT */}
@@ -191,7 +197,7 @@ export function MCDALayerLegend({
                 className={s.inputSelect}
                 value={transform.value}
                 onChange={(e) => {
-                  setSentiment(e.selectedItem ?? transform[0]);
+                  setTransform(e.selectedItem ?? transform[0]);
                 }}
                 items={transformOptions}
               />
@@ -202,7 +208,7 @@ export function MCDALayerLegend({
                 className={s.inputSelect}
                 value={normalization.value}
                 onChange={(e) => {
-                  setSentiment(e.selectedItem ?? normalization[0]);
+                  setNormalization(e.selectedItem ?? normalization[0]);
                 }}
                 items={normalizationOptions}
               />
