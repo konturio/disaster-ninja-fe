@@ -1,0 +1,34 @@
+.inputLine {
+  margin-bottom: var(--unit);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.infoButton {
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+  color: var(--faint-strong);
+}
+
+.inputLine .infoButton {
+  margin-inline-start: var(--half-unit);
+}
+
+.inputLinelabel {
+  flex: 0 0 70px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 11px;
+}
+
+.inputContainer {
+  flex: 0 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-inline-start: var(--unit);
+}

@@ -93,7 +93,25 @@
     "error_bad_layer_data": "Invalid MCDA layer data",
     "error_invalid_file": "Invalid MCDA file format",
     "legend_title": "Legend",
-    "legend_subtitle": "Hexagons are colored as weighted average of normalized and transformed layers values"
+    "legend_subtitle": "Hexagons are colored as weighted average of normalized and transformed layers values",
+    "layer_editor": {
+      "save_changes": "Save changes",
+      "range": "Range",
+      "outliers": "Outliers",
+      "sentiment": "Sentiment",
+      "weight": "Weight",
+      "transform": "Transform",
+      "normalize": "Normalize",
+      "reset_limits_to_default": "Reset limits to default",
+      "exclude": "Exclude",
+      "as_values_on_limits": "As values on limits",
+      "natural_logarithm": "Natural logarithm",
+      "square_root": "Square root",
+      "no": "No",
+      "min-max": "Min-max"
+    },
+    "bad": "Bad",
+    "good": "Good"
   },
   "event_list": {
     "warning_title": "Can't use map as filter",

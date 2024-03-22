@@ -1,14 +1,9 @@
 .editor {
   margin-bottom: var(--unit);
-  margin-right: calc(-1 * var(--unit));
-  font-size: 12px;
+  margin-right: calc(-1 * var(--half-unit));
 }
 .unit {
   color: var(--text-faint-strong);
-}
-
-.label {
-  text-transform: capitalize;
 }
 
 .layer {
@@ -21,6 +16,13 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  margin-bottom: var(--half-unit);
+}
+
+.layerEditContainer {
+  width: 100%;
+  padding: var(--half-unit) 0;
+  font-size: 12px;
 }
 
 .layer:hover {
@@ -33,13 +35,42 @@
 }
 
 .infoButton {
+  height: 16px;
   width: 16px;
-  margin-left: 8px;
+  margin-top: var(--half-unit);
   cursor: pointer;
   color: var(--faint-strong);
 }
 
+.textInput div {
+  height: 30px;
+  width: 55px;
+}
+
+.inputRangeDivider {
+  margin: 0 var(--half-unit);
+}
+
+.inputSelect {
+  display: flex;
+  flex-direction: row;
+}
+
+.inputSelect button {
+  max-width: 77%;
+}
+
+.resetLimits {
+  width: 100%;
+  margin-top: calc(-1 * var(--half-unit));
+  margin-bottom: var(--unit);
+  margin-inline-start: 70px;
+  color: var(--accent-strong);
+  cursor: pointer;
+}
+
 .editButton {
+  margin-inline-end: var(--unit);
   cursor: pointer;
   color: var(--accent-strong);
   visibility: hidden;
@@ -47,4 +78,8 @@
 
 .layer:hover .editButton {
   visibility: visible;
+}
+
+.saveButton {
+  margin-right: var(--half-unit);
 }
