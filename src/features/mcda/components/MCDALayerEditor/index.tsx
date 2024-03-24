@@ -3,7 +3,7 @@ import { InfoOutline16, Edit16 } from '@konturio/default-icons';
 import { useCallback, useState } from 'react';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import s from './style.module.css';
-import { MCDALayerLegend } from './MCDALayerLegend';
+import { MCDALayerDetails } from './MCDALayerDetails/MCDALayerDetails';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { LayerEditorProps } from '~core/logical_layers/types/editors';
 
@@ -26,7 +26,7 @@ export function MCDALayerEditor({ layerId }: LayerEditorProps) {
   return (
     <div className={s.editor}>
       {mcdaConfig.layers.map((layer) => (
-        <MCDALayerLegend
+        <MCDALayerDetails
           key={layer.id}
           layer={layer}
           mcdaConfig={mcdaConfig}

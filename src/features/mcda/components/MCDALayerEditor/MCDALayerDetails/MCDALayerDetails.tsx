@@ -1,13 +1,13 @@
 import { Edit16 } from '@konturio/default-icons';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Input, Select, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { TooltipTrigger } from '~components/TooltipTrigger';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
+import { Sentiments } from '../Sentiments';
+import { MCDAParameter } from '../MCDAParameter/MCDAParameter';
 import s from './style.module.css';
-import { Sentiments } from './Sentiments';
-import { MCDAParameter } from './MCDAParameter/MCDAParameter';
 import type { SelectableItem } from '@konturio/ui-kit';
 import type {
   MCDAConfig,
@@ -21,41 +21,65 @@ export type MCDALayerLegendProps = {
 };
 
 const rangeDefault = ['0', '1000'];
+const SENTIMENT_VALUES = {
+  'bad-good': ['bad', 'good'],
+  'good-bad': ['good', 'bad'],
+};
+
 const sentimentsOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.bad')} \u2192 ${i18n.t('mcda.good')}`, value: 1 },
-  { title: `${i18n.t('mcda.good')} \u2192 ${i18n.t('mcda.bad')}`, value: 2 },
+  {
+    title: `${i18n.t('mcda.bad')} \u2192 ${i18n.t('mcda.good')}`,
+    value: 'bad-good',
+  },
+  {
+    title: `${i18n.t('mcda.good')} \u2192 ${i18n.t('mcda.bad')}`,
+    value: 'good-bad',
+  },
 ];
 const outliersOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.as_values_on_limits')}`, value: 1 },
-  { title: `${i18n.t('mcda.layer_editor.exclude')}`, value: 2 },
+  { title: `${i18n.t('mcda.layer_editor.as_values_on_limits')}`, value: '1' },
+  { title: `${i18n.t('mcda.layer_editor.exclude')}`, value: '2' },
 ];
 const transformOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.no')}`, value: 1 },
-  { title: `${i18n.t('mcda.layer_editor.natural_logarithm')}`, value: 2 },
-  { title: `${i18n.t('mcda.layer_editor.square_root')}`, value: 3 },
+  { title: `${i18n.t('mcda.layer_editor.no')}`, value: 'no' },
+  {
+    title: `${i18n.t('mcda.layer_editor.natural_logarithm')}`,
+    value: 'natural_logarithm',
+  },
+  { title: `${i18n.t('mcda.layer_editor.square_root')}`, value: 'square_root' },
 ];
 const normalizationOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.no')}`, value: 1 },
-  { title: `${i18n.t('mcda.layer_editor.min-max')}`, value: 2 },
+  { title: `${i18n.t('mcda.layer_editor.no')}`, value: 'no' },
+  { title: `${i18n.t('mcda.layer_editor.max-min')}`, value: 'max-min' },
 ];
 
 const NUMBER_FILTER = /[^.\-\d]/;
 const POSITIVE_NUMBER_FILTER = /[^.\d]/;
 const sentimentColors = { bad: 'red', good: 'green' };
 
-export function MCDALayerLegend({
+export function MCDALayerDetails({
   layer,
   mcdaConfig,
   onLayerEdited,
 }: MCDALayerLegendProps) {
   const [editMode, setEditMode] = useState(false);
 
-  const [sentiment, setSentiment] = useState(sentimentsOptions[0]);
+  const [sentiment, setSentiment] = useState(sentimentsOptions[0].value as string);
   const [range, setRange] = useState(rangeDefault);
-  const [outliers, setOutliers] = useState(outliersOptions[0]);
-  const [weight, setWeight] = useState('1.0');
-  const [transform, setTransform] = useState(transformOptions[0]);
-  const [normalization, setNormalization] = useState(normalizationOptions[0]);
+  const [outliers, setOutliers] = useState(outliersOptions[0].value as string);
+  const [coefficient, setCoefficient] = useState('');
+  const [transform, setTransform] = useState<string>(transformOptions[0].value as string);
+  const [normalization, setNormalization] = useState(
+    normalizationOptions[0].value as string,
+  );
+
+  useEffect(() => {
+    setRange(layer.range.map((v) => v.toString()) ?? rangeDefault);
+    setSentiment(layer.sentiment.at(0) === 'good' ? 'good-bad' : 'bad-good');
+    setCoefficient(layer.coefficient.toString() ?? '1.0');
+    setTransform(layer.transformationFunction);
+    setNormalization(layer.normalization);
+  }, [layer]);
 
   const onSaveLayer = useCallback(() => {
     const newLayer: MCDALayer = {
@@ -160,9 +184,9 @@ export function MCDALayerLegend({
             <MCDAParameter name={i18n.t('mcda.layer_editor.outliers')} tipText="TBD">
               <Select
                 className={s.inputSelect}
-                value={outliers.value}
+                value={outliers}
                 onChange={(e) => {
-                  setOutliers(e.selectedItem ?? outliers[0]);
+                  setOutliers(e.selectedItem?.value as string);
                 }}
                 items={outliersOptions}
                 disabled={true}
@@ -172,9 +196,9 @@ export function MCDALayerLegend({
             <MCDAParameter name={i18n.t('mcda.layer_editor.sentiment')} tipText="TBD">
               <Select
                 className={s.inputSelect}
-                value={sentiment.value}
+                value={sentiment}
                 onChange={(e) => {
-                  setSentiment(e.selectedItem ?? sentimentsOptions[0]);
+                  setSentiment(e.selectedItem?.value as string);
                 }}
                 items={sentimentsOptions}
               />
@@ -184,10 +208,10 @@ export function MCDALayerLegend({
               <Input
                 className={clsx(s.input, s.textInput)}
                 type="text"
-                value={weight}
+                value={coefficient}
                 onChange={(event) => {
                   const value = event.target.value.replace(POSITIVE_NUMBER_FILTER, '');
-                  setWeight(value);
+                  setCoefficient(value);
                 }}
               />
             </MCDAParameter>
@@ -195,9 +219,9 @@ export function MCDALayerLegend({
             <MCDAParameter name={i18n.t('mcda.layer_editor.transform')} tipText="TBD">
               <Select
                 className={s.inputSelect}
-                value={transform.value}
+                value={transform}
                 onChange={(e) => {
-                  setTransform(e.selectedItem ?? transform[0]);
+                  setTransform(e.selectedItem?.value as string);
                 }}
                 items={transformOptions}
               />
@@ -206,9 +230,9 @@ export function MCDALayerLegend({
             <MCDAParameter name={i18n.t('mcda.layer_editor.normalize')} tipText="TBD">
               <Select
                 className={s.inputSelect}
-                value={normalization.value}
+                value={normalization}
                 onChange={(e) => {
-                  setNormalization(e.selectedItem ?? normalization[0]);
+                  setNormalization(e.selectedItem?.value as string);
                 }}
                 items={normalizationOptions}
               />
