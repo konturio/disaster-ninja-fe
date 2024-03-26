@@ -12,7 +12,7 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  margin-bottom: var(--half-unit);
+  margin-bottom: 12px;
 }
 
 .layerEditContainer {
@@ -37,22 +37,39 @@
   color: var(--faint-strong);
 }
 
-.textInput div {
+/* Text input */
+.textInputBox {
+  padding: var(--half-unit);
   height: 30px;
   width: 55px;
+}
+
+.textInputBox input {
+  font-size: 11px;
 }
 
 .inputRangeDivider {
   margin: 0 var(--half-unit);
 }
 
-.inputSelect {
+/* Select input */
+.selectInput {
   display: flex;
   flex-direction: row;
 }
 
-.inputSelect button {
+.selectInput button {
   max-width: 77%;
+  height: 30px;
+}
+
+.selectInput button span {
+  font-size: 11px;
+  margin-top: -3px;
+}
+
+.selectInputBox {
+  font-size: 11px;
 }
 
 .resetLimits {
@@ -73,6 +90,10 @@
 
 .layer:hover .editButton {
   visibility: visible;
+}
+
+.editorButtonsContainer {
+  margin-top: 16px;
 }
 
 .saveButton {

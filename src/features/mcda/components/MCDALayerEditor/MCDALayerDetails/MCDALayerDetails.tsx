@@ -151,9 +151,11 @@ export function MCDALayerDetails({
           // Edit mode
           <div className={s.layerEditContainer}>
             {/* RANGE */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.range')} tipText="TBD">
+            <MCDAParameter name={i18n.t('mcda.layer_editor.range')} tipText="">
               <Input
-                className={clsx(s.input, s.textInput)}
+                classes={{
+                  inputBox: s.textInputBox,
+                }}
                 type="text"
                 value={range[0]}
                 onChange={(event) => {
@@ -163,7 +165,9 @@ export function MCDALayerDetails({
               />
               <span className={s.inputRangeDivider}>{'-'}</span>
               <Input
-                className={clsx(s.input, s.textInput)}
+                classes={{
+                  inputBox: s.textInputBox,
+                }}
                 type="text"
                 value={range[1]}
                 onChange={(event) => {
@@ -181,9 +185,12 @@ export function MCDALayerDetails({
               {i18n.t('mcda.layer_editor.reset_limits_to_default')}
             </div>
             {/* OUTLIERS */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.outliers')} tipText="TBD">
+            <MCDAParameter name={i18n.t('mcda.layer_editor.outliers')} tipText="">
               <Select
-                className={s.inputSelect}
+                className={s.selectInput}
+                classes={{
+                  menu: s.selectInputBox,
+                }}
                 value={outliers}
                 onChange={(e) => {
                   setOutliers(e.selectedItem?.value as string);
@@ -193,9 +200,12 @@ export function MCDALayerDetails({
               />
             </MCDAParameter>
             {/* SENTIMENT */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.sentiment')} tipText="TBD">
+            <MCDAParameter name={i18n.t('mcda.layer_editor.sentiment')} tipText="">
               <Select
-                className={s.inputSelect}
+                className={s.selectInput}
+                classes={{
+                  menu: s.selectInputBox,
+                }}
                 value={sentiment}
                 onChange={(e) => {
                   setSentiment(e.selectedItem?.value as string);
@@ -204,9 +214,11 @@ export function MCDALayerDetails({
               />
             </MCDAParameter>
             {/* WEIGHT */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.weight')} tipText="TBD">
+            <MCDAParameter name={i18n.t('mcda.layer_editor.weight')} tipText="">
               <Input
-                className={clsx(s.input, s.textInput)}
+                classes={{
+                  inputBox: s.textInputBox,
+                }}
                 type="text"
                 value={coefficient}
                 onChange={(event) => {
@@ -216,9 +228,12 @@ export function MCDALayerDetails({
               />
             </MCDAParameter>
             {/* TRANSFORM */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.transform')} tipText="TBD">
+            <MCDAParameter name={i18n.t('mcda.layer_editor.transform')} tipText="">
               <Select
-                className={s.inputSelect}
+                className={s.selectInput}
+                classes={{
+                  menu: s.selectInputBox,
+                }}
                 value={transform}
                 onChange={(e) => {
                   setTransform(e.selectedItem?.value as string);
@@ -227,9 +242,12 @@ export function MCDALayerDetails({
               />
             </MCDAParameter>
             {/* NORMALIZE */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.normalize')} tipText="TBD">
+            <MCDAParameter name={i18n.t('mcda.layer_editor.normalize')} tipText="">
               <Select
-                className={s.inputSelect}
+                className={s.selectInput}
+                classes={{
+                  menu: s.selectInputBox,
+                }}
                 value={normalization}
                 onChange={(e) => {
                   setNormalization(e.selectedItem?.value as string);
@@ -237,14 +255,14 @@ export function MCDALayerDetails({
                 items={normalizationOptions}
               />
             </MCDAParameter>
-            <span>
-              <Button size="tiny" className={s.saveButton} onClick={onSaveLayer}>
+            <div className={s.editorButtonsContainer}>
+              <Button size="small" className={s.saveButton} onClick={onSaveLayer}>
                 <Text type="short-m">{i18n.t('mcda.layer_editor.save_changes')}</Text>
               </Button>
-              <Button size="tiny" variant="invert-outline" onClick={onCancel}>
+              <Button size="small" variant="invert-outline" onClick={onCancel}>
                 <Text type="short-m">{i18n.t('cancel')}</Text>
               </Button>
-            </span>
+            </div>
           </div>
         )}
       </div>
