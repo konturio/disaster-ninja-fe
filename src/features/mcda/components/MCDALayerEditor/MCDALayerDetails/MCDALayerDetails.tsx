@@ -1,18 +1,20 @@
 import { Edit16 } from '@konturio/default-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Input, Select, Text } from '@konturio/ui-kit';
-import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { TooltipTrigger } from '~components/TooltipTrigger';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
+import { isNumber } from '~utils/common';
 import { Sentiments } from '../Sentiments';
 import { MCDAParameter } from '../MCDAParameter/MCDAParameter';
 import s from './style.module.css';
-import type { SelectableItem } from '@konturio/ui-kit';
 import type {
   MCDAConfig,
   MCDALayer,
+  TransformationFunction,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { Normalization } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { SelectableItem } from '@konturio/ui-kit';
 
 export type MCDALayerLegendProps = {
   layer: MCDALayer;
@@ -68,9 +70,11 @@ export function MCDALayerDetails({
   const [range, setRange] = useState(rangeDefault);
   const [outliers, setOutliers] = useState(outliersOptions[0].value as string);
   const [coefficient, setCoefficient] = useState('');
-  const [transform, setTransform] = useState<string>(transformOptions[0].value as string);
-  const [normalization, setNormalization] = useState(
-    normalizationOptions[0].value as string,
+  const [transform, setTransform] = useState<TransformationFunction>(
+    transformOptions[0].value as TransformationFunction,
+  );
+  const [normalization, setNormalization] = useState<Normalization>(
+    normalizationOptions[0].value as Normalization,
   );
 
   useEffect(() => {
@@ -82,20 +86,25 @@ export function MCDALayerDetails({
   }, [layer]);
 
   const onSaveLayer = useCallback(() => {
-    const newLayer: MCDALayer = {
-      id: 'population|area_km2',
-      name: 'Population (ppl/km²)',
-      axis: ['population', 'area_km2'],
-      unit: 'ppl/km²',
-      range: [0, 1000],
-      sentiment: ['bad', 'good'],
-      coefficient: 1,
-      transformationFunction: 'no',
-      normalization: 'max-min',
+    const rangeNum = [parseFloat(range[0]), parseFloat(range[1])];
+    const coefficientNum = parseFloat(coefficient);
+    const updatedLayer: MCDALayer = {
+      id: layer.id,
+      name: layer.name,
+      axis: layer.axis,
+      unit: layer.unit,
+      range: [
+        isNumber(rangeNum[0]) ? rangeNum[0] : 0,
+        isNumber(rangeNum[1]) ? rangeNum[1] : 1000,
+      ],
+      sentiment: SENTIMENT_VALUES[sentiment],
+      coefficient: isNumber(coefficientNum) ? coefficientNum : 1,
+      transformationFunction: transform,
+      normalization,
     };
-    onLayerEdited(newLayer);
     setEditMode(false);
-  }, [onLayerEdited]);
+    onLayerEdited(updatedLayer);
+  }, [coefficient, layer, normalization, onLayerEdited, range, sentiment, transform]);
 
   const onCancel = useCallback(() => {
     setEditMode(false);
@@ -236,7 +245,7 @@ export function MCDALayerDetails({
                 }}
                 value={transform}
                 onChange={(e) => {
-                  setTransform(e.selectedItem?.value as string);
+                  setTransform(e.selectedItem?.value as TransformationFunction);
                 }}
                 items={transformOptions}
               />
@@ -250,7 +259,7 @@ export function MCDALayerDetails({
                 }}
                 value={normalization}
                 onChange={(e) => {
-                  setNormalization(e.selectedItem?.value as string);
+                  setNormalization(e.selectedItem?.value as Normalization);
                 }}
                 items={normalizationOptions}
               />
