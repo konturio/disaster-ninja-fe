@@ -29,13 +29,17 @@ export const autoSelectEvent = createAtom(
         if (currentEvent?.id) {
           // This case happens when call for event by provided eventId didn't return event
           schedule((dispatch) =>
-            dispatch(
+            dispatch([
               currentNotificationAtom.showNotification(
                 'warning',
                 { title: i18n.t('event_list.no_event_in_feed') },
                 5,
               ),
-            ),
+              // select top disaster from the list, if it's not empty
+              currentEventAtom.setCurrentEventId(
+                (eventListResource.data || [])[0]?.eventId || null,
+              ),
+            ]),
           );
         } else {
           const firstEventInList = eventListResource.data[0];
