@@ -57,3 +57,7 @@ src/core/localization/translations/**
 
 size-report.json
 translations-report.md
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
