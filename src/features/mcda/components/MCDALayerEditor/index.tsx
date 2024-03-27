@@ -1,13 +1,10 @@
 import { useAtom } from '@reatom/npm-react';
 import { useCallback } from 'react';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import { applyNewMCDAConfig } from '~features/mcda';
+import { applyNewMCDAConfig } from '~features/mcda/utils/applyNewMCDAConfig';
 import s from './style.module.css';
 import { MCDALayerDetails } from './MCDALayerDetails/MCDALayerDetails';
-import type {
-  MCDAConfig,
-  MCDALayer,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { LayerEditorProps } from '~core/logical_layers/types/editors';
 
 export function MCDALayerEditor({ layerId }: LayerEditorProps) {

@@ -1,6 +1,6 @@
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
-import { isMCDAConfig } from './mcdaConfig';
+import { isMCDAConfig } from '../mcdaConfig';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 const input = (() => {
