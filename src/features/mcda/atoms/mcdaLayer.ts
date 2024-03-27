@@ -23,7 +23,6 @@ export const mcdaLayerAtom = createAtom(
     createMCDALayer: (json: MCDAConfig) => json,
     enableMCDALayer: (layerId: string) => layerId,
     disableMCDALayer: () => null,
-    updateMCDAConfig: (config: MCDAConfig) => config,
   },
   ({ onAction, schedule, getUnlistedState, create }) => {
     onAction('createMCDALayer', (json) => {
@@ -112,35 +111,6 @@ export const mcdaLayerAtom = createAtom(
           });
           break;
         }
-      }
-    });
-
-    onAction('updateMCDAConfig', (config: MCDAConfig) => {
-      const currentRegistry = getUnlistedState(layersRegistryAtom);
-      const id = config.id;
-      const oldSource = layersSourcesAtom.getState().get(id)?.data as LayerSource;
-      if (oldSource) {
-        const newSource = deepCopy(oldSource);
-        if (newSource?.style?.config) {
-          newSource.style.config = { ...config };
-        }
-        const actions: Array<Action> = [
-          enabledLayersAtom.delete(id),
-          ...createUpdateLayerActions([
-            {
-              id,
-              source: newSource,
-            },
-          ]).flat(),
-        ];
-
-        schedule((dispatch) => {
-          dispatch(actions);
-          dispatch(enabledLayersAtom.set(id));
-        });
-        // schedule((dispatch) => {
-
-        // });
       }
     });
 
