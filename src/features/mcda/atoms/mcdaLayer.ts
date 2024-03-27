@@ -9,7 +9,12 @@ import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { layersEditorsAtom } from '~core/logical_layers/atoms/layersEditors';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { i18n } from '~core/localization';
+import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { getMutualExcludedActions } from '~core/logical_layers/utils/getMutualExcludedActions';
+import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
+import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
+import type { LayerSource } from '~core/logical_layers/types/source';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Action } from '@reatom/core-v2';
 
@@ -18,6 +23,7 @@ export const mcdaLayerAtom = createAtom(
     createMCDALayer: (json: MCDAConfig) => json,
     enableMCDALayer: (layerId: string) => layerId,
     disableMCDALayer: () => null,
+    updateMCDAConfig: (config: MCDAConfig) => config,
   },
   ({ onAction, schedule, getUnlistedState, create }) => {
     onAction('createMCDALayer', (json) => {
@@ -106,6 +112,35 @@ export const mcdaLayerAtom = createAtom(
           });
           break;
         }
+      }
+    });
+
+    onAction('updateMCDAConfig', (config: MCDAConfig) => {
+      const currentRegistry = getUnlistedState(layersRegistryAtom);
+      const id = config.id;
+      const oldSource = layersSourcesAtom.getState().get(id)?.data as LayerSource;
+      if (oldSource) {
+        const newSource = deepCopy(oldSource);
+        if (newSource?.style?.config) {
+          newSource.style.config = { ...config };
+        }
+        const actions: Array<Action> = [
+          enabledLayersAtom.delete(id),
+          ...createUpdateLayerActions([
+            {
+              id,
+              source: newSource,
+            },
+          ]).flat(),
+        ];
+
+        schedule((dispatch) => {
+          dispatch(actions);
+          dispatch(enabledLayersAtom.set(id));
+        });
+        // schedule((dispatch) => {
+
+        // });
       }
     });
 
