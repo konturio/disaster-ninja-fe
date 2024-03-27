@@ -3,6 +3,9 @@ import { toolbar } from '~core/toolbar';
 import { store } from '~core/store/store';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { getMutualExcludedActions } from '~core/logical_layers/utils/getMutualExcludedActions';
+import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
+import { applyNewLayerSource } from '~core/logical_layers/utils/applyNewLayerSource';
+import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { mcdaLayerAtom } from './atoms/mcdaLayer';
 import { createMCDAConfig, editMCDAConfig } from './mcdaConfig';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from './constants';
@@ -11,6 +14,7 @@ import type {
   LogicalLayerActions,
   LogicalLayerState,
 } from '~core/logical_layers/types/logicalLayer';
+import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 export const mcdaControl = toolbar.setupControl({
   id: MCDA_CONTROL_ID,
@@ -74,6 +78,18 @@ uploadMcdaControl.onStateChange((ctx, state) => {
   }
 });
 
+export function applyNewMCDAConfig(config: MCDAConfig) {
+  const id = config.id;
+  const oldSource = layersSourcesAtom.getState().get(id)?.data;
+  if (oldSource) {
+    const newSource = deepCopy(oldSource);
+    if (newSource?.style?.config) {
+      newSource.style.config = { ...config };
+    }
+    applyNewLayerSource(newSource);
+  }
+}
+
 /** Edit MCDA */
 export async function editMCDA(
   layerState: LogicalLayerState,
@@ -81,6 +97,7 @@ export async function editMCDA(
 ) {
   const config = await editMCDAConfig(layerState);
   if (config?.id) {
+    // TODO: use applyNewMCDAConfig() instead of the following lines. This whole function and editMCDAConfig() should be refactored
     layerActions.destroy();
     store.dispatch([
       mcdaLayerAtom.createMCDALayer({ ...config, id: config.id }),
