@@ -20,11 +20,11 @@ export const autoSelectEvent = createAtom(
         eventListResource.data.length
       ) {
         const currentEvent = getUnlistedState(currentEventAtom);
-        const currentEventNotInTheList = !eventListResource.data.some(
+        const currentEventInTheList = eventListResource.data.some(
           (e) => e.eventId === currentEvent?.id,
         );
 
-        if (!currentEventNotInTheList) return state;
+        if (currentEventInTheList) return state;
 
         if (currentEvent?.id) {
           // This case happens when call for event by provided eventId didn't return event

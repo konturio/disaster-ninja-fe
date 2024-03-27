@@ -11,9 +11,10 @@ export type CurrentEventAtomState = {
 export const currentEventAtom = createAtom(
   {
     setCurrentEventId: (eventId: string) => eventId,
+    reset: () => null,
     focusedGeometryAtom,
   },
-  ({ onAction, onChange }, state: CurrentEventAtomState = null) => {
+  ({ onAction, onChange, schedule }, state: CurrentEventAtomState = null) => {
     onChange('focusedGeometryAtom', (focusedGeometry) => {
       const currentGeometrySource = focusedGeometry?.source;
       if (
@@ -28,6 +29,13 @@ export const currentEventAtom = createAtom(
     });
 
     onAction('setCurrentEventId', (eventId) => (state = { id: eventId }));
+
+    onAction('reset', () => {
+      state = null;
+      schedule((dispatch) => {
+        dispatch(focusedGeometryAtom.reset());
+      });
+    });
 
     return state;
   },
