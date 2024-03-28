@@ -58,6 +58,25 @@
   margin: 0 var(--half-unit);
 }
 
+.hiddenError {
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+}
+
+.error {
+  margin: var(--half-unit) 0;
+  color: red;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.rangeInputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 /* Select input */
 .selectInput {
   display: flex;
@@ -82,7 +101,6 @@
   width: 100%;
   margin-top: calc(-1 * var(--half-unit));
   margin-bottom: var(--unit);
-  margin-inline-start: 70px;
   color: var(--accent-strong);
   cursor: pointer;
 }

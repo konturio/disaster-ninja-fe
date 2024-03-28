@@ -36,7 +36,8 @@ export type MCDALayerLegendProps = {
 export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps) {
   const [editMode, setEditMode] = useState(false);
   const [sentiment, setSentiment] = useState(DEFAULTS.sentiment as string);
-  const [range, setRange] = useState(DEFAULTS.range);
+  const [rangeFrom, setRangeFrom] = useState(DEFAULTS.range[0]);
+  const [rangeTo, setRangeTo] = useState(DEFAULTS.range[1]);
   const [outliers, setOutliers] = useState(DEFAULTS.outliers as string);
   const [coefficient, setCoefficient] = useState(DEFAULTS.coefficient.toString());
   const [transform, setTransform] = useState<TransformationFunction>(
@@ -46,8 +47,12 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
     DEFAULTS.normalization as Normalization,
   );
 
+  const [rangeFromError, setRangeFromError] = useState('');
+  const [rangeToError, setRangeToError] = useState('');
+
   useEffect(() => {
-    setRange(layer.range.map((v) => v.toString()));
+    setRangeFrom(layer.range?.at(0)?.toString() ?? '');
+    setRangeTo(layer.range?.at(1)?.toString() ?? '');
     setSentiment(layer.sentiment.at(0) === 'good' ? 'good-bad' : 'bad-good');
     setCoefficient(layer.coefficient.toString());
     setTransform(layer.transformationFunction);
@@ -108,10 +113,45 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
     };
   }, [layer]);
 
+  /** VALIDATION */
+  const coefficientError: string | undefined = useMemo(() => {
+    const coefficientNum = Number(coefficient);
+    if (!coefficient) {
+      return i18n.t('mcda.layer_editor.errors.weight_cannot_be_empty');
+    } else if (!isNumber(coefficientNum)) {
+      return i18n.t('mcda.layer_editor.errors.weight_must_be_a_number');
+    }
+    return undefined;
+  }, [coefficient]);
+
+  useEffect(() => {
+    const rangeFromNum = Number(rangeFrom);
+    const rangeToNum = Number(rangeTo);
+    let errorFrom = '';
+    let errorTo = '';
+    if (!isNumber(rangeFromNum)) {
+      errorFrom = i18n.t('mcda.layer_editor.errors.range_must_be_a_number');
+    }
+    if (!isNumber(rangeToNum)) {
+      errorTo = i18n.t('mcda.layer_editor.errors.range_must_be_a_number');
+    }
+    if (Number(rangeFrom) > Number(rangeTo)) {
+      errorFrom = i18n.t('mcda.layer_editor.errors.range_from_cannot_be_bigger');
+    }
+    if (!rangeTo) {
+      errorTo = i18n.t('mcda.layer_editor.errors.range_cannot_be_empty');
+    }
+    if (!rangeFrom) {
+      errorFrom = i18n.t('mcda.layer_editor.errors.range_cannot_be_empty');
+    }
+    setRangeFromError(errorFrom);
+    setRangeToError(errorTo);
+  }, [rangeFrom, rangeTo]);
+
   /** CALLBACKS */
   const onSaveLayer = useCallback(() => {
-    const rangeNum = [parseFloat(range[0]), parseFloat(range[1])];
-    const coefficientNum = parseFloat(coefficient);
+    const rangeNum = [Number(rangeFrom), Number(rangeTo)];
+    const coefficientNum = Number(coefficient);
     const updatedLayer: MCDALayer = {
       id: layer.id,
       name: layer.name,
@@ -128,7 +168,16 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
     };
     setEditMode(false);
     onLayerEdited(updatedLayer);
-  }, [coefficient, layer, normalization, onLayerEdited, range, sentiment, transform]);
+  }, [
+    coefficient,
+    layer,
+    normalization,
+    onLayerEdited,
+    rangeFrom,
+    rangeTo,
+    sentiment,
+    transform,
+  ]);
 
   const onCancel = useCallback(() => {
     setEditMode(false);
@@ -137,12 +186,14 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
   const onResetLimits = useCallback(() => {
     if (!axes.loading) {
       if (axisDefaultRange) {
-        setRange(axisDefaultRange);
+        setRangeFrom(axisDefaultRange[0]);
+        setRangeTo(axisDefaultRange[0]);
       } else {
         console.error(
           `Couldn\'nt find default range for ${layer.id}. Using app defaults instead`,
         );
-        setRange(DEFAULTS.range);
+        setRangeFrom(DEFAULTS.range[0]);
+        setRangeTo(DEFAULTS.range[1]);
       }
     }
   }, [axes.loading, axisDefaultRange, layer]);
@@ -189,36 +240,45 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
           <div className={s.layerEditContainer}>
             {/* RANGE */}
             <MCDAParameter name={i18n.t('mcda.layer_editor.range')} tipText="">
-              <Input
-                classes={{
-                  inputBox: s.textInputBox,
-                }}
-                type="text"
-                value={range[0]}
-                onChange={(event) => {
-                  const value = event.target.value.replace(NUMBER_FILTER, '');
-                  setRange((oldValue) => [value, oldValue[1]]);
-                }}
-              />
-              <span className={s.inputRangeDivider}>{'-'}</span>
-              <Input
-                classes={{
-                  inputBox: s.textInputBox,
-                }}
-                type="text"
-                value={range[1]}
-                onChange={(event) => {
-                  const value = event.target.value.replace(NUMBER_FILTER, '');
-                  setRange((oldValue) => [oldValue[0], value]);
-                }}
-              />
+              <div className={s.rangeInputContainer}>
+                <Input
+                  classes={{
+                    inputBox: s.textInputBox,
+                    error: s.hiddenError,
+                  }}
+                  type="text"
+                  value={rangeFrom}
+                  onChange={(event) => {
+                    const value = event.target.value.replace(NUMBER_FILTER, '');
+                    setRangeFrom(value);
+                  }}
+                  error={rangeFromError}
+                />
+                <span className={s.inputRangeDivider}>{'-'}</span>
+                <Input
+                  classes={{
+                    inputBox: s.textInputBox,
+                    error: s.hiddenError,
+                  }}
+                  type="text"
+                  value={rangeTo}
+                  onChange={(event) => {
+                    const value = event.target.value.replace(NUMBER_FILTER, '');
+                    setRangeTo(value);
+                  }}
+                  error={rangeToError}
+                />
+              </div>
+              <Text type="short-m" className={s.error}>
+                {rangeFromError ? rangeFromError : rangeToError}
+              </Text>
+              <div
+                className={clsx(s.resetLimits, { [s.textButtonDisabled]: axes.loading })}
+                onClick={onResetLimits}
+              >
+                {i18n.t('mcda.layer_editor.reset_limits_to_default')}
+              </div>
             </MCDAParameter>
-            <div
-              className={clsx(s.resetLimits, { [s.textButtonDisabled]: axes.loading })}
-              onClick={onResetLimits}
-            >
-              {i18n.t('mcda.layer_editor.reset_limits_to_default')}
-            </div>
             {/* OUTLIERS */}
             <MCDAParameter name={i18n.t('mcda.layer_editor.outliers')} tipText="">
               <Select
@@ -253,6 +313,7 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
               <Input
                 classes={{
                   inputBox: s.textInputBox,
+                  error: s.hiddenError,
                 }}
                 type="text"
                 value={coefficient}
@@ -260,7 +321,11 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
                   const value = event.target.value.replace(POSITIVE_NUMBER_FILTER, '');
                   setCoefficient(value);
                 }}
+                error={coefficientError}
               />
+              <Text type="short-m" className={s.error}>
+                {coefficientError}
+              </Text>
             </MCDAParameter>
             {/* TRANSFORM */}
             <MCDAParameter name={i18n.t('mcda.layer_editor.transform')} tipText="">
@@ -291,7 +356,12 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
               />
             </MCDAParameter>
             <div className={s.editorButtonsContainer}>
-              <Button size="small" className={s.saveButton} onClick={onSaveLayer}>
+              <Button
+                size="small"
+                className={s.saveButton}
+                onClick={onSaveLayer}
+                disabled={!!rangeFromError || !!rangeToError || !!coefficientError}
+              >
                 <Text type="short-m">{i18n.t('mcda.layer_editor.save_changes')}</Text>
               </Button>
               <Button size="small" variant="invert-outline" onClick={onCancel}>

@@ -2,7 +2,7 @@
   margin-bottom: var(--unit);
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .infoButton {
@@ -21,14 +21,15 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: var(--half-unit);
   font-size: 11px;
 }
 
 .inputContainer {
-  flex: 0 1;
+  width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   margin-inline-start: var(--unit);
 }
