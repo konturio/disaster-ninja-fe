@@ -111,14 +111,17 @@ function generateLayerPaint(props: PaintProps) {
 }
 
 export function createMCDAStyle(config: MCDAConfig) {
-  const [absoluteMin = 0, absoluteMax = 1] = config.layers.reduce((acc, l) => {
-    // Show full range of values between min max if normalization not enabled
-    const range: [number, number] = l.normalization === 'no' ? l.range : [0, 1];
-    if (acc.length === 0) return range;
-    acc[0] = Math.min(acc[0], range[0]);
-    acc[1] = Math.min(acc[1], range[1]);
-    return acc;
-  }, [] as [number, number] | []);
+  const [absoluteMin = 0, absoluteMax = 1] = config.layers.reduce(
+    (acc, l) => {
+      // Show full range of values between min max if normalization not enabled
+      const range: [number, number] = l.normalization === 'no' ? l.range : [0, 1];
+      if (acc.length === 0) return [...range];
+      acc[0] = Math.min(acc[0], range[0]);
+      acc[1] = Math.min(acc[1], range[1]);
+      return acc;
+    },
+    [] as [number, number] | [],
+  );
 
   const mcdaResult = linearNormalization(config.layers);
 
