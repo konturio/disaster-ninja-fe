@@ -1,20 +1,4 @@
 .editor {
   margin-bottom: var(--unit);
-}
-.unit {
-  color: var(--text-faint-strong);
-}
-
-.label {
-  text-transform: capitalize;
-}
-
-.layer {
-  display: flex;
-  flex-flow: row nowrap;
-  padding: var(--half-unit) 0;
-}
-
-.layer:hover {
-  background-color: var(--accent-weak);
+  margin-right: calc(-1 * var(--half-unit));
 }

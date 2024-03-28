@@ -10,7 +10,9 @@ import type {
   MCDALayer,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
-export async function editMCDAConfig(layerState: LogicalLayerState) {
+export async function editMCDAConfig(
+  layerState: LogicalLayerState,
+): Promise<MCDAConfig | null> {
   const name = layerState.id;
   const axises =
     layerState.style?.config?.layers?.map((layer) => ({

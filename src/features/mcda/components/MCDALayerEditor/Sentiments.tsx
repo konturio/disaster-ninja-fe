@@ -1,32 +1,38 @@
 import { Text } from '@konturio/ui-kit';
 import s from './style.module.css';
 
-type Sentiment = {
+export type Sentiment = {
   label: string;
   color: string;
   value: string;
 };
 
 export function Sentiments({
-  right,
   left,
+  right,
   units,
 }: {
-  right: Sentiment;
   left: Sentiment;
+  right: Sentiment;
   units?: string | null;
 }) {
   return (
     <div>
-      <Text type={'caption'} className={s.label}>
-        {right.label}
-      </Text>{' '}
-      <Text type={'caption'}>({right.value})</Text>
-      {' 🠒 '}
-      <Text type={'caption'} className={s.label}>
-        {left.label}
-      </Text>{' '}
+      {/* Left */}
+      <span style={{ color: left.color }}>
+        <Text type={'caption'} className={s.label}>
+          {`${left.label} `}
+        </Text>
+      </span>{' '}
       <Text type={'caption'}>({left.value})</Text>
+      {' \u2192 '}
+      {/* Right */}
+      <span style={{ color: right.color }}>
+        <Text type={'caption'} className={s.label}>
+          {`${right.label} `}
+        </Text>
+      </span>
+      <Text type={'caption'}>({right.value})</Text>
       {units ? (
         <Text type={'caption'} className={s.unit}>
           , {units}

@@ -6,7 +6,7 @@ import { getMutualExcludedActions } from '~core/logical_layers/utils/getMutualEx
 import { mcdaLayerAtom } from './atoms/mcdaLayer';
 import { createMCDAConfig, editMCDAConfig } from './mcdaConfig';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from './constants';
-import { askMcdaJSONFile } from './openMcdaFile';
+import { askMcdaJSONFile } from './utils/openMcdaFile';
 import type {
   LogicalLayerActions,
   LogicalLayerState,
@@ -81,6 +81,7 @@ export async function editMCDA(
 ) {
   const config = await editMCDAConfig(layerState);
   if (config?.id) {
+    // TODO: use applyNewMCDAConfig() instead of the following lines. This whole function and editMCDAConfig() should be refactored
     layerActions.destroy();
     store.dispatch([
       mcdaLayerAtom.createMCDALayer({ ...config, id: config.id }),
