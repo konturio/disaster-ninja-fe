@@ -70,11 +70,11 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'pnpm dev',
-    url: 'https://localhost:3000/',
-    reuseExistingServer: !process.env.CI,
-    stdout: 'pipe',
-    timeout: 30000
-  },
+  // webServer: {
+  //   command: 'pnpm dev',
+  //   url: 'https://localhost:3000/',
+  //   reuseExistingServer: !process.env.CI,
+  //   stdout: 'pipe',
+  //   timeout: 30000
+  // },
 });
