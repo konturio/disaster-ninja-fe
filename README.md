@@ -168,3 +168,21 @@ You can your own for override default config, it should have name `./configs/con
 - How to read: `import { configRepo } from '~core/config';`
 
 > If you want use some build time variables in browser - re-export them from app_config
+
+## Running e2e tests with playwright
+
+1. Run the app in dev mode
+
+Follow the [How to develop](#how-to-develop) section to run the app in dev mode.
+
+To view the app, visit https://localhost:3000 in your browser.
+
+2. Run the e2e tests
+
+```bash
+npx playwright test --ui
+```
+
+Remove `--ui` flag to run the tests in headless mode.
+
+> Check the `tests-examples/demo-todo-app.spec.ts` file for an example of how to write tests.
