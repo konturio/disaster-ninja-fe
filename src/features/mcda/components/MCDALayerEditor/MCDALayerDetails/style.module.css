@@ -12,11 +12,11 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  margin-bottom: 12px;
 }
 
 .layerEditContainer {
   width: 100%;
+  margin-top: 12px;
   padding: var(--half-unit) 0;
   font-size: 12px;
 }
@@ -35,6 +35,12 @@
   width: 16px;
   cursor: pointer;
   color: var(--faint-strong);
+}
+
+.nonDefaultValues {
+  color: var(--faint-strong);
+  font-size: 12px;
+  line-height: 16px;
 }
 
 /* Text input */

@@ -43,7 +43,7 @@ export const MCDA_LAYER_DEFAULTS = {
   range: ['0', '1'],
   sentiment: sentimentsOptions[0].value,
   outliers: outliersOptions[0].value,
-  coefficient: '1.0',
+  coefficient: 1,
   transform: transformOptions[0].value,
   normalization: normalizationOptions[0].value,
 };

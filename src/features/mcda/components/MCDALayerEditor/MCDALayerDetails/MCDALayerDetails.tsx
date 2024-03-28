@@ -12,7 +12,7 @@ import { Sentiments } from '../Sentiments';
 import { MCDAParameter } from '../MCDAParameter/MCDAParameter';
 import s from './style.module.css';
 import {
-  MCDA_LAYER_DEFAULTS,
+  MCDA_LAYER_DEFAULTS as DEFAULTS,
   NUMBER_FILTER,
   POSITIVE_NUMBER_FILTER,
   SENTIMENT_VALUES,
@@ -35,15 +35,15 @@ export type MCDALayerLegendProps = {
 
 export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps) {
   const [editMode, setEditMode] = useState(false);
-  const [sentiment, setSentiment] = useState(MCDA_LAYER_DEFAULTS.sentiment as string);
-  const [range, setRange] = useState(MCDA_LAYER_DEFAULTS.range);
-  const [outliers, setOutliers] = useState(MCDA_LAYER_DEFAULTS.outliers as string);
-  const [coefficient, setCoefficient] = useState(MCDA_LAYER_DEFAULTS.coefficient);
+  const [sentiment, setSentiment] = useState(DEFAULTS.sentiment as string);
+  const [range, setRange] = useState(DEFAULTS.range);
+  const [outliers, setOutliers] = useState(DEFAULTS.outliers as string);
+  const [coefficient, setCoefficient] = useState(DEFAULTS.coefficient.toString());
   const [transform, setTransform] = useState<TransformationFunction>(
-    MCDA_LAYER_DEFAULTS.transform as TransformationFunction,
+    DEFAULTS.transform as TransformationFunction,
   );
   const [normalization, setNormalization] = useState<Normalization>(
-    MCDA_LAYER_DEFAULTS.normalization as Normalization,
+    DEFAULTS.normalization as Normalization,
   );
 
   useEffect(() => {
@@ -68,6 +68,29 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
     }
     return null;
   }, [axes?.data?.axis, axes?.loading, layer.id]);
+
+  const nonDefaultValues = useMemo(() => {
+    const result: { paramName: string; value: unknown }[] = [];
+    if (layer.coefficient !== DEFAULTS.coefficient) {
+      result.push({
+        paramName: i18n.t('mcda.layer_editor.weight'),
+        value: layer.coefficient,
+      });
+    }
+    if (layer.transformationFunction !== DEFAULTS.transform) {
+      result.push({
+        paramName: i18n.t('mcda.layer_editor.transformation'),
+        value: layer.transformationFunction,
+      });
+    }
+    if (layer.normalization !== DEFAULTS.normalization) {
+      result.push({
+        paramName: i18n.t('mcda.layer_editor.normalization'),
+        value: layer.normalization,
+      });
+    }
+    return result;
+  }, [layer]);
 
   const sentiments = useMemo(() => {
     const isGoodLeft = layer.sentiment[0] === 'good';
@@ -119,7 +142,7 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
         console.error(
           `Couldn\'nt find default range for ${layer.id}. Using app defaults instead`,
         );
-        setRange(MCDA_LAYER_DEFAULTS.range);
+        setRange(DEFAULTS.range);
       }
     }
   }, [axes.loading, axisDefaultRange, layer]);
@@ -149,11 +172,18 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
         </div>
         {!editMode ? (
           // Static mode
-          <Sentiments
-            left={sentiments.left}
-            right={sentiments.right}
-            units={layer.unit}
-          />
+          <div>
+            <Sentiments
+              left={sentiments.left}
+              right={sentiments.right}
+              units={layer.unit}
+            />
+            <div className={s.nonDefaultValues}>
+              {nonDefaultValues.map((v, index) => (
+                <div key={`nonDefault${index}`}>{`${v.paramName}: ${v.value}`}</div>
+              ))}
+            </div>
+          </div>
         ) : (
           // Edit mode
           <div className={s.layerEditContainer}>
