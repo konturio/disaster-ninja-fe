@@ -187,7 +187,7 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
     if (!axes.loading) {
       if (axisDefaultRange) {
         setRangeFrom(axisDefaultRange[0]);
-        setRangeTo(axisDefaultRange[0]);
+        setRangeTo(axisDefaultRange[1]);
       } else {
         console.error(
           `Couldn\'nt find default range for ${layer.id}. Using app defaults instead`,
