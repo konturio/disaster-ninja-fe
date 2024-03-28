@@ -1,12 +1,10 @@
 import { i18n } from '~core/localization';
 import type { SelectableItem } from '@konturio/ui-kit';
 
-export const RANGE_DEFAULT = ['0', '1'];
 export const SENTIMENT_VALUES = {
   'bad-good': ['bad', 'good'],
   'good-bad': ['good', 'bad'],
 };
-
 export const NUMBER_FILTER = /[^.\-\d]/;
 export const POSITIVE_NUMBER_FILTER = /[^.\d]/;
 export const sentimentColors = { bad: 'red', good: 'green' };
@@ -37,6 +35,15 @@ export const transformOptions: SelectableItem[] = [
 ];
 
 export const normalizationOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.no')}`, value: 'no' },
   { title: `${i18n.t('mcda.layer_editor.max-min')}`, value: 'max-min' },
+  { title: `${i18n.t('mcda.layer_editor.no')}`, value: 'no' },
 ];
+
+export const MCDA_LAYER_DEFAULTS = {
+  range: ['0', '1'],
+  sentiment: sentimentsOptions[0].value,
+  outliers: outliersOptions[0].value,
+  coefficient: '1.0',
+  transform: transformOptions[0].value,
+  normalization: normalizationOptions[0].value,
+};

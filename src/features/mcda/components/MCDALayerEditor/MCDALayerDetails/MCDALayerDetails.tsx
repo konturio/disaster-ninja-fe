@@ -12,9 +12,9 @@ import { Sentiments } from '../Sentiments';
 import { MCDAParameter } from '../MCDAParameter/MCDAParameter';
 import s from './style.module.css';
 import {
+  MCDA_LAYER_DEFAULTS,
   NUMBER_FILTER,
   POSITIVE_NUMBER_FILTER,
-  RANGE_DEFAULT,
   SENTIMENT_VALUES,
   normalizationOptions,
   outliersOptions,
@@ -35,21 +35,21 @@ export type MCDALayerLegendProps = {
 
 export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps) {
   const [editMode, setEditMode] = useState(false);
-  const [sentiment, setSentiment] = useState(sentimentsOptions[0].value as string);
-  const [range, setRange] = useState(RANGE_DEFAULT);
-  const [outliers, setOutliers] = useState(outliersOptions[0].value as string);
-  const [coefficient, setCoefficient] = useState('');
+  const [sentiment, setSentiment] = useState(MCDA_LAYER_DEFAULTS.sentiment as string);
+  const [range, setRange] = useState(MCDA_LAYER_DEFAULTS.range);
+  const [outliers, setOutliers] = useState(MCDA_LAYER_DEFAULTS.outliers as string);
+  const [coefficient, setCoefficient] = useState(MCDA_LAYER_DEFAULTS.coefficient);
   const [transform, setTransform] = useState<TransformationFunction>(
-    transformOptions[0].value as TransformationFunction,
+    MCDA_LAYER_DEFAULTS.transform as TransformationFunction,
   );
   const [normalization, setNormalization] = useState<Normalization>(
-    normalizationOptions[0].value as Normalization,
+    MCDA_LAYER_DEFAULTS.normalization as Normalization,
   );
 
   useEffect(() => {
-    setRange(layer.range.map((v) => v.toString()) ?? RANGE_DEFAULT);
+    setRange(layer.range.map((v) => v.toString()));
     setSentiment(layer.sentiment.at(0) === 'good' ? 'good-bad' : 'bad-good');
-    setCoefficient(layer.coefficient.toString() ?? '1.0');
+    setCoefficient(layer.coefficient.toString());
     setTransform(layer.transformationFunction);
     setNormalization(layer.normalization);
   }, [layer]);
@@ -119,7 +119,7 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
         console.error(
           `Couldn\'nt find default range for ${layer.id}. Using app defaults instead`,
         );
-        setRange(RANGE_DEFAULT);
+        setRange(MCDA_LAYER_DEFAULTS.range);
       }
     }
   }, [axes.loading, axisDefaultRange, layer]);
