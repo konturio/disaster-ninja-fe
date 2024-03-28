@@ -81,6 +81,10 @@
   cursor: pointer;
 }
 
+.textButtonDisabled {
+  color: var(--faint-strong);
+}
+
 .editButton {
   margin-inline-end: var(--unit);
   cursor: pointer;

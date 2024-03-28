@@ -1,10 +1,13 @@
 import { Edit16 } from '@konturio/default-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Input, Select, Text } from '@konturio/ui-kit';
+import { useAtom } from '@reatom/npm-react';
+import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { TooltipTrigger } from '~components/TooltipTrigger';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
+import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import { Sentiments } from '../Sentiments';
 import { MCDAParameter } from '../MCDAParameter/MCDAParameter';
 import s from './style.module.css';
@@ -18,11 +21,10 @@ import type { SelectableItem } from '@konturio/ui-kit';
 
 export type MCDALayerLegendProps = {
   layer: MCDALayer;
-  mcdaConfig: MCDAConfig;
   onLayerEdited: (editedMCDALayer: MCDALayer) => void;
 };
 
-const rangeDefault = ['0', '1000'];
+const RANGE_DEFAULT = ['0', '1'];
 const SENTIMENT_VALUES = {
   'bad-good': ['bad', 'good'],
   'good-bad': ['good', 'bad'],
@@ -59,15 +61,26 @@ const NUMBER_FILTER = /[^.\-\d]/;
 const POSITIVE_NUMBER_FILTER = /[^.\d]/;
 const sentimentColors = { bad: 'red', good: 'green' };
 
-export function MCDALayerDetails({
-  layer,
-  mcdaConfig,
-  onLayerEdited,
-}: MCDALayerLegendProps) {
+export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps) {
   const [editMode, setEditMode] = useState(false);
 
+  const [axes] = useAtom((ctx) => ctx.spy(bivariateStatisticsResourceAtom.v3atom));
+
+  const axisDefaultRange = useMemo(() => {
+    if (!axes.loading) {
+      const relatedAxis = axes?.data?.axis.find((axis) => axis.id === layer.id);
+      const steps = relatedAxis?.steps;
+      const min = steps?.at(0)?.value;
+      const max = steps?.at(-1)?.value;
+      if (isNumber(min) && isNumber(max)) {
+        return [min.toString(), max.toString()];
+      }
+    }
+    return null;
+  }, [axes?.data?.axis, axes?.loading, layer.id]);
+
   const [sentiment, setSentiment] = useState(sentimentsOptions[0].value as string);
-  const [range, setRange] = useState(rangeDefault);
+  const [range, setRange] = useState(RANGE_DEFAULT);
   const [outliers, setOutliers] = useState(outliersOptions[0].value as string);
   const [coefficient, setCoefficient] = useState('');
   const [transform, setTransform] = useState<TransformationFunction>(
@@ -78,12 +91,12 @@ export function MCDALayerDetails({
   );
 
   useEffect(() => {
-    setRange(layer.range.map((v) => v.toString()) ?? rangeDefault);
+    setRange(layer.range.map((v) => v.toString()) ?? RANGE_DEFAULT);
     setSentiment(layer.sentiment.at(0) === 'good' ? 'good-bad' : 'bad-good');
     setCoefficient(layer.coefficient.toString() ?? '1.0');
     setTransform(layer.transformationFunction);
     setNormalization(layer.normalization);
-  }, [layer]);
+  }, [axisDefaultRange, layer]);
 
   const onSaveLayer = useCallback(() => {
     const rangeNum = [parseFloat(range[0]), parseFloat(range[1])];
@@ -109,6 +122,19 @@ export function MCDALayerDetails({
   const onCancel = useCallback(() => {
     setEditMode(false);
   }, []);
+
+  const onResetLimits = useCallback(() => {
+    if (!axes.loading) {
+      if (axisDefaultRange) {
+        setRange(axisDefaultRange);
+      } else {
+        console.error(
+          `Couldn\'nt find default range for ${layer.id}. Using app defaults instead`,
+        );
+        setRange(RANGE_DEFAULT);
+      }
+    }
+  }, [axes.loading, axisDefaultRange, layer]);
 
   const sentiments = useMemo(() => {
     const isGoodLeft = layer.sentiment[0] === 'good';
@@ -186,10 +212,8 @@ export function MCDALayerDetails({
               />
             </MCDAParameter>
             <div
-              className={s.resetLimits}
-              onClick={() => {
-                setRange(rangeDefault);
-              }}
+              className={clsx(s.resetLimits, { [s.textButtonDisabled]: axes.loading })}
+              onClick={onResetLimits}
             >
               {i18n.t('mcda.layer_editor.reset_limits_to_default')}
             </div>

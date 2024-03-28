@@ -34,12 +34,7 @@ export function MCDALayerEditor({ layerId }: LayerEditorProps) {
   return (
     <div className={s.editor}>
       {mcdaConfig.layers.map((layer) => (
-        <MCDALayerDetails
-          key={layer.id}
-          layer={layer}
-          mcdaConfig={mcdaConfig}
-          onLayerEdited={onLayerEdited}
-        />
+        <MCDALayerDetails key={layer.id} layer={layer} onLayerEdited={onLayerEdited} />
       ))}
     </div>
   );
