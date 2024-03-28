@@ -11,74 +11,30 @@ import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatis
 import { Sentiments } from '../Sentiments';
 import { MCDAParameter } from '../MCDAParameter/MCDAParameter';
 import s from './style.module.css';
+import {
+  NUMBER_FILTER,
+  POSITIVE_NUMBER_FILTER,
+  RANGE_DEFAULT,
+  SENTIMENT_VALUES,
+  normalizationOptions,
+  outliersOptions,
+  sentimentColors,
+  sentimentsOptions,
+  transformOptions,
+} from './constants';
 import type {
-  MCDAConfig,
   MCDALayer,
   TransformationFunction,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Normalization } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type { SelectableItem } from '@konturio/ui-kit';
 
 export type MCDALayerLegendProps = {
   layer: MCDALayer;
   onLayerEdited: (editedMCDALayer: MCDALayer) => void;
 };
 
-const RANGE_DEFAULT = ['0', '1'];
-const SENTIMENT_VALUES = {
-  'bad-good': ['bad', 'good'],
-  'good-bad': ['good', 'bad'],
-};
-
-const sentimentsOptions: SelectableItem[] = [
-  {
-    title: `${i18n.t('mcda.bad')} \u2192 ${i18n.t('mcda.good')}`,
-    value: 'bad-good',
-  },
-  {
-    title: `${i18n.t('mcda.good')} \u2192 ${i18n.t('mcda.bad')}`,
-    value: 'good-bad',
-  },
-];
-const outliersOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.as_values_on_limits')}`, value: '1' },
-  { title: `${i18n.t('mcda.layer_editor.exclude')}`, value: '2' },
-];
-const transformOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.no')}`, value: 'no' },
-  {
-    title: `${i18n.t('mcda.layer_editor.natural_logarithm')}`,
-    value: 'natural_logarithm',
-  },
-  { title: `${i18n.t('mcda.layer_editor.square_root')}`, value: 'square_root' },
-];
-const normalizationOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.no')}`, value: 'no' },
-  { title: `${i18n.t('mcda.layer_editor.max-min')}`, value: 'max-min' },
-];
-
-const NUMBER_FILTER = /[^.\-\d]/;
-const POSITIVE_NUMBER_FILTER = /[^.\d]/;
-const sentimentColors = { bad: 'red', good: 'green' };
-
 export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps) {
   const [editMode, setEditMode] = useState(false);
-
-  const [axes] = useAtom((ctx) => ctx.spy(bivariateStatisticsResourceAtom.v3atom));
-
-  const axisDefaultRange = useMemo(() => {
-    if (!axes.loading) {
-      const relatedAxis = axes?.data?.axis.find((axis) => axis.id === layer.id);
-      const steps = relatedAxis?.steps;
-      const min = steps?.at(0)?.value;
-      const max = steps?.at(-1)?.value;
-      if (isNumber(min) && isNumber(max)) {
-        return [min.toString(), max.toString()];
-      }
-    }
-    return null;
-  }, [axes?.data?.axis, axes?.loading, layer.id]);
-
   const [sentiment, setSentiment] = useState(sentimentsOptions[0].value as string);
   const [range, setRange] = useState(RANGE_DEFAULT);
   const [outliers, setOutliers] = useState(outliersOptions[0].value as string);
@@ -96,8 +52,40 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
     setCoefficient(layer.coefficient.toString() ?? '1.0');
     setTransform(layer.transformationFunction);
     setNormalization(layer.normalization);
-  }, [axisDefaultRange, layer]);
+  }, [layer]);
 
+  const [axes] = useAtom((ctx) => ctx.spy(bivariateStatisticsResourceAtom.v3atom));
+
+  const axisDefaultRange = useMemo(() => {
+    if (!axes.loading) {
+      const relatedAxis = axes?.data?.axis.find((axis) => axis.id === layer.id);
+      const steps = relatedAxis?.steps;
+      const min = steps?.at(0)?.value;
+      const max = steps?.at(-1)?.value;
+      if (isNumber(min) && isNumber(max)) {
+        return [min.toString(), max.toString()];
+      }
+    }
+    return null;
+  }, [axes?.data?.axis, axes?.loading, layer.id]);
+
+  const sentiments = useMemo(() => {
+    const isGoodLeft = layer.sentiment[0] === 'good';
+    return {
+      left: {
+        label: layer.sentiment.at(0)!, // Sentiments name needed instead of id
+        color: isGoodLeft ? sentimentColors.good : sentimentColors.bad,
+        value: String(layer.range.at(0)),
+      },
+      right: {
+        label: layer.sentiment.at(1)!,
+        color: isGoodLeft ? sentimentColors.bad : sentimentColors.good,
+        value: String(layer.range.at(1)),
+      },
+    };
+  }, [layer]);
+
+  /** CALLBACKS */
   const onSaveLayer = useCallback(() => {
     const rangeNum = [parseFloat(range[0]), parseFloat(range[1])];
     const coefficientNum = parseFloat(coefficient);
@@ -135,22 +123,6 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
       }
     }
   }, [axes.loading, axisDefaultRange, layer]);
-
-  const sentiments = useMemo(() => {
-    const isGoodLeft = layer.sentiment[0] === 'good';
-    return {
-      left: {
-        label: layer.sentiment.at(0)!, // Sentiments name needed instead of id
-        color: isGoodLeft ? sentimentColors.good : sentimentColors.bad,
-        value: String(layer.range.at(0)),
-      },
-      right: {
-        label: layer.sentiment.at(1)!,
-        color: isGoodLeft ? sentimentColors.bad : sentimentColors.good,
-        value: String(layer.range.at(1)),
-      },
-    };
-  }, [layer]);
 
   return (
     <div className={s.editor}>
