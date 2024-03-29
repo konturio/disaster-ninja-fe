@@ -68,8 +68,8 @@ function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
     colors: {
       type: 'sentiments',
       parameters: {
-        bad: 'rgba(90, 200, 127, 0.5)',
-        good: 'rgba(228, 26, 28, 0.5)',
+        bad: 'rgba(228, 26, 28, 0.5)',
+        good: 'rgba(90, 200, 127, 0.5)',
       },
     },
     custom: true,
