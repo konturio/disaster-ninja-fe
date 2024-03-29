@@ -3,6 +3,11 @@ import { showModal } from '~core/modal';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { i18n } from '~core/localization';
 import { formatBivariateAxisUnit, type Axis } from '~utils/bivariate';
+import {
+  DEFAULT_GREEN,
+  DEFAULT_RED,
+  sentimentDefault,
+} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { MCDAForm } from './components/MCDAForm';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type {
@@ -68,8 +73,8 @@ function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
     colors: {
       type: 'sentiments',
       parameters: {
-        bad: 'rgba(228, 26, 28, 0.5)',
-        good: 'rgba(90, 200, 127, 0.5)',
+        bad: DEFAULT_RED,
+        good: DEFAULT_GREEN,
       },
     },
     custom: true,
@@ -95,7 +100,7 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
         axis: axis.quotient,
         unit: formatBivariateAxisUnit(axis.quotients),
         range: getRange(axis),
-        sentiment: ['bad', 'good'],
+        sentiment: sentimentDefault,
         coefficient: 1,
         transformationFunction: 'no',
         normalization: 'max-min',

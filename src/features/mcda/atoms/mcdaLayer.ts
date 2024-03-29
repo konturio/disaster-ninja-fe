@@ -9,12 +9,12 @@ import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { layersEditorsAtom } from '~core/logical_layers/atoms/layersEditors';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { i18n } from '~core/localization';
-import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { getMutualExcludedActions } from '~core/logical_layers/utils/getMutualExcludedActions';
-import { createUpdateLayerActions } from '~core/logical_layers/utils/createUpdateActions';
-import { deepCopy } from '~core/logical_layers/utils/deepCopy';
+import {
+  DEFAULT_GREEN,
+  DEFAULT_RED,
+} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
-import type { LayerSource } from '~core/logical_layers/types/source';
+import { generateHclGradientColors } from '../utils/generateHclGradientColors';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Action } from '@reatom/core-v2';
 
@@ -27,6 +27,13 @@ export const mcdaLayerAtom = createAtom(
   ({ onAction, schedule, getUnlistedState, create }) => {
     onAction('createMCDALayer', (json) => {
       const id = json.id;
+      const colorGood = json.colors.parameters?.good ?? DEFAULT_GREEN;
+      const colorBad = json.colors.parameters?.bad ?? DEFAULT_RED;
+      const d3colors = generateHclGradientColors(
+        colorBad.toString(),
+        colorGood.toString(),
+        15,
+      );
 
       const actions: Array<Action> = [
         // Set layer settings once
@@ -75,6 +82,7 @@ export const mcdaLayerAtom = createAtom(
             type: 'mcda',
             title: i18n.t('mcda.legend_title'),
             subtitle: i18n.t('mcda.legend_subtitle'),
+            colors: d3colors,
           }),
         ),
 

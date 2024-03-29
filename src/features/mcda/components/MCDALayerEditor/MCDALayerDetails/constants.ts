@@ -1,13 +1,17 @@
 import { i18n } from '~core/localization';
+import {
+  sentimentDefault,
+  sentimentReversed,
+} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import type { SelectableItem } from '@konturio/ui-kit';
 
 export const SENTIMENT_VALUES = {
-  'bad-good': ['bad', 'good'],
-  'good-bad': ['good', 'bad'],
+  'bad-good': sentimentDefault,
+  'good-bad': sentimentReversed,
 };
 export const NUMBER_FILTER = /[^.\-\d]/;
 export const POSITIVE_NUMBER_FILTER = /[^.\d]/;
-export const sentimentColors = { bad: 'red', good: 'green' };
+export const sentimentColors = { bad: '#D93A3A', good: '#29A301' };
 
 export const sentimentsOptions: SelectableItem[] = [
   {
