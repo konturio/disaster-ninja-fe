@@ -10,6 +10,8 @@ test('As User, I can login to Kontur Atlas', async ({ page }) => {
 
   await page.getByText('Login').click();
 
+  await expect(page.getByRole('button', { name: 'Log in' })).toBeVisible();
+
   // Getting email field and filling in
   const emailInput = page.getByRole('textbox').first();
   await emailInput.fill(process.env.TEST_EMAIL!);
@@ -21,10 +23,5 @@ test('As User, I can login to Kontur Atlas', async ({ page }) => {
   // Getting Log in button and clicking
   await page.getByRole('button', { name: 'Log in' }).click();
 
-  // Waiting happens automatically for Logout element and then clicking
-
-  await page.locator('button:has(span:has-text("Logout"))').click();
-
-  // Expecting to see the Login button again
-  await page.getByText('Login').isVisible();
+  await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
 });
