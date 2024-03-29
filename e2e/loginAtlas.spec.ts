@@ -11,12 +11,12 @@ test('As User, I can login to Kontur Atlas', async ({ page }) => {
   await page.getByText('Login').click();
 
   // Getting email field and filling in
-  const emailInput = await page.getByRole('textbox').first();
-  await emailInput.fill(process.env.TEST_EMAIL);
+  const emailInput = page.getByRole('textbox').first();
+  await emailInput.fill(process.env.TEST_EMAIL!);
 
   // Getting password field and filling in
-  const passwordInput = await page.locator('input[type="password"]');
-  await passwordInput.fill(process.env.TEST_PASSWORD);
+  const passwordInput = page.locator('input[type="password"]');
+  await passwordInput.fill(process.env.TEST_PASSWORD!);
 
   // Getting Log in button and clicking
   await page.getByRole('button', { name: 'Log in' }).click();
@@ -24,4 +24,7 @@ test('As User, I can login to Kontur Atlas', async ({ page }) => {
   // Waiting happens automatically for Logout element and then clicking
 
   await page.locator('button:has(span:has-text("Logout"))').click();
+
+  // Expecting to see the Login button again
+  await page.getByText('Login').isVisible();
 });

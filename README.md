@@ -177,12 +177,23 @@ Follow the [How to develop](#how-to-develop) section to run the app in dev mode.
 
 To view the app, visit https://localhost:3000 in your browser.
 
-2. Run the e2e tests
+2. Setup the environment variables
+
+Create a `.env.playwright.local` file in the root of the project with the following content:
+
+```bash
+BASE_URL=app_base_url
+TEST_EMAIL=test_email
+TEST_PASSWORD=test_password
+```
+
+3. Run the e2e tests
 
 ```bash
 npx playwright test --ui
 ```
 
-Remove `--ui` flag to run the tests in headless mode.
+Remove the `--ui` flag to run the tests in headless mode.
 
 > Check the `tests-examples/demo-todo-app.spec.ts` file for an example of how to write tests.
+
