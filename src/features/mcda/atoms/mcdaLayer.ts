@@ -27,13 +27,16 @@ export const mcdaLayerAtom = createAtom(
   ({ onAction, schedule, getUnlistedState, create }) => {
     onAction('createMCDALayer', (json) => {
       const id = json.id;
-      const colorGood = json.colors.parameters?.good ?? DEFAULT_GREEN;
-      const colorBad = json.colors.parameters?.bad ?? DEFAULT_RED;
-      const d3colors = generateHclGradientColors(
-        colorBad.toString(),
-        colorGood.toString(),
-        15,
-      );
+      let legendColors: string[] | undefined;
+      if (json.colors.type === 'sentiments') {
+        const colorGood = json.colors.parameters?.good ?? DEFAULT_GREEN;
+        const colorBad = json.colors.parameters?.bad ?? DEFAULT_RED;
+        legendColors = generateHclGradientColors(
+          colorBad.toString(),
+          colorGood.toString(),
+          5,
+        );
+      }
 
       const actions: Array<Action> = [
         // Set layer settings once
@@ -82,7 +85,8 @@ export const mcdaLayerAtom = createAtom(
             type: 'mcda',
             title: i18n.t('mcda.legend_title'),
             subtitle: i18n.t('mcda.legend_subtitle'),
-            colors: d3colors,
+            colors: legendColors,
+            steps: 5,
           }),
         ),
 
