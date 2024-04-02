@@ -21,7 +21,6 @@ package-lock.json
 .env.development.local
 .env.test.local
 .env.production.local
-.env.playwright.local
 
 web_modules
 
@@ -58,7 +57,3 @@ src/core/localization/translations/**
 
 size-report.json
 translations-report.md
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
