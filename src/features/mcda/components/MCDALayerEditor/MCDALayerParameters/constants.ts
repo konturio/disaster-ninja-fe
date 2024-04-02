@@ -39,7 +39,7 @@ export const transformOptions: SelectableItem[] = [
 ];
 
 export const normalizationOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.max-min')}`, value: 'max-min' },
+  { title: `${i18n.t('mcda.layer_editor.max_min')}`, value: 'max-min' },
   { title: `${i18n.t('mcda.layer_editor.no')}`, value: 'no' },
 ];
 

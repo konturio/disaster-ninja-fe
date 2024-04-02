@@ -110,7 +110,7 @@
       "natural_logarithm": "Natural logarithm",
       "square_root": "Square root",
       "no": "No",
-      "max-min": "Max-min",
+      "max_min": "Max-min",
       "errors": {
         "weight_cannot_be_empty": "Weight cannot be empty",
         "weight_must_be_a_number": "Weight must be a valid number",
