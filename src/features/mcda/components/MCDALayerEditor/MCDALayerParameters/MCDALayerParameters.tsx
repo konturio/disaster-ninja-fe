@@ -9,8 +9,8 @@ import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import { Sentiments } from '../Sentiments';
-import { MCDAParameter } from '../MCDAParameter/MCDAParameter';
-import s from './style.module.css';
+import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
+import s from './MCDALayerParameters.module.css';
 import {
   MCDA_LAYER_DEFAULTS as DEFAULTS,
   NUMBER_FILTER,
@@ -33,7 +33,7 @@ export type MCDALayerLegendProps = {
   onLayerEdited: (editedMCDALayer: MCDALayer) => void;
 };
 
-export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps) {
+export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendProps) {
   const [editMode, setEditMode] = useState(false);
   const [sentiment, setSentiment] = useState(DEFAULTS.sentiment as string);
   const [rangeFrom, setRangeFrom] = useState(DEFAULTS.range[0]);
@@ -239,7 +239,7 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
           // Edit mode
           <div className={s.layerEditContainer}>
             {/* RANGE */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.range')} tipText="">
+            <MCDALayerParameterRow name={i18n.t('mcda.layer_editor.range')} tipText="">
               <div className={s.rangeInputContainer}>
                 <Input
                   classes={{
@@ -278,9 +278,9 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
               >
                 {i18n.t('mcda.layer_editor.reset_limits_to_default')}
               </div>
-            </MCDAParameter>
+            </MCDALayerParameterRow>
             {/* OUTLIERS */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.outliers')} tipText="">
+            <MCDALayerParameterRow name={i18n.t('mcda.layer_editor.outliers')} tipText="">
               <Select
                 className={s.selectInput}
                 classes={{
@@ -293,9 +293,12 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
                 items={outliersOptions}
                 disabled={true}
               />
-            </MCDAParameter>
+            </MCDALayerParameterRow>
             {/* SENTIMENT */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.sentiment')} tipText="">
+            <MCDALayerParameterRow
+              name={i18n.t('mcda.layer_editor.sentiment')}
+              tipText=""
+            >
               <Select
                 className={s.selectInput}
                 classes={{
@@ -307,9 +310,9 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
                 }}
                 items={sentimentsOptions}
               />
-            </MCDAParameter>
+            </MCDALayerParameterRow>
             {/* WEIGHT */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.weight')} tipText="">
+            <MCDALayerParameterRow name={i18n.t('mcda.layer_editor.weight')} tipText="">
               <Input
                 classes={{
                   inputBox: s.textInputBox,
@@ -326,9 +329,12 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
               <Text type="short-m" className={s.error}>
                 {coefficientError}
               </Text>
-            </MCDAParameter>
+            </MCDALayerParameterRow>
             {/* TRANSFORM */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.transform')} tipText="">
+            <MCDALayerParameterRow
+              name={i18n.t('mcda.layer_editor.transform')}
+              tipText=""
+            >
               <Select
                 className={s.selectInput}
                 classes={{
@@ -340,9 +346,12 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
                 }}
                 items={transformOptions}
               />
-            </MCDAParameter>
+            </MCDALayerParameterRow>
             {/* NORMALIZE */}
-            <MCDAParameter name={i18n.t('mcda.layer_editor.normalize')} tipText="">
+            <MCDALayerParameterRow
+              name={i18n.t('mcda.layer_editor.normalize')}
+              tipText=""
+            >
               <Select
                 className={s.selectInput}
                 classes={{
@@ -354,7 +363,7 @@ export function MCDALayerDetails({ layer, onLayerEdited }: MCDALayerLegendProps)
                 }}
                 items={normalizationOptions}
               />
-            </MCDAParameter>
+            </MCDALayerParameterRow>
             <div className={s.editorButtonsContainer}>
               <Button
                 size="small"

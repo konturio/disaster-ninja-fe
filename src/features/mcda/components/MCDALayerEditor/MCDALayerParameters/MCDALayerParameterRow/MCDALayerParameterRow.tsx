@@ -1,14 +1,18 @@
 import { TooltipTrigger } from '~components/TooltipTrigger';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
-import s from './style.module.css';
+import s from './MCDALayerParameterRow.module.css';
 
-export type MCDAParameterProps = {
+export type MCDALayerParameterRowProps = {
   name: string;
   tipText?: string;
   children?: JSX.Element | JSX.Element[];
 };
 
-export function MCDAParameter({ name, tipText, children }: MCDAParameterProps) {
+export function MCDALayerParameterRow({
+  name,
+  tipText,
+  children,
+}: MCDALayerParameterRowProps) {
   return (
     <div className={s.inputLine}>
       <span className={s.inputLinelabel}>

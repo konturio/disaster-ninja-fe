@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { applyNewMCDAConfig } from '~features/mcda/utils/applyNewMCDAConfig';
 import s from './style.module.css';
-import { MCDALayerDetails } from './MCDALayerDetails/MCDALayerDetails';
+import { MCDALayerParameters } from './MCDALayerParameters/MCDALayerParameters';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { LayerEditorProps } from '~core/logical_layers/types/editors';
 
@@ -34,7 +34,7 @@ export function MCDALayerEditor({ layerId }: LayerEditorProps) {
   return (
     <div className={s.editor}>
       {mcdaConfig.layers.map((layer) => (
-        <MCDALayerDetails key={layer.id} layer={layer} onLayerEdited={onLayerEdited} />
+        <MCDALayerParameters key={layer.id} layer={layer} onLayerEdited={onLayerEdited} />
       ))}
     </div>
   );
