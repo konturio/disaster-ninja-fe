@@ -67,6 +67,15 @@ const AT_CHAR_CODE = 64; // '@'.charCodeAt(0);
 export const getCharByIndex = (i: number) => String.fromCharCode(AT_CHAR_CODE + i); //get A - C by index
 
 /**
+ * Return condition based on border range
+ * all ranges - <
+ * last range - <=
+ * @param {number} i - index of current range
+ * @param {number} bL - length of borders array
+ */
+const getConditionFunc = (i: number, bL: number) => (i === bL - 1 ? lessOrEqual : less);
+
+/**
  * Generate class A1 - C3 resolver based on borders in mapbox style resolver
  * @param {string} xValue.propName - name of prop in feature properties for x axis
  * @param {Array}  xValue.borders  - xValue class borders
@@ -80,15 +89,17 @@ export function classResolver(xValue, yValue) {
   return concat(
     switchFn(
       // cases for a, b, c ...
-      xValue.borders.map((border, i) =>
-        caseFn(less(xAxisValue, border), getCharByIndex(i)),
+      xValue.borders.map((border, i, arr) =>
+        caseFn(getConditionFunc(i, arr.length)(xAxisValue, border), getCharByIndex(i)),
       ),
       // default case required
       getCharByIndex(xValue.borders.length),
     ),
     switchFn(
       // cases for 1, 2, 3 ...
-      yValue.borders.map((border, i) => caseFn(less(yAxisValue, border), i)),
+      yValue.borders.map((border, i, arr) =>
+        caseFn(getConditionFunc(i, arr.length)(yAxisValue, border), i),
+      ),
       // default case required
       yValue.borders.length,
     ),
