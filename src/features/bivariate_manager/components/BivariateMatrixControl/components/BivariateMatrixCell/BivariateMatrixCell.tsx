@@ -1,7 +1,7 @@
 import cn from 'clsx';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import styles from './BivariateMatrixCell.module.css';
-import type { MouseEvent } from 'react';
+import type { CSSProperties, MouseEvent } from 'react';
 
 interface CellProps {
   value?: number;
@@ -12,7 +12,7 @@ interface CellProps {
   onClick: (x: number, y: number, e: MouseEvent<Element>) => void;
   className?: string;
   disabled?: boolean;
-  style?: Record<string, any>;
+  style?: CSSProperties;
   firstRow?: boolean;
   firstCol?: boolean;
   lastRow?: boolean;

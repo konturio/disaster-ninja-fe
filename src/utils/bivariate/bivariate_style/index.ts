@@ -9,24 +9,18 @@ import {
 import type { Stat, Axis, OverlayColor } from '../types/stat.types';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 
-function colorsMap(colors) {
-  return Object.fromEntries(colors.map(Object.values));
+function colorsMap(colors: Array<OverlayColor>): Record<string, string> {
+  return Object.fromEntries(colors.map(({ id, color }) => [id, color]));
 }
 
 function filterSetup(xAxis: Axis, yAxis: Axis) {
   return anyCondition(
-    notEqual(
-      ['/', featureProp(xAxis.quotient[0]), featureProp(xAxis.quotient[1])],
-      0,
-    ),
-    notEqual(
-      ['/', featureProp(yAxis.quotient[0]), featureProp(yAxis.quotient[1])],
-      0,
-    ),
+    notEqual(['/', featureProp(xAxis.quotient[0]), featureProp(xAxis.quotient[1])], 0),
+    notEqual(['/', featureProp(yAxis.quotient[0]), featureProp(yAxis.quotient[1])], 0),
   );
 }
 
-function colorSetup(xAxis: Axis, yAxis: Axis, colors) {
+function colorSetup(xAxis: Axis, yAxis: Axis, colors: Record<string, string>) {
   return addVariable(
     'class',
     classResolver(

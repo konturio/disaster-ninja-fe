@@ -124,6 +124,14 @@ export default ({ mode }) => {
       coverage: {
         all: true,
       },
+      exclude: [
+        '**/node_modules/**',
+        'e2e/**',
+        'dist/**',
+        'coverage/**',
+        'scripts/**',
+        'playwright-tests-examples/**',
+      ],
     },
   });
 

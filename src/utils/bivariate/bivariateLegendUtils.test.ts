@@ -43,5 +43,7 @@ describe('bivariateLegendUtils', () => {
     expect(getCellLabelByValue(xSteps, ySteps, 1, 1)).toEqual('A1');
     expect(getCellLabelByValue(xSteps, ySteps, 27, 154)).toEqual('C3');
     expect(getCellLabelByValue(xSteps, ySteps, 7, 23)).toEqual('B2');
+    expect(getCellLabelByValue(xSteps, ySteps, 0, 23)).toEqual('A2');
+    expect(getCellLabelByValue(xSteps, ySteps, 7, 0)).toEqual('B1');
   });
 });
