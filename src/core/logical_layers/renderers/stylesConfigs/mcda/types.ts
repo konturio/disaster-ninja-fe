@@ -19,7 +19,7 @@ export interface MCDALayer {
   axis: [string, string];
   range: [number, number];
   sentiment: [string, string];
-  outliersPolicy: OutliersPolicy;
+  outliers: OutliersPolicy;
   coefficient: number;
   transformationFunction: TransformationFunction;
   normalization: Normalization;

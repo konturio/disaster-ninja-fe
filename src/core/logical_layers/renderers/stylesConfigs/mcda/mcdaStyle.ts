@@ -34,8 +34,8 @@ function filterSetup(layers: MCDAConfig['layers']) {
   );
   // checks that all of the layers with outliers=="exclude" are within their ranges
   const isWithinRangeConditions: unknown[] = [];
-  layers.forEach(({ axis, range, outliersPolicy }) => {
-    if (outliersPolicy === 'exclude') {
+  layers.forEach(({ axis, range, outliers }) => {
+    if (outliers === 'exclude') {
       isWithinRangeConditions.push(
         ...[
           greaterOrEqual(['/', featureProp(axis[0]), featureProp(axis[1])], range[0]),

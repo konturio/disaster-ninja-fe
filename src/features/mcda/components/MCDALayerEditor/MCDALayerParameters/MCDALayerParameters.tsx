@@ -163,7 +163,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         isNumber(rangeNum[1]) ? rangeNum[1] : 1000,
       ],
       sentiment: SENTIMENT_VALUES[sentiment],
-      outliersPolicy: outliers,
+      outliers,
       coefficient: isNumber(coefficientNum) ? coefficientNum : 1,
       transformationFunction: transform,
       normalization,
