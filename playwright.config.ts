@@ -24,9 +24,6 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: JSON.parse(process.env.PROJECTS!).atlas.url,
-
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     ignoreHTTPSErrors: true,
     trace: 'on-first-retry',
