@@ -14,6 +14,10 @@ export function lessOrEqual(first, second) {
   return ['<=', first, second];
 }
 
+export function greaterOrEqual(first, second) {
+  return ['>=', first, second];
+}
+
 export function notEqual(first, second) {
   return ['!=', first, second];
 }
