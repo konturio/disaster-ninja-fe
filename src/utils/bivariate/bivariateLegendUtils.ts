@@ -89,6 +89,16 @@ export function createBivariateMeta(
   };
 }
 
+// need to ignore first range to avoid getting @ and 0 chars
+const fitsLegendCriteria = <T extends { value: number }>(
+  step: T,
+  index: number,
+  totalSteps: number,
+  targetValue: number,
+): boolean =>
+  (index !== 0 && targetValue < step.value) ||
+  (index === totalSteps - 1 && targetValue <= step.value);
+
 // same logic as in classResolver method in styleGen.ts, but here we do it manually
 export function getCellLabelByValue(
   xSteps: Step[],
@@ -96,12 +106,12 @@ export function getCellLabelByValue(
   xValue: number,
   yValue: number,
 ) {
-  const charIndex = xSteps.findIndex((xStep) => {
-    if (xValue < xStep.value) return true;
-  });
+  const charIndex = xSteps.findIndex((xStep, i, arr) =>
+    fitsLegendCriteria(xStep, i, arr.length, xValue),
+  );
   const char = getCharByIndex(charIndex);
-  const number = ySteps.findIndex((yStep) => {
-    if (yValue < yStep.value) return true;
-  });
+  const number = ySteps.findIndex((yStep, i, arr) =>
+    fitsLegendCriteria(yStep, i, arr.length, yValue),
+  );
   return char + number;
 }

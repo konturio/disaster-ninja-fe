@@ -64,8 +64,23 @@ function sentimentPaint({
           ['>=', ['var', 'mcdaResult'], absoluteMin],
           ['<=', ['var', 'mcdaResult'], absoluteMax],
         ],
-        ['interpolate-hcl', ['linear'], ['var', 'mcdaResult'], 0, bad, 1, good],
-        'transparent', // all values outside of range [0,1] will be painted as transparent
+        [
+          'interpolate-hcl',
+          ['linear'],
+          ['var', 'mcdaResult'],
+          absoluteMin,
+          bad,
+          absoluteMax,
+          good,
+        ],
+        // paint all values below absoluteMin (0 by default) same as absoluteMin
+        ['<', ['var', 'mcdaResult'], absoluteMin],
+        bad,
+        // paint all values above absoluteMax (1 by default) same as absoluteMax
+        ['>', ['var', 'mcdaResult'], absoluteMax],
+        good,
+        // default color value. We shouldn't get it, because all cases are covered
+        'transparent',
       ],
     ],
     'fill-opacity': 1,
