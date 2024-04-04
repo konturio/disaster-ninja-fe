@@ -11,12 +11,15 @@ export type ColorsBySentiments = {
   };
 };
 
+export type OutliersPolicy = 'as_on_limits' | 'exclude';
+
 export interface MCDALayer {
   id: string;
   name: string;
   axis: [string, string];
   range: [number, number];
   sentiment: [string, string];
+  outliersPolicy: OutliersPolicy;
   coefficient: number;
   transformationFunction: TransformationFunction;
   normalization: Normalization;

@@ -14,6 +14,10 @@ export function lessOrEqual<T, R>(first: T, second: R) {
   return ['<=', first, second];
 }
 
+export function greaterOrEqual(first, second) {
+  return ['>=', first, second];
+}
+
 export function notEqual<T, R>(first: T, second: R) {
   return ['!=', first, second];
 }
