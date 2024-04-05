@@ -1,20 +1,15 @@
 import { test, expect } from '@playwright/test';
-
-// Get data from config about projects and convert to JS object setting TS types
-
-const projects = JSON.parse(process.env.PROJECTS!) as Record<
-  string,
-  { url: string; app: string; title: string }
->;
+import projects from '../projects-config.json' assert { type: 'json' };
 
 // Create a loop to loop over all the projects and create a test for everyone
 
 for (const project of Object.keys(projects)) {
-  test(`As User, I can login to ${projects[project].title}`, async ({ page }) => {
-    await page.goto(`${projects[project].url}active/?app=${projects[project].app}`);
+  const testProject = projects[project];
+  test(`As User, I can login to ${testProject.title}`, async ({ page }) => {
+    await page.goto(`${testProject.url}active/?app=${testProject.app}`);
 
     // Expect a title "to contain" a Kontur Atlas.
-    await expect(page).toHaveTitle(`${projects[project].title}`);
+    await expect(page).toHaveTitle(`${testProject.title}`);
 
     await page.getByText('Login').click();
 
@@ -28,14 +23,10 @@ for (const project of Object.keys(projects)) {
     const passwordInput = page.locator('input[type="password"]');
     await passwordInput.fill(process.env.TEST_PASSWORD!);
 
-    // Currently OAM and Atlas apps don't have cookies popups
-    // TO DO: fix when bug fixes are done
-    if (
-      projects[project].title !== projects.oam.title &&
-      projects[project].title !== projects.atlas.title
-    ) {
+    // Currently OAM project doesn't have cookies popups
+    if (testProject.title !== projects.oam.title)
       await page.getByText('Accept optional cookies').click();
-    }
+
     // Getting Log in button and clicking
     await page.getByRole('button', { name: 'Log in' }).click();
 
