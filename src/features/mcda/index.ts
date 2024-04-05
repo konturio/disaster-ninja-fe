@@ -37,6 +37,10 @@ mcdaControl.onStateChange(async (ctx, state) => {
   }
 });
 
+const uploadClickListener = (e) => {
+  uploadOnClick();
+};
+
 export const uploadMcdaControl = toolbar.setupControl({
   id: UPLOAD_MCDA_CONTROL_ID,
   type: 'button',
@@ -50,7 +54,7 @@ export const uploadMcdaControl = toolbar.setupControl({
        * In webkit you can't use additional function wrapper including useCallback
        * because it's disable file upload popup.
        */
-      el?.addEventListener('click', (e) => uploadOnClick());
+      el?.addEventListener('click', uploadClickListener);
     },
   },
 });
@@ -58,12 +62,7 @@ export const uploadMcdaControl = toolbar.setupControl({
 function uploadOnClick() {
   askMcdaJSONFile((mcdaConfig) => {
     if (mcdaConfig) {
-      store.dispatch([
-        mcdaLayerAtom.createMCDALayer(mcdaConfig),
-        mcdaControl.setState('regular'),
-      ]);
-    } else {
-      store.dispatch(mcdaControl.setState('regular'));
+      store.dispatch([mcdaLayerAtom.createMCDALayer(mcdaConfig)]);
     }
   });
 }
