@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@csstools/normalize.css':
     specifier: ^12.0.0
@@ -100,6 +104,9 @@ dependencies:
   '@turf/union':
     specifier: ^6.5.0
     version: 6.5.0
+  '@types/d3-color':
+    specifier: ^3.1.3
+    version: 3.1.3
   '@types/d3-interpolate':
     specifier: ^3.0.4
     version: 3.0.4
@@ -166,6 +173,9 @@ dependencies:
   cpr:
     specifier: ^3.0.1
     version: 3.0.1
+  d3-color:
+    specifier: ^3.1.0
+    version: 3.1.0
   d3-interpolate:
     specifier: ^3.0.1
     version: 3.0.1
@@ -12280,7 +12290,3 @@ packages:
     transitivePeerDependencies:
       - encoding
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
