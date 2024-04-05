@@ -208,32 +208,11 @@ To view the app, visit https://localhost:3000 in your browser.
 Create a `.env.playwright.local` file in the root of the project with the following content:
 
 ```bash
-PROJECTS='{
-    "atlas":{
-        "url": "YOUR_BASE_URL",
-        "app": "9043acf9-2cf3-48ac-9656-a5d7c4b7593d",
-        "title":
-        "Kontur Atlas"
-    },
-    "disaster_ninja":{
-        "url":"YOUR_BASE_URL",
-        "app":"58851b50-9574-4aec-a3a6-425fa18dcb54",
-        "title":"Disaster Ninja"
-    },
-    "smart_city":{
-        "url":"YOUR_BASE_URL",
-        "app":"634f23f5-f898-4098-a8bd-09eb7c1e1ae5",
-        "title":"Smart City"
-    },
-    "oam":{
-        "url":"YOUR_BASE_URL",
-        "app":"1dc6fe68-8802-4672-868d-7f17943bf1c8",
-        "title":"OpenAerialMap"
-    }
-}'
 TEST_EMAIL=test_email
 TEST_PASSWORD=test_password
 ```
+
+Set your projects environment at projects-config.json file
 
 3. Run the e2e tests
 
