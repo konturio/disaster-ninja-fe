@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import projects from '../projects-config.json' assert { type: 'json' };
+import projects from './projects-config.json' assert { type: 'json' };
 
 // Create a loop to loop over all the projects and create a test for everyone
 
