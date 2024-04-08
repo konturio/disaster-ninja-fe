@@ -50,16 +50,16 @@ jobs:
       - name: Create .env file
         shell: bash
         run: |
-        if [[ "$INPUT_ENV" == "test" ]]; then
-          echo "TEST_EMAIL=${{ secrets.TEST_EMAIL }}" >> .env.playwright.local
-          echo "TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}" >> .env.playwright.local
-        elif [[ "$INPUT_ENV" == "dev" ]]; then
-          echo "TEST_EMAIL=${{ secrets.DEV_EMAIL }}" >> .env.playwright.local
-          echo "TEST_PASSWORD=${{ secrets.DEV_PASSWORD }}" >> .env.playwright.local
-        elif [[ "$INPUT_ENV" == "prod" ]]; then
-          echo "TEST_EMAIL=${{ secrets.PROD_EMAIL }}" >> .env.playwright.local
-          echo "TEST_PASSWORD=${{ secrets.PROD_PASSWORD }}" >> .env.playwright.local
-        fi
+          if [[ "$INPUT_ENV" == "test" ]]; then
+            echo "TEST_EMAIL=${{ secrets.TEST_EMAIL }}" >> .env.playwright.local
+            echo "TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}" >> .env.playwright.local
+          elif [[ "$INPUT_ENV" == "dev" ]]; then
+            echo "TEST_EMAIL=${{ secrets.DEV_EMAIL }}" >> .env.playwright.local
+            echo "TEST_PASSWORD=${{ secrets.DEV_PASSWORD }}" >> .env.playwright.local
+          elif [[ "$INPUT_ENV" == "prod" ]]; then
+            echo "TEST_EMAIL=${{ secrets.PROD_EMAIL }}" >> .env.playwright.local
+            echo "TEST_PASSWORD=${{ secrets.PROD_PASSWORD }}" >> .env.playwright.local
+          fi
       - name: Adjust project URLs
         shell: bash
         run: |
