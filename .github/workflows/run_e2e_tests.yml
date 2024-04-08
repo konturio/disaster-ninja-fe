@@ -27,6 +27,7 @@ env:
 jobs:
   run_tests:
     name: Run e2e tests
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,7 +35,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '21'
+          node-version: '20'
+      - name: Install dependencies
+        working-directory: .
+        run: npm ci
       - name: Update playwright and install dependencies
         shell: bash
         run: |
