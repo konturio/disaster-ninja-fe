@@ -1,4 +1,4 @@
-name: Run e2e autotests on ${{ github.event.inputs.env }} by ${{ github.actor }}
+name: Run e2e autotests
 
 env:
   test_atlas_url: 'https://test-apps-ninja01.konturlabs.com/'
