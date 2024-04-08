@@ -65,7 +65,6 @@ jobs:
             sed -i "s|\"url\": \"$prod_smart_city_url\"|\"url\": \"$dev_smart_city_url\"|g" e2e/projects-config.json
             sed -i "s|\"url\": \"$prod_oam_url\"|\"url\": \"$dev_oam_url\"|g" e2e/projects-config.json
           fi
-      - name: Move to e2e directory # Move to e2e
+      - name: Move to e2e directory and run tests # Move to e2e and run tests in headless way
         working-directory: ./e2e
-      - name: Run tests # Run tests in headless way
         run: npx playwright test
