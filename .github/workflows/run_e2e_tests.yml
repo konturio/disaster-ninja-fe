@@ -29,6 +29,8 @@ jobs:
     name: Run e2e tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      INPUT_ENV: ${{ github.event.inputs.env }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -48,25 +50,25 @@ jobs:
       - name: Create .env file
         shell: bash
         run: |
-          if [[ "${{ github.event.inputs.env }}" == "test" ]]; then
-            echo "TEST_EMAIL=${{ secrets.TEST_EMAIL }}" >> .env.playwright.local
-            echo "TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}" >> .env.playwright.local
-          elif [[ "${{ github.event.inputs.env }}" == "dev" ]]; then
-            echo "TEST_EMAIL=${{ secrets.DEV_EMAIL }}" >> .env.playwright.local
-            echo "TEST_PASSWORD=${{ secrets.DEV_PASSWORD }}" >> .env.playwright.local
-          elif [[ "${{ github.event.inputs.env }}" == "prod" ]]; then
-            echo "TEST_EMAIL=${{ secrets.PROD_EMAIL }}" >> .env.playwright.local
-            echo "TEST_PASSWORD=${{ secrets.PROD_PASSWORD }}" >> .env.playwright.local
-          fi
+        if [[ "$INPUT_ENV" == "test" ]]; then
+          echo "TEST_EMAIL=${{ secrets.TEST_EMAIL }}" >> .env.playwright.local
+          echo "TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}" >> .env.playwright.local
+        elif [[ "$INPUT_ENV" == "dev" ]]; then
+          echo "TEST_EMAIL=${{ secrets.DEV_EMAIL }}" >> .env.playwright.local
+          echo "TEST_PASSWORD=${{ secrets.DEV_PASSWORD }}" >> .env.playwright.local
+        elif [[ "$INPUT_ENV" == "prod" ]]; then
+          echo "TEST_EMAIL=${{ secrets.PROD_EMAIL }}" >> .env.playwright.local
+          echo "TEST_PASSWORD=${{ secrets.PROD_PASSWORD }}" >> .env.playwright.local
+        fi
       - name: Adjust project URLs
         shell: bash
         run: |
-          if [[ "${{ github.event.inputs.env }}" == "test" ]]; then
+          if [[ "$INPUT_ENV" == "test" ]]; then
             sed -i "s|\"url\": \"$prod_atlas_url\"|\"url\": \"$test_atlas_url\"|g" e2e/projects-config.json
             sed -i "s|\"url\": \"$prod_disaster_ninja_url\"|\"url\": \"$test_disaster_ninja_url\"|g" e2e/projects-config.json
             sed -i "s|\"url\": \"$prod_smart_city_url\"|\"url\": \"$test_smart_city_url\"|g" e2e/projects-config.json
             sed -i "s|\"url\": \"$prod_oam_url\"|\"url\": \"$test_oam_url\"|g" e2e/projects-config.json
-          elif [[ "${{ github.event.inputs.env }}" == "dev" ]]; then
+          elif [[ "$INPUT_ENV" == "dev" ]]; then
             sed -i "s|\"url\": \"$prod_atlas_url\"|\"url\": \"$dev_atlas_url\"|g" e2e/projects-config.json
             sed -i "s|\"url\": \"$prod_disaster_ninja_url\"|\"url\": \"$dev_disaster_ninja_url\"|g" e2e/projects-config.json
             sed -i "s|\"url\": \"$prod_smart_city_url\"|\"url\": \"$dev_smart_city_url\"|g" e2e/projects-config.json
