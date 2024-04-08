@@ -27,28 +27,26 @@ const calculateLayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
 
 function filterSetup(layers: MCDAConfig['layers']) {
   // checks that at least one layer has a non-zero value
-  const hasNonZeroLayerValuesCondition = anyCondition(
-    ...layers.map(({ axis }) =>
-      notEqual(['/', featureProp(axis[0]), featureProp(axis[1])], 0),
+  const conditions = [
+    anyCondition(
+      ...layers.map(({ axis }) =>
+        notEqual(['/', featureProp(axis[0]), featureProp(axis[1])], 0),
+      ),
     ),
-  );
+  ];
   // checks that all of the layers with outliers=="exclude" are within their ranges
-  const isWithinRangeConditions: unknown[] = [];
   layers.forEach(({ axis, range, outliers }) => {
     if (outliers === 'exclude') {
-      isWithinRangeConditions.push(
-        ...[
-          greaterOrEqual(['/', featureProp(axis[0]), featureProp(axis[1])], range[0]),
-          lessOrEqual(['/', featureProp(axis[0]), featureProp(axis[1])], range[1]),
-        ],
+      conditions.push(
+        greaterOrEqual(['/', featureProp(axis[0]), featureProp(axis[1])], range[0]),
+        lessOrEqual(['/', featureProp(axis[0]), featureProp(axis[1])], range[1]),
       );
     }
   });
-  const filterConditions = [hasNonZeroLayerValuesCondition];
-  if (isWithinRangeConditions.length > 0) {
-    filterConditions.push(allCondition(...isWithinRangeConditions));
+  if (conditions.length > 1) {
+    return allCondition(...conditions);
   }
-  return allCondition(...filterConditions);
+  return conditions[0];
 }
 
 export function linearNormalization(layers: MCDAConfig['layers']) {
