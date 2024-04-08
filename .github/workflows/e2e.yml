@@ -1,5 +1,16 @@
 name: Run e2e autotests
 
+on:
+  workflow_dispatch: # Trigger manual run
+    inputs:
+      env: # Choose env
+        type: choice
+        required: true
+        options:
+          - dev
+          - test
+          - prod
+
 env:
   test_atlas_url: 'https://test-apps-ninja01.konturlabs.com/'
   dev_atlas_url: 'https://test-apps-ninja02.konturlabs.com/'
@@ -16,17 +27,6 @@ env:
   test_oam_url: 'https://test-apps-ninja01.konturlabs.com/'
   dev_oam_url: 'https://test-apps-ninja02.konturlabs.com/'
   prod_oam_url: 'https://new.openaerialmap.org/'
-
-on:
-  workflow_dispatch: # Trigger manual run
-    inputs:
-      env: # Choose env
-        type: choice
-        required: true
-        options:
-          - dev
-          - test
-          - prod
 
 jobs:
   run_tests:
