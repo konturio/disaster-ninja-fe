@@ -1,8 +1,11 @@
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { configRepo } from '~core/config';
 import {
+  allCondition,
   anyCondition,
   featureProp,
+  greaterOrEqual,
+  lessOrEqual,
   notEqual,
 } from '~utils/bivariate/bivariate_style/styleGen';
 import { sumBy } from '~utils/common';
@@ -21,12 +24,28 @@ const calculateLayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
   den: ['get', axis.den],
 }));
 
-function filterSetup(layers: MCDAConfig['layers']) {
-  return anyCondition(
-    ...layers.map(({ axis }) =>
-      notEqual(['/', featureProp(axis[0]), featureProp(axis[1])], 0),
+export function filterSetup(layers: MCDAConfig['layers']) {
+  // checks that at least one layer has a non-zero value
+  const conditions = [
+    anyCondition(
+      ...layers.map(({ axis }) =>
+        notEqual(['/', featureProp(axis[0]), featureProp(axis[1])], 0),
+      ),
     ),
-  );
+  ];
+  // checks that all of the layers with outliers=="exclude" are within their ranges
+  layers.forEach(({ axis, range, outliers }) => {
+    if (outliers === 'exclude') {
+      conditions.push(
+        greaterOrEqual(['/', featureProp(axis[0]), featureProp(axis[1])], range[0]),
+        lessOrEqual(['/', featureProp(axis[0]), featureProp(axis[1])], range[1]),
+      );
+    }
+  });
+  if (conditions.length > 1) {
+    return allCondition(...conditions);
+  }
+  return conditions[0];
 }
 
 export function linearNormalization(layers: MCDAConfig['layers']) {
@@ -111,7 +130,7 @@ function expressionsPaint({
 
       return acc;
     },
-    {} as Record<any, any>,
+    {} as Record<string, unknown>,
   );
 }
 

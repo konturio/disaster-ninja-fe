@@ -1,7 +1,7 @@
 import { test, expect } from 'vitest';
 import { calculateLayerPipeline, inStyleCalculations, inViewCalculations } from '.';
 
-// @ts-ignore
+// @ts-expect-error types compatibility
 const calculateLayerStyle = calculateLayerPipeline(inStyleCalculations, (axis) => ({
   num: ['get', axis.num],
   den: ['get', axis.den],
@@ -15,6 +15,7 @@ test('style correct for good bad sentiments', () => {
     range: [111, 333],
     sentiment: ['good', 'bad'],
     coefficient: 7,
+    outliers: 'as_on_limits',
     transformationFunction: 'no',
     normalization: 'max-min',
     unit: '',
@@ -31,6 +32,7 @@ test('style correct for bad good sentiments', () => {
     range: [111, 333],
     sentiment: ['bad', 'good'],
     coefficient: 7,
+    outliers: 'as_on_limits',
     transformationFunction: 'no',
     normalization: 'max-min',
     unit: '',
@@ -51,6 +53,7 @@ test('Transformations correct: square_root', () => {
     axis: ['axisA', 'axisB'],
     range: [0, 100],
     sentiment: ['bad', 'good'],
+    outliers: 'as_on_limits',
     coefficient: 1,
     transformationFunction: 'square_root',
     normalization: 'max-min',
@@ -67,6 +70,7 @@ test('Transformations correct: natural_logarithm', () => {
     axis: ['axisA', 'axisB'],
     range: [0, 100],
     sentiment: ['bad', 'good'],
+    outliers: 'as_on_limits',
     coefficient: 1,
     transformationFunction: 'natural_logarithm',
     normalization: 'max-min',

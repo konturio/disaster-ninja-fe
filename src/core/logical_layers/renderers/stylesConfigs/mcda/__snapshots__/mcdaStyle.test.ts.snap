@@ -1,0 +1,106 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`createMCDAStyle > filterSetup() > creates correct filter when both MCDA layers have outliers === "as_on_limits" 1`] = `
+[
+  "any",
+  [
+    "!=",
+    [
+      "/",
+      [
+        "get",
+        "hazardous_days_count",
+      ],
+      [
+        "get",
+        "one",
+      ],
+    ],
+    0,
+  ],
+  [
+    "!=",
+    [
+      "/",
+      [
+        "get",
+        "population",
+      ],
+      [
+        "get",
+        "area_km2",
+      ],
+    ],
+    0,
+  ],
+]
+`;
+
+exports[`createMCDAStyle > filterSetup() > creates correct filter when one of the MCDA layers has outliers === "exclude" 1`] = `
+[
+  "all",
+  [
+    "any",
+    [
+      "!=",
+      [
+        "/",
+        [
+          "get",
+          "hazardous_days_count",
+        ],
+        [
+          "get",
+          "one",
+        ],
+      ],
+      0,
+    ],
+    [
+      "!=",
+      [
+        "/",
+        [
+          "get",
+          "population",
+        ],
+        [
+          "get",
+          "area_km2",
+        ],
+      ],
+      0,
+    ],
+  ],
+  [
+    ">=",
+    [
+      "/",
+      [
+        "get",
+        "population",
+      ],
+      [
+        "get",
+        "area_km2",
+      ],
+    ],
+    100,
+  ],
+  [
+    "<=",
+    [
+      "/",
+      [
+        "get",
+        "population",
+      ],
+      [
+        "get",
+        "area_km2",
+      ],
+    ],
+    46200,
+  ],
+]
+`;

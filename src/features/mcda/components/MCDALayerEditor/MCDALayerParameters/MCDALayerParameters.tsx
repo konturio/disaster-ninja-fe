@@ -24,6 +24,7 @@ import {
 } from './constants';
 import type {
   MCDALayer,
+  OutliersPolicy,
   TransformationFunction,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Normalization } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -38,7 +39,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   const [sentiment, setSentiment] = useState(DEFAULTS.sentiment as string);
   const [rangeFrom, setRangeFrom] = useState(DEFAULTS.range[0]);
   const [rangeTo, setRangeTo] = useState(DEFAULTS.range[1]);
-  const [outliers, setOutliers] = useState(DEFAULTS.outliers as string);
+  const [outliers, setOutliers] = useState(DEFAULTS.outliers as OutliersPolicy);
   const [coefficient, setCoefficient] = useState(DEFAULTS.coefficient.toString());
   const [transform, setTransform] = useState<TransformationFunction>(
     DEFAULTS.transform as TransformationFunction,
@@ -57,6 +58,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setCoefficient(layer.coefficient.toString());
     setTransform(layer.transformationFunction);
     setNormalization(layer.normalization);
+    setOutliers(layer.outliers ?? DEFAULTS.outliers);
   }, [layer]);
 
   const [axes] = useAtom((ctx) => ctx.spy(bivariateStatisticsResourceAtom.v3atom));
@@ -162,6 +164,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         isNumber(rangeNum[1]) ? rangeNum[1] : 1000,
       ],
       sentiment: SENTIMENT_VALUES[sentiment],
+      outliers,
       coefficient: isNumber(coefficientNum) ? coefficientNum : 1,
       transformationFunction: transform,
       normalization,
@@ -170,9 +173,13 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     onLayerEdited(updatedLayer);
   }, [
     coefficient,
-    layer,
+    layer.axis,
+    layer.id,
+    layer.name,
+    layer.unit,
     normalization,
     onLayerEdited,
+    outliers,
     rangeFrom,
     rangeTo,
     sentiment,
@@ -288,10 +295,9 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 }}
                 value={outliers}
                 onChange={(e) => {
-                  setOutliers(e.selectedItem?.value as string);
+                  setOutliers(e.selectedItem?.value as OutliersPolicy);
                 }}
                 items={outliersOptions}
-                disabled={true}
               />
             </MCDALayerParameterRow>
             {/* SENTIMENT */}
