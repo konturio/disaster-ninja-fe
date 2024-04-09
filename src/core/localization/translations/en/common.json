@@ -90,6 +90,7 @@
     "modal_input_indicators_no_options": "No options",
     "btn_cancel": "Cancel",
     "btn_save": "Save analysis",
+    "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty",
     "error_bad_layer_data": "Invalid MCDA layer data",
     "error_invalid_file": "Invalid MCDA file format",
     "legend_title": "Legend",

@@ -33,10 +33,15 @@ export function MCDAForm({
 }) {
   // Layer name input
   const [name, setName] = useState(initialState.name);
-  const onNameChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value),
-    [],
-  );
+  const [nameError, setNameError] = useState<string>('');
+  const onNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+    if (!e.target.value) {
+      setNameError(i18n.t('mcda.error_analysis_name_cannot_be_empty'));
+    } else {
+      setNameError('');
+    }
+  }, []);
 
   // Indicators input
   const [selectedIndicators, selectIndicators] = useState<SelectableItem[]>([]);
@@ -116,7 +121,9 @@ export function MCDAForm({
             {i18n.t('mcda.btn_cancel')}
           </Button>
           <Button
-            disabled={!axisesResource.data || selectedIndicators.length === 0}
+            disabled={
+              !axisesResource.data || selectedIndicators.length === 0 || !name?.length
+            }
             type="submit"
             onClick={saveAction}
           >
@@ -129,6 +136,7 @@ export function MCDAForm({
         <Input
           type="text"
           value={name}
+          error={nameError}
           onChange={onNameChange}
           renderLabel={<Text type="label">{i18n.t('mcda.modal_input_name')}</Text>}
           placeholder={i18n.t('mcda.modal_input_name_placeholder')}
