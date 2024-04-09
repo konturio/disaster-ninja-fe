@@ -5,7 +5,6 @@ import {
   anyCondition,
   featureProp,
   greaterOrEqual,
-  less,
   lessOrEqual,
   notEqual,
 } from '~utils/bivariate/bivariate_style/styleGen';

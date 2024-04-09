@@ -58,7 +58,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setCoefficient(layer.coefficient.toString());
     setTransform(layer.transformationFunction);
     setNormalization(layer.normalization);
-    setOutliers(layer.outliers);
+    setOutliers(layer.outliers ?? DEFAULTS.outliers);
   }, [layer]);
 
   const [axes] = useAtom((ctx) => ctx.spy(bivariateStatisticsResourceAtom.v3atom));
