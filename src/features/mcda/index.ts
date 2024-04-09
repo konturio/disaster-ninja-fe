@@ -78,15 +78,18 @@ export async function editMCDA(
   layerState: LogicalLayerState,
   layerActions: LogicalLayerActions,
 ) {
-  const config = await editMCDAConfig(layerState);
-  if (config?.id) {
-    // TODO: use applyNewMCDAConfig() instead of the following lines. This whole function and editMCDAConfig() should be refactored
-    layerActions.destroy();
-    store.dispatch([
-      mcdaLayerAtom.createMCDALayer({ ...config, id: config.id }),
-      enabledLayersAtom.set(config.id),
-      ...getMutualExcludedActions(layerState),
-    ]);
+  const oldConfig = layerState.style?.config;
+  if (oldConfig) {
+    const config = await editMCDAConfig(layerState?.style?.config);
+    if (config?.id) {
+      // TODO: use applyNewMCDAConfig() instead of the following lines. This whole function and editMCDAConfig() should be refactored
+      layerActions.destroy();
+      store.dispatch([
+        mcdaLayerAtom.createMCDALayer({ ...config, id: config.id }),
+        enabledLayersAtom.set(config.id),
+        ...getMutualExcludedActions(layerState),
+      ]);
+    }
   }
 }
 
