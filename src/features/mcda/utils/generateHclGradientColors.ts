@@ -6,7 +6,7 @@ export function generateHclGradientColors(
   steps: number,
 ): string[] {
   if (steps < 3) {
-    console.error('Nothing to interpolate. stepsNumber should be >=3');
+    console.warn('Nothing to interpolate. stepsNumber should be >=3');
     return [colorStart, colorEnd];
   }
   const stepSize = 1.0 / (steps - 1);
