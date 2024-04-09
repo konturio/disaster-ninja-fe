@@ -56,10 +56,14 @@ export function MCDAForm({
   const [axisesResource] = useAtom(availableBivariateAxisesAtom);
   const inputItems = useMemo(
     () =>
-      (axisesResource.data ?? []).map((d) => ({
-        title: d.label,
-        value: d.id,
-      })) ?? [],
+      (axisesResource.data ?? [])
+        .sort((axis1, axis2) =>
+          axis1.label?.localeCompare(axis2.label, undefined, { sensitivity: 'base' }),
+        )
+        .map((d) => ({
+          title: d.label,
+          value: d.id,
+        })) ?? [],
     [axisesResource],
   );
 
