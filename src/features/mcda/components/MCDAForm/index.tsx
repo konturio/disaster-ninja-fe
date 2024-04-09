@@ -40,8 +40,12 @@ export function MCDAForm({
 
   // Indicators input
   const [selectedIndicators, selectIndicators] = useState<SelectableItem[]>([]);
+  const [selectionInitialized, setSelectionInitialized] = useState(false);
+
   const onSelectedIndicatorsChange = useCallback(
-    (e: { selectedItems: SelectableItem[] }) => selectIndicators(e.selectedItems),
+    (e: { selectedItems: SelectableItem[] }) => {
+      selectIndicators(e.selectedItems);
+    },
     [],
   );
   const [axisesResource] = useAtom(availableBivariateAxisesAtom);
@@ -54,18 +58,18 @@ export function MCDAForm({
     [axisesResource],
   );
 
-  const indicatorSelectorEmpty = selectedIndicators.length === 0;
   useEffect(() => {
     // Setup indicators input initial state after we get available indicators
     const preselected = new Set(initialState.axises.map((a) => a.id));
-    if (axisesResource.data && indicatorSelectorEmpty) {
+    if (axisesResource.data && !selectionInitialized && preselected.size > 0) {
       selectIndicators(
         axisesResource.data
           .filter((a) => preselected.has(a.id))
           .map((ind) => ({ value: ind.id, title: ind.label })),
       );
+      setSelectionInitialized(true);
     }
-  }, [initialState.axises, axisesResource, indicatorSelectorEmpty]);
+  }, [initialState.axises, axisesResource, selectionInitialized]);
 
   // Possible exits
   const cancelAction = useCallback(() => onConfirm(null), [onConfirm]);
@@ -111,7 +115,11 @@ export function MCDAForm({
           <Button type="reset" onClick={cancelAction} variant="invert-outline">
             {i18n.t('mcda.btn_cancel')}
           </Button>
-          <Button disabled={!axisesResource.data} type="submit" onClick={saveAction}>
+          <Button
+            disabled={!axisesResource.data || selectedIndicators.length === 0}
+            type="submit"
+            onClick={saveAction}
+          >
             {i18n.t('mcda.btn_save')}
           </Button>
         </div>
