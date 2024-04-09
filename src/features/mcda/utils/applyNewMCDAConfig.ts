@@ -1,5 +1,5 @@
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import { applyNewLayerSource } from '~core/logical_layers/utils/applyNewLayerSource';
+import { applyNewSourceToExistingLayer } from '~core/logical_layers/utils/applyNewLayerSource';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
@@ -11,6 +11,6 @@ export function applyNewMCDAConfig(config: MCDAConfig) {
     if (newSource?.style?.config) {
       newSource.style.config = { ...config };
     }
-    applyNewLayerSource(newSource);
+    applyNewSourceToExistingLayer(newSource);
   }
 }

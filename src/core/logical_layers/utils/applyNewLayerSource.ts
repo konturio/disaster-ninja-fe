@@ -1,20 +1,21 @@
 import { store } from '~core/store/store';
-import { enabledLayersAtom } from '../atoms/enabledLayers';
+import { layersRegistryAtom } from '../atoms/layersRegistry';
 import { createUpdateLayerActions } from './createUpdateActions';
 import type { LayerSource } from '../types/source';
-import type { Action } from '@reatom/core-v2';
 
-export function applyNewLayerSource(newSource: LayerSource) {
+export function applyNewSourceToExistingLayer(newSource: LayerSource) {
   const id = newSource.id;
-  const actions: Array<Action> = [
-    enabledLayersAtom.delete(id),
-    ...createUpdateLayerActions([
-      {
-        id,
-        source: newSource,
-      },
-    ]).flat(),
-  ];
-  store.dispatch(actions);
-  store.dispatch(enabledLayersAtom.set(id));
+  const layerAtom = store.getState(layersRegistryAtom).get(id);
+  if (layerAtom) {
+    store.dispatch([
+      layerAtom.disable(),
+      ...createUpdateLayerActions([
+        {
+          id,
+          source: newSource,
+        },
+      ]).flat(),
+    ]);
+    store.dispatch([layerAtom.enable()]);
+  }
 }
