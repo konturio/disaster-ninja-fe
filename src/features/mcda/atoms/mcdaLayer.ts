@@ -88,6 +88,7 @@ export const mcdaLayerAtom = createAtom(
           id,
           renderer: new BivariateRenderer({ id }),
         }),
+        mcdaLayerAtom.enableMCDALayer(id),
       ];
 
       if (actions.length) {
@@ -99,13 +100,11 @@ export const mcdaLayerAtom = createAtom(
 
     onAction('enableMCDALayer', (id: string) => {
       const currentRegistry = getUnlistedState(layersRegistryAtom);
-      for (const [layerId, layer] of Array.from(currentRegistry)) {
-        if (layerId === id) {
-          schedule((dispatch) => {
-            dispatch(layer.enable());
-          });
-          break;
-        }
+      const layer = currentRegistry.get(id);
+      if (layer?.getState().id === id) {
+        schedule((dispatch) => {
+          dispatch(layer.enable());
+        });
       }
     });
 
