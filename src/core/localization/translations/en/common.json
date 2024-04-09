@@ -82,7 +82,7 @@
   "mcda": {
     "title": "Multi-criteria decision analysis",
     "name": "MCDA",
-    "modal_title": "Create analysis",
+    "modal_title": "Customize analysis",
     "modal_input_name": "Name",
     "modal_input_name_placeholder": "Set layer name",
     "modal_input_indicators": "List of layers",
