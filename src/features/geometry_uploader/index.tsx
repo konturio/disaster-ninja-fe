@@ -13,6 +13,10 @@ import {
 import { askGeoJSONFile } from './askGeoJSONFile';
 import type { Action } from '@reatom/core-v2';
 
+const uploadClickListener = (e) => {
+  onClickCb();
+};
+
 const fileUploaderControl = toolbar.setupControl({
   id: GEOMETRY_UPLOADER_CONTROL_ID,
   type: 'button',
@@ -26,7 +30,7 @@ const fileUploaderControl = toolbar.setupControl({
        * In webkit you can't use additional function wrapper including useCallback
        * because it's disable file upload popup.
        */
-      el?.addEventListener('click', (e) => onClickCb());
+      el?.addEventListener('click', uploadClickListener);
     },
   },
 });
