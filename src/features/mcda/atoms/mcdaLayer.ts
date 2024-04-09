@@ -9,7 +9,12 @@ import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { layersEditorsAtom } from '~core/logical_layers/atoms/layersEditors';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { i18n } from '~core/localization';
+import {
+  DEFAULT_GREEN,
+  DEFAULT_RED,
+} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
+import { generateHclGradientColors } from '../utils/generateHclGradientColors';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Action } from '@reatom/core-v2';
 
@@ -22,6 +27,16 @@ export const mcdaLayerAtom = createAtom(
   ({ onAction, schedule, getUnlistedState, create }) => {
     onAction('createMCDALayer', (json) => {
       const id = json.id;
+      let legendColors: string[] | undefined;
+      if (json.colors.type === 'sentiments') {
+        const colorGood = json.colors.parameters?.good ?? DEFAULT_GREEN;
+        const colorBad = json.colors.parameters?.bad ?? DEFAULT_RED;
+        legendColors = generateHclGradientColors(
+          colorBad.toString(),
+          colorGood.toString(),
+          5,
+        );
+      }
 
       const actions: Array<Action> = [
         // Set layer settings once
@@ -70,6 +85,8 @@ export const mcdaLayerAtom = createAtom(
             type: 'mcda',
             title: i18n.t('mcda.legend_title'),
             subtitle: i18n.t('mcda.legend_subtitle'),
+            colors: legendColors,
+            steps: 5,
           }),
         ),
 

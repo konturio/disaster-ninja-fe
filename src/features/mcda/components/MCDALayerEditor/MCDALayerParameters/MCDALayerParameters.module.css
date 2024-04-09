@@ -1,0 +1,130 @@
+.unit {
+  color: var(--text-faint-strong);
+}
+
+.layer {
+  display: flex;
+  flex-flow: column;
+  padding: var(--half-unit) 0;
+}
+
+.layerHeader {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.layerEditContainer {
+  width: 100%;
+  margin-top: 12px;
+  padding: var(--half-unit) 0;
+  font-size: 12px;
+}
+
+.layer:hover {
+  background-color: var(--accent-weak);
+}
+
+.layerButtons {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.infoButton {
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+  color: var(--faint-strong);
+}
+
+.nonDefaultValues {
+  color: var(--faint-strong);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* Text input */
+.textInputBox {
+  padding: var(--half-unit);
+  height: 30px;
+  width: 55px;
+}
+
+.textInputBox input {
+  font-size: 11px;
+}
+
+.inputRangeDivider {
+  margin: 0 var(--half-unit);
+}
+
+.hiddenError {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  padding: 0;
+}
+
+.error {
+  margin: var(--half-unit) 0;
+  color: red;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.rangeInputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Select input */
+.selectInput {
+  display: flex;
+  flex-direction: row;
+}
+
+.selectInput button {
+  max-width: 77%;
+  height: 30px;
+}
+
+.selectInput button span {
+  font-size: 11px;
+  margin-top: -3px;
+}
+
+.selectInputBox {
+  font-size: 11px;
+}
+
+.resetLimits {
+  width: 100%;
+  margin-top: calc(-1 * var(--half-unit));
+  margin-bottom: var(--unit);
+  color: var(--accent-strong);
+  cursor: pointer;
+}
+
+.textButtonDisabled {
+  color: var(--faint-strong);
+}
+
+.editButton {
+  margin-inline-end: var(--unit);
+  cursor: pointer;
+  color: var(--accent-strong);
+  visibility: hidden;
+}
+
+.layer:hover .editButton {
+  visibility: visible;
+}
+
+.editorButtonsContainer {
+  margin-top: 16px;
+}
+
+.saveButton {
+  margin-right: var(--half-unit);
+}
