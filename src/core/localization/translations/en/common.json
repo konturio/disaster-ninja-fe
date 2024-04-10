@@ -26,7 +26,7 @@
     "geometry_uploader": "Upload\nGeoJSON",
     "focused_geometry_editor": "Draw or edit\ngeometry",
     "edit_in_osm": "Edit map in OSM",
-    "start_sensor_recording": "Start Sensor Recording",
+    "record_sensors": "Record sensors",
     "tools_label": "Tools",
     "selected_area_label": "Selected area",
     "upload_mcda": "Upload\nMCDA"

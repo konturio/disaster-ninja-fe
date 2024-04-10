@@ -11,7 +11,7 @@ export const liveSensorsControl = toolbar.setupControl<{
   id: SENSOR_CONTROL_ID,
   type: 'button',
   typeSettings: {
-    name: i18n.t('toolbar.start_sensor_recording'),
+    name: i18n.t('toolbar.record_sensors'),
     hint: {
       regular: i18n.t('live_sensor.start'),
       active: i18n.t('live_sensor.finish'),
