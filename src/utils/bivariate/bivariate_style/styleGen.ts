@@ -30,8 +30,8 @@ export function caseFn<T, R>(condition: T, output: R) {
   return [condition, output];
 }
 
-export function switchFn<T>(defaultCase: number | string, conditions: Array<T>) {
-  return ['case', ...conditions.flat(2), defaultCase];
+export function switchFn<T>(conditions: Array<T>, defaultCase: number | string) {
+  return ['case', ...conditions.flat(1), defaultCase];
 }
 
 export function concat<T, R>(first: T, second: R) {
@@ -95,20 +95,20 @@ export function classResolver(xValue: AxisValue, yValue: AxisValue) {
 
   return concat(
     switchFn(
-      // default case required
-      getCharByIndex(xValue.borders.length),
       // cases for a, b, c ...
       xValue.borders.map((border, i, arr) =>
         caseFn(getConditionFunc(i, arr.length)(xAxisValue, border), getCharByIndex(i)),
       ),
+      // default case required
+      getCharByIndex(xValue.borders.length),
     ),
     switchFn(
-      // default case required
-      yValue.borders.length,
       // cases for 1, 2, 3 ...
       yValue.borders.map((border, i, arr) =>
         caseFn(getConditionFunc(i, arr.length)(yAxisValue, border), i),
       ),
+      // default case required
+      yValue.borders.length,
     ),
   );
 }
@@ -125,10 +125,10 @@ export function colorResolver(
   fallbackColor: string,
 ) {
   return switchFn(
-    fallbackColor,
     Object.entries(colorMap).map(([cls, color]) =>
       // color cases
       caseFn(equal(getVariable(variableName), cls), color),
     ),
+    fallbackColor,
   );
 }
