@@ -81,7 +81,7 @@ export async function editMCDA(
 ) {
   const oldConfig = layerState.style?.config;
   if (oldConfig) {
-    const config = await editMCDAConfig(layerState?.style?.config);
+    const config = await editMCDAConfig(oldConfig);
     if (config?.id) {
       if (config.id === oldConfig.id) {
         // update existing MCDA
