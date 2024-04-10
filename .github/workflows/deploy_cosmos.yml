@@ -2,6 +2,10 @@ name: Deploy master branch to GitHub Pages
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'e2e/**'
+      - 'playwright.config.ts'
+      - '.github/workflows/run_e2e_tests.yml'
 permissions:
   contents: write
 
