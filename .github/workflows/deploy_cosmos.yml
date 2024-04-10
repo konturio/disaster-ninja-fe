@@ -2,6 +2,9 @@ name: Deploy master branch to GitHub Pages
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'e2e/**'
+      - 'playwright.config.ts'
 permissions:
   contents: write
 
