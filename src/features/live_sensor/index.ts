@@ -2,23 +2,23 @@ import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { toolbar } from '~core/toolbar';
 import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
-import { SENSOR_CONTROL, SENSOR_CONTROL_NAME } from './constants';
+import { SENSOR_CONTROL_ID } from './constants';
 import { LiveSensor } from './LiveSensor';
 
 export const liveSensorsControl = toolbar.setupControl<{
   liveSensor?: LiveSensor;
 }>({
-  id: SENSOR_CONTROL,
+  id: SENSOR_CONTROL_ID,
   type: 'button',
   typeSettings: {
-    name: SENSOR_CONTROL_NAME,
+    name: i18n.t('toolbar.start_sensor_recording'),
     hint: {
       regular: i18n.t('live_sensor.start'),
       active: i18n.t('live_sensor.finish'),
       disabled: i18n.t('live_sensor.start'),
     },
     icon: 'Car24',
-    preferredSize: 'small',
+    preferredSize: 'large',
   },
 });
 

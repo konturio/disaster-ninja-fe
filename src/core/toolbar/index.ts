@@ -2,6 +2,7 @@ import { createMapAtom, createPrimitiveAtom } from '~utils/atoms/createPrimitive
 import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from '~features/mcda/constants';
+import { SENSOR_CONTROL_ID } from '~features/live_sensor/constants';
 import type {
   ControlID,
   ControlState,
@@ -47,6 +48,7 @@ class ToolbarImpl implements Toolbar {
           'MapRuler',
           'EditInOsm',
           'BivariateMatrix',
+          SENSOR_CONTROL_ID,
           MCDA_CONTROL_ID,
           UPLOAD_MCDA_CONTROL_ID,
           'EditableLayer',
