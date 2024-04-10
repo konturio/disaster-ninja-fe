@@ -50,13 +50,14 @@ jobs:
       - name: Create .env file
         shell: bash
         run: |
-          ENV_PREFIX="${ENVIRONMENT^^}" # Convert to uppercase
+          ENV_PREFIX=$(echo "$ENVIRONMENT" | tr '[:lower:]' '[:upper:]') # Convert to uppercase
           EMAIL_VAR_NAME="${ENV_PREFIX}_EMAIL"
           PASSWORD_VAR_NAME="${ENV_PREFIX}_PASSWORD"
 
           EMAIL="${!EMAIL_VAR_NAME}"
           PASSWORD="${!PASSWORD_VAR_NAME}"
 
+          rm -rf .env.playwright.production
           echo "EMAIL=$EMAIL" >> .env.playwright.production
           echo "PASSWORD=$PASSWORD" >> .env.playwright.production
 
