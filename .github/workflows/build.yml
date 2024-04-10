@@ -14,10 +14,10 @@ on:
       - reopened
       - ready_for_review
       - synchronize
-    paths-ignore:
-      - 'e2e/**'
-      - 'playwright.config.ts'
-      - '.github/workflows/run_e2e_tests.yml'
+    # paths-ignore:
+    #   - 'e2e/**'
+    #   - 'playwright.config.ts'
+    #   - '.github/workflows/run_e2e_tests.yml'
   workflow_dispatch:
 
 env:

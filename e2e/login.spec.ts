@@ -30,6 +30,9 @@ for (const project of projects) {
     // Expect a title "to contain" a Kontur Atlas.
     await expect(page).toHaveTitle(`${project.title}`);
 
+    // Currently OAM project doesn't have cookies popups
+    if (project.hasCookieBanner) await page.getByText('Accept optional cookies').click();
+
     await page.getByText('Login').click();
 
     await expect(page.getByRole('button', { name: 'Log in' })).toBeVisible();
@@ -41,9 +44,6 @@ for (const project of projects) {
     // Getting password field and filling in
     const passwordInput = page.locator('input[type="password"]');
     await passwordInput.fill(process.env.PASSWORD!);
-
-    // Currently OAM project doesn't have cookies popups
-    if (project.hasCookieBanner) await page.getByText('Accept optional cookies').click();
 
     // Getting Log in button and clicking
     await page.getByRole('button', { name: 'Log in' }).click();
