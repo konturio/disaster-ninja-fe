@@ -2,6 +2,10 @@ name: Translations Report
 
 on:
   pull_request:
+    paths-ignore:
+      - 'e2e/**'
+      - 'playwright.config.ts'
+      - '.github/worflows/run_e2e_tests.yml'
 
 jobs:
   report:
@@ -12,7 +16,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: '20'
       - run: corepack enable
       - run: corepack prepare pnpm@8 --activate
       - name: Get pnpm store directory
@@ -31,7 +35,7 @@ jobs:
       - name: Comment
         uses: NejcZdovc/comment-pr@v1
         with:
-          file: "translations-report.md"
-          identifier: "GITHUB_COMMENT_TRANSLATION"
+          file: 'translations-report.md'
+          identifier: 'GITHUB_COMMENT_TRANSLATION'
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

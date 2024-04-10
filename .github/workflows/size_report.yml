@@ -2,6 +2,10 @@ name: Size Report
 
 on:
   pull_request:
+    paths-ignore:
+      - 'e2e/**'
+      - 'playwright.config.ts'
+      - '.github/worflows/run_e2e_tests.yml'
 
 jobs:
   build-base:
@@ -12,10 +16,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.base_ref }}
-          
+
       - uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: '20'
 
       - run: corepack enable
       - run: corepack prepare pnpm@8 --activate
@@ -56,7 +60,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: '20'
 
       - run: corepack enable
       - run: corepack prepare pnpm@8 --activate
@@ -114,14 +118,14 @@ jobs:
         id: get-diff
         uses: Konturio/bundle-size-diff@v1.0.6
         with:
-          base_path: "./base/size-report.json"
-          pr_path: "./pr/size-report.json"
+          base_path: './base/size-report.json'
+          pr_path: './pr/size-report.json'
 
       - name: Comment
         uses: NejcZdovc/comment-pr@v1
         with:
-          file: "comment.md"
-          identifier: "GITHUB_COMMENT_SIZE"
+          file: 'comment.md'
+          identifier: 'GITHUB_COMMENT_SIZE'
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           OLD: ${{steps.get-diff.outputs.base_file_string}}
