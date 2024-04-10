@@ -1,0 +1,65 @@
+name: Run e2e autotests
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        type: choice
+        required: true
+        options:
+          - dev
+          - test
+          - prod
+      app:
+        type: choice
+        required: true
+        default: all
+        options:
+          - atlas
+          - disaster-ninja
+          - smart-city
+          - oam
+          - all
+
+jobs:
+  run_tests:
+    name: Run e2e tests
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.env }}
+      APP_NAME: ${{ github.event.inputs.app }}
+      TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+      TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+      DEV_EMAIL: ${{ secrets.DEV_EMAIL }}
+      DEV_PASSWORD: ${{ secrets.DEV_PASSWORD }}
+      PROD_EMAIL: ${{ secrets.PROD_EMAIL }}
+      PROD_PASSWORD: ${{ secrets.PROD_PASSWORD }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Update playwright and install dependencies
+        shell: bash
+        run: |
+          npm install -g playwright@latest
+          npm install -D @playwright/test@latest
+          npx playwright install --with-deps
+      - name: Create .env file
+        shell: bash
+        run: |
+          ENV_PREFIX="${ENVIRONMENT^^}" # Convert to uppercase
+          EMAIL_VAR_NAME="${ENV_PREFIX}_EMAIL"
+          PASSWORD_VAR_NAME="${ENV_PREFIX}_PASSWORD"
+
+          EMAIL="${!EMAIL_VAR_NAME}"
+          PASSWORD="${!PASSWORD_VAR_NAME}"
+
+          echo "EMAIL=$EMAIL" >> .env.playwright.production
+          echo "PASSWORD=$PASSWORD" >> .env.playwright.production
+
+      - name: Move to e2e directory and run tests
+        working-directory: ./e2e
+        run: npx playwright test

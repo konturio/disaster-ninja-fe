@@ -5,7 +5,9 @@ import * as dotenv from 'dotenv';
  * https://github.com/motdotla/dotenv
  */
 
-dotenv.config({ path: ['.env.playwright.local', '.env.playwright'] });
+dotenv.config({
+  path: ['.env.playwright.production', '.env.playwright.local', '.env.playwright'],
+});
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -24,9 +26,6 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.BASE_URL,
-
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     ignoreHTTPSErrors: true,
     trace: 'on-first-retry',
