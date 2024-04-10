@@ -208,8 +208,8 @@ To view the app, visit https://localhost:3000 in your browser.
 Create a `.env.playwright.local` file in the root of the project with the following content:
 
 ```bash
-TEST_EMAIL=test_email
-TEST_PASSWORD=test_password
+EMAIL=test_email
+PASSWORD=test_password
 ```
 
 Set your projects environment at projects-config.json file
