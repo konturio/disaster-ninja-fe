@@ -59,15 +59,14 @@ jobs:
         id: cache-npm
         uses: actions/cache@v3
         env:
-          cache-name: cache-node-modules
+          cache-name: playwright-cache
         with:
           path: |
             ~/.npm
             ~/.cache/ms-playwright/
-          key: ${{ runner.os }}-playwright-${{ env.cache-name }}
+          key: ${{ runner.os }}-${{ env.cache-name }}
           restore-keys: |
-            ${{ runner.os }}-playwright-${{ env.cache-name }}
-            ${{ runner.os }}-playwright-
+            ${{ runner.os }}-${{ env.cache-name }}
             ${{ runner.os }}-
       - name: Update playwright and install dependencies
         shell: bash
