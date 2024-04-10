@@ -3,7 +3,7 @@ import { layersRegistryAtom } from '../atoms/layersRegistry';
 import { createUpdateLayerActions } from './createUpdateActions';
 import type { LayerSource } from '../types/source';
 
-export function applyNewSourceToExistingLayer(newSource: LayerSource) {
+export function applyNewLayerSource(newSource: LayerSource) {
   const id = newSource.id;
   const layerAtom = store.getState(layersRegistryAtom).get(id);
   if (layerAtom) {
@@ -17,5 +17,9 @@ export function applyNewSourceToExistingLayer(newSource: LayerSource) {
       ]).flat(),
     ]);
     store.dispatch([layerAtom.enable()]);
+  } else {
+    console.error(
+      `Cannot apply new source for ${id}. The layer with the given id not found`,
+    );
   }
 }
