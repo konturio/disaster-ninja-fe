@@ -17,7 +17,7 @@ on:
     # paths-ignore:
     #   - 'e2e/**'
     #   - 'playwright.config.ts'
-    #   - '.github/worflows/run_e2e_tests.yml'
+    #   - '.github/workflows/run_e2e_tests.yml'
   workflow_dispatch:
 
 env:
