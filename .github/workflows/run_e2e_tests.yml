@@ -61,6 +61,5 @@ jobs:
           echo "EMAIL=$EMAIL" >> .env.playwright.production
           echo "PASSWORD=$PASSWORD" >> .env.playwright.production
 
-      - name: Move to e2e directory and run tests
-        working-directory: ./e2e
+      - name: Run tests
         run: npx playwright test
