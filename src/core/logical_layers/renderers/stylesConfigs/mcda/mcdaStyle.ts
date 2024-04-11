@@ -71,6 +71,16 @@ function sentimentPaint({
   absoluteMax,
 }: PaintProps) {
   const { good = DEFAULT_GREEN, bad = DEFAULT_RED } = colorsConfig.parameters;
+  /* TODO: using midpoints for gradient customization is a temporary solution.
+  It will probably be removed in the future in favor of working with Color Manager */
+  const midpoints = Array.isArray(colorsConfig.parameters.midpoints)
+    ? colorsConfig.parameters.midpoints
+    : [];
+  const colorPoints = [
+    { value: absoluteMin, color: bad },
+    ...midpoints,
+    { value: absoluteMax, color: good },
+  ];
   return {
     'fill-color': [
       'let',
@@ -87,10 +97,7 @@ function sentimentPaint({
           'interpolate-hcl',
           ['linear'],
           ['var', 'mcdaResult'],
-          absoluteMin,
-          bad,
-          absoluteMax,
-          good,
+          ...colorPoints.flatMap((point) => [point.value, point.color]),
         ],
         // paint all values below absoluteMin (0 by default) same as absoluteMin
         ['<', ['var', 'mcdaResult'], absoluteMin],
