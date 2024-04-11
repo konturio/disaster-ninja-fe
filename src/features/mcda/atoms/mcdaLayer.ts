@@ -31,11 +31,19 @@ export const mcdaLayerAtom = createAtom(
       if (json.colors.type === 'sentiments') {
         const colorGood = json.colors.parameters?.good ?? DEFAULT_GREEN;
         const colorBad = json.colors.parameters?.bad ?? DEFAULT_RED;
-        legendColors = generateHclGradientColors(
-          colorBad.toString(),
-          colorGood.toString(),
-          5,
-        );
+        const colorMidpoints =
+          json.colors.parameters?.midpoints?.map(
+            (point) => `${point.color} ${point.value * 100}%`,
+          ) ?? null;
+        if (colorMidpoints?.length) {
+          legendColors = [colorBad.toString(), ...colorMidpoints, colorGood.toString()];
+        } else {
+          legendColors = generateHclGradientColors(
+            colorBad.toString(),
+            colorGood.toString(),
+            5,
+          );
+        }
       }
 
       const actions: Array<Action> = [

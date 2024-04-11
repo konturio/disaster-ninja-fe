@@ -6,6 +6,7 @@ import { formatBivariateAxisUnit, type Axis } from '~utils/bivariate';
 import {
   DEFAULT_GREEN,
   DEFAULT_RED,
+  DEFAULT_YELLOW,
   sentimentDefault,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { MCDAForm } from './components/MCDAForm';
@@ -75,6 +76,7 @@ function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
       parameters: {
         bad: DEFAULT_RED,
         good: DEFAULT_GREEN,
+        midpoints: [{ value: 0.5, color: DEFAULT_YELLOW }],
       },
     },
     custom: true,

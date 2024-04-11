@@ -8,6 +8,7 @@ export type ColorsBySentiments = {
   parameters: {
     good: string;
     bad: string;
+    midpoints?: { value: number; color: string }[];
   };
 };
 
