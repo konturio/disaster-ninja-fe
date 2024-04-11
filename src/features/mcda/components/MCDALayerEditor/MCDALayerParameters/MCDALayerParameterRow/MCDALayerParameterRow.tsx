@@ -17,11 +17,12 @@ export function MCDALayerParameterRow({
     <div className={s.inputLine}>
       <span className={s.inputLinelabel}>
         {name}
-        <TooltipTrigger
+        {/* TODO: hidden temporarily until we add content for these popups */}
+        {/* <TooltipTrigger
           className={s.infoButton}
           tipText={tipText}
           tooltipId={LAYERS_PANEL_FEATURE_ID}
-        />
+        /> */}
       </span>
       <div className={s.inputContainer}>{children}</div>
     </div>
