@@ -76,6 +76,8 @@ function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
       parameters: {
         bad: DEFAULT_RED,
         good: DEFAULT_GREEN,
+        /* TODO: using midpoints for gradient customization is a temporary solution.
+        It will probably be removed in the future in favor of working with Color Manager */
         midpoints: [{ value: 0.5, color: DEFAULT_YELLOW }],
       },
     },

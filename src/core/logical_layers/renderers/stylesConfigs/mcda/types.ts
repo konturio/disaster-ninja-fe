@@ -8,6 +8,8 @@ export type ColorsBySentiments = {
   parameters: {
     good: string;
     bad: string;
+    /* TODO: using midpoints for gradient customization is a temporary solution.
+    It will probably be removed in the future in favor of working with Color Manager */
     midpoints?: { value: number; color: string }[];
   };
 };
