@@ -15,37 +15,30 @@ import type {
   MCDALayer,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
-export async function editMCDAConfig(
-  layerState: LogicalLayerState,
-): Promise<MCDAConfig | null> {
-  const name = layerState.id;
-  const axises =
-    layerState.style?.config?.layers?.map((layer) => ({
-      id: layer.id,
-      label: layer.name,
-    })) ?? [];
+export async function editMCDAConfig(oldConfig: MCDAConfig): Promise<MCDAConfig | null> {
+  const name = oldConfig.id;
+  const oldLayers = oldConfig.layers ?? [];
+  const axises = oldLayers.map((layer) => ({
+    id: layer.id,
+    label: layer.name,
+  }));
   const input = await showModal(MCDAForm, {
     initialState: {
       name,
       axises,
     },
   });
-
   if (input === null) return null;
 
   const newLayers = createMCDALayersFromBivariateAxises(input.axises);
-  const oldLayers = layerState.style?.config?.layers ?? [];
   const resultLayers = newLayers.reduce<MCDALayer[]>((acc, layer) => {
+    // if there already was a layer with this id, reuse it
     const oldLayer = oldLayers.find((old) => old.id === layer.id);
     acc.push(oldLayer ?? layer);
     return acc;
   }, []);
 
-  const config = createDefaultMCDAConfig({
-    id: input.name,
-    layers: resultLayers,
-  });
-  return { ...config };
+  return { ...oldConfig, layers: resultLayers, id: input.name };
 }
 
 export async function createMCDAConfig() {

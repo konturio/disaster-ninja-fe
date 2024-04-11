@@ -33,39 +33,52 @@ export function MCDAForm({
 }) {
   // Layer name input
   const [name, setName] = useState(initialState.name);
-  const onNameChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value),
-    [],
-  );
+  const [nameError, setNameError] = useState<string>('');
+  const onNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+    if (!e.target.value) {
+      setNameError(i18n.t('mcda.error_analysis_name_cannot_be_empty'));
+    } else {
+      setNameError('');
+    }
+  }, []);
 
   // Indicators input
   const [selectedIndicators, selectIndicators] = useState<SelectableItem[]>([]);
+  const [selectionInitialized, setSelectionInitialized] = useState(false);
+
   const onSelectedIndicatorsChange = useCallback(
-    (e: { selectedItems: SelectableItem[] }) => selectIndicators(e.selectedItems),
+    (e: { selectedItems: SelectableItem[] }) => {
+      selectIndicators(e.selectedItems);
+    },
     [],
   );
   const [axisesResource] = useAtom(availableBivariateAxisesAtom);
   const inputItems = useMemo(
     () =>
-      (axisesResource.data ?? []).map((d) => ({
-        title: d.label,
-        value: d.id,
-      })) ?? [],
+      (axisesResource.data ?? [])
+        .sort((axis1, axis2) =>
+          axis1.label?.localeCompare(axis2.label, undefined, { sensitivity: 'base' }),
+        )
+        .map((d) => ({
+          title: d.label,
+          value: d.id,
+        })) ?? [],
     [axisesResource],
   );
 
-  const indicatorSelectorEmpty = selectedIndicators.length === 0;
   useEffect(() => {
     // Setup indicators input initial state after we get available indicators
     const preselected = new Set(initialState.axises.map((a) => a.id));
-    if (axisesResource.data && indicatorSelectorEmpty) {
+    if (axisesResource.data && !selectionInitialized && preselected.size > 0) {
       selectIndicators(
         axisesResource.data
           .filter((a) => preselected.has(a.id))
           .map((ind) => ({ value: ind.id, title: ind.label })),
       );
+      setSelectionInitialized(true);
     }
-  }, [initialState.axises, axisesResource, indicatorSelectorEmpty]);
+  }, [initialState.axises, axisesResource, selectionInitialized]);
 
   // Possible exits
   const cancelAction = useCallback(() => onConfirm(null), [onConfirm]);
@@ -111,7 +124,13 @@ export function MCDAForm({
           <Button type="reset" onClick={cancelAction} variant="invert-outline">
             {i18n.t('mcda.btn_cancel')}
           </Button>
-          <Button disabled={!axisesResource.data} type="submit" onClick={saveAction}>
+          <Button
+            disabled={
+              !axisesResource.data || selectedIndicators.length === 0 || !name?.length
+            }
+            type="submit"
+            onClick={saveAction}
+          >
             {i18n.t('mcda.btn_save')}
           </Button>
         </div>
@@ -121,6 +140,7 @@ export function MCDAForm({
         <Input
           type="text"
           value={name}
+          error={nameError}
           onChange={onNameChange}
           renderLabel={<Text type="label">{i18n.t('mcda.modal_input_name')}</Text>}
           placeholder={i18n.t('mcda.modal_input_name_placeholder')}

@@ -7,6 +7,7 @@ import { mcdaLayerAtom } from './atoms/mcdaLayer';
 import { createMCDAConfig, editMCDAConfig } from './mcdaConfig';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from './constants';
 import { askMcdaJSONFile } from './utils/openMcdaFile';
+import { applyNewMCDAConfig } from './utils/applyNewMCDAConfig';
 import type {
   LogicalLayerActions,
   LogicalLayerState,
@@ -78,15 +79,19 @@ export async function editMCDA(
   layerState: LogicalLayerState,
   layerActions: LogicalLayerActions,
 ) {
-  const config = await editMCDAConfig(layerState);
-  if (config?.id) {
-    // TODO: use applyNewMCDAConfig() instead of the following lines. This whole function and editMCDAConfig() should be refactored
-    layerActions.destroy();
-    store.dispatch([
-      mcdaLayerAtom.createMCDALayer({ ...config, id: config.id }),
-      enabledLayersAtom.set(config.id),
-      ...getMutualExcludedActions(layerState),
-    ]);
+  const oldConfig = layerState.style?.config;
+  if (oldConfig) {
+    const config = await editMCDAConfig(oldConfig);
+    if (config?.id) {
+      if (config.id === oldConfig.id) {
+        // update existing MCDA
+        applyNewMCDAConfig(config);
+      } else {
+        // recreate MCDA with a new id
+        layerActions.destroy();
+        store.dispatch([mcdaLayerAtom.createMCDALayer({ ...config, id: config.id })]);
+      }
+    }
   }
 }
 

@@ -212,6 +212,7 @@ export function createLogicalLayerAtom(
               `${
                 state.settings?.name || state.id || 'MCDA'
               }-${new Date().toISOString()}.json`,
+              2,
             );
           } else {
             logError('Only geojson layers or MCDA can be downloaded');
