@@ -10,6 +10,7 @@ import {
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { UserStateToComponents } from '~core/auth';
+import { PagesDocument } from '~core/pages';
 import { goTo } from './goTo';
 import type { AppRouterConfig } from './types';
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -17,8 +18,6 @@ const { ReportsPage } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
 const { ProfilePage } = lazily(() => import('~views/Profile/Profile'));
 const { AboutPage } = lazily(() => import('~views/About/About'));
-const { PrivacyPage } = lazily(() => import('~views/Privacy/Privacy'));
-const { CookiesPage } = lazily(() => import('~views/Cookies/Cookies'));
 const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
@@ -72,24 +71,27 @@ export const routerConfig: AppRouterConfig = {
       slug: 'about',
       title: i18n.t('modes.about'),
       icon: <Info24 />,
-      view: <AboutPage toHomePage={() => goTo('')} />,
+      view: <AboutPage />,
       showForNewUsers: true,
+      requiredFeature: AppFeature.ABOUT_PAGE,
     },
     {
       slug: 'privacy',
       title: i18n.t('modes.privacy'),
       icon: <Reports16 />,
-      view: <PrivacyPage />,
+      view: <PagesDocument doc={[{ type: 'md', url: 'privacy.md' }]} />,
       parentRoute: 'about',
       visibilityInNavigation: 'always',
+      requiredFeature: AppFeature.ABOUT_PAGE,
     },
     {
       slug: 'cookies',
       title: 'modes.cookies',
       icon: <Reports16 />,
-      view: <CookiesPage />,
+      view: <PagesDocument doc={[{ type: 'md', url: 'cookies.md' }]} />,
       parentRoute: 'about',
       visibilityInNavigation: 'never',
+      requiredFeature: AppFeature.ABOUT_PAGE,
     },
   ],
 };
