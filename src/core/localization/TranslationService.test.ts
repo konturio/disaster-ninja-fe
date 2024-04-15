@@ -26,5 +26,13 @@ describe('TranslationService.getSupportedLanguage()', () => {
         TranslationService.getSupportedLanguage(userLanguages, fallbackLanguage),
       ).toEqual('en');
     });
+
+    it('should not throw errors for incorrect language codes', () => {
+      const userLanguages = ['fake-CODE', '', 'es'];
+      const fallbackLanguage = 'en';
+      expect(
+        TranslationService.getSupportedLanguage(userLanguages, fallbackLanguage),
+      ).toEqual('es');
+    });
   });
 });

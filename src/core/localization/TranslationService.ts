@@ -53,12 +53,17 @@ export const TranslationService = {
     fallbackLanguage: string,
   ) => {
     for (const langCode of preferredLanguages) {
-      if (langCode) {
+      try {
         const language = new Intl.Locale(langCode).language;
         if (language in languageResources) {
           return language;
         }
+      } catch {
+        console.error("Couldn't parse language code:", langCode);
       }
+    }
+    if (!(fallbackLanguage in languageResources)) {
+      console.error(`Provided fallback language (${fallbackLanguage}) isn't supported`);
     }
     return fallbackLanguage;
   },
