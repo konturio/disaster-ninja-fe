@@ -12,6 +12,16 @@ import type { TOptionsBase } from 'i18next';
 
 export const I18N_FALLBACK_LANGUAGE = 'en';
 
+const languageResources = {
+  en: { common: en_common },
+  es: { common: es_common },
+  ar: { common: ar_common },
+  ko: { common: ko_common },
+  id: { common: id_common },
+  de: { common: de_common },
+  uk: { common: uk_common },
+};
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -25,13 +35,7 @@ i18n
     contextSeparator: ':',
     pluralSeparator: ':',
     resources: {
-      en: { common: en_common },
-      es: { common: es_common },
-      ar: { common: ar_common },
-      ko: { common: ko_common },
-      id: { common: id_common },
-      de: { common: de_common },
-      uk: { common: uk_common },
+      ...languageResources,
     },
   });
 
@@ -43,6 +47,25 @@ export const TranslationService = {
     if (typeof translation === 'string') return translation;
     console.error(`Not supported translation result for key: ${key}`);
     return key;
+  },
+  getSupportedLanguage: (
+    preferredLanguages: readonly string[],
+    fallbackLanguage: string,
+  ) => {
+    for (const langCode of preferredLanguages) {
+      try {
+        const language = new Intl.Locale(langCode).language;
+        if (language in languageResources) {
+          return language;
+        }
+      } catch {
+        console.error("Couldn't parse language code:", langCode);
+      }
+    }
+    if (!(fallbackLanguage in languageResources)) {
+      console.error(`Provided fallback language (${fallbackLanguage}) isn't supported`);
+    }
+    return fallbackLanguage;
   },
   instance: i18n,
 };

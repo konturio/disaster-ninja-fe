@@ -51,10 +51,14 @@ export async function setupApplicationEnv() {
   // If not - we use public
   // publicUser takes settings from stage configuration
   // TODO - get user settings by token
+
   const initialUser =
     appConfig.user ??
     createPublicUser({
-      language: stageConfig.defaultLanguage,
+      language: i18n.getSupportedLanguage(
+        navigator.languages,
+        stageConfig.defaultLanguage,
+      ),
       osmEditor: stageConfig.osmEditors[0].id,
       defaultFeed: stageConfig.defaultFeed,
     });
