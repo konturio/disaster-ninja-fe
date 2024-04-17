@@ -17,7 +17,7 @@ export const focusedGeometryControl = toolbar.setupControl({
   },
 });
 
-focusedGeometryControl.onStateChange(async (ctx, state) => {
+focusedGeometryControl.onStateChange(async (ctx, state, prevState) => {
   if (state === 'active') {
     try {
       // Read focused geometry
@@ -41,7 +41,7 @@ focusedGeometryControl.onStateChange(async (ctx, state) => {
       // Re-enable focused geometry layer
       store.dispatch([enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID)]);
     }
-  } else {
+  } else if (prevState === 'active') {
     // TODO
     // const agree = window.confirm(i18n('focused_geometry_editor.exit_confirmation'));
     // if (agree)

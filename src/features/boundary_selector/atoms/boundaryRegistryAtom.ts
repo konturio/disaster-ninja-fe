@@ -125,13 +125,14 @@ boundarySelectorControl.onInit((ctx) => {
   return forceRun(boundaryRegistryAtom);
 });
 
-boundarySelectorControl.onStateChange((ctx, state) => {
+boundarySelectorControl.onStateChange((ctx, state, prevState) => {
   switch (state) {
     case 'active':
       if (ctx.boundaryRegistryAtom) store.dispatch(ctx.boundaryRegistryAtom.start());
       break;
 
     default:
-      if (ctx.boundaryRegistryAtom) store.dispatch(ctx.boundaryRegistryAtom.stop());
+      if (prevState === 'active' && ctx.boundaryRegistryAtom)
+        store.dispatch(ctx.boundaryRegistryAtom.stop());
   }
 });
