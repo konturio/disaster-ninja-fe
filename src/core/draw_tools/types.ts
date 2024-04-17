@@ -12,7 +12,7 @@ export interface DrawToolController {
 export interface DrawToolsController {
   init: () => void;
   dissolve: () => void;
-  edit: (geometry: GeoJSON.GeoJSON) => Promise<GeoJSON.FeatureCollection>;
+  edit: (geometry: GeoJSON.GeoJSON) => Promise<GeoJSON.FeatureCollection | null>;
   exit: () => void;
   isActivated: boolean;
   geometry: GeoJSON.FeatureCollection;

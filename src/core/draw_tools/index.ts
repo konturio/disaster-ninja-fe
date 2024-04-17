@@ -34,9 +34,9 @@ function DeferredPromise<T>() {
 class DrawToolsControllerImpl implements DrawToolsController {
   isActivated = false;
   private deferred: null | {
-    resolve: (geometry: GeoJSON.FeatureCollection) => void;
+    resolve: (geometry: GeoJSON.FeatureCollection | null) => void;
     reject: (err: Error) => void;
-    promise: Promise<GeoJSON.FeatureCollection>;
+    promise: Promise<GeoJSON.FeatureCollection | null>;
   } = null;
   private unsubscribe?: () => void;
 
@@ -49,7 +49,7 @@ class DrawToolsControllerImpl implements DrawToolsController {
     throw Error('Not implemented');
   }
 
-  async edit(geometry: GeoJSON.GeoJSON): Promise<GeoJSON.FeatureCollection> {
+  async edit(geometry: GeoJSON.GeoJSON): Promise<GeoJSON.FeatureCollection | null> {
     // Edit already in progress
     if (this.deferred) {
       console.warn('Unexpected attempt call edit while it already in edit state');
@@ -75,7 +75,7 @@ class DrawToolsControllerImpl implements DrawToolsController {
       }),
     ]);
 
-    this.deferred = DeferredPromise<GeoJSON.FeatureCollection>();
+    this.deferred = DeferredPromise<GeoJSON.FeatureCollection | null>();
     return this.deferred.promise;
   }
 
@@ -87,8 +87,9 @@ class DrawToolsControllerImpl implements DrawToolsController {
     ]);
     this.unsubscribe?.();
     if (this.deferred) {
-      this.deferred.reject(Error('Edit mode exited before completion.'));
-      return this.deferred;
+      console.warn('Edit mode exited before completion.');
+      this.deferred.resolve(null);
+      this.deferred = null;
     }
   }
 
