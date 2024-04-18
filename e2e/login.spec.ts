@@ -6,7 +6,9 @@ const projects = getProjects();
 
 // Create a loop to loop over all the projects and create a test for everyone
 for (const project of projects) {
-  test(`As User, I can login to ${project.title}`, async ({ page }) => {
+  test(`As User, I can login to ${project.title}, check that this profile is mine, and log out`, async ({
+    page,
+  }) => {
     const pm = new PageManager(page);
     await page.goto(project.url);
 
@@ -24,7 +26,14 @@ for (const project of projects) {
       50,
     );
 
-    // Check that logout button is present
-    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
+    await pm.onProfilePage.checkProfilePageForLogoutBtnAndProfileTitleAndCheckEmailIfNeeded(
+      process.env.EMAIL!,
+    );
+    await pm.onProfilePage.clickLogout();
+    await pm.onProfilePage.checkProfilePageForLogoutBtnAndProfileTitleAndCheckEmailIfNeeded(
+      undefined,
+      false,
+    );
+    await pm.onLoginPage.checkLoginAndSignupPresence();
   });
 }

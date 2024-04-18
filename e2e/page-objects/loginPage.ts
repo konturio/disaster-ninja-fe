@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { HelperBase } from './helperBase';
 
 export class LoginPage extends HelperBase {
@@ -10,7 +10,7 @@ export class LoginPage extends HelperBase {
    */
 
   async typeLoginPasswordAndLogin(email: string, password: string, speed: number) {
-    await expect(this.page.getByRole('button', { name: 'Log in' })).toBeVisible();
+    await this.checkLoginAndSignupPresence();
     // Getting email field and type in like real user
     const emailInput = this.page.getByRole('textbox').first();
     await emailInput.pressSequentially(email, { delay: speed });
@@ -21,5 +21,13 @@ export class LoginPage extends HelperBase {
 
     // Getting Log in button and clicking
     await this.page.getByRole('button', { name: 'Log in' }).click();
+  }
+
+  /**
+   * This method checks that there are login and sign up elements
+   */
+  async checkLoginAndSignupPresence() {
+    await expect(this.page.getByRole('button', { name: 'Log in' })).toBeVisible();
+    await expect(this.page.getByText('Sign up')).toBeVisible();
   }
 }
