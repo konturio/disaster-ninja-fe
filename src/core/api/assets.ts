@@ -5,7 +5,7 @@ import { i18n } from '~core/localization';
 export function getAsset(asset: string, abortController?: AbortController) {
   const endpoint = `/apps/${configRepo.get().id}/assets`;
   return apiClient.get(`${endpoint}/${asset}`, undefined, true, {
-    headers: { 'User-Language': i18n.instance.language },
+    headers: { 'user-language': i18n.instance.language },
     signal: abortController ? abortController.signal : undefined,
   });
 }
