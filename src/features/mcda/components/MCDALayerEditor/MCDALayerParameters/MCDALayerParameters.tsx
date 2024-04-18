@@ -96,6 +96,12 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         value: layer.normalization,
       });
     }
+    if (layer.outliers !== DEFAULTS.outliers) {
+      result.push({
+        paramName: i18n.t('mcda.layer_editor.outliers'),
+        value: layer.outliers,
+      });
+    }
     return result;
   }, [layer]);
 
