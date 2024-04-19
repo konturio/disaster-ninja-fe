@@ -9,6 +9,7 @@ export const UserStateStatus = {
 export type UserStateType = (typeof UserStateStatus)[keyof typeof UserStateStatus];
 
 export const AppFeature = {
+  ABOUT_PAGE: 'about_page',
   APP_LOGIN: 'app_login',
   ANALYTICS_PANEL: 'analytics_panel',
   ADVANCED_ANALYTICS_PANEL: 'advanced_analytics_panel',
