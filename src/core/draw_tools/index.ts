@@ -20,12 +20,10 @@ function DeferredPromise<T>() {
   // @ts-expect-error this values assigned later
   const deferred: {
     resolve: (value: T | PromiseLike<T>) => void;
-    reject: (reason?: any) => void;
     promise: Promise<T>;
   } = {};
   const promise = new Promise<T>((resolve, reject) => {
     deferred.resolve = resolve;
-    deferred.reject = reject;
   });
   deferred.promise = promise;
   return deferred;
@@ -35,7 +33,6 @@ class DrawToolsControllerImpl implements DrawToolsController {
   isActivated = false;
   private deferred: null | {
     resolve: (geometry: GeoJSON.FeatureCollection | null) => void;
-    reject: (err: Error) => void;
     promise: Promise<GeoJSON.FeatureCollection | null>;
   } = null;
   private unsubscribe?: () => void;
