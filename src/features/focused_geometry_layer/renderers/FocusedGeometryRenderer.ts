@@ -32,6 +32,7 @@ const getLayersConfig = (
       paint: {
         'line-width': 8,
         'line-color': FOCUSED_GEOMETRY_COLOR,
+        'line-offset': -3,
       },
       layout: {
         'line-join': 'round',
@@ -45,6 +46,7 @@ const getLayersConfig = (
         'line-width': 10,
         'line-color': '#FFF',
         'line-opacity': 0.5,
+        'line-offset': -4,
       },
       layout: {
         'line-join': 'round',
