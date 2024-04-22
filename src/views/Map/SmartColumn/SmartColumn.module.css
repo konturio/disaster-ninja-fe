@@ -1,7 +1,7 @@
 .smartColumn {
   position: relative;
   pointer-events: none;
-  min-width: 320px;
+  min-width: 400px;
 }
 
 .smartColumnContent {

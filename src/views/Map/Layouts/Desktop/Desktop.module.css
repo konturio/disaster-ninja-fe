@@ -6,8 +6,8 @@
 
   /* analytics+layers column, map column, layers&legends column */
   grid-template-columns:
-    fit-content(320px) minmax(440px, 10fr)
-    fit-content(320px);
+    fit-content(400px) minmax(440px, 10fr)
+    fit-content(400px);
   grid-template-rows: calc(100% - 40px - var(--unit)) 40px var(--unit);
 }
 
