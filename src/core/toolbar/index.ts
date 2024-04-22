@@ -111,7 +111,9 @@ class ToolbarImpl implements Toolbar {
     settings: ToolbarControlSettings,
   ): ControlController<Ctx> {
     const onInitCbs = new Set<(ctx: Ctx) => OnRemoveCb | void>();
-    const onStateChangeCbs = new Set<(ctx: Ctx, state: ControlState) => void>();
+    const onStateChangeCbs = new Set<
+      (ctx: Ctx, state: ControlState, prevState: ControlState) => void
+    >();
     const onRemoveCbs = new Set<(ctx: Ctx) => void>();
     let initialised = false;
 
@@ -142,8 +144,8 @@ class ToolbarImpl implements Toolbar {
       if (prevState === 'active' && state !== 'active' && settings.borrowMapInteractions)
         this.enableBorrowMapControls(settings.id);
 
+      onStateChangeCbs.forEach((cb) => cb(controlContext, state, prevState));
       prevState = state;
-      onStateChangeCbs.forEach((cb) => cb(controlContext, state));
     });
 
     // Dispatching the initial state of the control

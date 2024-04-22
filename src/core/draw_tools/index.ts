@@ -20,12 +20,10 @@ function DeferredPromise<T>() {
   // @ts-expect-error this values assigned later
   const deferred: {
     resolve: (value: T | PromiseLike<T>) => void;
-    reject: (reason?: any) => void;
     promise: Promise<T>;
   } = {};
   const promise = new Promise<T>((resolve, reject) => {
     deferred.resolve = resolve;
-    deferred.reject = reject;
   });
   deferred.promise = promise;
   return deferred;
@@ -34,22 +32,22 @@ function DeferredPromise<T>() {
 class DrawToolsControllerImpl implements DrawToolsController {
   isActivated = false;
   private deferred: null | {
-    resolve: (geometry: GeoJSON.FeatureCollection) => void;
-    reject: (err: Error) => void;
-    promise: Promise<GeoJSON.FeatureCollection>;
+    resolve: (geometry: GeoJSON.FeatureCollection | null) => void;
+    promise: Promise<GeoJSON.FeatureCollection | null>;
   } = null;
   private unsubscribe?: () => void;
 
   init() {
     drawModeRenderer.setupExtension(combinedAtom);
-    this.unsubscribe = forceRun(combinedAtom); // TODO is this really needed?
   }
 
   dissolve() {
     throw Error('Not implemented');
   }
 
-  async edit(geometry: GeoJSON.GeoJSON): Promise<GeoJSON.FeatureCollection> {
+  async edit(geometry: GeoJSON.GeoJSON): Promise<GeoJSON.FeatureCollection | null> {
+    // forceRun is used to keep combinedAtom active during editing
+    this.unsubscribe = forceRun(combinedAtom);
     // Edit already in progress
     if (this.deferred) {
       console.warn('Unexpected attempt call edit while it already in edit state');
@@ -75,7 +73,7 @@ class DrawToolsControllerImpl implements DrawToolsController {
       }),
     ]);
 
-    this.deferred = DeferredPromise<GeoJSON.FeatureCollection>();
+    this.deferred = DeferredPromise<GeoJSON.FeatureCollection | null>();
     return this.deferred.promise;
   }
 
@@ -85,10 +83,12 @@ class DrawToolsControllerImpl implements DrawToolsController {
       activeDrawModeAtom.setDrawMode(null),
       drawnGeometryAtom.setFeatures([]),
     ]);
+    // TODO: Do we really need to unsubscribe and resubscribe combinedAtom for each edit?
     this.unsubscribe?.();
     if (this.deferred) {
-      this.deferred.reject(Error('Edit mode exited before completion.'));
-      return this.deferred;
+      console.warn('Edit mode exited before completion.');
+      this.deferred.resolve(null);
+      this.deferred = null;
     }
   }
 

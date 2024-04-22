@@ -77,7 +77,9 @@ export interface ControlController<Ctx = Record<string, unknown>> {
   setState: (state: ControlState) => Action<ControlState>;
   // Hooks
   onInit: (cb: (ctx: Ctx) => OnRemoveCb | void) => void;
-  onStateChange: (cb: (ctx: Ctx, state: ControlState) => void) => void;
+  onStateChange: (
+    cb: (ctx: Ctx, state: ControlState, prevState: ControlState) => void,
+  ) => void;
   onRemove: (cb: (ctx: Ctx) => void) => void;
   // Subscriptions
   stateStream: StateStream<ControlState>;
