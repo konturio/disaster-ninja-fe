@@ -46,7 +46,7 @@ const getLayersConfig = (
         'line-width': 10,
         'line-color': '#FFF',
         'line-opacity': 0.5,
-        'line-offset': -3,
+        'line-offset': -4,
       },
       layout: {
         'line-join': 'round',
