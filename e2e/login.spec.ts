@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { getProjects } from './page-objects/helperBase.ts';
 import { PageManager } from './page-objects/pageManager.ts';
 
@@ -10,30 +10,16 @@ for (const project of projects) {
     page,
   }) => {
     const pm = new PageManager(page);
-    await page.goto(project.url);
-
-    // Expect a title "to contain" a Kontur Atlas.
-    await expect(page).toHaveTitle(`${project.title}`);
-
-    // Currently, OAM project doesn't have cookies popups
-    if (project.hasCookieBanner) await page.getByText('Accept optional cookies').click();
-
+    await pm.atBrowser.openProject(project);
     await page.getByText('Login').click();
-
-    await pm.onLoginPage.typeLoginPasswordAndLogin(
+    await pm.atLoginPage.typeLoginPasswordAndLogin(
       process.env.EMAIL!,
       process.env.PASSWORD!,
       50,
     );
-
-    await pm.onProfilePage.checkProfilePageForLogoutBtnAndProfileTitleAndCheckEmailIfNeeded(
-      process.env.EMAIL!,
-    );
-    await pm.onProfilePage.clickLogout();
-    await pm.onProfilePage.checkProfilePageForLogoutBtnAndProfileTitleAndCheckEmailIfNeeded(
-      undefined,
-      false,
-    );
-    await pm.onLoginPage.checkLoginAndSignupPresence();
+    await pm.atProfilePage.checkLogoutBtnProfileTitleAndEmail(process.env.EMAIL!);
+    await pm.atProfilePage.clickLogout();
+    await pm.atProfilePage.checkLogoutBtnAndProfileAbsence();
+    await pm.atLoginPage.checkLoginAndSignupPresence();
   });
 }

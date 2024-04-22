@@ -3,28 +3,18 @@ import { HelperBase } from './helperBase';
 
 export class ProfilePage extends HelperBase {
   /**
-   * By default, this method checks that at profile page there is a logout button. Also checks that at least one element with "Profile" text is present. After that it compares the email got with email passed to it. But also it can check that no 'Profile' texts and logout buttons are present
+   * This method checks that at profile page there is a logout button. Also checks that at least one element with "Profile" text is present. After that it compares the email got with email passed to it.
    * @param email expected email to what value should be equal to
-   * @param isVisible true to check profile presence, false - profile absence
    */
 
-  async checkProfilePageForLogoutBtnAndProfileTitleAndCheckEmailIfNeeded(
-    email: string = 'email',
-    isVisible: boolean = true,
-  ) {
-    const logoutBtn = await this.page.getByRole('button', { name: 'Logout' });
-    const profileTextElements = await this.page.getByText('Profile').nth(1);
-
-    if (isVisible) {
-      // Check that logout button is present
-      await expect(logoutBtn).toBeVisible();
-      await expect(profileTextElements).toBeVisible();
-      const actualEmail = await this.getProfileEmailValueAndCheckFieldIsDisabled();
-      expect(actualEmail).toEqual(email);
-    } else {
-      await expect(logoutBtn).not.toBeVisible();
-      await expect(profileTextElements).not.toBeVisible();
-    }
+  async checkLogoutBtnProfileTitleAndEmail(email: string) {
+    const logoutBtn = this.page.getByRole('button', { name: 'Logout' });
+    const profileTextElements = this.page.getByText('Profile').nth(1);
+    // Check that logout button is present
+    await expect(logoutBtn).toBeVisible();
+    await expect(profileTextElements).toBeVisible();
+    const actualEmail = await this.getEmailValueAndCheckThisFieldIsDisabled();
+    expect(actualEmail).toEqual(email);
   }
 
   /**
@@ -32,7 +22,7 @@ export class ProfilePage extends HelperBase {
    * @returns email value to then assert it
    */
 
-  async getProfileEmailValueAndCheckFieldIsDisabled() {
+  async getEmailValueAndCheckThisFieldIsDisabled() {
     const emailField = this.page.getByText('Email').locator('..').locator('input');
     const emailValue = await emailField.inputValue();
     await expect(emailField).toHaveAttribute('disabled');
@@ -43,6 +33,15 @@ export class ProfilePage extends HelperBase {
    */
   async clickLogout() {
     await this.page.getByRole('button', { name: 'Logout' }).click();
-    await this.page.waitForTimeout(300);
+  }
+
+  /**
+   * This method checks that page doesn't have any logout button or elements with Profile text
+   */
+  async checkLogoutBtnAndProfileAbsence() {
+    const logoutBtn = this.page.getByRole('button', { name: 'Logout' });
+    const profileTextElements = this.page.getByText('Profile').nth(1);
+    await expect(logoutBtn).not.toBeVisible();
+    await expect(profileTextElements).not.toBeVisible();
   }
 }
