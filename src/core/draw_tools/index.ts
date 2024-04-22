@@ -42,7 +42,6 @@ class DrawToolsControllerImpl implements DrawToolsController {
 
   init() {
     drawModeRenderer.setupExtension(combinedAtom);
-    this.unsubscribe = forceRun(combinedAtom); // TODO is this really needed?
   }
 
   dissolve() {
@@ -50,6 +49,8 @@ class DrawToolsControllerImpl implements DrawToolsController {
   }
 
   async edit(geometry: GeoJSON.GeoJSON): Promise<GeoJSON.FeatureCollection | null> {
+    // forceRun is used to keep combinedAtom active during editing
+    this.unsubscribe = forceRun(combinedAtom);
     // Edit already in progress
     if (this.deferred) {
       console.warn('Unexpected attempt call edit while it already in edit state');
@@ -85,6 +86,7 @@ class DrawToolsControllerImpl implements DrawToolsController {
       activeDrawModeAtom.setDrawMode(null),
       drawnGeometryAtom.setFeatures([]),
     ]);
+    // TODO: Do we really need to unsubscribe and resubscribe combinedAtom for each edit?
     this.unsubscribe?.();
     if (this.deferred) {
       console.warn('Edit mode exited before completion.');
