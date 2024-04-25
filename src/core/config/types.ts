@@ -20,6 +20,7 @@ export interface AppConfig {
   features: FeaturesConfig;
   sidebarIconUrl: string;
   faviconUrl: string;
+  faviconPack: Record<string, string>;
   public: boolean;
   extent: [number, number, number, number];
   user?: UserDto;

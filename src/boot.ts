@@ -44,6 +44,23 @@ export async function setupApplicationEnv() {
   // App related configs
   const appConfig = await getAppConfig(sharedConfig.app);
 
+  // Setting up favicons dynamically fron app config.
+  // It covers the case when an app is loaded using DN domain.
+  const link32 = document.querySelector("link[id='favicon-ico']") as HTMLLinkElement;
+  if (link32 && appConfig.faviconPack['favicon.ico']) {
+    link32.href = appConfig.faviconPack['favicon.ico'];
+  }
+  const linkSvg = document.querySelector("link[id='favicon-svg']") as HTMLLinkElement;
+  if (linkSvg && appConfig.faviconPack['favicon.svg']) {
+    linkSvg.href = appConfig.faviconPack['favicon.svg'];
+  }
+  const linkAppleTouch = document.querySelector(
+    "link[id='favicon-apple-touch']",
+  ) as HTMLLinkElement;
+  if (linkAppleTouch && appConfig.faviconPack['apple-touch-icon.png']) {
+    linkAppleTouch.href = appConfig.faviconPack['apple-touch-icon.png'];
+  }
+
   // WTF moment: Sometimes user comes with app settings...
   // Just because backend probably know user from token in request
   // User added to this response.
