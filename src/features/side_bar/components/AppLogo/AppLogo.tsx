@@ -12,8 +12,7 @@ type AppLogoProps = {
 };
 
 export function AppLogo({ isOpen, labelClassName, className }: AppLogoProps) {
-  const iconPath =
-    configRepo.get().sidebarIconUrl && transformIconLink(configRepo.get().sidebarIconUrl);
+  const iconPath = configRepo.get().sidebarIconUrl;
 
   const appIcon = iconPath ? (
     <div className={s.logoContainer}>
