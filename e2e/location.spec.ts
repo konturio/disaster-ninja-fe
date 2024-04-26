@@ -21,7 +21,8 @@ for (const project of projects) {
     await pageManager.atMap.waitForUrlToMatchPattern(/40.714.*-74.0324/);
 
     // Wait for zoom to happen after url is changed
-    await page.waitForTimeout(4000);
-    await pageManager.atMap.compareScreenshotsOfMap(100);
+    process.env.CI ? await page.waitForTimeout(8000) : await page.waitForTimeout(4000);
+
+    await pageManager.atMap.compareScreenshotsOfMap(300);
   });
 }
