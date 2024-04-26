@@ -53,6 +53,7 @@ export const AppFeature = {
   MCDA: 'mcda',
   TOOLBAR: 'toolbar',
   LAYER_FEATURES_PANEL: 'layer_features_panel',
+  REFERENCE_AREA: 'reference_area',
 } as const;
 
 export type AppFeatureType = (typeof AppFeature)[keyof typeof AppFeature];

@@ -107,6 +107,11 @@ export function MapPage() {
         initBivariateMatrix();
       });
     }
+    if (featureFlags[FeatureFlag.REFERENCE_AREA]) {
+      import('~features/reference_area').then(({ initReferenceArea }) =>
+        initReferenceArea(),
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [featureFlags]);
 

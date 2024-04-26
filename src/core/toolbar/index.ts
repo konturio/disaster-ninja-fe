@@ -3,6 +3,9 @@ import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from '~features/mcda/constants';
 import { SENSOR_CONTROL_ID } from '~features/live_sensor/constants';
+import { SAVE_AS_REFERENCE_AREA_CONTROL_ID } from '~features/reference_area/constants';
+import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '~widgets/FocusedGeometryEditor/constants';
+import { BOUNDARY_SELECTOR_CONTROL_ID } from '~features/boundary_selector/constants';
 import type {
   ControlID,
   ControlState,
@@ -56,7 +59,12 @@ class ToolbarImpl implements Toolbar {
       },
       {
         name: i18n.t('toolbar.selected_area_label'),
-        controls: ['BoundarySelector', 'UploadFile', 'FreehandGeometry'],
+        controls: [
+          BOUNDARY_SELECTOR_CONTROL_ID,
+          'UploadFile',
+          FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
+          SAVE_AS_REFERENCE_AREA_CONTROL_ID,
+        ],
       },
     ],
   };
@@ -102,7 +110,8 @@ class ToolbarImpl implements Toolbar {
         if (stateAtom.getState() === 'active') store.dispatch(stateAtom.set('regular'));
       },
       (controlId, settings) =>
-        controlId !== activeControlId && settings.id !== 'FreehandGeometry',
+        controlId !== activeControlId &&
+        settings.id !== FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
     );
   }
 
