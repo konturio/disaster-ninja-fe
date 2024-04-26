@@ -5,8 +5,27 @@ import { readInitialUrl } from '~core/url_store/readInitialUrl';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { getDefaultLayers } from '~core/api/layers';
+import { setupWebManifest } from 'webmanifest';
+import type { AppConfig } from '~core/config/types';
 import type { UserDto } from '~core/app/user';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
+
+function setupAppIcons(appConfig: AppConfig) {
+  const link32 = document.querySelector("link[id='favicon-ico']") as HTMLLinkElement;
+  if (link32 && appConfig.faviconPack['favicon.ico']) {
+    link32.href = appConfig.faviconPack['favicon.ico'];
+  }
+  const linkSvg = document.querySelector("link[id='favicon-svg']") as HTMLLinkElement;
+  if (linkSvg && appConfig.faviconPack['favicon.svg']) {
+    linkSvg.href = appConfig.faviconPack['favicon.svg'];
+  }
+  const linkAppleTouch = document.querySelector(
+    "link[id='favicon-apple-touch']",
+  ) as HTMLLinkElement;
+  if (linkAppleTouch && appConfig.faviconPack['apple-touch-icon.png']) {
+    linkAppleTouch.href = appConfig.faviconPack['apple-touch-icon.png'];
+  }
+}
 
 export async function setupApplicationEnv() {
   printMeta();
@@ -46,20 +65,8 @@ export async function setupApplicationEnv() {
 
   // Setting up favicons dynamically fron app config.
   // It covers the case when an app is loaded using DN domain.
-  const link32 = document.querySelector("link[id='favicon-ico']") as HTMLLinkElement;
-  if (link32 && appConfig.faviconPack['favicon.ico']) {
-    link32.href = appConfig.faviconPack['favicon.ico'];
-  }
-  const linkSvg = document.querySelector("link[id='favicon-svg']") as HTMLLinkElement;
-  if (linkSvg && appConfig.faviconPack['favicon.svg']) {
-    linkSvg.href = appConfig.faviconPack['favicon.svg'];
-  }
-  const linkAppleTouch = document.querySelector(
-    "link[id='favicon-apple-touch']",
-  ) as HTMLLinkElement;
-  if (linkAppleTouch && appConfig.faviconPack['apple-touch-icon.png']) {
-    linkAppleTouch.href = appConfig.faviconPack['apple-touch-icon.png'];
-  }
+  setupAppIcons(appConfig);
+  setupWebManifest(appConfig);
 
   // WTF moment: Sometimes user comes with app settings...
   // Just because backend probably know user from token in request
