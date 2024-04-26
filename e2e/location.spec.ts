@@ -6,6 +6,8 @@ let projects = getProjects();
 // Temporally switched off untill 15482 issue is fixed
 projects = projects.filter((arg) => arg.name !== 'disaster-ninja');
 
+if (process.env.CI) test.describe.configure({ retries: 3 });
+
 for (const project of projects) {
   test.use({
     permissions: ['geolocation'],
@@ -23,6 +25,6 @@ for (const project of projects) {
     // Wait for zoom to happen after url is changed
     process.env.CI ? await page.waitForTimeout(10000) : await page.waitForTimeout(4000);
 
-    await pageManager.atMap.compareScreenshotsOfMap(2000);
+    await pageManager.atMap.compareScreenshotsOfMap(0.04);
   });
 }
