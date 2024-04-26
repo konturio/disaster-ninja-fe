@@ -25,6 +25,6 @@ for (const project of projects) {
     // Wait for zoom to happen after url is changed
     process.env.CI ? await page.waitForTimeout(10000) : await page.waitForTimeout(4000);
 
-    await pageManager.atMap.compareScreenshotsOfMap(0.04);
+    await pageManager.atMap.compareScreenshotsOfMap(0.03);
   });
 }
