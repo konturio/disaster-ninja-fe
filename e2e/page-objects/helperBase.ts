@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-type Project = {
+export type Project = {
   env: 'prod' | 'dev' | 'test';
   name: string;
   url: string;
