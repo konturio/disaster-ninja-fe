@@ -6,14 +6,11 @@ import fs from 'fs';
 const languageCodes = ['ar', 'de', 'es', 'id', 'ko', 'uk'];
 
 const processLinkAndText = (linkAndText) => {
-  const devidedArrLinkAndText = linkAndText.split(']');
-  const textOfLink = devidedArrLinkAndText[0].replace('[', '');
-  const link = devidedArrLinkAndText[1].slice(1, devidedArrLinkAndText[1].length - 1);
-  const result = {
-    link: link,
-    text: textOfLink,
+  const [textOfLink, link] = linkAndText.split(']');
+  return {
+    link: link.slice(1, -1),
+    text: textOfLink.slice(1),
   };
-  return result;
 };
 
 // Here is the test itself
@@ -24,12 +21,14 @@ const compareLinksTest = (languageCode: string) => {
   );
   // Using parser to parse data
   const poData = gettextParser.po.parse(poFileContent).translations[''];
+
+  // Match [sometext](sometext)
+  const regularExpToFind = /\[.*?\]\(.*?\)/g;
+
   // Looping over converted object to array
   for (const [reference, info] of Object.entries(poData)) {
     // exclude "" key
     if (reference) {
-      // Match [sometext](sometext)
-      const regularExpToFind = /\[.*?\]\(.*?\)/g;
       const engVersion = info.msgid;
       const translatedVersion = info.msgstr[0];
 
