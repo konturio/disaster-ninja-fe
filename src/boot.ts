@@ -10,23 +10,6 @@ import type { AppConfig } from '~core/config/types';
 import type { UserDto } from '~core/app/user';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 
-function setupAppIcons(appConfig: AppConfig) {
-  const link32 = document.querySelector("link[id='favicon-ico']") as HTMLLinkElement;
-  if (link32 && appConfig.faviconPack['favicon.ico']) {
-    link32.href = appConfig.faviconPack['favicon.ico'];
-  }
-  const linkSvg = document.querySelector("link[id='favicon-svg']") as HTMLLinkElement;
-  if (linkSvg && appConfig.faviconPack['favicon.svg']) {
-    linkSvg.href = appConfig.faviconPack['favicon.svg'];
-  }
-  const linkAppleTouch = document.querySelector(
-    "link[id='favicon-apple-touch']",
-  ) as HTMLLinkElement;
-  if (linkAppleTouch && appConfig.faviconPack['apple-touch-icon.png']) {
-    linkAppleTouch.href = appConfig.faviconPack['apple-touch-icon.png'];
-  }
-}
-
 export async function setupApplicationEnv() {
   printMeta();
 
@@ -63,8 +46,6 @@ export async function setupApplicationEnv() {
   // App related configs
   const appConfig = await getAppConfig(sharedConfig.app);
 
-  // Setting up favicons dynamically fron app config.
-  // It covers the case when an app is loaded using DN domain.
   setupAppIcons(appConfig);
   setupWebManifest(appConfig);
 
@@ -196,4 +177,25 @@ function createPublicUser({
     defaultFeed,
     theme: 'kontur',
   };
+}
+
+// Sets up favicons dynamically from app config.
+// It covers the case when an app is loaded using DN domain.
+function setupAppIcons(appConfig?: AppConfig) {
+  if (appConfig?.faviconPack) {
+    const link32 = document.querySelector("link[id='favicon-ico']") as HTMLLinkElement;
+    if (link32 && appConfig.faviconPack['favicon.ico']) {
+      link32.href = appConfig.faviconPack['favicon.ico'];
+    }
+    const linkSvg = document.querySelector("link[id='favicon-svg']") as HTMLLinkElement;
+    if (linkSvg && appConfig.faviconPack['favicon.svg']) {
+      linkSvg.href = appConfig.faviconPack['favicon.svg'];
+    }
+    const linkAppleTouch = document.querySelector(
+      "link[id='favicon-apple-touch']",
+    ) as HTMLLinkElement;
+    if (linkAppleTouch && appConfig.faviconPack['apple-touch-icon.png']) {
+      linkAppleTouch.href = appConfig.faviconPack['apple-touch-icon.png'];
+    }
+  }
 }
