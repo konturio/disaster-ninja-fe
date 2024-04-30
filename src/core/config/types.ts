@@ -20,6 +20,7 @@ export interface AppConfig {
   features: FeaturesConfig;
   sidebarIconUrl: string;
   faviconUrl: string;
+  faviconPack: FaviconPack;
   public: boolean;
   extent: [number, number, number, number];
   user?: UserDto;
@@ -79,3 +80,12 @@ export interface FeatureDto {
   type: string;
   configuration: object;
 }
+
+export type FaviconPack = Record<
+  | 'favicon.ico'
+  | 'favicon-svg'
+  | 'apple-touch-icon.png'
+  | 'icon-192x192.png'
+  | 'icon-512x512.png',
+  string
+>;
