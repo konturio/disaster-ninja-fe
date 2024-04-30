@@ -12,7 +12,7 @@ export const saveAsReferenceAreaControl = toolbar.setupControl({
   typeSettings: {
     name: i18n.t('reference_area.save_as_reference_area'),
     hint: i18n.t('reference_area.save_as_reference_area'),
-    icon: 'CloseFilled16',
+    icon: 'Reference16',
     preferredSize: 'large',
   },
 });

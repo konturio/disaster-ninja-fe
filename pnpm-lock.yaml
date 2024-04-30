@@ -33,8 +33,8 @@ dependencies:
     specifier: ^3.0.2
     version: 3.0.2
   '@konturio/default-icons':
-    specifier: ^2.3.0
-    version: 2.3.0(react@18.2.0)
+    specifier: ^2.3.1
+    version: 2.3.1(react@18.2.0)
   '@konturio/default-theme':
     specifier: ~3.2.5
     version: 3.2.5
@@ -1474,8 +1474,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: false
 
-  /@konturio/default-icons@2.3.0(react@18.2.0):
-    resolution: {integrity: sha512-+FiUgvXjVkSFUacUo1X6RVGaKcHERxCIBk11TUxi582iId6UuXzjZ2610wDnbiZqN14DoT9JGhtKxsdYdCsrNg==}
+  /@konturio/default-icons@2.3.1(react@18.2.0):
+    resolution: {integrity: sha512-2OnO9YsFO2PcYiY495jAyPXlMlWcjQBVoqcYykSP6SbsYkFBuC09ULZStLsVdV5ReQEL74zZDIdnFSgqMNIssQ==}
     peerDependencies:
       react: ^18.2.0
     dependencies:
