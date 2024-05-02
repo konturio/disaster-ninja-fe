@@ -1,82 +1,63 @@
+import fs from 'fs';
 import { describe, expect, it, test } from 'vitest';
 import gettextParser from 'gettext-parser';
-import fs from 'fs';
+import { extractLinkAndLabels } from './extractLinkAndLabelFromMarkdown';
+import type { LinkAndLabel } from './extractLinkAndLabelFromMarkdown';
 
-// Here the input data for the test is specified
 const languageCodes = ['ar', 'de', 'es', 'id', 'ko', 'uk'];
 
-const processLinkAndText = (linkAndText) => {
-  const [textOfLink, link] = linkAndText.split(']');
-  return {
-    link: link.slice(1, -1),
-    text: textOfLink.slice(1),
-  };
+const checkLinksAndLabels = function (
+  engArray: LinkAndLabel[],
+  translatedArray: LinkAndLabel[],
+) {
+  engArray.forEach((engLinkAndLabel: LinkAndLabel, index) => {
+    const translatedLinkAndLabel: LinkAndLabel = translatedArray[index];
+    // If eng version text with link is present and text in translated version is present, verify that translated version has text with link under the same number and generally has text with link.
+    expect(translatedLinkAndLabel).toBeTruthy();
+
+    // Assert values are present inside links and texts
+    expect(engLinkAndLabel.link).toBeTruthy();
+    expect(engLinkAndLabel.label).toBeTruthy();
+    expect(translatedLinkAndLabel.link).toBeTruthy();
+    expect(translatedLinkAndLabel.label).toBeTruthy();
+
+    // Assert links are not translated
+    expect(translatedLinkAndLabel.link).toEqual(engLinkAndLabel.link);
+
+    translatedArray.forEach((_, index) => {
+      const engLinkAndLabel = engArray[index];
+      // If translated version text with link is present, english version for it should also be present
+      expect(engLinkAndLabel).toBeTruthy();
+    });
+  });
 };
 
-// Here is the test itself
 const compareLinksTest = (languageCode: string) => {
-  // First reading data from file
   const poFileContent = fs.readFileSync(
     `src/core/localization/gettext/${languageCode}/common.po`,
   );
-  // Using parser to parse data
   const poData = gettextParser.po.parse(poFileContent).translations[''];
 
-  // Match [sometext](sometext)
-  const regularExpToFind = /\[.*?\]\(.*?\)/g;
-
-  // Looping over converted object to array
   for (const [reference, info] of Object.entries(poData)) {
     // exclude "" key
     if (reference) {
       const engVersion = info.msgid;
       const translatedVersion = info.msgstr[0];
 
-      const engVersionLinksArr = engVersion.match(regularExpToFind);
-      const translatedVersionLinksArr = translatedVersion.match(regularExpToFind);
+      const engVersionLinksArr = extractLinkAndLabels(engVersion);
+      const translatedVersionLinksArr = extractLinkAndLabels(translatedVersion);
 
       if (translatedVersion) {
-        // match() returns an array, looping it over considering that undefined might be as input if no links are present
-        engVersionLinksArr?.forEach((engTextAndLinkText, index) => {
-          const translatedTextAndLinkText = translatedVersionLinksArr?.[index];
-
-          // if eng version text with link is present and text in translated version is present, verify that translated version has text with link under the same number and generally has text with link.
-          expect(translatedTextAndLinkText).toBeTruthy();
-
-          const extractedTextAndLink = processLinkAndText(engTextAndLinkText);
-          const extractedTranslatedTextAndLink = processLinkAndText(
-            translatedTextAndLinkText,
-          );
-
-          // Assert values are present inside links and texts
-          expect(extractedTextAndLink.link).toBeTruthy();
-          expect(extractedTextAndLink.text).toBeTruthy();
-          expect(extractedTranslatedTextAndLink.link).toBeTruthy();
-          expect(extractedTranslatedTextAndLink.text).toBeTruthy();
-
-          // Assert links are not translated
-          expect(extractedTranslatedTextAndLink.link).toEqual(extractedTextAndLink.link);
-
-          // Assert texts in the link are translated
-          expect(extractedTranslatedTextAndLink.text).not.toEqual(
-            extractedTextAndLink.text,
-          );
-        });
-        translatedVersionLinksArr?.forEach((translatedTextAndLink, index) => {
-          const engTextAndLink = engVersionLinksArr?.[index];
-          // if translated version text with link is present, english version for it should also be present
-          expect(engTextAndLink).toBeTruthy();
-        });
+        checkLinksAndLabels(engVersionLinksArr, translatedVersionLinksArr);
       }
     }
   }
 };
 
-// Building vitest test
-describe('Localisation links', () => {
-  describe('Translated links are the same as original ones, but texts are different', () => {
+describe('Links in localized texts', () => {
+  describe('Links are untranslated, have corresponding label, and are properly defined in links and labels of translations', () => {
     languageCodes.forEach((code) => {
-      it(`Links are the same for ${code}, but texts are different`, () => {
+      it(`Check links and labels of ${code.toUpperCase()} locale`, () => {
         compareLinksTest(code);
       });
     });
