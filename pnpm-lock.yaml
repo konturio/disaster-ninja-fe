@@ -386,6 +386,9 @@ importers:
       vite-tsconfig-paths:
         specifier: ^4.3.2
         version: 4.3.2(typescript@5.4.2)(vite@5.1.7(@types/node@20.11.27)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.27.0))
+      vitest:
+        specifier: ^1.5.3
+        version: 1.5.3(@types/node@20.11.27)(happy-dom@12.10.3)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.27.0)
       wretch:
         specifier: ^2.8.1
         version: 2.8.1
@@ -414,9 +417,6 @@ importers:
       semver:
         specifier: ^7.6.0
         version: 7.6.0
-      vitest:
-        specifier: ^1.5.3
-        version: 1.5.3(@types/node@20.11.27)(happy-dom@12.10.3)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.27.0)
 
 packages:
 
