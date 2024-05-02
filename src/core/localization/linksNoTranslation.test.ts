@@ -2,6 +2,7 @@ import fs from 'fs';
 import { describe, expect, it, test } from 'vitest';
 import gettextParser from 'gettext-parser';
 import { extractLinkAndLabels } from './extractLinkAndLabelFromMarkdown';
+import type { GetTextTranslations } from 'gettext-parser';
 import type { LinkAndLabel } from './extractLinkAndLabelFromMarkdown';
 
 const languageCodes = ['ar', 'de', 'es', 'id', 'ko', 'uk'];
@@ -36,7 +37,9 @@ const compareLinksTest = (languageCode: string) => {
   const poFileContent = fs.readFileSync(
     `src/core/localization/gettext/${languageCode}/common.po`,
   );
-  const poData = gettextParser.po.parse(poFileContent).translations[''];
+
+  const poDataFull: GetTextTranslations = gettextParser.po.parse(poFileContent);
+  const poData = poDataFull.translations[''];
 
   for (const [reference, info] of Object.entries(poData)) {
     // exclude "" key

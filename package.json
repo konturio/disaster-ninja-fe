@@ -200,8 +200,8 @@
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-mkcert": "^1.17.4",
     "vite-tsconfig-paths": "^4.3.2",
-    "wretch": "^2.8.1",
-    "vitest": "^1.5.3"
+    "vitest": "^1.5.3",
+    "wretch": "^2.8.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.1",
