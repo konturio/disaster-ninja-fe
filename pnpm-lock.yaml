@@ -415,7 +415,7 @@ importers:
         specifier: ^7.6.0
         version: 7.6.0
       vitest:
-        specifier: ^1.5.2
+        specifier: ^1.5.3
         version: 1.5.3(@types/node@20.11.27)(happy-dom@12.10.3)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.27.0)
 
 packages:
