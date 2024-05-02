@@ -1,16 +1,16 @@
 import { fromMarkdown } from 'mdast-util-from-markdown';
 import type { Link } from 'mdast-util-from-markdown/lib';
 
+export type LinkAndLabel = {
+  link?: string;
+  label?: string;
+};
+
 /**
  * Function for extracting an array of links from a markdown string
  * @param markdownString input markdown string
  * @returns array of { link, label } objects
  */
-
-export type LinkAndLabel = {
-  link?: string;
-  label?: string;
-};
 
 export const extractLinkAndLabels = (markdownString: string): LinkAndLabel[] => {
   const result: LinkAndLabel[] = [];
