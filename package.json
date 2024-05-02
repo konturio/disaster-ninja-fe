@@ -156,6 +156,8 @@
     "jwt-decode": "^4.0.0",
     "lint-staged": "^15.2.2",
     "maplibre-gl": "^3.6.2",
+    "mdast": "^3.0.0",
+    "mdast-util-from-markdown": "^2.0.0",
     "minimist": "^1.2.8",
     "nanoid": "^5.0.6",
     "nanoid-dictionary": "^4.3.0",
@@ -198,8 +200,7 @@
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-mkcert": "^1.17.4",
     "vite-tsconfig-paths": "^4.3.2",
-    "wretch": "^2.8.1",
-    "mdast-util-from-markdown": "^2.0.0"
+    "wretch": "^2.8.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.1",

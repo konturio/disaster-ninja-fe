@@ -1,5 +1,5 @@
 import { fromMarkdown } from 'mdast-util-from-markdown';
-import type { Link } from 'mdast';
+import type { Link } from 'mdast-util-from-markdown/lib';
 
 /**
  * Function for extracting an array of links from a markdown string
