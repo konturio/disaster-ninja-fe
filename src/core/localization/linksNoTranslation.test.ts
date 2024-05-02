@@ -2,10 +2,18 @@ import fs from 'fs';
 import { describe, expect, it, test } from 'vitest';
 import gettextParser from 'gettext-parser';
 import { extractLinkAndLabels } from './extractLinkAndLabelFromMarkdown';
-import type { GetTextTranslations } from 'gettext-parser';
 import type { LinkAndLabel } from './extractLinkAndLabelFromMarkdown';
 
 const languageCodes = ['ar', 'de', 'es', 'id', 'ko', 'uk'];
+
+type GettextTranslation = {
+  msgid: string;
+  msgstr: string[];
+};
+
+type GettextTranslations = {
+  [key: string]: GettextTranslation;
+};
 
 const checkLinksAndLabels = function (
   engArray: LinkAndLabel[],
@@ -38,10 +46,13 @@ const compareLinksTest = (languageCode: string) => {
     `src/core/localization/gettext/${languageCode}/common.po`,
   );
 
-  const poDataFull: GetTextTranslations = gettextParser.po.parse(poFileContent);
-  const poData = poDataFull.translations[''];
+  const poDataFull = gettextParser.po.parse(poFileContent);
+  const poData = poDataFull.translations[''] as GettextTranslations;
 
-  for (const [reference, info] of Object.entries(poData)) {
+  for (const [reference, info] of Object.entries(poData) as [
+    string,
+    GettextTranslation,
+  ][]) {
     // exclude "" key
     if (reference) {
       const engVersion = info.msgid;
