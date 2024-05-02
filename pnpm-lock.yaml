@@ -166,7 +166,7 @@ importers:
         version: 8.12.0
       autoprefixer:
         specifier: ^10.4.18
-        version: 10.4.18(postcss@8.4.33)
+        version: 10.4.18(postcss@8.4.35)
       bundle-size-diff:
         specifier: github:konturio/bundle-size-diff#v1.0.7
         version: https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13)
@@ -254,6 +254,9 @@ importers:
       maplibre-gl:
         specifier: ^3.6.2
         version: 3.6.2
+      mdast-util-from-markdown:
+        specifier: ^2.0.0
+        version: 2.0.0
       minimist:
         specifier: ^1.2.8
         version: 1.2.8
@@ -274,13 +277,13 @@ importers:
         version: 8.0.0
       postcss-custom-media:
         specifier: ^8.0.2
-        version: 8.0.2(postcss@8.4.33)
+        version: 8.0.2(postcss@8.4.35)
       postcss-nested:
         specifier: ^6.0.1
-        version: 6.0.1(postcss@8.4.33)
+        version: 6.0.1(postcss@8.4.35)
       postcss-normalize:
         specifier: ^10.0.1
-        version: 10.0.1(browserslist@4.22.3)(postcss@8.4.33)
+        version: 10.0.1(browserslist@4.23.0)(postcss@8.4.35)
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
@@ -399,9 +402,6 @@ importers:
       husky:
         specifier: ^8.0.3
         version: 8.0.3
-      mdast-util-from-markdown:
-        specifier: ^2.0.0
-        version: 2.0.0
       open-cli:
         specifier: ^7.2.0
         version: 7.2.0
@@ -8790,14 +8790,14 @@ snapshots:
 
   at-least-node@1.0.0: {}
 
-  autoprefixer@10.4.18(postcss@8.4.33):
+  autoprefixer@10.4.18(postcss@8.4.35):
     dependencies:
       browserslist: 4.23.0
       caniuse-lite: 1.0.30001594
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.0
-      postcss: 8.4.33
+      postcss: 8.4.35
       postcss-value-parser: 4.2.0
 
   available-typed-arrays@1.0.5: {}
@@ -12170,14 +12170,14 @@ snapshots:
 
   possible-typed-array-names@1.0.0: {}
 
-  postcss-browser-comments@4.0.0(browserslist@4.22.3)(postcss@8.4.33):
+  postcss-browser-comments@4.0.0(browserslist@4.23.0)(postcss@8.4.35):
     dependencies:
-      browserslist: 4.22.3
-      postcss: 8.4.33
+      browserslist: 4.23.0
+      postcss: 8.4.35
 
-  postcss-custom-media@8.0.2(postcss@8.4.33):
+  postcss-custom-media@8.0.2(postcss@8.4.35):
     dependencies:
-      postcss: 8.4.33
+      postcss: 8.4.35
       postcss-value-parser: 4.2.0
 
   postcss-load-config@3.1.4(postcss@8.4.35):
@@ -12203,17 +12203,17 @@ snapshots:
       postcss: 8.4.35
       postcss-selector-parser: 6.0.15
 
-  postcss-nested@6.0.1(postcss@8.4.33):
+  postcss-nested@6.0.1(postcss@8.4.35):
     dependencies:
-      postcss: 8.4.33
+      postcss: 8.4.35
       postcss-selector-parser: 6.0.14
 
-  postcss-normalize@10.0.1(browserslist@4.22.3)(postcss@8.4.33):
+  postcss-normalize@10.0.1(browserslist@4.23.0)(postcss@8.4.35):
     dependencies:
       '@csstools/normalize.css': 12.0.0
-      browserslist: 4.22.3
-      postcss: 8.4.33
-      postcss-browser-comments: 4.0.0(browserslist@4.22.3)(postcss@8.4.33)
+      browserslist: 4.23.0
+      postcss: 8.4.35
+      postcss-browser-comments: 4.0.0(browserslist@4.23.0)(postcss@8.4.35)
       sanitize.css: 13.0.0
 
   postcss-resolve-nested-selector@0.1.1: {}
