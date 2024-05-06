@@ -7,7 +7,7 @@ export class NavigationMenu extends HelperBase {
 
   async goToMap() {
     await this.page
-      .locator('._actionsBar_1qnbo_1')
+      .locator('div', { hasText: 'Collapse' })
       .getByText('Map', { exact: true })
       .click();
   }
@@ -17,6 +17,6 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToLoginPage() {
-    await this.page.locator('._actionsBar_1qnbo_1').getByText('Login').click();
+    await this.page.locator('div', { hasText: 'Collapse' }).getByText('Login').click();
   }
 }

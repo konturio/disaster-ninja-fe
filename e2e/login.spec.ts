@@ -7,7 +7,6 @@ const projects = getProjects();
 for (const project of projects) {
   test(`As User, I can login to ${project.title}, check that this profile is mine, and log out`, async ({
     pageManager,
-    page,
   }) => {
     await pageManager.atBrowser.openProject(project);
     await pageManager.fromNavigationMenu.goToLoginPage();

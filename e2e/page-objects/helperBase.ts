@@ -1,7 +1,8 @@
-import { Page, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { expect } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 export type Project = {
   env: 'prod' | 'dev' | 'test';
@@ -9,6 +10,7 @@ export type Project = {
   url: string;
   title: string;
   hasCookieBanner: boolean;
+  hasAtlasBanner: boolean;
 };
 
 export class HelperBase {
@@ -27,6 +29,13 @@ export class HelperBase {
     // Currently, OAM project doesn't have cookies popups
     if (project.hasCookieBanner)
       await this.page.getByText('Accept optional cookies').click();
+
+    // TO DO: remove click to Close after atlas is launched
+    if (project.hasAtlasBanner) {
+      await this.page.waitForSelector('[title="Intercom live chat banner"]');
+      const frame = this.page.frameLocator('[title="Intercom live chat banner"]');
+      await frame.getByLabel('Close').click();
+    }
   }
 }
 

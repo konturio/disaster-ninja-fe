@@ -1,8 +1,8 @@
-import { Page } from '@playwright/test';
 import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
-import { Project } from './page-objects/helperBase.ts';
-import { PageManager } from './page-objects/pageManager.ts';
+import type { Page } from '@playwright/test';
+import type { Project } from './page-objects/helperBase.ts';
+import type { PageManager } from './page-objects/pageManager.ts';
 
 let projects = getProjects();
 
@@ -10,9 +10,8 @@ let projects = getProjects();
 projects = projects.filter((arg) => arg.name !== 'disaster-ninja');
 
 // Setting 3 retries for CI as it is very flacky with screenshots
-process.env.CI
-  ? test.describe.configure({ retries: 3 })
-  : test.describe.configure({ retries: 1 });
+const retriesNumber = process.env.CI ? 3 : 1;
+test.describe.configure({ retries: retriesNumber });
 
 // Moving test to a separate function to reuse it
 const testLocation = async function (
@@ -26,7 +25,8 @@ const testLocation = async function (
   await pageManager.atMap.waitForUrlToMatchPattern(/40.714.*-74.0324/);
 
   // Wait for zoom to happen after url is changed
-  process.env.CI ? await page.waitForTimeout(10000) : await page.waitForTimeout(6000);
+  const locateMeTimeout = process.env.CI ? 10000 : 6000;
+  await page.waitForTimeout(locateMeTimeout);
 
   // OAM has no colors so it needs more accuracy
 
