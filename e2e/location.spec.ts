@@ -21,6 +21,8 @@ const testLocation = async function (
 ) {
   await pageManager.atBrowser.openProject(project);
   await pageManager.fromNavigationMenu.goToMap();
+  // TO DO: remove this action after Atlas is launched
+  await pageManager.atBrowser.closeAtlasBanner(project);
   await page.getByText('Locate me').click({ timeout: 15000 });
   await pageManager.atMap.waitForUrlToMatchPattern(/40.714.*-74.0324/);
 

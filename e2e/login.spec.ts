@@ -9,12 +9,18 @@ for (const project of projects) {
     pageManager,
   }) => {
     await pageManager.atBrowser.openProject(project);
+    // TO DO: remove this action after Atlas is launched
+    await pageManager.atBrowser.closeAtlasBanner(project);
     await pageManager.fromNavigationMenu.goToLoginPage();
     await pageManager.atLoginPage.typeLoginPasswordAndLogin(
       process.env.EMAIL!,
       process.env.PASSWORD!,
       50,
     );
+    // TO DO: remove this action after Atlas is launched. Sometimes actions are too slow there, so 2 notification appears
+    try {
+      await pageManager.atBrowser.closeAtlasBanner(project);
+    } catch {}
     await pageManager.atProfilePage.checkLogoutBtnProfileTitleAndEmail(
       process.env.EMAIL!,
     );

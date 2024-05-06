@@ -29,13 +29,13 @@ export class HelperBase {
     // Currently, OAM project doesn't have cookies popups
     if (project.hasCookieBanner)
       await this.page.getByText('Accept optional cookies').click();
+  }
 
-    // TO DO: remove click to Close after atlas is launched
+  async closeAtlasBanner(project: Project) {
     if (project.hasAtlasBanner) {
       await this.page.waitForSelector('[title="Intercom live chat banner"]');
       const frame = this.page.frameLocator('[title="Intercom live chat banner"]');
       await frame.getByLabel('Close').locator('> :first-child').click();
-      if (process.env.CI) await this.page.waitForTimeout(500);
     }
   }
 }
