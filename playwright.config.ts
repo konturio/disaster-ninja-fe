@@ -36,6 +36,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     actionTimeout: process.env.CI ? 15000 : 10000,
     navigationTimeout: process.env.CI ? 20000 : 10000,
+    viewport: { width: 1280, height: 720 },
     screenshot: 'only-on-failure',
   },
 
