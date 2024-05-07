@@ -24,7 +24,7 @@ const testLocation = async function (
   // TO DO: remove this action after Atlas is launched
   await pageManager.atBrowser.closeAtlasBanner(project);
   await page.getByText('Locate me').click({ timeout: 15000 });
-  await pageManager.atMap.waitForUrlToMatchPattern(/40.714.*-74.0324/);
+  await pageManager.atMap.waitForUrlToMatchPattern(/40\.7140\/-74\.0324/);
 
   // Wait for zoom to happen after url is changed
   const locateMeTimeout = process.env.CI ? 10000 : 6000;
