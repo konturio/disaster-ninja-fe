@@ -2,8 +2,14 @@ import { i18n } from '~core/localization';
 import { toolbar } from '~core/toolbar';
 import { store } from '~core/store/store';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import { updateReferenceArea } from '~core/api/features';
 import { SAVE_AS_REFERENCE_AREA_CONTROL_ID } from './constants';
+import { initReferenceAreaLayer } from './referenceAreaLayer';
+import { referenceAreaAtom } from './atoms/referenceAreaAtom';
+import type { FocusedGeometry } from '~core/focused_geometry/types';
 import type { Unsubscribe } from '@reatom/core';
+
+let focusedGeometryUnsubscribe: Unsubscribe | null;
 
 export const saveAsReferenceAreaControl = toolbar.setupControl({
   id: SAVE_AS_REFERENCE_AREA_CONTROL_ID,
@@ -17,29 +23,45 @@ export const saveAsReferenceAreaControl = toolbar.setupControl({
   },
 });
 
+async function saveFocusedGeometryAsReferenceArea() {
+  const geometry = focusedGeometryAtom.getState()?.geometry;
+  if (geometry) {
+    await updateReferenceArea(geometry);
+    store.dispatch(referenceAreaAtom.setReferenceArea(geometry));
+  }
+}
+
+function focusedGeometryExists(focusedGeometryState: FocusedGeometry | null): boolean {
+  if (
+    focusedGeometryState?.geometry?.type === 'FeatureCollection' &&
+    focusedGeometryState.geometry.features?.length
+  ) {
+    return true;
+  }
+  return false;
+}
+
 saveAsReferenceAreaControl.onStateChange(async (ctx, state) => {
+  if (state === 'regular') {
+    if (!focusedGeometryExists(focusedGeometryAtom.getState())) {
+      store.dispatch([saveAsReferenceAreaControl.setState('disabled')]);
+    }
+  }
   if (state === 'active') {
+    saveFocusedGeometryAsReferenceArea();
     store.dispatch([saveAsReferenceAreaControl.setState('regular')]);
   }
 });
 
-let focusedGeometryUnsubscribe: Unsubscribe | null;
-
 saveAsReferenceAreaControl.onInit(() => {
-  const focusedGeometryInitialState = focusedGeometryAtom.getState();
-  if (
-    !(focusedGeometryInitialState?.geometry?.type === 'FeatureCollection') ||
-    !focusedGeometryInitialState.geometry.features?.length
-  ) {
+  if (!focusedGeometryExists(focusedGeometryAtom.getState())) {
     store.dispatch([saveAsReferenceAreaControl.setState('disabled')]);
   }
   focusedGeometryUnsubscribe = focusedGeometryAtom.v3atom.onChange((ctx, newState) => {
-    if (newState?.geometry?.type === 'FeatureCollection') {
-      if (newState.geometry.features?.length) {
-        store.dispatch([saveAsReferenceAreaControl.setState('regular')]);
-      } else {
-        store.dispatch([saveAsReferenceAreaControl.setState('disabled')]);
-      }
+    if (focusedGeometryExists(newState)) {
+      store.dispatch([saveAsReferenceAreaControl.setState('regular')]);
+    } else {
+      store.dispatch([saveAsReferenceAreaControl.setState('disabled')]);
     }
   });
 });
@@ -51,4 +73,5 @@ saveAsReferenceAreaControl.onRemove(() => {
 
 export function initReferenceArea() {
   saveAsReferenceAreaControl.init();
+  initReferenceAreaLayer();
 }
