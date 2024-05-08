@@ -15,6 +15,7 @@ import { Copyrights } from '~components/Copyrights/Copyrights';
 import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
+import { userStateAtom } from '~core/auth';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
 
@@ -38,6 +39,7 @@ const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
 export function MapPage() {
   const [featureFlags] = useAtom(featureFlagsAtom);
+  const [userState] = useAtom(userStateAtom);
 
   useEffect(() => {
     import('~core/draw_tools').then(({ drawTools }) => drawTools.init());
@@ -107,7 +109,8 @@ export function MapPage() {
         initBivariateMatrix();
       });
     }
-    if (featureFlags[FeatureFlag.REFERENCE_AREA]) {
+    // TODO: remove userState checked once backend stops returning reference_area feature for unauthorized users
+    if (featureFlags[FeatureFlag.REFERENCE_AREA] && userState === 'authorized') {
       import('~features/reference_area').then(({ initReferenceArea }) =>
         initReferenceArea(),
       );
