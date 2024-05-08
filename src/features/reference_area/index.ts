@@ -38,8 +38,9 @@ async function saveFocusedGeometryAsReferenceArea() {
 
 function focusedGeometryExists(focusedGeometryState: FocusedGeometry | null): boolean {
   if (
-    focusedGeometryState?.geometry?.type === 'FeatureCollection' &&
-    focusedGeometryState.geometry.features?.length
+    (focusedGeometryState?.geometry?.type === 'FeatureCollection' &&
+      focusedGeometryState.geometry.features?.length) ||
+    focusedGeometryState?.geometry?.type === 'Feature'
   ) {
     return true;
   }
