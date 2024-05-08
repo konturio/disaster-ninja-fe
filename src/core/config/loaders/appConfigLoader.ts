@@ -2,7 +2,7 @@ import { getLayersDetails } from '~core/api/layers';
 import { apiClient } from '~core/apiClientInstance';
 import { createFeaturesConfig } from './featuresConfigLoader';
 import type { UserDto } from '~core/app/user';
-import type { AppConfig, FeatureDto } from '../types';
+import type { AppConfig, FaviconPack, FeatureDto } from '../types';
 
 export interface AppConfigDto {
   id: string;
@@ -12,6 +12,7 @@ export interface AppConfigDto {
   features: FeatureDto[];
   sidebarIconUrl: string;
   faviconUrl: string;
+  faviconPack: FaviconPack;
   public: boolean;
   extent: [number, number, number, number];
   user?: UserDto;
