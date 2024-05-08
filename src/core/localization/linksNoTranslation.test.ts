@@ -1,18 +1,46 @@
 import fs from 'fs';
 import { describe, expect, it, test } from 'vitest';
 import gettextParser from 'gettext-parser';
-import { extractLinkAndLabels } from './extractLinkAndLabelFromMarkdown';
-import type { LinkAndLabel } from './extractLinkAndLabelFromMarkdown';
+import { fromMarkdown } from 'mdast-util-from-markdown';
+import type { Link } from 'mdast-util-from-markdown/lib';
 
 const languageCodes = ['ar', 'de', 'es', 'id', 'ko', 'uk'];
+
+type LinkAndLabel = {
+  link?: string;
+  label?: string;
+};
 
 type GettextTranslation = {
   msgid: string;
   msgstr: string[];
 };
 
-type GettextTranslations = {
-  [key: string]: GettextTranslation;
+/**
+ * Function for extracting an array of links from a markdown string
+ * @param markdownString input markdown string
+ * @returns array of { link, label } objects
+ */
+
+const extractLinkAndLabels = (markdownString: string): LinkAndLabel[] => {
+  const result: LinkAndLabel[] = [];
+  const paragraph = fromMarkdown(markdownString).children[0];
+  if (paragraph?.type === 'paragraph') {
+    const linkChildren: Link[] = paragraph.children.filter(
+      (child) => child.type === 'link',
+    ) as Link[];
+    for (const linkChild of linkChildren) {
+      const link = linkChild?.url;
+      if (link) {
+        const label =
+          linkChild?.children[0]?.type === 'text'
+            ? linkChild.children[0].value
+            : undefined;
+        result.push({ link, label });
+      }
+    }
+  }
+  return result;
 };
 
 const checkLinksAndLabels = function (
@@ -21,7 +49,9 @@ const checkLinksAndLabels = function (
 ) {
   engArray.forEach((engLinkAndLabel: LinkAndLabel, index) => {
     const translatedLinkAndLabel: LinkAndLabel = translatedArray[index];
-    // If eng version text with link is present and text in translated version is present, verify that translated version has text with link under the same number and generally has text with link.
+
+    // Ensure the translated version has text with link,
+    // under the same number as the eng version.
     expect(translatedLinkAndLabel).toBeTruthy();
 
     // Assert values are present inside links and texts
@@ -35,7 +65,8 @@ const checkLinksAndLabels = function (
 
     translatedArray.forEach((_, index) => {
       const engLinkAndLabel = engArray[index];
-      // If translated version text with link is present, english version for it should also be present
+      // If translated version text with link is present,
+      // english version for it should also be present
       expect(engLinkAndLabel).toBeTruthy();
     });
   });
@@ -47,7 +78,7 @@ const compareLinksTest = (languageCode: string) => {
   );
 
   const poDataFull = gettextParser.po.parse(poFileContent);
-  const poData = poDataFull.translations[''] as GettextTranslations;
+  const poData = poDataFull.translations[''] as Record<string, GettextTranslation>;
 
   for (const [reference, info] of Object.entries(poData) as [
     string,
@@ -55,21 +86,21 @@ const compareLinksTest = (languageCode: string) => {
   ][]) {
     // exclude "" key
     if (reference) {
-      const engVersion = info.msgid;
-      const translatedVersion = info.msgstr[0];
+      const engText = info.msgid;
+      const translatedText = info.msgstr[0];
 
-      const engVersionLinksArr = extractLinkAndLabels(engVersion);
-      const translatedVersionLinksArr = extractLinkAndLabels(translatedVersion);
+      const engLinksArr = extractLinkAndLabels(engText);
+      const translatedLinksArr = extractLinkAndLabels(translatedText);
 
-      if (translatedVersion) {
-        checkLinksAndLabels(engVersionLinksArr, translatedVersionLinksArr);
+      if (translatedText) {
+        checkLinksAndLabels(engLinksArr, translatedLinksArr);
       }
     }
   }
 };
 
 describe('Links in localized texts', () => {
-  describe('Links are untranslated, have corresponding label, and are properly defined in links and labels of translations', () => {
+  describe('Links must be identical between different languages and must all have labels', () => {
     languageCodes.forEach((code) => {
       it(`Check links and labels of ${code.toUpperCase()} locale`, () => {
         compareLinksTest(code);
