@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { expect } from '@playwright/test';
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 export type Project = {
   env: 'prod' | 'dev' | 'test';
@@ -19,6 +19,10 @@ export class HelperBase {
   constructor(page: Page) {
     this.page = page;
   }
+  /**
+   * This method opens up a project like disaster-ninja, atlas, etc. After that it checks the title to correspond to this project and accepts cookies if needed
+   * @param project object with details about project to open like name, url, title, etc.
+   */
 
   async openProject(project: Project) {
     await this.page.goto(project.url);
@@ -37,6 +41,20 @@ export class HelperBase {
       const frame = this.page.frameLocator('[title="Intercom live chat banner"]');
       await frame.getByLabel('Close').locator('> :first-child').click();
     }
+  }
+  /**
+   * This method gets texts from locators array passed in. Checks if text is present and then returns array of this texts. Before using this method try to use allTextContents method present in Playwright. Fails if 1 of elements has no text
+   * @param locators array of playwright locators from DOM returned by all() method
+   * @returns array of texts where all texts are defined.
+   */
+  async getTextsFromAllLocators(locators: Locator[]) {
+    const textsArray: string[] = [];
+    for (const locator of locators) {
+      const text = await locator.textContent();
+      expect(text).not.toBeNull();
+      textsArray.push(text!);
+    }
+    return textsArray;
   }
 }
 

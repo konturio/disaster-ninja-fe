@@ -27,8 +27,7 @@ const testLocation = async function (
   await pageManager.atMap.waitForUrlToMatchPattern(/40\.7140\/-74\.0324/);
 
   // Wait for zoom to happen after url is changed
-  const locateMeTimeout = process.env.CI ? 10000 : 6000;
-  await page.waitForTimeout(locateMeTimeout);
+  await pageManager.atMap.waitForZoom();
 
   // OAM has no colors so it needs more accuracy
 
