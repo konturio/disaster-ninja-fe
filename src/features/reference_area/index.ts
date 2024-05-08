@@ -25,8 +25,9 @@ export const saveAsReferenceAreaControl = toolbar.setupControl({
 });
 
 async function saveFocusedGeometryAsReferenceArea() {
-  const geometry = focusedGeometryAtom.getState()?.geometry;
-  if (geometry) {
+  const geometryState = focusedGeometryAtom.getState();
+  if (focusedGeometryExists(geometryState)) {
+    const geometry = (geometryState as FocusedGeometry)?.geometry;
     await updateReferenceArea(geometry);
     store.dispatch(referenceAreaAtom.setReferenceArea(geometry));
     notificationServiceInstance.success({

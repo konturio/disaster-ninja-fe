@@ -10,9 +10,9 @@ export function updateReferenceArea(referenceAreaGeometry: GeometryWithHash | nu
   });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function updateFeatureConfiguration(
   featureId: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   configuration: any,
   requestConfig?: CustomRequestConfig,
 ) {
