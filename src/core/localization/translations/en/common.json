@@ -384,6 +384,7 @@
   },
   "reference_area": {
     "save_as_reference_area": "Save as reference area",
-    "error_couldnt_save": "Unfortunately, we couldn't save your reference area. Please try again"
+    "error_couldnt_save": "Unfortunately, we couldn't save your reference area. Please try again.",
+    "selected_area_saved_as_reference_area": "Selected area has been saved as reference area. You can find it in profile."
   }
 }

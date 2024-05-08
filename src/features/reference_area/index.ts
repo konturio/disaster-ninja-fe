@@ -3,6 +3,7 @@ import { toolbar } from '~core/toolbar';
 import { store } from '~core/store/store';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { updateReferenceArea } from '~core/api/features';
+import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { SAVE_AS_REFERENCE_AREA_CONTROL_ID } from './constants';
 import { initReferenceAreaLayer } from './initReferenceAreaLayer';
 import { referenceAreaAtom } from './atoms/referenceAreaAtom';
@@ -28,6 +29,9 @@ async function saveFocusedGeometryAsReferenceArea() {
   if (geometry) {
     await updateReferenceArea(geometry);
     store.dispatch(referenceAreaAtom.setReferenceArea(geometry));
+    notificationServiceInstance.success({
+      title: i18n.t('reference_area.selected_area_saved_as_reference_area'),
+    });
   }
 }
 
