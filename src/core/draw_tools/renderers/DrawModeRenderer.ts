@@ -98,7 +98,11 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
 
   setupExtension(extentionAtom: CombinedAtom): void {
     this._setFeaturesAction = (features) => extentionAtom.setFeatures.dispatch(features);
-    this._addFeatureAction = (feature) => extentionAtom.addFeature.dispatch(feature);
+    this._addFeatureAction = (feature) => {
+      this._map.doubleClickZoom.disable();
+      extentionAtom.addFeature.dispatch(feature);
+    };
+
     extentionAtom.hookWithAtom.dispatch([
       'drawnGeometryAtom',
       (featureCollection) => {
@@ -106,8 +110,10 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
         this._updateData(featureCollection);
       },
     ]);
+
     this._updateTempFeaturesAction = (features, indexes) =>
-      extentionAtom.updateTempFeatures.dispatch(features, indexes);
+      extentionAtom.updateTempFeatures.dispatch({ features, indexes });
+
     extentionAtom.hookWithAtom.dispatch([
       'temporaryGeometryAtom',
       (featureCollection) => {
@@ -116,7 +122,9 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
         if (featureCollection.features.length) this._updateData(featureCollection);
       },
     ]);
+
     this._setSelectedIndexes = (indexes) => extentionAtom.setIndexes.dispatch(indexes);
+
     extentionAtom.hookWithAtom.dispatch([
       'selectedIndexesAtom',
       (indexes) => {
@@ -134,7 +142,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
       extentionAtom.setDrawingIsStarted.dispatch(isStarted);
 
     this._showNotificationAction = (type, message, lifetimeSec) =>
-      extentionAtom.showNotification.dispatch(type, message, lifetimeSec);
+      extentionAtom.showNotification.dispatch({ type, message, lifetimeSec });
   }
 
   // Public methods
@@ -143,7 +151,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
     this.mode = mode;
     // Case setting mode to create drawings
     if (createDrawingLayers.includes(mode)) {
-      this._map.doubleClickZoom.disable();
+      // this._map.doubleClickZoom.disable();
       // if we had other drawing mode - remove it
       if (this._createDrawingLayer && this._createDrawingLayer !== mode)
         this._removeDeckLayer(this._createDrawingLayer);
@@ -156,7 +164,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
       if (this._createDrawingLayer) {
         this._removeDeckLayer(this._createDrawingLayer);
         this._createDrawingLayer = null;
-        this._map.doubleClickZoom.enable();
+        // this._map.doubleClickZoom.enable();
       }
       if (this._editDrawingLayer === mode) return;
       this._addDeckLayer(drawModes[mode]);
@@ -261,6 +269,7 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
 
   _onModifyEdit = ({ editContext, updatedData, editType }) => {
     const changedIndexes: number[] = editContext?.featureIndexes || [];
+    if (this.mode !== 'ModifyMode') return;
     this._setSelectedIndexes(changedIndexes);
     // edit types list available here in the description of onEdit method https://nebula.gl/docs/api-reference/layers/editable-geojson-layer
     if (editType === 'selectFeature' && this._createDrawingLayer) {

@@ -37,9 +37,7 @@ export class CustomMeasureDistanceMode extends GeoJsonEditMode {
     if (geom.type === 'LineString') {
       let antimeridianVertexIndex = -1;
       for (let i = 0; i < geom.coordinates.length - 1; i++) {
-        if (
-          Math.abs(geom.coordinates[i][0] - geom.coordinates[i + 1][0]) > 100
-        ) {
+        if (Math.abs(geom.coordinates[i][0] - geom.coordinates[i + 1][0]) > 100) {
           antimeridianVertexIndex = i;
           break;
         }
@@ -117,8 +115,7 @@ export class CustomMeasureDistanceMode extends GeoJsonEditMode {
       clickSequence.length > 1 &&
       clickedEditHandle &&
       Array.isArray(clickedEditHandle.properties.positionIndexes) &&
-      clickedEditHandle.properties.positionIndexes[0] ===
-        clickSequence.length - 1
+      clickedEditHandle.properties.positionIndexes[0] === clickSequence.length - 1
     ) {
       // They clicked the last point (or double-clicked), so add the LineString
       this._isMeasuringSessionFinished = true;
@@ -227,10 +224,7 @@ export class CustomMeasureDistanceMode extends GeoJsonEditMode {
     return guides;
   }
 
-  handlePointerMove(
-    event: PointerMoveEvent,
-    props: ModeProps<FeatureCollection>,
-  ) {
+  handlePointerMove(event: PointerMoveEvent, props: ModeProps<FeatureCollection>) {
     props.onUpdateCursor('cell');
   }
 

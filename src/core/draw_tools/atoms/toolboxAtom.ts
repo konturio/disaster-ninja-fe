@@ -61,7 +61,7 @@ export const toolboxAtom = createAtom(
     });
 
     onAction('toggleDrawMode', (mode) => {
-      actions.push(activeDrawModeAtom.toggleDrawMode(mode));
+      actions.push(activeDrawModeAtom.setDrawMode(mode));
     });
 
     onAction('finishDrawing', () => {
