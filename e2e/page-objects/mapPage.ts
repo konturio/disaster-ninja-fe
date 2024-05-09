@@ -18,7 +18,7 @@ export class MapCanvas extends HelperBase {
     expect(arr.length).toEqual(2);
     expect(arr[0].trim()).toEqual(expectedLabel);
     const value = Number(arr[1].trim());
-    expect(value).not.toBeNaN;
+    expect(value).not.toBeNaN();
     if (valueCanNotBe0) expect(value).not.toEqual(0.0);
   }
 
@@ -101,5 +101,18 @@ export class MapCanvas extends HelperBase {
     this.checkShownPopupResultData(textsArray[2], 'Population / Area km2', true);
 
     expect(listItemsArray[3]).toBeUndefined();
+  }
+  /**
+   * This method closes population popup for Population density layer. And expects it to be closed with map being displayed.
+   */
+  async closePopulationPopup() {
+    await this.page
+      .locator('.maplibregl-popup-content')
+      .getByLabel('Close popup')
+      .click();
+    await expect(
+      this.page.locator('.maplibregl-popup-content', { hasText: 'Population' }),
+    ).not.toBeVisible();
+    await expect(this.page.locator('#map-view')).toBeVisible();
   }
 }

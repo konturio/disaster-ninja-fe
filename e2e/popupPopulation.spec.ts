@@ -31,6 +31,7 @@ const testPopulation = async function (inputData: InputData) {
     inputData.pixelsByYToClick,
   );
   await inputData.pageManager.atMap.checkPopulationPopupData();
+  await inputData.pageManager.atMap.closePopulationPopup();
 };
 
 projects.forEach((project) => {
@@ -74,6 +75,18 @@ projects.forEach((project) => {
         longitude: 76.3963,
         pixelsByXToClick: 110,
         pixelsByYToClick: 300,
+      });
+    });
+    test('Near equator', async ({ pageManager, page }) => {
+      await testPopulation({
+        page: page,
+        pageManager: pageManager,
+        project: project,
+        zoom: 15.307,
+        latitude: -0.0191,
+        longitude: 10.3915,
+        pixelsByXToClick: 200,
+        pixelsByYToClick: 200,
       });
     });
   });
