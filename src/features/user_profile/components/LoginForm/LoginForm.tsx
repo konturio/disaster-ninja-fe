@@ -11,7 +11,7 @@ import type { ChangeEvent } from 'react';
 
 const authInputClasses = { input: clsx(s.authInput) };
 
-const registrationUrlEncoded = encodeURIComponent(`${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/registrations?client_id=account&response_type=code&scope=openid&redirect_uri=https://www.kontur.io/portfolio/`);
+const registrationUrlEncoded = encodeURIComponent(`${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/registrations?client_id=account&response_type=code&scope=openid&redirect_uri=https://atlas.kontur.io/active/profile`);
 const registrationUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/logout?client_id=account&redirect_uri=` + registrationUrlEncoded;
 
 export function LoginForm() {
