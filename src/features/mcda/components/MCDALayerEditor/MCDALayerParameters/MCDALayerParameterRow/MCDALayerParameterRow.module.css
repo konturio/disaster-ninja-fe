@@ -1,5 +1,5 @@
 .inputLine {
-  margin-bottom: var(--half-unit);
+  margin-bottom: var(--unit);
   display: flex;
   flex-direction: row;
   align-items: flex-start;

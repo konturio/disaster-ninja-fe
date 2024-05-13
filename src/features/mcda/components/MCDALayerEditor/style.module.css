@@ -2,3 +2,7 @@
   margin-bottom: var(--unit);
   margin-right: calc(-1 * var(--half-unit));
 }
+
+.sentimentsBlock {
+  margin: 0 var(--half-unit);
+}
