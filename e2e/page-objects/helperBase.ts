@@ -11,6 +11,7 @@ export type Project = {
   title: string;
   hasCookieBanner: boolean;
   hasAtlasBanner: boolean;
+  authUrl: string;
 };
 
 export class HelperBase {

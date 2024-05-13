@@ -5,7 +5,8 @@
     "url": "https://atlas.kontur.io",
     "title": "Kontur Atlas",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true
+    "hasAtlasBanner": true,
+    "authUrl": "https://keycloak01.kontur.io/realms/kontur/protocol/openid-connect/token"
   },
   {
     "env": "dev",
@@ -13,7 +14,8 @@
     "url": "https://test-apps-ninja02.konturlabs.com/active?app=9043acf9-2cf3-48ac-9656-a5d7c4b7593d",
     "title": "Kontur Atlas",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true
+    "hasAtlasBanner": true,
+    "authUrl": "https://dev-keycloak.k8s-01.konturlabs.com/realms/dev/protocol/openid-connect/token"
   },
   {
     "env": "test",
@@ -21,7 +23,8 @@
     "url": "https://test-apps-ninja01.konturlabs.com/active?app=9043acf9-2cf3-48ac-9656-a5d7c4b7593d",
     "title": "Kontur Atlas",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true
+    "hasAtlasBanner": true,
+    "authUrl": "https://keycloak01.konturlabs.com/realms/test/protocol/openid-connect/token"
   },
   {
     "env": "prod",
@@ -29,7 +32,8 @@
     "url": "https://disaster.ninja",
     "title": "Disaster Ninja",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true
+    "hasAtlasBanner": true,
+    "authUrl": "https://keycloak01.kontur.io/realms/kontur/protocol/openid-connect/token"
   },
   {
     "env": "dev",
@@ -37,7 +41,8 @@
     "url": "https://test-apps-ninja02.konturlabs.com/active?app=58851b50-9574-4aec-a3a6-425fa18dcb54",
     "title": "Disaster Ninja",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true
+    "hasAtlasBanner": true,
+    "authUrl": "https://dev-keycloak.k8s-01.konturlabs.com/realms/dev/protocol/openid-connect/token"
   },
   {
     "env": "test",
@@ -45,7 +50,8 @@
     "url": "https://test-apps-ninja01.konturlabs.com/active?app=58851b50-9574-4aec-a3a6-425fa18dcb54",
     "title": "Disaster Ninja",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true
+    "hasAtlasBanner": true,
+    "authUrl": "https://keycloak01.konturlabs.com/realms/test/protocol/openid-connect/token"
   },
   {
     "env": "prod",
@@ -53,7 +59,8 @@
     "url": "https://maps.kontur.io",
     "title": "Smart City",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true
+    "hasAtlasBanner": true,
+    "authUrl": "https://keycloak01.kontur.io/realms/kontur/protocol/openid-connect/token"
   },
   {
     "env": "dev",
@@ -61,7 +68,8 @@
     "url": "https://test-apps-ninja02.konturlabs.com/active?app=634f23f5-f898-4098-a8bd-09eb7c1e1ae5",
     "title": "Smart City",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true
+    "hasAtlasBanner": true,
+    "authUrl": "https://dev-keycloak.k8s-01.konturlabs.com/realms/dev/protocol/openid-connect/token"
   },
   {
     "env": "test",
@@ -69,7 +77,8 @@
     "url": "https://test-apps-ninja01.konturlabs.com/active?app=634f23f5-f898-4098-a8bd-09eb7c1e1ae5",
     "title": "Smart City",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true
+    "hasAtlasBanner": true,
+    "authUrl": "https://keycloak01.konturlabs.com/realms/test/protocol/openid-connect/token"
   },
   {
     "env": "prod",
@@ -77,7 +86,8 @@
     "url": "https://new.openaerialmap.org",
     "title": "OpenAerialMap",
     "hasCookieBanner": false,
-    "hasAtlasBanner": false
+    "hasAtlasBanner": false,
+    "authUrl": "https://keycloak01.kontur.io/realms/kontur/protocol/openid-connect/token"
   },
   {
     "env": "dev",
@@ -85,7 +95,8 @@
     "url": "https://test-apps-ninja02.konturlabs.com/active?app=1dc6fe68-8802-4672-868d-7f17943bf1c8",
     "title": "OpenAerialMap",
     "hasCookieBanner": false,
-    "hasAtlasBanner": false
+    "hasAtlasBanner": false,
+    "authUrl": "https://dev-keycloak.k8s-01.konturlabs.com/realms/dev/protocol/openid-connect/token"
   },
   {
     "env": "test",
@@ -93,6 +104,7 @@
     "url": "https://test-apps-ninja01.konturlabs.com/active?app=1dc6fe68-8802-4672-868d-7f17943bf1c8",
     "title": "OpenAerialMap",
     "hasCookieBanner": false,
-    "hasAtlasBanner": false
+    "hasAtlasBanner": false,
+    "authUrl": "https://keycloak01.konturlabs.com/realms/test/protocol/openid-connect/token"
   }
 ]

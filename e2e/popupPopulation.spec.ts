@@ -90,4 +90,26 @@ projects.forEach((project) => {
       });
     });
   });
+
+  test.describe(`As User, I can see popup about population at ${project.title} after clicking at hexagon`, () => {
+    test.use({
+      project,
+    });
+    test('Normal population in USA (no rights user)', async ({
+      pageManager,
+      page,
+      loginWithNoRightsUser,
+    }) => {
+      await testPopulation({
+        page: page,
+        pageManager: pageManager,
+        project: project,
+        zoom: 13.548,
+        latitude: 40.2283,
+        longitude: -74.0298,
+        pixelsByXToClick: 230,
+        pixelsByYToClick: 200,
+      });
+    });
+  });
 });
