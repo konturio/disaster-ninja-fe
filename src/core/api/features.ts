@@ -6,20 +6,25 @@ import type { CustomRequestConfig } from '~core/api_client/types';
 import type { GeometryWithHash } from '~core/focused_geometry/types';
 
 export function updateReferenceArea(referenceAreaGeometry: GeometryWithHash | null) {
-  return updateFeatureConfiguration(AppFeature.REFERENCE_AREA, referenceAreaGeometry, {
-    errorsConfig: { messages: i18n.t('reference_area.error_couldnt_save') },
-  });
+  const referenceAreaConfiguration = { referenceAreaGeometry };
+  return updateFeatureConfiguration(
+    AppFeature.REFERENCE_AREA,
+    referenceAreaConfiguration,
+    {
+      errorsConfig: { messages: i18n.t('reference_area.error_couldnt_save') },
+    },
+  );
 }
 
 function updateFeatureConfiguration(
   featureId: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  configuration: any,
+  featureConfiguration: any,
   requestConfig?: CustomRequestConfig,
 ) {
   return apiClient.put(
     `/features/${featureId}?appId=${configRepo.get().id}`,
-    configuration,
+    featureConfiguration,
     true,
     requestConfig,
   );

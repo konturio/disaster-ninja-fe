@@ -4,8 +4,8 @@ import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
-import { configRepo } from '~core/config';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
 import { createReferenceAreaSourceAtom } from './atoms/referenceAreaSourceAtom';
 import {
   REFERENCE_AREA_COLOR,
@@ -22,7 +22,8 @@ export function initReferenceAreaLayer() {
   isInitialized = true;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const refAreaGeometry = configRepo.get().features.reference_area as any;
+  const refAreaGeometry =
+    featureFlagsAtom.getState()[FeatureFlag.REFERENCE_AREA]?.referenceAreaGeometry;
   if (
     refAreaGeometry?.type === 'FeatureCollection' ||
     refAreaGeometry?.type === 'Feature'
