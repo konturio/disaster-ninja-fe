@@ -338,7 +338,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 }}
                 error={coefficientError}
               />
-              <Text type="short-m" className={s.error}>
+              <Text
+                type="short-m"
+                className={clsx(s.error, !coefficientError && s.invisible)}
+              >
                 {coefficientError}
               </Text>
             </MCDALayerParameterRow>

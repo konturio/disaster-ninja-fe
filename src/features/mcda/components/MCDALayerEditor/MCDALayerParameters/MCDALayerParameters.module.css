@@ -5,20 +5,19 @@
 .layer {
   display: flex;
   flex-flow: column;
-  padding: var(--half-unit) 0;
+  padding: var(--half-unit) var(--unit);
 }
 
 .layerHeader {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  margin-left: var(--unit);
 }
 
 .layerEditContainer {
   width: 100%;
   margin-top: 12px;
-  padding: var(--half-unit) var(--double-unit) var(--unit);
+  padding: var(--half-unit) var(--unit) var(--unit);
   font-size: 12px;
 }
 
@@ -29,7 +28,6 @@
 .layerButtons {
   display: flex;
   flex-flow: row nowrap;
-  margin-right: var(--half-unit);
 }
 
 .infoButton {
@@ -103,7 +101,6 @@
 .resetLimits {
   width: 100%;
   margin-top: calc(-1 * var(--half-unit));
-  margin-bottom: var(--half-unit);
   color: var(--accent-strong);
   cursor: pointer;
 }
@@ -129,4 +126,8 @@
 
 .saveButton {
   margin-right: var(--half-unit);
+}
+
+.invisible {
+  display: none;
 }

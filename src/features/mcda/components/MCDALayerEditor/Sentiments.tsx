@@ -1,5 +1,4 @@
 import { Text } from '@konturio/ui-kit';
-import s from './style.module.css';
 
 export type Sentiment = {
   label: string;
@@ -17,7 +16,7 @@ export function Sentiments({
   units?: string | null;
 }) {
   return (
-    <div className={s.sentimentsBlock}>
+    <div>
       {/* Left */}
       <span style={{ color: left.color }}>
         <Text type={'caption'}>{`${left.label} `}</Text>
