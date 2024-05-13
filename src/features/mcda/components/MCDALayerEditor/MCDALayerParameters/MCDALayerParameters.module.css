@@ -17,7 +17,7 @@
 .layerEditContainer {
   width: 100%;
   margin-top: 12px;
-  padding: var(--half-unit) 0;
+  padding: var(--half-unit) var(--double-unit) var(--unit);
   font-size: 12px;
 }
 
@@ -101,7 +101,7 @@
 .resetLimits {
   width: 100%;
   margin-top: calc(-1 * var(--half-unit));
-  margin-bottom: var(--unit);
+  margin-bottom: var(--half-unit);
   color: var(--accent-strong);
   cursor: pointer;
 }
