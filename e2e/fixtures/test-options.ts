@@ -25,18 +25,4 @@ export const test = basis.extend<TestOptions>({
     const pm = new PageManager(page);
     await use(pm);
   },
-  loginWithNoRightsUser: async ({ page, pageManager, project }, use) => {
-    await pageManager.atBrowser.openProject(project);
-    // TO DO: remove this action after Atlas is launched
-    await pageManager.atBrowser.closeAtlasBanner(project);
-    await pageManager.fromNavigationMenu.goToLoginPage();
-    await pageManager.atLoginPage.typeLoginPasswordAndLogin(
-      process.env.EMAIL!,
-      process.env.PASSWORD!,
-      0,
-    );
-    const loginResponse = await page.waitForResponse(project.authUrl);
-    expect(loginResponse.status()).toEqual(200);
-    await use('');
-  },
 });

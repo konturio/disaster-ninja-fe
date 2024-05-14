@@ -40,7 +40,6 @@ for (const project of projects) {
   test.use({
     permissions: ['geolocation'],
     geolocation: { longitude: -74.0324, latitude: 40.714 },
-    project,
   });
 
   // Prod has other dimensions of screenshots so test fails if using wrong screenshot. Screenshots are created by test name, browser and OS by playwright
@@ -60,14 +59,4 @@ for (const project of projects) {
       await testLocation(page, pageManager, project);
     });
   }
-
-  test(`As User, I can click Locate me button at ${project.title} and see coordinates of my location in url`, async ({
-    page,
-    pageManager,
-    loginWithNoRightsUser,
-  }) => {
-    await pageManager.fromNavigationMenu.goToMap();
-    await page.getByText('Locate me').click({ timeout: 15000 });
-    await pageManager.atMap.waitForUrlToMatchPattern(/40\.7140\/-74\.0324/);
-  });
 }
