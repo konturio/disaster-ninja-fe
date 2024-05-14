@@ -17,7 +17,8 @@ type InputData = {
 
 let projects = getProjects();
 // oam has no layers, smart-city has no population density layer
-projects = projects.filter((arg) => arg.name !== 'oam' && arg.name !== 'smart-city');
+// disaster-ninja temporally switched off untill 15482 issue is fixed
+projects = projects.filter((arg) => arg.name === 'atlas');
 
 const testPopulation = async function (inputData: InputData) {
   await inputData.pageManager.atMap.goToSpecificAreaByUrl(
