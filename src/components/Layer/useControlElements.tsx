@@ -58,7 +58,7 @@ export function useControlElements({
         <CleanControl
           layerState={layerState}
           layerActions={layerActions}
-          key={layerState.id + 'edit'}
+          key={layerState.id + 'clean'}
         />,
       );
     }
