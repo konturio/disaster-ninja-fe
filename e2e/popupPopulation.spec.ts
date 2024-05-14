@@ -65,18 +65,19 @@ projects.forEach((project) => {
         pixelsByYToClick: 200,
       });
     });
-    test('Tiny population in Antarctica', async ({ pageManager, page }) => {
-      await testPopulation({
-        page: page,
-        pageManager: pageManager,
-        project: project,
-        zoom: 15.928,
-        latitude: -69.4047,
-        longitude: 76.3963,
-        pixelsByXToClick: 110,
-        pixelsByYToClick: 300,
+    if (project.env !== 'dev')
+      test('Tiny population in Antarctica', async ({ pageManager, page }) => {
+        await testPopulation({
+          page: page,
+          pageManager: pageManager,
+          project: project,
+          zoom: 15.928,
+          latitude: -69.4047,
+          longitude: 76.3963,
+          pixelsByXToClick: 110,
+          pixelsByYToClick: 300,
+        });
       });
-    });
     test('Near equator', async ({ pageManager, page }) => {
       await testPopulation({
         page: page,

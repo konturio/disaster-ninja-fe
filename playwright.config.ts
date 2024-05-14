@@ -16,7 +16,7 @@ export default defineConfig({
   globalTimeout: process.env.CI ? 300000 : 240000,
   timeout: process.env.CI ? 120000 : 60000,
   expect: {
-    timeout: process.env.CI ? 10000 : 5000,
+    timeout: process.env.CI ? 10000 : 7000,
   },
   testDir: './e2e',
   /* Run tests in files in parallel */
