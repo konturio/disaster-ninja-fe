@@ -13,10 +13,7 @@ export const focusedGeometryAtom = createAtom(
     reset: () => null,
     episodesPanelState,
   },
-  (
-    { onAction, schedule, create, getUnlistedState, onChange },
-    state: FocusedGeometry | null = null,
-  ) => {
+  ({ onAction, schedule, create }, state: FocusedGeometry | null = null) => {
     onAction('setFocusedGeometry', ({ source, geometry }) => {
       if (source && geometry) {
         schedule(async (dispatch, ctx: { hash?: string }) => {
