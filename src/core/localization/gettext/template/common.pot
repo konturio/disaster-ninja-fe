@@ -960,3 +960,123 @@ msgstr ""
 #: live_sensor##noSensorsError
 msgid "Your device desn't have the required sensors"
 msgstr ""
+
+#: about_atlas##title
+msgid "Kontur Atlas"
+msgstr ""
+
+#: about_atlas##intro
+msgid "Atlas is your GPS for big decisions. It's a tool that helps you use maps and data to figure out a wide range of things, from where to open a new store to exploring environmental sustainability."
+msgstr ""
+
+#: about_atlas##h1
+msgid "Geospatial Data with Ease"
+msgstr ""
+
+#: about_atlas##l1.1
+msgid "Browse & Choose Data"
+msgstr ""
+
+#: about_atlas##p1.1
+msgid "We've got tons of info like who lives where and how people get around. Find the data that'll answer your questions."
+msgstr ""
+
+#: about_atlas##l1.2
+msgid "Make Maps"
+msgstr ""
+
+#: about_atlas##p1.2
+msgid "With a few clicks, Atlas turns that data into maps and visuals so it's easy to understand."
+msgstr ""
+
+#: about_atlas##l1.3
+msgid "Analyze & Decide"
+msgstr ""
+
+#: about_atlas##p1.3
+msgid "Use these insights to make smart decisions, like picking the perfect spot for your next big project or making concussions based on spatial patterns."
+msgstr ""
+
+#: about_atlas##l1.4
+msgid "Jump in and start exploring"
+msgstr ""
+
+#: about_atlas##p1.4
+msgid "Your next big opportunity is waiting to be mapped out!"
+msgstr ""
+
+#: about_atlas##get_access_button
+msgid "Get access"
+msgstr ""
+
+#: about_atlas##h2
+msgid "How to Use"
+msgstr ""
+
+#: about_atlas##l2.1
+msgid "Area Selection"
+msgstr ""
+
+#: about_atlas##p2.1
+msgid "To choose an area for analysis, you can use the toolbar to select an administrative unit, draw a shape manually, or import a GeoJSON file."
+msgstr ""
+
+#: about_atlas##l2.2
+msgid "Analytical Panel"
+msgstr ""
+
+#: about_atlas##p2.2
+msgid "This panel displays essential data about your selected area."
+msgstr ""
+
+#: about_atlas##l2.2.1
+msgid "AI Insights"
+msgstr ""
+
+#: about_atlas##p2.2.1
+msgid "Compares your area's data with global averages, alerting you to any significant discrepancies."
+msgstr ""
+
+#: about_atlas##l2.2.2
+msgid "Personalized AI Insights"
+msgstr ""
+
+#: about_atlas##p2.2.2.1
+msgid "Reference Area: This allows you to set a known area as a reference point for comparisons and highlights differences."
+msgstr ""
+
+#: about_atlas##p2.2.2.2
+msgid "Bio: Here, you can record details like who you're working for, your analysis purpose, and key topics, helping to personalize AI conclusions."
+msgstr ""
+
+#: about_atlas##l2.3
+msgid "Creating Custom Analysis"
+msgstr ""
+
+#: about_atlas##p2.3
+msgid "To create your own analysis, select the \"MCDA\" button in the toolbar."
+msgstr ""
+
+#: about_atlas##l2.3.1
+msgid "Choosing Relevant Layers"
+msgstr ""
+
+#: about_atlas##p2.3.1
+msgid "Start by picking data layers appropriate for your requirements — this could include anything from population density to environmental risk factors."
+msgstr ""
+
+#: about_atlas##l2.3.2
+msgid "Browse the map"
+msgstr ""
+
+#: about_atlas##p2.3.2
+msgid "By default, the map displays red hexagons in high-value areas and green hexagons where values are minimal. Click on any hexagon to access detailed info for that particular sector."
+msgstr ""
+
+#: about_atlas##l2.3.3
+msgid "Layer Customization"
+msgstr ""
+
+#: about_atlas##p2.3.3
+msgid "Enhance your analysis by fine-tuning the range and what is bad and good of each layer. This means you can focus specifically on aspects crucial to your study."
+msgstr ""
