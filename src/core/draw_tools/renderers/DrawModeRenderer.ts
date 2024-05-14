@@ -151,7 +151,6 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
     this.mode = mode;
     // Case setting mode to create drawings
     if (createDrawingLayers.includes(mode)) {
-      // this._map.doubleClickZoom.disable();
       // if we had other drawing mode - remove it
       if (this._createDrawingLayer && this._createDrawingLayer !== mode)
         this._removeDeckLayer(this._createDrawingLayer);
@@ -164,7 +163,6 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
       if (this._createDrawingLayer) {
         this._removeDeckLayer(this._createDrawingLayer);
         this._createDrawingLayer = null;
-        // this._map.doubleClickZoom.enable();
       }
       if (this._editDrawingLayer === mode) return;
       this._addDeckLayer(drawModes[mode]);
