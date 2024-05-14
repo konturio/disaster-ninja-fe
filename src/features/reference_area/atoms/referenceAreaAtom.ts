@@ -1,5 +1,6 @@
 import { crc32 } from 'hash-wasm';
 import { action, atom } from '@reatom/core';
+import { updateReferenceArea } from '~core/api/features';
 import type { GeometryWithHash } from '~core/focused_geometry/types';
 
 export const referenceAreaAtom = atom<GeometryWithHash | null>(
@@ -22,6 +23,7 @@ export const setReferenceArea = action(async (ctx, geometry: GeometryWithHash) =
   }
 });
 
-export const reset = action(async (ctx) => {
+export const resetReferenceArea = action(async (ctx) => {
+  await updateReferenceArea(null);
   referenceAreaAtom(ctx, null);
 });

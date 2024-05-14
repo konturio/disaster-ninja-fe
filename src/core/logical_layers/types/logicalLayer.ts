@@ -34,6 +34,7 @@ export type LogicalLayerActions = {
   show: () => void;
   download: () => void;
   destroy: () => void;
+  clean: () => void;
 };
 
 export type LayerAtom = AtomSelfBinded<LogicalLayerState, LogicalLayerActions>;
