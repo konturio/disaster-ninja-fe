@@ -6,7 +6,7 @@ import { configRepo } from '~core/config';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
 import { REFERENCE_AREA_LOGICAL_LAYER_ID } from '~features/reference_area/constants';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
-import { resetReferenceArea } from '~features/reference_area/atoms/referenceAreaAtom';
+import { resetReferenceArea } from '~core/shared_state/referenceArea';
 import { store } from '~core/store/store';
 import { layersSettingsAtom } from '../atoms/layersSettings';
 import { enabledLayersAtom } from '../atoms/enabledLayers';

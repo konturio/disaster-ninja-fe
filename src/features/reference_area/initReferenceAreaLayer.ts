@@ -6,6 +6,7 @@ import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
+import { setReferenceArea } from '~core/shared_state/referenceArea';
 import { createReferenceAreaSourceAtom } from './atoms/referenceAreaSourceAtom';
 import {
   REFERENCE_AREA_COLOR,
@@ -13,7 +14,6 @@ import {
   REFERENCE_AREA_LOGICAL_LAYER_TRANSLATION_KEY,
 } from './constants';
 import { ReferenceAreaRenderer } from './renderers/ReferenceAreaRenderer';
-import { setReferenceArea } from './atoms/referenceAreaAtom';
 
 let isInitialized = false;
 

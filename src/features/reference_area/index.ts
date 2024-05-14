@@ -4,9 +4,9 @@ import { store } from '~core/store/store';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { updateReferenceArea } from '~core/api/features';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
+import { setReferenceArea } from '~core/shared_state/referenceArea';
 import { SAVE_AS_REFERENCE_AREA_CONTROL_ID } from './constants';
 import { initReferenceAreaLayer } from './initReferenceAreaLayer';
-import { setReferenceArea } from './atoms/referenceAreaAtom';
 import type { FocusedGeometry } from '~core/focused_geometry/types';
 import type { Unsubscribe } from '@reatom/core';
 

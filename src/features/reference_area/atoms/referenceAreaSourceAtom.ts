@@ -4,7 +4,7 @@ import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { createGeoJSONLayerSource } from '~core/logical_layers/utils/createGeoJSONLayerSource';
 import { v3toV2 } from '~utils/atoms/v3tov2';
 import { store } from '~core/store/store';
-import { referenceAreaAtom } from './referenceAreaAtom';
+import { referenceAreaAtom } from '~core/shared_state/referenceArea';
 
 export const createReferenceAreaSourceAtom = (sourceId: string) =>
   v3toV2(
