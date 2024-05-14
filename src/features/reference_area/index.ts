@@ -6,7 +6,7 @@ import { updateReferenceArea } from '~core/api/features';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { SAVE_AS_REFERENCE_AREA_CONTROL_ID } from './constants';
 import { initReferenceAreaLayer } from './initReferenceAreaLayer';
-import { referenceAreaAtom } from './atoms/referenceAreaAtom';
+import { setReferenceArea } from './atoms/referenceAreaAtom';
 import type { FocusedGeometry } from '~core/focused_geometry/types';
 import type { Unsubscribe } from '@reatom/core';
 
@@ -29,7 +29,7 @@ async function saveFocusedGeometryAsReferenceArea() {
   if (focusedGeometryExists(geometryState)) {
     const geometry = (geometryState as FocusedGeometry)?.geometry;
     await updateReferenceArea(geometry);
-    store.dispatch(referenceAreaAtom.setReferenceArea(geometry));
+    setReferenceArea(store.v3ctx, geometry);
     notificationServiceInstance.success({
       title: i18n.t('reference_area.selected_area_saved_as_reference_area'),
     });

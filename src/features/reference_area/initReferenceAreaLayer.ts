@@ -13,7 +13,7 @@ import {
   REFERENCE_AREA_LOGICAL_LAYER_TRANSLATION_KEY,
 } from './constants';
 import { ReferenceAreaRenderer } from './renderers/ReferenceAreaRenderer';
-import { referenceAreaAtom } from './atoms/referenceAreaAtom';
+import { setReferenceArea } from './atoms/referenceAreaAtom';
 
 let isInitialized = false;
 
@@ -29,7 +29,7 @@ export function initReferenceAreaLayer() {
     refAreaGeometry?.type === 'Feature'
   ) {
     // if there's a geometry in reference_area configuration - use it for initialization
-    store.dispatch(referenceAreaAtom.setReferenceArea(refAreaGeometry));
+    setReferenceArea(store.v3ctx, refAreaGeometry);
   }
   // Connect layer source with reference area geometry
   forceRun(createReferenceAreaSourceAtom(REFERENCE_AREA_LOGICAL_LAYER_ID));

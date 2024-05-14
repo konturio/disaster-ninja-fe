@@ -1,45 +1,37 @@
+import { atom } from '@reatom/core';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
-import { createAtom } from '~utils/atoms';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { createGeoJSONLayerSource } from '~core/logical_layers/utils/createGeoJSONLayerSource';
+import { v3toV2 } from '~utils/atoms/v3tov2';
+import { store } from '~core/store/store';
 import { referenceAreaAtom } from './referenceAreaAtom';
 
 export const createReferenceAreaSourceAtom = (sourceId: string) =>
-  createAtom(
-    {
-      referenceAreaAtom,
-    },
-    ({ get, schedule }, state = null) => {
-      const geometry = get('referenceAreaAtom');
+  v3toV2(
+    atom((ctx) => {
+      const geometry = ctx.spy(referenceAreaAtom);
       if (geometry) {
         if (geometry.type === 'FeatureCollection' || geometry.type === 'Feature') {
-          schedule((dispatch) => {
-            const referenceAreaLayerSource = createGeoJSONLayerSource(sourceId, geometry);
-
-            dispatch(
-              layersSourcesAtom.set(
-                sourceId,
-                createAsyncWrapper(referenceAreaLayerSource),
-              ),
-            );
-          });
+          const referenceAreaLayerSource = createGeoJSONLayerSource(sourceId, geometry);
+          store.dispatch(
+            layersSourcesAtom.set(sourceId, createAsyncWrapper(referenceAreaLayerSource)),
+          );
         } else {
           console.error(
             '[reference_area]: Only FeatureCollection and Feature supported ',
           );
         }
       } else {
-        schedule((dispatch) => {
+        ctx.schedule(() => {
           const referenceAreaLayerSource = createGeoJSONLayerSource(sourceId, {
             type: 'FeatureCollection',
             features: [],
           });
-
-          dispatch(
+          store.dispatch(
             layersSourcesAtom.set(sourceId, createAsyncWrapper(referenceAreaLayerSource)),
           );
         });
       }
-    },
-    'reference_area:' + sourceId,
+      return geometry;
+    }),
   );
