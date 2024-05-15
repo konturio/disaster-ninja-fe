@@ -5,8 +5,6 @@ import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
-import { setReferenceArea } from '~core/shared_state/referenceArea';
 import { createReferenceAreaSourceAtom } from './atoms/referenceAreaSourceAtom';
 import {
   REFERENCE_AREA_COLOR,
@@ -22,7 +20,7 @@ export function initReferenceAreaLayer() {
   isInitialized = true;
 
   // Connect layer source with reference area geometry
-  forceRun(createReferenceAreaSourceAtom(REFERENCE_AREA_LOGICAL_LAYER_ID));
+  forceRun(createReferenceAreaSourceAtom());
 
   store.dispatch([
     // Set layer settings once
