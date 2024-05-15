@@ -6,10 +6,11 @@ import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
-import { eventFeedsAtom } from '~core/shared_state';
+import { FeatureFlag, eventFeedsAtom, featureFlagsAtom } from '~core/shared_state';
 import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
+import { ReferenceAreaInfo } from './ReferenceAreaInfo/ReferenceAreaInfo';
 import type { UserDto } from '~core/app/user';
 import type { ChangeEvent } from 'react';
 
@@ -37,6 +38,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [localSettings, setLocalSettings] = useState<UserDto>(userProfile);
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [eventFeeds] = useAtom(eventFeedsAtom);
+  const [featureFlags] = useAtom(featureFlagsAtom);
 
   function logout() {
     authClientInstance.logout();
@@ -145,6 +147,17 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                     maxHeight="200px"
                   />
                 </div>
+
+                {featureFlags?.[FeatureFlag.REFERENCE_AREA] ? (
+                  <div>
+                    <Text type="short-l" className={s.smallTitle}>
+                      {i18n.t('profile.reference_area.title')}
+                    </Text>
+                    <ReferenceAreaInfo />
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
 
@@ -174,7 +187,9 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                 </Select>
 
                 <div>
-                  <Text type="short-l">{i18n.t('profile.units')}</Text>
+                  <Text type="short-l" className={s.smallTitle}>
+                    {i18n.t('profile.units')}
+                  </Text>
 
                   <Radio
                     as="input"
