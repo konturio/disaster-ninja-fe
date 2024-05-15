@@ -40,10 +40,13 @@ export class HelperBase {
   async closeAtlasBanner(project: Project) {
     if (project.hasAtlasBanner) {
       await this.page.waitForSelector('[title="Intercom live chat banner"]');
+      // Waiting for animation of element display to happen
+      await this.page.waitForTimeout(400);
+      // Skipping autowaiting for click method
       await this.page
         .frameLocator('[title="Intercom live chat banner"]')
         .getByLabel('Close')
-        .click();
+        .click({ force: true });
     }
   }
   /**

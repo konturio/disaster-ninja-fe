@@ -3,7 +3,7 @@ import { HelperBase, Project } from './helperBase';
 
 export class MapCanvas extends HelperBase {
   /**
-   * This method devides text by ':' and expects 2 parts. 1 part - label with expectedLabel text and 2 - number. Number is checked for being not NaN. If value can not be 0, then it will be checked for being not 0 too.
+   * This method divides text by ':' and expects 2 parts. 1 part - label with expectedLabel text and 2 - number. Number is checked for being not NaN. If value can not be 0, then it will be checked for being not 0 too.
    * @param resultedText text with ':' separator that should have label and its value
    * @param expectedLabel expected label text to be equal to displayed
    * @param valueCanNotBe0 set to true if value can not be 0
