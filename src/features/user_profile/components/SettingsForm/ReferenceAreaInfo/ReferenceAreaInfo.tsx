@@ -1,16 +1,29 @@
 import { Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
 import { Rubber16 } from '@konturio/default-icons';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { i18n } from '~core/localization';
 import { referenceAreaAtom, resetReferenceArea } from '~core/shared_state/referenceArea';
 import { goTo } from '~core/router/goTo';
 import { store } from '~core/store/store';
-import { getReferenceAreaName } from '../utils/getReferenceAreaName';
 import s from './ReferenceAreaInfo.module.css';
 
 export function ReferenceAreaInfo() {
   const [referenceAreaGeometry] = useAtom(referenceAreaAtom);
+
+  const referenceAreaName = useMemo(() => {
+    if (
+      referenceAreaGeometry?.type === 'Feature' &&
+      referenceAreaGeometry.properties?.name
+    ) {
+      return (
+        referenceAreaGeometry.properties.name ??
+        i18n.t('profile.reference_area.freehand_geometry')
+      );
+    } else {
+      return i18n.t('profile.reference_area.freehand_geometry');
+    }
+  }, [referenceAreaGeometry]);
 
   const onDeleteReferenceAreaClicked = useCallback(() => {
     resetReferenceArea(store.v3ctx);
@@ -21,7 +34,7 @@ export function ReferenceAreaInfo() {
       {referenceAreaGeometry ? (
         <>
           <div className={s.geometryNameContainer}>
-            <Text type="short-l">{getReferenceAreaName(referenceAreaGeometry)}</Text>
+            <Text type="short-m">{referenceAreaName}</Text>
             <span className={s.clean} onClick={onDeleteReferenceAreaClicked}>
               <Rubber16 />
             </span>

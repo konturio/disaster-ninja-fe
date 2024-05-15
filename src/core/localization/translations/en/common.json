@@ -355,14 +355,7 @@
     },
     "reference_area": {
       "title": "Reference area",
-      "types": {
-        "polygon": "Polygon",
-        "line": "Line",
-        "point": "Point",
-        "complex_geometry": "Complex geometry",
-        "geometry": "Geometry",
-        "unknown_type": "Unknown type"
-      },
+      "freehand_geometry": "Freehand geometry",
       "to_replace_reference_area": "To replace reference area, select an area on the map and click \"Save as reference area\" on toolbar.",
       "select_are_on_the_map": "Select an area on the map and click \"Save as reference area\" on toolbar to use it in further analysis.",
       "set_the_reference_area": "Set the reference area"
