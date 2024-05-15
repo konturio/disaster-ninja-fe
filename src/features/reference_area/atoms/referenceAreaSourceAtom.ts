@@ -33,5 +33,5 @@ export const createReferenceAreaSourceAtom = (sourceId: string) =>
         });
       }
       return geometry;
-    }),
+    }, 'createReferenceAreaSourceAtom'),
   );

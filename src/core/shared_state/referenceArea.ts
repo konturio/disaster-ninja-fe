@@ -40,9 +40,9 @@ export const setReferenceArea = action(async (ctx, geometry: GeometryWithHash) =
   } else {
     referenceAreaAtom(ctx, null);
   }
-});
+}, 'setReferenceArea');
 
 export const resetReferenceArea = action(async (ctx) => {
   await updateReferenceArea(null);
   referenceAreaAtom(ctx, null);
-});
+}, 'resetReferenceArea');
