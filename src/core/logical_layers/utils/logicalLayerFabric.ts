@@ -235,7 +235,6 @@ export function createLogicalLayerAtom(
           schedule((dispatch) => dispatch(focusedGeometryAtom.reset()));
         }
         if (id === REFERENCE_AREA_LOGICAL_LAYER_ID) {
-          // TODO: referenceAreaAtom is a feature and shouldn't be referenced here!!
           resetReferenceArea(store.v3ctx);
         }
       });

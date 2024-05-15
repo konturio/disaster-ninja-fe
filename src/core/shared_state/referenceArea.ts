@@ -26,7 +26,6 @@ export const initReferenceArea = action((ctx, features: FeaturesConfig) => {
 });
 
 export const setReferenceArea = action(async (ctx, geometry: GeometryWithHash) => {
-  // need to add user to cache to be able to reference area invalidate cache on login/logout
   if (geometry) {
     const hash = await crc32(JSON.stringify({ geometry }));
     // update only in case if geometry source or hash has changed
