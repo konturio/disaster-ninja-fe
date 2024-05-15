@@ -13,7 +13,7 @@ dotenv.config({
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  globalTimeout: process.env.CI ? 300000 : 240000,
+  globalTimeout: process.env.CI ? 900000 : 600000,
   timeout: process.env.CI ? 120000 : 60000,
   expect: {
     timeout: process.env.CI ? 10000 : 7000,

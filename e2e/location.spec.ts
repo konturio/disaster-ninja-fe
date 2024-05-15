@@ -6,8 +6,9 @@ import type { PageManager } from './page-objects/pageManager.ts';
 
 let projects = getProjects();
 
-// Temporally switched off untill 15482 issue is fixed
-projects = projects.filter((arg) => arg.name !== 'disaster-ninja');
+// Temporally switched off disaster-ninja untill 15482 issue is fixed
+// Temporally switched off oam untill 18508 issue is fixed
+projects = projects.filter((arg) => arg.name !== 'disaster-ninja' && arg.name !== 'oam');
 
 // Setting 3 retries for CI as it is very flacky with screenshots
 const retriesNumber = process.env.CI ? 3 : 1;

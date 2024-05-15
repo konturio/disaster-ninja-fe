@@ -40,8 +40,10 @@ export class HelperBase {
   async closeAtlasBanner(project: Project) {
     if (project.hasAtlasBanner) {
       await this.page.waitForSelector('[title="Intercom live chat banner"]');
-      const frame = this.page.frameLocator('[title="Intercom live chat banner"]');
-      await frame.getByLabel('Close').locator('> :first-child').click();
+      await this.page
+        .frameLocator('[title="Intercom live chat banner"]')
+        .getByLabel('Close')
+        .click();
     }
   }
   /**
