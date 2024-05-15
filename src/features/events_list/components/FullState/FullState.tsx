@@ -64,7 +64,7 @@ export function FullState({
       )}
       <EventListSettingsRow>
         <FeedSelectorFlagged />
-        <BBoxFilterToggle />
+        {featureFlags[FeatureFlag.EVENTS_LIST__BBOX_FILTER] && <BBoxFilterToggle />}
       </EventListSettingsRow>
       <div className={s.scrollable}>
         {statesToComponents({

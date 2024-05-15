@@ -54,9 +54,13 @@ function hotProjectsSort(a, b) {
     weightStatus[a.properties.status] - weightStatus[b.properties.status] ||
     weightProjectPriority[a.properties.projectPriority] -
       weightProjectPriority[b.properties.projectPriority] ||
-    -a.properties.percentMapped + b.properties.percentMapped;
+    -(a.properties.percentMapped - b.properties.percentMapped);
 
   return -res;
+}
+
+function sortByProjectId(a, b) {
+  return -(a.properties.projectId - b.properties.projectId);
 }
 
 export function getPanelData(featuresListHOT: object) {
@@ -120,7 +124,7 @@ export function getPanelData(featuresListHOT: object) {
     };
   });
 
-  featuresList.sort(hotProjectsSort);
+  featuresList.sort(sortByProjectId);
 
   return featuresList;
 }

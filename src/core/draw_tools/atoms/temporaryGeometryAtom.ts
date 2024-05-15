@@ -9,9 +9,7 @@ const defaultState: FeatureCollection = {
 
 export const temporaryGeometryAtom = createAtom(
   {
-    setFeatures: (features: Feature[], updateIndexes: number[]) => {
-      return { features, indexes: updateIndexes };
-    },
+    setFeatures: (d: { features: Feature[]; indexes: number[] }) => d,
     activeDrawModeAtom,
     resetToDefault: () => null,
   },
