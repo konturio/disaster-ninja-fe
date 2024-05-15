@@ -3,7 +3,7 @@ import { combineAtoms } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
-import { currentEventFeedAtom } from '~core/shared_state';
+import { currentEventFeedAtom, currentEventAtom } from '~core/shared_state';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/auth/types';
 import { eventListFilters } from './eventListFilters';
@@ -36,6 +36,14 @@ export const eventListResourceAtom = createAsyncAtom(
       if (params.bbox) throw new Error(i18n.t('event_list.no_historical_disasters'));
       if (params.feed) throw new Error(i18n.t('event_list.no_feed_disasters'));
       throw new Error(i18n.t('event_list.no_disasters'));
+    }
+
+    const currentEvent = currentEventAtom.getState();
+    if (currentEvent?.id) {
+      if (responseData.findIndex((d) => d.eventId === currentEvent?.id) === -1) {
+        // selected event is not in list, reset selection
+        currentEventAtom.setCurrentEventId.dispatch(null);
+      }
     }
 
     return responseData;

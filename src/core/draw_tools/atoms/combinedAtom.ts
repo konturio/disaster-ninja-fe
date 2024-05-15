@@ -41,9 +41,7 @@ export const combinedAtom = createAtom(
     addFeature: (feature: Feature) => feature,
 
     temporaryGeometryAtom,
-    updateTempFeatures: (features: Feature[], updateIndexes: number[]) => {
-      return { features, indexes: updateIndexes };
-    },
+    updateTempFeatures: (d: { features: Feature[]; indexes: number[] }) => d,
 
     selectedIndexesAtom,
     setIndexes: (indexes: number[]) => indexes,
@@ -51,11 +49,11 @@ export const combinedAtom = createAtom(
 
     setDrawingIsStarted: (isStarted: boolean) => isStarted,
 
-    showNotification: (
-      type: NotificationType,
-      message: NotificationMessage,
-      lifetimeSec: number,
-    ) => ({ type, message, lifetimeSec }),
+    showNotification: (d: {
+      type: NotificationType;
+      message: NotificationMessage;
+      lifetimeSec: number;
+    }) => d,
   },
   (
     { onAction, schedule, onChange, get, getUnlistedState },
@@ -92,12 +90,13 @@ export const combinedAtom = createAtom(
       actions.push(drawnGeometryAtom.setFeatures(features)),
     );
 
-    onAction('addFeature', (feature) =>
-      actions.push(drawnGeometryAtom.addFeature(feature)),
-    );
+    onAction('addFeature', (feature) => {
+      actions.push(activeDrawModeAtom.setDrawMode('ModifyMode'));
+      actions.push(drawnGeometryAtom.addFeature(feature));
+    });
 
     onAction('updateTempFeatures', ({ features, indexes }) => {
-      actions.push(temporaryGeometryAtom.setFeatures(features, indexes));
+      actions.push(temporaryGeometryAtom.setFeatures({ features, indexes }));
     });
 
     onChange('drawnGeometryAtom', (featureCollection, prevCollection) => {

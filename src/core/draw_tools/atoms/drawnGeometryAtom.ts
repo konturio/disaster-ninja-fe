@@ -11,7 +11,6 @@ export const drawnGeometryAtom = createAtom(
   {
     addFeature: (feature: Feature) => feature,
     setFeatures: (features: Feature[]) => features,
-    updateByIndex: (feature: Feature, index: number) => ({ feature, index }),
     removeByIndexes: (indexes: number[]) => indexes,
     resetToDefault: () => null,
     activeDrawModeAtom,
@@ -23,17 +22,6 @@ export const drawnGeometryAtom = createAtom(
 
     onAction('setFeatures', (features) => {
       state = { ...state, features: features };
-    });
-
-    onAction('updateByIndex', ({ feature, index }) => {
-      const stateCopy: FeatureCollection = {
-        ...state,
-        features: [...state.features],
-      };
-      if (!stateCopy.features[index])
-        console.warn(`index ${index} doesn't exist in feature collection`);
-      stateCopy.features[index] = feature;
-      state = stateCopy;
     });
 
     onAction('removeByIndexes', (indexesToRemove) => {

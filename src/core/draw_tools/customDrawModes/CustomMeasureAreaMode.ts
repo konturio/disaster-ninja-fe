@@ -10,8 +10,8 @@ import type {
   FeatureCollection,
   Position,
   GuideFeature,
+  TentativeFeature,
 } from '@nebula.gl/edit-modes';
-import type { TentativeFeature } from '@nebula.gl/edit-modes';
 
 const DEFAULT_TOOLTIPS = [];
 
