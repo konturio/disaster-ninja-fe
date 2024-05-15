@@ -70,6 +70,13 @@
   }
 }
 
+.smallTitle {
+  font-weight: 500;
+  & + * {
+    margin-top: var(--unit);
+  }
+}
+
 .textArea {
   width: 100%;
   & textarea {
