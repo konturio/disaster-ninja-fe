@@ -50,7 +50,8 @@
   width: 50%;
 }
 
-.textInputBox input {
+.textInputBox input,
+.rangeInputBox input {
   font-size: 11px;
 }
 
