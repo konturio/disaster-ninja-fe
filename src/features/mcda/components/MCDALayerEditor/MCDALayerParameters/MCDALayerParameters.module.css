@@ -47,7 +47,7 @@
 .textInputBox {
   padding: var(--half-unit);
   height: 30px;
-  width: 55px;
+  width: 50%;
 }
 
 .textInputBox input {
@@ -76,6 +76,19 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 160px; /* min width of @kontur ui-kit Select component */
+}
+
+.rangeInputBox {
+  padding: var(--half-unit);
+  height: 30px;
+  width: 100%;
+}
+
+.rangeInputRoot {
+  flex-grow: 0.5;
+  position: relative;
+  width: 55px;
 }
 
 /* Select input */

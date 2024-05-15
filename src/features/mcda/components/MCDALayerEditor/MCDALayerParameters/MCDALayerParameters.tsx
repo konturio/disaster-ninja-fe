@@ -255,8 +255,9 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             <MCDALayerParameterRow name={i18n.t('mcda.layer_editor.range')} tipText="">
               <div className={s.rangeInputContainer}>
                 <Input
+                  className={s.rangeInputRoot}
                   classes={{
-                    inputBox: s.textInputBox,
+                    inputBox: s.rangeInputBox,
                     error: s.hiddenError,
                   }}
                   type="text"
@@ -269,8 +270,9 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 />
                 <span className={s.inputRangeDivider}>{'-'}</span>
                 <Input
+                  className={s.rangeInputRoot}
                   classes={{
-                    inputBox: s.textInputBox,
+                    inputBox: s.rangeInputBox,
                     error: s.hiddenError,
                   }}
                   type="text"
