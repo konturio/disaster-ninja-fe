@@ -21,16 +21,6 @@ export function initReferenceAreaLayer() {
   if (isInitialized) return;
   isInitialized = true;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const refAreaGeometry =
-    featureFlagsAtom.getState()[FeatureFlag.REFERENCE_AREA]?.referenceAreaGeometry;
-  if (
-    refAreaGeometry?.type === 'FeatureCollection' ||
-    refAreaGeometry?.type === 'Feature'
-  ) {
-    // if there's a geometry in reference_area configuration - use it for initialization
-    setReferenceArea(store.v3ctx, refAreaGeometry);
-  }
   // Connect layer source with reference area geometry
   forceRun(createReferenceAreaSourceAtom(REFERENCE_AREA_LOGICAL_LAYER_ID));
 
