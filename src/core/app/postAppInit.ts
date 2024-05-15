@@ -1,8 +1,6 @@
 import { authClientInstance } from '~core/authClientInstance';
 import { urlStoreAtom } from '~core/url_store';
 import { autoClearAtom } from '~core/logical_layers';
-import { initReferenceArea } from '~core/shared_state/referenceArea';
-import { store } from '~core/store/store';
 import { onLogin } from './authHooks';
 import { runAtom } from './index';
 import type { Config } from '~core/config/types';
@@ -14,7 +12,6 @@ export async function postAppInit(config: Config) {
     ...config.initialUrl,
     layers: config.activeLayers,
   });
-  initReferenceArea(store.v3ctx, config.features);
   runAtom(urlStoreAtom);
 
   // init LogicalLayers

@@ -1,16 +1,18 @@
 import { crc32 } from 'hash-wasm';
 import { action, atom } from '@reatom/core';
 import { updateReferenceArea } from '~core/api/features';
+import { configRepo } from '~core/config';
 import { FeatureFlag } from './featureFlags';
 import type { GeometryWithHash } from '~core/focused_geometry/types';
 import type { FeaturesConfig } from '~core/config/types';
 
 export const referenceAreaAtom = atom<GeometryWithHash | null>(
-  null,
+  getReferenceAreaFromConfigRepo(),
   '[Shared state] referenceAreaAtom',
 );
 
-export const initReferenceArea = action((ctx, features: FeaturesConfig) => {
+function getReferenceAreaFromConfigRepo(): GeometryWithHash | null {
+  const features = configRepo.get().features;
   // if there's a geometry in reference_area configuration - use it for initialization
   const refAreaGeometry =
     typeof features[FeatureFlag.REFERENCE_AREA] === 'object'
@@ -21,9 +23,10 @@ export const initReferenceArea = action((ctx, features: FeaturesConfig) => {
     refAreaGeometry?.type === 'FeatureCollection' ||
     refAreaGeometry?.type === 'Feature'
   ) {
-    setReferenceArea(ctx, refAreaGeometry);
+    return refAreaGeometry as GeometryWithHash;
   }
-});
+  return null;
+}
 
 export const setReferenceArea = action(async (ctx, geometry: GeometryWithHash) => {
   if (geometry) {
