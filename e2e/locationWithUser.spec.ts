@@ -13,7 +13,7 @@ for (const project of projects) {
   test(`As User, I can click Locate me button at ${project.title} and see coordinates of my location in url`, async ({
     pageManager,
   }) => {
-    await pageManager.atBrowser.openProject(project, false);
+    await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.fromNavigationMenu.goToMap();
     await (
       await pageManager.atToolBar.getEntityByText('Locate me')

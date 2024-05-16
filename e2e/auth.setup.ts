@@ -9,7 +9,8 @@ setup('Authentication', async ({ page, context }) => {
 
   // For dev and test environment storage is shared.
   // So login to, for example, test atlas is shared to test oam and etc.
-  // Production has no this feature
+  // So for test and dev login to any project is enough,
+  // With no need to login to all of them
 
   if (process.env.ENVIRONMENT === 'test' || process.env.ENVIRONMENT === 'dev')
     authProjects.splice(1);

@@ -4,6 +4,10 @@ import { fileURLToPath } from 'url';
 import { expect } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
 
+type Options = {
+  skipCookieBanner?: boolean;
+};
+
 export type Project = {
   env: 'prod' | 'dev' | 'test';
   name: string;
@@ -23,17 +27,17 @@ export class HelperBase {
   /**
    * This method opens up a project like disaster-ninja, atlas, etc. After that it checks the title to correspond to this project and accepts cookies if needed
    * @param project object with details about project to open like name, url, title, etc.
-   * @param hasNoCookiesAccepted has browser got cookies already accepted for this project
+   * @param skipCookieBanner should cookie banner acceptance be skipped
    */
 
-  async openProject(project: Project, hasNoCookiesAccepted: boolean = true) {
+  async openProject(project: Project, { skipCookieBanner = false }: Options = {}) {
     await this.page.goto(project.url);
 
     // Expect a title "to contain" a project name.
     await expect(this.page).toHaveTitle(`${project.title}`);
 
     // Currently, OAM project doesn't have cookies popups
-    if (project.hasCookieBanner && hasNoCookiesAccepted)
+    if (project.hasCookieBanner && !skipCookieBanner)
       await this.page.getByText('Accept optional cookies').click();
   }
 

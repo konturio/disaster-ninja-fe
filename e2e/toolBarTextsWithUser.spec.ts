@@ -33,7 +33,7 @@ for (const project of projects) {
         ? shouldBeVisibleForUserWithNoRightsTextsOAM
         : shouldBeVisibleForUserWithNoRightsTexts;
 
-    await pageManager.atBrowser.openProject(project, false);
+    await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.fromNavigationMenu.goToMap();
     await pageManager.atToolBar.checkTextsInToolbar(
       visibleTexts,
