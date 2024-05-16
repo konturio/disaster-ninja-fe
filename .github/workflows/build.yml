@@ -55,10 +55,15 @@ jobs:
         run: |
           status=$(git status --porcelain)
           if [ -n "$status" ]; then
+            # debug stuff
             echo "You have gettext translation files unsynced. Please run i18n:gettext-sync locally."
             echo "$status"
             diff=$(git diff --color)
             echo "$diff"
+            echo ""
+            echo "corepack v$(corepack --version)"
+            echo "pnpm v$(pnpm --version)"
+            # endof debug stuff
             exit 1
           else
             echo "Translations are synced."
