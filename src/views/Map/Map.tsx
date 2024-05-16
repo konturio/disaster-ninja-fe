@@ -108,7 +108,7 @@ export function MapPage() {
         initBivariateMatrix();
       });
     }
-    // TODO: remove userState checked once backend stops returning reference_area feature for unauthorized users
+    // TODO: remove user check once backend stops returning reference_area feature for unauthorized users
     if (featureFlags[FeatureFlag.REFERENCE_AREA] && configRepo.get().user) {
       import('~features/reference_area').then(({ initReferenceArea }) =>
         initReferenceArea(),

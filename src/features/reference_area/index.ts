@@ -49,6 +49,7 @@ function focusedGeometryExists(focusedGeometryState: FocusedGeometry | null): bo
 
 saveAsReferenceAreaControl.onStateChange(async (ctx, state) => {
   if (state === 'regular') {
+    // this case happens when another control sets this one into regular state, but focused geometry is empty
     if (!focusedGeometryExists(focusedGeometryAtom.getState())) {
       store.dispatch([saveAsReferenceAreaControl.setState('disabled')]);
     }
@@ -60,16 +61,16 @@ saveAsReferenceAreaControl.onStateChange(async (ctx, state) => {
 });
 
 saveAsReferenceAreaControl.onInit(() => {
-  if (!focusedGeometryExists(focusedGeometryAtom.getState())) {
-    store.dispatch([saveAsReferenceAreaControl.setState('disabled')]);
-  }
-  focusedGeometryUnsubscribe = focusedGeometryAtom.v3atom.onChange((ctx, newState) => {
-    if (focusedGeometryExists(newState)) {
-      store.dispatch([saveAsReferenceAreaControl.setState('regular')]);
-    } else {
-      store.dispatch([saveAsReferenceAreaControl.setState('disabled')]);
-    }
-  });
+  focusedGeometryUnsubscribe = store.v3ctx.subscribe(
+    focusedGeometryAtom.v3atom,
+    (geometry) => {
+      if (focusedGeometryExists(geometry)) {
+        store.dispatch([saveAsReferenceAreaControl.setState('regular')]);
+      } else {
+        store.dispatch([saveAsReferenceAreaControl.setState('disabled')]);
+      }
+    },
+  );
 });
 
 saveAsReferenceAreaControl.onRemove(() => {

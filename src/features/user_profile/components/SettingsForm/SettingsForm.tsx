@@ -6,7 +6,7 @@ import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
-import { FeatureFlag, eventFeedsAtom, featureFlagsAtom } from '~core/shared_state';
+import { FeatureFlag, eventFeedsAtom } from '~core/shared_state';
 import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
@@ -38,7 +38,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [localSettings, setLocalSettings] = useState<UserDto>(userProfile);
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [eventFeeds] = useAtom(eventFeedsAtom);
-  const [featureFlags] = useAtom(featureFlagsAtom);
+  const featureFlags = configRepo.get().features;
 
   function logout() {
     authClientInstance.logout();
