@@ -13,8 +13,6 @@ import { drawnGeometryAtom } from './atoms/drawnGeometryAtom';
 import { convertToFeatures } from './convertToFeatures';
 import { toolboxAtom } from './atoms/toolboxAtom';
 import type { DrawToolController, DrawToolsController, DrawToolsHook } from './types';
-// a little scratch about new and previous structure https://www.figma.com/file/G8VQQ3mctz5gPkcZZvbzCl/Untitled?node-id=0%3A1
-// newest structure: https://www.figma.com/file/FcyFYb406D8zGFWxyK4zIk/Untitled?node-id=0%3A1
 
 function DeferredPromise<T>() {
   // @ts-expect-error this values assigned later
@@ -59,7 +57,7 @@ class DrawToolsControllerImpl implements DrawToolsController {
       drawModeLogicalLayerAtom.enable(),
       // Setup initial draw mode
       activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
-      // Some hack, idk what is it
+      // hack to select all features
       setIndexesForCurrentGeometryAtom.set(true),
       // Set features to editor
       drawnGeometryAtom.setFeatures(deepCopy(geometryFeatures)),

@@ -69,7 +69,10 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
           ),
           error: () => (
             <div className={s.errorContainer}>
-              <ErrorMessage message={i18n.t('bivariate.matrix.loading_error')} />
+              <ErrorMessage
+                marginTop="0"
+                message={i18n.t('bivariate.matrix.loading_error')}
+              />
             </div>
           ),
           ready: () => (

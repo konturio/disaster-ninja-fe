@@ -9,4 +9,5 @@ export const isDrawingStartedAtom = createAtom(
 
     return started;
   },
+  'isDrawingStartedAtom',
 );
