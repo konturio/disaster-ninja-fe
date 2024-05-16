@@ -3,6 +3,11 @@ import { currentMapAtom } from '~core/shared_state/currentMap';
 import { createAtom } from '~utils/atoms';
 import { downloadObject } from '~utils/file/download';
 import { configRepo } from '~core/config';
+import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
+import { REFERENCE_AREA_LOGICAL_LAYER_ID } from '~features/reference_area/constants';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import { resetReferenceArea } from '~core/shared_state/referenceArea';
+import { store } from '~core/store/store';
 import { layersSettingsAtom } from '../atoms/layersSettings';
 import { enabledLayersAtom } from '../atoms/enabledLayers';
 import {
@@ -38,6 +43,7 @@ const logicalLayerActions: LogicalLayerActions = {
   show: () => null,
   download: () => null,
   destroy: () => null,
+  clean: () => null,
 };
 
 const annotatedError =
@@ -220,6 +226,16 @@ export function createLogicalLayerAtom(
         } catch (e) {
           logError(e);
           newState.error = e;
+        }
+      });
+
+      /* Reset */
+      onAction('clean', () => {
+        if (id === FOCUSED_GEOMETRY_LOGICAL_LAYER_ID) {
+          schedule((dispatch) => dispatch(focusedGeometryAtom.reset()));
+        }
+        if (id === REFERENCE_AREA_LOGICAL_LAYER_ID) {
+          resetReferenceArea(store.v3ctx);
         }
       });
 

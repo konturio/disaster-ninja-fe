@@ -211,6 +211,11 @@
       "name": "Selected Area"
     }
   },
+  "reference_area_layer": {
+    "settings": {
+      "name": "Reference Area"
+    }
+  },
   "drawings": {
     "self_directions_not_supported": "Self intersections are not supported!"
   },
@@ -347,6 +352,13 @@
       "id": "Indonesian",
       "de": "German",
       "uk": "Ukrainian"
+    },
+    "reference_area": {
+      "title": "Reference area",
+      "freehand_geometry": "Freehand geometry",
+      "to_replace_reference_area": "To replace reference area, select an area on the map and click \"Save as reference area\" on toolbar.",
+      "select_are_on_the_map": "Select an area on the map and click \"Save as reference area\" on toolbar to use it in further analysis.",
+      "set_the_reference_area": "Set the reference area"
     }
   },
   "current_event": {
@@ -376,5 +388,10 @@
     "noFeatureSelected": "No feature selected",
     "chooseFeature": "Choose feature",
     "listInfo": "The list is filtered by selected area and sorted by priority and mapped percentage."
+  },
+  "reference_area": {
+    "save_as_reference_area": "Save as reference area",
+    "error_couldnt_save": "Unfortunately, we couldn't save your reference area. Please try again.",
+    "selected_area_saved_as_reference_area": "Selected area has been saved as reference area. You can find it in profile."
   }
 }

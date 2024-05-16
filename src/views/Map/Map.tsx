@@ -15,6 +15,7 @@ import { Copyrights } from '~components/Copyrights/Copyrights';
 import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
+import { configRepo } from '~core/config';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
 
@@ -106,6 +107,12 @@ export function MapPage() {
       import('~features/bivariate_manager').then(({ initBivariateMatrix }) => {
         initBivariateMatrix();
       });
+    }
+    // TODO: remove user check once backend stops returning reference_area feature for unauthorized users
+    if (featureFlags[FeatureFlag.REFERENCE_AREA] && configRepo.get().user) {
+      import('~features/reference_area').then(({ initReferenceArea }) =>
+        initReferenceArea(),
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [featureFlags]);

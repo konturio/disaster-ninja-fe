@@ -1,5 +1,5 @@
-import { HelperBase, Project } from './helperBase';
 import { expect } from '@playwright/test';
+import { HelperBase, Project } from './helperBase';
 
 export class MapCanvas extends HelperBase {
   /**

@@ -1,9 +1,11 @@
+import { layerByOrder } from '~core/logical_layers';
 import { UserGeometryRenderer } from '~core/logical_layers/renderers/UserGeometryRenderer';
-import Icon from '../icons/marker_black.png';
-import { FOCUSED_GEOMETRY_COLOR } from '../constants';
+import Icon from '../icons/marker_darkblue.png';
+import { REFERENCE_AREA_COLOR } from '../constants';
+import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 const icons = {
-  place: Icon,
+  refAreaPoint: Icon,
 };
 
 /**
@@ -20,12 +22,13 @@ const getLayersConfig = (
   );
   return [
     {
-      id: id + '-main',
+      id: id + '-outline',
       source: sourceId,
       type: 'line' as const,
       paint: {
         'line-width': 8,
-        'line-color': FOCUSED_GEOMETRY_COLOR,
+        'line-color': '#FFF',
+        'line-opacity': 0.5,
         'line-offset': -3,
       },
       layout: {
@@ -33,14 +36,13 @@ const getLayersConfig = (
       },
     },
     {
-      id: id + '-outline',
+      id: id + '-main',
       source: sourceId,
       type: 'line' as const,
       paint: {
-        'line-width': 10,
-        'line-color': '#FFF',
-        'line-opacity': 0.5,
-        'line-offset': -4,
+        'line-width': 5,
+        'line-color': REFERENCE_AREA_COLOR,
+        'line-offset': -2,
       },
       layout: {
         'line-join': 'round',
@@ -52,7 +54,7 @@ const getLayersConfig = (
       type: 'symbol' as const,
       filter: ['==', '$type', 'Point'],
       layout: {
-        'icon-image': iconsKeys.place, // reference the image
+        'icon-image': iconsKeys.refAreaPoint, // reference the image
         'icon-size': 0.25,
         'icon-allow-overlap': true,
         'icon-anchor': 'bottom',
@@ -61,8 +63,14 @@ const getLayersConfig = (
   ];
 };
 
-export class FocusedGeometryRenderer extends UserGeometryRenderer {
+export class ReferenceAreaRenderer extends UserGeometryRenderer {
   constructor({ id }) {
     super(id, getLayersConfig, icons);
+  }
+
+  async setupLayersOrder(map: ApplicationMap) {
+    this.layerConfigs.map(async (layerConfig) => {
+      layerByOrder(map).addAboveLayerWithSameType(layerConfig, this.id);
+    });
   }
 }

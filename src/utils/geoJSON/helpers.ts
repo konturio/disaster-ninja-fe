@@ -1,19 +1,6 @@
 import union from '@turf/union';
 import type { Position, BBox } from 'geojson';
 
-// eslint-disable-next-line import/prefer-default-export
-export function createGeoJSONSource(
-  featureCollection: GeoJSON.FeatureCollection | GeoJSON.Feature = {
-    type: 'FeatureCollection' as const,
-    features: [],
-  },
-) {
-  return {
-    type: 'geojson' as const,
-    data: featureCollection,
-  };
-}
-
 export class FeatureCollection {
   type = 'FeatureCollection' as const;
   features: GeoJSON.Feature[];

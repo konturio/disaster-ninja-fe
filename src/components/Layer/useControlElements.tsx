@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
+import { REFERENCE_AREA_LOGICAL_LAYER_ID } from '~features/reference_area/constants';
+import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
 import { DownloadControl } from './DownloadControl/DownloadControl';
 import { EditControl } from './EditControl/EditControl';
 import { LayerContextMenu } from './LayerContextMenu/LayerContextMenu';
+import { CleanControl } from './EraseControl/CleanControl';
 import type {
   LogicalLayerActions,
   LogicalLayerState,
@@ -48,16 +51,29 @@ export function useControlElements({
       );
     }
     if (
+      layerState?.id === FOCUSED_GEOMETRY_LOGICAL_LAYER_ID ||
+      layerState?.id === REFERENCE_AREA_LOGICAL_LAYER_ID
+    ) {
+      elements.push(
+        <CleanControl
+          layerState={layerState}
+          layerActions={layerActions}
+          key={layerState.id + 'clean'}
+        />,
+      );
+    }
+    if (
       layerState.isMounted &&
       layerState.isDownloadable &&
       !skipControls?.skipDownloadControl
-    )
+    ) {
       elements.push(
         <DownloadControl
           key={layerState.id + 'download'}
           startDownload={layerActions.download}
         />,
       );
+    }
 
     if (layerState?.contextMenu && !skipControls?.skipContextMenu)
       elements.push(

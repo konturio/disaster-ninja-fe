@@ -1,9 +1,9 @@
-import { Page } from '@playwright/test';
 import { LoginPage } from './loginPage';
 import { ProfilePage } from './profilePage';
 import { HelperBase } from './helperBase';
 import { NavigationMenu } from './navigationMenu';
 import { MapCanvas } from './mapPage';
+import type { Page } from '@playwright/test';
 
 export class PageManager {
   private readonly page: Page;
