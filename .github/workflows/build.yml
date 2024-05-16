@@ -28,23 +28,21 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft }}
     steps:
       - run: sudo apt-get update && sudo apt-get install -y gettext
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
         with:
-          node-version: '20'
-
-      - run: corepack enable
-      - run: corepack prepare pnpm@9 --activate
+          version: 9
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
@@ -71,15 +69,14 @@ jobs:
         uses: codecov/codecov-action@v4
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: test
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
         with:
-          node-version: '20'
-      - run: corepack enable
-      - run: corepack prepare pnpm@9 --activate
+          version: 9
       - name: Get pnpm store directory
         shell: bash
         run: |
@@ -96,7 +93,7 @@ jobs:
       - name: Display structure of builded files
         run: ls -R
         working-directory: .
-      - name: Make artifact folder for dist (workaround for actions/upload-artifact@v3 bug)
+      - name: Make artifact folder for dist (workaround for actions/upload-artifact@v4 bug)
         run: mkdir ./_artifact && mv ./dist ./_artifact
         working-directory: .
       - uses: actions/upload-artifact@v4
@@ -107,7 +104,7 @@ jobs:
   publish:
     needs: build
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (startsWith(github.ref_name, 'release') || github.ref_name == 'main')) }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
