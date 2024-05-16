@@ -30,8 +30,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - run: pnpm i
-      - run: pnpm run --silent i18n:report -- --out md > ./.github/workflows/translations-report.md
-      - run: cat ./.github/workflows/translations-report.md
+      - run: pnpm run --silent i18n:report --out md > ./.github/workflows/translations-report.md
       - name: Comment
         uses: NejcZdovc/comment-pr@v2.1.0
         with:
