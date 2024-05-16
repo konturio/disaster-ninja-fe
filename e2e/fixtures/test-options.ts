@@ -5,7 +5,6 @@ import type { Project } from '../page-objects/helperBase.ts';
 export type TestOptions = {
   pageManager: PageManager;
   project: Project;
-  loginWithNoRightsUser: string;
 };
 
 export const test = basis.extend<TestOptions>({
