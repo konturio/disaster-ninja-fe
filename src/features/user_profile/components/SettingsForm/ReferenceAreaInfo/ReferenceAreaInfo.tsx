@@ -16,13 +16,9 @@ export function ReferenceAreaInfo() {
       referenceAreaGeometry?.type === 'Feature' &&
       referenceAreaGeometry.properties?.name
     ) {
-      return (
-        referenceAreaGeometry.properties.name ??
-        i18n.t('profile.reference_area.freehand_geometry')
-      );
-    } else {
-      return i18n.t('profile.reference_area.freehand_geometry');
+      return referenceAreaGeometry.properties.name;
     }
+    return i18n.t('profile.reference_area.freehand_geometry');
   }, [referenceAreaGeometry]);
 
   const onDeleteReferenceAreaClicked = useCallback(() => {
