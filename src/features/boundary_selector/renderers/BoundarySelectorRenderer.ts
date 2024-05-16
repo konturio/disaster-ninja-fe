@@ -1,5 +1,4 @@
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import { createGeoJSONSource } from '~utils/geoJSON/helpers';
 import { layerByOrder } from '~core/logical_layers';
 import type {
   ApplicationLayer,
@@ -41,7 +40,10 @@ export class BoundarySelectorRenderer extends LogicalLayerDefaultRenderer {
     /* I cast this type because I known backend response me with geojson source */
     const source = state.source as LayerGeoJSONSource | null;
 
-    const geoJsonSource = createGeoJSONSource(source ? source.source.data : undefined);
+    const geoJsonSource = {
+      type: 'geojson' as const,
+      data: source ? source.source.data : undefined,
+    };
     map.addSource(this.sourceId, geoJsonSource);
     layerByOrder(map).addAboveLayerWithSameType(this.hoveredLayerConfig, this.layerId);
   }
