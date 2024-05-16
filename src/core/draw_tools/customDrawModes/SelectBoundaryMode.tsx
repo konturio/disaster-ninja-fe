@@ -19,10 +19,7 @@ export class SelectBoundaryMode extends GeoJsonEditMode {
     });
   }
 
-  handlePointerMove(
-    event: PointerMoveEvent,
-    props: ModeProps<FeatureCollection>,
-  ) {
+  handlePointerMove(event: PointerMoveEvent, props: ModeProps<FeatureCollection>) {
     props.onUpdateCursor('cell');
   }
 }

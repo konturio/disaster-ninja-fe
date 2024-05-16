@@ -3,7 +3,7 @@
   pointer-events: none;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
 
   color: var(--faint-weak-up, #d2d5d8);
 

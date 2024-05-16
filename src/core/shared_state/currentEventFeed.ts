@@ -23,6 +23,7 @@ export const currentEventFeedAtom = createAtom(
       if (state?.id !== feedId) {
         state = { id: feedId };
       }
+      schedule((dispatch) => dispatch(currentEventAtom.setCurrentEventId(null)));
     });
 
     onAction('resetCurrentFeed', () => {

@@ -1,4 +1,4 @@
-import { CustomModifyMode } from '../map-daw-tools/customDrawModes/CustomModifyMode';
+import { CustomModifyMode } from '../customDrawModes/CustomModifyMode';
 import type {
   ClickEvent,
   FeatureCollection,
@@ -118,8 +118,7 @@ export class LocalModifyMode extends CustomModifyMode {
 
   getGuides(props): GuideFeatureCollection | null {
     // getGuides() for rotate mode with no features will throw error
-    if (!props.data?.features?.length || !props.selectedIndexes?.length)
-      return null;
+    if (!props.data?.features?.length || !props.selectedIndexes?.length) return null;
     return this._currentSubMode ? this._currentSubMode.getGuides(props) : null;
   }
 }

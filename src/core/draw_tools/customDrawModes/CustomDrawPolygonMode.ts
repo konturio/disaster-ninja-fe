@@ -1,6 +1,5 @@
-import { utils } from '@nebula.gl/edit-modes';
-import { GeoJsonEditMode } from '@nebula.gl/edit-modes';
 import kinks from '@turf/kinks';
+import { GeoJsonEditMode, utils } from '@nebula.gl/edit-modes';
 import type {
   ClickEvent,
   PointerMoveEvent,
@@ -9,8 +8,8 @@ import type {
   Polygon,
   FeatureCollection,
   Position,
+  TentativeFeature,
 } from '@nebula.gl/edit-modes';
-import type { TentativeFeature } from '@nebula.gl/edit-modes';
 
 export class CustomDrawPolygonMode extends GeoJsonEditMode {
   createTentativeFeature(props: ModeProps<FeatureCollection>): TentativeFeature {

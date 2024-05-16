@@ -10,7 +10,7 @@ export type CurrentEventAtomState = {
 
 export const currentEventAtom = createAtom(
   {
-    setCurrentEventId: (eventId: string) => eventId,
+    setCurrentEventId: (eventId: string | null) => eventId,
     focusedGeometryAtom,
   },
   ({ onAction, onChange }, state: CurrentEventAtomState = null) => {
