@@ -8,8 +8,8 @@ import {
   Reports16,
 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
+import { isAuthenticated } from '~core/auth/state';
 import { AppFeature } from '~core/auth/types';
-import { UserStateToComponents } from '~core/auth';
 import { PagesDocument } from '~core/pages';
 import { goTo } from './goTo';
 import type { AppRouterConfig } from './types';
@@ -57,12 +57,7 @@ export const routerConfig: AppRouterConfig = {
     },
     {
       slug: 'profile',
-      title: (
-        <UserStateToComponents
-          authorized={i18n.t('modes.profile')}
-          other={i18n.t('login.login_button')}
-        />
-      ),
+      title: isAuthenticated() ? i18n.t('modes.profile') : i18n.t('login.login_button'),
       icon: <User24 />,
       view: <ProfilePage />,
       requiredFeature: AppFeature.APP_LOGIN,
