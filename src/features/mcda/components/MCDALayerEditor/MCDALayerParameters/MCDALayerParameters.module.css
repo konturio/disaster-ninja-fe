@@ -5,7 +5,7 @@
 .layer {
   display: flex;
   flex-flow: column;
-  padding: var(--half-unit) 0;
+  padding: var(--half-unit) var(--unit);
 }
 
 .layerHeader {
@@ -17,7 +17,7 @@
 .layerEditContainer {
   width: 100%;
   margin-top: 12px;
-  padding: var(--half-unit) 0;
+  padding: var(--half-unit) var(--unit) var(--unit);
   font-size: 12px;
 }
 
@@ -47,10 +47,11 @@
 .textInputBox {
   padding: var(--half-unit);
   height: 30px;
-  width: 55px;
+  width: 50%;
 }
 
-.textInputBox input {
+.textInputBox input,
+.rangeInputBox input {
   font-size: 11px;
 }
 
@@ -76,6 +77,19 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 160px; /* min width of @kontur ui-kit Select component */
+}
+
+.rangeInputBox {
+  padding: var(--half-unit);
+  height: 30px;
+  width: 100%;
+}
+
+.rangeInputRoot {
+  flex-grow: 0.5;
+  position: relative;
+  width: 55px;
 }
 
 /* Select input */
@@ -85,7 +99,7 @@
 }
 
 .selectInput button {
-  max-width: 77%;
+  max-width: 100%;
   height: 30px;
 }
 
@@ -101,7 +115,6 @@
 .resetLimits {
   width: 100%;
   margin-top: calc(-1 * var(--half-unit));
-  margin-bottom: var(--unit);
   color: var(--accent-strong);
   cursor: pointer;
 }
@@ -127,4 +140,8 @@
 
 .saveButton {
   margin-right: var(--half-unit);
+}
+
+.invisible {
+  display: none;
 }
