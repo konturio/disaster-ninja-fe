@@ -13,7 +13,7 @@ export function registerNewGeometryLayer(
   mainColor: string,
 ) {
   store.dispatch([
-    // Set layer settings once
+    // Set layer settings
     layersSettingsAtom.set(
       layerId,
       createAsyncWrapper({
@@ -23,7 +23,7 @@ export function registerNewGeometryLayer(
         ownedByUser: false,
       }),
     ),
-    // Sel layer legend once
+    // Set layer legend
     layersLegendsAtom.set(
       layerId,
       createAsyncWrapper({
@@ -45,6 +45,7 @@ export function registerNewGeometryLayer(
       renderer,
       id: layerId,
     }),
+    // enable the layer
     enabledLayersAtom.set(layerId),
   ]);
 }
