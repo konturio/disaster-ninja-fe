@@ -10,20 +10,19 @@ on:
 jobs:
   report:
     name: Generate report
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: '20'
-      - run: corepack enable
-      - run: corepack prepare pnpm@8 --activate
+          version: 9
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
@@ -33,7 +32,7 @@ jobs:
       - run: pnpm i
       - run: pnpm run --silent i18n:report -- --out md > ./.github/workflows/translations-report.md
       - name: Comment
-        uses: NejcZdovc/comment-pr@v1
+        uses: NejcZdovc/comment-pr@v2.1
         with:
           file: 'translations-report.md'
           identifier: 'GITHUB_COMMENT_TRANSLATION'

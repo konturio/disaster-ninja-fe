@@ -10,26 +10,24 @@ on:
 jobs:
   build-base:
     name: Build base
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.base_ref }}
 
-      - uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: '20'
-
-      - run: corepack enable
-      - run: corepack prepare pnpm@8 --activate
+          version: 9
 
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
@@ -45,7 +43,7 @@ jobs:
         run: pnpm run build
 
       - name: Upload base size-report.json
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: base
           path: ./size-report.json
@@ -53,24 +51,22 @@ jobs:
 
   build-pr:
     name: Build PR
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: '20'
-
-      - run: corepack enable
-      - run: corepack prepare pnpm@8 --activate
+          version: 9
 
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
@@ -87,7 +83,7 @@ jobs:
         run: pnpm run build
 
       - name: Upload base size-report.json
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pr
           path: ./size-report.json
@@ -95,21 +91,21 @@ jobs:
 
   report:
     name: Generate report
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [build-base, build-pr]
 
     steps:
       - name: Checkout PR
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download base size-report.json
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: base
           path: base
 
       - name: Download PR size-report.json
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: pr
           path: pr
@@ -122,7 +118,7 @@ jobs:
           pr_path: './pr/size-report.json'
 
       - name: Comment
-        uses: NejcZdovc/comment-pr@v1
+        uses: NejcZdovc/comment-pr@v2.1
         with:
           file: 'comment.md'
           identifier: 'GITHUB_COMMENT_SIZE'
