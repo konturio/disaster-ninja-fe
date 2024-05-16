@@ -28,23 +28,21 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft }}
     steps:
       - run: sudo apt-get update && sudo apt-get install -y gettext
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: '20'
-
-      - run: corepack enable
-      - run: corepack prepare pnpm@8 --activate
+          version: 9
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
@@ -68,23 +66,22 @@ jobs:
       - run: pnpm run typecheck
       - run: env NODE_ENV=test pnpm run coverage
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: test
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: '20'
-      - run: corepack enable
-      - run: corepack prepare pnpm@8 --activate
+          version: 9
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
@@ -96,10 +93,10 @@ jobs:
       - name: Display structure of builded files
         run: ls -R
         working-directory: .
-      - name: Make artifact folder for dist (workaround for actions/upload-artifact@v3 bug)
+      - name: Make artifact folder for dist (workaround for actions/upload-artifact@v4 bug)
         run: mkdir ./_artifact && mv ./dist ./_artifact
         working-directory: .
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ github.sha }}
           path: ./_artifact
@@ -107,10 +104,10 @@ jobs:
   publish:
     needs: build
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (startsWith(github.ref_name, 'release') || github.ref_name == 'main')) }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: ${{ github.sha }}
 
@@ -119,14 +116,14 @@ jobs:
         working-directory: .
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract Docker metadata
-        uses: docker/metadata-action@v4.0.1
+        uses: docker/metadata-action@v5
         id: meta
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}
@@ -135,7 +132,7 @@ jobs:
             type=raw,value=${{ github.head_ref }}.{{sha}}.${{ github.run_attempt }},enable=${{github.event_name == 'pull_request'}}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: ./Dockerfile
