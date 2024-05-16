@@ -8,23 +8,24 @@ export function applyNewGeometryLayerSource(
   layerId: string,
   geometry: GeometryWithHash | null,
 ) {
+  function dispatchLayerSource(layerId, geometry) {
+    const referenceAreaLayerSource = createGeoJSONLayerSource(layerId, geometry);
+    store.dispatch(
+      layersSourcesAtom.set(layerId, createAsyncWrapper(referenceAreaLayerSource)),
+    );
+  }
+
   if (geometry) {
     if (geometry.type === 'FeatureCollection' || geometry.type === 'Feature') {
-      const referenceAreaLayerSource = createGeoJSONLayerSource(layerId, geometry);
-      store.dispatch(
-        layersSourcesAtom.set(layerId, createAsyncWrapper(referenceAreaLayerSource)),
-      );
+      dispatchLayerSource(layerId, geometry);
     } else {
       console.error(`[${layerId}]: Only FeatureCollection and Feature supported `);
     }
   } else {
-    const referenceAreaLayerSource = createGeoJSONLayerSource(layerId, {
+    dispatchLayerSource(layerId, {
       type: 'FeatureCollection',
       features: [],
     });
-    store.dispatch(
-      layersSourcesAtom.set(layerId, createAsyncWrapper(referenceAreaLayerSource)),
-    );
   }
   return geometry;
 }
