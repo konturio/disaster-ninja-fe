@@ -2,7 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { expect } from '@playwright/test';
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+
+type Options = {
+  skipCookieBanner?: boolean;
+};
 
 export type Project = {
   env: 'prod' | 'dev' | 'test';
@@ -11,6 +15,7 @@ export type Project = {
   title: string;
   hasCookieBanner: boolean;
   hasAtlasBanner: boolean;
+  authUrl: string;
 };
 
 export class HelperBase {
@@ -19,24 +24,48 @@ export class HelperBase {
   constructor(page: Page) {
     this.page = page;
   }
+  /**
+   * This method opens up a project like disaster-ninja, atlas, etc. After that it checks the title to correspond to this project and accepts cookies if needed
+   * @param project object with details about project to open like name, url, title, etc.
+   * @param skipCookieBanner should cookie banner acceptance be skipped
+   */
 
-  async openProject(project: Project) {
+  async openProject(project: Project, { skipCookieBanner = false }: Options = {}) {
     await this.page.goto(project.url);
 
     // Expect a title "to contain" a project name.
     await expect(this.page).toHaveTitle(`${project.title}`);
 
     // Currently, OAM project doesn't have cookies popups
-    if (project.hasCookieBanner)
+    if (project.hasCookieBanner && !skipCookieBanner)
       await this.page.getByText('Accept optional cookies').click();
   }
 
   async closeAtlasBanner(project: Project) {
     if (project.hasAtlasBanner) {
       await this.page.waitForSelector('[title="Intercom live chat banner"]');
-      const frame = this.page.frameLocator('[title="Intercom live chat banner"]');
-      await frame.getByLabel('Close').locator('> :first-child').click();
+      // Waiting for animation of element display to happen
+      await this.page.waitForTimeout(400);
+      // Skipping autowaiting for click method
+      await this.page
+        .frameLocator('[title="Intercom live chat banner"]')
+        .getByLabel('Close')
+        .click({ force: true });
     }
+  }
+  /**
+   * This method gets texts from locators array passed in. Checks if text is present and then returns array of this texts. Before using this method try to use allTextContents method present in Playwright. Fails if 1 of elements has no text
+   * @param locators array of playwright locators from DOM returned by all() method
+   * @returns array of texts where all texts are defined.
+   */
+  async getTextsFromLocators(locators: Locator[]) {
+    const textsArray: string[] = [];
+    for (const locator of locators) {
+      const text = await locator.textContent();
+      expect(text).not.toBeNull();
+      textsArray.push(text!);
+    }
+    return textsArray;
   }
 }
 

@@ -13,10 +13,10 @@ dotenv.config({
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  globalTimeout: process.env.CI ? 300000 : 240000,
+  globalTimeout: process.env.CI ? 900000 : 600000,
   timeout: process.env.CI ? 120000 : 60000,
   expect: {
-    timeout: process.env.CI ? 10000 : 5000,
+    timeout: process.env.CI ? 10000 : 7000,
   },
   testDir: './e2e',
   /* Run tests in files in parallel */
@@ -43,16 +43,35 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup',
+      testMatch: 'auth.setup.ts',
+    },
+
+    {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      testIgnore: /WithUser/,
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      testIgnore: 'location.spec.ts',
+      testIgnore: [/WithUser/, 'location.spec.ts'],
     },
 
+    {
+      name: 'chromium_logged_in',
+      use: { ...devices['Desktop Chrome'], storageState: 'e2e/.auth/user.json' },
+      dependencies: ['setup'],
+      testMatch: /WithUser/,
+    },
+
+    {
+      name: 'webkit_logged_in',
+      use: { ...devices['Desktop Safari'], storageState: 'e2e/.auth/user.json' },
+      dependencies: ['setup'],
+      testMatch: /WithUser/,
+    },
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },

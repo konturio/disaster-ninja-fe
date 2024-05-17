@@ -3,6 +3,7 @@ import { ProfilePage } from './profilePage';
 import { HelperBase } from './helperBase';
 import { NavigationMenu } from './navigationMenu';
 import { MapCanvas } from './mapPage';
+import { ToolBar } from './toolBar';
 import type { Page } from '@playwright/test';
 
 export class PageManager {
@@ -12,6 +13,7 @@ export class PageManager {
   private readonly helperBase: HelperBase;
   private readonly navigationMenu: NavigationMenu;
   private readonly mapCanvas: MapCanvas;
+  private readonly toolBar: ToolBar;
 
   constructor(page: Page) {
     this.page = page;
@@ -20,6 +22,7 @@ export class PageManager {
     this.helperBase = new HelperBase(this.page);
     this.navigationMenu = new NavigationMenu(this.page);
     this.mapCanvas = new MapCanvas(this.page);
+    this.toolBar = new ToolBar(this.page);
   }
 
   get atLoginPage() {
@@ -40,5 +43,9 @@ export class PageManager {
 
   get atMap() {
     return this.mapCanvas;
+  }
+
+  get atToolBar() {
+    return this.toolBar;
   }
 }
