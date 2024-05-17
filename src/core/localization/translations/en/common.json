@@ -2,13 +2,13 @@
   "km": "km",
   "m": "m",
   "to": "to",
-  "logout": "Logout",
+  "logout": "Log out",
   "save": "Save",
   "cancel": "Cancel",
   "create": "Create",
   "disasters": "Disasters",
   "loading": "Loading...",
-  "loading_events": "Loading events",
+  "loading_events": "Loading disasters",
   "legend": "Legend",
   "maps": "maps",
   "vertical_direction": "Vertical direction",
@@ -21,15 +21,15 @@
     "panel_title": "Toolbar",
     "download": "Download",
     "delete": "Delete",
-    "boundary_selector": "Select\nadmin unit",
-    "create_layer": "Create\nlayer",
-    "geometry_uploader": "Upload\nGeoJSON",
-    "focused_geometry_editor": "Draw or edit\ngeometry",
+    "boundary_selector": "Select admin unit",
+    "create_layer": "Create layer",
+    "geometry_uploader": "Upload GeoJSON",
+    "focused_geometry_editor": "Draw or edit geometry",
     "edit_in_osm": "Edit map in OSM",
     "record_sensors": "Record sensors",
     "tools_label": "Tools",
     "selected_area_label": "Selected area",
-    "upload_mcda": "Upload\nMCDA"
+    "upload_mcda": "Upload MCDA"
   },
   "feed": "Feed",
   "deselect": "Deselect",
@@ -82,7 +82,7 @@
   },
   "mcda": {
     "title": "Multi-criteria decision analysis",
-    "name": "MCDA",
+    "name": "Create MCDA",
     "modal_title": "Customize analysis",
     "modal_input_name": "Name",
     "modal_input_name_placeholder": "Set layer name",
@@ -136,7 +136,7 @@
       "settled_area_tooltip": "Settled Area",
       "loss_tooltip": "Estimated loss"
     },
-    "no_event_in_feed": "Event not found in the current event feed",
+    "no_event_in_feed": "Disaster not found in the current disaster feed",
     "no_selected_disaster": "No disaster selected",
     "chose_disaster": "Choose disaster",
     "no_historical_disasters": "No historical disasters in this area",
@@ -180,7 +180,7 @@
     "error": "Error while fetching advanced analytics data"
   },
   "advanced_analytics_empty": {
-    "not_found": "Sorry, requested event not found.",
+    "not_found": "Sorry, requested disaster is not found.",
     "error": "An error occured!",
     "analytics_for_selected": "Analytics for a selected area",
     "will_be_provided": "will be provided here",
@@ -362,7 +362,7 @@
     }
   },
   "current_event": {
-    "not_found_request": "Sorry, requested event not found."
+    "not_found_request": "Sorry, requested disaster is not found."
   },
   "locate_me": {
     "get_location_error": "Error while getting location",
