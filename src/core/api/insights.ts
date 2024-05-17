@@ -1,6 +1,6 @@
 import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
-import type { AdvancedAnalyticsData, AnalyticsData } from '~core/types';
+import type { AdvancedAnalyticsData, AnalyticsData, LLMAnalyticsData } from '~core/types';
 
 export function getPolygonDetails(
   features: GeoJSON.FeatureCollection,
@@ -25,6 +25,21 @@ export function getAdvancedPolygonDetails(
   return apiClient.post<AdvancedAnalyticsData[] | null>(
     `/advanced_polygon_details/`,
     geometry,
+    true,
+    { signal: abortController.signal },
+  );
+}
+
+export function getLlmAnalysis(
+  geometry: GeoJSON.GeoJSON,
+  abortController: AbortController,
+) {
+  return apiClient.post<LLMAnalyticsData>(
+    `/llm_analytics`,
+    {
+      appId: configRepo.get().id,
+      features: geometry,
+    },
     true,
     { signal: abortController.signal },
   );
