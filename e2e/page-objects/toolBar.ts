@@ -8,7 +8,7 @@ export class ToolBar extends HelperBase {
    * @returns - playwright locator for the button
    */
 
-  async getEntityByText(text: string) {
+  async getButtonByText(text: string) {
     const toolbarPanel = this.page
       .locator('div')
       .filter({ hasText: 'Toolbar' } && { hasText: 'Tools' });
@@ -18,16 +18,16 @@ export class ToolBar extends HelperBase {
   /**
    * This method checks that there are some texts that should be visible in toolbar and also some texts that should not be visible there
    * @param visibleTexts - array of visible texts
-   * @param notVisibleTexts - array of not visible texts
+   * @param hiddenTexts - array of hidden texts
    */
 
-  async checkTextsInToolbar(visibleTexts: string[], notVisibleTexts: string[]) {
+  async checkTextsInToolbar(visibleTexts: string[], hiddenTexts: string[]) {
     for (const text of visibleTexts) {
-      const element = await this.getEntityByText(text);
+      const element = await this.getButtonByText(text);
       await expect(element).toBeVisible();
     }
-    for (const text of notVisibleTexts) {
-      const element = await this.getEntityByText(text);
+    for (const text of hiddenTexts) {
+      const element = await this.getButtonByText(text);
       await expect(element).not.toBeVisible();
     }
   }

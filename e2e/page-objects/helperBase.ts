@@ -58,7 +58,7 @@ export class HelperBase {
    * @param locators array of playwright locators from DOM returned by all() method
    * @returns array of texts where all texts are defined.
    */
-  async getTextsFromAllLocators(locators: Locator[]) {
+  async getTextsFromLocators(locators: Locator[]) {
     const textsArray: string[] = [];
     for (const locator of locators) {
       const text = await locator.textContent();

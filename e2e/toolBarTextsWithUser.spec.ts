@@ -2,7 +2,7 @@ import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
 
 const projects = getProjects();
-const shouldBeVisibleForUserWithNoRightsTexts = [
+const availableToolbarFeaturesUserWithNoRights = [
   'Locate me',
   'Measure distance',
   'Edit map in OSM',
@@ -10,12 +10,12 @@ const shouldBeVisibleForUserWithNoRightsTexts = [
   'Upload GeoJSON',
   'Draw or edit geometry',
 ];
-const shouldBeVisibleForUserWithNoRightsTextsOAM = [
+const availableToolbarFeaturesOAMUserWithNoRights = [
   'Locate me',
   'Measure distance',
   'Edit map in OSM',
 ];
-const shouldBeNotVisibleForUserWithNoRightsTexts = [
+const hiddenToolbarFeaturesUserWithNoRights = [
   'Bivariate Matrix',
   'MCDA',
   'Upload MCDA',
@@ -30,14 +30,14 @@ for (const project of projects) {
   }) => {
     const visibleTexts =
       project.name === 'oam'
-        ? shouldBeVisibleForUserWithNoRightsTextsOAM
-        : shouldBeVisibleForUserWithNoRightsTexts;
+        ? availableToolbarFeaturesOAMUserWithNoRights
+        : availableToolbarFeaturesUserWithNoRights;
 
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.fromNavigationMenu.goToMap();
     await pageManager.atToolBar.checkTextsInToolbar(
       visibleTexts,
-      shouldBeNotVisibleForUserWithNoRightsTexts,
+      hiddenToolbarFeaturesUserWithNoRights,
     );
   });
 }

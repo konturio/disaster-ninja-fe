@@ -11,8 +11,8 @@ type InputData = {
   zoom: number;
   latitude: number;
   longitude: number;
-  pixelsByXToClick: number;
-  pixelsByYToClick: number;
+  x: number;
+  y: number;
 };
 
 let projects = getProjects();
@@ -27,10 +27,7 @@ const testPopulation = async function (inputData: InputData) {
     inputData.longitude,
     inputData.project,
   );
-  await inputData.pageManager.atMap.clickPlaceOnMapView(
-    inputData.pixelsByXToClick,
-    inputData.pixelsByYToClick,
-  );
+  await inputData.pageManager.atMap.clickPlaceOnMapView(inputData.x, inputData.y);
   await inputData.pageManager.atMap.checkPopulationPopupData();
   await inputData.pageManager.atMap.closePopulationPopup();
 };
@@ -50,8 +47,8 @@ projects.forEach((project) => {
         zoom: 13.548,
         latitude: 40.2283,
         longitude: -74.0298,
-        pixelsByXToClick: 230,
-        pixelsByYToClick: 200,
+        x: 230,
+        y: 200,
       });
     });
     test('Huge population in Mumbai', async ({ pageManager, page }) => {
@@ -62,8 +59,8 @@ projects.forEach((project) => {
         zoom: 15.878,
         latitude: 19.0811,
         longitude: 72.8609,
-        pixelsByXToClick: 230,
-        pixelsByYToClick: 200,
+        x: 230,
+        y: 200,
       });
     });
     if (project.env !== 'dev')
@@ -75,8 +72,8 @@ projects.forEach((project) => {
           zoom: 15.928,
           latitude: -69.4047,
           longitude: 76.3963,
-          pixelsByXToClick: 110,
-          pixelsByYToClick: 300,
+          x: 110,
+          y: 300,
         });
       });
     test('Near equator', async ({ pageManager, page }) => {
@@ -87,8 +84,8 @@ projects.forEach((project) => {
         zoom: 15.307,
         latitude: -0.0191,
         longitude: 10.3915,
-        pixelsByXToClick: 200,
-        pixelsByYToClick: 200,
+        x: 200,
+        y: 200,
       });
     });
   });

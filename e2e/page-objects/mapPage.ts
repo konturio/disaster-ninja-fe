@@ -9,11 +9,7 @@ export class MapCanvas extends HelperBase {
    * @param valueCanNotBe0 set to true if value can not be 0
    */
 
-  checkShownPopupResultData(
-    resultedText: string,
-    expectedLabel: string,
-    valueCanNotBe0: boolean,
-  ) {
+  checkPopupData(resultedText: string, expectedLabel: string, valueCanNotBe0: boolean) {
     const arr = resultedText.split(':');
     expect(arr.length).toEqual(2);
     expect(arr[0].trim()).toEqual(expectedLabel);
@@ -94,11 +90,11 @@ export class MapCanvas extends HelperBase {
     // Check that popup is generally present and has population text there
     await expect(popup).toContainText('Population');
     const listItemsArray = await popup.getByRole('listitem').all();
-    const textsArray = await this.getTextsFromAllLocators(listItemsArray);
+    const textsArray = await this.getTextsFromLocators(listItemsArray);
 
-    this.checkShownPopupResultData(textsArray[0], 'Population', true);
-    this.checkShownPopupResultData(textsArray[1], 'Area km2', true);
-    this.checkShownPopupResultData(textsArray[2], 'Population / Area km2', true);
+    this.checkPopupData(textsArray[0], 'Population', true);
+    this.checkPopupData(textsArray[1], 'Area km2', true);
+    this.checkPopupData(textsArray[2], 'Population / Area km2', true);
 
     expect(listItemsArray[3]).toBeUndefined();
   }

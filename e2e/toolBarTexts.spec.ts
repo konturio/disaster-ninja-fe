@@ -3,7 +3,7 @@ import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
 
 const projects = getProjects();
-const shouldBeVisibleForGuestTexts = [
+const availableToolbarFeaturesGuest = [
   'Locate me',
   'Measure distance',
   'Edit map in OSM',
@@ -11,12 +11,12 @@ const shouldBeVisibleForGuestTexts = [
   'Upload GeoJSON',
   'Draw or edit geometry',
 ];
-const shouldBeVisibleForGuestTextsOAM = [
+const availableToolbarFeaturesGuestOAM = [
   'Locate me',
   'Measure distance',
   'Edit map in OSM',
 ];
-const shouldBeNotVisibleForGuestTexts = [
+const hiddenToolbarFeaturesGuest = [
   'Bivariate Matrix',
   'MCDA',
   'Upload MCDA',
@@ -31,14 +31,14 @@ for (const project of projects) {
   }) => {
     const visibleTexts =
       project.name === 'oam'
-        ? shouldBeVisibleForGuestTextsOAM
-        : shouldBeVisibleForGuestTexts;
+        ? availableToolbarFeaturesGuestOAM
+        : availableToolbarFeaturesGuest;
 
     await pageManager.atBrowser.openProject(project);
     await pageManager.fromNavigationMenu.goToMap();
     await pageManager.atToolBar.checkTextsInToolbar(
       visibleTexts,
-      shouldBeNotVisibleForGuestTexts,
+      hiddenToolbarFeaturesGuest,
     );
   });
 }

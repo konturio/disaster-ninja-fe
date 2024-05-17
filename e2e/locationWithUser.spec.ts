@@ -16,7 +16,7 @@ for (const project of projects) {
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.fromNavigationMenu.goToMap();
     await (
-      await pageManager.atToolBar.getEntityByText('Locate me')
+      await pageManager.atToolBar.getButtonByText('Locate me')
     ).click({ timeout: 15000 });
     await pageManager.atMap.waitForUrlToMatchPattern(/-30\.2290\/146\.8650/);
   });
