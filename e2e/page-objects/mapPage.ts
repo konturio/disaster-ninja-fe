@@ -1,12 +1,13 @@
 import { expect } from '@playwright/test';
-import { HelperBase, Project } from './helperBase';
+import { HelperBase } from './helperBase';
+import type { Project } from './helperBase';
 
 export class MapCanvas extends HelperBase {
   /**
-   * This method divides text by ':' and expects 2 parts. 1 part - label with expectedLabel text and 2 - number. Number is checked for being not NaN. If value can not be 0, then it will be checked for being not 0 too.
-   * @param resultedText text with ':' separator that should have label and its value
-   * @param expectedLabel expected label text to be equal to displayed
-   * @param valueCanNotBe0 set to true if value can not be 0
+   * Splits the provided text by ':' and checks the resulting parts. The first part should match the expected label, and the second part should be a number that is not NaN. Additionally, if the value cannot be zero, this is also checked.
+   * @param resultedText Text containing a label and its value separated by ':'
+   * @param expectedLabel The expected text of the label
+   * @param valueCanNotBe0 True if the value cannot be zero, otherwise false
    */
 
   checkPopupData(resultedText: string, expectedLabel: string, valueCanNotBe0: boolean) {
