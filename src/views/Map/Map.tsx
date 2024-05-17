@@ -16,6 +16,7 @@ import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import { configRepo } from '~core/config';
+import { llmAnalyticsPanel } from '~features/llm_analytics';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
 
@@ -173,13 +174,16 @@ const Toolbar = () => {
 };
 
 const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) => {
-  const analyticsPanelState = analyticsPanel();
+  const isLLMAnalyticsOn = featureFlags[FeatureFlag.LLM_ANALYTICS];
+  const analyticsPanelState = isLLMAnalyticsOn ? llmAnalyticsPanel() : analyticsPanel();
   const advancedAnalyticsPanelState = advancedAnalyticsPanel();
   const [fullState, shortState] = [
     featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL]
       ? advancedAnalyticsPanelState
       : null,
-    featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanelState : null,
+    featureFlags[FeatureFlag.ANALYTICS_PANEL] || featureFlags[FeatureFlag.LLM_ANALYTICS]
+      ? analyticsPanelState
+      : null,
   ];
   return (
     <FullAndShortStatesPanelWidget
