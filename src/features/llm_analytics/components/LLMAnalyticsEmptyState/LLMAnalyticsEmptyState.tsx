@@ -1,4 +1,6 @@
 import { i18n } from '~core/localization';
+import { PagesDocument } from '~core/pages';
+import { SimpleWrapper } from '../SimpleWrapper/SimpleWrapper';
 import s from './LLMAnalyticsEmptyState.module.css';
 
 interface AnalyticsEmptyStateProps {
@@ -16,9 +18,15 @@ export const LLMAnalyticsEmptyState = ({
           <br />
         </>
       )}
-      {i18n.t('advanced_analytics_empty.analytics_for_selected')}
-      <br />
-      {i18n.t('advanced_analytics_empty.will_be_provided')}
+      <PagesDocument
+        doc={[
+          {
+            type: 'md',
+            data: i18n.t('llm_analytics.header_info'),
+          },
+        ]}
+        wrapperComponent={SimpleWrapper}
+      />
     </div>
   );
 };

@@ -4,9 +4,10 @@ import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { PagesDocument } from '~core/pages';
+import { i18n } from '~core/localization';
 import { LLMAnalyticsEmptyState } from '../LLMAnalyticsEmptyState/LLMAnalyticsEmptyState';
 import { llmAnalyticsResourceAtom } from '../../atoms/llmAnalyticsResource';
-import type { PropsWithChildren } from 'react';
+import { SimpleWrapper } from '../SimpleWrapper/SimpleWrapper';
 
 export const LLMAnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(llmAnalyticsResourceAtom);
@@ -35,6 +36,10 @@ export const LLMAnalyticsContainer = () => {
           doc={[
             {
               type: 'md',
+              data: i18n.t('llm_analytics.header_info'),
+            },
+            {
+              type: 'md',
               data: data.data,
             },
           ]}
@@ -44,11 +49,3 @@ export const LLMAnalyticsContainer = () => {
     },
   });
 };
-
-function SimpleWrapper({ children }: PropsWithChildren) {
-  return (
-    <div>
-      <article>{children}</article>
-    </div>
-  );
-}
