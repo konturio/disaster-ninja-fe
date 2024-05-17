@@ -32,9 +32,12 @@ async function saveFocusedGeometryAsReferenceArea() {
     const geometry = (geometryState as FocusedGeometry)?.geometry;
     await updateReferenceArea(geometry);
     setReferenceArea(store.v3ctx, geometry);
-    notificationServiceInstance.success({
-      title: i18n.t('reference_area.selected_area_saved_as_reference_area'),
-    });
+    notificationServiceInstance.success(
+      {
+        title: i18n.t('reference_area.selected_area_saved_as_reference_area'),
+      },
+      2,
+    );
   }
 }
 
