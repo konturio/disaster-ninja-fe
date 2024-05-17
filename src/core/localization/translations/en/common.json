@@ -387,7 +387,7 @@
     "empty": "Layer features will be provided here",
     "noFeatureSelected": "No feature selected",
     "chooseFeature": "Choose feature",
-    "listInfo": "The list is filtered by selected area and sorted by priority and mapped percentage."
+    "listInfo": "The list is filtered by selected area and sorted by project number."
   },
   "reference_area": {
     "save_as_reference_area": "Save as reference area",
