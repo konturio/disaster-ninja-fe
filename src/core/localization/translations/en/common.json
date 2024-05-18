@@ -44,13 +44,13 @@
     "Kontur_public_feed_description": "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires."
   },
   "errors": {
-    "default": "Sorry, we are having issues, which will be fixed soon",
-    "timeout": "Request Timeout",
+    "default": "Sorry, we are having issues which will be fixed soon",
+    "timeout": "Request timeout",
     "cannot_connect": "Can't connect to server",
     "forbidden": "Forbidden",
     "not_found": "Not found",
     "unknown": "Unknown",
-    "server_error": "Server Error"
+    "server_error": "Server error"
   },
   "categories": {
     "overlays": "Overlays",
@@ -125,18 +125,18 @@
     "good": "Good"
   },
   "event_list": {
-    "warning_title": "Can't use map as filter",
-    "warning_description": "Map not ready yet, try later",
-    "bbox_filter_button": "Use map view as filter",
+    "warning_title": "Cannot use map as filter",
+    "warning_description": "Map is not ready yet, try later",
+    "bbox_filter_button": "Filter by map view",
     "analytics": {
       "affected_people": {
-        "tooltip": "Affected People",
+        "tooltip": "Affected people",
         "value": "No humanitarian impact"
       },
-      "settled_area_tooltip": "Settled Area",
+      "settled_area_tooltip": "Settled area",
       "loss_tooltip": "Estimated loss"
     },
-    "no_event_in_feed": "Disaster not found in the current disaster feed",
+    "no_event_in_feed": "Disaster is not found in the current disaster feed",
     "no_selected_disaster": "No disaster selected",
     "chose_disaster": "Choose disaster",
     "no_historical_disasters": "No historical disasters in this area",
@@ -173,7 +173,7 @@
   "analytics_panel": {
     "header_title": "Analytics",
     "error_loading": "Error while fetching analytics data",
-    "info_short": "Calculations are made for the selected area."
+    "info_short": "Calculations are made for selected area."
   },
   "advanced_analytics_panel": {
     "header_title": "Advanced analytics",
@@ -181,8 +181,8 @@
   },
   "advanced_analytics_empty": {
     "not_found": "Sorry, requested disaster is not found.",
-    "error": "An error occured!",
-    "analytics_for_selected": "Analytics for a selected area",
+    "error": "An error occured",
+    "analytics_for_selected": "Analytics for selected area",
     "will_be_provided": "will be provided here",
     "no_analytics": "No analytics for the selected area"
   },
@@ -208,12 +208,12 @@
   },
   "focus_geometry_layer": {
     "settings": {
-      "name": "Selected Area"
+      "name": "Selected area"
     }
   },
   "reference_area_layer": {
     "settings": {
-      "name": "Reference Area"
+      "name": "Reference area"
     }
   },
   "drawings": {
@@ -221,7 +221,7 @@
   },
   "bivariate": {
     "panel": {
-      "header": "Bivariate Matrix"
+      "header": "Bivariate matrix"
     },
     "matrix": {
       "caption": {
@@ -287,10 +287,10 @@
     "log_in": "Log in",
     "description": "Please log in to change your settings",
     "error": {
-      "email_empty": "Email has not to be empty!",
-      "email_invalid": "Email has to be valid!",
-      "password": "Password has not to be empty!",
-      "connect": "Couldn't connect to authentication service"
+      "email_empty": "Email cannot to be empty",
+      "email_invalid": "Email has to be valid",
+      "password": "Password cannot to be empty",
+      "connect": "Could not connect to authentication service"
     }
   },
   "reports": {
@@ -331,7 +331,7 @@
     "interfaceTheme": "Theme",
     "interfaceLanguage": "Language",
     "units": "Units",
-    "fullName": "Full Name",
+    "fullName": "Full name",
     "email": "Email",
     "metric": "metric",
     "imperialBeta": "imperial (beta)",
@@ -391,7 +391,7 @@
   },
   "reference_area": {
     "save_as_reference_area": "Save as reference area",
-    "error_couldnt_save": "Unfortunately, we couldn't save your reference area. Please try again.",
-    "selected_area_saved_as_reference_area": "Selected area has been saved as reference area. You can find it in profile."
+    "error_couldnt_save": "Unfortunately, we could not save your reference area. Please try again.",
+    "selected_area_saved_as_reference_area": "Selected area has been saved as reference area in your profile."
   }
 }
