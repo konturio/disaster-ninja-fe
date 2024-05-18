@@ -125,7 +125,7 @@
     "good": "Good"
   },
   "event_list": {
-    "warning_title": "Cannot use map as filter",
+    "warning_title": "Cannot filter by map view",
     "warning_description": "Map is not ready yet, try later",
     "bbox_filter_button": "Filter by map view",
     "analytics": {
