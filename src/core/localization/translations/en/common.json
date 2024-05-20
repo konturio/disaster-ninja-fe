@@ -287,7 +287,7 @@
     "log_in": "Log in",
     "description": "Please log in to change your settings",
     "error": {
-      "email_empty": "Email cannot to be empty",
+      "email_empty": "Email cannot be empty",
       "email_invalid": "Email has to be valid",
       "password": "Password cannot to be empty",
       "connect": "Could not connect to authentication service"
