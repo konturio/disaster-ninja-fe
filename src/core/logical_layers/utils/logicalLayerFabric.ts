@@ -2,6 +2,7 @@
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { createAtom } from '~utils/atoms';
 import { downloadObject } from '~utils/file/download';
+import { spacesToUnderscore } from '~utils/common/strings';
 import { configRepo } from '~core/config';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
 import { REFERENCE_AREA_LOGICAL_LAYER_ID } from '~features/reference_area/constants';
@@ -209,8 +210,10 @@ export function createLogicalLayerAtom(
             downloadObject(
               state.source.source.data,
               `${
-                state.settings?.name || state.id || 'map layer'
-              }-${new Date().toISOString()}.json`,
+                (state.settings?.name && spacesToUnderscore(state.settings.name)) ||
+                state.id ||
+                'map layer'
+              }_${new Date().toISOString()}.geojson`,
             );
           } else if (state.source.style?.type === 'mcda') {
             downloadObject(
