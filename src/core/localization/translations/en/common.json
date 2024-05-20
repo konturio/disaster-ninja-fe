@@ -289,7 +289,7 @@
     "error": {
       "email_empty": "Email cannot be empty",
       "email_invalid": "Email has to be valid",
-      "password": "Password cannot to be empty",
+      "password": "Password cannot be empty",
       "connect": "Could not connect to authentication service"
     }
   },
