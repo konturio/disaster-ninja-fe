@@ -3,14 +3,14 @@ import { HelperBase } from './helperBase';
 
 export class ProfilePage extends HelperBase {
   /**
-   * This method checks that at profile page there is a logout button. Also checks that at least one element with "Profile" text is present. After that it compares the email got with email passed to it.
+   * This method checks that at profile page there is a log out button. Also checks that at least one element with "Profile" text is present. After that it compares the email got with email passed to it.
    * @param email expected email to what value should be equal to
    */
 
   async checkLogoutBtnProfileTitleAndEmail(email: string) {
-    const logoutBtn = this.page.getByRole('button', { name: 'Logout' });
+    const logoutBtn = this.page.getByRole('button', { name: 'Log out' });
     const profileTextElements = this.page.getByText('Profile').nth(1);
-    // Check that logout button is present
+    // Check that log out button is present
     await expect(logoutBtn).toBeVisible();
     await expect(profileTextElements).toBeVisible();
     const actualEmail = await this.getEmailValueAndCheckThisFieldIsDisabled();
@@ -32,14 +32,14 @@ export class ProfilePage extends HelperBase {
    * This method clicks log out and waits a bit after that
    */
   async clickLogout() {
-    await this.page.getByRole('button', { name: 'Logout' }).click();
+    await this.page.getByRole('button', { name: 'Log out' }).click();
   }
 
   /**
-   * This method checks that page doesn't have any logout button or elements with Profile text
+   * This method checks that page doesn't have any log out button or elements with Profile text
    */
   async checkLogoutBtnAndProfileAbsence() {
-    const logoutBtn = this.page.getByRole('button', { name: 'Logout' });
+    const logoutBtn = this.page.getByRole('button', { name: 'Log out' });
     const profileTextElements = this.page.getByText('Profile').nth(1);
     await expect(logoutBtn).not.toBeVisible();
     await expect(profileTextElements).not.toBeVisible();
