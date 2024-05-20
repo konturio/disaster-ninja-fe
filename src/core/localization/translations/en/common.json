@@ -136,7 +136,7 @@
       "settled_area_tooltip": "Settled area",
       "loss_tooltip": "Estimated loss"
     },
-    "no_event_in_feed": "Disaster was not found in the current disaster feed",
+    "no_event_in_feed": "The disaster was not found in the current disaster feed",
     "no_selected_disaster": "No disaster selected",
     "chose_disaster": "Choose disaster",
     "no_historical_disasters": "No historical disasters in this area",
@@ -180,7 +180,7 @@
     "error": "Error while fetching advanced analytics data"
   },
   "advanced_analytics_empty": {
-    "not_found": "Sorry, requested disaster was not found.",
+    "not_found": "Sorry, the requested disaster was not found.",
     "error": "An error occured",
     "analytics_for_selected": "Analytics for selected area",
     "will_be_provided": "will be provided here",
@@ -362,7 +362,7 @@
     }
   },
   "current_event": {
-    "not_found_request": "Sorry, requested disaster was not found."
+    "not_found_request": "Sorry, the requested disaster was not found."
   },
   "locate_me": {
     "get_location_error": "Error while getting location",
