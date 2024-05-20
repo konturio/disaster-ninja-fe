@@ -44,4 +44,60 @@ export class ProfilePage extends HelperBase {
     await expect(logoutBtn).not.toBeVisible();
     await expect(profileTextElements).not.toBeVisible();
   }
+
+  /**
+   * This method gets all values/texts of textboxes in settings like Full name and etc. Also it gets statuses of radio buttons, are they checked or not.
+   * @returns object with strings for values and booleans for statuses of radio buttons
+   */
+  async getAllProfileValuesAndStatuses() {
+    const emailValue = await this.getEmailValueAndCheckThisFieldIsDisabled();
+    const fullNameValue = await this.page
+      .getByText('Full Name')
+      .locator('..')
+      .locator('input')
+      .inputValue();
+    const bioValue = await this.page
+      .getByText('Bio')
+      .locator('..')
+      .locator('textarea')
+      .textContent();
+    const themeValue = await this.page
+      .getByText('Theme')
+      .locator('..')
+      .locator('span')
+      .textContent();
+    const languageValue = await this.page
+      .getByText('Language')
+      .locator('..')
+      .locator('span')
+      .textContent();
+    const isMetricUnitChecked = await this.page
+      .getByRole('radio', { name: 'metric' })
+      .isChecked();
+    const isImperialUnitChecked = await this.page
+      .getByRole('radio', { name: 'imperial (beta)' })
+      .isChecked();
+    const disasterFeedValue = await this.page
+      .getByText('Default disaster feed')
+      .locator('..')
+      .locator('span')
+      .textContent();
+    const osmEditorValue = await this.page
+      .getByText('Default OpenStreetMap editor (beta)')
+      .locator('..')
+      .locator('span')
+      .textContent();
+
+    return {
+      fullNameValue,
+      emailValue,
+      bioValue,
+      themeValue,
+      languageValue,
+      isMetricUnitChecked,
+      isImperialUnitChecked,
+      disasterFeedValue,
+      osmEditorValue,
+    };
+  }
 }
