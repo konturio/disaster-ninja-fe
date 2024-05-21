@@ -1,5 +1,6 @@
 import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
+import { i18n } from '~core/localization';
 import type { AdvancedAnalyticsData, AnalyticsData, LLMAnalyticsData } from '~core/types';
 
 export function getPolygonDetails(
@@ -41,6 +42,13 @@ export function getLlmAnalysis(
       features: geometry,
     },
     true,
-    { signal: abortController.signal },
+    {
+      signal: abortController.signal,
+      headers: { 'user-language': i18n.instance.language },
+      retryAfterTimeoutError: {
+        times: 3,
+        delayMs: 1000,
+      },
+    },
   );
 }
