@@ -109,7 +109,7 @@
       "reset_limits_to_default": "Reset limits to default",
       "exclude": "Exclude",
       "as_values_on_limits": "As values on limits",
-      "natural_logarithm": "Natural logarithm",
+      "natural_logarithm": "Logarithm",
       "square_root": "Square root",
       "no": "No",
       "max_min": "Max-min",
