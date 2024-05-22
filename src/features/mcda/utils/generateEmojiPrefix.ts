@@ -1,11 +1,15 @@
 import emojiRegex from 'emoji-regex';
 
-export const generateEmojiPrefix = (emoji = '') => {
+const SPACE_CHAR = '\u3000';
+
+export const generateEmojiPrefix = (emoji = '', targetLength = 2) => {
   try {
     const regex = emojiRegex();
     const emojiCount = [...emoji.matchAll(regex)].length;
-    return emojiCount === 1 ? `\u3000\u00A0\u00A0${emoji}` : `${emoji}`;
+    return emojiCount < targetLength
+      ? SPACE_CHAR.repeat(targetLength - emojiCount) + emoji
+      : emoji;
   } catch {
-    return '';
+    return emoji;
   }
 };
