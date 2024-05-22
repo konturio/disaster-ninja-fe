@@ -46,7 +46,7 @@ export function getLlmAnalysis(
       signal: abortController.signal,
       headers: { 'user-language': i18n.instance.language },
       retryAfterTimeoutError: {
-        times: 3,
+        times: 5,
         delayMs: 1000,
       },
     },
