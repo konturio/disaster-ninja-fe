@@ -85,7 +85,9 @@ export function getProjects() {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
-  const data = fs.readFileSync(path.join(__dirname, 'projects-config.json')).toString();
+  const data = fs
+    .readFileSync(path.join(__dirname, '../projects-config.json'))
+    .toString();
 
   const appName = process.env.APP_NAME ?? 'all';
   const environment = process.env.ENVIRONMENT ?? 'prod';
