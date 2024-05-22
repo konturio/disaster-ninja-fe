@@ -109,7 +109,7 @@ async function getBaseMapUrl(
 ) {
   /* Find base map by source type */
   const findBaseMap = <T extends { source?: { type: string } }>(layers: Array<T>) =>
-    layers.find((l) => l.source?.type === 'maplibre-style-url');
+    layers.find((l) => l?.source?.type === 'maplibre-style-url');
 
   let baseMapUrl: string | undefined;
 
