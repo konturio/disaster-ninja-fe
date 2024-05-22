@@ -191,6 +191,9 @@ importers:
       dnd-core:
         specifier: ^16.0.1
         version: 16.0.1
+      emoji-regex:
+        specifier: ^10.3.0
+        version: 10.3.0
       eslint:
         specifier: ^8.57.0
         version: 8.57.0

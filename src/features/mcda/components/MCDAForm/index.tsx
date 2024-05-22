@@ -11,6 +11,7 @@ import {
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
 import { availableBivariateAxisesAtom } from '../../atoms/availableBivariateAxisesAtom';
+import { generateEmojiPrefix } from '../../utils/generateEmojiPrefix';
 import s from './style.module.css';
 import type { Axis } from '~utils/bivariate';
 
@@ -61,7 +62,7 @@ export function MCDAForm({
           axis1.label?.localeCompare(axis2.label, undefined, { sensitivity: 'base' }),
         )
         .map((d) => ({
-          title: d.label,
+          title: `${generateEmojiPrefix(d.quotients?.[0]?.emoji)} ${d.label}`,
           value: d.id,
         })) ?? [],
     [axisesResource],
