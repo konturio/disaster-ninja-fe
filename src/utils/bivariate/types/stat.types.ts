@@ -18,6 +18,7 @@ export type Quotient = [string, string]; // this field will be removed in next t
 export type Quotients = {
   name: string;
   label: string;
+  emoji?: string;
   direction: Direction;
   unit: Unit;
 };
