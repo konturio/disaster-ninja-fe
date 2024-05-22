@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-export function SimpleWrapper({ children }: PropsWithChildren) {
+export function MarkdownWrapper({ children }: PropsWithChildren) {
   return (
     <div>
       <article>{children}</article>

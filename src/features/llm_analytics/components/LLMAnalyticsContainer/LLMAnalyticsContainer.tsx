@@ -7,7 +7,7 @@ import { PagesDocument } from '~core/pages';
 import { i18n } from '~core/localization';
 import { LLMAnalyticsEmptyState } from '../LLMAnalyticsEmptyState/LLMAnalyticsEmptyState';
 import { llmAnalyticsResourceAtom } from '../../atoms/llmAnalyticsResource';
-import { SimpleWrapper } from '../SimpleWrapper/SimpleWrapper';
+import { MarkdownWrapper } from '../MarkdownWrapper/MarkdownWrapper';
 
 export const LLMAnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(llmAnalyticsResourceAtom);
@@ -21,7 +21,7 @@ export const LLMAnalyticsContainer = () => {
 
   return statesToComponents({
     init: <LLMAnalyticsEmptyState />,
-    loading: <LoadingSpinner />,
+    loading: <LoadingSpinner marginTop="10%" />,
     error: (errorMessage) => <ErrorMessage message={errorMessage} />,
     ready: (data) => {
       const geometry = focusedGeometry?.geometry;
@@ -32,19 +32,21 @@ export const LLMAnalyticsContainer = () => {
         return <LLMAnalyticsEmptyState />;
       }
       return (
-        <PagesDocument
-          doc={[
-            {
-              type: 'md',
-              data: i18n.t('llm_analytics.header_info'),
-            },
-            {
-              type: 'md',
-              data: data.data,
-            },
-          ]}
-          wrapperComponent={SimpleWrapper}
-        />
+        <>
+          <PagesDocument
+            doc={[
+              {
+                type: 'md',
+                data: i18n.t('llm_analytics.header_info'),
+              },
+              {
+                type: 'md',
+                data: data.data,
+              },
+            ]}
+            wrapperComponent={MarkdownWrapper}
+          />
+        </>
       );
     },
   });

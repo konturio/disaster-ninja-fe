@@ -1,6 +1,6 @@
 import { i18n } from '~core/localization';
 import { PagesDocument } from '~core/pages';
-import { SimpleWrapper } from '../SimpleWrapper/SimpleWrapper';
+import { MarkdownWrapper } from '../MarkdownWrapper/MarkdownWrapper';
 import s from './LLMAnalyticsEmptyState.module.css';
 
 interface AnalyticsEmptyStateProps {
@@ -25,7 +25,7 @@ export const LLMAnalyticsEmptyState = ({
             data: i18n.t('llm_analytics.header_info'),
           },
         ]}
-        wrapperComponent={SimpleWrapper}
+        wrapperComponent={MarkdownWrapper}
       />
     </div>
   );
