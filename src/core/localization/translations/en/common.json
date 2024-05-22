@@ -86,7 +86,7 @@
     "modal_title": "Multi-criteria decision analysis",
     "modal_input_name": "Analysis name",
     "modal_input_name_placeholder": "e.g., Climate change",
-    "modal_input_indicators": "List of layers",
+    "modal_input_indicators": "Layer list",
     "modal_input_indicators_placeholder": "Select layers",
     "modal_input_indicators_no_options": "No options",
     "btn_cancel": "Cancel",
@@ -95,10 +95,10 @@
     "error_bad_layer_data": "Invalid MCDA layer data",
     "error_invalid_file": "Invalid MCDA file format",
     "legend_title": "Legend",
-    "legend_subtitle": "Hexagons are colored as weighted average of normalized and transformed layers values",
+    "legend_subtitle": "Hexagons are colored based on analysis layer settings. Click a hexagon to see its values.",
     "layer_editor": {
       "save_changes": "Save changes",
-      "range": "Range",
+      "range": "Value range",
       "outliers": "Outliers",
       "sentiment": "Sentiment",
       "weight": "Weight",
@@ -148,7 +148,7 @@
     "severity_moderate": "Moderate",
     "severity_severe": "Severe",
     "severity_extreme": "Extreme",
-    "open_timeline_button": "Open timeline"
+    "open_timeline_button": "Timeline"
   },
   "create_layer": {
     "edit_layer": "Edit Layer",
@@ -172,15 +172,15 @@
   },
   "analytics_panel": {
     "header_title": "Analytics",
-    "error_loading": "Error while fetching analytics data",
-    "info_short": "Calculations are made for selected area."
+    "error_loading": "Failed receiving data about selected area. It may be too large.",
+    "info_short": "Calculations are made for selected area"
   },
   "advanced_analytics_panel": {
     "header_title": "Advanced analytics",
     "error": "Error while fetching advanced analytics data"
   },
   "advanced_analytics_empty": {
-    "not_found": "Sorry, the requested disaster was not found.",
+    "not_found": "Sorry, the requested disaster was not found",
     "error": "An error occured",
     "analytics_for_selected": "Analytics for selected area",
     "will_be_provided": "will be provided here",
@@ -217,7 +217,7 @@
     }
   },
   "drawings": {
-    "self_directions_not_supported": "Self intersections are not supported!"
+    "self_directions_not_supported": "Self intersections are not supported"
   },
   "bivariate": {
     "panel": {
@@ -362,17 +362,17 @@
     }
   },
   "current_event": {
-    "not_found_request": "Sorry, the requested disaster was not found."
+    "not_found_request": "Sorry, the requested disaster was not found"
   },
   "locate_me": {
     "get_location_error": "Error while getting location",
     "feature_title": "Locate me"
   },
-  "episode": "Episode",
+  "episode": "Timeline",
   "loading_episodes": "Loading Episodes",
   "cookie_banner": {
     "header": "We value your privacy",
-    "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve {{appName}} and your experience. You can manage cookies settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)",
+    "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve {{appName}} and your experience. You can manage cookie settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)",
     "decline_all": "Decline optional cookies",
     "accept_all": "Accept optional cookies"
   },
@@ -381,17 +381,17 @@
     "finish": "Stop sensor recording",
     "finishMessage": "Recording has been finished",
     "startMessage": "Recording has been started",
-    "noSensorsError": "Your device desn't have the required sensors"
+    "noSensorsError": "Your device does not have the required sensors"
   },
   "layer_features_panel": {
-    "empty": "Layer features will be provided here",
-    "noFeatureSelected": "No feature selected",
-    "chooseFeature": "Choose feature",
-    "listInfo": "The list is filtered by selected area and sorted by project number."
+    "empty": "Layer features within selected area will be provided here",
+    "noFeatureSelected": "No layer feature selected",
+    "chooseFeature": "Choose layer feature",
+    "listInfo": "The list is filtered by selected area and sorted by project number"
   },
   "reference_area": {
     "save_as_reference_area": "Save as reference area",
     "error_couldnt_save": "Unfortunately, we could not save your reference area. Please try again.",
-    "selected_area_saved_as_reference_area": "Selected area has been saved as reference area in your profile."
+    "selected_area_saved_as_reference_area": "Selected area has been saved as reference area in your profile"
   }
 }
