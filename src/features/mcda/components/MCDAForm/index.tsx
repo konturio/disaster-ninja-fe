@@ -62,7 +62,7 @@ export function MCDAForm({
           axis1.label?.localeCompare(axis2.label, undefined, { sensitivity: 'base' }),
         )
         .map((d) => ({
-          title: `${generateEmojiPrefix(d.quotients[0].emoji)} ${d.label}`,
+          title: `${generateEmojiPrefix(d.quotients?.[0]?.emoji)} ${d.label}`,
           value: d.id,
         })) ?? [],
     [axisesResource],
