@@ -1,5 +1,7 @@
 import { downloadObject } from '~utils/file/download';
+import { spacesToUnderscore } from '~utils/common/strings';
 import { i18n } from '~core/localization';
+import { configRepo } from '~core/config';
 import { createAtom } from '~utils/atoms';
 import { currentNotificationAtom } from '~core/shared_state';
 import { currentLocationAtom } from '~core/router/atoms/currentLocation';
@@ -100,7 +102,7 @@ export const toolboxAtom = createAtom(
       };
       downloadObject(
         cleared,
-        `Disaster_Ninja_custom_geometry_${new Date().toISOString()}.json`,
+        `${spacesToUnderscore(configRepo.get().name)}_custom_geometry_${new Date().toISOString()}.geojson`,
       );
     });
 
