@@ -7,6 +7,7 @@ import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { getLlmAnalysis } from '~core/api/insights';
 import type { LLMAnalyticsData } from '~core/types';
 
+// TODO: rewrite to reatom v3
 export const llmAnalyticsResourceAtom = createAsyncAtom(
   focusedGeometryAtom,
   async (fGeo, abortController) => {
@@ -25,7 +26,6 @@ export const llmAnalyticsResourceAtom = createAsyncAtom(
     dispatchMetricsEventOnce(AppFeature.ANALYTICS_PANEL, !!responseData);
     // in case there is no error but response data is empty
     if (!responseData?.data) {
-      // TODO: replace with LLM counterpart
       throw new Error(i18n.t('advanced_analytics_empty.no_analytics'));
     }
     return responseData;
