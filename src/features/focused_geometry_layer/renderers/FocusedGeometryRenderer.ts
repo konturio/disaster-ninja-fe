@@ -1,5 +1,5 @@
 import { UserGeometryRenderer } from '~core/logical_layers/renderers/UserGeometryRenderer';
-import Icon from '../icons/marker_black.png';
+import Icon from '../icons/marker_blue.png';
 import { FOCUSED_GEOMETRY_COLOR } from '../constants';
 
 const icons = {

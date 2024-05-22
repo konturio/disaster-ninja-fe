@@ -5,7 +5,7 @@ const projects = getProjects();
 
 // Create a loop to loop over all the projects and create a test for everyone
 for (const project of projects) {
-  test(`As Guest, I can login to ${project.title}, check that this profile is mine, and log out`, async ({
+  test(`As Guest, I can log in to ${project.title}, check that this profile is mine, and log out`, async ({
     pageManager,
   }) => {
     await pageManager.atBrowser.openProject(project);
