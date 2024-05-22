@@ -16,7 +16,6 @@ import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import { configRepo } from '~core/config';
-import { llmAnalyticsPanel } from '~features/llm_analytics';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
 
@@ -174,17 +173,19 @@ const Toolbar = () => {
 };
 
 const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) => {
+  const isAnalyticsOn = featureFlags[FeatureFlag.ANALYTICS_PANEL];
+  const isAdvancedAnalyticsPanelOn = featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL];
   const isLLMAnalyticsOn = featureFlags[FeatureFlag.LLM_ANALYTICS];
-  const analyticsPanelState = isLLMAnalyticsOn ? llmAnalyticsPanel() : analyticsPanel();
-  const advancedAnalyticsPanelState = advancedAnalyticsPanel();
-  const [fullState, shortState] = [
-    featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL]
-      ? advancedAnalyticsPanelState
-      : null,
-    featureFlags[FeatureFlag.ANALYTICS_PANEL] || featureFlags[FeatureFlag.LLM_ANALYTICS]
-      ? analyticsPanelState
-      : null,
-  ];
+  const analyticsPanelState =
+    isAnalyticsOn || isLLMAnalyticsOn
+      ? analyticsPanel(isAnalyticsOn, isLLMAnalyticsOn)
+      : null;
+  const advancedAnalyticsPanelState = isAdvancedAnalyticsPanelOn
+    ? advancedAnalyticsPanel()
+    : null;
+  const fullState = advancedAnalyticsPanelState;
+  const shortState = analyticsPanelState;
+
   return (
     <FullAndShortStatesPanelWidget
       fullState={fullState}
@@ -192,8 +193,8 @@ const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) 
       initialState={featureFlags[FeatureFlag.ANALYTICS_PANEL] ? 'short' : null}
       key="analytics"
       id="analytics"
-      panelIcon={analyticsPanelState.panelIcon}
-      header={analyticsPanelState.header}
+      panelIcon={analyticsPanelState?.panelIcon}
+      header={analyticsPanelState?.header}
     />
   );
 };
