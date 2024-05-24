@@ -1,5 +1,6 @@
 import { Rubber16 } from '@konturio/default-icons';
 import { useCallback } from 'react';
+import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import style from './CleanControl.module.css';
 import type {
   LogicalLayerActions,
@@ -7,7 +8,6 @@ import type {
 } from '~core/logical_layers/types/logicalLayer';
 
 export function CleanControl({
-  layerState,
   layerActions,
 }: {
   layerState: LogicalLayerState;
@@ -24,7 +24,12 @@ export function CleanControl({
 
   return (
     <div className={style.clean} onClick={cleanLayer}>
-      <Rubber16 />
+      <Tooltip placement="top">
+        <TooltipTrigger>
+          <Rubber16 />
+        </TooltipTrigger>
+        <TooltipContent>Erase</TooltipContent>
+      </Tooltip>
     </div>
   );
 }
