@@ -22,6 +22,7 @@ for (const project of projects) {
 
     await (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click();
     const newPage = await newPagePromise;
+
     await pageManager.atMap.waitForUrlToMatchPattern(/openstreetmap/, newPage);
     const osmCoordinates = await pageManager.atMap.getIntegerCoordinatesFromUrl(newPage, {
       isMapInHash: true,
