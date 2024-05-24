@@ -3,6 +3,10 @@ import { HelperBase } from './helperBase';
 import type { Page } from '@playwright/test';
 import type { Project } from './helperBase';
 
+type UrlOptions = {
+  isMapInHash?: boolean;
+};
+
 export class MapCanvas extends HelperBase {
   /**
    * Splits the provided text by ':' and checks the resulting parts. The first part should match the expected label, and the second part should be a number that is not NaN. Additionally, if the value cannot be zero, this is also checked.
@@ -121,15 +125,27 @@ export class MapCanvas extends HelperBase {
    * @returns object with zoom, latitude, longitude. Integer values at string format
    */
 
-  async getIntegerCoordinatesFromUrl(page: Page = this.page) {
-    const currentUrlCutParams = page.url().split('map=')[1].split('/');
-    const [zoom, latitude] = currentUrlCutParams;
-    const longitude = currentUrlCutParams[2].split('&')[0];
-    const getIntegerPart = (value: string) => value.split('.')[0];
+  async getIntegerCoordinatesFromUrl(
+    page: Page = this.page,
+    { isMapInHash = false }: UrlOptions = {},
+  ) {
+    const urlObj = new URL(page.url());
+    const mapData = isMapInHash
+      ? urlObj.hash.replace('#map=', '')
+      : urlObj.searchParams.get('map');
+
+    expect(mapData).not.toBeNull();
+    expect(mapData).not.toBe('');
+
+    const [zoom, latitude, longitude] = mapData!.split('/').map(Number);
+    expect(zoom).not.toBeNaN();
+    expect(latitude).not.toBeNaN();
+    expect(longitude).not.toBeNaN();
+
     return {
-      zoomInteger: getIntegerPart(zoom),
-      latitudeInteger: getIntegerPart(latitude),
-      longitudeInteger: getIntegerPart(longitude),
+      zoomInteger: Math.trunc(zoom),
+      latitudeInteger: Math.trunc(latitude),
+      longitudeInteger: Math.trunc(longitude),
     };
   }
 }
