@@ -3,10 +3,6 @@ import { HelperBase } from './helperBase';
 import type { Page } from '@playwright/test';
 import type { Project } from './helperBase';
 
-type UrlOptions = {
-  isMapInHash?: boolean;
-};
-
 export class MapCanvas extends HelperBase {
   /**
    * Splits the provided text by ':' and checks the resulting parts. The first part should match the expected label, and the second part should be a number that is not NaN. Additionally, if the value cannot be zero, this is also checked.
@@ -122,20 +118,12 @@ export class MapCanvas extends HelperBase {
   /**
    * This method gets current url coordinates and returns its integer parts
    * @param page playwright page to get url from
-   * @returns object with zoom, latitude, longitude. Integer values at string format
+   * @returns object with zoom, latitude, longitude. Integer values
    */
 
-  async getIntegerCoordinatesFromUrl(
-    page: Page = this.page,
-    { isMapInHash = false }: UrlOptions = {},
-  ) {
-    const urlObj = new URL(page.url());
-    const mapData = isMapInHash
-      ? urlObj.hash.replace('#map=', '')
-      : urlObj.searchParams.get('map');
-
-    expect(mapData).not.toBeNull();
-    expect(mapData).not.toBe('');
+  async getIntegerCoordinatesFromUrl(page: Page = this.page) {
+    const mapData = page.url().split('map=')[1].split('&')[0];
+    expect(mapData).toBeDefined();
 
     const [zoom, latitude, longitude] = mapData!.split('/').map(Number);
     expect(zoom).not.toBeNaN();

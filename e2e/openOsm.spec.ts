@@ -24,9 +24,7 @@ for (const project of projects) {
     const newPage = await newPagePromise;
 
     await pageManager.atMap.waitForUrlToMatchPattern(/openstreetmap/, newPage);
-    const osmCoordinates = await pageManager.atMap.getIntegerCoordinatesFromUrl(newPage, {
-      isMapInHash: true,
-    });
+    const osmCoordinates = await pageManager.atMap.getIntegerCoordinatesFromUrl(newPage);
     expect(osmCoordinates).toStrictEqual(coordinates);
   });
 }
