@@ -1,5 +1,6 @@
 import { Edit16 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react-v2';
+import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
 import style from './EditControl.module.css';
 import type {
@@ -24,7 +25,12 @@ export function EditControl({
   }
   return (
     <div className={style.edit} onClick={editLayer}>
-      <Edit16 />
+      <Tooltip placement="top">
+        <TooltipTrigger>
+          <Edit16 />
+        </TooltipTrigger>
+        <TooltipContent>Edit</TooltipContent>
+      </Tooltip>
     </div>
   );
 }
