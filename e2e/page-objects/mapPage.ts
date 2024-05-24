@@ -121,7 +121,7 @@ export class MapCanvas extends HelperBase {
    * @returns object with zoom, latitude, longitude. Integer values
    */
 
-  async getIntegerCoordinatesFromUrl(page: Page = this.page) {
+  async getViewportFromUrl(page: Page = this.page) {
     const mapData = page.url().split('map=')[1].split('&')[0];
     expect(mapData).toBeDefined();
 

@@ -15,7 +15,7 @@ for (const project of projects) {
     // TO DO: remove this action after 18582 issue is fixed
     await pageManager.atMap.goToSpecificAreaByUrl(10.597, 53.9196, 27.5097, project);
 
-    const coordinates = await pageManager.atMap.getIntegerCoordinatesFromUrl();
+    const coordinates = await pageManager.atMap.getViewportFromUrl();
 
     // Start waiting for new page being opened
     const newPagePromise = context.waitForEvent('page');
@@ -23,7 +23,7 @@ for (const project of projects) {
     await (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click();
     const newPage = await newPagePromise;
     await pageManager.atMap.waitForUrlToMatchPattern(/rapideditor/, newPage);
-    const osmCoordinates = await pageManager.atMap.getIntegerCoordinatesFromUrl(newPage);
+    const osmCoordinates = await pageManager.atMap.getViewportFromUrl(newPage);
     expect(osmCoordinates).toStrictEqual(coordinates);
   });
 }
