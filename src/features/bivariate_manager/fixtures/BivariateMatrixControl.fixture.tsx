@@ -4,7 +4,7 @@ import { PopupTooltip } from '~features/tooltip';
 import { BivariateMatrixControlComponent } from '../components/BivariateMatrixControl';
 import { mock } from './mocks/mock-20';
 import styles from './BivariateMatrixControlFixture.module.css';
-import type { Indicator } from '../components/BivariateMatrixControl/types';
+import type { Indicator } from '~utils/bivariate/types/stat.types';
 
 type AxisGroup = {
   parent: string | null;

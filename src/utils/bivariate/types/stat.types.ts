@@ -15,20 +15,13 @@ export type Step = {
 /* Numerator and denominator pair */
 type Unit = { id: string | null; longName: string | null; shortName: string | null };
 export type Quotient = [string, string]; // this field will be removed in next tickets, only Quotients will stay
-export type Quotients = {
-  name: string;
-  label: string;
-  emoji?: string;
-  direction: Direction;
-  unit: Unit;
-};
 
 export type Axis = {
   id: string;
   label: string;
   steps: Step[];
   quotient: Quotient;
-  quotients?: Quotients[];
+  quotients?: Indicator[];
   quality?: number;
   parent?: Quotient;
 };
@@ -59,7 +52,10 @@ export type Indicator = {
   name: string;
   label: string;
   direction: Direction;
-  copyrights: Copyright[];
+  copyrights?: Copyright[];
+  description?: string;
+  emoji?: string;
+  unit: Unit;
 };
 
 export type ColorCombination = {
