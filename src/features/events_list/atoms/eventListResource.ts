@@ -3,9 +3,10 @@ import { combineAtoms } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
-import { currentEventFeedAtom, currentEventAtom } from '~core/shared_state';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/auth/types';
+import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
+import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { eventListFilters } from './eventListFilters';
 import type { Event } from '~core/types';
 

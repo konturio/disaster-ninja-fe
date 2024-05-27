@@ -9,7 +9,7 @@ export const currentLocationAtom = createAtom(
   ({ onAction, onInit, schedule, create }, state = history.location) => {
     onInit(() => {
       schedule((dispatch) => {
-        history.listen((location) => {
+        history.listen(({ location }) => {
           dispatch(create('_set', location));
         });
       });

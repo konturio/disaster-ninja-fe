@@ -2,7 +2,8 @@ import { nanoid } from 'nanoid';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { createAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
-import { currentEventAtom, currentEventFeedAtom } from '~core/shared_state';
+import { currentEventAtom } from '~core/shared_state/currentEvent';
+import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import type { Episode } from '~core/types';
 
 const episodesResourceDependencyAtom = createAtom(

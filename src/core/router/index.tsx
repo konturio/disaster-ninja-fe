@@ -1,6 +1,5 @@
 export { Router } from './components/Router';
 export { getAbsoluteRoute } from './getAbsoluteRoute';
-export { routerConfig } from './routes';
 export { availableRoutesAtom } from './atoms/availableRoutes';
 export { showAboutForNewUsersAtom } from './atoms/showAboutForNewUsers';
 export type { CurrentRouteAtom } from './atoms/currentRoute';

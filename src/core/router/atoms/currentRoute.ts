@@ -17,10 +17,13 @@ export const currentRouteAtom = createAtom(
     const location = get('currentLocationAtom');
     return (
       routesConfig.routes.find((route) =>
-        matchPath(location.pathname, {
-          path: getAbsoluteRoute(route),
-          exact: true,
-        }),
+        matchPath(
+          {
+            path: getAbsoluteRoute(route),
+            exact: true,
+          },
+          location.pathname,
+        ),
       ) ?? null
     );
   },

@@ -1,6 +1,5 @@
 import { createAtom } from '~utils/atoms';
 import { configRepo } from '~core/config';
-import { eventFeedsAtom } from './eventFeeds';
 import { currentEventAtom, scheduledAutoSelect } from './currentEvent';
 import type { EventFeedConfig } from '~core/config/types';
 
@@ -13,7 +12,7 @@ export const currentEventFeedAtom = createAtom(
     setCurrentFeed: (feedId: string) => feedId,
     setFeedForExistingEvent: (feedId: string) => feedId,
     resetCurrentFeed: () => null,
-    eventFeedsAtom,
+    syncFeed: (eventFeeds) => eventFeeds,
   },
   (
     { onAction, onChange, schedule, getUnlistedState },
@@ -32,7 +31,7 @@ export const currentEventFeedAtom = createAtom(
       }
     });
 
-    onChange('eventFeedsAtom', (eventFeeds) => {
+    onAction('syncFeed', (eventFeeds) => {
       if (eventFeeds && eventFeeds.data.length && !eventFeeds.loading) {
         const newFeed = checkFeed(eventFeeds.data, state?.id);
         if (newFeed !== undefined && newFeed !== state?.id) {

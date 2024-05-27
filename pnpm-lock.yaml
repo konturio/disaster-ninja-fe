@@ -33,8 +33,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       '@homer0/deferred':
-        specifier: ^3.0.4
-        version: 3.0.4
+        specifier: ^3.0.5
+        version: 3.0.5
       '@konturio/default-icons':
         specifier: ^2.3.2
         version: 2.3.2(react@18.2.0)
@@ -72,8 +72,8 @@ importers:
         specifier: ^3.6.1
         version: 3.6.1
       '@reatom/npm-react':
-        specifier: ^3.8.6
-        version: 3.8.6(react@18.2.0)
+        specifier: ^3.8.7
+        version: 3.8.7(react@18.2.0)
       '@reatom/react-v2':
         specifier: ^3.1.0
         version: 3.1.0(@reatom/core-v2@3.1.2)(react@18.2.0)
@@ -210,11 +210,11 @@ importers:
         specifier: ^2.29.1
         version: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       eslint-plugin-react:
-        specifier: ^7.34.0
-        version: 7.34.0(eslint@8.57.0)
+        specifier: ^7.34.1
+        version: 7.34.1(eslint@8.57.0)
       eslint-plugin-react-hooks:
-        specifier: ^4.6.0
-        version: 4.6.0(eslint@8.57.0)
+        specifier: ^4.6.2
+        version: 4.6.2(eslint@8.57.0)
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5
@@ -231,8 +231,8 @@ importers:
         specifier: ^4.11.0
         version: 4.11.0
       history:
-        specifier: ^4.10.1
-        version: 4.10.1
+        specifier: ^5.3.0
+        version: 5.3.0
       hsluv:
         specifier: ^1.0.1
         version: 1.0.1
@@ -296,6 +296,9 @@ importers:
       react:
         specifier: ^18.2.0
         version: 18.2.0
+      react-component-keepalive-ts:
+        specifier: ^1.0.8
+        version: 1.0.8(react@18.2.0)
       react-cosmos:
         specifier: 5.7.2
         version: 5.7.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(webpack@5.91.0)
@@ -324,20 +327,17 @@ importers:
         specifier: ^0.3.4
         version: 0.3.4
       react-router:
-        specifier: ^5.3.4
-        version: 5.3.4(react@18.2.0)
-      react-router-cache-route:
-        specifier: ^1.12.11
-        version: 1.12.11(prop-types@15.8.1)(react-router-dom@5.3.4(react@18.2.0))(react@18.2.0)
+        specifier: ^6.23.1
+        version: 6.23.1(react@18.2.0)
       react-router-dom:
-        specifier: ^5.3.4
-        version: 5.3.4(react@18.2.0)
+        specifier: ^6.23.1
+        version: 6.23.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-transition-group:
         specifier: ^4.4.5
         version: 4.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-virtuoso:
-        specifier: ^4.7.10
-        version: 4.7.10(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: ^4.7.11
+        version: 4.7.11(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       remark-gfm:
         specifier: ^3.0.1
         version: 3.0.1
@@ -360,8 +360,8 @@ importers:
         specifier: ^1.5.0
         version: 1.5.0
       tsx:
-        specifier: ^4.9.3
-        version: 4.9.3
+        specifier: ^4.11.0
+        version: 4.11.0
       typescript:
         specifier: 5.4.5
         version: 5.4.5
@@ -967,8 +967,8 @@ packages:
     resolution: {integrity: sha512-kjotm7XJrJ6v+7knhPaRgaT6q8F8K2jiafwYdNHLzmV0uGLuZY43FK6smNSHUPrhq5kX2slCUy+RGG/xGqmIKA==}
     engines: {node: '>=10.13.0'}
 
-  '@homer0/deferred@3.0.4':
-    resolution: {integrity: sha512-7GMmUGETS+fGiLOZ9JImJkL9N8iCaX9+cypNigVjboBuw6dqk4Nkl+aHALqzIQAjwD+ykfZwVoHrf5HdvDB5Vw==}
+  '@homer0/deferred@3.0.5':
+    resolution: {integrity: sha512-HqbCZwvUSposj1fMpXte1Ny0926nJ6mSeeErguQM+c3IoGH3EXzSUE+NS1LBtZojDta2PRavRrHYdnUwOKMTuQ==}
     engines: {node: '>=18 <21'}
 
   '@humanwhocodes/config-array@0.11.14':
@@ -1354,6 +1354,9 @@ packages:
   '@reatom/effects@3.7.2':
     resolution: {integrity: sha512-6j3rhFdUSCjNC0HK7lKNFHYM8y6JV0OXpPUXKtA0psNwa5WUq2X4Q0WfMnixy7Jm8tAAQR9F6iKqy9T0U1Ej8Q==}
 
+  '@reatom/effects@3.7.3':
+    resolution: {integrity: sha512-9DrUsGSRXtt0TMYtzNRc2xtkZ+35OcvjILppcvwYlgMWoA7s1TJUCLEtHOngzVqQYrJMW+Dzw1t1xLlLVXMQUg==}
+
   '@reatom/hooks@3.5.2':
     resolution: {integrity: sha512-mZJP+fsv+cg35vPEbdEJ4AroSDqnXaK9DpLq8M0AXg97UPJY2c2IoztD0mvEVkFSBxoGAsTXO89m8ZgZxVud2Q==}
 
@@ -1366,8 +1369,8 @@ packages:
   '@reatom/logger@3.6.1':
     resolution: {integrity: sha512-VivkC1E4h8HHMrHEwHE0Bh0YQCvUc8jXRXQHRDjaHMIT2vI4VPfUqNVc6l1gAGi5YoFd843xKYIbhm76Sxo/Jw==}
 
-  '@reatom/npm-react@3.8.6':
-    resolution: {integrity: sha512-giZhUaVgEk+eS4pb2HEC3fAHgRTSUv9joBcpJDpmmoqXfC/KF7Ra/cMxhfvoNcaQMfVHBUM9AnVJI6swxV9ReA==}
+  '@reatom/npm-react@3.8.7':
+    resolution: {integrity: sha512-Wt/ZVBUkQ+36Rp551dO5gv3mq974fnjgxnPdTWlWmXBFyLnzPVvpPZnWG74mfrqvs9p6W71sYqKoOdqf9Ut8kg==}
     peerDependencies:
       react: '>=16.8.0'
 
@@ -1379,6 +1382,13 @@ packages:
 
   '@reatom/utils@3.8.0':
     resolution: {integrity: sha512-U4cINdsQuj4jH5Q0EKXmzeXLIN4dTT6Jqk+c7IAWmdIf/FKjk6jqXRiIWZWVaj5/Yw/kCDPBIxE3IR0pLtOFHA==}
+
+  '@reatom/utils@3.9.0':
+    resolution: {integrity: sha512-TaRjNhqdM9DtuqCAG4K9ncAQJbRWfITEGp7gvcnR+TnNaLlFHeJ7PjkfWrJQHENXTN3vo47tAe7HhF8nb1XxGA==}
+
+  '@remix-run/router@1.16.1':
+    resolution: {integrity: sha512-es2g3dq6Nb07iFxGk5GuHN20RwBZOsuDQN7izWIisUcv9r+d2C5jQxqmgkdebXgReWfiyUabcki6Fg77mSNrig==}
+    engines: {node: '>=14.0.0'}
 
   '@rollup/pluginutils@4.2.1':
     resolution: {integrity: sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==}
@@ -2968,10 +2978,6 @@ packages:
   es-module-lexer@1.5.2:
     resolution: {integrity: sha512-l60ETUTmLqbVbVHv1J4/qj+M8nq7AwMzEcg3kmJDt9dCNrTk+yHcYFf/Kw75pMDwd9mPcIGCG5LcS20SxYRzFA==}
 
-  es-set-tostringtag@2.0.2:
-    resolution: {integrity: sha512-BuDyupZt65P9D2D2vA/zqcI3G5xRsklm5N3xCwuiy+/vKy8i0ifdsQP1sLgO4tZDSCaQUSnmC48khknGMV3D2Q==}
-    engines: {node: '>= 0.4'}
-
   es-set-tostringtag@2.0.3:
     resolution: {integrity: sha512-3T8uNMC3OQTHkFUsFq8r/BwAXLHvU/9O9mE0fBc/MY5iq/8H7ncvO947LmYA6ldWw9Uh8Yhf25zu6n7nML5QWQ==}
     engines: {node: '>= 0.4'}
@@ -3069,14 +3075,14 @@ packages:
       '@typescript-eslint/parser':
         optional: true
 
-  eslint-plugin-react-hooks@4.6.0:
-    resolution: {integrity: sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==}
+  eslint-plugin-react-hooks@4.6.2:
+    resolution: {integrity: sha512-QzliNJq4GinDBcD8gPB5v0wh6g8q3SUi6EFF0x8N/BL9PoVs0atuGc47ozMRyOWAKdwaZ5OnbOEa3WR+dSGKuQ==}
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
 
-  eslint-plugin-react@7.34.0:
-    resolution: {integrity: sha512-MeVXdReleBTdkz/bvcQMSnCXGi+c9kvy51IpinjnJgutl3YTHWsDdke7Z1ufZpGfDG8xduBDKyjtB9JH1eBKIQ==}
+  eslint-plugin-react@7.34.1:
+    resolution: {integrity: sha512-N97CxlouPT1AHt8Jn0mhhN2RrADlUAsk1/atcT2KyA/l9Q/E6ll7OIGwNumFmWfZ9skV3XXccYS19h80rHtgkw==}
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
@@ -3410,8 +3416,8 @@ packages:
   get-tsconfig@4.7.2:
     resolution: {integrity: sha512-wuMsz4leaj5hbGgg4IvDU0bqJagpftG5l5cXIAvo8uZrqn0NJqwtfupTN00VnkQJPcIRrxYrm1Ue24btpCha2A==}
 
-  get-tsconfig@4.7.4:
-    resolution: {integrity: sha512-ofbkKj+0pjXjhejr007J/fLf+sW+8H7K5GCm+msC8q3IpvgjobpyPqSRFemNyIMxklC0zeJpi7VDFna19FacvQ==}
+  get-tsconfig@4.7.5:
+    resolution: {integrity: sha512-ZCuZCnlqNzjb4QprAzXKdpp/gh6KTxSJuw3IBsPnV/7fV4NxC9ckB+vPTt8w7fJA0TaSD7c55BR47JD6MEDyDw==}
 
   get-value@2.0.6:
     resolution: {integrity: sha512-Ln0UQDlxH1BapMu3GPtf7CuYNwRZf2gwCuPqbyG6pB8WfmFpzqcy4xtAaAMUhnNqjMKTiCPZG2oMT3YSx8U2NA==}
@@ -3549,10 +3555,6 @@ packages:
     resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==}
     engines: {node: '>= 0.4'}
 
-  has-tostringtag@1.0.0:
-    resolution: {integrity: sha512-kFjcSNhnlGV1kyoGk7OXKSawH5JOb/LzUc5w9B02hOTO0dfFRjbHQKvg1d6cf3HbeUmtU9VbbV3qzZ2Teh97WQ==}
-    engines: {node: '>= 0.4'}
-
   has-tostringtag@1.0.2:
     resolution: {integrity: sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==}
     engines: {node: '>= 0.4'}
@@ -3575,8 +3577,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  history@4.10.1:
-    resolution: {integrity: sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==}
+  history@5.3.0:
+    resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
 
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
@@ -3744,10 +3746,6 @@ packages:
 
   inline-style-parser@0.1.1:
     resolution: {integrity: sha512-7NXolsK4CAS5+xvdj5OMMbI962hU/wvwoxk+LWR9Ek9bVtyuuYScDN6eS0rUm6TxApFpw7CX1o4uJzcd4AyD3Q==}
-
-  internal-slot@1.0.6:
-    resolution: {integrity: sha512-Xj6dv+PsbtwyPpEflsejS+oIZxmMlV44zAhG479uYu89MsjcYOhCFnNyKrkJrihbsiasQyY0afoCl/9BLR65bg==}
-    engines: {node: '>= 0.4'}
 
   internal-slot@1.0.7:
     resolution: {integrity: sha512-NGnrKwXzSms2qUUih/ILZ5JBqNTSa1+ZmP6flaIp6KmSElgE9qdndzS3cqjrDovwFdmwsGsLdeFgB6suw+1e9g==}
@@ -4594,13 +4592,6 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  mini-create-react-context@0.4.1:
-    resolution: {integrity: sha512-YWCYEmd5CQeHGSAKrYvXgmzzkrvssZcuuQDDeqkT+PziKGMgE+0MCCtcKbROzocGBG1meBLl2FotlRwf4gAzbQ==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    peerDependencies:
-      prop-types: ^15.0.0
-      react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
 
@@ -5249,6 +5240,11 @@ packages:
   rbush@3.0.1:
     resolution: {integrity: sha512-XRaVO0YecOpEuIvbhbpTrZgoiI6xBlz6hnlr6EHhd+0x9ase6EmeN+hdwwUaJvLcsFFQ8iWVF1GAK1yB0BWi0w==}
 
+  react-component-keepalive-ts@1.0.8:
+    resolution: {integrity: sha512-tmD5x7KvX7Cg0HO/XMjrJkkuXJWrD/5eLnH8VUa+4g/or2FxWASukC0jWsnA4EvZXGw4pmyHt4LzHjCvCtedEA==}
+    peerDependencies:
+      react: '>=17.0.0'
+
   react-cosmos-playground2@5.7.2:
     resolution: {integrity: sha512-k2OaXTq02wve8zv0tYhCxy5DomlOU+N62Wn/OaFxKQkszqadjynXnS8PpoHA5j2rEpBN4sbJW12Q+CztCBXhpQ==}
 
@@ -5280,6 +5276,11 @@ packages:
       '@types/react':
         optional: true
 
+  react-dom@18.0.0:
+    resolution: {integrity: sha512-XqX7uzmFo0pUceWFCt7Gff6IyIMzFUn7QMZrbrQfGxtaxXZIcGQzoNpRLE3fQLnS4XzLLPMZX2T9TRcSrasicw==}
+    peerDependencies:
+      react: ^18.0.0
+
   react-dom@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -5293,12 +5294,6 @@ packages:
 
   react-error-overlay@6.0.9:
     resolution: {integrity: sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==}
-
-  react-freeze@1.0.3:
-    resolution: {integrity: sha512-ZnXwLQnGzrDpHBHiC56TXFXvmolPeMjTn1UOm610M4EXGzbEDR7oOIyS2ZiItgbs6eZc4oU/a0hpk8PrcKvv5g==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      react: '>=17.0.0'
 
   react-gtm-module@2.0.11:
     resolution: {integrity: sha512-8gyj4TTxeP7eEyc2QKawEuQoAZdjKvMY4pgWfycGmqGByhs17fR+zEBs0JUDq4US/l+vbTl+6zvUIx27iDo/Vw==}
@@ -5350,22 +5345,18 @@ packages:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
     engines: {node: '>=0.10.0'}
 
-  react-router-cache-route@1.12.11:
-    resolution: {integrity: sha512-BexDIFju1v3+LTbJznls/CkmXiZ7zLTzPsSbhTY+Jcys9LQXJnLkZFDWMe+g5SxOUklzbrp4xpY2uQvHH3iWsA==}
+  react-router-dom@6.23.1:
+    resolution: {integrity: sha512-utP+K+aSTtEdbWpC+4gxhdlPFwuEfDKq8ZrPFU65bbRJY+l706qjR7yaidBpo3MSeA/fzwbXWbKBI6ftOnP3OQ==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
-      prop-types: '>=15'
-      react: '>=15'
-      react-router-dom: '>=4'
+      react: '>=16.8'
+      react-dom: '>=16.8'
 
-  react-router-dom@5.3.4:
-    resolution: {integrity: sha512-m4EqFMHv/Ih4kpcBCONHbkT68KoAeHN4p3lAGoNryfHi0dMy0kCzEZakiKRsvg5wHZ/JLrLW8o8KomWiz/qbYQ==}
+  react-router@6.23.1:
+    resolution: {integrity: sha512-fzcOaRF69uvqbbM7OhvQyBTFDVrrGlsFdS3AL+1KfIBtGETibHzi3FkoTRyiDJnWNc2VxrfvR+657ROHjaNjqQ==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
-      react: '>=15'
-
-  react-router@5.3.4:
-    resolution: {integrity: sha512-Ys9K+ppnJah3QuaRiLxk+jDWOR1MekYQrlytiXxC1RyfbdsZkS5pvKAzCCr031xHixZwpnsYNT5xysdFHQaYsA==}
-    peerDependencies:
-      react: '>=15'
+      react: '>=16.8'
 
   react-transition-group@4.4.5:
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
@@ -5373,8 +5364,8 @@ packages:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
 
-  react-virtuoso@4.7.10:
-    resolution: {integrity: sha512-l+fnBf/G1Fp6pHCnhFq2Ra4lkZtT6c5XrS9rCS0OA6de7WGLZviCo0y61CUZZG79TeAw3L7O4czeNPiqh9CIrg==}
+  react-virtuoso@4.7.11:
+    resolution: {integrity: sha512-Kdn9qEtQI2ulEuBMzW2BTkDsfijB05QUd6lpZ1K36oyA3k65Cz4lG4EKrh2pCfUafX4C2uMSZOwzMOhbrMOTFA==}
     engines: {node: '>=10'}
     peerDependencies:
       react: '>=16 || >=17 || >= 18'
@@ -5440,10 +5431,6 @@ packages:
     resolution: {integrity: sha512-iETxpjK6YoRWJG5o6hXLwvjYAoW+FEZn9os0PD/b6AP6xQwsa/Y7lCVgIixBbUPMfhu+i2LtdeAqVTgGlQarfA==}
     hasBin: true
 
-  regexp.prototype.flags@1.5.1:
-    resolution: {integrity: sha512-sy6TXMN+hnP/wMy+ISxg3krXx7BAtWVO4UouuCN/ziM9UEne0euamVNafDfvC83bRNr95y0V5iijeDQFUNpvrg==}
-    engines: {node: '>= 0.4'}
-
   regexp.prototype.flags@1.5.2:
     resolution: {integrity: sha512-NcDiDkTLuPR+++OCKB0nWafEmhg/Da8aUPLPMQbK+bxKKCm1/S5he+AqYa4PlMCVBalb4/yxIRub6qkEx5yJbw==}
     engines: {node: '>= 0.4'}
@@ -5493,9 +5480,6 @@ packages:
   resolve-options@2.0.0:
     resolution: {integrity: sha512-/FopbmmFOQCfsCx77BRFdKOniglTiHumLgwvd6IDPihy1GKkadZbgQJBcTb2lMzSR1pndzd96b1nZrreZ7+9/A==}
     engines: {node: '>= 10.13.0'}
-
-  resolve-pathname@3.0.0:
-    resolution: {integrity: sha512-C7rARubxI8bXFNB/hqcp/4iUeIXJhJZvFPFPiSPRnhU5UPxzMFIl+2E6yY6c4k9giDJAhtV+enfA+G89N6Csng==}
 
   resolve-pkg-maps@1.0.0:
     resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
@@ -5608,6 +5592,9 @@ packages:
 
   sax@1.3.0:
     resolution: {integrity: sha512-0s+oAmw9zLl1V1cS9BtZN7JAd0cW5e0QH4W3LWEK6a4LaLEA2OTpGYWDY+6XasBLtz6wkm3u1xRw95mRuJ59WA==}
+
+  scheduler@0.21.0:
+    resolution: {integrity: sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==}
 
   scheduler@0.23.0:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
@@ -6025,12 +6012,6 @@ packages:
   through2@4.0.2:
     resolution: {integrity: sha512-iOqSav00cVxEEICeD7TjLB1sueEL+81Wpzp2bY17uZjZN0pWZPuo4suZ/61VujxmqSGFfgOcNuTZ85QJwNZQpw==}
 
-  tiny-invariant@1.3.1:
-    resolution: {integrity: sha512-AD5ih2NlSssTCwsMznbvwMZpJ1cbhkGd2uueNxzv2jDlEeZdU04JQfRnggJQ8DrcVBGjAsCKwFBbDlVNtEMlzw==}
-
-  tiny-warning@1.0.3:
-    resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
-
   tinybench@2.5.1:
     resolution: {integrity: sha512-65NKvSuAVDP/n4CqH+a9w2kTlLReS9vhsAP06MWx+/89nMinJyB2icyl58RIcqCmIggpojIGeuJGhjU1aGMBSg==}
 
@@ -6128,8 +6109,8 @@ packages:
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
-  tsx@4.9.3:
-    resolution: {integrity: sha512-czVbetlILiyJZI5zGlj2kw9vFiSeyra9liPD4nG+Thh4pKTi0AmMEQ8zdV/L2xbIVKrIqif4sUNrsMAOksx9Zg==}
+  tsx@4.11.0:
+    resolution: {integrity: sha512-vzGGELOgAupsNVssAmZjbUDfdm/pWP4R+Kg8TVdsonxbXk0bEpE1qh0yV6/QxUVXaVlNemgcPajGdJJ82n3stg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -6337,9 +6318,6 @@ packages:
 
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
-
-  value-equal@1.0.1:
-    resolution: {integrity: sha512-NOJ6JZCAWr0zlxZt+xqCHNTEKOsrks2HQd4MqhP1qy4z1SkbEP467eNx6TgDKXMvUOb+OENfJCZwM+16n7fRfw==}
 
   value-or-function@4.0.0:
     resolution: {integrity: sha512-aeVK81SIuT6aMJfNo9Vte8Dw0/FZINGBV8BfCraGtqVxIeLAEhJyoWs8SmvRVmXfGss2PmmOwZCuBPbZR+IYWg==}
@@ -7174,7 +7152,7 @@ snapshots:
     dependencies:
       is-negated-glob: 1.0.0
 
-  '@homer0/deferred@3.0.4': {}
+  '@homer0/deferred@3.0.5': {}
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
@@ -7305,7 +7283,7 @@ snapshots:
 
   '@loaders.gl/draco@3.4.14':
     dependencies:
-      '@babel/runtime': 7.23.8
+      '@babel/runtime': 7.24.5
       '@loaders.gl/loader-utils': 3.4.14
       '@loaders.gl/schema': 3.4.14
       '@loaders.gl/worker-utils': 3.4.14
@@ -7414,7 +7392,7 @@ snapshots:
 
   '@loaders.gl/xml@3.4.14':
     dependencies:
-      '@babel/runtime': 7.23.8
+      '@babel/runtime': 7.24.5
       '@loaders.gl/loader-utils': 3.4.14
       '@loaders.gl/schema': 3.4.14
       fast-xml-parser: 4.3.2
@@ -7432,7 +7410,7 @@ snapshots:
 
   '@luma.gl/engine@8.5.21':
     dependencies:
-      '@babel/runtime': 7.23.8
+      '@babel/runtime': 7.24.5
       '@luma.gl/constants': 8.5.21
       '@luma.gl/gltools': 8.5.21
       '@luma.gl/shadertools': 8.5.21
@@ -7456,7 +7434,7 @@ snapshots:
 
   '@luma.gl/gltools@8.5.21':
     dependencies:
-      '@babel/runtime': 7.23.8
+      '@babel/runtime': 7.24.5
       '@luma.gl/constants': 8.5.21
       '@probe.gl/env': 3.6.0
       '@probe.gl/log': 3.6.0
@@ -7519,7 +7497,7 @@ snapshots:
 
   '@math.gl/geospatial@3.6.3':
     dependencies:
-      '@babel/runtime': 7.23.8
+      '@babel/runtime': 7.24.5
       '@math.gl/core': 3.6.3
       gl-matrix: 3.4.3
 
@@ -7763,7 +7741,7 @@ snapshots:
 
   '@probe.gl/env@4.0.4':
     dependencies:
-      '@babel/runtime': 7.23.8
+      '@babel/runtime': 7.24.5
 
   '@probe.gl/log@3.6.0':
     dependencies:
@@ -7800,6 +7778,11 @@ snapshots:
       '@reatom/core': 3.8.0
       '@reatom/utils': 3.8.0
 
+  '@reatom/effects@3.7.3':
+    dependencies:
+      '@reatom/core': 3.8.0
+      '@reatom/utils': 3.9.0
+
   '@reatom/hooks@3.5.2':
     dependencies:
       '@reatom/core': 3.8.0
@@ -7826,10 +7809,12 @@ snapshots:
       '@reatom/jsx': 3.6.0
       stylerun: 1.0.0
 
-  '@reatom/npm-react@3.8.6(react@18.2.0)':
+  '@reatom/npm-react@3.8.7(react@18.2.0)':
     dependencies:
       '@reatom/core': 3.8.0
+      '@reatom/effects': 3.7.3
       '@reatom/lens': 3.9.1
+      '@reatom/utils': 3.9.0
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
 
@@ -7839,6 +7824,10 @@ snapshots:
       react: 18.2.0
 
   '@reatom/utils@3.8.0': {}
+
+  '@reatom/utils@3.9.0': {}
+
+  '@remix-run/router@1.16.1': {}
 
   '@rollup/pluginutils@4.2.1':
     dependencies:
@@ -8824,7 +8813,7 @@ snapshots:
   array-buffer-byte-length@1.0.0:
     dependencies:
       call-bind: 1.0.7
-      is-array-buffer: 3.0.2
+      is-array-buffer: 3.0.4
 
   array-buffer-byte-length@1.0.1:
     dependencies:
@@ -8837,7 +8826,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
       get-intrinsic: 1.2.4
       is-string: 1.0.7
 
@@ -8847,7 +8836,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
       es-errors: 1.3.0
       es-shim-unscopables: 1.0.2
 
@@ -8870,14 +8859,14 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
       es-shim-unscopables: 1.0.2
 
   array.prototype.reduce@1.0.6:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
       es-array-method-boxes-properly: 1.0.0
       is-string: 1.0.7
 
@@ -8885,26 +8874,26 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
       es-shim-unscopables: 1.0.2
 
   array.prototype.tosorted@1.1.3:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
       es-errors: 1.3.0
       es-shim-unscopables: 1.0.2
 
   arraybuffer.prototype.slice@1.0.2:
     dependencies:
-      array-buffer-byte-length: 1.0.0
+      array-buffer-byte-length: 1.0.1
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
       get-intrinsic: 1.2.4
-      is-array-buffer: 3.0.2
-      is-shared-array-buffer: 1.0.2
+      is-array-buffer: 3.0.4
+      is-shared-array-buffer: 1.0.3
 
   arraybuffer.prototype.slice@1.0.3:
     dependencies:
@@ -9425,7 +9414,7 @@ snapshots:
       object-is: 1.1.5
       object-keys: 1.1.1
       object.assign: 4.1.5
-      regexp.prototype.flags: 1.5.1
+      regexp.prototype.flags: 1.5.2
       side-channel: 1.0.4
       which-boxed-primitive: 1.0.2
       which-collection: 1.0.1
@@ -9538,7 +9527,7 @@ snapshots:
 
   dom-helpers@5.2.1:
     dependencies:
-      '@babel/runtime': 7.23.8
+      '@babel/runtime': 7.24.5
       csstype: 3.1.3
 
   dom-serializer@1.4.1:
@@ -9701,7 +9690,7 @@ snapshots:
       arraybuffer.prototype.slice: 1.0.2
       available-typed-arrays: 1.0.5
       call-bind: 1.0.7
-      es-set-tostringtag: 2.0.2
+      es-set-tostringtag: 2.0.3
       es-to-primitive: 1.2.1
       function.prototype.name: 1.1.6
       get-intrinsic: 1.2.4
@@ -9712,7 +9701,7 @@ snapshots:
       has-proto: 1.0.3
       has-symbols: 1.0.3
       hasown: 2.0.1
-      internal-slot: 1.0.6
+      internal-slot: 1.0.7
       is-array-buffer: 3.0.2
       is-callable: 1.2.7
       is-negative-zero: 2.0.2
@@ -9724,8 +9713,8 @@ snapshots:
       object-inspect: 1.13.1
       object-keys: 1.1.1
       object.assign: 4.1.5
-      regexp.prototype.flags: 1.5.1
-      safe-array-concat: 1.0.1
+      regexp.prototype.flags: 1.5.2
+      safe-array-concat: 1.1.0
       safe-regex-test: 1.0.0
       string.prototype.trim: 1.2.8
       string.prototype.trimend: 1.0.7
@@ -9808,7 +9797,7 @@ snapshots:
       define-properties: 1.2.1
       es-abstract: 1.22.5
       es-errors: 1.3.0
-      es-set-tostringtag: 2.0.2
+      es-set-tostringtag: 2.0.3
       function-bind: 1.1.2
       get-intrinsic: 1.2.4
       globalthis: 1.0.3
@@ -9820,12 +9809,6 @@ snapshots:
       safe-array-concat: 1.1.0
 
   es-module-lexer@1.5.2: {}
-
-  es-set-tostringtag@2.0.2:
-    dependencies:
-      get-intrinsic: 1.2.4
-      has-tostringtag: 1.0.0
-      hasown: 2.0.1
 
   es-set-tostringtag@2.0.3:
     dependencies:
@@ -9990,11 +9973,11 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-react-hooks@4.6.0(eslint@8.57.0):
+  eslint-plugin-react-hooks@4.6.2(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
 
-  eslint-plugin-react@7.34.0(eslint@8.57.0):
+  eslint-plugin-react@7.34.1(eslint@8.57.0):
     dependencies:
       array-includes: 3.1.7
       array.prototype.findlast: 1.2.4
@@ -10366,7 +10349,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
       functions-have-names: 1.2.3
 
   functions-have-names@1.2.3: {}
@@ -10428,7 +10411,7 @@ snapshots:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
-  get-tsconfig@4.7.4:
+  get-tsconfig@4.7.5:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
@@ -10591,10 +10574,6 @@ snapshots:
 
   has-symbols@1.0.3: {}
 
-  has-tostringtag@1.0.0:
-    dependencies:
-      has-symbols: 1.0.3
-
   has-tostringtag@1.0.2:
     dependencies:
       has-symbols: 1.0.3
@@ -10613,14 +10592,9 @@ snapshots:
 
   he@1.2.0: {}
 
-  history@4.10.1:
+  history@5.3.0:
     dependencies:
-      '@babel/runtime': 7.23.6
-      loose-envify: 1.4.0
-      resolve-pathname: 3.0.0
-      tiny-invariant: 1.3.1
-      tiny-warning: 1.0.3
-      value-equal: 1.0.1
+      '@babel/runtime': 7.24.5
 
   hoist-non-react-statics@3.3.2:
     dependencies:
@@ -10796,12 +10770,6 @@ snapshots:
 
   inline-style-parser@0.1.1: {}
 
-  internal-slot@1.0.6:
-    dependencies:
-      get-intrinsic: 1.2.4
-      hasown: 2.0.1
-      side-channel: 1.0.4
-
   internal-slot@1.0.7:
     dependencies:
       es-errors: 1.3.0
@@ -10817,13 +10785,13 @@ snapshots:
   is-arguments@1.1.1:
     dependencies:
       call-bind: 1.0.7
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   is-array-buffer@3.0.2:
     dependencies:
       call-bind: 1.0.7
       get-intrinsic: 1.2.4
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.13
 
   is-array-buffer@3.0.4:
     dependencies:
@@ -10834,7 +10802,7 @@ snapshots:
 
   is-async-function@2.0.0:
     dependencies:
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   is-bigint@1.0.4:
     dependencies:
@@ -10847,7 +10815,7 @@ snapshots:
   is-boolean-object@1.1.2:
     dependencies:
       call-bind: 1.0.7
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   is-buffer@1.1.6: {}
 
@@ -10861,7 +10829,7 @@ snapshots:
 
   is-date-object@1.0.5:
     dependencies:
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   is-docker@2.2.1: {}
 
@@ -10891,7 +10859,7 @@ snapshots:
 
   is-generator-function@1.0.10:
     dependencies:
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   is-glob@4.0.3:
     dependencies:
@@ -10916,7 +10884,7 @@ snapshots:
 
   is-number-object@1.0.7:
     dependencies:
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   is-number@7.0.0: {}
 
@@ -10939,7 +10907,7 @@ snapshots:
   is-regex@1.1.4:
     dependencies:
       call-bind: 1.0.7
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   is-set@2.0.2: {}
 
@@ -10957,7 +10925,7 @@ snapshots:
 
   is-string@1.0.7:
     dependencies:
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   is-symbol@1.0.4:
     dependencies:
@@ -10965,7 +10933,7 @@ snapshots:
 
   is-typed-array@1.1.12:
     dependencies:
-      which-typed-array: 1.1.13
+      which-typed-array: 1.1.14
 
   is-typed-array@1.1.13:
     dependencies:
@@ -11878,13 +11846,6 @@ snapshots:
 
   min-indent@1.0.1: {}
 
-  mini-create-react-context@0.4.1(prop-types@15.8.1)(react@18.2.0):
-    dependencies:
-      '@babel/runtime': 7.23.8
-      prop-types: 15.8.1
-      react: 18.2.0
-      tiny-warning: 1.0.3
-
   minimatch@3.1.2:
     dependencies:
       brace-expansion: 1.1.11
@@ -12064,7 +12025,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
 
   object.fromentries@2.0.7:
     dependencies:
@@ -12077,8 +12038,8 @@ snapshots:
       array.prototype.reduce: 1.0.6
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
-      safe-array-concat: 1.0.1
+      es-abstract: 1.22.5
+      safe-array-concat: 1.1.0
 
   object.groupby@1.0.1:
     dependencies:
@@ -12090,13 +12051,13 @@ snapshots:
   object.hasown@1.1.3:
     dependencies:
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
 
   object.values@1.1.7:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
 
   on-finished@2.4.1:
     dependencies:
@@ -12534,6 +12495,12 @@ snapshots:
     dependencies:
       quickselect: 2.0.0
 
+  react-component-keepalive-ts@1.0.8(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.0.0(react@18.2.0)
+      react-router-dom: 6.23.1(react-dom@18.0.0(react@18.2.0))(react@18.2.0)
+
   react-cosmos-playground2@5.7.2: {}
 
   react-cosmos-plugin@5.6.0: {}
@@ -12606,6 +12573,12 @@ snapshots:
       '@types/node': 20.11.27
       '@types/react': 18.2.65
 
+  react-dom@18.0.0(react@18.2.0):
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.2.0
+      scheduler: 0.21.0
+
   react-dom@18.2.0(react@18.2.0):
     dependencies:
       loose-envify: 1.4.0
@@ -12621,10 +12594,6 @@ snapshots:
       react-is: 17.0.2
 
   react-error-overlay@6.0.9: {}
-
-  react-freeze@1.0.3(react@18.2.0):
-    dependencies:
-      react: 18.2.0
 
   react-gtm-module@2.0.11: {}
 
@@ -12677,37 +12646,24 @@ snapshots:
 
   react-refresh@0.14.0: {}
 
-  react-router-cache-route@1.12.11(prop-types@15.8.1)(react-router-dom@5.3.4(react@18.2.0))(react@18.2.0):
+  react-router-dom@6.23.1(react-dom@18.0.0(react@18.2.0))(react@18.2.0):
     dependencies:
-      mini-create-react-context: 0.4.1(prop-types@15.8.1)(react@18.2.0)
-      prop-types: 15.8.1
+      '@remix-run/router': 1.16.1
       react: 18.2.0
-      react-freeze: 1.0.3(react@18.2.0)
-      react-router-dom: 5.3.4(react@18.2.0)
+      react-dom: 18.0.0(react@18.2.0)
+      react-router: 6.23.1(react@18.2.0)
 
-  react-router-dom@5.3.4(react@18.2.0):
+  react-router-dom@6.23.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
-      '@babel/runtime': 7.23.6
-      history: 4.10.1
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
+      '@remix-run/router': 1.16.1
       react: 18.2.0
-      react-router: 5.3.4(react@18.2.0)
-      tiny-invariant: 1.3.1
-      tiny-warning: 1.0.3
+      react-dom: 18.2.0(react@18.2.0)
+      react-router: 6.23.1(react@18.2.0)
 
-  react-router@5.3.4(react@18.2.0):
+  react-router@6.23.1(react@18.2.0):
     dependencies:
-      '@babel/runtime': 7.23.6
-      history: 4.10.1
-      hoist-non-react-statics: 3.3.2
-      loose-envify: 1.4.0
-      path-to-regexp: 1.8.0
-      prop-types: 15.8.1
+      '@remix-run/router': 1.16.1
       react: 18.2.0
-      react-is: 16.13.1
-      tiny-invariant: 1.3.1
-      tiny-warning: 1.0.3
 
   react-transition-group@4.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
@@ -12718,7 +12674,7 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  react-virtuoso@4.7.10(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  react-virtuoso@4.7.11(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -12806,12 +12762,6 @@ snapshots:
 
   regexp-tree@0.1.27: {}
 
-  regexp.prototype.flags@1.5.1:
-    dependencies:
-      call-bind: 1.0.7
-      define-properties: 1.2.1
-      set-function-name: 2.0.1
-
   regexp.prototype.flags@1.5.2:
     dependencies:
       call-bind: 1.0.7
@@ -12864,8 +12814,6 @@ snapshots:
   resolve-options@2.0.0:
     dependencies:
       value-or-function: 4.0.0
-
-  resolve-pathname@3.0.0: {}
 
   resolve-pkg-maps@1.0.0: {}
 
@@ -13000,6 +12948,10 @@ snapshots:
       source-map-js: 1.0.2
 
   sax@1.3.0: {}
+
+  scheduler@0.21.0:
+    dependencies:
+      loose-envify: 1.4.0
 
   scheduler@0.23.0:
     dependencies:
@@ -13245,7 +13197,7 @@ snapshots:
 
   stop-iteration-iterator@1.0.0:
     dependencies:
-      internal-slot: 1.0.6
+      internal-slot: 1.0.7
 
   stream-composer@1.0.2:
     dependencies:
@@ -13284,11 +13236,11 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
       get-intrinsic: 1.2.4
       has-symbols: 1.0.3
-      internal-slot: 1.0.6
-      regexp.prototype.flags: 1.5.1
+      internal-slot: 1.0.7
+      regexp.prototype.flags: 1.5.2
       set-function-name: 2.0.1
       side-channel: 1.0.4
 
@@ -13302,19 +13254,19 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
 
   string.prototype.trimend@1.0.7:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
 
   string.prototype.trimstart@1.0.7:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.3
+      es-abstract: 1.22.5
 
   string_decoder@1.1.1:
     dependencies:
@@ -13520,10 +13472,6 @@ snapshots:
     dependencies:
       readable-stream: 3.6.2
 
-  tiny-invariant@1.3.1: {}
-
-  tiny-warning@1.0.3: {}
-
   tinybench@2.5.1: {}
 
   tinypool@0.8.4: {}
@@ -13606,10 +13554,10 @@ snapshots:
 
   tslib@2.6.2: {}
 
-  tsx@4.9.3:
+  tsx@4.11.0:
     dependencies:
       esbuild: 0.20.2
-      get-tsconfig: 4.7.4
+      get-tsconfig: 4.7.5
     optionalDependencies:
       fsevents: 2.3.3
 
@@ -13640,7 +13588,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       get-intrinsic: 1.2.4
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.13
 
   typed-array-buffer@1.0.2:
     dependencies:
@@ -13653,7 +13601,7 @@ snapshots:
       call-bind: 1.0.7
       for-each: 0.3.3
       has-proto: 1.0.3
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.13
 
   typed-array-byte-length@1.0.1:
     dependencies:
@@ -13665,11 +13613,11 @@ snapshots:
 
   typed-array-byte-offset@1.0.0:
     dependencies:
-      available-typed-arrays: 1.0.5
+      available-typed-arrays: 1.0.7
       call-bind: 1.0.7
       for-each: 0.3.3
       has-proto: 1.0.3
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.13
 
   typed-array-byte-offset@1.0.2:
     dependencies:
@@ -13684,7 +13632,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       for-each: 0.3.3
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.13
 
   typed-array-length@1.0.5:
     dependencies:
@@ -13878,8 +13826,6 @@ snapshots:
     dependencies:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
-
-  value-equal@1.0.1: {}
 
   value-or-function@4.0.0: {}
 
@@ -14152,7 +14098,7 @@ snapshots:
   which-builtin-type@1.1.3:
     dependencies:
       function.prototype.name: 1.1.6
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
       is-async-function: 2.0.0
       is-date-object: 1.0.5
       is-finalizationregistry: 1.0.2
@@ -14162,7 +14108,7 @@ snapshots:
       isarray: 2.0.5
       which-boxed-primitive: 1.0.2
       which-collection: 1.0.1
-      which-typed-array: 1.1.13
+      which-typed-array: 1.1.14
 
   which-collection@1.0.1:
     dependencies:
@@ -14173,11 +14119,11 @@ snapshots:
 
   which-typed-array@1.1.13:
     dependencies:
-      available-typed-arrays: 1.0.5
+      available-typed-arrays: 1.0.7
       call-bind: 1.0.7
       for-each: 0.3.3
       gopd: 1.0.1
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   which-typed-array@1.1.14:
     dependencies:

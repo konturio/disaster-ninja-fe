@@ -15,7 +15,7 @@ const pathJoin = (...path: Array<string>) => {
 
 export const getAbsoluteRoute = (
   slugOrRoute: string | AppRoute,
-  base = configRepo.get().baseUrl,
+  base = '', //configRepo.get().baseUrl,
 ) => {
   if (typeof slugOrRoute === 'string') return '/' + pathJoin(base, slugOrRoute);
 

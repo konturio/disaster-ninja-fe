@@ -1,6 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { useAtom } from '@reatom/react-v2';
 import { lazily } from 'react-lazily';
+import { withKeepAlive } from 'react-component-keepalive-ts';
 import clsx from 'clsx';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
@@ -37,7 +38,9 @@ const { EventList: EventListPanel } = lazily(() => import('~features/events_list
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
-export function MapPage() {
+export const MapPage = withKeepAlive(_MapPage, { cacheId: 'map' });
+
+function _MapPage() {
   const [featureFlags] = useAtom(featureFlagsAtom);
 
   useEffect(() => {

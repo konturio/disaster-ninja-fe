@@ -1,4 +1,3 @@
-import { goTo } from '~core/router/goTo';
 import { withSetupCheck } from '~utils/common/withSetupCheck';
 import { ApiClient } from './api_client';
 import { notificationServiceInstance } from './notificationServiceInstance';
@@ -10,8 +9,10 @@ export const apiClient = withSetupCheck(ApiClient, {
         case 'unauthorized':
         case 'forbidden':
           alert('Access denied or your session expired.');
-          goTo('/profile');
-          location.reload();
+          import('~core/router/goTo').then(({ goTo }) => {
+            goTo('/profile');
+            location.reload();
+          });
           break;
 
         default:

@@ -1,14 +1,14 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
+import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { configRepo } from '~core/config';
+import { currentMapPositionAtom } from '~core/shared_state';
 import {
   currentEventAtom,
-  currentMapPositionAtom,
-  currentEventFeedAtom,
-} from '~core/shared_state';
-import { FeatureFlag } from '~core/shared_state';
-import { scheduledAutoSelect, scheduledAutoFocus } from '~core/shared_state/currentEvent';
+  scheduledAutoSelect,
+  scheduledAutoFocus,
+} from '~core/shared_state/currentEvent';
+import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { URLStore } from '../URLStore';
 import { urlEncoder } from '../encoder';
 import type { UrlData } from '../types';
@@ -72,6 +72,11 @@ export const urlStoreAtom = createAtom(
               lng: Number(initialState.map[2]),
             }),
           );
+        }
+
+        // Apply feed
+        if (initialState.feed) {
+          actions.push(currentEventFeedAtom.setCurrentFeed(initialState.feed));
         }
 
         // Apply event

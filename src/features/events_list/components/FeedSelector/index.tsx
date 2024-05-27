@@ -1,6 +1,8 @@
+import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react-v2';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
-import { FeedSelector } from './FeedSelector';
+
+const { FeedSelector } = lazily(() => import('./FeedSelector'));
 
 export function FeedSelectorFlagged() {
   const [featureFlags] = useAtom(featureFlagsAtom);
