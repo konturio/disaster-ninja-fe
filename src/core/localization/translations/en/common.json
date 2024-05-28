@@ -21,7 +21,7 @@
     "panel_title": "Toolbar",
     "download": "Download",
     "delete": "Delete",
-    "boundary_selector": "Select admin unit",
+    "boundary_selector": "Select admin boundary",
     "create_layer": "Create layer",
     "geometry_uploader": "Upload GeoJSON",
     "focused_geometry_editor": "Draw or edit geometry",
