@@ -83,6 +83,9 @@
     resize: vertical;
   }
 }
+.textAreaPlaceholder {
+  white-space: pre-wrap;
+}
 
 /* Mobile view */
 @media screen and (max-width: 550px) {

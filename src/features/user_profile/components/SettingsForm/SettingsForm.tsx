@@ -137,14 +137,14 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                 />
                 <div className={s.biography}>
                   <Textarea
-                    placeholder={i18n.t('profile.userBio(about)')}
-                    showTopPlaceholder
+                    placeholder={i18n.t('profile.user_bio_placeholder')}
                     value={localSettings.bio}
                     onChange={onBioChange}
                     className={s.textArea}
+                    classes={{ placeholder: s.textAreaPlaceholder }}
                     width="100%"
-                    minHeight="80px"
-                    maxHeight="200px"
+                    minHeight="200px"
+                    maxHeight="250px"
                   />
                 </div>
 
