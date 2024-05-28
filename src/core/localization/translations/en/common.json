@@ -21,7 +21,7 @@
     "panel_title": "Toolbar",
     "download": "Download",
     "delete": "Delete",
-    "boundary_selector": "Select admin unit",
+    "boundary_selector": "Select admin boundary",
     "create_layer": "Create layer",
     "geometry_uploader": "Upload GeoJSON",
     "focused_geometry_editor": "Draw or edit geometry",
@@ -46,7 +46,7 @@
   "errors": {
     "default": "Sorry, we are having issues which will be fixed soon",
     "timeout": "Request timeout",
-    "cannot_connect": "Can't connect to server",
+    "cannot_connect": "Cannot connect to server",
     "forbidden": "Forbidden",
     "not_found": "Not found",
     "unknown": "Unknown",
