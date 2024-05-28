@@ -36,9 +36,7 @@ export function EpisodesTimelinePanel() {
       <div>
         {statesToComponents({
           loading: <LoadingSpinner message={i18n.t('loading_episodes')} />,
-          error: (errorMessage) => (
-            <ErrorMessage marginTop="16px" message={errorMessage} />
-          ),
+          error: (errorMessage) => <ErrorMessage message={errorMessage} />,
           ready: (episodes) =>
             episodes.data ? (
               <EpisodesTimeline episodes={episodes.data} />
