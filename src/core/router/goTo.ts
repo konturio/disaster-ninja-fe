@@ -1,8 +1,6 @@
-import { getAbsoluteRoute } from './getAbsoluteRoute';
-import { routerInstance } from './components/Router';
+export const NAVIGATE_EVENT = 'KNT_NAVIGATE_TO';
 
 export const goTo = (slug: string) => {
-  routerInstance.navigate(getAbsoluteRoute(slug));
-  // routerLocationAtom(store.v3ctx, getAbsoluteRoute(slug));
-  // history.push(getAbsoluteRoute(slug) + globalThis.location.search);
+  const evt = new CustomEvent(NAVIGATE_EVENT, { detail: { payload: slug } });
+  globalThis.dispatchEvent(evt);
 };

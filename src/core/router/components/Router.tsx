@@ -13,10 +13,22 @@ import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
 import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
+import { NAVIGATE_EVENT } from '../goTo';
+import { currentLocationAtom } from '../atoms/currentLocation';
 
 export const routerInstance = createBrowserRouter(getRoutes(), {
   basename: configRepo.get().baseUrl,
 });
+
+routerInstance.subscribe((e) => {
+  // @ts-expect-error ok since we are using only pathanme prop
+  currentLocationAtom.set.dispatch(e.location);
+});
+
+globalThis.addEventListener(NAVIGATE_EVENT, ((e: CustomEvent) => {
+  const slug = e.detail.payload;
+  routerInstance.navigate(getAbsoluteRoute(slug) + globalThis.location.search);
+}) as EventListener);
 
 export function Router() {
   return <RouterProvider router={routerInstance} />;
