@@ -23,13 +23,13 @@ export function CleanControl({
   );
 
   return (
-    <div className={style.clean} onClick={cleanLayer}>
-      <Tooltip placement="top">
-        <TooltipTrigger>
+    <Tooltip placement="top">
+      <TooltipTrigger asChild>
+        <div className={style.clean} onClick={cleanLayer}>
           <Rubber16 />
-        </TooltipTrigger>
-        <TooltipContent>Erase</TooltipContent>
-      </Tooltip>
-    </div>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>Erase</TooltipContent>
+    </Tooltip>
   );
 }

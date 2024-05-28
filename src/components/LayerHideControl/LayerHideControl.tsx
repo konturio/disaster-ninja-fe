@@ -15,25 +15,25 @@ export function LayerHideControl({
 }: LayerHideControlType) {
   if (isVisible) {
     return (
-      <div onClick={hideLayer} className={s.hideLogo}>
-        <Tooltip placement="top">
-          <TooltipTrigger>
+      <Tooltip placement="top">
+        <TooltipTrigger asChild>
+          <div onClick={hideLayer} className={s.hideLogo}>
             <Eye16 />
-          </TooltipTrigger>
-          <TooltipContent>Hide</TooltipContent>
-        </Tooltip>
-      </div>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>Hide</TooltipContent>
+      </Tooltip>
     );
   }
 
   return (
-    <div onClick={unhideLayer} className={s.unhideLogo}>
-      <Tooltip placement="top">
-        <TooltipTrigger>
+    <Tooltip placement="top">
+      <TooltipTrigger asChild>
+        <div onClick={unhideLayer} className={s.unhideLogo}>
           <EyeOff16 />
-        </TooltipTrigger>
-        <TooltipContent>Show</TooltipContent>
-      </Tooltip>
-    </div>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>Show</TooltipContent>
+    </Tooltip>
   );
 }

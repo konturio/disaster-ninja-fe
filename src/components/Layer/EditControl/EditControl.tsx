@@ -24,13 +24,13 @@ export function EditControl({
     }
   }
   return (
-    <div className={style.edit} onClick={editLayer}>
-      <Tooltip placement="top">
-        <TooltipTrigger>
+    <Tooltip placement="top">
+      <TooltipTrigger asChild>
+        <div className={style.edit} onClick={editLayer}>
           <Edit16 />
-        </TooltipTrigger>
-        <TooltipContent>Edit</TooltipContent>
-      </Tooltip>
-    </div>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>Edit</TooltipContent>
+    </Tooltip>
   );
 }
