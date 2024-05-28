@@ -20,7 +20,7 @@ export const AnalyticsContainer = () => {
   return statesToComponents({
     init: <AnalyticsEmptyState />,
     loading: <LoadingSpinner />,
-    error: (errorMessage) => <ErrorMessage message={errorMessage} />,
+    error: (errorMessage) => <ErrorMessage message={errorMessage} margin="32px 0 25px" />,
     ready: (dataList) => {
       const geometry = focusedGeometry?.geometry;
       if (

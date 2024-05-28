@@ -1,19 +1,18 @@
 import { Text } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
-import errorImage from './error-state-img.png';
 import s from './ErrorMessage.module.css';
 
 export function ErrorMessage({
   message,
-  marginTop = '30%',
+  margin = '32px 16px',
 }: {
   message?: string;
   marginTop?: string;
+  margin?: string;
 }) {
   return (
-    <div className={s.spinner} style={{ marginTop }}>
+    <div className={s.spinner} style={{ margin }}>
       <Text type="short-l">{message ?? i18n.t('errors.default')}</Text>
-      <img src={errorImage} alt="" className={s.icon} />
     </div>
   );
 }
