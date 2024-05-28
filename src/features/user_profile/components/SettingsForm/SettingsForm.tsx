@@ -137,7 +137,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                 />
                 <div className={s.biography}>
                   <Textarea
-                    placeholder={i18n.t('profile.userBioPlaceholder')}
+                    placeholder={i18n.t('profile.user_bio_placeholder')}
                     value={localSettings.bio}
                     onChange={onBioChange}
                     className={s.textArea}
