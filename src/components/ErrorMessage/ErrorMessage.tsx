@@ -7,7 +7,6 @@ export function ErrorMessage({
   margin = '32px 16px',
 }: {
   message?: string;
-  marginTop?: string;
   margin?: string;
 }) {
   return (
