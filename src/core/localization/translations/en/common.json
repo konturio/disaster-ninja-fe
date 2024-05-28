@@ -46,7 +46,7 @@
   "errors": {
     "default": "Sorry, we are having issues which will be fixed soon",
     "timeout": "Request timeout",
-    "cannot_connect": "Can't connect to server",
+    "cannot_connect": "Cannot connect to server",
     "forbidden": "Forbidden",
     "not_found": "Not found",
     "unknown": "Unknown",
