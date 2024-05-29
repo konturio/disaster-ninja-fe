@@ -46,21 +46,34 @@ export class ProfilePage extends HelperBase {
   }
 
   /**
-   * This method gets all values/texts of textboxes in settings like Full name and etc. Also it gets statuses of radio buttons, are they checked or not.
-   * @returns object with strings for values and booleans for statuses of radio buttons
+   * This method gets value of Full Name field
+   * @returns string with Full Name
    */
-  async getAllProfileValuesAndStatuses() {
-    const emailValue = await this.getEmailValueAndCheckThisFieldIsDisabled();
+
+  async getFullNameValue() {
     const fullNameValue = await this.page
       .getByText('Full Name')
       .locator('..')
       .locator('input')
       .inputValue();
-    const bioValue = await this.page
-      .getByText('Bio')
-      .locator('..')
-      .locator('textarea')
-      .textContent();
+    return fullNameValue;
+  }
+
+  /**
+   * This method gets all values/texts of textboxes in settings like Full name and etc. Also it gets statuses of radio buttons, are they checked or not.
+   * @returns object with strings for values and booleans for statuses of radio buttons
+   */
+  async getAllProfileValuesAndStatuses() {
+    const emailValue = await this.getEmailValueAndCheckThisFieldIsDisabled();
+    const fullNameValue = await this.getFullNameValue();
+
+    // TO DO: turn it on after 18666 issue is fixed
+    // const bioValue = await this.page
+    //   .getByText('Bio')
+    //   .locator('..')
+    //   .locator('textarea')
+    //   .textContent();
+
     const themeValue = await this.page
       .getByText('Theme')
       .locator('..')
@@ -91,7 +104,8 @@ export class ProfilePage extends HelperBase {
     return {
       fullNameValue,
       emailValue,
-      bioValue,
+      // TO DO: turn it on after 18666 issue is fixed
+      // bioValue,
       themeValue,
       languageValue,
       isMetricUnitChecked,

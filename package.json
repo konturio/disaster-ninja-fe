@@ -205,6 +205,7 @@
     "wretch": "^2.8.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.42.1",
     "@types/gettext-parser": "^4.0.4",
     "chalk": "^5.3.0",

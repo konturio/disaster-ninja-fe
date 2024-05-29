@@ -7,7 +7,7 @@ const availableToolbarFeaturesGuest = [
   'Locate me',
   'Measure distance',
   'Edit map in OSM',
-  'Select admin unit',
+  'Select admin boundary',
   'Upload GeoJSON',
   'Draw or edit geometry',
 ];

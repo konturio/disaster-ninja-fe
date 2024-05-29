@@ -79,6 +79,17 @@ export class HelperBase {
     expect(this.page.url().replace(/\//g, '')).toEqual(currentUrl);
     await expect(this.page).toHaveTitle(`${project.title}`);
   }
+
+  /**
+   * This method gets url and returns its domain
+   * @param url string of url
+   * @returns domain in string format
+   */
+
+  async getDomainFromUrl(url: string) {
+    const urlObj = new URL(url);
+    return urlObj.origin;
+  }
 }
 
 export function getProjects() {
