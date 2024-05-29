@@ -87,7 +87,10 @@
 }
 
 .forgotPasswordContainer {
-  margin-top: 16px;
+  margin-top: var(--unit);
+  & a {
+    color: var(--accent-strong);
+  }
 }
 
 .registerContainter {
