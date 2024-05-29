@@ -115,7 +115,8 @@ export const urlStoreAtom = createAtom(
     newState.event = currentEvent?.id ? currentEvent.id : undefined;
 
     const currentFeed = get('currentEventFeedAtom');
-    newState.feed = currentFeed && isFeedSelectorEnabled ? currentFeed.id : undefined;
+    const feedId = currentFeed && isFeedSelectorEnabled ? currentFeed.id : undefined;
+    newState.feed = feedId;
 
     const enabledLayers = get('enabledLayersAtom');
     newState.layers = Array.from(enabledLayers ?? []);
