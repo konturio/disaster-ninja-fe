@@ -2,6 +2,7 @@ import { Edit16 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react-v2';
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
+import { i18n } from '~core/localization';
 import style from './EditControl.module.css';
 import type {
   LogicalLayerActions,
@@ -30,7 +31,7 @@ export function EditControl({
           <Edit16 />
         </div>
       </TooltipTrigger>
-      <TooltipContent>Edit</TooltipContent>
+      <TooltipContent>{i18n.t('tooltips.edit')}</TooltipContent>
     </Tooltip>
   );
 }

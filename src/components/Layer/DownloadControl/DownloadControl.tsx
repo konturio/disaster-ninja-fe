@@ -1,5 +1,6 @@
 import { Download16 } from '@konturio/default-icons';
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
+import { i18n } from '~core/localization';
 import s from './DownloadControl.module.css';
 
 export function DownloadControl({ startDownload }: { startDownload: () => any }) {
@@ -14,7 +15,7 @@ export function DownloadControl({ startDownload }: { startDownload: () => any })
           <Download16 />
         </div>
       </TooltipTrigger>
-      <TooltipContent>Download</TooltipContent>
+      <TooltipContent>{i18n.t('tooltips.download')}</TooltipContent>
     </Tooltip>
   );
 }

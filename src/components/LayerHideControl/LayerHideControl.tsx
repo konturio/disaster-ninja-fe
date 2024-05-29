@@ -1,5 +1,6 @@
 import { Eye16, EyeOff16 } from '@konturio/default-icons';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~core/tooltips';
+import { i18n } from '~core/localization';
 import s from './LayerHideControl.module.css';
 
 type LayerHideControlType = {
@@ -21,7 +22,7 @@ export function LayerHideControl({
             <Eye16 />
           </div>
         </TooltipTrigger>
-        <TooltipContent>Hide</TooltipContent>
+        <TooltipContent>{i18n.t('tooltips.hide')}</TooltipContent>
       </Tooltip>
     );
   }
@@ -33,7 +34,7 @@ export function LayerHideControl({
           <EyeOff16 />
         </div>
       </TooltipTrigger>
-      <TooltipContent>Show</TooltipContent>
+      <TooltipContent>{i18n.t('tooltips.show')}</TooltipContent>
     </Tooltip>
   );
 }

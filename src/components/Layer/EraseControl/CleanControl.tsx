@@ -1,6 +1,7 @@
 import { Rubber16 } from '@konturio/default-icons';
 import { useCallback } from 'react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
+import { i18n } from '~core/localization';
 import style from './CleanControl.module.css';
 import type {
   LogicalLayerActions,
@@ -29,7 +30,7 @@ export function CleanControl({
           <Rubber16 />
         </div>
       </TooltipTrigger>
-      <TooltipContent>Erase</TooltipContent>
+      <TooltipContent>{i18n.t('tooltips.erase')}</TooltipContent>
     </Tooltip>
   );
 }

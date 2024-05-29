@@ -31,6 +31,13 @@
     "selected_area_label": "Selected area",
     "upload_mcda": "Upload MCDA"
   },
+  "tooltips": {
+    "erase": "Erase",
+    "download": "Download",
+    "edit": "Edit",
+    "hide": "Hide",
+    "show": "Show"
+  },
   "feed": "Feed",
   "deselect": "Deselect",
   "spinner_text": "Gathering data",
