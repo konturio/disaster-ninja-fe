@@ -26,10 +26,10 @@ export const AdvancedAnalyticsContainer = () => {
     ),
     ready: (dataList) => {
       const geometry = focusedGeometry?.geometry as GeoJSON.FeatureCollection;
-      if (geometry.features && geometry.features.length == 0) {
+      if (geometry.features && geometry.features.length === 0) {
         return <AnalyticsEmptyState />;
       }
-      if (dataList?.length == 0) {
+      if (dataList?.length === 0) {
         return <AdvancedAnalyticsEmptyState />;
       }
       return <AdvancedAnalyticsDataList data={dataList} />;
