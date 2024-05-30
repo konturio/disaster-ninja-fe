@@ -36,11 +36,10 @@ export const urlStoreAtom = createAtom(
     { get, schedule, onAction, onInit, create, getUnlistedState },
     state: UrlData | null = null,
   ) => {
-    const isFeedSelectorEnabled =
-      typeof (
-        configRepo.get().features[FeatureFlag.EVENTS_LIST__FEED_SELECTOR] ||
-        configRepo.get().features[FeatureFlag.FEED_SELECTOR]
-      ) !== 'undefined';
+    const isFeedSelectorEnabled = [
+      FeatureFlag.EVENTS_LIST__FEED_SELECTOR,
+      FeatureFlag.FEED_SELECTOR,
+    ].some((flag) => typeof configRepo.get().features[flag] !== 'undefined');
 
     onAction('init', (initialState) => {
       schedule(async (dispatch) => {
