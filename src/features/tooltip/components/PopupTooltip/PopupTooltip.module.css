@@ -11,6 +11,9 @@
       color: var(--accent-strong);
     }
   }
+  & ul {
+    padding-left: var(--double-unit);
+  }
 }
 
 @media (--mobile) {

@@ -87,7 +87,7 @@ export function useControlElements({
       elements.push(
         <LayerInfo
           key={layerState.id}
-          meta={layerState.meta}
+          meta={[layerState.meta]}
           tooltipId={tooltipLayerId}
         />,
       );

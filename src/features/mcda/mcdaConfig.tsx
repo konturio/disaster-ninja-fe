@@ -95,6 +95,7 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
         id: axis.id,
         name: axis.label,
         axis: axis.quotient,
+        indicators: axis.quotients ?? [],
         unit: formatBivariateAxisUnit(axis.quotients),
         range: getRange(axis),
         sentiment: sentimentDefault,
