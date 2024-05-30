@@ -5,7 +5,7 @@ import {
   currentMapPositionAtom,
   currentEventFeedAtom,
 } from '~core/shared_state';
-import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
+import { FeatureFlag } from '~core/shared_state';
 import { scheduledAutoSelect, scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
