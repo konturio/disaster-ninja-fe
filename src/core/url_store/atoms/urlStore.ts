@@ -38,8 +38,8 @@ export const urlStoreAtom = createAtom(
   ) => {
     const isFeedSelectorEnabled =
       typeof (
-        getUnlistedState(featureFlagsAtom)[FeatureFlag.EVENTS_LIST__FEED_SELECTOR] ||
-        getUnlistedState(featureFlagsAtom)[FeatureFlag.FEED_SELECTOR]
+        configRepo.get().features[FeatureFlag.EVENTS_LIST__FEED_SELECTOR] ||
+        configRepo.get().features[FeatureFlag.FEED_SELECTOR]
       ) !== 'undefined';
 
     onAction('init', (initialState) => {
