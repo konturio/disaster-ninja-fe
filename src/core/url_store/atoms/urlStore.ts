@@ -5,6 +5,7 @@ import {
   currentMapPositionAtom,
   currentEventFeedAtom,
 } from '~core/shared_state';
+import { FeatureFlag } from '~core/shared_state';
 import { scheduledAutoSelect, scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
@@ -31,7 +32,15 @@ export const urlStoreAtom = createAtom(
     _setState: (state: UrlData | null) => state,
     init: (initialState: UrlData) => initialState,
   },
-  ({ get, schedule, onAction, onInit, create }, state: UrlData | null = null) => {
+  (
+    { get, schedule, onAction, onInit, create, getUnlistedState },
+    state: UrlData | null = null,
+  ) => {
+    const isFeedSelectorEnabled = [
+      FeatureFlag.EVENTS_LIST__FEED_SELECTOR,
+      FeatureFlag.FEED_SELECTOR,
+    ].some((flag) => typeof configRepo.get().features[flag] !== 'undefined');
+
     onAction('init', (initialState) => {
       schedule(async (dispatch) => {
         const actions: Action[] = [create('_setState', initialState)];
@@ -71,7 +80,7 @@ export const urlStoreAtom = createAtom(
         }
 
         // Apply feed
-        if (initialState.feed) {
+        if (initialState.feed && isFeedSelectorEnabled) {
           actions.push(currentEventFeedAtom.setCurrentFeed(initialState.feed));
         }
 
@@ -105,12 +114,16 @@ export const urlStoreAtom = createAtom(
     newState.event = currentEvent?.id ? currentEvent.id : undefined;
 
     const currentFeed = get('currentEventFeedAtom');
-    newState.feed = currentFeed ? currentFeed.id : undefined;
+    const feedId = currentFeed && isFeedSelectorEnabled ? currentFeed.id : undefined;
+    newState.feed = feedId;
 
     const enabledLayers = get('enabledLayersAtom');
     newState.layers = Array.from(enabledLayers ?? []);
 
-    newState.app = configRepo.get().id;
+    const addAppIdToUrl = ['test-apps-ninja', 'localhost'].some((host) =>
+      window.location.host.includes(host),
+    );
+    if (addAppIdToUrl) newState.app = configRepo.get().id;
 
     state = newState;
     const currentVersion = ++lastVersion;
