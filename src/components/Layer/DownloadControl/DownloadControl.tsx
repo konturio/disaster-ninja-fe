@@ -1,21 +1,11 @@
 import { Download16 } from '@konturio/default-icons';
-import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import { i18n } from '~core/localization';
-import s from './DownloadControl.module.css';
+import { LayerActionIcon } from '~components/LayerActionButton/LayerActionIcon';
 
-export function DownloadControl({ startDownload }: { startDownload: () => any }) {
-  function downloadLayer() {
-    startDownload();
-  }
-
+export function DownloadControl({ startDownload }: { startDownload: () => void }) {
   return (
-    <Tooltip placement="top">
-      <TooltipTrigger asChild>
-        <div className={s.download} onClick={downloadLayer}>
-          <Download16 />
-        </div>
-      </TooltipTrigger>
-      <TooltipContent>{i18n.t('tooltips.download')}</TooltipContent>
-    </Tooltip>
+    <LayerActionIcon onClick={startDownload} hint={i18n.t('tooltips.download')}>
+      <Download16 />
+    </LayerActionIcon>
   );
 }

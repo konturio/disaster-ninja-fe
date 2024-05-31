@@ -1,9 +1,9 @@
 import { Edit16 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react-v2';
-import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
+import { useCallback } from 'react';
 import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
-import style from './EditControl.module.css';
+import { LayerActionIcon } from '~components/LayerActionButton/LayerActionIcon';
 import type {
   LogicalLayerActions,
   LogicalLayerState,
@@ -17,21 +17,18 @@ export function EditControl({
   layerActions: LogicalLayerActions;
 }) {
   const [featureFlags] = useAtom(featureFlagsAtom);
-  async function editLayer() {
+
+  const editLayer = useCallback(async () => {
     if (layerState.style?.type === 'mcda' && featureFlags[FeatureFlag.MCDA]) {
       import('~features/mcda').then(async ({ editMCDA }) => {
         editMCDA(layerState, layerActions);
       });
     }
-  }
+  }, [featureFlags, layerActions, layerState]);
+
   return (
-    <Tooltip placement="top">
-      <TooltipTrigger asChild>
-        <div className={style.edit} onClick={editLayer}>
-          <Edit16 />
-        </div>
-      </TooltipTrigger>
-      <TooltipContent>{i18n.t('tooltips.edit')}</TooltipContent>
-    </Tooltip>
+    <LayerActionIcon onClick={editLayer} hint={i18n.t('tooltips.edit')}>
+      <Edit16 />
+    </LayerActionIcon>
   );
 }

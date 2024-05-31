@@ -1,7 +1,6 @@
 import { Eye16, EyeOff16 } from '@konturio/default-icons';
-import { Tooltip, TooltipContent, TooltipTrigger } from '~core/tooltips';
 import { i18n } from '~core/localization';
-import s from './LayerHideControl.module.css';
+import { LayerActionIcon } from '~components/LayerActionButton/LayerActionIcon';
 
 type LayerHideControlType = {
   isVisible: boolean;
@@ -16,25 +15,15 @@ export function LayerHideControl({
 }: LayerHideControlType) {
   if (isVisible) {
     return (
-      <Tooltip placement="top">
-        <TooltipTrigger asChild>
-          <div onClick={hideLayer} className={s.hideLogo}>
-            <Eye16 />
-          </div>
-        </TooltipTrigger>
-        <TooltipContent>{i18n.t('tooltips.hide')}</TooltipContent>
-      </Tooltip>
+      <LayerActionIcon onClick={hideLayer} hint={i18n.t('tooltips.hide')}>
+        <Eye16 />
+      </LayerActionIcon>
     );
   }
 
   return (
-    <Tooltip placement="top">
-      <TooltipTrigger asChild>
-        <div onClick={unhideLayer} className={s.unhideLogo}>
-          <EyeOff16 />
-        </div>
-      </TooltipTrigger>
-      <TooltipContent>{i18n.t('tooltips.show')}</TooltipContent>
-    </Tooltip>
+    <LayerActionIcon onClick={unhideLayer} hint={i18n.t('tooltips.show')}>
+      <EyeOff16 />
+    </LayerActionIcon>
   );
 }
