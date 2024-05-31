@@ -7,12 +7,7 @@ import type {
   LogicalLayerState,
 } from '~core/logical_layers/types/logicalLayer';
 
-export function CleanControl({
-  layerActions,
-}: {
-  layerState: LogicalLayerState;
-  layerActions: LogicalLayerActions;
-}) {
+export function CleanControl({ layerActions }: { layerActions: LogicalLayerActions }) {
   const cleanLayer = useCallback(
     async function () {
       if (layerActions?.clean) {
