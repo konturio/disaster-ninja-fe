@@ -1,5 +1,6 @@
 import { test, expect } from 'vitest';
 import { calculateLayerPipeline, inStyleCalculations, inViewCalculations } from '.';
+import type { MCDALayer } from '../types';
 
 // @ts-expect-error types compatibility
 const calculateLayerStyle = calculateLayerPipeline(inStyleCalculations, (axis) => ({
@@ -8,37 +9,13 @@ const calculateLayerStyle = calculateLayerPipeline(inStyleCalculations, (axis) =
 }));
 
 test('style correct for good bad sentiments', () => {
-  const result = calculateLayerStyle({
-    id: 'test',
-    name: 'TEST',
-    axis: ['axisA', 'axisB'],
-    indicators: [],
-    range: [111, 333],
-    sentiment: ['good', 'bad'],
-    coefficient: 7,
-    outliers: 'as_on_limits',
-    transformationFunction: 'no',
-    normalization: 'max-min',
-    unit: '',
-  });
+  const result = calculateLayerStyle({ ...TEST_MCDA_LAYER, sentiment: ['good', 'bad'] });
 
   expect(result).toMatchSnapshot();
 });
 
 test('style correct for bad good sentiments', () => {
-  const result = calculateLayerStyle({
-    id: 'test',
-    name: 'TEST',
-    axis: ['axisA', 'axisB'],
-    indicators: [],
-    range: [111, 333],
-    sentiment: ['bad', 'good'],
-    coefficient: 7,
-    outliers: 'as_on_limits',
-    transformationFunction: 'no',
-    normalization: 'max-min',
-    unit: '',
-  });
+  const result = calculateLayerStyle(TEST_MCDA_LAYER);
 
   expect(result).toMatchSnapshot();
 });
@@ -50,17 +27,8 @@ const calculateNumber = calculateLayerPipeline(inViewCalculations, (axis) => ({
 
 test('Transformations correct: square_root', () => {
   const result = calculateNumber({
-    id: 'test',
-    name: 'TEST',
-    axis: ['axisA', 'axisB'],
-    indicators: [],
-    range: [0, 100],
-    sentiment: ['bad', 'good'],
-    outliers: 'as_on_limits',
-    coefficient: 1,
+    ...TEST_MCDA_LAYER,
     transformationFunction: 'square_root',
-    normalization: 'max-min',
-    unit: '',
   });
 
   expect(result).toBe(0.31622776601683794);
@@ -68,18 +36,42 @@ test('Transformations correct: square_root', () => {
 
 test('Transformations correct: natural_logarithm', () => {
   const result = calculateNumber({
-    id: 'test',
-    name: 'TEST',
-    axis: ['axisA', 'axisB'],
-    indicators: [],
-    range: [0, 100],
-    sentiment: ['bad', 'good'],
-    outliers: 'as_on_limits',
-    coefficient: 1,
+    ...TEST_MCDA_LAYER,
     transformationFunction: 'natural_logarithm',
-    normalization: 'max-min',
-    unit: '',
   });
 
   expect(result).toBe(0.5195737064824407);
 });
+
+const TEST_MCDA_LAYER: MCDALayer = {
+  id: 'test',
+  name: 'TEST',
+  axis: ['indicator_numerator', 'indicator_denominator'],
+  indicators: [
+    {
+      name: 'indicator_numerator',
+      label: 'Numerator label',
+      unit: {
+        id: 'celc_deg',
+        shortName: '°C',
+        longName: 'degrees Celsius',
+      },
+    },
+    {
+      name: 'indicator_denominator',
+      label: 'Denominator label',
+      unit: {
+        id: 'null',
+        shortName: null,
+        longName: null,
+      },
+    },
+  ],
+  range: [0, 100],
+  sentiment: ['bad', 'good'],
+  coefficient: 1,
+  outliers: 'as_on_limits',
+  transformationFunction: 'no',
+  normalization: 'max-min',
+  unit: '',
+};
