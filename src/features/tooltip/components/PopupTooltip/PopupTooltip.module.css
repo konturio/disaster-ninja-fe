@@ -14,6 +14,9 @@
   & ul {
     padding-left: var(--double-unit);
   }
+  & h4 {
+    margin: var(--unit) 0;
+  }
 }
 
 @media (--mobile) {
