@@ -20,7 +20,7 @@ import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import { ReferenceAreaInfo } from './ReferenceAreaInfo/ReferenceAreaInfo';
-import { MAX_HEIGHT, MIN_HEIGHT } from './constants.tx';
+import { MAX_BIO_HEIGHT, MIN_BIO_HEIGHT } from './constants';
 import type { UserDto } from '~core/app/user';
 import type { ChangeEvent } from 'react';
 
@@ -162,7 +162,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                 <div
                   className={s.biography}
                   ref={bioTooltipTargetRef}
-                  onClick={(e) => setIsBioTooltipOpen((prev) => !prev)}
+                  onClick={() => setIsBioTooltipOpen((prev) => !prev)}
                 >
                   <Textarea
                     placeholder={i18n.t('profile.userBio(about)')}
@@ -171,8 +171,8 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                     onChange={onBioChange}
                     className={s.textArea}
                     width="100%"
-                    minHeight={MIN_HEIGHT}
-                    maxHeight={MAX_HEIGHT}
+                    minHeight={MIN_BIO_HEIGHT}
+                    maxHeight={MAX_BIO_HEIGHT}
                   />
                 </div>
 
