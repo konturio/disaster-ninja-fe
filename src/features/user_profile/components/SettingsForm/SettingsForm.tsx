@@ -20,6 +20,7 @@ import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import { ReferenceAreaInfo } from './ReferenceAreaInfo/ReferenceAreaInfo';
+import { MAX_HEIGHT, MIN_HEIGHT } from './constants.tx';
 import type { UserDto } from '~core/app/user';
 import type { ChangeEvent } from 'react';
 
@@ -149,6 +150,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
 
                 <Tooltip
                   placement="right-start"
+                  offset={15}
                   open={isBioTooltipOpen}
                   triggerRef={bioTooltipTargetRef}
                   onClose={() => setIsBioTooltipOpen(false)}
@@ -170,8 +172,8 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                     className={s.textArea}
                     classes={{ placeholder: s.textAreaPlaceholder }}
                     width="100%"
-                    minHeight="200px"
-                    maxHeight="250px"
+                    minHeight={MIN_HEIGHT}
+                    maxHeight={MAX_HEIGHT}
                   />
                 </div>
 
