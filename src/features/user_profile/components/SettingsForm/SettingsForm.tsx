@@ -1,7 +1,16 @@
-import { Button, Input, Radio, Select, Text, Heading, Textarea } from '@konturio/ui-kit';
+import {
+  Button,
+  Input,
+  Radio,
+  Select,
+  Text,
+  Heading,
+  Textarea,
+  Tooltip,
+} from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
@@ -39,6 +48,8 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [eventFeeds] = useAtom(eventFeedsAtom);
   const featureFlags = configRepo.get().features;
+  const bioTooltipTargetRef = useRef<HTMLDivElement>(null);
+  const [isBioTooltipOpen, setIsBioTooltipOpen] = useState(false);
 
   function logout() {
     authClientInstance.logout();
@@ -135,9 +146,25 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   placeholder={i18n.t('profile.email')}
                   disabled
                 />
-                <div className={s.biography}>
+
+                <Tooltip
+                  placement="right-start"
+                  open={isBioTooltipOpen}
+                  triggerRef={bioTooltipTargetRef}
+                  onClose={() => setIsBioTooltipOpen(false)}
+                >
+                  <div className={s.bioTooltipContent}>
+                    {i18n.t('profile.user_bio_placeholder')}
+                  </div>
+                </Tooltip>
+                <div
+                  className={s.biography}
+                  ref={bioTooltipTargetRef}
+                  onClick={(e) => setIsBioTooltipOpen((prev) => !prev)}
+                >
                   <Textarea
-                    placeholder={i18n.t('profile.user_bio_placeholder')}
+                    placeholder={i18n.t('profile.userBio(about)')}
+                    showTopPlaceholder
                     value={localSettings.bio}
                     onChange={onBioChange}
                     className={s.textArea}
