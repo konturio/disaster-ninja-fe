@@ -75,29 +75,27 @@
 
 .link {
   font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
   color: var(--accent-strong);
   cursor: pointer;
 
-  &:hover {
+  & a {
+    text-decoration: none;
+    color: var(--accent-strong);
+  }
+  & a:hover {
     text-decoration: underline;
   }
 }
 
 .forgotPasswordContainer {
   margin-top: var(--unit);
-  & a {
-    color: var(--accent-strong);
-  }
 }
 
 .registerContainter {
   margin: var(--double-unit) auto 0 auto;
-  & a {
-    color: var(--accent-strong);
-  }
 }
 
 .loginButtonContainer {
