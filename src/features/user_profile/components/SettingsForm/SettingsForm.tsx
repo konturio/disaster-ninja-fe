@@ -165,6 +165,8 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   onClick={() => setIsBioTooltipOpen((prev) => !prev)}
                 >
                   <Textarea
+                    onFocus={() => setIsBioTooltipOpen(true)}
+                    onBlur={() => setIsBioTooltipOpen(false)}
                     placeholder={i18n.t('profile.userBio(about)')}
                     showTopPlaceholder
                     value={localSettings.bio}
