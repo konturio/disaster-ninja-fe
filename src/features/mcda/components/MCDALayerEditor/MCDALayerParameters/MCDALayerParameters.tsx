@@ -76,7 +76,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     return null;
   }, [axes?.data?.axis, axes?.loading, layer.id]);
 
-  const layerHint: LayerInfo[] = useMemo(() => {
+  const mcdaLayerHint: LayerInfo[] = useMemo(() => {
     const indicatorsInfo = layer?.indicators?.map((indicator) => {
       return {
         description: indicator?.description,
@@ -242,7 +242,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             )}
             <LayerInfo
               className={s.infoButton}
-              meta={layerHint}
+              layersInfo={mcdaLayerHint}
               tooltipId={LAYERS_PANEL_FEATURE_ID}
             />
           </div>
