@@ -156,7 +156,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   onClose={() => setIsBioTooltipOpen(false)}
                 >
                   <div className={s.bioTooltipContent}>
-                    {i18n.t('profile.user_bio_placeholder')}
+                    {i18n.t('profile.user_bio_tooltip')}
                   </div>
                 </Tooltip>
                 <div
