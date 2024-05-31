@@ -84,6 +84,11 @@ export interface AdvancedAnalyticsDataValues {
   value: number;
   quality: number;
 }
+
+export interface LLMAnalyticsData {
+  data?: string;
+}
+
 export type EventWithGeometry = {
   location: string;
   eventId: string;

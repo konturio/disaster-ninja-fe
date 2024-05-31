@@ -170,7 +170,6 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                     value={localSettings.bio}
                     onChange={onBioChange}
                     className={s.textArea}
-                    classes={{ placeholder: s.textAreaPlaceholder }}
                     width="100%"
                     minHeight={MIN_HEIGHT}
                     maxHeight={MAX_HEIGHT}

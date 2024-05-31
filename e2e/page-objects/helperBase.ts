@@ -67,13 +67,27 @@ export class HelperBase {
     }
     return textsArray;
   }
+
+  /**
+   * This method saves current url, reloads the page and expects new url to equal it. Also checks the correct project to be opened
+   * @param project - object with details about project to open like name, url, title, etc.
+   */
+
+  async compareUrlsAfterReload(project: Project) {
+    const currentUrl = this.page.url().replace(/\//g, '');
+    await this.page.reload({ waitUntil: 'load' });
+    expect(this.page.url().replace(/\//g, '')).toEqual(currentUrl);
+    await expect(this.page).toHaveTitle(`${project.title}`);
+  }
 }
 
 export function getProjects() {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
-  const data = fs.readFileSync(path.join(__dirname, 'projects-config.json')).toString();
+  const data = fs
+    .readFileSync(path.join(__dirname, '../projects-config.json'))
+    .toString();
 
   const appName = process.env.APP_NAME ?? 'all';
   const environment = process.env.ENVIRONMENT ?? 'prod';

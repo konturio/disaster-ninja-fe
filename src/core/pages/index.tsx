@@ -1,9 +1,9 @@
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
 import usePromise from 'react-promise-suspense';
-import { Article } from '~components/Layout';
 import { goTo } from '~core/router/goTo';
 import { getAsset } from '~core/api/assets';
+import { Article } from '~components/Layout';
 
 type PagesDocumentElement = {
   type: 'css' | 'md';
@@ -27,21 +27,34 @@ const fetchPagesDocument = (doc) =>
     }),
   );
 
-export function PagesDocument({ doc }: { doc: PagesDocumentElement[] }) {
+export function PagesDocument({
+  doc,
+  wrapperComponent,
+}: {
+  doc: PagesDocumentElement[];
+  wrapperComponent?;
+}) {
   const data = usePromise(fetchPagesDocument, [doc]);
-  return <PagesDocumentRenderer doc={data} />;
+  return <PagesDocumentRenderer doc={data} wrapperComponent={wrapperComponent} />;
 }
 
-export function PagesDocumentRenderer({ doc }: { doc: PagesDocumentElement[] }) {
+export function PagesDocumentRenderer({
+  doc,
+  wrapperComponent,
+}: {
+  doc: PagesDocumentElement[];
+  wrapperComponent;
+}) {
+  const WrapperComponent = wrapperComponent ? wrapperComponent : Article;
   return (
-    <Article>
+    <WrapperComponent>
       {doc.map((e, idx) => {
         if (PagesDocumentElementRenderers.hasOwnProperty(e.type)) {
           const Component = PagesDocumentElementRenderers[e.type];
           return <Component key={idx} data={e.data ?? ''} />;
         }
       })}
-    </Article>
+    </WrapperComponent>
   );
 }
 

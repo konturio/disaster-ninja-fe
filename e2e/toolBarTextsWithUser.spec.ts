@@ -16,8 +16,8 @@ const availableToolbarFeaturesOAMUserWithNoRights = [
   'Edit map in OSM',
 ];
 const hiddenToolbarFeaturesUserWithNoRights = [
-  'Bivariate Matrix',
-  'MCDA',
+  'Bivariate matrix',
+  'Create MCDA',
   'Upload MCDA',
   'Create layer',
   'Record sensors',
