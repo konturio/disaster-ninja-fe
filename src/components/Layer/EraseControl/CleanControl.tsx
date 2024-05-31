@@ -2,9 +2,17 @@ import { Rubber16 } from '@konturio/default-icons';
 import { useCallback } from 'react';
 import { i18n } from '~core/localization';
 import { LayerActionIcon } from '~components/LayerActionButton/LayerActionIcon';
-import type { LogicalLayerActions } from '~core/logical_layers/types/logicalLayer';
+import type {
+  LogicalLayerActions,
+  LogicalLayerState,
+} from '~core/logical_layers/types/logicalLayer';
 
-export function CleanControl({ layerActions }: { layerActions: LogicalLayerActions }) {
+export function CleanControl({
+  layerActions,
+}: {
+  layerState: LogicalLayerState;
+  layerActions: LogicalLayerActions;
+}) {
   const cleanLayer = useCallback(
     async function () {
       if (layerActions?.clean) {
