@@ -8,11 +8,7 @@ import { TooltipTrigger } from '~components/TooltipTrigger';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
-import {
-  Tooltip,
-  TooltipTrigger as TooltipTriggerV2,
-  TooltipContent,
-} from '~core/tooltips';
+import { LayerActionIcon } from '~components/LayerActionButton/LayerActionIcon';
 import { Sentiments } from '../Sentiments';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
@@ -216,6 +212,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     }
   }, [axes.loading, axisDefaultRange, layer]);
 
+  const editLayer = useCallback(() => {
+    setEditMode(true);
+  }, []);
+
   return (
     <div className={s.editor}>
       <div key={layer.id} className={s.layer}>
@@ -223,19 +223,13 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
           <div>{layer.name}</div>
           <div className={s.layerButtons}>
             {!editMode && (
-              <Tooltip placement="top">
-                <TooltipTriggerV2 asChild>
-                  <div
-                    className={s.editButton}
-                    onClick={() => {
-                      setEditMode(true);
-                    }}
-                  >
-                    <Edit16 />
-                  </div>
-                </TooltipTriggerV2>
-                <TooltipContent>{i18n.t('tooltips.edit')}</TooltipContent>
-              </Tooltip>
+              <LayerActionIcon
+                onClick={editLayer}
+                hint={i18n.t('tooltips.edit')}
+                className={s.editButton}
+              >
+                <Edit16 />
+              </LayerActionIcon>
             )}
             <TooltipTrigger
               className={s.infoButton}
