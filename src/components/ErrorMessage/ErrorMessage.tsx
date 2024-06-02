@@ -1,16 +1,17 @@
 import { Text } from '@konturio/ui-kit';
+import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import s from './ErrorMessage.module.css';
 
 export function ErrorMessage({
   message,
-  margin = '32px 16px',
+  containerClass,
 }: {
   message?: string;
-  margin?: string;
+  containerClass?: string;
 }) {
   return (
-    <div className={s.spinner} style={{ margin }}>
+    <div className={clsx(s.errorContainer, containerClass)}>
       <Text type="short-l">{message ?? i18n.t('errors.default')}</Text>
     </div>
   );

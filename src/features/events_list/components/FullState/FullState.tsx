@@ -70,7 +70,7 @@ export function FullState({
         {statesToComponents({
           loading: <LoadingSpinner message={i18n.t('loading_events')} />,
           error: (errorMessage) => (
-            <ErrorMessage message={errorMessage} margin="70px 16px 32px" />
+            <ErrorMessage message={errorMessage} containerClass={s.errorContainer} />
           ),
           ready: (eventsList) => (
             <>

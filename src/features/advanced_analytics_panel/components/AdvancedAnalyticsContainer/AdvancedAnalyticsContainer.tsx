@@ -7,6 +7,7 @@ import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { advancedAnalyticsResourceAtom } from '~features/advanced_analytics_panel/atoms/advancedAnalyticsResource';
 import { AdvancedAnalyticsEmptyState } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsEmptyState/AdvancedAnalyticsEmptyState';
 import { AdvancedAnalyticsDataList } from '~features/advanced_analytics_panel/components/AdvancedAnalyticsDataList/AdvancedAnalyticsDataList';
+import s from './AdvancedAnalyticsContainer.module.css';
 
 export const AdvancedAnalyticsContainer = () => {
   const [{ error, loading, data }] = useAtom(advancedAnalyticsResourceAtom);
@@ -22,7 +23,7 @@ export const AdvancedAnalyticsContainer = () => {
     init: <AdvancedAnalyticsEmptyState />,
     loading: <LoadingSpinner />,
     error: (errorMessage) => (
-      <ErrorMessage message={errorMessage} margin="80px auto 60px" />
+      <ErrorMessage message={errorMessage} containerClass={s.errorContainer} />
     ),
     ready: (dataList) => {
       const geometry = focusedGeometry?.geometry as GeoJSON.FeatureCollection;
