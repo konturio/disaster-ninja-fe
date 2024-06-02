@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
-import style from './LayerActionButton.module.css';
+import style from './LayerActionIcon.module.css';
 import type { PropsWithChildren } from 'react';
 
 interface LayerActionButtonProps {

@@ -1,6 +1,6 @@
 import { Eye16, EyeOff16 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
-import { LayerActionIcon } from '~components/LayerActionButton/LayerActionIcon';
+import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 
 type LayerHideControlType = {
   isVisible: boolean;

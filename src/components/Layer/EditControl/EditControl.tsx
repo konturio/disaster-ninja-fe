@@ -3,7 +3,7 @@ import { useAtom } from '@reatom/react-v2';
 import { useCallback } from 'react';
 import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
-import { LayerActionIcon } from '~components/LayerActionButton/LayerActionIcon';
+import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import type {
   LogicalLayerActions,
   LogicalLayerState,

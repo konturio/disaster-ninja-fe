@@ -1,6 +1,6 @@
 import { Download16 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
-import { LayerActionIcon } from '~components/LayerActionButton/LayerActionIcon';
+import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 
 export function DownloadControl({ startDownload }: { startDownload: () => void }) {
   return (

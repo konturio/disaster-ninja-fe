@@ -1,7 +1,7 @@
 import { Rubber16 } from '@konturio/default-icons';
 import { useCallback } from 'react';
 import { i18n } from '~core/localization';
-import { LayerActionIcon } from '~components/LayerActionButton/LayerActionIcon';
+import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import type {
   LogicalLayerActions,
   LogicalLayerState,

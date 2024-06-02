@@ -8,7 +8,7 @@ import { TooltipTrigger } from '~components/TooltipTrigger';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
-import { LayerActionIcon } from '~components/LayerActionButton/LayerActionIcon';
+import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { Sentiments } from '../Sentiments';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
