@@ -1,23 +1,51 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TooltipTrigger } from '~components/TooltipTrigger';
-import type { LayerMeta } from '~core/logical_layers/types/meta';
 
-type LayerInfoProps = {
-  meta: LayerMeta;
-  tooltipId?: string;
+export type LayerInfo = {
+  name?: string;
+  copyrights?: string[];
+  description?: string;
 };
 
-export const LayerInfo = React.memo(({ meta, tooltipId }: LayerInfoProps) => {
-  const { copyrights, description } = meta;
-  if (copyrights || description) {
-    const tipText = [description, copyrights]
-      .flat()
-      .filter((line) => line !== undefined)
+type LayerInfoProps = {
+  layersInfo: LayerInfo[];
+  tooltipId?: string;
+  className?: string;
+};
+
+export const LayerInfo = React.memo(
+  ({ layersInfo, tooltipId, className }: LayerInfoProps) => {
+    /* for each item of layersInfo, add lines in order:
+      - name
+      - description
+      - copyrights (as unordered list)
+    */
+    const lines = layersInfo?.map((info) => {
+      const name = info?.name && `#### ${info?.name}`;
+      const copyrights = info?.copyrights
+        ?.filter((v) => v)
+        .map((copyright) => `- ${copyright}\n`);
+      return name || info.description || copyrights?.length
+        ? [name, info.description, copyrights]
+        : null;
+    });
+    const infoString = lines
+      .flat(2)
+      .filter((line) => line)
       .join('\n');
-    return <TooltipTrigger tipText={tipText} tooltipId={tooltipId} />;
-  } else {
-    return null;
-  }
-});
+
+    if (infoString) {
+      return (
+        <TooltipTrigger
+          tipText={infoString}
+          tooltipId={tooltipId}
+          className={className}
+        />
+      );
+    } else {
+      return null;
+    }
+  },
+);
 
 LayerInfo.displayName = 'LayerInfo';

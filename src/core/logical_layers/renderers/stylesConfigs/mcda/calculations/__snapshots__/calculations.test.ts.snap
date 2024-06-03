@@ -11,22 +11,22 @@ exports[`style correct for bad good sentiments 1`] = `
         "/",
         [
           "get",
-          "axisA",
+          "indicator_numerator",
         ],
         [
           "get",
-          "axisB",
+          "indicator_denominator",
         ],
       ],
-      111,
+      0,
     ],
     [
       "-",
-      333,
-      111,
+      100,
+      0,
     ],
   ],
-  7,
+  1,
 ]
 `;
 
@@ -44,22 +44,22 @@ exports[`style correct for good bad sentiments 1`] = `
           "/",
           [
             "get",
-            "axisA",
+            "indicator_numerator",
           ],
           [
             "get",
-            "axisB",
+            "indicator_denominator",
           ],
         ],
-        111,
+        0,
       ],
       [
         "-",
-        333,
-        111,
+        100,
+        0,
       ],
     ],
   ],
-  7,
+  1,
 ]
 `;

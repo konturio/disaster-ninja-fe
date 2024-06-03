@@ -4,10 +4,10 @@ import { Button, Input, Select, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
 import clsx from 'clsx';
 import { i18n } from '~core/localization';
-import { TooltipTrigger } from '~components/TooltipTrigger';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
+import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { Sentiments } from '../Sentiments';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
@@ -75,6 +75,17 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     }
     return null;
   }, [axes?.data?.axis, axes?.loading, layer.id]);
+
+  const mcdaLayerHint: LayerInfo[] = useMemo(() => {
+    const indicatorsInfo = layer?.indicators?.map((indicator) => {
+      return {
+        description: indicator?.description,
+        copyrights: indicator?.copyrights,
+        name: indicator.label,
+      };
+    });
+    return indicatorsInfo;
+  }, [layer?.indicators]);
 
   const nonDefaultValues = useMemo(() => {
     const result: { paramName: string; value: unknown }[] = [];
@@ -164,6 +175,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       id: layer.id,
       name: layer.name,
       axis: layer.axis,
+      indicators: layer.indicators,
       unit: layer.unit,
       range: [
         isNumber(rangeNum[0]) ? rangeNum[0] : 0,
@@ -181,6 +193,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     coefficient,
     layer.axis,
     layer.id,
+    layer.indicators,
     layer.name,
     layer.unit,
     normalization,
@@ -227,9 +240,9 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 <Edit16 />
               </div>
             )}
-            <TooltipTrigger
+            <LayerInfo
               className={s.infoButton}
-              tipText={''}
+              layersInfo={mcdaLayerHint}
               tooltipId={LAYERS_PANEL_FEATURE_ID}
             />
           </div>
