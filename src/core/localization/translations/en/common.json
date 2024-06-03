@@ -128,6 +128,14 @@
         "range_from_cannot_be_bigger": "The ‘from’ value cannot be bigger than the ‘to’ value",
         "range_cannot_be_empty": "Range cannot be empty",
         "range_must_be_a_number": "Range must be a valid number"
+      },
+      "tips": {
+        "range": "Define the minimum and maximum values considered for analysis. For example, if analysing temperature data, set the range from the lowest to the highest temperatures recorded in the dataset.",
+        "sentiment": "Determine the direction of sentiment for the layer's impact on the analysis:\n* **Bad → Good**: Higher values indicate a positive sentiment.\n* **Good → Bad**: Higher values indicate a negative sentiment.",
+        "weight": "By default, all layers contribute equally to the analysis through a weighted average. Adjusting the increased weight of a layer (2, 3, etc.) allows you to assign additional importance to it in the analysis.",
+        "transform": "Apply additional calculations to the layer to linearize distribution. Calculates before normalization:\n * **No**: No additional transformation is applied.\n* **Natural logarithm**: Apply the natural logarithm function to the values.\n* **Square root**: Apply the square root function to the values.\n* **Cube root**: Apply the cube root function to the values.\n\nBy default, transformation with the least skew is selected.",
+        "normalize": "Adjusts values to a standardized scale. This helps compare them easily and make decisions.\n* **Standard score scaling**: This option adjusts values to a standardized scale, ensuring they are all comparable.\n* **No (for specialists only)**: Leaves values unmodified.",
+        "outliers": "* **As values on limits**: Keep 0 and 1 for min and max, but allow outlier scores beyond this range.\n* **Exclude**: Exclude areas where values are out of range."
       }
     },
     "bad": "Bad",

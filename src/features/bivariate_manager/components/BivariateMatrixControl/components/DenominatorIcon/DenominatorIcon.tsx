@@ -1,5 +1,5 @@
 import { i18n } from '~core/localization';
-import { TooltipWrapper } from '~components/TooltipTrigger';
+import { PopupTooltipWrapper } from '~components/PopupTooltipTrigger';
 import styles from './DenominatorIcon.module.css';
 
 interface DenominatorIconProps {
@@ -140,7 +140,7 @@ const DenominatorIcon = ({ iconId }: DenominatorIconProps) => {
   const tooltipText = tooltipTextMapper[iconId] || i18n.t('bivariate.matrix.icon.roads');
 
   return (
-    <TooltipWrapper tooltipText={tooltipText}>
+    <PopupTooltipWrapper tooltipText={tooltipText}>
       {({ showTooltip, hideTooltip }) => (
         <span
           className={styles.denominatorIcon}
@@ -150,7 +150,7 @@ const DenominatorIcon = ({ iconId }: DenominatorIconProps) => {
           {icon}
         </span>
       )}
-    </TooltipWrapper>
+    </PopupTooltipWrapper>
   );
 };
 

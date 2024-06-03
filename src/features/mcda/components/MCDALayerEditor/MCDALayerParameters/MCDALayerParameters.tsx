@@ -269,7 +269,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
           // Edit mode
           <div className={s.layerEditContainer}>
             {/* RANGE */}
-            <MCDALayerParameterRow name={i18n.t('mcda.layer_editor.range')} tipText="">
+            <MCDALayerParameterRow
+              name={i18n.t('mcda.layer_editor.range')}
+              infoText={i18n.t('mcda.layer_editor.tips.range')}
+            >
               <div className={s.rangeInputContainer}>
                 <Input
                   className={s.rangeInputRoot}
@@ -312,7 +315,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               </div>
             </MCDALayerParameterRow>
             {/* OUTLIERS */}
-            <MCDALayerParameterRow name={i18n.t('mcda.layer_editor.outliers')} tipText="">
+            <MCDALayerParameterRow
+              name={i18n.t('mcda.layer_editor.outliers')}
+              infoText={i18n.t('mcda.layer_editor.tips.outliers')}
+            >
               <Select
                 className={s.selectInput}
                 classes={{
@@ -328,7 +334,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             {/* SENTIMENT */}
             <MCDALayerParameterRow
               name={i18n.t('mcda.layer_editor.sentiment')}
-              tipText=""
+              infoText={i18n.t('mcda.layer_editor.tips.sentiment')}
             >
               <Select
                 className={s.selectInput}
@@ -343,7 +349,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               />
             </MCDALayerParameterRow>
             {/* WEIGHT */}
-            <MCDALayerParameterRow name={i18n.t('mcda.layer_editor.weight')} tipText="">
+            <MCDALayerParameterRow
+              name={i18n.t('mcda.layer_editor.weight')}
+              infoText={i18n.t('mcda.layer_editor.tips.weight')}
+            >
               <Input
                 classes={{
                   inputBox: s.textInputBox,
@@ -367,7 +376,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             {/* TRANSFORM */}
             <MCDALayerParameterRow
               name={i18n.t('mcda.layer_editor.transform')}
-              tipText=""
+              infoText={i18n.t('mcda.layer_editor.tips.transform')}
             >
               <Select
                 className={s.selectInput}
@@ -384,7 +393,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             {/* NORMALIZE */}
             <MCDALayerParameterRow
               name={i18n.t('mcda.layer_editor.normalize')}
-              tipText=""
+              infoText={i18n.t('mcda.layer_editor.tips.normalize')}
             >
               <Select
                 className={s.selectInput}

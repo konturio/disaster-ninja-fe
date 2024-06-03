@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useAction } from '@reatom/react-v2';
 import { InfoOutline16 } from '@konturio/default-icons';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
-import s from './TooltipTrigger.module.css';
+import s from './PopupTooltipTrigger.module.css';
 
 interface TooltipProps {
   tipText: string;
@@ -12,7 +12,7 @@ interface TooltipProps {
   icon?: JSX.Element;
 }
 
-export const TooltipTrigger = ({
+export const PopupTooltipTrigger = ({
   icon = <InfoOutline16 />,
   tipText,
   className,
