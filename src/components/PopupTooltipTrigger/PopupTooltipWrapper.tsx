@@ -72,6 +72,6 @@ const PopupTooltipWrapper = memo(
   },
 );
 
-PopupTooltipWrapper.displayName = 'TooltipWrapper';
+PopupTooltipWrapper.displayName = 'PopupTooltipWrapper';
 
 export { PopupTooltipWrapper };

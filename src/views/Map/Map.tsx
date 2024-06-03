@@ -103,7 +103,7 @@ export function MapPage() {
         initSensor();
       });
     }
-    if (true) {
+    if (featureFlags[FeatureFlag.BIVARIATE_MANAGER]) {
       import('~features/bivariate_manager').then(({ initBivariateMatrix }) => {
         initBivariateMatrix();
       });
