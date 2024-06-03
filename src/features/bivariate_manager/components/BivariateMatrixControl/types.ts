@@ -16,10 +16,3 @@ export type CornerRange = 'good' | 'bad' | 'important' | 'unimportant' | 'neutra
 export type Copyright = string;
 
 export type Direction = [Array<CornerRange>, Array<CornerRange>];
-
-export type Indicator = {
-  name: string;
-  label: string;
-  direction: Direction;
-  copyrights: Copyright[];
-};

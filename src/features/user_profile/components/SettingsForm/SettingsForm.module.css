@@ -90,3 +90,7 @@
     display: none;
   }
 }
+
+.bioTooltipContent {
+  white-space: pre-wrap;
+}
