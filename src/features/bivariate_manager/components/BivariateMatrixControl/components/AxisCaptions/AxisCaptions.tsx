@@ -1,7 +1,7 @@
 import { InfoOutline16 } from '@konturio/default-icons';
 import { useLayoutEffect, useRef } from 'react';
 import { i18n } from '~core/localization';
-import { TooltipWrapper } from '~components/TooltipTrigger';
+import { PopupTooltipWrapper } from '~components/TooltipTrigger';
 import s from './AxisCaptions.module.css';
 
 const AXIS_CAPTIONS_TOOTIP_TEXT = (
@@ -30,7 +30,7 @@ export const AxisCaptions = ({ baseDimension = 0 }: { baseDimension: number }) =
   return (
     <div className={s.axisCaptionRoot} ref={rootRef}>
       <div className={s.axisCaptionAnchor} style={{ left: -baseDimension }}>
-        <TooltipWrapper
+        <PopupTooltipWrapper
           hoverBehavior={false}
           tooltipId="axis_caption"
           tooltipText={AXIS_CAPTIONS_TOOTIP_TEXT}
@@ -51,7 +51,7 @@ export const AxisCaptions = ({ baseDimension = 0 }: { baseDimension: number }) =
               <LongArrow position="right" />
             </div>
           )}
-        </TooltipWrapper>
+        </PopupTooltipWrapper>
       </div>
     </div>
   );

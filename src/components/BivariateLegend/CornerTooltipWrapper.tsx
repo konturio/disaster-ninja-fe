@@ -1,6 +1,6 @@
 import { cloneElement, isValidElement } from 'react';
 import clsx from 'clsx';
-import { TooltipWrapper } from '~components/TooltipTrigger';
+import { PopupTooltipWrapper } from '~components/TooltipTrigger';
 import { formatSentimentDirection } from '~utils/bivariate';
 import { LOW, HIGH, isBottomSide, isLeftSide, CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';
@@ -31,7 +31,7 @@ const CornerTooltipWrapper = ({ children, hints }: CornerTooltipWrapperProps) =>
   };
 
   return isValidElement(children) ? (
-    <TooltipWrapper renderTooltip={renderTooltip}>
+    <PopupTooltipWrapper renderTooltip={renderTooltip}>
       {({ showTooltip, hideTooltip }) =>
         cloneElement(children, {
           // @ts-expect-error - react version update should fix that
@@ -39,7 +39,7 @@ const CornerTooltipWrapper = ({ children, hints }: CornerTooltipWrapperProps) =>
           onCellPointerLeave: hideTooltip,
         })
       }
-    </TooltipWrapper>
+    </PopupTooltipWrapper>
   ) : null;
 };
 

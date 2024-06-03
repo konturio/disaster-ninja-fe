@@ -26,7 +26,7 @@ interface TooltipWrapperProps {
   popupClasses?: { popupContent?: string };
 }
 
-const TooltipWrapper = memo(
+const PopupTooltipWrapper = memo(
   ({
     children,
     tooltipText,
@@ -72,6 +72,6 @@ const TooltipWrapper = memo(
   },
 );
 
-TooltipWrapper.displayName = 'TooltipWrapper';
+PopupTooltipWrapper.displayName = 'TooltipWrapper';
 
-export { TooltipWrapper };
+export { PopupTooltipWrapper };
