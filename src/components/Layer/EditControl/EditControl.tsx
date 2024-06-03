@@ -27,7 +27,7 @@ export function EditControl({
   }, [featureFlags, layerActions, layerState]);
 
   return (
-    <LayerActionIcon onClick={editLayer} hint={i18n.t('tooltips.edit')}>
+    <LayerActionIcon onClick={editLayer} hint={i18n.t('layer_actions.tooltips.edit')}>
       <Edit16 />
     </LayerActionIcon>
   );

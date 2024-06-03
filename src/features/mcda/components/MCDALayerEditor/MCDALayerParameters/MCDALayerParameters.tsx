@@ -238,7 +238,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             {!editMode && (
               <LayerActionIcon
                 onClick={editLayer}
-                hint={i18n.t('tooltips.edit')}
+                hint={i18n.t('layer_actions.tooltips.edit')}
                 className={s.editButton}
               >
                 <Edit16 />

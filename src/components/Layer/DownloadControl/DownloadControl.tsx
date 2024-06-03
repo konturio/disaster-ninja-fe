@@ -4,7 +4,10 @@ import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 
 export function DownloadControl({ startDownload }: { startDownload: () => void }) {
   return (
-    <LayerActionIcon onClick={startDownload} hint={i18n.t('tooltips.download')}>
+    <LayerActionIcon
+      onClick={startDownload}
+      hint={i18n.t('layer_actions.tooltips.download')}
+    >
       <Download16 />
     </LayerActionIcon>
   );

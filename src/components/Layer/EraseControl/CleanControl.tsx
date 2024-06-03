@@ -18,7 +18,7 @@ export function CleanControl({ layerActions }: { layerActions: LogicalLayerActio
   );
 
   return (
-    <LayerActionIcon onClick={cleanLayer} hint={i18n.t('tooltips.erase')}>
+    <LayerActionIcon onClick={cleanLayer} hint={i18n.t('layer_actions.tooltips.erase')}>
       <Rubber16 />
     </LayerActionIcon>
   );

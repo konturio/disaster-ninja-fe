@@ -15,14 +15,14 @@ export function LayerHideControl({
 }: LayerHideControlType) {
   if (isVisible) {
     return (
-      <LayerActionIcon onClick={hideLayer} hint={i18n.t('tooltips.hide')}>
+      <LayerActionIcon onClick={hideLayer} hint={i18n.t('layer_actions.tooltips.hide')}>
         <Eye16 />
       </LayerActionIcon>
     );
   }
 
   return (
-    <LayerActionIcon onClick={unhideLayer} hint={i18n.t('tooltips.show')}>
+    <LayerActionIcon onClick={unhideLayer} hint={i18n.t('layer_actions.tooltips.show')}>
       <EyeOff16 />
     </LayerActionIcon>
   );
