@@ -1,5 +1,6 @@
-.clean {
+.actionButton {
   cursor: pointer;
   display: flex;
+  align-items: center;
   color: var(--faint-strong);
 }

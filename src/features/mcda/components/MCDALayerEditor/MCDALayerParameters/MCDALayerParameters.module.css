@@ -128,6 +128,7 @@
   cursor: pointer;
   color: var(--accent-strong);
   visibility: hidden;
+  align-items: flex-start;
 }
 
 .layer:hover .editButton {
