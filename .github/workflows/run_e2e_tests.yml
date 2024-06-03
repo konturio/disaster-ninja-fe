@@ -1,4 +1,5 @@
 name: Run e2e autotests
+run-name: Run e2e autotests for ${{inputs.app}} app(s) on ${{inputs.env}} env
 on:
   workflow_dispatch:
     inputs:

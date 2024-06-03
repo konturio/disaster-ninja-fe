@@ -36,9 +36,17 @@ for (const project of projects) {
 
     await pageManager.atBrowser.openProject(project);
     await pageManager.fromNavigationMenu.goToMap();
-    await pageManager.atToolBar.checkTextsInToolbar(
-      visibleTexts,
-      hiddenToolbarFeaturesGuest,
-    );
+
+    // TO DO: 7525 task will make map a feature and hidden for atlas. Adapt test once map is hidden
+    if (project.name !== 'atlas') {
+      await pageManager.atToolBar.checkTextsInToolbar(
+        visibleTexts,
+        hiddenToolbarFeaturesGuest,
+      );
+    } else {
+      await expect(
+        await pageManager.atToolBar.getButtonByText('Measure distance'),
+      ).not.toBeVisible();
+    }
   });
 }

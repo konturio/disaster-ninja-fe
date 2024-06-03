@@ -60,11 +60,6 @@ for (const project of projects) {
     await pageManager.fromNavigationMenu.goToLoginPage();
     await pageManager.atLoginPage.typeLoginPasswordAndLogin(email, password, 1);
 
-    // TO DO: remove this action after Atlas is launched.
-    try {
-      await pageManager.atBrowser.closeAtlasBanner(project);
-    } catch {}
-
     await pageManager.atProfilePage.checkLogoutBtnProfileTitleAndEmail(email);
 
     const fullNameAfterRegistration = await pageManager.atProfilePage.getFullNameValue();

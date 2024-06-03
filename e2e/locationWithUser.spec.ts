@@ -1,7 +1,10 @@
 import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
 
-const projects = getProjects();
+let projects = getProjects();
+
+// Atlas has no 'Locate me' feature for user with no rights
+projects = projects.filter((arg) => arg.name !== 'atlas');
 
 for (const project of projects) {
   // Setting geolocation permission and geolocation of user's browser
