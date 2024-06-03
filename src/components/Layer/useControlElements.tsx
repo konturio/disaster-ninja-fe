@@ -55,11 +55,7 @@ export function useControlElements({
       layerState?.id === REFERENCE_AREA_LOGICAL_LAYER_ID
     ) {
       elements.push(
-        <CleanControl
-          layerState={layerState}
-          layerActions={layerActions}
-          key={layerState.id + 'clean'}
-        />,
+        <CleanControl layerActions={layerActions} key={layerState.id + 'clean'} />,
       );
     }
     if (

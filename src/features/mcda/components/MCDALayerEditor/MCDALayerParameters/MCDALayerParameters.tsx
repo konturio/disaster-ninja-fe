@@ -7,6 +7,7 @@ import { i18n } from '~core/localization';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
+import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { Sentiments } from '../Sentiments';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
@@ -224,6 +225,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     }
   }, [axes.loading, axisDefaultRange, layer]);
 
+  const editLayer = useCallback(() => {
+    setEditMode(true);
+  }, []);
+
   return (
     <div className={s.editor}>
       <div key={layer.id} className={s.layer}>
@@ -231,14 +236,13 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
           <div>{layer.name}</div>
           <div className={s.layerButtons}>
             {!editMode && (
-              <div
+              <LayerActionIcon
+                onClick={editLayer}
+                hint={i18n.t('layer_actions.tooltips.edit')}
                 className={s.editButton}
-                onClick={() => {
-                  setEditMode(true);
-                }}
               >
                 <Edit16 />
-              </div>
+              </LayerActionIcon>
             )}
             <LayerInfo
               className={s.infoButton}

@@ -1,18 +1,13 @@
 import { Rubber16 } from '@konturio/default-icons';
 import { useCallback } from 'react';
-import style from './CleanControl.module.css';
+import { i18n } from '~core/localization';
+import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import type {
   LogicalLayerActions,
   LogicalLayerState,
 } from '~core/logical_layers/types/logicalLayer';
 
-export function CleanControl({
-  layerState,
-  layerActions,
-}: {
-  layerState: LogicalLayerState;
-  layerActions: LogicalLayerActions;
-}) {
+export function CleanControl({ layerActions }: { layerActions: LogicalLayerActions }) {
   const cleanLayer = useCallback(
     async function () {
       if (layerActions?.clean) {
@@ -23,8 +18,8 @@ export function CleanControl({
   );
 
   return (
-    <div className={style.clean} onClick={cleanLayer}>
+    <LayerActionIcon onClick={cleanLayer} hint={i18n.t('layer_actions.tooltips.erase')}>
       <Rubber16 />
-    </div>
+    </LayerActionIcon>
   );
 }
