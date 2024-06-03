@@ -1,4 +1,4 @@
-import { PopupTooltipTrigger } from '~components/TooltipTrigger';
+import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
 import { Label } from '~components/Label/Label';
 
 interface LabelWithTooltipProps {

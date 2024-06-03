@@ -1,7 +1,7 @@
 import { InfoOutline16 } from '@konturio/default-icons';
 import { useLayoutEffect, useRef } from 'react';
 import { i18n } from '~core/localization';
-import { PopupTooltipWrapper } from '~components/TooltipTrigger';
+import { PopupTooltipWrapper } from '~components/PopupTooltipTrigger';
 import s from './AxisCaptions.module.css';
 
 const AXIS_CAPTIONS_TOOTIP_TEXT = (

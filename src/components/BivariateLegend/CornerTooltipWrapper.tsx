@@ -1,6 +1,6 @@
 import { cloneElement, isValidElement } from 'react';
 import clsx from 'clsx';
-import { PopupTooltipWrapper } from '~components/TooltipTrigger';
+import { PopupTooltipWrapper } from '~components/PopupTooltipTrigger';
 import { formatSentimentDirection } from '~utils/bivariate';
 import { LOW, HIGH, isBottomSide, isLeftSide, CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';

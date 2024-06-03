@@ -1,4 +1,4 @@
-import { PopupTooltipTrigger } from '~components/TooltipTrigger';
+import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import s from './MCDALayerParameterRow.module.css';
 

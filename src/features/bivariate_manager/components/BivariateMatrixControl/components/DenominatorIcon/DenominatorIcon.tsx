@@ -1,5 +1,5 @@
 import { i18n } from '~core/localization';
-import { PopupTooltipWrapper } from '~components/TooltipTrigger';
+import { PopupTooltipWrapper } from '~components/PopupTooltipTrigger';
 import styles from './DenominatorIcon.module.css';
 
 interface DenominatorIconProps {
