@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { TooltipTrigger } from '~components/TooltipTrigger';
+import { PopupTooltipTrigger } from '~components/TooltipTrigger';
 
 export type LayerInfo = {
   name?: string;
@@ -36,7 +36,7 @@ export const LayerInfo = React.memo(
 
     if (infoString) {
       return (
-        <TooltipTrigger
+        <PopupTooltipTrigger
           tipText={infoString}
           tooltipId={tooltipId}
           className={className}

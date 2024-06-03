@@ -1,4 +1,4 @@
-import { TooltipTrigger } from '~components/TooltipTrigger';
+import { PopupTooltipTrigger } from '~components/TooltipTrigger';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import s from './MCDALayerParameterRow.module.css';
 
@@ -17,7 +17,7 @@ export function MCDALayerParameterRow({
     <div className={s.inputLine}>
       <span className={s.inputLinelabel}>
         {name}
-        <TooltipTrigger
+        <PopupTooltipTrigger
           className={s.infoButton}
           tipText={infoText}
           tooltipId={LAYERS_PANEL_FEATURE_ID}

@@ -1,2 +1,2 @@
-export { TooltipTrigger } from './TooltipTrigger';
+export { PopupTooltipTrigger } from './PopupTooltipTrigger';
 export { TooltipWrapper } from './TooltipWrapper';
