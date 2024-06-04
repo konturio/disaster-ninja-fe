@@ -93,7 +93,7 @@ export function MCDAForm({
     }
   }, [axisesResource, selectedIndicators, onConfirm, name]);
 
-  const sortSearchResults = useCallback(
+  const sortDropdownItems = useCallback(
     (items: SelectableItem[], search: string): SelectableItem[] => {
       sortByAlphabet(items);
       if (search) {
@@ -119,7 +119,7 @@ export function MCDAForm({
           onChange={onSelectedIndicatorsChange}
           placeholder={i18n.t('mcda.modal_input_indicators_placeholder')}
           noOptionsText={i18n.t('mcda.modal_input_indicators_no_options')}
-          transformSearchResults={sortSearchResults}
+          transformSearchResults={sortDropdownItems}
         />
       </div>
     ),
