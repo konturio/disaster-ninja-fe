@@ -13,6 +13,7 @@ import { createStateMap } from '~utils/atoms';
 import { availableBivariateAxisesAtom } from '../../atoms/availableBivariateAxisesAtom';
 import { generateEmojiPrefix } from '../../utils/generateEmojiPrefix';
 import s from './style.module.css';
+import { sortByAlphabet, sortByWordOccurence } from './utils/sorting';
 import type { Axis } from '~utils/bivariate';
 
 type FormInitialState = {
@@ -23,6 +24,14 @@ type FormInitialState = {
 type FormResult = {
   name: string;
   axises: Axis[];
+};
+
+const sortSearchResults = (items: SelectableItem[], search: string) => {
+  sortByAlphabet(items);
+  if (search) {
+    sortByWordOccurence(items, search);
+  }
+  return items;
 };
 
 export function MCDAForm({
