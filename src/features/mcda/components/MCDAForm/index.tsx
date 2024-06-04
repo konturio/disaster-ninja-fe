@@ -26,14 +26,6 @@ type FormResult = {
   axises: Axis[];
 };
 
-const sortSearchResults = (items: SelectableItem[], search: string) => {
-  sortByAlphabet(items);
-  if (search) {
-    sortByWordOccurence(items, search);
-  }
-  return items;
-};
-
 export function MCDAForm({
   initialState,
   onConfirm,
@@ -66,14 +58,10 @@ export function MCDAForm({
   const [axisesResource] = useAtom(availableBivariateAxisesAtom);
   const inputItems = useMemo(
     () =>
-      (axisesResource.data ?? [])
-        .sort((axis1, axis2) =>
-          axis1.label?.localeCompare(axis2.label, undefined, { sensitivity: 'base' }),
-        )
-        .map((d) => ({
-          title: `${generateEmojiPrefix(d.quotients?.[0]?.emoji)} ${d.label}`,
-          value: d.id,
-        })) ?? [],
+      (axisesResource.data ?? []).map((d) => ({
+        title: `${generateEmojiPrefix(d.quotients?.[0]?.emoji)} ${d.label}`,
+        value: d.id,
+      })) ?? [],
     [axisesResource],
   );
 
@@ -105,6 +93,17 @@ export function MCDAForm({
     }
   }, [axisesResource, selectedIndicators, onConfirm, name]);
 
+  const sortSearchResults = useCallback(
+    (items: SelectableItem[], search: string): SelectableItem[] => {
+      sortByAlphabet(items);
+      if (search) {
+        sortByWordOccurence(items, search);
+      }
+      return items;
+    },
+    [],
+  );
+
   const statesToComponents = createStateMap(axisesResource);
 
   const indicatorsSelector = statesToComponents({
@@ -120,6 +119,7 @@ export function MCDAForm({
           onChange={onSelectedIndicatorsChange}
           placeholder={i18n.t('mcda.modal_input_indicators_placeholder')}
           noOptionsText={i18n.t('mcda.modal_input_indicators_no_options')}
+          transformSearchResults={sortSearchResults}
         />
       </div>
     ),
