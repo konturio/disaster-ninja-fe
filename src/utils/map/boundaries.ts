@@ -8,8 +8,7 @@ export function getLocalizedFeatureName(
 ): string {
   if (feature.properties?.tags) {
     const tags = feature.properties.tags;
-    // check language from the app config first,
-    // then the list of browser's preferred languages
+    // check names in preferred languages first
     for (let i = 0; i < preferredLanguages.length; i++) {
       if (tags[`name:${preferredLanguages[i]}`]) {
         return tags[`name:${preferredLanguages[i]}`];
