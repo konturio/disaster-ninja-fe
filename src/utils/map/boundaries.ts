@@ -2,16 +2,15 @@ import { configRepo } from '~core/config';
 
 export type BoundaryOption = { label: string; value: string | number };
 
-function getLocalizedFeatureName(
+export function getLocalizedFeatureName(
   feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>,
+  preferredLanguages: string[],
 ): string {
-  const configLang = configRepo.get().user?.language;
   if (feature.properties?.tags) {
     const tags = feature.properties.tags;
     // check language from the app config first,
     // then the list of browser's preferred languages
-    const preferredLanguages = [configLang, ...navigator.languages];
-    for (let i = 0; i < navigator.languages.length; i++) {
+    for (let i = 0; i < preferredLanguages.length; i++) {
       if (tags[`name:${preferredLanguages[i]}`]) {
         return tags[`name:${preferredLanguages[i]}`];
       }
@@ -33,12 +32,17 @@ export function constructOptionsFromBoundaries(
   const sortedFeatures = features.sort(
     (f1, f2) => f2.properties?.admin_level - f1.properties?.admin_level,
   );
+
+  const preferredLanguages = [
+    configRepo.get().user?.language,
+    ...navigator.languages,
+  ].filter(Boolean) as string[];
   const options: BoundaryOption[] = [];
   for (const feat of sortedFeatures) {
     const id = feat.id;
     if (id !== undefined) {
       options.push({
-        label: getLocalizedFeatureName(feat),
+        label: getLocalizedFeatureName(feat, preferredLanguages),
         value: id,
       });
     }
