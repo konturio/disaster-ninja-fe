@@ -3,6 +3,21 @@ import { HelperBase } from './helperBase';
 import type { Project } from './helperBase';
 import type { Page, APIRequestContext } from '@playwright/test';
 
+type DeleteUsersInfo = {
+  adminToken: string;
+  project: Project;
+  apiContext: APIRequestContext;
+  userId: string;
+};
+
+type GetUserArrayData = {
+  project: Project;
+  text: string;
+  adminToken: string;
+  apiContext: APIRequestContext;
+  domain: string;
+};
+
 type GetTokenData = {
   project: Project;
   apiContext: APIRequestContext;
@@ -99,8 +114,34 @@ export class KeycloakPage extends HelperBase {
   }
 
   /**
+   * This method gets array of users by a specific identifier to search for
+   * @param object object with tested Kontur project, playwright api context, Keycloak admin token and text to use to search with it
+   * @returns array of objects with users
+   */
+
+  async getUserArrayByText({
+    domain,
+    project,
+    text,
+    adminToken,
+    apiContext,
+  }: GetUserArrayData) {
+    const endpointToSearchForUser = `${domain}/admin/realms/${project.env === 'test' ? 'test' : 'dev'}/users?search=${text}`;
+
+    const userResponse = await apiContext.get(endpointToSearchForUser, {
+      headers: {
+        Authorization: `Bearer ${adminToken}`,
+      },
+    });
+    expect(userResponse.status()).toEqual(200);
+
+    const userObjArray = await userResponse.json();
+    return userObjArray;
+  }
+
+  /**
    * This method verifies email of created user using API requests
-   * @param param0 object with Kontur project, playwright api context, email, admin token, Keycloak admin name and password, part of email before '@'
+   * @param object object with Kontur project, playwright api context, email, admin token, Keycloak admin name and password, part of email before '@'
    */
 
   async verifyEmailUsingAPIAndReturnUserId({
@@ -114,16 +155,15 @@ export class KeycloakPage extends HelperBase {
   }: VerifyEmailInfo) {
     // Get registered user info
     const domain = await this.getDomainFromUrl(project.authUrl);
-    const endpointToSearchForUser = `${domain}/admin/realms/${project.env === 'test' ? 'test' : 'dev'}/users?search=${username}`;
 
-    const userResponse = await apiContext.get(endpointToSearchForUser, {
-      headers: {
-        Authorization: `Bearer ${adminToken}`,
-      },
+    const userObjArray = await this.getUserArrayByText({
+      domain,
+      project,
+      apiContext,
+      adminToken,
+      text: username,
     });
-    expect(userResponse.status()).toEqual(200);
 
-    const userObjArray = await userResponse.json();
     const [userObj] = userObjArray.filter((user: KeycloakUser) => user.email === email);
 
     // Assertion is here not to test, but to fail
@@ -155,5 +195,26 @@ export class KeycloakPage extends HelperBase {
       },
     });
     expect(updatedUserResponse.status()).toEqual(204);
+    return id;
+  }
+
+  /**
+   * This method deletes user by id.
+   * @param deleteObj - object with Kontur project, playwright api context, admin token, user id
+   */
+
+  async deleteUserById({ adminToken, project, apiContext, userId }: DeleteUsersInfo) {
+    // Get registered user info
+    const domain = await this.getDomainFromUrl(project.authUrl);
+
+    const deleteUserUrl = `${domain}/admin/realms/${project.env === 'test' ? 'test' : 'dev'}/users/${userId}`;
+
+    const userDeletionResponse = await apiContext.delete(deleteUserUrl, {
+      headers: {
+        Authorization: `Bearer ${adminToken}`,
+      },
+    });
+
+    expect(userDeletionResponse.status()).toEqual(204);
   }
 }

@@ -12,14 +12,18 @@ test.describe.configure({ mode: 'serial' });
 // Create a loop to loop over all the projects and create a test for everyone
 for (const project of projects) {
   test(`As Guest, I can register at ${project.title}, verify email, login and check that this profile is mine`, async ({
+    page,
     pageManager,
     context,
     playwright,
   }) => {
-    const fullName = `${faker.person.firstName()} ${faker.person.lastName()}`;
-    const username =
-      `${fullName.replace(' ', '')}${faker.number.int(1000)}`.toLowerCase();
-    const email = username + '@testdeleteme.com';
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const fullName = `${firstName} ${lastName}`;
+
+    const username = `${firstName}${lastName}${faker.number.int(1000)}`.toLowerCase();
+    const email = `${username}@testdeleteme.com`;
+
     const password = faker.internet.password({ length: 12 });
 
     await pageManager.atBrowser.openProject(project);
@@ -46,7 +50,7 @@ for (const project of projects) {
       }),
     ]);
 
-    await pageManager.atKeycloakPage.verifyEmailUsingAPIAndReturnUserId({
+    const userId = await pageManager.atKeycloakPage.verifyEmailUsingAPIAndReturnUserId({
       project,
       apiContext,
       email,
@@ -64,5 +68,28 @@ for (const project of projects) {
 
     const fullNameAfterRegistration = await pageManager.atProfilePage.getFullNameValue();
     expect(fullNameAfterRegistration).toEqual(fullName);
+
+    // Without logout app will crash after current user deletion
+    await pageManager.atProfilePage.clickLogout();
+
+    // Get new token and wait for 1 sec in parallel
+    const [newAdminToken] = await Promise.all([
+      pageManager.atKeycloakPage.getAdminToken({
+        project,
+        apiContext,
+        adminName: process.env.ADMIN_KEYCLOAK!,
+        adminPassword: process.env.ADMIN_KEYCLOAK_PASSWORD!,
+      }),
+      page.waitForTimeout(1000),
+    ]);
+
+    // It won't delete test user in case of failed test,
+    // But it is the safest way to clean up
+    await pageManager.atKeycloakPage.deleteUserById({
+      adminToken: newAdminToken,
+      project,
+      apiContext,
+      userId,
+    });
   });
 }
