@@ -11,8 +11,11 @@ import type { ChangeEvent } from 'react';
 
 const authInputClasses = { input: clsx(s.authInput) };
 
-const registrationUrlEncoded = encodeURIComponent(`${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/registrations?client_id=account&response_type=code&scope=openid&redirect_uri=https://www.kontur.io/portfolio/`);
-const registrationUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/logout?client_id=account&redirect_uri=` + registrationUrlEncoded;
+const registrationUrlEncoded = encodeURIComponent(
+  `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/registrations?client_id=account&response_type=code&scope=openid&redirect_uri=https://www.kontur.io/portfolio/`,
+);
+const registrationUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/logout?client_id=account&redirect_uri=${registrationUrlEncoded}`;
+const resetUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/login-actions/reset-credentials?client_id=account`;
 
 export function LoginForm() {
   const [error, setError] = useState<{
@@ -124,18 +127,18 @@ export function LoginForm() {
         />
       </div>
       {error.general && <div className={s.errorMessageContainer}>{error.general}</div>}
-      {/*<div className={clsx(s.link, s.forgotPasswordContainer)}>Forgot password?</div>*/}
+      <div className={clsx(s.link, s.forgotPasswordContainer)}>
+        <a href={resetUrl} target="_blank" rel="noreferrer">
+          {i18n.t('login.forgot_password')}
+        </a>
+      </div>
       <div className={s.loginButtonContainer}>
         <Button onClick={onLoginClick} className={s.loginButton}>
           {i18n.t('login.log_in')}
         </Button>
       </div>
       <div className={clsx(s.link, s.registerContainter)}>
-        <a
-          href={registrationUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href={registrationUrl} target="_blank" rel="noreferrer">
           {i18n.t('login.sign_up')}
         </a>
       </div>

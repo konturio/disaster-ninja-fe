@@ -306,6 +306,7 @@
     "sign_up": "Sign up",
     "logging_in": "Logging in...",
     "log_in": "Log in",
+    "forgot_password": "Forgot password?",
     "description": "Please log in to change your settings",
     "error": {
       "email_empty": "Email cannot be empty",
