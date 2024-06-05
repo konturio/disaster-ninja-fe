@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
 
 export type LayerInfo = {
