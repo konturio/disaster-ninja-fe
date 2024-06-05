@@ -15,7 +15,7 @@ const registrationUrlEncoded = encodeURIComponent(
   `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/registrations?client_id=account&response_type=code&scope=openid&redirect_uri=https://www.kontur.io/portfolio/`,
 );
 const registrationUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/logout?client_id=account&redirect_uri=${registrationUrlEncoded}`;
-const resetUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/login-actions/reset-credentials?client_id=account&redirect_uri=https://www.kontur.io/portfolio/`;
+const resetUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/login-actions/reset-credentials?client_id=account`;
 
 export function LoginForm() {
   const [error, setError] = useState<{
