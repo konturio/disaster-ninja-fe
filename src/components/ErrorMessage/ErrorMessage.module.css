@@ -1,14 +1,7 @@
-.spinner {
+.errorContainer {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  margin: 2em;
+  margin: calc(var(--double-unit) * 2) var(--double-unit);
   text-align: center;
-}
-
-.icon {
-  display: block;
-  width: 100px;
-  height: 100px;
-  margin: 1em;
 }

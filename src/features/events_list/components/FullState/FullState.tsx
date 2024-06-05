@@ -69,7 +69,9 @@ export function FullState({
       <div className={s.scrollable}>
         {statesToComponents({
           loading: <LoadingSpinner message={i18n.t('loading_events')} />,
-          error: (errorMessage) => <ErrorMessage message={errorMessage} />,
+          error: (errorMessage) => (
+            <ErrorMessage message={errorMessage} containerClass={s.errorContainer} />
+          ),
           ready: (eventsList) => (
             <>
               <Virtuoso

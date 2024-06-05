@@ -11,6 +11,10 @@
   align-items: center;
 }
 
+.errorContainer {
+  margin-top: 80px;
+}
+
 .height100vh {
   height: 100vh;
 }
