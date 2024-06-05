@@ -78,14 +78,24 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   }, [axes?.data?.axis, axes?.loading, layer.id]);
 
   const mcdaLayerHint: LayerInfo[] = useMemo(() => {
-    const indicatorsInfo = layer?.indicators?.map((indicator) => {
-      return {
-        description: indicator?.description,
-        copyrights: indicator?.copyrights,
-        name: indicator.label,
-      };
+    const description = layer.indicators[0]?.description;
+    const copyrightsCombined: string[] = [];
+    layer?.indicators?.forEach((indicator) => {
+      if (indicator.copyrights) {
+        for (const copyright of indicator.copyrights) {
+          // only add if this copyright isn't included yet
+          if (!copyrightsCombined.find((v) => v === copyright)) {
+            copyrightsCombined.push(copyright);
+          }
+        }
+      }
     });
-    return indicatorsInfo;
+    return [
+      {
+        description,
+        copyrights: copyrightsCombined,
+      },
+    ];
   }, [layer?.indicators]);
 
   const nonDefaultValues = useMemo(() => {
