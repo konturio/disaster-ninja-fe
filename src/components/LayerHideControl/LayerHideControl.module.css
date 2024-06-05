@@ -1,7 +1,0 @@
-.hideLogo,
-.unhideLogo {
-  color: var(--faint-strong);
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}

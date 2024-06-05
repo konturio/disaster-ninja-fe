@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { HelperBase } from './helperBase';
+import type { Page } from '@playwright/test';
 import type { Project } from './helperBase';
 
 export class MapCanvas extends HelperBase {
@@ -42,10 +43,11 @@ export class MapCanvas extends HelperBase {
   /**
    * This method waits for URL to match specific regexp pattern. It is mostly useful for testing maps.
    * @param pattern value for url to have inside in form of RegExp
+   * @param page playwright page to wait for
    */
 
-  async waitForUrlToMatchPattern(pattern: RegExp) {
-    await this.page.waitForURL(pattern);
+  async waitForUrlToMatchPattern(pattern: RegExp, page: Page = this.page) {
+    await page.waitForURL(pattern);
   }
 
   /**
@@ -111,5 +113,27 @@ export class MapCanvas extends HelperBase {
       this.page.locator('.maplibregl-popup-content', { hasText: 'Population' }),
     ).not.toBeVisible();
     await expect(this.page.locator('#map-view')).toBeVisible();
+  }
+
+  /**
+   * This method gets current url coordinates and returns its integer parts
+   * @param page playwright page to get url from
+   * @returns object with zoom, latitude, longitude. Integer values
+   */
+
+  async getViewportFromUrl(page: Page = this.page) {
+    const mapData = page.url().split('map=')[1].split('&')[0];
+    expect(mapData).toBeDefined();
+
+    const [zoom, latitude, longitude] = mapData!.split('/').map(Number);
+    expect(zoom).not.toBeNaN();
+    expect(latitude).not.toBeNaN();
+    expect(longitude).not.toBeNaN();
+
+    return {
+      zoomInteger: Math.trunc(zoom),
+      latitudeInteger: Math.trunc(latitude),
+      longitudeInteger: Math.trunc(longitude),
+    };
   }
 }

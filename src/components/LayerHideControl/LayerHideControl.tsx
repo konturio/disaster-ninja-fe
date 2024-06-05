@@ -1,5 +1,6 @@
 import { Eye16, EyeOff16 } from '@konturio/default-icons';
-import s from './LayerHideControl.module.css';
+import { i18n } from '~core/localization';
+import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 
 type LayerHideControlType = {
   isVisible: boolean;
@@ -14,15 +15,15 @@ export function LayerHideControl({
 }: LayerHideControlType) {
   if (isVisible) {
     return (
-      <div onClick={hideLayer} className={s.hideLogo}>
+      <LayerActionIcon onClick={hideLayer} hint={i18n.t('layer_actions.tooltips.hide')}>
         <Eye16 />
-      </div>
+      </LayerActionIcon>
     );
   }
 
   return (
-    <div onClick={unhideLayer} className={s.unhideLogo}>
+    <LayerActionIcon onClick={unhideLayer} hint={i18n.t('layer_actions.tooltips.show')}>
       <EyeOff16 />
-    </div>
+    </LayerActionIcon>
   );
 }

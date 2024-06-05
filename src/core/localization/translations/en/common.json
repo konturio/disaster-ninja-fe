@@ -21,7 +21,7 @@
     "panel_title": "Toolbar",
     "download": "Download",
     "delete": "Delete",
-    "boundary_selector": "Select admin unit",
+    "boundary_selector": "Select admin boundary",
     "create_layer": "Create layer",
     "geometry_uploader": "Upload GeoJSON",
     "focused_geometry_editor": "Draw or edit geometry",
@@ -30,6 +30,15 @@
     "tools_label": "Tools",
     "selected_area_label": "Selected area",
     "upload_mcda": "Upload MCDA"
+  },
+  "layer_actions": {
+    "tooltips": {
+      "erase": "Erase",
+      "download": "Download",
+      "edit": "Edit",
+      "hide": "Hide",
+      "show": "Show"
+    }
   },
   "feed": "Feed",
   "deselect": "Deselect",
@@ -46,7 +55,7 @@
   "errors": {
     "default": "Sorry, we are having issues which will be fixed soon",
     "timeout": "Request timeout",
-    "cannot_connect": "Can't connect to server",
+    "cannot_connect": "Cannot connect to server",
     "forbidden": "Forbidden",
     "not_found": "Not found",
     "unknown": "Unknown",
@@ -119,6 +128,14 @@
         "range_from_cannot_be_bigger": "The ‘from’ value cannot be bigger than the ‘to’ value",
         "range_cannot_be_empty": "Range cannot be empty",
         "range_must_be_a_number": "Range must be a valid number"
+      },
+      "tips": {
+        "range": "Define the minimum and maximum values considered for analysis. For example, if analysing temperature data, set the range from the lowest to the highest temperatures recorded in the dataset.",
+        "sentiment": "Determine the direction of sentiment for the layer's impact on the analysis:\n* **Bad → Good**: Higher values indicate a positive sentiment.\n* **Good → Bad**: Higher values indicate a negative sentiment.",
+        "weight": "By default, all layers contribute equally to the analysis through a weighted average. Adjusting the increased weight of a layer (2, 3, etc.) allows you to assign additional importance to it in the analysis.",
+        "transform": "Apply additional calculations to the layer to linearize distribution. Calculates before normalization:\n * **No**: No additional transformation is applied.\n* **Natural logarithm**: Apply the natural logarithm function to the values.\n* **Square root**: Apply the square root function to the values.\n* **Cube root**: Apply the cube root function to the values.\n\nBy default, transformation with the least skew is selected.",
+        "normalize": "Adjusts values to a standardized scale. This helps compare them easily and make decisions.\n* **Standard score scaling**: This option adjusts values to a standardized scale, ensuring they are all comparable.\n* **No (for specialists only)**: Leaves values unmodified.",
+        "outliers": "* **As values on limits**: Keep 0 and 1 for min and max, but allow outlier scores beyond this range.\n* **Exclude**: Exclude areas where values are out of range."
       }
     },
     "bad": "Bad",
@@ -345,6 +362,7 @@
     "konturTheme": "Kontur",
     "HOTTheme": "HOT",
     "userBio(about)": "Bio",
+    "user_bio_tooltip": "Tell us a bit about yourself:\n  •  your current role\n  •  professional skills\n  •  interests\n  •  industry\n  •  objectives or challenges you tackle\nThis bio helps customize and personalize your experience.",
     "defaultDisasterFeed": "Default disaster feed",
     "defaultOSMeditor": "Default OpenStreetMap editor (beta)",
     "successNotification": "All changes have been applied successfully",
