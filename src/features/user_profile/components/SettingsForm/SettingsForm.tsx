@@ -178,15 +178,13 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   />
                 </div>
 
-                {featureFlags?.[FeatureFlag.REFERENCE_AREA] ? (
+                {featureFlags?.[FeatureFlag.REFERENCE_AREA] && (
                   <div>
                     <Text type="short-l" className={s.smallTitle}>
                       {i18n.t('profile.reference_area.title')}
                     </Text>
                     <ReferenceAreaInfo />
                   </div>
-                ) : (
-                  <></>
                 )}
               </div>
             </div>
@@ -237,25 +235,29 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   />
                 </div>
 
-                <Select
-                  alwaysShowPlaceholder
-                  value={localSettings.defaultFeed}
-                  items={OPTIONS_FEED}
-                  withResetButton={false}
-                  onSelect={onFeedChange}
-                >
-                  {i18n.t('profile.defaultDisasterFeed')}
-                </Select>
+                {featureFlags?.[FeatureFlag.FEED_SELECTOR] && (
+                  <Select
+                    alwaysShowPlaceholder
+                    value={localSettings.defaultFeed}
+                    items={OPTIONS_FEED}
+                    withResetButton={false}
+                    onSelect={onFeedChange}
+                  >
+                    {i18n.t('profile.defaultDisasterFeed')}
+                  </Select>
+                )}
 
-                <Select
-                  alwaysShowPlaceholder
-                  value={localSettings.osmEditor}
-                  items={OPTIONS_OSM}
-                  withResetButton={false}
-                  onSelect={onOSMeditorChange}
-                >
-                  {i18n.t('profile.defaultOSMeditor')}
-                </Select>
+                {featureFlags?.[FeatureFlag.OSM_EDIT_LINK] && (
+                  <Select
+                    alwaysShowPlaceholder
+                    value={localSettings.osmEditor}
+                    items={OPTIONS_OSM}
+                    withResetButton={false}
+                    onSelect={onOSMeditorChange}
+                  >
+                    {i18n.t('profile.defaultOSMeditor')}
+                  </Select>
+                )}
 
                 <div className={s.saveWrap}>
                   {status === 'loading' ? (
