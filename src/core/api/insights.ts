@@ -13,7 +13,7 @@ export function getPolygonDetails(
       appId: configRepo.get().id,
       features,
     },
-    false,
+    true,
     { signal: abortController.signal },
   );
 }

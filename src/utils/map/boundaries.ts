@@ -1,4 +1,27 @@
+import { configRepo } from '~core/config';
+
 export type BoundaryOption = { label: string; value: string | number };
+
+export function getLocalizedFeatureName(
+  feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>,
+  preferredLanguages: string[],
+): string {
+  if (feature.properties?.tags) {
+    const tags = feature.properties.tags;
+    // check names in preferred languages first
+    for (let i = 0; i < preferredLanguages.length; i++) {
+      if (tags[`name:${preferredLanguages[i]}`]) {
+        return tags[`name:${preferredLanguages[i]}`];
+      }
+    }
+    // then try international name
+    if (tags['int_name']) {
+      return tags['int_name'];
+    }
+  }
+  // as a fallback, use feature name or if
+  return feature.properties?.name || feature.id;
+}
 
 export function constructOptionsFromBoundaries(
   boundaries: GeoJSON.FeatureCollection | GeoJSON.Feature,
@@ -8,12 +31,17 @@ export function constructOptionsFromBoundaries(
   const sortedFeatures = features.sort(
     (f1, f2) => f2.properties?.admin_level - f1.properties?.admin_level,
   );
+
+  const preferredLanguages = [
+    configRepo.get().user?.language,
+    ...navigator.languages,
+  ].filter(Boolean) as string[];
   const options: BoundaryOption[] = [];
   for (const feat of sortedFeatures) {
     const id = feat.id;
     if (id !== undefined) {
       options.push({
-        label: feat.properties?.name || id,
+        label: getLocalizedFeatureName(feat, preferredLanguages),
         value: id,
       });
     }
