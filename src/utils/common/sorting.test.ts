@@ -11,7 +11,7 @@ describe('sortByWordOccurence', () => {
       { title: 'Nonword. Not at the start boundary, does not count', value: '4' },
       { title: 'Word at the start of the line', value: '5' },
     ];
-    sortByWordOccurence(items, 'word');
+    sortByWordOccurence(items, (item) => item.title, 'word');
     expect(items).toMatchSnapshot();
   });
 });
@@ -25,7 +25,7 @@ describe('sortByAlphabet', () => {
       { title: 'ac longer item', value: '4' },
       { title: '999 numbers are earlier than letters', value: '5' },
     ];
-    sortByAlphabet(items);
+    sortByAlphabet(items, (item) => item.title);
     expect(items).toMatchSnapshot();
   });
 });

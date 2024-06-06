@@ -95,9 +95,9 @@ export function MCDAForm({
 
   const sortDropdownItems = useCallback(
     (items: SelectableItem[], search: string): SelectableItem[] => {
-      sortByAlphabet(items);
+      sortByAlphabet(items, (item) => item.title);
       if (search) {
-        sortByWordOccurence(items, search);
+        sortByWordOccurence(items, (item) => item.title, search);
       }
       return items;
     },
