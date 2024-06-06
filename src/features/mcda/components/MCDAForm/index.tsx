@@ -10,10 +10,10 @@ import {
 } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
+import { sortByAlphabet, sortByWordOccurence } from '~utils/common/sorting';
 import { availableBivariateAxisesAtom } from '../../atoms/availableBivariateAxisesAtom';
 import { generateEmojiPrefix } from '../../utils/generateEmojiPrefix';
 import s from './style.module.css';
-import { sortByAlphabet, sortByWordOccurence } from './utils/sorting';
 import type { Axis } from '~utils/bivariate';
 
 type FormInitialState = {
