@@ -56,14 +56,16 @@ export function MCDAForm({
     [],
   );
   const [axisesResource] = useAtom(availableBivariateAxisesAtom);
-  const inputItems = useMemo(
-    () =>
-      (axisesResource.data ?? []).map((d) => ({
-        title: `${generateEmojiPrefix(d.quotients?.[0]?.emoji)} ${d.label}`,
-        value: d.id,
-      })) ?? [],
-    [axisesResource],
-  );
+  const inputItems = useMemo(() => {
+    const sortedItems = sortByAlphabet<Axis>(
+      axisesResource.data ?? [],
+      (axis) => axis.label,
+    );
+    return sortedItems.map((d) => ({
+      title: `${generateEmojiPrefix(d.quotients?.[0]?.emoji)} ${d.label}`,
+      value: d.id,
+    }));
+  }, [axisesResource]);
 
   useEffect(() => {
     // Setup indicators input initial state after we get available indicators
@@ -95,7 +97,6 @@ export function MCDAForm({
 
   const sortDropdownItems = useCallback(
     (items: SelectableItem[], search: string): SelectableItem[] => {
-      sortByAlphabet(items, (item) => item.title);
       if (search) {
         sortByWordOccurence(items, (item) => item.title, search);
       }

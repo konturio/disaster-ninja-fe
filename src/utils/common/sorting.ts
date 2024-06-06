@@ -11,7 +11,10 @@ export const sortByKey =
     return 0;
   };
 
-export function sortByAlphabet<T>(items: T[], getValue: (item: T) => string) {
+/**
+ * Sorts an array in place alphabetically.
+ **/
+export function sortByAlphabet<T>(items: T[], getValue: (item: T) => string): T[] {
   return items.sort((item1, item2) =>
     getValue(item1).localeCompare(getValue(item2), undefined, { sensitivity: 'base' }),
   );
@@ -25,8 +28,8 @@ export function sortByWordOccurence<T>(
   items: T[],
   getItemValue: (item: T) => string,
   word: string,
-) {
-  items.sort((item1, item2) => {
+): T[] {
+  return items.sort((item1, item2) => {
     const regex = new RegExp(`\\b(${word})`, 'i');
     const NOT_FOUND = 10000;
     const axis1FirstWordIndex = getItemValue(item1).search(regex);
