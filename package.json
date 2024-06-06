@@ -86,7 +86,7 @@
     "@konturio/default-icons": "^2.3.2",
     "@konturio/default-theme": "~3.2.5",
     "@konturio/floating": "^1.1.2",
-    "@konturio/ui-kit": "^5.1.12",
+    "@konturio/ui-kit": "^5.2.0",
     "@loaders.gl/core": "^3.4.14",
     "@loaders.gl/loader-utils": "^3.4.14",
     "@loaders.gl/worker-utils": "^3.4.14",

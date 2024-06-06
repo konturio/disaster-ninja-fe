@@ -10,6 +10,7 @@ import {
 } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
+import { sortByAlphabet, sortByWordOccurence } from '~utils/common/sorting';
 import { availableBivariateAxisesAtom } from '../../atoms/availableBivariateAxisesAtom';
 import { generateEmojiPrefix } from '../../utils/generateEmojiPrefix';
 import s from './style.module.css';
@@ -55,18 +56,16 @@ export function MCDAForm({
     [],
   );
   const [axisesResource] = useAtom(availableBivariateAxisesAtom);
-  const inputItems = useMemo(
-    () =>
-      (axisesResource.data ?? [])
-        .sort((axis1, axis2) =>
-          axis1.label?.localeCompare(axis2.label, undefined, { sensitivity: 'base' }),
-        )
-        .map((d) => ({
-          title: `${generateEmojiPrefix(d.quotients?.[0]?.emoji)} ${d.label}`,
-          value: d.id,
-        })) ?? [],
-    [axisesResource],
-  );
+  const inputItems = useMemo(() => {
+    const sortedItems = sortByAlphabet<Axis>(
+      axisesResource.data ?? [],
+      (axis) => axis.label,
+    );
+    return sortedItems.map((d) => ({
+      title: `${generateEmojiPrefix(d.quotients?.[0]?.emoji)} ${d.label}`,
+      value: d.id,
+    }));
+  }, [axisesResource]);
 
   useEffect(() => {
     // Setup indicators input initial state after we get available indicators
@@ -96,6 +95,16 @@ export function MCDAForm({
     }
   }, [axisesResource, selectedIndicators, onConfirm, name]);
 
+  const sortDropdownItems = useCallback(
+    (items: SelectableItem[], search: string): SelectableItem[] => {
+      if (search) {
+        sortByWordOccurence(items, (item) => item.title, search);
+      }
+      return items;
+    },
+    [],
+  );
+
   const statesToComponents = createStateMap(axisesResource);
 
   const indicatorsSelector = statesToComponents({
@@ -111,6 +120,7 @@ export function MCDAForm({
           onChange={onSelectedIndicatorsChange}
           placeholder={i18n.t('mcda.modal_input_indicators_placeholder')}
           noOptionsText={i18n.t('mcda.modal_input_indicators_no_options')}
+          transformSearchResults={sortDropdownItems}
         />
       </div>
     ),
