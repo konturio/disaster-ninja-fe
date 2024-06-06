@@ -362,7 +362,7 @@
     "konturTheme": "Kontur",
     "HOTTheme": "HOT",
     "userBio(about)": "Bio",
-    "user_bio_tooltip": "Tell us a bit about yourself:\n  •  your current role\n  •  professional skills\n  •  interests\n  •  industry\n  •  objectives or challenges you tackle\nThis bio helps customize and personalize your experience.",
+    "user_bio_placeholder": "Tell us a bit about yourself:\n  •  your current role\n  •  professional skills\n  •  interests\n  •  industry\n  •  objectives or challenges you tackle\nThis bio helps customize and personalize your experience.",
     "defaultDisasterFeed": "Default disaster feed",
     "defaultOSMeditor": "Default OpenStreetMap editor (beta)",
     "successNotification": "All changes have been applied successfully",

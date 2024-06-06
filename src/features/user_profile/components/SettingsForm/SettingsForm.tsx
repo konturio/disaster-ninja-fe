@@ -1,16 +1,7 @@
-import {
-  Button,
-  Input,
-  Radio,
-  Select,
-  Text,
-  Heading,
-  Textarea,
-  Tooltip,
-} from '@konturio/ui-kit';
+import { Button, Input, Radio, Select, Text, Heading, Textarea } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
@@ -20,7 +11,6 @@ import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import { ReferenceAreaInfo } from './ReferenceAreaInfo/ReferenceAreaInfo';
-import { MAX_BIO_HEIGHT, MIN_BIO_HEIGHT } from './constants';
 import type { UserDto } from '~core/app/user';
 import type { ChangeEvent } from 'react';
 
@@ -49,8 +39,6 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [eventFeeds] = useAtom(eventFeedsAtom);
   const featureFlags = configRepo.get().features;
-  const bioTooltipTargetRef = useRef<HTMLDivElement>(null);
-  const [isBioTooltipOpen, setIsBioTooltipOpen] = useState(false);
 
   function logout() {
     authClientInstance.logout();
@@ -147,34 +135,16 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   placeholder={i18n.t('profile.email')}
                   disabled
                 />
-
-                <Tooltip
-                  placement="right-start"
-                  offset={15}
-                  open={isBioTooltipOpen}
-                  triggerRef={bioTooltipTargetRef}
-                  onClose={() => setIsBioTooltipOpen(false)}
-                >
-                  <div className={s.bioTooltipContent}>
-                    {i18n.t('profile.user_bio_tooltip')}
-                  </div>
-                </Tooltip>
-                <div
-                  className={s.biography}
-                  ref={bioTooltipTargetRef}
-                  onClick={() => setIsBioTooltipOpen((prev) => !prev)}
-                >
+                <div className={s.biography}>
                   <Textarea
-                    onFocus={() => setIsBioTooltipOpen(true)}
-                    onBlur={() => setIsBioTooltipOpen(false)}
-                    placeholder={i18n.t('profile.userBio(about)')}
-                    showTopPlaceholder
+                    placeholder={i18n.t('profile.user_bio_placeholder')}
                     value={localSettings.bio}
                     onChange={onBioChange}
                     className={s.textArea}
+                    classes={{ placeholder: s.textAreaPlaceholder }}
                     width="100%"
-                    minHeight={MIN_BIO_HEIGHT}
-                    maxHeight={MAX_BIO_HEIGHT}
+                    minHeight="200px"
+                    maxHeight="250px"
                   />
                 </div>
 
