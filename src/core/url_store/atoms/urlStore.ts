@@ -1,7 +1,7 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { configRepo } from '~core/config';
-import { currentMapPositionAtom } from '~core/shared_state';
+import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
 import {
   currentEventAtom,
   scheduledAutoSelect,
@@ -36,10 +36,9 @@ export const urlStoreAtom = createAtom(
     { get, schedule, onAction, onInit, create, getUnlistedState },
     state: UrlData | null = null,
   ) => {
-    const isFeedSelectorEnabled = [
-      FeatureFlag.EVENTS_LIST__FEED_SELECTOR,
-      FeatureFlag.FEED_SELECTOR,
-    ].some((flag) => typeof configRepo.get().features[flag] !== 'undefined');
+    const isFeedSelectorEnabled =
+      configRepo.get().features['events_list__feed_selector'] ||
+      configRepo.get().features['feed_selector'];
 
     onAction('init', (initialState) => {
       schedule(async (dispatch) => {
@@ -72,11 +71,6 @@ export const urlStoreAtom = createAtom(
               lng: Number(initialState.map[2]),
             }),
           );
-        }
-
-        // Apply feed
-        if (initialState.feed) {
-          actions.push(currentEventFeedAtom.setCurrentFeed(initialState.feed));
         }
 
         // Apply event
