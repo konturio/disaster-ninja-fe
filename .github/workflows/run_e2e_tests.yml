@@ -91,14 +91,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}
             ${{ runner.os }}-
+      - name: Clear Node.js cache
+        run: npm cache clean --force
 
       - name: Update playwright and install dependencies
         shell: bash
         run: |
           pnpm add -g playwright@latest
           pnpm add -D @playwright/test@latest
+          pnpm add -D playwright-slack-report
           npx playwright install --with-deps
-          npm install playwright-slack-report -D
 
       - name: Run Playwright tests
         run: npx playwright test --trace on

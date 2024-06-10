@@ -289,7 +289,7 @@ importers:
         version: 6.0.1(postcss@8.4.35)
       postcss-normalize:
         specifier: ^10.0.1
-        version: 10.0.1(browserslist@4.23.0)(postcss@8.4.35)
+        version: 10.0.1(browserslist@4.22.3)(postcss@8.4.35)
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
@@ -12596,9 +12596,9 @@ snapshots:
 
   possible-typed-array-names@1.0.0: {}
 
-  postcss-browser-comments@4.0.0(browserslist@4.23.0)(postcss@8.4.35):
+  postcss-browser-comments@4.0.0(browserslist@4.22.3)(postcss@8.4.35):
     dependencies:
-      browserslist: 4.23.0
+      browserslist: 4.22.3
       postcss: 8.4.35
 
   postcss-custom-media@8.0.2(postcss@8.4.35):
@@ -12635,12 +12635,12 @@ snapshots:
       postcss: 8.4.35
       postcss-selector-parser: 6.0.14
 
-  postcss-normalize@10.0.1(browserslist@4.23.0)(postcss@8.4.35):
+  postcss-normalize@10.0.1(browserslist@4.22.3)(postcss@8.4.35):
     dependencies:
       '@csstools/normalize.css': 12.0.0
-      browserslist: 4.23.0
+      browserslist: 4.22.3
       postcss: 8.4.35
-      postcss-browser-comments: 4.0.0(browserslist@4.23.0)(postcss@8.4.35)
+      postcss-browser-comments: 4.0.0(browserslist@4.22.3)(postcss@8.4.35)
       sanitize.css: 13.0.0
 
   postcss-resolve-nested-selector@0.1.1: {}
