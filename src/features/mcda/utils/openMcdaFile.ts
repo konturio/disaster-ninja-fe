@@ -1,6 +1,7 @@
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
-import { isMCDAConfig } from '../mcdaConfig';
+import { DEFAULT_MCDA_NAME } from '../constants';
+import { generateMCDAId } from './generateMCDAId';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 const input = (() => {
@@ -9,6 +10,29 @@ const input = (() => {
   input.multiple = false;
   return input;
 })();
+
+function createMCDAConfigFromJSON(json: Partial<MCDAConfig>): MCDAConfig {
+  const result: Partial<MCDAConfig> = { ...json };
+  if (!result.version || result.version < 4) {
+    throw new Error(i18n.t('mcda.error_wrong_mcda_version'));
+  }
+  if (
+    !result?.layers?.length ||
+    !(
+      result?.colors?.type === 'sentiments' ||
+      result?.colors?.type === 'mapLibreExpression'
+    )
+  ) {
+    throw new Error(i18n.t('mcda.error_invalid_file'));
+  }
+  if (!result.id) {
+    result.id = generateMCDAId(result.name);
+  }
+  if (!result.name) {
+    result.name = result.id ?? DEFAULT_MCDA_NAME;
+  }
+  return result as MCDAConfig;
+}
 
 function readMcdaJSONFile(file): Promise<MCDAConfig> {
   return new Promise((res, rej) => {
@@ -19,11 +43,8 @@ function readMcdaJSONFile(file): Promise<MCDAConfig> {
       if (!s) return;
       try {
         const json = JSON.parse(s);
-        if (isMCDAConfig(json)) {
-          return res({ ...json, custom: true } as MCDAConfig);
-        } else {
-          throw new Error('Not an MCDA JSON format');
-        }
+        const mcdaConfig = createMCDAConfigFromJSON(json);
+        res({ ...mcdaConfig, custom: true } as MCDAConfig);
       } catch (error) {
         rej(error);
       }
@@ -38,12 +59,12 @@ export function askMcdaJSONFile(onSuccess: (mcdaConfig: MCDAConfig) => void) {
     if ('files' in input && input.files !== null) {
       const files = Array.from(input.files);
       try {
-        const json = await readMcdaJSONFile(files[0]);
-        onSuccess(json);
+        const mcdaConfig = await readMcdaJSONFile(files[0]);
+        onSuccess(mcdaConfig);
       } catch (error) {
         currentNotificationAtom.showNotification.dispatch(
           'error',
-          { title: i18n.t('mcda.error_invalid_file') },
+          { title: (error as Error).message ?? i18n.t('mcda.error_invalid_file') },
           5,
         );
       } finally {

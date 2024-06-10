@@ -10,6 +10,8 @@ import {
   sentimentDefault,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { MCDAForm } from './components/MCDAForm';
+import { generateMCDAId } from './utils/generateMCDAId';
+import { DEFAULT_MCDA_NAME } from './constants';
 import type {
   MCDAConfig,
   MCDALayer,
@@ -64,7 +66,7 @@ export async function createMCDAConfig() {
 }
 
 function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
-  const name = overrides?.name ?? 'MCDA layer';
+  const name = overrides?.name ?? DEFAULT_MCDA_NAME;
 
   return {
     version: 4,
@@ -120,19 +122,4 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
     }
     return acc;
   }, []);
-}
-
-function generateMCDAId(mcdaName: string) {
-  return `${mcdaName ?? 'mcda-layer'}_${nanoid(4)}`;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isMCDAConfig(json: any): json is MCDAConfig {
-  // TODO: full check using ajv
-  return (
-    json.id &&
-    json?.layers?.length &&
-    json?.version >= 4 &&
-    (json?.colors?.type === 'sentiments' || json?.colors?.type === 'mapLibreExpression')
-  );
 }
