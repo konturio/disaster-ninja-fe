@@ -37,6 +37,7 @@ export interface MCDALayer {
 
 export interface MCDAConfig {
   id: string;
+  name: string;
   version: 4;
   layers: Array<MCDALayer>;
   colors: ColorsBySentiments | ColorsByMapLibreExpression;
