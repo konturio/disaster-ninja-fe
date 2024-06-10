@@ -80,6 +80,9 @@ importers:
       '@sentry/react':
         specifier: ^7.113.0
         version: 7.113.0(react@18.2.0)
+      '@slack/web-api':
+        specifier: ^7.0.4
+        version: 7.0.4
       '@testing-library/react':
         specifier: ^14.2.1
         version: 14.2.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -289,7 +292,7 @@ importers:
         version: 6.0.1(postcss@8.4.35)
       postcss-normalize:
         specifier: ^10.0.1
-        version: 10.0.1(browserslist@4.22.3)(postcss@8.4.35)
+        version: 10.0.1(browserslist@4.23.0)(postcss@8.4.35)
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
@@ -1554,6 +1557,10 @@ packages:
     resolution: {integrity: sha512-DTuBFbqu4gGfajREEMrkq5jBhcnskinhr4+AnfJEk48zhVeEv3XnUKGIX98B74kxhYsIMfApGGySTn7V3b5yBA==}
     engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
 
+  '@slack/logger@4.0.0':
+    resolution: {integrity: sha512-Wz7QYfPAlG/DR+DfABddUZeNgoeY7d1J39OCR2jR+v7VBsB8ezulDK5szTnDDPDwLH5IWhLvXIHlCFZV7MSKgA==}
+    engines: {node: '>= 18', npm: '>= 8.6.0'}
+
   '@slack/types@2.12.0':
     resolution: {integrity: sha512-yFewzUomYZ2BYaGJidPuIgjoYj5wqPDmi7DLSaGIkf+rCi4YZ2Z3DaiYIbz7qb/PL2NmamWjCvB7e9ArI5HkKg==}
     engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
@@ -1561,6 +1568,10 @@ packages:
   '@slack/web-api@6.12.0':
     resolution: {integrity: sha512-RPw6F8rWfGveGkZEJ4+4jUin5iazxRK2q3FpQDz/FvdgzC3nZmPyLx8WRzc6nh0w3MBjEbphNnp2VZksfhpBIQ==}
     engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
+
+  '@slack/web-api@7.0.4':
+    resolution: {integrity: sha512-21tbte7N8itwjG7nsiQbDmXP9T/oqEILuvyL2UtgaZxfSY4a1JWWsLGL5n/hcgS2WE2oxmEHsBuhuRkZDwDovw==}
+    engines: {node: '>= 18', npm: '>= 8.6.0'}
 
   '@slack/webhook@7.0.2':
     resolution: {integrity: sha512-dsrO/ow6a6+xkLm/lZKbUNTsFJlBc679tD+qwlVTztsQkDxPLH6odM7FKALz1IHa+KpLX8HKUIPV13a7y7z29w==}
@@ -8144,6 +8155,10 @@ snapshots:
     dependencies:
       '@types/node': 20.12.11
 
+  '@slack/logger@4.0.0':
+    dependencies:
+      '@types/node': 20.12.11
+
   '@slack/types@2.12.0': {}
 
   '@slack/web-api@6.12.0':
@@ -8159,6 +8174,23 @@ snapshots:
       is-stream: 1.1.0
       p-queue: 6.6.2
       p-retry: 4.6.2
+    transitivePeerDependencies:
+      - debug
+
+  '@slack/web-api@7.0.4':
+    dependencies:
+      '@slack/logger': 4.0.0
+      '@slack/types': 2.12.0
+      '@types/node': 20.12.11
+      '@types/retry': 0.12.0
+      axios: 1.6.8(debug@4.3.4)
+      eventemitter3: 5.0.1
+      form-data: 4.0.0
+      is-electron: 2.2.2
+      is-stream: 2.0.1
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      retry: 0.13.1
     transitivePeerDependencies:
       - debug
 
@@ -12596,9 +12628,9 @@ snapshots:
 
   possible-typed-array-names@1.0.0: {}
 
-  postcss-browser-comments@4.0.0(browserslist@4.22.3)(postcss@8.4.35):
+  postcss-browser-comments@4.0.0(browserslist@4.23.0)(postcss@8.4.35):
     dependencies:
-      browserslist: 4.22.3
+      browserslist: 4.23.0
       postcss: 8.4.35
 
   postcss-custom-media@8.0.2(postcss@8.4.35):
@@ -12635,12 +12667,12 @@ snapshots:
       postcss: 8.4.35
       postcss-selector-parser: 6.0.14
 
-  postcss-normalize@10.0.1(browserslist@4.22.3)(postcss@8.4.35):
+  postcss-normalize@10.0.1(browserslist@4.23.0)(postcss@8.4.35):
     dependencies:
       '@csstools/normalize.css': 12.0.0
-      browserslist: 4.22.3
+      browserslist: 4.23.0
       postcss: 8.4.35
-      postcss-browser-comments: 4.0.0(browserslist@4.22.3)(postcss@8.4.35)
+      postcss-browser-comments: 4.0.0(browserslist@4.23.0)(postcss@8.4.35)
       sanitize.css: 13.0.0
 
   postcss-resolve-nested-selector@0.1.1: {}
