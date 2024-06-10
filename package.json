@@ -212,6 +212,7 @@
     "dotenv": "^16.4.5",
     "husky": "^8.0.3",
     "open-cli": "^7.2.0",
+    "playwright-slack-report": "^1.1.81",
     "prompts": "^2.4.2",
     "semver": "^7.6.0"
   }

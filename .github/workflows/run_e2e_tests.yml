@@ -1,5 +1,5 @@
 name: Run e2e autotests
-run-name: Run e2e autotests for ${{inputs.app}} app(s) on ${{inputs.env}} env
+run-name: Run e2e autotests for ${{inputs.app || 'all'}} app(s) on ${{inputs.env || 'prod'}} env
 on:
   workflow_dispatch:
     inputs:
@@ -20,6 +20,8 @@ on:
           - smart-city
           - oam
           - all
+  schedule:
+    - cron: '00 */2 * * 1-5'
 
 jobs:
   run_tests:
@@ -27,8 +29,8 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
-      ENVIRONMENT: ${{ github.event.inputs.env }}
-      APP_NAME: ${{ github.event.inputs.app }}
+      ENVIRONMENT: ${{ github.event.inputs.env || 'prod'}}
+      APP_NAME: ${{ github.event.inputs.app || 'all' }}
       TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
       TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
       DEV_EMAIL: ${{ secrets.DEV_EMAIL }}
@@ -39,6 +41,7 @@ jobs:
       TEST_KEYCLOAK_ADMIN_PASSWORD: ${{ secrets.TEST_KEYCLOAK_ADMIN_PASSWORD }}
       DEV_KEYCLOAK_ADMIN_USER: ${{ secrets.DEV_KEYCLOAK_ADMIN_USER }}
       DEV_KEYCLOAK_ADMIN_PASSWORD: ${{ secrets.DEV_KEYCLOAK_ADMIN_PASSWORD }}
+      SLACK_BOT_USER_OAUTH_TOKEN: ${{secrets.PLAYWRIGHT_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -73,6 +76,7 @@ jobs:
           echo "PASSWORD=$PASSWORD" >> .env.playwright.production
           echo "ADMIN_KEYCLOAK=$ADMIN_KEYCLOAK" >> .env.playwright.production
           echo "ADMIN_KEYCLOAK_PASSWORD=$ADMIN_KEYCLOAK_PASSWORD" >> .env.playwright.production
+          echo "SLACK_BOT_USER_OAUTH_TOKEN=${SLACK_BOT_USER_OAUTH_TOKEN}" >> .env.playwright.production
 
       - name: Cache node modules
         id: cache-npm
@@ -98,9 +102,9 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test --trace on
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload report
         if: ${{ !cancelled() }}
+        uses: JamesIves/github-pages-deploy-action@v4.6.0
         with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+          branch: playwright-report
+          folder: playwright-report
