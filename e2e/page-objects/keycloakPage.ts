@@ -79,7 +79,7 @@ export class KeycloakPage extends HelperBase {
     await page.locator('#email').fill(email);
     await page.locator('#password').fill(password);
     await page.locator('#password-confirm').fill(password);
-    await page.locator('[type = "submit"]').click();
+    await page.locator('[type = "submit"]').click({ force: true });
     await page.locator(':text("Email verification")').waitFor({ state: 'visible' });
     await expect(
       page.getByText('You need to verify your email address to activate your account.'),
@@ -144,7 +144,7 @@ export class KeycloakPage extends HelperBase {
    * @param object object with Kontur project, playwright api context, email, admin token, Keycloak admin name and password, part of email before '@'
    */
 
-  async verifyEmailUsingAPIAndReturnUserId({
+  async verifyEmail({
     project,
     apiContext,
     email,
@@ -154,7 +154,7 @@ export class KeycloakPage extends HelperBase {
     username,
   }: VerifyEmailInfo) {
     // Get registered user info
-    const domain = await this.getDomainFromUrl(project.authUrl);
+    const domain = this.getDomainFromUrl(project.authUrl);
 
     const userObjArray = await this.getUserArrayByText({
       domain,
@@ -205,7 +205,7 @@ export class KeycloakPage extends HelperBase {
 
   async deleteUserById({ adminToken, project, apiContext, userId }: DeleteUsersInfo) {
     // Get registered user info
-    const domain = await this.getDomainFromUrl(project.authUrl);
+    const domain = this.getDomainFromUrl(project.authUrl);
 
     const deleteUserUrl = `${domain}/admin/realms/${project.env === 'test' ? 'test' : 'dev'}/users/${userId}`;
 

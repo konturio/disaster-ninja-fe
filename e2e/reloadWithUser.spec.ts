@@ -15,11 +15,14 @@ for (const project of projects) {
     });
     test('My profile has the same data', async ({ pageManager }) => {
       await pageManager.fromNavigationMenu.goToProfilePage();
-      const settingsValues =
-        await pageManager.atProfilePage.getAllProfileValuesAndStatuses();
+      const settingsValues = await pageManager.atProfilePage.getProfileData(project, {
+        shouldOsmEditorBeSeenOnAtlas: false,
+      });
       await pageManager.atProfilePage.compareUrlsAfterReload(project);
-      const settingValuesAfterReload =
-        await pageManager.atProfilePage.getAllProfileValuesAndStatuses();
+      const settingValuesAfterReload = await pageManager.atProfilePage.getProfileData(
+        project,
+        { shouldOsmEditorBeSeenOnAtlas: false },
+      );
       expect(settingValuesAfterReload).toStrictEqual(settingsValues);
     });
   });

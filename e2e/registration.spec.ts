@@ -50,7 +50,7 @@ for (const project of projects) {
       }),
     ]);
 
-    const userId = await pageManager.atKeycloakPage.verifyEmailUsingAPIAndReturnUserId({
+    const userId = await pageManager.atKeycloakPage.verifyEmail({
       project,
       apiContext,
       email,

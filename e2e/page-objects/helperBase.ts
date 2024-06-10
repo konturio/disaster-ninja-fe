@@ -31,9 +31,8 @@ export class HelperBase {
    */
 
   async openProject(project: Project, { skipCookieBanner = false }: Options = {}) {
-    await this.page.goto(project.url);
-
-    // Expect a title "to contain" a project name.
+    await this.page.goto(project.url, { waitUntil: 'domcontentloaded' });
+    // Expect a title to match a project name.
     await expect(this.page).toHaveTitle(`${project.title}`);
 
     // Currently, OAM project doesn't have cookies popups
@@ -86,7 +85,7 @@ export class HelperBase {
    * @returns domain in string format
    */
 
-  async getDomainFromUrl(url: string) {
+  getDomainFromUrl(url: string) {
     const urlObj = new URL(url);
     return urlObj.origin;
   }

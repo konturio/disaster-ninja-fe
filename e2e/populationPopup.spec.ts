@@ -19,12 +19,10 @@ let projects = getProjects();
 // Oam has no layers, smart-city has no population density layer
 // Disaster-ninja temporally switched off untill 15482 issue is fixed
 // Atlas has no 'layers' feature for guest (and layers theirself)
-projects = projects.filter((arg) => {
-  arg.name !== 'atlas' &&
-    arg.name !== 'oam' &&
-    arg.name !== 'disaster-ninja' &&
-    arg.name !== 'smart-city';
-});
+
+const excludedNames = ['atlas', 'oam', 'disaster-ninja', 'smart-city'];
+
+projects = projects.filter((arg) => !excludedNames.includes(arg.name));
 
 const testPopulation = async function (inputData: InputData) {
   await inputData.pageManager.atMap.goToSpecificAreaByUrl(

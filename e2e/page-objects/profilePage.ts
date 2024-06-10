@@ -1,5 +1,10 @@
 import { expect } from '@playwright/test';
 import { HelperBase } from './helperBase';
+import type { Project } from './helperBase';
+
+type ProfileOptions = {
+  shouldOsmEditorBeSeenOnAtlas: boolean;
+};
 
 export class ProfilePage extends HelperBase {
   /**
@@ -61,13 +66,18 @@ export class ProfilePage extends HelperBase {
 
   /**
    * This method gets all values/texts of textboxes in settings like Full name and etc. Also it gets statuses of radio buttons, are they checked or not.
+   * @param project tested project
+   * @param shouldOsmEditorBeSeenOnAtlas set to true to check if osm editor should be available for tested atlas role
    * @returns object with strings for values and booleans for statuses of radio buttons
    */
-  async getAllProfileValuesAndStatuses() {
+  async getProfileData(
+    project: Project,
+    { shouldOsmEditorBeSeenOnAtlas }: ProfileOptions,
+  ) {
     const emailValue = await this.getEmailValueAndCheckThisFieldIsDisabled();
     const fullNameValue = await this.getFullNameValue();
 
-    // TO DO: turn it on after 18666 issue is fixed
+    // TO DO: turn it on after 18342 issue is fixed
     // const bioValue = await this.page
     //   .getByText('Bio')
     //   .locator('..')
@@ -90,21 +100,33 @@ export class ProfilePage extends HelperBase {
     const isImperialUnitChecked = await this.page
       .getByRole('radio', { name: 'imperial (beta)' })
       .isChecked();
-    const disasterFeedValue = await this.page
-      .getByText('Default disaster feed')
-      .locator('..')
-      .locator('span')
-      .textContent();
-    const osmEditorValue = await this.page
-      .getByText('Default OpenStreetMap editor (beta)')
-      .locator('..')
-      .locator('span')
-      .textContent();
+    const disasterFeedValue =
+      project.name === 'disaster-ninja'
+        ? await this.page
+            .getByText('Default disaster feed')
+            .locator('..')
+            .locator('span')
+            .textContent()
+        : 'No data';
+    const osmEditorValue =
+      shouldOsmEditorBeSeenOnAtlas || project.name !== 'atlas'
+        ? await this.page
+            .getByText('Default OpenStreetMap editor (beta)')
+            .locator('..')
+            .locator('span')
+            .textContent()
+        : 'No access';
+    if (project.name !== 'disaster-ninja')
+      await expect(this.page.getByText('Default disaster feed')).not.toBeVisible();
+    if (!shouldOsmEditorBeSeenOnAtlas && project.name === 'atlas')
+      await expect(
+        this.page.getByText('Default OpenStreetMap editor (beta)'),
+      ).not.toBeVisible();
 
     return {
       fullNameValue,
       emailValue,
-      // TO DO: turn it on after 18666 issue is fixed
+      // TO DO: turn it on after 18342 issue is fixed
       // bioValue,
       themeValue,
       languageValue,
