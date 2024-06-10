@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import * as dotenv from 'dotenv';
-import { LogLevel } from '@slack/web-api';
+import { LogLevel } from '@slack/web-api/dist/index.js';
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
