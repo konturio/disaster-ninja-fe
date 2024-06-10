@@ -98,6 +98,7 @@ jobs:
           pnpm add -g playwright@latest
           pnpm add -D @playwright/test@latest
           npx playwright install --with-deps
+          pnpm add playwright-slack-report -D
 
       - name: Run Playwright tests
         run: npx playwright test --trace on
