@@ -19,11 +19,11 @@ for (const project of projects) {
         shouldOsmEditorBeSeenOnAtlas: false,
       });
       await pageManager.atProfilePage.compareUrlsAfterReload(project);
-      const settingValuesAfterReload = await pageManager.atProfilePage.getProfileData(
+      const settingsValuesAfterReload = await pageManager.atProfilePage.getProfileData(
         project,
         { shouldOsmEditorBeSeenOnAtlas: false },
       );
-      expect(settingValuesAfterReload).toStrictEqual(settingsValues);
+      expect(settingsValuesAfterReload).toStrictEqual(settingsValues);
     });
   });
 }
