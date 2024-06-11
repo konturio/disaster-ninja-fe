@@ -119,13 +119,7 @@ export class KeycloakPage extends HelperBase {
    * @returns array of objects with users
    */
 
-  async getUserArrayByText({
-    domain,
-    project,
-    text,
-    adminToken,
-    apiContext,
-  }: GetUserArrayData) {
+  async getUsers({ domain, project, text, adminToken, apiContext }: GetUserArrayData) {
     const endpointToSearchForUser = `${domain}/admin/realms/${project.env === 'test' ? 'test' : 'dev'}/users?search=${text}`;
 
     const userResponse = await apiContext.get(endpointToSearchForUser, {
@@ -156,7 +150,7 @@ export class KeycloakPage extends HelperBase {
     // Get registered user info
     const domain = this.getDomainFromUrl(project.authUrl);
 
-    const userObjArray = await this.getUserArrayByText({
+    const userObjArray = await this.getUsers({
       domain,
       project,
       apiContext,
@@ -187,8 +181,8 @@ export class KeycloakPage extends HelperBase {
     // Update registered user
     userObj.emailVerified = true;
     userObj.requiredActions = [];
-    const endpointToUpdateUser = `${domain}/admin/realms/${project.env === 'test' ? 'test' : 'dev'}/users/${id}`;
-    const updatedUserResponse = await apiContext.put(endpointToUpdateUser, {
+    const updateUserUrl = `${domain}/admin/realms/${project.env === 'test' ? 'test' : 'dev'}/users/${id}`;
+    const updatedUserResponse = await apiContext.put(updateUserUrl, {
       data: userObj,
       headers: {
         Authorization: `Bearer ${newAdminToken}`,
