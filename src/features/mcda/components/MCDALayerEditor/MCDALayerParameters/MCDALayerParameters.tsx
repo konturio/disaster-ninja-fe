@@ -78,7 +78,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   }, [axes?.data?.axis, axes?.loading, layer.id]);
 
   const mcdaLayerHint: LayerInfo[] = useMemo(() => {
-    const description = layer.indicators[0]?.description;
+    const description = layer.indicators?.[0]?.description;
     const copyrightsCombined: string[] = [];
     layer?.indicators?.forEach((indicator) => {
       if (indicator.copyrights) {
