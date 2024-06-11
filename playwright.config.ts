@@ -38,6 +38,10 @@ export default defineConfig({
         maxNumberOfFailuresToShow: 100,
         meta: [
           {
+            key: `Tests launched 🎬`,
+            value: `${process.env.CI ? 'Github Actions 🐌' : 'Locally'}`,
+          },
+          {
             key: `Environment 👷🏻‍♂️`,
             value: `${process.env.ENVIRONMENT?.toUpperCase()}`,
           },
@@ -48,6 +52,20 @@ export default defineConfig({
           {
             key: 'Tested user with no rights',
             value: process.env.EMAIL,
+          },
+          {
+            key: `HTML Results 📈`,
+            value: '<https://konturio.github.io/disaster-ninja-fe/index.html|(see)>',
+          },
+          {
+            key: `Note`,
+            value:
+              'HTML results are updated only when tests are run from GitHub Actions. ✋ After each run, the page is refreshed. ♻️ For previous reports, go to Workflow runs (below) -> Any workflow run -> Artifacts 🕵️',
+          },
+          {
+            key: `Workflow runs 🦾`,
+            value:
+              '<https://github.com/konturio/disaster-ninja-fe/actions/workflows/run_e2e_tests.yml|(see)>',
           },
         ],
         slackOAuthToken: process.env.SLACK_BOT_USER_OAUTH_TOKEN,

@@ -102,9 +102,17 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test --trace on
 
-      - name: Upload report
+      - name: Upload report to GitHub Pages
         if: ${{ !cancelled() }}
         uses: JamesIves/github-pages-deploy-action@v4.6.0
         with:
           branch: playwright-report
           folder: playwright-report/
+
+      - name: Upload report to workflow artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
