@@ -16,9 +16,13 @@ type InputData = {
 };
 
 let projects = getProjects();
-// oam has no layers, smart-city has no population density layer
-// disaster-ninja temporally switched off untill 15482 issue is fixed
-projects = projects.filter((arg) => arg.name === 'atlas');
+// Oam has no layers, smart-city has no population density layer
+// Disaster-ninja temporally switched off untill 15482 issue is fixed
+// Atlas has no 'layers' feature for guest (and layers theirself)
+
+const excludedNames = ['atlas', 'oam', 'disaster-ninja', 'smart-city'];
+
+projects = projects.filter((arg) => !excludedNames.includes(arg.name));
 
 const testPopulation = async function (inputData: InputData) {
   await inputData.pageManager.atMap.goToSpecificAreaByUrl(
@@ -36,8 +40,6 @@ projects.forEach((project) => {
   test.describe(`As Guest, I can see popup about population at ${project.title} after clicking at hexagon`, () => {
     test.beforeEach(async ({ pageManager }) => {
       await pageManager.atBrowser.openProject(project);
-      // TO DO: remove this action after Atlas is launched
-      await pageManager.atBrowser.closeAtlasBanner(project);
     });
     test('Normal population in USA', async ({ pageManager, page }) => {
       await testPopulation({
