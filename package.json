@@ -191,6 +191,7 @@
     "stylelint": "^16.2.1",
     "stylelint-config-recommended": "^14.0.0",
     "superstruct": "^1.0.4",
+    "surge": "^0.23.1",
     "ts-json-schema-generator": "^1.5.0",
     "tsx": "^4.9.3",
     "typescript": "5.4.5",

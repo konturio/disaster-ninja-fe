@@ -55,12 +55,12 @@ export default defineConfig({
           },
           {
             key: `HTML Results 📈`,
-            value: '<https://konturio.github.io/disaster-ninja-fe/index.html|(see)>',
+            value: '<https://konturtestplaywright.surge.sh/|(see)>',
           },
           {
             key: `Note`,
             value:
-              'HTML results are updated only when tests are run from GitHub Actions. ✋ After each run, the page is refreshed. ♻️ For previous reports, go to Workflow runs (below) -> Any workflow run -> Artifacts 🕵️',
+              'HTML results are updated only when tests are run from GitHub Actions. ✋ After each run, the report is refreshed. ♻️ For previous reports, go to Workflow runs (below) -> Any workflow run -> Artifacts 🕵️',
           },
           {
             key: `Workflow runs 🦾`,

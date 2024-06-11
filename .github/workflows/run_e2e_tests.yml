@@ -102,14 +102,14 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test --trace on
 
-      - name: Upload report to GitHub Pages
+      - name: Upload report to surge.sh
         if: ${{ !cancelled() }}
-        uses: JamesIves/github-pages-deploy-action@v4.6.0
+        uses: dswistowski/surge-sh-action@v1
         with:
-          branch: playwright-report
-          folder: playwright-report/
-          clean: true
-          force: true
+          domain: 'konturtestplaywright.surge.sh'
+          project: 'playwright-report'
+          login: ${{secrets.SURGE_EMAIL}}
+          token: ${{secrets.SURGE_TOKEN}}
 
       - name: Upload report to workflow artifacts
         if: ${{ !cancelled() }}
