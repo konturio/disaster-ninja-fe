@@ -103,6 +103,7 @@
     "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty",
     "error_bad_layer_data": "Invalid MCDA layer data",
     "error_invalid_file": "Invalid MCDA file format",
+    "error_wrong_mcda_version": "Wrong MCDA version",
     "legend_title": "Legend",
     "legend_subtitle": "Hexagons are colored based on analysis layer settings. Click a hexagon to see its values.",
     "layer_editor": {
