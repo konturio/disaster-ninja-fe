@@ -108,6 +108,8 @@ jobs:
         with:
           branch: playwright-report
           folder: playwright-report/
+          clean: true
+          force: true
 
       - name: Upload report to workflow artifacts
         if: ${{ !cancelled() }}
