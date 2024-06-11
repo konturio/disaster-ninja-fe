@@ -27,6 +27,7 @@ export const mcdaLayerAtom = createAtom(
   ({ onAction, schedule, getUnlistedState, create }) => {
     onAction('createMCDALayer', (json) => {
       const id = json.id;
+      const name = json.name;
       let legendColors: string[] | undefined;
       if (json.colors.type === 'sentiments') {
         const colorGood = json.colors.parameters?.good ?? DEFAULT_GREEN;
@@ -53,7 +54,7 @@ export const mcdaLayerAtom = createAtom(
         layersSettingsAtom.set(
           id,
           createAsyncWrapper({
-            name: id,
+            name,
             id,
             category: 'overlay' as const,
             group: 'bivariate',
