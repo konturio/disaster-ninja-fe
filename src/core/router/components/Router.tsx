@@ -2,7 +2,6 @@ import {
   Outlet,
   RouterProvider,
   createBrowserRouter,
-  redirect,
   type RouteObject,
 } from 'react-router-dom';
 import { KeepAliveProvider } from 'react-component-keepalive-ts';
@@ -53,8 +52,6 @@ function Layout() {
 }
 
 export function initRoouter() {
-  const featureFlags = configRepo.get().features;
-  let initialRedirect: string | false = false;
   const availableRoutes = getAvailableRoutes();
   const { defaultRoute } = availableRoutes;
   const routes: RouteObject[] = availableRoutes.routes.map((r) => ({
@@ -62,12 +59,6 @@ export function initRoouter() {
     path: getAbsoluteRoute(r.parentRoute ? `${r.parentRoute}/${r.slug}` : r.slug),
     element: <Suspense fallback={<FullScreenLoader />}>{r.view}</Suspense>,
   }));
-
-  routes.push({
-    id: '_catch_all',
-    path: '*',
-    element: <div id="_router_catch_all" />,
-  });
 
   const router = createBrowserRouter(
     [
@@ -81,6 +72,8 @@ export function initRoouter() {
       basename: configRepo.get().baseUrl,
     },
   );
+
+  let initialRedirect: string | false = false;
 
   if (router.state.matches.length < 2) {
     // if we are on root /, redirect to default child route

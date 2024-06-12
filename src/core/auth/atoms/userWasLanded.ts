@@ -7,5 +7,5 @@ export function userWasLanded() {
   const noSettingUrl =
     location.pathname === configRepo.get().baseUrl && initialUrl.search === '';
   const userHaveLandedMark = localStorage.getItem('landed');
-  return !(noSettingUrl && !userHaveLandedMark);
+  return noSettingUrl && !userHaveLandedMark;
 }
