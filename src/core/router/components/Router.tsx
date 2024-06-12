@@ -2,6 +2,7 @@ import {
   Outlet,
   RouterProvider,
   createBrowserRouter,
+  redirect,
   type RouteObject,
 } from 'react-router-dom';
 import { KeepAliveProvider } from 'react-component-keepalive-ts';
@@ -10,16 +11,16 @@ import { PostInit } from '~core/postInit';
 import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { landUser, userWasLanded } from '~core/auth/atoms/userWasLanded';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
 import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { NAVIGATE_EVENT } from '../goTo';
 import { currentLocationAtom } from '../atoms/currentLocation';
 
-export const routerInstance = createBrowserRouter(getRoutes(), {
-  basename: configRepo.get().baseUrl,
-});
+export const routerInstance = initRoouter();
 
+// sync currentLocationAtom with react-router-dom
 routerInstance.subscribe((e) => {
   // @ts-expect-error ok since we are using only pathanme prop
   currentLocationAtom.set.dispatch(e.location);
@@ -51,25 +52,56 @@ function Layout() {
   );
 }
 
-export function getRoutes(): RouteObject[] {
+export function initRoouter() {
   const featureFlags = configRepo.get().features;
-  const routes: RouteObject[] = getAvailableRoutes().routes.map((r) => ({
-    key: r.slug,
+  let initialRedirect: string | false = false;
+  const availableRoutes = getAvailableRoutes();
+  const { defaultRoute } = availableRoutes;
+  const routes: RouteObject[] = availableRoutes.routes.map((r) => ({
+    id: r.slug,
     path: getAbsoluteRoute(r.parentRoute ? `${r.parentRoute}/${r.slug}` : r.slug),
     element: <Suspense fallback={<FullScreenLoader />}>{r.view}</Suspense>,
   }));
 
-  routes.push({ path: '*', element: <div>404</div> });
+  routes.push({
+    id: '_catch_all',
+    path: '*',
+    element: <div id="_router_catch_all" />,
+  });
 
-  // TODO: showAboutForNewUsers(); via https://reactrouter.com/en/dev/fetch/redirect
-
-  return [
+  const router = createBrowserRouter(
+    [
+      {
+        path: '/',
+        element: <Layout />,
+        children: routes,
+      },
+    ],
     {
-      path: '/',
-      element: <Layout />,
-      children: routes,
+      basename: configRepo.get().baseUrl,
     },
-  ];
+  );
+
+  if (router.state.matches.length < 2) {
+    // if we are on root /, redirect to default child route
+    // router.state.matches[1] is Layout route, router.state.matches[2] etc will be actual app pages
+    initialRedirect = defaultRoute;
+  }
+
+  // show landing page
+  if (configRepo.get().features['about_page'] && !userWasLanded()) {
+    const greetingsRoute = availableRoutes.routes.find((r) => r.showForNewUsers);
+
+    // redirect to landing page if user is new and feature is enabled
+    initialRedirect = greetingsRoute?.slug as string;
+    landUser();
+  }
+
+  if (initialRedirect !== false) {
+    router.navigate(getAbsoluteRoute(initialRedirect));
+  }
+
+  return router;
 }
 
 function FullScreenLoader() {

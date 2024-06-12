@@ -23,7 +23,6 @@ const { BivariateManagerPage } = lazily(
 );
 
 const isAuthenticated = !!configRepo.get().user;
-const isMapEnabled = !!configRepo.get().features['map'];
 
 export const routerConfig: AppRouterConfig = {
   defaultRoute: '',
@@ -32,8 +31,7 @@ export const routerConfig: AppRouterConfig = {
       slug: '',
       title: i18n.t('modes.map'),
       icon: <Map24 />,
-      // disabled: !isMapEnabled,
-      view: isMapEnabled ? <MapPage /> : <div />,
+      view: <MapPage />,
       requiredFeature: AppFeature.MAP,
       cached: true,
     },
