@@ -85,7 +85,7 @@ function sentimentPaint({
     'fill-color': [
       'let',
       'mcdaResult',
-      ['to-number', mcdaResult, -9999], // falsy values become -9999
+      mcdaResult,
       [
         'case',
         [
@@ -105,7 +105,8 @@ function sentimentPaint({
         // paint all values above absoluteMax (1 by default) same as absoluteMax
         ['>', ['var', 'mcdaResult'], absoluteMax],
         good,
-        // default color value. We shouldn't get it, because all cases are covered
+        // Default color value. We get here in case of incorrect values (null, NaN etc)
+        // Transparent features don't show popups on click
         'transparent',
       ],
     ],
