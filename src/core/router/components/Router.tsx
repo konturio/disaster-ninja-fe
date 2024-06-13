@@ -17,7 +17,7 @@ import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { NAVIGATE_EVENT } from '../goTo';
 import { currentLocationAtom } from '../atoms/currentLocation';
 
-export const routerInstance = initRoouter();
+export const routerInstance = initRouter();
 
 // sync currentLocationAtom with react-router-dom
 routerInstance.subscribe((e) => {
@@ -51,7 +51,7 @@ function Layout() {
   );
 }
 
-export function initRoouter() {
+export function initRouter() {
   const availableRoutes = getAvailableRoutes();
   const { defaultRoute } = availableRoutes;
   const routes: RouteObject[] = availableRoutes.routes.map((r) => ({
@@ -83,10 +83,10 @@ export function initRoouter() {
 
   // show landing page
   if (configRepo.get().features['about_page'] && !userWasLanded()) {
-    const greetingsRoute = availableRoutes.routes.find((r) => r.showForNewUsers);
+    const landingPageRoute = availableRoutes.routes.find((r) => r.showForNewUsers);
 
     // redirect to landing page if user is new and feature is enabled
-    initialRedirect = greetingsRoute?.slug as string;
+    initialRedirect = landingPageRoute?.slug as string;
     landUser();
   }
 
