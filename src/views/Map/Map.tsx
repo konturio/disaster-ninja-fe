@@ -1,6 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { useAtom } from '@reatom/react-v2';
 import { lazily } from 'react-lazily';
+// @ts-ignore
 import { withKeepAlive } from 'react-component-keepalive-ts';
 import clsx from 'clsx';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
