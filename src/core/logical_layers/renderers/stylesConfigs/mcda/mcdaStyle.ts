@@ -49,9 +49,8 @@ export function filterSetup(layers: MCDAConfig['layers']) {
 }
 
 export function linearNormalization(layers: MCDAConfig['layers']) {
-  const layersCount = layers.length;
-  if (layersCount === 1) {
-    return calculateLayer(layers.at(0)!);
+  if (layers.length === 1) {
+    return ['/', calculateLayer(layers.at(0)!), layers.at(0)!.coefficient];
   } else {
     return ['/', ['+', ...layers.map(calculateLayer)], sumBy(layers, 'coefficient')];
   }
