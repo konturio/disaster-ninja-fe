@@ -98,6 +98,7 @@
     "@reatom/npm-react": "^3.8.6",
     "@reatom/react-v2": "^3.1.0",
     "@sentry/react": "^7.113.0",
+    "@slack/web-api": "^7.0.4",
     "@testing-library/react": "^14.2.1",
     "@turf/area": "6.5.0",
     "@turf/bbox": "^6.5.0",
@@ -190,6 +191,7 @@
     "stylelint": "^16.2.1",
     "stylelint-config-recommended": "^14.0.0",
     "superstruct": "^1.0.4",
+    "surge": "^0.23.1",
     "ts-json-schema-generator": "^1.5.0",
     "tsx": "^4.9.3",
     "typescript": "5.4.5",
@@ -212,6 +214,7 @@
     "dotenv": "^16.4.5",
     "husky": "^8.0.3",
     "open-cli": "^7.2.0",
+    "playwright-slack-report": "^1.1.81",
     "prompts": "^2.4.2",
     "semver": "^7.6.0"
   }
