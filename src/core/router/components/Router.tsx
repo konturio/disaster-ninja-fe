@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
   type RouteObject,
 } from 'react-router-dom';
-// @ts-ignore
 import { KeepAliveProvider } from 'react-component-keepalive-ts';
 import { Suspense } from 'react';
 import { PostInit } from '~core/postInit';

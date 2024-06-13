@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  react-component-keepalive-ts@1.0.8:
+    hash: k74cn7jzgfej2j3jlaw2enakvu
+    path: patches/react-component-keepalive-ts@1.0.8.patch
+
 importers:
 
   .:
@@ -298,7 +303,7 @@ importers:
         version: 18.2.0
       react-component-keepalive-ts:
         specifier: ^1.0.8
-        version: 1.0.8(react@18.2.0)
+        version: 1.0.8(patch_hash=k74cn7jzgfej2j3jlaw2enakvu)(react@18.2.0)
       react-cosmos:
         specifier: 5.7.2
         version: 5.7.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(webpack@5.91.0)
@@ -13011,7 +13016,7 @@ snapshots:
     dependencies:
       quickselect: 2.0.0
 
-  react-component-keepalive-ts@1.0.8(react@18.2.0):
+  react-component-keepalive-ts@1.0.8(patch_hash=k74cn7jzgfej2j3jlaw2enakvu)(react@18.2.0):
     dependencies:
       react: 18.2.0
       react-dom: 18.0.0(react@18.2.0)
