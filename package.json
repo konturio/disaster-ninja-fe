@@ -92,6 +92,7 @@
     "@loaders.gl/worker-utils": "^3.4.14",
     "@nebula.gl/edit-modes": "1.1.0-alpha.5",
     "@nebula.gl/layers": "1.1.0-alpha.5",
+    "@paypal/react-paypal-js": "^8.5.0",
     "@reatom/core": "^3.8.0",
     "@reatom/core-v2": "^3.1.2",
     "@reatom/logger": "^3.6.1",
