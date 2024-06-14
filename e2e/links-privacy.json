@@ -1,0 +1,60 @@
+[
+  {
+    "name": "kontur",
+    "linkShown": "https://www.kontur.io",
+    "url": "https://www.kontur.io",
+    "linkValidation": {
+      "shouldOpen": true,
+      "expectedUrl": "https://www.kontur.io"
+    }
+  },
+  {
+    "name": "atlas",
+    "linkShown": "https://atlas.kontur.io",
+    "url": "https://atlas.kontur.io",
+    "linkValidation": {
+      "shouldOpen": false
+    }
+  },
+  {
+    "name": "maps",
+    "linkShown": "https://maps.kontur.io",
+    "url": "https://maps.kontur.io",
+    "linkValidation": {
+      "shouldOpen": false
+    }
+  },
+  {
+    "name": "disaster-ninja",
+    "linkShown": "https://disaster.ninja",
+    "url": "https://disaster.ninja",
+    "linkValidation": {
+      "shouldOpen": false
+    }
+  },
+  {
+    "name": "oam",
+    "linkShown": "https://new.openaerialmap.org/",
+    "url": "https://new.openaerialmap.org/",
+    "linkValidation": {
+      "shouldOpen": false
+    }
+  },
+  {
+    "name": "kontur-email",
+    "linkShown": "hello@kontur.io",
+    "url": "mailto:hello@kontur.io",
+    "linkValidation": {
+      "shouldOpen": false
+    }
+  },
+  {
+    "name": "google-analytics",
+    "linkShown": "https://support.google.com/analytics/answer/6004245",
+    "url": "https://support.google.com/analytics/answer/6004245",
+    "linkValidation": {
+      "shouldOpen": true,
+      "expectedUrl": "https://support.google.com/analytics/answer/6004245"
+    }
+  }
+]
