@@ -1,0 +1,24 @@
+.priceWrap {
+  display: flex;
+  align-items: baseline;
+  color: var(--base-strong);
+}
+
+.dollarSign {
+  align-self: flex-start;
+  font-weight: 600;
+  line-height: 20px;
+  font-size: 16px;
+  margin-right: var(--half-unit);
+}
+
+.amount {
+  font-weight: 500;
+  line-height: 40px;
+  font-size: 52px;
+}
+
+.perMonth {
+  margin-left: var(--unit);
+  color: var(--text-faint-strong);
+}

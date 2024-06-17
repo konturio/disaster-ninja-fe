@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useAtom } from '@reatom/react-v2';
 import { landUser } from '~core/auth';
 import { PagesDocument } from '~core/pages';
-import { configRepo } from '~core/config';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 
 const defaultDocument = [

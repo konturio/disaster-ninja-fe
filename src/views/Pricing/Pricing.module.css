@@ -1,0 +1,32 @@
+.pricingWrap {
+  width: 100%;
+  display: flex;
+}
+
+.pricingPlans {
+  padding: 20px;
+  margin: auto;
+}
+
+.toggleSwitch {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.discount {
+  background-color: var(--faint-weak);
+  color: var(--text-faint-strong);
+  padding: 2px 4px 4px 4px;
+  border-radius: var(--border-radius);
+  line-height: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.plans {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
