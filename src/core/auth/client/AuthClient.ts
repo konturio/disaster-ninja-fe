@@ -50,6 +50,16 @@ export class AuthClient {
   }
 
   /**
+   * refreshAuth
+   * @returns void
+   *
+   * @throws {ApiClientError}
+   */
+  public async refreshAuth() {
+    await this._apiClient.refreshAuthToken();
+  }
+
+  /**
    * @returns true or error message
    */
   public async authenticate(user: string, password: string) {
