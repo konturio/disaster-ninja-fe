@@ -2,9 +2,9 @@
   border: 1px solid var(--faint-weak-up, #d2d5d8);
   border-radius: var(--double-unit, 16px);
   padding: 48px 40px 24px;
-  width: 400px;
   height: 578px;
   max-width: 400px;
+  min-width: 220px;
   display: flex;
   position: relative;
   flex-direction: column;

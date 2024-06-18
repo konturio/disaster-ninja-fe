@@ -1,6 +1,7 @@
 .pricingWrap {
   width: 100%;
   display: flex;
+  overflow-y: auto;
 }
 
 .pricingPlans {
