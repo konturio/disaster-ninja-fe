@@ -5,7 +5,7 @@
     "url": "https://www.kontur.io",
     "linkValidation": {
       "shouldOpen": true,
-      "expectedUrl": "https://www.kontur.io"
+      "expectedUrl": "https://www.kontur.io/"
     }
   },
   {
@@ -55,6 +55,93 @@
     "linkValidation": {
       "shouldOpen": true,
       "expectedUrl": "https://support.google.com/analytics/answer/6004245"
+    }
+  },
+  {
+    "name": "linkedin-privacy",
+    "linkShown": "https://www.linkedin.com/legal/privacy-policy",
+    "url": "https://www.linkedin.com/legal/privacy-policy",
+    "linkValidation": {
+      "shouldOpen": true,
+      "expectedUrl": "https://www.linkedin.com/legal/privacy-policy"
+    }
+  },
+  {
+    "name": "x-privacy",
+    "linkShown": "https://x.com/en/privacy",
+    "url": "https://x.com/en/privacy",
+    "linkValidation": {
+      "shouldOpen": true,
+      "expectedUrl": "https://x.com/en/privacy"
+    }
+  },
+  {
+    "name": "meta-privacy",
+    "linkShown": "https://www.facebook.com/privacy/explanation",
+    "url": "https://www.facebook.com/privacy/explanation",
+    "linkValidation": {
+      "shouldOpen": true,
+      "expectedUrl": "https://www.facebook.com/privacy/policy/?entry_point=data_policy_redirect&entry=0"
+    }
+  },
+  {
+    "name": "yandex-metrica",
+    "linkShown": "https://yandex.com/support/metrica/general/opt-out.html",
+    "url": "https://yandex.com/support/metrica/general/opt-out.html",
+    "linkValidation": {
+      "shouldOpen": true,
+      "expectedUrl": "https://yandex.com/support/metrica/general/opt-out.html"
+    }
+  },
+  {
+    "name": "yandex-privacy",
+    "linkShown": "https://metrica.yandex.com/about/info/privacy-policy",
+    "url": "https://metrica.yandex.com/about/info/privacy-policy",
+    "linkValidation": {
+      "shouldOpen": false
+    }
+  },
+  {
+    "name": "sentry-basics",
+    "linkShown": "https://docs.sentry.io/product/sentry-basics/#how-to-get-the-most-out-of-sentry",
+    "url": "https://docs.sentry.io/product/sentry-basics/#how-to-get-the-most-out-of-sentry",
+    "linkValidation": {
+      "shouldOpen": true,
+      "expectedUrl": "https://docs.sentry.io/product/sentry-basics/#how-to-get-the-most-out-of-sentry"
+    }
+  },
+  {
+    "name": "intercom",
+    "linkShown": "https://www.intercom.com/legal/privacy",
+    "url": "https://www.intercom.com/legal/privacy",
+    "linkValidation": {
+      "shouldOpen": true,
+      "expectedUrl": "https://www.intercom.com/legal/privacy"
+    }
+  },
+  {
+    "name": "your-online-choice",
+    "linkShown": "www.youronlinechoices.com",
+    "url": "http://www.youronlinechoices.com",
+    "linkValidation": {
+      "shouldOpen": true,
+      "expectedUrl": "https://www.youronlinechoices.com/"
+    }
+  },
+  {
+    "name": "polish-gov",
+    "linkShown": "kancelaria@uodo.gov.pl",
+    "url": "mailto:kancelaria@uodo.gov.pl",
+    "linkValidation": {
+      "shouldOpen": false
+    }
+  },
+  {
+    "name": "cookie-policy",
+    "linkShown": "Cookie files policy and operational data",
+    "url": "/about/cookies",
+    "linkValidation": {
+      "shouldOpen": false
     }
   }
 ]
