@@ -9,7 +9,7 @@ for (const project of projects) {
     page,
     context,
   }) => {
-    await pageManager.atBrowser.openProject(project);
+    await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.fromNavigationMenu.goToPrivacyPage();
     await pageManager.atBrowser.waitForUrlToMatchPattern(/privacy/, page);
     await pageManager.atPrivacyPage.checkTitles(

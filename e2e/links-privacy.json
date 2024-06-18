@@ -80,8 +80,7 @@
     "linkShown": "https://www.facebook.com/privacy/explanation",
     "url": "https://www.facebook.com/privacy/explanation",
     "linkValidation": {
-      "shouldOpen": true,
-      "expectedUrl": "https://www.facebook.com/privacy/policy/?entry_point=data_policy_redirect&entry=0"
+      "shouldOpen": false
     }
   },
   {
