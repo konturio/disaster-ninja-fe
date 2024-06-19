@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button, Heading, Text } from '@konturio/ui-kit';
 import { Finish24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react-v2';
@@ -6,45 +6,38 @@ import clsx from 'clsx';
 import { Price } from '~features/subscriptions/components/Price/Price';
 import { userStateAtom } from '~core/auth';
 import { UserStateStatus } from '~core/auth/types';
+import { i18n } from '~core/localization';
 import s from './PaymentPlanCard.module.css';
-
-export enum PaymentPlanType {
-  Educational = 'Educational',
-  Professional = 'Professional',
-}
-
-export type PaymentPlan = {
-  type: PaymentPlanType;
-  description: string;
-  oldPrice: number;
-  price: number;
-  planFeatures: string[];
-  priceSummary: string;
-};
+import { PLAN_STYLING_CONFIG } from './contants';
+import type { Plan } from '~features/subscriptions/types';
 
 export type PaymentPlanProps = {
-  plan: PaymentPlan;
+  plan: Plan;
+  currentBillingCycleId: string;
 };
 
-function PaymentPlan({ plan }: PaymentPlanProps) {
+function PaymentPlan({ plan, currentBillingCycleId }: PaymentPlanProps) {
   const [userState] = useAtom(userStateAtom);
 
+  const billingOption = useMemo(
+    () => plan.billingCycles.find((option) => option.id === currentBillingCycleId),
+    [plan.billingCycles, currentBillingCycleId],
+  );
+
   return (
-    <div
-      className={clsx(
-        s.planCard,
-        plan.type === PaymentPlanType.Professional ? s.professional : '',
-      )}
-    >
-      <div className={s.planType}>
+    <div className={clsx(s.planCard, PLAN_STYLING_CONFIG[plan.style].className)}>
+      <div className={s.planName}>
+        {PLAN_STYLING_CONFIG[plan.style].icon}
         <Heading type="heading-04" margins={false}>
-          {plan.type}
+          {plan.name}
         </Heading>
       </div>
-      <div className={s.oldPrice}>
-        <span>${plan.oldPrice}</span>
-      </div>
-      <Price className={s.currentPrice} amount={plan.price}></Price>
+      {billingOption?.initialPricePerMonth && (
+        <div className={s.initialPrice}>
+          <span>${billingOption.initialPricePerMonth}</span>
+        </div>
+      )}
+      <Price className={s.price} amount={billingOption?.pricePerMonth}></Price>
       <Text className={s.planDescription} type="short-m">
         {plan.description}
       </Text>
@@ -55,19 +48,23 @@ function PaymentPlan({ plan }: PaymentPlanProps) {
           <Button className={s.subscribeButton}>Sign in to subscribe</Button>
         )}
       </div>
-      <ul className={s.planFeatures}>
-        {plan.planFeatures.map((feature, index) => (
+      <ul className={s.planHighlights}>
+        {plan.highlights.map((highlight, index) => (
           <li key={index}>
-            <div className={s.feature}>
-              <Finish24 className={s.featureIcon}></Finish24>
-              <span>{feature}</span>
+            <div className={s.highlight}>
+              <Finish24 className={s.highlightIcon}></Finish24>
+              <span>{highlight}</span>
             </div>
           </li>
         ))}
       </ul>
-      <Text type="caption" className={s.priceSummary}>
-        {plan.priceSummary}
-      </Text>
+      {billingOption?.pricePerYear && (
+        <Text type="caption" className={s.priceSummary}>
+          {i18n.t('subscription.price_summary', {
+            pricePerYear: billingOption.pricePerYear,
+          })}
+        </Text>
+      )}
     </div>
   );
 }

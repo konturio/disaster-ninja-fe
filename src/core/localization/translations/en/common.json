@@ -315,6 +315,10 @@
       "connect": "Could not connect to authentication service"
     }
   },
+  "subscription": {
+    "title": "Plans & Pricing",
+    "price_summary": "* Billed as {{pricePerYear}} once yearly"
+  },
   "reports": {
     "title": "Disaster Ninja Reports",
     "no_data": "No data for this report",

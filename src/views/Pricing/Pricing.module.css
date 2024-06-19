@@ -9,13 +9,29 @@
   margin: auto;
 }
 
-.toggleSwitch {
+.togglerSwitch {
   display: flex;
   align-items: center;
   margin-bottom: 32px;
+  margin-left: calc(var(--unit) * -1);
+
+  &.twoDirectional {
+    margin-left: 0;
+  }
 }
 
-.discount {
+.togglerLabel {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--faint-strong-up);
+
+  &.active {
+    color: var(--base-strong);
+  }
+}
+
+.note {
   background-color: var(--faint-weak);
   color: var(--text-faint-strong);
   padding: 2px 4px 4px 4px;

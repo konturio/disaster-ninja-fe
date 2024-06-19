@@ -13,19 +13,23 @@
   --plan-type-bg-color: #def5df; /* Todo: add to themes */
   --subscribe-btn-hover: #269b00;
 
-  &.professional {
+  &.premium {
     --strong-color: var(--accent-strong);
     --plan-type-bg-color: #d8effc; /* Todo: add to themes */
     --subscribe-btn-hover: var(--accent-strong-up);
   }
 }
 
-.professional {
+.premium {
   background-color: var(--accent-weak);
   border-color: var(--strong-color);
 }
 
-.planType {
+.planIcon {
+  margin-right: var(--unit);
+}
+
+.planName {
   position: absolute;
   padding: var(--unit) var(--double-unit);
   border-radius: 18px;
@@ -33,15 +37,17 @@
   top: -18px;
   background-color: var(--plan-type-bg-color);
   color: var(--strong-color);
+  display: flex;
+  align-items: center;
 }
 
-.oldPrice {
+.initialPrice {
   color: var(--faint-strong, #9ea5ab);
   text-decoration: line-through;
   margin-bottom: var(--double-unit);
 }
 
-.currentPrice {
+.price {
   margin-bottom: var(--double-unit);
 }
 
@@ -64,22 +70,22 @@
   }
 }
 
-.planFeatures {
+.planHighlights {
   list-style: none;
   padding: 0;
   margin: 0;
+
+  & li {
+    margin: 5px 0;
+  }
 }
 
-.planFeatures li {
-  margin: 5px 0;
-}
-
-.feature {
+.highlight {
   display: flex;
   align-items: center;
 }
 
-.featureIcon {
+.highlightIcon {
   margin-right: var(--double-unit);
   color: var(--strong-color);
 }

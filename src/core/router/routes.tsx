@@ -71,7 +71,7 @@ export const routerConfig: AppRouterConfig = {
     },
     {
       slug: 'pricing',
-      title: 'Pricing',
+      title: i18n.t('subscription.title'),
       icon: <Diamond24 />,
       view: <PricingPage />,
       requiredFeature: AppFeature.SUBSCRIPTION,
