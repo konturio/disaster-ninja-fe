@@ -1,4 +1,8 @@
-import { BillingCycleID, PlanStyle } from '~features/subscriptions/types';
+import {
+  BillingCycleID,
+  type CurrentSubscriptionInfo,
+  PlanStyle,
+} from '~features/subscriptions/types';
 import type { PricingConfig } from '~views/Pricing/types';
 
 export const MOCK_PRICING_CONFIG: PricingConfig = {
@@ -103,4 +107,10 @@ export const MOCK_PRICING_CONFIG: PricingConfig = {
       ],
     },
   ],
+};
+
+export const CURRENT_SUBSCRIPTION_INFO: CurrentSubscriptionInfo = {
+  id: 'kontur_atlas_pro',
+  billingPlanId: 'test',
+  billingSubscriptionId: 'testtest',
 };

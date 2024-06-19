@@ -1,22 +1,27 @@
 import React, { useMemo } from 'react';
-import { Button, Heading, Text } from '@konturio/ui-kit';
+import { Heading, Text } from '@konturio/ui-kit';
 import { Finish24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
 import { Price } from '~features/subscriptions/components/Price/Price';
 import { userStateAtom } from '~core/auth';
-import { UserStateStatus } from '~core/auth/types';
 import { i18n } from '~core/localization';
+import { buttonRenderSwitch } from '~features/subscriptions/components/PaymentPlanCard/buttonRenderSwitch';
 import s from './PaymentPlanCard.module.css';
 import { PLAN_STYLING_CONFIG } from './contants';
-import type { Plan } from '~features/subscriptions/types';
+import type { CurrentSubscriptionInfo, Plan } from '~features/subscriptions/types';
 
 export type PaymentPlanProps = {
   plan: Plan;
   currentBillingCycleId: string;
+  currentSubscriptionInfo: CurrentSubscriptionInfo;
 };
 
-function PaymentPlan({ plan, currentBillingCycleId }: PaymentPlanProps) {
+function PaymentPlan({
+  plan,
+  currentBillingCycleId,
+  currentSubscriptionInfo,
+}: PaymentPlanProps) {
   const [userState] = useAtom(userStateAtom);
 
   const billingOption = useMemo(
@@ -41,13 +46,7 @@ function PaymentPlan({ plan, currentBillingCycleId }: PaymentPlanProps) {
       <Text className={s.planDescription} type="short-m">
         {plan.description}
       </Text>
-      <div>
-        {userState === UserStateStatus.AUTHORIZED ? (
-          <Button className={s.subscribeButton}>Subscribe</Button>
-        ) : (
-          <Button className={s.subscribeButton}>Sign in to subscribe</Button>
-        )}
-      </div>
+      <div>{buttonRenderSwitch(plan, userState, currentSubscriptionInfo)}</div>
       <ul className={s.planHighlights}>
         {plan.highlights.map((highlight, index) => (
           <li key={index}>

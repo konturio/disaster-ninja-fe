@@ -317,7 +317,9 @@
   },
   "subscription": {
     "title": "Plans & Pricing",
-    "price_summary": "* Billed as {{pricePerYear}} once yearly"
+    "price_summary": "* Billed as {{pricePerYear}} once yearly",
+    "unauthorized_button": "Sign in to subscribe",
+    "current_plan_button": "Current plan"
   },
   "reports": {
     "title": "Disaster Ninja Reports",

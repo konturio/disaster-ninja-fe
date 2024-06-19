@@ -35,3 +35,9 @@ export interface Plan {
   highlights: string[];
   billingCycles: BillingCycle[];
 }
+
+export type CurrentSubscriptionInfo = {
+  id: string;
+  billingPlanId: string;
+  billingSubscriptionId: string;
+} | null;
