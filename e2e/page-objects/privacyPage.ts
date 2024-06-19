@@ -54,6 +54,13 @@ export class PrivacyPage extends HelperBase {
     return links;
   }
 
+  /**
+   * This method checks all links on the privacy page.
+   * Input data should be specified in the links-privacy.json file.
+   * Link names and URLs are verified, and for some links, the actual URL in the browser is compared to the expected one after click on the link.
+   * @param context playwright browser context
+   */
+
   async checkLinks(context: BrowserContext) {
     const links = await this.getLinks();
     for (const link of links) {
@@ -68,5 +75,19 @@ export class PrivacyPage extends HelperBase {
         await page.close();
       }
     }
+  }
+
+  /**
+   * This method opens cookie files policy from privacy page and checks that it was opened and has some content
+   */
+
+  async openAndVerifyCookiesPage() {
+    await this.page.getByText('Cookie files policy and operational data').click();
+    await expect(
+      this.page.getByText('Cookie files policy and operational data'),
+    ).toBeVisible();
+    await expect(this.page.getByText('AnalyticsSyncHistory')).toBeVisible();
+    await expect(this.page.getByText('30 days').first()).toBeVisible();
+    await expect(this.page.getByText('Description')).toBeVisible();
   }
 }

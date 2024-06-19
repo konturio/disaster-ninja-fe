@@ -4,7 +4,7 @@ import { test } from './fixtures/test-options.ts';
 const projects = getProjects();
 
 for (const project of projects) {
-  test(`As User with no rights, I can go to ${project.title}, open Privacy tab and analyze this page`, async ({
+  test(`As User with no rights, I can go to ${project.title}, open Privacy tab, analyze this page, verify cookies page`, async ({
     pageManager,
     page,
     context,
@@ -23,6 +23,8 @@ for (const project of projects) {
       },
       'Cookie files policy and operational data',
     );
+    // Specify links to check at links-privacy.json file
     await pageManager.atPrivacyPage.checkLinks(context);
+    await pageManager.atPrivacyPage.openAndVerifyCookiesPage();
   });
 }
