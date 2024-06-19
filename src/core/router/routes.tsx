@@ -11,6 +11,7 @@ import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { UserStateToComponents } from '~core/auth';
 import { PagesDocument } from '~core/pages';
+import { Pricing } from '~views/Pricing/Pricing';
 import { goTo } from './goTo';
 import type { AppRouterConfig } from './types';
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -92,6 +93,14 @@ export const routerConfig: AppRouterConfig = {
       parentRoute: 'about',
       visibilityInNavigation: 'never',
       requiredFeature: AppFeature.ABOUT_PAGE,
+    },
+    {
+      slug: 'pricing',
+      title: 'Pricing',
+      icon: <Reports16 />,
+      view: <Pricing />,
+      visibilityInNavigation: 'always',
+      requiredFeature: AppFeature.SUBSCRIPTION,
     },
   ],
 };

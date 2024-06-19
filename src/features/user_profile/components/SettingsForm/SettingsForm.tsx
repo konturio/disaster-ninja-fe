@@ -8,7 +8,6 @@ import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { FeatureFlag, eventFeedsAtom } from '~core/shared_state';
 import { flatObjectsAreEqual } from '~utils/common';
-import { PayPalButtonsGroup } from '~features/subscriptions/components/PayPalButtonsGroup/PayPalButtonsGroup';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import { ReferenceAreaInfo } from './ReferenceAreaInfo/ReferenceAreaInfo';
@@ -241,12 +240,6 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                     </Button>
                   )}
                 </div>
-                {featureFlags?.[FeatureFlag.SUBSCRIPTION] && (
-                  <>
-                    <PayPalButtonsGroup planId="P-39L95270DU7673147MZVVPZI" />
-                    <PayPalButtonsGroup planId="P-2YW9478523636362WMZWEHYQ" />
-                  </>
-                )}
               </div>
             </div>
           </div>

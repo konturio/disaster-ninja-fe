@@ -1,42 +1,53 @@
 import { PayPalButtons } from '@paypal/react-paypal-js';
-import { NotificationService } from '~core/notifications';
-import type { PayPalButtonsComponentProps } from '@paypal/react-paypal-js';
 
 const ppTestLog = (...msg) => console.info('PayPal log', ...msg);
 
 type PayPalButtonsGroupProps = {
   planId: string;
+  activePlanId: string | null;
+  activeSubscriptionId: string | null;
+  onSubscriptionApproved: (planId: string, subscriptionID?: string | null) => void;
 };
 
-export function PayPalButtonsGroup({ planId }: PayPalButtonsGroupProps) {
+export function PayPalButtonsGroup({
+  planId,
+  activePlanId,
+  activeSubscriptionId,
+  onSubscriptionApproved,
+}: PayPalButtonsGroupProps) {
+  ppTestLog({ planId, activePlanId, activeSubscriptionId });
+
   return (
     <PayPalButtons
       style={{
         label: 'paypal',
         color: 'blue',
       }}
-      // forceReRender={[type]}
-      onInit={(data, actions) =>
-        ppTestLog('Library initialized and rendered', { data, actions })
-      }
-      onClick={(data, actions) => {
-        NotificationService.getInstance().success({ title: 'Click!' });
-        ppTestLog('Click event on the PayPal button', {
-          data,
-          actions,
-        });
+      forceReRender={[activeSubscriptionId, activePlanId, planId]}
+      onInit={(data, actions) => {
+        ppTestLog('Library initialized and rendered', { data, actions });
       }}
       onError={(err) => ppTestLog('error', err.toString())}
       onCancel={() => ppTestLog('The payment process was canceled')}
-      onApprove={(data, actions) =>
-        new Promise((resolve, reject) => {
-          ppTestLog('onApprove', { data, actions });
-          alert('Subscription was approved: ' + data.toString());
-          actions.order;
-          resolve();
-        })
-      }
+      onApprove={(data, actions) => {
+        ppTestLog('onApprove', data, actions);
+        if (!actions.subscription) {
+          ppTestLog('APPROVE', 'SUBSCRIPTION_INSTANCE_ERROR');
+          return Promise.reject('SUBSCRIPTION_INSTANCE_ERROR');
+        }
+        return actions.subscription.get().then(function (details) {
+          ppTestLog('APPROVE', details);
+          onSubscriptionApproved(planId, data.subscriptionID);
+        });
+      }}
       createSubscription={(data, actions) => {
+        ppTestLog({ data, activeSubscriptionId, activePlanId });
+        if (activeSubscriptionId && activePlanId) {
+          ppTestLog('revise:', { data });
+          return actions.subscription.revise(activeSubscriptionId, {
+            plan_id: planId,
+          });
+        }
         return actions.subscription
           .create({
             plan_id: planId,
