@@ -6,12 +6,13 @@ import {
   Prefs24,
   User24,
   Reports16,
+  Diamond24,
 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { UserStateToComponents } from '~core/auth';
 import { PagesDocument } from '~core/pages';
-import { Pricing } from '~views/Pricing/Pricing';
+import { Pricing } from '~views/PricingTmp/Pricing';
 import { goTo } from './goTo';
 import type { AppRouterConfig } from './types';
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -97,7 +98,7 @@ export const routerConfig: AppRouterConfig = {
     {
       slug: 'pricing',
       title: 'Pricing',
-      icon: <Reports16 />,
+      icon: <Diamond24 />,
       view: <Pricing />,
       visibilityInNavigation: 'always',
       requiredFeature: AppFeature.SUBSCRIPTION,

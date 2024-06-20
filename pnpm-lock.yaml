@@ -36,8 +36,8 @@ importers:
         specifier: ^3.0.4
         version: 3.0.4
       '@konturio/default-icons':
-        specifier: ^2.3.2
-        version: 2.3.2(react@18.2.0)
+        specifier: ^2.4.0
+        version: 2.4.0(react@18.2.0)
       '@konturio/default-theme':
         specifier: ~3.2.5
         version: 3.2.5
@@ -1059,8 +1059,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@konturio/default-icons@2.3.2':
-    resolution: {integrity: sha512-tu4JS0EsqsXWtlb/pfzh00MihAQMqDVrv+oUh1XbYXnvhgTCH+2xH4m1SGXD+O/UGGFEWZHIMH0IMBl99iZRSg==}
+  '@konturio/default-icons@2.4.0':
+    resolution: {integrity: sha512-cD167SKUuj859tS82wi5KyurQSKipSsyxtdG6KFzgL5N+9Xv1i5YHfRYrJ1E4o2Sh4G3OJ7/aFLTQa0bcJ9/4w==}
     peerDependencies:
       react: ^18.2.0
 
@@ -7676,7 +7676,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@konturio/default-icons@2.3.2(react@18.2.0)':
+  '@konturio/default-icons@2.4.0(react@18.2.0)':
     dependencies:
       react: 18.2.0
 

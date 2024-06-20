@@ -83,7 +83,7 @@
     "@deck.gl/mesh-layers": "^8.9.33",
     "@github/mini-throttle": "^2.1.1",
     "@homer0/deferred": "^3.0.4",
-    "@konturio/default-icons": "^2.3.2",
+    "@konturio/default-icons": "^2.4.0",
     "@konturio/default-theme": "~3.2.5",
     "@konturio/floating": "^1.1.2",
     "@konturio/ui-kit": "^5.2.0",

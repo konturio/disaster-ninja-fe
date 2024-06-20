@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PayPalButtonsGroup } from '~features/subscriptions/components/PayPalButtonsGroup/PayPalButtonsGroup';
+import s from './Pricing.module.css';
 
 type PaymentPlan = {
   planId: string;
@@ -21,13 +22,19 @@ export function Pricing() {
   const [activePlanId, setActivePlanId] = useState<string | null>(null);
 
   return (
-    <>
-      {plans.map((plan) => (
-        <div key={plan.planId} style={{ margin: '10px' }}>
-          <div>{plan.name}</div>
-          <div>{plan.price} USD</div>
+    <div className={s.container}>
+      {plans.map((plan, index) => (
+        <div
+          key={plan.planId}
+          className={s.planContainer}
+          style={{ backgroundColor: index === 1 ? '#99ccFF' : '#eee' }}
+        >
+          <h2>{plan.name}</h2>
+          <h3>
+            <u>{plan.price} USD</u>
+          </h3>
           {activePlanId === plan.planId ? (
-            <>[Current plan]</>
+            <div className={s.currentPlan}>[Current plan]</div>
           ) : (
             <PayPalButtonsGroup
               planId={plan.planId}
@@ -46,6 +53,6 @@ export function Pricing() {
           )}
         </div>
       ))}
-    </>
+    </div>
   );
 }
