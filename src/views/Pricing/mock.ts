@@ -1,11 +1,11 @@
 import {
   BillingCycleID,
-  type CurrentSubscriptionInfo,
-  PlanStyle,
+  type CurrentSubscription,
+  PaymentPlanStyle,
 } from '~features/subscriptions/types';
-import type { PricingConfig } from '~views/Pricing/types';
+import type { SubscriptionsConfig } from '~views/Pricing/types';
 
-export const MOCK_PRICING_CONFIG: PricingConfig = {
+export const MOCK_PRICING_CONFIG: SubscriptionsConfig = {
   paymentMethodsDetails: [
     {
       id: 'payPal',
@@ -30,7 +30,7 @@ export const MOCK_PRICING_CONFIG: PricingConfig = {
       name: 'Educational',
       description:
         'For students, hobbyists, and anyone testing the entry-level option before upgrading',
-      style: PlanStyle.basic,
+      style: PaymentPlanStyle.basic,
       highlights: [
         'Multi-criteria decision analyses',
         'AI analytics',
@@ -69,7 +69,7 @@ export const MOCK_PRICING_CONFIG: PricingConfig = {
       name: 'Professional',
       description:
         'For GIS data analysts and managers who work with GIS on a daily basis',
-      style: PlanStyle.premium,
+      style: PaymentPlanStyle.premium,
       highlights: [
         'Multi-criteria decision analyses',
         'AI analytics',
@@ -109,8 +109,8 @@ export const MOCK_PRICING_CONFIG: PricingConfig = {
   ],
 };
 
-export const CURRENT_SUBSCRIPTION_INFO: CurrentSubscriptionInfo = {
-  id: 'kontur_atlas_pro',
+export const CURRENT_SUBSCRIPTION_INFO: CurrentSubscription = {
+  id: 'kontur_atlas_edu',
   billingPlanId: 'test',
   billingSubscriptionId: 'testtest',
 };

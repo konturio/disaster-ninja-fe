@@ -1,20 +1,21 @@
 import React, { useMemo } from 'react';
-import { Heading, Text } from '@konturio/ui-kit';
+import { Button, Heading, Text } from '@konturio/ui-kit';
 import { Finish24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
 import { Price } from '~features/subscriptions/components/Price/Price';
 import { userStateAtom } from '~core/auth';
 import { i18n } from '~core/localization';
-import { buttonRenderSwitch } from '~features/subscriptions/components/PaymentPlanCard/buttonRenderSwitch';
-import s from './PaymentPlanCard.module.css';
+import { UserStateStatus } from '~core/auth/types';
+import s from './PaymentPlan.module.css';
 import { PLAN_STYLING_CONFIG } from './contants';
-import type { CurrentSubscriptionInfo, Plan } from '~features/subscriptions/types';
+import type { CurrentSubscription, PaymentPlan } from '~features/subscriptions/types';
+import type { UserStateType } from '~core/auth/types';
 
 export type PaymentPlanProps = {
-  plan: Plan;
+  plan: PaymentPlan;
   currentBillingCycleId: string;
-  currentSubscriptionInfo: CurrentSubscriptionInfo;
+  currentSubscriptionInfo: CurrentSubscription;
 };
 
 function PaymentPlan({
@@ -46,7 +47,7 @@ function PaymentPlan({
       <Text className={s.planDescription} type="short-m">
         {plan.description}
       </Text>
-      <div>{buttonRenderSwitch(plan, userState, currentSubscriptionInfo)}</div>
+      <div>{renderPaymentPlanButton(plan, userState, currentSubscriptionInfo)}</div>
       <ul className={s.planHighlights}>
         {plan.highlights.map((highlight, index) => (
           <li key={index}>
@@ -66,6 +67,28 @@ function PaymentPlan({
       )}
     </div>
   );
+}
+
+function renderPaymentPlanButton(
+  plan: PaymentPlan,
+  userState: UserStateType,
+  currentSubscriptionInfo: CurrentSubscription,
+) {
+  if (userState === UserStateStatus.UNAUTHORIZED) {
+    return (
+      <Button className={s.subscribeButton}>
+        {i18n.t('subscription.unauthorized_button')}
+      </Button>
+    );
+  }
+  if (plan.id === currentSubscriptionInfo?.id) {
+    return (
+      <Button className={s.subscribeButton} disabled>
+        {i18n.t('subscription.current_plan_button')}
+      </Button>
+    );
+  }
+  return <Button className={s.subscribeButton}>Subscribe</Button>;
 }
 
 export default PaymentPlan;

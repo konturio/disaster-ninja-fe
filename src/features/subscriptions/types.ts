@@ -3,7 +3,7 @@ export enum BillingCycleID {
   Annually = 'year',
 }
 
-export enum PlanStyle {
+export enum PaymentPlanStyle {
   basic = 'basic',
   premium = 'premium',
 }
@@ -27,16 +27,16 @@ interface BillingCycle {
   paymentMethods: PaymentMethod[];
 }
 
-export interface Plan {
+export interface PaymentPlan {
   id: string;
   name: string;
   description: string;
-  style: PlanStyle;
+  style: PaymentPlanStyle;
   highlights: string[];
   billingCycles: BillingCycle[];
 }
 
-export type CurrentSubscriptionInfo = {
+export type CurrentSubscription = {
   id: string;
   billingPlanId: string;
   billingSubscriptionId: string;

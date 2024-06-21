@@ -3,28 +3,28 @@ import { Heading, Toggler } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useAtom } from '@reatom/react-v2';
 import { CURRENT_SUBSCRIPTION_INFO, MOCK_PRICING_CONFIG } from '~views/Pricing/mock';
-import PaymentPlan from '~features/subscriptions/components/PaymentPlanCard/PaymentPlan';
+import PaymentPlan from '~features/subscriptions/components/PaymentPlan/PaymentPlan';
 import { i18n } from '~core/localization';
 import { BillingCycleID } from '~features/subscriptions/types';
 import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
 import { getCurrentUserSubscription } from '~core/api/subscription';
+import { configRepo } from '~core/config';
 import s from './Pricing.module.css';
-import type { PricingConfig } from '~views/Pricing/types';
-import type { CurrentSubscriptionInfo } from '~features/subscriptions/types';
+import type { SubscriptionsConfig } from '~views/Pricing/types';
+import type { CurrentSubscription } from '~features/subscriptions/types';
 
 const togglerInitialValue = BillingCycleID.Annually;
 
 export function PricingPage() {
-  const [featureFlags] = useAtom(featureFlagsAtom);
-  const config: PricingConfig =
-    featureFlags[FeatureFlag.SUBSCRIPTION]?.configuration || MOCK_PRICING_CONFIG;
-
-  const [subscriptionData, setSubscriptionData] = useState<CurrentSubscriptionInfo>(null);
+  const config = configRepo.get().features[
+    FeatureFlag.SUBSCRIPTION
+  ] as SubscriptionsConfig;
+  const [subscriptionData, setSubscriptionData] = useState<CurrentSubscription>(null);
 
   const [currentBillingCycleID, setCurrentBillingCycleID] =
     useState<BillingCycleID>(togglerInitialValue);
 
-  const [offTogglerConfig, onTogglerConfig] = config.billingCyclesDetails;
+  const [monthlyPlanConfig, annuallyPlanConfig] = config.billingCyclesDetails;
 
   const onTogglerChange = useCallback(() => {
     setCurrentBillingCycleID((prev) =>
@@ -35,12 +35,10 @@ export function PricingPage() {
   useEffect(() => {
     async function fetchSubscriptionData() {
       const data = await getCurrentUserSubscription();
-      setSubscriptionData(data || CURRENT_SUBSCRIPTION_INFO);
+      setSubscriptionData(CURRENT_SUBSCRIPTION_INFO);
     }
 
-    setTimeout(() => {
-      fetchSubscriptionData();
-    }, 3000);
+    fetchSubscriptionData();
   }, []);
 
   return (
@@ -48,13 +46,17 @@ export function PricingPage() {
       <div className={s.pricingPlans}>
         <Heading type="heading-02">{i18n.t('subscription.title')}</Heading>
         <div
-          className={clsx(s.togglerSwitch, { [s.twoDirectional]: offTogglerConfig.note })}
+          className={clsx(s.togglerSwitch, {
+            [s.twoDirectional]: monthlyPlanConfig.note,
+          })}
         >
-          {offTogglerConfig.note && <div className={s.note}>{offTogglerConfig.note}</div>}
+          {monthlyPlanConfig.note && (
+            <div className={s.note}>{monthlyPlanConfig.note}</div>
+          )}
           <Toggler
-            label={onTogglerConfig.name}
-            offValueLabel={offTogglerConfig.name}
-            id={`${offTogglerConfig}-${onTogglerConfig.id}`}
+            label={annuallyPlanConfig.name}
+            offValueLabel={monthlyPlanConfig.name}
+            id={`${monthlyPlanConfig}-${annuallyPlanConfig.id}`}
             on={currentBillingCycleID === togglerInitialValue}
             classes={{
               label: s.togglerLabel,
@@ -62,7 +64,9 @@ export function PricingPage() {
             }}
             onChange={onTogglerChange}
           ></Toggler>
-          {onTogglerConfig.note && <div className={s.note}>{onTogglerConfig.note}</div>}
+          {annuallyPlanConfig.note && (
+            <div className={s.note}>{annuallyPlanConfig.note}</div>
+          )}
         </div>
         <div className={s.plans}>
           {config.plans.map((plan) => (
