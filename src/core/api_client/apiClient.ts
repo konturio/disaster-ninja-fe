@@ -193,7 +193,7 @@ export class ApiClient {
   /**
    * @throws {ApiClientError}
    */
-  private async refreshAuthToken(): Promise<boolean> {
+  public async refreshAuthToken(): Promise<boolean> {
     const params = {
       client_id: this.keycloakClientId,
       refresh_token: this.refreshToken,
