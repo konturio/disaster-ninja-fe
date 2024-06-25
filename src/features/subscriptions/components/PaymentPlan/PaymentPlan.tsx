@@ -102,21 +102,22 @@ function renderFooter(
   currentSubscriptionInfo: CurrentSubscription | null,
   billingOption: BillingCycle,
 ) {
-  if (
-    userState === UserStateStatus.AUTHORIZED &&
-    plan.id === currentSubscriptionInfo?.id
-  ) {
-    return (
-      <Button
-        className={s.cancelButton}
-        onClick={() => {}}
-        variant="invert"
-        id="cancel_subscription"
-      >
-        <Text type="caption">{i18n.t('cancel')}</Text>
-      </Button>
-    );
-  }
+  // Postpone cancel button rendering till next pr
+  // if (
+  //   userState === UserStateStatus.AUTHORIZED &&
+  //   plan.id === currentSubscriptionInfo?.id
+  // ) {
+  //   return (
+  //     <Button
+  //       className={s.cancelButton}
+  //       onClick={() => {}}
+  //       variant="invert"
+  //       id="cancel_subscription"
+  //     >
+  //       <Text type="caption">{i18n.t('cancel')}</Text>
+  //     </Button>
+  //   );
+  // }
   if (billingOption?.pricePerYear) {
     return (
       <Text type="caption">
