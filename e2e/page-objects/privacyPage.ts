@@ -60,9 +60,10 @@ export class PrivacyPage extends HelperBase {
       await expect(linkElement).toBeVisible();
       await expect(linkElement).toHaveAttribute('href', link.url);
       if (link.linkValidation.shouldOpen) {
-        const newPage = context.waitForEvent('page');
-        await linkElement.click();
-        const page = await newPage;
+        const [page] = await Promise.all([
+          context.waitForEvent('page'),
+          linkElement.click(),
+        ]);
         await page.waitForLoadState('domcontentloaded');
         expect(page.url()).toEqual(link.linkValidation.expectedUrl);
         await page.close();

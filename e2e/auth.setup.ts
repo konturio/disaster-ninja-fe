@@ -21,11 +21,6 @@ setup('Authentication', async ({ page, context }) => {
 
     await pm.atBrowser.openProject(project);
 
-    // TO DO: remove this action after Atlas is launched
-    try {
-      await pm.atBrowser.closeAtlasBanner(project);
-    } catch {}
-
     await pm.fromNavigationMenu.goToLoginPage();
     await pm.atLoginPage.typeLoginPasswordAndLogin(
       process.env.EMAIL!,
