@@ -56,6 +56,7 @@ export class PrivacyPage extends HelperBase {
     const links = await this.getLinks();
     for (const link of links) {
       const linkElement = this.page.getByText(link.linkShown).first();
+      await linkElement.scrollIntoViewIfNeeded();
       await expect(linkElement).toBeVisible();
       await expect(linkElement).toHaveAttribute('href', link.url);
       if (link.linkValidation.shouldOpen) {
