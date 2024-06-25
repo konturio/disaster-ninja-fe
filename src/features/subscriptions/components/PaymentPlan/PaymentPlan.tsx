@@ -7,15 +7,21 @@ import { Price } from '~features/subscriptions/components/Price/Price';
 import { userStateAtom } from '~core/auth';
 import { i18n } from '~core/localization';
 import { UserStateStatus } from '~core/auth/types';
+import { goTo } from '~core/router/goTo';
+import { isSubscriptionLoadedAtom } from '~views/Pricing/atoms/currentSubscription';
 import s from './PaymentPlan.module.css';
 import { PLAN_STYLING_CONFIG } from './contants';
-import type { CurrentSubscription, PaymentPlan } from '~features/subscriptions/types';
+import type {
+  BillingCycle,
+  CurrentSubscription,
+  PaymentPlan,
+} from '~features/subscriptions/types';
 import type { UserStateType } from '~core/auth/types';
 
 export type PaymentPlanProps = {
   plan: PaymentPlan;
   currentBillingCycleId: string;
-  currentSubscriptionInfo: CurrentSubscription;
+  currentSubscriptionInfo: CurrentSubscription | null;
 };
 
 function PaymentPlan({
@@ -24,6 +30,7 @@ function PaymentPlan({
   currentSubscriptionInfo,
 }: PaymentPlanProps) {
   const [userState] = useAtom(userStateAtom);
+  const [loaded] = useAtom(isSubscriptionLoadedAtom);
 
   const billingOption = useMemo(
     () => plan.billingCycles.find((option) => option.id === currentBillingCycleId),
@@ -47,7 +54,9 @@ function PaymentPlan({
       <Text className={s.planDescription} type="short-m">
         {plan.description}
       </Text>
-      <div>{renderPaymentPlanButton(plan, userState, currentSubscriptionInfo)}</div>
+      {loaded && (
+        <div>{renderPaymentPlanButton(plan, userState, currentSubscriptionInfo)}</div>
+      )}
       <ul className={s.planHighlights}>
         {plan.highlights.map((highlight, index) => (
           <li key={index}>
@@ -58,12 +67,10 @@ function PaymentPlan({
           </li>
         ))}
       </ul>
-      {billingOption?.pricePerYear && (
-        <Text type="caption" className={s.priceSummary}>
-          {i18n.t('subscription.price_summary', {
-            pricePerYear: billingOption.pricePerYear,
-          })}
-        </Text>
+      {loaded && (
+        <div className={s.footerWrapper}>
+          {renderFooter(plan, userState, currentSubscriptionInfo, billingOption!)}
+        </div>
       )}
     </div>
   );
@@ -72,11 +79,11 @@ function PaymentPlan({
 function renderPaymentPlanButton(
   plan: PaymentPlan,
   userState: UserStateType,
-  currentSubscriptionInfo: CurrentSubscription,
+  currentSubscriptionInfo: CurrentSubscription | null,
 ) {
   if (userState === UserStateStatus.UNAUTHORIZED) {
     return (
-      <Button className={s.subscribeButton}>
+      <Button className={s.subscribeButton} onClick={() => goTo('/profile')}>
         {i18n.t('subscription.unauthorized_button')}
       </Button>
     );
@@ -89,6 +96,40 @@ function renderPaymentPlanButton(
     );
   }
   return <Button className={s.subscribeButton}>Subscribe</Button>;
+}
+
+function renderFooter(
+  plan: PaymentPlan,
+  userState: UserStateType,
+  currentSubscriptionInfo: CurrentSubscription | null,
+  billingOption: BillingCycle,
+) {
+  if (
+    userState === UserStateStatus.AUTHORIZED &&
+    plan.id === currentSubscriptionInfo?.id
+  ) {
+    return (
+      <Button
+        className={s.cancelButton}
+        onClick={() => {}}
+        variant="invert"
+        id="cancel_subscription"
+      >
+        <Text type="caption">{i18n.t('cancel')}</Text>
+      </Button>
+    );
+  }
+  if (billingOption?.pricePerYear) {
+    return (
+      <Text type="caption">
+        {i18n.t('subscription.price_summary', {
+          pricePerYear: billingOption.pricePerYear,
+        })}
+      </Text>
+    );
+  }
+
+  return null;
 }
 
 export default PaymentPlan;

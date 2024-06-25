@@ -71,6 +71,13 @@
   }
 }
 
+.cancelButton {
+  background-color: transparent;
+  color: var(--faint-strong);
+  position: relative;
+  bottom: -11px;
+}
+
 .planHighlights {
   list-style: none;
   padding: 0;
@@ -91,9 +98,13 @@
   color: var(--strong-color);
 }
 
-.priceSummary {
-  text-align: center;
-  color: var(--faint-strong);
+.footerWrapper {
+  display: flex;
+  justify-content: flex-end;
   margin-top: auto;
-  align-self: flex-end;
+  color: var(--faint-strong);
+
+  & span {
+    color: var(--faint-strong-down);
+  }
 }

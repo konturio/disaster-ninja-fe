@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Heading, Toggler } from '@konturio/ui-kit';
 import clsx from 'clsx';
-import { useAtom } from '@reatom/react-v2';
-import { CURRENT_SUBSCRIPTION_INFO, MOCK_PRICING_CONFIG } from '~views/Pricing/mock';
 import PaymentPlan from '~features/subscriptions/components/PaymentPlan/PaymentPlan';
 import { i18n } from '~core/localization';
 import { BillingCycleID } from '~features/subscriptions/types';
 import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
 import { getCurrentUserSubscription } from '~core/api/subscription';
 import { configRepo } from '~core/config';
+import { isSubscriptionLoadedAtom } from '~views/Pricing/atoms/currentSubscription';
 import s from './Pricing.module.css';
 import type { SubscriptionsConfig } from '~views/Pricing/types';
 import type { CurrentSubscription } from '~features/subscriptions/types';
@@ -19,7 +18,9 @@ export function PricingPage() {
   const config = configRepo.get().features[
     FeatureFlag.SUBSCRIPTION
   ] as SubscriptionsConfig;
-  const [subscriptionData, setSubscriptionData] = useState<CurrentSubscription>(null);
+  const [subscriptionData, setSubscriptionData] = useState<CurrentSubscription | null>(
+    null,
+  );
 
   const [currentBillingCycleID, setCurrentBillingCycleID] =
     useState<BillingCycleID>(togglerInitialValue);
@@ -34,8 +35,11 @@ export function PricingPage() {
 
   useEffect(() => {
     async function fetchSubscriptionData() {
-      const data = await getCurrentUserSubscription();
-      setSubscriptionData(CURRENT_SUBSCRIPTION_INFO);
+      try {
+        const data = await getCurrentUserSubscription();
+        setSubscriptionData(data);
+        isSubscriptionLoadedAtom.setTrue.dispatch();
+      } catch {}
     }
 
     fetchSubscriptionData();

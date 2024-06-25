@@ -19,7 +19,7 @@ interface PaymentMethod {
   planId: string;
 }
 
-interface BillingCycle {
+export interface BillingCycle {
   id: string;
   pricePerMonth: number;
   initialPricePerMonth: number | null;
@@ -40,4 +40,4 @@ export type CurrentSubscription = {
   id: string;
   billingPlanId: string;
   billingSubscriptionId: string;
-} | null;
+};
