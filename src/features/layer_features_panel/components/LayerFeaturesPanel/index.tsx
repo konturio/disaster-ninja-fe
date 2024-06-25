@@ -3,12 +3,13 @@ import { useCallback } from 'react';
 import { clsx } from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react-v2';
-import { currentMapPositionAtom, scheduledAutoFocus } from '~core/shared_state';
+import { currentMapPositionAtom } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
+import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import {
   currentFeatureIdAtom,
   layerFeaturesCollectionAtom,

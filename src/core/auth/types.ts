@@ -55,6 +55,7 @@ export const AppFeature = {
   LAYER_FEATURES_PANEL: 'layer_features_panel',
   REFERENCE_AREA: 'reference_area',
   LLM_ANALYTICS: 'llm_analytics',
+  MAP: 'map',
 } as const;
 
 export type AppFeatureType = (typeof AppFeature)[keyof typeof AppFeature];

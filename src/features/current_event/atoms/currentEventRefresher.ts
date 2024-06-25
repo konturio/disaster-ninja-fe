@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { currentEventAtom } from '~core/shared_state';
+import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
 import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
 

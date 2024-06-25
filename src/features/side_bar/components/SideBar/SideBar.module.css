@@ -1,5 +1,5 @@
 .sidebar > div {
-  padding: 8px;
+  padding: var(--unit);
 }
 
 .toggleContainer {
@@ -7,11 +7,7 @@
 }
 
 .bottomLogoContainer {
-  margin-top: 12px;
-}
-
-.collapsed .bottomLogoContainer svg {
-  width: 32px;
+  margin-top: var(--unit);
 }
 
 .navButton {
@@ -24,11 +20,15 @@
   user-select: none;
 
   &.sidebarButton {
-    margin: 0;
+    margin: var(--half-unit) 0 0 0;
     width: 100%;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
+
+    & span {
+      padding-left: var(--unit);
+    }
 
     & svg {
       width: 16px;
@@ -37,48 +37,38 @@
   }
 }
 
-.navButton.sidebarButton span {
-  padding-left: 6px;
-}
-
-.collapsed .navButton.sidebarButton {
-  flex-direction: column;
-}
-
 .open {
   width: auto;
+  & .nestedRoute.sidebarButton {
+    padding-left: var(--unit);
+  }
 }
 
 .logoDivider {
-  margin: 8px 0;
+  margin: var(--unit) 0;
   height: 1px;
   background-color: #fff;
   opacity: 0.3;
   width: 100%;
-}
-
-.topLevelRoute {
-  margin-top: 4px;
-}
-
-.logoDivider + .topLevelRoute {
-  margin-top: 0;
+  & + .topLevelRoute {
+    margin-top: 0;
+  }
 }
 
 .nestedRoute {
-  margin-top: 12px;
+  margin-top: var(--unit);
 }
 
-.topLevelRoute + .nestedRoute {
-  margin-top: 8px;
-}
+.collapsed {
+  & .bottomLogoContainer svg {
+    width: 32px;
+  }
 
-.open .nestedRoute .sidebarButton > div {
-  padding-left: 26px;
-}
+  & .navButton.sidebarButton {
+    flex-direction: column;
+  }
 
-.collapsed .nestedRoute {
-  & .sidebarButton {
+  & .nestedRoute.sidebarButton {
     padding-left: 0;
   }
 }
