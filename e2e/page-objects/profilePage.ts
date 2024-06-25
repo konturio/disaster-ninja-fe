@@ -15,6 +15,7 @@ export class ProfilePage extends HelperBase {
   async checkLogoutBtnProfileTitleAndEmail(email: string) {
     const logoutBtn = this.page.getByRole('button', { name: 'Log out' });
     const profileTextElements = this.page.getByText('Profile').nth(1);
+    await logoutBtn.scrollIntoViewIfNeeded();
     // Check that log out button is present
     await expect(logoutBtn).toBeVisible();
     await expect(profileTextElements).toBeVisible();
