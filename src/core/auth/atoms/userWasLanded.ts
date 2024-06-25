@@ -8,6 +8,7 @@ export function userWasLanded() {
   const initialUrl = localStorage.getItem('initialUrl');
   if (initialUrl === null) return true;
   const initialUrlObj = new URL(initialUrl);
+  // check that user visits homepage and not came via link to disaster etc (should be no params in url)
   const isHomepageOnFirstVisit =
     location.pathname === configRepo.get().baseUrl && initialUrlObj.search === '';
   return !isHomepageOnFirstVisit;
