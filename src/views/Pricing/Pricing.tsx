@@ -58,7 +58,7 @@ export function PricingPage() {
           <Toggler
             label={annuallyPlanConfig.name}
             offValueLabel={monthlyPlanConfig.name}
-            id={`${monthlyPlanConfig}-${annuallyPlanConfig.id}`}
+            id="paymentPeriodToggler"
             on={currentBillingCycleID === togglerInitialValue}
             classes={{
               label: s.togglerLabel,
