@@ -55,9 +55,11 @@ function PaymentPlan({
         {plan.description}
       </Text>
       {isLoaded && (
-        <div>{renderPaymentPlanButton(plan, userState, currentSubscriptionInfo)}</div>
+        <div className={s.buttonWrapper}>
+          {renderPaymentPlanButton(plan, userState, currentSubscriptionInfo)}
+        </div>
       )}
-      <ul className={s.planHighlights}>
+      <ul className={s.highlights}>
         {plan.highlights.map((highlight, index) => (
           <li key={index}>
             <div className={s.highlight}>
@@ -83,19 +85,15 @@ function renderPaymentPlanButton(
 ) {
   if (userState === UserStateStatus.UNAUTHORIZED) {
     return (
-      <Button className={s.subscribeButton} onClick={() => goTo('/profile')}>
+      <Button className={s.authorizeButton} onClick={() => goTo('/profile')}>
         {i18n.t('subscription.unauthorized_button')}
       </Button>
     );
   }
   if (plan.id === currentSubscriptionInfo?.id) {
-    return (
-      <Button className={s.subscribeButton} disabled>
-        {i18n.t('subscription.current_plan_button')}
-      </Button>
-    );
+    return <Button disabled>{i18n.t('subscription.current_plan_button')}</Button>;
   }
-  return <Button className={s.subscribeButton}>Subscribe</Button>;
+  return <Button className={s.authorizeButton}>Subscribe</Button>;
 }
 
 function renderFooter(

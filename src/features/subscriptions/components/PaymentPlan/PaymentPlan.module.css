@@ -62,9 +62,12 @@
   margin-bottom: var(--double-unit);
 }
 
-.subscribeButton {
-  background-color: var(--strong-color);
+.buttonWrapper {
   margin-bottom: 24px;
+}
+
+.authorizeButton {
+  background-color: var(--strong-color);
 
   &:hover {
     background-color: var(--subscribe-btn-hover);
@@ -72,13 +75,11 @@
 }
 
 .cancelButton {
-  background-color: transparent;
-  color: var(--faint-strong);
   position: relative;
   bottom: -11px;
 }
 
-.planHighlights {
+.highlights {
   list-style: none;
   padding: 0;
   margin: 0;
