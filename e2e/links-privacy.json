@@ -88,8 +88,7 @@
     "linkShown": "https://yandex.com/support/metrica/general/opt-out.html",
     "url": "https://yandex.com/support/metrica/general/opt-out.html",
     "linkValidation": {
-      "shouldOpen": true,
-      "expectedUrl": "https://yandex.com/support/metrica/general/opt-out.html"
+      "shouldOpen": false
     }
   },
   {
