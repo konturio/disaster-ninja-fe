@@ -1,12 +1,12 @@
 import type { BillingCycleDetails, PaymentPlan } from '~features/subscriptions/types';
 
-export interface PaymentMethodDetails {
+export interface BillingMethodDetails {
   id: string;
   clientId: string;
 }
 
 export interface SubscriptionsConfig {
-  billingMethodsDetails: PaymentMethodDetails[];
+  billingMethodsDetails: BillingMethodDetails[];
   billingCyclesDetails: BillingCycleDetails[];
   plans: PaymentPlan[];
 }

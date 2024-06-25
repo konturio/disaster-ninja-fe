@@ -4,7 +4,7 @@ export interface BillingCycleDetails {
   note: string | null;
 }
 
-interface PaymentMethod {
+interface BillingMethod {
   id: string;
   billingPlanId: string;
 }
@@ -14,7 +14,7 @@ export interface BillingCycle {
   pricePerMonth: number;
   initialPricePerMonth: number | null;
   pricePerYear: number | null;
-  billingMethods: PaymentMethod[];
+  billingMethods: BillingMethod[];
 }
 
 export interface PaymentPlan {
