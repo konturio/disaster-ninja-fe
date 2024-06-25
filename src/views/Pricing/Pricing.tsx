@@ -47,7 +47,7 @@ export function PricingPage() {
         <Heading type="heading-02">{i18n.t('subscription.title')}</Heading>
         <div
           className={clsx(s.togglerSwitch, {
-            [s.twoDirectional]: monthlyPlanConfig.note,
+            [s.withOffLabel]: monthlyPlanConfig.note,
           })}
         >
           {monthlyPlanConfig.note && (
@@ -63,7 +63,7 @@ export function PricingPage() {
               activeLabel: s.active,
             }}
             onChange={onTogglerChange}
-          ></Toggler>
+          />
           {annuallyPlanConfig.note && (
             <div className={s.note}>{annuallyPlanConfig.note}</div>
           )}
@@ -75,7 +75,7 @@ export function PricingPage() {
               key={plan.id}
               currentBillingCycleId={currentBillingCycleID}
               currentSubscriptionInfo={subscriptionData}
-            ></PaymentPlan>
+            />
           ))}
         </div>
       </div>

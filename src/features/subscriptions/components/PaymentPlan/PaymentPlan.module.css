@@ -65,6 +65,7 @@
 .subscribeButton {
   background-color: var(--strong-color);
   margin-bottom: 24px;
+
   &:hover {
     background-color: var(--subscribe-btn-hover);
   }

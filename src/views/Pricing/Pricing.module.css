@@ -15,7 +15,7 @@
   margin-bottom: 32px;
   margin-left: calc(var(--unit) * -1);
 
-  &.twoDirectional {
+  &.withOffLabel {
     margin-left: 0;
   }
 }

@@ -43,7 +43,7 @@ function PaymentPlan({
           <span>${billingOption.initialPricePerMonth}</span>
         </div>
       )}
-      <Price className={s.price} amount={billingOption?.pricePerMonth}></Price>
+      <Price className={s.price} amount={billingOption?.pricePerMonth} />
       <Text className={s.planDescription} type="short-m">
         {plan.description}
       </Text>
@@ -52,7 +52,7 @@ function PaymentPlan({
         {plan.highlights.map((highlight, index) => (
           <li key={index}>
             <div className={s.highlight}>
-              <Finish24 className={s.highlightIcon}></Finish24>
+              <Finish24 className={s.highlightIcon} />
               <span>{highlight}</span>
             </div>
           </li>
