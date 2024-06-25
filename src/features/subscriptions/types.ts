@@ -1,15 +1,5 @@
-export enum BillingCycleID {
-  Monthly = 'month',
-  Annually = 'year',
-}
-
-export enum PaymentPlanStyle {
-  basic = 'basic',
-  premium = 'premium',
-}
-
-export interface BillingCycleDetail {
-  id: BillingCycleID;
+export interface BillingCycleDetails {
+  id: 'month' | 'year';
   name: string;
   note: string | null;
 }
@@ -31,7 +21,7 @@ export interface PaymentPlan {
   id: string;
   name: string;
   description: string;
-  style: PaymentPlanStyle;
+  style: 'basic' | 'premium';
   highlights: string[];
   billingCycles: BillingCycle[];
 }

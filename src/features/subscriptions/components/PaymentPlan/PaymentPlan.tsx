@@ -30,7 +30,7 @@ function PaymentPlan({
   currentSubscriptionInfo,
 }: PaymentPlanProps) {
   const [userState] = useAtom(userStateAtom);
-  const [loaded] = useAtom(isSubscriptionLoadedAtom);
+  const [isLoaded] = useAtom(isSubscriptionLoadedAtom);
 
   const billingOption = useMemo(
     () => plan.billingCycles.find((option) => option.id === currentBillingCycleId),
@@ -54,7 +54,7 @@ function PaymentPlan({
       <Text className={s.planDescription} type="short-m">
         {plan.description}
       </Text>
-      {loaded && (
+      {isLoaded && (
         <div>{renderPaymentPlanButton(plan, userState, currentSubscriptionInfo)}</div>
       )}
       <ul className={s.planHighlights}>
@@ -67,7 +67,7 @@ function PaymentPlan({
           </li>
         ))}
       </ul>
-      {loaded && (
+      {isLoaded && (
         <div className={s.footerWrapper}>
           {renderFooter(plan, userState, currentSubscriptionInfo, billingOption!)}
         </div>

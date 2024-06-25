@@ -3,8 +3,7 @@ import { Heading, Toggler } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import PaymentPlan from '~features/subscriptions/components/PaymentPlan/PaymentPlan';
 import { i18n } from '~core/localization';
-import { BillingCycleID } from '~features/subscriptions/types';
-import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
+import { FeatureFlag } from '~core/shared_state';
 import { getCurrentUserSubscription } from '~core/api/subscription';
 import { configRepo } from '~core/config';
 import { isSubscriptionLoadedAtom } from '~views/Pricing/atoms/currentSubscription';
@@ -12,7 +11,7 @@ import s from './Pricing.module.css';
 import type { SubscriptionsConfig } from '~views/Pricing/types';
 import type { CurrentSubscription } from '~features/subscriptions/types';
 
-const togglerInitialValue = BillingCycleID.Annually;
+const togglerInitialValue = 'year';
 
 export function PricingPage() {
   const config = configRepo.get().features[
@@ -22,15 +21,14 @@ export function PricingPage() {
     null,
   );
 
-  const [currentBillingCycleID, setCurrentBillingCycleID] =
-    useState<BillingCycleID>(togglerInitialValue);
+  const [currentBillingCycleID, setCurrentBillingCycleID] = useState<'month' | 'year'>(
+    togglerInitialValue,
+  );
 
   const [monthlyPlanConfig, annuallyPlanConfig] = config.billingCyclesDetails;
 
   const onTogglerChange = useCallback(() => {
-    setCurrentBillingCycleID((prev) =>
-      prev === BillingCycleID.Monthly ? BillingCycleID.Annually : BillingCycleID.Monthly,
-    );
+    setCurrentBillingCycleID((prev) => (prev === 'month' ? 'year' : 'month'));
   }, []);
 
   useEffect(() => {

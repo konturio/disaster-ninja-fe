@@ -1,4 +1,4 @@
-import type { BillingCycleDetail, PaymentPlan } from '~features/subscriptions/types';
+import type { BillingCycleDetails, PaymentPlan } from '~features/subscriptions/types';
 
 export interface PaymentMethodDetails {
   id: string;
@@ -7,6 +7,6 @@ export interface PaymentMethodDetails {
 
 export interface SubscriptionsConfig {
   paymentMethodsDetails: PaymentMethodDetails[];
-  billingCyclesDetails: BillingCycleDetail[];
+  billingCyclesDetails: BillingCycleDetails[];
   plans: PaymentPlan[];
 }
