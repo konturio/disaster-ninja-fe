@@ -8,7 +8,9 @@ let projects = getProjects();
 
 // Temporally switched off disaster-ninja untill 15482 issue is fixed
 // Temporally switched off oam untill 18508 issue is fixed
-projects = projects.filter((arg) => arg.name !== 'disaster-ninja' && arg.name !== 'oam');
+// Atlas has no 'Locate me' feature for guest
+
+projects = projects.filter((arg) => arg.name === 'smart-city');
 
 // Setting 3 retries for CI as it is very flacky with screenshots
 const retriesNumber = process.env.CI ? 3 : 1;
@@ -18,8 +20,6 @@ test.describe.configure({ retries: retriesNumber });
 const testLocation = async function (pageManager: PageManager, project: Project) {
   await pageManager.atBrowser.openProject(project);
   await pageManager.fromNavigationMenu.goToMap();
-  // TO DO: remove this action after Atlas is launched
-  await pageManager.atBrowser.closeAtlasBanner(project);
   await (
     await pageManager.atToolBar.getButtonByText('Locate me')
   ).click({ timeout: 15000 });

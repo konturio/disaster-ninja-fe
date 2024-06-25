@@ -1,4 +1,5 @@
 name: Run e2e autotests
+run-name: Run e2e autotests for ${{inputs.app || 'all'}} app(s) on ${{inputs.env || 'prod'}} env
 on:
   workflow_dispatch:
     inputs:
@@ -19,6 +20,8 @@ on:
           - smart-city
           - oam
           - all
+  schedule:
+    - cron: '00 */2 * * 1-5'
 
 jobs:
   run_tests:
@@ -26,14 +29,20 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
-      ENVIRONMENT: ${{ github.event.inputs.env }}
-      APP_NAME: ${{ github.event.inputs.app }}
+      ENVIRONMENT: ${{ github.event.inputs.env || 'prod'}}
+      APP_NAME: ${{ github.event.inputs.app || 'all' }}
       TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
       TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
       DEV_EMAIL: ${{ secrets.DEV_EMAIL }}
       DEV_PASSWORD: ${{ secrets.DEV_PASSWORD }}
       PROD_EMAIL: ${{ secrets.PROD_EMAIL }}
       PROD_PASSWORD: ${{ secrets.PROD_PASSWORD }}
+      TEST_KEYCLOAK_ADMIN_USER: ${{ secrets.TEST_KEYCLOAK_ADMIN_USER }}
+      TEST_KEYCLOAK_ADMIN_PASSWORD: ${{ secrets.TEST_KEYCLOAK_ADMIN_PASSWORD }}
+      DEV_KEYCLOAK_ADMIN_USER: ${{ secrets.DEV_KEYCLOAK_ADMIN_USER }}
+      DEV_KEYCLOAK_ADMIN_PASSWORD: ${{ secrets.DEV_KEYCLOAK_ADMIN_PASSWORD }}
+      SLACK_BOT_USER_OAUTH_TOKEN: ${{secrets.PLAYWRIGHT_TOKEN }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -54,13 +63,20 @@ jobs:
           ENV_PREFIX=$(echo "$ENVIRONMENT" | tr '[:lower:]' '[:upper:]') # Convert to uppercase
           EMAIL_VAR_NAME="${ENV_PREFIX}_EMAIL"
           PASSWORD_VAR_NAME="${ENV_PREFIX}_PASSWORD"
+          ADMIN_KEYCLOAK_VAR_NAME="${ENV_PREFIX}_KEYCLOAK_ADMIN_USER"
+          ADMIN_KEYCLOAK_PASSWORD_VAR_NAME="${ENV_PREFIX}_KEYCLOAK_ADMIN_PASSWORD"
 
           EMAIL="${!EMAIL_VAR_NAME}"
           PASSWORD="${!PASSWORD_VAR_NAME}"
+          ADMIN_KEYCLOAK="${!ADMIN_KEYCLOAK_VAR_NAME}"
+          ADMIN_KEYCLOAK_PASSWORD="${!ADMIN_KEYCLOAK_PASSWORD_VAR_NAME}"
 
           rm -rf .env.playwright.production
           echo "EMAIL=$EMAIL" >> .env.playwright.production
           echo "PASSWORD=$PASSWORD" >> .env.playwright.production
+          echo "ADMIN_KEYCLOAK=$ADMIN_KEYCLOAK" >> .env.playwright.production
+          echo "ADMIN_KEYCLOAK_PASSWORD=$ADMIN_KEYCLOAK_PASSWORD" >> .env.playwright.production
+          echo "SLACK_BOT_USER_OAUTH_TOKEN=${SLACK_BOT_USER_OAUTH_TOKEN}" >> .env.playwright.production
 
       - name: Cache node modules
         id: cache-npm
@@ -86,8 +102,18 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test --trace on
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload report to surge.sh
         if: ${{ !cancelled() }}
+        uses: dswistowski/surge-sh-action@v1
+        with:
+          domain: 'konturtestplaywright.surge.sh'
+          project: 'playwright-report'
+          login: ${{secrets.SURGE_EMAIL}}
+          token: ${{secrets.SURGE_TOKEN}}
+
+      - name: Upload report to workflow artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
