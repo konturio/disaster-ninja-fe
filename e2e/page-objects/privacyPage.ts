@@ -15,24 +15,15 @@ type Links = {
   };
 };
 
-export type TitlesCheckOptions = {
-  main: string;
-  provisions: string;
-  personalData: string;
-  rightsAndObligations: string;
-  rightsGDPR: string;
-  privacyPolicy: string;
-};
-
 export class PrivacyPage extends HelperBase {
   /**
    * This method checks all the titles at privacy page to fit texts
-   * @param titlesCheckOptions - object with all texts of titles except cookie policy title
+   * @param titlesCheckOptions - array with all texts of titles except cookie policy title
    * @param cookiePolicy - text of cookie policy title
    */
 
-  async checkTitles(titlesCheckOptions: TitlesCheckOptions, cookiePolicy: string) {
-    for (const [_, title] of Object.entries(titlesCheckOptions))
+  async checkTitles(titlesCheckOptions: string[], cookiePolicy: string) {
+    for (const title of titlesCheckOptions)
       await expect(this.page.getByRole('heading', { name: title })).toBeVisible();
     await expect(this.page.getByRole('link', { name: cookiePolicy })).toBeVisible();
   }
@@ -71,6 +62,7 @@ export class PrivacyPage extends HelperBase {
         const newPage = context.waitForEvent('page');
         await linkElement.click();
         const page = await newPage;
+        await page.waitForLoadState('domcontentloaded');
         expect(page.url()).toEqual(link.linkValidation.expectedUrl);
         await page.close();
       }
