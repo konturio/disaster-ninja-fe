@@ -37,7 +37,9 @@ export function PricingPage() {
         const data = await getCurrentUserSubscription();
         setSubscriptionData(data);
         isSubscriptionLoadedAtom.setTrue.dispatch();
-      } catch {}
+      } catch (error) {
+        console.error('Failed to fetch subscription data:', error);
+      }
     }
 
     fetchSubscriptionData();

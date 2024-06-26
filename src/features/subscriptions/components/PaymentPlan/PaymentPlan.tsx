@@ -10,7 +10,7 @@ import { UserStateStatus } from '~core/auth/types';
 import { goTo } from '~core/router/goTo';
 import { isSubscriptionLoadedAtom } from '~views/Pricing/atoms/currentSubscription';
 import s from './PaymentPlan.module.css';
-import { PLAN_STYLING_CONFIG } from './contants';
+import { PLANS_STYLE_CONFIG } from './contants';
 import type {
   BillingCycle,
   CurrentSubscription,
@@ -32,15 +32,17 @@ function PaymentPlan({
   const [userState] = useAtom(userStateAtom);
   const [isLoaded] = useAtom(isSubscriptionLoadedAtom);
 
+  const styleConfig = PLANS_STYLE_CONFIG[plan.style];
+
   const billingOption = useMemo(
     () => plan.billingCycles.find((option) => option.id === currentBillingCycleId),
     [plan.billingCycles, currentBillingCycleId],
   );
 
   return (
-    <div className={clsx(s.planCard, PLAN_STYLING_CONFIG[plan.style].className)}>
+    <div className={clsx(s.planCard, styleConfig.className)}>
       <div className={s.planName}>
-        {PLAN_STYLING_CONFIG[plan.style].icon}
+        {styleConfig.icon()}
         <Heading type="heading-04" margins={false}>
           {plan.name}
         </Heading>
@@ -50,7 +52,9 @@ function PaymentPlan({
           <span>${billingOption.initialPricePerMonth}</span>
         </div>
       )}
-      <Price className={s.price} amount={billingOption?.pricePerMonth} />
+      {billingOption?.pricePerMonth && (
+        <Price className={s.price} amount={billingOption.pricePerMonth} />
+      )}
       <Text className={s.planDescription} type="short-m">
         {plan.description}
       </Text>
@@ -71,7 +75,7 @@ function PaymentPlan({
       </ul>
       {isLoaded && (
         <div className={s.footerWrapper}>
-          {renderFooter(plan, userState, currentSubscriptionInfo, billingOption!)}
+          {renderFooter(plan, userState, currentSubscriptionInfo, billingOption)}
         </div>
       )}
     </div>
@@ -100,7 +104,7 @@ function renderFooter(
   plan: PaymentPlan,
   userState: UserStateType,
   currentSubscriptionInfo: CurrentSubscription | null,
-  billingOption: BillingCycle,
+  billingOption?: BillingCycle,
 ) {
   // Postpone cancel button rendering till next pr
   // if (

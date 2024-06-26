@@ -10,12 +10,12 @@
   flex-direction: column;
 
   --strong-color: var(--success-strong);
-  --plan-type-bg-color: #def5df; /* Todo: add to themes */
+  --plan-type-bg-color: #def5df;
   --subscribe-btn-hover: #269b00;
 
   &.premium {
     --strong-color: var(--accent-strong);
-    --plan-type-bg-color: #d8effc; /* Todo: add to themes */
+    --plan-type-bg-color: #d8effc;
     --subscribe-btn-hover: var(--accent-strong-up);
   }
 }
