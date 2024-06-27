@@ -25,3 +25,14 @@ export interface PaymentPlan {
   highlights: string[];
   billingCycles: BillingCycle[];
 }
+
+export interface BillingMethodDetails {
+  id: string;
+  clientId: string;
+}
+
+export interface SubscriptionsConfig {
+  billingMethodsDetails: BillingMethodDetails[];
+  billingCyclesDetails: BillingCycleDetails[];
+  plans: PaymentPlan[];
+}

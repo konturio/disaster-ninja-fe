@@ -8,7 +8,7 @@ import { i18n } from '~core/localization';
 import { getCurrentUserSubscription } from '~core/api/subscription';
 import PaymentPlan from '~features/subscriptions/components/PaymentPlan/PaymentPlan';
 import s from './PricingContent.module.css';
-import type { SubscriptionsConfig } from '~views/Pricing/types';
+import type { SubscriptionsConfig } from '~features/subscriptions/types';
 
 const togglerInitialValue = 'year';
 
