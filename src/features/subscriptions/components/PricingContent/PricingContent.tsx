@@ -13,7 +13,13 @@ import type { SubscriptionsConfig } from '~views/Pricing/types';
 const togglerInitialValue = 'year';
 
 export function PricingContent() {
-  const currentSubscription = usePromise(getCurrentUserSubscription, []);
+  const currentSubscription = usePromise(() => {
+    if (!configRepo.get().user) {
+      return Promise.resolve(null);
+    }
+    return getCurrentUserSubscription();
+  }, []);
+
   const config = configRepo.get().features[
     FeatureFlag.SUBSCRIPTION
   ] as SubscriptionsConfig;
