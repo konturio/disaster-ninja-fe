@@ -8,7 +8,7 @@ export const PLANS_STYLE_CONFIG = {
     icon: () => null,
   },
   premium: {
-    className: s.premium,
+    className: 'premium',
     icon: () => <FavAdded16 className={s.planIcon} />,
   },
 };

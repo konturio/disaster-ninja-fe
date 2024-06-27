@@ -4,6 +4,7 @@ import { Finish24 } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { Price } from '~features/subscriptions/components/Price/Price';
 import { i18n } from '~core/localization';
+import PaymentPlanButton from '~features/subscriptions/components/PaymentPlanButton/PaymentPlanButton';
 import s from './PaymentPlanCard.module.css';
 import { PLANS_STYLE_CONFIG } from './contants';
 import type { BillingCycle, PaymentPlan } from '~features/subscriptions/types';
@@ -49,20 +50,19 @@ function PaymentPlanCard({
         {plan.description}
       </Text>
       <div className={s.buttonWrapper}>
-        {renderPaymentPlanButton(
-          plan,
-          isUserAuthorized,
-          onUnauthorizedUserClick,
-          currentSubscription,
-        )}
+        <PaymentPlanButton
+          plan={plan}
+          isUserAuthorized={isUserAuthorized}
+          onUnauthorizedUserClick={onUnauthorizedUserClick}
+          currentSubscription={currentSubscription}
+          style={styleConfig.className}
+        ></PaymentPlanButton>
       </div>
       <ul className={s.highlights}>
         {plan.highlights.map((highlight, index) => (
-          <li key={index}>
-            <div className={s.highlight}>
-              <Finish24 className={s.highlightIcon} />
-              <span>{highlight}</span>
-            </div>
+          <li key={index} className={s.highlight}>
+            <Finish24 className={s.highlightIcon} />
+            <span>{highlight}</span>
           </li>
         ))}
       </ul>
@@ -72,25 +72,6 @@ function PaymentPlanCard({
       </div>
     </div>
   );
-}
-
-function renderPaymentPlanButton(
-  plan: PaymentPlan,
-  isUserAuthorized: boolean,
-  onUnauthorizedUserClick: () => void,
-  currentSubscription: CurrentSubscription | null,
-) {
-  if (!isUserAuthorized) {
-    return (
-      <Button className={s.authorizeButton} onClick={onUnauthorizedUserClick}>
-        {i18n.t('subscription.unauthorized_button')}
-      </Button>
-    );
-  }
-  if (plan.id === currentSubscription?.id) {
-    return <Button disabled>{i18n.t('subscription.current_plan_button')}</Button>;
-  }
-  return <Button className={s.authorizeButton}>Subscribe</Button>;
 }
 
 function renderFooter(

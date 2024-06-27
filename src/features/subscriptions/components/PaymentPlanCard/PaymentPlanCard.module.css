@@ -11,18 +11,14 @@
 
   --strong-color: var(--success-strong);
   --plan-type-bg-color: #def5df;
-  --subscribe-btn-hover: #269b00;
 
-  &.premium {
+  &:global(.premium) {
     --strong-color: var(--accent-strong);
     --plan-type-bg-color: #d8effc;
-    --subscribe-btn-hover: var(--accent-strong-up);
-  }
-}
 
-.premium {
-  background-color: var(--accent-weak);
-  border-color: var(--strong-color);
+    background-color: var(--accent-weak);
+    border-color: var(--strong-color);
+  }
 }
 
 .planIcon {
@@ -64,14 +60,6 @@
 
 .buttonWrapper {
   margin-bottom: 24px;
-}
-
-.authorizeButton {
-  background-color: var(--strong-color);
-
-  &:hover {
-    background-color: var(--subscribe-btn-hover);
-  }
 }
 
 .cancelButton {
