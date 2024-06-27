@@ -1,32 +1,28 @@
 import React, { useMemo } from 'react';
 import { Button, Heading, Text } from '@konturio/ui-kit';
 import { Finish24 } from '@konturio/default-icons';
-import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
 import { Price } from '~features/subscriptions/components/Price/Price';
-import { userStateAtom } from '~core/auth';
 import { i18n } from '~core/localization';
-import { UserStateStatus } from '~core/auth/types';
 import { goTo } from '~core/router/goTo';
 import s from './PaymentPlanCard.module.css';
 import { PLANS_STYLE_CONFIG } from './contants';
 import type { BillingCycle, PaymentPlan } from '~features/subscriptions/types';
-import type { UserStateType } from '~core/auth/types';
 import type { CurrentSubscription } from '~core/api/subscription';
 
 export type PaymentPlanCardProps = {
   plan: PaymentPlan;
   currentBillingCycleId: string;
   currentSubscription: CurrentSubscription | null;
+  isUserAuthorized: boolean;
 };
 
 function PaymentPlanCard({
   plan,
   currentBillingCycleId,
   currentSubscription,
+  isUserAuthorized,
 }: PaymentPlanCardProps) {
-  const [userState] = useAtom(userStateAtom);
-
   const styleConfig = PLANS_STYLE_CONFIG[plan.style];
 
   const billingOption = useMemo(
@@ -54,7 +50,7 @@ function PaymentPlanCard({
         {plan.description}
       </Text>
       <div className={s.buttonWrapper}>
-        {renderPaymentPlanButton(plan, userState, currentSubscription)}
+        {renderPaymentPlanButton(plan, isUserAuthorized, currentSubscription)}
       </div>
       <ul className={s.highlights}>
         {plan.highlights.map((highlight, index) => (
@@ -68,7 +64,7 @@ function PaymentPlanCard({
       </ul>
 
       <div className={s.footerWrapper}>
-        {renderFooter(plan, userState, currentSubscription, billingOption)}
+        {renderFooter(plan, isUserAuthorized, currentSubscription, billingOption)}
       </div>
     </div>
   );
@@ -76,10 +72,10 @@ function PaymentPlanCard({
 
 function renderPaymentPlanButton(
   plan: PaymentPlan,
-  userState: UserStateType,
+  isUserAuthorized: boolean,
   currentSubscription: CurrentSubscription | null,
 ) {
-  if (userState === UserStateStatus.UNAUTHORIZED) {
+  if (!isUserAuthorized) {
     return (
       <Button className={s.authorizeButton} onClick={() => goTo('/profile')}>
         {i18n.t('subscription.unauthorized_button')}
@@ -94,13 +90,13 @@ function renderPaymentPlanButton(
 
 function renderFooter(
   plan: PaymentPlan,
-  userState: UserStateType,
+  isUserAuthorized: boolean,
   currentSubscription: CurrentSubscription | null,
   billingOption?: BillingCycle,
 ) {
   // Postpone cancel button rendering till next pr
   // if (
-  //   userState === UserStateStatus.AUTHORIZED &&
+  //   isUserAuthorized &&
   //   plan.id === currentSubscription?.id
   // ) {
   //   return (

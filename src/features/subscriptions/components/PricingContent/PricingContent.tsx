@@ -13,8 +13,9 @@ import type { SubscriptionsConfig } from '~features/subscriptions/types';
 const togglerInitialValue = 'year';
 
 export function PricingContent() {
+  const user = configRepo.get().user;
   const currentSubscription = usePromise(() => {
-    if (!configRepo.get().user) {
+    if (!user) {
       return Promise.resolve(null);
     }
     return getCurrentUserSubscription();
@@ -68,6 +69,7 @@ export function PricingContent() {
               key={plan.id}
               currentBillingCycleId={currentBillingCycleID}
               currentSubscription={currentSubscription}
+              isUserAuthorized={!!user}
             />
           ))}
         </div>
