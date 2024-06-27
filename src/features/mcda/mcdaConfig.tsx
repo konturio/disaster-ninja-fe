@@ -8,6 +8,7 @@ import {
   DEFAULT_RED,
   DEFAULT_YELLOW,
   sentimentDefault,
+  sentimentReversed,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { MCDAForm } from './components/MCDAForm';
 import { generateMCDAId } from './utils/generateMCDAId';
@@ -99,6 +100,12 @@ function getRange(axis: Axis): [number, number] {
 
 function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
   return axises.reduce<MCDALayer[]>((acc, axis) => {
+    const numeratorFirstSentiment = axis.quotients?.at(0)?.direction?.at(0);
+    const sentimentDirection = numeratorFirstSentiment?.some(
+      (sentiment) => sentiment === 'bad',
+    )
+      ? sentimentDefault
+      : sentimentReversed;
     try {
       acc.push({
         id: axis.id,
@@ -107,7 +114,7 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
         indicators: axis.quotients ?? [],
         unit: formatBivariateAxisUnit(axis.quotients),
         range: getRange(axis),
-        sentiment: sentimentDefault,
+        sentiment: sentimentDirection,
         outliers: 'as_on_limits',
         coefficient: 1,
         transformationFunction: 'no',
