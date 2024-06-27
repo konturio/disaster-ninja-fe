@@ -98,6 +98,10 @@ function sentimentPaint({
           ['var', 'mcdaResult'],
           ...colorPoints.flatMap((point) => [point.value, point.color]),
         ],
+        // mcdaResult == Infinity if any of the denominators is 0.
+        // We consider these values invalid
+        ['==', ['var', 'mcdaResult'], Infinity],
+        'transparent',
         // paint all values below absoluteMin (0 by default) same as absoluteMin
         ['<', ['var', 'mcdaResult'], absoluteMin],
         bad,
