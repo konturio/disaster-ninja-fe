@@ -6,7 +6,7 @@ import {
 } from '@reatom/async';
 import { onConnect } from '@reatom/hooks';
 import { atom } from '@reatom/core';
-import { getMcdaAxes } from '~core/api/mcda';
+import { getBivariateAxes } from '~core/api/mcda';
 import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axixDTOtoAxis';
 import type { Axis } from '~utils/bivariate';
 
@@ -26,7 +26,7 @@ export const availableBivariateAxesAtom = atom((ctx) => {
 }, 'availableBivariateAxesAtom');
 
 const bivariateAxesAsyncResource = reatomAsync((ctx) => {
-  return getMcdaAxes(ctx.controller);
+  return getBivariateAxes(ctx.controller);
 }, 'bivariateAxesAsyncResource').pipe(
   withDataAtom(null),
   withErrorAtom(),
