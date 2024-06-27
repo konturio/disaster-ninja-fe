@@ -4,7 +4,8 @@ import { useCallback } from 'react';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
-import { currentEventFeedAtom, eventFeedsAtom } from '~core/shared_state';
+import { eventFeedsAtom } from '~core/shared_state/eventFeeds';
+import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import s from './FeedSelector.module.css';
 import type { ChangeEvent } from 'react';
 

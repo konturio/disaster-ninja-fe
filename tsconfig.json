@@ -4,7 +4,11 @@
     "noImplicitAny": false,
     "useDefineForClassFields": true,
     "target": "esnext",
-    "lib": ["dom", "dom.iterable", "es2021"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2021"
+    ],
     "downlevelIteration": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -18,18 +22,43 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "goToDefinition": true
+        }
+      }
+    ],
     "baseUrl": "./src",
     "paths": {
-      "~components/*": ["components/*"],
-      "~views/*": ["views/*"],
-      "~config/*": ["config/*"],
-      "~utils/*": ["utils/*"],
-      "~services/*": ["services/*"],
-      "~appModule/*": ["redux-modules/appModule/*"],
-      "~core/*": ["core/*"],
-      "~features/*": ["features/*"],
-      "~widgets/*": ["widgets/*"]
+      "~components/*": [
+        "components/*"
+      ],
+      "~views/*": [
+        "views/*"
+      ],
+      "~config/*": [
+        "config/*"
+      ],
+      "~utils/*": [
+        "utils/*"
+      ],
+      "~services/*": [
+        "services/*"
+      ],
+      "~appModule/*": [
+        "redux-modules/appModule/*"
+      ],
+      "~core/*": [
+        "core/*"
+      ],
+      "~features/*": [
+        "features/*"
+      ],
+      "~widgets/*": [
+        "widgets/*"
+      ]
     }
   },
   "include": [
@@ -46,6 +75,10 @@
     "./cosmos/*.*",
     "./cosmos-export/*.*"
   ],
-  "types": ["@types/react"],
-  "typeRoots": ["./node_modules/@types"]
+  "types": [
+    "@types/react"
+  ],
+  "typeRoots": [
+    "./node_modules/@types"
+  ]
 }

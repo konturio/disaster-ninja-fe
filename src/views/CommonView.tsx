@@ -2,11 +2,11 @@ import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react-v2';
 import { configRepo } from '~core/config';
-import { Row } from '~components/Layout';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { useTabNameUpdate } from '~utils/hooks/useTabNameUpdate';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
+import s from './CommonView.module.css';
 import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
@@ -38,7 +38,7 @@ export function CommonView({
   return (
     <>
       <OriginalLogo />
-      <Row>
+      <div className={s.common}>
         <Suspense fallback={null}>
           {featureFlags[FeatureFlag.SIDE_BAR] && (
             <SideBar
@@ -49,7 +49,7 @@ export function CommonView({
           )}
         </Suspense>
         {children}
-      </Row>
+      </div>
 
       <Suspense fallback={null}>
         {featureFlags[FeatureFlag.TOASTS] && <NotificationToast />}

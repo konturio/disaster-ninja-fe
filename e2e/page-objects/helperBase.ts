@@ -89,6 +89,16 @@ export class HelperBase {
     const urlObj = new URL(url);
     return urlObj.origin;
   }
+
+  /**
+   * This method waits for URL to match specific regexp pattern. It is mostly useful for testing maps.
+   * @param pattern value for url to have inside in form of RegExp
+   * @param page playwright page to wait for
+   */
+
+  async waitForUrlToMatchPattern(pattern: RegExp, page: Page = this.page) {
+    await page.waitForURL(pattern);
+  }
 }
 
 export function getProjects() {

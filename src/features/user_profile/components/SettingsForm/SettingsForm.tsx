@@ -2,17 +2,22 @@ import { Button, Input, Radio, Select, Text, Heading, Textarea } from '@konturio
 import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
+import { lazily } from 'react-lazily';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
-import { FeatureFlag, eventFeedsAtom } from '~core/shared_state';
+import { FeatureFlag } from '~core/shared_state/featureFlags';
 import { flatObjectsAreEqual } from '~utils/common';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
-import { ReferenceAreaInfo } from './ReferenceAreaInfo/ReferenceAreaInfo';
 import type { UserDto } from '~core/app/user';
 import type { ChangeEvent } from 'react';
+
+const { ReferenceAreaInfo } = lazily(
+  () => import('./ReferenceAreaInfo/ReferenceAreaInfo'),
+);
+const { SelectFeeds } = lazily(() => import('./SelectFeeds'));
 
 const authInputClasses = { input: clsx(s.authInput) };
 
@@ -37,7 +42,7 @@ export function SettingsForm() {
 function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [localSettings, setLocalSettings] = useState<UserDto>(userProfile);
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
-  const [eventFeeds] = useAtom(eventFeedsAtom);
+
   const featureFlags = configRepo.get().features;
 
   function logout() {
@@ -64,20 +69,9 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
     updateUserProfile(localSettings);
   }
 
-  function onFullnameChange(e: ChangeEvent<HTMLInputElement>) {
-    setLocalSettings({ ...localSettings, fullName: e.target.value });
-  }
-
-  function onBioChange(e: ChangeEvent<HTMLTextAreaElement>) {
-    setLocalSettings({ ...localSettings, bio: e.target.value });
-  }
-
-  function onThemeChange(e) {
-    setLocalSettings({ ...localSettings, theme: e.value });
-  }
-
-  function onLanguageChange(e) {
-    setLocalSettings({ ...localSettings, language: e.value });
+  function onChange(key: string) {
+    return (e) =>
+      setLocalSettings({ ...localSettings, [key]: e.target?.value ?? e.value });
   }
 
   function toggleUnits() {
@@ -86,25 +80,12 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
     });
   }
 
-  function onFeedChange(e) {
-    setLocalSettings({ ...localSettings, defaultFeed: e.value });
-  }
-
-  function onOSMeditorChange(e) {
-    setLocalSettings({ ...localSettings, osmEditor: e.value });
-  }
-
   const OPTIONS_THEME = [
     { title: i18n.t('profile.konturTheme'), value: 'kontur' },
     // { title: i18n.t('profile.HOTTheme'), value: 'hot' },
   ];
 
   const OPTIONS_LANGUAGE = getLanguageOptions();
-
-  const OPTIONS_FEED = eventFeeds.data.map((o) => ({
-    title: o.name,
-    value: o.feed,
-  }));
 
   const OPTIONS_OSM = configRepo.get().osmEditors.map((o) => ({
     title: o.title,
@@ -126,7 +107,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   showTopPlaceholder
                   placeholder={i18n.t('profile.fullName')}
                   value={localSettings.fullName}
-                  onChange={onFullnameChange}
+                  onChange={onChange('fullName')}
                 />
 
                 <Input
@@ -139,7 +120,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   <Textarea
                     placeholder={i18n.t('profile.user_bio_placeholder')}
                     value={localSettings.bio}
-                    onChange={onBioChange}
+                    onChange={onChange('bio')}
                     className={s.textArea}
                     classes={{ placeholder: s.textAreaPlaceholder }}
                     width="100%"
@@ -169,7 +150,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   alwaysShowPlaceholder
                   items={OPTIONS_THEME}
                   withResetButton={false}
-                  onSelect={onThemeChange}
+                  onSelect={onChange('theme')}
                 >
                   {i18n.t('profile.interfaceTheme')}
                 </Select>
@@ -179,7 +160,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   value={localSettings.language}
                   items={OPTIONS_LANGUAGE}
                   withResetButton={false}
-                  onSelect={onLanguageChange}
+                  onSelect={onChange('language')}
                 >
                   {i18n.t('profile.interfaceLanguage')}
                 </Select>
@@ -205,29 +186,24 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   />
                 </div>
 
-                {featureFlags?.[FeatureFlag.FEED_SELECTOR] && (
-                  <Select
-                    alwaysShowPlaceholder
+                {(featureFlags[FeatureFlag.FEED_SELECTOR] ||
+                  featureFlags[FeatureFlag.EVENTS_LIST__FEED_SELECTOR]) && (
+                  <SelectFeeds
+                    onChange={onChange('defaultFeed')}
                     value={localSettings.defaultFeed}
-                    items={OPTIONS_FEED}
-                    withResetButton={false}
-                    onSelect={onFeedChange}
-                  >
-                    {i18n.t('profile.defaultDisasterFeed')}
-                  </Select>
+                    title={i18n.t('profile.defaultDisasterFeed')}
+                  />
                 )}
 
-                {featureFlags?.[FeatureFlag.OSM_EDIT_LINK] && (
-                  <Select
-                    alwaysShowPlaceholder
-                    value={localSettings.osmEditor}
-                    items={OPTIONS_OSM}
-                    withResetButton={false}
-                    onSelect={onOSMeditorChange}
-                  >
-                    {i18n.t('profile.defaultOSMeditor')}
-                  </Select>
-                )}
+                <Select
+                  alwaysShowPlaceholder
+                  value={localSettings.osmEditor}
+                  items={OPTIONS_OSM}
+                  withResetButton={false}
+                  onSelect={onChange('osmEditor')}
+                >
+                  {i18n.t('profile.defaultOSMeditor')}
+                </Select>
 
                 <div className={s.saveWrap}>
                   {status === 'loading' ? (

@@ -1,4 +1,3 @@
-import { configRepo } from '~core/config';
 import type { AppRoute } from './types';
 
 const trimSlash = (str: string) => {
@@ -13,10 +12,7 @@ const pathJoin = (...path: Array<string>) => {
     .join('/');
 };
 
-export const getAbsoluteRoute = (
-  slugOrRoute: string | AppRoute,
-  base = configRepo.get().baseUrl,
-) => {
+export const getAbsoluteRoute = (slugOrRoute: string | AppRoute, base = '') => {
   if (typeof slugOrRoute === 'string') return '/' + pathJoin(base, slugOrRoute);
 
   return getAbsoluteRoute(

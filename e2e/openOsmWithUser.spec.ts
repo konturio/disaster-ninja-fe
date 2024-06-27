@@ -20,11 +20,11 @@ for (const project of projects) {
 
     const coordinates = await pageManager.atMap.getViewportFromUrl();
 
-    // Start waiting for new page being opened
-    const newPagePromise = context.waitForEvent('page');
+    const [newPage] = await Promise.all([
+      context.waitForEvent('page'),
+      (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click(),
+    ]);
 
-    await (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click();
-    const newPage = await newPagePromise;
     await pageManager.atMap.waitForUrlToMatchPattern(/rapideditor/, newPage);
     const osmCoordinates = await pageManager.atMap.getViewportFromUrl(newPage);
     expect(osmCoordinates).toStrictEqual(coordinates);

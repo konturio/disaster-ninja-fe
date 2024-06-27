@@ -1,6 +1,6 @@
 import { useAction, useAtom } from '@reatom/react-v2';
 import { useCallback } from 'react';
-import { currentEventAtom } from '~core/shared_state';
+import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { currentEventBbox } from './atoms/currentEventBbox';
 import { autoSelectEvent } from './atoms/autoSelectEvent';
 import { EventsPanel } from './components/EventsPanel/EventsPanel';

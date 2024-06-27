@@ -41,16 +41,6 @@ export class MapCanvas extends HelperBase {
   }
 
   /**
-   * This method waits for URL to match specific regexp pattern. It is mostly useful for testing maps.
-   * @param pattern value for url to have inside in form of RegExp
-   * @param page playwright page to wait for
-   */
-
-  async waitForUrlToMatchPattern(pattern: RegExp, page: Page = this.page) {
-    await page.waitForURL(pattern);
-  }
-
-  /**
    * This method opens map for desired project by zoom, latitude, longitude at specific place
    * @param zoom number like 13.548
    * @param latitude number like 40.2283

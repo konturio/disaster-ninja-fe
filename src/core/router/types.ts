@@ -21,6 +21,8 @@ export interface AppRoute {
    * - always - always show it in navigation
    * */
   visibilityInNavigation?: 'always' | 'never' | 'auto';
+  /** Visible but disabled in sidebar */
+  disabled?: boolean;
 }
 
 export interface AppRouterConfig {

@@ -1,4 +1,4 @@
-import { currentEventFeedAtom } from '~core/shared_state';
+import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createAtom } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
