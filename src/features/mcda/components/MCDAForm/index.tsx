@@ -33,6 +33,7 @@ export function MCDAForm({
   initialState: FormInitialState;
   onConfirm: (value: FormResult | null) => void;
 }) {
+  // useEffect(() => console.log('MCDAForm'), []);
   // Layer name input
   const [name, setName] = useState(initialState.name);
   const [nameError, setNameError] = useState<string>('');
@@ -55,10 +56,11 @@ export function MCDAForm({
     },
     [],
   );
-  const [axisesResource] = useAtom(availableBivariateAxisesAtom);
+  const [axisesResource] = useAtom(availableBivariateAxisesAtom.dataAtom);
+  // console.log({axisesResource});
   const inputItems = useMemo(() => {
     const sortedItems = sortByAlphabet<Axis>(
-      axisesResource.data ?? [],
+      axisesResource?.data ?? [],
       (axis) => axis.label,
     );
     return sortedItems.map((d) => ({
