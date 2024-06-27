@@ -1,7 +1,7 @@
 import { action, atom, type Ctx } from '@reatom/core';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
+import type { StatDTO } from '~core/resources/bivariateStatisticsResource/types';
 import type { AxisGroup } from '~core/types';
-import type { StatDTO } from '../types';
 
 function extractAvailableNumeratorsWithDenominators(stat: StatDTO) {
   const { correlationRates } = stat;
