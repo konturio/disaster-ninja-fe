@@ -1,6 +1,6 @@
 import React from 'react';
 import { FavAdded16 } from '@konturio/default-icons';
-import s from './PaymentPlan.module.css';
+import s from './PaymentPlanCard.module.css';
 
 export const PLANS_STYLE_CONFIG = {
   basic: {

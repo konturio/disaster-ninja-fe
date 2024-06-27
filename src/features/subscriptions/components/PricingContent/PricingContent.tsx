@@ -6,7 +6,7 @@ import { configRepo } from '~core/config';
 import { FeatureFlag } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { getCurrentUserSubscription } from '~core/api/subscription';
-import PaymentPlan from '~features/subscriptions/components/PaymentPlan/PaymentPlan';
+import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/PaymentPlanCard';
 import s from './PricingContent.module.css';
 import type { SubscriptionsConfig } from '~features/subscriptions/types';
 
@@ -63,7 +63,7 @@ export function PricingContent() {
         </div>
         <div className={s.plans}>
           {config.plans.map((plan) => (
-            <PaymentPlan
+            <PaymentPlanCard
               plan={plan}
               key={plan.id}
               currentBillingCycleId={currentBillingCycleID}

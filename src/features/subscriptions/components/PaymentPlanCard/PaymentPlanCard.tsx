@@ -8,23 +8,23 @@ import { userStateAtom } from '~core/auth';
 import { i18n } from '~core/localization';
 import { UserStateStatus } from '~core/auth/types';
 import { goTo } from '~core/router/goTo';
-import s from './PaymentPlan.module.css';
+import s from './PaymentPlanCard.module.css';
 import { PLANS_STYLE_CONFIG } from './contants';
 import type { BillingCycle, PaymentPlan } from '~features/subscriptions/types';
 import type { UserStateType } from '~core/auth/types';
 import type { CurrentSubscription } from '~core/api/subscription';
 
-export type PaymentPlanProps = {
+export type PaymentPlanCardProps = {
   plan: PaymentPlan;
   currentBillingCycleId: string;
   currentSubscription: CurrentSubscription | null;
 };
 
-function PaymentPlan({
+function PaymentPlanCard({
   plan,
   currentBillingCycleId,
   currentSubscription,
-}: PaymentPlanProps) {
+}: PaymentPlanCardProps) {
   const [userState] = useAtom(userStateAtom);
 
   const styleConfig = PLANS_STYLE_CONFIG[plan.style];
@@ -127,4 +127,4 @@ function renderFooter(
   return null;
 }
 
-export default PaymentPlan;
+export default PaymentPlanCard;
