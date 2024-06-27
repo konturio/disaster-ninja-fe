@@ -56,7 +56,7 @@ export function MCDAForm({
     },
     [],
   );
-  const [axisesResource] = useAtom(availableBivariateAxisesAtom.dataAtom);
+  const [axisesResource] = useAtom(availableBivariateAxisesAtom);
   // console.log({axisesResource});
   const inputItems = useMemo(() => {
     const sortedItems = sortByAlphabet<Axis>(

@@ -1,44 +1,39 @@
-import { reatomResource, withDataAtom, withRetry, withStatusesAtom } from '@reatom/async';
+import {
+  withDataAtom,
+  reatomAsync,
+  withErrorAtom,
+  withStatusesAtom,
+} from '@reatom/async';
 import { onConnect } from '@reatom/hooks';
+import { atom } from '@reatom/core';
 import { getMcdaAxes } from '~core/api/mcda';
 import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axixDTOtoAxis';
 import type { Axis } from '~utils/bivariate';
 
-type AvailableAxisesResult = {
-  data: Axis[] | null;
-  loading: boolean;
-  error: string | null;
-};
+export const availableBivariateAxisesAtom = atom((ctx) => {
+  const axesResult = ctx.spy(fetchMcdaAxes.dataAtom);
+  const isPending = ctx.spy(fetchMcdaAxes.pendingAtom) > 0;
+  const error = ctx.spy(fetchMcdaAxes.errorAtom);
 
-export const availableBivariateAxisesAtom = reatomResource<AvailableAxisesResult>(
-  async (ctx) => {
-    return await ctx.schedule(async () => {
-      let axes: Axis[] | null = null;
-      let error: string | null = null;
-      try {
-        const axesDTO = await getMcdaAxes();
-        if (Array.isArray(axesDTO)) {
-          axes = axesDTO
-            .filter((axis) => axis.quality && axis.quality > 0.5)
-            .map((ax) => axisDTOtoAxis(ax));
-        }
-      } catch (e) {
-        // console.log(e);
-        error = (e as Error).message;
-      }
+  let axes: Axis[] | null = null;
+  if (Array.isArray(axesResult)) {
+    axes = axesResult
+      .filter((axis) => axis.quality && axis.quality > 0.5)
+      .map((ax) => axisDTOtoAxis(ax));
+  }
 
-      return { data: axes, loading: false, error: error };
-    });
-  },
-  'availableBivariateAxises',
-).pipe(withDataAtom({ data: null, loading: true, error: null }), withRetry());
+  return { data: axes, loading: isPending, error: error?.message ?? null };
+}, 'availableBivariateAxises');
 
-onConnect(availableBivariateAxisesAtom, (ctx) => {
-  const data = ctx.get(availableBivariateAxisesAtom.dataAtom);
-  // console.log('onConnect', {data});
-  if (!data.loading && (data?.error || !data.data)) {
-    // console.log('retry!', data);
-    availableBivariateAxisesAtom.dataAtom.reset(ctx);
-    availableBivariateAxisesAtom.retry(ctx);
+const fetchMcdaAxes = reatomAsync((ctx) => {
+  return getMcdaAxes(ctx.controller);
+}, 'fetchMcdaAxes').pipe(withDataAtom(null), withErrorAtom(), withStatusesAtom());
+
+onConnect(fetchMcdaAxes, (ctx) => {
+  const axesResult = ctx.get(fetchMcdaAxes.dataAtom);
+  const errorRaw = ctx.get(fetchMcdaAxes.errorAtom);
+  if (!axesResult?.length || errorRaw) {
+    // if no data yet, or if the previous fetch failed, refetch the data
+    fetchMcdaAxes(ctx);
   }
 });
