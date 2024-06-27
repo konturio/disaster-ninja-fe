@@ -8,7 +8,6 @@ import { userStateAtom } from '~core/auth';
 import { i18n } from '~core/localization';
 import { UserStateStatus } from '~core/auth/types';
 import { goTo } from '~core/router/goTo';
-import { isSubscriptionLoadedAtom } from '~views/Pricing/atoms/currentSubscription';
 import s from './PaymentPlan.module.css';
 import { PLANS_STYLE_CONFIG } from './contants';
 import type { BillingCycle, PaymentPlan } from '~features/subscriptions/types';
@@ -27,7 +26,6 @@ function PaymentPlan({
   currentSubscription,
 }: PaymentPlanProps) {
   const [userState] = useAtom(userStateAtom);
-  const [isLoaded] = useAtom(isSubscriptionLoadedAtom);
 
   const styleConfig = PLANS_STYLE_CONFIG[plan.style];
 
@@ -55,11 +53,9 @@ function PaymentPlan({
       <Text className={s.planDescription} type="short-m">
         {plan.description}
       </Text>
-      {isLoaded && (
-        <div className={s.buttonWrapper}>
-          {renderPaymentPlanButton(plan, userState, currentSubscription)}
-        </div>
-      )}
+      <div className={s.buttonWrapper}>
+        {renderPaymentPlanButton(plan, userState, currentSubscription)}
+      </div>
       <ul className={s.highlights}>
         {plan.highlights.map((highlight, index) => (
           <li key={index}>
@@ -70,11 +66,10 @@ function PaymentPlan({
           </li>
         ))}
       </ul>
-      {isLoaded && (
-        <div className={s.footerWrapper}>
-          {renderFooter(plan, userState, currentSubscription, billingOption)}
-        </div>
-      )}
+
+      <div className={s.footerWrapper}>
+        {renderFooter(plan, userState, currentSubscription, billingOption)}
+      </div>
     </div>
   );
 }

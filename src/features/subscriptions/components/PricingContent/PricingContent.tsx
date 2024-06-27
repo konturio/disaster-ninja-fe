@@ -1,25 +1,22 @@
 import clsx from 'clsx';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Heading, Toggler } from '@konturio/ui-kit';
+import usePromise from 'react-promise-suspense';
 import { configRepo } from '~core/config';
 import { FeatureFlag } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { getCurrentUserSubscription } from '~core/api/subscription';
-import { isSubscriptionLoadedAtom } from '~views/Pricing/atoms/currentSubscription';
 import PaymentPlan from '~features/subscriptions/components/PaymentPlan/PaymentPlan';
 import s from './PricingContent.module.css';
 import type { SubscriptionsConfig } from '~views/Pricing/types';
-import type { CurrentSubscription } from '~core/api/subscription';
 
 const togglerInitialValue = 'year';
 
 export function PricingContent() {
+  const currentSubscription = usePromise(getCurrentUserSubscription, []);
   const config = configRepo.get().features[
     FeatureFlag.SUBSCRIPTION
   ] as SubscriptionsConfig;
-  const [subscriptionData, setSubscriptionData] = useState<CurrentSubscription | null>(
-    null,
-  );
 
   const [currentBillingCycleID, setCurrentBillingCycleID] = useState<'month' | 'year'>(
     togglerInitialValue,
@@ -29,20 +26,6 @@ export function PricingContent() {
 
   const onTogglerChange = useCallback(() => {
     setCurrentBillingCycleID((prev) => (prev === 'month' ? 'year' : 'month'));
-  }, []);
-
-  useEffect(() => {
-    async function fetchSubscriptionData() {
-      try {
-        const data = await getCurrentUserSubscription();
-        setSubscriptionData(data);
-        isSubscriptionLoadedAtom.setTrue.dispatch();
-      } catch (error) {
-        console.error('Failed to fetch subscription data:', error);
-      }
-    }
-
-    fetchSubscriptionData();
   }, []);
 
   return (
@@ -78,7 +61,7 @@ export function PricingContent() {
               plan={plan}
               key={plan.id}
               currentBillingCycleId={currentBillingCycleID}
-              currentSubscription={subscriptionData}
+              currentSubscription={currentSubscription}
             />
           ))}
         </div>
