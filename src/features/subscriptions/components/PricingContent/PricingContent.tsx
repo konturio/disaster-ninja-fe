@@ -7,6 +7,7 @@ import { FeatureFlag } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { getCurrentUserSubscription } from '~core/api/subscription';
 import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/PaymentPlanCard';
+import { goTo } from '~core/router/goTo';
 import s from './PricingContent.module.css';
 import type { SubscriptionsConfig } from '~features/subscriptions/types';
 
@@ -34,6 +35,8 @@ export function PricingContent() {
   const onTogglerChange = useCallback(() => {
     setCurrentBillingCycleID((prev) => (prev === 'month' ? 'year' : 'month'));
   }, []);
+
+  const onUnauthorizedUserClick = useCallback(() => goTo('/profile'), []);
 
   return (
     <div className={s.pricingWrap}>
@@ -70,6 +73,7 @@ export function PricingContent() {
               currentBillingCycleId={currentBillingCycleID}
               currentSubscription={currentSubscription}
               isUserAuthorized={!!user}
+              onUnauthorizedUserClick={onUnauthorizedUserClick}
             />
           ))}
         </div>

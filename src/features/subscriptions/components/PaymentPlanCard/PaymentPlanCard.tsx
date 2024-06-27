@@ -4,7 +4,6 @@ import { Finish24 } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { Price } from '~features/subscriptions/components/Price/Price';
 import { i18n } from '~core/localization';
-import { goTo } from '~core/router/goTo';
 import s from './PaymentPlanCard.module.css';
 import { PLANS_STYLE_CONFIG } from './contants';
 import type { BillingCycle, PaymentPlan } from '~features/subscriptions/types';
@@ -15,6 +14,7 @@ export type PaymentPlanCardProps = {
   currentBillingCycleId: string;
   currentSubscription: CurrentSubscription | null;
   isUserAuthorized: boolean;
+  onUnauthorizedUserClick: () => void;
 };
 
 function PaymentPlanCard({
@@ -22,6 +22,7 @@ function PaymentPlanCard({
   currentBillingCycleId,
   currentSubscription,
   isUserAuthorized,
+  onUnauthorizedUserClick,
 }: PaymentPlanCardProps) {
   const styleConfig = PLANS_STYLE_CONFIG[plan.style];
 
@@ -39,9 +40,7 @@ function PaymentPlanCard({
         </Heading>
       </div>
       {billingOption?.initialPricePerMonth && (
-        <div className={s.initialPrice}>
-          <span>${billingOption.initialPricePerMonth}</span>
-        </div>
+        <div className={s.initialPrice}>${billingOption.initialPricePerMonth}</div>
       )}
       {billingOption?.pricePerMonth && (
         <Price className={s.price} amount={billingOption.pricePerMonth} />
@@ -50,7 +49,12 @@ function PaymentPlanCard({
         {plan.description}
       </Text>
       <div className={s.buttonWrapper}>
-        {renderPaymentPlanButton(plan, isUserAuthorized, currentSubscription)}
+        {renderPaymentPlanButton(
+          plan,
+          isUserAuthorized,
+          onUnauthorizedUserClick,
+          currentSubscription,
+        )}
       </div>
       <ul className={s.highlights}>
         {plan.highlights.map((highlight, index) => (
@@ -73,11 +77,12 @@ function PaymentPlanCard({
 function renderPaymentPlanButton(
   plan: PaymentPlan,
   isUserAuthorized: boolean,
+  onUnauthorizedUserClick: () => void,
   currentSubscription: CurrentSubscription | null,
 ) {
   if (!isUserAuthorized) {
     return (
-      <Button className={s.authorizeButton} onClick={() => goTo('/profile')}>
+      <Button className={s.authorizeButton} onClick={onUnauthorizedUserClick}>
         {i18n.t('subscription.unauthorized_button')}
       </Button>
     );
