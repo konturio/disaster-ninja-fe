@@ -11,23 +11,20 @@ import { goTo } from '~core/router/goTo';
 import { isSubscriptionLoadedAtom } from '~views/Pricing/atoms/currentSubscription';
 import s from './PaymentPlan.module.css';
 import { PLANS_STYLE_CONFIG } from './contants';
-import type {
-  BillingCycle,
-  CurrentSubscription,
-  PaymentPlan,
-} from '~features/subscriptions/types';
+import type { BillingCycle, PaymentPlan } from '~features/subscriptions/types';
 import type { UserStateType } from '~core/auth/types';
+import type { CurrentSubscription } from '~core/api/subscription';
 
 export type PaymentPlanProps = {
   plan: PaymentPlan;
   currentBillingCycleId: string;
-  currentSubscriptionInfo: CurrentSubscription | null;
+  currentSubscription: CurrentSubscription | null;
 };
 
 function PaymentPlan({
   plan,
   currentBillingCycleId,
-  currentSubscriptionInfo,
+  currentSubscription,
 }: PaymentPlanProps) {
   const [userState] = useAtom(userStateAtom);
   const [isLoaded] = useAtom(isSubscriptionLoadedAtom);
@@ -60,7 +57,7 @@ function PaymentPlan({
       </Text>
       {isLoaded && (
         <div className={s.buttonWrapper}>
-          {renderPaymentPlanButton(plan, userState, currentSubscriptionInfo)}
+          {renderPaymentPlanButton(plan, userState, currentSubscription)}
         </div>
       )}
       <ul className={s.highlights}>
@@ -75,7 +72,7 @@ function PaymentPlan({
       </ul>
       {isLoaded && (
         <div className={s.footerWrapper}>
-          {renderFooter(plan, userState, currentSubscriptionInfo, billingOption)}
+          {renderFooter(plan, userState, currentSubscription, billingOption)}
         </div>
       )}
     </div>
@@ -85,7 +82,7 @@ function PaymentPlan({
 function renderPaymentPlanButton(
   plan: PaymentPlan,
   userState: UserStateType,
-  currentSubscriptionInfo: CurrentSubscription | null,
+  currentSubscription: CurrentSubscription | null,
 ) {
   if (userState === UserStateStatus.UNAUTHORIZED) {
     return (
@@ -94,7 +91,7 @@ function renderPaymentPlanButton(
       </Button>
     );
   }
-  if (plan.id === currentSubscriptionInfo?.id) {
+  if (plan.id === currentSubscription?.id) {
     return <Button disabled>{i18n.t('subscription.current_plan_button')}</Button>;
   }
   return <Button className={s.authorizeButton}>Subscribe</Button>;
@@ -103,13 +100,13 @@ function renderPaymentPlanButton(
 function renderFooter(
   plan: PaymentPlan,
   userState: UserStateType,
-  currentSubscriptionInfo: CurrentSubscription | null,
+  currentSubscription: CurrentSubscription | null,
   billingOption?: BillingCycle,
 ) {
   // Postpone cancel button rendering till next pr
   // if (
   //   userState === UserStateStatus.AUTHORIZED &&
-  //   plan.id === currentSubscriptionInfo?.id
+  //   plan.id === currentSubscription?.id
   // ) {
   //   return (
   //     <Button

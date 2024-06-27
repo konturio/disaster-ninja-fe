@@ -1,6 +1,11 @@
 import { apiClient } from '~core/apiClientInstance';
 import { configRepo } from '~core/config';
-import type { CurrentSubscription } from '~features/subscriptions/types';
+
+export type CurrentSubscription = {
+  id: string;
+  billingPlanId: string;
+  billingSubscriptionId: string;
+};
 
 export async function getCurrentUserSubscription() {
   return await apiClient.get<CurrentSubscription | null>(

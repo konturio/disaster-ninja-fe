@@ -8,8 +8,8 @@ import { getCurrentUserSubscription } from '~core/api/subscription';
 import { configRepo } from '~core/config';
 import { isSubscriptionLoadedAtom } from '~views/Pricing/atoms/currentSubscription';
 import s from './Pricing.module.css';
+import type { CurrentSubscription } from '~core/api/subscription';
 import type { SubscriptionsConfig } from '~views/Pricing/types';
-import type { CurrentSubscription } from '~features/subscriptions/types';
 
 const togglerInitialValue = 'year';
 
@@ -78,7 +78,7 @@ export function PricingPage() {
               plan={plan}
               key={plan.id}
               currentBillingCycleId={currentBillingCycleID}
-              currentSubscriptionInfo={subscriptionData}
+              currentSubscription={subscriptionData}
             />
           ))}
         </div>
