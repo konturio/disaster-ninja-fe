@@ -1,0 +1,49 @@
+.pricingWrap {
+  width: 100%;
+  display: flex;
+  overflow-y: auto;
+}
+
+.pricingPlans {
+  padding: 20px;
+  margin: auto;
+}
+
+.togglerSwitch {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+  margin-left: calc(var(--unit) * -1);
+
+  &.withOffLabel {
+    margin-left: 0;
+  }
+}
+
+.togglerLabel {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--faint-strong-up);
+
+  &.active {
+    color: var(--base-strong);
+  }
+}
+
+.note {
+  background-color: var(--faint-weak);
+  color: var(--text-faint-strong);
+  padding: 2px 4px 4px 4px;
+  border-radius: var(--border-radius);
+  line-height: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.plans {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
