@@ -11,7 +11,7 @@ import {
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
 import { sortByAlphabet, sortByWordOccurence } from '~utils/common/sorting';
-import { availableBivariateAxisesAtom } from '../../atoms/availableBivariateAxisesAtom';
+import { availableBivariateAxesAtom } from '../../atoms/availableBivariateAxisesAtom';
 import { generateEmojiPrefix } from '../../utils/generateEmojiPrefix';
 import s from './style.module.css';
 import type { Axis } from '~utils/bivariate';
@@ -56,7 +56,7 @@ export function MCDAForm({
     },
     [],
   );
-  const [axisesResource] = useAtom(availableBivariateAxisesAtom);
+  const [axisesResource] = useAtom(availableBivariateAxesAtom);
   // console.log({axisesResource});
   const inputItems = useMemo(() => {
     const sortedItems = sortByAlphabet<Axis>(

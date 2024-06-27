@@ -8,7 +8,7 @@ import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
-import { availableBivariateAxisesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
+import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
 import { Sentiments } from '../Sentiments';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
@@ -62,7 +62,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setOutliers(layer.outliers ?? DEFAULTS.outliers);
   }, [layer]);
 
-  const [axes] = useAtom((ctx) => ctx.spy(availableBivariateAxisesAtom));
+  const [axes] = useAtom((ctx) => ctx.spy(availableBivariateAxesAtom));
 
   const axisDefaultRange = useMemo(() => {
     if (!axes.loading) {
