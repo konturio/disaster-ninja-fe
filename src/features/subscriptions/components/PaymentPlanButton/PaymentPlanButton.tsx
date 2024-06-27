@@ -1,5 +1,5 @@
 import { Button } from '@konturio/ui-kit';
-import React from 'react';
+import React, { memo } from 'react';
 import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import s from './PaymentPlanButton.module.css';
@@ -14,7 +14,7 @@ export type PaymentPlanButtonProps = {
   style: string;
 };
 
-function PaymentPlanButton({
+const PaymentPlanButton = memo(function PaymentPlanButton({
   plan,
   isUserAuthorized,
   onUnauthorizedUserClick,
@@ -34,7 +34,7 @@ function PaymentPlanButton({
   if (plan.id === currentSubscription?.id) {
     return <Button disabled>{i18n.t('subscription.current_plan_button')}</Button>;
   }
-  return <Button className={s.authorizeButton}>Subscribe</Button>;
-}
+  return <Button className={s.paymentPlanButton}>Subscribe</Button>;
+});
 
 export default PaymentPlanButton;
