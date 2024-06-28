@@ -6,6 +6,6 @@ export function axisDTOtoAxis(dto: AxisDTO): Axis {
   return {
     ...dto,
     id: dto.quotient.join('|'),
-    label: formatBivariateAxisLabel(dto.quotients),
+    label: dto.label ?? formatBivariateAxisLabel(dto.quotients),
   };
 }

@@ -7,7 +7,7 @@ import type {
   ColorCombination,
 } from '~utils/bivariate';
 
-export type AxisDTO = Omit<Axis, 'id' | 'label'>;
+export type AxisDTO = Omit<Axis, 'id' | 'label'> & { label?: string | null };
 
 export type StatDTO = {
   axis: AxisDTO[];
