@@ -45,7 +45,11 @@ export interface MCDAConfig {
 }
 
 export type Normalization = 'max-min' | 'no';
-export type TransformationFunction = 'no' | 'natural_logarithm' | 'square_root';
+export type TransformationFunction =
+  | 'no'
+  | 'natural_logarithm'
+  | 'square_root'
+  | 'cube_root';
 
 export interface MCDALayerStyle {
   type: 'mcda';

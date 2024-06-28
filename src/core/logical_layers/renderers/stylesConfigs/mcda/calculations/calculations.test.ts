@@ -34,6 +34,15 @@ test('Transformations correct: square_root', () => {
   expect(result).toBe(0.31622776601683794);
 });
 
+test('Transformations correct: cube_root', () => {
+  const result = calculateNumber({
+    ...TEST_MCDA_LAYER,
+    transformationFunction: 'cube_root',
+  });
+
+  expect(result).toBe(0.46415888336127786);
+});
+
 test('Transformations correct: natural_logarithm', () => {
   const result = calculateNumber({
     ...TEST_MCDA_LAYER,
