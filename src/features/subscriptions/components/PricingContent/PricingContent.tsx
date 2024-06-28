@@ -5,11 +5,16 @@ import usePromise from 'react-promise-suspense';
 import { configRepo } from '~core/config';
 import { FeatureFlag } from '~core/shared_state';
 import { i18n } from '~core/localization';
-import { getCurrentUserSubscription } from '~core/api/subscription';
+import {
+  getCurrentUserSubscription,
+  setCurrentUserSubscription,
+} from '~core/api/subscription';
 import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/PaymentPlanCard';
 import { goTo } from '~core/router/goTo';
 import s from './PricingContent.module.css';
+import { USE_MOCK_SUBSCRIPTION_CONFIG } from './mockSubscriptionConfig';
 import type { SubscriptionsConfig } from '~features/subscriptions/types';
+import type { CurrentSubscription } from '~core/api/subscription';
 
 const togglerInitialValue = 'year';
 
@@ -21,6 +26,8 @@ export function PricingContent() {
     }
     return getCurrentUserSubscription();
   }, []);
+  const [mockCurrentSubscription, setMockCurrentSubscription] =
+    useState<CurrentSubscription | null>(null);
 
   const config = configRepo.get().features[
     FeatureFlag.SUBSCRIPTION
@@ -37,6 +44,38 @@ export function PricingContent() {
   }, []);
 
   const onUnauthorizedUserClick = useCallback(() => goTo('/profile'), []);
+
+  const onNewSubscriptionApproved = useCallback(
+    (
+      paymentMethodId: string,
+      planId: string,
+      billingPlanId: string,
+      billingSubscriptionId: string,
+    ) => {
+      // console.log('onNewSubscriptionApproved', {
+      //   paymentMethodId,
+      //   planId,
+      //   billingPlanId,
+      //   billingSubscriptionId,
+      // });
+      if (USE_MOCK_SUBSCRIPTION_CONFIG) {
+        setMockCurrentSubscription({ billingPlanId, billingSubscriptionId, id: planId });
+      } else {
+        setCurrentUserSubscription(billingPlanId, billingSubscriptionId)
+          .then((result) => {
+            // console.log('setting new subscription success!');
+          })
+          .catch(() => {
+            // console.log('error setting new subscription:', {
+            //   paymentMethodId,
+            //   billingPlanId,
+            //   billingSubscriptionId,
+            // });
+          });
+      }
+    },
+    [],
+  );
 
   return (
     <div className={s.pricingWrap}>
@@ -71,9 +110,14 @@ export function PricingContent() {
               plan={plan}
               key={plan.id}
               currentBillingCycleId={currentBillingCycleID}
-              currentSubscription={currentSubscription}
+              currentSubscription={
+                USE_MOCK_SUBSCRIPTION_CONFIG
+                  ? mockCurrentSubscription
+                  : currentSubscription
+              }
               isUserAuthorized={!!user}
               onUnauthorizedUserClick={onUnauthorizedUserClick}
+              onNewSubscriptionApproved={onNewSubscriptionApproved}
             />
           ))}
         </div>

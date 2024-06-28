@@ -1,5 +1,9 @@
 import { getLayersDetails } from '~core/api/layers';
 import { apiClient } from '~core/apiClientInstance';
+import {
+  SUBSCRIPTION_CONFIG_OVERRIDE,
+  USE_MOCK_SUBSCRIPTION_CONFIG,
+} from '~features/subscriptions/components/PricingContent/mockSubscriptionConfig';
 import { createFeaturesConfig } from './featuresConfigLoader';
 import type { UserDto } from '~core/app/user';
 import type { AppConfig, FaviconPack, FeatureDto } from '../types';
@@ -28,6 +32,9 @@ export async function getAppConfig(appId?: string): Promise<AppConfig> {
   if (appCfg === null) throw Error('App configuration unavailable');
 
   const features = createFeaturesConfig(appCfg.features) as AppConfig['features'];
+  if (USE_MOCK_SUBSCRIPTION_CONFIG) {
+    features.subscription = SUBSCRIPTION_CONFIG_OVERRIDE.configuration;
+  }
 
   return {
     ...appCfg,

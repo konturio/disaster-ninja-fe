@@ -1,20 +1,29 @@
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { configRepo } from '~core/config';
+import { FeatureFlag } from '~core/shared_state';
+import { PAYMENT_METHOD_ID_PAYPAL } from '../constants';
 import type { ReactNode } from 'react';
 import type { ReactPayPalScriptOptions } from '@paypal/react-paypal-js';
+import type { SubscriptionsConfig } from '../types';
 
-const paypalOptions: ReactPayPalScriptOptions = {
-  clientId:
-    'AVUvkVaipdxFpSB-TuFUn9NL46C1yHsfcBJVYFX14KPLr2iJmZ70RgjZVL3Pg2m6DGSYx9I7up7Bybx8',
+const createPaypalOptions = (clientId: string): ReactPayPalScriptOptions => ({
+  clientId,
   currency: 'USD',
   intent: 'subscription',
   vault: true,
-};
+});
 
 export function PaymentsProvider({ children }: { children: ReactNode }) {
-  const subscriptionsEnabled = configRepo.get().features.subscription;
-  return subscriptionsEnabled ? (
-    <PayPalScriptProvider options={paypalOptions}>{children}</PayPalScriptProvider>
+  const subscriptionsСonfig = configRepo.get().features[
+    FeatureFlag.SUBSCRIPTION
+  ] as SubscriptionsConfig;
+  const payPalClientId = subscriptionsСonfig?.billingMethodsDetails?.find(
+    (method) => method.id === PAYMENT_METHOD_ID_PAYPAL,
+  )?.clientId;
+  return payPalClientId ? (
+    <PayPalScriptProvider options={createPaypalOptions(payPalClientId)}>
+      {children}
+    </PayPalScriptProvider>
   ) : (
     <>{children}</>
   );

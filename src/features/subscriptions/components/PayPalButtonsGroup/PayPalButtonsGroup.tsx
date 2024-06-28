@@ -4,8 +4,8 @@ const ppTestLog = (...msg) => console.info('PayPal log', ...msg);
 
 type PayPalButtonsGroupProps = {
   planId: string;
-  activePlanId: string | null;
-  activeSubscriptionId: string | null;
+  activePlanId?: string | null;
+  activeSubscriptionId?: string | null;
   onSubscriptionApproved: (planId: string, subscriptionID?: string | null) => void;
 };
 
@@ -19,6 +19,7 @@ export function PayPalButtonsGroup({
 
   return (
     <PayPalButtons
+      disabled={activePlanId === planId}
       style={{
         label: 'paypal',
         color: 'blue',

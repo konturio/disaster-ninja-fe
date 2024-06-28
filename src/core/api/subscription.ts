@@ -14,3 +14,14 @@ export async function getCurrentUserSubscription() {
     true,
   );
 }
+
+export async function setCurrentUserSubscription(
+  billingPlanId: string,
+  billingSubscriptionId: string,
+) {
+  return await apiClient.post(
+    '/users/current_user/billing_subscription',
+    { appId: configRepo.get().id, billingPlanId, billingSubscriptionId },
+    true,
+  );
+}
