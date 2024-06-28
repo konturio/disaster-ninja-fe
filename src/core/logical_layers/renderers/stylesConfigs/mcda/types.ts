@@ -49,6 +49,7 @@ export type TransformationFunction =
   | 'no'
   | 'natural_logarithm' // TODO: is old "natural_logarithm still needed?"
   | 'square_root'
+  | 'sqrt'
   | 'cube_root'
   | 'log'
   | 'log_epsilon';
