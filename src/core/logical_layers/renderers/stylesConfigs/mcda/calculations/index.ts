@@ -58,9 +58,9 @@ class Calculations<T> implements IsomorphCalculations<T> {
       /* square_root: (sqrt(x) - sqrt(min)) / (sqrt(max) - sqrt(min)) */
       case 'square_root':
         return {
-          tX: this.math.sqrt(x),
-          tMin: this.math.sqrt(min),
-          tMax: this.math.sqrt(max),
+          tX: this.math.mult(this.math.sign(x), this.math.sqrt(this.math.abs(x))),
+          tMin: this.math.mult(this.math.sign(min), this.math.sqrt(this.math.abs(min))),
+          tMax: this.math.mult(this.math.sign(max), this.math.sqrt(this.math.abs(max))),
         };
 
       /* natural_logarithm: (ln(x) - ln(min)) / (ln(max) - ln(min)) */

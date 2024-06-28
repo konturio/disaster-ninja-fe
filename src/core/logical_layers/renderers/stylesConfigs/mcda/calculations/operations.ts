@@ -6,6 +6,8 @@ export interface IsomorphMath<T> {
   log: (x: T) => T;
   sqrt: (x: T) => T;
   cbrt: (x: T) => T;
+  abs: (x: T) => T;
+  sign: (x: T) => T;
 }
 
 export type MapExpression = maplibregl.ExpressionSpecification;
@@ -18,6 +20,8 @@ export class MapMath implements IsomorphMath<MapExpression> {
   log = (x: MapExpression): MapExpression => ['ln', x];
   sqrt = (x: MapExpression): MapExpression => ['sqrt', x];
   cbrt = (x: MapExpression): MapExpression => ['^', x, 1 / 3];
+  abs = (x: MapExpression): MapExpression => ['abs', x];
+  sign = (x: MapExpression): MapExpression => ['case', ['<', x, 0], -1, 1];
 }
 
 export class JsMath implements IsomorphMath<number> {
@@ -28,4 +32,6 @@ export class JsMath implements IsomorphMath<number> {
   log = (x: number) => Math.log(x);
   sqrt = (x: number) => Math.sqrt(x);
   cbrt = (x: number) => Math.cbrt(x);
+  abs = (x: number) => Math.abs(x);
+  sign = (x: number) => Math.sign(x);
 }
