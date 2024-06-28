@@ -42,6 +42,15 @@ export function filterSetup(layers: MCDAConfig['layers']) {
       );
     }
   });
+  layers.forEach(({ axis, range }) => {
+    conditions.push(
+      // check  numerator and denominator for null/undefined
+      notEqual(featureProp(axis[0]), null),
+      notEqual(featureProp(axis[1]), null),
+      // this checks for 0 in denominator (which causes makes the result == Infinity)
+      notEqual(featureProp(axis[1]), 0),
+    );
+  });
   if (conditions.length > 1) {
     return allCondition(...conditions);
   }
@@ -98,10 +107,6 @@ function sentimentPaint({
           ['var', 'mcdaResult'],
           ...colorPoints.flatMap((point) => [point.value, point.color]),
         ],
-        // mcdaResult == Infinity if any of the denominators is 0.
-        // We consider these values invalid
-        ['==', ['var', 'mcdaResult'], Infinity],
-        'transparent',
         // paint all values below absoluteMin (0 by default) same as absoluteMin
         ['<', ['var', 'mcdaResult'], absoluteMin],
         bad,
