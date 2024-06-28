@@ -30,12 +30,27 @@ export const outliersOptions: SelectableItem[] = [
 ];
 
 export const transformOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.no')}`, value: 'no' },
   {
-    title: `${i18n.t('mcda.layer_editor.natural_logarithm')}`,
+    title: `${i18n.t('mcda.layer_editor.transformations.no_transformation')}`,
+    value: 'no',
+  },
+  {
+    title: `${i18n.t('mcda.layer_editor.transformations.natural_logarithm')}`,
     value: 'natural_logarithm',
   },
-  { title: `${i18n.t('mcda.layer_editor.square_root')}`, value: 'square_root' },
+  {
+    title: `${i18n.t('mcda.layer_editor.transformations.square_root')}`,
+    value: 'square_root',
+  },
+  {
+    title: `${i18n.t('mcda.layer_editor.transformations.cube_root')}`,
+    value: 'cube_root',
+  },
+  { title: `${i18n.t('mcda.layer_editor.transformations.log_one')}`, value: 'log' },
+  {
+    title: `${i18n.t('mcda.layer_editor.transformations.log_epsilon')}`,
+    value: 'log_epsilon',
+  },
 ];
 
 export const normalizationOptions: SelectableItem[] = [
