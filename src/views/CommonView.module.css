@@ -1,0 +1,11 @@
+.common {
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  min-height: 0;
+}
+
+:global(#withKeepAlivemap) {
+  flex: 1;
+}

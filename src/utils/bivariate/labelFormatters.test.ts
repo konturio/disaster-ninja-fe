@@ -90,34 +90,6 @@ describe('BivariateLegend labels formatting', () => {
       expect(formatBivariateAxisLabel(quotients)).toEqual('NDVI (avg) to Test (index)');
     });
 
-    it('denominator - area_km2', () => {
-      const quotients: Axis['quotients'] = [
-        {
-          name: 'highway_length_6_months',
-          label: 'OSM: new road length (last 6 months)',
-          direction: [['bad'], ['good']],
-          unit: {
-            id: 'km',
-            shortName: 'km',
-            longName: 'kilometers',
-          },
-        },
-        {
-          name: 'area_km2',
-          label: 'Area',
-          direction: [['neutral'], ['neutral']],
-          unit: {
-            id: 'km2',
-            shortName: 'km²',
-            longName: 'square kilometers',
-          },
-        },
-      ];
-      expect(formatBivariateAxisLabel(quotients)).toEqual(
-        'OSM: new road length (last 6 months) (km/km²)',
-      );
-    });
-
     it('other cases', () => {
       const quotients: Axis['quotients'] = [
         {

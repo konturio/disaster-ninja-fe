@@ -1,6 +1,10 @@
 import { createAtom } from '~utils/atoms';
-import { currentEventAtom, currentNotificationAtom } from '~core/shared_state';
-import { scheduledAutoFocus, scheduledAutoSelect } from '~core/shared_state/currentEvent';
+import { currentNotificationAtom } from '~core/shared_state';
+import {
+  currentEventAtom,
+  scheduledAutoFocus,
+  scheduledAutoSelect,
+} from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
 import { eventListResourceAtom } from './eventListResource';
 

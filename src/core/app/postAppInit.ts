@@ -7,7 +7,9 @@ import type { Config } from '~core/config/types';
 
 export async function postAppInit(config: Config) {
   authClientInstance.loginHook = onLogin.bind(authClientInstance);
-  authClientInstance.checkAuth();
+  const isAuthenticated = authClientInstance.checkAuth();
+  // It's required to refresh auth tokens to get the fresh roles data from keycloak
+  if (isAuthenticated) await authClientInstance.refreshAuth();
   urlStoreAtom.init.dispatch({
     ...config.initialUrl,
     layers: config.activeLayers,
