@@ -51,6 +51,10 @@
   margin-bottom: var(--double-unit);
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 .perMonth {
   font-size: 14px;
   color: #888;
