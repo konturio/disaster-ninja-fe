@@ -19,6 +19,10 @@
     background-color: var(--accent-weak);
     border-color: var(--strong-color);
   }
+
+  &:hover {
+    box-shadow: var(--shadow-medium);
+  }
 }
 
 .planIcon {
