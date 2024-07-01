@@ -64,12 +64,14 @@ export function FullState({
       )}
       <EventListSettingsRow>
         <FeedSelectorFlagged />
-        <BBoxFilterToggle />
+        {featureFlags[FeatureFlag.EVENTS_LIST__BBOX_FILTER] && <BBoxFilterToggle />}
       </EventListSettingsRow>
       <div className={s.scrollable}>
         {statesToComponents({
           loading: <LoadingSpinner message={i18n.t('loading_events')} />,
-          error: (errorMessage) => <ErrorMessage message={errorMessage} />,
+          error: (errorMessage) => (
+            <ErrorMessage message={errorMessage} containerClass={s.errorContainer} />
+          ),
           ready: (eventsList) => (
             <>
               <Virtuoso

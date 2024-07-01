@@ -19,4 +19,22 @@ export class NavigationMenu extends HelperBase {
   async goToLoginPage() {
     await this.page.locator('div', { hasText: 'Collapse' }).getByText('Login').click();
   }
+
+  /**
+   * This method opens up the profile page from navigation menu
+   */
+  async goToProfilePage() {
+    await this.page.locator('div', { hasText: 'Collapse' }).getByText('Profile').click();
+  }
+
+  /**
+   * This method opens up the privacy page from navigation menu
+   */
+
+  async goToPrivacyPage() {
+    await this.page
+      .locator('div', { hasText: 'Collapse' })
+      .getByText('Privacy', { exact: true })
+      .click();
+  }
 }

@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`sortByAlphabet > should sort items alphabetically, ignoring case 1`] = `
+[
+  {
+    "title": "999 numbers are earlier than letters",
+    "value": "5",
+  },
+  {
+    "title": "Ab",
+    "value": "3",
+  },
+  {
+    "title": "ac longer item",
+    "value": "4",
+  },
+  {
+    "title": "BB",
+    "value": "2",
+  },
+  {
+    "title": "CCC",
+    "value": "1",
+  },
+]
+`;
+
+exports[`sortByWordOccurence > should sort items based on earlier occurence of the substring at a starting word boundary 1`] = `
+[
+  {
+    "title": "Word at the start of the line",
+    "value": "5",
+  },
+  {
+    "title": "A. Word",
+    "value": "3",
+  },
+  {
+    "title": "BB. Words can be plural",
+    "value": "2",
+  },
+  {
+    "title": "CCC. Lower case word",
+    "value": "1",
+  },
+  {
+    "title": "Nonword. Not at the start boundary, does not count",
+    "value": "4",
+  },
+]
+`;

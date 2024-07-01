@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { HelperBase } from './helperBase';
+import type { BrowserContext } from '@playwright/test';
 
 export class LoginPage extends HelperBase {
   /**
@@ -33,5 +34,21 @@ export class LoginPage extends HelperBase {
   async checkLoginAndSignupPresence() {
     await expect(this.page.getByRole('button', { name: 'Log in' })).toBeVisible();
     await expect(this.page.getByText('Sign up')).toBeVisible();
+  }
+
+  /**
+   * This method clicks sign up and waits for keycloak page to open. Then it checks the title of a new page to have Sign in text.
+   * @param context - playwright context to use for page waiting
+   * @returns a keycloak playwright page to use
+   */
+
+  async clickSignUpAndNavigateToKeycloak(context: BrowserContext) {
+    // Start waiting for new page being opened and click sign up
+    const [keycloakPage] = await Promise.all([
+      context.waitForEvent('page'),
+      this.page.getByText('Sign up').click(),
+    ]);
+    await expect(keycloakPage).toHaveTitle(/Sign in/);
+    return keycloakPage;
   }
 }

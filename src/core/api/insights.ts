@@ -1,6 +1,7 @@
 import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
-import type { AdvancedAnalyticsData, AnalyticsData } from '~core/types';
+import { i18n } from '~core/localization';
+import type { AdvancedAnalyticsData, AnalyticsData, LLMAnalyticsData } from '~core/types';
 
 export function getPolygonDetails(
   features: GeoJSON.FeatureCollection,
@@ -12,7 +13,7 @@ export function getPolygonDetails(
       appId: configRepo.get().id,
       features,
     },
-    false,
+    true,
     { signal: abortController.signal },
   );
 }
@@ -27,5 +28,27 @@ export function getAdvancedPolygonDetails(
     geometry,
     true,
     { signal: abortController.signal },
+  );
+}
+
+export function getLlmAnalysis(
+  geometry: GeoJSON.GeoJSON,
+  abortController: AbortController,
+) {
+  return apiClient.post<LLMAnalyticsData>(
+    `/llm_analytics`,
+    {
+      appId: configRepo.get().id,
+      features: geometry,
+    },
+    true,
+    {
+      signal: abortController.signal,
+      headers: { 'user-language': i18n.instance.language },
+      retryAfterTimeoutError: {
+        times: 5,
+        delayMs: 1000,
+      },
+    },
   );
 }

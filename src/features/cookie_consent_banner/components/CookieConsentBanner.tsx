@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button, Card, Heading, Animation } from '@konturio/ui-kit';
 import { getAbsoluteRoute } from '~core/router/getAbsoluteRoute';
 import { i18n } from '~core/localization';
+import { configRepo } from '~core/config';
 import { cookieSettingsAtom } from '../atoms/cookieSettingsAtom';
 import s from './CookieConsentBanner.module.css';
 
@@ -34,7 +35,7 @@ export function CookieConsentBanner() {
         <Heading type="heading-03">{i18n.t('cookie_banner.header')}</Heading>
         <div className={s.body}>
           <ReactMarkdown components={{ a: memo(InternalLinkAdapter) }}>
-            {i18n.t('cookie_banner.body')}
+            {i18n.t('cookie_banner.body', { appName: configRepo.get().name })}
           </ReactMarkdown>
         </div>
         <div className={s.buttonsRow}>

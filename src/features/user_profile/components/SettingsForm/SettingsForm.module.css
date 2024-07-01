@@ -15,6 +15,10 @@
   margin: auto 0;
 }
 
+.bioTooltipContent {
+  white-space: pre-wrap;
+}
+
 .profileWrap,
 .settingsWrap {
   display: flex;
@@ -49,7 +53,7 @@
 }
 
 .saveWrap {
-  margin-top: var(--double-unit);
+  margin-top: 40px;
   text-align: end;
 }
 
@@ -67,6 +71,13 @@
   justify-content: center;
   & > button {
     margin: var(--unit);
+  }
+}
+
+.smallTitle {
+  font-weight: 500;
+  & + * {
+    margin-top: var(--unit);
   }
 }
 

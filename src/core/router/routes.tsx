@@ -6,13 +6,15 @@ import {
   Prefs24,
   User24,
   Reports16,
+  Diamond24,
 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
-import { UserStateToComponents } from '~core/auth';
+import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
 import { goTo } from './goTo';
 import type { AppRouterConfig } from './types';
+const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
 const { MapPage } = lazily(() => import('~views/Map/Map'));
 const { ReportsPage } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
@@ -22,6 +24,8 @@ const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
 
+const isAuthenticated = !!configRepo.get().user;
+
 export const routerConfig: AppRouterConfig = {
   defaultRoute: '',
   routes: [
@@ -30,6 +34,7 @@ export const routerConfig: AppRouterConfig = {
       title: i18n.t('modes.map'),
       icon: <Map24 />,
       view: <MapPage />,
+      requiredFeature: AppFeature.MAP,
       cached: true,
     },
     {
@@ -57,15 +62,17 @@ export const routerConfig: AppRouterConfig = {
     },
     {
       slug: 'profile',
-      title: (
-        <UserStateToComponents
-          authorized={i18n.t('modes.profile')}
-          other={i18n.t('login.login_button')}
-        />
-      ),
+      title: isAuthenticated ? i18n.t('modes.profile') : i18n.t('login.login_button'),
       icon: <User24 />,
       view: <ProfilePage />,
       requiredFeature: AppFeature.APP_LOGIN,
+    },
+    {
+      slug: 'pricing',
+      title: i18n.t('subscription.title'),
+      icon: <Diamond24 />,
+      view: <PricingPage />,
+      requiredFeature: AppFeature.SUBSCRIPTION,
     },
     {
       slug: 'about',

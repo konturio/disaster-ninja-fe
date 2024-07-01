@@ -4,10 +4,11 @@ import { Button, Input, Select, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
 import clsx from 'clsx';
 import { i18n } from '~core/localization';
-import { TooltipTrigger } from '~components/TooltipTrigger';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
+import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
+import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { Sentiments } from '../Sentiments';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
@@ -75,6 +76,27 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     }
     return null;
   }, [axes?.data?.axis, axes?.loading, layer.id]);
+
+  const mcdaLayerHint: LayerInfo[] = useMemo(() => {
+    const description = layer.indicators?.[0]?.description;
+    const copyrightsCombined: string[] = [];
+    layer?.indicators?.forEach((indicator) => {
+      if (indicator.copyrights) {
+        for (const copyright of indicator.copyrights) {
+          // only add if this copyright isn't included yet
+          if (!copyrightsCombined.find((v) => v === copyright)) {
+            copyrightsCombined.push(copyright);
+          }
+        }
+      }
+    });
+    return [
+      {
+        description,
+        copyrights: copyrightsCombined,
+      },
+    ];
+  }, [layer?.indicators]);
 
   const nonDefaultValues = useMemo(() => {
     const result: { paramName: string; value: unknown }[] = [];
@@ -164,6 +186,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       id: layer.id,
       name: layer.name,
       axis: layer.axis,
+      indicators: layer.indicators,
       unit: layer.unit,
       range: [
         isNumber(rangeNum[0]) ? rangeNum[0] : 0,
@@ -181,6 +204,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     coefficient,
     layer.axis,
     layer.id,
+    layer.indicators,
     layer.name,
     layer.unit,
     normalization,
@@ -211,6 +235,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     }
   }, [axes.loading, axisDefaultRange, layer]);
 
+  const editLayer = useCallback(() => {
+    setEditMode(true);
+  }, []);
+
   return (
     <div className={s.editor}>
       <div key={layer.id} className={s.layer}>
@@ -218,18 +246,17 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
           <div>{layer.name}</div>
           <div className={s.layerButtons}>
             {!editMode && (
-              <div
+              <LayerActionIcon
+                onClick={editLayer}
+                hint={i18n.t('layer_actions.tooltips.edit')}
                 className={s.editButton}
-                onClick={() => {
-                  setEditMode(true);
-                }}
               >
                 <Edit16 />
-              </div>
+              </LayerActionIcon>
             )}
-            <TooltipTrigger
+            <LayerInfo
               className={s.infoButton}
-              tipText={''}
+              layersInfo={mcdaLayerHint}
               tooltipId={LAYERS_PANEL_FEATURE_ID}
             />
           </div>
@@ -252,11 +279,15 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
           // Edit mode
           <div className={s.layerEditContainer}>
             {/* RANGE */}
-            <MCDALayerParameterRow name={i18n.t('mcda.layer_editor.range')} tipText="">
+            <MCDALayerParameterRow
+              name={i18n.t('mcda.layer_editor.range')}
+              infoText={i18n.t('mcda.layer_editor.tips.range')}
+            >
               <div className={s.rangeInputContainer}>
                 <Input
+                  className={s.rangeInputRoot}
                   classes={{
-                    inputBox: s.textInputBox,
+                    inputBox: s.rangeInputBox,
                     error: s.hiddenError,
                   }}
                   type="text"
@@ -269,8 +300,9 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 />
                 <span className={s.inputRangeDivider}>{'-'}</span>
                 <Input
+                  className={s.rangeInputRoot}
                   classes={{
-                    inputBox: s.textInputBox,
+                    inputBox: s.rangeInputBox,
                     error: s.hiddenError,
                   }}
                   type="text"
@@ -293,7 +325,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               </div>
             </MCDALayerParameterRow>
             {/* OUTLIERS */}
-            <MCDALayerParameterRow name={i18n.t('mcda.layer_editor.outliers')} tipText="">
+            <MCDALayerParameterRow
+              name={i18n.t('mcda.layer_editor.outliers')}
+              infoText={i18n.t('mcda.layer_editor.tips.outliers')}
+            >
               <Select
                 className={s.selectInput}
                 classes={{
@@ -309,7 +344,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             {/* SENTIMENT */}
             <MCDALayerParameterRow
               name={i18n.t('mcda.layer_editor.sentiment')}
-              tipText=""
+              infoText={i18n.t('mcda.layer_editor.tips.sentiment')}
             >
               <Select
                 className={s.selectInput}
@@ -324,7 +359,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               />
             </MCDALayerParameterRow>
             {/* WEIGHT */}
-            <MCDALayerParameterRow name={i18n.t('mcda.layer_editor.weight')} tipText="">
+            <MCDALayerParameterRow
+              name={i18n.t('mcda.layer_editor.weight')}
+              infoText={i18n.t('mcda.layer_editor.tips.weight')}
+            >
               <Input
                 classes={{
                   inputBox: s.textInputBox,
@@ -338,14 +376,17 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 }}
                 error={coefficientError}
               />
-              <Text type="short-m" className={s.error}>
+              <Text
+                type="short-m"
+                className={clsx(s.error, !coefficientError && s.invisible)}
+              >
                 {coefficientError}
               </Text>
             </MCDALayerParameterRow>
             {/* TRANSFORM */}
             <MCDALayerParameterRow
               name={i18n.t('mcda.layer_editor.transform')}
-              tipText=""
+              infoText={i18n.t('mcda.layer_editor.tips.transform')}
             >
               <Select
                 className={s.selectInput}
@@ -362,7 +403,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             {/* NORMALIZE */}
             <MCDALayerParameterRow
               name={i18n.t('mcda.layer_editor.normalize')}
-              tipText=""
+              infoText={i18n.t('mcda.layer_editor.tips.normalize')}
             >
               <Select
                 className={s.selectInput}

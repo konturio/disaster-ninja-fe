@@ -1,6 +1,6 @@
-import { getAbsoluteRoute } from './getAbsoluteRoute';
-import history from './history';
+export const NAVIGATE_EVENT = 'KNT_NAVIGATE_TO';
 
 export const goTo = (slug: string) => {
-  history.push(getAbsoluteRoute(slug) + globalThis.location.search);
+  const evt = new CustomEvent(NAVIGATE_EVENT, { detail: { payload: slug } });
+  globalThis.dispatchEvent(evt);
 };

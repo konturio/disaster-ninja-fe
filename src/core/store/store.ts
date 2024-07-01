@@ -40,8 +40,9 @@ function logger(logs: Logs) {
           .replace('at ', '')
           .replace(/\?t=\d+/, ''),
       );
-    if (0 < (stack?.length ?? 0)) {
-      group = `\x1b[94m${Math.trunc(performance.now())}\x1b[0m [${logs.filter((d) => d.proto.isAction).length}]: ${stack?.at(0)}`;
+    const na = logs.filter((d) => d.proto.isAction).length;
+    if (0 < (stack?.length ?? 0) && na > 0) {
+      group = `\x1b[94m${Math.trunc(performance.now())}\x1b[0m [${na}]: ${stack?.at(0)}`;
       console.groupCollapsed(group);
       console.trace();
     }

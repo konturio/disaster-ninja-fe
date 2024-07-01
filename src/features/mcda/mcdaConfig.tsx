@@ -10,14 +10,15 @@ import {
   sentimentDefault,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { MCDAForm } from './components/MCDAForm';
-import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
+import { generateMCDAId } from './utils/generateMCDAId';
+import { DEFAULT_MCDA_NAME } from './constants';
 import type {
   MCDAConfig,
   MCDALayer,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 export async function editMCDAConfig(oldConfig: MCDAConfig): Promise<MCDAConfig | null> {
-  const name = oldConfig.id;
+  const name = oldConfig.name;
   const oldLayers = oldConfig.layers ?? [];
   const axises = oldLayers.map((layer) => ({
     id: layer.id,
@@ -39,7 +40,12 @@ export async function editMCDAConfig(oldConfig: MCDAConfig): Promise<MCDAConfig 
     return acc;
   }, []);
 
-  return { ...oldConfig, layers: resultLayers, id: input.name };
+  return {
+    ...oldConfig,
+    layers: resultLayers,
+    name: input.name,
+    id: generateMCDAId(input.name),
+  };
 }
 
 export async function createMCDAConfig() {
@@ -53,16 +59,19 @@ export async function createMCDAConfig() {
   if (input === null) return null;
 
   const config = createDefaultMCDAConfig({
-    id: input.name,
+    name: input.name,
     layers: createMCDALayersFromBivariateAxises(input.axises),
   });
   return config;
 }
 
 function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
+  const name = overrides?.name ?? DEFAULT_MCDA_NAME;
+
   return {
     version: 4,
-    id: `${overrides?.id ?? 'mcda-layer'}_${nanoid(4)}`,
+    id: generateMCDAId(name),
+    name,
     layers: overrides?.layers ?? [],
     colors: {
       type: 'sentiments',
@@ -95,6 +104,7 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
         id: axis.id,
         name: axis.label,
         axis: axis.quotient,
+        indicators: axis.quotients ?? [],
         unit: formatBivariateAxisUnit(axis.quotients),
         range: getRange(axis),
         sentiment: sentimentDefault,
@@ -112,15 +122,4 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
     }
     return acc;
   }, []);
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isMCDAConfig(json: any): json is MCDAConfig {
-  // TODO: full check using ajv
-  return (
-    json.id &&
-    json?.layers?.length &&
-    json?.version >= 4 &&
-    (json?.colors?.type === 'sentiments' || json?.colors?.type === 'mapLibreExpression')
-  );
 }

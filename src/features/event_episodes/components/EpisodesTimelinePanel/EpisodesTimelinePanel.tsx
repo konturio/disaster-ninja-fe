@@ -38,14 +38,12 @@ export function EpisodesTimelinePanel() {
           loading: (
             <LoadingSpinner marginTop="16px" message={i18n.t('loading_episodes')} />
           ),
-          error: (errorMessage) => (
-            <ErrorMessage marginTop="16px" message={errorMessage} />
-          ),
+          error: (errorMessage) => <ErrorMessage message={errorMessage} />,
           ready: (episodes) =>
             episodes.data ? (
               <EpisodesTimeline episodes={episodes.data} />
             ) : (
-              <ErrorMessage marginTop="16px" message={'no_episodes'} />
+              <ErrorMessage message={'no_episodes'} />
             ),
         })}
       </div>

@@ -1,6 +1,5 @@
 import { crc32 } from 'hash-wasm';
 import { createAtom } from '~utils/atoms';
-import { currentUserAtom } from '~core/shared_state/currentUser';
 import { episodesPanelState } from '../shared_state/episodesPanelState';
 import type { FocusedGeometry, GeometrySource } from './types';
 
@@ -12,21 +11,13 @@ export const focusedGeometryAtom = createAtom(
     ) => ({ source, geometry }),
     _update: (fGeometry: FocusedGeometry) => fGeometry,
     reset: () => null,
-    currentUserAtom,
     episodesPanelState,
   },
-  (
-    { onAction, schedule, create, getUnlistedState, onChange },
-    state: FocusedGeometry | null = null,
-  ) => {
+  ({ onAction, schedule, create }, state: FocusedGeometry | null = null) => {
     onAction('setFocusedGeometry', ({ source, geometry }) => {
-      // need to add user to cache to be able to focused geometry invalidate cache on login/logout
-      const user = getUnlistedState(currentUserAtom);
       if (source && geometry) {
         schedule(async (dispatch, ctx: { hash?: string }) => {
-          const hash = await crc32(
-            JSON.stringify({ geometry, source, user: user.email }),
-          );
+          const hash = await crc32(JSON.stringify({ geometry, source }));
           // update only in case if geometry source or hash has changed
           if (!state || !ctx.hash || ctx.hash !== hash) {
             ctx.hash = hash;

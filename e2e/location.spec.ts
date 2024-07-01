@@ -6,29 +6,27 @@ import type { PageManager } from './page-objects/pageManager.ts';
 
 let projects = getProjects();
 
-// Temporally switched off untill 15482 issue is fixed
-projects = projects.filter((arg) => arg.name !== 'disaster-ninja');
+// Temporally switched off disaster-ninja untill 15482 issue is fixed
+// Temporally switched off oam untill 18508 issue is fixed
+// Atlas has no 'Locate me' feature for guest
+
+projects = projects.filter((arg) => arg.name === 'smart-city');
 
 // Setting 3 retries for CI as it is very flacky with screenshots
 const retriesNumber = process.env.CI ? 3 : 1;
 test.describe.configure({ retries: retriesNumber });
 
 // Moving test to a separate function to reuse it
-const testLocation = async function (
-  page: Page,
-  pageManager: PageManager,
-  project: Project,
-) {
+const testLocation = async function (pageManager: PageManager, project: Project) {
   await pageManager.atBrowser.openProject(project);
   await pageManager.fromNavigationMenu.goToMap();
-  // TO DO: remove this action after Atlas is launched
-  await pageManager.atBrowser.closeAtlasBanner(project);
-  await page.getByText('Locate me').click({ timeout: 15000 });
+  await (
+    await pageManager.atToolBar.getButtonByText('Locate me')
+  ).click({ timeout: 15000 });
   await pageManager.atMap.waitForUrlToMatchPattern(/40\.7140\/-74\.0324/);
 
   // Wait for zoom to happen after url is changed
-  const locateMeTimeout = process.env.CI ? 10000 : 6000;
-  await page.waitForTimeout(locateMeTimeout);
+  await pageManager.atMap.waitForZoom();
 
   // OAM has no colors so it needs more accuracy
 
@@ -47,17 +45,15 @@ for (const project of projects) {
 
   if (project.env != 'prod') {
     test(`As Guest, I can click Locate me button at ${project.title} and get zoomed to my location`, async ({
-      page,
       pageManager,
     }) => {
-      await testLocation(page, pageManager, project);
+      await testLocation(pageManager, project);
     });
   } else {
     test(`As Guest, I can click Locate me button at ${project.title} and get zoomed to my location (prod)`, async ({
-      page,
       pageManager,
     }) => {
-      await testLocation(page, pageManager, project);
+      await testLocation(pageManager, project);
     });
   }
 }

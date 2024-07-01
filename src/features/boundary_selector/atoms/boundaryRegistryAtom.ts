@@ -1,6 +1,5 @@
 import { action, atom } from '@reatom/core';
 import { currentMapAtom } from '~core/shared_state';
-import { createAtom } from '~utils/atoms';
 import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
 import { v3toV2 } from '~utils/atoms/v3tov2';

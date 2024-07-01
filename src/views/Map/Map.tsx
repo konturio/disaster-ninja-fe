@@ -1,6 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { useAtom } from '@reatom/react-v2';
 import { lazily } from 'react-lazily';
+import { withKeepAlive } from 'react-component-keepalive-ts';
 import clsx from 'clsx';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
@@ -15,6 +16,7 @@ import { Copyrights } from '~components/Copyrights/Copyrights';
 import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
+import { configRepo } from '~core/config';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
 
@@ -36,7 +38,9 @@ const { EventList: EventListPanel } = lazily(() => import('~features/events_list
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
-export function MapPage() {
+export const MapPage = withKeepAlive(_MapPage, { cacheId: 'map' });
+
+function _MapPage() {
   const [featureFlags] = useAtom(featureFlagsAtom);
 
   useEffect(() => {
@@ -107,6 +111,12 @@ export function MapPage() {
         initBivariateMatrix();
       });
     }
+    // TODO: remove user check once backend stops returning reference_area feature for unauthorized users
+    if (featureFlags[FeatureFlag.REFERENCE_AREA] && configRepo.get().user) {
+      import('~features/reference_area').then(({ initReferenceArea }) =>
+        initReferenceArea(),
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [featureFlags]);
 
@@ -166,14 +176,19 @@ const Toolbar = () => {
 };
 
 const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) => {
-  const analyticsPanelState = analyticsPanel();
-  const advancedAnalyticsPanelState = advancedAnalyticsPanel();
-  const [fullState, shortState] = [
-    featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL]
-      ? advancedAnalyticsPanelState
-      : null,
-    featureFlags[FeatureFlag.ANALYTICS_PANEL] ? analyticsPanelState : null,
-  ];
+  const isAnalyticsOn = featureFlags[FeatureFlag.ANALYTICS_PANEL];
+  const isAdvancedAnalyticsPanelOn = featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL];
+  const isLLMAnalyticsOn = featureFlags[FeatureFlag.LLM_ANALYTICS];
+  const analyticsPanelState =
+    isAnalyticsOn || isLLMAnalyticsOn
+      ? analyticsPanel(isAnalyticsOn, isLLMAnalyticsOn)
+      : null;
+  const advancedAnalyticsPanelState = isAdvancedAnalyticsPanelOn
+    ? advancedAnalyticsPanel()
+    : null;
+  const fullState = advancedAnalyticsPanelState;
+  const shortState = analyticsPanelState;
+
   return (
     <FullAndShortStatesPanelWidget
       fullState={fullState}
@@ -181,8 +196,8 @@ const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) 
       initialState={featureFlags[FeatureFlag.ANALYTICS_PANEL] ? 'short' : null}
       key="analytics"
       id="analytics"
-      panelIcon={analyticsPanelState.panelIcon}
-      header={analyticsPanelState.header}
+      panelIcon={analyticsPanelState?.panelIcon}
+      header={analyticsPanelState?.header}
     />
   );
 };

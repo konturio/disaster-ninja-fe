@@ -1,15 +1,19 @@
 import { createAtom } from '~utils/atoms';
 import { configRepo } from '~core/config';
-import { eventFeedsResourceAtom } from '~core/resources/eventFeedsResource';
+import {
+  eventFeedsResourceAtom,
+  type EventFeed,
+} from '~core/resources/eventFeedsResource';
 import { i18n } from '~core/localization';
+import { currentEventFeedAtom } from './currentEventFeed';
 
-const defaultFeeds = [getDefaultFeedObject(configRepo.get().defaultFeed)];
+const defaultFeeds: EventFeed[] = [getDefaultFeedObject(configRepo.get().defaultFeed)];
 
 export const eventFeedsAtom = createAtom(
   {
     eventFeedsResourceAtom,
   },
-  ({ get }, state = { data: defaultFeeds, loading: false }) => {
+  ({ get, schedule }, state = { data: defaultFeeds, loading: false }) => {
     const { data, error, loading } = get('eventFeedsResourceAtom');
     state = { ...state, loading };
     if (!loading && !error) {
@@ -18,10 +22,11 @@ export const eventFeedsAtom = createAtom(
           data.map((d) => d.feed).includes(configRepo.get().defaultFeed),
           'default feed not included in response',
         );
-        return { data, loading };
+        state = { data, loading };
       } else {
-        return { data: [...defaultFeeds], loading };
+        state = { data: [...defaultFeeds], loading };
       }
+      schedule((dispatch) => dispatch(currentEventFeedAtom.syncFeed(state)));
     }
     return state;
   },

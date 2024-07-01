@@ -8,7 +8,7 @@ import ko_common from './translations/ko/common.json';
 import id_common from './translations/id/common.json';
 import de_common from './translations/de/common.json';
 import uk_common from './translations/uk/common.json';
-import type { TOptionsBase } from 'i18next';
+import type { TOptions } from 'i18next';
 
 export const I18N_FALLBACK_LANGUAGE = 'en';
 
@@ -40,7 +40,7 @@ i18n
   });
 
 export const TranslationService = {
-  t: (key: string, options?: TOptionsBase) => {
+  t: (key: string, options?: TOptions) => {
     // the only one place we need to pass a variable to i18n.t function
     // eslint-disable-next-line i18n-checker/key-must-be-literal
     const translation = i18n.t(key, options!);

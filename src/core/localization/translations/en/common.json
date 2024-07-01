@@ -2,13 +2,13 @@
   "km": "km",
   "m": "m",
   "to": "to",
-  "logout": "Logout",
+  "logout": "Log out",
   "save": "Save",
   "cancel": "Cancel",
   "create": "Create",
   "disasters": "Disasters",
   "loading": "Loading...",
-  "loading_events": "Loading events",
+  "loading_events": "Loading disasters",
   "legend": "Legend",
   "maps": "maps",
   "vertical_direction": "Vertical direction",
@@ -21,15 +21,24 @@
     "panel_title": "Toolbar",
     "download": "Download",
     "delete": "Delete",
-    "boundary_selector": "Select\nadmin unit",
-    "create_layer": "Create\nlayer",
-    "geometry_uploader": "Upload\nGeoJSON",
-    "focused_geometry_editor": "Draw or edit\ngeometry",
+    "boundary_selector": "Select admin boundary",
+    "create_layer": "Create layer",
+    "geometry_uploader": "Upload GeoJSON",
+    "focused_geometry_editor": "Draw or edit geometry",
     "edit_in_osm": "Edit map in OSM",
     "record_sensors": "Record sensors",
     "tools_label": "Tools",
     "selected_area_label": "Selected area",
-    "upload_mcda": "Upload\nMCDA"
+    "upload_mcda": "Upload MCDA"
+  },
+  "layer_actions": {
+    "tooltips": {
+      "erase": "Erase",
+      "download": "Download",
+      "edit": "Edit",
+      "hide": "Hide",
+      "show": "Show"
+    }
   },
   "feed": "Feed",
   "deselect": "Deselect",
@@ -44,13 +53,13 @@
     "Kontur_public_feed_description": "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires."
   },
   "errors": {
-    "default": "Sorry, we are having issues, which will be fixed soon",
-    "timeout": "Request Timeout",
-    "cannot_connect": "Can't connect to server",
+    "default": "Sorry, we are having issues which will be fixed soon",
+    "timeout": "Request timeout",
+    "cannot_connect": "Cannot connect to server",
     "forbidden": "Forbidden",
     "not_found": "Not found",
     "unknown": "Unknown",
-    "server_error": "Server Error"
+    "server_error": "Server error"
   },
   "categories": {
     "overlays": "Overlays",
@@ -58,13 +67,13 @@
   },
   "groups": {
     "layers_in_selected_area": "Layers in selected area",
-    "your_layers": "Your Layers",
-    "kontur_analytics": "Kontur Analytics",
-    "qa": "QA",
-    "osmbasedmap": "OpenStreetMap Based",
+    "your_layers": "Your layers",
+    "kontur_analytics": "Kontur analytics",
+    "qa": "OpenStreetMap inspector",
+    "osmbasedmap": "OpenStreetMap based",
     "other": "Other",
     "elevation": "Elevation",
-    "photo": "Photo",
+    "photo": "Imagery",
     "map": "Map"
   },
   "advanced_analytics_data_list": {
@@ -82,11 +91,11 @@
   },
   "mcda": {
     "title": "Multi-criteria decision analysis",
-    "name": "MCDA",
-    "modal_title": "Customize analysis",
-    "modal_input_name": "Name",
-    "modal_input_name_placeholder": "Set layer name",
-    "modal_input_indicators": "List of layers",
+    "name": "Create MCDA",
+    "modal_title": "Multi-criteria decision analysis",
+    "modal_input_name": "Analysis name",
+    "modal_input_name_placeholder": "e.g., Climate change",
+    "modal_input_indicators": "Layer list",
     "modal_input_indicators_placeholder": "Select layers",
     "modal_input_indicators_no_options": "No options",
     "btn_cancel": "Cancel",
@@ -94,11 +103,12 @@
     "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty",
     "error_bad_layer_data": "Invalid MCDA layer data",
     "error_invalid_file": "Invalid MCDA file format",
+    "error_wrong_mcda_version": "Wrong MCDA version",
     "legend_title": "Legend",
-    "legend_subtitle": "Hexagons are colored as weighted average of normalized and transformed layers values",
+    "legend_subtitle": "Hexagons are colored based on analysis layer settings. Click a hexagon to see its values.",
     "layer_editor": {
       "save_changes": "Save changes",
-      "range": "Range",
+      "range": "Value range",
       "outliers": "Outliers",
       "sentiment": "Sentiment",
       "weight": "Weight",
@@ -109,7 +119,7 @@
       "reset_limits_to_default": "Reset limits to default",
       "exclude": "Exclude",
       "as_values_on_limits": "As values on limits",
-      "natural_logarithm": "Natural logarithm",
+      "natural_logarithm": "Logarithm",
       "square_root": "Square root",
       "no": "No",
       "max_min": "Max-min",
@@ -119,24 +129,32 @@
         "range_from_cannot_be_bigger": "The ‘from’ value cannot be bigger than the ‘to’ value",
         "range_cannot_be_empty": "Range cannot be empty",
         "range_must_be_a_number": "Range must be a valid number"
+      },
+      "tips": {
+        "range": "Define the minimum and maximum values considered for analysis. For example, if analysing temperature data, set the range from the lowest to the highest temperatures recorded in the dataset.",
+        "sentiment": "Determine the direction of sentiment for the layer's impact on the analysis:\n* **Bad → Good**: Higher values indicate a positive sentiment.\n* **Good → Bad**: Higher values indicate a negative sentiment.",
+        "weight": "By default, all layers contribute equally to the analysis through a weighted average. Adjusting the increased weight of a layer (2, 3, etc.) allows you to assign additional importance to it in the analysis.",
+        "transform": "Apply additional calculations to the layer to linearize distribution. Calculates before normalization:\n * **No**: No additional transformation is applied.\n* **Natural logarithm**: Apply the natural logarithm function to the values.\n* **Square root**: Apply the square root function to the values.\n* **Cube root**: Apply the cube root function to the values.\n\nBy default, transformation with the least skew is selected.",
+        "normalize": "Adjusts values to a standardized scale. This helps compare them easily and make decisions.\n* **Standard score scaling**: This option adjusts values to a standardized scale, ensuring they are all comparable.\n* **No (for specialists only)**: Leaves values unmodified.",
+        "outliers": "* **As values on limits**: Keep 0 and 1 for min and max, but allow outlier scores beyond this range.\n* **Exclude**: Exclude areas where values are out of range."
       }
     },
     "bad": "Bad",
     "good": "Good"
   },
   "event_list": {
-    "warning_title": "Can't use map as filter",
-    "warning_description": "Map not ready yet, try later",
-    "bbox_filter_button": "Use map view as filter",
+    "warning_title": "Cannot filter by map view",
+    "warning_description": "Map is not ready yet, try later",
+    "bbox_filter_button": "Filter by map view",
     "analytics": {
       "affected_people": {
-        "tooltip": "Affected People",
+        "tooltip": "Affected people",
         "value": "No humanitarian impact"
       },
-      "settled_area_tooltip": "Settled Area",
+      "settled_area_tooltip": "Settled area",
       "loss_tooltip": "Estimated loss"
     },
-    "no_event_in_feed": "Event not found in the current event feed",
+    "no_event_in_feed": "The disaster was not found in the current disaster feed",
     "no_selected_disaster": "No disaster selected",
     "chose_disaster": "Choose disaster",
     "no_historical_disasters": "No historical disasters in this area",
@@ -148,7 +166,7 @@
     "severity_moderate": "Moderate",
     "severity_severe": "Severe",
     "severity_extreme": "Extreme",
-    "open_timeline_button": "Open timeline"
+    "open_timeline_button": "Timeline"
   },
   "create_layer": {
     "edit_layer": "Edit Layer",
@@ -172,19 +190,23 @@
   },
   "analytics_panel": {
     "header_title": "Analytics",
-    "error_loading": "Error while fetching analytics data",
-    "info_short": "Calculations are made for the selected area."
+    "error_loading": "Failed receiving data about selected area. It may be too large.",
+    "info_short": "Calculations are made for selected area"
   },
   "advanced_analytics_panel": {
     "header_title": "Advanced analytics",
     "error": "Error while fetching advanced analytics data"
   },
   "advanced_analytics_empty": {
-    "not_found": "Sorry, requested event not found.",
-    "error": "An error occured!",
-    "analytics_for_selected": "Analytics for a selected area",
+    "not_found": "Sorry, the requested disaster was not found",
+    "error": "An error occured",
+    "analytics_for_selected": "Analytics for selected area",
     "will_be_provided": "will be provided here",
     "no_analytics": "No analytics for the selected area"
+  },
+  "llm_analytics": {
+    "header": "AI insights",
+    "header_info": "Add a reference area, and we will compare selected area with it. To receive personalized conclusions, please fill out the [bio](/profile)."
   },
   "draw_tools": {
     "area": "Polygon",
@@ -208,15 +230,20 @@
   },
   "focus_geometry_layer": {
     "settings": {
-      "name": "Selected Area"
+      "name": "Selected area"
+    }
+  },
+  "reference_area_layer": {
+    "settings": {
+      "name": "Reference area"
     }
   },
   "drawings": {
-    "self_directions_not_supported": "Self intersections are not supported!"
+    "self_directions_not_supported": "Self intersections are not supported"
   },
   "bivariate": {
     "panel": {
-      "header": "Bivariate Matrix"
+      "header": "Bivariate matrix"
     },
     "matrix": {
       "caption": {
@@ -280,13 +307,20 @@
     "sign_up": "Sign up",
     "logging_in": "Logging in...",
     "log_in": "Log in",
+    "forgot_password": "Forgot password?",
     "description": "Please log in to change your settings",
     "error": {
-      "email_empty": "Email has not to be empty!",
-      "email_invalid": "Email has to be valid!",
-      "password": "Password has not to be empty!",
-      "connect": "Couldn't connect to authentication service"
+      "email_empty": "Email cannot be empty",
+      "email_invalid": "Email has to be valid",
+      "password": "Password cannot be empty",
+      "connect": "Could not connect to authentication service"
     }
+  },
+  "subscription": {
+    "title": "Plans & Pricing",
+    "price_summary": "* Billed as {{pricePerYear}} once yearly",
+    "unauthorized_button": "Sign in to subscribe",
+    "current_plan_button": "Current plan"
   },
   "reports": {
     "title": "Disaster Ninja Reports",
@@ -326,7 +360,7 @@
     "interfaceTheme": "Theme",
     "interfaceLanguage": "Language",
     "units": "Units",
-    "fullName": "Full Name",
+    "fullName": "Full name",
     "email": "Email",
     "metric": "metric",
     "imperialBeta": "imperial (beta)",
@@ -335,7 +369,8 @@
     "saveButton": "Save changes",
     "konturTheme": "Kontur",
     "HOTTheme": "HOT",
-    "userBio(about)": "Bio",
+    "user_bio_placeholder": "Bio",
+    "user_bio_tooltip": "Tell us about yourself:\n  •  your current role\n  •  professional skills\n  •  interests\n  •  industry\n  •  objectives or challenges you tackle\nThis bio helps customize and personalize your experience.",
     "defaultDisasterFeed": "Default disaster feed",
     "defaultOSMeditor": "Default OpenStreetMap editor (beta)",
     "successNotification": "All changes have been applied successfully",
@@ -347,20 +382,27 @@
       "id": "Indonesian",
       "de": "German",
       "uk": "Ukrainian"
+    },
+    "reference_area": {
+      "title": "Reference area",
+      "freehand_geometry": "Freehand geometry",
+      "to_replace_reference_area": "To replace reference area, select an area on the map and click \"Save as reference area\" on toolbar.",
+      "select_are_on_the_map": "Select an area on the map and click \"Save as reference area\" on toolbar to use it in further analysis.",
+      "set_the_reference_area": "Set reference area"
     }
   },
   "current_event": {
-    "not_found_request": "Sorry, requested event not found."
+    "not_found_request": "Sorry, the requested disaster was not found"
   },
   "locate_me": {
     "get_location_error": "Error while getting location",
     "feature_title": "Locate me"
   },
-  "episode": "Episode",
+  "episode": "Timeline",
   "loading_episodes": "Loading Episodes",
   "cookie_banner": {
     "header": "We value your privacy",
-    "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve Disaster Ninja and your experience. You can manage cookies settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)",
+    "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve {{appName}} and your experience. You can manage cookie settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)",
     "decline_all": "Decline optional cookies",
     "accept_all": "Accept optional cookies"
   },
@@ -369,12 +411,17 @@
     "finish": "Stop sensor recording",
     "finishMessage": "Recording has been finished",
     "startMessage": "Recording has been started",
-    "noSensorsError": "Your device desn't have the required sensors"
+    "noSensorsError": "Your device does not have the required sensors"
   },
   "layer_features_panel": {
-    "empty": "Layer features will be provided here",
-    "noFeatureSelected": "No feature selected",
-    "chooseFeature": "Choose feature",
-    "listInfo": "The list is filtered by selected area and sorted by priority and mapped percentage."
+    "empty": "Layer features within selected area will be provided here",
+    "noFeatureSelected": "No layer feature selected",
+    "chooseFeature": "Choose layer feature",
+    "listInfo": "The list is filtered by selected area and sorted by project number"
+  },
+  "reference_area": {
+    "save_as_reference_area": "Save as reference area",
+    "error_couldnt_save": "Unfortunately, we could not save your reference area. Please try again.",
+    "selected_area_saved_as_reference_area": "Selected area has been saved as reference area in your profile"
   }
 }

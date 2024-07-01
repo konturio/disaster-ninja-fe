@@ -1,13 +1,14 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
+import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { configRepo } from '~core/config';
+import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
 import {
   currentEventAtom,
-  currentMapPositionAtom,
-  currentEventFeedAtom,
-} from '~core/shared_state';
-import { scheduledAutoSelect, scheduledAutoFocus } from '~core/shared_state/currentEvent';
+  scheduledAutoSelect,
+  scheduledAutoFocus,
+} from '~core/shared_state/currentEvent';
+import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { URLStore } from '../URLStore';
 import { urlEncoder } from '../encoder';
 import type { UrlData } from '../types';
@@ -31,7 +32,14 @@ export const urlStoreAtom = createAtom(
     _setState: (state: UrlData | null) => state,
     init: (initialState: UrlData) => initialState,
   },
-  ({ get, schedule, onAction, onInit, create }, state: UrlData | null = null) => {
+  (
+    { get, schedule, onAction, onInit, create, getUnlistedState },
+    state: UrlData | null = null,
+  ) => {
+    const isFeedSelectorEnabled =
+      configRepo.get().features['events_list__feed_selector'] ||
+      configRepo.get().features['feed_selector'];
+
     onAction('init', (initialState) => {
       schedule(async (dispatch) => {
         const actions: Action[] = [create('_setState', initialState)];
@@ -71,7 +79,7 @@ export const urlStoreAtom = createAtom(
         }
 
         // Apply feed
-        if (initialState.feed) {
+        if (initialState.feed && isFeedSelectorEnabled) {
           actions.push(currentEventFeedAtom.setCurrentFeed(initialState.feed));
         }
 
@@ -105,12 +113,16 @@ export const urlStoreAtom = createAtom(
     newState.event = currentEvent?.id ? currentEvent.id : undefined;
 
     const currentFeed = get('currentEventFeedAtom');
-    newState.feed = currentFeed ? currentFeed.id : undefined;
+    const feedId = currentFeed && isFeedSelectorEnabled ? currentFeed.id : undefined;
+    newState.feed = feedId;
 
     const enabledLayers = get('enabledLayersAtom');
     newState.layers = Array.from(enabledLayers ?? []);
 
-    newState.app = configRepo.get().id;
+    const addAppIdToUrl = ['test-apps-ninja', 'localhost'].some((host) =>
+      window.location.host.includes(host),
+    );
+    if (addAppIdToUrl) newState.app = configRepo.get().id;
 
     state = newState;
     const currentVersion = ++lastVersion;
