@@ -6,7 +6,7 @@ import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { i18n } from '~core/localization';
 import { createBivariateQuery } from '~core/bivariate';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axixDTOtoAxis';
+import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axisDTOtoAxis';
 import type { Axis, Direction, Indicator } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
