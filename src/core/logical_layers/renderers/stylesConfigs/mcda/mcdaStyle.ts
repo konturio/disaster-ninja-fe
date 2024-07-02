@@ -44,9 +44,6 @@ export function filterSetup(layers: MCDAConfig['layers']) {
   });
   layers.forEach(({ axis, range }) => {
     conditions.push(
-      // check  numerator and denominator for null/undefined
-      notEqual(featureProp(axis[0]), null),
-      notEqual(featureProp(axis[1]), null),
       // this checks for 0 in denominator (which causes makes the result == Infinity)
       notEqual(featureProp(axis[1]), 0),
     );
