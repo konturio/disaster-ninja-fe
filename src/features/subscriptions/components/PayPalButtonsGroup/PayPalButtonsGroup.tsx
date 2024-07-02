@@ -1,6 +1,8 @@
 import { PayPalButtons } from '@paypal/react-paypal-js';
 
-const ppTestLog = (...msg) => console.info('PayPal log', ...msg);
+const ppTestLog = (...msg) => {
+  // console.info('PayPalLog:', ...msg);
+};
 
 type PayPalButtonsGroupProps = {
   planId: string;
@@ -15,14 +17,14 @@ export function PayPalButtonsGroup({
   activeSubscriptionId,
   onSubscriptionApproved,
 }: PayPalButtonsGroupProps) {
-  ppTestLog({ planId, activePlanId, activeSubscriptionId });
-
   return (
     <PayPalButtons
       disabled={activePlanId === planId}
       style={{
-        label: 'paypal',
+        label: 'subscribe',
         color: 'blue',
+        height: 38,
+        shape: 'rect',
       }}
       forceReRender={[activeSubscriptionId, activePlanId, planId]}
       onInit={(data, actions) => {
@@ -42,7 +44,7 @@ export function PayPalButtonsGroup({
         });
       }}
       createSubscription={(data, actions) => {
-        ppTestLog({ data, activeSubscriptionId, activePlanId });
+        ppTestLog('create subscription: { data, activeSubscriptionId, activePlanId }');
         if (activeSubscriptionId && activePlanId) {
           ppTestLog('revise:', { data });
           return actions.subscription.revise(activeSubscriptionId, {

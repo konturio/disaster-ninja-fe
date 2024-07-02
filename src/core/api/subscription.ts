@@ -19,9 +19,11 @@ export async function setCurrentUserSubscription(
   billingPlanId: string,
   billingSubscriptionId: string,
 ) {
+  // TODO: we need to use application/json, not search parameters! Need BE changes
+  const appId = configRepo.get().id;
   return await apiClient.post(
-    '/users/current_user/billing_subscription',
-    { appId: configRepo.get().id, billingPlanId, billingSubscriptionId },
+    `/users/current_user/billing_subscription?appId=${appId}&billingPlanId=${billingPlanId}&billingSubscriptionId=${billingSubscriptionId}`,
+    undefined,
     true,
   );
 }

@@ -1,4 +1,4 @@
-export const USE_MOCK_SUBSCRIPTION_CONFIG: boolean = true;
+export const USE_MOCK_SUBSCRIPTION_CONFIG: boolean = false;
 
 export const MOCK_SUBSCRIPTION_CONFIG = {
   billingMethodsDetails: [

@@ -52,12 +52,6 @@ export function PricingContent() {
       billingPlanId: string,
       billingSubscriptionId: string,
     ) => {
-      // console.log('onNewSubscriptionApproved', {
-      //   paymentMethodId,
-      //   planId,
-      //   billingPlanId,
-      //   billingSubscriptionId,
-      // });
       if (USE_MOCK_SUBSCRIPTION_CONFIG) {
         setMockCurrentSubscription({ billingPlanId, billingSubscriptionId, id: planId });
       } else {
