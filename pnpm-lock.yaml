@@ -67,12 +67,18 @@ importers:
       '@nebula.gl/layers':
         specifier: 1.1.0-alpha.5
         version: 1.1.0-alpha.5(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/geo-layers@8.9.33(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@loaders.gl/core@3.4.14)(@loaders.gl/gltf@3.4.14)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/shadertools@8.5.21)(@luma.gl/webgl@8.5.21))(@deck.gl/layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)
+      '@reatom/async':
+        specifier: ^3.15.2
+        version: 3.15.2
       '@reatom/core':
         specifier: ^3.8.3
         version: 3.8.3
       '@reatom/core-v2':
         specifier: ^3.1.4
         version: 3.1.4
+      '@reatom/hooks':
+        specifier: ^3.5.5
+        version: 3.5.5
       '@reatom/logger':
         specifier: ^3.8.4
         version: 3.8.4
@@ -1398,6 +1404,9 @@ packages:
   '@react-dnd/shallowequal@4.0.2':
     resolution: {integrity: sha512-/RVXdLvJxLg4QKvMoM5WlwNR9ViO9z8B/qPcc+C0Sa/teJY7QG7kJ441DwzOjMYEY7GmU4dj5EcGHIkKZiQZCA==}
 
+  '@reatom/async@3.15.2':
+    resolution: {integrity: sha512-Q9pABjp96oEEIBjgLnJerEV0GMojXiUgnP3pPZMJfgz78oPsM4RYiOTNHfHq2WM8mw12kIsvinSMAo9Z+4k+SQ==}
+
   '@reatom/core-v2@3.1.4':
     resolution: {integrity: sha512-BCzyyTt2mm1PlwOyezYBzF4To3x4WzDTIDzNes2BJ8bWmvZfXT1FHIFjBR0uMSPQQ3bFienNK4ntHQy2CXcowA==}
 
@@ -1407,8 +1416,8 @@ packages:
   '@reatom/effects@3.7.3':
     resolution: {integrity: sha512-9DrUsGSRXtt0TMYtzNRc2xtkZ+35OcvjILppcvwYlgMWoA7s1TJUCLEtHOngzVqQYrJMW+Dzw1t1xLlLVXMQUg==}
 
-  '@reatom/hooks@3.5.2':
-    resolution: {integrity: sha512-mZJP+fsv+cg35vPEbdEJ4AroSDqnXaK9DpLq8M0AXg97UPJY2c2IoztD0mvEVkFSBxoGAsTXO89m8ZgZxVud2Q==}
+  '@reatom/hooks@3.5.5':
+    resolution: {integrity: sha512-6exYUEB9MuqOaIMEaeiapar/TLx7fkrZnULBg5+gW2krhugzpDufapN6C7taiQuPS58NKLOQhVvz+ZzSQN5HbA==}
 
   '@reatom/lens@3.9.1':
     resolution: {integrity: sha512-od3Ni2iMfxdjWp7CKtzZX7wA6/PQdJDnSut2uOqFgxaF+PGBao+tlV+RdVO5MoSoenZTSL7IUQw8YERXhAoViA==}
@@ -1420,6 +1429,9 @@ packages:
     resolution: {integrity: sha512-Z84tNybX23Orm8syPC5h3DrkMU/xmxBfphdb4MY3NMheE5zFOdcJyQCfWJ/1v0FM72nKSWD3YmE+WwFoTgabyA==}
     peerDependencies:
       react: '>=16.8.0'
+
+  '@reatom/primitives@3.7.2':
+    resolution: {integrity: sha512-AR4gJye9StjpPYbqR51m6fWPvIx8rmU/S9EWDpMytbKGC7I/ydCpHqoaWL+LrjHF79I7+RO88s88LVIBFOvJFg==}
 
   '@reatom/react-v2@3.1.2':
     resolution: {integrity: sha512-KF3okxFKu63hl/1ePiucrvka6/JU1MBetxj6ycbBvXzAvhfX22G88i2n0HW+W774SBvRsLLVzQgLqfZs316t0Q==}
@@ -8324,6 +8336,14 @@ snapshots:
 
   '@react-dnd/shallowequal@4.0.2': {}
 
+  '@reatom/async@3.15.2':
+    dependencies:
+      '@reatom/core': 3.8.3
+      '@reatom/effects': 3.7.3
+      '@reatom/hooks': 3.5.5
+      '@reatom/primitives': 3.7.2
+      '@reatom/utils': 3.9.0
+
   '@reatom/core-v2@3.1.4':
     dependencies:
       '@reatom/core': 3.8.3
@@ -8335,7 +8355,7 @@ snapshots:
       '@reatom/core': 3.8.3
       '@reatom/utils': 3.9.0
 
-  '@reatom/hooks@3.5.2':
+  '@reatom/hooks@3.5.5':
     dependencies:
       '@reatom/core': 3.8.3
       '@reatom/effects': 3.7.3
@@ -8345,7 +8365,7 @@ snapshots:
     dependencies:
       '@reatom/core': 3.8.3
       '@reatom/effects': 3.7.3
-      '@reatom/hooks': 3.5.2
+      '@reatom/hooks': 3.5.5
       '@reatom/utils': 3.9.0
 
   '@reatom/logger@3.8.4':
@@ -8361,6 +8381,11 @@ snapshots:
       '@reatom/utils': 3.9.0
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
+
+  '@reatom/primitives@3.7.2':
+    dependencies:
+      '@reatom/core': 3.8.3
+      '@reatom/utils': 3.9.0
 
   '@reatom/react-v2@3.1.2(@reatom/core-v2@3.1.4)(react@18.2.0)':
     dependencies:
