@@ -206,7 +206,7 @@
   },
   "llm_analytics": {
     "header": "AI insights",
-    "header_info": "Add a reference area, and we will compare selected area with it. To receive personalized conclusions, please fill out the [bio](/profile)."
+    "header_info": "📝 Fill out your [bio](/profile)  \n🌟 Save an area you know well as a reference  \n📚 Select an area you want to explore"
   },
   "draw_tools": {
     "area": "Polygon",
