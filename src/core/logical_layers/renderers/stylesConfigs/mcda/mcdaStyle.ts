@@ -25,6 +25,7 @@ const calculateLayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
 }));
 
 export function filterSetup(layers: MCDAConfig['layers']) {
+  // TODO: is this condition really needed?
   // checks that at least one layer has a non-zero value
   const conditions = [
     anyCondition(
