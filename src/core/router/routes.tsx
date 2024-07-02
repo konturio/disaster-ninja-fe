@@ -12,7 +12,6 @@ import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
-import { Pricing } from '~views/PricingTmp/Pricing';
 import { goTo } from './goTo';
 import type { AppRouterConfig } from './types';
 const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
@@ -100,14 +99,6 @@ export const routerConfig: AppRouterConfig = {
       parentRoute: 'about',
       visibilityInNavigation: 'never',
       requiredFeature: AppFeature.ABOUT_PAGE,
-    },
-    {
-      slug: 'pricingTmp',
-      title: 'Pricing',
-      icon: <Diamond24 />,
-      view: <Pricing />,
-      visibilityInNavigation: 'always',
-      requiredFeature: AppFeature.SUBSCRIPTION,
     },
   ],
 };
