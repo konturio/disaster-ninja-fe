@@ -114,7 +114,7 @@ export class ApiClient {
         }
       }
     } catch (e) {
-      errorMessage = 'Token decode error';
+      errorMessage = e?.['message'];
     }
     throw new ApiClientError(errorMessage || 'Token error', { kind: 'bad-data' });
   }
