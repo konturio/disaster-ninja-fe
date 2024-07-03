@@ -1,16 +1,15 @@
 import clsx from 'clsx';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Heading, Toggler } from '@konturio/ui-kit';
 import usePromise from 'react-promise-suspense';
 import { configRepo } from '~core/config';
 import { FeatureFlag } from '~core/shared_state';
 import { i18n } from '~core/localization';
-import {
-  getCurrentUserSubscription,
-  setCurrentUserSubscription,
-} from '~core/api/subscription';
+import { getCurrentUserSubscription } from '~core/api/subscription';
 import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/PaymentPlanCard';
 import { goTo } from '~core/router/goTo';
+import { showModal } from '~core/modal';
+import SubscriptionSuccessModal from '../SubscriptionSuccessModal/SubscriptionSuccessModal';
 import s from './PricingContent.module.css';
 import type { SubscriptionsConfig } from '~features/subscriptions/types';
 
@@ -41,18 +40,9 @@ export function PricingContent() {
 
   const onUnauthorizedUserClick = useCallback(() => goTo('/profile'), []);
 
-  const onNewSubscriptionApproved = useCallback(
-    (
-      paymentMethodId: string,
-      planId: string,
-      billingPlanId: string,
-      billingSubscriptionId: string,
-    ) => {
-      alert(`Subscription approved!`);
-      location.reload();
-    },
-    [],
-  );
+  const onNewSubscriptionApproved = useCallback(() => {
+    showModal(SubscriptionSuccessModal).then(() => location.reload());
+  }, []);
 
   return (
     <div className={s.pricingWrap}>

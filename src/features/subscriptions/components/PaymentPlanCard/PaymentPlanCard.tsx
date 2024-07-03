@@ -18,12 +18,7 @@ export type PaymentPlanCardProps = {
   currentSubscription: CurrentSubscription | null;
   isUserAuthorized: boolean;
   onUnauthorizedUserClick: () => void;
-  onNewSubscriptionApproved: (
-    paymentMethodId: string,
-    planId: string,
-    billingPlanId: string,
-    billingSubscriptionId: string,
-  ) => void;
+  onNewSubscriptionApproved: () => void;
 };
 
 const PaymentPlanCard = memo(function PaymentPlanCard({
@@ -81,11 +76,10 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
             activeSubscriptionId={currentSubscription?.billingSubscriptionId}
             onSubscriptionApproved={(planId, subscriptionId) => {
               if (subscriptionId) {
-                onNewSubscriptionApproved(
-                  PAYMENT_METHOD_ID_PAYPAL,
-                  plan.id,
-                  paypalPlanId,
-                  subscriptionId,
+                onNewSubscriptionApproved();
+              } else {
+                console.error(
+                  'Unexpected result: subscriptionId came null/undefined from Paypal SDK',
                 );
               }
             }}

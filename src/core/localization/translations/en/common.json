@@ -5,6 +5,7 @@
   "logout": "Log out",
   "save": "Save",
   "cancel": "Cancel",
+  "ok": "OK",
   "create": "Create",
   "disasters": "Disasters",
   "loading": "Loading...",
@@ -323,6 +324,11 @@
     "current_plan_button": "Current plan",
     "errors": {
       "payment_initialization": "There was an error during payment initialization. Please try again or contact our support"
+    },
+    "success_modal": {
+      "title": "Success",
+      "thank_you_for_subscribing": "Thank you for subscribing to our platform!",
+      "after_the_page_refreshes": "After the page refreshes, you can start using Kontur Atlas"
     }
   },
   "reports": {

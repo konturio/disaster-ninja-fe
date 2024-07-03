@@ -4,7 +4,7 @@ import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 
 const ppTestLog = (...msg) => {
-  console.info('PayPalLog:', ...msg);
+  // console.info('PayPalLog:', ...msg);
 };
 
 type PayPalButtonsGroupProps = {
@@ -33,34 +33,23 @@ export function PayPalButtonsGroup({
       onInit={(data, actions) => {
         ppTestLog('Library initialized and rendered', { data, actions });
       }}
-      onError={(err) => ppTestLog('error', err.toString())}
+      onError={(err) => console.error('error from PayPal SDK:', err.toString())}
       onCancel={() => ppTestLog('The payment process was canceled')}
       onApprove={(data, actions) => {
         ppTestLog('onApprove', data, actions);
         if (!actions.subscription) {
-          ppTestLog('APPROVE', 'SUBSCRIPTION_INSTANCE_ERROR');
-          return Promise.reject('SUBSCRIPTION_INSTANCE_ERROR');
+          return Promise.reject(
+            'unexpected error from PayPal SDK: onApprove was called, but actions.subscription is undefined',
+          );
         }
         return actions.subscription.get().then(function (details) {
-          ppTestLog('APPROVE', details);
+          ppTestLog('subscription approved', details);
           if (onSubscriptionApproved) {
             onSubscriptionApproved(billingPlanId, data.subscriptionID);
           }
         });
       }}
       createSubscription={(data, actions) => {
-        ppTestLog('create subscription:', {
-          data,
-          activeSubscriptionId,
-          activePlanId: activeBillingPlanId,
-        });
-        // TODO: revise is PayPal's built-in method of switching subscription plan
-        // if (activeSubscriptionId && activePlanId) {
-        //   ppTestLog('revise:', { data });
-        //   return actions.subscription.revise(activeSubscriptionId, {
-        //     plan_id: planId,
-        //   });
-        // }
         const userEmail = configRepo.get().user?.email;
         return actions.subscription
           .create({
@@ -68,7 +57,7 @@ export function PayPalButtonsGroup({
             custom_id: userEmail,
           })
           .then(async (subscriptionId) => {
-            ppTestLog('subscriptionOrder', { orderId: subscriptionId });
+            ppTestLog('subscriptionId created', { subscriptionId });
             const result = await setCurrentUserSubscription(
               billingPlanId,
               subscriptionId,
