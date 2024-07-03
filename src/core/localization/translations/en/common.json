@@ -320,7 +320,10 @@
     "title": "Plans & Pricing",
     "price_summary": "* Billed as {{pricePerYear}} once yearly",
     "unauthorized_button": "Sign in to subscribe",
-    "current_plan_button": "Current plan"
+    "current_plan_button": "Current plan",
+    "errors": {
+      "payment_initialization": "There was an error during payment initialization. Please try again or contact our support"
+    }
   },
   "reports": {
     "title": "Disaster Ninja Reports",

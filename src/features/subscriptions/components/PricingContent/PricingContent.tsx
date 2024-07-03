@@ -13,7 +13,6 @@ import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/
 import { goTo } from '~core/router/goTo';
 import s from './PricingContent.module.css';
 import type { SubscriptionsConfig } from '~features/subscriptions/types';
-import type { CurrentSubscription } from '~core/api/subscription';
 
 const togglerInitialValue = 'year';
 
@@ -49,17 +48,8 @@ export function PricingContent() {
       billingPlanId: string,
       billingSubscriptionId: string,
     ) => {
-      setCurrentUserSubscription(billingPlanId, billingSubscriptionId)
-        .then((result) => {
-          // console.log('setting new subscription success!');
-        })
-        .catch(() => {
-          // console.log('error setting new subscription:', {
-          //   paymentMethodId,
-          //   billingPlanId,
-          //   billingSubscriptionId,
-          // });
-        });
+      alert(`Subscription approved!`);
+      location.reload();
     },
     [],
   );

@@ -76,8 +76,8 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
         paypalPlanId &&
         currentSubscription?.billingPlanId !== paypalPlanId ? (
           <PayPalButtonsGroup
-            planId={paypalPlanId}
-            activePlanId={currentSubscription?.billingPlanId}
+            billingPlanId={paypalPlanId}
+            activeBillingPlanId={currentSubscription?.billingPlanId}
             activeSubscriptionId={currentSubscription?.billingSubscriptionId}
             onSubscriptionApproved={(planId, subscriptionId) => {
               if (subscriptionId) {
@@ -88,9 +88,6 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
                   subscriptionId,
                 );
               }
-              alert(
-                `Subscription approved (plan: ${planId}, subscription: ${subscriptionId})`,
-              );
             }}
           />
         ) : (
