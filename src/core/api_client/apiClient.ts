@@ -32,6 +32,7 @@ export class ApiClient {
   private token = '';
   private refreshToken = '';
   private tokenExpirationDate: Date | undefined;
+  private refreshTokenExpirationDate: Date | undefined;
   private tokenRefreshFlowPromise: Promise<boolean> | undefined;
   private keycloakClientId!: string;
   private baseURL!: string;
@@ -88,13 +89,21 @@ export class ApiClient {
     let errorMessage = '';
     try {
       const decodedToken: JWTData = jwtDecode(token);
+      const decodedRefreshToken: JWTData = jwtDecode(refreshToken);
       if (KONTUR_DEBUG) {
         console.debug({ decodedToken, now: new Date().getTime() });
+        console.debug({ decodedRefreshToken, now: new Date().getTime() });
       }
-      if (decodedToken && decodedToken.exp) {
+      if (
+        decodedToken &&
+        decodedToken.exp &&
+        decodedRefreshToken &&
+        decodedRefreshToken.exp
+      ) {
         const expiringDate = new Date(decodedToken.exp * 1000);
+        const expiringRefreshDate = new Date(decodedRefreshToken.exp * 1000);
         if (expiringDate > new Date()) {
-          this.setAuth(token, refreshToken, expiringDate);
+          this.setAuth(token, refreshToken, expiringDate, expiringRefreshDate);
           this.storage.setItem(
             LOCALSTORAGE_AUTH_KEY,
             JSON.stringify({ token, refreshToken }),
@@ -124,8 +133,10 @@ export class ApiClient {
         const { token, refreshToken } = JSON.parse(storedTokensJson);
         if (token && refreshToken) {
           const decodedToken: JWTData = jwtDecode(token);
+          const decodedRefreshToken: JWTData = jwtDecode(refreshToken);
           const expiringDate = new Date(decodedToken.exp * 1000);
-          this.setAuth(token, refreshToken, expiringDate);
+          const expiringRefreshDate = new Date(decodedRefreshToken.exp * 1000);
+          this.setAuth(token, refreshToken, expiringDate, expiringRefreshDate);
           return true;
         }
       }
@@ -140,13 +151,20 @@ export class ApiClient {
     this.token = '';
     this.refreshToken = '';
     this.tokenExpirationDate = undefined;
+    this.refreshTokenExpirationDate = undefined;
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
   }
 
-  private setAuth(token: string, refreshToken: string, expiringDate: Date | undefined) {
+  private setAuth(
+    token: string,
+    refreshToken: string,
+    expiringDate: Date | undefined,
+    expiringRefreshDate?: Date | undefined,
+  ) {
     this.token = token;
     this.refreshToken = refreshToken;
     this.tokenExpirationDate = expiringDate;
+    this.refreshTokenExpirationDate = expiringRefreshDate;
   }
 
   private async _tokenRefreshFlow() {
@@ -199,6 +217,19 @@ export class ApiClient {
       refresh_token: this.refreshToken,
       grant_type: 'refresh_token',
     };
+
+    // if refresh token is expired, logout
+    if (
+      !this.refreshTokenExpirationDate ||
+      this.refreshTokenExpirationDate < new Date()
+    ) {
+      await this.logout();
+      throw new ApiClientError('Refresh token expired', {
+        kind: 'unauthorized',
+        data: 'Refresh token not found or expired',
+      });
+    }
+
     try {
       return await this.requestTokenOrThrow(this.refreshTokenApiPath, params);
     } catch (error) {
