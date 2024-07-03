@@ -206,7 +206,7 @@
   },
   "llm_analytics": {
     "header": "AI insights",
-    "header_info": "Add a reference area, and we will compare selected area with it. To receive personalized conclusions, please fill out the [bio](/profile)."
+    "header_info": "📝 Fill out your [bio](/profile)  \n🌟 Save an area you know well as a reference  \n📚 Select an area you want to explore"
   },
   "draw_tools": {
     "area": "Polygon",
@@ -369,8 +369,8 @@
     "saveButton": "Save changes",
     "konturTheme": "Kontur",
     "HOTTheme": "HOT",
-    "userBio(about)": "Bio",
-    "user_bio_placeholder": "Tell us a bit about yourself:\n  •  your current role\n  •  professional skills\n  •  interests\n  •  industry\n  •  objectives or challenges you tackle\nThis bio helps customize and personalize your experience.",
+    "user_bio_placeholder": "Bio",
+    "user_bio_tooltip": "Tell us about yourself:\n  •  your current role\n  •  professional skills\n  •  interests\n  •  industry\n  •  objectives or challenges you tackle\nThis bio helps customize and personalize your experience.",
     "defaultDisasterFeed": "Default disaster feed",
     "defaultOSMeditor": "Default OpenStreetMap editor (beta)",
     "successNotification": "All changes have been applied successfully",

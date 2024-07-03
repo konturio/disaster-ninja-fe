@@ -1,7 +1,7 @@
 import { Button, Input, Radio, Select, Text, Heading, Textarea } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { lazily } from 'react-lazily';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
@@ -9,10 +9,10 @@ import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { FeatureFlag } from '~core/shared_state/featureFlags';
 import { flatObjectsAreEqual } from '~utils/common';
+import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserDto } from '~core/app/user';
-import type { ChangeEvent } from 'react';
 
 const { ReferenceAreaInfo } = lazily(
   () => import('./ReferenceAreaInfo/ReferenceAreaInfo'),
@@ -42,8 +42,9 @@ export function SettingsForm() {
 function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [localSettings, setLocalSettings] = useState<UserDto>(userProfile);
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
-
+  const [isBioTooltipOpen, setIsBioTooltipOpen] = useState(false);
   const featureFlags = configRepo.get().features;
+  const bioRef = useRef<HTMLDivElement | null>(null);
 
   function logout() {
     authClientInstance.logout();
@@ -61,6 +62,25 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
       setPageStatus('ready');
     }
   }, [localSettings, setPageStatus, userProfile]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (bioRef.current && !bioRef.current.contains(event.target as Node)) {
+        setIsBioTooltipOpen(false);
+      }
+    }
+
+    if (isBioTooltipOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isBioTooltipOpen]);
+
+  function onTextAreaClick() {
+    setIsBioTooltipOpen((prev) => !prev);
+  }
 
   function onSave() {
     // do async put request
@@ -116,18 +136,33 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   placeholder={i18n.t('profile.email')}
                   disabled
                 />
-                <div className={s.biography}>
-                  <Textarea
-                    placeholder={i18n.t('profile.user_bio_placeholder')}
-                    value={localSettings.bio}
-                    onChange={onChange('bio')}
-                    className={s.textArea}
-                    classes={{ placeholder: s.textAreaPlaceholder }}
-                    width="100%"
-                    minHeight="200px"
-                    maxHeight="250px"
-                  />
-                </div>
+                <Tooltip placement="right-start" open={isBioTooltipOpen} offset={4}>
+                  <TooltipTrigger>
+                    <div
+                      className={s.biography}
+                      ref={bioRef}
+                      onMouseDown={onTextAreaClick}
+                      onFocus={() => setIsBioTooltipOpen(true)}
+                      onBlur={() => setIsBioTooltipOpen(false)}
+                    >
+                      <Textarea
+                        placeholder={i18n.t('profile.user_bio_placeholder')}
+                        showTopPlaceholder
+                        value={localSettings.bio}
+                        onChange={onChange('bio')}
+                        className={s.textArea}
+                        width="100%"
+                        minHeight="200px"
+                        maxHeight="250px"
+                      />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <div className={s.bioTooltipContent}>
+                      {i18n.t('profile.user_bio_tooltip')}
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
 
                 {featureFlags?.[FeatureFlag.REFERENCE_AREA] && (
                   <div>

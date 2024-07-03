@@ -57,10 +57,15 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
           {plan.name}
         </Heading>
       </div>
-      {billingOption?.initialPricePerMonth && (
-        <div className={s.initialPrice}>${billingOption.initialPricePerMonth}</div>
+      {/* Just hide old price on 'month' to prevent content jumping */}
+      {billingOption && (
+        <div
+          className={clsx(s.initialPrice, { [s.hidden]: billingOption.id === 'month' })}
+        >
+          ${billingOption?.initialPricePerMonth}
+        </div>
       )}
-      {billingOption?.pricePerMonth && (
+      {billingOption && (
         <Price className={s.price} amount={billingOption.pricePerMonth} />
       )}
       <Text className={s.planDescription} type="short-m">
