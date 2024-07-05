@@ -34,7 +34,7 @@ export function PayPalButtonsGroup({
             'unexpected error from PayPal SDK: onApprove was called, but actions.subscription is undefined',
           );
         }
-        return actions.subscription.get().then(function (details) {
+        return actions.subscription.get().then((details) => {
           if (onSubscriptionApproved) {
             onSubscriptionApproved(billingPlanId, data.subscriptionID);
           }
@@ -52,11 +52,11 @@ export function PayPalButtonsGroup({
               billingPlanId,
               subscriptionId,
             );
-            if (result?.billingSubscriptionId === subscriptionId) {
-              return subscriptionId;
-            } else {
+            if (result?.billingSubscriptionId !== subscriptionId) {
               throw new Error(i18n.t('subscription.errors.payment_initialization'));
             }
+
+            return subscriptionId;
           })
           .catch((rejectReason) => {
             console.error('Error creating Paypal subscription:', rejectReason);

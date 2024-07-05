@@ -31,7 +31,6 @@ export default function SubscriptionSuccessModal({ onConfirm }: Props) {
           {i18n.t('subscription.success_modal.after_the_page_refreshes')}
         </Text>
       </p>
-      <div></div>
     </ModalDialog>
   );
 }

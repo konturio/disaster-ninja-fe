@@ -61,7 +61,6 @@ export function PricingContent() {
         }
       }
     }
-    setCurrentBillingCycleID;
   }, [config.plans, currentSubscription]);
 
   return (
