@@ -3,10 +3,6 @@ import { setCurrentUserSubscription } from '~core/api/subscription';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 
-const ppTestLog = (...msg) => {
-  // console.info('PayPalLog:', ...msg);
-};
-
 type PayPalButtonsGroupProps = {
   billingPlanId: string;
   activeBillingPlanId?: string | null;
@@ -30,20 +26,15 @@ export function PayPalButtonsGroup({
         shape: 'rect',
       }}
       forceReRender={[activeSubscriptionId, activeBillingPlanId, billingPlanId]}
-      onInit={(data, actions) => {
-        ppTestLog('Library initialized and rendered', { data, actions });
-      }}
+      onInit={(data, actions) => {}}
       onError={(err) => console.error('error from PayPal SDK:', err.toString())}
-      onCancel={() => ppTestLog('The payment process was canceled')}
       onApprove={(data, actions) => {
-        ppTestLog('onApprove', data, actions);
         if (!actions.subscription) {
           return Promise.reject(
             'unexpected error from PayPal SDK: onApprove was called, but actions.subscription is undefined',
           );
         }
         return actions.subscription.get().then(function (details) {
-          ppTestLog('subscription approved', details);
           if (onSubscriptionApproved) {
             onSubscriptionApproved(billingPlanId, data.subscriptionID);
           }
@@ -57,7 +48,6 @@ export function PayPalButtonsGroup({
             custom_id: userEmail,
           })
           .then(async (subscriptionId) => {
-            ppTestLog('subscriptionId created', { subscriptionId });
             const result = await setCurrentUserSubscription(
               billingPlanId,
               subscriptionId,
