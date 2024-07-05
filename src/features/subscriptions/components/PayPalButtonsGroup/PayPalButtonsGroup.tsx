@@ -22,7 +22,7 @@ export function PayPalButtonsGroup({
 }: PayPalButtonsGroupProps) {
   return (
     <PayPalButtons
-      disabled={activeBillingPlanId === billingPlanId}
+      disabled={!!activeBillingPlanId}
       style={{
         label: 'subscribe',
         color: 'blue',
