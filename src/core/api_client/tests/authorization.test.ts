@@ -88,7 +88,7 @@ test('no auth data error', async ({ ctx }) => {
     expect(getApiErrorKind(e) === 'bad-data');
   }
 });
-/** /
+/**
 test('refreshToken called when token is expired', async ({ ctx }) => {
   expect.assertions(4);
 
@@ -193,7 +193,7 @@ test('Calls api without authorization', async ({ ctx }) => {
     'Api without authorization have Authorization header',
   ).not.toBe(`Bearer ${ctx.token}`);
 });
-/**/
+**/
 test('Not add authorization header to api without authorization', async ({ ctx }) => {
   ctx.mockAdapter.onPost('/login').willResolve({
     access_token: ctx.token,

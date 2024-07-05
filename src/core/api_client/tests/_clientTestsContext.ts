@@ -38,7 +38,8 @@ export const createContext = () => {
   const expiredToken =
     'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiYWRtaW4iLCJVc2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjAyNDk4NDM0LCJpYXQiOjE2MzQwMzQ0MzR9.tIETTaRaiJYto0Wb4oPbfCJHUGGjw9--mTfXVWWsVMk';
   const actualToken = setTokenExp(expiredToken, setTimeOffset(10));
-  const refreshToken = 'testRefreshToken';
+  const refreshToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIyMGJjYzUzNy00MzRkLTQzMjItYTk2YS1hMjNlZDc0N2JhYjAi.ewogICJleHAiOiAxNzIwMDA0OTc0LAogICJpYXQiOiAxNzIwMDA0Njc0Cn0.RVI1MwYAh4Wle8vQeyRUYPy1id3wQWeXY0_M4jQ7ZV0'; //fake token
   const username = 'testuser';
   const password = 'testpassword';
 
@@ -59,6 +60,10 @@ export const createContext = () => {
   (apiClient as any).token = token;
   (apiClient as any).tokenExpirationDate = new Date(
     new Date().getTime() + 1000 * 60 * 30,
+  );
+  (apiClient as any).refreshToken = refreshToken;
+  (apiClient as any).refreshTokenExpirationDate = new Date(
+    new Date().getTime() + 1000 * 60 * 60 * 24 * 30,
   );
 
   return {
