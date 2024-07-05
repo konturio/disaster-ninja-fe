@@ -1,11 +1,11 @@
 import React, { memo, useMemo } from 'react';
-import { Heading, Text } from '@konturio/ui-kit';
+import { Button, Heading, Text } from '@konturio/ui-kit';
 import { Finish24 } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { Price } from '~features/subscriptions/components/Price/Price';
-import PaymentPlanButton from '~features/subscriptions/components/PaymentPlanButton/PaymentPlanButton';
 import PaymentPlanCardFooter from '~features/subscriptions/components/PaymentPlanCardFooter/PaymentPlanCardFooter';
 import { PAYMENT_METHOD_ID_PAYPAL } from '~features/subscriptions/constants';
+import { i18n } from '~core/localization';
 import { PayPalButtonsGroup } from '../PayPalButtonsGroup/PayPalButtonsGroup';
 import s from './PaymentPlanCard.module.css';
 import { PLANS_STYLE_CONFIG } from './contants';
@@ -44,6 +44,27 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
     [billingOption],
   );
 
+  const renderSubscribeButtons = (paypalPlanId: string) => {
+    return currentSubscription?.billingPlanId !== paypalPlanId ? (
+      <PayPalButtonsGroup
+        billingPlanId={paypalPlanId}
+        activeBillingPlanId={currentSubscription?.billingPlanId}
+        activeSubscriptionId={currentSubscription?.billingSubscriptionId}
+        onSubscriptionApproved={(planId, subscriptionId) => {
+          if (subscriptionId) {
+            onNewSubscriptionApproved();
+          } else {
+            console.error(
+              'Unexpected result: subscriptionId came null/undefined from Paypal SDK',
+            );
+          }
+        }}
+      />
+    ) : (
+      <Button disabled>{i18n.t('subscription.current_plan_button')}</Button>
+    );
+  };
+
   return (
     <div className={clsx(s.planCard, styleConfig.className)}>
       <div className={s.planName}>
@@ -67,32 +88,17 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
         {plan.description}
       </Text>
       <div className={s.buttonWrapper}>
-        {isUserAuthorized &&
-        paypalPlanId &&
-        currentSubscription?.billingPlanId !== paypalPlanId ? (
-          <PayPalButtonsGroup
-            billingPlanId={paypalPlanId}
-            activeBillingPlanId={currentSubscription?.billingPlanId}
-            activeSubscriptionId={currentSubscription?.billingSubscriptionId}
-            onSubscriptionApproved={(planId, subscriptionId) => {
-              if (subscriptionId) {
-                onNewSubscriptionApproved();
-              } else {
-                console.error(
-                  'Unexpected result: subscriptionId came null/undefined from Paypal SDK',
-                );
-              }
-            }}
-          />
-        ) : (
-          <PaymentPlanButton
-            plan={plan}
-            isUserAuthorized={isUserAuthorized}
-            onUnauthorizedUserClick={onUnauthorizedUserClick}
-            currentSubscription={currentSubscription}
-            style={styleConfig.className}
-          />
+        {/* Non-authorized */}
+        {!isUserAuthorized && (
+          <Button
+            className={clsx(s.paymentPlanButton, styleConfig.className)}
+            onClick={onUnauthorizedUserClick}
+          >
+            {i18n.t('subscription.unauthorized_button')}
+          </Button>
         )}
+        {/* Authorized */}
+        {isUserAuthorized && paypalPlanId && renderSubscribeButtons(paypalPlanId)}
       </div>
       <ul className={s.highlights}>
         {plan.highlights.map((highlight, index) => (
