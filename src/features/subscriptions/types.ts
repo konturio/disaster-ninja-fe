@@ -1,5 +1,7 @@
+export type BillingCycleId = 'month' | 'year';
+
 export interface BillingCycleDetails {
-  id: 'month' | 'year';
+  id: BillingCycleId;
   name: string;
   note: string | null;
 }
@@ -10,7 +12,7 @@ interface BillingMethod {
 }
 
 export interface BillingCycle {
-  id: string;
+  id: BillingCycleId;
   pricePerMonth: number;
   initialPricePerMonth: number | null;
   pricePerYear: number | null;

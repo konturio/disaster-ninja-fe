@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Heading, Toggler } from '@konturio/ui-kit';
 import usePromise from 'react-promise-suspense';
 import { configRepo } from '~core/config';
@@ -43,6 +43,26 @@ export function PricingContent() {
   const onNewSubscriptionApproved = useCallback(() => {
     showModal(SubscriptionSuccessModal).then(() => location.reload());
   }, []);
+
+  useEffect(() => {
+    // after the page is loaded, set toggle to monthly/annually depending on current subscription
+    for (const plan of config.plans) {
+      if (currentSubscription?.id === plan.id) {
+        for (const cycle of plan.billingCycles) {
+          if (
+            cycle.billingMethods.find(
+              (billingMethod) =>
+                billingMethod.billingPlanId === currentSubscription.billingPlanId,
+            )
+          ) {
+            setCurrentBillingCycleID(cycle.id);
+            return;
+          }
+        }
+      }
+    }
+    setCurrentBillingCycleID;
+  }, [config.plans, currentSubscription]);
 
   return (
     <div className={s.pricingWrap}>
