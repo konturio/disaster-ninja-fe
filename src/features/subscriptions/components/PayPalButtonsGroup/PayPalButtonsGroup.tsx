@@ -32,11 +32,10 @@ export function PayPalButtonsGroup({
         if (!actions.subscription) {
           throw new Error('Unexpected error: actions.subscription is undefined');
         }
-        return actions.subscription.get().then(() => {
-          if (onSubscriptionApproved) {
-            onSubscriptionApproved(billingPlanId, data.subscriptionID);
-          }
-        });
+        await actions.subscription.get();
+        if (onSubscriptionApproved) {
+          onSubscriptionApproved(billingPlanId, data.subscriptionID);
+        }
       }}
       createSubscription={async (data, actions) => {
         try {
