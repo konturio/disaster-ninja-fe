@@ -1,4 +1,4 @@
-import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 import { setCurrentUserSubscription } from '~core/api/subscription';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
@@ -16,11 +16,9 @@ export function PayPalButtonsGroup({
   activeSubscriptionId,
   onSubscriptionApproved,
 }: PayPalButtonsGroupProps) {
-  const [{ isResolved: isPaypalInitialized }] = usePayPalScriptReducer();
-
   return (
     <PayPalButtons
-      disabled={!isPaypalInitialized || !!activeBillingPlanId}
+      disabled={!!activeBillingPlanId}
       style={{
         label: 'subscribe',
         color: 'blue',
