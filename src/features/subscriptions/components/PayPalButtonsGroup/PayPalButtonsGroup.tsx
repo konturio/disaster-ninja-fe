@@ -2,6 +2,7 @@ import { PayPalButtons } from '@paypal/react-paypal-js';
 import { setCurrentUserSubscription } from '~core/api/subscription';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
+import { NotificationService } from '~core/notifications';
 
 type PayPalButtonsGroupProps = {
   billingPlanId: string;
@@ -26,13 +27,10 @@ export function PayPalButtonsGroup({
         shape: 'rect',
       }}
       forceReRender={[activeSubscriptionId, activeBillingPlanId, billingPlanId]}
-      onInit={(data, actions) => {}}
       onError={(err) => console.error('error from PayPal SDK:', err.toString())}
-      onApprove={(data, actions) => {
+      onApprove={async (data, actions) => {
         if (!actions.subscription) {
-          return Promise.reject(
-            'unexpected error from PayPal SDK: onApprove was called, but actions.subscription is undefined',
-          );
+          throw new Error('Unexpected error: actions.subscription is undefined');
         }
         return actions.subscription.get().then(() => {
           if (onSubscriptionApproved) {
@@ -40,28 +38,30 @@ export function PayPalButtonsGroup({
           }
         });
       }}
-      createSubscription={(data, actions) => {
-        const userEmail = configRepo.get().user?.email;
-        return actions.subscription
-          .create({
+      createSubscription={async (data, actions) => {
+        try {
+          const userEmail = configRepo.get().user?.email;
+          const subscriptionId = await actions.subscription.create({
             plan_id: billingPlanId,
             custom_id: userEmail,
-          })
-          .then(async (subscriptionId) => {
-            const result = await setCurrentUserSubscription(
-              billingPlanId,
-              subscriptionId,
-            );
-            if (result?.billingSubscriptionId !== subscriptionId) {
-              throw new Error(i18n.t('subscription.errors.payment_initialization'));
-            }
-
-            return subscriptionId;
-          })
-          .catch((rejectReason) => {
-            console.error('Error creating Paypal subscription:', rejectReason);
-            throw new Error(rejectReason);
           });
+          if (!subscriptionId) {
+            throw new Error('Could not create subscription id');
+          }
+          const saveResult = await setCurrentUserSubscription(
+            billingPlanId,
+            subscriptionId,
+          );
+          if (saveResult?.billingSubscriptionId !== subscriptionId) {
+            throw new Error('Incorrect subscription id received');
+          }
+          return subscriptionId;
+        } catch (err) {
+          NotificationService.getInstance().error({
+            title: i18n.t('subscription.errors.payment_initialization'),
+          });
+          throw err;
+        }
       }}
     >
       <h3 style={{ color: '#dc3545', textTransform: 'capitalize' }}>
