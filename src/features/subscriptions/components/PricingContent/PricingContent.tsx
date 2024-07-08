@@ -46,20 +46,21 @@ export function PricingContent() {
 
   useEffect(() => {
     // after the page is loaded, set toggle to monthly/annually depending on current subscription
-    for (const plan of config.plans) {
-      if (currentSubscription?.id === plan.id) {
-        for (const cycle of plan.billingCycles) {
-          if (
-            cycle.billingMethods.find(
-              (billingMethod) =>
-                billingMethod.billingPlanId === currentSubscription.billingPlanId,
-            )
-          ) {
-            setCurrentBillingCycleID(cycle.id);
-            return;
-          }
+    if (currentSubscription?.id) {
+      const currentPlan = config.plans.find(
+        (plan) => plan.id === currentSubscription?.id,
+      );
+      currentPlan?.billingCycles?.forEach((cycle) => {
+        if (
+          cycle.billingMethods.find(
+            (billingMethod) =>
+              billingMethod.billingPlanId === currentSubscription.billingPlanId,
+          )
+        ) {
+          setCurrentBillingCycleID(cycle.id);
+          return;
         }
-      }
+      });
     }
   }, [config.plans, currentSubscription]);
 
