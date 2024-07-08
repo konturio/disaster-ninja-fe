@@ -6,7 +6,6 @@ import { lazily } from 'react-lazily';
 import { store } from '~core/store/store';
 import { postAppInit } from '~core/app/postAppInit';
 import { GlobalModal } from '~core/modal';
-import { PaymentsProvider } from '~features/subscriptions/providers/PaymentsProvider';
 import type { Config } from '~core/config/types';
 const { Router } = lazily(() => import('~core/router'));
 
@@ -41,12 +40,10 @@ const App = () => {
   return (
     <ReatomContextV2.Provider value={store}>
       <ReatomContextV3.Provider value={store.v3ctx}>
-        <PaymentsProvider>
-          <Suspense>
-            <GlobalModal />
-            <Router />
-          </Suspense>
-        </PaymentsProvider>
+        <Suspense>
+          <GlobalModal />
+          <Router />
+        </Suspense>
       </ReatomContextV3.Provider>
     </ReatomContextV2.Provider>
   );
