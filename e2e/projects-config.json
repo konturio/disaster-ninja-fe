@@ -2,7 +2,7 @@
   {
     "env": "prod",
     "name": "atlas",
-    "url": "https://atlas.kontur.io",
+    "url": "https://atlas.kontur.io/active?utm_campaign=autotests",
     "title": "Kontur Atlas",
     "hasCookieBanner": true,
     "hasAtlasBanner": true,
@@ -11,7 +11,7 @@
   {
     "env": "dev",
     "name": "atlas",
-    "url": "https://test-apps-ninja02.konturlabs.com/active?app=9043acf9-2cf3-48ac-9656-a5d7c4b7593d",
+    "url": "https://test-apps-ninja02.konturlabs.com/active?app=9043acf9-2cf3-48ac-9656-a5d7c4b7593d&utm_campaign=autotests",
     "title": "Kontur Atlas",
     "hasCookieBanner": true,
     "hasAtlasBanner": true,
@@ -20,7 +20,7 @@
   {
     "env": "test",
     "name": "atlas",
-    "url": "https://test-apps-ninja01.konturlabs.com/active?app=9043acf9-2cf3-48ac-9656-a5d7c4b7593d",
+    "url": "https://test-apps-ninja01.konturlabs.com/active?app=9043acf9-2cf3-48ac-9656-a5d7c4b7593d&utm_campaign=autotests",
     "title": "Kontur Atlas",
     "hasCookieBanner": true,
     "hasAtlasBanner": true,
@@ -29,7 +29,7 @@
   {
     "env": "prod",
     "name": "disaster-ninja",
-    "url": "https://disaster.ninja",
+    "url": "https://disaster.ninja/active?utm_campaign=autotests",
     "title": "Disaster Ninja",
     "hasCookieBanner": true,
     "hasAtlasBanner": true,
@@ -38,7 +38,7 @@
   {
     "env": "dev",
     "name": "disaster-ninja",
-    "url": "https://test-apps-ninja02.konturlabs.com/active?app=58851b50-9574-4aec-a3a6-425fa18dcb54",
+    "url": "https://test-apps-ninja02.konturlabs.com/active?app=58851b50-9574-4aec-a3a6-425fa18dcb54&utm_campaign=autotests",
     "title": "Disaster Ninja",
     "hasCookieBanner": true,
     "hasAtlasBanner": true,
@@ -47,7 +47,7 @@
   {
     "env": "test",
     "name": "disaster-ninja",
-    "url": "https://test-apps-ninja01.konturlabs.com/active?app=58851b50-9574-4aec-a3a6-425fa18dcb54",
+    "url": "https://test-apps-ninja01.konturlabs.com/active?app=58851b50-9574-4aec-a3a6-425fa18dcb54&utm_campaign=autotests",
     "title": "Disaster Ninja",
     "hasCookieBanner": true,
     "hasAtlasBanner": true,
@@ -56,7 +56,7 @@
   {
     "env": "prod",
     "name": "smart-city",
-    "url": "https://maps.kontur.io",
+    "url": "https://maps.kontur.io/active?utm_campaign=autotests",
     "title": "Smart City",
     "hasCookieBanner": true,
     "hasAtlasBanner": true,
@@ -65,7 +65,7 @@
   {
     "env": "dev",
     "name": "smart-city",
-    "url": "https://test-apps-ninja02.konturlabs.com/active?app=634f23f5-f898-4098-a8bd-09eb7c1e1ae5",
+    "url": "https://test-apps-ninja02.konturlabs.com/active?app=634f23f5-f898-4098-a8bd-09eb7c1e1ae5&utm_campaign=autotests",
     "title": "Smart City",
     "hasCookieBanner": true,
     "hasAtlasBanner": true,
@@ -74,7 +74,7 @@
   {
     "env": "test",
     "name": "smart-city",
-    "url": "https://test-apps-ninja01.konturlabs.com/active?app=634f23f5-f898-4098-a8bd-09eb7c1e1ae5",
+    "url": "https://test-apps-ninja01.konturlabs.com/active?app=634f23f5-f898-4098-a8bd-09eb7c1e1ae5&utm_campaign=autotests",
     "title": "Smart City",
     "hasCookieBanner": true,
     "hasAtlasBanner": true,
@@ -83,7 +83,7 @@
   {
     "env": "prod",
     "name": "oam",
-    "url": "https://new.openaerialmap.org",
+    "url": "https://new.openaerialmap.org/active?utm_campaign=autotests",
     "title": "OpenAerialMap",
     "hasCookieBanner": false,
     "hasAtlasBanner": false,
@@ -92,7 +92,7 @@
   {
     "env": "dev",
     "name": "oam",
-    "url": "https://test-apps-ninja02.konturlabs.com/active?app=1dc6fe68-8802-4672-868d-7f17943bf1c8",
+    "url": "https://test-apps-ninja02.konturlabs.com/active?app=1dc6fe68-8802-4672-868d-7f17943bf1c8&utm_campaign=autotests",
     "title": "OpenAerialMap",
     "hasCookieBanner": false,
     "hasAtlasBanner": false,
@@ -101,7 +101,7 @@
   {
     "env": "test",
     "name": "oam",
-    "url": "https://test-apps-ninja01.konturlabs.com/active?app=1dc6fe68-8802-4672-868d-7f17943bf1c8",
+    "url": "https://test-apps-ninja01.konturlabs.com/active?app=1dc6fe68-8802-4672-868d-7f17943bf1c8&utm_campaign=autotests",
     "title": "OpenAerialMap",
     "hasCookieBanner": false,
     "hasAtlasBanner": false,
