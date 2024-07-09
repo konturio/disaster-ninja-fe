@@ -53,10 +53,7 @@ export class MapCanvas extends HelperBase {
     longitude: number,
     project: Project,
   ) {
-    const urlForPlace =
-      project.env === 'prod'
-        ? `${project.url}/active/?map=${zoom}/${latitude}/${longitude}`
-        : `${project.url}&map=${zoom}/${latitude}/${longitude}`;
+    const urlForPlace = `${project.url}&map=${zoom}/${latitude}/${longitude}`;
     await this.page.goto(urlForPlace, { waitUntil: 'domcontentloaded' });
     await this.waitForZoom();
   }
