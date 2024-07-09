@@ -154,6 +154,14 @@ function MapboxMap(
     const extent = configRepo.get().extent;
     if (!currentMapPosition && extent) {
       mapInstance.fitBounds(extent, { animate: false });
+      const zoom = mapInstance.getZoom();
+      const { lng, lat } = mapInstance.getCenter();
+
+      currentMapPositionAtom.setCurrentMapPosition.dispatch({
+        lat,
+        lng,
+        zoom,
+      });
     }
   }, [mapEl, externalStyleLink, options, ref]);
 
