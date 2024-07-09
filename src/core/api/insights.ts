@@ -14,7 +14,7 @@ export function getPolygonDetails(
       features,
     },
     true,
-    { signal: abortController.signal },
+    { signal: abortController.signal, errorsConfig: { hideErrors: true } },
   );
 }
 
@@ -27,7 +27,7 @@ export function getAdvancedPolygonDetails(
     `/advanced_polygon_details/`,
     geometry,
     true,
-    { signal: abortController.signal },
+    { signal: abortController.signal, errorsConfig: { hideErrors: true } },
   );
 }
 
@@ -45,6 +45,7 @@ export function getLlmAnalysis(
     {
       signal: abortController.signal,
       headers: { 'user-language': i18n.instance.language },
+      errorsConfig: { hideErrors: true },
       retryAfterTimeoutError: {
         times: 5,
         delayMs: 1000,

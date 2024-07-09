@@ -66,8 +66,8 @@ export function createApiError(err: unknown) {
   }
   if (err instanceof wretch.WretchError) {
     status = err.status;
-    // In case of 400/401 error we need to parse error message from body and show it to user
-    if (status === 400 || status === 401) {
+    // In case of 401 error we need to parse error message from body and show it to user
+    if (status === 401) {
       errorMessage = err.json?.error_description ?? err?.message ?? 'Auth error';
       problem = { kind: 'unauthorized', data: err.json?.error };
     } else if (status === 403) {

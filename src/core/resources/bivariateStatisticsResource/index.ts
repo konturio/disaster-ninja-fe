@@ -8,7 +8,7 @@ import { createBivariateQuery, isGeometryEmpty } from '~core/bivariate';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { isApiError } from '~core/api_client/apiClientError';
 import { i18n } from '~core/localization';
-import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axixDTOtoAxis';
+import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axisDTOtoAxis';
 import { v3toV2 } from '~utils/atoms/v3tov2';
 import type { Stat } from '~utils/bivariate';
 import type { BivariateStatisticsResponse } from './types';

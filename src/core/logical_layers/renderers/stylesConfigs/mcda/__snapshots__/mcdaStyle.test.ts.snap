@@ -2,34 +2,53 @@
 
 exports[`createMCDAStyle > filterSetup() > creates correct filter when both MCDA layers have outliers === "as_on_limits" 1`] = `
 [
-  "any",
+  "all",
+  [
+    "any",
+    [
+      "!=",
+      [
+        "/",
+        [
+          "get",
+          "hazardous_days_count",
+        ],
+        [
+          "get",
+          "one",
+        ],
+      ],
+      0,
+    ],
+    [
+      "!=",
+      [
+        "/",
+        [
+          "get",
+          "population",
+        ],
+        [
+          "get",
+          "area_km2",
+        ],
+      ],
+      0,
+    ],
+  ],
   [
     "!=",
     [
-      "/",
-      [
-        "get",
-        "hazardous_days_count",
-      ],
-      [
-        "get",
-        "one",
-      ],
+      "get",
+      "one",
     ],
     0,
   ],
   [
     "!=",
     [
-      "/",
-      [
-        "get",
-        "population",
-      ],
-      [
-        "get",
-        "area_km2",
-      ],
+      "get",
+      "area_km2",
     ],
     0,
   ],
@@ -101,6 +120,22 @@ exports[`createMCDAStyle > filterSetup() > creates correct filter when one of th
       ],
     ],
     46200,
+  ],
+  [
+    "!=",
+    [
+      "get",
+      "one",
+    ],
+    0,
+  ],
+  [
+    "!=",
+    [
+      "get",
+      "area_km2",
+    ],
+    0,
   ],
 ]
 `;

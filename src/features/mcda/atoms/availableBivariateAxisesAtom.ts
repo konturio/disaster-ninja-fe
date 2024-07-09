@@ -7,7 +7,7 @@ import {
 import { onConnect } from '@reatom/hooks';
 import { atom } from '@reatom/core';
 import { getBivariateAxes } from '~core/api/mcda';
-import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axixDTOtoAxis';
+import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axisDTOtoAxis';
 import type { Axis } from '~utils/bivariate';
 
 export const availableBivariateAxesAtom = atom((ctx) => {

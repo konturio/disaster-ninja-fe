@@ -56,6 +56,7 @@ export const AppFeature = {
   REFERENCE_AREA: 'reference_area',
   LLM_ANALYTICS: 'llm_analytics',
   MAP: 'map',
+  SUBSCRIPTION: 'subscription',
 } as const;
 
 export type AppFeatureType = (typeof AppFeature)[keyof typeof AppFeature];

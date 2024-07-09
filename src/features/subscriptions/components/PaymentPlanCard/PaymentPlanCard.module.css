@@ -1,0 +1,121 @@
+.planCard {
+  border: 1px solid var(--faint-weak-up, #d2d5d8);
+  border-radius: var(--double-unit, 16px);
+  padding: 48px 40px 24px;
+  height: 578px;
+  max-width: 400px;
+  min-width: 220px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+
+  --strong-color: var(--success-strong);
+  --plan-type-bg-color: #def5df;
+
+  &:global(.premium) {
+    --strong-color: var(--accent-strong);
+    --plan-type-bg-color: #d8effc;
+
+    background-color: var(--accent-weak);
+    border-color: var(--strong-color);
+  }
+
+  &:hover {
+    box-shadow: var(--shadow-medium);
+  }
+}
+
+.planIcon {
+  margin-right: var(--unit);
+}
+
+.planName {
+  position: absolute;
+  padding: var(--unit) var(--double-unit);
+  border-radius: 18px;
+  right: 40px;
+  top: -18px;
+  background-color: var(--plan-type-bg-color);
+  color: var(--strong-color);
+  display: flex;
+  align-items: center;
+}
+
+.initialPrice {
+  color: var(--faint-strong, #9ea5ab);
+  text-decoration: line-through;
+  margin-bottom: var(--double-unit);
+}
+
+.price {
+  margin-bottom: var(--double-unit);
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.perMonth {
+  font-size: 14px;
+  color: #888;
+  margin-left: 5px;
+}
+
+.planDescription {
+  color: var(--faint-strong);
+  margin-bottom: var(--double-unit);
+}
+
+.buttonWrapper {
+  margin-bottom: 24px;
+}
+
+.cancelButton {
+  position: relative;
+  bottom: -11px;
+}
+
+.highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  & li {
+    margin: 5px 0;
+  }
+}
+
+.highlight {
+  display: flex;
+  align-items: center;
+}
+
+.highlightIcon {
+  margin-right: var(--double-unit);
+  color: var(--strong-color);
+}
+
+.footerWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  color: var(--faint-strong);
+
+  & span {
+    color: var(--faint-strong-down);
+  }
+}
+
+.paymentPlanButton {
+  background-color: var(--strong-color);
+
+  --subscribe-btn-hover: #269b00;
+
+  &:global(.premium) {
+    --subscribe-btn-hover: var(--accent-strong-up);
+  }
+
+  &:hover {
+    background-color: var(--subscribe-btn-hover);
+  }
+}

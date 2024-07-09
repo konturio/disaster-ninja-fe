@@ -25,6 +25,7 @@ const calculateLayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
 }));
 
 export function filterSetup(layers: MCDAConfig['layers']) {
+  // TODO: is this condition really needed?
   // checks that at least one layer has a non-zero value
   const conditions = [
     anyCondition(
@@ -41,6 +42,12 @@ export function filterSetup(layers: MCDAConfig['layers']) {
         lessOrEqual(['/', featureProp(axis[0]), featureProp(axis[1])], range[1]),
       );
     }
+  });
+  layers.forEach(({ axis, range }) => {
+    conditions.push(
+      // this checks for 0 in denominator (0 in denominator makes the result === Infinity)
+      notEqual(featureProp(axis[1]), 0),
+    );
   });
   if (conditions.length > 1) {
     return allCondition(...conditions);

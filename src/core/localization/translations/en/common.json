@@ -5,6 +5,7 @@
   "logout": "Log out",
   "save": "Save",
   "cancel": "Cancel",
+  "ok": "OK",
   "create": "Create",
   "disasters": "Disasters",
   "loading": "Loading...",
@@ -206,7 +207,7 @@
   },
   "llm_analytics": {
     "header": "AI insights",
-    "header_info": "Add a reference area, and we will compare selected area with it. To receive personalized conclusions, please fill out the [bio](/profile)."
+    "header_info": "📝 Fill out your [bio](/profile)  \n🌟 Save an area you know well as a reference  \n📚 Select an area you want to explore"
   },
   "draw_tools": {
     "area": "Polygon",
@@ -316,6 +317,20 @@
       "connect": "Could not connect to authentication service"
     }
   },
+  "subscription": {
+    "title": "Plans & Pricing",
+    "price_summary": "* Billed as {{pricePerYear}} once yearly",
+    "unauthorized_button": "Sign in to subscribe",
+    "current_plan_button": "Current plan",
+    "errors": {
+      "payment_initialization": "There was an error during payment initialization. Please try again or contact our support"
+    },
+    "success_modal": {
+      "title": "Success",
+      "thank_you_for_subscribing": "Thank you for subscribing to our platform!",
+      "after_the_page_refreshes": "After the page refreshes, you can start using Kontur Atlas"
+    }
+  },
   "reports": {
     "title": "Disaster Ninja Reports",
     "no_data": "No data for this report",
@@ -363,8 +378,8 @@
     "saveButton": "Save changes",
     "konturTheme": "Kontur",
     "HOTTheme": "HOT",
-    "userBio(about)": "Bio",
-    "user_bio_placeholder": "Tell us a bit about yourself:\n  •  your current role\n  •  professional skills\n  •  interests\n  •  industry\n  •  objectives or challenges you tackle\nThis bio helps customize and personalize your experience.",
+    "user_bio_placeholder": "Bio",
+    "user_bio_tooltip": "Tell us about yourself:\n  •  your current role\n  •  professional skills\n  •  interests\n  •  industry\n  •  objectives or challenges you tackle\nThis bio helps customize and personalize your experience.",
     "defaultDisasterFeed": "Default disaster feed",
     "defaultOSMeditor": "Default OpenStreetMap editor (beta)",
     "successNotification": "All changes have been applied successfully",

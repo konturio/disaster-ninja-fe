@@ -29,6 +29,7 @@ export const eventListResourceAtom = createAsyncAtom(
     const responseData =
       (await apiClient.get<Event[]>('/events/', params, true, {
         signal: abortController.signal,
+        errorsConfig: { hideErrors: true },
       })) ?? ([] as Event[]);
 
     dispatchMetricsEventOnce(AppFeature.EVENTS_LIST, responseData.length > 0);
