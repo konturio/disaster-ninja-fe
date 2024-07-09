@@ -105,3 +105,17 @@
     color: var(--faint-strong-down);
   }
 }
+
+.paymentPlanButton {
+  background-color: var(--strong-color);
+
+  --subscribe-btn-hover: #269b00;
+
+  &:global(.premium) {
+    --subscribe-btn-hover: var(--accent-strong-up);
+  }
+
+  &:hover {
+    background-color: var(--subscribe-btn-hover);
+  }
+}

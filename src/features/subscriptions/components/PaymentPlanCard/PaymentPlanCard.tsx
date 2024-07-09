@@ -1,10 +1,12 @@
 import React, { memo, useMemo } from 'react';
-import { Heading, Text } from '@konturio/ui-kit';
+import { Button, Heading, Text } from '@konturio/ui-kit';
 import { Finish24 } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { Price } from '~features/subscriptions/components/Price/Price';
-import PaymentPlanButton from '~features/subscriptions/components/PaymentPlanButton/PaymentPlanButton';
 import PaymentPlanCardFooter from '~features/subscriptions/components/PaymentPlanCardFooter/PaymentPlanCardFooter';
+import { PAYMENT_METHOD_ID_PAYPAL } from '~features/subscriptions/constants';
+import { i18n } from '~core/localization';
+import { PayPalButtonsGroup } from '../PayPalButtonsGroup/PayPalButtonsGroup';
 import s from './PaymentPlanCard.module.css';
 import { PLANS_STYLE_CONFIG } from './contants';
 import type { PaymentPlan } from '~features/subscriptions/types';
@@ -16,6 +18,7 @@ export type PaymentPlanCardProps = {
   currentSubscription: CurrentSubscription | null;
   isUserAuthorized: boolean;
   onUnauthorizedUserClick: () => void;
+  onNewSubscriptionApproved: () => void;
 };
 
 const PaymentPlanCard = memo(function PaymentPlanCard({
@@ -24,6 +27,7 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   currentSubscription,
   isUserAuthorized,
   onUnauthorizedUserClick,
+  onNewSubscriptionApproved,
 }: PaymentPlanCardProps) {
   const styleConfig = PLANS_STYLE_CONFIG[plan.style];
 
@@ -31,6 +35,35 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
     () => plan.billingCycles.find((option) => option.id === currentBillingCycleId),
     [plan.billingCycles, currentBillingCycleId],
   );
+
+  const paypalPlanId = useMemo(
+    () =>
+      billingOption?.billingMethods.find(
+        (method) => method.id === PAYMENT_METHOD_ID_PAYPAL,
+      )?.billingPlanId,
+    [billingOption],
+  );
+
+  const renderSubscribeButtons = (paypalPlanId: string) => {
+    return currentSubscription?.billingPlanId !== paypalPlanId ? (
+      <PayPalButtonsGroup
+        billingPlanId={paypalPlanId}
+        activeBillingPlanId={currentSubscription?.billingPlanId}
+        activeSubscriptionId={currentSubscription?.billingSubscriptionId}
+        onSubscriptionApproved={(planId, subscriptionId) => {
+          if (subscriptionId) {
+            onNewSubscriptionApproved();
+          } else {
+            console.error(
+              'Unexpected result: subscriptionId came null/undefined from Paypal SDK',
+            );
+          }
+        }}
+      />
+    ) : (
+      <Button disabled>{i18n.t('subscription.current_plan_button')}</Button>
+    );
+  };
 
   return (
     <div className={clsx(s.planCard, styleConfig.className)}>
@@ -55,13 +88,17 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
         {plan.description}
       </Text>
       <div className={s.buttonWrapper}>
-        <PaymentPlanButton
-          plan={plan}
-          isUserAuthorized={isUserAuthorized}
-          onUnauthorizedUserClick={onUnauthorizedUserClick}
-          currentSubscription={currentSubscription}
-          style={styleConfig.className}
-        />
+        {/* Non-authorized */}
+        {!isUserAuthorized && (
+          <Button
+            className={clsx(s.paymentPlanButton, styleConfig.className)}
+            onClick={onUnauthorizedUserClick}
+          >
+            {i18n.t('subscription.unauthorized_button')}
+          </Button>
+        )}
+        {/* Authorized */}
+        {isUserAuthorized && paypalPlanId && renderSubscribeButtons(paypalPlanId)}
       </div>
       <ul className={s.highlights}>
         {plan.highlights.map((highlight, index) => (

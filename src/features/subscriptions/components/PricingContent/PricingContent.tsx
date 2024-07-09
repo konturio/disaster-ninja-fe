@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Heading, Toggler } from '@konturio/ui-kit';
 import usePromise from 'react-promise-suspense';
 import { configRepo } from '~core/config';
@@ -8,6 +8,8 @@ import { i18n } from '~core/localization';
 import { getCurrentUserSubscription } from '~core/api/subscription';
 import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/PaymentPlanCard';
 import { goTo } from '~core/router/goTo';
+import { showModal } from '~core/modal';
+import SubscriptionSuccessModal from '../SubscriptionSuccessModal/SubscriptionSuccessModal';
 import s from './PricingContent.module.css';
 import type { SubscriptionsConfig } from '~features/subscriptions/types';
 
@@ -37,6 +39,30 @@ export function PricingContent() {
   }, []);
 
   const onUnauthorizedUserClick = useCallback(() => goTo('/profile'), []);
+
+  const onNewSubscriptionApproved = useCallback(() => {
+    showModal(SubscriptionSuccessModal).then(() => location.reload());
+  }, []);
+
+  useEffect(() => {
+    // after the page is loaded, set toggle to monthly/annually depending on current subscription
+    if (currentSubscription?.id) {
+      const currentPlan = config.plans.find(
+        (plan) => plan.id === currentSubscription?.id,
+      );
+      currentPlan?.billingCycles?.forEach((cycle) => {
+        if (
+          cycle.billingMethods.find(
+            (billingMethod) =>
+              billingMethod.billingPlanId === currentSubscription.billingPlanId,
+          )
+        ) {
+          setCurrentBillingCycleID(cycle.id);
+          return;
+        }
+      });
+    }
+  }, [config.plans, currentSubscription]);
 
   return (
     <div className={s.pricingWrap}>
@@ -74,6 +100,7 @@ export function PricingContent() {
               currentSubscription={currentSubscription}
               isUserAuthorized={!!user}
               onUnauthorizedUserClick={onUnauthorizedUserClick}
+              onNewSubscriptionApproved={onNewSubscriptionApproved}
             />
           ))}
         </div>
