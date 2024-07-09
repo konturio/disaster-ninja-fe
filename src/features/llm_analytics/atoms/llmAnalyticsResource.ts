@@ -1,24 +1,40 @@
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import { reatomResource, withDataAtom, withErrorAtom } from '@reatom/async';
+import { atom } from '@reatom/core';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { i18n } from '~core/localization';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/auth/types';
 import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { getLlmAnalysis } from '~core/api/insights';
+import { referenceAreaAtom } from '~core/shared_state/referenceArea';
 import type { LLMAnalyticsData } from '~core/types';
 
-// TODO: rewrite to reatom v3
-export const llmAnalyticsResourceAtom = createAsyncAtom(
-  focusedGeometryAtom,
-  async (fGeo, abortController) => {
-    if (!fGeo) return null;
-    const geometry = fGeo?.geometry as GeoJSON.FeatureCollection;
-    if (isGeoJSONEmpty(geometry)) {
+export const llmAnalyticsAtom = atom((ctx) => {
+  const fetchLlmAnalyticsResult = ctx.spy(fetchLlmAnalyticsResource.dataAtom);
+  const isPending = ctx.spy(fetchLlmAnalyticsResource.pendingAtom) > 0;
+  const error = ctx.spy(fetchLlmAnalyticsResource.errorAtom);
+  return {
+    data: fetchLlmAnalyticsResult,
+    loading: isPending,
+    error: error?.message ?? null,
+  };
+}, 'llmAnalyticsAtom');
+
+export const fetchLlmAnalyticsResource = reatomResource<LLMAnalyticsData | null>(
+  async (ctx) => {
+    const focusedGeometry = ctx.spy(focusedGeometryAtom.v3atom);
+    // we spy on referenceAreaAtom because its change needs to trigger new LLM request
+    const referenceArea = ctx.spy(referenceAreaAtom);
+    const focusedGeoJSON = focusedGeometry?.geometry;
+    if (isGeoJSONEmpty(focusedGeoJSON)) {
       return null;
     }
     let responseData: LLMAnalyticsData | null | undefined;
     try {
-      responseData = await getLlmAnalysis(geometry, abortController);
+      responseData = await getLlmAnalysis(
+        focusedGeoJSON as GeoJSON.FeatureCollection,
+        ctx.controller,
+      );
     } catch (e: unknown) {
       dispatchMetricsEventOnce(AppFeature.ANALYTICS_PANEL, false);
       throw new Error(i18n.t('analytics_panel.error_loading'));
@@ -30,5 +46,5 @@ export const llmAnalyticsResourceAtom = createAsyncAtom(
     }
     return responseData;
   },
-  'analyticsResource',
-);
+  'fetchLlmAnalyticsResource',
+).pipe(withDataAtom(null), withErrorAtom());
