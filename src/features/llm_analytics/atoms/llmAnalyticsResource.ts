@@ -29,7 +29,7 @@ export const fetchLlmAnalyticsResource = reatomResource<LLMAnalyticsData | null>
     if (isGeoJSONEmpty(focusedGeoJSON)) {
       return null;
     }
-    let responseData: LLMAnalyticsData | null | undefined;
+    let responseData: LLMAnalyticsData | null;
     try {
       responseData = await getLlmAnalysis(
         focusedGeoJSON as GeoJSON.FeatureCollection,
