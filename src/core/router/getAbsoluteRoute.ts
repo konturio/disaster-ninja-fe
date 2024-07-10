@@ -16,8 +16,8 @@ export const getAbsoluteRoute = (slugOrRoute: string | AppRoute, base = '') => {
   if (typeof slugOrRoute === 'string') return '/' + pathJoin(base, slugOrRoute);
 
   return getAbsoluteRoute(
-    slugOrRoute.parentRoute
-      ? `${slugOrRoute.parentRoute}/${slugOrRoute.slug}`
+    slugOrRoute.parentRouteId
+      ? `${slugOrRoute.parentRouteId}/${slugOrRoute.slug}`
       : slugOrRoute.slug,
     base,
   );

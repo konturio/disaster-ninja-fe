@@ -1,12 +1,11 @@
-import { useAtom } from '@reatom/react-v2';
-import { userStateAtom } from '~core/auth';
+import { configRepo } from '~core/config';
 import { LoginForm, SettingsForm } from '~features/user_profile';
 import s from './Profile.module.css';
 
 export function ProfilePage() {
-  const [userState] = useAtom(userStateAtom);
+  const user = configRepo.get().user;
 
-  if (userState === 'authorized')
+  if (user)
     return (
       <div className={s.modeWrap}>
         <SettingsForm />

@@ -59,9 +59,9 @@ export class AppMetrics implements Metric {
     return this._instance;
   }
 
-  init(appId: string, route: string, hasFeature: (f: AppFeatureType) => boolean): void {
+  init(appId: string, routeId: string, hasFeature: (f: AppFeatureType) => boolean): void {
     // currently we support metrics only for map page
-    if (route !== '') {
+    if (routeId !== 'map') {
       // '' is route for map
       return;
     }
@@ -79,7 +79,11 @@ export class AppMetrics implements Metric {
     );
 
     if (KONTUR_METRICS_DEBUG) {
-      console.info(`appMetrics.init route:${route}`, this.reportTemplate, this.watchList);
+      console.info(
+        `appMetrics.init route:${routeId}`,
+        this.reportTemplate,
+        this.watchList,
+      );
     }
 
     this.exposeMetrics();

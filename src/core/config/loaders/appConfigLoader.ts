@@ -22,7 +22,10 @@ export async function getAppConfig(appId?: string): Promise<AppConfig> {
   // In case appId absent in url - backend identifying it by domain
   const appCfg = await apiClient.get<AppConfigDto>(
     '/apps/configuration',
-    { appId },
+    {
+      appId,
+      ts: Date.now(), // bypass cache
+    },
     true,
   );
   if (appCfg === null) throw Error('App configuration unavailable');

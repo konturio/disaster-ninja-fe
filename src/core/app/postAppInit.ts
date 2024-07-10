@@ -1,6 +1,5 @@
 import { authClientInstance } from '~core/authClientInstance';
 import { urlStoreAtom } from '~core/url_store';
-import { autoClearAtom } from '~core/logical_layers';
 import { onLogin } from './authHooks';
 import { runAtom } from './index';
 import type { Config } from '~core/config/types';
@@ -15,7 +14,4 @@ export async function postAppInit(config: Config) {
     layers: config.activeLayers,
   });
   runAtom(urlStoreAtom);
-
-  // init LogicalLayers
-  runAtom(autoClearAtom);
 }

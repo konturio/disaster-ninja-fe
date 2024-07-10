@@ -26,7 +26,7 @@ export function getAvailableRoutes() {
   const defaultRoute = available.routes.find((r) => r.slug === available.defaultRoute);
 
   if (!defaultRoute || defaultRoute?.disabled) {
-    const newDefault = available.routes.find((r) => !r.disabled && !r.parentRoute);
+    const newDefault = available.routes.find((r) => !r.disabled && !r.parentRouteId);
     if (newDefault) {
       available.defaultRoute = newDefault.slug;
     } else {

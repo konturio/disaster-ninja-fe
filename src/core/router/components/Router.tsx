@@ -37,7 +37,6 @@ export function Router() {
 function Layout() {
   return (
     <>
-      <PostInit />
       <CommonView
         availableRoutesAtom={availableRoutesAtom}
         currentRouteAtom={currentRouteAtom}
@@ -55,8 +54,8 @@ export function initRouter() {
   const availableRoutes = getAvailableRoutes();
   const { defaultRoute } = availableRoutes;
   const routes: RouteObject[] = availableRoutes.routes.map((r) => ({
-    id: r.slug,
-    path: getAbsoluteRoute(r.parentRoute ? `${r.parentRoute}/${r.slug}` : r.slug),
+    id: r.id,
+    path: getAbsoluteRoute(r.parentRouteId ? `${r.parentRouteId}/${r.slug}` : r.slug),
     element: <Suspense fallback={<FullScreenLoader />}>{r.view}</Suspense>,
   }));
 
@@ -93,6 +92,9 @@ export function initRouter() {
   if (initialRedirect !== false) {
     router.navigate(getAbsoluteRoute(initialRedirect));
   }
+
+  // Run last parts of app init requiring router
+  PostInit(router?.state?.matches?.at(1)?.route.id ?? '');
 
   return router;
 }

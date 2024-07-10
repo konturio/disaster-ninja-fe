@@ -13,8 +13,8 @@ export const yandexMetrics = new YandexMetrics();
 addAllSequences(appMetrics);
 
 export const initMetricsOnce = once(
-  async (appId: string, route: string, hasFeature: (f: AppFeatureType) => boolean) => {
-    appMetrics.init(appId, route, hasFeature);
+  async (appId: string, routeId: string, hasFeature: (f: AppFeatureType) => boolean) => {
+    appMetrics.init(appId, routeId, hasFeature);
 
     /* Enabling / Disabling GTM */
     if (import.meta.env.MODE !== 'development') {
@@ -22,7 +22,7 @@ export const initMetricsOnce = once(
       const gtmPermission = cookieManagementService.requestPermission('GTM');
       gtmPermission.onStatusChange((status) => {
         if (status === permissionStatuses.granted) {
-          externalMetrics.forEach((metric) => metric.init(appId, route));
+          externalMetrics.forEach((metric) => metric.init(appId, routeId));
         }
       });
     }
