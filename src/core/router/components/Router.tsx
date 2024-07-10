@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import { KeepAliveProvider } from 'react-component-keepalive-ts';
 import { Suspense } from 'react';
-import { PostInit } from '~core/postInit';
+import { postInit } from '~core/postInit';
 import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
@@ -94,7 +94,7 @@ export function initRouter() {
   }
 
   // Run last parts of app init requiring router
-  PostInit(router?.state?.matches?.at(1)?.route.id ?? '');
+  postInit(router?.state?.matches?.at(1)?.route.id ?? '');
 
   return router;
 }

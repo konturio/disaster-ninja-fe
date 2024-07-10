@@ -1,4 +1,5 @@
 import { AppFeature } from '~core/auth/types';
+import { configRepo } from '~core/config';
 import type { AppFeatureType } from '~core/auth/types';
 import type { MetricsReportTemplate } from './types';
 
@@ -29,11 +30,11 @@ const APPEVENT_TO_FEATURE = {
 // ! Relevant only for map mode
 // WIP implementation
 // WatchList format {eventToWatch: null, ...}
-export function buildWatchList(hasFeature: (f: AppFeatureType) => boolean) {
+export function buildWatchList() {
   const effectiveWatchList = {};
 
   Object.entries(APPEVENT_TO_FEATURE).forEach(([appEvent, value]) => {
-    if (value === null || value.every((f) => hasFeature(f))) {
+    if (value === null || value.every((f) => !!configRepo.get().features[f])) {
       effectiveWatchList[appEvent] = null;
     }
   });

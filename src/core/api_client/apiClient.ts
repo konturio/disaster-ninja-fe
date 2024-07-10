@@ -136,7 +136,7 @@ export class ApiClient {
           const tokenLifetime = decodedToken.exp - decodedToken.iat;
           // ensure timeToRefresh is shorter than tokenLifetime
           this.timeToRefresh = Math.min(
-            ~~((tokenLifetime * 1000) / 5),
+            Math.trunc((tokenLifetime * 1000) / 5),
             TIME_TO_REFRESH_MS,
           );
           const decodedRefreshToken: JWTData = jwtDecode(refreshToken);

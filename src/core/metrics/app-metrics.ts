@@ -9,7 +9,6 @@ import {
 } from './constants';
 import { Sequence } from './sequence';
 import type { MetricsReportTemplate, MetricsEvent, Metric } from './types';
-import type { AppFeatureType } from '~core/auth/types';
 
 class MetricMarker {
   readonly event: string;
@@ -59,17 +58,16 @@ export class AppMetrics implements Metric {
     return this._instance;
   }
 
-  init(appId: string, routeId: string, hasFeature: (f: AppFeatureType) => boolean): void {
+  init(appId: string, routeId: string): void {
     // currently we support metrics only for map page
     if (routeId !== 'map') {
-      // '' is route for map
       return;
     }
 
     this.reportTemplate.appId = appId ?? '';
 
     // add available features to metrics
-    this.watchList = buildWatchList(hasFeature);
+    this.watchList = buildWatchList();
 
     globalThis.addEventListener(METRICS_EVENT, this.listener.bind(this) as EventListener);
 
