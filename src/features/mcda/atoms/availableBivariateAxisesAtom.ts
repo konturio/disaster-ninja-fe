@@ -17,16 +17,14 @@ export const availableBivariateAxesAtom = atom((ctx) => {
 
   let axes: Axis[] | null = null;
   if (Array.isArray(axesResult)) {
-    axes = axesResult
-      .filter((axis) => axis.quality && axis.quality > 0.5)
-      .map((ax) => axisDTOtoAxis(ax));
+    axes = axesResult.map((ax) => axisDTOtoAxis(ax));
   }
 
   return { data: axes, loading: isPending, error: error?.message ?? null };
 }, 'availableBivariateAxesAtom');
 
 const bivariateAxesAsyncResource = reatomAsync((ctx) => {
-  return getBivariateAxes(ctx.controller);
+  return getBivariateAxes(0.5, ctx.controller);
 }, 'bivariateAxesAsyncResource').pipe(
   withDataAtom(null),
   withErrorAtom(),
