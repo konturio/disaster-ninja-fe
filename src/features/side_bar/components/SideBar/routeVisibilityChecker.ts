@@ -5,10 +5,10 @@ export function routeVisibilityChecker(routes: AppRoute[]) {
   const routesTree = routes.reduce((tree, route) => {
     if (route.parentRouteId) {
       if (!tree[route.parentRouteId]) tree[route.parentRouteId] = {};
-      tree[route.parentRouteId][route.slug] = {};
+      tree[route.parentRouteId][route.id] = {};
       return tree;
     }
-    tree[route.slug] = {};
+    tree[route.id] = {};
     return tree;
   }, {} as RoutesTree);
 
@@ -26,14 +26,14 @@ export function routeVisibilityChecker(routes: AppRoute[]) {
         // hide nested routes if no selected routes in same branch
         if (!route.parentRouteId) return true;
         if (currentRoute === null) return false;
-        const isActive = route.slug === currentRoute.slug;
+        const isActive = route.id === currentRoute.id;
         const haveActiveParentRoute = route.parentRouteId
-          ? currentRoute?.slug === route.parentRouteId
+          ? currentRoute?.id === route.parentRouteId
           : false;
         const neighbors = route.parentRouteId
           ? Object.keys(routesTree[route.parentRouteId])
           : [];
-        const haveActiveNeighbor = neighbors.includes(currentRoute.slug);
+        const haveActiveNeighbor = neighbors.includes(currentRoute.id);
 
         return isActive || haveActiveParentRoute || haveActiveNeighbor;
     }
