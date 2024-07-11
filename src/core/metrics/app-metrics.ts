@@ -9,7 +9,6 @@ import {
 } from './constants';
 import { Sequence } from './sequence';
 import type { MetricsReportTemplate, MetricsEvent, Metric } from './types';
-import type { AppFeatureType } from '~core/auth/types';
 
 class MetricMarker {
   readonly event: string;
@@ -59,17 +58,16 @@ export class AppMetrics implements Metric {
     return this._instance;
   }
 
-  init(appId: string, route: string, hasFeature: (f: AppFeatureType) => boolean): void {
+  init(appId: string, routeId: string): void {
     // currently we support metrics only for map page
-    if (route !== '') {
-      // '' is route for map
+    if (routeId !== 'map') {
       return;
     }
 
     this.reportTemplate.appId = appId ?? '';
 
     // add available features to metrics
-    this.watchList = buildWatchList(hasFeature);
+    this.watchList = buildWatchList();
 
     globalThis.addEventListener(METRICS_EVENT, this.listener.bind(this) as EventListener);
 
@@ -79,7 +77,11 @@ export class AppMetrics implements Metric {
     );
 
     if (KONTUR_METRICS_DEBUG) {
-      console.info(`appMetrics.init route:${route}`, this.reportTemplate, this.watchList);
+      console.info(
+        `appMetrics.init route:${routeId}`,
+        this.reportTemplate,
+        this.watchList,
+      );
     }
 
     this.exposeMetrics();

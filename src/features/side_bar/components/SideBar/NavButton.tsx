@@ -26,13 +26,13 @@ export function NavButton({
 
   if (!isVisible) return null;
 
-  const navLinkClassName = clsx(route.parentRoute ? s.nestedRoute : s.topLevelRoute);
+  const navLinkClassName = clsx(route.parentRouteId ? s.nestedRoute : s.topLevelRoute);
 
   return (
     <Tooltip placement="right" open={minified ? undefined : false} offset={6}>
       <TooltipTrigger>
         <ActionsBarBTN
-          size={route.parentRoute ? 'tiny' : 'small'}
+          size={route.parentRouteId ? 'tiny' : 'small'}
           active={currentRoute?.slug === route.slug}
           disabled={route.disabled ?? false}
           iconBefore={route.icon}

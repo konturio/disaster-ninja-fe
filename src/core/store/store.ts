@@ -36,7 +36,7 @@ function logger(logs: Logs) {
       .map((a) =>
         String(a)
           .trim()
-          .replace('https://localhost:3000/src', '~')
+          .replace(`https://localhost:3000${import.meta.env.BASE_URL}src`, '~')
           .replace('at ', '')
           .replace(/\?t=\d+/, ''),
       );
@@ -71,7 +71,6 @@ function logger(logs: Logs) {
           console.trace('TRACE:', name, logs);
         }
       }
-      KONTUR_DEBUG && console.debug(name, payload);
       KONTUR_WARN && console.warn(name, payload);
       KONTUR_TRACE_PATCH && console.info(name, payload);
     });
