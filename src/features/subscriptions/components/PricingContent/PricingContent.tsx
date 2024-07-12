@@ -27,7 +27,7 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
     togglerInitialValue,
   );
 
-  const [monthlyPlanConfig, annuallyPlanConfig] = config?.billingCyclesDetails;
+  const [monthlyPlanConfig, annuallyPlanConfig] = config.billingCyclesDetails;
 
   const onTogglerChange = useCallback(() => {
     setCurrentBillingCycleID((prev) => (prev === 'month' ? 'year' : 'month'));
