@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { Heading, Toggler } from '@konturio/ui-kit';
 import usePromise from 'react-promise-suspense';
 import { configRepo } from '~core/config';
-import { FeatureFlag } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { getCurrentUserSubscription } from '~core/api/subscription';
 import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/PaymentPlanCard';
@@ -15,7 +14,7 @@ import type { SubscriptionsConfig } from '~features/subscriptions/types';
 
 const togglerInitialValue = 'year';
 
-export function PricingContent() {
+export function PricingContent({ config }: { config: SubscriptionsConfig }) {
   const user = configRepo.get().user;
   const currentSubscription = usePromise(() => {
     if (!user) {
@@ -24,15 +23,11 @@ export function PricingContent() {
     return getCurrentUserSubscription();
   }, []);
 
-  const config = configRepo.get().features[
-    FeatureFlag.SUBSCRIPTION
-  ] as SubscriptionsConfig;
-
   const [currentBillingCycleID, setCurrentBillingCycleID] = useState<'month' | 'year'>(
     togglerInitialValue,
   );
 
-  const [monthlyPlanConfig, annuallyPlanConfig] = config.billingCyclesDetails;
+  const [monthlyPlanConfig, annuallyPlanConfig] = config?.billingCyclesDetails;
 
   const onTogglerChange = useCallback(() => {
     setCurrentBillingCycleID((prev) => (prev === 'month' ? 'year' : 'month'));
