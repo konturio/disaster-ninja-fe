@@ -7,13 +7,15 @@ on:
 
 env:
   # Create a host name for the environment: mr-preview-<PR_NUMBER>.konturio.surge.sh
-  DOMAIN: mr-preview-${{ github.event.number }}.konturio.surge.sh
+  DOMAIN: https://mr-preview-${{ github.event.number }}.konturio.surge.sh
 
 jobs:
   deploy:
     runs-on: ubuntu-24.04
     env:
       PREVIEW_API_DOMAIN: 'test-apps-ninja02.konturlabs.com'
+      KEYCLOAK_URL: 'https://dev-keycloak.k8s-01.konturlabs.com'
+      KEYCLOAK_REALM: 'dev'
 
     steps:
       - name: Setup Node.js environment
@@ -35,6 +37,8 @@ jobs:
       - name: Apply domain changes in config files
         run: |
           sed -i "s|https://disaster.ninja|https://${PREVIEW_API_DOMAIN}|" configs/config.default.json
+          sed -i "s|\"KEYCLOAK_URL\": \"https://keycloak01.kontur.io\"|\"KEYCLOAK_URL\": \"${KEYCLOAK_URL}\"|" configs/config.default.json
+          sed -i "s|\"KEYCLOAK_REALM\": \"kontur\"|\"KEYCLOAK_REALM\": \"${KEYCLOAK_REALM}\"|" configs/config.default.json
 
       - name: Update .env.production
         run: |
