@@ -31,6 +31,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.7
 
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pnpm-store
+            node_modules
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       - name: Install dependencies
         run: pnpm install
 
@@ -44,16 +54,6 @@ jobs:
         run: |
           sed -i "s|VITE_BASE_PATH=/active/|VITE_BASE_PATH=/|" .env.production
           sed -i "s|VITE_STATIC_PATH=static/|VITE_STATIC_PATH=|" .env.production
-
-      - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pnpm-store
-            node_modules
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
 
       - name: Build
         run: pnpm build
