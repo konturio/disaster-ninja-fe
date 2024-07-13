@@ -54,8 +54,11 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Surge Github Action
-        uses: Mahmoudgalalz/surge-action@v0.1.6
+      - name: Deploy to surge.sh
+        if: ${{ !cancelled() }}
+        uses: dswistowski/surge-sh-action@v1
         with:
+          project: ./dist
           domain: ${{ env.DOMAIN }}
-          path: ./dist
+          login: ${{secrets.SURGE_EMAIL}}
+          token: ${{secrets.SURGE_TOKEN}}
