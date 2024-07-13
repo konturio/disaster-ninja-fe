@@ -1,0 +1,60 @@
+name: deploy-preview
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  # Create a host name for the environment: mr-preview-<PR_NUMBER>.konturio.surge.sh
+  DOMAIN: mr-preview-${{ github.event.number }}.konturio.surge.sh
+
+jobs:
+  setup:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 21
+          cache: pnpm
+
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.0.0
+        with:
+          version: ^9.x.x
+
+      - name: Install dependencies
+        run: pnpm install
+
+  update-config:
+    runs-on: ubuntu-24.04
+    needs: setup
+    env:
+      PREVIEW_API_DOMAIN: 'test-apps-ninja02.konturlabs.com'
+
+    steps:
+      - name: Apply domain changes in config files
+        run: |
+          sed -i "s|https://disaster.ninja|https://${PREVIEW_API_DOMAIN}|" configs/config.default.json
+
+  build:
+    runs-on: ubuntu-24.04
+    needs: update-config
+    steps:
+      - name: Build
+        run: pnpm build
+
+  deploy:
+    runs-on: ubuntu-24.04
+    needs: build
+
+    steps:
+      - name: Surge Github Action
+        uses: Mahmoudgalalz/surge-action@v0.1.6
+        with:
+          domain: ${{ env.DOMAIN }}
+          path: ./dist
