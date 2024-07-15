@@ -2,8 +2,8 @@ import { test as setup } from '@playwright/test';
 import { getProjects } from './page-objects/helperBase.ts';
 import { PageManager } from './page-objects/pageManager.ts';
 
-setup('Authentication', async ({ context }) => {
-  const authFile = 'e2e/.auth/user.json';
+setup('Authentication with PRO', async ({ context }) => {
+  const authFile = 'e2e/.auth/user-pro.json';
   const authProjects = getProjects();
 
   // For dev and test environment storage is shared.
@@ -17,7 +17,7 @@ setup('Authentication', async ({ context }) => {
   for (const project of authProjects) {
     const newPage = await context.newPage();
     const pm = new PageManager(newPage);
-    await pm.auth(project, process.env.EMAIL!, process.env.PASSWORD!, newPage);
+    await pm.auth(project, process.env.EMAIL_PRO!, process.env.PASSWORD_PRO!, newPage);
   }
 
   // Only after all logins are successful during browser session,

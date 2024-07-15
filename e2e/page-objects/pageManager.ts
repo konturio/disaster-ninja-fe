@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 import { LoginPage } from './loginPage';
 import { ProfilePage } from './profilePage';
 import { HelperBase } from './helperBase';
@@ -6,6 +7,7 @@ import { MapCanvas } from './mapPage';
 import { ToolBar } from './toolBar';
 import { KeycloakPage } from './keycloakPage';
 import { PrivacyPage } from './privacyPage';
+import type { Project } from './helperBase';
 import type { Page } from '@playwright/test';
 
 export class PageManager {
@@ -61,5 +63,22 @@ export class PageManager {
 
   get atPrivacyPage() {
     return this.privacyPage;
+  }
+
+  /**
+   * This page manager method is used to authenticate at the application
+   * @param project - object with details about project to open like name, url, title, etc.
+   * @param email - email to use during login
+   * @param password - password to use during login
+   * @param newPage - playwright page
+   */
+
+  async auth(project: Project, email: string, password: string, newPage: Page) {
+    await this.atBrowser.openProject(project);
+    await this.fromNavigationMenu.goToLoginPage();
+    await this.atLoginPage.typeLoginPasswordAndLogin(email, password, 0);
+    // Expect keycloak answer 200 ok
+    const loginResponse = await newPage.waitForResponse(project.authUrl);
+    expect(loginResponse.status()).toEqual(200);
   }
 }

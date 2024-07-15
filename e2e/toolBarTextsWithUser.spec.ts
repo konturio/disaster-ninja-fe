@@ -22,6 +22,7 @@ const hiddenToolbarFeaturesUserWithNoRights = [
   'Upload MCDA',
   'Create layer',
   'Record sensors',
+  'Save as reference area',
 ];
 
 const availableToolbarFeaturesSmartCityUserWithNoRights = [
@@ -39,6 +40,7 @@ const hiddenToolbarFeaturesSmartCityUserWithNoRights = [
   'Create MCDA',
   'Upload MCDA',
   'Create layer',
+  'Save as reference area',
 ];
 
 // Create a loop to loop over all the projects and create a test for everyone
@@ -60,9 +62,10 @@ for (const project of projects) {
     }
 
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-    await pageManager.fromNavigationMenu.goToMap();
+    project.name === 'atlas'
+      ? await pageManager.atMap.goToSpecificAreaByUrl(5, 134, 80, project)
+      : await pageManager.fromNavigationMenu.goToMap();
 
-    // TO DO: 7525 task will make map a feature and hidden for atlas. Adapt test once map is hidden
     if (project.name !== 'atlas') {
       await pageManager.atToolBar.checkTextsInToolbar(visibleTexts, hiddenTexts);
     } else {

@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 import { HelperBase } from './helperBase';
 
 export class NavigationMenu extends HelperBase {
@@ -10,6 +11,16 @@ export class NavigationMenu extends HelperBase {
       .locator('div', { hasText: 'Collapse' })
       .getByText('Map', { exact: true })
       .click();
+  }
+
+  /**
+   * This method checks that there is no map at navigation menu
+   */
+
+  async checkThereIsNoMap() {
+    await expect(
+      this.page.locator('div', { hasText: 'Collapse' }).getByText('Map', { exact: true }),
+    ).not.toBeVisible();
   }
 
   /**

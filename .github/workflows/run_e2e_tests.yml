@@ -37,6 +37,12 @@ jobs:
       DEV_PASSWORD: ${{ secrets.DEV_PASSWORD }}
       PROD_EMAIL: ${{ secrets.PROD_EMAIL }}
       PROD_PASSWORD: ${{ secrets.PROD_PASSWORD }}
+      TEST_EMAIL_PRO: ${{ secrets.TEST_AUTOTEST_PRO_EMAIL }}
+      TEST_PASSWORD_PRO: ${{ secrets.TEST_AUTOTEST_PRO_PASSWORD }}
+      DEV_EMAIL_PRO: ${{ secrets.DEV_AUTOTEST_PRO_EMAIL }}
+      DEV_PASSWORD_PRO: ${{ secrets.DEV_AUTOTEST_PRO_EMAIL }}
+      PROD_EMAIL_PRO: ${{ secrets.PROD_AUTOTEST_PRO_EMAIL }}
+      PROD_PASSWORD_PRO: ${{ secrets.PROD_AUTOTEST_PRO_EMAIL }}
       TEST_KEYCLOAK_ADMIN_USER: ${{ secrets.TEST_KEYCLOAK_ADMIN_USER }}
       TEST_KEYCLOAK_ADMIN_PASSWORD: ${{ secrets.TEST_KEYCLOAK_ADMIN_PASSWORD }}
       DEV_KEYCLOAK_ADMIN_USER: ${{ secrets.DEV_KEYCLOAK_ADMIN_USER }}
@@ -63,20 +69,29 @@ jobs:
           ENV_PREFIX=$(echo "$ENVIRONMENT" | tr '[:lower:]' '[:upper:]') # Convert to uppercase
           EMAIL_VAR_NAME="${ENV_PREFIX}_EMAIL"
           PASSWORD_VAR_NAME="${ENV_PREFIX}_PASSWORD"
+          EMAIL_PRO_VAR_NAME="${ENV_PREFIX}_EMAIL_PRO"
+          PASSWORD_PRO_VAR_NAME="${ENV_PREFIX}_PASSWORD_PRO"
+
           ADMIN_KEYCLOAK_VAR_NAME="${ENV_PREFIX}_KEYCLOAK_ADMIN_USER"
           ADMIN_KEYCLOAK_PASSWORD_VAR_NAME="${ENV_PREFIX}_KEYCLOAK_ADMIN_PASSWORD"
 
           EMAIL="${!EMAIL_VAR_NAME}"
           PASSWORD="${!PASSWORD_VAR_NAME}"
+          EMAIL_PRO="${!EMAIL_PRO_VAR_NAME}"
+          PASSWORD_PRO="${!PASSWORD_PRO_VAR_NAME}"
           ADMIN_KEYCLOAK="${!ADMIN_KEYCLOAK_VAR_NAME}"
           ADMIN_KEYCLOAK_PASSWORD="${!ADMIN_KEYCLOAK_PASSWORD_VAR_NAME}"
 
           rm -rf .env.playwright.production
-          echo "EMAIL=$EMAIL" >> .env.playwright.production
-          echo "PASSWORD=$PASSWORD" >> .env.playwright.production
-          echo "ADMIN_KEYCLOAK=$ADMIN_KEYCLOAK" >> .env.playwright.production
-          echo "ADMIN_KEYCLOAK_PASSWORD=$ADMIN_KEYCLOAK_PASSWORD" >> .env.playwright.production
-          echo "SLACK_BOT_USER_OAUTH_TOKEN=${SLACK_BOT_USER_OAUTH_TOKEN}" >> .env.playwright.production
+          cat <<EOF >> .env.playwright.production
+          EMAIL=$EMAIL
+          PASSWORD=$PASSWORD
+          EMAIL_PRO=$EMAIL_PRO
+          PASSWORD_PRO=$PASSWORD_PRO
+          ADMIN_KEYCLOAK=$ADMIN_KEYCLOAK
+          ADMIN_KEYCLOAK_PASSWORD=$ADMIN_KEYCLOAK_PASSWORD
+          SLACK_BOT_USER_OAUTH_TOKEN=${SLACK_BOT_USER_OAUTH_TOKEN}
+          EOF
 
       - name: Cache node modules
         id: cache-npm

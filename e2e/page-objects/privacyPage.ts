@@ -66,7 +66,11 @@ export class PrivacyPage extends HelperBase {
         ]);
         await page.waitForLoadState('domcontentloaded');
         expect(page.url()).toEqual(link.linkValidation.expectedUrl);
-        await page.close();
+        await Promise.all([
+          page.close(),
+          page.waitForEvent('close'),
+          this.page.waitForLoadState('domcontentloaded'),
+        ]);
       }
     }
   }
