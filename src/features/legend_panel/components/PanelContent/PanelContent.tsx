@@ -1,5 +1,4 @@
-import { useAtom } from '@reatom/react-v2';
-import { useAtom as useAtomV3 } from '@reatom/npm-react';
+import { useAtom } from '@reatom/npm-react';
 import { useMemo } from 'react';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
@@ -10,9 +9,9 @@ import { LegendsList } from '../LegendsList/LegendsList';
 import s from './PanelContent.module.css';
 
 export function PanelContent() {
-  const [layers] = useAtom(mountedLayersAtom);
-  const [focusedGeometry] = useAtom(focusedGeometryAtom);
-  const [referenceAreaGeometry] = useAtomV3(referenceAreaAtom);
+  const [layers] = useAtom(mountedLayersAtom.v3atom);
+  const [focusedGeometry] = useAtom(focusedGeometryAtom.v3atom);
+  const [referenceAreaGeometry] = useAtom(referenceAreaAtom);
 
   const layersAtoms = useMemo(() => {
     return Array.from(layers.values()).filter((layer) => {
