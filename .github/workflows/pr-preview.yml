@@ -7,7 +7,7 @@ on:
 
 env:
   # Create a host name for the environment: mr-preview-<PR_NUMBER>.konturio.surge.sh
-  DOMAIN: https://mr-preview-${{ github.event.number }}.konturio.surge.sh
+  DOMAIN: https://mr-preview-${{ github.event.number }}-konturio.surge.sh
 
 jobs:
   deploy:
