@@ -1,4 +1,4 @@
-import { useAtom } from '@reatom/react-v2';
+import { useAtom } from '@reatom/npm-react';
 import { layersTreeAtom } from '~core/logical_layers/atoms/layersTree';
 import { Layer } from '../Layer/Layer';
 import { Category } from '../Category/Category';

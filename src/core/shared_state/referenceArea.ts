@@ -2,7 +2,6 @@ import { crc32 } from 'hash-wasm';
 import { action, atom } from '@reatom/core';
 import { updateReferenceArea } from '~core/api/features';
 import { configRepo } from '~core/config';
-import { v3toV2 } from '~utils/atoms/v3tov2';
 import { FeatureFlag } from './featureFlags';
 import type { GeometryWithHash } from '~core/focused_geometry/types';
 
