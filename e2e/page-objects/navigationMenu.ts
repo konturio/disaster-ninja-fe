@@ -7,10 +7,7 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToMap() {
-    await this.page
-      .locator('div', { hasText: 'Collapse' })
-      .getByText('Map', { exact: true })
-      .click();
+    await this.page.locator('[value]').getByText('Map').click();
   }
 
   /**
@@ -18,9 +15,7 @@ export class NavigationMenu extends HelperBase {
    */
 
   async checkThereIsNoMap() {
-    await expect(
-      this.page.locator('div', { hasText: 'Collapse' }).getByText('Map', { exact: true }),
-    ).not.toBeVisible();
+    await expect(this.page.locator('[value]').getByText('Map')).not.toBeVisible();
   }
 
   /**
@@ -28,14 +23,14 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToLoginPage() {
-    await this.page.locator('div', { hasText: 'Collapse' }).getByText('Login').click();
+    await this.page.locator('[value="profile"]').getByText('Login').click();
   }
 
   /**
    * This method opens up the profile page from navigation menu
    */
   async goToProfilePage() {
-    await this.page.locator('div', { hasText: 'Collapse' }).getByText('Profile').click();
+    await this.page.locator('[value="profile"]').getByText('Profile').click();
   }
 
   /**
@@ -43,9 +38,6 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToPrivacyPage() {
-    await this.page
-      .locator('div', { hasText: 'Collapse' })
-      .getByText('Privacy', { exact: true })
-      .click();
+    await this.page.locator('[value="privacy"]').getByText('Privacy').click();
   }
 }

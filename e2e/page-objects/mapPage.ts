@@ -75,6 +75,7 @@ export class MapCanvas extends HelperBase {
    */
 
   async checkPopulationPopupData() {
+    await this.page.locator('.maplibregl-popup-content').waitFor({ state: 'visible' });
     const popup = this.page.locator('.maplibregl-popup-content');
 
     // Check that popup is generally present and has population text there

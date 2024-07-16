@@ -80,7 +80,12 @@ export class PrivacyPage extends HelperBase {
    */
 
   async openAndVerifyCookiesPage() {
-    await this.page.getByText('Cookie files policy and operational data').click();
+    await Promise.all([
+      this.page.getByText('Cookie files policy and operational data').click(),
+      this.page.waitForURL(/cookies/),
+      this.page.waitForLoadState('domcontentloaded'),
+    ]);
+    await this.page.locator('h1').first().scrollIntoViewIfNeeded();
     await expect(
       this.page.getByText('Cookie files policy and operational data'),
     ).toBeVisible();
