@@ -12,6 +12,7 @@ import { i18n } from '~core/localization';
 import { AppFeature } from '~core/auth/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
+import { ATLAS_APP_ID, OASIS_APP_ID } from '~core/config/constants';
 import { goTo } from './goTo';
 import type { AppRouterConfig } from './types';
 const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
@@ -88,6 +89,17 @@ export const routerConfig: AppRouterConfig = {
       view: <AboutPage />,
       showForNewUsers: true,
       requiredFeature: AppFeature.ABOUT_PAGE,
+    },
+    {
+      id: 'terms',
+      slug: 'terms',
+      title: i18n.t('modes.terms'),
+      icon: <Reports16 />,
+      view: <PagesDocument doc={[{ type: 'md', url: 'terms.md' }]} />,
+      parentRouteId: 'about',
+      visibilityInNavigation: 'always',
+      requiredFeature: AppFeature.ABOUT_PAGE,
+      allowedAppIds: [ATLAS_APP_ID, OASIS_APP_ID],
     },
     {
       id: 'privacy',

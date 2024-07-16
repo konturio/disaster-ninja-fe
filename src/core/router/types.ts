@@ -13,6 +13,8 @@ export interface AppRoute {
   cached?: boolean;
   /** What features must be enabled to show this route */
   requiredFeature?: AppFeatureType;
+  /** Specifies which application IDs are allowed to access this route */
+  allowedAppIds?: string[];
   /** Nest routes to each other */
   parentRouteId?: string;
   /**
