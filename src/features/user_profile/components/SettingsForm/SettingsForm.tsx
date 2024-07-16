@@ -152,8 +152,8 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                         onChange={onChange('bio')}
                         className={s.textArea}
                         width="100%"
-                        minHeight="200px"
-                        maxHeight="250px"
+                        minHeight="250px"
+                        maxHeight="400px"
                       />
                     </div>
                   </TooltipTrigger>
