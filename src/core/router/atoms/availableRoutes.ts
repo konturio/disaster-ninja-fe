@@ -15,14 +15,11 @@ export type AvailableRoutesAtom = typeof availableRoutesAtom;
 
 export function getAvailableRoutes() {
   const featureFlags = configRepo.get().features;
-  const currentAppId = configRepo.get().id;
   /* Remove not available routes */
   const available = {
     ...routerConfig,
-    routes: routerConfig.routes.filter(
-      (route) =>
-        (route.requiredFeature ? featureFlags[route.requiredFeature] : true) &&
-        (route.allowedAppIds ? route.allowedAppIds.includes(currentAppId) : true),
+    routes: routerConfig.routes.filter((route) =>
+      route.requiredFeature ? featureFlags[route.requiredFeature] : true,
     ),
   };
 
