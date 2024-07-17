@@ -59,7 +59,7 @@ jobs:
         run: pnpm build
 
       - name: Enable surge.sh redirects
-        run: echo '<h1>Hello, catch all</h1>' > dist/200.html
+        run: cp dist/index.html dist/200.html
 
       - name: Deploy to surge.sh
         if: ${{ !cancelled() }}
