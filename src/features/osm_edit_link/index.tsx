@@ -22,8 +22,7 @@ osmEditControl.onStateChange((ctx, state) => {
     try {
       const position = store.getState(currentMapPositionAtom);
       if (!position) throw Error('Unknown position');
-      const { osmEditor } = store.getState(currentUserAtom);
-      if (!osmEditor) throw Error('Unknown editor');
+      const { osmEditor = 'josm' } = store.getState(currentUserAtom);
 
       const editor = configRepo
         .get()
