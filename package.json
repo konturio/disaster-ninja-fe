@@ -135,7 +135,7 @@
     "cpr": "^3.0.1",
     "d3-color": "^3.1.0",
     "d3-interpolate": "^3.0.1",
-    "date-fns": "^2.30.0",
+    "date-fns": "^3.6.0",
     "dependency-cruiser": "^15.5.0",
     "dnd-core": "^16.0.1",
     "emoji-regex": "^10.3.0",
