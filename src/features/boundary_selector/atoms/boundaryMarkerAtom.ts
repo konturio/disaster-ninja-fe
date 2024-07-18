@@ -142,6 +142,11 @@ export const boundaryMarkerAtom = createAtom(
                 [
                   // Reset button state to default
                   boundarySelectorControl.setState('regular'),
+                  // Clear highlightedGeometry
+                  highlightedGeometryAtom.set({
+                    type: 'FeatureCollection',
+                    features: [],
+                  }),
                   // Load selected boundary as focused geometry
                   focusedGeometryAtom.setFocusedGeometry(
                     {
