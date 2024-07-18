@@ -90,6 +90,16 @@ export const routerConfig: AppRouterConfig = {
       requiredFeature: AppFeature.ABOUT_PAGE,
     },
     {
+      id: 'terms',
+      slug: 'terms',
+      title: i18n.t('modes.terms'),
+      icon: <Reports16 />,
+      view: <PagesDocument doc={[{ type: 'md', url: 'terms.md' }]} />,
+      parentRouteId: 'about',
+      visibilityInNavigation: 'always',
+      requiredFeature: AppFeature.ABOUT_PAGE,
+    },
+    {
       id: 'privacy',
       slug: 'privacy',
       title: i18n.t('modes.privacy'),
