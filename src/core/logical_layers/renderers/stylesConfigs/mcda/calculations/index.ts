@@ -63,14 +63,7 @@ class Calculations<T> implements IsomorphCalculations<T> {
           tMax: this.math.mult(this.math.sign(max), this.math.sqrt(this.math.abs(max))),
         };
 
-      /* natural_logarithm: (ln(x) - ln(min)) / (ln(max) - ln(min)) */
-      case 'natural_logarithm':
-        return {
-          tX: this.math.log(this.math.add(x, 1 as T)),
-          tMin: this.math.log(this.math.add(min, 1 as T)),
-          tMax: this.math.log(this.math.add(max, 1 as T)),
-        };
-
+      /* cube_root: (cbrt(x) - cbrt(min)) / (cbrt(max) - cbrt(min)) */
       case 'cube_root':
         return {
           tX: this.math.cbrt(x),
@@ -78,6 +71,7 @@ class Calculations<T> implements IsomorphCalculations<T> {
           tMax: this.math.cbrt(max),
         };
 
+      /* log(x - xmin + 1) */
       case 'log':
         return {
           tX: this.math.log10(this.math.add(this.math.sub(x, min), 1 as T)),
@@ -85,6 +79,7 @@ class Calculations<T> implements IsomorphCalculations<T> {
           tMax: this.math.log10(this.math.add(this.math.sub(max, min), 1 as T)),
         };
 
+      /* log(x - xmin + ε) */
       case 'log_epsilon':
         return {
           tX: this.math.log10(this.math.add(this.math.sub(x, min), Number.EPSILON as T)),

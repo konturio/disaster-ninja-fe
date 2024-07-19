@@ -122,7 +122,6 @@
       "as_values_on_limits": "As values on limits",
       "transformations": {
         "no_transformation": "No transformation",
-        "natural_logarithm": "Logarithm",
         "square_root": "Square root: sign(x)√(|x|)",
         "cube_root": "Cube root: : ∛x",
         "log_one": "Log(x - xmin + 1)",

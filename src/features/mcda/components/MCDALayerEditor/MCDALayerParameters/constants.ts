@@ -35,10 +35,6 @@ export const transformOptions: SelectableItem[] = [
     value: 'no',
   },
   {
-    title: `${i18n.t('mcda.layer_editor.transformations.natural_logarithm')}`,
-    value: 'natural_logarithm',
-  },
-  {
     title: `${i18n.t('mcda.layer_editor.transformations.square_root')}`,
     value: 'square_root',
   },

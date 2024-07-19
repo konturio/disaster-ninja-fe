@@ -47,7 +47,6 @@ export interface MCDAConfig {
 export type Normalization = 'max-min' | 'no';
 export type TransformationFunction =
   | 'no'
-  | 'natural_logarithm' // TODO: is old "natural_logarithm still needed?"
   | 'square_root'
   | 'cube_root'
   | 'log'

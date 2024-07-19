@@ -58,15 +58,6 @@ test('Transformations correct: cube_root', () => {
   expect(result).toBe(0.46415888336127786);
 });
 
-test('Transformations correct: natural_logarithm', () => {
-  const result = calculateNumber({
-    ...TEST_MCDA_LAYER,
-    transformationFunction: 'natural_logarithm',
-  });
-
-  expect(result).toBe(0.5195737064824407);
-});
-
 test('Transformations correct: log', () => {
   const result = calculateNumber({
     ...TEST_MCDA_LAYER,
