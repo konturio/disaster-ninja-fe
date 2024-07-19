@@ -80,16 +80,16 @@ class Calculations<T> implements IsomorphCalculations<T> {
 
       case 'log':
         return {
-          tX: this.math.log(this.math.add(this.math.sub(x, min), 1 as T)),
-          tMin: this.math.log(1 as T),
-          tMax: this.math.log(this.math.add(this.math.sub(max, min), 1 as T)),
+          tX: this.math.log10(this.math.add(this.math.sub(x, min), 1 as T)),
+          tMin: this.math.log10(1 as T),
+          tMax: this.math.log10(this.math.add(this.math.sub(max, min), 1 as T)),
         };
 
       case 'log_epsilon':
         return {
-          tX: this.math.log(this.math.add(this.math.sub(x, min), Number.EPSILON as T)),
-          tMin: this.math.log(Number.EPSILON as T),
-          tMax: this.math.log(
+          tX: this.math.log10(this.math.add(this.math.sub(x, min), Number.EPSILON as T)),
+          tMin: this.math.log10(Number.EPSILON as T),
+          tMax: this.math.log10(
             this.math.add(this.math.sub(max, min), Number.EPSILON as T),
           ),
         };
