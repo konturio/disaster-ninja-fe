@@ -57,7 +57,6 @@ class Calculations<T> implements IsomorphCalculations<T> {
 
       /* square_root: (sqrt(x) - sqrt(min)) / (sqrt(max) - sqrt(min)) */
       case 'square_root':
-      case 'sqrt':
         return {
           tX: this.math.mult(this.math.sign(x), this.math.sqrt(this.math.abs(x))),
           tMin: this.math.mult(this.math.sign(min), this.math.sqrt(this.math.abs(min))),
