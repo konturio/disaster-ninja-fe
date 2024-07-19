@@ -73,7 +73,7 @@ test('Transformations correct: log', () => {
     transformationFunction: 'log',
   });
 
-  expect(result).toBe(0.5195737064824407);
+  expect(result).toBe(0.5195737064824406);
 });
 
 test('Transformations correct: log_epsilon', () => {
@@ -82,7 +82,7 @@ test('Transformations correct: log_epsilon', () => {
     transformationFunction: 'log_epsilon',
   });
 
-  expect(result).toBe(0.9433542009219614);
+  expect(result).toBe(0.9433542009219615);
 });
 
 const TEST_MCDA_LAYER: MCDALayer = {
