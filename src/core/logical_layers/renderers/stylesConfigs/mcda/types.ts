@@ -33,6 +33,7 @@ export interface MCDALayer {
   transformationFunction: TransformationFunction;
   normalization: Normalization;
   unit: string | null;
+  datasetRange?: [number, number];
 }
 
 export interface MCDAConfig {

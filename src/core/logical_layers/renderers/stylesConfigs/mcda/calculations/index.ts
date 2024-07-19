@@ -6,11 +6,20 @@ import type { MCDAConfig, TransformationFunction } from '../types';
 const equalSentiments = (a: Array<string>, b: Array<string>) =>
   a.length === b.length && a.every((x, i) => x === b[i]);
 
+// x - hex value
+// min, max - current range min and max
+// datasetMin - minimal value in dataset for indicator, constant value
 interface IsomorphCalculations<T> {
   rate: (args: { num: T; den: T }) => T;
   /** (x - min) / (max - min) */
   normalize: (args: { x: T; min: T; max: T }) => T;
-  transform: (args: { x: T; transformation: TransformationFunction; min: T; max: T }) => {
+  transform: (args: {
+    x: T;
+    transformation: TransformationFunction;
+    min: T;
+    max: T;
+    datasetMin?: T;
+  }) => {
     tX: T;
     tMin: T;
     tMax: T;
@@ -40,11 +49,13 @@ class Calculations<T> implements IsomorphCalculations<T> {
     x,
     min,
     max,
+    datasetMin,
     transformation,
   }: {
     x: T;
     transformation: TransformationFunction;
     min: T;
+    datasetMin?: T;
     max: T;
   }) {
     switch (transformation) {
@@ -71,21 +82,31 @@ class Calculations<T> implements IsomorphCalculations<T> {
           tMax: this.math.cbrt(max),
         };
 
-      /* log(x - xmin + 1) */
+      /* log(x - datasetMin + 1) */
       case 'log':
+        if (datasetMin === undefined) {
+          throw new Error('Could not find required data for given transformation');
+        }
         return {
-          tX: this.math.log10(this.math.add(this.math.sub(x, min), 1 as T)),
-          tMin: this.math.log10(1 as T),
-          tMax: this.math.log10(this.math.add(this.math.sub(max, min), 1 as T)),
+          tX: this.math.log10(this.math.add(this.math.sub(x, datasetMin), 1 as T)),
+          tMin: this.math.log10(this.math.add(this.math.sub(min, datasetMin), 1 as T)),
+          tMax: this.math.log10(this.math.add(this.math.sub(max, datasetMin), 1 as T)),
         };
 
-      /* log(x - xmin + ε) */
+      /* log(x - datasetMin + ε) */
       case 'log_epsilon':
+        if (datasetMin === undefined) {
+          throw new Error('Could not find required data for given transformation');
+        }
         return {
-          tX: this.math.log10(this.math.add(this.math.sub(x, min), Number.EPSILON as T)),
-          tMin: this.math.log10(Number.EPSILON as T),
+          tX: this.math.log10(
+            this.math.add(this.math.sub(x, datasetMin), Number.EPSILON as T),
+          ),
+          tMin: this.math.log10(
+            this.math.add(this.math.sub(max, datasetMin), Number.EPSILON as T),
+          ),
           tMax: this.math.log10(
-            this.math.add(this.math.sub(max, min), Number.EPSILON as T),
+            this.math.add(this.math.sub(min, datasetMin), Number.EPSILON as T),
           ),
         };
     }
@@ -115,9 +136,11 @@ export const calculateLayerPipeline =
     sentiment,
     transformationFunction,
     normalization,
+    datasetRange,
   }: MCDAConfig['layers'][0]) => {
     const [num, den] = axis;
     const [min, max] = range;
+    const datasetMin = datasetRange?.[0];
     const inverted = equalSentiments(sentiment, sentimentReversed);
     if (!inverted)
       console.assert(
@@ -132,6 +155,7 @@ export const calculateLayerPipeline =
       x: rate,
       min,
       max,
+      datasetMin: datasetMin,
       transformation: transformationFunction,
     });
     const normalized =
