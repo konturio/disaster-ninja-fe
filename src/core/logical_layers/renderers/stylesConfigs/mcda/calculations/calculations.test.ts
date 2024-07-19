@@ -25,6 +25,11 @@ const calculateNumber = calculateLayerPipeline(inViewCalculations, (axis) => ({
   den: 1,
 }));
 
+const calculateNegativeNumber = calculateLayerPipeline(inViewCalculations, (axis) => ({
+  num: -10,
+  den: 1,
+}));
+
 test('Transformations correct: square_root', () => {
   const result = calculateNumber({
     ...TEST_MCDA_LAYER,
@@ -32,6 +37,16 @@ test('Transformations correct: square_root', () => {
   });
 
   expect(result).toBe(0.31622776601683794);
+});
+
+test('Transformations correct: square_root for negative values', () => {
+  const result = calculateNegativeNumber({
+    ...TEST_MCDA_LAYER,
+    transformationFunction: 'square_root',
+    range: [-100, 0],
+  });
+
+  expect(result).toBe(0.683772233983162);
 });
 
 test('Transformations correct: cube_root', () => {
