@@ -70,6 +70,13 @@ class Calculations<T> implements IsomorphCalculations<T> {
           tMin: this.math.log(this.math.add(min, 1 as T)),
           tMax: this.math.log(this.math.add(max, 1 as T)),
         };
+
+      case 'cube_root':
+        return {
+          tX: this.math.cbrt(x),
+          tMin: this.math.cbrt(min),
+          tMax: this.math.cbrt(max),
+        };
     }
   }
 
