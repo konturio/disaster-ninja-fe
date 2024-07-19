@@ -52,6 +52,24 @@ test('Transformations correct: natural_logarithm', () => {
   expect(result).toBe(0.5195737064824407);
 });
 
+test('Transformations correct: log', () => {
+  const result = calculateNumber({
+    ...TEST_MCDA_LAYER,
+    transformationFunction: 'log',
+  });
+
+  expect(result).toBe(0.5195737064824407);
+});
+
+test('Transformations correct: log_epsilon', () => {
+  const result = calculateNumber({
+    ...TEST_MCDA_LAYER,
+    transformationFunction: 'log_epsilon',
+  });
+
+  expect(result).toBe(0.9433542009219614);
+});
+
 const TEST_MCDA_LAYER: MCDALayer = {
   id: 'test',
   name: 'TEST',
