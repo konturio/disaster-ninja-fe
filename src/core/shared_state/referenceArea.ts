@@ -4,7 +4,6 @@ import { updateReferenceArea } from '~core/api/features';
 import { configRepo } from '~core/config';
 import { FeatureFlag } from './featureFlags';
 import type { GeometryWithHash } from '~core/focused_geometry/types';
-import type { FeaturesConfig } from '~core/config/types';
 
 export const referenceAreaAtom = atom<GeometryWithHash | null>(
   getReferenceAreaFromConfigRepo(),
