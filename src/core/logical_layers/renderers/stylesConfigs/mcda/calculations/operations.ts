@@ -21,7 +21,8 @@ export class MapMath implements IsomorphMath<MapExpression> {
   log = (x: MapExpression): MapExpression => ['ln', x];
   log10 = (x: MapExpression): MapExpression => ['log10', x];
   sqrt = (x: MapExpression): MapExpression => ['sqrt', x];
-  cbrt = (x: MapExpression): MapExpression => ['^', x, 1 / 3];
+  cbrt = (x: MapExpression): MapExpression =>
+    this.mult(this.sign(x), ['^', this.abs(x), 1 / 3]);
   abs = (x: MapExpression): MapExpression => ['abs', x];
   sign = (x: MapExpression): MapExpression => ['case', ['<', x, 0], -1, 1];
 }
