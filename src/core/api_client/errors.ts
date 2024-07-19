@@ -25,6 +25,7 @@ export function getTranslatedApiErrors(i18n: { t: (arg0: string) => string }) {
 export function parseApiError(errorObj: WretchError): string {
   if (errorObj?.json) {
     const errorData = errorObj?.json;
+    if (errorData?.error_description) return errorData.error_description;
     if (errorData !== null) {
       if (Array.isArray(errorData)) {
         return errorData
@@ -49,7 +50,15 @@ export function parseApiError(errorObj: WretchError): string {
     }
     return String(errorData);
   }
-  return errorObj?.text ?? errorObj?.message ?? 'Unknown Error';
+  let res: string | undefined =
+    errorObj?.response?.statusText ?? errorObj?.message ?? errorObj?.text;
+  if (res?.startsWith('<html>')) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(res, 'text/html');
+    const title = doc.querySelector('title');
+    res = title?.innerText;
+  }
+  return res ?? 'Unknown Error';
 }
 
 export function createApiError(err: unknown) {
@@ -66,9 +75,10 @@ export function createApiError(err: unknown) {
   }
   if (err instanceof wretch.WretchError) {
     status = err.status;
-    // In case of 401 error we need to parse error message from body and show it to user
-    if (status === 401) {
-      errorMessage = err.json?.error_description ?? err?.message ?? 'Auth error';
+    // In case of 400/401 error we need to parse error message from body and show it to user
+    if (status === 400) {
+      problem = { kind: 'bad-request' };
+    } else if (status === 401) {
       problem = { kind: 'unauthorized', data: err.json?.error };
     } else if (status === 403) {
       problem = { kind: 'forbidden' };

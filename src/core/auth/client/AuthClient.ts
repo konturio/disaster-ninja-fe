@@ -1,5 +1,4 @@
 import { noop } from '@reatom/core-v2';
-import { userStateAtom } from '~core/auth/atoms/userState';
 import type { ApiClient } from '~core/api_client';
 
 interface AuthClientConfig {
@@ -15,7 +14,6 @@ export class AuthClient {
   private readonly _apiClient: ApiClient;
 
   loginHook: AuthLoginHook = noop;
-  logoutHook: AuthLogoutHook = noop;
   private constructor({ apiClient }: AuthClientConfig) {
     this._apiClient = apiClient;
   }
@@ -39,14 +37,11 @@ export class AuthClient {
 
   public logout() {
     this._apiClient.logout();
-    this.logoutHook();
-    userStateAtom.logout.dispatch();
     // reload to init with public config and profile
     location.reload();
   }
   private startAuthenticated() {
     this.loginHook();
-    userStateAtom.authorize.dispatch();
   }
 
   /**

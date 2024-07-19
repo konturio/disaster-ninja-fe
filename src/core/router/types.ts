@@ -1,6 +1,7 @@
 import type { AppFeatureType } from '~core/auth/types';
 
 export interface AppRoute {
+  id: string;
   slug: string;
   view: JSX.Element;
   icon: JSX.Element;
@@ -13,7 +14,7 @@ export interface AppRoute {
   /** What features must be enabled to show this route */
   requiredFeature?: AppFeatureType;
   /** Nest routes to each other */
-  parentRoute?: string;
+  parentRouteId?: string;
   /**
    * Visibility in navigation sidebar
    * - auto (default) - show when route or it's parent is active

@@ -142,6 +142,8 @@ export const boundaryMarkerAtom = createAtom(
                 [
                   // Reset button state to default
                   boundarySelectorControl.setState('regular'),
+                  // Clear highlightedGeometry
+                  highlightedGeometryAtom.set(new FeatureCollection([])),
                   // Load selected boundary as focused geometry
                   focusedGeometryAtom.setFocusedGeometry(
                     {
@@ -150,7 +152,7 @@ export const boundaryMarkerAtom = createAtom(
                     },
                     boundaryGeometry,
                   ),
-                  // Adjust map view to fin new geometry
+                  // Adjust map view to fit new geometry
                   boundaryCamera &&
                     currentMapPositionAtom.setCurrentMapPosition(boundaryCamera),
                 ].filter(withoutUndefined),

@@ -3,7 +3,11 @@ import { toolbar } from '~core/toolbar';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { store } from '~core/store/store';
-import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';
+import {
+  DEFAULT_OSM_EDITOR,
+  EDIT_IN_OSM_CONTROL_ID,
+  EDIT_IN_OSM_CONTROL_NAME,
+} from './constants';
 import { openOsmLink } from './openOsmLink';
 
 export const osmEditControl = toolbar.setupControl({
@@ -22,8 +26,7 @@ osmEditControl.onStateChange((ctx, state) => {
     try {
       const position = store.getState(currentMapPositionAtom);
       if (!position) throw Error('Unknown position');
-      const { osmEditor } = store.getState(currentUserAtom);
-      if (!osmEditor) throw Error('Unknown editor');
+      const { osmEditor = DEFAULT_OSM_EDITOR } = store.getState(currentUserAtom);
 
       const editor = configRepo
         .get()

@@ -22,7 +22,7 @@ import type {
 } from './types';
 
 export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
-
+const TIME_TO_REFRESH_MS = 1000 * 60 * 3;
 export class ApiClient {
   private listeners = new Map([['error', new Set<(e: ApiClientError) => void>()]]);
   private loginApiPath!: string;
@@ -36,7 +36,7 @@ export class ApiClient {
   private tokenRefreshFlowPromise: Promise<boolean> | undefined;
   private keycloakClientId!: string;
   private baseURL!: string;
-  timeToRefresh: number = 1000 * 60 * 3; // Should be less then Access Token Lifespan
+  timeToRefresh: number = TIME_TO_REFRESH_MS; // Should be less then Access Token Lifespan
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -91,15 +91,15 @@ export class ApiClient {
       const decodedToken: JWTData = jwtDecode(token);
       const decodedRefreshToken: JWTData = jwtDecode(refreshToken);
       if (KONTUR_DEBUG) {
-        console.debug({ decodedToken, now: new Date().getTime() });
-        console.debug({ decodedRefreshToken, now: new Date().getTime() });
+        console.debug({
+          decodedToken,
+          at_ttl: decodedToken.exp - decodedToken.iat,
+          decodedRefreshToken,
+          rt_ttl: decodedRefreshToken.exp - decodedRefreshToken.iat,
+          now: Date.now(),
+        });
       }
-      if (
-        decodedToken &&
-        decodedToken.exp &&
-        decodedRefreshToken &&
-        decodedRefreshToken.exp
-      ) {
+      if (decodedToken?.exp && decodedRefreshToken?.exp) {
         const expiringDate = new Date(decodedToken.exp * 1000);
         const expiringRefreshDate = new Date(decodedRefreshToken.exp * 1000);
         if (expiringDate > new Date()) {
@@ -133,6 +133,12 @@ export class ApiClient {
         const { token, refreshToken } = JSON.parse(storedTokensJson);
         if (token && refreshToken) {
           const decodedToken: JWTData = jwtDecode(token);
+          const tokenLifetime = decodedToken.exp - decodedToken.iat;
+          // ensure timeToRefresh is shorter than tokenLifetime
+          this.timeToRefresh = Math.min(
+            Math.trunc((tokenLifetime * 1000) / 5),
+            TIME_TO_REFRESH_MS,
+          );
           const decodedRefreshToken: JWTData = jwtDecode(refreshToken);
           const expiringDate = new Date(decodedToken.exp * 1000);
           const expiringRefreshDate = new Date(decodedRefreshToken.exp * 1000);
@@ -173,7 +179,7 @@ export class ApiClient {
     }
     const diffTime = this.tokenExpirationDate.getTime() - new Date().getTime();
     if (diffTime < this.timeToRefresh) {
-      // token expires soon - in 5 minutes, refresh it
+      // token expires soon, refresh it
       try {
         await this.refreshAuthToken();
       } catch (error) {
@@ -257,7 +263,6 @@ export class ApiClient {
     } catch (err) {
       // unable to login or refresh token
       const error = createApiError(err);
-      this._emit('error', error);
       throw error;
     }
   }
@@ -266,7 +271,7 @@ export class ApiClient {
     this.listeners.get(type)?.forEach((l) => l(payload));
   }
 
-  async logout() {
+  logout() {
     this.resetAuth();
   }
 

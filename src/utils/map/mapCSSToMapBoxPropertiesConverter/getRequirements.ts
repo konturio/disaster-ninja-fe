@@ -1,3 +1,5 @@
+const DEBUG_MAPCSS = !!globalThis.localStorage?.getItem('DEBUG_MAPCSS');
+
 export function getRequirements(config, mapCSS) {
   const initialCSS = {
     // * Next important string need for generate casing offset when main line offset not set
@@ -8,7 +10,7 @@ export function getRequirements(config, mapCSS) {
   Object.entries({ ...initialCSS, ...mapCSS }).forEach(([prop, value]) => {
     const req = config[prop];
     if (req === undefined) {
-      console.debug(`Unsupported property: "${prop}"`);
+      DEBUG_MAPCSS && console.debug(`Unsupported property: "${prop}"`);
     } else {
       requirements.push([req, value]);
     }

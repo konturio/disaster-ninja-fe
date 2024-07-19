@@ -26,23 +26,27 @@ beforeEach(async (context) => {
   const foo = {
     ...defaults,
     slug: 'foo',
+    id: 'idfoo',
   };
 
   const bar = {
     ...defaults,
     slug: 'bar',
+    id: 'idbar',
   };
 
   const bar_child = {
     ...defaults,
     slug: 'bar-child',
-    parentRoute: 'bar',
+    id: 'idbar-child',
+    parentRouteId: 'idbar',
   };
 
   const bar_child_neighbor = {
     ...defaults,
     slug: 'bar-child-neighbor',
-    parentRoute: 'bar',
+    id: 'idbar-child-neighbor',
+    parentRouteId: 'idbar',
   };
 
   context.routes = {
