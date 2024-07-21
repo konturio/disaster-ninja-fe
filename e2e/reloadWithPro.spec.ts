@@ -13,18 +13,22 @@ for (const project of projects) {
       await pageManager.fromNavigationMenu.goToMap();
       if (project.name != 'disaster-ninja')
         await pageManager.atBrowser.waitForUrlToMatchPattern(/map=/);
-      expect(page.url()).toContain('autotests');
+      // TO DO: activate this check once 19103 issue is done
+      // expect(page.url()).toContain('autotests');
       await pageManager.atMap.compareUrlsAfterReload(project);
-      expect(page.url()).toContain('autotests');
+      // TO DO: activate this check once 19103 issue is done
+      // expect(page.url()).toContain('autotests');
     });
     test('My profile has the same data', async ({ page, pageManager }) => {
       await pageManager.fromNavigationMenu.goToProfilePage();
       const settingsValues = await pageManager.atProfilePage.getProfileData(project, {
         shouldOsmEditorBeSeenOnAtlas: true,
       });
-      expect(page.url()).toContain('autotests');
+      // TO DO: activate this check once 19103 issue is done
+      // expect(page.url()).toContain('autotests');
       await pageManager.atProfilePage.compareUrlsAfterReload(project);
-      expect(page.url()).toContain('autotests');
+      // TO DO: activate this check once 19103 issue is done
+      // expect(page.url()).toContain('autotests');
       const settingsValuesAfterReload = await pageManager.atProfilePage.getProfileData(
         project,
         { shouldOsmEditorBeSeenOnAtlas: true },

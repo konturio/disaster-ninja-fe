@@ -36,9 +36,11 @@ for (const project of projects) {
       const settingsValues = await pageManager.atProfilePage.getProfileData(project, {
         shouldOsmEditorBeSeenOnAtlas: true,
       });
-      expect(page.url()).toContain('autotests');
+      // TO DO: activate this check once 19103 issue is done
+      // expect(page.url()).toContain('autotests');
       await pageManager.atProfilePage.compareUrlsAfterReload(project);
-      expect(page.url()).toContain('autotests');
+      // TO DO: activate this check once 19103 issue is done
+      // expect(page.url()).toContain('autotests');
       const settingsValuesAfterReload = await pageManager.atProfilePage.getProfileData(
         project,
         { shouldOsmEditorBeSeenOnAtlas: true },

@@ -15,7 +15,6 @@ for (const project of projects) {
     await pageManager.atLoginPage.typeLoginPasswordAndLogin(
       process.env.EMAIL!,
       process.env.PASSWORD!,
-      50,
     );
     // TO DO: activate this check once 19103 issue is done
     // expect(page.url()).toContain('autotests');

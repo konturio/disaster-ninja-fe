@@ -4,25 +4,20 @@ import type { BrowserContext } from '@playwright/test';
 
 export class LoginPage extends HelperBase {
   /**
-   * This method checks the Log in button visibility and then fills in email and password with special speed emulating real user typing
+   * This method checks the Log in button visibility and then fills in email and password
    * @param email - should be email in form of string
    * @param password - should be password in form of string
-   * @param typingSpeedMs - delay between keyboard clicks in ms. High numbers increase test execution!
    */
 
-  async typeLoginPasswordAndLogin(
-    email: string,
-    password: string,
-    typingSpeedMs: number,
-  ) {
+  async typeLoginPasswordAndLogin(email: string, password: string) {
     await this.checkLoginAndSignupPresence();
     // Getting email field and type in like real user
     const emailInput = this.page.getByRole('textbox').first();
-    await emailInput.pressSequentially(email, { delay: typingSpeedMs });
+    await emailInput.fill(email);
 
     // Getting password field and type in like real user
     const passwordInput = this.page.locator('input[type="password"]');
-    await passwordInput.pressSequentially(password, { delay: typingSpeedMs });
+    await passwordInput.fill(password);
 
     // Getting Log in button and clicking
     await this.page.getByRole('button', { name: 'Log in' }).click();

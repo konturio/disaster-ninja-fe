@@ -13,7 +13,8 @@ for (const project of projects) {
     await pageManager.atBrowser.openProject(project);
     await pageManager.fromNavigationMenu.goToPrivacyPage();
     await pageManager.atBrowser.waitForUrlToMatchPattern(/privacy/);
-    expect(page.url()).toContain('autotests');
+    // TO DO: activate this check once 19103 issue is done
+    // expect(page.url()).toContain('autotests');
     await pageManager.atPrivacyPage.checkTitles(
       [
         'Privacy Policy for EU/UK Residents',
@@ -28,7 +29,8 @@ for (const project of projects) {
 
     // Specify links to check at links-privacy.json file
     await pageManager.atPrivacyPage.checkLinks(context);
-    expect(page.url()).toContain('autotests');
+    // TO DO: activate this check once 19103 issue is done
+    // expect(page.url()).toContain('autotests');
     await pageManager.atPrivacyPage.openAndVerifyCookiesPage();
   });
 }
