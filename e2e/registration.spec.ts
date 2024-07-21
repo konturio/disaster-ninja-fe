@@ -62,7 +62,7 @@ for (const project of projects) {
 
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.fromNavigationMenu.goToLoginPage();
-    await pageManager.atLoginPage.typeLoginPasswordAndLogin(email, password, 1);
+    await pageManager.atLoginPage.typeLoginPasswordAndLogin(email, password);
 
     await pageManager.atProfilePage.checkLogoutBtnProfileTitleAndEmail(email);
 

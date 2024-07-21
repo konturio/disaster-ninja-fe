@@ -19,7 +19,9 @@ for (const project of projects) {
 
     const [newPage] = await Promise.all([
       context.waitForEvent('page'),
-      (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click(),
+      (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click({
+        delay: 150,
+      }),
     ]);
 
     await pageManager.atMap.waitForUrlToMatchPattern(/rapideditor/, newPage);

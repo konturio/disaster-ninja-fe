@@ -96,7 +96,7 @@ export class MapCanvas extends HelperBase {
     await this.page
       .locator('.maplibregl-popup-content')
       .getByLabel('Close popup')
-      .click();
+      .click({ delay: 150 });
     await expect(
       this.page.locator('.maplibregl-popup-content', { hasText: 'Population' }),
     ).not.toBeVisible();

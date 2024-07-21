@@ -38,7 +38,7 @@ export class ProfilePage extends HelperBase {
    * This method clicks log out and waits a bit after that
    */
   async clickLogout() {
-    await this.page.getByRole('button', { name: 'Log out' }).click();
+    await this.page.getByRole('button', { name: 'Log out' }).click({ delay: 150 });
   }
 
   /**

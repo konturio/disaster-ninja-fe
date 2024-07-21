@@ -49,7 +49,7 @@ export class HelperBase {
       await this.page
         .frameLocator('[title="Intercom live chat banner"]')
         .getByLabel('Close')
-        .click({ force: true });
+        .click({ force: true, delay: 150 });
     }
   }
   /**

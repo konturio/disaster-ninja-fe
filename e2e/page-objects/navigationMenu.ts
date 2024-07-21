@@ -7,7 +7,7 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToMap() {
-    await this.page.locator('[value]').getByText('Map').click();
+    await this.page.locator('[value]').getByText('Map').click({ delay: 150 });
   }
 
   /**
@@ -23,14 +23,17 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToLoginPage() {
-    await this.page.locator('[value="profile"]').getByText('Login').click();
+    await this.page.locator('[value="profile"]').getByText('Login').click({ delay: 150 });
   }
 
   /**
    * This method opens up the profile page from navigation menu
    */
   async goToProfilePage() {
-    await this.page.locator('[value="profile"]').getByText('Profile').click();
+    await this.page
+      .locator('[value="profile"]')
+      .getByText('Profile')
+      .click({ delay: 150 });
   }
 
   /**
@@ -38,6 +41,9 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToPrivacyPage() {
-    await this.page.locator('[value="privacy"]').getByText('Privacy').click();
+    await this.page
+      .locator('[value="privacy"]')
+      .getByText('Privacy')
+      .click({ delay: 150 });
   }
 }
