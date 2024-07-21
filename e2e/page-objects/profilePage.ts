@@ -47,8 +47,10 @@ export class ProfilePage extends HelperBase {
   async checkLogoutBtnAndProfileAbsence() {
     const logoutBtn = this.page.getByRole('button', { name: 'Log out' });
     const profileTextElements = this.page.getByText('Profile').nth(1);
-    await expect(logoutBtn).not.toBeVisible();
-    await expect(profileTextElements).not.toBeVisible();
+    await Promise.all([
+      expect(logoutBtn).not.toBeVisible(),
+      expect(profileTextElements).not.toBeVisible(),
+    ]);
   }
 
   /**

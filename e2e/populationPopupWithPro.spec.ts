@@ -48,8 +48,8 @@ projects.forEach((project) => {
         zoom: 13.548,
         latitude: 40.2283,
         longitude: -74.0298,
-        x: 230,
-        y: 200,
+        x: 240,
+        y: 230,
       });
     });
     test('Huge population in Mumbai', async ({ pageManager, page }) => {

@@ -32,8 +32,10 @@ export class LoginPage extends HelperBase {
    * This method checks that there are login and sign up elements
    */
   async checkLoginAndSignupPresence() {
-    await expect(this.page.getByRole('button', { name: 'Log in' })).toBeVisible();
-    await expect(this.page.getByText('Sign up')).toBeVisible();
+    await Promise.all([
+      expect(this.page.getByRole('button', { name: 'Log in' })).toBeVisible(),
+      expect(this.page.getByText('Sign up')).toBeVisible(),
+    ]);
   }
 
   /**
