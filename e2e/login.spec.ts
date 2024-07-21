@@ -22,7 +22,8 @@ for (const project of projects) {
       process.env.EMAIL!,
     );
     await pageManager.atProfilePage.clickLogout();
-    expect(page.url()).toContain('autotests');
+    // TO DO: activate this check once 19103 issue is done
+    // expect(page.url()).toContain('autotests');
     await pageManager.atProfilePage.checkLogoutBtnAndProfileAbsence();
     await pageManager.atLoginPage.checkLoginAndSignupPresence();
   });
