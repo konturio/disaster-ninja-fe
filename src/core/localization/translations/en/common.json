@@ -118,9 +118,11 @@
       "normalize": "Normalize",
       "normalization": "Normalization",
       "reset_limits_to_default": "Reset limits to default",
-      "exclude": "Exclude",
-      "as_values_on_limits": "As values on limits",
-      "outliers_keep": "Keep",
+      "outliers_options": {
+        "clamp": "Clamp",
+        "hide": "Hide",
+        "dont_modify": "Don't modify"
+      },
       "natural_logarithm": "Logarithm",
       "square_root": "Square root",
       "no": "No",
