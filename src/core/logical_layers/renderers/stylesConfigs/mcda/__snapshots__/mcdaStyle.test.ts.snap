@@ -55,7 +55,7 @@ exports[`createMCDAStyle > filterSetup() > creates correct filter when both MCDA
 ]
 `;
 
-exports[`createMCDAStyle > filterSetup() > creates correct filter when one of the MCDA layers has outliers === "exclude" 1`] = `
+exports[`createMCDAStyle > filterSetup() > creates correct filter when one of the MCDA layers has outliers === "hide" 1`] = `
 [
   "all",
   [

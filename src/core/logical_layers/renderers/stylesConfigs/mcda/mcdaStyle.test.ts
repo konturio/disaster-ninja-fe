@@ -9,8 +9,8 @@ describe('createMCDAStyle', () => {
       expect(result).toMatchSnapshot();
     });
 
-    it('creates correct filter when one of the MCDA layers has outliers === "exclude"', () => {
-      const result = filterSetup([layer1, { ...layer2, outliers: 'exclude' }]);
+    it('creates correct filter when one of the MCDA layers has outliers === "hide"', () => {
+      const result = filterSetup([layer1, { ...layer2, outliers: 'hide' }]);
       expect(result).toMatchSnapshot();
     });
   });
