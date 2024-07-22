@@ -30,7 +30,10 @@ export const outliersOptions: SelectableItem[] = [
     value: 'clamp',
   },
   { title: `${i18n.t('mcda.layer_editor.outliers_options.hide')}`, value: 'hide' },
-  { title: `${i18n.t('mcda.layer_editor.outliers_options.dont_modify')}`, value: 'keep' },
+  {
+    title: `${i18n.t('mcda.layer_editor.outliers_options.dont_modify')}`,
+    value: 'do_not_modify',
+  },
 ];
 
 export const transformOptions: SelectableItem[] = [
