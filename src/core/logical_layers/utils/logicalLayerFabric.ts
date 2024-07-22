@@ -217,7 +217,7 @@ export function createLogicalLayerAtom(
             );
           } else if (state.source.style?.type === 'mcda') {
             downloadObject(
-              state.source.style.config,
+              state.source.style,
               `${
                 state.settings?.name || state.id || 'MCDA'
               }-${new Date().toISOString()}.json`,
