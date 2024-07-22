@@ -13,6 +13,7 @@ import type { Unsubscribe } from '@reatom/core';
 let focusedGeometryUnsubscribe: Unsubscribe | null;
 
 const focusedGeometryAtom = focusedGeometryAtomV2.v3atom;
+const resetFocusedGeometryAction = focusedGeometryAtomV2.reset.v3action;
 
 export const saveAsReferenceAreaControl = toolbar.setupControl({
   id: SAVE_AS_REFERENCE_AREA_CONTROL_ID,
@@ -31,7 +32,8 @@ async function saveFocusedGeometryAsReferenceArea() {
   if (focusedGeometryExists(geometryState)) {
     const geometry = (geometryState as FocusedGeometry)?.geometry;
     await updateReferenceArea(geometry);
-    setReferenceArea(store.v3ctx, geometry);
+    await setReferenceArea(store.v3ctx, geometry);
+    resetFocusedGeometryAction(store.v3ctx);
     notificationServiceInstance.success(
       {
         title: i18n.t('reference_area.selected_area_saved_as_reference_area'),
