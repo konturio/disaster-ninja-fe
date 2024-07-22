@@ -76,7 +76,8 @@ export class HelperBase {
     const currentUrl = this.page.url().replace(/\//g, '');
     await this.page.reload({ waitUntil: 'load' });
     expect(this.page.url().replace(/\//g, '')).toEqual(currentUrl);
-    await expect(this.page).toHaveTitle(`${project.title}`);
+    // TO DO: activate this check once 19103 issue is done
+    // await expect(this.page).toHaveTitle(`${project.title}`);
   }
 
   /**

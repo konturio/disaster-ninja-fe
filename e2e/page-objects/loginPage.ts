@@ -11,11 +11,11 @@ export class LoginPage extends HelperBase {
 
   async typeLoginPasswordAndLogin(email: string, password: string) {
     await this.checkLoginAndSignupPresence();
-    // Getting email field and type in like real user
+    // Getting email field and type in
     const emailInput = this.page.getByRole('textbox').first();
     await emailInput.fill(email);
 
-    // Getting password field and type in like real user
+    // Getting password field and type in
     const passwordInput = this.page.locator('input[type="password"]');
     await passwordInput.fill(password);
 
