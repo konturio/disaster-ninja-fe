@@ -27,6 +27,7 @@ export const sentimentsOptions: SelectableItem[] = [
 export const outliersOptions: SelectableItem[] = [
   { title: `${i18n.t('mcda.layer_editor.as_values_on_limits')}`, value: 'as_on_limits' },
   { title: `${i18n.t('mcda.layer_editor.exclude')}`, value: 'exclude' },
+  { title: `${i18n.t('mcda.layer_editor.outliers_keep')}`, value: 'keep' },
 ];
 
 export const transformOptions: SelectableItem[] = [
