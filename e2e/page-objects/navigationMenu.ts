@@ -7,7 +7,10 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToMap() {
-    await this.page.locator('[value]').getByText('Map').click({ delay: 150 });
+    await this.page.locator('[value]').first().waitFor({ state: 'visible' });
+    const map = this.page.locator('[value]').getByText('Map');
+    await map.hover();
+    await map.click({ delay: 330 });
   }
 
   /**
@@ -15,6 +18,7 @@ export class NavigationMenu extends HelperBase {
    */
 
   async checkThereIsNoMap() {
+    await this.page.locator('[value]').first().waitFor({ state: 'visible' });
     await expect(this.page.locator('[value]').getByText('Map')).not.toBeVisible();
   }
 
@@ -23,17 +27,20 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToLoginPage() {
-    await this.page.locator('[value="profile"]').getByText('Login').click({ delay: 150 });
+    await this.page.locator('[value="profile"]').first().waitFor({ state: 'visible' });
+    const login = this.page.locator('[value="profile"]').getByText('Login');
+    await login.hover();
+    await login.click({ delay: 330 });
   }
 
   /**
    * This method opens up the profile page from navigation menu
    */
   async goToProfilePage() {
-    await this.page
-      .locator('[value="profile"]')
-      .getByText('Profile')
-      .click({ delay: 150 });
+    await this.page.locator('[value="profile"]').first().waitFor({ state: 'visible' });
+    const profile = this.page.locator('[value="profile"]').getByText('Profile');
+    await profile.hover();
+    await profile.click({ delay: 330 });
   }
 
   /**
@@ -41,9 +48,9 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToPrivacyPage() {
-    await this.page
-      .locator('[value="privacy"]')
-      .getByText('Privacy')
-      .click({ delay: 150 });
+    await this.page.locator('[value="privacy"]').first().waitFor({ state: 'visible' });
+    const privacy = this.page.locator('[value="privacy"]').getByText('Privacy');
+    await privacy.hover();
+    await privacy.click({ delay: 330 });
   }
 }

@@ -20,7 +20,7 @@ export class LoginPage extends HelperBase {
     await passwordInput.fill(password);
 
     // Getting Log in button and clicking
-    await this.page.getByRole('button', { name: 'Log in' }).click();
+    await this.page.getByRole('button', { name: 'Log in' }).click({ delay: 330 });
   }
 
   /**
@@ -43,7 +43,7 @@ export class LoginPage extends HelperBase {
     // Start waiting for new page being opened and click sign up
     const [keycloakPage] = await Promise.all([
       context.waitForEvent('page'),
-      this.page.getByText('Sign up').click({ delay: 150 }),
+      this.page.getByText('Sign up').click({ delay: 330 }),
     ]);
     await expect(keycloakPage).toHaveTitle(/Sign in/);
     return keycloakPage;

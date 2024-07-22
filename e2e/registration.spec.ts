@@ -37,11 +37,15 @@ for (const project of projects) {
 
     // Register and get admin token in parallel
     const [_, adminToken] = await Promise.all([
-      pageManager.atKeycloakPage.registerAndSeeVerificationEmailInfo(keycloakPage, {
-        fullName,
-        email,
-        password,
-      }),
+      pageManager.atKeycloakPage.registerAndSeeVerificationEmailInfo(
+        project,
+        keycloakPage,
+        {
+          fullName,
+          email,
+          password,
+        },
+      ),
       pageManager.atKeycloakPage.getAdminToken({
         project,
         apiContext,

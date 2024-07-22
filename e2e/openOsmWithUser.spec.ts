@@ -23,7 +23,7 @@ for (const project of projects) {
     const [newPage] = await Promise.all([
       context.waitForEvent('page'),
       (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click({
-        delay: 150,
+        delay: 330,
       }),
     ]);
 

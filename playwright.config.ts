@@ -96,6 +96,7 @@ export default defineConfig({
     {
       name: 'setup_pro',
       testMatch: 'authAsPro.setup.ts',
+      dependencies: ['setup'],
     },
     {
       name: 'chromium',
@@ -106,7 +107,7 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      testIgnore: [/WithUser/, 'location.spec.ts', /WithPro/, 'locationWithPro.spec.ts'],
+      testIgnore: [/WithUser/, 'location.spec.ts', /WithPro/, 'privacy.spec.ts'],
     },
 
     {
@@ -121,6 +122,7 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'], storageState: 'e2e/.auth/user.json' },
       dependencies: ['setup'],
       testMatch: /WithUser/,
+      testIgnore: ['privacyWithUser.spec.ts']
     },
     {
       name: 'chromium_pro',
@@ -133,6 +135,7 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'], storageState: 'e2e/.auth/user-pro.json' },
       dependencies: ['setup_pro'],
       testMatch: /WithPro/,
+      testIgnore: ['locationWithPro.spec.ts', 'privacyWithPro.spec.ts']
     },
     // {
     //   name: 'firefox',

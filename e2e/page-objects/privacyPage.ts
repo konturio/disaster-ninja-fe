@@ -62,7 +62,7 @@ export class PrivacyPage extends HelperBase {
       if (link.linkValidation.shouldOpen) {
         const [page] = await Promise.all([
           context.waitForEvent('page', { timeout: 15000 }),
-          linkElement.click({ delay: 150 }),
+          linkElement.click({ delay: 330 }),
         ]);
         await page.waitForLoadState('domcontentloaded');
         expect(page.url()).toEqual(link.linkValidation.expectedUrl);

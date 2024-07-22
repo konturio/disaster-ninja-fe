@@ -38,7 +38,7 @@ export class ProfilePage extends HelperBase {
    * This method clicks log out and waits a bit after that
    */
   async clickLogout() {
-    await this.page.getByRole('button', { name: 'Log out' }).click({ delay: 150 });
+    await this.page.getByRole('button', { name: 'Log out' }).click({ delay: 330 });
   }
 
   /**
@@ -77,6 +77,9 @@ export class ProfilePage extends HelperBase {
     project: Project,
     { shouldOsmEditorBeSeenOnAtlas }: ProfileOptions,
   ) {
+    // Wait for a profile element to be ready for actions
+    await this.page.getByText('Settings').waitFor({ state: 'visible' });
+
     const emailValue = await this.getEmailValueAndCheckThisFieldIsDisabled();
     const fullNameValue = await this.getFullNameValue();
 

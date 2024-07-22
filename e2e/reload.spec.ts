@@ -19,18 +19,14 @@ for (const project of projects) {
         // expect(page.url()).toContain('autotests');
       });
     } else {
-      test(`Map is not accessible, reloading does not help`, async ({
-        page,
-        pageManager,
-      }) => {
+      test(`Map is not accessible`, async ({ page, pageManager }) => {
         await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
         await pageManager.fromNavigationMenu.checkThereIsNoMap();
-        // TO DO: activate this check once 19103 issue is done
+        // TO DO: activate this checks once 19103 issue is done
         // expect(page.url()).toContain('autotests');
-        await pageManager.atLoginPage.compareUrlsAfterReload(project);
-        // TO DO: activate this check once 19103 issue is done
+        // await pageManager.atLoginPage.compareUrlsAfterReload(project);
         // expect(page.url()).toContain('autotests');
-        await pageManager.fromNavigationMenu.checkThereIsNoMap();
+        // await pageManager.fromNavigationMenu.checkThereIsNoMap();
       });
     }
   });

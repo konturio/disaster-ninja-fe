@@ -72,6 +72,7 @@ export class KeycloakPage extends HelperBase {
    */
 
   async registerAndSeeVerificationEmailInfo(
+    project: Project,
     page: Page,
     { fullName, email, password }: RegistrationData,
   ) {
@@ -79,7 +80,7 @@ export class KeycloakPage extends HelperBase {
     await page.locator('#email').fill(email);
     await page.locator('#password').fill(password);
     await page.locator('#password-confirm').fill(password);
-    await page.locator('#termsAccepted').check();
+    if (project.env !== 'dev') await page.locator('#termsAccepted').check();
     await page.locator('[type = "submit"]').click({ force: true });
     await page.locator(':text("Email verification")').waitFor({ state: 'visible' });
     await expect(
