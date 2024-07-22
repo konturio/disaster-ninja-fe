@@ -118,7 +118,7 @@ export const calculateLayerPipeline =
       transformation: transformationFunction,
     });
     let rangeChecked = tX;
-    if (outliers === 'as_on_limits') {
+    if (outliers === 'clamp') {
       if (rangeChecked < tMin) {
         rangeChecked = tMin;
       } else if (rangeChecked > tMax) {

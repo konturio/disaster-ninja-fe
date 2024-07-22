@@ -115,7 +115,7 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
         unit: formatBivariateAxisUnit(axis.quotients),
         range: getRange(axis),
         sentiment: sentimentDirection,
-        outliers: 'as_on_limits',
+        outliers: 'clamp',
         coefficient: 1,
         transformationFunction: 'no',
         normalization: 'max-min',
