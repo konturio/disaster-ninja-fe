@@ -56,38 +56,37 @@ export function MCDAForm({
     },
     [],
   );
-  const [axisesResource] = useAtom(availableBivariateAxesAtom);
-  // console.log({axisesResource});
+  const [axesResource] = useAtom(availableBivariateAxesAtom);
   const inputItems = useMemo(() => {
     const sortedItems = sortByAlphabet<Axis>(
-      axisesResource?.data ?? [],
+      axesResource?.data ?? [],
       (axis) => axis.label,
     );
     return sortedItems.map((d) => ({
       title: `${generateEmojiPrefix(d.quotients?.[0]?.emoji)} ${d.label}`,
       value: d.id,
     }));
-  }, [axisesResource]);
+  }, [axesResource]);
 
   useEffect(() => {
     // Setup indicators input initial state after we get available indicators
     const preselected = new Set(initialState.axises.map((a) => a.id));
-    if (axisesResource.data && !selectionInitialized && preselected.size > 0) {
+    if (axesResource.data && !selectionInitialized && preselected.size > 0) {
       selectIndicators(
-        axisesResource.data
+        axesResource.data
           .filter((a) => preselected.has(a.id))
           .map((ind) => ({ value: ind.id, title: ind.label })),
       );
       setSelectionInitialized(true);
     }
-  }, [initialState.axises, axisesResource, selectionInitialized]);
+  }, [initialState.axises, axesResource, selectionInitialized]);
 
   // Possible exits
   const cancelAction = useCallback(() => onConfirm(null), [onConfirm]);
   const saveAction = useCallback(() => {
-    if (axisesResource.data) {
+    if (axesResource.data) {
       const selection = new Set(selectedIndicators.map((ind) => ind.value));
-      const onlySelectedIndicators = axisesResource.data.filter((ind) =>
+      const onlySelectedIndicators = axesResource.data.filter((ind) =>
         selection.has(ind.id),
       );
       onConfirm({
@@ -95,7 +94,7 @@ export function MCDAForm({
         axises: onlySelectedIndicators,
       });
     }
-  }, [axisesResource, selectedIndicators, onConfirm, name]);
+  }, [axesResource, selectedIndicators, onConfirm, name]);
 
   const sortDropdownItems = useCallback(
     (items: SelectableItem[], search: string): SelectableItem[] => {
@@ -107,7 +106,7 @@ export function MCDAForm({
     [],
   );
 
-  const statesToComponents = createStateMap(axisesResource);
+  const statesToComponents = createStateMap(axesResource);
 
   const indicatorsSelector = statesToComponents({
     init: <div>{'Preparing data'}</div>,
@@ -139,7 +138,7 @@ export function MCDAForm({
           </Button>
           <Button
             disabled={
-              !axisesResource.data || selectedIndicators.length === 0 || !name?.length
+              !axesResource.data || selectedIndicators.length === 0 || !name?.length
             }
             type="submit"
             onClick={saveAction}
