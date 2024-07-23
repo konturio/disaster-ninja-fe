@@ -1,39 +1,41 @@
+import {
+  withDataAtom,
+  reatomAsync,
+  withErrorAtom,
+  withStatusesAtom,
+} from '@reatom/async';
+import { onConnect } from '@reatom/hooks';
 import { atom } from '@reatom/core';
-import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
+import { getBivariateAxes } from '~core/api/mcda';
+import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axisDTOtoAxis';
+import type { Axis } from '~utils/bivariate';
 
-export const availableBivariateAxisesAtom = atom((ctx) => {
-  const axisesResource = ctx.spy(bivariateStatisticsResourceAtom.v3atom);
-  if (axisesResource.loading) {
-    return {
-      loading: true,
-      data: null,
-      error: null,
-    };
+export const availableBivariateAxesAtom = atom((ctx) => {
+  const axesResult = ctx.spy(bivariateAxesAsyncResource.dataAtom);
+  const isPending = ctx.spy(bivariateAxesAsyncResource.pendingAtom) > 0;
+  const error = ctx.spy(bivariateAxesAsyncResource.errorAtom);
+
+  let axes: Axis[] | null = null;
+  if (Array.isArray(axesResult)) {
+    axes = axesResult.map((ax) => axisDTOtoAxis(ax));
   }
 
-  if (axisesResource.error) {
-    return {
-      loading: false,
-      data: null,
-      error: axisesResource.error,
-    };
-  }
+  return { data: axes, loading: isPending, error: error?.message ?? null };
+}, 'availableBivariateAxesAtom');
 
-  if (axisesResource.data) {
-    const prepared =
-      axisesResource.data?.axis
-        // Remove low quality axes
-        .filter((a) => a.quality && a.quality > 0.5) ?? [];
-    return {
-      loading: false,
-      data: prepared,
-      error: null,
-    };
-  }
+const bivariateAxesAsyncResource = reatomAsync((ctx) => {
+  return getBivariateAxes(0.5, ctx.controller);
+}, 'bivariateAxesAsyncResource').pipe(
+  withDataAtom(null),
+  withErrorAtom(),
+  withStatusesAtom(),
+);
 
-  return {
-    loading: false,
-    data: [],
-    error: null,
-  };
-}, 'availableBivariateAxises');
+onConnect(bivariateAxesAsyncResource, (ctx) => {
+  const axesResult = ctx.get(bivariateAxesAsyncResource.dataAtom);
+  const errorRaw = ctx.get(bivariateAxesAsyncResource.errorAtom);
+  if (!axesResult?.length || errorRaw) {
+    // if no data yet, or if the previous fetch failed, refetch the data
+    bivariateAxesAsyncResource(ctx);
+  }
+});
