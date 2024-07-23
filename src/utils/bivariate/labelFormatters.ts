@@ -11,14 +11,14 @@ export const convertDirectionsArrayToLabel = (directions: string[][]) => {
 };
 
 export const formatCustomLabelForBivariateAxis = (
-  cusotmLabel: string,
+  customLabel: string,
   quotients: Axis['quotients'],
 ): string => {
   const units = formatBivariateAxisUnit(quotients);
   if (units) {
-    return `${cusotmLabel} (${units})`;
+    return `${customLabel} (${units})`;
   }
-  return cusotmLabel;
+  return customLabel;
 };
 
 export const formatBivariateAxisLabel = (quotients: Axis['quotients']): string => {
