@@ -33,7 +33,6 @@ export function MCDAForm({
   initialState: FormInitialState;
   onConfirm: (value: FormResult | null) => void;
 }) {
-  // useEffect(() => console.log('MCDAForm'), []);
   // Layer name input
   const [name, setName] = useState(initialState.name);
   const [nameError, setNameError] = useState<string>('');
