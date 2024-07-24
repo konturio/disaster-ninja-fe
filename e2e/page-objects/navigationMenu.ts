@@ -7,8 +7,8 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToMap() {
-    await this.page.locator('[value]').first().waitFor({ state: 'visible' });
-    const map = this.page.locator('[value]').getByText('Map');
+    await this.page.locator('[value="map"]').first().waitFor({ state: 'visible' });
+    const map = this.page.locator('[value="map"]').getByText('Map');
     await map.hover();
     await map.click({ delay: 330 });
   }
@@ -18,8 +18,8 @@ export class NavigationMenu extends HelperBase {
    */
 
   async checkThereIsNoMap() {
-    await this.page.locator('[value]').first().waitFor({ state: 'visible' });
-    await expect(this.page.locator('[value]').getByText('Map')).not.toBeVisible();
+    await this.page.locator('[value="map"]').first().waitFor({ state: 'visible' });
+    await expect(this.page.locator('[value="map"]').getByText('Map')).not.toBeVisible();
   }
 
   /**
