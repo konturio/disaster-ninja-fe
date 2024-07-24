@@ -103,10 +103,10 @@ class Calculations<T> implements IsomorphCalculations<T> {
             this.math.add(this.math.sub(x, datasetMin), Number.EPSILON as T),
           ),
           tMin: this.math.log10(
-            this.math.add(this.math.sub(max, datasetMin), Number.EPSILON as T),
+            this.math.add(this.math.sub(min, datasetMin), Number.EPSILON as T),
           ),
           tMax: this.math.log10(
-            this.math.add(this.math.sub(min, datasetMin), Number.EPSILON as T),
+            this.math.add(this.math.sub(max, datasetMin), Number.EPSILON as T),
           ),
         };
     }
