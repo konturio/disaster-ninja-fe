@@ -114,10 +114,11 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
         indicators: axis.quotients ?? [],
         unit: formatBivariateAxisUnit(axis.quotients),
         range: getRange(axis),
+        datasetRange: getRange(axis),
         sentiment: sentimentDirection,
         outliers: 'as_on_limits',
         coefficient: 1,
-        transformationFunction: 'no',
+        transformationFunction: axis.transformation?.transformation ?? 'no',
         normalization: 'max-min',
       });
     } catch (e) {
