@@ -7,10 +7,11 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToMap() {
-    await this.page.locator('[value="map"]').first().waitFor({ state: 'visible' });
-    const map = this.page.locator('[value="map"]').getByText('Map');
-    await map.hover();
-    await map.click({ delay: 330 });
+    // TO DO: replace locator here once 19141 task is done, refactor this logics
+    // When no need will be present to get locator every time
+    await this.page.getByText('Map', { exact: true }).waitFor({ state: 'visible' });
+    await this.page.getByText('Map', { exact: true }).hover();
+    await this.page.getByText('Map', { exact: true }).click({ delay: 330, force: true });
   }
 
   /**
@@ -18,8 +19,9 @@ export class NavigationMenu extends HelperBase {
    */
 
   async checkThereIsNoMap() {
-    await this.page.locator('[value="map"]').first().waitFor({ state: 'visible' });
-    await expect(this.page.locator('[value="map"]').getByText('Map')).not.toBeVisible();
+    // TO DO: replace locator here once 19141 task is done
+    await this.page.locator('[value]').first().waitFor({ state: 'visible' });
+    await expect(this.page.locator('[value]').getByText('Map')).not.toBeVisible();
   }
 
   /**
@@ -27,20 +29,28 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToLoginPage() {
+    // TO DO: replace locator here once 19141 task is done, refactor this logics
+    // When no need will be present to get locator every time
     await this.page.locator('[value="profile"]').first().waitFor({ state: 'visible' });
-    const login = this.page.locator('[value="profile"]').getByText('Login');
-    await login.hover();
-    await login.click({ delay: 330 });
+    await this.page.locator('[value="profile"]').getByText('Login').hover();
+    await this.page
+      .locator('[value="profile"]')
+      .getByText('Login')
+      .click({ delay: 330, force: true });
   }
 
   /**
    * This method opens up the profile page from navigation menu
    */
   async goToProfilePage() {
+    // TO DO: replace locator here once 19141 task is done, refactor this logics
+    // When no need will be present to get locator every time
     await this.page.locator('[value="profile"]').first().waitFor({ state: 'visible' });
-    const profile = this.page.locator('[value="profile"]').getByText('Profile');
-    await profile.hover();
-    await profile.click({ delay: 330 });
+    await this.page.locator('[value="profile"]').getByText('Profile').hover();
+    await this.page
+      .locator('[value="profile"]')
+      .getByText('Profile')
+      .click({ delay: 330, force: true });
   }
 
   /**
@@ -48,9 +58,13 @@ export class NavigationMenu extends HelperBase {
    */
 
   async goToPrivacyPage() {
+    // TO DO: replace locator here once 19141 task is done, refactor this logics
+    // When no need will be present to get locator every time
     await this.page.locator('[value="privacy"]').first().waitFor({ state: 'visible' });
-    const privacy = this.page.locator('[value="privacy"]').getByText('Privacy');
-    await privacy.hover();
-    await privacy.click({ delay: 330 });
+    await this.page.locator('[value="privacy"]').getByText('Privacy').hover();
+    await this.page
+      .locator('[value="privacy"]')
+      .getByText('Privacy')
+      .click({ delay: 330, force: true });
   }
 }

@@ -77,6 +77,8 @@ export class ProfilePage extends HelperBase {
     project: Project,
     { shouldOsmEditorBeSeenOnAtlas }: ProfileOptions,
   ) {
+    // TO DO: remove  once 19141 task is done
+    await this.page.waitForTimeout(1000);
     // Wait for a profile element to be ready for actions
     await this.page.getByText('Settings').waitFor({ state: 'visible' });
 

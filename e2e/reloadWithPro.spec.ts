@@ -11,7 +11,7 @@ for (const project of projects) {
     });
     test(`Url of map is still the same`, async ({ page, pageManager }) => {
       await pageManager.fromNavigationMenu.goToMap();
-      if (project.name != 'disaster-ninja')
+      if (project.name !== 'disaster-ninja')
         await pageManager.atBrowser.waitForUrlToMatchPattern(/map=/);
       // TO DO: activate this check once 19103 issue is done
       // expect(page.url()).toContain('autotests');
