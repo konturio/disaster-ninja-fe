@@ -16,7 +16,7 @@ export type ColorsBySentiments = {
   };
 };
 
-export type OutliersPolicy = 'as_on_limits' | 'exclude';
+export type OutliersPolicy = 'clamp' | 'hide' | 'unmodified';
 
 type MCDAIndicator = Omit<Indicator, 'direction'>;
 

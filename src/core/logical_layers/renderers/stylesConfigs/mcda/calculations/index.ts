@@ -139,6 +139,7 @@ export const calculateLayerPipeline =
     sentiment,
     transformationFunction,
     normalization,
+    outliers,
     datasetRange,
   }: MCDAConfig['layers'][0]) => {
     const [num, den] = axis;
@@ -161,10 +162,18 @@ export const calculateLayerPipeline =
       datasetMin: datasetMin,
       transformation: transformationFunction,
     });
+    let rangeChecked = tX;
+    if (outliers === 'clamp') {
+      if (rangeChecked < tMin) {
+        rangeChecked = tMin;
+      } else if (rangeChecked > tMax) {
+        rangeChecked = tMax;
+      }
+    }
     const normalized =
       normalization === 'max-min'
-        ? operations.normalize({ x: tX, min: tMin, max: tMax })
-        : tX;
+        ? operations.normalize({ x: rangeChecked, min: tMin, max: tMax })
+        : rangeChecked;
     const orientated = inverted ? operations.invert(normalized) : normalized;
     const scaled = operations.scale(orientated, coefficient);
     return scaled;

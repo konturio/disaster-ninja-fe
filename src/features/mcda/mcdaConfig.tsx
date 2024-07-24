@@ -116,7 +116,7 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
         range: getRange(axis),
         datasetRange: getRange(axis),
         sentiment: sentimentDirection,
-        outliers: 'as_on_limits',
+        outliers: 'clamp',
         coefficient: 1,
         transformationFunction: axis.transformation?.transformation ?? 'no',
         normalization: 'max-min',

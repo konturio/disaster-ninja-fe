@@ -105,7 +105,7 @@ const TEST_MCDA_LAYER: MCDALayer = {
   range: [0, 100],
   sentiment: ['bad', 'good'],
   coefficient: 1,
-  outliers: 'as_on_limits',
+  outliers: 'clamp',
   transformationFunction: 'no',
   normalization: 'max-min',
   unit: '',
