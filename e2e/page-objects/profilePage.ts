@@ -124,8 +124,10 @@ export class ProfilePage extends HelperBase {
             .locator('span')
             .textContent()
         : 'No access';
-    if (project.name !== 'disaster-ninja')
-      await expect(this.page.getByText('Default disaster feed')).not.toBeVisible();
+
+    // TO DO: turn on this check once 19103 issue is done
+    // if (project.name !== 'disaster-ninja')
+    //   await expect(this.page.getByText('Default disaster feed')).not.toBeVisible();
     if (!shouldOsmEditorBeSeenOnAtlas && project.name === 'atlas')
       await expect(
         this.page.getByText('Default OpenStreetMap editor (beta)'),

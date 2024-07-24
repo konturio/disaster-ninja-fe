@@ -43,7 +43,7 @@ for (const project of projects) {
 
   // Prod has other dimensions of screenshots so test fails if using wrong screenshot. Screenshots are created by test name, browser and OS by playwright
 
-  if (project.env != 'prod') {
+  if (project.env !== 'prod') {
     test(`As Guest, I can click Locate me button at ${project.title} and get zoomed to my location`, async ({
       pageManager,
     }) => {
