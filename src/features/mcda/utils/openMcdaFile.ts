@@ -43,7 +43,10 @@ function readMcdaJSONFile(file): Promise<MCDAConfig> {
       if (!s) return;
       try {
         const json = JSON.parse(s);
-        const mcdaConfig = createMCDAConfigFromJSON(json);
+        // if json has "type" property, it's MCDALayerStyle, otherwise we assume it's MCDAConfig
+        const jsonConfig: Partial<MCDAConfig> =
+          json?.type === 'mcda' ? json.config : json;
+        const mcdaConfig = createMCDAConfigFromJSON(jsonConfig);
         res({ ...mcdaConfig, custom: true } as MCDAConfig);
       } catch (error) {
         rej(error);

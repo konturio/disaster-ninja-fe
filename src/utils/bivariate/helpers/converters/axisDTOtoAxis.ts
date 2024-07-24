@@ -12,5 +12,9 @@ export function axisDTOtoAxis(dto: AxisDTO): Axis {
     label: dto.label
       ? formatCustomBivariateAxisLabel(dto.label, dto.quotients)
       : formatBivariateAxisLabel(dto.quotients),
+    transformation: {
+      ...dto.transformation!,
+      transformation: dto.transformation?.transformation ?? 'no',
+    },
   };
 }

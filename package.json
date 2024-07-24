@@ -96,6 +96,7 @@
     "@reatom/async": "^3.15.2",
     "@reatom/core": "^3.8.3",
     "@reatom/core-v2": "^3.1.4",
+    "@reatom/hooks": "^3.5.5",
     "@reatom/logger": "^3.8.4",
     "@reatom/npm-react": "^3.8.10",
     "@reatom/react-v2": "^3.1.2",

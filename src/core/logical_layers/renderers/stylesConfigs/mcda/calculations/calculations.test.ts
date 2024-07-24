@@ -25,6 +25,11 @@ const calculateNumber = calculateLayerPipeline(inViewCalculations, (axis) => ({
   den: 1,
 }));
 
+const calculateNegativeNumber = calculateLayerPipeline(inViewCalculations, (axis) => ({
+  num: -10,
+  den: 1,
+}));
+
 test('Transformations correct: square_root', () => {
   const result = calculateNumber({
     ...TEST_MCDA_LAYER,
@@ -34,13 +39,43 @@ test('Transformations correct: square_root', () => {
   expect(result).toBe(0.31622776601683794);
 });
 
-test('Transformations correct: natural_logarithm', () => {
-  const result = calculateNumber({
+test('Transformations correct: square_root for negative values', () => {
+  const result = calculateNegativeNumber({
     ...TEST_MCDA_LAYER,
-    transformationFunction: 'natural_logarithm',
+    transformationFunction: 'square_root',
+    range: [-100, 0],
   });
 
-  expect(result).toBe(0.5195737064824407);
+  expect(result).toBe(0.683772233983162);
+});
+
+test('Transformations correct: cube_root', () => {
+  const result = calculateNumber({
+    ...TEST_MCDA_LAYER,
+    transformationFunction: 'cube_root',
+  });
+
+  expect(result).toBe(0.46415888336127786);
+});
+
+test('Transformations correct: log', () => {
+  const result = calculateNegativeNumber({
+    ...TEST_MCDA_LAYER,
+    range: [-20, 100],
+    transformationFunction: 'log',
+  });
+
+  expect(result).toBe(0.2610207200288388);
+});
+
+test('Transformations correct: log_epsilon', () => {
+  const result = calculateNegativeNumber({
+    ...TEST_MCDA_LAYER,
+    range: [-20, 100],
+    transformationFunction: 'log_epsilon',
+  });
+
+  expect(result).toBe(0.27023815442731974);
 });
 
 const TEST_MCDA_LAYER: MCDALayer = {
@@ -70,8 +105,9 @@ const TEST_MCDA_LAYER: MCDALayer = {
   range: [0, 100],
   sentiment: ['bad', 'good'],
   coefficient: 1,
-  outliers: 'as_on_limits',
+  outliers: 'clamp',
   transformationFunction: 'no',
   normalization: 'max-min',
   unit: '',
+  datasetRange: [-30, 100],
 };

@@ -25,17 +25,35 @@ export const sentimentsOptions: SelectableItem[] = [
 ];
 
 export const outliersOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.as_values_on_limits')}`, value: 'as_on_limits' },
-  { title: `${i18n.t('mcda.layer_editor.exclude')}`, value: 'exclude' },
+  {
+    title: `${i18n.t('mcda.layer_editor.outliers_options.clamp')}`,
+    value: 'clamp',
+  },
+  { title: `${i18n.t('mcda.layer_editor.outliers_options.hide')}`, value: 'hide' },
+  {
+    title: `${i18n.t('mcda.layer_editor.outliers_options.dont_modify')}`,
+    value: 'unmodified',
+  },
 ];
 
 export const transformOptions: SelectableItem[] = [
-  { title: `${i18n.t('mcda.layer_editor.no')}`, value: 'no' },
   {
-    title: `${i18n.t('mcda.layer_editor.natural_logarithm')}`,
-    value: 'natural_logarithm',
+    title: `${i18n.t('mcda.layer_editor.transformations.no_transformation')}`,
+    value: 'no',
   },
-  { title: `${i18n.t('mcda.layer_editor.square_root')}`, value: 'square_root' },
+  {
+    title: `${i18n.t('mcda.layer_editor.transformations.square_root')}`,
+    value: 'square_root',
+  },
+  {
+    title: `${i18n.t('mcda.layer_editor.transformations.cube_root')}`,
+    value: 'cube_root',
+  },
+  { title: `${i18n.t('mcda.layer_editor.transformations.log_one')}`, value: 'log' },
+  {
+    title: `${i18n.t('mcda.layer_editor.transformations.log_epsilon')}`,
+    value: 'log_epsilon',
+  },
 ];
 
 export const normalizationOptions: SelectableItem[] = [

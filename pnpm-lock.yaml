@@ -79,6 +79,9 @@ importers:
       '@reatom/core-v2':
         specifier: ^3.1.4
         version: 3.1.4
+      '@reatom/hooks':
+        specifier: ^3.5.5
+        version: 3.5.5
       '@reatom/logger':
         specifier: ^3.8.4
         version: 3.8.4
@@ -1428,8 +1431,8 @@ packages:
   '@reatom/effects@3.7.3':
     resolution: {integrity: sha512-9DrUsGSRXtt0TMYtzNRc2xtkZ+35OcvjILppcvwYlgMWoA7s1TJUCLEtHOngzVqQYrJMW+Dzw1t1xLlLVXMQUg==}
 
-  '@reatom/hooks@3.5.2':
-    resolution: {integrity: sha512-mZJP+fsv+cg35vPEbdEJ4AroSDqnXaK9DpLq8M0AXg97UPJY2c2IoztD0mvEVkFSBxoGAsTXO89m8ZgZxVud2Q==}
+  '@reatom/hooks@3.5.5':
+    resolution: {integrity: sha512-6exYUEB9MuqOaIMEaeiapar/TLx7fkrZnULBg5+gW2krhugzpDufapN6C7taiQuPS58NKLOQhVvz+ZzSQN5HbA==}
 
   '@reatom/lens@3.9.1':
     resolution: {integrity: sha512-od3Ni2iMfxdjWp7CKtzZX7wA6/PQdJDnSut2uOqFgxaF+PGBao+tlV+RdVO5MoSoenZTSL7IUQw8YERXhAoViA==}
@@ -8380,7 +8383,7 @@ snapshots:
     dependencies:
       '@reatom/core': 3.8.3
       '@reatom/effects': 3.7.3
-      '@reatom/hooks': 3.5.2
+      '@reatom/hooks': 3.5.5
       '@reatom/primitives': 3.7.2
       '@reatom/utils': 3.9.0
 
@@ -8395,7 +8398,7 @@ snapshots:
       '@reatom/core': 3.8.3
       '@reatom/utils': 3.9.0
 
-  '@reatom/hooks@3.5.2':
+  '@reatom/hooks@3.5.5':
     dependencies:
       '@reatom/core': 3.8.3
       '@reatom/effects': 3.7.3
@@ -8405,7 +8408,7 @@ snapshots:
     dependencies:
       '@reatom/core': 3.8.3
       '@reatom/effects': 3.7.3
-      '@reatom/hooks': 3.5.2
+      '@reatom/hooks': 3.5.5
       '@reatom/utils': 3.9.0
 
   '@reatom/logger@3.8.4':

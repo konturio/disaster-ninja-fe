@@ -6,9 +6,9 @@ import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
-import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
+import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
 import { Sentiments } from '../Sentiments';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
@@ -62,11 +62,11 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setOutliers(layer.outliers ?? DEFAULTS.outliers);
   }, [layer]);
 
-  const [axes] = useAtom((ctx) => ctx.spy(bivariateStatisticsResourceAtom.v3atom));
+  const [axes] = useAtom((ctx) => ctx.spy(availableBivariateAxesAtom));
 
   const axisDefaultRange = useMemo(() => {
     if (!axes.loading) {
-      const relatedAxis = axes?.data?.axis.find((axis) => axis.id === layer.id);
+      const relatedAxis = axes?.data?.find((axis) => axis.id === layer.id);
       const steps = relatedAxis?.steps;
       const min = steps?.at(0)?.value;
       const max = steps?.at(-1)?.value;
@@ -75,7 +75,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       }
     }
     return null;
-  }, [axes?.data?.axis, axes?.loading, layer.id]);
+  }, [axes?.data, axes?.loading, layer.id]);
 
   const mcdaLayerHint: LayerInfo[] = useMemo(() => {
     const description = layer.indicators?.[0]?.description;
@@ -197,12 +197,14 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       coefficient: isNumber(coefficientNum) ? coefficientNum : 1,
       transformationFunction: transform,
       normalization,
+      datasetRange: layer.datasetRange,
     };
     setEditMode(false);
     onLayerEdited(updatedLayer);
   }, [
     coefficient,
     layer.axis,
+    layer.datasetRange,
     layer.id,
     layer.indicators,
     layer.name,

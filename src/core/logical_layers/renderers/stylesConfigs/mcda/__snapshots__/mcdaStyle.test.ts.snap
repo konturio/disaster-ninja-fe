@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`createMCDAStyle > filterSetup() > creates correct filter when both MCDA layers have outliers === "as_on_limits" 1`] = `
+exports[`createMCDAStyle > filterSetup() > creates correct filter when both MCDA layers have outliers === "clamp" 1`] = `
 [
   "all",
   [
@@ -55,7 +55,7 @@ exports[`createMCDAStyle > filterSetup() > creates correct filter when both MCDA
 ]
 `;
 
-exports[`createMCDAStyle > filterSetup() > creates correct filter when one of the MCDA layers has outliers === "exclude" 1`] = `
+exports[`createMCDAStyle > filterSetup() > creates correct filter when one of the MCDA layers has outliers === "hide" 1`] = `
 [
   "all",
   [

@@ -1,4 +1,3 @@
-import { createAtom } from '@reatom/core-v2';
 import { atom } from '@reatom/core';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
