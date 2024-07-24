@@ -2,13 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 set -e
-EXIT_CODE=0
-git diff HEAD --quiet || EXIT_CODE=$?
 
-if [ $EXIT_CODE == 1 ]; then
-  echo -e "\e[31mLook like you have unstaged files\e[0m"
-  exit 1
-fi
 
 npm run typecheck
 npm run depcruise
