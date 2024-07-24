@@ -7,7 +7,7 @@ import { LogLevel } from '@slack/web-api/dist/index.js';
  */
 
 dotenv.config({
-  path: ['.env.playwright.production', '.env.playwright.local', '.env.playwright'],
+  path: ['.env.playwright.local', '.env.playwright.production', '.env.playwright'],
 });
 
 /**

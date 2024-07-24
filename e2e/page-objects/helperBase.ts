@@ -112,6 +112,21 @@ export function getProjects() {
 
   const appName = process.env.APP_NAME ?? 'all';
   const environment = process.env.ENVIRONMENT ?? 'prod';
+
+  if (environment === 'local') {
+    const projects: Project[] = JSON.parse(data)
+      .filter((project: Project) => project.env === 'dev')
+      .filter((project: Project) => appName === 'all' || project.name === appName)
+      .map((project: Project) => {
+        const localhostUrl = project.url.replace(
+          new URL(project.url).origin,
+          `https://localhost:3000`,
+        );
+        return { ...project, url: localhostUrl };
+      });
+    return projects;
+  }
+
   const projects: Project[] = JSON.parse(data)
     .filter((project: Project) => project.env === environment)
     .filter((project: Project) => appName === 'all' || project.name === appName);
