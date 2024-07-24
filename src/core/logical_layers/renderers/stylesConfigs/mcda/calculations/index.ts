@@ -6,13 +6,16 @@ import type { MCDAConfig, TransformationFunction } from '../types';
 const equalSentiments = (a: Array<string>, b: Array<string>) =>
   a.length === b.length && a.every((x, i) => x === b[i]);
 
-// x - hex value
-// min, max - current range min and max
-// datasetMin - minimal value in dataset for indicator, constant value
 interface IsomorphCalculations<T> {
   rate: (args: { num: T; den: T }) => T;
   /** (x - min) / (max - min) */
   normalize: (args: { x: T; min: T; max: T }) => T;
+  /**
+   * transformation({ x, min, max }) => { tX, tMin, tMax }
+   * @param min lower bound of the applied range. Must be >= datasetMin
+   * @param max upper bound of the applied range
+   * @param datasetMin global minimum of the axis dataset
+   */
   transform: (args: {
     x: T;
     transformation: TransformationFunction;
@@ -66,7 +69,7 @@ class Calculations<T> implements IsomorphCalculations<T> {
           tMax: max,
         };
 
-      /* square_root: (sqrt(x) - sqrt(min)) / (sqrt(max) - sqrt(min)) */
+      /* square_root: sign(x)√(|x|) */
       case 'square_root':
         return {
           tX: this.math.mult(this.math.sign(x), this.math.sqrt(this.math.abs(x))),
@@ -74,7 +77,7 @@ class Calculations<T> implements IsomorphCalculations<T> {
           tMax: this.math.mult(this.math.sign(max), this.math.sqrt(this.math.abs(max))),
         };
 
-      /* cube_root: (cbrt(x) - cbrt(min)) / (cbrt(max) - cbrt(min)) */
+      /* cube_root:  ∛x */
       case 'cube_root':
         return {
           tX: this.math.cbrt(x),
