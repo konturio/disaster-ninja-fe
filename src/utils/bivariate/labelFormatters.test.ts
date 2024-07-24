@@ -2,7 +2,7 @@ import { expect, describe, it } from 'vitest';
 import {
   hasUnits,
   formatBivariateAxisLabel,
-  formatCustomLabelForBivariateAxis,
+  formatCustomBivariateAxisLabel,
 } from './labelFormatters';
 import type { Axis } from '~utils/bivariate';
 
@@ -148,7 +148,7 @@ describe('BivariateLegend labels formatting', () => {
         },
       ];
       const customLabel = 'Custom man-distance label';
-      expect(formatCustomLabelForBivariateAxis(customLabel, quotients)).toEqual(
+      expect(formatCustomBivariateAxisLabel(customLabel, quotients)).toEqual(
         'Custom man-distance label (km/ppl)',
       );
     });
@@ -177,7 +177,7 @@ describe('BivariateLegend labels formatting', () => {
         },
       ];
       const customLabel = 'Custom man-distance label';
-      expect(formatCustomLabelForBivariateAxis(customLabel, quotients)).toEqual(
+      expect(formatCustomBivariateAxisLabel(customLabel, quotients)).toEqual(
         'Custom man-distance label',
       );
     });

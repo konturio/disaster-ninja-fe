@@ -10,15 +10,12 @@ export const convertDirectionsArrayToLabel = (directions: string[][]) => {
   return `${formatSentimentDirection(from)} → ${formatSentimentDirection(to)}`;
 };
 
-export const formatCustomLabelForBivariateAxis = (
+export const formatCustomBivariateAxisLabel = (
   customLabel: string,
   quotients: Axis['quotients'],
 ): string => {
   const units = formatBivariateAxisUnit(quotients);
-  if (units) {
-    return `${customLabel} (${units})`;
-  }
-  return customLabel;
+  return units ? `${customLabel} (${units})` : customLabel;
 };
 
 export const formatBivariateAxisLabel = (quotients: Axis['quotients']): string => {
