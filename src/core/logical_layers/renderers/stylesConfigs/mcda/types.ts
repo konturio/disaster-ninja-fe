@@ -33,6 +33,7 @@ export interface MCDALayer {
   transformationFunction: TransformationFunction;
   normalization: Normalization;
   unit: string | null;
+  datasetRange?: [number, number];
 }
 
 export interface MCDAConfig {
@@ -45,7 +46,12 @@ export interface MCDAConfig {
 }
 
 export type Normalization = 'max-min' | 'no';
-export type TransformationFunction = 'no' | 'natural_logarithm' | 'square_root';
+export type TransformationFunction =
+  | 'no'
+  | 'square_root'
+  | 'cube_root'
+  | 'log'
+  | 'log_epsilon';
 
 export interface MCDALayerStyle {
   type: 'mcda';

@@ -10,7 +10,19 @@ interface IsomorphCalculations<T> {
   rate: (args: { num: T; den: T }) => T;
   /** (x - min) / (max - min) */
   normalize: (args: { x: T; min: T; max: T }) => T;
-  transform: (args: { x: T; transformation: TransformationFunction; min: T; max: T }) => {
+  /**
+   * transformation({ x, min, max }) => { tX, tMin, tMax }
+   * @param min lower bound of the applied range. Must be >= datasetMin
+   * @param max upper bound of the applied range
+   * @param datasetMin global minimum of the axis dataset
+   */
+  transform: (args: {
+    x: T;
+    transformation: TransformationFunction;
+    min: T;
+    max: T;
+    datasetMin?: T;
+  }) => {
     tX: T;
     tMin: T;
     tMax: T;
@@ -40,11 +52,13 @@ class Calculations<T> implements IsomorphCalculations<T> {
     x,
     min,
     max,
+    datasetMin,
     transformation,
   }: {
     x: T;
     transformation: TransformationFunction;
     min: T;
+    datasetMin?: T;
     max: T;
   }) {
     switch (transformation) {
@@ -55,20 +69,48 @@ class Calculations<T> implements IsomorphCalculations<T> {
           tMax: max,
         };
 
-      /* square_root: (sqrt(x) - sqrt(min)) / (sqrt(max) - sqrt(min)) */
+      /* square_root: sign(x)√(|x|) */
       case 'square_root':
         return {
-          tX: this.math.sqrt(x),
-          tMin: this.math.sqrt(min),
-          tMax: this.math.sqrt(max),
+          tX: this.math.mult(this.math.sign(x), this.math.sqrt(this.math.abs(x))),
+          tMin: this.math.mult(this.math.sign(min), this.math.sqrt(this.math.abs(min))),
+          tMax: this.math.mult(this.math.sign(max), this.math.sqrt(this.math.abs(max))),
         };
 
-      /* natural_logarithm: (ln(x) - ln(min)) / (ln(max) - ln(min)) */
-      case 'natural_logarithm':
+      /* cube_root:  ∛x */
+      case 'cube_root':
         return {
-          tX: this.math.log(this.math.add(x, 1 as T)),
-          tMin: this.math.log(this.math.add(min, 1 as T)),
-          tMax: this.math.log(this.math.add(max, 1 as T)),
+          tX: this.math.cbrt(x),
+          tMin: this.math.cbrt(min),
+          tMax: this.math.cbrt(max),
+        };
+
+      /* log(x - datasetMin + 1) */
+      case 'log':
+        if (datasetMin === undefined) {
+          throw new Error('Could not find required data for given transformation');
+        }
+        return {
+          tX: this.math.log10(this.math.add(this.math.sub(x, datasetMin), 1 as T)),
+          tMin: this.math.log10(this.math.add(this.math.sub(min, datasetMin), 1 as T)),
+          tMax: this.math.log10(this.math.add(this.math.sub(max, datasetMin), 1 as T)),
+        };
+
+      /* log(x - datasetMin + ε) */
+      case 'log_epsilon':
+        if (datasetMin === undefined) {
+          throw new Error('Could not find required data for given transformation');
+        }
+        return {
+          tX: this.math.log10(
+            this.math.add(this.math.sub(x, datasetMin), Number.EPSILON as T),
+          ),
+          tMin: this.math.log10(
+            this.math.add(this.math.sub(min, datasetMin), Number.EPSILON as T),
+          ),
+          tMax: this.math.log10(
+            this.math.add(this.math.sub(max, datasetMin), Number.EPSILON as T),
+          ),
         };
     }
   }
@@ -98,9 +140,11 @@ export const calculateLayerPipeline =
     transformationFunction,
     normalization,
     outliers,
+    datasetRange,
   }: MCDAConfig['layers'][0]) => {
     const [num, den] = axis;
     const [min, max] = range;
+    const datasetMin = datasetRange?.[0];
     const inverted = equalSentiments(sentiment, sentimentReversed);
     if (!inverted)
       console.assert(
@@ -115,6 +159,7 @@ export const calculateLayerPipeline =
       x: rate,
       min,
       max,
+      datasetMin: datasetMin,
       transformation: transformationFunction,
     });
     let rangeChecked = tX;

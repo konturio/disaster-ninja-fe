@@ -7,5 +7,9 @@ export function axisDTOtoAxis(dto: AxisDTO): Axis {
     ...dto,
     id: dto.quotient.join('|'),
     label: dto.label || formatBivariateAxisLabel(dto.quotients),
+    transformation: {
+      ...dto.transformation!,
+      transformation: dto.transformation?.transformation ?? 'no',
+    },
   };
 }

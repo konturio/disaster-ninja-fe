@@ -197,12 +197,14 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       coefficient: isNumber(coefficientNum) ? coefficientNum : 1,
       transformationFunction: transform,
       normalization,
+      datasetRange: layer.datasetRange,
     };
     setEditMode(false);
     onLayerEdited(updatedLayer);
   }, [
     coefficient,
     layer.axis,
+    layer.datasetRange,
     layer.id,
     layer.indicators,
     layer.name,
