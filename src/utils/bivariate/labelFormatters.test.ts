@@ -1,5 +1,9 @@
 import { expect, describe, it } from 'vitest';
-import { hasUnits, formatBivariateAxisLabel } from './labelFormatters';
+import {
+  hasUnits,
+  formatBivariateAxisLabel,
+  formatCustomBivariateAxisLabel,
+} from './labelFormatters';
 import type { Axis } from '~utils/bivariate';
 
 describe('BivariateLegend labels formatting', () => {
@@ -115,6 +119,66 @@ describe('BivariateLegend labels formatting', () => {
       ];
       expect(formatBivariateAxisLabel(quotients)).toEqual(
         'Total road length to Population (km/ppl)',
+      );
+    });
+  });
+
+  describe('formatCustomLabelForBivariateAxis', () => {
+    it('must return customLabel with units from quotients', () => {
+      const quotients: Axis['quotients'] = [
+        {
+          name: 'total_road_length',
+          label: 'Total road length',
+          direction: [['unimportant'], ['important']],
+          unit: {
+            id: 'km',
+            shortName: 'km',
+            longName: 'kilometers',
+          },
+        },
+        {
+          name: 'population',
+          label: 'Population',
+          direction: [['unimportant'], ['important']],
+          unit: {
+            id: 'ppl',
+            shortName: 'ppl',
+            longName: 'people',
+          },
+        },
+      ];
+      const customLabel = 'Custom man-distance label';
+      expect(formatCustomBivariateAxisLabel(customLabel, quotients)).toEqual(
+        'Custom man-distance label (km/ppl)',
+      );
+    });
+
+    it('must return customLabel without units if numerator has no unit', () => {
+      const quotients: Axis['quotients'] = [
+        {
+          name: 'total_road_length',
+          label: 'Total road length',
+          direction: [['unimportant'], ['important']],
+          unit: {
+            id: null,
+            shortName: null,
+            longName: null,
+          },
+        },
+        {
+          name: 'population',
+          label: 'Population',
+          direction: [['unimportant'], ['important']],
+          unit: {
+            id: 'ppl',
+            shortName: 'ppl',
+            longName: 'people',
+          },
+        },
+      ];
+      const customLabel = 'Custom man-distance label';
+      expect(formatCustomBivariateAxisLabel(customLabel, quotients)).toEqual(
+        'Custom man-distance label',
       );
     });
   });
