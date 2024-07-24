@@ -59,21 +59,23 @@ test('Transformations correct: cube_root', () => {
 });
 
 test('Transformations correct: log', () => {
-  const result = calculateNumber({
+  const result = calculateNegativeNumber({
     ...TEST_MCDA_LAYER,
+    range: [-20, 100],
     transformationFunction: 'log',
   });
 
-  expect(result).toBe(0.5195737064824406);
+  expect(result).toBe(0.2610207200288388);
 });
 
 test('Transformations correct: log_epsilon', () => {
-  const result = calculateNumber({
+  const result = calculateNegativeNumber({
     ...TEST_MCDA_LAYER,
+    range: [-20, 100],
     transformationFunction: 'log_epsilon',
   });
 
-  expect(result).toBe(0.9433542009219615);
+  expect(result).toBe(0.27023815442731974);
 });
 
 const TEST_MCDA_LAYER: MCDALayer = {
@@ -107,4 +109,5 @@ const TEST_MCDA_LAYER: MCDALayer = {
   transformationFunction: 'no',
   normalization: 'max-min',
   unit: '',
+  datasetRange: [-30, 100],
 };
