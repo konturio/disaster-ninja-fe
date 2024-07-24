@@ -29,6 +29,7 @@ import type {
   TransformationFunction,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Normalization } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { AxisTransformation } from '~utils/bivariate';
 
 export type MCDALayerLegendProps = {
   layer: MCDALayer;
@@ -64,17 +65,19 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
 
   const [axes] = useAtom((ctx) => ctx.spy(availableBivariateAxesAtom));
 
-  const axisDefaultRange = useMemo(() => {
+  const { axisDatasetRange, defaultTransformation } = useMemo(() => {
+    let axisDatasetRange: string[] | null = null;
+    let defaultTransformation: AxisTransformation | undefined;
     if (!axes.loading) {
       const relatedAxis = axes?.data?.find((axis) => axis.id === layer.id);
       const steps = relatedAxis?.steps;
       const min = steps?.at(0)?.value;
       const max = steps?.at(-1)?.value;
-      if (isNumber(min) && isNumber(max)) {
-        return [min.toString(), max.toString()];
-      }
+      axisDatasetRange =
+        isNumber(min) && isNumber(max) ? [min.toString(), max.toString()] : null;
+      defaultTransformation = relatedAxis?.transformation;
     }
-    return null;
+    return { axisDatasetRange, defaultTransformation };
   }, [axes?.data, axes?.loading, layer.id]);
 
   const mcdaLayerHint: LayerInfo[] = useMemo(() => {
@@ -222,11 +225,11 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setEditMode(false);
   }, []);
 
-  const onResetLimits = useCallback(() => {
+  const setToFullDatasetRange = useCallback(() => {
     if (!axes.loading) {
-      if (axisDefaultRange) {
-        setRangeFrom(axisDefaultRange[0]);
-        setRangeTo(axisDefaultRange[1]);
+      if (axisDatasetRange) {
+        setRangeFrom(axisDatasetRange[0]);
+        setRangeTo(axisDatasetRange[1]);
       } else {
         console.error(
           `Couldn\'nt find default range for ${layer.id}. Using app defaults instead`,
@@ -235,7 +238,55 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         setRangeTo(DEFAULTS.range[1]);
       }
     }
-  }, [axes.loading, axisDefaultRange, layer]);
+  }, [axes.loading, axisDatasetRange, layer]);
+
+  const setToSigmaRange = useCallback(
+    (numberOfSigmas: number) => {
+      // TODO: BE should be returning non-transformed values!
+      const reverseTransformations = {
+        no: (x) => x,
+        cube_root: (x) => x * x * x,
+        square_root: (x) => Math.sign(x) * Math.abs(x * x),
+        log: (x) => Math.pow(10, x) - 1 + parseFloat(axisDatasetRange?.[0] ?? '0'),
+        log_epsilon: (x) =>
+          Math.pow(10, x) - Number.EPSILON + parseFloat(axisDatasetRange?.[0] ?? '0'),
+      };
+
+      if (!axes.loading) {
+        if (defaultTransformation) {
+          // console.log({ defaultTransformation });
+          if (numberOfSigmas === 3) {
+            setRangeFrom(
+              reverseTransformations[defaultTransformation.transformation](
+                defaultTransformation.lowerBound,
+              ).toFixed(5),
+            );
+            setRangeTo(
+              reverseTransformations[defaultTransformation.transformation](
+                defaultTransformation.upperBound,
+              ).toFixed(5),
+            );
+          } else {
+            const mean = reverseTransformations[defaultTransformation.transformation](
+              defaultTransformation.mean,
+            );
+            const stddev = reverseTransformations[defaultTransformation.transformation](
+              defaultTransformation.stddev,
+            );
+            // TODO: the resulting mean and stddev don't look correct. Sometimes mean + 3*stddev is > than dataset range!
+            // console.log({ defT: defaultTransformation.transformation, mean, stddev });
+            setRangeFrom((mean - numberOfSigmas * stddev).toFixed(5));
+            setRangeTo((mean + numberOfSigmas * stddev).toFixed(5));
+          }
+        } else {
+          console.error(
+            `Couldn\'nt find defaultTransformation to set sigma range for ${layer.id}.`,
+          );
+        }
+      }
+    },
+    [axes.loading, axisDatasetRange, defaultTransformation, layer.id],
+  );
 
   const editLayer = useCallback(() => {
     setEditMode(true);
@@ -319,11 +370,39 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               <Text type="short-m" className={s.error}>
                 {rangeFromError ? rangeFromError : rangeToError}
               </Text>
-              <div
-                className={clsx(s.resetLimits, { [s.textButtonDisabled]: axes.loading })}
-                onClick={onResetLimits}
-              >
-                {i18n.t('mcda.layer_editor.reset_limits_to_default')}
+              <div className={s.rangeTextButtonsContainer}>
+                <span
+                  className={clsx(s.rangeTextButtons, {
+                    [s.textButtonDisabled]: axes.loading,
+                  })}
+                  onClick={setToFullDatasetRange}
+                >
+                  {i18n.t('mcda.layer_editor.range_buttons.full_range')}
+                </span>
+                <span
+                  className={clsx(s.rangeTextButtons, {
+                    [s.textButtonDisabled]: axes.loading,
+                  })}
+                  onClick={() => setToSigmaRange(3)}
+                >
+                  {i18n.t('mcda.layer_editor.range_buttons.3_sigma')}
+                </span>
+                <span
+                  className={clsx(s.rangeTextButtons, {
+                    [s.textButtonDisabled]: axes.loading,
+                  })}
+                  onClick={() => setToSigmaRange(2)}
+                >
+                  {i18n.t('mcda.layer_editor.range_buttons.2_sigma')}
+                </span>
+                <span
+                  className={clsx(s.rangeTextButtons, {
+                    [s.textButtonDisabled]: axes.loading,
+                  })}
+                  onClick={() => setToSigmaRange(1)}
+                >
+                  {i18n.t('mcda.layer_editor.range_buttons.1_sigma')}
+                </span>
               </div>
             </MCDALayerParameterRow>
             {/* OUTLIERS */}

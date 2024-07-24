@@ -117,7 +117,13 @@
       "transformation": "Transformation",
       "normalize": "Normalize",
       "normalization": "Normalization",
-      "reset_limits_to_default": "Reset limits to default",
+      "range_buttons": {
+        "full_range": "Full range",
+        "3_sigma": "3σ",
+        "2_sigma": "2σ",
+        "1_sigma": "1σ"
+      },
+
       "outliers_options": {
         "clamp": "Clamp",
         "hide": "Hide",

@@ -112,11 +112,19 @@
   font-size: 11px;
 }
 
-.resetLimits {
+.rangeTextButtonsContainer {
   width: 100%;
+  margin-top: calc(-1 * var(--half-unit));
+}
+
+.rangeTextButtons {
   margin-top: calc(-1 * var(--half-unit));
   color: var(--accent-strong);
   cursor: pointer;
+
+  &:not(:first-child) {
+    margin-left: var(--unit);
+  }
 }
 
 .textButtonDisabled {
