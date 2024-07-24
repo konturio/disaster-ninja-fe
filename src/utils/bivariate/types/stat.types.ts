@@ -20,10 +20,11 @@ export type Quotient = [string, string]; // this field will be removed in next t
 
 export type AxisTransformation = {
   transformation: TransformationFunction;
-  min: number;
   mean: number;
   skew: number;
   stddev: number;
+  lowerBound: number;
+  upperBound: number;
 };
 
 export type Axis = {
