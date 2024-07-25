@@ -59,6 +59,21 @@
   margin: 0 var(--half-unit);
 }
 
+.rangeTextButtonsContainer {
+  width: 100%;
+  margin-top: calc(-1 * var(--half-unit));
+}
+
+.rangeTextButtons {
+  margin-top: calc(-1 * var(--half-unit));
+  color: var(--accent-strong);
+  cursor: pointer;
+
+  &:not(:first-child) {
+    margin-left: var(--unit);
+  }
+}
+
 .hiddenError {
   visibility: hidden;
   height: 0;
@@ -112,21 +127,6 @@
   font-size: 11px;
 }
 
-.rangeTextButtonsContainer {
-  width: 100%;
-  margin-top: calc(-1 * var(--half-unit));
-}
-
-.rangeTextButtons {
-  margin-top: calc(-1 * var(--half-unit));
-  color: var(--accent-strong);
-  cursor: pointer;
-
-  &:not(:first-child) {
-    margin-left: var(--unit);
-  }
-}
-
 .textButtonDisabled {
   color: var(--faint-strong);
 }
@@ -134,13 +134,7 @@
 .editButton {
   margin-inline-end: var(--unit);
   cursor: pointer;
-  color: var(--accent-strong);
-  visibility: hidden;
   align-items: flex-start;
-}
-
-.layer:hover .editButton {
-  visibility: visible;
 }
 
 .editorButtonsContainer {
@@ -153,4 +147,14 @@
 
 .invisible {
   display: none;
+}
+
+.debugInfoContainer {
+  margin: var(--half-unit) 0;
+}
+
+.debugText {
+  font-size: 10px;
+  font-family: monospace;
+  line-height: 13px;
 }

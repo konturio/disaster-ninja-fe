@@ -1,4 +1,4 @@
-import { Edit16 } from '@konturio/default-icons';
+import { Prefs16 } from '@konturio/default-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Input, Select, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
@@ -9,6 +9,7 @@ import { isNumber } from '~utils/common';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
+import { getAxisTransformations } from '~core/api/mcda';
 import { Sentiments } from '../Sentiments';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
@@ -29,7 +30,7 @@ import type {
   TransformationFunction,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Normalization } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type { AxisTransformation } from '~utils/bivariate';
+import type { AxisTransformation, AxisTransformationWithPoints } from '~utils/bivariate';
 
 export type MCDALayerLegendProps = {
   layer: MCDALayer;
@@ -49,6 +50,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   const [normalization, setNormalization] = useState<Normalization>(
     DEFAULTS.normalization as Normalization,
   );
+  const [transformationsStatistics, setTransformationsStatistics] = useState<Map<
+    TransformationFunction,
+    AxisTransformationWithPoints
+  > | null>(null);
 
   const [rangeFromError, setRangeFromError] = useState('');
   const [rangeToError, setRangeToError] = useState('');
@@ -251,28 +256,28 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         log_epsilon: (x) =>
           Math.pow(10, x) - Number.EPSILON + parseFloat(axisDatasetRange?.[0] ?? '0'),
       };
-
+      const selectedTransformationStatistics = transformationsStatistics?.get(transform);
       if (!axes.loading) {
-        if (defaultTransformation) {
-          // console.log({ defaultTransformation });
+        if (selectedTransformationStatistics) {
+          // console.log({ layer, selectedTransformationStatistics });
           if (numberOfSigmas === 3) {
             setRangeFrom(
-              reverseTransformations[defaultTransformation.transformation](
-                defaultTransformation.lowerBound,
+              reverseTransformations[selectedTransformationStatistics.transformation](
+                selectedTransformationStatistics.lowerBound,
               ).toFixed(5),
             );
             setRangeTo(
-              reverseTransformations[defaultTransformation.transformation](
-                defaultTransformation.upperBound,
+              reverseTransformations[selectedTransformationStatistics.transformation](
+                selectedTransformationStatistics.upperBound,
               ).toFixed(5),
             );
           } else {
-            const mean = reverseTransformations[defaultTransformation.transformation](
-              defaultTransformation.mean,
-            );
-            const stddev = reverseTransformations[defaultTransformation.transformation](
-              defaultTransformation.stddev,
-            );
+            const mean = reverseTransformations[
+              selectedTransformationStatistics.transformation
+            ](selectedTransformationStatistics.mean);
+            const stddev = reverseTransformations[
+              selectedTransformationStatistics.transformation
+            ](selectedTransformationStatistics.stddev);
             // TODO: the resulting mean and stddev don't look correct. Sometimes mean + 3*stddev is > than dataset range!
             // console.log({ defT: defaultTransformation.transformation, mean, stddev });
             setRangeFrom((mean - numberOfSigmas * stddev).toFixed(5));
@@ -285,12 +290,24 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         }
       }
     },
-    [axes.loading, axisDatasetRange, defaultTransformation, layer.id],
+    [axes.loading, axisDatasetRange, layer, transform, transformationsStatistics],
   );
 
-  const editLayer = useCallback(() => {
-    setEditMode(true);
-  }, []);
+  const editLayer = useCallback(async () => {
+    try {
+      const transformationsStatisticsDTO = await getAxisTransformations(
+        layer.indicators[0].name,
+        layer.indicators[1].name,
+      );
+      setTransformationsStatistics(
+        new Map(transformationsStatisticsDTO?.map((t) => [t.transformation, t])),
+      );
+    } catch {
+      throw new Error("Couldn't fetch transformations statistics data.");
+    } finally {
+      setEditMode(true);
+    }
+  }, [layer.indicators]);
 
   return (
     <div className={s.editor}>
@@ -304,7 +321,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 hint={i18n.t('layer_actions.tooltips.edit')}
                 className={s.editButton}
               >
-                <Edit16 />
+                <Prefs16 />
               </LayerActionIcon>
             )}
             <LayerInfo
@@ -388,7 +405,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                   {i18n.t('mcda.layer_editor.range_buttons.3_sigma')}
                 </span>
                 <span
-                  className={clsx(s.rangeTextButtons, {
+                  className={clsx(s.rangeTextButtons, s.error, {
                     [s.textButtonDisabled]: axes.loading,
                   })}
                   onClick={() => setToSigmaRange(2)}
@@ -396,7 +413,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                   {i18n.t('mcda.layer_editor.range_buttons.2_sigma')}
                 </span>
                 <span
-                  className={clsx(s.rangeTextButtons, {
+                  className={clsx(s.rangeTextButtons, s.error, {
                     [s.textButtonDisabled]: axes.loading,
                   })}
                   onClick={() => setToSigmaRange(1)}
@@ -480,6 +497,23 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 }}
                 items={transformOptions}
               />
+              <div className={s.debugInfoContainer}>
+                <div className={s.debugText}>
+                  skew: {transformationsStatistics?.get(transform)?.skew}
+                </div>
+                <div className={s.debugText}>
+                  mean: {transformationsStatistics?.get(transform)?.mean}
+                </div>
+                <div className={s.debugText}>
+                  sdev: {transformationsStatistics?.get(transform)?.stddev}
+                </div>
+                <div className={s.debugText}>
+                  lbnd: {transformationsStatistics?.get(transform)?.lowerBound}
+                </div>
+                <div className={s.debugText}>
+                  ubnd: {transformationsStatistics?.get(transform)?.upperBound}
+                </div>
+              </div>
             </MCDALayerParameterRow>
             {/* NORMALIZE */}
             <MCDALayerParameterRow

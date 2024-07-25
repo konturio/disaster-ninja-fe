@@ -18,14 +18,18 @@ export type Step = {
 type Unit = { id: string | null; longName: string | null; shortName: string | null };
 export type Quotient = [string, string]; // this field will be removed in next tickets, only Quotients will stay
 
-export type AxisTransformation = {
+export interface AxisTransformation {
   transformation: TransformationFunction;
   mean: number;
   skew: number;
   stddev: number;
   lowerBound: number;
   upperBound: number;
-};
+}
+
+export interface AxisTransformationWithPoints extends AxisTransformation {
+  points: number[];
+}
 
 export type Axis = {
   id: string;
