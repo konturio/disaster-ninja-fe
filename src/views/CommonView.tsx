@@ -6,6 +6,7 @@ import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { useTabNameUpdate } from '~utils/hooks/useTabNameUpdate';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
+import { LoadingSpinnerBox } from '~components/LoadingSpinner/LoadingSpinner';
 import s from './CommonView.module.css';
 import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
@@ -48,7 +49,7 @@ export function CommonView({
             />
           )}
         </Suspense>
-        {children}
+        <Suspense fallback={<LoadingSpinnerBox />}>{children}</Suspense>
       </div>
 
       <Suspense fallback={null}>

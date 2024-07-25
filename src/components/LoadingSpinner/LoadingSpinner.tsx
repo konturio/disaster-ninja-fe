@@ -19,3 +19,11 @@ export function LoadingSpinner({
     </div>
   );
 }
+
+export function LoadingSpinnerBox() {
+  return (
+    <div style={{ flex: 1 }}>
+      <LoadingSpinner message={null} />
+    </div>
+  );
+}

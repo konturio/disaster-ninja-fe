@@ -13,6 +13,7 @@ export function AboutPage() {
   const [featureFlags] = useAtom(featureFlagsAtom);
 
   const doc =
+    // @ts-expect-error ts too picky, most likely this will be refactored
     featureFlags[FeatureFlag.ABOUT_PAGE]?.configuration?.document ?? defaultDocument;
 
   return <PagesDocument doc={doc} />;

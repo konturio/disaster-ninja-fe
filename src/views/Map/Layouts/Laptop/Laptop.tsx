@@ -1,6 +1,7 @@
 import { configRepo } from '~core/config';
 import { SmartColumn } from '../../SmartColumn/SmartColumn';
 import s from './Laptop.module.css';
+import type { ReactNode } from 'react';
 
 export function LaptopLayout({
   firstColumn,
@@ -8,10 +9,10 @@ export function LaptopLayout({
   mapColumnBottom,
   footer,
 }: {
-  firstColumn: JSX.Element;
-  mapColumnTop: JSX.Element;
-  mapColumnBottom: JSX.Element;
-  footer: JSX.Element;
+  firstColumn: ReactNode;
+  mapColumnTop: ReactNode;
+  mapColumnBottom: ReactNode;
+  footer: ReactNode;
 }) {
   return (
     <div className={s.contentWrap}>

@@ -1,11 +1,12 @@
 import type { UserDto } from '~core/app/user';
-import type { AppFeatureType } from '~core/auth/types';
+import type { AppFeatureType } from '~core/app/types';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 import type { UrlData } from '~core/url_store';
 
 export type Config = {
   baseUrl: string;
-  initialUrl: UrlData;
+  initialUrl: string;
+  initialUrlData: UrlData;
   initialUser: UserDto;
   defaultLayers: LayerDetailsDto[];
   activeLayers: string[]; // Computed in boot stage

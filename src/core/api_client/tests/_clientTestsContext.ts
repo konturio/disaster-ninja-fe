@@ -1,5 +1,6 @@
 import 'vi-fetch/setup';
 import { mockFetch, mockGet, mockPost } from 'vi-fetch';
+import { OidcSimpleClient } from '~core/auth/OidcSimpleClient';
 import { ApiClient } from '../apiClient';
 import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
 
@@ -45,30 +46,27 @@ export const createContext = () => {
 
   const localStorageMock = createLocalStorageMock();
 
-  const apiClient = new ApiClient({
-    storage: localStorageMock,
-  });
+  const apiClient = new ApiClient({});
+  apiClient.init({ baseUrl });
+  const authClient = new OidcSimpleClient();
+  apiClient.authService = authClient;
 
   const keycloakRealm = 'keycloak_mock_realm';
-  apiClient.setup({
-    baseUrl,
-    keycloakClientId: 'keycloak_mock_id',
-    keycloakRealm,
-    keycloakUrl: baseUrl,
-  });
+  authClient.init(`${baseUrl}/realms/${keycloakRealm}`, 'keycloak_mock_id');
 
-  (apiClient as any).token = token;
-  (apiClient as any).tokenExpirationDate = new Date(
+  (authClient as any).token = token;
+  (authClient as any).tokenExpirationDate = new Date(
     new Date().getTime() + 1000 * 60 * 30,
   );
-  (apiClient as any).refreshToken = refreshToken;
-  (apiClient as any).refreshTokenExpirationDate = new Date(
+  (authClient as any).refreshToken = refreshToken;
+  (authClient as any).refreshTokenExpirationDate = new Date(
     new Date().getTime() + 1000 * 60 * 60 * 24 * 30,
   );
 
   return {
     apiClient,
-    loginFunc: async () => await apiClient.login(username, password),
+    authClient,
+    loginFunc: async () => await authClient.login(username, password),
     token: actualToken,
     expiredToken: expiredToken,
     refreshToken: refreshToken,

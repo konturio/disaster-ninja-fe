@@ -1,4 +1,5 @@
-const DEBUG_MAPCSS = !!globalThis.localStorage?.getItem('DEBUG_MAPCSS');
+import { localStorage } from '~utils/storage';
+const DEBUG_MAPCSS = !!localStorage?.getItem('DEBUG_MAPCSS');
 
 export function getRequirements(config, mapCSS) {
   const initialCSS = {
