@@ -1,35 +1,55 @@
 import { expect } from '@playwright/test';
 import { HelperBase } from './helperBase';
-import type { BrowserContext } from '@playwright/test';
+import type { Project } from './helperBase';
+import type { BrowserContext, Page } from '@playwright/test';
+
+type LoginOptions = {
+  shouldSuccess: boolean;
+  operablePage?: Page;
+  project: Project;
+};
 
 export class LoginPage extends HelperBase {
   /**
    * This method checks the Log in button visibility and then fills in email and password
    * @param email - should be email in form of string
    * @param password - should be password in form of string
+   * @param shouldSuccess - should login be successful or not
+   * @param project - kontur project to test
+   * @param operablePage - playwright page to use
    */
 
-  async typeLoginPasswordAndLogin(email: string, password: string) {
-    await this.checkLoginAndSignupPresence();
+  async typeLoginPasswordAndLogin(
+    email: string,
+    password: string,
+    { shouldSuccess, project, operablePage = this.page }: LoginOptions,
+  ) {
+    await this.checkLoginAndSignupPresence(operablePage);
     // Getting email field and type in
-    const emailInput = this.page.getByRole('textbox').first();
+    const emailInput = operablePage.getByRole('textbox').first();
     await emailInput.fill(email);
 
     // Getting password field and type in
-    const passwordInput = this.page.locator('input[type="password"]');
+    const passwordInput = operablePage.locator('input[type="password"]');
     await passwordInput.fill(password);
 
-    // Getting Log in button and clicking
-    await this.page.getByRole('button', { name: 'Log in' }).click({ delay: 330 });
+    // Getting Log in button, clicking and waiting for response
+    const [_, loginResponse] = await Promise.all([
+      operablePage.getByRole('button', { name: 'Log in' }).click({ delay: 330 }),
+      operablePage.waitForResponse(project.authUrl),
+    ]);
+
+    // Expect keycloak answer 200 ok if required
+    if (shouldSuccess) expect(loginResponse.status()).toEqual(200);
   }
 
   /**
    * This method checks that there are login and sign up elements
    */
-  async checkLoginAndSignupPresence() {
+  async checkLoginAndSignupPresence(operablePage: Page = this.page) {
     await Promise.all([
-      expect(this.page.getByRole('button', { name: 'Log in' })).toBeVisible(),
-      expect(this.page.getByText('Sign up')).toBeVisible(),
+      expect(operablePage.getByRole('button', { name: 'Log in' })).toBeVisible(),
+      expect(operablePage.getByText('Sign up')).toBeVisible(),
     ]);
   }
 

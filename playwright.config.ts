@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import * as dotenv from 'dotenv';
 import { LogLevel } from '@slack/web-api/dist/index.js';
+import path from 'path';
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -10,10 +11,13 @@ dotenv.config({
   path: ['.env.playwright.local', '.env.playwright.production', '.env.playwright'],
 });
 
+const globalSetup = path.resolve('./e2e/global-setup.ts')
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  globalSetup,
   globalTimeout: process.env.CI ? 1800000 : 600000,
   timeout: process.env.CI ? 120000 : 60000,
   expect: {
@@ -84,7 +88,7 @@ export default defineConfig({
     actionTimeout: process.env.CI ? 15000 : 10000,
     navigationTimeout: process.env.CI ? 20000 : 10000,
     viewport: { width: 1280, height: 720 },
-    screenshot: 'only-on-failure',
+    screenshot: 'only-on-failure'
   },
 
   /* Configure projects for major browsers */

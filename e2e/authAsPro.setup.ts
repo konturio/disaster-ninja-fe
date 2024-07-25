@@ -4,15 +4,15 @@ import { PageManager } from './page-objects/pageManager.ts';
 
 setup('Authentication with PRO', async ({ context }) => {
   const authFile = 'e2e/.auth/user-pro.json';
-  const authProjects = getProjects();
+  let authProjects = getProjects();
 
-  // For dev and test environment storage is shared.
-  // So login to, for example, test atlas is shared to test oam and etc.
-  // So for test and dev login to any project is enough,
-  // With no need to login to all of them
+  // Caching authentication to avoid invoking login for each test.
+  // Authentication is performed for each domain, but on dev, test, and local envs, the same domain is used.
+  // Therefore, it's sufficient to authenticate one project from getProjects. (getProjects returns projects already filtered by env)
 
-  if (process.env.ENVIRONMENT === 'test' || process.env.ENVIRONMENT === 'dev')
-    authProjects.splice(1);
+  if (process.env.ENVIRONMENT !== 'prod')
+    // Any project is enough to setup auth at dev or test envs
+    authProjects = [authProjects[0]];
 
   for (const project of authProjects) {
     const newPage = await context.newPage();

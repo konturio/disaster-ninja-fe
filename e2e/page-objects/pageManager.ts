@@ -74,11 +74,12 @@ export class PageManager {
    */
 
   async auth(project: Project, email: string, password: string, newPage: Page) {
-    await this.atBrowser.openProject(project);
-    await this.fromNavigationMenu.goToLoginPage();
-    await this.atLoginPage.typeLoginPasswordAndLogin(email, password);
-    // Expect keycloak answer 200 ok
-    const loginResponse = await newPage.waitForResponse(project.authUrl);
-    expect(loginResponse.status()).toEqual(200);
+    await this.atBrowser.openProject(project, { operablePage: newPage });
+    await this.fromNavigationMenu.goToLoginPage(newPage);
+    await this.atLoginPage.typeLoginPasswordAndLogin(email, password, {
+      shouldSuccess: true,
+      project,
+      operablePage: newPage,
+    });
   }
 }

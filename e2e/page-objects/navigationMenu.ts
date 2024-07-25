@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { HelperBase } from './helperBase';
+import type { Page } from '@playwright/test';
 
 export class NavigationMenu extends HelperBase {
   /**
@@ -28,12 +29,12 @@ export class NavigationMenu extends HelperBase {
    * This method allows to open login page from navigation menu
    */
 
-  async goToLoginPage() {
+  async goToLoginPage(operablePage: Page = this.page) {
     // TO DO: replace locator here once 19141 task is done, refactor this logics
     // When no need will be present to get locator every time
-    await this.page.locator('[value="profile"]').first().waitFor({ state: 'visible' });
-    await this.page.locator('[value="profile"]').getByText('Login').hover();
-    await this.page
+    await operablePage.locator('[value="profile"]').first().waitFor({ state: 'visible' });
+    await operablePage.locator('[value="profile"]').getByText('Login').hover();
+    await operablePage
       .locator('[value="profile"]')
       .getByText('Login')
       .click({ delay: 330, force: true });
