@@ -162,19 +162,19 @@ export const calculateLayerPipeline =
       datasetMin: datasetMin,
       transformation: transformationFunction,
     });
-    let rangeChecked = tX;
-    if (outliers === 'clamp') {
-      if (rangeChecked < tMin) {
-        rangeChecked = tMin;
-      } else if (rangeChecked > tMax) {
-        rangeChecked = tMax;
-      }
-    }
     const normalized =
       normalization === 'max-min'
-        ? operations.normalize({ x: rangeChecked, min: tMin, max: tMax })
-        : rangeChecked;
+        ? operations.normalize({ x: tX, min: tMin, max: tMax })
+        : tX;
     const orientated = inverted ? operations.invert(normalized) : normalized;
     const scaled = operations.scale(orientated, coefficient);
-    return scaled;
+    let clamped = scaled;
+    if (outliers === 'clamp') {
+      if (scaled < 0) {
+        clamped = 0;
+      } else if (scaled > 1) {
+        clamped = 1;
+      }
+    }
+    return clamped;
   };
