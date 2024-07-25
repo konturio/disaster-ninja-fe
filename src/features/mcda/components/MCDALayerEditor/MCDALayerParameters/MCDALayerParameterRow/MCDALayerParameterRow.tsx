@@ -6,18 +6,18 @@ export type MCDALayerParameterRowProps = {
   name: string;
   infoText: string;
   children?: JSX.Element | JSX.Element[];
-  onTitleClicked?: () => void;
+  onTitleDoubleClicked?: () => void;
 };
 
 export function MCDALayerParameterRow({
   name,
   infoText,
   children,
-  onTitleClicked,
+  onTitleDoubleClicked,
 }: MCDALayerParameterRowProps) {
   return (
     <div className={s.inputLine}>
-      <span className={s.inputLinelabel} onClick={onTitleClicked}>
+      <span className={s.inputLinelabel} onDoubleClick={onTitleDoubleClicked}>
         {name}
         <PopupTooltipTrigger
           className={s.infoButton}

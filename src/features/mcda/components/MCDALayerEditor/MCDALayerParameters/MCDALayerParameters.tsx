@@ -487,7 +487,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             <MCDALayerParameterRow
               name={i18n.t('mcda.layer_editor.transform')}
               infoText={i18n.t('mcda.layer_editor.tips.transform')}
-              onTitleClicked={() => setShowDebugInfo((prevValue) => !prevValue)}
+              onTitleDoubleClicked={() => setShowDebugInfo((prevValue) => !prevValue)}
             >
               <Select
                 className={s.selectInput}
