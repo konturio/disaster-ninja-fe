@@ -24,6 +24,7 @@ import {
   sentimentsOptions,
   transformOptions,
 } from './constants';
+import TransformationsChart from './TransformationsChart/TransformationsChart';
 import type {
   MCDALayer,
   OutliersPolicy,
@@ -54,6 +55,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     TransformationFunction,
     AxisTransformationWithPoints
   > | null>(null);
+  const [showDebugInfo, setShowDebugInfo] = useState(false);
 
   const [rangeFromError, setRangeFromError] = useState('');
   const [rangeToError, setRangeToError] = useState('');
@@ -485,6 +487,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             <MCDALayerParameterRow
               name={i18n.t('mcda.layer_editor.transform')}
               infoText={i18n.t('mcda.layer_editor.tips.transform')}
+              onTitleClicked={() => setShowDebugInfo((prevValue) => !prevValue)}
             >
               <Select
                 className={s.selectInput}
@@ -497,23 +500,33 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 }}
                 items={transformOptions}
               />
-              <div className={s.debugInfoContainer}>
-                <div className={s.debugText}>
-                  skew: {transformationsStatistics?.get(transform)?.skew}
+              {showDebugInfo ? (
+                <div className={s.debugInfoContainer}>
+                  <div className={s.debugText}>
+                    skew: {transformationsStatistics?.get(transform)?.skew}
+                  </div>
+                  <div className={s.debugText}>
+                    mean: {transformationsStatistics?.get(transform)?.mean}
+                  </div>
+                  <div className={s.debugText}>
+                    sdev: {transformationsStatistics?.get(transform)?.stddev}
+                  </div>
+                  <div className={s.debugText}>
+                    lbnd: {transformationsStatistics?.get(transform)?.lowerBound}
+                  </div>
+                  <div className={s.debugText}>
+                    ubnd: {transformationsStatistics?.get(transform)?.upperBound}
+                  </div>
+                  {/* <div> */}
+                  <TransformationsChart
+                    transformedPoints={transformationsStatistics?.get(transform)?.points}
+                    originalPoints={transformationsStatistics?.get('no')?.points}
+                  />
+                  {/* </div> */}
                 </div>
-                <div className={s.debugText}>
-                  mean: {transformationsStatistics?.get(transform)?.mean}
-                </div>
-                <div className={s.debugText}>
-                  sdev: {transformationsStatistics?.get(transform)?.stddev}
-                </div>
-                <div className={s.debugText}>
-                  lbnd: {transformationsStatistics?.get(transform)?.lowerBound}
-                </div>
-                <div className={s.debugText}>
-                  ubnd: {transformationsStatistics?.get(transform)?.upperBound}
-                </div>
-              </div>
+              ) : (
+                <></>
+              )}
             </MCDALayerParameterRow>
             {/* NORMALIZE */}
             <MCDALayerParameterRow
