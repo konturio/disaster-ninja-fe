@@ -258,32 +258,30 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         log_epsilon: (x) =>
           Math.pow(10, x) - Number.EPSILON + parseFloat(axisDatasetRange?.[0] ?? '0'),
       };
-      const selectedTransformationStatistics = transformationsStatistics?.get(transform);
+      const noTransformStatistics = transformationsStatistics?.get('no');
+      const datasetRange = [
+        parseFloat(axisDatasetRange?.[0] ?? '0'),
+        parseFloat(axisDatasetRange?.[1] ?? '1'),
+      ];
       if (!axes.loading) {
-        if (selectedTransformationStatistics) {
+        if (noTransformStatistics) {
           // console.log({ layer, selectedTransformationStatistics });
           if (numberOfSigmas === 3) {
-            setRangeFrom(
-              reverseTransformations[selectedTransformationStatistics.transformation](
-                selectedTransformationStatistics.lowerBound,
-              ).toFixed(5),
-            );
-            setRangeTo(
-              reverseTransformations[selectedTransformationStatistics.transformation](
-                selectedTransformationStatistics.upperBound,
-              ).toFixed(5),
-            );
+            setRangeFrom(noTransformStatistics?.lowerBound.toFixed(5));
+            setRangeTo(noTransformStatistics?.upperBound.toFixed(5));
           } else {
-            const mean = reverseTransformations[
-              selectedTransformationStatistics.transformation
-            ](selectedTransformationStatistics.mean);
-            const stddev = reverseTransformations[
-              selectedTransformationStatistics.transformation
-            ](selectedTransformationStatistics.stddev);
+            const mean = noTransformStatistics?.mean;
+            const stddev = noTransformStatistics?.stddev;
+            const lowerLimit = mean - numberOfSigmas * stddev;
+            const upperLimit = mean + numberOfSigmas * stddev;
             // TODO: the resulting mean and stddev don't look correct. Sometimes mean + 3*stddev is > than dataset range!
             // console.log({ defT: defaultTransformation.transformation, mean, stddev });
-            setRangeFrom((mean - numberOfSigmas * stddev).toFixed(5));
-            setRangeTo((mean + numberOfSigmas * stddev).toFixed(5));
+            setRangeFrom(
+              (lowerLimit < datasetRange[0] ? datasetRange[0] : lowerLimit).toFixed(5),
+            );
+            setRangeTo(
+              (upperLimit > datasetRange[1] ? datasetRange[1] : upperLimit).toFixed(5),
+            );
           }
         } else {
           console.error(
@@ -292,7 +290,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         }
       }
     },
-    [axes.loading, axisDatasetRange, layer, transform, transformationsStatistics],
+    [axes.loading, axisDatasetRange, layer, transformationsStatistics],
   );
 
   const editLayer = useCallback(async () => {

@@ -40,7 +40,7 @@ function TransformationsChart({
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey={'x'} tickSize={undefined} />
-      <YAxis />
+      <YAxis scale={'sqrt'} />
       <Tooltip />
       <Legend />
       <Line
