@@ -11,7 +11,7 @@ dotenv.config({
   path: ['.env.playwright.local', '.env.playwright.production', '.env.playwright'],
 });
 
-const globalSetup = path.resolve('./e2e/global-setup.ts')
+const globalSetup = path.resolve('./e2e/global-setup.ts');
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -29,7 +29,7 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 1,
+  retries: process.env.CI ? 2 : process.env.EVIROMENT?.startsWith('local-') ? 0 : 1,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 4 : 6,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -88,7 +88,7 @@ export default defineConfig({
     actionTimeout: process.env.CI ? 15000 : 10000,
     navigationTimeout: process.env.CI ? 20000 : 10000,
     viewport: { width: 1280, height: 720 },
-    screenshot: 'only-on-failure'
+    screenshot: 'only-on-failure',
   },
 
   /* Configure projects for major browsers */
@@ -126,7 +126,7 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'], storageState: 'e2e/.auth/user.json' },
       dependencies: ['setup'],
       testMatch: /WithUser/,
-      testIgnore: ['privacyWithUser.spec.ts']
+      testIgnore: ['privacyWithUser.spec.ts'],
     },
     {
       name: 'chromium_pro',
@@ -139,7 +139,7 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'], storageState: 'e2e/.auth/user-pro.json' },
       dependencies: ['setup_pro'],
       testMatch: /WithPro/,
-      testIgnore: ['locationWithPro.spec.ts', 'privacyWithPro.spec.ts']
+      testIgnore: ['locationWithPro.spec.ts', 'privacyWithPro.spec.ts'],
     },
     // {
     //   name: 'firefox',
