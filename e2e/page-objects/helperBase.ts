@@ -107,6 +107,36 @@ export class HelperBase {
   }
 }
 
+const prodAuthUrl =
+  'https://keycloak01.kontur.io/realms/kontur/protocol/openid-connect/token';
+
+const replaceDomain = (domain: string) => (project: Project) => {
+  const localhostUrl = project.url.replace(new URL(project.url).origin, domain);
+  return { ...project, url: localhostUrl };
+};
+
+const getLocalhostProjects = (data: string, appName: string, environment: string) => {
+  const [_, env] = environment.split('-');
+
+  const projects: Project[] = JSON.parse(data).filter(
+    (project: Project) => appName === 'all' || project.name === appName,
+  );
+
+  if (env === 'prod') {
+    return projects
+      .filter((project: Project) => project.env === 'dev') // We need the urls from the dev because they have 'app' in the url
+      .map(replaceDomain(`https://localhost:3000`))
+      .map((project: Project) => {
+        if (env === 'prod') return { ...project, authUrl: prodAuthUrl };
+        return project;
+      });
+  }
+
+  return projects
+    .filter((project: Project) => project.env === env)
+    .map(replaceDomain(`https://localhost:3000`));
+};
+
 export function getProjects() {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
@@ -118,23 +148,11 @@ export function getProjects() {
   const appName = process.env.APP_NAME ?? 'all';
   const environment = process.env.ENVIRONMENT ?? 'prod';
 
-  if (environment === 'local') {
-    const projects: Project[] = JSON.parse(data)
-      .filter((project: Project) => project.env === 'dev')
-      .filter((project: Project) => appName === 'all' || project.name === appName)
-      .map((project: Project) => {
-        const localhostUrl = project.url.replace(
-          new URL(project.url).origin,
-          `https://localhost:3000`,
-        );
-        return { ...project, url: localhostUrl };
-      });
-    return projects;
+  if (environment.startsWith('local-')) {
+    return getLocalhostProjects(data, appName, environment);
   }
 
-  const projects: Project[] = JSON.parse(data)
+  return JSON.parse(data)
     .filter((project: Project) => project.env === environment)
     .filter((project: Project) => appName === 'all' || project.name === appName);
-
-  return projects;
 }

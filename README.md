@@ -223,3 +223,31 @@ npx playwright test --ui
 Remove the `--ui` flag to run the tests in headless mode.
 
 > Check the `tests-examples/demo-todo-app.spec.ts` file for an example of how to write tests.
+
+## Running playright tests with locally
+
+1. Setup the .env.playwright.local file
+
+Create a `.env.playwright.local` file in the root of the project with the following content:
+
+```bash
+EMAIL=<test-email>
+PASSWORD=<test-password>
+EMAIL_PRO=<pro-test-email>
+PASSWORD_PRO=<pro-test-password>
+ENVIRONMENT=local-<env>
+APP_NAME=all
+ADMIN_KEYCLOAK=<keycloak-login>
+ADMIN_KEYCLOAK_PASSWORD=<keycloak-password>
+SLACK_BOT_USER_OAUTH_TOKEN=token
+```
+
+Where <env> is the environment your local app is configured, for example `local-dev`.
+
+1. Run the e2e tests
+
+```bash
+npx playwright test --ui
+```
+
+Remove the `--ui` flag to run the tests in headless mode.

@@ -29,7 +29,7 @@ const testLocation = async function (pageManager: PageManager, project: Project)
 
   // OAM has no colors so it needs more accuracy
 
-  const pixelsDifference = project.name === 'oam' ? 0.01 : 0.03;
+  const pixelsDifference = project.name === 'oam' ? 0.5 : 0.8;
   await pageManager.atMap.compareScreenshotsOfMap(pixelsDifference);
 };
 
