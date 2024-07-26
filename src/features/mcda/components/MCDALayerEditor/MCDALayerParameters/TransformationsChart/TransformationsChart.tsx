@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { scaleSymlog } from 'd3-scale';
 import { generateHclGradientColors } from '~features/mcda/utils/generateHclGradientColors';
 
-export const CHART_GREEN = 'rgb(50, 170, 100)';
-export const CHART_RED = 'rgb(228, 26, 28)';
-export const CHART_YELLOW = 'rgb(251,237,170)';
+const CHART_GREEN = 'rgb(50, 170, 100)';
+const CHART_RED = 'rgb(228, 26, 28)';
+const CHART_YELLOW = 'rgb(251,237,170)';
+const COLOR_ORIGINAL = '#CCC';
 
 type TransformationsChartProps = {
   transformedPoints?: number[];
@@ -24,6 +26,7 @@ function TransformationsChart({
       })),
     [originalPoints, transformedPoints],
   );
+  const scale = scaleSymlog([transformedPoints?.at(0), transformedPoints?.at(-1)]);
 
   return (
     <LineChart
@@ -39,21 +42,31 @@ function TransformationsChart({
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey={'x'} tickSize={undefined} />
-      <YAxis scale={'sqrt'} />
+      <XAxis dataKey={'x'} tickSize={undefined} tickCount={2} />
+      <YAxis dataKey="transformed" yAxisId="transformed" />
+      <YAxis
+        dataKey="original"
+        scale={scale}
+        orientation="right"
+        yAxisId="original"
+        axisLine={{ stroke: COLOR_ORIGINAL }}
+        tickLine={{ stroke: COLOR_ORIGINAL }}
+        tick={{ fill: COLOR_ORIGINAL }}
+      />
       <Tooltip />
       <Legend />
       <Line
         type="monotone"
         dataKey="original"
-        stroke="#777777"
-        dot={{ r: 1.5, fill: '#999999' }}
+        stroke={COLOR_ORIGINAL}
+        yAxisId="original"
+        dot={{ r: 1.5, fill: COLOR_ORIGINAL }}
       />
       <Line
-        animationDuration={500}
         type="monotone"
         dataKey="transformed"
         stroke={CHART_GREEN}
+        yAxisId="transformed"
         dot={<GradientDot />}
       />
     </LineChart>
