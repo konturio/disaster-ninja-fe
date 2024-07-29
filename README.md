@@ -249,7 +249,7 @@ ADMIN_KEYCLOAK_PASSWORD=<keycloak-password>
 SLACK_BOT_USER_OAUTH_TOKEN=token
 ```
 
-Where <env> is the environment your local app is configured, for example `local-dev`.
+Where `<env>` is the environment your local app is configured, for example `local-dev`.
 
 2. Run the e2e tests
 
