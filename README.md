@@ -195,7 +195,37 @@ You can your own for override default config, it should have name `./configs/con
 
 > If you want use some build time variables in browser - re-export them from app_config
 
-## Running e2e tests with playwright
+## Running e2e tests with Playwright
+
+1. Set up the environment variables
+
+Create a `.env.playwright.local` file in the root of the project with the following content:
+
+```bash
+EMAIL=<test-email>
+PASSWORD=<test-password>
+EMAIL_PRO=<pro-test-email>
+PASSWORD_PRO=<pro-test-password>
+ENVIRONMENT=<env>
+APP_NAME=all
+ADMIN_KEYCLOAK=<keycloak-login>
+ADMIN_KEYCLOAK_PASSWORD=<keycloak-password>
+SLACK_BOT_USER_OAUTH_TOKEN=token
+```
+
+Where <env> is the environment you want to test, for example `test`.
+
+2. Run the e2e tests
+
+```bash
+npx playwright test --ui
+```
+
+Remove the `--ui` flag to run the tests in headless mode.
+
+> Check the `tests-examples/demo-todo-app.spec.ts` file for an example of how to write tests.
+
+## Running Playwright e2e tests on a local environment
 
 1. Run the app in dev mode
 
@@ -203,18 +233,25 @@ Follow the [How to develop](#how-to-develop) section to run the app in dev mode.
 
 To view the app, visit https://localhost:3000 in your browser.
 
-2. Setup the environment variables
+2. Set up the .env.playwright.local file
 
 Create a `.env.playwright.local` file in the root of the project with the following content:
 
 ```bash
-EMAIL=test_email
-PASSWORD=test_password
+EMAIL=<test-email>
+PASSWORD=<test-password>
+EMAIL_PRO=<pro-test-email>
+PASSWORD_PRO=<pro-test-password>
+ENVIRONMENT=local-<env>
+APP_NAME=all
+ADMIN_KEYCLOAK=<keycloak-login>
+ADMIN_KEYCLOAK_PASSWORD=<keycloak-password>
+SLACK_BOT_USER_OAUTH_TOKEN=token
 ```
 
-Set your projects environment at projects-config.json file
+Where `<env>` is the environment your local app is configured, for example `local-dev`.
 
-3. Run the e2e tests
+2. Run the e2e tests
 
 ```bash
 npx playwright test --ui

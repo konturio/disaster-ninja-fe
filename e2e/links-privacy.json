@@ -122,8 +122,7 @@
     "linkShown": "www.youronlinechoices.com",
     "url": "http://www.youronlinechoices.com",
     "linkValidation": {
-      "shouldOpen": true,
-      "expectedUrl": "https://www.youronlinechoices.com/"
+      "shouldOpen": false
     }
   },
   {

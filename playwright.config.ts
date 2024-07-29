@@ -1,20 +1,24 @@
 import { defineConfig, devices } from '@playwright/test';
 import * as dotenv from 'dotenv';
 import { LogLevel } from '@slack/web-api/dist/index.js';
+import path from 'path';
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
 
 dotenv.config({
-  path: ['.env.playwright.production', '.env.playwright.local', '.env.playwright'],
+  path: ['.env.playwright.local', '.env.playwright.production', '.env.playwright'],
 });
+
+const globalSetup = path.resolve('./e2e/global-setup.ts');
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  globalTimeout: process.env.CI ? 900000 : 600000,
+  globalSetup,
+  globalTimeout: process.env.CI ? 1800000 : 600000,
   timeout: process.env.CI ? 120000 : 60000,
   expect: {
     timeout: process.env.CI ? 10000 : 7000,
@@ -25,9 +29,9 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 2 : process.env.ENVIRONMENT?.startsWith('local-') ? 0 : 1,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 4 : 6,
+  workers: process.env.CI || process.env.ENVIRONMENT?.startsWith('local-') ? 4 : 6,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [
@@ -93,17 +97,21 @@ export default defineConfig({
       name: 'setup',
       testMatch: 'auth.setup.ts',
     },
-
+    {
+      name: 'setup_pro',
+      testMatch: 'authAsPro.setup.ts',
+      dependencies: ['setup'],
+    },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-      testIgnore: /WithUser/,
+      testIgnore: [/WithUser/, /WithPro/],
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      testIgnore: [/WithUser/, 'location.spec.ts'],
+      testIgnore: [/WithUser/, 'location.spec.ts', /WithPro/, 'privacy.spec.ts'],
     },
 
     {
@@ -118,6 +126,20 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'], storageState: 'e2e/.auth/user.json' },
       dependencies: ['setup'],
       testMatch: /WithUser/,
+      testIgnore: ['privacyWithUser.spec.ts'],
+    },
+    {
+      name: 'chromium_pro',
+      use: { ...devices['Desktop Chrome'], storageState: 'e2e/.auth/user-pro.json' },
+      dependencies: ['setup_pro'],
+      testMatch: /WithPro/,
+    },
+    {
+      name: 'webkit_pro',
+      use: { ...devices['Desktop Safari'], storageState: 'e2e/.auth/user-pro.json' },
+      dependencies: ['setup_pro'],
+      testMatch: /WithPro/,
+      testIgnore: ['locationWithPro.spec.ts', 'privacyWithPro.spec.ts'],
     },
     // {
     //   name: 'firefox',

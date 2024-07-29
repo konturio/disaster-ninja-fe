@@ -68,13 +68,14 @@ export class MapCanvas extends HelperBase {
     const map = this.page.locator('#map-view');
     const box = await map.boundingBox();
     expect(box).not.toBeNull();
-    await this.page.mouse.click(box!.x + pixelsForX, box!.y + pixelsForY);
+    await this.page.mouse.click(box!.x + pixelsForX, box!.y + pixelsForY, { delay: 330 });
   }
   /**
    * This method checks population popup that appears for Population Density layer. Checks data for being complete and not nullish.
    */
 
   async checkPopulationPopupData() {
+    await this.page.locator('.maplibregl-popup-content').waitFor({ state: 'visible' });
     const popup = this.page.locator('.maplibregl-popup-content');
 
     // Check that popup is generally present and has population text there
@@ -95,7 +96,7 @@ export class MapCanvas extends HelperBase {
     await this.page
       .locator('.maplibregl-popup-content')
       .getByLabel('Close popup')
-      .click();
+      .click({ delay: 330 });
     await expect(
       this.page.locator('.maplibregl-popup-content', { hasText: 'Population' }),
     ).not.toBeVisible();

@@ -4,8 +4,9 @@ import { fileURLToPath } from 'url';
 import { expect } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
 
-type Options = {
+type OpenProjectOptions = {
   skipCookieBanner?: boolean;
+  operablePage?: Page;
 };
 
 export type Project = {
@@ -28,16 +29,20 @@ export class HelperBase {
    * This method opens up a project like disaster-ninja, atlas, etc. After that it checks the title to correspond to this project and accepts cookies if needed
    * @param project object with details about project to open like name, url, title, etc.
    * @param skipCookieBanner should cookie banner acceptance be skipped
+   * @param operablePage playwright page to work with
    */
 
-  async openProject(project: Project, { skipCookieBanner = false }: Options = {}) {
-    await this.page.goto(project.url, { waitUntil: 'domcontentloaded' });
+  async openProject(
+    project: Project,
+    { skipCookieBanner = false, operablePage = this.page }: OpenProjectOptions = {},
+  ) {
+    await operablePage.goto(project.url, { waitUntil: 'domcontentloaded' });
     // Expect a title to match a project name.
-    await expect(this.page).toHaveTitle(`${project.title}`);
+    await expect(operablePage).toHaveTitle(`${project.title}`);
 
     // Currently, OAM project doesn't have cookies popups
     if (project.hasCookieBanner && !skipCookieBanner)
-      await this.page.getByText('Accept optional cookies').click();
+      await operablePage.getByText('Accept optional cookies').click();
   }
 
   async closeAtlasBanner(project: Project) {
@@ -49,7 +54,7 @@ export class HelperBase {
       await this.page
         .frameLocator('[title="Intercom live chat banner"]')
         .getByLabel('Close')
-        .click({ force: true });
+        .click({ force: true, delay: 330 });
     }
   }
   /**
@@ -76,7 +81,8 @@ export class HelperBase {
     const currentUrl = this.page.url().replace(/\//g, '');
     await this.page.reload({ waitUntil: 'load' });
     expect(this.page.url().replace(/\//g, '')).toEqual(currentUrl);
-    await expect(this.page).toHaveTitle(`${project.title}`);
+    // TO DO: activate this check once 19103 issue is done
+    // await expect(this.page).toHaveTitle(`${project.title}`);
   }
 
   /**
@@ -101,6 +107,37 @@ export class HelperBase {
   }
 }
 
+const prodAuthUrl =
+  'https://keycloak01.kontur.io/realms/kontur/protocol/openid-connect/token';
+
+const replaceDomain = (domain: string) => (project: Project) => {
+  const localhostUrl = project.url.replace(new URL(project.url).origin, domain);
+  return { ...project, url: localhostUrl };
+};
+
+const getLocalhostProjects = (data: string, appName: string, environment: string) => {
+  const [_, env] = environment.split('-');
+
+  const projects: Project[] = JSON.parse(data).filter(
+    (project: Project) => appName === 'all' || project.name === appName,
+  );
+
+  if (env === 'prod') {
+    return projects
+      .filter((project: Project) => project.env === 'dev') // We need the urls from the dev because they have 'app' in the url
+      .map(replaceDomain(`https://localhost:3000`))
+      .map((project: Project) => {
+        if (env === 'prod') return { ...project, authUrl: prodAuthUrl };
+        return project;
+      })
+      .map((project: Project) => ({ ...project, env }));
+  }
+
+  return projects
+    .filter((project: Project) => project.env === env)
+    .map(replaceDomain(`https://localhost:3000`));
+};
+
 export function getProjects() {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
@@ -111,9 +148,12 @@ export function getProjects() {
 
   const appName = process.env.APP_NAME ?? 'all';
   const environment = process.env.ENVIRONMENT ?? 'prod';
-  const projects: Project[] = JSON.parse(data)
+
+  if (environment.startsWith('local-')) {
+    return getLocalhostProjects(data, appName, environment);
+  }
+
+  return JSON.parse(data)
     .filter((project: Project) => project.env === environment)
     .filter((project: Project) => appName === 'all' || project.name === appName);
-
-  return projects;
 }
