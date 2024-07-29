@@ -9,7 +9,7 @@ for (const project of projects) {
     test.beforeEach(async ({ pageManager }) => {
       await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     });
-    if (project.name != 'atlas') {
+    if (project.name !== 'atlas') {
       test(`Url of map is still the same`, async ({ pageManager }) => {
         await pageManager.fromNavigationMenu.goToMap();
         if (project.name !== 'disaster-ninja')

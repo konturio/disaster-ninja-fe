@@ -70,16 +70,16 @@ export class PageManager {
    * @param project - object with details about project to open like name, url, title, etc.
    * @param email - email to use during login
    * @param password - password to use during login
-   * @param newPage - playwright page
+   * @param operablePage - playwright page
    */
 
-  async auth(project: Project, email: string, password: string, newPage: Page) {
-    await this.atBrowser.openProject(project, { operablePage: newPage });
-    await this.fromNavigationMenu.goToLoginPage(newPage);
+  async auth(project: Project, email: string, password: string, operablePage: Page) {
+    await this.atBrowser.openProject(project, { operablePage });
+    await this.fromNavigationMenu.goToLoginPage(operablePage);
     await this.atLoginPage.typeLoginPasswordAndLogin(email, password, {
       shouldSuccess: true,
       project,
-      operablePage: newPage,
+      operablePage,
     });
   }
 }

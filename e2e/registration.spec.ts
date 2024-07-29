@@ -2,9 +2,10 @@ import { expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
+import type { Project } from './page-objects/helperBase.ts';
 import type { APIRequestContext } from '@playwright/test';
 
-const projects = getProjects().filter((project) => project.env !== 'prod');
+const projects = getProjects().filter((project: Project) => project.env !== 'prod');
 
 // Registration tests should run one by one not to kill application
 test.describe.configure({ mode: 'serial' });
