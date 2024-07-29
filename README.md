@@ -258,3 +258,5 @@ npx playwright test --ui
 ```
 
 Remove the `--ui` flag to run the tests in headless mode.
+
+> Check the `tests-examples/demo-todo-app.spec.ts` file for an example of how to write tests.
