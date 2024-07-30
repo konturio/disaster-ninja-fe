@@ -37,14 +37,19 @@
   "DEFAULT_LANGUAGE": "en",
   "OSM_EDITORS": [
     {
+      "id": "osm",
+      "title": "OpenStreetMap.org default editor",
+      "url": "https://www.openstreetmap.org/edit#map="
+    },
+    {
       "id": "josm",
       "title": "JOSM",
-      "url": "https://www.openstreetmap.org/edit?#map="
+      "url": "http://127.0.0.1:8111/load_and_zoom?left={left}&right={right}&top={top}&bottom={bottom}"
     },
     {
       "id": "id",
       "title": "iD",
-      "url": "https://www.openstreetmap.org/edit?editor=id&#map="
+      "url": "https://www.openstreetmap.org/edit?editor=id#map="
     },
     {
       "id": "rapid",

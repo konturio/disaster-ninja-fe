@@ -1,4 +1,8 @@
-import { currentMapPositionAtom, currentUserAtom } from '~core/shared_state';
+import {
+  currentMapPositionAtom,
+  currentUserAtom,
+  currentMapAtom,
+} from '~core/shared_state';
 import { toolbar } from '~core/toolbar';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
@@ -8,7 +12,7 @@ import {
   EDIT_IN_OSM_CONTROL_ID,
   EDIT_IN_OSM_CONTROL_NAME,
 } from './constants';
-import { openOsmLink } from './openOsmLink';
+import { openOsmLink, openJosmLink } from './openOsmLink';
 
 export const osmEditControl = toolbar.setupControl({
   id: EDIT_IN_OSM_CONTROL_ID,
@@ -32,9 +36,14 @@ osmEditControl.onStateChange((ctx, state) => {
         .get()
         .osmEditors.find((editor) => editor.id === osmEditor);
 
-      if ('lng' in position) {
-        openOsmLink(position, editor?.url);
-      } else throw Error('Unknown position type');
+      if (!('lng' in position)) throw Error('Unknown position type');
+
+      if (editor?.id === 'josm') {
+        const map = currentMapAtom.getState();
+        if (!map) return;
+        const bbox = map.getBounds().toArray().flat() as [number, number, number, number];
+        openJosmLink(bbox, editor?.url);
+      } else openOsmLink(position, editor?.url);
     } catch (e) {
       console.error(e);
     } finally {
