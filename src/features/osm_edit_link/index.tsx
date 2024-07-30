@@ -1,4 +1,8 @@
-import { currentMapPositionAtom, currentUserAtom } from '~core/shared_state';
+import {
+  currentMapPositionAtom,
+  currentUserAtom,
+  currentMapAtom,
+} from '~core/shared_state';
 import { toolbar } from '~core/toolbar';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
