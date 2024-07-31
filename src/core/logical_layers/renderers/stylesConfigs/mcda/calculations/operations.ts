@@ -9,6 +9,7 @@ export interface IsomorphMath<T> {
   cbrt: (x: T) => T;
   abs: (x: T) => T;
   sign: (x: T) => T;
+  clamp: (x: T, min: T, max: T) => T;
 }
 
 export type MapExpression = maplibregl.ExpressionSpecification;
@@ -25,6 +26,19 @@ export class MapMath implements IsomorphMath<MapExpression> {
     this.mult(this.sign(x), ['^', this.abs(x), 1 / 3]);
   abs = (x: MapExpression): MapExpression => ['abs', x];
   sign = (x: MapExpression): MapExpression => ['case', ['<', x, 0], -1, 1];
+  clamp = (x: MapExpression, min: MapExpression, max: MapExpression): MapExpression => [
+    'let',
+    'clampedX',
+    ['to-number', x, 1],
+    [
+      'case',
+      ['<', ['var', 'clampedX'], min],
+      min,
+      ['>', ['var', 'clampedX'], max],
+      max,
+      ['var', 'clampedX'],
+    ],
+  ];
 }
 
 export class JsMath implements IsomorphMath<number> {
@@ -38,4 +52,13 @@ export class JsMath implements IsomorphMath<number> {
   cbrt = (x: number) => Math.cbrt(x);
   abs = (x: number) => Math.abs(x);
   sign = (x: number) => Math.sign(x);
+  clamp = (x: number, min: number, max: number): number => {
+    if (x < min) {
+      return min;
+    }
+    if (x > max) {
+      return max;
+    }
+    return x;
+  };
 }
