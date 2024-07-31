@@ -31,7 +31,7 @@ export const routerConfig: AppRouterConfig = {
   routes: [
     {
       id: 'map',
-      slug: '',
+      slug: 'map',
       title: i18n.t('modes.map'),
       icon: <Map24 />,
       view: <MapPage />,

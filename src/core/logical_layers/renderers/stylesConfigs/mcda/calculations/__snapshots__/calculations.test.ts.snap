@@ -8,14 +8,47 @@ exports[`style correct for bad good sentiments 1`] = `
     [
       "-",
       [
-        "/",
+        "let",
+        "clampedX",
         [
-          "get",
-          "indicator_numerator",
+          "to-number",
+          [
+            "/",
+            [
+              "get",
+              "indicator_numerator",
+            ],
+            [
+              "get",
+              "indicator_denominator",
+            ],
+          ],
+          1,
         ],
         [
-          "get",
-          "indicator_denominator",
+          "case",
+          [
+            "<",
+            [
+              "var",
+              "clampedX",
+            ],
+            0,
+          ],
+          0,
+          [
+            ">",
+            [
+              "var",
+              "clampedX",
+            ],
+            100,
+          ],
+          100,
+          [
+            "var",
+            "clampedX",
+          ],
         ],
       ],
       0,
@@ -41,14 +74,47 @@ exports[`style correct for good bad sentiments 1`] = `
       [
         "-",
         [
-          "/",
+          "let",
+          "clampedX",
           [
-            "get",
-            "indicator_numerator",
+            "to-number",
+            [
+              "/",
+              [
+                "get",
+                "indicator_numerator",
+              ],
+              [
+                "get",
+                "indicator_denominator",
+              ],
+            ],
+            1,
           ],
           [
-            "get",
-            "indicator_denominator",
+            "case",
+            [
+              "<",
+              [
+                "var",
+                "clampedX",
+              ],
+              0,
+            ],
+            0,
+            [
+              ">",
+              [
+                "var",
+                "clampedX",
+              ],
+              100,
+            ],
+            100,
+            [
+              "var",
+              "clampedX",
+            ],
           ],
         ],
         0,

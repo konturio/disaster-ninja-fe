@@ -2,17 +2,14 @@ import { expect } from '@playwright/test';
 import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
 
-let projects = getProjects();
-
-// Atlas has no 'Edit map in OSM' feature for guest
-projects = projects.filter((arg) => arg.name !== 'atlas');
+const projects = getProjects();
 
 for (const project of projects) {
-  test(`As Guest, I can go to ${project.title}, open map and open OSM at map coordinates`, async ({
+  test(`As PRO User, I can go to ${project.title}, open map and open Rapid OSM editor at map coordinates`, async ({
     context,
     pageManager,
   }) => {
-    await pageManager.atBrowser.openProject(project);
+    await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.fromNavigationMenu.goToMap();
 
     // TO DO: remove this action after 18582 issue is fixed
@@ -23,11 +20,11 @@ for (const project of projects) {
     const [newPage] = await Promise.all([
       context.waitForEvent('page'),
       (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click({
-        delay: 150,
+        delay: 330,
       }),
     ]);
 
-    await pageManager.atMap.waitForUrlToMatchPattern(/openstreetmap/, newPage);
+    await pageManager.atMap.waitForUrlToMatchPattern(/rapideditor/, newPage);
     const osmCoordinates = await pageManager.atMap.getViewportFromUrl(newPage);
     expect(osmCoordinates).toStrictEqual(coordinates);
   });

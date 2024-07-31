@@ -2,9 +2,10 @@ import { expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
+import type { Project } from './page-objects/helperBase.ts';
 import type { APIRequestContext } from '@playwright/test';
 
-const projects = getProjects().filter((project) => project.env !== 'prod');
+const projects = getProjects().filter((project: Project) => project.env !== 'prod');
 
 // Registration tests should run one by one not to kill application
 test.describe.configure({ mode: 'serial' });
@@ -37,11 +38,15 @@ for (const project of projects) {
 
     // Register and get admin token in parallel
     const [_, adminToken] = await Promise.all([
-      pageManager.atKeycloakPage.registerAndSeeVerificationEmailInfo(keycloakPage, {
-        fullName,
-        email,
-        password,
-      }),
+      pageManager.atKeycloakPage.registerAndSeeVerificationEmailInfo(
+        project,
+        keycloakPage,
+        {
+          fullName,
+          email,
+          password,
+        },
+      ),
       pageManager.atKeycloakPage.getAdminToken({
         project,
         apiContext,
@@ -62,7 +67,10 @@ for (const project of projects) {
 
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.fromNavigationMenu.goToLoginPage();
-    await pageManager.atLoginPage.typeLoginPasswordAndLogin(email, password, 1);
+    await pageManager.atLoginPage.typeLoginPasswordAndLogin(email, password, {
+      project,
+      shouldSuccess: true,
+    });
 
     await pageManager.atProfilePage.checkLogoutBtnProfileTitleAndEmail(email);
 

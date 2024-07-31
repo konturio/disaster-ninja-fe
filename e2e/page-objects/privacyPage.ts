@@ -61,12 +61,12 @@ export class PrivacyPage extends HelperBase {
       await expect(linkElement).toHaveAttribute('href', link.url);
       if (link.linkValidation.shouldOpen) {
         const [page] = await Promise.all([
-          context.waitForEvent('page'),
-          linkElement.click(),
+          context.waitForEvent('page', { timeout: 15000 }),
+          linkElement.click({ delay: 330 }),
         ]);
         await page.waitForLoadState('domcontentloaded');
         expect(page.url()).toEqual(link.linkValidation.expectedUrl);
-        await page.close();
+        await Promise.all([page.close(), this.page.waitForLoadState('domcontentloaded')]);
       }
     }
   }
@@ -76,12 +76,19 @@ export class PrivacyPage extends HelperBase {
    */
 
   async openAndVerifyCookiesPage() {
-    await this.page.getByText('Cookie files policy and operational data').click();
-    await expect(
-      this.page.getByText('Cookie files policy and operational data'),
-    ).toBeVisible();
-    await expect(this.page.getByText('AnalyticsSyncHistory')).toBeVisible();
-    await expect(this.page.getByText('30 days').first()).toBeVisible();
-    await expect(this.page.getByText('Description')).toBeVisible();
+    await Promise.all([
+      this.page.getByText('Cookie files policy and operational data').click(),
+      this.page.waitForURL(/cookies/),
+      this.page.waitForLoadState('domcontentloaded'),
+    ]);
+    await this.page.locator('h1').first().scrollIntoViewIfNeeded();
+    await Promise.all([
+      expect(
+        this.page.getByText('Cookie files policy and operational data'),
+      ).toBeVisible(),
+      expect(this.page.getByText('AnalyticsSyncHistory')).toBeVisible(),
+      expect(this.page.getByText('30 days').first()).toBeVisible(),
+      expect(this.page.getByText('Description')).toBeVisible(),
+    ]);
   }
 }

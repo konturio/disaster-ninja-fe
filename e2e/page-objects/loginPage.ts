@@ -1,39 +1,56 @@
 import { expect } from '@playwright/test';
 import { HelperBase } from './helperBase';
-import type { BrowserContext } from '@playwright/test';
+import type { Project } from './helperBase';
+import type { BrowserContext, Page } from '@playwright/test';
+
+type LoginOptions = {
+  shouldSuccess: boolean;
+  operablePage?: Page;
+  project: Project;
+};
 
 export class LoginPage extends HelperBase {
   /**
-   * This method checks the Log in button visibility and then fills in email and password with special speed emulating real user typing
+   * This method checks the Log in button visibility and then fills in email and password
    * @param email - should be email in form of string
    * @param password - should be password in form of string
-   * @param typingSpeedMs - delay between keyboard clicks in ms. High numbers increase test execution!
+   * @param shouldSuccess - should login be successful or not
+   * @param project - kontur project to test
+   * @param operablePage - playwright page to use
    */
 
   async typeLoginPasswordAndLogin(
     email: string,
     password: string,
-    typingSpeedMs: number,
+    { shouldSuccess, project, operablePage = this.page }: LoginOptions,
   ) {
-    await this.checkLoginAndSignupPresence();
-    // Getting email field and type in like real user
-    const emailInput = this.page.getByRole('textbox').first();
-    await emailInput.pressSequentially(email, { delay: typingSpeedMs });
+    await this.checkLoginAndSignupPresence(operablePage);
+    // Getting email field and type in
+    const emailInput = operablePage.getByRole('textbox').first();
+    await emailInput.fill(email);
 
-    // Getting password field and type in like real user
-    const passwordInput = this.page.locator('input[type="password"]');
-    await passwordInput.pressSequentially(password, { delay: typingSpeedMs });
+    // Getting password field and type in
+    const passwordInput = operablePage.locator('input[type="password"]');
+    await passwordInput.fill(password);
 
-    // Getting Log in button and clicking
-    await this.page.getByRole('button', { name: 'Log in' }).click();
+    // Getting Log in button, clicking and waiting for response
+    const [_, loginResponse] = await Promise.all([
+      operablePage.getByRole('button', { name: 'Log in' }).click({ delay: 330 }),
+      operablePage.waitForResponse(project.authUrl),
+    ]);
+
+    // Expect keycloak answer 200 ok if required
+    if (shouldSuccess) expect(loginResponse.status()).toEqual(200);
   }
 
   /**
    * This method checks that there are login and sign up elements
    */
-  async checkLoginAndSignupPresence() {
-    await expect(this.page.getByRole('button', { name: 'Log in' })).toBeVisible();
-    await expect(this.page.getByText('Sign up')).toBeVisible();
+  async checkLoginAndSignupPresence(operablePage: Page = this.page) {
+    await Promise.all([
+      expect(operablePage.getByRole('button', { name: 'Log in' })).toBeVisible(),
+      expect(operablePage.getByText('Sign up')).toBeVisible(),
+    ]);
   }
 
   /**
@@ -46,7 +63,7 @@ export class LoginPage extends HelperBase {
     // Start waiting for new page being opened and click sign up
     const [keycloakPage] = await Promise.all([
       context.waitForEvent('page'),
-      this.page.getByText('Sign up').click(),
+      this.page.getByText('Sign up').click({ delay: 330 }),
     ]);
     await expect(keycloakPage).toHaveTitle(/Sign in/);
     return keycloakPage;
