@@ -185,7 +185,6 @@ export const calculateLayerPipeline =
     });
     /* if transformation lowerBound and upperBound are defined,
        use them as a clamp boundaries for the transformed value */
-    // console.log('before clamp:', {tX, tMin, tMax, numberLo: transformation?.lowerBound, numberUp: transformation?.upperBound});
     if (
       transformation?.transformation &&
       isNumber(transformation.lowerBound) &&
@@ -194,7 +193,6 @@ export const calculateLayerPipeline =
       tMin = operations.max(tMin, transformation.lowerBound);
       tMax = operations.min(tMax, transformation.upperBound);
       tX = operations.clamp(tX, tMin, tMax);
-      // console.log('after clamp:', {tX, tMin, tMax});
     }
     const normalized =
       normalization === 'max-min'
