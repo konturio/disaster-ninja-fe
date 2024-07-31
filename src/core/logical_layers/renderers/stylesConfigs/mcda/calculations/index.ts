@@ -31,6 +31,8 @@ interface IsomorphCalculations<T> {
   invert: (x: T) => T;
   /** x * coefficient (a.k.a. weight) */
   scale: (x: T, coefficient: T) => T;
+  /** returns x if it's within [min; max], otherwise returns min/max */
+  clamp: (x: T, min: T, max: T) => T;
 }
 
 class Calculations<T> implements IsomorphCalculations<T> {
@@ -122,6 +124,10 @@ class Calculations<T> implements IsomorphCalculations<T> {
   scale(x: T, coefficient: T) {
     return this.math.mult(x, coefficient);
   }
+
+  clamp(x: T, min: T, max: T) {
+    return this.math.clamp(x, min, max);
+  }
 }
 
 export const inStyleCalculations = new Calculations(new MapMath());
@@ -154,26 +160,19 @@ export const calculateLayerPipeline =
 
     const values = getValue({ num, den });
     const rate = operations.rate(values);
+    const clamped = outliers === 'clamp' ? operations.clamp(rate, min, max) : rate;
     // tX - shortcut for transformedX
     const { tX, tMin, tMax } = operations.transform({
-      x: rate,
+      x: clamped,
       min,
       max,
       datasetMin: datasetMin,
       transformation: transformationFunction,
     });
-    let rangeChecked = tX;
-    if (outliers === 'clamp') {
-      if (rangeChecked < tMin) {
-        rangeChecked = tMin;
-      } else if (rangeChecked > tMax) {
-        rangeChecked = tMax;
-      }
-    }
     const normalized =
       normalization === 'max-min'
-        ? operations.normalize({ x: rangeChecked, min: tMin, max: tMax })
-        : rangeChecked;
+        ? operations.normalize({ x: tX, min: tMin, max: tMax })
+        : tX;
     const orientated = inverted ? operations.invert(normalized) : normalized;
     const scaled = operations.scale(orientated, coefficient);
     return scaled;
