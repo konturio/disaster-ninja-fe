@@ -249,15 +249,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
 
   const setToSigmaRange = useCallback(
     (numberOfSigmas: number) => {
-      // TODO: BE should be returning non-transformed values!
-      const reverseTransformations = {
-        no: (x) => x,
-        cube_root: (x) => x * x * x,
-        square_root: (x) => Math.sign(x) * Math.abs(x * x),
-        log: (x) => Math.pow(10, x) - 1 + parseFloat(axisDatasetRange?.[0] ?? '0'),
-        log_epsilon: (x) =>
-          Math.pow(10, x) - Number.EPSILON + parseFloat(axisDatasetRange?.[0] ?? '0'),
-      };
       const noTransformStatistics = transformationsStatistics?.get('no');
       const datasetRange = [
         parseFloat(axisDatasetRange?.[0] ?? '0'),
@@ -265,24 +256,12 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       ];
       if (!axes.loading) {
         if (noTransformStatistics) {
-          // console.log({ layer, selectedTransformationStatistics });
-          if (numberOfSigmas === 3) {
-            setRangeFrom(noTransformStatistics?.lowerBound.toFixed(5));
-            setRangeTo(noTransformStatistics?.upperBound.toFixed(5));
-          } else {
-            const mean = noTransformStatistics?.mean;
-            const stddev = noTransformStatistics?.stddev;
-            const lowerLimit = mean - numberOfSigmas * stddev;
-            const upperLimit = mean + numberOfSigmas * stddev;
-            // TODO: the resulting mean and stddev don't look correct. Sometimes mean + 3*stddev is > than dataset range!
-            // console.log({ defT: defaultTransformation.transformation, mean, stddev });
-            setRangeFrom(
-              (lowerLimit < datasetRange[0] ? datasetRange[0] : lowerLimit).toFixed(5),
-            );
-            setRangeTo(
-              (upperLimit > datasetRange[1] ? datasetRange[1] : upperLimit).toFixed(5),
-            );
-          }
+          const mean = noTransformStatistics?.mean;
+          const stddev = noTransformStatistics?.stddev;
+          const lowerSigmaRange = mean - numberOfSigmas * stddev;
+          const upperSigmaRange = mean + numberOfSigmas * stddev;
+          setRangeFrom(Math.max(lowerSigmaRange, datasetRange[0]).toString());
+          setRangeTo(Math.min(upperSigmaRange, datasetRange[1]).toString());
         } else {
           console.error(
             `Couldn\'nt find defaultTransformation to set sigma range for ${layer.id}.`,
@@ -405,7 +384,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                   {i18n.t('mcda.layer_editor.range_buttons.3_sigma')}
                 </span>
                 <span
-                  className={clsx(s.rangeTextButtons, s.error, {
+                  className={clsx(s.rangeTextButtons, {
                     [s.textButtonDisabled]: axes.loading,
                   })}
                   onClick={() => setToSigmaRange(2)}
@@ -413,7 +392,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                   {i18n.t('mcda.layer_editor.range_buttons.2_sigma')}
                 </span>
                 <span
-                  className={clsx(s.rangeTextButtons, s.error, {
+                  className={clsx(s.rangeTextButtons, {
                     [s.textButtonDisabled]: axes.loading,
                   })}
                   onClick={() => setToSigmaRange(1)}
@@ -515,12 +494,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                   <div className={s.debugText}>
                     ubnd: {transformationsStatistics?.get(transform)?.upperBound}
                   </div>
-                  {/* <div> */}
                   <TransformationsChart
                     transformedPoints={transformationsStatistics?.get(transform)?.points}
                     originalPoints={transformationsStatistics?.get('no')?.points}
                   />
-                  {/* </div> */}
                 </div>
               ) : (
                 <></>
