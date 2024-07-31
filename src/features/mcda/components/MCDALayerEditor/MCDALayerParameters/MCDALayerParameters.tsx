@@ -10,6 +10,7 @@ import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
 import { getAxisTransformations } from '~core/api/mcda';
+import { generateSigmaRange } from '~features/mcda/utils/generateSigmaRange';
 import { Sentiments } from '../Sentiments';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
@@ -258,10 +259,13 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       ];
       if (!axes.loading) {
         if (noTransformStatistics) {
-          const mean = noTransformStatistics?.mean;
-          const stddev = noTransformStatistics?.stddev;
-          const lowerSigmaRange = mean - numberOfSigmas * stddev;
-          const upperSigmaRange = mean + numberOfSigmas * stddev;
+          const mean = noTransformStatistics.mean;
+          const stddev = noTransformStatistics.stddev;
+          const [lowerSigmaRange, upperSigmaRange] = generateSigmaRange(
+            mean,
+            stddev,
+            numberOfSigmas,
+          );
           setRangeFrom(Math.max(lowerSigmaRange, datasetRange[0]).toString());
           setRangeTo(Math.min(upperSigmaRange, datasetRange[1]).toString());
         } else {
