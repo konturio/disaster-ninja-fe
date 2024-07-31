@@ -501,8 +501,8 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                     ubnd: {transformationsStatistics?.get(transform)?.upperBound}
                   </div>
                   <TransformationsChart
-                    transformedPoints={transformationsStatistics?.get(transform)?.points}
-                    originalPoints={transformationsStatistics?.get('no')?.points}
+                    transformedData={transformationsStatistics?.get(transform)}
+                    originalData={transformationsStatistics?.get('no')}
                   />
                 </div>
               ) : (

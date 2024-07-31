@@ -1,0 +1,7 @@
+.transformationChart {
+  background-color: red;
+
+  & .recharts-text .recharts-label {
+    margin: 40px;
+  }
+}

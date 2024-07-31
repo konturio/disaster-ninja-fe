@@ -1,7 +1,11 @@
 import { useMemo } from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
-import { scaleSymlog } from 'd3-scale';
+import { scaleSqrt, scaleSymlog } from 'd3-scale';
 import { generateHclGradientColors } from '~features/mcda/utils/generateHclGradientColors';
+import { inViewCalculations } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations';
+import s from './TransformationsChart.module.css';
+import type { TransformationFunction } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { AxisTransformationWithPoints } from '~utils/bivariate';
 
 const CHART_GREEN = 'rgb(50, 170, 100)';
 const CHART_RED = 'rgb(228, 26, 28)';
@@ -9,24 +13,66 @@ const CHART_YELLOW = 'rgb(251,237,170)';
 const COLOR_ORIGINAL = '#CCC';
 
 type TransformationsChartProps = {
-  transformedPoints?: number[];
-  originalPoints?: number[];
+  transformedData?: AxisTransformationWithPoints;
+  originalData?: AxisTransformationWithPoints;
 };
 
+function getScaleFunction(
+  transformationFunction: TransformationFunction | undefined,
+  points: number[] | undefined,
+) {
+  switch (transformationFunction) {
+    case 'log':
+    case 'log_epsilon':
+      return scaleSymlog([points?.at(0), points?.at(-1)]);
+    case 'cube_root':
+    case 'square_root':
+      return scaleSqrt([points?.at(0), points?.at(-1)]);
+    default:
+      return 'auto';
+  }
+}
+
 function TransformationsChart({
-  transformedPoints,
-  originalPoints,
+  transformedData,
+  originalData,
 }: TransformationsChartProps) {
+  const transformationApplied = useMemo(
+    () => transformedData?.transformation !== 'no',
+    [transformedData],
+  );
+
+  const clampedTransformedPoints = useMemo(
+    () =>
+      transformationApplied
+        ? transformedData?.points?.map((point) =>
+            inViewCalculations.clamp(
+              point,
+              transformedData?.lowerBound,
+              transformedData.upperBound,
+            ),
+          )
+        : transformedData?.points,
+    [transformationApplied, transformedData],
+  );
+
   const data = useMemo(
     () =>
-      originalPoints?.map((value, index) => ({
-        transformed: transformedPoints?.[index],
+      originalData?.points?.map((value, index) => ({
+        transformed: clampedTransformedPoints?.[index],
         original: value,
         x: index,
       })),
-    [originalPoints, transformedPoints],
+    [clampedTransformedPoints, originalData?.points],
   );
-  const scale = scaleSymlog([transformedPoints?.at(0), transformedPoints?.at(-1)]);
+  const scaleTransformed = useMemo(
+    () => getScaleFunction('no', clampedTransformedPoints),
+    [clampedTransformedPoints],
+  );
+  const scaleOriginal = useMemo(
+    () => getScaleFunction(transformedData?.transformation, originalData?.points),
+    [originalData?.points, transformedData?.transformation],
+  );
 
   return (
     <LineChart
@@ -42,11 +88,17 @@ function TransformationsChart({
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey={'x'} tickSize={undefined} tickCount={2} />
-      <YAxis dataKey="transformed" yAxisId="transformed" />
+      <XAxis
+        className={s.transformationChart}
+        dataKey={'x'}
+        ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90]}
+        name="percentile"
+        label={{ value: 'Percentiles', position: 'insideBottomRight', offset: 0 }}
+      />
+      <YAxis dataKey="transformed" yAxisId="transformed" scale={scaleTransformed} />
       <YAxis
         dataKey="original"
-        scale={scale}
+        scale={scaleOriginal}
         orientation="right"
         yAxisId="original"
         axisLine={{ stroke: COLOR_ORIGINAL }}
@@ -61,6 +113,8 @@ function TransformationsChart({
         stroke={COLOR_ORIGINAL}
         yAxisId="original"
         dot={{ r: 1.5, fill: COLOR_ORIGINAL }}
+        strokeWidth={0.25}
+        animationDuration={700}
       />
       <Line
         type="monotone"
@@ -68,6 +122,8 @@ function TransformationsChart({
         stroke={CHART_GREEN}
         yAxisId="transformed"
         dot={<GradientDot />}
+        strokeWidth={0.25}
+        animationDuration={700}
       />
     </LineChart>
   );
@@ -78,7 +134,7 @@ gradient.push(...generateHclGradientColors(CHART_YELLOW, CHART_GREEN, 51));
 
 const GradientDot = (props) => {
   const { cx, cy, payload } = props;
-  return <circle cx={cx} cy={cy} r={2} fill={gradient[payload.x]} />;
+  return <circle cx={cx} cy={cy} r={1.5} fill={gradient[payload.x]} />;
 };
 
 TransformationsChart.propTypes = {};
