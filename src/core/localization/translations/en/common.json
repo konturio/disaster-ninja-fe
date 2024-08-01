@@ -325,6 +325,9 @@
       "connect": "Could not connect to authentication service"
     }
   },
+  "currency": {
+    "usd": "USD"
+  },
   "subscription": {
     "title": "Plans & Pricing",
     "price_summary": "* Billed as {{pricePerYear}} USD once yearly",

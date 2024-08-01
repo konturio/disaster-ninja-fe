@@ -78,7 +78,8 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
         <div
           className={clsx(s.initialPrice, { [s.hidden]: billingOption.id === 'month' })}
         >
-          ${billingOption?.initialPricePerMonth?.toLocaleString('en-US')} USD
+          ${billingOption?.initialPricePerMonth?.toLocaleString('en-US')}{' '}
+          {i18n.t('currency.usd')}
         </div>
       )}
       {billingOption && (
