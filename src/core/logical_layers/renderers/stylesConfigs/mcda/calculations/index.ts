@@ -1,3 +1,4 @@
+import { isNumber } from '@turf/helpers';
 import { sentimentDefault, sentimentReversed } from './constants';
 import { JsMath, MapMath } from './operations';
 import type { IsomorphMath } from './operations';
@@ -33,6 +34,10 @@ interface IsomorphCalculations<T> {
   scale: (x: T, coefficient: T) => T;
   /** returns x if it's within [min; max], otherwise returns min/max */
   clamp: (x: T, min: T, max: T) => T;
+  /** returns the smaller of two values */
+  min: (v1: T, v2: T) => T;
+  /** returns the bigger of two values */
+  max: (v1: T, v2: T) => T;
 }
 
 class Calculations<T> implements IsomorphCalculations<T> {
@@ -128,6 +133,14 @@ class Calculations<T> implements IsomorphCalculations<T> {
   clamp(x: T, min: T, max: T) {
     return this.math.clamp(x, min, max);
   }
+
+  min(v1: T, v2: T) {
+    return this.math.min(v1, v2);
+  }
+
+  max(v1: T, v2: T) {
+    return this.math.max(v1, v2);
+  }
 }
 
 export const inStyleCalculations = new Calculations(new MapMath());
@@ -144,6 +157,7 @@ export const calculateLayerPipeline =
     coefficient,
     sentiment,
     transformationFunction,
+    transformation,
     normalization,
     outliers,
     datasetRange,
@@ -162,13 +176,24 @@ export const calculateLayerPipeline =
     const rate = operations.rate(values);
     const clamped = outliers === 'clamp' ? operations.clamp(rate, min, max) : rate;
     // tX - shortcut for transformedX
-    const { tX, tMin, tMax } = operations.transform({
+    let { tX, tMin, tMax } = operations.transform({
       x: clamped,
       min,
       max,
       datasetMin: datasetMin,
-      transformation: transformationFunction,
+      transformation: transformation?.transformation ?? transformationFunction,
     });
+    /* if transformation lowerBound and upperBound are defined,
+       use them as a clamp boundaries for the transformed value */
+    if (
+      transformation?.transformation &&
+      isNumber(transformation.lowerBound) &&
+      isNumber(transformation.upperBound)
+    ) {
+      tMin = operations.max(tMin, transformation.lowerBound);
+      tMax = operations.min(tMax, transformation.upperBound);
+      tX = operations.clamp(tX, tMin, tMax);
+    }
     const normalized =
       normalization === 'max-min'
         ? operations.normalize({ x: tX, min: tMin, max: tMax })

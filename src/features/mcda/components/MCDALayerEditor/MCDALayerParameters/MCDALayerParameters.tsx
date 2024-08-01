@@ -196,6 +196,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       outliers,
       coefficient: isNumber(coefficientNum) ? coefficientNum : 1,
       transformationFunction: transform,
+      transformation: layer.transformation,
       normalization,
       datasetRange: layer.datasetRange,
     };
@@ -208,6 +209,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     layer.id,
     layer.indicators,
     layer.name,
+    layer.transformation,
     layer.unit,
     normalization,
     onLayerEdited,

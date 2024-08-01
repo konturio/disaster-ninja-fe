@@ -119,6 +119,7 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
         outliers: 'clamp',
         coefficient: 1,
         transformationFunction: axis.transformation?.transformation ?? 'no',
+        transformation: axis.transformation,
         normalization: 'max-min',
       });
     } catch (e) {
