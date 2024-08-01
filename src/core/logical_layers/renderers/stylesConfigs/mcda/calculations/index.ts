@@ -160,11 +160,11 @@ export const calculateLayerPipeline =
     transformation,
     normalization,
     outliers,
-    datasetRange,
+    datasetStats,
   }: MCDAConfig['layers'][0]) => {
     const [num, den] = axis;
     const [min, max] = range;
-    const datasetMin = datasetRange?.[0];
+    const datasetMin = datasetStats?.minValue;
     const inverted = equalSentiments(sentiment, sentimentReversed);
     if (!inverted)
       console.assert(
@@ -180,7 +180,7 @@ export const calculateLayerPipeline =
       x: clamped,
       min,
       max,
-      datasetMin: datasetMin,
+      datasetMin,
       transformation: transformation?.transformation ?? transformationFunction,
     });
     /* if transformation lowerBound and upperBound are defined,

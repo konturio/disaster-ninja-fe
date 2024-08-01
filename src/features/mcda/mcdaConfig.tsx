@@ -13,6 +13,7 @@ import {
 import { MCDAForm } from './components/MCDAForm';
 import { generateMCDAId } from './utils/generateMCDAId';
 import { DEFAULT_MCDA_NAME } from './constants';
+import { generateSigmaRange } from './utils/generateSigmaRange';
 import type {
   MCDAConfig,
   MCDALayer,
@@ -88,7 +89,8 @@ function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
   };
 }
 
-function getRange(axis: Axis): [number, number] {
+// TODO: remove once all presets contain datasetStats
+function getRangeFromAxisSteps(axis: Axis): [number, number] {
   const minStep = axis.steps.at(0)?.value;
   const maxStep = axis.steps.at(-1)?.value;
   if (typeof minStep === 'number' && typeof maxStep === 'number') {
@@ -106,6 +108,9 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
     )
       ? sentimentDefault
       : sentimentReversed;
+    const range = axis.datasetStats
+      ? generateSigmaRange(axis.datasetStats, 3)
+      : getRangeFromAxisSteps(axis);
     try {
       acc.push({
         id: axis.id,
@@ -113,8 +118,8 @@ function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
         axis: axis.quotient,
         indicators: axis.quotients ?? [],
         unit: formatBivariateAxisUnit(axis.quotients),
-        range: getRange(axis),
-        datasetRange: getRange(axis),
+        range,
+        datasetStats: axis.datasetStats,
         sentiment: sentimentDirection,
         outliers: 'clamp',
         coefficient: 1,

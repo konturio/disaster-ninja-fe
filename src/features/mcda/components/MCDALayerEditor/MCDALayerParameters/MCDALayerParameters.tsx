@@ -209,14 +209,14 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       transformationFunction: transform,
       transformation: layer.transformation,
       normalization,
-      datasetRange: layer.datasetRange,
+      datasetStats: layer.datasetStats,
     };
     setEditMode(false);
     onLayerEdited(updatedLayer);
   }, [
     coefficient,
     layer.axis,
-    layer.datasetRange,
+    layer.datasetStats,
     layer.id,
     layer.indicators,
     layer.name,
@@ -258,20 +258,30 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         parseFloat(axisDatasetRange?.[1] ?? '1'),
       ];
       if (!axes.loading) {
-        if (noTransformStatistics) {
+        if (layer.datasetStats) {
+          const [lowerSigmaRange, upperSigmaRange] = generateSigmaRange(
+            layer.datasetStats,
+            numberOfSigmas,
+          );
+          setRangeFrom(lowerSigmaRange.toString());
+          setRangeTo(upperSigmaRange.toString());
+        } else if (noTransformStatistics) {
+          // TODO: remove this case once datasetStats is present in all MCDA presets
           const mean = noTransformStatistics.mean;
           const stddev = noTransformStatistics.stddev;
           const [lowerSigmaRange, upperSigmaRange] = generateSigmaRange(
-            mean,
-            stddev,
+            {
+              mean,
+              stddev,
+              minValue: datasetRange[0],
+              maxValue: datasetRange[1],
+            },
             numberOfSigmas,
           );
-          setRangeFrom(Math.max(lowerSigmaRange, datasetRange[0]).toString());
-          setRangeTo(Math.min(upperSigmaRange, datasetRange[1]).toString());
+          setRangeFrom(lowerSigmaRange.toString());
+          setRangeTo(upperSigmaRange.toString());
         } else {
-          console.error(
-            `Couldn\'nt find defaultTransformation to set sigma range for ${layer.id}.`,
-          );
+          console.error(`Couldn\'nt find the data to set sigma range for ${layer.id}.`);
         }
       }
     },

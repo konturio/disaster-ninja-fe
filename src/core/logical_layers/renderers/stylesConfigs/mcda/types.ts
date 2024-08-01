@@ -1,4 +1,8 @@
-import type { AxisTransformation, Indicator } from '~utils/bivariate/types/stat.types';
+import type {
+  AxisDatasetStats,
+  AxisTransformation,
+  Indicator,
+} from '~utils/bivariate/types/stat.types';
 
 export type ColorsByMapLibreExpression = {
   type: 'mapLibreExpression';
@@ -35,7 +39,7 @@ export interface MCDALayer {
   transformation?: AxisTransformation;
   normalization: Normalization;
   unit: string | null;
-  datasetRange?: [number, number];
+  datasetStats?: AxisDatasetStats;
 }
 
 export interface MCDAConfig {

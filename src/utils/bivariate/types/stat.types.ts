@@ -31,6 +31,13 @@ export interface AxisTransformationWithPoints extends AxisTransformation {
   points: number[];
 }
 
+export interface AxisDatasetStats {
+  minValue: number;
+  maxValue: number;
+  mean: number;
+  stddev: number;
+}
+
 export type Axis = {
   id: string;
   label: string;
@@ -40,6 +47,7 @@ export type Axis = {
   quality?: number;
   parent?: Quotient;
   transformation?: AxisTransformation;
+  datasetStats?: AxisDatasetStats;
 };
 
 export type CorrelationRate = {

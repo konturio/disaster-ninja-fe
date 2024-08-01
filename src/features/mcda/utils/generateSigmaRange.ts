@@ -1,5 +1,9 @@
+import type { AxisDatasetStats } from '~utils/bivariate';
+
 export const generateSigmaRange = (
-  mean: number,
-  stddev: number,
+  stats: AxisDatasetStats,
   numberOfSigmas: number,
-): [number, number] => [mean - numberOfSigmas * stddev, mean + numberOfSigmas * stddev];
+): [number, number] => [
+  Math.max(stats.mean - numberOfSigmas * stats.stddev, stats.minValue),
+  Math.min(stats.mean + numberOfSigmas * stats.stddev, stats.maxValue),
+];
