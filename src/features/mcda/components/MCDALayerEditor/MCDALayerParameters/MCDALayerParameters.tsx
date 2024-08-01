@@ -207,7 +207,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       outliers,
       coefficient: isNumber(coefficientNum) ? coefficientNum : 1,
       transformationFunction: transform,
-      transformation: layer.transformation,
+      transformation: transformationsStatistics?.get(transform),
       normalization,
       datasetStats: layer.datasetStats,
     };
@@ -220,7 +220,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     layer.id,
     layer.indicators,
     layer.name,
-    layer.transformation,
     layer.unit,
     normalization,
     onLayerEdited,
@@ -229,6 +228,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     rangeTo,
     sentiment,
     transform,
+    transformationsStatistics,
   ]);
 
   const onCancel = useCallback(() => {
