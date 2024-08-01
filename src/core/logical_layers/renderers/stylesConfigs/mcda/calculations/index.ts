@@ -1,4 +1,4 @@
-import { isNumber } from '@turf/helpers';
+import { isNumber } from '~utils/common';
 import { sentimentDefault, sentimentReversed } from './constants';
 import { JsMath, MapMath } from './operations';
 import type { IsomorphMath } from './operations';
