@@ -37,7 +37,7 @@ const PaymentPlanCardFooter = memo(function PaymentPlanCardFooter({
     return (
       <Text type="caption">
         {i18n.t('subscription.price_summary', {
-          pricePerYear: billingOption.pricePerYear,
+          pricePerYear: billingOption.pricePerYear.toLocaleString('en-US'),
         })}
       </Text>
     );
