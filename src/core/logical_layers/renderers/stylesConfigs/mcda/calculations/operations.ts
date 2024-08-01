@@ -31,7 +31,7 @@ export class MapMath implements IsomorphMath<MapExpression> {
   clamp = (x: MapExpression, min: MapExpression, max: MapExpression): MapExpression => [
     'let',
     'clampedX',
-    ['to-number', x, 1],
+    ['to-number', x, Infinity],
     [
       'case',
       ['<', ['var', 'clampedX'], min],
@@ -44,17 +44,17 @@ export class MapMath implements IsomorphMath<MapExpression> {
   min = (v1: MapExpression, v2: MapExpression): MapExpression => [
     'let',
     'v1',
-    ['to-number', v1, 0],
+    ['to-number', v1, Infinity],
     'v2',
-    ['to-number', v2, 0],
+    ['to-number', v2, Infinity],
     ['case', ['<', ['var', 'v2'], ['var', 'v1']], ['var', 'v2'], ['var', 'v1']],
   ];
   max = (v1: MapExpression, v2: MapExpression): MapExpression => [
     'let',
     'v1',
-    ['to-number', v1, 0],
+    ['to-number', v1, -Infinity],
     'v2',
-    ['to-number', v2, 0],
+    ['to-number', v2, -Infinity],
     ['case', ['>', ['var', 'v2'], ['var', 'v1']], ['var', 'v2'], ['var', 'v1']],
   ];
 }
