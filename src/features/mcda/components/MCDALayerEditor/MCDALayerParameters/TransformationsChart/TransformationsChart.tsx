@@ -137,6 +137,4 @@ const GradientDot = (props) => {
   return <circle cx={cx} cy={cy} r={1.5} fill={gradient[payload.x]} />;
 };
 
-TransformationsChart.propTypes = {};
-
 export default TransformationsChart;
