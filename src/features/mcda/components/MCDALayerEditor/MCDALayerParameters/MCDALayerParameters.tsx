@@ -165,30 +165,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     return undefined;
   }, [coefficient]);
 
-  useEffect(() => {
-    const rangeFromNum = Number(rangeFrom);
-    const rangeToNum = Number(rangeTo);
-    let errorFrom = '';
-    let errorTo = '';
-    if (!isNumber(rangeFromNum)) {
-      errorFrom = i18n.t('mcda.layer_editor.errors.range_must_be_a_number');
-    }
-    if (!isNumber(rangeToNum)) {
-      errorTo = i18n.t('mcda.layer_editor.errors.range_must_be_a_number');
-    }
-    if (Number(rangeFrom) > Number(rangeTo)) {
-      errorFrom = i18n.t('mcda.layer_editor.errors.range_from_cannot_be_bigger');
-    }
-    if (!rangeTo) {
-      errorTo = i18n.t('mcda.layer_editor.errors.range_cannot_be_empty');
-    }
-    if (!rangeFrom) {
-      errorFrom = i18n.t('mcda.layer_editor.errors.range_cannot_be_empty');
-    }
-    setRangeFromError(errorFrom);
-    setRangeToError(errorTo);
-  }, [rangeFrom, rangeTo]);
-
   /** CALLBACKS */
   const onSaveLayer = useCallback(() => {
     const rangeNum = [Number(rangeFrom), Number(rangeTo)];

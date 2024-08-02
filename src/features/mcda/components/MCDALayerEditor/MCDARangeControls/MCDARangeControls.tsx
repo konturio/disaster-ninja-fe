@@ -1,8 +1,9 @@
 import { Input, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
-import { useCallback, type Dispatch, type SetStateAction } from 'react';
+import { useCallback, useEffect, type Dispatch, type SetStateAction } from 'react';
 import { i18n } from '~core/localization';
 import { generateSigmaRange } from '~features/mcda/utils/generateSigmaRange';
+import { isNumber } from '~utils/common';
 import { NUMBER_FILTER } from '../MCDALayerParameters/constants';
 import s from './MCDARangeControls.module.css';
 import type {
@@ -43,6 +44,30 @@ function MCDARangeControls({
   layer,
   transformationsStatistics,
 }: Props) {
+  useEffect(() => {
+    const rangeFromNum = Number(rangeFrom);
+    const rangeToNum = Number(rangeTo);
+    let errorFrom = '';
+    let errorTo = '';
+    if (!isNumber(rangeFromNum)) {
+      errorFrom = i18n.t('mcda.layer_editor.errors.range_must_be_a_number');
+    }
+    if (!isNumber(rangeToNum)) {
+      errorTo = i18n.t('mcda.layer_editor.errors.range_must_be_a_number');
+    }
+    if (Number(rangeFrom) > Number(rangeTo)) {
+      errorFrom = i18n.t('mcda.layer_editor.errors.range_from_cannot_be_bigger');
+    }
+    if (!rangeTo) {
+      errorTo = i18n.t('mcda.layer_editor.errors.range_cannot_be_empty');
+    }
+    if (!rangeFrom) {
+      errorFrom = i18n.t('mcda.layer_editor.errors.range_cannot_be_empty');
+    }
+    setRangeFromError(errorFrom);
+    setRangeToError(errorTo);
+  }, [rangeFrom, rangeTo, setRangeFromError, setRangeToError]);
+
   const setToFullDatasetRange = useCallback(() => {
     if (!disabled) {
       if (axisDatasetRange) {
