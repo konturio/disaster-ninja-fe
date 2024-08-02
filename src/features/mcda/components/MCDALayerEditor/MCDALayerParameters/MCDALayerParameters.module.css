@@ -50,28 +50,8 @@
   width: 50%;
 }
 
-.textInputBox input,
-.rangeInputBox input {
+.textInputBox input {
   font-size: 11px;
-}
-
-.inputRangeDivider {
-  margin: 0 var(--half-unit);
-}
-
-.rangeTextButtonsContainer {
-  width: 100%;
-  margin-top: calc(-1 * var(--half-unit));
-}
-
-.rangeTextButtons {
-  margin-top: calc(-1 * var(--half-unit));
-  color: var(--accent-strong);
-  cursor: pointer;
-
-  &:not(:first-child) {
-    margin-left: var(--unit);
-  }
 }
 
 .hiddenError {
@@ -86,25 +66,6 @@
   color: red;
   font-size: 12px;
   line-height: 16px;
-}
-
-.rangeInputContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 144px;
-}
-
-.rangeInputBox {
-  padding: var(--half-unit);
-  height: 30px;
-  width: 100%;
-}
-
-.rangeInputRoot {
-  flex-grow: 0.5;
-  position: relative;
-  width: 55px;
 }
 
 /* Select input */
@@ -125,10 +86,6 @@
 
 .selectInputBox {
   font-size: 11px;
-}
-
-.textButtonDisabled {
-  color: var(--faint-strong);
 }
 
 .editButton {

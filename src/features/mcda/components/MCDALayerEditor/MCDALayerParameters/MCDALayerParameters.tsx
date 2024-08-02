@@ -10,13 +10,12 @@ import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
 import { getAxisTransformations } from '~core/api/mcda';
-import { generateSigmaRange } from '~features/mcda/utils/generateSigmaRange';
 import { Sentiments } from '../Sentiments';
+import MCDARangeControls from '../MCDARangeControls/MCDARangeControls';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
 import {
   MCDA_LAYER_DEFAULTS as DEFAULTS,
-  NUMBER_FILTER,
   POSITIVE_NUMBER_FILTER,
   SENTIMENT_VALUES,
   normalizationOptions,
@@ -226,59 +225,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setEditMode(false);
   }, []);
 
-  const setToFullDatasetRange = useCallback(() => {
-    if (!axes.loading) {
-      if (axisDatasetRange) {
-        setRangeFrom(axisDatasetRange[0]);
-        setRangeTo(axisDatasetRange[1]);
-      } else {
-        console.error(
-          `Couldn\'nt find default range for ${layer.id}. Using app defaults instead`,
-        );
-        setRangeFrom(DEFAULTS.range[0]);
-        setRangeTo(DEFAULTS.range[1]);
-      }
-    }
-  }, [axes.loading, axisDatasetRange, layer]);
-
-  const setToSigmaRange = useCallback(
-    (numberOfSigmas: number) => {
-      const noTransformStatistics = transformationsStatistics?.get('no');
-      const datasetRange = [
-        parseFloat(axisDatasetRange?.[0] ?? '0'),
-        parseFloat(axisDatasetRange?.[1] ?? '1'),
-      ];
-      if (!axes.loading) {
-        if (layer.datasetStats) {
-          const [lowerSigmaRange, upperSigmaRange] = generateSigmaRange(
-            layer.datasetStats,
-            numberOfSigmas,
-          );
-          setRangeFrom(lowerSigmaRange.toString());
-          setRangeTo(upperSigmaRange.toString());
-        } else if (noTransformStatistics) {
-          // TODO: remove this case once datasetStats is present in all MCDA presets
-          const mean = noTransformStatistics.mean;
-          const stddev = noTransformStatistics.stddev;
-          const [lowerSigmaRange, upperSigmaRange] = generateSigmaRange(
-            {
-              mean,
-              stddev,
-              minValue: datasetRange[0],
-              maxValue: datasetRange[1],
-            },
-            numberOfSigmas,
-          );
-          setRangeFrom(lowerSigmaRange.toString());
-          setRangeTo(upperSigmaRange.toString());
-        } else {
-          console.error(`Couldn\'nt find the data to set sigma range for ${layer.id}.`);
-        }
-      }
-    },
-    [axes.loading, axisDatasetRange, layer, transformationsStatistics],
-  );
-
   const editLayer = useCallback(async () => {
     try {
       const transformationsStatisticsDTO = await getAxisTransformations(
@@ -339,74 +285,20 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               name={i18n.t('mcda.layer_editor.range')}
               infoText={i18n.t('mcda.layer_editor.tips.range')}
             >
-              <div className={s.rangeInputContainer}>
-                <Input
-                  className={s.rangeInputRoot}
-                  classes={{
-                    inputBox: s.rangeInputBox,
-                    error: s.hiddenError,
-                  }}
-                  type="text"
-                  value={rangeFrom}
-                  onChange={(event) => {
-                    const value = event.target.value.replace(NUMBER_FILTER, '');
-                    setRangeFrom(value);
-                  }}
-                  error={rangeFromError}
-                />
-                <span className={s.inputRangeDivider}>{'-'}</span>
-                <Input
-                  className={s.rangeInputRoot}
-                  classes={{
-                    inputBox: s.rangeInputBox,
-                    error: s.hiddenError,
-                  }}
-                  type="text"
-                  value={rangeTo}
-                  onChange={(event) => {
-                    const value = event.target.value.replace(NUMBER_FILTER, '');
-                    setRangeTo(value);
-                  }}
-                  error={rangeToError}
-                />
-              </div>
-              <Text type="short-m" className={s.error}>
-                {rangeFromError ? rangeFromError : rangeToError}
-              </Text>
-              <div className={s.rangeTextButtonsContainer}>
-                <span
-                  className={clsx(s.rangeTextButtons, {
-                    [s.textButtonDisabled]: axes.loading,
-                  })}
-                  onClick={setToFullDatasetRange}
-                >
-                  {i18n.t('mcda.layer_editor.range_buttons.full_range')}
-                </span>
-                <span
-                  className={clsx(s.rangeTextButtons, {
-                    [s.textButtonDisabled]: axes.loading,
-                  })}
-                  onClick={() => setToSigmaRange(3)}
-                >
-                  {i18n.t('mcda.layer_editor.range_buttons.3_sigma')}
-                </span>
-                <span
-                  className={clsx(s.rangeTextButtons, {
-                    [s.textButtonDisabled]: axes.loading,
-                  })}
-                  onClick={() => setToSigmaRange(2)}
-                >
-                  {i18n.t('mcda.layer_editor.range_buttons.2_sigma')}
-                </span>
-                <span
-                  className={clsx(s.rangeTextButtons, {
-                    [s.textButtonDisabled]: axes.loading,
-                  })}
-                  onClick={() => setToSigmaRange(1)}
-                >
-                  {i18n.t('mcda.layer_editor.range_buttons.1_sigma')}
-                </span>
-              </div>
+              <MCDARangeControls
+                rangeFrom={rangeFrom}
+                rangeTo={rangeTo}
+                setRangeFrom={setRangeFrom}
+                setRangeTo={setRangeTo}
+                rangeFromError={rangeFromError}
+                rangeToError={rangeToError}
+                setRangeFromError={setRangeFromError}
+                setRangeToError={setRangeToError}
+                disabled={axes.loading}
+                axisDatasetRange={axisDatasetRange}
+                layer={layer}
+                transformationsStatistics={transformationsStatistics}
+              />
             </MCDALayerParameterRow>
             {/* OUTLIERS */}
             <MCDALayerParameterRow
