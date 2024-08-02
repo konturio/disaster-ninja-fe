@@ -60,15 +60,13 @@ function MCDARangeControls({
   }, [rangeFrom, rangeTo, setRangeFromError, setRangeToError]);
 
   const setToFullDatasetRange = useCallback(() => {
-    if (!disabled) {
-      if (axisDatasetRange) {
-        setRangeFrom(axisDatasetRange[0]);
-        setRangeTo(axisDatasetRange[1]);
-      } else {
-        console.error(`Couldn\'nt find default range for ${layer.id}`);
-      }
+    if (!axisDatasetRange) {
+      console.error(`Couldn't find default range for ${layer.id}`);
+      return;
     }
-  }, [disabled, axisDatasetRange, setRangeFrom, setRangeTo, layer.id]);
+    setRangeFrom(axisDatasetRange[0]);
+    setRangeTo(axisDatasetRange[1]);
+  }, [axisDatasetRange, setRangeFrom, setRangeTo, layer.id]);
 
   const setToSigmaRange = useCallback(
     (numberOfSigmas: number) => {
