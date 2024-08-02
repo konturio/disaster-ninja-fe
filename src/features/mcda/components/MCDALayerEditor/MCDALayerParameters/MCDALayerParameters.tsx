@@ -73,9 +73,8 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
 
   const [axes] = useAtom((ctx) => ctx.spy(availableBivariateAxesAtom));
 
-  const { axisDatasetRange, defaultTransformation } = useMemo(() => {
+  const { axisDatasetRange } = useMemo(() => {
     let axisDatasetRange: string[] | null = null;
-    let defaultTransformation: AxisTransformation | undefined;
     if (!axes.loading) {
       const relatedAxis = axes?.data?.find((axis) => axis.id === layer.id);
       const steps = relatedAxis?.steps;
@@ -83,9 +82,8 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       const max = steps?.at(-1)?.value;
       axisDatasetRange =
         isNumber(min) && isNumber(max) ? [min.toString(), max.toString()] : null;
-      defaultTransformation = relatedAxis?.transformation;
     }
-    return { axisDatasetRange, defaultTransformation };
+    return { axisDatasetRange };
   }, [axes?.data, axes?.loading, layer.id]);
 
   const mcdaLayerHint: LayerInfo[] = useMemo(() => {
