@@ -77,11 +77,19 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     let axisDatasetRange: string[] | null = null;
     if (!axes.loading) {
       const relatedAxis = axes?.data?.find((axis) => axis.id === layer.id);
-      const steps = relatedAxis?.steps;
-      const min = steps?.at(0)?.value;
-      const max = steps?.at(-1)?.value;
-      axisDatasetRange =
-        isNumber(min) && isNumber(max) ? [min.toString(), max.toString()] : null;
+      if (relatedAxis?.datasetStats) {
+        axisDatasetRange = [
+          relatedAxis?.datasetStats.minValue?.toString(),
+          relatedAxis?.datasetStats.maxValue?.toString(),
+        ];
+      } else {
+        // TODO: remove this else case once all MCDA presets have datasetStats
+        const steps = relatedAxis?.steps;
+        const min = steps?.at(0)?.value;
+        const max = steps?.at(-1)?.value;
+        axisDatasetRange =
+          isNumber(min) && isNumber(max) ? [min.toString(), max.toString()] : null;
+      }
     }
     return { axisDatasetRange };
   }, [axes?.data, axes?.loading, layer.id]);
