@@ -34,7 +34,7 @@ export interface MCDALayer {
   sentiment: [string, string];
   outliers: OutliersPolicy;
   coefficient: number;
-  // TODO: once all presets are updated, delete transformation Function and make transformation mandatory
+  // TODO: once all presets are updated, remove transformationFunction and make transformation property required
   transformationFunction: TransformationFunction;
   transformation?: AxisTransformation;
   normalization: Normalization;

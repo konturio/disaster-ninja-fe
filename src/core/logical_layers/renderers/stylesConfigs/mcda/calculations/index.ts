@@ -183,11 +183,13 @@ export const calculateLayerPipeline =
       datasetMin,
       transformation: transformation?.transformation ?? transformationFunction,
     });
-    /* if transformation lowerBound and upperBound are defined,
-       use them as clamp boundaries for the transformed value */
+    /* if transformation was applied and lowerBound and upperBound are defined,
+       use them as clamp boundaries for the transformed value.
+       Exception for outliers: unmodified, because it will not work if we limit the data values */
     if (
       outliers !== 'unmodified' &&
       transformation?.transformation &&
+      transformation?.transformation !== 'no' &&
       isNumber(transformation.lowerBound) &&
       isNumber(transformation.upperBound)
     ) {
