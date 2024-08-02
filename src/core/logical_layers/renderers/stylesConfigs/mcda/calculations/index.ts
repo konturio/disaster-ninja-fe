@@ -184,8 +184,9 @@ export const calculateLayerPipeline =
       transformation: transformation?.transformation ?? transformationFunction,
     });
     /* if transformation lowerBound and upperBound are defined,
-       use them as a clamp boundaries for the transformed value */
+       use them as clamp boundaries for the transformed value */
     if (
+      outliers !== 'unmodified' &&
       transformation?.transformation &&
       isNumber(transformation.lowerBound) &&
       isNumber(transformation.upperBound)
