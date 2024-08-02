@@ -195,11 +195,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     const rangeNum = [Number(rangeFrom), Number(rangeTo)];
     const coefficientNum = Number(coefficient);
     const updatedLayer: MCDALayer = {
-      id: layer.id,
-      name: layer.name,
-      axis: layer.axis,
-      indicators: layer.indicators,
-      unit: layer.unit,
+      ...layer,
       range: [
         isNumber(rangeNum[0]) ? rangeNum[0] : 0,
         isNumber(rangeNum[1]) ? rangeNum[1] : 1000,
@@ -210,18 +206,12 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       transformationFunction,
       transformation: transformationsStatistics?.get(transformationFunction),
       normalization,
-      datasetStats: layer.datasetStats,
     };
     setEditMode(false);
     onLayerEdited(updatedLayer);
   }, [
     coefficient,
-    layer.axis,
-    layer.datasetStats,
-    layer.id,
-    layer.indicators,
-    layer.name,
-    layer.unit,
+    layer,
     normalization,
     onLayerEdited,
     outliers,
