@@ -70,20 +70,18 @@ function MCDARangeControls({
 
   const setToSigmaRange = useCallback(
     (numberOfSigmas: number) => {
-      if (!disabled) {
-        if (layer.datasetStats) {
-          const [lowerSigmaRange, upperSigmaRange] = generateSigmaRange(
-            layer.datasetStats,
-            numberOfSigmas,
-          );
-          setRangeFrom(lowerSigmaRange.toString());
-          setRangeTo(upperSigmaRange.toString());
-        } else {
-          console.error(`Couldn\'nt find the data to set sigma range for ${layer.id}.`);
-        }
+      if (!layer.datasetStats) {
+        console.error(`Couldn\'nt find the data to set sigma range for ${layer.id}.`);
+        return;
       }
+      const [lowerSigmaRange, upperSigmaRange] = generateSigmaRange(
+        layer.datasetStats,
+        numberOfSigmas,
+      );
+      setRangeFrom(lowerSigmaRange.toString());
+      setRangeTo(upperSigmaRange.toString());
     },
-    [disabled, layer.datasetStats, layer.id, setRangeFrom, setRangeTo],
+    [layer.datasetStats, layer.id, setRangeFrom, setRangeTo],
   );
 
   return (
