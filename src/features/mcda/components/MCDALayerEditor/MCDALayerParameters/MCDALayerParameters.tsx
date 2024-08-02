@@ -46,9 +46,8 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   const [rangeTo, setRangeTo] = useState(DEFAULTS.range[1]);
   const [outliers, setOutliers] = useState(DEFAULTS.outliers as OutliersPolicy);
   const [coefficient, setCoefficient] = useState(DEFAULTS.coefficient.toString());
-  const [transform, setTransform] = useState<TransformationFunction>(
-    DEFAULTS.transform as TransformationFunction,
-  );
+  const [transformationFunction, setTransformationFunction] =
+    useState<TransformationFunction>(DEFAULTS.transform as TransformationFunction);
   const [normalization, setNormalization] = useState<Normalization>(
     DEFAULTS.normalization as Normalization,
   );
@@ -66,7 +65,9 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setRangeTo(layer.range?.at(1)?.toString() ?? '');
     setSentiment(layer.sentiment.at(0) === 'good' ? 'good-bad' : 'bad-good');
     setCoefficient(layer.coefficient.toString());
-    setTransform(layer.transformationFunction);
+    setTransformationFunction(
+      layer.transformation?.transformation ?? layer.transformationFunction,
+    );
     setNormalization(layer.normalization);
     setOutliers(layer.outliers ?? DEFAULTS.outliers);
   }, [layer]);
@@ -206,8 +207,8 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       sentiment: SENTIMENT_VALUES[sentiment],
       outliers,
       coefficient: isNumber(coefficientNum) ? coefficientNum : 1,
-      transformationFunction: transform,
-      transformation: transformationsStatistics?.get(transform),
+      transformationFunction,
+      transformation: transformationsStatistics?.get(transformationFunction),
       normalization,
       datasetStats: layer.datasetStats,
     };
@@ -227,7 +228,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     rangeFrom,
     rangeTo,
     sentiment,
-    transform,
+    transformationFunction,
     transformationsStatistics,
   ]);
 
@@ -487,31 +488,37 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 classes={{
                   menu: s.selectInputBox,
                 }}
-                value={transform}
+                value={transformationFunction}
                 onChange={(e) => {
-                  setTransform(e.selectedItem?.value as TransformationFunction);
+                  setTransformationFunction(
+                    e.selectedItem?.value as TransformationFunction,
+                  );
                 }}
                 items={transformOptions}
               />
               {showDebugInfo ? (
                 <div className={s.debugInfoContainer}>
                   <div className={s.debugText}>
-                    skew: {transformationsStatistics?.get(transform)?.skew}
+                    skew: {transformationsStatistics?.get(transformationFunction)?.skew}
                   </div>
                   <div className={s.debugText}>
-                    mean: {transformationsStatistics?.get(transform)?.mean}
+                    mean: {transformationsStatistics?.get(transformationFunction)?.mean}
                   </div>
                   <div className={s.debugText}>
-                    sdev: {transformationsStatistics?.get(transform)?.stddev}
+                    sdev: {transformationsStatistics?.get(transformationFunction)?.stddev}
                   </div>
                   <div className={s.debugText}>
-                    lbnd: {transformationsStatistics?.get(transform)?.lowerBound}
+                    lbnd:{' '}
+                    {transformationsStatistics?.get(transformationFunction)?.lowerBound}
                   </div>
                   <div className={s.debugText}>
-                    ubnd: {transformationsStatistics?.get(transform)?.upperBound}
+                    ubnd:{' '}
+                    {transformationsStatistics?.get(transformationFunction)?.upperBound}
                   </div>
                   <TransformationsChart
-                    transformedData={transformationsStatistics?.get(transform)}
+                    transformedData={transformationsStatistics?.get(
+                      transformationFunction,
+                    )}
                     originalData={transformationsStatistics?.get('no')}
                   />
                 </div>
