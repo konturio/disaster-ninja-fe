@@ -1,0 +1,14 @@
+.debugInfoContainer {
+  margin-block-start: 10px;
+  margin-inline-start: 90px;
+}
+
+.chartContainer {
+  margin-block-start: var(--unit);
+}
+
+.debugText {
+  font-size: 10px;
+  font-family: monospace;
+  line-height: 13px;
+}

@@ -25,7 +25,7 @@ import {
   sentimentsOptions,
   transformOptions,
 } from './constants';
-import TransformationsChart from './TransformationsChart/TransformationsChart';
+import MCDATransformationDebugInfo from './MCDATransformationDebugInfo/MCDATransformationDebugInfo';
 import type {
   MCDALayer,
   OutliersPolicy,
@@ -486,35 +486,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 }}
                 items={transformOptions}
               />
-              {showDebugInfo ? (
-                <div className={s.debugInfoContainer}>
-                  <div className={s.debugText}>
-                    skew: {transformationsStatistics?.get(transformationFunction)?.skew}
-                  </div>
-                  <div className={s.debugText}>
-                    mean: {transformationsStatistics?.get(transformationFunction)?.mean}
-                  </div>
-                  <div className={s.debugText}>
-                    sdev: {transformationsStatistics?.get(transformationFunction)?.stddev}
-                  </div>
-                  <div className={s.debugText}>
-                    lbnd:{' '}
-                    {transformationsStatistics?.get(transformationFunction)?.lowerBound}
-                  </div>
-                  <div className={s.debugText}>
-                    ubnd:{' '}
-                    {transformationsStatistics?.get(transformationFunction)?.upperBound}
-                  </div>
-                  <TransformationsChart
-                    transformedData={transformationsStatistics?.get(
-                      transformationFunction,
-                    )}
-                    originalData={transformationsStatistics?.get('no')}
-                  />
-                </div>
-              ) : (
-                <></>
-              )}
             </MCDALayerParameterRow>
             {/* NORMALIZE */}
             <MCDALayerParameterRow
@@ -533,6 +504,14 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 items={normalizationOptions}
               />
             </MCDALayerParameterRow>
+            {showDebugInfo ? (
+              <MCDATransformationDebugInfo
+                transformationsStatistics={transformationsStatistics}
+                selectedTransformationFunction={transformationFunction}
+              />
+            ) : (
+              <></>
+            )}
             <div className={s.editorButtonsContainer}>
               <Button
                 size="small"

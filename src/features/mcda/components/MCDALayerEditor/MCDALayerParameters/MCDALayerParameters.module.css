@@ -148,13 +148,3 @@
 .invisible {
   display: none;
 }
-
-.debugInfoContainer {
-  margin: var(--half-unit) 0;
-}
-
-.debugText {
-  font-size: 10px;
-  font-family: monospace;
-  line-height: 13px;
-}
