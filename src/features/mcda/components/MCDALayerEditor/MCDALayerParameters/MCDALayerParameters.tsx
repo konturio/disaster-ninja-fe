@@ -271,7 +271,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 disabled={axes.loading}
                 axisDatasetRange={axisDatasetRange}
                 layer={layer}
-                transformationsStatistics={transformationsStatistics}
               />
             </MCDALayerParameterRow>
             {/* OUTLIERS */}

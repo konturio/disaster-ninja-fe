@@ -6,11 +6,7 @@ import { generateSigmaRange } from '~features/mcda/utils/generateSigmaRange';
 import { isNumber } from '~utils/common';
 import { NUMBER_FILTER } from '../MCDALayerParameters/constants';
 import s from './MCDARangeControls.module.css';
-import type {
-  MCDALayer,
-  TransformationFunction,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type { AxisTransformationWithPoints } from '~utils/bivariate';
+import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 type Props = {
   rangeFrom: string;
@@ -24,10 +20,6 @@ type Props = {
   disabled: boolean;
   axisDatasetRange: string[] | null;
   layer: MCDALayer;
-  transformationsStatistics: Map<
-    TransformationFunction,
-    AxisTransformationWithPoints
-  > | null;
 };
 
 function MCDARangeControls({
@@ -42,7 +34,6 @@ function MCDARangeControls({
   disabled,
   axisDatasetRange,
   layer,
-  transformationsStatistics,
 }: Props) {
   useEffect(() => {
     const rangeFromNum = Number(rangeFrom);
@@ -81,30 +72,10 @@ function MCDARangeControls({
 
   const setToSigmaRange = useCallback(
     (numberOfSigmas: number) => {
-      const noTransformStatistics = transformationsStatistics?.get('no');
-      const datasetRange = [
-        parseFloat(axisDatasetRange?.[0] ?? '0'),
-        parseFloat(axisDatasetRange?.[1] ?? '1'),
-      ];
       if (!disabled) {
         if (layer.datasetStats) {
           const [lowerSigmaRange, upperSigmaRange] = generateSigmaRange(
             layer.datasetStats,
-            numberOfSigmas,
-          );
-          setRangeFrom(lowerSigmaRange.toString());
-          setRangeTo(upperSigmaRange.toString());
-        } else if (noTransformStatistics) {
-          // TODO: remove this case once datasetStats is present in all MCDA presets
-          const mean = noTransformStatistics.mean;
-          const stddev = noTransformStatistics.stddev;
-          const [lowerSigmaRange, upperSigmaRange] = generateSigmaRange(
-            {
-              mean,
-              stddev,
-              minValue: datasetRange[0],
-              maxValue: datasetRange[1],
-            },
             numberOfSigmas,
           );
           setRangeFrom(lowerSigmaRange.toString());
@@ -114,15 +85,7 @@ function MCDARangeControls({
         }
       }
     },
-    [
-      transformationsStatistics,
-      axisDatasetRange,
-      disabled,
-      layer.datasetStats,
-      layer.id,
-      setRangeFrom,
-      setRangeTo,
-    ],
+    [disabled, layer.datasetStats, layer.id, setRangeFrom, setRangeTo],
   );
 
   return (
