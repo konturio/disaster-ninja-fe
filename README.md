@@ -197,7 +197,13 @@ You can your own for override default config, it should have name `./configs/con
 
 ## Running e2e tests with Playwright
 
-1. Set up the environment variables
+1. Install Playwright and its browsers
+
+```bash
+npx playwright install
+```
+
+2. Set up the environment variables
 
 Create a `.env.playwright.local` file in the root of the project with the following content:
 
@@ -215,13 +221,14 @@ SLACK_BOT_USER_OAUTH_TOKEN=token
 
 Where <env> is the environment you want to test, for example `test`.
 
-2. Run the e2e tests
+3. Run the e2e tests
 
 ```bash
 npx playwright test --ui
 ```
 
-Remove the `--ui` flag to run the tests in headless mode.
+Remove the `--ui` flag to run the tests in a headless mode.
+Use the `--headed` flag instead of the `--ui` flag to run the tests in a headed mode.
 
 > Check the `tests-examples/demo-todo-app.spec.ts` file for an example of how to write tests.
 
@@ -233,7 +240,13 @@ Follow the [How to develop](#how-to-develop) section to run the app in dev mode.
 
 To view the app, visit https://localhost:3000 in your browser.
 
-2. Set up the .env.playwright.local file
+2. Install Playwright and its browsers
+
+```bash
+npx playwright install
+```
+
+3. Set up the .env.playwright.local file
 
 Create a `.env.playwright.local` file in the root of the project with the following content:
 
@@ -251,12 +264,13 @@ SLACK_BOT_USER_OAUTH_TOKEN=token
 
 Where `<env>` is the environment your local app is configured, for example `local-dev`.
 
-2. Run the e2e tests
+4. Run the e2e tests
 
 ```bash
 npx playwright test --ui
 ```
 
-Remove the `--ui` flag to run the tests in headless mode.
+Remove the `--ui` flag to run the tests in a headless mode.
+Use the `--headed` flag instead of the `--ui` flag to run the tests in a headed mode.
 
 > Check the `tests-examples/demo-todo-app.spec.ts` file for an example of how to write tests.
