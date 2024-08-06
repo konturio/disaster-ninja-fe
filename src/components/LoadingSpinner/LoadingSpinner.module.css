@@ -16,3 +16,10 @@
 .animationContainer {
   padding: 1em;
 }
+
+.fullScreenLoader {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

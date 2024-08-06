@@ -19,3 +19,11 @@ export function LoadingSpinner({
     </div>
   );
 }
+
+export function FullScreenLoader() {
+  return (
+    <div className={s.fullScreenLoader}>
+      <LoadingSpinner message={null} marginTop={'none'} />
+    </div>
+  );
+}

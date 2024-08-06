@@ -9,7 +9,7 @@ import { Suspense } from 'react';
 import { postInit } from '~core/postInit';
 import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
-import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { landUser, userWasLanded } from '~core/auth/atoms/userWasLanded';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
 import { currentRouteAtom } from '../atoms/currentRoute';
@@ -97,12 +97,4 @@ export function initRouter() {
   postInit(router?.state?.matches?.at(1)?.route.id ?? '');
 
   return router;
-}
-
-function FullScreenLoader() {
-  return (
-    <div style={{ flex: 1 }}>
-      <LoadingSpinner message={null} />
-    </div>
-  );
 }
