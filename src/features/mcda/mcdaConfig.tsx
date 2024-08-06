@@ -84,7 +84,6 @@ function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
         midpoints: [{ value: 0.5, color: DEFAULT_YELLOW }],
       },
     },
-    custom: true,
   };
 }
 

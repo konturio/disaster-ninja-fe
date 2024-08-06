@@ -134,11 +134,11 @@ export function createLogicalLayerAtom(
         isMounted: mounted.has(id),
         isVisible: !get('hiddenLayersAtom').has(id),
         isDownloadable:
-          asyncLayerSource.data?.source.type === 'geojson' || // details.data.source.type === 'geojson'
+          asyncLayerSource.data?.source.type === 'geojson' ||
           asyncLayerSource.data?.style?.type === 'mcda',
         isEditable:
           asyncLayerSource.data?.style?.type === 'mcda' &&
-          !!asyncLayerSource.data?.style?.config.custom,
+          !!asyncLayerSettings.data?.ownedByUser,
         settings: deepFreeze(asyncLayerSettings.data),
         meta: deepFreeze(asyncLayerMeta.data),
         legend: deepFreeze(asyncLayerLegend.data),
