@@ -79,8 +79,8 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       const relatedAxis = axes?.data?.find((axis) => axis.id === layer.id);
       if (relatedAxis?.datasetStats) {
         axisDatasetRange = [
-          relatedAxis?.datasetStats.minValue?.toString(),
-          relatedAxis?.datasetStats.maxValue?.toString(),
+          relatedAxis.datasetStats.minValue?.toString(),
+          relatedAxis.datasetStats.maxValue?.toString(),
         ];
       } else {
         // TODO: remove this else case once all MCDA presets have datasetStats
@@ -224,7 +224,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   }, [layer.indicators]);
 
   return (
-    <div className={s.editor}>
+    <div>
       <div key={layer.id} className={s.layer}>
         <div className={s.layerHeader}>
           <div>{layer.name}</div>

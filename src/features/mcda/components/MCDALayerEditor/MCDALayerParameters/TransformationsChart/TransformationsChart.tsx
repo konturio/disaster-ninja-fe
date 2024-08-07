@@ -9,7 +9,7 @@ import type { AxisTransformationWithPoints } from '~utils/bivariate';
 
 const CHART_GREEN = 'rgb(50, 170, 100)';
 const CHART_RED = 'rgb(228, 26, 28)';
-const CHART_YELLOW = 'rgb(251,237,170)';
+const CHART_YELLOW = 'rgb(251, 237, 170)';
 const COLOR_ORIGINAL = '#CCC';
 
 type TransformationsChartProps = {
@@ -37,23 +37,23 @@ function TransformationsChart({
   transformedData,
   originalData,
 }: TransformationsChartProps) {
-  const transformationApplied = useMemo(
+  const isTransformationApplied = useMemo(
     () => transformedData?.transformation !== 'no',
     [transformedData],
   );
 
   const clampedTransformedPoints = useMemo(
     () =>
-      transformationApplied
+      isTransformationApplied
         ? transformedData?.points?.map((point) =>
             inViewCalculations.clamp(
               point,
-              transformedData?.lowerBound,
+              transformedData.lowerBound,
               transformedData.upperBound,
             ),
           )
         : transformedData?.points,
-    [transformationApplied, transformedData],
+    [isTransformationApplied, transformedData],
   );
 
   const data = useMemo(

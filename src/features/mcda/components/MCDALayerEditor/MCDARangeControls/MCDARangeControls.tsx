@@ -46,7 +46,7 @@ function MCDARangeControls({
     if (!isNumber(rangeToNum)) {
       errorTo = i18n.t('mcda.layer_editor.errors.range_must_be_a_number');
     }
-    if (Number(rangeFrom) > Number(rangeTo)) {
+    if (rangeFromNum > rangeToNum) {
       errorFrom = i18n.t('mcda.layer_editor.errors.range_from_cannot_be_bigger');
     }
     if (!rangeTo) {
