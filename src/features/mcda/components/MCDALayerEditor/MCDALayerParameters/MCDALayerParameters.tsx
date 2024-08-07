@@ -350,20 +350,23 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               infoText={i18n.t('mcda.layer_editor.tips.transform')}
               onTitleDoubleClicked={() => setShowDebugInfo((prevValue) => !prevValue)}
             >
-              <Select
-                className={s.selectInput}
-                disabled={!transformationsStatistics}
-                classes={{
-                  menu: s.selectInputBox,
-                }}
-                value={transformationFunction}
-                onChange={(e) => {
-                  setTransformationFunction(
-                    e.selectedItem?.value as TransformationFunction,
-                  );
-                }}
-                items={transformOptions}
-              />
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <Select
+                  className={s.selectInput}
+                  disabled={!transformationsStatistics}
+                  classes={{
+                    menu: s.selectInputBox,
+                  }}
+                  value={transformationFunction}
+                  onChange={(e) => {
+                    setTransformationFunction(
+                      e.selectedItem?.value as TransformationFunction,
+                    );
+                  }}
+                  items={transformOptions}
+                />
+                {isLoading && <KonturSpinner size={30} />}
+              </div>
             </MCDALayerParameterRow>
             {/* NORMALIZE */}
             <MCDALayerParameterRow
@@ -389,11 +392,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               />
             ) : (
               <></>
-            )}
-            {isLoading && (
-              <MCDALayerParameterRow>
-                <KonturSpinner size={30} />
-              </MCDALayerParameterRow>
             )}
             <div className={s.editorButtonsContainer}>
               <Button
