@@ -31,7 +31,7 @@ import type {
   TransformationFunction,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Normalization } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type { AxisTransformation, AxisTransformationWithPoints } from '~utils/bivariate';
+import type { AxisTransformationWithPoints } from '~utils/bivariate';
 
 export type MCDALayerLegendProps = {
   layer: MCDALayer;
