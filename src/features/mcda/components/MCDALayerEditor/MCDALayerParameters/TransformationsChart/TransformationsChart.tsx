@@ -65,10 +65,14 @@ function TransformationsChart({
       })),
     [clampedTransformedPoints, originalData?.points],
   );
+
+  // do not scale the transformed chart
   const scaleTransformed = useMemo(
     () => getScaleFunction('no', clampedTransformedPoints),
     [clampedTransformedPoints],
   );
+
+  // scale original chart depending on chosen transformation function
   const scaleOriginal = useMemo(
     () => getScaleFunction(transformedData?.transformation, originalData?.points),
     [originalData?.points, transformedData?.transformation],
