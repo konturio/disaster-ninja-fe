@@ -10,6 +10,7 @@ import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
 import { getAxisTransformations } from '~core/api/mcda';
+import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { Sentiments } from '../Sentiments';
 import MCDARangeControls from '../MCDARangeControls/MCDARangeControls';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
@@ -58,6 +59,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
 
   const [rangeFromError, setRangeFromError] = useState('');
   const [rangeToError, setRangeToError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setRangeFrom(layer.range?.at(0)?.toString() ?? '');
@@ -208,6 +210,8 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   }, []);
 
   const editLayer = useCallback(async () => {
+    setEditMode(true);
+    setIsLoading(true);
     try {
       const transformationsStatisticsDTO = await getAxisTransformations(
         layer.indicators[0].name,
@@ -219,7 +223,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     } catch {
       throw new Error("Couldn't fetch transformations statistics data.");
     } finally {
-      setEditMode(true);
+      setIsLoading(false);
     }
   }, [layer.indicators]);
 
@@ -348,6 +352,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             >
               <Select
                 className={s.selectInput}
+                disabled={!transformationsStatistics}
                 classes={{
                   menu: s.selectInputBox,
                 }}
@@ -384,6 +389,11 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               />
             ) : (
               <></>
+            )}
+            {isLoading && (
+              <MCDALayerParameterRow>
+                <KonturSpinner size={30} />
+              </MCDALayerParameterRow>
             )}
             <div className={s.editorButtonsContainer}>
               <Button

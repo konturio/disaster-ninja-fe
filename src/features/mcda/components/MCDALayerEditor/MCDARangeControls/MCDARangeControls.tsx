@@ -71,7 +71,7 @@ function MCDARangeControls({
   const setToSigmaRange = useCallback(
     (numberOfSigmas: number) => {
       if (!layer.datasetStats) {
-        console.error(`Couldn\'nt find the data to set sigma range for ${layer.id}.`);
+        console.error(`Couldn\'nt find the data to set sigma range for ${layer.id}`);
         return;
       }
       const [lowerSigmaRange, upperSigmaRange] = generateSigmaRange(
