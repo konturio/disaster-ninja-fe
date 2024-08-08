@@ -9,12 +9,26 @@ export function openOsmLink(
   window.open(url)?.focus();
 }
 
+function calculateMaxJosmArea(
+  lat: number,
+  lng: number,
+): { left: number; right: number; top: number; bottom: number } {
+  const maxSize = 0.5 / 3.5;
+
+  const left = lng - maxSize / 2;
+  const right = lng + maxSize / 2;
+  const top = lat + maxSize / 2;
+  const bottom = lat - maxSize / 2;
+
+  return { left, right, top, bottom };
+}
+
 // Функция для открытия ссылки в JOSM
 export function openJosmLink(
-  bbox: [number, number, number, number],
+  { lat, lng },
   baseLink = 'http://127.0.0.1:8111/load_and_zoom?',
 ) {
-  const [left, bottom, right, top] = bbox;
-  const url = `${baseLink}left=${left}&right=${right}&top=${top}&bottom=${bottom}`;
+  const { left, bottom, right, top } = calculateMaxJosmArea(lat, lng);
+  const url = `${baseLink}?left=${left}&right=${right}&top=${top}&bottom=${bottom}`;
   window.open(url)?.focus();
 }
