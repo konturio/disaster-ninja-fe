@@ -217,6 +217,7 @@
     "@playwright/test": "^1.42.1",
     "@types/gettext-parser": "^4.0.4",
     "chalk": "^5.3.0",
+    "csvtojson": "^2.0.10",
     "dotenv": "^16.4.5",
     "husky": "^8.0.3",
     "open-cli": "^7.2.0",
