@@ -1,13 +1,3 @@
-export const UserStateStatus = {
-  AUTHORIZED: 'authorized',
-  UNAUTHORIZED: 'unauthorized',
-  LOGGING_IN: 'logging_in',
-  SIGNING_UP: 'signing_up',
-  PASSWORD_RESET: 'password_reset',
-} as const;
-
-export type UserStateType = (typeof UserStateStatus)[keyof typeof UserStateStatus];
-
 export const AppFeature = {
   ABOUT_PAGE: 'about_page',
   APP_LOGIN: 'app_login',

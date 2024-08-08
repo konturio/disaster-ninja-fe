@@ -56,7 +56,7 @@ export function EventsPanel({
     full: <FullState currentEventId={currentEventId} onCurrentChange={onCurrentChange} />,
     short: (
       <ShortState
-        hasTimeline={featureFlags[FeatureFlag.EPISODES_TIMELINE]}
+        hasTimeline={!!featureFlags[FeatureFlag.EPISODES_TIMELINE]}
         openFullState={openFullState}
         currentEventId={currentEventId}
       />

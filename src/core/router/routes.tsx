@@ -9,7 +9,7 @@ import {
   Diamond24,
 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
-import { AppFeature } from '~core/auth/types';
+import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
 import { goTo } from './goTo';

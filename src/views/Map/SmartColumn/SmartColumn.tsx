@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useRef, useLayoutEffect, useState } from 'react';
+import { useRef, useLayoutEffect, useState, type ReactNode } from 'react';
 import { ColumnContext, Resizer } from '~core/store/columnContext';
 import s from './SmartColumn.module.css';
 
@@ -8,7 +8,7 @@ export function SmartColumn({
   className,
 }: {
   className?: string;
-  children: JSX.Element;
+  children: ReactNode;
 }) {
   const columnRef = useRef<null | HTMLDivElement>(null);
   const limiterRef = useRef<null | HTMLDivElement>(null);

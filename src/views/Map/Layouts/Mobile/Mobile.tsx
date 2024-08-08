@@ -1,6 +1,7 @@
 import cn from 'clsx';
 import { configRepo } from '~core/config';
 import s from './Mobile.module.css';
+import type { ReactNode } from 'react';
 
 export function MobileLayout({
   firstColumn,
@@ -8,10 +9,10 @@ export function MobileLayout({
   mapColumnBottom,
   footer,
 }: {
-  firstColumn: JSX.Element;
-  topColumn: JSX.Element;
-  mapColumnBottom: JSX.Element;
-  footer: JSX.Element;
+  firstColumn: ReactNode;
+  topColumn: ReactNode;
+  mapColumnBottom: ReactNode;
+  footer: ReactNode;
 }) {
   return (
     <div className={s.contentWrap}>

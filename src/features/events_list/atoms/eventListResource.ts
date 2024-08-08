@@ -4,7 +4,7 @@ import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
-import { AppFeature } from '~core/auth/types';
+import { AppFeature } from '~core/app/types';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { eventListFilters } from './eventListFilters';

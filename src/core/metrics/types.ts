@@ -1,4 +1,4 @@
-import type { AppFeatureType } from '~core/auth/types';
+import type { AppFeatureType } from '~core/app/types';
 
 export interface MetricsReportTemplate {
   name: string; // metric name, e.g. full-load-time, map-load-time, disasters-panel-load-time, etc.

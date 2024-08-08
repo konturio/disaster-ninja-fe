@@ -1,65 +1,27 @@
 import React, { useEffect, useRef, useState, forwardRef } from 'react';
-import ReactDOMServer from 'react-dom/server';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { configRepo } from '~core/config';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { EVENT_MAP_IDLE } from '~core/metrics/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
-import { useMarkers } from './useMarkers';
 import { useArrayDiff } from './useArrayDiff';
-import type { Marker } from './types';
 import type {
-  CustomLayerInterface,
-  MapMouseEvent,
   MapOptions,
-  Event,
   Map,
   LayerSpecification,
-  LngLatBoundsLike,
-  GeoJSONFeature,
   GeoJSONSource,
   GeoJSONSourceOptions,
   StyleSpecification,
 } from 'maplibre-gl';
-
-interface FeatureState {
-  source: string; // source id
-  sourceLayer?: string; // for vector
-  id: string; // feature id
-  state: Record<string, unknown>;
-}
-
-interface Popup {
-  layout: string | React.ReactChild;
-  options: { closeOnClick: boolean; offset: number };
-  coordinates: [number, number];
-}
-
-/* Omg mapbox types ... */
-type MapStyle = Omit<StyleSpecification, 'layers' | 'sources'> &
-  Partial<Pick<StyleSpecification, 'sources'>> & {
-    layers?: (LayerSpecification | CustomLayerInterface)[];
-  };
 
 export interface MapBoxMapProps {
   style: string;
   mapStyle?: StyleSpecification;
   className?: string;
   options?: Partial<MapOptions>;
-  setMap?: any;
   onLoad?: (loaded: boolean) => void;
-  onClick?: (ev: MapMouseEvent & Event) => void | undefined;
-  /* Call `callback` on every `eventType` with `properties` */
-  activeFeature?: {
-    callback: (features: unknown[]) => void;
-    properties: string[];
-    eventType: string;
-  };
-  popup?: Popup;
-  featuresState?: FeatureState[];
-  bounds?: LngLatBoundsLike;
-  markers?: Marker[];
+
   isochroneStyle?: any;
   layersOnTop?: string[];
 }
@@ -89,11 +51,6 @@ function MapboxMap(
     options,
     className,
     onLoad,
-    onClick,
-    activeFeature,
-    featuresState,
-    popup,
-    markers,
     isochroneStyle,
     layersOnTop,
   }: MapBoxMapProps,
@@ -201,74 +158,6 @@ function MapboxMap(
     };
   }, [map, onLoad]);
 
-  /* Set markers effect */
-  const mapBoxMarkers = useMarkers(markers);
-  const { added: addedMarkers, deleted: deletedMarkers } = useArrayDiff(mapBoxMarkers);
-
-  useEffect(() => {
-    if (!map) return;
-    addedMarkers.forEach((marker) => marker.addTo(map));
-  }, [map, addedMarkers]);
-
-  useEffect(() => {
-    if (!map) return;
-    deletedMarkers.forEach((marker) => marker.remove());
-  }, [map, deletedMarkers]);
-
-  /* On onClick effect */
-  useEffect(() => {
-    if (!map) return;
-    if (!onClick) return;
-    if (!mapLoaded) return;
-
-    map.on('click', onClick);
-    return (): void => {
-      map.off('click', onClick);
-    };
-  }, [map, onClick, mapLoaded]);
-
-  /* On activeFeature effect */
-  useEffect(() => {
-    if (!map) return;
-    if (!mapLoaded) return;
-    if (!activeFeature) return;
-    const clickHandler = (e): void => {
-      const features = map.queryRenderedFeatures(e.point);
-      const extractProperties =
-        (props: string[]) =>
-        (feature: GeoJSONFeature): unknown =>
-          props.reduce((filtered, prop) => {
-            filtered[prop] = feature[prop];
-            return filtered;
-          }, {});
-      const filteredFeatures = features.map(extractProperties(activeFeature.properties));
-      activeFeature.callback(filteredFeatures);
-    };
-    map.on(activeFeature.eventType, clickHandler);
-    return (): void => {
-      map.off(activeFeature.eventType, clickHandler);
-    };
-  }, [mapLoaded, activeFeature, map]);
-
-  /* Feature state effect */
-  const { added: addedStates, deleted: deletedStates } = useArrayDiff(featuresState);
-
-  useEffect(() => {
-    if (!map) return;
-    if (!mapLoaded) return;
-    addedStates.forEach(({ source, id, sourceLayer, state }) => {
-      map.setFeatureState({ source, id, sourceLayer }, state);
-    });
-  }, [mapLoaded, addedStates, map]);
-
-  useEffect(() => {
-    if (!map) return;
-    if (!mapLoaded) return;
-    deletedStates.forEach(({ source, id, sourceLayer }) => {
-      map.removeFeatureState({ source, id, sourceLayer });
-    });
-  }, [mapLoaded, deletedStates, map]);
-
   /* Style sources effect */
   useEffect(() => {
     if (!map) return;
@@ -326,29 +215,6 @@ function MapboxMap(
       }
     });
   }, [addedLayers, layersOnTop, map, mapLoaded]);
-
-  /* Popup effect */
-  useEffect(() => {
-    if (!map) return;
-    if (!mapLoaded) return;
-    if (!popup) return;
-
-    const renderString =
-      typeof popup.layout === 'string'
-        ? popup.layout
-        : typeof popup.layout === 'number'
-          ? String(popup.layout)
-          : ReactDOMServer.renderToStaticMarkup(popup.layout);
-
-    const popupInstance = new mapLibre.Popup(popup.options)
-      .setLngLat(popup.coordinates)
-      .setHTML(renderString)
-      .addTo(map);
-
-    return (): void => {
-      popupInstance.remove();
-    };
-  }, [popup]);
 
   /* Clean up */
   useEffect(() => {
