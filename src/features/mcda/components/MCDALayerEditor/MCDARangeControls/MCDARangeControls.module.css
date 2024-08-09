@@ -1,0 +1,59 @@
+.rangeInputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 144px;
+}
+
+.rangeInputBox {
+  padding: var(--half-unit);
+  height: 30px;
+  width: 100%;
+}
+
+.rangeInputBox input {
+  font-size: 11px;
+}
+
+.rangeInputRoot {
+  flex-grow: 0.5;
+  position: relative;
+  width: 55px;
+}
+
+.inputRangeDivider {
+  margin: 0 var(--half-unit);
+}
+
+.rangeTextButtonsContainer {
+  width: 100%;
+  margin-top: calc(-1 * var(--half-unit));
+}
+
+.rangeTextButtons {
+  margin-top: calc(-1 * var(--half-unit));
+  color: var(--accent-strong);
+  cursor: pointer;
+
+  &:not(:first-child) {
+    margin-left: var(--unit);
+  }
+}
+
+.textButtonDisabled {
+  color: var(--faint-strong);
+}
+
+.hiddenError {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  padding: 0;
+}
+
+.error {
+  margin: var(--half-unit) 0;
+  color: red;
+  font-size: 12px;
+  line-height: 16px;
+}

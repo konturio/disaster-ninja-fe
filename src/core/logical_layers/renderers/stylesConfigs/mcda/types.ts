@@ -1,4 +1,8 @@
-import type { Indicator } from '~utils/bivariate/types/stat.types';
+import type {
+  AxisDatasetStats,
+  AxisTransformation,
+  Indicator,
+} from '~utils/bivariate/types/stat.types';
 
 export type ColorsByMapLibreExpression = {
   type: 'mapLibreExpression';
@@ -30,10 +34,12 @@ export interface MCDALayer {
   sentiment: [string, string];
   outliers: OutliersPolicy;
   coefficient: number;
+  // TODO: once all presets are updated, remove transformationFunction and make transformation property required
   transformationFunction: TransformationFunction;
+  transformation?: AxisTransformation;
   normalization: Normalization;
   unit: string | null;
-  datasetRange?: [number, number];
+  datasetStats?: AxisDatasetStats;
 }
 
 export interface MCDAConfig {
