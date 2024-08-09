@@ -1,17 +1,15 @@
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
-import FormUrlAddon from 'wretch/addons/formUrl';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { KONTUR_DEBUG } from '~utils/debug';
-import { typedObjectEntries } from 'types/entry';
 import { wait } from '~utils/test/wait';
+import { typedObjectEntries } from '../../types/entry';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
 import { autoParseBody } from './utils';
 import type { ApiClientError } from './apiClientError';
 import type {
   ApiClientConfig,
-  ApiResponse,
   ApiMethod,
   CustomRequestConfig,
   RequestParams,
