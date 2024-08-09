@@ -1,5 +1,4 @@
-import ReactMarkdown from 'react-markdown';
-import gfm from 'remark-gfm';
+import Markdown from 'markdown-to-jsx';
 import usePromise from 'react-promise-suspense';
 import { goTo } from '~core/router/goTo';
 import { getAsset } from '~core/api/assets';
@@ -66,33 +65,45 @@ function CssElement({ data }: PagesDocumentElementProps) {
 
 function MarkdownElement({ data }: PagesDocumentElementProps) {
   return (
-    <ReactMarkdown
-      remarkPlugins={[gfm]}
-      components={{
-        a(props) {
-          const { node, ...rest } = props;
-          const href = (node?.properties?.href ?? '') as string;
-          const isExternalLink =
-            href.startsWith('http://') || href.startsWith('https://');
-          if (isExternalLink) {
-            // open external links in new window
-            return <a {...rest} target="_blank" rel="noreferrer" className="external" />;
-          }
-          // internal link - use router
-          return (
-            <a
-              {...rest}
-              onClick={(e) => {
-                goTo(href);
-                e.preventDefault();
-              }}
-              className="internal"
-            />
-          );
+    <Markdown
+      options={{
+        overrides: {
+          a: CustomLink,
         },
       }}
     >
       {data}
-    </ReactMarkdown>
+    </Markdown>
+  );
+}
+
+function CustomLink({ children, ...props }) {
+  const {
+    // className,
+    href,
+    title,
+  } = props;
+  const isExternalLink = href.startsWith('http://') || href.startsWith('https://');
+  if (isExternalLink) {
+    // open external links in new window
+    return (
+      <a title={title} href={href} target="_blank" rel="noreferrer" className="external">
+        {children}
+      </a>
+    );
+  }
+  // internal link - use router
+  return (
+    <a
+      title={title}
+      href={href}
+      onClick={(e) => {
+        goTo(href);
+        e.preventDefault();
+      }}
+      className="internal"
+    >
+      {children}
+    </a>
   );
 }

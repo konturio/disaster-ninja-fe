@@ -6,7 +6,7 @@ type TupleEntry<
   ? TupleEntry<Tail, [...I, unknown], R | [`${I['length']}`, Head]>
   : R;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type ObjectEntry<T extends {}> = T extends object
   ? { [K in keyof T]: [K, Required<T>[K]] }[keyof T] extends infer E
     ? E extends [infer K, infer V]
@@ -16,14 +16,14 @@ type ObjectEntry<T extends {}> = T extends object
       : never
     : never
   : never;
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type Entry<T extends {}> = T extends readonly [unknown, ...unknown[]]
   ? TupleEntry<T>
   : T extends ReadonlyArray<infer U>
-  ? [`${number}`, U]
-  : ObjectEntry<T>;
+    ? [`${number}`, U]
+    : ObjectEntry<T>;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export function typedObjectEntries<T extends {}>(obj: T) {
   return Object.entries(obj) as Array<Entry<T>>;
 }

@@ -1,6 +1,4 @@
 import { configRepo } from '~core/config';
-import { currentUserAtom } from '~core/shared_state/currentUser';
-import { featureFlagsAtom } from '~core/shared_state/featureFlags';
 import { yandexMetrics } from '~core/metrics';
 import type { UserDto } from './user';
 
@@ -8,9 +6,7 @@ export async function onLogin() {
   const config = configRepo.get();
   if (config.user) {
     externalLoginTasks(config.user);
-    currentUserAtom.setUser.dispatch({ ...config.user });
   }
-  featureFlagsAtom.set.dispatch(config.features);
 }
 
 function externalLoginTasks(user: UserDto) {

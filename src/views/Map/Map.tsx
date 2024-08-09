@@ -1,9 +1,8 @@
 import { Suspense, useEffect } from 'react';
-import { useAtom } from '@reatom/react-v2';
 import { lazily } from 'react-lazily';
 import { withKeepAlive } from 'react-component-keepalive-ts';
 import clsx from 'clsx';
-import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
+import { FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
 import { LayerFeaturesPanel } from '~features/layer_features_panel';
@@ -19,6 +18,8 @@ import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarP
 import { configRepo } from '~core/config';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
+
+const featureFlags = configRepo.get().features;
 
 const EditPanel = () => {
   const { EditFeaturesOrLayerPanel } = lazily(
@@ -41,8 +42,6 @@ const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 export const MapPage = withKeepAlive(_MapPage, { cacheId: 'map' });
 
 function _MapPage() {
-  const [featureFlags] = useAtom(featureFlagsAtom);
-
   useEffect(() => {
     import('~core/draw_tools').then(({ drawTools }) => drawTools.init());
 
@@ -129,10 +128,10 @@ function _MapPage() {
       </div>
       {Object.keys(featureFlags).length > 0 && (
         <Layout
-          analytics={<Analytics featureFlags={featureFlags} />}
+          analytics={<Analytics />}
           // if EVENTS_LIST is enabled, we always have default feed
           disasters={featureFlags[FeatureFlag.EVENTS_LIST] && <EventListPanel />}
-          layersAndLegends={<LayersAndLegends featureFlags={featureFlags} />}
+          layersAndLegends={<LayersAndLegends />}
           matrix={<></>}
           timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
           toolbar={featureFlags[FeatureFlag.TOOLBAR] && <Toolbar />}
@@ -175,10 +174,10 @@ const Toolbar = () => {
   );
 };
 
-const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) => {
-  const isAnalyticsOn = featureFlags[FeatureFlag.ANALYTICS_PANEL];
-  const isAdvancedAnalyticsPanelOn = featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL];
-  const isLLMAnalyticsOn = featureFlags[FeatureFlag.LLM_ANALYTICS];
+const Analytics = () => {
+  const isAnalyticsOn = !!featureFlags[FeatureFlag.ANALYTICS_PANEL];
+  const isAdvancedAnalyticsPanelOn = !!featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL];
+  const isLLMAnalyticsOn = !!featureFlags[FeatureFlag.LLM_ANALYTICS];
   const analyticsPanelState =
     isAnalyticsOn || isLLMAnalyticsOn
       ? analyticsPanel(isAnalyticsOn, isLLMAnalyticsOn)
@@ -202,11 +201,7 @@ const Analytics = ({ featureFlags }: { featureFlags: Record<string, boolean> }) 
   );
 };
 
-const LayersAndLegends = ({
-  featureFlags,
-}: {
-  featureFlags: Record<string, boolean>;
-}) => {
+const LayersAndLegends = () => {
   const [fullState, shortState] = [
     featureFlags[FeatureFlag.MAP_LAYERS_PANEL] ? layersPanel() : null,
     featureFlags[FeatureFlag.LEGEND_PANEL] ? legendPanel() : null,

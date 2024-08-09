@@ -9,6 +9,7 @@ class ConfigRepository {
   set({
     baseUrl,
     initialUrl,
+    initialUrlData,
     stageConfig,
     appConfig,
     baseMapUrl,
@@ -17,7 +18,8 @@ class ConfigRepository {
     activeLayers,
   }: {
     baseUrl: string;
-    initialUrl: UrlData;
+    initialUrl: string;
+    initialUrlData: UrlData;
     stageConfig: StageConfig;
     appConfig: AppConfig;
     baseMapUrl: string;
@@ -28,6 +30,7 @@ class ConfigRepository {
     this.#config = {
       baseUrl,
       initialUrl,
+      initialUrlData,
       ...stageConfig,
       ...appConfig,
       mapBaseStyle: baseMapUrl,

@@ -1,6 +1,6 @@
 import { apiClient } from '~core/apiClientInstance';
 import { i18n } from '~core/localization';
-import { AppFeature } from '~core/auth/types';
+import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
 import type { CustomRequestConfig } from '~core/api_client/types';
 import type { GeometryWithHash } from '~core/focused_geometry/types';

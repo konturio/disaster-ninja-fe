@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import cn from 'clsx';
-import { parseISO } from 'date-fns';
 import { Heading, Text } from '@konturio/ui-kit';
 import ReactMarkdown from 'react-markdown';
 import { nanoid } from 'nanoid';
@@ -40,7 +39,7 @@ export function EventCard({
   showDescription?: boolean;
 }) {
   const formattedTime = useMemo(
-    () => formatTime(parseISO(event.updatedAt)),
+    () => formatTime(new Date(event.updatedAt)),
     [event.updatedAt],
   );
   return (

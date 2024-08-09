@@ -1,6 +1,5 @@
-import { AppFeature } from '~core/auth/types';
+import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
-import type { AppFeatureType } from '~core/auth/types';
 import type { MetricsReportTemplate } from './types';
 
 export const METRICS_EVENT = 'METRICS';

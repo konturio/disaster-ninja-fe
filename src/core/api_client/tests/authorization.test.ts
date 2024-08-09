@@ -22,7 +22,7 @@ test('can login with username and password', async ({ ctx }) => {
   sinon.replace(ctx.localStorageMock, 'setItem', setItemFake);
 
   // Login
-  const res: any = await ctx.apiClient.login(ctx.username, ctx.password);
+  const res: any = await ctx.authClient.login(ctx.username, ctx.password);
 
   // Assertions
   expect(setItemFake.getCall(0).args[1], 'token saved in storage').toBe(
@@ -203,7 +203,7 @@ test('Not add authorization header to api without authorization', async ({ ctx }
   const apiWithoutAuthorizationMock = ctx.mockAdapter.onPost('/test').willResolve();
 
   // Api calls
-  await ctx.apiClient.login(ctx.username, ctx.password);
+  await ctx.authClient.login(ctx.username, ctx.password);
   await ctx.apiClient.post('/test', { param1: 'test' }, false);
 
   // Assertions
