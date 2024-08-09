@@ -23,7 +23,7 @@ exports[`style correct for bad good sentiments 1`] = `
               "indicator_denominator",
             ],
           ],
-          1,
+          Infinity,
         ],
         [
           "case",
@@ -89,7 +89,7 @@ exports[`style correct for good bad sentiments 1`] = `
                 "indicator_denominator",
               ],
             ],
-            1,
+            Infinity,
           ],
           [
             "case",
