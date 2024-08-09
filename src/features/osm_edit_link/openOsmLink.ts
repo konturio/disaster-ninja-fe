@@ -1,6 +1,5 @@
 import { URL_ZOOM_OFFSET } from '~core/constants';
 
-// Функция для открытия ссылки в редакторах OpenStreetMap, iD и RapiD
 export function openOsmLink(
   { lat, lng, zoom },
   baseLink = 'https://www.openstreetmap.org/edit#map=',
