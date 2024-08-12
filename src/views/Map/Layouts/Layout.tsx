@@ -6,6 +6,7 @@ import {
 import { DesktopLayout } from './Desktop/Desktop';
 import { LaptopLayout } from './Laptop/Laptop';
 import { MobileLayout } from './Mobile/Mobile';
+import type { ReactNode } from 'react';
 
 export function Layout({
   disasters,
@@ -18,15 +19,15 @@ export function Layout({
   editPanel,
   layerFeaturesPanel,
 }: {
-  disasters: JSX.Element;
-  analytics: JSX.Element;
-  toolbar: JSX.Element;
-  timeline: JSX.Element;
-  layersAndLegends: JSX.Element;
-  matrix: JSX.Element;
-  footer: JSX.Element;
-  editPanel: JSX.Element;
-  layerFeaturesPanel: JSX.Element;
+  disasters: ReactNode;
+  analytics: ReactNode;
+  toolbar: ReactNode;
+  timeline: ReactNode;
+  layersAndLegends: ReactNode;
+  matrix: ReactNode;
+  footer: ReactNode;
+  editPanel: ReactNode;
+  layerFeaturesPanel: ReactNode;
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);

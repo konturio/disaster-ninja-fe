@@ -1,4 +1,5 @@
 import { apiClient, reportsClient } from '~core/apiClientInstance';
+import { authClientInstance } from '~core/authClientInstance';
 import { getStageConfig } from '~core/config/loaders/stageConfigLoader';
 import { getAppConfig, getLayerSourceUrl } from '~core/config/loaders/appConfigLoader';
 import { readInitialUrl } from '~core/url_store/readInitialUrl';
@@ -19,27 +20,24 @@ export async function setupApplicationEnv() {
   // Shared config - comes from url
   const sharedConfig = readInitialUrl();
 
-  // TODO - initialUrl from config repository
-  localStorage.setItem('initialUrl', location.href); // keep initial url before overwriting by router
-
   // Stage config - depends from appconfig.json in CI repo
   // (/configs/config.local.json for localhost)
   const stageConfig = await getStageConfig();
 
+  authClientInstance.init(
+    `${stageConfig.keycloakUrl}/realms/${stageConfig.keycloakRealm}`,
+    stageConfig.keycloakClientId,
+  );
+
+  apiClient.authService = authClientInstance;
   // Prepare clients for fetch additional configs from apis
-  apiClient.setup({
+  apiClient.init({
     baseUrl: stageConfig.apiGateway,
-    keycloakClientId: stageConfig.keycloakClientId,
-    keycloakRealm: stageConfig.keycloakRealm,
-    keycloakUrl: stageConfig.keycloakUrl,
   });
 
-  reportsClient.setup({
+  reportsClient.init({
     baseUrl: stageConfig.reportsApiGateway,
-    disableAuth: true,
   });
-
-  apiClient.checkLocalAuthToken();
 
   /* -- Now you can use client -- */
 
@@ -49,14 +47,7 @@ export async function setupApplicationEnv() {
   setupAppIcons(appConfig);
   setupWebManifest(appConfig);
 
-  // WTF moment: Sometimes user comes with app settings...
-  // Just because backend probably know user from token in request
-  // User added to this response.
-  // TODO - fix that, do not mixing things
-  // If not - we use public
-  // publicUser takes settings from stage configuration
-  // TODO - get user settings by token
-
+  // use user data from app config endpoint or local defaults for anonymous session
   const initialUser =
     appConfig.user ??
     createPublicUser({
@@ -67,7 +58,9 @@ export async function setupApplicationEnv() {
       osmEditor: stageConfig.osmEditors[0].id,
       defaultFeed: stageConfig.defaultFeed,
     });
+
   setAppLanguage(initialUser.language);
+
   const defaultLayers = await getDefaultLayers(appConfig.id, initialUser.language);
 
   // Resolve initially enabled layers list
@@ -86,7 +79,8 @@ export async function setupApplicationEnv() {
 
   configRepo.set({
     baseUrl,
-    initialUrl: sharedConfig,
+    initialUrlData: sharedConfig,
+    initialUrl: location.href, // keep initial url before overwriting by router
     activeLayers,
     stageConfig,
     appConfig,

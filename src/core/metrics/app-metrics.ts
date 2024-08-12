@@ -1,6 +1,6 @@
 import { apiClient } from '~core/apiClientInstance';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
-import { AppFeature } from '~core/auth/types';
+import { AppFeature } from '~core/app/types';
 import {
   METRICS_EVENT,
   METRICS_REPORT_TEMPLATE,

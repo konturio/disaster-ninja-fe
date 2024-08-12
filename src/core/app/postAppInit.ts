@@ -1,16 +1,12 @@
-import { authClientInstance } from '~core/authClientInstance';
 import { urlStoreAtom } from '~core/url_store';
 import { onLogin } from './authHooks';
 import { runAtom } from './index';
 import type { Config } from '~core/config/types';
 
 export async function postAppInit(config: Config) {
-  authClientInstance.loginHook = onLogin.bind(authClientInstance);
-  const isAuthenticated = authClientInstance.checkAuth();
-  // It's required to refresh auth tokens to get the fresh roles data from keycloak
-  if (isAuthenticated) await authClientInstance.refreshAuth();
+  onLogin();
   urlStoreAtom.init.dispatch({
-    ...config.initialUrl,
+    ...config.initialUrlData,
     layers: config.activeLayers,
   });
   runAtom(urlStoreAtom);

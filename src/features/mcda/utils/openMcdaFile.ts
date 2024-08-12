@@ -47,7 +47,7 @@ function readMcdaJSONFile(file): Promise<MCDAConfig> {
         const jsonConfig: Partial<MCDAConfig> =
           json?.type === 'mcda' ? json.config : json;
         const mcdaConfig = createMCDAConfigFromJSON(jsonConfig);
-        res({ ...mcdaConfig, custom: true } as MCDAConfig);
+        res({ ...mcdaConfig } as MCDAConfig);
       } catch (error) {
         rej(error);
       }

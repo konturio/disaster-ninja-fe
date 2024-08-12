@@ -10,6 +10,7 @@ import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
 import { getAxisTransformations } from '~core/api/mcda';
+import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { Sentiments } from '../Sentiments';
 import MCDARangeControls from '../MCDARangeControls/MCDARangeControls';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
@@ -58,6 +59,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
 
   const [rangeFromError, setRangeFromError] = useState('');
   const [rangeToError, setRangeToError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setRangeFrom(layer.range?.at(0)?.toString() ?? '');
@@ -208,6 +210,8 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   }, []);
 
   const editLayer = useCallback(async () => {
+    setEditMode(true);
+    setIsLoading(true);
     try {
       const transformationsStatisticsDTO = await getAxisTransformations(
         layer.indicators[0].name,
@@ -219,7 +223,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     } catch {
       throw new Error("Couldn't fetch transformations statistics data.");
     } finally {
-      setEditMode(true);
+      setIsLoading(false);
     }
   }, [layer.indicators]);
 
@@ -276,7 +280,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 rangeToError={rangeToError}
                 setRangeFromError={setRangeFromError}
                 setRangeToError={setRangeToError}
-                disabled={axes.loading}
                 axisDatasetRange={axisDatasetRange}
                 layer={layer}
               />
@@ -346,19 +349,23 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               infoText={i18n.t('mcda.layer_editor.tips.transform')}
               onTitleDoubleClicked={() => setShowDebugInfo((prevValue) => !prevValue)}
             >
-              <Select
-                className={s.selectInput}
-                classes={{
-                  menu: s.selectInputBox,
-                }}
-                value={transformationFunction}
-                onChange={(e) => {
-                  setTransformationFunction(
-                    e.selectedItem?.value as TransformationFunction,
-                  );
-                }}
-                items={transformOptions}
-              />
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <Select
+                  className={s.selectInput}
+                  disabled={!transformationsStatistics}
+                  classes={{
+                    menu: s.selectInputBox,
+                  }}
+                  value={transformationFunction}
+                  onChange={(e) => {
+                    setTransformationFunction(
+                      e.selectedItem?.value as TransformationFunction,
+                    );
+                  }}
+                  items={transformOptions}
+                />
+                {isLoading && <KonturSpinner size={30} />}
+              </div>
             </MCDALayerParameterRow>
             {/* NORMALIZE */}
             <MCDALayerParameterRow

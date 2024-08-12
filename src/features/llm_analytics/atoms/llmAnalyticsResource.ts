@@ -3,7 +3,7 @@ import { atom } from '@reatom/core';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { i18n } from '~core/localization';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
-import { AppFeature } from '~core/auth/types';
+import { AppFeature } from '~core/app/types';
 import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { getLlmAnalysis } from '~core/api/insights';
 import { referenceAreaAtom } from '~core/shared_state/referenceArea';

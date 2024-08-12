@@ -9,7 +9,7 @@ import {
   Diamond24,
 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
-import { AppFeature } from '~core/auth/types';
+import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
 import { goTo } from './goTo';
@@ -94,7 +94,7 @@ export const routerConfig: AppRouterConfig = {
       slug: 'terms',
       title: i18n.t('modes.terms'),
       icon: <Reports16 />,
-      view: <PagesDocument doc={[{ type: 'md', url: 'terms.md' }]} />,
+      view: <PagesDocument doc={[{ type: 'md', url: 'terms.md' }]} key="terms" />,
       parentRouteId: 'about',
       visibilityInNavigation: 'always',
       requiredFeature: AppFeature.ABOUT_PAGE,
@@ -104,7 +104,7 @@ export const routerConfig: AppRouterConfig = {
       slug: 'privacy',
       title: i18n.t('modes.privacy'),
       icon: <Reports16 />,
-      view: <PagesDocument doc={[{ type: 'md', url: 'privacy.md' }]} />,
+      view: <PagesDocument doc={[{ type: 'md', url: 'privacy.md' }]} key="privacy" />,
       parentRouteId: 'about',
       visibilityInNavigation: 'always',
       requiredFeature: AppFeature.ABOUT_PAGE,
@@ -114,7 +114,7 @@ export const routerConfig: AppRouterConfig = {
       slug: 'cookies',
       title: 'modes.cookies',
       icon: <Reports16 />,
-      view: <PagesDocument doc={[{ type: 'md', url: 'cookies.md' }]} />,
+      view: <PagesDocument doc={[{ type: 'md', url: 'cookies.md' }]} key="cookies" />,
       parentRouteId: 'about',
       visibilityInNavigation: 'never',
       requiredFeature: AppFeature.ABOUT_PAGE,

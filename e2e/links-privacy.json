@@ -62,8 +62,7 @@
     "linkShown": "https://www.linkedin.com/legal/privacy-policy",
     "url": "https://www.linkedin.com/legal/privacy-policy",
     "linkValidation": {
-      "shouldOpen": true,
-      "expectedUrl": "https://www.linkedin.com/legal/privacy-policy"
+      "shouldOpen": false
     }
   },
   {

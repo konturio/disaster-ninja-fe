@@ -37,14 +37,19 @@
   "DEFAULT_LANGUAGE": "en",
   "OSM_EDITORS": [
     {
+      "id": "osm",
+      "title": "OpenStreetMap.org default editor",
+      "url": "https://www.openstreetmap.org/edit#map="
+    },
+    {
       "id": "josm",
       "title": "JOSM",
-      "url": "https://www.openstreetmap.org/edit?editor=remote#map="
+      "url": "http://127.0.0.1:8111/load_and_zoom"
     },
     {
       "id": "id",
       "title": "iD",
-      "url": "https://www.openstreetmap.org/edit?editor=id&node=2188188227#map="
+      "url": "https://www.openstreetmap.org/edit?editor=id#map="
     },
     {
       "id": "rapid",
@@ -56,5 +61,4 @@
   "KEYCLOAK_REALM": "kontur",
   "KEYCLOAK_CLIENT_ID": "kontur_platform",
   "SENTRY_DSN": "https://fixme@dsn.ingest.sentry.io/project-id"
-
 }
