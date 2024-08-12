@@ -5,15 +5,13 @@ import {
   KONTUR_TRACE_PATCH,
   KONTUR_TRACE_TYPE,
   KONTUR_WARN,
-  patchTracer,
 } from '~utils/debug';
 import type { AtomCache, Logs } from '@reatom/core';
 
-function configureStore() {
-  return createStore({});
-}
+export const store = createStore({});
 
-export const store = configureStore();
+// TODO: refactor, see #19346
+const loggingEnabled = KONTUR_TRACE_PATCH || KONTUR_TRACE_TYPE || KONTUR_WARN;
 
 if (import.meta.env.DEV && import.meta.env.MODE !== 'test') {
   store.v3ctx.subscribe(logger);

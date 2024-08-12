@@ -1,5 +1,2 @@
-import { AuthClient } from './auth/client/AuthClient';
-import { apiClient } from './apiClientInstance';
-
-AuthClient.init({ apiClient });
-export const authClientInstance = AuthClient.getInstance();
+import { OidcSimpleClient } from './auth/OidcSimpleClient';
+export const authClientInstance = new OidcSimpleClient();

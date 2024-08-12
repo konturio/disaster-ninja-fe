@@ -6,11 +6,10 @@ import {
 } from 'react-router-dom';
 import { KeepAliveProvider } from 'react-component-keepalive-ts';
 import { Suspense } from 'react';
-import { postInit } from '~core/postInit';
 import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
-import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
-import { landUser, userWasLanded } from '~core/auth/atoms/userWasLanded';
+import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
+import { landUser, userWasLanded } from '~core/app/userWasLanded';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
 import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
@@ -50,7 +49,7 @@ function Layout() {
   );
 }
 
-export function initRouter() {
+function initRouter() {
   const availableRoutes = getAvailableRoutes();
   const { defaultRoute } = availableRoutes;
   const routes: RouteObject[] = availableRoutes.routes.map((r) => ({
@@ -82,6 +81,7 @@ export function initRouter() {
 
   // show landing page
   if (configRepo.get().features['about_page'] && !userWasLanded()) {
+    // TODO: put initialRedirect in feature config, remove showForNewUsers and routes scan
     const landingPageRoute = availableRoutes.routes.find((r) => r.showForNewUsers);
 
     // redirect to landing page if user is new and feature is enabled
@@ -94,15 +94,9 @@ export function initRouter() {
   }
 
   // Run last parts of app init requiring router
-  postInit(router?.state?.matches?.at(1)?.route.id ?? '');
+  import('~core/metrics').then(({ initMetricsOnce }) => {
+    initMetricsOnce(configRepo.get().id, router?.state?.matches?.at(1)?.route.id ?? '');
+  });
 
   return router;
-}
-
-function FullScreenLoader() {
-  return (
-    <div style={{ flex: 1 }}>
-      <LoadingSpinner message={null} />
-    </div>
-  );
 }

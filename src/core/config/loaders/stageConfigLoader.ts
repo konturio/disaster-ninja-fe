@@ -1,5 +1,5 @@
 import { getFeaturesFromStageConfig } from './featuresConfigLoader';
-import type { AppFeatureType } from '~core/auth/types';
+import type { AppFeatureType } from '~core/app/types';
 import type { AppConfig, OsmEditorConfig, StageConfig } from '../types';
 
 export interface StageConfigLegacy {

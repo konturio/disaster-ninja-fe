@@ -1,6 +1,7 @@
 import { configRepo } from '~core/config';
 import { SmartColumn } from '../../SmartColumn/SmartColumn';
 import s from './Desktop.module.css';
+import type { ReactNode } from 'react';
 
 export function DesktopLayout({
   analyticsColumn,
@@ -9,11 +10,11 @@ export function DesktopLayout({
   mapColumnBottom,
   footer,
 }: {
-  analyticsColumn: JSX.Element;
-  layersColumn: JSX.Element;
-  mapColumnTop: JSX.Element;
-  mapColumnBottom: JSX.Element;
-  footer: JSX.Element;
+  analyticsColumn: ReactNode;
+  layersColumn: ReactNode;
+  mapColumnTop: ReactNode;
+  mapColumnBottom: ReactNode;
+  footer: ReactNode;
 }) {
   return (
     <div className={s.contentWrap}>

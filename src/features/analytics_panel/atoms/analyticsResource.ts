@@ -2,7 +2,7 @@ import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { i18n } from '~core/localization';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
-import { AppFeature } from '~core/auth/types';
+import { AppFeature } from '~core/app/types';
 import { getPolygonDetails } from '~core/api/insights';
 import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import type { AnalyticsData } from '~core/types';

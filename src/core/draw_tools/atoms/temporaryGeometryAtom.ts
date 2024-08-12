@@ -17,10 +17,10 @@ export const temporaryGeometryAtom = createAtom(
     onAction('setFeatures', ({ features, indexes }) => {
       const tempFeatures: Feature[] = features.map((feature, index) => {
         if (!indexes.includes(index)) return feature;
-        const copy = { ...feature };
-        copy.properties
-          ? (copy.properties.temporary = true)
-          : (copy.properties = { temporary: true });
+        const copy = {
+          ...feature,
+          properties: { ...feature.properties, temporary: true },
+        };
         return copy;
       });
       state = { ...state, features: tempFeatures };

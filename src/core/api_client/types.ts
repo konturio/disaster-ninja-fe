@@ -19,15 +19,7 @@ export const ApiMethodTypes = {
 
 export type ApiMethod = (typeof ApiMethodTypes)[keyof typeof ApiMethodTypes];
 
-export type ApiClientConfig =
-  | { baseUrl: string; disableAuth: true }
-  | {
-      baseUrl: string;
-      keycloakUrl: string;
-      keycloakRealm: string;
-      keycloakClientId: string;
-      disableAuth?: false;
-    };
+export type ApiClientConfig = { baseUrl: string };
 
 export interface KeycloakAuthResponse {
   access_token: string;
