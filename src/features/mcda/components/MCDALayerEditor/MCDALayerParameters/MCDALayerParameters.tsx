@@ -349,7 +349,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               infoText={i18n.t('mcda.layer_editor.tips.transform')}
               onTitleDoubleClicked={() => setShowDebugInfo((prevValue) => !prevValue)}
             >
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <div className={s.transformSelectionRow}>
                 <Select
                   className={s.selectInput}
                   disabled={!transformationsStatistics}
