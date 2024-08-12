@@ -17,7 +17,7 @@ type Props = {
   rangeToError: string;
   setRangeFromError: Dispatch<SetStateAction<string>>;
   setRangeToError: Dispatch<SetStateAction<string>>;
-  disabled: boolean;
+  disabled?: boolean;
   axisDatasetRange: string[] | null;
   layer: MCDALayer;
 };

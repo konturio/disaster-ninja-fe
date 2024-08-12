@@ -280,7 +280,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 rangeToError={rangeToError}
                 setRangeFromError={setRangeFromError}
                 setRangeToError={setRangeToError}
-                disabled={axes.loading}
                 axisDatasetRange={axisDatasetRange}
                 layer={layer}
               />
