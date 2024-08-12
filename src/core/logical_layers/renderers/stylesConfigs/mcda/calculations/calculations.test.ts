@@ -109,5 +109,5 @@ const TEST_MCDA_LAYER: MCDALayer = {
   transformationFunction: 'no',
   normalization: 'max-min',
   unit: '',
-  datasetRange: [-30, 100],
+  datasetStats: { minValue: -30, maxValue: 100, mean: 0, stddev: 10 },
 };

@@ -21,13 +21,13 @@ export function Sentiments({
       <span style={{ color: left.color }}>
         <Text type={'caption'}>{`${left.label} `}</Text>
       </span>{' '}
-      <Text type={'caption'}>({left.value})</Text>
+      <Text type={'caption'}>({+parseFloat(left.value).toFixed(3)})</Text>
       {' \u2192 '}
       {/* Right */}
       <span style={{ color: right.color }}>
         <Text type={'caption'}>{`${right.label} `}</Text>
       </span>
-      <Text type={'caption'}>({right.value})</Text>
+      <Text type={'caption'}>({+parseFloat(right.value).toFixed(3)})</Text>
       {units ? <Text type={'caption'}>, {units}</Text> : null}
     </div>
   );

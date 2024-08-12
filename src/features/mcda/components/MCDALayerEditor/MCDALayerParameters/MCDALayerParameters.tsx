@@ -1,4 +1,4 @@
-import { Edit16 } from '@konturio/default-icons';
+import { Prefs16 } from '@konturio/default-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Input, Select, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
@@ -9,12 +9,14 @@ import { isNumber } from '~utils/common';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
+import { getAxisTransformations } from '~core/api/mcda';
+import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { Sentiments } from '../Sentiments';
+import MCDARangeControls from '../MCDARangeControls/MCDARangeControls';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
 import {
   MCDA_LAYER_DEFAULTS as DEFAULTS,
-  NUMBER_FILTER,
   POSITIVE_NUMBER_FILTER,
   SENTIMENT_VALUES,
   normalizationOptions,
@@ -23,12 +25,14 @@ import {
   sentimentsOptions,
   transformOptions,
 } from './constants';
+import MCDATransformationDebugInfo from './MCDATransformationDebugInfo/MCDATransformationDebugInfo';
 import type {
   MCDALayer,
   OutliersPolicy,
   TransformationFunction,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Normalization } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { AxisTransformationWithPoints } from '~utils/bivariate';
 
 export type MCDALayerLegendProps = {
   layer: MCDALayer;
@@ -42,39 +46,54 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   const [rangeTo, setRangeTo] = useState(DEFAULTS.range[1]);
   const [outliers, setOutliers] = useState(DEFAULTS.outliers as OutliersPolicy);
   const [coefficient, setCoefficient] = useState(DEFAULTS.coefficient.toString());
-  const [transform, setTransform] = useState<TransformationFunction>(
-    DEFAULTS.transform as TransformationFunction,
-  );
+  const [transformationFunction, setTransformationFunction] =
+    useState<TransformationFunction>(DEFAULTS.transform as TransformationFunction);
   const [normalization, setNormalization] = useState<Normalization>(
     DEFAULTS.normalization as Normalization,
   );
+  const [transformationsStatistics, setTransformationsStatistics] = useState<Map<
+    TransformationFunction,
+    AxisTransformationWithPoints
+  > | null>(null);
+  const [showDebugInfo, setShowDebugInfo] = useState(false);
 
   const [rangeFromError, setRangeFromError] = useState('');
   const [rangeToError, setRangeToError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setRangeFrom(layer.range?.at(0)?.toString() ?? '');
     setRangeTo(layer.range?.at(1)?.toString() ?? '');
     setSentiment(layer.sentiment.at(0) === 'good' ? 'good-bad' : 'bad-good');
     setCoefficient(layer.coefficient.toString());
-    setTransform(layer.transformationFunction);
+    setTransformationFunction(
+      layer.transformation?.transformation ?? layer.transformationFunction,
+    );
     setNormalization(layer.normalization);
     setOutliers(layer.outliers ?? DEFAULTS.outliers);
   }, [layer]);
 
   const [axes] = useAtom((ctx) => ctx.spy(availableBivariateAxesAtom));
 
-  const axisDefaultRange = useMemo(() => {
+  const { axisDatasetRange } = useMemo(() => {
+    let axisDatasetRange: string[] | null = null;
     if (!axes.loading) {
       const relatedAxis = axes?.data?.find((axis) => axis.id === layer.id);
-      const steps = relatedAxis?.steps;
-      const min = steps?.at(0)?.value;
-      const max = steps?.at(-1)?.value;
-      if (isNumber(min) && isNumber(max)) {
-        return [min.toString(), max.toString()];
+      if (relatedAxis?.datasetStats) {
+        axisDatasetRange = [
+          relatedAxis.datasetStats.minValue?.toString(),
+          relatedAxis.datasetStats.maxValue?.toString(),
+        ];
+      } else {
+        // TODO: remove this else case once all MCDA presets have datasetStats
+        const steps = relatedAxis?.steps;
+        const min = steps?.at(0)?.value;
+        const max = steps?.at(-1)?.value;
+        axisDatasetRange =
+          isNumber(min) && isNumber(max) ? [min.toString(), max.toString()] : null;
       }
     }
-    return null;
+    return { axisDatasetRange };
   }, [axes?.data, axes?.loading, layer.id]);
 
   const mcdaLayerHint: LayerInfo[] = useMemo(() => {
@@ -154,40 +173,12 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     return undefined;
   }, [coefficient]);
 
-  useEffect(() => {
-    const rangeFromNum = Number(rangeFrom);
-    const rangeToNum = Number(rangeTo);
-    let errorFrom = '';
-    let errorTo = '';
-    if (!isNumber(rangeFromNum)) {
-      errorFrom = i18n.t('mcda.layer_editor.errors.range_must_be_a_number');
-    }
-    if (!isNumber(rangeToNum)) {
-      errorTo = i18n.t('mcda.layer_editor.errors.range_must_be_a_number');
-    }
-    if (Number(rangeFrom) > Number(rangeTo)) {
-      errorFrom = i18n.t('mcda.layer_editor.errors.range_from_cannot_be_bigger');
-    }
-    if (!rangeTo) {
-      errorTo = i18n.t('mcda.layer_editor.errors.range_cannot_be_empty');
-    }
-    if (!rangeFrom) {
-      errorFrom = i18n.t('mcda.layer_editor.errors.range_cannot_be_empty');
-    }
-    setRangeFromError(errorFrom);
-    setRangeToError(errorTo);
-  }, [rangeFrom, rangeTo]);
-
   /** CALLBACKS */
   const onSaveLayer = useCallback(() => {
     const rangeNum = [Number(rangeFrom), Number(rangeTo)];
     const coefficientNum = Number(coefficient);
     const updatedLayer: MCDALayer = {
-      id: layer.id,
-      name: layer.name,
-      axis: layer.axis,
-      indicators: layer.indicators,
-      unit: layer.unit,
+      ...layer,
       range: [
         isNumber(rangeNum[0]) ? rangeNum[0] : 0,
         isNumber(rangeNum[1]) ? rangeNum[1] : 1000,
@@ -195,54 +186,49 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
       sentiment: SENTIMENT_VALUES[sentiment],
       outliers,
       coefficient: isNumber(coefficientNum) ? coefficientNum : 1,
-      transformationFunction: transform,
+      transformationFunction,
+      transformation: transformationsStatistics?.get(transformationFunction),
       normalization,
-      datasetRange: layer.datasetRange,
     };
     setEditMode(false);
     onLayerEdited(updatedLayer);
   }, [
     coefficient,
-    layer.axis,
-    layer.datasetRange,
-    layer.id,
-    layer.indicators,
-    layer.name,
-    layer.unit,
+    layer,
     normalization,
     onLayerEdited,
     outliers,
     rangeFrom,
     rangeTo,
     sentiment,
-    transform,
+    transformationFunction,
+    transformationsStatistics,
   ]);
 
   const onCancel = useCallback(() => {
     setEditMode(false);
   }, []);
 
-  const onResetLimits = useCallback(() => {
-    if (!axes.loading) {
-      if (axisDefaultRange) {
-        setRangeFrom(axisDefaultRange[0]);
-        setRangeTo(axisDefaultRange[1]);
-      } else {
-        console.error(
-          `Couldn\'nt find default range for ${layer.id}. Using app defaults instead`,
-        );
-        setRangeFrom(DEFAULTS.range[0]);
-        setRangeTo(DEFAULTS.range[1]);
-      }
-    }
-  }, [axes.loading, axisDefaultRange, layer]);
-
-  const editLayer = useCallback(() => {
+  const editLayer = useCallback(async () => {
     setEditMode(true);
-  }, []);
+    setIsLoading(true);
+    try {
+      const transformationsStatisticsDTO = await getAxisTransformations(
+        layer.indicators[0].name,
+        layer.indicators[1].name,
+      );
+      setTransformationsStatistics(
+        new Map(transformationsStatisticsDTO?.map((t) => [t.transformation, t])),
+      );
+    } catch {
+      throw new Error("Couldn't fetch transformations statistics data.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [layer.indicators]);
 
   return (
-    <div className={s.editor}>
+    <div>
       <div key={layer.id} className={s.layer}>
         <div className={s.layerHeader}>
           <div>{layer.name}</div>
@@ -253,7 +239,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 hint={i18n.t('layer_actions.tooltips.edit')}
                 className={s.editButton}
               >
-                <Edit16 />
+                <Prefs16 />
               </LayerActionIcon>
             )}
             <LayerInfo
@@ -285,46 +271,18 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               name={i18n.t('mcda.layer_editor.range')}
               infoText={i18n.t('mcda.layer_editor.tips.range')}
             >
-              <div className={s.rangeInputContainer}>
-                <Input
-                  className={s.rangeInputRoot}
-                  classes={{
-                    inputBox: s.rangeInputBox,
-                    error: s.hiddenError,
-                  }}
-                  type="text"
-                  value={rangeFrom}
-                  onChange={(event) => {
-                    const value = event.target.value.replace(NUMBER_FILTER, '');
-                    setRangeFrom(value);
-                  }}
-                  error={rangeFromError}
-                />
-                <span className={s.inputRangeDivider}>{'-'}</span>
-                <Input
-                  className={s.rangeInputRoot}
-                  classes={{
-                    inputBox: s.rangeInputBox,
-                    error: s.hiddenError,
-                  }}
-                  type="text"
-                  value={rangeTo}
-                  onChange={(event) => {
-                    const value = event.target.value.replace(NUMBER_FILTER, '');
-                    setRangeTo(value);
-                  }}
-                  error={rangeToError}
-                />
-              </div>
-              <Text type="short-m" className={s.error}>
-                {rangeFromError ? rangeFromError : rangeToError}
-              </Text>
-              <div
-                className={clsx(s.resetLimits, { [s.textButtonDisabled]: axes.loading })}
-                onClick={onResetLimits}
-              >
-                {i18n.t('mcda.layer_editor.reset_limits_to_default')}
-              </div>
+              <MCDARangeControls
+                rangeFrom={rangeFrom}
+                rangeTo={rangeTo}
+                setRangeFrom={setRangeFrom}
+                setRangeTo={setRangeTo}
+                rangeFromError={rangeFromError}
+                rangeToError={rangeToError}
+                setRangeFromError={setRangeFromError}
+                setRangeToError={setRangeToError}
+                axisDatasetRange={axisDatasetRange}
+                layer={layer}
+              />
             </MCDALayerParameterRow>
             {/* OUTLIERS */}
             <MCDALayerParameterRow
@@ -389,18 +347,25 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             <MCDALayerParameterRow
               name={i18n.t('mcda.layer_editor.transform')}
               infoText={i18n.t('mcda.layer_editor.tips.transform')}
+              onTitleDoubleClicked={() => setShowDebugInfo((prevValue) => !prevValue)}
             >
-              <Select
-                className={s.selectInput}
-                classes={{
-                  menu: s.selectInputBox,
-                }}
-                value={transform}
-                onChange={(e) => {
-                  setTransform(e.selectedItem?.value as TransformationFunction);
-                }}
-                items={transformOptions}
-              />
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <Select
+                  className={s.selectInput}
+                  disabled={!transformationsStatistics}
+                  classes={{
+                    menu: s.selectInputBox,
+                  }}
+                  value={transformationFunction}
+                  onChange={(e) => {
+                    setTransformationFunction(
+                      e.selectedItem?.value as TransformationFunction,
+                    );
+                  }}
+                  items={transformOptions}
+                />
+                {isLoading && <KonturSpinner size={30} />}
+              </div>
             </MCDALayerParameterRow>
             {/* NORMALIZE */}
             <MCDALayerParameterRow
@@ -419,6 +384,14 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 items={normalizationOptions}
               />
             </MCDALayerParameterRow>
+            {showDebugInfo ? (
+              <MCDATransformationDebugInfo
+                transformationsStatistics={transformationsStatistics}
+                selectedTransformationFunction={transformationFunction}
+              />
+            ) : (
+              <></>
+            )}
             <div className={s.editorButtonsContainer}>
               <Button
                 size="small"

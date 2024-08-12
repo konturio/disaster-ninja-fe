@@ -10,6 +10,8 @@ export interface IsomorphMath<T> {
   abs: (x: T) => T;
   sign: (x: T) => T;
   clamp: (x: T, min: T, max: T) => T;
+  min: (v1: T, v2: T) => T;
+  max: (v1: T, v2: T) => T;
 }
 
 export type MapExpression = maplibregl.ExpressionSpecification;
@@ -29,7 +31,7 @@ export class MapMath implements IsomorphMath<MapExpression> {
   clamp = (x: MapExpression, min: MapExpression, max: MapExpression): MapExpression => [
     'let',
     'clampedX',
-    ['to-number', x, 1],
+    ['to-number', x, Number.POSITIVE_INFINITY],
     [
       'case',
       ['<', ['var', 'clampedX'], min],
@@ -38,6 +40,22 @@ export class MapMath implements IsomorphMath<MapExpression> {
       max,
       ['var', 'clampedX'],
     ],
+  ];
+  min = (v1: MapExpression, v2: MapExpression): MapExpression => [
+    'let',
+    'v1',
+    ['to-number', v1, Number.POSITIVE_INFINITY],
+    'v2',
+    ['to-number', v2, Number.POSITIVE_INFINITY],
+    ['case', ['<', ['var', 'v2'], ['var', 'v1']], ['var', 'v2'], ['var', 'v1']],
+  ];
+  max = (v1: MapExpression, v2: MapExpression): MapExpression => [
+    'let',
+    'v1',
+    ['to-number', v1, Number.NEGATIVE_INFINITY],
+    'v2',
+    ['to-number', v2, Number.NEGATIVE_INFINITY],
+    ['case', ['>', ['var', 'v2'], ['var', 'v1']], ['var', 'v2'], ['var', 'v1']],
   ];
 }
 
@@ -61,4 +79,6 @@ export class JsMath implements IsomorphMath<number> {
     }
     return x;
   };
+  min = (v1: number, v2: number): number => Math.min(v1, v2);
+  max = (v1: number, v2: number): number => Math.max(v1, v2);
 }

@@ -50,13 +50,8 @@
   width: 50%;
 }
 
-.textInputBox input,
-.rangeInputBox input {
+.textInputBox input {
   font-size: 11px;
-}
-
-.inputRangeDivider {
-  margin: 0 var(--half-unit);
 }
 
 .hiddenError {
@@ -71,25 +66,6 @@
   color: red;
   font-size: 12px;
   line-height: 16px;
-}
-
-.rangeInputContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 144px;
-}
-
-.rangeInputBox {
-  padding: var(--half-unit);
-  height: 30px;
-  width: 100%;
-}
-
-.rangeInputRoot {
-  flex-grow: 0.5;
-  position: relative;
-  width: 55px;
 }
 
 /* Select input */
@@ -112,27 +88,10 @@
   font-size: 11px;
 }
 
-.resetLimits {
-  width: 100%;
-  margin-top: calc(-1 * var(--half-unit));
-  color: var(--accent-strong);
-  cursor: pointer;
-}
-
-.textButtonDisabled {
-  color: var(--faint-strong);
-}
-
 .editButton {
   margin-inline-end: var(--unit);
   cursor: pointer;
-  color: var(--accent-strong);
-  visibility: hidden;
   align-items: flex-start;
-}
-
-.layer:hover .editButton {
-  visibility: visible;
 }
 
 .editorButtonsContainer {
