@@ -11,7 +11,7 @@ env:
 
 jobs:
   deploy:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     env:
       PREVIEW_API_DOMAIN: 'test-apps-ninja02.konturlabs.com'
       KEYCLOAK_URL: 'https://dev-keycloak.k8s-01.konturlabs.com'
