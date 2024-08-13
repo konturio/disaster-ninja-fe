@@ -15,7 +15,7 @@ To update CSV file:
 3. Export updated `mcdaCalculations.testdata` as new CSV file.
 4. Make sure unit-test works as expected
 
-### Other notes:
+### Other notes
 
 `MAX(MIN(x, rangeTo), rangeFrom)` - this expression implements clamp function.
 Its logic:
