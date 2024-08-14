@@ -1,21 +1,23 @@
-# calculateLayerPipeline unit test
+# calculateLayerPipeline unit tests
 
-The test uses `calculateLayerPipeline.testdata.csv` file to get the input data and expected values. This is a static CSV file based on `calculateLayerPipeline.formulas.xlsx` file.
+The test uses `calculateLayerPipeline.testdata.csv` file to get the input data and expected values. This is a static CSV file exported from `calculateLayerPipeline.formulas.xlsx`.
 
-## If you need to update CSV file
+## Test data files
 
-XLS-file contains two sheets:
-`mcda_calc` - has actual calculations and formulas
-`mcdaCalculations.testdata` - imports necessary fields from the `mcda_calc`
+- `calculateLayerPipeline.testdata.csv` is a plain CSV file. Headers are using dot notation (parent.child.grandchild) to create nested objects in tests.
 
-To update CSV file:
+- `calculateLayerPipeline.formulas.xlsx` contains two sheets:
+  - `mcda_calc` has actual calculations and formulas
+  - `mcdaCalculations.testdata` imports necessary fields from `mcda_calc`
+
+## To update CSV file:
 
 1. Open `calculateLayerPipeline.formulas.xlsx` (I recommend using LibreOffice)
-2. Making necessary changes in `mcda_calc` sheet. Save XLS file.
-3. Export updated `mcdaCalculations.testdata` as new CSV file.
-4. Make sure unit-test works as expected
+2. Make necessary changes in `mcda_calc` sheet. Save XLS file.
+3. Export updated `mcdaCalculations.testdata` sheet as new CSV file.
+4. Make sure unit-tests works as expected
 
-### Other notes
+## Other notes
 
 `MAX(MIN(x, rangeTo), rangeFrom)` - this expression implements clamp function.
 Its logic:
