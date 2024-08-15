@@ -8,27 +8,42 @@ let projects = getProjects();
 projects = projects.filter((arg) => arg.name !== 'atlas');
 
 for (const project of projects) {
-  test(`As User with no rights, I can go to ${project.title}, open map and open Rapid OSM editor at map coordinates`, async ({
-    context,
-    pageManager,
-  }) => {
-    await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-    await pageManager.fromNavigationMenu.goToMap();
+  const editors: [string, RegExp][] = [
+    ['OpenStreetMap.org default editor', /openstreetmap/],
+    ['RapiD', /rapideditor/],
+    ['iD', /openstreetmap.*editor%3Did/],
+    // ['JOSM', /load_and_zoom/], // TODO: Fix that waitForUrlToMatchPattern is not working with JOSM
+    // JOSM example url:http://127.0.0.1:8111/load_and_zoom?left=86.92857142857143&right=87.07142857142857&top=23.595428571428574&bottom=23.452571428571428
+  ];
 
-    // TO DO: remove this action after 18582 issue is fixed
-    await pageManager.atMap.goToSpecificAreaByUrl(10.597, 53.9196, 27.5097, project);
+  for (const [editor, pattern] of editors) {
+    test(`As User with no rights, I can go to ${project.title}, open map and open ${editor} at map coordinates`, async ({
+      context,
+      pageManager,
+    }) => {
+      await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
+      await pageManager.fromNavigationMenu.goToProfilePage();
+      const osmEditorValue = await pageManager.atProfilePage.getOsmEditorValue();
+      if (osmEditorValue !== editor) {
+        await pageManager.atProfilePage.setOsmEditorValue(editor);
+      }
+      await pageManager.fromNavigationMenu.goToMap();
 
-    const coordinates = await pageManager.atMap.getViewportFromUrl();
+      // TO DO: remove this action after 18582 issue is fixed
+      await pageManager.atMap.goToSpecificAreaByUrl(10.597, 53.9196, 27.5097, project);
 
-    const [newPage] = await Promise.all([
-      context.waitForEvent('page'),
-      (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click({
-        delay: 330,
-      }),
-    ]);
+      const coordinates = await pageManager.atMap.getViewportFromUrl();
 
-    await pageManager.atMap.waitForUrlToMatchPattern(/rapideditor/, newPage);
-    const osmCoordinates = await pageManager.atMap.getViewportFromUrl(newPage);
-    expect(osmCoordinates).toStrictEqual(coordinates);
-  });
+      const [newPage] = await Promise.all([
+        context.waitForEvent('page'),
+        (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click({
+          delay: 330,
+        }),
+      ]);
+
+      await pageManager.atMap.waitForUrlToMatchPattern(pattern, newPage);
+      const osmCoordinates = await pageManager.atMap.getViewportFromUrl(newPage);
+      expect(osmCoordinates).toStrictEqual(coordinates);
+    });
+  }
 }

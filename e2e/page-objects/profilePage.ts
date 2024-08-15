@@ -67,6 +67,27 @@ export class ProfilePage extends HelperBase {
     return fullNameValue;
   }
 
+  async getOsmEditorValue() {
+    const osmEditorValue = await this.page
+      .getByText('Default OpenStreetMap editor (beta)')
+      .locator('..')
+      .locator('span')
+      .textContent();
+    return osmEditorValue;
+  }
+
+  async setOsmEditorValue(osmEditorValue: string) {
+    await this.page
+      .getByText('Default OpenStreetMap editor (beta)')
+      .locator('..')
+      .locator('..')
+      .locator('..')
+      .locator('button')
+      .click();
+    await this.page.getByRole('option', { name: osmEditorValue, exact: true }).click();
+    await this.page.getByText('Save changes').click();
+  }
+
   /**
    * This method gets all values/texts of textboxes in settings like Full name and etc. Also it gets statuses of radio buttons, are they checked or not.
    * @param project tested project
