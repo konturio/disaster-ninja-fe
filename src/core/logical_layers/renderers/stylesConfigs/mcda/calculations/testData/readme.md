@@ -10,12 +10,12 @@ The test uses `calculateLayerPipeline.testdata.csv` file to get the input data a
   - `mcda_calc` has actual calculations and formulas
   - `mcdaCalculations.testdata` imports necessary fields from `mcda_calc`
 
-## To update CSV file:
+## To update the CSV file
 
 1. Open `calculateLayerPipeline.formulas.xlsx` (I recommend using LibreOffice)
 2. Make necessary changes in `mcda_calc` sheet. Save XLS file.
 3. Export updated `mcdaCalculations.testdata` sheet as new CSV file.
-4. Make sure unit-tests works as expected
+4. Make sure the unit-tests work as expected.
 
 ## Other notes
 
