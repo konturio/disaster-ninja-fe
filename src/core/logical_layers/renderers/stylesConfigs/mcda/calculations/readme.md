@@ -9,7 +9,7 @@ It's used in two cases:
 
 # calculateLayerPipeline unit tests
 
-`calculateLayerPiple.test.ts` makes sure that MCDA axis (aka "MCDA layer") scores are calculated correctly.
+`calculateLayerPipline.test.ts` makes sure that MCDA axis (aka "MCDA layer") scores are calculated correctly.
 
 The tests use `testData/calculateLayerPipeline.testdata.csv` file to get the parameters and expected values.
 Each row of the CSV file contains MCDA axis parameters and expected scores for every transformation function.
