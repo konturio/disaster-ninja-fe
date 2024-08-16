@@ -105,3 +105,8 @@
 .invisible {
   display: none;
 }
+
+.transformSelectionRow {
+  display: flex;
+  flex-direction: row;
+}
