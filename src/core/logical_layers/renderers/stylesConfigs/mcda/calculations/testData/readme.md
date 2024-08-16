@@ -1,14 +1,29 @@
+# calculateLayerPipeline function
+
+`calculateLayerPipeline` creates a function which contains the logic for MCDA axis score calculation.
+
+It's used in two cases:
+
+- to calculate numerical MCDA axis score (used in MCDA popup when a hex was clicked)
+- to create MapLibre expression for axis score calculation (used for coloring the hexes)
+
 # calculateLayerPipeline unit tests
 
-The test uses `calculateLayerPipeline.testdata.csv` file to get the input data and expected values. This is a static CSV file exported from `calculateLayerPipeline.formulas.xlsx`.
+`calculateLayerPiple.test.ts` makes sure that MCDA axis (aka "MCDA layer") scores are calculated correctly.
+
+The tests use `testData/calculateLayerPipeline.testdata.csv` file to get the parameters and expected values.
+Each row of the CSV file contains MCDA axis parameters and expected scores for every transformation function.
 
 ## Test data files
 
-- `calculateLayerPipeline.testdata.csv` is a plain CSV file. Headers are using dot notation (parent.child.grandchild) to create nested objects in tests.
+- `testData/calculateLayerPipeline.formulas.xlsx` has two sheets:
 
-- `calculateLayerPipeline.formulas.xlsx` contains two sheets:
-  - `mcda_calc` has actual calculations and formulas
-  - `mcdaCalculations.testdata` imports necessary fields from `mcda_calc`
+  - `mcda_calc` contains step-by-step calculations of MCDA axis scores (each transformation function is calculated separately)
+  - `mcdaCalculations.testdata` imports only the necessary fields from `mcda_calc` to use in tests
+
+- `testData/calculateLayerPipeline.testdata.csv` is a plain CSV file exported from `calculateLayerPipeline.formulas.xlsx`:
+  - Each row represents
+  - Headers use dot notation (e.g. "parent.child.grandchild") to create nested objects in tests.
 
 ## To update the CSV file
 
