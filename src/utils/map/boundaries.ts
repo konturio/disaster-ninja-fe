@@ -4,16 +4,16 @@ export type BoundaryOption = { label: string; value: string | number };
 
 export function getLocalizedFeatureName(
   feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>,
-  preferredLanguages: string[],
+  preferredLanguage: string,
 ): string {
   if (feature.properties?.tags) {
     const tags = feature.properties.tags;
     // check names in preferred languages first
-    for (let i = 0; i < preferredLanguages.length; i++) {
-      if (tags[`name:${preferredLanguages[i]}`]) {
-        return tags[`name:${preferredLanguages[i]}`];
-      }
+
+    if (tags[`name:${preferredLanguage}`]) {
+      return tags[`name:${preferredLanguage}`];
     }
+
     // then try international name
     if (tags['int_name']) {
       return tags['int_name'];
@@ -32,16 +32,14 @@ export function constructOptionsFromBoundaries(
     (f1, f2) => f2.properties?.admin_level - f1.properties?.admin_level,
   );
 
-  const preferredLanguages = [
-    configRepo.get().user?.language,
-    ...navigator.languages,
-  ].filter(Boolean) as string[];
+  const preferredLanguage =
+    configRepo.get().user?.language || configRepo.get().defaultLanguage;
   const options: BoundaryOption[] = [];
   for (const feat of sortedFeatures) {
     const id = feat.id;
     if (id !== undefined) {
       options.push({
-        label: getLocalizedFeatureName(feat, preferredLanguages),
+        label: getLocalizedFeatureName(feat, preferredLanguage),
         value: id,
       });
     }
