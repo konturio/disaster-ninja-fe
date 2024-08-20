@@ -67,23 +67,20 @@ export class ProfilePage extends HelperBase {
     return fullNameValue;
   }
 
+  getOsmEditorSelect() {
+    return this.page.getByTestId('osmEditor');
+  }
+
   async getOsmEditorValue() {
-    const osmEditorValue = await this.page
-      .getByText('Default OpenStreetMap editor (beta)')
-      .locator('..')
+    const osmEditorValue = await this.getOsmEditorSelect()
+      .locator('button')
       .locator('span')
       .textContent();
     return osmEditorValue;
   }
 
   async setOsmEditorValue(osmEditorValue: string) {
-    await this.page
-      .getByText('Default OpenStreetMap editor (beta)')
-      .locator('..')
-      .locator('..')
-      .locator('..')
-      .locator('button')
-      .click();
+    await this.getOsmEditorSelect().locator('button').click();
     await this.page.getByRole('option', { name: osmEditorValue, exact: true }).click();
     await this.page.getByText('Save changes').click();
   }
