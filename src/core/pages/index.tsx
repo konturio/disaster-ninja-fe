@@ -1,8 +1,11 @@
+import { useCallback, useId, useMemo } from 'react';
 import Markdown from 'markdown-to-jsx';
 import usePromise from 'react-promise-suspense';
 import { goTo } from '~core/router/goTo';
 import { getAsset } from '~core/api/assets';
 import { Article } from '~components/Layout';
+import { configRepo } from '~core/config';
+import { isExternalLink, splitTextIntoSections } from './utils';
 
 type PagesDocumentElement = {
   type: 'css' | 'md';
@@ -10,48 +13,56 @@ type PagesDocumentElement = {
   data?: string;
 };
 
+type ResolvedPagesDocumentElement = PagesDocumentElement & { data: string };
+
 const PagesDocumentElementRenderers = {
   css: CssElement,
   md: MarkdownElement,
 };
 
-const fetchPagesDocument = (doc) =>
-  Promise.all(
+function fetchPagesDocument(
+  doc: PagesDocumentElement[],
+): Promise<ResolvedPagesDocumentElement[]> {
+  return Promise.all(
     doc.map((element) => {
       if (element.url) {
         return getAsset(element.url).then((res) => {
-          return { ...element, data: res };
+          return { ...element, data: res as string };
         });
-      } else return element;
+      } else return { ...element, data: element.data || '' };
     }),
   );
+}
 
-export function PagesDocument({
-  doc,
-  wrapperComponent,
-}: {
+type PagesDocumentProps = {
   doc: PagesDocumentElement[];
-  wrapperComponent?;
-}) {
-  const data = usePromise(fetchPagesDocument, [doc]);
+  wrapperComponent?: React.ComponentType<React.PropsWithChildren<unknown>>;
+};
+
+export function PagesDocument({ doc, wrapperComponent = Article }: PagesDocumentProps) {
+  const memoizedDoc = useMemo(() => doc, [doc]);
+  const data = usePromise(fetchPagesDocument, [memoizedDoc]);
   return <PagesDocumentRenderer doc={data} wrapperComponent={wrapperComponent} />;
 }
 
+type ResolvedPagesDocumentProps = {
+  doc: (PagesDocumentElement & { data: string })[];
+  wrapperComponent?: React.ComponentType<React.PropsWithChildren<unknown>>;
+};
+
 export function PagesDocumentRenderer({
   doc,
-  wrapperComponent,
-}: {
-  doc: PagesDocumentElement[];
-  wrapperComponent;
-}) {
-  const WrapperComponent = wrapperComponent ? wrapperComponent : Article;
+  wrapperComponent: WrapperComponent = Article,
+}: ResolvedPagesDocumentProps) {
+  const id = useId();
   return (
     <WrapperComponent>
       {doc.map((e, idx) => {
         if (PagesDocumentElementRenderers.hasOwnProperty(e.type)) {
           const Component = PagesDocumentElementRenderers[e.type];
-          return <Component key={idx} data={e.data ?? ''} />;
+          return Component ? <Component key={`${id}-${idx}`} data={e.data} /> : null;
         }
+        return null;
       })}
     </WrapperComponent>
   );
@@ -64,27 +75,68 @@ function CssElement({ data }: PagesDocumentElementProps) {
 }
 
 function MarkdownElement({ data }: PagesDocumentElementProps) {
+  const sections = splitTextIntoSections(data);
+
   return (
-    <Markdown
-      options={{
-        overrides: {
-          a: CustomLink,
-        },
-      }}
-    >
-      {data}
-    </Markdown>
+    <div>
+      {sections.map((section, index) => {
+        const [sectionName, sectionText] = section;
+        return (
+          <section key={sectionName + index} className={sectionName}>
+            <Markdown
+              options={{
+                overrides: {
+                  a: CustomLink,
+                  img: CustomImg,
+                },
+              }}
+            >
+              {sectionText}
+            </Markdown>
+          </section>
+        );
+      })}
+    </div>
   );
 }
 
-function CustomLink({ children, ...props }) {
-  const {
-    // className,
-    href,
-    title,
-  } = props;
-  const isExternalLink = href.startsWith('http://') || href.startsWith('https://');
-  if (isExternalLink) {
+/*
+In Markdown overrides, some props must be preserved depending on the type of html element:
+
+a: title, href
+img: title, alt, src
+input[type="checkbox"]: checked, readonly (specifically, the one rendered by a GFM task list)
+ol: start
+td: style
+th: style
+*/
+
+function CustomImg({ title, alt, src }: { title: string; alt: string; src: string }) {
+  let realSrc = src;
+  if (!isExternalLink(src)) {
+    realSrc = buildAssetUrl(src);
+  }
+  return <img src={realSrc} alt={alt} title={title} />;
+}
+
+function buildAssetUrl(asset: string) {
+  return `${configRepo.get().apiGateway}/apps/${configRepo.get().id}/assets/${asset}`;
+}
+
+function CustomLink({
+  children,
+  href,
+  title,
+}: React.PropsWithChildren<{ href: string; title: string }>) {
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      goTo(href);
+      e.preventDefault();
+    },
+    [href],
+  );
+
+  if (isExternalLink(href)) {
     // open external links in new window
     return (
       <a title={title} href={href} target="_blank" rel="noreferrer" className="external">
@@ -94,15 +146,7 @@ function CustomLink({ children, ...props }) {
   }
   // internal link - use router
   return (
-    <a
-      title={title}
-      href={href}
-      onClick={(e) => {
-        goTo(href);
-        e.preventDefault();
-      }}
-      className="internal"
-    >
+    <a title={title} href={href} onClick={handleClick} className="internal">
       {children}
     </a>
   );

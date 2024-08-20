@@ -2,8 +2,6 @@
 
 interface ImportMetaEnv {
   readonly VITE_APP_TITLE: string;
-  readonly VITE_REDUX_DEV_TOOLS: string;
-  readonly VITE_SPACING_JS: string;
   readonly VITE_ANALYZE_BUNDLE: string;
   readonly VITE_BASE_PATH: string;
   readonly VITE_STATIC_PATH: string;

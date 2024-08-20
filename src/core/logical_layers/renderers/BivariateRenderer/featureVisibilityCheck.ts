@@ -1,4 +1,4 @@
-import type { RGBAColor } from 'types/color';
+import type { RGBAColor } from '~core/types/color';
 
 function fillColorEmptyOrTransparent(feature: maplibregl.MapGeoJSONFeature) {
   const fillColor: RGBAColor | undefined = feature.layer.paint?.['fill-color'];

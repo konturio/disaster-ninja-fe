@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import ReactMarkdown from 'react-markdown';
+import Markdown from 'markdown-to-jsx';
 import { useAtom } from '@reatom/react-v2';
 import { Link } from 'react-router-dom';
 import { Button, Card, Heading, Animation } from '@konturio/ui-kit';
@@ -34,9 +34,9 @@ export function CookieConsentBanner() {
       <Card className={s.cookieBanner}>
         <Heading type="heading-03">{i18n.t('cookie_banner.header')}</Heading>
         <div className={s.body}>
-          <ReactMarkdown components={{ a: memo(InternalLinkAdapter) }}>
+          <Markdown options={{ overrides: { a: memo(InternalLinkAdapter) } }}>
             {i18n.t('cookie_banner.body', { appName: configRepo.get().name })}
-          </ReactMarkdown>
+          </Markdown>
         </div>
         <div className={s.buttonsRow}>
           <Button variant="invert-outline" onClick={rejectAll}>
