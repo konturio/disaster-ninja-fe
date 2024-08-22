@@ -30,8 +30,7 @@ for (const project of projects) {
     ['OpenStreetMap.org default editor', /openstreetmap/],
     ['RapiD', /rapideditor/],
     ['iD', /openstreetmap.*editor%3Did/],
-    // ['JOSM', /load_and_zoom/], // TODO: Fix that waitForUrlToMatchPattern is not working with JOSM
-    // JOSM example url:http://127.0.0.1:8111/load_and_zoom?left=86.92857142857143&right=87.07142857142857&top=23.595428571428574&bottom=23.452571428571428
+    // ['JOSM', /load_and_zoom/], // I can't test this because pl does not allow to open unreachable urls
   ];
 
   for (const [editor, pattern] of editors) {
