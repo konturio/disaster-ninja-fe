@@ -31,7 +31,7 @@ export const currentEventResourceAtom = createAsyncAtom(
       const responseData = await apiClient.get<EventWithGeometry>(
         `/events/${deps.feed.id}/${deps.event.id}`,
         undefined,
-        undefined,
+        true,
         {
           signal: abortController.signal,
           errorsConfig: {
