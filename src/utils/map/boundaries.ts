@@ -8,7 +8,7 @@ export function getLocalizedFeatureName(
 ): string {
   if (feature.properties?.tags) {
     const tags = feature.properties.tags;
-    // check names in preferred languages first
+    // check names for preferred language first
 
     if (tags[`name:${preferredLanguage}`]) {
       return tags[`name:${preferredLanguage}`];
@@ -19,8 +19,8 @@ export function getLocalizedFeatureName(
       return tags['int_name'];
     }
   }
-  // as a fallback, use feature name or if
-  return feature.properties?.name || feature.id;
+  // as a fallback, use feature name or id
+  return (feature.properties?.name || feature.id) as string;
 }
 
 export function constructOptionsFromBoundaries(
