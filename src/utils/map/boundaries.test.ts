@@ -21,30 +21,26 @@ const FEATURE: GeoJSON.Feature = {
 };
 
 describe('getLocalizedFeatureName', () => {
-  it('should return the first available localized name from the list of preferred languages', () => {
-    expect(getLocalizedFeatureName(FEATURE, ['fr', 'uk', 'en', 'es'])).toEqual(
+  it('should return available localized name for preferred language', () => {
+    expect(getLocalizedFeatureName(FEATURE, 'uk')).toEqual(
       FEATURE.properties!.tags['name:uk'],
     );
-    expect(
-      getLocalizedFeatureName(FEATURE as GeoJSON.Feature, ['zh', 'fr', 'uk', 'en']),
-    ).toEqual(FEATURE.properties!.tags['name:zh']);
+    expect(getLocalizedFeatureName(FEATURE as GeoJSON.Feature, 'zh')).toEqual(
+      FEATURE.properties!.tags['name:zh'],
+    );
   });
 
-  it('should return international name if none of the preferred languages is available', () => {
-    expect(
-      getLocalizedFeatureName(FEATURE as GeoJSON.Feature, ['fr', 'by', 'fi']),
-    ).toEqual(FEATURE.properties!.tags.int_name);
+  it("should return international name if preferred language isn't available", () => {
+    expect(getLocalizedFeatureName(FEATURE as GeoJSON.Feature, 'by')).toEqual(
+      FEATURE.properties!.tags.int_name,
+    );
   });
 
   it('should return standard feature name if neither localized nor international name is available', () => {
     const featureWithoutIntName = structuredClone(FEATURE);
     featureWithoutIntName.properties!.tags.int_name = '';
     expect(
-      getLocalizedFeatureName(featureWithoutIntName as GeoJSON.Feature, [
-        'fr',
-        'by',
-        'fi',
-      ]),
+      getLocalizedFeatureName(featureWithoutIntName as GeoJSON.Feature, 'fr'),
     ).toEqual(FEATURE.properties!.name);
   });
 });
