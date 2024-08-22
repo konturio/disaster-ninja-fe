@@ -71,6 +71,10 @@ export class ProfilePage extends HelperBase {
     return this.page.getByTestId('osmEditor');
   }
 
+  /**
+   * This method retrieves the current value of the OSM editor.
+   * @returns the current OSM editor value
+   */
   async getOsmEditorValue() {
     const osmEditorValue = await this.getOsmEditorSelect()
       .locator('button')
@@ -79,6 +83,10 @@ export class ProfilePage extends HelperBase {
     return osmEditorValue;
   }
 
+  /**
+   * This method sets a new value for the OSM editor.
+   * @param osmEditorValue the new value to set for the OSM editor
+   */
   async setOsmEditorValue(osmEditorValue: string) {
     await this.getOsmEditorSelect().locator('button').click();
     await this.page.getByRole('option', { name: osmEditorValue, exact: true }).click();
