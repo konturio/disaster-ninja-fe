@@ -23,7 +23,7 @@ export interface PaymentPlan {
   id: string;
   name: string;
   description: string;
-  style: 'basic' | 'premium';
+  style: 'basic' | 'premium' | 'custom';
   highlights: string[];
   billingCycles: BillingCycle[];
 }

@@ -4,7 +4,10 @@ import { Finish24 } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { Price } from '~features/subscriptions/components/Price/Price';
 import PaymentPlanCardFooter from '~features/subscriptions/components/PaymentPlanCardFooter/PaymentPlanCardFooter';
-import { PAYMENT_METHOD_ID_PAYPAL } from '~features/subscriptions/constants';
+import {
+  PAYMENT_METHOD_ID_PAYPAL,
+  SALES_REPRESENTATIVE_LINK,
+} from '~features/subscriptions/constants';
 import { i18n } from '~core/localization';
 import { PayPalButtonsGroup } from '../PayPalButtonsGroup/PayPalButtonsGroup';
 import s from './PaymentPlanCard.module.css';
@@ -30,6 +33,7 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   onNewSubscriptionApproved,
 }: PaymentPlanCardProps) {
   const styleConfig = PLANS_STYLE_CONFIG[plan.style];
+  const isCustomPlan = plan.style === 'custom';
 
   const billingOption = useMemo(
     () => plan.billingCycles.find((option) => option.id === currentBillingCycleId),
@@ -78,18 +82,19 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
         <div
           className={clsx(s.initialPrice, { [s.hidden]: billingOption.id === 'month' })}
         >
-          {`$${billingOption?.initialPricePerMonth?.toLocaleString('en-US')} ${i18n.t('currency.usd')}`}
+          {`$${billingOption?.initialPricePerMonth?.toLocaleString('en-US')} ${i18n.t('currency.usd')} / mo*`}
         </div>
       )}
       {billingOption && (
         <Price className={s.price} amount={billingOption.pricePerMonth} />
       )}
+      {isCustomPlan && <div className={s.customPlanName}>{plan.name}</div>}
       <Text className={s.planDescription} type="short-m">
-        {plan.description}
+        <span dangerouslySetInnerHTML={{ __html: plan.description }}></span>
       </Text>
-      <div className={s.buttonWrapper}>
+      <div className={clsx(s.buttonWrapper, { [s.customButtonsWrapper]: isCustomPlan })}>
         {/* Non-authorized */}
-        {!isUserAuthorized && (
+        {!isUserAuthorized && !isCustomPlan && (
           <Button
             className={clsx(s.paymentPlanButton, styleConfig.className)}
             onClick={onUnauthorizedUserClick}
@@ -99,6 +104,25 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
         )}
         {/* Authorized */}
         {isUserAuthorized && paypalPlanId && renderSubscribeButtons(paypalPlanId)}
+        {/* Custom Plan buttons */}
+        {isCustomPlan && (
+          <>
+            <Button
+              className={clsx(s.paymentPlanButton, styleConfig.className)}
+              onClick={() => {}}
+            >
+              {i18n.t('subscription.sales_pla_button')}
+            </Button>
+            <a
+              className={s.bookDemoLink}
+              href={SALES_REPRESENTATIVE_LINK}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {i18n.t('subscription.book_demo_button')}
+            </a>
+          </>
+        )}
       </div>
       <ul className={s.highlights}>
         {plan.highlights.map((highlight, index) => (

@@ -45,6 +45,12 @@ export const TranslationService = {
     // eslint-disable-next-line i18n-checker/key-must-be-literal
     const translation = i18n.t(key, options!);
     if (typeof translation === 'string') return translation;
+
+    // Handle the case where { returnObjects: true } is passed
+    if (options?.returnObjects && typeof translation === 'object') {
+      return translation;
+    }
+
     console.error(`Not supported translation result for key: ${key}`);
     return key;
   },

@@ -8,6 +8,7 @@ import { getCurrentUserSubscription } from '~core/api/subscription';
 import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/PaymentPlanCard';
 import { goTo } from '~core/router/goTo';
 import { showModal } from '~core/modal';
+import { CUSTOM_PLAN } from '~features/subscriptions/constants';
 import SubscriptionSuccessModal from '../SubscriptionSuccessModal/SubscriptionSuccessModal';
 import s from './PricingContent.module.css';
 import type { SubscriptionsConfig } from '~features/subscriptions/types';
@@ -16,6 +17,7 @@ const togglerInitialValue = 'year';
 
 export function PricingContent({ config }: { config: SubscriptionsConfig }) {
   const user = configRepo.get().user;
+  const allPlans = [...config.plans, CUSTOM_PLAN];
   const currentSubscription = usePromise(() => {
     if (!user) {
       return Promise.resolve(null);
@@ -87,7 +89,7 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
           )}
         </div>
         <div className={s.plans}>
-          {config.plans.map((plan) => (
+          {allPlans.map((plan) => (
             <PaymentPlanCard
               plan={plan}
               key={plan.id}
