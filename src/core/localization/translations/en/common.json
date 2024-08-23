@@ -132,7 +132,7 @@
       "transformations": {
         "no_transformation": "No transformation",
         "square_root": "Square root: sign(x)√(|x|)",
-        "cube_root": "Cube root: : ∛x",
+        "cube_root": "Cube root: ∛x",
         "log_one": "Log(x - xmin + 1)",
         "log_epsilon": "Log(x - xmin + ε)"
       },
