@@ -209,6 +209,23 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setEditMode(false);
   }, []);
 
+  const onReverseSentiment = useCallback(() => {
+    const newSentiment = (
+      sentiment === sentimentsOptions[0].value
+        ? sentimentsOptions[1].value
+        : sentimentsOptions[0].value
+    ) as string;
+
+    const updatedLayer: MCDALayer = {
+      ...layer,
+      sentiment: SENTIMENT_VALUES[newSentiment],
+    };
+    if (editMode) {
+      onCancel();
+    }
+    onLayerEdited(updatedLayer);
+  }, [editMode, layer, onCancel, onLayerEdited, sentiment]);
+
   const editLayer = useCallback(async () => {
     setEditMode(true);
     setIsLoading(true);
@@ -249,19 +266,26 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             />
           </div>
         </div>
+        <div>
+          <Sentiments
+            left={sentiments.left}
+            right={sentiments.right}
+            units={layer.unit}
+          />
+          <div>
+            <Button variant="invert-outline" size="tiny" onClick={onReverseSentiment}>
+              {sentiment === sentimentsOptions[0].value
+                ? i18n.t('mcda.layer_editor.reverse_to_good_bad')
+                : i18n.t('mcda.layer_editor.reverse_to_bad_good')}
+            </Button>
+          </div>
+        </div>
         {!editMode ? (
           // Static mode
-          <div>
-            <Sentiments
-              left={sentiments.left}
-              right={sentiments.right}
-              units={layer.unit}
-            />
-            <div className={s.nonDefaultValues}>
-              {nonDefaultValues.map((v, index) => (
-                <div key={`nonDefault${index}`}>{`${v.paramName}: ${v.value}`}</div>
-              ))}
-            </div>
+          <div className={s.nonDefaultValues}>
+            {nonDefaultValues.map((v, index) => (
+              <div key={`nonDefault${index}`}>{`${v.paramName}: ${v.value}`}</div>
+            ))}
           </div>
         ) : (
           // Edit mode
@@ -299,23 +323,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                   setOutliers(e.selectedItem?.value as OutliersPolicy);
                 }}
                 items={outliersOptions}
-              />
-            </MCDALayerParameterRow>
-            {/* SENTIMENT */}
-            <MCDALayerParameterRow
-              name={i18n.t('mcda.layer_editor.sentiment')}
-              infoText={i18n.t('mcda.layer_editor.tips.sentiment')}
-            >
-              <Select
-                className={s.selectInput}
-                classes={{
-                  menu: s.selectInputBox,
-                }}
-                value={sentiment}
-                onChange={(e) => {
-                  setSentiment(e.selectedItem?.value as string);
-                }}
-                items={sentimentsOptions}
               />
             </MCDALayerParameterRow>
             {/* WEIGHT */}
