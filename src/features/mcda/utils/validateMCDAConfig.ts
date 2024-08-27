@@ -7,47 +7,21 @@ export function validateMCDAConfig(configJson: Partial<MCDAConfig>): MCDAConfig 
   if (!Array.isArray(configJson?.layers) || !configJson?.layers.length) {
     throw new Error(i18n.t('mcda.error_invalid_parameter', { parameter: 'layers' }));
   }
+  const requiredTuples = ['sentiment', 'range', 'indicators', 'axis'];
   for (const mcdaAxis of configJson.layers) {
-    if (!isTuple(mcdaAxis.sentiment, 2)) {
-      throw new Error(
-        i18n.t('mcda.error_invalid_layer_parameter', {
-          parameter: 'sentiment',
-          axisName: mcdaAxis.id,
-        }),
-      );
-    }
-    if (!isTuple(mcdaAxis.range, 2)) {
-      throw new Error(
-        i18n.t('mcda.error_invalid_layer_parameter', {
-          parameter: 'range',
-          axisName: mcdaAxis.id,
-        }),
-      );
-    }
-    if (!Array.isArray(mcdaAxis.indicators)) {
-      throw new Error(
-        i18n.t('mcda.error_invalid_layer_parameter', {
-          parameter: 'indicators',
-          axisName: mcdaAxis.id,
-        }),
-      );
-    }
-    if (!isTuple(mcdaAxis.axis, 2)) {
-      throw new Error(
-        i18n.t('mcda.error_invalid_layer_parameter', {
-          parameter: 'axis',
-          axisName: mcdaAxis.id,
-        }),
-      );
-    }
+    requiredTuples.forEach((paramName) => {
+      if (!isTuple(mcdaAxis[paramName], 2)) {
+        throw new Error(
+          i18n.t('mcda.error_invalid_layer_parameter', {
+            parameter: paramName,
+            axisName: mcdaAxis.id,
+          }),
+        );
+      }
+    });
   }
   // colors
-  if (
-    !(
-      configJson?.colors?.type === 'sentiments' ||
-      configJson?.colors?.type === 'mapLibreExpression'
-    )
-  ) {
+  if (!['sentiments', 'mapLibreExpression'].includes(configJson?.colors?.type ?? '')) {
     throw new Error(i18n.t('mcda.error_invalid_parameter', { parameter: 'colors' }));
   }
 
