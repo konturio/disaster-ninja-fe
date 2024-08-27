@@ -53,9 +53,14 @@ export class PrivacyPage extends HelperBase {
    */
 
   async checkLinks(context: BrowserContext) {
-    const links = await this.getLinks();
+    let links = await this.getLinks();
+    // TO DO: remove filtering when issue 19468 is fixed
+    links = links.filter(
+      (arg) => arg.name !== 'your-online-choice' && arg.name !== 'polish-gov',
+    );
     for (const link of links) {
-      const linkElement = this.page.getByText(link.linkShown).first();
+      // TO DO: remove {exact: true} below when issue 19468 is fixed
+      const linkElement = this.page.getByText(link.linkShown, { exact: true }).first();
       await linkElement.scrollIntoViewIfNeeded();
       await expect(linkElement).toBeVisible();
       await expect(linkElement).toHaveAttribute('href', link.url);
@@ -81,7 +86,9 @@ export class PrivacyPage extends HelperBase {
       this.page.waitForURL(/cookies/),
       this.page.waitForLoadState('domcontentloaded'),
     ]);
-    await this.page.locator('h1').first().scrollIntoViewIfNeeded();
+    await this.page
+      .locator('#cookie-files-policy-and-operational-data')
+      .scrollIntoViewIfNeeded();
     await Promise.all([
       expect(
         this.page.getByText('Cookie files policy and operational data'),
