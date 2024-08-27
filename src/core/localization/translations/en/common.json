@@ -131,10 +131,10 @@
       },
       "transformations": {
         "no_transformation": "No transformation",
-        "square_root": "Square root: sign(x)√(|x|)",
-        "cube_root": "Cube root: : ∛x",
-        "log_one": "Log(x - xmin + 1)",
-        "log_epsilon": "Log(x - xmin + ε)"
+        "square_root": "Square root: sign(x)⋅√|x|",
+        "cube_root": "Cube root: ∛x",
+        "log_one": "log₁₀(x - xmin + 1)",
+        "log_epsilon": "log₁₀(x - xmin + ε)"
       },
       "no": "No",
       "max_min": "Max-min",
