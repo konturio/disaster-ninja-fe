@@ -10,9 +10,9 @@ export class NavigationMenu extends HelperBase {
   async goToMap() {
     // TO DO: replace locator here once 19141 task is done, refactor this logics
     // When no need will be present to get locator every time
-    await this.page.getByText('Map', { exact: true }).waitFor({ state: 'visible' });
+    await this.waitForTextBeingVisible('Map');
     await this.page.getByText('Map', { exact: true }).hover();
-    await this.page.getByText('Map', { exact: true }).click({ delay: 330, force: true });
+    await this.page.getByText('Map', { exact: true }).click({ delay: 330 });
   }
 
   /**
@@ -37,7 +37,7 @@ export class NavigationMenu extends HelperBase {
     await operablePage
       .locator('[value="profile"]')
       .getByText('Login')
-      .click({ delay: 330, force: true });
+      .click({ delay: 330 });
   }
 
   /**
@@ -51,7 +51,7 @@ export class NavigationMenu extends HelperBase {
     await this.page
       .locator('[value="profile"]')
       .getByText('Profile')
-      .click({ delay: 330, force: true });
+      .click({ delay: 330 });
   }
 
   /**
@@ -66,6 +66,6 @@ export class NavigationMenu extends HelperBase {
     await this.page
       .locator('[value="privacy"]')
       .getByText('Privacy')
-      .click({ delay: 330, force: true });
+      .click({ delay: 330 });
   }
 }
