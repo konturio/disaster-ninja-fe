@@ -13,7 +13,7 @@ for (const project of projects) {
     {
       annotation: {
         type: 'issue',
-        description: `Fix issue https://kontur.fibery.io/Tasks/Task/FE-Guest-opens-incorrect-location-in-OSM-using-'Edit-map-in-OSM'-feature-19485to activate this tests`,
+        description: `Fix issue https://kontur.fibery.io/Tasks/Task/FE-Guest-opens-incorrect-location-in-OSM-using-'Edit-map-in-OSM'-feature-19485 to activate this tests`,
       },
     },
     async ({ context, pageManager }) => {
