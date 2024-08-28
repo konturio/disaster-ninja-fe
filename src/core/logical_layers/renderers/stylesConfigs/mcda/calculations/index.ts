@@ -184,10 +184,8 @@ export const calculateLayerPipeline =
       transformation: transformation?.transformation ?? transformationFunction,
     });
     /* if transformation was applied and lowerBound and upperBound are defined,
-       use them as clamp boundaries for the transformed value.
-       Exception for outliers: unmodified, because it will not work if we limit the data values */
+       use them as clamp boundaries for the transformed value. */
     if (
-      outliers !== 'unmodified' &&
       transformation?.transformation &&
       transformation?.transformation !== 'no' &&
       isNumber(transformation.lowerBound) &&
@@ -195,7 +193,10 @@ export const calculateLayerPipeline =
     ) {
       tMin = operations.max(tMin, transformation.lowerBound);
       tMax = operations.min(tMax, transformation.upperBound);
-      tX = operations.clamp(tX, tMin, tMax);
+      // Don't limit the values for outliers: unmodified
+      if (outliers !== 'unmodified') {
+        tX = operations.clamp(tX, tMin, tMax);
+      }
     }
     const normalized =
       normalization === 'max-min'
