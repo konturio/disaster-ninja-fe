@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import cn from 'clsx';
 import { Heading, Text } from '@konturio/ui-kit';
-import ReactMarkdown from 'react-markdown';
+import Markdown from 'markdown-to-jsx';
 import { nanoid } from 'nanoid';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 import { i18n } from '~core/localization';
@@ -73,13 +73,15 @@ export function EventCard({
       {isActive && externalUrls?.length ? (
         <div className={s.linkContainer}>
           {externalUrls.map((link) => (
-            <ReactMarkdown
-              components={{ a: ShortLinkRenderer, p: (props) => <div {...props} /> }}
+            <Markdown
+              options={{
+                overrides: { a: ShortLinkRenderer, p: (props) => <div {...props} /> },
+              }}
               className={s.markdown}
               key={nanoid(4)}
             >
               {parseLinksAsTags(link)}
-            </ReactMarkdown>
+            </Markdown>
           ))}
         </div>
       ) : null}

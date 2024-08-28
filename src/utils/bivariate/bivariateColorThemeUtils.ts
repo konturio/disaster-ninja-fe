@@ -6,7 +6,7 @@ import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
 import type { Axis, ColorCombination, Meta, Direction } from '~utils/bivariate';
-import type { RGBAColor } from 'types/color';
+import type { RGBAColor } from '~core/types/color';
 
 type ColorTuple = [number, number, number];
 

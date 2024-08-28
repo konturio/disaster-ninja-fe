@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { defineConfig, HtmlTagDescriptor, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
-import react from '@vitejs/plugin-react';
+import react from "@vitejs/plugin-react-swc";
 import { createHtmlPlugin } from 'vite-plugin-html';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
