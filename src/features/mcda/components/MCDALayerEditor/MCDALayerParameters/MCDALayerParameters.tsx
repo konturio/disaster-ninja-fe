@@ -155,7 +155,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   }, [layer]);
 
   const sentiments = useMemo(() => {
-    const isGoodLeft = layer.sentiment[0] === 'good';
+    const isGoodLeft = layer.sentiment.at(0) === 'good';
     return {
       left: {
         label: layer.sentiment.at(0)!, // Sentiments name needed instead of id
