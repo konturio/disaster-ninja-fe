@@ -1,12 +1,12 @@
-import sinon from 'sinon';
+import { vi } from 'vitest';
 import { configRepo } from '~core/config';
 import { PagesDocumentRenderer } from './index';
 
 // Create a stub for configRepo.get()
-const configRepoStub = sinon.stub(configRepo, 'get');
+const configRepoStub = vi.spyOn(configRepo, 'get');
 
 // Configure the stub to return the mocked config values
-configRepoStub.returns({
+configRepoStub.mockReturnValue({
   baseUrl: '/active/',
   // @ts-ignore
   initialUrl: {
