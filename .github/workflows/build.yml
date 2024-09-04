@@ -111,6 +111,19 @@ jobs:
         with:
           name: ${{ github.sha }}
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+
+      - name: Deploy the static site to S3 bucket
+        run: aws s3 sync ./dist/ s3://${{ secrets.ORIGIN_S3_BUCKET }}/active/static/ --delete
+
+      - name: Deploy the static site to S3 bucket
+        run: aws s3 cp ./dist/index.html s3://${{ secrets.ORIGIN_S3_BUCKET }}/index.html
+
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: .
