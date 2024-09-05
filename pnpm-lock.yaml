@@ -66,8 +66,8 @@ importers:
         specifier: ^8.5.0
         version: 8.5.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@reatom/async':
-        specifier: ^3.15.3
-        version: 3.15.3
+        specifier: 3.15.2
+        version: 3.15.2
       '@reatom/core':
         specifier: ^3.9.0
         version: 3.9.0
@@ -1468,8 +1468,8 @@ packages:
   '@react-dnd/shallowequal@4.0.2':
     resolution: {integrity: sha512-/RVXdLvJxLg4QKvMoM5WlwNR9ViO9z8B/qPcc+C0Sa/teJY7QG7kJ441DwzOjMYEY7GmU4dj5EcGHIkKZiQZCA==}
 
-  '@reatom/async@3.15.3':
-    resolution: {integrity: sha512-fHnwTMK63MolmK9lnvVot0sOi+K77BRTj5iQlfen1sF+2QdlFOmaNog34+DKQEb3LoHg+HiekqrJsC9myo7rKA==}
+  '@reatom/async@3.15.2':
+    resolution: {integrity: sha512-Q9pABjp96oEEIBjgLnJerEV0GMojXiUgnP3pPZMJfgz78oPsM4RYiOTNHfHq2WM8mw12kIsvinSMAo9Z+4k+SQ==}
 
   '@reatom/core-v2@3.1.4':
     resolution: {integrity: sha512-BCzyyTt2mm1PlwOyezYBzF4To3x4WzDTIDzNes2BJ8bWmvZfXT1FHIFjBR0uMSPQQ3bFienNK4ntHQy2CXcowA==}
@@ -7804,7 +7804,7 @@ snapshots:
 
   '@react-dnd/shallowequal@4.0.2': {}
 
-  '@reatom/async@3.15.3':
+  '@reatom/async@3.15.2':
     dependencies:
       '@reatom/core': 3.9.0
       '@reatom/effects': 3.7.3
