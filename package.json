@@ -89,7 +89,7 @@
     "@nebula.gl/edit-modes": "1.1.0-alpha.5",
     "@nebula.gl/layers": "1.1.0-alpha.5",
     "@paypal/react-paypal-js": "^8.5.0",
-    "@reatom/async": "^3.15.2",
+    "@reatom/async": "^3.15.3",
     "@reatom/core": "^3.9.0",
     "@reatom/core-v2": "^3.1.4",
     "@reatom/hooks": "^3.5.5",
@@ -123,8 +123,8 @@
     "@types/react-transition-group": "^4.4.10",
     "@types/sinon": "^17.0.3",
     "@types/w3c-generic-sensor": "^1.0.9",
-    "@typescript-eslint/eslint-plugin": "^8.3.0",
-    "@typescript-eslint/parser": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "@typescript-eslint/parser": "^8.4.0",
     "@vitest/coverage-v8": "^2.0.5",
     "ajv": "^8.17.1",
     "autoprefixer": "^10.4.20",
@@ -137,7 +137,7 @@
     "dependency-cruiser": "^16.4.1",
     "dnd-core": "^16.0.1",
     "dot-object": "^2.1.5",
-    "emoji-regex": "^10.3.0",
+    "emoji-regex": "^10.4.0",
     "eslint": "^8.57.0",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-i18n-checker": "^1.4.0",
@@ -160,6 +160,7 @@
     "lint-staged": "^15.2.10",
     "maplibre-gl": "^3.6.2",
     "markdown-to-jsx": "^7.5.0",
+    "mdast-util-from-markdown": "^2.0.1",
     "minimist": "^1.2.8",
     "nanoid": "^5.0.7",
     "nanoid-dictionary": "^4.3.0",
@@ -214,8 +215,7 @@
     "playwright-slack-report": "^1.1.81",
     "prompts": "^2.4.2",
     "react-cosmos-plugin-vite": "^6.2.0",
-    "semver": "^7.6.3",
-    "mdast-util-from-markdown": "^2.0.1"
+    "semver": "^7.6.3"
   },
   "optionalDependencies": {
     "surge": "^0.23.1"
