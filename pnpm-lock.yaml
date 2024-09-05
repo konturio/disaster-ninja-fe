@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  react-component-keepalive-ts@1.0.8:
-    hash: k74cn7jzgfej2j3jlaw2enakvu
-    path: patches/react-component-keepalive-ts@1.0.8.patch
-
 importers:
 
   .:
@@ -316,9 +311,6 @@ importers:
       react:
         specifier: ^18.2.0
         version: 18.2.0
-      react-component-keepalive-ts:
-        specifier: ^1.0.8
-        version: 1.0.8(patch_hash=k74cn7jzgfej2j3jlaw2enakvu)(react@18.2.0)
       react-cosmos:
         specifier: 6.2.0
         version: 6.2.0
@@ -353,8 +345,8 @@ importers:
         specifier: ^4.4.5
         version: 4.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-virtuoso:
-        specifier: ^4.10.1
-        version: 4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: ^4.10.2
+        version: 4.10.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       recharts:
         specifier: ^2.12.7
         version: 2.12.7(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -410,9 +402,6 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0
     optionalDependencies:
-      mdast-util-from-markdown:
-        specifier: ^2.0.1
-        version: 2.0.1
       surge:
         specifier: ^0.23.1
         version: 0.23.1
@@ -438,6 +427,9 @@ importers:
       husky:
         specifier: ^8.0.3
         version: 8.0.3
+      mdast-util-from-markdown:
+        specifier: ^2.0.1
+        version: 2.0.1
       open-cli:
         specifier: ^7.2.0
         version: 7.2.0
@@ -5332,11 +5324,6 @@ packages:
   rbush@3.0.1:
     resolution: {integrity: sha512-XRaVO0YecOpEuIvbhbpTrZgoiI6xBlz6hnlr6EHhd+0x9ase6EmeN+hdwwUaJvLcsFFQ8iWVF1GAK1yB0BWi0w==}
 
-  react-component-keepalive-ts@1.0.8:
-    resolution: {integrity: sha512-tmD5x7KvX7Cg0HO/XMjrJkkuXJWrD/5eLnH8VUa+4g/or2FxWASukC0jWsnA4EvZXGw4pmyHt4LzHjCvCtedEA==}
-    peerDependencies:
-      react: '>=17.0.0'
-
   react-cosmos-core@6.2.0:
     resolution: {integrity: sha512-BAkTG5cGStSd1K99FjYlVEE07P13UD+4bVFhqf4LGqpYVPiMkem/ICVoZK+EFEnftnk9OLk2PertaEE1fkOFsg==}
 
@@ -5375,11 +5362,6 @@ packages:
         optional: true
       '@types/react':
         optional: true
-
-  react-dom@18.0.0:
-    resolution: {integrity: sha512-XqX7uzmFo0pUceWFCt7Gff6IyIMzFUn7QMZrbrQfGxtaxXZIcGQzoNpRLE3fQLnS4XzLLPMZX2T9TRcSrasicw==}
-    peerDependencies:
-      react: ^18.0.0
 
   react-dom@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
@@ -5454,8 +5436,8 @@ packages:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
 
-  react-virtuoso@4.10.1:
-    resolution: {integrity: sha512-vDBt9AarmCjPNshw3VxPXW355ZQKSO0p9vrAJ0pi04TB6aXk+qHWTu8NuaQ3ppcd/Ub1r5ryRA4fJ2QGuH0H0g==}
+  react-virtuoso@4.10.2:
+    resolution: {integrity: sha512-os6n9QKeKRF+8mnQR/vGy/xrFf6vXIzuaAVL54q5k2st2d5QIEwI+KDKaflMUmMvnDbPxf68bs+CF5bY3YI7qA==}
     engines: {node: '>=10'}
     peerDependencies:
       react: '>=16 || >=17 || >= 18'
@@ -5700,9 +5682,6 @@ packages:
 
   sax@1.3.0:
     resolution: {integrity: sha512-0s+oAmw9zLl1V1cS9BtZN7JAd0cW5e0QH4W3LWEK6a4LaLEA2OTpGYWDY+6XasBLtz6wkm3u1xRw95mRuJ59WA==}
-
-  scheduler@0.21.0:
-    resolution: {integrity: sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==}
 
   scheduler@0.23.0:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
@@ -8439,7 +8418,6 @@ snapshots:
   '@types/debug@4.1.12':
     dependencies:
       '@types/ms': 0.7.34
-    optional: true
 
   '@types/dot-object@2.1.6': {}
 
@@ -8489,12 +8467,10 @@ snapshots:
   '@types/mdast@4.0.3':
     dependencies:
       '@types/unist': 3.0.2
-    optional: true
 
   '@types/minimist@1.2.5': {}
 
-  '@types/ms@0.7.34':
-    optional: true
+  '@types/ms@0.7.34': {}
 
   '@types/node@20.14.11':
     dependencies:
@@ -8564,8 +8540,7 @@ snapshots:
     dependencies:
       '@types/geojson': 7946.0.14
 
-  '@types/unist@3.0.2':
-    optional: true
+  '@types/unist@3.0.2': {}
 
   '@types/w3c-generic-sensor@1.0.9':
     dependencies:
@@ -9171,8 +9146,7 @@ snapshots:
 
   chalk@5.3.0: {}
 
-  character-entities@2.0.2:
-    optional: true
+  character-entities@2.0.2: {}
 
   chardet@0.7.0:
     optional: true
@@ -9493,7 +9467,6 @@ snapshots:
   decode-named-character-reference@1.0.2:
     dependencies:
       character-entities: 2.0.2
-    optional: true
 
   decode-uri-component@0.2.2: {}
 
@@ -9580,7 +9553,6 @@ snapshots:
   devlop@1.1.0:
     dependencies:
       dequal: 2.0.3
-    optional: true
 
   diff@3.5.0: {}
 
@@ -11452,12 +11424,10 @@ snapshots:
       unist-util-stringify-position: 4.0.0
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   mdast-util-to-string@4.0.0:
     dependencies:
       '@types/mdast': 4.0.3
-    optional: true
 
   mdn-data@2.0.30: {}
 
@@ -11512,14 +11482,12 @@ snapshots:
       micromark-util-subtokenize: 2.0.1
       micromark-util-symbol: 2.0.0
       micromark-util-types: 2.0.0
-    optional: true
 
   micromark-factory-destination@2.0.0:
     dependencies:
       micromark-util-character: 2.1.0
       micromark-util-symbol: 2.0.0
       micromark-util-types: 2.0.0
-    optional: true
 
   micromark-factory-label@2.0.0:
     dependencies:
@@ -11527,13 +11495,11 @@ snapshots:
       micromark-util-character: 2.1.0
       micromark-util-symbol: 2.0.0
       micromark-util-types: 2.0.0
-    optional: true
 
   micromark-factory-space@2.0.0:
     dependencies:
       micromark-util-character: 2.1.0
       micromark-util-types: 2.0.0
-    optional: true
 
   micromark-factory-title@2.0.0:
     dependencies:
@@ -11541,7 +11507,6 @@ snapshots:
       micromark-util-character: 2.1.0
       micromark-util-symbol: 2.0.0
       micromark-util-types: 2.0.0
-    optional: true
 
   micromark-factory-whitespace@2.0.0:
     dependencies:
@@ -11549,36 +11514,30 @@ snapshots:
       micromark-util-character: 2.1.0
       micromark-util-symbol: 2.0.0
       micromark-util-types: 2.0.0
-    optional: true
 
   micromark-util-character@2.1.0:
     dependencies:
       micromark-util-symbol: 2.0.0
       micromark-util-types: 2.0.0
-    optional: true
 
   micromark-util-chunked@2.0.0:
     dependencies:
       micromark-util-symbol: 2.0.0
-    optional: true
 
   micromark-util-classify-character@2.0.0:
     dependencies:
       micromark-util-character: 2.1.0
       micromark-util-symbol: 2.0.0
       micromark-util-types: 2.0.0
-    optional: true
 
   micromark-util-combine-extensions@2.0.0:
     dependencies:
       micromark-util-chunked: 2.0.0
       micromark-util-types: 2.0.0
-    optional: true
 
   micromark-util-decode-numeric-character-reference@2.0.1:
     dependencies:
       micromark-util-symbol: 2.0.0
-    optional: true
 
   micromark-util-decode-string@2.0.0:
     dependencies:
@@ -11586,30 +11545,24 @@ snapshots:
       micromark-util-character: 2.1.0
       micromark-util-decode-numeric-character-reference: 2.0.1
       micromark-util-symbol: 2.0.0
-    optional: true
 
-  micromark-util-encode@2.0.0:
-    optional: true
+  micromark-util-encode@2.0.0: {}
 
-  micromark-util-html-tag-name@2.0.0:
-    optional: true
+  micromark-util-html-tag-name@2.0.0: {}
 
   micromark-util-normalize-identifier@2.0.0:
     dependencies:
       micromark-util-symbol: 2.0.0
-    optional: true
 
   micromark-util-resolve-all@2.0.0:
     dependencies:
       micromark-util-types: 2.0.0
-    optional: true
 
   micromark-util-sanitize-uri@2.0.0:
     dependencies:
       micromark-util-character: 2.1.0
       micromark-util-encode: 2.0.0
       micromark-util-symbol: 2.0.0
-    optional: true
 
   micromark-util-subtokenize@2.0.1:
     dependencies:
@@ -11617,13 +11570,10 @@ snapshots:
       micromark-util-chunked: 2.0.0
       micromark-util-symbol: 2.0.0
       micromark-util-types: 2.0.0
-    optional: true
 
-  micromark-util-symbol@2.0.0:
-    optional: true
+  micromark-util-symbol@2.0.0: {}
 
-  micromark-util-types@2.0.0:
-    optional: true
+  micromark-util-types@2.0.0: {}
 
   micromark@4.0.0:
     dependencies:
@@ -11646,7 +11596,6 @@ snapshots:
       micromark-util-types: 2.0.0
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   micromatch@4.0.7:
     dependencies:
@@ -12322,12 +12271,6 @@ snapshots:
     dependencies:
       quickselect: 2.0.0
 
-  react-component-keepalive-ts@1.0.8(patch_hash=k74cn7jzgfej2j3jlaw2enakvu)(react@18.2.0):
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.0.0(react@18.2.0)
-      react-router-dom: 6.26.1(react-dom@18.0.0(react@18.2.0))(react@18.2.0)
-
   react-cosmos-core@6.2.0:
     dependencies:
       js-base64: 3.7.7
@@ -12396,12 +12339,6 @@ snapshots:
       '@types/node': 20.14.11
       '@types/react': 18.2.65
 
-  react-dom@18.0.0(react@18.2.0):
-    dependencies:
-      loose-envify: 1.4.0
-      react: 18.2.0
-      scheduler: 0.21.0
-
   react-dom@18.2.0(react@18.2.0):
     dependencies:
       loose-envify: 1.4.0
@@ -12437,13 +12374,6 @@ snapshots:
     dependencies:
       fast-deep-equal: 2.0.1
 
-  react-router-dom@6.26.1(react-dom@18.0.0(react@18.2.0))(react@18.2.0):
-    dependencies:
-      '@remix-run/router': 1.19.1
-      react: 18.2.0
-      react-dom: 18.0.0(react@18.2.0)
-      react-router: 6.26.1(react@18.2.0)
-
   react-router-dom@6.26.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@remix-run/router': 1.19.1
@@ -12473,7 +12403,7 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  react-virtuoso@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  react-virtuoso@4.10.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -12777,10 +12707,6 @@ snapshots:
       source-map-js: 1.2.0
 
   sax@1.3.0: {}
-
-  scheduler@0.21.0:
-    dependencies:
-      loose-envify: 1.4.0
 
   scheduler@0.23.0:
     dependencies:
@@ -13600,7 +13526,6 @@ snapshots:
   unist-util-stringify-position@4.0.0:
     dependencies:
       '@types/unist': 3.0.2
-    optional: true
 
   universal-user-agent@6.0.1: {}
 

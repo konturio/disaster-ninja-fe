@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
   type RouteObject,
 } from 'react-router-dom';
-import { KeepAliveProvider } from 'react-component-keepalive-ts';
 import { Suspense } from 'react';
 import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
@@ -41,9 +40,7 @@ function Layout() {
         currentRouteAtom={currentRouteAtom}
         getAbsoluteRoute={getAbsoluteRoute}
       >
-        <KeepAliveProvider>
-          <Outlet />
-        </KeepAliveProvider>
+        <Outlet />
       </CommonView>
     </>
   );

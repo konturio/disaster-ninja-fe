@@ -171,7 +171,6 @@
     "postcss-normalize": "^10.0.1",
     "prettier": "^3.3.3",
     "react": "^18.2.0",
-    "react-component-keepalive-ts": "^1.0.8",
     "react-cosmos": "6.2.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
@@ -183,7 +182,7 @@
     "react-router": "^6.26.1",
     "react-router-dom": "^6.26.1",
     "react-transition-group": "^4.4.5",
-    "react-virtuoso": "^4.10.1",
+    "react-virtuoso": "^4.10.2",
     "recharts": "^2.12.7",
     "rollup-plugin-visualizer": "^5.12.0",
     "sinon": "^18.0.0",
@@ -215,15 +214,10 @@
     "playwright-slack-report": "^1.1.81",
     "prompts": "^2.4.2",
     "react-cosmos-plugin-vite": "^6.2.0",
-    "semver": "^7.6.3"
+    "semver": "^7.6.3",
+    "mdast-util-from-markdown": "^2.0.1"
   },
   "optionalDependencies": {
-    "mdast-util-from-markdown": "^2.0.1",
     "surge": "^0.23.1"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "react-component-keepalive-ts@1.0.8": "patches/react-component-keepalive-ts@1.0.8.patch"
-    }
   }
 }

@@ -1,6 +1,5 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
-import { withKeepAlive } from 'react-component-keepalive-ts';
 import clsx from 'clsx';
 import { FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
@@ -39,9 +38,7 @@ const { EventList: EventListPanel } = lazily(() => import('~features/events_list
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
-export const MapPage = withKeepAlive(_MapPage, { cacheId: 'map' });
-
-function _MapPage() {
+export function MapPage() {
   useEffect(() => {
     import('~core/draw_tools').then(({ drawTools }) => drawTools.init());
 
