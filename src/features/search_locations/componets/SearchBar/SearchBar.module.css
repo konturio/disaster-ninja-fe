@@ -1,0 +1,36 @@
+.searchBar {
+  position: relative;
+}
+
+.searchMenu {
+  position: absolute;
+  overflow-y: auto;
+  max-height: 90vh;
+  min-width: 100%;
+  z-index: 10;
+  left: 0;
+  list-style: none;
+  white-space: nowrap;
+  background: hsla(0, 100%, 100%, 0.99);
+  outline: none;
+  padding: 0;
+  border-radius: var(--border-radius-unit);
+  box-shadow: var(--elevation-3);
+  margin: 2px 2px 0 0;
+
+  &.open {
+    min-width: 100%;
+  }
+}
+
+.searchItem {
+  &:hover {
+    background: var(--base-weak-up);
+  }
+}
+
+.searchInputWrapper {
+  @media screen and (max-width: 960px) {
+    display: none;
+  }
+}

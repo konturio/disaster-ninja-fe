@@ -1,0 +1,51 @@
+.searchInputContainer {
+  display: flex;
+  box-shadow: var(--shadow-large);
+  background-color: var(--base-weak);
+  border-radius: var(--border-radius);
+}
+
+.searchInputWrapper {
+  display: flex;
+  padding: var(--unit);
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  width: 100%;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+.LoadingSpinner {
+  animation: spin 2s linear infinite;
+  margin-right: 12px;
+  display: none;
+
+  &.shown {
+    display: block;
+  }
+}
+
+.searchInput {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 2px var(--unit);
+  width: 100%;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:focus {
+    outline: none;
+  }
+}
