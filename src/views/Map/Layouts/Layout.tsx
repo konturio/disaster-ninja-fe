@@ -1,3 +1,4 @@
+import { Text } from '@konturio/ui-kit';
 import {
   IS_LAPTOP_QUERY,
   IS_MOBILE_QUERY,
@@ -18,6 +19,7 @@ export function Layout({
   footer,
   editPanel,
   layerFeaturesPanel,
+  breadcrumbs,
 }: {
   disasters: ReactNode;
   analytics: ReactNode;
@@ -28,6 +30,7 @@ export function Layout({
   footer: ReactNode;
   editPanel: ReactNode;
   layerFeaturesPanel: ReactNode;
+  breadcrumbs: ReactNode;
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -44,7 +47,12 @@ export function Layout({
             {layerFeaturesPanel}
           </>
         }
-        topColumn={toolbar}
+        topColumn={
+          <>
+            {breadcrumbs}
+            {toolbar}
+          </>
+        }
         mapColumnBottom={timeline}
         footer={footer}
       />
@@ -63,7 +71,12 @@ export function Layout({
             {layerFeaturesPanel}
           </>
         }
-        mapColumnTop={toolbar}
+        mapColumnTop={
+          <>
+            {breadcrumbs}
+            {toolbar}
+          </>
+        }
         mapColumnBottom={timeline}
         footer={footer}
       />
@@ -77,7 +90,12 @@ export function Layout({
           {disasters}
         </>
       }
-      mapColumnTop={toolbar}
+      mapColumnTop={
+        <>
+          {breadcrumbs}
+          {toolbar}
+        </>
+      }
       mapColumnBottom={timeline}
       layersColumn={
         <>

@@ -21,7 +21,8 @@
   flex: 1;
 }
 
-.mapSpaceBottom {
+.mapSpaceBottom,
+.mapSpaceTop {
   display: flex;
   flex-direction: column;
   justify-content: center;

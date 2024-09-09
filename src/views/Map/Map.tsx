@@ -16,6 +16,7 @@ import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import { configRepo } from '~core/config';
+import BreadcrumbsPanel from '~features/breadcrumbs/BreadcrumbsPanel/BreadcrumbsPanel';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
 
@@ -134,6 +135,7 @@ function _MapPage() {
           layersAndLegends={<LayersAndLegends />}
           matrix={<></>}
           timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
+          breadcrumbs={<BreadcrumbsPanel />}
           toolbar={featureFlags[FeatureFlag.TOOLBAR] && <Toolbar />}
           layerFeaturesPanel={
             featureFlags[FeatureFlag.LAYER_FEATURES_PANEL] && <LayerFeaturesPanel />

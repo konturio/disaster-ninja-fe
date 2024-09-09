@@ -1,0 +1,5 @@
+.separator {
+  margin: 0 4px;
+  display: flex;
+  color: var(--faint-strong-down);
+}
