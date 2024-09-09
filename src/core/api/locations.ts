@@ -1,9 +1,15 @@
 import { apiClient } from '~core/apiClientInstance';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
+import type { Geometry } from 'geojson';
+
+export interface LocationProperties {
+  display_name: string;
+  osm_id: number;
+}
 
 export interface LocationsDTO {
-  locations: GeoJSON.FeatureCollection;
+  locations: GeoJSON.FeatureCollection<Geometry, LocationProperties>;
 }
 
 export function getLocations(query: string) {

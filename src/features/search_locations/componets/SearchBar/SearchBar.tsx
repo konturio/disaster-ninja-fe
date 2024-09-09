@@ -1,66 +1,48 @@
-import { useReducer } from 'react';
 import cn from 'clsx';
 import { SelectItem } from '@konturio/ui-kit';
+import { useAction, useAtom } from '@reatom/npm-react';
 import { useSearchBar } from '~features/search_locations/hooks/useSearchBar';
-import { getLocations } from '~core/api/locations';
-import { mapLocations } from '~features/search_locations/utils/mapLocations';
 import { initialState } from '~features/search_locations/constants';
+import {
+  errorAtom,
+  isLoadingAtom,
+  noResultsAtom,
+  searchLocations,
+  selectableLocationsAtom,
+  setSearchState,
+} from '~features/search_locations/atoms';
+import { store } from '~core/store/store';
 import { SearchInput } from '../SearchInput/SearchInput';
 import style from './SearchBar.module.css';
-import type { SearchLocationState } from '~features/search_locations/types';
-
-function reducer(
-  state: SearchLocationState,
-  newState: Partial<SearchLocationState>,
-): SearchLocationState {
-  return { ...state, ...newState };
-}
 
 export function SearchBar() {
-  const [state, setState] = useReducer(reducer, initialState);
-  const onSearch = async (query) => {
-    if (query) {
-      setState({ isLoading: true, noResults: false, error: false, locations: [] });
+  const [isLoading] = useAtom(isLoadingAtom);
+  const [locations] = useAtom(selectableLocationsAtom);
+  const [error] = useAtom(errorAtom);
+  const [noResults] = useAtom(noResultsAtom);
 
-      try {
-        const response = await getLocations(query);
-        const items = response?.locations.features || [];
-        if (items.length === 0) {
-          setState({ noResults: true });
-        } else {
-          setState({ locations: mapLocations(items) });
-        }
-      } catch {
-        setState({ error: true });
-      } finally {
-        setState({ isLoading: false });
-      }
-    }
-  };
-
-  const onReset = () => {
-    setState(initialState);
-  };
+  const onSearch = useAction(searchLocations);
+  const onReset = useAction(() => setSearchState(store.v3ctx, { ...initialState }));
 
   const onItemSelect = (item) => {
-    // console.log('selected item', item); // TODO: add map highlighting in separate feature
+    // console.log('selected item', item); // TODO: add map highlighting in separate task
   };
 
   const {
     inputProps,
     isMenuOpen,
     highlightedIndex,
+    handleItemSelect,
     handleSearch,
     handleReset,
-    handleItemSelect,
     searchBarRef,
   } = useSearchBar({
-    items: state.locations,
+    items: locations,
     onSearch,
     onItemSelect,
     onReset,
-    error: state.error,
-    noResults: state.noResults,
+    error: error,
+    noResults: noResults,
   });
 
   const renderError = () => (
@@ -84,7 +66,7 @@ export function SearchBar() {
   );
 
   const renderItems = () =>
-    state.locations.map((item, index) => (
+    locations.map((item, index) => (
       <SelectItem
         item={{ ...item, hasDivider: true }}
         key={item.value}
@@ -95,8 +77,8 @@ export function SearchBar() {
     ));
 
   const renderMenu = () => {
-    if (state.error) return renderError();
-    if (state.noResults) return renderNoResults();
+    if (error) return renderError();
+    if (noResults) return renderNoResults();
     return renderItems();
   };
 
@@ -104,7 +86,7 @@ export function SearchBar() {
     <div className={style.searchBar} ref={searchBarRef}>
       <SearchInput
         inputProps={inputProps}
-        isLoading={state.isLoading}
+        isLoading={isLoading}
         placeholder="Search location"
         onReset={handleReset}
         onSearch={handleSearch}
