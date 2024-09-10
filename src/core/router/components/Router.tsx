@@ -1,10 +1,12 @@
 import {
-  Outlet,
   RouterProvider,
   createBrowserRouter,
+  useLocation,
+  useOutlet,
   type RouteObject,
 } from 'react-router-dom';
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
+import KeepAlive from 'keepalive-for-react';
 import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
@@ -40,10 +42,21 @@ function Layout() {
         currentRouteAtom={currentRouteAtom}
         getAbsoluteRoute={getAbsoluteRoute}
       >
-        <Outlet />
+        <OutletWithCache />
       </CommonView>
     </>
   );
+}
+
+function OutletWithCache() {
+  const outlet = useOutlet();
+  const location = useLocation();
+
+  const cacheKey = useMemo(() => {
+    return location.pathname;
+  }, [location]);
+
+  return <KeepAlive activeName={cacheKey}>{outlet}</KeepAlive>;
 }
 
 function initRouter() {

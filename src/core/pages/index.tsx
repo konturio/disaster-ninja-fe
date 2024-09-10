@@ -1,11 +1,10 @@
-import { useCallback, useId, useMemo } from 'react';
-import Markdown from 'markdown-to-jsx';
+import { useId, useMemo } from 'react';
+import Markdown, { RuleType } from 'markdown-to-jsx';
 import usePromise from 'react-promise-suspense';
-import { goTo } from '~core/router/goTo';
 import { getAsset } from '~core/api/assets';
 import { Article } from '~components/Layout';
-import { configRepo } from '~core/config';
-import { isExternalLink, splitTextIntoSections } from './utils';
+import { splitTextIntoSections } from './utils';
+import { CustomImg, CustomLink } from './hypermedia';
 
 type PagesDocumentElement = {
   type: 'css' | 'md';
@@ -75,79 +74,16 @@ function CssElement({ data }: PagesDocumentElementProps) {
 }
 
 function MarkdownElement({ data }: PagesDocumentElementProps) {
-  const sections = splitTextIntoSections(data);
-
   return (
-    <div>
-      {sections.map((section, index) => {
-        const [sectionName, sectionText] = section;
-        return (
-          <section key={sectionName + index} className={sectionName}>
-            <Markdown
-              options={{
-                overrides: {
-                  a: CustomLink,
-                  img: CustomImg,
-                },
-              }}
-            >
-              {sectionText}
-            </Markdown>
-          </section>
-        );
-      })}
-    </div>
-  );
-}
-
-/*
-In Markdown overrides, some props must be preserved depending on the type of html element:
-
-a: title, href
-img: title, alt, src
-input[type="checkbox"]: checked, readonly (specifically, the one rendered by a GFM task list)
-ol: start
-td: style
-th: style
-*/
-
-function CustomImg({ title, alt, src }: { title: string; alt: string; src: string }) {
-  let realSrc = src;
-  if (!isExternalLink(src)) {
-    realSrc = buildAssetUrl(src);
-  }
-  return <img src={realSrc} alt={alt} title={title} />;
-}
-
-function buildAssetUrl(asset: string) {
-  return `${configRepo.get().apiGateway}/apps/${configRepo.get().id}/assets/${asset}`;
-}
-
-function CustomLink({
-  children,
-  href,
-  title,
-}: React.PropsWithChildren<{ href: string; title: string }>) {
-  const handleClick = useCallback(
-    (e: React.MouseEvent) => {
-      goTo(href);
-      e.preventDefault();
-    },
-    [href],
-  );
-
-  if (isExternalLink(href)) {
-    // open external links in new window
-    return (
-      <a title={title} href={href} target="_blank" rel="noreferrer" className="external">
-        {children}
-      </a>
-    );
-  }
-  // internal link - use router
-  return (
-    <a title={title} href={href} onClick={handleClick} className="internal">
-      {children}
-    </a>
+    <Markdown
+      options={{
+        overrides: {
+          a: CustomLink,
+          img: CustomImg,
+        },
+      }}
+    >
+      {data}
+    </Markdown>
   );
 }

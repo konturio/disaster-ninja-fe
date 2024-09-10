@@ -1,49 +1,21 @@
-## Plans & Pricing
-
-Monthly
-
-Annually
-
-Save 5%
-
-<!-- col3_6 -->
-
-#### Educational
-
-$100
-
-$
-
-95
-
-/mo\*
+# Educational
 
 For students, hobbyists, and anyone testing the entry-level option before upgrading
 
-Sign in to subscribe
+###### **edu**
 
 - Multi-criteria decision analyses
 - AI analytics
 - Favorite area of interest
 - Download analyses
 
-\* Billed as 1140 once yearly
+---
 
-<!-- col3_6 -->
-
-#### Professional
-
-$1000
-
-$
-
-950
-
-/mo\*
+# Professional
 
 For GIS data analysts and managers who work with GIS on a daily basis
 
-Sign in to subscribe
+###### **pro**
 
 - Multi-criteria decision analyses
 - AI analytics
@@ -53,4 +25,20 @@ Sign in to subscribe
 - Custom requests
 - Upload custom indicators for analytics
 
-\* Billed as 11400 once yearly
+---
+
+# Custom
+
+# Enterprise
+
+For GIS data analysts and managers who work with GIS on a daily basis
+Contact sales, book a demo or write to us at info@kontur.io for custom pricing and features
+
+###### **ent** <Contact sales> <Book a demo>
+
+- Multiple seats
+- Custom workflows
+- Custom features
+- Custom design
+- Training and onboarding
+- Support

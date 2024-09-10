@@ -1,7 +1,4 @@
-import { configRepo } from './tests/_configMock';
-import _landing from './tests/_landing.md?raw';
-import _landingCss from './tests/_landing.css?raw';
-import _plans from './tests/_plans.md?raw';
+import { configRepo } from '~core/config/__mocks__/_configMock';
 import { PagesDocumentRenderer } from './index';
 
 console.info('test app id', configRepo.get().id);
@@ -23,20 +20,6 @@ Atlas is your GPS for big decisions. It's a tool that helps you use maps and dat
 h1 { background-color: #f2f2f2; }
 p { background-color: #BF6C3F; }
 `,
-        },
-      ]}
-    />
-  ),
-  Plans: (
-    <PagesDocumentRenderer
-      doc={[
-        {
-          type: 'css',
-          data: _landingCss,
-        },
-        {
-          type: 'md',
-          data: _plans,
         },
       ]}
     />
@@ -63,20 +46,6 @@ http://www.youronlinechoices.com/
 
 ng: <http://www.youronlinechoices.com/>
 `,
-        },
-      ]}
-    />
-  ),
-  WithSections: (
-    <PagesDocumentRenderer
-      doc={[
-        {
-          type: 'css',
-          data: _landingCss,
-        },
-        {
-          type: 'md',
-          data: _landing,
         },
       ]}
     />
