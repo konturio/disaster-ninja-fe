@@ -1,3 +1,4 @@
+import nextafter from 'nextafter';
 import { isNumber } from '~utils/common';
 import { sentimentDefault, sentimentReversed } from './constants';
 import { JsMath, MapMath } from './operations';
@@ -6,6 +7,27 @@ import type { MCDAConfig, TransformationFunction } from '../types';
 
 const equalSentiments = (a: Array<string>, b: Array<string>) =>
   a.length === b.length && a.every((x, i) => x === b[i]);
+
+const nextFloatValueInDirection = (
+  value: number,
+  direction: number,
+  transformation?: TransformationFunction,
+): number => {
+  const deltaAdjustmentFunctions = {
+    no: null,
+    cube_root: (x) => Math.cbrt(x),
+    square_root: (x) => Math.sqrt(x),
+    log: (x) => 10000 * x,
+    log_epsilon: (x) => 10000 * x,
+  };
+
+  const sign = Math.sign(direction - value);
+  const nextNumber = nextafter(value, direction);
+  if (transformation && deltaAdjustmentFunctions[transformation]) {
+    return value + sign * deltaAdjustmentFunctions[transformation](value - nextNumber);
+  }
+  return nextNumber;
+};
 
 interface IsomorphCalculations<T> {
   rate: (args: { num: T; den: T }) => T;
@@ -165,12 +187,14 @@ export const calculateLayerPipeline =
     const [num, den] = axis;
     let min = range[0];
     const max = range[1];
-    // HACK: see #19471. Subtracting epsilon to avoid breaking MCDA calculation with 0 in denominator.
+    // HACK: see #19471. Changing min to avoid breaking MCDA calculation with 0 in denominator.
     // TODO: Should apply proper solution later
     if (min === max) {
-      // MapLibre expressions seem to have limited precision. So we need to apply Epsilon * 10 ^ number_of_digits
-      const digits = Math.trunc(min).toString().length;
-      min -= Number.EPSILON * Math.pow(10, digits);
+      min = nextFloatValueInDirection(
+        min,
+        Number.NEGATIVE_INFINITY,
+        transformation?.transformation ?? transformationFunction,
+      );
     }
     const datasetMin = datasetStats?.minValue;
     const inverted = equalSentiments(sentiment, sentimentReversed);
@@ -201,12 +225,11 @@ export const calculateLayerPipeline =
     ) {
       let lowerBound = transformation.lowerBound;
       const upperBound = transformation.upperBound;
-      // HACK: see #19471. Adding epsilon to avoid breaking MCDA calculation with 0 in denominator
+      // HACK: see #19471. Changing min to avoid breaking MCDA calculation with 0 in denominator.
       // TODO: Should apply proper solution later
       if (lowerBound === upperBound) {
         // MapLibre expressions seem to have limited precision. So we need to apply Epsilon * 10 ^ number_of_digits
-        const digits = Math.trunc(lowerBound).toString().length;
-        lowerBound -= Number.EPSILON * Math.pow(10, digits);
+        lowerBound = nextFloatValueInDirection(lowerBound, Number.NEGATIVE_INFINITY);
       }
       tMin = operations.max(tMin, lowerBound);
       tMax = operations.min(tMax, upperBound);
