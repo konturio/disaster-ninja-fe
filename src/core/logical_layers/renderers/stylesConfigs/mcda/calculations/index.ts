@@ -163,7 +163,15 @@ export const calculateLayerPipeline =
     datasetStats,
   }: MCDAConfig['layers'][0]) => {
     const [num, den] = axis;
-    const [min, max] = range;
+    let min = range[0];
+    const max = range[1];
+    // HACK: see #19471. Subtracting epsilon to avoid breaking MCDA calculation with 0 in denominator.
+    // TODO: Should apply proper solution later
+    if (min === max) {
+      // MapLibre expressions seem to have limited precision. So we need to apply Epsilon * 10 ^ number_of_digits
+      const digits = Math.trunc(min).toString().length;
+      min -= Number.EPSILON * Math.pow(10, digits);
+    }
     const datasetMin = datasetStats?.minValue;
     const inverted = equalSentiments(sentiment, sentimentReversed);
     if (!inverted)
@@ -191,8 +199,17 @@ export const calculateLayerPipeline =
       isNumber(transformation.lowerBound) &&
       isNumber(transformation.upperBound)
     ) {
-      tMin = operations.max(tMin, transformation.lowerBound);
-      tMax = operations.min(tMax, transformation.upperBound);
+      let lowerBound = transformation.lowerBound;
+      const upperBound = transformation.upperBound;
+      // HACK: see #19471. Adding epsilon to avoid breaking MCDA calculation with 0 in denominator
+      // TODO: Should apply proper solution later
+      if (lowerBound === upperBound) {
+        // MapLibre expressions seem to have limited precision. So we need to apply Epsilon * 10 ^ number_of_digits
+        const digits = Math.trunc(lowerBound).toString().length;
+        lowerBound -= Number.EPSILON * Math.pow(10, digits);
+      }
+      tMin = operations.max(tMin, lowerBound);
+      tMax = operations.min(tMax, upperBound);
       // Don't limit the values for outliers: unmodified
       if (outliers !== 'unmodified') {
         tX = operations.clamp(tX, tMin, tMax);
