@@ -16,9 +16,11 @@
 
 .layerEditContainer {
   width: 100%;
-  margin-top: 12px;
-  padding: var(--half-unit) var(--unit) var(--unit);
+  margin-top: var(--unit);
+  padding: calc(3 * var(--half-unit)) var(--double-unit) var(--unit);
   font-size: 12px;
+  border: 1px var(--faint-strong) solid;
+  border-radius: 10px;
 }
 
 .layer:hover {
