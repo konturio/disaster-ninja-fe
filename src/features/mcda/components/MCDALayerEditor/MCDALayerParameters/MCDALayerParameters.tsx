@@ -235,6 +235,10 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   }, [editMode, layer, onCancel, onLayerEdited, sentiment]);
 
   const editLayer = useCallback(async () => {
+    if (editMode) {
+      onCancel();
+      return;
+    }
     setEditMode(true);
     setIsLoading(true);
     try {
@@ -250,7 +254,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     } finally {
       setIsLoading(false);
     }
-  }, [layer.indicators]);
+  }, [editMode, layer.indicators, onCancel]);
 
   return (
     <div>
@@ -258,15 +262,13 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         <div className={s.layerHeader}>
           <div>{layer.name}</div>
           <div className={s.layerButtons}>
-            {!editMode && (
-              <LayerActionIcon
-                onClick={editLayer}
-                hint={i18n.t('layer_actions.tooltips.edit')}
-                className={s.editButton}
-              >
-                <Prefs16 />
-              </LayerActionIcon>
-            )}
+            <LayerActionIcon
+              onClick={editLayer}
+              hint={i18n.t('layer_actions.tooltips.edit')}
+              className={s.editButton}
+            >
+              <Prefs16 />
+            </LayerActionIcon>
             <LayerInfo
               className={s.infoButton}
               layersInfo={mcdaLayerHint}
