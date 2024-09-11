@@ -14,17 +14,21 @@ const nextFloatValueInDirection = (
   transformation?: TransformationFunction,
 ): number => {
   const deltaAdjustmentFunctions = {
-    no: null,
     cube_root: (x) => Math.cbrt(x),
     square_root: (x) => Math.sqrt(x),
-    log: (x) => 10000 * x,
-    log_epsilon: (x) => 10000 * x,
+    log: (x) => 10 * x,
+    log_epsilon: (x) => 10 * x,
   };
 
   const sign = Math.sign(direction - value);
   const nextNumber = nextafter(value, direction);
-  if (transformation && deltaAdjustmentFunctions[transformation]) {
-    return value + sign * deltaAdjustmentFunctions[transformation](value - nextNumber);
+  const delta = Math.abs(value - nextNumber);
+  if (delta < 1 && transformation && deltaAdjustmentFunctions[transformation]) {
+    let adjustedDelta = deltaAdjustmentFunctions[transformation](delta);
+    if (adjustedDelta > 1) {
+      adjustedDelta = 0.1;
+    }
+    return value + sign * adjustedDelta;
   }
   return nextNumber;
 };
