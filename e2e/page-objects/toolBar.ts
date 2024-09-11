@@ -3,16 +3,14 @@ import { HelperBase } from './helperBase';
 
 export class ToolBar extends HelperBase {
   /**
-   * This method gets element by specific text from Toolbar. Designed for its buttons like Bivariate Matrix, but can be used for other texts in Toolbar
+   * This method gets element by specific text from map. Designed for toolbar buttons like Bivariate Matrix, but can be used for other texts in Toolbar
    * @param text - the text of an entity, like MCDA
    * @returns - playwright locator for the button
    */
 
   async getButtonByText(text: string) {
-    const toolbarPanel = this.page
-      .locator('div')
-      .filter({ hasText: 'Toolbar' } && { hasText: 'Tools' });
-    return toolbarPanel.getByText(text, { exact: true });
+    const aliveMap = this.page.locator('#withKeepAlivemap');
+    return aliveMap.getByText(text, { exact: true });
   }
 
   /**

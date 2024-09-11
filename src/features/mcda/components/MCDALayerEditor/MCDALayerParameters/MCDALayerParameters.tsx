@@ -66,8 +66,13 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setRangeTo(layer.range?.at(1)?.toString() ?? '');
     setSentiment(layer.sentiment.at(0) === 'good' ? 'good-bad' : 'bad-good');
     setCoefficient(layer.coefficient.toString());
+    const knownTransformation = transformOptions.find(
+      (option) =>
+        option.value ===
+        (layer.transformation?.transformation ?? layer.transformationFunction),
+    );
     setTransformationFunction(
-      layer.transformation?.transformation ?? layer.transformationFunction,
+      (knownTransformation?.value as TransformationFunction) ?? 'no',
     );
     setNormalization(layer.normalization);
     setOutliers(layer.outliers ?? DEFAULTS.outliers);
@@ -125,10 +130,13 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         value: layer.coefficient,
       });
     }
-    if (layer.transformationFunction !== DEFAULTS.transform) {
+    const knownTransformation = transformOptions.find(
+      (option) => option.value === layer.transformation?.transformation,
+    );
+    if (knownTransformation && knownTransformation !== DEFAULTS.transform) {
       result.push({
         paramName: i18n.t('mcda.layer_editor.transformation'),
-        value: layer.transformationFunction,
+        value: knownTransformation.title.toLocaleLowerCase(),
       });
     }
     if (layer.normalization !== DEFAULTS.normalization) {
@@ -147,7 +155,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   }, [layer]);
 
   const sentiments = useMemo(() => {
-    const isGoodLeft = layer.sentiment[0] === 'good';
+    const isGoodLeft = layer.sentiment.at(0) === 'good';
     return {
       left: {
         label: layer.sentiment.at(0)!, // Sentiments name needed instead of id

@@ -104,6 +104,8 @@
     "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty",
     "error_bad_layer_data": "Invalid MCDA layer data",
     "error_invalid_file": "Invalid MCDA file format",
+    "error_invalid_parameter": "Invalid '{{parameter}}' parameter",
+    "error_invalid_layer_parameter": "Invalid '{{parameter}}' parameter in '{{axisName}}' layer",
     "error_wrong_mcda_version": "Wrong MCDA version",
     "legend_title": "Legend",
     "legend_subtitle": "Hexagons are colored based on analysis layer settings. Click a hexagon to see its values.",
@@ -132,10 +134,10 @@
       },
       "transformations": {
         "no_transformation": "No transformation",
-        "square_root": "Square root: sign(x)√(|x|)",
-        "cube_root": "Cube root: : ∛x",
-        "log_one": "Log(x - xmin + 1)",
-        "log_epsilon": "Log(x - xmin + ε)"
+        "square_root": "Square root: sign(x)⋅√|x|",
+        "cube_root": "Cube root: ∛x",
+        "log_one": "log₁₀(x - xmin + 1)",
+        "log_epsilon": "log₁₀(x - xmin + ε)"
       },
       "no": "No",
       "max_min": "Max-min",
@@ -147,11 +149,11 @@
         "range_must_be_a_number": "Range must be a valid number"
       },
       "tips": {
-        "range": "Define the minimum and maximum values considered for analysis. For example, if analysing temperature data, set the range from the lowest to the highest temperatures recorded in the dataset.",
+        "range": "The values that will be considered the worst and the best in your analysis.",
         "weight": "By default, all layers contribute equally to the analysis through a weighted average. Adjusting the increased weight of a layer (2, 3, etc.) allows you to assign additional importance to it in the analysis.",
-        "transform": "Apply additional calculations to the layer to linearize distribution. Calculates before normalization:\n * **No**: No additional transformation is applied.\n* **Natural logarithm**: Apply the natural logarithm function to the values.\n* **Square root**: Apply the square root function to the values.\n* **Cube root**: Apply the cube root function to the values.\n\nBy default, transformation with the least skew is selected.",
+        "transform": "Apply calculations to the values. Achieving a more linear distribution will provide more useful information for analysis.\n\n **Note**: Calculations are done before normalization.",
         "normalize": "Adjusts values to a standardized scale. This helps compare them easily and make decisions.\n* **Standard score scaling**: This option adjusts values to a standardized scale, ensuring they are all comparable.\n* **No (for specialists only)**: Leaves values unmodified.",
-        "outliers": "* **As values on limits**: Keep 0 and 1 for min and max, but allow outlier scores beyond this range.\n* **Exclude**: Exclude areas where values are out of range."
+        "outliers": "* **Clamp**: Set values above the range to 1 and below the range to 0.\n* **Don’t modify**: Keep 0 and 1 for min and max, but allow outlier scores beyond this range.\n* **Exclude**: Exclude areas where values are out of range."
       }
     },
     "bad": "Bad",

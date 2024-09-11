@@ -68,6 +68,40 @@ export class ProfilePage extends HelperBase {
   }
 
   /**
+   * This method gets osm editor selector
+   * @returns locator of osm editor
+   */
+  getOsmEditorSelect() {
+    return this.page.getByTestId('osmEditor');
+  }
+
+  /**
+   * This method retrieves the current value of the OSM editor.
+   * @returns the current OSM editor value
+   */
+  async getOsmEditorValue() {
+    const osmEditorValue = await this.getOsmEditorSelect()
+      .locator('button')
+      .locator('span')
+      .textContent();
+    return osmEditorValue;
+  }
+
+  /**
+   * This method sets a new value for the OSM editor.
+   * @param osmEditorValue the new value to set for the OSM editor
+   */
+  async setOsmEditorValue(osmEditorValue: string) {
+    await this.getOsmEditorSelect().locator('button').click();
+    await this.page.getByRole('option', { name: osmEditorValue, exact: true }).click();
+    const saveChangesEl = this.page.getByText('Save changes');
+    await saveChangesEl.click();
+    const saveChangesBtn = this.page.locator('button', { has: saveChangesEl });
+    await saveChangesBtn.waitFor({ state: 'visible' });
+    await expect(saveChangesBtn).toHaveAttribute('disabled', { timeout: 30000 });
+  }
+
+  /**
    * This method gets all values/texts of textboxes in settings like Full name and etc. Also it gets statuses of radio buttons, are they checked or not.
    * @param project tested project
    * @param shouldOsmEditorBeSeenOnAtlas set to true to check if osm editor should be available for tested atlas role
@@ -84,13 +118,11 @@ export class ProfilePage extends HelperBase {
 
     const emailValue = await this.getEmailValueAndCheckThisFieldIsDisabled();
     const fullNameValue = await this.getFullNameValue();
-
-    // TO DO: turn it on after 18342 issue is fixed
-    // const bioValue = await this.page
-    //   .getByText('Bio')
-    //   .locator('..')
-    //   .locator('textarea')
-    //   .textContent();
+    const bioValue = await this.page
+      .getByText('Bio')
+      .locator('..')
+      .locator('textarea')
+      .textContent();
 
     const themeValue = await this.page
       .getByText('Theme')
@@ -136,8 +168,7 @@ export class ProfilePage extends HelperBase {
     return {
       fullNameValue,
       emailValue,
-      // TO DO: turn it on after 18342 issue is fixed
-      // bioValue,
+      bioValue,
       themeValue,
       languageValue,
       isMetricUnitChecked,

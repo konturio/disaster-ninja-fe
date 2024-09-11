@@ -38,11 +38,12 @@ describe('mcda calculations', async () => {
             upperBound: testEntry.transformation[transformationFunction].upperBound,
           },
         };
+        const calculatedScore = calculateNumber(testAxis);
+        const expectedScore =
+          testEntry.transformation[transformationFunction].expectedScore;
         expect(
-          Math.abs(
-            calculateNumber(testAxis) -
-              testEntry.transformation[transformationFunction].expectedScore,
-          ),
+          Math.abs(calculatedScore - expectedScore),
+          `{ testId: ${testEntry.testId}, transformation: ${transformationFunction}, expectedScore: ${expectedScore}, score: ${calculatedScore} }`,
         ).toBeLessThanOrEqual(PRECISION);
       }
     });

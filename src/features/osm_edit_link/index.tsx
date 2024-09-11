@@ -3,11 +3,8 @@ import { toolbar } from '~core/toolbar';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { store } from '~core/store/store';
-import {
-  DEFAULT_OSM_EDITOR,
-  EDIT_IN_OSM_CONTROL_ID,
-  EDIT_IN_OSM_CONTROL_NAME,
-} from './constants';
+import { DEFAULT_OSM_EDITOR } from '~core/constants';
+import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';
 import { openOsmLink, openJosmLink } from './openOsmLink';
 
 export const osmEditControl = toolbar.setupControl({
