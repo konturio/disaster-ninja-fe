@@ -1,6 +1,6 @@
 import type { SubscriptionsConfig } from '../types';
 
-export const config: SubscriptionsConfig = {
+export const config = {
   billingMethodsDetails: [
     {
       id: 'paypal',
@@ -25,14 +25,6 @@ export const config: SubscriptionsConfig = {
       id: 'kontur_atlas_edu',
       name: 'Educational',
       style: 'basic',
-      description:
-        'For students, hobbyists, and anyone testing the entry-level option before upgrading',
-      highlights: [
-        'Multi-criteria decision analyses',
-        'AI analytics',
-        'Favorite area of interest',
-        'Download analyses',
-      ],
       billingCycles: [
         {
           id: 'month',
@@ -64,16 +56,6 @@ export const config: SubscriptionsConfig = {
       id: 'kontur_atlas_pro',
       name: 'Professional',
       style: 'premium',
-      description:
-        'For GIS data analysts and managers who work with GIS on a daily basis',
-      highlights: [
-        'Multi-criteria decision analyses',
-        'AI analytics',
-        'Favorite area of interest',
-        'Download analyses',
-        'Customer support',
-        'Upload custom indicators for analytics',
-      ],
       billingCycles: [
         {
           id: 'month',
@@ -99,19 +81,14 @@ export const config: SubscriptionsConfig = {
             },
           ],
         },
-        {
-          id: 'year',
-          initialPricePerMonth: 'Enterprise',
-          pricePerMonth: null,
-          pricePerYear: null,
-          billingMethods: [
-            {
-              id: 'paypal',
-              billingPlanId: 'P-2D320730VP634834UMZVR2QY',
-            },
-          ],
-        },
       ],
+    },
+    {
+      id: 'kontur_atlas_custom',
+      name: 'Custom',
+      style: 'custom',
+      // billingCycles: ,
+      actions: ['contact_sales', 'book_a_demo'], //
     },
   ],
 };

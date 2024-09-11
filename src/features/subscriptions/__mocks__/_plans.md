@@ -32,9 +32,9 @@ For GIS data analysts and managers who work with GIS on a daily basis
 # Enterprise
 
 For GIS data analysts and managers who work with GIS on a daily basis
-Contact sales, book a demo or write to us at info@kontur.io for custom pricing and features
+Contact sales, book a demo or write to us at <info@kontur.io> for custom pricing and features
 
-###### **ent** <Contact sales> <Book a demo>
+###### **ent**
 
 - Multiple seats
 - Custom workflows

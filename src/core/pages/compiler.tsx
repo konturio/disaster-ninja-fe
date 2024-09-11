@@ -1,91 +1,111 @@
 import React from 'react';
 
-export function structureMarkdownContent(compiled: JSX.Element[]) {
-  const sections: React.ReactNode[] = [];
-  let currentSection: React.ReactNode[] = [];
+// Helper function to create a wrapped div element
+function createWrappedDiv(level: number, content: React.ReactNode[], key: string) {
+  return React.createElement(
+    'div',
+    {
+      className: `wrap-h${level}`,
+      key,
+    },
+    content,
+  );
+}
+
+// Helper function to create a section element
+function createSection(content: React.ReactNode[], key: string) {
+  return React.createElement('section', { key }, content);
+}
+
+// Function to wrap content in appropriate divs based on heading levels
+function wrapContentInSection(content: React.ReactNode[]) {
+  const result: React.ReactNode[] = [];
+  const stack: { level: number; content: React.ReactNode[] }[] = [];
   let keyCounter = 0;
-  const wrapSection = () => {
-    if (currentSection.length > 0) {
-      sections.push(
-        React.createElement(
-          'section',
-          { key: `section-${sections.length}` },
-          wrapContentInSection(currentSection),
-        ),
-      );
-      currentSection = [];
+
+  const wrapAndPushContent = (level: number) => {
+    while (stack.length > 0 && stack[stack.length - 1].level >= level) {
+      const { level: stackLevel, content } = stack.pop()!;
+      if (content.length > 0) {
+        const wrappedContent = createWrappedDiv(
+          stackLevel,
+          content,
+          `div-h${stackLevel}-${++keyCounter}`,
+        );
+        if (stack.length > 0) {
+          stack[stack.length - 1].content.push(wrappedContent);
+        } else {
+          result.push(wrappedContent);
+        }
+      }
     }
   };
 
-  const wrapContentInSection = (content: React.ReactNode[]) => {
-    const result: React.ReactNode[] = [];
-    const stack: { level: number; content: React.ReactNode[] }[] = [];
-
-    const wrapAndPushContent = (level: number) => {
-      while (stack.length > 0 && stack[stack.length - 1].level >= level) {
-        const { level: stackLevel, content } = stack.pop()!;
-        if (content.length > 0) {
-          const wrappedContent = React.createElement(
-            'div',
-            {
-              className: `wrap-h${stackLevel}`,
-              key: `div-h${stackLevel}-${++keyCounter}`,
-            },
-            content,
-          );
-          if (stack.length > 0) {
-            stack[stack.length - 1].content.push(wrappedContent);
-          } else {
-            result.push(wrappedContent);
-          }
-        }
+  const processElement = (element: React.ReactElement) => {
+    const headingMatch = element.type.toString().match(/^h([1-6])$/);
+    if (headingMatch) {
+      const level = parseInt(headingMatch[1]);
+      wrapAndPushContent(level);
+      const clonedElement = React.cloneElement(element, {
+        key: `heading-${++keyCounter}`,
+      });
+      if (stack.length > 0 && level > stack[stack.length - 1].level) {
+        stack[stack.length - 1].content.push(clonedElement);
+      } else {
+        result.push(clonedElement);
       }
-    };
-
-    React.Children.forEach(content, (element) => {
-      if (React.isValidElement(element)) {
-        const headingMatch = element.type.toString().match(/^h([1-6])$/);
-        if (headingMatch) {
-          const level = parseInt(headingMatch[1]);
-          wrapAndPushContent(level);
-          if (stack.length > 0 && level > stack[stack.length - 1].level) {
-            stack[stack.length - 1].content.push(
-              React.cloneElement(element, {
-                key: `heading-${stack[stack.length - 1].content.length}`,
-              }),
-            );
-          } else {
-            result.push(React.cloneElement(element, { key: `heading-${result.length}` }));
-          }
-          stack.push({ level, content: [] });
-        } else {
-          if (stack.length > 0) {
-            stack[stack.length - 1].content.push(
-              React.cloneElement(element, {
-                key: `content-${stack[stack.length - 1].content.length}`,
-              }),
-            );
-          } else {
-            result.push(React.cloneElement(element, { key: `content-${result.length}` }));
-          }
-        }
+      stack.push({ level, content: [] });
+    } else {
+      const clonedElement = React.cloneElement(element, {
+        key: `content-${++keyCounter}`,
+      });
+      if (stack.length > 0) {
+        stack[stack.length - 1].content.push(clonedElement);
+      } else {
+        result.push(clonedElement);
       }
-    });
-
-    wrapAndPushContent(0);
-
-    return result;
+    }
   };
+
+  React.Children.forEach(content, (element) => {
+    if (React.isValidElement(element)) {
+      processElement(element);
+    }
+  });
+
+  wrapAndPushContent(0);
+
+  return result;
+}
+
+// Split into sections by hr elements
+export function splitIntoSections(compiled: JSX.Element[]): React.ReactNode[][] {
+  const sections: React.ReactNode[][] = [];
+  let currentSection: React.ReactNode[] = [];
 
   React.Children.forEach(compiled, (element) => {
     if (React.isValidElement(element) && element.type === 'hr') {
-      wrapSection();
+      if (currentSection.length > 0) {
+        sections.push(currentSection);
+        currentSection = [];
+      }
     } else {
       currentSection.push(element);
     }
   });
 
-  wrapSection(); // Wrap the last section
+  if (currentSection.length > 0) {
+    sections.push(currentSection);
+  }
 
   return sections;
+}
+
+// Main function to structure markdown content
+export function structureMarkdownContent(compiled: JSX.Element[]) {
+  const sections = splitIntoSections(compiled);
+
+  return sections.map((section, index) =>
+    createSection(wrapContentInSection(section), `section-${index}`),
+  );
 }

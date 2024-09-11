@@ -7,21 +7,28 @@ import { render } from '@testing-library/react';
 import { structureMarkdownContent } from './compiler';
 import { compiler } from 'markdown-to-jsx';
 
-describe('wrapContentBetweenSameLevelHeadings', () => {
+function renderCompiledMarkdown(markdown: string) {
+  const compiled = compiler(markdown, { wrapper: null }) as unknown as JSX.Element[];
+  const wrapped = structureMarkdownContent(compiled);
+  const { container } = render(<>{wrapped}</>);
+  return container;
+}
+
+describe('structureMarkdownContent', () => {
   it('should handle content before first heading', () => {
     const markdown = `
 Content before first heading
 # Heading 1
 Content under H1
     `;
-    const compiled = compiler(markdown, { wrapper: null });
-    const wrapped = structureMarkdownContent(compiled);
-    const { container } = render(<>{wrapped}</>);
+    const container = renderCompiledMarkdown(markdown);
 
     expect(container.innerHTML).toBe(
-      '<p>Content before first heading</p>' +
+      '<section>' +
+        '<p>Content before first heading</p>' +
         '<h1 id="heading-1">Heading 1</h1>' +
-        '<div class="wrap-h1"><p>Content under H1</p></div>',
+        '<div class="wrap-h1"><p>Content under H1</p></div>' +
+        '</section>',
     );
   });
 
@@ -32,15 +39,15 @@ Content 1
 # Heading 2
 Content 2
     `;
-    const compiled = compiler(markdown, { wrapper: null });
-    const wrapped = structureMarkdownContent(compiled);
-    const { container } = render(<>{wrapped}</>);
+    const container = renderCompiledMarkdown(markdown);
 
     expect(container.innerHTML).toBe(
-      '<h1 id="heading-1">Heading 1</h1>' +
+      '<section>' +
+        '<h1 id="heading-1">Heading 1</h1>' +
         '<div class="wrap-h1"><p>Content 1</p></div>' +
         '<h1 id="heading-2">Heading 2</h1>' +
-        '<div class="wrap-h1"><p>Content 2</p></div>',
+        '<div class="wrap-h1"><p>Content 2</p></div>' +
+        '</section>',
     );
   });
 
@@ -53,19 +60,19 @@ Content under H2
 # Another H1
 Content under another H1
     `;
-    const compiled = compiler(markdown, { wrapper: null });
-    const wrapped = structureMarkdownContent(compiled);
-    const { container } = render(<>{wrapped}</>);
+    const container = renderCompiledMarkdown(markdown);
 
     expect(container.innerHTML).toBe(
-      '<h1 id="h1">H1</h1>' +
+      '<section>' +
+        '<h1 id="h1">H1</h1>' +
         '<div class="wrap-h1">' +
         '<p>Content under H1</p>' +
         '<h2 id="h2-under-h1">H2 under H1</h2>' +
         '<div class="wrap-h2"><p>Content under H2</p></div>' +
         '</div>' +
         '<h1 id="another-h1">Another H1</h1>' +
-        '<div class="wrap-h1"><p>Content under another H1</p></div>',
+        '<div class="wrap-h1"><p>Content under another H1</p></div>' +
+        '</section>',
     );
   });
 
@@ -81,12 +88,11 @@ Content under Another H3
 # Another H1
 Content under Another H1
     `;
-    const compiled = compiler(markdown, { wrapper: null });
-    const wrapped = structureMarkdownContent(compiled);
-    const { container } = render(<>{wrapped}</>);
+    const container = renderCompiledMarkdown(markdown);
 
     expect(container.innerHTML).toBe(
-      '<h1 id="h1">H1</h1>' +
+      '<section>' +
+        '<h1 id="h1">H1</h1>' +
         '<div class="wrap-h1">' +
         '<h2 id="h2">H2</h2>' +
         '<div class="wrap-h2">' +
@@ -100,27 +106,26 @@ Content under Another H1
         '</div>' +
         '</div>' +
         '<h1 id="another-h1">Another H1</h1>' +
-        '<div class="wrap-h1"><p>Content under Another H1</p></div>',
+        '<div class="wrap-h1"><p>Content under Another H1</p></div>' +
+        '</section>',
     );
   });
 
   it('should handle empty input', () => {
-    const compiled = compiler('', { wrapper: null });
-    const wrapped = structureMarkdownContent(compiled);
-    const { container } = render(<>{wrapped}</>);
+    const container = renderCompiledMarkdown('');
 
     expect(container.innerHTML).toBe('');
   });
 
   it('should split content by hr tags and wrap in sections', () => {
     const markdown = `
-  First paragraph
-  ---
-  Second paragraph
+First paragraph
+
+---
+
+Second paragraph
     `;
-    const compiled = compiler(markdown, { wrapper: null });
-    const wrapped = structureMarkdownContent(compiled);
-    const { container } = render(<>{wrapped}</>);
+    const container = renderCompiledMarkdown(markdown);
 
     expect(container.innerHTML).toBe(
       '<section><p>First paragraph</p></section>' +
