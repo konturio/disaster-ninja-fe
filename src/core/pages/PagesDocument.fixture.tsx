@@ -4,7 +4,7 @@ import { PagesDocumentRenderer } from './index';
 console.info('test app id', configRepo.get().id);
 
 export default {
-  PagesDocumentRenderer: (
+  'PagesDocument with custom css': (
     <PagesDocumentRenderer
       doc={[
         {
@@ -24,7 +24,7 @@ p { background-color: #BF6C3F; }
       ]}
     />
   ),
-  WithCustomLink: (
+  'Links test': (
     <PagesDocumentRenderer
       doc={[
         {

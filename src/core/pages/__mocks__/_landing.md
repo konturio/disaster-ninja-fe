@@ -24,7 +24,7 @@ Use these insights to make smart decisions, like picking the perfect spot for yo
 
 Your next big opportunity is waiting to be mapped out!
 
-## _[Get access](https://www.kontur.io/atlas)_ [Log in](action://profile)
+## _[Get access](https://www.kontur.io/atlas)_ [Log in](/profile)
 
 ## How to Use
 
