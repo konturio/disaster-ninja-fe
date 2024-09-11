@@ -281,7 +281,12 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             units={layer.unit}
           />
           <div>
-            <Button variant="invert-outline" size="tiny" onClick={onReverseSentiment}>
+            <Button
+              className={s.reverseButton}
+              variant="invert-outline"
+              size="tiny"
+              onClick={onReverseSentiment}
+            >
               {sentiment === sentimentsOptions[0].value
                 ? i18n.t('mcda.layer_editor.reverse_to_good_bad')
                 : i18n.t('mcda.layer_editor.reverse_to_bad_good')}
