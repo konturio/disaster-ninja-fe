@@ -232,7 +232,6 @@ export const calculateLayerPipeline =
       // HACK: see #19471. Changing min to avoid breaking MCDA calculation with 0 in denominator.
       // TODO: Should apply proper solution later
       if (lowerBound === upperBound) {
-        // MapLibre expressions seem to have limited precision. So we need to apply Epsilon * 10 ^ number_of_digits
         lowerBound = nextFloatValueInDirection(lowerBound, Number.NEGATIVE_INFINITY);
       }
       tMin = operations.max(tMin, lowerBound);
