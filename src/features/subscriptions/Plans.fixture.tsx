@@ -11,6 +11,7 @@ import ss from './components/PricingContent/PricingContent.module.css';
 // __mocks__
 import { config as _subscriptionsConfig } from './__mocks__/_subscriptionsConfig';
 import _plans from './__mocks__/_plans.md?raw';
+import type { BillingCycle } from './types';
 
 const css = `
 .premium > .${s.planName}::before {
@@ -124,10 +125,11 @@ function Plans({ styling = '', markdown = _plans, isUserAuthorized = false }) {
             const footerBlock = !isCustom && (
               <div className={s.footerWrapper}>
                 <PaymentPlanCardFooter
+                  // @ts-expect-error ...
                   plan={plan}
                   isUserAuthorized={isUserAuthorized}
                   currentSubscription={currentSubscription}
-                  billingOption={billingOption}
+                  billingOption={billingOption as BillingCycle | undefined}
                 />
               </div>
             );
