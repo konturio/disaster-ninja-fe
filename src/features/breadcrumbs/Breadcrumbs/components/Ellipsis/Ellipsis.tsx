@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, MenuButton, MenuItem, MenuList } from '@konturio/ui-kit';
 import commonStyles from '../commonStyles.module.css';
 import styles from '../BreadcrumbItem/BreadcrumbItem.module.css';
+import s from './Ellipsis.module.css';
 import type { ReactNode } from 'react';
 import type { BreadcrumbBase } from '../BreadcrumbItem/BreadcrumbItem';
 
@@ -36,7 +37,7 @@ export const Ellipsis = React.memo(
                 <div className={commonStyles.separator}>{separator}</div>
               </div>
             </MenuButton>
-            <MenuList>
+            <MenuList classes={{ popover: s.popover }}>
               {hiddenItems.map((crumb) => (
                 <MenuItem key={crumb.value} onSelect={() => onItemClick(crumb.value)}>
                   {crumb.label}
