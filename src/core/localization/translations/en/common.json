@@ -113,7 +113,8 @@
       "save_changes": "Save changes",
       "range": "Value range",
       "outliers": "Outliers",
-      "sentiment": "Sentiment",
+      "reverse_to_good_bad": "Reverse to Good \u2192 Bad",
+      "reverse_to_bad_good": "Reverse to Bad \u2192 Good",
       "weight": "Weight",
       "transform": "Transform",
       "transformation": "Transformation",
@@ -149,7 +150,6 @@
       },
       "tips": {
         "range": "The values that will be considered the worst and the best in your analysis.",
-        "sentiment": "Determine the direction of sentiment for the layer's impact on the analysis:\n* **Bad → Good**: Higher values indicate a positive sentiment.\n* **Good → Bad**: Higher values indicate a negative sentiment.",
         "weight": "By default, all layers contribute equally to the analysis through a weighted average. Adjusting the increased weight of a layer (2, 3, etc.) allows you to assign additional importance to it in the analysis.",
         "transform": "Apply calculations to the values. Achieving a more linear distribution will provide more useful information for analysis.\n\n **Note**: Calculations are done before normalization.",
         "normalize": "Adjusts values to a standardized scale. This helps compare them easily and make decisions.\n* **Standard score scaling**: This option adjusts values to a standardized scale, ensuring they are all comparable.\n* **No (for specialists only)**: Leaves values unmodified.",
