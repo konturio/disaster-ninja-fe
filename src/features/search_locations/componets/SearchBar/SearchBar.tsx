@@ -10,6 +10,7 @@ import {
   searchLocations,
   selectableLocationsAtom,
   setSearchState,
+  setSelectedLocation,
 } from '~features/search_locations/atoms';
 import { store } from '~core/store/store';
 import { SearchInput } from '../SearchInput/SearchInput';
@@ -23,10 +24,11 @@ export function SearchBar() {
 
   const onSearch = useAction(searchLocations);
   const onReset = useAction(() => setSearchState(store.v3ctx, { ...initialState }));
+  const onItemSelect = useAction(setSelectedLocation);
 
-  const onItemSelect = (item) => {
-    // console.log('selected item', item); // TODO: add map highlighting in separate task
-  };
+  // const onItemSelect = (index: number) => {
+  //   console.log('selected item', item); // TODO: add map highlighting in separate task
+  // };
 
   const {
     inputProps,
@@ -90,7 +92,7 @@ export function SearchBar() {
         placeholder="Search location"
         onReset={handleReset}
         onSearch={handleSearch}
-        classes={{ inputWrapper: style.searchInputWrapper }}
+        classes={{ inputWrapper: style.searchInputWrapper, button: style.searchItem }}
       />
       {isMenuOpen && (
         <ul className={cn(style.searchMenu, { [style.open]: isMenuOpen })}>

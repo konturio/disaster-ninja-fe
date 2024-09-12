@@ -7,7 +7,7 @@ interface UseSearchBarProps {
   noResults?: boolean;
   error?: boolean;
   onSearch: (query: string) => void;
-  onItemSelect: (item: SelectableItem) => void;
+  onItemSelect: (index: number) => void;
   onReset: () => void;
 }
 
@@ -39,7 +39,7 @@ export function useSearchBar({
     (index) => {
       if (!items) return;
 
-      onItemSelect(items[index]);
+      onItemSelect(index);
       setInputValue(items[index].title);
       setIsMenuOpen(false);
     },

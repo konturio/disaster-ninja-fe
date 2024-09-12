@@ -1,5 +1,6 @@
 import { atom, action } from '@reatom/core';
 import { getLocations } from '~core/api/locations';
+import { currentMapPositionAtom } from '~core/shared_state';
 import type { LocationProperties } from '~core/api/locations';
 import type { Feature, Geometry } from 'geojson';
 import type { SelectableItem } from '~features/search_locations/types';
@@ -49,4 +50,15 @@ export const searchLocations = action(async (ctx, query) => {
   } finally {
     setSearchState(ctx, { isLoading: false });
   }
+});
+
+export const selectedLocationAtom =
+  atom<Feature<Geometry, LocationProperties | null>>(null);
+
+export const setSelectedLocation = action((ctx, index: number) => {
+  const selectedLocation = ctx.get(locationsAtom)[index];
+  const bbox = selectedLocation.properties.bbox;
+
+  selectedLocationAtom(ctx, selectedLocation);
+  currentMapPositionAtom.setCurrentMapBbox.dispatch(bbox);
 });

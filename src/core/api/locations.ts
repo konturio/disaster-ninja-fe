@@ -1,11 +1,13 @@
 import { apiClient } from '~core/apiClientInstance';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
+import type { Bbox } from '~core/shared_state/currentMapPosition';
 import type { Geometry } from 'geojson';
 
 export interface LocationProperties {
   display_name: string;
   osm_id: number;
+  bbox: Bbox;
 }
 
 export interface LocationsDTO {
