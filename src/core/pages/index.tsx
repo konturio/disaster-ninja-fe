@@ -1,10 +1,10 @@
 import { useId, useMemo } from 'react';
-import Markdown, { RuleType } from 'markdown-to-jsx';
+import { compiler } from 'markdown-to-jsx';
 import usePromise from 'react-promise-suspense';
 import { getAsset } from '~core/api/assets';
 import { Article } from '~components/Layout';
-import { splitTextIntoSections } from './utils';
 import { CustomImg, CustomLink } from './hypermedia';
+import { structureMarkdownContent } from './compiler';
 
 type PagesDocumentElement = {
   type: 'css' | 'md';
@@ -74,16 +74,13 @@ function CssElement({ data }: PagesDocumentElementProps) {
 }
 
 function MarkdownElement({ data }: PagesDocumentElementProps) {
-  return (
-    <Markdown
-      options={{
-        overrides: {
-          a: CustomLink,
-          img: CustomImg,
-        },
-      }}
-    >
-      {data}
-    </Markdown>
-  );
+  const compiled = compiler(data, {
+    overrides: {
+      a: CustomLink,
+      img: CustomImg,
+    },
+    wrapper: null,
+  }) as unknown as JSX.Element[];
+  const structuredContent = structureMarkdownContent(compiled);
+  return structuredContent;
 }

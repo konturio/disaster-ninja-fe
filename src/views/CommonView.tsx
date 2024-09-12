@@ -39,7 +39,7 @@ export function CommonView({
   return (
     <>
       <OriginalLogo />
-      <div className={s.common}>
+      <div className={s.common} id={`app-id-${configRepo.get().id}`}>
         <Suspense fallback={null}>
           {featureFlags[FeatureFlag.SIDE_BAR] && (
             <SideBar
