@@ -365,7 +365,9 @@
   "modes": {
     "map": "Map",
     "about": "About",
+    "cookies": "Cookies",
     "reports": "Reports",
+    "report": "Report",
     "profile": "Profile",
     "privacy": "Privacy",
     "terms": "Terms"
