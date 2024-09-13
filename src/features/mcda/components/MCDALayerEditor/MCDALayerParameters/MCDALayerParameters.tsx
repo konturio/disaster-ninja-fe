@@ -11,6 +11,7 @@ import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
 import { getAxisTransformations } from '~core/api/mcda';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
+import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
 import { Sentiments } from '../Sentiments';
 import MCDARangeControls from '../MCDARangeControls/MCDARangeControls';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
@@ -282,7 +283,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             right={sentiments.right}
             units={layer.unit}
           />
-          <div>
+          <div className={s.topControlsContainer}>
             <Button
               className={s.reverseButton}
               variant="invert-outline"
@@ -293,6 +294,11 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 ? i18n.t('mcda.layer_editor.reverse_to_good_bad')
                 : i18n.t('mcda.layer_editor.reverse_to_bad_good')}
             </Button>
+            <PopupTooltipTrigger
+              className={s.infoButton}
+              tipText={i18n.t('mcda.layer_editor.tips.sentiment')}
+              tooltipId={LAYERS_PANEL_FEATURE_ID}
+            />
           </div>
         </div>
         {!editMode ? (
