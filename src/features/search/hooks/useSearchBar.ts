@@ -4,8 +4,8 @@ import type { SelectableItem } from '@konturio/ui-kit';
 
 interface UseSearchBarProps {
   items: SelectableItem[];
-  noResults?: boolean;
-  error?: boolean;
+  emptyResult?: boolean;
+  error: string | null;
   onSearch: (query: string) => void;
   onItemSelect: (index: number) => void;
   onReset: () => void;
@@ -17,7 +17,7 @@ export function useSearchBar({
   onItemSelect,
   onReset,
   error,
-  noResults,
+  emptyResult,
 }: UseSearchBarProps) {
   const [inputValue, setInputValue] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(true);
@@ -27,8 +27,8 @@ export function useSearchBar({
   const searchBarRef = useOutsideClick<HTMLDivElement>(() => setIsMenuOpen(false));
 
   useEffect(() => {
-    if (items.length || error || noResults) setIsMenuOpen(true);
-  }, [items, error, noResults]);
+    if (items.length || error || emptyResult) setIsMenuOpen(true);
+  }, [items, error, emptyResult]);
 
   const onChange = useCallback((event) => {
     setInputValue(event.target.value);
@@ -77,6 +77,7 @@ export function useSearchBar({
   );
 
   const handleSearch = useCallback(() => {
+    if (inputValue === '') return;
     onSearch(inputValue.trim());
   }, [inputValue, onSearch]);
 
@@ -84,7 +85,7 @@ export function useSearchBar({
     setInputValue('');
     setIsMenuOpen(false);
     setHighlightedIndex(-1);
-    searchInputEl.current && searchInputEl.current.focus();
+    searchInputEl.current?.focus();
     onReset();
   }, [onReset]);
 

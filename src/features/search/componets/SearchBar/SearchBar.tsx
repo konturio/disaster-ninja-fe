@@ -1,34 +1,22 @@
 import cn from 'clsx';
 import { SelectItem } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/npm-react';
-import { useSearchBar } from '~features/search_locations/hooks/useSearchBar';
-import { initialState } from '~features/search_locations/constants';
+import { useSearchBar } from '~features/search/hooks/useSearchBar';
 import {
-  errorAtom,
-  isLoadingAtom,
-  noResultsAtom,
-  searchLocations,
-  selectableLocationsAtom,
-  setSearchState,
-  setSelectedLocation,
-} from '~features/search_locations/atoms';
-import { store } from '~core/store/store';
+  resetAction,
+  searchLocationsAction,
+  searchLocationsAtom,
+  itemSelectAction,
+} from '~features/search/searchLocationAtoms';
 import { SearchInput } from '../SearchInput/SearchInput';
 import style from './SearchBar.module.css';
 
 export function SearchBar() {
-  const [isLoading] = useAtom(isLoadingAtom);
-  const [locations] = useAtom(selectableLocationsAtom);
-  const [error] = useAtom(errorAtom);
-  const [noResults] = useAtom(noResultsAtom);
+  const onSearch = useAction(searchLocationsAction);
+  const onReset = useAction(resetAction);
+  const onItemSelect = useAction(itemSelectAction);
 
-  const onSearch = useAction(searchLocations);
-  const onReset = useAction(() => setSearchState(store.v3ctx, { ...initialState }));
-  const onItemSelect = useAction(setSelectedLocation);
-
-  // const onItemSelect = (index: number) => {
-  //   console.log('selected item', item); // TODO: add map highlighting in separate task
-  // };
+  const [{ data: locations, error, loading, emptyResult }] = useAtom(searchLocationsAtom);
 
   const {
     inputProps,
@@ -40,11 +28,11 @@ export function SearchBar() {
     searchBarRef,
   } = useSearchBar({
     items: locations,
+    error: error,
+    emptyResult,
     onSearch,
     onItemSelect,
     onReset,
-    error: error,
-    noResults: noResults,
   });
 
   const renderError = () => (
@@ -74,31 +62,29 @@ export function SearchBar() {
         key={item.value}
         highlighted={highlightedIndex === index}
         className={style.searchItem}
-        itemProps={{ onClick: () => handleItemSelect(index) }}
+        itemProps={{ onClick: () => handleItemSelect(index), role: 'option' }}
       />
     ));
 
   const renderMenu = () => {
     if (error) return renderError();
-    if (noResults) return renderNoResults();
-    return renderItems();
+    if (emptyResult) return renderNoResults();
+    if (locations.length) return renderItems();
+
+    return null;
   };
 
   return (
     <div className={style.searchBar} ref={searchBarRef}>
       <SearchInput
         inputProps={inputProps}
-        isLoading={isLoading}
+        isLoading={loading}
         placeholder="Search location"
         onReset={handleReset}
         onSearch={handleSearch}
         classes={{ inputWrapper: style.searchInputWrapper, button: style.searchItem }}
       />
-      {isMenuOpen && (
-        <ul className={cn(style.searchMenu, { [style.open]: isMenuOpen })}>
-          {renderMenu()}
-        </ul>
-      )}
+      {isMenuOpen && <ul className={cn(style.searchMenu)}>{renderMenu()}</ul>}
     </div>
   );
 }
