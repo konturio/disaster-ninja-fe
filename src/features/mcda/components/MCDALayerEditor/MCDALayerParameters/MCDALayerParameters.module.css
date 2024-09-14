@@ -116,3 +116,10 @@
 .reverseButton {
   margin: var(--half-unit) 0;
 }
+
+.topControlsContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--half-unit);
+}
