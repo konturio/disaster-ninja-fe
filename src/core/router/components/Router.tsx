@@ -5,11 +5,12 @@ import {
   type RouteObject,
 } from 'react-router-dom';
 import { KeepAliveProvider } from 'react-component-keepalive-ts';
-import { Suspense } from 'react';
+import { Suspense, useLayoutEffect } from 'react';
 import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { landUser, userWasLanded } from '~core/app/userWasLanded';
+import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
 import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
@@ -43,6 +44,7 @@ function Layout() {
       >
         <KeepAliveProvider>
           <Outlet />
+          <AppLayoutReadyNotifier />
         </KeepAliveProvider>
       </CommonView>
     </>
@@ -75,7 +77,7 @@ function initRouter() {
 
   if (router.state.matches.length < 2) {
     // if we are on root /, redirect to default child route
-    // router.state.matches[1] is Layout route, router.state.matches[2] etc will be actual app pages
+    // router.state.matches[0] is Layout route, router.state.matches[1] etc will be actual app pages
     initialRedirect = defaultRoute;
   }
 
@@ -90,7 +92,7 @@ function initRouter() {
   }
 
   if (initialRedirect !== false) {
-    router.navigate(getAbsoluteRoute(initialRedirect));
+    router.navigate(getAbsoluteRoute(initialRedirect) + globalThis.location.search, {});
   }
 
   // Run last parts of app init requiring router
@@ -99,4 +101,12 @@ function initRouter() {
   });
 
   return router;
+}
+
+export function AppLayoutReadyNotifier() {
+  useLayoutEffect(() => {
+    dispatchMetricsEventOnce('router-layout-ready', {});
+  }, []);
+
+  return null;
 }
