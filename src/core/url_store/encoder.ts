@@ -29,7 +29,7 @@ export const urlEncoder = new URLDataInSearchEncoder({
     },
     bbox: {
       decode: (str: string): BBox => {
-        const coords = str.split(',').map((coord) => parseFloat(coord.trim()));
+        const coords = str.split(',').map((coord) => Number.parseFloat(coord.trim()));
         return [
           [coords[0], coords[1]],
           [coords[2], coords[3]],
