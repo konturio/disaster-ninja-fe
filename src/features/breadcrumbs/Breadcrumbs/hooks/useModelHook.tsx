@@ -3,10 +3,9 @@ import { useState, useLayoutEffect, useRef } from 'react';
 interface UseModelProps<T> {
   items: T[];
   ellipsisWidth: number;
-  activeIndex?: number | null;
 }
 
-export const useModel = <T,>({ items, ellipsisWidth, activeIndex }: UseModelProps<T>) => {
+export const useModel = <T,>({ items, ellipsisWidth }: UseModelProps<T>) => {
   const [itemWidths, setItemWidths] = useState<number[]>([]);
   const [leftHiddenItemIndex, setLeftHiddenItemIndex] = useState<number | null>(null);
   const [rightHiddenItemIndex, setRightHiddenItemIndex] = useState<number | null>(null);
@@ -19,7 +18,6 @@ export const useModel = <T,>({ items, ellipsisWidth, activeIndex }: UseModelProp
     const widths = Array.from(olRef.current.children).map(
       (child) => (child as HTMLElement).offsetWidth,
     );
-    // console.log('calculate widths', widths);
     setItemWidths(widths);
     setLeftHiddenItemIndex(null);
     setRightHiddenItemIndex(null);
@@ -40,26 +38,15 @@ export const useModel = <T,>({ items, ellipsisWidth, activeIndex }: UseModelProp
       let end = itemWidths.length - 1;
 
       let displayedWidth = itemWidths[end] + ellipsisWidth;
-      // console.log('calculateBreadcrumbs', {
-      //   totalWidth,
-      //   displayedWidth,
-      //   containerWidth,
-      //   start,
-      //   end,
-      //   itemWidths,
-      //   endW: itemWidths[end],
-      // });
 
       while (start < end && displayedWidth <= containerWidth) {
         if (displayedWidth + itemWidths[start] <= containerWidth) {
           displayedWidth += itemWidths[start];
           start++;
-          // console.log('loop:', `${start} - ${end}`, {displayedWidth});
         }
         if (start < end && displayedWidth + itemWidths[end - 1] <= containerWidth) {
           displayedWidth += itemWidths[end - 1];
           end--;
-          // console.log('loop:', `${start} - ${end}`, {displayedWidth});
         } else {
           break;
         }
@@ -67,7 +54,6 @@ export const useModel = <T,>({ items, ellipsisWidth, activeIndex }: UseModelProp
       if (start !== end) {
         setLeftHiddenItemIndex(start);
         setRightHiddenItemIndex(end);
-        // console.log('hidden:', { start, end });
       } else {
         setLeftHiddenItemIndex(null);
         setRightHiddenItemIndex(null);
@@ -88,7 +74,7 @@ export const useModel = <T,>({ items, ellipsisWidth, activeIndex }: UseModelProp
         observer.unobserve(olRef.current);
       }
     };
-  }, [ellipsisWidth, itemWidths, activeIndex, leftHiddenItemIndex, rightHiddenItemIndex]);
+  }, [ellipsisWidth, itemWidths, items, leftHiddenItemIndex, rightHiddenItemIndex]);
 
   return {
     leftHiddenItemIndex,

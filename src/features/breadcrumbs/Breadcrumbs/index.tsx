@@ -11,7 +11,6 @@ interface BreadcrumbsProps<T extends BreadcrumbBase> {
   items: T[];
   separator?: ReactNode;
   onClick: (value: string) => void;
-  active?: string | null;
   classes?: {
     breadcrumbs: string;
   };
@@ -20,7 +19,6 @@ interface BreadcrumbsProps<T extends BreadcrumbBase> {
 const Breadcrumbs = <T extends BreadcrumbBase>({
   items,
   separator = <ChevronRight16 />,
-  active,
   onClick,
   classes,
 }: BreadcrumbsProps<T>) => {
@@ -37,7 +35,7 @@ const Breadcrumbs = <T extends BreadcrumbBase>({
           key={start + index}
           label={crumb.label}
           value={crumb.value}
-          active={active === crumb.value}
+          active={start + index === items.length - 1}
           onClick={onClick}
           separator={separator}
           isLastItem={start + index === items.length - 1}
@@ -49,7 +47,7 @@ const Breadcrumbs = <T extends BreadcrumbBase>({
     <nav aria-label="breadcrumb">
       <ol ref={olRef} className={cn(styles.breadcrumbs, classes?.breadcrumbs)}>
         {/* Render all items if no overflow */}
-        {leftHiddenItemIndex === -1 && rightHiddenItemIndex === items.length ? (
+        {leftHiddenItemIndex === null || rightHiddenItemIndex === null ? (
           renderItems(0, items.length - 1)
         ) : (
           <>
