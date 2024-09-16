@@ -6,27 +6,35 @@ interface UseModelProps<T> {
   activeIndex?: number | null;
 }
 
-export const useModel = <T,>({ items, ellipsisWidth, activeIndex }: UseModelProps<T>) => {
+export const useBreadcrumbItems = <T,>({
+  items,
+  ellipsisWidth,
+  activeIndex,
+}: UseModelProps<T>) => {
   const [itemWidths, setItemWidths] = useState<number[]>([]);
   const [leftHiddenItemIndex, setLeftHiddenItemIndex] = useState<number | null>(null);
   const [rightHiddenItemIndex, setRightHiddenItemIndex] = useState<number | null>(null);
   const olRef = useRef<HTMLOListElement>(null);
 
-  // Cache all item widths before the first render
-  useLayoutEffect(() => {
-    if (!olRef.current) return;
+  const calculateWidths = () => {
+    if (!olRef.current) throw new Error("Can't find ol element");
 
     const widths = Array.from(olRef.current.children).map(
       (child) => (child as HTMLElement).offsetWidth,
     );
     // console.log('calculate widths', widths);
+
     setItemWidths(widths);
-    setLeftHiddenItemIndex(null);
-    setRightHiddenItemIndex(null);
-  }, [items]);
+    return widths;
+  };
 
   useLayoutEffect(() => {
-    const calculateBreadcrumbs = () => {
+    // console.log('&&&&&&&&&& olRef?.current?.children changed');
+    calculateWidths();
+  }, [olRef?.current?.children, leftHiddenItemIndex]);
+
+  useLayoutEffect(() => {
+    const calculateBreadcrumbs = (itemWidths: number[]) => {
       if (!olRef.current || itemWidths.length === 0) return;
 
       const olComputedStyle = window.getComputedStyle(olRef.current);
@@ -74,9 +82,9 @@ export const useModel = <T,>({ items, ellipsisWidth, activeIndex }: UseModelProp
       }
     };
 
-    calculateBreadcrumbs();
+    calculateBreadcrumbs(itemWidths);
     const observer = new ResizeObserver(() => {
-      calculateBreadcrumbs();
+      calculateBreadcrumbs(itemWidths);
     });
 
     if (olRef.current) {
@@ -88,7 +96,7 @@ export const useModel = <T,>({ items, ellipsisWidth, activeIndex }: UseModelProp
         observer.unobserve(olRef.current);
       }
     };
-  }, [ellipsisWidth, itemWidths, activeIndex, leftHiddenItemIndex, rightHiddenItemIndex]);
+  }, [ellipsisWidth, activeIndex, items, itemWidths]);
 
   return {
     leftHiddenItemIndex,
