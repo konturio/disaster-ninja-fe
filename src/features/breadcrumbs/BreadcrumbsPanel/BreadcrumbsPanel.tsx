@@ -2,19 +2,18 @@ import { Panel } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/npm-react';
 import { action, atom } from '@reatom/core';
 import Breadcrumbs from '../Breadcrumbs';
+import s from './BreadcrumbsPanel.module.css';
 
 const ITEMS_PLACEHOLDER = [
-  { label: 'Country 1', value: 'Country 1' },
-  { label: 'Administrative unit 2', value: 'Administrative unit 2' },
-  { label: 'Administrative unit 3', value: 'Administrative unit 3' },
-  { label: 'Administrative unit 4', value: 'Administrative unit 4' },
-  { label: 'City 5', value: 'City 5' },
-  { label: 'District 6', value: 'District 6' },
-  { label: 'District 7', value: 'District 7' },
-  { label: 'Administrative unit 8', value: 'Administrative unit 8' },
-  { label: 'Administrative unit 9', value: 'Administrative unit 9' },
-  { label: 'Administrative unit 10', value: 'Administrative unit 10' },
-  { label: 'Administrative unit 11', value: 'Administrative unit 11' },
+  { label: 'Poland', value: 'Country 1' },
+  { label: 'Masovian Voivodeship', value: 'Administrative unit 2' },
+  { label: 'Warsaw', value: 'Administrative unit 3' },
+  { label: 'Ursynów', value: 'Administrative unit 4' },
+  { label: 'Ursynów Połnocny', value: 'City 5' },
+  { label: 'Stokłosy', value: 'District 6' },
+  { label: 'Wysoki Ursynów', value: 'District 7' },
+  { label: 'Wysoki Ursynów 1', value: 'District 8' },
+  { label: 'Wysoki Ursynów 2', value: 'District 9' },
 ];
 
 const breadcrumbsItemsAtom = atom(ITEMS_PLACEHOLDER, 'breadcrumbsAtom');
@@ -33,7 +32,7 @@ const BreadcrumbsPanel = () => {
   const handleClick = useAction(onBreadcrumbClick);
 
   return (
-    <Panel resize="none">
+    <Panel resize="none" className={s.breadcrumbsPanel}>
       <Breadcrumbs items={items} onClick={handleClick} />
     </Panel>
   );
