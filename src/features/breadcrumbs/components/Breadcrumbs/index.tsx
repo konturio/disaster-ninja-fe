@@ -1,10 +1,9 @@
 import cn from 'clsx';
 import { ChevronRight16 } from '@konturio/default-icons';
-import { Panel } from '@konturio/ui-kit';
-import { BreadcrumbItem, Ellipsis, ellipsisWidth } from './components';
+import { BreadcrumbItem, Ellipsis, ellipsisWidth } from '..';
 import styles from './style.module.css';
 import { useModel } from './hooks/useModelHook';
-import type { BreadcrumbBase } from './components';
+import type { BreadcrumbBase } from '..';
 import type { ReactNode } from 'react';
 
 interface BreadcrumbsProps<T extends BreadcrumbBase> {

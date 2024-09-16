@@ -16,7 +16,7 @@ import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import { configRepo } from '~core/config';
-import BreadcrumbsPanel from '~features/breadcrumbs/BreadcrumbsPanel/BreadcrumbsPanel';
+import BreadcrumbsPanel from '~features/breadcrumbs/BreadcrumbsPanel';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
 

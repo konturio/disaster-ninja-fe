@@ -1,7 +1,7 @@
 import { Panel } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/npm-react';
 import { action, atom } from '@reatom/core';
-import Breadcrumbs from '../Breadcrumbs';
+import Breadcrumbs from './components/Breadcrumbs';
 import s from './BreadcrumbsPanel.module.css';
 
 const ITEMS_PLACEHOLDER = [
