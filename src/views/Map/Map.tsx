@@ -135,7 +135,9 @@ function _MapPage() {
           layersAndLegends={<LayersAndLegends />}
           matrix={<></>}
           timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
-          breadcrumbs={<BreadcrumbsPanel />}
+          breadcrumbs={
+            featureFlags[FeatureFlag.ADMIN_BOUNDARY_BREADCRUMBS] && <BreadcrumbsPanel />
+          }
           toolbar={featureFlags[FeatureFlag.TOOLBAR] && <Toolbar />}
           layerFeaturesPanel={
             featureFlags[FeatureFlag.LAYER_FEATURES_PANEL] && <LayerFeaturesPanel />
