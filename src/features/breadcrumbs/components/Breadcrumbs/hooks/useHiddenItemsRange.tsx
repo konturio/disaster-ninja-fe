@@ -44,7 +44,7 @@ export const useHiddenItemsRange = <T,>({
 
     setLeftHiddenItemIndex(null);
     setRightHiddenItemIndex(null);
-  }, [ellipsisWidth, items]);
+  }, [containerRef, ellipsisWidth, items]);
 
   return {
     leftHiddenItemIndex,
