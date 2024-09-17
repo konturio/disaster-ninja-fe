@@ -1,25 +1,29 @@
-import { useState, useLayoutEffect, useRef } from 'react';
+import { useState, useLayoutEffect } from 'react';
+import type { RefObject } from 'react';
 
 interface UseModelProps<T> {
   items: T[];
   ellipsisWidth: number;
+  containerRef: RefObject<HTMLElement>;
 }
 
-export const useModel = <T,>({ items, ellipsisWidth }: UseModelProps<T>) => {
+export const useHiddenItemsRange = <T,>({
+  items,
+  ellipsisWidth,
+  containerRef,
+}: UseModelProps<T>) => {
   const [leftHiddenItemIndex, setLeftHiddenItemIndex] = useState<number | null>(null);
   const [rightHiddenItemIndex, setRightHiddenItemIndex] = useState<number | null>(null);
-  const olRef = useRef<HTMLOListElement>(null);
 
   useLayoutEffect(() => {
-    if (!olRef.current) return;
+    if (!containerRef.current) return;
 
-    const olComputedStyle = window.getComputedStyle(olRef.current);
+    const olComputedStyle = window.getComputedStyle(containerRef.current);
     const paddingLeft = parseFloat(olComputedStyle.paddingLeft);
     const paddingRight = parseFloat(olComputedStyle.paddingRight);
-    const containerWidth = olRef.current.offsetWidth - paddingLeft - paddingRight;
-    const containerHeight = olRef.current.offsetHeight;
-    // console.log({ containerWidth, containerHeight });
-    // TODO: needs to adapt to size better
+    const containerWidth = containerRef.current.offsetWidth - paddingLeft - paddingRight;
+    const containerHeight = containerRef.current.offsetHeight;
+    // TODO: needs to make it more adaptive
     if (containerHeight >= 40) {
       if (containerWidth > 600 && items.length >= 7) {
         setLeftHiddenItemIndex(2);
@@ -45,6 +49,6 @@ export const useModel = <T,>({ items, ellipsisWidth }: UseModelProps<T>) => {
   return {
     leftHiddenItemIndex,
     rightHiddenItemIndex,
-    olRef,
+    olRef: containerRef,
   };
 };

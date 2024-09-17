@@ -1,10 +1,10 @@
 import cn from 'clsx';
 import { ChevronRight16 } from '@konturio/default-icons';
+import { useRef, type ReactNode } from 'react';
 import { BreadcrumbItem, Ellipsis, ellipsisWidth } from '..';
 import styles from './Breadcrumbs.module.css';
-import { useModel } from './hooks/useModelHook';
+import { useHiddenItemsRange } from './hooks/useHiddenItemsRange';
 import type { BreadcrumbBase } from '..';
-import type { ReactNode } from 'react';
 
 interface BreadcrumbsProps<T extends BreadcrumbBase> {
   items: T[];
@@ -21,9 +21,11 @@ const Breadcrumbs = <T extends BreadcrumbBase>({
   onClick,
   classes,
 }: BreadcrumbsProps<T>) => {
-  const { leftHiddenItemIndex, rightHiddenItemIndex, olRef } = useModel({
+  const containerRef = useRef(null);
+  const { leftHiddenItemIndex, rightHiddenItemIndex } = useHiddenItemsRange({
     items,
     ellipsisWidth,
+    containerRef,
   });
 
   const renderItems = (start: number, end: number) => {
@@ -44,7 +46,7 @@ const Breadcrumbs = <T extends BreadcrumbBase>({
 
   return (
     <nav aria-label="breadcrumb">
-      <ol ref={olRef} className={cn(styles.breadcrumbs, classes?.breadcrumbs)}>
+      <ol ref={containerRef} className={cn(styles.breadcrumbs, classes?.breadcrumbs)}>
         {/* Render all items if no overflow */}
         {leftHiddenItemIndex === null || rightHiddenItemIndex === null ? (
           renderItems(0, items.length - 1)
