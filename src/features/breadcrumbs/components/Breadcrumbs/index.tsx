@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
 interface BreadcrumbsProps<T extends BreadcrumbBase> {
   items: T[];
   separator?: ReactNode;
-  onClick: (value: string) => void;
+  onClick: (value: string | number) => void;
   classes?: {
     breadcrumbs: string;
   };

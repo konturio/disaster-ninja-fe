@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 
 export interface BreadcrumbBase {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 interface BreadcrumbItemProps extends BreadcrumbBase {
@@ -30,7 +30,7 @@ export const BreadcrumbItem = React.memo(
       <li className={cn(styles.breadcrumbItem)}>
         <button
           className={cn(styles.button, { [styles.active]: active })}
-          onClick={() => onClick(value)}
+          onClick={() => onClick(value.toString())}
         >
           <Text
             type="caption"

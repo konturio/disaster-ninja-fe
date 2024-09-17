@@ -15,7 +15,7 @@ interface EllipsisProps {
   leftHiddenItemIndex: number;
   rightHiddenItemIndex: number;
   separator: ReactNode;
-  onItemClick: (value: string, index: number) => void;
+  onItemClick: (value: string | number) => void;
 }
 
 export const Ellipsis = React.memo(
@@ -38,11 +38,8 @@ export const Ellipsis = React.memo(
               </div>
             </MenuButton>
             <MenuList classes={{ popover: s.popover }}>
-              {hiddenItems.map((crumb, index) => (
-                <MenuItem
-                  key={crumb.value}
-                  onSelect={() => onItemClick(crumb.value, leftHiddenItemIndex + index)}
-                >
+              {hiddenItems.map((crumb) => (
+                <MenuItem key={crumb.value} onSelect={() => onItemClick(crumb.value)}>
                   {crumb.label}
                 </MenuItem>
               ))}
