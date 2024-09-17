@@ -47,6 +47,8 @@ export const AppFeature = {
   LLM_ANALYTICS: 'llm_analytics',
   MAP: 'map',
   SUBSCRIPTION: 'subscription',
+  SEARCH_LOCATION: 'search_locations',
+  SEARCH_BAR: 'search_bar',
   ADMIN_BOUNDARY_BREADCRUMBS: 'admin_boundary_breadcrumbs',
 } as const;
 
