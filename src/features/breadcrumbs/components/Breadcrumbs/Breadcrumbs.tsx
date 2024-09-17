@@ -1,7 +1,7 @@
 import cn from 'clsx';
 import { ChevronRight16 } from '@konturio/default-icons';
 import { BreadcrumbItem, Ellipsis, ellipsisWidth } from '..';
-import styles from './style.module.css';
+import styles from './Breadcrumbs.module.css';
 import { useModel } from './hooks/useModelHook';
 import type { BreadcrumbBase } from '..';
 import type { ReactNode } from 'react';

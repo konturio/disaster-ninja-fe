@@ -1,6 +1,6 @@
 import { Panel } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/npm-react';
-import Breadcrumbs from './components/Breadcrumbs';
+import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 import s from './BreadcrumbsPanel.module.css';
 import { breadcrumbsItemsAtom, onBreadcrumbClick } from './atoms/breadcrumbsItemsAtom';
 
