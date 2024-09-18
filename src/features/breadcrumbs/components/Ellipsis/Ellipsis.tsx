@@ -4,12 +4,12 @@ import commonStyles from '../commonStyles.module.css';
 import styles from '../BreadcrumbItem/BreadcrumbItem.module.css';
 import s from './Ellipsis.module.css';
 import type { ReactNode } from 'react';
-import type { BreadcrumbBase } from '../BreadcrumbItem/BreadcrumbItem';
+import type { BoundaryOption } from '~utils/map/boundaries';
 
 export const ellipsis = '...';
 
 interface EllipsisProps {
-  items: BreadcrumbBase[];
+  items: BoundaryOption[];
   leftHiddenItemIndex: number;
   rightHiddenItemIndex: number;
   separator: ReactNode;

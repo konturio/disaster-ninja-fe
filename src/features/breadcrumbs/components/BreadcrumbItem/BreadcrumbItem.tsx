@@ -4,13 +4,9 @@ import { Text } from '@konturio/ui-kit';
 import commonStyles from '../commonStyles.module.css';
 import styles from './BreadcrumbItem.module.css';
 import type { ReactNode } from 'react';
+import type { BoundaryOption } from '~utils/map/boundaries';
 
-export interface BreadcrumbBase {
-  label: string;
-  value: string | number;
-}
-
-interface BreadcrumbItemProps extends BreadcrumbBase {
+interface BreadcrumbItemProps extends BoundaryOption {
   active?: boolean;
   onClick: (value: string) => void;
   separator?: ReactNode;

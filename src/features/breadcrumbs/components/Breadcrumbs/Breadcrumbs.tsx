@@ -4,10 +4,10 @@ import { useRef, type ReactNode } from 'react';
 import { BreadcrumbItem, Ellipsis } from '..';
 import styles from './Breadcrumbs.module.css';
 import { useHiddenItemsRange } from './hooks/useHiddenItemsRange';
-import type { BreadcrumbBase } from '..';
+import type { BoundaryOption } from '~utils/map/boundaries';
 
-interface BreadcrumbsProps<T extends BreadcrumbBase> {
-  items: T[];
+interface BreadcrumbsProps {
+  items: BoundaryOption[];
   separator?: ReactNode;
   onClick: (value: string | number) => void;
   classes?: {
@@ -15,12 +15,12 @@ interface BreadcrumbsProps<T extends BreadcrumbBase> {
   };
 }
 
-const Breadcrumbs = <T extends BreadcrumbBase>({
+const Breadcrumbs = ({
   items,
   separator = <ChevronRight16 />,
   onClick,
   classes,
-}: BreadcrumbsProps<T>) => {
+}: BreadcrumbsProps) => {
   const containerRef = useRef(null);
   const { leftHiddenItemIndex, rightHiddenItemIndex } = useHiddenItemsRange({
     items,
