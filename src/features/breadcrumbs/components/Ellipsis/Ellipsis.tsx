@@ -6,9 +6,7 @@ import s from './Ellipsis.module.css';
 import type { ReactNode } from 'react';
 import type { BreadcrumbBase } from '../BreadcrumbItem/BreadcrumbItem';
 
-// TODO: get rid of this hardcode and add ability to dynamically count width
 export const ellipsis = '...';
-export const ellipsisWidth = 35; // Approximate width of the `... >` element
 
 interface EllipsisProps {
   items: BreadcrumbBase[];

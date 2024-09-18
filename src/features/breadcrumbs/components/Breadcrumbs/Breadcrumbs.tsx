@@ -1,7 +1,7 @@
 import cn from 'clsx';
 import { ChevronRight16 } from '@konturio/default-icons';
 import { useRef, type ReactNode } from 'react';
-import { BreadcrumbItem, Ellipsis, ellipsisWidth } from '..';
+import { BreadcrumbItem, Ellipsis } from '..';
 import styles from './Breadcrumbs.module.css';
 import { useHiddenItemsRange } from './hooks/useHiddenItemsRange';
 import type { BreadcrumbBase } from '..';
@@ -24,7 +24,6 @@ const Breadcrumbs = <T extends BreadcrumbBase>({
   const containerRef = useRef(null);
   const { leftHiddenItemIndex, rightHiddenItemIndex } = useHiddenItemsRange({
     items,
-    ellipsisWidth,
     containerRef,
   });
 

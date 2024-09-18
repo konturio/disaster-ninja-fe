@@ -3,15 +3,10 @@ import type { RefObject } from 'react';
 
 interface UseModelProps<T> {
   items: T[];
-  ellipsisWidth: number;
   containerRef: RefObject<HTMLElement>;
 }
 
-export const useHiddenItemsRange = <T,>({
-  items,
-  ellipsisWidth,
-  containerRef,
-}: UseModelProps<T>) => {
+export const useHiddenItemsRange = <T,>({ items, containerRef }: UseModelProps<T>) => {
   const [leftHiddenItemIndex, setLeftHiddenItemIndex] = useState<number | null>(null);
   const [rightHiddenItemIndex, setRightHiddenItemIndex] = useState<number | null>(null);
 
@@ -19,8 +14,8 @@ export const useHiddenItemsRange = <T,>({
     if (!containerRef.current) return;
 
     const olComputedStyle = window.getComputedStyle(containerRef.current);
-    const paddingLeft = parseFloat(olComputedStyle.paddingLeft);
-    const paddingRight = parseFloat(olComputedStyle.paddingRight);
+    const paddingLeft = Number.parseFloat(olComputedStyle.paddingLeft);
+    const paddingRight = Number.parseFloat(olComputedStyle.paddingRight);
     const containerWidth = containerRef.current.offsetWidth - paddingLeft - paddingRight;
     const containerHeight = containerRef.current.offsetHeight;
     // TODO: needs to make it more adaptive
@@ -44,11 +39,10 @@ export const useHiddenItemsRange = <T,>({
 
     setLeftHiddenItemIndex(null);
     setRightHiddenItemIndex(null);
-  }, [containerRef, ellipsisWidth, items]);
+  }, [containerRef, items]);
 
   return {
     leftHiddenItemIndex,
     rightHiddenItemIndex,
-    olRef: containerRef,
   };
 };

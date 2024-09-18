@@ -29,6 +29,7 @@ export const BreadcrumbItem = React.memo(
     return (
       <li className={cn(styles.breadcrumbItem)}>
         <button
+          type="button"
           className={cn(styles.button, { [styles.active]: active })}
           onClick={() => onClick(value.toString())}
         >
