@@ -104,6 +104,8 @@
     "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty",
     "error_bad_layer_data": "Invalid MCDA layer data",
     "error_invalid_file": "Invalid MCDA file format",
+    "error_invalid_parameter": "Invalid '{{parameter}}' parameter",
+    "error_invalid_layer_parameter": "Invalid '{{parameter}}' parameter in '{{axisName}}' layer",
     "error_wrong_mcda_version": "Wrong MCDA version",
     "legend_title": "Legend",
     "legend_subtitle": "Hexagons are colored based on analysis layer settings. Click a hexagon to see its values.",
@@ -111,7 +113,8 @@
       "save_changes": "Save changes",
       "range": "Value range",
       "outliers": "Outliers",
-      "sentiment": "Sentiment",
+      "reverse_to_good_bad": "Reverse to Good \u2192 Bad",
+      "reverse_to_bad_good": "Reverse to Bad \u2192 Good",
       "weight": "Weight",
       "transform": "Transform",
       "transformation": "Transformation",
@@ -363,7 +366,9 @@
   "modes": {
     "map": "Map",
     "about": "About",
+    "cookies": "Cookies",
     "reports": "Reports",
+    "report": "Report",
     "profile": "Profile",
     "privacy": "Privacy",
     "terms": "Terms"

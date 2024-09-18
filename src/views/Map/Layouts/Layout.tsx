@@ -18,6 +18,7 @@ export function Layout({
   footer,
   editPanel,
   layerFeaturesPanel,
+  searchBar,
 }: {
   disasters: ReactNode;
   analytics: ReactNode;
@@ -28,6 +29,7 @@ export function Layout({
   footer: ReactNode;
   editPanel: ReactNode;
   layerFeaturesPanel: ReactNode;
+  searchBar: ReactNode;
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -36,6 +38,7 @@ export function Layout({
       <MobileLayout
         firstColumn={
           <>
+            {searchBar}
             {analytics}
             {disasters}
             {editPanel}
@@ -55,6 +58,7 @@ export function Layout({
       <LaptopLayout
         firstColumn={
           <>
+            {searchBar}
             {analytics}
             {disasters}
             {editPanel}
@@ -73,6 +77,7 @@ export function Layout({
     <DesktopLayout
       analyticsColumn={
         <>
+          {searchBar}
           {analytics}
           {disasters}
         </>

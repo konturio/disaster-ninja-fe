@@ -49,7 +49,7 @@ export const routerConfig: AppRouterConfig = {
     {
       id: 'report',
       slug: ':reportId',
-      title: 'modes.report',
+      title: i18n.t('modes.report'),
       icon: <Reports16 />,
       view: <ReportPage />,
       requiredFeature: AppFeature.REPORTS,
@@ -112,7 +112,7 @@ export const routerConfig: AppRouterConfig = {
     {
       id: 'cookies',
       slug: 'cookies',
-      title: 'modes.cookies',
+      title: i18n.t('modes.cookies'),
       icon: <Reports16 />,
       view: <PagesDocument doc={[{ type: 'md', url: 'cookies.md' }]} key="cookies" />,
       parentRouteId: 'about',

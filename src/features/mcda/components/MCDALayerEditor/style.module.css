@@ -1,4 +1,7 @@
 .editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit);
   margin-bottom: var(--unit);
   margin-right: calc(-1 * var(--half-unit));
 }

@@ -15,6 +15,7 @@ import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import { configRepo } from '~core/config';
+import { Search } from '~features/search';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
 
@@ -125,6 +126,10 @@ export function MapPage() {
       </div>
       {Object.keys(featureFlags).length > 0 && (
         <Layout
+          searchBar={
+            featureFlags[FeatureFlag.SEARCH_BAR] &&
+            featureFlags[FeatureFlag.SEARCH_LOCATION] && <Search />
+          }
           analytics={<Analytics />}
           // if EVENTS_LIST is enabled, we always have default feed
           disasters={featureFlags[FeatureFlag.EVENTS_LIST] && <EventListPanel />}
