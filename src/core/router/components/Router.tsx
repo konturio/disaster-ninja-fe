@@ -30,6 +30,11 @@ globalThis.addEventListener(NAVIGATE_EVENT, ((e: CustomEvent) => {
   routerInstance.navigate(getAbsoluteRoute(slug) + globalThis.location.search);
 }) as EventListener);
 
+// update Title
+currentRouteAtom.v3atom.onChange((ctx, route) => {
+  document.title = `${configRepo.get().name} - ${route?.title || ''}`;
+});
+
 export function Router() {
   return <RouterProvider router={routerInstance} />;
 }

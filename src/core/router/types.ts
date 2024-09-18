@@ -6,7 +6,7 @@ export interface AppRoute {
   view: JSX.Element;
   icon: JSX.Element;
   /** How to name this route in navigation */
-  title: string | JSX.Element;
+  title: string;
   /** Redirect to this route users that see it first time */
   showForNewUsers?: boolean;
   /** Should we unmount (false) or just hide (true) route when it deactivated */
