@@ -1,8 +1,9 @@
 .breadcrumbs {
   border-radius: var(--half-unit);
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
   padding: var(--half-unit) var(--unit);
   margin: 0;
   overflow: auto;
+  background-color: var(--base-weak);
 }

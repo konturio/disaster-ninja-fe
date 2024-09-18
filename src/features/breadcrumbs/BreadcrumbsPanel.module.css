@@ -1,3 +1,4 @@
 .breadcrumbsPanel {
-  max-width: 85%;
+  background-color: transparent;
+  box-shadow: none;
 }
