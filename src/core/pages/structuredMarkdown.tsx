@@ -30,7 +30,7 @@ function wrapContentInSection(content: React.ReactNode[]) {
   const processElement = (element: React.ReactElement) => {
     const headingMatch = element.type.toString().match(/^h([1-6])$/);
     if (headingMatch) {
-      const level = parseInt(headingMatch[1]);
+      const level = Number.parseInt(headingMatch[1]);
       wrapAndPushContent(level);
       const clonedElement = React.cloneElement(element, {
         key: `heading-${++keyCounter}`,
@@ -87,7 +87,16 @@ export function splitIntoSections(compiled: JSX.Element[]): React.ReactNode[][] 
   return sections;
 }
 
-// Main function to structure markdown content
+/**
+ * Structures compiled markdown content into sections with nested heading levels.
+ *
+ * This function takes an array of JSX elements (typically the output of a markdown compiler)
+ * and organizes it into a structured format. It performs the following operations:
+ * 1. Splits the content into sections based on horizontal rule (<hr>) elements.
+ * 2. Within each section, wraps content in nested <div> elements based on heading levels.
+ * 3. Applies appropriate CSS classes to the wrapping <div> elements for styling purposes.
+ * @param {JSX.Element[]} compiled - An array of JSX elements from markdown-to-jsx compiler.
+ */
 export function structureMarkdownContent(compiled: JSX.Element[]) {
   const sections = splitIntoSections(compiled);
 
