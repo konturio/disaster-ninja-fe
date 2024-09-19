@@ -24,6 +24,7 @@ export const ToolbarContent = () => {
                 return (
                   <ToolbarControl
                     id={id}
+                    datatest-id={id}
                     key={id}
                     settings={settings}
                     stateAtom={stateAtom}

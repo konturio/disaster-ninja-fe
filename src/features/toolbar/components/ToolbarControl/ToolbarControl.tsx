@@ -45,6 +45,7 @@ export function ToolbarControl({
       const icon = resolveValue(settings.typeSettings.icon, state);
       return (
         <ControlComponent
+          id={id}
           key={id}
           ref={refChangeCallback}
           icon={<ToolbarIcon icon={icon} width={16} height={16} />}
@@ -60,6 +61,7 @@ export function ToolbarControl({
     case 'widget':
       return (
         <settings.typeSettings.component
+          id={id}
           key={id}
           controlComponent={ControlComponent}
           onClick={toggleState}

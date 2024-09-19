@@ -36,12 +36,14 @@ for (const project of projects) {
         : availableToolbarFeaturesGuest;
 
     await pageManager.atBrowser.openProject(project);
-    project.name === 'atlas'
-      ? await pageManager.atMap.goToSpecificAreaByUrl(5, 134, 80, project)
-      : await pageManager.fromNavigationMenu.goToMap();
+    if (project.name === 'atlas') {
+      await pageManager.atMap.goToSpecificAreaByUrl(5, 134, 80, project);
+    } else {
+      await pageManager.fromNavigationMenu.goToMap();
+    }
 
     if (project.name !== 'atlas') {
-      await pageManager.atToolBar.checkTextsInToolbar(
+      await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(
         visibleTexts,
         hiddenToolbarFeaturesGuest,
       );

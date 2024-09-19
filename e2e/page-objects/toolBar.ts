@@ -14,15 +14,24 @@ export class ToolBar extends HelperBase {
   }
 
   /**
-   * This method checks that there are some texts that should be visible in toolbar and also some texts that should not be visible there
+   * This method checks that there are some texts/tooltips that should be visible in toolbar and also some texts that should not be visible there
    * @param visibleTexts - array of visible texts
    * @param hiddenTexts - array of hidden texts
    */
 
-  async checkTextsInToolbar(visibleTexts: string[], hiddenTexts: string[]) {
+  async checkTextsAndTooltipsInToolbar(visibleTexts: string[], hiddenTexts: string[]) {
     for (const text of visibleTexts) {
       const element = await this.getButtonByText(text);
       await expect(element).toBeVisible();
+      if (text !== 'Save as reference area') {
+        await element.hover();
+        const tooltip = this.page.getByRole('tooltip', { name: text });
+        await tooltip.waitFor({ state: 'visible' });
+        await this.page.getByText('Toolbar').hover();
+        await tooltip.waitFor({ state: 'hidden' });
+        const toolbarPanel = this.page.getByTestId('toolbar');
+        await toolbarPanel.locator('svg').nth(2).click();
+      }
     }
     for (const text of hiddenTexts) {
       const element = await this.getButtonByText(text);

@@ -67,7 +67,10 @@ for (const project of projects) {
       : await pageManager.fromNavigationMenu.goToMap();
 
     if (project.name !== 'atlas') {
-      await pageManager.atToolBar.checkTextsInToolbar(visibleTexts, hiddenTexts);
+      await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(
+        visibleTexts,
+        hiddenTexts,
+      );
     } else {
       await expect(
         await pageManager.atToolBar.getButtonByText('Measure distance'),

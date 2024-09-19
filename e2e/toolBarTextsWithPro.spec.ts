@@ -108,6 +108,6 @@ for (const project of projects) {
 
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.fromNavigationMenu.goToMap();
-    await pageManager.atToolBar.checkTextsInToolbar(visibleTexts, hiddenTexts);
+    await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(visibleTexts, hiddenTexts);
   });
 }
