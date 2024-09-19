@@ -1,11 +1,12 @@
 import {
-  Outlet,
   RouterProvider,
   createBrowserRouter,
+  useLocation,
+  useOutlet,
   type RouteObject,
 } from 'react-router-dom';
-import { KeepAliveProvider } from 'react-component-keepalive-ts';
-import { Suspense, useLayoutEffect } from 'react';
+import { Suspense, useMemo, useLayoutEffect } from 'react';
+import KeepAlive from 'keepalive-for-react';
 import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
@@ -47,13 +48,22 @@ function Layout() {
         currentRouteAtom={currentRouteAtom}
         getAbsoluteRoute={getAbsoluteRoute}
       >
-        <KeepAliveProvider>
-          <Outlet />
-          <AppLayoutReadyNotifier />
-        </KeepAliveProvider>
+        <OutletWithCache />
+        <AppLayoutReadyNotifier />
       </CommonView>
     </>
   );
+}
+
+function OutletWithCache() {
+  const outlet = useOutlet();
+  const location = useLocation();
+
+  const cacheKey = useMemo(() => {
+    return location.pathname;
+  }, [location]);
+
+  return <KeepAlive activeName={cacheKey}>{outlet}</KeepAlive>;
 }
 
 function initRouter() {

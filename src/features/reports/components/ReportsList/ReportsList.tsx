@@ -2,7 +2,7 @@ import { Text, Heading } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { Trans } from 'react-i18next';
 import { useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
+import Markdown from 'markdown-to-jsx';
 import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
@@ -64,12 +64,12 @@ export function ReportsList({ goToReport }: { goToReport: (id: string) => void }
                   </div>
                 </Heading>
                 <Text type="long-l">
-                  <ReactMarkdown
+                  <Markdown
+                    options={{ overrides: { a: LinkRenderer } }}
                     className={clsx(styles.reportDescr)}
-                    components={{ a: LinkRenderer }}
                   >
                     {report.description_brief}
-                  </ReactMarkdown>
+                  </Markdown>
                 </Text>
               </div>
             );

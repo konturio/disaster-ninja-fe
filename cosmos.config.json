@@ -1,12 +1,14 @@
 {
   "$schema": "./node_modules/react-cosmos/config.schema.json",
+  "plugins": ["react-cosmos-plugin-vite"],
   "watchDirs": ["src"],
   "staticPath": "public",
-  "userDepsFilePath": "cosmos/cosmos.userdeps.js",
-  "experimentalRendererUrl": "http://localhost:8080/renderer.html",
   "globalImports": [
     "node_modules/@konturio/default-theme/variables.css",
     "node_modules/@konturio/default-theme/defaults.css",
     "node_modules/@konturio/default-theme/typography.css"
-  ]
+  ],
+  "hostname": "127.0.0.1",
+  "ignore": ["**/bivariate*"],
+  "vite": { "configPath": "cosmos.vite.config.ts" }
 }

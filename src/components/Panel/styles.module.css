@@ -1,5 +1,6 @@
 .header {
   min-height: 40px;
+  user-select: none;
 }
 
 .headerTitle {

@@ -10,7 +10,10 @@ jest.setup.js
 appconfig.js
 configs/*
 __test__
-fixture
 **/*.test.tsx
 ./**/*.fixture.tsx
 ./**/fixture/*.*
+*.fixture.{ts,tsx}
+__fixtures__
+__mocks__
+

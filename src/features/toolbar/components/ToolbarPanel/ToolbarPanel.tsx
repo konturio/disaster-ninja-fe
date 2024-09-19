@@ -8,7 +8,7 @@ import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import s from './ToolbarPanel.module.css';
 import type { PanelState } from '~utils/hooks/useShortPanelState';
-import type { PanelFeatureInterface } from 'types/featuresTypes';
+import type { PanelFeatureInterface } from '~core/types/featuresTypes';
 
 type PanelProps = {
   fullState?: PanelFeatureInterface | null;

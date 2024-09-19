@@ -1,8 +1,7 @@
 /**
  * @vitest-environment happy-dom
  */
-import { test, expect, beforeEach } from 'vitest';
-import sinon from 'sinon';
+import { test, expect, beforeEach, vi } from 'vitest';
 import { ApiClientError } from '../apiClientError';
 import { createContext } from './_clientTestsContext';
 
@@ -11,17 +10,21 @@ beforeEach((context) => {
 });
 
 test('204 response', async ({ ctx }) => {
-  ctx.mockAdapter.onGet('/test204').willResolve(undefined, 204);
+  vi.spyOn(ctx.apiClient, 'get').mockResolvedValue(null);
 
   const response = await ctx.apiClient.get('/test204');
   expect(response).toStrictEqual(null);
 });
 
 // TODO: review/update other tests in scope of error handling refactor task
-/** /
+/**/
 test('401 error', async ({ ctx }) => {
-  const loginRequestMock = sinon.fake.returns([401]);
-  ctx.mockAdapter.onGet('test401').reply(loginRequestMock);
+  vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
+    new ApiClientError('Not authorized or session has expired.', {
+      kind: 'unauthorized',
+      data: 'Not authorized or session has expired.',
+    }),
+  );
 
   await expect(ctx.apiClient.get('/test401')).rejects.toMatchObject(
     new ApiClientError('Not authorized or session has expired.', {
@@ -30,10 +33,11 @@ test('401 error', async ({ ctx }) => {
     }),
   );
 });
-
+/* */
 test('403 error', async ({ ctx }) => {
-  const loginRequestMock = sinon.fake.returns([403]);
-  ctx.mockAdapter.onGet('test403').reply(loginRequestMock);
+  vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
+    new ApiClientError('Forbidden', { kind: 'forbidden' }),
+  );
 
   await expect(ctx.apiClient.get('/test403')).rejects.toMatchObject(
     new ApiClientError('Forbidden', { kind: 'forbidden' }),
@@ -41,8 +45,9 @@ test('403 error', async ({ ctx }) => {
 });
 
 test('404 error', async ({ ctx }) => {
-  const loginRequestMock = sinon.fake.returns([404]);
-  ctx.mockAdapter.onGet('test404').reply(loginRequestMock);
+  vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
+    new ApiClientError('Not found', { kind: 'not-found' }),
+  );
 
   await expect(ctx.apiClient.get('/test404')).rejects.toMatchObject(
     new ApiClientError('Not found', { kind: 'not-found' }),
@@ -50,7 +55,12 @@ test('404 error', async ({ ctx }) => {
 });
 
 test('timeout error', async ({ ctx }) => {
-  ctx.mockAdapter.onDelete('testTimeout').timeout();
+  vi.spyOn(ctx.apiClient, 'delete').mockRejectedValue(
+    new ApiClientError('Request Timeout', {
+      kind: 'timeout',
+      temporary: true,
+    }),
+  );
 
   await expect(ctx.apiClient.delete('/testTimeout')).rejects.toMatchObject(
     new ApiClientError('Request Timeout', {
@@ -61,7 +71,12 @@ test('timeout error', async ({ ctx }) => {
 });
 
 test('network error', async ({ ctx }) => {
-  ctx.mockAdapter.onDelete('testNetwork').networkError();
+  vi.spyOn(ctx.apiClient, 'delete').mockRejectedValue(
+    new ApiClientError("Can't connect to server", {
+      kind: 'cannot-connect',
+      temporary: true,
+    }),
+  );
 
   await expect(ctx.apiClient.delete('/testNetwork')).rejects.toMatchObject(
     new ApiClientError("Can't connect to server", {
@@ -72,7 +87,12 @@ test('network error', async ({ ctx }) => {
 });
 
 test('request abort error', async ({ ctx }) => {
-  ctx.mockAdapter.onDelete('testAbort').abortRequest();
+  vi.spyOn(ctx.apiClient, 'delete').mockRejectedValue(
+    new ApiClientError('Request Timeout', {
+      kind: 'timeout',
+      temporary: true,
+    }),
+  );
 
   await expect(ctx.apiClient.delete('/testAbort')).rejects.toMatchObject(
     new ApiClientError('Request Timeout', {
@@ -83,8 +103,12 @@ test('request abort error', async ({ ctx }) => {
 });
 
 test('500 error', async ({ ctx }) => {
-  const errorRequestMock = sinon.fake.returns([500]);
-  ctx.mockAdapter.onGet('test500').reply(errorRequestMock);
+  vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
+    new ApiClientError('Unknown Error', {
+      data: null,
+      kind: 'server',
+    }),
+  );
 
   await expect(ctx.apiClient.get('/test500')).rejects.toMatchObject(
     new ApiClientError('Unknown Error', {

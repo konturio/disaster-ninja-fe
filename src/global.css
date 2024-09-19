@@ -1,7 +1,7 @@
-/* 
+/*
   We have desktop-first design. It means all the styles for not desktop resolution
   must be specified under media query
-  
+
   4k viewport: > 1921px
   desktop viewport: > 1530px (but usually not specified)
   laptop viewport: < 1530px
@@ -101,4 +101,12 @@ code {
   text-align: center;
   color: red;
   font-size: calc(1em + 0.5vw);
+}
+
+.keep-alive-render {
+  flex: 1;
+  display: contents;
+  & > .cache-component.active {
+    display: contents;
+  }
 }

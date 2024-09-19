@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { defineConfig, HtmlTagDescriptor, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
@@ -122,8 +122,15 @@ export default ({ mode }) => {
         : {},
     test: {
       coverage: {
-        all: true,
+        provider: 'v8',
+        include: ['src/**/*.[jt]s?(x)'],
+        exclude: [
+          '**/*.{test,spec,fixture}.?(c|m)[jt]s?(x)',
+          '**/__test__/**',
+          '**/{tests,mocks}/**',
+        ],
       },
+      include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'], // '**\/*.{test,spec}.?(c|m)[jt]s?(x)'
       exclude: [
         '**/node_modules/**',
         'e2e/**',

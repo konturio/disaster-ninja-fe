@@ -1,6 +1,6 @@
 import { useAtom } from '@reatom/react-v2';
 import { useCallback } from 'react';
-import ReactMarkdown from 'react-markdown';
+import Markdown from 'markdown-to-jsx';
 import { Tooltip } from '@konturio/ui-kit';
 import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import {
@@ -46,9 +46,12 @@ export function PopupTooltip() {
               onOuterClick={outerClickHandler}
             >
               {typeof tooltip.popup === 'string' ? (
-                <ReactMarkdown components={{ a: LinkRenderer }} className={s.markdown}>
+                <Markdown
+                  options={{ overrides: { a: LinkRenderer } }}
+                  className={s.markdown}
+                >
                   {parseLinksAsTags(tooltip.popup)}
-                </ReactMarkdown>
+                </Markdown>
               ) : (
                 tooltip.popup
               )}
