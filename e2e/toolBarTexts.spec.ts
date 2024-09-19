@@ -47,6 +47,16 @@ for (const project of projects) {
         visibleTexts,
         hiddenToolbarFeaturesGuest,
       );
+      await pageManager.atToolBar.resizeToolbar({ collapse: true });
+      await pageManager.atToolBar.checkTooltipsInShortToolbar(
+        pageManager.atToolBar.getToolBarData(visibleTexts),
+        pageManager.atToolBar.getToolBarData(hiddenToolbarFeaturesGuest),
+      );
+      await pageManager.atToolBar.resizeToolbar({ collapse: false });
+      await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(
+        visibleTexts,
+        hiddenToolbarFeaturesGuest,
+      );
     } else {
       await expect(
         await pageManager.atToolBar.getButtonByText('Measure distance'),

@@ -1,4 +1,3 @@
-import { expect } from '@playwright/test';
 import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
 
@@ -108,6 +107,13 @@ for (const project of projects) {
 
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.fromNavigationMenu.goToMap();
+    await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(visibleTexts, hiddenTexts);
+    await pageManager.atToolBar.resizeToolbar({ collapse: true });
+    await pageManager.atToolBar.checkTooltipsInShortToolbar(
+      pageManager.atToolBar.getToolBarData(visibleTexts),
+      pageManager.atToolBar.getToolBarData(hiddenTexts),
+    );
+    await pageManager.atToolBar.resizeToolbar({ collapse: false });
     await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(visibleTexts, hiddenTexts);
   });
 }

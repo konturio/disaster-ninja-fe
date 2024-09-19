@@ -44,7 +44,7 @@ export const ToolbarButton = forwardRef(function ToolbarButton(
           disabled={disabled}
           active={active}
           onClick={onClick}
-          datatest-id={id}
+          data-testid={id}
         >
           {children}
         </Button>

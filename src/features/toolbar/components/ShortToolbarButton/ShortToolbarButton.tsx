@@ -22,7 +22,7 @@ export const ShortToolbarButton = forwardRef(function ToolbarButton(
     <Tooltip placement="top">
       <TooltipTrigger asChild>
         <Button
-          datatest-id={id}
+          data-testid={id}
           ref={ref}
           variant={variant}
           iconBefore={icon}

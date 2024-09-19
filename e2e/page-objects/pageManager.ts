@@ -1,4 +1,3 @@
-import { expect } from '@playwright/test';
 import { LoginPage } from './loginPage';
 import { ProfilePage } from './profilePage';
 import { HelperBase } from './helperBase';
