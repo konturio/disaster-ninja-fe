@@ -1,22 +1,5 @@
 import React from 'react';
 
-// Helper function to create a wrapped div element
-function createWrappedDiv(level: number, content: React.ReactNode[], key: string) {
-  return React.createElement(
-    'div',
-    {
-      className: `wrap-h${level}`,
-      key,
-    },
-    content,
-  );
-}
-
-// Helper function to create a section element
-function createSection(content: React.ReactNode[], key: string) {
-  return React.createElement('section', { key }, content);
-}
-
 // Function to wrap content in appropriate divs based on heading levels
 function wrapContentInSection(content: React.ReactNode[]) {
   const result: React.ReactNode[] = [];
@@ -27,10 +10,13 @@ function wrapContentInSection(content: React.ReactNode[]) {
     while (stack.length > 0 && stack[stack.length - 1].level >= level) {
       const { level: stackLevel, content } = stack.pop()!;
       if (content.length > 0) {
-        const wrappedContent = createWrappedDiv(
-          stackLevel,
+        const wrappedContent = React.createElement(
+          'div',
+          {
+            className: `wrap-h${stackLevel}`,
+            key: `div-h${stackLevel}-${++keyCounter}`,
+          },
           content,
-          `div-h${stackLevel}-${++keyCounter}`,
         );
         if (stack.length > 0) {
           stack[stack.length - 1].content.push(wrappedContent);
@@ -106,6 +92,10 @@ export function structureMarkdownContent(compiled: JSX.Element[]) {
   const sections = splitIntoSections(compiled);
 
   return sections.map((section, index) =>
-    createSection(wrapContentInSection(section), `section-${index}`),
+    React.createElement(
+      'section',
+      { key: `section-${index}` },
+      wrapContentInSection(section),
+    ),
   );
 }

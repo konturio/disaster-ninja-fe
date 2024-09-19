@@ -4,7 +4,7 @@
 import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
-import { structureMarkdownContent } from './compiler';
+import { structureMarkdownContent } from './structuredMarkdown';
 import { compiler } from 'markdown-to-jsx';
 
 function renderCompiledMarkdown(markdown: string) {

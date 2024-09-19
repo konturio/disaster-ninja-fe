@@ -3,7 +3,7 @@ import { compiler } from 'markdown-to-jsx';
 import { Button } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { CustomLink, CustomImg } from '~core/pages/hypermedia';
-import { splitIntoSections } from '~core/pages/compiler';
+import { splitIntoSections } from '~core/pages/structuredMarkdown';
 import PaymentPlanCardFooter from './components/PaymentPlanCardFooter/PaymentPlanCardFooter';
 import { Price } from './components/Price/Price';
 import s from './components/PaymentPlanCard/PaymentPlanCard.module.css';

@@ -4,7 +4,7 @@ import usePromise from 'react-promise-suspense';
 import { getAsset } from '~core/api/assets';
 import { Article } from '~components/Layout';
 import { CustomImg, CustomLink } from './hypermedia';
-import { structureMarkdownContent } from './compiler';
+import { structureMarkdownContent } from './structuredMarkdown';
 
 type PagesDocumentElement = {
   type: 'css' | 'md';

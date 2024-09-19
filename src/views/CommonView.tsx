@@ -34,10 +34,12 @@ export function CommonView({
     }
   }, [featureFlags[FeatureFlag.INTERCOM]]);
 
+  const sanitizedId = configRepo.get().id.replace(/[^a-zA-Z0-9-]/g, '');
+
   return (
     <>
       <OriginalLogo />
-      <div className={s.common} id={`app-id-${configRepo.get().id}`}>
+      <div className={s.common} id={`app-id-${sanitizedId}`}>
         <Suspense fallback={null}>
           {featureFlags[FeatureFlag.SIDE_BAR] && (
             <SideBar
