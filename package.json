@@ -200,7 +200,7 @@
     "uhtml": "^4.5.9",
     "utility-types": "^3.11.0",
     "vi-fetch": "^0.8.0",
-    "vite": "5.4.2",
+    "vite": "5.4.6",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-mkcert": "^1.17.6",
     "vite-tsconfig-paths": "^5.0.1",
