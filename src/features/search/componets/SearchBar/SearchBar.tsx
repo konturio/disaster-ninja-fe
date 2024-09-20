@@ -9,7 +9,7 @@ import {
   itemSelectAction,
 } from '~features/search/searchLocationAtoms';
 import { fetchMCDAAsyncResource, MCDAAtom } from '~features/search/searchMcdaAtoms';
-import { MCDASearchResult } from '~features/search/componets/MCDASerach/MCDASearchResult';
+import { MCDASearchResult } from '~features/search/componets/MCDASearch/MCDASearchResult';
 import { FeatureFlag } from '~core/shared_state';
 import { configRepo } from '~core/config';
 import { SearchInput } from '../SearchInput/SearchInput';

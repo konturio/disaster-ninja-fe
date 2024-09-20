@@ -51,6 +51,10 @@ export const resetAction = action((ctx) => {
   fetchLocationsAsyncResource.dataAtom.reset(ctx);
   fetchLocationsAsyncResource.errorAtom.reset(ctx);
   fetchLocationsAsyncResource.statusesAtom.reset(ctx);
+
+  fetchMCDAAsyncResource.dataAtom.reset(ctx);
+  fetchMCDAAsyncResource.errorAtom.reset(ctx);
+  fetchMCDAAsyncResource.statusesAtom.reset(ctx);
 });
 
 export const itemSelectAction = action((ctx, index: number) => {
