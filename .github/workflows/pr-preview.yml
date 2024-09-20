@@ -63,7 +63,7 @@ jobs:
 
       - name: Export Cosmos
         if: github.event.action != 'closed'
-        run: pnpm cosmos:export
+        run: pnpm cosmos:build
 
       - name: Deploy main app to Surge
         uses: afc163/surge-preview@v1
