@@ -8,7 +8,7 @@ on:
 
 jobs:
   preview:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       PREVIEW_API_DOMAIN: 'test-apps-ninja02.konturlabs.com'
       KEYCLOAK_URL: 'https://dev-keycloak.k8s-01.konturlabs.com'
@@ -19,11 +19,6 @@ jobs:
         uses: actions/checkout@v4.1.7
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.0.3
-        with:
-          node-version: 20
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4.0.0
@@ -57,13 +52,9 @@ jobs:
           sed -i "s|VITE_BASE_PATH=/active/|VITE_BASE_PATH=/|" .env.production
           sed -i "s|VITE_STATIC_PATH=static/|VITE_STATIC_PATH=|" .env.production
 
-      - name: Build
+      - name: Build main app
         if: github.event.action != 'closed'
         run: pnpm build
-
-      - name: Export Cosmos
-        if: github.event.action != 'closed'
-        run: pnpm cosmos:build
 
       - name: Deploy main app to Surge
         uses: afc163/surge-preview@v1
@@ -75,6 +66,10 @@ jobs:
           build: echo "Skip build"
           failOnError: 'true'
           teardown: 'true'
+
+      - name: Build Cosmos
+        if: github.event.action != 'closed'
+        run: pnpm cosmos:build
 
       - name: Deploy Cosmos to Surge
         uses: afc163/surge-preview@v1
@@ -106,6 +101,6 @@ jobs:
               repo: context.repo.repo,
               body: `Preview deployments are ready!
               
-              Main app: ${{ steps.get_preview_urls.outputs.PREVIEW_MAIN_URL }}
-              Cosmos: ${{ steps.get_preview_urls.outputs.PREVIEW_COSMOS_URL }}`
+              Main app: <${{ steps.get_preview_urls.outputs.PREVIEW_MAIN_URL }}>
+              Cosmos: <${{ steps.get_preview_urls.outputs.PREVIEW_COSMOS_URL }}>`
             })
