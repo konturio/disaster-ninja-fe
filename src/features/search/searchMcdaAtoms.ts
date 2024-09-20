@@ -21,12 +21,6 @@ export const MCDAAtom = atom((ctx) => {
   const loading = ctx.spy(fetchMCDAAsyncResource.pendingAtom) > 0;
   const error = ctx.spy(fetchMCDAAsyncResource.errorAtom);
 
-  // if (json) {
-  //   const config: Partial<MCDAConfig> =
-  //     json?.type === 'mcda' ? json.config : json;
-  //   store.dispatch([mcdaLayerAtom.createMCDALayer(config)]);
-  // }
-
   return { data, loading, error };
 });
 
