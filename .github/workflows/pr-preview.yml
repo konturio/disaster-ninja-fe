@@ -7,58 +7,57 @@ on:
     types: [opened, synchronize, reopened, closed]
 
 jobs:
-  preview:
+  prepare:
     runs-on: ubuntu-24.04
     env:
       PREVIEW_API_DOMAIN: 'test-apps-ninja02.konturlabs.com'
       KEYCLOAK_URL: 'https://dev-keycloak.k8s-01.konturlabs.com'
       KEYCLOAK_REALM: 'dev'
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4.0.0
+      - uses: pnpm/action-setup@v2
         with:
-          version: ^9.x.x
-
-      - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pnpm-store
-            node_modules
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          version: 9
 
       - name: Install dependencies
-        if: github.event.action != 'closed'
         run: pnpm install
 
-      - name: Apply domain changes in config files
+      - name: Apply domain changes
         if: github.event.action != 'closed'
         run: |
           sed -i "s|https://disaster.ninja|https://${PREVIEW_API_DOMAIN}|" configs/config.default.json
           sed -i "s|\"KEYCLOAK_URL\": \"https://keycloak01.kontur.io\"|\"KEYCLOAK_URL\": \"${KEYCLOAK_URL}\"|" configs/config.default.json
           sed -i "s|\"KEYCLOAK_REALM\": \"kontur\"|\"KEYCLOAK_REALM\": \"${KEYCLOAK_REALM}\"|" configs/config.default.json
-
-      - name: Update .env.production
-        if: github.event.action != 'closed'
-        run: |
           sed -i "s|VITE_BASE_PATH=/active/|VITE_BASE_PATH=/|" .env.production
           sed -i "s|VITE_STATIC_PATH=static/|VITE_STATIC_PATH=|" .env.production
 
-      - name: Build main app
+      - name: Build main app and Cosmos
         if: github.event.action != 'closed'
-        run: pnpm build
+        run: |
+          pnpm build
+          pnpm cosmos:build
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            ${{ github.workspace }}/dist
+            ${{ github.workspace }}/cosmos-export
+
+  deploy_main:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: .
 
       - name: Deploy main app to Surge
         uses: afc163/surge-preview@v1
-        id: preview_main
         with:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -67,13 +66,17 @@ jobs:
           failOnError: 'true'
           teardown: 'true'
 
-      - name: Build Cosmos
-        if: github.event.action != 'closed'
-        run: pnpm cosmos:build
+  deploy_cosmos:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: .
 
       - name: Deploy Cosmos to Surge
         uses: afc163/surge-preview@v1
-        id: preview_cosmos
         with:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -81,26 +84,3 @@ jobs:
           build: echo "Skip build"
           failOnError: 'true'
           teardown: 'true'
-
-      - name: Get preview URLs
-        if: github.event.action != 'closed'
-        id: get_preview_urls
-        run: |
-          echo "PREVIEW_MAIN_URL=${{ steps.preview_main.outputs.preview_url }}" >> $GITHUB_OUTPUT
-          echo "PREVIEW_COSMOS_URL=${{ steps.preview_cosmos.outputs.preview_url }}" >> $GITHUB_OUTPUT
-
-      - name: Comment PR
-        if: github.event.action != 'closed'
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `Preview deployments are ready!
-              
-              Main app: <${{ steps.get_preview_urls.outputs.PREVIEW_MAIN_URL }}>
-              Cosmos: <${{ steps.get_preview_urls.outputs.PREVIEW_COSMOS_URL }}>`
-            })
