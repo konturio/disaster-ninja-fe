@@ -6,9 +6,11 @@ import {
   withErrorAtom,
   withStatusesAtom,
 } from '@reatom/async';
-import { getLocations } from '~core/api/locations';
-import { currentMapPositionAtom } from '~core/shared_state';
-import type { LocationProperties } from '~core/api/locations';
+import { currentMapPositionAtom, FeatureFlag } from '~core/shared_state';
+import { getLocations } from '~core/api/search';
+import { fetchMCDAAsyncResource } from '~features/search/searchMcdaAtoms';
+import { configRepo } from '~core/config';
+import type { LocationProperties } from '~core/api/search';
 import type { Feature, Geometry } from 'geojson';
 
 export const fetchLocationsAsyncResource = reatomAsync(
@@ -37,15 +39,22 @@ export const locationsAtom = atom<Feature<Geometry, LocationProperties>[]>((ctx)
   return locationsResult?.locations?.features || [];
 });
 
-export const searchLocationsAction = action(async (ctx, query) => {
+export const searchQueryAction = action(async (ctx, query) => {
   resetAction(ctx);
   fetchLocationsAsyncResource(ctx, query);
+  if (configRepo.get().features[FeatureFlag.LLM_MCDA]) {
+    fetchMCDAAsyncResource(ctx, query);
+  }
 });
 
 export const resetAction = action((ctx) => {
   fetchLocationsAsyncResource.dataAtom.reset(ctx);
   fetchLocationsAsyncResource.errorAtom.reset(ctx);
   fetchLocationsAsyncResource.statusesAtom.reset(ctx);
+
+  fetchMCDAAsyncResource.dataAtom.reset(ctx);
+  fetchMCDAAsyncResource.errorAtom.reset(ctx);
+  fetchMCDAAsyncResource.statusesAtom.reset(ctx);
 });
 
 export const itemSelectAction = action((ctx, index: number) => {
