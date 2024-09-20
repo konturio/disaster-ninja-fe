@@ -49,6 +49,7 @@ export const AppFeature = {
   SUBSCRIPTION: 'subscription',
   SEARCH_LOCATION: 'search_locations',
   SEARCH_BAR: 'search_bar',
+  LLM_MCDA: 'llm_mcda',
 } as const;
 
 export type AppFeatureType = (typeof AppFeature)[keyof typeof AppFeature];

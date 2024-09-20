@@ -4,15 +4,21 @@ import { useAction, useAtom } from '@reatom/npm-react';
 import { useSearchBar } from '~features/search/hooks/useSearchBar';
 import {
   resetAction,
-  searchLocationsAction,
+  searchQueryAction,
   searchLocationsAtom,
   itemSelectAction,
 } from '~features/search/searchLocationAtoms';
+import { fetchMCDAAsyncResource, MCDAAtom } from '~features/search/searchMcdaAtoms';
+import { MCDASearchResult } from '~features/search/componets/MCDASerach/MCDASearchResult';
+import { FeatureFlag } from '~core/shared_state';
+import { configRepo } from '~core/config';
 import { SearchInput } from '../SearchInput/SearchInput';
 import style from './SearchBar.module.css';
 
 export function SearchBar() {
-  const onSearch = useAction(searchLocationsAction);
+  const featureFlags = configRepo.get().features;
+
+  const onSearch = useAction(searchQueryAction);
   const onReset = useAction(resetAction);
   const onItemSelect = useAction(itemSelectAction);
 
@@ -55,16 +61,19 @@ export function SearchBar() {
     />
   );
 
-  const renderItems = () =>
-    locations.map((item, index) => (
-      <SelectItem
-        item={{ ...item, hasDivider: true }}
-        key={item.value}
-        highlighted={highlightedIndex === index}
-        className={style.searchItem}
-        itemProps={{ onClick: () => handleItemSelect(index), role: 'option' }}
-      />
-    ));
+  const renderItems = () => (
+    <>
+      {locations.map((item, index) => (
+        <SelectItem
+          item={{ ...item, hasDivider: true }}
+          key={item.value}
+          highlighted={highlightedIndex === index}
+          className={style.searchItem}
+          itemProps={{ onClick: () => handleItemSelect(index), role: 'option' }}
+        />
+      ))}
+    </>
+  );
 
   const renderMenu = () => {
     if (error) return renderError();
@@ -84,7 +93,12 @@ export function SearchBar() {
         onSearch={handleSearch}
         classes={{ inputWrapper: style.searchInputWrapper, button: style.searchItem }}
       />
-      {isMenuOpen && <ul className={cn(style.searchMenu)}>{renderMenu()}</ul>}
+      {isMenuOpen && (
+        <ul className={cn(style.searchMenu)}>
+          {featureFlags[FeatureFlag.LLM_MCDA] && <MCDASearchResult />}
+          {renderMenu()}
+        </ul>
+      )}
     </div>
   );
 }
