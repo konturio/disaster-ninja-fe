@@ -37,11 +37,16 @@ jobs:
           pnpm cosmos:build
 
       - uses: actions/upload-artifact@v3
+        if: github.event.action != 'closed'
         with:
-          name: build-artifacts
-          path: |
-            ${{ github.workspace }}/dist
-            ${{ github.workspace }}/cosmos-export
+          name: main-app
+          path: ${{ github.workspace }}/dist
+
+      - uses: actions/upload-artifact@v3
+        if: github.event.action != 'closed'
+        with:
+          name: cosmos
+          path: ${{ github.workspace }}/cosmos-export
 
   deploy-main:
     needs: prepare
@@ -49,8 +54,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: build-artifacts
-          path: .
+          name: main-app
+          path: dist
 
       - name: Deploy main app to Surge
         uses: afc163/surge-preview@v1
@@ -58,6 +63,7 @@ jobs:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dist: dist
+          build: echo "Skip build"
           failOnError: 'true'
           teardown: 'true'
 
@@ -67,8 +73,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: build-artifacts
-          path: .
+          name: cosmos
+          path: cosmos-export
 
       - name: Deploy Cosmos to Surge
         uses: afc163/surge-preview@v1
@@ -76,5 +82,6 @@ jobs:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dist: cosmos-export
+          build: echo "Skip build"
           failOnError: 'true'
           teardown: 'true'
