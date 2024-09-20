@@ -3,8 +3,6 @@ name: PR Preview
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
-  pull_request_target:
-    types: [opened, synchronize, reopened, closed]
 
 jobs:
   prepare:
@@ -15,8 +13,6 @@ jobs:
       KEYCLOAK_REALM: 'dev'
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: pnpm/action-setup@v2
         with:
@@ -47,7 +43,7 @@ jobs:
             ${{ github.workspace }}/dist
             ${{ github.workspace }}/cosmos-export
 
-  deploy_main:
+  deploy-main:
     needs: prepare
     runs-on: ubuntu-24.04
     steps:
@@ -62,11 +58,10 @@ jobs:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dist: dist
-          build: echo "Skip build"
           failOnError: 'true'
           teardown: 'true'
 
-  deploy_cosmos:
+  deploy-cosmos:
     needs: prepare
     runs-on: ubuntu-24.04
     steps:
@@ -81,6 +76,5 @@ jobs:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dist: cosmos-export
-          build: echo "Skip build"
           failOnError: 'true'
           teardown: 'true'
