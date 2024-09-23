@@ -13,9 +13,7 @@ const BreadcrumbsPanel = () => {
     <Panel resize="none" className={s.breadcrumbsPanel}>
       <Breadcrumbs items={items} onClick={handleClick} />
     </Panel>
-  ) : (
-    <></>
-  );
+  ) : null;
 };
 
 export default BreadcrumbsPanel;

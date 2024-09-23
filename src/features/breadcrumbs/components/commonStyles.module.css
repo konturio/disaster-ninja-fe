@@ -1,5 +1,5 @@
 .separator {
-  margin: 0 4px;
+  margin: 0 var(--half-unit);
   display: flex;
   color: var(--faint-strong-down);
 }

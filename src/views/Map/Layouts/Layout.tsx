@@ -1,4 +1,3 @@
-import { Text } from '@konturio/ui-kit';
 import {
   IS_LAPTOP_QUERY,
   IS_MOBILE_QUERY,
