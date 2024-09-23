@@ -3,7 +3,9 @@
   display: inline-flex;
   flex-wrap: wrap;
   padding: var(--half-unit) var(--unit);
-  margin: 0;
+  /* margin added to allow space for shadows */
+  margin: var(--half-unit);
   overflow: auto;
   background-color: var(--base-weak);
+  box-shadow: var(--shadow-small);
 }

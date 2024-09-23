@@ -1,4 +1,8 @@
 .breadcrumbsPanel {
+  /* panel is made transparent to allow Breadcrumbs component adapt to its content size */
   background-color: transparent;
   box-shadow: none;
+  overflow: visible;
+  /* negative margin used to compensate for content's margin */
+  margin: calc(-1 * var(--half-unit));
 }
