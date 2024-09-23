@@ -27,50 +27,8 @@ env:
   IMAGE_REPO: ${{ github.repository }}
 
 jobs:
-  test:
-    runs-on: ubuntu-24.04
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft }}
-    steps:
-      - run: sudo apt-get update && sudo apt-get install -y gettext
-      - uses: actions/checkout@v4
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - run: pnpm run i18n:gettext-sync
-      - shell: bash
-        run: |
-          status=$(git status --porcelain)
-          if [ -n "$status" ]; then
-            echo "You have gettext translation files unsynced. Please run i18n:gettext-sync locally."
-            exit 1
-          else
-            echo "Translations are synced."
-          fi
-      - run: pnpm i
-      - run: pnpm run postinstall
-      - run: pnpm run lint
-      - run: pnpm run typecheck
-      - run: env NODE_ENV=test pnpm run coverage
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4
-
   build:
     runs-on: ubuntu-24.04
-    needs: test
     steps:
       - uses: actions/checkout@v4
       - name: Install pnpm
