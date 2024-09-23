@@ -46,7 +46,7 @@ export function ReferenceAreaInfo() {
           <Text type="long-m" className={s.hint}>
             {i18n.t('profile.reference_area.select_are_on_the_map')}
           </Text>
-          <div className={s.clickableText} onClick={() => goTo('/')}>
+          <div className={s.clickableText} onClick={() => goTo('/map')}>
             {i18n.t('profile.reference_area.set_the_reference_area')}
           </div>
         </>
