@@ -32,7 +32,7 @@ const Breadcrumbs = ({
       .slice(start, end + 1)
       .map((crumb, index) => (
         <BreadcrumbItem
-          key={start + index}
+          key={crumb.value}
           label={crumb.label}
           value={crumb.value}
           active={start + index === items.length - 1}
