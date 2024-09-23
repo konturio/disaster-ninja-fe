@@ -16,9 +16,6 @@
   "FEATURES_BY_DEFAULT": [
     "events_list",
     "current_event",
-    "reports",
-    "current_episode",
-    "episode_list",
     "osm_edit_link",
     "side_bar",
     "analytics_panel",
@@ -29,7 +26,6 @@
     "draw_tools",
     "geometry_uploader",
     "legend_panel",
-    "url_store",
     "feature_settings",
     "layers_in_area",
     "toasts",
