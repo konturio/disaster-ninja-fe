@@ -10,7 +10,7 @@
   "KEYCLOAK_CLIENT_ID": "kontur_platform",
   "SENTRY_DSN": "https://82a788726e8b5cafa3306f7e5d1b78a7@o4506761881255936.ingest.sentry.io/4506770155765760",
   "AUTOFOCUS_ZOOM": 13,
-  "INTERCOM_DEFAULT_NAME": null,
+  "INTERCOM_DEFAULT_NAME": "null",
   "INTERCOM_APP_ID": "e59cl64z",
   "INTERCOM_SELECTOR": "#kontur_header_chat_btn",
   "FEATURES_BY_DEFAULT": [
