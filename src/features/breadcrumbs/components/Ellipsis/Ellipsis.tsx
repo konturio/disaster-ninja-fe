@@ -30,7 +30,7 @@ export const Ellipsis = React.memo(
         <li className={styles.breadcrumbItem}>
           <Menu>
             <MenuButton>
-              <div style={{ display: 'flex' }}>
+              <div className={s.ellipsisButton}>
                 {ellipsis}
                 <div className={commonStyles.separator}>{separator}</div>
               </div>
