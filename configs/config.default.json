@@ -1,12 +1,19 @@
 {
-  "API_GATEWAY": "https://disaster.ninja/active/api",
-  "REPORTS_API": "https://disaster.ninja/active/reports",
+  "API_GATEWAY": "/active/api",
+  "REPORTS_API": "/active/reports",
   "BIVARIATE_TILES_RELATIVE_URL": "api/tiles/bivariate/v1/",
   "BIVARIATE_TILES_INDICATORS_CLASS": "all",
   "REFRESH_INTERVAL_SEC": 300,
-  "MAP_BASE_STYLE": "https://disaster.ninja/tiles/basemap/style_ninja.json",
-  "MAP_BLANK_SPACE_ID": "map-view",
+  "MAP_BASE_STYLE": "https://dev-basemap-tileserver.k8s-01.konturlabs.com/layers/tiles/basemap/style_ninja.json",
+  "KEYCLOAK_URL": "https://dev-keycloak.k8s-01.konturlabs.com",
+  "KEYCLOAK_REALM": "dev",
+  "KEYCLOAK_CLIENT_ID": "kontur_platform",
+  "SENTRY_DSN": "https://82a788726e8b5cafa3306f7e5d1b78a7@o4506761881255936.ingest.sentry.io/4506770155765760",
+  "AUTOFOCUS_PADDINGS": [16, 300, 16, 336],
   "AUTOFOCUS_ZOOM": 13,
+  "INTERCOM_DEFAULT_NAME": null,
+  "INTERCOM_APP_ID": "e59cl64z",
+  "INTERCOM_SELECTOR": "#kontur_header_chat_btn",
   "FEATURES_BY_DEFAULT": [
     "events_list",
     "current_event",
@@ -23,17 +30,20 @@
     "draw_tools",
     "geometry_uploader",
     "legend_panel",
+    "url_store",
     "feature_settings",
     "layers_in_area",
     "toasts",
     "interactive_map",
     "feed_selector",
     "header",
+    "intercom",
     "geocoder",
     "communities",
     "tooltip"
   ],
   "DEFAULT_FEED": "kontur-public",
+  "MAP_BLANK_SPACE_ID": "map-view",
   "DEFAULT_LANGUAGE": "en",
   "OSM_EDITORS": [
     {
@@ -56,9 +66,5 @@
       "title": "RapiD",
       "url": "https://mapwith.ai/rapid#map="
     }
-  ],
-  "KEYCLOAK_URL": "https://keycloak01.kontur.io",
-  "KEYCLOAK_REALM": "kontur",
-  "KEYCLOAK_CLIENT_ID": "kontur_platform",
-  "SENTRY_DSN": "https://fixme@dsn.ingest.sentry.io/project-id"
+  ]
 }
