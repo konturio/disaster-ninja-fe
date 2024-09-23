@@ -1,0 +1,32 @@
+.breadcrumbItem {
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  border-radius: var(--border-radius);
+  color: var(--text-faint-strong-up);
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--base-weak),
+      0 0 0 4px var(--complimentary-strong);
+  }
+  &:hover {
+    color: var(--base-strong-down);
+  }
+  &.active {
+    color: var(--base-strong);
+  }
+}
+
+.breadcrumbLabel {
+  text-wrap: nowrap;
+
+  &.active {
+    font-weight: 500;
+  }
+}

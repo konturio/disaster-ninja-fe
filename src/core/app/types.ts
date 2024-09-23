@@ -49,6 +49,7 @@ export const AppFeature = {
   SUBSCRIPTION: 'subscription',
   SEARCH_LOCATION: 'search_locations',
   SEARCH_BAR: 'search_bar',
+  ADMIN_BOUNDARY_BREADCRUMBS: 'admin_boundary_breadcrumbs',
   LLM_MCDA: 'llm_mcda',
 } as const;
 

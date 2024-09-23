@@ -18,6 +18,7 @@ export function Layout({
   footer,
   editPanel,
   layerFeaturesPanel,
+  breadcrumbs,
   searchBar,
 }: {
   disasters: ReactNode;
@@ -29,6 +30,7 @@ export function Layout({
   footer: ReactNode;
   editPanel: ReactNode;
   layerFeaturesPanel: ReactNode;
+  breadcrumbs: ReactNode;
   searchBar: ReactNode;
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
@@ -47,7 +49,12 @@ export function Layout({
             {layerFeaturesPanel}
           </>
         }
-        topColumn={toolbar}
+        topColumn={
+          <>
+            {breadcrumbs}
+            {toolbar}
+          </>
+        }
         mapColumnBottom={timeline}
         footer={footer}
       />
@@ -67,7 +74,12 @@ export function Layout({
             {layerFeaturesPanel}
           </>
         }
-        mapColumnTop={toolbar}
+        mapColumnTop={
+          <>
+            {breadcrumbs}
+            {toolbar}
+          </>
+        }
         mapColumnBottom={timeline}
         footer={footer}
       />
@@ -82,7 +94,12 @@ export function Layout({
           {disasters}
         </>
       }
-      mapColumnTop={toolbar}
+      mapColumnTop={
+        <>
+          {breadcrumbs}
+          {toolbar}
+        </>
+      }
       mapColumnBottom={timeline}
       layersColumn={
         <>

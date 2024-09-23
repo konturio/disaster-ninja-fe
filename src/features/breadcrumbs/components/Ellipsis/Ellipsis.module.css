@@ -1,0 +1,7 @@
+.popover {
+  z-index: 1;
+}
+
+.ellipsisButton {
+  display: flex;
+}
