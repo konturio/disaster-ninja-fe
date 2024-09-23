@@ -3,7 +3,7 @@ import QueryStringAddon from 'wretch/addons/queryString';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { KONTUR_DEBUG } from '~utils/debug';
 import { wait } from '~utils/test/wait';
-import { typedObjectEntries } from '../../types/entry';
+import { typedObjectEntries } from '~core/types/entry';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
 import { autoParseBody } from './utils';

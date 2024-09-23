@@ -45,7 +45,7 @@ import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../../utils/layersOrder/layersOrder';
 import type { GeoJsonProperties } from 'geojson';
 import type { LayerStyle } from '../../types/style';
-import type { RGBAColor } from 'types/color';
+import type { RGBAColor } from '~core/types/color';
 
 const convertFillColorToRGBA = (fillColor: RGBAColor, withTransparency = true): string =>
   `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${

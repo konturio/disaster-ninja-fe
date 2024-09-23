@@ -16,15 +16,20 @@ export const currentRouteAtom = createAtom(
     const routesConfig = get('availableRoutesAtom');
     if (routesConfig === null) return null;
     const location = get('currentLocationAtom');
+    const normalizedLocation = stripBasename(location.pathname, configRepo.get().baseUrl);
+
+    const matchedRoute = routesConfig.routes.find((route) => {
+      const path = getAbsoluteRoute(route);
+      return matchPath({ path, exact: true }, normalizedLocation);
+    });
+
+    if (matchedRoute) {
+      return matchedRoute;
+    }
+
+    // fallback to default route
     return (
-      routesConfig.routes.find((route) => {
-        const path = getAbsoluteRoute(route);
-        const normalizedLocation = stripBasename(
-          location.pathname,
-          configRepo.get().baseUrl,
-        );
-        return matchPath({ path, exact: true }, normalizedLocation);
-      }) ?? null
+      routesConfig.routes.find((route) => route.id === routesConfig.defaultRoute) ?? null
     );
   },
   'currentRouteAtom',

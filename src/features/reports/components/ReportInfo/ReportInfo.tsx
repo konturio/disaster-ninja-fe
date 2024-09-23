@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
+import Markdown from 'markdown-to-jsx';
 import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
@@ -56,12 +56,12 @@ export function ReportInfo() {
 
       {report?.description_full && (
         <Text type="long-l">
-          <ReactMarkdown
+          <Markdown
             className={commonStyles.description}
-            components={{ a: LinkRenderer }}
+            options={{ overrides: { a: LinkRenderer } }}
           >
             {report.description_full}
-          </ReactMarkdown>
+          </Markdown>
         </Text>
       )}
 

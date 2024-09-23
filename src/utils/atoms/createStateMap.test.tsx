@@ -18,10 +18,10 @@ test('Show loading state', () => {
   });
   const component = statesToComponents({
     ready: () => null,
-    loading: <>Loading spinner</>,
+    loading: <>Preloader</>,
   });
 
-  expect(component).toEqual(<>Loading spinner</>);
+  expect(component).toEqual(<>Preloader</>);
 });
 
 test('Replace init state with loading after delay', async () => {
@@ -37,35 +37,36 @@ test('Replace init state with loading after delay', async () => {
   const component = statesToComponents({
     init: <>Init</>,
     ready: () => null,
-    loading: <>Loading spinner</>,
+    loading: <>Preloader</>,
   });
   render(<>{component}</>, {
     container: createIsolatedContainer(),
   });
   expect(screen.getByText(/Init/i)).toBeDefined();
   await wait(2);
-  expect(screen.getByText(/Loading spinner/i)).toBeDefined();
+  expect(screen.getByText(/Preloader/i)).toBeDefined();
 });
 
 test('Replace ready state with loading after delay', async () => {
   const statesToComponents = createStateMap(
-    {
-      error: null,
-      loading: true,
-      data: {},
-    },
+    { error: null, loading: true, data: {} },
     { loadingStateDelayMs: 1000 },
   );
 
-  const component = statesToComponents({
-    init: <>Init</>,
-    loading: <>Loading spinner</>,
-    ready: () => <>Data</>,
-  });
-  render(<>{component}</>, {
-    container: createIsolatedContainer(),
-  });
+  render(
+    <>
+      {statesToComponents({
+        init: <>Init</>,
+        loading: <>Preloader</>,
+        ready: () => <>Data</>,
+      })}
+    </>,
+    {
+      container: createIsolatedContainer(),
+    },
+  );
+
   expect(screen.getByText(/Data/i)).toBeDefined();
   await wait(1);
-  expect(screen.getByText(/Loading spinner/i)).toBeDefined();
+  expect(screen.getByText(/Preloader/i)).toBeDefined();
 });

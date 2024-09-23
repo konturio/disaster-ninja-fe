@@ -1,15 +1,17 @@
 import {
-  Outlet,
   RouterProvider,
   createBrowserRouter,
+  useLocation,
+  useOutlet,
   type RouteObject,
 } from 'react-router-dom';
-import { KeepAliveProvider } from 'react-component-keepalive-ts';
-import { Suspense } from 'react';
+import { Suspense, useMemo, useLayoutEffect } from 'react';
+import KeepAlive from 'keepalive-for-react';
 import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { landUser, userWasLanded } from '~core/app/userWasLanded';
+import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
 import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
@@ -29,6 +31,11 @@ globalThis.addEventListener(NAVIGATE_EVENT, ((e: CustomEvent) => {
   routerInstance.navigate(getAbsoluteRoute(slug) + globalThis.location.search);
 }) as EventListener);
 
+// update Title
+currentRouteAtom.v3atom.onChange((ctx, route) => {
+  document.title = `${configRepo.get().name} - ${route?.title || ''}`;
+});
+
 export function Router() {
   return <RouterProvider router={routerInstance} />;
 }
@@ -41,12 +48,22 @@ function Layout() {
         currentRouteAtom={currentRouteAtom}
         getAbsoluteRoute={getAbsoluteRoute}
       >
-        <KeepAliveProvider>
-          <Outlet />
-        </KeepAliveProvider>
+        <OutletWithCache />
+        <AppLayoutReadyNotifier />
       </CommonView>
     </>
   );
+}
+
+function OutletWithCache() {
+  const outlet = useOutlet();
+  const location = useLocation();
+
+  const cacheKey = useMemo(() => {
+    return location.pathname;
+  }, [location]);
+
+  return <KeepAlive activeName={cacheKey}>{outlet}</KeepAlive>;
 }
 
 function initRouter() {
@@ -75,7 +92,7 @@ function initRouter() {
 
   if (router.state.matches.length < 2) {
     // if we are on root /, redirect to default child route
-    // router.state.matches[1] is Layout route, router.state.matches[2] etc will be actual app pages
+    // router.state.matches[0] is Layout route, router.state.matches[1] etc will be actual app pages
     initialRedirect = defaultRoute;
   }
 
@@ -90,7 +107,7 @@ function initRouter() {
   }
 
   if (initialRedirect !== false) {
-    router.navigate(getAbsoluteRoute(initialRedirect));
+    router.navigate(getAbsoluteRoute(initialRedirect) + globalThis.location.search, {});
   }
 
   // Run last parts of app init requiring router
@@ -99,4 +116,12 @@ function initRouter() {
   });
 
   return router;
+}
+
+export function AppLayoutReadyNotifier() {
+  useLayoutEffect(() => {
+    dispatchMetricsEventOnce('router-layout-ready', {});
+  }, []);
+
+  return null;
 }

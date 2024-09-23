@@ -4,7 +4,6 @@ import { useAtom } from '@reatom/react-v2';
 import { configRepo } from '~core/config';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
-import { useTabNameUpdate } from '~utils/hooks/useTabNameUpdate';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import s from './CommonView.module.css';
@@ -26,7 +25,6 @@ export function CommonView({
   getAbsoluteRoute: (path: string | AppRoute) => string;
 }>) {
   const [featureFlags] = useAtom(featureFlagsAtom);
-  useTabNameUpdate(configRepo.get().name);
 
   useEffect(() => {
     if (featureFlags[FeatureFlag.INTERCOM]) {
@@ -36,10 +34,12 @@ export function CommonView({
     }
   }, [featureFlags[FeatureFlag.INTERCOM]]);
 
+  const sanitizedId = configRepo.get().id.replace(/[^a-zA-Z0-9-]/g, '');
+
   return (
     <>
       <OriginalLogo />
-      <div className={s.common}>
+      <div className={s.common} id={`app-id-${sanitizedId}`}>
         <Suspense fallback={null}>
           {featureFlags[FeatureFlag.SIDE_BAR] && (
             <SideBar
