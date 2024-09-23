@@ -3,7 +3,7 @@ import { lazily } from 'react-lazily';
 import { Suspense } from 'react';
 import { i18n } from '~core/localization';
 import { MAX_HEIGHT, MIN_HEIGHT } from './constants';
-import type { PanelFeatureInterface } from 'types/featuresTypes';
+import type { PanelFeatureInterface } from '~core/types/featuresTypes';
 
 export const analyticsPanel = (
   isStandardAnalyticsOn: boolean,

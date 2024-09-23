@@ -47,9 +47,6 @@
       "~services/*": [
         "services/*"
       ],
-      "~appModule/*": [
-        "redux-modules/appModule/*"
-      ],
       "~core/*": [
         "core/*"
       ],

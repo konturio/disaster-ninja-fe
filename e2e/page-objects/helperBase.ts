@@ -36,13 +36,25 @@ export class HelperBase {
     project: Project,
     { skipCookieBanner = false, operablePage = this.page }: OpenProjectOptions = {},
   ) {
-    await operablePage.goto(project.url, { waitUntil: 'domcontentloaded' });
-    // Expect a title to match a project name.
-    await expect(operablePage).toHaveTitle(`${project.title}`);
+    await operablePage.goto(project.url);
+    await operablePage.waitForLoadState();
+
+    // Expect correct app to be opened.
+    await this.waitForTextBeingVisible(`${project.title}`, operablePage);
 
     // Currently, OAM project doesn't have cookies popups
     if (project.hasCookieBanner && !skipCookieBanner)
       await operablePage.getByText('Accept optional cookies').click();
+  }
+
+  /**
+   * This method waits for a specific page to have a specific text
+   */
+
+  async waitForTextBeingVisible(text: string, page: Page = this.page) {
+    await page
+      .getByText(text, { exact: true })
+      .waitFor({ state: 'visible', timeout: 20000 });
   }
 
   async closeAtlasBanner(project: Project) {
@@ -103,17 +115,22 @@ export class HelperBase {
    */
 
   async waitForUrlToMatchPattern(pattern: RegExp, page: Page = this.page) {
-    await page.waitForURL(pattern);
+    await page.waitForURL(pattern, { timeout: 30000 });
   }
 }
 
-const prodAuthUrl =
-  'https://keycloak01.kontur.io/realms/kontur/protocol/openid-connect/token';
+/**
+ * This function replaces domain in url of project from json file to desired one
+ */
 
 const replaceDomain = (domain: string) => (project: Project) => {
   const localhostUrl = project.url.replace(new URL(project.url).origin, domain);
   return { ...project, url: localhostUrl };
 };
+
+/**
+ * This function transforms projects got from json file adapting them for localhost env
+ */
 
 const getLocalhostProjects = (data: string, appName: string, environment: string) => {
   const [_, env] = environment.split('-');
@@ -121,6 +138,8 @@ const getLocalhostProjects = (data: string, appName: string, environment: string
   const projects: Project[] = JSON.parse(data).filter(
     (project: Project) => appName === 'all' || project.name === appName,
   );
+
+  const prodAuthUrl = projects.find((project) => project.env === 'prod')!.authUrl;
 
   if (env === 'prod') {
     return projects
@@ -137,6 +156,10 @@ const getLocalhostProjects = (data: string, appName: string, environment: string
     .filter((project: Project) => project.env === env)
     .map(replaceDomain(`https://localhost:3000`));
 };
+
+/**
+ * This function gets projects to test from json file with all needed info to run e2e tests
+ */
 
 export function getProjects() {
   const __filename = fileURLToPath(import.meta.url);

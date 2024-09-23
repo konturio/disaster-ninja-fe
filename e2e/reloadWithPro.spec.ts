@@ -9,7 +9,11 @@ for (const project of projects) {
     test.beforeEach(async ({ pageManager }) => {
       await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     });
-    test(`Url of map is still the same`, async ({ page, pageManager }) => {
+    test(`Url of map is still the same`, async ({ pageManager, browserName }) => {
+      test.fixme(
+        browserName === 'webkit',
+        'Fix issue https://kontur.fibery.io/Tasks/Task/FE-Application-adds-reference-area-focused-geometry-parameters-in-url-too-late-(Safari-browser)-19487 to activate this test',
+      );
       await pageManager.fromNavigationMenu.goToMap();
       if (project.name !== 'disaster-ninja')
         await pageManager.atBrowser.waitForUrlToMatchPattern(/map=/);

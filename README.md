@@ -41,6 +41,11 @@ pnpm i
 pnpm run dev
 ```
 
+React Cosmos dev server available via `pnpm run cosmos`
+
+Chrome browser will try to load local dev server with HSTS policy, which will cause error. To fix it,
+open `chrome://net-internals/#hsts`, go to section "Delete domain security policies" and delete policy for `localhost`
+
 ## How to i18n
 
 ### Scripts

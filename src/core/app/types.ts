@@ -47,6 +47,9 @@ export const AppFeature = {
   LLM_ANALYTICS: 'llm_analytics',
   MAP: 'map',
   SUBSCRIPTION: 'subscription',
+  SEARCH_LOCATION: 'search_locations',
+  SEARCH_BAR: 'search_bar',
+  LLM_MCDA: 'llm_mcda',
 } as const;
 
 export type AppFeatureType = (typeof AppFeature)[keyof typeof AppFeature];

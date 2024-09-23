@@ -1,10 +1,10 @@
-import { apiClient, reportsClient } from '~core/apiClientInstance';
-import { authClientInstance } from '~core/authClientInstance';
-import { getStageConfig } from '~core/config/loaders/stageConfigLoader';
-import { getAppConfig, getLayerSourceUrl } from '~core/config/loaders/appConfigLoader';
-import { readInitialUrl } from '~core/url_store/readInitialUrl';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
+import { getStageConfig } from '~core/config/loaders/stageConfigLoader';
+import { getAppConfig, getLayerSourceUrl } from '~core/config/loaders/appConfigLoader';
+import { apiClient, reportsClient } from '~core/apiClientInstance';
+import { authClientInstance } from '~core/authClientInstance';
+import { readInitialUrl } from '~core/url_store/readInitialUrl';
 import { getDefaultLayers } from '~core/api/layers';
 import { setupWebManifest } from 'webmanifest';
 import type { AppConfig } from '~core/config/types';

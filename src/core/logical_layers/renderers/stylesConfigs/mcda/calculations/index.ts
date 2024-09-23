@@ -1,3 +1,4 @@
+import nextafter from 'nextafter';
 import { isNumber } from '~utils/common';
 import { sentimentDefault, sentimentReversed } from './constants';
 import { JsMath, MapMath } from './operations';
@@ -6,6 +7,31 @@ import type { MCDAConfig, TransformationFunction } from '../types';
 
 const equalSentiments = (a: Array<string>, b: Array<string>) =>
   a.length === b.length && a.every((x, i) => x === b[i]);
+
+const nextFloatValueInDirection = (
+  value: number,
+  direction: number,
+  transformation?: TransformationFunction,
+): number => {
+  const deltaAdjustmentFunctions = {
+    cube_root: (x) => Math.cbrt(x),
+    square_root: (x) => Math.sqrt(x),
+    log: (x) => 10 * x,
+    log_epsilon: (x) => 10 * x,
+  };
+
+  const sign = Math.sign(direction - value);
+  const nextNumber = nextafter(value, direction);
+  const delta = Math.abs(value - nextNumber);
+  if (delta < 1 && transformation && deltaAdjustmentFunctions[transformation]) {
+    let adjustedDelta = deltaAdjustmentFunctions[transformation](delta);
+    if (adjustedDelta > 1) {
+      adjustedDelta = 0.1;
+    }
+    return value + sign * adjustedDelta;
+  }
+  return nextNumber;
+};
 
 interface IsomorphCalculations<T> {
   rate: (args: { num: T; den: T }) => T;
@@ -163,7 +189,17 @@ export const calculateLayerPipeline =
     datasetStats,
   }: MCDAConfig['layers'][0]) => {
     const [num, den] = axis;
-    const [min, max] = range;
+    let min = range[0];
+    const max = range[1];
+    // HACK: see #19471. Changing min to avoid breaking MCDA calculation with 0 in denominator.
+    // TODO: Should apply proper solution later
+    if (min === max) {
+      min = nextFloatValueInDirection(
+        min,
+        Number.NEGATIVE_INFINITY,
+        transformation?.transformation ?? transformationFunction,
+      );
+    }
     const datasetMin = datasetStats?.minValue;
     const inverted = equalSentiments(sentiment, sentimentReversed);
     if (!inverted)
@@ -184,18 +220,26 @@ export const calculateLayerPipeline =
       transformation: transformation?.transformation ?? transformationFunction,
     });
     /* if transformation was applied and lowerBound and upperBound are defined,
-       use them as clamp boundaries for the transformed value.
-       Exception for outliers: unmodified, because it will not work if we limit the data values */
+       use them as clamp boundaries for the transformed value. */
     if (
-      outliers !== 'unmodified' &&
       transformation?.transformation &&
       transformation?.transformation !== 'no' &&
       isNumber(transformation.lowerBound) &&
       isNumber(transformation.upperBound)
     ) {
-      tMin = operations.max(tMin, transformation.lowerBound);
-      tMax = operations.min(tMax, transformation.upperBound);
-      tX = operations.clamp(tX, tMin, tMax);
+      let lowerBound = transformation.lowerBound;
+      const upperBound = transformation.upperBound;
+      // HACK: see #19471. Changing min to avoid breaking MCDA calculation with 0 in denominator.
+      // TODO: Should apply proper solution later
+      if (lowerBound === upperBound) {
+        lowerBound = nextFloatValueInDirection(lowerBound, Number.NEGATIVE_INFINITY);
+      }
+      tMin = operations.max(tMin, lowerBound);
+      tMax = operations.min(tMax, upperBound);
+      // Don't limit the values for outliers: unmodified
+      if (outliers !== 'unmodified') {
+        tX = operations.clamp(tX, tMin, tMax);
+      }
     }
     const normalized =
       normalization === 'max-min'

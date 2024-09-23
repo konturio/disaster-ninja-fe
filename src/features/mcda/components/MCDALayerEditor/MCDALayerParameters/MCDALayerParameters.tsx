@@ -11,6 +11,7 @@ import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxisesAtom';
 import { getAxisTransformations } from '~core/api/mcda';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
+import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
 import { Sentiments } from '../Sentiments';
 import MCDARangeControls from '../MCDARangeControls/MCDARangeControls';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
@@ -66,8 +67,13 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setRangeTo(layer.range?.at(1)?.toString() ?? '');
     setSentiment(layer.sentiment.at(0) === 'good' ? 'good-bad' : 'bad-good');
     setCoefficient(layer.coefficient.toString());
+    const knownTransformation = transformOptions.find(
+      (option) =>
+        option.value ===
+        (layer.transformation?.transformation ?? layer.transformationFunction),
+    );
     setTransformationFunction(
-      layer.transformation?.transformation ?? layer.transformationFunction,
+      (knownTransformation?.value as TransformationFunction) ?? 'no',
     );
     setNormalization(layer.normalization);
     setOutliers(layer.outliers ?? DEFAULTS.outliers);
@@ -125,10 +131,13 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         value: layer.coefficient,
       });
     }
-    if (layer.transformationFunction !== DEFAULTS.transform) {
+    const knownTransformation = transformOptions.find(
+      (option) => option.value === layer.transformation?.transformation,
+    );
+    if (knownTransformation && knownTransformation !== DEFAULTS.transform) {
       result.push({
         paramName: i18n.t('mcda.layer_editor.transformation'),
-        value: layer.transformationFunction,
+        value: knownTransformation.title.toLocaleLowerCase(),
       });
     }
     if (layer.normalization !== DEFAULTS.normalization) {
@@ -147,7 +156,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
   }, [layer]);
 
   const sentiments = useMemo(() => {
-    const isGoodLeft = layer.sentiment[0] === 'good';
+    const isGoodLeft = layer.sentiment.at(0) === 'good';
     return {
       left: {
         label: layer.sentiment.at(0)!, // Sentiments name needed instead of id
@@ -209,7 +218,28 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     setEditMode(false);
   }, []);
 
+  const onReverseSentiment = useCallback(() => {
+    const newSentiment = (
+      sentiment === sentimentsOptions[0].value
+        ? sentimentsOptions[1].value
+        : sentimentsOptions[0].value
+    ) as string;
+
+    const updatedLayer: MCDALayer = {
+      ...layer,
+      sentiment: SENTIMENT_VALUES[newSentiment],
+    };
+    if (editMode) {
+      onCancel();
+    }
+    onLayerEdited(updatedLayer);
+  }, [editMode, layer, onCancel, onLayerEdited, sentiment]);
+
   const editLayer = useCallback(async () => {
+    if (editMode) {
+      onCancel();
+      return;
+    }
     setEditMode(true);
     setIsLoading(true);
     try {
@@ -225,7 +255,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     } finally {
       setIsLoading(false);
     }
-  }, [layer.indicators]);
+  }, [editMode, layer.indicators, onCancel]);
 
   return (
     <div>
@@ -233,15 +263,13 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
         <div className={s.layerHeader}>
           <div>{layer.name}</div>
           <div className={s.layerButtons}>
-            {!editMode && (
-              <LayerActionIcon
-                onClick={editLayer}
-                hint={i18n.t('layer_actions.tooltips.edit')}
-                className={s.editButton}
-              >
-                <Prefs16 />
-              </LayerActionIcon>
-            )}
+            <LayerActionIcon
+              onClick={editLayer}
+              hint={i18n.t('layer_actions.tooltips.edit')}
+              className={s.editButton}
+            >
+              <Prefs16 />
+            </LayerActionIcon>
             <LayerInfo
               className={s.infoButton}
               layersInfo={mcdaLayerHint}
@@ -249,19 +277,36 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             />
           </div>
         </div>
+        <div>
+          <Sentiments
+            left={sentiments.left}
+            right={sentiments.right}
+            units={layer.unit}
+          />
+          <div className={s.topControlsContainer}>
+            <Button
+              className={s.reverseButton}
+              variant="invert-outline"
+              size="tiny"
+              onClick={onReverseSentiment}
+            >
+              {sentiment === sentimentsOptions[0].value
+                ? i18n.t('mcda.layer_editor.reverse_to_good_bad')
+                : i18n.t('mcda.layer_editor.reverse_to_bad_good')}
+            </Button>
+            <PopupTooltipTrigger
+              className={s.infoButton}
+              tipText={i18n.t('mcda.layer_editor.tips.sentiment')}
+              tooltipId={LAYERS_PANEL_FEATURE_ID}
+            />
+          </div>
+        </div>
         {!editMode ? (
           // Static mode
-          <div>
-            <Sentiments
-              left={sentiments.left}
-              right={sentiments.right}
-              units={layer.unit}
-            />
-            <div className={s.nonDefaultValues}>
-              {nonDefaultValues.map((v, index) => (
-                <div key={`nonDefault${index}`}>{`${v.paramName}: ${v.value}`}</div>
-              ))}
-            </div>
+          <div className={s.nonDefaultValues}>
+            {nonDefaultValues.map((v, index) => (
+              <div key={`nonDefault${index}`}>{`${v.paramName}: ${v.value}`}</div>
+            ))}
           </div>
         ) : (
           // Edit mode
@@ -301,23 +346,6 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
                 items={outliersOptions}
               />
             </MCDALayerParameterRow>
-            {/* SENTIMENT */}
-            <MCDALayerParameterRow
-              name={i18n.t('mcda.layer_editor.sentiment')}
-              infoText={i18n.t('mcda.layer_editor.tips.sentiment')}
-            >
-              <Select
-                className={s.selectInput}
-                classes={{
-                  menu: s.selectInputBox,
-                }}
-                value={sentiment}
-                onChange={(e) => {
-                  setSentiment(e.selectedItem?.value as string);
-                }}
-                items={sentimentsOptions}
-              />
-            </MCDALayerParameterRow>
             {/* WEIGHT */}
             <MCDALayerParameterRow
               name={i18n.t('mcda.layer_editor.weight')}
@@ -349,7 +377,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               infoText={i18n.t('mcda.layer_editor.tips.transform')}
               onTitleDoubleClicked={() => setShowDebugInfo((prevValue) => !prevValue)}
             >
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <div className={s.transformSelectionRow}>
                 <Select
                   className={s.selectInput}
                   disabled={!transformationsStatistics}

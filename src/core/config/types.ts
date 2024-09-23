@@ -84,7 +84,7 @@ export interface FeatureDto {
 
 export type FaviconPack = Record<
   | 'favicon.ico'
-  | 'favicon-svg'
+  | 'favicon.svg'
   | 'apple-touch-icon.png'
   | 'icon-192x192.png'
   | 'icon-512x512.png',

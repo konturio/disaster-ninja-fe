@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`wrapContentBetweenSameLevelHeadings > should wrap content between same level headings 1`] = `"<h1 id="heading-1">Heading 1</h1><p>Content 1</p><h2 id="subheading-11">Subheading 1.1</h2><p>Subcontent 1.1</p><h1 id="heading-2">Heading 2</h1><p>Content 2</p><h2 id="subheading-21">Subheading 2.1</h2><p>Subcontent 2.1</p>"`;

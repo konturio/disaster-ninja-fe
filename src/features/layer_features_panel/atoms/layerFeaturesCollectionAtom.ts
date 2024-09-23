@@ -81,6 +81,7 @@ export async function getFeatureCollection(geometry) {
       appId: configRepo.get().id,
       geoJSON: geometry,
     },
+    true,
   );
   return features ?? [];
 }

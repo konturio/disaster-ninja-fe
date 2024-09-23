@@ -60,3 +60,30 @@
 .content tr:nth-child(odd) {
   background-color: var(--base-weak-up);
 }
+
+/* TODO: Atlas specific styles, move to ups config after testing */
+:global(#app-id-9043acf9-2cf3-48ac-9656-a5d7c4b7593d) [data-name='/about'] article {
+  & section:nth-child(2) {
+    display: grid;
+    grid-template-columns: max-content auto;
+    gap: 1em;
+  }
+
+  & h3 a {
+    padding: var(--unit) 24px;
+    user-select: none;
+    font-family: var(--font-family);
+    font-weight: 400;
+    border: 1px solid var(--faint-weak);
+    border-radius: var(--border-radius);
+    min-width: 128px;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  & h3 em a {
+    background-color: var(--accent-strong);
+    color: var(--base-weak) !important;
+  }
+}

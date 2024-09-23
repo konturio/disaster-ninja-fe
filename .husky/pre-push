@@ -3,6 +3,5 @@
 
 set -e
 
-
 npm run typecheck
 npm run depcruise

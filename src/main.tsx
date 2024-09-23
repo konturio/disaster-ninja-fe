@@ -1,11 +1,11 @@
 import '@reatom/react-v2/react-dom-batched-updates';
+import '~utils/atoms/disableDefaultStore';
+import { persistLog } from './logger';
+import { setupApplicationEnv } from './boot';
 import '@konturio/default-theme/variables.css';
 import '@konturio/default-theme/defaults.css';
 import '@konturio/default-theme/typography.css';
-import '~utils/atoms/disableDefaultStore';
 import './global.css';
-import { persistLog } from 'logger';
-import { setupApplicationEnv } from './boot';
 
 async function showCriticalError(e: Error) {
   const root = document.getElementById('root');

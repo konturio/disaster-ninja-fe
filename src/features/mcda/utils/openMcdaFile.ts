@@ -2,6 +2,7 @@ import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
 import { DEFAULT_MCDA_NAME } from '../constants';
 import { generateMCDAId } from './generateMCDAId';
+import { validateMCDAConfig } from './validateMCDAConfig';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 const input = (() => {
@@ -16,22 +17,13 @@ function createMCDAConfigFromJSON(json: Partial<MCDAConfig>): MCDAConfig {
   if (!result.version || result.version < 4) {
     throw new Error(i18n.t('mcda.error_wrong_mcda_version'));
   }
-  if (
-    !result?.layers?.length ||
-    !(
-      result?.colors?.type === 'sentiments' ||
-      result?.colors?.type === 'mapLibreExpression'
-    )
-  ) {
-    throw new Error(i18n.t('mcda.error_invalid_file'));
-  }
   if (!result.id) {
     result.id = generateMCDAId(result.name);
   }
   if (!result.name) {
     result.name = result.id ?? DEFAULT_MCDA_NAME;
   }
-  return result as MCDAConfig;
+  return validateMCDAConfig(result);
 }
 
 function readMcdaJSONFile(file): Promise<MCDAConfig> {

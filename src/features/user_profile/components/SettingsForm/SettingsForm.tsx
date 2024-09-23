@@ -10,6 +10,7 @@ import { configRepo } from '~core/config';
 import { FeatureFlag } from '~core/shared_state/featureFlags';
 import { flatObjectsAreEqual } from '~utils/common';
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
+import { DEFAULT_OSM_EDITOR } from '~core/constants';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserDto } from '~core/app/user';
@@ -231,8 +232,9 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                 )}
 
                 <Select
+                  data-testid="osmEditor"
                   alwaysShowPlaceholder
-                  value={localSettings.osmEditor}
+                  value={localSettings.osmEditor || DEFAULT_OSM_EDITOR}
                   items={OPTIONS_OSM}
                   withResetButton={false}
                   onSelect={onChange('osmEditor')}

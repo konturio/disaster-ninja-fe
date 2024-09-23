@@ -1,6 +1,5 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
-import { withKeepAlive } from 'react-component-keepalive-ts';
 import clsx from 'clsx';
 import { FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
@@ -16,6 +15,7 @@ import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import { configRepo } from '~core/config';
+import { Search } from '~features/search';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
 
@@ -39,9 +39,7 @@ const { EventList: EventListPanel } = lazily(() => import('~features/events_list
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
-export const MapPage = withKeepAlive(_MapPage, { cacheId: 'map' });
-
-function _MapPage() {
+export function MapPage() {
   useEffect(() => {
     import('~core/draw_tools').then(({ drawTools }) => drawTools.init());
 
@@ -128,6 +126,10 @@ function _MapPage() {
       </div>
       {Object.keys(featureFlags).length > 0 && (
         <Layout
+          searchBar={
+            featureFlags[FeatureFlag.SEARCH_BAR] &&
+            featureFlags[FeatureFlag.SEARCH_LOCATION] && <Search />
+          }
           analytics={<Analytics />}
           // if EVENTS_LIST is enabled, we always have default feed
           disasters={featureFlags[FeatureFlag.EVENTS_LIST] && <EventListPanel />}
