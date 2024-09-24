@@ -11,32 +11,29 @@ for (const project of projects) {
     });
     if (project.name !== 'atlas') {
       test(`Url of map is still the same`, async ({ pageManager }) => {
-        await pageManager.fromNavigationMenu.goToMap();
+        await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
         if (project.name !== 'disaster-ninja')
           await pageManager.atBrowser.waitForUrlToMatchPattern(/map=/);
         await pageManager.atMap.compareUrlsAfterReload(project);
       });
     } else {
-      test(`Map is not accessible`, async ({ page, pageManager }) => {
+      test(`Map is not accessible`, async ({ pageManager }) => {
         await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-        await pageManager.fromNavigationMenu.checkThereIsNoMap();
-        // TO DO: activate this checks once 19103 issue is done
-        // expect(page.url()).toContain('autotests');
-        // await pageManager.atLoginPage.compareUrlsAfterReload(project);
-        // await pageManager.fromNavigationMenu.checkThereIsNoMap();
-        // expect(page.url()).toContain('autotests');
+        await pageManager.atNavigationMenu.checkThereIsNoMap();
+        pageManager.atBrowser.checkCampaignIsAutotest();
+        await pageManager.atLoginPage.compareUrlsAfterReload(project);
+        await pageManager.atNavigationMenu.checkThereIsNoMap();
+        pageManager.atBrowser.checkCampaignIsAutotest();
       });
     }
-    test('My profile has the same data', async ({ page, pageManager }) => {
-      await pageManager.fromNavigationMenu.goToProfilePage();
+    test('My profile has the same data', async ({ pageManager }) => {
+      await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
       const settingsValues = await pageManager.atProfilePage.getProfileData(project, {
         shouldOsmEditorBeSeenOnAtlas: true,
       });
-      // TO DO: activate this check once 19103 issue is done
-      // expect(page.url()).toContain('autotests');
+      pageManager.atBrowser.checkCampaignIsAutotest();
       await pageManager.atProfilePage.compareUrlsAfterReload(project);
-      // TO DO: activate this check once 19103 issue is done
-      // expect(page.url()).toContain('autotests');
+      pageManager.atBrowser.checkCampaignIsAutotest();
       const settingsValuesAfterReload = await pageManager.atProfilePage.getProfileData(
         project,
         { shouldOsmEditorBeSeenOnAtlas: true },

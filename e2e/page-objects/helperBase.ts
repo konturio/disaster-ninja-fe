@@ -38,6 +38,7 @@ export class HelperBase {
   ) {
     await operablePage.goto(project.url);
     await operablePage.waitForLoadState();
+    await this.waitForLayoutReady(operablePage);
 
     // Expect correct app to be opened.
     await this.waitForTextBeingVisible(`${project.title}`, operablePage);
@@ -45,6 +46,41 @@ export class HelperBase {
     // Currently, OAM project doesn't have cookies popups
     if (project.hasCookieBanner && !skipCookieBanner)
       await operablePage.getByText('Accept optional cookies').click();
+  }
+
+  /**
+   * This method waits for layout to be ready for tests. It enters a browser console and waits for METRICS event to be emitted. If it is not emitted in several seconds, it fails the test.
+   * @param operablePage playwright page to use
+   */
+
+  async waitForLayoutReady(operablePage: Page) {
+    const zoomTimeout = process.env.CI ? 30000 : 20000;
+    // Entering browser console to wait for layout to be ready
+    const layoutReadyEvent: CustomEvent = await operablePage.evaluate((zoomTimeout) => {
+      return new Promise((resolve, reject) => {
+        // Reject Promise if event is late
+        const timeout = setTimeout(() => {
+          reject(
+            new Error(
+              `Timeout waiting for 'METRICS' event in the browser (layout is not ready in ${zoomTimeout}ms)`,
+            ),
+          );
+        }, zoomTimeout);
+        // Clear timeout if event is emitted and resolve Promise with event
+        globalThis.addEventListener('METRICS', (event: Event) => {
+          clearTimeout(timeout);
+          resolve(event as CustomEvent);
+        });
+      });
+    }, zoomTimeout);
+    expect(
+      layoutReadyEvent,
+      '"METRICS" event should be emitted, be defined',
+    ).toBeDefined();
+    // expect(
+    //   layoutReadyEvent?.detail?.name,
+    //   `Name of 'METRICS' event should be 'router-layout-ready', see 'detail' property of 'METRICS' event: ${layoutReadyEvent?.detail} `,
+    // ).toEqual('router-layout-ready');
   }
 
   /**
@@ -93,8 +129,7 @@ export class HelperBase {
     const currentUrl = this.page.url().replace(/\//g, '');
     await this.page.reload({ waitUntil: 'load' });
     expect(this.page.url().replace(/\//g, '')).toEqual(currentUrl);
-    // TO DO: activate this check once 19103 issue is done
-    // await expect(this.page).toHaveTitle(`${project.title}`);
+    await expect(this.page).toHaveTitle(new RegExp(project.title));
   }
 
   /**
@@ -116,6 +151,14 @@ export class HelperBase {
 
   async waitForUrlToMatchPattern(pattern: RegExp, page: Page = this.page) {
     await page.waitForURL(pattern, { timeout: 30000 });
+  }
+
+  /**
+   * This method checks that campaign is autotests. It is needed for Google Analytics and other tracking services to differ normal users and autotests
+   */
+
+  checkCampaignIsAutotest(): void {
+    expect(this.page.url()).toContain('utm_campaign=autotests');
   }
 }
 

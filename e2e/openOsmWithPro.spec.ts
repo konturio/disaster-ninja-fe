@@ -33,7 +33,7 @@ for (const project of projects) {
       });
     });
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-    await pageManager.fromNavigationMenu.goToProfilePage();
+    await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
     const osmEditorValue = await pageManager.atProfilePage.getOsmEditorValue();
     expect(osmEditorValue).toBe('OpenStreetMap.org default editor');
   });
@@ -48,7 +48,7 @@ test.describe(`As PRO User, I can use different OSM editors to open the map`, ()
         pageManager,
       }) => {
         await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-        await pageManager.fromNavigationMenu.goToProfilePage();
+        await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
         const osmEditorValue = await pageManager.atProfilePage.getOsmEditorValue();
         if (osmEditorValue !== editor) {
           await pageManager.atProfilePage.setOsmEditorValue(editor);
@@ -57,7 +57,7 @@ test.describe(`As PRO User, I can use different OSM editors to open the map`, ()
           expect(editedOsmEditorValue).toEqual(editor);
         }
 
-        await pageManager.fromNavigationMenu.goToMap();
+        await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
 
         await pageManager.atMap.waitForTextBeingVisible('Toolbar');
         await pageManager.atMap.waitForUrlToMatchPattern(/\?map=/i);

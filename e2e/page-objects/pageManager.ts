@@ -44,7 +44,7 @@ export class PageManager {
     return this.helperBase;
   }
 
-  get fromNavigationMenu() {
+  get atNavigationMenu() {
     return this.navigationMenu;
   }
 
@@ -74,7 +74,7 @@ export class PageManager {
 
   async auth(project: Project, email: string, password: string, operablePage: Page) {
     await this.atBrowser.openProject(project, { operablePage });
-    await this.fromNavigationMenu.goToLoginPage(operablePage);
+    await this.atNavigationMenu.clickButtonToOpenPage('Login', operablePage);
     await this.atLoginPage.typeLoginPasswordAndLogin(email, password, {
       shouldSuccess: true,
       project,
