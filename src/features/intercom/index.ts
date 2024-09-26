@@ -14,6 +14,12 @@ export function initIntercom() {
   });
 }
 
+export function openIntercom() {
+  if (globalThis.Intercom && globalThis.intercomSettings) {
+    globalThis.Intercom('show');
+  }
+}
+
 function connectAndConfigureIntercom() {
   const { name, email, intercomAppId, intercomSelector } =
     configRepo.getIntercomSettings();

@@ -1,18 +1,18 @@
 import { Text } from '@konturio/ui-kit';
 import React, { memo } from 'react';
 import { i18n } from '~core/localization';
-import type { BillingCycle, PaymentPlan } from '~features/subscriptions/types';
+import type { BillingCycle, PaymentPlanConfig } from '~features/subscriptions/types';
 import type { CurrentSubscription } from '~core/api/subscription';
 
 export type PaymentPlanCardFooterProps = {
-  plan: PaymentPlan;
+  planConfig: PaymentPlanConfig;
   isUserAuthorized: boolean;
   currentSubscription: CurrentSubscription | null;
   billingOption?: BillingCycle;
 };
 
 const PaymentPlanCardFooter = memo(function PaymentPlanCardFooter({
-  plan,
+  planConfig,
   isUserAuthorized,
   currentSubscription,
   billingOption,

@@ -2,27 +2,54 @@ import clsx from 'clsx';
 import { useCallback, useEffect, useState } from 'react';
 import { Heading, Toggler } from '@konturio/ui-kit';
 import usePromise from 'react-promise-suspense';
+import { compiler } from 'markdown-to-jsx';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
+import { splitIntoSections } from '~core/pages/structuredMarkdown';
+import { CustomImg, CustomLink } from '~core/pages/hypermedia';
 import { getCurrentUserSubscription } from '~core/api/subscription';
 import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/PaymentPlanCard';
 import { goTo } from '~core/router/goTo';
 import { showModal } from '~core/modal';
-import { CUSTOM_PLAN } from '~features/subscriptions/constants';
+import { getAsset } from '~core/api/assets';
 import SubscriptionSuccessModal from '../SubscriptionSuccessModal/SubscriptionSuccessModal';
 import s from './PricingContent.module.css';
+import type { CurrentSubscription } from '~core/api/subscription';
 import type { SubscriptionsConfig } from '~features/subscriptions/types';
 
 const togglerInitialValue = 'year';
 
+function parsePlans(markdown: string) {
+  const compiled = compiler(markdown, {
+    overrides: {
+      a: CustomLink,
+      img: CustomImg,
+    },
+    wrapper: null,
+  }) as unknown as JSX.Element[];
+  return splitIntoSections(compiled);
+}
+
 export function PricingContent({ config }: { config: SubscriptionsConfig }) {
   const user = configRepo.get().user;
-  const allPlans = [...config.plans, CUSTOM_PLAN];
-  const currentSubscription = usePromise(() => {
-    if (!user) {
-      return Promise.resolve(null);
-    }
-    return getCurrentUserSubscription();
+  const plansConfigs = config.plans;
+  const [currentSubscription, markdown] = usePromise<
+    [],
+    [CurrentSubscription | null, string | null]
+  >(() => {
+    const subscriptionPromise = user
+      ? getCurrentUserSubscription().catch((err) => {
+          console.error('Error while fetching current subscription:', err);
+          return null;
+        })
+      : Promise.resolve(null);
+
+    const assetPromise = getAsset('plans.md').catch((err) => {
+      console.error('Error while fetching plans.md:', err);
+      return null;
+    }) as Promise<string | null>;
+
+    return Promise.all([subscriptionPromise, assetPromise]);
   }, []);
 
   const [currentBillingCycleID, setCurrentBillingCycleID] = useState<'month' | 'year'>(
@@ -61,6 +88,9 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
     }
   }, [config.plans, currentSubscription]);
 
+  if (!markdown) return null;
+  const plansContent = parsePlans(markdown);
+
   return (
     <div className={s.pricingWrap}>
       <div className={s.pricingPlans}>
@@ -89,10 +119,11 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
           )}
         </div>
         <div className={s.plans}>
-          {allPlans.map((plan) => (
+          {plansConfigs.map((planConfig, i) => (
             <PaymentPlanCard
-              plan={plan}
-              key={plan.id}
+              planConfig={planConfig}
+              planContent={plansContent[i]} // Order of configs in configuration should match order of plans in asset!
+              key={planConfig.id}
               currentBillingCycleId={currentBillingCycleID}
               currentSubscription={currentSubscription}
               isUserAuthorized={!!user}

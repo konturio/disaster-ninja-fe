@@ -19,13 +19,11 @@ export interface BillingCycle {
   billingMethods: BillingMethod[];
 }
 
-export interface PaymentPlan {
+export interface PaymentPlanConfig {
   id: string;
   name: string;
-  description: string;
   style: 'basic' | 'premium' | 'custom';
-  highlights: string[];
-  billingCycles: BillingCycle[];
+  billingCycles?: BillingCycle[];
 }
 
 export interface BillingMethodDetails {
@@ -36,5 +34,5 @@ export interface BillingMethodDetails {
 export interface SubscriptionsConfig {
   billingMethodsDetails: BillingMethodDetails[];
   billingCyclesDetails: BillingCycleDetails[];
-  plans: PaymentPlan[];
+  plans: PaymentPlanConfig[];
 }

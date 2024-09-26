@@ -1,5 +1,5 @@
 .planCard {
-  /* Color for plan type, button, highlights */
+  /* Color for plan type, highlights */
   --primary-color: var(--success-strong);
   /* Color for plan type background */
   --secondary-color: #def5df;
@@ -19,6 +19,17 @@
   flex-direction: column;
   background-color: var(--plan-bg-color);
 
+  &:hover {
+    box-shadow: var(--shadow-medium);
+  }
+
+  /* Specific custom styles */
+  &:global(.custom) {
+    --primary-color: var(--base-strong-down);
+    --secondary-color: var(--faint-weak);
+  }
+
+  /* Specific premium styles */
   &:global(.premium) {
     --primary-color: var(--accent-strong);
     --secondary-color: #d8effc;
@@ -26,21 +37,26 @@
     --plan-border-color: var(--accent-weak-up);
   }
 
-  &:global(.custom) {
-    --primary-color: var(--base-strong-down);
-    --secondary-color: var(--faint-weak);
-  }
+  /* Highlights section */
+  & ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 
-  &:hover {
-    box-shadow: var(--shadow-medium);
+    & li {
+      margin: 5px 0;
+    }
+
+    & li::before {
+      content: '✔';
+      display: inline-block;
+      margin-right: var(--double-unit);
+      color: var(--primary-color);
+    }
   }
 }
 
-.planIcon {
-  margin-right: var(--unit);
-}
-
-.planName {
+.planType {
   position: absolute;
   padding: var(--unit) var(--double-unit);
   border-radius: 18px;
@@ -50,6 +66,14 @@
   color: var(--primary-color);
   display: flex;
   align-items: center;
+}
+
+:global(.custom) .planType::before {
+  content: '★';
+  font-size: 22px;
+  padding-right: 4px;
+  position: relative;
+  top: -2px;
 }
 
 .initialPrice {
@@ -81,7 +105,11 @@
 
 .planDescription {
   color: var(--faint-strong);
-  margin-bottom: var(--double-unit);
+  margin: 0 0 var(--double-unit);
+
+  & a:global(.external) {
+    color: var(--accent-strong);
+  }
 }
 
 .buttonWrapper {
@@ -97,26 +125,6 @@
 .cancelButton {
   position: relative;
   bottom: -11px;
-}
-
-.highlights {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
-  & li {
-    margin: 5px 0;
-  }
-}
-
-.highlight {
-  display: flex;
-  align-items: center;
-}
-
-.highlightIcon {
-  margin-right: var(--double-unit);
-  color: var(--primary-color);
 }
 
 .footerWrapper {
@@ -155,20 +163,25 @@
   }
 }
 
+/** Buttons color */
 .paymentPlanButton {
-  background-color: var(--primary-color);
-
-  --subscribe-btn-hover: #269b00;
+  background-color: var(--success-strong);
 
   &:hover {
-    background-color: var(--subscribe-btn-hover);
+    background-color: #269b00;
   }
+}
 
-  &:global(.premium) {
-    --subscribe-btn-hover: var(--accent-strong-up);
-  }
+.planCard:global(.custom) .paymentPlanButton {
+  background-color: var(--base-strong-down);
+}
+.planCard:global(.premium) .paymentPlanButton {
+  background-color: var(--accent-strong);
+}
 
-  &:global(.custom) {
-    --subscribe-btn-hover: var(--base-strong, red);
-  }
+.planCard:global(.custom) .paymentPlanButton:hover {
+  background-color: var(--base-strong);
+}
+.planCard:global(.premium) .paymentPlanButton:hover {
+  background-color: var(--accent-strong-up);
 }
