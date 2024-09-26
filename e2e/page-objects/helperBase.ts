@@ -36,9 +36,11 @@ export class HelperBase {
     project: Project,
     { skipCookieBanner = false, operablePage = this.page }: OpenProjectOptions = {},
   ) {
-    await operablePage.goto(project.url);
-    await operablePage.waitForLoadState();
-    await this.waitForLayoutReady(operablePage);
+    await operablePage.goto(project.url, { waitUntil: 'commit' });
+    await Promise.all([
+      this.waitForEventWithFilter(operablePage, 'METRICS', 'router-layout-ready'),
+      operablePage.waitForLoadState(),
+    ]);
 
     // Expect correct app to be opened.
     await this.waitForTextBeingVisible(`${project.title}`, operablePage);
@@ -49,38 +51,52 @@ export class HelperBase {
   }
 
   /**
-   * This method waits for layout to be ready for tests. It enters a browser console and waits for METRICS event to be emitted. If it is not emitted in several seconds, it fails the test.
+   * This method waits for event to be emitted and filtering to return true. It enters a browser console and waits for browser event to be emitted. If it is not emitted in several seconds, it fails the test.
    * @param operablePage playwright page to use
+   * @param eventName event name to wait for
+   * @param eventType event type to wait for
+   * @returns event object
+   * @throws error if event is not emitted in time
    */
 
-  async waitForLayoutReady(operablePage: Page) {
-    const zoomTimeout = process.env.CI ? 30000 : 20000;
-    // Entering browser console to wait for layout to be ready
-    const layoutReadyEvent: CustomEvent = await operablePage.evaluate((zoomTimeout) => {
-      return new Promise((resolve, reject) => {
-        // Reject Promise if event is late
-        const timeout = setTimeout(() => {
-          reject(
-            new Error(
-              `Timeout waiting for 'METRICS' event in the browser (layout is not ready in ${zoomTimeout}ms)`,
-            ),
-          );
-        }, zoomTimeout);
-        // Clear timeout if event is emitted and resolve Promise with event
-        globalThis.addEventListener('METRICS', (event: Event) => {
-          clearTimeout(timeout);
-          resolve(event as CustomEvent);
+  async waitForEventWithFilter(
+    operablePage: Page = this.page,
+    eventType: string,
+    eventName: string,
+  ) {
+    // If you need to wait for other events using this method, try to use page.addInitScript instead of page.evaluate because page.evaluate does not support passing functions
+    const waitingTimeout = process.env.CI ? 40000 : 25000;
+    // Entering browser console to wait for event to be emitted
+    const filteredEvent: CustomEvent = await operablePage.evaluate(
+      (filterOptions) => {
+        return new Promise((resolve, reject) => {
+          // Reject Promise if event is late
+          const timeout = setTimeout(() => {
+            reject(
+              new Error(
+                `Timeout waiting for '${filterOptions.eventType}' event with '${filterOptions.eventName}' name in the browser (${filterOptions.waitingTimeout} ms) matching filtering condition (checking event.detail.name property)`,
+              ),
+            );
+          }, filterOptions.waitingTimeout);
+
+          // Clear timeout if event is emitted matching filter, remove event listener and resolve Promise with event
+          const eventListener = (event: Event) => {
+            //@ts-expect-error if no detail property, we should fail, no way to pass function here (playwright limitation), but you can call such function, if it is added to HEAP using page.addInitScript
+            if (event?.detail?.name === filterOptions.eventName) {
+              clearTimeout(timeout);
+              globalThis.removeEventListener(filterOptions.eventName, eventListener);
+              resolve(event as CustomEvent);
+            }
+          };
+          globalThis.addEventListener(filterOptions.eventType, eventListener);
         });
-      });
-    }, zoomTimeout);
+      },
+      { waitingTimeout, eventName, eventType },
+    );
     expect(
-      layoutReadyEvent,
-      '"METRICS" event should be emitted, be defined',
+      filteredEvent,
+      `'${eventType}' event should be emitted and event.detail.name to equal '${eventName}'`,
     ).toBeDefined();
-    // expect(
-    //   layoutReadyEvent?.detail?.name,
-    //   `Name of 'METRICS' event should be 'router-layout-ready', see 'detail' property of 'METRICS' event: ${layoutReadyEvent?.detail} `,
-    // ).toEqual('router-layout-ready');
   }
 
   /**
@@ -127,7 +143,11 @@ export class HelperBase {
 
   async compareUrlsAfterReload(project: Project) {
     const currentUrl = this.page.url().replace(/\//g, '');
-    await this.page.reload({ waitUntil: 'load' });
+    await this.page.reload({ waitUntil: 'commit' });
+    await Promise.all([
+      this.waitForEventWithFilter(this.page, 'METRICS', 'router-layout-ready'),
+      this.page.waitForLoadState(),
+    ]);
     expect(this.page.url().replace(/\//g, '')).toEqual(currentUrl);
     await expect(this.page).toHaveTitle(new RegExp(project.title));
   }
