@@ -14,9 +14,9 @@ export function initIntercom() {
   });
 }
 
-export function openIntercom() {
+export function openIntercomChat() {
   if (globalThis.Intercom && globalThis.intercomSettings) {
-    globalThis.Intercom('show');
+    globalThis.Intercom('showMessages');
   }
 }
 

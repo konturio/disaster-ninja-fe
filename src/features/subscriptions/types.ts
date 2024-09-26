@@ -24,6 +24,7 @@ export interface PaymentPlanConfig {
   name: string;
   style: 'basic' | 'premium' | 'custom';
   billingCycles?: BillingCycle[];
+  actions?: any[];
 }
 
 export interface BillingMethodDetails {

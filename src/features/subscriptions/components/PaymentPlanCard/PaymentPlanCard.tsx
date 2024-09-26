@@ -4,12 +4,9 @@ import clsx from 'clsx';
 import { useAtom } from '@reatom/react-v2';
 import { Price } from '~features/subscriptions/components/Price/Price';
 import PaymentPlanCardFooter from '~features/subscriptions/components/PaymentPlanCardFooter/PaymentPlanCardFooter';
-import {
-  PAYMENT_METHOD_ID_PAYPAL,
-  SALES_REPRESENTATIVE_LINK,
-} from '~features/subscriptions/constants';
+import { PAYMENT_METHOD_ID_PAYPAL } from '~features/subscriptions/constants';
 import { i18n } from '~core/localization';
-import { intercomVisibleAtom, openIntercom } from '~features/intercom';
+import { intercomVisibleAtom, openIntercomChat } from '~features/intercom';
 import { PayPalButtonsGroup } from '../PayPalButtonsGroup/PayPalButtonsGroup';
 import s from './PaymentPlanCard.module.css';
 import type { ReactNode, ReactElement } from 'react';
@@ -40,14 +37,17 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   const planType = (planContent[0] as ReactElement).props.children[0];
   const content = planContent.slice(1, planContent.length - 2);
   const highlightsBlock = planContent.at(-1);
-  const isCustomPlan = planType.toLowerCase() === 'custom';
+  const isCustomPlan = planConfig.id === 'kontur_atlas_custom';
 
-  /** Get custom plan name out of plan description */
+  /** Get custom plan special properties */
   let planName;
   let description;
+  let salesLink;
   if (isCustomPlan) {
     planName = (content[0] as ReactElement).props.children[0];
     description = content[1];
+    salesLink = planConfig.actions?.find((action) => action.name === 'contact_sales')
+      ?.params.link;
   } else {
     description = content[0];
   }
@@ -118,18 +118,15 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   const customButtons = (
     <>
       {isChatButtonVisible && (
-        <Button className={clsx(s.paymentPlanButton)} onClick={openIntercom}>
+        <Button className={clsx(s.paymentPlanButton)} onClick={openIntercomChat}>
           {i18n.t('subscription.sales_pla_button')}
         </Button>
       )}
-      <a
-        className={s.bookDemoLink}
-        href={SALES_REPRESENTATIVE_LINK}
-        target="_blank"
-        rel="noreferrer"
-      >
-        {i18n.t('subscription.book_demo_button')}
-      </a>
+      {salesLink && (
+        <a className={s.bookDemoLink} href={salesLink} target="_blank" rel="noreferrer">
+          {i18n.t('subscription.book_demo_button')}
+        </a>
+      )}
     </>
   );
 
