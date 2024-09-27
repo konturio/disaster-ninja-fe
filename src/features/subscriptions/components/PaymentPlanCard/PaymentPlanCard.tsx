@@ -4,7 +4,10 @@ import clsx from 'clsx';
 import { useAtom } from '@reatom/react-v2';
 import { Price } from '~features/subscriptions/components/Price/Price';
 import PaymentPlanCardFooter from '~features/subscriptions/components/PaymentPlanCardFooter/PaymentPlanCardFooter';
-import { PAYMENT_METHOD_ID_PAYPAL } from '~features/subscriptions/constants';
+import {
+  CUSTOM_PLAN_ID,
+  PAYMENT_METHOD_ID_PAYPAL,
+} from '~features/subscriptions/constants';
 import { i18n } from '~core/localization';
 import { intercomVisibleAtom, openIntercomChat } from '~features/intercom';
 import { PayPalButtonsGroup } from '../PayPalButtonsGroup/PayPalButtonsGroup';
@@ -35,9 +38,9 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   const [isChatButtonVisible] = useAtom(intercomVisibleAtom);
 
   const planType = (planContent[0] as ReactElement).props.children[0];
-  const content = planContent.slice(1, planContent.length - 2);
+  const content = planContent.slice(1, -2);
   const highlightsBlock = planContent.at(-1);
-  const isCustomPlan = planConfig.id === 'kontur_atlas_custom';
+  const isCustomPlan = planConfig.id === CUSTOM_PLAN_ID;
 
   /** Get custom plan special properties */
   let planName;
@@ -119,11 +122,17 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
     <>
       {isChatButtonVisible && (
         <Button className={clsx(s.paymentPlanButton)} onClick={openIntercomChat}>
-          {i18n.t('subscription.sales_pla_button')}
+          {i18n.t('subscription.sales_button')}
         </Button>
       )}
       {salesLink && (
-        <a className={s.bookDemoLink} href={salesLink} target="_blank" rel="noreferrer">
+        <a
+          className={s.bookDemoLink}
+          href={salesLink}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={i18n.t('subscription.book_demo_button')}
+        >
           {i18n.t('subscription.book_demo_button')}
         </a>
       )}

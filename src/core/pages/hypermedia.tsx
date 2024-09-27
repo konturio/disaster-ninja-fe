@@ -3,9 +3,8 @@ import { configRepo } from '~core/config';
 import { goTo } from '~core/router/goTo';
 
 export function isExternalLink(href: string) {
-  return (
-    href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto')
-  );
+  const externalProtocols = ['http://', 'https://', 'mailto:'];
+  return externalProtocols.some((protocol) => href.startsWith(protocol));
 }
 
 export function buildAssetUrl(asset: string) {

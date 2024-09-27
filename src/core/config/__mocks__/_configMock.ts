@@ -198,6 +198,22 @@ const _configDataMock = {
             },
           ],
         },
+        {
+          id: 'kontur_atlas_custom',
+          name: 'Custom',
+          style: 'custom',
+          actions: [
+            {
+              name: 'contact_sales',
+              params: {
+                link: 'https://calendly.com/',
+              },
+            },
+            {
+              name: 'book_a_demo',
+            },
+          ],
+        },
       ],
     },
     app_login: true,

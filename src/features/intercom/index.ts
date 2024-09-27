@@ -17,6 +17,8 @@ export function initIntercom() {
 export function openIntercomChat() {
   if (globalThis.Intercom && globalThis.intercomSettings) {
     globalThis.Intercom('showMessages');
+  } else {
+    console.warn('Intercom is not available');
   }
 }
 

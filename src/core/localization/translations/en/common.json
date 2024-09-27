@@ -342,7 +342,7 @@
     "price_summary": "* Billed as ${{pricePerYear}} USD once yearly",
     "unauthorized_button": "Sign in to subscribe",
     "current_plan_button": "Current plan",
-    "sales_pla_button": "Contact sales",
+    "sales_button": "Contact sales",
     "book_demo_button": "Book a demo",
     "errors": {
       "payment_initialization": "There was an error during payment initialization. Please try again or contact our support"
