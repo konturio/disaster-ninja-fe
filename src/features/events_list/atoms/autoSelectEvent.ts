@@ -1,60 +1,58 @@
-import { createAtom } from '~utils/atoms';
+import { atom } from '@reatom/core';
 import { currentNotificationAtom } from '~core/shared_state';
-import {
-  currentEventAtom,
-  scheduledAutoFocus,
-  scheduledAutoSelect,
-} from '~core/shared_state/currentEvent';
+import { currentEventAtom, scheduledAutoSelect } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
+import { v3toV2 } from '~utils/atoms/v3tov2';
 import { eventListResourceAtom } from './eventListResource';
 
-export const autoSelectEvent = createAtom(
-  {
-    eventListResourceAtom,
-  },
-  ({ getUnlistedState, schedule, onChange }, state = {}) => {
-    onChange('eventListResourceAtom', (eventListResource) => {
-      const autoSelectWasScheduled = getUnlistedState(scheduledAutoSelect);
-      if (
-        autoSelectWasScheduled &&
-        eventListResource &&
-        !eventListResource.loading &&
-        !eventListResource.error &&
-        eventListResource.data &&
-        eventListResource.data.length
-      ) {
-        const currentEvent = getUnlistedState(currentEventAtom);
-        const currentEventNotInTheList = !eventListResource.data.some(
-          (e) => e.eventId === currentEvent?.id,
-        );
+// reatom v2 imports mapped to reatom v3
+const __v3_imports = {
+  eventListResourceAtom: eventListResourceAtom.v3atom,
+  scheduledAutoSelect: scheduledAutoSelect.v3atom,
+  currentEventAtom: currentEventAtom.v3atom,
+};
+function __create_v3() {
+  const { eventListResourceAtom, scheduledAutoSelect, currentEventAtom } = __v3_imports;
+  // v3 definitions section
+  const autoSelectEvent = atom((ctx) => {
+    const eventListResource = ctx.spy(eventListResourceAtom);
+    const autoSelectWasScheduled = ctx.spy(scheduledAutoSelect);
+    const currentEvent = ctx.spy(currentEventAtom);
 
-        if (!currentEventNotInTheList) return state;
+    if (
+      !autoSelectWasScheduled ||
+      !eventListResource?.data?.length ||
+      eventListResource.loading ||
+      eventListResource.error
+    ) {
+      return;
+    }
 
-        if (currentEvent?.id) {
-          // This case happens when call for event by provided eventId didn't return event
-          schedule((dispatch) =>
-            dispatch(
-              currentNotificationAtom.showNotification(
-                'warning',
-                { title: i18n.t('event_list.no_event_in_feed') },
-                5,
-              ),
-            ),
-          );
-        } else {
-          const firstEventInList = eventListResource.data[0];
-          schedule((dispatch) => {
-            dispatch([
-              scheduledAutoSelect.setFalse(),
-              scheduledAutoFocus.setTrue(),
-              currentEventAtom.setCurrentEventId(firstEventInList.eventId),
-            ]);
-          });
-        }
-      }
-    });
+    const currentEventNotInTheList = !eventListResource.data.some(
+      (e) => e.eventId === currentEvent?.id,
+    );
 
-    return state;
-  },
-  'autoSelectEvent',
-);
+    if (currentEventNotInTheList && currentEvent?.id) {
+      currentNotificationAtom.showNotification.v3action(
+        ctx,
+        'warning',
+        { title: i18n.t('event_list.no_event_in_feed') },
+        5,
+      );
+      currentEventAtom(ctx, { id: null });
+    }
+
+    scheduledAutoSelect(ctx, false);
+  }, 'autoSelectEvent');
+
+  // v3 exports object
+  return {
+    autoSelectEvent,
+  };
+}
+const v3 = __create_v3();
+// v3 exports as default
+export default v3;
+
+// v2 compatible exports keeping the same names
+export const autoSelectEvent = v3toV2(v3.autoSelectEvent);

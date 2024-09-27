@@ -1,14 +1,14 @@
 import { i18n } from '~core/localization';
 import { combineAtoms } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { apiClient } from '~core/apiClientInstance';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/app/types';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
+import { getEventsList } from '~core/api/events';
 import { eventListFilters } from './eventListFilters';
-import type { Event } from '~core/types';
+import type { EventListParams } from '~core/api/events';
 
 const depsAtom = combineAtoms({
   currentFeed: currentEventFeedAtom,
@@ -18,19 +18,12 @@ const depsAtom = combineAtoms({
 export const eventListResourceAtom = createAsyncAtom(
   depsAtom,
   async (deps, abortController) => {
-    const params: {
-      feed?: string;
-      bbox?: string;
-    } = {
+    const params: EventListParams = {
       feed: deps?.currentFeed?.id,
       bbox: deps?.filters.bbox?.join(','),
     };
 
-    const responseData =
-      (await apiClient.get<Event[]>('/events/', params, true, {
-        signal: abortController.signal,
-        errorsConfig: { hideErrors: true },
-      })) ?? ([] as Event[]);
+    const responseData = await getEventsList(params, abortController);
 
     dispatchMetricsEventOnce(AppFeature.EVENTS_LIST, responseData.length > 0);
 
