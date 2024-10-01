@@ -126,7 +126,7 @@ function Plans({ styling = '', markdown = _plans, isUserAuthorized = false }) {
               <div className={s.footerWrapper}>
                 <PaymentPlanCardFooter
                   // @ts-expect-error ...
-                  plan={plan}
+                  planConfig={plan}
                   isUserAuthorized={isUserAuthorized}
                   currentSubscription={currentSubscription}
                   billingOption={billingOption as BillingCycle | undefined}

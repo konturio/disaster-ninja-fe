@@ -87,7 +87,6 @@ export const config = {
       id: 'kontur_atlas_custom',
       name: 'Custom',
       style: 'custom',
-      // billingCycles: ,
       actions: ['contact_sales', 'book_a_demo'], //
     },
   ],

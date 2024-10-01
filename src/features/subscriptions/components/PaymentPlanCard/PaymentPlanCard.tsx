@@ -1,19 +1,24 @@
-import React, { memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { Button, Heading, Text } from '@konturio/ui-kit';
-import { Finish24 } from '@konturio/default-icons';
 import clsx from 'clsx';
+import { useAtom } from '@reatom/react-v2';
 import { Price } from '~features/subscriptions/components/Price/Price';
 import PaymentPlanCardFooter from '~features/subscriptions/components/PaymentPlanCardFooter/PaymentPlanCardFooter';
-import { PAYMENT_METHOD_ID_PAYPAL } from '~features/subscriptions/constants';
+import {
+  CUSTOM_PLAN_ID,
+  PAYMENT_METHOD_ID_PAYPAL,
+} from '~features/subscriptions/constants';
 import { i18n } from '~core/localization';
+import { intercomVisibleAtom, openIntercomChat } from '~features/intercom';
 import { PayPalButtonsGroup } from '../PayPalButtonsGroup/PayPalButtonsGroup';
 import s from './PaymentPlanCard.module.css';
-import { PLANS_STYLE_CONFIG } from './contants';
-import type { PaymentPlan } from '~features/subscriptions/types';
+import type { ReactNode, ReactElement } from 'react';
+import type { BillingCycle, PaymentPlanConfig } from '~features/subscriptions/types';
 import type { CurrentSubscription } from '~core/api/subscription';
 
 export type PaymentPlanCardProps = {
-  plan: PaymentPlan;
+  planConfig: PaymentPlanConfig;
+  planContent: ReactNode[];
   currentBillingCycleId: string;
   currentSubscription: CurrentSubscription | null;
   isUserAuthorized: boolean;
@@ -22,18 +27,37 @@ export type PaymentPlanCardProps = {
 };
 
 const PaymentPlanCard = memo(function PaymentPlanCard({
-  plan,
+  planConfig,
   currentBillingCycleId,
   currentSubscription,
   isUserAuthorized,
   onUnauthorizedUserClick,
   onNewSubscriptionApproved,
+  planContent,
 }: PaymentPlanCardProps) {
-  const styleConfig = PLANS_STYLE_CONFIG[plan.style];
+  const [isChatButtonVisible] = useAtom(intercomVisibleAtom);
+
+  const planType = (planContent[0] as ReactElement).props.children[0];
+  const content = planContent.slice(1, -2);
+  const highlightsBlock = planContent.at(-1);
+  const isCustomPlan = planConfig.id === CUSTOM_PLAN_ID;
+
+  /** Get custom plan special properties */
+  let planName;
+  let description;
+  let salesLink;
+  if (isCustomPlan) {
+    planName = (content[0] as ReactElement).props.children[0];
+    description = content[1];
+    salesLink = planConfig.actions?.find((action) => action.name === 'contact_sales')
+      ?.params.link;
+  } else {
+    description = content[0];
+  }
 
   const billingOption = useMemo(
-    () => plan.billingCycles.find((option) => option.id === currentBillingCycleId),
-    [plan.billingCycles, currentBillingCycleId],
+    () => planConfig.billingCycles?.find((option) => option.id === currentBillingCycleId),
+    [planConfig.billingCycles, currentBillingCycleId],
   );
 
   const paypalPlanId = useMemo(
@@ -65,58 +89,99 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
     );
   };
 
-  return (
-    <div className={clsx(s.planCard, styleConfig.className)}>
-      <div className={s.planName}>
-        {styleConfig.icon()}
-        <Heading type="heading-04" margins={false}>
-          {plan.name}
-        </Heading>
-      </div>
+  const priceBlock = !isCustomPlan && (
+    <>
       {/* Just hide old price on 'month' to prevent content jumping */}
       {billingOption && (
         <div
-          className={clsx(s.initialPrice, { [s.hidden]: billingOption.id === 'month' })}
+          className={clsx(s.initialPrice, {
+            [s.hidden]: billingOption.id === 'month',
+          })}
         >
-          {`$${billingOption?.initialPricePerMonth?.toLocaleString('en-US')} ${i18n.t('currency.usd')}`}
+          {`$${billingOption?.initialPricePerMonth?.toLocaleString('en-US')} USD / mo`}
         </div>
       )}
       {billingOption && (
         <Price className={s.price} amount={billingOption.pricePerMonth} />
       )}
-      <Text className={s.planDescription} type="short-m">
-        {plan.description}
-      </Text>
-      <div className={s.buttonWrapper}>
-        {/* Non-authorized */}
-        {!isUserAuthorized && (
-          <Button
-            className={clsx(s.paymentPlanButton, styleConfig.className)}
-            onClick={onUnauthorizedUserClick}
-          >
-            {i18n.t('subscription.unauthorized_button')}
-          </Button>
-        )}
-        {/* Authorized */}
-        {isUserAuthorized && paypalPlanId && renderSubscribeButtons(paypalPlanId)}
-      </div>
-      <ul className={s.highlights}>
-        {plan.highlights.map((highlight, index) => (
-          <li key={index} className={s.highlight}>
-            <Finish24 className={s.highlightIcon} />
-            <span>{highlight}</span>
-          </li>
-        ))}
-      </ul>
+    </>
+  );
 
-      <div className={s.footerWrapper}>
-        <PaymentPlanCardFooter
-          plan={plan}
-          isUserAuthorized={isUserAuthorized}
-          currentSubscription={currentSubscription}
-          billingOption={billingOption}
-        />
+  const descriptionBlock = (
+    <>
+      {planName && <div className={s.customPlanName}>{planName}</div>}
+      {description && (
+        <Text className={s.planDescription} type="short-m">
+          {description}
+        </Text>
+      )}
+    </>
+  );
+
+  const customButtons = (
+    <>
+      {isChatButtonVisible && (
+        <Button className={clsx(s.paymentPlanButton)} onClick={openIntercomChat}>
+          {i18n.t('subscription.sales_button')}
+        </Button>
+      )}
+      {salesLink && (
+        <a
+          className={s.bookDemoLink}
+          href={salesLink}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={i18n.t('subscription.book_demo_button')}
+        >
+          {i18n.t('subscription.book_demo_button')}
+        </a>
+      )}
+    </>
+  );
+
+  const buttonsBlock = (
+    <div className={clsx(s.buttonWrapper, { [s.customButtonsWrapper]: isCustomPlan })}>
+      {/* Non-authorized */}
+      {!isUserAuthorized && !isCustomPlan && (
+        <Button className={clsx(s.paymentPlanButton)} onClick={onUnauthorizedUserClick}>
+          {i18n.t('subscription.unauthorized_button')}
+        </Button>
+      )}
+      {/* Authorized */}
+      {isUserAuthorized && paypalPlanId && renderSubscribeButtons(paypalPlanId)}
+      {/* Custom Plan buttons */}
+      {isCustomPlan && customButtons}
+    </div>
+  );
+
+  const footerBlock = !isCustomPlan && (
+    <div className={s.footerWrapper}>
+      <PaymentPlanCardFooter
+        planConfig={planConfig}
+        isUserAuthorized={isUserAuthorized}
+        currentSubscription={currentSubscription}
+        billingOption={billingOption as BillingCycle | undefined}
+      />
+    </div>
+  );
+
+  return (
+    <div
+      className={clsx(s.planCard, {
+        [s.custom]: planConfig.style === 'custom',
+        [s.premium]: planConfig.style === 'premium',
+      })}
+    >
+      <div className={s.planType}>
+        <Heading type="heading-04" margins={false}>
+          {planType}
+        </Heading>
       </div>
+      {priceBlock}
+      {descriptionBlock}
+      {buttonsBlock}
+      {highlightsBlock}
+      {footerBlock}
     </div>
   );
 });

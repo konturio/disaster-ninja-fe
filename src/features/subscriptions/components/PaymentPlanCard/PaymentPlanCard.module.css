@@ -1,5 +1,14 @@
 .planCard {
-  border: 1px solid var(--faint-weak-up, #d2d5d8);
+  /* Color for plan type, highlights */
+  --primary-color: var(--success-strong);
+  /* Color for plan type background */
+  --secondary-color: #def5df;
+  /* Background color of card */
+  --plan-bg-color: transparent;
+  /* Border color of card */
+  --plan-border-color: var(--faint-weak-up, #d2d5d8);
+
+  border: 1px solid var(--plan-border-color);
   border-radius: var(--double-unit, 16px);
   padding: 48px 40px 24px;
   height: 578px;
@@ -8,37 +17,63 @@
   display: flex;
   position: relative;
   flex-direction: column;
-
-  --strong-color: var(--success-strong);
-  --plan-type-bg-color: #def5df;
-
-  &:global(.premium) {
-    --strong-color: var(--accent-strong);
-    --plan-type-bg-color: #d8effc;
-
-    background-color: var(--accent-weak);
-    border-color: var(--strong-color);
-  }
+  background-color: var(--plan-bg-color);
 
   &:hover {
     box-shadow: var(--shadow-medium);
   }
+
+  /* Specific custom styles */
+  &.custom {
+    --primary-color: var(--base-strong-down);
+    --secondary-color: var(--faint-weak);
+  }
+
+  /* Specific premium styles */
+  &.premium {
+    --primary-color: var(--accent-strong);
+    --secondary-color: #d8effc;
+    --plan-bg-color: var(--accent-weak);
+    --plan-border-color: var(--accent-weak-up);
+  }
+
+  /* Highlights section */
+  & ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    & li {
+      margin: 5px 0;
+    }
+
+    & li::before {
+      content: '✔';
+      display: inline-block;
+      margin-right: var(--double-unit);
+      color: var(--primary-color);
+    }
+  }
 }
 
-.planIcon {
-  margin-right: var(--unit);
-}
-
-.planName {
+.planType {
   position: absolute;
   padding: var(--unit) var(--double-unit);
   border-radius: 18px;
   right: 40px;
   top: -18px;
-  background-color: var(--plan-type-bg-color);
-  color: var(--strong-color);
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
   display: flex;
   align-items: center;
+}
+
+.planCard.custom .planType::before {
+  content: '★';
+  font-size: 22px;
+  padding-right: 4px;
+  position: relative;
+  top: -2px;
 }
 
 .initialPrice {
@@ -61,38 +96,35 @@
   margin-left: 5px;
 }
 
+.customPlanName {
+  font-weight: 500;
+  line-height: 40px;
+  font-size: 52px;
+  margin: 36px 0 22px;
+}
+
 .planDescription {
   color: var(--faint-strong);
-  margin-bottom: var(--double-unit);
+  margin: 0 0 var(--double-unit);
+
+  & a:global(.external) {
+    color: var(--accent-strong);
+  }
 }
 
 .buttonWrapper {
   margin-bottom: 24px;
 }
 
-.cancelButton {
-  position: relative;
-  bottom: -11px;
-}
-
-.highlights {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
-  & li {
-    margin: 5px 0;
-  }
-}
-
-.highlight {
+.customButtonsWrapper {
+  column-gap: 16px;
   display: flex;
   align-items: center;
 }
 
-.highlightIcon {
-  margin-right: var(--double-unit);
-  color: var(--strong-color);
+.cancelButton {
+  position: relative;
+  bottom: -11px;
 }
 
 .footerWrapper {
@@ -106,16 +138,50 @@
   }
 }
 
-.paymentPlanButton {
-  background-color: var(--strong-color);
-
-  --subscribe-btn-hover: #269b00;
-
-  &:global(.premium) {
-    --subscribe-btn-hover: var(--accent-strong-up);
-  }
+.bookDemoLink {
+  font: var(--font-xs);
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.019px;
+  color: var(--base-strong-down);
+  padding: 11px 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--base-strong-down, #2e3d4a);
+  text-decoration: none;
+  cursor: pointer;
 
   &:hover {
-    background-color: var(--subscribe-btn-hover);
+    border-color: var(--base-strong);
+    color: var(--base-strong);
   }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--base-weak),
+      0 0 0 4px var(--complimentary-strong);
+  }
+}
+
+/** Buttons color */
+.paymentPlanButton {
+  background-color: var(--success-strong);
+
+  &:hover {
+    background-color: #269b00;
+  }
+}
+
+.planCard.custom .paymentPlanButton {
+  background-color: var(--base-strong-down);
+}
+.planCard.premium .paymentPlanButton {
+  background-color: var(--accent-strong);
+}
+
+.planCard.custom .paymentPlanButton:hover {
+  background-color: var(--base-strong);
+}
+.planCard.premium .paymentPlanButton:hover {
+  background-color: var(--accent-strong-up);
 }
