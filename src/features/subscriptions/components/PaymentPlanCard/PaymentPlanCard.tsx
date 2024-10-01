@@ -166,7 +166,12 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   );
 
   return (
-    <div className={clsx(s.planCard, planConfig.style)}>
+    <div
+      className={clsx(s.planCard, {
+        [s.custom]: planConfig.style === 'custom',
+        [s.premium]: planConfig.style === 'premium',
+      })}
+    >
       <div className={s.planType}>
         <Heading type="heading-04" margins={false}>
           {planType}

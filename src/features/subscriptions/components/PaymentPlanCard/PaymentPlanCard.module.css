@@ -24,13 +24,13 @@
   }
 
   /* Specific custom styles */
-  &:global(.custom) {
+  &.custom {
     --primary-color: var(--base-strong-down);
     --secondary-color: var(--faint-weak);
   }
 
   /* Specific premium styles */
-  &:global(.premium) {
+  &.premium {
     --primary-color: var(--accent-strong);
     --secondary-color: #d8effc;
     --plan-bg-color: var(--accent-weak);
@@ -68,7 +68,7 @@
   align-items: center;
 }
 
-:global(.custom) .planType::before {
+.planCard.custom .planType::before {
   content: '★';
   font-size: 22px;
   padding-right: 4px;
@@ -172,16 +172,16 @@
   }
 }
 
-.planCard:global(.custom) .paymentPlanButton {
+.planCard.custom .paymentPlanButton {
   background-color: var(--base-strong-down);
 }
-.planCard:global(.premium) .paymentPlanButton {
+.planCard.premium .paymentPlanButton {
   background-color: var(--accent-strong);
 }
 
-.planCard:global(.custom) .paymentPlanButton:hover {
+.planCard.custom .paymentPlanButton:hover {
   background-color: var(--base-strong);
 }
-.planCard:global(.premium) .paymentPlanButton:hover {
+.planCard.premium .paymentPlanButton:hover {
   background-color: var(--accent-strong-up);
 }
