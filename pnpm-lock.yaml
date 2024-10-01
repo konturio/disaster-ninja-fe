@@ -84,8 +84,11 @@ importers:
         specifier: ^3.8.4
         version: 3.8.4
       '@reatom/npm-react':
-        specifier: ^3.8.10
-        version: 3.8.10(react@18.2.0)
+        specifier: ^3.9.0
+        version: 3.9.0(react@18.2.0)
+      '@reatom/primitives':
+        specifier: ^3.7.3
+        version: 3.7.3
       '@reatom/react-v2':
         specifier: ^3.1.2
         version: 3.1.2(@reatom/core-v2@3.1.4)(react@18.2.0)
@@ -1504,13 +1507,13 @@ packages:
   '@reatom/logger@3.8.4':
     resolution: {integrity: sha512-MOz8Td1eZV+kU4QpkZXAdO9qFtGjqpm40crIlMNweDtOH7GgUmV2oKgOXRORQzYbeGHVMlQHG4J5iPeEQdM7KA==}
 
-  '@reatom/npm-react@3.8.10':
-    resolution: {integrity: sha512-9a7SPuxSYZAAPR0kt5GkOvPID5nB3RC+wByQPo+io6RQ5htYbufM+kRLwsL6EqfOMJJeKy27BCC8MtowTIL+ng==}
+  '@reatom/npm-react@3.9.0':
+    resolution: {integrity: sha512-2lyFLoTf90r/yx8qbOy10MR4odp4umruzrlvmv8dJaS2H35qcnSTsx3LRXLPDTxvREIzQpdKLF5d01EVcr/j6g==}
     peerDependencies:
       react: '>=16.8.0'
 
-  '@reatom/primitives@3.7.2':
-    resolution: {integrity: sha512-AR4gJye9StjpPYbqR51m6fWPvIx8rmU/S9EWDpMytbKGC7I/ydCpHqoaWL+LrjHF79I7+RO88s88LVIBFOvJFg==}
+  '@reatom/primitives@3.7.3':
+    resolution: {integrity: sha512-HzG2aoGzE2W410ZSqnT8hd21Xd+bNMIkN03tq7dWgZ4OAZKawVnxdeB8bHu+oA5ppxICfrY0HtPUUeQTbvxfgQ==}
 
   '@reatom/react-v2@3.1.2':
     resolution: {integrity: sha512-KF3okxFKu63hl/1ePiucrvka6/JU1MBetxj6ycbBvXzAvhfX22G88i2n0HW+W774SBvRsLLVzQgLqfZs316t0Q==}
@@ -7840,7 +7843,7 @@ snapshots:
       '@reatom/core': 3.9.0
       '@reatom/effects': 3.7.3
       '@reatom/hooks': 3.5.5
-      '@reatom/primitives': 3.7.2
+      '@reatom/primitives': 3.7.3
       '@reatom/utils': 3.9.0
 
   '@reatom/core-v2@3.1.4':
@@ -7872,7 +7875,7 @@ snapshots:
       '@reatom/core': 3.9.0
       '@reatom/utils': 3.9.0
 
-  '@reatom/npm-react@3.8.10(react@18.2.0)':
+  '@reatom/npm-react@3.9.0(react@18.2.0)':
     dependencies:
       '@reatom/core': 3.9.0
       '@reatom/effects': 3.7.3
@@ -7881,7 +7884,7 @@ snapshots:
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
 
-  '@reatom/primitives@3.7.2':
+  '@reatom/primitives@3.7.3':
     dependencies:
       '@reatom/core': 3.9.0
       '@reatom/utils': 3.9.0

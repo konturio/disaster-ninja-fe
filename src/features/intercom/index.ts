@@ -1,15 +1,16 @@
+import { atom } from '@reatom/core';
 import { cookieManagementService, permissionStatuses } from '~core/cookie_settings';
-import { createBooleanAtom } from '~utils/atoms';
 import { configRepo } from '~core/config';
-
-export const intercomVisibleAtom = createBooleanAtom(false, 'intercomVisibleAtom');
+import { store } from '~core/store/store';
+const ctx = store.v3ctx;
+export const intercomVisibleAtom = atom(false, 'intercomVisibleAtom');
 
 export function initIntercom() {
   const intercomPermission = cookieManagementService.requestPermission('Intercom');
   intercomPermission.onStatusChange((status) => {
     if (status === permissionStatuses.granted) {
       connectAndConfigureIntercom();
-      intercomVisibleAtom.setTrue.dispatch(); // Add empty space in footer for intercom
+      intercomVisibleAtom(ctx, true); // Add empty space in footer for intercom
     }
   });
 }
