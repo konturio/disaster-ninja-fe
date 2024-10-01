@@ -121,14 +121,6 @@ const _configDataMock = {
           id: 'kontur_atlas_edu',
           name: 'Educational',
           style: 'basic',
-          description:
-            'For students, hobbyists, and anyone testing the entry-level option before upgrading',
-          highlights: [
-            'Multi-criteria decision analyses',
-            'AI analytics',
-            'Favorite area of interest',
-            'Download analyses',
-          ],
           billingCycles: [
             {
               id: 'month',
@@ -160,17 +152,6 @@ const _configDataMock = {
           id: 'kontur_atlas_pro',
           name: 'Professional',
           style: 'premium',
-          description:
-            'For GIS data analysts and managers who work with GIS on a daily basis',
-          highlights: [
-            'Multi-criteria decision analyses',
-            'AI analytics',
-            'Favorite area of interest',
-            'Download analyses',
-            'Customer support',
-            'Custom requests',
-            'Upload custom indicators for analytics',
-          ],
           billingCycles: [
             {
               id: 'month',

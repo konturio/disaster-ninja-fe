@@ -88,7 +88,12 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
     }
   }, [config.plans, currentSubscription]);
 
-  if (!markdown) return null;
+  if (!markdown)
+    return (
+      <div style={{ margin: 'auto' }}>
+        <h2>Error occurred while loading plans</h2>
+      </div>
+    );
   const plansContent = parsePlans(markdown);
 
   return (
