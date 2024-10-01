@@ -145,7 +145,7 @@
     "eslint-plugin-i18n-checker": "^1.4.0",
     "eslint-plugin-i18n-json": "^4.0.0",
     "eslint-plugin-import": "^2.30.0",
-    "eslint-plugin-react": "^7.35.2",
+    "eslint-plugin-react": "^7.37.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "file-saver": "^2.0.5",
     "geojson-polygon-self-intersections": "^1.2.1",
