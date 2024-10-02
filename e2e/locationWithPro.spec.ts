@@ -9,7 +9,7 @@ let projects = getProjects();
 // Temporally switched off oam untill 18508 issue is fixed
 
 projects = projects.filter(
-  (arg: Project) => arg.name !== 'disaster-ninja' && arg.name !== 'oam',
+  ({ name }: Project) => name !== 'disaster-ninja' && name !== 'oam',
 );
 
 // Setting 3 retries for CI as it is very flacky with screenshots

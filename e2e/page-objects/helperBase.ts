@@ -53,8 +53,8 @@ export class HelperBase {
   /**
    * This method waits for event to be emitted and filtering to return true. It enters a browser console and waits for browser event to be emitted. If it is not emitted in several seconds, it fails the test.
    * @param operablePage playwright page to use
-   * @param eventName event name to wait for
    * @param eventType event type to wait for
+   * @param eventName event name to wait for
    * @returns event object
    * @throws error if event is not emitted in time
    */
@@ -178,7 +178,9 @@ export class HelperBase {
    */
 
   checkCampaignIsAutotest(): void {
-    expect(this.page.url()).toContain('utm_campaign=autotests');
+    expect(this.page.url(), 'URL should contain utm_campaign=autotests').toContain(
+      'utm_campaign=autotests',
+    );
   }
 }
 

@@ -4,7 +4,9 @@ import type { Page } from '@playwright/test';
 
 export class NavigationMenu extends HelperBase {
   /**
-   * This method allows to open pages from navigation menu
+   * Opens a page by clicking a button in the navigation menu.
+   * @param buttonName - name of the button to click
+   * @param operablePage - playwright page to use
    */
 
   async clickButtonToOpenPage(buttonName: string, operablePage: Page = this.page) {
@@ -12,7 +14,8 @@ export class NavigationMenu extends HelperBase {
       .getByTestId('side-bar')
       .getByText(buttonName, { exact: true });
     await button.hover();
-    await button.click({ delay: 330 });
+    // Delay is needed to emulate a real user click
+    await button.click({ delay: 500 });
   }
 
   /**
