@@ -62,12 +62,27 @@ for (const project of projects) {
     }
 
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-    project.name === 'atlas'
-      ? await pageManager.atMap.goToSpecificAreaByUrl(5, 134, 80, project)
-      : await pageManager.fromNavigationMenu.goToMap();
+    if (project.name === 'atlas') {
+      await pageManager.atMap.goToSpecificAreaByUrl(5, 134, 80, project);
+    } else {
+      await pageManager.fromNavigationMenu.goToMap();
+    }
 
     if (project.name !== 'atlas') {
-      await pageManager.atToolBar.checkTextsInToolbar(visibleTexts, hiddenTexts);
+      await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(
+        visibleTexts,
+        hiddenTexts,
+      );
+      await pageManager.atToolBar.resizeToolbar({ collapse: true });
+      await pageManager.atToolBar.checkTooltipsInShortToolbar(
+        pageManager.atToolBar.getToolBarData(visibleTexts),
+        pageManager.atToolBar.getToolBarData(hiddenTexts),
+      );
+      await pageManager.atToolBar.resizeToolbar({ collapse: false });
+      await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(
+        visibleTexts,
+        hiddenTexts,
+      );
     } else {
       await expect(
         await pageManager.atToolBar.getButtonByText('Measure distance'),

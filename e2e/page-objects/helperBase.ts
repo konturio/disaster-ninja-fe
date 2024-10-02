@@ -166,7 +166,7 @@ export function getProjects() {
   const __dirname = path.dirname(__filename);
 
   const data = fs
-    .readFileSync(path.join(__dirname, '../projects-config.json'))
+    .readFileSync(path.join(__dirname, '../testsData/projects-config.json'))
     .toString();
 
   const appName = process.env.APP_NAME ?? 'all';
@@ -179,4 +179,21 @@ export function getProjects() {
   return JSON.parse(data)
     .filter((project: Project) => project.env === environment)
     .filter((project: Project) => appName === 'all' || project.name === appName);
+}
+
+/**
+ * This function gets data from testData folder
+ * @param fileName name of the file with data
+ * @returns info from the file
+ */
+
+export function getTestData(fileName: string) {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
+  const data = fs
+    .readFileSync(path.join(__dirname, `../testsData/${fileName}.json`))
+    .toString();
+
+  return JSON.parse(data);
 }

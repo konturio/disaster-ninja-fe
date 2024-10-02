@@ -7,6 +7,7 @@ import type { ControlButttonProps } from '../ToolbarButton/ToolbarButton';
 
 export const ShortToolbarButton = forwardRef(function ToolbarButton(
   {
+    id,
     icon,
     disabled,
     onClick,
@@ -21,6 +22,7 @@ export const ShortToolbarButton = forwardRef(function ToolbarButton(
     <Tooltip placement="top">
       <TooltipTrigger asChild>
         <Button
+          data-testid={id}
           ref={ref}
           variant={variant}
           iconBefore={icon}

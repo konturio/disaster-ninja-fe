@@ -1,0 +1,47 @@
+[
+  {
+    "id": "LocateMe",
+    "tooltipText": "Locate me",
+    "visibleButtonText": "Locate me"
+  },
+  {
+    "id": "MapRuler",
+    "tooltipText": "Measure distance",
+    "visibleButtonText": "Measure distance"
+  },
+  {
+    "id": "EditInOsm",
+    "tooltipText": "Edit map in OSM",
+    "visibleButtonText": "Edit map in OSM"
+  },
+  {
+    "id": "MCDA",
+    "tooltipText": "Create MCDA",
+    "visibleButtonText": "Create MCDA"
+  },
+  {
+    "id": "UploadMCDA",
+    "tooltipText": "Upload MCDA",
+    "visibleButtonText": "Upload MCDA"
+  },
+  {
+    "id": "BoundarySelector",
+    "tooltipText": "Select admin boundary",
+    "visibleButtonText": "Select admin boundary"
+  },
+  {
+    "id": "UploadFile",
+    "tooltipText": "Upload GeoJSON",
+    "visibleButtonText": "Upload GeoJSON"
+  },
+  {
+    "id": "sensorControl",
+    "tooltipText": "Record sensors",
+    "visibleButtonText": "Record sensors"
+  },
+  {
+    "id": "SAVE_AS_REFERENCE_AREA",
+    "tooltipText": "Save as reference area",
+    "visibleButtonText": "Save as reference area"
+  }
+]

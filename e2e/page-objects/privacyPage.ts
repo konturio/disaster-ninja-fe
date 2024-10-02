@@ -1,9 +1,6 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { expect } from '@playwright/test';
-import { HelperBase } from './helperBase';
-import type { BrowserContext } from '@playwright/test';
+import { HelperBase, getTestData } from './helperBase';
+import type { BrowserContext, Page } from '@playwright/test';
 
 type Links = {
   name: string;
@@ -16,6 +13,12 @@ type Links = {
 };
 
 export class PrivacyPage extends HelperBase {
+  readonly data: Links[];
+
+  constructor(page: Page) {
+    super(page);
+    this.data = getTestData('links-privacy');
+  }
   /**
    * This method checks all the titles at privacy page to fit texts
    * @param titlesCheckOptions - array with all texts of titles except cookie policy title
@@ -29,23 +32,6 @@ export class PrivacyPage extends HelperBase {
   }
 
   /**
-   * This method gets links for privacy page
-   * @returns array of objects with info about each link
-   */
-
-  async getLinks() {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-
-    const data = fs
-      .readFileSync(path.join(__dirname, '../links-privacy.json'))
-      .toString();
-
-    const links: Links[] = JSON.parse(data);
-    return links;
-  }
-
-  /**
    * This method checks all links on the privacy page.
    * Input data should be specified in the links-privacy.json file.
    * Link names and URLs are verified, and for some links, the actual URL in the browser is compared to the expected one after click on the link.
@@ -53,7 +39,7 @@ export class PrivacyPage extends HelperBase {
    */
 
   async checkLinks(context: BrowserContext) {
-    let links = await this.getLinks();
+    let links: Links[] = this.data;
     // TO DO: remove filtering when issue 19468 is fixed
     links = links.filter(
       (arg) => arg.name !== 'your-online-choice' && arg.name !== 'polish-gov',

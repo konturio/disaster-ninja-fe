@@ -106,6 +106,7 @@ export function ToolbarPanel({
           contentHeight={contentHeight}
           minContentHeight={minHeight}
           maxContentHeight={maxHeight}
+          data-testid={id}
         >
           {panelContent[panelState]}
         </Panel>
@@ -114,6 +115,7 @@ export function ToolbarPanel({
           clickHandler={onPanelIconClick}
           className={clsx(s.panelIcon, isOpen && s.hide, !isOpen && s.show)}
           icon={resultPanelIcon || <></>}
+          data-testid={id}
         />
       </div>
     </>

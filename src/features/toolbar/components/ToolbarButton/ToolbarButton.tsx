@@ -7,6 +7,7 @@ import type { ButtonProps } from '@konturio/ui-kit/tslib/Button';
 
 // Control button component props
 export interface ControlButttonProps {
+  id?: string;
   size: ButtonProps['size'];
   icon: React.ReactElement;
   onClick?: () => void;
@@ -19,6 +20,7 @@ export interface ControlButttonProps {
 
 export const ToolbarButton = forwardRef(function ToolbarButton(
   {
+    id,
     icon,
     size,
     disabled,
@@ -42,6 +44,7 @@ export const ToolbarButton = forwardRef(function ToolbarButton(
           disabled={disabled}
           active={active}
           onClick={onClick}
+          data-testid={id}
         >
           {children}
         </Button>

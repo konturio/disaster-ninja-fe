@@ -57,6 +57,7 @@ export interface WidgetProps {
   controlComponent: React.ComponentType<ControlComponentProps>;
   state: ControlState;
   onClick: () => void;
+  id?: string;
 }
 
 interface ToolbarWidgetSettings extends CommonToolbarControlSettings {
