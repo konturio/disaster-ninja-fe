@@ -106,7 +106,7 @@ for (const project of projects) {
     }
 
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-    await pageManager.fromNavigationMenu.goToMap();
+    await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
     await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(visibleTexts, hiddenTexts);
     await pageManager.atToolBar.resizeToolbar({ collapse: true });
     await pageManager.atToolBar.checkTooltipsInShortToolbar(

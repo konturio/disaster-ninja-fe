@@ -13,7 +13,7 @@ for (const project of projects) {
     pageManager,
   }) => {
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-    await pageManager.fromNavigationMenu.goToMap();
+    await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
 
     // TO DO: remove this action after 18582 issue is fixed
     await pageManager.atMap.goToSpecificAreaByUrl(10.597, 53.9196, 27.5097, project);

@@ -1,4 +1,3 @@
-import { expect } from '@playwright/test';
 import { getProjects } from './page-objects/helperBase.ts';
 import { test } from './fixtures/test-options.ts';
 
@@ -7,14 +6,12 @@ const projects = getProjects();
 for (const project of projects) {
   test(`As PRO user, I can go to ${project.title}, open Privacy tab, analyze this page, verify cookies page`, async ({
     pageManager,
-    page,
     context,
   }) => {
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-    await pageManager.fromNavigationMenu.goToPrivacyPage();
+    await pageManager.atNavigationMenu.clickButtonToOpenPage('Privacy');
     await pageManager.atBrowser.waitForUrlToMatchPattern(/privacy/);
-    // TO DO: activate this check once 19103 issue is done
-    // expect(page.url()).toContain('autotests');
+    pageManager.atBrowser.checkCampaignIsAutotest();
     await pageManager.atPrivacyPage.checkTitles(
       [
         'Privacy Policy for EU/UK Residents',
@@ -28,8 +25,7 @@ for (const project of projects) {
     );
     // Specify links to check at links-privacy.json file
     await pageManager.atPrivacyPage.checkLinks(context);
-    // TO DO: activate this check once 19103 issue is done
-    // expect(page.url()).toContain('autotests');
+    pageManager.atBrowser.checkCampaignIsAutotest();
     await pageManager.atPrivacyPage.openAndVerifyCookiesPage();
   });
 }

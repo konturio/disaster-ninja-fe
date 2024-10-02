@@ -22,7 +22,7 @@ export class ToolBar extends HelperBase {
    */
 
   async getButtonByText(text: string) {
-    const aliveMap = this.page.locator('#withKeepAlivemap');
+    const aliveMap = this.page.locator('.keep-alive-render');
     return aliveMap.getByText(text, { exact: true });
   }
 

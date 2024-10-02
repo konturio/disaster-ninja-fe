@@ -36,8 +36,11 @@ export class HelperBase {
     project: Project,
     { skipCookieBanner = false, operablePage = this.page }: OpenProjectOptions = {},
   ) {
-    await operablePage.goto(project.url);
-    await operablePage.waitForLoadState();
+    await operablePage.goto(project.url, { waitUntil: 'commit' });
+    await Promise.all([
+      this.waitForEventWithFilter(operablePage, 'METRICS', 'router-layout-ready'),
+      operablePage.waitForLoadState(),
+    ]);
 
     // Expect correct app to be opened.
     await this.waitForTextBeingVisible(`${project.title}`, operablePage);
@@ -45,6 +48,55 @@ export class HelperBase {
     // Currently, OAM project doesn't have cookies popups
     if (project.hasCookieBanner && !skipCookieBanner)
       await operablePage.getByText('Accept optional cookies').click();
+  }
+
+  /**
+   * This method waits for event to be emitted and filtering to return true. It enters a browser console and waits for browser event to be emitted. If it is not emitted in several seconds, it fails the test.
+   * @param operablePage playwright page to use
+   * @param eventType event type to wait for
+   * @param eventName event name to wait for
+   * @returns event object
+   * @throws error if event is not emitted in time
+   */
+
+  async waitForEventWithFilter(
+    operablePage: Page = this.page,
+    eventType: string,
+    eventName: string,
+  ) {
+    // If you need to wait for other events using this method, try to use page.addInitScript instead of page.evaluate because page.evaluate does not support passing functions
+    const waitingTimeout = process.env.CI ? 40000 : 25000;
+    // Entering browser console to wait for event to be emitted
+    const filteredEvent: CustomEvent = await operablePage.evaluate(
+      (filterOptions) => {
+        return new Promise((resolve, reject) => {
+          // Reject Promise if event is late
+          const timeout = setTimeout(() => {
+            reject(
+              new Error(
+                `Timeout waiting for '${filterOptions.eventType}' event with '${filterOptions.eventName}' name in the browser (${filterOptions.waitingTimeout} ms) matching filtering condition (checking event.detail.name property)`,
+              ),
+            );
+          }, filterOptions.waitingTimeout);
+
+          // Clear timeout if event is emitted matching filter, remove event listener and resolve Promise with event
+          const eventListener = (event: Event) => {
+            //@ts-expect-error if no detail property, we should fail, no way to pass function here (playwright limitation), but you can call such function, if it is added to HEAP using page.addInitScript
+            if (event?.detail?.name === filterOptions.eventName) {
+              clearTimeout(timeout);
+              globalThis.removeEventListener(filterOptions.eventName, eventListener);
+              resolve(event as CustomEvent);
+            }
+          };
+          globalThis.addEventListener(filterOptions.eventType, eventListener);
+        });
+      },
+      { waitingTimeout, eventName, eventType },
+    );
+    expect(
+      filteredEvent,
+      `'${eventType}' event should be emitted and event.detail.name to equal '${eventName}'`,
+    ).toBeDefined();
   }
 
   /**
@@ -91,10 +143,13 @@ export class HelperBase {
 
   async compareUrlsAfterReload(project: Project) {
     const currentUrl = this.page.url().replace(/\//g, '');
-    await this.page.reload({ waitUntil: 'load' });
+    await this.page.reload({ waitUntil: 'commit' });
+    await Promise.all([
+      this.waitForEventWithFilter(this.page, 'METRICS', 'router-layout-ready'),
+      this.page.waitForLoadState(),
+    ]);
     expect(this.page.url().replace(/\//g, '')).toEqual(currentUrl);
-    // TO DO: activate this check once 19103 issue is done
-    // await expect(this.page).toHaveTitle(`${project.title}`);
+    await expect(this.page).toHaveTitle(new RegExp(project.title));
   }
 
   /**
@@ -116,6 +171,16 @@ export class HelperBase {
 
   async waitForUrlToMatchPattern(pattern: RegExp, page: Page = this.page) {
     await page.waitForURL(pattern, { timeout: 30000 });
+  }
+
+  /**
+   * This method checks that campaign is autotests. It is needed for Google Analytics and other tracking services to differ normal users and autotests
+   */
+
+  checkCampaignIsAutotest(): void {
+    expect(this.page.url(), 'URL should contain utm_campaign=autotests').toContain(
+      'utm_campaign=autotests',
+    );
   }
 }
 

@@ -62,10 +62,11 @@ for (const project of projects) {
     }
 
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
+    // Atlas project has no map page at navigation menu
     if (project.name === 'atlas') {
       await pageManager.atMap.goToSpecificAreaByUrl(5, 134, 80, project);
     } else {
-      await pageManager.fromNavigationMenu.goToMap();
+      await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
     }
 
     if (project.name !== 'atlas') {

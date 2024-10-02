@@ -1,4 +1,3 @@
-import { expect } from '@playwright/test';
 import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
 
@@ -7,26 +6,23 @@ const projects = getProjects();
 for (const project of projects) {
   test.describe(`As Guest, I can reload the page of ${project.title} and see the info kept`, () => {
     if (project.name !== 'atlas') {
-      test(`Url of map is still the same`, async ({ page, pageManager }) => {
+      test(`Url of map is still the same`, async ({ pageManager }) => {
         await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-        await pageManager.fromNavigationMenu.goToMap();
+        await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
         if (project.name !== 'disaster-ninja')
           await pageManager.atBrowser.waitForUrlToMatchPattern(/map=/);
-        // TO DO: activate this check once 19103 issue is done
-        // expect(page.url()).toContain('autotests');
+        pageManager.atBrowser.checkCampaignIsAutotest();
         await pageManager.atMap.compareUrlsAfterReload(project);
-        // TO DO: activate this check once 19103 issue is done
-        // expect(page.url()).toContain('autotests');
+        pageManager.atBrowser.checkCampaignIsAutotest();
       });
     } else {
-      test(`Map is not accessible`, async ({ page, pageManager }) => {
+      test(`Map is not accessible`, async ({ pageManager }) => {
         await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-        await pageManager.fromNavigationMenu.checkThereIsNoMap();
-        // TO DO: activate this checks once 19103 issue is done
-        // expect(page.url()).toContain('autotests');
-        // await pageManager.atLoginPage.compareUrlsAfterReload(project);
-        // expect(page.url()).toContain('autotests');
-        // await pageManager.fromNavigationMenu.checkThereIsNoMap();
+        await pageManager.atNavigationMenu.checkThereIsNoMap();
+        pageManager.atBrowser.checkCampaignIsAutotest();
+        await pageManager.atLoginPage.compareUrlsAfterReload(project);
+        pageManager.atBrowser.checkCampaignIsAutotest();
+        await pageManager.atNavigationMenu.checkThereIsNoMap();
       });
     }
   });

@@ -62,9 +62,10 @@ export class LoginPage extends HelperBase {
   async clickSignUpAndNavigateToKeycloak(context: BrowserContext) {
     // Start waiting for new page being opened and click sign up
     const [keycloakPage] = await Promise.all([
-      context.waitForEvent('page'),
+      context.waitForEvent('page', { timeout: 25000 }),
       this.page.getByText('Sign up').click({ delay: 330 }),
     ]);
+    await keycloakPage.waitForLoadState();
     await expect(keycloakPage).toHaveTitle(/Sign in/);
     return keycloakPage;
   }

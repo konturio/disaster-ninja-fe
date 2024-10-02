@@ -14,25 +14,21 @@ for (const project of projects) {
         browserName === 'webkit',
         'Fix issue https://kontur.fibery.io/Tasks/Task/FE-Application-adds-reference-area-focused-geometry-parameters-in-url-too-late-(Safari-browser)-19487 to activate this test',
       );
-      await pageManager.fromNavigationMenu.goToMap();
+      await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
       if (project.name !== 'disaster-ninja')
         await pageManager.atBrowser.waitForUrlToMatchPattern(/map=/);
-      // TO DO: activate this check once 19103 issue is done
-      // expect(page.url()).toContain('autotests');
+      pageManager.atBrowser.checkCampaignIsAutotest();
       await pageManager.atMap.compareUrlsAfterReload(project);
-      // TO DO: activate this check once 19103 issue is done
-      // expect(page.url()).toContain('autotests');
+      pageManager.atBrowser.checkCampaignIsAutotest();
     });
-    test('My profile has the same data', async ({ page, pageManager }) => {
-      await pageManager.fromNavigationMenu.goToProfilePage();
+    test('My profile has the same data', async ({ pageManager }) => {
+      await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
       const settingsValues = await pageManager.atProfilePage.getProfileData(project, {
         shouldOsmEditorBeSeenOnAtlas: true,
       });
-      // TO DO: activate this check once 19103 issue is done
-      // expect(page.url()).toContain('autotests');
+      pageManager.atBrowser.checkCampaignIsAutotest();
       await pageManager.atProfilePage.compareUrlsAfterReload(project);
-      // TO DO: activate this check once 19103 issue is done
-      // expect(page.url()).toContain('autotests');
+      pageManager.atBrowser.checkCampaignIsAutotest();
       const settingsValuesAfterReload = await pageManager.atProfilePage.getProfileData(
         project,
         { shouldOsmEditorBeSeenOnAtlas: true },

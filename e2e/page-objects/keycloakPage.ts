@@ -1,4 +1,4 @@
-import { expect, request } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { HelperBase } from './helperBase';
 import type { Project } from './helperBase';
 import type { Page, APIRequestContext } from '@playwright/test';

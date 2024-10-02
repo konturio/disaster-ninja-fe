@@ -1,6 +1,5 @@
 import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
-import type { Page } from '@playwright/test';
 import type { Project } from './page-objects/helperBase.ts';
 import type { PageManager } from './page-objects/pageManager.ts';
 
@@ -10,7 +9,7 @@ let projects = getProjects();
 // Temporally switched off oam untill 18508 issue is fixed
 // Atlas has no 'Locate me' feature for guest
 
-projects = projects.filter((arg) => arg.name === 'smart-city');
+projects = projects.filter((arg: Project) => arg.name === 'smart-city');
 
 // Setting 3 retries for CI as it is very flacky with screenshots
 const retriesNumber = process.env.CI ? 3 : 1;
@@ -19,7 +18,7 @@ test.describe.configure({ retries: retriesNumber });
 // Moving test to a separate function to reuse it
 const testLocation = async function (pageManager: PageManager, project: Project) {
   await pageManager.atBrowser.openProject(project);
-  await pageManager.fromNavigationMenu.goToMap();
+  await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
   await (
     await pageManager.atToolBar.getButtonByText('Locate me')
   ).click({ timeout: 15000 });

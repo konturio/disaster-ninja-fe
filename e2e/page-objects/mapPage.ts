@@ -54,7 +54,11 @@ export class MapCanvas extends HelperBase {
     project: Project,
   ) {
     const urlForPlace = `${project.url}&map=${zoom}/${latitude}/${longitude}`;
-    await this.page.goto(urlForPlace, { waitUntil: 'domcontentloaded' });
+    await this.page.goto(urlForPlace, { waitUntil: 'commit' });
+    await Promise.all([
+      this.waitForEventWithFilter(this.page, 'METRICS', 'router-layout-ready'),
+      this.page.waitForLoadState(),
+    ]);
     await this.waitForZoom();
   }
 

@@ -28,7 +28,7 @@ for (const project of projects) {
     const password = faker.internet.password({ length: 12 });
 
     await pageManager.atBrowser.openProject(project);
-    await pageManager.fromNavigationMenu.goToLoginPage();
+    await pageManager.atNavigationMenu.clickButtonToOpenPage('Login');
 
     const keycloakPage =
       await pageManager.atLoginPage.clickSignUpAndNavigateToKeycloak(context);
@@ -66,7 +66,7 @@ for (const project of projects) {
     });
 
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-    await pageManager.fromNavigationMenu.goToLoginPage();
+    await pageManager.atNavigationMenu.clickButtonToOpenPage('Login');
     await pageManager.atLoginPage.typeLoginPasswordAndLogin(email, password, {
       project,
       shouldSuccess: true,

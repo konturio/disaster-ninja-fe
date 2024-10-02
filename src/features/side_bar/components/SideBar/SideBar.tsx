@@ -48,7 +48,10 @@ export function SideBar({
   }, [isOpen]);
 
   return (
-    <div className={clsx(s.sidebar, isOpen ? s.open : s.collapsed)}>
+    <div
+      data-testid="side-bar"
+      className={clsx(s.sidebar, isOpen ? s.open : s.collapsed)}
+    >
       {availableRoutes && (
         <ActionsBar>
           <div tabIndex={-1}>

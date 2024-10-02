@@ -18,7 +18,7 @@ for (const project of projects) {
     pageManager,
   }) => {
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-    await pageManager.fromNavigationMenu.goToMap();
+    await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
     await (
       await pageManager.atToolBar.getButtonByText('Locate me')
     ).click({ timeout: 15000 });

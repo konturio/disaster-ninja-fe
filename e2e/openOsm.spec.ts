@@ -1,11 +1,12 @@
 import { expect } from '@playwright/test';
 import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
+import type { Project } from './page-objects/helperBase.ts';
 
 let projects = getProjects();
 
 // Atlas has no 'Edit map in OSM' feature for guest
-projects = projects.filter((arg) => arg.name !== 'atlas');
+projects = projects.filter((arg: Project) => arg.name !== 'atlas');
 
 for (const project of projects) {
   test.fixme(
@@ -18,7 +19,7 @@ for (const project of projects) {
     },
     async ({ context, pageManager }) => {
       await pageManager.atBrowser.openProject(project);
-      await pageManager.fromNavigationMenu.goToMap();
+      await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
 
       // TO DO: remove this action after 18582 issue is fixed
       await pageManager.atMap.goToSpecificAreaByUrl(10.597, 53.9196, 27.5097, project);
