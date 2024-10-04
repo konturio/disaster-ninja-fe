@@ -1,12 +1,9 @@
-import TagManager from 'react-gtm-module';
 import { GA4_EVENTS } from '~core/metrics/externalMetrics/googleEventsList';
 import { METRICS_EVENT } from '~core/metrics/constants';
 import { configRepo } from '~core/config';
 import type { Metric, MetricsEvent } from '../types';
 
 const googleEventsCollection = new Set(GA4_EVENTS);
-
-TagManager.initialize({ gtmId: 'GTM-5LD2Z3D' });
 
 export class GoogleMetrics implements Metric {
   private ready = false;
