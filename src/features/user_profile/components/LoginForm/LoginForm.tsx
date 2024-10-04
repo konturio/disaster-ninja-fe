@@ -79,8 +79,9 @@ export function LoginForm() {
         } else {
           setError({ general: i18n.t('login.error.connect') });
         }
+      } else {
+        dispatchMetricsEvent('login_yes');
       }
-      dispatchMetricsEvent('login_yes');
     }
   };
 
