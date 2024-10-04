@@ -11,6 +11,7 @@ import {
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
 import { sortByAlphabet, sortByWordOccurence } from '~utils/common/sorting';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { availableBivariateAxesAtom } from '../../atoms/availableBivariateAxisesAtom';
 import { generateEmojiPrefix } from '../../utils/generateEmojiPrefix';
 import s from './style.module.css';
@@ -51,6 +52,7 @@ export function MCDAForm({
 
   const onSelectedIndicatorsChange = useCallback(
     (e: { selectedItems: SelectableItem[] }) => {
+      dispatchMetricsEvent('mcda_add_layer');
       selectIndicators(e.selectedItems);
     },
     [],
@@ -84,6 +86,7 @@ export function MCDAForm({
   const cancelAction = useCallback(() => onConfirm(null), [onConfirm]);
   const saveAction = useCallback(() => {
     if (axesResource.data) {
+      dispatchMetricsEvent('mcda_create');
       const selection = new Set(selectedIndicators.map((ind) => ind.value));
       const onlySelectedIndicators = axesResource.data.filter((ind) =>
         selection.has(ind.id),

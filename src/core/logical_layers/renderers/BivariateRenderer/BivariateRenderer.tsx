@@ -16,6 +16,7 @@ import {
 import { invertClusters } from '~utils/bivariate';
 import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { styleConfigs } from '../stylesConfigs';
 import { generatePopupContent } from '../MCDARenderer/popup';
 import { setTileScheme } from '../setTileScheme';
@@ -309,6 +310,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
       // Show popup on click
       const popupNode = generatePopupContent(feature, style.config.layers);
+      dispatchMetricsEvent('mcda_popup'); // remove to mcda_popup???
       this.cleanPopup();
       this._popup = new MapPopup({
         closeOnClick: true,

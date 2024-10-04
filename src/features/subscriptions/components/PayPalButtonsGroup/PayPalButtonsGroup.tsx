@@ -3,6 +3,7 @@ import { setCurrentUserSubscription } from '~core/api/subscription';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import { NotificationService } from '~core/notifications';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 
 type PayPalButtonsGroupProps = {
   billingPlanId: string;
@@ -27,8 +28,12 @@ export function PayPalButtonsGroup({
         shape: 'rect',
       }}
       forceReRender={[activeSubscriptionId, activeBillingPlanId, billingPlanId]}
-      onError={(err) => console.error('error from PayPal SDK:', err.toString())}
+      onError={(err) => {
+        dispatchMetricsEvent('pay_error');
+        console.error('error from PayPal SDK:', err.toString());
+      }}
       onApprove={async (data, actions) => {
+        dispatchMetricsEvent('pay_success');
         if (!actions.subscription) {
           throw new Error('Unexpected error: actions.subscription is undefined');
         }
@@ -38,6 +43,7 @@ export function PayPalButtonsGroup({
         }
       }}
       createSubscription={async (data, actions) => {
+        dispatchMetricsEvent('pay_click');
         try {
           const userEmail = configRepo.get().user?.email;
           const subscriptionId = await actions.subscription.create({

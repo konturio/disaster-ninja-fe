@@ -3,6 +3,7 @@ import { ActionsBarBTN } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import { goTo } from '~core/router/goTo';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import s from './SideBar.module.css';
 import type { AppRoute, CurrentRouteAtom } from '~core/router';
 
@@ -27,6 +28,10 @@ export function NavButton({
   if (!isVisible) return null;
 
   const navLinkClassName = clsx(route.parentRouteId ? s.nestedRoute : s.topLevelRoute);
+  const onClick = () => {
+    dispatchMetricsEvent(`side_${route.slug}`);
+    goTo(getAbsoluteRoute(route));
+  };
 
   return (
     <Tooltip placement="right" open={minified ? undefined : false} offset={6}>
@@ -38,7 +43,7 @@ export function NavButton({
           iconBefore={route.icon}
           value={route.slug}
           className={clsx(s.navButton, s.sidebarButton, navLinkClassName)}
-          onClick={() => goTo(getAbsoluteRoute(route))}
+          onClick={onClick}
         >
           {!minified ? route.title : null}
         </ActionsBarBTN>

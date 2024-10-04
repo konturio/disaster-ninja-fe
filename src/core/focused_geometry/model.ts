@@ -1,5 +1,6 @@
 import { crc32 } from 'hash-wasm';
 import { createAtom } from '~utils/atoms';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { episodesPanelState } from '../shared_state/episodesPanelState';
 import type { FocusedGeometry, GeometrySource } from './types';
 
@@ -16,6 +17,7 @@ export const focusedGeometryAtom = createAtom(
   ({ onAction, schedule, create }, state: FocusedGeometry | null = null) => {
     onAction('setFocusedGeometry', ({ source, geometry }) => {
       if (source && geometry) {
+        dispatchMetricsEvent('select_area');
         schedule(async (dispatch, ctx: { hash?: string }) => {
           const hash = await crc32(JSON.stringify({ geometry, source }));
           // update only in case if geometry source or hash has changed

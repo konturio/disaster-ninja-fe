@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import type {
   LogicalLayerActions,
   LogicalLayerState,
@@ -20,6 +21,7 @@ export function EditControl({
 
   const editLayer = useCallback(async () => {
     if (layerState.style?.type === 'mcda' && featureFlags[FeatureFlag.MCDA]) {
+      dispatchMetricsEvent('mcda_edit');
       import('~features/mcda').then(async ({ editMCDA }) => {
         editMCDA(layerState, layerActions);
       });

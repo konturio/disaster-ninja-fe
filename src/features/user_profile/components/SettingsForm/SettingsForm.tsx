@@ -11,6 +11,7 @@ import { FeatureFlag } from '~core/shared_state/featureFlags';
 import { flatObjectsAreEqual } from '~utils/common';
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import { DEFAULT_OSM_EDITOR } from '~core/constants';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserDto } from '~core/app/user';
@@ -84,6 +85,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
   }
 
   function onSave() {
+    dispatchMetricsEvent('profile_save');
     // do async put request
     // set loading state for it
     // put response to the currentProfileAtom
@@ -91,8 +93,11 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
   }
 
   function onChange(key: string) {
-    return (e) =>
+    return (e) => {
+      if (key === 'language') dispatchMetricsEvent('language_change');
+      if (key === 'bio') dispatchMetricsEvent('bio_fill');
       setLocalSettings({ ...localSettings, [key]: e.target?.value ?? e.value });
+    };
   }
 
   function toggleUnits() {

@@ -6,6 +6,7 @@ import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import { testEmail } from '~utils/form/validators';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import s from './LoginForm.module.css';
 import type { ChangeEvent } from 'react';
 
@@ -72,12 +73,14 @@ export function LoginForm() {
       );
       setLoading(false);
       if (authResponse !== true) {
+        dispatchMetricsEvent('login_no');
         if (typeof authResponse === 'string') {
           setError({ general: authResponse });
         } else {
           setError({ general: i18n.t('login.error.connect') });
         }
       }
+      dispatchMetricsEvent('login_yes');
     }
   };
 
@@ -128,7 +131,12 @@ export function LoginForm() {
       </div>
       {error.general && <div className={s.errorMessageContainer}>{error.general}</div>}
       <div className={clsx(s.link, s.forgotPasswordContainer)}>
-        <a href={resetUrl} target="_blank" rel="noreferrer">
+        <a
+          href={resetUrl}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => dispatchMetricsEvent('forgot_password')}
+        >
           {i18n.t('login.forgot_password')}
         </a>
       </div>
@@ -138,7 +146,12 @@ export function LoginForm() {
         </Button>
       </div>
       <div className={clsx(s.link, s.registerContainter)}>
-        <a href={registrationUrl} target="_blank" rel="noreferrer">
+        <a
+          href={registrationUrl}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => dispatchMetricsEvent('sign_up')}
+        >
           {i18n.t('login.sign_up')}
         </a>
       </div>
