@@ -310,7 +310,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
       // Show popup on click
       const popupNode = generatePopupContent(feature, style.config.layers);
-      dispatchMetricsEvent('mcda_popup'); // remove to mcda_popup???
+      dispatchMetricsEvent('mcda_popup');
       this.cleanPopup();
       this._popup = new MapPopup({
         closeOnClick: true,
