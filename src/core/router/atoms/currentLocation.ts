@@ -7,8 +7,6 @@ export const currentLocationAtom = createAtom(
   },
   ({ onAction }, state = globalThis.location) => {
     onAction('set', (location) => (state = location));
-
-    dispatchMetricsEvent(`view_${state.pathname.replace(/^\//, '')}`);
     return state;
   },
   'currentLocationAtom',

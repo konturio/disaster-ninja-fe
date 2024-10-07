@@ -15,7 +15,6 @@ export class GoogleMetrics implements Metric {
       this.tagManager = TagManager;
       this.tagManager.initialize({ gtmId: 'GTM-5LD2Z3D' });
       this.subscribeMetricsEvents();
-      this.dispatchEvent('cookie_accepted');
       this.checkIfRegistrationRedirectUrl() && this.dispatchEvent('verified_email');
       this.ready = true;
     });

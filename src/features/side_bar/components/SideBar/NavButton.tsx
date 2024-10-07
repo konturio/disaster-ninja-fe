@@ -29,7 +29,7 @@ export function NavButton({
 
   const navLinkClassName = clsx(route.parentRouteId ? s.nestedRoute : s.topLevelRoute);
   const onClick = () => {
-    dispatchMetricsEvent(`side_${route.slug}`);
+    dispatchMetricsEvent(`side_${route.id}`);
     goTo(getAbsoluteRoute(route));
   };
 
