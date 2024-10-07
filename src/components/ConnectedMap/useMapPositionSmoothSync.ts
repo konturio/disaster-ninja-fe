@@ -44,8 +44,8 @@ export function useMapPositionSmoothSync(
           newMapPosition.lat !== lat ||
           newMapPosition.zoom !== zoom
         ) {
-          /* Allow interrupt map flying */
-          const timeout = setTimeout(changeMapPosition, 1600);
+          /* Allow interrupt map flying. Increase the timeout for bigger delay */
+          const timeout = setTimeout(changeMapPosition, 100);
           const clear = () => clearTimeout(timeout);
           return () => {
             clear();
