@@ -2,6 +2,7 @@ import { crc32 } from 'hash-wasm';
 import { action, atom } from '@reatom/core';
 import { updateReferenceArea } from '~core/api/features';
 import { configRepo } from '~core/config';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { FeatureFlag } from './featureFlags';
 import type { GeometryWithHash } from '~core/focused_geometry/types';
 
@@ -29,6 +30,7 @@ function getReferenceAreaFromConfigRepo(): GeometryWithHash | null {
 
 export const setReferenceArea = action(async (ctx, geometry: GeometryWithHash) => {
   if (geometry) {
+    dispatchMetricsEvent('ref_area');
     const hash = await crc32(JSON.stringify({ geometry }));
     // update only in case if geometry source or hash has changed
     const referenceAreaOld = ctx.get(referenceAreaAtom);

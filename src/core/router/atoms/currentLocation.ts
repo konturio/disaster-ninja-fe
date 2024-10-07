@@ -1,4 +1,5 @@
 import { createAtom } from '~utils/atoms';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 
 export const currentLocationAtom = createAtom(
   {

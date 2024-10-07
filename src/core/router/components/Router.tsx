@@ -11,7 +11,7 @@ import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { landUser, userWasLanded } from '~core/app/userWasLanded';
-import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
+import { dispatchMetricsEvent, dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
 import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
@@ -34,6 +34,7 @@ globalThis.addEventListener(NAVIGATE_EVENT, ((e: CustomEvent) => {
 // update Title
 currentRouteAtom.v3atom.onChange((ctx, route) => {
   document.title = `${configRepo.get().name} - ${route?.title || ''}`;
+  route && dispatchMetricsEvent(`view_${route?.id}`);
 });
 
 export function Router() {
