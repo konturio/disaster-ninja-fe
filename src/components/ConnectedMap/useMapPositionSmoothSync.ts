@@ -10,6 +10,7 @@ import type { Map as MapLibreMap } from 'maplibre-gl';
  * */
 export function useMapPositionSmoothSync(
   mapRef: MutableRefObject<MapLibreMap | undefined>,
+  animationDuration: number = 0,
 ) {
   const [currentMapPosition, currentMapPositionActions] = useAtom(currentMapPositionAtom);
 
@@ -19,17 +20,25 @@ export function useMapPositionSmoothSync(
       const newMapPosition = currentMapPosition;
       const zoom = map.getZoom();
       const { lng, lat } = map.getCenter();
+
       const changeMapPosition = () => {
         map.resize();
         map.once('idle', () => {
           if ('lng' in newMapPosition && 'lat' in newMapPosition) {
-            requestAnimationFrame(() => {
-              map.easeTo({
+            if (animationDuration > 0) {
+              requestAnimationFrame(() => {
+                map.easeTo({
+                  center: [newMapPosition.lng, newMapPosition.lat],
+                  zoom: newMapPosition.zoom,
+                  duration: animationDuration,
+                });
+              });
+            } else {
+              map.jumpTo({
                 center: [newMapPosition.lng, newMapPosition.lat],
                 zoom: newMapPosition.zoom,
-                duration: 0,
               });
-            });
+            }
           }
         });
       };
@@ -53,7 +62,7 @@ export function useMapPositionSmoothSync(
         }
       }
     }
-  }, [mapRef, currentMapPosition]);
+  }, [mapRef, currentMapPosition, animationDuration]);
 
   useEffect(() => {
     if (mapRef.current) {
