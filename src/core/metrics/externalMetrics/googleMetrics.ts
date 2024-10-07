@@ -32,13 +32,13 @@ export class GoogleMetrics implements Metric {
   }
 
   metricsListener(e: MetricsEvent) {
-    const { name, payload } = e.detail;
+    const { name } = e.detail;
     if (googleEventsCollection.has(name)) {
       this.dispatchEvent(name);
     }
   }
 
-  dispatchEvent(name) {
+  dispatchEvent(name: string) {
     this.tagManager.dataLayer({
       dataLayer: { event: name, app_id: configRepo.get().id },
     });

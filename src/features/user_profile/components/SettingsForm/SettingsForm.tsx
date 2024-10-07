@@ -1,7 +1,7 @@
 import { Button, Input, Radio, Select, Text, Heading, Textarea } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { lazily } from 'react-lazily';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
@@ -84,21 +84,28 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
     setIsBioTooltipOpen((prev) => !prev);
   }
 
-  function onSave() {
+  const onSave = useCallback(() => {
     dispatchMetricsEvent('profile_save');
     // do async put request
     // set loading state for it
     // put response to the currentProfileAtom
     updateUserProfile(localSettings);
+  }, [localSettings, updateUserProfile]);
+
+  function dispatchChangeEvent(key: string) {
+    if (key === 'language') dispatchMetricsEvent('language_change');
+    if (key === 'bio') dispatchMetricsEvent('bio_fill');
   }
 
-  function onChange(key: string) {
-    return (e) => {
-      if (key === 'language') dispatchMetricsEvent('language_change');
-      if (key === 'bio') dispatchMetricsEvent('bio_fill');
-      setLocalSettings({ ...localSettings, [key]: e.target?.value ?? e.value });
-    };
-  }
+  const onChange = useCallback(
+    (key: string) => {
+      return (e) => {
+        dispatchChangeEvent(key);
+        setLocalSettings({ ...localSettings, [key]: e.target?.value ?? e.value });
+      };
+    },
+    [localSettings],
+  );
 
   function toggleUnits() {
     setLocalSettings((prevSettings) => {

@@ -38,7 +38,7 @@ export function LoginForm() {
       }
       setFormData({ ...formData, email: ev.target.value });
     },
-    [formData, setFormData, error, setError],
+    [formData, error],
   );
 
   const onPasswordInputChange = useCallback(
@@ -48,10 +48,16 @@ export function LoginForm() {
       }
       setFormData({ ...formData, password: ev.target.value });
     },
-    [formData, setFormData, error, setError],
+    [formData, error],
   );
 
-  const onLoginClick = async () => {
+  const onForgotPasswordClick = useCallback(
+    () => dispatchMetricsEvent('forgot_password'),
+    [],
+  );
+  const onSignUpClick = useCallback(() => dispatchMetricsEvent('sign_up'), []);
+
+  const onLoginClick = useCallback(async () => {
     const err: { email?: string; password?: string; general?: string } = {};
     if (!formData.email?.length) {
       err.email = i18n.t('login.error.email_empty');
@@ -73,17 +79,17 @@ export function LoginForm() {
       );
       setLoading(false);
       if (authResponse !== true) {
-        dispatchMetricsEvent('login_no');
+        dispatchMetricsEvent('login_failure');
         if (typeof authResponse === 'string') {
           setError({ general: authResponse });
         } else {
           setError({ general: i18n.t('login.error.connect') });
         }
       } else {
-        dispatchMetricsEvent('login_yes');
+        dispatchMetricsEvent('login_success');
       }
     }
-  };
+  }, [formData]);
 
   useEffect(() => {
     if (formRef.current) {
@@ -136,7 +142,7 @@ export function LoginForm() {
           href={resetUrl}
           target="_blank"
           rel="noreferrer"
-          onClick={() => dispatchMetricsEvent('forgot_password')}
+          onClick={onForgotPasswordClick}
         >
           {i18n.t('login.forgot_password')}
         </a>
@@ -151,7 +157,7 @@ export function LoginForm() {
           href={registrationUrl}
           target="_blank"
           rel="noreferrer"
-          onClick={() => dispatchMetricsEvent('sign_up')}
+          onClick={onSignUpClick}
         >
           {i18n.t('login.sign_up')}
         </a>

@@ -34,7 +34,7 @@ globalThis.addEventListener(NAVIGATE_EVENT, ((e: CustomEvent) => {
 // update Title
 currentRouteAtom.v3atom.onChange((ctx, route) => {
   document.title = `${configRepo.get().name} - ${route?.title || ''}`;
-  route?.id && dispatchMetricsEvent(`view_${route?.id}`);
+  route && dispatchMetricsEvent(`view_${route?.id}`);
 });
 
 export function Router() {
