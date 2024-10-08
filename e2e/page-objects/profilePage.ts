@@ -114,7 +114,7 @@ export class ProfilePage extends HelperBase {
     // TO DO: remove  once 19141 task is done
     await this.page.waitForTimeout(1000);
     // Wait for a profile element to be ready for actions
-    await this.page.getByText('Settings').waitFor({ state: 'visible' });
+    await this.page.getByText('Settings').waitFor({ state: 'visible', timeout: 25000 });
 
     const emailValue = await this.getEmailValueAndCheckThisFieldIsDisabled();
     const fullNameValue = await this.getFullNameValue();

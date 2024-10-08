@@ -142,13 +142,13 @@ export class HelperBase {
    */
 
   async compareUrlsAfterReload(project: Project) {
-    const currentUrl = this.page.url().replace(/\//g, '');
-    await this.page.reload({ waitUntil: 'commit' });
+    const currentUrl = this.page.url();
+    await this.page.reload({ waitUntil: 'commit', timeout: 25000 });
     await Promise.all([
       this.waitForEventWithFilter(this.page, 'METRICS', 'router-layout-ready'),
       this.page.waitForLoadState(),
     ]);
-    expect(this.page.url().replace(/\//g, '')).toEqual(currentUrl);
+    expect(this.page.url()).toEqual(currentUrl);
     await expect(this.page).toHaveTitle(new RegExp(project.title));
   }
 
