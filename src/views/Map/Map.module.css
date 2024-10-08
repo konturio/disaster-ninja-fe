@@ -32,6 +32,17 @@
   }
 }
 
+.crosshair {
+  left: calc(50%);
+  top: calc(50%);
+  transform: translate(-50%, -50%);
+  position: absolute;
+  content: '+';
+  text-align: center;
+  font-size: 24px;
+  color: var(--faint-strong-up);
+}
+
 .footer {
   height: 100%;
   width: 100%;
