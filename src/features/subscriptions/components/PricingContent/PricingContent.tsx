@@ -134,6 +134,7 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
               isUserAuthorized={!!user}
               onUnauthorizedUserClick={onUnauthorizedUserClick}
               onNewSubscriptionApproved={onNewSubscriptionApproved}
+              salesLink={config.salesLink}
             />
           ))}
         </div>
