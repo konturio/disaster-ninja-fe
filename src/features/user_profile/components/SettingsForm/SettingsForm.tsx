@@ -94,7 +94,6 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
 
   function dispatchChangeEvent(key: string) {
     if (key === 'language') dispatchMetricsEvent('language_change');
-    if (key === 'bio') dispatchMetricsEvent('bio_fill');
   }
 
   const onChange = useCallback(
@@ -155,7 +154,10 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                       className={s.biography}
                       ref={bioRef}
                       onMouseDown={onTextAreaClick}
-                      onFocus={() => setIsBioTooltipOpen(true)}
+                      onFocus={() => {
+                        dispatchMetricsEvent('bio_fill');
+                        setIsBioTooltipOpen(true);
+                      }}
                       onBlur={() => setIsBioTooltipOpen(false)}
                     >
                       <Textarea
