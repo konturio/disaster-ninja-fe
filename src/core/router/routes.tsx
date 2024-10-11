@@ -25,6 +25,10 @@ const { BivariateManagerPage } = lazily(
 );
 
 const isAuthenticated = !!configRepo.get().user;
+// TODO: make a proper ise of subTabs. Make sure to use uniform tab_id instead of tabName
+const subTabs: { tabName: string; assetUrl: string }[] | undefined =
+  configRepo?.get().features.about_page?.['subTabs'];
+const hasUserGuide = subTabs?.find((v) => v.tabName === 'User Guide');
 
 export const routerConfig: AppRouterConfig = {
   defaultRoute: '',
@@ -118,6 +122,7 @@ export const routerConfig: AppRouterConfig = {
         <PagesDocument doc={[{ type: 'md', url: 'user_guide.md' }]} key="user_guide" />
       ),
       parentRouteId: 'about',
+      disabled: !hasUserGuide,
       visibilityInNavigation: 'always',
       requiredFeature: AppFeature.ABOUT_PAGE,
     },
