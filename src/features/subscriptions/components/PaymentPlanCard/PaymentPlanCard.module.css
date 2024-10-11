@@ -123,9 +123,20 @@
   align-items: center;
 }
 
-/* Paypal buttons specific styles */
-.buttonWrapper > div {
-  flex-grow: 1;
+.subscribeButtonsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+
+  /* Paypal buttons specific styles */
+  & > div {
+    width: 100%;
+  }
+
+  & .trialButton {
+    margin-bottom: 11px;
+  }
 }
 
 .cancelButton {
