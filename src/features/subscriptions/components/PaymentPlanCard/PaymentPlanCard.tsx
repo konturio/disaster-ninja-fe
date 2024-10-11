@@ -160,7 +160,7 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
       {demoLink && (
         <a
           className={s.linkAsButton}
-          href={salesLink}
+          href={demoLink}
           target="_blank"
           rel="noreferrer"
           aria-label={i18n.t('subscription.book_demo_button')}
