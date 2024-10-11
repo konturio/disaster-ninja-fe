@@ -10,27 +10,30 @@ export const ShortToolbarContent = () => {
 
   return (
     <div className={s.toolbarContent}>
-      {toolbar.toolbarSettings.sections.map((section, index) => (
-        <div key={section.name} className={s.section}>
-          <div className={s.sectionContent}>
-            {section.controls.map((id) => {
-              const settings = controls.get(id);
-              const stateAtom = toolbar.getControlState(id);
+      {toolbar.toolbarSettings.sections.map(
+        (section, index) =>
+          section.controls.length > 0 && (
+            <div key={section.name} className={s.section}>
+              <div className={s.sectionContent}>
+                {section.controls.map((id) => {
+                  const settings = controls.get(id);
+                  const stateAtom = toolbar.getControlState(id);
 
-              if (!settings || !stateAtom) return null;
-              return (
-                <ToolbarControl
-                  id={id}
-                  key={id}
-                  settings={settings}
-                  stateAtom={stateAtom}
-                  controlComponent={ShortToolbarButton}
-                />
-              );
-            })}
-          </div>
-        </div>
-      ))}
+                  if (!settings || !stateAtom) return null;
+                  return (
+                    <ToolbarControl
+                      id={id}
+                      key={id}
+                      settings={settings}
+                      stateAtom={stateAtom}
+                      controlComponent={ShortToolbarButton}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          ),
+      )}
     </div>
   );
 };
