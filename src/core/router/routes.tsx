@@ -110,6 +110,18 @@ export const routerConfig: AppRouterConfig = {
       requiredFeature: AppFeature.ABOUT_PAGE,
     },
     {
+      id: 'user-guide',
+      slug: 'user-guide',
+      title: i18n.t('modes.user_guide'),
+      icon: <Reports16 />,
+      view: (
+        <PagesDocument doc={[{ type: 'md', url: 'user_guide.md' }]} key="user_guide" />
+      ),
+      parentRouteId: 'about',
+      visibilityInNavigation: 'always',
+      requiredFeature: AppFeature.ABOUT_PAGE,
+    },
+    {
       id: 'cookies',
       slug: 'cookies',
       title: i18n.t('modes.cookies'),
