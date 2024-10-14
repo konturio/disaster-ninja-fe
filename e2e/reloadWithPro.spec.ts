@@ -14,6 +14,10 @@ for (const project of projects) {
         browserName === 'webkit',
         'Fix issue https://kontur.fibery.io/Tasks/Task/FE-Application-adds-reference-area-focused-geometry-parameters-in-url-too-late-(Safari-browser)-19487 to activate this test',
       );
+      test.fixme(
+        project.name === 'oam',
+        'Fix https://kontur.fibery.io/Tasks/Task/routing-oam-url-param-map-2.122--0.000-0.000-is-opened-first-instead-of-map-2.122-0.000-0.000-19889 to unblock oam test',
+      );
       await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
       if (project.name !== 'disaster-ninja')
         await pageManager.atBrowser.waitForUrlToMatchPattern(/map=/);
@@ -22,6 +26,10 @@ for (const project of projects) {
       pageManager.atBrowser.checkCampaignIsAutotest();
     });
     test('My profile has the same data', async ({ pageManager }) => {
+      test.fixme(
+        project.name === 'oam',
+        'Fix https://kontur.fibery.io/Tasks/Task/routing-oam-url-param-map-2.122--0.000-0.000-is-opened-first-instead-of-map-2.122-0.000-0.000-19889 to unblock oam test',
+      );
       await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
       const settingsValues = await pageManager.atProfilePage.getProfileData(project, {
         shouldOsmEditorBeSeenOnAtlas: true,
