@@ -344,6 +344,7 @@
     "current_plan_button": "Current plan",
     "sales_button": "Contact sales",
     "book_demo_button": "Book a demo",
+    "request_trial_button": "Request trial",
     "errors": {
       "payment_initialization": "There was an error during payment initialization. Please try again or contact our support"
     },

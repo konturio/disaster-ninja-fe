@@ -36,4 +36,5 @@ export interface SubscriptionsConfig {
   billingMethodsDetails: BillingMethodDetails[];
   billingCyclesDetails: BillingCycleDetails[];
   plans: PaymentPlanConfig[];
+  salesLink?: string;
 }
