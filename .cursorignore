@@ -1,0 +1,25 @@
+# Add directories or file patterns to ignore during indexing (e.g. foo/ or *.csv)
+__fixtures__
+__mocks__
+__test__
+./**/*.fixture.tsx
+./**/fixture/*.*
+.github/workflows/run_e2e_tests.yml
+.helpers
+*.fixture.{ts,tsx}
+**/*.test.tsx
+appconfig.js
+configs/*
+cosmos**
+e2e/**
+jest.config.js
+jest.setup.js
+playwright**
+postcss.config.ts
+public
+scripts
+server
+template.config.js
+vite.config.ts
+vite.proxy.ts
+i18next-scanner.config.cjs

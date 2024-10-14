@@ -15,7 +15,7 @@ const bivariateStatisticsDependencyAtom = v3toV2(
   atom((ctx) => {
     const focusedGeometry = ctx.spy(focusedGeometryAtom.v3atom);
     return { focusedGeometry };
-  }),
+  }, 'bivariateStatisticsDependencyAtom'),
 );
 
 let worldStatsCache: Stat;
