@@ -13,7 +13,7 @@ import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
 import { goTo } from './goTo';
-import type { AppRouterConfig } from './types';
+import type { AppRoute, AppRouterConfig } from './types';
 const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
 const { MapPage } = lazily(() => import('~views/Map/Map'));
 const { ReportsPage } = lazily(() => import('~views/Reports/Reports'));
@@ -27,10 +27,56 @@ const { BivariateManagerPage } = lazily(
 export const isAuthenticated = !!configRepo.get().user;
 export const isMapFeatureEnabled = configRepo.get().features[AppFeature.MAP];
 
-// TODO: make a proper ise of subTabs. Make sure to use uniform tab_id instead of tabName
-const subTabs: { tabName: string; assetUrl: string }[] | undefined =
-  configRepo?.get().features.about_page?.['subTabs'];
-const hasUserGuide = subTabs?.find((v) => v.tabName === 'User Guide');
+const ABOUT_SUB_TABS: Record<string, Omit<AppRoute, 'view'>> = {
+  terms: {
+    id: 'terms',
+    slug: 'terms',
+    title: i18n.t('modes.terms'),
+    icon: <Reports16 />,
+    parentRouteId: 'about',
+    visibilityInNavigation: 'always',
+    requiredFeature: AppFeature.ABOUT_PAGE,
+  },
+  privacy: {
+    id: 'privacy',
+    slug: 'privacy',
+    title: i18n.t('modes.privacy'),
+    icon: <Reports16 />,
+    parentRouteId: 'about',
+    visibilityInNavigation: 'always',
+    requiredFeature: AppFeature.ABOUT_PAGE,
+  },
+  'user-guide': {
+    id: 'user-guide',
+    slug: 'user-guide',
+    title: i18n.t('modes.user_guide'),
+    icon: <Reports16 />,
+    parentRouteId: 'about',
+    visibilityInNavigation: 'always',
+    requiredFeature: AppFeature.ABOUT_PAGE,
+  },
+};
+
+function getVisibleAboutSubTabs() {
+  const subTabs: { tabId: string; assetUrl: string }[] | undefined =
+    configRepo?.get().features.about_page?.['subTabs'];
+  if (Array.isArray(subTabs)) {
+    return subTabs
+      .filter((v) => ABOUT_SUB_TABS[v.tabId] && v.assetUrl)
+      .map((tabValue) => {
+        return {
+          ...ABOUT_SUB_TABS[tabValue.tabId],
+          view: (
+            <PagesDocument
+              doc={[{ type: 'md', url: tabValue.assetUrl }]}
+              key={tabValue.tabId}
+            />
+          ),
+        };
+      });
+  }
+  return [];
+}
 
 export const routerConfig: AppRouterConfig = {
   defaultRoute: isAuthenticated && !isMapFeatureEnabled ? 'pricing' : 'map',
@@ -95,39 +141,7 @@ export const routerConfig: AppRouterConfig = {
       showForNewUsers: true,
       requiredFeature: AppFeature.ABOUT_PAGE,
     },
-    {
-      id: 'terms',
-      slug: 'terms',
-      title: i18n.t('modes.terms'),
-      icon: <Reports16 />,
-      view: <PagesDocument doc={[{ type: 'md', url: 'terms.md' }]} key="terms" />,
-      parentRouteId: 'about',
-      visibilityInNavigation: 'always',
-      requiredFeature: AppFeature.ABOUT_PAGE,
-    },
-    {
-      id: 'privacy',
-      slug: 'privacy',
-      title: i18n.t('modes.privacy'),
-      icon: <Reports16 />,
-      view: <PagesDocument doc={[{ type: 'md', url: 'privacy.md' }]} key="privacy" />,
-      parentRouteId: 'about',
-      visibilityInNavigation: 'always',
-      requiredFeature: AppFeature.ABOUT_PAGE,
-    },
-    {
-      id: 'user-guide',
-      slug: 'user-guide',
-      title: i18n.t('modes.user_guide'),
-      icon: <Reports16 />,
-      view: (
-        <PagesDocument doc={[{ type: 'md', url: 'user_guide.md' }]} key="user_guide" />
-      ),
-      parentRouteId: 'about',
-      disabled: !hasUserGuide,
-      visibilityInNavigation: 'always',
-      requiredFeature: AppFeature.ABOUT_PAGE,
-    },
+    ...getVisibleAboutSubTabs(),
     {
       id: 'cookies',
       slug: 'cookies',
