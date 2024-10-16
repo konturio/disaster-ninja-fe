@@ -24,10 +24,11 @@ const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
 
-const isAuthenticated = !!configRepo.get().user;
+export const isAuthenticated = !!configRepo.get().user;
+export const isMapFeatureEnabled = configRepo.get().features[AppFeature.MAP];
 
 export const routerConfig: AppRouterConfig = {
-  defaultRoute: '',
+  defaultRoute: isAuthenticated && !isMapFeatureEnabled ? 'pricing' : 'map',
   routes: [
     {
       id: 'map',

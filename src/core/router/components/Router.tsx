@@ -17,12 +17,13 @@ import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { NAVIGATE_EVENT } from '../goTo';
 import { currentLocationAtom } from '../atoms/currentLocation';
+import { isAuthenticated, isMapFeatureEnabled } from '../routes';
 
 export const routerInstance = initRouter();
 
 // sync currentLocationAtom with react-router-dom
+currentLocationAtom.set.dispatch(routerInstance.state.location);
 routerInstance.subscribe((e) => {
-  // @ts-expect-error ok since we are using only pathanme prop
   currentLocationAtom.set.dispatch(e.location);
 });
 
@@ -107,6 +108,17 @@ function initRouter() {
     landUser();
   }
 
+  // if landing redirect is not needed
+  // check if user is logged in and doesn't have access to map (means no subscription)
+  // and redirect to pricing page
+  if (initialRedirect === false && isAuthenticated && !isMapFeatureEnabled) {
+    const pricingRoute = availableRoutes.routes.find((r) => r.id === 'pricing');
+    if (pricingRoute) {
+      initialRedirect = pricingRoute.slug;
+    }
+  }
+
+  // perform initial redirect
   if (initialRedirect !== false) {
     router.navigate(getAbsoluteRoute(initialRedirect) + globalThis.location.search, {});
   }

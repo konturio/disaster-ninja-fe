@@ -25,6 +25,7 @@ export function CommonView({
   getAbsoluteRoute: (path: string | AppRoute) => string;
 }>) {
   const [featureFlags] = useAtom(featureFlagsAtom);
+  const [currentRoute] = useAtom(currentRouteAtom);
 
   useEffect(() => {
     if (featureFlags[FeatureFlag.INTERCOM]) {
@@ -35,6 +36,7 @@ export function CommonView({
   }, [featureFlags[FeatureFlag.INTERCOM]]);
 
   const sanitizedId = configRepo.get().id.replace(/[^a-zA-Z0-9-]/g, '');
+  const routeId = currentRoute?.id;
 
   return (
     <>
@@ -49,7 +51,9 @@ export function CommonView({
             />
           )}
         </Suspense>
-        <Suspense fallback={<FullScreenLoader />}>{children}</Suspense>
+        <span id={`app-route-${routeId}`} style={{ display: 'contents' }}>
+          <Suspense fallback={<FullScreenLoader />}>{children}</Suspense>
+        </span>
       </div>
 
       <Suspense fallback={null}>
