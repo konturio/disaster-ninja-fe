@@ -136,7 +136,7 @@
     "d3-color": "^3.1.0",
     "d3-interpolate": "^3.0.1",
     "d3-scale": "^4.0.2",
-    "dependency-cruiser": "^16.4.1",
+    "dependency-cruiser": "^16.4.2",
     "dnd-core": "^16.0.1",
     "dot-object": "^2.1.5",
     "emoji-regex": "^10.4.0",
