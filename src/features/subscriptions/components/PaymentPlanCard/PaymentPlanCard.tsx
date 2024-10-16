@@ -20,6 +20,7 @@ export type PaymentPlanCardProps = {
   planConfig: PaymentPlanConfig;
   planContent: ReactNode[];
   currentBillingCycleId: string;
+  salesLink?: string;
   currentSubscription: CurrentSubscription | null;
   isUserAuthorized: boolean;
   onUnauthorizedUserClick: () => void;
@@ -33,6 +34,7 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   isUserAuthorized,
   onUnauthorizedUserClick,
   onNewSubscriptionApproved,
+  salesLink,
   planContent,
 }: PaymentPlanCardProps) {
   const [isChatButtonVisible] = useAtom(intercomVisibleAtom);
@@ -45,11 +47,11 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   /** Get custom plan special properties */
   let planName;
   let description;
-  let salesLink;
+  let demoLink;
   if (isCustomPlan) {
     planName = (content[0] as ReactElement).props.children[0];
     description = content[1];
-    salesLink = planConfig.actions?.find((action) => action.name === 'contact_sales')
+    demoLink = planConfig.actions?.find((action) => action.name === 'contact_sales')
       ?.params.link;
   } else {
     description = content[0];
@@ -70,20 +72,31 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
 
   const renderSubscribeButtons = (paypalPlanId: string) => {
     return currentSubscription?.billingPlanId !== paypalPlanId ? (
-      <PayPalButtonsGroup
-        billingPlanId={paypalPlanId}
-        activeBillingPlanId={currentSubscription?.billingPlanId}
-        activeSubscriptionId={currentSubscription?.billingSubscriptionId}
-        onSubscriptionApproved={(planId, subscriptionId) => {
-          if (subscriptionId) {
-            onNewSubscriptionApproved();
-          } else {
-            console.error(
-              'Unexpected result: subscriptionId came null/undefined from Paypal SDK',
-            );
-          }
-        }}
-      />
+      <div className={s.subscribeButtonsWrapper}>
+        <a
+          className={clsx(s.linkAsButton, s.trialButton)}
+          href={salesLink}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={i18n.t('subscription.request_trial_button')}
+        >
+          {i18n.t('subscription.request_trial_button')}
+        </a>
+        <PayPalButtonsGroup
+          billingPlanId={paypalPlanId}
+          activeBillingPlanId={currentSubscription?.billingPlanId}
+          activeSubscriptionId={currentSubscription?.billingSubscriptionId}
+          onSubscriptionApproved={(planId, subscriptionId) => {
+            if (subscriptionId) {
+              onNewSubscriptionApproved();
+            } else {
+              console.error(
+                'Unexpected result: subscriptionId came null/undefined from Paypal SDK',
+              );
+            }
+          }}
+        />
+      </div>
     ) : (
       <Button disabled>{i18n.t('subscription.current_plan_button')}</Button>
     );
@@ -118,6 +131,25 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
     </>
   );
 
+  const unauthorizedButtons = (
+    <>
+      <Button className={clsx(s.paymentPlanButton)} onClick={onUnauthorizedUserClick}>
+        {i18n.t('subscription.unauthorized_button')}
+      </Button>
+      {salesLink && (
+        <a
+          className={s.linkAsButton}
+          href={salesLink}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={i18n.t('subscription.request_trial_button')}
+        >
+          {i18n.t('subscription.request_trial_button')}
+        </a>
+      )}
+    </>
+  );
+
   const customButtons = (
     <>
       {isChatButtonVisible && (
@@ -125,10 +157,10 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
           {i18n.t('subscription.sales_button')}
         </Button>
       )}
-      {salesLink && (
+      {demoLink && (
         <a
-          className={s.bookDemoLink}
-          href={salesLink}
+          className={s.linkAsButton}
+          href={demoLink}
           target="_blank"
           rel="noreferrer"
           aria-label={i18n.t('subscription.book_demo_button')}
@@ -140,20 +172,15 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   );
 
   const buttonsBlock = (
-    <div className={clsx(s.buttonWrapper, { [s.customButtonsWrapper]: isCustomPlan })}>
+    <div className={s.buttonWrapper}>
       {/* Non-authorized */}
-      {!isUserAuthorized && !isCustomPlan && (
-        <Button className={clsx(s.paymentPlanButton)} onClick={onUnauthorizedUserClick}>
-          {i18n.t('subscription.unauthorized_button')}
-        </Button>
-      )}
+      {!isUserAuthorized && !isCustomPlan && unauthorizedButtons}
       {/* Authorized */}
       {isUserAuthorized && paypalPlanId && renderSubscribeButtons(paypalPlanId)}
       {/* Custom Plan buttons */}
       {isCustomPlan && customButtons}
     </div>
   );
-
   const footerBlock = !isCustomPlan && (
     <div className={s.footerWrapper}>
       <PaymentPlanCardFooter

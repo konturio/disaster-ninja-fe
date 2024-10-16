@@ -24,14 +24,16 @@ const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
 
-const isAuthenticated = !!configRepo.get().user;
+export const isAuthenticated = !!configRepo.get().user;
+export const isMapFeatureEnabled = configRepo.get().features[AppFeature.MAP];
+
 // TODO: make a proper ise of subTabs. Make sure to use uniform tab_id instead of tabName
 const subTabs: { tabName: string; assetUrl: string }[] | undefined =
   configRepo?.get().features.about_page?.['subTabs'];
 const hasUserGuide = subTabs?.find((v) => v.tabName === 'User Guide');
 
 export const routerConfig: AppRouterConfig = {
-  defaultRoute: '',
+  defaultRoute: isAuthenticated && !isMapFeatureEnabled ? 'pricing' : 'map',
   routes: [
     {
       id: 'map',

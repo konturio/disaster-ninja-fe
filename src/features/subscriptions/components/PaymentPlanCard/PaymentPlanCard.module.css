@@ -1,5 +1,5 @@
 .planCard {
-  /* Color for plan type, highlights */
+  /* Color for plan type, highlights, link */
   --primary-color: var(--success-strong);
   /* Color for plan type background */
   --secondary-color: #def5df;
@@ -7,6 +7,8 @@
   --plan-bg-color: transparent;
   /* Border color of card */
   --plan-border-color: var(--faint-weak-up, #d2d5d8);
+  /* Color for buttons hover */
+  --cta-hover-color: #269b00;
 
   border: 1px solid var(--plan-border-color);
   border-radius: var(--double-unit, 16px);
@@ -27,6 +29,7 @@
   &.custom {
     --primary-color: var(--base-strong-down);
     --secondary-color: var(--faint-weak);
+    --cta-hover-color: var(--base-strong);
   }
 
   /* Specific premium styles */
@@ -35,6 +38,7 @@
     --secondary-color: #d8effc;
     --plan-bg-color: var(--accent-weak);
     --plan-border-color: var(--accent-weak-up);
+    --cta-hover-color: var(--accent-strong-up);
   }
 
   /* Highlights section */
@@ -114,12 +118,25 @@
 
 .buttonWrapper {
   margin-bottom: 24px;
-}
-
-.customButtonsWrapper {
   column-gap: 16px;
   display: flex;
   align-items: center;
+}
+
+.subscribeButtonsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+
+  /* Paypal buttons specific styles */
+  & > div {
+    width: 100%;
+  }
+
+  & .trialButton {
+    margin-bottom: 11px;
+  }
 }
 
 .cancelButton {
@@ -138,21 +155,21 @@
   }
 }
 
-.bookDemoLink {
+.linkAsButton {
   font: var(--font-xs);
   font-weight: 400;
   line-height: 16px;
   letter-spacing: 0.019px;
-  color: var(--base-strong-down);
+  color: var(--primary-color);
   padding: 11px 12px;
   border-radius: var(--border-radius);
-  border: 1px solid var(--base-strong-down, #2e3d4a);
+  border: 1px solid var(--primary-color, #2e3d4a);
   text-decoration: none;
   cursor: pointer;
 
   &:hover {
-    border-color: var(--base-strong);
-    color: var(--base-strong);
+    border-color: var(--cta-hover-color);
+    color: var(--cta-hover-color);
   }
 
   &:focus-visible {
@@ -163,25 +180,10 @@
   }
 }
 
-/** Buttons color */
 .paymentPlanButton {
-  background-color: var(--success-strong);
+  background-color: var(--primary-color);
 
   &:hover {
-    background-color: #269b00;
+    background-color: var(--cta-hover-color);
   }
-}
-
-.planCard.custom .paymentPlanButton {
-  background-color: var(--base-strong-down);
-}
-.planCard.premium .paymentPlanButton {
-  background-color: var(--accent-strong);
-}
-
-.planCard.custom .paymentPlanButton:hover {
-  background-color: var(--base-strong);
-}
-.planCard.premium .paymentPlanButton:hover {
-  background-color: var(--accent-strong-up);
 }
