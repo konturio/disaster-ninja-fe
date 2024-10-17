@@ -7,6 +7,7 @@ import {
   User24,
   Reports16,
   Diamond24,
+  BookOpen24,
 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/app/types';
@@ -27,13 +28,12 @@ const { BivariateManagerPage } = lazily(
 export const isAuthenticated = !!configRepo.get().user;
 export const isMapFeatureEnabled = configRepo.get().features[AppFeature.MAP];
 
-const ABOUT_SUB_TABS: Record<string, Omit<AppRoute, 'view'>> = {
+const ABOUT_SUB_TABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> = {
   terms: {
     id: 'terms',
     slug: 'terms',
     title: i18n.t('modes.terms'),
     icon: <Reports16 />,
-    parentRouteId: 'about',
     visibilityInNavigation: 'always',
     requiredFeature: AppFeature.ABOUT_PAGE,
   },
@@ -42,7 +42,6 @@ const ABOUT_SUB_TABS: Record<string, Omit<AppRoute, 'view'>> = {
     slug: 'privacy',
     title: i18n.t('modes.privacy'),
     icon: <Reports16 />,
-    parentRouteId: 'about',
     visibilityInNavigation: 'always',
     requiredFeature: AppFeature.ABOUT_PAGE,
   },
@@ -50,8 +49,7 @@ const ABOUT_SUB_TABS: Record<string, Omit<AppRoute, 'view'>> = {
     id: 'user-guide',
     slug: 'user-guide',
     title: i18n.t('modes.user_guide'),
-    icon: <Reports16 />,
-    parentRouteId: 'about',
+    icon: <BookOpen24 />,
     visibilityInNavigation: 'always',
     requiredFeature: AppFeature.ABOUT_PAGE,
   },
@@ -66,6 +64,7 @@ function getVisibleAboutSubTabs() {
       .map((tabValue) => {
         return {
           ...ABOUT_SUB_TABS[tabValue.tabId],
+          parentRouteId: 'about',
           view: (
             <PagesDocument
               doc={[{ type: 'md', url: tabValue.assetUrl }]}
