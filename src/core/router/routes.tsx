@@ -55,7 +55,7 @@ const ABOUT_SUB_TABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> =
   },
 };
 
-function getVisibleAboutSubTabs() {
+function getAboutSubTabs() {
   const subTabs: { tabId: string; assetUrl: string }[] | undefined =
     configRepo?.get().features.about_page?.['subTabs'];
   if (Array.isArray(subTabs)) {
@@ -140,7 +140,7 @@ export const routerConfig: AppRouterConfig = {
       showForNewUsers: true,
       requiredFeature: AppFeature.ABOUT_PAGE,
     },
-    ...getVisibleAboutSubTabs(),
+    ...getAboutSubTabs(),
     {
       id: 'cookies',
       slug: 'cookies',
