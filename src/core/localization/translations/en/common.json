@@ -435,6 +435,7 @@
   },
   "episode": "Timeline",
   "loading_episodes": "Loading Episodes",
+  "no_breadcrumbs_label": "Zoom to the whole world",
   "cookie_banner": {
     "header": "We value your privacy",
     "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve {{appName}} and your experience. You can manage cookie settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)",

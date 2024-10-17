@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { Marker } from 'maplibre-gl';
 import { useAction, useAtom } from '@reatom/react-v2';
-import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
+import { currentMapAtom, FeatureFlag, mapListenersAtom } from '~core/shared_state';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { configRepo } from '~core/config';
+import { useBreadcrumbs } from '~features/breadcrumbs/useBreadcrumbs';
 import Map from './map-libre-adapter';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 import type {
@@ -38,6 +39,10 @@ export function ConnectedMap({ className }: { className?: string }) {
   const mapBaseStyle = configRepo.get().mapBaseStyle;
   const mapRef = useRef<ApplicationMap>();
   useMapPositionSmoothSync(mapRef);
+  useBreadcrumbs(
+    mapRef,
+    !!configRepo.get().features[FeatureFlag.ADMIN_BOUNDARY_BREADCRUMBS],
+  );
 
   // init current MapRefAtom
   const setCurrentMap = useAction(currentMapAtom.setMap);
