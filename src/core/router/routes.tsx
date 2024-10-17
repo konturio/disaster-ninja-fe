@@ -14,6 +14,7 @@ import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
 import { goTo } from './goTo';
+import type { AboutFeatureConfig } from '~core/config/types';
 import type { AppRoute, AppRouterConfig } from './types';
 const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -28,7 +29,7 @@ const { BivariateManagerPage } = lazily(
 export const isAuthenticated = !!configRepo.get().user;
 export const isMapFeatureEnabled = configRepo.get().features[AppFeature.MAP];
 
-const ABOUT_SUB_TABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> = {
+const ABOUT_SUBTABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> = {
   terms: {
     id: 'terms',
     slug: 'terms',
@@ -56,23 +57,22 @@ const ABOUT_SUB_TABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> =
 };
 
 function getAboutSubTabs() {
-  const subTabs: { tabId: string; assetUrl: string }[] | undefined =
-    configRepo?.get().features.about_page?.['subTabs'];
-  if (Array.isArray(subTabs)) {
-    return subTabs
-      .filter((v) => ABOUT_SUB_TABS[v.tabId] && v.assetUrl)
-      .map((tabValue) => {
-        return {
-          ...ABOUT_SUB_TABS[tabValue.tabId],
-          parentRouteId: 'about',
-          view: (
-            <PagesDocument
-              doc={[{ type: 'md', url: tabValue.assetUrl }]}
-              key={tabValue.tabId}
-            />
-          ),
-        };
-      });
+  const subTabsConfig = configRepo?.get().features.about_page?.['subTabs'] as
+    | AboutFeatureConfig['subTabs']
+    | undefined;
+  if (Array.isArray(subTabsConfig)) {
+    return subTabsConfig
+      .filter((subTab) => ABOUT_SUBTABS[subTab.tabId] && subTab.assetUrl)
+      .map((subTabConfig) => ({
+        ...ABOUT_SUBTABS[subTabConfig.tabId],
+        parentRouteId: 'about',
+        view: (
+          <PagesDocument
+            doc={[{ type: 'md', url: subTabConfig.assetUrl }]}
+            key={subTabConfig.tabId}
+          />
+        ),
+      }));
   }
   return [];
 }
