@@ -201,18 +201,20 @@ const _configDataMock = {
     toasts: true,
     use_3rdparty_analytics: true,
     about_page: {
-      tabName: 'About',
-      assetUrl: '/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/about.md',
+      tabId: 'about',
+      assetUrl: 'about.md',
       subTabs: [
         {
-          tabName: 'Terms',
-          assetUrl:
-            '/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/terms.md',
+          tabId: 'terms',
+          assetUrl: 'terms.md',
         },
         {
-          tabName: 'Privacy',
-          assetUrl:
-            '/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/privacy.md',
+          tabId: 'privacy',
+          assetUrl: 'privacy.md',
+        },
+        {
+          tabId: 'user-guide',
+          assetUrl: 'user_guide.md',
         },
       ],
     },
