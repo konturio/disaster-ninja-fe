@@ -9,7 +9,6 @@ import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { withoutUndefined } from '~utils/common/removeEmpty';
-import { breadcrumbsItemsAtom } from '~features/breadcrumbs/atoms/breadcrumbsItemsAtom';
 import { boundarySelectorControl } from '../control';
 import { createDropdownAsMarker } from '../utils/createDropdownAsMarker';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
@@ -158,16 +157,6 @@ export const boundaryMarkerAtom = createAtom(
                     currentMapPositionAtom.setCurrentMapPosition(boundaryCamera),
                 ].filter(withoutUndefined),
               );
-              // set breadcrumb items
-              const selectedIndex = selectOptions.findIndex(
-                (v) => v.value.toString() === boundaryId,
-              );
-              if (selectedIndex !== -1) {
-                breadcrumbsItemsAtom(
-                  store.v3ctx,
-                  [...selectOptions.slice(selectedIndex, selectOptions.length)].reverse(),
-                );
-              }
             },
           };
 

@@ -35,7 +35,6 @@ const Breadcrumbs = ({
           key={crumb.value}
           label={crumb.label}
           value={crumb.value}
-          active={start + index === items.length - 1}
           onClick={onClick}
           separator={separator}
           isLastItem={start + index === items.length - 1}

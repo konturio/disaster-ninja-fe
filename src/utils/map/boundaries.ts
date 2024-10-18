@@ -24,10 +24,9 @@ export function getLocalizedFeatureName(
 }
 
 export function constructOptionsFromBoundaries(
-  boundaries: GeoJSON.FeatureCollection | GeoJSON.Feature,
+  boundaries: GeoJSON.FeatureCollection | GeoJSON.Feature[],
 ): BoundaryOption[] {
-  const features =
-    boundaries.type === 'FeatureCollection' ? boundaries.features : [boundaries];
+  const features = Array.isArray(boundaries) ? boundaries : boundaries.features;
   const sortedFeatures = features.sort(
     (f1, f2) => f2.properties?.admin_level - f1.properties?.admin_level,
   );

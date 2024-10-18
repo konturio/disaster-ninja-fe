@@ -1,12 +1,19 @@
 import { action, atom } from '@reatom/core';
-import type { BoundaryOption } from '~utils/map/boundaries';
+import { currentMapPositionAtom } from '~core/shared_state';
+import type { Bbox } from '~core/shared_state/currentMapPosition';
 
-export const breadcrumbsItemsAtom = atom<BoundaryOption[]>([], 'breadcrumbsAtom');
+export const breadcrumbsItemsAtom = atom<GeoJSON.Feature[] | null>(
+  null,
+  'breadcrumbsAtom',
+);
 
 export const onBreadcrumbClick = action((ctx, value: string | number) => {
   const items = ctx.get(breadcrumbsItemsAtom);
-  const index = items.findIndex((item) => item.value === value);
-  if (index !== -1) {
-    breadcrumbsItemsAtom(ctx, items.slice(0, index + 1));
-  }
-}, 'onItemClick');
+  if (!items) return;
+  const index = items.findIndex((item) => item.id === value);
+}, 'onBreadcrumbClick');
+
+export const onZoomToWholeWorld = action(() => {
+  const bbox: Bbox = [-180, -80, 180, 80];
+  currentMapPositionAtom.setCurrentMapBbox.dispatch(bbox);
+}, 'onZoomToWholeWorld');
