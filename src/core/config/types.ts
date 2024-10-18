@@ -90,3 +90,12 @@ export type FaviconPack = Record<
   | 'icon-512x512.png',
   string
 >;
+
+export type AboutFeatureConfig = {
+  tabId: string;
+  assetUrl: string;
+  subTabs: {
+    tabId: string;
+    assetUrl?: string;
+  }[];
+};
