@@ -57,7 +57,7 @@ const ABOUT_SUBTABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> = 
 };
 
 function getAboutSubTabs() {
-  const subTabsConfig = configRepo?.get().features.about_page?.['subTabs'] as
+  const subTabsConfig = configRepo?.get().features[AppFeature.ABOUT_PAGE]?.['subTabs'] as
     | AboutFeatureConfig['subTabs']
     | undefined;
   if (Array.isArray(subTabsConfig)) {

@@ -96,6 +96,6 @@ export type AboutFeatureConfig = {
   assetUrl: string;
   subTabs: {
     tabId: string;
-    assetUrl: string;
+    assetUrl?: string;
   }[];
 };
