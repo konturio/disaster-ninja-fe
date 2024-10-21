@@ -39,10 +39,9 @@ export function ConnectedMap({ className }: { className?: string }) {
   const mapBaseStyle = configRepo.get().mapBaseStyle;
   const mapRef = useRef<ApplicationMap>();
   useMapPositionSmoothSync(mapRef);
-  useBreadcrumbs(
-    mapRef,
-    !!configRepo.get().features[FeatureFlag.ADMIN_BOUNDARY_BREADCRUMBS],
-  );
+  const isBreadcrumbsEnabled =
+    !!configRepo.get().features[FeatureFlag.ADMIN_BOUNDARY_BREADCRUMBS];
+  useBreadcrumbs(mapRef, isBreadcrumbsEnabled);
 
   // init current MapRefAtom
   const setCurrentMap = useAction(currentMapAtom.setMap);

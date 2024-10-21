@@ -12,7 +12,7 @@ import {
 } from './atoms/breadcrumbsItemsAtom';
 
 const noBreadcrumbsOption = {
-  label: i18n.t('no_breadcrumbs_label'),
+  label: i18n.t('zoom_to_world'),
   value: 'no breadcrumb items',
 };
 
@@ -23,14 +23,14 @@ const BreadcrumbsPanel = () => {
   const zoomToTheWorld = useAction(onZoomToWholeWorld);
 
   const options = items?.length
-    ? constructOptionsFromBoundaries(items || new FeatureCollection([]))
+    ? constructOptionsFromBoundaries(items).reverse()
     : [noBreadcrumbsOption];
   const clickHandler = items?.length ? breadcrumbItemClick : zoomToTheWorld;
 
   /** Don't render the Breadcrumbs panel or empty label until items have been fetched from the server. */
   return items ? (
     <Panel resize="none" className={s.breadcrumbsPanel}>
-      <Breadcrumbs items={options.reverse()} onClick={clickHandler} />
+      <Breadcrumbs items={options} onClick={clickHandler} />
     </Panel>
   ) : null;
 };
