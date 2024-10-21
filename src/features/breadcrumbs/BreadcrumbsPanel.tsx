@@ -1,7 +1,6 @@
 import { Panel } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/npm-react';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
-import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { i18n } from '~core/localization';
 import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 import s from './BreadcrumbsPanel.module.css';
@@ -13,7 +12,7 @@ import {
 
 const noBreadcrumbsOption = {
   label: i18n.t('zoom_to_world'),
-  value: 'no breadcrumb items',
+  value: 'zoom to world',
 };
 
 const BreadcrumbsPanel = () => {
