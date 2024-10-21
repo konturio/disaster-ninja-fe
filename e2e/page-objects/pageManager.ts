@@ -6,6 +6,7 @@ import { MapCanvas } from './mapPage';
 import { ToolBar } from './toolBar';
 import { KeycloakPage } from './keycloakPage';
 import { PrivacyPage } from './privacyPage';
+import { PricingPage } from './pricingPage';
 import type { Project } from './helperBase';
 import type { Page } from '@playwright/test';
 
@@ -19,6 +20,7 @@ export class PageManager {
   private readonly toolBar: ToolBar;
   private readonly keycloakPage: KeycloakPage;
   private readonly privacyPage: PrivacyPage;
+  private readonly pricingPage: PricingPage;
 
   constructor(page: Page) {
     this.page = page;
@@ -30,6 +32,7 @@ export class PageManager {
     this.toolBar = new ToolBar(this.page);
     this.keycloakPage = new KeycloakPage(this.page);
     this.privacyPage = new PrivacyPage(this.page);
+    this.pricingPage = new PricingPage(this.page);
   }
 
   get atLoginPage() {
@@ -62,6 +65,10 @@ export class PageManager {
 
   get atPrivacyPage() {
     return this.privacyPage;
+  }
+
+  get atPricingPage() {
+    return this.pricingPage;
   }
 
   /**

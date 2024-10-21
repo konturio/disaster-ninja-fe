@@ -16,6 +16,10 @@ for (const project of projects) {
       { shouldSuccess: true, project },
     );
     pageManager.atBrowser.checkCampaignIsAutotest();
+    if (project.name === 'atlas') {
+      await pageManager.atPricingPage.checkPageAndTextsAvailability();
+      await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
+    }
     await pageManager.atProfilePage.checkLogoutBtnProfileTitleAndEmail(
       process.env.EMAIL!,
     );
