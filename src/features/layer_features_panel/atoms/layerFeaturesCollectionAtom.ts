@@ -6,7 +6,7 @@ import { createNumberAtom } from '~utils/atoms/createPrimitives';
 import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
-import { FEATURESPANEL_LAYER_ID } from '../constants';
+import { ACAPS_LAYER_ID, HOT_PROJECTS_LAYER_ID } from '../constants';
 import { getPanelData } from './hotProjects_outlines';
 import type { FeatureCardCfg } from '../components/CardElements';
 
@@ -39,7 +39,7 @@ export const layerFeaturesCollectionAtom = createAtom(
       currentFeatureIdAtom.set.dispatch(undefined);
       state = null;
       const enabledLayers = get('enabledLayersAtom');
-      if (!enabledLayers.has(FEATURESPANEL_LAYER_ID)) {
+      if (!enabledLayers.has(HOT_PROJECTS_LAYER_ID)) {
         return;
       }
       if (!isGeoJSONEmpty(fg?.geometry))
@@ -51,7 +51,7 @@ export const layerFeaturesCollectionAtom = createAtom(
     });
 
     onChange('mountedLayersAtom', (ml) => {
-      if (!ml.has(FEATURESPANEL_LAYER_ID)) {
+      if (!ml.has(HOT_PROJECTS_LAYER_ID)) {
         // @ts-expect-error needs better atom type
         currentFeatureIdAtom.set.dispatch(undefined);
         state = null;
@@ -76,7 +76,7 @@ export const layerFeaturesCollectionAtom = createAtom(
 
 export async function getFeatureCollection(geometry) {
   const features = await apiClient.post(
-    `/layers/${FEATURESPANEL_LAYER_ID}/items/search`,
+    `/layers/${HOT_PROJECTS_LAYER_ID}/items/search`,
     {
       appId: configRepo.get().id,
       geoJSON: geometry,

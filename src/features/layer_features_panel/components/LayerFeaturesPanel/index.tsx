@@ -14,13 +14,20 @@ import {
   currentFeatureIdAtom,
   layerFeaturesCollectionAtom,
 } from '../../atoms/layerFeaturesCollectionAtom';
-import { FEATURESPANEL_MIN_HEIGHT, FEATURESPANEL_HEADER } from '../../constants';
+import {
+  ACAPS_DATA_HEADER,
+  FEATURESPANEL_MIN_HEIGHT,
+  HOT_PROJECTS_HEADER,
+  HOT_PROJECTS_LAYER_ID,
+} from '../../constants';
 import { FullState } from './FullState';
 import { ShortState } from './ShortState';
 import s from './LayerFeaturesPanel.module.css';
 import { EmptyState } from './EmptyState';
 import type { FeatureCardCfg } from '../CardElements';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
+
+const CURRENT_FEATURES_PANEL_LAYER_ID = HOT_PROJECTS_LAYER_ID;
 
 export function LayerFeaturesPanel() {
   const [currentFeatureId, { set: setCurrentFeatureId }] = useAtom(currentFeatureIdAtom);
@@ -84,7 +91,11 @@ export function LayerFeaturesPanel() {
   return (
     <>
       <Panel
-        header={FEATURESPANEL_HEADER}
+        header={
+          CURRENT_FEATURES_PANEL_LAYER_ID === HOT_PROJECTS_LAYER_ID
+            ? HOT_PROJECTS_HEADER
+            : ACAPS_DATA_HEADER
+        }
         headerIcon={
           <div className={s.iconWrap}>
             <Legend24 />
