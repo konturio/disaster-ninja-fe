@@ -1,4 +1,4 @@
-name: Deploy master branch to GitHub Pages
+name: Deploy master branch cosmos to GitHub Pages
 on:
   push:
     branches: [main]
