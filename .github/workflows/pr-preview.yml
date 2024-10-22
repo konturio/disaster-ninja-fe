@@ -125,4 +125,6 @@ jobs:
             - Cosmos: ${{ needs.deploy.outputs.cosmos_url }}
 
             These previews are automatically updated with each commit.
+
+            **Note:** After a new deployment, it may take a few minutes for the changes to propagate and for caches to update. During this time, you might experience temporary loading issues or see an older version of the app. If the app fails to load, please wait a few minutes and try again.
           edit-mode: replace
