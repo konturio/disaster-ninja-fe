@@ -23,7 +23,6 @@ jobs:
         with:
           path: |
             ~/.pnpm-store
-            node_modules
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -64,11 +63,12 @@ jobs:
   deploy:
     needs: prepare
     runs-on: ubuntu-24.04
-    outputs:
-      main_url: ${{ steps.deploy-main.outputs.preview_url }}
-      cosmos_url: ${{ steps.deploy-cosmos.outputs.preview_url }}
     env:
-      SURGE_BASE_URL: ${{ github.repository_owner }}-${{ github.event.repository.name }}-pr-${{ github.event.number }}
+      MAIN_URL: https://${{ github.repository_owner }}-${{ github.event.repository.name }}-pr-${{ github.event.number }}-main.surge.sh
+      COSMOS_URL: https://${{ github.repository_owner }}-${{ github.event.repository.name }}-pr-${{ github.event.number }}-cosmos.surge.sh
+    outputs:
+      main_url: ${{ env.MAIN_URL }}
+      cosmos_url: ${{ env.COSMOS_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -87,25 +87,19 @@ jobs:
 
       - name: Deploy main app to Surge
         if: github.event.action != 'closed'
-        id: deploy-main
-        run: |
-          PREVIEW_URL=$(surge --project ./dist --domain ${{ env.SURGE_BASE_URL }}-main.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_EMAIL }})
-          echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
+        run: surge --project ./dist --domain ${{ env.MAIN_URL }} --token ${{ secrets.SURGE_TOKEN }}
 
       - name: Deploy Cosmos to Surge
         if: github.event.action != 'closed'
-        id: deploy-cosmos
-        run: |
-          PREVIEW_URL=$(surge --project ./cosmos-export --domain ${{ env.SURGE_BASE_URL }}-cosmos.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_EMAIL }})
-          echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
+        run: surge --project ./cosmos-export --domain ${{ env.COSMOS_URL }} --token ${{ secrets.SURGE_TOKEN }}
 
       - name: Teardown main app preview
         if: github.event.action == 'closed'
-        run: surge teardown ${{ env.SURGE_BASE_URL }}-main.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_EMAIL }}
+        run: surge teardown ${{ env.MAIN_URL }} --token ${{ secrets.SURGE_TOKEN }}
 
       - name: Teardown Cosmos preview
         if: github.event.action == 'closed'
-        run: surge teardown ${{ env.SURGE_BASE_URL }}-cosmos.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_EMAIL }}
+        run: surge teardown ${{ env.COSMOS_URL }} --token ${{ secrets.SURGE_TOKEN }}
 
   comment:
     needs: deploy
