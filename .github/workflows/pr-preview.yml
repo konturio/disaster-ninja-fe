@@ -67,6 +67,8 @@ jobs:
     outputs:
       main_url: ${{ steps.deploy-main.outputs.preview_url }}
       cosmos_url: ${{ steps.deploy-cosmos.outputs.preview_url }}
+    env:
+      SURGE_BASE_URL: ${{ github.repository_owner }}-${{ github.event.repository.name }}-pr-${{ github.event.number }}
     steps:
       - uses: actions/checkout@v4
 
@@ -87,23 +89,23 @@ jobs:
         if: github.event.action != 'closed'
         id: deploy-main
         run: |
-          PREVIEW_URL=$(surge --project ./dist --domain ${{ github.sha }}-main-pr-${{ github.event.number }}.surge.sh --token ${{ secrets.SURGE_TOKEN }})
+          PREVIEW_URL=$(surge --project ./dist --domain ${{ env.SURGE_BASE_URL }}-main.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_EMAIL }})
           echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
 
       - name: Deploy Cosmos to Surge
         if: github.event.action != 'closed'
         id: deploy-cosmos
         run: |
-          PREVIEW_URL=$(surge --project ./cosmos-export --domain ${{ github.sha }}-cosmos-pr-${{ github.event.number }}.surge.sh --token ${{ secrets.SURGE_TOKEN }})
+          PREVIEW_URL=$(surge --project ./cosmos-export --domain ${{ env.SURGE_BASE_URL }}-cosmos.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_EMAIL }})
           echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
 
       - name: Teardown main app preview
         if: github.event.action == 'closed'
-        run: surge teardown ${{ github.sha }}-main-pr-${{ github.event.number }}.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+        run: surge teardown ${{ env.SURGE_BASE_URL }}-main.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_EMAIL }}
 
       - name: Teardown Cosmos preview
         if: github.event.action == 'closed'
-        run: surge teardown ${{ github.sha }}-cosmos-pr-${{ github.event.number }}.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+        run: surge teardown ${{ env.SURGE_BASE_URL }}-cosmos.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_EMAIL }}
 
   comment:
     needs: deploy
