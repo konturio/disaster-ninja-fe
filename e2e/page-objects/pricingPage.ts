@@ -3,7 +3,7 @@ import { HelperBase } from './helperBase';
 
 export class PricingPage extends HelperBase {
   /**
-   * This method checks that page is visible and has all the texts
+   * This method checks that pricing page is visible and has all the texts in it. It also checks that the page is not empty, links to sale are present.
    */
 
   async checkPageAndTextsAvailability() {

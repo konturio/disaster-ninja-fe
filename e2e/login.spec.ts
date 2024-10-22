@@ -16,6 +16,8 @@ for (const project of projects) {
       { shouldSuccess: true, project },
     );
     pageManager.atBrowser.checkCampaignIsAutotest();
+
+    // Atlas redirects to pricing page after login
     if (project.name === 'atlas') {
       await pageManager.atPricingPage.checkPageAndTextsAvailability();
       await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
