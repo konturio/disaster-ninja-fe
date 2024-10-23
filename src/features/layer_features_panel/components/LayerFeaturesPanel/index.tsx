@@ -16,6 +16,7 @@ import {
 } from '../../atoms/layerFeaturesCollectionAtom';
 import {
   ACAPS_DATA_HEADER,
+  ACAPS_SIMPLE_LAYER_ID,
   FEATURESPANEL_MIN_HEIGHT,
   HOT_PROJECTS_HEADER,
   HOT_PROJECTS_LAYER_ID,
@@ -27,7 +28,8 @@ import { EmptyState } from './EmptyState';
 import type { FeatureCardCfg } from '../CardElements';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
 
-const CURRENT_FEATURES_PANEL_LAYER_ID = HOT_PROJECTS_LAYER_ID;
+export const CURRENT_FEATURES_PANEL_LAYER_ID: string = ACAPS_SIMPLE_LAYER_ID;
+// export const CURRENT_FEATURES_PANEL_LAYER_ID: string = HOT_PROJECTS_LAYER_ID;
 
 export function LayerFeaturesPanel() {
   const [currentFeatureId, { set: setCurrentFeatureId }] = useAtom(currentFeatureIdAtom);
