@@ -43,3 +43,8 @@ export interface SeasonalEventsProperties extends AcapsFeatureProperties {
   event_type: string[];
   label: string[];
 }
+
+export interface ProtectionRisksProperties extends AcapsFeatureProperties {
+  targeting_specific_population_groups?: string[];
+  additional_sources?: string; // shouldn't it be string[]? BE returns string here right now
+}

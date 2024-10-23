@@ -2,6 +2,7 @@ import type {
   AcapsFeatureProperties,
   AcapsRiskListProperties,
   InfoLandscapeProperties,
+  ProtectionRisksProperties,
   SeasonalEventsProperties,
 } from '../types/acaps';
 import type {
@@ -17,8 +18,8 @@ const ACAPS_SOURCE_DATASETS = {
   PROTECTION_RISKS_MONITOR: 'Protection risks monitor',
 };
 
-function joinArray(arr: string[]): string {
-  return arr.join(', ');
+function joinArray(arr?: string[]): string {
+  return arr?.join(', ') ?? '';
 }
 
 function removeEmptyRows(rows: string[][]): string[][] {
@@ -30,7 +31,7 @@ export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[
     .filter(
       (feat) =>
         feat.properties?.acaps_source_dataset ===
-        ACAPS_SOURCE_DATASETS.SEASONAL_EVENTS_CALENDAR,
+        ACAPS_SOURCE_DATASETS.PROTECTION_RISKS_MONITOR,
     )
     .map((feature) => {
       const p = feature.properties as AcapsFeatureProperties;
@@ -54,6 +55,9 @@ export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[
           break;
         case ACAPS_SOURCE_DATASETS.SEASONAL_EVENTS_CALENDAR:
           cardItems.push(...getSeasonalEventsCardItems(p as SeasonalEventsProperties));
+          break;
+        case ACAPS_SOURCE_DATASETS.PROTECTION_RISKS_MONITOR:
+          cardItems.push(...getProtectionsRisksCardItems(p as ProtectionRisksProperties));
           break;
       }
 
@@ -170,6 +174,7 @@ function getSeasonalEventsCardItems(
   const rows = removeEmptyRows([
     ['event_type', joinArray(p.event_type)],
     ['source_name', p.source_name],
+    ['source_date', p.source_date],
     ['label', joinArray(p.label)],
   ]);
   cardItems.push({ type: 'table', rows });
@@ -188,5 +193,56 @@ function getSeasonalEventsCardItems(
       ],
     });
   }
+  return cardItems;
+}
+
+function getProtectionsRisksCardItems(
+  p: ProtectionRisksProperties,
+): FeatureCardItemCfg<CardElementId>[] {
+  const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
+  if (p.indicator) {
+    cardItems.push({ type: 'title', title: joinArray(p.indicator) });
+  }
+  const rows = removeEmptyRows([
+    [
+      'targeting_specific_population_groups',
+      joinArray(p.targeting_specific_population_groups),
+    ],
+    ['source_name', p.source_name],
+    ['source_date', p.source_date],
+  ]);
+  cardItems.push({ type: 'table', rows });
+  if (p.source_link) {
+    cardItems.push({
+      type: 'actions',
+      items: [
+        {
+          type: 'external_link',
+          title: p.source_link,
+          data: p.source_link,
+        },
+      ],
+    });
+  }
+  if (p.additional_sources) {
+    cardItems.push({
+      type: 'actions',
+      items: [
+        {
+          type: 'external_link',
+          title: p.additional_sources,
+          data: p.additional_sources,
+        },
+      ],
+    });
+  }
+  if (p.comment) {
+    cardItems.push({ type: 'text', text: p.comment });
+  }
+  cardItems.push({
+    type: 'table',
+    rows: [['_internal_filter_date', p._internal_filter_date]],
+  });
+
   return cardItems;
 }
