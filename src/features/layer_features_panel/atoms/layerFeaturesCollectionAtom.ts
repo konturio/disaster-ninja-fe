@@ -11,11 +11,14 @@ import {
   ACAPS_SIMPLE_LAYER_ID,
   HOT_PROJECTS_LAYER_ID,
 } from '../constants';
-import { CURRENT_FEATURES_PANEL_LAYER_ID } from '../components/LayerFeaturesPanel';
 import { getHotProjectsPanelData } from './hotProjects_outlines';
 import { getAcapsFeatureCards } from './acapsToFeatureCards';
 import { ACAPS_MOCK } from './mocks/acaps_mock';
 import type { FeatureCardCfg } from '../components/CardElements';
+
+// TODO: get layerId from app config
+// export const CURRENT_FEATURES_PANEL_LAYER_ID: string = ACAPS_SIMPLE_LAYER_ID;
+export const CURRENT_FEATURES_PANEL_LAYER_ID: string = HOT_PROJECTS_LAYER_ID;
 
 export const currentFeatureIdAtom = createNumberAtom(undefined, 'currentFeatureIdAtom');
 export const layerFeaturesCollectionAtom = createAtom(

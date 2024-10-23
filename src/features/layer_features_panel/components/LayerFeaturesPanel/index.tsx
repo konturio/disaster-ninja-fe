@@ -12,6 +12,7 @@ import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
 import {
+  CURRENT_FEATURES_PANEL_LAYER_ID,
   currentFeatureIdAtom,
   layerFeaturesCollectionAtom,
 } from '../../atoms/layerFeaturesCollectionAtom';
@@ -28,10 +29,6 @@ import s from './LayerFeaturesPanel.module.css';
 import { EmptyState } from './EmptyState';
 import type { FeatureCardCfg } from '../CardElements';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
-
-// TODO: get layerId from app config
-// export const CURRENT_FEATURES_PANEL_LAYER_ID: string = ACAPS_SIMPLE_LAYER_ID;
-export const CURRENT_FEATURES_PANEL_LAYER_ID: string = HOT_PROJECTS_LAYER_ID;
 
 export function LayerFeaturesPanel() {
   const [currentFeatureId, { set: setCurrentFeatureId }] = useAtom(currentFeatureIdAtom);
