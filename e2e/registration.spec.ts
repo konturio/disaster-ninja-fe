@@ -75,6 +75,16 @@ for (const project of projects) {
     // Atlas redirects to pricing page after login
     if (project.name === 'atlas') {
       await pageManager.atPricingPage.checkPageAndTextsAvailability();
+      await pageManager.atPricingPage.clickBtnAndAssertUrl({
+        context,
+        buttonName: 'Request trial',
+        expectedUrlPart: 'demo-call',
+      });
+      await pageManager.atPricingPage.clickBtnAndAssertUrl({
+        context,
+        buttonName: 'Book a demo',
+        expectedUrlPart: 'atlas-demo',
+      });
       await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
     }
 

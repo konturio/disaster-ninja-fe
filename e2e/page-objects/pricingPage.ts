@@ -14,13 +14,6 @@ export class PricingPage extends HelperBase {
       expect(this.page.getByText('Professional', { exact: true })).toBeVisible(),
       expect(this.page.getByText('Educational', { exact: true })).toBeVisible(),
       expect(this.page.getByText('Custom', { exact: true })).toBeVisible(),
-      expect(this.page.getByText('Book a demo', { exact: true })).toHaveAttribute(
-        'href',
-        'https://calendly.com/kbakhanko/atlas-demo',
-      ),
-      expect(
-        this.page.getByText('Request trial', { exact: true }).first(),
-      ).toHaveAttribute('href', 'https://www.kontur.io/demo-call/'),
       expect(this.page.getByText('Contact sales', { exact: true })).toBeVisible(),
       plansAndPricingTexts.forEach((text) => expect(text).toBeVisible()),
       expect(this.page.getByText('Save 5%', { exact: true })).toBeVisible(),

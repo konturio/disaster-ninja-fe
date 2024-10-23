@@ -7,6 +7,7 @@ const projects = getProjects();
 for (const project of projects) {
   test(`As Guest, I can log in to ${project.title}, check that this profile is mine, and log out`, async ({
     pageManager,
+    context,
   }) => {
     await pageManager.atBrowser.openProject(project);
     await pageManager.atNavigationMenu.clickButtonToOpenPage('Login');
@@ -20,6 +21,16 @@ for (const project of projects) {
     // Atlas redirects to pricing page after login
     if (project.name === 'atlas') {
       await pageManager.atPricingPage.checkPageAndTextsAvailability();
+      await pageManager.atPricingPage.clickBtnAndAssertUrl({
+        context,
+        buttonName: 'Request trial',
+        expectedUrlPart: 'demo-call',
+      });
+      await pageManager.atPricingPage.clickBtnAndAssertUrl({
+        context,
+        buttonName: 'Book a demo',
+        expectedUrlPart: 'atlas-demo',
+      });
       await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
     }
     await pageManager.atProfilePage.checkLogoutBtnProfileTitleAndEmail(
