@@ -24,7 +24,7 @@ function joinArray(arr?: string[]): string {
 }
 
 function removeEmptyRows(rows: string[][]): string[][] {
-  return rows.filter((row) => row[1]);
+  return rows.filter((row) => row.length > 1 && row[1]);
 }
 
 export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[] {
