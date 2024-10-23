@@ -21,7 +21,7 @@ import type { FeatureCardCfg } from '../components/CardElements';
 // export const featuresPanelLayerId: string = ACAPS_SIMPLE_LAYER_ID;
 const featuresPanelConfig = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
 export const featuresPanelLayerId: string =
-  typeof featuresPanelConfig === 'object'
+  featuresPanelConfig && typeof featuresPanelConfig === 'object'
     ? (featuresPanelConfig as LayerFeaturesPanelConfig).layerId
     : '';
 
