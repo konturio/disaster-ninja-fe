@@ -27,13 +27,8 @@ function removeEmptyRows(rows: string[][]): string[][] {
 }
 
 export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[] {
-  const featuresList: FeatureCardCfg[] = Object.values(featuresListAcaps)
-    .filter(
-      (feat) =>
-        feat.properties?.acaps_source_dataset ===
-        ACAPS_SOURCE_DATASETS.PROTECTION_RISKS_MONITOR,
-    )
-    .map((feature) => {
+  const featuresList: FeatureCardCfg[] = Object.values(featuresListAcaps).map(
+    (feature) => {
       const p = feature.properties as AcapsFeatureProperties;
       const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
       cardItems.push({
@@ -67,7 +62,8 @@ export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[
         properties: p,
         items: cardItems,
       };
-    });
+    },
+  );
   return featuresList;
 }
 

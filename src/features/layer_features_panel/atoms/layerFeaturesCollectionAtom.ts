@@ -100,9 +100,10 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
 }
 
 export async function getFeatureCollection(geometry, layerId: string) {
-  if (layerId === ACAPS_SIMPLE_LAYER_ID) {
-    return ACAPS_MOCK;
-  }
+  // TODO: delete when mocks are no longer needed
+  // if (layerId === ACAPS_SIMPLE_LAYER_ID) {
+  //   return ACAPS_MOCK;
+  // }
   const features = await apiClient.post(
     `/layers/${layerId}/items/search`,
     {
