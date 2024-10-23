@@ -17,6 +17,14 @@ const ACAPS_SOURCE_DATASETS = {
   PROTECTION_RISKS_MONITOR: 'Protection risks monitor',
 };
 
+function joinArray(arr: string[]): string {
+  return arr.join(', ');
+}
+
+function removeEmptyRows(rows: string[][]): string[][] {
+  return rows.filter((row) => row[1]);
+}
+
 export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[] {
   const featuresList: FeatureCardCfg[] = Object.values(featuresListAcaps)
     .filter(
@@ -32,10 +40,10 @@ export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[
         items: [{ value: p.acaps_source_dataset }],
       });
       if (p.country) {
-        cardItems.push({ type: 'text', text: p.country.join(', ') });
+        cardItems.push({ type: 'text', text: joinArray(p.country) });
       }
       if (p.adm1_eng_name) {
-        cardItems.push({ type: 'text', text: p.adm1_eng_name.join(', ') });
+        cardItems.push({ type: 'text', text: joinArray(p.adm1_eng_name) });
       }
       switch (p.acaps_source_dataset) {
         case ACAPS_SOURCE_DATASETS.RISK_LIST:
@@ -69,7 +77,7 @@ function getRiskListCardItems(
   if (p.risk_type) {
     cardItems.push({ type: 'text', text: p.risk_type });
   }
-  const rows = [
+  const rows = removeEmptyRows([
     ['geographic_level', p.geographic_level],
     ['impact', p.impact],
     ['date_entered', p.source_date ?? ''],
@@ -79,7 +87,7 @@ function getRiskListCardItems(
     ['intensity', p.intensity],
     ['probability', p.probability],
     ['risk_level', p.risk_level],
-  ].filter((row) => row[1]);
+  ]);
   cardItems.push({ type: 'table', rows });
   if (p.source_link) {
     cardItems.push({
@@ -102,10 +110,10 @@ function getRiskListCardItems(
   if (p.vulnerability) {
     cardItems.push({ type: 'text', title: 'vulnerability', text: p.vulnerability });
   }
-  const footerRows = [
+  const footerRows = removeEmptyRows([
     ['published', p.published ?? ''],
     ['_internal_filter_date', p._internal_filter_date],
-  ].filter((row) => row[1]);
+  ]);
   cardItems.push({ type: 'table', rows: footerRows });
   return cardItems;
 }
@@ -115,17 +123,17 @@ function getInfoLandscapeCardItems(
 ): FeatureCardItemCfg<CardElementId>[] {
   const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
   if (p.indicator) {
-    cardItems.push({ type: 'title', title: p.indicator.join(', ') });
+    cardItems.push({ type: 'title', title: joinArray(p.indicator) });
   }
   if (p.subindicator) {
-    cardItems.push({ type: 'text', text: p.subindicator.join(', ') });
+    cardItems.push({ type: 'text', text: joinArray(p.subindicator) });
   }
-  const rows = [
+  const rows = removeEmptyRows([
     ['entry_type', p.entry_type ?? ''],
     ['created', p.created],
     ['source_name', p.source_name],
     ['source_date', p.source_date],
-  ].filter((row) => row[1]);
+  ]);
   cardItems.push({ type: 'table', rows });
   if (p.source_link) {
     cardItems.push({
@@ -154,16 +162,16 @@ function getSeasonalEventsCardItems(
 ): FeatureCardItemCfg<CardElementId>[] {
   const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
   if (p.indicator) {
-    cardItems.push({ type: 'title', title: p.indicator.join(', ') });
+    cardItems.push({ type: 'title', title: joinArray(p.indicator) });
   }
   if (p.months) {
-    cardItems.push({ type: 'text', text: p.months.join(', ') });
+    cardItems.push({ type: 'text', text: joinArray(p.months) });
   }
-  const rows = [
-    ['event_type', p.event_type.join(', ')],
+  const rows = removeEmptyRows([
+    ['event_type', joinArray(p.event_type)],
     ['source_name', p.source_name],
-    ['label', p.label.join(', ')],
-  ].filter((row) => row[1]);
+    ['label', joinArray(p.label)],
+  ]);
   cardItems.push({ type: 'table', rows });
   if (p.comment) {
     cardItems.push({ type: 'text', text: p.comment });
