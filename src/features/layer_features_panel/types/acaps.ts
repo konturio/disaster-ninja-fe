@@ -13,7 +13,7 @@ export interface AcapsFeatureProperties {
   adm1_eng_name?: string[];
 }
 
-export interface AcapsRiskListProperties extends AcapsFeatureProperties {
+export interface AcapsRiskList extends AcapsFeatureProperties {
   impact: string;
   status: string;
   trigger: string;
@@ -32,19 +32,19 @@ export interface AcapsRiskListProperties extends AcapsFeatureProperties {
   date_entered?: string; // date
 }
 
-export interface InfoLandscapeProperties extends AcapsFeatureProperties {
+export interface AcapsInfoLandscape extends AcapsFeatureProperties {
   subindicator: string[];
   entry_type?: string;
   created: string; //date
 }
 
-export interface SeasonalEventsProperties extends AcapsFeatureProperties {
+export interface AcapsSeasonalEvents extends AcapsFeatureProperties {
   months: string[];
   event_type: string[];
   label: string[];
 }
 
-export interface ProtectionRisksProperties extends AcapsFeatureProperties {
+export interface AcapsProtectionRisks extends AcapsFeatureProperties {
   targeting_specific_population_groups?: string[];
   additional_sources?: string; // shouldn't it be string[]? BE returns string here right now
 }
