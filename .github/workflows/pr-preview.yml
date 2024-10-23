@@ -1,42 +1,28 @@
-name: deploy-preview
+name: PR Preview
 
 on:
   pull_request:
-    branches:
-      - main
-
-env:
-  # Create a host name for the environment: mr-preview-<PR_NUMBER>.konturio.surge.sh
-  DOMAIN: https://mr-preview-${{ github.event.number }}-konturio.surge.sh
+    types: [opened, synchronize, reopened, closed]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  prepare:
+    runs-on: ubuntu-24.04
     env:
       PREVIEW_API_DOMAIN: 'test-apps-ninja02.konturlabs.com'
       KEYCLOAK_URL: 'https://dev-keycloak.k8s-01.konturlabs.com'
       KEYCLOAK_REALM: 'dev'
-
     steps:
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.0.3
-        with:
-          node-version: 20
+      - uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4.0.0
+      - uses: pnpm/action-setup@v4
         with:
-          version: ^9.x.x
-
-      - name: Checkout
-        uses: actions/checkout@v4.1.7
+          version: 9
 
       - name: Cache pnpm store
         uses: actions/cache@v4
         with:
           path: |
             ~/.pnpm-store
-            node_modules
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -44,28 +30,101 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Apply domain changes in config files
+      - name: Apply domain changes
+        if: github.event.action != 'closed'
         run: |
           sed -i "s|https://disaster.ninja|https://${PREVIEW_API_DOMAIN}|" configs/config.default.json
           sed -i "s|\"KEYCLOAK_URL\": \"https://keycloak01.kontur.io\"|\"KEYCLOAK_URL\": \"${KEYCLOAK_URL}\"|" configs/config.default.json
           sed -i "s|\"KEYCLOAK_REALM\": \"kontur\"|\"KEYCLOAK_REALM\": \"${KEYCLOAK_REALM}\"|" configs/config.default.json
-
-      - name: Update .env.production
-        run: |
           sed -i "s|VITE_BASE_PATH=/active/|VITE_BASE_PATH=/|" .env.production
           sed -i "s|VITE_STATIC_PATH=static/|VITE_STATIC_PATH=|" .env.production
 
-      - name: Build
-        run: pnpm build
+      - name: Build main app and Cosmos
+        if: github.event.action != 'closed'
+        run: |
+          pnpm build
+          pnpm cosmos:build
 
       - name: Enable surge.sh redirects
         run: cp dist/index.html dist/200.html
 
-      - name: Deploy to surge.sh
-        if: ${{ !cancelled() }}
-        uses: dswistowski/surge-sh-action@v1
+      - uses: actions/upload-artifact@v3
+        if: github.event.action != 'closed'
         with:
-          project: ./dist
-          domain: ${{ env.DOMAIN }}
-          login: ${{secrets.SURGE_EMAIL}}
-          token: ${{secrets.SURGE_TOKEN}}
+          name: main-app
+          path: ${{ github.workspace }}/dist
+
+      - uses: actions/upload-artifact@v3
+        if: github.event.action != 'closed'
+        with:
+          name: cosmos
+          path: ${{ github.workspace }}/cosmos-export
+
+  deploy:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    env:
+      MAIN_URL: https://${{ github.repository_owner }}-${{ github.event.repository.name }}-pr-${{ github.event.number }}-main.surge.sh
+      COSMOS_URL: https://${{ github.repository_owner }}-${{ github.event.repository.name }}-pr-${{ github.event.number }}-cosmos.surge.sh
+    outputs:
+      main_url: ${{ env.MAIN_URL }}
+      cosmos_url: ${{ env.COSMOS_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Surge
+        run: npm install -g surge
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: main-app
+          path: dist
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: cosmos
+          path: cosmos-export
+
+      - name: Deploy main app to Surge
+        if: github.event.action != 'closed'
+        run: surge --project ./dist --domain ${{ env.MAIN_URL }} --token ${{ secrets.SURGE_TOKEN }}
+
+      - name: Deploy Cosmos to Surge
+        if: github.event.action != 'closed'
+        run: surge --project ./cosmos-export --domain ${{ env.COSMOS_URL }} --token ${{ secrets.SURGE_TOKEN }}
+
+      - name: Teardown main app preview
+        if: github.event.action == 'closed'
+        run: surge teardown ${{ env.MAIN_URL }} --token ${{ secrets.SURGE_TOKEN }}
+
+      - name: Teardown Cosmos preview
+        if: github.event.action == 'closed'
+        run: surge teardown ${{ env.COSMOS_URL }} --token ${{ secrets.SURGE_TOKEN }}
+
+  comment:
+    needs: deploy
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Preview environments
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          body: |
+            Preview environments for this PR:
+
+            - Main App: ${{ needs.deploy.outputs.main_url }}
+            - Cosmos: ${{ needs.deploy.outputs.cosmos_url }}
+
+            These previews are automatically updated with each commit.
+
+            **Note:** After a new deployment, it may take a few minutes for the changes to propagate and for caches to update. During this time, you might experience temporary loading issues or see an older version of the app. If the app fails to load, please wait a few minutes and try again.
+          edit-mode: replace
