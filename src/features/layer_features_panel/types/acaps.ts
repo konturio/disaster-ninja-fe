@@ -37,3 +37,9 @@ export interface InfoLandscapeProperties extends AcapsFeatureProperties {
   entry_type?: string;
   created: string; //date
 }
+
+export interface SeasonalEventsProperties extends AcapsFeatureProperties {
+  months: string[];
+  event_type: string[];
+  label: string[];
+}

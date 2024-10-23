@@ -2,6 +2,7 @@ import type {
   AcapsFeatureProperties,
   AcapsRiskListProperties,
   InfoLandscapeProperties,
+  SeasonalEventsProperties,
 } from '../types/acaps';
 import type {
   CardElementId,
@@ -21,7 +22,7 @@ export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[
     .filter(
       (feat) =>
         feat.properties?.acaps_source_dataset ===
-        ACAPS_SOURCE_DATASETS.INFORMATION_LANDSCAPE_DATASET,
+        ACAPS_SOURCE_DATASETS.SEASONAL_EVENTS_CALENDAR,
     )
     .map((feature) => {
       const p = feature.properties as AcapsFeatureProperties;
@@ -36,13 +37,16 @@ export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[
       if (p.adm1_eng_name) {
         cardItems.push({ type: 'text', text: p.adm1_eng_name.join(', ') });
       }
-      if (p.acaps_source_dataset === ACAPS_SOURCE_DATASETS.RISK_LIST) {
-        cardItems.push(...getRiskListCardItems(p as AcapsRiskListProperties));
-      }
-      if (
-        p.acaps_source_dataset === ACAPS_SOURCE_DATASETS.INFORMATION_LANDSCAPE_DATASET
-      ) {
-        cardItems.push(...getInfoLandscapeCardItems(p as InfoLandscapeProperties));
+      switch (p.acaps_source_dataset) {
+        case ACAPS_SOURCE_DATASETS.RISK_LIST:
+          cardItems.push(...getRiskListCardItems(p as AcapsRiskListProperties));
+          break;
+        case ACAPS_SOURCE_DATASETS.INFORMATION_LANDSCAPE_DATASET:
+          cardItems.push(...getInfoLandscapeCardItems(p as InfoLandscapeProperties));
+          break;
+        case ACAPS_SOURCE_DATASETS.SEASONAL_EVENTS_CALENDAR:
+          cardItems.push(...getSeasonalEventsCardItems(p as SeasonalEventsProperties));
+          break;
       }
 
       return {
@@ -138,9 +142,43 @@ function getInfoLandscapeCardItems(
   if (p.comment) {
     cardItems.push({ type: 'text', text: p.comment });
   }
-  const footerRows = [['_internal_filter_date', p._internal_filter_date]].filter(
-    (row) => row[1],
-  );
-  cardItems.push({ type: 'table', rows: footerRows });
+  cardItems.push({
+    type: 'table',
+    rows: [['_internal_filter_date', p._internal_filter_date]],
+  });
+  return cardItems;
+}
+
+function getSeasonalEventsCardItems(
+  p: SeasonalEventsProperties,
+): FeatureCardItemCfg<CardElementId>[] {
+  const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
+  if (p.indicator) {
+    cardItems.push({ type: 'title', title: p.indicator.join(', ') });
+  }
+  if (p.months) {
+    cardItems.push({ type: 'text', text: p.months.join(', ') });
+  }
+  const rows = [
+    ['event_type', p.event_type.join(', ')],
+    ['source_name', p.source_name],
+    ['label', p.label.join(', ')],
+  ].filter((row) => row[1]);
+  cardItems.push({ type: 'table', rows });
+  if (p.comment) {
+    cardItems.push({ type: 'text', text: p.comment });
+  }
+  if (p.source_link) {
+    cardItems.push({
+      type: 'actions',
+      items: [
+        {
+          type: 'external_link',
+          title: p.source_link,
+          data: p.source_link,
+        },
+      ],
+    });
+  }
   return cardItems;
 }
