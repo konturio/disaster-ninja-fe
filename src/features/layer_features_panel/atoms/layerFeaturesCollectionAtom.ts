@@ -25,6 +25,7 @@ export const featuresPanelLayerId: string =
     ? (featuresPanelConfig as LayerFeaturesPanelConfig).layerId
     : '';
 
+// TODO: update to reatom3 - in separate PR. Clean up commented values and mocks
 export const currentFeatureIdAtom = createNumberAtom(undefined, 'currentFeatureIdAtom');
 export const layerFeaturesCollectionAtom = createAtom(
   {
