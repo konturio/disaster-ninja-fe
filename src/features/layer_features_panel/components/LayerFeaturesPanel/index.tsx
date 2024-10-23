@@ -10,6 +10,7 @@ import { panelClasses } from '~components/Panel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
+import { i18n } from '~core/localization';
 import {
   currentFeatureIdAtom,
   layerFeaturesCollectionAtom,
@@ -28,8 +29,9 @@ import { EmptyState } from './EmptyState';
 import type { FeatureCardCfg } from '../CardElements';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
 
-export const CURRENT_FEATURES_PANEL_LAYER_ID: string = ACAPS_SIMPLE_LAYER_ID;
-// export const CURRENT_FEATURES_PANEL_LAYER_ID: string = HOT_PROJECTS_LAYER_ID;
+// TODO: get layerId from app config
+// export const CURRENT_FEATURES_PANEL_LAYER_ID: string = ACAPS_SIMPLE_LAYER_ID;
+export const CURRENT_FEATURES_PANEL_LAYER_ID: string = HOT_PROJECTS_LAYER_ID;
 
 export function LayerFeaturesPanel() {
   const [currentFeatureId, { set: setCurrentFeatureId }] = useAtom(currentFeatureIdAtom);
@@ -78,6 +80,11 @@ export function LayerFeaturesPanel() {
             featuresList={featuresList}
             currentFeatureId={currentFeatureId}
             onClick={onCurrentChange}
+            listInfoText={
+              CURRENT_FEATURES_PANEL_LAYER_ID === HOT_PROJECTS_LAYER_ID
+                ? i18n.t('layer_features_panel.listInfo')
+                : undefined
+            }
           />
         ),
         short: (
