@@ -70,7 +70,7 @@ export function LayerFeaturesPanel() {
   useAutoCollapsePanel(isOpen, onPanelClose);
 
   const panelContent =
-    featuresList === null ? (
+    featuresList === null || featuresList.length === 0 ? (
       <EmptyState />
     ) : (
       {
