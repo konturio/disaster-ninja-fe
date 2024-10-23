@@ -12,7 +12,7 @@ import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
 import {
-  CURRENT_FEATURES_PANEL_LAYER_ID,
+  featuresPanelLayerId,
   currentFeatureIdAtom,
   layerFeaturesCollectionAtom,
 } from '../../atoms/layerFeaturesCollectionAtom';
@@ -80,7 +80,7 @@ export function LayerFeaturesPanel() {
             currentFeatureId={currentFeatureId}
             onClick={onCurrentChange}
             listInfoText={
-              CURRENT_FEATURES_PANEL_LAYER_ID === HOT_PROJECTS_LAYER_ID
+              featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
                 ? i18n.t('layer_features_panel.listInfo')
                 : undefined
             }
@@ -100,7 +100,7 @@ export function LayerFeaturesPanel() {
     <>
       <Panel
         header={
-          CURRENT_FEATURES_PANEL_LAYER_ID === HOT_PROJECTS_LAYER_ID
+          featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
             ? HOT_PROJECTS_HEADER
             : ACAPS_DATA_HEADER
         }

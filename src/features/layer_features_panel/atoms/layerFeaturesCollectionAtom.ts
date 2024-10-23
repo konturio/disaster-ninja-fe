@@ -6,6 +6,7 @@ import { createNumberAtom } from '~utils/atoms/createPrimitives';
 import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
+import { AppFeature } from '~core/app/types';
 import {
   ACAPS_LAYER_ID,
   ACAPS_SIMPLE_LAYER_ID,
@@ -14,11 +15,15 @@ import {
 import { getHotProjectsPanelData } from './hotProjects_outlines';
 import { getAcapsFeatureCards } from './acapsToFeatureCards';
 import { ACAPS_MOCK } from './mocks/acaps_mock';
+import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { FeatureCardCfg } from '../components/CardElements';
 
-// TODO: get layerId from app config
-// export const CURRENT_FEATURES_PANEL_LAYER_ID: string = ACAPS_SIMPLE_LAYER_ID;
-export const CURRENT_FEATURES_PANEL_LAYER_ID: string = HOT_PROJECTS_LAYER_ID;
+// export const featuresPanelLayerId: string = ACAPS_SIMPLE_LAYER_ID;
+const featuresPanelConfig = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
+export const featuresPanelLayerId: string =
+  typeof featuresPanelConfig === 'object'
+    ? (featuresPanelConfig as LayerFeaturesPanelConfig).layerId
+    : '';
 
 export const currentFeatureIdAtom = createNumberAtom(undefined, 'currentFeatureIdAtom');
 export const layerFeaturesCollectionAtom = createAtom(
@@ -44,27 +49,27 @@ export const layerFeaturesCollectionAtom = createAtom(
       state = null;
     });
 
-    onChange('focusedGeometryAtom', (fg) => {
+    onChange('focusedGeometryAtom', (focusedGeometry) => {
       // @ts-expect-error needs better atom type
       currentFeatureIdAtom.set.dispatch(undefined);
       state = null;
       const enabledLayers = get('enabledLayersAtom');
-      if (!enabledLayers.has(HOT_PROJECTS_LAYER_ID)) {
+      if (!enabledLayers.has(featuresPanelLayerId)) {
         return;
       }
-      if (!isGeoJSONEmpty(fg?.geometry))
+      if (!isGeoJSONEmpty(focusedGeometry?.geometry))
         schedule(async (dispatch) => {
           const response = await getFeatureCollection(
-            fg?.geometry,
-            CURRENT_FEATURES_PANEL_LAYER_ID,
+            focusedGeometry?.geometry,
+            featuresPanelLayerId,
           );
           const panelData = transformFeaturesToPanelData(response);
           dispatch(create('_setState', panelData));
         });
     });
 
-    onChange('mountedLayersAtom', (ml) => {
-      if (!ml.has(HOT_PROJECTS_LAYER_ID)) {
+    onChange('mountedLayersAtom', (mountedLayers) => {
+      if (!mountedLayers.has(featuresPanelLayerId)) {
         // @ts-expect-error needs better atom type
         currentFeatureIdAtom.set.dispatch(undefined);
         state = null;
@@ -77,7 +82,7 @@ export const layerFeaturesCollectionAtom = createAtom(
             currentFeatureIdAtom.set.dispatch(undefined);
             const response = await getFeatureCollection(
               fg?.geometry,
-              CURRENT_FEATURES_PANEL_LAYER_ID,
+              featuresPanelLayerId,
             );
             const panelData = transformFeaturesToPanelData(response);
             dispatch(create('_setState', panelData));
@@ -91,7 +96,7 @@ export const layerFeaturesCollectionAtom = createAtom(
 );
 
 function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
-  switch (CURRENT_FEATURES_PANEL_LAYER_ID) {
+  switch (featuresPanelLayerId) {
     case HOT_PROJECTS_LAYER_ID:
       return getHotProjectsPanelData(featuresList);
     case ACAPS_LAYER_ID:
