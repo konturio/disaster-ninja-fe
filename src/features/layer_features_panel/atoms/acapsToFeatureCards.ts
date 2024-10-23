@@ -1,4 +1,8 @@
-import type { AcapsFeatureProperties, AcapsRiskListProperties } from '../types/acaps';
+import type {
+  AcapsFeatureProperties,
+  AcapsRiskListProperties,
+  InfoLandscapeProperties,
+} from '../types/acaps';
 import type {
   CardElementId,
   FeatureCardCfg,
@@ -15,7 +19,9 @@ const ACAPS_SOURCE_DATASETS = {
 export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[] {
   const featuresList: FeatureCardCfg[] = Object.values(featuresListAcaps)
     .filter(
-      (feat) => feat.properties?.acaps_source_dataset === ACAPS_SOURCE_DATASETS.RISK_LIST,
+      (feat) =>
+        feat.properties?.acaps_source_dataset ===
+        ACAPS_SOURCE_DATASETS.INFORMATION_LANDSCAPE_DATASET,
     )
     .map((feature) => {
       const p = feature.properties as AcapsFeatureProperties;
@@ -30,11 +36,13 @@ export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[
       if (p.adm1_eng_name) {
         cardItems.push({ type: 'text', text: p.adm1_eng_name.join(', ') });
       }
-      if (p.comment) {
-        cardItems.push({ type: 'title', title: p.comment });
-      }
       if (p.acaps_source_dataset === ACAPS_SOURCE_DATASETS.RISK_LIST) {
         cardItems.push(...getRiskListCardItems(p as AcapsRiskListProperties));
+      }
+      if (
+        p.acaps_source_dataset === ACAPS_SOURCE_DATASETS.INFORMATION_LANDSCAPE_DATASET
+      ) {
+        cardItems.push(...getInfoLandscapeCardItems(p as InfoLandscapeProperties));
       }
 
       return {
@@ -51,6 +59,9 @@ function getRiskListCardItems(
   p: AcapsRiskListProperties,
 ): FeatureCardItemCfg<CardElementId>[] {
   const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
+  if (p.comment) {
+    cardItems.push({ type: 'title', title: p.comment });
+  }
   if (p.risk_type) {
     cardItems.push({ type: 'text', text: p.risk_type });
   }
@@ -91,6 +102,45 @@ function getRiskListCardItems(
     ['published', p.published ?? ''],
     ['_internal_filter_date', p._internal_filter_date],
   ].filter((row) => row[1]);
+  cardItems.push({ type: 'table', rows: footerRows });
+  return cardItems;
+}
+
+function getInfoLandscapeCardItems(
+  p: InfoLandscapeProperties,
+): FeatureCardItemCfg<CardElementId>[] {
+  const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
+  if (p.indicator) {
+    cardItems.push({ type: 'title', title: p.indicator.join(', ') });
+  }
+  if (p.subindicator) {
+    cardItems.push({ type: 'text', text: p.subindicator.join(', ') });
+  }
+  const rows = [
+    ['entry_type', p.entry_type ?? ''],
+    ['created', p.created],
+    ['source_name', p.source_name],
+    ['source_date', p.source_date],
+  ].filter((row) => row[1]);
+  cardItems.push({ type: 'table', rows });
+  if (p.source_link) {
+    cardItems.push({
+      type: 'actions',
+      items: [
+        {
+          type: 'external_link',
+          title: p.source_link,
+          data: p.source_link,
+        },
+      ],
+    });
+  }
+  if (p.comment) {
+    cardItems.push({ type: 'text', text: p.comment });
+  }
+  const footerRows = [['_internal_filter_date', p._internal_filter_date]].filter(
+    (row) => row[1],
+  );
   cardItems.push({ type: 'table', rows: footerRows });
   return cardItems;
 }

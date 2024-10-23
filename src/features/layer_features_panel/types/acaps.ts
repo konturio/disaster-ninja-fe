@@ -31,3 +31,9 @@ export interface AcapsRiskListProperties extends AcapsFeatureProperties {
   published?: string; //date
   date_entered?: string; // date
 }
+
+export interface InfoLandscapeProperties extends AcapsFeatureProperties {
+  subindicator: string[];
+  entry_type?: string;
+  created: string; //date
+}
