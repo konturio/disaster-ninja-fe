@@ -24,7 +24,7 @@ export type FeatureCardItemCfg<E extends CardElementId> = { type: E } & Paramete
 
 export type FeatureCardCfg = {
   id: number;
-  focus: LngLatBoundsLike;
+  focus?: LngLatBoundsLike;
   properties: object;
   items: FeatureCardItemCfg<CardElementId>[];
 };

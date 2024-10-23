@@ -35,7 +35,9 @@ export function LayerFeaturesPanel() {
   const onCurrentChange = (id: number, feature: FeatureCardCfg) => {
     setCurrentFeatureId(id);
     scheduledAutoFocus.setFalse.dispatch();
-    currentMapPositionAtom.setCurrentMapBbox.dispatch(feature.focus as Bbox);
+    if (feature.focus) {
+      currentMapPositionAtom.setCurrentMapBbox.dispatch(feature.focus as Bbox);
+    }
   };
 
   const [featuresList] = useAtom(layerFeaturesCollectionAtom);

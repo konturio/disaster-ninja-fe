@@ -1,3 +1,4 @@
+import { getBboxForGeometry } from '~utils/map/camera';
 import type {
   AcapsFeatureProperties,
   AcapsRiskList,
@@ -58,7 +59,7 @@ export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[
 
       return {
         id: feature.id,
-        focus: [0, 0, 0, 0],
+        focus: getBboxForGeometry(feature.geometry),
         properties: p,
         items: cardItems,
       };
