@@ -2,21 +2,21 @@ import { createAtom } from '~utils/atoms';
 import { getCameraForBbox } from '~utils/map/camera';
 import { currentMapAtom } from './currentMap';
 
-type CenterZoomPosition = {
+export type CenterZoomPosition = {
   // type: 'centerZoom';
   lat: number;
   lng: number;
   zoom: number;
 };
 export type Bbox = [number, number, number, number];
-type BboxPosition = {
+export type BboxPosition = {
   // type: 'bbox';
   bbox: Bbox;
 };
 
-type MapPosition = CenterZoomPosition | BboxPosition;
+export type MapPosition = CenterZoomPosition | BboxPosition;
 
-type CurrentMapPositionAtomState = MapPosition | null;
+export type CurrentMapPositionAtomState = MapPosition | null;
 
 export const currentMapPositionAtom = createAtom(
   {
