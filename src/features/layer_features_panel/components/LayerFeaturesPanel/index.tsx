@@ -10,11 +10,19 @@ import { panelClasses } from '~components/Panel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
+import { i18n } from '~core/localization';
 import {
+  featuresPanelLayerId,
   currentFeatureIdAtom,
   layerFeaturesCollectionAtom,
 } from '../../atoms/layerFeaturesCollectionAtom';
-import { FEATURESPANEL_MIN_HEIGHT, FEATURESPANEL_HEADER } from '../../constants';
+import {
+  ACAPS_DATA_HEADER,
+  ACAPS_SIMPLE_LAYER_ID,
+  FEATURESPANEL_MIN_HEIGHT,
+  HOT_PROJECTS_HEADER,
+  HOT_PROJECTS_LAYER_ID,
+} from '../../constants';
 import { FullState } from './FullState';
 import { ShortState } from './ShortState';
 import s from './LayerFeaturesPanel.module.css';
@@ -27,7 +35,9 @@ export function LayerFeaturesPanel() {
   const onCurrentChange = (id: number, feature: FeatureCardCfg) => {
     setCurrentFeatureId(id);
     scheduledAutoFocus.setFalse.dispatch();
-    currentMapPositionAtom.setCurrentMapBbox.dispatch(feature.focus as Bbox);
+    if (feature.focus) {
+      currentMapPositionAtom.setCurrentMapBbox.dispatch(feature.focus as Bbox);
+    }
   };
 
   const [featuresList] = useAtom(layerFeaturesCollectionAtom);
@@ -60,7 +70,7 @@ export function LayerFeaturesPanel() {
   useAutoCollapsePanel(isOpen, onPanelClose);
 
   const panelContent =
-    featuresList === null ? (
+    featuresList === null || featuresList.length === 0 ? (
       <EmptyState />
     ) : (
       {
@@ -69,6 +79,11 @@ export function LayerFeaturesPanel() {
             featuresList={featuresList}
             currentFeatureId={currentFeatureId}
             onClick={onCurrentChange}
+            listInfoText={
+              featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
+                ? i18n.t('layer_features_panel.listInfo')
+                : undefined
+            }
           />
         ),
         short: (
@@ -84,7 +99,11 @@ export function LayerFeaturesPanel() {
   return (
     <>
       <Panel
-        header={FEATURESPANEL_HEADER}
+        header={
+          featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
+            ? HOT_PROJECTS_HEADER
+            : ACAPS_DATA_HEADER
+        }
         headerIcon={
           <div className={s.iconWrap}>
             <Legend24 />

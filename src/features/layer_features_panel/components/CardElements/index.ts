@@ -3,6 +3,7 @@ import { Title } from './Title';
 import { Table } from './Table';
 import { Label } from './Label';
 import { Progress } from './Progress';
+import { CardText } from './CardText';
 import type { LngLatBoundsLike } from 'maplibre-gl';
 
 // add new card elements here
@@ -12,9 +13,10 @@ export const CardElementsMap = {
   table: Table,
   actions: ActionButtons,
   progress: Progress,
+  text: CardText,
 };
 
-type CardElementId = keyof typeof CardElementsMap;
+export type CardElementId = keyof typeof CardElementsMap;
 
 export type FeatureCardItemCfg<E extends CardElementId> = { type: E } & Parameters<
   (typeof CardElementsMap)[E]
@@ -22,7 +24,7 @@ export type FeatureCardItemCfg<E extends CardElementId> = { type: E } & Paramete
 
 export type FeatureCardCfg = {
   id: number;
-  focus: LngLatBoundsLike;
+  focus?: LngLatBoundsLike;
   properties: object;
   items: FeatureCardItemCfg<CardElementId>[];
 };

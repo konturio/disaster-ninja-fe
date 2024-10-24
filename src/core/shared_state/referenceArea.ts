@@ -15,6 +15,7 @@ function getReferenceAreaFromConfigRepo(): GeometryWithHash | null {
   const features = configRepo.get().features;
   // if there's a geometry in reference_area configuration - use it for initialization
   const refAreaGeometry =
+    features[FeatureFlag.REFERENCE_AREA] &&
     typeof features[FeatureFlag.REFERENCE_AREA] === 'object'
       ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (features[FeatureFlag.REFERENCE_AREA] as any).referenceAreaGeometry

@@ -2,9 +2,6 @@ import { Virtuoso } from 'react-virtuoso';
 import { useMemo } from 'react';
 import { InfoErrorOutline16 } from '@konturio/default-icons';
 import { Text } from '@konturio/ui-kit';
-import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
-import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { i18n } from '~core/localization';
 import { LayerFeaturesCard } from '../LayerFeaturesCard';
 import s from './LayerFeaturesPanel.module.css';
 import type { FeatureCardCfg } from '../CardElements';
@@ -12,10 +9,12 @@ import type { FeatureCardCfg } from '../CardElements';
 export function FullState({
   featuresList,
   currentFeatureId,
+  listInfoText,
   onClick,
 }: {
   featuresList: FeatureCardCfg[];
   currentFeatureId?: number;
+  listInfoText?: string;
   onClick: (id: number, feature: FeatureCardCfg) => void;
 }) {
   const currentFeatureIndex = useMemo(() => {
@@ -27,10 +26,12 @@ export function FullState({
 
   return (
     <>
-      <div className={s.shield}>
-        <InfoErrorOutline16 />
-        <Text type="caption">{i18n.t('layer_features_panel.listInfo')}</Text>
-      </div>
+      {listInfoText && (
+        <div className={s.shield}>
+          <InfoErrorOutline16 />
+          <Text type="caption">{listInfoText}</Text>
+        </div>
+      )}
       <div className={s.scrollable}>
         <Virtuoso
           data={featuresList}

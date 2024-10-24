@@ -63,7 +63,7 @@ function sortByProjectId(a, b) {
   return -(a.properties.projectId - b.properties.projectId);
 }
 
-export function getPanelData(featuresListHOT: object) {
+export function getHotProjectsPanelData(featuresListHOT: object) {
   const featuresList: FeatureCardCfg[] = Object.values(featuresListHOT).map((f) => {
     const { properties: p } = f;
     return {
