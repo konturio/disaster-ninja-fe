@@ -1,5 +1,6 @@
 import { action, atom } from '@reatom/core';
 import { currentMapPositionAtom } from '~core/shared_state';
+import { getBboxForGeometry } from '~utils/map/camera';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
 
 export const breadcrumbsItemsAtom = atom<GeoJSON.Feature[] | null>(
@@ -10,7 +11,16 @@ export const breadcrumbsItemsAtom = atom<GeoJSON.Feature[] | null>(
 export const onBreadcrumbClick = action((ctx, value: string | number) => {
   const items = ctx.get(breadcrumbsItemsAtom);
   if (!items) return;
-  const index = items.findIndex((item) => item.id === value);
+  const item = items.find((item) => item.id === value);
+  if (!item) {
+    console.error(`Breadcrumb item with value ${value} not found.`);
+    return;
+  }
+
+  const bbox = getBboxForGeometry(item.geometry);
+  if (bbox) {
+    currentMapPositionAtom.setCurrentMapBbox.dispatch(bbox);
+  }
 }, 'onBreadcrumbClick');
 
 export const onZoomToWholeWorld = action(() => {

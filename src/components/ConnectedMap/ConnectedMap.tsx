@@ -6,7 +6,6 @@ import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layer
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { configRepo } from '~core/config';
-import { useBreadcrumbs } from '~features/breadcrumbs/useBreadcrumbs';
 import Map from './map-libre-adapter';
 import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
 import type {
@@ -39,9 +38,6 @@ export function ConnectedMap({ className }: { className?: string }) {
   const mapBaseStyle = configRepo.get().mapBaseStyle;
   const mapRef = useRef<ApplicationMap>();
   useMapPositionSmoothSync(mapRef);
-  const isBreadcrumbsEnabled =
-    !!configRepo.get().features[FeatureFlag.ADMIN_BOUNDARY_BREADCRUMBS];
-  useBreadcrumbs(mapRef, isBreadcrumbsEnabled);
 
   // init current MapRefAtom
   const setCurrentMap = useAction(currentMapAtom.setMap);
