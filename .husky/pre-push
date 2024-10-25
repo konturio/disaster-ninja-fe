@@ -1,7 +1,14 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-set -e
+# Run type checking
+pnpm run typecheck
 
-npm run typecheck
-npm run depcruise
+# Check dependencies
+pnpm run depcruise
+
+# Run tests
+pnpm run test:unit
+
+# Run linting
+pnpm run lint
