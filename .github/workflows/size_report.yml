@@ -38,7 +38,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm i --prod=false
         env:
           NODE_AUTH_TOKEN: ${{secrets.TOKEN_REPO}}
 
@@ -78,7 +78,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm i --prod=false
         env:
           NODE_AUTH_TOKEN: ${{secrets.TOKEN_REPO}}
 
