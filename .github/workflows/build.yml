@@ -23,6 +23,7 @@ on:
 env:
   NODE_ENV: production
   AVA_FORCE_CI: 'not-ci'
+  HUSKY: 0
   REGISTRY: ghcr.io
   IMAGE_REPO: ${{ github.repository }}
 

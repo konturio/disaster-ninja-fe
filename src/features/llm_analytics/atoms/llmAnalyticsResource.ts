@@ -1,5 +1,4 @@
-import { reatomResource, withDataAtom, withErrorAtom } from '@reatom/async';
-import { atom } from '@reatom/core';
+import { atom, reatomResource, withDataAtom, withErrorAtom } from '@reatom/framework';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { i18n } from '~core/localization';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';

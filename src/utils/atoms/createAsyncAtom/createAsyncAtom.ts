@@ -1,6 +1,5 @@
 import { action, atom } from '@reatom/core';
 import { isObject } from '@reatom/core-v2';
-import { deferred, type DeferredPromise } from '@homer0/deferred';
 import { isErrorWithMessage } from '~utils/common/error';
 import { store as defaultStore } from '~core/store/store';
 import { v3toV2 } from '../v3tov2';
@@ -204,4 +203,37 @@ export function createAsyncAtom<
   }
   // @ts-expect-error
   return v3toV2<State, AsyncAtomDeps<D, F>>(asyncAtom, actions, options.store);
+}
+
+export type DeferredPromiseResolveFn<Value> = (value: Value) => void;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- `reason` can be any type.
+export type DeferredPromiseRejectFn = (reason: any) => void;
+
+export type DeferredPromise<Value> = {
+  promise: Promise<Value>;
+  resolve: DeferredPromiseResolveFn<Value>;
+  reject: DeferredPromiseRejectFn;
+};
+
+/**
+ * Creates a deferred promise.
+ *
+ * @returns An object with a deferred promise, and its resolve and reject functions.
+ * @template Value  The type of the value that will be resolved.
+ */
+export function deferred<Value = string>(): DeferredPromise<Value> {
+  let resolve: DeferredPromiseResolveFn<Value>;
+  let reject: DeferredPromiseRejectFn;
+  const promise = new Promise<Value>((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
+
+  return {
+    promise,
+    // @ts-expect-error -- `resolve` is defined inside the promise.
+    resolve,
+    // @ts-expect-error -- `reject` is defined inside the promise.
+    reject,
+  };
 }
