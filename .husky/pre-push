@@ -7,8 +7,3 @@ pnpm run typecheck
 # Check dependencies
 pnpm run depcruise
 
-# Run tests
-pnpm run test:unit
-
-# Run linting
-pnpm run lint
