@@ -11,6 +11,7 @@ import {
   ACAPS_LAYER_ID,
   ACAPS_SIMPLE_LAYER_ID,
   HOT_PROJECTS_LAYER_ID,
+  LAYERS_REQUIRED_BY_FEATURE_PANEL,
 } from '../constants';
 import { getHotProjectsPanelData } from './hotProjects_outlines';
 import { getAcapsFeatureCards } from './acapsToFeatureCards';
@@ -24,6 +25,8 @@ export const featuresPanelLayerId: string =
   featuresPanelConfig && typeof featuresPanelConfig === 'object'
     ? (featuresPanelConfig as LayerFeaturesPanelConfig).layerId
     : '';
+const isLayerMustBeEnabled =
+  LAYERS_REQUIRED_BY_FEATURE_PANEL.includes(featuresPanelLayerId);
 
 // TODO: update to reatom3 - in separate PR. Clean up commented values and mocks
 export const currentFeatureIdAtom = createNumberAtom(undefined, 'currentFeatureIdAtom');
@@ -55,7 +58,7 @@ export const layerFeaturesCollectionAtom = createAtom(
       currentFeatureIdAtom.set.dispatch(undefined);
       state = null;
       const enabledLayers = get('enabledLayersAtom');
-      if (!enabledLayers.has(featuresPanelLayerId)) {
+      if (isLayerMustBeEnabled && !enabledLayers.has(featuresPanelLayerId)) {
         return;
       }
       if (!isGeoJSONEmpty(focusedGeometry?.geometry))
@@ -70,7 +73,7 @@ export const layerFeaturesCollectionAtom = createAtom(
     });
 
     onChange('mountedLayersAtom', (mountedLayers) => {
-      if (!mountedLayers.has(featuresPanelLayerId)) {
+      if (isLayerMustBeEnabled && !mountedLayers.has(featuresPanelLayerId)) {
         // @ts-expect-error needs better atom type
         currentFeatureIdAtom.set.dispatch(undefined);
         state = null;
