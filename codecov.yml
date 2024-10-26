@@ -5,21 +5,21 @@ coverage:
         target: auto
 
 comment:
-  layout: "reach, diff, flags, files"
+  layout: 'reach, diff, flags, files'
   behavior: default
   require_changes: false
   require_base: false
   require_head: true
 
 ignore:
-  - "**/*.json"
-  - "configs"
-  - "cosmos"
-  - "patches"
-  - "scripts"
-  - "vite.proxy.ts"
-  - "vite.config.ts"
-  - "postcss.config.ts"
-  - "i18next-scanner.config.cjs"
-  - "cosmos.vite.config.ts"
-  - ".dependency-cruiser.cjs"
+  - '**/*.json'
+  - 'configs'
+  - 'cosmos'
+  - 'patches'
+  - 'scripts'
+  - 'vite.proxy.ts'
+  - 'vite.config.ts'
+  - 'postcss.config.ts'
+  - 'i18next-scanner.config.cjs'
+  - 'cosmos.vite.config.ts'
+  - '.dependency-cruiser.cjs'

@@ -4,8 +4,12 @@ import process from 'process';
 
 export function updateKonturPackages() {
   const packages = JSON.parse(fs.readFileSync('package.json'));
-  const needUpdate = Object.keys(packages.dependencies).filter(dep => dep.includes('@konturio'));
-  const needUpdateDev = Object.keys(packages.devDependencies || {}).filter(dep => dep.includes('@konturio'));
+  const needUpdate = Object.keys(packages.dependencies).filter((dep) =>
+    dep.includes('@konturio'),
+  );
+  const needUpdateDev = Object.keys(packages.devDependencies || {}).filter((dep) =>
+    dep.includes('@konturio'),
+  );
   return [...needUpdate, ...needUpdateDev].join('\n');
 }
 

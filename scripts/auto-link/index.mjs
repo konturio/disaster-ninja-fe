@@ -6,12 +6,12 @@ import { logger } from './logger.mjs';
 import { runBuildScript } from './runBuildScript.mjs';
 import { termination } from './termination.mjs';
 
-const log = logger()
+const log = logger();
 async function linkUiKit() {
   const config = await geConfig();
   const stop = await runBuildScript(config.pathToUIKitRepo);
   const unlink = await linkPackages(config.pathToUIKitRepo);
-  log.important('\nUI-kit linked in watch mode, press CTRL+C to stop and unlink')
+  log.important('\nUI-kit linked in watch mode, press CTRL+C to stop and unlink');
   await termination();
   stop();
   await unlink();

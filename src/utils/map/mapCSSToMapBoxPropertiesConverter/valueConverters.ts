@@ -3,8 +3,7 @@ const splitByComma = (value) =>
 
 const converters = {
   splitByComma,
-  convertPlacement: (value) =>
-    value.trim() === 'center' ? 'line-center' : value,
+  convertPlacement: (value) => (value.trim() === 'center' ? 'line-center' : value),
   convertOffset: (value) => {
     const pos = Array.isArray(value) ? value : splitByComma(value);
     if (pos.length === 1) return [0, pos[0]];
@@ -29,9 +28,7 @@ export function createValueConverters(mapCSS) {
       }
       return (value) => {
         console.error(
-          `[ValueConverter]: converter: "${String(
-            prop,
-          )}" for ${value} not available`,
+          `[ValueConverter]: converter: "${String(prop)}" for ${value} not available`,
         );
         return value;
       };

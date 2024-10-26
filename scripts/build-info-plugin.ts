@@ -20,17 +20,14 @@ const createPlugin = (): Plugin => {
     name: 'vite-plugin-build-info',
     config: (_, env) => {
       if (env) {
-        const variables = Object.entries(dataSources).reduce(
-          (acc, [key, getter]) => {
-            try {
-              acc[`import.meta.env.${key}`] = JSON.stringify(getter());
-            } catch (e) {
-              console.error(e);
-            }
-            return acc;
-          },
-          {},
-        );
+        const variables = Object.entries(dataSources).reduce((acc, [key, getter]) => {
+          try {
+            acc[`import.meta.env.${key}`] = JSON.stringify(getter());
+          } catch (e) {
+            console.error(e);
+          }
+          return acc;
+        }, {});
         return { define: variables };
       } else {
         envInjectionFailed = true;

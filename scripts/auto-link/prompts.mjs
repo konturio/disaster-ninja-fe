@@ -11,7 +11,7 @@ async function askConfirmation(question) {
       message: question,
     },
   ]);
-  return answers.haveUnmergedRelease
+  return answers.haveUnmergedRelease;
 }
 
 /**
@@ -36,5 +36,5 @@ function checkPassed(message) {
 export default {
   askConfirmation,
   checkPassed,
-  askPathToFile
-}
+  askPathToFile,
+};

@@ -21,10 +21,10 @@ export const currentEditedLayerFeatures = createAtom(
     drawnGeometryAtom,
     reset: () => null,
     save: (safeCallbacks?: SafeCallbacks) => safeCallbacks,
-    setFeatureProperty: (
-      featureIdx: number,
-      properties: GeoJSON.GeoJsonProperties,
-    ) => ({ featureIdx, properties }),
+    setFeatureProperty: (featureIdx: number, properties: GeoJSON.GeoJsonProperties) => ({
+      featureIdx,
+      properties,
+    }),
   },
   (
     { onAction, getUnlistedState, schedule, get },
@@ -105,10 +105,7 @@ export const currentEditedLayerFeatures = createAtom(
               new FeatureCollection(stateSnapshot),
               true,
             );
-            notificationServiceInstance.info(
-              { title: 'Features was saved' },
-              3,
-            );
+            notificationServiceInstance.info({ title: 'Features was saved' }, 3);
             if (safeCallbacks) safeCallbacks.onSuccess();
             dispatch(editableLayersListResource.refetch());
           } catch (e) {

@@ -14,20 +14,14 @@ export type DenominatorSelector = (
   y: string,
 ) => { table: Table; selectNumerators: NumeratorSelector } | null;
 
-export type NumeratorSelector = (
-  x: string,
-  y: string,
-) => { x: Axis; y: Axis } | null;
+export type NumeratorSelector = (x: string, y: string) => { x: Axis; y: Axis } | null;
 
 export function parseStat(stat: Stat) {
   /* selected denominators pair: data for bivariate legend */
   const bivariateAxisesHashMap = createBivariateAxisesHashMap(stat);
 
   /* selected denominators pair: data for corelation matrix */
-  const correlationsHashMap = createCorrelationsHashMap(
-    stat,
-    bivariateAxisesHashMap,
-  );
+  const correlationsHashMap = createCorrelationsHashMap(stat, bivariateAxisesHashMap);
 
   /* Data for denominators selectors */
   const [xDenominators, yDenominators] = extractAvailableDenominators(

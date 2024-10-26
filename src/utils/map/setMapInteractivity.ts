@@ -1,5 +1,8 @@
-export function setMapInteractivity(map: maplibregl.Map | undefined, interactive: boolean) {
-  if (!map) return console.warn('map was not provided')
+export function setMapInteractivity(
+  map: maplibregl.Map | undefined,
+  interactive: boolean,
+) {
+  if (!map) return console.warn('map was not provided');
 
   const interactionIsON = map.dragPan.isActive();
   // Case interactive already

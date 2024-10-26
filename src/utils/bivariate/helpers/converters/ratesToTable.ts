@@ -25,12 +25,8 @@ export function ratesToTable(correlationRate: CorrelationRate[]): Table {
   });
 
   return {
-    x: cols
-      .dump()
-      .map(([axisId, axis]) => ({ id: axisId, quality: axis.quality })),
-    y: rows
-      .dump()
-      .map(([axisId, axis]) => ({ id: axisId, quality: axis.quality })),
+    x: cols.dump().map(([axisId, axis]) => ({ id: axisId, quality: axis.quality })),
+    y: rows.dump().map(([axisId, axis]) => ({ id: axisId, quality: axis.quality })),
     matrix: matrix.dump(cols.length, rows.length),
   };
 }

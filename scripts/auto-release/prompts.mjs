@@ -12,7 +12,7 @@ async function askConfirmation(question) {
       message: question,
     },
   ]);
-  return answers.haveUnmergedRelease
+  return answers.haveUnmergedRelease;
 }
 /**
  * @param {string} question
@@ -27,7 +27,7 @@ async function askVersion(question, variants, options) {
       type: 'select',
       name: 'version',
       message: question,
-      initial: variants.findIndex(v => v.value === options.default) ?? 0,
+      initial: variants.findIndex((v) => v.value === options.default) ?? 0,
       choices: variants,
       format: (releaseType) => semver.inc(options.currentVersion, releaseType),
     },
@@ -55,5 +55,5 @@ export function checkPassed(message) {
 export default {
   askConfirmation,
   askVersion,
-  checkPassed
-}
+  checkPassed,
+};

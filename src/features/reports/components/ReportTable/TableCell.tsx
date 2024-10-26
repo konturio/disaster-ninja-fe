@@ -80,7 +80,7 @@ export function TableCellComponent({ cell }: TableCellProps) {
                 {ch.text ?? '-'}
               </a>
             ) : (
-              ch.text ?? ''
+              (ch.text ?? '')
             )}
           </span>
         );

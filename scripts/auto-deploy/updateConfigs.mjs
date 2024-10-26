@@ -1,4 +1,3 @@
-
 export async function updateConfigs(settings) {
   await readCurrentConfigs()
     .then((configs) => transformConfigs(configs))
@@ -14,11 +13,10 @@ export async function updateConfigs(settings) {
         `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${file}?ref=${branchName}`,
         {
           headers: headers,
-        }
+        },
       ).then((response) => response.json());
 
       prevCommitSHA = configFileData.sha; // TODO: What a correct way to get this?
-
 
       // Decode the file content from base64
       let content = Buffer.from(configFileData.content, 'base64').toString();
@@ -34,7 +32,7 @@ export async function updateConfigs(settings) {
         type: 'blob',
         content: updatedContent,
       };
-    })
+    }),
   );
 
   console.log('newFiles', newFiles);
@@ -56,7 +54,7 @@ export async function updateConfigs(settings) {
         base_tree: prevCommitSHA, // Base tree of the current branch
         tree: newFiles,
       }),
-    }
+    },
   ).then((response) => response.json());
 
   console.log('treeData', treeData);
@@ -81,7 +79,7 @@ export async function updateConfigs(settings) {
           body: JSON.stringify({
             sha: commitData.sha,
           }),
-        }
+        },
       );
     });
 
@@ -98,18 +96,9 @@ export async function updateConfigs(settings) {
   // });
 }
 
+function readCurrentConfigs() {}
 
-function readCurrentConfigs() {
-  
-}
+function transformConfigs() {}
+function commitChanges() {}
 
-function transformConfigs() {
-  
-}
-function commitChanges() {
-
-}
-
-function pushChanges() {
-
-}
+function pushChanges() {}

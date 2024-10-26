@@ -3,14 +3,13 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'url';
 import process from 'process';
 
-const relativePath = path => resolve(dirname(fileURLToPath(import.meta.url)), path);
-
+const relativePath = (path) => resolve(dirname(fileURLToPath(import.meta.url)), path);
 
 export function useConfig(pathToConfig, dest) {
   // Create dir for config
   const publicFolder = relativePath('../public/config');
   const pathToDest = dest ?? resolve(publicFolder, 'appconfig.json');
-  if (!existsSync(dirname(pathToDest))){
+  if (!existsSync(dirname(pathToDest))) {
     mkdirSync(dirname(pathToDest), { recursive: true });
   }
 
@@ -31,7 +30,7 @@ export function selectConfig(mode) {
   const configsFolder = relativePath('../configs');
   const knownConfigs = {
     local: resolve(configsFolder, 'config.local.json'),
-    default: resolve(configsFolder, 'config.default.json')
+    default: resolve(configsFolder, 'config.default.json'),
   };
 
   const isProduction = mode === 'production';
@@ -41,18 +40,12 @@ export function selectConfig(mode) {
 
   // Dev
   const isHaveLocalOverride = existsSync(knownConfigs.local);
-  return isHaveLocalOverride
-    ? knownConfigs.local
-    : knownConfigs.default
+  return isHaveLocalOverride ? knownConfigs.local : knownConfigs.default;
 }
-
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   // If this script running from cli
   process.stdout.write(
-    selectRuntimeConfig(
-      process.env.NODE_ENV ?? 'development',
-      process.env,
-      true
-    ) + '\n');
+    selectRuntimeConfig(process.env.NODE_ENV ?? 'development', process.env, true) + '\n',
+  );
 }
