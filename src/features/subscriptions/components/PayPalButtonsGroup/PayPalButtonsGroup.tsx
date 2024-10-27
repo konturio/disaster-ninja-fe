@@ -7,27 +7,22 @@ import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 
 type PayPalButtonsGroupProps = {
   billingPlanId: string;
-  activeBillingPlanId?: string | null;
-  activeSubscriptionId?: string | null;
   onSubscriptionApproved?: (planId: string, subscriptionID?: string | null) => void;
 };
 
 export function PayPalButtonsGroup({
   billingPlanId,
-  activeBillingPlanId,
-  activeSubscriptionId,
   onSubscriptionApproved,
 }: PayPalButtonsGroupProps) {
   return (
     <PayPalButtons
-      disabled={!!activeBillingPlanId}
       style={{
         label: 'subscribe',
         color: 'blue',
         height: 38,
         shape: 'rect',
       }}
-      forceReRender={[activeSubscriptionId, activeBillingPlanId, billingPlanId]}
+      forceReRender={[billingPlanId]}
       onError={(err) => {
         dispatchMetricsEvent('pay_error');
         console.error('error from PayPal SDK:', err.toString());

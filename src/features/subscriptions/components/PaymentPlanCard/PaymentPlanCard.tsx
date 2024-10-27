@@ -74,7 +74,7 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
     return currentSubscription?.billingPlanId !== paypalPlanId ? (
       <div className={s.subscribeButtonsWrapper}>
         <a
-          className={clsx(s.linkAsButton, s.trialButton)}
+          className={s.linkAsButton}
           href={salesLink}
           target="_blank"
           rel="noreferrer"
@@ -82,20 +82,20 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
         >
           {i18n.t('subscription.request_trial_button')}
         </a>
-        <PayPalButtonsGroup
-          billingPlanId={paypalPlanId}
-          activeBillingPlanId={currentSubscription?.billingPlanId}
-          activeSubscriptionId={currentSubscription?.billingSubscriptionId}
-          onSubscriptionApproved={(planId, subscriptionId) => {
-            if (subscriptionId) {
-              onNewSubscriptionApproved();
-            } else {
-              console.error(
-                'Unexpected result: subscriptionId came null/undefined from Paypal SDK',
-              );
-            }
-          }}
-        />
+        {!currentSubscription && (
+          <PayPalButtonsGroup
+            billingPlanId={paypalPlanId}
+            onSubscriptionApproved={(planId, subscriptionId) => {
+              if (subscriptionId) {
+                onNewSubscriptionApproved();
+              } else {
+                console.error(
+                  'Unexpected result: subscriptionId came null/undefined from Paypal SDK',
+                );
+              }
+            }}
+          />
+        )}
       </div>
     ) : (
       <Button disabled>{i18n.t('subscription.current_plan_button')}</Button>
