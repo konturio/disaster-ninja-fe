@@ -1,0 +1,101 @@
+{
+  "rendererUrl": "renderer.html",
+  "fixtures": [
+    {
+      "filePath": "src/components/BivariateLegend/BivariateLegend.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "components",
+        "BivariateLegend",
+        "BivariateLegend"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcomponents%2FBivariateLegend%2FBivariateLegend.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/components/LinkRenderer/LinkRenderer.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "components",
+        "LinkRenderer",
+        "LinkRenderer"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcomponents%2FLinkRenderer%2FLinkRenderer.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/core/pages/PagesDocument.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "core",
+        "pages",
+        "PagesDocument"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcore%2Fpages%2FPagesDocument.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/core/pages/StructuredMarkdownRender.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "core",
+        "pages",
+        "StructuredMarkdownRender"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcore%2Fpages%2FStructuredMarkdownRender.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/features/bivariate_color_manager/components/MiniLegend/MiniLegend.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "features",
+        "bivariate_color_manager",
+        "components",
+        "MiniLegend",
+        "MiniLegend"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Ffeatures%2Fbivariate_color_manager%2Fcomponents%2FMiniLegend%2FMiniLegend.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/features/bivariate_manager/fixtures/BivariateGreetings.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "features",
+        "bivariate_manager",
+        "fixtures",
+        "BivariateGreetings"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Ffeatures%2Fbivariate_manager%2Ffixtures%2FBivariateGreetings.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/features/bivariate_manager/fixtures/BivariateMatrixControl.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "features",
+        "bivariate_manager",
+        "fixtures",
+        "BivariateMatrixControl"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Ffeatures%2Fbivariate_manager%2Ffixtures%2FBivariateMatrixControl.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/features/events_list/components/EventCard/EventCard.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "features",
+        "events_list",
+        "components",
+        "EventCard",
+        "EventCard"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Ffeatures%2Fevents_list%2Fcomponents%2FEventCard%2FEventCard.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/features/subscriptions/Plans.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "features",
+        "subscriptions",
+        "Plans"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Ffeatures%2Fsubscriptions%2FPlans.fixture.tsx%22%7D&locked=true"
+    }
+  ]
+}
