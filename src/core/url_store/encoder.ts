@@ -9,7 +9,7 @@ export const urlEncoder = new URLDataInSearchEncoder({
   transformers: {
     map: {
       decode: (str: string): MapPosition | undefined => {
-        const position = str.split('/').map((s) => Number(s));
+        const position = str.split('/').map((s) => Number(s) + 0); // normalize -0/+0
         const [zoom, lat, lng] = position;
         if (lat < -90 || lat > 90) return undefined;
         if (lng < -180 || lng > 180) return undefined;
@@ -22,21 +22,26 @@ export const urlEncoder = new URLDataInSearchEncoder({
         const precision = Math.max(3, Math.ceil(Math.log(zoom) / Math.LN2));
         return [
           (zoom + URL_ZOOM_OFFSET).toFixed(3),
-          lat.toFixed(precision),
-          lng.toFixed(precision),
+          // Add + 0 to normalize -0/+0 before formatting
+          (lat + 0).toFixed(precision),
+          (lng + 0).toFixed(precision),
         ].join('/');
       },
     },
     bbox: {
       decode: (str: string): BBox => {
-        const coords = str.split(',').map((coord) => Number.parseFloat(coord.trim()));
+        const coords = str.split(',').map((coord) => Number.parseFloat(coord.trim()) + 0);
         return [
           [coords[0], coords[1]],
           [coords[2], coords[3]],
         ];
       },
       encode: (bbox: BBox): string => {
-        return `${bbox[0][0]},${bbox[0][1]},${bbox[1][0]},${bbox[1][1]}`;
+        const normalizedBbox = [
+          [bbox[0][0] + 0, bbox[0][1] + 0],
+          [bbox[1][0] + 0, bbox[1][1] + 0],
+        ];
+        return `${normalizedBbox[0][0]},${normalizedBbox[0][1]},${normalizedBbox[1][0]},${normalizedBbox[1][1]}`;
       },
     },
     layers: {
