@@ -1,5 +1,8 @@
 name: PR Preview
 
+env:
+  HUSKY: 0
+
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
@@ -28,7 +31,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm i --prod=false
 
       - name: Apply domain changes
         if: github.event.action != 'closed'

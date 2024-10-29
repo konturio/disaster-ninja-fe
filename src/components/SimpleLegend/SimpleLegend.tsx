@@ -18,13 +18,9 @@ function icon(
   if (type === 'hex')
     return <HexIcon styles={styles} size="small" fill={fill} stroke={stroke} />;
   if (type === 'circle')
-    return (
-      <CircleIcon styles={styles} size="small" fill={fill} stroke={stroke} />
-    );
+    return <CircleIcon styles={styles} size="small" fill={fill} stroke={stroke} />;
   if (type === 'square')
-    return (
-      <SquareIcon styles={styles} size="normal" fill={fill} stroke={stroke} />
-    );
+    return <SquareIcon styles={styles} size="normal" fill={fill} stroke={stroke} />;
 }
 
 export function SimpleLegendStep({

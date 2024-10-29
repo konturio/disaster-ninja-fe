@@ -1,11 +1,12 @@
-import { atom, action } from '@reatom/core';
 import {
+  atom,
+  action,
   reatomAsync,
   withAbort,
   withDataAtom,
   withErrorAtom,
   withStatusesAtom,
-} from '@reatom/async';
+} from '@reatom/framework';
 import { currentMapPositionAtom, FeatureFlag } from '~core/shared_state';
 import { getLocations } from '~core/api/search';
 import { fetchMCDAAsyncResource } from '~features/search/searchMcdaAtoms';

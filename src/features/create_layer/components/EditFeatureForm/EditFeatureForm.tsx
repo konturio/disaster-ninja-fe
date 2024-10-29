@@ -40,11 +40,7 @@ export function EditFeatureForm({
         disabled={true}
         className={s.formParam}
         renderLabel={<Label>{i18n.t('create_layer.location')}</Label>}
-        value={
-          geometry
-            ? `${geometry.coordinates[0]}, ${geometry.coordinates[1]}`
-            : ''
-        }
+        value={geometry ? `${geometry.coordinates[0]}, ${geometry.coordinates[1]}` : ''}
       />
       {Object.entries(fieldsSettings.featureProperties).map(([key, type]) => {
         function onPropertyChange(ev: ChangeEvent<HTMLInputElement>) {
@@ -68,9 +64,7 @@ export function EditFeatureForm({
 export function EditFeaturePlaceholder() {
   return (
     <div className={s.formContainer}>
-      <Text type="short-m">
-        {i18n.t('create_layer.edit_feature_placeholder')}
-      </Text>
+      <Text type="short-m">{i18n.t('create_layer.edit_feature_placeholder')}</Text>
     </div>
   );
 }

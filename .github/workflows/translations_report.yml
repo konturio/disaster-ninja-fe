@@ -1,5 +1,8 @@
 name: Translations Report
 
+env:
+  HUSKY: 0
+
 on:
   pull_request:
     paths-ignore:
@@ -29,7 +32,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - run: pnpm i
+      - run: pnpm i --prod=false
       - run: pnpm run --silent i18n:report --out md > ./.github/workflows/translations-report.md
       - name: Comment
         uses: NejcZdovc/comment-pr@v2.1.0

@@ -1,9 +1,9 @@
 // @ts-check
 
 /**
- * @param {string} stageName 
- * @param {string} buildTag 
- * @returns 
+ * @param {string} stageName
+ * @param {string} buildTag
+ * @returns
  */
 export const transforms = (stageName, buildTag) => ({
   ['helm/disaster-ninja-fe/Chart.yaml']: (content) => {

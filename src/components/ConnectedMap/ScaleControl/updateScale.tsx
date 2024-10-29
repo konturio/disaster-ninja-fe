@@ -70,14 +70,14 @@ function getRoundNum(num: number) {
     d >= 10
       ? 10
       : d >= 5
-      ? 5
-      : d >= 3
-      ? 3
-      : d >= 2
-      ? 2
-      : d >= 1
-      ? 1
-      : getDecimalRoundNum(d);
+        ? 5
+        : d >= 3
+          ? 3
+          : d >= 2
+            ? 2
+            : d >= 1
+              ? 1
+              : getDecimalRoundNum(d);
 
   return pow10 * d;
 }

@@ -1,5 +1,4 @@
-const apis = [
-];
+const apis = [];
 
 async function measure({ id, fetcher }) {
   const t0 = performance.now();

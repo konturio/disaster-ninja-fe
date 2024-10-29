@@ -65,7 +65,7 @@ function OutletWithCache() {
     return location.pathname;
   }, [location]);
 
-  return <KeepAlive activeName={cacheKey}>{outlet}</KeepAlive>;
+  return <KeepAlive activeCacheKey={cacheKey}>{outlet}</KeepAlive>;
 }
 
 function initRouter() {

@@ -1,5 +1,10 @@
 name: Run e2e autotests
+
+env:
+  HUSKY: 0
+
 run-name: Run e2e autotests for ${{inputs.app || 'all'}} app(s) on ${{inputs.env || 'prod'}} env
+
 on:
   workflow_dispatch:
     inputs:

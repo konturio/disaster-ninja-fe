@@ -28,13 +28,13 @@ export function runCommandInDir(command, args = [], dir) {
     commandProcess.stdout.on('data', (stdout) => {
       if (isClearCommand(stdout)) return;
       if (watcherStarted) {
-        log.info(stdout)
+        log.info(stdout);
       } else {
         log.debug(stdout);
       }
       if (!watcherStarted && isInitFinished(stdout)) {
         log.info('Build finished, looking for changes');
-        watcherStarted = true
+        watcherStarted = true;
         res(stopProcessCb);
       }
     });

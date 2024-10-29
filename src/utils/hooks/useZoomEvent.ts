@@ -5,13 +5,15 @@ export const useZoomEvent = (
   zoomInCallback: () => void | null,
   zoomOutCallback: () => void | null,
 ) => {
-  let pxRatio = window.devicePixelRatio
-    || window.screen.availWidth / document.documentElement.clientWidth;
+  let pxRatio =
+    window.devicePixelRatio ||
+    window.screen.availWidth / document.documentElement.clientWidth;
 
   const onWindowResize = () => {
     // for zoom detection
-    const newPxRatio = window.devicePixelRatio
-      || window.screen.availWidth / document.documentElement.clientWidth;
+    const newPxRatio =
+      window.devicePixelRatio ||
+      window.screen.availWidth / document.documentElement.clientWidth;
     if (newPxRatio !== pxRatio) {
       if (newPxRatio > pxRatio) {
         if (zoomInCallback !== null) zoomInCallback();

@@ -23,10 +23,7 @@ export function EditableLayerFieldsPlaceholder({
 }: EditableLayerFieldsPlaceholderProps) {
   return (
     <div className={s.fieldsContainer}>
-      <Divider
-        className={clsx(s.dividerLabel, 'k-font-caption')}
-        type="horizontal"
-      >
+      <Divider className={clsx(s.dividerLabel, 'k-font-caption')} type="horizontal">
         {i18n.t('create_layer.fields')}
       </Divider>
 

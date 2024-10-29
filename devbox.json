@@ -1,26 +1,12 @@
 {
-  "packages": [
-    "nodejs@20",
-    "emacs28Packages.pnpm-mode",
-    "go@latest",
-    "gopls@latest"
-  ],
+  "packages": ["nodejs@20", "emacs28Packages.pnpm-mode", "go@latest", "gopls@latest"],
   "shell": {
-    "init_hook": [
-      "pnpm i"
-    ],
+    "init_hook": ["pnpm i"],
     "scripts": {
       "dev": "npm run dev",
       "release": "npm run release",
-      "test": [
-        "npm run test:unit",
-        "npm run typecheck"
-      ],
-      "lint": [
-        "npm run lint:js",
-        "npm run lint:css",
-        "npm run depcruise"
-      ]
+      "test": ["npm run test:unit", "npm run typecheck"],
+      "lint": ["npm run lint:js", "npm run lint:css", "npm run depcruise"]
     }
   }
 }

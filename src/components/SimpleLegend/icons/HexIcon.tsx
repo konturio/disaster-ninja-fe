@@ -23,8 +23,7 @@ export function HexIcon({
     [styles],
   );
   const opacity = useMemo(
-    () =>
-      styles['casing-opacity'] === undefined ? 1 : styles['casing-opacity'],
+    () => (styles['casing-opacity'] === undefined ? 1 : styles['casing-opacity']),
     [styles],
   );
 

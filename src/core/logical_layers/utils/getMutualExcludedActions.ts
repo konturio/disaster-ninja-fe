@@ -17,24 +17,17 @@ export const getMutualExcludedActions = (() => {
   let enabledLayers: Set<string> | null = null;
   enabledLayersAtom.subscribe((s) => (enabledLayers = s));
 
-  let layersSettings: Map<string, AsyncState<LayerSettings | null>> | null =
-    null;
+  let layersSettings: Map<string, AsyncState<LayerSettings | null>> | null = null;
   layersSettingsAtom.subscribe((s) => (layersSettings = s));
 
   return (state: LogicalLayerState) => {
-    if (
-      !groupsSettings ||
-      !categorySettings ||
-      !enabledLayers ||
-      !layersSettings
-    ) {
+    if (!groupsSettings || !categorySettings || !enabledLayers || !layersSettings) {
       return [];
     }
     const targetLayerCategory = state.settings?.category;
     const targetLayerGroup = state.settings?.group;
     const isInMutuallyExclusiveCategory =
-      targetLayerCategory &&
-      categorySettings[targetLayerCategory]?.mutuallyExclusive;
+      targetLayerCategory && categorySettings[targetLayerCategory]?.mutuallyExclusive;
     const isInMutuallyExclusiveGroup =
       targetLayerGroup && groupsSettings[targetLayerGroup]?.mutuallyExclusive;
 
@@ -63,8 +56,6 @@ export const getMutualExcludedActions = (() => {
       }
     });
 
-    return Array.from(mutualExcludeIds).map((id) =>
-      enabledLayersAtom.delete(id),
-    );
+    return Array.from(mutualExcludeIds).map((id) => enabledLayersAtom.delete(id));
   };
 })();

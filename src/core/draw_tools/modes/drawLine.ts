@@ -24,10 +24,7 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
             features: [],
             type: 'FeatureCollection',
           };
-        const editAction = this.getAddFeatureAction(
-          lineStringToAdd,
-          props.data,
-        );
+        const editAction = this.getAddFeatureAction(lineStringToAdd, props.data);
         if (editAction) {
           props.onEdit(editAction);
         }
@@ -50,8 +47,7 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
       clickSequence.length > 1 &&
       clickedEditHandle &&
       Array.isArray(clickedEditHandle.properties.positionIndexes) &&
-      clickedEditHandle.properties.positionIndexes[0] ===
-        clickSequence.length - 1
+      clickedEditHandle.properties.positionIndexes[0] === clickSequence.length - 1
     ) {
       // They clicked the last point (or double-clicked), so add the LineString
 

@@ -15,7 +15,8 @@
 }
 
 .LegendGridCellChanged {
-  box-shadow: 0 0 0 1px var(--text-faint-strong),
+  box-shadow:
+    0 0 0 1px var(--text-faint-strong),
     inset 0 0 0 1px var(--base-weak);
 }
 
