@@ -879,7 +879,7 @@ input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible
   margin-left: var(--unit);
   color: var(--text-faint-strong);
 }
-._planCard_w53y8_1 {
+._planCard_hh4u9_1 {
   /* Color for plan type, highlights, link */
   --primary-color: var(--success-strong);
   /* Color for plan type background */
@@ -903,13 +903,13 @@ input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible
   background-color: var(--plan-bg-color);
 }
 
-  ._planCard_w53y8_1:hover {
+  ._planCard_hh4u9_1:hover {
     box-shadow: var(--shadow-medium);
   }
 
   /* Specific custom styles */
 
-  ._planCard_w53y8_1._custom_w53y8_29 {
+  ._planCard_hh4u9_1._custom_hh4u9_29 {
     --primary-color: var(--base-strong-down);
     --secondary-color: var(--faint-weak);
     --cta-hover-color: var(--base-strong);
@@ -917,7 +917,7 @@ input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible
 
   /* Specific premium styles */
 
-  ._planCard_w53y8_1._premium_w53y8_36 {
+  ._planCard_hh4u9_1._premium_hh4u9_36 {
     --primary-color: var(--accent-strong);
     --secondary-color: #d8effc;
     --plan-bg-color: var(--accent-weak);
@@ -927,24 +927,24 @@ input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible
 
   /* Highlights section */
 
-  ._planCard_w53y8_1 ul {
+  ._planCard_hh4u9_1 ul {
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  ._planCard_w53y8_1 ul li {
+  ._planCard_hh4u9_1 ul li {
       margin: 5px 0;
     }
 
-  ._planCard_w53y8_1 ul li::before {
+  ._planCard_hh4u9_1 ul li::before {
       content: '✔';
       display: inline-block;
       margin-right: var(--double-unit);
       color: var(--primary-color);
     }
 
-._planType_w53y8_63 {
+._planType_hh4u9_63 {
   position: absolute;
   padding: var(--unit) var(--double-unit);
   border-radius: 18px;
@@ -956,7 +956,7 @@ input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible
   align-items: center;
 }
 
-._planCard_w53y8_1._custom_w53y8_29 ._planType_w53y8_63::before {
+._planCard_hh4u9_1._custom_hh4u9_29 ._planType_hh4u9_63::before {
   content: '★';
   font-size: 22px;
   padding-right: 4px;
@@ -964,112 +964,109 @@ input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible
   top: -2px;
 }
 
-._initialPrice_w53y8_83 {
+._initialPrice_hh4u9_83 {
   color: var(--faint-strong, #9ea5ab);
   text-decoration: line-through;
   margin-bottom: var(--double-unit);
 }
 
-._price_w53y8_89 {
+._price_hh4u9_89 {
   margin-bottom: var(--double-unit);
 }
 
-._hidden_w53y8_93 {
+._hidden_hh4u9_93 {
   visibility: hidden;
 }
 
-._perMonth_w53y8_97 {
+._perMonth_hh4u9_97 {
   font-size: 14px;
   color: #888;
   margin-left: 5px;
 }
 
-._customPlanName_w53y8_103 {
+._customPlanName_hh4u9_103 {
   font-weight: 500;
   line-height: 40px;
   font-size: 52px;
-  margin: 36px 0 22px;
+  margin: 36px 0 21px;
 }
 
-._planDescription_w53y8_110 {
+._planDescription_hh4u9_110 {
   color: var(--faint-strong);
   margin: 0 0 var(--double-unit);
 }
 
-._planDescription_w53y8_110 a.external {
+._planDescription_hh4u9_110 a.external {
     color: var(--accent-strong);
   }
 
-._buttonWrapper_w53y8_119 {
+._buttonWrapper_hh4u9_119 {
   margin-bottom: 24px;
   column-gap: 16px;
   display: flex;
   align-items: center;
 }
 
-._subscribeButtonsWrapper_w53y8_126 {
+._subscribeButtonsWrapper_hh4u9_126 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  row-gap: 11px;
 }
 
 /* Paypal buttons specific styles */
 
-._subscribeButtonsWrapper_w53y8_126 > div {
+._subscribeButtonsWrapper_hh4u9_126 > div {
     width: 100%;
   }
 
-._subscribeButtonsWrapper_w53y8_126 ._trialButton_w53y8_137 {
-    margin-bottom: 11px;
-  }
-
-._cancelButton_w53y8_142 {
+._cancelButton_hh4u9_139 {
   position: relative;
   bottom: -11px;
 }
 
-._footerWrapper_w53y8_147 {
+._footerWrapper_hh4u9_144 {
   display: flex;
   justify-content: flex-end;
   margin-top: auto;
   color: var(--faint-strong);
 }
 
-._footerWrapper_w53y8_147 span {
+._footerWrapper_hh4u9_144 span {
     color: var(--faint-strong-down);
   }
 
-._linkAsButton_w53y8_158 {
+._linkAsButton_hh4u9_155 {
   font: var(--font-xs);
   font-weight: 400;
   line-height: 16px;
   letter-spacing: 0.019px;
   color: var(--primary-color);
-  padding: 11px 12px;
+  padding: 10px 12px;
   border-radius: var(--border-radius);
   border: 1px solid var(--primary-color, #2e3d4a);
   text-decoration: none;
   cursor: pointer;
 }
 
-._linkAsButton_w53y8_158:hover {
+._linkAsButton_hh4u9_155:hover {
     border-color: var(--cta-hover-color);
     color: var(--cta-hover-color);
   }
 
-._linkAsButton_w53y8_158:focus-visible {
+._linkAsButton_hh4u9_155:focus-visible {
     outline: none;
     box-shadow:
       0 0 0 2px var(--base-weak),
       0 0 0 4px var(--complimentary-strong);
   }
 
-._paymentPlanButton_w53y8_183 {
+._paymentPlanButton_hh4u9_180 {
   background-color: var(--primary-color);
 }
 
-._paymentPlanButton_w53y8_183:hover {
+._paymentPlanButton_hh4u9_180:hover {
     background-color: var(--cta-hover-color);
   }
 ._pricingWrap_13ps2_1 {
