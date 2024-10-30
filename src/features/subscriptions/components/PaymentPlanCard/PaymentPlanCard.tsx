@@ -90,7 +90,7 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
                 onNewSubscriptionApproved();
               } else {
                 console.error(
-                  'Unexpected result: subscriptionId came null/undefined from Paypal SDK',
+                  'Unexpected result: subscriptionId came with null/undefined value from Paypal SDK',
                 );
               }
             }}
