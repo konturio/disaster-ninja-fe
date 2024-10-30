@@ -15,6 +15,11 @@ export const GA4_EVENTS = [
   'pay_success',
   'pay_error',
 
+  // Sales-related events
+  'contact_sales',
+  'request_trial',
+  'book_demo',
+
   // Multi-Criteria Decision Analysis (MCDA) events
   'mcda_start',
   'mcda_add_layer',

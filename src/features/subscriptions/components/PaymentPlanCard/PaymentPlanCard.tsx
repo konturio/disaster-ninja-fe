@@ -10,6 +10,7 @@ import {
 } from '~features/subscriptions/constants';
 import { i18n } from '~core/localization';
 import { intercomVisibleAtom, openIntercomChat } from '~features/intercom';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { PayPalButtonsGroup } from '../PayPalButtonsGroup/PayPalButtonsGroup';
 import s from './PaymentPlanCard.module.css';
 import type { ReactNode, ReactElement } from 'react';
@@ -70,12 +71,18 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
     [billingOption],
   );
 
+  const onOpenIntercom = () => {
+    dispatchMetricsEvent('contact_sales');
+    openIntercomChat();
+  };
+
   const renderSubscribeButtons = (paypalPlanId: string) => {
     return currentSubscription?.billingPlanId !== paypalPlanId ? (
       <div className={s.subscribeButtonsWrapper}>
         <a
           className={clsx(s.linkAsButton, s.trialButton)}
           href={salesLink}
+          onClick={() => dispatchMetricsEvent('request_trial')}
           target="_blank"
           rel="noreferrer"
           aria-label={i18n.t('subscription.request_trial_button')}
@@ -142,6 +149,7 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
           href={salesLink}
           target="_blank"
           rel="noreferrer"
+          onClick={() => dispatchMetricsEvent('request_trial')}
           aria-label={i18n.t('subscription.request_trial_button')}
         >
           {i18n.t('subscription.request_trial_button')}
@@ -153,7 +161,7 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   const customButtons = (
     <>
       {isChatButtonVisible && (
-        <Button className={clsx(s.paymentPlanButton)} onClick={openIntercomChat}>
+        <Button className={clsx(s.paymentPlanButton)} onClick={onOpenIntercom}>
           {i18n.t('subscription.sales_button')}
         </Button>
       )}
@@ -163,6 +171,7 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
           href={demoLink}
           target="_blank"
           rel="noreferrer"
+          onClick={() => dispatchMetricsEvent('book_demo')}
           aria-label={i18n.t('subscription.book_demo_button')}
         >
           {i18n.t('subscription.book_demo_button')}
