@@ -26,6 +26,7 @@ export const LLMAnalyticsEmptyState = ({
           },
         ]}
         wrapperComponent={MarkdownWrapper}
+        id="llm_analytics"
       />
     </div>
   );

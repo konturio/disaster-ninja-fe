@@ -8,8 +8,6 @@
   mobile viewport: < 960px
 */
 
-@import-normalize;
-
 :root {
   --app-header-height: 44px;
   --panel-header-height: 40px;

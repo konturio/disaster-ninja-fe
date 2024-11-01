@@ -1,11 +1,12 @@
 import { configRepo } from '~core/config/__mocks__/_configMock';
-import { PagesDocumentRenderer } from './index';
+import { PagesDocument } from './index';
 
 console.info('test app id', configRepo.get().id);
 
 export default {
   'PagesDocument with custom css': (
-    <PagesDocumentRenderer
+    <PagesDocument
+      id=""
       doc={[
         {
           type: 'md',
@@ -25,7 +26,8 @@ p { background-color: #BF6C3F; }
     />
   ),
   'Links test': (
-    <PagesDocumentRenderer
+    <PagesDocument
+      id=""
       doc={[
         {
           type: 'md',

@@ -35,39 +35,32 @@ function fetchPagesDocument(
 
 type PagesDocumentProps = {
   doc: PagesDocumentElement[];
-  wrapperComponent?: React.ComponentType<React.PropsWithChildren<unknown>>;
+  wrapperComponent?: React.ComponentType<{ id: string; children?: React.ReactNode }>;
+  id: string;
 };
 
-export function PagesDocument({ doc, wrapperComponent = Article }: PagesDocumentProps) {
+export function PagesDocument({
+  doc,
+  wrapperComponent: Wrapper = Article,
+  id,
+}: PagesDocumentProps) {
   const memoizedDoc = useMemo(() => doc, [doc]);
   const data = usePromise(fetchPagesDocument, [memoizedDoc]);
-  return <PagesDocumentRenderer doc={data} wrapperComponent={wrapperComponent} />;
-}
 
-type ResolvedPagesDocumentProps = {
-  doc: (PagesDocumentElement & { data: string })[];
-  wrapperComponent?: React.ComponentType<React.PropsWithChildren<unknown>>;
-};
-
-export function PagesDocumentRenderer({
-  doc,
-  wrapperComponent: WrapperComponent = Article,
-}: ResolvedPagesDocumentProps) {
-  const id = useId();
   return (
-    <WrapperComponent>
-      {doc.map((e, idx) => {
-        if (PagesDocumentElementRenderers.hasOwnProperty(e.type)) {
-          const Component = PagesDocumentElementRenderers[e.type];
-          return Component ? <Component key={`${id}-${idx}`} data={e.data} /> : null;
-        }
-        return null;
+    <Wrapper id={`app-pages-docid-${id}`}>
+      {data.map((element, index) => {
+        const Renderer = PagesDocumentElementRenderers[element.type];
+        return <Renderer key={index} {...element} />;
       })}
-    </WrapperComponent>
+    </Wrapper>
   );
 }
 
-type PagesDocumentElementProps = { data: string };
+type PagesDocumentElementProps = {
+  data: string;
+  className?: string;
+};
 
 function CssElement({ data }: PagesDocumentElementProps) {
   return <style>{data}</style>;
@@ -78,9 +71,17 @@ function MarkdownElement({ data }: PagesDocumentElementProps) {
     overrides: {
       a: CustomLink,
       img: CustomImg,
+      // prevent id/slug generation in h1-h6 tags
+      h1: { component: 'h1', props: { id: undefined } },
+      h2: { component: 'h2', props: { id: undefined } },
+      h3: { component: 'h3', props: { id: undefined } },
+      h4: { component: 'h4', props: { id: undefined } },
+      h5: { component: 'h5', props: { id: undefined } },
+      h6: { component: 'h6', props: { id: undefined } },
     },
     wrapper: null,
   }) as unknown as JSX.Element[];
+
   const structuredContent = structureMarkdownContent(compiled);
-  return structuredContent;
+  return <div className="app-pages-element-markdown">{structuredContent}</div>;
 }

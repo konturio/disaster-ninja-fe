@@ -21,7 +21,6 @@ const { MapPage } = lazily(() => import('~views/Map/Map'));
 const { ReportsPage } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
 const { ProfilePage } = lazily(() => import('~views/Profile/Profile'));
-const { AboutPage } = lazily(() => import('~views/About/About'));
 const { BivariateManagerPage } = lazily(
   () => import('~views/BivariateManager/BivariateManager'),
 );
@@ -70,6 +69,7 @@ function getAboutSubTabs() {
           <PagesDocument
             doc={[{ type: 'md', url: subTabConfig.assetUrl }]}
             key={subTabConfig.tabId}
+            id={subTabConfig.tabId}
           />
         ),
       }));
@@ -136,7 +136,20 @@ export const routerConfig: AppRouterConfig = {
       slug: 'about',
       title: i18n.t('modes.about'),
       icon: <Info24 />,
-      view: <AboutPage />,
+      view: (
+        <PagesDocument
+          // @ts-expect-error assetUrl might be undefined but PagesDocument handles this case
+          doc={[
+            {
+              type: 'md',
+              url:
+                configRepo.get().features[AppFeature.ABOUT_PAGE]?.assetUrl ?? 'about.md',
+            },
+          ]}
+          key="about"
+          id="about"
+        />
+      ),
       showForNewUsers: true,
       requiredFeature: AppFeature.ABOUT_PAGE,
     },
@@ -146,7 +159,13 @@ export const routerConfig: AppRouterConfig = {
       slug: 'cookies',
       title: i18n.t('modes.cookies'),
       icon: <Reports16 />,
-      view: <PagesDocument doc={[{ type: 'md', url: 'cookies.md' }]} key="cookies" />,
+      view: (
+        <PagesDocument
+          doc={[{ type: 'md', url: 'cookies.md' }]}
+          key="cookies"
+          id="cookies"
+        />
+      ),
       parentRouteId: 'about',
       visibilityInNavigation: 'never',
       requiredFeature: AppFeature.ABOUT_PAGE,

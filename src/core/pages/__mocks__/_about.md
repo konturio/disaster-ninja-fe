@@ -1,30 +1,74 @@
-# Welcome to Disaster Ninja!
+![Kontur Atlas](about-atlas-1.png)
 
-Do you want to be notified about ongoing disasters? Are you interested in instant population data and other analytics for any region of the world? Disaster Ninja showcases some of [Kontur](https://www.kontur.io/)’s capabilities in addressing these needs.
+# Kontur Atlas
 
-We initially designed it as a decision support tool for humanitarian mappers. Now it has grown in functionality and use cases. Whether you work in disaster management, build a smart city, or perform research on climate change, Disaster Ninja can help you to:
+Atlas is your GPS for big decisions. It's a tool that helps you use maps and data to figure out a wide range of things, from where to open a new store to exploring environmental sustainability.
 
-### 1. Stay up to date with the latest hazard events globally
+![Geospatial Data with Ease](about-atlas-2.png)
 
-The Disasters panel continually refreshes to inform you about ongoing events. It consumes data from the [Kontur Event Feed](https://www.kontur.io/portfolio/event-feed/), which you can also access via an API.
+## Geospatial Data with Ease
 
-### 2. Focus on your area of interest
+### Browse & Choose Data
 
-The Drawing Tools panel allows you to draw or upload your own geometry on the map. You can also focus on a disaster-exposed area or an administrative unit — a country, region, or city.
+We've got tons of info like who lives where and how people get around. Find the data that'll answer your questions.
 
-### 3. Get analytics for the focused area
+### Make Maps
 
-The Analytics panel shows the number of people living in that area per [Kontur Population](https://data.humdata.org/dataset/kontur-population-dataset) and estimated mapping gaps in OpenStreetMap. Kontur’s customers have access to hundreds of other indicators through Advanced Analytics.
+With a few clicks, Atlas turns that data into maps and visuals so it's easy to understand.
 
-### 4. Explore data on the map and draw conclusions
+### Analyze & Decide
 
-The Layers panel gives you various options to display two indicators simultaneously on a bivariate map, e.g., population density and distance to the nearest fire station. Use the color legend to assess which areas require attention.
-Hint: in general, green indicates low risk / few gaps, red — high risk / many gaps.
+Use these insights to make smart decisions, like picking the perfect spot for your next big project or making concussions based on spatial patterns.
 
-In addition, you can switch to Reports in the left panel to access data on potential errors and inconsistencies in OpenStreetMap and help fix them by mapping the respective area with the JOSM editor.
+### Jump in and start exploring
 
-### [Go to the map now ➜](/ 'map')
+Your next big opportunity is waiting to be mapped out!
 
-We hope you find this tool valuable. Use the chatbox on Disaster Ninja for any questions about the functionality, and we will be happy to guide you. You can also contact us by email at [hello@kontur.io](mailto:hello@kontur.io) if you have feedback or suggestions on improving the tool.
+### _[Subscribe to Atlas](/pricing)_
 
-Disaster Ninja is an open-source project. Find the code in [Kontur’s GitHub account](https://github.com/konturio).
+## How to Use
+
+---
+
+## ![Area Selection](about-atlas-3.png)
+
+### Area Selection
+
+To choose an area for analysis, you can use the toolbar to select an administrative unit, draw a shape manually, or import a GeoJSON file.
+
+## ![Analytics Panel](about-atlas-4.png)
+
+### Analytics Panel
+
+This panel displays essential data about your selected area.
+
+#### AI Insights
+
+Compares your area's data with global averages, alerting you to any significant discrepancies.
+
+#### Personalized AI Insights
+
+Reference Area: This allows you to set a known area as a reference point for comparisons and highlights differences.
+Bio: Here, you can record details like who you're working for, your analysis purpose, and key topics, helping to personalize AI conclusions.
+
+## ![Creating Custom Analysis](about-atlas-5.png)
+
+### Creating Custom Analysis
+
+To create your own analysis, select the "MCDA" button in the toolbar.
+
+#### Choosing Relevant Layers
+
+Start by picking data layers appropriate for your requirements â€” this could include anything from population density to environmental risk factors.
+
+#### Browse the map
+
+By default, the map displays red hexagons in high-value areas and green hexagons where values are minimal. Click on any hexagon to access detailed info for that particular sector.
+
+#### Layer Customization
+
+Enhance your analysis by fine-tuning the range and what is bad and good of each layer. This means you can focus specifically on aspects crucial to your study.
+
+---
+
+### _[Learn more on kontur.io](https://www.kontur.io/atlas)_
