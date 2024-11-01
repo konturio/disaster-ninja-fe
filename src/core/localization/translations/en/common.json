@@ -454,7 +454,9 @@
     "empty": "Layer features within selected area will be provided here",
     "noFeatureSelected": "No layer feature selected",
     "chooseFeature": "Choose layer feature",
-    "listInfo": "The list is filtered by selected area and sorted by project number"
+    "listInfo": "The list is filtered by selected area and sorted by project number",
+    "error_loading": "Failed to load layer features data. Please try again.",
+    "no_features": "No features found in the selected area."
   },
   "reference_area": {
     "save_as_reference_area": "Save as reference area",

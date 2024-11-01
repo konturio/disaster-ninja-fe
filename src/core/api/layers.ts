@@ -70,7 +70,7 @@ export async function getLayersDetails(ids: string[], appId: string, language: s
 export function getLayerFeatures(
   layerId: string,
   geoJSON: GeoJSON.GeoJSON,
-  // TODO abortController: AbortController,
+  abortController: AbortController,
 ) {
   return apiClient.post<Feature[]>(
     `/layers/${layerId}/items/search`,
@@ -79,5 +79,6 @@ export function getLayerFeatures(
       geoJSON,
     },
     true,
+    { signal: abortController.signal },
   );
 }

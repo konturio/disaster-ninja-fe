@@ -2,7 +2,7 @@ import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useCallback } from 'react';
 import { clsx } from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
-import { useAtom } from '@reatom/react-v2';
+import { useAtom } from '@reatom/npm-react';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
@@ -11,6 +11,7 @@ import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
+import { store } from '~core/store/store';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
@@ -18,7 +19,6 @@ import {
 } from '../../atoms/layerFeaturesCollectionAtom';
 import {
   ACAPS_DATA_HEADER,
-  ACAPS_SIMPLE_LAYER_ID,
   FEATURESPANEL_MIN_HEIGHT,
   HOT_PROJECTS_HEADER,
   HOT_PROJECTS_LAYER_ID,
@@ -31,9 +31,10 @@ import type { FeatureCardCfg } from '../CardElements';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
 
 export function LayerFeaturesPanel() {
-  const [currentFeatureId, { set: setCurrentFeatureId }] = useAtom(currentFeatureIdAtom);
+  const [currentFeatureId] = useAtom(currentFeatureIdAtom);
+  // const [currentFeatureId, { set: setCurrentFeatureId }] = useAtom(currentFeatureIdAtom);
   const onCurrentChange = (id: number, feature: FeatureCardCfg) => {
-    setCurrentFeatureId(id);
+    currentFeatureIdAtom(store.v3ctx, id);
     scheduledAutoFocus.setFalse.dispatch();
     if (feature.focus) {
       currentMapPositionAtom.setCurrentMapBbox.dispatch(feature.focus as Bbox);
@@ -89,7 +90,9 @@ export function LayerFeaturesPanel() {
         short: (
           <ShortState
             openFullState={openFullState}
-            feature={featuresList[currentFeatureId]}
+            feature={
+              currentFeatureId !== undefined ? featuresList[currentFeatureId] : null
+            }
           />
         ),
         closed: null,

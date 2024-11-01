@@ -9,7 +9,7 @@ export function ShortState({
   feature,
 }: {
   openFullState: Parameters<typeof Button>[0]['onClick'];
-  feature: FeatureCardCfg;
+  feature: FeatureCardCfg | null;
 }) {
   const featureInfo = feature && <LayerFeaturesCard feature={feature} isActive={true} />;
 
