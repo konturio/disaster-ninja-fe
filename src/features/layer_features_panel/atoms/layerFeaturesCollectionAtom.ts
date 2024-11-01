@@ -7,6 +7,7 @@ import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
 import { AppFeature } from '~core/app/types';
+import { getLayerFeatures } from '~core/api/layers';
 import {
   ACAPS_LAYER_ID,
   ACAPS_SIMPLE_LAYER_ID,
@@ -116,13 +117,6 @@ export async function getFeatureCollection(geometry, layerId: string) {
   // if (layerId === ACAPS_SIMPLE_LAYER_ID) {
   //   return ACAPS_MOCK;
   // }
-  const features = await apiClient.post(
-    `/layers/${layerId}/items/search`,
-    {
-      appId: configRepo.get().id,
-      geoJSON: geometry,
-    },
-    true,
-  );
+  const features = await getLayerFeatures(layerId, geometry);
   return features ?? [];
 }
