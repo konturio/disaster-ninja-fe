@@ -32,7 +32,6 @@ import type { Bbox } from '~core/shared_state/currentMapPosition';
 
 export function LayerFeaturesPanel() {
   const [currentFeatureId] = useAtom(currentFeatureIdAtom);
-  // const [currentFeatureId, { set: setCurrentFeatureId }] = useAtom(currentFeatureIdAtom);
   const onCurrentChange = (id: number, feature: FeatureCardCfg) => {
     currentFeatureIdAtom(store.v3ctx, id);
     scheduledAutoFocus.setFalse.dispatch();
