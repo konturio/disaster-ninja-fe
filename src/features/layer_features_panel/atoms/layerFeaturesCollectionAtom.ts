@@ -1,6 +1,11 @@
-import { atom } from '@reatom/framework';
+import { atom, reatomResource, withDataAtom, withErrorAtom } from '@reatom/framework';
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
+import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
+import { i18n } from '~core/localization';
+import { getLayerFeatures } from '~core/api/layers';
 import {
   ACAPS_LAYER_ID,
   ACAPS_SIMPLE_LAYER_ID,
@@ -9,9 +14,9 @@ import {
 } from '../constants';
 import { getHotProjectsPanelData } from './hotProjects_outlines';
 import { getAcapsFeatureCards } from './acapsToFeatureCards';
-import { fetchLayerFeaturesResource } from './layerFeaturesResource';
 import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { FeatureCardCfg } from '../components/CardElements';
+import type { Feature } from 'geojson';
 
 // export const featuresPanelLayerId: string = ACAPS_SIMPLE_LAYER_ID;
 const featuresPanelConfig = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
@@ -47,3 +52,30 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
       return [];
   }
 }
+
+const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) => {
+  const mountedLayers = ctx.spy(enabledLayersAtom.v3atom);
+  const focusedGeoJSON = ctx.spy(focusedGeometryAtom.v3atom)?.geometry;
+  currentFeatureIdAtom(ctx, undefined);
+  if (isLayerMustBeEnabled && !mountedLayers.has(featuresPanelLayerId)) {
+    return null;
+  }
+  if (!featuresPanelLayerId || !focusedGeoJSON || isGeoJSONEmpty(focusedGeoJSON)) {
+    return null;
+  }
+  let responseData: Feature[] | null;
+  try {
+    responseData = await getLayerFeatures(
+      featuresPanelLayerId,
+      focusedGeoJSON,
+      ctx.controller,
+    );
+  } catch (e: unknown) {
+    throw new Error(i18n.t('layer_features_panel.error_loading'));
+  }
+  // in case there is no error but response data is empty
+  if (!responseData?.length) {
+    throw new Error(i18n.t('layer_features_panel.no_features'));
+  }
+  return responseData;
+}, 'fetchLayerFeaturesResource').pipe(withDataAtom(null), withErrorAtom());
