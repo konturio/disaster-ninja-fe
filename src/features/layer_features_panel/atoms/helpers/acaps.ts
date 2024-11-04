@@ -27,8 +27,7 @@ function removeEmptyRows(rows: string[][]): string[][] {
   return rows.filter((row) => row.length > 1 && row[1]);
 }
 
-// TODO: move this file to ../helpers or something similar - in separate PR
-export function getAcapsFeatureCards(featuresListAcaps: object): FeatureCardCfg[] {
+export function getAcapsPanelData(featuresListAcaps: object): FeatureCardCfg[] {
   const featuresList: FeatureCardCfg[] = Object.values(featuresListAcaps).map(
     (feature) => {
       const p = feature.properties as AcapsFeatureProperties;

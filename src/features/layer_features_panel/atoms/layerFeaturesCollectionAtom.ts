@@ -13,7 +13,7 @@ import {
   LAYERS_REQUIRED_BY_FEATURE_PANEL,
 } from '../constants';
 import { getHotProjectsPanelData } from './helpers/hotProjects_outlines';
-import { getAcapsFeatureCards } from './helpers/acapsToFeatureCards';
+import { getAcapsPanelData } from './helpers/acaps';
 import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { FeatureCardCfg } from '../components/CardElements';
 import type { Feature } from 'geojson';
@@ -46,7 +46,7 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
       return getHotProjectsPanelData(featuresList);
     case ACAPS_LAYER_ID:
     case ACAPS_SIMPLE_LAYER_ID:
-      return getAcapsFeatureCards(featuresList);
+      return getAcapsPanelData(featuresList);
     default:
       return [];
   }
