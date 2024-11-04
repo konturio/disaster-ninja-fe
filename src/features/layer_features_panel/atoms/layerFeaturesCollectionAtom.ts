@@ -18,7 +18,6 @@ import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { FeatureCardCfg } from '../components/CardElements';
 import type { Feature } from 'geojson';
 
-// export const featuresPanelLayerId: string = ACAPS_SIMPLE_LAYER_ID;
 const featuresPanelConfig = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
 export const featuresPanelLayerId: string =
   featuresPanelConfig && typeof featuresPanelConfig === 'object'
