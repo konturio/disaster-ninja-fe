@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { defineConfig, HtmlTagDescriptor, loadEnv } from 'vite';
+import { defineConfig, HtmlTagDescriptor, loadEnv, UserConfig } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import react from '@vitejs/plugin-react-swc';
 import { createHtmlPlugin } from 'vite-plugin-html';
@@ -9,7 +9,7 @@ import viteBuildInfoPlugin from './scripts/build-info-plugin';
 import { selectConfig, useConfig } from './scripts/select-config.mjs';
 // @ts-ignore
 import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
-import postcssConfig from './postcss.config';
+import postcssConfig from './postcss.config.mjs';
 import { proxyConfig } from './vite.proxy';
 import buildSizeReport from 'bundle-size-diff/plugin';
 import mkcert from 'vite-plugin-mkcert';
@@ -55,6 +55,8 @@ export default ({ mode }) => {
     build: {
       minify: mode !== 'development',
       sourcemap: true,
+      target: 'esnext',
+      chunkSizeWarningLimit: 1000,
       rollupOptions: {
         plugins: [
           !!env.VITE_ANALYZE_BUNDLE &&
@@ -65,6 +67,12 @@ export default ({ mode }) => {
               brotliSize: true,
             }),
         ],
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom'],
+            // Add other common dependencies
+          },
+        },
       },
     },
     plugins: [
@@ -88,11 +96,10 @@ export default ({ mode }) => {
       mode === 'development' && mkcert(),
     ],
     css: {
-      postcss: postcssConfig,
       devSourcemap: true,
     },
     resolve: {
-      dedupe: [],
+      // dedupe: ['@loaders.gl/worker-utils'],
     },
     server: {
       proxy: proxyConfig,

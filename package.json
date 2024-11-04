@@ -125,7 +125,7 @@
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-conv": "15.0.0",
     "jwt-decode": "^4.0.0",
-    "keepalive-for-react": "^3.0.1",
+    "keepalive-for-react": "^3.0.2",
     "maplibre-gl": "^3.6.2",
     "markdown-to-jsx": "^7.5.0",
     "mdast-util-from-markdown": "^2.0.1",
@@ -146,7 +146,6 @@
     "react-transition-group": "^4.4.5",
     "react-virtuoso": "^4.12.0",
     "recharts": "^2.13.0",
-    "uhtml": "^4.5.11",
     "utility-types": "^3.11.0",
     "vi-fetch": "^0.8.0",
     "wretch": "^2.11.0"
@@ -183,7 +182,6 @@
     "npm-run-all": "^4.1.5",
     "open-cli": "^8.0.0",
     "playwright-slack-report": "^1.1.88",
-    "postcss-normalize": "^13.0.1",
     "prettier": "^3.3.3",
     "prompts": "^2.4.2",
     "react-cosmos": "6.2.0",
@@ -208,6 +206,8 @@
       "@reatom/core-v2@3.1.4": "patches/@reatom__core-v2@3.1.4.patch"
     },
     "overrides": {
+      "@loaders.gl/worker-utils": "^3.4.15",
+      "@loaders.gl/core": "^3.4.14",
       "@reatom/utils": "^3.11.0"
     }
   }

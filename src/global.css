@@ -8,9 +8,26 @@
   mobile viewport: < 960px
 */
 
+@import url('global-pages.css');
+
 :root {
   --app-header-height: 44px;
   --panel-header-height: 40px;
+}
+
+/* Modern minimal reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Optional - handle images */
+img {
+  max-width: 100%;
+  display: block;
 }
 
 html,
@@ -26,12 +43,6 @@ body,
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
 }
 
 code {
@@ -86,21 +97,23 @@ code {
   }
 }
 
+/* showCriticalError */
 .critical-error-screen {
   margin: auto;
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
   margin-top: 18vh;
   max-width: 50em;
   padding: 1em;
+  & code {
+    border: 1px solid #c4c4c4;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: smaller;
+  }
 }
 
-.critical-error-message {
-  text-align: center;
-  color: red;
-  font-size: calc(1em + 0.5vw);
-}
-
+/* router layout render */
 .keep-alive-render {
   flex: 1;
   display: contents;

@@ -1,100 +1,149 @@
-.mainWrap {
-  display: flex;
-  flex-direction: column;
+.article {
+  /* Full width container with scroll */
   width: 100%;
-  margin-inline: auto;
-  padding-block: 80px;
+  height: 100%;
   overflow-y: auto;
-}
 
-.content {
-  max-width: 800px;
-  margin-inline: auto;
-  padding-inline: 14px;
-  font-size: 1rem;
-  line-height: 1.5;
-  box-sizing: content-box;
+  /* Center content with modern grid */
+  display: grid;
+  grid-template-columns: minmax(28px, 1fr) min(800px, 100% - 56px) minmax(28px, 1fr);
 
+  /* Container queries */
+  container-type: inline-size;
+  container-name: article;
+
+  /* Place all content in middle column */
+  & > * {
+    grid-column: 2;
+    padding-block: 80px;
+  }
+
+  /* List styles */
+  & :where(ul, ol) {
+    padding-inline-start: 2em;
+    margin-block: 1em;
+  }
+
+  & li {
+    margin-block: 0.5em;
+  }
+
+  & ul {
+    list-style-type: disc;
+
+    & ul {
+      list-style-type: circle;
+
+      & ul {
+        list-style-type: square;
+      }
+    }
+  }
+
+  /* Blockquote styles */
+  & blockquote {
+    margin-block: 1.5em;
+    margin-inline: 0;
+    padding: 1em 1.5em;
+    border-inline-start: 4px solid var(--accent-strong);
+    background-color: var(--base-weak-up);
+
+    & p:first-child {
+      margin-block-start: 0;
+    }
+
+    & p:last-child {
+      margin-block-end: 0;
+    }
+  }
+
+  /* Table styles */
   & table {
+    width: 100%;
     border-collapse: collapse;
+    margin-block: 1.5em;
+
+    /* Enable horizontal scroll for wide tables */
+    display: block;
+    overflow-x: auto;
+
+    /* Make table behave like block but maintain table properties */
+    & thead {
+      position: sticky;
+      top: 0;
+      background-color: var(--base-weak);
+      z-index: 1;
+    }
   }
 
   & :is(td, th) {
     padding: var(--unit);
     border: 1px solid var(--faint-weak);
+    text-align: start;
+  }
+
+  & th {
+    font-weight: 600;
+    background-color: var(--base-weak);
   }
 
   & tr:nth-child(odd) {
     background-color: var(--base-weak-up);
   }
-}
 
-/* Atlas specific styles */
-:global(#app-pages-docid-about) {
-  & div section:nth-child(2) {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: 1em;
-  }
-}
-
-:global(.app-pdelement-md) {
-  font-family: var(--font-family);
-
-  /* Heading styles using modern fluid typography */
-  & :is(h1, h2, h3, h4, h5, h6) {
-    line-height: 1.3;
-
-    & strong {
-      & a {
-        display: inline-block;
-        min-width: 128px;
-        padding: var(--unit) 24px;
-        box-sizing: border-box;
-        border: 1px solid var(--faint-weak);
-        border-radius: var(--border-radius);
-        font-family: var(--font-family);
-        font-weight: 400;
-        text-align: center;
-        user-select: none;
-      }
-
-      & em a {
-        background-color: var(--accent-strong);
-        color: var(--base-weak) !important;
-        font-style: normal;
-      }
-    }
+  & tr:hover {
+    background-color: var(--faint-weak-down);
   }
 
+  /* Base typography */
+  font-size: 1rem;
+  line-height: 1.5;
+
+  /* Fixed heading scales with standardized line-heights */
   & h1 {
-    font-size: clamp(2rem, 3vw + 1.5rem, 2.5rem);
-    margin-block: 2.5rem 1.5rem;
+    font-size: 3rem;
+    line-height: 1.3;
   }
 
   & h2 {
-    font-size: clamp(1.75rem, 2.5vw + 1.25rem, 2rem);
-    margin-block: 2rem 1rem;
+    font-size: 2.44rem;
+    line-height: 1.3;
   }
 
   & h3 {
-    font-size: clamp(1.5rem, 2vw + 1rem, 1.75rem);
-    margin-block: 1.5rem 0.75rem;
+    font-size: 2.08rem;
+    line-height: 1.4;
   }
 
   & h4 {
-    font-size: clamp(1.25rem, 1.5vw + 1rem, 1.5rem);
-    margin-block: 1.5rem 0.75rem;
+    font-size: 1.73rem;
+    line-height: 1.4;
   }
 
-  & :is(h5, h6) {
-    font-size: clamp(1.1rem, 1.25vw + 1rem, 1.25rem);
-    margin-block: 1.5rem 0.75rem;
+  & h5 {
+    font-size: 1.44rem;
+    line-height: 1.5;
+  }
+
+  & h6 {
+    font-size: 1.2rem;
+    line-height: 1.5;
   }
 
   & p {
     font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  & small {
+    font-size: 0.833rem;
     line-height: 1.6;
-    margin-block: 1rem;
+  }
+
+  /* Consistent spacing for headings */
+  & :where(h1, h2, h3, h4, h5, h6) {
+    margin-block-start: 1rem;
+    margin-block-end: 1rem;
+    font-weight: 500;
   }
 }
