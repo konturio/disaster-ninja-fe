@@ -23,7 +23,7 @@ export const featuresPanelLayerId: string =
   featuresPanelConfig && typeof featuresPanelConfig === 'object'
     ? (featuresPanelConfig as LayerFeaturesPanelConfig).layerId
     : '';
-export const isLayerMustBeEnabled =
+const isLayerMustBeEnabled =
   LAYERS_REQUIRED_BY_FEATURE_PANEL.includes(featuresPanelLayerId);
 
 export const currentFeatureIdAtom = atom<number | undefined>(
