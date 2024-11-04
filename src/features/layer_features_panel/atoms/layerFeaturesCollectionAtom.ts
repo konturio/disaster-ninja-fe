@@ -12,8 +12,8 @@ import {
   HOT_PROJECTS_LAYER_ID,
   LAYERS_REQUIRED_BY_FEATURE_PANEL,
 } from '../constants';
-import { getHotProjectsPanelData } from './hotProjects_outlines';
-import { getAcapsFeatureCards } from './acapsToFeatureCards';
+import { getHotProjectsPanelData } from './helpers/hotProjects_outlines';
+import { getAcapsFeatureCards } from './helpers/acapsToFeatureCards';
 import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { FeatureCardCfg } from '../components/CardElements';
 import type { Feature } from 'geojson';

@@ -5,12 +5,12 @@ import type {
   AcapsInfoLandscape,
   AcapsProtectionRisks,
   AcapsSeasonalEvents,
-} from '../types/acaps';
+} from '../../types/acaps';
 import type {
   CardElementId,
   FeatureCardCfg,
   FeatureCardItemCfg,
-} from '../components/CardElements';
+} from '../../components/CardElements';
 
 const ACAPS_SOURCE_DATASETS = {
   RISK_LIST: 'Risk list',
