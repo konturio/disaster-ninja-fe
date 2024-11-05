@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-BCOl6pZv.js","./index-DEeSWGoZ.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-Dwme-BQu.js","./index-D_w0_r9J.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-DEeSWGoZ.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-D_w0_r9J.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -5087,22 +5087,37 @@ class Formatter {
     this.logger = baseLogger.create("formatter");
     this.options = options;
     this.formats = {
-      number: createCachedFormatter((lng, opt) => (val) => new Intl.NumberFormat(lng, {
-        ...opt
-      }).format(val)),
-      currency: createCachedFormatter((lng, opt) => (val) => new Intl.NumberFormat(lng, {
-        ...opt,
-        style: "currency"
-      }).format(val)),
-      datetime: createCachedFormatter((lng, opt) => (val) => new Intl.DateTimeFormat(lng, {
-        ...opt
-      }).format(val)),
-      relativetime: createCachedFormatter((lng, opt) => (val) => new Intl.RelativeTimeFormat(lng, {
-        ...opt
-      }).format(val, opt.range || "day")),
-      list: createCachedFormatter((lng, opt) => (val) => new Intl.ListFormat(lng, {
-        ...opt
-      }).format(val))
+      number: createCachedFormatter((lng, opt) => {
+        const formatter = new Intl.NumberFormat(lng, {
+          ...opt
+        });
+        return (val) => formatter.format(val);
+      }),
+      currency: createCachedFormatter((lng, opt) => {
+        const formatter = new Intl.NumberFormat(lng, {
+          ...opt,
+          style: "currency"
+        });
+        return (val) => formatter.format(val);
+      }),
+      datetime: createCachedFormatter((lng, opt) => {
+        const formatter = new Intl.DateTimeFormat(lng, {
+          ...opt
+        });
+        return (val) => formatter.format(val);
+      }),
+      relativetime: createCachedFormatter((lng, opt) => {
+        const formatter = new Intl.RelativeTimeFormat(lng, {
+          ...opt
+        });
+        return (val) => formatter.format(val, opt.range || "day");
+      }),
+      list: createCachedFormatter((lng, opt) => {
+        const formatter = new Intl.ListFormat(lng, {
+          ...opt
+        });
+        return (val) => formatter.format(val);
+      })
     };
     this.init(options);
   }
@@ -35323,7 +35338,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-BCOl6pZv.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-Dwme-BQu.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
