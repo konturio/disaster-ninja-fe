@@ -46,99 +46,106 @@ React Cosmos dev server available via `pnpm run cosmos`
 Chrome browser will try to load local dev server with HSTS policy, which will cause error. To fix it,
 open `chrome://net-internals/#hsts`, go to section "Delete domain security policies" and delete policy for `localhost`
 
-## How to i18n
+## Internationalization (i18n)
 
-### Scripts
+### Overview
+We use i18next for runtime translations with gettext (.po/.pot) for translation management. This setup allows developers to work with JSON files while providing standard gettext files for translators.
 
-We use i18next + gettext convertion approach in our development toolchain.
-There are several scripts in package.json:
+### Available Scripts
 
-- i18n:export converts i18next to gettext
-- i18n:import converts gettext to i18next
-- i18n:update extracts new translation keys from code to common.json (`i18n.t` or `<Trans/>`) and also removes unused keys
-- lint:i18n:keys:identity is needed to see untranslated keys for all locales (make sure you ran i18n:import before as it compares i18next .json files)
-- i18n:gettext-sync is needed to keep all .po files synced with .pot file (marks non-compliant msgid as 'fuzzy', renames keys in .po according keys changes in .pot)
+- `i18n:export` - Converts i18next JSON to gettext (.po/.pot) format for translators
+- `i18n:import` - Converts gettext files back to i18next JSON format (runs automatically on install/build)
+- `i18n:update` - Scans codebase for translation keys and updates common.json
+- `i18n:gettext-sync` - Synchronizes .po files with the master .pot file
+- `i18n:report` - Generates diagnostic report about translation status
+- `lint:i18n:keys:identity` - Validates translation key consistency across languages
 
-### Keys format rules
+### Key Format Rules
 
-We are able to use all i18next abilities while creating keys: contexts, plurals, nesting, namespaces. ([More info ==>](https://www.i18next.com/translation-function/essentials))
-For better readability and navigation use nesting to put all related keys together.
-We've set up some configuration for i18next (src/core/localization/TranslationService.ts):
-
-- key format: snake case ("event_list")
-- nestingSeparator is default "." ("event_list.warning_title")
-- pluralSeparator ":" ("key:one" [More info ==>](https://www.i18next.com/translation-function/plurals#languages-with-multiple-plurals))
-- contextSeparator ":" ("friend:male" [More info ==>](https://www.i18next.com/translation-function/context#basic))
-- default namespace is "common" so no need to use is as a part of key
-
-Example:
-
-```
-"errors": {
-    "default": "Sorry, we are having issues, which will be fixed soon",
-    "timeout": "Request Timeout",
-    "cannot_connect": "Can't connect to server"
+We use a structured approach for translation keys:
+```javascript
+{
+    "errors": {
+        "default": "Sorry, we are having issues, which will be fixed soon",
+        "timeout": "Request Timeout",
+        "cannot_connect": "Can't connect to server"
+    }
 }
 ```
 
-### Step-by-step guide
+- Format: snake_case ("event_list")
+- Nesting separator: "." ("event_list.warning_title")
+- Plural separator: ":" ("key:one")
+- Context separator: ":" ("friend:male")
+- Default namespace: "common" (no need to specify in keys)
 
-1. To translate in React you need `i18n.t` or `<Trans/>`, so import it:
+### Implementation Guide
 
-```
+1. Import translation functions:
+```typescript
 import { i18n } from '~core/localization';
-```
-
-or
-
-```
+// or for components with HTML
 import { Trans } from 'react-i18next';
 ```
 
-Key difference between `i18n.t` and `<Trans/>` - last one tracks current language and changes translation right after language changed. 2. Then create translation keys for each translation with [rules](###keys-format-rules).
-The result will be like this:
+2. Use in code:
+```typescript
+// Simple strings
+const message = i18n.t('errors.default');
 
-```
-<Button onClick={onCancel} variant="invert-outline" size="small">
-    {i18n.t('cancel')}
-</Button>
-```
-
-Or in case of `<Trans/>` component:
-
-```
-<Trans i18nKey="about.p4">
-    Some content before
-    <a
-        href="https://www.kontur.io/portfolio/event-feed/"
-        target="_blank"
-        rel="noreferrer"
-    >
-        Kontur Event Feed
-    </a>
-    Some content after
+// With HTML
+<Trans i18nKey="about.description">
+    Content with <strong>HTML</strong> elements
 </Trans>
 ```
 
-3. Run update script:
-
-```
-pnpm run i18n:update
-```
-
-And then fill translations for extracted keys to src/core/localization/translations/en/common.json.
-If you use `<Trans/>` translations from it will be extracted automatically: `"p4": "Some content before<1>Kontur Event Feed</1>Some content after"`
-
-4. If key is new - just commit changes. It will be converted from .json to .pot file on pre-commit hook and added to commit. If you edit/remove existing key you need to sync it with other languages translations, so you need to run:
-
-```
-pnpm run i18n:export
-pnpm run i18n:gettext-sync
+3. After adding new translations:
+```bash
+pnpm run i18n:update    # Extract new keys
+pnpm run i18n:export    # Convert to .pot/.po
 ```
 
-Later translators will add new translations to .po files comparing them with .pot file.
-After you get new .po files from translators please run i18n:gettext-sync to keep them synced with .pot (because you may updated .pot when it was in translation)
-When you run or build a project .po files convert to i18next .json files, so new translations become available on frontend.
+### Automated Workflows
+
+The following processes are automated:
+
+1. **Pre-commit**:
+   - Validates JSON syntax for translation files
+   - Automatically exports new translations to .pot
+   - Adds generated .pot files to commit
+
+2. **Build Process**:
+   - Runs `i18n:import` during:
+     - `pnpm install` (postinstall)
+     - Development server start
+     - Production build
+     - Test execution
+
+### Project Configuration
+
+- Single namespace: `common`
+- Default language: `en`
+- Source files scanned: `.ts` and `.tsx`
+- Translation functions: `i18n.t()` and `t()`
+- ESLint validation via `i18n-json` plugin
+
+### Translation Workflow
+
+1. Developer adds/modifies translations in code
+2. Runs `i18n:update` to extract keys
+3. Updates English translations in `src/core/localization/translations/en/common.json`
+4. Commits changes (automatically generates .pot)
+5. Translators work with .po files
+6. After receiving translations:
+   - Run `i18n:gettext-sync` to synchronize
+   - Run `i18n:import` to convert to JSON
+
+### Common Issues
+
+- **Missing Translations**: Run `lint:i18n:keys:identity` to identify gaps
+- **HTML in Translations**: Use `<Trans/>` component with proper indexing
+- **Unsynchronized Files**: Run `i18n:gettext-sync` after receiving new translations
+- **Runtime Issues**: Ensure `i18n:import` was run before starting the app
 
 ## Available Scripts
 
@@ -170,7 +177,6 @@ Check types error in project
 ### postinstall
 
 Run this script after you run pnpm install
-This will fix deck-gl types
 
 ### upgrade:kontur
 

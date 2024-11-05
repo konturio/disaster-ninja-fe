@@ -2,16 +2,77 @@ coverage:
   status:
     project:
       default:
-        target: auto
+        target: 10%
+        threshold: 1%
+        informational: true
+      ui:
+        target: 8%
+        paths:
+          - "src/components/**"
+          - "src/widgets/**"
+          - "src/views/**"
+      core:
+        target: 25%
+        paths:
+          - "src/core/**"
+      features:
+        target: 15%
+        paths:
+          - "src/features/**"
+      utils:
+        target: 20%
+        paths:
+          - "src/utils/**"
+
+    patch:
+      default:
+        target: 20%
+        threshold: 2%
+      ui:
+        target: 15%
+        paths:
+          - "src/components/**"
+          - "src/widgets/**"
+          - "src/views/**"
+      core:
+        target: 35%
+        paths:
+          - "src/core/**"
+      features:
+        target: 25%
+        paths:
+          - "src/features/**"
+      utils:
+        target: 30%
+        paths:
+          - "src/utils/**"
+
+flags:
+  ui:
+    paths:
+      - src/components
+      - src/widgets
+      - src/views
+  core:
+    paths:
+      - src/core
+  features:
+    paths:
+      - src/features
+  utils:
+    paths:
+      - src/utils
 
 comment:
-  layout: 'reach, diff, flags, files'
+  layout: "reach, diff, flags, files"
   behavior: default
   require_changes: false
   require_base: false
   require_head: true
+  show_carryforward_flags: true
 
 ignore:
+  # Config files
   - '**/*.json'
   - 'configs'
   - 'cosmos'
@@ -23,3 +84,31 @@ ignore:
   - 'i18next-scanner.config.cjs'
   - 'cosmos.vite.config.ts'
   - '.dependency-cruiser.cjs'
+  
+  # Test-related files
+  - '**/*.test.ts'
+  - '**/*.test.tsx'
+  - '**/*.spec.ts'
+  - '**/*.spec.tsx'
+  - '**/tests/**'
+  - '**/test/**'
+  - '**/testing/**'
+  - '**/vitest/**'
+  
+  # Mock files
+  - '**/__mocks__/**'
+  - '**/mocks/**'
+  - '**/*.mock.ts'
+  - '**/*.mock.tsx'
+  
+  # Fixture files
+  - '**/__fixtures__/**'
+  - '**/fixtures/**'
+  - '**/*.fixture.ts'
+  - '**/*.fixture.tsx'
+  
+  # Test utilities
+  - '**/test-utils/**'
+  - '**/testUtils/**'
+  - '**/*.test-utils.ts'
+  - '**/*.test-utils.tsx'

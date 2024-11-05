@@ -176,8 +176,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       i18next:
-        specifier: ^23.16.3
-        version: 23.16.3
+        specifier: ^23.16.4
+        version: 23.16.4
       i18next-browser-languagedetector:
         specifier: ^8.0.0
         version: 8.0.0
@@ -228,7 +228,7 @@ importers:
         version: 2.0.11
       react-i18next:
         specifier: ^15.1.0
-        version: 15.1.0(i18next@23.16.3)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 15.1.0(i18next@23.16.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-lazily:
         specifier: ^0.9.2
         version: 0.9.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -3670,8 +3670,8 @@ packages:
     engines: {node: '>=12'}
     hasBin: true
 
-  i18next@23.16.3:
-    resolution: {integrity: sha512-e8q9gFyjrou5v/hBXgRwtWVK7Gp5So19Kf42spJlijGDfkin5abYFHlblonmD2GFYcsf9XIT7MpVuveJq/VCcA==}
+  i18next@23.16.4:
+    resolution: {integrity: sha512-9NIYBVy9cs4wIqzurf7nLXPyf3R78xYbxExVqHLK9od3038rjpyOEzW+XB130kZ1N4PZ9inTtJ471CRJ4Ituyg==}
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -6812,7 +6812,7 @@ snapshots:
 
   '@loaders.gl/loader-utils@3.4.14':
     dependencies:
-      '@babel/runtime': 7.23.6
+      '@babel/runtime': 7.25.0
       '@loaders.gl/worker-utils': 3.4.14
       '@probe.gl/stats': 4.0.4
 
@@ -6881,7 +6881,7 @@ snapshots:
 
   '@loaders.gl/worker-utils@3.4.14':
     dependencies:
-      '@babel/runtime': 7.23.6
+      '@babel/runtime': 7.25.0
 
   '@loaders.gl/worker-utils@3.4.15':
     dependencies:
@@ -6982,7 +6982,7 @@ snapshots:
 
   '@math.gl/core@3.6.3':
     dependencies:
-      '@babel/runtime': 7.23.6
+      '@babel/runtime': 7.25.0
       '@math.gl/types': 3.6.3
       gl-matrix: 3.4.3
 
@@ -7010,7 +7010,7 @@ snapshots:
 
   '@math.gl/web-mercator@3.6.3':
     dependencies:
-      '@babel/runtime': 7.23.6
+      '@babel/runtime': 7.25.0
       gl-matrix: 3.4.3
 
   '@nebula.gl/edit-modes@1.1.0-alpha.5':
@@ -7279,7 +7279,7 @@ snapshots:
 
   '@probe.gl/stats@4.0.4':
     dependencies:
-      '@babel/runtime': 7.23.6
+      '@babel/runtime': 7.25.0
 
   '@react-dnd/asap@5.0.2': {}
 
@@ -9008,7 +9008,7 @@ snapshots:
 
   downshift@8.3.1(react@18.2.0):
     dependencies:
-      '@babel/runtime': 7.24.5
+      '@babel/runtime': 7.25.0
       compute-scroll-into-view: 3.1.0
       prop-types: 15.8.1
       react: 18.2.0
@@ -10019,7 +10019,7 @@ snapshots:
       eol: 0.9.1
       esprima-next: 5.8.4
       gulp-sort: 2.0.0
-      i18next: 23.16.3
+      i18next: 23.16.4
       lodash: 4.17.21
       parse5: 6.0.1
       sortobject: 4.17.0
@@ -10027,7 +10027,7 @@ snapshots:
       vinyl: 3.0.0
       vinyl-fs: 4.0.0
 
-  i18next@23.16.3:
+  i18next@23.16.4:
     dependencies:
       '@babel/runtime': 7.25.0
 
@@ -11405,11 +11405,11 @@ snapshots:
 
   react-gtm-module@2.0.11: {}
 
-  react-i18next@15.1.0(i18next@23.16.3)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  react-i18next@15.1.0(i18next@23.16.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.25.0
       html-parse-stringify: 3.0.1
-      i18next: 23.16.3
+      i18next: 23.16.4
       react: 18.2.0
     optionalDependencies:
       react-dom: 18.2.0(react@18.2.0)
