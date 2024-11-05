@@ -48,6 +48,7 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
     case ACAPS_SIMPLE_LAYER_ID:
       return getAcapsPanelData(featuresList);
     default:
+      console.error(`Layer Features panel: unsupported layerId: ${featuresPanelLayerId}`);
       return [];
   }
 }
