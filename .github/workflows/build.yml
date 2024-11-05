@@ -71,7 +71,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
-          flags: unittests
+          flags: ui,core,features,utils,views
           verbose: true
 
   build:
