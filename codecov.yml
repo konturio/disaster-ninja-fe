@@ -10,6 +10,7 @@ coverage:
         paths:
           - "src/components/**"
           - "src/widgets/**"
+          - "src/views/**"
       core:
         target: 25%
         paths:
@@ -22,10 +23,6 @@ coverage:
         target: 20%
         paths:
           - "src/utils/**"
-      views:
-        target: 10%
-        paths:
-          - "src/views/**"
 
     patch:
       default:
@@ -36,6 +33,7 @@ coverage:
         paths:
           - "src/components/**"
           - "src/widgets/**"
+          - "src/views/**"
       core:
         target: 35%
         paths:
@@ -48,16 +46,13 @@ coverage:
         target: 30%
         paths:
           - "src/utils/**"
-      views:
-        target: 20%
-        paths:
-          - "src/views/**"
 
 flags:
   ui:
     paths:
       - src/components
       - src/widgets
+      - src/views
   core:
     paths:
       - src/core
@@ -67,9 +62,6 @@ flags:
   utils:
     paths:
       - src/utils
-  views:
-    paths:
-      - src/views
 
 comment:
   layout: "reach, diff, flags, files"

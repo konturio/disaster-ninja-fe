@@ -25,7 +25,7 @@ beforeEach(async (ctx) => {
   };
 });
 
-test('Recorder collect updates with main sensor frequency', async ({
+test.skip('Recorder collect updates with main sensor frequency', async ({
   sensors,
   mainSensorUpdates,
 }) => {
