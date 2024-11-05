@@ -138,12 +138,12 @@ export const routerConfig: AppRouterConfig = {
       icon: <Info24 />,
       view: (
         <PagesDocument
-          // @ts-expect-error assetUrl might be undefined but PagesDocument handles this case
           doc={[
             {
               type: 'md',
               url:
-                configRepo.get().features[AppFeature.ABOUT_PAGE]?.assetUrl ?? 'about.md',
+                /* @ts-expect-error assetUrl might be undefined but PagesDocument handles this case */ configRepo.get()
+                  .features[AppFeature.ABOUT_PAGE]?.assetUrl ?? 'about.md',
             },
           ]}
           key="about"
