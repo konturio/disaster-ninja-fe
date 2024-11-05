@@ -72,9 +72,5 @@ const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) 
   } catch (e: unknown) {
     throw new Error(i18n.t('layer_features_panel.error_loading'));
   }
-  // in case there is no error but response data is empty
-  if (!responseData?.length) {
-    throw new Error(i18n.t('layer_features_panel.no_features'));
-  }
   return responseData;
 }, 'fetchLayerFeaturesResource').pipe(withDataAtom(null), withErrorAtom());
