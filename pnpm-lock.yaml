@@ -58,8 +58,8 @@ importers:
         specifier: ^3.1.4
         version: 3.1.4(patch_hash=cvif2474bcnojmuyn3echjb57a)
       '@reatom/framework':
-        specifier: ^3.4.53
-        version: 3.4.53
+        specifier: ^3.4.54
+        version: 3.4.54
       '@reatom/npm-react':
         specifier: ^3.10.0
         version: 3.10.0(react@18.2.0)
@@ -67,8 +67,8 @@ importers:
         specifier: ^3.1.2
         version: 3.1.2(@reatom/core-v2@3.1.4(patch_hash=cvif2474bcnojmuyn3echjb57a))(react@18.2.0)
       '@sentry/react':
-        specifier: ^8.35.0
-        version: 8.35.0(react@18.2.0)
+        specifier: ^8.37.1
+        version: 8.37.1(react@18.2.0)
       '@turf/area':
         specifier: 6.5.0
         version: 6.5.0
@@ -1412,8 +1412,8 @@ packages:
   '@react-dnd/shallowequal@4.0.2':
     resolution: {integrity: sha512-/RVXdLvJxLg4QKvMoM5WlwNR9ViO9z8B/qPcc+C0Sa/teJY7QG7kJ441DwzOjMYEY7GmU4dj5EcGHIkKZiQZCA==}
 
-  '@reatom/async@3.16.2':
-    resolution: {integrity: sha512-/4BCFsFhpZYsmT+OPJqb5a78Mh0jOOBmrh/G7hN3zB3nlRmcjOXN/JaZd5xFerOiI5Ak6HPlmUM6I6eJmScEzQ==}
+  '@reatom/async@3.16.3':
+    resolution: {integrity: sha512-6dixuVInos/A1QaiICqCy0+IWTEx+Ae60Bv+hcSoU6Mo/23eC3OWh2F8unLTd4zmbR22nPRgS4U6NlUh33xHIg==}
 
   '@reatom/core-v2@3.1.4':
     resolution: {integrity: sha512-BCzyyTt2mm1PlwOyezYBzF4To3x4WzDTIDzNes2BJ8bWmvZfXT1FHIFjBR0uMSPQQ3bFienNK4ntHQy2CXcowA==}
@@ -1421,17 +1421,20 @@ packages:
   '@reatom/core@3.9.0':
     resolution: {integrity: sha512-ExlVfQ0rAkxnwWgbxWeNG4S5eNeTFpNlbFZMQHJ5MI+It7aYkqOie3Eh0ssk6AuvEPxzWM8+glsaZFQ6fPmTow==}
 
-  '@reatom/effects@3.10.0':
-    resolution: {integrity: sha512-k6Qi73RlgvyNmSGfzoIYY6xvxRrdCmWeYiAi46tK5wSaPsUZYqg3FeIudTfeXc7jo2Q/zQD8rjayhIIFdYWhwQ==}
+  '@reatom/effects@3.10.1':
+    resolution: {integrity: sha512-ZOopSf841e931JN/w92WNEYe2MJgaP6ncBCc5mLQTjXt0F7+Ry4oobYjWKRjwEreH7VrgPfOr3ZxCdQ9TKMzHg==}
 
   '@reatom/effects@3.7.3':
     resolution: {integrity: sha512-9DrUsGSRXtt0TMYtzNRc2xtkZ+35OcvjILppcvwYlgMWoA7s1TJUCLEtHOngzVqQYrJMW+Dzw1t1xLlLVXMQUg==}
 
-  '@reatom/framework@3.4.53':
-    resolution: {integrity: sha512-8VPB/100wWR2cQmTCUUUE1ZAaZ8qdyb/+xG6xnD3HbvOkUSCpAR/L2Ur0goZ/O84/ZnP7j0YU1mic54PCUNdeg==}
+  '@reatom/framework@3.4.54':
+    resolution: {integrity: sha512-xOkp9JJvGe8yFlY3j6Oz0LxxfxmZqvVySbz2GuuRvirmDgUrunjna7HXKtacFC67js6MC1iU/S4MfNQwsCfTpA==}
 
   '@reatom/hooks@3.5.5':
     resolution: {integrity: sha512-6exYUEB9MuqOaIMEaeiapar/TLx7fkrZnULBg5+gW2krhugzpDufapN6C7taiQuPS58NKLOQhVvz+ZzSQN5HbA==}
+
+  '@reatom/hooks@3.6.0':
+    resolution: {integrity: sha512-N3rqueSYvbQmuC2M2arF5Y7FHBK/rujK/gXXrVTTxXsetHMbwJAs7mxSB5a21s3eTHfCeOiuFCa8/qP7YL3ZVg==}
 
   '@reatom/lens@3.11.4':
     resolution: {integrity: sha512-c0mBckkxgr7HtoArmjpw9NNr5LTzdu13sdtw0JAinBz9WOCaoVMFqAbxSxeTWNzP30SUDfe56+1RoOixf+q/uQ==}
@@ -1446,9 +1449,6 @@ packages:
     resolution: {integrity: sha512-lHP9K9MAOn2OFTzGQ/Smf/W/nw+ATKLZaawVSIeicl3piddBRBeCda4E34O6Ov6gp60baDH4HED2JHQXMWnc0g==}
     peerDependencies:
       react: '>=16.8.0'
-
-  '@reatom/primitives@3.7.2':
-    resolution: {integrity: sha512-AR4gJye9StjpPYbqR51m6fWPvIx8rmU/S9EWDpMytbKGC7I/ydCpHqoaWL+LrjHF79I7+RO88s88LVIBFOvJFg==}
 
   '@reatom/primitives@3.7.3':
     resolution: {integrity: sha512-HzG2aoGzE2W410ZSqnT8hd21Xd+bNMIkN03tq7dWgZ4OAZKawVnxdeB8bHu+oA5ppxICfrY0HtPUUeQTbvxfgQ==}
@@ -1553,42 +1553,42 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
-  '@sentry-internal/browser-utils@8.35.0':
-    resolution: {integrity: sha512-uj9nwERm7HIS13f/Q52hF/NUS5Al8Ma6jkgpfYGeppYvU0uSjPkwMogtqoJQNbOoZg973tV8qUScbcWY616wNA==}
+  '@sentry-internal/browser-utils@8.37.1':
+    resolution: {integrity: sha512-OSR/V5GCsSCG7iapWtXCT/y22uo3HlawdEgfM1NIKk1mkP15UyGQtGEzZDdih2H+SNuX1mp9jQLTjr5FFp1A5w==}
     engines: {node: '>=14.18'}
 
-  '@sentry-internal/feedback@8.35.0':
-    resolution: {integrity: sha512-7bjSaUhL0bDArozre6EiIhhdWdT/1AWNWBC1Wc5w1IxEi5xF7nvF/FfvjQYrONQzZAI3HRxc45J2qhLUzHBmoQ==}
+  '@sentry-internal/feedback@8.37.1':
+    resolution: {integrity: sha512-Se25NXbSapgS2S+JssR5YZ48b3OY4UGmAuBOafgnMW91LXMxRNWRbehZuNUmjjHwuywABMxjgu+Yp5uJDATX+g==}
     engines: {node: '>=14.18'}
 
-  '@sentry-internal/replay-canvas@8.35.0':
-    resolution: {integrity: sha512-TUrH6Piv19kvHIiRyIuapLdnuwxk/Un/l1WDCQfq7mK9p1Pac0FkQ7Uufjp6zY3lyhDDZQ8qvCS4ioCMibCwQg==}
+  '@sentry-internal/replay-canvas@8.37.1':
+    resolution: {integrity: sha512-1JLAaPtn1VL5vblB0BMELFV0D+KUm/iMGsrl4/JpRm0Ws5ESzQl33DhXVv1IX/ZAbx9i14EjR7MG9+Hj70tieQ==}
     engines: {node: '>=14.18'}
 
-  '@sentry-internal/replay@8.35.0':
-    resolution: {integrity: sha512-3wkW03vXYMyWtTLxl9yrtkV+qxbnKFgfASdoGWhXzfLjycgT6o4/04eb3Gn71q9aXqRwH17ISVQbVswnRqMcmA==}
+  '@sentry-internal/replay@8.37.1':
+    resolution: {integrity: sha512-E/Plhisk/pXJjOdOU12sg8m/APTXTA21iEniidP6jW3/+O0tD/H/UovEqa4odNTqxPMa798xHQSQNt5loYiaLA==}
     engines: {node: '>=14.18'}
 
-  '@sentry/browser@8.35.0':
-    resolution: {integrity: sha512-WHfI+NoZzpCsmIvtr6ChOe7yWPLQyMchPnVhY3Z4UeC70bkYNdKcoj/4XZbX3m0D8+71JAsm0mJ9s9OC3Ue6MQ==}
+  '@sentry/browser@8.37.1':
+    resolution: {integrity: sha512-5ym+iGiIpjIKKpMWi9S3/tXh9xneS+jqxwRTJqed3cb8i4ydfMAAP8sM3U8xMCWWABpWyIUW+fpewC0tkhE1aQ==}
     engines: {node: '>=14.18'}
 
-  '@sentry/core@8.35.0':
-    resolution: {integrity: sha512-Ci0Nmtw5ETWLqQJGY4dyF+iWh7PWKy6k303fCEoEmqj2czDrKJCp7yHBNV0XYbo00prj2ZTbCr6I7albYiyONA==}
+  '@sentry/core@8.37.1':
+    resolution: {integrity: sha512-82csXby589iDupM3VgCHJeWZagUyEEaDnbFcoZ/Z91QX2Sjq8FcF5OsforoXjw09i0XTFqlkFAnQVpDBmMXcpQ==}
     engines: {node: '>=14.18'}
 
-  '@sentry/react@8.35.0':
-    resolution: {integrity: sha512-8Y+s4pE9hvT2TwSo5JS/Enw2cNFlwiLcJDNGCj/Hho+FePFYA59hbN06ouTHWARnO+swANHKZQj24Wp57p1/tg==}
+  '@sentry/react@8.37.1':
+    resolution: {integrity: sha512-HanDqBFTgIUhUsYztAHhSti+sEhQ8YopAymXgnpqkJ7j1PLHXZgQAre6M4Uvixu28WS5MDHC1onnAIBDgYRDYw==}
     engines: {node: '>=14.18'}
     peerDependencies:
       react: ^16.14.0 || 17.x || 18.x || 19.x
 
-  '@sentry/types@8.35.0':
-    resolution: {integrity: sha512-AVEZjb16MlYPifiDDvJ19dPQyDn0jlrtC1PHs6ZKO+Rzyz+2EX2BRdszvanqArldexPoU1p5Bn2w81XZNXThBA==}
+  '@sentry/types@8.37.1':
+    resolution: {integrity: sha512-ryMOTROLSLINKFEbHWvi7GigNrsQhsaScw2NddybJGztJQ5UhxIGESnxGxWCufBmWFDwd7+5u0jDPCVUJybp7w==}
     engines: {node: '>=14.18'}
 
-  '@sentry/utils@8.35.0':
-    resolution: {integrity: sha512-MdMb6+uXjqND7qIPWhulubpSeHzia6HtxeJa8jYI09OCvIcmNGPydv/Gx/LZBwosfMHrLdTWcFH7Y7aCxrq7cg==}
+  '@sentry/utils@8.37.1':
+    resolution: {integrity: sha512-Qtn2IfpII12K17txG/ZtTci35XYjYi4CxbQ3j7nXY7toGv/+MqPXwV5q2i9g94XaSXlE5Wy9/hoCZoZpZs/djA==}
     engines: {node: '>=14.18'}
 
   '@sinonjs/commons@3.0.1':
@@ -6714,13 +6714,8 @@ snapshots:
 
   '@loaders.gl/loader-utils@3.4.14':
     dependencies:
-<<<<<<< HEAD
       '@babel/runtime': 7.25.0
-      '@loaders.gl/worker-utils': 3.4.14
-=======
-      '@babel/runtime': 7.23.6
       '@loaders.gl/worker-utils': 3.4.15
->>>>>>> f57ea0af (fixes)
       '@probe.gl/stats': 4.0.4
 
   '@loaders.gl/loader-utils@3.4.15':
@@ -6786,13 +6781,6 @@ snapshots:
       deep-strict-equal: 0.2.0
       lerc: 4.0.4
 
-<<<<<<< HEAD
-  '@loaders.gl/worker-utils@3.4.14':
-    dependencies:
-      '@babel/runtime': 7.25.0
-
-=======
->>>>>>> f57ea0af (fixes)
   '@loaders.gl/worker-utils@3.4.15':
     dependencies:
       '@babel/runtime': 7.25.0
@@ -7185,12 +7173,12 @@ snapshots:
 
   '@react-dnd/shallowequal@4.0.2': {}
 
-  '@reatom/async@3.16.2':
+  '@reatom/async@3.16.3':
     dependencies:
       '@reatom/core': 3.9.0
-      '@reatom/effects': 3.10.0
-      '@reatom/hooks': 3.5.5
-      '@reatom/primitives': 3.7.2
+      '@reatom/effects': 3.10.1
+      '@reatom/hooks': 3.6.0
+      '@reatom/primitives': 3.7.3
       '@reatom/utils': 3.11.0
 
   '@reatom/core-v2@3.1.4(patch_hash=cvif2474bcnojmuyn3echjb57a)':
@@ -7199,7 +7187,7 @@ snapshots:
 
   '@reatom/core@3.9.0': {}
 
-  '@reatom/effects@3.10.0':
+  '@reatom/effects@3.10.1':
     dependencies:
       '@reatom/core': 3.9.0
       '@reatom/utils': 3.11.0
@@ -7209,12 +7197,12 @@ snapshots:
       '@reatom/core': 3.9.0
       '@reatom/utils': 3.11.0
 
-  '@reatom/framework@3.4.53':
+  '@reatom/framework@3.4.54':
     dependencies:
-      '@reatom/async': 3.16.2
+      '@reatom/async': 3.16.3
       '@reatom/core': 3.9.0
-      '@reatom/effects': 3.10.0
-      '@reatom/hooks': 3.5.5
+      '@reatom/effects': 3.10.1
+      '@reatom/hooks': 3.6.0
       '@reatom/lens': 3.11.4
       '@reatom/logger': 3.8.4
       '@reatom/primitives': 3.7.3
@@ -7226,11 +7214,17 @@ snapshots:
       '@reatom/effects': 3.7.3
       '@reatom/utils': 3.11.0
 
+  '@reatom/hooks@3.6.0':
+    dependencies:
+      '@reatom/core': 3.9.0
+      '@reatom/effects': 3.10.1
+      '@reatom/utils': 3.11.0
+
   '@reatom/lens@3.11.4':
     dependencies:
       '@reatom/core': 3.9.0
-      '@reatom/effects': 3.10.0
-      '@reatom/hooks': 3.5.5
+      '@reatom/effects': 3.10.1
+      '@reatom/hooks': 3.6.0
       '@reatom/primitives': 3.7.3
       '@reatom/utils': 3.11.0
 
@@ -7254,11 +7248,6 @@ snapshots:
       '@reatom/utils': 3.11.0
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
-
-  '@reatom/primitives@3.7.2':
-    dependencies:
-      '@reatom/core': 3.9.0
-      '@reatom/utils': 3.11.0
 
   '@reatom/primitives@3.7.3':
     dependencies:
@@ -7329,61 +7318,61 @@ snapshots:
 
   '@rtsao/scc@1.1.0': {}
 
-  '@sentry-internal/browser-utils@8.35.0':
+  '@sentry-internal/browser-utils@8.37.1':
     dependencies:
-      '@sentry/core': 8.35.0
-      '@sentry/types': 8.35.0
-      '@sentry/utils': 8.35.0
+      '@sentry/core': 8.37.1
+      '@sentry/types': 8.37.1
+      '@sentry/utils': 8.37.1
 
-  '@sentry-internal/feedback@8.35.0':
+  '@sentry-internal/feedback@8.37.1':
     dependencies:
-      '@sentry/core': 8.35.0
-      '@sentry/types': 8.35.0
-      '@sentry/utils': 8.35.0
+      '@sentry/core': 8.37.1
+      '@sentry/types': 8.37.1
+      '@sentry/utils': 8.37.1
 
-  '@sentry-internal/replay-canvas@8.35.0':
+  '@sentry-internal/replay-canvas@8.37.1':
     dependencies:
-      '@sentry-internal/replay': 8.35.0
-      '@sentry/core': 8.35.0
-      '@sentry/types': 8.35.0
-      '@sentry/utils': 8.35.0
+      '@sentry-internal/replay': 8.37.1
+      '@sentry/core': 8.37.1
+      '@sentry/types': 8.37.1
+      '@sentry/utils': 8.37.1
 
-  '@sentry-internal/replay@8.35.0':
+  '@sentry-internal/replay@8.37.1':
     dependencies:
-      '@sentry-internal/browser-utils': 8.35.0
-      '@sentry/core': 8.35.0
-      '@sentry/types': 8.35.0
-      '@sentry/utils': 8.35.0
+      '@sentry-internal/browser-utils': 8.37.1
+      '@sentry/core': 8.37.1
+      '@sentry/types': 8.37.1
+      '@sentry/utils': 8.37.1
 
-  '@sentry/browser@8.35.0':
+  '@sentry/browser@8.37.1':
     dependencies:
-      '@sentry-internal/browser-utils': 8.35.0
-      '@sentry-internal/feedback': 8.35.0
-      '@sentry-internal/replay': 8.35.0
-      '@sentry-internal/replay-canvas': 8.35.0
-      '@sentry/core': 8.35.0
-      '@sentry/types': 8.35.0
-      '@sentry/utils': 8.35.0
+      '@sentry-internal/browser-utils': 8.37.1
+      '@sentry-internal/feedback': 8.37.1
+      '@sentry-internal/replay': 8.37.1
+      '@sentry-internal/replay-canvas': 8.37.1
+      '@sentry/core': 8.37.1
+      '@sentry/types': 8.37.1
+      '@sentry/utils': 8.37.1
 
-  '@sentry/core@8.35.0':
+  '@sentry/core@8.37.1':
     dependencies:
-      '@sentry/types': 8.35.0
-      '@sentry/utils': 8.35.0
+      '@sentry/types': 8.37.1
+      '@sentry/utils': 8.37.1
 
-  '@sentry/react@8.35.0(react@18.2.0)':
+  '@sentry/react@8.37.1(react@18.2.0)':
     dependencies:
-      '@sentry/browser': 8.35.0
-      '@sentry/core': 8.35.0
-      '@sentry/types': 8.35.0
-      '@sentry/utils': 8.35.0
+      '@sentry/browser': 8.37.1
+      '@sentry/core': 8.37.1
+      '@sentry/types': 8.37.1
+      '@sentry/utils': 8.37.1
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
 
-  '@sentry/types@8.35.0': {}
+  '@sentry/types@8.37.1': {}
 
-  '@sentry/utils@8.35.0':
+  '@sentry/utils@8.37.1':
     dependencies:
-      '@sentry/types': 8.35.0
+      '@sentry/types': 8.37.1
 
   '@sinonjs/commons@3.0.1':
     dependencies:
@@ -11946,7 +11935,7 @@ snapshots:
   terser@5.31.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.13.0
+      acorn: 8.14.0
       commander: 2.20.3
       source-map-support: 0.5.21
     optional: true
