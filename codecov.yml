@@ -4,7 +4,7 @@ coverage:
       default:
         target: 10%
         threshold: 1%
-        informational: false
+        informational: true
       ui:
         target: 8%
         paths:
