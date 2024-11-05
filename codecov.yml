@@ -3,6 +3,11 @@ coverage:
     project:
       default:
         target: auto
+        informational: true
+    patch:
+      default:
+        target: auto
+        informational: true
 
 comment:
   layout: 'reach, diff, flags, files'
@@ -10,6 +15,7 @@ comment:
   require_changes: false
   require_base: false
   require_head: true
+  show_carryforward_flags: true
 
 ignore:
   - '**/*.json'
