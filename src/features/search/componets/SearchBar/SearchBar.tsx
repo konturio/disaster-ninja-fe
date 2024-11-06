@@ -1,45 +1,61 @@
-import cn from 'clsx';
 import { SelectItem } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/npm-react';
-import { useSearchBar } from '~features/search/hooks/useSearchBar';
+import { useMemo, useRef } from 'react';
+import cn from 'clsx';
+import { searchLocationsAtom } from '~features/search/searchLocationAtoms';
 import {
-  resetAction,
-  searchQueryAction,
-  searchLocationsAtom,
   itemSelectAction,
-} from '~features/search/searchLocationAtoms';
-import { fetchMCDAAsyncResource, MCDAAtom } from '~features/search/searchMcdaAtoms';
-import { MCDASearchResult } from '~features/search/componets/MCDASearch/MCDASearchResult';
-import { FeatureFlag } from '~core/shared_state';
-import { configRepo } from '~core/config';
+  handleKeyDownAction,
+  highlightedIndexAtom,
+  inputAtom,
+  isMenuOpenAtom,
+  searchAction,
+  resetSearchAction,
+  showInfoBlockAtom,
+  aggregatedSearchAtom,
+} from '~features/search/searchAtoms';
+import { useOutsideClick } from '~utils/hooks/useOutsideClick';
+import { i18n } from '~core/localization';
+import { isMCDASearchEnabled, MCDAAtom } from '~features/search/searchMcdaAtoms';
 import { SearchInput } from '../SearchInput/SearchInput';
 import style from './SearchBar.module.css';
 
 export function SearchBar() {
-  const featureFlags = configRepo.get().features;
+  const [isMenuOpen, setIsMenuOpen] = useAtom(isMenuOpenAtom);
+  const [highlightedIndex] = useAtom(highlightedIndexAtom);
+  const [showInfoBlock] = useAtom(showInfoBlockAtom);
 
-  const onSearch = useAction(searchQueryAction);
-  const onReset = useAction(resetAction);
-  const onItemSelect = useAction(itemSelectAction);
+  const inputPlaceholder = isMCDASearchEnabled
+    ? i18n.t('search.input_placeholder_mcda')
+    : i18n.t('search.input_placeholder');
 
-  const [{ data: locations, error, loading, emptyResult }] = useAtom(searchLocationsAtom);
+  const searchInputEl = useRef<HTMLInputElement>();
+  const searchBarRef = useOutsideClick<HTMLDivElement>(() => setIsMenuOpen(false));
 
-  const {
-    inputProps,
-    isMenuOpen,
-    highlightedIndex,
-    handleItemSelect,
-    handleSearch,
-    handleReset,
-    searchBarRef,
-  } = useSearchBar({
-    items: locations,
-    error: error,
-    emptyResult,
-    onSearch,
-    onItemSelect,
-    onReset,
-  });
+  const handleInputKeyDown = useAction(handleKeyDownAction);
+  const handleSearch = useAction(searchAction);
+  const handleItemSelect = useAction(itemSelectAction);
+  const onReset = useAction(resetSearchAction);
+
+  const handleReset = () => {
+    searchInputEl.current?.focus();
+    onReset();
+  };
+
+  const [{ error, loading, emptyResult }] = useAtom(searchLocationsAtom);
+  const [state] = useAtom(MCDAAtom);
+  const [aggregatedResults] = useAtom(aggregatedSearchAtom);
+
+  const inputProps = useMemo(
+    () => ({
+      ref: searchInputEl,
+      onKeyDown: handleInputKeyDown,
+      onClick: () => {
+        setIsMenuOpen(true);
+      },
+    }),
+    [handleInputKeyDown, setIsMenuOpen],
+  );
 
   const renderError = () => (
     <SelectItem
@@ -49,6 +65,7 @@ export function SearchBar() {
         title: 'Something went wrong. Please try again',
         value: null,
       }}
+      className={style.listItem}
       itemProps={{ role: 'option' }}
     />
   );
@@ -57,48 +74,111 @@ export function SearchBar() {
     <SelectItem
       key="no-data"
       item={{ disabled: true, title: 'No results', value: null }}
+      className={style.listItem}
       itemProps={{ role: 'option' }}
     />
   );
 
-  const renderItems = () => (
+  const renderItems = () => {
+    return (
+      <>
+        {aggregatedResults.map((item, index) => {
+          switch (item.source) {
+            case 'locations':
+              return (
+                <SelectItem
+                  key={item.properties.osm_id}
+                  item={{
+                    title: item.properties.display_name,
+                    value: item.properties.osm_id,
+                    hasDivider: true,
+                  }}
+                  highlighted={highlightedIndex === index}
+                  className={style.listItem}
+                  itemProps={{
+                    onClick: () => handleItemSelect(item),
+                    role: 'option',
+                  }}
+                />
+              );
+            case 'mcda':
+              return (
+                <SelectItem
+                  key={item.name}
+                  className={cn(style.listItem, style.createMcdaAnalysis)}
+                  item={{
+                    title:
+                      '✨' + i18n.t('search.mcda_create_analysis') + ` "${item.name}"`,
+                    value: item.name,
+                    hasDivider: true,
+                  }}
+                  highlighted={highlightedIndex === index}
+                  itemProps={{
+                    onClick: () => handleItemSelect(item),
+                    role: 'option',
+                  }}
+                ></SelectItem>
+              );
+            default:
+              return null;
+          }
+        })}
+      </>
+    );
+  };
+
+  const LocationSearchStatus = () => (
     <>
-      {locations.map((item, index) => (
-        <SelectItem
-          item={{ ...item, hasDivider: true }}
-          key={item.value}
-          highlighted={highlightedIndex === index}
-          className={style.searchItem}
-          itemProps={{ onClick: () => handleItemSelect(index), role: 'option' }}
-        />
-      ))}
+      {error && renderError()}
+      {emptyResult && renderNoResults()}
     </>
   );
-
-  const renderMenu = () => {
-    if (error) return renderError();
-    if (emptyResult) return renderNoResults();
-    if (locations.length) return renderItems();
-
-    return null;
-  };
 
   return (
     <div className={style.searchBar} ref={searchBarRef}>
       <SearchInput
+        inputAtom={inputAtom}
         inputProps={inputProps}
         isLoading={loading}
-        placeholder="Search location"
+        placeholder={inputPlaceholder}
         onReset={handleReset}
         onSearch={handleSearch}
-        classes={{ inputWrapper: style.searchInputWrapper, button: style.searchItem }}
+        classes={{ inputWrapper: style.searchInputWrapper }}
       />
       {isMenuOpen && (
-        <ul className={cn(style.searchMenu)}>
-          {featureFlags[FeatureFlag.LLM_MCDA] && <MCDASearchResult />}
-          {renderMenu()}
-        </ul>
+        <>
+          {showInfoBlock && (
+            <div className={style.infoBanner}>{i18n.t('search.info_block')}</div>
+          )}
+          <ul className={style.resultsList}>
+            {isMCDASearchEnabled && <MCDASearchStatus state={state} />}
+            {renderItems()}
+            <LocationSearchStatus />
+          </ul>
+        </>
       )}
     </div>
   );
+}
+
+export function MCDASearchStatus({ state }) {
+  const { error, loading } = state;
+
+  if (error?.status === 422)
+    return (
+      <li className={cn(style.mcdaStatusItem)}>{i18n.t('search.mcda_no_result')}</li>
+    );
+  if (error)
+    return (
+      <li className={cn(style.mcdaStatusItem, style.error)}>
+        {i18n.t('search.mcda_error_message')}
+      </li>
+    );
+  if (loading)
+    return (
+      <li className={cn(style.mcdaStatusItem, style.loading)}>
+        {i18n.t('search.mcda_loading_message')}
+      </li>
+    );
+  return null;
 }
