@@ -25,10 +25,7 @@ const layerFeaturesPanelConfig =
 export const featuresPanelLayerId = layerFeaturesPanelConfig?.layerId;
 const requiresEnabledLayer = layerFeaturesPanelConfig?.requiresEnabledLayer;
 
-export const currentFeatureIdAtom = atom<number | undefined>(
-  undefined,
-  'currentFeatureIdAtom',
-);
+export const currentFeatureIdAtom = atom<number | null>(null, 'currentFeatureIdAtom');
 
 export const layerFeaturesCollectionAtom = atom<FeatureCardCfg[] | null>((ctx) => {
   const layerFeatures = ctx.spy(fetchLayerFeaturesResource.dataAtom);
@@ -55,7 +52,7 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
 const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) => {
   const enabledLayers = ctx.spy(enabledLayersAtom.v3atom);
   const focusedGeoJSON = ctx.spy(focusedGeometryAtom.v3atom)?.geometry;
-  currentFeatureIdAtom(ctx, undefined);
+  currentFeatureIdAtom(ctx, null);
   if (
     !featuresPanelLayerId ||
     !focusedGeoJSON ||

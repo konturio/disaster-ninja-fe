@@ -90,7 +90,7 @@ export function LayerFeaturesPanel() {
           <ShortState
             openFullState={openFullState}
             feature={
-              currentFeatureId !== undefined ? featuresList[currentFeatureId] : undefined
+              currentFeatureId !== null ? featuresList[currentFeatureId] : undefined
             }
           />
         ),
