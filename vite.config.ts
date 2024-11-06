@@ -96,12 +96,9 @@ export default ({ mode }) => {
       // Codecov Vite plugin after all other plugins
       codecovVitePlugin({
         debug: true,
-        enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+        enableBundleAnalysis: !!process.env.CODECOV_TOKEN,
         bundleName: process.env.GITHUB_REPOSITORY || 'dn',
         uploadToken: process.env.CODECOV_TOKEN,
-        uploadOverrides: {
-          sha: process.env.GH_COMMIT_SHA,
-        },
       }),
       mode === 'development' && mkcert(),
     ],
