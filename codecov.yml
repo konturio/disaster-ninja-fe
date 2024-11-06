@@ -61,10 +61,6 @@ coverage:
 github_checks:
   annotations: false
 
-# Add Bundle Analysis configuration
-bundle_analysis:
-  status: informational
-
 comment:
   layout: 'reach, diff, components, files'
   behavior: default

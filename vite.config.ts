@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react-swc';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
+import { codecovVitePlugin } from '@codecov/vite-plugin';
 // @ts-ignore
 import { selectConfig, useConfig } from './scripts/select-config.mjs';
 // @ts-ignore
@@ -12,7 +13,6 @@ import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
 import { proxyConfig } from './vite.proxy';
 import buildSizeReport from 'bundle-size-diff/plugin';
 import mkcert from 'vite-plugin-mkcert';
-import { codecovVitePlugin } from '@codecov/vite-plugin';
 
 const parseEnv = <T extends Record<string, string | boolean>>(
   env: Record<string, string>,
@@ -97,8 +97,9 @@ export default ({ mode }) => {
       codecovVitePlugin({
         debug: true,
         enableBundleAnalysis: !!process.env.CODECOV_TOKEN,
-        bundleName: process.env.GITHUB_REPOSITORY || 'dn',
+        bundleName: 'disaster-ninja-fe', //process.env.GITHUB_REPOSITORY
         uploadToken: process.env.CODECOV_TOKEN,
+        gitService: 'github',
       }),
       mode === 'development' && mkcert(),
     ],
