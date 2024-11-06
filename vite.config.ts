@@ -99,6 +99,9 @@ export default ({ mode }) => {
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
         bundleName: process.env.GITHUB_REPOSITORY || 'dn',
         uploadToken: process.env.CODECOV_TOKEN,
+        uploadOverrides: {
+          sha: process.env.GH_COMMIT_SHA,
+        },
       }),
     ],
     css: {
