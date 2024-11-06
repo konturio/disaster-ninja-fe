@@ -99,7 +99,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - run: pnpm i --prod=false
-      - run: DEBUG='vite:*' pnpm run build
+      - name: vite build
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: DEBUG='vite:*' pnpm run build
       - name: Display structure of builded files
         run: ls -R
         working-directory: .

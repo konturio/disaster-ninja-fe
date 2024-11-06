@@ -93,8 +93,8 @@ export default ({ mode }) => {
       // Codecov Vite plugin after all other plugins
       codecovVitePlugin({
         debug: true,
-        enableBundleAnalysis: true, // !!process.env.CODECOV_TOKEN,
-        bundleName: '@kontur/disaster-ninja-fe', //process.env.GITHUB_REPOSITORY
+        enableBundleAnalysis: !!process.env.CODECOV_TOKEN,
+        bundleName: process.env.GITHUB_REPOSITORY,
         uploadToken: process.env.CODECOV_TOKEN,
         gitService: 'github',
         retryCount: 3,
