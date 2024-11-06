@@ -10,7 +10,6 @@ import {
   ACAPS_LAYER_ID,
   ACAPS_SIMPLE_LAYER_ID,
   HOT_PROJECTS_LAYER_ID,
-  LAYERS_REQUIRED_BY_FEATURE_PANEL,
 } from '../constants';
 import { getHotProjectsPanelData } from './helpers/hotProjects_outlines';
 import { getAcapsPanelData } from './helpers/acaps';
@@ -18,13 +17,13 @@ import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { FeatureCardCfg } from '../components/CardElements';
 import type { Feature } from 'geojson';
 
-const featuresPanelConfig = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
-export const featuresPanelLayerId: string =
-  featuresPanelConfig && typeof featuresPanelConfig === 'object'
-    ? (featuresPanelConfig as LayerFeaturesPanelConfig).layerId
-    : '';
-const isLayerMustBeEnabled =
-  LAYERS_REQUIRED_BY_FEATURE_PANEL.includes(featuresPanelLayerId);
+const panelFeature = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
+const layerFeaturesPanelConfig =
+  panelFeature && typeof panelFeature === 'object'
+    ? (panelFeature as LayerFeaturesPanelConfig)
+    : null;
+export const featuresPanelLayerId = layerFeaturesPanelConfig?.layerId;
+const requiresEnabledLayer = layerFeaturesPanelConfig?.requiresEnabledLayer;
 
 export const currentFeatureIdAtom = atom<number | undefined>(
   undefined,
@@ -54,13 +53,15 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
 }
 
 const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) => {
-  const mountedLayers = ctx.spy(enabledLayersAtom.v3atom);
+  const enabledLayers = ctx.spy(enabledLayersAtom.v3atom);
   const focusedGeoJSON = ctx.spy(focusedGeometryAtom.v3atom)?.geometry;
   currentFeatureIdAtom(ctx, undefined);
-  if (isLayerMustBeEnabled && !mountedLayers.has(featuresPanelLayerId)) {
-    return null;
-  }
-  if (!featuresPanelLayerId || !focusedGeoJSON || isGeoJSONEmpty(focusedGeoJSON)) {
+  if (
+    !featuresPanelLayerId ||
+    !focusedGeoJSON ||
+    isGeoJSONEmpty(focusedGeoJSON) ||
+    (requiresEnabledLayer && !enabledLayers.has(featuresPanelLayerId))
+  ) {
     return null;
   }
   let responseData: Feature[] | null;
