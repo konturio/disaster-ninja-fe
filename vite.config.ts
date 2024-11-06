@@ -94,14 +94,16 @@ export default ({ mode }) => {
       codecovVitePlugin({
         debug: true,
         enableBundleAnalysis: true, // !!process.env.CODECOV_TOKEN,
-        bundleName: 'disaster-ninja-fe', //process.env.GITHUB_REPOSITORY
+        bundleName: '@kontur/disaster-ninja-fe', //process.env.GITHUB_REPOSITORY
         uploadToken: process.env.CODECOV_TOKEN,
         gitService: 'github',
+        retryCount: 3,
+        apiUrl: 'https://api.codecov.io',
       }),
-      buildSizeReport({
-        filename: './size-report.json',
-      }),
-      mode === 'development' && mkcert(),
+      // buildSizeReport({
+      //   filename: './size-report.json',
+      // }),
+      // mode === 'development' && mkcert(),
     ],
     css: {
       devSourcemap: true,
