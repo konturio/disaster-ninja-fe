@@ -81,6 +81,8 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -97,7 +99,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - run: pnpm i --prod=false
-      - run: pnpm run build
+      - run: DEBUG='vite:*' pnpm run build
       - name: Display structure of builded files
         run: ls -R
         working-directory: .
