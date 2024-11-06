@@ -58,6 +58,35 @@ coverage:
         threshold: 1%
         informational: true
 
+codecov:
+  require_ci_to_pass: true
+  notify:
+    wait_for_ci: true
+
+github_checks:
+  annotations: false
+
+# Add Bundle Analysis configuration
+bundle_analysis:
+  enabled: true
+  ui:
+    enabled: true
+    package_name: disaster-ninja-fe
+    header: true
+    footer: true
+  diff:
+    enabled: true
+    type: base
+  coverage:
+    enabled: true
+    type: base
+  complexity:
+    enabled: true
+    type: base
+  notifications:
+    enabled: true
+    type: all
+
 comment:
   layout: "reach, diff, components, files"
   behavior: default
