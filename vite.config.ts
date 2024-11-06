@@ -90,16 +90,16 @@ export default ({ mode }) => {
           tags: [...injectRRT],
         },
       }),
-      buildSizeReport({
-        filename: './size-report.json',
-      }),
       // Codecov Vite plugin after all other plugins
       codecovVitePlugin({
         debug: true,
-        enableBundleAnalysis: !!process.env.CODECOV_TOKEN,
+        enableBundleAnalysis: true, // !!process.env.CODECOV_TOKEN,
         bundleName: 'disaster-ninja-fe', //process.env.GITHUB_REPOSITORY
         uploadToken: process.env.CODECOV_TOKEN,
         gitService: 'github',
+      }),
+      buildSizeReport({
+        filename: './size-report.json',
       }),
       mode === 'development' && mkcert(),
     ],
