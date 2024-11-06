@@ -9,10 +9,10 @@ import viteBuildInfoPlugin from './scripts/build-info-plugin';
 import { selectConfig, useConfig } from './scripts/select-config.mjs';
 // @ts-ignore
 import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
-import postcssConfig from './postcss.config.mjs';
 import { proxyConfig } from './vite.proxy';
 import buildSizeReport from 'bundle-size-diff/plugin';
 import mkcert from 'vite-plugin-mkcert';
+import { codecovVitePlugin } from '@codecov/vite-plugin';
 
 const parseEnv = <T extends Record<string, string | boolean>>(
   env: Record<string, string>,
@@ -94,6 +94,12 @@ export default ({ mode }) => {
         filename: './size-report.json',
       }),
       mode === 'development' && mkcert(),
+      // Codecov Vite plugin after all other plugins
+      codecovVitePlugin({
+        enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+        bundleName: process.env.GITHUB_REPOSITORY || 'dn',
+        uploadToken: process.env.CODECOV_TOKEN,
+      }),
     ],
     css: {
       devSourcemap: true,
