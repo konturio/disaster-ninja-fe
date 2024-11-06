@@ -93,7 +93,6 @@ export default ({ mode }) => {
       buildSizeReport({
         filename: './size-report.json',
       }),
-      mode === 'development' && mkcert(),
       // Codecov Vite plugin after all other plugins
       codecovVitePlugin({
         debug: true,
@@ -104,6 +103,7 @@ export default ({ mode }) => {
           sha: process.env.GH_COMMIT_SHA,
         },
       }),
+      mode === 'development' && mkcert(),
     ],
     css: {
       devSourcemap: true,
