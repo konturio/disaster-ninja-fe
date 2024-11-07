@@ -13,7 +13,7 @@ This feature enables Layer Features panel. The panel displays a list of features
 
 ### How to use
 
-1. Add `FeatureFlag.LAYER_FEATURES_PANEL` flag to the app configuration:
+1. Add `FeatureFlag.LAYER_FEATURES_PANEL` feature to the app configuration:
 
 ```ts
 {
@@ -25,7 +25,8 @@ This feature enables Layer Features panel. The panel displays a list of features
       "description": "Layer Feature panel",
       "type": "UI_PANEL",
       "configuration": {
-        "layerId": "hotProjects_outlines"
+        "layerId": "hotProjects_outlines",
+        "requiresEnabledLayer": true
       }
     }
   ]
@@ -34,6 +35,9 @@ This feature enables Layer Features panel. The panel displays a list of features
 
 - The feature configuration needs to implement `LayerFeaturesPanelConfig` interface:
   - `layerId` - the id of the associated layer
+  - `requiresEnabledLayer`
+    - `true` the associated layer must be enabled
+    - `false` Layer Features panel works regardless of its associated layer's status.
 
 2. Create a function to transform Feature properties to `FeatureCardCfg` interface.
 3. Add a new case inside `transformFeaturesToPanelData` for the associated layer id, return the result of the function there:
@@ -52,12 +56,6 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
       return [];
   }
 }
-```
-
-4. If you want the panel to only display items if the associated layer is enabled, add the layer id to `LAYERS_REQUIRED_BY_FEATURE_PANEL` array (_TODO: this should be moved a configuration field_):
-
-```ts
-export const LAYERS_REQUIRED_BY_FEATURE_PANEL = [HOT_PROJECTS_LAYER_ID];
 ```
 
 ### How it works
