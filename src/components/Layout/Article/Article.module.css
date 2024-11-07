@@ -96,54 +96,58 @@
   }
 
   /* Base typography */
-  font-size: 1rem;
+  font-size: 16px;
   line-height: 1.5;
 
-  /* Fixed heading scales with standardized line-heights */
+  /* Fixed heading scales using Major Third (1.25) and browser standards */
   & h1 {
-    font-size: 3rem;
+    font-size: 2em; /* browser default */
     line-height: 1.3;
   }
 
   & h2 {
-    font-size: 2.44rem;
+    font-size: 1.5em; /* browser default */
     line-height: 1.3;
   }
 
   & h3 {
-    font-size: 2.08rem;
+    font-size: 1.17em; /* browser default */
     line-height: 1.4;
   }
 
   & h4 {
-    font-size: 1.73rem;
+    font-size: 1em; /* browser default */
     line-height: 1.4;
   }
 
   & h5 {
-    font-size: 1.44rem;
+    font-size: 0.83em; /* browser default */
     line-height: 1.5;
   }
 
   & h6 {
-    font-size: 1.2rem;
+    font-size: 0.67em; /* browser default */
     line-height: 1.5;
   }
 
   & p {
-    font-size: 1rem;
+    font-size: 1em; /* same as base/h4 */
     line-height: 1.5;
+    margin-block-end: 1em;
   }
 
   & small {
-    font-size: 0.833rem;
-    line-height: 1.6;
+    font-size: 0.8em; /* 1em ÷ 1.25 */
+    line-height: 1.5;
   }
 
   /* Consistent spacing for headings */
   & :where(h1, h2, h3, h4, h5, h6) {
-    margin-block-start: 1rem;
-    margin-block-end: 1rem;
-    font-weight: 500;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    font-weight: 700;
+    & a {
+      text-decoration: none;
+    }
   }
 }

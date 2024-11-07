@@ -50,6 +50,35 @@ export default ({ mode }) => {
 
   const hmr = !!env.VITE_DEBUG_HMR;
 
+  const plugins = [
+    // use path resolve config from ts
+    tsconfigPaths(),
+    react(),
+    // vite env data used in metrics, should be available in all environments
+    viteBuildInfoPlugin(),
+    createHtmlPlugin({ inject: { data: { ...env, mode }, tags: [...injectRRT] } }),
+    buildSizeReport({ filename: './size-report.json' }),
+  ];
+
+  if (process.env.CODECOV_TOKEN) {
+    plugins.push(
+      codecovVitePlugin({
+        debug: true,
+        enableBundleAnalysis: !!process.env.CODECOV_TOKEN,
+        bundleName: process.env.GITHUB_REPOSITORY,
+        uploadToken: process.env.CODECOV_TOKEN,
+        gitService: 'github',
+        retryCount: 3,
+        apiUrl: 'https://api.codecov.io',
+      }),
+    );
+  }
+
+  if (mode === 'development') {
+    // @ts-expect-error old types
+    plugins.push(mkcert());
+  }
+
   const cfg = defineConfig({
     base: `${env.VITE_BASE_PATH}${env.VITE_STATIC_PATH}`,
     build: {
@@ -75,28 +104,7 @@ export default ({ mode }) => {
         },
       },
     },
-    plugins: [
-      // use path resolve config from ts
-      tsconfigPaths(),
-      react(),
-      // vite env data used in metrics, should be available in all environments
-      viteBuildInfoPlugin(),
-      createHtmlPlugin({ inject: { data: { ...env, mode }, tags: [...injectRRT] } }),
-      // Codecov Vite plugin after all other plugins
-      codecovVitePlugin({
-        debug: true,
-        enableBundleAnalysis: !!process.env.CODECOV_TOKEN,
-        bundleName: process.env.GITHUB_REPOSITORY,
-        uploadToken: process.env.CODECOV_TOKEN,
-        gitService: 'github',
-        retryCount: 3,
-        apiUrl: 'https://api.codecov.io',
-      }),
-      buildSizeReport({
-        filename: './size-report.json',
-      }),
-      mode === 'development' && mkcert(),
-    ],
+    plugins,
     css: {
       devSourcemap: true,
     },

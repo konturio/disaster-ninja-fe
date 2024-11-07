@@ -1,0 +1,31 @@
+/* Map markers */
+.mapboxgl-marker > div {
+  background-color: rgb(255 255 255 / 70%);
+  padding: 0;
+
+  & > div {
+    background-color: rgb(255 255 255 / 50%);
+  }
+}
+
+/* Map controls */
+.mapboxgl-ctrl-bottom-right {
+  display: flex;
+}
+
+.maplibregl-control-container .maplibregl-ctrl-bottom-right {
+  right: calc(144px + var(--unit));
+  display: flex;
+  gap: var(--unit);
+  align-items: center;
+  bottom: calc(10px + var(--unit));
+
+  & .mapboxgl-ctrl-scale {
+    margin: 0;
+    block-size: 20px;
+  }
+
+  & .maplibregl-ctrl.maplibregl-ctrl-attrib {
+    padding: 0;
+  }
+}
