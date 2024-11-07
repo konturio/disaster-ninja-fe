@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-Dwme-BQu.js","./index-D_w0_r9J.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-HGI0UAcD.js","./index-DkT9CtYd.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-D_w0_r9J.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-DkT9CtYd.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -6825,7 +6825,9 @@ const layer_features_panel = {
   empty: "Layer features within selected area will be provided here",
   noFeatureSelected: "No layer feature selected",
   chooseFeature: "Choose layer feature",
-  listInfo: "The list is filtered by selected area and sorted by project number"
+  listInfo: "The list is filtered by selected area and sorted by project number",
+  error_loading: "Failed to load layer features data. Please try again.",
+  no_features: "No features found in the selected area."
 };
 const reference_area = {
   save_as_reference_area: "Save as reference area",
@@ -35338,7 +35340,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-Dwme-BQu.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-HGI0UAcD.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
