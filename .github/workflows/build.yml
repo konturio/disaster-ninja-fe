@@ -93,7 +93,7 @@ jobs:
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-          
+
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
@@ -105,7 +105,7 @@ jobs:
       - name: vite build
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: DEBUG='vite:*' pnpm run build
+        run: pnpm run build
       - name: Display structure of builded files
         run: ls -R
         working-directory: .

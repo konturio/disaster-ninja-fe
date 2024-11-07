@@ -50,10 +50,6 @@ component_management:
           target: 30%
           threshold: 2%
 
-coverage:
-  status:
-    project: true
-
 github_checks:
   annotations: false
 

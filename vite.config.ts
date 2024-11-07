@@ -67,9 +67,6 @@ export default ({ mode }) => {
         enableBundleAnalysis: !!process.env.CODECOV_TOKEN,
         bundleName: process.env.GITHUB_REPOSITORY,
         uploadToken: process.env.CODECOV_TOKEN,
-        gitService: 'github',
-        retryCount: 3,
-        apiUrl: 'https://api.codecov.io',
       }),
     );
   }
