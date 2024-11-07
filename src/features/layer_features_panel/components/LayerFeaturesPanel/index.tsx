@@ -11,7 +11,6 @@ import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
-import { store } from '~core/store/store';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
@@ -31,9 +30,9 @@ import type { FeatureCardCfg } from '../CardElements';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
 
 export function LayerFeaturesPanel() {
-  const [currentFeatureId] = useAtom(currentFeatureIdAtom);
+  const [currentFeatureId, setCurrentFeatureIdAtom] = useAtom(currentFeatureIdAtom);
   const onCurrentChange = (id: number, feature: FeatureCardCfg) => {
-    currentFeatureIdAtom(store.v3ctx, id);
+    setCurrentFeatureIdAtom(id);
     scheduledAutoFocus.setFalse.dispatch();
     if (feature.focus) {
       currentMapPositionAtom.setCurrentMapBbox.dispatch(feature.focus as Bbox);
