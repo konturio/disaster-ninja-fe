@@ -13,7 +13,7 @@ export function FullState({
   onClick,
 }: {
   featuresList: FeatureCardCfg[];
-  currentFeatureId?: number;
+  currentFeatureId: number | null;
   listInfoText?: string;
   onClick: (id: number, feature: FeatureCardCfg) => void;
 }) {

@@ -1,4 +1,4 @@
-import type { FeatureCardCfg } from '../components/CardElements';
+import type { FeatureCardCfg } from '../../components/CardElements';
 
 const formatTimeFn = new Intl.DateTimeFormat('default', {
   year: 'numeric',
