@@ -7,7 +7,7 @@ import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLi
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { configRepo } from '~core/config';
 import Map from './map-libre-adapter';
-import { useMapPositionSync } from './useMapPositionSmoothSync';
+import { useMapPositionSync } from './useMapPositionSync';
 import type {
   LayerSpecification,
   Map as MapLibreMap,

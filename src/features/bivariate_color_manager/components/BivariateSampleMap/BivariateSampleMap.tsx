@@ -5,7 +5,7 @@ import { Button } from '@konturio/ui-kit';
 import { Close24, Expand24 } from '@konturio/default-icons';
 import { configRepo } from '~core/config';
 import Map from '~components/ConnectedMap/map-libre-adapter';
-import { useMapPositionSync } from '~components/ConnectedMap/useMapPositionSmoothSync';
+import { useMapPositionSync } from '~components/ConnectedMap/useMapPositionSync';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import {
