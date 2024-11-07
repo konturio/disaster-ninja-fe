@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-HGI0UAcD.js","./index-DkT9CtYd.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-BsRutlIW.js","./index-CpzfG3GJ.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-DkT9CtYd.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-CpzfG3GJ.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -9756,7 +9756,8 @@ const FETCH_ERROR = Symbol();
 const CATCHER_FALLBACK = Symbol();
 function extractContentType(headers = {}) {
   var _a2;
-  return (_a2 = Object.entries(headers).find(([k2]) => k2.toLowerCase() === CONTENT_TYPE_HEADER.toLowerCase())) === null || _a2 === void 0 ? void 0 : _a2[1];
+  const normalizedHeaders = headers instanceof Array ? Object.fromEntries(headers) : headers;
+  return (_a2 = Object.entries(normalizedHeaders).find(([k2]) => k2.toLowerCase() === CONTENT_TYPE_HEADER.toLowerCase())) === null || _a2 === void 0 ? void 0 : _a2[1];
 }
 function isLikelyJsonMime(value) {
   return /^application\/.*json.*/.test(value);
@@ -11044,7 +11045,7 @@ const fixture3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   default: LinkRenderer_fixture
 }, Symbol.toStringTag, { value: "Module" }));
 /**
- * @remix-run/router v1.20.0
+ * @remix-run/router v1.21.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -11306,7 +11307,7 @@ new Set(validMutationMethodsArr);
 const validRequestMethodsArr = ["get", ...validMutationMethodsArr];
 new Set(validRequestMethodsArr);
 /**
- * React Router v6.27.0
+ * React Router v6.28.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -11333,6 +11334,22 @@ const NavigationContext = /* @__PURE__ */ reactExports.createContext(null);
 const LocationContext = /* @__PURE__ */ reactExports.createContext(null);
 function useInRouterContext() {
   return reactExports.useContext(LocationContext) != null;
+}
+const alreadyWarned = {};
+function warnOnce(key, message) {
+  if (!alreadyWarned[message]) {
+    alreadyWarned[message] = true;
+    console.warn(message);
+  }
+}
+const logDeprecation = (flag, msg, link2) => warnOnce(flag, "⚠️ React Router Future Flag Warning: " + msg + ". " + ("You can use the `" + flag + "` future flag to opt-in early. ") + ("For more information, see " + link2 + "."));
+function logV6DeprecationWarnings(renderFuture, routerFuture) {
+  if (!(renderFuture != null && renderFuture.v7_startTransition)) {
+    logDeprecation("v7_startTransition", "React Router will begin wrapping state updates in `React.startTransition` in v7", "https://reactrouter.com/v6/upgrading/future#v7_starttransition");
+  }
+  if (!(renderFuture != null && renderFuture.v7_relativeSplatPath) && !routerFuture) {
+    logDeprecation("v7_relativeSplatPath", "Relative route resolution within Splat routes is changing in v7", "https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath");
+  }
 }
 function Router(_ref5) {
   let {
@@ -11393,7 +11410,7 @@ function Router(_ref5) {
 new Promise(() => {
 });
 /**
- * React Router DOM v6.27.0
+ * React Router DOM v6.28.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -11435,6 +11452,7 @@ function BrowserRouter(_ref4) {
     v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
   }, [setStateImpl, v7_startTransition]);
   reactExports.useLayoutEffect(() => history.listen(setState), [history, setState]);
+  reactExports.useEffect(() => logV6DeprecationWarnings(future), [future]);
   return /* @__PURE__ */ reactExports.createElement(Router, {
     basename,
     children,
@@ -35340,7 +35358,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-HGI0UAcD.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-BsRutlIW.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
