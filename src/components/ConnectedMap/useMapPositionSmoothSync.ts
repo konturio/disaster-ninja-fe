@@ -10,59 +10,8 @@ import type { Map as MapLibreMap } from 'maplibre-gl';
  * */
 export function useMapPositionSmoothSync(
   mapRef: MutableRefObject<MapLibreMap | undefined>,
-  animationDuration: number = 0,
 ) {
   const [currentMapPosition, currentMapPositionActions] = useAtom(currentMapPositionAtom);
-
-  useEffect(() => {
-    if (mapRef.current && currentMapPosition !== null) {
-      const map = mapRef.current;
-      const newMapPosition = currentMapPosition;
-      const zoom = map.getZoom();
-      const { lng, lat } = map.getCenter();
-
-      const changeMapPosition = () => {
-        map.resize();
-        map.once('idle', () => {
-          if ('lng' in newMapPosition && 'lat' in newMapPosition) {
-            if (animationDuration > 0) {
-              requestAnimationFrame(() => {
-                map.easeTo({
-                  center: [newMapPosition.lng, newMapPosition.lat],
-                  zoom: newMapPosition.zoom,
-                  duration: animationDuration,
-                });
-              });
-            } else {
-              map.jumpTo({
-                center: [newMapPosition.lng, newMapPosition.lat],
-                zoom: newMapPosition.zoom,
-              });
-            }
-          }
-        });
-      };
-      /**
-       * Compare current map position with update from state -
-       * if map already have this position - ignore this update.
-       * It's allow avoid cycled updates between map and state
-       *  */
-      if ('lng' in newMapPosition) {
-        if (
-          newMapPosition.lng !== lng ||
-          newMapPosition.lat !== lat ||
-          newMapPosition.zoom !== zoom
-        ) {
-          /* Allow interrupt map flying. Increase the timeout for bigger delay */
-          const timeout = setTimeout(changeMapPosition, 100);
-          const clear = () => clearTimeout(timeout);
-          return () => {
-            clear();
-          };
-        }
-      }
-    }
-  }, [mapRef, currentMapPosition, animationDuration]);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -72,7 +21,7 @@ export function useMapPositionSmoothSync(
           // only user events have original event
           const zoom = map.getZoom();
           const { lng, lat } = map.getCenter();
-          currentMapPositionActions.setCurrentMapPosition({
+          currentMapPositionActions.updateCurrentPosition({
             zoom,
             lat,
             lng,
@@ -86,6 +35,4 @@ export function useMapPositionSmoothSync(
       };
     }
   }, [mapRef, currentMapPositionActions]);
-
-  // return position;
 }
