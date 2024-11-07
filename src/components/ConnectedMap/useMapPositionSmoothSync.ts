@@ -5,12 +5,9 @@ import type { MutableRefObject } from 'react';
 import type { Map as MapLibreMap } from 'maplibre-gl';
 
 /**
- * This effect allow to listen state changes, and fly to position that set externally in atom
- * And allow to read current map position and update atom state with actual data.
+ * This hook listens to map's moveend events and updates currentMapPosition atom state.
  * */
-export function useMapPositionSmoothSync(
-  mapRef: MutableRefObject<MapLibreMap | undefined>,
-) {
+export function useMapPositionSync(mapRef: MutableRefObject<MapLibreMap | undefined>) {
   const [currentMapPosition, currentMapPositionActions] = useAtom(currentMapPositionAtom);
 
   useEffect(() => {
@@ -21,7 +18,7 @@ export function useMapPositionSmoothSync(
           // only user events have original event
           const zoom = map.getZoom();
           const { lng, lat } = map.getCenter();
-          currentMapPositionActions.updateCurrentPosition({
+          currentMapPositionActions.updateCurrentMapPosition({
             zoom,
             lat,
             lng,

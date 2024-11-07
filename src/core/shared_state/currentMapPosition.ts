@@ -7,7 +7,7 @@ export type CenterZoomPosition = {
   // type: 'centerZoom';
   lat: number;
   lng: number;
-  zoom?: number;
+  zoom: number;
 };
 export type Bbox = [number, number, number, number];
 export type BboxPosition = {
@@ -24,15 +24,11 @@ export const currentMapPositionAtom = createAtom(
     setCurrentMapPosition: (mapPosition: { lat: number; lng: number; zoom: number }) =>
       mapPosition,
     setCurrentMapBbox: (mapBbox: Bbox | [[number, number], [number, number]]) => mapBbox,
-    updateCurrentPosition: (mapPosition: { lat: number; lng: number; zoom: number }) =>
+    updateCurrentMapPosition: (mapPosition: { lat: number; lng: number; zoom: number }) =>
       mapPosition,
     currentMapAtom,
   },
   ({ onAction }, state: CurrentMapPositionAtomState = null) => {
-    function updateState(position: MapPosition) {
-      state = position;
-    }
-
     function jumpTo(map: Map, position: MapPosition) {
       const { lng, lat, zoom } = position as CenterZoomPosition;
       requestAnimationFrame(() => {
@@ -51,7 +47,7 @@ export const currentMapPositionAtom = createAtom(
         }
       }, 100);
 
-      updateState(position);
+      state = position;
     }
 
     onAction('setCurrentMapPosition', (position) => {
@@ -74,8 +70,8 @@ export const currentMapPositionAtom = createAtom(
       }
     });
 
-    onAction('updateCurrentPosition', (position) => {
-      updateState(position);
+    onAction('updateCurrentMapPosition', (position) => {
+      state = position;
     });
 
     return state;
