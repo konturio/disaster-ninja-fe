@@ -1,12 +1,3 @@
-/* Atlas specific styles remain the same */
-#app-pages-docid-about {
-  & div section:nth-child(2) {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: 1em;
-  }
-}
-
 .app-pages-element-markdown {
   /* font-family: var(--font-family); */
 
