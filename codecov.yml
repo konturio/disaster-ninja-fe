@@ -52,21 +52,20 @@ component_management:
 
 coverage:
   status:
-    project:
-      default:
-        target: 10%
-        threshold: 1%
-        informational: true
+    project: true
 
 github_checks:
   annotations: false
 
 comment:
-  layout: 'reach, diff, components, files'
+  layout: 'condensed_header, diff, components, condensed_files, condensed_footer'
   behavior: default
   require_changes: false
   require_base: false
   require_head: true
+
+bundle_analysis:
+  status: 'informational'
 
 ignore:
   # Config files

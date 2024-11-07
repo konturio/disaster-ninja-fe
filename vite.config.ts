@@ -81,15 +81,7 @@ export default ({ mode }) => {
       react(),
       // vite env data used in metrics, should be available in all environments
       viteBuildInfoPlugin(),
-      createHtmlPlugin({
-        inject: {
-          data: {
-            ...env,
-            mode,
-          },
-          tags: [...injectRRT],
-        },
-      }),
+      createHtmlPlugin({ inject: { data: { ...env, mode }, tags: [...injectRRT] } }),
       // Codecov Vite plugin after all other plugins
       codecovVitePlugin({
         debug: true,
@@ -100,10 +92,10 @@ export default ({ mode }) => {
         retryCount: 3,
         apiUrl: 'https://api.codecov.io',
       }),
-      // buildSizeReport({
-      //   filename: './size-report.json',
-      // }),
-      // mode === 'development' && mkcert(),
+      buildSizeReport({
+        filename: './size-report.json',
+      }),
+      mode === 'development' && mkcert(),
     ],
     css: {
       devSourcemap: true,
