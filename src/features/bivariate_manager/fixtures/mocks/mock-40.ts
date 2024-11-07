@@ -2062,31 +2062,41 @@ export const mock = {
     {
       name: 'mhr_index',
       label: 'Multi-hazard risk PDC GRVA',
-      copyrights: ['© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/'],
+      copyrights: [
+        '© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/',
+      ],
       direction: [['unimportant'], ['important', 'bad']],
     },
     {
       name: 'mhe_index',
       label: 'Multi-hazard exposure PDC GRVA',
-      copyrights: ['© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/'],
+      copyrights: [
+        '© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/',
+      ],
       direction: [['unimportant'], ['important', 'bad']],
     },
     {
       name: 'coping_capacity_index',
       label: 'Coping Capacity PDC GRVA',
-      copyrights: ['© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/'],
+      copyrights: [
+        '© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/',
+      ],
       direction: [['important', 'bad'], ['good']],
     },
     {
       name: 'resilience_index',
       label: 'Resilience PDC GRVA',
-      copyrights: ['© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/'],
+      copyrights: [
+        '© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/',
+      ],
       direction: [['important', 'bad'], ['good']],
     },
     {
       name: 'vulnerability_index',
       label: 'Vulnerability PDC GRVA',
-      copyrights: ['© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/'],
+      copyrights: [
+        '© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/',
+      ],
       direction: [['unimportant'], ['important', 'bad']],
     },
     {

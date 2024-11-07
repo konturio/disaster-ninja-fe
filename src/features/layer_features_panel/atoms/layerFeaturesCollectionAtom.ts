@@ -6,10 +6,29 @@ import { createNumberAtom } from '~utils/atoms/createPrimitives';
 import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
-import { FEATURESPANEL_LAYER_ID } from '../constants';
-import { getPanelData } from './hotProjects_outlines';
+import { AppFeature } from '~core/app/types';
+import {
+  ACAPS_LAYER_ID,
+  ACAPS_SIMPLE_LAYER_ID,
+  HOT_PROJECTS_LAYER_ID,
+  LAYERS_REQUIRED_BY_FEATURE_PANEL,
+} from '../constants';
+import { getHotProjectsPanelData } from './hotProjects_outlines';
+import { getAcapsFeatureCards } from './acapsToFeatureCards';
+import { ACAPS_MOCK } from './mocks/acaps_mock';
+import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { FeatureCardCfg } from '../components/CardElements';
 
+// export const featuresPanelLayerId: string = ACAPS_SIMPLE_LAYER_ID;
+const featuresPanelConfig = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
+export const featuresPanelLayerId: string =
+  featuresPanelConfig && typeof featuresPanelConfig === 'object'
+    ? (featuresPanelConfig as LayerFeaturesPanelConfig).layerId
+    : '';
+const isLayerMustBeEnabled =
+  LAYERS_REQUIRED_BY_FEATURE_PANEL.includes(featuresPanelLayerId);
+
+// TODO: update to reatom3 - in separate PR. Clean up commented values and mocks
 export const currentFeatureIdAtom = createNumberAtom(undefined, 'currentFeatureIdAtom');
 export const layerFeaturesCollectionAtom = createAtom(
   {
@@ -34,24 +53,27 @@ export const layerFeaturesCollectionAtom = createAtom(
       state = null;
     });
 
-    onChange('focusedGeometryAtom', (fg) => {
+    onChange('focusedGeometryAtom', (focusedGeometry) => {
       // @ts-expect-error needs better atom type
       currentFeatureIdAtom.set.dispatch(undefined);
       state = null;
       const enabledLayers = get('enabledLayersAtom');
-      if (!enabledLayers.has(FEATURESPANEL_LAYER_ID)) {
+      if (isLayerMustBeEnabled && !enabledLayers.has(featuresPanelLayerId)) {
         return;
       }
-      if (!isGeoJSONEmpty(fg?.geometry))
+      if (!isGeoJSONEmpty(focusedGeometry?.geometry))
         schedule(async (dispatch) => {
-          const response = await getFeatureCollection(fg?.geometry);
-          const panelData = getPanelData(response) as FeatureCardCfg[];
+          const response = await getFeatureCollection(
+            focusedGeometry?.geometry,
+            featuresPanelLayerId,
+          );
+          const panelData = transformFeaturesToPanelData(response);
           dispatch(create('_setState', panelData));
         });
     });
 
-    onChange('mountedLayersAtom', (ml) => {
-      if (!ml.has(FEATURESPANEL_LAYER_ID)) {
+    onChange('mountedLayersAtom', (mountedLayers) => {
+      if (isLayerMustBeEnabled && !mountedLayers.has(featuresPanelLayerId)) {
         // @ts-expect-error needs better atom type
         currentFeatureIdAtom.set.dispatch(undefined);
         state = null;
@@ -62,8 +84,11 @@ export const layerFeaturesCollectionAtom = createAtom(
           schedule(async (dispatch) => {
             // @ts-expect-error needs better atom type
             currentFeatureIdAtom.set.dispatch(undefined);
-            const response = await getFeatureCollection(fg?.geometry);
-            const panelData = getPanelData(response) as FeatureCardCfg[];
+            const response = await getFeatureCollection(
+              fg?.geometry,
+              featuresPanelLayerId,
+            );
+            const panelData = transformFeaturesToPanelData(response);
             dispatch(create('_setState', panelData));
           });
       }
@@ -74,9 +99,25 @@ export const layerFeaturesCollectionAtom = createAtom(
   'layerFeaturesCollectionAtom',
 );
 
-export async function getFeatureCollection(geometry) {
+function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
+  switch (featuresPanelLayerId) {
+    case HOT_PROJECTS_LAYER_ID:
+      return getHotProjectsPanelData(featuresList);
+    case ACAPS_LAYER_ID:
+    case ACAPS_SIMPLE_LAYER_ID:
+      return getAcapsFeatureCards(featuresList);
+    default:
+      return [];
+  }
+}
+
+export async function getFeatureCollection(geometry, layerId: string) {
+  // TODO: delete when mocks are no longer needed
+  // if (layerId === ACAPS_SIMPLE_LAYER_ID) {
+  //   return ACAPS_MOCK;
+  // }
   const features = await apiClient.post(
-    `/layers/${FEATURESPANEL_LAYER_ID}/items/search`,
+    `/layers/${layerId}/items/search`,
     {
       appId: configRepo.get().id,
       geoJSON: geometry,

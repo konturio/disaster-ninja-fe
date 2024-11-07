@@ -7,6 +7,11 @@ export function isExternalLink(href: string) {
   return externalProtocols.some((protocol) => href.startsWith(protocol));
 }
 
+export function isInnerAnchorLink(href: string) {
+  // if the hash starts at 0, it means there's no slug and it's an inner anchor link
+  return href.indexOf('#') === 0;
+}
+
 export function buildAssetUrl(asset: string) {
   return `${configRepo.get().apiGateway}/apps/${configRepo.get().id}/assets/${asset}`;
 }
@@ -45,6 +50,11 @@ export function CustomLink({
 }: React.PropsWithChildren<{ href: string; title: string }>) {
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
+      /* HACK: don't prevent default behavior for anchor links inside current page.
+        Anchor links to different pages are currently broken for both router and default browser navigation. */
+      if (isInnerAnchorLink(href)) {
+        return;
+      }
       goTo(href);
       e.preventDefault();
     },

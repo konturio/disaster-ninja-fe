@@ -62,7 +62,7 @@
 }
 
 /* TODO: Atlas specific styles, move to ups config after testing */
-:global(#app-id-9043acf9-2cf3-48ac-9656-a5d7c4b7593d) [data-name='/about'] article {
+#app-id-9043acf9-2cf3-48ac-9656-a5d7c4b7593d #app-route-about article {
   & section:nth-child(2) {
     display: grid;
     grid-template-columns: max-content auto;

@@ -11,9 +11,7 @@ export type MiniLegendProps = {
 
 export const MiniLegend = ({ legendSteps, changes = {} }: MiniLegendProps) => {
   const corners = CORNER_POINTS_INDEXES.map((corner) => legendSteps[corner]);
-  const legendStepsHasUndefinedColor = legendSteps.some(
-    (step) => step.isFallbackColor,
-  );
+  const legendStepsHasUndefinedColor = legendSteps.some((step) => step.isFallbackColor);
 
   // skip it for now. need more color changing logic to be impletemented first
   // TODO: implement checks for fallbackColor in changes after color changing logic is ready

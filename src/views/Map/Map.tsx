@@ -1,6 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import clsx from 'clsx';
+import { Plus16 } from '@konturio/default-icons';
 import { FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
@@ -15,7 +16,6 @@ import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import { configRepo } from '~core/config';
-import BreadcrumbsPanel from '~features/breadcrumbs/BreadcrumbsPanel';
 import { Search } from '~features/search';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
@@ -39,6 +39,10 @@ const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/Connected
 const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
+
+const { BreadcrumbsPanel } = lazily(
+  () => import('~features/breadcrumbs/BreadcrumbsPanel'),
+);
 
 export function MapPage() {
   useEffect(() => {
@@ -123,6 +127,9 @@ export function MapPage() {
       <div className={s.mapWrap}>
         <Suspense fallback={null}>
           <ConnectedMap className={s.Map} />
+          {featureFlags[FeatureFlag.ADMIN_BOUNDARY_BREADCRUMBS] && (
+            <Plus16 className={s.crosshair}></Plus16>
+          )}
         </Suspense>
       </div>
       {Object.keys(featureFlags).length > 0 && (

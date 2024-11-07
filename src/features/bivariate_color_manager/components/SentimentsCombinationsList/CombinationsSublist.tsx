@@ -54,19 +54,18 @@ const CombinationsSublist = ({
     layersSelection && quotientIndicator.label === layersSelection?.[plane]?.label;
 
   // eslint-disable-next-line react/display-name
-  const renderItem = (plane: Plane) => (quotientIndicator: TableDataValue) =>
-    (
-      <div
-        onClick={() => selectlayer(plane, quotientIndicator)}
-        className={clsx(
-          s.sublistRow,
-          isLayerSelected(plane, quotientIndicator) && s.sublistRowSelected,
-        )}
-        key={quotientIndicator.label}
-      >
-        {quotientIndicator.label}
-      </div>
-    );
+  const renderItem = (plane: Plane) => (quotientIndicator: TableDataValue) => (
+    <div
+      onClick={() => selectlayer(plane, quotientIndicator)}
+      className={clsx(
+        s.sublistRow,
+        isLayerSelected(plane, quotientIndicator) && s.sublistRowSelected,
+      )}
+      key={quotientIndicator.label}
+    >
+      {quotientIndicator.label}
+    </div>
+  );
 
   const renderVerticalItem = renderItem('vertical');
   const renderHorizontalItem = renderItem('horizontal');

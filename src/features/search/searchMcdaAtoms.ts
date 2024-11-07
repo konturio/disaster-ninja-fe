@@ -1,11 +1,12 @@
 import {
+  action,
+  atom,
   reatomAsync,
   withAbort,
   withDataAtom,
   withErrorAtom,
   withStatusesAtom,
-} from '@reatom/async';
-import { action, atom } from '@reatom/core';
+} from '@reatom/framework';
 import { getMCDA } from '~core/api/search';
 import { store } from '~core/store/store';
 import { mcdaLayerAtom } from '~features/mcda/atoms/mcdaLayer';

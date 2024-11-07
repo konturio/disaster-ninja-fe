@@ -1,8 +1,7 @@
 import { i18n } from '~core/localization';
 import { toolbar } from '~core/toolbar';
 import { store } from '~core/store/store';
-import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { getMutualExcludedActions } from '~core/logical_layers/utils/getMutualExcludedActions';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { mcdaLayerAtom } from './atoms/mcdaLayer';
 import { createMCDAConfig, editMCDAConfig } from './mcdaConfig';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from './constants';
@@ -26,6 +25,7 @@ export const mcdaControl = toolbar.setupControl({
 
 mcdaControl.onStateChange(async (ctx, state) => {
   if (state === 'active') {
+    dispatchMetricsEvent('mcda_start');
     const mcdaConfig = await createMCDAConfig();
     if (mcdaConfig) {
       store.dispatch([

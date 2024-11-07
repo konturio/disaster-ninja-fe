@@ -12,6 +12,7 @@ import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivari
 import { getAxisTransformations } from '~core/api/mcda';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { Sentiments } from '../Sentiments';
 import MCDARangeControls from '../MCDARangeControls/MCDARangeControls';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
@@ -242,6 +243,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     }
     setEditMode(true);
     setIsLoading(true);
+    dispatchMetricsEvent('mcda_layer_edit');
     try {
       const transformationsStatisticsDTO = await getAxisTransformations(
         layer.indicators[0].name,

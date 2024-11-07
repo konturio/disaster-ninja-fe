@@ -11,32 +11,37 @@ export const ToolbarContent = () => {
 
   return (
     <div className={s.toolbarContent}>
-      {toolbar.toolbarSettings.sections.map((section, index) => (
-        <Fragment key={section.name}>
-          {index > 0 && <div className={s.sectionDivider}></div>}
-          <div className={s.section}>
-            <div className={s.sectionContent}>
-              {section.controls.map((id) => {
-                const settings = controls.get(id);
-                const stateAtom = toolbar.getControlState(id);
+      {toolbar.toolbarSettings.sections.map(
+        (section, index) =>
+          section.controls.length > 0 && (
+            <Fragment key={section.name}>
+              {index > 0 && <div className={s.sectionDivider}></div>}
+              {
+                <div className={s.section}>
+                  <div className={s.sectionContent}>
+                    {section.controls.map((id) => {
+                      const settings = controls.get(id);
+                      const stateAtom = toolbar.getControlState(id);
 
-                if (!settings || !stateAtom) return null;
-                return (
-                  <ToolbarControl
-                    id={id}
-                    data-testid={id}
-                    key={id}
-                    settings={settings}
-                    stateAtom={stateAtom}
-                    controlComponent={ToolbarButton}
-                  />
-                );
-              })}
-            </div>
-            <div className={s.sectionLabel}>{section.name}</div>
-          </div>
-        </Fragment>
-      ))}
+                      if (!settings || !stateAtom) return null;
+                      return (
+                        <ToolbarControl
+                          id={id}
+                          data-testid={id}
+                          key={id}
+                          settings={settings}
+                          stateAtom={stateAtom}
+                          controlComponent={ToolbarButton}
+                        />
+                      );
+                    })}
+                  </div>
+                  <div className={s.sectionLabel}>{section.name}</div>
+                </div>
+              }
+            </Fragment>
+          ),
+      )}
     </div>
   );
 };

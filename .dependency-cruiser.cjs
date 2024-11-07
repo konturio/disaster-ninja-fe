@@ -114,7 +114,7 @@ module.exports = {
       from: {
         path: '^(src)',
         pathNot: [
-          '\\.(spec|test)\\.(js|mjs|cjs|ts|tsx|ls|coffee|litcoffee|coffee\\.md)$',
+          '\\.(spec|test|fixture)\\.(js|mjs|cjs|jsx|ts|tsx)$',
           '_clientTestsContext.ts',
           '_configMock.ts',
         ],

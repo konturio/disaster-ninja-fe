@@ -6,9 +6,9 @@ export const createNotificationServiceMock = () =>
     error: (message: NotificationMessage) => {
       /* noop */
     },
-  } as INotificationService);
+  }) as INotificationService;
 
 export const createTranslationServiceMock = () =>
   ({
     t: (message: string) => message,
-  } as ITranslationService);
+  }) as ITranslationService;

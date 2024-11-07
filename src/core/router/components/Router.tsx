@@ -11,18 +11,19 @@ import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { landUser, userWasLanded } from '~core/app/userWasLanded';
-import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
+import { dispatchMetricsEvent, dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
 import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { NAVIGATE_EVENT } from '../goTo';
 import { currentLocationAtom } from '../atoms/currentLocation';
+import { isAuthenticated, isMapFeatureEnabled } from '../routes';
 
 export const routerInstance = initRouter();
 
 // sync currentLocationAtom with react-router-dom
+currentLocationAtom.set.dispatch(routerInstance.state.location);
 routerInstance.subscribe((e) => {
-  // @ts-expect-error ok since we are using only pathanme prop
   currentLocationAtom.set.dispatch(e.location);
 });
 
@@ -34,6 +35,7 @@ globalThis.addEventListener(NAVIGATE_EVENT, ((e: CustomEvent) => {
 // update Title
 currentRouteAtom.v3atom.onChange((ctx, route) => {
   document.title = `${configRepo.get().name} - ${route?.title || ''}`;
+  route && dispatchMetricsEvent(`view_${route?.id}`);
 });
 
 export function Router() {
@@ -63,7 +65,7 @@ function OutletWithCache() {
     return location.pathname;
   }, [location]);
 
-  return <KeepAlive activeName={cacheKey}>{outlet}</KeepAlive>;
+  return <KeepAlive activeCacheKey={cacheKey}>{outlet}</KeepAlive>;
 }
 
 function initRouter() {
@@ -106,6 +108,17 @@ function initRouter() {
     landUser();
   }
 
+  // if landing redirect is not needed
+  // check if user is logged in and doesn't have access to map (means no subscription)
+  // and redirect to pricing page
+  if (initialRedirect === false && isAuthenticated && !isMapFeatureEnabled) {
+    const pricingRoute = availableRoutes.routes.find((r) => r.id === 'pricing');
+    if (pricingRoute) {
+      initialRedirect = pricingRoute.slug;
+    }
+  }
+
+  // perform initial redirect
   if (initialRedirect !== false) {
     router.navigate(getAbsoluteRoute(initialRedirect) + globalThis.location.search, {});
   }

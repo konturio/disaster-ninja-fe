@@ -344,6 +344,7 @@
     "current_plan_button": "Current plan",
     "sales_button": "Contact sales",
     "book_demo_button": "Book a demo",
+    "request_trial_button": "Request trial",
     "errors": {
       "payment_initialization": "There was an error during payment initialization. Please try again or contact our support"
     },
@@ -373,7 +374,8 @@
     "report": "Report",
     "profile": "Profile",
     "privacy": "Privacy",
-    "terms": "Terms"
+    "terms": "Terms",
+    "user_guide": "User guide"
   },
   "about": {
     "title": "Welcome to Disaster Ninja!",
@@ -434,6 +436,7 @@
   },
   "episode": "Timeline",
   "loading_episodes": "Loading Episodes",
+  "zoom_to_world": "Zoom to the whole world",
   "cookie_banner": {
     "header": "We value your privacy",
     "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve {{appName}} and your experience. You can manage cookie settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)",

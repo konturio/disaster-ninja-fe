@@ -9,7 +9,7 @@ import type { SubscriptionsConfig } from '~features/subscriptions/types';
 export function PricingPage() {
   const subscriptionFeature = configRepo.get().features[FeatureFlag.SUBSCRIPTION];
   const config =
-    typeof subscriptionFeature === 'object'
+    subscriptionFeature && typeof subscriptionFeature === 'object'
       ? (subscriptionFeature as SubscriptionsConfig)
       : null;
 

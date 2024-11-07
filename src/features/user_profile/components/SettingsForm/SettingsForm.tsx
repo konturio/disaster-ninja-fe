@@ -1,7 +1,7 @@
 import { Button, Input, Radio, Select, Text, Heading, Textarea } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { lazily } from 'react-lazily';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
@@ -11,6 +11,7 @@ import { FeatureFlag } from '~core/shared_state/featureFlags';
 import { flatObjectsAreEqual } from '~utils/common';
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import { DEFAULT_OSM_EDITOR } from '~core/constants';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserDto } from '~core/app/user';
@@ -83,17 +84,27 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
     setIsBioTooltipOpen((prev) => !prev);
   }
 
-  function onSave() {
+  const onSave = useCallback(() => {
+    dispatchMetricsEvent('profile_save');
     // do async put request
     // set loading state for it
     // put response to the currentProfileAtom
     updateUserProfile(localSettings);
+  }, [localSettings, updateUserProfile]);
+
+  function dispatchChangeEvent(key: string) {
+    if (key === 'language') dispatchMetricsEvent('language_change');
   }
 
-  function onChange(key: string) {
-    return (e) =>
-      setLocalSettings({ ...localSettings, [key]: e.target?.value ?? e.value });
-  }
+  const onChange = useCallback(
+    (key: string) => {
+      return (e) => {
+        dispatchChangeEvent(key);
+        setLocalSettings({ ...localSettings, [key]: e.target?.value ?? e.value });
+      };
+    },
+    [localSettings],
+  );
 
   function toggleUnits() {
     setLocalSettings((prevSettings) => {
@@ -143,7 +154,10 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                       className={s.biography}
                       ref={bioRef}
                       onMouseDown={onTextAreaClick}
-                      onFocus={() => setIsBioTooltipOpen(true)}
+                      onFocus={() => {
+                        dispatchMetricsEvent('bio_fill');
+                        setIsBioTooltipOpen(true);
+                      }}
                       onBlur={() => setIsBioTooltipOpen(false)}
                     >
                       <Textarea

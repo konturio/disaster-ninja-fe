@@ -7,12 +7,12 @@ export const BivariateGreetings = () => {
       'object' == typeof exports && 'undefined' != typeof module
         ? (module.exports = n())
         : 'function' == typeof define && define.amd
-        ? define(n)
-        : (((t =
-            'undefined' != typeof globalThis
-              ? globalThis
-              : t || self).__SVGATOR_PLAYER__ = t.__SVGATOR_PLAYER__ || {}),
-          (t.__SVGATOR_PLAYER__['5c7f360c'] = n()));
+          ? define(n)
+          : (((t =
+              'undefined' != typeof globalThis
+                ? globalThis
+                : t || self).__SVGATOR_PLAYER__ = t.__SVGATOR_PLAYER__ || {}),
+            (t.__SVGATOR_PLAYER__['5c7f360c'] = n()));
     })(this, function () {
       'use strict';
       function t(t, n) {
@@ -35,10 +35,10 @@ export const BivariateGreetings = () => {
                 o(n, t, r[t]);
               })
             : Object.getOwnPropertyDescriptors
-            ? Object.defineProperties(n, Object.getOwnPropertyDescriptors(r))
-            : t(Object(r)).forEach(function (t) {
-                Object.defineProperty(n, t, Object.getOwnPropertyDescriptor(r, t));
-              });
+              ? Object.defineProperties(n, Object.getOwnPropertyDescriptors(r))
+              : t(Object(r)).forEach(function (t) {
+                  Object.defineProperty(n, t, Object.getOwnPropertyDescriptor(r, t));
+                });
         }
         return n;
       }
@@ -220,22 +220,23 @@ export const BivariateGreetings = () => {
         return t < 0 || t > 1 || e < 0 || e > 1
           ? null
           : p(t, n) && p(e, r)
-          ? b
-          : function (i) {
-              if (i <= 0) return t > 0 ? (i * n) / t : 0 === n && e > 0 ? (i * r) / e : 0;
-              if (i >= 1)
-                return e < 1
-                  ? 1 + ((i - 1) * (r - 1)) / (e - 1)
-                  : 1 === e && t < 1
-                  ? 1 + ((i - 1) * (n - 1)) / (t - 1)
-                  : 1;
-              for (var u, o = 0, a = 1; o < a; ) {
-                var l = w(t, e, (u = (o + a) / 2));
-                if (p(i, l)) break;
-                l < i ? (o = u) : (a = u);
-              }
-              return w(n, r, u);
-            };
+            ? b
+            : function (i) {
+                if (i <= 0)
+                  return t > 0 ? (i * n) / t : 0 === n && e > 0 ? (i * r) / e : 0;
+                if (i >= 1)
+                  return e < 1
+                    ? 1 + ((i - 1) * (r - 1)) / (e - 1)
+                    : 1 === e && t < 1
+                      ? 1 + ((i - 1) * (n - 1)) / (t - 1)
+                      : 1;
+                for (var u, o = 0, a = 1; o < a; ) {
+                  var l = w(t, e, (u = (o + a) / 2));
+                  if (p(i, l)) break;
+                  l < i ? (o = u) : (a = u);
+                }
+                return w(n, r, u);
+              };
       }
       function A() {
         return 1;
@@ -561,14 +562,14 @@ export const BivariateGreetings = () => {
                       ? Array.isArray(t)
                         ? f(this, v(t))
                         : t instanceof this
-                        ? t.clone()
-                        : new this().recomposeSelf(
-                            t.origin,
-                            t.rotate,
-                            t.skew,
-                            t.scale,
-                            t.translate,
-                          )
+                          ? t.clone()
+                          : new this().recomposeSelf(
+                              t.origin,
+                              t.rotate,
+                              t.skew,
+                              t.scale,
+                              t.translate,
+                            )
                       : new this();
                   },
                 },
@@ -604,13 +605,13 @@ export const BivariateGreetings = () => {
         return 0 === t
           ? n
           : 1 === t
-          ? e
-          : {
-              r: D(t, n.r, e.r),
-              g: D(t, n.g, e.g),
-              b: D(t, n.b, e.b),
-              a: q(t, null == n.a ? 1 : n.a, null == e.a ? 1 : e.a),
-            };
+            ? e
+            : {
+                r: D(t, n.r, e.r),
+                g: D(t, n.g, e.g),
+                b: D(t, n.b, e.b),
+                a: q(t, null == n.a ? 1 : n.a, null == e.a ? 1 : e.a),
+              };
       }
       function V(t, n) {
         for (var e = [], r = 0; r < t; r++) e.push(n);
@@ -667,34 +668,34 @@ export const BivariateGreetings = () => {
           ? 'function' == typeof t
             ? t
             : Array.isArray(t)
-            ? (function (t) {
-                var n =
-                  arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : b;
-                if (!Array.isArray(t)) return n;
-                switch (t.length) {
-                  case 1:
-                    return _(t[0]) || n;
-                  case 2:
-                    return _(t[0], t[1]) || n;
-                  case 4:
-                    return x(t[0], t[1], t[2], t[3]) || n;
-                }
-                return n;
-              })(t, null)
-            : (function (t, n) {
-                var e =
-                  arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : b;
-                switch (t) {
-                  case 'linear':
-                    return b;
-                  case 'steps':
-                    return _(n.steps || 1, n.jump || 0) || e;
-                  case 'bezier':
-                  case 'cubic-bezier':
-                    return x(n.x1 || 0, n.y1 || 0, n.x2 || 0, n.y2 || 0) || e;
-                }
-                return e;
-              })(t.type, t.value, null)
+              ? (function (t) {
+                  var n =
+                    arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : b;
+                  if (!Array.isArray(t)) return n;
+                  switch (t.length) {
+                    case 1:
+                      return _(t[0]) || n;
+                    case 2:
+                      return _(t[0], t[1]) || n;
+                    case 4:
+                      return x(t[0], t[1], t[2], t[3]) || n;
+                  }
+                  return n;
+                })(t, null)
+              : (function (t, n) {
+                  var e =
+                    arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : b;
+                  switch (t) {
+                    case 'linear':
+                      return b;
+                    case 'steps':
+                      return _(n.steps || 1, n.jump || 0) || e;
+                    case 'bezier':
+                    case 'cubic-bezier':
+                      return x(n.x1 || 0, n.y1 || 0, n.x2 || 0, n.y2 || 0) || e;
+                  }
+                  return e;
+                })(t.type, t.value, null)
           : null;
       }
       function Z(t, n, e) {
@@ -717,12 +718,12 @@ export const BivariateGreetings = () => {
             ? [i, 1, n[i].v]
             : n[i].v
           : o.t === a.t
-          ? r
-            ? [u, 1, a.v]
-            : a.v
-          : ((t = (t - o.t) / (a.t - o.t)),
-            o.e && (t = o.e(t)),
-            r ? [u, t, e(t, o.v, a.v)] : e(t, o.v, a.v));
+            ? r
+              ? [u, 1, a.v]
+              : a.v
+            : ((t = (t - o.t) / (a.t - o.t)),
+              o.e && (t = o.e(t)),
+              r ? [u, t, e(t, o.v, a.v)] : e(t, o.v, a.v));
       }
       function K(t, n) {
         var e = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : null;
@@ -1252,8 +1253,8 @@ export const BivariateGreetings = () => {
             return 0 === t
               ? n
               : 1 === t
-              ? e
-              : { width: B(t, n.width, e.width), height: B(t, n.height, e.height) };
+                ? e
+                : { width: B(t, n.width, e.width), height: B(t, n.height, e.height) };
           },
           u: function (t, n) {
             return function (e) {

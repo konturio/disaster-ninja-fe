@@ -1,4 +1,8 @@
-name: Deploy master branch to GitHub Pages
+name: Deploy master branch cosmos to GitHub Pages
+
+env:
+  HUSKY: 0
+
 on:
   push:
     branches: [main]
@@ -21,7 +25,7 @@ jobs:
 
       - name: Run cosmos:build to build static
         run: |
-          pnpm ci --also=dev
+          pnpm i --prod=false --frozen-lockfile
           pnpm run cosmos:build
 
       - name: Deploy 🚀

@@ -8,10 +8,7 @@ interface LayerContextMenuItemProps {
   callback: () => void;
 }
 
-function LayerContextMenuItem({
-  name,
-  callback,
-}: Omit<LayerContextMenuItemProps, 'id'>) {
+function LayerContextMenuItem({ name, callback }: Omit<LayerContextMenuItemProps, 'id'>) {
   return (
     <div className={s.contextItem} onClick={callback}>
       {name}

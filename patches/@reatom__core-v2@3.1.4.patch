@@ -1,0 +1,26 @@
+diff --git a/build/createAtom.d.ts b/build/createAtom.d.ts
+index 557df67457cdae2827e15ee1a9f9d825db03ddae..c7769d924bd6a3efc942543cf7ea1e46227100b8 100644
+--- a/build/createAtom.d.ts
++++ b/build/createAtom.d.ts
+@@ -11,7 +11,7 @@ export type AtomOptions<State = any> = Atom[`id`] | {
+     id?: Atom[`id`];
+     decorators?: Array<AtomDecorator<State>>;
+     store?: Store;
+-    v3atom?: v3.Atom;
++    v3atom?: v3.Atom|v3.AtomMut;
+ };
+ export type AtomDecorator<State> = Fn<[
+     cacheReducer: CacheReducer<State>
+diff --git a/build/types.d.ts b/build/types.d.ts
+index 4fcb4ec88620986ebb72010faad501f3391ac2e7..c58e82947731b12f5445228a8468ab49dc1f131e 100644
+--- a/build/types.d.ts
++++ b/build/types.d.ts
+@@ -48,7 +48,7 @@ export type Atom<State = any> = {
+      * Set of all dependency types which this atom should handle
+      */
+     types: Array<Action['type']>;
+-    v3atom: v3.Atom<State>;
++    v3atom: v3.Atom<State> | v3.AtomMut<State>;
+ };
+ export type AtomBindings<State = any> = {
+     /** Read (or recalculate) state (`defaultStore`) */

@@ -23,6 +23,7 @@ on:
 env:
   NODE_ENV: production
   AVA_FORCE_CI: 'not-ci'
+  HUSKY: 0
   REGISTRY: ghcr.io
   IMAGE_REPO: ${{ github.repository }}
 
@@ -60,13 +61,18 @@ jobs:
           else
             echo "Translations are synced."
           fi
-      - run: pnpm i
+      - run: pnpm i --prod=false
       - run: pnpm run postinstall
       - run: pnpm run lint
       - run: pnpm run typecheck
       - run: env NODE_ENV=test pnpm run coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          flags: ui,core,features,utils
+          verbose: true
 
   build:
     runs-on: ubuntu-24.04
@@ -88,7 +94,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - run: pnpm i
+      - run: pnpm i --prod=false
       - run: pnpm run build
       - name: Display structure of builded files
         run: ls -R

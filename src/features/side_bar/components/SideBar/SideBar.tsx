@@ -4,6 +4,7 @@ import { ActionsBar, Logo } from '@konturio/ui-kit';
 import { useEffect, useMemo, useState } from 'react';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { localStorage } from '~utils/storage';
+import { goTo } from '~core/router/goTo';
 import { AppLogo } from '../AppLogo/AppLogo';
 import { routeVisibilityChecker } from './routeVisibilityChecker';
 import s from './SideBar.module.css';
@@ -50,11 +51,21 @@ export function SideBar({
   return (
     <div
       data-testid="side-bar"
+      id="app-component-sidebar"
       className={clsx(s.sidebar, isOpen ? s.open : s.collapsed)}
+      role="navigation"
+      aria-expanded={isOpen}
+      aria-label="Main Sidebar"
     >
       {availableRoutes && (
         <ActionsBar>
-          <div tabIndex={-1}>
+          <div
+            tabIndex={-1}
+            onClick={() => goTo(availableRoutes.defaultRoute)}
+            role="button"
+            aria-label="Go to Home"
+            style={{ cursor: 'pointer' }}
+          >
             <AppLogo isOpen={isOpen} className={clsx(s.navButton)} />
           </div>
           <div className={s.logoDivider}></div>

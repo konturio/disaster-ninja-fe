@@ -6,6 +6,7 @@ import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import { testEmail } from '~utils/form/validators';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import s from './LoginForm.module.css';
 import type { ChangeEvent } from 'react';
 
@@ -37,7 +38,7 @@ export function LoginForm() {
       }
       setFormData({ ...formData, email: ev.target.value });
     },
-    [formData, setFormData, error, setError],
+    [formData, error],
   );
 
   const onPasswordInputChange = useCallback(
@@ -47,10 +48,16 @@ export function LoginForm() {
       }
       setFormData({ ...formData, password: ev.target.value });
     },
-    [formData, setFormData, error, setError],
+    [formData, error],
   );
 
-  const onLoginClick = async () => {
+  const onForgotPasswordClick = useCallback(
+    () => dispatchMetricsEvent('forgot_password'),
+    [],
+  );
+  const onSignUpClick = useCallback(() => dispatchMetricsEvent('sign_up'), []);
+
+  const onLoginClick = useCallback(async () => {
     const err: { email?: string; password?: string; general?: string } = {};
     if (!formData.email?.length) {
       err.email = i18n.t('login.error.email_empty');
@@ -72,14 +79,17 @@ export function LoginForm() {
       );
       setLoading(false);
       if (authResponse !== true) {
+        dispatchMetricsEvent('login_failure');
         if (typeof authResponse === 'string') {
           setError({ general: authResponse });
         } else {
           setError({ general: i18n.t('login.error.connect') });
         }
+      } else {
+        dispatchMetricsEvent('login_success');
       }
     }
-  };
+  }, [formData]);
 
   useEffect(() => {
     if (formRef.current) {
@@ -128,7 +138,12 @@ export function LoginForm() {
       </div>
       {error.general && <div className={s.errorMessageContainer}>{error.general}</div>}
       <div className={clsx(s.link, s.forgotPasswordContainer)}>
-        <a href={resetUrl} target="_blank" rel="noreferrer">
+        <a
+          href={resetUrl}
+          target="_blank"
+          rel="noreferrer"
+          onClick={onForgotPasswordClick}
+        >
           {i18n.t('login.forgot_password')}
         </a>
       </div>
@@ -138,7 +153,12 @@ export function LoginForm() {
         </Button>
       </div>
       <div className={clsx(s.link, s.registerContainter)}>
-        <a href={registrationUrl} target="_blank" rel="noreferrer">
+        <a
+          href={registrationUrl}
+          target="_blank"
+          rel="noreferrer"
+          onClick={onSignUpClick}
+        >
           {i18n.t('login.sign_up')}
         </a>
       </div>

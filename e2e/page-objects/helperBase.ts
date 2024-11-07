@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { expect } from '@playwright/test';
-import type { Locator, Page } from '@playwright/test';
+import type { Locator, Page, BrowserContext } from '@playwright/test';
 
 type OpenProjectOptions = {
   skipCookieBanner?: boolean;
@@ -142,13 +142,13 @@ export class HelperBase {
    */
 
   async compareUrlsAfterReload(project: Project) {
-    const currentUrl = this.page.url().replace(/\//g, '');
-    await this.page.reload({ waitUntil: 'commit' });
+    const currentUrl = this.page.url();
+    await this.page.reload({ waitUntil: 'commit', timeout: 25000 });
     await Promise.all([
       this.waitForEventWithFilter(this.page, 'METRICS', 'router-layout-ready'),
       this.page.waitForLoadState(),
     ]);
-    expect(this.page.url().replace(/\//g, '')).toEqual(currentUrl);
+    expect(this.page.url()).toEqual(currentUrl);
     await expect(this.page).toHaveTitle(new RegExp(project.title));
   }
 
@@ -181,6 +181,31 @@ export class HelperBase {
     expect(this.page.url(), 'URL should contain utm_campaign=autotests').toContain(
       'utm_campaign=autotests',
     );
+  }
+
+  /**
+   * This method clicks a text in the page and expects a new page to be opened with expected url part
+   * @context - playwright browser context
+   * @buttonName - name of the button to click
+   * @expectedUrlPart - part of the expected url
+   */
+
+  async clickBtnAndAssertUrl({
+    context,
+    buttonName,
+    expectedUrlPart,
+  }: {
+    context: BrowserContext;
+    buttonName: string;
+    expectedUrlPart: string;
+  }) {
+    const [page] = await Promise.all([
+      context.waitForEvent('page', { timeout: 15000 }),
+      this.page.getByText(buttonName, { exact: true }).first().click({ delay: 330 }),
+    ]);
+    await page.waitForLoadState('domcontentloaded');
+    expect(page.url()).toContain(expectedUrlPart);
+    await Promise.all([page.close(), this.page.waitForLoadState('domcontentloaded')]);
   }
 }
 

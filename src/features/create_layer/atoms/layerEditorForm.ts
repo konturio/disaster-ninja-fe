@@ -8,9 +8,7 @@ const getDefaultAtomState = (): LayerEditorFormModel => ({
   fields: [],
 });
 
-export type LayerEditorFormAtomType = ReturnType<
-  typeof createLayerEditorFormAtom
->;
+export type LayerEditorFormAtomType = ReturnType<typeof createLayerEditorFormAtom>;
 
 let counter = 0;
 export function createLayerEditorFormAtom(initialState?: LayerEditorFormModel) {

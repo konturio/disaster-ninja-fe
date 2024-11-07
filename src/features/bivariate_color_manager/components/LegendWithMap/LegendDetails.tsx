@@ -18,9 +18,7 @@ export const LegendDetails = ({
   <div>
     <div className={s.LegendDetailsLabel}>
       {label +
-        (mostQualityDenominator
-          ? ` ${i18n.t('to')} ${mostQualityDenominator}`
-          : '')}
+        (mostQualityDenominator ? ` ${i18n.t('to')} ${mostQualityDenominator}` : '')}
     </div>
     <div className={s.LegendDetailsDirection}>
       {convertDirectionsArrayToLabel(direction)}

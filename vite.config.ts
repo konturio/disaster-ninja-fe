@@ -65,17 +65,6 @@ export default ({ mode }) => {
               brotliSize: true,
             }),
         ],
-        output: {
-          interop: 'compat',
-        },
-        treeshake: {
-          propertyReadSideEffects: false,
-          tryCatchDeoptimization: false,
-          moduleSideEffects: 'no-external',
-          preset: 'recommended',
-          manualPureFunctions: ['forwardRef', 'createContext', 'noop'],
-        },
-        // experimentalLogSideEffects: true,
       },
     },
     plugins: [
@@ -103,11 +92,7 @@ export default ({ mode }) => {
       devSourcemap: true,
     },
     resolve: {
-      dedupe: [
-        '@loaders.gl/core',
-        '@loaders.gl/worker-utils',
-        '@loaders.gl/loader-utils',
-      ],
+      dedupe: [],
     },
     server: {
       proxy: proxyConfig,
@@ -131,14 +116,7 @@ export default ({ mode }) => {
         ],
       },
       include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'], // '**\/*.{test,spec}.?(c|m)[jt]s?(x)'
-      exclude: [
-        '**/node_modules/**',
-        'e2e/**',
-        'dist/**',
-        'coverage/**',
-        'scripts/**',
-        'playwright-tests-examples/**',
-      ],
+      exclude: ['**/node_modules/**', 'e2e/**', 'dist/**', 'coverage/**', 'scripts/**'],
     },
   });
 
