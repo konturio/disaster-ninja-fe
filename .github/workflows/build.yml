@@ -26,6 +26,7 @@ env:
   HUSKY: 0
   REGISTRY: ghcr.io
   IMAGE_REPO: ${{ github.repository }}
+  GH_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
 
 jobs:
   test:
@@ -34,6 +35,8 @@ jobs:
     steps:
       - run: sudo apt-get update && sudo apt-get install -y gettext
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -71,7 +74,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
-          flags: ui,core,features,utils
           verbose: true
 
   build:
@@ -79,14 +81,19 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
+
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+          
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
@@ -95,7 +102,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - run: pnpm i --prod=false
-      - run: pnpm run build
+      - name: vite build
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: DEBUG='vite:*' pnpm run build
       - name: Display structure of builded files
         run: ls -R
         working-directory: .

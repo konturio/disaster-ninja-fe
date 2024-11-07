@@ -1,15 +1,15 @@
 /// <reference types="vitest" />
-import { defineConfig, HtmlTagDescriptor, loadEnv } from 'vite';
+import { defineConfig, HtmlTagDescriptor, loadEnv, UserConfig } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import react from '@vitejs/plugin-react-swc';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
+import { codecovVitePlugin } from '@codecov/vite-plugin';
 // @ts-ignore
 import { selectConfig, useConfig } from './scripts/select-config.mjs';
 // @ts-ignore
 import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
-import postcssConfig from './postcss.config';
 import { proxyConfig } from './vite.proxy';
 import buildSizeReport from 'bundle-size-diff/plugin';
 import mkcert from 'vite-plugin-mkcert';
@@ -50,11 +50,42 @@ export default ({ mode }) => {
 
   const hmr = !!env.VITE_DEBUG_HMR;
 
+  const plugins = [
+    // use path resolve config from ts
+    tsconfigPaths(),
+    react(),
+    // vite env data used in metrics, should be available in all environments
+    viteBuildInfoPlugin(),
+    createHtmlPlugin({ inject: { data: { ...env, mode }, tags: [...injectRRT] } }),
+    buildSizeReport({ filename: './size-report.json' }),
+  ];
+
+  if (process.env.CODECOV_TOKEN) {
+    plugins.push(
+      codecovVitePlugin({
+        debug: true,
+        enableBundleAnalysis: !!process.env.CODECOV_TOKEN,
+        bundleName: process.env.GITHUB_REPOSITORY,
+        uploadToken: process.env.CODECOV_TOKEN,
+        gitService: 'github',
+        retryCount: 3,
+        apiUrl: 'https://api.codecov.io',
+      }),
+    );
+  }
+
+  if (mode === 'development') {
+    // @ts-expect-error old types
+    plugins.push(mkcert());
+  }
+
   const cfg = defineConfig({
     base: `${env.VITE_BASE_PATH}${env.VITE_STATIC_PATH}`,
     build: {
       minify: mode !== 'development',
       sourcemap: true,
+      target: 'esnext',
+      chunkSizeWarningLimit: 1000,
       rollupOptions: {
         plugins: [
           !!env.VITE_ANALYZE_BUNDLE &&
@@ -65,34 +96,20 @@ export default ({ mode }) => {
               brotliSize: true,
             }),
         ],
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom'],
+            // Add other common dependencies
+          },
+        },
       },
     },
-    plugins: [
-      // use path resolve config from ts
-      tsconfigPaths(),
-      react(),
-      // vite env data used in metrics, should be available in all environments
-      viteBuildInfoPlugin(),
-      createHtmlPlugin({
-        inject: {
-          data: {
-            ...env,
-            mode,
-          },
-          tags: [...injectRRT],
-        },
-      }),
-      buildSizeReport({
-        filename: './size-report.json',
-      }),
-      mode === 'development' && mkcert(),
-    ],
+    plugins,
     css: {
-      postcss: postcssConfig,
       devSourcemap: true,
     },
     resolve: {
-      dedupe: [],
+      // dedupe: ['@loaders.gl/worker-utils'],
     },
     server: {
       proxy: proxyConfig,
