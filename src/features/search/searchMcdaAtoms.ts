@@ -15,7 +15,7 @@ import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { FeatureFlag } from '~core/shared_state';
 
-export const isMCDASearchEnabled = configRepo.get().features[FeatureFlag.LLM_MCDA];
+export const isMCDASearchEnabled = !!configRepo.get().features[FeatureFlag.LLM_MCDA];
 
 export const fetchMCDAAsyncResource = reatomAsync(
   (ctx, query: string) => getMCDA(query, ctx.controller),

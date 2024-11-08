@@ -27,17 +27,17 @@ export type AggregatedSearchItem =
   | (GeoJSON.Feature<Geometry, LocationProperties> & { source: 'locations' });
 
 export const aggregatedSearchAtom = atom((ctx) => {
-  const locations = ctx.spy(fetchLocationsAsyncResource.dataAtom);
-  const mcda = ctx.spy(fetchMCDAAsyncResource.dataAtom);
+  const locationsData = ctx.spy(fetchLocationsAsyncResource.dataAtom);
+  const mcdaData = ctx.spy(fetchMCDAAsyncResource.dataAtom);
 
   const results: AggregatedSearchItem[] = [];
-  if (mcda) {
-    results.push({ ...mcda.config, source: 'mcda' as const });
+  if (mcdaData) {
+    results.push({ ...mcdaData.config, source: 'mcda' as const });
   }
 
-  if (locations) {
+  if (locationsData) {
     results.push(
-      ...locations.locations.features.map((loc) => ({
+      ...locationsData.locations.features.map((loc) => ({
         ...loc,
         source: 'locations' as const,
       })),
