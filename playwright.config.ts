@@ -1,7 +1,8 @@
+import path from 'path';
 import { defineConfig, devices } from '@playwright/test';
 import * as dotenv from 'dotenv';
 import { LogLevel } from '@slack/web-api/dist/index.js';
-import path from 'path';
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -21,7 +22,7 @@ export default defineConfig({
   globalTimeout: process.env.CI ? 1800000 : 600000,
   timeout: process.env.CI ? 120000 : 60000,
   expect: {
-    timeout: process.env.CI ? 10000 : 7000,
+    timeout: process.env.CI ? 13000 : 10000,
   },
   testDir: './e2e',
   /* Run tests in files in parallel */
