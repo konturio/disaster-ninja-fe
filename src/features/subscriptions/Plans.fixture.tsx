@@ -2,8 +2,7 @@ import { useFixtureSelect } from 'react-cosmos/client';
 import { compiler } from 'markdown-to-jsx';
 import { Button } from '@konturio/ui-kit';
 import clsx from 'clsx';
-import { CustomLink, CustomImg } from '~core/pages/hypermedia';
-import { splitIntoSections } from '~core/pages/structuredMarkdown';
+import { MarkdownLink, MarkdownMedia, splitIntoSections } from '~core/pages';
 import PaymentPlanCardFooter from './components/PaymentPlanCardFooter/PaymentPlanCardFooter';
 import { Price } from './components/Price/Price';
 import s from './components/PaymentPlanCard/PaymentPlanCard.module.css';
@@ -57,8 +56,8 @@ function Plans({ styling = '', markdown = _plans, isUserAuthorized = false }) {
 
   const compiled = compiler(markdown, {
     overrides: {
-      a: CustomLink,
-      img: CustomImg,
+      a: MarkdownLink,
+      img: MarkdownMedia,
     },
     wrapper: null,
   }) as unknown as JSX.Element[];

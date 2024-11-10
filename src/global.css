@@ -7,105 +7,91 @@
   laptop viewport: < 1530px
   mobile viewport: < 960px
 */
-
-@import-normalize;
+@import url('./styles/reset.css');
+@import url('./styles/global-pages.css');
+@import url('./styles/global-map.css');
 
 :root {
+  /* Layout variables */
   --app-header-height: 44px;
   --panel-header-height: 40px;
+
+  /* System colors - using Konturio neutral colors for scrollbars */
+  --scrollbar-thumb: var(--neutral-neutral-50);
+  --scrollbar-track: var(--neutral-neutral-20);
 }
 
-html,
+/* Base styles */
+html {
+  /* Keep only what's not in Konturio defaults */
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
 body {
-  box-sizing: border-box;
+  /* Keep only what's not in Konturio defaults */
   overflow: hidden;
-  line-height: 1.4em;
 }
 
-html,
-body,
 #root {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
+/* Use Konturio's monospace font stack */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: ui-monospace, source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
-/* ScrollBar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  background-color: #f5f5f5;
+/* ScrollBar - Modern Cross-Browser Version */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: #c4d0df;
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: var(--scrollbar-track);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 3px;
+  }
 }
 
 /* Icons */
 .svgIcon24 {
-  width: 24px;
-  height: 24px;
+  inline-size: 24px;
+  block-size: 24px;
 }
 
-/*  Map markers */
-.mapboxgl-marker > div {
-  background: rgba(255, 255, 255, 0.7);
-  padding: 0;
-  & > div {
-    background: rgba(255, 255, 255, 0.5);
-  }
-}
-
-/* Map scale control */
-.mapboxgl-ctrl-bottom-right {
-  display: flex;
-}
-/* move map controls to the right so kontur logo wouldn't be overlapped */
-.maplibregl-control-container .maplibregl-ctrl-bottom-right {
-  right: calc(144px + var(--unit));
-  display: flex;
-  gap: var(--unit);
-  align-items: center;
-  bottom: calc(10px + var(--unit));
-  & .mapboxgl-ctrl-scale {
-    margin: 0;
-    height: 20px;
-  }
-
-  /* basemap copyright */
-  & .maplibregl-ctrl.maplibregl-ctrl-attrib {
-    padding: 0;
-  }
-}
-
+/* Critical error screen */
 .critical-error-screen {
-  margin: auto;
+  margin-block-start: 18vh;
+  margin-inline: auto;
   display: flex;
-  flex-flow: row;
-  margin-top: 18vh;
-  max-width: 50em;
+  flex-direction: column;
+  max-inline-size: 50em;
   padding: 1em;
+
+  & code {
+    border: 1px solid #c4c4c4;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: smaller;
+  }
 }
 
-.critical-error-message {
-  text-align: center;
-  color: red;
-  font-size: calc(1em + 0.5vw);
-}
-
+/* Router layout render */
 .keep-alive-render {
   flex: 1;
   display: contents;
+
   & > .cache-component.active {
     display: contents;
   }

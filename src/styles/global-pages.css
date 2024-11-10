@@ -1,0 +1,24 @@
+.app-pages-element-markdown {
+  /* font-family: var(--font-family); */
+
+  /* Using modern CSS grid for button layouts if needed */
+  & strong {
+    & a {
+      display: grid;
+      place-items: center;
+      min-width: 128px;
+      padding: var(--unit) 24px;
+      border: 1px solid var(--faint-weak);
+      border-radius: var(--border-radius);
+      font-family: var(--font-family);
+      font-weight: 400;
+      user-select: none;
+    }
+
+    & em a {
+      background-color: var(--accent-strong);
+      color: var(--base-weak) !important;
+      font-style: normal;
+    }
+  }
+}

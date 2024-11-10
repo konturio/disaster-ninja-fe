@@ -18,9 +18,6 @@ importers:
 
   .:
     dependencies:
-      '@csstools/normalize.css':
-        specifier: ^12.1.1
-        version: 12.1.1
       '@deck.gl/layers':
         specifier: ^8.9.33
         version: 8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21)
@@ -404,8 +401,8 @@ importers:
         specifier: ^1.17.6
         version: 1.17.6(vite@5.4.10(@types/node@20.14.11)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0))
       vite-tsconfig-paths:
-        specifier: ^5.1.0
-        version: 5.1.0(typescript@5.6.3)(vite@5.4.10(@types/node@20.14.11)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0))
+        specifier: ^5.1.2
+        version: 5.1.2(typescript@5.6.3)(vite@5.4.10(@types/node@20.14.11)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0))
       vitest:
         specifier: ^2.1.4
         version: 2.1.4(@types/node@20.14.11)(happy-dom@15.11.0)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0)
@@ -517,9 +514,6 @@ packages:
     peerDependencies:
       '@csstools/css-parser-algorithms': ^3.0.1
       '@csstools/css-tokenizer': ^3.0.1
-
-  '@csstools/normalize.css@12.1.1':
-    resolution: {integrity: sha512-YAYeJ+Xqh7fUou1d1j9XHl44BmsuThiTr4iNrgCQ3J27IbhXsxXDGZ1cXv8Qvs99d4rBbLiSKy3+WZiet32PcQ==}
 
   '@csstools/selector-specificity@4.0.0':
     resolution: {integrity: sha512-189nelqtPd8++phaHNwYovKZI0FOzH1vQEE3QhHHkNIGrg5fSs9CbYP3RvfEH5geztnIA9Jwq91wyOIwAW5JIQ==}
@@ -5835,8 +5829,8 @@ packages:
     peerDependencies:
       vite: '>=3'
 
-  vite-tsconfig-paths@5.1.0:
-    resolution: {integrity: sha512-Y1PLGHCJfAq1Zf4YIGEsmuU/NCX1epoZx9zwSr32Gjn3aalwQHRKr5aUmbo6r0JHeHkqmWpmDg7WOynhYXw1og==}
+  vite-tsconfig-paths@5.1.2:
+    resolution: {integrity: sha512-gEIbKfJzSEv0yR3XS2QEocKetONoWkbROj6hGx0FHM18qKUojhvcokQsxQx5nMkelZq2n37zbSGCJn+FSODSjA==}
     peerDependencies:
       vite: '*'
     peerDependenciesMeta:
@@ -6162,8 +6156,6 @@ snapshots:
     dependencies:
       '@csstools/css-parser-algorithms': 3.0.1(@csstools/css-tokenizer@3.0.1)
       '@csstools/css-tokenizer': 3.0.1
-
-  '@csstools/normalize.css@12.1.1': {}
 
   '@csstools/selector-specificity@4.0.0(postcss-selector-parser@6.1.2)':
     dependencies:
@@ -12241,7 +12233,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-tsconfig-paths@5.1.0(typescript@5.6.3)(vite@5.4.10(@types/node@20.14.11)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0)):
+  vite-tsconfig-paths@5.1.2(typescript@5.6.3)(vite@5.4.10(@types/node@20.14.11)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0)):
     dependencies:
       debug: 4.3.7
       globrex: 0.1.2

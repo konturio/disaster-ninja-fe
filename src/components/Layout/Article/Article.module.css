@@ -1,89 +1,153 @@
-.mainWrap {
-  display: flex;
-  margin: 0 auto;
+.article {
+  /* Full width container with scroll */
   width: 100%;
-  flex-direction: column;
-  padding-top: 80px;
-  padding-bottom: 80px;
+  height: 100%;
   overflow-y: auto;
-}
 
-.content {
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 16px;
-  line-height: 24px;
-  box-sizing: content-box;
-  padding-left: 14px;
-  padding-right: 14px;
-}
+  /* Center content with modern grid */
+  display: grid;
+  grid-template-columns: minmax(28px, 1fr) min(800px, 100% - 56px) minmax(28px, 1fr);
 
-.mainWrap blockquote {
-  margin-block-start: 2em;
-  margin-block-end: 2em;
-}
+  /* Container queries */
+  container-type: inline-size;
+  container-name: article;
 
-.mainWrap blockquote h3 {
-  margin-block-end: 0em;
-}
-
-.mainWrap blockquote p {
-  margin-block-start: 0.3em;
-  padding-left: 1em;
-}
-
-.mainWrap h1 {
-  font-weight: 500;
-  font-size: 48px;
-  line-height: 62px;
-  display: flex;
-  margin: 0 0 40px 0;
-}
-
-.mainWrap a {
-  color: var(--accent-strong);
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.content table {
-  border-collapse: collapse;
-}
-
-.content td,
-.content th {
-  padding: var(--unit);
-  border: 1px solid var(--faint-weak);
-}
-
-.content tr:nth-child(odd) {
-  background-color: var(--base-weak-up);
-}
-
-/* TODO: Atlas specific styles, move to ups config after testing */
-#app-id-9043acf9-2cf3-48ac-9656-a5d7c4b7593d #app-route-about article {
-  & section:nth-child(2) {
-    display: grid;
-    grid-template-columns: max-content auto;
-    gap: 1em;
+  /* Place all content in middle column */
+  & > * {
+    grid-column: 2;
+    padding-block: 80px;
   }
 
-  & h3 a {
-    padding: var(--unit) 24px;
-    user-select: none;
-    font-family: var(--font-family);
-    font-weight: 400;
+  /* List styles */
+  & :where(ul, ol) {
+    padding-inline-start: 2em;
+    margin-block: 1em;
+  }
+
+  & li {
+    margin-block: 0.5em;
+  }
+
+  & ul {
+    list-style-type: disc;
+
+    & ul {
+      list-style-type: circle;
+
+      & ul {
+        list-style-type: square;
+      }
+    }
+  }
+
+  /* Blockquote styles */
+  & blockquote {
+    margin-block: 1.5em;
+    margin-inline: 0;
+    padding: 1em 1.5em;
+    border-inline-start: 4px solid var(--accent-strong);
+    background-color: var(--base-weak-up);
+
+    & p:first-child {
+      margin-block-start: 0;
+    }
+
+    & p:last-child {
+      margin-block-end: 0;
+    }
+  }
+
+  /* Table styles */
+  & table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: 1.5em;
+
+    /* Enable horizontal scroll for wide tables */
+    display: block;
+    overflow-x: auto;
+
+    /* Make table behave like block but maintain table properties */
+    & thead {
+      position: sticky;
+      top: 0;
+      background-color: var(--base-weak);
+      z-index: 1;
+    }
+  }
+
+  & :is(td, th) {
+    padding: var(--unit);
     border: 1px solid var(--faint-weak);
-    border-radius: var(--border-radius);
-    min-width: 128px;
-    display: inline-block;
-    text-align: center;
-    box-sizing: border-box;
+    text-align: start;
   }
 
-  & h3 em a {
-    background-color: var(--accent-strong);
-    color: var(--base-weak) !important;
+  & th {
+    font-weight: 600;
+    background-color: var(--base-weak);
+  }
+
+  & tr:nth-child(odd) {
+    background-color: var(--base-weak-up);
+  }
+
+  & tr:hover {
+    background-color: var(--faint-weak-down);
+  }
+
+  /* Base typography */
+  font-size: 16px;
+  line-height: 1.5;
+
+  /* Fixed heading scales using Major Third (1.25) and browser standards */
+  & h1 {
+    font-size: 2em; /* browser default */
+    line-height: 1.3;
+  }
+
+  & h2 {
+    font-size: 1.5em; /* browser default */
+    line-height: 1.3;
+  }
+
+  & h3 {
+    font-size: 1.17em; /* browser default */
+    line-height: 1.4;
+  }
+
+  & h4 {
+    font-size: 1em; /* browser default */
+    line-height: 1.4;
+  }
+
+  & h5 {
+    font-size: 0.83em; /* browser default */
+    line-height: 1.5;
+  }
+
+  & h6 {
+    font-size: 0.67em; /* browser default */
+    line-height: 1.5;
+  }
+
+  & p {
+    font-size: 1em; /* same as base/h4 */
+    line-height: 1.5;
+    margin-block-end: 1em;
+  }
+
+  & small {
+    font-size: 0.8em; /* 1em ÷ 1.25 */
+    line-height: 1.5;
+  }
+
+  /* Consistent spacing for headings */
+  & :where(h1, h2, h3, h4, h5, h6) {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    font-weight: 700;
+    & a {
+      text-decoration: none;
+    }
   }
 }

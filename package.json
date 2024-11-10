@@ -68,7 +68,6 @@
     ]
   },
   "dependencies": {
-    "@csstools/normalize.css": "^12.1.1",
     "@deck.gl/layers": "^8.9.33",
     "@deck.gl/mapbox": "^8.9.33",
     "@github/mini-throttle": "^2.1.1",
@@ -198,7 +197,7 @@
     "vite": "5.4.10",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-mkcert": "^1.17.6",
-    "vite-tsconfig-paths": "^5.1.0",
+    "vite-tsconfig-paths": "^5.1.2",
     "vitest": "^2.1.4"
   },
   "pnpm": {

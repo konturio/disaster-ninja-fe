@@ -93,20 +93,30 @@ export default ({ mode }) => {
               brotliSize: true,
             }),
         ],
+        // treeshake: 'smallest',
+        // experimentalLogSideEffects: true,
         output: {
-          manualChunks: {
-            react: ['react', 'react-dom'],
-            // Add other common dependencies
+          manualChunks(id: string, { getModuleInfo, getModuleIds }) {
+            // react
+            if (id.includes('node_modules/react/')) return 'react';
+            if (id.includes('node_modules/react-dom/')) return 'react-dom';
+
+            // nebula
+            if (id.includes('node_modules/@loaders.gl')) return 'loaders-gl';
+            if (id.includes('node_modules/@luma.gl')) return 'luma-gl';
+            if (id.includes('node_modules/@deck.gl')) return 'deck-gl';
+
+            // etc
+            if (id.includes('node_modules/recharts')) return 'recharts';
+            if (id.includes('node_modules/maplibre-gl')) return 'maplibre-gl';
           },
+          experimentalMinChunkSize: 16000,
         },
       },
     },
     plugins,
     css: {
       devSourcemap: true,
-    },
-    resolve: {
-      // dedupe: ['@loaders.gl/worker-utils'],
     },
     server: {
       proxy: proxyConfig,
