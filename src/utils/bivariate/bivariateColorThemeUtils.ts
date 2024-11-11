@@ -117,7 +117,7 @@ export function generateColorThemeAndBivariateStyle(
 
   if (!xAxisDirection || !yAxisDirection) return;
 
-  // put colors in specific way because x and y axises are swapped here
+  // put colors in specific way because x and y axes are swapped here
   const colorTheme: ColorTheme = generateColorTheme(
     colors,
     xAxisDirection,
@@ -201,7 +201,7 @@ export const generateColorTheme = (
     return convertToRgbaWithOpacity(conv.hex);
   });
 
-  // put colors in specific way because x and y axises are swapped here
+  // put colors in specific way because x and y axes are swapped here
   const colorTheme: ColorTheme = [
     {
       id: 'A1',
