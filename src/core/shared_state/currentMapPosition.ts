@@ -17,6 +17,7 @@ export type MapPosition = CenterZoomPosition | BboxPosition;
 
 export type CurrentMapPositionAtomState = MapPosition | null;
 
+// TODO: #20160 update currentMapPositionAtom to reatom v3
 export const currentMapPositionAtom = createAtom(
   {
     setCurrentMapPosition: (mapPosition: { lat: number; lng: number; zoom: number }) =>
