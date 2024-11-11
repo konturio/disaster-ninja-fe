@@ -4,14 +4,12 @@ import { currentMapAtom } from './currentMap';
 import type { Map } from 'maplibre-gl';
 
 export type CenterZoomPosition = {
-  // type: 'centerZoom';
   lat: number;
   lng: number;
   zoom: number;
 };
 export type Bbox = [number, number, number, number];
 export type BboxPosition = {
-  // type: 'bbox';
   bbox: Bbox;
 };
 
@@ -46,28 +44,29 @@ export const currentMapPositionAtom = createAtom(
           });
         }
       }, 100);
-
-      state = position;
     }
 
     onAction('setCurrentMapPosition', (position) => {
       const map = currentMapAtom.getState();
-      if (!map) return;
-
-      jumpTo(map, position);
+      if (map) {
+        jumpTo(map, position);
+      }
+      state = position;
     });
 
     onAction('setCurrentMapBbox', (bbox) => {
-      const bboxPosition = { bbox: bbox.flat() as Bbox };
+      let position = { bbox: bbox.flat() } as MapPosition;
       const map = currentMapAtom.getState();
-      if (!map) return;
-
-      const cam = getCameraForBbox(bbox, map);
-      if (cam.center && 'lng' in cam.center) {
-        const { zoom } = cam;
-        const { lat, lng } = cam.center;
-        jumpTo(map, { ...bboxPosition, lat, lng, zoom });
+      if (map) {
+        const cam = getCameraForBbox(bbox, map);
+        if (cam.center && 'lng' in cam.center) {
+          const { zoom } = cam;
+          const { lat, lng } = cam.center;
+          position = { ...position, lat, lng, zoom: zoom ?? map.getZoom() };
+          jumpTo(map, position);
+        }
       }
+      state = position;
     });
 
     onAction('updateCurrentMapPosition', (position) => {
