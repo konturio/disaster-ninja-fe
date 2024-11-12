@@ -1,7 +1,7 @@
 import { ratesToTable } from '../converters/ratesToTable';
 import { extractAvailableDenominators } from '../extractors/extractAvailableDenominators';
 import { sortByExample } from '../sort/sortByExample';
-import { createBivariateAxisesHashMap } from './createBivariateAxisesHashMap';
+import { createBivariateAxesHashMap } from './createBivariateAxesHashMap';
 import { createCorrelationsHashMap } from './createCorrelationsHashMap';
 import type { Axis, CorrelationRate, Stat } from '../../types/stat.types';
 import type { Table } from '../converters/ratesToTable';
@@ -18,10 +18,10 @@ export type NumeratorSelector = (x: string, y: string) => { x: Axis; y: Axis } |
 
 export function parseStat(stat: Stat) {
   /* selected denominators pair: data for bivariate legend */
-  const bivariateAxisesHashMap = createBivariateAxisesHashMap(stat);
+  const bivariateAxesHashMap = createBivariateAxesHashMap(stat);
 
   /* selected denominators pair: data for corelation matrix */
-  const correlationsHashMap = createCorrelationsHashMap(stat, bivariateAxisesHashMap);
+  const correlationsHashMap = createCorrelationsHashMap(stat, bivariateAxesHashMap);
 
   /* Data for denominators selectors */
   const [xDenominators, yDenominators] = extractAvailableDenominators(
@@ -42,8 +42,8 @@ export function parseStat(stat: Stat) {
            * *It's look like mistake or bug but it NOT A MISTAKE!
            * Matrix X -> Legend Y, and Matrix Y -> Legend X
            */
-          x: bivariateAxisesHashMap.get(nY, y) as Axis,
-          y: bivariateAxisesHashMap.get(nX, x) as Axis,
+          x: bivariateAxesHashMap.get(nY, y) as Axis,
+          y: bivariateAxesHashMap.get(nX, x) as Axis,
         };
       },
     };
