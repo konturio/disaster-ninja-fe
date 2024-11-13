@@ -21,7 +21,10 @@ for (const project of projects) {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
     const fullName = `${firstName} ${lastName}`;
-
+    // E.164 format for phone numbers
+    const phone = `+${faker.number.int({ min: 1, max: 999 })}${faker.string.numeric(10)}`;
+    // LinkedIn URL format
+    const linkedin = `https://www.linkedin.com/in/${faker.internet.userName()}`;
     const username = `${firstName}${lastName}${faker.number.int(1000)}`.toLowerCase();
     const email = `${username}@testdeleteme.com`;
 
@@ -45,6 +48,8 @@ for (const project of projects) {
           fullName,
           email,
           password,
+          phone,
+          linkedin,
         },
       ),
       pageManager.atKeycloakPage.getAdminToken({
