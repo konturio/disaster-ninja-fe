@@ -21,6 +21,8 @@ for (const project of projects) {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
     const fullName = `${firstName} ${lastName}`;
+    const phone = faker.phone.number();
+    const linkedin = faker.internet.url();
 
     const username = `${firstName}${lastName}${faker.number.int(1000)}`.toLowerCase();
     const email = `${username}@testdeleteme.com`;
@@ -45,6 +47,8 @@ for (const project of projects) {
           fullName,
           email,
           password,
+          phone,
+          linkedin,
         },
       ),
       pageManager.atKeycloakPage.getAdminToken({
