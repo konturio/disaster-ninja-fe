@@ -48,16 +48,16 @@ export async function setupApplicationEnv() {
   setupWebManifest(appConfig);
 
   // use user data from app config endpoint or local defaults for anonymous session
-  const initialUser =
-    appConfig.user ??
-    createPublicUser({
-      language: i18n.getSupportedLanguage(
-        navigator.languages,
-        stageConfig.defaultLanguage,
-      ),
-      osmEditor: stageConfig.osmEditors[0].id,
-      defaultFeed: stageConfig.defaultFeed,
-    });
+  const initialUser = appConfig.user
+    ? {
+        ...appConfig.user,
+        language: appConfig.user.language || getUserLanguage(stageConfig.defaultLanguage), // newly registered users do not have a language settled
+      }
+    : createPublicUser({
+        language: getUserLanguage(stageConfig.defaultLanguage),
+        osmEditor: stageConfig.osmEditors[0].id,
+        defaultFeed: stageConfig.defaultFeed,
+      });
 
   setAppLanguage(initialUser.language);
 
@@ -141,6 +141,10 @@ function printMeta() {
       'color: #bada55',
     );
   }
+}
+
+function getUserLanguage(fallbackLanguage: string) {
+  return i18n.getSupportedLanguage(navigator.languages, fallbackLanguage);
 }
 
 function setAppLanguage(language: string) {

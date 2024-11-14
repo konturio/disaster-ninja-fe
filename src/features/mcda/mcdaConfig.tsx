@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { showModal } from '~core/modal';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { i18n } from '~core/localization';
