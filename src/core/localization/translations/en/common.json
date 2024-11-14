@@ -160,7 +160,7 @@
     "good": "Good"
   },
   "search": {
-    "info_block": "You can search for \uD83D\uDCCD locations or ask ✨ AI your question like “Dead wood analysis”",
+    "info_block": "You can search for 📍 locations or ask ✨ AI your question like “Dead wood analysis”",
     "input_placeholder": "Search",
     "input_placeholder_mcda": "Search or ask AI",
     "mcda_loading_message": "AI is generating an analysis for you",

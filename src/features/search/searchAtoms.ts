@@ -12,8 +12,6 @@ import {
   selectMCDAItemAction,
   isMCDASearchEnabled,
 } from '~features/search/searchMcdaAtoms';
-import { configRepo } from '~core/config';
-import { FeatureFlag } from '~core/shared_state';
 import type { LocationProperties } from '~core/api/search';
 import type { Geometry } from 'geojson';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -52,7 +50,7 @@ export const searchAction = action((ctx) => {
   if (query.trim() === '') return;
   resetResourceAtomsAction(ctx);
   fetchLocationsAsyncResource(ctx, query);
-  if (configRepo.get().features[FeatureFlag.LLM_MCDA]) {
+  if (isMCDASearchEnabled) {
     fetchMCDAAsyncResource(ctx, query);
   }
   isMenuOpenAtom(ctx, false);
@@ -110,6 +108,8 @@ export const handleKeyDownAction = action(
       }
     } else if (event.key === 'Enter') {
       searchAction(ctx);
+    } else if (event.key === 'Escape') {
+      isMenuOpenAtom(ctx, false);
     }
   },
 );

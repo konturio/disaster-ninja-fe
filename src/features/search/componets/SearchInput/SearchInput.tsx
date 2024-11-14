@@ -45,15 +45,19 @@ export const SearchInput = reatomComponent<SearchInputProps>(
             className={cn(styles.LoadingSpinner, { [styles.shown]: isLoading })}
           />
 
-          <button type="reset" onClick={onReset}>
+          <button type="reset" onClick={onReset} aria-label="Reset search input">
             <Close16 />
           </button>
         </div>
-        <div className="buttonContainer">
-          <Button variant="invert" onClick={onSearch} className={classes?.button}>
-            <Search16 />
-          </Button>
-        </div>
+
+        <Button
+          variant="invert"
+          onClick={onSearch}
+          className={classes?.button}
+          aria-label="search"
+        >
+          <Search16 />
+        </Button>
       </div>
     );
   },

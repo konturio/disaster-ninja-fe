@@ -107,8 +107,7 @@ export function SearchBar() {
                   key={item.name}
                   className={cn(style.listItem, style.createMcdaAnalysis)}
                   item={{
-                    title:
-                      '✨' + i18n.t('search.mcda_create_analysis') + ` "${item.name}"`,
+                    title: `✨${i18n.t('search.mcda_create_analysis')} "${item.name}"`,
                     value: item.name,
                     hasDivider: true,
                   }}
@@ -117,7 +116,7 @@ export function SearchBar() {
                     onClick: () => handleItemSelect(item),
                     role: 'option',
                   }}
-                ></SelectItem>
+                />
               );
             default:
               return null;
