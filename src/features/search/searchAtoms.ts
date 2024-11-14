@@ -29,11 +29,11 @@ export const aggregatedSearchAtom = atom((ctx) => {
   const mcdaData = ctx.spy(fetchMCDAAsyncResource.dataAtom);
 
   const results: AggregatedSearchItem[] = [];
-  if (mcdaData) {
+  if (mcdaData && mcdaData.config) {
     results.push({ ...mcdaData.config, source: 'mcda' as const });
   }
 
-  if (locationsData) {
+  if (locationsData && locationsData.locations?.features) {
     results.push(
       ...locationsData.locations.features.map((loc) => ({
         ...loc,

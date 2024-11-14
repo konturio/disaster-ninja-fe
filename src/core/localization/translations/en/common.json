@@ -167,7 +167,7 @@
     "mcda_no_result": "No AI analysis this time",
     "mcda_error_message": "AI engine did not respond. Please try again later",
     "mcda_create_analysis": "Create analysis",
-    "upload_analysis": "“{{name}}”  Multi-Criteria Decision Analysis has been created"
+    "upload_analysis": "“{{name}}” Multi-Criteria Decision Analysis has been created"
   },
   "event_list": {
     "warning_title": "Cannot filter by map view",
