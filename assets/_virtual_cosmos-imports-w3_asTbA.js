@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-BsRutlIW.js","./index-CpzfG3GJ.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-srIRMOh8.js","./index-gZEGR2ce.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-CpzfG3GJ.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-gZEGR2ce.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -6144,12 +6144,12 @@ var querystring = {
     let found;
     if (typeof window !== "undefined") {
       let {
-        search
+        search: search2
       } = window.location;
       if (!window.location.search && ((_a2 = window.location.hash) == null ? void 0 : _a2.indexOf("?")) > -1) {
-        search = window.location.hash.substring(window.location.hash.indexOf("?"));
+        search2 = window.location.hash.substring(window.location.hash.indexOf("?"));
       }
-      const query = search.substring(1);
+      const query = search2.substring(1);
       const params = query.split("&");
       for (let i2 = 0; i2 < params.length; i2++) {
         const pos = params[i2].indexOf("=");
@@ -6531,6 +6531,16 @@ const mcda$6 = {
   bad: "Bad",
   good: "Good"
 };
+const search = {
+  info_block: "You can search for 📍 locations or ask ✨ AI your question like “Dead wood analysis”",
+  input_placeholder: "Search",
+  input_placeholder_mcda: "Search or ask AI",
+  mcda_loading_message: "AI is generating an analysis for you",
+  mcda_no_result: "No AI analysis this time",
+  mcda_error_message: "AI engine did not respond. Please try again later",
+  mcda_create_analysis: "Create analysis",
+  upload_analysis: "“{{name}}” Multi-Criteria Decision Analysis has been created"
+};
 const event_list$6 = {
   warning_title: "Cannot filter by map view",
   warning_description: "Map is not ready yet, try later",
@@ -6868,6 +6878,7 @@ const en_common = {
   groups: groups$6,
   advanced_analytics_data_list: advanced_analytics_data_list$6,
   mcda: mcda$6,
+  search,
   event_list: event_list$6,
   create_layer: create_layer$6,
   analytics_panel: analytics_panel$6,
@@ -11082,14 +11093,14 @@ function createBrowserHistory(options) {
   function createBrowserLocation(window2, globalHistory) {
     let {
       pathname,
-      search,
+      search: search2,
       hash
     } = window2.location;
     return createLocation(
       "",
       {
         pathname,
-        search,
+        search: search2,
         hash
       },
       // state defaults to `null` because `window.history.state` does
@@ -11138,10 +11149,10 @@ function createLocation(current, to2, state, key) {
 function createPath(_ref) {
   let {
     pathname = "/",
-    search = "",
+    search: search2 = "",
     hash = ""
   } = _ref;
-  if (search && search !== "?") pathname += search.charAt(0) === "?" ? search : "?" + search;
+  if (search2 && search2 !== "?") pathname += search2.charAt(0) === "?" ? search2 : "?" + search2;
   if (hash && hash !== "#") pathname += hash.charAt(0) === "#" ? hash : "#" + hash;
   return pathname;
 }
@@ -11376,7 +11387,7 @@ function Router(_ref5) {
   }
   let {
     pathname = "/",
-    search = "",
+    search: search2 = "",
     hash = "",
     state = null,
     key = "default"
@@ -11389,14 +11400,14 @@ function Router(_ref5) {
     return {
       location: {
         pathname: trailingPathname,
-        search,
+        search: search2,
         hash,
         state,
         key
       },
       navigationType
     };
-  }, [basename, pathname, search, hash, state, key, navigationType]);
+  }, [basename, pathname, search2, hash, state, key, navigationType]);
   if (locationContext == null) {
     return null;
   }
@@ -35358,7 +35369,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-BsRutlIW.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-srIRMOh8.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
