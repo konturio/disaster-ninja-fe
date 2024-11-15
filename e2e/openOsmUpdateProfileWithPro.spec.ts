@@ -1,4 +1,5 @@
 import { expect } from '@playwright/test';
+import { faker } from '@faker-js/faker';
 import { test } from './fixtures/test-options.ts';
 import { getProjects } from './page-objects/helperBase.ts';
 import type { Project } from './page-objects/helperBase.ts';
@@ -39,34 +40,53 @@ for (const project of projects) {
   });
 }
 
-test.describe(`As PRO User, I can use different OSM editors to open the map`, () => {
+test.describe(`As PRO User, I can use different OSM editors to open the map and I can update details of my profile`, () => {
   test.describe.configure({ mode: 'serial' });
   for (const project of limitedProjects) {
     for (const [editor, pattern] of editors) {
-      test(`As PRO User, I can go to ${project.title}, open map and open ${editor} at map coordinates`, async ({
+      test(`As PRO User, I can go to ${project.title}, update profile details, open map and open ${editor} at map coordinates`, async ({
         context,
         pageManager,
+        page,
       }) => {
+        const newFullName = faker.person.fullName();
+        const newBio = faker.lorem.paragraph();
         await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
         await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
         const osmEditorValue = await pageManager.atProfilePage.getOsmEditorValue();
+        await pageManager.atProfilePage.setBioValue(newBio);
+        await pageManager.atProfilePage.setFullNameValue(newFullName);
         if (osmEditorValue !== editor) {
           await pageManager.atProfilePage.setOsmEditorValue(editor);
+          await pageManager.atProfilePage.saveChanges();
           const editedOsmEditorValue =
             await pageManager.atProfilePage.getOsmEditorValue();
           expect(editedOsmEditorValue).toEqual(editor);
+        } else {
+          await pageManager.atProfilePage.saveChanges();
         }
+        const newProfileData = await pageManager.atProfilePage.getProfileData(project, {
+          shouldOsmEditorBeSeenOnAtlas: true,
+        });
+        expect(newProfileData.bioValue, 'Bio should be updated').toStrictEqual(newBio);
+        expect(newProfileData.fullNameValue, 'Full name should be updated').toStrictEqual(
+          newFullName,
+        );
 
-        await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
-
-        await pageManager.atMap.waitForTextBeingVisible('Toolbar');
-        await pageManager.atMap.waitForUrlToMatchPattern(/\?map=/i);
+        await Promise.all([
+          pageManager.atNavigationMenu.clickButtonToOpenPage('Map'),
+          pageManager.atMap.waitForUrlToMatchPattern(/\?map=/i, page, 'domcontentloaded'),
+        ]);
+        await pageManager.atMap.waitForTextBeingVisible('Tools');
 
         const coordinates = await pageManager.atMap.getViewportFromUrl();
 
+        const editMapBtn = pageManager.atToolBar.getButtonByText('Edit map in OSM');
+        await editMapBtn.hover();
+
         const [newPage] = await Promise.all([
-          context.waitForEvent('page', { timeout: 25000 }),
-          (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click({
+          context.waitForEvent('page', { timeout: 35000 }),
+          editMapBtn.click({
             delay: 330,
           }),
         ]);

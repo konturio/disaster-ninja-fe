@@ -21,7 +21,7 @@ export class ToolBar extends HelperBase {
    * @returns - playwright locator for the button
    */
 
-  async getButtonByText(text: string) {
+  getButtonByText(text: string): Locator {
     const aliveMap = this.page.locator('.keep-alive-render');
     return aliveMap.getByText(text, { exact: true });
   }

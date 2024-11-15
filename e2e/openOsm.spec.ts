@@ -17,19 +17,22 @@ for (const project of projects) {
         description: `Fix issue https://kontur.fibery.io/Tasks/Task/FE-Guest-opens-incorrect-location-in-OSM-using-'Edit-map-in-OSM'-feature-19485 to activate this tests`,
       },
     },
-    async ({ context, pageManager }) => {
+    async ({ context, pageManager, page }) => {
       await pageManager.atBrowser.openProject(project);
-      await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
-
-      // TO DO: remove this action after 18582 issue is fixed
-      await pageManager.atMap.goToSpecificAreaByUrl(10.597, 53.9196, 27.5097, project);
+      await Promise.all([
+        pageManager.atNavigationMenu.clickButtonToOpenPage('Map'),
+        pageManager.atMap.waitForUrlToMatchPattern(/\?map=/i, page, 'domcontentloaded'),
+      ]);
+      await pageManager.atMap.waitForTextBeingVisible('Tools');
 
       const coordinates = await pageManager.atMap.getViewportFromUrl();
+      const editMapBtn = pageManager.atToolBar.getButtonByText('Edit map in OSM');
+      await editMapBtn.hover();
 
       const [newPage] = await Promise.all([
         context.waitForEvent('page'),
-        (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click({
-          delay: 150,
+        editMapBtn.click({
+          delay: 330,
         }),
       ]);
 
