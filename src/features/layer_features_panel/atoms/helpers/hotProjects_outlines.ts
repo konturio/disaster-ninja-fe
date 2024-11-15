@@ -1,6 +1,9 @@
+import { i18n } from '~core/localization';
 import type { FeatureCardCfg } from '../../components/CardElements';
 
-const formatTimeFn = new Intl.DateTimeFormat('default', {
+const language = i18n.instance.language || 'default';
+
+const formatTimeFn = new Intl.DateTimeFormat(language, {
   year: 'numeric',
   month: 'short',
   day: 'numeric',
