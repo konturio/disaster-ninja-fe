@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-srIRMOh8.js","./index-gZEGR2ce.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-CtTKVE5B.js","./index-B32mz1r_.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-gZEGR2ce.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-B32mz1r_.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -4248,13 +4248,13 @@ class Translator extends EventEmitter {
         };
         if (this.options.saveMissing) {
           if (this.options.saveMissingPlurals && needsPluralHandling) {
-            lngs.forEach((language) => {
-              const suffixes = this.pluralResolver.getSuffixes(language, options);
+            lngs.forEach((language2) => {
+              const suffixes = this.pluralResolver.getSuffixes(language2, options);
               if (needsZeroSuffixLookup && options[`defaultValue${this.options.pluralSeparator}zero`] && suffixes.indexOf(`${this.options.pluralSeparator}zero`) < 0) {
                 suffixes.push(`${this.options.pluralSeparator}zero`);
               }
               suffixes.forEach((suffix) => {
-                send([language], key + suffix, options[`defaultValue${suffix}`] || defaultValue);
+                send([language2], key + suffix, options[`defaultValue${suffix}`] || defaultValue);
               });
             });
           } else {
@@ -5636,11 +5636,11 @@ class I18n extends EventEmitter {
     }
     return deferred2;
   }
-  loadResources(language) {
+  loadResources(language2) {
     let callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : noop$1;
     let usedCallback = callback;
-    const usedLng = isString$1(language) ? language : this.language;
-    if (typeof language === "function") usedCallback = language;
+    const usedLng = isString$1(language2) ? language2 : this.language;
+    if (typeof language2 === "function") usedCallback = language2;
     if (!this.options.resources || this.options.partialBundledLanguages) {
       if (usedLng && usedLng.toLowerCase() === "cimode" && (!this.options.preload || this.options.preload.length === 0)) return usedCallback();
       const toLoad = [];
@@ -6240,7 +6240,7 @@ var navigator$1 = {
       const {
         languages,
         userLanguage,
-        language
+        language: language2
       } = navigator;
       if (languages) {
         for (let i2 = 0; i2 < languages.length; i2++) {
@@ -6250,8 +6250,8 @@ var navigator$1 = {
       if (userLanguage) {
         found.push(userLanguage);
       }
-      if (language) {
-        found.push(language);
+      if (language2) {
+        found.push(language2);
       }
     }
     return found.length > 0 ? found : void 0;
@@ -6281,10 +6281,10 @@ var path = {
       lookupFromPathIndex
     } = _ref;
     if (typeof window === "undefined") return void 0;
-    const language = window.location.pathname.match(/\/([a-zA-Z-]*)/g);
-    if (!Array.isArray(language)) return void 0;
+    const language2 = window.location.pathname.match(/\/([a-zA-Z-]*)/g);
+    if (!Array.isArray(language2)) return void 0;
     const index2 = typeof lookupFromPathIndex === "number" ? lookupFromPathIndex : 0;
-    return (_a2 = language[index2]) == null ? void 0 : _a2.replace("/", "");
+    return (_a2 = language2[index2]) == null ? void 0 : _a2.replace("/", "");
   }
 };
 var subdomain = {
@@ -6295,9 +6295,9 @@ var subdomain = {
       lookupFromSubdomainIndex
     } = _ref;
     const internalLookupFromSubdomainIndex = typeof lookupFromSubdomainIndex === "number" ? lookupFromSubdomainIndex + 1 : 1;
-    const language = typeof window !== "undefined" && ((_b = (_a2 = window.location) == null ? void 0 : _a2.hostname) == null ? void 0 : _b.match(/^(\w{2,5})\.(([a-z0-9-]{1,63}\.[a-z]{2,6})|localhost)/i));
-    if (!language) return void 0;
-    return language[internalLookupFromSubdomainIndex];
+    const language2 = typeof window !== "undefined" && ((_b = (_a2 = window.location) == null ? void 0 : _a2.hostname) == null ? void 0 : _b.match(/^(\w{2,5})\.(([a-z0-9-]{1,63}\.[a-z]{2,6})|localhost)/i));
+    if (!language2) return void 0;
+    return language2[internalLookupFromSubdomainIndex];
   }
 };
 function getDefaults() {
@@ -9021,9 +9021,9 @@ const TranslationService = {
   getSupportedLanguage: (preferredLanguages, fallbackLanguage) => {
     for (const langCode of preferredLanguages) {
       try {
-        const language = new Intl.Locale(langCode).language;
-        if (language in languageResources) {
-          return language;
+        const language2 = new Intl.Locale(langCode).language;
+        if (language2 in languageResources) {
+          return language2;
         }
       } catch {
         console.error("Couldn't parse language code:", langCode);
@@ -35369,7 +35369,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-srIRMOh8.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-CtTKVE5B.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
@@ -35510,17 +35510,15 @@ const s$1 = {
   linkContainer,
   markdown
 };
-const formatTime = (() => {
-  const format = new Intl.DateTimeFormat("default", {
-    hour: "numeric",
-    minute: "numeric",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    timeZoneName: "short"
-  }).format;
-  return (date) => format(date);
-})();
+const language = TranslationService.instance.language || "default";
+const formatTime = new Intl.DateTimeFormat(language, {
+  hour: "numeric",
+  minute: "numeric",
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  timeZoneName: "short"
+}).format;
 function EventCard({
   event: event2,
   isActive,
