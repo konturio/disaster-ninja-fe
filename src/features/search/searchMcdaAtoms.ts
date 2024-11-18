@@ -23,7 +23,7 @@ export const fetchMCDAAsyncResource = reatomAsync(
   'fetchMCDA',
 ).pipe(withDataAtom(null), withErrorAtom(), withStatusesAtom(), withAbort());
 
-export const MCDAAtom = atom((ctx) => {
+export const MCDASuggestionAtom = atom((ctx) => {
   const result = ctx.spy(fetchMCDAAsyncResource.dataAtom);
   const loading = ctx.spy(fetchMCDAAsyncResource.pendingAtom) > 0;
   const error = ctx.spy(fetchMCDAAsyncResource.errorAtom);
@@ -41,7 +41,7 @@ export const resetMCDASearchAction = action((ctx) => {
 });
 
 export const selectMCDAItemAction = action((ctx) => {
-  const config = ctx.get(MCDAAtom).data;
+  const config = ctx.get(MCDASuggestionAtom).data;
   if (config) {
     store.dispatch([mcdaLayerAtom.createMCDALayer(config)]);
     notificationServiceInstance.success(
