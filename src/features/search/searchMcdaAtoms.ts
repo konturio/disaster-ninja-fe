@@ -31,6 +31,7 @@ export const MCDAAtom = atom((ctx) => {
 });
 
 export const resetMCDASearchAction = action((ctx) => {
+  fetchMCDAAsyncResource.abort(ctx);
   fetchMCDAAsyncResource.dataAtom.reset(ctx);
   fetchMCDAAsyncResource.errorAtom.reset(ctx);
   fetchMCDAAsyncResource.statusesAtom.reset(ctx);

@@ -73,7 +73,7 @@ export function SearchBar() {
   const renderNoResults = () => (
     <SelectItem
       key="no-data"
-      item={{ disabled: true, title: 'No results', value: null }}
+      item={{ disabled: true, title: i18n.t('search.locations_no_result'), value: null }}
       className={style.listItem}
       itemProps={{ role: 'option' }}
     />

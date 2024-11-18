@@ -34,6 +34,7 @@ export const selectLocationItemAction = action((ctx, item) => {
 });
 
 export const resetLocationSearchAction = action((ctx) => {
+  fetchLocationsAsyncResource.abort(ctx);
   fetchLocationsAsyncResource.dataAtom.reset(ctx);
   fetchLocationsAsyncResource.errorAtom.reset(ctx);
   fetchLocationsAsyncResource.statusesAtom.reset(ctx);

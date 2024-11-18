@@ -62,7 +62,6 @@ export const itemSelectAction = action((ctx, item: AggregatedSearchItem) => {
     inputAtom(ctx, item.properties.display_name);
   } else if (item.source === 'mcda') {
     selectMCDAItemAction(ctx);
-    inputAtom(ctx, item.name);
   }
   isMenuOpenAtom(ctx, false);
 });

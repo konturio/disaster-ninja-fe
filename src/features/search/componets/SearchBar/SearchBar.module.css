@@ -56,7 +56,7 @@
 
   &.loading::after {
     content: '';
-    animation: dot-blink 1.5s infinite;
+    animation: dot-blink 1s infinite;
   }
 
   &.error {
