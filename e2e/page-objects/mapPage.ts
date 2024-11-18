@@ -21,11 +21,11 @@ export class MapCanvas extends HelperBase {
   }
 
   /**
-   * This method waits different time depending on the fact of running tests in CI. For CI - 12 secs, for local run - 6 secs. Designed for waiting for zoom on map.
+   * This method waits 12 secs, designed for waiting for zoom on map.
    */
 
   async waitForZoom() {
-    const zoomTimeout = process.env.CI ? 12000 : 6000;
+    const zoomTimeout = 12000;
     await this.page.waitForTimeout(zoomTimeout);
   }
   /**

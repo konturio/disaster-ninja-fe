@@ -65,6 +65,7 @@ function OutletWithCache() {
     return location.pathname;
   }, [location]);
 
+  // TODO: #20155 Warning! keepalive-for-react v3.0.2 doesn't work with Strict Mode. https://github.com/irychen/keepalive-for-react/blob/9356667eac5f574a3aac8e254ab29128b61a22ee/README.md
   return <KeepAlive activeCacheKey={cacheKey}>{outlet}</KeepAlive>;
 }
 

@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import postcssConfig from './postcss.config';
 
 // https://vitejs.dev/config/
 const cfg = defineConfig({
@@ -11,7 +10,6 @@ const cfg = defineConfig({
     port: 5050,
   },
   css: {
-    postcss: postcssConfig,
     devSourcemap: true,
   },
 });

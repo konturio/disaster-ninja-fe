@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { showModal } from '~core/modal';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { i18n } from '~core/localization';
@@ -22,19 +21,19 @@ import type {
 export async function editMCDAConfig(oldConfig: MCDAConfig): Promise<MCDAConfig | null> {
   const name = oldConfig.name;
   const oldLayers = oldConfig.layers ?? [];
-  const axises = oldLayers.map((layer) => ({
+  const axes = oldLayers.map((layer) => ({
     id: layer.id,
     label: layer.name,
   }));
   const input = await showModal(MCDAForm, {
     initialState: {
       name,
-      axises,
+      axes,
     },
   });
   if (input === null) return null;
 
-  const newLayers = createMCDALayersFromBivariateAxises(input.axises);
+  const newLayers = createMCDALayersFromBivariateAxes(input.axes);
   const resultLayers = newLayers.reduce<MCDALayer[]>((acc, layer) => {
     // if there already was a layer with this id, reuse it
     const oldLayer = oldLayers.find((old) => old.id === layer.id);
@@ -54,7 +53,7 @@ export async function createMCDAConfig() {
   const input = await showModal(MCDAForm, {
     initialState: {
       name: '',
-      axises: [],
+      axes: [],
     },
   });
 
@@ -62,7 +61,7 @@ export async function createMCDAConfig() {
 
   const config = createDefaultMCDAConfig({
     name: input.name,
-    layers: createMCDALayersFromBivariateAxises(input.axises),
+    layers: createMCDALayersFromBivariateAxes(input.axes),
   });
   return config;
 }
@@ -99,8 +98,8 @@ function getRangeFromAxisSteps(axis: Axis): [number, number] {
   }
 }
 
-function createMCDALayersFromBivariateAxises(axises: Axis[]): MCDALayer[] {
-  return axises.reduce<MCDALayer[]>((acc, axis) => {
+function createMCDALayersFromBivariateAxes(axes: Axis[]): MCDALayer[] {
+  return axes.reduce<MCDALayer[]>((acc, axis) => {
     const numeratorFirstSentiment = axis.quotients?.at(0)?.direction?.at(0);
     const sentimentDirection = numeratorFirstSentiment?.some(
       (sentiment) => sentiment === 'bad',

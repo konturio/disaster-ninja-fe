@@ -47,17 +47,22 @@ export async function setupApplicationEnv() {
   setupAppIcons(appConfig);
   setupWebManifest(appConfig);
 
+  const fallbackLanguage = i18n.getSupportedLanguage(
+    navigator.languages,
+    stageConfig.defaultLanguage,
+  );
+
   // use user data from app config endpoint or local defaults for anonymous session
-  const initialUser =
-    appConfig.user ??
-    createPublicUser({
-      language: i18n.getSupportedLanguage(
-        navigator.languages,
-        stageConfig.defaultLanguage,
-      ),
-      osmEditor: stageConfig.osmEditors[0].id,
-      defaultFeed: stageConfig.defaultFeed,
-    });
+  const initialUser = appConfig.user
+    ? {
+        ...appConfig.user,
+        language: appConfig.user.language || fallbackLanguage, // newly registered users do not have a language settled
+      }
+    : createPublicUser({
+        language: fallbackLanguage,
+        osmEditor: stageConfig.osmEditors[0].id,
+        defaultFeed: stageConfig.defaultFeed,
+      });
 
   setAppLanguage(initialUser.language);
 

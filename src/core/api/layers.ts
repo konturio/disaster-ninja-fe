@@ -1,5 +1,6 @@
 import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
+import type { Feature } from 'geojson';
 import type { LayerDetailsDto, LayerSummaryDto } from '~core/logical_layers/types/source';
 
 export const LAYERS_IN_AREA_API_ERROR =
@@ -64,4 +65,20 @@ export async function getLayersDetails(ids: string[], appId: string, language: s
   );
   // TODO: use layers source configs to cache layer data
   return layers ?? [];
+}
+
+export function getLayerFeatures(
+  layerId: string,
+  geoJSON: GeoJSON.GeoJSON,
+  abortController: AbortController,
+) {
+  return apiClient.post<Feature[]>(
+    `/layers/${layerId}/items/search`,
+    {
+      appId: configRepo.get().id,
+      geoJSON,
+    },
+    true,
+    { signal: abortController.signal },
+  );
 }

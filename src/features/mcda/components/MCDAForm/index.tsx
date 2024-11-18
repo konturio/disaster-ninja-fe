@@ -12,19 +12,19 @@ import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
 import { sortByAlphabet, sortByWordOccurence } from '~utils/common/sorting';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
-import { availableBivariateAxesAtom } from '../../atoms/availableBivariateAxisesAtom';
+import { availableBivariateAxesAtom } from '../../atoms/availableBivariateAxesAtom';
 import { generateEmojiPrefix } from '../../utils/generateEmojiPrefix';
 import s from './style.module.css';
 import type { Axis } from '~utils/bivariate';
 
 type FormInitialState = {
   name: string;
-  axises: { id: string; label: string }[];
+  axes: { id: string; label: string }[];
 };
 
 type FormResult = {
   name: string;
-  axises: Axis[];
+  axes: Axis[];
 };
 
 export function MCDAForm({
@@ -71,7 +71,7 @@ export function MCDAForm({
 
   useEffect(() => {
     // Setup indicators input initial state after we get available indicators
-    const preselected = new Set(initialState.axises.map((a) => a.id));
+    const preselected = new Set(initialState.axes.map((a) => a.id));
     if (axesResource.data && !selectionInitialized && preselected.size > 0) {
       selectIndicators(
         axesResource.data
@@ -80,7 +80,7 @@ export function MCDAForm({
       );
       setSelectionInitialized(true);
     }
-  }, [initialState.axises, axesResource, selectionInitialized]);
+  }, [initialState.axes, axesResource, selectionInitialized]);
 
   // Possible exits
   const cancelAction = useCallback(() => onConfirm(null), [onConfirm]);
@@ -93,7 +93,7 @@ export function MCDAForm({
       );
       onConfirm({
         name,
-        axises: onlySelectedIndicators,
+        axes: onlySelectedIndicators,
       });
     }
   }, [axesResource, selectedIndicators, onConfirm, name]);
