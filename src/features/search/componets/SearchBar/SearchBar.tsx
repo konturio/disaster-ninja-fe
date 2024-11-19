@@ -16,7 +16,10 @@ import {
 } from '~features/search/searchAtoms';
 import { useOutsideClick } from '~utils/hooks/useOutsideClick';
 import { i18n } from '~core/localization';
-import { isMCDASearchEnabled, MCDAAtom } from '~features/search/searchMcdaAtoms';
+import {
+  isMCDASearchEnabled,
+  MCDASuggestionAtom,
+} from '~features/search/searchMcdaAtoms';
 import { SearchInput } from '../SearchInput/SearchInput';
 import style from './SearchBar.module.css';
 
@@ -43,7 +46,7 @@ export function SearchBar() {
   };
 
   const [{ error, loading, emptyResult }] = useAtom(searchLocationsAtom);
-  const [state] = useAtom(MCDAAtom);
+  const [state] = useAtom(MCDASuggestionAtom);
   const [aggregatedResults] = useAtom(aggregatedSearchAtom);
 
   const inputProps = useMemo(
@@ -73,7 +76,7 @@ export function SearchBar() {
   const renderNoResults = () => (
     <SelectItem
       key="no-data"
-      item={{ disabled: true, title: 'No results', value: null }}
+      item={{ disabled: true, title: i18n.t('search.locations_no_result'), value: null }}
       className={style.listItem}
       itemProps={{ role: 'option' }}
     />

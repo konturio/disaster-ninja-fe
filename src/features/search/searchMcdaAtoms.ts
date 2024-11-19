@@ -14,6 +14,7 @@ import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { FeatureFlag } from '~core/shared_state';
+import { createMCDAConfigFromJSON } from '~features/mcda/utils/openMcdaFile';
 
 export const isMCDASearchEnabled = !!configRepo.get().features[FeatureFlag.LLM_MCDA];
 
@@ -22,28 +23,31 @@ export const fetchMCDAAsyncResource = reatomAsync(
   'fetchMCDA',
 ).pipe(withDataAtom(null), withErrorAtom(), withStatusesAtom(), withAbort());
 
-export const MCDAAtom = atom((ctx) => {
-  const data = ctx.spy(fetchMCDAAsyncResource.dataAtom);
+export const MCDASuggestionAtom = atom((ctx) => {
+  const result = ctx.spy(fetchMCDAAsyncResource.dataAtom);
   const loading = ctx.spy(fetchMCDAAsyncResource.pendingAtom) > 0;
   const error = ctx.spy(fetchMCDAAsyncResource.errorAtom);
+
+  const data = result ? createMCDAConfigFromJSON(result.config) : null;
 
   return { data, loading, error };
 });
 
 export const resetMCDASearchAction = action((ctx) => {
+  fetchMCDAAsyncResource.abort(ctx);
   fetchMCDAAsyncResource.dataAtom.reset(ctx);
   fetchMCDAAsyncResource.errorAtom.reset(ctx);
   fetchMCDAAsyncResource.statusesAtom.reset(ctx);
 });
 
 export const selectMCDAItemAction = action((ctx) => {
-  const json = ctx.get(MCDAAtom).data;
-  if (json?.config) {
-    store.dispatch([mcdaLayerAtom.createMCDALayer(json.config)]);
+  const config = ctx.get(MCDASuggestionAtom).data;
+  if (config) {
+    store.dispatch([mcdaLayerAtom.createMCDALayer(config)]);
     notificationServiceInstance.success(
       {
         title: i18n.t('search.upload_analysis', {
-          name: json.config.name,
+          name: config.name,
         }),
       },
       2,

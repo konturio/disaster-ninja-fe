@@ -160,11 +160,12 @@
     "good": "Good"
   },
   "search": {
-    "info_block": "You can search for 📍 locations or ask ✨ AI your question like “Dead wood analysis”",
+    "info_block": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”",
     "input_placeholder": "Search",
     "input_placeholder_mcda": "Search or ask AI",
+    "locations_no_result": "No locations found",
     "mcda_loading_message": "AI is generating an analysis for you",
-    "mcda_no_result": "No AI analysis this time",
+    "mcda_no_result": "No AI suggestion",
     "mcda_error_message": "AI engine did not respond. Please try again later",
     "mcda_create_analysis": "Create analysis",
     "upload_analysis": "“{{name}}” Multi-Criteria Decision Analysis has been created"

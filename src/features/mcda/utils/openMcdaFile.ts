@@ -12,7 +12,7 @@ const input = (() => {
   return input;
 })();
 
-function createMCDAConfigFromJSON(json: Partial<MCDAConfig>): MCDAConfig {
+export function createMCDAConfigFromJSON(json: Partial<MCDAConfig>): MCDAConfig {
   const result: Partial<MCDAConfig> = { ...json };
   if (!result.version || result.version < 4) {
     throw new Error(i18n.t('mcda.error_wrong_mcda_version'));

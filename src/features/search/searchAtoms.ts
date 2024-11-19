@@ -7,7 +7,7 @@ import {
 } from '~features/search/searchLocationAtoms';
 import {
   fetchMCDAAsyncResource,
-  MCDAAtom,
+  MCDASuggestionAtom,
   resetMCDASearchAction,
   selectMCDAItemAction,
   isMCDASearchEnabled,
@@ -62,7 +62,6 @@ export const itemSelectAction = action((ctx, item: AggregatedSearchItem) => {
     inputAtom(ctx, item.properties.display_name);
   } else if (item.source === 'mcda') {
     selectMCDAItemAction(ctx);
-    inputAtom(ctx, item.name);
   }
   isMenuOpenAtom(ctx, false);
 });
@@ -117,7 +116,7 @@ export const handleKeyDownAction = action(
 // Show info block if no loading, no error, and no results in both data sources
 export const showInfoBlockAtom = atom((ctx) => {
   const locationState = ctx.spy(searchLocationsAtom);
-  const mcdaState = ctx.spy(MCDAAtom);
+  const mcdaState = ctx.spy(MCDASuggestionAtom);
 
   const hasActiveData = locationState.data?.length > 0 || mcdaState.data;
   const hasPendingOrError =
@@ -133,7 +132,7 @@ searchLocationsAtom.onChange((ctx, state) => {
 });
 
 if (isMCDASearchEnabled) {
-  MCDAAtom.onChange((ctx, state) => {
+  MCDASuggestionAtom.onChange((ctx, state) => {
     if (state.loading || state.error || state.data) {
       isMenuOpenAtom(ctx, true);
     }
