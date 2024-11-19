@@ -20,18 +20,16 @@ export type CurrentMapPositionAtomState = MapPosition | null;
 // TODO: #20160 update currentMapPositionAtom to reatom v3
 export const currentMapPositionAtom = createAtom(
   {
-    setCurrentMapPosition: (mapPosition: { lat: number; lng: number; zoom: number }) =>
-      mapPosition,
+    setCurrentMapPosition: (mapPosition: CenterZoomPosition) => mapPosition,
     setCurrentMapBbox: (mapBbox: Bbox | [[number, number], [number, number]]) => mapBbox,
-    updateCurrentMapPosition: (mapPosition: { lat: number; lng: number; zoom: number }) =>
-      mapPosition,
+    updateCurrentMapPosition: (mapPosition: CenterZoomPosition) => mapPosition,
     currentMapAtom,
   },
   ({ onAction }, state: CurrentMapPositionAtomState = null) => {
-    function jumpTo(map: Map, position: MapPosition) {
-      const { lng, lat, zoom } = position as CenterZoomPosition;
+    function jumpTo(map: Map, position: CenterZoomPosition) {
+      const { lng, lat, zoom } = position;
       requestAnimationFrame(() => {
-        map?.stop();
+        map.stop();
       });
       setTimeout(() => {
         const mapCenter = map.getCenter();
