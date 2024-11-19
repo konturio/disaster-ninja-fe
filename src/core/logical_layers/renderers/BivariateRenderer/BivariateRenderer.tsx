@@ -425,6 +425,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
 
     this.cleanPopup();
+    this.resetFeatureStates?.();
 
     if (map.getSource(this._sourceId)) {
       map.removeSource(this._sourceId);
@@ -436,7 +437,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this.cleanUpListeners();
     map.off('zoom', this.onMapZoom);
     this.onMapZoomHandlers.clear();
-    this.resetFeatureStates?.();
   }
 
   willHide({ map }: { map: ApplicationMap }) {
