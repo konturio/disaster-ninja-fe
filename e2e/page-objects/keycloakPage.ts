@@ -29,6 +29,8 @@ type RegistrationData = {
   fullName: string;
   email: string;
   password: string;
+  phone: string;
+  linkedin: string;
 };
 
 type VerifyEmailInfo = {
@@ -74,12 +76,14 @@ export class KeycloakPage extends HelperBase {
   async registerAndSeeVerificationEmailInfo(
     project: Project,
     page: Page,
-    { fullName, email, password }: RegistrationData,
+    { fullName, email, password, phone, linkedin }: RegistrationData,
   ) {
     await page.locator('#firstName').fill(fullName);
     await page.locator('#email').fill(email);
     await page.locator('#password').fill(password);
     await page.locator('#password-confirm').fill(password);
+    await page.locator('#phone').fill(phone);
+    await page.locator('#linkedin').fill(linkedin);
     if (project.env !== 'dev') await page.locator('#termsAccepted').check();
     await page.locator('[type = "submit"]').click({ force: true });
     await page.locator(':text("Email verification")').waitFor({ state: 'visible' });

@@ -1,9 +1,9 @@
 import { HashMap } from '../HashMap';
-import type { Stat, CorrelationRate, Axis } from '../../types/stat.types';
+import type { Stat, CorrelationRate, Axis } from '~utils/bivariate';
 
 export function createCorrelationsHashMap(
   stat: Stat,
-  bivariateAxisesHashMap: HashMap<Axis>,
+  bivariateAxesHashMap: HashMap<Axis>,
 ) {
   const correlationsHashMap = new HashMap<CorrelationRate>(true);
   stat.correlationRates.forEach((correlationRate) => {
@@ -14,14 +14,14 @@ export function createCorrelationsHashMap(
 
     // clone object to get rid of readonly properties
     const cRate = { ...correlationRate };
-    const xAxis = bivariateAxisesHashMap.get(
+    const xAxis = bivariateAxesHashMap.get(
       cRate.x.quotient[0],
       cRate.x.quotient[1],
     ) as Axis;
     if (xAxis) {
       cRate.x = { ...cRate.x, quality: xAxis.quality };
     }
-    const yAxis = bivariateAxisesHashMap.get(
+    const yAxis = bivariateAxesHashMap.get(
       cRate.y.quotient[0],
       cRate.y.quotient[1],
     ) as Axis;

@@ -2,7 +2,7 @@ import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useCallback } from 'react';
 import { clsx } from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
-import { useAtom } from '@reatom/react-v2';
+import { useAtom } from '@reatom/npm-react';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
@@ -18,7 +18,6 @@ import {
 } from '../../atoms/layerFeaturesCollectionAtom';
 import {
   ACAPS_DATA_HEADER,
-  ACAPS_SIMPLE_LAYER_ID,
   FEATURESPANEL_MIN_HEIGHT,
   HOT_PROJECTS_HEADER,
   HOT_PROJECTS_LAYER_ID,
@@ -31,9 +30,9 @@ import type { FeatureCardCfg } from '../CardElements';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
 
 export function LayerFeaturesPanel() {
-  const [currentFeatureId, { set: setCurrentFeatureId }] = useAtom(currentFeatureIdAtom);
+  const [currentFeatureId, setCurrentFeatureIdAtom] = useAtom(currentFeatureIdAtom);
   const onCurrentChange = (id: number, feature: FeatureCardCfg) => {
-    setCurrentFeatureId(id);
+    setCurrentFeatureIdAtom(id);
     scheduledAutoFocus.setFalse.dispatch();
     if (feature.focus) {
       currentMapPositionAtom.setCurrentMapBbox.dispatch(feature.focus as Bbox);
@@ -89,7 +88,9 @@ export function LayerFeaturesPanel() {
         short: (
           <ShortState
             openFullState={openFullState}
-            feature={featuresList[currentFeatureId]}
+            feature={
+              currentFeatureId !== null ? featuresList[currentFeatureId] : undefined
+            }
           />
         ),
         closed: null,

@@ -7,12 +7,8 @@ import {
   withErrorAtom,
   withStatusesAtom,
 } from '@reatom/framework';
-import { currentMapPositionAtom, FeatureFlag } from '~core/shared_state';
+import { currentMapPositionAtom } from '~core/shared_state';
 import { getLocations } from '~core/api/search';
-import { fetchMCDAAsyncResource } from '~features/search/searchMcdaAtoms';
-import { configRepo } from '~core/config';
-import type { LocationProperties } from '~core/api/search';
-import type { Feature, Geometry } from 'geojson';
 
 export const fetchLocationsAsyncResource = reatomAsync(
   (ctx, query: string) => getLocations(query, ctx.controller),
@@ -27,40 +23,19 @@ export const searchLocationsAtom = atom((ctx) => {
     Array.isArray(locationsResult?.locations?.features) &&
     locationsResult?.locations.features.length === 0;
 
-  const locations = locationsResult?.locations?.features.map((location) => ({
-    title: location.properties.display_name,
-    value: location.properties.osm_id,
-  }));
+  const locations = locationsResult?.locations?.features;
 
   return { data: locations || [], loading, error: error?.message ?? null, emptyResult };
 }, 'searchLocationsAtom');
 
-export const locationsAtom = atom<Feature<Geometry, LocationProperties>[]>((ctx) => {
-  const locationsResult = ctx.spy(fetchLocationsAsyncResource.dataAtom);
-  return locationsResult?.locations?.features || [];
+export const selectLocationItemAction = action((ctx, item) => {
+  const bbox = item.properties.bbox;
+  currentMapPositionAtom.setCurrentMapBbox.dispatch(bbox);
 });
 
-export const searchQueryAction = action(async (ctx, query) => {
-  resetAction(ctx);
-  fetchLocationsAsyncResource(ctx, query);
-  if (configRepo.get().features[FeatureFlag.LLM_MCDA]) {
-    fetchMCDAAsyncResource(ctx, query);
-  }
-});
-
-export const resetAction = action((ctx) => {
+export const resetLocationSearchAction = action((ctx) => {
+  fetchLocationsAsyncResource.abort(ctx);
   fetchLocationsAsyncResource.dataAtom.reset(ctx);
   fetchLocationsAsyncResource.errorAtom.reset(ctx);
   fetchLocationsAsyncResource.statusesAtom.reset(ctx);
-
-  fetchMCDAAsyncResource.dataAtom.reset(ctx);
-  fetchMCDAAsyncResource.errorAtom.reset(ctx);
-  fetchMCDAAsyncResource.statusesAtom.reset(ctx);
-});
-
-export const itemSelectAction = action((ctx, index: number) => {
-  const selectedLocation = ctx.get(locationsAtom)[index];
-  const bbox = selectedLocation.properties.bbox;
-
-  currentMapPositionAtom.setCurrentMapBbox.dispatch(bbox);
 });

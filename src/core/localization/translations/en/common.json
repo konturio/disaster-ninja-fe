@@ -126,7 +126,6 @@
         "2_sigma": "2σ",
         "1_sigma": "1σ"
       },
-
       "outliers_options": {
         "clamp": "Clamp",
         "hide": "Hide",
@@ -159,6 +158,17 @@
     },
     "bad": "Bad",
     "good": "Good"
+  },
+  "search": {
+    "info_block": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”",
+    "input_placeholder": "Search",
+    "input_placeholder_mcda": "Search or ask AI",
+    "locations_no_result": "No locations found",
+    "mcda_loading_message": "AI is generating an analysis for you",
+    "mcda_no_result": "No AI suggestion",
+    "mcda_error_message": "AI engine did not respond. Please try again later",
+    "mcda_create_analysis": "Create analysis",
+    "upload_analysis": "“{{name}}” Multi-Criteria Decision Analysis has been created"
   },
   "event_list": {
     "warning_title": "Cannot filter by map view",
@@ -454,7 +464,9 @@
     "empty": "Layer features within selected area will be provided here",
     "noFeatureSelected": "No layer feature selected",
     "chooseFeature": "Choose layer feature",
-    "listInfo": "The list is filtered by selected area and sorted by project number"
+    "listInfo": "The list is filtered by selected area and sorted by project number",
+    "error_loading": "Failed to load layer features data. Please try again.",
+    "no_features": "No features found in the selected area."
   },
   "reference_area": {
     "save_as_reference_area": "Save as reference area",

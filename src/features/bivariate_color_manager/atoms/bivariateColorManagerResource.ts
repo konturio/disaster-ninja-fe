@@ -98,7 +98,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
     }, {});
 
     const axisNumeratorInfo = axis.reduce<AxisNumeratorInfo>((acc, axis) => {
-      if (!axis.quality || axis.quality < 0.5) return acc; // we don't need low quality axises
+      if (!axis.quality || axis.quality < 0.5) return acc; // we don't need low quality axes
 
       const [numerator, denominator] = axis.quotient;
       if (!acc[numerator]) {

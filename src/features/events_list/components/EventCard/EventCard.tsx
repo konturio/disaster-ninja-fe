@@ -11,17 +11,16 @@ import { Analytics } from './Analytics/Analytics';
 import s from './EventCard.module.css';
 import type { Event } from '~core/types';
 
-const formatTime = (() => {
-  const format = new Intl.DateTimeFormat('default', {
-    hour: 'numeric',
-    minute: 'numeric',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    timeZoneName: 'short',
-  }).format;
-  return (date: Date) => format(date);
-})();
+const language = i18n.instance.language || 'default';
+
+const formatTime = new Intl.DateTimeFormat(language, {
+  hour: 'numeric',
+  minute: 'numeric',
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  timeZoneName: 'short',
+}).format;
 
 export function EventCard({
   event,
