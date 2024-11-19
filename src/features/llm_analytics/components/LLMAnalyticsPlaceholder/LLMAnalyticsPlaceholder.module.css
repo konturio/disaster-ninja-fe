@@ -1,0 +1,22 @@
+.placeholderBody {
+  width: 100%;
+  display: grid;
+  gap: var(--half-unit);
+
+  & svg {
+    width: 16px;
+    height: 26px;
+    padding-bottom: 5px;
+    margin-bottom: -10px;
+  }
+
+  & .mainText {
+    margin: var(--unit) 0;
+  }
+}
+
+.clickableText {
+  width: 100%;
+  color: var(--accent-strong);
+  cursor: pointer;
+}
