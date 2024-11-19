@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-CtTKVE5B.js","./index-B32mz1r_.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-D7qEQRnV.js","./index-ByP4w1DV.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-B32mz1r_.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-ByP4w1DV.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -6532,11 +6532,12 @@ const mcda$6 = {
   good: "Good"
 };
 const search = {
-  info_block: "You can search for 📍 locations or ask ✨ AI your question like “Dead wood analysis”",
+  info_block: "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”",
   input_placeholder: "Search",
   input_placeholder_mcda: "Search or ask AI",
+  locations_no_result: "No locations found",
   mcda_loading_message: "AI is generating an analysis for you",
-  mcda_no_result: "No AI analysis this time",
+  mcda_no_result: "No AI suggestion",
   mcda_error_message: "AI engine did not respond. Please try again later",
   mcda_create_analysis: "Create analysis",
   upload_analysis: "“{{name}}” Multi-Criteria Decision Analysis has been created"
@@ -35369,7 +35370,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-CtTKVE5B.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-D7qEQRnV.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
