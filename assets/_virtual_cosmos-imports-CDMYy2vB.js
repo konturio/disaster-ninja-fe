@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-CIwJud6N.js","./index-BAm614qT.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-DIXhSsOg.js","./index-zrcNMKnl.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-BAm614qT.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-zrcNMKnl.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -6599,14 +6599,20 @@ const advanced_analytics_panel$6 = {
 };
 const advanced_analytics_empty$6 = {
   not_found: "Sorry, the requested disaster was not found",
-  error: "An error occured",
+  error: "An error occurred",
   analytics_for_selected: "Analytics for selected area",
   will_be_provided: "will be provided here",
   no_analytics: "No analytics for the selected area"
 };
 const llm_analytics = {
   header: "AI insights",
-  header_info: "📝 Fill out your [bio](/profile)  \n🌟 Save an area you know well as a reference  \n📚 Select an area you want to explore"
+  placeholder: {
+    select_area: "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI Insights.",
+    you_can_also: "You can also:",
+    fill_bio: "<icon /> <lnk>Fill out bio</lnk> to personalize AI analysis",
+    select_and_save_as_reference_area: "<icon /> Select an area and save it as a reference to compare with another one",
+    learn_more: "<lnk><icon/> Learn more about AI Insights</lnk>"
+  }
 };
 const draw_tools$6 = {
   area: "Polygon",
@@ -35377,7 +35383,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-CIwJud6N.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-DIXhSsOg.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
