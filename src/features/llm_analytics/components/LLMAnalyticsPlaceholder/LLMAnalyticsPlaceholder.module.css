@@ -5,9 +5,8 @@
 
   & svg {
     width: 16px;
-    height: 26px;
-    padding-bottom: 5px;
-    margin-bottom: -10px;
+    height: auto;
+    margin-bottom: -3px;
   }
 
   & .mainText {
