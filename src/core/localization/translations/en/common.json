@@ -226,7 +226,7 @@
   },
   "advanced_analytics_empty": {
     "not_found": "Sorry, the requested disaster was not found",
-    "error": "An error occured",
+    "error": "An error occurred",
     "analytics_for_selected": "Analytics for selected area",
     "will_be_provided": "will be provided here",
     "no_analytics": "No analytics for the selected area"
