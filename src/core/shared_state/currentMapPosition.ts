@@ -57,10 +57,10 @@ export const currentMapPositionAtom = createAtom(
       let position = { bbox: bbox.flat() } as MapPosition;
       const map = currentMapAtom.getState();
       if (map) {
-        const viewport = getCameraForBbox(bbox, map);
-        if (viewport.center && 'lng' in viewport.center) {
-          const { zoom } = viewport;
-          const { lat, lng } = viewport.center;
+        const camera = getCameraForBbox(bbox, map);
+        if (camera.center && 'lng' in camera.center) {
+          const { zoom } = camera;
+          const { lat, lng } = camera.center;
           position = { ...position, lat, lng, zoom: zoom ?? map.getZoom() };
           jumpTo(map, position);
         }
