@@ -25,9 +25,7 @@ export function LLMAnalyticsPlaceholder() {
           }}
         />
       </div>
-      <div>
-        <Text type="long-m">{i18n.t('llm_analytics.placeholder.you_can_also')}</Text>
-      </div>
+      <Text type="long-m">{i18n.t('llm_analytics.placeholder.you_can_also')}</Text>
       <div>
         <Trans
           i18nKey="llm_analytics.placeholder.fill_bio"
