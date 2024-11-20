@@ -58,7 +58,7 @@ export function LLMAnalyticsPlaceholder() {
             lnk: (
               <span
                 className={styles.clickableText}
-                onClick={() => goTo('/profile')}
+                onClick={() => goTo('/about/user-guide')}
               ></span>
             ),
           }}
