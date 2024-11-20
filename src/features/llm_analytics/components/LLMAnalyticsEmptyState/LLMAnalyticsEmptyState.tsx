@@ -1,6 +1,5 @@
 import { i18n } from '~core/localization';
-import { PagesDocument } from '~core/pages';
-import { MarkdownWrapper } from '../MarkdownWrapper/MarkdownWrapper';
+import { LLMAnalyticsPlaceholder } from '../LLMAnalyticsPlaceholder/LLMAnalyticsPlaceholder';
 import s from './LLMAnalyticsEmptyState.module.css';
 
 interface AnalyticsEmptyStateProps {
@@ -18,15 +17,7 @@ export const LLMAnalyticsEmptyState = ({
           <br />
         </>
       )}
-      <PagesDocument
-        doc={[
-          {
-            type: 'md',
-            data: i18n.t('llm_analytics.header_info'),
-          },
-        ]}
-        wrapperComponent={MarkdownWrapper}
-      />
+      <LLMAnalyticsPlaceholder />
     </div>
   );
 };
