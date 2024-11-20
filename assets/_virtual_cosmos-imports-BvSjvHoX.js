@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-BJFXTWb8.js","./index-DAugcclM.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-CIwJud6N.js","./index-BAm614qT.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-DAugcclM.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-BAm614qT.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -30196,43 +30196,55 @@ const currentMapAtom = createAtom(
   },
   "[Shared state] currentMapAtom"
 );
+function jumpTo(map, position) {
+  const { lng, lat, zoom } = position;
+  requestAnimationFrame(() => {
+    map.stop();
+  });
+  setTimeout(() => {
+    const mapCenter = map.getCenter();
+    const mapZoom = map.getZoom();
+    if (mapCenter.lng !== lng || mapCenter.lat !== lat || mapZoom !== zoom) {
+      requestAnimationFrame(() => {
+        map == null ? void 0 : map.jumpTo({
+          center: [lng, lat],
+          zoom
+        });
+      });
+    }
+  }, 100);
+}
 createAtom(
   {
     setCurrentMapPosition: (mapPosition) => mapPosition,
-    setCurrentMapBbox: (mapBbox) => mapBbox
+    setCurrentMapBbox: (mapBbox) => mapBbox,
+    updateCurrentMapPosition: (mapPosition) => mapPosition,
+    currentMapAtom
   },
   ({ onAction }, state = null) => {
     onAction("setCurrentMapPosition", (position) => {
-      if (state === null || !("lng" in state)) {
-        state = position;
-      } else {
-        const { lat, lng, zoom } = position;
-        if ("lng" in state && (state.lat !== lat || state.lng !== lng || state.zoom !== zoom)) {
-          state = position;
-        }
+      const map = currentMapAtom.getState();
+      if (map) {
+        jumpTo(map, position);
       }
+      state = position;
     });
     onAction("setCurrentMapBbox", (bbox) => {
-      var _a2;
-      const position = { bbox: bbox.flat() };
-      const prev = state;
-      if (prev === null || !("bbox" in prev)) {
-        state = position;
-      } else {
-        if ("bbox" in prev && ((_a2 = prev == null ? void 0 : prev.bbox) == null ? void 0 : _a2.some((coord, i2) => coord !== position.bbox[i2]))) {
-          state = position;
-        }
-      }
+      let position = { bbox: bbox.flat() };
       const map = currentMapAtom.getState();
-      if (!map) return;
-      const cam = getCameraForBbox(bbox, map);
-      if (cam.center && "lng" in cam.center) {
-        const { zoom } = cam;
-        const { lat, lng } = cam.center;
-        if (prev == null || "lng" in prev && (prev.lat !== lat || prev.lng !== lng || prev.zoom !== zoom)) {
-          state = { ...position, lat, lng, zoom };
+      if (map) {
+        const camera = getCameraForBbox(bbox, map);
+        if (camera.center && "lng" in camera.center) {
+          const { zoom } = camera;
+          const { lat, lng } = camera.center;
+          position = { ...position, lat, lng, zoom: zoom ?? map.getZoom() };
+          jumpTo(map, position);
         }
       }
+      state = position;
+    });
+    onAction("updateCurrentMapPosition", (position) => {
+      state = position;
     });
     return state;
   },
@@ -35365,7 +35377,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-BJFXTWb8.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-CIwJud6N.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
