@@ -233,7 +233,7 @@
   },
   "llm_analytics": {
     "header": "AI insights",
-    "guide": {
+    "placeholder": {
       "select_area": "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI Insights.",
       "you_can_also": "You can also:",
       "fill_bio": "<icon /> <lnk>Fill out bio</lnk> to personalize AI analysis",

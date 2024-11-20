@@ -17,7 +17,7 @@ export function LLMAnalyticsPlaceholder() {
     <div className={styles.placeholderBody}>
       <div className={styles.mainText}>
         <Trans
-          i18nKey="llm_analytics.guide.select_area"
+          i18nKey="llm_analytics.placeholder.select_area"
           components={{
             icon1: <SelectArea16 />,
             icon2: <EditGeometry16 />,
@@ -26,11 +26,11 @@ export function LLMAnalyticsPlaceholder() {
         />
       </div>
       <div>
-        <Text type="long-m">{i18n.t('llm_analytics.guide.you_can_also')}</Text>
+        <Text type="long-m">{i18n.t('llm_analytics.placeholder.you_can_also')}</Text>
       </div>
       <div>
         <Trans
-          i18nKey="llm_analytics.guide.fill_bio"
+          i18nKey="llm_analytics.placeholder.fill_bio"
           components={{
             icon: <User24 />,
             lnk: (
@@ -44,7 +44,7 @@ export function LLMAnalyticsPlaceholder() {
       </div>
       <div>
         <Trans
-          i18nKey="llm_analytics.guide.select_and_save_as_reference_area"
+          i18nKey="llm_analytics.placeholder.select_and_save_as_reference_area"
           components={{
             icon: <Reference16 />,
           }}
@@ -52,7 +52,7 @@ export function LLMAnalyticsPlaceholder() {
       </div>
       <div>
         <Trans
-          i18nKey="llm_analytics.guide.learn_more"
+          i18nKey="llm_analytics.placeholder.learn_more"
           components={{
             icon: <Play24 />,
             lnk: (
