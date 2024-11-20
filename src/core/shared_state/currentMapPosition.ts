@@ -1,16 +1,15 @@
 import { createAtom } from '~utils/atoms';
 import { getCameraForBbox } from '~utils/map/camera';
 import { currentMapAtom } from './currentMap';
+import type { Map } from 'maplibre-gl';
 
 export type CenterZoomPosition = {
-  // type: 'centerZoom';
   lat: number;
   lng: number;
   zoom: number;
 };
 export type Bbox = [number, number, number, number];
 export type BboxPosition = {
-  // type: 'bbox';
   bbox: Bbox;
 };
 
@@ -18,53 +17,59 @@ export type MapPosition = CenterZoomPosition | BboxPosition;
 
 export type CurrentMapPositionAtomState = MapPosition | null;
 
+function jumpTo(map: Map, position: CenterZoomPosition) {
+  const { lng, lat, zoom } = position;
+  requestAnimationFrame(() => {
+    map.stop();
+  });
+  setTimeout(() => {
+    const mapCenter = map.getCenter();
+    const mapZoom = map.getZoom();
+    if (mapCenter.lng !== lng || mapCenter.lat !== lat || mapZoom !== zoom) {
+      requestAnimationFrame(() => {
+        map?.jumpTo({
+          center: [lng, lat],
+          zoom: zoom,
+        });
+      });
+    }
+  }, 100);
+}
+
+// TODO: #20160 update currentMapPositionAtom to reatom v3
 export const currentMapPositionAtom = createAtom(
   {
-    setCurrentMapPosition: (mapPosition: { lat: number; lng: number; zoom: number }) =>
-      mapPosition,
+    setCurrentMapPosition: (mapPosition: CenterZoomPosition) => mapPosition,
     setCurrentMapBbox: (mapBbox: Bbox | [[number, number], [number, number]]) => mapBbox,
+    updateCurrentMapPosition: (mapPosition: CenterZoomPosition) => mapPosition,
+    currentMapAtom,
   },
   ({ onAction }, state: CurrentMapPositionAtomState = null) => {
     onAction('setCurrentMapPosition', (position) => {
-      if (state === null || !('lng' in state)) {
-        state = position;
-      } else {
-        const { lat, lng, zoom } = position;
-        if (
-          'lng' in state &&
-          (state.lat !== lat || state.lng !== lng || state.zoom !== zoom)
-        ) {
-          state = position;
-        }
+      const map = currentMapAtom.getState();
+      if (map) {
+        jumpTo(map, position);
       }
+      state = position;
     });
 
     onAction('setCurrentMapBbox', (bbox) => {
-      const position = { bbox: bbox.flat() as Bbox };
-      const prev = state;
-      if (prev === null || !('bbox' in prev)) {
-        state = position;
-      } else {
-        if (
-          'bbox' in prev &&
-          prev?.bbox?.some((coord: number, i: number) => coord !== position.bbox[i])
-        ) {
-          state = position;
-        }
-      }
+      let position = { bbox: bbox.flat() } as MapPosition;
       const map = currentMapAtom.getState();
-      if (!map) return;
-      const cam = getCameraForBbox(bbox, map);
-      if (cam.center && 'lng' in cam.center) {
-        const { zoom } = cam;
-        const { lat, lng } = cam.center;
-        if (
-          prev == null ||
-          ('lng' in prev && (prev.lat !== lat || prev.lng !== lng || prev.zoom !== zoom))
-        ) {
-          state = { ...position, lat, lng, zoom };
+      if (map) {
+        const camera = getCameraForBbox(bbox, map);
+        if (camera.center && 'lng' in camera.center) {
+          const { zoom } = camera;
+          const { lat, lng } = camera.center;
+          position = { ...position, lat, lng, zoom: zoom ?? map.getZoom() };
+          jumpTo(map, position);
         }
       }
+      state = position;
+    });
+
+    onAction('updateCurrentMapPosition', (position) => {
+      state = position;
     });
 
     return state;

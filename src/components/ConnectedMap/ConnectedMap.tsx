@@ -7,7 +7,7 @@ import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLi
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { configRepo } from '~core/config';
 import Map from './map-libre-adapter';
-import { useMapPositionSmoothSync } from './useMapPositionSmoothSync';
+import { useMapPositionSync } from './useMapPositionSync';
 import type {
   LayerSpecification,
   Map as MapLibreMap,
@@ -37,7 +37,7 @@ const LAYERS_ON_TOP = [
 export function ConnectedMap({ className }: { className?: string }) {
   const mapBaseStyle = configRepo.get().mapBaseStyle;
   const mapRef = useRef<ApplicationMap>();
-  useMapPositionSmoothSync(mapRef);
+  useMapPositionSync(mapRef);
 
   // init current MapRefAtom
   const setCurrentMap = useAction(currentMapAtom.setMap);
