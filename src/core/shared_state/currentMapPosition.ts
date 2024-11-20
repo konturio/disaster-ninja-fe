@@ -17,6 +17,25 @@ export type MapPosition = CenterZoomPosition | BboxPosition;
 
 export type CurrentMapPositionAtomState = MapPosition | null;
 
+function jumpTo(map: Map, position: CenterZoomPosition) {
+  const { lng, lat, zoom } = position;
+  requestAnimationFrame(() => {
+    map.stop();
+  });
+  setTimeout(() => {
+    const mapCenter = map.getCenter();
+    const mapZoom = map.getZoom();
+    if (mapCenter.lng !== lng || mapCenter.lat !== lat || mapZoom !== zoom) {
+      requestAnimationFrame(() => {
+        map?.jumpTo({
+          center: [lng, lat],
+          zoom: zoom,
+        });
+      });
+    }
+  }, 100);
+}
+
 // TODO: #20160 update currentMapPositionAtom to reatom v3
 export const currentMapPositionAtom = createAtom(
   {
@@ -26,25 +45,6 @@ export const currentMapPositionAtom = createAtom(
     currentMapAtom,
   },
   ({ onAction }, state: CurrentMapPositionAtomState = null) => {
-    function jumpTo(map: Map, position: CenterZoomPosition) {
-      const { lng, lat, zoom } = position;
-      requestAnimationFrame(() => {
-        map.stop();
-      });
-      setTimeout(() => {
-        const mapCenter = map.getCenter();
-        const mapZoom = map.getZoom();
-        if (mapCenter.lng !== lng || mapCenter.lat !== lat || mapZoom !== zoom) {
-          requestAnimationFrame(() => {
-            map?.jumpTo({
-              center: [lng, lat],
-              zoom: zoom,
-            });
-          });
-        }
-      }, 100);
-    }
-
     onAction('setCurrentMapPosition', (position) => {
       const map = currentMapAtom.getState();
       if (map) {
