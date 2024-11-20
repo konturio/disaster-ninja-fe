@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-D7qEQRnV.js","./index-ByP4w1DV.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-BJFXTWb8.js","./index-DAugcclM.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-ByP4w1DV.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-DAugcclM.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -31114,7 +31114,6 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
     __publicField(this, "_borderLayerId");
     __publicField(this, "resetFeatureStates");
     __publicField(this, "removeBivariatePopupClickHandler");
-    __publicField(this, "onMapZoomHandlers", /* @__PURE__ */ new Set());
     __publicField(this, "onMapZoom", (ev) => {
       this.cleanPopup();
     });
@@ -31149,7 +31148,6 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._listenersCleaningTasks.add(registerMapListener("mousemove", onMouseMove, 60));
     this._listenersCleaningTasks.add(registerMapListener("mouseleave", onMouseLeave, 60));
     this.resetFeatureStates = reset;
-    this.onMapZoomHandlers.add(this.resetFeatureStates);
   }
   async mountBivariateLayer(map, layer, legend2) {
     const mapSource = {
@@ -31246,7 +31244,6 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
     const removeClickListener = registerMapListener("click", clickHandler, 60);
     this._listenersCleaningTasks.add(removeClickListener);
     this.removeBivariatePopupClickHandler = removeClickListener;
-    this.onMapZoomHandlers.add(this.cleanPopup);
   }
   async mountMCDALayer(map, layer, style2) {
     const mapSource = {
@@ -31297,7 +31294,6 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this.cleanUpListeners();
     const removeClickListener = registerMapListener("click", clickHandler, 60);
     this._listenersCleaningTasks.add(removeClickListener);
-    this.onMapZoomHandlers.add(this.cleanPopup);
   }
   _updateMap(map, layerData, legend2, isVisible, style2) {
     if (layerData == null) return;
@@ -31369,6 +31365,7 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
     }
     this.cleanPopup();
+    (_a2 = this.resetFeatureStates) == null ? void 0 : _a2.call(this);
     if (map.getSource(this._sourceId)) {
       map.removeSource(this._sourceId);
     } else {
@@ -31378,8 +31375,6 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
     this.cleanUpListeners();
     map.off("zoom", this.onMapZoom);
-    this.onMapZoomHandlers.clear();
-    (_a2 = this.resetFeatureStates) == null ? void 0 : _a2.call(this);
   }
   willHide({ map }) {
     if (this._layerId === void 0 || map === null) return;
@@ -35370,7 +35365,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-D7qEQRnV.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-BJFXTWb8.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
