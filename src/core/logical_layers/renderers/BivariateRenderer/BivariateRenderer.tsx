@@ -130,8 +130,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._listenersCleaningTasks.add(registerMapListener('mouseleave', onMouseLeave, 60));
 
     this.resetFeatureStates = reset;
-    // Reset states on zoom
-    this.onMapZoomHandlers.add(this.resetFeatureStates);
   }
 
   async mountBivariateLayer(
@@ -259,9 +257,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     // Save it for next call
     this.removeBivariatePopupClickHandler = removeClickListener;
-
-    // Close on map zoom
-    this.onMapZoomHandlers.add(this.cleanPopup);
   }
 
   async mountMCDALayer(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
@@ -333,8 +328,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     // Click
     const removeClickListener = registerMapListener('click', clickHandler, 60);
     this._listenersCleaningTasks.add(removeClickListener);
-    // Close on map zoom
-    this.onMapZoomHandlers.add(this.cleanPopup);
   }
 
   protected _updateMap(
@@ -358,7 +351,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     if (!isVisible) this.willHide({ map });
   }
 
-  onMapZoomHandlers = new Set<() => void>();
   onMapZoom = (ev: maplibregl.MapLibreEvent<MapLibreZoomEvent>) => {
     this.cleanPopup();
   };
@@ -425,6 +417,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
 
     this.cleanPopup();
+    this.resetFeatureStates?.();
 
     if (map.getSource(this._sourceId)) {
       map.removeSource(this._sourceId);
@@ -435,8 +428,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
     this.cleanUpListeners();
     map.off('zoom', this.onMapZoom);
-    this.onMapZoomHandlers.clear();
-    this.resetFeatureStates?.();
   }
 
   willHide({ map }: { map: ApplicationMap }) {
