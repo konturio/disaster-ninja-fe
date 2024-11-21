@@ -18,11 +18,12 @@ export class ToolBar extends HelperBase {
   /**
    * This method gets element by specific text from map. Designed for toolbar buttons like Bivariate Matrix, but can be used for other texts in Toolbar
    * @param text - the text of an entity, like MCDA
+   * @param page - playwright page to use
    * @returns - playwright locator for the button
    */
 
-  async getButtonByText(text: string) {
-    const aliveMap = this.page.locator('.keep-alive-render');
+  getButtonByText(text: string, page: Page = this.page): Locator {
+    const aliveMap = page.locator('.keep-alive-render');
     return aliveMap.getByText(text, { exact: true });
   }
 

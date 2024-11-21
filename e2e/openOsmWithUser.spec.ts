@@ -11,18 +11,26 @@ for (const project of projects) {
   test(`As User with no rights, I can go to ${project.title}, open map and open Rapid OSM editor at map coordinates`, async ({
     context,
     pageManager,
+    page,
   }) => {
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
-    await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
+    await Promise.all([
+      pageManager.atNavigationMenu.clickButtonToOpenPage('Map'),
+      pageManager.atMap.waitForUrlToMatchPattern(/\?map=/i, page, 'domcontentloaded'),
+    ]);
+    await pageManager.atMap.waitForTextBeingVisible('Tools', page);
 
-    // TO DO: remove this action after 18582 issue is fixed
-    await pageManager.atMap.goToSpecificAreaByUrl(10.597, 53.9196, 27.5097, project);
+    // TO DO: async behaviour of app being loaded is not stable and waiting for events like router-layout-ready is not possible for already loaded app, so waiting for timeout is needed + to emulate real user behaviour
+    await page.waitForTimeout(process.env.CI ? 7000 : 5000);
 
     const coordinates = await pageManager.atMap.getViewportFromUrl();
 
+    const editMapBtn = pageManager.atToolBar.getButtonByText('Edit map in OSM', page);
+    await editMapBtn.hover();
+
     const [newPage] = await Promise.all([
-      context.waitForEvent('page'),
-      (await pageManager.atToolBar.getButtonByText('Edit map in OSM')).click({
+      context.waitForEvent('page', { timeout: 25000 }),
+      editMapBtn.click({
         delay: 330,
       }),
     ]);

@@ -94,6 +94,36 @@ export class ProfilePage extends HelperBase {
   async setOsmEditorValue(osmEditorValue: string) {
     await this.getOsmEditorSelect().locator('button').click();
     await this.page.getByRole('option', { name: osmEditorValue, exact: true }).click();
+  }
+
+  /**
+   * This method sets a new value for the full name field.
+   * @param newFullName - new full name in string format
+   */
+
+  async setFullNameValue(newFullName: string) {
+    const fullNameLocator = this.page
+      .getByText('Full Name')
+      .locator('..')
+      .locator('input');
+    await fullNameLocator.fill(newFullName);
+  }
+
+  /**
+   *  This method sets a new value for the bio field.
+   * @param newBio - new bio in string format
+   */
+
+  async setBioValue(newBio: string) {
+    const bioLocator = this.page.getByText('Bio').locator('..').locator('textarea');
+    await bioLocator.fill(newBio);
+  }
+
+  /**
+   * This method saves changes of the settings and asserts that button gets disabled.
+   */
+
+  async saveChanges() {
     const saveChangesEl = this.page.getByText('Save changes');
     await saveChangesEl.click();
     const saveChangesBtn = this.page.locator('button', { has: saveChangesEl });

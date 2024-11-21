@@ -134,7 +134,7 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], storageState: 'e2e/.auth/user-pro.json' },
       dependencies: ['setup_pro'],
       testMatch: /WithPro/,
-      testIgnore: ['openOsmWithPro.spec.ts'],
+      testIgnore: ['openOsmUpdateProfileWithPro.spec.ts'],
     },
     {
       name: 'webkit_pro',
@@ -144,7 +144,7 @@ export default defineConfig({
       testIgnore: [
         'locationWithPro.spec.ts',
         'privacyWithPro.spec.ts',
-        'openOsmWithPro.spec.ts',
+        'openOsmUpdateProfileWithPro.spec.ts',
         'populationPopupWithPro.spec.ts',
       ],
     },
@@ -152,7 +152,7 @@ export default defineConfig({
       name: 'chromium_pro_affecting',
       use: { ...devices['Desktop Chrome'], storageState: 'e2e/.auth/user-pro.json' },
       dependencies: ['chromium_pro'],
-      testMatch: ['openOsmWithPro.spec.ts'],
+      testMatch: ['openOsmUpdateProfileWithPro.spec.ts'],
     },
     // {
     //   name: 'firefox',

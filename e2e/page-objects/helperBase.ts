@@ -153,6 +153,15 @@ export class HelperBase {
   }
 
   /**
+   * This method waits 12 secs, designed for waiting for zoom on map.
+   */
+
+  async waitForZoom() {
+    const zoomTimeout = 12000;
+    await this.page.waitForTimeout(zoomTimeout);
+  }
+
+  /**
    * This method gets url and returns its domain
    * @param url string of url
    * @returns domain in string format
@@ -169,8 +178,12 @@ export class HelperBase {
    * @param page playwright page to wait for
    */
 
-  async waitForUrlToMatchPattern(pattern: RegExp, page: Page = this.page) {
-    await page.waitForURL(pattern, { timeout: 30000 });
+  async waitForUrlToMatchPattern(
+    pattern: RegExp,
+    page: Page = this.page,
+    event: 'load' | 'domcontentloaded' | 'networkidle' | 'commit' | undefined = 'load',
+  ) {
+    await page.waitForURL(pattern, { timeout: 30000, waitUntil: event });
   }
 
   /**
