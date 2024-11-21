@@ -34,6 +34,8 @@ focusedGeometryControl.onStateChange(async (ctx, state, prevState) => {
           // Update focused geometry with edited geometry
           focusedGeometryAtom.setFocusedGeometry({ type: 'drawn' }, result),
         ]);
+      } else {
+        store.dispatch([focusedGeometryAtom.reset()]);
       }
     } catch (e) {
       console.error('Draw tools exited with error:', e);

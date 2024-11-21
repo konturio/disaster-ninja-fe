@@ -65,7 +65,7 @@ class DrawToolsControllerImpl implements DrawToolsController {
       toolboxAtom.setSettings({
         availableModes: ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode'],
         finishButtonCallback: () => {
-          this.deferred?.resolve(this.geometry);
+          this.deferred?.resolve(this.geometry.features.length ? this.geometry : null);
           this.deferred = null;
         },
       }),
