@@ -16,6 +16,7 @@ export const areaLayersDetailsParamsAtom = createAtom(
     enabledLayersAtom,
     layersGlobalResource,
     layersInAreaAndEventLayerResource,
+    focusedGeometryAtom,
   },
   (
     { get, getUnlistedState },
@@ -26,7 +27,7 @@ export const areaLayersDetailsParamsAtom = createAtom(
     const layersInAreaAndEventLayer = loading || error || !data ? [] : data;
     const allLayers = [...(layersGlobal.data ?? []), ...layersInAreaAndEventLayer];
     const enabledLayers = get('enabledLayersAtom');
-    const focusedGeometry = getUnlistedState(focusedGeometryAtom);
+    const focusedGeometry = get('focusedGeometryAtom');
     const eventId = getEventId(focusedGeometry);
     const cache = getUnlistedState(areaLayersDetailsResourceAtomCache);
 
