@@ -264,8 +264,8 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     const mapSource: VectorSourceSpecification = {
       type: 'vector',
       tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
-      minzoom: layer.minZoom || 0,
-      maxzoom: layer.maxZoom || 22,
+      minzoom: layer.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
+      maxzoom: layer.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM,
     };
     // I expect that all servers provide url with same scheme
     setTileScheme(layer.source.urls[0], mapSource);
