@@ -228,7 +228,7 @@ code block
         '</ul>' +
         '<h2 id="hdr-1-1">Sub Title</h2>' +
         '<div class="wrap-hdr-1-1">' +
-        '<pre><code>code block</code></pre>' +
+        '<pre><code>code block\n</code></pre>' +
         '<h3 id="hdr-1-1-1">Details</h3>' +
         '<div class="wrap-hdr-1-1-1">' +
         '<ol start="1">' +
