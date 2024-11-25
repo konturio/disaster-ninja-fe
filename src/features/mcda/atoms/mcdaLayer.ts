@@ -13,6 +13,10 @@ import {
   DEFAULT_GREEN,
   DEFAULT_RED,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
+import {
+  FALLBACK_BIVARIATE_MAX_ZOOM,
+  FALLBACK_BIVARIATE_MIN_ZOOM,
+} from '~core/logical_layers/renderers/BivariateRenderer/constants';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
 import { generateHclGradientColors } from '../utils/generateHclGradientColors';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -67,8 +71,8 @@ export const mcdaLayerAtom = createAtom(
           id,
           createAsyncWrapper({
             id,
-            maxZoom: 22,
-            minZoom: 0,
+            maxZoom: FALLBACK_BIVARIATE_MAX_ZOOM,
+            minZoom: FALLBACK_BIVARIATE_MIN_ZOOM,
             source: {
               type: 'vector' as const,
               urls: [
