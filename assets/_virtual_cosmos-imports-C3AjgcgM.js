@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-DIXhSsOg.js","./index-zrcNMKnl.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-CaSMkTl5.js","./index-B-MX7OBl.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-zrcNMKnl.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-B-MX7OBl.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -30340,7 +30340,7 @@ const featureFlagsAtom = createAtom(
 );
 const SOURCE_LAYER_BIVARIATE = "stats";
 const FALLBACK_BIVARIATE_MIN_ZOOM = 0;
-const FALLBACK_BIVARIATE_MAX_ZOOM = 22;
+const FALLBACK_BIVARIATE_MAX_ZOOM = 14;
 const FEATURE_STATES = {
   hover: "hover",
   active: "active"
@@ -31267,8 +31267,8 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
     const mapSource = {
       type: "vector",
       tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
-      minzoom: layer.minZoom || 0,
-      maxzoom: layer.maxZoom || 22
+      minzoom: layer.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
+      maxzoom: layer.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM
     };
     setTileScheme(layer.source.urls[0], mapSource);
     await mapLoaded(map);
@@ -35383,7 +35383,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-DIXhSsOg.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-CaSMkTl5.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
