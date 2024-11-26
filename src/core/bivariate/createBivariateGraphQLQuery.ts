@@ -23,15 +23,16 @@ function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
 export function isFocusedGeometryEmpty(
   focusedGeometry?: FocusedGeometry | null,
 ): boolean {
-  return !focusedGeometry || isGeoJSONEmpty(focusedGeometry.geometry);
+  return isGeoJSONEmpty(focusedGeometry?.geometry);
 }
 
 export function createBivariateQuery(geom?: FocusedGeometry | null) {
   const body: { importantLayers: string[][]; geoJSON?: GeoJSON.GeoJSON } = {
     importantLayers: IMPORTANT_BIVARIATE_LAYERS,
   };
-  if (geom && !isFocusedGeometryEmpty(geom))
-    body.geoJSON = cleanupGeometry(geom?.geometry);
+  if (geom && !isFocusedGeometryEmpty(geom)) {
+    body.geoJSON = cleanupGeometry(geom.geometry);
+  }
 
   return body;
 }
