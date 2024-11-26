@@ -4,6 +4,7 @@ import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
 import { forceRun } from '~utils/atoms/forceRun';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
+import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { combinedAtom } from './atoms/combinedAtom';
 import { drawModeLogicalLayerAtom, drawModeRenderer } from './atoms/logicalLayerAtom';
 import { activeDrawModeAtom } from './atoms/activeDrawMode';
@@ -65,7 +66,7 @@ class DrawToolsControllerImpl implements DrawToolsController {
       toolboxAtom.setSettings({
         availableModes: ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode'],
         finishButtonCallback: () => {
-          this.deferred?.resolve(this.geometry.features.length ? this.geometry : null);
+          this.deferred?.resolve(!isGeoJSONEmpty(this.geometry) ? this.geometry : null);
           this.deferred = null;
         },
       }),
