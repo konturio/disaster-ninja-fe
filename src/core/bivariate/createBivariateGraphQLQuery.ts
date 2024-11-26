@@ -1,5 +1,7 @@
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
+import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { IMPORTANT_BIVARIATE_LAYERS } from './constants';
+import type { FocusedGeometry } from '~core/focused_geometry/types';
 
 // we need this function to get rid of "properties" param in geojson geom cause
 // sometimes it contains inappropriate symbols like ":" which causes server side errors
@@ -18,19 +20,18 @@ function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
   return newGeom;
 }
 
-export function isGeometryEmpty(geom?: { geometry: GeoJSON.GeoJSON } | null): boolean {
-  return (
-    !geom ||
-    !geom.geometry ||
-    (geom.geometry.type === 'FeatureCollection' && !geom.geometry.features.length)
-  );
+export function isFocusedGeometryEmpty(
+  focusedGeometry?: FocusedGeometry | null,
+): boolean {
+  return !focusedGeometry || isGeoJSONEmpty(focusedGeometry.geometry);
 }
 
-export function createBivariateQuery(geom?: { geometry: GeoJSON.GeoJSON } | null) {
+export function createBivariateQuery(geom?: FocusedGeometry | null) {
   const body: { importantLayers: string[][]; geoJSON?: GeoJSON.GeoJSON } = {
     importantLayers: IMPORTANT_BIVARIATE_LAYERS,
   };
-  if (geom && !isGeometryEmpty(geom)) body.geoJSON = cleanupGeometry(geom?.geometry);
+  if (geom && !isFocusedGeometryEmpty(geom))
+    body.geoJSON = cleanupGeometry(geom?.geometry);
 
   return body;
 }

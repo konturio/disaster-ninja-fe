@@ -2,7 +2,7 @@ import { atom } from '@reatom/core';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
-import { createBivariateQuery, isGeometryEmpty } from '~core/bivariate';
+import { createBivariateQuery, isFocusedGeometryEmpty } from '~core/bivariate';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { isApiError } from '~core/api_client/apiClientError';
 import { i18n } from '~core/localization';
@@ -62,7 +62,7 @@ export const bivariateStatisticsResourceAtom = createAsyncAtom(
         axis: statsDTO.axis.map((ax) => axisDTOtoAxis(ax)),
       };
 
-      if (isGeometryEmpty(focusedGeometry) && !worldStatsCache) {
+      if (isFocusedGeometryEmpty(focusedGeometry) && !worldStatsCache) {
         worldStatsCache = stat;
       }
 
