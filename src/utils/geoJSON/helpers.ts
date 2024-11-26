@@ -103,19 +103,10 @@ export function isGeoJSONEmpty(geoJSON?: GeoJSON.GeoJSON | null) {
   if (!geoJSON) return true;
   switch (geoJSON.type) {
     case 'FeatureCollection':
-      if (geoJSON?.features?.length) {
-        return false;
-      }
-      break;
+      return !geoJSON?.features?.length;
     case 'Feature':
-      if (!isGeometryEmpty(geoJSON?.geometry)) {
-        return false;
-      }
-      break;
+      return isGeometryEmpty(geoJSON?.geometry);
     default:
-      if (!isGeometryEmpty(geoJSON)) {
-        return false;
-      }
+      return isGeometryEmpty(geoJSON);
   }
-  return true;
 }
