@@ -1,9 +1,9 @@
 import { atom } from '@reatom/core';
-import { currentMapPositionAtom } from '~core/shared_state';
 import { currentMapAtom } from '~core/shared_state';
 import { configRepo } from '~core/config';
 import { getCameraForGeometry } from '~utils/map/camera';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
+import { setCurrentMapPosition } from '~core/shared_state/currentMapPosition';
 import type { EventWithGeometry } from '~core/types';
 import type { AtomSelfBinded } from '@reatom/core-v2';
 
@@ -35,7 +35,7 @@ export function autoFocusToGeometry(
         };
         ctx.schedule(() => {
           scheduledAutoFocus.setFalse.v3action(ctx);
-          currentMapPositionAtom.setCurrentMapPosition.v3action(ctx, pos);
+          setCurrentMapPosition(ctx, pos);
         });
       }
     }
