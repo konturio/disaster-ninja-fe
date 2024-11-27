@@ -2,7 +2,7 @@ import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { configRepo } from '~core/config';
 import {
-  currentMapPositionAtom,
+  currentMapPositionAtomV2,
   setCurrentMapBbox,
   setCurrentMapPosition,
 } from '~core/shared_state/currentMapPosition';
@@ -30,7 +30,7 @@ export const searchStringAtom = createStringAtom('', 'urlStore:searchStringAtom'
 export const urlStoreAtom = createAtom(
   {
     initFlag: initFlagAtom,
-    currentMapPositionAtom,
+    currentMapPositionAtom: currentMapPositionAtomV2,
     currentEventAtom,
     enabledLayersAtom,
     currentEventFeedAtom,

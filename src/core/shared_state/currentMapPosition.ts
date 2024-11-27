@@ -40,7 +40,7 @@ function jumpTo(map: Map, position: CenterZoomPosition) {
 
 // TODO: #20160 update currentMapPositionAtom to reatom v3
 // TODO: need to get rid of v2 currentMapPositionAtom, but not sure yet how to make urlStore work with reatom v3
-export const currentMapPositionAtom = createAtom(
+export const currentMapPositionAtomV2 = createAtom(
   {
     setState: (position: CurrentMapPositionAtomState) => position,
     currentMapAtom,
@@ -64,7 +64,7 @@ export const setCurrentMapPosition = action((ctx, position: CenterZoomPosition) 
   }
   mapPositionAtom(ctx, position);
   // TODO: delete along with v2 atom
-  store.dispatch(currentMapPositionAtom.setState(position));
+  store.dispatch(currentMapPositionAtomV2.setState(position));
 }, 'setCurrentMapPosition');
 
 export const setCurrentMapBbox = action(
@@ -82,7 +82,7 @@ export const setCurrentMapBbox = action(
     }
     mapPositionAtom(ctx, position);
     // TODO: delete along with v2 atom
-    store.dispatch(currentMapPositionAtom.setState(position));
+    store.dispatch(currentMapPositionAtomV2.setState(position));
   },
   'setCurrentMapBbox',
 );
@@ -90,5 +90,5 @@ export const setCurrentMapBbox = action(
 export const updateCurrentMapPosition = action((ctx, position: CenterZoomPosition) => {
   mapPositionAtom(ctx, position);
   // TODO: delete along with v2 atom
-  store.dispatch(currentMapPositionAtom.setState(position));
+  store.dispatch(currentMapPositionAtomV2.setState(position));
 }, 'updateCurrentMapPosition');
