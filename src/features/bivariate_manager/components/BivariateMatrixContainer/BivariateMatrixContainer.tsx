@@ -9,8 +9,8 @@ import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { BivariateGreetingsContainer } from '~features/bivariate_manager/components/BivariateGreetings/BivariateGreetingsContainer';
 import { i18n } from '~core/localization';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
-import { isFocusedGeometryEmpty } from '~core/bivariate';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
+import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { AXIS_CAPTIONS_WIDTH, MATRIX_SCALE } from '../BivariateMatrixControl/constants';
 import s from './BivariateMatrixContainer.module.css';
 import { BivariateMatrixContext } from './bivariateMatrixContext';
@@ -89,7 +89,7 @@ const BivariateMatrixContainer = ({ className }: BivariateMatrixContainerProps) 
 
 const PanelHeader = () => {
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
-  const haveGeometry = !isFocusedGeometryEmpty(focusedGeometry);
+  const haveGeometry = !isGeoJSONEmpty(focusedGeometry?.geometry);
 
   return (
     <div className={s.header}>
