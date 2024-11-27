@@ -42,17 +42,12 @@ function jumpTo(map: Map, position: CenterZoomPosition) {
 export const currentMapPositionAtom = createAtom(
   {
     setCurrentMapPosition: (mapPosition: CenterZoomPosition) => mapPosition,
-    setCurrentMapBbox: (mapBbox: Bbox | [[number, number], [number, number]]) => mapBbox,
     updateCurrentMapPosition: (mapPosition: CenterZoomPosition) => mapPosition,
     currentMapAtom,
   },
   ({ onAction }, state: CurrentMapPositionAtomState = null) => {
     onAction('setCurrentMapPosition', (position) => {
       setCurrentMapPosition(store.v3ctx, position);
-    });
-
-    onAction('setCurrentMapBbox', (bbox) => {
-      setCurrentMapBbox(store.v3ctx, bbox);
     });
 
     onAction('updateCurrentMapPosition', (position) => {
@@ -67,6 +62,10 @@ export const currentMapPositionAtom = createAtom(
   },
   '[Shared state] currentMapPositionAtom',
 );
+
+// v3
+
+export const mapPositionAtom = atom<CurrentMapPositionAtomState>(null, 'mapPositionAtom');
 
 export const setCurrentMapPosition = action((ctx, position: CenterZoomPosition) => {
   const map = currentMapAtom.getState();
@@ -97,5 +96,3 @@ export const setCurrentMapBbox = action(
 export const updateCurrentMapPosition = action((ctx, position: CenterZoomPosition) => {
   mapPositionAtom(ctx, position);
 }, 'updateCurrentMapPosition');
-
-export const mapPositionAtom = atom<CurrentMapPositionAtomState>(null, 'mapPositionAtom');

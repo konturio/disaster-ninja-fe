@@ -1,7 +1,10 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { configRepo } from '~core/config';
-import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
+import {
+  currentMapPositionAtom,
+  setCurrentMapBbox,
+} from '~core/shared_state/currentMapPosition';
 import {
   currentEventAtom,
   scheduledAutoSelect,
@@ -9,6 +12,7 @@ import {
 } from '~core/shared_state/currentEvent';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { v3ActionToV2 } from '~utils/atoms/v3tov2';
 import { URLStore } from '../URLStore';
 import { urlEncoder } from '../encoder';
 import type { UrlData } from '../types';
@@ -32,10 +36,7 @@ export const urlStoreAtom = createAtom(
     _setState: (state: UrlData | null) => state,
     init: (initialState: UrlData) => initialState,
   },
-  (
-    { get, schedule, onAction, onInit, create, getUnlistedState },
-    state: UrlData | null = null,
-  ) => {
+  ({ get, schedule, onAction, create }, state: UrlData | null = null) => {
     const isFeedSelectorEnabled =
       configRepo.get().features['events_list__feed_selector'] ||
       configRepo.get().features['feed_selector'];
@@ -61,7 +62,9 @@ export const urlStoreAtom = createAtom(
 
         // Apply map position
         if (initialState.bbox) {
-          actions.push(currentMapPositionAtom.setCurrentMapBbox(initialState.bbox));
+          actions.push(
+            v3ActionToV2(setCurrentMapBbox, initialState.bbox, 'setCurrentMapBbox'),
+          );
         } else if (initialState.map) {
           actions.push(
             currentMapPositionAtom.setCurrentMapPosition({

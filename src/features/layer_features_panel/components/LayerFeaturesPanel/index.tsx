@@ -3,7 +3,6 @@ import { useCallback } from 'react';
 import { clsx } from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/npm-react';
-import { currentMapPositionAtom } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
@@ -11,6 +10,8 @@ import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
+import { setCurrentMapBbox, type Bbox } from '~core/shared_state/currentMapPosition';
+import { store } from '~core/store/store';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
@@ -27,7 +28,6 @@ import { ShortState } from './ShortState';
 import s from './LayerFeaturesPanel.module.css';
 import { EmptyState } from './EmptyState';
 import type { FeatureCardCfg } from '../CardElements';
-import type { Bbox } from '~core/shared_state/currentMapPosition';
 
 export function LayerFeaturesPanel() {
   const [currentFeatureId, setCurrentFeatureIdAtom] = useAtom(currentFeatureIdAtom);
@@ -35,7 +35,7 @@ export function LayerFeaturesPanel() {
     setCurrentFeatureIdAtom(id);
     scheduledAutoFocus.setFalse.dispatch();
     if (feature.focus) {
-      currentMapPositionAtom.setCurrentMapBbox.dispatch(feature.focus as Bbox);
+      setCurrentMapBbox(store.v3ctx, feature.focus as Bbox);
     }
   };
 
