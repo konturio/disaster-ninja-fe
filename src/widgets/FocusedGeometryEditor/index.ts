@@ -2,7 +2,7 @@ import { drawTools } from '~core/draw_tools';
 import { toolbar } from '~core/toolbar';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { store } from '~core/store/store';
-import { FeatureCollection } from '~utils/geoJSON/helpers';
+import { FeatureCollection, isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from './constants';
@@ -29,12 +29,13 @@ focusedGeometryControl.onStateChange(async (ctx, state, prevState) => {
       );
       // Put focused geometry to editor
       const result = await drawTools.edit(focusedGeometry);
-      if (result) {
+      if (!isGeoJSONEmpty(result)) {
         store.dispatch([
           // Update focused geometry with edited geometry
           focusedGeometryAtom.setFocusedGeometry({ type: 'drawn' }, result),
         ]);
       } else {
+        // draw tools returned an empty geometry -> reset focused geometry
         store.dispatch([focusedGeometryAtom.reset()]);
       }
     } catch (e) {
