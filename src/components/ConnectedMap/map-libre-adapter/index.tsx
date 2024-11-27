@@ -2,9 +2,13 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { configRepo } from '~core/config';
-import { currentMapPositionAtom } from '~core/shared_state';
 import { EVENT_MAP_IDLE } from '~core/metrics/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import {
+  mapPositionAtom,
+  setCurrentMapPosition,
+} from '~core/shared_state/currentMapPosition';
+import { store } from '~core/store/store';
 import { useArrayDiff } from './useArrayDiff';
 import type {
   MapOptions,
@@ -66,7 +70,7 @@ function MapboxMap(
     if (current === null) return;
     if (ref?.current) return;
 
-    const currentMapPosition = currentMapPositionAtom.getState();
+    const currentMapPosition = store.v3ctx.get(mapPositionAtom);
 
     let mapLocation = {};
 
@@ -114,7 +118,7 @@ function MapboxMap(
       const zoom = mapInstance.getZoom();
       const { lng, lat } = mapInstance.getCenter();
 
-      currentMapPositionAtom.setCurrentMapPosition.dispatch({
+      setCurrentMapPosition(store.v3ctx, {
         lat,
         lng,
         zoom,

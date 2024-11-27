@@ -39,22 +39,14 @@ function jumpTo(map: Map, position: CenterZoomPosition) {
 }
 
 // TODO: #20160 update currentMapPositionAtom to reatom v3
+// TODO: need to get rid of v2 currentMapPositionAtom, but not sure yet how to make urlStore work with reatom v3
 export const currentMapPositionAtom = createAtom(
   {
-    setCurrentMapPosition: (mapPosition: CenterZoomPosition) => mapPosition,
-    updateCurrentMapPosition: (mapPosition: CenterZoomPosition) => mapPosition,
+    setState: (position: CurrentMapPositionAtomState) => position,
     currentMapAtom,
   },
   ({ onAction }, state: CurrentMapPositionAtomState = null) => {
-    onAction('setCurrentMapPosition', (position) => {
-      setCurrentMapPosition(store.v3ctx, position);
-    });
-
-    onAction('updateCurrentMapPosition', (position) => {
-      updateCurrentMapPosition(store.v3ctx, position);
-    });
-
-    store.v3ctx.subscribe(mapPositionAtom, (position) => {
+    onAction('setState', (position) => {
       state = position;
     });
 
@@ -62,8 +54,6 @@ export const currentMapPositionAtom = createAtom(
   },
   '[Shared state] currentMapPositionAtom',
 );
-
-// v3
 
 export const mapPositionAtom = atom<CurrentMapPositionAtomState>(null, 'mapPositionAtom');
 
@@ -73,6 +63,8 @@ export const setCurrentMapPosition = action((ctx, position: CenterZoomPosition) 
     jumpTo(map, position);
   }
   mapPositionAtom(ctx, position);
+  // TODO: delete along with v2 atom
+  store.dispatch(currentMapPositionAtom.setState(position));
 }, 'setCurrentMapPosition');
 
 export const setCurrentMapBbox = action(
@@ -89,10 +81,14 @@ export const setCurrentMapBbox = action(
       }
     }
     mapPositionAtom(ctx, position);
+    // TODO: delete along with v2 atom
+    store.dispatch(currentMapPositionAtom.setState(position));
   },
   'setCurrentMapBbox',
 );
 
 export const updateCurrentMapPosition = action((ctx, position: CenterZoomPosition) => {
   mapPositionAtom(ctx, position);
+  // TODO: delete along with v2 atom
+  store.dispatch(currentMapPositionAtom.setState(position));
 }, 'updateCurrentMapPosition');

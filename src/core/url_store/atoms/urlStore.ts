@@ -4,6 +4,7 @@ import { configRepo } from '~core/config';
 import {
   currentMapPositionAtom,
   setCurrentMapBbox,
+  setCurrentMapPosition,
 } from '~core/shared_state/currentMapPosition';
 import {
   currentEventAtom,
@@ -67,12 +68,16 @@ export const urlStoreAtom = createAtom(
           );
         } else if (initialState.map) {
           actions.push(
-            currentMapPositionAtom.setCurrentMapPosition({
-              // adjustments performed in url decoder
-              zoom: Number(initialState.map[0]),
-              lat: Number(initialState.map[1]),
-              lng: Number(initialState.map[2]),
-            }),
+            v3ActionToV2(
+              setCurrentMapPosition,
+              {
+                // adjustments performed in url decoder
+                zoom: Number(initialState.map[0]),
+                lat: Number(initialState.map[1]),
+                lng: Number(initialState.map[2]),
+              },
+              'setCurrentMapPosition',
+            ),
           );
         }
 
