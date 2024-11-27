@@ -1,9 +1,10 @@
-import { currentMapPositionAtom, currentUserAtom } from '~core/shared_state';
+import { currentUserAtom } from '~core/shared_state';
 import { toolbar } from '~core/toolbar';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { store } from '~core/store/store';
 import { DEFAULT_OSM_EDITOR } from '~core/constants';
+import { mapPositionAtom } from '~core/shared_state/currentMapPosition';
 import { EDIT_IN_OSM_CONTROL_ID, EDIT_IN_OSM_CONTROL_NAME } from './constants';
 import { openOsmLink, openJosmLink } from './openOsmLink';
 
@@ -21,7 +22,7 @@ export const osmEditControl = toolbar.setupControl({
 osmEditControl.onStateChange((ctx, state) => {
   if (state === 'active') {
     try {
-      const position = store.getState(currentMapPositionAtom);
+      const position = store.v3ctx.get(mapPositionAtom);
       if (!position) throw Error('Unknown position');
       const { osmEditor = DEFAULT_OSM_EDITOR } = store.getState(currentUserAtom);
 
