@@ -87,11 +87,26 @@ export class GeoJSONPoint implements GeoJSON.Point {
   }
 }
 
-// Naive check for having any geometry in geojson
-export function isGeoJSONEmpty(g) {
-  if (!g) return true;
-  if (g?.features?.length || g?.geometry?.coordinates?.length) {
+function isGeometryEmpty(geometry?: GeoJSON.Geometry | null): boolean {
+  if (!geometry) return true;
+  if (geometry.type !== 'GeometryCollection' && geometry.coordinates?.length) {
+    return false;
+  }
+  if (geometry.type === 'GeometryCollection' && geometry.geometries?.length) {
     return false;
   }
   return true;
+}
+
+// Naive check for having any geometry in geojson
+export function isGeoJSONEmpty(geoJSON?: GeoJSON.GeoJSON | null): boolean {
+  if (!geoJSON) return true;
+  switch (geoJSON.type) {
+    case 'FeatureCollection':
+      return !geoJSON.features?.length;
+    case 'Feature':
+      return isGeometryEmpty(geoJSON.geometry);
+    default:
+      return isGeometryEmpty(geoJSON);
+  }
 }

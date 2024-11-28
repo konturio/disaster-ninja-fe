@@ -2,12 +2,13 @@ import { atom } from '@reatom/core';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
-import { createBivariateQuery, isGeometryEmpty } from '~core/bivariate';
+import { createBivariateQuery } from '~core/bivariate';
 import { parseGraphQLErrors } from '~utils/graphql/parseGraphQLErrors';
 import { isApiError } from '~core/api_client/apiClientError';
 import { i18n } from '~core/localization';
 import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axisDTOtoAxis';
 import { v3toV2 } from '~utils/atoms/v3tov2';
+import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import type { Stat } from '~utils/bivariate';
 import type { BivariateStatisticsResponse } from './types';
 
@@ -27,7 +28,7 @@ export const bivariateStatisticsResourceAtom = createAsyncAtom(
       return worldStatsCache;
     }
     try {
-      const body = createBivariateQuery(focusedGeometry);
+      const body = createBivariateQuery(focusedGeometry?.geometry);
       const responseData = await apiClient.post<{
         data: BivariateStatisticsResponse;
         errors?: unknown;
@@ -62,7 +63,7 @@ export const bivariateStatisticsResourceAtom = createAsyncAtom(
         axis: statsDTO.axis.map((ax) => axisDTOtoAxis(ax)),
       };
 
-      if (isGeometryEmpty(focusedGeometry) && !worldStatsCache) {
+      if (isGeoJSONEmpty(focusedGeometry?.geometry) && !worldStatsCache) {
         worldStatsCache = stat;
       }
 
