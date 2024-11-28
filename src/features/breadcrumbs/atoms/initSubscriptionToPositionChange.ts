@@ -5,7 +5,7 @@ import { breadcrumbsItemsAtom } from '~features/breadcrumbs/atoms/breadcrumbsIte
 import { store } from '~core/store/store';
 import { isAbortError } from '~core/api_client/errors';
 import {
-  mapPositionAtom,
+  currentMapPositionAtom,
   type BboxPosition,
   type CenterZoomPosition,
   type CurrentMapPositionAtomState,
@@ -38,11 +38,11 @@ export const debouncedBreadcrumbsUpdate = debounce(
 );
 
 export function initSubscriptionToPositionChange() {
-  const unsubscribe = mapPositionAtom.onChange((ctx, position) => {
+  const unsubscribe = currentMapPositionAtom.onChange((ctx, position) => {
     handlePositionUpdate(position);
   });
 
-  const currentMapPosition = store.v3ctx.get(mapPositionAtom);
+  const currentMapPosition = store.v3ctx.get(currentMapPositionAtom);
   handlePositionUpdate(currentMapPosition);
   return unsubscribe;
 }

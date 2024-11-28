@@ -5,7 +5,7 @@ import { configRepo } from '~core/config';
 import { EVENT_MAP_IDLE } from '~core/metrics/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import {
-  mapPositionAtom,
+  currentMapPositionAtom,
   setCurrentMapPosition,
 } from '~core/shared_state/currentMapPosition';
 import { store } from '~core/store/store';
@@ -70,7 +70,7 @@ function MapboxMap(
     if (current === null) return;
     if (ref?.current) return;
 
-    const currentMapPosition = store.v3ctx.get(mapPositionAtom);
+    const currentMapPosition = store.v3ctx.get(currentMapPositionAtom);
 
     let mapLocation = {};
 

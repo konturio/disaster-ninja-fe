@@ -52,18 +52,21 @@ export const currentMapPositionAtomV2 = createAtom(
 
     return state;
   },
-  '[Shared state] currentMapPositionAtom',
+  '[Shared state] currentMapPositionAtomV2',
 );
 
-export const mapPositionAtom = atom<CurrentMapPositionAtomState>(null, 'mapPositionAtom');
+export const currentMapPositionAtom = atom<CurrentMapPositionAtomState>(
+  null,
+  '[Shared state] currentMapPositionAtom',
+);
 
 export const setCurrentMapPosition = action((ctx, position: CenterZoomPosition) => {
   const map = currentMapAtom.getState();
   if (map) {
     jumpTo(map, position);
   }
-  mapPositionAtom(ctx, position);
-  // TODO: delete along with v2 atom
+  currentMapPositionAtom(ctx, position);
+  // TODO: delete line along with v2 atom
   store.dispatch(currentMapPositionAtomV2.setState(position));
 }, 'setCurrentMapPosition');
 
@@ -80,15 +83,15 @@ export const setCurrentMapBbox = action(
         jumpTo(map, position);
       }
     }
-    mapPositionAtom(ctx, position);
-    // TODO: delete along with v2 atom
+    currentMapPositionAtom(ctx, position);
+    // TODO: delete line along with v2 atom
     store.dispatch(currentMapPositionAtomV2.setState(position));
   },
   'setCurrentMapBbox',
 );
 
 export const updateCurrentMapPosition = action((ctx, position: CenterZoomPosition) => {
-  mapPositionAtom(ctx, position);
-  // TODO: delete along with v2 atom
+  currentMapPositionAtom(ctx, position);
+  // TODO: delete line along with v2 atom
   store.dispatch(currentMapPositionAtomV2.setState(position));
 }, 'updateCurrentMapPosition');
