@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-CaSMkTl5.js","./index-B-MX7OBl.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-BiDzfi2-.js","./index-CfnLSfL-.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-B-MX7OBl.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-CfnLSfL-.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -32530,6 +32530,29 @@ function recursiveCopy(src) {
   return target;
 }
 const deepCopy = window.structuredClone ?? recursiveCopy;
+function isGeometryEmpty(geometry) {
+  var _a2, _b;
+  if (!geometry) return true;
+  if (geometry.type !== "GeometryCollection" && ((_a2 = geometry.coordinates) == null ? void 0 : _a2.length)) {
+    return false;
+  }
+  if (geometry.type === "GeometryCollection" && ((_b = geometry.geometries) == null ? void 0 : _b.length)) {
+    return false;
+  }
+  return true;
+}
+function isGeoJSONEmpty(geoJSON) {
+  var _a2;
+  if (!geoJSON) return true;
+  switch (geoJSON.type) {
+    case "FeatureCollection":
+      return !((_a2 = geoJSON.features) == null ? void 0 : _a2.length);
+    case "Feature":
+      return isGeometryEmpty(geoJSON.geometry);
+    default:
+      return isGeometryEmpty(geoJSON);
+  }
+}
 function cleanupGeometry(geom) {
   var _a2;
   const newGeom = deepCopy(geom);
@@ -32543,14 +32566,13 @@ function cleanupGeometry(geom) {
   }
   return newGeom;
 }
-function isGeometryEmpty(geom) {
-  return !geom || !geom.geometry || geom.geometry.type === "FeatureCollection" && !geom.geometry.features.length;
-}
 function createBivariateQuery(geom) {
   const body = {
     importantLayers: IMPORTANT_BIVARIATE_LAYERS
   };
-  if (geom && !isGeometryEmpty(geom)) body.geoJSON = cleanupGeometry(geom == null ? void 0 : geom.geometry);
+  if (geom && !isGeoJSONEmpty(geom)) {
+    body.geoJSON = cleanupGeometry(geom);
+  }
   return body;
 }
 function parseGraphQLErrors(response) {
@@ -32589,7 +32611,7 @@ const bivariateStatisticsResourceAtom$1 = createAsyncAtom(
       return worldStatsCache;
     }
     try {
-      const body = createBivariateQuery(focusedGeometry);
+      const body = createBivariateQuery(focusedGeometry == null ? void 0 : focusedGeometry.geometry);
       const responseData = await apiClient.post("/bivariate_matrix", body, true, {
         signal: abortController.signal,
         retryAfterTimeoutError: {
@@ -32613,7 +32635,7 @@ const bivariateStatisticsResourceAtom$1 = createAsyncAtom(
         ...statsDTO,
         axis: statsDTO.axis.map((ax) => axisDTOtoAxis(ax))
       };
-      if (isGeometryEmpty(focusedGeometry) && !worldStatsCache) {
+      if (isGeoJSONEmpty(focusedGeometry == null ? void 0 : focusedGeometry.geometry) && !worldStatsCache) {
         worldStatsCache = stat;
       }
       return stat;
@@ -35383,7 +35405,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-CaSMkTl5.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-BiDzfi2-.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
