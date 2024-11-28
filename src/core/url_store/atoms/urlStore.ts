@@ -30,7 +30,7 @@ export const searchStringAtom = createStringAtom('', 'urlStore:searchStringAtom'
 export const urlStoreAtom = createAtom(
   {
     initFlag: initFlagAtom,
-    currentMapPositionAtom: currentMapPositionAtomV2,
+    currentMapPositionAtomV2,
     currentEventAtom,
     enabledLayersAtom,
     currentEventFeedAtom,
@@ -107,7 +107,7 @@ export const urlStoreAtom = createAtom(
 
     /* After initialization finished - write new changes from state back to url */
     const newState = { ...state };
-    const currentMapPosition = get('currentMapPositionAtom');
+    const currentMapPosition = get('currentMapPositionAtomV2');
     if (currentMapPosition && 'lng' in currentMapPosition) {
       // formatting performed in url encoder
       newState.map = [
