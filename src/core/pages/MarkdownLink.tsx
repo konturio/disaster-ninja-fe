@@ -1,12 +1,7 @@
 import { useCallback } from 'react';
 import { goTo } from '~core/router/goTo';
+import { openIntercomChat } from '~features/intercom';
 import { isInnerAnchorLink, isExternalLink } from './linkUtils';
-
-function openIntercomChat() {
-  if (globalThis.Intercom && globalThis.intercomSettings) {
-    globalThis.Intercom('showMessages');
-  }
-}
 
 type AppProtocolHandler = (url: URL) => void;
 

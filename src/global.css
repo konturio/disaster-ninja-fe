@@ -8,7 +8,6 @@
   mobile viewport: < 960px
 */
 @import url('./styles/reset.css');
-@import url('./styles/global-pages.css');
 @import url('./styles/global-map.css');
 
 :root {
@@ -21,15 +20,13 @@
   --scrollbar-track: var(--neutral-neutral-20);
 }
 
-/* Base styles */
+/* Base styles. Keep only what's not in Konturio defaults */
 html {
-  /* Keep only what's not in Konturio defaults */
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
 }
 
 body {
-  /* Keep only what's not in Konturio defaults */
   overflow: hidden;
 }
 
@@ -47,21 +44,21 @@ code {
 
 /* ScrollBar - Modern Cross-Browser Version */
 * {
+  /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
-@supports selector(::-webkit-scrollbar) {
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    background-color: var(--scrollbar-track);
-  }
+/* Webkit/Blink browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: var(--scrollbar-track);
+}
 
-  ::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb);
-    border-radius: 3px;
-  }
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 3px;
 }
 
 /* Icons */

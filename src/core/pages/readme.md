@@ -119,3 +119,25 @@ Parameter syntax: `::width,height,allowFullscreen`
 
 - Width and height are in pixels
 - allowFullscreen is boolean (1 or 0)
+
+### App Protocol Links
+
+The markdown processor supports special `app:` protocol links for internal application actions:
+
+```markdown
+# Open Intercom chat
+
+[Contact Support](app://intercom)
+```
+
+Currently supported app protocol commands:
+
+- `app://intercom` - Opens the Intercom chat widget
+
+App protocol links are intercepted by the application and won't trigger browser navigation directly. Instead, they execute specific internal actions. Additional commands can be registered in the `MarkdownLink` component.
+
+Example usage in markdown:
+
+```markdown
+Need help? [Contact our support team](app://intercom) for assistance.
+```

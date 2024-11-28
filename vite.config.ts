@@ -110,7 +110,7 @@ export default ({ mode }) => {
             if (id.includes('node_modules/recharts')) return 'recharts';
             if (id.includes('node_modules/maplibre-gl')) return 'maplibre-gl';
           },
-          experimentalMinChunkSize: 16000,
+          // experimentalMinChunkSize: 16000,
         },
       },
     },

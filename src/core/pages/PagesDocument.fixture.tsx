@@ -70,3 +70,12 @@ ng: <http://www.youronlinechoices.com/>
     />
   ),
 };
+
+/*
+div#root
+  > div#app-id-58851b50-9574-4aec-a3a6-425fa18dcb54._common_1dp5y_1
+    > span#app-route-privacy > div.keep-alive-render > div.cache-component.active
+      > article#app-pages-docid-privacy._article_ov122_1.
+        > div.app-pages-element-markdown
+          > section
+*/

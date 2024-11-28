@@ -3,6 +3,7 @@ import usePromise from 'react-promise-suspense';
 import { getAsset } from '~core/api/assets';
 import { Article } from '~components/Layout';
 import { MarkdownContent } from './MarkdownContent';
+import './pages.css';
 
 type PagesDocumentElement = {
   type: 'css' | 'md';
@@ -21,12 +22,16 @@ function fetchPagesDocument(
   doc: PagesDocumentElement[],
 ): Promise<ResolvedPagesDocumentElement[]> {
   return Promise.all(
-    doc.map((element) => {
+    doc.map(async (element) => {
       if (element.url) {
-        return getAsset(element.url).then((res) => {
+        try {
+          const res = await getAsset(element.url);
           return { ...element, data: res as string };
-        });
-      } else return { ...element, data: element.data || '' };
+        } catch (error) {
+          console.error(`Failed to load asset from ${element.url}:`, error);
+        }
+      }
+      return { ...element, data: element.data || '' };
     }),
   );
 }
@@ -47,6 +52,8 @@ function CssElement({ data }: PagesDocumentElementProps) {
 }
 
 function MarkdownElement({ data }: PagesDocumentElementProps) {
+  // We use a global CSS class instead of CSS modules here to allow users to override styles
+  // through their own stylesheets. See pages.css for the default styling
   return (
     <div className="app-pages-element-markdown">
       <MarkdownContent content={data} />

@@ -1,11 +1,10 @@
 export function isExternalLink(href: string) {
-  const externalProtocols = ['http://', 'https://', 'mailto:'];
+  const externalProtocols = ['http://', 'https://', 'mailto:', 'ftp://', 'tel:'] as const;
   return externalProtocols.some((protocol) => href.startsWith(protocol));
 }
 
 export function isInnerAnchorLink(href: string) {
-  // if the hash starts at 0, it means there's no slug and it's an inner anchor link
-  return href.indexOf('#') === 0;
+  return href.startsWith('#');
 }
 
 interface MediaParams {
@@ -14,14 +13,17 @@ interface MediaParams {
   allowFullscreen?: boolean;
 }
 
+const MEDIA_PARAMS_SEPARATOR = '::';
+const MEDIA_PARAMS_DELIMITER = ',';
+
 export function parseMediaParams(url: string): {
   originalUrl: string;
   params: MediaParams | null;
 } {
-  const parts = url.split('::');
+  const parts = url.split(MEDIA_PARAMS_SEPARATOR);
   if (parts.length !== 2) return { originalUrl: url, params: null };
 
-  const [width, height, fullscreen] = parts[1].split(',');
+  const [width, height, fullscreen] = parts[1].split(MEDIA_PARAMS_DELIMITER);
 
   return {
     originalUrl: parts[0],
@@ -33,13 +35,38 @@ export function parseMediaParams(url: string): {
   };
 }
 
-const YOUTUBE_REGEX =
-  /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=|embed\/|shorts\/)?([a-zA-Z0-9_-]{11})/;
+const YOUTUBE_DOMAINS = ['youtube.com', 'youtu.be'];
 
-export const isYoutubeUrl = (url: string): boolean => YOUTUBE_REGEX.test(url);
+export const isYoutubeUrl = (url: string): boolean => {
+  try {
+    const parsedUrl = new URL(url);
+    return YOUTUBE_DOMAINS.some((domain) => parsedUrl.hostname.endsWith(domain));
+  } catch {
+    return false;
+  }
+};
 
 export function getYoutubeEmbedUrl(url: string): string {
-  const match = url.match(YOUTUBE_REGEX);
-  if (!match) return url;
-  return `https://www.youtube.com/embed/${match[5]}`;
+  try {
+    const parsedUrl = new URL(url);
+    let videoId: string | null = null;
+
+    if (parsedUrl.hostname.includes('youtu.be')) {
+      // Handle shortened URLs (youtu.be/VIDEO_ID)
+      videoId = parsedUrl.pathname.slice(1);
+    } else {
+      // Handle youtube.com URLs
+      if (parsedUrl.pathname.includes('shorts')) {
+        videoId = parsedUrl.pathname.split('/shorts/')[1];
+      } else if (parsedUrl.pathname.includes('embed')) {
+        videoId = parsedUrl.pathname.split('/embed/')[1];
+      } else {
+        videoId = parsedUrl.searchParams.get('v');
+      }
+    }
+
+    return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+  } catch {
+    return url;
+  }
 }
