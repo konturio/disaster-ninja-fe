@@ -29,6 +29,7 @@ import {
 import { generateLayerFromLegend } from './legends';
 import { createFeatureStateHandlers } from './activeAndHoverFeatureStates';
 import { isFeatureVisible } from './featureVisibilityCheck';
+import type { MCDALayerStyle } from '../stylesConfigs/mcda/types';
 import type {
   LayerSpecification,
   LineLayerSpecification,
@@ -259,7 +260,11 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this.removeBivariatePopupClickHandler = removeClickListener;
   }
 
-  async mountMCDALayer(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
+  async mountMCDALayer(
+    map: ApplicationMap,
+    layer: LayerTileSource,
+    style: MCDALayerStyle,
+  ) {
     /* Create source */
     const mapSource: VectorSourceSpecification = {
       type: 'vector',
@@ -289,7 +294,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._layerId = layerId;
   }
 
-  addMCDAPopup(map: ApplicationMap, style: LayerStyle) {
+  addMCDAPopup(map: ApplicationMap, style: MCDALayerStyle) {
     const clickHandler = (ev: MapMouseEvent) => {
       const features = ev.target
         .queryRenderedFeatures(ev.point)
