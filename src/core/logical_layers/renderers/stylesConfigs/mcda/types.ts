@@ -1,6 +1,7 @@
 import type {
   AxisDatasetStats,
   AxisTransformation,
+  Direction,
   Indicator,
 } from '~utils/bivariate/types/stat.types';
 
@@ -22,7 +23,7 @@ export type ColorsBySentiments = {
 
 export type OutliersPolicy = 'clamp' | 'hide' | 'unmodified';
 
-type MCDAIndicator = Omit<Indicator, 'direction'>;
+type MCDAIndicator = Omit<Indicator, 'direction'> & { direction?: Direction };
 
 export interface MCDALayer {
   id: string;
@@ -60,5 +61,10 @@ export type TransformationFunction =
 
 export interface MCDALayerStyle {
   type: 'mcda';
+  config: MCDAConfig;
+}
+
+export interface MultivariateLayerStyle {
+  type: 'multivariate';
   config: MCDAConfig;
 }

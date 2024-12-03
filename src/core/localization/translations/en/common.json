@@ -159,6 +159,9 @@
     "bad": "Bad",
     "good": "Good"
   },
+  "multivariate": {
+    "upload_analysis_layer": "Upload analysis layer"
+  },
   "search": {
     "info_block": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”",
     "input_placeholder": "Search",
