@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { useAction } from '@reatom/npm-react';
 import { configRepo } from '~core/config';
 import { EVENT_MAP_IDLE } from '~core/metrics/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
@@ -63,6 +64,7 @@ function MapboxMap(
   const [map, setMap] = useState<Map | null>(null);
   const mapEl = useRef<HTMLDivElement | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const setCurrentMapPositionAction = useAction(setCurrentMapPosition);
 
   /* On map instance */
   useEffect(() => {
@@ -118,13 +120,13 @@ function MapboxMap(
       const zoom = mapInstance.getZoom();
       const { lng, lat } = mapInstance.getCenter();
 
-      setCurrentMapPosition(store.v3ctx, {
+      setCurrentMapPositionAction({
         lat,
         lng,
         zoom,
       });
     }
-  }, [mapEl, externalStyleLink, options, ref]);
+  }, [mapEl, externalStyleLink, options, ref, setCurrentMapPositionAction]);
 
   /* On fit bounds effect */
   useEffect(() => {
