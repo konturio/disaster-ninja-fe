@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { store } from '~core/store/store';
+import { useAction } from '@reatom/npm-react';
 import { updateCurrentMapPosition } from '~core/shared_state/currentMapPosition';
 import type { MutableRefObject } from 'react';
 import type { Map as MapLibreMap } from 'maplibre-gl';
@@ -8,6 +8,8 @@ import type { Map as MapLibreMap } from 'maplibre-gl';
  * This hook listens to map's moveend events and updates currentMapPosition atom state.
  * */
 export function useMapPositionSync(mapRef: MutableRefObject<MapLibreMap | undefined>) {
+  const updateCurrentMapPositionAction = useAction(updateCurrentMapPosition);
+
   useEffect(() => {
     if (mapRef.current) {
       const map = mapRef.current;
@@ -16,7 +18,7 @@ export function useMapPositionSync(mapRef: MutableRefObject<MapLibreMap | undefi
           // only user events have original event
           const zoom = map.getZoom();
           const { lng, lat } = map.getCenter();
-          updateCurrentMapPosition(store.v3ctx, {
+          updateCurrentMapPositionAction({
             zoom,
             lat,
             lng,
@@ -29,5 +31,5 @@ export function useMapPositionSync(mapRef: MutableRefObject<MapLibreMap | undefi
         map.off('moveend', onMapPositionChangedByUser);
       };
     }
-  }, [mapRef]);
+  }, [mapRef, updateCurrentMapPositionAction]);
 }
