@@ -4,7 +4,7 @@ import { useAtom } from '@reatom/react-v2';
 import { configRepo } from '~core/config';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
-import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
+import { FeatureFlag } from '~core/shared_state';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import s from './CommonView.module.css';
 import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
@@ -13,6 +13,8 @@ import type { PropsWithChildren } from 'react';
 const { NotificationToast } = lazily(() => import('~features/toasts'));
 const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 const { SideBar } = lazily(() => import('~features/side_bar'));
+
+const featureFlags = configRepo.get().features;
 
 export function CommonView({
   children,
@@ -24,7 +26,6 @@ export function CommonView({
   availableRoutesAtom: AvailableRoutesAtom;
   getAbsoluteRoute: (path: string | AppRoute) => string;
 }>) {
-  const [featureFlags] = useAtom(featureFlagsAtom);
   const [currentRoute] = useAtom(currentRouteAtom);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export function CommonView({
         initIntercom();
       });
     }
-  }, [featureFlags[FeatureFlag.INTERCOM]]);
+  }, []);
 
   const sanitizedId = configRepo.get().id.replace(/[^a-zA-Z0-9-]/g, '');
   const routeId = currentRoute?.id;

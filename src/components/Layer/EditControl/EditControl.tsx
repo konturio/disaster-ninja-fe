@@ -1,14 +1,16 @@
 import { Edit16 } from '@konturio/default-icons';
-import { useAtom } from '@reatom/react-v2';
 import { useCallback } from 'react';
-import { FeatureFlag, featureFlagsAtom } from '~core/shared_state';
+import { FeatureFlag } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import { configRepo } from '~core/config';
 import type {
   LogicalLayerActions,
   LogicalLayerState,
 } from '~core/logical_layers/types/logicalLayer';
+
+const featureFlags = configRepo.get().features;
 
 export function EditControl({
   layerState,
@@ -17,8 +19,6 @@ export function EditControl({
   layerState: LogicalLayerState;
   layerActions: LogicalLayerActions;
 }) {
-  const [featureFlags] = useAtom(featureFlagsAtom);
-
   const editLayer = useCallback(async () => {
     if (layerState.style?.type === 'mcda' && featureFlags[FeatureFlag.MCDA]) {
       dispatchMetricsEvent('mcda_edit');
@@ -26,7 +26,7 @@ export function EditControl({
         editMCDA(layerState, layerActions);
       });
     }
-  }, [featureFlags, layerActions, layerState]);
+  }, [layerActions, layerState]);
 
   return (
     <LayerActionIcon onClick={editLayer} hint={i18n.t('layer_actions.tooltips.edit')}>
