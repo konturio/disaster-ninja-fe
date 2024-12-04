@@ -4,17 +4,20 @@ import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
-import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
 import { MIN_HEIGHT } from '../../constants';
 import { FullState } from '../FullState/FullState';
 import { ShortState } from '../ShortState/ShortState';
 import s from './EventsPanel.module.css';
+
+const featureFlags = configRepo.get().features;
 
 export function EventsPanel({
   currentEventId,
@@ -29,7 +32,6 @@ export function EventsPanel({
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const [featureFlags] = useAtom(featureFlagsAtom);
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
@@ -56,7 +58,7 @@ export function EventsPanel({
     full: <FullState currentEventId={currentEventId} onCurrentChange={onCurrentChange} />,
     short: (
       <ShortState
-        hasTimeline={!!featureFlags[FeatureFlag.EPISODES_TIMELINE]}
+        hasTimeline={!!featureFlags[AppFeature.EPISODES_TIMELINE]}
         openFullState={openFullState}
         currentEventId={currentEventId}
       />

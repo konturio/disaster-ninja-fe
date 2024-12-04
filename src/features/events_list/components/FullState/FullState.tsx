@@ -4,10 +4,11 @@ import { useCallback, useMemo } from 'react';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { i18n } from '~core/localization';
-import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { createStateMap } from '~utils/atoms';
 import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
 import { useUnlistedRef } from '~utils/hooks/useUnlistedRef';
+import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
 import { FeedSelectorFlagged } from '../FeedSelector';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
@@ -15,6 +16,8 @@ import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsR
 import { EventCard } from '../EventCard/EventCard';
 import { CurrentEvent } from '../CurrentEvent/CurrentEvent';
 import s from './FullState.module.css';
+
+const featureFlags = configRepo.get().features;
 
 export function FullState({
   currentEventId,
@@ -24,8 +27,7 @@ export function FullState({
   onCurrentChange: (id: string) => void;
 }) {
   const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
-  const [featureFlags] = useAtom(featureFlagsAtom);
-  const hasTimeline = featureFlags[FeatureFlag.EPISODES_TIMELINE];
+  const hasTimeline = featureFlags[AppFeature.EPISODES_TIMELINE];
 
   const statesToComponents = createStateMap({
     error,
@@ -64,7 +66,7 @@ export function FullState({
       )}
       <EventListSettingsRow>
         <FeedSelectorFlagged />
-        {featureFlags[FeatureFlag.EVENTS_LIST__BBOX_FILTER] && <BBoxFilterToggle />}
+        {featureFlags[AppFeature.EVENTS_LIST__BBOX_FILTER] && <BBoxFilterToggle />}
       </EventListSettingsRow>
       <div className={s.scrollable}>
         {statesToComponents({

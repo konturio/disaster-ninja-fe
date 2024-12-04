@@ -7,4 +7,3 @@ export { mapListenersAtom } from './mapListeners';
 export { currentNotificationAtom } from './currentNotifications';
 export { currentMapAtom } from './currentMap';
 export { episodesPanelState } from './episodesPanelState';
-export * from './featureFlags';

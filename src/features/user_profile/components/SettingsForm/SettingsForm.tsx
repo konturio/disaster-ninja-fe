@@ -7,11 +7,11 @@ import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
-import { FeatureFlag } from '~core/shared_state/featureFlags';
 import { flatObjectsAreEqual } from '~utils/common';
 import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import { DEFAULT_OSM_EDITOR } from '~core/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import { AppFeature } from '~core/app/types';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { UserDto } from '~core/app/user';
@@ -179,7 +179,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   </TooltipContent>
                 </Tooltip>
 
-                {featureFlags?.[FeatureFlag.REFERENCE_AREA] && (
+                {featureFlags?.[AppFeature.REFERENCE_AREA] && (
                   <div>
                     <Text type="short-l" className={s.smallTitle}>
                       {i18n.t('profile.reference_area.title')}
@@ -236,8 +236,8 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   />
                 </div>
 
-                {(featureFlags[FeatureFlag.FEED_SELECTOR] ||
-                  featureFlags[FeatureFlag.EVENTS_LIST__FEED_SELECTOR]) && (
+                {(featureFlags[AppFeature.FEED_SELECTOR] ||
+                  featureFlags[AppFeature.EVENTS_LIST__FEED_SELECTOR]) && (
                   <SelectFeeds
                     onChange={onChange('defaultFeed')}
                     value={localSettings.defaultFeed}

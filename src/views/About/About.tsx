@@ -1,6 +1,6 @@
-import { useAtom } from '@reatom/react-v2';
 import { PagesDocument } from '~core/pages';
-import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
+import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
 
 const defaultDocument = [
   {
@@ -10,11 +10,10 @@ const defaultDocument = [
 ];
 
 export function AboutPage() {
-  const [featureFlags] = useAtom(featureFlagsAtom);
-
   const doc =
     // @ts-expect-error ts too picky, most likely this will be refactored
-    featureFlags[FeatureFlag.ABOUT_PAGE]?.configuration?.document ?? defaultDocument;
+    configRepo.get().features[AppFeature.ABOUT_PAGE]?.configuration?.document ??
+    defaultDocument;
 
   return <PagesDocument doc={doc} />;
 }
