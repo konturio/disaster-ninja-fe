@@ -39,7 +39,7 @@ function calcMcdaIndex(
   return sumNormalized / coeffsSum;
 }
 
-export function generatePopupContent(
+export function generateMCDAPopupContent(
   feature: GeoJSON.Feature,
   layers: MCDAConfig['layers'],
 ): HTMLDivElement {

@@ -6,7 +6,6 @@ import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer';
 import {
   FALLBACK_BIVARIATE_MAX_ZOOM,
   FALLBACK_BIVARIATE_MIN_ZOOM,
@@ -21,6 +20,7 @@ import { generateHclGradientColors } from '~features/mcda/utils/generateHclGradi
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
 import { v3ActionToV2 } from '~utils/atoms/v3tov2';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
+import { MultivariateRenderer } from '~core/logical_layers/renderers/MultivariateRenderer/MultivariateRenderer';
 import type { MCDALayerStyle } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Action } from '@reatom/core-v2';
@@ -29,26 +29,27 @@ export const createMultivariateLayer = action((ctx, config: MultivariateLayerCon
   const id = config.id;
   const name = config.name;
   let legendColors: string[] | undefined;
-  const json = (config.base as MCDALayerStyle).config;
-  if (json.colors.type === 'sentiments') {
-    const colorGood = json.colors.parameters?.good ?? DEFAULT_GREEN;
-    const colorBad = json.colors.parameters?.bad ?? DEFAULT_RED;
-    /* TODO: using midpoints for gradient customization is a temporary solution.
-    It will probably be removed in the future in favor of working with Color Manager */
-    const colorMidpoints =
-      json.colors.parameters?.midpoints?.map(
-        (point) => `${point.color} ${point.value * 100}%`,
-      ) ?? null;
-    if (colorMidpoints?.length) {
-      legendColors = [colorBad.toString(), ...colorMidpoints, colorGood.toString()];
-    } else {
-      legendColors = generateHclGradientColors(
-        colorBad.toString(),
-        colorGood.toString(),
-        5,
-      );
-    }
-  }
+  // const json = (config.base as MCDALayerStyle).config;
+  const json = config;
+  // if (json.colors.type === 'sentiments') {
+  //   const colorGood = json.colors.parameters?.good ?? DEFAULT_GREEN;
+  //   const colorBad = json.colors.parameters?.bad ?? DEFAULT_RED;
+  //   /* TODO: using midpoints for gradient customization is a temporary solution.
+  //   It will probably be removed in the future in favor of working with Color Manager */
+  //   const colorMidpoints =
+  //     json.colors.parameters?.midpoints?.map(
+  //       (point) => `${point.color} ${point.value * 100}%`,
+  //     ) ?? null;
+  //   if (colorMidpoints?.length) {
+  //     legendColors = [colorBad.toString(), ...colorMidpoints, colorGood.toString()];
+  //   } else {
+  //     legendColors = generateHclGradientColors(
+  //       colorBad.toString(),
+  //       colorGood.toString(),
+  //       5,
+  //     );
+  //   }
+  // }
 
   const actions: Array<Action> = [
     // Set layer settings once
@@ -83,7 +84,7 @@ export const createMultivariateLayer = action((ctx, config: MultivariateLayerCon
           apiKey: '',
         },
         style: {
-          type: 'mcda',
+          type: 'multivariate',
           config: json,
         },
       }),
@@ -115,10 +116,9 @@ export const createMultivariateLayer = action((ctx, config: MultivariateLayerCon
     // Register and Enable
     layersRegistryAtom.register({
       id,
-      renderer: new BivariateRenderer({ id }),
+      renderer: new MultivariateRenderer({ id }),
     }),
     v3ActionToV2(enableMultivariateLayer, id, 'enableMCDALayer'),
-    // mcdaLayerAtom.enableMCDALayer(id),
   ];
 
   if (actions.length) {

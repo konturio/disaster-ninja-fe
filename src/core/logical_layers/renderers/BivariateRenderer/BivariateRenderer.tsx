@@ -18,7 +18,7 @@ import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { styleConfigs } from '../stylesConfigs';
-import { generatePopupContent } from '../MCDARenderer/popup';
+import { generateMCDAPopupContent } from '../MCDARenderer/popup';
 import { setTileScheme } from '../setTileScheme';
 import {
   FALLBACK_BIVARIATE_MIN_ZOOM,
@@ -309,7 +309,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       if (!isFeatureVisible(feature)) return true;
 
       // Show popup on click
-      const popupNode = generatePopupContent(feature, style.config.layers);
+      const popupNode = generateMCDAPopupContent(feature, style.config.layers);
       dispatchMetricsEvent('mcda_popup');
       this.cleanPopup();
       this._popup = new MapPopup({

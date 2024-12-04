@@ -1,17 +1,10 @@
-import type { BivariateLegendStep } from '~core/logical_layers/types/legends';
 import type {
   ColorsByMapLibreExpression,
   ColorsBySentiments,
   MCDALayerStyle,
 } from '../stylesConfigs/mcda/types';
-import type { Axis } from '~utils/bivariate';
 
-export type MultivariateAxis =
-  | {
-      type: 'axis';
-      axis: Axis;
-    }
-  | MCDALayerStyle;
+export type MultivariateAxis = MCDALayerStyle;
 
 export type LabelAxis = {
   label: string;

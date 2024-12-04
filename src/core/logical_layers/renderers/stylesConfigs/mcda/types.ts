@@ -1,3 +1,4 @@
+import type { MultivariateLayerConfig } from '../../MultivariateRenderer/types';
 import type {
   AxisDatasetStats,
   AxisTransformation,
@@ -66,5 +67,5 @@ export interface MCDALayerStyle {
 
 export interface MultivariateLayerStyle {
   type: 'multivariate';
-  config: MCDAConfig;
+  config: MultivariateLayerConfig;
 }
