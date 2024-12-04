@@ -1,5 +1,5 @@
-import { j as jsxRuntimeExports } from "./_virtual_cosmos-imports-jG29wM1x.js";
-import { r as reactExports } from "./index-CfnLSfL-.js";
+import { j as jsxRuntimeExports } from "./_virtual_cosmos-imports-3-HzUdEZ.js";
+import { r as reactExports } from "./index-QbaOQbL6.js";
 const BivariateGreetings = () => {
   reactExports.useEffect(() => {
     !function(t, n) {

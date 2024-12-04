@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-BiDzfi2-.js","./index-CfnLSfL-.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-BF4EhTGd.js","./index-QbaOQbL6.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-CfnLSfL-.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, _ as __vitePreload, c as ReactDOM, d as commonjsGlobal, g as getDefaultExportFromCjs, e as createRoot } from "./index-QbaOQbL6.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -30120,224 +30120,6 @@ const MapHexTooltip = ({
     ] })
   ] });
 };
-createAtom(
-  {
-    set: (episodeId) => episodeId,
-    reset: () => null
-  },
-  ({ onAction }, state = null) => {
-    onAction("set", (episodeId) => state = { id: episodeId });
-    onAction("reset", () => state = null);
-    return state;
-  },
-  "[Shared state] currentEpisodeAtom"
-);
-function getMapPaddings(map, debug = false) {
-  const blankSpaceEl = document.getElementById(configRepo.get().mapBlankSpaceId);
-  if (blankSpaceEl === null) {
-    console.warn("getMapPaddings::Cannot find map blank space element");
-    return {
-      top: 0,
-      bottom: 0,
-      right: 0,
-      left: 0
-    };
-  }
-  const mapCanvasEl = map._canvas;
-  if (!mapCanvasEl) {
-    console.warn("getMapPaddings::Cannot find map canvas element");
-    return {
-      top: 0,
-      bottom: 0,
-      right: 0,
-      left: 0
-    };
-  }
-  const blankRect = blankSpaceEl.getBoundingClientRect();
-  const mapRect = mapCanvasEl.getBoundingClientRect();
-  const top = Math.max(blankRect.top - mapRect.top, 0);
-  const right = Math.max(mapRect.right - blankRect.right, 0);
-  const bottom = Math.max(mapRect.bottom - blankRect.bottom, 0);
-  const left = Math.max(blankRect.left - mapRect.left, 0);
-  return { top, right, bottom, left };
-}
-function getCameraForBbox(bbox, map) {
-  const camera = map.cameraForBounds(bbox, {
-    padding: getMapPaddings(map)
-  });
-  if (!camera) {
-    return map.cameraForBounds(bbox);
-  }
-  return camera;
-}
-const mountedLayersAtom = createMapAtom(
-  /* @__PURE__ */ new Map(),
-  "mountedLayers"
-);
-let _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = mountedLayersAtom.getState();
-mountedLayersAtom.subscribe((s2) => {
-  _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = s2;
-});
-const currentMapAtom = createAtom(
-  {
-    setMap: (map) => map,
-    resetMap: () => null
-  },
-  ({ onAction, schedule }, state = null) => {
-    onAction("setMap", (map) => {
-      if (map !== state) {
-        state = map;
-        schedule((dispatch) => {
-          dispatch(mountedLayersAtom.clear());
-        });
-      }
-    });
-    onAction("resetMap", () => {
-      state = null;
-      schedule((dispatch) => {
-        dispatch(mountedLayersAtom.clear());
-      });
-    });
-    return state;
-  },
-  "[Shared state] currentMapAtom"
-);
-function jumpTo(map, position) {
-  const { lng, lat, zoom } = position;
-  requestAnimationFrame(() => {
-    map.stop();
-  });
-  setTimeout(() => {
-    const mapCenter = map.getCenter();
-    const mapZoom = map.getZoom();
-    if (mapCenter.lng !== lng || mapCenter.lat !== lat || mapZoom !== zoom) {
-      requestAnimationFrame(() => {
-        map == null ? void 0 : map.jumpTo({
-          center: [lng, lat],
-          zoom
-        });
-      });
-    }
-  }, 100);
-}
-createAtom(
-  {
-    setCurrentMapPosition: (mapPosition) => mapPosition,
-    setCurrentMapBbox: (mapBbox) => mapBbox,
-    updateCurrentMapPosition: (mapPosition) => mapPosition,
-    currentMapAtom
-  },
-  ({ onAction }, state = null) => {
-    onAction("setCurrentMapPosition", (position) => {
-      const map = currentMapAtom.getState();
-      if (map) {
-        jumpTo(map, position);
-      }
-      state = position;
-    });
-    onAction("setCurrentMapBbox", (bbox) => {
-      let position = { bbox: bbox.flat() };
-      const map = currentMapAtom.getState();
-      if (map) {
-        const camera = getCameraForBbox(bbox, map);
-        if (camera.center && "lng" in camera.center) {
-          const { zoom } = camera;
-          const { lat, lng } = camera.center;
-          position = { ...position, lat, lng, zoom: zoom ?? map.getZoom() };
-          jumpTo(map, position);
-        }
-      }
-      state = position;
-    });
-    onAction("updateCurrentMapPosition", (position) => {
-      state = position;
-    });
-    return state;
-  },
-  "[Shared state] currentMapPositionAtom"
-);
-createAtom(
-  {
-    setUser: (user = configRepo.get().initialUser) => user
-  },
-  ({ onAction }, state = configRepo.get().initialUser) => {
-    onAction("setUser", (usr) => {
-      if (usr) {
-        state = usr;
-      } else {
-        state = configRepo.get().initialUser;
-      }
-    });
-    return state;
-  },
-  "[Shared state] currentUserAtom"
-);
-const defaultSettings$1 = categoriesSettings;
-const settingsMock$1 = new Proxy(defaultSettings$1, {
-  get(target, prop, receiver) {
-    const originalValue = Reflect.get(target, prop, receiver);
-    if (originalValue) return originalValue;
-    return {
-      name: prop,
-      openByDefault: true,
-      mutuallyExclusive: false,
-      order: 100
-    };
-  },
-  set(target, prop, val, receiver) {
-    return Reflect.set(target, prop, val, receiver);
-  }
-});
-const layersCategoriesSettingsAtom = createAtom(
-  {},
-  ({}, state = settingsMock$1) => {
-    return state;
-  },
-  "layersCategoriesSettingsAtom"
-);
-const defaultSettings = groupSettings;
-const settingsMock = new Proxy(defaultSettings, {
-  get(target, prop, receiver) {
-    const originalValue = Reflect.get(target, prop, receiver);
-    if (originalValue) return originalValue;
-    return {
-      name: prop,
-      openByDefault: true,
-      mutuallyExclusive: false,
-      order: 100
-    };
-  },
-  set(target, prop, val, receiver) {
-    return Reflect.set(target, prop, val, receiver);
-  }
-});
-const layersGroupsSettingsAtom = createAtom(
-  {},
-  ({}, state = settingsMock) => {
-    return state;
-  },
-  "layersGroupsSettingsAtom"
-);
-const episodesPanelState = createAtom(
-  {
-    open: () => null,
-    close: () => null
-  },
-  ({ onAction }, state = { isOpen: false }) => {
-    onAction("open", () => state = { ...state, isOpen: true });
-    onAction("close", () => state = { ...state, isOpen: false });
-    return state;
-  },
-  "episodesPanelState"
-);
-const FeatureFlag = AppFeature;
-const featureFlagsAtom = createAtom(
-  {},
-  (_2, state = { ...configRepo.get().features }) => {
-    return state;
-  },
-  "[Shared state] featureFlagsAtom"
-);
 const SOURCE_LAYER_BIVARIATE = "stats";
 const FALLBACK_BIVARIATE_MIN_ZOOM = 0;
 const FALLBACK_BIVARIATE_MAX_ZOOM = 14;
@@ -31105,6 +30887,7 @@ function createFeatureStateHandlers(ctx) {
   };
 }
 const convertFillColorToRGBA = (fillColor, withTransparency = true) => `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${withTransparency ? "," + fillColor.a : ""})`;
+const featureFlags = configRepo.get().features;
 function calcValueByNumeratorDenominator(cellValues, numerator, denominator) {
   const numeratorValue = cellValues[numerator];
   const denominatorValue = cellValues[denominator];
@@ -31203,7 +30986,7 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
       const [feature] = features;
       if (!isFeatureVisible(feature)) return true;
       if (!feature.properties) return true;
-      const showValues = featureFlagsAtom.getState()[FeatureFlag.BIVARIATE_MANAGER];
+      const showValues = featureFlags[AppFeature.BIVARIATE_MANAGER];
       const [xNumerator, xDenominator] = legend2.axis.x.quotient;
       const [yNumerator, yDenominator] = legend2.axis.y.quotient;
       const xValue = calcValueByNumeratorDenominator(
@@ -31424,6 +31207,38 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
   }
 }
 const enabledLayersAtom$1 = createSetAtom(/* @__PURE__ */ new Set(), "enabledLayers");
+const mountedLayersAtom = createMapAtom(
+  /* @__PURE__ */ new Map(),
+  "mountedLayers"
+);
+let _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = mountedLayersAtom.getState();
+mountedLayersAtom.subscribe((s2) => {
+  _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = s2;
+});
+const currentMapAtom = createAtom(
+  {
+    setMap: (map) => map,
+    resetMap: () => null
+  },
+  ({ onAction, schedule }, state = null) => {
+    onAction("setMap", (map) => {
+      if (map !== state) {
+        state = map;
+        schedule((dispatch) => {
+          dispatch(mountedLayersAtom.clear());
+        });
+      }
+    });
+    onAction("resetMap", () => {
+      state = null;
+      schedule((dispatch) => {
+        dispatch(mountedLayersAtom.clear());
+      });
+    });
+    return state;
+  },
+  "[Shared state] currentMapAtom"
+);
 function downloadObject(data, fileName, indentation) {
   const file = new Blob([JSON.stringify(data, null, indentation)], { type: "json" });
   const a2 = document.createElement("a");
@@ -31832,6 +31647,18 @@ new Mutex();
 new Mutex();
 new Mutex();
 new Mutex();
+const episodesPanelState = createAtom(
+  {
+    open: () => null,
+    close: () => null
+  },
+  ({ onAction }, state = { isOpen: false }) => {
+    onAction("open", () => state = { ...state, isOpen: true });
+    onAction("close", () => state = { ...state, isOpen: false });
+    return state;
+  },
+  "episodesPanelState"
+);
 const focusedGeometryAtom = createAtom(
   {
     setFocusedGeometry: (source, geometry) => ({ source, geometry }),
@@ -31889,9 +31716,9 @@ const referenceAreaAtom = atom(
 );
 function getReferenceAreaFromConfigRepo() {
   const features = configRepo.get().features;
-  const refAreaGeometry = features[FeatureFlag.REFERENCE_AREA] && typeof features[FeatureFlag.REFERENCE_AREA] === "object" ? (
+  const refAreaGeometry = features[AppFeature.REFERENCE_AREA] && typeof features[AppFeature.REFERENCE_AREA] === "object" ? (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    features[FeatureFlag.REFERENCE_AREA].referenceAreaGeometry
+    features[AppFeature.REFERENCE_AREA].referenceAreaGeometry
   ) : null;
   if ((refAreaGeometry == null ? void 0 : refAreaGeometry.type) === "FeatureCollection" || (refAreaGeometry == null ? void 0 : refAreaGeometry.type) === "Feature") {
     return refAreaGeometry;
@@ -31931,6 +31758,52 @@ function deepFreeze(object) {
   }
   return object;
 }
+const defaultSettings$1 = groupSettings;
+const settingsMock$1 = new Proxy(defaultSettings$1, {
+  get(target, prop, receiver) {
+    const originalValue = Reflect.get(target, prop, receiver);
+    if (originalValue) return originalValue;
+    return {
+      name: prop,
+      openByDefault: true,
+      mutuallyExclusive: false,
+      order: 100
+    };
+  },
+  set(target, prop, val, receiver) {
+    return Reflect.set(target, prop, val, receiver);
+  }
+});
+const layersGroupsSettingsAtom = createAtom(
+  {},
+  ({}, state = settingsMock$1) => {
+    return state;
+  },
+  "layersGroupsSettingsAtom"
+);
+const defaultSettings = categoriesSettings;
+const settingsMock = new Proxy(defaultSettings, {
+  get(target, prop, receiver) {
+    const originalValue = Reflect.get(target, prop, receiver);
+    if (originalValue) return originalValue;
+    return {
+      name: prop,
+      openByDefault: true,
+      mutuallyExclusive: false,
+      order: 100
+    };
+  },
+  set(target, prop, val, receiver) {
+    return Reflect.set(target, prop, val, receiver);
+  }
+});
+const layersCategoriesSettingsAtom = createAtom(
+  {},
+  ({}, state = settingsMock) => {
+    return state;
+  },
+  "layersCategoriesSettingsAtom"
+);
 const getMutualExcludedActions = (() => {
   let groupsSettings = null;
   layersGroupsSettingsAtom.subscribe((s2) => groupsSettings = s2);
@@ -35405,7 +35278,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-BiDzfi2-.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-BF4EhTGd.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
