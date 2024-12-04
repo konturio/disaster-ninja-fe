@@ -14,10 +14,10 @@ import {
   MapHexTooltip,
 } from '~components/MapHexTooltip/MapHexTooltip';
 import { invertClusters } from '~utils/bivariate';
-import { FeatureFlag } from '~core/shared_state';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
 import { styleConfigs } from '../stylesConfigs';
 import { generatePopupContent } from '../MCDARenderer/popup';
 import { setTileScheme } from '../setTileScheme';
@@ -187,7 +187,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       if (!isFeatureVisible(feature)) return true;
       if (!feature.properties) return true;
 
-      const showValues = featureFlags[FeatureFlag.BIVARIATE_MANAGER];
+      const showValues = featureFlags[AppFeature.BIVARIATE_MANAGER];
       const [xNumerator, xDenominator] = legend.axis.x.quotient;
       const [yNumerator, yDenominator] = legend.axis.y.quotient;
       const xValue = calcValueByNumeratorDenominator(

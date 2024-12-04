@@ -1,10 +1,10 @@
 import { Edit16 } from '@konturio/default-icons';
 import { useCallback } from 'react';
-import { FeatureFlag } from '~core/shared_state';
 import { i18n } from '~core/localization';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
 import type {
   LogicalLayerActions,
   LogicalLayerState,
@@ -20,7 +20,7 @@ export function EditControl({
   layerActions: LogicalLayerActions;
 }) {
   const editLayer = useCallback(async () => {
-    if (layerState.style?.type === 'mcda' && featureFlags[FeatureFlag.MCDA]) {
+    if (layerState.style?.type === 'mcda' && featureFlags[AppFeature.MCDA]) {
       dispatchMetricsEvent('mcda_edit');
       import('~features/mcda').then(async ({ editMCDA }) => {
         editMCDA(layerState, layerActions);

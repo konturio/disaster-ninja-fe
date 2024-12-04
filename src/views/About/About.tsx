@@ -1,6 +1,6 @@
 import { PagesDocument } from '~core/pages';
 import { configRepo } from '~core/config';
-import { FeatureFlag } from '~core/shared_state';
+import { AppFeature } from '~core/app/types';
 
 const defaultDocument = [
   {
@@ -12,7 +12,7 @@ const defaultDocument = [
 export function AboutPage() {
   const doc =
     // @ts-expect-error ts too picky, most likely this will be refactored
-    configRepo.get().features[FeatureFlag.ABOUT_PAGE]?.configuration?.document ??
+    configRepo.get().features[AppFeature.ABOUT_PAGE]?.configuration?.document ??
     defaultDocument;
 
   return <PagesDocument doc={doc} />;

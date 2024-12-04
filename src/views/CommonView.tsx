@@ -4,8 +4,8 @@ import { useAtom } from '@reatom/react-v2';
 import { configRepo } from '~core/config';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
-import { FeatureFlag } from '~core/shared_state';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
+import { AppFeature } from '~core/app/types';
 import s from './CommonView.module.css';
 import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
@@ -29,7 +29,7 @@ export function CommonView({
   const [currentRoute] = useAtom(currentRouteAtom);
 
   useEffect(() => {
-    if (featureFlags[FeatureFlag.INTERCOM]) {
+    if (featureFlags[AppFeature.INTERCOM]) {
       import('~features/intercom').then(({ initIntercom }) => {
         initIntercom();
       });
@@ -44,7 +44,7 @@ export function CommonView({
       <OriginalLogo />
       <div className={s.common} id={`app-id-${sanitizedId}`}>
         <Suspense fallback={null}>
-          {featureFlags[FeatureFlag.SIDE_BAR] && (
+          {featureFlags[AppFeature.SIDE_BAR] && (
             <SideBar
               availableRoutesAtom={availableRoutesAtom}
               currentRouteAtom={currentRouteAtom}
@@ -58,15 +58,15 @@ export function CommonView({
       </div>
 
       <Suspense fallback={null}>
-        {featureFlags[FeatureFlag.TOASTS] && <NotificationToast />}
+        {featureFlags[AppFeature.TOASTS] && <NotificationToast />}
       </Suspense>
 
       <Suspense fallback={null}>
-        {featureFlags[FeatureFlag.TOOLTIP] && <PopupTooltip />}
+        {featureFlags[AppFeature.TOOLTIP] && <PopupTooltip />}
       </Suspense>
 
       {/* FIXME: Since this banner also blocks intercom in should check something more common */}
-      {featureFlags[FeatureFlag.USE_3RDPARTY_ANALYTICS] && <CookieConsentBanner />}
+      {featureFlags[AppFeature.USE_3RDPARTY_ANALYTICS] && <CookieConsentBanner />}
     </>
   );
 }
