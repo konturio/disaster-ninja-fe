@@ -90,6 +90,9 @@ function MapboxMap(
       ...mapLocation,
       ...options,
     });
+    mapInstance.once('styledata', () => {
+      mapInstance.setLight({ anchor: 'viewport', color: '#FFF', intensity: 1 });
+    });
 
     if (mapLibre.getRTLTextPluginStatus() === 'unavailable') {
       mapLibre.setRTLTextPlugin(

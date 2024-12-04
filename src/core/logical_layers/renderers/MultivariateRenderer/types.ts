@@ -7,7 +7,10 @@ import type {
 export type MultivariateAxis = MCDALayerStyle;
 
 export type LabelAxis = {
-  label: string;
+  formatString?: string;
+  propertyName?: string;
+  valueExpression?: any;
+  axis?: MultivariateAxis;
 };
 
 export type MultivariateColorConfig =
@@ -28,7 +31,7 @@ export interface MultivariateLayerConfig {
   annex?: MultivariateAxis;
   strength?: MultivariateAxis | number;
   tileLabel?: LabelAxis;
-  extrusionMin?: MultivariateAxis;
-  extrusionMax?: MultivariateAxis;
+  extrusionMin?: MultivariateAxis | number;
+  extrusionMax?: MultivariateAxis | number;
   colors?: MultivariateColorConfig;
 }
