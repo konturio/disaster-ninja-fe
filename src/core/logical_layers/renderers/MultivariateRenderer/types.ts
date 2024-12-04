@@ -27,7 +27,7 @@ export interface MultivariateLayerConfig {
   base: MultivariateAxis;
   annex?: MultivariateAxis;
   strength?: MultivariateAxis | number;
-  label?: LabelAxis;
+  tileLabel?: LabelAxis;
   extrusionMin?: MultivariateAxis;
   extrusionMax?: MultivariateAxis;
   colors?: MultivariateColorConfig;
