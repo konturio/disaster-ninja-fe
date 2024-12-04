@@ -2,7 +2,8 @@ import { layerByOrder } from '~core/logical_layers/utils/layersOrder/layerByOrde
 import { multivariateAxisToScore, styleConfigs } from '../stylesConfigs';
 import { ClickableTilesRenderer } from '../ClickableTilesRenderer';
 import { SOURCE_LAYER_MCDA } from '../stylesConfigs/mcda/constants';
-import type { LabelAxis, MultivariateAxis } from './types';
+import { type LabelAxis, type MultivariateAxis } from './types';
+import { formatMaplibreString } from './helpers/formatMaplibreString';
 import type {
   DataDrivenPropertyValueSpecification,
   LayerSpecification,
@@ -32,7 +33,12 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
       value = labelAxis?.valueExpression;
     }
     if (labelAxis?.axis) {
-      value = multivariateAxisToScore(labelAxis?.axis);
+      value = multivariateAxisToScore(
+        labelAxis?.axis,
+      ) as DataDrivenPropertyValueSpecification<string>;
+    }
+    if (labelAxis.formatString) {
+      value = formatMaplibreString(labelAxis.formatString, value);
     }
     const filter =
       mainLayerSpecification.type === 'fill' ? mainLayerSpecification.filter : undefined;
@@ -43,9 +49,12 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
         'text-field': value,
         'text-font': ['literal', ['Noto Sans Regular']],
         'text-size': 11,
+        'symbol-sort-key': labelAxis?.sortExpression,
+        'symbol-z-order': 'source',
+        ...labelAxis.layoutProperties,
       },
       paint: {
-        'text-color': '#333388',
+        ...labelAxis.paintProperties,
       },
       source: this._sourceId,
       'source-layer': SOURCE_LAYER_MCDA,

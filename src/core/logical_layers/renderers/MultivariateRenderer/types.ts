@@ -1,3 +1,4 @@
+import type { SymbolLayerSpecification } from 'maplibre-gl';
 import type {
   ColorsByMapLibreExpression,
   ColorsBySentiments,
@@ -11,6 +12,9 @@ export type LabelAxis = {
   propertyName?: string;
   valueExpression?: any;
   axis?: MultivariateAxis;
+  sortExpression?: any;
+  paintProperties?: SymbolLayerSpecification['paint'];
+  layoutProperties?: SymbolLayerSpecification['layout'];
 };
 
 export type MultivariateColorConfig =
