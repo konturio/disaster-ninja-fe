@@ -7,8 +7,8 @@ export function Article({
   id = '',
 }: PropsWithChildren<{ className?: string; id?: string }>) {
   return (
-    <div className={s.mainWrap} id={id}>
-      <article className={`${s.content} ${className}`}>{children}</article>
-    </div>
+    <article className={`${s.article} ${className}`} id={id}>
+      {children}
+    </article>
   );
 }

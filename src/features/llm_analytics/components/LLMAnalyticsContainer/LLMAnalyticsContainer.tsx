@@ -42,6 +42,7 @@ export const LLMAnalyticsContainer = () => {
               },
             ]}
             wrapperComponent={MarkdownWrapper}
+            id="llm_analytics"
           />
         </>
       );
