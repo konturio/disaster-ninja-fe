@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import usePromise from 'react-promise-suspense';
-import { getAsset } from '~core/api/assets';
 import { Article } from '~components/Layout';
+import { getAsset } from '~core/api/assets';
 import { MarkdownContent } from './MarkdownContent';
 import './pages.css';
 
@@ -44,7 +44,6 @@ type PagesDocumentProps = {
 
 type PagesDocumentElementProps = {
   data: string;
-  className?: string;
 };
 
 function CssElement({ data }: PagesDocumentElementProps) {
@@ -66,8 +65,7 @@ export function PagesDocument({
   wrapperComponent: Wrapper = Article,
   id,
 }: PagesDocumentProps) {
-  const memoizedDoc = useMemo(() => doc, [doc]);
-  const data = usePromise(fetchPagesDocument, [memoizedDoc]);
+  const data = usePromise(fetchPagesDocument, [doc]);
 
   return (
     <Wrapper id={`app-pages-docid-${id}`}>
