@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import mapLibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { useAction } from '@reatom/npm-react';
 import { configRepo } from '~core/config';
-import { currentMapPositionAtom } from '~core/shared_state';
 import { EVENT_MAP_IDLE } from '~core/metrics/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import {
+  currentMapPositionAtom,
+  setCurrentMapPosition,
+} from '~core/shared_state/currentMapPosition';
+import { store } from '~core/store/store';
 import { useArrayDiff } from './useArrayDiff';
 import type {
   MapOptions,
@@ -59,6 +64,7 @@ function MapboxMap(
   const [map, setMap] = useState<Map | null>(null);
   const mapEl = useRef<HTMLDivElement | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const setCurrentMapPositionAction = useAction(setCurrentMapPosition);
 
   /* On map instance */
   useEffect(() => {
@@ -66,7 +72,7 @@ function MapboxMap(
     if (current === null) return;
     if (ref?.current) return;
 
-    const currentMapPosition = currentMapPositionAtom.getState();
+    const currentMapPosition = store.v3ctx.get(currentMapPositionAtom);
 
     let mapLocation = {};
 
@@ -114,13 +120,13 @@ function MapboxMap(
       const zoom = mapInstance.getZoom();
       const { lng, lat } = mapInstance.getCenter();
 
-      currentMapPositionAtom.setCurrentMapPosition.dispatch({
+      setCurrentMapPositionAction({
         lat,
         lng,
         zoom,
       });
     }
-  }, [mapEl, externalStyleLink, options, ref]);
+  }, [mapEl, externalStyleLink, options, ref, setCurrentMapPositionAction]);
 
   /* On fit bounds effect */
   useEffect(() => {

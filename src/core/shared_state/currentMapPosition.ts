@@ -1,5 +1,7 @@
+import { action, atom } from '@reatom/framework';
 import { createAtom } from '~utils/atoms';
 import { getCameraForBbox } from '~utils/map/camera';
+import { store } from '~core/store/store';
 import { currentMapAtom } from './currentMap';
 import type { Map } from 'maplibre-gl';
 
@@ -37,42 +39,59 @@ function jumpTo(map: Map, position: CenterZoomPosition) {
 }
 
 // TODO: #20160 update currentMapPositionAtom to reatom v3
-export const currentMapPositionAtom = createAtom(
+// TODO: need to get rid of v2 currentMapPositionAtom, but not sure yet how to make urlStore work with reatom v3
+export const currentMapPositionAtomV2 = createAtom(
   {
-    setCurrentMapPosition: (mapPosition: CenterZoomPosition) => mapPosition,
-    setCurrentMapBbox: (mapBbox: Bbox | [[number, number], [number, number]]) => mapBbox,
-    updateCurrentMapPosition: (mapPosition: CenterZoomPosition) => mapPosition,
+    setState: (position: CurrentMapPositionAtomState) => position,
     currentMapAtom,
   },
   ({ onAction }, state: CurrentMapPositionAtomState = null) => {
-    onAction('setCurrentMapPosition', (position) => {
-      const map = currentMapAtom.getState();
-      if (map) {
-        jumpTo(map, position);
-      }
-      state = position;
-    });
-
-    onAction('setCurrentMapBbox', (bbox) => {
-      let position = { bbox: bbox.flat() } as MapPosition;
-      const map = currentMapAtom.getState();
-      if (map) {
-        const camera = getCameraForBbox(bbox, map);
-        if (camera.center && 'lng' in camera.center) {
-          const { zoom } = camera;
-          const { lat, lng } = camera.center;
-          position = { ...position, lat, lng, zoom: zoom ?? map.getZoom() };
-          jumpTo(map, position);
-        }
-      }
-      state = position;
-    });
-
-    onAction('updateCurrentMapPosition', (position) => {
+    onAction('setState', (position) => {
       state = position;
     });
 
     return state;
   },
+  '[Shared state] currentMapPositionAtomV2',
+);
+
+export const currentMapPositionAtom = atom<CurrentMapPositionAtomState>(
+  null,
   '[Shared state] currentMapPositionAtom',
 );
+
+export const setCurrentMapPosition = action((ctx, position: CenterZoomPosition) => {
+  const map = currentMapAtom.getState();
+  if (map) {
+    jumpTo(map, position);
+  }
+  currentMapPositionAtom(ctx, position);
+  // TODO: delete line along with v2 atom
+  store.dispatch(currentMapPositionAtomV2.setState(position));
+}, 'setCurrentMapPosition');
+
+export const setCurrentMapBbox = action(
+  (ctx, bbox: Bbox | [[number, number], [number, number]]) => {
+    let position = { bbox: bbox.flat() } as MapPosition;
+    const map = currentMapAtom.getState();
+    if (map) {
+      const camera = getCameraForBbox(bbox, map);
+      if (camera.center && 'lng' in camera.center) {
+        const { zoom } = camera;
+        const { lat, lng } = camera.center;
+        position = { ...position, lat, lng, zoom: zoom ?? map.getZoom() };
+        jumpTo(map, position);
+      }
+    }
+    currentMapPositionAtom(ctx, position);
+    // TODO: delete line along with v2 atom
+    store.dispatch(currentMapPositionAtomV2.setState(position));
+  },
+  'setCurrentMapBbox',
+);
+
+export const updateCurrentMapPosition = action((ctx, position: CenterZoomPosition) => {
+  currentMapPositionAtom(ctx, position);
+  // TODO: delete line along with v2 atom
+  store.dispatch(currentMapPositionAtomV2.setState(position));
+}, 'updateCurrentMapPosition');

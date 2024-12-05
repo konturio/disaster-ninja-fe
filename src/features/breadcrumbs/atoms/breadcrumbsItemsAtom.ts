@@ -1,7 +1,6 @@
 import { action, atom } from '@reatom/core';
-import { currentMapPositionAtom } from '~core/shared_state';
 import { getBboxForGeometry } from '~utils/map/camera';
-import type { Bbox } from '~core/shared_state/currentMapPosition';
+import { setCurrentMapBbox, type Bbox } from '~core/shared_state/currentMapPosition';
 
 export const breadcrumbsItemsAtom = atom<GeoJSON.Feature[] | null>(
   null,
@@ -19,11 +18,11 @@ export const onBreadcrumbClick = action((ctx, value: string | number) => {
 
   const bbox = getBboxForGeometry(item.geometry);
   if (bbox) {
-    currentMapPositionAtom.setCurrentMapBbox.dispatch(bbox);
+    setCurrentMapBbox(ctx, bbox);
   }
 }, 'onBreadcrumbClick');
 
-export const onZoomToWholeWorld = action(() => {
+export const onZoomToWholeWorld = action((ctx) => {
   const bbox: Bbox = [-180, -80, 180, 80];
-  currentMapPositionAtom.setCurrentMapBbox.dispatch(bbox);
+  setCurrentMapBbox(ctx, bbox);
 }, 'onZoomToWholeWorld');
