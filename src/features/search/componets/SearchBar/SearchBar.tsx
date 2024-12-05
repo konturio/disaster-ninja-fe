@@ -150,7 +150,11 @@ export function SearchBar() {
       {isMenuOpen && (
         <>
           {showInfoBlock && (
-            <div className={style.infoBanner}>{i18n.t('search.info_block')}</div>
+            <div className={style.infoBanner}>
+              {isMCDASearchEnabled
+                ? i18n.t('search.info_block_with_mcda')
+                : i18n.t('search.info_block')}
+            </div>
           )}
           <ul className={style.resultsList}>
             {isMCDASearchEnabled && <MCDASearchStatus state={state} />}
