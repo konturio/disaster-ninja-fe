@@ -31,7 +31,7 @@ export function CookieConsentBanner() {
   const [havePrompts, { acceptAll, rejectAll }] = useAtom(cookieSettingsAtom);
   return havePrompts ? (
     <Animation variant="fade-in">
-      <Card className={s.cookieBanner}>
+      <Card className={s.cookieBanner} id="app-component-cookie-consent-banner">
         <Heading type="heading-03">{i18n.t('cookie_banner.header')}</Heading>
         <div className={s.body}>
           <Markdown options={{ overrides: { a: memo(InternalLinkAdapter) } }}>
