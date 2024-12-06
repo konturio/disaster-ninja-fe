@@ -29,6 +29,6 @@ export const styleConfigs = {
         paint: { ...baseStyle.paint, 'fill-opacity': opacity },
       };
     }
-    return baseStyle;
+    return Array(baseStyle);
   },
 };

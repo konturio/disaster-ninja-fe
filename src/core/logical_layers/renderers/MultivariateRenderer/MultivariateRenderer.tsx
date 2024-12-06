@@ -4,6 +4,7 @@ import { ClickableTilesRenderer } from '../ClickableTilesRenderer';
 import { SOURCE_LAYER_MCDA } from '../stylesConfigs/mcda/constants';
 import { type LabelAxis, type MultivariateAxis } from './types';
 import { formatMaplibreString } from './helpers/formatMaplibreString';
+import { generateMultivariatePopupContent } from './popup';
 import type {
   DataDrivenPropertyValueSpecification,
   LayerSpecification,
@@ -113,20 +114,12 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
     }
     let layerStyle;
     if (style.type == 'multivariate') {
-      layerStyle = styleConfigs.multivariate(style.config);
+      layerStyle = styleConfigs.multivariate(style.config)[0];
       const layerRes: LayerSpecification = {
         ...layerStyle,
         id: layerId,
         source: this._sourceId,
       };
-      layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-        layerRes,
-        this.id,
-      );
-      this._layerId = layerId;
-      if (style.config.tileLabel) {
-        this.addTextLayer(map, style.config.tileLabel, layerId, layerRes);
-      }
       if (style.config.extrusionMax !== undefined && style.config.extrusionMax !== null) {
         this.addExtrusionLayer(
           map,
@@ -135,6 +128,14 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
           style.config.extrusionMin,
           style.config.extrusionMax,
         );
+      }
+      layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
+        layerRes,
+        this.id,
+      );
+      this._layerId = layerId;
+      if (style.config.tileLabel) {
+        this.addTextLayer(map, style.config.tileLabel, layerId, layerRes);
       }
     } else {
       console.error(
@@ -145,6 +146,11 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
   }
 
   protected generatePopupContent(feature: GeoJSON.Feature, layerStyle: LayerStyle) {
-    return <></>;
+    if (layerStyle.type === 'multivariate') {
+      return generateMultivariatePopupContent(feature, layerStyle);
+    } else {
+      console.error('multivariate layer style expected');
+      return null;
+    }
   }
 }

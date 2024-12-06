@@ -3,7 +3,7 @@ import { capitalize } from '~utils/common';
 import s from './PopupMCDA.module.css';
 import type { PopupMCDAProps } from '../types';
 
-function OneLayerPopup({
+export function OneLayerPopup({
   layer,
   normalized,
   resultMCDA,
@@ -50,7 +50,7 @@ function OneLayerPopup({
 }
 
 type MultiLayerPopup = PopupMCDAProps;
-function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPopup) {
+export function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPopup) {
   return (
     <table>
       <thead>
