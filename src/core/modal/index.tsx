@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Modal } from '@konturio/ui-kit';
-import { action, atom } from '@reatom/core';
+import { action, atom } from '@reatom/framework';
 import { useAction, useAtom } from '@reatom/npm-react';
 import { store } from '~core/store/store';
 

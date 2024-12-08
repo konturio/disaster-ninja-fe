@@ -1,4 +1,4 @@
-import { action, atom } from '@reatom/core';
+import { action, atom } from '@reatom/framework';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { getBboxForGeometry } from '~utils/map/camera';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
