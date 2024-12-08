@@ -3,18 +3,29 @@ import { Heading } from '@konturio/ui-kit';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { createStateMap } from '~utils/atoms';
 import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
+import {
+  isEventGeometry,
+  isBoundaryGeometry,
+  getEventName,
+  getEventSeverity,
+  getBoundaryName,
+} from '~core/focused_geometry/utils';
 import styles from './AnalyticsPanelHeader.module.css';
-import type { AdvancedAnalyticsData, AnalyticsData, Severity } from '~core/types';
+import type { AdvancedAnalyticsData, AnalyticsData } from '~core/types';
 import type { AsyncAtomState } from '~utils/atoms/createAsyncAtom/types';
 import type { FocusedGeometry, GeometrySource } from '~core/focused_geometry/types';
 import type { Atom } from '@reatom/core-v2';
 
 function PanelHeading({ source }: { source?: GeometrySource }) {
-  if (source?.type !== 'event') return null;
+  if (source.type !== 'event') return null;
+  const severity = getEventSeverity({ source } as FocusedGeometry);
+  const name = getEventName({ source } as FocusedGeometry);
+  if (!severity || !name) return null;
+
   return (
     <div className={styles.head}>
-      <Heading type="heading-05">{source.meta.eventName}</Heading>
-      <SeverityIndicator severity={source.meta.severity} />
+      <Heading type="heading-05">{name}</Heading>
+      <SeverityIndicator severity={severity} />
     </div>
   );
 }
@@ -24,12 +35,6 @@ interface AnalyticsPanelHeaderParams {
     | Atom<AsyncAtomState<FocusedGeometry | null, AnalyticsData[] | null>>
     | Atom<AsyncAtomState<FocusedGeometry | null, AdvancedAnalyticsData[] | null>>;
   loadingMessage: string;
-}
-
-function getBoundaryName(source?: GeometrySource) {
-  if (!source || source.type !== 'boundaries') return '';
-  if (source.type === 'boundaries') return source.meta.name;
-  return '';
 }
 
 const AnalyticsPanelHeader = ({
@@ -45,12 +50,11 @@ const AnalyticsPanelHeader = ({
     data,
   });
 
-  const sourceType =
-    focusedGeometry?.source.type === 'event'
-      ? 'event'
-      : focusedGeometry?.source.type === 'boundaries'
-        ? 'boundaries'
-        : 'other';
+  const sourceType = isEventGeometry(focusedGeometry)
+    ? 'event'
+    : isBoundaryGeometry(focusedGeometry)
+      ? 'boundaries'
+      : 'other';
 
   return (
     statesToComponents({
@@ -60,9 +64,7 @@ const AnalyticsPanelHeader = ({
         ({
           event: <PanelHeading source={focusedGeometry?.source} />,
           boundaries: (
-            <Heading type="heading-05">
-              {getBoundaryName(focusedGeometry?.source)}
-            </Heading>
+            <Heading type="heading-05">{getBoundaryName(focusedGeometry)}</Heading>
           ),
         })[sourceType],
     }) || <></>

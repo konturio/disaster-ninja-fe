@@ -1,5 +1,4 @@
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
-import { useCallback } from 'react';
 import clsx from 'clsx';
 import { Disasters24 } from '@konturio/default-icons';
 import { useAtom } from '@reatom/react-v2';
@@ -12,6 +11,7 @@ import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
+import { isEventGeometry, getEventName } from '~core/focused_geometry/utils';
 import { MIN_HEIGHT } from '../../constants';
 import { FullState } from '../FullState/FullState';
 import { ShortState } from '../ShortState/ShortState';
@@ -26,33 +26,27 @@ export function EventsPanel({
   currentEventId?: string | null;
   onCurrentChange: (id: string) => void;
 }) {
-  const { panelState, panelControls, setPanelState } = useShortPanelState();
-  const [focusedGeometry] = useAtom(focusedGeometryAtom);
+  const {
+    panelState,
+    panelControls,
+    openFullState,
+    closePanel,
+    togglePanel,
+    isOpen,
+    isShort,
+  } = useShortPanelState();
 
-  const isOpen = panelState !== 'closed';
-  const isShort = panelState === 'short';
+  const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const handleRefChange = useHeightResizer(
-    (isOpen) => !isOpen && setPanelState('closed'),
+    (isOpen) => !isOpen && closePanel(),
     isOpen,
     MIN_HEIGHT,
     'event_list',
   );
 
-  const openFullState = useCallback(() => {
-    setPanelState('full');
-  }, [setPanelState]);
-
-  const onPanelClose = useCallback(() => {
-    setPanelState('closed');
-  }, [setPanelState]);
-
-  const togglePanelState = useCallback(() => {
-    setPanelState(isOpen ? 'closed' : 'full');
-  }, [isOpen, setPanelState]);
-
-  useAutoCollapsePanel(isOpen, onPanelClose);
+  useAutoCollapsePanel(isOpen, closePanel);
 
   const panelContent = {
     full: <FullState currentEventId={currentEventId} onCurrentChange={onCurrentChange} />,
@@ -71,9 +65,9 @@ export function EventsPanel({
   ) : (
     <div className={s.combinedHeader}>
       <div>{i18n.t('disasters')}</div>
-      {focusedGeometry?.source.type === 'event' && (
+      {isEventGeometry(focusedGeometry) && (
         <div className={clsx(s.eventNameLabel, s.truncated)}>
-          <Text type="short-m">{focusedGeometry.source.meta.eventName}</Text>
+          <Text type="short-m">{getEventName(focusedGeometry)}</Text>
         </div>
       )}
     </div>
@@ -88,11 +82,11 @@ export function EventsPanel({
             <Disasters24 />
           </div>
         }
-        onHeaderClick={togglePanelState}
+        onHeaderClick={togglePanel}
         className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
         classes={panelClasses}
         isOpen={isOpen}
-        modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
+        modal={{ onModalClick: closePanel, showInModal: isMobile }}
         resize={isMobile || isShort ? 'none' : 'vertical'}
         contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}

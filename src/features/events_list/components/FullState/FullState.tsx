@@ -1,23 +1,32 @@
-import { Virtuoso } from 'react-virtuoso';
 import { useAtom } from '@reatom/react-v2';
 import { useCallback, useMemo } from 'react';
-import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
+import { Virtuoso } from 'react-virtuoso';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { i18n } from '~core/localization';
-import { createStateMap } from '~utils/atoms';
-import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
-import { useUnlistedRef } from '~utils/hooks/useUnlistedRef';
-import { configRepo } from '~core/config';
+import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { AppFeature } from '~core/app/types';
-import { FeedSelectorFlagged } from '../FeedSelector';
-import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
+import { configRepo } from '~core/config';
+import { i18n } from '~core/localization';
+import { useUnlistedRef } from '~utils/hooks/useUnlistedRef';
+import { eventListResourceAtom } from '../../atoms/eventListResource';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
-import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
-import { EventCard } from '../EventCard/EventCard';
 import { CurrentEvent } from '../CurrentEvent/CurrentEvent';
+import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
+import { EventCard } from '../EventCard/EventCard';
+import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
+import { FeedSelectorFlagged } from '../FeedSelector';
 import s from './FullState.module.css';
+import type { Event } from '~core/types';
 
 const featureFlags = configRepo.get().features;
+
+const findEventById = (eventsList: Event[] | null, eventId?: string | null) => {
+  if (!eventId || !eventsList?.length) return null;
+  return eventsList.find((event) => event.eventId === eventId);
+};
+
+const shouldShowTimeline = (event: Event, hasTimeline: boolean): boolean => {
+  return hasTimeline && event.episodeCount > 1;
+};
 
 export function FullState({
   currentEventId,
@@ -27,25 +36,21 @@ export function FullState({
   onCurrentChange: (id: string) => void;
 }) {
   const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
-  const hasTimeline = featureFlags[AppFeature.EPISODES_TIMELINE];
+  const hasTimeline = !!featureFlags[AppFeature.EPISODES_TIMELINE];
 
-  const statesToComponents = createStateMap({
-    error,
-    loading: loading,
-    data: eventsList,
-  });
+  const currentEvent = useMemo(
+    () => findEventById(eventsList, currentEventId),
+    [eventsList, currentEventId],
+  );
 
-  const currentEventIndex = useMemo(() => {
-    if (!currentEventId) return 0;
-    if (eventsList === null || eventsList.length === 0) return 0;
-    const index = eventsList.findIndex((event) => event.eventId === currentEventId);
-    return Math.max(index, 0);
-  }, [currentEventId, eventsList]);
-
-  const eventListIncludesCurrentEvent: true | false | 'unknown' = useMemo(() => {
-    if (error || loading || eventsList === null) return 'unknown';
-    return !!eventsList.find((event) => event.eventId === currentEventId);
-  }, [currentEventId, eventsList, error, loading]);
+  const currentEventIndex = useMemo(
+    () =>
+      Math.max(
+        eventsList?.findIndex((event) => event.eventId === currentEventId) ?? -1,
+        0,
+      ),
+    [currentEventId, eventsList],
+  );
 
   const unlistedState = useUnlistedRef({ currentEventId });
 
@@ -59,53 +64,47 @@ export function FullState({
     [onCurrentChange, unlistedState],
   );
 
+  const renderEventList = () => {
+    if (loading) return <LoadingSpinner message={i18n.t('loading_events')} />;
+    if (error) return <ErrorMessage message={error} containerClass={s.errorContainer} />;
+    if (!eventsList) return null;
+
+    return (
+      <>
+        <Virtuoso
+          data={eventsList}
+          initialTopMostItemIndex={currentEventIndex}
+          itemContent={(index, event) => (
+            <EventCard
+              key={event.eventId}
+              event={event}
+              isActive={event.eventId === currentEventId}
+              onClick={eventClickHandler}
+              alternativeActionControl={
+                shouldShowTimeline(event, hasTimeline) ? (
+                  <EpisodeTimelineToggle isActive={event.eventId === currentEventId} />
+                ) : null
+              }
+              externalUrls={event.externalUrls}
+              showDescription={event.eventId === currentEventId}
+            />
+          )}
+        />
+        <div className={s.height100vh} />
+      </>
+    );
+  };
+
   return (
     <div className={s.panelBody}>
-      {eventListIncludesCurrentEvent === false && (
-        <CurrentEvent hasTimeline={Boolean(hasTimeline)} showDescription={true} />
+      {!currentEvent && currentEventId && (
+        <CurrentEvent hasTimeline={hasTimeline} showDescription={true} />
       )}
       <EventListSettingsRow>
         <FeedSelectorFlagged />
         {featureFlags[AppFeature.EVENTS_LIST__BBOX_FILTER] && <BBoxFilterToggle />}
       </EventListSettingsRow>
-      <div className={s.scrollable}>
-        {statesToComponents({
-          loading: <LoadingSpinner message={i18n.t('loading_events')} />,
-          error: (errorMessage) => (
-            <ErrorMessage message={errorMessage} containerClass={s.errorContainer} />
-          ),
-          ready: (eventsList) => (
-            <>
-              <Virtuoso
-                data={eventsList}
-                initialTopMostItemIndex={currentEventIndex}
-                itemContent={(index, event) => (
-                  <EventCard
-                    key={event.eventId}
-                    event={event}
-                    isActive={event.eventId === currentEventId}
-                    onClick={eventClickHandler}
-                    alternativeActionControl={
-                      hasTimeline && event.episodeCount > 1 ? (
-                        <EpisodeTimelineToggle
-                          isActive={event.eventId === currentEventId}
-                        />
-                      ) : null
-                    }
-                    externalUrls={event.externalUrls}
-                    showDescription={event.eventId === currentEventId}
-                  />
-                )}
-              />
-              <div className={s.height100vh}>
-                {/* it helps expand panel to full height
-                despite that virtual element has no height
-                without braking scroll */}
-              </div>
-            </>
-          ),
-        })}
-      </div>
+      <div className={s.scrollable}>{renderEventList()}</div>
     </div>
   );
 }

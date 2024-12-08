@@ -58,7 +58,6 @@ export default ({ mode }) => {
     // vite env data used in metrics, should be available in all environments
     viteBuildInfoPlugin(),
     createHtmlPlugin({ inject: { data: { ...env, mode }, tags: [...injectRRT] } }),
-    buildSizeReport({ filename: './size-report.json' }),
   ];
 
   if (process.env.CODECOV_TOKEN) {
@@ -70,6 +69,10 @@ export default ({ mode }) => {
         uploadToken: process.env.CODECOV_TOKEN,
       }),
     );
+  }
+
+  if (process.env.CI) {
+    plugins.push(buildSizeReport({ filename: './size-report.json' }));
   }
 
   if (mode === 'development') {
