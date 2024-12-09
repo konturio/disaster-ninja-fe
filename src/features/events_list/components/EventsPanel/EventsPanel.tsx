@@ -27,6 +27,23 @@ import type { Event } from '~core/types';
 const featureFlags = configRepo.get().features;
 const hasTimeline = !!featureFlags[AppFeature.EPISODES_TIMELINE];
 
+const defaultEventsListConfig = {
+  initialSort: undefined as 'asc' | 'desc' | undefined,
+} as const;
+
+type EventsListConfig = typeof defaultEventsListConfig;
+
+const eventsListFeatureConfig: EventsListConfig = {
+  ...defaultEventsListConfig,
+  ...(typeof featureFlags[AppFeature.EVENTS_LIST] === 'object'
+    ? (
+        featureFlags[AppFeature.EVENTS_LIST] as {
+          configuration?: Partial<EventsListConfig>;
+        }
+      ).configuration
+    : {}),
+};
+
 function findEventById(eventsList: Event[] | null, eventId?: string | null) {
   if (!eventId || !eventsList?.length) return null;
   return eventsList.find((event) => event.eventId === eventId);
@@ -63,11 +80,14 @@ export function EventsPanel({
 
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | undefined>(
+    eventsListFeatureConfig.initialSort,
+  );
   const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
 
   const sortedEvents = useMemo(
-    () => (eventsList ? sortEventsByDate(eventsList, sortOrder) : null),
+    () =>
+      eventsList && sortOrder ? sortEventsByDate(eventsList, sortOrder) : eventsList,
     [eventsList, sortOrder],
   );
 
