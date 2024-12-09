@@ -17,7 +17,7 @@ import type { FocusedGeometry, GeometrySource } from '~core/focused_geometry/typ
 import type { Atom } from '@reatom/core-v2';
 
 function PanelHeading({ source }: { source?: GeometrySource }) {
-  if (source.type !== 'event') return null;
+  if (source?.type !== 'event') return null;
   const severity = getEventSeverity({ source } as FocusedGeometry);
   const name = getEventName({ source } as FocusedGeometry);
   if (!severity || !name) return null;

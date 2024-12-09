@@ -1,110 +1,91 @@
-import { useAtom } from '@reatom/react-v2';
-import { useCallback, useMemo } from 'react';
+import { useRef, useState, useCallback, useMemo } from 'react';
 import { Virtuoso } from 'react-virtuoso';
-import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
-import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
-import { i18n } from '~core/localization';
-import { useUnlistedRef } from '~utils/hooks/useUnlistedRef';
-import { eventListResourceAtom } from '../../atoms/eventListResource';
 import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
-import { CurrentEvent } from '../CurrentEvent/CurrentEvent';
-import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
-import { EventCard } from '../EventCard/EventCard';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { FeedSelectorFlagged } from '../FeedSelector';
+import { EventListSortButton } from '../EventListSortButton/EventListSortButton';
 import s from './FullState.module.css';
 import type { Event } from '~core/types';
+import type { VirtuosoHandle } from 'react-virtuoso';
 
 const featureFlags = configRepo.get().features;
 
-const findEventById = (eventsList: Event[] | null, eventId?: string | null) => {
-  if (!eventId || !eventsList?.length) return null;
-  return eventsList.find((event) => event.eventId === eventId);
-};
-
-const shouldShowTimeline = (event: Event, hasTimeline: boolean): boolean => {
-  return hasTimeline && event.episodeCount > 1;
-};
-
 export function FullState({
+  eventsList,
   currentEventId,
-  onCurrentChange,
+  renderEventCard,
 }: {
-  currentEventId?: string | null;
-  onCurrentChange: (id: string) => void;
+  eventsList: Event[] | null;
+  currentEventId: string | null;
+  renderEventCard: (event: Event, isActive: boolean) => JSX.Element;
 }) {
-  const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
-  const hasTimeline = !!featureFlags[AppFeature.EPISODES_TIMELINE];
+  const virtuosoRef = useRef<VirtuosoHandle>(null);
+  const [sortedEvents, setSortedEvents] = useState<Event[] | null>(eventsList);
 
-  const currentEvent = useMemo(
-    () => findEventById(eventsList, currentEventId),
-    [eventsList, currentEventId],
-  );
+  // Calculate current event index based on sorted list
+  const currentEventIndex = useMemo(() => {
+    if (!currentEventId || !sortedEvents) return undefined;
+    return sortedEvents.findIndex((event) => event.eventId === currentEventId);
+  }, [currentEventId, sortedEvents]);
 
-  const currentEventIndex = useMemo(
-    () =>
-      Math.max(
-        eventsList?.findIndex((event) => event.eventId === currentEventId) ?? -1,
-        0,
-      ),
-    [currentEventId, eventsList],
-  );
+  const handleSort = useCallback(
+    (order: 'asc' | 'desc') => {
+      if (!sortedEvents || !currentEventId) return;
 
-  const unlistedState = useUnlistedRef({ currentEventId });
+      const newSortedEvents = [...sortedEvents].sort((a, b) => {
+        const dateA = new Date(a.updatedAt).getTime();
+        const dateB = new Date(b.updatedAt).getTime();
+        return order === 'desc' ? dateB - dateA : dateA - dateB;
+      });
 
-  const eventClickHandler = useCallback(
-    (id: string) => {
-      const { currentEventId } = unlistedState.current;
-      if (id !== currentEventId) {
-        onCurrentChange(id);
-      }
+      setSortedEvents(newSortedEvents);
     },
-    [onCurrentChange, unlistedState],
+    [sortedEvents, currentEventId],
   );
 
-  const renderEventList = () => {
-    if (loading) return <LoadingSpinner message={i18n.t('loading_events')} />;
-    if (error) return <ErrorMessage message={error} containerClass={s.errorContainer} />;
-    if (!eventsList) return null;
+  const handleFocus = useCallback(() => {
+    if (currentEventIndex !== undefined && virtuosoRef.current) {
+      virtuosoRef.current.scrollToIndex({
+        index: currentEventIndex,
+        align: 'center',
+        behavior: 'auto',
+      });
+    }
+  }, [currentEventIndex]);
 
-    return (
-      <>
-        <Virtuoso
-          data={eventsList}
-          initialTopMostItemIndex={currentEventIndex}
-          itemContent={(index, event) => (
-            <EventCard
-              key={event.eventId}
-              event={event}
-              isActive={event.eventId === currentEventId}
-              onClick={eventClickHandler}
-              alternativeActionControl={
-                shouldShowTimeline(event, hasTimeline) ? (
-                  <EpisodeTimelineToggle isActive={event.eventId === currentEventId} />
-                ) : null
-              }
-              externalUrls={event.externalUrls}
-              showDescription={event.eventId === currentEventId}
-            />
-          )}
-        />
-        <div className={s.height100vh} />
-      </>
-    );
-  };
+  const itemContent = useCallback(
+    (_: number, event: Event) => renderEventCard(event, event.eventId === currentEventId),
+    [renderEventCard, currentEventId],
+  );
+
+  if (!eventsList) return null;
 
   return (
     <div className={s.panelBody}>
-      {!currentEvent && currentEventId && (
-        <CurrentEvent hasTimeline={hasTimeline} showDescription={true} />
-      )}
       <EventListSettingsRow>
         <FeedSelectorFlagged />
         {featureFlags[AppFeature.EVENTS_LIST__BBOX_FILTER] && <BBoxFilterToggle />}
+        <EventListSortButton
+          onSort={handleSort}
+          onFocus={currentEventIndex !== undefined ? handleFocus : undefined}
+        />
       </EventListSettingsRow>
-      <div className={s.scrollable}>{renderEventList()}</div>
+      <div className={s.scrollable}>
+        <Virtuoso
+          ref={virtuosoRef}
+          data={sortedEvents || eventsList}
+          totalCount={(sortedEvents || eventsList).length}
+          initialTopMostItemIndex={{
+            index: currentEventIndex || 0,
+            align: 'center',
+            behavior: 'auto',
+          }}
+          itemContent={itemContent}
+        />
+        <div className={s.height100vh} />
+      </div>
     </div>
   );
 }
