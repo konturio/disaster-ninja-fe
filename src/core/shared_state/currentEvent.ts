@@ -1,5 +1,6 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { focusedGeometryAtom } from '../focused_geometry/model';
+import { isEventGeometry, isEpisodeGeometry } from '../focused_geometry/utils';
 
 // * CurrentEventAtomState *
 // null represents the initial state of event - we need that state for cases of autoselecting event
@@ -18,8 +19,8 @@ export const currentEventAtom = createAtom(
       const currentGeometrySource = focusedGeometry?.source;
       if (
         currentGeometrySource &&
-        currentGeometrySource.type !== 'event' &&
-        currentGeometrySource.type !== 'episode'
+        !isEventGeometry(focusedGeometry) &&
+        !isEpisodeGeometry(focusedGeometry)
       ) {
         // if focused geometry is no longer represents event, user stopped work with events
         // following state specifies that

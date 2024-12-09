@@ -5,9 +5,9 @@ import type { Severity } from '~core/types';
  * Internal helper to safely access meta properties from focused geometry source
  * Handles common pattern: focusedGeometry?.source?.type === X ? focusedGeometry.source.meta[Y] : null
  */
-function getSourceMetaProperty<T>(
+export function getSourceMetaProperty<T>(
   focusedGeometry: FocusedGeometry | null,
-  sourceType: 'event' | 'boundaries',
+  sourceType: 'event' | 'boundaries' | 'episode',
   propertyName: string,
 ): T | null {
   return focusedGeometry?.source?.type === sourceType
@@ -29,6 +29,14 @@ export function isEventGeometry(focusedGeometry: FocusedGeometry | null): boolea
  */
 export function isBoundaryGeometry(focusedGeometry: FocusedGeometry | null): boolean {
   return focusedGeometry?.source?.type === 'boundaries';
+}
+
+/**
+ * Type guard for checking if focused geometry is an episode
+ * Handles pattern: focusedGeometry?.source?.type === 'episode'
+ */
+export function isEpisodeGeometry(focusedGeometry: FocusedGeometry | null): boolean {
+  return focusedGeometry?.source?.type === 'episode';
 }
 
 /**
