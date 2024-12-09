@@ -2,7 +2,7 @@ import { Disasters24 } from '@konturio/default-icons';
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { panelClasses } from '~components/Panel';
@@ -36,6 +36,14 @@ function shouldShowTimeline(event: Event, hasTimeline: boolean): boolean {
   return hasTimeline && event.episodeCount > 1;
 }
 
+function sortEventsByDate(events: Event[], order: 'asc' | 'desc'): Event[] {
+  return [...events].sort((a, b) => {
+    const dateA = new Date(a.updatedAt).getTime();
+    const dateB = new Date(b.updatedAt).getTime();
+    return order === 'desc' ? dateB - dateA : dateA - dateB;
+  });
+}
+
 export function EventsPanel({
   currentEventId,
   onCurrentChange,
@@ -55,6 +63,13 @@ export function EventsPanel({
 
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
+
+  const sortedEvents = useMemo(
+    () => (eventsList ? sortEventsByDate(eventsList, sortOrder) : null),
+    [eventsList, sortOrder],
+  );
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && closePanel(),
@@ -64,8 +79,6 @@ export function EventsPanel({
   );
 
   useAutoCollapsePanel(isOpen, closePanel);
-
-  const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
 
   const currentEvent = useMemo(
     () => findEventById(eventsList, currentEventId),
@@ -100,6 +113,10 @@ export function EventsPanel({
     [handleEventClick],
   );
 
+  const handleSort = useCallback((order: 'asc' | 'desc') => {
+    setSortOrder(order);
+  }, []);
+
   const panelContent = useCallback(
     (state: typeof panelState) => {
       if (state === 'closed') return null;
@@ -109,9 +126,10 @@ export function EventsPanel({
 
       return state === 'full' ? (
         <FullState
-          eventsList={eventsList}
+          eventsList={sortedEvents}
           currentEventId={currentEventId ?? null}
           renderEventCard={renderEventCard}
+          onSort={handleSort}
         />
       ) : (
         <ShortState
@@ -124,11 +142,12 @@ export function EventsPanel({
     [
       loading,
       error,
-      eventsList,
+      sortedEvents,
       currentEventId,
       renderEventCard,
       openFullState,
       currentEvent,
+      handleSort,
     ],
   );
 

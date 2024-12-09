@@ -21,7 +21,12 @@ export function EventListSortButton({ onSort, onFocus }: EventListSortButtonProp
         {sortOrder === 'desc' ? 'Sort ↓' : 'Sort ↑'}
       </Button>
       {onFocus && (
-        <Button onClick={onFocus} size="small" variant="invert-outline" title="Focus">
+        <Button
+          onClick={onFocus}
+          size="small"
+          variant="invert-outline"
+          title="Scroll to selected event"
+        >
           ◉
         </Button>
       )}

@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useMemo } from 'react';
+import { useRef, useCallback, useMemo } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
@@ -16,34 +16,20 @@ export function FullState({
   eventsList,
   currentEventId,
   renderEventCard,
+  onSort,
 }: {
   eventsList: Event[] | null;
   currentEventId: string | null;
   renderEventCard: (event: Event, isActive: boolean) => JSX.Element;
+  onSort: (order: 'asc' | 'desc') => void;
 }) {
   const virtuosoRef = useRef<VirtuosoHandle>(null);
-  const [sortedEvents, setSortedEvents] = useState<Event[] | null>(eventsList);
 
-  // Calculate current event index based on sorted list
+  // Calculate current event index
   const currentEventIndex = useMemo(() => {
-    if (!currentEventId || !sortedEvents) return undefined;
-    return sortedEvents.findIndex((event) => event.eventId === currentEventId);
-  }, [currentEventId, sortedEvents]);
-
-  const handleSort = useCallback(
-    (order: 'asc' | 'desc') => {
-      if (!sortedEvents || !currentEventId) return;
-
-      const newSortedEvents = [...sortedEvents].sort((a, b) => {
-        const dateA = new Date(a.updatedAt).getTime();
-        const dateB = new Date(b.updatedAt).getTime();
-        return order === 'desc' ? dateB - dateA : dateA - dateB;
-      });
-
-      setSortedEvents(newSortedEvents);
-    },
-    [sortedEvents, currentEventId],
-  );
+    if (!currentEventId || !eventsList) return undefined;
+    return eventsList.findIndex((event) => event.eventId === currentEventId);
+  }, [currentEventId, eventsList]);
 
   const handleFocus = useCallback(() => {
     if (currentEventIndex !== undefined && virtuosoRef.current) {
@@ -68,15 +54,15 @@ export function FullState({
         <FeedSelectorFlagged />
         {featureFlags[AppFeature.EVENTS_LIST__BBOX_FILTER] && <BBoxFilterToggle />}
         <EventListSortButton
-          onSort={handleSort}
+          onSort={onSort}
           onFocus={currentEventIndex !== undefined ? handleFocus : undefined}
         />
       </EventListSettingsRow>
       <div className={s.scrollable}>
         <Virtuoso
           ref={virtuosoRef}
-          data={sortedEvents || eventsList}
-          totalCount={(sortedEvents || eventsList).length}
+          data={eventsList}
+          totalCount={eventsList.length}
           initialTopMostItemIndex={{
             index: currentEventIndex || 0,
             align: 'center',
