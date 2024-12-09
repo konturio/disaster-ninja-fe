@@ -8,6 +8,13 @@ import type { APIRequestContext } from '@playwright/test';
 const countriesToTest = ['us', 'ca', 'pl'];
 
 const projects = getProjects().filter((project: Project) => project.env !== 'prod');
+const phoneByCountry: [string, string][] = Object.entries(
+  getTestData('phone-by-country'),
+);
+
+const testedPhoneByCountry = phoneByCountry.filter((countryPhone) =>
+  countriesToTest.includes(countryPhone[0]),
+);
 
 const testedPhoneByCountry: Array<[string, string]> = getTestData(
   'phone-by-country',
