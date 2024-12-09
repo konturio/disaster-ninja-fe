@@ -2,7 +2,7 @@ import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { configRepo } from '~core/config';
 import {
-  currentMapPositionAtomV2,
+  currentMapPositionAtom,
   setCurrentMapBbox,
   setCurrentMapPosition,
 } from '~core/shared_state/currentMapPosition';
@@ -30,14 +30,13 @@ export const searchStringAtom = createStringAtom('', 'urlStore:searchStringAtom'
 export const urlStoreAtom = createAtom(
   {
     initFlag: initFlagAtom,
-    currentMapPositionAtomV2,
     currentEventAtom,
     enabledLayersAtom,
     currentEventFeedAtom,
     _setState: (state: UrlData | null) => state,
     init: (initialState: UrlData) => initialState,
   },
-  ({ get, schedule, onAction, create }, state: UrlData | null = null) => {
+  ({ get, schedule, onAction, create, v3ctx }, state: UrlData | null = null) => {
     const isFeedSelectorEnabled =
       configRepo.get().features['events_list__feed_selector'] ||
       configRepo.get().features['feed_selector'];
@@ -107,7 +106,7 @@ export const urlStoreAtom = createAtom(
 
     /* After initialization finished - write new changes from state back to url */
     const newState = { ...state };
-    const currentMapPosition = get('currentMapPositionAtomV2');
+    const currentMapPosition = v3ctx.spy(currentMapPositionAtom);
     if (currentMapPosition && 'lng' in currentMapPosition) {
       // formatting performed in url encoder
       newState.map = [

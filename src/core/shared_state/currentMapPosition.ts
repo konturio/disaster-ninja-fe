@@ -1,7 +1,5 @@
 import { action, atom } from '@reatom/framework';
-import { createAtom } from '~utils/atoms';
 import { getCameraForBbox } from '~utils/map/camera';
-import { store } from '~core/store/store';
 import { currentMapAtom } from './currentMap';
 import type { Map } from 'maplibre-gl';
 
@@ -38,23 +36,6 @@ function jumpTo(map: Map, position: CenterZoomPosition) {
   }, 100);
 }
 
-// TODO: #20160 update currentMapPositionAtom to reatom v3
-// TODO: need to get rid of v2 currentMapPositionAtom, but not sure yet how to make urlStore work with reatom v3
-export const currentMapPositionAtomV2 = createAtom(
-  {
-    setState: (position: CurrentMapPositionAtomState) => position,
-    currentMapAtom,
-  },
-  ({ onAction }, state: CurrentMapPositionAtomState = null) => {
-    onAction('setState', (position) => {
-      state = position;
-    });
-
-    return state;
-  },
-  '[Shared state] currentMapPositionAtomV2',
-);
-
 export const currentMapPositionAtom = atom<CurrentMapPositionAtomState>(
   null,
   '[Shared state] currentMapPositionAtom',
@@ -66,8 +47,6 @@ export const setCurrentMapPosition = action((ctx, position: CenterZoomPosition) 
     jumpTo(map, position);
   }
   currentMapPositionAtom(ctx, position);
-  // TODO: delete line along with v2 atom
-  store.dispatch(currentMapPositionAtomV2.setState(position));
 }, 'setCurrentMapPosition');
 
 export const setCurrentMapBbox = action(
@@ -84,14 +63,10 @@ export const setCurrentMapBbox = action(
       }
     }
     currentMapPositionAtom(ctx, position);
-    // TODO: delete line along with v2 atom
-    store.dispatch(currentMapPositionAtomV2.setState(position));
   },
   'setCurrentMapBbox',
 );
 
 export const updateCurrentMapPosition = action((ctx, position: CenterZoomPosition) => {
   currentMapPositionAtom(ctx, position);
-  // TODO: delete line along with v2 atom
-  store.dispatch(currentMapPositionAtomV2.setState(position));
 }, 'updateCurrentMapPosition');
