@@ -5,10 +5,8 @@ import { breadcrumbsItemsAtom } from '~features/breadcrumbs/atoms/breadcrumbsIte
 import { store } from '~core/store/store';
 import { isAbortError } from '~core/api_client/errors';
 import {
-  currentMapPositionAtom,
   type BboxPosition,
   type CenterZoomPosition,
-  type CurrentMapPositionAtomState,
 } from '~core/shared_state/currentMapPosition';
 
 let abortController: AbortController | null = null;
@@ -36,22 +34,6 @@ export const debouncedBreadcrumbsUpdate = debounce(
   },
   1000,
 );
-
-export function initSubscriptionToPositionChange() {
-  const unsubscribe = currentMapPositionAtom.onChange((ctx, position) => {
-    handlePositionUpdate(position);
-  });
-
-  const currentMapPosition = store.v3ctx.get(currentMapPositionAtom);
-  handlePositionUpdate(currentMapPosition);
-  return unsubscribe;
-}
-
-function handlePositionUpdate(position: CurrentMapPositionAtomState) {
-  if (position) {
-    debouncedBreadcrumbsUpdate(position);
-  }
-}
 
 function getCenterFromPosition(
   position: BboxPosition | CenterZoomPosition,
