@@ -3,12 +3,10 @@ import { LngLatBounds } from 'maplibre-gl';
 import { getBoundaries } from '~core/api/boundaries';
 import { breadcrumbsItemsAtom } from '~features/breadcrumbs/atoms/breadcrumbsItemsAtom';
 import { store } from '~core/store/store';
-import { currentMapPositionAtom } from '~core/shared_state';
 import { isAbortError } from '~core/api_client/errors';
-import type {
-  BboxPosition,
-  CenterZoomPosition,
-  CurrentMapPositionAtomState,
+import {
+  type BboxPosition,
+  type CenterZoomPosition,
 } from '~core/shared_state/currentMapPosition';
 
 let abortController: AbortController | null = null;
@@ -36,22 +34,6 @@ export const debouncedBreadcrumbsUpdate = debounce(
   },
   1000,
 );
-
-export function initSubscriptionToPositionChange() {
-  const unsubscribe = currentMapPositionAtom.v3atom.onChange((ctx, position) => {
-    handlePositionUpdate(position);
-  });
-
-  const currentMapPosition = currentMapPositionAtom.getState();
-  handlePositionUpdate(currentMapPosition);
-  return unsubscribe;
-}
-
-function handlePositionUpdate(position: CurrentMapPositionAtomState) {
-  if (position) {
-    debouncedBreadcrumbsUpdate(position);
-  }
-}
 
 function getCenterFromPosition(
   position: BboxPosition | CenterZoomPosition,
