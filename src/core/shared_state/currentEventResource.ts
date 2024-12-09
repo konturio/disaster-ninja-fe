@@ -1,31 +1,22 @@
-import { createAtom } from '~utils/atoms';
+import { atom } from '@reatom/framework';
 import { apiClient } from '~core/apiClientInstance';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { i18n } from '~core/localization';
+import { v3toV2 } from '~utils/atoms/v3tov2';
 import { currentEventAtom } from './currentEvent';
 import { currentEventFeedAtom } from './currentEventFeed';
 import type { EventWithGeometry } from '~core/types';
 
-const eventDependencyAtom = createAtom(
-  { currentEventAtom },
-  (
-    { get, getUnlistedState },
-    state: { event: { id: string } | null; feed: { id: string } | null } = {
-      event: null,
-      feed: null,
-    },
-  ) => {
-    const event = get('currentEventAtom');
-    if (!event) return { event: null, feed: state.feed };
+const eventDependencyAtom = atom((ctx) => {
+  const event = ctx.get(currentEventAtom.v3atom);
+  if (!event) return { event: null, feed: null };
 
-    const feed = getUnlistedState(currentEventFeedAtom);
-    return { event, feed };
-  },
-  'eventDependencyAtom',
-);
+  const feed = ctx.get(currentEventFeedAtom.v3atom);
+  return { event, feed };
+}, 'eventDependencyAtom');
 
 export const currentEventResourceAtom = createAsyncAtom(
-  eventDependencyAtom,
+  v3toV2(eventDependencyAtom),
   async (deps, abortController) => {
     if (deps && deps.event?.id && deps.feed?.id) {
       const responseData = await apiClient.get<EventWithGeometry>(

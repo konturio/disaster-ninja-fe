@@ -1,4 +1,4 @@
-import { action, atom, type Ctx } from '@reatom/core';
+import { action, atom, type Ctx } from '@reatom/framework';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import type { StatDTO } from '~core/resources/bivariateStatisticsResource/types';
 import type { AxisGroup } from '~core/types';

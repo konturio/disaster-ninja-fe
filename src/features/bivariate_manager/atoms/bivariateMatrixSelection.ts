@@ -1,4 +1,4 @@
-import { action, atom, type Ctx } from '@reatom/core';
+import { action, atom, type Ctx } from '@reatom/framework';
 import { generateColorThemeAndBivariateStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 import {
   createBivariateLegend,
