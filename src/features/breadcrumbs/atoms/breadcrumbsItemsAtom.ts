@@ -1,4 +1,4 @@
-import { action, atom, reatomAsync, type Ctx } from '@reatom/framework';
+import { action, type AsyncCtx, atom, reatomAsync, withAbort } from '@reatom/framework';
 import { debounce } from '@github/mini-throttle';
 import { setCurrentMapBbox, type Bbox } from '~core/shared_state/currentMapPosition';
 import { getBboxForGeometry } from '~utils/map/camera';
@@ -8,21 +8,11 @@ import { getCenterFromPosition } from '../helpers/breadcrumbsHelpers';
 import type { CurrentMapPositionAtomState } from '~core/shared_state/currentMapPosition';
 
 const debouncedItemsFetch = debounce(
-  async (
-    ctx: Ctx,
-    abortController: AbortController,
-    position: CurrentMapPositionAtomState,
-  ) => {
+  async (ctx: AsyncCtx, position: CurrentMapPositionAtomState) => {
     if (position) {
-      abortController.abort();
-      if (abortController) {
-        abortController.abort();
-      }
-      abortController = new AbortController();
-
       try {
         const coords: [number, number] = getCenterFromPosition(position);
-        const response = await getBoundaries(coords, abortController);
+        const response = await getBoundaries(coords, ctx.controller);
 
         if (response) {
           breadcrumbsItemsAtom(ctx, response.features);
@@ -41,10 +31,10 @@ const debouncedItemsFetch = debounce(
 
 export const fetchBreadcrumbsItems = reatomAsync(
   async (ctx, position: CurrentMapPositionAtomState) => {
-    debouncedItemsFetch(ctx, ctx.controller, position);
+    debouncedItemsFetch(ctx, position);
   },
   'breadcrumbsItemsResource',
-);
+).pipe(withAbort());
 
 export const breadcrumbsItemsAtom = atom<GeoJSON.Feature[] | null>(
   null,
