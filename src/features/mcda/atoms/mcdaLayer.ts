@@ -17,7 +17,7 @@ import {
   FALLBACK_BIVARIATE_MAX_ZOOM,
   FALLBACK_BIVARIATE_MIN_ZOOM,
 } from '~core/logical_layers/renderers/BivariateRenderer/constants';
-import { getMaxMCDAZoomLevel } from '~core/logical_layers/renderers/stylesConfigs/mcda/helpers/getMaxZoomLevel';
+import { getMaxMCDAZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
 import { generateHclGradientColors } from '../utils/generateHclGradientColors';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';

@@ -1,4 +1,4 @@
-import type { MCDAConfig } from '../types';
+import type { MCDAConfig } from '../../core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Indicator } from '~utils/bivariate';
 
 export function getMaxMCDAZoomLevel(config: MCDAConfig, fallbackMaxZoom: number) {

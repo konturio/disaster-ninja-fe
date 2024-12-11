@@ -13,10 +13,10 @@ import {
   FALLBACK_BIVARIATE_MAX_ZOOM,
   FALLBACK_BIVARIATE_MIN_ZOOM,
 } from '../../BivariateRenderer/constants';
+import { getMaxMCDAZoomLevel } from '../../../../../utils/bivariate/getMaxZoomLevel';
 import { DEFAULT_GREEN, DEFAULT_RED } from './calculations/constants';
 import { calculateLayerPipeline, inStyleCalculations } from './calculations';
 import { SOURCE_LAYER_MCDA } from './constants';
-import { getMaxMCDAZoomLevel } from './helpers/getMaxZoomLevel';
 import type { MCDAConfig } from './types';
 
 //@ts-expect-error - not clear how to type this right, but this compromise do the trick

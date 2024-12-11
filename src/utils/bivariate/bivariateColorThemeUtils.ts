@@ -2,7 +2,7 @@ import { Hsluv } from 'hsluv';
 import { generateBivariateStyleForAxis } from '~utils/bivariate';
 import { configRepo } from '~core/config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
-import { getMaxIndicatorsZoomLevel } from '~core/logical_layers/renderers/stylesConfigs/mcda/helpers/getMaxZoomLevel';
+import { getMaxIndicatorsZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
