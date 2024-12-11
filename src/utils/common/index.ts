@@ -8,4 +8,3 @@ export { sumBy } from './sumBy';
 export { removeEmpty } from './removeEmpty';
 export { isNumber } from './isNumber';
 export { haveValue } from './haveValue';
-export { delay } from './delay';
