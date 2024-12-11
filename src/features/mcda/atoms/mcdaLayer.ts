@@ -17,6 +17,7 @@ import {
   FALLBACK_BIVARIATE_MAX_ZOOM,
   FALLBACK_BIVARIATE_MIN_ZOOM,
 } from '~core/logical_layers/renderers/BivariateRenderer/constants';
+import { getMaxMCDAZoomLevel } from '~core/logical_layers/renderers/stylesConfigs/mcda/helpers/getMaxZoomLevel';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
 import { generateHclGradientColors } from '../utils/generateHclGradientColors';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -52,6 +53,7 @@ export const mcdaLayerAtom = createAtom(
           );
         }
       }
+      const maxZoomLevel = getMaxMCDAZoomLevel(json);
 
       const actions: Array<Action> = [
         // Set layer settings once
@@ -71,7 +73,7 @@ export const mcdaLayerAtom = createAtom(
           id,
           createAsyncWrapper({
             id,
-            maxZoom: FALLBACK_BIVARIATE_MAX_ZOOM,
+            maxZoom: maxZoomLevel !== -1 ? maxZoomLevel : FALLBACK_BIVARIATE_MAX_ZOOM,
             minZoom: FALLBACK_BIVARIATE_MIN_ZOOM,
             source: {
               type: 'vector' as const,
