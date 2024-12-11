@@ -6,10 +6,10 @@ import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { LayersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { createLayersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { SOURCE_LAYER_BIVARIATE } from '~core/logical_layers/renderers/BivariateRenderer/constants';
+import { getMaxIndicatorsZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { bivariateColorManagerDataAtom } from './bivariateColorManagerData';
 import type { LayerSelectionFull } from '../components/LegendWithMap/LegendWithMap';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
-import type maplibregl from 'maplibre-gl';
 
 export const bivariateSampleMapLayersOrderManager = new LayersOrderManager();
 export const bivariateregistry = createLayersRegistryAtom('bivariateregistry');
@@ -57,11 +57,16 @@ export const bivariateColorManagerSamleMap = createAtom(
         colorTheme,
       );
 
+      const maxZoom = getMaxIndicatorsZoomLevel(
+        [...(verticalAxis.quotients ?? []), ...(horizontalAxis.quotients ?? [])],
+        meta.max_zoom,
+      );
+
       const bivariateStyle = generateBivariateStyle(
         verticalAxis,
         horizontalAxis,
         colorTheme,
-        meta,
+        maxZoom,
         SOURCE_LAYER_BIVARIATE,
       );
 
