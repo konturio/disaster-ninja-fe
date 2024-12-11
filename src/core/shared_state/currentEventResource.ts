@@ -8,7 +8,7 @@ import { currentEventFeedAtom } from './currentEventFeed';
 import type { EventWithGeometry } from '~core/types';
 
 const eventDependencyAtom = atom((ctx) => {
-  const event = ctx.get(currentEventAtom.v3atom);
+  const event = ctx.spy(currentEventAtom.v3atom);
   if (!event) return { event: null, feed: null };
 
   const feed = ctx.get(currentEventFeedAtom.v3atom);
