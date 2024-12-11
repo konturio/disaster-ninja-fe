@@ -1,17 +1,11 @@
 import { Panel } from '@konturio/ui-kit';
-import { useAction, useAtom } from '@reatom/npm-react';
-import { useEffect } from 'react';
+import { useAction } from '@reatom/npm-react';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { i18n } from '~core/localization';
-import * as initSubscriptionToPositionChange from '~features/breadcrumbs/atoms/initSubscriptionToPositionChange';
-import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
 import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 import s from './BreadcrumbsPanel.module.css';
-import {
-  breadcrumbsItemsAtom,
-  onBreadcrumbClick,
-  onZoomToWholeWorld,
-} from './atoms/breadcrumbsItemsAtom';
+import { onBreadcrumbClick, onZoomToWholeWorld } from './atoms/breadcrumbsItemsAtom';
+import { useBreadcrumbsItems } from './hooks/useBreadcrumbsItems';
 
 const noBreadcrumbsOption = {
   label: i18n.t('zoom_to_world'),
@@ -19,8 +13,7 @@ const noBreadcrumbsOption = {
 };
 
 export function BreadcrumbsPanel() {
-  const [items] = useAtom(breadcrumbsItemsAtom);
-  const [currentMapPosition] = useAtom(currentMapPositionAtom);
+  const items = useBreadcrumbsItems();
   const breadcrumbItemClick = useAction(onBreadcrumbClick);
   const zoomToTheWorld = useAction(onZoomToWholeWorld);
 
@@ -28,12 +21,6 @@ export function BreadcrumbsPanel() {
     ? constructOptionsFromBoundaries(items).reverse()
     : [noBreadcrumbsOption];
   const clickHandler = items?.length ? breadcrumbItemClick : zoomToTheWorld;
-
-  useEffect(() => {
-    if (currentMapPosition) {
-      initSubscriptionToPositionChange.debouncedBreadcrumbsUpdate(currentMapPosition);
-    }
-  }, [currentMapPosition]);
 
   /** Don't render the Breadcrumbs panel or empty label until items have been fetched from the server. */
   return items ? (
