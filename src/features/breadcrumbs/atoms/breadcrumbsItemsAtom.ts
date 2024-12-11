@@ -1,30 +1,20 @@
-import {
-  action,
-  atom,
-  concurrent,
-  reatomResource,
-  withDataAtom,
-  withErrorAtom,
-} from '@reatom/framework';
+import { action, atom, reatomAsync, type Ctx } from '@reatom/framework';
+import { debounce } from '@github/mini-throttle';
+import { setCurrentMapBbox, type Bbox } from '~core/shared_state/currentMapPosition';
 import { getBboxForGeometry } from '~utils/map/camera';
-import {
-  currentMapPositionAtom,
-  setCurrentMapBbox,
-  type Bbox,
-} from '~core/shared_state/currentMapPosition';
 import { getBoundaries } from '~core/api/boundaries';
 import { isAbortError } from '~core/api_client/errors';
-import { delay } from '~utils/common';
-import { getCenterFromPosition } from './initSubscriptionToPositionChange';
-import type { CtxSpy } from '@reatom/framework';
+import { getCenterFromPosition } from '../helpers/breadcrumbsHelpers';
+import type { CurrentMapPositionAtomState } from '~core/shared_state/currentMapPosition';
 
-let abortController: AbortController | null = null;
-
-const breadcrumbsItemsResource = reatomResource<GeoJSON.Feature[] | null>(
-  concurrent(async (ctx) => {
-    const position = (ctx as CtxSpy).spy(currentMapPositionAtom);
+const debouncedItemsFetch = debounce(
+  async (
+    ctx: Ctx,
+    abortController: AbortController,
+    position: CurrentMapPositionAtomState,
+  ) => {
     if (position) {
-      await delay(1000);
+      abortController.abort();
       if (abortController) {
         abortController.abort();
       }
@@ -34,22 +24,32 @@ const breadcrumbsItemsResource = reatomResource<GeoJSON.Feature[] | null>(
         const coords: [number, number] = getCenterFromPosition(position);
         const response = await getBoundaries(coords, abortController);
 
-        if (!response) return null;
-        return response.features;
+        if (response) {
+          breadcrumbsItemsAtom(ctx, response.features);
+        } else {
+          breadcrumbsItemsAtom(ctx, null);
+        }
       } catch (error) {
         if (!isAbortError(error)) {
           console.error('Error when trying to retrieve boundaries:', error);
         }
       }
     }
-    return null;
-  }),
-  'breadcrumbsItemsResource',
-).pipe(withDataAtom(null), withErrorAtom());
+  },
+  1000,
+);
 
-export const breadcrumbsItemsAtom = atom<GeoJSON.Feature[] | null>((ctx) => {
-  return ctx.spy(breadcrumbsItemsResource.dataAtom);
-}, 'breadcrumbsAtom');
+export const fetchBreadcrumbsItems = reatomAsync(
+  async (ctx, position: CurrentMapPositionAtomState) => {
+    debouncedItemsFetch(ctx, ctx.controller, position);
+  },
+  'breadcrumbsItemsResource',
+);
+
+export const breadcrumbsItemsAtom = atom<GeoJSON.Feature[] | null>(
+  null,
+  'breadcrumbsAtom',
+);
 
 export const onBreadcrumbClick = action((ctx, value: string | number) => {
   const items = ctx.get(breadcrumbsItemsAtom);
