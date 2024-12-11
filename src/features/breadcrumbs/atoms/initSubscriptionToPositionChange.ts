@@ -1,41 +1,10 @@
-import { debounce } from '@github/mini-throttle';
 import { LngLatBounds } from 'maplibre-gl';
-import { getBoundaries } from '~core/api/boundaries';
-import { breadcrumbsItemsAtom } from '~features/breadcrumbs/atoms/breadcrumbsItemsAtom';
-import { store } from '~core/store/store';
-import { isAbortError } from '~core/api_client/errors';
 import {
   type BboxPosition,
   type CenterZoomPosition,
 } from '~core/shared_state/currentMapPosition';
 
-let abortController: AbortController | null = null;
-
-export const debouncedBreadcrumbsUpdate = debounce(
-  async (position: BboxPosition | CenterZoomPosition) => {
-    if (abortController) {
-      abortController.abort();
-    }
-
-    abortController = new AbortController();
-
-    try {
-      const coords: [number, number] = getCenterFromPosition(position);
-      const response = await getBoundaries(coords, abortController);
-
-      if (!response) return;
-      const { features } = response;
-      breadcrumbsItemsAtom(store.v3ctx, features);
-    } catch (error) {
-      if (!isAbortError(error)) {
-        console.error('Error when trying to retrieve boundaries:', error);
-      }
-    }
-  },
-  1000,
-);
-
-function getCenterFromPosition(
+export function getCenterFromPosition(
   position: BboxPosition | CenterZoomPosition,
 ): [number, number] {
   if (isBboxPosition(position)) {
