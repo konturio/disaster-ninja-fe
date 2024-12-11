@@ -1,4 +1,4 @@
-import * as v3 from '@reatom/core';
+import * as v3 from '@reatom/framework';
 import { createAtom } from '~utils/atoms';
 import { store as globalStore } from '~core/store/store';
 import type {

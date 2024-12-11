@@ -2,7 +2,8 @@
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  margin: 2em;
+  align-self: center;
+  margin: 2em auto;
   text-align: center;
 }
 

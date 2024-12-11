@@ -1,6 +1,5 @@
 import { ChevronDown24, ChevronUp24 } from '@konturio/default-icons';
-import { useMemo, useState } from 'react';
-import type { PanelCustomControl } from '@konturio/ui-kit';
+import { useCallback, useMemo, useState } from 'react';
 
 export type PanelState = 'full' | 'short' | 'closed';
 
@@ -15,39 +14,60 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
   const [panelState, setPanelState] = useState<PanelState>(initialState);
 
   const panelControls = useMemo(() => {
-    const openControl: PanelCustomControl = {
-      icon: <ChevronDown24 />,
-      onWrapperClick: (e) => {
-        e.stopPropagation();
-        setPanelState((prevState) => (prevState === 'closed' ? 'short' : 'full'));
-      },
-      disabled: panelState === 'full',
-    };
-    const closeControl: PanelCustomControl = {
-      icon: <ChevronUp24 />,
-      onWrapperClick: (e) => {
-        e.stopPropagation();
-        setPanelState((prevState) => (prevState === 'full' ? 'short' : 'closed'));
-      },
-      disabled: panelState === 'closed',
-    };
-
-    return [openControl, closeControl];
-  }, [panelState]);
-
-  if (skipShortState) {
-    const singleControl: PanelCustomControl[] = [
-      {
-        icon: panelState === 'closed' ? <ChevronDown24 /> : <ChevronUp24 />,
-        onWrapperClick: () => {
-          const nextState = initialState === 'closed' ? 'full' : initialState;
-          setPanelState((prevState) => (prevState === 'closed' ? nextState : 'closed'));
+    if (skipShortState) {
+      return [
+        {
+          icon: panelState === 'closed' ? <ChevronDown24 /> : <ChevronUp24 />,
+          onWrapperClick: () => {
+            const nextState = initialState === 'closed' ? 'full' : initialState;
+            setPanelState((prevState) => (prevState === 'closed' ? nextState : 'closed'));
+          },
         },
+      ];
+    }
+
+    return [
+      {
+        icon: <ChevronDown24 />,
+        onWrapperClick: (e) => {
+          e.stopPropagation();
+          setPanelState((prevState) => (prevState === 'closed' ? 'short' : 'full'));
+        },
+        disabled: panelState === 'full',
+      },
+      {
+        icon: <ChevronUp24 />,
+        onWrapperClick: (e) => {
+          e.stopPropagation();
+          setPanelState((prevState) => (prevState === 'full' ? 'short' : 'closed'));
+        },
+        disabled: panelState === 'closed',
       },
     ];
-    // hooks must not be skipped - therefore it's late return
-    return { panelState, panelControls: singleControl, setPanelState };
-  }
+  }, [panelState, skipShortState, initialState]);
 
-  return { panelState, panelControls, setPanelState };
+  const openFullState = useCallback(() => {
+    setPanelState('full');
+  }, [setPanelState]);
+
+  const closePanel = useCallback(() => {
+    setPanelState('closed');
+  }, [setPanelState]);
+
+  const togglePanel = useCallback(() => {
+    setPanelState(panelState === 'closed' ? 'full' : 'closed');
+  }, [panelState, setPanelState]);
+
+  const result = {
+    panelState,
+    panelControls,
+    setPanelState,
+    openFullState,
+    closePanel,
+    togglePanel,
+    isOpen: panelState !== 'closed',
+    isShort: panelState === 'short',
+  };
+
+  return result;
 };

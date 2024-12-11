@@ -58,6 +58,10 @@ export interface Event {
   episodeCount: number;
 }
 
+export interface EventWithGeometry extends Event {
+  geojson: GeoJSON.GeoJSON;
+}
+
 export interface AnalyticsData {
   formula: string;
   value: number;
@@ -88,21 +92,6 @@ export interface AdvancedAnalyticsDataValues {
 export interface LLMAnalyticsData {
   data?: string;
 }
-
-export type EventWithGeometry = {
-  location: string;
-  eventId: string;
-  eventName: string;
-  externalUrls: string[];
-  severity: Severity;
-  geojson: GeoJSON.GeoJSON;
-  affectedPopulation: number;
-  settledArea: number;
-  osmGaps: number | null;
-  updatedAt: string;
-  bbox: [number, number, number, number];
-  episodeCount: number;
-};
 
 export type LegendStepStyle = {
   'casing-color'?: string;

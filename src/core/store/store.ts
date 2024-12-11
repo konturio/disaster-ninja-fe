@@ -6,7 +6,7 @@ import {
   KONTUR_TRACE_TYPE,
   KONTUR_WARN,
 } from '~utils/debug';
-import type { AtomCache, Logs } from '@reatom/core';
+import type { AtomCache, Logs } from '@reatom/framework';
 
 export const store = createStore({});
 
