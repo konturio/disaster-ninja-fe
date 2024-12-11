@@ -1,6 +1,6 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { filterSetup } from './mcdaStyle';
-import type { MCDAConfig, MCDALayer } from './types';
+import type { MCDALayer } from './types';
 
 describe('createMCDAStyle', () => {
   describe('filterSetup()', () => {
@@ -29,6 +29,7 @@ const layer1: MCDALayer = {
         shortName: 'days',
         longName: 'days',
       },
+      direction: [['unimportant'], ['important']],
     },
     {
       name: 'one',
@@ -38,6 +39,7 @@ const layer1: MCDALayer = {
         shortName: null,
         longName: null,
       },
+      direction: [['unimportant'], ['important']],
     },
   ],
   unit: 'days',
@@ -62,6 +64,7 @@ const layer2: MCDALayer = {
         shortName: 'ppl',
         longName: 'people',
       },
+      direction: [['unimportant'], ['important']],
     },
   ],
   outliers: 'clamp',
