@@ -307,6 +307,10 @@ export const setMatrixSelectionAction = action(
           );
         }
 
+        if (updateActions.length) {
+          store.dispatch(updateActions);
+        }
+
         // Register and Enable
         const currentRegistry = ctx.get(layersRegistryAtom);
         if (!currentRegistry.has(id)) {
@@ -322,10 +326,6 @@ export const setMatrixSelectionAction = action(
             },
           ]);
           enableBivariateLayerAction(ctx, id);
-        }
-
-        if (updateActions.length) {
-          store.dispatch(updateActions);
         }
       }
     }
