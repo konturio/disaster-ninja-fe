@@ -1,5 +1,5 @@
 import { createAtom } from '~utils/atoms';
-import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
+import { currentMapAtom } from '~core/shared_state';
 import { configRepo } from '~core/config';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
@@ -9,6 +9,8 @@ import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { withoutUndefined } from '~utils/common/removeEmpty';
+import { setCurrentMapPosition } from '~core/shared_state/currentMapPosition';
+import { v3ActionToV2 } from '~utils/atoms/v3tov2';
 import { boundarySelectorControl } from '../control';
 import { createDropdownAsMarker } from '../utils/createDropdownAsMarker';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
@@ -154,7 +156,11 @@ export const boundaryMarkerAtom = createAtom(
                   ),
                   // Adjust map view to fit new geometry
                   boundaryCamera &&
-                    currentMapPositionAtom.setCurrentMapPosition(boundaryCamera),
+                    v3ActionToV2(
+                      setCurrentMapPosition,
+                      boundaryCamera,
+                      'setCurrentMapPosition',
+                    ),
                 ].filter(withoutUndefined),
               );
             },
