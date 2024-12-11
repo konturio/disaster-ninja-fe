@@ -174,7 +174,7 @@ export function createMCDAStyle(config: MCDAConfig) {
 
   const mcdaResult = linearNormalization(config.layers);
 
-  const maxMCDAzoom = getMaxMCDAZoomLevel(config);
+  const maxMCDAzoom = getMaxMCDAZoomLevel(config, FALLBACK_BIVARIATE_MAX_ZOOM);
 
   const layerStyle = {
     id: config.id,
@@ -198,7 +198,7 @@ export function createMCDAStyle(config: MCDAConfig) {
           configRepo.get().bivariateTilesIndicatorsClass
         }`,
       ],
-      maxzoom: maxMCDAzoom !== -1 ? maxMCDAzoom : FALLBACK_BIVARIATE_MAX_ZOOM,
+      maxzoom: maxMCDAzoom,
       minzoom: FALLBACK_BIVARIATE_MIN_ZOOM,
     },
     'source-layer': SOURCE_LAYER_MCDA,

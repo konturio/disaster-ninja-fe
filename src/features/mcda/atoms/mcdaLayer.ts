@@ -53,7 +53,7 @@ export const mcdaLayerAtom = createAtom(
           );
         }
       }
-      const maxZoomLevel = getMaxMCDAZoomLevel(json);
+      const maxZoomLevel = getMaxMCDAZoomLevel(json, FALLBACK_BIVARIATE_MAX_ZOOM);
 
       const actions: Array<Action> = [
         // Set layer settings once
@@ -73,7 +73,7 @@ export const mcdaLayerAtom = createAtom(
           id,
           createAsyncWrapper({
             id,
-            maxZoom: maxZoomLevel !== -1 ? maxZoomLevel : FALLBACK_BIVARIATE_MAX_ZOOM,
+            maxZoom: maxZoomLevel,
             minZoom: FALLBACK_BIVARIATE_MIN_ZOOM,
             source: {
               type: 'vector' as const,
