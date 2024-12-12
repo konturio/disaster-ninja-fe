@@ -9,7 +9,7 @@ import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { sortedEventListAtom } from './sortedEventList';
 
-export const autoSelectEventV3 = atom((ctx) => {
+export const autoSelectEvent = atom((ctx) => {
   const eventListResource = ctx.spy(sortedEventListAtom);
   const autoSelectWasScheduled = ctx.get(scheduledAutoSelect.v3atom);
   if (
