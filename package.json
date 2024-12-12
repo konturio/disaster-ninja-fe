@@ -151,7 +151,7 @@
   "devDependencies": {
     "@codecov/vite-plugin": "^1.5.1",
     "@faker-js/faker": "^8.4.1",
-    "@playwright/test": "^1.48.2",
+    "@playwright/test": "^1.49.1",
     "@slack/web-api": "^7.7.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.1.0",
