@@ -26,6 +26,7 @@ import type { Event } from '~core/types';
 
 const featureFlags = configRepo.get().features;
 const hasTimeline = !!featureFlags[AppFeature.EPISODES_TIMELINE];
+const eventsListFeature = featureFlags[AppFeature.EVENTS_LIST];
 
 const defaultEventsListConfig = {
   initialSort: undefined as 'asc' | 'desc' | undefined,
@@ -35,13 +36,7 @@ type EventsListConfig = typeof defaultEventsListConfig;
 
 const eventsListFeatureConfig: EventsListConfig = {
   ...defaultEventsListConfig,
-  ...(typeof featureFlags[AppFeature.EVENTS_LIST] === 'object'
-    ? (
-        featureFlags[AppFeature.EVENTS_LIST] as {
-          configuration?: Partial<EventsListConfig>;
-        }
-      ).configuration
-    : {}),
+  ...(typeof eventsListFeature === 'object' ? eventsListFeature : {}),
 };
 
 function findEventById(eventsList: Event[] | null, eventId?: string | null) {
