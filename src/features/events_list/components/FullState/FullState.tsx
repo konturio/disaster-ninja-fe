@@ -53,10 +53,10 @@ export function FullState({
       <EventListSettingsRow>
         <FeedSelectorFlagged />
         {featureFlags[AppFeature.EVENTS_LIST__BBOX_FILTER] && <BBoxFilterToggle />}
-        <EventListSortButton
+        {/* <EventListSortButton
           onSort={onSort}
           onFocus={currentEventIndex !== undefined ? handleFocus : undefined}
-        />
+        /> */}
       </EventListSettingsRow>
       <div className={s.scrollable}>
         <Virtuoso
