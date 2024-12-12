@@ -1,7 +1,10 @@
-.clickableText {
-  width: 100%;
-  font-size: 16px;
-  margin-top: var(--unit);
+.infoContainer {
+  margin-top: 8px;
+}
+
+.link {
+  font-size: 12px;
+  line-height: 16px;
   color: var(--accent-strong);
   cursor: pointer;
 }
@@ -10,13 +13,10 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+
   & + * {
     margin-top: var(--unit);
   }
-}
-
-.hint {
-  color: var(--faint-strong);
 }
 
 .clean {

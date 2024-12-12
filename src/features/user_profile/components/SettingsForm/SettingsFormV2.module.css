@@ -1,0 +1,62 @@
+.contentWrapV2 {
+  display: flex;
+  margin-top: 80px;
+}
+
+.navSection {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+}
+
+.settingsSection {
+  width: 404px;
+
+  & textarea {
+    width: 100%;
+    min-height: 180px;
+    max-height: 250px;
+    resize: vertical;
+  }
+}
+
+.recommendedSection {
+  background-color: var(--accent-weak);
+  padding: var(--double-unit);
+  border: 1px solid #e0e7ef;
+}
+
+.descriptionBlock {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 2px;
+}
+
+.tag {
+  padding: calc(var(--half-unit) / 2) var(--unit);
+  border: 1px solid var(--accent-weak-up);
+  border-radius: 20px;
+}
+
+.fieldsWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.horizontalDivider {
+  height: 1px;
+  background-color: var(--faint-weak-up);
+  margin: 35px 0 var(--double-unit);
+  width: 450px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}

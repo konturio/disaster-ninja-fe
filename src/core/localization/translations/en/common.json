@@ -389,6 +389,7 @@
     "cookies": "Cookies",
     "reports": "Reports",
     "report": "Report",
+    "my_apps": "My apps",
     "profile": "Profile",
     "privacy": "Privacy",
     "terms": "Terms",
@@ -417,9 +418,16 @@
     "email": "Email",
     "metric": "metric",
     "imperialBeta": "imperial (beta)",
-    "profileSettingsHeader": "Profile",
+    "profileSettingsHeader": "Personalize your experience",
     "appSettingsHeader": "Settings",
+    "your_organization": "Your organization",
+    "your_contacts": "Your contacts",
+    "organization_name": "Organization name",
+    "position": "Position",
+    "gis_specialists": "GIS specialists in your team",
     "saveButton": "Save changes",
+    "phone_number_with_country_code": "Phone number with country code",
+    "linkedin": "LinkedIn profile",
     "konturTheme": "Kontur",
     "HOTTheme": "HOT",
     "user_bio_placeholder": "Bio",
@@ -441,7 +449,7 @@
       "freehand_geometry": "Freehand geometry",
       "to_replace_reference_area": "To replace reference area, select an area on the map and click \"Save as reference area\" on toolbar.",
       "select_are_on_the_map": "Select an area on the map and click \"Save as reference area\" on toolbar to use it in further analysis.",
-      "set_the_reference_area": "Set reference area"
+      "set_the_reference_area": "Set area on map"
     }
   },
   "current_event": {

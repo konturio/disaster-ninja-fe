@@ -1,0 +1,39 @@
+.sectionWrapper {
+  margin-bottom: calc(var(--double-unit) * 2);
+}
+
+.section {
+  border-radius: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  border-radius: 18px;
+  color: var(--accent-strong);
+  background-color: #d8effc;
+  padding: var(--half-unit) var(--unit);
+  display: flex;
+  align-items: center;
+
+  &:before {
+    content: '★';
+    margin-right: var(--half-unit);
+    font-size: 19px;
+  }
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.description {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}

@@ -1,11 +1,12 @@
 import { Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
 import { Rubber16 } from '@konturio/default-icons';
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { i18n } from '~core/localization';
 import { referenceAreaAtom, resetReferenceArea } from '~core/shared_state/referenceArea';
 import { goTo } from '~core/router/goTo';
 import { store } from '~core/store/store';
+import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
 import s from './ReferenceAreaInfo.module.css';
 
 export function ReferenceAreaInfo() {
@@ -26,7 +27,7 @@ export function ReferenceAreaInfo() {
   }, []);
 
   return (
-    <div>
+    <div className={s.infoContainer}>
       {referenceAreaGeometry ? (
         <>
           <div className={s.geometryNameContainer}>
@@ -36,18 +37,21 @@ export function ReferenceAreaInfo() {
             </span>
           </div>
           <div>
-            <Text type="long-m" className={s.hint}>
+            <Text type="long-m">
               {i18n.t('profile.reference_area.to_replace_reference_area')}
             </Text>
           </div>
         </>
       ) : (
         <>
-          <Text type="long-m" className={s.hint}>
+          <Text type="long-m">
             {i18n.t('profile.reference_area.select_are_on_the_map')}
           </Text>
-          <div className={s.clickableText} onClick={() => goTo('/map')}>
-            {i18n.t('profile.reference_area.set_the_reference_area')}
+          <div style={{ display: 'flex' }}>
+            <a className={s.link} onClick={() => goTo('/map')}>
+              {i18n.t('profile.reference_area.set_the_reference_area')}
+            </a>
+            <PopupTooltipTrigger tipText="test" />
           </div>
         </>
       )}

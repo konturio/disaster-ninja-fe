@@ -1,28 +1,68 @@
 .contentWrap {
-  flex: 1 1 auto;
   display: flex;
-  align-items: center;
-}
-.notFlexParent {
-  width: 100%;
+  flex-wrap: nowrap;
+  overflow-y: auto;
+  padding-top: 80px;
 }
 
 .flexWrap {
   flex: 1 0 auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
-  margin: auto 0;
 }
 
-.bioTooltipContent {
-  white-space: pre-wrap;
-}
-
-.profileWrap,
-.settingsWrap {
+.navSection,
+.settingsSection {
   display: flex;
   flex-direction: column;
+}
+
+.navSection {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+  margin: 0 131px;
+  position: sticky;
+  left: 0;
+  top: 0;
+}
+
+.settingsColumn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 450px;
+}
+
+.logoutWrapper {
+  margin: auto 0 26px;
+}
+
+.settingsSection {
+  display: flex;
+  flex-direction: column;
+  width: 404px;
+
+  & textarea {
+    width: 100%;
+    min-height: 180px;
+    max-height: 250px;
+    resize: vertical;
+  }
+
+  & .placeholder {
+    text-wrap: wrap;
+  }
+}
+
+.fieldsWrapper {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
 }
 
 .profileForm,
@@ -35,15 +75,6 @@
   min-width: var(--min-section);
 }
 
-.divider {
-  min-height: 100%;
-  max-height: 100vh;
-  margin: 0 80px 80px 80px;
-  background-color: #eceeef;
-  border-width: 0;
-  width: 1px;
-}
-
 .authInput:-webkit-autofill {
   -webkit-background-clip: text;
 }
@@ -53,29 +84,34 @@
 }
 
 .saveWrap {
-  margin-top: 40px;
   text-align: end;
+  position: sticky;
+  bottom: 0;
+  padding: 16px;
+  z-index: 10;
+  background-color: white;
+  border-top: 1px solid var(--faint-weak-up);
+  width: 100%;
 }
 
 .spinnerContainer {
   /* same height as button it's replacing, cosmetic addition */
   height: 42px;
+
   & > svg {
     height: 32px;
   }
 }
 
-.logoutWrap {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  & > button {
-    margin: var(--unit);
-  }
+.recommendedSection {
+  background-color: var(--accent-weak);
+  padding: var(--double-unit);
+  border: 1px solid #e0e7ef;
 }
 
 .smallTitle {
   font-weight: 500;
+
   & + * {
     margin-top: var(--unit);
   }
@@ -83,14 +119,37 @@
 
 .textArea {
   width: 100%;
+
   & textarea {
     resize: vertical;
   }
 }
 
-/* Mobile view */
-@media screen and (max-width: 550px) {
-  .divider {
-    display: none;
-  }
+.descriptionBlock {
+  margin: var(--unit) 0 12px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 2px;
+  row-gap: var(--unit);
+}
+
+.tag {
+  padding: calc(var(--half-unit) / 2) var(--unit);
+  border: 1px solid var(--accent-weak-up);
+  border-radius: 20px;
+}
+
+.horizontalDivider {
+  height: 1px;
+  background-color: var(--faint-weak-up);
+  width: 450px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
