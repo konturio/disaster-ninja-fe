@@ -48,6 +48,8 @@ export interface Event {
   /** Optional param describes event loss estimation*/
   loss?: number;
   /** Time in UTC (ISO8601) */
+  startedAt: string;
+  /** Time in UTC (ISO8601) */
   updatedAt: string;
   externalUrls: string[];
   /** Additional info about event if presented*/
