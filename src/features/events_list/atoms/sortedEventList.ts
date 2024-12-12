@@ -1,7 +1,7 @@
 import { atom } from '@reatom/framework';
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
-import { sortEventsByDate } from '../helpers/sorting';
+import { sortEventsByStartDate } from '../helpers/sorting';
 import { eventListResourceAtom } from './eventListResource';
 import type { Event } from '~core/types';
 
@@ -38,7 +38,7 @@ export const sortedEventListAtom = atom<SortedEventListAtom>((ctx) => {
     eventListResource.data?.length
   ) {
     const result: SortedEventListAtom = {
-      data: sortEventsByDate(eventListResource.data, eventsSortingConfig.order),
+      data: sortEventsByStartDate(eventListResource.data, eventsSortingConfig.order),
       loading: eventListResource.loading,
       error: eventListResource.error,
     };
