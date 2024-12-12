@@ -37,10 +37,16 @@ export function EventCard({
   externalUrls?: string[];
   showDescription?: boolean;
 }) {
-  const formattedTime = useMemo(
+  const formattedUpdatedAt = useMemo(
     () => formatTime(new Date(event.updatedAt)),
     [event.updatedAt],
   );
+
+  const formattedStartedAt = useMemo(
+    () => formatTime(new Date(event.startedAt)),
+    [event.startedAt],
+  );
+
   return (
     <button
       className={cn(s.eventCard, { [s.active]: isActive })}
@@ -86,7 +92,10 @@ export function EventCard({
       ) : null}
 
       <div className={s.footer}>
-        <Text type="caption">{i18n.t('updated') + ` ${formattedTime}`}</Text>
+        <div className={s.timeInfo}>
+          <Text type="caption">{i18n.t('started') + ` ${formattedStartedAt}`}</Text>
+          <Text type="caption">{i18n.t('updated') + ` ${formattedUpdatedAt}`}</Text>
+        </div>
         {alternativeActionControl}
       </div>
     </button>

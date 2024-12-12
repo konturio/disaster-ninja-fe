@@ -33,7 +33,13 @@
   display: flex;
   color: var(--text-faint-strong);
   justify-content: space-between;
+  align-items: end;
   width: 100%;
+}
+
+.timeInfo {
+  display: flex;
+  flex-direction: column;
 }
 
 .linkContainer {

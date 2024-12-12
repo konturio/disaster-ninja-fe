@@ -45,6 +45,7 @@
   "deselect": "Deselect",
   "spinner_text": "Gathering data",
   "updated": "Updated",
+  "started": "Started",
   "no_data_received": "No data received",
   "wrong_data_received": "Wrong data received",
   "error": "Error",
