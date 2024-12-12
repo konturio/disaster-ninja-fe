@@ -66,7 +66,3 @@ export const setCurrentMapBbox = action(
   },
   'setCurrentMapBbox',
 );
-
-export const updateCurrentMapPosition = action((ctx, position: CenterZoomPosition) => {
-  currentMapPositionAtom(ctx, position);
-}, 'updateCurrentMapPosition');
