@@ -1,4 +1,4 @@
-import { atom, type Ctx } from '@reatom/core';
+import { atom, type Ctx } from '@reatom/framework';
 import { bivariateNumeratorsAtom } from '~features/bivariate_manager/atoms/bivariateNumerators';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import type { AxisGroup, CorrelationMatrix } from '~core/types';

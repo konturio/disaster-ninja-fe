@@ -1,7 +1,6 @@
-import { createAtom } from '@reatom/core-v2';
-import { getMapPaddings } from '~utils/map/getMapPaddings';
+import { currentMapPositionAtom } from '~core/shared_state';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
-import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
+import { createAtom } from '~utils/atoms';
 import { eventListResourceAtom } from './eventListResource';
 
 export const currentEventBbox = createAtom(
@@ -10,7 +9,7 @@ export const currentEventBbox = createAtom(
     eventListResourceAtom,
     fitBounds: () => null,
   },
-  ({ get, onAction, getUnlistedState, schedule }) => {
+  ({ get, onAction }) => {
     const currentEvent = get('currentEventAtom');
 
     if (!currentEvent) return null;

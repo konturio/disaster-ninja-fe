@@ -1,4 +1,4 @@
-import { atom } from '@reatom/core';
+import { atom } from '@reatom/framework';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';

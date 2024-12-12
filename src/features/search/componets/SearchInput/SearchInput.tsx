@@ -4,7 +4,7 @@ import cn from 'clsx';
 import { Button } from '@konturio/ui-kit';
 import { reatomComponent } from '@reatom/npm-react';
 import styles from './SearchInput.module.css';
-import type { AtomMut } from '@reatom/core';
+import type { AtomMut } from '@reatom/framework';
 
 export interface SearchInputProps {
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;

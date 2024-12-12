@@ -1,4 +1,4 @@
-import { atom } from '@reatom/core';
+import { atom } from '@reatom/framework';
 import { currentMapPositionAtom } from '~core/shared_state';
 import { currentMapAtom } from '~core/shared_state';
 import { configRepo } from '~core/config';

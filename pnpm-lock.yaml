@@ -178,8 +178,8 @@ importers:
         specifier: ^23.16.8
         version: 23.16.8
       i18next-browser-languagedetector:
-        specifier: ^8.0.0
-        version: 8.0.0
+        specifier: ^8.0.1
+        version: 8.0.1
       i18next-conv:
         specifier: 15.0.0
         version: 15.0.0
@@ -272,8 +272,8 @@ importers:
         specifier: ^10.4.0
         version: 10.4.0
       '@testing-library/react':
-        specifier: ^16.0.1
-        version: 16.0.1(@testing-library/dom@10.4.0)(@types/react-dom@18.2.22)(@types/react@18.2.65)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: ^16.1.0
+        version: 16.1.0(@testing-library/dom@10.4.0)(@types/react-dom@18.2.22)(@types/react@18.2.65)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@types/gettext-parser':
         specifier: ^4.0.4
         version: 4.0.4
@@ -326,8 +326,8 @@ importers:
         specifier: ^7.37.2
         version: 7.37.2(eslint@8.57.0)
       eslint-plugin-react-hooks:
-        specifier: ^5.0.0
-        version: 5.0.0(eslint@8.57.0)
+        specifier: ^5.1.0
+        version: 5.1.0(eslint@8.57.0)
       happy-dom:
         specifier: ^15.11.7
         version: 15.11.7
@@ -401,8 +401,8 @@ importers:
         specifier: ^1.17.6
         version: 1.17.6(vite@5.4.11(@types/node@20.14.11)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0))
       vite-tsconfig-paths:
-        specifier: ^5.1.3
-        version: 5.1.3(typescript@5.6.3)(vite@5.4.11(@types/node@20.14.11)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0))
+        specifier: ^5.1.4
+        version: 5.1.4(typescript@5.6.3)(vite@5.4.11(@types/node@20.14.11)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0))
       vitest:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@20.14.11)(happy-dom@15.11.7)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0)
@@ -1718,15 +1718,15 @@ packages:
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
     engines: {node: '>=18'}
 
-  '@testing-library/react@16.0.1':
-    resolution: {integrity: sha512-dSmwJVtJXmku+iocRhWOUFbrERC76TX2Mnf0ATODz8brzAZrMBbzLwQixlBSanZxR6LddK3eiwpSFZgDET1URg==}
+  '@testing-library/react@16.1.0':
+    resolution: {integrity: sha512-Q2ToPvg0KsVL0ohND9A3zLJWcOXXcO8IDu3fj11KhNt0UlCWyFyvnCIBkd12tidB2lkiVRG8VFqdhcqhqnAQtg==}
     engines: {node: '>=18'}
     peerDependencies:
       '@testing-library/dom': ^10.0.0
-      '@types/react': ^18.0.0
-      '@types/react-dom': ^18.0.0
-      react: ^18.0.0
-      react-dom: ^18.0.0
+      '@types/react': ^18.0.0 || ^19.0.0
+      '@types/react-dom': ^18.0.0 || ^19.0.0
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -3098,8 +3098,8 @@ packages:
       '@typescript-eslint/parser':
         optional: true
 
-  eslint-plugin-react-hooks@5.0.0:
-    resolution: {integrity: sha512-hIOwI+5hYGpJEc4uPRmz2ulCjAGD/N13Lukkh8cLV0i2IRk/bdZDYjgLVHj+U9Z704kLIdIO6iueGvxNur0sgw==}
+  eslint-plugin-react-hooks@5.1.0:
+    resolution: {integrity: sha512-mpJRtPgHN2tNAvZ35AMfqeB3Xqeo273QxrHJsbBEPWODRM4r0yB6jfoROqKEYrOn27UtRPpcpHc2UqyBSuUNTw==}
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
@@ -3593,8 +3593,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  i18next-browser-languagedetector@8.0.0:
-    resolution: {integrity: sha512-zhXdJXTTCoG39QsrOCiOabnWj2jecouOqbchu3EfhtSHxIB5Uugnm9JaizenOy39h7ne3+fLikIjeW88+rgszw==}
+  i18next-browser-languagedetector@8.0.1:
+    resolution: {integrity: sha512-z9ZuWA7qxbww+cPtdJTgV0O2H9+qlLpQnb37RpnwfsWnUmrO+q92gbVKVtfBL7jRvxfmVMOUKxKGg6VBqO49Pg==}
 
   i18next-conv@15.0.0:
     resolution: {integrity: sha512-Er3WRTMt/5H4sWNPhkvdMko+T+k91deSukLm7Wkt9L+Fo06ORMQsQLIsqkE901mrU9xRsNmn7HuJLO7kKwEi6Q==}
@@ -5804,8 +5804,8 @@ packages:
     peerDependencies:
       vite: '>=3'
 
-  vite-tsconfig-paths@5.1.3:
-    resolution: {integrity: sha512-0bz+PDlLpGfP2CigeSKL9NFTF1KtXkeHGZSSaGQSuPZH77GhoiQaA8IjYgOaynSuwlDTolSUEU0ErVvju3NURg==}
+  vite-tsconfig-paths@5.1.4:
+    resolution: {integrity: sha512-cYj0LRuLV2c2sMqhqhGpaO3LretdtMn/BVX4cPLanIZuwwrkVl+lK84E/miEXkCHWXuq65rhNN4rXsBcOB3S4w==}
     peerDependencies:
       vite: '*'
     peerDependenciesMeta:
@@ -7442,7 +7442,7 @@ snapshots:
       lz-string: 1.5.0
       pretty-format: 27.5.1
 
-  '@testing-library/react@16.0.1(@testing-library/dom@10.4.0)(@types/react-dom@18.2.22)(@types/react@18.2.65)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@testing-library/react@16.1.0(@testing-library/dom@10.4.0)(@types/react-dom@18.2.22)(@types/react@18.2.65)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.25.0
       '@testing-library/dom': 10.4.0
@@ -9170,7 +9170,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-react-hooks@5.0.0(eslint@8.57.0):
+  eslint-plugin-react-hooks@5.1.0(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
 
@@ -9765,9 +9765,9 @@ snapshots:
 
   husky@9.1.7: {}
 
-  i18next-browser-languagedetector@8.0.0:
+  i18next-browser-languagedetector@8.0.1:
     dependencies:
-      '@babel/runtime': 7.24.5
+      '@babel/runtime': 7.25.0
 
   i18next-conv@15.0.0:
     dependencies:
@@ -12167,7 +12167,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-tsconfig-paths@5.1.3(typescript@5.6.3)(vite@5.4.11(@types/node@20.14.11)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0)):
+  vite-tsconfig-paths@5.1.4(typescript@5.6.3)(vite@5.4.11(@types/node@20.14.11)(less@4.2.0)(sass@1.71.1)(stylus@0.62.0)(terser@5.31.0)):
     dependencies:
       debug: 4.3.7
       globrex: 0.1.2

@@ -1,5 +1,5 @@
 import { crc32 } from 'hash-wasm';
-import { action, atom } from '@reatom/core';
+import { action, atom } from '@reatom/framework';
 import { updateReferenceArea } from '~core/api/features';
 import { configRepo } from '~core/config';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
