@@ -1,8 +1,9 @@
 import { Disasters24 } from '@konturio/default-icons';
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
+import { useAtom as useAtomV3 } from '@reatom/npm-react';
 import clsx from 'clsx';
-import { useCallback, useMemo, useState, useEffect } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { panelClasses } from '~components/Panel';
@@ -11,11 +12,14 @@ import { configRepo } from '~core/config';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { getEventName, isEventGeometry } from '~core/focused_geometry/utils';
 import { i18n } from '~core/localization';
-import { eventListResourceAtom } from '~features/events_list/atoms/eventListResource';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
+import {
+  eventsSortingConfigAtom,
+  sortedEventListAtom,
+} from '~features/events_list/atoms/sortedEventList';
 import { MIN_HEIGHT } from '../../constants';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { EventCard } from '../EventCard/EventCard';
@@ -26,18 +30,6 @@ import type { Event } from '~core/types';
 
 const featureFlags = configRepo.get().features;
 const hasTimeline = !!featureFlags[AppFeature.EPISODES_TIMELINE];
-const eventsListFeature = featureFlags[AppFeature.EVENTS_LIST];
-
-const defaultEventsListConfig = {
-  initialSort: undefined as 'asc' | 'desc' | undefined,
-} as const;
-
-type EventsListConfig = typeof defaultEventsListConfig;
-
-const eventsListFeatureConfig: EventsListConfig = {
-  ...defaultEventsListConfig,
-  ...(typeof eventsListFeature === 'object' ? eventsListFeature : {}),
-};
 
 function findEventById(eventsList: Event[] | null, eventId?: string | null) {
   if (!eventId || !eventsList?.length) return null;
@@ -75,15 +67,17 @@ export function EventsPanel({
 
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | undefined>(
-    eventsListFeatureConfig.initialSort,
+  const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);
+  const [eventsSortingConfig, setEventsSortingConfig] = useAtomV3(
+    eventsSortingConfigAtom,
   );
-  const [{ data: eventsList, error, loading }] = useAtom(eventListResourceAtom);
 
   const sortedEvents = useMemo(
     () =>
-      eventsList && sortOrder ? sortEventsByDate(eventsList, sortOrder) : eventsList,
-    [eventsList, sortOrder],
+      eventsList && eventsSortingConfig.order
+        ? sortEventsByDate(eventsList, eventsSortingConfig.order)
+        : eventsList,
+    [eventsList, eventsSortingConfig],
   );
 
   const handleRefChange = useHeightResizer(
@@ -128,9 +122,12 @@ export function EventsPanel({
     [handleEventClick],
   );
 
-  const handleSort = useCallback((order: 'asc' | 'desc') => {
-    setSortOrder(order);
-  }, []);
+  const handleSort = useCallback(
+    (order: 'asc' | 'desc') => {
+      setEventsSortingConfig({ order });
+    },
+    [setEventsSortingConfig],
+  );
 
   const panelContent = useCallback(
     (state: typeof panelState) => {
