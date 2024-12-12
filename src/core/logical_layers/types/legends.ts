@@ -68,10 +68,16 @@ export interface MCDALegend {
   steps?: number;
 }
 
+export interface MultivariateLegend {
+  type: 'multivariate';
+  title?: string;
+}
+
 export type LayerLegend =
   | SimpleLegend
   | BivariateLegend
   | BivariateLegendBackend
-  | MCDALegend;
+  | MCDALegend
+  | MultivariateLegend;
 
 export type LayerDetailsLegend = SimpleLegend | BivariateLegendBackend;

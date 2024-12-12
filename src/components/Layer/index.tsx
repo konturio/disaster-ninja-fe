@@ -7,6 +7,7 @@ import {
 import { LayerControl } from '~components/LayerControl/LayerControl';
 import { BivariateLegend } from '~components/BivariateLegend/BivariateLegend';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
+import { MultivariateLegend } from '~components/MultivariateLegend/MultivariateLegend';
 import { LayerEditor } from './LayerEditor';
 import type { SimpleLegendStep } from '~core/logical_layers/types/legends';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
@@ -30,6 +31,9 @@ function Legend({ layerState }: { layerState: LogicalLayerState }) {
     case 'mcda':
       const { type, ...legendProps } = layerState.legend;
       return <MCDALegend {...legendProps} />;
+
+    case 'multivariate':
+      return <MultivariateLegend />;
     default:
       return null;
   }
@@ -56,7 +60,8 @@ export function Layer({
   const hasMultiStepLegend =
     (layerState.legend?.type === 'simple' && layerState.legend.steps?.length > 1) ||
     layerState.legend?.type === 'bivariate' ||
-    layerState.legend?.type === 'mcda';
+    layerState.legend?.type === 'mcda' ||
+    layerState.legend?.type === 'multivariate';
 
   const inputType = useMemo(() => {
     switch (mutuallyExclusive) {
