@@ -13,7 +13,7 @@ import type { Event } from '~core/types';
 
 const language = i18n.instance.language || 'default';
 
-const formatTime = new Intl.DateTimeFormat(language, {
+const dateFormatter = new Intl.DateTimeFormat(language, {
   hour: 'numeric',
   minute: 'numeric',
   year: 'numeric',
@@ -21,6 +21,9 @@ const formatTime = new Intl.DateTimeFormat(language, {
   day: 'numeric',
   timeZoneName: 'short',
 }).format;
+function formatTime(date?: string) {
+  return date ? dateFormatter(new Date(date)) : '';
+}
 
 export function EventCard({
   event,
@@ -38,12 +41,12 @@ export function EventCard({
   showDescription?: boolean;
 }) {
   const formattedUpdatedAt = useMemo(
-    () => formatTime(new Date(event.updatedAt)),
+    () => formatTime(event.updatedAt),
     [event.updatedAt],
   );
 
   const formattedStartedAt = useMemo(
-    () => formatTime(new Date(event.startedAt)),
+    () => formatTime(event.startedAt),
     [event.startedAt],
   );
 
@@ -93,8 +96,8 @@ export function EventCard({
 
       <div className={s.footer}>
         <div className={s.timeInfo}>
-          <Text type="caption">{i18n.t('started') + ` ${formattedStartedAt}`}</Text>
-          <Text type="caption">{i18n.t('updated') + ` ${formattedUpdatedAt}`}</Text>
+          <Text type="caption">{`${i18n.t('started')} ${formattedStartedAt}`}</Text>
+          <Text type="caption">{`${i18n.t('updated')} ${formattedUpdatedAt}`}</Text>
         </div>
         {alternativeActionControl}
       </div>
