@@ -40,14 +40,6 @@ function shouldShowTimeline(event: Event, hasTimeline: boolean): boolean {
   return hasTimeline && event.episodeCount > 1;
 }
 
-function sortEventsByDate(events: Event[], order: 'asc' | 'desc'): Event[] {
-  return [...events].sort((a, b) => {
-    const dateA = new Date(a.startedAt).getTime();
-    const dateB = new Date(b.startedAt).getTime();
-    return order === 'desc' ? dateB - dateA : dateA - dateB;
-  });
-}
-
 export function EventsPanel({
   currentEventId,
   onCurrentChange,
@@ -68,17 +60,7 @@ export function EventsPanel({
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);
-  const [eventsSortingConfig, setEventsSortingConfig] = useAtomV3(
-    eventsSortingConfigAtom,
-  );
-
-  const sortedEvents = useMemo(
-    () =>
-      eventsList && eventsSortingConfig.order
-        ? sortEventsByDate(eventsList, eventsSortingConfig.order)
-        : eventsList,
-    [eventsList, eventsSortingConfig],
-  );
+  const [, setEventsSortingConfig] = useAtomV3(eventsSortingConfigAtom);
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && closePanel(),
@@ -138,7 +120,7 @@ export function EventsPanel({
 
       return state === 'full' ? (
         <FullState
-          eventsList={sortedEvents}
+          eventsList={eventsList}
           currentEventId={currentEventId ?? null}
           renderEventCard={renderEventCard}
           onSort={handleSort}
@@ -154,12 +136,12 @@ export function EventsPanel({
     [
       loading,
       error,
-      sortedEvents,
+      eventsList,
       currentEventId,
       renderEventCard,
+      handleSort,
       openFullState,
       currentEvent,
-      handleSort,
     ],
   );
 
