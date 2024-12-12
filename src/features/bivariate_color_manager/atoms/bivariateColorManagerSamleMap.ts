@@ -6,7 +6,7 @@ import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
 import { LayersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { createLayersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { SOURCE_LAYER_BIVARIATE } from '~core/logical_layers/renderers/BivariateRenderer/constants';
-import { getMaxIndicatorsZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
+import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { bivariateColorManagerDataAtom } from './bivariateColorManagerData';
 import type { LayerSelectionFull } from '../components/LegendWithMap/LegendWithMap';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
@@ -57,8 +57,8 @@ export const bivariateColorManagerSamleMap = createAtom(
         colorTheme,
       );
 
-      const maxZoom = getMaxIndicatorsZoomLevel(
-        [...(verticalAxis.quotients ?? []), ...(horizontalAxis.quotients ?? [])],
+      const maxZoom = getMaxNumeratorZoomLevel(
+        [verticalAxis.quotients ?? [], horizontalAxis.quotients ?? []],
         meta.max_zoom,
       );
 
