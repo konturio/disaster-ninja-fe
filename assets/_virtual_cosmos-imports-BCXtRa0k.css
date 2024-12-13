@@ -1444,7 +1444,7 @@ a {
   align-items: center;
   gap: var(--half-unit);
 }
-._eventCard_1201x_1 {
+._eventCard_19kvm_1 {
   display: flex;
   flex-flow: column nowrap;
   gap: var(--unit);
@@ -1456,7 +1456,7 @@ a {
   &:hover {
     background-color: var(--base-weak-up);
   }
-  &._active_1201x_13 {
+  &._active_19kvm_13 {
     background-color: var(--accent-weak);
     box-shadow: 0px 0px 0px 0px var(--accent-strong);
     border-left: var(--half-unit) solid var(--accent-strong);
@@ -1466,7 +1466,7 @@ a {
   }
 }
 
-._head_1201x_23 {
+._head_19kvm_23 {
   display: flex;
   flex-flow: row nowrap;
   gap: var(--unit);
@@ -1475,21 +1475,27 @@ a {
   justify-content: space-between;
 }
 
-._footer_1201x_32 {
+._footer_19kvm_32 {
   display: flex;
   color: var(--text-faint-strong);
   justify-content: space-between;
+  align-items: flex-end;
   width: 100%;
 }
 
-._linkContainer_1201x_39 {
+._timeInfo_19kvm_40 {
+  display: flex;
+  flex-direction: column;
+}
+
+._linkContainer_19kvm_45 {
   display: flex;
   flex-direction: column;
   gap: var(--half-unit);
   font: var(--font-xs);
 }
 
-._markdown_1201x_46 {
+._markdown_19kvm_52 {
   & p {
     margin: 0;
   }

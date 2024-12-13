@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-D947Q_k0.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-TZSYrXDL.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -7717,6 +7717,7 @@ const feed$6 = "Feed";
 const deselect$6 = "Deselect";
 const spinner_text$6 = "Gathering data";
 const updated$6 = "Updated";
+const started = "Started";
 const no_data_received$6 = "No data received";
 const wrong_data_received$6 = "Wrong data received";
 const error$6 = "Error";
@@ -8176,6 +8177,7 @@ const en_common = {
   deselect: deselect$6,
   spinner_text: spinner_text$6,
   updated: updated$6,
+  started,
   no_data_received: no_data_received$6,
   wrong_data_received: wrong_data_received$6,
   error: error$6,
@@ -12629,22 +12631,24 @@ function Analytics({
   }, [settledArea, affectedPeople]);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$1.analytics, children: statistics.map((props) => /* @__PURE__ */ jsxRuntimeExports.jsx(Statistic, { ...props }, nanoid(5))) });
 }
-const eventCard = "_eventCard_1201x_1";
-const active = "_active_1201x_13";
-const head = "_head_1201x_23";
-const footer = "_footer_1201x_32";
-const linkContainer = "_linkContainer_1201x_39";
-const markdown = "_markdown_1201x_46";
+const eventCard = "_eventCard_19kvm_1";
+const active = "_active_19kvm_13";
+const head = "_head_19kvm_23";
+const footer = "_footer_19kvm_32";
+const timeInfo = "_timeInfo_19kvm_40";
+const linkContainer = "_linkContainer_19kvm_45";
+const markdown = "_markdown_19kvm_52";
 const s = {
   eventCard,
   active,
   head,
   footer,
+  timeInfo,
   linkContainer,
   markdown
 };
 const language = TranslationService.instance.language || "default";
-const formatTime = new Intl.DateTimeFormat(language, {
+const dateFormatter = new Intl.DateTimeFormat(language, {
   hour: "numeric",
   minute: "numeric",
   year: "numeric",
@@ -12652,6 +12656,9 @@ const formatTime = new Intl.DateTimeFormat(language, {
   day: "numeric",
   timeZoneName: "short"
 }).format;
+function formatTime(date) {
+  return date ? dateFormatter(new Date(date)) : "";
+}
 function EventCard({
   event: event2,
   isActive,
@@ -12660,9 +12667,13 @@ function EventCard({
   externalUrls,
   showDescription
 }) {
-  const formattedTime = reactExports.useMemo(
-    () => formatTime(new Date(event2.updatedAt)),
+  const formattedUpdatedAt = reactExports.useMemo(
+    () => formatTime(event2.updatedAt),
     [event2.updatedAt]
+  );
+  const formattedStartedAt = reactExports.useMemo(
+    () => formatTime(event2.startedAt),
+    [event2.startedAt]
   );
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "button",
@@ -12696,7 +12707,10 @@ function EventCard({
           nanoid(4)
         )) }) : null,
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s.footer, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { type: "caption", children: TranslationService.t("updated") + ` ${formattedTime}` }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s.timeInfo, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { type: "caption", children: `${TranslationService.t("started")} ${formattedStartedAt}` }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { type: "caption", children: `${TranslationService.t("updated")} ${formattedUpdatedAt}` })
+          ] }),
           alternativeActionControl
         ] })
       ]
