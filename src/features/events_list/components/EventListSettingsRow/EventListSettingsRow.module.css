@@ -3,5 +3,6 @@
   border-bottom: 1px solid var(--faint-weak);
   gap: var(--unit);
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
