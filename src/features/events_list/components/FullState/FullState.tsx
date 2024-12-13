@@ -53,6 +53,7 @@ export function FullState({
       <EventListSettingsRow>
         <FeedSelectorFlagged />
         {featureFlags[AppFeature.EVENTS_LIST__BBOX_FILTER] && <BBoxFilterToggle />}
+        {/* TODO: for now we don't want thede sort buttons, there was no design for them */}
         {/* <EventListSortButton
           onSort={onSort}
           onFocus={currentEventIndex !== undefined ? handleFocus : undefined}
