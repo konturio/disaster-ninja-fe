@@ -1,17 +1,11 @@
-import { cookieManagementService, permissionStatuses } from '~core/cookie_settings';
 import { createBooleanAtom } from '~utils/atoms';
 import { configRepo } from '~core/config';
 
 export const intercomVisibleAtom = createBooleanAtom(false, 'intercomVisibleAtom');
 
 export function initIntercom() {
-  const intercomPermission = cookieManagementService.requestPermission('Intercom');
-  intercomPermission.onStatusChange((status) => {
-    if (status === permissionStatuses.granted) {
-      connectAndConfigureIntercom();
-      intercomVisibleAtom.setTrue.dispatch(); // Add empty space in footer for intercom
-    }
-  });
+  connectAndConfigureIntercom();
+  intercomVisibleAtom.setTrue.dispatch(); // Add empty space in footer for intercom
 }
 
 export function openIntercomChat() {

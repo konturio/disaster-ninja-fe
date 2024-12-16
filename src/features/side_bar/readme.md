@@ -4,7 +4,7 @@ This feature displays collapsible sidebar with logos and button links to availab
 
 ### Feature flag
 
-side_bar (FeatureFlag.SIDE_BAR)
+side_bar (AppFeature.SIDE_BAR)
 
 ### How to use
 

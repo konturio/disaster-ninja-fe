@@ -1,4 +1,4 @@
-import { atom } from '@reatom/core';
+import { atom } from '@reatom/framework';
 import { currentMapAtom } from '~core/shared_state';
 import { configRepo } from '~core/config';
 import { getCameraForGeometry } from '~utils/map/camera';

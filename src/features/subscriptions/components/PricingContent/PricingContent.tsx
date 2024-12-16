@@ -5,13 +5,12 @@ import usePromise from 'react-promise-suspense';
 import { compiler } from 'markdown-to-jsx';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
-import { splitIntoSections } from '~core/pages/structuredMarkdown';
-import { CustomImg, CustomLink } from '~core/pages/hypermedia';
 import { getCurrentUserSubscription } from '~core/api/subscription';
 import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/PaymentPlanCard';
 import { goTo } from '~core/router/goTo';
 import { showModal } from '~core/modal';
 import { getAsset } from '~core/api/assets';
+import { MarkdownLink, MarkdownMedia, splitIntoSections } from '~core/pages';
 import SubscriptionSuccessModal from '../SubscriptionSuccessModal/SubscriptionSuccessModal';
 import s from './PricingContent.module.css';
 import type { CurrentSubscription } from '~core/api/subscription';
@@ -22,8 +21,8 @@ const togglerInitialValue = 'year';
 function parsePlans(markdown: string) {
   const compiled = compiler(markdown, {
     overrides: {
-      a: CustomLink,
-      img: CustomImg,
+      a: MarkdownLink,
+      img: MarkdownMedia,
     },
     wrapper: null,
   }) as unknown as JSX.Element[];

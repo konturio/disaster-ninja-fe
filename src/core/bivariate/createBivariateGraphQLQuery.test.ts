@@ -29,7 +29,7 @@ test('createBivariateQuery - cleans prefilled properties', () => {
     },
     source: { type: 'event', meta: {} } as GeometrySource,
   };
-  const body = createBivariateQuery(geometry);
+  const body = createBivariateQuery(geometry.geometry);
 
   expect(body.importantLayers.length).toBeGreaterThan(0);
   expect((body.geoJSON as FeatureCollection).features?.[0]?.properties).toEqual({});

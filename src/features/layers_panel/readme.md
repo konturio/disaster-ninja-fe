@@ -5,7 +5,7 @@ Currently it's used as part of combined LayersAndLegends panel, rendered inside 
 
 ### Feature Flag
 
-FeatureFlag.MAP_LAYERS_PANEL
+AppFeature.MAP_LAYERS_PANEL
 
 ### How to use
 
@@ -13,7 +13,7 @@ This feature implements [PanelFeatureInterface](/src/types/featuresTypes.ts) and
 
 ```ts
 <FullAndShortStatesPanelWidget
-  fullState={featureFlags[FeatureFlag.MAP_LAYERS_PANEL] ? layersPanel() : null}
+  fullState={featureFlags[AppFeature.MAP_LAYERS_PANEL] ? layersPanel() : null}
 />
 ```
 

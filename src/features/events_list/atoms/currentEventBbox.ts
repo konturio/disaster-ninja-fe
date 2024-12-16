@@ -1,6 +1,6 @@
-import { createAtom } from '@reatom/core-v2';
-import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { setCurrentMapBbox } from '~core/shared_state/currentMapPosition';
+import { currentEventAtom } from '~core/shared_state/currentEvent';
+import { createAtom } from '~utils/atoms';
 import { eventListResourceAtom } from './eventListResource';
 
 export const currentEventBbox = createAtom(

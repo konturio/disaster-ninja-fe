@@ -31,6 +31,8 @@ type RegistrationData = {
   password: string;
   phone: string;
   linkedin: string;
+  phoneCode: string;
+  countryCode: string;
 };
 
 type VerifyEmailInfo = {
@@ -76,17 +78,38 @@ export class KeycloakPage extends HelperBase {
   async registerAndSeeVerificationEmailInfo(
     project: Project,
     page: Page,
-    { fullName, email, password, phone, linkedin }: RegistrationData,
+    {
+      fullName,
+      email,
+      password,
+      phone,
+      linkedin,
+      countryCode,
+      phoneCode,
+    }: RegistrationData,
   ) {
     await page.locator('#firstName').fill(fullName);
     await page.locator('#email').fill(email);
     await page.locator('#password').fill(password);
     await page.locator('#password-confirm').fill(password);
-    await page.locator('#phone').fill(phone);
     await page.locator('#linkedin').fill(linkedin);
-    if (project.env !== 'dev') await page.locator('#termsAccepted').check();
-    await page.locator('[type = "submit"]').click({ force: true });
+    await page.locator('#termsAccepted').check();
+    await page.locator('#newsletter-consent').check();
+    await page.getByLabel('Selected country').click();
+    await page.getByLabel('Search').fill(phoneCode);
+    await page.locator(`[data-country-code = "${countryCode}"]`).click();
+    await page.locator('#phone').fill(phone);
+    const [requestResponse] = await Promise.all([
+      page.waitForRequest(/\/login-actions\/registration/),
+      page.locator('[type = "submit"]').click({ force: true }),
+    ]);
+    const requestJSON = requestResponse.postDataJSON();
+
+    expect(requestJSON.fullPhone).toBe(phoneCode + phone);
+    expect(requestJSON.country).toBe(countryCode);
+
     await page.locator(':text("Email verification")').waitFor({ state: 'visible' });
+
     await expect(
       page.getByText('You need to verify your email address to activate your account.'),
     ).toBeInViewport({ ratio: 1 });

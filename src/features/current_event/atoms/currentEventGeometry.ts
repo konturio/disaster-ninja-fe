@@ -3,6 +3,7 @@ import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/app/types';
 import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
+import { isEpisodeGeometry } from '~core/focused_geometry/utils';
 import type { EventWithGeometry } from '~core/types';
 
 export const currentEventGeometryAtom = createAtom(
@@ -17,7 +18,7 @@ export const currentEventGeometryAtom = createAtom(
         if (
           // Episode and event can be selected at the same time,
           // in that case the geometry of the episode is more important
-          focusedGeometry?.source.type !== 'episode'
+          !isEpisodeGeometry(focusedGeometry)
         ) {
           schedule((dispatch) => {
             dispatch(

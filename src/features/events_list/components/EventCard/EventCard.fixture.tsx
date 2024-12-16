@@ -11,6 +11,7 @@ const event: Event = {
   affectedPopulation: 38777564,
   settledArea: 14975.532431108208,
   osmGaps: 0,
+  startedAt: '2024-07-10T05:11:21.231Z',
   updatedAt: '2024-08-10T05:11:21.231Z',
   externalUrls: [
     'https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1441158',

@@ -1,4 +1,5 @@
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
+import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { IMPORTANT_BIVARIATE_LAYERS } from './constants';
 
 // we need this function to get rid of "properties" param in geojson geom cause
@@ -18,19 +19,13 @@ function cleanupGeometry(geom: GeoJSON.GeoJSON): GeoJSON.GeoJSON {
   return newGeom;
 }
 
-export function isGeometryEmpty(geom?: { geometry: GeoJSON.GeoJSON } | null): boolean {
-  return (
-    !geom ||
-    !geom.geometry ||
-    (geom.geometry.type === 'FeatureCollection' && !geom.geometry.features.length)
-  );
-}
-
-export function createBivariateQuery(geom?: { geometry: GeoJSON.GeoJSON } | null) {
+export function createBivariateQuery(geom?: GeoJSON.GeoJSON | null) {
   const body: { importantLayers: string[][]; geoJSON?: GeoJSON.GeoJSON } = {
     importantLayers: IMPORTANT_BIVARIATE_LAYERS,
   };
-  if (geom && !isGeometryEmpty(geom)) body.geoJSON = cleanupGeometry(geom?.geometry);
+  if (geom && !isGeoJSONEmpty(geom)) {
+    body.geoJSON = cleanupGeometry(geom);
+  }
 
   return body;
 }

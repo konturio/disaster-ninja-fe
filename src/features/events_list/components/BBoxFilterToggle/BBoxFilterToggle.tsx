@@ -5,7 +5,7 @@ import { i18n } from '~core/localization';
 import { eventListFilters } from '../../atoms/eventListFilters';
 import s from './BBoxFilterToggle.module.css';
 
-// FeatureFlag: EVENTS_LIST__BBOX_FILTER
+// AppFeature: EVENTS_LIST__BBOX_FILTER
 export function BBoxFilterToggle() {
   const [bbox, { setBBoxFilterFromCurrentMapView, resetBboxFilter }] = useAtom(
     eventListFilters,

@@ -8,7 +8,7 @@ import { setReferenceArea } from '~core/shared_state/referenceArea';
 import { SAVE_AS_REFERENCE_AREA_CONTROL_ID } from './constants';
 import { initReferenceAreaLayer } from './initReferenceAreaLayer';
 import type { FocusedGeometry } from '~core/focused_geometry/types';
-import type { Unsubscribe } from '@reatom/core';
+import type { Unsubscribe } from '@reatom/framework';
 
 let focusedGeometryUnsubscribe: Unsubscribe | null;
 

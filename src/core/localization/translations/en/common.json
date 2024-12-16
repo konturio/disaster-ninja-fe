@@ -45,6 +45,7 @@
   "deselect": "Deselect",
   "spinner_text": "Gathering data",
   "updated": "Updated",
+  "started": "Started",
   "no_data_received": "No data received",
   "wrong_data_received": "Wrong data received",
   "error": "Error",
@@ -160,7 +161,8 @@
     "good": "Good"
   },
   "search": {
-    "info_block": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”",
+    "info_block": "You can search for 📍 locations",
+    "info_block_with_mcda": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”",
     "input_placeholder": "Search",
     "input_placeholder_mcda": "Search or ask AI",
     "locations_no_result": "No locations found",
