@@ -128,8 +128,8 @@ There are two types of sorting currently supported:
 - `mcda`:
 
 ```typescript
-  {
-    initialSort: {
+{
+  initialSort: {
     order: 'desc',
     config: {
       type: 'mcda',
