@@ -1,6 +1,6 @@
 import { isNumber } from '~utils/common';
 
-export type MCDASortConfig = {
+export type SortByMCDAScoreConfig = {
   criteriaConfig: CriterionConfig[];
 };
 
@@ -12,7 +12,7 @@ type MinMax = Record<string, { min: number | undefined; max: number | undefined 
 
 export function sortByMCDAScore<T>(
   items: T[],
-  sortConfig: MCDASortConfig,
+  sortConfig: SortByMCDAScoreConfig,
   extractor: MCDASortCriteriaExtractor<T>,
   sortOrder: 'asc' | 'desc',
 ): T[] {
@@ -64,7 +64,7 @@ function calculateTotalScore<T>(
 
 function findMinMax<T>(
   items: T[],
-  sortConfig: MCDASortConfig,
+  sortConfig: SortByMCDAScoreConfig,
   extractor: MCDASortCriteriaExtractor<T>,
 ): MinMax {
   const criteriaNames = sortConfig.criteriaConfig.map((c) => c.name);

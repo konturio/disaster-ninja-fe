@@ -1,3 +1,4 @@
+import type { SortConfig } from '~features/events_list/atoms/sortedEventList';
 import type { UserDto } from '~core/app/user';
 import type { AppFeatureType } from '~core/app/types';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
@@ -98,4 +99,8 @@ export type AboutFeatureConfig = {
     tabId: string;
     assetUrl?: string;
   }[];
+};
+
+export type EventsListFeatureConfig = {
+  initialSort?: SortConfig;
 };

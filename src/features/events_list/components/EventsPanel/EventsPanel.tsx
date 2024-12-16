@@ -1,7 +1,7 @@
 import { Disasters24 } from '@konturio/default-icons';
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
-import { useAtom as useAtomV3 } from '@reatom/npm-react';
+import { useAction, useAtom as useAtomV3 } from '@reatom/npm-react';
 import clsx from 'clsx';
 import { useCallback, useMemo } from 'react';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
@@ -17,7 +17,7 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import {
-  eventsSortingConfigAtom,
+  setEventSortingOrder,
   sortedEventListAtom,
 } from '~features/events_list/atoms/sortedEventList';
 import { MIN_HEIGHT } from '../../constants';
@@ -60,7 +60,7 @@ export function EventsPanel({
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);
-  const [, setEventsSortingConfig] = useAtomV3(eventsSortingConfigAtom);
+  const setSortingOrder = useAction(setEventSortingOrder);
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && closePanel(),
@@ -106,9 +106,9 @@ export function EventsPanel({
 
   const handleSort = useCallback(
     (order: 'asc' | 'desc') => {
-      setEventsSortingConfig({ order });
+      setSortingOrder(order);
     },
-    [setEventsSortingConfig],
+    [setSortingOrder],
   );
 
   const panelContent = useCallback(

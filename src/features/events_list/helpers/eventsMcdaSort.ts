@@ -1,45 +1,11 @@
 import {
   sortByMCDAScore,
-  type MCDASortConfig,
+  type SortByMCDAScoreConfig,
   type MCDASortCriteriaExtractor,
 } from '~utils/mcda_sort/sortByMCDAScore';
 import { isNumber } from '~utils/common';
 import { EVENT_TYPES_SORTING_SCORES, SEVERITY_SORTING_SCORES } from '../constants';
 import type { Event } from '~core/types';
-
-const MCDA_SORT_DEFAULT_CONFIG: MCDASortConfig = {
-  criteriaConfig: [
-    {
-      name: 'eventType',
-      weight: 2,
-    },
-    {
-      name: 'severity',
-      weight: 3,
-    },
-    {
-      name: 'severity',
-      weight: 3,
-    },
-    // {
-    //   name: 'settledArea',
-    //   weight: 0,
-    // },
-    // {
-    //   name: 'affectedPopulationDensity',
-    //   weight: 0,
-    // },
-    {
-      name: 'updatedAt',
-      weight: 2,
-      // invertScore: true,
-    },
-    {
-      name: 'startedAt',
-      weight: 2,
-    },
-  ],
-};
 
 const extractor: MCDASortCriteriaExtractor<Event> = (event: Event) => {
   const criteriaMap = new Map<string, number>();
@@ -90,6 +56,40 @@ const extractor: MCDASortCriteriaExtractor<Event> = (event: Event) => {
   return criteriaMap;
 };
 
-export function sortEventsByMcda(events: Event[], sortOrder: 'desc' | 'asc' = 'desc') {
-  return sortByMCDAScore(events, MCDA_SORT_DEFAULT_CONFIG, extractor, sortOrder);
+export function sortEventsByMcda(
+  events: Event[],
+  config: SortByMCDAScoreConfig,
+  sortOrder: 'desc' | 'asc' = 'desc',
+) {
+  return sortByMCDAScore(events, config, extractor, sortOrder);
 }
+
+export const MCDA_SORT_MOCK_CONFIG: SortByMCDAScoreConfig = {
+  criteriaConfig: [
+    {
+      name: 'eventType',
+      weight: 2,
+    },
+    {
+      name: 'severity',
+      weight: 3,
+    },
+    // {
+    //   name: 'settledArea',
+    //   weight: 0,
+    // },
+    // {
+    //   name: 'affectedPopulationDensity',
+    //   weight: 0,
+    // },
+    {
+      name: 'updatedAt',
+      weight: 4,
+      // invertScore: true,
+    },
+    {
+      name: 'startedAt',
+      weight: 1,
+    },
+  ],
+};
