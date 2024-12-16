@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-TZSYrXDL.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-CJHKoxXG.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -588,12 +588,21 @@ function getPaddingObject(padding) {
   };
 }
 function rectToClientRect(rect) {
+  const {
+    x: x2,
+    y: y2,
+    width,
+    height
+  } = rect;
   return {
-    ...rect,
-    top: rect.y,
-    left: rect.x,
-    right: rect.x + rect.width,
-    bottom: rect.y + rect.height
+    width,
+    height,
+    top: y2,
+    left: x2,
+    right: x2 + width,
+    bottom: y2 + height,
+    x: x2,
+    y: y2
   };
 }
 function computeCoordsFromPlacement(_ref, placement, rtl) {
@@ -724,7 +733,6 @@ const computePosition$1 = async (reference, floating, config2) => {
         } = computeCoordsFromPlacement(rects, statefulPlacement, rtl));
       }
       i2 = -1;
-      continue;
     }
   }
   return {
@@ -765,9 +773,10 @@ async function detectOverflow(state, options) {
     strategy
   }));
   const rect = elementContext === "floating" ? {
-    ...rects.floating,
     x: x2,
-    y: y2
+    y: y2,
+    width: rects.floating.width,
+    height: rects.floating.height
   } : rects.reference;
   const offsetParent = await (platform2.getOffsetParent == null ? void 0 : platform2.getOffsetParent(elements.floating));
   const offsetScale = await (platform2.isElement == null ? void 0 : platform2.isElement(offsetParent)) ? await (platform2.getScale == null ? void 0 : platform2.getScale(offsetParent)) || {
@@ -778,6 +787,7 @@ async function detectOverflow(state, options) {
     y: 1
   };
   const elementClientRect = rectToClientRect(platform2.convertOffsetParentRelativeRectToViewportRelativeRect ? await platform2.convertOffsetParentRelativeRectToViewportRelativeRect({
+    elements,
     rect,
     offsetParent,
     strategy
@@ -789,7 +799,7 @@ async function detectOverflow(state, options) {
     right: (elementClientRect.right - clippingClientRect.right + paddingObject.right) / offsetScale.x
   };
 }
-const arrow$3 = (options) => ({
+const arrow$4 = (options) => ({
   name: "arrow",
   options,
   async fn(state) {
@@ -836,7 +846,7 @@ const arrow$3 = (options) => ({
     const max2 = clientSize - arrowDimensions[length] - maxPadding;
     const center = clientSize / 2 - arrowDimensions[length] / 2 + centerToReference;
     const offset2 = clamp(min$1, center, max2);
-    const shouldAddOffset = !middlewareData.arrow && getAlignment(placement) != null && center != offset2 && rects.reference[length] / 2 - (center < min$1 ? minPadding : maxPadding) - arrowDimensions[length] / 2 < 0;
+    const shouldAddOffset = !middlewareData.arrow && getAlignment(placement) != null && center !== offset2 && rects.reference[length] / 2 - (center < min$1 ? minPadding : maxPadding) - arrowDimensions[length] / 2 < 0;
     const alignmentOffset = shouldAddOffset ? center < min$1 ? center - min$1 : center - max2 : 0;
     return {
       [axis2]: coords[axis2] + alignmentOffset,
@@ -851,7 +861,7 @@ const arrow$3 = (options) => ({
     };
   }
 });
-const flip = function(options) {
+const flip$1 = function(options) {
   if (options === void 0) {
     options = {};
   }
@@ -881,10 +891,12 @@ const flip = function(options) {
         return {};
       }
       const side = getSide(placement);
+      const initialSideAxis = getSideAxis(initialPlacement);
       const isBasePlacement = getSide(initialPlacement) === initialPlacement;
       const rtl = await (platform2.isRTL == null ? void 0 : platform2.isRTL(elements.floating));
       const fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipAlignment ? [getOppositePlacement(initialPlacement)] : getExpandedPlacements(initialPlacement));
-      if (!specifiedFallbackPlacements && fallbackAxisSideDirection !== "none") {
+      const hasFallbackAxisSideDirection = fallbackAxisSideDirection !== "none";
+      if (!specifiedFallbackPlacements && hasFallbackAxisSideDirection) {
         fallbackPlacements.push(...getOppositeAxisPlacements(initialPlacement, flipAlignment, fallbackAxisSideDirection, rtl));
       }
       const placements = [initialPlacement, ...fallbackPlacements];
@@ -921,8 +933,16 @@ const flip = function(options) {
         if (!resetPlacement) {
           switch (fallbackStrategy) {
             case "bestFit": {
-              var _overflowsData$map$so;
-              const placement2 = (_overflowsData$map$so = overflowsData.map((d2) => [d2.placement, d2.overflows.filter((overflow2) => overflow2 > 0).reduce((acc, overflow2) => acc + overflow2, 0)]).sort((a2, b2) => a2[1] - b2[1])[0]) == null ? void 0 : _overflowsData$map$so[0];
+              var _overflowsData$filter2;
+              const placement2 = (_overflowsData$filter2 = overflowsData.filter((d2) => {
+                if (hasFallbackAxisSideDirection) {
+                  const currentSideAxis = getSideAxis(d2.placement);
+                  return currentSideAxis === initialSideAxis || // Create a bias to the `y` side axis due to horizontal
+                  // reading directions favoring greater width.
+                  currentSideAxis === "y";
+                }
+                return true;
+              }).map((d2) => [d2.placement, d2.overflows.filter((overflow2) => overflow2 > 0).reduce((acc, overflow2) => acc + overflow2, 0)]).sort((a2, b2) => a2[1] - b2[1])[0]) == null ? void 0 : _overflowsData$filter2[0];
               if (placement2) {
                 resetPlacement = placement2;
               }
@@ -967,10 +987,9 @@ async function convertValueToCoords(state, options) {
     crossAxis: 0,
     alignmentAxis: null
   } : {
-    mainAxis: 0,
-    crossAxis: 0,
-    alignmentAxis: null,
-    ...rawValue
+    mainAxis: rawValue.mainAxis || 0,
+    crossAxis: rawValue.crossAxis || 0,
+    alignmentAxis: rawValue.alignmentAxis
   };
   if (alignment && typeof alignmentAxis === "number") {
     crossAxis = alignment === "end" ? alignmentAxis * -1 : alignmentAxis;
@@ -983,7 +1002,7 @@ async function convertValueToCoords(state, options) {
     y: crossAxis * crossAxisMulti
   };
 }
-const offset = function(options) {
+const offset$1 = function(options) {
   if (options === void 0) {
     options = 0;
   }
@@ -1013,7 +1032,7 @@ const offset = function(options) {
     }
   };
 };
-const shift = function(options) {
+const shift$1 = function(options) {
   if (options === void 0) {
     options = {};
   }
@@ -1075,12 +1094,19 @@ const shift = function(options) {
         ...limitedCoords,
         data: {
           x: limitedCoords.x - x2,
-          y: limitedCoords.y - y2
+          y: limitedCoords.y - y2,
+          enabled: {
+            [mainAxis]: checkMainAxis,
+            [crossAxis]: checkCrossAxis
+          }
         }
       };
     }
   };
 };
+function hasWindow() {
+  return typeof window !== "undefined";
+}
 function getNodeName(node) {
   if (isNode(node)) {
     return (node.nodeName || "").toLowerCase();
@@ -1089,23 +1115,32 @@ function getNodeName(node) {
 }
 function getWindow$1(node) {
   var _node$ownerDocument;
-  return (node == null ? void 0 : (_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
+  return (node == null || (_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
 }
 function getDocumentElement(node) {
   var _ref;
   return (_ref = (isNode(node) ? node.ownerDocument : node.document) || window.document) == null ? void 0 : _ref.documentElement;
 }
 function isNode(value) {
+  if (!hasWindow()) {
+    return false;
+  }
   return value instanceof Node || value instanceof getWindow$1(value).Node;
 }
 function isElement$1(value) {
+  if (!hasWindow()) {
+    return false;
+  }
   return value instanceof Element || value instanceof getWindow$1(value).Element;
 }
 function isHTMLElement(value) {
+  if (!hasWindow()) {
+    return false;
+  }
   return value instanceof HTMLElement || value instanceof getWindow$1(value).HTMLElement;
 }
 function isShadowRoot$1(value) {
-  if (typeof ShadowRoot === "undefined") {
+  if (!hasWindow() || typeof ShadowRoot === "undefined") {
     return false;
   }
   return value instanceof ShadowRoot || value instanceof getWindow$1(value).ShadowRoot;
@@ -1122,9 +1157,18 @@ function isOverflowElement(element) {
 function isTableElement(element) {
   return ["table", "td", "th"].includes(getNodeName(element));
 }
-function isContainingBlock(element) {
+function isTopLayer(element) {
+  return [":popover-open", ":modal"].some((selector) => {
+    try {
+      return element.matches(selector);
+    } catch (e) {
+      return false;
+    }
+  });
+}
+function isContainingBlock(elementOrCss) {
   const webkit = isWebKit();
-  const css2 = getComputedStyle$1(element);
+  const css2 = isElement$1(elementOrCss) ? getComputedStyle$1(elementOrCss) : elementOrCss;
   return css2.transform !== "none" || css2.perspective !== "none" || (css2.containerType ? css2.containerType !== "normal" : false) || !webkit && (css2.backdropFilter ? css2.backdropFilter !== "none" : false) || !webkit && (css2.filter ? css2.filter !== "none" : false) || ["transform", "perspective", "filter"].some((value) => (css2.willChange || "").includes(value)) || ["paint", "layout", "strict", "content"].some((value) => (css2.contain || "").includes(value));
 }
 function getContainingBlock(element) {
@@ -1132,9 +1176,10 @@ function getContainingBlock(element) {
   while (isHTMLElement(currentNode) && !isLastTraversableNode(currentNode)) {
     if (isContainingBlock(currentNode)) {
       return currentNode;
-    } else {
-      currentNode = getParentNode(currentNode);
+    } else if (isTopLayer(currentNode)) {
+      return null;
     }
+    currentNode = getParentNode(currentNode);
   }
   return null;
 }
@@ -1156,8 +1201,8 @@ function getNodeScroll(element) {
     };
   }
   return {
-    scrollLeft: element.pageXOffset,
-    scrollTop: element.pageYOffset
+    scrollLeft: element.scrollX,
+    scrollTop: element.scrollY
   };
 }
 function getParentNode(node) {
@@ -1195,9 +1240,13 @@ function getOverflowAncestors(node, list, traverseIframes) {
   const isBody = scrollableAncestor === ((_node$ownerDocument2 = node.ownerDocument) == null ? void 0 : _node$ownerDocument2.body);
   const win = getWindow$1(scrollableAncestor);
   if (isBody) {
-    return list.concat(win, win.visualViewport || [], isOverflowElement(scrollableAncestor) ? scrollableAncestor : [], win.frameElement && traverseIframes ? getOverflowAncestors(win.frameElement) : []);
+    const frameElement = getFrameElement(win);
+    return list.concat(win, win.visualViewport || [], isOverflowElement(scrollableAncestor) ? scrollableAncestor : [], frameElement && traverseIframes ? getOverflowAncestors(frameElement) : []);
   }
   return list.concat(scrollableAncestor, getOverflowAncestors(scrollableAncestor, [], traverseIframes));
+}
+function getFrameElement(win) {
+  return win.parent && Object.getPrototypeOf(win.parent) ? win.frameElement : null;
 }
 function getCssDimensions(element) {
   const css2 = getComputedStyle$1(element);
@@ -1291,8 +1340,9 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
   if (domElement) {
     const win = getWindow$1(domElement);
     const offsetWin = offsetParent && isElement$1(offsetParent) ? getWindow$1(offsetParent) : offsetParent;
-    let currentIFrame = win.frameElement;
-    while (currentIFrame && offsetParent && offsetWin !== win) {
+    let currentWin = win;
+    let currentIFrame = getFrameElement(currentWin);
+    while (currentIFrame && offsetParent && offsetWin !== currentWin) {
       const iframeScale = getScale(currentIFrame);
       const iframeRect = currentIFrame.getBoundingClientRect();
       const css2 = getComputedStyle$1(currentIFrame);
@@ -1304,7 +1354,8 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
       height *= iframeScale.y;
       x2 += left;
       y2 += top;
-      currentIFrame = getWindow$1(currentIFrame).frameElement;
+      currentWin = getWindow$1(currentIFrame);
+      currentIFrame = getFrameElement(currentWin);
     }
   }
   return rectToClientRect({
@@ -1314,15 +1365,39 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
     y: y2
   });
 }
+function getWindowScrollBarX(element, rect) {
+  const leftScroll = getNodeScroll(element).scrollLeft;
+  if (!rect) {
+    return getBoundingClientRect(getDocumentElement(element)).left + leftScroll;
+  }
+  return rect.left + leftScroll;
+}
+function getHTMLOffset(documentElement, scroll, ignoreScrollbarX) {
+  if (ignoreScrollbarX === void 0) {
+    ignoreScrollbarX = false;
+  }
+  const htmlRect = documentElement.getBoundingClientRect();
+  const x2 = htmlRect.left + scroll.scrollLeft - (ignoreScrollbarX ? 0 : (
+    // RTL <body> scrollbar.
+    getWindowScrollBarX(documentElement, htmlRect)
+  ));
+  const y2 = htmlRect.top + scroll.scrollTop;
+  return {
+    x: x2,
+    y: y2
+  };
+}
 function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
   let {
+    elements,
     rect,
     offsetParent,
     strategy
   } = _ref;
-  const isOffsetParentAnElement = isHTMLElement(offsetParent);
+  const isFixed = strategy === "fixed";
   const documentElement = getDocumentElement(offsetParent);
-  if (offsetParent === documentElement) {
+  const topLayer = elements ? isTopLayer(elements.floating) : false;
+  if (offsetParent === documentElement || topLayer && isFixed) {
     return rect;
   }
   let scroll = {
@@ -1331,7 +1406,8 @@ function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
   };
   let scale = createCoords(1);
   const offsets = createCoords(0);
-  if (isOffsetParentAnElement || !isOffsetParentAnElement && strategy !== "fixed") {
+  const isOffsetParentAnElement = isHTMLElement(offsetParent);
+  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
     if (getNodeName(offsetParent) !== "body" || isOverflowElement(documentElement)) {
       scroll = getNodeScroll(offsetParent);
     }
@@ -1342,18 +1418,16 @@ function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
       offsets.y = offsetRect.y + offsetParent.clientTop;
     }
   }
+  const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? getHTMLOffset(documentElement, scroll, true) : createCoords(0);
   return {
     width: rect.width * scale.x,
     height: rect.height * scale.y,
-    x: rect.x * scale.x - scroll.scrollLeft * scale.x + offsets.x,
-    y: rect.y * scale.y - scroll.scrollTop * scale.y + offsets.y
+    x: rect.x * scale.x - scroll.scrollLeft * scale.x + offsets.x + htmlOffset.x,
+    y: rect.y * scale.y - scroll.scrollTop * scale.y + offsets.y + htmlOffset.y
   };
 }
 function getClientRects(element) {
   return Array.from(element.getClientRects());
-}
-function getWindowScrollBarX(element) {
-  return getBoundingClientRect(getDocumentElement(element)).left + getNodeScroll(element).scrollLeft;
 }
 function getDocumentRect(element) {
   const html = getDocumentElement(element);
@@ -1424,9 +1498,10 @@ function getClientRectFromClippingAncestor(element, clippingAncestor, strategy) 
   } else {
     const visualOffsets = getVisualOffsets(element);
     rect = {
-      ...clippingAncestor,
       x: clippingAncestor.x - visualOffsets.x,
-      y: clippingAncestor.y - visualOffsets.y
+      y: clippingAncestor.y - visualOffsets.y,
+      width: clippingAncestor.width,
+      height: clippingAncestor.height
     };
   }
   return rectToClientRect(rect);
@@ -1471,7 +1546,7 @@ function getClippingRect(_ref) {
     rootBoundary,
     strategy
   } = _ref;
-  const elementClippingAncestors = boundary === "clippingAncestors" ? getClippingElementAncestors(element, this._c) : [].concat(boundary);
+  const elementClippingAncestors = boundary === "clippingAncestors" ? isTopLayer(element) ? [] : getClippingElementAncestors(element, this._c) : [].concat(boundary);
   const clippingAncestors = [...elementClippingAncestors, rootBoundary];
   const firstClippingAncestor = clippingAncestors[0];
   const clippingRect = clippingAncestors.reduce((accRect, clippingAncestor) => {
@@ -1490,7 +1565,14 @@ function getClippingRect(_ref) {
   };
 }
 function getDimensions(element) {
-  return getCssDimensions(element);
+  const {
+    width,
+    height
+  } = getCssDimensions(element);
+  return {
+    width,
+    height
+  };
 }
 function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
   const isOffsetParentAnElement = isHTMLElement(offsetParent);
@@ -1514,12 +1596,18 @@ function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
       offsets.x = getWindowScrollBarX(documentElement);
     }
   }
+  const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? getHTMLOffset(documentElement, scroll) : createCoords(0);
+  const x2 = rect.left + scroll.scrollLeft - offsets.x - htmlOffset.x;
+  const y2 = rect.top + scroll.scrollTop - offsets.y - htmlOffset.y;
   return {
-    x: rect.left + scroll.scrollLeft - offsets.x,
-    y: rect.top + scroll.scrollTop - offsets.y,
+    x: x2,
+    y: y2,
     width: rect.width,
     height: rect.height
   };
+}
+function isStaticPositioned(element) {
+  return getComputedStyle$1(element).position === "static";
 }
 function getTrueOffsetParent(element, polyfill) {
   if (!isHTMLElement(element) || getComputedStyle$1(element).position === "fixed") {
@@ -1528,36 +1616,47 @@ function getTrueOffsetParent(element, polyfill) {
   if (polyfill) {
     return polyfill(element);
   }
-  return element.offsetParent;
+  let rawOffsetParent = element.offsetParent;
+  if (getDocumentElement(element) === rawOffsetParent) {
+    rawOffsetParent = rawOffsetParent.ownerDocument.body;
+  }
+  return rawOffsetParent;
 }
 function getOffsetParent(element, polyfill) {
-  const window2 = getWindow$1(element);
+  const win = getWindow$1(element);
+  if (isTopLayer(element)) {
+    return win;
+  }
   if (!isHTMLElement(element)) {
-    return window2;
+    let svgOffsetParent = getParentNode(element);
+    while (svgOffsetParent && !isLastTraversableNode(svgOffsetParent)) {
+      if (isElement$1(svgOffsetParent) && !isStaticPositioned(svgOffsetParent)) {
+        return svgOffsetParent;
+      }
+      svgOffsetParent = getParentNode(svgOffsetParent);
+    }
+    return win;
   }
   let offsetParent = getTrueOffsetParent(element, polyfill);
-  while (offsetParent && isTableElement(offsetParent) && getComputedStyle$1(offsetParent).position === "static") {
+  while (offsetParent && isTableElement(offsetParent) && isStaticPositioned(offsetParent)) {
     offsetParent = getTrueOffsetParent(offsetParent, polyfill);
   }
-  if (offsetParent && (getNodeName(offsetParent) === "html" || getNodeName(offsetParent) === "body" && getComputedStyle$1(offsetParent).position === "static" && !isContainingBlock(offsetParent))) {
-    return window2;
+  if (offsetParent && isLastTraversableNode(offsetParent) && isStaticPositioned(offsetParent) && !isContainingBlock(offsetParent)) {
+    return win;
   }
-  return offsetParent || getContainingBlock(element) || window2;
+  return offsetParent || getContainingBlock(element) || win;
 }
-const getElementRects = async function(_ref) {
-  let {
-    reference,
-    floating,
-    strategy
-  } = _ref;
+const getElementRects = async function(data) {
   const getOffsetParentFn = this.getOffsetParent || getOffsetParent;
   const getDimensionsFn = this.getDimensions;
+  const floatingDimensions = await getDimensionsFn(data.floating);
   return {
-    reference: getRectRelativeToOffsetParent(reference, await getOffsetParentFn(floating), strategy),
+    reference: getRectRelativeToOffsetParent(data.reference, await getOffsetParentFn(data.floating), data.strategy),
     floating: {
       x: 0,
       y: 0,
-      ...await getDimensionsFn(floating)
+      width: floatingDimensions.width,
+      height: floatingDimensions.height
     }
   };
 };
@@ -1581,8 +1680,9 @@ function observeMove(element, onMove) {
   let timeoutId2;
   const root = getDocumentElement(element);
   function cleanup() {
+    var _io;
     clearTimeout(timeoutId2);
-    io && io.disconnect();
+    (_io = io) == null || _io.disconnect();
     io = null;
   }
   function refresh(skip, threshold) {
@@ -1624,7 +1724,7 @@ function observeMove(element, onMove) {
         if (!ratio) {
           timeoutId2 = setTimeout(() => {
             refresh(false, 1e-7);
-          }, 100);
+          }, 1e3);
         } else {
           refresh(false, ratio);
         }
@@ -1674,7 +1774,8 @@ function autoUpdate(reference, floating, update, options) {
         resizeObserver.unobserve(floating);
         cancelAnimationFrame(reobserveFrame);
         reobserveFrame = requestAnimationFrame(() => {
-          resizeObserver && resizeObserver.observe(floating);
+          var _resizeObserver;
+          (_resizeObserver = resizeObserver) == null || _resizeObserver.observe(floating);
         });
       }
       update();
@@ -1699,18 +1800,23 @@ function autoUpdate(reference, floating, update, options) {
   }
   update();
   return () => {
+    var _resizeObserver2;
     ancestors.forEach((ancestor) => {
       ancestorScroll && ancestor.removeEventListener("scroll", update);
       ancestorResize && ancestor.removeEventListener("resize", update);
     });
-    cleanupIo && cleanupIo();
-    resizeObserver && resizeObserver.disconnect();
+    cleanupIo == null || cleanupIo();
+    (_resizeObserver2 = resizeObserver) == null || _resizeObserver2.disconnect();
     resizeObserver = null;
     if (animationFrame) {
       cancelAnimationFrame(frameId);
     }
   };
 }
+const offset = offset$1;
+const shift = shift$1;
+const flip = flip$1;
+const arrow$3 = arrow$4;
 const computePosition = (reference, floating, options) => {
   const cache = /* @__PURE__ */ new Map();
   const mergedOptions = {
@@ -3407,6 +3513,32 @@ function Legend({ cells: cells2, size, axis: axis2, title, showAxisLabels = fals
     gridTemplateRows: `repeat(${size + 2}, auto)`
   }, children: [showAxisLabels && axis2.x.label ? xAxisLabel() : null, showAxisLabels && axis2.y.label ? yAxisLabel() : null, jsxRuntimeExports.jsx("div", { className: styles.arrowX, children: showArrowHeads && jsxRuntimeExports.jsx(ArrowHead, { type: "horizontal", className: styles.arrowHeadX }) }), jsxRuntimeExports.jsx("div", { className: styles.arrowY, children: showArrowHeads && jsxRuntimeExports.jsx(ArrowHead, { type: "vertical", className: clsx({ [styles.arrowHeadY]: true, [styles.arrowHeadY_angle0]: !showAxisLabels }) }) }), gridCells.map((cell2) => jsxRuntimeExports.jsx("div", { style: Object.assign(getCellPositionStyle(cell2._position.x, cell2._position.y), cell2.style), className: clsx(cell2.className, styles.cell), onPointerOver: cell2.onPointerOver, onPointerLeave: cell2.onPointerLeave, children: cell2.label }, `${cell2._position.x}|${cell2._position.y}`))] })] });
 }
+function _objectWithoutPropertiesLoose(r2, e) {
+  if (null == r2) return {};
+  var t2 = {};
+  for (var n2 in r2) if ({}.hasOwnProperty.call(r2, n2)) {
+    if (e.includes(n2)) continue;
+    t2[n2] = r2[n2];
+  }
+  return t2;
+}
+function _extends$2() {
+  return _extends$2 = Object.assign ? Object.assign.bind() : function(n2) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t2 = arguments[e];
+      for (var r2 in t2) ({}).hasOwnProperty.call(t2, r2) && (n2[r2] = t2[r2]);
+    }
+    return n2;
+  }, _extends$2.apply(null, arguments);
+}
+function _setPrototypeOf(t2, e) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t3, e2) {
+    return t3.__proto__ = e2, t3;
+  }, _setPrototypeOf(t2, e);
+}
+function _inheritsLoose(t2, o2) {
+  t2.prototype = Object.create(o2.prototype), t2.prototype.constructor = t2, _setPrototypeOf(t2, o2);
+}
 const NAVIGATE_EVENT = "KNT_NAVIGATE_TO";
 const goTo = (slug) => {
   const evt = new CustomEvent(NAVIGATE_EVENT, { detail: { payload: slug } });
@@ -3481,18 +3613,17 @@ const createCtx = ({ callLateEffect = callSafely, callNearEffect = callSafely, r
         if (0 === pubs.length || pubs.some(({ proto: proto3, state: state2 }) => !Object.is(state2, (patch2.cause = actualize(patchCtx2, proto3)).state))) {
           let newPubs = [];
           if (patchCtx2.spy = ({ __reatom: depProto }, cb) => {
-            if (patch2.pubs === pubs) {
-              let depPatch = actualize(patchCtx2, depProto), prevDepPatch = newPubs.push(depPatch) <= pubs.length ? pubs[newPubs.length - 1] : void 0, isDepChanged = (prevDepPatch == null ? void 0 : prevDepPatch.proto) !== depPatch.proto;
-              isDepsChanged || (isDepsChanged = isDepChanged);
-              let state2 = depProto.isAction && !isDepChanged ? depPatch.state.slice(prevDepPatch.state.length) : depPatch.state;
-              if (!cb || !isDepChanged && Object.is(state2, prevDepPatch.state)) return state2;
-              if (depProto.isAction) for (const call of state2) cb(call);
-              else cb(state2, isDepChanged ? void 0 : prevDepPatch == null ? void 0 : prevDepPatch.state);
-            } else throwReatomError(true, "async spy");
+            let depPatch = actualize(patchCtx2, depProto), prevDepPatch = newPubs.push(depPatch) <= pubs.length ? pubs[newPubs.length - 1] : void 0, isDepChanged = (prevDepPatch == null ? void 0 : prevDepPatch.proto) !== depPatch.proto;
+            isDepsChanged || (isDepsChanged = isDepChanged);
+            let state2 = depProto.isAction && !isDepChanged ? depPatch.state.slice(prevDepPatch.state.length) : depPatch.state;
+            if (!cb || !isDepChanged && Object.is(state2, prevDepPatch.state)) return state2;
+            if (depProto.isAction) for (const call of state2) cb(call);
+            else cb(state2, isDepChanged ? void 0 : prevDepPatch == null ? void 0 : prevDepPatch.state);
           }, patch2.state = patch2.proto.computer(patchCtx2, patch2.state), patch2.pubs = newPubs, (isDepsChanged || pubs.length > newPubs.length) && isConnected(patch2)) {
             for (let { proto: depProto } of pubs) newPubs.every((dep) => dep.proto !== depProto) && disconnect(proto2, depProto.patch ?? read(depProto));
             for (let { proto: depProto } of newPubs) pubs.every((dep) => dep.proto !== depProto) && connect(proto2, depProto.patch ?? read(depProto));
           }
+          patchCtx2.spy = () => throwReatomError(true, "async spy"), patch2 = proto2 = pubs = newPubs = null;
         }
       })(patchCtx, patch), updating && (patch.cause = ctx2.cause, updater(patchCtx, patch)), proto.actual = true;
     } catch (error2) {
@@ -7658,7 +7789,7 @@ class Browser {
       }
     });
     detected = detected.map((d2) => this.options.convertDetectedLanguage(d2));
-    if (this.services.languageUtils.getBestMatchFromCodes) return detected;
+    if (this.services && this.services.languageUtils && this.services.languageUtils.getBestMatchFromCodes) return detected;
     return detected.length > 0 ? detected[0] : null;
   }
   cacheUserLanguage(lng) {
@@ -10668,6 +10799,1342 @@ const fixture0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   __proto__: null,
   default: Plans_fixture
 }, Symbol.toStringTag, { value: "Module" }));
+const linkWidthWrap = "_linkWidthWrap_qkwt3_1";
+const truncate = "_truncate_qkwt3_3";
+const tail = "_tail_qkwt3_4";
+const link = "_link_qkwt3_1";
+const s$7 = {
+  linkWidthWrap,
+  truncate,
+  tail,
+  link
+};
+const splitTail = (str, tailSize) => {
+  const tail2 = str.slice(tailSize * -1);
+  const body = str.slice(0, Math.max(0, str.length - tailSize));
+  return [body, tail2];
+};
+const LinkRenderer = reactExports.memo(function(props) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: props.href, target: "_blank", rel: "noreferrer", onClick: stopPropagation, children: props.children });
+});
+function ShortLinkRenderer({
+  children: linksArr,
+  maxWidth = 190,
+  truncateAmount = 12,
+  href
+}) {
+  const passedLink = (linksArr == null ? void 0 : linksArr[0]) ?? href;
+  const [leftPart, rightPart] = splitTail(passedLink, truncateAmount);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$7.linkWidthWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$7.linkOverflowWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "a",
+    {
+      className: s$7.link,
+      target: "_blank",
+      rel: "noreferrer",
+      "data-truncate": rightPart,
+      href,
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$7.truncate, style: { maxWidth: maxWidth || "unset" }, children: leftPart }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$7.tail, children: rightPart })
+      ]
+    }
+  ) }) });
+}
+function stopPropagation(e) {
+  e.stopPropagation();
+}
+LinkRenderer.displayName = "LinkRenderer";
+const LinkRenderer_fixture = /* @__PURE__ */ jsxRuntimeExports.jsxs("blockquote", { children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+  "LinkRenderer: ",
+  /* @__PURE__ */ jsxRuntimeExports.jsx(LinkRenderer, { href: "https://kontur.io", children: "kontur.io" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+  "ShortLinkRenderer short:",
+  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://kontur.io", children: ["kontur.io"] }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+  "ShortLinkRenderer gdacs:",
+  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://www.gdacs.org/report.aspx?eventid=1102779&episodeid=6&eventtype=FL", children: ["gdacs.org/report.aspx?eventtype=EQ&eventid=1441158"] }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+  "ShortLinkRenderer long:",
+  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://disaster.ninja/active/?layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry", children: [
+    "https://disaster.ninja/active/?layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry"
+  ] })
+] });
+const fixture1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: LinkRenderer_fixture
+}, Symbol.toStringTag, { value: "Module" }));
+/**
+ * @remix-run/router v1.21.0
+ *
+ * Copyright (c) Remix Software Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
+ */
+function _extends$1() {
+  _extends$1 = Object.assign ? Object.assign.bind() : function(target) {
+    for (var i2 = 1; i2 < arguments.length; i2++) {
+      var source = arguments[i2];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends$1.apply(this, arguments);
+}
+var Action;
+(function(Action2) {
+  Action2["Pop"] = "POP";
+  Action2["Push"] = "PUSH";
+  Action2["Replace"] = "REPLACE";
+})(Action || (Action = {}));
+const PopStateEventType = "popstate";
+function createBrowserHistory(options) {
+  if (options === void 0) {
+    options = {};
+  }
+  function createBrowserLocation(window2, globalHistory) {
+    let {
+      pathname,
+      search: search2,
+      hash
+    } = window2.location;
+    return createLocation(
+      "",
+      {
+        pathname,
+        search: search2,
+        hash
+      },
+      // state defaults to `null` because `window.history.state` does
+      globalHistory.state && globalHistory.state.usr || null,
+      globalHistory.state && globalHistory.state.key || "default"
+    );
+  }
+  function createBrowserHref(window2, to2) {
+    return typeof to2 === "string" ? to2 : createPath(to2);
+  }
+  return getUrlBasedHistory(createBrowserLocation, createBrowserHref, null, options);
+}
+function invariant(value, message) {
+  if (value === false || value === null || typeof value === "undefined") {
+    throw new Error(message);
+  }
+}
+function createKey() {
+  return Math.random().toString(36).substr(2, 8);
+}
+function getHistoryState(location, index2) {
+  return {
+    usr: location.state,
+    key: location.key,
+    idx: index2
+  };
+}
+function createLocation(current, to2, state, key) {
+  if (state === void 0) {
+    state = null;
+  }
+  let location = _extends$1({
+    pathname: typeof current === "string" ? current : current.pathname,
+    search: "",
+    hash: ""
+  }, typeof to2 === "string" ? parsePath(to2) : to2, {
+    state,
+    // TODO: This could be cleaned up.  push/replace should probably just take
+    // full Locations now and avoid the need to run through this flow at all
+    // But that's a pretty big refactor to the current test suite so going to
+    // keep as is for the time being and just let any incoming keys take precedence
+    key: to2 && to2.key || key || createKey()
+  });
+  return location;
+}
+function createPath(_ref) {
+  let {
+    pathname = "/",
+    search: search2 = "",
+    hash = ""
+  } = _ref;
+  if (search2 && search2 !== "?") pathname += search2.charAt(0) === "?" ? search2 : "?" + search2;
+  if (hash && hash !== "#") pathname += hash.charAt(0) === "#" ? hash : "#" + hash;
+  return pathname;
+}
+function parsePath(path2) {
+  let parsedPath = {};
+  if (path2) {
+    let hashIndex = path2.indexOf("#");
+    if (hashIndex >= 0) {
+      parsedPath.hash = path2.substr(hashIndex);
+      path2 = path2.substr(0, hashIndex);
+    }
+    let searchIndex = path2.indexOf("?");
+    if (searchIndex >= 0) {
+      parsedPath.search = path2.substr(searchIndex);
+      path2 = path2.substr(0, searchIndex);
+    }
+    if (path2) {
+      parsedPath.pathname = path2;
+    }
+  }
+  return parsedPath;
+}
+function getUrlBasedHistory(getLocation, createHref, validateLocation, options) {
+  if (options === void 0) {
+    options = {};
+  }
+  let {
+    window: window2 = document.defaultView,
+    v5Compat = false
+  } = options;
+  let globalHistory = window2.history;
+  let action2 = Action.Pop;
+  let listener = null;
+  let index2 = getIndex();
+  if (index2 == null) {
+    index2 = 0;
+    globalHistory.replaceState(_extends$1({}, globalHistory.state, {
+      idx: index2
+    }), "");
+  }
+  function getIndex() {
+    let state = globalHistory.state || {
+      idx: null
+    };
+    return state.idx;
+  }
+  function handlePop() {
+    action2 = Action.Pop;
+    let nextIndex = getIndex();
+    let delta = nextIndex == null ? null : nextIndex - index2;
+    index2 = nextIndex;
+    if (listener) {
+      listener({
+        action: action2,
+        location: history.location,
+        delta
+      });
+    }
+  }
+  function push(to2, state) {
+    action2 = Action.Push;
+    let location = createLocation(history.location, to2, state);
+    index2 = getIndex() + 1;
+    let historyState = getHistoryState(location, index2);
+    let url = history.createHref(location);
+    try {
+      globalHistory.pushState(historyState, "", url);
+    } catch (error2) {
+      if (error2 instanceof DOMException && error2.name === "DataCloneError") {
+        throw error2;
+      }
+      window2.location.assign(url);
+    }
+    if (v5Compat && listener) {
+      listener({
+        action: action2,
+        location: history.location,
+        delta: 1
+      });
+    }
+  }
+  function replace(to2, state) {
+    action2 = Action.Replace;
+    let location = createLocation(history.location, to2, state);
+    index2 = getIndex();
+    let historyState = getHistoryState(location, index2);
+    let url = history.createHref(location);
+    globalHistory.replaceState(historyState, "", url);
+    if (v5Compat && listener) {
+      listener({
+        action: action2,
+        location: history.location,
+        delta: 0
+      });
+    }
+  }
+  function createURL(to2) {
+    let base = window2.location.origin !== "null" ? window2.location.origin : window2.location.href;
+    let href = typeof to2 === "string" ? to2 : createPath(to2);
+    href = href.replace(/ $/, "%20");
+    invariant(base, "No window.location.(origin|href) available to create URL for href: " + href);
+    return new URL(href, base);
+  }
+  let history = {
+    get action() {
+      return action2;
+    },
+    get location() {
+      return getLocation(window2, globalHistory);
+    },
+    listen(fn) {
+      if (listener) {
+        throw new Error("A history only accepts one active listener");
+      }
+      window2.addEventListener(PopStateEventType, handlePop);
+      listener = fn;
+      return () => {
+        window2.removeEventListener(PopStateEventType, handlePop);
+        listener = null;
+      };
+    },
+    createHref(to2) {
+      return createHref(window2, to2);
+    },
+    createURL,
+    encodeLocation(to2) {
+      let url = createURL(to2);
+      return {
+        pathname: url.pathname,
+        search: url.search,
+        hash: url.hash
+      };
+    },
+    push,
+    replace,
+    go(n2) {
+      return globalHistory.go(n2);
+    }
+  };
+  return history;
+}
+var ResultType;
+(function(ResultType2) {
+  ResultType2["data"] = "data";
+  ResultType2["deferred"] = "deferred";
+  ResultType2["redirect"] = "redirect";
+  ResultType2["error"] = "error";
+})(ResultType || (ResultType = {}));
+function stripBasename(pathname, basename) {
+  if (basename === "/") return pathname;
+  if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
+    return null;
+  }
+  let startIndex = basename.endsWith("/") ? basename.length - 1 : basename.length;
+  let nextChar = pathname.charAt(startIndex);
+  if (nextChar && nextChar !== "/") {
+    return null;
+  }
+  return pathname.slice(startIndex) || "/";
+}
+const validMutationMethodsArr = ["post", "put", "patch", "delete"];
+new Set(validMutationMethodsArr);
+const validRequestMethodsArr = ["get", ...validMutationMethodsArr];
+new Set(validRequestMethodsArr);
+/**
+ * React Router v6.28.0
+ *
+ * Copyright (c) Remix Software Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
+ */
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function(target) {
+    for (var i2 = 1; i2 < arguments.length; i2++) {
+      var source = arguments[i2];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
+const NavigationContext = /* @__PURE__ */ reactExports.createContext(null);
+const LocationContext = /* @__PURE__ */ reactExports.createContext(null);
+function useInRouterContext() {
+  return reactExports.useContext(LocationContext) != null;
+}
+const alreadyWarned = {};
+function warnOnce(key, message) {
+  if (!alreadyWarned[message]) {
+    alreadyWarned[message] = true;
+    console.warn(message);
+  }
+}
+const logDeprecation = (flag, msg, link2) => warnOnce(flag, "⚠️ React Router Future Flag Warning: " + msg + ". " + ("You can use the `" + flag + "` future flag to opt-in early. ") + ("For more information, see " + link2 + "."));
+function logV6DeprecationWarnings(renderFuture, routerFuture) {
+  if (!(renderFuture != null && renderFuture.v7_startTransition)) {
+    logDeprecation("v7_startTransition", "React Router will begin wrapping state updates in `React.startTransition` in v7", "https://reactrouter.com/v6/upgrading/future#v7_starttransition");
+  }
+  if (!(renderFuture != null && renderFuture.v7_relativeSplatPath) && !routerFuture) {
+    logDeprecation("v7_relativeSplatPath", "Relative route resolution within Splat routes is changing in v7", "https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath");
+  }
+}
+function Router(_ref5) {
+  let {
+    basename: basenameProp = "/",
+    children = null,
+    location: locationProp,
+    navigationType = Action.Pop,
+    navigator: navigator2,
+    static: staticProp = false,
+    future
+  } = _ref5;
+  !!useInRouterContext() ? invariant(false) : void 0;
+  let basename = basenameProp.replace(/^\/*/, "/");
+  let navigationContext = reactExports.useMemo(() => ({
+    basename,
+    navigator: navigator2,
+    static: staticProp,
+    future: _extends({
+      v7_relativeSplatPath: false
+    }, future)
+  }), [basename, future, navigator2, staticProp]);
+  if (typeof locationProp === "string") {
+    locationProp = parsePath(locationProp);
+  }
+  let {
+    pathname = "/",
+    search: search2 = "",
+    hash = "",
+    state = null,
+    key = "default"
+  } = locationProp;
+  let locationContext = reactExports.useMemo(() => {
+    let trailingPathname = stripBasename(pathname, basename);
+    if (trailingPathname == null) {
+      return null;
+    }
+    return {
+      location: {
+        pathname: trailingPathname,
+        search: search2,
+        hash,
+        state,
+        key
+      },
+      navigationType
+    };
+  }, [basename, pathname, search2, hash, state, key, navigationType]);
+  if (locationContext == null) {
+    return null;
+  }
+  return /* @__PURE__ */ reactExports.createElement(NavigationContext.Provider, {
+    value: navigationContext
+  }, /* @__PURE__ */ reactExports.createElement(LocationContext.Provider, {
+    children,
+    value: locationContext
+  }));
+}
+new Promise(() => {
+});
+/**
+ * React Router DOM v6.28.0
+ *
+ * Copyright (c) Remix Software Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
+ */
+const REACT_ROUTER_VERSION = "6";
+try {
+  window.__reactRouterVersion = REACT_ROUTER_VERSION;
+} catch (e) {
+}
+const START_TRANSITION = "startTransition";
+const startTransitionImpl = React[START_TRANSITION];
+function BrowserRouter(_ref4) {
+  let {
+    basename,
+    children,
+    future,
+    window: window2
+  } = _ref4;
+  let historyRef = reactExports.useRef();
+  if (historyRef.current == null) {
+    historyRef.current = createBrowserHistory({
+      window: window2,
+      v5Compat: true
+    });
+  }
+  let history = historyRef.current;
+  let [state, setStateImpl] = reactExports.useState({
+    action: history.action,
+    location: history.location
+  });
+  let {
+    v7_startTransition
+  } = future || {};
+  let setState = reactExports.useCallback((newState) => {
+    v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl, v7_startTransition]);
+  reactExports.useLayoutEffect(() => history.listen(setState), [history, setState]);
+  reactExports.useEffect(() => logV6DeprecationWarnings(future), [future]);
+  return /* @__PURE__ */ reactExports.createElement(Router, {
+    basename,
+    children,
+    location: state.location,
+    navigationType: state.action,
+    navigator: history,
+    future
+  });
+}
+var DataRouterHook;
+(function(DataRouterHook2) {
+  DataRouterHook2["UseScrollRestoration"] = "useScrollRestoration";
+  DataRouterHook2["UseSubmit"] = "useSubmit";
+  DataRouterHook2["UseSubmitFetcher"] = "useSubmitFetcher";
+  DataRouterHook2["UseFetcher"] = "useFetcher";
+  DataRouterHook2["useViewTransitionState"] = "useViewTransitionState";
+})(DataRouterHook || (DataRouterHook = {}));
+var DataRouterStateHook;
+(function(DataRouterStateHook2) {
+  DataRouterStateHook2["UseFetcher"] = "useFetcher";
+  DataRouterStateHook2["UseFetchers"] = "useFetchers";
+  DataRouterStateHook2["UseScrollRestoration"] = "useScrollRestoration";
+})(DataRouterStateHook || (DataRouterStateHook = {}));
+var c = React$1.createContext(defaultStore), o = function(n2) {
+  return n2();
+};
+function a(n2, t2) {
+  return function() {
+    var r2 = t2.apply(void 0, [].slice.call(arguments));
+    r2 && o(function() {
+      n2.dispatch(r2);
+    });
+  };
+}
+function f(n2, t2) {
+  void 0 === t2 && (t2 = []);
+  var r2 = React$1.useContext(c);
+  return React$1.useCallback(a(r2, n2), t2.concat(r2));
+}
+function s$6(n2, o2, i2) {
+  var f2 = n2;
+  i2 = [];
+  var s2 = React$1.useContext(c);
+  i2 = i2.concat([n2, s2]);
+  var l2 = React$1.useState(function() {
+    return getState(n2, s2);
+  }), v2 = l2[0], m2 = l2[1], p2 = React$1.useRef(v2);
+  p2.current = v2 = getState(n2, s2);
+  var b2 = React$1.useMemo(function() {
+    return Object.entries(f2).reduce(function(n3, t2) {
+      var r2 = t2[0], u2 = t2[1];
+      return isActionCreator(u2) && (n3[r2] = a(s2, u2)), n3;
+    }, {});
+  }, i2);
+  return React$1.useEffect(function() {
+    return s2.subscribe(n2, function(n3) {
+      return Object.is(n3, p2.current) || m2(p2.current = n3);
+    });
+  }, i2), React$1.useDebugValue(v2), [v2, b2];
+}
+const currentTooltipAtom = createAtom(
+  {
+    setCurrentTooltip: (tooltipData) => tooltipData,
+    resetCurrentTooltip: () => null,
+    turnOffById: (id) => id
+  },
+  ({ onAction }, state = null) => {
+    onAction("setCurrentTooltip", (tooltipData) => state = tooltipData);
+    onAction("resetCurrentTooltip", () => state = null);
+    onAction("turnOffById", (id) => {
+      if ((state == null ? void 0 : state.initiatorId) === id) state = null;
+    });
+    return state;
+  },
+  "[Shared state] currentTooltipAtom"
+);
+function hasClass(element, className) {
+  if (element.classList) return !!className && element.classList.contains(className);
+  return (" " + (element.className.baseVal || element.className) + " ").indexOf(" " + className + " ") !== -1;
+}
+function addClass(element, className) {
+  if (element.classList) element.classList.add(className);
+  else if (!hasClass(element, className)) if (typeof element.className === "string") element.className = element.className + " " + className;
+  else element.setAttribute("class", (element.className && element.className.baseVal || "") + " " + className);
+}
+function replaceClassName(origClass, classToRemove) {
+  return origClass.replace(new RegExp("(^|\\s)" + classToRemove + "(?:\\s|$)", "g"), "$1").replace(/\s+/g, " ").replace(/^\s*|\s*$/g, "");
+}
+function removeClass$1(element, className) {
+  if (element.classList) {
+    element.classList.remove(className);
+  } else if (typeof element.className === "string") {
+    element.className = replaceClassName(element.className, className);
+  } else {
+    element.setAttribute("class", replaceClassName(element.className && element.className.baseVal || "", className));
+  }
+}
+const config = {
+  disabled: false
+};
+const TransitionGroupContext = React$1.createContext(null);
+var forceReflow = function forceReflow2(node) {
+  return node.scrollTop;
+};
+var UNMOUNTED = "unmounted";
+var EXITED = "exited";
+var ENTERING = "entering";
+var ENTERED = "entered";
+var EXITING = "exiting";
+var Transition = /* @__PURE__ */ function(_React$Component) {
+  _inheritsLoose(Transition2, _React$Component);
+  function Transition2(props, context) {
+    var _this;
+    _this = _React$Component.call(this, props, context) || this;
+    var parentGroup = context;
+    var appear = parentGroup && !parentGroup.isMounting ? props.enter : props.appear;
+    var initialStatus;
+    _this.appearStatus = null;
+    if (props.in) {
+      if (appear) {
+        initialStatus = EXITED;
+        _this.appearStatus = ENTERING;
+      } else {
+        initialStatus = ENTERED;
+      }
+    } else {
+      if (props.unmountOnExit || props.mountOnEnter) {
+        initialStatus = UNMOUNTED;
+      } else {
+        initialStatus = EXITED;
+      }
+    }
+    _this.state = {
+      status: initialStatus
+    };
+    _this.nextCallback = null;
+    return _this;
+  }
+  Transition2.getDerivedStateFromProps = function getDerivedStateFromProps(_ref, prevState) {
+    var nextIn = _ref.in;
+    if (nextIn && prevState.status === UNMOUNTED) {
+      return {
+        status: EXITED
+      };
+    }
+    return null;
+  };
+  var _proto = Transition2.prototype;
+  _proto.componentDidMount = function componentDidMount() {
+    this.updateStatus(true, this.appearStatus);
+  };
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+    var nextStatus = null;
+    if (prevProps !== this.props) {
+      var status = this.state.status;
+      if (this.props.in) {
+        if (status !== ENTERING && status !== ENTERED) {
+          nextStatus = ENTERING;
+        }
+      } else {
+        if (status === ENTERING || status === ENTERED) {
+          nextStatus = EXITING;
+        }
+      }
+    }
+    this.updateStatus(false, nextStatus);
+  };
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    this.cancelNextCallback();
+  };
+  _proto.getTimeouts = function getTimeouts() {
+    var timeout2 = this.props.timeout;
+    var exit, enter, appear;
+    exit = enter = appear = timeout2;
+    if (timeout2 != null && typeof timeout2 !== "number") {
+      exit = timeout2.exit;
+      enter = timeout2.enter;
+      appear = timeout2.appear !== void 0 ? timeout2.appear : enter;
+    }
+    return {
+      exit,
+      enter,
+      appear
+    };
+  };
+  _proto.updateStatus = function updateStatus(mounting, nextStatus) {
+    if (mounting === void 0) {
+      mounting = false;
+    }
+    if (nextStatus !== null) {
+      this.cancelNextCallback();
+      if (nextStatus === ENTERING) {
+        if (this.props.unmountOnExit || this.props.mountOnEnter) {
+          var node = this.props.nodeRef ? this.props.nodeRef.current : ReactDOM.findDOMNode(this);
+          if (node) forceReflow(node);
+        }
+        this.performEnter(mounting);
+      } else {
+        this.performExit();
+      }
+    } else if (this.props.unmountOnExit && this.state.status === EXITED) {
+      this.setState({
+        status: UNMOUNTED
+      });
+    }
+  };
+  _proto.performEnter = function performEnter(mounting) {
+    var _this2 = this;
+    var enter = this.props.enter;
+    var appearing = this.context ? this.context.isMounting : mounting;
+    var _ref2 = this.props.nodeRef ? [appearing] : [ReactDOM.findDOMNode(this), appearing], maybeNode = _ref2[0], maybeAppearing = _ref2[1];
+    var timeouts = this.getTimeouts();
+    var enterTimeout = appearing ? timeouts.appear : timeouts.enter;
+    if (!mounting && !enter || config.disabled) {
+      this.safeSetState({
+        status: ENTERED
+      }, function() {
+        _this2.props.onEntered(maybeNode);
+      });
+      return;
+    }
+    this.props.onEnter(maybeNode, maybeAppearing);
+    this.safeSetState({
+      status: ENTERING
+    }, function() {
+      _this2.props.onEntering(maybeNode, maybeAppearing);
+      _this2.onTransitionEnd(enterTimeout, function() {
+        _this2.safeSetState({
+          status: ENTERED
+        }, function() {
+          _this2.props.onEntered(maybeNode, maybeAppearing);
+        });
+      });
+    });
+  };
+  _proto.performExit = function performExit() {
+    var _this3 = this;
+    var exit = this.props.exit;
+    var timeouts = this.getTimeouts();
+    var maybeNode = this.props.nodeRef ? void 0 : ReactDOM.findDOMNode(this);
+    if (!exit || config.disabled) {
+      this.safeSetState({
+        status: EXITED
+      }, function() {
+        _this3.props.onExited(maybeNode);
+      });
+      return;
+    }
+    this.props.onExit(maybeNode);
+    this.safeSetState({
+      status: EXITING
+    }, function() {
+      _this3.props.onExiting(maybeNode);
+      _this3.onTransitionEnd(timeouts.exit, function() {
+        _this3.safeSetState({
+          status: EXITED
+        }, function() {
+          _this3.props.onExited(maybeNode);
+        });
+      });
+    });
+  };
+  _proto.cancelNextCallback = function cancelNextCallback() {
+    if (this.nextCallback !== null) {
+      this.nextCallback.cancel();
+      this.nextCallback = null;
+    }
+  };
+  _proto.safeSetState = function safeSetState(nextState, callback) {
+    callback = this.setNextCallback(callback);
+    this.setState(nextState, callback);
+  };
+  _proto.setNextCallback = function setNextCallback(callback) {
+    var _this4 = this;
+    var active2 = true;
+    this.nextCallback = function(event2) {
+      if (active2) {
+        active2 = false;
+        _this4.nextCallback = null;
+        callback(event2);
+      }
+    };
+    this.nextCallback.cancel = function() {
+      active2 = false;
+    };
+    return this.nextCallback;
+  };
+  _proto.onTransitionEnd = function onTransitionEnd(timeout2, handler) {
+    this.setNextCallback(handler);
+    var node = this.props.nodeRef ? this.props.nodeRef.current : ReactDOM.findDOMNode(this);
+    var doesNotHaveTimeoutOrListener = timeout2 == null && !this.props.addEndListener;
+    if (!node || doesNotHaveTimeoutOrListener) {
+      setTimeout(this.nextCallback, 0);
+      return;
+    }
+    if (this.props.addEndListener) {
+      var _ref3 = this.props.nodeRef ? [this.nextCallback] : [node, this.nextCallback], maybeNode = _ref3[0], maybeNextCallback = _ref3[1];
+      this.props.addEndListener(maybeNode, maybeNextCallback);
+    }
+    if (timeout2 != null) {
+      setTimeout(this.nextCallback, timeout2);
+    }
+  };
+  _proto.render = function render() {
+    var status = this.state.status;
+    if (status === UNMOUNTED) {
+      return null;
+    }
+    var _this$props = this.props, children = _this$props.children;
+    _this$props.in;
+    _this$props.mountOnEnter;
+    _this$props.unmountOnExit;
+    _this$props.appear;
+    _this$props.enter;
+    _this$props.exit;
+    _this$props.timeout;
+    _this$props.addEndListener;
+    _this$props.onEnter;
+    _this$props.onEntering;
+    _this$props.onEntered;
+    _this$props.onExit;
+    _this$props.onExiting;
+    _this$props.onExited;
+    _this$props.nodeRef;
+    var childProps = _objectWithoutPropertiesLoose(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
+    return (
+      // allows for nested Transitions
+      /* @__PURE__ */ React$1.createElement(TransitionGroupContext.Provider, {
+        value: null
+      }, typeof children === "function" ? children(status, childProps) : React$1.cloneElement(React$1.Children.only(children), childProps))
+    );
+  };
+  return Transition2;
+}(React$1.Component);
+Transition.contextType = TransitionGroupContext;
+Transition.propTypes = {};
+function noop() {
+}
+Transition.defaultProps = {
+  in: false,
+  mountOnEnter: false,
+  unmountOnExit: false,
+  appear: false,
+  enter: true,
+  exit: true,
+  onEnter: noop,
+  onEntering: noop,
+  onEntered: noop,
+  onExit: noop,
+  onExiting: noop,
+  onExited: noop
+};
+Transition.UNMOUNTED = UNMOUNTED;
+Transition.EXITED = EXITED;
+Transition.ENTERING = ENTERING;
+Transition.ENTERED = ENTERED;
+Transition.EXITING = EXITING;
+var _addClass = function addClass$1(node, classes) {
+  return node && classes && classes.split(" ").forEach(function(c2) {
+    return addClass(node, c2);
+  });
+};
+var removeClass = function removeClass2(node, classes) {
+  return node && classes && classes.split(" ").forEach(function(c2) {
+    return removeClass$1(node, c2);
+  });
+};
+var CSSTransition = /* @__PURE__ */ function(_React$Component) {
+  _inheritsLoose(CSSTransition2, _React$Component);
+  function CSSTransition2() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
+    _this.appliedClasses = {
+      appear: {},
+      enter: {},
+      exit: {}
+    };
+    _this.onEnter = function(maybeNode, maybeAppearing) {
+      var _this$resolveArgument = _this.resolveArguments(maybeNode, maybeAppearing), node = _this$resolveArgument[0], appearing = _this$resolveArgument[1];
+      _this.removeClasses(node, "exit");
+      _this.addClass(node, appearing ? "appear" : "enter", "base");
+      if (_this.props.onEnter) {
+        _this.props.onEnter(maybeNode, maybeAppearing);
+      }
+    };
+    _this.onEntering = function(maybeNode, maybeAppearing) {
+      var _this$resolveArgument2 = _this.resolveArguments(maybeNode, maybeAppearing), node = _this$resolveArgument2[0], appearing = _this$resolveArgument2[1];
+      var type = appearing ? "appear" : "enter";
+      _this.addClass(node, type, "active");
+      if (_this.props.onEntering) {
+        _this.props.onEntering(maybeNode, maybeAppearing);
+      }
+    };
+    _this.onEntered = function(maybeNode, maybeAppearing) {
+      var _this$resolveArgument3 = _this.resolveArguments(maybeNode, maybeAppearing), node = _this$resolveArgument3[0], appearing = _this$resolveArgument3[1];
+      var type = appearing ? "appear" : "enter";
+      _this.removeClasses(node, type);
+      _this.addClass(node, type, "done");
+      if (_this.props.onEntered) {
+        _this.props.onEntered(maybeNode, maybeAppearing);
+      }
+    };
+    _this.onExit = function(maybeNode) {
+      var _this$resolveArgument4 = _this.resolveArguments(maybeNode), node = _this$resolveArgument4[0];
+      _this.removeClasses(node, "appear");
+      _this.removeClasses(node, "enter");
+      _this.addClass(node, "exit", "base");
+      if (_this.props.onExit) {
+        _this.props.onExit(maybeNode);
+      }
+    };
+    _this.onExiting = function(maybeNode) {
+      var _this$resolveArgument5 = _this.resolveArguments(maybeNode), node = _this$resolveArgument5[0];
+      _this.addClass(node, "exit", "active");
+      if (_this.props.onExiting) {
+        _this.props.onExiting(maybeNode);
+      }
+    };
+    _this.onExited = function(maybeNode) {
+      var _this$resolveArgument6 = _this.resolveArguments(maybeNode), node = _this$resolveArgument6[0];
+      _this.removeClasses(node, "exit");
+      _this.addClass(node, "exit", "done");
+      if (_this.props.onExited) {
+        _this.props.onExited(maybeNode);
+      }
+    };
+    _this.resolveArguments = function(maybeNode, maybeAppearing) {
+      return _this.props.nodeRef ? [_this.props.nodeRef.current, maybeNode] : [maybeNode, maybeAppearing];
+    };
+    _this.getClassNames = function(type) {
+      var classNames = _this.props.classNames;
+      var isStringClassNames = typeof classNames === "string";
+      var prefix = isStringClassNames && classNames ? classNames + "-" : "";
+      var baseClassName = isStringClassNames ? "" + prefix + type : classNames[type];
+      var activeClassName = isStringClassNames ? baseClassName + "-active" : classNames[type + "Active"];
+      var doneClassName = isStringClassNames ? baseClassName + "-done" : classNames[type + "Done"];
+      return {
+        baseClassName,
+        activeClassName,
+        doneClassName
+      };
+    };
+    return _this;
+  }
+  var _proto = CSSTransition2.prototype;
+  _proto.addClass = function addClass2(node, type, phase) {
+    var className = this.getClassNames(type)[phase + "ClassName"];
+    var _this$getClassNames = this.getClassNames("enter"), doneClassName = _this$getClassNames.doneClassName;
+    if (type === "appear" && phase === "done" && doneClassName) {
+      className += " " + doneClassName;
+    }
+    if (phase === "active") {
+      if (node) forceReflow(node);
+    }
+    if (className) {
+      this.appliedClasses[type][phase] = className;
+      _addClass(node, className);
+    }
+  };
+  _proto.removeClasses = function removeClasses(node, type) {
+    var _this$appliedClasses$ = this.appliedClasses[type], baseClassName = _this$appliedClasses$.base, activeClassName = _this$appliedClasses$.active, doneClassName = _this$appliedClasses$.done;
+    this.appliedClasses[type] = {};
+    if (baseClassName) {
+      removeClass(node, baseClassName);
+    }
+    if (activeClassName) {
+      removeClass(node, activeClassName);
+    }
+    if (doneClassName) {
+      removeClass(node, doneClassName);
+    }
+  };
+  _proto.render = function render() {
+    var _this$props = this.props;
+    _this$props.classNames;
+    var props = _objectWithoutPropertiesLoose(_this$props, ["classNames"]);
+    return /* @__PURE__ */ React$1.createElement(Transition, _extends$2({}, props, {
+      onEnter: this.onEnter,
+      onEntered: this.onEntered,
+      onEntering: this.onEntering,
+      onExit: this.onExit,
+      onExiting: this.onExiting,
+      onExited: this.onExited
+    }));
+  };
+  return CSSTransition2;
+}(React$1.Component);
+CSSTransition.defaultProps = {
+  classNames: ""
+};
+CSSTransition.propTypes = {};
+const fadeEnter = "_fadeEnter_1fjeq_1";
+const fadeEnterActive = "_fadeEnterActive_1fjeq_5";
+const fadeExit = "_fadeExit_1fjeq_10";
+const fadeExitActive = "_fadeExitActive_1fjeq_14";
+const s$5 = {
+  fadeEnter,
+  fadeEnterActive,
+  fadeExit,
+  fadeExitActive
+};
+const fadeClassNames = {
+  enter: s$5.fadeEnter,
+  enterActive: s$5.fadeEnterActive,
+  exit: s$5.fadeExit,
+  exitActive: s$5.fadeExitActive
+};
+const CSSTransitionWrapper = ({
+  children,
+  ...props
+}) => {
+  const nodeRef = reactExports.useRef(null);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(CSSTransition, { ...props, nodeRef, children: children(nodeRef) });
+};
+function parseLinksAsTags(text) {
+  if (!text) return "";
+  let parsed = text;
+  const regex = /(.?.?https|.?.?http)(:\/\/)([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/gm;
+  const matchIterable = text.matchAll(regex);
+  let offset2 = 0;
+  [...matchIterable].forEach((matchEntity) => {
+    const [match, protocol, , domain, path2] = matchEntity;
+    const matchIndex = matchEntity.index ?? 0;
+    const matchLength = match.length;
+    if (match.startsWith("](") || match.indexOf("[http") > -1) return;
+    const linkStartIndex = match.indexOf("http");
+    const fullLink = match.substring(linkStartIndex);
+    const beforeLink = match.substring(0, linkStartIndex);
+    const noW3domain = domain.replace("www.", "");
+    const mdLinkWithPrefix = `${beforeLink}[${noW3domain}${path2 ?? ""}](${fullLink})`;
+    const finalText = spliceString(parsed)(
+      matchIndex + offset2,
+      matchLength,
+      mdLinkWithPrefix
+    );
+    offset2 += mdLinkWithPrefix.length - matchLength;
+    parsed = finalText;
+  });
+  return parsed;
+}
+function spliceString(string) {
+  return function(index2, count2, add) {
+    if (index2 < 0) {
+      index2 += string.length;
+      if (index2 < 0) index2 = 0;
+    }
+    return string.slice(0, index2) + (add || "") + string.slice(index2 + count2);
+  };
+}
+const currentLocationAtom = createAtom(
+  {
+    set: (location) => location
+  },
+  ({ onAction }, state = globalThis.location) => {
+    onAction("set", (location) => state = location);
+    return state;
+  },
+  "currentLocationAtom"
+);
+const closeOnLocationChangeAtom = createAtom(
+  {
+    currentLocationAtom
+  },
+  ({ onChange: onChange2, schedule, getUnlistedState }) => {
+    onChange2("currentLocationAtom", (curr, prev) => {
+      const tooltip = getUnlistedState(currentTooltipAtom);
+      if (curr.pathname !== (prev == null ? void 0 : prev.pathname) && (tooltip == null ? void 0 : tooltip.position)) {
+        schedule((dispatch) => {
+          dispatch(currentTooltipAtom.resetCurrentTooltip());
+        });
+      }
+    });
+  },
+  "closeOnLocationChangeAtom"
+);
+const markdown$1 = "_markdown_4vdv7_1";
+const s$4 = {
+  markdown: markdown$1
+};
+function PopupTooltip() {
+  const [tooltip, { resetCurrentTooltip }] = s$6(currentTooltipAtom);
+  s$6(closeOnLocationChangeAtom);
+  const closeHandler = reactExports.useCallback(
+    (e) => {
+      var _a;
+      resetCurrentTooltip();
+      (_a = tooltip == null ? void 0 : tooltip.onClose) == null ? void 0 : _a.call(tooltip, e, resetCurrentTooltip);
+    },
+    [resetCurrentTooltip, tooltip]
+  );
+  const outerClickHandler = reactExports.useCallback(
+    (e) => {
+      var _a;
+      (_a = tooltip == null ? void 0 : tooltip.onOuterClick) == null ? void 0 : _a.call(tooltip, e, resetCurrentTooltip);
+    },
+    [resetCurrentTooltip, tooltip]
+  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(CSSTransitionWrapper, { in: Boolean(tooltip), timeout: 300, classNames: fadeClassNames, children: (transitionRef) => /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: tooltip && /* @__PURE__ */ jsxRuntimeExports.jsx(
+    Tooltip$1,
+    {
+      transitionRef,
+      position: tooltip.position,
+      hoverBehavior: tooltip.hoverBehavior,
+      getPlacement: tooltip.position.predefinedPosition,
+      classes: tooltip.popupClasses,
+      onClose: closeHandler,
+      onOuterClick: outerClickHandler,
+      children: typeof tooltip.popup === "string" ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Markdown,
+        {
+          options: { overrides: { a: LinkRenderer } },
+          className: s$4.markdown,
+          children: parseLinksAsTags(tooltip.popup)
+        }
+      ) : tooltip.popup
+    }
+  ) }) });
+}
+const BIVARIATE_LEGEND_SIZE = 3;
+const CORNER_POINTS_INDEXES = [
+  0,
+  BIVARIATE_LEGEND_SIZE - 1,
+  BIVARIATE_LEGEND_SIZE * BIVARIATE_LEGEND_SIZE - BIVARIATE_LEGEND_SIZE,
+  BIVARIATE_LEGEND_SIZE * BIVARIATE_LEGEND_SIZE - 1
+];
+const LOW = `↓${TranslationService.t("bivariate.legend.low")}`;
+const HIGH = `↑${TranslationService.t("bivariate.legend.high")}`;
+TranslationService.t("bivariate.legend.medium");
+const isBottomSide = (index2) => {
+  const bottomRowStartIndex = BIVARIATE_LEGEND_SIZE * BIVARIATE_LEGEND_SIZE - BIVARIATE_LEGEND_SIZE;
+  return Array.from(
+    Array(BIVARIATE_LEGEND_SIZE),
+    (_2, i2) => bottomRowStartIndex + i2
+  ).includes(index2);
+};
+const isLeftSide = (index2) => Array.from(Array(BIVARIATE_LEGEND_SIZE), (_2, i2) => i2 * BIVARIATE_LEGEND_SIZE).includes(
+  index2
+);
+const PopupTooltipWrapper = reactExports.memo(
+  ({
+    children,
+    tooltipText,
+    renderTooltip,
+    tooltipId,
+    hoverBehavior = true,
+    popupClasses
+  }) => {
+    const setTooltip = f(currentTooltipAtom.setCurrentTooltip);
+    const resetTooltip = f(currentTooltipAtom.resetCurrentTooltip);
+    const renderTextTooltip = (e) => {
+      if (tooltipText) {
+        setTooltip({
+          popupClasses,
+          popup: tooltipText,
+          position: { x: e.clientX, y: e.clientY },
+          onOuterClick(e2, close) {
+            close();
+          },
+          initiatorId: tooltipId,
+          hoverBehavior
+        });
+      }
+    };
+    const showTooltip = (e, ...args) => {
+      if (!renderTooltip) {
+        renderTextTooltip(e);
+      } else {
+        renderTooltip(e, setTooltip, ...args);
+      }
+    };
+    const hideTooltip = () => {
+      resetTooltip();
+    };
+    return children({
+      showTooltip,
+      hideTooltip
+    });
+  }
+);
+PopupTooltipWrapper.displayName = "PopupTooltipWrapper";
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+const toCapitalizedList = (arr) => arr.map(capitalize).join(", ");
+const formatSentimentDirection = (input) => Array.isArray(input) ? toCapitalizedList(input) : capitalize(input);
+const tooltipRoot = "_tooltipRoot_zjmcz_1";
+const tooltipRow = "_tooltipRow_zjmcz_11";
+const sentimentDirection = "_sentimentDirection_zjmcz_17";
+const sentimentLabel = "_sentimentLabel_zjmcz_21";
+const sentimentInfo = "_sentimentInfo_zjmcz_25";
+const indicator$1 = "_indicator_zjmcz_29";
+const s$3 = {
+  tooltipRoot,
+  tooltipRow,
+  sentimentDirection,
+  sentimentLabel,
+  sentimentInfo,
+  indicator: indicator$1
+};
+const CornerTooltipWrapper = ({ children, hints }) => {
+  const renderTooltip = (e, setTooltip, _cell, i2) => {
+    if (hints && CORNER_POINTS_INDEXES.includes(i2)) {
+      setTooltip({
+        popup: /* @__PURE__ */ jsxRuntimeExports.jsx(BivariateLegendCornerTooltip, { cellIndex: i2, hints }),
+        position: { x: e.clientX, y: e.clientY },
+        hoverBehavior: true
+      });
+    }
+  };
+  return reactExports.isValidElement(children) ? /* @__PURE__ */ jsxRuntimeExports.jsx(PopupTooltipWrapper, { renderTooltip, children: ({ showTooltip, hideTooltip }) => reactExports.cloneElement(children, {
+    // @ts-expect-error - react version update should fix that
+    onCellPointerOver: showTooltip,
+    onCellPointerLeave: hideTooltip
+  }) }) : null;
+};
+const BivariateLegendCornerTooltip = ({
+  hints,
+  cellIndex
+}) => {
+  var _a, _b, _c, _d, _e2, _f;
+  if (!hints) return null;
+  const rows = [
+    {
+      label: (_a = hints.x) == null ? void 0 : _a.label,
+      direction: (_c = (_b = hints.x) == null ? void 0 : _b.direction) == null ? void 0 : _c[isBottomSide(cellIndex) ? 0 : 1],
+      indicator: isBottomSide(cellIndex) ? LOW : HIGH
+    },
+    {
+      label: (_d = hints.y) == null ? void 0 : _d.label,
+      direction: (_f = (_e2 = hints.y) == null ? void 0 : _e2.direction) == null ? void 0 : _f[isLeftSide(cellIndex) ? 0 : 1],
+      indicator: isLeftSide(cellIndex) ? LOW : HIGH
+    }
+  ];
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$3.tooltipRoot), children: rows.map(({ label, direction, indicator: indicator2 }, i2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$3.tooltipRow), children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$3.indicator), children: indicator2 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$3.sentimentInfo), children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$3.sentimentLabel), children: [
+        label,
+        " "
+      ] }),
+      direction && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$3.sentimentDirection), children: formatSentimentDirection(direction) })
+    ] })
+  ] }, i2)) });
+};
+const meta = {
+  hints: {
+    x: {
+      label: "Average NDVI, JUN 2019",
+      direction: [["bad"], ["good"]]
+    },
+    y: {
+      label: "Multi-hazard exposure PDC GRVA",
+      direction: [["unimportant"], ["bad", "important"]]
+    }
+  }
+};
+const axis = {
+  x: {
+    label: "Multi-hazard exposure PDC GRVA to 1",
+    steps: [
+      {
+        label: "",
+        value: 0
+      },
+      {
+        label: "",
+        value: 0.48
+      },
+      {
+        label: "",
+        value: 0.62
+      },
+      {
+        label: "",
+        value: 1
+      }
+    ],
+    quality: 0.997101882904748,
+    quotient: ["mhe_index", "one"]
+  },
+  y: {
+    label: "Average NDVI, JUN 2019 to 1",
+    steps: [
+      {
+        label: "",
+        value: -1
+      },
+      {
+        label: "",
+        value: 0.3625118070036407
+      },
+      {
+        label: "",
+        value: 0.6441754083082613
+      },
+      {
+        label: "",
+        value: 1
+      }
+    ],
+    quality: 0.9410965072118505,
+    quotient: ["avg_ndvi", "one"]
+  }
+};
+const cells = [
+  {
+    label: "C1",
+    color: "rgba(90,200,127,0.5)"
+  },
+  {
+    label: "C2",
+    color: "rgba(179,165,130,0.5)"
+  },
+  {
+    label: "C3",
+    color: "rgba(153,153,153,0.5)"
+  },
+  {
+    label: "B1",
+    color: "rgba(169,218,122,0.5)"
+  },
+  {
+    label: "B2",
+    color: "rgba(195,163,111,0.5)"
+  },
+  {
+    label: "B3",
+    color: "rgba(204,103,116,0.5)"
+  },
+  {
+    label: "A1",
+    color: "rgba(232,232,157,0.5)"
+  },
+  {
+    label: "A2",
+    color: "rgba(216,159,88,0.5)"
+  },
+  {
+    label: "A3",
+    color: "rgba(228,26,28,0.5)"
+  }
+];
+function BivariateLegendFixture() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(BrowserRouter, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(PopupTooltip, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(CornerTooltipWrapper, { meta, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Legend,
+      {
+        showAxisLabels: true,
+        size: BIVARIATE_LEGEND_SIZE,
+        axis,
+        cells
+      }
+    ) })
+  ] });
+}
+const fixture2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: BivariateLegendFixture
+}, Symbol.toStringTag, { value: "Module" }));
 const _configDataMock = {
   baseUrl: "/active/",
   initialUrl: "https://disaster.ninja/active/map?map=4.920/37.682/112.588&event=1c1eb9ce-2fb0-4660-ae2e-ee93d15f8874&layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry",
@@ -11151,1383 +12618,9 @@ ng: <http://www.youronlinechoices.com/>
     }
   )
 };
-const fixture1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: PagesDocument_fixture
-}, Symbol.toStringTag, { value: "Module" }));
-const linkWidthWrap = "_linkWidthWrap_qkwt3_1";
-const truncate = "_truncate_qkwt3_3";
-const tail = "_tail_qkwt3_4";
-const link = "_link_qkwt3_1";
-const s$7 = {
-  linkWidthWrap,
-  truncate,
-  tail,
-  link
-};
-const splitTail = (str, tailSize) => {
-  const tail2 = str.slice(tailSize * -1);
-  const body = str.slice(0, Math.max(0, str.length - tailSize));
-  return [body, tail2];
-};
-const LinkRenderer = reactExports.memo(function(props) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: props.href, target: "_blank", rel: "noreferrer", onClick: stopPropagation, children: props.children });
-});
-function ShortLinkRenderer({
-  children: linksArr,
-  maxWidth = 190,
-  truncateAmount = 12,
-  href
-}) {
-  const passedLink = (linksArr == null ? void 0 : linksArr[0]) ?? href;
-  const [leftPart, rightPart] = splitTail(passedLink, truncateAmount);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$7.linkWidthWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$7.linkOverflowWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "a",
-    {
-      className: s$7.link,
-      target: "_blank",
-      rel: "noreferrer",
-      "data-truncate": rightPart,
-      href,
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$7.truncate, style: { maxWidth: maxWidth || "unset" }, children: leftPart }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$7.tail, children: rightPart })
-      ]
-    }
-  ) }) });
-}
-function stopPropagation(e) {
-  e.stopPropagation();
-}
-LinkRenderer.displayName = "LinkRenderer";
-const LinkRenderer_fixture = /* @__PURE__ */ jsxRuntimeExports.jsxs("blockquote", { children: [
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  "LinkRenderer: ",
-  /* @__PURE__ */ jsxRuntimeExports.jsx(LinkRenderer, { href: "https://kontur.io", children: "kontur.io" }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  "ShortLinkRenderer short:",
-  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://kontur.io", children: ["kontur.io"] }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  "ShortLinkRenderer gdacs:",
-  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://www.gdacs.org/report.aspx?eventid=1102779&episodeid=6&eventtype=FL", children: ["gdacs.org/report.aspx?eventtype=EQ&eventid=1441158"] }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  "ShortLinkRenderer long:",
-  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://disaster.ninja/active/?layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry", children: [
-    "https://disaster.ninja/active/?layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry"
-  ] })
-] });
-const fixture2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: LinkRenderer_fixture
-}, Symbol.toStringTag, { value: "Module" }));
-/**
- * @remix-run/router v1.21.0
- *
- * Copyright (c) Remix Software Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.md file in the root directory of this source tree.
- *
- * @license MIT
- */
-function _extends$2() {
-  _extends$2 = Object.assign ? Object.assign.bind() : function(target) {
-    for (var i2 = 1; i2 < arguments.length; i2++) {
-      var source = arguments[i2];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-    return target;
-  };
-  return _extends$2.apply(this, arguments);
-}
-var Action;
-(function(Action2) {
-  Action2["Pop"] = "POP";
-  Action2["Push"] = "PUSH";
-  Action2["Replace"] = "REPLACE";
-})(Action || (Action = {}));
-const PopStateEventType = "popstate";
-function createBrowserHistory(options) {
-  if (options === void 0) {
-    options = {};
-  }
-  function createBrowserLocation(window2, globalHistory) {
-    let {
-      pathname,
-      search: search2,
-      hash
-    } = window2.location;
-    return createLocation(
-      "",
-      {
-        pathname,
-        search: search2,
-        hash
-      },
-      // state defaults to `null` because `window.history.state` does
-      globalHistory.state && globalHistory.state.usr || null,
-      globalHistory.state && globalHistory.state.key || "default"
-    );
-  }
-  function createBrowserHref(window2, to2) {
-    return typeof to2 === "string" ? to2 : createPath(to2);
-  }
-  return getUrlBasedHistory(createBrowserLocation, createBrowserHref, null, options);
-}
-function invariant(value, message) {
-  if (value === false || value === null || typeof value === "undefined") {
-    throw new Error(message);
-  }
-}
-function createKey() {
-  return Math.random().toString(36).substr(2, 8);
-}
-function getHistoryState(location, index2) {
-  return {
-    usr: location.state,
-    key: location.key,
-    idx: index2
-  };
-}
-function createLocation(current, to2, state, key) {
-  if (state === void 0) {
-    state = null;
-  }
-  let location = _extends$2({
-    pathname: typeof current === "string" ? current : current.pathname,
-    search: "",
-    hash: ""
-  }, typeof to2 === "string" ? parsePath(to2) : to2, {
-    state,
-    // TODO: This could be cleaned up.  push/replace should probably just take
-    // full Locations now and avoid the need to run through this flow at all
-    // But that's a pretty big refactor to the current test suite so going to
-    // keep as is for the time being and just let any incoming keys take precedence
-    key: to2 && to2.key || key || createKey()
-  });
-  return location;
-}
-function createPath(_ref) {
-  let {
-    pathname = "/",
-    search: search2 = "",
-    hash = ""
-  } = _ref;
-  if (search2 && search2 !== "?") pathname += search2.charAt(0) === "?" ? search2 : "?" + search2;
-  if (hash && hash !== "#") pathname += hash.charAt(0) === "#" ? hash : "#" + hash;
-  return pathname;
-}
-function parsePath(path2) {
-  let parsedPath = {};
-  if (path2) {
-    let hashIndex = path2.indexOf("#");
-    if (hashIndex >= 0) {
-      parsedPath.hash = path2.substr(hashIndex);
-      path2 = path2.substr(0, hashIndex);
-    }
-    let searchIndex = path2.indexOf("?");
-    if (searchIndex >= 0) {
-      parsedPath.search = path2.substr(searchIndex);
-      path2 = path2.substr(0, searchIndex);
-    }
-    if (path2) {
-      parsedPath.pathname = path2;
-    }
-  }
-  return parsedPath;
-}
-function getUrlBasedHistory(getLocation, createHref, validateLocation, options) {
-  if (options === void 0) {
-    options = {};
-  }
-  let {
-    window: window2 = document.defaultView,
-    v5Compat = false
-  } = options;
-  let globalHistory = window2.history;
-  let action2 = Action.Pop;
-  let listener = null;
-  let index2 = getIndex();
-  if (index2 == null) {
-    index2 = 0;
-    globalHistory.replaceState(_extends$2({}, globalHistory.state, {
-      idx: index2
-    }), "");
-  }
-  function getIndex() {
-    let state = globalHistory.state || {
-      idx: null
-    };
-    return state.idx;
-  }
-  function handlePop() {
-    action2 = Action.Pop;
-    let nextIndex = getIndex();
-    let delta = nextIndex == null ? null : nextIndex - index2;
-    index2 = nextIndex;
-    if (listener) {
-      listener({
-        action: action2,
-        location: history.location,
-        delta
-      });
-    }
-  }
-  function push(to2, state) {
-    action2 = Action.Push;
-    let location = createLocation(history.location, to2, state);
-    index2 = getIndex() + 1;
-    let historyState = getHistoryState(location, index2);
-    let url = history.createHref(location);
-    try {
-      globalHistory.pushState(historyState, "", url);
-    } catch (error2) {
-      if (error2 instanceof DOMException && error2.name === "DataCloneError") {
-        throw error2;
-      }
-      window2.location.assign(url);
-    }
-    if (v5Compat && listener) {
-      listener({
-        action: action2,
-        location: history.location,
-        delta: 1
-      });
-    }
-  }
-  function replace(to2, state) {
-    action2 = Action.Replace;
-    let location = createLocation(history.location, to2, state);
-    index2 = getIndex();
-    let historyState = getHistoryState(location, index2);
-    let url = history.createHref(location);
-    globalHistory.replaceState(historyState, "", url);
-    if (v5Compat && listener) {
-      listener({
-        action: action2,
-        location: history.location,
-        delta: 0
-      });
-    }
-  }
-  function createURL(to2) {
-    let base = window2.location.origin !== "null" ? window2.location.origin : window2.location.href;
-    let href = typeof to2 === "string" ? to2 : createPath(to2);
-    href = href.replace(/ $/, "%20");
-    invariant(base, "No window.location.(origin|href) available to create URL for href: " + href);
-    return new URL(href, base);
-  }
-  let history = {
-    get action() {
-      return action2;
-    },
-    get location() {
-      return getLocation(window2, globalHistory);
-    },
-    listen(fn) {
-      if (listener) {
-        throw new Error("A history only accepts one active listener");
-      }
-      window2.addEventListener(PopStateEventType, handlePop);
-      listener = fn;
-      return () => {
-        window2.removeEventListener(PopStateEventType, handlePop);
-        listener = null;
-      };
-    },
-    createHref(to2) {
-      return createHref(window2, to2);
-    },
-    createURL,
-    encodeLocation(to2) {
-      let url = createURL(to2);
-      return {
-        pathname: url.pathname,
-        search: url.search,
-        hash: url.hash
-      };
-    },
-    push,
-    replace,
-    go(n2) {
-      return globalHistory.go(n2);
-    }
-  };
-  return history;
-}
-var ResultType;
-(function(ResultType2) {
-  ResultType2["data"] = "data";
-  ResultType2["deferred"] = "deferred";
-  ResultType2["redirect"] = "redirect";
-  ResultType2["error"] = "error";
-})(ResultType || (ResultType = {}));
-function stripBasename(pathname, basename) {
-  if (basename === "/") return pathname;
-  if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
-    return null;
-  }
-  let startIndex = basename.endsWith("/") ? basename.length - 1 : basename.length;
-  let nextChar = pathname.charAt(startIndex);
-  if (nextChar && nextChar !== "/") {
-    return null;
-  }
-  return pathname.slice(startIndex) || "/";
-}
-const validMutationMethodsArr = ["post", "put", "patch", "delete"];
-new Set(validMutationMethodsArr);
-const validRequestMethodsArr = ["get", ...validMutationMethodsArr];
-new Set(validRequestMethodsArr);
-/**
- * React Router v6.28.0
- *
- * Copyright (c) Remix Software Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.md file in the root directory of this source tree.
- *
- * @license MIT
- */
-function _extends$1() {
-  _extends$1 = Object.assign ? Object.assign.bind() : function(target) {
-    for (var i2 = 1; i2 < arguments.length; i2++) {
-      var source = arguments[i2];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-    return target;
-  };
-  return _extends$1.apply(this, arguments);
-}
-const NavigationContext = /* @__PURE__ */ reactExports.createContext(null);
-const LocationContext = /* @__PURE__ */ reactExports.createContext(null);
-function useInRouterContext() {
-  return reactExports.useContext(LocationContext) != null;
-}
-const alreadyWarned = {};
-function warnOnce(key, message) {
-  if (!alreadyWarned[message]) {
-    alreadyWarned[message] = true;
-    console.warn(message);
-  }
-}
-const logDeprecation = (flag, msg, link2) => warnOnce(flag, "⚠️ React Router Future Flag Warning: " + msg + ". " + ("You can use the `" + flag + "` future flag to opt-in early. ") + ("For more information, see " + link2 + "."));
-function logV6DeprecationWarnings(renderFuture, routerFuture) {
-  if (!(renderFuture != null && renderFuture.v7_startTransition)) {
-    logDeprecation("v7_startTransition", "React Router will begin wrapping state updates in `React.startTransition` in v7", "https://reactrouter.com/v6/upgrading/future#v7_starttransition");
-  }
-  if (!(renderFuture != null && renderFuture.v7_relativeSplatPath) && !routerFuture) {
-    logDeprecation("v7_relativeSplatPath", "Relative route resolution within Splat routes is changing in v7", "https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath");
-  }
-}
-function Router(_ref5) {
-  let {
-    basename: basenameProp = "/",
-    children = null,
-    location: locationProp,
-    navigationType = Action.Pop,
-    navigator: navigator2,
-    static: staticProp = false,
-    future
-  } = _ref5;
-  !!useInRouterContext() ? invariant(false) : void 0;
-  let basename = basenameProp.replace(/^\/*/, "/");
-  let navigationContext = reactExports.useMemo(() => ({
-    basename,
-    navigator: navigator2,
-    static: staticProp,
-    future: _extends$1({
-      v7_relativeSplatPath: false
-    }, future)
-  }), [basename, future, navigator2, staticProp]);
-  if (typeof locationProp === "string") {
-    locationProp = parsePath(locationProp);
-  }
-  let {
-    pathname = "/",
-    search: search2 = "",
-    hash = "",
-    state = null,
-    key = "default"
-  } = locationProp;
-  let locationContext = reactExports.useMemo(() => {
-    let trailingPathname = stripBasename(pathname, basename);
-    if (trailingPathname == null) {
-      return null;
-    }
-    return {
-      location: {
-        pathname: trailingPathname,
-        search: search2,
-        hash,
-        state,
-        key
-      },
-      navigationType
-    };
-  }, [basename, pathname, search2, hash, state, key, navigationType]);
-  if (locationContext == null) {
-    return null;
-  }
-  return /* @__PURE__ */ reactExports.createElement(NavigationContext.Provider, {
-    value: navigationContext
-  }, /* @__PURE__ */ reactExports.createElement(LocationContext.Provider, {
-    children,
-    value: locationContext
-  }));
-}
-new Promise(() => {
-});
-/**
- * React Router DOM v6.28.0
- *
- * Copyright (c) Remix Software Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.md file in the root directory of this source tree.
- *
- * @license MIT
- */
-const REACT_ROUTER_VERSION = "6";
-try {
-  window.__reactRouterVersion = REACT_ROUTER_VERSION;
-} catch (e) {
-}
-const START_TRANSITION = "startTransition";
-const startTransitionImpl = React[START_TRANSITION];
-function BrowserRouter(_ref4) {
-  let {
-    basename,
-    children,
-    future,
-    window: window2
-  } = _ref4;
-  let historyRef = reactExports.useRef();
-  if (historyRef.current == null) {
-    historyRef.current = createBrowserHistory({
-      window: window2,
-      v5Compat: true
-    });
-  }
-  let history = historyRef.current;
-  let [state, setStateImpl] = reactExports.useState({
-    action: history.action,
-    location: history.location
-  });
-  let {
-    v7_startTransition
-  } = future || {};
-  let setState = reactExports.useCallback((newState) => {
-    v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl, v7_startTransition]);
-  reactExports.useLayoutEffect(() => history.listen(setState), [history, setState]);
-  reactExports.useEffect(() => logV6DeprecationWarnings(future), [future]);
-  return /* @__PURE__ */ reactExports.createElement(Router, {
-    basename,
-    children,
-    location: state.location,
-    navigationType: state.action,
-    navigator: history,
-    future
-  });
-}
-var DataRouterHook;
-(function(DataRouterHook2) {
-  DataRouterHook2["UseScrollRestoration"] = "useScrollRestoration";
-  DataRouterHook2["UseSubmit"] = "useSubmit";
-  DataRouterHook2["UseSubmitFetcher"] = "useSubmitFetcher";
-  DataRouterHook2["UseFetcher"] = "useFetcher";
-  DataRouterHook2["useViewTransitionState"] = "useViewTransitionState";
-})(DataRouterHook || (DataRouterHook = {}));
-var DataRouterStateHook;
-(function(DataRouterStateHook2) {
-  DataRouterStateHook2["UseFetcher"] = "useFetcher";
-  DataRouterStateHook2["UseFetchers"] = "useFetchers";
-  DataRouterStateHook2["UseScrollRestoration"] = "useScrollRestoration";
-})(DataRouterStateHook || (DataRouterStateHook = {}));
-var c = React$1.createContext(defaultStore), o = function(n2) {
-  return n2();
-};
-function a(n2, t2) {
-  return function() {
-    var r2 = t2.apply(void 0, [].slice.call(arguments));
-    r2 && o(function() {
-      n2.dispatch(r2);
-    });
-  };
-}
-function f(n2, t2) {
-  void 0 === t2 && (t2 = []);
-  var r2 = React$1.useContext(c);
-  return React$1.useCallback(a(r2, n2), t2.concat(r2));
-}
-function s$6(n2, o2, i2) {
-  var f2 = n2;
-  i2 = [];
-  var s2 = React$1.useContext(c);
-  i2 = i2.concat([n2, s2]);
-  var l2 = React$1.useState(function() {
-    return getState(n2, s2);
-  }), v2 = l2[0], m2 = l2[1], p2 = React$1.useRef(v2);
-  p2.current = v2 = getState(n2, s2);
-  var b2 = React$1.useMemo(function() {
-    return Object.entries(f2).reduce(function(n3, t2) {
-      var r2 = t2[0], u2 = t2[1];
-      return isActionCreator(u2) && (n3[r2] = a(s2, u2)), n3;
-    }, {});
-  }, i2);
-  return React$1.useEffect(function() {
-    return s2.subscribe(n2, function(n3) {
-      return Object.is(n3, p2.current) || m2(p2.current = n3);
-    });
-  }, i2), React$1.useDebugValue(v2), [v2, b2];
-}
-const currentTooltipAtom = createAtom(
-  {
-    setCurrentTooltip: (tooltipData) => tooltipData,
-    resetCurrentTooltip: () => null,
-    turnOffById: (id) => id
-  },
-  ({ onAction }, state = null) => {
-    onAction("setCurrentTooltip", (tooltipData) => state = tooltipData);
-    onAction("resetCurrentTooltip", () => state = null);
-    onAction("turnOffById", (id) => {
-      if ((state == null ? void 0 : state.initiatorId) === id) state = null;
-    });
-    return state;
-  },
-  "[Shared state] currentTooltipAtom"
-);
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function(target) {
-    for (var i2 = 1; i2 < arguments.length; i2++) {
-      var source = arguments[i2];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-    return target;
-  };
-  return _extends.apply(this, arguments);
-}
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i2;
-  for (i2 = 0; i2 < sourceKeys.length; i2++) {
-    key = sourceKeys[i2];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-  return target;
-}
-function _setPrototypeOf(o2, p2) {
-  _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf2(o3, p3) {
-    o3.__proto__ = p3;
-    return o3;
-  };
-  return _setPrototypeOf(o2, p2);
-}
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  _setPrototypeOf(subClass, superClass);
-}
-function hasClass(element, className) {
-  if (element.classList) return !!className && element.classList.contains(className);
-  return (" " + (element.className.baseVal || element.className) + " ").indexOf(" " + className + " ") !== -1;
-}
-function addClass(element, className) {
-  if (element.classList) element.classList.add(className);
-  else if (!hasClass(element, className)) if (typeof element.className === "string") element.className = element.className + " " + className;
-  else element.setAttribute("class", (element.className && element.className.baseVal || "") + " " + className);
-}
-function replaceClassName(origClass, classToRemove) {
-  return origClass.replace(new RegExp("(^|\\s)" + classToRemove + "(?:\\s|$)", "g"), "$1").replace(/\s+/g, " ").replace(/^\s*|\s*$/g, "");
-}
-function removeClass$1(element, className) {
-  if (element.classList) {
-    element.classList.remove(className);
-  } else if (typeof element.className === "string") {
-    element.className = replaceClassName(element.className, className);
-  } else {
-    element.setAttribute("class", replaceClassName(element.className && element.className.baseVal || "", className));
-  }
-}
-const config = {
-  disabled: false
-};
-const TransitionGroupContext = React$1.createContext(null);
-var forceReflow = function forceReflow2(node) {
-  return node.scrollTop;
-};
-var UNMOUNTED = "unmounted";
-var EXITED = "exited";
-var ENTERING = "entering";
-var ENTERED = "entered";
-var EXITING = "exiting";
-var Transition = /* @__PURE__ */ function(_React$Component) {
-  _inheritsLoose(Transition2, _React$Component);
-  function Transition2(props, context) {
-    var _this;
-    _this = _React$Component.call(this, props, context) || this;
-    var parentGroup = context;
-    var appear = parentGroup && !parentGroup.isMounting ? props.enter : props.appear;
-    var initialStatus;
-    _this.appearStatus = null;
-    if (props.in) {
-      if (appear) {
-        initialStatus = EXITED;
-        _this.appearStatus = ENTERING;
-      } else {
-        initialStatus = ENTERED;
-      }
-    } else {
-      if (props.unmountOnExit || props.mountOnEnter) {
-        initialStatus = UNMOUNTED;
-      } else {
-        initialStatus = EXITED;
-      }
-    }
-    _this.state = {
-      status: initialStatus
-    };
-    _this.nextCallback = null;
-    return _this;
-  }
-  Transition2.getDerivedStateFromProps = function getDerivedStateFromProps(_ref, prevState) {
-    var nextIn = _ref.in;
-    if (nextIn && prevState.status === UNMOUNTED) {
-      return {
-        status: EXITED
-      };
-    }
-    return null;
-  };
-  var _proto = Transition2.prototype;
-  _proto.componentDidMount = function componentDidMount() {
-    this.updateStatus(true, this.appearStatus);
-  };
-  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
-    var nextStatus = null;
-    if (prevProps !== this.props) {
-      var status = this.state.status;
-      if (this.props.in) {
-        if (status !== ENTERING && status !== ENTERED) {
-          nextStatus = ENTERING;
-        }
-      } else {
-        if (status === ENTERING || status === ENTERED) {
-          nextStatus = EXITING;
-        }
-      }
-    }
-    this.updateStatus(false, nextStatus);
-  };
-  _proto.componentWillUnmount = function componentWillUnmount() {
-    this.cancelNextCallback();
-  };
-  _proto.getTimeouts = function getTimeouts() {
-    var timeout2 = this.props.timeout;
-    var exit, enter, appear;
-    exit = enter = appear = timeout2;
-    if (timeout2 != null && typeof timeout2 !== "number") {
-      exit = timeout2.exit;
-      enter = timeout2.enter;
-      appear = timeout2.appear !== void 0 ? timeout2.appear : enter;
-    }
-    return {
-      exit,
-      enter,
-      appear
-    };
-  };
-  _proto.updateStatus = function updateStatus(mounting, nextStatus) {
-    if (mounting === void 0) {
-      mounting = false;
-    }
-    if (nextStatus !== null) {
-      this.cancelNextCallback();
-      if (nextStatus === ENTERING) {
-        if (this.props.unmountOnExit || this.props.mountOnEnter) {
-          var node = this.props.nodeRef ? this.props.nodeRef.current : ReactDOM.findDOMNode(this);
-          if (node) forceReflow(node);
-        }
-        this.performEnter(mounting);
-      } else {
-        this.performExit();
-      }
-    } else if (this.props.unmountOnExit && this.state.status === EXITED) {
-      this.setState({
-        status: UNMOUNTED
-      });
-    }
-  };
-  _proto.performEnter = function performEnter(mounting) {
-    var _this2 = this;
-    var enter = this.props.enter;
-    var appearing = this.context ? this.context.isMounting : mounting;
-    var _ref2 = this.props.nodeRef ? [appearing] : [ReactDOM.findDOMNode(this), appearing], maybeNode = _ref2[0], maybeAppearing = _ref2[1];
-    var timeouts = this.getTimeouts();
-    var enterTimeout = appearing ? timeouts.appear : timeouts.enter;
-    if (!mounting && !enter || config.disabled) {
-      this.safeSetState({
-        status: ENTERED
-      }, function() {
-        _this2.props.onEntered(maybeNode);
-      });
-      return;
-    }
-    this.props.onEnter(maybeNode, maybeAppearing);
-    this.safeSetState({
-      status: ENTERING
-    }, function() {
-      _this2.props.onEntering(maybeNode, maybeAppearing);
-      _this2.onTransitionEnd(enterTimeout, function() {
-        _this2.safeSetState({
-          status: ENTERED
-        }, function() {
-          _this2.props.onEntered(maybeNode, maybeAppearing);
-        });
-      });
-    });
-  };
-  _proto.performExit = function performExit() {
-    var _this3 = this;
-    var exit = this.props.exit;
-    var timeouts = this.getTimeouts();
-    var maybeNode = this.props.nodeRef ? void 0 : ReactDOM.findDOMNode(this);
-    if (!exit || config.disabled) {
-      this.safeSetState({
-        status: EXITED
-      }, function() {
-        _this3.props.onExited(maybeNode);
-      });
-      return;
-    }
-    this.props.onExit(maybeNode);
-    this.safeSetState({
-      status: EXITING
-    }, function() {
-      _this3.props.onExiting(maybeNode);
-      _this3.onTransitionEnd(timeouts.exit, function() {
-        _this3.safeSetState({
-          status: EXITED
-        }, function() {
-          _this3.props.onExited(maybeNode);
-        });
-      });
-    });
-  };
-  _proto.cancelNextCallback = function cancelNextCallback() {
-    if (this.nextCallback !== null) {
-      this.nextCallback.cancel();
-      this.nextCallback = null;
-    }
-  };
-  _proto.safeSetState = function safeSetState(nextState, callback) {
-    callback = this.setNextCallback(callback);
-    this.setState(nextState, callback);
-  };
-  _proto.setNextCallback = function setNextCallback(callback) {
-    var _this4 = this;
-    var active2 = true;
-    this.nextCallback = function(event2) {
-      if (active2) {
-        active2 = false;
-        _this4.nextCallback = null;
-        callback(event2);
-      }
-    };
-    this.nextCallback.cancel = function() {
-      active2 = false;
-    };
-    return this.nextCallback;
-  };
-  _proto.onTransitionEnd = function onTransitionEnd(timeout2, handler) {
-    this.setNextCallback(handler);
-    var node = this.props.nodeRef ? this.props.nodeRef.current : ReactDOM.findDOMNode(this);
-    var doesNotHaveTimeoutOrListener = timeout2 == null && !this.props.addEndListener;
-    if (!node || doesNotHaveTimeoutOrListener) {
-      setTimeout(this.nextCallback, 0);
-      return;
-    }
-    if (this.props.addEndListener) {
-      var _ref3 = this.props.nodeRef ? [this.nextCallback] : [node, this.nextCallback], maybeNode = _ref3[0], maybeNextCallback = _ref3[1];
-      this.props.addEndListener(maybeNode, maybeNextCallback);
-    }
-    if (timeout2 != null) {
-      setTimeout(this.nextCallback, timeout2);
-    }
-  };
-  _proto.render = function render() {
-    var status = this.state.status;
-    if (status === UNMOUNTED) {
-      return null;
-    }
-    var _this$props = this.props, children = _this$props.children;
-    _this$props.in;
-    _this$props.mountOnEnter;
-    _this$props.unmountOnExit;
-    _this$props.appear;
-    _this$props.enter;
-    _this$props.exit;
-    _this$props.timeout;
-    _this$props.addEndListener;
-    _this$props.onEnter;
-    _this$props.onEntering;
-    _this$props.onEntered;
-    _this$props.onExit;
-    _this$props.onExiting;
-    _this$props.onExited;
-    _this$props.nodeRef;
-    var childProps = _objectWithoutPropertiesLoose(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
-    return (
-      // allows for nested Transitions
-      /* @__PURE__ */ React$1.createElement(TransitionGroupContext.Provider, {
-        value: null
-      }, typeof children === "function" ? children(status, childProps) : React$1.cloneElement(React$1.Children.only(children), childProps))
-    );
-  };
-  return Transition2;
-}(React$1.Component);
-Transition.contextType = TransitionGroupContext;
-Transition.propTypes = {};
-function noop() {
-}
-Transition.defaultProps = {
-  in: false,
-  mountOnEnter: false,
-  unmountOnExit: false,
-  appear: false,
-  enter: true,
-  exit: true,
-  onEnter: noop,
-  onEntering: noop,
-  onEntered: noop,
-  onExit: noop,
-  onExiting: noop,
-  onExited: noop
-};
-Transition.UNMOUNTED = UNMOUNTED;
-Transition.EXITED = EXITED;
-Transition.ENTERING = ENTERING;
-Transition.ENTERED = ENTERED;
-Transition.EXITING = EXITING;
-var _addClass = function addClass$1(node, classes) {
-  return node && classes && classes.split(" ").forEach(function(c2) {
-    return addClass(node, c2);
-  });
-};
-var removeClass = function removeClass2(node, classes) {
-  return node && classes && classes.split(" ").forEach(function(c2) {
-    return removeClass$1(node, c2);
-  });
-};
-var CSSTransition = /* @__PURE__ */ function(_React$Component) {
-  _inheritsLoose(CSSTransition2, _React$Component);
-  function CSSTransition2() {
-    var _this;
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
-    _this.appliedClasses = {
-      appear: {},
-      enter: {},
-      exit: {}
-    };
-    _this.onEnter = function(maybeNode, maybeAppearing) {
-      var _this$resolveArgument = _this.resolveArguments(maybeNode, maybeAppearing), node = _this$resolveArgument[0], appearing = _this$resolveArgument[1];
-      _this.removeClasses(node, "exit");
-      _this.addClass(node, appearing ? "appear" : "enter", "base");
-      if (_this.props.onEnter) {
-        _this.props.onEnter(maybeNode, maybeAppearing);
-      }
-    };
-    _this.onEntering = function(maybeNode, maybeAppearing) {
-      var _this$resolveArgument2 = _this.resolveArguments(maybeNode, maybeAppearing), node = _this$resolveArgument2[0], appearing = _this$resolveArgument2[1];
-      var type = appearing ? "appear" : "enter";
-      _this.addClass(node, type, "active");
-      if (_this.props.onEntering) {
-        _this.props.onEntering(maybeNode, maybeAppearing);
-      }
-    };
-    _this.onEntered = function(maybeNode, maybeAppearing) {
-      var _this$resolveArgument3 = _this.resolveArguments(maybeNode, maybeAppearing), node = _this$resolveArgument3[0], appearing = _this$resolveArgument3[1];
-      var type = appearing ? "appear" : "enter";
-      _this.removeClasses(node, type);
-      _this.addClass(node, type, "done");
-      if (_this.props.onEntered) {
-        _this.props.onEntered(maybeNode, maybeAppearing);
-      }
-    };
-    _this.onExit = function(maybeNode) {
-      var _this$resolveArgument4 = _this.resolveArguments(maybeNode), node = _this$resolveArgument4[0];
-      _this.removeClasses(node, "appear");
-      _this.removeClasses(node, "enter");
-      _this.addClass(node, "exit", "base");
-      if (_this.props.onExit) {
-        _this.props.onExit(maybeNode);
-      }
-    };
-    _this.onExiting = function(maybeNode) {
-      var _this$resolveArgument5 = _this.resolveArguments(maybeNode), node = _this$resolveArgument5[0];
-      _this.addClass(node, "exit", "active");
-      if (_this.props.onExiting) {
-        _this.props.onExiting(maybeNode);
-      }
-    };
-    _this.onExited = function(maybeNode) {
-      var _this$resolveArgument6 = _this.resolveArguments(maybeNode), node = _this$resolveArgument6[0];
-      _this.removeClasses(node, "exit");
-      _this.addClass(node, "exit", "done");
-      if (_this.props.onExited) {
-        _this.props.onExited(maybeNode);
-      }
-    };
-    _this.resolveArguments = function(maybeNode, maybeAppearing) {
-      return _this.props.nodeRef ? [_this.props.nodeRef.current, maybeNode] : [maybeNode, maybeAppearing];
-    };
-    _this.getClassNames = function(type) {
-      var classNames = _this.props.classNames;
-      var isStringClassNames = typeof classNames === "string";
-      var prefix = isStringClassNames && classNames ? classNames + "-" : "";
-      var baseClassName = isStringClassNames ? "" + prefix + type : classNames[type];
-      var activeClassName = isStringClassNames ? baseClassName + "-active" : classNames[type + "Active"];
-      var doneClassName = isStringClassNames ? baseClassName + "-done" : classNames[type + "Done"];
-      return {
-        baseClassName,
-        activeClassName,
-        doneClassName
-      };
-    };
-    return _this;
-  }
-  var _proto = CSSTransition2.prototype;
-  _proto.addClass = function addClass2(node, type, phase) {
-    var className = this.getClassNames(type)[phase + "ClassName"];
-    var _this$getClassNames = this.getClassNames("enter"), doneClassName = _this$getClassNames.doneClassName;
-    if (type === "appear" && phase === "done" && doneClassName) {
-      className += " " + doneClassName;
-    }
-    if (phase === "active") {
-      if (node) forceReflow(node);
-    }
-    if (className) {
-      this.appliedClasses[type][phase] = className;
-      _addClass(node, className);
-    }
-  };
-  _proto.removeClasses = function removeClasses(node, type) {
-    var _this$appliedClasses$ = this.appliedClasses[type], baseClassName = _this$appliedClasses$.base, activeClassName = _this$appliedClasses$.active, doneClassName = _this$appliedClasses$.done;
-    this.appliedClasses[type] = {};
-    if (baseClassName) {
-      removeClass(node, baseClassName);
-    }
-    if (activeClassName) {
-      removeClass(node, activeClassName);
-    }
-    if (doneClassName) {
-      removeClass(node, doneClassName);
-    }
-  };
-  _proto.render = function render() {
-    var _this$props = this.props;
-    _this$props.classNames;
-    var props = _objectWithoutPropertiesLoose(_this$props, ["classNames"]);
-    return /* @__PURE__ */ React$1.createElement(Transition, _extends({}, props, {
-      onEnter: this.onEnter,
-      onEntered: this.onEntered,
-      onEntering: this.onEntering,
-      onExit: this.onExit,
-      onExiting: this.onExiting,
-      onExited: this.onExited
-    }));
-  };
-  return CSSTransition2;
-}(React$1.Component);
-CSSTransition.defaultProps = {
-  classNames: ""
-};
-CSSTransition.propTypes = {};
-const fadeEnter = "_fadeEnter_1fjeq_1";
-const fadeEnterActive = "_fadeEnterActive_1fjeq_5";
-const fadeExit = "_fadeExit_1fjeq_10";
-const fadeExitActive = "_fadeExitActive_1fjeq_14";
-const s$5 = {
-  fadeEnter,
-  fadeEnterActive,
-  fadeExit,
-  fadeExitActive
-};
-const fadeClassNames = {
-  enter: s$5.fadeEnter,
-  enterActive: s$5.fadeEnterActive,
-  exit: s$5.fadeExit,
-  exitActive: s$5.fadeExitActive
-};
-const CSSTransitionWrapper = ({
-  children,
-  ...props
-}) => {
-  const nodeRef = reactExports.useRef(null);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(CSSTransition, { ...props, nodeRef, children: children(nodeRef) });
-};
-function parseLinksAsTags(text) {
-  if (!text) return "";
-  let parsed = text;
-  const regex = /(.?.?https|.?.?http)(:\/\/)([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/gm;
-  const matchIterable = text.matchAll(regex);
-  let offset2 = 0;
-  [...matchIterable].forEach((matchEntity) => {
-    const [match, protocol, , domain, path2] = matchEntity;
-    const matchIndex = matchEntity.index ?? 0;
-    const matchLength = match.length;
-    if (match.startsWith("](") || match.indexOf("[http") > -1) return;
-    const linkStartIndex = match.indexOf("http");
-    const fullLink = match.substring(linkStartIndex);
-    const beforeLink = match.substring(0, linkStartIndex);
-    const noW3domain = domain.replace("www.", "");
-    const mdLinkWithPrefix = `${beforeLink}[${noW3domain}${path2 ?? ""}](${fullLink})`;
-    const finalText = spliceString(parsed)(
-      matchIndex + offset2,
-      matchLength,
-      mdLinkWithPrefix
-    );
-    offset2 += mdLinkWithPrefix.length - matchLength;
-    parsed = finalText;
-  });
-  return parsed;
-}
-function spliceString(string) {
-  return function(index2, count2, add) {
-    if (index2 < 0) {
-      index2 += string.length;
-      if (index2 < 0) index2 = 0;
-    }
-    return string.slice(0, index2) + (add || "") + string.slice(index2 + count2);
-  };
-}
-const currentLocationAtom = createAtom(
-  {
-    set: (location) => location
-  },
-  ({ onAction }, state = globalThis.location) => {
-    onAction("set", (location) => state = location);
-    return state;
-  },
-  "currentLocationAtom"
-);
-const closeOnLocationChangeAtom = createAtom(
-  {
-    currentLocationAtom
-  },
-  ({ onChange: onChange2, schedule, getUnlistedState }) => {
-    onChange2("currentLocationAtom", (curr, prev) => {
-      const tooltip = getUnlistedState(currentTooltipAtom);
-      if (curr.pathname !== (prev == null ? void 0 : prev.pathname) && (tooltip == null ? void 0 : tooltip.position)) {
-        schedule((dispatch) => {
-          dispatch(currentTooltipAtom.resetCurrentTooltip());
-        });
-      }
-    });
-  },
-  "closeOnLocationChangeAtom"
-);
-const markdown$1 = "_markdown_4vdv7_1";
-const s$4 = {
-  markdown: markdown$1
-};
-function PopupTooltip() {
-  const [tooltip, { resetCurrentTooltip }] = s$6(currentTooltipAtom);
-  s$6(closeOnLocationChangeAtom);
-  const closeHandler = reactExports.useCallback(
-    (e) => {
-      var _a;
-      resetCurrentTooltip();
-      (_a = tooltip == null ? void 0 : tooltip.onClose) == null ? void 0 : _a.call(tooltip, e, resetCurrentTooltip);
-    },
-    [resetCurrentTooltip, tooltip]
-  );
-  const outerClickHandler = reactExports.useCallback(
-    (e) => {
-      var _a;
-      (_a = tooltip == null ? void 0 : tooltip.onOuterClick) == null ? void 0 : _a.call(tooltip, e, resetCurrentTooltip);
-    },
-    [resetCurrentTooltip, tooltip]
-  );
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(CSSTransitionWrapper, { in: Boolean(tooltip), timeout: 300, classNames: fadeClassNames, children: (transitionRef) => /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: tooltip && /* @__PURE__ */ jsxRuntimeExports.jsx(
-    Tooltip$1,
-    {
-      transitionRef,
-      position: tooltip.position,
-      hoverBehavior: tooltip.hoverBehavior,
-      getPlacement: tooltip.position.predefinedPosition,
-      classes: tooltip.popupClasses,
-      onClose: closeHandler,
-      onOuterClick: outerClickHandler,
-      children: typeof tooltip.popup === "string" ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-        Markdown,
-        {
-          options: { overrides: { a: LinkRenderer } },
-          className: s$4.markdown,
-          children: parseLinksAsTags(tooltip.popup)
-        }
-      ) : tooltip.popup
-    }
-  ) }) });
-}
-const BIVARIATE_LEGEND_SIZE = 3;
-const CORNER_POINTS_INDEXES = [
-  0,
-  BIVARIATE_LEGEND_SIZE - 1,
-  BIVARIATE_LEGEND_SIZE * BIVARIATE_LEGEND_SIZE - BIVARIATE_LEGEND_SIZE,
-  BIVARIATE_LEGEND_SIZE * BIVARIATE_LEGEND_SIZE - 1
-];
-const LOW = `↓${TranslationService.t("bivariate.legend.low")}`;
-const HIGH = `↑${TranslationService.t("bivariate.legend.high")}`;
-TranslationService.t("bivariate.legend.medium");
-const isBottomSide = (index2) => {
-  const bottomRowStartIndex = BIVARIATE_LEGEND_SIZE * BIVARIATE_LEGEND_SIZE - BIVARIATE_LEGEND_SIZE;
-  return Array.from(
-    Array(BIVARIATE_LEGEND_SIZE),
-    (_2, i2) => bottomRowStartIndex + i2
-  ).includes(index2);
-};
-const isLeftSide = (index2) => Array.from(Array(BIVARIATE_LEGEND_SIZE), (_2, i2) => i2 * BIVARIATE_LEGEND_SIZE).includes(
-  index2
-);
-const PopupTooltipWrapper = reactExports.memo(
-  ({
-    children,
-    tooltipText,
-    renderTooltip,
-    tooltipId,
-    hoverBehavior = true,
-    popupClasses
-  }) => {
-    const setTooltip = f(currentTooltipAtom.setCurrentTooltip);
-    const resetTooltip = f(currentTooltipAtom.resetCurrentTooltip);
-    const renderTextTooltip = (e) => {
-      if (tooltipText) {
-        setTooltip({
-          popupClasses,
-          popup: tooltipText,
-          position: { x: e.clientX, y: e.clientY },
-          onOuterClick(e2, close) {
-            close();
-          },
-          initiatorId: tooltipId,
-          hoverBehavior
-        });
-      }
-    };
-    const showTooltip = (e, ...args) => {
-      if (!renderTooltip) {
-        renderTextTooltip(e);
-      } else {
-        renderTooltip(e, setTooltip, ...args);
-      }
-    };
-    const hideTooltip = () => {
-      resetTooltip();
-    };
-    return children({
-      showTooltip,
-      hideTooltip
-    });
-  }
-);
-PopupTooltipWrapper.displayName = "PopupTooltipWrapper";
-const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-const toCapitalizedList = (arr) => arr.map(capitalize).join(", ");
-const formatSentimentDirection = (input) => Array.isArray(input) ? toCapitalizedList(input) : capitalize(input);
-const tooltipRoot = "_tooltipRoot_zjmcz_1";
-const tooltipRow = "_tooltipRow_zjmcz_11";
-const sentimentDirection = "_sentimentDirection_zjmcz_17";
-const sentimentLabel = "_sentimentLabel_zjmcz_21";
-const sentimentInfo = "_sentimentInfo_zjmcz_25";
-const indicator$1 = "_indicator_zjmcz_29";
-const s$3 = {
-  tooltipRoot,
-  tooltipRow,
-  sentimentDirection,
-  sentimentLabel,
-  sentimentInfo,
-  indicator: indicator$1
-};
-const CornerTooltipWrapper = ({ children, hints }) => {
-  const renderTooltip = (e, setTooltip, _cell, i2) => {
-    if (hints && CORNER_POINTS_INDEXES.includes(i2)) {
-      setTooltip({
-        popup: /* @__PURE__ */ jsxRuntimeExports.jsx(BivariateLegendCornerTooltip, { cellIndex: i2, hints }),
-        position: { x: e.clientX, y: e.clientY },
-        hoverBehavior: true
-      });
-    }
-  };
-  return reactExports.isValidElement(children) ? /* @__PURE__ */ jsxRuntimeExports.jsx(PopupTooltipWrapper, { renderTooltip, children: ({ showTooltip, hideTooltip }) => reactExports.cloneElement(children, {
-    // @ts-expect-error - react version update should fix that
-    onCellPointerOver: showTooltip,
-    onCellPointerLeave: hideTooltip
-  }) }) : null;
-};
-const BivariateLegendCornerTooltip = ({
-  hints,
-  cellIndex
-}) => {
-  var _a, _b, _c, _d, _e2, _f;
-  if (!hints) return null;
-  const rows = [
-    {
-      label: (_a = hints.x) == null ? void 0 : _a.label,
-      direction: (_c = (_b = hints.x) == null ? void 0 : _b.direction) == null ? void 0 : _c[isBottomSide(cellIndex) ? 0 : 1],
-      indicator: isBottomSide(cellIndex) ? LOW : HIGH
-    },
-    {
-      label: (_d = hints.y) == null ? void 0 : _d.label,
-      direction: (_f = (_e2 = hints.y) == null ? void 0 : _e2.direction) == null ? void 0 : _f[isLeftSide(cellIndex) ? 0 : 1],
-      indicator: isLeftSide(cellIndex) ? LOW : HIGH
-    }
-  ];
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$3.tooltipRoot), children: rows.map(({ label, direction, indicator: indicator2 }, i2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$3.tooltipRow), children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$3.indicator), children: indicator2 }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$3.sentimentInfo), children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$3.sentimentLabel), children: [
-        label,
-        " "
-      ] }),
-      direction && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$3.sentimentDirection), children: formatSentimentDirection(direction) })
-    ] })
-  ] }, i2)) });
-};
-const meta = {
-  hints: {
-    x: {
-      label: "Average NDVI, JUN 2019",
-      direction: [["bad"], ["good"]]
-    },
-    y: {
-      label: "Multi-hazard exposure PDC GRVA",
-      direction: [["unimportant"], ["bad", "important"]]
-    }
-  }
-};
-const axis = {
-  x: {
-    label: "Multi-hazard exposure PDC GRVA to 1",
-    steps: [
-      {
-        label: "",
-        value: 0
-      },
-      {
-        label: "",
-        value: 0.48
-      },
-      {
-        label: "",
-        value: 0.62
-      },
-      {
-        label: "",
-        value: 1
-      }
-    ],
-    quality: 0.997101882904748,
-    quotient: ["mhe_index", "one"]
-  },
-  y: {
-    label: "Average NDVI, JUN 2019 to 1",
-    steps: [
-      {
-        label: "",
-        value: -1
-      },
-      {
-        label: "",
-        value: 0.3625118070036407
-      },
-      {
-        label: "",
-        value: 0.6441754083082613
-      },
-      {
-        label: "",
-        value: 1
-      }
-    ],
-    quality: 0.9410965072118505,
-    quotient: ["avg_ndvi", "one"]
-  }
-};
-const cells = [
-  {
-    label: "C1",
-    color: "rgba(90,200,127,0.5)"
-  },
-  {
-    label: "C2",
-    color: "rgba(179,165,130,0.5)"
-  },
-  {
-    label: "C3",
-    color: "rgba(153,153,153,0.5)"
-  },
-  {
-    label: "B1",
-    color: "rgba(169,218,122,0.5)"
-  },
-  {
-    label: "B2",
-    color: "rgba(195,163,111,0.5)"
-  },
-  {
-    label: "B3",
-    color: "rgba(204,103,116,0.5)"
-  },
-  {
-    label: "A1",
-    color: "rgba(232,232,157,0.5)"
-  },
-  {
-    label: "A2",
-    color: "rgba(216,159,88,0.5)"
-  },
-  {
-    label: "A3",
-    color: "rgba(228,26,28,0.5)"
-  }
-];
-function BivariateLegendFixture() {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(BrowserRouter, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(PopupTooltip, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(CornerTooltipWrapper, { meta, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Legend,
-      {
-        showAxisLabels: true,
-        size: BIVARIATE_LEGEND_SIZE,
-        axis,
-        cells
-      }
-    ) })
-  ] });
-}
 const fixture3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: BivariateLegendFixture
+  default: PagesDocument_fixture
 }, Symbol.toStringTag, { value: "Module" }));
 const indicator = "_indicator_16fpk_1";
 const indicatorCell = "_indicatorCell_16fpk_9";
@@ -12763,9 +12856,9 @@ const rendererConfig = {
 };
 const fixtures = {
   "src/features/subscriptions/Plans.fixture.tsx": { module: fixture0 },
-  "src/core/pages/PagesDocument.fixture.tsx": { module: fixture1 },
-  "src/components/LinkRenderer/LinkRenderer.fixture.tsx": { module: fixture2 },
-  "src/components/BivariateLegend/BivariateLegend.fixture.tsx": { module: fixture3 },
+  "src/components/LinkRenderer/LinkRenderer.fixture.tsx": { module: fixture1 },
+  "src/components/BivariateLegend/BivariateLegend.fixture.tsx": { module: fixture2 },
+  "src/core/pages/PagesDocument.fixture.tsx": { module: fixture3 },
   "src/features/events_list/components/EventCard/EventCard.fixture.tsx": { module: fixture4 }
 };
 const decorators = {};

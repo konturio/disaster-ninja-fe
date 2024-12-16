@@ -437,6 +437,7 @@ a {
 
 ._large_1231j_108 {
   text-align: center;
+  min-width: -webkit-min-content;
   min-width: min-content;
 
   white-space: normal;
@@ -646,10 +647,12 @@ a {
   top: var(--tooltip-y-position);
   left: var(--tooltip-x-position);
   position: var(--tooltip-placement);
+  width: -webkit-max-content;
   width: max-content;
 }
 
 ._closeIcon_g6vht_88 {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   cursor: pointer;
@@ -898,7 +901,8 @@ a {
 .app-pages-element-markdown {
   /* List styles */
   & :where(ul, ol) {
-    padding-inline-start: 2em;
+    -webkit-padding-start: 2em;
+            padding-inline-start: 2em;
     margin-block: 1em;
   }
 
@@ -923,15 +927,18 @@ a {
     margin-block: 1.5em;
     margin-inline: 0;
     padding: 1em 1.5em;
-    border-inline-start: 4px solid var(--accent-strong);
+    -webkit-border-start: 4px solid var(--accent-strong);
+            border-inline-start: 4px solid var(--accent-strong);
     background-color: var(--base-weak-up);
 
     & p:first-child {
-      margin-block-start: 0;
+      -webkit-margin-before: 0;
+              margin-block-start: 0;
     }
 
     & p:last-child {
-      margin-block-end: 0;
+      -webkit-margin-after: 0;
+              margin-block-end: 0;
     }
   }
 
@@ -947,6 +954,7 @@ a {
 
     /* Make table behave like block but maintain table properties */
     & thead {
+      position: -webkit-sticky;
       position: sticky;
       top: 0;
       background-color: var(--base-weak);
@@ -1007,7 +1015,8 @@ a {
   & p {
     font-size: 1em; /* same as base/h4 */
     line-height: 1.5;
-    margin-block-end: 1em;
+    -webkit-margin-after: 1em;
+            margin-block-end: 1em;
   }
 
   & small {
@@ -1017,8 +1026,10 @@ a {
 
   /* Consistent spacing for headings */
   & :where(h1, h2, h3, h4, h5, h6) {
-    margin-block-start: 1em;
-    margin-block-end: 1em;
+    -webkit-margin-before: 1em;
+            margin-block-start: 1em;
+    -webkit-margin-after: 1em;
+            margin-block-end: 1em;
     font-weight: 700;
   }
 
