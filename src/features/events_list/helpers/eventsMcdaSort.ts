@@ -63,33 +63,3 @@ export function sortEventsByMcda(
 ) {
   return sortByMCDAScore(events, config, extractor, sortOrder);
 }
-
-export const MCDA_SORT_MOCK_CONFIG: SortByMCDAScoreConfig = {
-  criteriaConfig: [
-    {
-      name: 'eventType',
-      weight: 2,
-    },
-    {
-      name: 'severity',
-      weight: 3,
-    },
-    // {
-    //   name: 'settledArea',
-    //   weight: 0,
-    // },
-    // {
-    //   name: 'affectedPopulationDensity',
-    //   weight: 0,
-    // },
-    {
-      name: 'updatedAt',
-      weight: 4,
-      // invertScore: true,
-    },
-    {
-      name: 'startedAt',
-      weight: 1,
-    },
-  ],
-};

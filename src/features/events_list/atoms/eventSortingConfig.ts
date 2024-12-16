@@ -1,19 +1,8 @@
 import { action, atom } from '@reatom/framework';
 import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
-import { MCDA_SORT_MOCK_CONFIG } from '../helpers/eventsMcdaSort';
 import type { EventsListFeatureConfig } from '~core/config/types';
 import type { SortByMCDAScoreConfig } from '~utils/mcda_sort/sortByMCDAScore';
-
-const DEFAULT_SORT_CONFIG_MCDA: EventSortConfig = {
-  order: 'desc',
-  config: { type: 'mcda', mcdaConfig: MCDA_SORT_MOCK_CONFIG },
-};
-
-const DEFAULT_SORT_SINGLE_PROPERTY: EventSortConfig = {
-  order: 'desc',
-  config: { type: 'singleProperty', propertyName: 'updatedAt' },
-};
 
 const DEFAULT_SORT_CONFIG: EventSortConfig = {};
 
