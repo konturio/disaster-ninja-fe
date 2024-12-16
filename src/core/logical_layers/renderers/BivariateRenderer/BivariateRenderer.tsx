@@ -18,6 +18,7 @@ import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
+import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { styleConfigs } from '../stylesConfigs';
 import { generatePopupContent } from '../MCDARenderer/popup';
 import { setTileScheme } from '../setTileScheme';
@@ -140,12 +141,16 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     layer: LayerTileSource,
     legend: BivariateLegend | null,
   ) {
+    const maxZoom = getMaxNumeratorZoomLevel(
+      [legend?.axis.x.quotients ?? [], legend?.axis.y.quotients ?? []],
+      layer.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM,
+    );
     /* Create source */
     const mapSource: VectorSourceSpecification = {
       type: 'vector',
       tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
       minzoom: layer.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
-      maxzoom: layer.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM,
+      maxzoom: maxZoom,
     };
     // I expect that all servers provide url with same scheme
     setTileScheme(layer.source.urls[0], mapSource);

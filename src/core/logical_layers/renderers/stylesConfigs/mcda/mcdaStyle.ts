@@ -1,4 +1,5 @@
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
+import { getMaxMCDAZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { configRepo } from '~core/config';
 import {
   allCondition,
@@ -173,6 +174,8 @@ export function createMCDAStyle(config: MCDAConfig) {
 
   const mcdaResult = linearNormalization(config.layers);
 
+  const maxMCDAzoom = getMaxMCDAZoomLevel(config, FALLBACK_BIVARIATE_MAX_ZOOM);
+
   const layerStyle = {
     id: config.id,
     type: 'fill' as const,
@@ -195,7 +198,7 @@ export function createMCDAStyle(config: MCDAConfig) {
           configRepo.get().bivariateTilesIndicatorsClass
         }`,
       ],
-      maxzoom: FALLBACK_BIVARIATE_MAX_ZOOM,
+      maxzoom: maxMCDAzoom,
       minzoom: FALLBACK_BIVARIATE_MIN_ZOOM,
     },
     'source-layer': SOURCE_LAYER_MCDA,
