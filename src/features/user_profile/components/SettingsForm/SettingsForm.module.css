@@ -3,6 +3,12 @@
   flex-wrap: nowrap;
   overflow-y: auto;
   padding-top: 80px;
+
+  @media screen and (max-width: 960px) {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0;
+  }
 }
 
 .flexWrap {
@@ -38,7 +44,19 @@
 }
 
 .logoutWrapper {
-  margin: auto 0 26px;
+  margin: auto 0 var(--double-unit);
+
+  @media screen and (max-width: 960px) {
+    display: none;
+  }
+}
+
+.mobileLogoutWrapper {
+  display: none;
+  @media screen and (max-width: 960px) {
+    display: block;
+    margin-top: var(--double-unit);
+  }
 }
 
 .settingsSection {

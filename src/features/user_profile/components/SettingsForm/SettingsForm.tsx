@@ -242,6 +242,11 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                     />
                   </div>
                 </div>
+                <div className={s.mobileLogoutWrapper}>
+                  <Button onClick={logout} variant="invert">
+                    <Text type="short-m">{i18n.t('logout')}</Text>
+                  </Button>
+                </div>
               </SettingsSection>
             </Element>
           </div>
