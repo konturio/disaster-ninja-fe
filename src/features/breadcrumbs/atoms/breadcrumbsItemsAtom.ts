@@ -14,11 +14,7 @@ const debouncedItemsFetch = debounce(
         const coords: [number, number] = getCenterFromPosition(position);
         const response = await getBoundaries(coords, ctx.controller);
 
-        if (response) {
-          breadcrumbsItemsAtom(ctx, response.features);
-        } else {
-          breadcrumbsItemsAtom(ctx, null);
-        }
+        breadcrumbsItemsAtom(ctx, response?.features ?? null);
       } catch (error) {
         if (!isAbortError(error)) {
           console.error('Error when trying to retrieve boundaries:', error);

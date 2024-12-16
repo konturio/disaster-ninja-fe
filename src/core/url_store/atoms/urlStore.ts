@@ -66,14 +66,15 @@ export const urlStoreAtom = createAtom(
             v3ActionToV2(setCurrentMapBbox, initialState.bbox, 'setCurrentMapBbox'),
           );
         } else if (initialState.map) {
+          const [zoom, lat, lng] = initialState.map;
           actions.push(
             v3ActionToV2(
               setCurrentMapPosition,
               {
                 // adjustments performed in url decoder
-                zoom: Number(initialState.map[0]),
-                lat: Number(initialState.map[1]),
-                lng: Number(initialState.map[2]),
+                zoom,
+                lat,
+                lng,
               },
               'setCurrentMapPosition',
             ),

@@ -8,7 +8,9 @@ export type CenterZoomPosition = {
   lng: number;
   zoom: number;
 };
-export type Bbox = [number, number, number, number];
+export type Bbox =
+  | [number, number, number, number]
+  | [[number, number], [number, number]];
 export type BboxPosition = {
   bbox: Bbox;
 };
@@ -49,20 +51,17 @@ export const setCurrentMapPosition = action((ctx, position: CenterZoomPosition) 
   currentMapPositionAtom(ctx, position);
 }, 'setCurrentMapPosition');
 
-export const setCurrentMapBbox = action(
-  (ctx, bbox: Bbox | [[number, number], [number, number]]) => {
-    let position = { bbox: bbox.flat() } as MapPosition;
-    const map = currentMapAtom.getState();
-    if (map) {
-      const camera = getCameraForBbox(bbox, map);
-      if (camera.center && 'lng' in camera.center) {
-        const { zoom } = camera;
-        const { lat, lng } = camera.center;
-        position = { ...position, lat, lng, zoom: zoom ?? map.getZoom() };
-        jumpTo(map, position);
-      }
+export const setCurrentMapBbox = action((ctx, bbox: Bbox) => {
+  let position = { bbox: bbox.flat() } as MapPosition;
+  const map = currentMapAtom.getState();
+  if (map) {
+    const camera = getCameraForBbox(bbox, map);
+    if (camera.center && 'lng' in camera.center) {
+      const { zoom } = camera;
+      const { lat, lng } = camera.center;
+      position = { ...position, lat, lng, zoom: zoom ?? map.getZoom() };
+      jumpTo(map, position);
     }
-    currentMapPositionAtom(ctx, position);
-  },
-  'setCurrentMapBbox',
-);
+  }
+  currentMapPositionAtom(ctx, position);
+}, 'setCurrentMapBbox');
