@@ -1,60 +1,10 @@
-import { action, atom } from '@reatom/framework';
-import { configRepo } from '~core/config';
-import { AppFeature } from '~core/app/types';
+import { atom } from '@reatom/framework';
 import { sortEventsBySingleProperty } from '../helpers/singlePropertySort';
-import { MCDA_SORT_MOCK_CONFIG, sortEventsByMcda } from '../helpers/eventsMcdaSort';
+import { sortEventsByMcda } from '../helpers/eventsMcdaSort';
 import { eventListResourceAtom } from './eventListResource';
-import type { SortByMCDAScoreConfig } from '~utils/mcda_sort/sortByMCDAScore';
+import { eventSortingConfigAtom } from './eventSortingConfig';
 import type { EventsListFeatureConfig } from '~core/config/types';
 import type { Event } from '~core/types';
-
-const DEFAULT_SORT_CONFIG_MCDA: SortConfig = {
-  order: 'desc',
-  config: { type: 'mcda', mcdaConfig: MCDA_SORT_MOCK_CONFIG },
-};
-
-const DEFAULT_SORT_SINGLE_PROPERTY: SortConfig = {
-  order: 'desc',
-  config: { type: 'singleProperty', propertyName: 'updatedAt' },
-};
-
-const DEFAULT_SORT_CONFIG: SortConfig = {};
-
-export type SortConfig = {
-  order?: 'asc' | 'desc' | undefined;
-  config?: MCDASortConfig | SinglePropertySortConfig;
-};
-
-export type MCDASortConfig = {
-  type: 'mcda';
-  mcdaConfig?: SortByMCDAScoreConfig;
-};
-
-export type SinglePropertySortConfig = {
-  type: 'singleProperty';
-  propertyName?: string;
-};
-
-function getEventSortConfig(): SortConfig {
-  const eventsListFeature: EventsListFeatureConfig =
-    typeof configRepo.get().features[AppFeature.EVENTS_LIST] === 'object'
-      ? (configRepo.get().features[AppFeature.EVENTS_LIST] as EventsListFeatureConfig)
-      : {};
-
-  return eventsListFeature.initialSort
-    ? eventsListFeature.initialSort
-    : DEFAULT_SORT_CONFIG;
-}
-
-export const eventSortingConfigAtom = atom<EventsListFeatureConfig['initialSort']>(
-  getEventSortConfig(),
-  'eventSortingConfigAtom',
-);
-
-export const setEventSortingOrder = action((ctx, sortOrder: SortConfig['order']) => {
-  const prevState = ctx.get(eventSortingConfigAtom);
-  eventSortingConfigAtom(ctx, { ...(prevState ?? {}), order: sortOrder });
-});
 
 export type SortedEventListAtom = {
   data: Event[] | null;

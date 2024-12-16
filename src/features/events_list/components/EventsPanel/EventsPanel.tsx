@@ -16,10 +16,8 @@ import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
-import {
-  setEventSortingOrder,
-  sortedEventListAtom,
-} from '~features/events_list/atoms/sortedEventList';
+import { sortedEventListAtom } from '~features/events_list/atoms/sortedEventList';
+import { setEventSortingOrder } from '~features/events_list/atoms/eventSortingConfig';
 import { MIN_HEIGHT } from '../../constants';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { EventCard } from '../EventCard/EventCard';
