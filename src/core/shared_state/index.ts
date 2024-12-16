@@ -1,5 +1,4 @@
 export { currentEpisodeAtom } from './currentEpisode';
-export { currentMapPositionAtom } from './currentMapPosition';
 export { currentUserAtom } from './currentUser';
 export { layersCategoriesSettingsAtom } from './layersCategoriesSettings';
 export { layersGroupsSettingsAtom } from './layersGroupsSettings';

@@ -1,4 +1,4 @@
-import { currentMapAtom, currentMapPositionAtom } from '~core/shared_state';
+import { currentMapAtom } from '~core/shared_state';
 import { toolbar } from '~core/toolbar';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { configRepo } from '~core/config';
@@ -6,11 +6,14 @@ import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
 import { getCameraForGeometry } from '~utils/map/camera';
 import { store } from '~core/store/store';
+import { v3ActionToV2 } from '~utils/atoms/v3tov2';
+import { setCurrentMapPosition } from '~core/shared_state/currentMapPosition';
 import {
   GEOMETRY_UPLOADER_CONTROL_ID,
   GEOMETRY_UPLOADER_CONTROL_NAME,
 } from './constants';
 import { askGeoJSONFile } from './askGeoJSONFile';
+import type { CenterZoomPosition } from '~core/shared_state/currentMapPosition';
 import type { Action } from '@reatom/core-v2';
 
 const uploadClickListener = (e) => {
@@ -65,11 +68,15 @@ function onClickCb() {
     const { zoom, center } = geometryCamera;
     const maxZoom = configRepo.get().autofocusZoom;
     actions.push(
-      // @ts-expect-error CenterZoomBearing issues
-      currentMapPositionAtom.setCurrentMapPosition({
-        zoom: Math.min(zoom || maxZoom, maxZoom),
-        ...center,
-      }),
+      v3ActionToV2<CenterZoomPosition>(
+        setCurrentMapPosition,
+        // @ts-expect-error CenterZoomBearing issues
+        {
+          zoom: Math.min(zoom || maxZoom, maxZoom),
+          ...center,
+        },
+        'setCurrentMapPosition',
+      ),
     );
 
     store.dispatch(actions);

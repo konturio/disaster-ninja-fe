@@ -1,4 +1,4 @@
-import { currentMapPositionAtom } from '~core/shared_state';
+import { setCurrentMapBbox } from '~core/shared_state/currentMapPosition';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { createAtom } from '~utils/atoms';
 import { eventListResourceAtom } from './eventListResource';
@@ -9,7 +9,7 @@ export const currentEventBbox = createAtom(
     eventListResourceAtom,
     fitBounds: () => null,
   },
-  ({ get, onAction }) => {
+  ({ get, onAction, v3ctx }) => {
     const currentEvent = get('currentEventAtom');
 
     if (!currentEvent) return null;
@@ -32,7 +32,7 @@ export const currentEventBbox = createAtom(
     const bbox = eventData.bbox;
 
     onAction('fitBounds', () => {
-      currentMapPositionAtom.setCurrentMapBbox.dispatch(bbox);
+      setCurrentMapBbox(v3ctx, bbox);
     });
 
     return bbox;

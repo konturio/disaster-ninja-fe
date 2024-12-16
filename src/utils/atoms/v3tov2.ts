@@ -62,3 +62,11 @@ function actionV3ToV2(
   actionCreator.v3action = v3.action(type);
   return { name, actionCreator };
 }
+
+export function v3ActionToV2<Payload = any>(
+  v3action: v3.Action,
+  payload: Payload,
+  type: string,
+): Action {
+  return { v3action, payload, type };
+}
