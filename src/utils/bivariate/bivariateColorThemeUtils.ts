@@ -3,6 +3,7 @@ import { generateBivariateStyleForAxis } from '~utils/bivariate';
 import { configRepo } from '~core/config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
+import { FALLBACK_BIVARIATE_MAX_ZOOM } from '~core/logical_layers/renderers/BivariateRenderer/constants';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
@@ -127,7 +128,7 @@ export function generateColorThemeAndBivariateStyle(
 
   const maxZoom = getMaxNumeratorZoomLevel(
     [xAxis.quotients ?? [], yAxis.quotients ?? []],
-    stats.meta.max_zoom,
+    stats.meta.max_zoom || FALLBACK_BIVARIATE_MAX_ZOOM,
   );
 
   const bivariateStyle = generateBivariateStyle(
