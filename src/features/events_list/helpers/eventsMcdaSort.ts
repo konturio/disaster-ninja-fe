@@ -61,9 +61,9 @@ export function sortEventsByMcda(
   config: SortByMCDAScoreConfig,
   sortOrder: 'desc' | 'asc' = 'desc',
 ) {
-  if (!config.criteriaConfig.length) {
+  if (!config.mcdaCriteria?.length) {
     console.error(
-      'sortEventsByMcda: "criteriaConfig" array is empty. Returning the original array',
+      'sortEventsByMcda: "mcdaCriteria" array is empty. Returning the original array',
     );
     return events;
   }

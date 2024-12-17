@@ -1,10 +1,10 @@
 import { isNumber } from '~utils/common';
 
 export type SortByMCDAScoreConfig = {
-  criteriaConfig: CriterionConfig[];
+  mcdaCriteria: MCDASortCriterion[];
 };
 
-export type CriterionConfig = { name: string; weight: number; invertScore?: boolean };
+export type MCDASortCriterion = { name: string; weight: number; invertScore?: boolean };
 
 export type MCDASortCriteriaExtractor<T> = (item: T) => Map<string, number>;
 
@@ -18,8 +18,8 @@ export function sortByMCDAScore<T>(
 ): T[] {
   const minMax = findMinMax(items, sortConfig, extractor);
   const sortedItems = [...items].sort((a, b) => {
-    const scoreA = calculateTotalScore(a, sortConfig.criteriaConfig, extractor, minMax);
-    const scoreB = calculateTotalScore(b, sortConfig.criteriaConfig, extractor, minMax);
+    const scoreA = calculateTotalScore(a, sortConfig.mcdaCriteria, extractor, minMax);
+    const scoreB = calculateTotalScore(b, sortConfig.mcdaCriteria, extractor, minMax);
     return sortOrder === 'desc' ? scoreB - scoreA : scoreA - scoreB;
   });
   return sortedItems;
@@ -27,7 +27,7 @@ export function sortByMCDAScore<T>(
 
 function calculateTotalScore<T>(
   item: T,
-  criteriaConfigs: CriterionConfig[],
+  criteriaConfigs: MCDASortCriterion[],
   extractor: MCDASortCriteriaExtractor<T>,
   minMax: MinMax,
 ): number {
@@ -67,7 +67,7 @@ function findMinMax<T>(
   sortConfig: SortByMCDAScoreConfig,
   extractor: MCDASortCriteriaExtractor<T>,
 ): MinMax {
-  const criteriaNames = sortConfig.criteriaConfig.map((c) => c.name);
+  const criteriaNames = sortConfig.mcdaCriteria.map((c) => c.name);
   const minMax: MinMax = {};
   for (const names of criteriaNames) {
     minMax[names] = { min: undefined, max: undefined };
