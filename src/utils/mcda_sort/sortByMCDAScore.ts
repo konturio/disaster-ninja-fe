@@ -40,7 +40,7 @@ export function sortByMCDAScore<T>(
   const sortedItems = [...items].sort((a, b) => {
     const scoreA = calculateTotalScore(a, sortConfig.mcdaCriteria, extractor, minMax);
     const scoreB = calculateTotalScore(b, sortConfig.mcdaCriteria, extractor, minMax);
-    return sortOrder === 'desc' ? scoreB - scoreA : scoreA - scoreB;
+    return sortOrder === 'asc' ? scoreA - scoreB : scoreB - scoreA;
   });
   return sortedItems;
 }

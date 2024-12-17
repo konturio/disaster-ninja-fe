@@ -26,10 +26,13 @@ function getEventSortConfig(): EventSortConfig {
     typeof configRepo.get().features[AppFeature.EVENTS_LIST] === 'object'
       ? (configRepo.get().features[AppFeature.EVENTS_LIST] as EventsListFeatureConfig)
       : null;
-
-  return eventsListFeature?.initialSort
+  const initialSortConfig = eventsListFeature?.initialSort
     ? eventsListFeature.initialSort
     : DEFAULT_SORT_CONFIG;
+  if (initialSortConfig.order !== 'asc' && initialSortConfig.order !== 'desc') {
+    initialSortConfig.order = 'none';
+  }
+  return initialSortConfig;
 }
 
 export const eventSortingConfigAtom = atom<EventSortConfig>(

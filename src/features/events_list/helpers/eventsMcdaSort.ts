@@ -60,7 +60,7 @@ const extractor: MCDASortCriteriaExtractor<Event> = (event: Event) => {
 export function sortEventsByMcda(
   events: Event[],
   config: SortByMCDAScoreConfig,
-  sortOrder: 'desc' | 'asc' = 'desc',
+  sortOrder: 'desc' | 'asc',
 ) {
   if (!isValidSortByMCDAScoreConfig(config)) {
     console.warn('sortEventsByMcda: incorrect config. Returning the original array');

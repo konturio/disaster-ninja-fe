@@ -17,7 +17,7 @@ export function sortEventsBySingleProperty(
 const dateExtractor = (propertyName: string) => (event: Event) =>
   new Date(event?.[propertyName] ?? 0).getTime();
 
-export function sortEvents(
+function sortEvents(
   events: Event[],
   order: 'asc' | 'desc',
   valueExtractor: (event: Event) => number,
@@ -25,6 +25,6 @@ export function sortEvents(
   return [...events].sort((a, b) => {
     const valueA = valueExtractor(a);
     const valueB = valueExtractor(b);
-    return order === 'desc' ? valueB - valueA : valueA - valueB;
+    return order === 'asc' ? valueA - valueB : valueB - valueA;
   });
 }
