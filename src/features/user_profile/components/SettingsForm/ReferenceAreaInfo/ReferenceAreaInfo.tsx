@@ -46,11 +46,10 @@ export function ReferenceAreaInfo() {
           <Text type="long-m">
             {i18n.t('profile.reference_area.select_are_on_the_map')}
           </Text>
-          <div style={{ display: 'flex' }}>
+          <div>
             <a className={s.link} onClick={() => goTo('/map')}>
               {i18n.t('profile.reference_area.set_the_reference_area')}
             </a>
-            {/*<PopupTooltipTrigger tipText="test" />*/}
           </div>
         </>
       )}

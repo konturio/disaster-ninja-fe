@@ -1,5 +1,5 @@
 .infoContainer {
-  margin-top: 8px;
+  margin-top: var(--unit);
 }
 
 .link {
