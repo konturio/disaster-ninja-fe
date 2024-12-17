@@ -8,7 +8,9 @@ export function sortEventsBySingleProperty(
   if (propertyName === 'startedAt' || propertyName === 'updatedAt') {
     return sortEvents(events, order, dateExtractor(propertyName));
   }
-  console.error(`Cannot sort by "${propertyName}" property yet`);
+  console.error(
+    `Cannot sort by "${propertyName}" property. Returning the original array.`,
+  );
   return events;
 }
 

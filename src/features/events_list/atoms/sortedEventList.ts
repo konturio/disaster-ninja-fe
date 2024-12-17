@@ -3,7 +3,7 @@ import { sortEventsBySingleProperty } from '../helpers/singlePropertySort';
 import { sortEventsByMcda } from '../helpers/eventsMcdaSort';
 import { eventListResourceAtom } from './eventListResource';
 import { eventSortingConfigAtom } from './eventSortingConfig';
-import type { EventsListFeatureConfig } from '~core/config/types';
+import type { EventSortConfig } from './eventSortingConfig';
 import type { Event } from '~core/types';
 
 export type SortedEventListAtom = {
@@ -12,26 +12,14 @@ export type SortedEventListAtom = {
   error: string | null;
 };
 
-function sortEvents(
-  data: Event[],
-  eventsSortingConfig: EventsListFeatureConfig['initialSort'],
-): Event[] {
-  if (eventsSortingConfig?.order) {
-    if (eventsSortingConfig.config?.type === 'singleProperty') {
+function sortEvents(data: Event[], eventsSortingConfig: EventSortConfig): Event[] {
+  if (eventsSortingConfig.order !== 'none' && eventsSortingConfig.config) {
+    if (eventsSortingConfig.config.type === 'singleProperty') {
       const propertyName = eventsSortingConfig.config?.propertyName;
-      if (!propertyName) {
-        console.error(
-          'Could not find "propertyName" for single property sort',
-        );
-        return data;
-      }
+
       return sortEventsBySingleProperty(data, propertyName, eventsSortingConfig.order);
     }
-    if (eventsSortingConfig.config?.type === 'mcda') {
-      if (!eventsSortingConfig.config.mcdaConfig) {
-        console.error('Could not find "mcdaConfig" property for mcda sort');
-        return data;
-      }
+    if (eventsSortingConfig.config.type === 'mcda') {
       return sortEventsByMcda(
         data,
         eventsSortingConfig.config.mcdaConfig,
@@ -47,6 +35,7 @@ export const sortedEventListAtom = atom<SortedEventListAtom>((ctx) => {
   const eventsSortingConfig = ctx.spy(eventSortingConfigAtom);
 
   if (
+    eventsSortingConfig &&
     !eventListResource.loading &&
     !eventListResource.error &&
     eventListResource.data?.length
