@@ -29,11 +29,21 @@ const { ReferenceAreaInfo } = lazily(
 const { SelectFeeds } = lazily(() => import('./SelectFeeds'));
 
 const authInputClasses = { input: clsx(s.authInput) };
-const steps = ['Analysis objectives', 'Reference area', 'Your contacts', 'Settings'];
+const featureFlags = configRepo.get().features;
 
 const scrollableContainerId = 'profile-content-wrap';
 const mobileScrollableContainerId = 'profile-settings-column';
 const scrollableOffset = -81; // scrollable container padding-top + 1px
+
+const steps = [
+  { label: i18n.t('profile.analysis_objectives'), id: 'analysis-objectives' },
+  featureFlags?.[AppFeature.REFERENCE_AREA] && {
+    label: i18n.t('profile.reference_area.title'),
+    id: 'reference-area',
+  },
+  { label: i18n.t('profile.your_contacts'), id: 'your-contacts' },
+  { label: i18n.t('profile.appSettingsHeader'), id: 'settings' },
+].filter(Boolean);
 
 export function SettingsForm() {
   const [user, { getUserProfile, updateUserProfile }] = useAtom(currentProfileAtom);
@@ -55,7 +65,6 @@ export function SettingsForm() {
 
 function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
-  const featureFlags = configRepo.get().features;
   const [localSettings, setLocalSettings] = useState(userProfile);
 
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -127,12 +136,11 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
         </div>
         <div className={s.settingsColumn} id={mobileScrollableContainerId}>
           <div className={s.settingsSection}>
-            <Element name={`test-0`}>
+            <Element name="analysis-objectives" key="analysis-objectives">
               <SettingsSection
                 className={s.fancySection}
                 label={i18n.t('profile.improves_analysis')}
                 title={i18n.t('profile.analysis_objectives')}
-                id="test-0"
               >
                 <div className={s.descriptionBlock}>
                   For better personalization, please include details like
@@ -160,20 +168,19 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
               </SettingsSection>
             </Element>
             {featureFlags?.[AppFeature.REFERENCE_AREA] && (
-              <Element name={`test-1`}>
+              <Element name="reference-area" key="reference-area">
                 <SettingsSection
                   className={s.fancySection}
                   title={i18n.t('profile.reference_area.title')}
                   label={i18n.t('profile.improves_analysis')}
-                  id="test-1"
                 >
                   <ReferenceAreaInfo />
                 </SettingsSection>
               </Element>
             )}
 
-            <Element name={`test-2`}>
-              <SettingsSection title={i18n.t('profile.your_contacts')} id="test-2">
+            <Element name="your-contacts" key="your-contacts">
+              <SettingsSection title={i18n.t('profile.your_contacts')}>
                 <div className={s.fieldsWrapper}>
                   <Input
                     classes={authInputClasses}
@@ -192,8 +199,8 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
               </SettingsSection>
             </Element>
 
-            <Element name={`test-3`}>
-              <SettingsSection title={i18n.t('profile.appSettingsHeader')} id="test-3">
+            <Element name="settings" key="settings">
+              <SettingsSection title={i18n.t('profile.appSettingsHeader')}>
                 <div className={s.fieldsWrapper}>
                   <Select
                     alwaysShowPlaceholder

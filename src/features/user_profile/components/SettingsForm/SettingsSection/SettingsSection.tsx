@@ -29,9 +29,7 @@ export const SettingsSection = ({
           {label && (
             <div className={styles.labelWrapper}>
               <div className={styles.label}>
-                <Heading type="heading-06" className={styles.labelText}>
-                  {label}
-                </Heading>
+                <Heading type="heading-06">{label}</Heading>
               </div>
             </div>
           )}
