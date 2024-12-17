@@ -22,6 +22,8 @@ for (const project of projectsWithMCDA) {
       await pageManager.atMap.assertLocationInBreadcrumbs(
         desiredLocation.split(', ').reverse(),
       );
+      await pageManager.atToolBar.getButtonByText('Create MCDA').click();
+      await pageManager.atMCDAPopup.assertMCDAPopupIsOK();
     });
   });
 }
