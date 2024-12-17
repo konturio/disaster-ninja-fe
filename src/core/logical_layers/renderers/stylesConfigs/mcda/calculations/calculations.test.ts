@@ -91,6 +91,7 @@ const TEST_MCDA_LAYER: MCDALayer = {
         shortName: '°C',
         longName: 'degrees Celsius',
       },
+      direction: [['unimportant'], ['important']],
     },
     {
       name: 'indicator_denominator',
@@ -100,6 +101,7 @@ const TEST_MCDA_LAYER: MCDALayer = {
         shortName: null,
         longName: null,
       },
+      direction: [['unimportant'], ['important']],
     },
   ],
   range: [0, 100],

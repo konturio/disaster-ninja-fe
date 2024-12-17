@@ -1,4 +1,4 @@
-import { action, atom } from '@reatom/core';
+import { action, atom } from '@reatom/framework';
 import { currentMapAtom } from '~core/shared_state';
 import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';

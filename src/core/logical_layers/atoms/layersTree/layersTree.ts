@@ -1,4 +1,4 @@
-import { atom } from '@reatom/core';
+import { atom } from '@reatom/framework';
 import { layersCategoriesSettingsAtom } from '~core/shared_state/layersCategoriesSettings';
 import { layersGroupsSettingsAtom } from '~core/shared_state/layersGroupsSettings';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';

@@ -252,7 +252,7 @@ const getLocalhostProjects = (data: string, appName: string, environment: string
         if (env === 'prod') return { ...project, authUrl: prodAuthUrl };
         return project;
       })
-      .map((project: Project) => ({ ...project, env }));
+      .map((project: Project) => ({ ...project, env, hasCookieBanner: false }));
   }
 
   return projects

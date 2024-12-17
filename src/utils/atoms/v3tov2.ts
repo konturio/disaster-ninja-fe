@@ -1,4 +1,4 @@
-import * as v3 from '@reatom/core';
+import * as v3 from '@reatom/framework';
 import { createAtom } from '~utils/atoms';
 import { store as globalStore } from '~core/store/store';
 import type {
@@ -61,4 +61,12 @@ function actionV3ToV2(
   actionCreator.dispatch = (...a: any[]) => store.dispatch(actionCreator(...a));
   actionCreator.v3action = v3.action(type);
   return { name, actionCreator };
+}
+
+export function v3ActionToV2<Payload = any>(
+  v3action: v3.Action,
+  payload: Payload,
+  type: string,
+): Action {
+  return { v3action, payload, type };
 }

@@ -1,7 +1,11 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { configRepo } from '~core/config';
-import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
+import {
+  currentMapPositionAtom,
+  setCurrentMapBbox,
+  setCurrentMapPosition,
+} from '~core/shared_state/currentMapPosition';
 import {
   currentEventAtom,
   scheduledAutoSelect,
@@ -9,6 +13,7 @@ import {
 } from '~core/shared_state/currentEvent';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { v3ActionToV2 } from '~utils/atoms/v3tov2';
 import { URLStore } from '../URLStore';
 import { urlEncoder } from '../encoder';
 import type { UrlData } from '../types';
@@ -25,17 +30,13 @@ export const searchStringAtom = createStringAtom('', 'urlStore:searchStringAtom'
 export const urlStoreAtom = createAtom(
   {
     initFlag: initFlagAtom,
-    currentMapPositionAtom,
     currentEventAtom,
     enabledLayersAtom,
     currentEventFeedAtom,
     _setState: (state: UrlData | null) => state,
     init: (initialState: UrlData) => initialState,
   },
-  (
-    { get, schedule, onAction, onInit, create, getUnlistedState },
-    state: UrlData | null = null,
-  ) => {
+  ({ get, schedule, onAction, create, v3ctx }, state: UrlData | null = null) => {
     const isFeedSelectorEnabled =
       configRepo.get().features['events_list__feed_selector'] ||
       configRepo.get().features['feed_selector'];
@@ -61,15 +62,22 @@ export const urlStoreAtom = createAtom(
 
         // Apply map position
         if (initialState.bbox) {
-          actions.push(currentMapPositionAtom.setCurrentMapBbox(initialState.bbox));
-        } else if (initialState.map) {
           actions.push(
-            currentMapPositionAtom.setCurrentMapPosition({
-              // adjustments performed in url decoder
-              zoom: Number(initialState.map[0]),
-              lat: Number(initialState.map[1]),
-              lng: Number(initialState.map[2]),
-            }),
+            v3ActionToV2(setCurrentMapBbox, initialState.bbox, 'setCurrentMapBbox'),
+          );
+        } else if (initialState.map) {
+          const [zoom, lat, lng] = initialState.map;
+          actions.push(
+            v3ActionToV2(
+              setCurrentMapPosition,
+              {
+                // adjustments performed in url decoder
+                zoom,
+                lat,
+                lng,
+              },
+              'setCurrentMapPosition',
+            ),
           );
         }
 
@@ -99,7 +107,7 @@ export const urlStoreAtom = createAtom(
 
     /* After initialization finished - write new changes from state back to url */
     const newState = { ...state };
-    const currentMapPosition = get('currentMapPositionAtom');
+    const currentMapPosition = v3ctx.spy(currentMapPositionAtom);
     if (currentMapPosition && 'lng' in currentMapPosition) {
       // formatting performed in url encoder
       newState.map = [

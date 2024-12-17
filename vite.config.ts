@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { defineConfig, HtmlTagDescriptor, loadEnv, UserConfig } from 'vite';
+import { defineConfig, HtmlTagDescriptor, loadEnv, UserConfig, Rollup } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import react from '@vitejs/plugin-react-swc';
 import { createHtmlPlugin } from 'vite-plugin-html';
@@ -13,6 +13,7 @@ import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
 import { proxyConfig } from './vite.proxy';
 import buildSizeReport from 'bundle-size-diff/plugin';
 import mkcert from 'vite-plugin-mkcert';
+import path from 'path';
 
 const parseEnv = <T extends Record<string, string | boolean>>(
   env: Record<string, string>,
@@ -57,7 +58,6 @@ export default ({ mode }) => {
     // vite env data used in metrics, should be available in all environments
     viteBuildInfoPlugin(),
     createHtmlPlugin({ inject: { data: { ...env, mode }, tags: [...injectRRT] } }),
-    buildSizeReport({ filename: './size-report.json' }),
   ];
 
   if (process.env.CODECOV_TOKEN) {
@@ -69,6 +69,10 @@ export default ({ mode }) => {
         uploadToken: process.env.CODECOV_TOKEN,
       }),
     );
+  }
+
+  if (process.env.CI) {
+    plugins.push(buildSizeReport({ filename: './size-report.json' }));
   }
 
   if (mode === 'development') {
@@ -92,24 +96,25 @@ export default ({ mode }) => {
               gzipSize: true,
               brotliSize: true,
             }),
+          // entryCodeInjector(),
         ],
         // treeshake: 'smallest',
         // experimentalLogSideEffects: true,
         output: {
-          manualChunks(id: string, { getModuleInfo, getModuleIds }) {
-            // // react
-            // if (id.includes('node_modules/react/')) return 'react';
-            // if (id.includes('node_modules/react-dom/')) return 'react-dom';
+          /*manualChunks(id: string, { getModuleInfo, getModuleIds }) {
+            // react
+            if (id.includes('node_modules/react/')) return 'react';
+            if (id.includes('node_modules/react-dom/')) return 'react-dom';
 
             // // nebula
             // if (id.includes('node_modules/@loaders.gl')) return 'loaders-gl';
             // if (id.includes('node_modules/@luma.gl')) return 'luma-gl';
             // if (id.includes('node_modules/@deck.gl')) return 'deck-gl';
 
-            // // etc
-            // if (id.includes('node_modules/recharts')) return 'recharts';
-            // if (id.includes('node_modules/maplibre-gl')) return 'maplibre-gl';
-          },
+            // etc
+            if (id.includes('node_modules/recharts')) return 'recharts';
+            if (id.includes('node_modules/maplibre-gl')) return 'maplibre-gl';
+          }, /**/
           // experimentalMinChunkSize: 16000,
         },
       },
@@ -146,3 +151,25 @@ export default ({ mode }) => {
 
   return cfg;
 };
+
+function entryCodeInjector(options?) {
+  const pluginConfig = options instanceof Object ? options : {};
+  const srcPath = path.resolve('./src/');
+  return {
+    name: 'entry-code-injector',
+    enforce: 'post',
+    transform(code, module) {
+      // Only process modules from src directory
+      const modPath = path.resolve(module);
+      // console.error(srcPath, modPath);
+      if (modPath.startsWith(srcPath) && /\.(ts|tsx)$/.test(module)) {
+        const relPath = path.relative(srcPath, module);
+        console.log('Processing module:', relPath);
+        let processedCode =
+          code + `\n;console.info('ROLL_MODULE:${relPath.replace(/\\/g, '/')}');`;
+        return { code: processedCode, map: null };
+      }
+      return null;
+    },
+  } as Rollup.Plugin;
+}
