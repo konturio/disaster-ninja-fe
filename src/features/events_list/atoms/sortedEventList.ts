@@ -21,7 +21,7 @@ function sortEvents(
       const propertyName = eventsSortingConfig.config?.propertyName;
       if (!propertyName) {
         console.error(
-          'Could not find "singleProperty" property for singlePropertys sort',
+          'Could not find "propertyName" for single property sort',
         );
         return data;
       }
