@@ -9,7 +9,7 @@ export function sortEventsBySingleProperty(
     return sortEvents(events, order, dateExtractor(propertyName));
   }
   console.error(
-    `Cannot sort by "${propertyName}" property. Returning the original array.`,
+    `Cannot sort by [${propertyName}] property. Returning the original array.`,
   );
   return events;
 }

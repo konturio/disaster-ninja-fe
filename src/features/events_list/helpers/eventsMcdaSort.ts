@@ -2,6 +2,7 @@ import {
   sortByMCDAScore,
   type SortByMCDAScoreConfig,
   type MCDASortCriteriaExtractor,
+  isValidSortByMCDAScoreConfig,
 } from '~utils/mcda_sort/sortByMCDAScore';
 import { isNumber } from '~utils/common';
 import { EVENT_TYPES_SORTING_SCORES, SEVERITY_SORTING_SCORES } from '../constants';
@@ -61,10 +62,8 @@ export function sortEventsByMcda(
   config: SortByMCDAScoreConfig,
   sortOrder: 'desc' | 'asc' = 'desc',
 ) {
-  if (!config.mcdaCriteria?.length) {
-    console.error(
-      'sortEventsByMcda: "mcdaCriteria" array is empty. Returning the original array',
-    );
+  if (!isValidSortByMCDAScoreConfig(config)) {
+    console.warn('sortEventsByMcda: incorrect config. Returning the original array');
     return events;
   }
   return sortByMCDAScore(events, config, extractor, sortOrder);

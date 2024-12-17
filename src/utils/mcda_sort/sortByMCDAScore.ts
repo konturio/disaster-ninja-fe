@@ -10,6 +10,26 @@ export type MCDASortCriteriaExtractor<T> = (item: T) => Map<string, number>;
 
 type MinMax = Record<string, { min: number | undefined; max: number | undefined }>;
 
+export function isValidSortByMCDAScoreConfig(
+  configObject?: Partial<SortByMCDAScoreConfig>,
+): boolean {
+  if (!configObject) {
+    console.error('sortByMCDAScore: config must not be empty');
+    return false;
+  }
+  if (!Array.isArray(configObject.mcdaCriteria) || !configObject.mcdaCriteria?.length) {
+    console.error('sortByMCDAScore: "mcdaCriteria" array must not be empty');
+    return false;
+  }
+  configObject.mcdaCriteria.forEach((criterion, index) => {
+    if (!criterion.name || !isNumber(criterion.weight)) {
+      console.error(`sortByMCDAScore: incorrect criterion at index ${index}`);
+      return false;
+    }
+  });
+  return true;
+}
+
 export function sortByMCDAScore<T>(
   items: T[],
   sortConfig: SortByMCDAScoreConfig,
