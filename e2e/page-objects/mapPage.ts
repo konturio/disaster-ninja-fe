@@ -120,4 +120,38 @@ export class MapCanvas extends HelperBase {
       longitudeInteger: Math.trunc(longitude),
     };
   }
+
+  /**
+   * This method searches for location in map by text
+   * @param searchText text to search for
+   * @param desiredLocation location to choose from search results
+   * @param queryToSearchRegExp regexp to wait for response of api call
+   */
+
+  async searchForLocation(
+    searchText: string,
+    desiredLocation: string,
+    queryToSearchRegExp: RegExp,
+  ) {
+    await this.page.getByPlaceholder('Search or ask AI').fill(searchText);
+    await Promise.all([
+      this.page.getByLabel('search', { exact: true }).click(),
+      this.page.waitForResponse(queryToSearchRegExp),
+    ]);
+    await this.page.getByText(desiredLocation).click();
+  }
+
+  /**
+   * This method checks that breadcrumbs contain expected locations in order specified in array
+   * @param expectedLocations array of expected locations in breadcrumbs as strings
+   */
+
+  async assertLocationInBreadcrumbs(expectedLocations: string[]) {
+    const breadcrumbsPanel = this.page.getByLabel('breadcrumb', { exact: true });
+    for (let i = 0; i < expectedLocations.length; i++) {
+      await expect(breadcrumbsPanel.locator('span').nth(i)).toHaveText(
+        expectedLocations[i],
+      );
+    }
+  }
 }
