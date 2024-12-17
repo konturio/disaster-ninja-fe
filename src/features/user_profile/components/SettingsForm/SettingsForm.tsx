@@ -1,7 +1,7 @@
 import { Button, Input, Radio, Select, Text, Heading, Textarea } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { lazily } from 'react-lazily';
 import { Element, scrollSpy } from 'react-scroll';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
@@ -19,6 +19,7 @@ import {
 import { SettingsNavigation } from '~features/user_profile/components/SettingsForm/SettingsNavigation/SettingsNavigation';
 import { SettingsSection } from '~features/user_profile/components/SettingsForm/SettingsSection/SettingsSection';
 import stylesV1 from '~features/user_profile/components/SettingsForm/SettingsForm.module.css';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 
@@ -28,7 +29,11 @@ const { ReferenceAreaInfo } = lazily(
 const { SelectFeeds } = lazily(() => import('./SelectFeeds'));
 
 const authInputClasses = { input: clsx(s.authInput) };
-const steps = ['Analysis objectives', 'Reference area', 'contacts', 'Settings'];
+const steps = ['Analysis objectives', 'Reference area', 'Your contacts', 'Settings'];
+
+const scrollableContainerId = 'profile-content-wrap';
+const mobileScrollableContainerId = 'profile-settings-column';
+const scrollableOffset = -81; // scrollable container padding-top + 1px
 
 export function SettingsForm() {
   const [user, { getUserProfile, updateUserProfile }] = useAtom(currentProfileAtom);
@@ -51,19 +56,17 @@ export function SettingsForm() {
 function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const featureFlags = configRepo.get().features;
-
   const [localSettings, setLocalSettings] = useState(userProfile);
-  // Create a ref for the scrollable container
-  const scrollableContainerRef = useRef(null);
-  // Create a ref for each section to observe them
 
-  useEffect(() => {
-    scrollSpy.update();
-  }, []);
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   function logout() {
     authClientInstance.logout();
   }
+
+  useEffect(() => {
+    scrollSpy.update();
+  }, []);
 
   useEffect(() => {
     // compare objects instead
@@ -108,23 +111,27 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
 
   return (
     <>
-      <div className={s.contentWrap} id="scroll-container">
+      <div className={s.contentWrap} id={scrollableContainerId}>
         <div className={s.navSection}>
           <Heading type="heading-01">{i18n.t('profile.profileSettingsHeader')}</Heading>
-          <SettingsNavigation steps={steps} />
+          <SettingsNavigation
+            steps={steps}
+            containerId={isMobile ? mobileScrollableContainerId : scrollableContainerId}
+            offset={isMobile ? 0 : scrollableOffset}
+          />
           <div className={s.logoutWrapper}>
             <Button onClick={logout} variant="invert">
               <Text type="short-m">{i18n.t('logout')}</Text>
             </Button>
           </div>
         </div>
-        <div className={s.settingsColumn}>
-          <div className={s.settingsSection} ref={scrollableContainerRef}>
+        <div className={s.settingsColumn} id={mobileScrollableContainerId}>
+          <div className={s.settingsSection}>
             <Element name={`test-0`}>
               <SettingsSection
-                className={s.recommendedSection}
-                label="Improves analysis"
-                title="Analysis objectives"
+                className={s.fancySection}
+                label={i18n.t('profile.improves_analysis')}
+                title={i18n.t('profile.analysis_objectives')}
                 id="test-0"
               >
                 <div className={s.descriptionBlock}>
@@ -142,25 +149,22 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                 </div>
                 <Textarea
                   topPlaceholder="bio"
-                  placeholder="Example: GIS Analyst in urban planning, interested in climate resilience. My current challenge is optimizing flood risk maps."
+                  placeholder={i18n.t('profile.bio_textarea_placeholder')}
                   value={localSettings.bio}
                   onChange={onChange('bio')}
                   classes={{
                     placeholder: s.placeholder,
                   }}
-                  className={stylesV1.textArea}
-                  width="100%"
-                  minHeight="250px"
-                  maxHeight="400px"
+                  className={s.textArea}
                 />
               </SettingsSection>
             </Element>
             {featureFlags?.[AppFeature.REFERENCE_AREA] && (
               <Element name={`test-1`}>
                 <SettingsSection
-                  className={s.recommendedSection}
+                  className={s.fancySection}
                   title={i18n.t('profile.reference_area.title')}
-                  label="Improves analysis"
+                  label={i18n.t('profile.improves_analysis')}
                   id="test-1"
                 >
                   <ReferenceAreaInfo />

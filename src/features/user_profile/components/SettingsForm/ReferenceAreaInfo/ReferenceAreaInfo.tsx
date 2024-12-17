@@ -6,7 +6,6 @@ import { i18n } from '~core/localization';
 import { referenceAreaAtom, resetReferenceArea } from '~core/shared_state/referenceArea';
 import { goTo } from '~core/router/goTo';
 import { store } from '~core/store/store';
-import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
 import s from './ReferenceAreaInfo.module.css';
 
 export function ReferenceAreaInfo() {
@@ -51,7 +50,7 @@ export function ReferenceAreaInfo() {
             <a className={s.link} onClick={() => goTo('/map')}>
               {i18n.t('profile.reference_area.set_the_reference_area')}
             </a>
-            <PopupTooltipTrigger tipText="test" />
+            {/*<PopupTooltipTrigger tipText="test" />*/}
           </div>
         </>
       )}

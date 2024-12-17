@@ -11,7 +11,7 @@
   justify-content: space-between;
 }
 
-.label {
+.labelWrapper {
   border-radius: 18px;
   color: var(--accent-strong);
   background-color: #d8effc;
@@ -21,8 +21,14 @@
 
   &:before {
     content: '★';
-    margin-right: var(--half-unit);
     font-size: 19px;
+  }
+}
+
+.label {
+  margin-left: var(--half-unit);
+  @media screen and (max-width: 960px) {
+    display: none;
   }
 }
 

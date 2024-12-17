@@ -3,10 +3,10 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: var(--unit);
+  padding: var(--double-unit);
 }
 
 .loginWrap {
   margin: auto;
-  max-width: var(--section);
+  max-width: 280px;
 }

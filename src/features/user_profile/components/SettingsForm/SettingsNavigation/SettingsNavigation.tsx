@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-scroll';
 import s from './SettingsNavigation.module.css';
 
-export function SettingsNavigation({ steps }) {
+export function SettingsNavigation({ steps, containerId, offset }) {
   return (
     <nav className={s.navigation}>
       <ul>
@@ -13,12 +13,11 @@ export function SettingsNavigation({ steps }) {
               activeClass={s.active}
               spy={true}
               smooth={true}
-              containerId="scroll-container"
-              offset={-81} // container padding-top + 1px
+              containerId={containerId}
+              offset={offset}
             >
               {step}
             </Link>
-            {/*<a data-to-scrollspy-id={`test-${index}`}>{step} </a>*/}
           </li>
         ))}
       </ul>
