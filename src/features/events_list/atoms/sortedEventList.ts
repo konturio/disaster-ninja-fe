@@ -2,6 +2,7 @@ import { atom } from '@reatom/framework';
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
 import { isNumber } from '~utils/common';
+import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { sortEventsBySingleProperty } from '../helpers/singlePropertySort';
 import { sortEventsByMcda } from '../helpers/eventsMcdaSort';
 import {
@@ -82,6 +83,14 @@ export const sortedEventListAtom = atom<SortedEventListAtom>((ctx) => {
     if (eventsSortingConfig) {
       // sort
       data = sortEvents(data, eventsSortingConfig);
+    }
+
+    const currentEvent = currentEventAtom.getState();
+    if (currentEvent?.id) {
+      if (data.findIndex((d) => d.eventId === currentEvent?.id) === -1) {
+        // selected event is not in list, reset selection
+        currentEventAtom.setCurrentEventId.dispatch(null);
+      }
     }
 
     return {
