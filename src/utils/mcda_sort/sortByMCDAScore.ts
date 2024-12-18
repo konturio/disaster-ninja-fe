@@ -1,7 +1,7 @@
 import { isNumber } from '~utils/common';
 
 export type SortByMCDAScoreConfig = {
-  mcdaCriteria: MCDASortCriterion[];
+  criteria: MCDASortCriterion[];
 };
 
 export type MCDASortCriterion = { name: string; weight: number; invertScore?: boolean };
@@ -17,11 +17,11 @@ export function isValidSortByMCDAScoreConfig(
     console.error('sortByMCDAScore: config must not be empty');
     return false;
   }
-  if (!Array.isArray(configObject.mcdaCriteria) || !configObject.mcdaCriteria?.length) {
-    console.error('sortByMCDAScore: "mcdaCriteria" array must not be empty');
+  if (!Array.isArray(configObject.criteria) || !configObject.criteria?.length) {
+    console.error('sortByMCDAScore: "criteria" array must not be empty');
     return false;
   }
-  configObject.mcdaCriteria.forEach((criterion, index) => {
+  configObject.criteria.forEach((criterion, index) => {
     if (!criterion.name || !isNumber(criterion.weight)) {
       console.error(`sortByMCDAScore: incorrect criterion at index ${index}`);
       return false;
@@ -38,8 +38,8 @@ export function sortByMCDAScore<T>(
 ): T[] {
   const minMax = findMinMax(items, sortConfig, extractor);
   const sortedItems = [...items].sort((a, b) => {
-    const scoreA = calculateTotalScore(a, sortConfig.mcdaCriteria, extractor, minMax);
-    const scoreB = calculateTotalScore(b, sortConfig.mcdaCriteria, extractor, minMax);
+    const scoreA = calculateTotalScore(a, sortConfig.criteria, extractor, minMax);
+    const scoreB = calculateTotalScore(b, sortConfig.criteria, extractor, minMax);
     return sortOrder === 'asc' ? scoreA - scoreB : scoreB - scoreA;
   });
   return sortedItems;
@@ -87,7 +87,7 @@ function findMinMax<T>(
   sortConfig: SortByMCDAScoreConfig,
   extractor: MCDASortCriteriaExtractor<T>,
 ): MinMax {
-  const criteriaNames = sortConfig.mcdaCriteria.map((c) => c.name);
+  const criteriaNames = sortConfig.criteria.map((c) => c.name);
   const minMax: MinMax = {};
   for (const names of criteriaNames) {
     minMax[names] = { min: undefined, max: undefined };

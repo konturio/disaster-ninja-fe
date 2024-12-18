@@ -134,7 +134,7 @@ There are two types of sorting currently supported:
     config: {
       type: 'mcda',
       mcdaConfig: {
-        criteriaConfig: [
+        criteria: [
           {
             name: 'eventType',
             weight: 2,
@@ -169,7 +169,7 @@ It's possible to invert a score of a particular MCDA criterion using `invertScor
 ```typescript
 {
   ...
-  criteriaConfig: [
+  criteria: [
     {
       name: 'startedAt',
       weight: 1,
