@@ -27,7 +27,7 @@ function getEventSortConfig(): EventSortConfig {
       ? (configRepo.get().features[AppFeature.EVENTS_LIST] as EventsListFeatureConfig)
       : null;
   const initialSortConfig = eventsListFeature?.initialSort
-    ? eventsListFeature.initialSort
+    ? structuredClone(eventsListFeature.initialSort)
     : DEFAULT_SORT_CONFIG;
   if (initialSortConfig.order !== 'asc' && initialSortConfig.order !== 'desc') {
     initialSortConfig.order = 'none';
