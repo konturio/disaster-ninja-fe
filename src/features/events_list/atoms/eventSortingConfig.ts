@@ -1,7 +1,7 @@
 import { action, atom } from '@reatom/framework';
 import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
-import type { EventsListFeatureConfig } from '~core/config/types';
+import type { EventsListFeatureConfig } from '../types';
 import type { SortByMCDAScoreConfig } from '~utils/mcda_sort/sortByMCDAScore';
 
 const DEFAULT_SORT_CONFIG: EventSortConfig = { order: 'none', config: null };

@@ -100,7 +100,3 @@ export type AboutFeatureConfig = {
     assetUrl?: string;
   }[];
 };
-
-export type EventsListFeatureConfig = {
-  initialSort?: EventSortConfig;
-};
