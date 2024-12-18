@@ -19,6 +19,7 @@ export type MapStyle = {
 
 export type Marker = {
   coordinates: [number, number];
+  wrapperClass?: string;
   el: JSX.Element;
   id: string;
 };
