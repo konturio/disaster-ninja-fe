@@ -24,11 +24,6 @@
   padding: var(--half-unit) var(--unit);
   display: flex;
   align-items: center;
-
-  &:before {
-    content: '★';
-    font-size: 19px;
-  }
 }
 
 .label {

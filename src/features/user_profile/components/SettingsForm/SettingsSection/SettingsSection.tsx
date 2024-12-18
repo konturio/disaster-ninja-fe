@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { Heading } from '@konturio/ui-kit';
+import { FavAdded16 } from '@konturio/default-icons';
 import styles from './SettingSection.module.css';
 import type { ReactNode } from 'react';
 
@@ -27,6 +28,7 @@ export const SettingsSection = ({
           <h3 className={styles.title}>{title}</h3>
           {label && (
             <div className={styles.labelWrapper}>
+              <FavAdded16></FavAdded16>
               <div className={styles.label}>
                 <Heading type="heading-06">{label}</Heading>
               </div>
