@@ -104,12 +104,9 @@ function findMinMax<T>(
             minMax[criteria].min = itemCriterion;
           }
         } else {
-          if (!isNumber(minMax[criteria].min)) {
-            minMax[criteria].min = itemCriterion;
-          }
-          if (!isNumber(minMax[criteria].max)) {
-            minMax[criteria].max = itemCriterion;
-          }
+          // initialize min and max with the first valid value
+          minMax[criteria].min = itemCriterion;
+          minMax[criteria].max = itemCriterion;
         }
       }
     }
