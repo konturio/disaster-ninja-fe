@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-DkzWALl6.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-CSC_azWl.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -12813,6 +12813,7 @@ function EventCard({
 const event = {
   eventId: "085aa3fc-7f3a-42d3-9acc-db04215e20bf",
   eventName: "Earthquake",
+  eventType: "EARTHQUAKE",
   description: "On 8/9/2024 10:57:37 AM, an earthquake occurred in Japan potentially affecting 39.4 million in 100km. The earthquake had Magnitude 5M, Depth:24.876km.",
   location: "Japan",
   severity: "MODERATE",
