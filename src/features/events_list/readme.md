@@ -118,9 +118,9 @@ There are two types of sorting currently supported:
 
 ```typescript
 {
-  initialSort: {
-    order: 'desc',
-    config: { type: 'singleProperty', propertyName: 'updatedAt' },
+  "initialSort": {
+    "order": "desc",
+    "config": { "type": "singleProperty", "propertyName": "updatedAt" }
   }
 }
 ```
@@ -129,35 +129,35 @@ There are two types of sorting currently supported:
 
 ```typescript
 {
-  initialSort: {
-    order: 'desc',
-    config: {
-      type: 'mcda',
-      mcdaConfig: {
-        criteria: [
+  "initialSort": {
+    "order": "desc",
+    "config": {
+      "type": "mcda",
+      "mcdaConfig": {
+        "criteria": [
           {
-            name: 'eventType',
-            weight: 2,
+            "name": "eventType",
+            "weight": 2
           },
           {
-            name: 'severity',
-            weight: 3,
+            "name": "severity",
+            "weight": 3
           },
           {
-            name: 'updatedAt',
-            weight: 4,
+            "name": "updatedAt",
+            "weight": 4
           },
           {
-            name: 'startedAt',
-            weight: 1,
+            "name": "startedAt",
+            "weight": 1
           },
           {
-            name: 'affectedPopulation',
-            weight: 3,
+            "name": "affectedPopulation",
+            "weight": 3
           }
-        ],
+        ]
       }
-    },
+    }
   }
 }
 ```
@@ -169,12 +169,12 @@ It's possible to invert a score of a particular MCDA criterion using `invertScor
 ```typescript
 {
   ...
-  criteria: [
+  "criteria": [
     {
-      name: 'startedAt',
-      weight: 1,
-      invertScore: true,
-    },
-  ],
+      "name": "startedAt",
+      "weight": 1,
+      "invertScore": true
+    }
+  ]
 }
 ```
