@@ -269,9 +269,11 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                 <KonturSpinner />
               </div>
             ) : (
-              <Button onClick={onSave} disabled={status !== 'changed'}>
-                <Text type="short-m">{i18n.t('profile.saveButton')}</Text>
-              </Button>
+              <div className={s.saveColumn}>
+                <Button onClick={onSave} disabled={status !== 'changed'}>
+                  <Text type="short-m">{i18n.t('profile.saveButton')}</Text>
+                </Button>
+              </div>
             )}
           </div>
         </div>
