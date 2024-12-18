@@ -30,7 +30,12 @@ export async function getAppConfig(appId?: string): Promise<AppConfig> {
   );
   if (appCfg === null) throw Error('App configuration unavailable');
 
-  let features = createFeaturesConfig(appCfg.features) as AppConfig['features'];
+  const localFeatureConfigOverrides = await loadLocalFeatureConfigOverrides();
+
+  let features = createFeaturesConfig([
+    ...appCfg.features,
+    ...localFeatureConfigOverrides,
+  ]) as AppConfig['features'];
 
   if (import.meta.env.VITE_FEATURES_CONFIG) {
     try {
@@ -54,4 +59,18 @@ export async function getLayerSourceUrl(
 ) {
   const basemapInUrlDetails = await getLayersDetails([layerId], appId, language);
   return basemapInUrlDetails[0]?.source?.urls?.at(0);
+}
+
+// another fetures override, but this one allows us to set json configs
+async function loadLocalFeatureConfigOverrides(): Promise<FeatureDto[]> {
+  if (import.meta.env.DEV) {
+    try {
+      const response = await fetch(
+        `${import.meta.env?.BASE_URL}config/features.local.json`,
+      );
+      const featureConfigOverrides = await response.json();
+      return featureConfigOverrides;
+    } catch (e) {}
+  }
+  return [];
 }

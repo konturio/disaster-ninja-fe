@@ -39,6 +39,7 @@ template.config.js
 configs/config.local.json
 configs/proxy-config.local.js
 public/config/appconfig.json
+public/config/features.local.json
 cosmos/dist/
 cosmos-export/
 
