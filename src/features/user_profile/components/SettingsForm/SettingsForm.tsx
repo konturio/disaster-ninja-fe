@@ -34,6 +34,7 @@ const featureFlags = configRepo.get().features;
 const scrollableContainerId = 'profile-content-wrap';
 const mobileScrollableContainerId = 'profile-settings-column';
 const desktopScrollableOffset = -81; // scrollable container padding-top + 1px
+const mobileScrollableOffset = -3; // little offset to handle heights with fractional pixel values on mobile layout
 
 const navigationSteps = [
   { label: i18n.t('profile.analysis_objectives'), id: 'analysis-objectives' },
@@ -126,7 +127,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
           <SettingsNavigation
             steps={navigationSteps}
             containerId={isMobile ? mobileScrollableContainerId : scrollableContainerId}
-            offset={isMobile ? 0 : desktopScrollableOffset}
+            offset={isMobile ? mobileScrollableOffset : desktopScrollableOffset}
           />
           <div className={s.logoutWrapper}>
             <Button onClick={logout} variant="invert">
