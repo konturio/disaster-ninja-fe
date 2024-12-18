@@ -122,7 +122,6 @@
 .fancySection {
   background-color: var(--accent-weak);
   padding: var(--double-unit);
-  border: 1px solid #e0e7ef;
 }
 
 .smallTitle {

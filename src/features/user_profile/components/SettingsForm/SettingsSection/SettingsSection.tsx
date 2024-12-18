@@ -16,7 +16,6 @@ export type SettingsSectionProps = {
 export const SettingsSection = ({
   title,
   id,
-  description,
   children,
   className,
   label,
@@ -25,7 +24,7 @@ export const SettingsSection = ({
     <div className={styles.sectionWrapper}>
       <section id={id} className={clsx(className, styles.section)}>
         <div className={styles.header}>
-          <Heading type="heading-03">{title}</Heading>
+          <h3 className={styles.title}>{title}</h3>
           {label && (
             <div className={styles.labelWrapper}>
               <div className={styles.label}>
@@ -34,7 +33,6 @@ export const SettingsSection = ({
             </div>
           )}
         </div>
-        {description && <p className={styles.description}>{description}</p>}
         {children}
       </section>
     </div>

@@ -33,9 +33,9 @@ const featureFlags = configRepo.get().features;
 
 const scrollableContainerId = 'profile-content-wrap';
 const mobileScrollableContainerId = 'profile-settings-column';
-const scrollableOffset = -81; // scrollable container padding-top + 1px
+const desktopScrollableOffset = -81; // scrollable container padding-top + 1px
 
-const steps = [
+const navigationSteps = [
   { label: i18n.t('profile.analysis_objectives'), id: 'analysis-objectives' },
   featureFlags?.[AppFeature.REFERENCE_AREA] && {
     label: i18n.t('profile.reference_area.title'),
@@ -124,9 +124,9 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
         <div className={s.navSection}>
           <Heading type="heading-01">{i18n.t('profile.profileSettingsHeader')}</Heading>
           <SettingsNavigation
-            steps={steps}
+            steps={navigationSteps}
             containerId={isMobile ? mobileScrollableContainerId : scrollableContainerId}
-            offset={isMobile ? 0 : scrollableOffset}
+            offset={isMobile ? 0 : desktopScrollableOffset}
           />
           <div className={s.logoutWrapper}>
             <Button onClick={logout} variant="invert">
@@ -143,7 +143,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                 title={i18n.t('profile.analysis_objectives')}
               >
                 <div className={s.descriptionBlock}>
-                  For better personalization, please include details like
+                  {i18n.t('profile.personalization_prompt')}
                   <div className={s.tags}>
                     <span className={clsx(s.tag, 'k-font-caption')}>
                       your current goals
@@ -153,10 +153,10 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                     </span>
                     <span className={clsx(s.tag, 'k-font-caption')}>challenges</span>
                   </div>
-                  This information is compatible with AI tools
+                  {i18n.t('profile.ai_tools_compatibility')}
                 </div>
                 <Textarea
-                  topPlaceholder="bio"
+                  topPlaceholder={i18n.t('profile.user_bio_placeholder')}
                   placeholder={i18n.t('profile.bio_textarea_placeholder')}
                   value={localSettings.bio}
                   onChange={onChange('bio')}

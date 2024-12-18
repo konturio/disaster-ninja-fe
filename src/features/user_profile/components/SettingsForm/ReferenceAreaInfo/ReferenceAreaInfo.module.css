@@ -2,6 +2,10 @@
   margin-top: var(--unit);
 }
 
+.linksWrapper {
+  margin-top: 12px;
+}
+
 .link {
   font-size: 12px;
   line-height: 16px;
