@@ -31,6 +31,21 @@ export type Severity =
   | 'EXTREME'
   | 'UNKNOWN';
 
+export type EventType =
+  | 'FLOOD'
+  | 'TSUNAMI'
+  | 'WILDFIRE'
+  | 'THERMAL_ANOMALY'
+  | 'INDUSTRIAL_HEAT'
+  | 'TORNADO'
+  | 'WINTER_STORM'
+  | 'EARTHQUAKE'
+  | 'STORM'
+  | 'CYCLONE'
+  | 'DROUGHT'
+  | 'VOLCANO'
+  | 'OTHER';
+
 export interface Event {
   eventId: string;
   /** Contain type and optionally name of disaster */
@@ -58,6 +73,7 @@ export interface Event {
   bbox: [number, number, number, number];
   /** Event epsode count */
   episodeCount: number;
+  eventType: EventType;
 }
 
 export interface EventWithGeometry extends Event {

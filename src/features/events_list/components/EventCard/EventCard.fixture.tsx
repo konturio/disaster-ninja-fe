@@ -4,6 +4,7 @@ import type { Event } from '~core/types';
 const event: Event = {
   eventId: '085aa3fc-7f3a-42d3-9acc-db04215e20bf',
   eventName: 'Earthquake',
+  eventType: 'EARTHQUAKE',
   description:
     'On 8/9/2024 10:57:37 AM, an earthquake occurred in Japan potentially affecting 39.4 million in 100km. The earthquake had Magnitude 5M, Depth:24.876km.',
   location: 'Japan',
