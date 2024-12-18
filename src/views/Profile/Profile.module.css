@@ -3,7 +3,10 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: var(--double-unit);
+
+  @media screen and (max-width: 960px) {
+    padding: 0;
+  }
 }
 
 .loginWrap {
