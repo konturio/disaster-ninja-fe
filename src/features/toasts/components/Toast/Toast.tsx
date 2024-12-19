@@ -36,7 +36,9 @@ export function Toast({
               {notification.message.description || notification.message.title}
             </span>
           </Text>
-          <Close24 onClick={close} className={clsx(styles.closeCross)} />
+          <div className={styles.closeButtonContainer} onClick={close}>
+            <Close24 />
+          </div>
         </div>
       </Card>
     </div>
