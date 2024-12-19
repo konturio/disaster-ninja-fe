@@ -1,17 +1,20 @@
 ## Feature config overrides
 
 You can override feature configurations for local development.
-Just create `public/config/features.local.json` file with array of feature overrides, e.g.:
+Just create `public/config/features.local.json` (make sure it stays in gitignore!) file with array of feature overrides, e.g.:
 
 ```json
-[
-  {
-    "name": "events_list",
-    "description": "Events list",
-    "type": "UI_PANEL",
-    "configuration": {}
+{
+  "map_ruler": 0,
+  "mcda": 1,
+  "events_list": {
+    "initialSort": {
+      "order": "desc"
+    }
   }
-]
+}
 ```
 
-(make sure `public/config/features.local.json` stays in gitignore)
+- Setting a falsy value (`0`, `null`, etc) to a property turns off the feature.
+- Setting a truthy value (e.g. `1`, `true` etc) turns on the feature.
+- Setting an object turns the feature and sets its configuration.
