@@ -1,6 +1,4 @@
 import { atom } from '@reatom/framework';
-import { configRepo } from '~core/config';
-import { AppFeature } from '~core/app/types';
 import { isNumber } from '~utils/common';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { sortEventsBySingleProperty } from '../helpers/singlePropertySort';
@@ -14,7 +12,8 @@ import {
 } from '../helpers/eventFilters';
 import { eventSortingConfigAtom } from './eventSortingConfig';
 import { eventListResourceAtom } from './eventListResource';
-import type { EventListFilters, EventsListFeatureConfig } from '../types';
+import { localEventFiltersAtom } from './localEventListFiltersConfig';
+import type { LocalEventListFilters } from '../types';
 import type { EventSortConfig } from './eventSortingConfig';
 import type { Event } from '~core/types';
 
@@ -42,7 +41,10 @@ function sortEvents(data: Event[], eventsSortingConfig: EventSortConfig): Event[
   return data;
 }
 
-function applyFilters(data: Event[], filtersConfig: EventListFilters): Event[] {
+function applyLocalEventListFilters(
+  data: Event[],
+  filtersConfig: LocalEventListFilters,
+): Event[] {
   let result = data;
   if (isNumber(filtersConfig.minAffectedPopulation)) {
     result = filterByMinAffectedPopulation(data, filtersConfig.minAffectedPopulation);
@@ -65,9 +67,7 @@ function applyFilters(data: Event[], filtersConfig: EventListFilters): Event[] {
 export const sortedEventListAtom = atom<SortedEventListAtom>((ctx) => {
   const eventListResource = ctx.spy(eventListResourceAtom.v3atom);
   const eventsSortingConfig = ctx.spy(eventSortingConfigAtom);
-  const filtersConfig: EventListFilters | undefined = (
-    configRepo.get().features[AppFeature.EVENTS_LIST] as EventsListFeatureConfig
-  )?.filters;
+  const eventsFiltersConfig = ctx.spy(localEventFiltersAtom);
 
   if (
     !eventListResource.loading &&
@@ -75,20 +75,20 @@ export const sortedEventListAtom = atom<SortedEventListAtom>((ctx) => {
     eventListResource.data?.length
   ) {
     let data = eventListResource.data;
-    if (filtersConfig) {
-      // filter
-      data = applyFilters(data, filtersConfig);
+    if (eventsFiltersConfig) {
+      // filter event list
+      data = applyLocalEventListFilters(data, eventsFiltersConfig);
     }
 
     if (eventsSortingConfig) {
-      // sort
+      // sort event list
       data = sortEvents(data, eventsSortingConfig);
     }
 
     const currentEvent = currentEventAtom.getState();
     if (currentEvent?.id) {
       if (data.findIndex((d) => d.eventId === currentEvent?.id) === -1) {
-        // selected event is not in list, reset selection
+        // selected event is not in the sorted list, reset selection
         currentEventAtom.setCurrentEventId.dispatch(null);
       }
     }

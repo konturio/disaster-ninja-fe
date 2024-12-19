@@ -1,7 +1,8 @@
 import type { EventType, Severity } from '~core/types';
 import type { EventSortConfig } from './atoms/eventSortingConfig';
 
-export type EventListFilters = {
+// event filters applied on front-end side
+export type LocalEventListFilters = {
   excludedEventTypes?: EventType[];
   minAffectedPopulation?: number;
   minSeverity?: Severity;
@@ -11,5 +12,5 @@ export type EventListFilters = {
 
 export type EventsListFeatureConfig = {
   initialSort?: EventSortConfig;
-  filters?: EventListFilters;
+  filters?: LocalEventListFilters;
 };
