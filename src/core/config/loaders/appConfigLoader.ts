@@ -42,7 +42,12 @@ export async function getAppConfig(appId?: string): Promise<AppConfig> {
   }
 
   const localFeatureConfigOverrides = await loadLocalFeatureConfigOverrides();
-  features = { ...features, ...localFeatureConfigOverrides };
+  if (Object.keys(localFeatureConfigOverrides).length > 0) {
+    console.info(
+      `[[[[ Applying local feature overrides from file: ${LOCAL_FEATURE_OVERRIDES_PATH} ]]]]`,
+    );
+    features = { ...features, ...localFeatureConfigOverrides };
+  }
 
   return {
     ...appCfg,
@@ -59,13 +64,13 @@ export async function getLayerSourceUrl(
   return basemapInUrlDetails[0]?.source?.urls?.at(0);
 }
 
+const LOCAL_FEATURE_OVERRIDES_PATH = `${import.meta.env?.BASE_URL}config/features.local.json`;
+
 // another fetures override, but this one allows us to set json configs
 async function loadLocalFeatureConfigOverrides(): Promise<FeatureDto[]> {
   if (import.meta.env.DEV) {
     try {
-      const response = await fetch(
-        `${import.meta.env?.BASE_URL}config/features.local.json`,
-      );
+      const response = await fetch(LOCAL_FEATURE_OVERRIDES_PATH);
       const featureConfigOverrides = await response.json();
       return featureConfigOverrides;
     } catch (e) {}
