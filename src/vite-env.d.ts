@@ -9,7 +9,6 @@ interface ImportMetaEnv {
   readonly VITE_DEBUG_RENDER_TRACKER: string;
   readonly VITE_DEBUG_DISABLE_REACTSTRICTMODE: string;
   readonly VITE_HTTPS: string;
-  readonly VITE_FEATURES_CONFIG: string;
 }
 
 interface ImportMeta {

@@ -8,6 +8,13 @@
   z-index: 100;
 }
 
+/* Mobile view */
+@media screen and (max-width: 550px) {
+  .toasts {
+    top: var(--double-unit);
+  }
+}
+
 .enter {
   opacity: 0;
 }

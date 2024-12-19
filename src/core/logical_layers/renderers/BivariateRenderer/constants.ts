@@ -2,7 +2,7 @@ import type { LineLayerSpecification } from 'maplibre-gl';
 
 export const SOURCE_LAYER_BIVARIATE = 'stats';
 export const FALLBACK_BIVARIATE_MIN_ZOOM = 0;
-export const FALLBACK_BIVARIATE_MAX_ZOOM = 14;
+export const FALLBACK_BIVARIATE_MAX_ZOOM = 9;
 
 export const FEATURE_STATES = {
   hover: 'hover',

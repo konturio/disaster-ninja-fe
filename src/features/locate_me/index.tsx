@@ -1,7 +1,8 @@
-import { currentMapPositionAtom, currentNotificationAtom } from '~core/shared_state';
+import { currentNotificationAtom } from '~core/shared_state';
 import { toolbar } from '~core/toolbar';
 import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
+import { setCurrentMapPosition } from '~core/shared_state/currentMapPosition';
 import {
   LOCATE_ME_CONTROL_ID,
   LOCATE_ME_CONTROL_NAME,
@@ -31,7 +32,7 @@ function successCb(location: GeolocationPosition) {
   const { coords } = location;
   const { latitude: lat, longitude: lng } = coords;
 
-  currentMapPositionAtom.setCurrentMapPosition.dispatch({
+  setCurrentMapPosition(store.v3ctx, {
     lat,
     lng,
     zoom: LOCATE_ME_ZOOM,

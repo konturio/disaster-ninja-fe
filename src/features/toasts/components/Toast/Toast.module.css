@@ -6,6 +6,14 @@
   min-height: 44px;
 }
 
+/* Mobile view */
+@media screen and (max-width: 550px) {
+  .container {
+    width: 100vw;
+    padding: 0 20px;
+  }
+}
+
 .toast {
   padding: 10px 0 12px 0;
   box-shadow:
@@ -19,7 +27,7 @@
 }
 
 .text {
-  margin: 0 10px;
+  margin: 0 0 0 10px;
 }
 
 .content {
@@ -33,9 +41,10 @@
   display: flex;
 }
 
-.closeCross {
-  margin-right: 19px;
-  margin-left: auto;
+.closeButtonContainer {
+  padding: 10px;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
   flex-shrink: 0;
 }

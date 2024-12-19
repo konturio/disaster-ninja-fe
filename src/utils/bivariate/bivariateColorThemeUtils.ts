@@ -2,10 +2,12 @@ import { Hsluv } from 'hsluv';
 import { generateBivariateStyleForAxis } from '~utils/bivariate';
 import { configRepo } from '~core/config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
+import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
+import { FALLBACK_BIVARIATE_MAX_ZOOM } from '~core/logical_layers/renderers/BivariateRenderer/constants';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
-import type { Axis, ColorCombination, Meta, Direction } from '~utils/bivariate';
+import type { Axis, ColorCombination, Direction } from '~utils/bivariate';
 import type { RGBAColor } from '~core/types/color';
 
 type ColorTuple = [number, number, number];
@@ -124,11 +126,16 @@ export function generateColorThemeAndBivariateStyle(
     yAxisDirection,
   );
 
+  const maxZoom = getMaxNumeratorZoomLevel(
+    [xAxis.quotients ?? [], yAxis.quotients ?? []],
+    stats.meta.max_zoom || FALLBACK_BIVARIATE_MAX_ZOOM,
+  );
+
   const bivariateStyle = generateBivariateStyle(
     xAxis,
     yAxis,
     colorTheme,
-    stats?.meta,
+    maxZoom,
     sourceLayer,
   );
 
@@ -139,7 +146,7 @@ export const generateBivariateStyle = (
   xAxis: Axis,
   yAxis: Axis,
   colorTheme: ColorTheme,
-  meta: Meta,
+  maxZoomLevel: number,
   sourceLayer: string,
 ) =>
   generateBivariateStyleForAxis({
@@ -157,7 +164,7 @@ export const generateBivariateStyle = (
           configRepo.get().bivariateTilesIndicatorsClass
         }`,
       ],
-      maxzoom: meta.max_zoom,
+      maxzoom: maxZoomLevel,
       minzoom: 0,
     },
   });

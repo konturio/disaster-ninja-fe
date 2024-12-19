@@ -89,6 +89,7 @@ const DEFAULT_AXIS: MCDALayer = {
         shortName: '°C',
         longName: 'degrees Celsius',
       },
+      direction: [['unimportant'], ['important']],
     },
     {
       name: 'indicator_denominator',
@@ -98,6 +99,7 @@ const DEFAULT_AXIS: MCDALayer = {
         shortName: null,
         longName: null,
       },
+      direction: [['unimportant'], ['important']],
     },
   ],
   range: [0, 100],

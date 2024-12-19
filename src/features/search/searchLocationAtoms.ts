@@ -7,8 +7,8 @@ import {
   withErrorAtom,
   withStatusesAtom,
 } from '@reatom/framework';
-import { currentMapPositionAtom } from '~core/shared_state';
 import { getLocations } from '~core/api/search';
+import { setCurrentMapBbox } from '~core/shared_state/currentMapPosition';
 
 export const fetchLocationsAsyncResource = reatomAsync(
   (ctx, query: string) => getLocations(query, ctx.controller),
@@ -30,7 +30,7 @@ export const searchLocationsAtom = atom((ctx) => {
 
 export const selectLocationItemAction = action((ctx, item) => {
   const bbox = item.properties.bbox;
-  currentMapPositionAtom.setCurrentMapBbox.dispatch(bbox);
+  setCurrentMapBbox(ctx, bbox);
 });
 
 export const resetLocationSearchAction = action((ctx) => {
