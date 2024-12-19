@@ -18,6 +18,8 @@ export interface AppConfigDto {
   user?: UserDto;
 }
 
+const LOCAL_FEATURE_OVERRIDES_PATH = `${import.meta.env?.BASE_URL}config/features.local.json`;
+
 export async function getAppConfig(appId?: string): Promise<AppConfig> {
   // In case appId absent in url - backend identifying it by domain
   const appCfg = await apiClient.get<AppConfigDto>(
@@ -54,8 +56,6 @@ export async function getLayerSourceUrl(
   const basemapInUrlDetails = await getLayersDetails([layerId], appId, language);
   return basemapInUrlDetails[0]?.source?.urls?.at(0);
 }
-
-const LOCAL_FEATURE_OVERRIDES_PATH = `${import.meta.env?.BASE_URL}config/features.local.json`;
 
 // another fetures override, but this one allows us to set json configs
 async function loadLocalFeatureConfigOverrides(): Promise<FeatureDto[]> {
