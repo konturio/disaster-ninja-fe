@@ -19,6 +19,7 @@ export type MapStyle = {
 
 export type Marker = {
   coordinates: [number, number];
+  wrapperClass?: string;
   el: JSX.Element;
   id: string;
 };
@@ -30,6 +31,21 @@ export type Severity =
   | 'SEVERE'
   | 'EXTREME'
   | 'UNKNOWN';
+
+export type EventType =
+  | 'FLOOD'
+  | 'TSUNAMI'
+  | 'WILDFIRE'
+  | 'THERMAL_ANOMALY'
+  | 'INDUSTRIAL_HEAT'
+  | 'TORNADO'
+  | 'WINTER_STORM'
+  | 'EARTHQUAKE'
+  | 'STORM'
+  | 'CYCLONE'
+  | 'DROUGHT'
+  | 'VOLCANO'
+  | 'OTHER';
 
 export interface Event {
   eventId: string;
@@ -58,6 +74,7 @@ export interface Event {
   bbox: [number, number, number, number];
   /** Event epsode count */
   episodeCount: number;
+  eventType: EventType;
 }
 
 export interface EventWithGeometry extends Event {

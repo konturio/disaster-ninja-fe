@@ -83,6 +83,14 @@ The `currentEventBbox` atom in the `events_list` feature is responsible for stor
 
 The `currentEventBbox` atom is a derived atom that is computed from the `currentEventResourceAtom`. When the `currentEventResourceAtom` changes, the `currentEventBbox` atom is recalculated using the `bbox` property of the event.
 
+## `sortedEventList`
+
+The `sortedEventList` atom works as proxy for `eventListResource`. If sort config is present in `eventSortingConfigAtom`, it returns sorted events. If sort config is not provided, `sortedEventList` returns the original list unchanged.
+
+## `eventSortingConfigAtom`
+
+Holds config for front-end side sorting of events list.
+
 ## `eventListFilters`
 
 The `eventListFilters` atom holds an object representing the current set of filters applied to the events list. The object has the following shape:
@@ -99,3 +107,74 @@ It has the following actions:
 
 - `setBBoxFilterFromCurrentMapView`
 - `resetBboxFilter`
+
+# Feature config
+
+`initialSort` is an optional field which can hold front-end side sorting configuration.
+
+There are two types of sorting currently supported:
+
+- `singleProperty`:
+
+```typescript
+{
+  "initialSort": {
+    "order": "desc",
+    "config": { "type": "singleProperty", "propertyName": "updatedAt" }
+  }
+}
+```
+
+- `mcda`:
+
+```typescript
+{
+  "initialSort": {
+    "order": "desc",
+    "config": {
+      "type": "mcda",
+      "mcdaConfig": {
+        "criteria": [
+          {
+            "name": "eventType",
+            "weight": 2
+          },
+          {
+            "name": "severity",
+            "weight": 3
+          },
+          {
+            "name": "updatedAt",
+            "weight": 4
+          },
+          {
+            "name": "startedAt",
+            "weight": 1
+          },
+          {
+            "name": "affectedPopulation",
+            "weight": 3
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+`settledArea` and `affectedPopulationDensity` criteria are also available.
+
+It's possible to invert a score of a particular MCDA criterion using `invertScore` parameters. E.g.:
+
+```typescript
+{
+  ...
+  "criteria": [
+    {
+      "name": "startedAt",
+      "weight": 1,
+      "invertScore": true
+    }
+  ]
+}
+```
