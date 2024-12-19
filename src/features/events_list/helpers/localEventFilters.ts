@@ -50,6 +50,7 @@ export function filterByExcludedEventTypes(
   events: Event[],
   excludedEventTypes: EventType[],
 ): Event[] {
+  return events;
   if (excludedEventTypes.length > 0) {
     return events.filter((event) => {
       if (event.eventType) {

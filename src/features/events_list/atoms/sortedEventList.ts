@@ -9,7 +9,7 @@ import {
   filterByMinSeverity,
   filterByMinStartedAt,
   filterByMinUpdatedAt,
-} from '../helpers/eventFilters';
+} from '../helpers/localEventFilters';
 import { eventSortingConfigAtom } from './eventSortingConfig';
 import { eventListResourceAtom } from './eventListResource';
 import { localEventFiltersAtom } from './localEventListFiltersConfig';
