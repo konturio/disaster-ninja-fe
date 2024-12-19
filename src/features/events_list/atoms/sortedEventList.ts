@@ -1,8 +1,20 @@
 import { atom } from '@reatom/framework';
+import { isNumber } from '~utils/common';
+import { currentEventAtom } from '~core/shared_state/currentEvent';
+import { i18n } from '~core/localization';
 import { sortEventsBySingleProperty } from '../helpers/singlePropertySort';
 import { sortEventsByMcda } from '../helpers/eventsMcdaSort';
-import { eventListResourceAtom } from './eventListResource';
+import {
+  filterByExcludedEventTypes,
+  filterByMinAffectedPopulation,
+  filterByMinSeverity,
+  filterByMinStartedAt,
+  filterByMinUpdatedAt,
+} from '../helpers/localEventFilters';
 import { eventSortingConfigAtom } from './eventSortingConfig';
+import { eventListResourceAtom } from './eventListResource';
+import { localEventFiltersAtom } from './localEventListFiltersConfig';
+import type { LocalEventListFilters } from '../types';
 import type { EventSortConfig } from './eventSortingConfig';
 import type { Event } from '~core/types';
 
@@ -30,22 +42,68 @@ function sortEvents(data: Event[], eventsSortingConfig: EventSortConfig): Event[
   return data;
 }
 
+function applyLocalEventListFilters(
+  data: Event[],
+  filtersConfig: LocalEventListFilters,
+): Event[] {
+  let result = data;
+  if (isNumber(filtersConfig.minAffectedPopulation)) {
+    result = filterByMinAffectedPopulation(data, filtersConfig.minAffectedPopulation);
+  }
+  if (filtersConfig.minSeverity) {
+    result = filterByMinSeverity(result, filtersConfig.minSeverity);
+  }
+  if (filtersConfig.excludedEventTypes) {
+    result = filterByExcludedEventTypes(result, filtersConfig.excludedEventTypes);
+  }
+  if (filtersConfig.minUpdatedAt) {
+    result = filterByMinUpdatedAt(result, filtersConfig.minUpdatedAt);
+  }
+  if (filtersConfig.minStartedAt) {
+    result = filterByMinStartedAt(result, filtersConfig.minStartedAt);
+  }
+  return result;
+}
+
 export const sortedEventListAtom = atom<SortedEventListAtom>((ctx) => {
   const eventListResource = ctx.spy(eventListResourceAtom.v3atom);
   const eventsSortingConfig = ctx.spy(eventSortingConfigAtom);
+  const eventsFiltersConfig = ctx.spy(localEventFiltersAtom);
 
   if (
-    eventsSortingConfig &&
     !eventListResource.loading &&
     !eventListResource.error &&
     eventListResource.data?.length
   ) {
-    const result: SortedEventListAtom = {
-      data: sortEvents(eventListResource.data, eventsSortingConfig),
+    let data = eventListResource.data;
+    let error: string | null = null;
+    if (eventsFiltersConfig) {
+      // filter event list
+      data = applyLocalEventListFilters(data, eventsFiltersConfig);
+    }
+
+    if (eventsSortingConfig) {
+      // sort event list
+      data = sortEvents(data, eventsSortingConfig);
+    }
+
+    const currentEvent = currentEventAtom.getState();
+    if (currentEvent?.id) {
+      if (data.findIndex((d) => d.eventId === currentEvent?.id) === -1) {
+        // selected event is not in the sorted list, reset selection
+        currentEventAtom.setCurrentEventId.dispatch(null);
+      }
+    }
+
+    if (!data.length) {
+      error = i18n.t('event_list.no_feed_disasters_matching_your_filters');
+    }
+
+    return {
+      data,
       loading: eventListResource.loading,
-      error: eventListResource.error,
+      error,
     };
-    return result;
   }
   return eventListResource;
 }, 'sortedEventListAtom');
