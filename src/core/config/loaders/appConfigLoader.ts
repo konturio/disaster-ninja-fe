@@ -30,12 +30,7 @@ export async function getAppConfig(appId?: string): Promise<AppConfig> {
   );
   if (appCfg === null) throw Error('App configuration unavailable');
 
-  const localFeatureConfigOverrides = await loadLocalFeatureConfigOverrides();
-
-  let features = createFeaturesConfig([
-    ...appCfg.features,
-    ...localFeatureConfigOverrides,
-  ]) as AppConfig['features'];
+  let features = createFeaturesConfig(appCfg.features) as AppConfig['features'];
 
   if (import.meta.env.VITE_FEATURES_CONFIG) {
     try {
@@ -45,6 +40,9 @@ export async function getAppConfig(appId?: string): Promise<AppConfig> {
       console.error('Local features override error', e);
     }
   }
+
+  const localFeatureConfigOverrides = await loadLocalFeatureConfigOverrides();
+  features = { ...features, ...localFeatureConfigOverrides };
 
   return {
     ...appCfg,
