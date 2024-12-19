@@ -133,12 +133,14 @@ export class MapCanvas extends HelperBase {
     desiredLocation: string,
     queryToSearchRegExp: RegExp,
   ) {
-    await this.page.getByPlaceholder('Search or ask AI').fill(searchText);
+    await this.page
+      .getByPlaceholder('Search or ask AI')
+      .pressSequentially(searchText, { delay: 30 });
     await Promise.all([
-      this.page.getByLabel('search', { exact: true }).click(),
+      this.page.getByLabel('search', { exact: true }).click({ delay: 100 }),
       this.page.waitForResponse(queryToSearchRegExp),
     ]);
-    await this.page.getByText(desiredLocation).click();
+    await this.page.getByText(desiredLocation).click({ delay: 100 });
   }
 
   /**
