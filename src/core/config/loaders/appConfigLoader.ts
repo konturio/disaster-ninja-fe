@@ -37,7 +37,8 @@ export async function getAppConfig(appId?: string): Promise<AppConfig> {
   const localFeatureConfigOverrides = await loadLocalFeatureConfigOverrides();
   if (Object.keys(localFeatureConfigOverrides).length > 0) {
     console.info(
-      `[[[[ Applying local feature overrides from file: ${LOCAL_FEATURE_OVERRIDES_PATH} ]]]]`,
+      `%c[[[[ Applying local feature overrides from file: ${LOCAL_FEATURE_OVERRIDES_PATH} ]]]]`,
+      'background: #457EAC; color: black',
     );
     features = { ...features, ...localFeatureConfigOverrides };
   }
