@@ -1,10 +1,9 @@
 import { Disasters24 } from '@konturio/default-icons';
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
-import { useAction, useAtom as useAtomV3 } from '@reatom/npm-react';
+import { useAtom as useAtomV3 } from '@reatom/npm-react';
 import clsx from 'clsx';
 import { useCallback, useMemo } from 'react';
-import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { panelClasses } from '~components/Panel';
 import { AppFeature } from '~core/app/types';
@@ -17,12 +16,12 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { sortedEventListAtom } from '~features/events_list/atoms/sortedEventList';
-import { setEventSortingOrder } from '~features/events_list/atoms/eventSortingConfig';
 import { MIN_HEIGHT } from '../../constants';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { EventCard } from '../EventCard/EventCard';
 import { FullState } from '../FullState/FullState';
 import { ShortState } from '../ShortState/ShortState';
+import { EventsPanelErrorMessage } from '../EventsPanelErrorMessage/EventsPanelErrorMessage';
 import s from './EventsPanel.module.css';
 import type { Event } from '~core/types';
 
@@ -58,7 +57,6 @@ export function EventsPanel({
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);
-  const setSortingOrder = useAction(setEventSortingOrder);
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && closePanel(),
@@ -102,26 +100,18 @@ export function EventsPanel({
     [handleEventClick],
   );
 
-  const handleSort = useCallback(
-    (order: 'asc' | 'desc') => {
-      setSortingOrder(order);
-    },
-    [setSortingOrder],
-  );
-
   const panelContent = useCallback(
     (state: typeof panelState) => {
       if (state === 'closed') return null;
       if (loading)
         return <LoadingSpinner message={i18n.t('loading_events')} marginTop="none" />;
-      if (error) return <ErrorMessage message={error} />;
+      if (error) return <EventsPanelErrorMessage state={state} message={error} />;
 
       return state === 'full' ? (
         <FullState
           eventsList={eventsList}
           currentEventId={currentEventId ?? null}
           renderEventCard={renderEventCard}
-          onSort={handleSort}
         />
       ) : (
         <ShortState
@@ -137,7 +127,6 @@ export function EventsPanel({
       eventsList,
       currentEventId,
       renderEventCard,
-      handleSort,
       openFullState,
       currentEvent,
     ],
