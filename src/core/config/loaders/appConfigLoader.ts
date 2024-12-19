@@ -18,6 +18,8 @@ export interface AppConfigDto {
   user?: UserDto;
 }
 
+const LOCAL_FEATURE_OVERRIDES_PATH = `${import.meta.env?.BASE_URL}config/features.local.json`;
+
 export async function getAppConfig(appId?: string): Promise<AppConfig> {
   // In case appId absent in url - backend identifying it by domain
   const appCfg = await apiClient.get<AppConfigDto>(
@@ -32,13 +34,13 @@ export async function getAppConfig(appId?: string): Promise<AppConfig> {
 
   let features = createFeaturesConfig(appCfg.features) as AppConfig['features'];
 
-  if (import.meta.env.VITE_FEATURES_CONFIG) {
-    try {
-      const featuresOverride = JSON.parse(import.meta.env.VITE_FEATURES_CONFIG);
-      features = { ...features, ...featuresOverride };
-    } catch (e) {
-      console.error('Local features override error', e);
-    }
+  const localFeatureConfigOverrides = await loadLocalFeatureConfigOverrides();
+  if (Object.keys(localFeatureConfigOverrides).length > 0) {
+    console.info(
+      `%c[[[[ Applying local feature overrides from file: ${LOCAL_FEATURE_OVERRIDES_PATH} ]]]]`,
+      'background: #457EAC; color: black',
+    );
+    features = { ...features, ...localFeatureConfigOverrides };
   }
 
   return {
@@ -54,4 +56,16 @@ export async function getLayerSourceUrl(
 ) {
   const basemapInUrlDetails = await getLayersDetails([layerId], appId, language);
   return basemapInUrlDetails[0]?.source?.urls?.at(0);
+}
+
+// another fetures override, but this one allows us to set json configs
+async function loadLocalFeatureConfigOverrides(): Promise<FeatureDto[]> {
+  if (import.meta.env.DEV) {
+    try {
+      const response = await fetch(LOCAL_FEATURE_OVERRIDES_PATH);
+      const featureConfigOverrides = await response.json();
+      return featureConfigOverrides;
+    } catch (e) {}
+  }
+  return [];
 }
