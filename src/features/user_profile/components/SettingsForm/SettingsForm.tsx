@@ -147,12 +147,14 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   {i18n.t('profile.personalization_prompt')}
                   <div className={s.tags}>
                     <span className={clsx(s.tag, 'k-font-caption')}>
-                      your current goals
+                      {i18n.t('profile.your_current_job')}
                     </span>
                     <span className={clsx(s.tag, 'k-font-caption')}>
-                      area of expertise
+                      {i18n.t('profile.area_of_expertise')}
                     </span>
-                    <span className={clsx(s.tag, 'k-font-caption')}>challenges</span>
+                    <span className={clsx(s.tag, 'k-font-caption')}>
+                      {i18n.t('profile.challenges')}
+                    </span>
                   </div>
                   {i18n.t('profile.ai_tools_compatibility')}
                 </div>
