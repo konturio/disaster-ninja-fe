@@ -1,6 +1,7 @@
 import { atom } from '@reatom/framework';
 import { isNumber } from '~utils/common';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
+import { i18n } from '~core/localization';
 import { sortEventsBySingleProperty } from '../helpers/singlePropertySort';
 import { sortEventsByMcda } from '../helpers/eventsMcdaSort';
 import {
@@ -75,6 +76,7 @@ export const sortedEventListAtom = atom<SortedEventListAtom>((ctx) => {
     eventListResource.data?.length
   ) {
     let data = eventListResource.data;
+    let error: string | null = null;
     if (eventsFiltersConfig) {
       // filter event list
       data = applyLocalEventListFilters(data, eventsFiltersConfig);
@@ -93,10 +95,14 @@ export const sortedEventListAtom = atom<SortedEventListAtom>((ctx) => {
       }
     }
 
+    if (!data.length) {
+      error = i18n.t('event_list.no_feed_disasters_matching_your_filters');
+    }
+
     return {
       data,
       loading: eventListResource.loading,
-      error: eventListResource.error,
+      error,
     };
   }
   return eventListResource;
