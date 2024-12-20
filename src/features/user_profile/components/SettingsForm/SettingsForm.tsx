@@ -15,7 +15,7 @@ import { AppFeature } from '~core/app/types';
 import {
   OPTIONS_LANGUAGE,
   OPTIONS_OSM,
-} from '~features/user_profile/components/SettingsForm/common';
+} from '~features/user_profile/components/SettingsForm/constants';
 import { SettingsNavigation } from '~features/user_profile/components/SettingsForm/SettingsNavigation/SettingsNavigation';
 import { SettingsSection } from '~features/user_profile/components/SettingsForm/SettingsSection/SettingsSection';
 import stylesV1 from '~features/user_profile/components/SettingsForm/SettingsForm.module.css';

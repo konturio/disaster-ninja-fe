@@ -28,7 +28,7 @@ export const SettingsSection = ({
           <h3 className={styles.title}>{title}</h3>
           {label && (
             <div className={styles.labelWrapper}>
-              <FavAdded16></FavAdded16>
+              <FavAdded16 />
               <div className={styles.label}>
                 <Heading type="heading-06">{label}</Heading>
               </div>
