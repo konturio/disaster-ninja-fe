@@ -92,6 +92,7 @@ export function FullAndShortStatesPanelWidget({
   return (
     <>
       <Panel
+        id={id}
         header={resultHeader}
         onHeaderClick={togglePanelState}
         headerIcon={resultPanelIcon || undefined}
