@@ -150,8 +150,9 @@ export function MCDAForm({
         </div>
       }
     >
-      <div className={s.MCDAForm}>
+      <div className={s.MCDAForm} data-testid="mcda-form">
         <Input
+          data-testid="mcda-input-layer-name"
           type="text"
           value={name}
           error={nameError}
