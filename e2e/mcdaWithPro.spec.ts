@@ -19,9 +19,24 @@ const expectedSuggestions = [
   '　🛬 Airports to Area (n/km²)　🛬 Airports to buildings (n/n)　🛬 Airports to populated area (n/km²)　🛬 Airports to population (n/ppl)　🛬 Airports to Total road length (n/km)　🌡️ Air temperature average (°C)🌡️🔥 Air temperature maximum (°C)🌡️❄️ Air temperature minimum (°C)🌡️↕️ Air temperature monthly amplitude (°C)',
 ];
 
+const expectedLegendPanelTextsAfterMCDACreation = [
+  'Legend',
+  'Reference area',
+  'Hexagons are colored based on analysis layer settings. Click a hexagon to see its values',
+  'Transformation: no transformation',
+  'Reverse to Bad → Good',
+  'Transformation: log₁₀(x - xmin + ε)',
+  '°C',
+  'good',
+  'bad',
+  'Food shops to population (n/ppl)',
+  'Air temperature monthly amplitude (°C)',
+];
+
 for (const project of projectsWithMCDA) {
   test.describe(`As PRO user, I can go to map at ${project.title}, find '${areaToSearch}' location and work with MCDA`, () => {
     test(`Search for area, create MCDA`, async ({ pageManager }) => {
+      const analysisName = faker.string.alphanumeric({ length: { min: 1, max: 30 } });
       await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
       await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
       await pageManager.atMap.searchForLocation(
@@ -35,11 +50,15 @@ for (const project of projectsWithMCDA) {
       await pageManager.atToolBar.getButtonByText('Create MCDA').click();
       await pageManager.atMCDAPopup.assertMCDAPopupIsOK();
       await pageManager.atMCDAPopup.createMCDA({
-        analysisName: faker.string.alphanumeric({ length: { min: 1, max: 30 } }),
+        analysisName,
         layers,
         inputs,
         expectedSuggestions,
       });
+      await pageManager.atLegendPanel.assertLegendPanelTexts([
+        ...expectedLegendPanelTextsAfterMCDACreation,
+        analysisName,
+      ]);
     });
   });
 }
