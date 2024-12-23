@@ -1,27 +1,18 @@
 import { useRef, useCallback, useMemo } from 'react';
 import { Virtuoso } from 'react-virtuoso';
-import { AppFeature } from '~core/app/types';
-import { configRepo } from '~core/config';
-import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
-import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
-import { FeedSelectorFlagged } from '../FeedSelector';
-import { EventListSortButton } from '../EventListSortButton/EventListSortButton';
+import { EventsPanelSettings } from '../EventsPanelSettings/EventsPanelSettings';
 import s from './FullState.module.css';
 import type { Event } from '~core/types';
 import type { VirtuosoHandle } from 'react-virtuoso';
-
-const featureFlags = configRepo.get().features;
 
 export function FullState({
   eventsList,
   currentEventId,
   renderEventCard,
-  onSort,
 }: {
   eventsList: Event[] | null;
   currentEventId: string | null;
   renderEventCard: (event: Event, isActive: boolean) => JSX.Element;
-  onSort: (order: 'asc' | 'desc') => void;
 }) {
   const virtuosoRef = useRef<VirtuosoHandle>(null);
 
@@ -30,16 +21,6 @@ export function FullState({
     if (!currentEventId || !eventsList) return undefined;
     return eventsList.findIndex((event) => event.eventId === currentEventId);
   }, [currentEventId, eventsList]);
-
-  const handleFocus = useCallback(() => {
-    if (currentEventIndex !== undefined && virtuosoRef.current) {
-      virtuosoRef.current.scrollToIndex({
-        index: currentEventIndex,
-        align: 'center',
-        behavior: 'auto',
-      });
-    }
-  }, [currentEventIndex]);
 
   const itemContent = useCallback(
     (_: number, event: Event) => renderEventCard(event, event.eventId === currentEventId),
@@ -50,15 +31,7 @@ export function FullState({
 
   return (
     <div className={s.panelBody}>
-      <EventListSettingsRow>
-        <FeedSelectorFlagged />
-        {featureFlags[AppFeature.EVENTS_LIST__BBOX_FILTER] && <BBoxFilterToggle />}
-        {/* TODO: for now we don't want thede sort buttons, there was no design for them */}
-        {/* <EventListSortButton
-          onSort={onSort}
-          onFocus={currentEventIndex !== undefined ? handleFocus : undefined}
-        /> */}
-      </EventListSettingsRow>
+      <EventsPanelSettings />
       <div className={s.scrollable}>
         <Virtuoso
           ref={virtuosoRef}
