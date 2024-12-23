@@ -33,10 +33,14 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
     );
   };
 
-  const printValue = (dimensionName: string, paramName: any, value: number | string) => {
+  const printValue = (
+    dimensionName: string,
+    paramName: string,
+    value: number | string,
+  ) => {
     return (
       <div>
-        <div className={s.dimension}>{paramName}</div>
+        <div className={s.dimension}>{dimensionName}</div>
         <div className={s.parameter}>
           {paramName}: - {value.toString()}
         </div>
@@ -50,7 +54,7 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
       {layerConfig.annex?.config.layers.length &&
         printMCDAAxes('Annex', layerConfig.annex.config.layers)}
       {typeof layerConfig.strength === 'number'
-        ? printValue('Strength', 'etrength', layerConfig.strength)
+        ? printValue('Strength', 'strength', layerConfig.strength)
         : layerConfig.strength?.type === 'mcda' &&
           printMCDAAxes('Strength', layerConfig.strength.config.layers)}
       {typeof layerConfig.extrusionMax === 'number'
