@@ -15,5 +15,5 @@ function getLocalFiltersConfig(): LocalEventListFilters | null {
 
 export const localEventFiltersAtom = atom<LocalEventListFilters | null>(
   getLocalFiltersConfig(),
-  'eventSortingConfigAtom',
+  'localEventFiltersAtom',
 );
