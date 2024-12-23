@@ -22,16 +22,6 @@ export function FullState({
     return eventsList.findIndex((event) => event.eventId === currentEventId);
   }, [currentEventId, eventsList]);
 
-  const scrollToCurrentEvent = useCallback(() => {
-    if (currentEventIndex !== undefined && virtuosoRef.current) {
-      virtuosoRef.current.scrollToIndex({
-        index: currentEventIndex,
-        align: 'center',
-        behavior: 'auto',
-      });
-    }
-  }, [currentEventIndex]);
-
   const itemContent = useCallback(
     (_: number, event: Event) => renderEventCard(event, event.eventId === currentEventId),
     [renderEventCard, currentEventId],
