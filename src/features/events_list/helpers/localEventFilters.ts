@@ -15,7 +15,7 @@ export function filterByMinStartedAt(events: Event[], minDateString: string): Ev
   const minTime = new Date(minDateString).getTime();
   if (minTime) {
     return events.filter((event) => {
-      return event.updatedAt && new Date(event.updatedAt).getTime() >= minTime;
+      return event.startedAt && new Date(event.startedAt).getTime() >= minTime;
     });
   }
   return events;
