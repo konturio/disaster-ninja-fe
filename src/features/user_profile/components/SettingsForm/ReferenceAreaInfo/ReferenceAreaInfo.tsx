@@ -26,7 +26,7 @@ export function ReferenceAreaInfo() {
   }, []);
 
   return (
-    <div>
+    <div className={s.infoContainer}>
       {referenceAreaGeometry ? (
         <>
           <div className={s.geometryNameContainer}>
@@ -36,18 +36,18 @@ export function ReferenceAreaInfo() {
             </span>
           </div>
           <div>
-            <Text type="long-m" className={s.hint}>
+            <Text type="long-m">
               {i18n.t('profile.reference_area.to_replace_reference_area')}
             </Text>
           </div>
         </>
       ) : (
         <>
-          <Text type="long-m" className={s.hint}>
-            {i18n.t('profile.reference_area.select_are_on_the_map')}
-          </Text>
-          <div className={s.clickableText} onClick={() => goTo('/map')}>
-            {i18n.t('profile.reference_area.set_the_reference_area')}
+          <Text type="long-m">{i18n.t('profile.reference_area.description')}</Text>
+          <div className={s.linksWrapper}>
+            <a className={s.link} onClick={() => goTo('/map')}>
+              {i18n.t('profile.reference_area.set_the_reference_area')}
+            </a>
           </div>
         </>
       )}
