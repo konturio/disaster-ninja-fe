@@ -189,6 +189,7 @@
     "chose_disaster": "Choose disaster",
     "no_historical_disasters": "No historical disasters in this area",
     "no_feed_disasters": "No disasters in this feed",
+    "no_feed_disasters_matching_your_filters": "No disasters matching your filters",
     "no_disasters": "No disasters",
     "severity_unknown": "Unknown",
     "severity_termination": "Termination",
