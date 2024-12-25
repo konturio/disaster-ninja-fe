@@ -6,7 +6,7 @@ import { TokenFactory } from './factories/token.factory';
 import { AuthFactory } from './factories/auth.factory';
 import { MockFactory } from './factories/mock.factory';
 import { ClientFactory } from './factories/client.factory';
-import type { StorageMock } from '~utils/test/mocks/storage.mock';
+import type { FallbackStorage } from '~utils/storage';
 
 export interface TestContext {
   baseUrl: string;
@@ -18,7 +18,7 @@ export interface TestContext {
   refreshToken: string;
   authClient: OidcSimpleClient;
   apiClient: ApiClient;
-  localStorageMock: StorageMock;
+  localStorageMock: FallbackStorage;
   fetchMock: typeof fetchMock;
   loginFunc: () => Promise<any>;
 }
@@ -46,7 +46,7 @@ export async function createContext(): Promise<TestContext> {
   const apiClient = ClientFactory.createApiClient(authClient);
 
   // Setup default mocks
-  MockFactory.setupSuccessfulAuth(config, token);
+  await MockFactory.setupSuccessfulAuth(config, token);
   MockFactory.setupFailedAuth(config);
   MockFactory.setupApiEndpoint('/test');
 

@@ -4,21 +4,20 @@
 import { test, expect, beforeEach, vi } from 'vitest';
 import { ApiClientError } from '../apiClientError';
 import { createContext } from './_clientTestsContext';
+import type { TestContext } from './_clientTestsContext';
 
-beforeEach((context) => {
-  context.ctx = createContext();
+beforeEach(async (context) => {
+  context.ctx = await createContext();
 });
 
-test('204 response', async ({ ctx }) => {
+test('204 response', async ({ ctx }: { ctx: TestContext }) => {
   vi.spyOn(ctx.apiClient, 'get').mockResolvedValue(null);
 
   const response = await ctx.apiClient.get('/test204');
   expect(response).toStrictEqual(null);
 });
 
-// TODO: review/update other tests in scope of error handling refactor task
-/**/
-test('401 error', async ({ ctx }) => {
+test('401 error', async ({ ctx }: { ctx: TestContext }) => {
   vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
     new ApiClientError('Not authorized or session has expired.', {
       kind: 'unauthorized',
@@ -33,8 +32,8 @@ test('401 error', async ({ ctx }) => {
     }),
   );
 });
-/* */
-test('403 error', async ({ ctx }) => {
+
+test('403 error', async ({ ctx }: { ctx: TestContext }) => {
   vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
     new ApiClientError('Forbidden', { kind: 'forbidden' }),
   );
@@ -44,7 +43,7 @@ test('403 error', async ({ ctx }) => {
   );
 });
 
-test('404 error', async ({ ctx }) => {
+test('404 error', async ({ ctx }: { ctx: TestContext }) => {
   vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
     new ApiClientError('Not found', { kind: 'not-found' }),
   );
@@ -54,7 +53,7 @@ test('404 error', async ({ ctx }) => {
   );
 });
 
-test('timeout error', async ({ ctx }) => {
+test('timeout error', async ({ ctx }: { ctx: TestContext }) => {
   vi.spyOn(ctx.apiClient, 'delete').mockRejectedValue(
     new ApiClientError('Request Timeout', {
       kind: 'timeout',
@@ -70,7 +69,7 @@ test('timeout error', async ({ ctx }) => {
   );
 });
 
-test('network error', async ({ ctx }) => {
+test('network error', async ({ ctx }: { ctx: TestContext }) => {
   vi.spyOn(ctx.apiClient, 'delete').mockRejectedValue(
     new ApiClientError("Can't connect to server", {
       kind: 'cannot-connect',
@@ -86,7 +85,7 @@ test('network error', async ({ ctx }) => {
   );
 });
 
-test('request abort error', async ({ ctx }) => {
+test('request abort error', async ({ ctx }: { ctx: TestContext }) => {
   vi.spyOn(ctx.apiClient, 'delete').mockRejectedValue(
     new ApiClientError('Request Timeout', {
       kind: 'timeout',
@@ -102,7 +101,7 @@ test('request abort error', async ({ ctx }) => {
   );
 });
 
-test('500 error', async ({ ctx }) => {
+test('500 error', async ({ ctx }: { ctx: TestContext }) => {
   vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
     new ApiClientError('Unknown Error', {
       data: null,
@@ -117,4 +116,3 @@ test('500 error', async ({ ctx }) => {
     }),
   );
 });
-/**/

@@ -1,10 +1,11 @@
 import fetchMock from '@fetch-mock/vitest';
-import { StorageMock } from '~utils/test/mocks/storage.mock';
+import { FallbackStorage } from '~utils/storage';
 import { ApiClientError } from '../../apiClientError';
 import { TokenFactory } from './token.factory';
 import { AuthFactory } from './auth.factory';
 import type { AuthConfig } from './auth.factory';
-import type { ApiErrorResponse, ApiResponseOptions } from '~utils/test/types';
+import type { ApiErrorResponse, ApiResponseOptions } from '../types';
+import type { GeneralApiProblem } from '../../types';
 
 export class MockFactory {
   static async setupSuccessfulAuth(
@@ -46,8 +47,8 @@ export class MockFactory {
     });
   }
 
-  static createLocalStorage(): StorageMock {
-    return new StorageMock();
+  static createLocalStorage(): FallbackStorage {
+    return new FallbackStorage();
   }
 
   static resetMocks(): void {
@@ -56,7 +57,7 @@ export class MockFactory {
   }
 
   static setupApiError(path: string, error: ApiErrorResponse): void {
-    const statusMap: Record<ApiErrorResponse['kind'], number> = {
+    const statusMap: Partial<Record<GeneralApiProblem['kind'], number>> = {
       unauthorized: 401,
       forbidden: 403,
       'not-found': 404,
