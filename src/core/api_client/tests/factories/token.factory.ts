@@ -1,16 +1,11 @@
 import { SignJWT, jwtVerify } from 'jose';
-
-interface JwtPayload {
-  exp: number;
-  iat: number;
-  [key: string]: any;
-}
+import type { JWTPayload } from 'jose';
 
 export class TokenFactory {
   private static readonly SECRET = new TextEncoder().encode('test-secret');
 
-  static async createToken(payload: Partial<JwtPayload> = {}): Promise<string> {
-    const defaultPayload: JwtPayload = {
+  static async createToken(payload: Partial<JWTPayload> = {}): Promise<string> {
+    const defaultPayload: JWTPayload = {
       exp: 9999999999,
       iat: 1700000000,
       ...payload,
@@ -18,8 +13,8 @@ export class TokenFactory {
 
     return new SignJWT({ ...defaultPayload })
       .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
-      .setIssuedAt(defaultPayload.iat)
-      .setExpirationTime(defaultPayload.exp)
+      .setIssuedAt(defaultPayload.iat || 1700000000)
+      .setExpirationTime(defaultPayload.exp || 9999999999)
       .sign(this.SECRET);
   }
 
@@ -36,15 +31,15 @@ export class TokenFactory {
 
   static async modifyTokenPayload(
     token: string,
-    payload: Partial<JwtPayload>,
+    payload: Partial<JWTPayload>,
   ): Promise<string> {
     const { payload: currentPayload } = await jwtVerify(token, this.SECRET);
-    const newPayload = { ...currentPayload, ...payload } as JwtPayload;
+    const newPayload = { ...currentPayload, ...payload } as JWTPayload;
 
     return new SignJWT({ ...newPayload })
       .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
-      .setIssuedAt(newPayload.iat)
-      .setExpirationTime(newPayload.exp)
+      .setIssuedAt(newPayload.iat || 1700000000)
+      .setExpirationTime(newPayload.exp || 9999999999)
       .sign(this.SECRET);
   }
 
@@ -52,8 +47,8 @@ export class TokenFactory {
     return this.modifyTokenPayload(token, { exp });
   }
 
-  static async decodeToken(token: string): Promise<JwtPayload> {
+  static async decodeToken(token: string): Promise<JWTPayload> {
     const { payload } = await jwtVerify(token, this.SECRET);
-    return payload as JwtPayload;
+    return payload;
   }
 }
