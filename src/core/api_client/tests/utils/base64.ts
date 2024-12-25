@@ -1,6 +1,3 @@
-/**
- * base64url utils for generating JWT token on javascript side
- */
 function padString(input: string): string {
   const segmentLength = 4;
   const stringLength = input.length;
@@ -25,8 +22,6 @@ function padString(input: string): string {
 }
 
 function toBase64(base64url: string): string {
-  // We this to be a string so we can do .replace on it. If it's
-  // already a string, this is a noop.
   base64url = base64url.toString();
   return padString(base64url).replace(/\-/g, '+').replace(/_/g, '/');
 }

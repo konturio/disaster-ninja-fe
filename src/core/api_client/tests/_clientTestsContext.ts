@@ -1,8 +1,12 @@
 /* eslint-disable import/order */
 import fetchMock from '@fetch-mock/vitest';
-import { LocalStorageMock } from './_localStorageMock';
-import { OidcSimpleClient } from '../../auth/OidcSimpleClient';
-import { ApiClient } from '../apiClient';
+import type { OidcSimpleClient } from '../../auth/OidcSimpleClient';
+import type { ApiClient } from '../apiClient';
+import { TokenFactory } from './factories/token.factory';
+import { AuthFactory } from './factories/auth.factory';
+import { MockFactory } from './factories/mock.factory';
+import { ClientFactory } from './factories/client.factory';
+import type { LocalStorageMock } from './utils/localStorage.mock';
 
 export interface TestContext {
   baseUrl: string;
@@ -20,87 +24,42 @@ export interface TestContext {
 }
 
 export function createContext(): TestContext {
-  const baseUrl = 'http://localhost:8080/auth';
-  const keycloakRealm = 'test-realm';
-  const username = 'test-user';
-  const password = 'test-password';
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjk5OTk5OTk5OTksImlhdCI6MTcwMDAwMDAwMH0.JDdqWq4ClLhHhg4Z7sBpQ7gk8lQ7FK7wvZhfV9v9w_k';
-  const expiredToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDAwMDAwMDAsImlhdCI6MTYwMDAwMDAwMH0.JDdqWq4ClLhHhg4Z7sBpQ7gk8lQ7FK7wvZhfV9v9w_k';
-  const refreshToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjk5OTk5OTk5OTksImlhdCI6MTcwMDAwMDAwMH0.JDdqWq4ClLhHhg4Z7sBpQ7gk8lQ7FK7wvZhfV9v9w_k';
+  // Reset all mocks
+  MockFactory.resetMocks();
 
-  const localStorageMock = new LocalStorageMock();
+  // Create configuration and storage
+  const config = AuthFactory.createConfig();
+  const storage = MockFactory.createLocalStorage();
 
-  const authClient = new OidcSimpleClient(localStorageMock);
-  authClient.init(`${baseUrl}/realms/${keycloakRealm}`, 'test-client');
+  // Create tokens
+  const token = TokenFactory.createToken();
+  const expiredToken = TokenFactory.createExpiredToken();
+  const refreshToken = TokenFactory.createRefreshToken();
 
-  const apiClient = new ApiClient({});
-  apiClient.init({ baseUrl: 'http://localhost:8080/api' });
-  apiClient.authService = authClient;
-
-  // Reset fetch mock before configuring new mocks
-  fetchMock.mockReset();
-
-  // Configure fetch mock to match form URL encoded requests
-  const tokenEndpoint = `${baseUrl}/realms/${keycloakRealm}/protocol/openid-connect/token`;
-
-  // Enable fetch mocking
-  fetchMock.mockGlobal();
-
-  // Mock for successful login with correct credentials
-  fetchMock.postOnce(tokenEndpoint, (url: string, opts: any) => ({
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-    body: {
-      access_token: token,
-      refresh_token: refreshToken,
-    },
-  }));
-
-  // Default mock for failed login
-  fetchMock.post(tokenEndpoint, {
-    status: 401,
-    headers: { 'Content-Type': 'application/json' },
-    body: {
-      error: 'invalid_grant',
-      error_description: 'Invalid username or password',
-    },
+  // Create clients
+  const authClient = ClientFactory.createAuthClient({
+    auth: config,
+    storage,
   });
+  const apiClient = ClientFactory.createApiClient(authClient);
 
-  // Mock for test endpoint
-  fetchMock.post('http://localhost:8080/api/test', {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-    body: {},
-  });
+  // Setup default mocks
+  MockFactory.setupSuccessfulAuth(config, token);
+  MockFactory.setupFailedAuth(config);
+  MockFactory.setupApiEndpoint('/test');
 
   return {
-    baseUrl,
-    keycloakRealm,
-    username,
-    password,
+    baseUrl: config.baseUrl,
+    keycloakRealm: config.realm,
+    username: config.username,
+    password: config.password,
     token,
     expiredToken,
     refreshToken,
     authClient,
     apiClient,
-    localStorageMock,
+    localStorageMock: storage,
     fetchMock,
-    loginFunc: () => authClient.login(username, password),
+    loginFunc: () => authClient.login(config.username, config.password),
   };
-}
-
-export function setTimeOffset(offset: number): void {
-  const now = Date.now();
-  Date.now = () => now + offset;
-}
-
-export function setTokenExp(token: string, exp: number): string {
-  const parts = token.split('.');
-  const payload = JSON.parse(atob(parts[1]));
-  payload.exp = exp;
-  parts[1] = btoa(JSON.stringify(payload));
-  return parts.join('.');
 }
