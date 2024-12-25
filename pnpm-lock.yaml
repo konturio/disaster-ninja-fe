@@ -262,6 +262,9 @@ importers:
       '@faker-js/faker':
         specifier: ^8.4.1
         version: 8.4.1
+      '@fetch-mock/vitest':
+        specifier: ^0.2.6
+        version: 0.2.6(vitest@2.1.8(@types/node@20.17.10)(happy-dom@15.11.7)(less@4.2.1)(sass@1.83.0)(stylus@0.62.0)(terser@5.37.0))
       '@playwright/test':
         specifier: ^1.49.1
         version: 1.49.1
@@ -989,6 +992,12 @@ packages:
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
+
+  '@fetch-mock/vitest@0.2.6':
+    resolution: {integrity: sha512-Cj38jbyrPgKosWa4bPhlVaQ5O0po0NbLQ4ZMNEE3FxvIS9M61QSTvcFs6uDn5svPN8pq+FmnbSB9qIo9XoD05A==}
+    engines: {node: '>=18.11.0'}
+    peerDependencies:
+      vitest: '*'
 
   '@floating-ui/core@1.6.8':
     resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
@@ -1996,6 +2005,9 @@ packages:
 
   '@types/gettext-parser@4.0.4':
     resolution: {integrity: sha512-/r+YfxWZjPwt4HMAO3ay+2e3/IWJxBJxISqKFsWJW/87XllM+r5wHvioVrD45mduQ0UR7OnzMUbMe1PZfukswg==}
+
+  '@types/glob-to-regexp@0.4.4':
+    resolution: {integrity: sha512-nDKoaKJYbnn1MZxUY0cA1bPmmgZbg0cTq7Rh13d0KWYNOiKbqoR+2d89SnRPszGh7ROzSwZ/GOjZ4jPbmmZ6Eg==}
 
   '@types/hammerjs@2.0.46':
     resolution: {integrity: sha512-ynRvcq6wvqexJ9brDMS4BnBLzmr0e14d6ZJTEShTBWKymQiHwlAyGu0ZPEFI2Fh1U53F7tN9ufClWM5KvqkKOw==}
@@ -3275,6 +3287,10 @@ packages:
   fastq@1.17.1:
     resolution: {integrity: sha512-sRVD3lWVIXWg6By68ZN7vho9a1pQcN/WBFaAAsDDFzlJjvoGx0P8z7V1t72grFJfJhu3YPZBuu25f7Kaw2jN1w==}
 
+  fetch-mock@12.2.0:
+    resolution: {integrity: sha512-XjgxM582kB0SzPOqH2UdGTwSqga8A8aBPjxcYr0wTeOlCWpZoK6zBrPzltECUTu6Zt3VTWafmKF599LN9BRN5Q==}
+    engines: {node: '>=18.11.0'}
+
   file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -3455,6 +3471,9 @@ packages:
   glob-stream@8.0.2:
     resolution: {integrity: sha512-R8z6eTB55t3QeZMmU1C+Gv+t5UnNRkA55c5yo67fAVfxODxieTwsjNG7utxS/73NdP1NbDgCrhVEg2h00y4fFw==}
     engines: {node: '>=10.13.0'}
+
+  glob-to-regexp@0.4.1:
+    resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
@@ -3888,6 +3907,10 @@ packages:
   is-string@1.1.1:
     resolution: {integrity: sha512-BtEeSsoaQjlSPBemMQIrY1MY0uM6vnS1g5fmufYOtnxLGUZM2178PKbhsk7Ffv58IX+ZtcvoGwccYsh0PglkAA==}
     engines: {node: '>= 0.4'}
+
+  is-subset-of@3.1.10:
+    resolution: {integrity: sha512-avvaYgVmYWyaZ1NDFiv4y9JGkrE2je3op1Po4VYKKJKR8H2qVPsg1GZuuXl5elCTxTlwAIsrAjWAs4BVrISFRw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   is-symbol@1.1.1:
     resolution: {integrity: sha512-9gGx6GTtCQM73BgmHQXfDmLtfjjTUDSyoxTCbp5WtoixAhfgsDirWIcVQ/IHpvI5Vgd5i/J5F7B9cN/WlVbC/w==}
@@ -4961,6 +4984,10 @@ packages:
     resolution: {integrity: sha512-vqlC04+RQoFalODCbCumG2xIOvapzVMHwsyIGM/SIE8fRhFFsXeH8/QQ+s0T0kDAhKc4k30s73/0ydkHQz6HlQ==}
     engines: {node: '>= 0.4'}
 
+  regexparam@3.0.0:
+    resolution: {integrity: sha512-RSYAtP31mvYLkAHrOlh25pCNQ5hWnT106VukGaaFfuJrZFkGRX5GhUAdPqpSDXxOhA2c4akmRuplv1mRqnBn6Q==}
+    engines: {node: '>=8'}
+
   relateurl@0.2.7:
     resolution: {integrity: sha512-G08Dxvm4iDN3MLM0EsP62EDV9IuhXPR6blNz6Utcp7zyV3tr4HVNINt6MpaRWbxoOHT3Q7YN2P+jaHX8vUbgog==}
     engines: {node: '>= 0.10'}
@@ -5600,6 +5627,10 @@ packages:
   typed-array-length@1.0.7:
     resolution: {integrity: sha512-3KS2b+kL7fsuk/eJZ7EQdnEmQoaho/r6KUef7hxvltNA5DR8NAUM+8wJMbJyZ4G9/7i3v5zPBIMN5aybAh2/Jg==}
     engines: {node: '>= 0.4'}
+
+  typedescriptor@3.0.2:
+    resolution: {integrity: sha512-hyVbaCUd18UiXk656g/imaBLMogpdijIEpnhWYrSda9rhvO4gOU16n2nh7xG5lv/rjumnZzGOdz0CEGTmFe0fQ==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   typescript-plugin-css-modules@5.1.0:
     resolution: {integrity: sha512-6h+sLBa4l+XYSTn/31vZHd/1c3SvAbLpobY6FxDiUOHJQG1eD9Gh3eCs12+Eqc+TCOAdxcO+zAPvUq0jBfdciw==}
@@ -6412,6 +6443,11 @@ snapshots:
   '@faker-js/faker@8.4.1': {}
 
   '@fastify/busboy@2.1.1': {}
+
+  '@fetch-mock/vitest@0.2.6(vitest@2.1.8(@types/node@20.17.10)(happy-dom@15.11.7)(less@4.2.1)(sass@1.83.0)(stylus@0.62.0)(terser@5.37.0))':
+    dependencies:
+      fetch-mock: 12.2.0
+      vitest: 2.1.8(@types/node@20.17.10)(happy-dom@15.11.7)(less@4.2.1)(sass@1.83.0)(stylus@0.62.0)(terser@5.37.0)
 
   '@floating-ui/core@1.6.8':
     dependencies:
@@ -7755,6 +7791,8 @@ snapshots:
     dependencies:
       '@types/node': 20.17.10
       '@types/readable-stream': 4.0.18
+
+  '@types/glob-to-regexp@0.4.4': {}
 
   '@types/hammerjs@2.0.46': {}
 
@@ -9299,6 +9337,14 @@ snapshots:
     dependencies:
       reusify: 1.0.4
 
+  fetch-mock@12.2.0:
+    dependencies:
+      '@types/glob-to-regexp': 0.4.4
+      dequal: 2.0.3
+      glob-to-regexp: 0.4.1
+      is-subset-of: 3.1.10
+      regexparam: 3.0.0
+
   file-entry-cache@6.0.1:
     dependencies:
       flat-cache: 3.2.0
@@ -9497,6 +9543,8 @@ snapshots:
       is-negated-glob: 1.0.0
       normalize-path: 3.0.0
       streamx: 2.21.1
+
+  glob-to-regexp@0.4.1: {}
 
   glob@10.4.5:
     dependencies:
@@ -9911,6 +9959,10 @@ snapshots:
     dependencies:
       call-bound: 1.0.3
       has-tostringtag: 1.0.2
+
+  is-subset-of@3.1.10:
+    dependencies:
+      typedescriptor: 3.0.2
 
   is-symbol@1.1.1:
     dependencies:
@@ -11020,6 +11072,8 @@ snapshots:
       es-errors: 1.3.0
       set-function-name: 2.0.2
 
+  regexparam@3.0.0: {}
+
   relateurl@0.2.7: {}
 
   remove-trailing-separator@1.1.0: {}
@@ -11773,6 +11827,8 @@ snapshots:
       is-typed-array: 1.1.13
       possible-typed-array-names: 1.0.0
       reflect.getprototypeof: 1.0.8
+
+  typedescriptor@3.0.2: {}
 
   typescript-plugin-css-modules@5.1.0(ts-node@10.9.2(@swc/core@1.10.1)(@types/node@20.17.10)(typescript@5.7.2))(typescript@5.7.2):
     dependencies:
