@@ -1,6 +1,0 @@
-.head {
-  display: flex;
-  flex-flow: row nowrap;
-  gap: var(--unit);
-  align-items: center;
-}

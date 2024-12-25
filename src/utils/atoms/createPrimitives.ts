@@ -20,9 +20,6 @@ export const createAtom: typeof createAtomOriginal = (deps, reducer, options) =>
 export const createBooleanAtom: typeof createBooleanAtomOriginal = (initState, options) =>
   createBooleanAtomOriginal(initState, addStoreInOptions(options));
 
-export const createNumberAtom: typeof createNumberAtomOriginal = (initState, options) =>
-  createNumberAtomOriginal(initState, addStoreInOptions(options));
-
 export const createStringAtom: typeof createStringAtomOriginal = (
   initState: string | undefined,
   options: AtomOptions<any> | undefined,
