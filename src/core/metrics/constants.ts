@@ -15,6 +15,7 @@ export const METRICS_REPORT_TEMPLATE: MetricsReportTemplate = {
 };
 
 const APPEVENT_TO_FEATURE = {
+  'router-layout-ready': null,
   [AppFeature.CURRENT_EVENT]: [AppFeature.CURRENT_EVENT], // can be error
   _done_layersGlobalResource: [AppFeature.LAYERS_IN_AREA], // list of layers
   // [AppFeature.ANALYTICS_PANEL]: [AppFeature.ANALYTICS_PANEL, AppFeature.CURRENT_EVENT], // not in EPIG, depends on CURRENT_EVENT, not firing when panel closed

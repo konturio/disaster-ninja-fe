@@ -1,11 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { createStore } from '@reatom/core-v2';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
-import {
-  KONTUR_DEBUG,
-  KONTUR_TRACE_PATCH,
-  KONTUR_TRACE_TYPE,
-  KONTUR_WARN,
-} from '~utils/debug';
+import { KONTUR_TRACE_PATCH, KONTUR_TRACE_TYPE, KONTUR_WARN } from '~utils/debug';
 import type { AtomCache, Logs } from '@reatom/framework';
 
 export const store = createStore({});

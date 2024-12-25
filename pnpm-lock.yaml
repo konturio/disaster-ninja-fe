@@ -265,6 +265,9 @@ importers:
       '@playwright/test':
         specifier: ^1.49.1
         version: 1.49.1
+      '@reatom/testing':
+        specifier: ^3.4.7
+        version: 3.4.7
       '@slack/web-api':
         specifier: ^7.8.0
         version: 7.8.0
@@ -1523,6 +1526,9 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
 
+  '@reatom/persist@3.4.1':
+    resolution: {integrity: sha512-LM3JriTJNSH1EluVcvW9ik7DK5oa0NeIgkz8rIGvVk/c9ZIqp0Olthc/WEB5qNNDdzZMrebGRFiHRM2iO5/T6A==}
+
   '@reatom/primitives@3.7.3':
     resolution: {integrity: sha512-HzG2aoGzE2W410ZSqnT8hd21Xd+bNMIkN03tq7dWgZ4OAZKawVnxdeB8bHu+oA5ppxICfrY0HtPUUeQTbvxfgQ==}
 
@@ -1531,6 +1537,9 @@ packages:
     peerDependencies:
       '@reatom/core-v2': ^3.1.0
       react: '>=16.8.0'
+
+  '@reatom/testing@3.4.7':
+    resolution: {integrity: sha512-MeduYtSWGXjdqOtDNUM0xXgoTS5VVjG9FzKZzzide4yT6kVwCUKFDya4lMfsf5kiZGMy+ojyGj5oq3EhEqxaAw==}
 
   '@reatom/utils@3.11.0':
     resolution: {integrity: sha512-e59Gd7WC6jp5yo3LGUnveZkntsfNUJlXVkPGl24I2dFomoOH1XEPGJtDCzQQu5Y8S0mVuAUj5VwbqA4f+x4Pew==}
@@ -7191,6 +7200,13 @@ snapshots:
       react: 18.3.1
       use-sync-external-store: 1.4.0(react@18.3.1)
 
+  '@reatom/persist@3.4.1':
+    dependencies:
+      '@reatom/core': 3.9.1
+      '@reatom/hooks': 3.6.0
+      '@reatom/lens': 3.11.6
+      '@reatom/utils': 3.11.0
+
   '@reatom/primitives@3.7.3':
     dependencies:
       '@reatom/core': 3.9.1
@@ -7200,6 +7216,11 @@ snapshots:
     dependencies:
       '@reatom/core-v2': 3.1.4(patch_hash=cvif2474bcnojmuyn3echjb57a)
       react: 18.3.1
+
+  '@reatom/testing@3.4.7':
+    dependencies:
+      '@reatom/core': 3.9.1
+      '@reatom/persist': 3.4.1
 
   '@reatom/utils@3.11.0': {}
 
@@ -9012,7 +9033,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.18.0(eslint@8.57.1)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@8.57.1))(eslint@8.57.1):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.18.0(eslint@8.57.1)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -9055,7 +9076,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.18.0(eslint@8.57.1)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@8.57.1))(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.18.0(eslint@8.57.1)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
       hasown: 2.0.2
       is-core-module: 2.16.0
       is-glob: 4.0.3
