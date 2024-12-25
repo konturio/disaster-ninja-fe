@@ -16,20 +16,48 @@ import type {
 } from './types';
 import type { OidcSimpleClient } from '~core/auth/OidcSimpleClient';
 
+type EventMap = {
+  error: ApiClientError;
+  poolUpdate: Map<string, string>;
+  idle: boolean;
+};
+
+type EventType = keyof EventMap;
+type Listener<T> = (arg: T) => void;
+type ListenerMap = {
+  [K in EventType]: Set<Listener<EventMap[K]>>;
+};
+
 export class ApiClient {
-  private listeners = new Map([['error', new Set<(e: ApiClientError) => void>()]]);
+  private listeners: ListenerMap = {
+    error: new Set(),
+    poolUpdate: new Set(),
+    idle: new Set(),
+  };
   private baseURL!: string;
+  private requestPool = new Map<string, string>();
 
   authService!: OidcSimpleClient;
 
-  /**
-   * The Singleton's constructor should always be private to prevent direct
-   * construction calls with the `new` operator.
-   */
-  constructor({ on }: { on?: { error: (c: ApiClientError) => void } }) {
+  constructor({ on }: { on?: { [K in EventType]?: Listener<EventMap[K]> } } = {}) {
     if (on) {
-      typedObjectEntries(on).forEach(([event, cb]) => this.on(event, cb));
+      (Object.entries(on) as [EventType, Listener<EventMap[EventType]>][]).forEach(
+        ([event, cb]) => {
+          if (cb) this.on(event, cb);
+        },
+      );
     }
+  }
+
+  public on<E extends EventType>(event: E, cb: Listener<EventMap[E]>): () => void {
+    this.listeners[event].add(cb);
+    return () => {
+      this.listeners[event].delete(cb);
+    };
+  }
+
+  private _emit<E extends EventType>(type: E, payload: EventMap[E]): void {
+    this.listeners[type].forEach((l) => l(payload));
   }
 
   public init(cfg: ApiClientConfig) {
@@ -41,12 +69,16 @@ export class ApiClient {
     this.baseURL = baseURL;
   }
 
-  public on(event: 'error', cb: (c: ApiClientError) => void) {
-    this.listeners.get(event)?.add(cb);
-    return () => this.listeners.get(event)?.delete(cb);
-  }
-  private _emit(type: 'error', payload: ApiClientError) {
-    this.listeners.get(type)?.forEach((l) => l(payload));
+  private updatePool(uid: string, url: string | null) {
+    if (url) {
+      this.requestPool.set(uid, url);
+    } else {
+      this.requestPool.delete(uid);
+      if (this.requestPool.size === 0) {
+        this._emit('idle' as const, true);
+      }
+    }
+    this._emit('poolUpdate' as const, this.requestPool);
   }
 
   private async call<T>(
@@ -56,6 +88,9 @@ export class ApiClient {
     useAuth = false,
     requestConfig: CustomRequestConfig = {},
   ): Promise<T | null> {
+    const uid = Math.random().toString(36).substring(2);
+    this.updatePool(uid, path);
+
     const RequestsWithBody = ['post', 'put', 'patch'];
     let req;
 
@@ -105,8 +140,10 @@ export class ApiClient {
 
     try {
       const response = await req[method]().res(autoParseBody);
+      this.updatePool(uid, null);
       return response.data as T;
     } catch (err) {
+      this.updatePool(uid, null);
       const apiError = createApiError(err);
 
       if (apiError.problem.kind === 'canceled') {
