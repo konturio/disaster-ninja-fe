@@ -170,7 +170,7 @@ test('login and refresh token', async ({ ctx }) => {
   await ctx.apiClient.post('/test', { param1: 'test' }, true);
 
   // Assertions
-  expect(ctx.apiClient.get('/test')).rejects.toThrowError();
+  await expect(ctx.apiClient.get('/test')).rejects.toThrowError();
   expect(refreshFn).toHaveBeenCalledTimes(1);
 });
 
