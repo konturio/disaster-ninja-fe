@@ -1,4 +1,4 @@
-import { base64UrlEncode, base64UrlDecode } from '../utils/base64';
+import { SignJWT, decodeJwt } from 'jose';
 
 interface JwtPayload {
   exp: number;
@@ -6,48 +6,47 @@ interface JwtPayload {
   [key: string]: any;
 }
 
+// Secret key for test tokens
+const SECRET = new TextEncoder().encode('test-secret');
+
 export class TokenFactory {
-  static createToken(payload: Partial<JwtPayload> = {}): string {
+  static async createToken(payload: Partial<JwtPayload> = {}): Promise<string> {
     const defaultPayload: JwtPayload = {
       exp: 9999999999,
       iat: 1700000000,
       ...payload,
     };
 
-    const header = { alg: 'HS256', typ: 'JWT' };
-    const encodedHeader = base64UrlEncode(JSON.stringify(header));
-    const encodedPayload = base64UrlEncode(JSON.stringify(defaultPayload));
-    // Note: In tests we don't need a valid signature
-    const signature = 'JDdqWq4ClLhHhg4Z7sBpQ7gk8lQ7FK7wvZhfV9v9w_k';
-
-    return `${encodedHeader}.${encodedPayload}.${signature}`;
+    return new SignJWT(defaultPayload)
+      .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+      .sign(SECRET);
   }
 
-  static createExpiredToken(): string {
+  static async createExpiredToken(): Promise<string> {
     return this.createToken({
       exp: 1700000000,
       iat: 1600000000,
     });
   }
 
-  static createRefreshToken(): string {
+  static async createRefreshToken(): Promise<string> {
     return this.createToken();
   }
 
-  static modifyTokenPayload(token: string, payload: Partial<JwtPayload>): string {
-    const parts = token.split('.');
-    const currentPayload = JSON.parse(base64UrlDecode(parts[1]));
+  static async modifyTokenPayload(
+    token: string,
+    payload: Partial<JwtPayload>,
+  ): Promise<string> {
+    const currentPayload = decodeJwt(token);
     const newPayload = { ...currentPayload, ...payload };
-    parts[1] = base64UrlEncode(JSON.stringify(newPayload));
-    return parts.join('.');
+    return this.createToken(newPayload);
   }
 
-  static setTokenExpiration(token: string, exp: number): string {
+  static async setTokenExpiration(token: string, exp: number): Promise<string> {
     return this.modifyTokenPayload(token, { exp });
   }
 
   static decodeToken(token: string): JwtPayload {
-    const parts = token.split('.');
-    return JSON.parse(base64UrlDecode(parts[1]));
+    return decodeJwt(token);
   }
 }

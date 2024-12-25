@@ -7,7 +7,7 @@ import { createContext } from './_clientTestsContext';
 
 declare module 'vitest' {
   interface TestContext {
-    ctx: ReturnType<typeof createContext>;
+    ctx: Awaited<ReturnType<typeof createContext>>;
   }
 }
 
@@ -28,8 +28,8 @@ function setTimeOffset(minutes: number): number {
   return Math.floor(Date.now() / 1000) + minutes * 60;
 }
 
-beforeEach((context) => {
-  context.ctx = createContext();
+beforeEach(async (context) => {
+  context.ctx = await createContext();
 });
 
 test('can login with username and password', async ({ ctx }) => {

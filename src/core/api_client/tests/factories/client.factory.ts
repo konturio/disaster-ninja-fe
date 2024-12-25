@@ -2,11 +2,11 @@ import { OidcSimpleClient } from '../../../auth/OidcSimpleClient';
 import { ApiClient } from '../../apiClient';
 import { AuthFactory } from './auth.factory';
 import type { AuthConfig } from './auth.factory';
-import type { LocalStorageMock } from '../utils/localStorage.mock';
+import type { StorageMock } from '~utils/test/mocks/storage.mock';
 
 export interface ClientConfig {
   auth: AuthConfig;
-  storage: LocalStorageMock;
+  storage: StorageMock;
 }
 
 export class ClientFactory {

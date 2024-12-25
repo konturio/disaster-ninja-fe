@@ -6,7 +6,7 @@ import { TokenFactory } from './factories/token.factory';
 import { AuthFactory } from './factories/auth.factory';
 import { MockFactory } from './factories/mock.factory';
 import { ClientFactory } from './factories/client.factory';
-import type { LocalStorageMock } from './utils/localStorage.mock';
+import type { StorageMock } from '~utils/test/mocks/storage.mock';
 
 export interface TestContext {
   baseUrl: string;
@@ -18,12 +18,12 @@ export interface TestContext {
   refreshToken: string;
   authClient: OidcSimpleClient;
   apiClient: ApiClient;
-  localStorageMock: LocalStorageMock;
+  localStorageMock: StorageMock;
   fetchMock: typeof fetchMock;
   loginFunc: () => Promise<any>;
 }
 
-export function createContext(): TestContext {
+export async function createContext(): Promise<TestContext> {
   // Reset all mocks
   MockFactory.resetMocks();
 
@@ -32,9 +32,11 @@ export function createContext(): TestContext {
   const storage = MockFactory.createLocalStorage();
 
   // Create tokens
-  const token = TokenFactory.createToken();
-  const expiredToken = TokenFactory.createExpiredToken();
-  const refreshToken = TokenFactory.createRefreshToken();
+  const [token, expiredToken, refreshToken] = await Promise.all([
+    TokenFactory.createToken(),
+    TokenFactory.createExpiredToken(),
+    TokenFactory.createRefreshToken(),
+  ]);
 
   // Create clients
   const authClient = ClientFactory.createAuthClient({

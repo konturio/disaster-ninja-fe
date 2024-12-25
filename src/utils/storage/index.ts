@@ -1,5 +1,5 @@
 /* In memory replacement for storage */
-class FallbackStorage implements Storage {
+export class FallbackStorage implements Storage {
   private storage = new Map();
 
   setItem(key: string, value: string): void {
