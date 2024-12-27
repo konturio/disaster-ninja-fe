@@ -33,7 +33,7 @@ const featureFlags = configRepo.get().features;
 
 const scrollableContainerId = 'profile-content-wrap';
 const mobileScrollableContainerId = 'profile-settings-column';
-const desktopScrollableOffset = -81; // scrollable container padding-top + 1px
+const desktopScrollableOffset = -80; // scrollable container padding-top
 const mobileScrollableOffset = -3; // little offset to handle heights with fractional pixel values on mobile layout
 
 const navigationSteps = [

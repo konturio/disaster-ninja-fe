@@ -27,4 +27,5 @@
   cursor: pointer;
   color: var(--faint-strong);
   padding: var(--half-unit) 0 0 0;
+  height: 16px;
 }
