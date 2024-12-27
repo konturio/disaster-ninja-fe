@@ -73,21 +73,6 @@ export function createApiError(err: unknown) {
   }
   if (KONTUR_DEBUG) {
     console.error('Raw error:', err);
-    console.error('Error type:', err?.constructor?.name);
-    console.error('Error properties:', Object.keys(err));
-    if (err instanceof wretch.WretchError) {
-      console.error('WretchError details:', {
-        name: err.name,
-        message: err.message,
-        cause: err.cause,
-        status: err.status,
-        response: err.response,
-      });
-      if (err.cause) {
-        console.error('Cause type:', err.cause?.constructor?.name);
-        console.error('Cause properties:', Object.keys(err.cause));
-      }
-    }
   }
   // Check for AbortError in both direct DOMException and wretch error
   if (
