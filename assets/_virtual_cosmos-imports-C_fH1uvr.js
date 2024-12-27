@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-CSC_azWl.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-DFENLxyQ.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -7992,6 +7992,7 @@ const event_list$6 = {
   chose_disaster: "Choose disaster",
   no_historical_disasters: "No historical disasters in this area",
   no_feed_disasters: "No disasters in this feed",
+  no_feed_disasters_matching_your_filters: "No disasters matching your filters",
   no_disasters: "No disasters",
   severity_unknown: "Unknown",
   severity_termination: "Termination",
