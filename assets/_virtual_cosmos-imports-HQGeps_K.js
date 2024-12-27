@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-DFENLxyQ.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-tXVr-Ftd.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -3733,7 +3733,7 @@ function pushUnique(list, el) {
 function isString$1(thing) {
   return "string" == typeof thing;
 }
-function isObject(thing) {
+function isObject$1(thing) {
   return "object" == typeof thing && null !== thing;
 }
 function isFunction(thing) {
@@ -3746,7 +3746,7 @@ function isActionCreator(thing) {
   return isFunction(thing) && "type" in thing;
 }
 function isAction(thing) {
-  return isObject(thing) && isString$1(thing.type) && "payload" in thing;
+  return isObject$1(thing) && isString$1(thing.type) && "payload" in thing;
 }
 function getState(atom2, store2 = defaultStore) {
   return store2.getState(atom2);
@@ -3833,6 +3833,108 @@ let c$1 = 0;
 function o$1(e = false, t2 = "boolean" + ++c$1) {
   return r(e, { toggle: (e2) => !e2, setTrue: () => true, setFalse: () => false, change: (e2, t3) => t3(e2), set: (e2, t3) => t3 }, t2);
 }
+const isObject = (thing) => "object" == typeof thing && null !== thing, isShallowEqual = (a2, b2, is = Object.is) => {
+  if (Object.is(a2, b2)) return true;
+  if (!isObject(a2) || !isObject(b2) || a2.__proto__ !== b2.__proto__ || a2 instanceof Error) return false;
+  if (Symbol.iterator in a2) {
+    let equal2 = a2 instanceof Map ? (a3, b3) => is(a3[0], b3[0]) && is(a3[1], b3[1]) : is, aIter = a2[Symbol.iterator](), bIter = b2[Symbol.iterator]();
+    for (; ; ) {
+      let aNext = aIter.next(), bNext = bIter.next();
+      if (aNext.done || bNext.done || !equal2(aNext.value, bNext.value)) return aNext.done && bNext.done;
+    }
+  }
+  if (a2 instanceof Date) return a2.getTime() === b2.getTime();
+  if (a2 instanceof RegExp) return String(a2) === String(b2);
+  for (let k2 in a2) if (k2 in b2 == 0 || !is(a2[k2], b2[k2])) return false;
+  return Object.keys(a2).length === Object.keys(b2).length;
+};
+Object.assign(function() {
+  const intervalId = globalThis.setTimeout(...[].slice.call(arguments));
+  return "number" == typeof intervalId ? intervalId : Object.assign(intervalId, { toJSON: () => -1 });
+}, globalThis.setTimeout);
+const getCause = (patch, log = "") => log.length > 1e4 ? `${log} ...` : null !== patch.cause && patch.cause.proto !== __root ? getCause(patch.cause, log + " <-- " + (patch.cause.proto.name ?? "unnamed")) : log || "root", getTimeStampDefault = () => {
+  let ms = (/* @__PURE__ */ new Date()).getMilliseconds();
+  return ms = ms.toString().padStart(3, "0"), `${(/* @__PURE__ */ new Date()).toLocaleTimeString()} ${ms}ms`;
+};
+let timesPrecision = 10 ** 15;
+const createLogBatched = ({ debounce = 500, getTimeStamp = getTimeStampDefault, limit = 5e3, log = console.log, domain = "", shouldGroup = false, shouldLogGraph = false } = {}) => {
+  domain && (domain = `(${domain}) `);
+  let queue = [], isBatching = false, batchingStart = Date.now();
+  return (msg) => {
+    0 !== Object.keys(msg.changes).length && (isBatching || (isBatching = true, batchingStart = Date.now()), setTimeout((length) => {
+      if (isBatching = queue.length !== length && Date.now() - batchingStart < limit, isBatching) return;
+      const isFewTransactions = queue.length > 0;
+      console.groupCollapsed(`Reatom ${domain}${length} transaction${length > 1 ? "s" : ""}`), shouldLogGraph && ((logsSet) => {
+        const visited = /* @__PURE__ */ new Set(), checkCause = (patch) => {
+          !patch.cause || patch.cause.proto === __root || patch.cause.proto.name.startsWith("_") && patch.cause.proto.name.includes("._") || logsSet.has(patch.cause) || visited.has(patch.cause) || (checkCause(patch.cause), visited.add(patch.cause));
+        };
+        for (const patch of logsSet) checkCause(patch);
+        const logs = [...logsSet], maxDistance = logs.reduce((acc, patch, i2) => Math.max(acc, i2 - ((patch.cause && logs.indexOf(patch.cause)) ?? i2)), 0), shiftRatio = 20 * maxDistance, x2 = Math.floor(maxDistance / logs.length * shiftRatio) + 20;
+        let y2 = 30, body = "", width = x2;
+        for (const patch of logs) {
+          const { isAction: isAction2, name } = patch.proto, color = isAction2 ? name.endsWith(".onFulfill") ? "#E6DC73" : "#ffff80" : "#151134";
+          body += `<circle cx="${x2}" cy="${y2}" r="10" fill="${color}" />`, body += `<text x="${x2 + 15}" y="${y2 + 5}" font-size="10" fill="gray">${name}</text>`, y2 += 30, width = Math.max(width, x2 + 10 * name.length);
+        }
+        logs.forEach(({ cause }, idx) => {
+          if (!cause || cause.proto === __root || 0 === idx) return;
+          const causeIdx = logs.indexOf(cause);
+          if (causeIdx < 0) return;
+          const causeY = 30 * causeIdx + 30, shiftX = Math.floor(x2 - (idx - causeIdx) / logs.length * shiftRatio - 10), shiftY = Math.floor(30 * (causeIdx + (idx - causeIdx) / 2)) + 30, idxY = 30 * idx + 30, lineX = Math.floor(x2 - 10);
+          body += `<polyline points="${lineX},${causeY} ${shiftX},${shiftY} ${lineX},${idxY}" stroke="gray" fill="none" />`;
+        });
+        const dataUrl = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${y2}" style="font-family: monospace;">${body}</svg>`)}`;
+        console.log("%c                         ", `font-size:${y2}px; background: url(${dataUrl}) no-repeat; font-family: monospace;`);
+      })(new Set(queue.flatMap(({ changes }) => Object.values(changes)).sort((a2, b2) => a2.time - b2.time).map(({ patch }) => patch)));
+      for (const { changes, time, error: error2 } of queue) {
+        console.log(`%c ${time}`, `padding-left: calc(50% - ${time.length / 2}em); font-size: 0.7rem;`), error2 && console.error(error2);
+        let inGroup = false;
+        Object.entries(changes).forEach(([k2, change], i2, arr) => {
+          var _a;
+          const isAction2 = "payload" in change, style = (isAction2 ? "background: #ffff80; color: #151134;" : "background: #151134; color: white;") + "font-weight: 400; padding: 0.15em;  padding-right: 1ch;", name = k2.replace(/(\d)*\./, ""), head2 = name.replace(/\..*/, ""), nextK = (_a = arr[i2 + 1]) == null ? void 0 : _a[0], nextName = nextK == null ? void 0 : nextK.replace(/(\d)*\./, ""), isGroup = nextName == null ? void 0 : nextName.startsWith(head2);
+          shouldGroup && !inGroup && isGroup && isFewTransactions && (inGroup = true, console.groupCollapsed(`%c ${head2}`, style));
+          const data = isAction2 ? change.payload : change.newState;
+          console.groupCollapsed(`%c ${name}`, style), console.log(change), console.groupEnd(), isAction2 && !isShallowEqual(change.params, [data]) && log(...change.params), log(data), shouldGroup && !isGroup && inGroup && (inGroup = false, console.groupEnd());
+        });
+      }
+      console.log("\n\n", "transactions:", queue), console.groupEnd(), queue = [];
+    }, debounce, queue.push(Object.assign(msg, { time: getTimeStamp() }))));
+  };
+}, connectLogger = (ctx, { devtools = false, historyLength = 10, domain = "", log = createLogBatched({ domain }), showCause = true, skip = () => false, skipUnnamed = true } = {}) => {
+  const history = /* @__PURE__ */ new WeakMap();
+  let read;
+  ctx.get((r2) => read = r2);
+  const ctxUnsubscribe = ctx.subscribe((logs, error2) => {
+    let i2 = -1;
+    try {
+      const states = /* @__PURE__ */ new WeakMap(), changes = {};
+      for (; ++i2 < logs.length; ) {
+        const patch = logs[i2], { cause, proto, state } = patch, { isAction: isAction2 } = proto;
+        let { name } = proto;
+        if (skip(patch)) continue;
+        if (!name || name.startsWith("_") || /\._/.test(name)) {
+          if (skipUnnamed) continue;
+          name ?? (name = "unnamed");
+        }
+        const oldCache = read(proto), oldState = states.has(proto) ? states.get(proto) : oldCache == null ? void 0 : oldCache.state;
+        if (states.set(proto, state), Object.is(state, oldState) || isAction2 && 0 === state.length) continue;
+        let atomHistory = history.get(proto) ?? [];
+        if (historyLength && (atomHistory = atomHistory.slice(0, historyLength - 1), atomHistory.unshift(isAction2 ? { ...patch, state: [...state] } : patch), history.set(proto, atomHistory)), !(oldCache || "root" !== cause.proto.name || isAction2 && 0 !== state.length)) continue;
+        const changeMsg = changes[`${i2 + 1}.${name}`] = { patch, history: atomHistory, time: (globalThis.performance ?? Date).now() + 1 / timesPrecision-- };
+        if (isAction2) {
+          const call = state.at(-1);
+          changeMsg.params = call.params, changeMsg.payload = call.payload;
+        } else changeMsg.newState = state, changeMsg.oldState = oldState;
+        changeMsg.patch = patch, showCause && (changeMsg.cause = getCause(patch));
+      }
+      log({ error: error2, changes, logs, ctx });
+    } catch (error3) {
+      console.error("Reatom/logger error with", logs[i2]), console.log(error3);
+    }
+  });
+  return () => {
+    ctxUnsubscribe();
+  };
+};
 class ConfigRepository {
   constructor() {
     __privateAdd(this, _config);
@@ -3886,6 +3988,17 @@ _config = new WeakMap();
 _readSessionIntercomSetting = new WeakMap();
 _setIntercomSetting = new WeakMap();
 const configRepo = new ConfigRepository();
+const METRICS_EVENT = "METRICS";
+function dispatchMetricsEvent(name, payload) {
+  if (!globalThis.CustomEvent) return;
+  const evt = new CustomEvent(METRICS_EVENT, {
+    detail: {
+      name,
+      payload
+    }
+  });
+  globalThis.dispatchEvent(evt);
+}
 class FallbackStorage {
   constructor() {
     __publicField(this, "storage", /* @__PURE__ */ new Map());
@@ -3953,10 +4066,33 @@ new StableStorage("sessionStorage");
 const localStorage$1 = new StableStorage("localStorage");
 const KONTUR_DEBUG = !!localStorage$1.getItem("KONTUR_DEBUG");
 !!localStorage$1.getItem("KONTUR_METRICS_DEBUG");
-!!localStorage$1.getItem("KONTUR_WARN");
-localStorage$1.getItem("KONTUR_TRACE_TYPE");
-!!localStorage$1.getItem("KONTUR_TRACE_PATCH");
+const KONTUR_WARN = !!localStorage$1.getItem("KONTUR_WARN");
+const KONTUR_TRACE_TYPE = localStorage$1.getItem("KONTUR_TRACE_TYPE");
+const KONTUR_TRACE_PATCH = !!localStorage$1.getItem("KONTUR_TRACE_PATCH");
 const store = createStore({});
+if (KONTUR_TRACE_PATCH) {
+  connectLogger(store.v3ctx, {
+    historyLength: 10,
+    showCause: KONTUR_TRACE_PATCH,
+    skipUnnamed: true,
+    domain: "Kontur"
+  });
+}
+store.v3ctx.subscribe((patches) => {
+  patches == null ? void 0 : patches.forEach((patch) => {
+    var _a;
+    const atomName = (_a = patch.proto) == null ? void 0 : _a.name;
+    if (atomName) {
+      dispatchMetricsEvent(atomName, patch == null ? void 0 : patch.state);
+      KONTUR_WARN && console.warn(atomName, patch);
+      if (KONTUR_TRACE_TYPE) {
+        if (atomName.includes(KONTUR_TRACE_TYPE)) {
+          console.trace("TRACE:", atomName, patch);
+        }
+      }
+    }
+  });
+});
 const addStoreInOptions = (options) => ({
   store,
   ...typeof options === "string" ? { id: options } : options
@@ -4677,9 +4813,6 @@ const wait = (sec = 1, opt = {}) => new Promise(
     sec * 1e3
   )
 );
-function typedObjectEntries(obj) {
-  return Object.entries(obj);
-}
 class ApiClientError extends Error {
   constructor(message, problem, status = 0) {
     super(message);
@@ -4788,35 +4921,50 @@ async function autoParseBody(res) {
   return res;
 }
 class ApiClient {
-  /**
-   * The Singleton's constructor should always be private to prevent direct
-   * construction calls with the `new` operator.
-   */
-  constructor({ on }) {
-    __publicField(this, "listeners", /* @__PURE__ */ new Map([["error", /* @__PURE__ */ new Set()]]));
+  constructor({ on } = {}) {
+    __publicField(this, "listeners", {
+      error: /* @__PURE__ */ new Set(),
+      poolUpdate: /* @__PURE__ */ new Set(),
+      idle: /* @__PURE__ */ new Set()
+    });
     __publicField(this, "baseURL");
+    __publicField(this, "requestPool", /* @__PURE__ */ new Map());
     __publicField(this, "authService");
     if (on) {
-      typedObjectEntries(on).forEach(([event2, cb]) => this.on(event2, cb));
+      Object.entries(on).forEach(
+        ([event2, cb]) => {
+          if (cb) this.on(event2, cb);
+        }
+      );
     }
+  }
+  on(event2, cb) {
+    this.listeners[event2].add(cb);
+    return () => {
+      this.listeners[event2].delete(cb);
+    };
+  }
+  _emit(type, payload) {
+    this.listeners[type].forEach((l2) => l2(payload));
   }
   init(cfg) {
     let baseURL = cfg.baseUrl;
     this.baseURL = baseURL;
   }
-  on(event2, cb) {
-    var _a;
-    (_a = this.listeners.get(event2)) == null ? void 0 : _a.add(cb);
-    return () => {
-      var _a2;
-      return (_a2 = this.listeners.get(event2)) == null ? void 0 : _a2.delete(cb);
-    };
-  }
-  _emit(type, payload) {
-    var _a;
-    (_a = this.listeners.get(type)) == null ? void 0 : _a.forEach((l2) => l2(payload));
+  updatePool(uid, url) {
+    if (url) {
+      this.requestPool.set(uid, url);
+    } else {
+      this.requestPool.delete(uid);
+      if (this.requestPool.size === 0) {
+        this._emit("idle", true);
+      }
+    }
+    this._emit("poolUpdate", this.requestPool);
   }
   async call(method, path2, requestParams, useAuth = false, requestConfig = {}) {
+    const uid = Math.random().toString(36).substring(2);
+    this.updatePool(uid, path2);
     const RequestsWithBody = ["post", "put", "patch"];
     let req;
     if (path2.startsWith("http")) {
@@ -4849,8 +4997,10 @@ class ApiClient {
     }
     try {
       const response = await req[method]().res(autoParseBody);
+      this.updatePool(uid, null);
       return response.data;
     } catch (err) {
+      this.updatePool(uid, null);
       const apiError = createApiError(err);
       if (apiError.problem.kind === "canceled") {
         throw apiError;
@@ -5003,7 +5153,8 @@ const apiClient = new ApiClient({
             description: error2.message
           });
       }
-    }
+    },
+    idle: () => dispatchMetricsEvent("apiClient_isIdle")
   }
 });
 new ApiClient({
@@ -5016,7 +5167,8 @@ new ApiClient({
             description: error2.message
           });
       }
-    }
+    },
+    idle: () => dispatchMetricsEvent("reportsClient_isIdle")
   }
 });
 const isString = (obj) => typeof obj === "string";
