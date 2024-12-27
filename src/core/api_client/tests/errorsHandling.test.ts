@@ -20,6 +20,24 @@ describe('API Response Handling', () => {
     const response = await ctx.apiClient.get('/test204');
     expect(response).toStrictEqual(null);
   });
+
+  test('should handle malformed token response', async ({
+    ctx,
+  }: {
+    ctx: TestContext;
+  }) => {
+    vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
+      new ApiClientError('Invalid token format in response', {
+        kind: 'bad-data',
+      }),
+    );
+
+    await expect(ctx.apiClient.get('/testMalformed')).rejects.toMatchObject(
+      new ApiClientError('Invalid token format in response', {
+        kind: 'bad-data',
+      }),
+    );
+  });
 });
 
 describe('Authentication Errors', () => {
@@ -113,16 +131,14 @@ describe('Network and Connection Errors', () => {
 
   test('should handle request abortion', async ({ ctx }: { ctx: TestContext }) => {
     vi.spyOn(ctx.apiClient, 'delete').mockRejectedValue(
-      new ApiClientError('Request Timeout', {
-        kind: 'timeout',
-        temporary: true,
+      new ApiClientError('Request was cancelled', {
+        kind: 'canceled',
       }),
     );
 
     await expect(ctx.apiClient.delete('/testAbort')).rejects.toMatchObject(
-      new ApiClientError('Request Timeout', {
-        kind: 'timeout',
-        temporary: true,
+      new ApiClientError('Request was cancelled', {
+        kind: 'canceled',
       }),
     );
   });
@@ -145,6 +161,95 @@ describe('Server Errors', () => {
       new ApiClientError('Unknown Error', {
         data: null,
         kind: 'server',
+      }),
+    );
+  });
+});
+
+describe('Rate Limiting and Service Availability', () => {
+  test('should handle rate limiting response (429)', async ({
+    ctx,
+  }: {
+    ctx: TestContext;
+  }) => {
+    vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
+      new ApiClientError('Too Many Requests', {
+        kind: 'client-unknown',
+      }),
+    );
+
+    try {
+      await ctx.apiClient.get('/testRateLimit');
+    } catch (e) {
+      expect(e).toBeInstanceOf(ApiClientError);
+      expect((e as ApiClientError).problem.kind).toBe('client-unknown');
+    }
+  });
+
+  test('should handle service unavailable (503)', async ({
+    ctx,
+  }: {
+    ctx: TestContext;
+  }) => {
+    vi.spyOn(ctx.apiClient, 'get').mockRejectedValue(
+      new ApiClientError('Service Temporarily Unavailable', {
+        kind: 'server',
+      }),
+    );
+
+    await expect(ctx.apiClient.get('/testMaintenance')).rejects.toMatchObject(
+      new ApiClientError('Service Temporarily Unavailable', {
+        kind: 'server',
+      }),
+    );
+  });
+});
+
+describe('Request Lifecycle', () => {
+  test('should handle request cancellation', async ({ ctx }: { ctx: TestContext }) => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    // Mock the request to delay and respect abort signal
+    ctx.fetchMock.get('*', {
+      throws: new DOMException('The operation was aborted', 'AbortError'),
+    });
+
+    // Start the request and immediately cancel it
+    const promise = ctx.apiClient.get('/testCancel', undefined, false, { signal });
+    controller.abort();
+
+    const error = (await promise.catch((e) => e)) as ApiClientError;
+    expect(error.problem.kind).toBe('canceled');
+  });
+
+  test('should handle concurrent requests cancellation', async ({
+    ctx,
+  }: {
+    ctx: TestContext;
+  }) => {
+    // Mock delayed responses that will be aborted
+    ctx.fetchMock.get('*', {
+      throws: new DOMException('The operation was aborted', 'AbortError'),
+    });
+
+    const controller = new AbortController();
+
+    // Start multiple requests
+    const promises = [
+      ctx.apiClient.get('/test1', undefined, false, { signal: controller.signal }),
+      ctx.apiClient.get('/test2', undefined, false, { signal: controller.signal }),
+      ctx.apiClient.get('/test3', undefined, false, { signal: controller.signal }),
+    ];
+
+    // Cancel all requests
+    controller.abort();
+
+    // All requests should be cancelled
+    await Promise.all(
+      promises.map(async (p) => {
+        const error = (await p.catch((e) => e)) as ApiClientError;
+        expect(error.problem.kind).toBe('canceled');
       }),
     );
   });

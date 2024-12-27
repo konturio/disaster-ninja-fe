@@ -19,7 +19,10 @@ export const ApiMethodTypes = {
 
 export type ApiMethod = (typeof ApiMethodTypes)[keyof typeof ApiMethodTypes];
 
-export type ApiClientConfig = { baseUrl: string };
+export interface ApiClientConfig {
+  baseUrl?: string;
+  csrfProtection?: boolean;
+}
 
 export interface KeycloakAuthResponse {
   access_token: string;
@@ -72,6 +75,7 @@ export interface CustomRequestConfig {
     times: number;
     delayMs: number;
   };
+  retryCount?: number;
 }
 
 /** ----------------------------------------------------------------------------

@@ -3,6 +3,7 @@ import { KONTUR_DEBUG } from '~utils/debug';
 import { ApiClientError } from './apiClientError';
 import type { WretchError } from 'wretch';
 import type { GeneralApiProblem } from './types';
+export { isAbortError } from '~utils/atoms/createAsyncAtom/abort-error';
 
 /**
  * Gathering errors translations here to be used later in platform error refactor
@@ -71,9 +72,35 @@ export function createApiError(err: unknown) {
     return err;
   }
   if (KONTUR_DEBUG) {
-    console.error(err);
+    console.error('Raw error:', err);
+    console.error('Error type:', err?.constructor?.name);
+    console.error('Error properties:', Object.keys(err));
+    if (err instanceof wretch.WretchError) {
+      console.error('WretchError details:', {
+        name: err.name,
+        message: err.message,
+        cause: err.cause,
+        status: err.status,
+        response: err.response,
+      });
+      if (err.cause) {
+        console.error('Cause type:', err.cause?.constructor?.name);
+        console.error('Cause properties:', Object.keys(err.cause));
+      }
+    }
   }
-  if (err instanceof wretch.WretchError) {
+  // Check for AbortError in both direct DOMException and wretch error
+  if (
+    (err instanceof DOMException && err.name === 'AbortError') ||
+    (err instanceof wretch.WretchError && err.name === 'AbortError') ||
+    (err instanceof wretch.WretchError &&
+      err.cause instanceof DOMException &&
+      err.cause.name === 'AbortError') ||
+    (err instanceof wretch.WretchError && err.message === 'The operation was aborted') ||
+    (err instanceof Error && err.name === 'AbortError')
+  ) {
+    problem = { kind: 'canceled' };
+  } else if (err instanceof wretch.WretchError) {
     status = err.status;
     // In case of 400/401 error we need to parse error message from body and show it to user
     if (status === 400) {
@@ -90,8 +117,6 @@ export function createApiError(err: unknown) {
     } else if (status >= 500) {
       problem = { kind: 'server', data: err?.json ?? err?.text };
     }
-  } else if (isAbortError(err)) {
-    problem = { kind: 'canceled' };
   } else {
     // non-api, network or other fetch error
     // 4xx/5xx without Access-Control-Allow-Origin - as generic TypeError
@@ -104,8 +129,4 @@ export function createApiError(err: unknown) {
     errorMessage = parseApiError(err);
   }
   return new ApiClientError(errorMessage || 'Unknown error', problem, status);
-}
-
-export function isAbortError(e) {
-  return e?.name === 'AbortError' || e?.problem?.kind === 'canceled';
 }

@@ -9,18 +9,23 @@ export interface AuthConfig {
 export class AuthFactory {
   static createConfig(overrides: Partial<AuthConfig> = {}): Required<AuthConfig> {
     return {
-      baseUrl: 'http://localhost:8080/auth',
-      realm: 'test-realm',
-      clientId: 'test-client',
+      baseUrl: 'https://keycloak01.konturlabs.com',
+      realm: 'test',
+      clientId: 'kontur_platform',
       username: 'test-user',
       password: 'test-password',
       ...overrides,
     };
   }
 
-  static getTokenEndpoint(config: AuthConfig): string {
+  static getTokenEndpoint(config: AuthConfig = {}): string {
     const { baseUrl, realm } = this.createConfig(config);
     return `${baseUrl}/realms/${realm}/protocol/openid-connect/token`;
+  }
+
+  static getLogoutEndpoint(config: AuthConfig = {}): string {
+    const { baseUrl, realm } = this.createConfig(config);
+    return `${baseUrl}/realms/${realm}/protocol/openid-connect/logout`;
   }
 
   static getApiUrl(path: string = ''): string {

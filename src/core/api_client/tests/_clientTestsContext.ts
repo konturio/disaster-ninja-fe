@@ -48,7 +48,12 @@ export async function createContext(): Promise<TestContext> {
   // Setup default mocks
   await MockFactory.setupSuccessfulAuth(config, token);
   MockFactory.setupFailedAuth(config);
-  MockFactory.setupApiEndpoint('/test');
+  MockFactory.setupLogoutEndpoint(config);
+  MockFactory.setupOidcConfiguration(config);
+
+  // Setup default API endpoint
+  MockFactory.setupSuccessfulResponse('/test', { data: 'test' }, { method: 'get' });
+  MockFactory.setupSuccessfulResponse('/test', { data: 'test' }, { method: 'post' });
 
   return {
     baseUrl: config.baseUrl,
