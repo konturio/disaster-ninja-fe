@@ -8,6 +8,10 @@ export type LocalEventListFilters = {
   minSeverity?: Severity;
   minStartedAt?: string;
   minUpdatedAt?: string;
+  // minUpdatedAt has priority
+  lastNDaysUpdatedAt?: number;
+  // minStartedAt has priority
+  lastNDaysStartedAt?: number;
 };
 
 export type EventsListFeatureConfig = {
