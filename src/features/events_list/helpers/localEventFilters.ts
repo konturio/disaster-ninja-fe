@@ -1,12 +1,26 @@
 import { SEVERITY_SORTING_SCORES } from '../constants';
 import type { Event, EventType, Severity } from '~core/types';
 
+export function filterByLastNDaysUpdatedAt(events: Event[], days: number): Event[] {
+  const minTime = getNDaysBack(days).getTime();
+  if (minTime > 0) {
+    return filterByMinTime(events, minTime, (event) => event.updatedAt);
+  }
+  return events;
+}
+
+export function filterByLastNDaysStartedAt(events: Event[], days: number): Event[] {
+  const minTime = getNDaysBack(days).getTime();
+  if (minTime > 0) {
+    return filterByMinTime(events, minTime, (event) => event.startedAt);
+  }
+  return events;
+}
+
 export function filterByMinUpdatedAt(events: Event[], minDateString: string): Event[] {
   const minTime = new Date(minDateString).getTime();
   if (minTime) {
-    return events.filter((event) => {
-      return event.updatedAt && new Date(event.updatedAt).getTime() >= minTime;
-    });
+    return filterByMinTime(events, minTime, (event) => event.updatedAt);
   }
   return events;
 }
@@ -14,9 +28,7 @@ export function filterByMinUpdatedAt(events: Event[], minDateString: string): Ev
 export function filterByMinStartedAt(events: Event[], minDateString: string): Event[] {
   const minTime = new Date(minDateString).getTime();
   if (minTime) {
-    return events.filter((event) => {
-      return event.startedAt && new Date(event.startedAt).getTime() >= minTime;
-    });
+    return filterByMinTime(events, minTime, (event) => event.startedAt);
   }
   return events;
 }
@@ -58,4 +70,26 @@ export function filterByExcludedEventTypes(
     });
   }
   return events;
+}
+
+function filterByMinTime(
+  events: Event[],
+  minTimeMs: number,
+  fieldExtractor: (event: Event) => string,
+): Event[] {
+  return events.filter((event) => {
+    return (
+      fieldExtractor(event) && new Date(fieldExtractor(event)).getTime() >= minTimeMs
+    );
+  });
+}
+
+function getNDaysBack(days: number): Date {
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date;
 }

@@ -6,6 +6,8 @@ import { sortEventsBySingleProperty } from '../helpers/singlePropertySort';
 import { sortEventsByMcda } from '../helpers/eventsMcdaSort';
 import {
   filterByExcludedEventTypes,
+  filterByLastNDaysStartedAt,
+  filterByLastNDaysUpdatedAt,
   filterByMinAffectedPopulation,
   filterByMinSeverity,
   filterByMinStartedAt,
@@ -56,11 +58,16 @@ function applyLocalEventListFilters(
   if (filtersConfig.excludedEventTypes) {
     result = filterByExcludedEventTypes(result, filtersConfig.excludedEventTypes);
   }
+  // date filters
   if (filtersConfig.minUpdatedAt) {
     result = filterByMinUpdatedAt(result, filtersConfig.minUpdatedAt);
+  } else if (isNumber(filtersConfig.lastNDaysUpdatedAt)) {
+    result = filterByLastNDaysUpdatedAt(result, filtersConfig.lastNDaysUpdatedAt);
   }
   if (filtersConfig.minStartedAt) {
     result = filterByMinStartedAt(result, filtersConfig.minStartedAt);
+  } else if (isNumber(filtersConfig.lastNDaysStartedAt)) {
+    result = filterByLastNDaysStartedAt(result, filtersConfig.lastNDaysStartedAt);
   }
   return result;
 }
