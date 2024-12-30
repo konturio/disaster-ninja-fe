@@ -1,14 +1,15 @@
 .modeWrap {
-  --section: 280px;
-  --min-section: 220px;
   width: 100%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: var(--unit);
+
+  @media screen and (max-width: 960px) {
+    padding: 0;
+  }
 }
 
 .loginWrap {
   margin: auto;
-  max-width: var(--section);
+  max-width: 280px;
 }
