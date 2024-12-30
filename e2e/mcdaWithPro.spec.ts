@@ -6,6 +6,7 @@ import type { Project } from './page-objects/helperBase.ts';
 const projects: Project[] = getProjects();
 
 const projectsWithMCDA = projects.filter((project) => project.name === 'atlas');
+const pixelsDifference = 0.03;
 const areaToSearch = 'Homewood, USA';
 const desiredLocation = 'Homewood, Jefferson County, Alabama, United States';
 const queryToSearchRegExp = /&query=Homewood%2C\+USA/;
@@ -59,9 +60,14 @@ for (const project of projectsWithMCDA) {
         ...expectedLegendPanelTextsAfterMCDACreation,
         analysisName,
       ]);
+      await pageManager.atMap.waitForZoom();
+      await pageManager.atMap.compareScreenshotsOfMap(pixelsDifference);
     });
   });
 }
 
-// TO DO: Add test for creating MCDA with no layers
-// TO DO: add screenshots comparison after MCDA creation. Check that layers are displayed in Legend panel. Check that after clicking Reverse to Good -> Bad, the layers are reversed (compare screenshots). Edit layer in mcda with simple edit like weight, normalization, etc. Check that after editing the layer, it is displayed in the legend panel and the map. Edit MCDA itself in the popup. Check that after editing the MCDA, map has new MCDA applied
+// TO DO: After MCDA redesigning:
+// add logics to check that after clicking Reverse to Good -> Bad, the layers are reversed (compare screenshots).
+// add logics to edit layer in mcda with simple edit like weight, normalization, etc.
+// add logics to check that after editing the layer, it is displayed in the legend panel and the map.
+// add logics to edit MCDA itself in the popup. Check that after editing the MCDA, map has new MCDA applied
