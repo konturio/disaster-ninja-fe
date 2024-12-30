@@ -1,6 +1,6 @@
 .sectionWrapper {
   margin-bottom: calc(var(--double-unit) * 2);
-  scroll-margin-top: 80px; /* Equals the value of the container top padding */
+  scroll-margin-top: var(--topOffset); /* Equals the value of the container top padding */
 
   @media screen and (max-width: 960px) {
     scroll-margin-top: 0;

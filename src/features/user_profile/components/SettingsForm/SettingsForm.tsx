@@ -121,7 +121,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
         <div className={s.settingsColumn}>
           <div className={s.settingsSection}>
             <SettingsSection
-              id={'analysis-objectives'}
+              id="analysis-objectives"
               className={s.fancySection}
               label={i18n.t('profile.improves_analysis')}
               title={i18n.t('profile.analysis_objectives')}
@@ -154,7 +154,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
             </SettingsSection>
             {featureFlags?.[AppFeature.REFERENCE_AREA] && (
               <SettingsSection
-                id={'reference-area'}
+                id="reference-area"
                 className={s.fancySection}
                 title={i18n.t('profile.reference_area.title')}
                 label={i18n.t('profile.improves_analysis')}
@@ -163,7 +163,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
               </SettingsSection>
             )}
 
-            <SettingsSection title={i18n.t('profile.your_contacts')} id={'your-contacts'}>
+            <SettingsSection title={i18n.t('profile.your_contacts')} id="your-contacts">
               <div className={s.fieldsWrapper}>
                 <Input
                   classes={authInputClasses}
@@ -181,7 +181,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
               </div>
             </SettingsSection>
 
-            <SettingsSection title={i18n.t('profile.appSettingsHeader')} id={'settings'}>
+            <SettingsSection title={i18n.t('profile.appSettingsHeader')} id="settings">
               <div className={s.fieldsWrapper}>
                 <Select
                   alwaysShowPlaceholder
@@ -224,6 +224,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                     label={i18n.t('profile.metric')}
                     checked={localSettings.useMetricUnits}
                     onChange={toggleUnits}
+                    aria-checked={localSettings.useMetricUnits}
                   />
                   <Radio
                     as="input"
@@ -231,6 +232,7 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                     label={i18n.t('profile.imperialBeta')}
                     checked={!localSettings.useMetricUnits}
                     onChange={toggleUnits}
+                    aria-checked={!localSettings.useMetricUnits}
                   />
                 </div>
               </div>
