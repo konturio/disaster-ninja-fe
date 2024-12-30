@@ -22,8 +22,8 @@ export const SettingsSection = ({
   label,
 }: SettingsSectionProps) => {
   return (
-    <div className={styles.sectionWrapper}>
-      <section id={id} className={clsx(className, styles.section)}>
+    <div className={styles.sectionWrapper} id={id}>
+      <section className={clsx(className, styles.section)}>
         <div className={styles.header}>
           <h3 className={styles.title}>{title}</h3>
           {label && (

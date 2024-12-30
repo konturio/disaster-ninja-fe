@@ -3,7 +3,6 @@ import { useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
 import { useCallback, useEffect, useState } from 'react';
 import { lazily } from 'react-lazily';
-import { Element, scrollSpy } from 'react-scroll';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
 import { i18n } from '~core/localization';
@@ -19,7 +18,6 @@ import {
 import { SettingsNavigation } from '~features/user_profile/components/SettingsForm/SettingsNavigation/SettingsNavigation';
 import { SettingsSection } from '~features/user_profile/components/SettingsForm/SettingsSection/SettingsSection';
 import stylesV1 from '~features/user_profile/components/SettingsForm/SettingsForm.module.css';
-import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 
@@ -30,11 +28,6 @@ const { SelectFeeds } = lazily(() => import('./SelectFeeds'));
 
 const authInputClasses = { input: clsx(s.authInput) };
 const featureFlags = configRepo.get().features;
-
-const scrollableContainerId = 'profile-content-wrap';
-const mobileScrollableContainerId = 'profile-settings-column';
-const desktopScrollableOffset = -80; // scrollable container padding-top
-const mobileScrollableOffset = -3; // little offset to handle heights with fractional pixel values on mobile layout
 
 const navigationSteps = [
   { label: i18n.t('profile.analysis_objectives'), id: 'analysis-objectives' },
@@ -68,15 +61,9 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [localSettings, setLocalSettings] = useState(userProfile);
 
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-
   function logout() {
     authClientInstance.logout();
   }
-
-  useEffect(() => {
-    scrollSpy.update();
-  }, []);
 
   useEffect(() => {
     // compare objects instead
@@ -121,148 +108,138 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
 
   return (
     <>
-      <div className={s.contentWrap} id={scrollableContainerId}>
+      <div className={s.contentWrap}>
         <div className={s.navSection}>
           <Heading type="heading-01">{i18n.t('profile.profileSettingsHeader')}</Heading>
-          <SettingsNavigation
-            steps={navigationSteps}
-            containerId={isMobile ? mobileScrollableContainerId : scrollableContainerId}
-            offset={isMobile ? mobileScrollableOffset : desktopScrollableOffset}
-          />
+          <SettingsNavigation steps={navigationSteps} />
           <div className={s.logoutWrapper}>
             <Button onClick={logout} variant="invert">
               <Text type="short-m">{i18n.t('logout')}</Text>
             </Button>
           </div>
         </div>
-        <div className={s.settingsColumn} id={mobileScrollableContainerId}>
+        <div className={s.settingsColumn}>
           <div className={s.settingsSection}>
-            <Element name="analysis-objectives" key="analysis-objectives">
-              <SettingsSection
-                className={s.fancySection}
-                label={i18n.t('profile.improves_analysis')}
-                title={i18n.t('profile.analysis_objectives')}
-              >
-                <div className={s.descriptionBlock}>
-                  {i18n.t('profile.personalization_prompt')}
-                  <div className={s.tags}>
-                    <span className={clsx(s.tag, 'k-font-caption')}>
-                      {i18n.t('profile.your_current_job')}
-                    </span>
-                    <span className={clsx(s.tag, 'k-font-caption')}>
-                      {i18n.t('profile.area_of_expertise')}
-                    </span>
-                    <span className={clsx(s.tag, 'k-font-caption')}>
-                      {i18n.t('profile.challenges')}
-                    </span>
-                  </div>
-                  {i18n.t('profile.ai_tools_compatibility')}
+            <SettingsSection
+              id={'analysis-objectives'}
+              className={s.fancySection}
+              label={i18n.t('profile.improves_analysis')}
+              title={i18n.t('profile.analysis_objectives')}
+            >
+              <div className={s.descriptionBlock}>
+                {i18n.t('profile.personalization_prompt')}
+                <div className={s.tags}>
+                  <span className={clsx(s.tag, 'k-font-caption')}>
+                    {i18n.t('profile.your_current_job')}
+                  </span>
+                  <span className={clsx(s.tag, 'k-font-caption')}>
+                    {i18n.t('profile.area_of_expertise')}
+                  </span>
+                  <span className={clsx(s.tag, 'k-font-caption')}>
+                    {i18n.t('profile.challenges')}
+                  </span>
                 </div>
-                <Textarea
-                  topPlaceholder={i18n.t('profile.user_bio_placeholder')}
-                  placeholder={i18n.t('profile.bio_textarea_placeholder')}
-                  value={localSettings.bio}
-                  onChange={onChange('bio')}
-                  classes={{
-                    placeholder: s.placeholder,
-                  }}
-                  className={s.textArea}
-                />
-              </SettingsSection>
-            </Element>
+                {i18n.t('profile.ai_tools_compatibility')}
+              </div>
+              <Textarea
+                topPlaceholder={i18n.t('profile.user_bio_placeholder')}
+                placeholder={i18n.t('profile.bio_textarea_placeholder')}
+                value={localSettings.bio}
+                onChange={onChange('bio')}
+                classes={{
+                  placeholder: s.placeholder,
+                }}
+                className={s.textArea}
+              />
+            </SettingsSection>
             {featureFlags?.[AppFeature.REFERENCE_AREA] && (
-              <Element name="reference-area" key="reference-area">
-                <SettingsSection
-                  className={s.fancySection}
-                  title={i18n.t('profile.reference_area.title')}
-                  label={i18n.t('profile.improves_analysis')}
-                >
-                  <ReferenceAreaInfo />
-                </SettingsSection>
-              </Element>
+              <SettingsSection
+                id={'reference-area'}
+                className={s.fancySection}
+                title={i18n.t('profile.reference_area.title')}
+                label={i18n.t('profile.improves_analysis')}
+              >
+                <ReferenceAreaInfo />
+              </SettingsSection>
             )}
 
-            <Element name="your-contacts" key="your-contacts">
-              <SettingsSection title={i18n.t('profile.your_contacts')}>
-                <div className={s.fieldsWrapper}>
-                  <Input
-                    classes={authInputClasses}
-                    showTopPlaceholder
-                    placeholder={i18n.t('profile.fullName')}
-                    value={localSettings.fullName}
-                    onChange={onChange('fullName')}
+            <SettingsSection title={i18n.t('profile.your_contacts')} id={'your-contacts'}>
+              <div className={s.fieldsWrapper}>
+                <Input
+                  classes={authInputClasses}
+                  showTopPlaceholder
+                  placeholder={i18n.t('profile.fullName')}
+                  value={localSettings.fullName}
+                  onChange={onChange('fullName')}
+                />
+                <Input
+                  showTopPlaceholder
+                  value={localSettings.email}
+                  placeholder={i18n.t('profile.email')}
+                  disabled
+                />
+              </div>
+            </SettingsSection>
+
+            <SettingsSection title={i18n.t('profile.appSettingsHeader')} id={'settings'}>
+              <div className={s.fieldsWrapper}>
+                <Select
+                  alwaysShowPlaceholder
+                  value={localSettings.language}
+                  items={OPTIONS_LANGUAGE}
+                  withResetButton={false}
+                  onSelect={onChange('language')}
+                >
+                  {i18n.t('profile.interfaceLanguage')}
+                </Select>
+
+                {(featureFlags[AppFeature.FEED_SELECTOR] ||
+                  featureFlags[AppFeature.EVENTS_LIST__FEED_SELECTOR]) && (
+                  <SelectFeeds
+                    onChange={onChange('defaultFeed')}
+                    value={localSettings.defaultFeed}
+                    title={i18n.t('profile.defaultDisasterFeed')}
                   />
-                  <Input
-                    showTopPlaceholder
-                    value={localSettings.email}
-                    placeholder={i18n.t('profile.email')}
-                    disabled
+                )}
+
+                <Select
+                  data-testid="osmEditor"
+                  alwaysShowPlaceholder
+                  value={localSettings.osmEditor || DEFAULT_OSM_EDITOR}
+                  items={OPTIONS_OSM}
+                  withResetButton={false}
+                  onSelect={onChange('osmEditor')}
+                >
+                  {i18n.t('profile.defaultOSMeditor')}
+                </Select>
+
+                <div>
+                  <Text type="short-l" className={stylesV1.smallTitle}>
+                    {i18n.t('profile.units')}
+                  </Text>
+
+                  <Radio
+                    as="input"
+                    id="metric"
+                    label={i18n.t('profile.metric')}
+                    checked={localSettings.useMetricUnits}
+                    onChange={toggleUnits}
+                  />
+                  <Radio
+                    as="input"
+                    id="imperial"
+                    label={i18n.t('profile.imperialBeta')}
+                    checked={!localSettings.useMetricUnits}
+                    onChange={toggleUnits}
                   />
                 </div>
-              </SettingsSection>
-            </Element>
-
-            <Element name="settings" key="settings">
-              <SettingsSection title={i18n.t('profile.appSettingsHeader')}>
-                <div className={s.fieldsWrapper}>
-                  <Select
-                    alwaysShowPlaceholder
-                    value={localSettings.language}
-                    items={OPTIONS_LANGUAGE}
-                    withResetButton={false}
-                    onSelect={onChange('language')}
-                  >
-                    {i18n.t('profile.interfaceLanguage')}
-                  </Select>
-
-                  {(featureFlags[AppFeature.FEED_SELECTOR] ||
-                    featureFlags[AppFeature.EVENTS_LIST__FEED_SELECTOR]) && (
-                    <SelectFeeds
-                      onChange={onChange('defaultFeed')}
-                      value={localSettings.defaultFeed}
-                      title={i18n.t('profile.defaultDisasterFeed')}
-                    />
-                  )}
-
-                  <Select
-                    data-testid="osmEditor"
-                    alwaysShowPlaceholder
-                    value={localSettings.osmEditor || DEFAULT_OSM_EDITOR}
-                    items={OPTIONS_OSM}
-                    withResetButton={false}
-                    onSelect={onChange('osmEditor')}
-                  >
-                    {i18n.t('profile.defaultOSMeditor')}
-                  </Select>
-
-                  <div>
-                    <Text type="short-l" className={stylesV1.smallTitle}>
-                      {i18n.t('profile.units')}
-                    </Text>
-
-                    <Radio
-                      as="input"
-                      id="metric"
-                      label={i18n.t('profile.metric')}
-                      checked={localSettings.useMetricUnits}
-                      onChange={toggleUnits}
-                    />
-                    <Radio
-                      as="input"
-                      id="imperial"
-                      label={i18n.t('profile.imperialBeta')}
-                      checked={!localSettings.useMetricUnits}
-                      onChange={toggleUnits}
-                    />
-                  </div>
-                </div>
-                <div className={s.mobileLogoutWrapper}>
-                  <Button onClick={logout} variant="invert">
-                    <Text type="short-m">{i18n.t('logout')}</Text>
-                  </Button>
-                </div>
-              </SettingsSection>
-            </Element>
+              </div>
+              <div className={s.mobileLogoutWrapper}>
+                <Button onClick={logout} variant="invert">
+                  <Text type="short-m">{i18n.t('logout')}</Text>
+                </Button>
+              </div>
+            </SettingsSection>
           </div>
 
           <div className={s.saveWrap}>
