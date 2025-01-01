@@ -84,7 +84,7 @@
     "@reatom/npm-react": "^3.10.3",
     "@reatom/react-v2": "^3.1.2",
     "@sentry/react": "^8.45.0",
-    "@turf/area": "6.5.0",
+    "@turf/area": "7.2.0",
     "@turf/bbox": "^6.5.0",
     "@turf/centroid": "^6.5.0",
     "@turf/distance": "^6.5.0",
