@@ -44,7 +44,7 @@ importers:
         version: 1.1.0-alpha.5
       '@nebula.gl/layers':
         specifier: 1.1.0-alpha.5
-        version: 1.1.0-alpha.5(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/geo-layers@8.9.33(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@loaders.gl/core@3.4.14)(@loaders.gl/gltf@3.4.15)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/shadertools@8.5.21)(@luma.gl/webgl@8.5.21))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)
+        version: 1.1.0-alpha.5(ndumqhjtyb4lifotp7dxv7ls64)
       '@paypal/react-paypal-js':
         specifier: ^8.7.0
         version: 8.7.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -223,8 +223,8 @@ importers:
         specifier: ^2.0.11
         version: 2.0.11
       react-i18next:
-        specifier: ^15.2.0
-        version: 15.2.0(i18next@23.16.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^15.4.0
+        version: 15.4.0(i18next@23.16.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-lazily:
         specifier: ^0.9.2
         version: 0.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -303,7 +303,7 @@ importers:
         version: 10.4.20(postcss@8.4.49)
       bundle-size-diff:
         specifier: github:konturio/bundle-size-diff#v1.0.7
-        version: https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13)
+        version: git+https://git@github.com:konturio/bundle-size-diff.git#ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13)
       chalk:
         specifier: ^5.3.0
         version: 5.3.0
@@ -2442,8 +2442,8 @@ packages:
     resolution: {integrity: sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q==}
     engines: {node: '>=18'}
 
-  bundle-size-diff@https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b:
-    resolution: {tarball: https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b}
+  bundle-size-diff@git+https://git@github.com:konturio/bundle-size-diff.git#ebf38b6154eedbab942eb1f234ac918840e9938b:
+    resolution: {commit: ebf38b6154eedbab942eb1f234ac918840e9938b, repo: git@github.com:konturio/bundle-size-diff.git, type: git}
     version: 1.0.0
 
   bytes@3.1.2:
@@ -4832,8 +4832,8 @@ packages:
   react-gtm-module@2.0.11:
     resolution: {integrity: sha512-8gyj4TTxeP7eEyc2QKawEuQoAZdjKvMY4pgWfycGmqGByhs17fR+zEBs0JUDq4US/l+vbTl+6zvUIx27iDo/Vw==}
 
-  react-i18next@15.2.0:
-    resolution: {integrity: sha512-iJNc8111EaDtVTVMKigvBtPHyrJV+KblWG73cUxqp+WmJCcwkzhWNFXmkAD5pwP2Z4woeDj/oXDdbjDsb3Gutg==}
+  react-i18next@15.4.0:
+    resolution: {integrity: sha512-Py6UkX3zV08RTvL6ZANRoBh9sL/ne6rQq79XlkHEdd82cZr2H9usbWpUNVadJntIZP2pu3M2rL1CN+5rQYfYFw==}
     peerDependencies:
       i18next: '>= 23.2.3'
       react: '>= 16.8.0'
@@ -6843,8 +6843,8 @@ snapshots:
       lodash.throttle: 4.1.1
       viewport-mercator-project: 7.0.4
 
-  ? '@nebula.gl/layers@1.1.0-alpha.5(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/geo-layers@8.9.33(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@loaders.gl/core@3.4.14)(@loaders.gl/gltf@3.4.15)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/shadertools@8.5.21)(@luma.gl/webgl@8.5.21))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)'
-  : dependencies:
+  '@nebula.gl/layers@1.1.0-alpha.5(ndumqhjtyb4lifotp7dxv7ls64)':
+    dependencies:
       '@deck.gl/core': 8.9.33
       '@deck.gl/extensions': 8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3)
       '@deck.gl/geo-layers': 8.9.33(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@loaders.gl/core@3.4.14)(@loaders.gl/gltf@3.4.15)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/shadertools@8.5.21)(@luma.gl/webgl@8.5.21)
@@ -8288,7 +8288,7 @@ snapshots:
     dependencies:
       run-applescript: 7.0.0
 
-  bundle-size-diff@https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13):
+  bundle-size-diff@git+https://git@github.com:konturio/bundle-size-diff.git#ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13):
     dependencies:
       '@actions/core': 1.11.1
       '@actions/github': 5.1.1(encoding@0.1.13)
@@ -10876,7 +10876,7 @@ snapshots:
 
   react-gtm-module@2.0.11: {}
 
-  react-i18next@15.2.0(i18next@23.16.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-i18next@15.4.0(i18next@23.16.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
       html-parse-stringify: 3.0.1
