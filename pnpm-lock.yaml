@@ -44,7 +44,7 @@ importers:
         version: 1.1.0-alpha.5
       '@nebula.gl/layers':
         specifier: 1.1.0-alpha.5
-        version: 1.1.0-alpha.5(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/geo-layers@8.9.33(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@loaders.gl/core@3.4.14)(@loaders.gl/gltf@3.4.15)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/shadertools@8.5.21)(@luma.gl/webgl@8.5.21))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)
+        version: 1.1.0-alpha.5(ndumqhjtyb4lifotp7dxv7ls64)
       '@paypal/react-paypal-js':
         specifier: ^8.7.0
         version: 8.7.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -181,8 +181,8 @@ importers:
         specifier: ^8.0.2
         version: 8.0.2
       i18next-conv:
-        specifier: 15.0.0
-        version: 15.0.0
+        specifier: 15.1.0
+        version: 15.1.0
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0
@@ -303,7 +303,7 @@ importers:
         version: 10.4.20(postcss@8.4.49)
       bundle-size-diff:
         specifier: github:konturio/bundle-size-diff#v1.0.7
-        version: https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13)
+        version: git+https://git@github.com:konturio/bundle-size-diff.git#ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13)
       chalk:
         specifier: ^5.3.0
         version: 5.3.0
@@ -467,6 +467,10 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+
+  '@bcoe/v8-coverage@1.0.1':
+    resolution: {integrity: sha512-W+a0/JpU28AqH4IKtwUPcEUnUyXMDLALcn5/JLczGGT9fHE2sIby/xP/oQnx3nxkForzgzPy201RAKcB4xPAFQ==}
+    engines: {node: '>=18'}
 
   '@codecov/bundler-plugin-core@1.6.0':
     resolution: {integrity: sha512-x2M5P1NUk5lNW5slKY3jSb6Hpuie7bKaolDyZ7oWBHvBgtAJOeU7VrutdVhaiYoiQonM65JI2UAIWtw6mup/Yw==}
@@ -1473,6 +1477,9 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  '@postalsys/gettext@4.0.1':
+    resolution: {integrity: sha512-QERj2sCJTZJN4scplV9BUpZObUsB/ZAF+/MD3OBxDkqTWEmK/C0HX1i15IRJ0YpYtl3hovc4mEN37HIGvb4pbw==}
+
   '@probe.gl/env@3.6.0':
     resolution: {integrity: sha512-4tTZYUg/8BICC3Yyb9rOeoKeijKbZHRXBEKObrfPmX4sQmYB15ZOUpoVBhAyJkOYVAM8EkPci6Uw5dLCwx2BEQ==}
 
@@ -2442,8 +2449,8 @@ packages:
     resolution: {integrity: sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q==}
     engines: {node: '>=18'}
 
-  bundle-size-diff@https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b:
-    resolution: {tarball: https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b}
+  bundle-size-diff@git+https://git@github.com:konturio/bundle-size-diff.git#ebf38b6154eedbab942eb1f234ac918840e9938b:
+    resolution: {commit: ebf38b6154eedbab942eb1f234ac918840e9938b, repo: git@github.com:konturio/bundle-size-diff.git, type: git}
     version: 1.0.0
 
   bytes@3.1.2:
@@ -2456,10 +2463,15 @@ packages:
   bytewise@1.1.0:
     resolution: {integrity: sha512-rHuuseJ9iQ0na6UDhnrRVDh8YnWVlU6xM3VH6q/+yHDeUH2zIhUzP+2/h3LIrhLDBtTqzWpE3p3tP/boefskKQ==}
 
-  c8@9.1.0:
-    resolution: {integrity: sha512-mBWcT5iqNir1zIkzSPyI3NCR9EZCVI3WUD+AVO17MVWTSFNyUueXE82qTeampNtTr+ilN/5Ua3j24LgbCKjDVg==}
-    engines: {node: '>=14.14.0'}
+  c8@10.1.3:
+    resolution: {integrity: sha512-LvcyrOAaOnrrlMpW22n690PUvxiq4Uf9WMhQwNJ9vgagkL/ph1+D4uvjvDA5XCbykrc0sx+ay6pVi9YZ1GnhyA==}
+    engines: {node: '>=18'}
     hasBin: true
+    peerDependencies:
+      monocart-coverage-reports: ^2
+    peerDependenciesMeta:
+      monocart-coverage-reports:
+        optional: true
 
   cac@6.7.14:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
@@ -3625,8 +3637,8 @@ packages:
   i18next-browser-languagedetector@8.0.2:
     resolution: {integrity: sha512-shBvPmnIyZeD2VU5jVGIOWP7u9qNG3Lj7mpaiPFpbJ3LVfHZJvVzKR4v1Cb91wAOFpNw442N+LGPzHOHsten2g==}
 
-  i18next-conv@15.0.0:
-    resolution: {integrity: sha512-Er3WRTMt/5H4sWNPhkvdMko+T+k91deSukLm7Wkt9L+Fo06ORMQsQLIsqkE901mrU9xRsNmn7HuJLO7kKwEi6Q==}
+  i18next-conv@15.1.0:
+    resolution: {integrity: sha512-QrYnCAyXVR5CToN7c+z6/WilV8uu0cdd1q+y2r1oW47KlkWL+GWErlpLZWoiWLRY3t6IxWWqU8TfDmtIZEPy+Q==}
     engines: {node: '>= 18.0'}
     hasBin: true
 
@@ -4356,9 +4368,6 @@ packages:
     peerDependenciesMeta:
       encoding:
         optional: true
-
-  node-gettext@3.0.0:
-    resolution: {integrity: sha512-/VRYibXmVoN6tnSAY2JWhNRhWYJ8Cd844jrZU/DwLVoI4vBI6ceYbd8i42sYZ9uOgDH3S7vslIKOWV/ZrT2YBA==}
 
   node-html-parser@5.4.2:
     resolution: {integrity: sha512-RaBPP3+51hPne/OolXxcz89iYvQvKOydaqoePpOgXcrOKZhjVIzmpKZz+Hd/RBO2/zN2q6CNJhQzucVz+u3Jyw==}
@@ -5431,10 +5440,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  test-exclude@6.0.0:
-    resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==}
-    engines: {node: '>=8'}
-
   test-exclude@7.0.1:
     resolution: {integrity: sha512-pFYqmTw68LXVjeWJMST4+borgQP2AyMNbg1BpZh9LbyhUeNkeaPF9gzfPGUAnSMV3qPYdWUwDIjjCLiSDOl7vg==}
     engines: {node: '>=18'}
@@ -6046,6 +6051,8 @@ snapshots:
       '@babel/helper-validator-identifier': 7.25.9
 
   '@bcoe/v8-coverage@0.2.3': {}
+
+  '@bcoe/v8-coverage@1.0.1': {}
 
   '@codecov/bundler-plugin-core@1.6.0':
     dependencies:
@@ -6843,8 +6850,8 @@ snapshots:
       lodash.throttle: 4.1.1
       viewport-mercator-project: 7.0.4
 
-  ? '@nebula.gl/layers@1.1.0-alpha.5(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/geo-layers@8.9.33(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@loaders.gl/core@3.4.14)(@loaders.gl/gltf@3.4.15)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/shadertools@8.5.21)(@luma.gl/webgl@8.5.21))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)'
-  : dependencies:
+  '@nebula.gl/layers@1.1.0-alpha.5(ndumqhjtyb4lifotp7dxv7ls64)':
+    dependencies:
       '@deck.gl/core': 8.9.33
       '@deck.gl/extensions': 8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3)
       '@deck.gl/geo-layers': 8.9.33(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@loaders.gl/core@3.4.14)(@loaders.gl/gltf@3.4.15)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/shadertools@8.5.21)(@luma.gl/webgl@8.5.21)
@@ -7120,6 +7127,10 @@ snapshots:
   '@playwright/test@1.49.1':
     dependencies:
       playwright: 1.49.1
+
+  '@postalsys/gettext@4.0.1':
+    dependencies:
+      lodash.get: 4.4.2
 
   '@probe.gl/env@3.6.0':
     dependencies:
@@ -8288,7 +8299,7 @@ snapshots:
     dependencies:
       run-applescript: 7.0.0
 
-  bundle-size-diff@https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13):
+  bundle-size-diff@git+https://git@github.com:konturio/bundle-size-diff.git#ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13):
     dependencies:
       '@actions/core': 1.11.1
       '@actions/github': 5.1.1(encoding@0.1.13)
@@ -8308,16 +8319,16 @@ snapshots:
       bytewise-core: 1.2.3
       typewise: 1.0.3
 
-  c8@9.1.0:
+  c8@10.1.3:
     dependencies:
-      '@bcoe/v8-coverage': 0.2.3
+      '@bcoe/v8-coverage': 1.0.1
       '@istanbuljs/schema': 0.1.3
       find-up: 5.0.0
       foreground-child: 3.3.0
       istanbul-lib-coverage: 3.2.2
       istanbul-lib-report: 3.0.1
       istanbul-reports: 3.1.7
-      test-exclude: 6.0.0
+      test-exclude: 7.0.1
       v8-to-istanbul: 9.3.0
       yargs: 17.7.2
       yargs-parser: 21.1.1
@@ -9684,15 +9695,17 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.26.0
 
-  i18next-conv@15.0.0:
+  i18next-conv@15.1.0:
     dependencies:
-      c8: 9.1.0
+      '@postalsys/gettext': 4.0.1
+      c8: 10.1.3
       colorette: 2.0.20
       commander: 12.1.0
       gettext-converter: 1.3.0
       gettext-parser: 8.0.0
-      node-gettext: 3.0.0
       p-from-callback: 2.0.0
+    transitivePeerDependencies:
+      - monocart-coverage-reports
 
   i18next-scanner@4.6.0:
     dependencies:
@@ -10377,10 +10390,6 @@ snapshots:
       whatwg-url: 5.0.0
     optionalDependencies:
       encoding: 0.1.13
-
-  node-gettext@3.0.0:
-    dependencies:
-      lodash.get: 4.4.2
 
   node-html-parser@5.4.2:
     dependencies:
@@ -11592,12 +11601,6 @@ snapshots:
       acorn: 8.14.0
       commander: 2.20.3
       source-map-support: 0.5.21
-
-  test-exclude@6.0.0:
-    dependencies:
-      '@istanbuljs/schema': 0.1.3
-      glob: 7.2.3
-      minimatch: 3.1.2
 
   test-exclude@7.0.1:
     dependencies:
