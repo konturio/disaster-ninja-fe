@@ -71,6 +71,9 @@ export interface MCDALegend {
 export interface MultivariateLegend {
   type: 'multivariate';
   title?: string;
+  // MultivariateLegend doesn't really need steps property right now.
+  // Adding this for now to avoid type issues which require heavy refactoring
+  steps?: undefined;
 }
 
 export type LayerLegend =
