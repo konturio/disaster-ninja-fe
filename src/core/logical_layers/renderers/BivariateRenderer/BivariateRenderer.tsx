@@ -285,7 +285,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     if (map.getLayer(layerId)) {
       return;
     }
-    const layerStyle = styleConfigs.mcda(style.config)[0];
+    const layerStyle: LayerSpecification = styleConfigs.mcda(style.config)[0];
     const layerRes = { ...layerStyle, id: layerId, source: this._sourceId };
     layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
       layerRes as LayerSpecification,

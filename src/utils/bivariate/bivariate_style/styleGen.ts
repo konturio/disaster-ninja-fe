@@ -1,32 +1,34 @@
+import type { ExpressionSpecification } from 'maplibre-gl';
+
 export function featureProp<T>(name: T) {
   return ['get', name];
 }
 
-export function getVariable<T>(name: T) {
+export function getVariable(name: string): ExpressionSpecification {
   return ['var', name];
 }
 
-export function less<T, R>(first: T, second: R) {
+export function less(first, second): ExpressionSpecification {
   return ['<', first, second];
 }
 
-export function lessOrEqual<T, R>(first: T, second: R) {
+export function lessOrEqual(first, second): ExpressionSpecification {
   return ['<=', first, second];
 }
 
-export function greaterOrEqual(first, second) {
+export function greaterOrEqual(first, second): ExpressionSpecification {
   return ['>=', first, second];
 }
 
-export function notEqual<T, R>(first: T, second: R) {
+export function notEqual(first, second): ExpressionSpecification {
   return ['!=', first, second];
 }
 
-export function equal<T, R>(first: T, second: R) {
+export function equal(first, second): ExpressionSpecification {
   return ['==', first, second];
 }
 
-export function caseFn<T, R>(condition: T, output: R) {
+export function caseFn(condition, output): ExpressionSpecification {
   return [condition, output];
 }
 
@@ -46,11 +48,11 @@ export function toNumber(value) {
   return ['to-number', value, 0];
 }
 
-export function allCondition(...conditionInputs) {
+export function allCondition(...conditionInputs): ExpressionSpecification {
   return ['all', ...conditionInputs];
 }
 
-export function anyCondition(...conditionInputs) {
+export function anyCondition(...conditionInputs): ExpressionSpecification {
   return ['any', ...conditionInputs];
 }
 

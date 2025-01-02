@@ -1,5 +1,3 @@
-import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
-import { configRepo } from '~core/config';
 import {
   allCondition,
   anyCondition,
@@ -9,14 +7,15 @@ import {
   notEqual,
 } from '~utils/bivariate/bivariate_style/styleGen';
 import { sumBy } from '~utils/common';
-import {
-  FALLBACK_BIVARIATE_MAX_ZOOM,
-  FALLBACK_BIVARIATE_MIN_ZOOM,
-} from '../../BivariateRenderer/constants';
 import { DEFAULT_GREEN, DEFAULT_RED } from './calculations/constants';
 import { calculateLayerPipeline, inStyleCalculations } from './calculations';
 import { SOURCE_LAYER_MCDA } from './constants';
-import type { MCDAConfig } from './types';
+import type {
+  ExpressionSpecification,
+  FillLayerSpecification,
+  FilterSpecification,
+} from 'maplibre-gl';
+import type { ColorsByMapLibreExpression, MCDAConfig } from './types';
 
 //@ts-expect-error - not clear how to type this right, but this compromise do the trick
 const calculateLayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
@@ -24,7 +23,7 @@ const calculateLayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
   den: ['get', axis.den],
 }));
 
-export function filterSetup(layers: MCDAConfig['layers']) {
+export function filterSetup(layers: MCDAConfig['layers']): FilterSpecification {
   // TODO: is this condition really needed?
   // checks that at least one layer has a non-zero value
   const conditions = [
@@ -55,7 +54,9 @@ export function filterSetup(layers: MCDAConfig['layers']) {
   return conditions[0];
 }
 
-export function linearNormalization(layers: MCDAConfig['layers']) {
+export function linearNormalization(
+  layers: MCDAConfig['layers'],
+): ExpressionSpecification {
   if (layers.length === 1) {
     return ['/', calculateLayer(layers.at(0)!), layers.at(0)!.coefficient];
   } else {
@@ -65,7 +66,7 @@ export function linearNormalization(layers: MCDAConfig['layers']) {
 
 type PaintProps = {
   colorsConfig: MCDAConfig['colors'];
-  mcdaResult: number | (string | number | (string | number)[])[];
+  mcdaResult: ExpressionSpecification;
   absoluteMax: number;
   absoluteMin: number;
 };
@@ -75,7 +76,11 @@ function sentimentPaint({
   mcdaResult,
   absoluteMin,
   absoluteMax,
-}: PaintProps) {
+}: PaintProps): FillLayerSpecification['paint'] {
+  if (colorsConfig.type !== 'sentiments') {
+    console.error(`Expected sentiments color config, but got ${colorsConfig.type}`);
+    return undefined;
+  }
   const { good = DEFAULT_GREEN, bad = DEFAULT_RED } = colorsConfig.parameters;
   /* TODO: using midpoints for gradient customization is a temporary solution.
   It will probably be removed in the future in favor of working with Color Manager */
@@ -126,10 +131,10 @@ function expressionsPaint({
   mcdaResult,
   absoluteMax,
   absoluteMin,
-}: PaintProps) {
-  return Object.entries(colorsConfig.parameters).reduce(
+}: PaintProps): FillLayerSpecification['paint'] {
+  return Object.entries((colorsConfig as ColorsByMapLibreExpression).parameters).reduce(
     (acc, [paintProp, expression]) => {
-      acc[paintProp] = Array.isArray(expression)
+      acc![paintProp] = Array.isArray(expression)
         ? [
             'let',
             'mcdaResult',
@@ -144,7 +149,7 @@ function expressionsPaint({
 
       return acc;
     },
-    {} as Record<string, unknown>,
+    {} as FillLayerSpecification['paint'],
   );
 }
 
@@ -158,7 +163,7 @@ function generateLayerPaint(props: PaintProps) {
   }
 }
 
-export function createMCDAStyle(config: MCDAConfig) {
+export function createMCDAStyle(config: MCDAConfig): FillLayerSpecification {
   const [absoluteMin = 0, absoluteMax = 1] = config.layers.reduce(
     (acc, l) => {
       // Show full range of values between min max if normalization not enabled
@@ -173,7 +178,7 @@ export function createMCDAStyle(config: MCDAConfig) {
 
   const mcdaResult = linearNormalization(config.layers);
 
-  const layerStyle = {
+  const layerStyle: FillLayerSpecification = {
     id: config.id,
     type: 'fill' as const,
     layout: {},
@@ -186,18 +191,7 @@ export function createMCDAStyle(config: MCDAConfig) {
       absoluteMax,
     }),
 
-    source: {
-      type: 'vector' as const,
-      tiles: [
-        `${adaptTileUrl(
-          configRepo.get().bivariateTilesRelativeUrl,
-        )}{z}/{x}/{y}.mvt?indicatorsClass=${
-          configRepo.get().bivariateTilesIndicatorsClass
-        }`,
-      ],
-      maxzoom: FALLBACK_BIVARIATE_MAX_ZOOM,
-      minzoom: FALLBACK_BIVARIATE_MIN_ZOOM,
-    },
+    source: config.id + '_source',
     'source-layer': SOURCE_LAYER_MCDA,
   };
 

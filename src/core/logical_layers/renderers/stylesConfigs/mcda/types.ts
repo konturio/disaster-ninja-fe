@@ -8,7 +8,7 @@ import type {
 
 export type ColorsByMapLibreExpression = {
   type: 'mapLibreExpression';
-  parameters: Record<string, string | number | boolean | maplibregl.Expression>;
+  parameters: maplibregl.Expression;
 };
 
 export type ColorsBySentiments = {

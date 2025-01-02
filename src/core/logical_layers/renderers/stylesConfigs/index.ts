@@ -3,6 +3,8 @@ import { MapMath } from './mcda/calculations/operations';
 import type { MapExpression } from './mcda/calculations/operations';
 import type { MultivariateAxis } from '../MultivariateRenderer/types';
 import type { MCDALayerStyle, MultivariateLayerStyle } from './mcda/types';
+import type { LayerSpecification } from 'maplibre-gl';
+import type { LayerStyle } from '~core/logical_layers/types/style';
 
 export function multivariateAxisToScore(axis: MultivariateAxis | number) {
   if (typeof axis === 'number') {
@@ -12,8 +14,11 @@ export function multivariateAxisToScore(axis: MultivariateAxis | number) {
   }
 }
 
-export const styleConfigs = {
-  mcda: (config: MCDALayerStyle['config']) => {
+export const styleConfigs: Record<
+  LayerStyle['type'],
+  (config: any) => LayerSpecification[]
+> = {
+  mcda: (config: MCDALayerStyle['config']): LayerSpecification[] => {
     return new Array(createMCDAStyle(config));
   },
   multivariate: (config: MultivariateLayerStyle['config']) => {
