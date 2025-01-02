@@ -14,9 +14,11 @@ import {
   MapHexTooltip,
 } from '~components/MapHexTooltip/MapHexTooltip';
 import { invertClusters } from '~utils/bivariate';
-import { featureFlagsAtom, FeatureFlag } from '~core/shared_state';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
+import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { styleConfigs } from '../stylesConfigs';
 import { generateMCDAPopupContent } from '../MCDARenderer/popup';
 import { setTileScheme } from '../setTileScheme';
@@ -53,6 +55,8 @@ const convertFillColorToRGBA = (fillColor: RGBAColor, withTransparency = true): 
   `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${
     withTransparency ? ',' + fillColor.a : ''
   })`;
+
+const featureFlags = configRepo.get().features;
 
 function calcValueByNumeratorDenominator(
   cellValues: Exclude<GeoJsonProperties, null>,
@@ -138,12 +142,16 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     layer: LayerTileSource,
     legend: BivariateLegend | null,
   ) {
+    const maxZoom = getMaxNumeratorZoomLevel(
+      [legend?.axis.x.quotients ?? [], legend?.axis.y.quotients ?? []],
+      layer.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM,
+    );
     /* Create source */
     const mapSource: VectorSourceSpecification = {
       type: 'vector',
       tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
       minzoom: layer.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
-      maxzoom: layer.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM,
+      maxzoom: maxZoom,
     };
     // I expect that all servers provide url with same scheme
     setTileScheme(layer.source.urls[0], mapSource);
@@ -185,7 +193,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       if (!isFeatureVisible(feature)) return true;
       if (!feature.properties) return true;
 
-      const showValues = featureFlagsAtom.getState()[FeatureFlag.BIVARIATE_MANAGER];
+      const showValues = featureFlags[AppFeature.BIVARIATE_MANAGER];
       const [xNumerator, xDenominator] = legend.axis.x.quotient;
       const [yNumerator, yDenominator] = legend.axis.y.quotient;
       const xValue = calcValueByNumeratorDenominator(

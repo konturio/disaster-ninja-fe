@@ -41,6 +41,42 @@ function DelayedLoading({
   return showSpinner ? loadingComponent : <>{children}</>;
 }
 
+/**
+ * Creates a component state manager that handles common UI states (loading, error, ready, init)
+ * with optional delayed loading states.
+ *
+ * @template T Type of data to be rendered in ready state
+ *
+ * @param states - Current state object containing:
+ *   - loading: boolean - Loading state flag
+ *   - error: string | null - Error message if any
+ *   - data: T | null - Data to be rendered when ready
+ *
+ * @param settings - Optional settings:
+ *   - loadingStateDelayMs?: number - Delay before showing loading state to prevent flashing
+ *
+ * @returns Component that accepts handlers for different states:
+ *   - loading?: (() => JSX.Element | null) | JSX.Element | null
+ *   - error?: ((message: string) => JSX.Element | null) | JSX.Element | null
+ *   - ready: (data: T) => JSX.Element | null
+ *   - init?: (() => JSX.Element | null) | JSX.Element | null
+ *
+ * @example
+ * ```tsx
+ * const stateMap = createStateMap({
+ *   loading: isLoading,
+ *   error: errorMsg,
+ *   data: userData
+ * });
+ *
+ * return stateMap({
+ *   loading: <LoadingSpinner />,
+ *   error: (msg) => <ErrorMessage message={msg} />,
+ *   ready: (data) => <UserProfile data={data} />,
+ *   init: <WelcomeScreen />
+ * });
+ * ```
+ */
 export function createStateMap<T>(
   {
     loading: LoadingState,

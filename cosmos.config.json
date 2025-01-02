@@ -9,6 +9,6 @@
     "node_modules/@konturio/default-theme/typography.css"
   ],
   "hostname": "127.0.0.1",
-  "ignore": ["**/bivariate*"],
+  "ignore": ["**/bivariate*/**"],
   "vite": { "configPath": "cosmos.vite.config.ts" }
 }

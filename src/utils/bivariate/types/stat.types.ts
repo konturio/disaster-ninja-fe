@@ -80,6 +80,7 @@ export type Indicator = {
   description?: string;
   emoji?: string;
   unit: Unit;
+  maxZoom?: number;
 };
 
 export type ColorCombination = {

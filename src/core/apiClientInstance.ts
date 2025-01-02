@@ -1,4 +1,5 @@
 import { ApiClient } from './api_client';
+import { dispatchMetricsEvent } from './metrics/dispatch';
 import { notificationServiceInstance } from './notificationServiceInstance';
 
 export const apiClient = new ApiClient({
@@ -12,6 +13,7 @@ export const apiClient = new ApiClient({
           });
       }
     },
+    idle: () => dispatchMetricsEvent('apiClient_isIdle'),
   },
 });
 
@@ -26,5 +28,6 @@ export const reportsClient = new ApiClient({
           });
       }
     },
+    idle: () => dispatchMetricsEvent('reportsClient_isIdle'),
   },
 });

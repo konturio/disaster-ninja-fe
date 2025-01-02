@@ -24,14 +24,12 @@ export type ColorsBySentiments = {
 
 export type OutliersPolicy = 'clamp' | 'hide' | 'unmodified';
 
-type MCDAIndicator = Omit<Indicator, 'direction'> & { direction?: Direction };
-
 export interface MCDALayer {
   id: string;
   name: string;
   // axis field should either be removed or renamed in future version of MCDA config
   axis: [string, string];
-  indicators: MCDAIndicator[];
+  indicators: Indicator[];
   range: [number, number];
   sentiment: [string, string];
   outliers: OutliersPolicy;

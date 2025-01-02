@@ -1,96 +1,177 @@
 .contentWrap {
-  flex: 1 1 auto;
+  --settingColumnWidth: 404px;
+  --topOffset: 80px;
+
   display: flex;
-  align-items: center;
-}
-.notFlexParent {
-  width: 100%;
+  flex-wrap: nowrap;
+  overflow-y: auto;
+  padding-top: var(--topOffset);
+
+  @media screen and (max-width: 960px) {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0;
+  }
 }
 
-.flexWrap {
-  flex: 1 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: auto 0;
-}
-
-.bioTooltipContent {
-  white-space: pre-wrap;
-}
-
-.profileWrap,
-.settingsWrap {
+.navSection {
+  width: 240px;
   display: flex;
   flex-direction: column;
+  row-gap: 40px;
+  margin: 0 150px;
+  position: sticky;
+  left: 0;
+  top: 0;
+
+  @media screen and (min-width: 961px) and (max-width: 1530px) {
+    margin: 0 78px;
+  }
+
+  @media screen and (max-width: 960px) {
+    margin: 0 var(--double-unit) var(--double-unit);
+    row-gap: var(--double-unit);
+    max-width: var(--settingColumnWidth);
+    width: unset;
+  }
 }
 
-.profileForm,
-.settingsForm {
-  margin-top: var(--double-unit);
+.settingsColumn {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  max-width: var(--section);
-  min-width: var(--min-section);
+  flex-grow: 1;
+  margin-left: 130px;
+
+  @media screen and (min-width: 961px) and (max-width: 1530px) {
+    margin-left: 78px;
+  }
+
+  @media screen and (max-width: 960px) {
+    min-height: 0;
+    flex-shrink: 1;
+    width: 100%;
+    overflow-y: auto;
+    max-width: unset;
+    align-items: center;
+    margin: 0;
+  }
 }
 
-.divider {
-  min-height: 100%;
-  max-height: 100vh;
-  margin: 0 80px 80px 80px;
-  background-color: #eceeef;
-  border-width: 0;
-  width: 1px;
+.logoutWrapper {
+  margin: auto 0 var(--double-unit);
+
+  @media screen and (max-width: 960px) {
+    display: none;
+  }
+}
+
+.mobileLogoutWrapper {
+  display: none;
+
+  @media screen and (max-width: 960px) {
+    display: block;
+    margin-top: var(--double-unit);
+  }
+}
+
+.settingsSection {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--settingColumnWidth);
+  padding-bottom: 60%;
+
+  & .textArea {
+    width: 100%;
+  }
+
+  & textarea {
+    width: 100%;
+    min-height: 180px;
+    max-height: 250px;
+    resize: vertical;
+  }
+
+  & .placeholder {
+    white-space: pre-wrap;
+  }
+
+  @media screen and (max-width: 960px) {
+    margin: 0 var(--double-unit);
+  }
+}
+
+.fieldsWrapper {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  padding-inline: 1px;
 }
 
 .authInput:-webkit-autofill {
   -webkit-background-clip: text;
 }
 
-.biography {
-  max-width: var(--section);
+.saveWrap {
+  text-align: end;
+  position: sticky;
+  bottom: 0;
+  padding: var(--double-unit);
+  z-index: 10;
+  background-color: white;
+  border-top: 1px solid var(--faint-weak-up);
+  width: var(--settingColumnWidth);
+
+  @media screen and (max-width: 960px) {
+    width: 100%;
+    text-align: start;
+  }
 }
 
-.saveWrap {
-  margin-top: 40px;
-  text-align: end;
+.saveColumn {
+  max-width: var(--settingColumnWidth);
+  margin: 0 auto;
 }
 
 .spinnerContainer {
   /* same height as button it's replacing, cosmetic addition */
   height: 42px;
+
   & > svg {
     height: 32px;
   }
 }
 
-.logoutWrap {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  & > button {
-    margin: var(--unit);
-  }
+.fancySection {
+  background-color: var(--accent-weak);
+  padding: var(--double-unit);
 }
 
 .smallTitle {
   font-weight: 500;
+
   & + * {
     margin-top: var(--unit);
   }
 }
 
-.textArea {
-  width: 100%;
-  & textarea {
-    resize: vertical;
-  }
+.descriptionBlock {
+  margin: var(--unit) 0 12px;
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--unit);
 }
 
-/* Mobile view */
-@media screen and (max-width: 550px) {
-  .divider {
-    display: none;
-  }
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 2px;
+  row-gap: var(--unit);
+}
+
+.tag {
+  padding: calc(var(--half-unit) / 2) var(--unit);
+  box-shadow: 0 0 0 1px var(--accent-weak-up);
+  border-radius: 20px;
 }

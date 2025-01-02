@@ -1,0 +1,39 @@
+.sectionWrapper {
+  margin-bottom: calc(var(--double-unit) * 2);
+  scroll-margin-top: var(--topOffset); /* Equals the value of the container top padding */
+
+  @media screen and (max-width: 960px) {
+    scroll-margin-top: 0;
+  }
+}
+
+.section {
+  border-radius: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.labelWrapper {
+  border-radius: 18px;
+  color: var(--accent-strong);
+  background-color: #d8effc;
+  padding: var(--half-unit) var(--unit);
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  margin-left: var(--half-unit);
+  @media screen and (max-width: 960px) {
+    display: none;
+  }
+}

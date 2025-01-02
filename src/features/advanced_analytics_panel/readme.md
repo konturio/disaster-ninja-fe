@@ -4,7 +4,7 @@ This feature provides advanced analytics component used for Analytics panel in f
 
 ### Feature flag
 
-advanced_analytics_panel (FeatureFlag.ADVANCED_ANALYTICS_PANEL)
+advanced_analytics_panel (AppFeature.ADVANCED_ANALYTICS_PANEL)
 
 ### How to use
 

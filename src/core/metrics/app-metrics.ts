@@ -8,6 +8,7 @@ import {
   buildWatchList,
 } from './constants';
 import { Sequence } from './sequence';
+import { waitForMapFullyRendered } from './map-utils';
 import type { MetricsReportTemplate, MetricsEvent, Metric } from './types';
 
 class MetricMarker {
@@ -177,27 +178,26 @@ export class AppMetrics implements Metric {
 
       if (Object.values(this.watchList).every(Boolean)) {
         // watchList completed
-
-        // we need to wait (again) EVENT_MAP_IDLE after all events from watchList
-        // to determite that app is ready
         if (name !== EVENT_MAP_IDLE) {
           if (KONTUR_METRICS_DEBUG) {
-            console.warn('metrics waiting final mapIdle', this.watchList);
+            console.warn('metrics waitForMapFullyRendered', this.watchList);
           }
+          waitForMapFullyRendered(globalThis?.KONTUR_MAP, { timeout: 30000 })
+            .then(() => {
+              const timing = performance.now();
+              this.report('ready', timing);
+              const eventReadyEvent = new Event('event_ready_for_screenshot');
+              globalThis.dispatchEvent(eventReadyEvent);
+            })
+            .catch((error) => {
+              console.error('Map render detection failed:', error);
+            })
+            .finally(() => {
+              this.cleanup();
+              this.sendReports();
+            });
 
-          this.watchList[EVENT_MAP_IDLE] = null;
-
-          // repaint to ensure EVENT_MAP_IDLE will be triggered
-          // FIXME: replace globalThis?.KONTUR_MAP after init refactor
-          globalThis?.KONTUR_MAP.triggerRepaint();
-        } else {
-          // app is ready
-          this.cleanup();
-          this.report('ready', timing);
-          this.sendReports();
-
-          emitReadyForScreenshot(globalThis?.KONTUR_MAP);
-          return;
+          globalThis?.KONTUR_MAP?.triggerRepaint();
         }
       }
       this.report(name, timing);
@@ -223,17 +223,4 @@ export class AppMetrics implements Metric {
       console.error('error posting metrics :', error, this.reports);
     });
   }
-}
-
-function emitReadyForScreenshot(map) {
-  // Still no reliable ways to detect when map is fully rendered, related issues are hanging for years
-  // TODO: implement better map rendered detection when possible
-  map.once('idle', function () {
-    setTimeout(() => {
-      const eventReadyEvent = new Event('event_ready_for_screenshot');
-      globalThis.dispatchEvent(eventReadyEvent);
-    }, 99); // extra time to prevent rendering glitches
-  });
-  // repaint to ensure EVENT_MAP_IDLE will be triggered after map render events
-  map.triggerRepaint();
 }

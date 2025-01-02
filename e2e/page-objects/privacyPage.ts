@@ -72,9 +72,7 @@ export class PrivacyPage extends HelperBase {
       this.page.waitForURL(/cookies/),
       this.page.waitForLoadState('domcontentloaded'),
     ]);
-    await this.page
-      .locator('#cookie-files-policy-and-operational-data')
-      .scrollIntoViewIfNeeded();
+    await this.page.locator('#hdr-1').scrollIntoViewIfNeeded();
     await Promise.all([
       expect(
         this.page.getByText('Cookie files policy and operational data'),

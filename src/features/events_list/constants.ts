@@ -1,4 +1,26 @@
-export const EVENT_LIST_CONTROL_ID = 'Event list';
-export const EVENT_LIST_CONTROL_NAME = 'Event list icon';
 export const MIN_HEIGHT = 279;
-export const MIN_SHORT_STATE_HEIGHT = 170;
+
+export const SEVERITY_SORTING_SCORES = {
+  UNKNOWN: 0,
+  TERMINATION: 1,
+  MINOR: 2,
+  MODERATE: 3,
+  SEVERE: 4,
+  EXTREME: 5,
+};
+
+export const EVENT_TYPES_SORTING_SCORES = {
+  EARTHQUAKE: 10,
+  WILDFIRE: 9,
+  CYCLONE: 8,
+  FLOOD: 7,
+  TORNADO: 6,
+  VOLCANO: 5,
+  TSUNAMI: 4,
+  STORM: 3,
+  WINTER_STORM: 3,
+  DROUGHT: 2,
+  THERMAL_ANOMALY: 1,
+  INDUSTRIAL_HEAT: 1,
+  OTHER: 1,
+};

@@ -1,11 +1,11 @@
-import { action, atom } from '@reatom/core';
+import { action, atom } from '@reatom/framework';
 import { isObject } from '@reatom/core-v2';
 import { isErrorWithMessage } from '~utils/common/error';
 import { store as defaultStore } from '~core/store/store';
 import { v3toV2 } from '../v3tov2';
 import { ABORT_ERROR_MESSAGE, abortable, isAbortError } from './abort-error';
 import { isAtomLike } from './is-atom-like';
-import type { Ctx } from '@reatom/core';
+import type { Ctx } from '@reatom/framework';
 import type { AsyncAtomDeps, AsyncAtomOptions, AsyncAtomState, Fetcher } from './types';
 import type { AtomBinded, AtomState, AtomSelfBinded } from '@reatom/core-v2';
 
@@ -66,6 +66,7 @@ export function createAsyncAtom<
   };
   const debug = verboseLog(name, options.verbose);
 
+  const asyncAtomName = getUniqueId(name);
   const asyncAtom = atom<State>(
     {
       loading: false,
@@ -74,7 +75,7 @@ export function createAsyncAtom<
       lastParams: null,
       dirty: false,
     },
-    getUniqueId(name),
+    asyncAtomName,
   );
 
   let abortController: AbortController | null = null;
@@ -121,7 +122,7 @@ export function createAsyncAtom<
     } finally {
       abortController = null;
     }
-  }, 'asyncAtom-requestAction');
+  }, `${asyncAtomName}.requestAction`);
 
   const cancelAction = action(async (ctx) => {
     if (abortController) {
@@ -135,7 +136,7 @@ export function createAsyncAtom<
         return await deferredCancel.promise;
       });
     }
-  }, 'asyncAtom-cancelAction');
+  }, `${asyncAtomName}.cancelAction`);
 
   const refetchAction = action((ctx) => {
     const { lastParams, dirty, loading } = ctx.get(asyncAtom);
@@ -144,7 +145,7 @@ export function createAsyncAtom<
     } else {
       console.error(`[${name}]:`, 'Do not call refetch before request');
     }
-  }, 'asyncAtom-refetchAction');
+  }, `${asyncAtomName}.refetchAction`);
 
   const actions = {
     request: requestAction,

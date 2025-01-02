@@ -19,6 +19,7 @@ export type MapStyle = {
 
 export type Marker = {
   coordinates: [number, number];
+  wrapperClass?: string;
   el: JSX.Element;
   id: string;
 };
@@ -30,6 +31,21 @@ export type Severity =
   | 'SEVERE'
   | 'EXTREME'
   | 'UNKNOWN';
+
+export type EventType =
+  | 'FLOOD'
+  | 'TSUNAMI'
+  | 'WILDFIRE'
+  | 'THERMAL_ANOMALY'
+  | 'INDUSTRIAL_HEAT'
+  | 'TORNADO'
+  | 'WINTER_STORM'
+  | 'EARTHQUAKE'
+  | 'STORM'
+  | 'CYCLONE'
+  | 'DROUGHT'
+  | 'VOLCANO'
+  | 'OTHER';
 
 export interface Event {
   eventId: string;
@@ -48,6 +64,8 @@ export interface Event {
   /** Optional param describes event loss estimation*/
   loss?: number;
   /** Time in UTC (ISO8601) */
+  startedAt: string;
+  /** Time in UTC (ISO8601) */
   updatedAt: string;
   externalUrls: string[];
   /** Additional info about event if presented*/
@@ -56,6 +74,11 @@ export interface Event {
   bbox: [number, number, number, number];
   /** Event epsode count */
   episodeCount: number;
+  eventType: EventType;
+}
+
+export interface EventWithGeometry extends Event {
+  geojson: GeoJSON.GeoJSON;
 }
 
 export interface AnalyticsData {
@@ -88,21 +111,6 @@ export interface AdvancedAnalyticsDataValues {
 export interface LLMAnalyticsData {
   data?: string;
 }
-
-export type EventWithGeometry = {
-  location: string;
-  eventId: string;
-  eventName: string;
-  externalUrls: string[];
-  severity: Severity;
-  geojson: GeoJSON.GeoJSON;
-  affectedPopulation: number;
-  settledArea: number;
-  osmGaps: number | null;
-  updatedAt: string;
-  bbox: [number, number, number, number];
-  episodeCount: number;
-};
 
 export type LegendStepStyle = {
   'casing-color'?: string;

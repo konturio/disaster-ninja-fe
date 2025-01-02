@@ -6,4 +6,4 @@ export {
   createSetAtom,
 } from './createPrimitives';
 export type { AtomStatesHandlers } from './createStateMap';
-export { combineAtoms, combineAsyncAtoms } from './combineAtoms';
+export { combineAtoms } from './combineAtoms';

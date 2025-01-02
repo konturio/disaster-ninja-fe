@@ -9,11 +9,11 @@ This feature enables Layer Features panel. The panel displays a list of features
 
 ### Feature Flag
 
-`FeatureFlag.LAYER_FEATURES_PANEL`
+`AppFeature.LAYER_FEATURES_PANEL`
 
 ### How to use
 
-1. Add `FeatureFlag.LAYER_FEATURES_PANEL` feature to the app configuration:
+1. Add `AppFeature.LAYER_FEATURES_PANEL` feature to the app configuration:
 
 ```ts
 {

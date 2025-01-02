@@ -1,4 +1,5 @@
 import { useAction, useAtom } from '@reatom/react-v2';
+import { useAtom as useAtomV3 } from '@reatom/npm-react';
 import { useCallback } from 'react';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { currentEventBbox } from './atoms/currentEventBbox';
@@ -13,7 +14,7 @@ export function EventList() {
     fitBounds();
   }, []);
 
-  useAtom(autoSelectEvent);
+  useAtomV3(autoSelectEvent);
   return (
     <EventsPanel currentEventId={currentEvent?.id} onCurrentChange={onCurrentChange} />
   );

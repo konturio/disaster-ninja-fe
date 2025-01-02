@@ -13,10 +13,10 @@ import { mcdaLayerAtom } from '~features/mcda/atoms/mcdaLayer';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
-import { FeatureFlag } from '~core/shared_state';
 import { createMCDAConfigFromJSON } from '~features/mcda/utils/openMcdaFile';
+import { AppFeature } from '~core/app/types';
 
-export const isMCDASearchEnabled = !!configRepo.get().features[FeatureFlag.LLM_MCDA];
+export const isMCDASearchEnabled = !!configRepo.get().features[AppFeature.LLM_MCDA];
 
 export const fetchMCDAAsyncResource = reatomAsync(
   (ctx, query: string) => getMCDA(query, ctx.controller),

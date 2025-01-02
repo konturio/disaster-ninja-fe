@@ -2,7 +2,6 @@ import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import clsx from 'clsx';
 import { Plus16 } from '@konturio/default-icons';
-import { FeatureFlag } from '~core/shared_state';
 import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
 import { LayerFeaturesPanel } from '~features/layer_features_panel';
@@ -17,6 +16,7 @@ import { panelClasses } from '~components/Panel';
 import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import { configRepo } from '~core/config';
 import { Search } from '~features/search';
+import { AppFeature } from '~core/app/types';
 import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
 
@@ -49,75 +49,75 @@ export function MapPage() {
     import('~core/draw_tools').then(({ drawTools }) => drawTools.init());
 
     /* Lazy load module */
-    if (featureFlags[FeatureFlag.CURRENT_EVENT]) {
+    if (featureFlags[AppFeature.CURRENT_EVENT]) {
       import('~features/current_event').then(({ initCurrentEvent }) =>
         initCurrentEvent(),
       );
     }
-    if (featureFlags[FeatureFlag.GEOMETRY_UPLOADER]) {
+    if (featureFlags[AppFeature.GEOMETRY_UPLOADER]) {
       import('~features/geometry_uploader').then(({ initFileUploader }) =>
         initFileUploader(),
       );
     }
-    if (featureFlags[FeatureFlag.MAP_RULER]) {
+    if (featureFlags[AppFeature.MAP_RULER]) {
       import('~features/map_ruler').then(({ initMapRuler }) => initMapRuler());
     }
-    if (featureFlags[FeatureFlag.BOUNDARY_SELECTOR]) {
+    if (featureFlags[AppFeature.BOUNDARY_SELECTOR]) {
       import('~features/boundary_selector').then(({ initBoundarySelector }) =>
         initBoundarySelector(),
       );
     }
-    if (featureFlags[FeatureFlag.MCDA]) {
+    if (featureFlags[AppFeature.MCDA]) {
       import('~features/mcda').then(({ initMCDA }) => initMCDA());
     }
     import('~features/multivariate_layer').then(({ initMultivariateControl }) =>
       initMultivariateControl(),
     );
-    if (featureFlags[FeatureFlag.LAYERS_IN_AREA]) {
+    if (featureFlags[AppFeature.LAYERS_IN_AREA]) {
       import('~features/layers_in_area').then(({ initLayersInArea }) =>
         initLayersInArea(),
       );
     }
-    if (featureFlags[FeatureFlag.FOCUSED_GEOMETRY_LAYER]) {
+    if (featureFlags[AppFeature.FOCUSED_GEOMETRY_LAYER]) {
       import('~features/focused_geometry_layer').then(({ initFocusedGeometryLayer }) =>
         initFocusedGeometryLayer(),
       );
     }
 
-    if (featureFlags[FeatureFlag.OSM_EDIT_LINK]) {
+    if (featureFlags[AppFeature.OSM_EDIT_LINK]) {
       import('~features/osm_edit_link/').then(({ initOsmEditLink }) => initOsmEditLink());
     }
     // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
     if (
-      featureFlags[FeatureFlag.DRAW_TOOLS] ||
-      featureFlags[FeatureFlag.FOCUSED_GEOMETRY_EDITOR]
+      featureFlags[AppFeature.DRAW_TOOLS] ||
+      featureFlags[AppFeature.FOCUSED_GEOMETRY_EDITOR]
     ) {
       import('~widgets/FocusedGeometryEditor').then(({ initFocusedGeometry }) =>
         initFocusedGeometry(),
       );
     }
-    if (featureFlags[FeatureFlag.CREATE_LAYER]) {
+    if (featureFlags[AppFeature.CREATE_LAYER]) {
       import('~features/create_layer/').then(({ initEditableLayer }) =>
         initEditableLayer(),
       );
     }
-    if (featureFlags[FeatureFlag.LOCATE_ME]) {
+    if (featureFlags[AppFeature.LOCATE_ME]) {
       import('~features/locate_me').then(({ initLocateMe }) => {
         initLocateMe();
       });
     }
-    if (featureFlags[FeatureFlag.LIVE_SENSOR]) {
+    if (featureFlags[AppFeature.LIVE_SENSOR]) {
       import('~features/live_sensor').then(({ initSensor }) => {
         initSensor();
       });
     }
-    if (featureFlags[FeatureFlag.BIVARIATE_MANAGER]) {
+    if (featureFlags[AppFeature.BIVARIATE_MANAGER]) {
       import('~features/bivariate_manager').then(({ initBivariateMatrix }) => {
         initBivariateMatrix();
       });
     }
     // TODO: remove user check once backend stops returning reference_area feature for unauthorized users
-    if (featureFlags[FeatureFlag.REFERENCE_AREA] && configRepo.get().user) {
+    if (featureFlags[AppFeature.REFERENCE_AREA] && configRepo.get().user) {
       import('~features/reference_area').then(({ initReferenceArea }) =>
         initReferenceArea(),
       );
@@ -130,7 +130,7 @@ export function MapPage() {
       <div className={s.mapWrap}>
         <Suspense fallback={null}>
           <ConnectedMap className={s.Map} />
-          {featureFlags[FeatureFlag.ADMIN_BOUNDARY_BREADCRUMBS] && (
+          {featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && (
             <Plus16 className={s.crosshair}></Plus16>
           )}
         </Suspense>
@@ -138,21 +138,21 @@ export function MapPage() {
       {Object.keys(featureFlags).length > 0 && (
         <Layout
           searchBar={
-            featureFlags[FeatureFlag.SEARCH_BAR] &&
-            featureFlags[FeatureFlag.SEARCH_LOCATION] && <Search />
+            featureFlags[AppFeature.SEARCH_BAR] &&
+            featureFlags[AppFeature.SEARCH_LOCATION] && <Search />
           }
           analytics={<Analytics />}
           // if EVENTS_LIST is enabled, we always have default feed
-          disasters={featureFlags[FeatureFlag.EVENTS_LIST] && <EventListPanel />}
+          disasters={featureFlags[AppFeature.EVENTS_LIST] && <EventListPanel />}
           layersAndLegends={<LayersAndLegends />}
           matrix={<></>}
-          timeline={featureFlags[FeatureFlag.EPISODES_TIMELINE] && <EventEpisodes />}
+          timeline={featureFlags[AppFeature.EPISODES_TIMELINE] && <EventEpisodes />}
           breadcrumbs={
-            featureFlags[FeatureFlag.ADMIN_BOUNDARY_BREADCRUMBS] && <BreadcrumbsPanel />
+            featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && <BreadcrumbsPanel />
           }
-          toolbar={featureFlags[FeatureFlag.TOOLBAR] && <Toolbar />}
+          toolbar={featureFlags[AppFeature.TOOLBAR] && <Toolbar />}
           layerFeaturesPanel={
-            featureFlags[FeatureFlag.LAYER_FEATURES_PANEL] && <LayerFeaturesPanel />
+            featureFlags[AppFeature.LAYER_FEATURES_PANEL] && <LayerFeaturesPanel />
           }
           footer={
             <div className={clsx(s.footer, s.clickThrough)}>
@@ -165,7 +165,7 @@ export function MapPage() {
             </div>
           }
           editPanel={
-            featureFlags[FeatureFlag.CREATE_LAYER] && (
+            featureFlags[AppFeature.CREATE_LAYER] && (
               <Suspense fallback={null}>{EditPanel()}</Suspense>
             )
           }
@@ -191,9 +191,9 @@ const Toolbar = () => {
 };
 
 const Analytics = () => {
-  const isAnalyticsOn = !!featureFlags[FeatureFlag.ANALYTICS_PANEL];
-  const isAdvancedAnalyticsPanelOn = !!featureFlags[FeatureFlag.ADVANCED_ANALYTICS_PANEL];
-  const isLLMAnalyticsOn = !!featureFlags[FeatureFlag.LLM_ANALYTICS];
+  const isAnalyticsOn = !!featureFlags[AppFeature.ANALYTICS_PANEL];
+  const isAdvancedAnalyticsPanelOn = !!featureFlags[AppFeature.ADVANCED_ANALYTICS_PANEL];
+  const isLLMAnalyticsOn = !!featureFlags[AppFeature.LLM_ANALYTICS];
   const analyticsPanelState =
     isAnalyticsOn || isLLMAnalyticsOn
       ? analyticsPanel(isAnalyticsOn, isLLMAnalyticsOn)
@@ -208,7 +208,7 @@ const Analytics = () => {
     <FullAndShortStatesPanelWidget
       fullState={fullState}
       shortState={shortState}
-      initialState={featureFlags[FeatureFlag.ANALYTICS_PANEL] ? 'short' : null}
+      initialState={featureFlags[AppFeature.ANALYTICS_PANEL] ? 'short' : null}
       key="analytics"
       id="analytics"
       panelIcon={analyticsPanelState?.panelIcon}
@@ -219,8 +219,8 @@ const Analytics = () => {
 
 const LayersAndLegends = () => {
   const [fullState, shortState] = [
-    featureFlags[FeatureFlag.MAP_LAYERS_PANEL] ? layersPanel() : null,
-    featureFlags[FeatureFlag.LEGEND_PANEL] ? legendPanel() : null,
+    featureFlags[AppFeature.MAP_LAYERS_PANEL] ? layersPanel() : null,
+    featureFlags[AppFeature.LEGEND_PANEL] ? legendPanel() : null,
   ];
   return (
     <FullAndShortStatesPanelWidget
