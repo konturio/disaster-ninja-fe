@@ -70,9 +70,11 @@ export function MapPage() {
     if (featureFlags[AppFeature.MCDA]) {
       import('~features/mcda').then(({ initMCDA }) => initMCDA());
     }
-    import('~features/multivariate_layer').then(({ initMultivariateControl }) =>
-      initMultivariateControl(),
-    );
+    if (featureFlags[AppFeature.MULTIVARIATE_ANALYSIS]) {
+      import('~features/multivariate_layer').then(({ initMultivariateControl }) =>
+        initMultivariateControl(),
+      );
+    }
     if (featureFlags[AppFeature.LAYERS_IN_AREA]) {
       import('~features/layers_in_area').then(({ initLayersInArea }) =>
         initLayersInArea(),

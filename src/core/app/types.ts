@@ -51,6 +51,7 @@ export const AppFeature = {
   SEARCH_BAR: 'search_bar',
   ADMIN_BOUNDARY_BREADCRUMBS: 'admin_boundary_breadcrumbs',
   LLM_MCDA: 'llm_mcda',
+  MULTIVARIATE_ANALYSIS: 'multivariate_analysis',
 } as const;
 
 export type AppFeatureType = (typeof AppFeature)[keyof typeof AppFeature];
