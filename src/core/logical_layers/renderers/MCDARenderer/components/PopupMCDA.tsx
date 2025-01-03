@@ -63,12 +63,12 @@ export function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPo
         </tr>
       </thead>
       <tbody className={s.tableBody}>
-        {layers.map(({ axis, range, coefficient }) => {
+        {layers.map(({ axis, range, coefficient }, index) => {
           const [min, max] = range;
           const [num, den] = axis;
 
           return (
-            <tr key={`${num}-${den}`}>
+            <tr key={`${num}-${den}-${index}`}>
               <td>
                 {num} / {den}
               </td>
