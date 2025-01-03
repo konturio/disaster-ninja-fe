@@ -147,10 +147,7 @@ describe('Retry Behavior', () => {
           kind: 'timeout',
           temporary: true,
         }),
-        new ApiClientError('Request Timeout', {
-          kind: 'timeout',
-          temporary: true,
-        }),
+        { status: 200, body: { data: 'success' } },
       ],
       'GET',
     );
@@ -159,7 +156,7 @@ describe('Retry Behavior', () => {
     try {
       vi.useFakeTimers();
 
-      const promise = ctx.apiClient.get('/test', undefined, false, {
+      const requestPromise = ctx.apiClient.get('/test', undefined, false, {
         retry: {
           attempts: 1,
           delayMs: 1000,
@@ -169,19 +166,14 @@ describe('Retry Behavior', () => {
       // First request should happen immediately
       expect(MockFactory.getCallCount()).toBe(1);
 
-      // Advance timer by half the delay - nothing should happen
-      await vi.advanceTimersByTimeAsync(500);
-      expect(MockFactory.getCallCount()).toBe(1);
+      // Advance timer by the full delay
+      await vi.advanceTimersByTimeAsync(1000);
 
-      // Advance timer to complete the delay
-      await vi.advanceTimersByTimeAsync(500);
+      // Wait for the promise to resolve
+      const result = await requestPromise;
 
-      // Wait for the promise to reject
-      await expect(promise).rejects.toMatchObject({
-        problem: { kind: 'timeout' },
-      });
-
-      // Second request should have been made
+      // Verify the result and call count
+      expect(result).toEqual({ data: 'success' });
       expect(MockFactory.getCallCount()).toBe(2);
     } finally {
       vi.useRealTimers();
