@@ -149,7 +149,7 @@
     "wretch": "^2.11.0"
   },
   "devDependencies": {
-    "@codecov/vite-plugin": "^1.6.0",
+    "@codecov/vite-plugin": "^1.7.0",
     "@faker-js/faker": "^8.4.1",
     "@fetch-mock/vitest": "^0.2.6",
     "@playwright/test": "^1.49.1",
