@@ -24,8 +24,8 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
     return (
       <div>
         <div className={s.dimension}>{dimensionName}</div>
-        {axes.map((layer) => (
-          <div key={layer.id} className={s.parameter}>
+        {axes.map((layer, index) => (
+          <div key={`${layer.id}-${index}`} className={s.parameter}>
             - {layer.name}
           </div>
         ))}
