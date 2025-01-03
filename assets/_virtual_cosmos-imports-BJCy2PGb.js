@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, _ as __vitePreload, d as ReactDOM } from "./index-cLOwCBOr.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-CAb4X_hr.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -3544,11 +3544,6 @@ const goTo = (slug) => {
   const evt = new CustomEvent(NAVIGATE_EVENT, { detail: { payload: slug } });
   globalThis.dispatchEvent(evt);
 };
-const goTo$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  NAVIGATE_EVENT,
-  goTo
-}, Symbol.toStringTag, { value: "Module" }));
 const impossibleValue = Symbol(), callSafely = function(fn) {
   try {
     return fn(...[].slice.call(arguments, 1));
@@ -4864,9 +4859,11 @@ function createApiError(err) {
     return err;
   }
   if (KONTUR_DEBUG) {
-    console.error(err);
+    console.error("Raw error:", err);
   }
-  if (err instanceof factory.WretchError) {
+  if (err instanceof DOMException && err.name === "AbortError" || err instanceof factory.WretchError && err.name === "AbortError" || err instanceof factory.WretchError && err.cause instanceof DOMException && err.cause.name === "AbortError" || err instanceof factory.WretchError && err.message === "The operation was aborted" || err instanceof Error && err.name === "AbortError") {
+    problem = { kind: "canceled" };
+  } else if (err instanceof factory.WretchError) {
     status = err.status;
     if (status === 400) {
       problem = { kind: "bad-request" };
@@ -4882,8 +4879,6 @@ function createApiError(err) {
     } else if (status >= 500) {
       problem = { kind: "server", data: (err == null ? void 0 : err.json) ?? (err == null ? void 0 : err.text) };
     }
-  } else if (isAbortError(err)) {
-    problem = { kind: "canceled" };
   } else {
     problem = { kind: "client-unknown" };
   }
@@ -4891,10 +4886,6 @@ function createApiError(err) {
     errorMessage = parseApiError(err);
   }
   return new ApiClientError(errorMessage || "Unknown error", problem, status);
-}
-function isAbortError(e) {
-  var _a;
-  return (e == null ? void 0 : e.name) === "AbortError" || ((_a = e == null ? void 0 : e.problem) == null ? void 0 : _a.kind) === "canceled";
 }
 const ApiMethodTypes = {
   GET: "get",
@@ -4948,25 +4939,24 @@ class ApiClient {
     this.listeners[type].forEach((l2) => l2(payload));
   }
   init(cfg) {
-    let baseURL = cfg.baseUrl;
+    let baseURL = cfg.baseUrl ?? "";
     this.baseURL = baseURL;
   }
-  updatePool(uid, url) {
-    if (url) {
-      this.requestPool.set(uid, url);
+  updateRequestPool(requestId, status) {
+    if (status === null) {
+      this.requestPool.delete(requestId);
     } else {
-      this.requestPool.delete(uid);
-      if (this.requestPool.size === 0) {
-        this._emit("idle", true);
-      }
+      this.requestPool.set(requestId, status);
     }
-    this._emit("poolUpdate", this.requestPool);
+    this._emit("poolUpdate", new Map(this.requestPool));
+    this._emit("idle", this.requestPool.size === 0);
   }
   async call(method, path2, requestParams, useAuth = false, requestConfig = {}) {
-    const uid = Math.random().toString(36).substring(2);
-    this.updatePool(uid, path2);
+    var _a;
     const RequestsWithBody = ["post", "put", "patch"];
     let req;
+    const requestId = Math.random().toString(36).substring(7);
+    this.updateRequestPool(requestId, "pending");
     if (path2.startsWith("http")) {
       const url = new URL(path2);
       req = factory(url.origin, { mode: "cors" }).addon(queryString).url(url.pathname);
@@ -4997,10 +4987,10 @@ class ApiClient {
     }
     try {
       const response = await req[method]().res(autoParseBody);
-      this.updatePool(uid, null);
+      this.updateRequestPool(requestId, null);
       return response.data;
     } catch (err) {
-      this.updatePool(uid, null);
+      this.updateRequestPool(requestId, null);
       const apiError = createApiError(err);
       if (apiError.problem.kind === "canceled") {
         throw apiError;
@@ -5009,25 +4999,31 @@ class ApiClient {
         try {
           const token = await this.authService.getAccessToken();
         } catch (error2) {
-          __vitePreload(async () => {
-            const { goTo: goTo2 } = await Promise.resolve().then(() => goTo$1);
-            return { goTo: goTo2 };
-          }, true ? void 0 : void 0, import.meta.url).then(({ goTo: goTo2 }) => {
-            goTo2("/profile");
-          });
+          goTo("/profile");
         }
         throw apiError;
       }
-      if (apiError.problem.kind === "timeout" && requestConfig.retryAfterTimeoutError) {
-        if (requestConfig.retryAfterTimeoutError.times > 0) {
-          if (requestConfig.retryAfterTimeoutError.delayMs) {
-            await wait(requestConfig.retryAfterTimeoutError.delayMs / 1e3);
+      const defaultRetryConfig = {
+        attempts: 0,
+        delayMs: 1e3,
+        onErrorKinds: ["timeout"]
+      };
+      const retryConfig = {
+        ...defaultRetryConfig,
+        ...requestConfig.retry,
+        onErrorKinds: ((_a = requestConfig.retry) == null ? void 0 : _a.onErrorKinds) ?? defaultRetryConfig.onErrorKinds
+      };
+      if (retryConfig.attempts > 0) {
+        const shouldRetry = retryConfig.onErrorKinds.includes(apiError.problem.kind);
+        if (shouldRetry) {
+          if (retryConfig.delayMs) {
+            await wait(retryConfig.delayMs / 1e3);
           }
           return this.call(method, path2, requestParams, useAuth, {
             ...requestConfig,
-            retryAfterTimeoutError: {
-              ...requestConfig.retryAfterTimeoutError,
-              times: requestConfig.retryAfterTimeoutError.times - 1
+            retry: {
+              ...retryConfig,
+              attempts: retryConfig.attempts - 1
             }
           });
         }
