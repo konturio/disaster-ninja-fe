@@ -14,6 +14,8 @@ import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { LayerStyle } from '../../types/style';
 
 const MULTIVARIATE_LAYER_PREFIX = 'multivariate-layer-';
+const TEXT_POSTFIX = '-text';
+const EXTRUSION_POSTFIX = '-extrusion';
 
 export class MultivariateRenderer extends ClickableTilesRenderer {
   protected getSourcePrefix(): string {
@@ -44,7 +46,7 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
     const filter =
       mainLayerSpecification.type === 'fill' ? mainLayerSpecification.filter : undefined;
     const layerStyle: LayerSpecification = {
-      id: mainLayerId + '-text',
+      id: mainLayerId + TEXT_POSTFIX,
       type: 'symbol',
       layout: {
         'text-field': value,
@@ -86,7 +88,7 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
     const extrusionFilter =
       mainLayerSpecification.type === 'fill' ? mainLayerSpecification.filter : undefined;
     const layerStyle: LayerSpecification = {
-      id: mainLayerId + '-extrusion',
+      id: mainLayerId + EXTRUSION_POSTFIX,
       type: 'fill-extrusion',
       filter: extrusionFilter,
       layout: {},
@@ -133,10 +135,10 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
         layerRes,
         this.id,
       );
-      this._layerId = layerId;
       if (style.config.tileLabel) {
         this.addTextLayer(map, style.config.tileLabel, layerId, layerRes);
       }
+      this._layerId = layerId;
     } else {
       console.error(
         'MultivariateRenderer expected layer type === "multivariate", but got ',
@@ -152,5 +154,20 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
       console.error('multivariate layer style expected');
       return null;
     }
+  }
+
+  willUnMount({ map }: { map: ApplicationMap }): void {
+    if (this._layerId) {
+      const textLayerId = this._layerId + TEXT_POSTFIX;
+      if (map.getLayer(textLayerId)) {
+        map.removeLayer(textLayerId);
+      }
+      const extrusionLayerId = this._layerId + EXTRUSION_POSTFIX;
+      if (map.getLayer(extrusionLayerId)) {
+        map.removeLayer(extrusionLayerId);
+      }
+    }
+
+    super.willUnMount({ map });
   }
 }
