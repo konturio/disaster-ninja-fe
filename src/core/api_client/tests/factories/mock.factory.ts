@@ -4,10 +4,12 @@ import { ApiClientError } from '../../apiClientError';
 import { TokenFactory } from './token.factory';
 import { AuthFactory } from './auth.factory';
 import type { AuthConfig } from './auth.factory';
-import type { ApiErrorResponse, ApiResponseOptions } from '../types';
+import type { MockApiErrorResponse, MockApiResponseOptions } from '../types';
 import type { GeneralApiProblem } from '../../types';
 
 export class MockFactory {
+  private static callCount = 0;
+
   static async setupSuccessfulAuth(
     config: AuthConfig = {},
     token?: string,
@@ -156,10 +158,13 @@ export class MockFactory {
   }
 
   static setupApiEndpoint(path: string, response: any = {}): void {
-    fetchMock.post(AuthFactory.getApiUrl(path), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: response,
+    fetchMock.post(AuthFactory.getApiUrl(path), (url: string, opts: any) => {
+      this.callCount++;
+      return {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: response,
+      };
     });
   }
 
@@ -168,11 +173,16 @@ export class MockFactory {
   }
 
   static resetMocks(): void {
+    this.callCount = 0;
     fetchMock.mockReset();
     fetchMock.mockGlobal();
   }
 
-  static setupApiError(path: string, error: ApiErrorResponse): void {
+  static setupApiError(
+    path: string,
+    error: MockApiErrorResponse,
+    method: string = 'POST',
+  ): void {
     const statusMap: Partial<Record<GeneralApiProblem['kind'], number>> = {
       unauthorized: 401,
       forbidden: 403,
@@ -184,64 +194,121 @@ export class MockFactory {
       'bad-data': 422,
     };
 
-    fetchMock.post(AuthFactory.getApiUrl(path), {
-      status: statusMap[error.kind] || 500,
-      headers: { 'Content-Type': 'application/json' },
-      body: {
-        error: error.kind,
-        message: error.message,
-        data: error.data,
+    fetchMock[method.toLowerCase()](
+      AuthFactory.getApiUrl(path),
+      (url: string, opts: any) => {
+        this.callCount++;
+        return {
+          status: statusMap[error.kind] || 500,
+          headers: { 'Content-Type': 'application/json' },
+          body: {
+            error: error.kind,
+            message: error.message,
+            data: error.data,
+          },
+        };
       },
-    });
+    );
   }
 
   static setupSuccessfulResponse<T>(
     path: string,
     data: T,
-    options: ApiResponseOptions = {},
+    options: MockApiResponseOptions = {},
   ): void {
     const { method = 'POST', headers = {}, once = false } = options;
 
-    if (once) {
-      fetchMock.once(
-        AuthFactory.getApiUrl(path),
-        {
-          status: 200,
-          headers: {
-            'Content-Type': 'application/json',
-            ...headers,
-          },
-          body: data,
-        },
-        { method },
-      );
-    } else {
-      fetchMock[method.toLowerCase()](AuthFactory.getApiUrl(path), {
+    const response = (url: string, opts: any) => {
+      this.callCount++;
+      return {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
           ...headers,
         },
         body: data,
-      });
+      };
+    };
+
+    if (once) {
+      fetchMock.once(AuthFactory.getApiUrl(path), response, { method });
+    } else {
+      fetchMock[method.toLowerCase()](AuthFactory.getApiUrl(path), response);
     }
   }
 
-  static setupNetworkError(path: string): void {
-    fetchMock.post(AuthFactory.getApiUrl(path), {
-      throws: new ApiClientError("Can't connect to server", {
-        kind: 'cannot-connect',
-        temporary: true,
-      }),
+  static setupNetworkError(path: string, method: string = 'POST'): void {
+    fetchMock[method.toLowerCase()](
+      AuthFactory.getApiUrl(path),
+      (url: string, opts: any) => {
+        this.callCount++;
+        return {
+          throws: new ApiClientError("Can't connect to server", {
+            kind: 'cannot-connect',
+            temporary: true,
+          }),
+        };
+      },
+    );
+  }
+
+  static setupTimeoutError(path: string, method: string = 'POST'): void {
+    fetchMock[method.toLowerCase()](
+      AuthFactory.getApiUrl(path),
+      (url: string, opts: any) => {
+        this.callCount++;
+        return {
+          status: 408,
+          headers: { 'Content-Type': 'application/json' },
+          body: {
+            error: 'timeout',
+            message: 'Request Timeout',
+            data: null,
+          },
+        };
+      },
+    );
+  }
+
+  static setupSequentialResponses(
+    path: string,
+    responses: any[],
+    method: string = 'POST',
+  ): void {
+    // Reset call count for sequential responses
+    this.callCount = 0;
+
+    responses.forEach((response) => {
+      if (response instanceof Error) {
+        fetchMock.once(
+          AuthFactory.getApiUrl(path),
+          (url: string, opts: any) => {
+            this.callCount++;
+            return { throws: response };
+          },
+          { method },
+        );
+      } else {
+        fetchMock.once(
+          AuthFactory.getApiUrl(path),
+          (url: string, opts: any) => {
+            this.callCount++;
+            return {
+              status: response.status || 200,
+              headers: {
+                'Content-Type': 'application/json',
+                ...response.headers,
+              },
+              body: response.body,
+            };
+          },
+          { method },
+        );
+      }
     });
   }
 
-  static setupTimeoutError(path: string): void {
-    fetchMock.post(AuthFactory.getApiUrl(path), {
-      throws: new ApiClientError('Request Timeout', {
-        kind: 'timeout',
-        temporary: true,
-      }),
-    });
+  static getCallCount(): number {
+    return this.callCount;
   }
 }

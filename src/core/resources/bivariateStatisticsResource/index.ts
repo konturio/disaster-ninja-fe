@@ -34,10 +34,7 @@ export const bivariateStatisticsResourceAtom = createAsyncAtom(
         errors?: unknown;
       }>('/bivariate_matrix', body, true, {
         signal: abortController.signal,
-        retryAfterTimeoutError: {
-          times: 2,
-          delayMs: 1000,
-        },
+        retry: { attempts: 2 },
       });
 
       if (!responseData) {

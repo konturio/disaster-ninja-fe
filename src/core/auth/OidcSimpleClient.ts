@@ -85,15 +85,22 @@ export class OidcSimpleClient {
     return token;
   }
 
+  private validateAndParseToken(token: string): [string, ReturnType<typeof parseToken>] {
+    // Sanitize token
+    const sanitizedToken = this.sanitizeToken(token);
+
+    // Parse and validate token contents
+    const decodedToken = parseToken(sanitizedToken);
+
+    return [sanitizedToken, decodedToken];
+  }
+
   private storeTokens(token: string, refreshToken: string): boolean {
     try {
-      // Sanitize and validate tokens
-      const sanitizedToken = this.sanitizeToken(token);
-      const sanitizedRefreshToken = this.sanitizeToken(refreshToken);
-
-      // Decode and validate token contents
-      const decodedToken = parseToken(sanitizedToken);
-      const decodedRefreshToken = parseToken(sanitizedRefreshToken);
+      // Validate both tokens
+      const [sanitizedToken, decodedToken] = this.validateAndParseToken(token);
+      const [sanitizedRefreshToken, decodedRefreshToken] =
+        this.validateAndParseToken(refreshToken);
 
       if (!decodedToken.isExpired) {
         this.setAuth(
@@ -116,9 +123,7 @@ export class OidcSimpleClient {
       } else {
         throw new ApiClientError(
           'Token is expired right after receiving, clock is out of sync',
-          {
-            kind: 'bad-data',
-          },
+          { kind: 'bad-data' },
         );
       }
     } catch (e) {
@@ -145,12 +150,12 @@ export class OidcSimpleClient {
         const stored = JSON.parse(storedTokensJson);
         if (stored.token && stored.refreshToken) {
           try {
-            // Validate token format
-            const token = this.sanitizeToken(stored.token);
-            const refreshToken = this.sanitizeToken(stored.refreshToken);
-
-            const decodedToken = parseToken(token);
-            const decodedRefreshToken = parseToken(refreshToken);
+            // Validate both tokens
+            const [sanitizedToken, decodedToken] = this.validateAndParseToken(
+              stored.token,
+            );
+            const [sanitizedRefreshToken, decodedRefreshToken] =
+              this.validateAndParseToken(stored.refreshToken);
 
             // Validate expiration
             if (decodedToken.isExpired) {
@@ -163,8 +168,8 @@ export class OidcSimpleClient {
             );
 
             this.setAuth(
-              token,
-              refreshToken,
+              sanitizedToken,
+              sanitizedRefreshToken,
               decodedToken.expiringDate,
               decodedRefreshToken.expiringDate,
             );
@@ -192,15 +197,6 @@ export class OidcSimpleClient {
 
     // Clear from storage
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
-
-    // Force garbage collection of sensitive data
-    try {
-      if (window.gc) {
-        window.gc();
-      }
-    } catch (e) {
-      // Ignore if gc is not available
-    }
   }
 
   private setAuth(
