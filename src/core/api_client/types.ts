@@ -19,7 +19,9 @@ export const ApiMethodTypes = {
 
 export type ApiMethod = (typeof ApiMethodTypes)[keyof typeof ApiMethodTypes];
 
-export type ApiClientConfig = { baseUrl: string };
+export interface ApiClientConfig {
+  baseUrl?: string;
+}
 
 export interface KeycloakAuthResponse {
   access_token: string;
@@ -68,9 +70,13 @@ export interface CustomRequestConfig {
   headers?: Record<string, string>;
   errorsConfig?: RequestErrorsConfig;
   signal?: AbortSignal;
-  retryAfterTimeoutError?: {
-    times: number;
-    delayMs: number;
+  retry?: {
+    /** Maximum number of retry attempts. Default: 0 (no retries) */
+    attempts: number;
+    /** Delay in milliseconds between retries. Default: 1000 */
+    delayMs?: number;
+    /** Error kinds to retry on. Default: ['timeout'] */
+    onErrorKinds?: Array<GeneralApiProblem['kind']>;
   };
 }
 

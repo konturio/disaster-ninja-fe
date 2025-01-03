@@ -146,12 +146,12 @@
     "react-virtuoso": "^4.12.3",
     "recharts": "^2.15.0",
     "utility-types": "^3.11.0",
-    "vi-fetch": "^0.8.0",
     "wretch": "^2.11.0"
   },
   "devDependencies": {
     "@codecov/vite-plugin": "^1.6.0",
     "@faker-js/faker": "^8.4.1",
+    "@fetch-mock/vitest": "^0.2.6",
     "@playwright/test": "^1.49.1",
     "@reatom/testing": "^3.4.7",
     "@slack/web-api": "^7.8.0",
@@ -178,6 +178,7 @@
     "happy-dom": "^15.11.7",
     "husky": "^9.1.7",
     "i18next-scanner": "^4.6.0",
+    "jose": "^5.9.6",
     "lint-staged": "^15.2.11",
     "minimist": "^1.2.8",
     "npm-run-all": "^4.1.5",
