@@ -21,6 +21,7 @@
     "lint-staged": "lint-staged --concurrent false",
     "test:unit": "pnpm run i18n:import && vitest",
     "coverage": "pnpm run i18n:import && vitest run --coverage",
+    "coverage:lcov": "pnpm vitest run --reporter=basic --coverage.enabled --coverage.reportOnFailure --coverage.reporter=lcov",
     "lint": "npm-run-all lint:js lint:css depcruise",
     "lint:js": "eslint --quiet src/**/*.{ts,tsx}",
     "lint:css": "stylelint ./src/**/*.css",
