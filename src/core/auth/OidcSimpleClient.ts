@@ -15,6 +15,13 @@ interface TokenPayload {
   iat: number;
 }
 
+interface TokenState {
+  token: string;
+  refreshToken: string;
+  expiresAt: Date;
+  refreshExpiresAt: Date;
+}
+
 export class OidcSimpleClient {
   private issuerUri!: string;
   private clientId!: string;
@@ -26,7 +33,7 @@ export class OidcSimpleClient {
   private refreshTokenExpirationDate: Date | undefined;
   private tokenRefreshFlowPromise: Promise<boolean> | undefined;
 
-  timeToRefresh: number = TIME_TO_REFRESH_MS; // Must be less then Access Token Lifespan
+  timeToRefresh: number = TIME_TO_REFRESH_MS;
   isUserLoggedIn = false;
 
   constructor(
@@ -93,155 +100,227 @@ export class OidcSimpleClient {
     return [sanitizedToken, decodedToken];
   }
 
-  private storeTokens(token: string, refreshToken: string): boolean {
+  private validateTokenState(state: Partial<TokenState>): boolean {
+    const now = Date.now();
+    return !!(
+      state.token &&
+      state.refreshToken &&
+      state.expiresAt &&
+      state.refreshExpiresAt &&
+      state.expiresAt.getTime() > now &&
+      state.refreshExpiresAt.getTime() > now
+    );
+  }
+
+  private async updateTokenState(newState: TokenState): Promise<void> {
     try {
-      // Validate both tokens
-      const [sanitizedToken, decodedToken] = this.validateAndParseToken(token);
-      const [sanitizedRefreshToken, decodedRefreshToken] =
-        this.validateAndParseToken(refreshToken);
+      await this.storage.setItem(
+        LOCALSTORAGE_AUTH_KEY,
+        JSON.stringify({
+          token: newState.token,
+          refreshToken: newState.refreshToken,
+          expiresAt: newState.expiresAt.toISOString(),
+          refreshExpiresAt: newState.refreshExpiresAt.toISOString(),
+        }),
+      );
 
-      if (!decodedToken.isExpired) {
-        this.setAuth(
-          sanitizedToken,
-          sanitizedRefreshToken,
-          decodedToken.expiringDate,
-          decodedRefreshToken.expiringDate,
-        );
-
-        // Store tokens
-        this.storage.setItem(
-          LOCALSTORAGE_AUTH_KEY,
-          JSON.stringify({
-            token: sanitizedToken,
-            refreshToken: sanitizedRefreshToken,
-            expiresAt: decodedToken.expiringDate.toISOString(),
-          }),
-        );
-        return true;
-      } else {
-        throw new ApiClientError(
-          'Token is expired right after receiving, clock is out of sync',
-          { kind: 'bad-data' },
-        );
-      }
+      this.token = newState.token;
+      this.refreshToken = newState.refreshToken;
+      this.tokenExpirationDate = newState.expiresAt;
+      this.refreshTokenExpirationDate = newState.refreshExpiresAt;
+      this.isUserLoggedIn = true;
     } catch (e) {
-      if (e instanceof ApiClientError) {
-        throw e;
-      }
-      throw new ApiClientError(e?.['message'] || 'Token validation failed', {
+      this.resetAuth();
+      throw new ApiClientError('Failed to update token state', {
         kind: 'bad-data',
       });
     }
   }
 
-  /**
-   * check and use local token, reset auth if token is absent or invalid
-   * @returns true on success
-   */
-  checkLocalAuthToken(): boolean {
-    if (this.token && this.refreshToken) {
-      return true;
-    }
-    try {
-      const storedTokensJson = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
-      if (storedTokensJson) {
-        const stored = JSON.parse(storedTokensJson);
-        if (stored.token && stored.refreshToken) {
-          try {
-            // Validate both tokens
-            const [sanitizedToken, decodedToken] = this.validateAndParseToken(
-              stored.token,
-            );
-            const [sanitizedRefreshToken, decodedRefreshToken] =
-              this.validateAndParseToken(stored.refreshToken);
+  private shouldRefreshToken(): 'must' | 'should' | false {
+    if (!this.tokenExpirationDate) return 'must';
 
-            // Validate expiration
-            if (decodedToken.isExpired) {
-              throw new Error('Token is expired');
-            }
+    const now = Date.now();
+    const timeToExpiry = this.tokenExpirationDate.getTime() - now;
 
-            this.timeToRefresh = Math.min(
-              Math.trunc((decodedToken.tokenLifetime * 1000) / 5),
-              TIME_TO_REFRESH_MS,
-            );
-
-            this.setAuth(
-              sanitizedToken,
-              sanitizedRefreshToken,
-              decodedToken.expiringDate,
-              decodedRefreshToken.expiringDate,
-            );
-            return true;
-          } catch (e) {
-            this.resetAuth();
-            return false;
-          }
-        }
-      }
-    } catch (e) {
-      // Handle silently - invalid token state should just reset auth
-    }
-    this.resetAuth();
+    if (timeToExpiry <= 0) return 'must';
+    if (timeToExpiry < this.timeToRefresh) return 'should';
     return false;
   }
 
+  private async _tokenRefreshFlow() {
+    const refreshNeeded = this.shouldRefreshToken();
+
+    if (!refreshNeeded) return true;
+
+    try {
+      if (refreshNeeded === 'must') {
+        await this.refreshAuthToken();
+        return true;
+      }
+
+      // For 'should' case, try refresh but don't fail if current token still valid
+      try {
+        await this.refreshAuthToken();
+      } catch (error) {
+        const now = Date.now();
+        if (this.tokenExpirationDate && this.tokenExpirationDate.getTime() > now) {
+          console.warn('Preemptive token refresh failed, using existing token:', error);
+          return true;
+        }
+        throw error;
+      }
+      return true;
+    } catch (error) {
+      this.resetAuth();
+      if (error instanceof ApiClientError) {
+        throw error;
+      }
+      throw new ApiClientError('Token refresh failed', {
+        kind: 'unauthorized',
+        data: 'Token refresh failed',
+      });
+    }
+  }
+
+  async getAccessToken() {
+    try {
+      if (!this.tokenRefreshFlowPromise) {
+        this.tokenRefreshFlowPromise = this._tokenRefreshFlow();
+      }
+      await this.tokenRefreshFlowPromise;
+
+      if (
+        this.token &&
+        this.validateTokenState({
+          token: this.token,
+          refreshToken: this.refreshToken,
+          expiresAt: this.tokenExpirationDate!,
+          refreshExpiresAt: this.refreshTokenExpirationDate!,
+        })
+      ) {
+        return this.token;
+      }
+
+      throw new ApiClientError('No valid token available', {
+        kind: 'unauthorized',
+        data: 'Token validation failed',
+      });
+    } catch (error) {
+      this.tokenRefreshFlowPromise = undefined;
+      throw error;
+    } finally {
+      this.tokenRefreshFlowPromise = undefined;
+    }
+  }
+
+  checkLocalAuthToken(): boolean {
+    try {
+      // First validate in-memory tokens if present
+      if (
+        this.token &&
+        this.refreshToken &&
+        this.tokenExpirationDate &&
+        this.refreshTokenExpirationDate
+      ) {
+        if (
+          this.validateTokenState({
+            token: this.token,
+            refreshToken: this.refreshToken,
+            expiresAt: this.tokenExpirationDate,
+            refreshExpiresAt: this.refreshTokenExpirationDate,
+          })
+        ) {
+          this.isUserLoggedIn = true;
+          return true;
+        }
+      }
+
+      const storedTokensJson = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
+      if (!storedTokensJson) {
+        this.resetAuth();
+        return false;
+      }
+
+      const stored = JSON.parse(storedTokensJson);
+      if (!stored.token || !stored.refreshToken || !stored.expiresAt) {
+        this.resetAuth();
+        return false;
+      }
+
+      try {
+        const [sanitizedToken, decodedToken] = this.validateAndParseToken(stored.token);
+        const [sanitizedRefreshToken, decodedRefreshToken] = this.validateAndParseToken(
+          stored.refreshToken,
+        );
+
+        const tokenState: TokenState = {
+          token: sanitizedToken,
+          refreshToken: sanitizedRefreshToken,
+          expiresAt: new Date(stored.expiresAt),
+          refreshExpiresAt: decodedRefreshToken.expiringDate || new Date(0),
+        };
+
+        if (!this.validateTokenState(tokenState)) {
+          throw new Error('Invalid token state');
+        }
+
+        this.timeToRefresh = Math.min(
+          Math.trunc((decodedToken.tokenLifetime * 1000) / 5),
+          TIME_TO_REFRESH_MS,
+        );
+
+        this.token = tokenState.token;
+        this.refreshToken = tokenState.refreshToken;
+        this.tokenExpirationDate = tokenState.expiresAt;
+        this.refreshTokenExpirationDate = tokenState.refreshExpiresAt;
+        this.isUserLoggedIn = true;
+        return true;
+      } catch (e) {
+        this.resetAuth();
+        return false;
+      }
+    } catch (e) {
+      this.resetAuth();
+      return false;
+    }
+  }
+
+  async logout(doReload = true) {
+    try {
+      await this.endSession();
+    } finally {
+      if (doReload) {
+        location.reload();
+      }
+    }
+  }
+
+  async endSession() {
+    const params = {
+      client_id: this.clientId,
+      refresh_token: this.refreshToken,
+    };
+    this.resetAuth();
+    try {
+      await wretch(this.endSessionEndpoint)
+        .addon(FormUrlAddon)
+        .formUrl(params)
+        .post()
+        .res();
+    } catch (e) {
+      // typically response is 204, but if endpoint fails, ignore it
+      console.warn('Logout endpoint failed:', e);
+    }
+  }
+
   private resetAuth() {
-    // Securely clear tokens from memory
     this.token = '';
     this.refreshToken = '';
     this.tokenExpirationDate = undefined;
     this.refreshTokenExpirationDate = undefined;
-
-    // Clear from storage
+    this.isUserLoggedIn = false;
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
-  }
-
-  private setAuth(
-    token: string,
-    refreshToken: string,
-    expiringDate: Date | undefined,
-    expiringRefreshDate?: Date | undefined,
-  ) {
-    this.token = token;
-    this.refreshToken = refreshToken;
-    this.tokenExpirationDate = expiringDate;
-    this.refreshTokenExpirationDate = expiringRefreshDate;
-  }
-
-  private async _tokenRefreshFlow() {
-    if (!this.tokenExpirationDate) {
-      return false;
-    }
-    const diffTime = this.tokenExpirationDate.getTime() - Date.now();
-    if (diffTime < this.timeToRefresh) {
-      // token expires soon, refresh it
-      try {
-        await this.refreshAuthToken();
-      } catch (error) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * return AT or throw error
-   * automatically refreshes expired or expiring soon AT
-   * @throws {ApiClientError}
-   */
-  async getAccessToken() {
-    if (!this.tokenRefreshFlowPromise) {
-      this.tokenRefreshFlowPromise = this._tokenRefreshFlow();
-    }
-    await this.tokenRefreshFlowPromise;
-    this.tokenRefreshFlowPromise = undefined;
-    return this.token;
-  }
-
-  isRefreshTokenExpired() {
-    return (
-      !this.refreshTokenExpirationDate || this.refreshTokenExpirationDate < new Date()
-    );
   }
 
   /**
@@ -258,7 +337,6 @@ export class OidcSimpleClient {
     }
 
     const params = {
-      client_id: this.clientId,
       refresh_token: this.refreshToken,
       grant_type: 'refresh_token',
     };
@@ -266,7 +344,6 @@ export class OidcSimpleClient {
     try {
       return await this.requestTokenOrThrow(this.tokenEndpoint, params);
     } catch (error) {
-      // logout on refresh token error
       await this.logout();
       throw error;
     }
@@ -276,16 +353,16 @@ export class OidcSimpleClient {
    * @throws {ApiClientError}
    */
   private async requestTokenOrThrow(
-    grantType: string,
+    endpoint: string,
     params: Record<string, string>,
   ): Promise<boolean> {
     try {
-      const response = await wretch(this.tokenEndpoint)
+      const response = await wretch(endpoint)
         .addon(FormUrlAddon)
-        .formUrl({ grant_type: grantType, client_id: this.clientId, ...params })
+        .formUrl({ client_id: this.clientId, ...params })
         .post()
         .unauthorized((_) => {
-          throw new ApiClientError('Invalid username or password', {
+          throw new ApiClientError('Invalid credentials', {
             kind: 'unauthorized',
             data: 'Invalid credentials',
           });
@@ -298,24 +375,26 @@ export class OidcSimpleClient {
         });
       }
 
-      try {
-        // Validate and store tokens
-        const result = this.storeTokens(
-          response.data.access_token,
-          response.data.refresh_token,
-        );
-        this.isUserLoggedIn = true;
-        return result;
-      } catch (e) {
-        // Reset auth state on validation failure
-        this.resetAuth();
-        throw e;
+      const [sanitizedToken, decodedToken] = this.validateAndParseToken(
+        response.data.access_token,
+      );
+      const [sanitizedRefreshToken, decodedRefreshToken] = this.validateAndParseToken(
+        response.data.refresh_token,
+      );
+
+      await this.updateTokenState({
+        token: sanitizedToken,
+        refreshToken: sanitizedRefreshToken,
+        expiresAt: decodedToken.expiringDate || new Date(0),
+        refreshExpiresAt: decodedRefreshToken.expiringDate || new Date(0),
+      });
+
+      return true;
+    } catch (error) {
+      if (error instanceof ApiClientError) {
+        throw error;
       }
-    } catch (e) {
-      if (e instanceof ApiClientError) {
-        throw e;
-      }
-      throw createApiError(e);
+      throw createApiError(error);
     }
   }
 
@@ -350,33 +429,10 @@ export class OidcSimpleClient {
     }
   }
 
-  async endSession() {
-    const params = {
-      client_id: this.clientId,
-      refresh_token: this.refreshToken,
-    };
-    this.resetAuth();
-    try {
-      wretch(this.endSessionEndpoint)
-        .addon(FormUrlAddon)
-        .formUrl(params)
-        .post()
-        .res()
-        .then();
-    } catch (e) {
-      // typically response is 204, but if endpoint fails, ignore it
-    }
-  }
-
-  /**
-   * reset auth, end session and reload
-   * @param doReload
-   */
-  logout(doReload = true) {
-    this.endSession().then((_) => {
-      // reload to init with public config and profile
-      if (doReload) location.reload();
-    });
+  isRefreshTokenExpired() {
+    return (
+      !this.refreshTokenExpirationDate || this.refreshTokenExpirationDate < new Date()
+    );
   }
 }
 

@@ -18,13 +18,16 @@ export class MockFactory {
     const accessToken = token || (await TokenFactory.createToken());
     const refreshToken = await TokenFactory.createRefreshToken();
 
-    fetchMock.postOnce(tokenEndpoint, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: {
-        access_token: accessToken,
-        refresh_token: refreshToken,
-      },
+    fetchMock.post(tokenEndpoint, (url: string, opts: any) => {
+      this.callCount++;
+      return {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: {
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        },
+      };
     });
   }
 
@@ -42,10 +45,12 @@ export class MockFactory {
   }
 
   static setupLogoutEndpoint(config: AuthConfig = {}): void {
-    const { baseUrl, realm } = AuthFactory.createConfig(config);
-    const logoutEndpoint = `${baseUrl}/realms/${realm}/protocol/openid-connect/logout`;
-    fetchMock.post(logoutEndpoint, {
-      status: 204,
+    const logoutEndpoint = AuthFactory.getLogoutEndpoint(config);
+    fetchMock.post(logoutEndpoint, (url: string, opts: any) => {
+      this.callCount++;
+      return {
+        status: 204,
+      };
     });
   }
 
