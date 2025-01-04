@@ -8,7 +8,7 @@ import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { localStorage } from '~utils/storage';
 
 export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
-const TIME_TO_REFRESH_MS = 1000 * 60 * 3;
+export const TIME_TO_REFRESH_MS = 1000 * 60 * 3;
 
 interface TokenPayload {
   exp: number;

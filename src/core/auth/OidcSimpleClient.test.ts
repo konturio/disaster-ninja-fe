@@ -5,7 +5,7 @@ import { beforeEach, expect, test, describe, vi } from 'vitest';
 import { ApiClientError } from '../api_client/apiClientError';
 import { createContext } from '../api_client/tests/_clientTestsContext';
 import { MockFactory } from '../api_client/tests/factories/mock.factory';
-import { LOCALSTORAGE_AUTH_KEY } from './OidcSimpleClient';
+import { LOCALSTORAGE_AUTH_KEY, TIME_TO_REFRESH_MS } from './OidcSimpleClient';
 import type { TestContext } from '../api_client/tests/_clientTestsContext';
 
 declare module 'vitest' {
@@ -283,6 +283,189 @@ describe('OidcSimpleClient', () => {
       expect(removeItemSpy).toHaveBeenCalledWith(LOCALSTORAGE_AUTH_KEY);
       expect(ctx.authClient.isUserLoggedIn).toBe(false);
       expect(ctx.authClient['token']).toBe('');
+    });
+  });
+
+  describe('Token Validation', () => {
+    test('should reject tokens with potential XSS payloads', async ({ ctx }) => {
+      const maliciousTokens = [
+        'header.<script>alert(1)</script>.signature',
+        'header.payload.javascript:alert(1)',
+        'header.data:text/html.signature',
+        'header.\\u0061lert.signature',
+        'header.onclick=alert(1).signature',
+      ];
+
+      for (const token of maliciousTokens) {
+        try {
+          await ctx.authClient['sanitizeToken'](token);
+          throw new Error('Should have rejected malicious token');
+        } catch (e) {
+          expect(e).toBeInstanceOf(ApiClientError);
+          expect((e as ApiClientError).problem.kind).toBe('bad-data');
+        }
+      }
+    });
+
+    test('should reject malformed JWT tokens', async ({ ctx }) => {
+      const malformedTokens = [
+        'not.a.valid.token',
+        'missing.parts',
+        'header..signature',
+        'header.payload',
+        '',
+      ];
+
+      for (const token of malformedTokens) {
+        try {
+          await ctx.authClient['sanitizeToken'](token);
+          throw new Error('Should have rejected malformed token');
+        } catch (e) {
+          expect(e).toBeInstanceOf(ApiClientError);
+          expect((e as ApiClientError).problem.kind).toBe('bad-data');
+        }
+      }
+    });
+  });
+
+  describe('Token State Management', () => {
+    test('should handle storage errors during token update', async ({ ctx }) => {
+      vi.spyOn(ctx.localStorageMock, 'setItem').mockImplementation(() => {
+        throw new Error('Storage error');
+      });
+
+      const newState = {
+        token: ctx.token,
+        refreshToken: ctx.refreshToken,
+        expiresAt: new Date(Date.now() + 3600000),
+        refreshExpiresAt: new Date(Date.now() + 7200000),
+      };
+
+      try {
+        await ctx.authClient['updateTokenState'](newState);
+        throw new Error('Should have failed on storage error');
+      } catch (e) {
+        expect(e).toBeInstanceOf(ApiClientError);
+        expect((e as ApiClientError).problem.kind).toBe('bad-data');
+        expect(ctx.authClient.isUserLoggedIn).toBe(false);
+        expect(ctx.authClient['token']).toBe('');
+      }
+    });
+
+    test('should handle preemptive token refresh failure gracefully', async ({ ctx }) => {
+      MockFactory.resetMocks();
+
+      // Set up initial token state with soon-to-expire token
+      const tokenData = {
+        token: ctx.token,
+        refreshToken: ctx.refreshToken,
+        expiresAt: new Date(Date.now() + TIME_TO_REFRESH_MS / 2).toISOString(),
+        refreshExpiresAt: new Date(Date.now() + 7200000).toISOString(),
+      };
+
+      vi.spyOn(ctx.localStorageMock, 'getItem').mockReturnValue(
+        JSON.stringify(tokenData),
+      );
+
+      // Set up the logout endpoint first
+      MockFactory.setupLogoutEndpoint({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
+
+      // Set up initial successful auth
+      await MockFactory.setupSuccessfulAuth({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
+
+      // Initialize client with valid token
+      await ctx.authClient.init(
+        `${ctx.baseUrl}/realms/${ctx.keycloakRealm}`,
+        'kontur_platform',
+      );
+
+      // Now make refresh fail but keep current token valid
+      MockFactory.resetMocks();
+      MockFactory.setupFailedAuth({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
+
+      // Should still be able to get token
+      const token = await ctx.authClient.getAccessToken();
+      expect(token).toBe(ctx.token);
+      expect(ctx.authClient.isUserLoggedIn).toBe(true);
+    });
+  });
+
+  describe('Authentication Flow', () => {
+    test('should handle login with invalid credentials', async ({ ctx }) => {
+      MockFactory.resetMocks();
+      MockFactory.setupFailedAuth({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
+
+      let error: unknown;
+      try {
+        await ctx.authClient.login('invalid', 'credentials');
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(ApiClientError);
+      if (error instanceof ApiClientError) {
+        expect(error.message).toBe('Invalid credentials');
+        expect(error.problem.kind).toBe('unauthorized');
+        if (error.problem.kind === 'unauthorized') {
+          expect(error.problem.data).toBe('Invalid credentials');
+        }
+      }
+      expect(ctx.authClient.isUserLoggedIn).toBe(false);
+    });
+
+    test('should handle high-level authentication with invalid credentials', async ({
+      ctx,
+    }) => {
+      MockFactory.resetMocks();
+      MockFactory.setupFailedAuth({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
+
+      const result = await ctx.authClient.authenticate('invalid', 'credentials');
+      expect(result).toBe('Invalid credentials');
+      expect(ctx.authClient.isUserLoggedIn).toBe(false);
+    });
+
+    test('should handle server errors during authentication', async ({ ctx }) => {
+      MockFactory.resetMocks();
+      const tokenEndpoint = `${ctx.baseUrl}/realms/${ctx.keycloakRealm}/protocol/openid-connect/token`;
+
+      ctx.fetchMock.post(tokenEndpoint, {
+        status: 500,
+        body: {
+          error: 'server_error',
+          error_description: 'Internal Server Error',
+        },
+      });
+
+      const result = await ctx.authClient.authenticate('user', 'password');
+      expect(result).toBe('Internal Server Error');
+      expect(ctx.authClient.isUserLoggedIn).toBe(false);
+    });
+
+    test('should handle successful authentication', async ({ ctx }) => {
+      MockFactory.resetMocks();
+      await MockFactory.setupSuccessfulAuth({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
+
+      const result = await ctx.authClient.authenticate('valid', 'password');
+      expect(result).toBe(true);
+      expect(ctx.authClient.isUserLoggedIn).toBe(true);
     });
   });
 });
