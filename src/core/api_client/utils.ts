@@ -13,8 +13,6 @@ export async function autoParseBody(res: WretchResponse) {
     } else {
       res.data = await res.text();
     }
-  } else {
-    console.debug('autoParseBody', res);
   }
 
   return res;

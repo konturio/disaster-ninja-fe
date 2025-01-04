@@ -13,21 +13,14 @@ export class ApiClientError extends Error {
   }
 }
 
-export function isApiError(x: any): x is ApiClientError {
-  if (x.problem) return typeof x.problem === 'object';
-  return false;
+export function isApiError(error: unknown): error is ApiClientError {
+  return error instanceof ApiClientError;
 }
 
-export function getApiErrorKind(x: any) {
-  if (isApiError(x)) {
-    return x.problem.kind;
-  }
-  return null;
+export function getApiErrorKind(error: unknown) {
+  return isApiError(error) ? error.problem.kind : null;
 }
 
-export function getApiErrorMessage(x: any) {
-  if (isApiError(x)) {
-    return x.message;
-  }
-  return null;
+export function getApiErrorMessage(error: unknown) {
+  return isApiError(error) ? error.message : null;
 }

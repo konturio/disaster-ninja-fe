@@ -120,7 +120,6 @@ export class AppMetrics implements Metric {
   recordEventToLog(name: string) {
     this.eventLog.push(name);
     if (this.settings.isEnabled('KONTUR_SQ_LOG')) {
-      // eslint-disable-next-line no-console
       console.debug(name);
     }
     while (this.eventLog.length > this.maxLogSize) {
