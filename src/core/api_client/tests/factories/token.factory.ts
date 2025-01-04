@@ -14,8 +14,8 @@ export class TokenFactory {
 
     return new SignJWT({ ...defaultPayload })
       .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
-      .setIssuedAt(defaultPayload.iat)
-      .setExpirationTime(defaultPayload.exp)
+      .setIssuedAt(defaultPayload.iat!)
+      .setExpirationTime(defaultPayload.exp!)
       .sign(this.SECRET);
   }
 
