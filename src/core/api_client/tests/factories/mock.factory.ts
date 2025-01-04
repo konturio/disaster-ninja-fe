@@ -222,6 +222,7 @@ export class MockFactory {
     options: MockApiResponseOptions = {},
   ): void {
     const { method = 'POST', headers = {}, once = false } = options;
+    const url = path.startsWith('http') ? path : AuthFactory.getApiUrl(path);
 
     const response = (url: string, opts: any) => {
       this.callCount++;
@@ -236,43 +237,22 @@ export class MockFactory {
     };
 
     if (once) {
-      fetchMock.once(AuthFactory.getApiUrl(path), response, { method });
+      fetchMock.once(url, response, { method });
     } else {
-      fetchMock[method.toLowerCase()](AuthFactory.getApiUrl(path), response);
+      fetchMock[method.toLowerCase()](url, response);
     }
   }
 
-  static setupNetworkError(path: string, method: string = 'POST'): void {
-    fetchMock[method.toLowerCase()](
-      AuthFactory.getApiUrl(path),
-      (url: string, opts: any) => {
-        this.callCount++;
-        return {
-          throws: new ApiClientError("Can't connect to server", {
-            kind: 'cannot-connect',
-            temporary: true,
-          }),
-        };
-      },
-    );
+  static setupNetworkError(path: string, method: string = 'GET'): void {
+    fetchMock[method.toLowerCase()](AuthFactory.getApiUrl(path), {
+      throws: new Error("Can't connect to server"),
+    });
   }
 
   static setupTimeoutError(path: string, method: string = 'POST'): void {
-    fetchMock[method.toLowerCase()](
-      AuthFactory.getApiUrl(path),
-      (url: string, opts: any) => {
-        this.callCount++;
-        return {
-          status: 408,
-          headers: { 'Content-Type': 'application/json' },
-          body: {
-            error: 'timeout',
-            message: 'Request Timeout',
-            data: null,
-          },
-        };
-      },
-    );
+    fetchMock[method.toLowerCase()](AuthFactory.getApiUrl(path), {
+      throws: new Error('Request Timeout'),
+    });
   }
 
   static setupSequentialResponses(

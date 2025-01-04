@@ -2,7 +2,7 @@ const proxyHost = 'localhost:3000';
 
 /* Replace api url that require CORS to proxy */
 export function replaceUrlWithProxy(originalUrl: string): string {
-  const viteProxyConfig = window['viteProxyConfig'];
+  const viteProxyConfig = globalThis['viteProxyConfig'];
   if (!viteProxyConfig) return originalUrl;
 
   const associatedProxyTarget = Object.keys(viteProxyConfig).find((link) =>
