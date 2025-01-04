@@ -173,14 +173,13 @@ export class OidcSimpleClient {
             );
             return true;
           } catch (e) {
-            console.debug('Token validation failed:', e);
             this.resetAuth();
             return false;
           }
         }
       }
     } catch (e) {
-      console.debug('checkLocalAuthToken:', e);
+      // Handle silently - invalid token state should just reset auth
     }
     this.resetAuth();
     return false;
