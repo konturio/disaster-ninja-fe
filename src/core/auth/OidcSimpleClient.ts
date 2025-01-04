@@ -1,13 +1,11 @@
+import { jwtDecode } from 'jwt-decode';
 import wretch from 'wretch';
 import FormUrlAddon from 'wretch/addons/formUrl';
-import { jwtDecode } from 'jwt-decode';
 import { ApiClientError } from '~core/api_client/apiClientError';
 import { createApiError } from '~core/api_client/errors';
-import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
-import { KONTUR_DEBUG } from '~utils/debug';
-import { localStorage } from '~utils/storage';
 import { autoParseBody } from '~core/api_client/utils';
-import type { ApiResponse, KeycloakAuthResponse } from '~core/api_client/types';
+import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
+import { localStorage } from '~utils/storage';
 
 export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
 const TIME_TO_REFRESH_MS = 1000 * 60 * 3;
@@ -236,7 +234,7 @@ export class OidcSimpleClient {
     if (!this.tokenRefreshFlowPromise) {
       this.tokenRefreshFlowPromise = this._tokenRefreshFlow();
     }
-    const tokenCheck = await this.tokenRefreshFlowPromise;
+    await this.tokenRefreshFlowPromise;
     this.tokenRefreshFlowPromise = undefined;
     return this.token;
   }
@@ -287,7 +285,7 @@ export class OidcSimpleClient {
         .addon(FormUrlAddon)
         .formUrl({ grant_type: grantType, client_id: this.clientId, ...params })
         .post()
-        .unauthorized((err) => {
+        .unauthorized((_) => {
           throw new ApiClientError('Invalid username or password', {
             kind: 'unauthorized',
             data: 'Invalid credentials',
@@ -348,8 +346,8 @@ export class OidcSimpleClient {
         location.reload();
       }
       return true;
-    } catch (e: any) {
-      return e?.message || 'Login error';
+    } catch (e: unknown) {
+      return (e as { message?: string })?.message || 'Login error';
     }
   }
 
@@ -378,7 +376,7 @@ export class OidcSimpleClient {
   logout(doReload = true) {
     this.endSession().then((_) => {
       // reload to init with public config and profile
-      doReload && location.reload();
+      if (doReload) location.reload();
     });
   }
 }

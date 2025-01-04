@@ -20,6 +20,7 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
+/** @type {import('eslint').Linter.Config[]} */
 export default [
   {
     ignores: [
@@ -55,18 +56,16 @@ export default [
     },
 
     languageOptions: {
-      globals: {
-        ...globals.browser,
-      },
-
       parser: tsParser,
       ecmaVersion: 2020,
       sourceType: 'module',
-
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
         },
+      },
+      globals: {
+        ...globals.browser,
       },
     },
 
@@ -112,6 +111,7 @@ export default [
         {
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',
+          caughtErrors: 'none',
         },
       ],
 
