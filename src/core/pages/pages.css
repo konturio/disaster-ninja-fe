@@ -131,6 +131,7 @@
     font-family: var(--font-family);
     text-decoration: none;
     user-select: none;
+    overflow-wrap: break-word;
     -webkit-user-drag: none;
   }
 

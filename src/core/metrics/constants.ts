@@ -15,14 +15,11 @@ export const METRICS_REPORT_TEMPLATE: MetricsReportTemplate = {
 };
 
 const APPEVENT_TO_FEATURE = {
+  'router-layout-ready': null,
   [AppFeature.CURRENT_EVENT]: [AppFeature.CURRENT_EVENT], // can be error
-  _done_layersGlobalResource: [AppFeature.LAYERS_IN_AREA], // list of layers
-  // [AppFeature.ANALYTICS_PANEL]: [AppFeature.ANALYTICS_PANEL, AppFeature.CURRENT_EVENT], // not in EPIG, depends on CURRENT_EVENT, not firing when panel closed
-  // _done_areaLayersDetailsResourceAtom: null, // can be disabled in url
-  _done_layersInAreaAndEventLayerResource: [
-    AppFeature.LAYERS_IN_AREA,
-    AppFeature.CURRENT_EVENT,
-  ], // depends on CURRENT_EVENT
+  layersGlobalResource: null,
+  allLayers: null,
+  apiClient_isIdle: null,
   // [AppFeature.EVENTS_LIST]: [AppFeature.EVENTS_LIST], // not needed for TTI
 };
 
@@ -40,13 +37,3 @@ export function buildWatchList() {
 
   return effectiveWatchList;
 }
-
-// to be used for rebuilding watchlist after further analysis
-const runtimeDepsTree = {
-  [AppFeature.CURRENT_EVENT]: [
-    //false
-    [],
-    //true
-    [AppFeature.ANALYTICS_PANEL, '_done_layersInAreaAndEventLayerResource'],
-  ],
-};

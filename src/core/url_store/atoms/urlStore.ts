@@ -24,7 +24,7 @@ const urlStore = new URLStore(urlEncoder);
 const initFlagAtom = createBooleanAtom(false, 'urlStore:initFlagAtom');
 let lastVersion = 0;
 
-export const searchStringAtom = createStringAtom('', 'urlStore:searchStringAtom');
+const searchStringAtom = createStringAtom('', 'urlStore:searchStringAtom');
 
 /* Compose shared state values into one atom */
 export const urlStoreAtom = createAtom(

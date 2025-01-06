@@ -1,9 +1,8 @@
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
-import { KONTUR_DEBUG } from '~utils/debug';
 import { wait } from '~utils/test/wait';
-import { typedObjectEntries } from '~core/types/entry';
+import { goTo } from '~core/router/goTo';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
 import { autoParseBody } from './utils';
@@ -12,41 +11,71 @@ import type {
   ApiClientConfig,
   ApiMethod,
   CustomRequestConfig,
+  GeneralApiProblem,
   RequestParams,
 } from './types';
 import type { OidcSimpleClient } from '~core/auth/OidcSimpleClient';
 
+type EventMap = {
+  error: ApiClientError;
+  poolUpdate: Map<string, string>;
+  idle: boolean;
+};
+
+type EventType = keyof EventMap;
+type Listener<T> = (arg: T) => void;
+type ListenerMap = {
+  [K in EventType]: Set<Listener<EventMap[K]>>;
+};
+
 export class ApiClient {
-  private listeners = new Map([['error', new Set<(e: ApiClientError) => void>()]]);
+  private listeners: ListenerMap = {
+    error: new Set(),
+    poolUpdate: new Set(),
+    idle: new Set(),
+  };
   private baseURL!: string;
+  private requestPool = new Map<string, string>();
 
   authService!: OidcSimpleClient;
 
-  /**
-   * The Singleton's constructor should always be private to prevent direct
-   * construction calls with the `new` operator.
-   */
-  constructor({ on }: { on?: { error: (c: ApiClientError) => void } }) {
+  constructor({ on }: { on?: { [K in EventType]?: Listener<EventMap[K]> } } = {}) {
     if (on) {
-      typedObjectEntries(on).forEach(([event, cb]) => this.on(event, cb));
+      (Object.entries(on) as [EventType, Listener<EventMap[EventType]>][]).forEach(
+        ([event, cb]) => {
+          if (cb) this.on(event, cb);
+        },
+      );
     }
   }
 
+  public on<E extends EventType>(event: E, cb: Listener<EventMap[E]>): () => void {
+    this.listeners[event].add(cb);
+    return () => {
+      this.listeners[event].delete(cb);
+    };
+  }
+
+  private _emit<E extends EventType>(type: E, payload: EventMap[E]): void {
+    this.listeners[type].forEach((l) => l(payload));
+  }
+
   public init(cfg: ApiClientConfig) {
-    // Will deleted by terser
-    let baseURL = cfg.baseUrl;
+    let baseURL = cfg.baseUrl ?? '';
     if (import.meta.env.DEV) {
-      baseURL = replaceUrlWithProxy(baseURL ?? '');
+      baseURL = replaceUrlWithProxy(baseURL);
     }
     this.baseURL = baseURL;
   }
 
-  public on(event: 'error', cb: (c: ApiClientError) => void) {
-    this.listeners.get(event)?.add(cb);
-    return () => this.listeners.get(event)?.delete(cb);
-  }
-  private _emit(type: 'error', payload: ApiClientError) {
-    this.listeners.get(type)?.forEach((l) => l(payload));
+  private updateRequestPool(requestId: string, status: string | null): void {
+    if (status === null) {
+      this.requestPool.delete(requestId);
+    } else {
+      this.requestPool.set(requestId, status);
+    }
+    this._emit('poolUpdate', new Map(this.requestPool));
+    this._emit('idle', this.requestPool.size === 0);
   }
 
   private async call<T>(
@@ -58,6 +87,9 @@ export class ApiClient {
   ): Promise<T | null> {
     const RequestsWithBody = ['post', 'put', 'patch'];
     let req;
+
+    const requestId = Math.random().toString(36).substring(7);
+    this.updateRequestPool(requestId, 'pending');
 
     if (path.startsWith('http')) {
       const url = new URL(path);
@@ -105,8 +137,10 @@ export class ApiClient {
 
     try {
       const response = await req[method]().res(autoParseBody);
+      this.updateRequestPool(requestId, null);
       return response.data as T;
     } catch (err) {
+      this.updateRequestPool(requestId, null);
       const apiError = createApiError(err);
 
       if (apiError.problem.kind === 'canceled') {
@@ -120,24 +154,37 @@ export class ApiClient {
           const token = await this.authService.getAccessToken();
         } catch (error) {
           // logout is handled in authService for this case
-          import('~core/router/goTo').then(({ goTo }) => {
-            goTo('/profile');
-          });
+          goTo('/profile');
         }
         throw apiError;
       }
 
-      // Retry after timeout error
-      if (apiError.problem.kind === 'timeout' && requestConfig.retryAfterTimeoutError) {
-        if (requestConfig.retryAfterTimeoutError.times > 0) {
-          if (requestConfig.retryAfterTimeoutError.delayMs) {
-            await wait(requestConfig.retryAfterTimeoutError.delayMs / 1000);
+      // Handle retries with defaults
+      const defaultRetryConfig = {
+        attempts: 0,
+        delayMs: 1000,
+        onErrorKinds: ['timeout'] as Array<GeneralApiProblem['kind']>,
+      };
+
+      const retryConfig = {
+        ...defaultRetryConfig,
+        ...requestConfig.retry,
+        onErrorKinds:
+          requestConfig.retry?.onErrorKinds ?? defaultRetryConfig.onErrorKinds,
+      };
+
+      if (retryConfig.attempts > 0) {
+        const shouldRetry = retryConfig.onErrorKinds.includes(apiError.problem.kind);
+
+        if (shouldRetry) {
+          if (retryConfig.delayMs) {
+            await wait(retryConfig.delayMs / 1000);
           }
           return this.call(method, path, requestParams, useAuth, {
             ...requestConfig,
-            retryAfterTimeoutError: {
-              ...requestConfig.retryAfterTimeoutError,
-              times: requestConfig.retryAfterTimeoutError.times - 1,
+            retry: {
+              ...retryConfig,
+              attempts: retryConfig.attempts - 1,
             },
           });
         }

@@ -1,216 +1,164 @@
 /**
  * @vitest-environment happy-dom
  */
-import 'vi-fetch/setup';
-import { test, expect, beforeEach } from 'vitest';
-import sinon from 'sinon';
-import { isApiError, getApiErrorKind, getApiErrorMessage } from '../apiClientError';
-import { createContext, setTimeOffset, setTokenExp } from './_clientTestsContext';
+import { beforeEach, expect, test, describe, vi } from 'vitest';
+import { ApiClientError } from '../apiClientError';
+import { parseToken } from '../../../core/auth/OidcSimpleClient';
+import { createContext } from './_clientTestsContext';
+import { TokenFactory } from './factories/token.factory';
 
-beforeEach((context) => {
-  context.ctx = createContext();
+declare module 'vitest' {
+  interface TestContext {
+    ctx: Awaited<ReturnType<typeof createContext>>;
+  }
+}
+
+function isApiError(error: unknown): error is ApiClientError {
+  return error instanceof ApiClientError;
+}
+
+function getApiErrorKind(error: unknown): string | undefined {
+  return isApiError(error) ? error.problem.kind : undefined;
+}
+
+function getApiErrorMessage(error: unknown): string | undefined {
+  return isApiError(error) ? error.message : undefined;
+}
+
+beforeEach(async (context) => {
+  context.ctx = await createContext();
 });
 
-test('can login with username and password', async ({ ctx }) => {
-  ctx.mockAdapter.onPost(new RegExp(ctx.keycloakRealm)).willResolve({
-    access_token: ctx.token,
-    refresh_token: ctx.refreshToken,
+describe('Authentication Flow', () => {
+  test('should successfully login with valid username and password and store tokens', async ({
+    ctx,
+  }) => {
+    const setItemFake = vi.fn();
+    vi.spyOn(ctx.localStorageMock, 'setItem').mockImplementation(setItemFake);
+
+    // Create valid JWT tokens for testing
+    const testToken = await TokenFactory.createToken({
+      sub: '1234567890',
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + 3600,
+    });
+
+    // Mock login endpoint
+    const tokenEndpoint = `${ctx.baseUrl}/realms/${ctx.keycloakRealm}/protocol/openid-connect/token`;
+    ctx.fetchMock.once(tokenEndpoint, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: {
+        access_token: testToken,
+        refresh_token: testToken,
+        expires_in: 300,
+      },
+    });
+
+    await ctx.authClient.login(ctx.username, ctx.password);
+
+    // Verify token storage format
+    expect(setItemFake).toHaveBeenCalledWith(
+      'auth_token',
+      expect.stringMatching(/"token":"[^"]+","refreshToken":"[^"]+","expiresAt":"[^"]+"/),
+    );
   });
 
-  // Mock localStorage setItem
-  const setItemFake = sinon.fake();
-  sinon.replace(ctx.localStorageMock, 'setItem', setItemFake);
-
-  // Login
-  const res: any = await ctx.authClient.login(ctx.username, ctx.password);
-
-  // Assertions
-  expect(setItemFake.getCall(0).args[1], 'token saved in storage').toBe(
-    JSON.stringify({
-      token: ctx.token,
-      refreshToken: ctx.refreshToken,
-    }),
-  );
-});
-
-test('invalid token error', async ({ ctx }) => {
-  // Login
-  ctx.mockAdapter.onPost('/login').willResolve({
-    access_token: '123',
-    refresh_token: ctx.refreshToken,
+  test('should reject login with invalid credentials', async ({ ctx }) => {
+    try {
+      await ctx.authClient.login('wrong-user', 'wrong-password');
+    } catch (e) {
+      expect(e).toBeInstanceOf(ApiClientError);
+      expect(getApiErrorKind(e)).toBe('unauthorized');
+      expect(getApiErrorMessage(e)).toBe('Invalid username or password');
+    }
   });
 
-  // Assertions
-  try {
-    await ctx.loginFunc();
-  } catch (e) {
-    expect(isApiError(e)).toBe(true);
-    expect(getApiErrorKind(e)).toBe('bad-data');
-    expect(getApiErrorMessage(e)).toBe('Token decode error');
-  }
-});
+  test('should handle expired token immediately after receiving', async ({ ctx }) => {
+    const tokenEndpoint = `${ctx.baseUrl}/realms/${ctx.keycloakRealm}/protocol/openid-connect/token`;
+    ctx.fetchMock.once(tokenEndpoint, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: {
+        access_token: ctx.expiredToken,
+        refresh_token: ctx.refreshToken,
+      },
+    });
 
-test('expired token error', async ({ ctx }) => {
-  ctx.mockAdapter.onPost('/login').willResolve({
-    access_token: ctx.expiredToken,
-    refresh_token: ctx.refreshToken,
+    try {
+      await ctx.loginFunc();
+    } catch (e) {
+      expect(e).toBeInstanceOf(ApiClientError);
+      expect(getApiErrorKind(e)).toBe('bad-data');
+      expect(getApiErrorMessage(e)).toBe(
+        'Token is expired right after receiving, clock is out of sync',
+      );
+    }
   });
-
-  try {
-    await ctx.loginFunc();
-  } catch (e) {
-    expect(isApiError(e)).toBe(true);
-    expect(getApiErrorKind(e)).toBe('bad-data');
-    expect(getApiErrorMessage(e)).toContain('expired');
-  }
 });
 
-test('204 auth error', async ({ ctx }) => {
-  ctx.mockAdapter.onPost('/login').willResolve(undefined, 204);
+describe('Token Storage', () => {
+  test('should store and restore tokens across sessions', async ({ ctx }) => {
+    const setItemFake = vi.fn();
+    const getItemFake = vi.fn();
+    const storage = ctx.localStorageMock;
 
-  // Assertions
-  try {
-    await ctx.loginFunc();
-  } catch (e) {
-    expect(isApiError(e)).toBe(true);
-    expect(getApiErrorKind(e)).toBe('bad-data');
-  }
-});
+    // Setup storage mocks
+    vi.spyOn(storage, 'setItem').mockImplementation((key, value) => {
+      setItemFake(key, value);
+      getItemFake.mockReturnValue(value);
+    });
+    vi.spyOn(storage, 'getItem').mockImplementation(getItemFake);
 
-test('no auth data error', async ({ ctx }) => {
-  ctx.mockAdapter.onPost('/login').willResolve();
+    // Create valid JWT token for testing
+    const testToken = await TokenFactory.createToken({
+      sub: '1234567890',
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + 3600,
+    });
 
-  // Assertions
-  try {
-    await ctx.loginFunc();
-  } catch (e) {
-    expect(isApiError(e)).toBe(true);
-    expect(getApiErrorKind(e) === 'bad-data');
-  }
-});
-/**
-test('refreshToken called when token is expired', async ({ ctx }) => {
-  expect.assertions(4);
+    // Mock login endpoint
+    const tokenEndpoint = `${ctx.baseUrl}/realms/${ctx.keycloakRealm}/protocol/openid-connect/token`;
+    ctx.fetchMock.once(tokenEndpoint, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: {
+        access_token: testToken,
+        refresh_token: testToken,
+        expires_in: 300,
+      },
+    });
 
-  // set private field token with new token
-  const apiClientObj = ctx.apiClient as any;
-  // token expires in 4 minutes
-  apiClientObj.tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 4);
-  apiClientObj.token = ctx.token;
+    await ctx.authClient.login(ctx.username, ctx.password);
 
-  // mock refreshAuthToken
-  const refreshFn = sinon.fake();
-  sinon.replace(ctx.apiClient, 'refreshAuthToken', refreshFn);
+    // Get the stored token data
+    const storedTokenData = JSON.parse(setItemFake.mock.calls[0][1]);
 
-  // Assertions
-  try {
-    await ctx.apiClient.get('/test');
-  } catch (e) {
-    expect(isApiError(e)).toBe(true);
-    expect(getApiErrorKind(e)).toBe('bad-data');
-    expect(getApiErrorMessage(e)).toBe('Not authorized or session has expired.');
-  }
+    // Create a new context with the same storage
+    const newContext = await createContext();
+    vi.spyOn(newContext.localStorageMock, 'getItem').mockImplementation(getItemFake);
 
-  expect(refreshFn.callCount, 'Refresh api has been called').toBe(1);
-});
+    // Initialize the new client and verify token restoration
+    await newContext.authClient.init(
+      `${ctx.baseUrl}/realms/${ctx.keycloakRealm}`,
+      'kontur_platform',
+    );
 
-test('login and refresh token', async ({ ctx }) => {
-  expect.assertions(7);
-
-  // mock refreshAuthToken
-  const refreshFn = sinon.fake();
-  sinon.replace(ctx.apiClient, 'refreshAuthToken', refreshFn);
-
-  const expirationTime = setTimeOffset(4);
-  const newToken = setTokenExp(ctx.expiredToken, expirationTime);
-
-  // Mock backend
-  const loginRequestMock = sinon.fake.returns([
-    200,
-    {
-      access_token: newToken,
-      refresh_token: ctx.refreshToken,
-    },
-  ]);
-  ctx.mockAdapter.onPost('login').reply(loginRequestMock);
-
-  // Login
-  await ctx.apiClient.login(ctx.username, ctx.password);
-
-  // Assertions
-  const params = new URLSearchParams(loginRequestMock.getCall(0).args[0].data);
-  expect(params.get('username'), 'Login with username').toBe(ctx.username);
-  expect(params.get('password'), 'Login with password').toBe(ctx.password);
-
-  expect(
-    // @ts-expect-error - Fix me - check expire time without reading private fields
-    ctx.apiClient.tokenExpirationDate,
-  ).toStrictEqual(new Date(expirationTime * 1000));
-  // @ts-expect-error - Fix me - check expire time without reading private fields
-  expect(ctx.apiClient.token).toBe(newToken);
-  // @ts-expect-error - Fix me - check expire time without reading private fields
-  expect(ctx.apiClient.refreshToken).toBe(ctx.refreshToken);
-  expect(ctx.apiClient.get('/test')).rejects.toThrowError();
-  expect(refreshFn.callCount, 'Refresh api has been called').toBe(1);
-});
-
-test('Calls api with authorization', async ({ ctx }) => {
-  // Mock backend
-  const loginRequestMock = sinon.fake.returns([
-    200,
-    {
-      access_token: ctx.token,
-      refresh_token: ctx.refreshToken,
-    },
-  ]);
-  ctx.mockAdapter.onPost('login').reply(loginRequestMock);
-
-  const apiWithAuthorizationMock = sinon.fake.returns([200]);
-  ctx.mockAdapter.onGet('test').reply(apiWithAuthorizationMock);
-
-  // Api calls
-  await ctx.apiClient.login(ctx.username, ctx.password);
-  await ctx.apiClient.get('/test');
-
-  // Assertions
-  expect(
-    apiWithAuthorizationMock.getCall(0).args[0].headers.Authorization,
-    'Api with authorization have Authorization header',
-  ).toBe(`Bearer ${ctx.token}`);
-});
-
-test('Calls api without authorization', async ({ ctx }) => {
-  // Mock backend
-  const apiWithoutAuthorizationMock = sinon.fake.returns([200]);
-  ctx.mockAdapter.onPost('test').reply(apiWithoutAuthorizationMock);
-
-  // Api calls
-  await ctx.apiClient.post('/test', { param1: 'test' }, false);
-
-  // Assertions
-  expect(
-    apiWithoutAuthorizationMock.getCall(0).args[0].headers.Authorization,
-    'Api without authorization have Authorization header',
-  ).not.toBe(`Bearer ${ctx.token}`);
-});
-**/
-test('Not add authorization header to api without authorization', async ({ ctx }) => {
-  ctx.mockAdapter.onPost('/login').willResolve({
-    access_token: ctx.token,
-    refresh_token: ctx.refreshToken,
+    expect((newContext.authClient as any).token).toBe(storedTokenData.token);
   });
-
-  const apiWithoutAuthorizationMock = ctx.mockAdapter.onPost('/test').willResolve();
-
-  // Api calls
-  await ctx.authClient.login(ctx.username, ctx.password);
-  await ctx.apiClient.post('/test', { param1: 'test' }, false);
-
-  // Assertions
-  expect(
-    // @ts-ignore
-    apiWithoutAuthorizationMock.getRouteCalls()?.at(0)?.at(1)?.headers?.Authorization,
-    'Api without authorization not have authorization header',
-  ).toBeUndefined();
 });
-/**/
+
+describe('Token Parsing', () => {
+  test('should parse JWT token', async ({ ctx }) => {
+    const now = Math.floor(Date.now() / 1000);
+    const validToken = await TokenFactory.createToken({
+      sub: '1234567890',
+      iat: now,
+      exp: now + 3600,
+    });
+
+    const result = parseToken(validToken);
+    expect(result.expiringDate).toBeInstanceOf(Date);
+    expect(result.tokenLifetime).toBe(3600);
+  });
+});

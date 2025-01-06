@@ -46,20 +46,14 @@ export class SensorsSnapshotsSender {
 
   private async send(snapshot: SensorSnapshot) {
     try {
-      await apiClient.post('/features/live-sensor', snapshot, true);
+      await apiClient.post('/features/live-sensor', snapshot, true, {
+        retry: {
+          attempts: this.maxAttempts - 1, // -1 because first try counts
+          delayMs: this.timeoutSec * 1000,
+        },
+      });
     } catch (e) {
-      if (this.attempt < this.maxAttempts && this.running) {
-        console.warn(
-          `Failed attempt to send snapshot. Attempts left: ${
-            this.maxAttempts - this.attempt
-          }. Repeat after ${this.timeoutSec} sec`,
-        );
-        this.attempt += 1;
-        await delay(this.timeoutSec);
-        await this.send(snapshot);
-      } else {
-        throw Error('Failed attempts to send snapshot.');
-      }
+      throw Error('Failed attempts to send snapshot.');
     }
   }
 }

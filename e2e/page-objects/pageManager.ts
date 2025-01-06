@@ -7,6 +7,8 @@ import { ToolBar } from './toolBar';
 import { KeycloakPage } from './keycloakPage';
 import { PrivacyPage } from './privacyPage';
 import { PricingPage } from './pricingPage';
+import { MCDAPopup } from './mcdaPopup';
+import { LegendPanel } from './legendPanel';
 import type { Project } from './helperBase';
 import type { Page } from '@playwright/test';
 
@@ -21,6 +23,8 @@ export class PageManager {
   private readonly keycloakPage: KeycloakPage;
   private readonly privacyPage: PrivacyPage;
   private readonly pricingPage: PricingPage;
+  private readonly mcdaPopup: MCDAPopup;
+  private readonly legendPanel: LegendPanel;
 
   constructor(page: Page) {
     this.page = page;
@@ -33,10 +37,16 @@ export class PageManager {
     this.keycloakPage = new KeycloakPage(this.page);
     this.privacyPage = new PrivacyPage(this.page);
     this.pricingPage = new PricingPage(this.page);
+    this.mcdaPopup = new MCDAPopup(this.page);
+    this.legendPanel = new LegendPanel(this.page);
   }
 
   get atLoginPage() {
     return this.loginPage;
+  }
+
+  get atMCDAPopup() {
+    return this.mcdaPopup;
   }
 
   get atProfilePage() {
@@ -65,6 +75,10 @@ export class PageManager {
 
   get atPrivacyPage() {
     return this.privacyPage;
+  }
+
+  get atLegendPanel() {
+    return this.legendPanel;
   }
 
   get atPricingPage() {
