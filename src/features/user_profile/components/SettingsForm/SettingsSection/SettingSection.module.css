@@ -3,7 +3,7 @@
   scroll-margin-top: var(--topOffset); /* Equals the value of the container top padding */
 
   @media screen and (max-width: 960px) {
-    scroll-margin-top: 0;
+    scroll-margin-top: 1px;
   }
 }
 
