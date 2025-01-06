@@ -1,5 +1,6 @@
 import { Button, Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { Search16 } from '@konturio/default-icons';
+import clsx from 'clsx';
 import { SearchBar } from '~features/search/componets/SearchBar/SearchBar';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
@@ -18,7 +19,7 @@ export function Search() {
   return (
     <>
       <Panel
-        className={s.searchPanel}
+        className={clsx(s.searchPanel, { [s.collapse]: !isOpen })}
         contentClassName={s.contentClassName}
         isOpen={isOpen}
         contentHeight="100%"
