@@ -1,0 +1,44 @@
+.collapse {
+  display: none;
+}
+
+.searchPanel {
+  @media screen and (max-width: 960px) {
+    height: 100vh;
+  }
+}
+
+.panelIcon {
+  @media screen and (min-width: 961px) {
+    display: none;
+  }
+}
+
+.contentClassName {
+  @media screen and (max-width: 960px) {
+    padding: var(--unit);
+  }
+}
+
+.searchWrapper {
+  display: flex;
+  column-gap: var(--unit);
+  align-items: center;
+  position: static;
+
+  @media screen and (max-width: 960px) {
+    position: relative;
+  }
+}
+
+.searchBar {
+  flex: 1;
+}
+
+.cancelButton {
+  color: var(--accent-strong);
+  display: none;
+  @media screen and (max-width: 960px) {
+    display: block;
+  }
+}

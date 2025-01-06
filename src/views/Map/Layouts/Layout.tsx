@@ -40,6 +40,7 @@ export function Layout({
       <MobileLayout
         firstColumn={
           <>
+            {searchBar}
             {analytics}
             {disasters}
             {editPanel}

@@ -1,6 +1,6 @@
 import { SelectItem } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/npm-react';
-import { useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import cn from 'clsx';
 import { searchLocationsAtom } from '~features/search/searchLocationAtoms';
 import {
@@ -22,8 +22,14 @@ import {
 } from '~features/search/searchMcdaAtoms';
 import { SearchInput } from '../SearchInput/SearchInput';
 import style from './SearchBar.module.css';
+import type { AggregatedSearchItem } from '~features/search/searchAtoms';
 
-export function SearchBar() {
+type SearchBarProps = {
+  onItemSelect?: () => void;
+  searchBarClass?: string;
+};
+
+export function SearchBar({ onItemSelect, searchBarClass }: SearchBarProps) {
   const [isMenuOpen, setIsMenuOpen] = useAtom(isMenuOpenAtom);
   const [highlightedIndex] = useAtom(highlightedIndexAtom);
   const [showInfoBlock] = useAtom(showInfoBlockAtom);
@@ -36,14 +42,22 @@ export function SearchBar() {
   const searchBarRef = useOutsideClick<HTMLDivElement>(() => setIsMenuOpen(false));
 
   const handleInputKeyDown = useAction(handleKeyDownAction);
-  const handleSearch = useAction(searchAction);
-  const handleItemSelect = useAction(itemSelectAction);
-  const onReset = useAction(resetSearchAction);
+  const search = useAction(searchAction);
+  const itemSelect = useAction(itemSelectAction);
+  const reset = useAction(resetSearchAction);
 
   const handleReset = () => {
     searchInputEl.current?.focus();
-    onReset();
+    reset();
   };
+
+  const handleItemSelect = useCallback(
+    (item: AggregatedSearchItem) => {
+      itemSelect(item);
+      onItemSelect?.();
+    },
+    [itemSelect, onItemSelect],
+  );
 
   const [{ error, loading, emptyResult }] = useAtom(searchLocationsAtom);
   const [state] = useAtom(MCDASuggestionAtom);
@@ -137,16 +151,18 @@ export function SearchBar() {
   );
 
   return (
-    <div className={style.searchBar} ref={searchBarRef}>
-      <SearchInput
-        inputAtom={inputAtom}
-        inputProps={inputProps}
-        isLoading={loading}
-        placeholder={inputPlaceholder}
-        onReset={handleReset}
-        onSearch={handleSearch}
-        classes={{ inputWrapper: style.searchInputWrapper }}
-      />
+    <>
+      <div className={cn(style.searchBar, searchBarClass)} ref={searchBarRef}>
+        <SearchInput
+          inputAtom={inputAtom}
+          inputProps={inputProps}
+          isLoading={loading}
+          placeholder={inputPlaceholder}
+          onReset={handleReset}
+          onSearch={search}
+          classes={{ inputWrapper: style.searchInputWrapper }}
+        />
+      </div>
       {isMenuOpen && (
         <>
           {showInfoBlock && (
@@ -163,7 +179,7 @@ export function SearchBar() {
           </ul>
         </>
       )}
-    </div>
+    </>
   );
 }
 
