@@ -27,7 +27,6 @@ import type { AggregatedSearchItem } from '~features/search/searchAtoms';
 type SearchBarProps = {
   onItemSelect?: () => void;
   searchBarClass?: string;
-  inputRef?: HTMLInputElement;
 };
 
 export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
