@@ -29,7 +29,13 @@
 
 .infoBanner {
   max-width: 100%;
+  width: 100%;
   padding: var(--unit) var(--double-unit);
+}
+@media screen and (max-width: 960px) {
+  .infoBanner {
+    width: unset;
+  }
 }
 
 .resultsList {
@@ -37,8 +43,9 @@
   min-width: 100%;
   list-style: none;
   white-space: nowrap;
-
-  @media screen and (max-width: 960px) {
+}
+@media screen and (max-width: 960px) {
+  .resultsList {
     width: 100%;
     box-shadow: none;
   }

@@ -1,6 +1,7 @@
 import { Button, Panel, PanelIcon, Text } from '@konturio/ui-kit';
-import { Search16 } from '@konturio/default-icons';
+import { Search24 } from '@konturio/default-icons';
 import clsx from 'clsx';
+import { useEffect, useRef } from 'react';
 import { SearchBar } from '~features/search/componets/SearchBar/SearchBar';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
@@ -14,7 +15,14 @@ export function Search() {
   });
   useAutoCollapsePanel(isOpen, closePanel);
 
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
+  useEffect(() => {
+    if (isOpen && isMobile) {
+      inputRef?.current?.focus(); // triggers phone keyboard
+    }
+  }, [isOpen, isMobile]);
 
   return (
     <>
@@ -29,6 +37,7 @@ export function Search() {
           <SearchBar
             onItemSelect={isMobile ? closePanel : undefined}
             searchBarClass={s.searchBar}
+            ref={inputRef}
           />
           <Button onClick={closePanel} variant="invert" className={s.cancelButton}>
             <Text type="short-m">{i18n.t('cancel')}</Text>
@@ -36,7 +45,7 @@ export function Search() {
         </div>
       </Panel>
       <PanelIcon
-        icon={<Search16 />}
+        icon={<Search24 />}
         className={s.panelIcon}
         clickHandler={openFullState}
       ></PanelIcon>
