@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-CAb4X_hr.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-DG8GERvd.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -286,24 +286,24 @@ function Ze(n2 = "", i2 = {}) {
   }
   function Z2(e, t2) {
     const n3 = t2.match(c$2);
-    return n3 ? n3.reduce(function(t3, n4, r2) {
-      const a2 = n4.indexOf("=");
-      if (-1 !== a2) {
-        const r3 = function(e2) {
+    return n3 ? n3.reduce(function(t3, n4) {
+      const r2 = n4.indexOf("=");
+      if (-1 !== r2) {
+        const a2 = function(e2) {
           return -1 !== e2.indexOf("-") && null === e2.match(B) && (e2 = e2.replace(N, function(e3, t4) {
             return t4.toUpperCase();
           })), e2;
-        }(n4.slice(0, a2)).trim(), o2 = function(e2) {
+        }(n4.slice(0, r2)).trim(), o2 = function(e2) {
           const t4 = e2[0];
           return ('"' === t4 || "'" === t4) && e2.length >= 2 && e2[e2.length - 1] === t4 ? e2.slice(1, -1) : e2;
-        }(n4.slice(a2 + 1).trim()), c2 = l[r3] || r3;
+        }(n4.slice(r2 + 1).trim()), c2 = l[a2] || a2;
         if ("ref" === c2) return t3;
-        const s2 = t3[c2] = function(e2, t4, n5, r4) {
+        const s2 = t3[c2] = function(e2, t4, n5, r3) {
           return "style" === t4 ? n5.split(/;\s?/).reduce(function(e3, t5) {
             const n6 = t5.slice(0, t5.indexOf(":"));
             return e3[n6.trim().replace(/(-[a-z])/g, (e4) => e4[1].toUpperCase())] = t5.slice(n6.length + 1).trim(), e3;
-          }, {}) : "href" === t4 || "src" === t4 ? r4(n5, e2, t4) : (n5.match(R) && (n5 = n5.slice(1, n5.length - 1)), "true" === n5 || "false" !== n5 && n5);
-        }(e, r3, o2, i2.sanitizer);
+          }, {}) : "href" === t4 || "src" === t4 ? r3(n5, e2, t4) : (n5.match(R) && (n5 = n5.slice(1, n5.length - 1)), "true" === n5 || "false" !== n5 && n5);
+        }(e, a2, o2, i2.sanitizer);
         "string" == typeof s2 && (A.test(s2) || M.test(s2)) && (t3[c2] = W2(s2.trim()));
       } else "style" !== n4 && (t3[l[n4] || n4] = true);
       return t3;
@@ -4023,7 +4023,6 @@ class StableStorage {
     if (this.storageAvailable(type)) {
       this.storage = globalThis[type];
     } else {
-      console.warn("Switching to in memory storage");
       this.storage = new FallbackStorage();
     }
   }
@@ -4035,7 +4034,6 @@ class StableStorage {
       storage.removeItem(x2);
       return true;
     } catch (e) {
-      console.warn(`${type} in not available.`);
     }
   }
   setItem(key, value) {
@@ -4906,8 +4904,6 @@ async function autoParseBody(res) {
     } else {
       res.data = await res.text();
     }
-  } else {
-    console.debug("autoParseBody", res);
   }
   return res;
 }
@@ -4997,7 +4993,7 @@ class ApiClient {
       }
       if (isAuthenticatedRequest && apiError.problem.kind === "unauthorized") {
         try {
-          const token = await this.authService.getAccessToken();
+          await this.authService.getAccessToken();
         } catch (error2) {
           goTo("/profile");
         }
