@@ -195,8 +195,8 @@ export class OidcSimpleClient {
         this.validateTokenState({
           token: this.token,
           refreshToken: this.refreshToken,
-          expiresAt: this.tokenExpirationDate!,
-          refreshExpiresAt: this.refreshTokenExpirationDate!,
+          expiresAt: this.tokenExpirationDate ?? new Date(0),
+          refreshExpiresAt: this.refreshTokenExpirationDate ?? new Date(0),
         })
       ) {
         return this.token;
@@ -216,26 +216,22 @@ export class OidcSimpleClient {
 
   checkLocalAuthToken(): boolean {
     try {
-      // First validate in-memory tokens if present
-      if (
-        this.token &&
-        this.refreshToken &&
-        this.tokenExpirationDate &&
-        this.refreshTokenExpirationDate
-      ) {
-        if (
-          this.validateTokenState({
-            token: this.token,
-            refreshToken: this.refreshToken,
-            expiresAt: this.tokenExpirationDate,
-            refreshExpiresAt: this.refreshTokenExpirationDate,
-          })
-        ) {
+      // First check in-memory tokens
+      if (this.token && this.refreshToken) {
+        const memoryTokenState: TokenState = {
+          token: this.token,
+          refreshToken: this.refreshToken,
+          expiresAt: this.tokenExpirationDate || new Date(0),
+          refreshExpiresAt: this.refreshTokenExpirationDate || new Date(0),
+        };
+
+        if (this.validateTokenState(memoryTokenState)) {
           this.isUserLoggedIn = true;
           return true;
         }
       }
 
+      // Then check storage
       const storedTokensJson = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
       if (!storedTokensJson) {
         this.resetAuth();
@@ -270,6 +266,7 @@ export class OidcSimpleClient {
           TIME_TO_REFRESH_MS,
         );
 
+        // Update instance state
         this.token = tokenState.token;
         this.refreshToken = tokenState.refreshToken;
         this.tokenExpirationDate = tokenState.expiresAt;
