@@ -17,6 +17,11 @@ declare module 'vitest' {
 describe('OidcSimpleClient', () => {
   beforeEach(async (context) => {
     context.ctx = await createContext();
+    // Setup logout endpoint for all tests
+    MockFactory.setupLogoutEndpoint({
+      baseUrl: context.ctx.baseUrl,
+      realm: context.ctx.keycloakRealm,
+    });
   });
 
   describe('Token Management', () => {
@@ -466,6 +471,220 @@ describe('OidcSimpleClient', () => {
       const result = await ctx.authClient.authenticate('valid', 'password');
       expect(result).toBe(true);
       expect(ctx.authClient.isUserLoggedIn).toBe(true);
+    });
+  });
+
+  describe('Token Refresh Flow', () => {
+    beforeEach(() => {
+      MockFactory.resetMocks();
+    });
+
+    test('should not refresh when token is valid', async ({ ctx }) => {
+      const tokenData = {
+        token: ctx.token,
+        refreshToken: ctx.refreshToken,
+        expiresAt: new Date(Date.now() + 3600000).toISOString(), // Valid for 1 hour
+        refreshExpiresAt: new Date(Date.now() + 7200000).toISOString(),
+      };
+
+      vi.spyOn(ctx.localStorageMock, 'getItem').mockReturnValue(
+        JSON.stringify(tokenData),
+      );
+
+      // Mock shouldRefreshToken to return false
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(false);
+
+      const refreshSpy = vi.spyOn(ctx.authClient as any, 'refreshAuthToken');
+      await ctx.authClient['_tokenRefreshFlow']();
+
+      expect(refreshSpy).not.toHaveBeenCalled();
+    });
+
+    test('should force refresh when token must be refreshed', async ({ ctx }) => {
+      const tokenData = {
+        token: ctx.expiredToken,
+        refreshToken: ctx.refreshToken,
+        expiresAt: new Date(Date.now() - 1000).toISOString(), // Expired
+        refreshExpiresAt: new Date(Date.now() + 7200000).toISOString(),
+      };
+
+      vi.spyOn(ctx.localStorageMock, 'getItem').mockReturnValue(
+        JSON.stringify(tokenData),
+      );
+
+      // Setup successful auth response
+      await MockFactory.setupSuccessfulAuth({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
+
+      // Mock isRefreshTokenExpired to return false
+      vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);
+
+      // Mock shouldRefreshToken to return 'must'
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue('must');
+
+      const refreshSpy = vi.spyOn(ctx.authClient as any, 'refreshAuthToken');
+      await ctx.authClient['_tokenRefreshFlow']();
+
+      expect(refreshSpy).toHaveBeenCalled();
+    });
+
+    test('should handle preemptive refresh failure gracefully', async ({ ctx }) => {
+      // Set up initial token state
+      const tokenData = {
+        token: ctx.token,
+        refreshToken: ctx.refreshToken,
+        expiresAt: new Date(Date.now() + TIME_TO_REFRESH_MS / 2).toISOString(),
+        refreshExpiresAt: new Date(Date.now() + 7200000).toISOString(),
+      };
+
+      // Mock storage and token state
+      vi.spyOn(ctx.localStorageMock, 'getItem').mockReturnValue(
+        JSON.stringify(tokenData),
+      );
+
+      // Mock token validation to return true for the current token
+      vi.spyOn(ctx.authClient as any, 'validateTokenState').mockImplementation(
+        (state: any) => {
+          return state.token === ctx.token;
+        },
+      );
+
+      // Mock token expiration check
+      vi.spyOn(ctx.authClient as any, 'tokenExpirationDate', 'get').mockReturnValue(
+        new Date(Date.now() + TIME_TO_REFRESH_MS / 2),
+      );
+
+      // Mock shouldRefreshToken to return 'should'
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue('should');
+
+      // Mock isRefreshTokenExpired to return false
+      vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);
+
+      // Set up server error response for token endpoint
+      const tokenEndpoint = `${ctx.baseUrl}/realms/${ctx.keycloakRealm}/protocol/openid-connect/token`;
+      ctx.fetchMock.post(tokenEndpoint, {
+        status: 500,
+        body: {
+          error: 'server_error',
+          error_description: 'Internal Server Error',
+        },
+      });
+
+      // Set up token state
+      ctx.authClient['token'] = ctx.token;
+      ctx.authClient['refreshToken'] = ctx.refreshToken;
+      ctx.authClient.isUserLoggedIn = true;
+
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const result = await ctx.authClient['_tokenRefreshFlow']();
+
+      expect(result).toBe(true);
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Preemptive token refresh failed, using existing token:',
+        expect.any(Error),
+      );
+      expect(ctx.authClient.isUserLoggedIn).toBe(true);
+    });
+
+    test('should handle network errors during forced refresh', async ({ ctx }) => {
+      const tokenData = {
+        token: ctx.expiredToken,
+        refreshToken: ctx.refreshToken,
+        expiresAt: new Date(Date.now() - 1000).toISOString(), // Expired
+        refreshExpiresAt: new Date(Date.now() + 7200000).toISOString(),
+      };
+
+      vi.spyOn(ctx.localStorageMock, 'getItem').mockReturnValue(
+        JSON.stringify(tokenData),
+      );
+
+      // Initialize client state
+      await ctx.authClient.init(
+        `${ctx.baseUrl}/realms/${ctx.keycloakRealm}`,
+        'kontur_platform',
+      );
+
+      // Mock shouldRefreshToken to return 'must'
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue('must');
+
+      // Mock isRefreshTokenExpired to return false
+      vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);
+
+      const tokenEndpoint = `${ctx.baseUrl}/realms/${ctx.keycloakRealm}/protocol/openid-connect/token`;
+      ctx.fetchMock.post(tokenEndpoint, () => Promise.reject(new Error('Network error')));
+
+      try {
+        await ctx.authClient['_tokenRefreshFlow']();
+        throw new Error('Should have failed');
+      } catch (e) {
+        expect(e).toBeInstanceOf(ApiClientError);
+        expect((e as ApiClientError).problem.kind).toBe('client-unknown');
+        expect(ctx.authClient.isUserLoggedIn).toBe(false);
+        expect(ctx.authClient['token']).toBe('');
+      }
+    });
+
+    test('should handle concurrent refresh requests', async ({ ctx }) => {
+      const tokenData = {
+        token: ctx.expiredToken,
+        refreshToken: ctx.refreshToken,
+        expiresAt: new Date(Date.now() - 1000).toISOString(), // Expired
+        refreshExpiresAt: new Date(Date.now() + 7200000).toISOString(),
+      };
+
+      vi.spyOn(ctx.localStorageMock, 'getItem').mockReturnValue(
+        JSON.stringify(tokenData),
+      );
+
+      // Mock shouldRefreshToken to return 'must'
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue('must');
+
+      // Mock isRefreshTokenExpired to return false
+      vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);
+
+      await MockFactory.setupSuccessfulAuth({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
+
+      // Multiple concurrent refresh attempts
+      const results = await Promise.all([
+        ctx.authClient['_tokenRefreshFlow'](),
+        ctx.authClient['_tokenRefreshFlow'](),
+        ctx.authClient['_tokenRefreshFlow'](),
+      ]);
+
+      expect(results.every((r) => r === true)).toBe(true);
+      expect(ctx.authClient.isUserLoggedIn).toBe(true);
+    });
+  });
+
+  describe('Real-World Scenarios', () => {
+    beforeEach(() => {
+      MockFactory.resetMocks();
+    });
+
+    test('should handle private browsing storage limitations', async ({ ctx }) => {
+      await MockFactory.setupSuccessfulAuth({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
+
+      vi.spyOn(ctx.localStorageMock, 'setItem').mockImplementation(() => {
+        throw new Error('QuotaExceededError');
+      });
+
+      try {
+        await ctx.authClient.login('user', 'password');
+        throw new Error('Should have failed on storage error');
+      } catch (e) {
+        expect(e).toBeInstanceOf(ApiClientError);
+        expect((e as ApiClientError).problem.kind).toBe('bad-data');
+        expect(ctx.authClient.isUserLoggedIn).toBe(false);
+        expect(ctx.authClient['token']).toBe('');
+      }
     });
   });
 });
