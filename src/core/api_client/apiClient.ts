@@ -151,7 +151,7 @@ export class ApiClient {
         try {
           // sometimes infrastructure returns 401
           // try refreshing token to ensure it's auth problem and not infrastructure error
-          const token = await this.authService.getAccessToken();
+          await this.authService.getAccessToken();
         } catch (error) {
           // logout is handled in authService for this case
           goTo('/profile');

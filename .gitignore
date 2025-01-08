@@ -18,10 +18,7 @@ package-lock.json
 # misc
 .DS_Store
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.playwright.local
+.env.*.local
 
 web_modules
 
@@ -29,15 +26,13 @@ npm-debug.log*
 npm-error.log*
 yarn-debug.log*
 yarn-error.log*
-.vscode
 env.yml
-.pnpm-debug.log
+*.log
 stats.json
 stats.html
 template.config.js
 .eslintcache
-configs/config.local.json
-configs/proxy-config.local.js
+configs/*.local.*
 public/config/appconfig.json
 public/config/features.local.json
 cosmos/dist/

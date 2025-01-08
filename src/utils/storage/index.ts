@@ -38,7 +38,7 @@ class StableStorage implements Storage {
       storage.removeItem(x);
       return true;
     } catch (e) {
-      console.warn(`${type} in not available.`);
+      // console.warn(`${type} in not available.`);
     }
   }
 
@@ -46,7 +46,7 @@ class StableStorage implements Storage {
     if (this.storageAvailable(type)) {
       this.storage = globalThis[type];
     } else {
-      console.warn('Switching to in memory storage');
+      // console.warn('Switching to in memory storage');
       this.storage = new FallbackStorage();
     }
   }
