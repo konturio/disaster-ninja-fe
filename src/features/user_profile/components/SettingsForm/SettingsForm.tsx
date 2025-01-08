@@ -150,6 +150,8 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   placeholder: s.placeholder,
                 }}
                 className={s.textArea}
+                minHeight="250px"
+                maxHeight="400px"
               />
             </SettingsSection>
             {featureFlags?.[AppFeature.REFERENCE_AREA] && (
