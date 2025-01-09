@@ -62,7 +62,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
     );
 
     const [{ error, loading, emptyResult }] = useAtom(searchLocationsAtom);
-    const [state] = useAtom(MCDASuggestionAtom);
+    const [mcdaSearchStatus] = useAtom(MCDASuggestionAtom);
     const [aggregatedResults] = useAtom(aggregatedSearchAtom);
 
     const inputProps = useMemo(
@@ -178,7 +178,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
               </div>
             )}
             <ul className={style.resultsList}>
-              {isMCDASearchEnabled && <MCDASearchStatus state={state} />}
+              {isMCDASearchEnabled && <MCDASearchStatus state={mcdaSearchStatus} />}
               {renderItems()}
               <LocationSearchStatus />
             </ul>

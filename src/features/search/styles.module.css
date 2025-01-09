@@ -29,6 +29,7 @@
 /* Mobile */
 @media screen and (max-width: 960px) {
   .searchPanel {
+    height: 100vh;
     height: 100dvh;
   }
 
@@ -36,7 +37,7 @@
     display: block;
   }
 
-  .contentClassName {
+  .contentContainer {
     padding: var(--unit);
   }
 

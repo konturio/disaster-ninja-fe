@@ -28,7 +28,7 @@ export function Search() {
     <>
       <Panel
         className={clsx(s.searchPanel, { [s.collapse]: !isOpen })}
-        contentClassName={s.contentClassName}
+        contentClassName={s.contentContainer}
         isOpen={isOpen}
         contentHeight="100%"
         modal={{ showInModal: isMobile, onModalClick: () => null }}
@@ -48,7 +48,7 @@ export function Search() {
         icon={<Search24 />}
         className={s.panelIcon}
         clickHandler={openFullState}
-      ></PanelIcon>
+      />
     </>
   );
 }
