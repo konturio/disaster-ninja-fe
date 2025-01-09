@@ -90,18 +90,6 @@ test('should handle storage errors', async ({ ctx }) => {
 });
 ```
 
-### Network Failures
-
-```typescript
-test('should handle network errors', async ({ ctx }) => {
-  MockFactory.setupNetworkError('/endpoint');
-
-  const error = await ctx.authClient.operation().catch((e) => e);
-
-  expect(error.problem.kind).toBe('cannot-connect');
-});
-```
-
 ## Best Practices
 
 1. **Test Context**
@@ -184,3 +172,134 @@ test('should handle network errors', async ({ ctx }) => {
    - Reset mocks between tests
    - Clear spy implementations
    - Restore storage state
+
+## Retry Behavior Testing
+
+### Test Setup
+
+```typescript
+test('should retry on timeout', async ({ ctx }) => {
+  // 1. Reset mocks for clean state
+  MockFactory.resetMocks();
+
+  // 2. Mock the wait function to avoid real delays
+  const waitSpy = vi
+    .spyOn(waitModule, 'wait')
+    .mockImplementation(() => Promise.resolve());
+
+  try {
+    // 3. Setup sequential responses
+    MockFactory.setupSequentialResponses('/test', [
+      new ApiClientError('Request Timeout', {
+        kind: 'timeout',
+        temporary: true,
+      }),
+      { status: 200, body: { data: 'success' } },
+    ]);
+
+    // 4. Execute with retry config
+    const result = await ctx.apiClient.get('/test', undefined, {
+      retry: { attempts: 1, delayMs: 100 },
+    });
+
+    // 5. Verify behavior
+    expect(result).toEqual({ data: 'success' });
+    expect(MockFactory.getCallCount()).toBe(2);
+    expect(waitSpy).toHaveBeenCalledWith(0.1); // 100ms = 0.1s
+  } finally {
+    // 6. Clean up
+    waitSpy.mockRestore();
+  }
+});
+```
+
+### Key Testing Patterns
+
+1. **Delay Mocking**
+
+   - Mock the `wait` function to avoid real delays
+   - Convert milliseconds to seconds (e.g., 100ms → 0.1s)
+   - Verify exact delay values used
+
+2. **Sequential Responses**
+
+   - Use `MockFactory.setupSequentialResponses` for retry scenarios
+   - First response triggers retry (e.g., timeout)
+   - Second response determines final outcome
+
+3. **Verification Points**
+   - Check final result matches expected data
+   - Verify correct number of attempts made
+   - Confirm correct delay values used
+
+### Common Retry Scenarios
+
+1. **Default Behavior**
+
+   ```typescript
+   // Only retries on timeout by default
+   MockFactory.setupApiError('/test', {
+     kind: 'timeout',
+     temporary: true,
+   });
+   ```
+
+2. **Custom Error Types**
+
+   ```typescript
+   // Retry on specific error kinds
+   ctx.apiClient.get('/test', undefined, {
+     retry: {
+       attempts: 1,
+       onErrorKinds: ['timeout', 'server'],
+     },
+   });
+   ```
+
+3. **Retry Limits**
+   ```typescript
+   // Respect maximum attempts
+   MockFactory.setupSequentialResponses('/test', [
+     timeoutError,
+     timeoutError,
+     timeoutError,
+   ]);
+   ```
+
+### Best Practices
+
+1. **Test Speed**
+
+   - Mock timing functions to avoid real delays
+   - Use shorter delays in tests (100ms vs 1000ms)
+   - Verify timing without waiting
+
+2. **Test Reliability**
+
+   - Avoid real timers to prevent flaky tests
+   - Use deterministic mocks for consistent behavior
+   - Clean up mocks after each test
+
+3. **Coverage**
+   - Test default retry configuration
+   - Verify custom retry settings
+   - Include error scenarios during retries
+
+### Common Gotchas
+
+1. **Timing**
+
+   - Remember `wait` function uses seconds, not milliseconds
+   - Convert delay values appropriately (ms / 1000)
+   - Clean up timing mocks to avoid test interference
+
+2. **Mock Setup**
+
+   - Reset mocks before setting up sequences
+   - Provide enough responses for all retries
+   - Include both success and failure cases
+
+3. **Verification**
+   - Check both successful retries and failures
+   - Verify exact number of attempts made
+   - Confirm correct delay values used

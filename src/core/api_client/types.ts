@@ -67,10 +67,6 @@ export type GeneralApiProblem =
    */
   | { kind: 'timeout'; temporary: true }
   /**
-   * Cannot connect to the server for some reason.
-   */
-  | { kind: 'cannot-connect'; temporary: true }
-  /**
    * The server experienced a problem. Any 5xx error.
    */
   | { kind: 'server'; data?: unknown }

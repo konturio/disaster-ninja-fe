@@ -14,6 +14,10 @@ describe('ApiClient Event Handling', () => {
 
   beforeEach(async () => {
     context = await createContext();
+    // Reset mocks before each test
+    MockFactory.resetMocks();
+    // Setup default successful auth
+    await MockFactory.setupSuccessfulAuth();
   });
 
   describe('Event Listeners', () => {
@@ -22,6 +26,17 @@ describe('ApiClient Event Handling', () => {
       const unsubscribe = context.apiClient.on('error', (error) => {
         errorEvents.push(error);
       });
+
+      // Setup error response
+      MockFactory.setupApiError(
+        '/non-existent',
+        {
+          kind: 'not-found',
+          message: 'Resource not found',
+          data: null,
+        },
+        'get',
+      );
 
       // Trigger an error
       await expect(
@@ -32,6 +47,17 @@ describe('ApiClient Event Handling', () => {
 
       expect(errorEvents.length).toBe(1);
       expect(errorEvents[0]).toBeInstanceOf(ApiClientError);
+
+      // Setup another error response
+      MockFactory.setupApiError(
+        '/another-non-existent',
+        {
+          kind: 'not-found',
+          message: 'Resource not found',
+          data: null,
+        },
+        'get',
+      );
 
       // Test unsubscribe
       unsubscribe();
@@ -49,6 +75,13 @@ describe('ApiClient Event Handling', () => {
       context.apiClient.on('poolUpdate', (pool) => {
         poolUpdates.push(new Map(pool));
       });
+
+      // Setup successful response
+      MockFactory.setupSuccessfulResponse(
+        '/test',
+        { data: 'success' },
+        { method: 'get' },
+      );
 
       // Make a request that will be added to the pool
       const promise = context.apiClient.get('/test', undefined, {
@@ -74,6 +107,17 @@ describe('ApiClient Event Handling', () => {
       context.apiClient.on('error', (error) => errors1.push(error));
       context.apiClient.on('error', (error) => errors2.push(error));
 
+      // Setup error response
+      MockFactory.setupApiError(
+        '/non-existent',
+        {
+          kind: 'not-found',
+          message: 'Resource not found',
+          data: null,
+        },
+        'get',
+      );
+
       await expect(
         context.apiClient.get('/non-existent', undefined, {
           authRequirement: AUTH_REQUIREMENT.OPTIONAL,
@@ -96,8 +140,25 @@ describe('ApiClient Event Handling', () => {
         poolUpdates2.push(new Map(pool));
       });
 
+      // Setup successful responses for each request
+      MockFactory.setupSuccessfulResponse(
+        '/test1',
+        { data: 'success1' },
+        { method: 'get' },
+      );
+      MockFactory.setupSuccessfulResponse(
+        '/test2',
+        { data: 'success2' },
+        { method: 'get' },
+      );
+      MockFactory.setupSuccessfulResponse(
+        '/test3',
+        { data: 'success3' },
+        { method: 'get' },
+      );
+
       // First request - both listeners should receive updates
-      await context.apiClient.get('/test', undefined, {
+      await context.apiClient.get('/test1', undefined, {
         authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       });
       expect(poolUpdates1.length).toBeGreaterThan(0);
@@ -109,7 +170,7 @@ describe('ApiClient Event Handling', () => {
       const length2 = poolUpdates2.length;
 
       // Second request - only second listener should receive updates
-      await context.apiClient.get('/test', undefined, {
+      await context.apiClient.get('/test2', undefined, {
         authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       });
       expect(poolUpdates1.length).toBe(length1); // Should not increase
@@ -120,7 +181,7 @@ describe('ApiClient Event Handling', () => {
       const finalLength2 = poolUpdates2.length;
 
       // Third request - no listeners should receive updates
-      await context.apiClient.get('/test', undefined, {
+      await context.apiClient.get('/test3', undefined, {
         authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       });
       expect(poolUpdates1.length).toBe(length1);
@@ -135,19 +196,24 @@ describe('ApiClient Event Handling', () => {
         poolUpdates.push(new Map(pool));
       });
 
+      // Setup responses for each request
+      MockFactory.setupSuccessfulResponse('/test1', { data: 'get1' }, { method: 'get' });
+      MockFactory.setupSuccessfulResponse('/test2', { data: 'post' }, { method: 'post' });
+      MockFactory.setupSuccessfulResponse('/test3', { data: 'get2' }, { method: 'get' });
+
       // Make multiple concurrent requests
       const promises = [
-        context.apiClient.get('/test', undefined, {
+        context.apiClient.get('/test1', undefined, {
           authRequirement: AUTH_REQUIREMENT.OPTIONAL,
         }),
         context.apiClient.post(
-          '/test',
+          '/test2',
           { data: 'test' },
           {
             authRequirement: AUTH_REQUIREMENT.OPTIONAL,
           },
         ),
-        context.apiClient.get('/test', undefined, {
+        context.apiClient.get('/test3', undefined, {
           authRequirement: AUTH_REQUIREMENT.OPTIONAL,
         }),
       ];
@@ -168,6 +234,13 @@ describe('ApiClient Event Handling', () => {
       context.apiClient.on('poolUpdate', (pool) => {
         poolUpdates.push(new Map(pool));
       });
+
+      // Setup response that will be cancelled
+      MockFactory.setupSuccessfulResponse(
+        '/test',
+        { data: 'success' },
+        { method: 'get' },
+      );
 
       const controller = new AbortController();
       const promise = context.apiClient.get('/test', undefined, {
@@ -190,6 +263,17 @@ describe('ApiClient Event Handling', () => {
         poolUpdates.push(new Map(pool));
       });
 
+      // Setup error response
+      MockFactory.setupApiError(
+        '/non-existent',
+        {
+          kind: 'not-found',
+          message: 'Resource not found',
+          data: null,
+        },
+        'get',
+      );
+
       // Make a request that will fail
       await expect(
         context.apiClient.get('/non-existent', undefined, {
@@ -207,13 +291,8 @@ describe('ApiClient Event Handling', () => {
         poolUpdates.push(new Map(pool));
       });
 
-      // Reset mocks and set up specific error response
-      MockFactory.resetMocks();
-      // Re-setup required auth mocks
-      await MockFactory.setupSuccessfulAuth();
-      MockFactory.setupOidcConfiguration();
       // Setup network error
-      MockFactory.setupNetworkError('/test');
+      MockFactory.setupNetworkError('/test', 'get');
 
       // Make a request that will fail with network error
       await expect(
@@ -224,6 +303,51 @@ describe('ApiClient Event Handling', () => {
 
       // Pool should be empty after network error
       expect(poolUpdates[poolUpdates.length - 1].size).toBe(0);
+    });
+  });
+
+  describe('Request Pool Events', () => {
+    it('should track concurrent requests with pool and idle states', async () => {
+      const poolUpdates: Map<string, string>[] = [];
+      const idleStates: boolean[] = [];
+
+      // Track pool updates and idle states
+      context.apiClient.on('poolUpdate', (pool) => poolUpdates.push(new Map(pool)));
+      context.apiClient.on('idle', (state) => idleStates.push(state));
+
+      // Setup responses
+      MockFactory.setupSuccessfulResponse(
+        '/concurrent1',
+        { data: 'success1' },
+        { method: 'get' },
+      );
+      MockFactory.setupSuccessfulResponse(
+        '/concurrent2',
+        { data: 'success2' },
+        { method: 'get' },
+      );
+
+      // Make concurrent requests
+      const requests = [
+        context.apiClient.get('/concurrent1', undefined, {
+          authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+        }),
+        context.apiClient.get('/concurrent2', undefined, {
+          authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+        }),
+      ];
+
+      await Promise.all(requests);
+
+      // Verify pool states
+      expect(poolUpdates.length).toBeGreaterThan(0);
+      expect(poolUpdates[0].size).toBe(1); // First request added
+      expect(poolUpdates[1].size).toBe(2); // Second request added
+      expect(poolUpdates[poolUpdates.length - 1].size).toBe(0); // Final empty pool
+
+      // Verify idle states
+      expect(idleStates[0]).toBe(false); // Not idle when requests start
+      expect(idleStates[idleStates.length - 1]).toBe(true); // Idle when all complete
     });
   });
 });

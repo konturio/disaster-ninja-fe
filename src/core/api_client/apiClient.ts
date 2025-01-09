@@ -1,9 +1,9 @@
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { wait } from '~utils/test/wait';
-import { goTo } from '~core/router/goTo';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
+import { getApiErrorKind } from './apiClientError';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
 import { autoParseBody } from './utils';
@@ -16,7 +16,6 @@ import type {
   RequestParams,
 } from './types';
 import type { OidcSimpleClient } from '~core/auth/OidcSimpleClient';
-import type { AuthRequirement } from '~core/auth/constants';
 
 type EventMap = {
   error: ApiClientError;
@@ -117,17 +116,25 @@ export class ApiClient {
 
     if (token) {
       isAuthenticatedRequest = true;
-      req = req.auth(`Bearer ${token}`).catcher(401, async (_, originalRequest) => {
-        const token = await this.authService.getAccessToken();
-        // replay original request with new token
-        return originalRequest
-          .auth(`Bearer ${token}`)
-          .fetch()
-          .unauthorized((err) => {
-            // Redefine unauthorized hook to prevent infinite loops with multiple 401 errors
-            throw err;
-          })
-          .res(autoParseBody);
+      req = req.auth(`Bearer ${token}`).catcher(401, async (error, originalRequest) => {
+        try {
+          const token = await this.authService.getAccessToken();
+          if (!token) {
+            throw error;
+          }
+          // replay original request with new token
+          return originalRequest
+            .auth(`Bearer ${token}`)
+            .fetch()
+            .unauthorized((err) => {
+              // Redefine unauthorized hook to prevent infinite loops with multiple 401 errors
+              throw err;
+            })
+            .res(autoParseBody);
+        } catch (refreshError) {
+          // Always throw the original API error to preserve its message
+          throw createApiError(error);
+        }
       });
     }
 
@@ -145,18 +152,21 @@ export class ApiClient {
       this.updateRequestPool(requestId, null);
       const apiError = createApiError(err);
 
-      if (apiError.problem.kind === 'canceled') {
+      if (getApiErrorKind(apiError) === 'canceled') {
         throw apiError;
       }
 
-      if (isAuthenticatedRequest && apiError.problem.kind === 'unauthorized') {
+      if (isAuthenticatedRequest && getApiErrorKind(apiError) === 'unauthorized') {
         try {
           // sometimes infrastructure returns 401
           // try refreshing token to ensure it's auth problem and not infrastructure error
-          await this.authService.getAccessToken();
+          const token = await this.authService.getAccessToken();
+          if (!token) {
+            throw apiError;
+          }
         } catch (error) {
-          // logout is handled in authService for this case
-          goTo('/profile');
+          // Always throw the original API error
+          throw apiError;
         }
         throw apiError;
       }
@@ -176,7 +186,9 @@ export class ApiClient {
       };
 
       if (retryConfig.attempts > 0) {
-        const shouldRetry = retryConfig.onErrorKinds.includes(apiError.problem.kind);
+        const shouldRetry = retryConfig.onErrorKinds.includes(
+          getApiErrorKind(apiError) as GeneralApiProblem['kind'],
+        );
 
         if (shouldRetry) {
           if (retryConfig.delayMs) {

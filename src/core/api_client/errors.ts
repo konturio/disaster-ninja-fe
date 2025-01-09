@@ -26,6 +26,7 @@ export function getTranslatedApiErrors(i18n: { t: (arg0: string) => string }) {
 export function parseApiError(errorObj: WretchError): string {
   if (errorObj?.json) {
     const errorData = errorObj?.json;
+    if (errorData?.message) return errorData.message;
     if (errorData?.error_description) return errorData.error_description;
     if (errorData !== null) {
       if (Array.isArray(errorData)) {
@@ -62,6 +63,24 @@ export function parseApiError(errorObj: WretchError): string {
   return res ?? 'Unknown Error';
 }
 
+/**
+ * Creates a standardized ApiClientError from various error sources.
+ * This function takes an error of unknown type, determines the type of error,
+ * extracts relevant information, and returns a consistent ApiClientError object.
+ *
+ * The function handles:
+ * - Already parsed ApiClientError instances, returning them directly.
+ * - AbortErrors (both DOMException and WretchError), setting the problem kind to 'canceled'.
+ * - WretchErrors, extracting status codes and setting problem kinds like 'bad-request',
+ *   'unauthorized', 'forbidden', 'not-found', 'timeout', or 'server'.
+ * - Non-API errors, classifying them as 'client-unknown'.
+ *
+ * It also parses error messages from the error body using `parseApiError` if no specific
+ * error message is available.
+ *
+ * @param {unknown} err - The error object, which can be a WretchError, DOMException, or any other error.
+ * @returns {ApiClientError} A standardized ApiClientError object.
+ */
 export function createApiError(err: unknown) {
   let errorMessage = '';
   let problem: GeneralApiProblem = { kind: 'unknown', temporary: true };
@@ -92,6 +111,10 @@ export function createApiError(err: unknown) {
       problem = { kind: 'bad-request' };
     } else if (status === 401) {
       problem = { kind: 'unauthorized', data: err.json?.error };
+      // Use the original error message if available
+      if (err.json?.message) {
+        errorMessage = err.json.message;
+      }
     } else if (status === 403) {
       problem = { kind: 'forbidden' };
     } else if (status === 404) {

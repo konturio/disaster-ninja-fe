@@ -1,14 +1,90 @@
 /**
  * @vitest-environment happy-dom
  */
-import { test, expect, beforeEach, vi, describe } from 'vitest';
+import { beforeEach, describe, expect, it, test, vi } from 'vitest';
 import { AUTH_REQUIREMENT } from '~core/auth/constants';
-import { ApiClientError } from '../apiClientError';
+import { ApiClientError, getApiErrorKind, isApiError } from '../apiClientError';
 import { createContext } from './_clientTestsContext';
+import { MockFactory } from './factories/mock.factory';
 import type { TestContext } from './_clientTestsContext';
+import './mocks/replaceUrlWithProxy.mock';
 
 beforeEach(async (context) => {
   context.ctx = await createContext();
+});
+
+describe('ApiClient Error Handling', () => {
+  let ctx: Awaited<ReturnType<typeof createContext>>;
+
+  beforeEach(async () => {
+    // 1. Create context
+    ctx = await createContext();
+    // 2. Reset all mocks
+    MockFactory.resetMocks();
+    // 3. Setup default endpoints
+    await MockFactory.setupSuccessfulAuth({
+      baseUrl: ctx.baseUrl,
+      realm: ctx.keycloakRealm,
+    });
+    MockFactory.setupOidcConfiguration({
+      baseUrl: ctx.baseUrl,
+      realm: ctx.keycloakRealm,
+    });
+  });
+
+  it('should handle API errors', async () => {
+    MockFactory.setupApiError(
+      '/error',
+      {
+        kind: 'not-found',
+        message: 'Resource not found',
+      },
+      'GET',
+    );
+
+    const error = await ctx.apiClient
+      .get('/error', undefined, {
+        errorsConfig: { hideErrors: true },
+      })
+      .catch((e) => e);
+
+    expect(isApiError(error)).toBe(true);
+    expect(getApiErrorKind(error)).toBe('not-found');
+  });
+
+  it('should handle network errors', async () => {
+    MockFactory.setupNetworkError('/network-error', 'GET');
+
+    const error = await ctx.apiClient
+      .get('/network-error', undefined, {
+        errorsConfig: { hideErrors: true },
+      })
+      .catch((e) => e);
+
+    expect(isApiError(error)).toBe(true);
+    expect(getApiErrorKind(error)).toBe('client-unknown');
+  });
+
+  it('should handle unauthorized errors', async () => {
+    MockFactory.setupApiError(
+      '/unauthorized',
+      {
+        kind: 'unauthorized',
+        message: 'Unauthorized',
+        data: 'Token expired',
+      },
+      'GET',
+    );
+
+    const error = await ctx.apiClient
+      .get('/unauthorized', undefined, {
+        errorsConfig: { hideErrors: true },
+      })
+      .catch((e) => e);
+
+    expect(isApiError(error)).toBe(true);
+    expect(getApiErrorKind(error)).toBe('unauthorized');
+  });
 });
 
 describe('API Response Handling', () => {
@@ -117,15 +193,13 @@ describe('Network and Connection Errors', () => {
   }) => {
     vi.spyOn(ctx.apiClient, 'delete').mockRejectedValue(
       new ApiClientError("Can't connect to server", {
-        kind: 'cannot-connect',
-        temporary: true,
+        kind: 'client-unknown',
       }),
     );
 
     await expect(ctx.apiClient.delete('/testNetwork')).rejects.toMatchObject(
       new ApiClientError("Can't connect to server", {
-        kind: 'cannot-connect',
-        temporary: true,
+        kind: 'client-unknown',
       }),
     );
   });
