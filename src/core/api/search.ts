@@ -1,9 +1,10 @@
 import { apiClient } from '~core/apiClientInstance';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
+import type { Geometry } from 'geojson';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
-import type { Geometry } from 'geojson';
 
 export interface LocationProperties {
   display_name: string;
@@ -19,11 +20,11 @@ export function getLocations(query: string, abortController?: AbortController) {
   return apiClient.get<LocationsDTO>(
     '/search',
     { appId: configRepo.get().id, query },
-    true,
     {
       signal: abortController ? abortController.signal : undefined,
       errorsConfig: { hideErrors: true },
       headers: { 'user-language': i18n.instance.language },
+      authRequirement: AUTH_REQUIREMENT.MUST,
     },
   );
 }
@@ -37,11 +38,11 @@ export function getMCDA(query: string, abortController?: AbortController) {
   return apiClient.get<MCDASearchDTO>(
     '/search/mcda_suggestion',
     { appId: configRepo.get().id, query },
-    true,
     {
       signal: abortController ? abortController.signal : undefined,
       errorsConfig: { hideErrors: true },
       headers: { 'user-language': i18n.instance.language },
+      authRequirement: AUTH_REQUIREMENT.MUST,
     },
   );
 }
