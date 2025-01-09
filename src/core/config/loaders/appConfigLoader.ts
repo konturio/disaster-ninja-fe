@@ -1,5 +1,6 @@
 import { getLayersDetails } from '~core/api/layers';
 import { apiClient } from '~core/apiClientInstance';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { createFeaturesConfig } from './featuresConfigLoader';
 import type { UserDto } from '~core/app/user';
 import type { AppConfig, FaviconPack, FeatureDto } from '../types';
@@ -28,7 +29,9 @@ export async function getAppConfig(appId?: string): Promise<AppConfig> {
       appId,
       ts: Date.now(), // bypass cache
     },
-    true,
+    {
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL, // Allow unauthenticated access, but use token if available
+    },
   );
   if (appCfg === null) throw Error('App configuration unavailable');
 

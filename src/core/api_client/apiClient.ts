@@ -3,6 +3,7 @@ import QueryStringAddon from 'wretch/addons/queryString';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { wait } from '~utils/test/wait';
 import { goTo } from '~core/router/goTo';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
 import { autoParseBody } from './utils';
@@ -15,6 +16,7 @@ import type {
   RequestParams,
 } from './types';
 import type { OidcSimpleClient } from '~core/auth/OidcSimpleClient';
+import type { AuthRequirement } from '~core/auth/constants';
 
 type EventMap = {
   error: ApiClientError;
@@ -82,7 +84,6 @@ export class ApiClient {
     method: ApiMethod,
     path: string,
     requestParams?: unknown,
-    useAuth = false,
     requestConfig: CustomRequestConfig = {},
   ): Promise<T | null> {
     const RequestsWithBody = ['post', 'put', 'patch'];
@@ -110,23 +111,24 @@ export class ApiClient {
 
     let isAuthenticatedRequest = false;
 
-    if (useAuth) {
-      const token = await this.authService.getAccessToken();
-      if (token) {
-        isAuthenticatedRequest = true;
-        req = req.auth(`Bearer ${token}`).catcher(401, async (_, originalRequest) => {
-          const token = await this.authService.getAccessToken();
-          // replay original request with new token
-          return originalRequest
-            .auth(`Bearer ${token}`)
-            .fetch()
-            .unauthorized((err) => {
-              // Redefine unauthorized hook to prevent infinite loops with multiple 401 errors
-              throw err;
-            })
-            .res(autoParseBody);
-        });
-      }
+    const token = await this.authService.getAccessToken({
+      requirement: requestConfig.authRequirement ?? AUTH_REQUIREMENT.OPTIONAL,
+    });
+
+    if (token) {
+      isAuthenticatedRequest = true;
+      req = req.auth(`Bearer ${token}`).catcher(401, async (_, originalRequest) => {
+        const token = await this.authService.getAccessToken();
+        // replay original request with new token
+        return originalRequest
+          .auth(`Bearer ${token}`)
+          .fetch()
+          .unauthorized((err) => {
+            // Redefine unauthorized hook to prevent infinite loops with multiple 401 errors
+            throw err;
+          })
+          .res(autoParseBody);
+      });
     }
 
     if (requestParams) {
@@ -180,7 +182,7 @@ export class ApiClient {
           if (retryConfig.delayMs) {
             await wait(retryConfig.delayMs / 1000);
           }
-          return this.call(method, path, requestParams, useAuth, {
+          return this.call(method, path, requestParams, {
             ...requestConfig,
             retry: {
               ...retryConfig,
@@ -214,44 +216,39 @@ export class ApiClient {
   public async get<T>(
     path: string,
     requestParams?: RequestParams,
-    useAuth = false,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call<T>(ApiMethodTypes.GET, path, requestParams, useAuth, requestConfig);
+    return this.call<T>(ApiMethodTypes.GET, path, requestParams, requestConfig);
   }
 
   public async post<T>(
     path: string,
     requestParams?: unknown,
-    useAuth = false,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(ApiMethodTypes.POST, path, requestParams, useAuth, requestConfig);
+    return this.call(ApiMethodTypes.POST, path, requestParams, requestConfig);
   }
 
   public async put<T>(
     path: string,
     requestParams?: RequestParams,
-    useAuth = false,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(ApiMethodTypes.PUT, path, requestParams, useAuth, requestConfig);
+    return this.call(ApiMethodTypes.PUT, path, requestParams, requestConfig);
   }
 
   public async patch<T>(
     path: string,
     requestParams?: RequestParams,
-    useAuth = false,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(ApiMethodTypes.PATCH, path, requestParams, useAuth, requestConfig);
+    return this.call(ApiMethodTypes.PATCH, path, requestParams, requestConfig);
   }
 
   public async delete<T>(
     path: string,
-    useAuth = false,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(ApiMethodTypes.DELETE, path, undefined, useAuth, requestConfig);
+    return this.call(ApiMethodTypes.DELETE, path, undefined, requestConfig);
   }
 }

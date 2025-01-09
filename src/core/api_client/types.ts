@@ -1,3 +1,5 @@
+import type { AuthRequirement } from '~core/auth/constants';
+
 export const ApiMethodTypes = {
   GET: 'get',
   POST: 'post',
@@ -54,20 +56,6 @@ export type RequestErrorsConfig = {
   hideErrors?: boolean;
   messages?: Record<number, string> | string;
 };
-
-export interface CustomRequestConfig {
-  headers?: Record<string, string>;
-  errorsConfig?: RequestErrorsConfig;
-  signal?: AbortSignal;
-  retry?: {
-    /** Maximum number of retry attempts. Default: 0 (no retries) */
-    attempts: number;
-    /** Delay in milliseconds between retries. Default: 1000 */
-    delayMs?: number;
-    /** Error kinds to retry on. Default: ['timeout'] */
-    onErrorKinds?: Array<GeneralApiProblem['kind']>;
-  };
-}
 
 /** ----------------------------------------------------------------------------
  *          API PROBLEM
@@ -126,3 +114,20 @@ export type GeneralApiProblem =
    * Client-side catch all
    */
   | { kind: 'client-unknown' };
+
+export interface RetryConfig {
+  /** Maximum number of retry attempts. Default: 0 (no retries) */
+  attempts: number;
+  /** Delay in milliseconds between retries. Default: 1000 */
+  delayMs?: number;
+  /** Error kinds to retry on. Default: ['timeout'] */
+  onErrorKinds?: Array<GeneralApiProblem['kind']>;
+}
+
+export interface CustomRequestConfig {
+  signal?: AbortSignal;
+  headers?: Record<string, string>;
+  errorsConfig?: RequestErrorsConfig;
+  authRequirement?: AuthRequirement;
+  retry?: RetryConfig;
+}

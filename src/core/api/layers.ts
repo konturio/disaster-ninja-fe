@@ -1,5 +1,6 @@
 import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import type { Feature } from 'geojson';
 import type { LayerDetailsDto, LayerSummaryDto } from '~core/logical_layers/types/source';
 
@@ -10,10 +11,10 @@ export function getGlobalLayers(abortController: AbortController) {
   return apiClient.post<LayerSummaryDto[]>(
     '/layers/search/global',
     { appId: configRepo.get().id },
-    true,
     {
       errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR },
       signal: abortController.signal,
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }
@@ -34,10 +35,10 @@ export function getLayersInArea(
       appId: configRepo.get().id,
       ...params,
     },
-    true,
     {
       errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR },
       signal: abortController.signal,
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }
@@ -46,8 +47,10 @@ export async function getDefaultLayers(appId: string, language: string) {
   const layers = await apiClient.get<LayerDetailsDto[]>(
     `/apps/${appId}/layers`,
     undefined,
-    true,
-    { headers: { 'user-language': language } },
+    {
+      headers: { 'user-language': language },
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    },
   );
   // TODO: use layers source configs to cache layer data
   return layers ?? [];
@@ -60,8 +63,10 @@ export async function getLayersDetails(ids: string[], appId: string, language: s
       layersToRetrieveWithoutGeometryFilter: ids,
       appId: appId,
     },
-    true,
-    { headers: { 'user-language': language } },
+    {
+      headers: { 'user-language': language },
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    },
   );
   // TODO: use layers source configs to cache layer data
   return layers ?? [];
@@ -78,7 +83,9 @@ export function getLayerFeatures(
       appId: configRepo.get().id,
       geoJSON,
     },
-    true,
-    { signal: abortController.signal },
+    {
+      signal: abortController.signal,
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    },
   );
 }
