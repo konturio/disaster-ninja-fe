@@ -11,7 +11,7 @@ export function getBoundaries(
     new GeoJSONPoint(coords),
     {
       signal: abortController ? abortController.signal : undefined,
-      authRequirement: AUTH_REQUIREMENT.MUST,
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }

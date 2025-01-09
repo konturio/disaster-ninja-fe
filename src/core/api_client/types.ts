@@ -120,10 +120,26 @@ export interface RetryConfig {
   onErrorKinds?: Array<GeneralApiProblem['kind']>;
 }
 
+/**
+ * Configuration options for API requests
+ * @interface
+ */
 export interface CustomRequestConfig {
+  /** AbortSignal for request cancellation */
   signal?: AbortSignal;
+  /** Additional headers to include in the request */
   headers?: Record<string, string>;
+  /** Error handling configuration */
   errorsConfig?: RequestErrorsConfig;
+  /**
+   * Authentication requirement for the request:
+   * - MUST: Request will fail if user is not authenticated
+   * - SHOULD: Will try to authenticate but proceed without token if not possible
+   * - OPTIONAL (default): Will include auth token if available
+   * - NEVER: Explicitly prevents authentication. Use for endpoints that must be called without auth
+   *   (login, token refresh, public endpoints)
+   */
   authRequirement?: AuthRequirement;
+  /** Retry configuration for failed requests */
   retry?: RetryConfig;
 }

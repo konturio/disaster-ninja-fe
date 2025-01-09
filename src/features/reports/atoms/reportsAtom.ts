@@ -33,7 +33,7 @@ export const reportsAtom = createAtom(
         const responseData = await reportsClient.get<Report[]>(
           `/osm_reports_list.json`,
           undefined,
-          { authRequirement: AUTH_REQUIREMENT.OPTIONAL },
+          { authRequirement: AUTH_REQUIREMENT.NEVER },
         );
         if (responseData === null) throw new Error(i18n.t('no_data_received'));
         dispatch(reportsAtom.setReports(responseData));

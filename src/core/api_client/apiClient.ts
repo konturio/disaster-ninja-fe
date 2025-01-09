@@ -79,6 +79,25 @@ export class ApiClient {
     this._emit('idle', this.requestPool.size === 0);
   }
 
+  /**
+   * Makes an HTTP request with configurable authentication behavior
+   * @template T - The expected response type
+   * @param {ApiMethod} method - HTTP method to use
+   * @param {string} path - Request URL or path
+   * @param {unknown} [requestParams] - Query parameters or body data
+   * @param {CustomRequestConfig} [requestConfig] - Additional request configuration
+   * @param {AuthRequirement} [requestConfig.authRequirement] - Authentication requirement level:
+   *   - MUST: Request will fail if user is not authenticated
+   *   - SHOULD: Will try to authenticate but proceed without token if not possible
+   *   - OPTIONAL (default): Will include auth token if available
+   *   - NEVER: Explicitly prevents authentication. Use for endpoints that must be called without auth:
+   *     - Authentication endpoints (login, register)
+   *     - Token refresh endpoints
+   *     - Public health checks
+   *     - Public API documentation
+   * @returns {Promise<T | null>} The response data
+   * @throws {ApiClientError} On request failure or auth requirement not met
+   */
   private async call<T>(
     method: ApiMethod,
     path: string,
@@ -110,32 +129,40 @@ export class ApiClient {
 
     let isAuthenticatedRequest = false;
 
-    const token = await this.authService.getAccessToken({
-      requirement: requestConfig.authRequirement ?? AUTH_REQUIREMENT.OPTIONAL,
-    });
+    const authRequirement = requestConfig.authRequirement ?? AUTH_REQUIREMENT.OPTIONAL;
 
-    if (token) {
-      isAuthenticatedRequest = true;
-      req = req.auth(`Bearer ${token}`).catcher(401, async (error, originalRequest) => {
-        try {
-          const token = await this.authService.getAccessToken();
-          if (!token) {
-            throw error;
-          }
-          // replay original request with new token
-          return originalRequest
-            .auth(`Bearer ${token}`)
-            .fetch()
-            .unauthorized((err) => {
-              // Redefine unauthorized hook to prevent infinite loops with multiple 401 errors
-              throw err;
-            })
-            .res(autoParseBody);
-        } catch (refreshError) {
-          // Always throw the original API error to preserve its message
-          throw createApiError(error);
-        }
+    // For endpoints that must not be authenticated
+    if (authRequirement === AUTH_REQUIREMENT.NEVER) {
+      // Explicitly avoid adding any auth headers
+      req = req.headers({ Authorization: '' });
+    } else {
+      const token = await this.authService.getAccessToken({
+        requirement: authRequirement,
       });
+
+      if (token) {
+        isAuthenticatedRequest = true;
+        req = req.auth(`Bearer ${token}`).catcher(401, async (error, originalRequest) => {
+          try {
+            const token = await this.authService.getAccessToken();
+            if (!token) {
+              throw error;
+            }
+            // replay original request with new token
+            return originalRequest
+              .auth(`Bearer ${token}`)
+              .fetch()
+              .unauthorized((err) => {
+                // Redefine unauthorized hook to prevent infinite loops with multiple 401 errors
+                throw err;
+              })
+              .res(autoParseBody);
+          } catch (refreshError) {
+            // Always throw the original API error to preserve its message
+            throw createApiError(error);
+          }
+        });
+      }
     }
 
     if (requestParams) {
